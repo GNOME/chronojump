@@ -1,9 +1,22 @@
 TODO:
 ----
 
+
+stat.cs
+	probably rewrite ALL the stat classes for supporting 1-n columns, 
+	and knowing how many are they using for being able to delete them later.
+
+rewrite the treeview_jumps and treeview_jumps_rj for using insertAfter and insertBefore, and not
+have to rewrite all the time the treeview, and not have to remember the contracted values...
+also no problems with the posicion of the scrollbar
+perhaps it should be able to delete a row when a jump it's deleted, 
+or move one row when we edit a jump an we selected that it's from another person
+
+
+
 show better info in the RJ jump edit
 
-move all the treeview_jumps and treeview_jumps_rj code from chronojump.cs to another file. 
+move all the treeview_jumps and treeview_jumps_rj code from chronojump.cs to another file. Except the callbacks.
 (For clarity and for later having the possibility of view multiple treeviews in other emerging windows)
 
 correct the non-simulated rj jump
@@ -46,23 +59,70 @@ http://www.bloglines.com/blog/Aakrosh?subid=3446357
 
 
 
-INTERSESSION: do all with the sql i know now (without left outer join)
+make stat of current jumper (intrasession)
+
+------------------------ intersessions start ------------------
+INTERSESSION STATS SELECT (good) (dobule 'grouping by')
+
+utilities 
+
+(A) compare two or more sessions (like global in intrasession)
+
+//select all jumps from two or more sessions and show the MAX (or AVG) of each type of jump in each session
+SELECT type, MAX(tv), sessionID FROM jump  WHERE sessionID > 23 AND sessionID < 27 group by sessionID, type order by type, sessionid;
+SELECT type, AVG(tv), sessionID FROM jump  WHERE sessionID > 23 AND sessionID < 27 group by sessionID, type order by type, sessionid;
+
+we will show results like this:
+	sess24	sess25	sess26	AVG	SD
+ABK
+CMJ
+SJ
+#AVG
+#SD
+
+(B) compare the evolution of one person in all jump types
+
+//select all the MAX (or AVG) jumps of personID == 1 in all sessions:
+select MAX(tv), type, sessionID from jump WHERE personID = 1 group by type, sessionID order by type, sessionID;
 
 
-***
-INTERSESSION SELECTS (but they need to return something for each row (also if there's no value), see LEFT JOIN
+PERSONID == 1	we will show results like this:
+	sess1	sess2	sess3	AVG	SD
+ABK
+CMJ
+SJ
+#AVG
+#SD
 
-+++select DJ index between two sessions (without sex):
- SELECT MAX(100*((j1.tv-j1.tc)/j1.tc)), MAX(100*((j2.tv-j2.tc)/j2.tc))  FROM jump AS j1, jump AS j2  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j1.type == j2.type;
-152.001785976726|46.9596162208521
+(C) compare the evolution of a jump in different persons
+select MAX(tv), personID, sessionID from jump WHERE type == "SJ" group by personID, sessionID order by personID, sessionID;
 
-+++ select all jumps between two sessions (without sex):
- SELECT j1.type, MAX(j1.tv), MAX(j2.tv)  FROM jump AS j1, jump AS j2  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j1.type == j2.type group by j1.type;
+JUMP == "SJ"	we will show results like this:
+	sess1	sess2	sess3	AVG	SD
+jumper1
+jumper2
+jumper3
+#AVG
+#SD
 
-+++ tree sessions:
- SELECT j1.type, MAX(j1.tv), MAX(j2.tv), MAX(j3.tv)  FROM jump AS j1, jump AS j2, jump AS j3  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j3.sessionID == 3 AND j1.type == j2.type AND j1.type == j3.type group by j1.type;
-***
 
+----------------------------
+
+OLD WAY (BAD):
+	INTERSESSION: do all with the sql i know now (without left outer join)
+	INTERSESSION SELECTS (but they need to return something for each row (also if there's no value), see LEFT JOIN
+
+	+++select DJ index between two sessions (without sex):
+	 SELECT MAX(100*((j1.tv-j1.tc)/j1.tc)), MAX(100*((j2.tv-j2.tc)/j2.tc))  FROM jump AS j1, jump AS j2  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j1.type == j2.type;
+	152.001785976726|46.9596162208521
+
+	+++ select all jumps between two sessions (without sex):
+	 SELECT j1.type, MAX(j1.tv), MAX(j2.tv)  FROM jump AS j1, jump AS j2  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j1.type == j2.type group by j1.type; ???
+
+	+++ tree sessions:
+	 SELECT j1.type, MAX(j1.tv), MAX(j2.tv), MAX(j3.tv)  FROM jump AS j1, jump AS j2, jump AS j3  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j3.sessionID == 3 AND j1.type == j2.type AND j1.type == j3.type group by j1.type;
+	***
+------------------------ intersessions end --------------------
 
 - make the currentUser change when a user is selected in the treeview (with double click)
  (or edit this user)
@@ -295,3 +355,11 @@ made spanish es.po file
 ---
 
 Potencia muscular= 9,81^2 * TV * TT / (4*ns*(TT-TV) Aguado, p231
+
+---
+
+all the windows modal except main and preferences
+added the current person stat
+added radiobuttons for showing stats: current, or selected
+radiobuttons simulated-serial moved to menu
+intersessions of global and currentPerson statistics !!

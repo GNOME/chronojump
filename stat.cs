@@ -33,9 +33,10 @@ using System.Collections; //ArrayList
  *	StatDjTV	
  *	StatDjIndex	
  *		StatRjIndex
+ *	StatPotencyAguado
  *	StatIE
  *		StatIUB
- * 	StatGlobal
+ * 	StatGlobal	//suitable for global and for a unique jumper
  * 		//StatGlobalInter
  *	//StatPersonInter
  *
@@ -46,7 +47,10 @@ using System.Collections; //ArrayList
 public class Stat
 {
 	protected int sessionUniqueID;
+
 	protected string sessionName;
+	protected ArrayList sessions;
+	
 	protected string jumpType;
 	protected bool sexSeparated;
 	protected string operation;
@@ -128,6 +132,14 @@ public class Stat
 		return (System.Math.Sqrt(
 				sumSquaredValues -(sumValues*sumValues/count) / (count -1) )).ToString();
 	}
+	
+	public virtual void RemoveColumns() {
+		Gtk.TreeViewColumn [] myColumns = treeview.Columns;
+		foreach (Gtk.TreeViewColumn column in myColumns) {
+			treeview.RemoveColumn (column);
+		}
+	}
+
 
 	public string SessionName
 	{
@@ -135,6 +147,14 @@ public class Stat
 			return sessionName;
 		}
 	}
+	
+	public ArrayList Sessions
+	{
+		get { 
+			return sessions;
+		}
+	}
+
 
 	~Stat() {}
 
@@ -143,12 +163,6 @@ public class Stat
 
 public class StatSjCmjAbk : Stat
 {
-	protected static Gtk.TreeViewColumn col0;
-	protected static Gtk.TreeViewColumn col1;
-	protected static Gtk.TreeViewColumn col2;
-	
-	//static GettextResourceManager catalog = new GettextResourceManager("chronojump");
-
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatSjCmjAbk () 
 	{
@@ -181,18 +195,12 @@ public class StatSjCmjAbk : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		//col0 = treeview.AppendColumn (catalog.GetString("Pos."), new CellRendererText(), "text", count++);
-		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person(sex)
-		col2 = treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person(sex)
+		treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
 	}
-
-	public override void RemoveHeaders() {
-		treeview.RemoveColumn (col0);
-		treeview.RemoveColumn (col1);
-		treeview.RemoveColumn (col2);
-	}
-
+	
+	
 	public override void prepareData () 
 	{
 		ArrayList myArray; 
@@ -235,9 +243,6 @@ public class StatSjCmjAbk : Stat
 			sumSquaredTv += makeSquare(stringFullResults[0]);
 		}
 		
-		//Console.WriteLine("sumTv: {0}, totalNum: {1}, avgTv: {2}", sumTv, i , sumTv/i);
-		//Console.WriteLine("sumSquaredTv: {0}", sumSquaredTv);
-		//Console.WriteLine("square root of sumSquaredTv: {0}", System.Math.Sqrt(sumSquaredTv));
 		printData ( "", "", "");
 		printData ( "AVG"  , "", trimDecimals((sumTv/i).ToString()) );
 		printData ( "SD"  , "", trimDecimals(
@@ -278,11 +283,6 @@ public class StatSjCmjAbk : Stat
 
 public class StatDjTv : Stat
 {
-	protected static Gtk.TreeViewColumn col0;
-	protected static Gtk.TreeViewColumn col1;
-	protected static Gtk.TreeViewColumn col2;
-	protected static Gtk.TreeViewColumn col3;
-	protected static Gtk.TreeViewColumn col4;
 	
 	public StatDjTv () 
 	{
@@ -314,21 +314,12 @@ public class StatDjTv : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person(sex)
-		col2 = treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ( "TC", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person(sex)
+		treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( "TC", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
 	}
-	
-	public override void RemoveHeaders() {
-		treeview.RemoveColumn (col0);
-		treeview.RemoveColumn (col1);
-		treeview.RemoveColumn (col2);
-		treeview.RemoveColumn (col3);
-		treeview.RemoveColumn (col4);
-	}
-
 
 	public override void prepareData () 
 	{
@@ -424,12 +415,6 @@ public class StatDjTv : Stat
 
 public class StatDjIndex : Stat
 {
-	protected static Gtk.TreeViewColumn col0;
-	protected static Gtk.TreeViewColumn col1;
-	protected static Gtk.TreeViewColumn col2;
-	protected static Gtk.TreeViewColumn col3;
-	protected static Gtk.TreeViewColumn col4;
-	protected static Gtk.TreeViewColumn col5;
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatDjIndex () 
@@ -464,21 +449,12 @@ public class StatDjIndex : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
-		col2 = treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ( "TC", new CellRendererText(), "text", count++);
-		col5 = treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
-	}
-
-	public override void RemoveHeaders() {
-		treeview.RemoveColumn (col0);
-		treeview.RemoveColumn (col1);
-		treeview.RemoveColumn (col2);
-		treeview.RemoveColumn (col3);
-		treeview.RemoveColumn (col4);
-		treeview.RemoveColumn (col5);
+		treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
+		treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( "TC", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
 	}
 
 	public override void prepareData () 
@@ -589,7 +565,6 @@ public class StatDjIndex : Stat
 
 //StatRjIndex class heredates from StatDjIndex the following methods:
 //protected override TreeStore getStore ()
-//public override void RemoveHeaders() 
 //protected void printData (string row, string person, string index, string tv, string tc, string fall)
 //in fact, it's not a very useful class herency
 
@@ -623,12 +598,12 @@ public class StatRjIndex : StatDjIndex
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
-		col2 = treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ( Catalog.GetString("TV (AVG)"), new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ( Catalog.GetString("TC (AVG)"), new CellRendererText(), "text", count++);
-		col5 = treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
+		treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("TV (AVG)"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("TC (AVG)"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
 	}
 	
 	public override void prepareData () 
@@ -731,13 +706,6 @@ public class StatRjIndex : StatDjIndex
 //"POTENCY (Aguado) 9.81^2*TV*TT / (4*jumps*(TT-TV))")
 public class StatPotencyAguado : Stat
 {
-	protected static Gtk.TreeViewColumn col0;
-	protected static Gtk.TreeViewColumn col1;
-	protected static Gtk.TreeViewColumn col2;
-	protected static Gtk.TreeViewColumn col3;
-	protected static Gtk.TreeViewColumn col4;
-	protected static Gtk.TreeViewColumn col5;
-	
 	
 	public StatPotencyAguado (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max, int limit) 
 	{
@@ -762,21 +730,12 @@ public class StatPotencyAguado : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
-		col2 = treeview.AppendColumn ( Catalog.GetString("Potency"), new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ( "Total TV", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ( "Total Time", new CellRendererText(), "text", count++);
-		col5 = treeview.AppendColumn ( Catalog.GetString("Jumps"), new CellRendererText(), "text", count++);
-	}
-
-	public override void RemoveHeaders() {
-		treeview.RemoveColumn (col0);
-		treeview.RemoveColumn (col1);
-		treeview.RemoveColumn (col2);
-		treeview.RemoveColumn (col3);
-		treeview.RemoveColumn (col4);
-		treeview.RemoveColumn (col5);
+		treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
+		treeview.AppendColumn ( Catalog.GetString("Potency"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( "Total TV", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( "Total Time", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Jumps"), new CellRendererText(), "text", count++);
 	}
 
 	public override void prepareData () 
@@ -890,12 +849,6 @@ public class StatIE : Stat
 	protected string indexNameString;
 	protected string indexValueString;
 	
-	protected static Gtk.TreeViewColumn col0;
-	protected static Gtk.TreeViewColumn col1;
-	protected static Gtk.TreeViewColumn col2;
-	protected static Gtk.TreeViewColumn col3;
-	protected static Gtk.TreeViewColumn col4;
-
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatIE () 
@@ -932,21 +885,13 @@ public class StatIE : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
-		col2 = treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ("SJ TV", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ("CMJ TV", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
+		treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ("SJ TV", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ("CMJ TV", new CellRendererText(), "text", count++);
 	}
 	
-	public override void RemoveHeaders() {
-		treeview.RemoveColumn (col0);
-		treeview.RemoveColumn (col1);
-		treeview.RemoveColumn (col2);
-		treeview.RemoveColumn (col3);
-		treeview.RemoveColumn (col4);
-	}
-
 	public override void prepareData () 
 	{
 		ArrayList myArray = Sqlite.StatClassificationIeIub(sessionUniqueID, indexName, operation, sexSeparated);
@@ -1059,30 +1004,34 @@ public class StatIUB : StatIE
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++);
-		col2 = treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ("CMJ TV", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ("ABK TV", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
+		treeview.AppendColumn ("CMJ TV", new CellRendererText(), "text", count++);
+		treeview.AppendColumn ("ABK TV", new CellRendererText(), "text", count++);
 	}
 }
 
 public class StatGlobal : Stat
 {
-	protected static Gtk.TreeViewColumn col0;
-	protected static Gtk.TreeViewColumn col1;
+	protected int personID;
+	protected string personName;
+	//protected ArrayList sessions;
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
+	/*
 	public StatGlobal () 
 	{
 		this.sessionName = "";
 		this.sexSeparated = false;
 		this.operation = "MAX";
 	}
+	*/
 
-	public StatGlobal (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max) 
+	//public StatGlobal (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int personID, string personName, int newPrefsDigitsNumber, bool sexSeparated, bool max) 
+	public StatGlobal (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool sexSeparated, bool max) 
 	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
+		completeConstruction2 (treeview, sessions, personID, personName, newPrefsDigitsNumber, sexSeparated);
 		this.jumpType = jumpType;
 		this.sexSeparated = sexSeparated;
 		if (max) {
@@ -1092,125 +1041,243 @@ public class StatGlobal : Stat
 		}
 	}
 
-	protected override TreeStore getStore ()
+	protected void completeConstruction2 (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool sexSeparated)
 	{
-		//statName, value
-		TreeStore myStore = new TreeStore(typeof (string), typeof (string));
+		//this.sessionUniqueID = sessionUniqueID;
+		
+		//FIXME: change this value, it only serves for knowing it there's a previous stat and removing it
+		this.sessionName = "global multi";
+		
+		
+		this.treeview = treeview;
+		prefsDigitsNumber = newPrefsDigitsNumber;
+		this.sexSeparated = sexSeparated;
+		this.personID = personID;
+		this.personName = personName;
+		this.sessions = sessions;
+
+		//store = getStore2(sessions.Count +1);
+		if(sessions.Count > 1) {
+			store = getStore2(sessions.Count +3); //+3 (for the statName, the AVG horizontal and SD horizontal
+		} else {
+			store = getStore2(sessions.Count +1);
+		}
+		treeview.Model = store;
+
+		iter = new TreeIter();
+	}
+
+	protected TreeStore getStore2 (int columns)
+	{
+		//prepares the TreeStore for de required columns
+		Type [] types = new Type [columns];
+		for (int i=0; i < columns; i++) {
+			types[i] = typeof (string);
+		}
+		TreeStore myStore = new TreeStore(types);
 		return myStore;
 	}
 	
-	protected override void createTreeView_stats () {
-		treeview.HeadersVisible=true;
-		int count =0;
-
-		col0 = treeview.AppendColumn (Catalog.GetString("Jump"), new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn (Catalog.GetString("Value"), new CellRendererText(), "text", count++); 
-	}
-
-	public override void RemoveHeaders() {
-		treeview.RemoveColumn (col0);
-		treeview.RemoveColumn (col1);
-	}
-
-	public override void prepareData () 
+	protected string obtainSessionSqlString(ArrayList sessions)
 	{
-		ArrayList myArray = Sqlite.StatGlobalNormal(sessionUniqueID, operation, sexSeparated);
-		ArrayList myArrayDj = Sqlite.StatGlobalDj(sessionUniqueID, operation, sexSeparated);
-		ArrayList myArrayRj = Sqlite.StatGlobalRj(sessionUniqueID, operation, sexSeparated);
-		ArrayList myArrayRjPA = Sqlite.StatGlobalRjPotencyAguado(sessionUniqueID, operation, sexSeparated);
+		string newStr = "WHERE (";
+		for (int i=0; i < sessions.Count; i++) {
+			string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+			newStr = newStr + " sessionID == " + stringFullResults[0];
+			if (i+1 < sessions.Count) {
+				newStr = newStr + " OR ";
+			}
+		}
+		newStr = newStr + ") ";
+		return newStr;		
+	}
 	
+	public override void prepareData() 
+	{
+		treeview.HeadersVisible=true;
+		treeview.AppendColumn (Catalog.GetString("Jump"), new CellRendererText(), "text", 0);
+
+		string headerString = "";
 		string [] stringFullResults;
-		string rowName = "";
+		
+		for (int i=0; i < sessions.Count ; i++) {
+			//we need to know the name of the column: session
+			stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+			headerString = stringFullResults[1] + "\n" + stringFullResults[2]; //name, date
+			//Console.WriteLine("headerString: {0}", headerString);
+			treeview.AppendColumn (Catalog.GetString(headerString), new CellRendererText(), "text", i+1); 
+		}
+		if(sessions.Count > 1) {
+			treeview.AppendColumn (Catalog.GetString("AVG"), new CellRendererText(), "text", sessions.Count +1); 
+			treeview.AppendColumn (Catalog.GetString("SD"), new CellRendererText(), "text", sessions.Count +2); 
+		}
+
+		string sessionString = obtainSessionSqlString(sessions);
+				
+		//last value: number of sessions
+		processData ( Sqlite.StatGlobalNormal(sessionString, operation, sexSeparated, personID), 
+				true, sessions.Count );
+		processData ( Sqlite.StatGlobalOthers("DjIndex", "(100*((tv-tc)/tc))", "jump", "DJ", 
+					sessionString, operation, sexSeparated, personID),
+				false, sessions.Count );
+		processData ( Sqlite.StatGlobalOthers("RjIndex", "(100*((tvavg-tcavg)/tcavg))", "jumpRj", "RJ", 
+					sessionString, operation, sexSeparated, personID),
+				false, sessions.Count );
+		processData ( Sqlite.StatGlobalOthers("RjPotency", 
+					"(9.81*9.81 * tvavg*jumps * time / (4*jumps*(time - tvavg*jumps)) )", "jumpRj", "RJ", 
+					sessionString, operation, sexSeparated, personID),
+				false, sessions.Count );
+	}
+	
+	//prepared for multisession
+	public void processData (ArrayList arrayFromSql, bool makeAVGSD, int sessionsNum) 
+	{
+		string [] rowFromSql = new string [sessionsNum +1];
+		double [] sumValue = new double [sessionsNum +1];
+		double [] sumSquaredValue = new double [sessionsNum +1];
+		string [] sendRow = new string [sessionsNum +1];
+		int [] countRows = new int [sessions.Count +1]; //count the number of valid cells (rows) for make the AVG
+		int i;
+		
+		//initialize values
+		for(int j=1; j< sessionsNum+1 ; j++) {
+			sendRow[j] = "-";
+			sumValue[j] = 0;
+			sumSquaredValue[j] = 0;
+			countRows[j] = 0;
+		}
+		string oldStat = "-1";
+	
+		//process all SQL results line x line
+		for (i=0 ; i < arrayFromSql.Count ; i ++) {
+			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
+
+			if (rowFromSql[0] != oldStat) {
+				//print the values, except on the first iteration
+				if (i>0) {
+					printData( calculateRowAVGSD(sendRow) );
+				}
+				
+				//process another stat
+				sendRow[0] = rowFromSql[0]; //first value to send (the name of stat)
+				for(int j=1; j< sessionsNum+1 ; j++) {
+					sendRow[j] = "-";
+				}
+			}
+
+			for (int j=0; j < sessions.Count ; j++) {
+				string [] str = sessions[j].ToString().Split(new char[] {':'});
+				if(rowFromSql[1] == str[0]) { //if matches the session num
+					sendRow[j+1] = trimDecimals(rowFromSql[2]); //put value from sql in the desired pos of sendRow
+
+					if(makeAVGSD) {
+						sumValue[j+1] += Convert.ToDouble(rowFromSql[2]);
+						sumSquaredValue[j+1] += makeSquare(rowFromSql[2]);
+						countRows[j+1] ++;
+					}
+				}
+			}
+			oldStat = sendRow[0];
+		}
+					
+		printData( calculateRowAVGSD(sendRow) );
+
+		if(makeAVGSD) {
+			//printData accepts two cols: name, values (values separated again by ':')
+			string [] sendAVG = new string [sessions.Count +1];
+			string [] sendSD = new string [sessions.Count +1];
+			
+			sendAVG[0] = Catalog.GetString("AVG");
+			sendSD[0] =  Catalog.GetString("SD");
+			
+			for (int j=1; j <= sessions.Count; j++) {
+				if(countRows[j] > 0) {
+					sendAVG[j] = trimDecimals( (sumValue[j] /countRows[j]).ToString() );
+					if(countRows[j] > 1) {
+						sendSD[j] = trimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], countRows[j]) );
+					} else {
+						sendSD[j] = "-";
+					}
+					//Console.WriteLine("sumValue: {0}, sumSquaredValue: {1}, countRows[j]: {2}, j: {3}", 
+					//		sumValue[j], sumSquaredValue[j], countRows[j], j);
+				} else {
+					sendAVG[j] = "-";
+					sendSD[j] = "-";
+				}
+			}
+			printData( calculateRowAVGSD(sendAVG) );
+			printData( calculateRowAVGSD(sendSD) );
+		}
+			
+	}
+
+	//returns a row with it's AVG and SD in last two columns
+	protected string [] calculateRowAVGSD(string [] rowData) 
+	{
+		string [] rowReturn = new String[sessions.Count +3];
+		int count =0;
 		double sumValue = 0;
 		double sumSquaredValue = 0;
-		int i=0;
-		
-		for (i=0 ; i < myArray.Count ; i ++) {
-			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
-
-			if(sexSeparated) {
-				rowName = stringFullResults[0] + "(" + stringFullResults[2] + ")";
-			} else {
-				rowName = stringFullResults[0];
+	
+		if(sessions.Count > 1) {
+			int i=0;
+			for (i=0; i < sessions.Count + 1; i++) {
+				rowReturn[i] = rowData[i];
+				if(i>0 && rowReturn[i] != "-") { //first column is text
+					count++;
+					sumValue += Convert.ToDouble(rowReturn[i]); 
+					sumSquaredValue += makeSquare(rowReturn[i]); 
+				}
 			}
-			 
-			printData ( rowName, trimDecimals (stringFullResults[1]) );
-			sumValue += Convert.ToDouble(stringFullResults[1]);
-			sumSquaredValue += makeSquare(stringFullResults[1]);
-		}
-		
-		//AVG and SD here, because is not fine to compare
-		//jumps with values like 0.5 with indexes
-		//with values like 70
-		printData ( "AVG", trimDecimals((sumValue/i).ToString()) );		
-		printData ( "SD", trimDecimals(calculateSD(sumValue, sumSquaredValue, i)) );
-		printData ( "", "");
-
-		//print the DJ if exists
-		if(myArrayDj.Count > 0) {
-			if(sexSeparated) {
-				stringFullResults = myArrayDj[0].ToString().Split(new char[] {':'});
-				printData ( "DJ Index (" + stringFullResults[1] + ")", trimDecimals (stringFullResults[0]) );
-				if(myArrayDj.Count > 1) {
-					stringFullResults = myArrayDj[1].ToString().Split(new char[] {':'});
-					printData ( "DJ Index (" + stringFullResults[1] + ")", trimDecimals (stringFullResults[0]) );
+			if(count > 0) {
+				rowReturn[i] = trimDecimals( (sumValue /count).ToString() );
+				if(count > 1) {
+					rowReturn[i+1] = trimDecimals( calculateSD(sumValue, sumSquaredValue, count) );
+				} else {
+					rowReturn[i+1] = "-";
 				}
 			} else {
-				stringFullResults = myArrayDj[0].ToString().Split(new char[] {':'});
-				printData ( "DJ Index", trimDecimals (stringFullResults[0]) );
+				rowReturn[i] = "-";
+				rowReturn[i+1] = "-";
 			}
+					
+			return rowReturn;
+		} else {
+			return rowData;
 		}
-		
-		//print the RJ if exists
-		if(myArrayRj.Count > 0) {
-			if(sexSeparated) {
-				stringFullResults = myArrayRj[0].ToString().Split(new char[] {':'});
-				printData ( "RJ Index (" + stringFullResults[1] + ")", trimDecimals (stringFullResults[0]) );
-				if(myArrayDj.Count > 1) {
-					stringFullResults = myArrayRj[1].ToString().Split(new char[] {':'});
-					printData ( "RJ Index (" + stringFullResults[1] + ")", trimDecimals (stringFullResults[0]) );
-				}
-			} else {
-				stringFullResults = myArrayRj[0].ToString().Split(new char[] {':'});
-				printData ( "RJ Index", trimDecimals (stringFullResults[0]) );
-			}
-		}
-				
-		//print the RJPotencyAguado if exists
-		if(myArrayRjPA.Count > 0) {
-			if(sexSeparated) {
-				stringFullResults = myArrayRjPA[0].ToString().Split(new char[] {':'});
-				printData ( "Potency Aguado (" + stringFullResults[1] + ")", trimDecimals (stringFullResults[0]) );
-				if(myArrayDj.Count > 1) {
-					stringFullResults = myArrayRjPA[1].ToString().Split(new char[] {':'});
-					printData ( "Potency Aguado (" + stringFullResults[1] + ")", trimDecimals (stringFullResults[0]) );
-				}
-			} else {
-				stringFullResults = myArrayRjPA[0].ToString().Split(new char[] {':'});
-				printData ( "Potency Aguado", trimDecimals (stringFullResults[0]) );
-			}
-		}
-				
 	}
-
-	protected void printData (string statName, string statValue) 
+		
+	protected void printData (string [] statValues) 
 	{
-			iter = store.AppendValues (statName, statValue); 
+			iter = store.AppendValues (statValues); 
 	}
 
 	public override string ToString () 
 	{
+		string personString = "";
+		if (personID != -1) {
+			personString = Catalog.GetString(" of '") + personName + Catalog.GetString("' jumper");
+		}
+			
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
+		if (this.sexSeparated) { sexSeparatedString = " " + Catalog.GetString("sorted by sex"); }
 		
-		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
+		string inSessions = Catalog.GetString(" in sessions: ");
+		for (int i=0; i < sessions.Count ;i++) {
+			string [] str = sessions[i].ToString().Split(new char[] {':'});
+			inSessions = inSessions + "'" + str[1] + "' (" + str[2] + ")";
+			if(i + 1 < sessions.Count) {
+				inSessions = inSessions + ", ";
+			}
+		}
 	
 		if ( this.operation == "MAX" ) { 
-			return Catalog.GetString("MAX values of some jumps and statistics") + inSession + sexSeparatedString + "."  ; 
+			return Catalog.GetString("MAX values of some jumps and statistics") + personString + inSessions + sexSeparatedString + "."  ; 
 		} else {
-			return Catalog.GetString("AVG values of some jumps and statistics") + inSession + sexSeparatedString + "."  ; 
+			return Catalog.GetString("AVG values of some jumps and statistics") + personString + inSessions + sexSeparatedString + "."  ; 
 		}
 	}
+	
 }
 
 

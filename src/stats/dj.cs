@@ -55,7 +55,7 @@ public class StatDj : Stat
 		prepareHeaders(columnsString);
 	}
 	
-	public override void prepareData() 
+	public override void PrepareData() 
 	{
 		string sessionString = obtainSessionSqlString(sessions);
 		bool multisession = false;

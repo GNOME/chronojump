@@ -84,7 +84,7 @@ public class StatIeIub : Stat
 		return newStr;		
 	}
 	
-	public override void prepareData() 
+	public override void PrepareData() 
 	{
 		string sessionString = obtainSessionSqlStringIndexes(sessions);
 		bool multisession = false;

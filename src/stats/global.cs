@@ -31,6 +31,10 @@ public class StatGlobal : Stat
 	protected string personName;
 	protected string operation;
 	
+	public StatGlobal ()
+	{
+	}
+
 	public StatGlobal (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType) 
 	{
 		this.sessionName = "nothing";
@@ -71,7 +75,7 @@ public class StatGlobal : Stat
 	}
 	
 
-	public override void prepareData() 
+	public override void PrepareData() 
 	{
 		string sessionString = obtainSessionSqlString(sessions);
 				

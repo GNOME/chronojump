@@ -64,7 +64,7 @@ public class StatSjCmjAbkPlus : Stat
 	}
 
 	
-	public override void prepareData() 
+	public override void PrepareData() 
 	{
 		string sessionString = obtainSessionSqlString(sessions);
 		bool multisession = false;

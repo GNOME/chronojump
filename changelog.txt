@@ -1,4 +1,7 @@
 CHANGELOG:
+21 february 2005
+	first graphs: global and person both multisession and simplesession
+
 14 february 2005
 	treeview_jumps and rj bugs fixed in treeview Add in jumper without
 	jumps, and in session without jumps

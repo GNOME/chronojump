@@ -35,6 +35,12 @@ public class GraphGlobal : StatGlobal
 	protected ArrayList by1Values;
 	protected ArrayList by100Values;
 	
+	//temporary hack for a gtk# garbage collecting error
+	//protected ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
+	//has to be static
+	protected static ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
+	
+	
 	public GraphGlobal (ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType) 
 	{
 		this.sessionName = "";
@@ -67,9 +73,13 @@ public class GraphGlobal : StatGlobal
 				if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
 					return;
 				}
-				
-				if(myValue == "DjIndex" || myValue == "RjIndex" || myValue == "RjPotency" || 
-						myValue == "IE" || myValue == "IUB") {
+		
+				//this separates "ABK" from "ABK (M)", "ABK (F)", and also "ABK"
+				string [] myValueWithSex = myValue.ToString().Split(new char[] {' '});
+				string myValue2 = myValueWithSex[0];
+					
+				if(myValue2 == "DjIndex" || myValue2 == "RjIndex" || myValue2 == "RjPotency" || 
+						myValue2 == "IE" || myValue2 == "IUB") {
 					by100 = true;
 				}
 			}
@@ -86,8 +96,6 @@ public class GraphGlobal : StatGlobal
 		}
 	}
 	
-	//private static void createGraph() 
-	//public static override void CreateGraph () { 
 	public override void CreateGraph () 
 	{
 		Gtk.Window w = new Window ("Chronojump graph");
@@ -120,6 +128,12 @@ public class GraphGlobal : StatGlobal
 		}
 		writeLegend(plot);
 		plot.Add( new Grid() );
+		
+	
+		//fixes a gtk# garbage collecting bug
+		onlyUsefulForNotBeingGarbageCollected.Add(plot);
+		
+		
 		plot.Show ();
 		w.Add (plot);
 		w.ShowAll ();
@@ -145,7 +159,7 @@ public class GraphGlobal : StatGlobal
 			{
 				if(j>0) {
 					myData[count] = Convert.ToDouble(myValue);
-					Console.WriteLine("count {0}, myData {1}", count, myData[count]);
+					//Console.WriteLine("count {0}, myData {1}", count, myData[count]);
 					count ++;
 				}
 				j++;
@@ -180,7 +194,7 @@ public class GraphGlobal : StatGlobal
 			{
 				if(j>0) {
 					myData[count] = Convert.ToDouble(myValue);
-					Console.WriteLine("count {0}, myData {1}", count, myData[count]);
+					//Console.WriteLine("count {0}, myData {1}", count, myData[count]);
 					count ++;
 				}
 				j++;
@@ -199,7 +213,6 @@ public class GraphGlobal : StatGlobal
 		return count;
 	}
 
-	//private static void plotGraph(IPlotSurface2D plotSurface)
 	private void plotGraphMultisession(IPlotSurface2D plot, ArrayList myValues, bool by100)
 	{
 		for(int i=0; i < myValues.Count ; i++) {
@@ -211,7 +224,7 @@ public class GraphGlobal : StatGlobal
 			double[] lineData = new double[xtics];
 	
 			System.Drawing.Color [] colorArray = { Color.Green, Color.Blue, Color.Red, Color.Chocolate,
-				Color.Magenta, Color.Cyan, Color.Chartreuse };
+				Color.Magenta, Color.Cyan, Color.Chartreuse, Color.IndianRed, Color.HotPink, Color.DarkTurquoise, Color.Cyan, Color.Aquamarine };
 			
 			Marker m;
 			if(! by100) {
@@ -227,7 +240,7 @@ public class GraphGlobal : StatGlobal
 			int j=0;
 			//left margin
 			lineData[0] = double.NaN;
-		
+	
 			foreach (string myValue in jump) 
 			{
 				if(j==0) {
@@ -247,6 +260,7 @@ public class GraphGlobal : StatGlobal
 					break;
 				}
 			}
+			
 			//right margin
 			lineData[j] = double.NaN;
 			

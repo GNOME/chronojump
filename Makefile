@@ -31,10 +31,8 @@ CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/
 
 CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/jump.cs src/session.cs src/catalog.cs src/exportSession.cs src/treeViewJump.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE)
 
-#RESOURCES = -resource:glade/chronojump.glade,chronojump.glade -resource:nplotResources/NPlot.dll,NPlot.dll -resource:nplotResources/NPlot.Gtk.dll,NPlot.Gtk.dll
 RESOURCES = -resource:glade/chronojump.glade,chronojump.glade 
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient
-#CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient -r GNU.Gettext
 
 all: $(CHRONOJUMP).exe $(TEST1).exe 
 

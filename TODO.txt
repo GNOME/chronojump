@@ -17,8 +17,6 @@ graphs:
 
 show better info in the RJ jump edit
 
-correct the non-simulated rj jump
-implement the non-simulated tj rime
 implement the simulated tj rime
 
 make appbar2.push show the different jumps as the are producing in RJ:
@@ -26,15 +24,6 @@ chronojump.cs, lines:
 			Console.WriteLine("trama: {0} {1} {2}", t0, t1, realTime(t2, t3) );
 			string myString = "prova " + t0 + ", " + t1 + ", " + realTime(t2, t3) ;
 			appbar2.Push( myString );
-
-
-reimplement all the jumps as a sequence of values like:
-SJ, CMJ, ABK	"1, 1" start inside, finish inside
-DJ 		"0, 1" start outside, finish inside
-Or something like this, or prevent some way of adding new jumps in the future without the need of change the DB.
-
-
-- rj simulated and non simulated (NON-SIMULATED PENDING)
 
 
 preference for wait until finish jump in RJ limited by time or don't wait
@@ -60,7 +49,5 @@ sqlite> SELECT j1.personID, person.name, (j1.tv + j2.tv-j1.tv + j3.tv-j2.tv + j4
 we can check the lines we need, and execute, and if a line it's not found, try to discover wich values are needed
 
 - graf. capacitat de salt total
-
-RJ time
 
 editCurrentSession  (edit delete sessions (delete it's jumpers and jumps))

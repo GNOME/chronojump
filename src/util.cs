@@ -29,9 +29,13 @@ public class Util
 	public static string TrimDecimals (string time, int prefsDigitsNumber) {
 		//the +2 is a workarround for not counting the two first characters: "0."
 		//this will not work with the fall
-		return time.Length > prefsDigitsNumber + 2 ? 
-			time.Substring( 0, prefsDigitsNumber + 2 ) : 
-				time;
+		if(time == "-1") {
+			return "-";
+		} else {
+			return time.Length > prefsDigitsNumber + 2 ? 
+				time.Substring( 0, prefsDigitsNumber + 2 ) : 
+					time;
+		}
 	}
 	
 	public static double GetMax (string values)
@@ -52,8 +56,11 @@ public class Util
 		double myAverage = 0;
 		double myCount = 0;
 		foreach (string jump in myStringFull) {
-			myAverage = myAverage + Convert.ToDouble(jump);
-			myCount ++;
+			//if there's a -1 value, should not be counted in the averages
+			if(Convert.ToDouble(jump) != -1) {
+				myAverage = myAverage + Convert.ToDouble(jump);
+				myCount ++;
+			}
 		}
 		return myAverage / myCount ; 
 	}

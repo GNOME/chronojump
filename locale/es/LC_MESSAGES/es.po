@@ -284,7 +284,7 @@ msgstr "Valor"
 
 #: stat.cs:1027
 msgid "MAX values of some jumps and statistics"
-msgstr "Valores maxioms de algunos saltos y estadisticos"
+msgstr "Valores maximos de algunos saltos y estadisticos"
 
 #: stat.cs:1029
 msgid "AVG values of some jumps and statistics"

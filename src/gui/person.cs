@@ -358,6 +358,16 @@ public class PersonModifyWindow
 		person_win.Title =  Catalog.GetString ("Edit jumper");
 	}
 	
+	void on_entries_required_changed (object o, EventArgs args)
+	{
+		if(entry1.Text.ToString().Length > 0 && (int) spinbutton_weight.Value > 0) {
+			button_accept.Sensitive = true;
+		}
+		else {
+			button_accept.Sensitive = false;
+		}
+	}
+		
 	void on_radiobutton_man_toggled (object o, EventArgs args)
 	{
 		sex = "M";

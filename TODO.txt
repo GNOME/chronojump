@@ -1,10 +1,8 @@
 TODO:
 ----
 
+exportCSV
 
-stat.cs
-	probably rewrite ALL the stat classes for supporting 1-n columns, 
-	and knowing how many are they using for being able to delete them later.
 
 rewrite the treeview_jumps and treeview_jumps_rj for using insertAfter and insertBefore, and not
 have to rewrite all the time the treeview, and not have to remember the contracted values...
@@ -126,16 +124,7 @@ OLD WAY (BAD):
  (or edit this user)
 
 
-- make global stats show tc and integrate rjs
-
-
-+ make the intersession like this:
-	- summary like global but with each column a different session (people have to preselect wich sessions to stat)
-	- like before but for one person (not for all sessions)
-
-
 - (HALF) Put a button for "cancel jump" (specially usefull if we selected we are using the platform)
-
 
 
 - Capacitat de salt Total: (SJ+100%) + (sj-sj+100%) + (cmj-sj) + (abk-cmj) + (dj-abk)

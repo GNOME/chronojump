@@ -74,6 +74,8 @@ public class ChronoJump {
 	[Widget] Gtk.Button button_last_jump_delete;
 	[Widget] Gtk.Button button_stats;
 	[Widget] Gtk.MenuItem preferences;
+	[Widget] Gtk.MenuItem menuitem_export_csv;
+	[Widget] Gtk.MenuItem menuitem_export_xml;
 	[Widget] Gtk.MenuItem recuperate_person;
 	[Widget] Gtk.MenuItem create_person;
 	[Widget] Gtk.MenuItem sj;
@@ -137,11 +139,11 @@ public class ChronoJump {
 		"Jumper", 
 		"SJ", "SJ+", "CMJ", "ABK", 
 		"DJ (TV)", 
-		"DJ Index ((tv-tc)/tc)*100", 
+		"DJ Index (tv-tc)*100/tc", 
 		"RJ Average Index", 
-		"IE ((cmj-sj)/sj)*100",
-		"IUB ((abk-cmj)/cmj)*100",
-		"POTENCY (Aguado)" // 9.81^2*TV*TT / (4*jumps*(TT-TV))
+		"POTENCY (Aguado)", // 9.81^2*TV*TT / (4*jumps*(TT-TV))
+		"IE (cmj-sj)*100/sj",
+		"IUB (abk-cmj)*100/cmj"
 	};
 
 	//preferences variables
@@ -159,6 +161,8 @@ public class ChronoJump {
 	private static Person currentPerson;
 	private static Session currentSession;
 	private static Jump currentJump;
+	private static JumpRj currentJumpRj;
+	private static bool lastJumpIsRj; //if last Jump is an Rj or not
 
 	//windows needed
 	SessionAddWindow sessionAddWin;
@@ -170,8 +174,10 @@ public class ChronoJump {
 	DjFallWindow djFallWin;
 	RjWindow rjWin;
 	EditJumpWindow editJumpWin;
-	ConfirmWindow confirmWin;
-	ConfirmWindowPlatform confirmWinPlatform;
+	EditJumpRjWindow editJumpRjWin;
+	ConfirmWindow confirmWin;		//for go up or down the platform, and for 
+						//export in a not-newly-created file
+	ConfirmWindowJump confirmWinJump;	//for deleting jumps and RJ jumps
 	SessionSelectStatsWindow sessionSelectStatsWin;
 
 	//timers
@@ -248,7 +254,7 @@ public class ChronoJump {
 		rand = new Random(40);
 		
 		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
-		Console.WriteLine ( Catalog.GetString ("if program chrashes, disable next line, and work always in 'simulated' mode") );
+		Console.WriteLine ( Catalog.GetString ("if program crashes, disable next line, and work always in 'simulated' mode") );
 		serial_fd = Serial.Open("/dev/ttyS0");
 		
 		program.Run();
@@ -266,9 +272,11 @@ public class ChronoJump {
 		if ( SqlitePreferences.Select("simulated") == "True" ) {
 			simulated = true;
 			menuitem_simulated.Active = true;
+			menuitem_serial_port.Active = false;
 		} else {
 			simulated = false;
 			menuitem_serial_port.Active = true;
+			menuitem_simulated.Active = false;
 		}
 		
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
@@ -805,53 +813,53 @@ finishForeach:
 					limit);
 			myStat.prepareData();
 		}
-		/*
-		else if(myText == "DJ Index ((tv-tc)/tc)*100")
+		else if(myText == "DJ Index (tv-tc)*100/tc")
 		{
-			myStat = new StatDjIndex(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active,
-					//radiobutton_max.Active, //show MAX or AVG
+			myStat = new StatDjIndex(treeview_stats, 
+					sendSelectedSessions, 
+					prefsDigitsNumber, checkbutton_stats_sex.Active,
 					statsJumpsType,
 					limit);
 			myStat.prepareData();
 		}
 		else if(myText == "RJ Average Index")
 		{
-			myStat = new StatRjIndex(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active,
-					//radiobutton_max.Active, //show MAX or AVG
+			myStat = new StatRjIndex(treeview_stats, 
+					sendSelectedSessions, 
+					prefsDigitsNumber, checkbutton_stats_sex.Active,
 					statsJumpsType,
 					limit);
 			myStat.prepareData();
 		}	
 		else if(myText == "POTENCY (Aguado)") // 9.81^2*TV*TT / (4*jumps*(TT-TV))
 		{
-			myStat = new StatPotencyAguado(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active, 
-					//radiobutton_max.Active, //show MAX or AVG
+			myStat = new StatRjPotencyAguado(treeview_stats, 
+					sendSelectedSessions, 
+					prefsDigitsNumber, checkbutton_stats_sex.Active, 
 					statsJumpsType,
 					limit);
 			myStat.prepareData();
 		}
-		else if(myText == "IE ((cmj-sj)/sj)*100")
+		else if(myText == "IE (cmj-sj)*100/sj")
 		{
-			myStat = new StatIE(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active, 
-					//radiobutton_max.Active //show MAX or AVG
+			myStat = new StatIeIub(treeview_stats, 
+					sendSelectedSessions,
+					"IE", 
+					prefsDigitsNumber, checkbutton_stats_sex.Active, 
 					statsJumpsType,
-					);
+					limit);
 			myStat.prepareData();
 		}
-		else if(myText == "IUB ((abk-cmj)/cmj)*100")
+		else if(myText == "IUB (abk-cmj)*100/cmj")
 		{
-			myStat = new StatIUB(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active, 
-					//radiobutton_max.Active //show MAX or AVG
+			myStat = new StatIeIub(treeview_stats, 
+					sendSelectedSessions,
+					"IUB", 
+					prefsDigitsNumber, checkbutton_stats_sex.Active, 
 					statsJumpsType,
-					);
+					limit);
 			myStat.prepareData();
 		}
-		*/
 		
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
@@ -899,7 +907,7 @@ finishForeach:
 		combo_stats_stat_name.DisableActivate ();
 		combo_stats_stat_name.Entry.Changed += new EventHandler (on_combo_stats_stat_name_changed);
 
-		hbox_combo_stats_stat_name.PackStart(combo_stats_stat_name, true, true, 0);
+		hbox_combo_stats_stat_name.PackStart(combo_stats_stat_name, false, true, 0);
 		hbox_combo_stats_stat_name.ShowAll();
 		
 		combo_stats_stat_name.Sensitive = false;
@@ -1044,7 +1052,7 @@ finishForeach:
 		string myText = combo_stats_stat_name.Entry.Text;
 		
 		//some stats should not be showed as limited jumps
-		if(myText == "Global" || myText == "Jumper" || myText == "IE ((cmj-sj)/sj)*100" || myText == "IUB ((abk-cmj)/cmj)*100"
+		if(myText == "Global" || myText == "Jumper" || myText == "IE (cmj-sj)*100/sj" || myText == "IUB (abk-cmj)*100/cmj"
 				|| (selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
 		{
 			//change the radiobutton value
@@ -1157,7 +1165,7 @@ finishForeach:
 	}
 	
 	/* ---------------------------------------------------------
-	 * ----------------  SESSION NEW AND LOAD---------------
+	 * ----------------  SESSION NEW, LOAD AND EXPORT ----------
 	 *  --------------------------------------------------------
 	 */
 	
@@ -1248,8 +1256,6 @@ finishForeach:
 		if(myBool) {
 			sensitiveGuiYesPerson();
 		}
-
-
 	}
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
@@ -1274,7 +1280,17 @@ finishForeach:
 			fillTreeView_stats();
 		//}
 	}
-	
+
+	private void on_export_session_activate(object o, EventArgs args) {
+		if (o == (object) menuitem_export_csv) {
+			ExportSessionCSV myExport = new ExportSessionCSV(currentSession, app1, appbar2);
+		} else if (o == (object) menuitem_export_xml) {
+			ExportSessionXML myExport = new ExportSessionXML(currentSession, app1, appbar2);
+		} else {
+			Console.WriteLine("Error exporting");
+		}
+	}
+
 	
 	/* ---------------------------------------------------------
 	 * ----------------  PERSON RECUPERATE, LOAD, EDIT------
@@ -1481,10 +1497,10 @@ finishForeach:
 			else {
 				Console.WriteLine( Catalog.GetString("You are OUT, please come inside the platform") );
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1,  Catalog.GetString("You are OUT, come inside and press button"), "");
+				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("You are OUT, come inside and press button"), "");
 
 				//we call again this function
-				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_normal_jump_activate);
+				confirmWin.Button_accept.Clicked += new EventHandler(on_normal_jump_activate);
 
 				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
 				//appbar2.Push( "Estas dentro, cuando quieras SALTA!!" );
@@ -1510,6 +1526,7 @@ finishForeach:
 		currentJump = SqliteJump.Insert(currentPerson.UniqueID, currentSession.UniqueID, 
 				myType, myTV, 0, 0,  //type, tv, tc, fall
 				myWeight, "", ""); //weight, limited, description
+		lastJumpIsRj = false;
 
 		sensitiveGuiYesJump();
 		string myText = combo_jumps.Entry.Text;
@@ -1625,10 +1642,10 @@ finishForeach:
 			else {
 				Console.WriteLine( Catalog.GetString("You are IN, please go out the platform") );
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
+				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
 
 				//we call again this function
-				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_dj_fall_accepted);
+				confirmWin.Button_accept.Clicked += new EventHandler(on_dj_fall_accepted);
 			}
 		}
 
@@ -1687,6 +1704,7 @@ finishForeach:
 		currentJump = SqliteJump.Insert(currentPerson.UniqueID, currentSession.UniqueID, 
 				"DJ", myTV, myTC, myFall, //type, tv, tc, fall
 				"", "", ""); //weight, limited, description
+		lastJumpIsRj = false;
 
 		sensitiveGuiYesJump();
 		string myText = combo_jumps.Entry.Text;
@@ -1751,10 +1769,10 @@ finishForeach:
 				Console.WriteLine( Catalog.GetString("You are IN, please go out the platform") );
 				platformState = true;
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
+				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
 
 				//we call again this function
-				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_rj_accepted);
+				confirmWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 			} else {
 				Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
 				platformState = false;
@@ -1865,13 +1883,14 @@ finishForeach:
 		string limited = rjWin.Limited.ToString() + rjWin.Option; 
 		int jumps = Convert.ToInt32(rjWin.Limited.ToString());
 		
-		currentJump = SqliteJump.InsertRj(currentPerson.UniqueID, currentSession.UniqueID, 
+		currentJumpRj = SqliteJump.InsertRj(currentPerson.UniqueID, currentSession.UniqueID, 
 				"RJ", getMax(myTVString), getMax(myTCString), 
 				0, "", "", //fall, weight, description
 				getAverage(myTVString), getAverage(myTCString),
 				myTVString, myTCString,
 				jumps, getTotalTime(myTCString, myTVString), limited
 				);
+		lastJumpIsRj = true;
 		
 		
 		sensitiveGuiYesJump();
@@ -1963,8 +1982,9 @@ finishForeach:
 	
 	private void on_last_jump_delete (object o, EventArgs args) {
 		Console.WriteLine("delete last");
-		if(currentJump.Type == "RJ") {
-			SqliteJump.RjDelete(currentJump.UniqueID.ToString());
+		
+		if(lastJumpIsRj) {
+			SqliteJump.RjDelete(currentJumpRj.UniqueID.ToString());
 		} else {
 			SqliteJump.Delete(currentJump.UniqueID.ToString());
 		}
@@ -1973,7 +1993,7 @@ finishForeach:
 		
 		appbar2.Push( Catalog.GetString("Last jump deleted") );
 		
-		if(currentJump.Type == "RJ") {
+		if(lastJumpIsRj) {
 			treeview_jumps_rj_storeReset();
 			fillTreeView_jumps_rj(treeview_jumps_rj,treeview_jumps_rj_store);
 		} else {
@@ -2008,12 +2028,12 @@ finishForeach:
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (jumpRjSelected > 0) {
 			//3.- obtain the data of the selected jump
-			Jump myJump = SqliteJump.SelectRjJumpData( jumpRjSelected );
+			JumpRj myJump = SqliteJump.SelectRjJumpData( jumpRjSelected );
 			Console.WriteLine(myJump);
 		
 			//4.- edit this jump
-			editJumpWin = EditJumpWindow.Show(app1, myJump);
-			editJumpWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
+			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump);
+			editJumpRjWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
 		}
 	}
 	
@@ -2047,9 +2067,9 @@ finishForeach:
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				bool isRj = false;
-				confirmWin = ConfirmWindow.Show(app1, "Do you want to delete selected jump?", 
+				confirmWinJump = ConfirmWindowJump.Show(app1, "Do you want to delete selected jump?", 
 						"", "jump", jumpSelected, isRj);
-				confirmWin.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
+				confirmWinJump.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
 				Console.WriteLine("accept delete selected jump");
 				SqliteJump.Delete(jumpSelected.ToString());
@@ -2071,10 +2091,10 @@ finishForeach:
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				bool isRj = true;
-				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
+				confirmWinJump = ConfirmWindowJump.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
 						 Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"), 
 						 "jump", jumpRjSelected, isRj);
-				confirmWin.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
+				confirmWinJump.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				Console.WriteLine("accept delete selected jump");
 				SqliteJump.RjDelete(jumpRjSelected.ToString());
@@ -2157,6 +2177,8 @@ finishForeach:
 		button_last_jump_delete.Sensitive = false ;
 		button_stats.Sensitive = false;
 		preferences.Sensitive = false ;
+		menuitem_export_csv.Sensitive = false;
+		menuitem_export_xml.Sensitive = false;
 		recuperate_person.Sensitive = false ;
 		create_person.Sensitive = false ;
 
@@ -2170,11 +2192,6 @@ finishForeach:
 		dj.Sensitive = false ;
 		rj.Sensitive = false ;
 		menuitem_last_jump_delete.Sensitive = false ;
-		ind_elasticidad.Sensitive = false ;
-		ind_utiliz_brazos.Sensitive = false ;
-
-		intrasesion.Sensitive = false ;
-		intersesion.Sensitive = false ;
 	
 		checkbutton_sort_by_type.Sensitive = false ;
 		menuitem_edit_selected_jump.Sensitive = false;
@@ -2206,6 +2223,8 @@ finishForeach:
 		button_create_per.Sensitive = true ;
 		
 		preferences.Sensitive = true ;
+		menuitem_export_csv.Sensitive = true;
+		menuitem_export_xml.Sensitive = false; //it's not coded yet
 		recuperate_person.Sensitive = true ;
 		create_person.Sensitive = true ;
 	}

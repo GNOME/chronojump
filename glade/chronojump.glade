@@ -49,12 +49,13 @@
 		  <property name="visible">True</property>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="file1">
+		    <widget class="GtkMenuItem" id="session">
 		      <property name="visible">True</property>
-		      <property name="stock_item">GNOMEUIINFO_MENU_FILE_TREE</property>
+		      <property name="label" translatable="yes">_Session</property>
+		      <property name="use_underline">True</property>
 
 		      <child>
-			<widget class="GtkMenu" id="file1_menu">
+			<widget class="GtkMenu" id="session_menu">
 
 			  <child>
 			    <widget class="GtkImageMenuItem" id="new1">
@@ -74,7 +75,7 @@
 			      <signal name="activate" handler="on_open_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image275">
+				<widget class="GtkImage" id="image320">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-open</property>
 				  <property name="icon_size">1</property>
@@ -88,71 +89,26 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkSeparatorMenuItem" id="separator1">
+			    <widget class="GtkSeparatorMenuItem" id="separador4">
 			      <property name="visible">True</property>
 			    </widget>
 			  </child>
 
 			  <child>
-			    <widget class="GtkImageMenuItem" id="recuperate_person">
+			    <widget class="GtkMenuItem" id="menuitem_export_csv">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Load jumper</property>
+			      <property name="label" translatable="yes">Export session to _CSV</property>
 			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_recuperate_person_activate" last_modification_time="Sun, 12 Dec 2004 00:40:31 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image276">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-open</property>
-				  <property name="icon_size">1</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
+			      <signal name="activate" handler="on_export_session_activate" last_modification_time="Sat, 12 Feb 2005 21:57:07 GMT"/>
 			    </widget>
 			  </child>
 
 			  <child>
-			    <widget class="GtkImageMenuItem" id="create_person">
+			    <widget class="GtkMenuItem" id="menuitem_export_xml">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">New jumper</property>
+			      <property name="label" translatable="yes">Export session to _XML</property>
 			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_create_person_activate" last_modification_time="Sun, 12 Dec 2004 00:43:03 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image277">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-add</property>
-				  <property name="icon_size">1</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="menuitem_edit_current_person">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Edit current jumper</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_edit_current_person_clicked" last_modification_time="Sun, 17 Oct 2004 11:43:33 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image278">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-justify-fill</property>
-				  <property name="icon_size">1</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
+			      <signal name="activate" handler="on_export_session_activate" last_modification_time="Sat, 12 Feb 2005 21:57:07 GMT"/>
 			    </widget>
 			  </child>
 
@@ -171,7 +127,7 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkSeparatorMenuItem" id="separador4">
+			    <widget class="GtkSeparatorMenuItem" id="separador6">
 			      <property name="visible">True</property>
 			    </widget>
 			  </child>
@@ -181,6 +137,82 @@
 			      <property name="visible">True</property>
 			      <property name="stock_item">GNOMEUIINFO_MENU_EXIT_ITEM</property>
 			      <signal name="activate" handler="on_quit1_activate" last_modification_time="Wed, 22 Sep 2004 23:17:31 GMT"/>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="jumpers">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Jumpe_rs</property>
+		      <property name="use_underline">True</property>
+
+		      <child>
+			<widget class="GtkMenu" id="jumpers_menu">
+
+			  <child>
+			    <widget class="GtkImageMenuItem" id="create_person">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">_New jumper</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_create_person_activate" last_modification_time="Sun, 12 Dec 2004 00:43:03 GMT"/>
+
+			      <child internal-child="image">
+				<widget class="GtkImage" id="image321">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-add</property>
+				  <property name="icon_size">1</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+			      </child>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkImageMenuItem" id="recuperate_person">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">_Load jumper</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_recuperate_person_activate" last_modification_time="Sun, 12 Dec 2004 00:40:31 GMT"/>
+
+			      <child internal-child="image">
+				<widget class="GtkImage" id="image322">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-open</property>
+				  <property name="icon_size">1</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+			      </child>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkImageMenuItem" id="menuitem_edit_current_person">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">_Edit current jumper</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_edit_current_person_clicked" last_modification_time="Sun, 17 Oct 2004 11:43:33 GMT"/>
+
+			      <child internal-child="image">
+				<widget class="GtkImage" id="image323">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-justify-fill</property>
+				  <property name="icon_size">1</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+			      </child>
 			    </widget>
 			  </child>
 			</widget>
@@ -265,7 +297,7 @@
 			      <signal name="activate" handler="on_cancel_jump_clicked" last_modification_time="Tue, 19 Oct 2004 17:22:38 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image279">
+				<widget class="GtkImage" id="image324">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-cancel</property>
 				  <property name="icon_size">1</property>
@@ -286,7 +318,7 @@
 			      <signal name="activate" handler="on_last_jump_delete" last_modification_time="Sun, 03 Oct 2004 23:37:36 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image280">
+				<widget class="GtkImage" id="image325">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-delete</property>
 				  <property name="icon_size">1</property>
@@ -313,7 +345,7 @@
 			      <signal name="activate" handler="on_edit_selected_jump_clicked" last_modification_time="Sun, 17 Oct 2004 11:47:42 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image281">
+				<widget class="GtkImage" id="image326">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-justify-fill</property>
 				  <property name="icon_size">1</property>
@@ -334,7 +366,7 @@
 			      <signal name="activate" handler="on_delete_selected_jump_clicked" last_modification_time="Tue, 19 Oct 2004 11:54:17 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image282">
+				<widget class="GtkImage" id="image327">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-delete</property>
 				  <property name="icon_size">1</property>
@@ -355,7 +387,7 @@
 			      <signal name="activate" handler="on_edit_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image283">
+				<widget class="GtkImage" id="image328">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-justify-fill</property>
 				  <property name="icon_size">1</property>
@@ -376,7 +408,7 @@
 			      <signal name="activate" handler="on_delete_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image284">
+				<widget class="GtkImage" id="image329">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-delete</property>
 				  <property name="icon_size">1</property>
@@ -386,55 +418,6 @@
 				  <property name="ypad">0</property>
 				</widget>
 			      </child>
-			    </widget>
-			  </child>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="stats">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Statistics</property>
-		      <property name="use_underline">True</property>
-
-		      <child>
-			<widget class="GtkMenu" id="stats_menu">
-
-			  <child>
-			    <widget class="GtkMenuItem" id="ind_elasticidad">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Elasticity index</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_ind_elasticidad_activate" last_modification_time="Thu, 23 Sep 2004 00:08:57 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="ind_utiliz_brazos">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Arms index</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_ind_utiliz_brazos_activate" last_modification_time="Thu, 23 Sep 2004 00:09:06 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="intrasesion">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Intrasession</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_intrasesion_activate" last_modification_time="Thu, 23 Sep 2004 00:10:23 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="intersesion">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Intersession</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_intersesion_activate" last_modification_time="Thu, 23 Sep 2004 00:10:46 GMT"/>
 			    </widget>
 			  </child>
 			</widget>
@@ -1594,25 +1577,6 @@
 				  </child>
 
 				  <child>
-				    <widget class="GtkHBox" id="hbox_combo_stats_stat_name">
-				      <property name="visible">True</property>
-				      <property name="homogeneous">False</property>
-				      <property name="spacing">0</property>
-
-				      <child>
-					<placeholder/>
-				      </child>
-				    </widget>
-				    <packing>
-				      <property name="left_attach">1</property>
-				      <property name="right_attach">2</property>
-				      <property name="top_attach">0</property>
-				      <property name="bottom_attach">1</property>
-				      <property name="y_options">fill</property>
-				    </packing>
-				  </child>
-
-				  <child>
 				    <widget class="GtkHBox" id="hbox50">
 				      <property name="visible">True</property>
 				      <property name="homogeneous">False</property>
@@ -1880,6 +1844,26 @@ average</property>
 				      <property name="right_attach">2</property>
 				      <property name="top_attach">2</property>
 				      <property name="bottom_attach">3</property>
+				      <property name="x_options">fill</property>
+				      <property name="y_options">fill</property>
+				    </packing>
+				  </child>
+
+				  <child>
+				    <widget class="GtkHBox" id="hbox_combo_stats_stat_name">
+				      <property name="visible">True</property>
+				      <property name="homogeneous">False</property>
+				      <property name="spacing">0</property>
+
+				      <child>
+					<placeholder/>
+				      </child>
+				    </widget>
+				    <packing>
+				      <property name="left_attach">1</property>
+				      <property name="right_attach">2</property>
+				      <property name="top_attach">0</property>
+				      <property name="bottom_attach">1</property>
 				      <property name="x_options">fill</property>
 				      <property name="y_options">fill</property>
 				    </packing>

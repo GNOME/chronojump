@@ -23,24 +23,17 @@ using System;
 using System.Data;
 using Mono.Data.SqliteClient;
 
-
-public class Jump {
-
-	int personID;
-	int sessionID;
-	int uniqueID;
-	string type;
-	double tv;
-	double tc;
-	int fall;
-	string weight;
-	string description;
-	string tvString;
-	string tcString;
-	int jumps; //total number of jumps
-	double time; //time elapsed
-	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
-
+public class Jump 
+{
+	protected int personID;
+	protected int sessionID;
+	protected int uniqueID;
+	protected string type;
+	protected double tv;
+	protected double tc;
+	protected int fall;
+	protected string weight;
+	protected string description;
 
 	public Jump() {
 	}
@@ -58,48 +51,6 @@ public class Jump {
 		this.description = description;
 	}
 
-	//RJ
-	public Jump(int uniqueID, int personID, int sessionID, string type, string tvString, string tcString, int fall, string weight, string description, int jumps, double time, string limited)
-	{
-		this.uniqueID = uniqueID;
-		this.personID = personID;
-		this.sessionID = sessionID;
-		this.type = type;
-		this.tvString = tvString;
-		this.tcString = tcString;
-		this.fall = fall;
-		this.weight = weight;
-		this.description = description;
-		this.jumps = jumps;
-		this.time = time;
-		this.limited = limited;
-	}
-
-	private double getMax (string values)
-	{
-		string [] myStringFull = values.Split(new char[] {'='});
-		double max = 0;
-		foreach (string jump in myStringFull) {
-			if ( Convert.ToDouble(jump) > max ) {
-				max = Convert.ToDouble(jump);
-			}
-		}
-		return max ; 
-	}
-
-	private double getAverage (string jumps)
-	{
-		string [] myStringFull = jumps.Split(new char[] {'='});
-		double myAverage = 0;
-		double myCount = 0;
-		foreach (string jump in myStringFull) {
-			myAverage = myAverage + Convert.ToDouble(jump);
-			myCount ++;
-		}
-		return myAverage / myCount ; 
-	}
-
-	
 	public string Type
 	{
 		get
@@ -172,13 +123,6 @@ public class Jump {
 		}
 	}
 	
-	public string Limited
-	{
-		get {
-			return limited;
-		}
-	}
-	
 	public int UniqueID
 	{
 		get
@@ -215,6 +159,66 @@ public class Jump {
 		}
 	}
 
+	~Jump() {}
+	   
+}
+
+public class JumpRj : Jump
+{
+	string tvString;
+	string tcString;
+	int jumps; //total number of jumps
+	double time; //time elapsed
+	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
+
+
+	public JumpRj(int uniqueID, int personID, int sessionID, string type, string tvString, string tcString, int fall, string weight, string description, int jumps, double time, string limited)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.tvString = tvString;
+		this.tcString = tcString;
+		this.fall = fall;
+		this.weight = weight;
+		this.description = description;
+		this.jumps = jumps;
+		this.time = time;
+		this.limited = limited;
+	}
+
+	private double getMax (string values)
+	{
+		string [] myStringFull = values.Split(new char[] {'='});
+		double max = 0;
+		foreach (string jump in myStringFull) {
+			if ( Convert.ToDouble(jump) > max ) {
+				max = Convert.ToDouble(jump);
+			}
+		}
+		return max ; 
+	}
+
+	private double getAverage (string jumps)
+	{
+		string [] myStringFull = jumps.Split(new char[] {'='});
+		double myAverage = 0;
+		double myCount = 0;
+		foreach (string jump in myStringFull) {
+			myAverage = myAverage + Convert.ToDouble(jump);
+			myCount ++;
+		}
+		return myAverage / myCount ; 
+	}
+
+	public string Limited
+	{
+		get {
+			return limited;
+		}
+	}
+	
 	public double TvMax
 	{
 		get
@@ -247,6 +251,6 @@ public class Jump {
 		}
 	}
 		
-	~Jump() {}
-	   
+	~JumpRj() {}
 }
+

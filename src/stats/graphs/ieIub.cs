@@ -33,26 +33,16 @@ using System.Drawing.Imaging;
 public class GraphIeIub : StatIeIub
 {
 	protected string operation;
+	private Random myRand = new Random();
+
+	//for simplesession
+	GraphSerie serieIndex;
+	GraphSerie serieJump1;
+	GraphSerie serieJump2;
 
 	public GraphIeIub (ArrayList sessions, string indexType, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
-		//by1Values = new ArrayList(2); 
-		by100Values = new ArrayList(2);
 		this.dataColumns = 3; //for Simplesession (index, jump1, jump2)
-		this.valuesTransposed = new ArrayList(2);
-	
-		valuesSchemaIndex = new ArrayList(dataColumns);
-		valuesSchemaIndex.Add ("true"); //Index
-		valuesSchemaIndex.Add ("false"); //jump1
-		valuesSchemaIndex.Add ("false"); //jump2
-
-		colorSchema = new ArrayList (dataColumns);
-		colorSchema.Add ("Red");		//Index
-		colorSchema.Add ("LightBlue");		//jump1
-		colorSchema.Add ("LightGreen");		//jump2
-
-		jumperNames = new ArrayList(2);
-		
 		this.jumpType = jumpType;
 		this.limit = limit;
 		
@@ -64,6 +54,7 @@ public class GraphIeIub : StatIeIub
 			jump1="ABK";
 			jump2="CMJ";
 		}
+		
 		columnsString[0] = "Jumper";
 		columnsString[1] = indexType;
 		columnsString[2] = jump1;
@@ -77,25 +68,51 @@ public class GraphIeIub : StatIeIub
 			this.operation = "AVG";
 		}
 
-		this.windowTitle = Catalog.GetString("ChronoJump graph");
+		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
+		string mySessions = "single session";
 		if(sessions.Count > 1) {
-			this.graphTitle = indexType + " " + operation + Catalog.GetString(" values chart of multiple sessions");
-		} else {
-			this.graphTitle = indexType + " " + operation + Catalog.GetString(" values chart of single session");
-			
-			//initialize valuesTransposed (with one row x each column name, except the first)
-			bool firstValue = true;
-			foreach (string myCol in columnsString) {
-				if (! firstValue) {
-					valuesTransposed.Add(myCol);
-				}
-				firstValue = false;
-			}
+			mySessions = "multiple sessions";
 		}
-		resultCombined = false;
-		resultIsIndex = true;
-		labelLeft = Catalog.GetString("seconds");
-		labelRight = Catalog.GetString("Index(%)");
+		CurrentGraphData.GraphTitle = indexType + " " + operation + 
+			Catalog.GetString(" values chart of ") + mySessions;
+		
+		
+		if(sessions.Count == 1) {
+			//four series, the four columns
+			serieIndex = new GraphSerie();
+			serieJump1 = new GraphSerie();
+			serieJump2 = new GraphSerie();
+				
+			serieIndex.Title = Catalog.GetString("Index");
+			serieJump1.Title = jump1;
+			serieJump2.Title = jump2;
+			
+			serieIndex.IsLeftAxis = false;
+			serieJump1.IsLeftAxis = true;
+			serieJump2.IsLeftAxis = true;
+
+			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+					6, new Pen (Color.FromName("Red"), 2.0F));
+			serieJump1.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+					6, new Pen (Color.FromName("LightGreen"), 2.0F));
+			serieJump2.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+					6, new Pen (Color.FromName("LightBlue"), 2.0F));
+		
+			//for the line between markers
+			serieIndex.SerieColor = Color.FromName("Red");
+			serieJump1.SerieColor = Color.FromName("LightGreen");
+			serieJump2.SerieColor = Color.FromName("LightBlue");
+		
+			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			CurrentGraphData.LabelRight = Catalog.GetString("%, cm");
+		} else {
+			for(int i=0; i < sessions.Count ; i++) {
+				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
+			}
+			CurrentGraphData.LabelLeft = Catalog.GetString("%");
+			CurrentGraphData.LabelRight = "";
+		}
 	}
 
 	protected override void printData (string [] statValues) 
@@ -108,32 +125,52 @@ public class GraphIeIub : StatIeIub
 				if(i == 0) {
 					//don't plot AVG and SD rows
 					if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
+						//good moment for adding created series to GraphSeries ArrayList
+						//check don't do it two times
+						if(GraphSeries.Count == 0) {
+							GraphSeries.Add(serieIndex);
+							GraphSeries.Add(serieJump1);
+							GraphSeries.Add(serieJump2);
+						}
+						
 						return;
 					}
-					jumperNames.Add(myValue);
-				} else {
-					valuesTransposed[i-1] = valuesTransposed[i-1] + ":" + myValue;
+					CurrentGraphData.XAxisNames.Add(myValue);
+				} else if(i == 1) {
+					serieIndex.SerieData.Add(myValue);
+				} else if(i == 2) {
+					serieJump1.SerieData.Add(myValue);
+				} else if(i == 3) {
+					serieJump2.SerieData.Add(myValue);
 				}
 				i++;
 			}
 		} else {
-			//add jump to by100Values (as a string separated by ':')
-			string myReturn = "";
+			GraphSerie mySerie = new GraphSerie();
+			mySerie.IsLeftAxis = true;
+		
+			int myR = myRand.Next(255);
+			int myG = myRand.Next(255);
+			int myB = myRand.Next(255);
+			
+			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
+					6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
+			
+			mySerie.SerieColor = Color.FromArgb(myR, myG, myB);
+			
 			int i=0;
 			foreach (string myValue in statValues) {
+				if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
+					return;
+				}
 				if(i == 0) {
-					//don't plot AVG and SD rows
-					if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
-						return;
-					}
+					mySerie.Title = myValue;
+				} else {
+					mySerie.SerieData.Add(myValue);
 				}
-				if(i > 0) {
-					myReturn = myReturn + ":";
-				}
-				myReturn = myReturn + myValue;
 				i++;
 			}
-			by100Values.Add(myReturn);
+			GraphSeries.Add(mySerie);
 		}
 	}
 }

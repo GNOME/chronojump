@@ -536,45 +536,51 @@ public class ChronoJump
 				myStat.PrepareData();
 			}
 		}
-		//else if(myText == "SJ" || myText == "CMJ" || myText == "ABK")
 		else if(category == Catalog.GetString("Simple"))
 		{
-			if(graph) {
-				myStat = new GraphSjCmjAbk ( 
-						sendSelectedSessions, 
-						prefsDigitsNumber, statistic, 
-						checkbutton_stats_sex.Active, 
-						statsJumpsType,
-						limit);
-				myStat.PrepareData();
-				myStat.CreateGraph();
+			JumpType myType = new JumpType(statistic);
+			if(myType.HasWeight) {
+				if(graph) {
+					myStat = new GraphSjCmjAbkPlus ( 
+							sendSelectedSessions, 
+							prefsDigitsNumber, statistic, 
+							checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit,
+							weightStatsPercent);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatSjCmjAbkPlus (treeview_stats, 
+							sendSelectedSessions, 
+							prefsDigitsNumber, statistic, 
+							checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit,
+							weightStatsPercent);
+					myStat.PrepareData();
+				}
 			} else {
-				myStat = new StatSjCmjAbk (treeview_stats, 
-						sendSelectedSessions, 
-						prefsDigitsNumber, statistic, 
-						checkbutton_stats_sex.Active, 
-						statsJumpsType,
-						limit);
-				myStat.PrepareData();
+				if(graph) {
+					myStat = new GraphSjCmjAbk ( 
+							sendSelectedSessions, 
+							prefsDigitsNumber, statistic, 
+							checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatSjCmjAbk (treeview_stats, 
+							sendSelectedSessions, 
+							prefsDigitsNumber, statistic, 
+							checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+				}
 			}
 		}
-		/*
-		else if(myText == "SJ+" || myText == "CMJ+" || myText == "ABK+")
-		{
-			if(graph) {
-			} else {
-				myStat = new StatSjCmjAbkPlus (treeview_stats, 
-						sendSelectedSessions, 
-						prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
-						statsJumpsType,
-						limit,
-						weightStatsPercent
-						);
-				myStat.PrepareData();
-			}
-		}
-		*/
-		//else if(myText == "DJ Index (tv-tc)*100/tc")
 		else if(category == Catalog.GetString("With TC"))
 		{
 			if(graph) {
@@ -1550,7 +1556,7 @@ public class ChronoJump
 				return false;
 			}
 			Thread.Sleep (150);
-			//Console.Write(thread.ThreadState);
+			Console.Write(thread.ThreadState);
 			return true;
 		}
 		return false;

@@ -26,7 +26,7 @@ using Gtk;
 using System.Collections; //ArrayList
 
 
-//no sj+
+//no weight
 public class StatSjCmjAbk : Stat
 {
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes

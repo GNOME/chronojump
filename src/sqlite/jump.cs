@@ -179,15 +179,23 @@ class SqliteJump : Sqlite
 		return myJumps;
 	}
 
-	public static string[] SelectAllRjJumps(int sessionID) 
+	public static string[] SelectAllRjJumps(int sessionID, string ordered_by) 
 	{
+		string secondOrder;
+		if(ordered_by == "ordered_by_time") {
+			secondOrder = "jumpRj.uniqueID";
+		}
+		else { //by type
+			secondOrder = "jumpRj.type, " + "jumpRj.uniqueID";
+		}
+		
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, jumpRj.* " +
 			" FROM person, jumpRj " +
 			" WHERE person.uniqueID == jumpRj.personID" + 
 			" AND jumpRj.sessionID == " + sessionID + 
-			" ORDER BY person.uniqueID, jumpRj.uniqueID";
+			" ORDER BY person.uniqueID, " + secondOrder;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

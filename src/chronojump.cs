@@ -37,18 +37,22 @@ public class ChronoJump {
 	[Widget] Gtk.TreeView treeview_jumps_rj;
 	[Widget] Gtk.TreeView treeview_stats;
 	[Widget] Gtk.Box hbox_combo_jumps;
+	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_stats_stat_name;
 	[Widget] Gtk.Box hbox_combo_person_current;
 	[Widget] Gtk.Label label_current_jumper;
 	[Widget] Gtk.Combo combo_jumps;
+	[Widget] Gtk.Combo combo_jumps_rj;
 	[Widget] Gtk.Combo combo_stats_stat_name;
 	[Widget] Gtk.Combo combo_person_current;
 
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type;
+	[Widget] Gtk.CheckButton checkbutton_sort_by_type_rj;
 	[Widget] Gtk.CheckButton checkbutton_stats_sex;
 	[Widget] Gtk.CheckButton checkbutton_stats_always;
 	[Widget] Gtk.CheckButton checkbutton_show_enunciate;
 	bool sortJumpsByType = false;
+	bool sortJumpsRjByType = false;
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump;
 	[Widget] Gtk.Button button_edit_selected_jump;
@@ -119,8 +123,8 @@ public class ChronoJump {
 	[Widget] Gtk.RadioMenuItem menuitem_serial_port;
 	
 	[Widget] Gtk.Frame frame_jumpers;
-	[Widget] Gtk.Frame frame_jumps;
 	[Widget] Gtk.Frame frame_stats;
+	[Widget] Gtk.Notebook notebook_jumps;
 
 	private Random rand;
 	
@@ -161,7 +165,6 @@ public class ChronoJump {
 	private static Session currentSession;
 	private static Jump currentJump;
 	private static JumpRj currentJumpRj;
-	//private static bool lastJumpIsReactive; //if last Jump is an Rj or not
 	private static bool lastJumpIsReactive; //if last Jump is reactive or not
 	private static JumpType currentJumpType;
 
@@ -232,6 +235,7 @@ public class ChronoJump {
 		createTreeView_jumps_rj(treeview_jumps_rj);
 
 		createComboJumps();
+		createComboJumpsRj();
 		createComboStats();
 		createComboSujetoCurrent();
 
@@ -301,15 +305,14 @@ public class ChronoJump {
 		
 		if(sortJumpsByType) {
 			myJumps = SqliteJump.SelectAllNormalJumps(
-					currentSession.UniqueID, "ordered_by_type"); //returns a string of values separated by ':'
-		}
-		else {
+					currentSession.UniqueID, "ordered_by_type");
+		} else {
 			myJumps = SqliteJump.SelectAllNormalJumps(
-					currentSession.UniqueID, "ordered_by_time"); //returns a string of values separated by ':'
+					currentSession.UniqueID, "ordered_by_time");
 		}
 		myTreeViewJumps.Fill(myJumps, filter);
 	}
-	
+
 	private void on_checkbutton_sort_by_type_clicked(object o, EventArgs args) {
 		if (sortJumpsByType) { sortJumpsByType = false; }
 		else { sortJumpsByType = true; }
@@ -344,13 +347,30 @@ public class ChronoJump {
 		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, prefsDigitsNumber );
 	}
 
-	//no filter in treeview_jumps_rj
-	private void fillTreeView_jumps_rj (Gtk.TreeView tv, TreeStore store) {
-		string [] myJumps = SqliteJump.SelectAllRjJumps(
-					currentSession.UniqueID); //returns a string of values separated by ':'
-		myTreeViewJumpsRj.Fill(myJumps, "none");
+	private void fillTreeView_jumps_rj (Gtk.TreeView tv, TreeStore store, string filter) {
+		string [] myJumps;
+		if(sortJumpsRjByType) {
+			myJumps = SqliteJump.SelectAllRjJumps(
+						currentSession.UniqueID, "ordered_by_type"); 
+		} else {
+			myJumps = SqliteJump.SelectAllRjJumps(
+						currentSession.UniqueID, "ordered_by_time");
+		}
+		myTreeViewJumpsRj.Fill(myJumps, filter);
 	}
 
+	private void on_checkbutton_sort_by_type_rj_clicked(object o, EventArgs args) {
+		if (sortJumpsRjByType) { sortJumpsRjByType = false; }
+		else { sortJumpsRjByType = true; }
+		
+		string myText = combo_jumps_rj.Entry.Text;
+			
+		treeview_jumps_rj_storeReset();
+		//fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
+		myTreeViewJumpsRj.ExpandOptimal();
+	}
+	
 	private void on_button_tv_rj_collapse_clicked (object o, EventArgs args) {
 		treeview_jumps_rj.CollapseAll();
 	}
@@ -596,7 +616,6 @@ public class ChronoJump {
 	 */
 	private void createComboJumps() {
 		combo_jumps = new Combo ();
-		//combo_jumps.PopdownStrings = comboJumpsOptions;
 		combo_jumps.PopdownStrings = SqliteJumpType.SelectJumpTypes(allJumpsName, true); //only select name
 		
 		combo_jumps.DisableActivate ();
@@ -606,6 +625,20 @@ public class ChronoJump {
 		hbox_combo_jumps.ShowAll();
 		
 		combo_jumps.Sensitive = false;
+		label_current_jumper.Sensitive = false;
+	}
+	
+	private void createComboJumpsRj() {
+		combo_jumps_rj = new Combo ();
+		combo_jumps_rj.PopdownStrings = SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
+		
+		combo_jumps_rj.DisableActivate ();
+		combo_jumps_rj.Entry.Changed += new EventHandler (on_combo_jumps_rj_changed);
+
+		hbox_combo_jumps_rj.PackStart(combo_jumps_rj, true, true, 0);
+		hbox_combo_jumps_rj.ShowAll();
+		
+		combo_jumps_rj.Sensitive = false;
 		label_current_jumper.Sensitive = false;
 	}
 	
@@ -639,6 +672,10 @@ public class ChronoJump {
 		
 	private void updateComboJumps() {
 		combo_jumps.PopdownStrings = SqliteJumpType.SelectJumpTypes(allJumpsName, true); //only select name
+	}
+	
+	private void updateComboJumpsRj() {
+		combo_jumps_rj.PopdownStrings = SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
 	}
 	
 	private bool updateComboSujetoCurrent() {
@@ -694,6 +731,31 @@ public class ChronoJump {
 			checkbutton_sort_by_type.Sensitive = false ;
 			//expand all rows if a jump filter is selected:
 			treeview_jumps.ExpandAll();
+		}
+	}
+	
+	private void on_combo_jumps_rj_changed(object o, EventArgs args) {
+		string myText = combo_jumps_rj.Entry.Text;
+
+		//show the edit-delete selected jumps buttons:
+		menuitem_edit_selected_jump.Sensitive = true;
+		menuitem_delete_selected_jump.Sensitive = true;
+		button_edit_selected_jump.Sensitive = true;
+		button_delete_selected_jump.Sensitive = true;
+		menuitem_edit_selected_jump_rj.Sensitive = true;
+		menuitem_delete_selected_jump_rj.Sensitive = true;
+		button_edit_selected_jump_rj.Sensitive = true;
+		button_delete_selected_jump_rj.Sensitive = true;
+		
+		treeview_jumps_rj_storeReset();
+		fillTreeView_jumps_rj(treeview_jumps, treeview_jumps_store, myText);
+		
+		if (myText == allJumpsName) {
+			checkbutton_sort_by_type_rj.Sensitive = true ;
+		} else {
+			checkbutton_sort_by_type_rj.Sensitive = false ;
+			//expand all rows if a jump filter is selected:
+			myTreeViewJumpsRj.ExpandOptimal();
 		}
 	}
 
@@ -894,10 +956,10 @@ public class ChronoJump {
 			
 			//load the treeview
 			treeview_jumps_storeReset();
-			fillTreeView_jumps(treeview_jumps,treeview_jumps_store,allJumpsName);
+			fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
 			//load the treeview_rj
 			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, allJumpsName);
 
 			fillTreeView_stats(false);
 
@@ -932,10 +994,10 @@ public class ChronoJump {
 		
 		//load the treeview_jumps
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps,treeview_jumps_store,allJumpsName);
+		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
 		//load the treeview_jumps_rj
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj,treeview_jumps_rj_store);
+		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, allJumpsName);
 		
 		//everytime we load a session, we put stats to "Global" 
 		//(if this session has no jumps, it crashes in the others statistics)
@@ -1039,10 +1101,11 @@ public class ChronoJump {
 
 			treeview_jumps_storeReset();
 			string myText = combo_jumps.Entry.Text;
-			fillTreeView_jumps(treeview_jumps,treeview_jumps_store,myText);
+			fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
 			//load the treeview_rj
 			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+			myText = combo_jumps_rj.Entry.Text;
+			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
 
 			//if(statsAutomatic) {
 				fillTreeView_stats(false);
@@ -1113,9 +1176,10 @@ public class ChronoJump {
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
 		//... and recreate the treeview_jumps_rj
+		myText = combo_jumps.Entry.Text;
 		createTreeView_jumps_rj (treeview_jumps_rj);
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
 
 		if(statsAutomatic) {
 			fillTreeView_stats(false);
@@ -1278,6 +1342,11 @@ public class ChronoJump {
 			myStringPush = myStringPush + "(" + myWeight + ")";
 		}
 		appbar2.Push( myStringPush );
+
+		//change to page 0 of notebook if we were on 1
+		if(notebook_jumps.CurrentPage == 1) {
+			notebook_jumps.PrevPage();
+		}
 	}
 
 
@@ -1434,6 +1503,11 @@ public class ChronoJump {
 			myStringPush = myStringPush + "(" + myWeight + ")";
 		}
 		appbar2.Push( myStringPush );
+		
+		//change to page 0 of notebook if we were on 1
+		if(notebook_jumps.CurrentPage == 1) {
+			notebook_jumps.PrevPage();
+		}
 	}
 
 	
@@ -1710,6 +1784,11 @@ public class ChronoJump {
 			//FIXME:
 			Console.WriteLine("JUMP TIME NOT SUPPORTED");
 		}
+		
+		//change to page 1 of notebook if we were on 0
+		if(notebook_jumps.CurrentPage == 0) {
+			notebook_jumps.NextPage();
+		}
 	}
 	
 	
@@ -1830,7 +1909,7 @@ public class ChronoJump {
 		Console.WriteLine("edit selected jump RJ accepted");
 		
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, combo_jumps_rj.Entry.Text);
 		
 		if(statsAutomatic) {
 			fillTreeView_stats(false);
@@ -1900,7 +1979,9 @@ public class ChronoJump {
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+		//fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+		//FIXME:---------------- WORKS?
+		myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
 
 		if(statsAutomatic) {
 			fillTreeView_stats(false);
@@ -1917,6 +1998,7 @@ public class ChronoJump {
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
 		Console.WriteLine("ACCEPTED Add new jump type");
 		updateComboJumps();
+		updateComboJumpsRj();
 	}
 
 	/* ---------------------------------------------------------
@@ -1965,8 +2047,8 @@ public class ChronoJump {
 		button_recup_per.Sensitive = false ;
 		button_create_per.Sensitive = false ;
 		
-		//frame_jumps
-		frame_jumps.Sensitive = false;
+		//notebook_jumps
+		notebook_jumps.Sensitive = false;
 		button_sj.Sensitive = false ;
 		button_sj_plus.Sensitive = false ;
 		button_cmj.Sensitive = false ;
@@ -2022,7 +2104,7 @@ public class ChronoJump {
 	}
 
 	private void sensitiveGuiYesPerson () {
-		frame_jumps.Sensitive = true;
+		notebook_jumps.Sensitive = true;
 		combo_person_current.Sensitive = true;
 		button_edit_current_person.Sensitive = true;
 		menuitem_edit_current_person.Sensitive = true;
@@ -2082,6 +2164,7 @@ public class ChronoJump {
 		
 		checkbutton_sort_by_type.Sensitive = true ;
 		combo_jumps.Sensitive = true;
+		combo_jumps_rj.Sensitive = true;
 		label_current_jumper.Sensitive = true;
 		button_graph.Sensitive = true;
 	}

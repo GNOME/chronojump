@@ -1,4 +1,16 @@
 CHANGELOG:
+13 march 2005
+	treeviews
+		Treeview_jumps and treeview_jumps_rj displayed in a notebook (page
+		changes automatically if a jump of other page has to be displayed)
+		Treeviews have now Weight and Fall columns
+		filter and sort_by_type in treeview_jumps_rj
+		better deletion on treeview_jumps_rj
+		frame_jumps deleted: notebook_jumps fills space better
+	beter menus
+	beter display of stats options
+
+12 march 2005
 	jumpTypes:
 		Tables jumpType and jumpRjType. New concept of jumps
 		The features of each jump should be known by checking jumpType

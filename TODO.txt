@@ -6,18 +6,6 @@ study how to make IE, IUB (the best two SJ,CMJ and CMJ,ABK; or the worst and the
 graphs:
 	clean code (put code in first class or write an Interface)
 	study licensing problems of NPlot or how to include it
-	repair bug: 
-	
-	Unhandled Exception: GLib.MissingIntPtrCtorException: GLib.Object subclass NPlot.Gtk.PlotSurface2D must provide a protected or public IntPtr ctor to support wrapping of native object handles.
-	in <0x001e3> GLib.ObjectManager:CreateObject (intptr)
-	in <0x000e3> GLib.Object:GetObject (intptr,bool)
-	in <0x00017> Gtk.Widget:exposeevent_cb (intptr,intptr)
-	in <0x00060> (wrapper native-to-managed) Gtk.Widget:exposeevent_cb (intptr,intptr)
-	in (unmanaged) (wrapper managed-to-native) Gtk.Application:gtk_main ()
-	in <0x00004> (wrapper managed-to-native) Gtk.Application:gtk_main ()
-	in <0x00007> Gtk.Application:Run ()
-	in <0x00007> Gnome.Program:Run ()
-	
 	put a button for refreshing the graph
 	make graphs for all stats
 

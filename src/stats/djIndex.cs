@@ -27,6 +27,8 @@ using System.Collections; //ArrayList
 
 public class StatDjIndex : Stat
 {
+	protected string [] columnsString = { "Jumper", "Index", "TV", "TC", "Fall" };
+	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatDjIndex () 
 	{
@@ -49,7 +51,7 @@ public class StatDjIndex : Stat
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jumper", "Index", "TV", "TC", "Fall" };
+		//string [] columnsString = { "Jumper", "Index", "TV", "TC", "Fall" };
 		prepareHeaders(columnsString);
 	}
 	

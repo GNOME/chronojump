@@ -32,6 +32,7 @@ using System.Drawing.Imaging;
 
 public class GraphSjCmjAbk : StatSjCmjAbk
 {
+	protected string operation;
 	
 	public GraphSjCmjAbk (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
@@ -43,21 +44,22 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 		
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 	
-		/*
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
 		} else {
 			this.operation = "AVG";
 		}
-		*/
 
 		this.windowTitle = Catalog.GetString("ChronoJump graph");
 		if(sessions.Count > 1) {
-			this.graphTitle = jumpType + Catalog.GetString(" values chart of multiple sessions");
+			this.graphTitle = jumpType + " " + operation + Catalog.GetString(" values chart of multiple sessions");
 		} else {
-			this.graphTitle = jumpType + Catalog.GetString(" values chart of single session");
+			this.graphTitle = jumpType + " " + operation + Catalog.GetString(" values chart of single session");
 		}
-		plotIndexes = false;
+		//plotIndexes = false;
+		resultCombined = false;
+		resultIsIndex = false;
+		labelLeft = Catalog.GetString ("TV (sec.)");
 	}
 
 	protected override void printData (string [] statValues) 
@@ -71,10 +73,6 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 				if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
 					return;
 				}
-		
-				//this separates "ABK" from "ABK (M)", "ABK (F)", and also "ABK"
-				string [] myValueWithSex = myValue.ToString().Split(new char[] {' '});
-				string myValue2 = myValueWithSex[0];
 			}
 			if(i > 0) {
 				myReturn = myReturn + ":";

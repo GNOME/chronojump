@@ -250,6 +250,20 @@ public class JumpRj : Jump
 			return getAverage (tcString);
 		}
 	}
+	
+	public string TvString
+	{
+		get {
+			return tvString;
+		}
+	}
+		
+	public string TcString
+	{
+		get {
+			return tcString;
+		}
+	}
 		
 	~JumpRj() {}
 }

@@ -21,10 +21,8 @@
 
 using System;
 using System.Data;
-using System.Text; //StringBuilder
 using Gtk;
 using System.Collections; //ArrayList
-//using Gnu.Gettext;
 
 /* ------------ CLASS HERENCY MAP ---------
  *
@@ -37,8 +35,6 @@ using System.Collections; //ArrayList
  *	StatIE
  *		StatIUB
  * 	StatGlobal	//suitable for global and for a unique jumper
- * 		//StatGlobalInter
- *	//StatPersonInter
  *
  * ---------------------------------------
  */
@@ -50,10 +46,11 @@ public class Stat
 
 	protected string sessionName;
 	protected ArrayList sessions;
+	protected int dataColumns; //for SimpleSession
 	
 	protected string jumpType;
-	protected bool sexSeparated;
-	protected string operation;
+	protected bool showSex;
+	protected int statsJumpsType;
 	protected int limit;
 
 	protected TreeStore store;
@@ -68,48 +65,298 @@ public class Stat
 	public Stat () 
 	{
 		this.sessionName = "";
-		this.sexSeparated = false;
+		this.showSex = false;
+		this.statsJumpsType = 0;
 		this.limit = 0;
 	}
 
-	public Stat (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated) 
+	public Stat (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType) 
 	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
-	}
-
-	protected virtual void completeConstruction (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated)
-	{
-		this.sessionUniqueID = sessionUniqueID;
-		this.sessionName = sessionName;
-		this.treeview = treeview;
-		prefsDigitsNumber = newPrefsDigitsNumber;
-		this.sexSeparated = sexSeparated;
-
-		store = getStore();
+		sessionName = "nothing";
+		if(sessions.Count > 1) {
+			store = getStore(sessions.Count +3); //+3 (for the statName, the AVG horizontal and SD horizontal
+		} else {
+			store = getStore(sessions.Count +1);
+		}
 		treeview.Model = store;
 
-		createTreeView_stats();
+		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
+		string [] columnsString = { "Jumper", "TV" };
+		prepareHeaders(columnsString);
+	}
+
+	protected virtual void completeConstruction (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType)
+	{
+		this.sessions = sessions;
+		this.treeview = treeview;
+		prefsDigitsNumber = newPrefsDigitsNumber;
+		this.showSex = showSex;
+		this.statsJumpsType = statsJumpsType;
 
 		iter = new TreeIter();
 	}
 
-	protected virtual TreeStore getStore ()
+	protected virtual void prepareHeaders(string [] columnsString) 
 	{
-		TreeStore myStore = new TreeStore(typeof(string));
+		treeview.HeadersVisible=true;
+		treeview.AppendColumn (Catalog.GetString(columnsString[0]), new CellRendererText(), "text", 0);
+
+		int i;
+		if(sessions.Count > 1) {
+			string myHeaderString = "";
+			string [] stringFullResults;
+			for (i=0; i < sessions.Count ; i++) {
+				//we need to know the name of the column: session
+				stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+				myHeaderString = stringFullResults[1] + "\n" + 
+					stringFullResults[2] + "\n" + Catalog.GetString(columnsString[1]); //name, date, col name
+				treeview.AppendColumn (myHeaderString, new CellRendererText(), "text", i+1); 
+			}
+			//if multisession, add AVG and SD cols
+			treeview.AppendColumn (Catalog.GetString("AVG"), new CellRendererText(), "text", i+1); 
+			treeview.AppendColumn (Catalog.GetString("SD"), new CellRendererText(), "text", i+2);
+		} else {
+			treeview.AppendColumn (Catalog.GetString(columnsString[1]), new CellRendererText(), "text", 1); 
+			//if there's only one session, add extra data columns if needed
+			for(i=2 ; i <= dataColumns ; i++) {
+				treeview.AppendColumn (columnsString[i], new CellRendererText(), "text", i);
+			}
+		}
+	}
+	
+	protected TreeStore getStore (int columns)
+	{
+		//prepares the TreeStore for required columns
+		Type [] types = new Type [columns];
+		for (int i=0; i < columns; i++) {
+			types[i] = typeof (string);
+		}
+		TreeStore myStore = new TreeStore(types);
 		return myStore;
 	}
 	
-	protected virtual void createTreeView_stats () {
+	protected string obtainSessionSqlString(ArrayList sessions)
+	{
+		string newStr = "WHERE (";
+		for (int i=0; i < sessions.Count; i++) {
+			string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+			newStr = newStr + " sessionID == " + stringFullResults[0];
+			if (i+1 < sessions.Count) {
+				newStr = newStr + " OR ";
+			}
+		}
+		newStr = newStr + ") ";
+		return newStr;		
 	}
-
+	
 	public virtual void RemoveHeaders() {
 	}
 
 	public virtual void prepareData () {
 	}
 
-	protected virtual void printData (string a, string b, string c) {
+	//called before ProcessDataSimpleSession, 
+	//used for deleting rows dont wanted by the statsJumpsType 0 and 1 values
+	protected ArrayList cleanDontWanted (ArrayList startJumps, int statsJumpsType, int limit)
+	{
+		int i;
+		ArrayList endJumps = new ArrayList(2);
+		string [] stringFullResults;
+		ArrayList arrayJumpers = new ArrayList(2);
+		
+		for (i=0 ; i < startJumps.Count ; i ++) 
+		{
+			stringFullResults = startJumps[i].ToString().Split(new char[] {':'});
+
+			//if limited number of total jumps and we reached:
+			if (statsJumpsType == 1 && i >= limit) {
+				break;
+			}
+			//if only 'n' jumps by person and we reached:
+			else if (statsJumpsType == 2) {
+				if (nFoundInArray (stringFullResults[0], arrayJumpers, limit)) {
+					continue;
+				} else {
+					arrayJumpers.Add(stringFullResults[0]);
+				}
+			}
+			//accept this row
+			endJumps.Add(startJumps[i]);
+		}
+		return endJumps;
 	}
+
+	//one column by each dataColumn returned by SQL
+	protected void processDataSimpleSession (ArrayList arrayFromSql, bool makeAVGSD, int dataColumns) 
+	{
+		string [] rowFromSql = new string [dataColumns +1];
+		double [] sumValue = new double [dataColumns +1];
+		double [] sumSquaredValue = new double [dataColumns +1];
+		int i;
+
+		//process all SQL results line x line
+		for (i=0 ; i < arrayFromSql.Count ; i ++) {
+			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
+			for (int j=1; j <= dataColumns ; j++) {
+				if(makeAVGSD) {
+					sumValue[j] += Convert.ToDouble(rowFromSql[j]);
+					sumSquaredValue[j] += makeSquare(rowFromSql[j]);
+				}
+				rowFromSql[j] = trimDecimals(rowFromSql[j]);
+			}
+			//Console.WriteLine("r0 {0} r1 {1}", rowFromSql[0], rowFromSql[1]);
+			printData( rowFromSql );
+		}
+		//only show the row if sqlite returned values
+		if(i > 0)
+		{
+			if(makeAVGSD) {
+				//printData accepts two cols: name, values (values separated again by ':')
+				string [] sendAVG = new string [dataColumns +1];
+				string [] sendSD = new string [dataColumns +1];
+
+				sendAVG[0] = Catalog.GetString("AVG");
+				sendSD[0] =  Catalog.GetString("SD");
+
+				for (int j=1; j <= dataColumns; j++) {
+					sendAVG[j] = trimDecimals( (sumValue[j] /i).ToString() );
+					sendSD[j] = trimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], i) );
+				}
+				printData( sendAVG );
+				printData( sendSD );
+			}
+		}
+	}
+
+	//one column by each session returned by SQL
+	protected void processDataMultiSession (ArrayList arrayFromSql, bool makeAVGSD, int sessionsNum) 
+	{
+		string [] rowFromSql = new string [sessionsNum +1];
+		double [] sumValue = new double [sessionsNum +1];
+		double [] sumSquaredValue = new double [sessionsNum +1];
+		string [] sendRow = new string [sessionsNum +1];
+		//int [] countRows = new int [sessions.Count +1]; //count the number of valid cells (rows) for make the AVG
+		int [] countRows = new int [sessionsNum +1]; //count the number of valid cells (rows) for make the AVG
+		int i;
+		
+		//initialize values
+		for(int j=1; j< sessionsNum+1 ; j++) {
+			sendRow[j] = "-";
+			sumValue[j] = 0;
+			sumSquaredValue[j] = 0;
+			countRows[j] = 0;
+		}
+		string oldStat = "-1";
+	
+		//process all SQL results line x line
+		for (i=0 ; i < arrayFromSql.Count ; i ++) {
+			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
+
+			//if (sessionsNum == 1 || rowFromSql[0] != oldStat) {
+			if (rowFromSql[0] != oldStat) {
+				//print the values, except on the first iteration
+				if (i>0) {
+					printData( calculateRowAVGSD(sendRow) );
+				}
+				
+				//process another stat
+				sendRow[0] = rowFromSql[0]; //first value to send (the name of stat)
+				for(int j=1; j< sessionsNum+1 ; j++) {
+					sendRow[j] = "-";
+				}
+			}
+
+			for (int j=0; j < sessions.Count ; j++) {
+				string [] str = sessions[j].ToString().Split(new char[] {':'});
+				if(rowFromSql[1] == str[0]) { //if matches the session num
+					sendRow[j+1] = trimDecimals(rowFromSql[2]); //put value from sql in the desired pos of sendRow
+
+					if(makeAVGSD) {
+						sumValue[j+1] += Convert.ToDouble(rowFromSql[2]);
+						sumSquaredValue[j+1] += makeSquare(rowFromSql[2]);
+						countRows[j+1] ++;
+					}
+				}
+			}
+			oldStat = sendRow[0];
+		}
+		
+		//only show the row if sqlite returned values
+		if(i > 0)
+		{
+			printData( calculateRowAVGSD(sendRow) );
+
+			if(makeAVGSD) {
+				//printData accepts two cols: name, values (values separated again by ':')
+				string [] sendAVG = new string [sessions.Count +1];
+				string [] sendSD = new string [sessions.Count +1];
+
+				sendAVG[0] = Catalog.GetString("AVG");
+				sendSD[0] =  Catalog.GetString("SD");
+
+				for (int j=1; j <= sessions.Count; j++) {
+					if(countRows[j] > 0) {
+						sendAVG[j] = trimDecimals( (sumValue[j] /countRows[j]).ToString() );
+						if(countRows[j] > 1) {
+							sendSD[j] = trimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], countRows[j]) );
+						} else {
+							sendSD[j] = "-";
+						}
+						//Console.WriteLine("sumValue: {0}, sumSquaredValue: {1}, countRows[j]: {2}, j: {3}", 
+						//		sumValue[j], sumSquaredValue[j], countRows[j], j);
+					} else {
+						sendAVG[j] = "-";
+						sendSD[j] = "-";
+					}
+				}
+				printData( calculateRowAVGSD(sendAVG) );
+				printData( calculateRowAVGSD(sendSD) );
+			}
+		}
+			
+	}
+
+	//returns a row with it's AVG and SD in last two columns
+	protected string [] calculateRowAVGSD(string [] rowData) 
+	{
+		string [] rowReturn = new String[sessions.Count +3];
+		int count =0;
+		double sumValue = 0;
+		double sumSquaredValue = 0;
+	
+		if(sessions.Count > 1) {
+			int i=0;
+			for (i=0; i < sessions.Count + 1; i++) {
+				rowReturn[i] = rowData[i];
+				if(i>0 && rowReturn[i] != "-") { //first column is text
+					count++;
+					sumValue += Convert.ToDouble(rowReturn[i]); 
+					sumSquaredValue += makeSquare(rowReturn[i]); 
+				}
+			}
+			if(count > 0) {
+				rowReturn[i] = trimDecimals( (sumValue /count).ToString() );
+				if(count > 1) {
+					rowReturn[i+1] = trimDecimals( calculateSD(sumValue, sumSquaredValue, count) );
+				} else {
+					rowReturn[i+1] = "-";
+				}
+			} else {
+				rowReturn[i] = "-";
+				rowReturn[i+1] = "-";
+			}
+					
+			return rowReturn;
+		} else {
+			return rowData;
+		}
+	}
+		
+	protected virtual void printData (string [] statValues) 
+	{
+			iter = store.AppendValues (statValues); 
+	}
+
 
 	//public virtual string ObtainEnunciate () {
 	//}
@@ -117,6 +364,7 @@ public class Stat
 	protected static string trimDecimals (string time) {
 		//the +2 is a workarround for not counting the two first characters: "0."
 		//this will not work with the fall
+		
 		return time.Length > prefsDigitsNumber + 2 ? 
 			time.Substring( 0, prefsDigitsNumber + 2 ) : 
 				time;
@@ -129,8 +377,28 @@ public class Stat
 	}
 	
 	protected static string calculateSD(double sumValues, double sumSquaredValues, int count) {
-		return (System.Math.Sqrt(
-				sumSquaredValues -(sumValues*sumValues/count) / (count -1) )).ToString();
+		if(count >1) {
+			return (System.Math.Sqrt(
+					sumSquaredValues -(sumValues*sumValues/count) / (count -1) )).ToString();
+		} else {
+			return "-";
+		}
+	}
+	
+	//true if found equal or more than 'limit' occurrences of 'searching' in array
+	protected static bool nFoundInArray (string searching, ArrayList myArray, int limit) 
+	{
+		int count = 0;
+		for (int i=0; i< myArray.Count && count <= limit ; i ++) {
+			//Console.WriteLine("searching {0}, myArray[i] {1}, limit {2}", searching, myArray[i], limit);
+			if (searching == myArray[i].ToString()) {
+				count ++;
+			}
+		}
+		if(count >= limit) {
+			return true;
+		}
+		return false;
 	}
 	
 	public virtual void RemoveColumns() {
@@ -155,146 +423,24 @@ public class Stat
 		}
 	}
 
-
 	~Stat() {}
-
 }
 
-
-public class StatSjCmjAbk : Stat
-{
-	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
-	public StatSjCmjAbk () 
-	{
-		this.sessionName = "";
-		this.sexSeparated = false;
-		this.limit = 0;
-		this.operation = "MAX";
-	}
-
-	public StatSjCmjAbk (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, string jumpType, bool sexSeparated, bool max, int limit) 
-	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
-		this.jumpType = jumpType;
-		this.limit = limit;
-		if (max) {
-			this.operation = "MAX";
-		} else {
-			this.operation = "AVG";
-		}
-	}
-
-	protected override TreeStore getStore ()
-	{
-		//statName, person (sex), tv
-		TreeStore myStore = new TreeStore(typeof (string), typeof (string), typeof(string));
-		return myStore;
-	}
-	
-	protected override void createTreeView_stats () {
-		treeview.HeadersVisible=true;
-		int count =0;
-
-		treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
-		treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person(sex)
-		treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
-	}
-	
-	
-	public override void prepareData () 
-	{
-		ArrayList myArray; 
-		bool index = false;
-		if (limit > 0) {
-			//classify by jumps
-			myArray = Sqlite.StatOneJumpJumps(sessionUniqueID, jumpType, index, sexSeparated, limit);
-		} else {
-			//classify by jumpers
-			myArray = Sqlite.StatOneJumpJumpers(sessionUniqueID, jumpType, sexSeparated, operation);
-		}
-	
-		string [] stringFullResults;
-		int secondCount = 0;
-		bool firstGirl = true;
-		string myTv = "";
-		double sumTv = 0;
-		double sumSquaredTv = 0;
-		int i=0;
-		
-		for (i=0 ; i < myArray.Count ; i ++) {
-			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
-
-			if(firstGirl && sexSeparated && stringFullResults[2] == "F") {
-				secondCount = i;
-				firstGirl = false;
-			}
-			
-			if (jumpType == "SJ+") {
-				myTv = trimDecimals (stringFullResults[0]) + "(" + 
-					stringFullResults[3] + ")" ; //weight
-			} else {
-				myTv = trimDecimals (stringFullResults[0]) ;
-			}
-			
-			printData ( (i-secondCount+1).ToString() , 
-					stringFullResults[1] + "(" + stringFullResults[2] + ")", myTv );
-
-			sumTv += Convert.ToDouble(stringFullResults[0]);
-			sumSquaredTv += makeSquare(stringFullResults[0]);
-		}
-		
-		printData ( "", "", "");
-		printData ( "AVG"  , "", trimDecimals((sumTv/i).ToString()) );
-		printData ( "SD"  , "", trimDecimals(
-					calculateSD(sumTv, sumSquaredTv, i)) );
-	}
-
-	protected override void printData (string row, string person, string tv) 
-	{
-			iter = store.AppendValues (row, person, tv); 
-	}
-	
-	public override string ToString () 
-	{
-		string operationString = "";
-		if ( this.operation == "MAX" ) { 
-			operationString =  Catalog.GetString ("by MAX flight time values "); 
-		}
-		else { operationString =  Catalog.GetString ("by AVG flight time values "); }
-
-		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString =  Catalog.GetString ("sorted by sex"); }
-	
-		string inJump =  Catalog.GetString (" in ") + jumpType +  Catalog.GetString (" jump ");
-		string inSession =  Catalog.GetString (" in '") + sessionName +  Catalog.GetString ("' session ");
-		
-		if ( this.limit == 0 ) { 
-			return  Catalog.GetString ("Rank of jumpers ") + operationString + 
-				inJump + inSession + sexSeparatedString + "."; 
-		}
-		else { 
-			return  Catalog.GetString ("Selection of the ") + this.limit + 
-				 Catalog.GetString (" MAX values of flight time ") + inJump + inSession + "."; 
-		}
-	}
-
-}
-
-
+/*
 public class StatDjTv : Stat
 {
 	
 	public StatDjTv () 
 	{
 		this.sessionName = "";
-		this.sexSeparated = false;
+		this.showSex = false;
 		this.limit = 0;
 		this.operation = "MAX";
 	}
 	
-	public StatDjTv (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max, int limit) 
+	public StatDjTv (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool showSex, bool max, int limit) 
 	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
+		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, showSex);
 		this.limit = limit;
 		if (max) {
 			this.operation = "MAX";
@@ -325,15 +471,15 @@ public class StatDjTv : Stat
 	{
 		string jumpType = "DJ";
 
-		//ArrayList myArray = Sqlite.StatClassificationOneJump(sessionUniqueID, jumpType, sexSeparated);
+		//ArrayList myArray = Sqlite.StatClassificationOneJump(sessionUniqueID, jumpType, showSex);
 		ArrayList myArray; 
 		bool index = false;
 		if (limit > 0) {
 			//classify by jumps
-			myArray = Sqlite.StatOneJumpJumps(sessionUniqueID, jumpType, index, sexSeparated, limit);
+			myArray = Sqlite.StatOneJumpJumps(sessionUniqueID, jumpType, index, showSex, limit);
 		} else {
 			//classify by jumpers
-			myArray = Sqlite.StatOneJumpJumpersDj(sessionUniqueID, index, sexSeparated, operation);
+			myArray = Sqlite.StatOneJumpJumpersDj(sessionUniqueID, index, showSex, operation);
 		}
 	
 		
@@ -352,7 +498,7 @@ public class StatDjTv : Stat
 		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
-			if(firstGirl && sexSeparated && stringFullResults[2] == "F") {
+			if(firstGirl && showSex && stringFullResults[2] == "F") {
 				secondCount = i;
 				firstGirl = false;
 			}
@@ -395,14 +541,14 @@ public class StatDjTv : Stat
 		}
 		else { operationString =  Catalog.GetString ("by AVG flight time values "); }
 
-		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString =  Catalog.GetString ("sorted by sex"); }
+		string showSexString = "";
+		if (this.showSex) { showSexString =  Catalog.GetString ("sorted by sex"); }
 	
 		string inJump =  Catalog.GetString (" in ") + jumpType +  Catalog.GetString (" jump ");
 		string inSession =  Catalog.GetString (" in '") + sessionName +  Catalog.GetString ("' session ");
 		
 		if ( this.limit == 0 ) { 
-			return  Catalog.GetString ("Rank of jumpers ") + operationString + inJump + inSession + sexSeparatedString + "."; 
+			return  Catalog.GetString ("Rank of jumpers ") + operationString + inJump + inSession + showSexString + "."; 
 		}
 		else { 
 			return  Catalog.GetString ("Selection of the ") + this.limit + 
@@ -421,14 +567,14 @@ public class StatDjIndex : Stat
 	{
 		//this.sessionName = "unnamed";
 		this.sessionName = "";
-		this.sexSeparated = false;
+		this.showSex = false;
 		this.limit = 0;
 		this.operation = "MAX";
 	}
 	
-	public StatDjIndex (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max, int limit) 
+	public StatDjIndex (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool showSex, bool max, int limit) 
 	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
+		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, showSex);
 		this.jumpType = jumpType;
 		this.limit = limit;
 		if (max) {
@@ -465,10 +611,10 @@ public class StatDjIndex : Stat
 		bool index = true;
 		if (limit > 0) {
 			//classify by jumps
-			myArray = Sqlite.StatOneJumpJumps(sessionUniqueID, jumpType, index, sexSeparated, limit);
+			myArray = Sqlite.StatOneJumpJumps(sessionUniqueID, jumpType, index, showSex, limit);
 		} else {
 			//classify by jumpers
-			myArray = Sqlite.StatOneJumpJumpersDj(sessionUniqueID, index, sexSeparated, operation);
+			myArray = Sqlite.StatOneJumpJumpersDj(sessionUniqueID, index, showSex, operation);
 		}
 
 		int secondCount = 0;
@@ -488,7 +634,7 @@ public class StatDjIndex : Stat
 		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
-			if(firstGirl && sexSeparated && stringFullResults[2] == "F") {
+			if(firstGirl && showSex && stringFullResults[2] == "F") {
 				secondCount = i;
 				firstGirl = false;
 			}
@@ -546,18 +692,18 @@ public class StatDjIndex : Stat
 		}
 		else { operationString = Catalog.GetString("by AVG values of index: ") + indexString ; }
 
-		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
+		string showSexString = "";
+		if (this.showSex) { showSexString = Catalog.GetString("sorted by sex"); }
 
 		string inJump = Catalog.GetString(" in ") + jumpType + Catalog.GetString(" jump ");
 		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
 		
 		if ( this.limit == 0 ) { 
-			return Catalog.GetString("Rank of jumpers ") + operationString + inJump + inSession + sexSeparatedString + "."; 
+			return Catalog.GetString("Rank of jumpers ") + operationString + inJump + inSession + showSexString + "."; 
 		}
 		else { 
 			return Catalog.GetString("Selection of the ") + this.limit + 
-				Catalog.GetString(" MAX values of flight time ") + inJump + inSession + "."; 
+				Catalog.GetString(" MAX values of ") + indexString + inJump + inSession + "."; 
 		}
 	}
 }
@@ -576,14 +722,14 @@ public class StatRjIndex : StatDjIndex
 	{
 		//this.sessionName = "unnamed";
 		this.sessionName = "";
-		this.sexSeparated = false;
+		this.showSex = false;
 		this.limit = 0;
 		this.operation = "MAX";
 	}
 	
-	public StatRjIndex (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max, int limit) 
+	public StatRjIndex (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool showSex, bool max, int limit) 
 	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
+		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, showSex);
 		this.jumpType = jumpType;
 		this.limit = limit;
 		if (max) {
@@ -614,10 +760,10 @@ public class StatRjIndex : StatDjIndex
 		bool index = true;
 		if (limit > 0) {
 			//classify by jumps
-			myArray = Sqlite.StatRjJumps(sessionUniqueID, sexSeparated, limit);
+			myArray = Sqlite.StatRjJumps(sessionUniqueID, showSex, limit);
 		} else {
 			//classify by jumpers
-			myArray = Sqlite.StatOneJumpJumpersRj(sessionUniqueID, sexSeparated, operation);
+			myArray = Sqlite.StatOneJumpJumpersRj(sessionUniqueID, showSex, operation);
 		}
 
 		int secondCount = 0;
@@ -637,7 +783,7 @@ public class StatRjIndex : StatDjIndex
 		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
-			if(firstGirl && sexSeparated && stringFullResults[2] == "F") {
+			if(firstGirl && showSex && stringFullResults[2] == "F") {
 				secondCount = i;
 				firstGirl = false;
 			}
@@ -685,19 +831,19 @@ public class StatRjIndex : StatDjIndex
 		}
 		else { operationString = Catalog.GetString("by AVG values of index: ") + indexString ; }
 
-		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
+		string showSexString = "";
+		if (this.showSex) { showSexString = Catalog.GetString("sorted by sex"); }
 	
 		string bySubjumps = Catalog.GetString(" using AVG of its subjumps ");
 		string inJump = Catalog.GetString(" in ") + jumpType + Catalog.GetString(" jump ");
 		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
 		
 		if ( this.limit == 0 ) { 
-			return Catalog.GetString("Rank of jumpers ") + operationString + + bySubjumps + inSession + sexSeparatedString + "."; 
+			return Catalog.GetString("Rank of jumpers ") + operationString + + bySubjumps + inSession + showSexString + "."; 
 		}
 		else { 
 			return Catalog.GetString("Selection of the ") + this.limit + 
-				Catalog.GetString(" MAX values of flight time ") + inJump + bySubjumps + inSession + "."; 
+				Catalog.GetString(" MAX values of ") + indexString + inJump + bySubjumps + inSession + "."; 
 		}
 	}
 }
@@ -707,9 +853,9 @@ public class StatRjIndex : StatDjIndex
 public class StatPotencyAguado : Stat
 {
 	
-	public StatPotencyAguado (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max, int limit) 
+	public StatPotencyAguado (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool showSex, bool max, int limit) 
 	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
+		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, showSex);
 		this.jumpType = jumpType;
 		this.limit = limit;
 		if (max) {
@@ -744,10 +890,10 @@ public class StatPotencyAguado : Stat
 		bool index = true;
 		if (limit > 0) {
 			//classify by jumps
-			myArray = Sqlite.StatRjPotencyAguadoJumps(sessionUniqueID, sexSeparated, limit);
+			myArray = Sqlite.StatRjPotencyAguadoJumps(sessionUniqueID, showSex, limit);
 		} else {
 			//classify by jumpers
-			myArray = Sqlite.StatOneJumpJumpersRjPotencyAguado(sessionUniqueID, sexSeparated, operation);
+			myArray = Sqlite.StatOneJumpJumpersRjPotencyAguado(sessionUniqueID, showSex, operation);
 		}
 
 		int secondCount = 0;
@@ -773,7 +919,7 @@ public class StatPotencyAguado : Stat
 									//(double because if we are searching AVG, can return double values
 				Convert.ToDouble(stringFullResults[4]); //tvAvg
 
-			if(firstGirl && sexSeparated && stringFullResults[1] == "F") {
+			if(firstGirl && showSex && stringFullResults[1] == "F") {
 				secondCount = i;
 				firstGirl = false;
 			}
@@ -824,18 +970,18 @@ public class StatPotencyAguado : Stat
 		}
 		else { operationString = Catalog.GetString("by AVG values of index: ") + indexString ; }
 
-		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
+		string showSexString = "";
+		if (this.showSex) { showSexString = Catalog.GetString("sorted by sex"); }
 
 		string inJump = Catalog.GetString(" in ") + jumpType + Catalog.GetString(" jump ");
 		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
 		
 		if ( this.limit == 0 ) { 
-			return Catalog.GetString("Rank of jumpers ") + operationString + inJump + inSession + sexSeparatedString + "."; 
+			return Catalog.GetString("Rank of jumpers ") + operationString + inJump + inSession + showSexString + "."; 
 		}
 		else { 
 			return Catalog.GetString("Selection of the ") + this.limit + 
-				Catalog.GetString(" MAX values of flight time ") + inJump + inSession + "."; 
+				Catalog.GetString(" MAX values of ") + indexString + inJump + inSession + "."; 
 		}
 	}
 }
@@ -854,13 +1000,13 @@ public class StatIE : Stat
 	public StatIE () 
 	{
 		this.sessionName = "";
-		this.sexSeparated = false;
+		this.showSex = false;
 		this.operation = "MAX";
 	}
 
-	public StatIE (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max) 
+	public StatIE (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool showSex, bool max) 
 	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
+		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, showSex);
 	
 		jump1Name = "SJ";
 		jump2Name = "CMJ";
@@ -894,7 +1040,7 @@ public class StatIE : Stat
 	
 	public override void prepareData () 
 	{
-		ArrayList myArray = Sqlite.StatClassificationIeIub(sessionUniqueID, indexName, operation, sexSeparated);
+		ArrayList myArray = Sqlite.StatClassificationIeIub(sessionUniqueID, indexName, operation, showSex);
 
 		int secondCount = 0;
 		bool firstGirl = true;
@@ -911,7 +1057,7 @@ public class StatIE : Stat
 		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
-			if(firstGirl && sexSeparated && stringFullResults[4] == "F") {
+			if(firstGirl && showSex && stringFullResults[4] == "F") {
 				secondCount = i;
 				firstGirl = false;
 			}
@@ -954,13 +1100,13 @@ public class StatIE : Stat
 		}
 		else { operationString = Catalog.GetString("by AVG values of index '") + indexNameString + "': " + indexValueString ; }
 
-		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
+		string showSexString = "";
+		if (this.showSex) { showSexString = Catalog.GetString("sorted by sex"); }
 	
 		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
 
 		if ( this.limit == 0 ) { 
-			return Catalog.GetString("Rank of jumpers") + operationString + inSession + sexSeparatedString + "."; 
+			return Catalog.GetString("Rank of jumpers") + operationString + inSession + showSexString + "."; 
 		}
 		else { 
 			return Catalog.GetString("Selection of the ") + this.limit + 
@@ -978,14 +1124,14 @@ public class StatIUB : StatIE
 	//{
 	//	this.sessionName = "unnamed";
 		//this.sessionName = "";
-		//this.sexSeparated = false;
+		//this.showSex = false;
 		//this.operation = "MAX";
 	//}
 
 	
-	public StatIUB (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max) 
+	public StatIUB (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool showSex, bool max) 
 	{
-		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
+		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, showSex);
 		
 		jump1Name = "CMJ";
 		jump2Name = "ABK";
@@ -1011,273 +1157,4 @@ public class StatIUB : StatIE
 		treeview.AppendColumn ("ABK TV", new CellRendererText(), "text", count++);
 	}
 }
-
-public class StatGlobal : Stat
-{
-	protected int personID;
-	protected string personName;
-	//protected ArrayList sessions;
-	
-	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
-	/*
-	public StatGlobal () 
-	{
-		this.sessionName = "";
-		this.sexSeparated = false;
-		this.operation = "MAX";
-	}
-	*/
-
-	//public StatGlobal (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int personID, string personName, int newPrefsDigitsNumber, bool sexSeparated, bool max) 
-	public StatGlobal (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool sexSeparated, bool max) 
-	{
-		completeConstruction2 (treeview, sessions, personID, personName, newPrefsDigitsNumber, sexSeparated);
-		this.jumpType = jumpType;
-		this.sexSeparated = sexSeparated;
-		if (max) {
-			this.operation = "MAX";
-		} else {
-			this.operation = "AVG";
-		}
-	}
-
-	protected void completeConstruction2 (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool sexSeparated)
-	{
-		//this.sessionUniqueID = sessionUniqueID;
-		
-		//FIXME: change this value, it only serves for knowing it there's a previous stat and removing it
-		this.sessionName = "global multi";
-		
-		
-		this.treeview = treeview;
-		prefsDigitsNumber = newPrefsDigitsNumber;
-		this.sexSeparated = sexSeparated;
-		this.personID = personID;
-		this.personName = personName;
-		this.sessions = sessions;
-
-		//store = getStore2(sessions.Count +1);
-		if(sessions.Count > 1) {
-			store = getStore2(sessions.Count +3); //+3 (for the statName, the AVG horizontal and SD horizontal
-		} else {
-			store = getStore2(sessions.Count +1);
-		}
-		treeview.Model = store;
-
-		iter = new TreeIter();
-	}
-
-	protected TreeStore getStore2 (int columns)
-	{
-		//prepares the TreeStore for de required columns
-		Type [] types = new Type [columns];
-		for (int i=0; i < columns; i++) {
-			types[i] = typeof (string);
-		}
-		TreeStore myStore = new TreeStore(types);
-		return myStore;
-	}
-	
-	protected string obtainSessionSqlString(ArrayList sessions)
-	{
-		string newStr = "WHERE (";
-		for (int i=0; i < sessions.Count; i++) {
-			string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
-			newStr = newStr + " sessionID == " + stringFullResults[0];
-			if (i+1 < sessions.Count) {
-				newStr = newStr + " OR ";
-			}
-		}
-		newStr = newStr + ") ";
-		return newStr;		
-	}
-	
-	public override void prepareData() 
-	{
-		treeview.HeadersVisible=true;
-		treeview.AppendColumn (Catalog.GetString("Jump"), new CellRendererText(), "text", 0);
-
-		string headerString = "";
-		string [] stringFullResults;
-		
-		for (int i=0; i < sessions.Count ; i++) {
-			//we need to know the name of the column: session
-			stringFullResults = sessions[i].ToString().Split(new char[] {':'});
-			headerString = stringFullResults[1] + "\n" + stringFullResults[2]; //name, date
-			//Console.WriteLine("headerString: {0}", headerString);
-			treeview.AppendColumn (Catalog.GetString(headerString), new CellRendererText(), "text", i+1); 
-		}
-		if(sessions.Count > 1) {
-			treeview.AppendColumn (Catalog.GetString("AVG"), new CellRendererText(), "text", sessions.Count +1); 
-			treeview.AppendColumn (Catalog.GetString("SD"), new CellRendererText(), "text", sessions.Count +2); 
-		}
-
-		string sessionString = obtainSessionSqlString(sessions);
-				
-		//last value: number of sessions
-		processData ( Sqlite.StatGlobalNormal(sessionString, operation, sexSeparated, personID), 
-				true, sessions.Count );
-		processData ( Sqlite.StatGlobalOthers("DjIndex", "(100*((tv-tc)/tc))", "jump", "DJ", 
-					sessionString, operation, sexSeparated, personID),
-				false, sessions.Count );
-		processData ( Sqlite.StatGlobalOthers("RjIndex", "(100*((tvavg-tcavg)/tcavg))", "jumpRj", "RJ", 
-					sessionString, operation, sexSeparated, personID),
-				false, sessions.Count );
-		processData ( Sqlite.StatGlobalOthers("RjPotency", 
-					"(9.81*9.81 * tvavg*jumps * time / (4*jumps*(time - tvavg*jumps)) )", "jumpRj", "RJ", 
-					sessionString, operation, sexSeparated, personID),
-				false, sessions.Count );
-	}
-	
-	//prepared for multisession
-	public void processData (ArrayList arrayFromSql, bool makeAVGSD, int sessionsNum) 
-	{
-		string [] rowFromSql = new string [sessionsNum +1];
-		double [] sumValue = new double [sessionsNum +1];
-		double [] sumSquaredValue = new double [sessionsNum +1];
-		string [] sendRow = new string [sessionsNum +1];
-		int [] countRows = new int [sessions.Count +1]; //count the number of valid cells (rows) for make the AVG
-		int i;
-		
-		//initialize values
-		for(int j=1; j< sessionsNum+1 ; j++) {
-			sendRow[j] = "-";
-			sumValue[j] = 0;
-			sumSquaredValue[j] = 0;
-			countRows[j] = 0;
-		}
-		string oldStat = "-1";
-	
-		//process all SQL results line x line
-		for (i=0 ; i < arrayFromSql.Count ; i ++) {
-			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
-
-			if (rowFromSql[0] != oldStat) {
-				//print the values, except on the first iteration
-				if (i>0) {
-					printData( calculateRowAVGSD(sendRow) );
-				}
-				
-				//process another stat
-				sendRow[0] = rowFromSql[0]; //first value to send (the name of stat)
-				for(int j=1; j< sessionsNum+1 ; j++) {
-					sendRow[j] = "-";
-				}
-			}
-
-			for (int j=0; j < sessions.Count ; j++) {
-				string [] str = sessions[j].ToString().Split(new char[] {':'});
-				if(rowFromSql[1] == str[0]) { //if matches the session num
-					sendRow[j+1] = trimDecimals(rowFromSql[2]); //put value from sql in the desired pos of sendRow
-
-					if(makeAVGSD) {
-						sumValue[j+1] += Convert.ToDouble(rowFromSql[2]);
-						sumSquaredValue[j+1] += makeSquare(rowFromSql[2]);
-						countRows[j+1] ++;
-					}
-				}
-			}
-			oldStat = sendRow[0];
-		}
-					
-		printData( calculateRowAVGSD(sendRow) );
-
-		if(makeAVGSD) {
-			//printData accepts two cols: name, values (values separated again by ':')
-			string [] sendAVG = new string [sessions.Count +1];
-			string [] sendSD = new string [sessions.Count +1];
-			
-			sendAVG[0] = Catalog.GetString("AVG");
-			sendSD[0] =  Catalog.GetString("SD");
-			
-			for (int j=1; j <= sessions.Count; j++) {
-				if(countRows[j] > 0) {
-					sendAVG[j] = trimDecimals( (sumValue[j] /countRows[j]).ToString() );
-					if(countRows[j] > 1) {
-						sendSD[j] = trimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], countRows[j]) );
-					} else {
-						sendSD[j] = "-";
-					}
-					//Console.WriteLine("sumValue: {0}, sumSquaredValue: {1}, countRows[j]: {2}, j: {3}", 
-					//		sumValue[j], sumSquaredValue[j], countRows[j], j);
-				} else {
-					sendAVG[j] = "-";
-					sendSD[j] = "-";
-				}
-			}
-			printData( calculateRowAVGSD(sendAVG) );
-			printData( calculateRowAVGSD(sendSD) );
-		}
-			
-	}
-
-	//returns a row with it's AVG and SD in last two columns
-	protected string [] calculateRowAVGSD(string [] rowData) 
-	{
-		string [] rowReturn = new String[sessions.Count +3];
-		int count =0;
-		double sumValue = 0;
-		double sumSquaredValue = 0;
-	
-		if(sessions.Count > 1) {
-			int i=0;
-			for (i=0; i < sessions.Count + 1; i++) {
-				rowReturn[i] = rowData[i];
-				if(i>0 && rowReturn[i] != "-") { //first column is text
-					count++;
-					sumValue += Convert.ToDouble(rowReturn[i]); 
-					sumSquaredValue += makeSquare(rowReturn[i]); 
-				}
-			}
-			if(count > 0) {
-				rowReturn[i] = trimDecimals( (sumValue /count).ToString() );
-				if(count > 1) {
-					rowReturn[i+1] = trimDecimals( calculateSD(sumValue, sumSquaredValue, count) );
-				} else {
-					rowReturn[i+1] = "-";
-				}
-			} else {
-				rowReturn[i] = "-";
-				rowReturn[i+1] = "-";
-			}
-					
-			return rowReturn;
-		} else {
-			return rowData;
-		}
-	}
-		
-	protected void printData (string [] statValues) 
-	{
-			iter = store.AppendValues (statValues); 
-	}
-
-	public override string ToString () 
-	{
-		string personString = "";
-		if (personID != -1) {
-			personString = Catalog.GetString(" of '") + personName + Catalog.GetString("' jumper");
-		}
-			
-		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = " " + Catalog.GetString("sorted by sex"); }
-		
-		string inSessions = Catalog.GetString(" in sessions: ");
-		for (int i=0; i < sessions.Count ;i++) {
-			string [] str = sessions[i].ToString().Split(new char[] {':'});
-			inSessions = inSessions + "'" + str[1] + "' (" + str[2] + ")";
-			if(i + 1 < sessions.Count) {
-				inSessions = inSessions + ", ";
-			}
-		}
-	
-		if ( this.operation == "MAX" ) { 
-			return Catalog.GetString("MAX values of some jumps and statistics") + personString + inSessions + sexSeparatedString + "."  ; 
-		} else {
-			return Catalog.GetString("AVG values of some jumps and statistics") + personString + inSessions + sexSeparatedString + "."  ; 
-		}
-	}
-	
-}
-
-
+*/

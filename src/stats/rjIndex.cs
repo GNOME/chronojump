@@ -30,7 +30,6 @@ public class StatRjIndex : Stat
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatRjIndex () 
 	{
-		this.sessionName = "";
 		this.showSex = false;
 		this.statsJumpsType = 0;
 		this.limit = 0;
@@ -38,7 +37,6 @@ public class StatRjIndex : Stat
 
 	public StatRjIndex (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
-		this.sessionName = "nothing";
 		this.dataColumns = 4;	//for simplesession (index, tv (avg), tc (avg), fall)
 		this.limit = limit;
 		

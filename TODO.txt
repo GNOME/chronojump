@@ -8,6 +8,8 @@ graphs:
 	study licensing problems of NPlot or how to include it
 	put a button for refreshing the graph
 	make graphs for all stats
+	preferences of graph colors for 20 values, and store it in sqlite
+	write statsJumpsType option in graph title
 
 exportCSV
 

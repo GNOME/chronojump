@@ -33,7 +33,6 @@ public class StatSjCmjAbkPlus : Stat
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatSjCmjAbkPlus () 
 	{
-		this.sessionName = "";
 		this.showSex = false;
 		this.statsJumpsType = 0;
 		this.limit = 0;
@@ -41,7 +40,6 @@ public class StatSjCmjAbkPlus : Stat
 
 	public StatSjCmjAbkPlus (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit, bool percent) 
 	{
-		this.sessionName = "nothing";
 		this.dataColumns = 2;	//for simplesession (tv, weight)
 		this.jumpType = jumpType;
 		this.limit = limit;

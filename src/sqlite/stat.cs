@@ -54,7 +54,7 @@ class SqliteStat : Sqlite
 			" AND jump.type == '" + jumpType + "' " +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
-			orderByString + " jump.tv DESC ";
+			orderByString + ini + "jump.tv" + end + " DESC ";
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -108,7 +108,7 @@ class SqliteStat : Sqlite
 			" AND jump.type == '" + jumpType + "' " +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
-			orderByString + " jump.tv DESC ";
+			orderByString + ini + "jump.tv" + end + " DESC ";
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -197,7 +197,7 @@ class SqliteStat : Sqlite
 			" AND jump.type == 'DJ' " +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
-			orderByString + " jump.tv DESC ";
+			orderByString + ini + "jump.tv" + end + " DESC ";
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -261,7 +261,7 @@ class SqliteStat : Sqlite
 			" AND jump.type == 'DJ' " +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
-			orderByString + " dj_index DESC, jump.tv DESC ";
+			orderByString + " dj_index DESC, " + ini + "jump.tv" + end + " DESC ";
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

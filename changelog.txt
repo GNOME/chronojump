@@ -1,4 +1,10 @@
 CHANGELOG:
+	graph code inherits from stats/main.cs
+	added sjCmjAbk graph
+	fixed bug in stats sorting when AVG is selected
+	fixed bug in removing stats columns after a graph was shown
+	colors in multisesion graphs are created now randomly
+
 28 february 2005
 	fixed gtk# garbage collector bug in nplot graphs
 	fixed bug in graphs with sex

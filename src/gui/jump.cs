@@ -42,7 +42,7 @@ public class EditJumpWindow
 	[Widget] Gtk.Label label_tc_value;
 	[Widget] Gtk.Label label_fall_value;
 	[Widget] Gtk.Label label_weight_value;
-	[Widget] Gtk.Label label_limited_value;
+	//[Widget] Gtk.Label label_limited_value;
 	[Widget] Gtk.Box hbox_combo;
 	[Widget] Gtk.Combo combo_jumpers;
 	[Widget] Gtk.TextView textview_description;
@@ -82,18 +82,13 @@ public class EditJumpWindow
 	
 		label_fall_value.Text = "0";
 		label_weight_value.Text = "0";
-		label_limited_value.Text = "0";
+		//label_limited_value.Text = "0";
 		
 		if(myJump.Type == "SJ+") {
 			label_weight_value.Text = myJump.Weight.ToString();
 		} else if (myJump.Type == "DJ") {
 			label_fall_value.Text = myJump.Fall.ToString();
-		} else if (myJump.Type == "RJ") {
-			label_limited_value.Text = myJump.Limited.ToString();
-			//future: RJ with weight and/or fall
-			//label_fall_value.Text = myJump.Fall.ToString();
-			//label_weight_value.Text = myJump.Weight.ToString();
-		}
+		} 
 
 		this.type = myJump.Type;
 
@@ -136,14 +131,122 @@ public class EditJumpWindow
 		
 		string myDesc = textview_description.Buffer.Text;
 	
-		if (type == "RJ") {
-			SqliteJump.RjUpdate(jumpID, Convert.ToInt32 (myJumperFull[0]), myDesc);
-		} else {
-			SqliteJump.Update(jumpID, Convert.ToInt32 (myJumperFull[0]), myDesc);
-		}
+		SqliteJump.Update(jumpID, Convert.ToInt32 (myJumperFull[0]), myDesc);
 
 		EditJumpWindowBox.edit_jump.Hide();
 		EditJumpWindowBox = null;
+	}
+
+	public Button Button_accept 
+	{
+		set { button_accept = value;	}
+		get { return button_accept;	}
+	}
+
+}
+
+public class EditJumpRjWindow 
+{
+	[Widget] Gtk.Window edit_jump;
+	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Label label_jump_id_value;
+	[Widget] Gtk.Label label_type_value;
+	[Widget] Gtk.Label label_tv_value;
+	[Widget] Gtk.Label label_tc_value;
+	[Widget] Gtk.Label label_fall_value;
+	[Widget] Gtk.Label label_weight_value;
+	[Widget] Gtk.Label label_limited_value;
+	[Widget] Gtk.Box hbox_combo;
+	[Widget] Gtk.Combo combo_jumpers;
+	[Widget] Gtk.TextView textview_description;
+
+	static EditJumpRjWindow EditJumpRjWindowBox;
+	Gtk.Window parent;
+	string type;
+
+	EditJumpRjWindow (Gtk.Window parent) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
+
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+	}
+	
+	static public EditJumpRjWindow Show (Gtk.Window parent, JumpRj myJump)
+	{
+		Console.WriteLine(myJump);
+		if (EditJumpRjWindowBox == null) {
+			EditJumpRjWindowBox = new EditJumpRjWindow (parent);
+		}
+		
+		EditJumpRjWindowBox.edit_jump.Show ();
+
+		EditJumpRjWindowBox.fillDialog (myJump);
+
+
+		return EditJumpRjWindowBox;
+	}
+	
+	private void fillDialog (JumpRj myJump)
+	{
+		label_jump_id_value.Text = myJump.UniqueID.ToString();
+		label_type_value.Text = myJump.Type;
+		label_tv_value.Text = myJump.Tv.ToString();
+		label_tc_value.Text = myJump.Tc.ToString();
+	
+		label_fall_value.Text = "0";
+		label_weight_value.Text = "0";
+		label_limited_value.Text = "0";
+		
+		label_limited_value.Text = myJump.Limited.ToString();
+		//future: RJ with weight and/or fall
+		//label_fall_value.Text = myJump.Fall.ToString();
+		//label_weight_value.Text = myJump.Weight.ToString();
+
+		this.type = myJump.Type;
+
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.SetText(myJump.Description);
+		textview_description.Buffer = tb;
+
+		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID);
+		combo_jumpers = new Combo();
+		combo_jumpers.PopdownStrings = jumpers;
+		foreach (string jumper in jumpers) {
+			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ": " + myJump.JumperName);
+			if (jumper == myJump.PersonID + ": " + myJump.JumperName) {
+				combo_jumpers.Entry.Text = jumper;
+			}
+		}
+		
+		hbox_combo.PackStart(combo_jumpers, true, true, 0);
+		hbox_combo.ShowAll();
+	
+	}
+		
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		EditJumpRjWindowBox.edit_jump.Hide();
+		EditJumpRjWindowBox = null;
+	}
+	
+	void on_edit_jump_delete_event (object o, EventArgs args)
+	{
+		EditJumpRjWindowBox.edit_jump.Hide();
+		EditJumpRjWindowBox = null;
+	}
+	
+	void on_button_accept_clicked (object o, EventArgs args)
+	{
+		int jumpID = Convert.ToInt32 ( label_jump_id_value.Text );
+		string myJumper = combo_jumpers.Entry.Text;
+		string [] myJumperFull = myJumper.Split(new char[] {':'});
+		
+		string myDesc = textview_description.Buffer.Text;
+	
+		SqliteJump.RjUpdate(jumpID, Convert.ToInt32 (myJumperFull[0]), myDesc);
+
+		EditJumpRjWindowBox.edit_jump.Hide();
+		EditJumpRjWindowBox = null;
 	}
 
 	public Button Button_accept 

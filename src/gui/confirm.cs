@@ -28,7 +28,7 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 
 
-public class ConfirmWindow
+public class ConfirmWindowJump
 {
 	[Widget] Gtk.Window confirm_window;
 	[Widget] Gtk.Label label1;
@@ -40,9 +40,9 @@ public class ConfirmWindow
 	string table;
 	int uniqueID;
 	bool isRj;
-	static ConfirmWindow ConfirmWindowBox;
+	static ConfirmWindowJump ConfirmWindowJumpBox;
 	
-	public ConfirmWindow (Gtk.Window parent, string text1, string text2, string table, int uniqueID, bool isRj)
+	public ConfirmWindowJump (Gtk.Window parent, string text1, string text2, string table, int uniqueID, bool isRj)
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
@@ -57,26 +57,26 @@ public class ConfirmWindow
 		this.isRj = isRj;
 	}
 
-	static public ConfirmWindow Show (Gtk.Window parent, string text1, string text2, string table, int uniqueID, bool isRj)
+	static public ConfirmWindowJump Show (Gtk.Window parent, string text1, string text2, string table, int uniqueID, bool isRj)
 	{
-		if (ConfirmWindowBox == null) {
-			ConfirmWindowBox = new ConfirmWindow(parent, text1, text2, table, uniqueID, isRj);
+		if (ConfirmWindowJumpBox == null) {
+			ConfirmWindowJumpBox = new ConfirmWindowJump(parent, text1, text2, table, uniqueID, isRj);
 		}
-		ConfirmWindowBox.confirm_window.Show ();
+		ConfirmWindowJumpBox.confirm_window.Show ();
 		
-		return ConfirmWindowBox;
+		return ConfirmWindowJumpBox;
 	}
 	
 	protected void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		ConfirmWindowBox.confirm_window.Hide();
-		ConfirmWindowBox = null;
+		ConfirmWindowJumpBox.confirm_window.Hide();
+		ConfirmWindowJumpBox = null;
 	}
 	
 	protected void on_delete_selected_jump_delete_event (object o, EventArgs args)
 	{
-		ConfirmWindowBox.confirm_window.Hide();
-		ConfirmWindowBox = null;
+		ConfirmWindowJumpBox.confirm_window.Hide();
+		ConfirmWindowJumpBox = null;
 	}
 	
 
@@ -94,8 +94,8 @@ public class ConfirmWindow
 			Console.WriteLine ("Error, table: {0}", table);
 		}
 		
-		ConfirmWindowBox.confirm_window.Hide();
-		ConfirmWindowBox = null;
+		ConfirmWindowJumpBox.confirm_window.Hide();
+		ConfirmWindowJumpBox = null;
 	}
 	
 	public Button Button_accept 
@@ -108,12 +108,12 @@ public class ConfirmWindow
 		}
 	}
 
-	~ConfirmWindow() {}
+	~ConfirmWindowJump() {}
 	
 }
 
 
-public class ConfirmWindowPlatform
+public class ConfirmWindow
 {
 	[Widget] Gtk.Window confirm_window;
 	[Widget] Gtk.Label label1;
@@ -122,9 +122,9 @@ public class ConfirmWindowPlatform
 
 	Gtk.Window parent;
 	
-	static ConfirmWindowPlatform ConfirmWindowBox;
+	static ConfirmWindow ConfirmWindowBox;
 	
-	public ConfirmWindowPlatform (Gtk.Window parent, string text1, string text2)
+	public ConfirmWindow (Gtk.Window parent, string text1, string text2)
 	{
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
 
@@ -135,10 +135,10 @@ public class ConfirmWindowPlatform
 		label2.Text = text2;
 	}
 
-	static public ConfirmWindowPlatform Show (Gtk.Window parent, string text1, string text2)
+	static public ConfirmWindow Show (Gtk.Window parent, string text1, string text2)
 	{
 		if (ConfirmWindowBox == null) {
-			ConfirmWindowBox = new ConfirmWindowPlatform(parent, text1, text2);
+			ConfirmWindowBox = new ConfirmWindow(parent, text1, text2);
 		}
 		ConfirmWindowBox.confirm_window.Show ();
 		
@@ -174,7 +174,7 @@ public class ConfirmWindowPlatform
 		}
 	}
 
-	~ConfirmWindowPlatform() {}
+	~ConfirmWindow() {}
 	
 }
 

@@ -1,5 +1,22 @@
 CHANGELOG:
 
+12 february 2005
+	new stats (monosession and multisession): DJ index, IE, IUB, RJ index, RJ Potency Aguado
+	stats repaired sorting in monosession
+	
+	Export to CSV (Comma Separated Values) complete! (only need to print
+	data in status bar)
+	Export to XML (starting)
+
+	jumpRj is a new class inherited from Jump (before were in same Jump
+	class)
+
+	bug solved in personModify
+	changed confirmwindow, confirwindowplatform code (used now also in
+	export)
+
+	menu changed: "Session, Jumpers, Jumps, Platform, Help"
+
 5 february 2005
 	reorganization:
 		all .cs files moved to .src

@@ -55,6 +55,21 @@ public class StatGlobal : Stat
 		}
 	}
 
+	protected string obtainSessionSqlStringIndexes(ArrayList sessions)
+	{
+		string newStr = "WHERE (";
+		for (int i=0; i < sessions.Count; i++) {
+			string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+			newStr = newStr + " (j1.sessionID == " + stringFullResults[0] + 
+				" AND j2.sessionID == " + stringFullResults[0] + ")";
+			if (i+1 < sessions.Count) {
+				newStr = newStr + " OR ";
+			}
+		}
+		newStr = newStr + ") ";
+		return newStr;		
+	}
+	
 
 	public override void prepareData() 
 	{
@@ -70,6 +85,16 @@ public class StatGlobal : Stat
 				false, sessions.Count );
 		processDataMultiSession ( SqliteStat.GlobalOthers("RjPotency", 
 					"(9.81*9.81 * tvavg*jumps * time / (4*jumps*(time - tvavg*jumps)) )", "jumpRj", "RJ", 
+					sessionString, operation, showSex, personID),
+				false, sessions.Count );
+		
+		//session string must be different for indexes
+		sessionString = obtainSessionSqlStringIndexes(sessions);
+		
+		processDataMultiSession ( SqliteStat.GlobalIndexes("IE", "CMJ", "SJ", 
+					sessionString, operation, showSex, personID),
+				false, sessions.Count );
+		processDataMultiSession ( SqliteStat.GlobalIndexes("IUB", "ABK", "CMJ", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
 	}

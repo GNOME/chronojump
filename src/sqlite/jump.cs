@@ -89,7 +89,7 @@ class SqliteJump : Sqlite
 	}
 	
 	//fall has values like "10J" or "10T" (10 jumps, or 10 seconds, respectively)
-	public static Jump InsertRj(int personID, int sessionID, string type, double tvMax, double tcMax, int fall, string weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
+	public static JumpRj InsertRj(int personID, int sessionID, string type, double tvMax, double tcMax, int fall, string weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO jumpRj " + 
@@ -107,7 +107,7 @@ class SqliteJump : Sqlite
 		//Jump myJump = new JumpRj (myLast, personID, sessionID, type, tvMax, tcMax,
 		//		fall, weight, description, tvAvg, tcAvg, tvString, tcString, 
 		//		jumps, time, limited );
-		Jump myJump = new Jump (myLast, personID, sessionID, type, tvString, tcString,
+		JumpRj myJump = new JumpRj (myLast, personID, sessionID, type, tvString, tcString,
 				fall, weight, description, jumps, time, limited );
 
 		dbcon.Close();
@@ -211,10 +211,10 @@ class SqliteJump : Sqlite
 
 		while(reader.Read()) {
 			myArray.Add (reader[0].ToString() + ":" +	//person.name
-					reader[1].ToString() + ":" +	//jump.uniqueID
-					reader[2].ToString() + ":" + 	//jump.personID
-					reader[3].ToString() + ":" + 	//jump.sessionID
-					reader[4].ToString() + ":" + 	//jump.type
+					reader[1].ToString() + ":" +	//jumpRj.uniqueID
+					reader[2].ToString() + ":" + 	//jumpRj.personID
+					reader[3].ToString() + ":" + 	//jumpRj.sessionID
+					reader[4].ToString() + ":" + 	//jumpRj.type
 					reader[5].ToString() + ":" + 	//tvMax
 					reader[6].ToString() + ":" + 	//tcMax
 					reader[7].ToString() + ":" + 	//fall
@@ -271,7 +271,7 @@ class SqliteJump : Sqlite
 		return myJump;
 	}
 		
-	public static Jump SelectRjJumpData(int uniqueID)
+	public static JumpRj SelectRjJumpData(int uniqueID)
 	{
 		dbcon.Open();
 
@@ -284,7 +284,7 @@ class SqliteJump : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
-		Jump myJump = new Jump(
+		JumpRj myJump = new JumpRj(
 				Convert.ToInt32(reader[0]),	//uniqueID
 				Convert.ToInt32(reader[1]),	//personID
 				Convert.ToInt32(reader[2]),	//sessionID

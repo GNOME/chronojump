@@ -188,10 +188,19 @@ public class ChronoJump {
 	//timers
 	private static System.Timers.Timer timerClockJump;    
 
-	//platform state variables
-    	private int serial_fd=0;
-	private bool platformState;
-    	private int estadoInicial;
+	/*
+	 * platform state variables
+	 */
+	enum States {
+		ON,
+		OFF
+	}
+	Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+	Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+	Chronopic cp;
+	States loggedState;		//log of last state
+
+    	//private int estadoInicial;
 	private double tcDjJump;
 	private bool firstRjValue;
 	private string rjTCString;
@@ -210,7 +219,6 @@ public class ChronoJump {
 
 	public ChronoJump (string [] args) 
 	{
-
 		Catalog.Init ("chronojump", "./locale");
 
 		
@@ -248,13 +256,37 @@ public class ChronoJump {
 
 		rand = new Random(40);
 		
-		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
-		Console.WriteLine ( Catalog.GetString ("if program crashes, disable next line, and work always in 'simulated' mode") );
-		serial_fd = Serial.Open("/dev/ttyS0");
+		//init connecting with chronopic	
+		chronopicInit();
 		
 		program.Run();
 	}
 
+	private void chronopicInit ()
+	{
+		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
+		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xavi@xdeblas.com") );
+
+		cp = new Chronopic("/dev/ttyS0");
+
+		//-- Obtener el estado inicial de la plataforma
+		respuesta=cp.Read_platform(out platformState);
+		switch(respuesta) {
+			case Chronopic.Respuesta.Error:
+				Console.WriteLine(Catalog.GetString("Error comunicating with Chronopic"));
+				break;
+			case Chronopic.Respuesta.Timeout:
+				Console.WriteLine(Catalog.GetString("Chronopic in not responding"));
+				break;
+			default:
+				Console.WriteLine(Catalog.GetString("Chronopic OK"));
+				break;
+		}
+    
+		Console.Write(Catalog.GetString("Plataform state: "));
+		Console.WriteLine("{0}", platformState);
+	}
+	
 	private void loadPreferences () 
 	{
 		Console.WriteLine ("Chronojump database version file: {0}", 
@@ -918,7 +950,7 @@ public class ChronoJump {
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		Console.WriteLine("Chao!");
     
-		Serial.Close(serial_fd);
+		cp.Close();
 		
 		Application.Quit();
 	}
@@ -926,7 +958,7 @@ public class ChronoJump {
 	private void on_quit1_activate (object o, EventArgs args) {
 		Console.WriteLine("Chao!");
     
-		Serial.Close(serial_fd);
+		cp.Close();
 		
 		Application.Quit();
 	}
@@ -1279,23 +1311,15 @@ public class ChronoJump {
 			writeNormalJump (myTV);
 		}
 		else {
-			//initialize this ok, and delete buffer
-			int ok = 0;
 			do {
-				//FIXME: change the name of this method to english
-				ok = Serial.Estado(serial_fd, out estadoInicial);
-				Console.WriteLine("okey1: {0}" ,ok.ToString());
-			} while (ok != 1) ;
-
-			if (estadoInicial == 1) {
+				respuesta = cp.Read_platform(out platformState);
+			} while (respuesta!=Chronopic.Respuesta.Ok);
+      
+    			if (platformState==Chronopic.Plataforma.ON) {
 				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
-				//appbar2.Push( "Estas dentro, cuando quieras SALTA!!" );
 
-				platformState = true;
-
-				//delete serial buffer
-				Serial.Flush(serial_fd);
-
+				loggedState = States.ON;
+				
 				timerClockJump = new System.Timers.Timer();    
 				timerClockJump.Elapsed += new ElapsedEventHandler(OnTimerNormalJump);
 				timerClockJump.Interval = 100; //one decisecond
@@ -1304,18 +1328,17 @@ public class ChronoJump {
 			else {
 				Console.WriteLine( Catalog.GetString("You are OUT, please come inside the platform") );
 
-				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("You are OUT, come inside and press button"), "");
+				confirmWin = ConfirmWindow.Show(app1, 
+						Catalog.GetString("You are OUT, come inside and press button"), "");
 
 				//we call again this function
 				confirmWin.Button_accept.Clicked += new EventHandler(on_normal_jump_activate);
-
-				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
-				//appbar2.Push( "Estas dentro, cuando quieras SALTA!!" );
 			}
 		}
 	}
 
-	//writes the non-simulated normal jump (sj, sj+, cmj, abk) to the DB, and updates treeviews and stats
+	//writes the non-simulated normal jump (all non repetitve jumps without startIn (without fall))
+	//sj, sj+, cmj, cmj+, abk, abk+, ...
 	private void writeNormalJump (double myTV) 
 	{
 		string myWeight = "";
@@ -1352,35 +1375,30 @@ public class ChronoJump {
 
 	public void OnTimerNormalJump( System.Object source, ElapsedEventArgs e )
 	{
-		//t0 header of frame (always an ascii X): 88
-		//t1 state of platform (0 free (outside), 1 someone inside)
-		//t2, t3 time (more significative, and less significative) 
-		//time = t2 * 256 + t3 (in decimals of milliseconds) 0.1 miliseconds
-		//
-		int t0,t1,t2,t3;
-		int ok = Serial.Read(serial_fd, out t0, out t1, out t2, out t3);
-		if (ok==1) {
-			Console.WriteLine("trama: {0} {1} {2}", t0, t1, realTime(t2, t3) );
-
-			//we were in and now regist out
-			if(platformState && t1 == 0) {
-				Console.WriteLine("Changed from {0}, to {1} (out)", platformState, t1);
-				platformState = false;
-			} 
-			//we were out and now register in
-			else if(!platformState && t1 == 1) {
-				Console.WriteLine("Changed from {0}, to {1} (in) ", platformState, t1);
+		double timestamp;
+		respuesta = cp.Read_event(out timestamp, out platformState);
+		if (respuesta == Chronopic.Respuesta.Ok) {
+			if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
+				//it's inside, was out (= has landed)
+				
+				//stop the timer event
 				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerNormalJump);
 				timerClockJump.Enabled = false;
 				Console.WriteLine("------------Timer event should be killed----------");
+				
+				//write the jump
+				writeNormalJump (timestamp);
 
-				//write the Jump
-				writeNormalJump (realTime(t2,t3));
+				//change the automata state (not needed in this jump)
+				loggedState = States.ON;
+			} 
+			else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+				//it's out, was inside (= has jumped)
+				//don't write nothing here
+				
+				//change the automata state
+				loggedState = States.OFF;
 			}
-			else { 
-				Console.WriteLine("NOT Changed {0} - {1}", platformState, t1);
-			}
-
 		}
 	}
 
@@ -1398,24 +1416,16 @@ public class ChronoJump {
 			writeJumpFall (myTC, myTV);
 		}
 		else {
-			//initialize this ok, and delete buffer
-			int ok = 0;
 			do {
-				//FIXME: change the name of this method to english
-				ok = Serial.Estado(serial_fd, out estadoInicial);
-				Console.WriteLine("okey1: {0}" ,ok.ToString());
-			} while (ok != 1) ;
-
-			if (estadoInicial == 0) {
+				respuesta = cp.Read_platform(out platformState);
+			} while (respuesta!=Chronopic.Respuesta.Ok);
+      
+    			if (platformState==Chronopic.Plataforma.OFF) {
 				Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
-				//appbar2.Push( "Estas fuera, cuando quieras SALTA!!" );
 
-				platformState = false;
-				tcDjJump = 0;
-
-				//delete serial buffer
-				Serial.Flush(serial_fd);
-
+				loggedState = States.OFF;
+				tcDjJump = 0;	//useful for tracking the evolution of this jump
+				
 				timerClockJump = new System.Timers.Timer();    
 				timerClockJump.Elapsed += new ElapsedEventHandler(OnTimerDjJump);
 				timerClockJump.Interval = 100; //one decisecond
@@ -1424,7 +1434,8 @@ public class ChronoJump {
 			else {
 				Console.WriteLine( Catalog.GetString("You are IN, please go out the platform") );
 
-				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
+				confirmWin = ConfirmWindow.Show(app1, 
+						Catalog.GetString("You are IN, please go out and press button"), "");
 
 				//we call again this function
 				confirmWin.Button_accept.Clicked += new EventHandler(on_jump_fall_accepted);
@@ -1434,44 +1445,40 @@ public class ChronoJump {
 
 	public void OnTimerDjJump( System.Object source, ElapsedEventArgs e )
 	{
-		//t0 header of frame (always an ascii X): 88
-		//t1 state of platform (0 free (outside), 1 someone inside)
-		//t2, t3 time (more significative, and less significative) 
-		//time = t2 * 256 + t3 (in decimals of milliseconds) 0.1 miliseconds
-		//
-		int t0,t1,t2,t3;
-		int ok = Serial.Read(serial_fd, out t0, out t1, out t2, out t3);
-		if (ok==1) {
-			Console.WriteLine("trama: {0} {1} {2}", t0, t1, realTime(t2, t3) );
+		double timestamp;
+		respuesta = cp.Read_event(out timestamp, out platformState);
+		if (respuesta == Chronopic.Respuesta.Ok) {
+			if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF
+					&& tcDjJump == 0) {
+				//it's inside, was out (= has landed), first time
+				loggedState = States.ON;
 
-			//we were out and now regist in
-			if(!platformState && t1 == 1 && tcDjJump == 0) {
-				Console.WriteLine("Changed from {0}, to {1} (in)", platformState, t1);
-				platformState = true;
+				//dont' write nothing here
 			} 
-			//we were in and now regist out
-			else if(platformState && t1 == 0) {
-				Console.WriteLine("Changed from {0}, to {1} (out)", platformState, t1);
-				platformState = false;
+			else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+				//it's out, was inside (= has jumped)
+				//record the TC
+				tcDjJump = timestamp;
+				
+				//change the state
+				loggedState = States.OFF;
+			}
+			else if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF
+					&& tcDjJump != 0) {
+				//it's inside, was out (= has landed), second time
+				loggedState = States.ON;
 
-				//record the TC in a temp variable
-				tcDjJump = realTime(t2,t3);
-			} 
-			//we were out and now register in
-			else if(!platformState && t1 == 1 && tcDjJump != 0) {
-				Console.WriteLine("Changed from {0}, to {1} (in) ", platformState, t1);
+				//stop the timer event
 				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerDjJump);
 				timerClockJump.Enabled = false;
 				Console.WriteLine("------------Timer event should be killed----------");
+				
+				//write the jump
+				writeJumpFall (tcDjJump, timestamp);
 
-
-				//write the Jump
-				writeJumpFall (tcDjJump, realTime(t2,t3));
+				//change the automata state (not needed in this jump)
+				loggedState = States.ON;
 			}
-			else { 
-				Console.WriteLine("NOT Changed {0} - {1}", platformState, t1);
-			}
-
 		}
 	}
 
@@ -1600,6 +1607,7 @@ public class ChronoJump {
 		else {
 			//initialize this ok, and delete buffer
 			int ok = 0;
+			/*
 			do {
 				//FIXME: change the name of this method to english
 				ok = Serial.Estado(serial_fd, out estadoInicial);
@@ -1627,12 +1635,13 @@ public class ChronoJump {
 			firstRjValue = true;
 
 			//delete serial buffer
-			Serial.Flush(serial_fd);
+			//Serial.Flush(serial_fd);
 
 			timerClockJump = new System.Timers.Timer();    
 			timerClockJump.Elapsed += new ElapsedEventHandler(OnTimerRjJump);
 			timerClockJump.Interval = 100; //one decisecond
 			timerClockJump.Enabled = true;
+			*/
 		}
 	}
 				
@@ -1678,6 +1687,7 @@ public class ChronoJump {
 		}
 	
 		int t0,t1,t2,t3;
+		/*
 		int ok = Serial.Read(serial_fd, out t0, out t1, out t2, out t3);
 		if (ok==1) {
 			Console.WriteLine("trama: {0} {1} {2}", t0, t1, realTime(t2, t3) );
@@ -1725,6 +1735,7 @@ public class ChronoJump {
 			}
 
 		}
+		*/
 	}
 
 	private void writeRjJump (string myTCString, string myTVString) 
@@ -2012,7 +2023,7 @@ public class ChronoJump {
 		new Gnome.About (
 				progname, progversion,
 				"(C) 2004 Xavier de  Blas, Juan Gonzalez",
-				"Vertical jump analysis with contact plataform.",
+				"Vertical jump analysis with contact platform.",
 				authors, null, null, null).Run();
 	}
 

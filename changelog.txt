@@ -1,4 +1,10 @@
 CHANGELOG:
+14 march 2005
+	normal jumps and fall jumps now managed by new chronopic module (reactive jumps pending)
+	
+	included chronopic.o chronopic.cs test-saltos.mono.cs temporarily
+	while we have not a good way of installing the two modules
+	
 13 march 2005
 	treeviews
 		Treeview_jumps and treeview_jumps_rj displayed in a notebook (page

@@ -15,11 +15,6 @@ CFLAGS = -Wall
 MCS = mcs
 
 #-------- Nombres y dependencias de los programas a construir
-TEST1= test-platform
-LIBSERIAL = libserial.so
-LIBSERIAL_DEP = sg-serial.o 
-DLL_SERIAL = serial
-
 
 CHRONOJUMP = chronojump
 
@@ -34,38 +29,47 @@ CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/jump.cs src/jumpType.cs src
 RESOURCES = -resource:glade/chronojump.glade,chronojump.glade 
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient
 
-all: $(CHRONOJUMP).exe $(TEST1).exe 
+#all: $(CHRONOJUMP).exe $(TEST1).exe 
+all: $(CHRONOJUMP).exe test-mono 
+
+LIBCHRONOPIC = libchronopic.so
+LIBCHRONOPIC_DEP = chronopic.o 
+
+DLL_CHRONOPIC = chronopic
+
+
+NAME5= test-saltos.mono
+DEP5 = $(NAME5).cs $(DLL_CHRONOPIC).dll
+
+
+#-- Construccion de los ejemplos de prueba en Mono
+test-mono: $(NAME5).exe
 
 #--------------------------
 #  Reglas
 #--------------------------
 
-# ---- Generacion de la libreria libserial
-$(LIBSERIAL):  $(LIBSERIAL_DEP)
-	           $(CC) -shared -W1,-soname,libserial.so -o $(LIBSERIAL) $(LIBSERIAL_DEP)
+# ---- Generacion de la libreria libchronopic
+$(LIBCHRONOPIC):  $(LIBCHRONOPIC_DEP)
+	           $(CC) -shared -W1,-soname,$(LIBCHRONOPIC) -o $(LIBCHRONOPIC) \
+                   $(LIBCHRONOPIC_DEP)
 clean::
-	  rm -f $(LIBSERIAL) $(LIBSERIAL_DEP)
+	  rm -f $(LIBCHRONOPIC) $(LIBCHRONOPIC_DEP)
     
-#----- Crear la libserial.dll
-$(DLL_SERIAL).dll: $(LIBSERIAL) $(DLL_SERIAL).cs
-	 $(MCS) -target:library $(DLL_SERIAL).cs -o $(DLL_SERIAL).dll     
+#----- Crear la DLL
+$(DLL_CHRONOPIC).dll: $(LIBCHRONOPIC) $(DLL_CHRONOPIC).cs
+	 $(MCS) -unsafe -target:library $(DLL_CHRONOPIC).cs \
+          -o $(DLL_CHRONOPIC).dll     
     
 clean::
-	  rm -f $(DLL_SERIAL).dll 
+	  rm -f $(DLL_CHRONOPIC).dll 
     
-#----- Crear test plaform
-$(TEST1).exe: $(TEST1).cs $(DLL_SERIAL).dll
-	 $(MCS) $(TEST1).cs -unsafe -r $(DLL_SERIAL).dll -o $(TEST1).exe 
-   
-clean::
-	  rm -f $(TEST1).exe       
-
 #-------------------------------
 # Regla para compilar CHRONOJUMP (C#)
 #-------------------------------
 
-$(CHRONOJUMP).exe: $(DLL_SERIAL).dll NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) 
-	 $(MCS) $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe -r $(DLL_SERIAL).dll -r NPlot.dll -r NPlot.Gtk.dll -r System.Drawing $(CHRONOJUMP_LIB) -o $(CHRONOJUMP).exe 
+$(CHRONOJUMP).exe: $(DLL_CHRONOPIC).dll NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) 
+	 $(MCS) $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe -r $(DLL_CHRONOPIC).dll -r NPlot.dll -r NPlot.Gtk.dll -r System.Drawing $(CHRONOJUMP_LIB) -o $(CHRONOJUMP).exe 
    
 clean::
 	  rm -f $(CHRONOJUMP).exe  
@@ -75,6 +79,15 @@ clean::
 #---------------------------------
 sg-serial.o    : sg-serial.h
 
+#-------------------------------
+# EJEMPLOS DE PRUEBA EN C#
+#-------------------------------
+$(NAME5).exe: $(DEP5)
+	 $(MCS) $(NAME5).cs -unsafe -r $(DLL_CHRONOPIC).dll -o $(NAME5).exe 
+   
+clean::
+	  rm -f $(NAME5).exe       
+    
 #--------------------------
 #  REGLAS GENERICAS
 #--------------------------

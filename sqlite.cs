@@ -662,6 +662,43 @@ finishForeach:
 		return mySession;
 	}
 	
+	//used by the stats selector of sessions
+	public static string[] SelectAllSessionsSimple() 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * FROM session ORDER BY uniqueID";
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		ArrayList myArray = new ArrayList(2);
+
+		int count = new int();
+		count = 0;
+
+		while(reader.Read()) {
+			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
+					reader[2].ToString() + ":" + reader[3].ToString() + ":" +
+					reader[4].ToString() );
+			count ++;
+		}
+
+		reader.Close();
+	
+		//close database connection
+		dbcon.Close();
+
+		string [] mySessions = new string[count];
+		count =0;
+		foreach (string line in myArray) {
+			mySessions [count++] = line;
+		}
+
+		return mySessions;
+	}
+
 
 	public static string[] SelectAllSessions() 
 	{
@@ -1393,9 +1430,6 @@ finishForeach:
 		return myArray;
 	}
 
-	//obtain the aguado potency but not exact, it's good for sorting people, 
-	//but the values should be recalculed because we have to multiply for the total TV
-	//and not the (avgtv * jumps) what is similar, but not the same
 	public static ArrayList StatRjPotencyAguadoJumps (int sessionID, bool sexSeparated, int limit)
 	{
 		string orderByString = "";
@@ -1509,24 +1543,29 @@ finishForeach:
 	}
 
 	
-	public static ArrayList StatGlobalNormal (int sessionID, string operation, bool sexSeparated)
+	public static ArrayList StatGlobalNormal (string sessionString, string operation, bool sexSeparated, int personID)
 	{
 		dbcon.Open();
 		
+		string personString = "";
+		if(personID != -1) { 
+			personString = " AND jump.personID == " + personID;
+		}
+		
 		if (sexSeparated) {
-			dbcmd.CommandText = "SELECT type, " + operation + "(tv), sex " + 
+			dbcmd.CommandText = "SELECT type, sessionID, " + operation + "(tv), sex" + 
 				" FROM jump, person " +
-				" WHERE jump.sessionID == " + sessionID + 
-				" AND jump.personID == person.uniqueID" +
-				" GROUP BY jump.type, person.sex " +
-				" ORDER BY jump.type, person.sex DESC " ; 
+				sessionString + 
+				" AND jump.personID == person.uniqueID" + personString +
+				" GROUP BY jump.type, sessionID, person.sex " +
+				" ORDER BY jump.type, person.sex DESC, sessionID" ; 
 		} else {
 		
-			dbcmd.CommandText = "SELECT type, " + operation + "(tv) " +
+			dbcmd.CommandText = "SELECT type, sessionID, " + operation + "(tv) " +
 				" FROM jump " +
-				" WHERE sessionID == " + sessionID + 
-				" GROUP BY type " +
-				" ORDER BY type " ; 
+				sessionString + personString +
+				" GROUP BY type, sessionID " +
+				" ORDER BY type, sessionID " ; 
 		}
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -1535,14 +1574,18 @@ finishForeach:
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
+		//returns always two columns
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if (reader[0].ToString() != "DJ") {
 				if (sexSeparated) {
-					myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-							reader[2].ToString() );
+					myArray.Add (reader[0].ToString() + " (" + reader[3].ToString() + "):" +
+							reader[1].ToString() + ":" + reader[2].ToString()
+							);
 				} else {
-					myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
+					myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() 
+							+ ":" + reader[2].ToString() 
+							);
 				}
 			}
 		}
@@ -1553,26 +1596,32 @@ finishForeach:
 		return myArray;
 	}
 
-	public static ArrayList StatGlobalDj (int sessionID, string operation, bool sexSeparated)
+	public static ArrayList StatGlobalOthers (string statName, string statFormulae, string jumpTable, string jumpType, string sessionString, string operation, bool sexSeparated, int personID)
 	{
 		dbcon.Open();
+		
+		string personString = "";
+		if(personID != -1) { 
+			personString = " AND personID == " + personID;
+		}
+		
 		if (sexSeparated) {
 			//select the MAX or AVG index grouped by sex
 			//returns 0-2 rows
-			dbcmd.CommandText = "SELECT " + operation + "(100*((tv-tc)/tc)), sex " + 
-				" FROM jump, person " +
-				" WHERE jump.sessionID == " + sessionID + 
-				" AND jump.personID == person.uniqueID" +
-				" AND jump.type == 'DJ'" +
-				" GROUP BY person.sex " +
-				" ORDER BY person.sex DESC " ; 
+			dbcmd.CommandText = "SELECT sessionID, " + operation + statFormulae + ", sex " + 
+				" FROM " + jumpTable + ", person " +
+				sessionString +	
+				" AND personID == person.uniqueID" +
+				" AND type == '" + jumpType + "'" + personString +
+				" GROUP BY sessionID, person.sex " +
+				" ORDER BY person.sex DESC, sessionID" ; 
 		} else {
 			//select the MAX or AVG index. 
 			//returns 0-1 rows
-			dbcmd.CommandText = "SELECT " + operation + "(100*((tv-tc)/tc)) AS jump_index " +
-				" FROM jump " +
-				" WHERE sessionID == " + sessionID +
-				" AND jump.type == 'DJ'" +
+			dbcmd.CommandText = "SELECT sessionID, " + operation + statFormulae +
+				" FROM " + jumpTable + " " +
+				sessionString +	
+				" AND type == '" + jumpType + "'" + personString +
 				//the following solves a problem
 				//of sqlite, that returns an 
 				//"empty line" when there are no
@@ -1581,7 +1630,8 @@ finishForeach:
 				//With the group by, 
 				//if there are no values, 
 				//it does not return any line
-				" GROUP by jump.type ";
+				" GROUP by sessionID, " +
+				" ORDER by sessionID";
 		}
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -1592,12 +1642,14 @@ finishForeach:
 
 		ArrayList myArray = new ArrayList(2);
 		
+		//returns always two columns
 		while(reader.Read()) {
-			Console.WriteLine ("-{0}-", reader[0].ToString());
 			if (sexSeparated) {
-				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
+				myArray.Add (statName +" (" + reader[2].ToString() + "):" + reader[0].ToString() 
+							+ ":" + reader[1].ToString() );
 			} else {
-				myArray.Add (reader[0].ToString());
+				myArray.Add (statName + ":" + reader[0].ToString() 
+							+ ":" + reader[1].ToString()	);
 			}
 		}
 		
@@ -1606,118 +1658,6 @@ finishForeach:
 		
 		return myArray;
 	}
-
-	public static ArrayList StatGlobalRj (int sessionID, string operation, bool sexSeparated)
-	{
-		dbcon.Open();
-		if (sexSeparated) {
-			//select the MAX or AVG index grouped by sex
-			//returns 0-2 rows
-			dbcmd.CommandText = "SELECT " + operation + "(100*((tvavg-tcavg)/tcavg)), sex " + 
-				" FROM jumpRj, person " +
-				" WHERE jumpRj.sessionID == " + sessionID + 
-				" AND jumpRj.personID == person.uniqueID" +
-				" AND jumpRj.type == 'RJ'" +
-				" GROUP BY person.sex " +
-				" ORDER BY person.sex DESC " ; 
-		} else {
-			//select the MAX or AVG index. 
-			//returns 0-1 rows
-			dbcmd.CommandText = "SELECT " + operation + "(100*((tvavg-tcavg)/tcavg)) AS jump_index " +
-				" FROM jumpRj " +
-				" WHERE sessionID == " + sessionID + 
-				" AND jumpRj.type == 'RJ'" +
-				//the following solves a problem
-				//of sqlite, that returns an 
-				//"empty line" when there are no
-				//values to return in a index
-				//calculation.
-				//With the group by,
-				//if there are no values, 
-				//it does not return any line
-				" GROUP by jumpRj.type "; 
-		}
-
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		ArrayList myArray = new ArrayList(2);
-		
-		while(reader.Read()) {
-			Console.WriteLine ("-{0}-", reader[0].ToString());
-			if (sexSeparated) {
-				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
-			} else {
-				myArray.Add (reader[0].ToString() );
-			}
-		}
-		
-		reader.Close();
-		dbcon.Close();
-		
-		return myArray;
-	}
-
-	public static ArrayList StatGlobalRjPotencyAguado (int sessionID, string operation, bool sexSeparated)
-	{
-		dbcon.Open();
-		if (sexSeparated) {
-			//select the MAX or AVG index grouped by sex
-			//returns 0-2 rows
-			dbcmd.CommandText = "SELECT " + operation + 
-				"(9.81*9.81 * tvavg*jumps * time / ( 4 * jumps * (time - tvavg*jumps) ) )" +
-				", sex" +
-				" FROM jumpRj, person " +
-				" WHERE jumpRj.sessionID == " + sessionID + 
-				" AND jumpRj.personID == person.uniqueID" +
-				" AND jumpRj.type == 'RJ'" +
-				" GROUP BY person.sex " +
-				" ORDER BY person.sex DESC " ; 
-		} else {
-			//select the MAX or AVG index. 
-			//returns 0-1 rows
-			dbcmd.CommandText = "SELECT " + operation + 
-				"(9.81*9.81 * tvavg*jumps * time / ( 4 * jumps * (time - tvavg*jumps) ) ) AS potency" +
-				" FROM jumpRj " +
-				" WHERE sessionID == " + sessionID + 
-				" AND jumpRj.type == 'RJ'" +
-				//the following solves a problem
-				//of sqlite, that returns an 
-				//"empty line" when there are no
-				//values to return in a index
-				//calculation.
-				//With the group by,
-				//if there are no values, 
-				//it does not return any line
-				" GROUP by jumpRj.type "; 
-		}
-
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		ArrayList myArray = new ArrayList(2);
-		
-		while(reader.Read()) {
-			Console.WriteLine ("-{0}-", reader[0].ToString());
-			if (sexSeparated) {
-				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
-			} else {
-				myArray.Add (reader[0].ToString() );
-			}
-		}
-		
-		reader.Close();
-		dbcon.Close();
-		
-		return myArray;
-	}
-
 
 //--------------------------------------------------------
 //---------------- PREFERENCES ---------------------------

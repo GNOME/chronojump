@@ -37,11 +37,11 @@ public class ChronoJump {
 	[Widget] Gtk.TreeView treeview_jumps_rj;
 	[Widget] Gtk.TreeView treeview_stats;
 	[Widget] Gtk.Box hbox_combo_jumps;
-	[Widget] Gtk.Box hbox_combo_stats2;
+	[Widget] Gtk.Box hbox_combo_stats_stat_name;
 	[Widget] Gtk.Box hbox_combo_person_current;
 	[Widget] Gtk.Label label_current_jumper;
 	[Widget] Gtk.Combo combo_jumps;
-	[Widget] Gtk.Combo combo_stats2;
+	[Widget] Gtk.Combo combo_stats_stat_name;
 	[Widget] Gtk.Combo combo_person_current;
 
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type;
@@ -93,6 +93,9 @@ public class ChronoJump {
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
 	[Widget] Gtk.Button button_cancel_jump;
 	[Widget] Gtk.MenuItem menuitem_cancel_jump;
+	[Widget] Gtk.RadioButton radiobutton_current_session;
+	[Widget] Gtk.RadioButton radiobutton_selected_sessions;
+	[Widget] Gtk.Button button_stats_select_sessions;
 	[Widget] Gtk.RadioButton radiobutton_jumpers;
 	[Widget] Gtk.RadioButton radiobutton_jumps;
 	[Widget] Gtk.RadioButton radiobutton_max;
@@ -101,8 +104,8 @@ public class ChronoJump {
 	[Widget] Gtk.TextView textview_enunciate;
 	[Widget] Gtk.ScrolledWindow scrolledwindow_enunciate;
 
-	[Widget] Gtk.RadioButton radiobutton_simulated_bar;
-	[Widget] Gtk.RadioButton radiobutton_serial_bar;
+	[Widget] Gtk.RadioMenuItem menuitem_simulated;
+	[Widget] Gtk.RadioMenuItem menuitem_serial_port;
 
 	private Random rand;
 	
@@ -127,13 +130,16 @@ public class ChronoJump {
 
 	private static string allJumpsName = "All jumps";
 	private static string [] comboJumpsOptions = {allJumpsName, "SJ", "SJ+", "CMJ", "ABK", "DJ"};
-	private static string [] comboStatsOptions = {"Global", "SJ", "SJ+", "CMJ", "ABK", 
+	private static string [] comboStatsOptions = {
+		"Global", 
+		"Jumper", 
+		"SJ", "SJ+", "CMJ", "ABK", 
 		"DJ (TV)", 
 		"DJ Index ((tv-tc)/tc)*100", 
 		"RJ Average Index", 
 		"IE ((cmj-sj)/sj)*100",
 		"IUB ((abk-cmj)/cmj)*100",
-		"POTENCY (Aguado) 9.81^2*TV*TT / (4*jumps*(TT-TV))"
+		"POTENCY (Aguado)" // 9.81^2*TV*TT / (4*jumps*(TT-TV))
 	};
 
 	//preferences variables
@@ -163,10 +169,9 @@ public class ChronoJump {
 	EditJumpWindow editJumpWin;
 	ConfirmWindow confirmWin;
 	ConfirmWindowPlatform confirmWinPlatform;
+	SessionSelectStatsWindow sessionSelectStatsWin;
 
 	//timers
-	//private static int rjTimer;
-	//private static int rjTimerLimited;
 	private static System.Timers.Timer timerClockJump;    
 
 	//platform state variables
@@ -181,6 +186,9 @@ public class ChronoJump {
 	//selected jumps
 	private int jumpSelected = 0;
 	private int jumpRjSelected = 0;
+
+	//selected sessions
+	ArrayList selectedSessions;
 
 	//useful for deleting headers of lastStat just before making a new Stat
 	private Stat myStat;  
@@ -200,7 +208,6 @@ public class ChronoJump {
 
 		
 		Program program = new Program(progname, progversion, Modules.UI, args);
-
 
 		Glade.XML gxml = new Glade.XML (null, "chronojump.glade", "app1", "chronojumpGlade");
 
@@ -233,14 +240,13 @@ public class ChronoJump {
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
-		//appbar2.Push("Ready.");
 		appbar2.Push ( Catalog.GetString ("Ready.") );
 
 		rand = new Random(40);
 		
 		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
 		Console.WriteLine ( Catalog.GetString ("if program chrashes, disable next line, and work always in 'simulated' mode") );
-		//serial_fd = Serial.Open("/dev/ttyS0");
+		serial_fd = Serial.Open("/dev/ttyS0");
 		
 		program.Run();
 	}
@@ -256,10 +262,10 @@ public class ChronoJump {
 			
 		if ( Sqlite.PreferencesSelect("simulated") == "True" ) {
 			simulated = true;
-			radiobutton_simulated_bar.Active = true;
+			menuitem_simulated.Active = true;
 		} else {
 			simulated = false;
-			radiobutton_serial_bar.Active = true;
+			menuitem_serial_port.Active = true;
 		}
 		
 		if ( Sqlite.PreferencesSelect("askDeletion") == "True" ) {
@@ -709,11 +715,12 @@ finishForeach:
 	
 	private void fillTreeView_stats () {
 		
-		string myText = combo_stats2.Entry.Text;
+		string myText = combo_stats_stat_name.Entry.Text;
 		string [] fullTitle = myText.Split(new char[] {' '});
 
+		//FIXME: do this different in the future, because with multiple sessions in every stat, has no sense this sessionName property
 		if(myStat.SessionName != "") {
-			myStat.RemoveHeaders();
+			myStat.RemoveColumns();
 		}
 	
 		int limit;
@@ -722,8 +729,43 @@ finishForeach:
 		} else {
 			limit = 0;
 		}
+
+		
+		if ( myText == "Global" || myText == "Jumper")
+		{
+			int jumperID = -1; //all jumpers
+			string jumperName = ""; //all jumpers
+			if (myText == "Jumper") {
+				jumperID = currentPerson.UniqueID;
+				jumperName = currentPerson.Name;
+			}
 	
-		if(myText == "SJ" || myText == "SJ+" || 
+			//we use sendSelectedSessions for not losing selectedSessions ArrayList 
+			//everytime user cicles the sessions select radiobuttons
+			ArrayList sendSelectedSessions = new ArrayList(2);
+			if (radiobutton_current_session.Active) {
+				sendSelectedSessions.Add (currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date); 
+			} else if (radiobutton_selected_sessions.Active) {
+				sendSelectedSessions = selectedSessions;
+			}
+
+			myStat = new StatGlobal(treeview_stats, 
+					sendSelectedSessions, 
+					jumperID, jumperName, 
+					prefsDigitsNumber, statsSex,  
+					radiobutton_max.Active //show MAX or AVG
+					);
+
+			/*FIXME: in this case, convert the sessID sessName to a ArrayList
+			myStat = new StatGlobal(treeview_stats, currentSession.UniqueID, currentSession.Name, 
+						jumperID, jumperName, 
+						prefsDigitsNumber, statsSex,  
+						radiobutton_max.Active //show MAX or AVG
+						);
+						*/
+			myStat.prepareData();
+		}
+		else if(myText == "SJ" || myText == "SJ+" || 
 				myText == "CMJ" || myText == "ABK")
 		{
 			myStat = new StatSjCmjAbk (treeview_stats, currentSession.UniqueID, 
@@ -757,7 +799,7 @@ finishForeach:
 					limit);
 			myStat.prepareData();
 		}	
-		else if(myText == "POTENCY (Aguado) 9.81^2*TV*TT / (4*jumps*(TT-TV))")
+		else if(myText == "POTENCY (Aguado)") // 9.81^2*TV*TT / (4*jumps*(TT-TV))
 		{
 			myStat = new StatPotencyAguado(treeview_stats, currentSession.UniqueID, 
 					currentSession.Name, prefsDigitsNumber, statsSex, 
@@ -779,13 +821,6 @@ finishForeach:
 					currentSession.Name, prefsDigitsNumber, statsSex, 
 					radiobutton_max.Active //show MAX or AVG
 					);
-			myStat.prepareData();
-		}
-		else if ( myText == "Global") {
-			myStat = new StatGlobal(treeview_stats, currentSession.UniqueID, 
-						currentSession.Name, prefsDigitsNumber, statsSex,  
-						radiobutton_max.Active //show MAX or AVG
-						);
 			myStat.prepareData();
 		}
 		
@@ -829,16 +864,16 @@ finishForeach:
 	}
 	
 	private void createComboStats() {
-		combo_stats2 = new Combo ();
-		combo_stats2.PopdownStrings = comboStatsOptions;
+		combo_stats_stat_name = new Combo ();
+		combo_stats_stat_name.PopdownStrings = comboStatsOptions;
 		
-		combo_stats2.DisableActivate ();
-		combo_stats2.Entry.Changed += new EventHandler (on_combo_stats2_changed);
+		combo_stats_stat_name.DisableActivate ();
+		combo_stats_stat_name.Entry.Changed += new EventHandler (on_combo_stats_stat_name_changed);
 
-		hbox_combo_stats2.PackStart(combo_stats2, true, true, 0);
-		hbox_combo_stats2.ShowAll();
+		hbox_combo_stats_stat_name.PackStart(combo_stats_stat_name, true, true, 0);
+		hbox_combo_stats_stat_name.ShowAll();
 		
-		combo_stats2.Sensitive = false;
+		combo_stats_stat_name.Sensitive = false;
 		checkbutton_stats_sex.Sensitive = false;
 	}
 	
@@ -856,7 +891,6 @@ finishForeach:
 		menuitem_edit_current_person.Sensitive = false;
 	}
 	
-
 	private bool updateComboSujetoCurrent() {
 		string [] jumpers = Sqlite.PersonSessionSelectCurrentSession(currentSession.UniqueID);
 		combo_person_current.PopdownStrings = jumpers; 
@@ -916,8 +950,15 @@ finishForeach:
 		if(myText != "") {
 			//if people modify the values in the combo_person_current, and this valeus are not correct, 
 			//let's update the combosujetocurrent
-			if(Sqlite.PersonSelectExistsInSession(fetchID(myText), currentSession.UniqueID)) {
+			if(Sqlite.PersonSelectExistsInSession(fetchID(myText), currentSession.UniqueID)) 
+			{
 				currentPerson = Sqlite.PersonSelect(fetchID(myText));
+
+				//if stats "jumper" are selected, and stats are automatic, 
+				//update stats when current person change
+				if(combo_stats_stat_name.Entry.Text == "Jumper" && statsAutomatic) {
+					fillTreeView_stats();
+				}
 			}
 			else {
 				bool myBool = updateComboSujetoCurrent();
@@ -970,17 +1011,17 @@ finishForeach:
 		}
 	}
 	
-	private void on_combo_stats2_changed(object o, EventArgs args) {
-		string myText = combo_stats2.Entry.Text;
+	private void on_combo_stats_stat_name_changed(object o, EventArgs args) {
+		string myText = combo_stats_stat_name.Entry.Text;
 		
 		//for an unknown reason, when we select an option in the combo stats, 
-		//the on_combo_stats2_changed it's called two times? 
+		//the on_combo_stats_stat_name_changed it's called two times? 
 		//in the first the value of Entry.Text is "";
 		if(myText != "")
 			fillTreeView_stats();
 
 		//some stats should not be showed as limited jumps
-		if(myText == "Global" || myText == "IE ((cmj-sj)/sj)*100" || myText == "IUB ((abk-cmj)/cmj)*100") 
+		if(myText == "Global" || myText == "Jumper" || myText == "IE ((cmj-sj)/sj)*100" || myText == "IUB ((abk-cmj)/cmj)*100") 
 		{
 			//change the radiobutton value
 			if(radiobutton_jumps.Active) {
@@ -992,6 +1033,20 @@ finishForeach:
 			radiobutton_jumps.Sensitive = true;
 		}
 		
+	}
+	
+	private void on_radiobuttons_stat_session_toggled (object o, EventArgs args)
+	{
+		if(o == (object) radiobutton_current_session) {
+			Console.WriteLine("current");
+			button_stats_select_sessions.Sensitive = false;
+		} else if (o == (object) radiobutton_selected_sessions ) {
+			Console.WriteLine("selected");
+			button_stats_select_sessions.Sensitive = true;
+		}
+		if(statsAutomatic) {
+			fillTreeView_stats();
+		}
 	}
 	
 	private void on_checkbutton_stats_sex_clicked(object o, EventArgs args)
@@ -1087,6 +1142,10 @@ finishForeach:
 			currentSession = sessionAddWin.CurrentSession;
 			app1.Title = progname + " - " + currentSession.Name;
 
+			//put value in selectedSessions
+			selectedSessions = new ArrayList(2);
+			selectedSessions.Add(currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date);
+			
 			//clear the arrayList if contracted iters
 			myArrayOfStringItersCollapsed = new ArrayList(2);
 
@@ -1124,6 +1183,10 @@ finishForeach:
 		currentSession = sessionLoadWin.CurrentSession;
 		app1.Title = progname + " - " + currentSession.Name;
 		
+		//put value in selectedSessions
+		selectedSessions = new ArrayList(2);
+		selectedSessions.Add(currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date);
+		
 		//clear the arrayList if contracted iters
 		myArrayOfStringItersCollapsed = new ArrayList(2);
 		
@@ -1136,7 +1199,7 @@ finishForeach:
 		
 		//everytime we load a session, we put stats to "Global" 
 		//(if this session has no jumps, it crashes in the others statistics)
-		combo_stats2.Entry.Text = comboStatsOptions[0];
+		combo_stats_stat_name.Entry.Text = comboStatsOptions[0];
 		fillTreeView_stats();
 
 		//show hidden widgets
@@ -1153,6 +1216,28 @@ finishForeach:
 			sensitiveGuiYesPerson();
 		}
 
+
+	}
+	
+	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
+		Console.WriteLine("select sessions for stats");
+		sessionSelectStatsWin = SessionSelectStatsWindow.Show(app1, selectedSessions);
+		sessionSelectStatsWin.Button_accept.Clicked += new EventHandler(on_stats_select_sessions_accepted);
+	}
+	
+	private void on_stats_select_sessions_accepted (object o, EventArgs args) {
+		Console.WriteLine("select sessions for stats accepted");
+		if (sessionSelectStatsWin.ArrayOfSelectedSessions[0] != "-1") { 
+			//there are sessionsSelected, put them in selectedSessions ArrayList
+			selectedSessions = sessionSelectStatsWin.ArrayOfSelectedSessions;
+		} else {
+			//there are NO sessionsSelected, put currentSession in selectedSession ArrayList
+			selectedSessions = new ArrayList(2);
+			selectedSessions.Add(currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date);
+		}
+		if(statsAutomatic) {
+			fillTreeView_stats();
+		}
 	}
 	
 	
@@ -1230,34 +1315,27 @@ finishForeach:
 	
 	private void on_paste1_activate (object o, EventArgs args) {
 	}
-	
-	void on_radiobutton_simulated_toggled (object o, EventArgs args)
+
+	void on_radiobutton_simulated_activate (object o, EventArgs args)
 	{
+		Console.WriteLine("simulated");
 		simulated = true;
 		Sqlite.PreferencesUpdate("simulated", simulated.ToString());
 	}
 	
-	void on_radiobutton_serial_toggled (object o, EventArgs args)
+	void on_radiobutton_serial_port_activate (object o, EventArgs args)
 	{
+		Console.WriteLine("serial port");
 		simulated = false;
 		Sqlite.PreferencesUpdate("simulated", simulated.ToString());
 	}
-	
+
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(app1, prefsDigitsNumber, showHeight, simulated, askDeletion);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
 	private void on_preferences_accepted (object o, EventArgs args) {
-		//now simulated-serial it's a radiobutton in the menu
-		/*
-		if ( Sqlite.PreferencesSelect("simulated") == "True" ) {
-			simulated = true;
-		} else {
-			simulated = false;
-		}
-		*/
-		
 		prefsDigitsNumber = Convert.ToInt32 ( Sqlite.PreferencesSelect("digitsNumber") ); 
 		if ( Sqlite.PreferencesSelect("askDeletion") == "True" ) {
 			askDeletion = true;
@@ -2066,10 +2144,13 @@ finishForeach:
 		button_edit_selected_jump_rj.Sensitive = false;
 		button_delete_selected_jump_rj.Sensitive = false;
 		
-		combo_stats2.Sensitive = false;
+		combo_stats_stat_name.Sensitive = false;
+		button_stats_select_sessions.Sensitive = false;
 		checkbutton_stats_sex.Sensitive = false;
 		checkbutton_stats_always.Sensitive = false;
 		checkbutton_show_enunciate.Sensitive = false;
+		radiobutton_current_session.Sensitive = false;
+		radiobutton_selected_sessions.Sensitive = false;
 		radiobutton_jumpers.Sensitive = false;
 		radiobutton_jumps.Sensitive = false;
 		spinbutton_jumps_num.Sensitive = false;
@@ -2108,10 +2189,12 @@ finishForeach:
 		if(!statsAutomatic) {
 			button_stats.Sensitive = true;
 		}
-		combo_stats2.Sensitive = true;
+		combo_stats_stat_name.Sensitive = true;
 		checkbutton_stats_sex.Sensitive = true;
 		checkbutton_stats_always.Sensitive = true;
 		checkbutton_show_enunciate.Sensitive = true;
+		radiobutton_current_session.Sensitive = true;
+		radiobutton_selected_sessions.Sensitive = true;
 		radiobutton_jumpers.Sensitive = true;
 		//radiobutton_jumps.Sensitive = true; //not activated because it starts with the "Global" stat, where radiobutton_jumps has no sense
 		radiobutton_max.Sensitive = true;

@@ -1,0 +1,298 @@
+TODO:
+----
+
+
+correct the non-simulated rj jump
+implement the non-simulated tj rime
+implement the simulated tj rime
+
+
+- normal jump simulated and non simulated DONE
+- sj+ simulated and non simulated DONE
+- dj simulated and non simulated DONE
+- rj simulated and non simulated (NON-SIMULATED PENDING)
+
+
+preference for wait until finish jump in RJ limited by time or don't wait
+
+scrollbar of treeviews, has to remember the position (%) when we recreate the treeview (edit a jump, delete a jump...).
+treeviews button of contract all and expand all
+
+edit jump need the hability of change the DJ fall and the SJ+ weight
+
+make an edit session and a delete session, the class, probably heredate from sessionload. The widget win is another
+
+
+graph amb nplot
+----------------
+http://netcontrols.org/nplot/
+verio de Miguel de Icaza amb Makefile:
+http://www.bloglines.com/blog/Aakrosh?subid=3446357
+
+
+
+INTERSESSION: do all with the sql i know now (without left outer join)
+
+
+***
+INTERSESSION SELECTS (but they need to return something for each row (also if there's no value), see LEFT JOIN
+
++++select DJ index between two sessions (without sex):
+ SELECT MAX(100*((j1.tv-j1.tc)/j1.tc)), MAX(100*((j2.tv-j2.tc)/j2.tc))  FROM jump AS j1, jump AS j2  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j1.type == j2.type;
+152.001785976726|46.9596162208521
+
++++ select all jumps between two sessions (without sex):
+ SELECT j1.type, MAX(j1.tv), MAX(j2.tv)  FROM jump AS j1, jump AS j2  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j1.type == j2.type group by j1.type;
+
++++ tree sessions:
+ SELECT j1.type, MAX(j1.tv), MAX(j2.tv), MAX(j3.tv)  FROM jump AS j1, jump AS j2, jump AS j3  WHERE j1.sessionID == 1 AND j2.sessionID == 2 AND j3.sessionID == 3 AND j1.type == j2.type AND j1.type == j3.type group by j1.type;
+***
+
+
+
+BUG: if we try to open a session with no jumps, it's not shown by:
+SELECT session.* FROM session, jump  WHERE session.uniqueID == jump.sessionID  GROUP BY sessionID ORDER BY session.uniqueID;
+try something with LEFT JOIN
+
+
+in stats global calculate for TV and for the DJindex and RjIndex and IE and IUB, the statistics: avg, median, variance, standard deviaton (put checkbox for the wanted stats (probably we need a notebook for all this)
+
++++
+PROBLEM: sqlite max selection in RJ
+SOLUTION1: learn more sql
+SEE THE EXAMPLE OF DJ AND USE THE NEW JUMPRJ (jumpRj) TABLE
+- create a method for sqlite in RJ, it should be a normal method, and later we sort in the stat class.
+Probably we can save a MAX and an AVG in the jumptable. Probably save other values like rj index
+We should also to save the time value (also if it's jump limited) for calculating the "potencia". Or save directly the potencia. 
+-Or use a different sql table only for RJs, with all the subjumps not separated by '='. THIS IS THE BEST, because in the future we should not care for different indexes. 
+
+CURRENT: 
+- make a statonejumper and statonejump for RJ
+- stat rjindex
+- global
+
++++
+
+
+- make the currentUser change when a user is selected in the treeview (with double click)
+ (or edit this user)
+
+
+- make global stats show tc and integrate rjs
+
+
++ make the intersession like this:
+	- summary like global but with each column a different session (people have to preselect wich sessions to stat)
+	- like before but for one person (not for all sessions)
+
+
+- decide the name of all this (gsalta, JumpFreeLab, ChronoJump), and create a project in softwarelibre.org
+
+
+- (HALF) Put a button for "cancel jump" (specially usefull if we selected we are using the platform)
+
+
+- Potencia muscular= 9,81^2 * TV * TT / (4*ns*(TT-TV) Aguado, p231
+
+- Capacitat de salt Total: (SJ+100%) + (sj-sj+100%) + (cmj-sj) + (abk-cmj) + (dj-abk)
+(altura DJ ?). Aixo funciona, pero no agafa la linia si falta algun salt:
+sqlite> SELECT j1.personID, person.name, (j1.tv + j2.tv-j1.tv + j3.tv-j2.tv + j4.tv-j3.tv + j5.tv-j4.tv) AS index_total, j1.tv AS index1, (j2.tv - j1.tv) AS index2, (j3.tv - j2.tv) AS index3, (j4.tv - j3.tv) AS index4, (j5.tv - j4.tv) AS index5 FROM jump AS j1, jump AS j2, jump AS j3, jump AS j4, jump AS j5, person WHERE j1.type="SJ+" and j1.weight="100%" and j2.type="SJ" AND j3.type="CMJ" AND j4.type="ABK" AND j5.type="DJ" AND j1.personID=j2.personID AND j2.personID=j3.personID AND j3.personID=j4.personID AND j4.personID=j5.personID AND j1.personID=person.uniqueID GROUP BY j1.personID;
+2|pepa|0.0993004424028567|0.184782230008758|0.280872289780933|-0.280872289780933|-0.065258488461962|-0.0202232991439393
+1|xavi1|0.186643592820803|0.465654519789691|-0.366973106920241|0.366973106920241|-0.002864390799247|-0.276146536169641
+
+
+
+
+- graf. capacitat de salt total
+
+
+- video digital d'esportista per a mesurar angle de cames. NO, millor potenciometre que llanci la senyal al propi SqyGsalta, i que desde gsalta pugui fins-i-tot validar o anular un salt
+- "rocket jump" (ABK flexió de menys de 90 º, casi total)
+- "maximum" cursa i acció complerta (sense modificacions) (com un dj pero amb fall 0)
+
+
+
+RJ time
+
+editCurrentSession  (edit delete sessions (delete it's jumpers and jumps))
+
+
+
+-stats intersession (global compare the maxs and averages):
+STAT || sessioxx || sessio yyy || sessio zzz  (4 columns)
+SJ MAX || 0.4956 Manel || 0.33454 pepe || 0.33445 jose  ||
+CMJ MAX || 0.4956 Manel || 0.33454 pepe || 0.33445 jose ||
+-same with SJ rank, cmj rank, ...
+
+-stats: put a button for "graph this stat")
+
+continue the :
+expandCurrentJumperIfNeeded ();
+private void expandCurrentJumperIfNeeded ()
+
+
+
+DONE (last changes at bottom):
+-----
+- study how to insert strange characters in the SQL: "'"
+- study the problems with static methods and widgets, note we can change the label clicking in RJ button, change this
+- check what happens if the user changes manually the combobox, it should not go to the sql function it the value is not possible. OR SOME WAWY TO BLOCK THE EDITING
+- when a new user is created, it should be selected in the combobox (then a new jump will be of this jumper): SOLVED SHOWING THE VALUES IN REVERSED ORDER
+- sex in creation of people
+- checkbox of sex differentiation in statistics 
+- 2 DJ stats (TV, index)
+- stats intrasession IE, IUB
+
+- check when creating a session that it doesn't exist
+- check when creating a person that it doesn't exist
+DJ demanar alçada caiguda
+(SJ pes) demanar quant pes % o Kg "22:%" "28:Kg"
+
+RJ jumps
+stats de SJ+
+stats de RJ
+height and weight in persons
+-RJ complete view
+- desactivar altura de TV a preferences
+in modifyperson, check de usedate and date, Remove de gnome.dateedit and use three ints, more easy to maintain and portable!!!
+
+if we edit a person, when it finishes, it update the combo of jumpers, and the last subject it's selected (not the subject we were just editing)... find a way of selecting in the combo the option what we want, not just the last of the options.
+-rip ':' in session name
+- create the widget jump modify 
+- in edit jump, repair some bugs: fall, weight (and weight type "Kg" or "%") should be editable. Check also that there's no confusion between the jump constructors, and the normal jumps, sj+, dj and rj, all are working ok
+- Make a delete selected jump and a confirmation window
+-clean code in the combojumps entry selection
+- Make a menuoption (radiobutton) for working "simulated" or "working platform". In every jump check this and then make random values or try to detect the platform. The default should be working platform. Store the value in prefences
+- change the way of storing data (weight, limit factor, fall) should be three different camps in the database. By this way we can create new jumps like RJ start falling and with weight, or RJ with weight or DJ with weight. DONE jumps.cs, sqlite.cs (until statclassificationonejump(without sex). Check all the gsalta calls to jump and sqlite and the confusing treatment of fall and weight. MIX sex and not sex, check info in:
+	public static ArrayList StatClassificationOneJump (int sessionID, string jumpType)
+
+- change all the sex thing to a string "M" or "F"
+
+-BUG SOLVED: (sembla que peta quan s'obre una sessió sense saltadors (o es crea una sessio), i es recupera un i se'l fa saltar; provar de crear sessio nova, crar subjecte i després recuperar i fer saltar el recuperat NO PETA)
+
+-Mirar que passsa si li dones 3 vegades al SJ+ que passa amb les 3 finestres? SOLVED making windows MODAL (sj+, djfall, rj, confirmwindow)
+
+- Put a option in menu ("edit selected jump", "edit selected person")
+- edit-delete jumps
+- edit-delete jumpers (from one session or all sessions)
+
+- sql query for loading sessions knowing how many jumps in each session:
+in Sqlite.SelectAllSessions()
+select session.*, count(*) AS jumps from session, jump where session.uniqueID == jump.sessionID group by sessionID;
+
+-rewrite all Sqlite for not using the jumpTableName thing, only "jump". Same for session and person
+- in stats differenciate: 
+a) ranking of SJs (10 or more jumps (selectable))  //easy SQL
+b) ranking of SJ jumpers (rank of all jumpers with it's best sj)  //complex but just done
+
+something like:
+
+stat  substat            results                        sex
+----  ------		--------			---
+SJ    rank of jumps	  10 (spinbutton)		sex checkbutton
+      rank of jumpers	  spinbutton.Sensitive = false  sex checkbutton
+
+- try to use better SQL with group by (person id)
+ select * from jump where type = "CMJ" and sessionID = 3 group by personID order by tv desc (but it does not show the best tv's of everyone :(  ):
+
+---
+RANQUING OF PERSONS IN SJ AND SHOW THE BEST JUMP OF EACH:
+---
+SELECT max(jump.tv) AS jump_tv, person.name, person.sex
+FROM jump, person 
+WHERE jump.type ="SJ" 
+AND jump.sessionID=5 
+AND jump.personID == person.uniqueID 
+GROUP BY person.uniqueID 
+ORDER BY person.sex, jump_tv DESC;
+
+RANQUING OF PERSONS IN DJ index ( 100 * (tv-tc ) /tc )  AND SHOW THE BEST JUMP OF EACH:
+---
+SELECT max( 100 * (jump.tv - jump.tc) / jump.tc) AS jump_index, person.name, person.sex
+FROM jump, person 
+WHERE jump.type ="DJ" 
+AND jump.sessionID=5 
+AND jump.personID == person.uniqueID 
+GROUP BY person.uniqueID 
+ORDER BY person.sex, jump_index DESC;
+---
+
+RANQUING OF PERSONS IN IE (100 * (CMJ - SJ) / SJ )
+-----
+-using the MAX jumps:
+SELECT person.name, jump.type, MAX(jump.tv), person.sex 
+FROM person, jump 
+WHERE sessionID = 1 
+AND ( jump.type == "SJ" OR jump.type == "CMJ" ) 
+AND person.uniqueID == jump.personID 
+GROUP BY type, personID
+ORDER BY person.sex, person.uniqueID, jump.type;
+
+-using the AVG jumps:
+SELECT person.name, jump.type, AVG(jump.tv), person.sex
+FROM person, jump 
+WHERE sessionID = 1 
+AND ( jump.type == "SJ" OR jump.type == "CMJ" ) 
+AND person.uniqueID == jump.personID 
+GROUP BY type, personID;
+ORDER BY person.sex, person.uniqueID, jump.type;
+
+both return something like this: (if sex is "both")
+joana1|CMJ|0.465654519789691
+joana1|SJ|0.465654519789691
+xavi1|CMJ|0.465654519789691
+xavi1|SJ|0.184782230008758
+
+then treat each two rows for computing
+
++++ problem, IE an IUB it's not sorted, and difficult to limit values +++: solved with nice SQL, all results in one line
+
+-bug, the stats sj, cmj and abk sex are wrong (refering to another sesion?). sj+ sex is good 
+
+++ separated treeview and sqlite tables for RJ jumps and non-RJ jumps:
+- repair the treeview of gsalta.cs for knowing RJs (probably for every RJ jump call a sql function)
+ (th treeview_jumps calls sqlite.selectalljumps (this will not return each RJ subjump) call another sql function for every RJ for knowing the subjumps).
+ All this is necessary for later doing statistics on all jumps
+- make the insert rj parts faster (sqlite.cs 422)
+
+SOLVED:
+BUG: in stat DJ (TV) and DJ(INDEX) jumpers MAX, the tv does not match the tc (it's not the same jump). Solution:
+"if we want operation == MAX in DJ (jumpers), we need to forget the GROUP BY and filter manually the first row of each person". 
+
+SOLVED with a check and a myMax value
+BUG: crash when create new session, because the Sqlite.StatGlobaldj  while(reader.Read()) crashes
+
+SESSION LOAD: 
+1.- do without the select of jumps (put a button "show details" for knowing the jumps and persons in that session):
+select count(*) from jump where sessionID=1;
+select count(*) from personSession where sessionID=1;
+2.- or try it in one row
+3.- or select also like this: select sessionID, count(*) from jump group by sessionID ORDER BY sessionID;
+1|24
+2|9
+15|10
+16|15
+17|20
+and this:  select sessionID, count(*) from personsession group by sessionID ORDER BY sessionID;
+1|4
+2|4
+11|1
+13|1
+14|1
+15|5
+16|4
+17|2
+AND record the two arrays and check the values against the sessionID and show in the table of load sesion
+
+--
+preferences value for ask deletion of jumps
+--
+mix normal jump code with sj+, it's almost the same
+
+repair bug in djindex (not in global) avg by sex. If a women has two jumps, the avg women it's not good
+
+repair BUG in StatGlobalDj and StatGlobalRj: if it's not sex separated and AVG, the sqlite function returns the AVG of both sexes, and later the stat function makes the AVG of this 2 sexes. This is not the same as making the AVG of all values.
+
+show the average, and DE at the end of every list of values (in stats)
+
+all in english

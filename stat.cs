@@ -32,7 +32,7 @@ using System.Collections; //ArrayList
  * 	StatSjCmjAbk	
  *	StatDjTV	
  *	StatDjIndex	
- *	//StatRjAverageIndex
+ *		StatRjIndex
  *	StatIE
  *		StatIUB
  * 	StatGlobal
@@ -118,6 +118,17 @@ public class Stat
 				time;
 	}
 
+	protected static double makeSquare (string myValueStr) {
+		double myDouble;
+		myDouble = Convert.ToDouble(myValueStr);
+		return myDouble * myDouble;
+	}
+	
+	protected static string calculateSD(double sumValues, double sumSquaredValues, int count) {
+		return (System.Math.Sqrt(
+				sumSquaredValues -(sumValues*sumValues/count) / (count -1) )).ToString();
+	}
+
 	public string SessionName
 	{
 		get { 
@@ -171,8 +182,8 @@ public class StatSjCmjAbk : Stat
 		int count =0;
 
 		//col0 = treeview.AppendColumn (catalog.GetString("Pos."), new CellRendererText(), "text", count++);
-		col0 = treeview.AppendColumn ("Pos.", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Sujeto", new CellRendererText(), "text", count++); //person(sex)
+		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person(sex)
 		col2 = treeview.AppendColumn ("TV", new CellRendererText(), "text", count++);
 	}
 
@@ -198,8 +209,11 @@ public class StatSjCmjAbk : Stat
 		int secondCount = 0;
 		bool firstGirl = true;
 		string myTv = "";
+		double sumTv = 0;
+		double sumSquaredTv = 0;
+		int i=0;
 		
-		for (int i=0 ; i < myArray.Count ; i ++) {
+		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
 			if(firstGirl && sexSeparated && stringFullResults[2] == "F") {
@@ -216,7 +230,17 @@ public class StatSjCmjAbk : Stat
 			
 			printData ( (i-secondCount+1).ToString() , 
 					stringFullResults[1] + "(" + stringFullResults[2] + ")", myTv );
+
+			sumTv += Convert.ToDouble(stringFullResults[0]);
+			sumSquaredTv += makeSquare(stringFullResults[0]);
 		}
+		
+		//Console.WriteLine("sumTv: {0}, totalNum: {1}, avgTv: {2}", sumTv, i , sumTv/i);
+		//Console.WriteLine("sumSquaredTv: {0}", sumSquaredTv);
+		//Console.WriteLine("square root of sumSquaredTv: {0}", System.Math.Sqrt(sumSquaredTv));
+		printData ( ""  , "AVG", trimDecimals((sumTv/i).ToString()) );
+		printData ( ""  , "SD", trimDecimals(
+					calculateSD(sumTv, sumSquaredTv, i)) );
 	}
 
 	protected override void printData (string row, string person, string tv) 
@@ -228,27 +252,29 @@ public class StatSjCmjAbk : Stat
 	{
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "máximos de tiempo de vuelo "; 
+			operationString = "by MAX flight time values "; 
 		}
-		else { operationString = "medios de tiempo de vuelo "; }
+		else { operationString = "by AVG flight time values "; }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = " ordenados por sexos"; }
+		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
 	
+		string inJump = " in " + jumpType + " jump ";
+		string inSession = " in '" + sessionName + "' session ";
+		
 		if ( this.limit == 0 ) { 
-			return "Ránquing de saltadores por valores " + operationString + "del salto " + 
-				jumpType + " en la sesión '" + sessionName + "' " + sexSeparatedString + "."; 
+			return "Rank of jumpers " + operationString + 
+				inJump + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selección de los " + this.limit + " valores máximos de tiempo de vuelo en el salto " + 
-				jumpType + " en la sesión '" + sessionName + "'" + "."; 
+			return "Selection of the " + this.limit + 
+				" MAX values of flight time " + inJump + inSession + "."; 
 		}
 	}
 
 }
 
 
-//public class StatDjRankTv : StatSjCmjAbk
 public class StatDjTv : Stat
 {
 	protected static Gtk.TreeViewColumn col0;
@@ -287,11 +313,11 @@ public class StatDjTv : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Pos.", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Sujeto", new CellRendererText(), "text", count++); //person(sex)
+		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person(sex)
 		col2 = treeview.AppendColumn ("TV", new CellRendererText(), "text", count++);
 		col3 = treeview.AppendColumn ("TC", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ("Caida", new CellRendererText(), "text", count++);
+		col4 = treeview.AppendColumn ("Fall", new CellRendererText(), "text", count++);
 	}
 	
 	public override void RemoveHeaders() {
@@ -323,8 +349,15 @@ public class StatDjTv : Stat
 		bool firstGirl = true;
 		string myTv = "";
 		string [] stringFullResults;
+		double sumTv = 0;
+		double sumTc = 0;
+		double sumFall = 0;
+		double sumSquaredTv = 0;
+		double sumSquaredTc = 0;
+		double sumSquaredFall = 0;
+		int i=0;
 		
-		for (int i=0 ; i < myArray.Count ; i ++) {
+		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
 			if(firstGirl && sexSeparated && stringFullResults[2] == "F") {
@@ -338,14 +371,22 @@ public class StatDjTv : Stat
 					trimDecimals(stringFullResults[3]), 
 					trimDecimals (stringFullResults[4])
 					);
-			/*
-			iter = store.AppendValues (rowName, 
-					stringFullResults[0] + "(" + stringFullResults[1] + ")" , 
-					trimDecimals (stringFullResults[2]), 
-					trimDecimals(stringFullResults[3]), trimDecimals (stringFullResults[4])
-					);
-			*/
+			
+			sumTv += Convert.ToDouble(stringFullResults[0]);
+			sumTc += Convert.ToDouble(stringFullResults[3]);
+			sumFall += Convert.ToDouble(stringFullResults[4]);
+			sumSquaredTv += makeSquare(stringFullResults[0]);
+			sumSquaredTc += makeSquare(stringFullResults[3]);
+			sumSquaredFall += makeSquare(stringFullResults[4]);
 		}
+		
+		//Console.WriteLine("sumTv: {0}, totalNum: {1}, avgTv: {2}", sumTv, i , sumTv/i);
+		printData ( ""  , "AVG", trimDecimals((sumTv/i).ToString()), 
+				trimDecimals((sumTc/i).ToString()), trimDecimals((sumFall/i).ToString()) );
+		printData ( ""  , "SD", 
+				trimDecimals(calculateSD(sumTv, sumSquaredTv, i)),
+				trimDecimals(calculateSD(sumTc, sumSquaredTc, i)),
+				trimDecimals(calculateSD(sumFall, sumSquaredFall, i)) );
 	}
 			
 	//protected override void printData (string row, string person, string tv, string tc, string fall) 
@@ -358,27 +399,28 @@ public class StatDjTv : Stat
 	{
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "máximos de tiempo de vuelo "; 
+			operationString = "by MAX flight time values "; 
 		}
-		else { operationString = "medios de tiempo de vuelo "; }
+		else { operationString = "by AVG flight time values "; }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = " ordenados por sexos"; }
+		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
 	
+		string inJump = " in " + jumpType + " jump ";
+		string inSession = " in '" + sessionName + "' session ";
+		
 		if ( this.limit == 0 ) { 
-			return "Ránquing de saltadores por valores " + operationString + "del salto DJ " + 
-				"en la sesión '" + sessionName + "' " + sexSeparatedString + "."; 
+			return "Rank of jumpers " + operationString + inJump + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selección de los " + this.limit + " valores máximos de tiempo de vuelo en el salto DJ " + 
-				"en la sesión '" + sessionName + "'" + "."; 
+			return "Selection of the " + this.limit + 
+				" MAX values of flight time " + inJump + inSession + "."; 
 		}
 	}
 
 }
 
 
-//public class StatDjIndex : StatDjRankTv
 public class StatDjIndex : Stat
 {
 	protected static Gtk.TreeViewColumn col0;
@@ -421,13 +463,13 @@ public class StatDjIndex : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Pos.", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Sujeto", new CellRendererText(), "text", count++); //person (sex)
+		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person (sex)
 		//col2 = treeview.AppendColumn ("Índice % (mejor salto)", new CellRendererText(), "text", count++);
 		col2 = treeview.AppendColumn ("Índice %", new CellRendererText(), "text", count++);
 		col3 = treeview.AppendColumn ("TV", new CellRendererText(), "text", count++);
 		col4 = treeview.AppendColumn ("TC", new CellRendererText(), "text", count++);
-		col5 = treeview.AppendColumn ("Caida", new CellRendererText(), "text", count++);
+		col5 = treeview.AppendColumn ("Fall", new CellRendererText(), "text", count++);
 	}
 
 	public override void RemoveHeaders() {
@@ -443,8 +485,6 @@ public class StatDjIndex : Stat
 	{
 		string jumpType = "DJ";
 
-		//ArrayList myArray = Sqlite.StatDjIndex(sessionUniqueID, sexSeparated);
-		//ArrayList myArray = Sqlite.StatClassificationOneJump(sessionUniqueID, jumpType, sexSeparated);
 		ArrayList myArray; 
 		bool index = true;
 		if (limit > 0) {
@@ -459,8 +499,17 @@ public class StatDjIndex : Stat
 		bool firstGirl = true;
 		string myTv = "";
 		string [] stringFullResults;
+		double sumIndex = 0;
+		double sumTv = 0;
+		double sumTc = 0;
+		double sumFall = 0;
+		double sumSquaredIndex = 0;
+		double sumSquaredTv = 0;
+		double sumSquaredTc = 0;
+		double sumSquaredFall = 0;
+		int i=0;
 		
-		for (int i=0 ; i < myArray.Count ; i ++) {
+		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
 			if(firstGirl && sexSeparated && stringFullResults[2] == "F") {
@@ -470,13 +519,33 @@ public class StatDjIndex : Stat
 
 			printData ( (i-secondCount+1).ToString() , 
 					stringFullResults[1] + "(" + stringFullResults[2] + ")", 
-					trimDecimals ( 
-						calculateIndex (stringFullResults[0], stringFullResults[3]) ), //index
+					//trimDecimals ( 
+					//	calculateIndex (stringFullResults[0], stringFullResults[3]) ), //index
+					trimDecimals (stringFullResults[5]), //index
 					trimDecimals (stringFullResults[0]), //tv
 					trimDecimals (stringFullResults[3]), //tc
 					trimDecimals (stringFullResults[4]) //fall
 					);
+			
+			sumIndex += Convert.ToDouble(stringFullResults[5]); //index
+			sumTv += Convert.ToDouble(stringFullResults[0]);
+			sumTc += Convert.ToDouble(stringFullResults[3]);
+			sumFall += Convert.ToDouble(stringFullResults[4]);
+			sumSquaredIndex += makeSquare(stringFullResults[5]);
+			sumSquaredTv += makeSquare(stringFullResults[0]);
+			sumSquaredTc += makeSquare(stringFullResults[3]);
+			sumSquaredFall += makeSquare(stringFullResults[4]);
+
 		}
+		
+		printData ( ""  , "AVG", trimDecimals((sumIndex/i).ToString()), 
+				trimDecimals((sumTv/i).ToString()), trimDecimals((sumTc/i).ToString()), 
+				trimDecimals((sumFall/i).ToString()) );
+		printData ( ""  , "SD", 
+				trimDecimals(calculateSD(sumIndex, sumSquaredIndex, i)),
+				trimDecimals(calculateSD(sumTv, sumSquaredTv, i)),
+				trimDecimals(calculateSD(sumTc, sumSquaredTc, i)),
+				trimDecimals(calculateSD(sumFall, sumSquaredFall, i)) );
 	}
 
 	//protected override void printData (string row, string person, string index, string tv, string tc, string fall) 
@@ -496,20 +565,22 @@ public class StatDjIndex : Stat
 			
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "máximos del índice " + indexString ; 
+			operationString = "by MAX values of index: " + indexString ; 
 		}
-		else { operationString = "medios del índice " + indexString ; }
+		else { operationString = "by AVG values of index: " + indexString ; }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = " ordenados por sexos"; }
-	
+		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
+
+		string inJump = " in " + jumpType + " jump ";
+		string inSession = " in '" + sessionName + "' session ";
+		
 		if ( this.limit == 0 ) { 
-			return "Ránquing de saltadores por valores " + operationString + "del salto DJ " + 
-				"en la sesión '" + sessionName + "' " + sexSeparatedString + "."; 
+			return "Rank of jumpers " + operationString + inJump + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selección de los " + this.limit + " valores máximos del índice " + indexString + 
-				"del salto DJ en la sesión '" + sessionName + "'" + "."; 
+			return "Selection of the " + this.limit + 
+				" MAX values of flight time " + inJump + inSession + "."; 
 		}
 	}
 }
@@ -544,8 +615,8 @@ public class StatRjIndex : StatDjIndex
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Pos.", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Sujeto", new CellRendererText(), "text", count++); //person (sex)
+		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person (sex)
 		col2 = treeview.AppendColumn ("Índice %", new CellRendererText(), "text", count++);
 		col3 = treeview.AppendColumn ("TV (AVG)", new CellRendererText(), "text", count++);
 		col4 = treeview.AppendColumn ("TC (AVG)", new CellRendererText(), "text", count++);
@@ -570,8 +641,17 @@ public class StatRjIndex : StatDjIndex
 		bool firstGirl = true;
 		string myTv = "";
 		string [] stringFullResults;
+		double sumIndex = 0;
+		double sumTv = 0;
+		double sumTc = 0;
+		double sumFall = 0;
+		double sumSquaredIndex = 0;
+		double sumSquaredTv = 0;
+		double sumSquaredTc = 0;
+		double sumSquaredFall = 0;
+		int i=0;
 		
-		for (int i=0 ; i < myArray.Count ; i ++) {
+		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
 			if(firstGirl && sexSeparated && stringFullResults[2] == "F") {
@@ -581,13 +661,33 @@ public class StatRjIndex : StatDjIndex
 
 			printData ( (i-secondCount+1).ToString() , 
 					stringFullResults[1] + "(" + stringFullResults[2] + ")", 
-					trimDecimals ( 
-						calculateIndex (stringFullResults[0], stringFullResults[3]) ), //index
+					//trimDecimals ( 
+					//	calculateIndex (stringFullResults[0], stringFullResults[3]) ), //index
+					trimDecimals (stringFullResults[5]), //index
 					trimDecimals (stringFullResults[0]), //tv
 					trimDecimals (stringFullResults[3]), //tc
 					trimDecimals (stringFullResults[4]) //fall
 					);
+			
+			//sumIndex += Convert.ToDouble(calculateIndex (stringFullResults[0], stringFullResults[3]) ); //index
+			sumIndex += Convert.ToDouble(stringFullResults[5]);
+			sumTv += Convert.ToDouble(stringFullResults[0]);
+			sumTc += Convert.ToDouble(stringFullResults[3]);
+			sumFall += Convert.ToDouble(stringFullResults[4]);
+			sumSquaredIndex += makeSquare(stringFullResults[5]);
+			sumSquaredTv += makeSquare(stringFullResults[0]);
+			sumSquaredTc += makeSquare(stringFullResults[3]);
+			sumSquaredFall += makeSquare(stringFullResults[4]);
 		}
+		
+		printData ( ""  , "AVG", trimDecimals((sumIndex/i).ToString()), 
+				trimDecimals((sumTv/i).ToString()), trimDecimals((sumTc/i).ToString()), 
+				trimDecimals((sumFall/i).ToString()) );
+		printData ( ""  , "SD", 
+				trimDecimals(calculateSD(sumIndex, sumSquaredIndex, i)),
+				trimDecimals(calculateSD(sumTv, sumSquaredTv, i)),
+				trimDecimals(calculateSD(sumTc, sumSquaredTc, i)),
+				trimDecimals(calculateSD(sumFall, sumSquaredFall, i)) );
 	}
 
 	
@@ -597,25 +697,27 @@ public class StatRjIndex : StatDjIndex
 			
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "máximos del índice " + indexString ; 
+			operationString = "by MAX values of index: " + indexString ; 
 		}
-		else { operationString = "medios del índice " + indexString ; }
+		else { operationString = "by AVG values of index: " + indexString ; }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = " ordenados por sexos"; }
+		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
 	
+		string bySubjumps = " using AVG of its subjumps ";
+		string inJump = " in " + jumpType + " jump ";
+		string inSession = " in '" + sessionName + "' session ";
+		
 		if ( this.limit == 0 ) { 
-			return "Ránquing de saltadores por valores " + operationString + "del salto RJ (usando la media de sus subsaltos) " + 
-				"en la sesión '" + sessionName + "' " + sexSeparatedString + "."; 
+			return "Rank of jumpers " + operationString + + bySubjumps + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selección de los " + this.limit + " valores máximos del índice " + indexString + 
-				"del salto RJ (usando la media de sus subsaltos) en la sesión '" + sessionName + "'" + "."; 
+			return "Selection of the " + this.limit + 
+				" MAX values of flight time " + inJump + bySubjumps + inSession + "."; 
 		}
 	}
 }
 
-//public class StatIE : StatSjCmjAbk
 public class StatIE : Stat
 {
 	protected string jump1Name;
@@ -647,7 +749,7 @@ public class StatIE : Stat
 		jump1Name = "SJ";
 		jump2Name = "CMJ";
 		indexName = "IE";
-		indexNameString = "Indice de Elasticidad";
+		indexNameString = "Elasticity Index";
 		indexValueString = "100*(CMJ-SJ)/SJ" ;
 		if (max) {
 			this.operation = "MAX";
@@ -667,9 +769,9 @@ public class StatIE : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Pos.", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Sujeto", new CellRendererText(), "text", count++); //person (sex)
-		col2 = treeview.AppendColumn ("Indice %", new CellRendererText(), "text", count++);
+		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person (sex)
+		col2 = treeview.AppendColumn ("Index %", new CellRendererText(), "text", count++);
 		col3 = treeview.AppendColumn ("SJ TV", new CellRendererText(), "text", count++);
 		col4 = treeview.AppendColumn ("CMJ TV", new CellRendererText(), "text", count++);
 	}
@@ -690,8 +792,15 @@ public class StatIE : Stat
 		bool firstGirl = true;
 		string myTv = "";
 		string [] stringFullResults;
+		double sumIndex = 0;
+		double sumJump1 = 0;
+		double sumJump2 = 0;
+		double sumSquaredIndex = 0;
+		double sumSquaredJump1 = 0;
+		double sumSquaredJump2 = 0;
+		int i=0;
 		
-		for (int i=0 ; i < myArray.Count ; i ++) {
+		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
 			if(firstGirl && sexSeparated && stringFullResults[4] == "F") {
@@ -702,10 +811,24 @@ public class StatIE : Stat
 			printData ( (i-secondCount+1).ToString() , 
 					stringFullResults[0] + "(" + stringFullResults[4] + ")", //person (sex)
 					trimDecimals (stringFullResults[1]), //index
-					trimDecimals (stringFullResults[2]), //sj
-					trimDecimals (stringFullResults[3]) //cmj
+					trimDecimals (stringFullResults[2]), //jump1
+					trimDecimals (stringFullResults[3]) //jump2
 					);
+
+			sumIndex += Convert.ToDouble(stringFullResults[1]);
+			sumJump1 += Convert.ToDouble(stringFullResults[2]);
+			sumJump2 += Convert.ToDouble(stringFullResults[3]);
+			sumSquaredIndex += makeSquare(stringFullResults[1]);
+			sumSquaredJump1 += makeSquare(stringFullResults[2]);
+			sumSquaredJump2 += makeSquare(stringFullResults[3]);
 		}
+		
+		printData ( ""  , "AVG", trimDecimals((sumIndex/i).ToString()), 
+				trimDecimals((sumJump1/i).ToString()), trimDecimals((sumJump2/i).ToString()) );
+		printData ( ""  , "SD", 
+				trimDecimals(calculateSD(sumIndex, sumSquaredIndex, i)),
+				trimDecimals(calculateSD(sumJump1, sumSquaredJump1, i)),
+				trimDecimals(calculateSD(sumJump2, sumSquaredJump2, i)) );
 	}
 
 	
@@ -717,20 +840,22 @@ public class StatIE : Stat
 	public override string ToString () 
 	{
 		string operationString = "";
-		if ( this.operation == "MAX" ) { operationString = "máximos " ; }
-		else { operationString = "medios " ; }
+		if ( this.operation == "MAX" ) { 
+			operationString = "by MAX values of index '" + indexNameString + "': " + indexValueString;
+		}
+		else { operationString = "by AVG values of index '" + indexNameString + "': " + indexValueString ; }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = " ordenados por sexos"; }
+		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
 	
+		string inSession = " in '" + sessionName + "' session ";
+
 		if ( this.limit == 0 ) { 
-			return "Ránquing de saltadores por valores " + operationString + "del " +
-				indexNameString + ": " + indexValueString + 
-				" en la sesión '" + sessionName + "' " + sexSeparatedString + "."; 
+			return "Rank of jumpers" + operationString + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selección de los " + this.limit + " valores máximos del " + indexNameString + 
-				": " + indexValueString + " en la sesión '" + sessionName + "'" + "."; 
+			return "Selection of the " + this.limit + 
+				" MAX values of index '" + indexNameString + "': " + indexValueString + inSession + "."; 
 		}
 	}
 }
@@ -756,7 +881,7 @@ public class StatIUB : StatIE
 		jump1Name = "CMJ";
 		jump2Name = "ABK";
 		indexName = "IUB";
-		indexNameString = "Indice de Utilización de Brazos";
+		indexNameString = "Arms using Index";
 		indexValueString = "100*(ABK-CMJ)/CMJ" ;
 		if (max) {
 			this.operation = "MAX";
@@ -770,9 +895,9 @@ public class StatIUB : StatIE
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Pos.", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Sujeto", new CellRendererText(), "text", count++);
-		col2 = treeview.AppendColumn ("Indice %", new CellRendererText(), "text", count++);
+		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++);
+		col2 = treeview.AppendColumn ("Index %", new CellRendererText(), "text", count++);
 		col3 = treeview.AppendColumn ("CMJ TV", new CellRendererText(), "text", count++);
 		col4 = treeview.AppendColumn ("ABK TV", new CellRendererText(), "text", count++);
 	}
@@ -814,8 +939,8 @@ public class StatGlobal : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Salto", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Valor", new CellRendererText(), "text", count++); 
+		col0 = treeview.AppendColumn ("Jump", new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ("Value", new CellRendererText(), "text", count++); 
 	}
 
 	public override void RemoveHeaders() {
@@ -831,8 +956,11 @@ public class StatGlobal : Stat
 	
 		string [] stringFullResults;
 		string rowName = "";
+		double sumValue = 0;
+		double sumSquaredValue = 0;
+		int i=0;
 		
-		for (int i=0 ; i < myArray.Count ; i ++) {
+		for (i=0 ; i < myArray.Count ; i ++) {
 			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
 
 			if(sexSeparated) {
@@ -842,7 +970,15 @@ public class StatGlobal : Stat
 			}
 			 
 			printData ( rowName, trimDecimals (stringFullResults[1]) );
+			sumValue += Convert.ToDouble(stringFullResults[1]);
+			sumSquaredValue += makeSquare(stringFullResults[1]);
 		}
+		
+		//AVG and SD here, because is not fine to compare
+		//jumps with values like 0.5 with indexes
+		//with values like 70
+		printData ( "AVG", trimDecimals((sumValue/i).ToString()) );		
+		printData ( "SD", trimDecimals(calculateSD(sumValue, sumSquaredValue, i)) );
 
 		//print the DJ if exists
 		if(myArrayDj.Count > 0) {
@@ -873,7 +1009,7 @@ public class StatGlobal : Stat
 				printData ( "RJ Index", trimDecimals (stringFullResults[0]) );
 			}
 		}
-		
+				
 	}
 
 	protected void printData (string statName, string statValue) 
@@ -883,17 +1019,16 @@ public class StatGlobal : Stat
 
 	public override string ToString () 
 	{
-		string operationString = "";
-		if ( this.operation == "MAX" ) { 
-			operationString = "máximos "; 
-		}
-		else { operationString = "medios "; }
-
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = " ordenados por sexos"; }
+		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
+		
+		string inSession = " in '" + sessionName + "' session ";
 	
-		return "Valores " + operationString + "de distintos saltos y estadísticos en la sesión '" + 
-			sessionName + "'" + sexSeparatedString + "."  ; 
+		if ( this.operation == "MAX" ) { 
+			return "MAX values of some jumps and statistics" + inSession + sexSeparatedString + "."  ; 
+		} else {
+			return "AVG values of some jumps and statistics" + inSession + sexSeparatedString + "."  ; 
+		}
 	}
 }
 

@@ -124,7 +124,7 @@ public class ChronoJump {
 	private static Gtk.TreeViewColumn rj_col_tc;
 
 
-	private static string allJumpsName = "Todos los saltos";
+	private static string allJumpsName = "All jumps";
 	private static string [] comboJumpsOptions = {allJumpsName, "SJ", "SJ+", "CMJ", "ABK", "DJ"};
 	private static string [] comboStatsOptions = {"Global", "SJ", "SJ+", "CMJ", "ABK", 
 		"DJ (TV)", 
@@ -231,7 +231,9 @@ public class ChronoJump {
 
 		rand = new Random(40);
 		
-		serial_fd = Serial.Open("/dev/ttyS0");
+		Console.WriteLine ("starting connection with serial port");
+		Console.WriteLine ("if program chrashes, disable next line, and work always in 'simulated' mode");
+		//serial_fd = Serial.Open("/dev/ttyS0");
 		
 		program.Run();
 	}
@@ -269,7 +271,7 @@ public class ChronoJump {
 		tv.HeadersVisible=true;
 		int count = 0;
 	
-		col_name = tv.AppendColumn ("Nombre", new CellRendererText(), "text", count ++);
+		col_name = tv.AppendColumn ("Name", new CellRendererText(), "text", count ++);
 		col_tv = tv.AppendColumn ("TV", new CellRendererText(), "text", count ++);
 		if (showHeight) {
 			col_height = tv.AppendColumn ("ALT", new CellRendererText(), "text", count ++);
@@ -476,7 +478,7 @@ finishForeach:
 		tv.HeadersVisible=true;
 		int count = 0;
 	
-		rj_col_name = tv.AppendColumn ("Nombre", new CellRendererText(), "text", count ++);
+		rj_col_name = tv.AppendColumn ("Name", new CellRendererText(), "text", count ++);
 		rj_col_tv = tv.AppendColumn ("TV", new CellRendererText(), "text", count ++);
 		if (showHeight) {
 			rj_col_height = tv.AppendColumn ("ALT", new CellRendererText(), "text", count ++);
@@ -1350,7 +1352,7 @@ finishForeach:
 			} while (ok != 1) ;
 
 			if (estadoInicial == 1) {
-				Console.WriteLine("Estás dentro, cuando quieras SALTA!!");
+				Console.WriteLine("You are IN, JUMP when prepared!!");
 				//appbar2.Push( "Estás dentro, cuando quieras SALTA!!" );
 
 				platformState = true;
@@ -1364,14 +1366,14 @@ finishForeach:
 				timerClockJump.Enabled = true;
 			} 
 			else {
-				Console.WriteLine("Estás fuera, por favor, entra en la manta");
+				Console.WriteLine("You are OUT, please come inside the platform");
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "estas fuera, entra y pulsa aceptar", "");
+				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "You are OUT, come inside and press button", "");
 
 				//we call again this function
 				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_normal_jump_activate);
 
-				Console.WriteLine("Estás dentro, cuando quieras SALTA!!");
+				Console.WriteLine("You are IN, JUMP when prepared!!");
 				//appbar2.Push( "Estás dentro, cuando quieras SALTA!!" );
 
 			}
@@ -1404,7 +1406,7 @@ finishForeach:
 			fillTreeView_stats();
 		}
 
-		string myStringPush =  "Último salto: " + currentPerson.Name + " " + myType + " TV:" +
+		string myStringPush =  "Last jump: " + currentPerson.Name + " " + myType + " TV:" +
 			trimDecimals( myTV.ToString() ) ;
 		if (myType == "SJ+") { myStringPush = myStringPush + "(" + myWeight + ")";
 		}
@@ -1493,7 +1495,7 @@ finishForeach:
 			} while (ok != 1) ;
 
 			if (estadoInicial == 0) {
-				Console.WriteLine("Estás fuera, cuando quieras SALTA!!");
+				Console.WriteLine("You are OUT, JUMP when prepared!!");
 				//appbar2.Push( "Estás fuera, cuando quieras SALTA!!" );
 
 				platformState = false;
@@ -1508,9 +1510,9 @@ finishForeach:
 				timerClockJump.Enabled = true;
 			} 
 			else {
-				Console.WriteLine("Estás dentro, por favor, sal de la manta");
+				Console.WriteLine("You are IN, please go out the platform");
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "estas dentro de la manta, sal, preparate para saltar, y pulsa aceptar", "");
+				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "You are IN, please go out the platform, prepare for jump and press button", "");
 
 				//we call again this function
 				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_dj_fall_accepted);
@@ -1581,7 +1583,7 @@ finishForeach:
 			fillTreeView_stats();
 		}
 
-		string myStringPush =  "Último salto: " + currentPerson.Name + " DJ TV:" +
+		string myStringPush =  "Last jump: " + currentPerson.Name + " DJ TV:" +
 			trimDecimals( myTV.ToString() ) ;
 		appbar2.Push( myStringPush );
 	}
@@ -1636,15 +1638,15 @@ finishForeach:
 
 			//you have to start outside the platform
 			if (estadoInicial == 1) {
-				Console.WriteLine("Estás dentro, por favor sal para saltar");
+				Console.WriteLine("You are IN, please go out the platform");
 				platformState = true;
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "estas dentro de la manta, sal, preparate para saltar, y pulsa aceptar", "");
+				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "You are IN, please go out the platform, prepare for jump and press button", "");
 
 				//we call again this function
 				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 			} else {
-				Console.WriteLine("Estás fuera, cuando quieras SALTA!!");
+				Console.WriteLine("You are OUT, JUMP when prepared!!");
 				platformState = false;
 			}
 
@@ -1768,7 +1770,7 @@ finishForeach:
 			fillTreeView_stats();
 		}
 
-		string myStringPush =  "Último salto: " + currentPerson.Name + " RJ (" + limited + ") " +
+		string myStringPush =  "Last jump: " + currentPerson.Name + " RJ (" + limited + ") " +
 			" AVG TV: " + trimDecimals( getAverage (myTVString).ToString() ) +
 			" AVG TC: " + trimDecimals( getAverage (myTCString).ToString() ) ;
 		appbar2.Push( myStringPush );
@@ -1860,7 +1862,7 @@ finishForeach:
 		menuitem_last_jump_delete.Sensitive = false ;
 		button_last_jump_delete.Sensitive = false ;
 		
-		appbar2.Push( "Último salto borrado" );
+		appbar2.Push( "Last jump deleted" );
 		
 		if(currentJump.Type == "RJ") {
 			treeview_jumps_rj_storeReset();
@@ -1877,7 +1879,7 @@ finishForeach:
 	}
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
-		Console.WriteLine("Edit salto seleccionado (normal)");
+		Console.WriteLine("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		//if (Convert.ToInt32(jumpSelected) > 0) {
@@ -1893,7 +1895,7 @@ finishForeach:
 	}
 	
 	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args) {
-		Console.WriteLine("Edit salto seleccionado (RJ)");
+		Console.WriteLine("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		//if (Convert.ToInt32(jumpSelected) > 0) {
@@ -1931,14 +1933,14 @@ finishForeach:
 	}
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
-		Console.WriteLine("delete salto seleccionado (normal)");
+		Console.WriteLine("delete selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
 		if (jumpSelected > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				bool isRj = false;
-				confirmWin = ConfirmWindow.Show(app1, "¿Desea borrar el salto seleccionado?", 
+				confirmWin = ConfirmWindow.Show(app1, "¿Do you want to delete selected jump?", 
 						"", "jump", jumpSelected, isRj);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
@@ -1962,8 +1964,8 @@ finishForeach:
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				bool isRj = true;
-				confirmWin = ConfirmWindow.Show(app1, "¿Desea borrar el salto seleccionado?", 
-						"Atención: borrar un subsalto RJ eliminará todo el RJ", "jump", jumpRjSelected,
+				confirmWin = ConfirmWindow.Show(app1, "¿Do you want to delete selected jump?", 
+						"Atention: Deleting a RJ subjump will delete all the RJ", "jump", jumpRjSelected,
 						isRj);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {

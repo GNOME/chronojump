@@ -64,24 +64,6 @@ INTERSESSION SELECTS (but they need to return something for each row (also if th
 ***
 
 
-
-+++
-PROBLEM: sqlite max selection in RJ
-SOLUTION1: learn more sql
-SEE THE EXAMPLE OF DJ AND USE THE NEW JUMPRJ (jumpRj) TABLE
-- create a method for sqlite in RJ, it should be a normal method, and later we sort in the stat class.
-Probably we can save a MAX and an AVG in the jumptable. Probably save other values like rj index
-We should also to save the time value (also if it's jump limited) for calculating the "potencia". Or save directly the potencia. 
--Or use a different sql table only for RJs, with all the subjumps not separated by '='. THIS IS THE BEST, because in the future we should not care for different indexes. 
-
-CURRENT: 
-- make a statonejumper and statonejump for RJ
-- stat rjindex
-- global
-
-+++
-
-
 - make the currentUser change when a user is selected in the treeview (with double click)
  (or edit this user)
 
@@ -97,7 +79,6 @@ CURRENT:
 - (HALF) Put a button for "cancel jump" (specially usefull if we selected we are using the platform)
 
 
-- Potencia muscular= 9,81^2 * TV * TT / (4*ns*(TT-TV) Aguado, p231
 
 - Capacitat de salt Total: (SJ+100%) + (sj-sj+100%) + (cmj-sj) + (abk-cmj) + (dj-abk)
 (altura DJ ?). Aixo funciona, pero no agafa la linia si falta algun salt:
@@ -311,3 +292,6 @@ corrected bug in load jumper (order of columns, and problems with the dateformat
 gettext suport for al the .cs and glade
 
 made spanish es.po file
+---
+
+Potencia muscular= 9,81^2 * TV * TT / (4*ns*(TT-TV) Aguado, p231

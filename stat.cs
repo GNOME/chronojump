@@ -238,8 +238,9 @@ public class StatSjCmjAbk : Stat
 		//Console.WriteLine("sumTv: {0}, totalNum: {1}, avgTv: {2}", sumTv, i , sumTv/i);
 		//Console.WriteLine("sumSquaredTv: {0}", sumSquaredTv);
 		//Console.WriteLine("square root of sumSquaredTv: {0}", System.Math.Sqrt(sumSquaredTv));
-		printData ( ""  , "AVG", trimDecimals((sumTv/i).ToString()) );
-		printData ( ""  , "SD", trimDecimals(
+		printData ( "", "", "");
+		printData ( "AVG"  , "", trimDecimals((sumTv/i).ToString()) );
+		printData ( "SD"  , "", trimDecimals(
 					calculateSD(sumTv, sumSquaredTv, i)) );
 	}
 
@@ -380,10 +381,10 @@ public class StatDjTv : Stat
 			sumSquaredFall += makeSquare(stringFullResults[4]);
 		}
 		
-		//Console.WriteLine("sumTv: {0}, totalNum: {1}, avgTv: {2}", sumTv, i , sumTv/i);
-		printData ( ""  , "AVG", trimDecimals((sumTv/i).ToString()), 
+		printData ( "", "", "", "", "");
+		printData ( "AVG"  , "", trimDecimals((sumTv/i).ToString()), 
 				trimDecimals((sumTc/i).ToString()), trimDecimals((sumFall/i).ToString()) );
-		printData ( ""  , "SD", 
+		printData ( "SD"  , "", 
 				trimDecimals(calculateSD(sumTv, sumSquaredTv, i)),
 				trimDecimals(calculateSD(sumTc, sumSquaredTc, i)),
 				trimDecimals(calculateSD(sumFall, sumSquaredFall, i)) );
@@ -537,10 +538,11 @@ public class StatDjIndex : Stat
 
 		}
 		
-		printData ( ""  , "AVG", trimDecimals((sumIndex/i).ToString()), 
+		printData ( "", "", "", "", "", "");
+		printData ( "AVG"  , "", trimDecimals((sumIndex/i).ToString()), 
 				trimDecimals((sumTv/i).ToString()), trimDecimals((sumTc/i).ToString()), 
 				trimDecimals((sumFall/i).ToString()) );
-		printData ( ""  , "SD", 
+		printData ( "SD"  , "", 
 				trimDecimals(calculateSD(sumIndex, sumSquaredIndex, i)),
 				trimDecimals(calculateSD(sumTv, sumSquaredTv, i)),
 				trimDecimals(calculateSD(sumTc, sumSquaredTc, i)),
@@ -583,6 +585,13 @@ public class StatDjIndex : Stat
 		}
 	}
 }
+
+
+//StatRjIndex class heredates from StatDjIndex the following methods:
+//protected override TreeStore getStore ()
+//public override void RemoveHeaders() 
+//protected void printData (string row, string person, string index, string tv, string tc, string fall)
+//in fact, it's not a very useful class herency
 
 public class StatRjIndex : StatDjIndex
 {
@@ -679,10 +688,11 @@ public class StatRjIndex : StatDjIndex
 			sumSquaredFall += makeSquare(stringFullResults[4]);
 		}
 		
-		printData ( ""  , "AVG", trimDecimals((sumIndex/i).ToString()), 
+		printData ( "", "", "", "", "", "");
+		printData ( "AVG"  , "", trimDecimals((sumIndex/i).ToString()), 
 				trimDecimals((sumTv/i).ToString()), trimDecimals((sumTc/i).ToString()), 
 				trimDecimals((sumFall/i).ToString()) );
-		printData ( ""  , "SD", 
+		printData ( "SD"  , "", 
 				trimDecimals(calculateSD(sumIndex, sumSquaredIndex, i)),
 				trimDecimals(calculateSD(sumTv, sumSquaredTv, i)),
 				trimDecimals(calculateSD(sumTc, sumSquaredTc, i)),
@@ -713,6 +723,160 @@ public class StatRjIndex : StatDjIndex
 		else { 
 			return Catalog.GetString("Selection of the ") + this.limit + 
 				Catalog.GetString(" MAX values of flight time ") + inJump + bySubjumps + inSession + "."; 
+		}
+	}
+}
+
+
+//"POTENCY (Aguado) 9.81^2*TV*TT / (4*jumps*(TT-TV))")
+public class StatPotencyAguado : Stat
+{
+	protected static Gtk.TreeViewColumn col0;
+	protected static Gtk.TreeViewColumn col1;
+	protected static Gtk.TreeViewColumn col2;
+	protected static Gtk.TreeViewColumn col3;
+	protected static Gtk.TreeViewColumn col4;
+	protected static Gtk.TreeViewColumn col5;
+	
+	
+	public StatPotencyAguado (Gtk.TreeView treeview, int sessionUniqueID, string sessionName, int newPrefsDigitsNumber, bool sexSeparated, bool max, int limit) 
+	{
+		completeConstruction (treeview, sessionUniqueID, sessionName, newPrefsDigitsNumber, sexSeparated);
+		this.jumpType = jumpType;
+		this.limit = limit;
+		if (max) {
+			this.operation = "MAX";
+		} else {
+			this.operation = "AVG";
+		}
+	}
+
+	protected override TreeStore getStore ()
+	{
+		//position, jumper (sex), index, tv, tt, jumps
+		TreeStore myStore = new TreeStore(typeof (string), typeof (string), typeof (string), typeof(string), typeof (string), typeof(string));
+		return myStore;
+	}
+	
+	protected override void createTreeView_stats () {
+		treeview.HeadersVisible=true;
+		int count =0;
+
+		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
+		col2 = treeview.AppendColumn ( Catalog.GetString("Potency"), new CellRendererText(), "text", count++);
+		col3 = treeview.AppendColumn ( "Total TV", new CellRendererText(), "text", count++);
+		col4 = treeview.AppendColumn ( "Total Time", new CellRendererText(), "text", count++);
+		col5 = treeview.AppendColumn ( Catalog.GetString("Jumps"), new CellRendererText(), "text", count++);
+	}
+
+	public override void RemoveHeaders() {
+		treeview.RemoveColumn (col0);
+		treeview.RemoveColumn (col1);
+		treeview.RemoveColumn (col2);
+		treeview.RemoveColumn (col3);
+		treeview.RemoveColumn (col4);
+		treeview.RemoveColumn (col5);
+	}
+
+	public override void prepareData () 
+	{
+		ArrayList myArray; 
+		bool index = true;
+		if (limit > 0) {
+			//classify by jumps
+			myArray = Sqlite.StatRjPotencyAguadoJumps(sessionUniqueID, sexSeparated, limit);
+		} else {
+			//classify by jumpers
+			myArray = Sqlite.StatOneJumpJumpersRjPotencyAguado(sessionUniqueID, sexSeparated, operation);
+		}
+
+		int secondCount = 0;
+		bool firstGirl = true;
+		string myTv = "";
+		string [] stringFullResults;
+		double totalTv = 0;
+		double sumPotency = 0;
+		double sumTotalTv = 0;
+		double sumTotalTime = 0;
+		double sumJumps = 0;
+		double sumSquaredPotency = 0;
+		double sumSquaredTotalTv = 0;
+		double sumSquaredTotalTime = 0;
+		double sumSquaredJumps = 0;
+		
+		int i=0;
+		
+		for (i=0 ; i < myArray.Count ; i ++) {
+			stringFullResults = myArray[i].ToString().Split(new char[] {':'});
+
+			totalTv =  Convert.ToDouble(stringFullResults[2]) * //number of jumps 
+									//(double because if we are searching AVG, can return double values
+				Convert.ToDouble(stringFullResults[4]); //tvAvg
+
+			if(firstGirl && sexSeparated && stringFullResults[1] == "F") {
+				secondCount = i;
+				firstGirl = false;
+			}
+
+			printData ( (i-secondCount+1).ToString() , 
+					stringFullResults[0] + "(" + stringFullResults[1] + ")", 
+					trimDecimals (stringFullResults[5]), //potency
+					trimDecimals ( totalTv.ToString() ), //total tv 
+					trimDecimals (stringFullResults[3]), //total time
+					trimDecimals (stringFullResults[2]) //number of jumps
+					);
+
+			sumPotency += Convert.ToDouble(stringFullResults[5]);
+			sumTotalTv += Convert.ToDouble(totalTv.ToString());
+			sumTotalTime += Convert.ToDouble(stringFullResults[3]);
+			sumJumps += Convert.ToDouble(stringFullResults[2]);
+			sumSquaredPotency += makeSquare(stringFullResults[5]);
+			sumSquaredTotalTv += makeSquare(totalTv.ToString());
+			sumSquaredTotalTime += makeSquare(stringFullResults[3]);
+			sumSquaredJumps += makeSquare(stringFullResults[2]);
+		}
+
+		printData ( "", "", "", "", "", "");
+		printData ( "AVG"  , "", trimDecimals((sumPotency/i).ToString()), 
+				trimDecimals((sumTotalTv/i).ToString()), trimDecimals((sumTotalTime/i).ToString()), 
+				trimDecimals((sumJumps/i).ToString()) );
+		printData ( "SD"  , "", 
+				trimDecimals(calculateSD(sumPotency, sumSquaredPotency, i)),
+				trimDecimals(calculateSD(sumTotalTv, sumSquaredTotalTv, i)),
+				trimDecimals(calculateSD(sumTotalTime, sumSquaredTotalTime, i)),
+				trimDecimals(calculateSD(sumJumps, sumSquaredJumps, i)) );
+	}
+
+
+	protected void printData (string row, string person, string potency, string totalTv, string totalTime, string jumpsNumber) 
+	{
+			iter = store.AppendValues (row, person, potency, totalTv, totalTime, jumpsNumber); 
+	}
+	
+	
+	public override string ToString () 
+	{
+		string indexString = "POTENCY (Aguado) 9.81^2*TV*TT / (4*jumps*(TT-TV))";
+			
+		string operationString = "";
+		if ( this.operation == "MAX" ) { 
+			operationString = Catalog.GetString("by MAX values of index: ") + indexString ; 
+		}
+		else { operationString = Catalog.GetString("by AVG values of index: ") + indexString ; }
+
+		string sexSeparatedString = "";
+		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
+
+		string inJump = Catalog.GetString(" in ") + jumpType + Catalog.GetString(" jump ");
+		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
+		
+		if ( this.limit == 0 ) { 
+			return Catalog.GetString("Rank of jumpers ") + operationString + inJump + inSession + sexSeparatedString + "."; 
+		}
+		else { 
+			return Catalog.GetString("Selection of the ") + this.limit + 
+				Catalog.GetString(" MAX values of flight time ") + inJump + inSession + "."; 
 		}
 	}
 }
@@ -822,9 +986,10 @@ public class StatIE : Stat
 			sumSquaredJump2 += makeSquare(stringFullResults[3]);
 		}
 		
-		printData ( ""  , "AVG", trimDecimals((sumIndex/i).ToString()), 
+		printData ( "", "", "", "", "");
+		printData ( "AVG"  , "", trimDecimals((sumIndex/i).ToString()), 
 				trimDecimals((sumJump1/i).ToString()), trimDecimals((sumJump2/i).ToString()) );
-		printData ( ""  , "SD", 
+		printData ( "SD"  , "", 
 				trimDecimals(calculateSD(sumIndex, sumSquaredIndex, i)),
 				trimDecimals(calculateSD(sumJump1, sumSquaredJump1, i)),
 				trimDecimals(calculateSD(sumJump2, sumSquaredJump2, i)) );
@@ -952,6 +1117,7 @@ public class StatGlobal : Stat
 		ArrayList myArray = Sqlite.StatGlobalNormal(sessionUniqueID, operation, sexSeparated);
 		ArrayList myArrayDj = Sqlite.StatGlobalDj(sessionUniqueID, operation, sexSeparated);
 		ArrayList myArrayRj = Sqlite.StatGlobalRj(sessionUniqueID, operation, sexSeparated);
+		ArrayList myArrayRjPA = Sqlite.StatGlobalRjPotencyAguado(sessionUniqueID, operation, sexSeparated);
 	
 		string [] stringFullResults;
 		string rowName = "";
@@ -978,6 +1144,7 @@ public class StatGlobal : Stat
 		//with values like 70
 		printData ( "AVG", trimDecimals((sumValue/i).ToString()) );		
 		printData ( "SD", trimDecimals(calculateSD(sumValue, sumSquaredValue, i)) );
+		printData ( "", "");
 
 		//print the DJ if exists
 		if(myArrayDj.Count > 0) {
@@ -1006,6 +1173,21 @@ public class StatGlobal : Stat
 			} else {
 				stringFullResults = myArrayRj[0].ToString().Split(new char[] {':'});
 				printData ( "RJ Index", trimDecimals (stringFullResults[0]) );
+			}
+		}
+				
+		//print the RJPotencyAguado if exists
+		if(myArrayRjPA.Count > 0) {
+			if(sexSeparated) {
+				stringFullResults = myArrayRjPA[0].ToString().Split(new char[] {':'});
+				printData ( "Potency Aguado (" + stringFullResults[1] + ")", trimDecimals (stringFullResults[0]) );
+				if(myArrayDj.Count > 1) {
+					stringFullResults = myArrayRjPA[1].ToString().Split(new char[] {':'});
+					printData ( "Potency Aguado (" + stringFullResults[1] + ")", trimDecimals (stringFullResults[0]) );
+				}
+			} else {
+				stringFullResults = myArrayRjPA[0].ToString().Split(new char[] {':'});
+				printData ( "Potency Aguado", trimDecimals (stringFullResults[0]) );
 			}
 		}
 				

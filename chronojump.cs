@@ -132,7 +132,8 @@ public class ChronoJump {
 		"DJ Index ((tv-tc)/tc)*100", 
 		"RJ Average Index", 
 		"IE ((cmj-sj)/sj)*100",
-		"IUB ((abk-cmj)/cmj)*100"
+		"IUB ((abk-cmj)/cmj)*100",
+		"POTENCY (Aguado) 9.81^2*TV*TT / (4*jumps*(TT-TV))"
 	};
 
 	//preferences variables
@@ -164,8 +165,8 @@ public class ChronoJump {
 	ConfirmWindowPlatform confirmWinPlatform;
 
 	//timers
-	private static int rjTimer;
-	private static int rjTimerLimited;
+	//private static int rjTimer;
+	//private static int rjTimerLimited;
 	private static System.Timers.Timer timerClockJump;    
 
 	//platform state variables
@@ -756,6 +757,14 @@ finishForeach:
 					limit);
 			myStat.prepareData();
 		}	
+		else if(myText == "POTENCY (Aguado) 9.81^2*TV*TT / (4*jumps*(TT-TV))")
+		{
+			myStat = new StatPotencyAguado(treeview_stats, currentSession.UniqueID, 
+					currentSession.Name, prefsDigitsNumber, statsSex, 
+					radiobutton_max.Active, //show MAX or AVG
+					limit);
+			myStat.prepareData();
+		}
 		else if(myText == "IE ((cmj-sj)/sj)*100")
 		{
 			myStat = new StatIE(treeview_stats, currentSession.UniqueID, 
@@ -772,7 +781,6 @@ finishForeach:
 					);
 			myStat.prepareData();
 		}
-		
 		else if ( myText == "Global") {
 			myStat = new StatGlobal(treeview_stats, currentSession.UniqueID, 
 						currentSession.Name, prefsDigitsNumber, statsSex,  

@@ -1,26 +1,19 @@
 TODO:
 ----
 
-repair bug in treeviews, jumper's gent not automatically expanded when make the first jump
-
-rj filter
-click on rj don't show (jump or time), show weight if needed, show fall if not start in
-
-treeview_jumps and treeview_jumps_rj in a notebook
-
+repair bug in treeviews, jumper's get not automatically expanded when make the first jump
 
 study how to make IE, IUB (the best two SJ,CMJ and CMJ,ABK; or the worst and the best)
+
+stats: 
+	show all jump types in combo_stats
+	manage the new simple jump types depending on "weight" and "fall"
 
 graphs:
 	study licensing problems of NPlot or how to include it
 	put a button for refreshing the graph
 	make graphs for all stats
 	write statsJumpsType option in graph title
-
-add more columns in treeview_jumps and treeview_jumps_rj (probably one with the jump.UniqueID)
-
-improve the weight inserted text changes appearnew person widget
-in new person widget make "Ok" button sensitive just when user changes the weight
 
 show better info in the RJ jump edit
 
@@ -66,17 +59,8 @@ sqlite> SELECT j1.personID, person.name, (j1.tv + j2.tv-j1.tv + j3.tv-j2.tv + j4
 
 we can check the lines we need, and execute, and if a line it's not found, try to discover wich values are needed
 
-
-
 - graf. capacitat de salt total
-
-
-- video digital d'esportista per a mesurar angle de cames. NO, millor potenciometre que llanci la senyal al propi SqyGsalta, i que desde gsalta pugui fins-i-tot validar o anular un salt
-- "rocket jump" (ABK flexió de menys de 90 º, casi total)
-- "maximum" cursa i acció complerta (sense modificacions) (com un dj pero amb fall 0)
-
 
 RJ time
 
 editCurrentSession  (edit delete sessions (delete it's jumpers and jumps))
-

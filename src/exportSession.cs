@@ -106,7 +106,7 @@ public class ExportSession
 			myJumps= SqliteJump.SelectAllNormalJumps(mySession.UniqueID, "ordered_by_time"); //returns a string of values separated by ':'
 		}
 
-		myJumpsRj = SqliteJump.SelectAllRjJumps(mySession.UniqueID);
+		myJumpsRj = SqliteJump.SelectAllRjJumps(mySession.UniqueID, "ordered_by_time");
 	}
 	
 	protected virtual void printData ()

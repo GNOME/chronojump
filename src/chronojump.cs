@@ -188,9 +188,7 @@ public class ChronoJump {
 	//timers
 	private static System.Timers.Timer timerClockJump;    
 
-	/*
-	 * platform state variables
-	 */
+	//platform state variables
 	enum States {
 		ON,
 		OFF
@@ -199,12 +197,14 @@ public class ChronoJump {
 	Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 	Chronopic cp;
 	States loggedState;		//log of last state
-
-    	//private int estadoInicial;
-	private double tcDjJump;
+	private double tcDjJump;	//used for log the jumps with previous fall
+	//private bool firstRjTc;
+	//private bool firstRjTv;
 	private bool firstRjValue;
-	private string rjTCString;
-	private string rjTVString;
+	private double rjTcCount;
+	private double rjTvCount;
+	private string rjTcString;
+	private string rjTvString;
 
 	//selected sessions
 	ArrayList selectedSessions;
@@ -1337,6 +1337,35 @@ public class ChronoJump {
 		}
 	}
 
+	public void OnTimerNormalJump( System.Object source, ElapsedEventArgs e )
+	{
+		double timestamp;
+		respuesta = cp.Read_event(out timestamp, out platformState);
+		if (respuesta == Chronopic.Respuesta.Ok) {
+			if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
+				//it's inside, was out (= has landed)
+				
+				//stop the timer event
+				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerNormalJump);
+				timerClockJump.Enabled = false;
+				Console.WriteLine("------------Timer event should be killed----------");
+				
+				//write the jump in seconds
+				writeNormalJump (timestamp/1000);
+
+				//change the automata state (not needed in this jump)
+				loggedState = States.ON;
+			} 
+			else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+				//it's out, was inside (= has jumped)
+				//don't write nothing here
+				
+				//change the automata state
+				loggedState = States.OFF;
+			}
+		}
+	}
+
 	//writes the non-simulated normal jump (all non repetitve jumps without startIn (without fall))
 	//sj, sj+, cmj, cmj+, abk, abk+, ...
 	private void writeNormalJump (double myTV) 
@@ -1372,37 +1401,10 @@ public class ChronoJump {
 		}
 	}
 
-
-	public void OnTimerNormalJump( System.Object source, ElapsedEventArgs e )
-	{
-		double timestamp;
-		respuesta = cp.Read_event(out timestamp, out platformState);
-		if (respuesta == Chronopic.Respuesta.Ok) {
-			if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
-				//it's inside, was out (= has landed)
-				
-				//stop the timer event
-				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerNormalJump);
-				timerClockJump.Enabled = false;
-				Console.WriteLine("------------Timer event should be killed----------");
-				
-				//write the jump
-				writeNormalJump (timestamp);
-
-				//change the automata state (not needed in this jump)
-				loggedState = States.ON;
-			} 
-			else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
-				//it's out, was inside (= has jumped)
-				//don't write nothing here
-				
-				//change the automata state
-				loggedState = States.OFF;
-			}
-		}
-	}
-
-
+	/* ---------------------------------------------------------
+	 * ----------------  JUMPS WITH PREVIOUS FALL  EXECUTION  --
+	 *  --------------------------------------------------------
+	 */
 	private void on_jump_fall_accepted (object o, EventArgs args) 
 	{
 		if (simulated) {
@@ -1473,8 +1475,8 @@ public class ChronoJump {
 				timerClockJump.Enabled = false;
 				Console.WriteLine("------------Timer event should be killed----------");
 				
-				//write the jump
-				writeJumpFall (tcDjJump, timestamp);
+				//write the jump in seconds
+				writeJumpFall (tcDjJump/1000, timestamp/1000);
 
 				//change the automata state (not needed in this jump)
 				loggedState = States.ON;
@@ -1580,9 +1582,6 @@ public class ChronoJump {
 	{
 		double myTv;
 		double myTc;
-		string myTvString = "" ;
-		string myTcString = "" ;
-		string equal = "";
 		double myLimit;
 		if(currentJumpType.FixedValue > 0) {
 			myLimit = currentJumpType.FixedValue;
@@ -1593,149 +1592,164 @@ public class ChronoJump {
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
 		if(simulated) {
-			for (int i=0 ; i < myLimit ; i ++) {
-				if(i>0) { equal = "="; }
+			string myTvString = "" ;
+			string myTcString = "" ;
+			string equalTc = "";
+			string equalTv = "";
+			bool nowTv = false;
+			if( currentJumpType.StartIn ) {
+				//is start in TV, write a "-1" in TC
+				nowTv = true;
+				myTc = -1;
+				myTcString = myTc.ToString();
+				equalTc = "=";
+			}
+			for (double i=0 ; i < myLimit ; i = i +.5) {
 				//we insert the RJs as a TV and TC string of all jumps separated by '='
-				myTc = rand.NextDouble() * .4;
-				myTcString = myTcString + equal + myTc.ToString();
-				myTv = rand.NextDouble() * .6;
-				myTvString = myTvString + equal + myTv.ToString();
+				if( nowTv ) {
+					myTv = rand.NextDouble() * .6;
+					myTvString = myTvString + equalTv + myTv.ToString();
+					equalTv = "=";
+					nowTv = false;
+				} else {
+					myTc = rand.NextDouble() * .4;
+					myTcString = myTcString + equalTv + myTc.ToString();
+					equalTc = "=";
+					nowTv = true;
+				}
 			}
 
+			if(nowTv) {
+				//finished writing the TC, let's put a "-1" in the TV
+				myTv = -1;
+				myTvString = myTvString + equalTv + myTv.ToString();
+			}
 			writeRjJump (myTcString, myTvString);
 		}
 		else {
-			//initialize this ok, and delete buffer
-			int ok = 0;
-			/*
 			do {
-				//FIXME: change the name of this method to english
-				ok = Serial.Estado(serial_fd, out estadoInicial);
-				Console.WriteLine("okey1: {0}" ,ok.ToString());
-			} while (ok != 1) ;
+				respuesta = cp.Read_platform(out platformState);
+			} while (respuesta!=Chronopic.Respuesta.Ok);
 
-			//initialize strings of TCs and TVs
-			rjTCString = "";
-			rjTVString = "";
-
-			//you have to start outside the platform
-			if (estadoInicial == 1) {
-				Console.WriteLine( Catalog.GetString("You are IN, please go out the platform") );
-				platformState = true;
-
-				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
+			bool success = false;
+      
+    			if (platformState==Chronopic.Plataforma.ON && currentJumpType.StartIn ) {
+				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
+				success = true;
+			} else if (platformState==Chronopic.Plataforma.OFF && ! currentJumpType.StartIn ) {
+				Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
+				success = true;
+			} else {
+				string myMessage = Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button");
+				if (platformState==Chronopic.Plataforma.OFF ) {
+					myMessage = Catalog.GetString("You are OUT, please put on the platform, prepare for jump and press button");
+				}
+				confirmWin = ConfirmWindow.Show(app1, myMessage, "");
 
 				//we call again this function
 				confirmWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
-			} else {
-				Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
-				platformState = false;
 			}
+				
+			if(success) {
+				//initialize strings of TCs and TVs
+				rjTcString = "";
+				rjTvString = "";
+				rjTcCount = 0;
+				rjTvCount = 0;
+				firstRjValue = true;
+				
+				//if jump starts on TV, write a "-1" in TC
+    				if ( currentJumpType.StartIn ) {
+					myTc = -1;
+					rjTcString = myTc.ToString();
+					rjTcCount = rjTcCount +.5;
+				}
 
-			firstRjValue = true;
-
-			//delete serial buffer
-			//Serial.Flush(serial_fd);
-
-			timerClockJump = new System.Timers.Timer();    
-			timerClockJump.Elapsed += new ElapsedEventHandler(OnTimerRjJump);
-			timerClockJump.Interval = 100; //one decisecond
-			timerClockJump.Enabled = true;
-			*/
+				timerClockJump = new System.Timers.Timer();    
+				timerClockJump.Elapsed += new ElapsedEventHandler(OnTimerRjJump);
+				timerClockJump.Interval = 100; //one decisecond
+				timerClockJump.Enabled = true;
+			}
 		}
 	}
 				
 	public void OnTimerRjJump( System.Object source, ElapsedEventArgs e )
 	{
-		 //t0 header of frame (always an ascii X): 88
-		 //t1 state of platform (0 free (outside), 1 someone inside)
-		 //t2, t3 time (more significative, and less significative) 
-		 //time = t2 * 256 + t3 (in decimals of milliseconds) 0.1 miliseconds
-	
 		double myLimit;
 		if(currentJumpType.FixedValue >0) {
 			myLimit = currentJumpType.FixedValue;
 		} else {
 			myLimit = jumpExtraWin.Limited;
 		}
+		//Console.WriteLine("myLimit: {0}", myLimit);
+		
+		//wait for a another jump
+		double timestamp;
+		respuesta = cp.Read_event(out timestamp, out platformState);
+		
+		if (respuesta == Chronopic.Respuesta.Ok) {
+			string equal = "";
+			//check if reactive jump should finish
+			if (currentJumpType.JumpsLimited) {
+				if(getNumberOfJumps(rjTcString) >= myLimit && getNumberOfJumps(rjTvString) >= myLimit)
+				{
+					Console.WriteLine("------------Timer event should be killed----------");
+					timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerRjJump);
+					timerClockJump.Enabled = false;
 
-		if (currentJumpType.JumpsLimited) {
-			if(getNumberOfJumps(rjTCString) >= myLimit)
-			{
-				Console.WriteLine("------------Timer event should be killed----------");
-				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerRjJump);
-				timerClockJump.Enabled = false;
+					//finished writing the TC, let's put a "-1" in the TV
+					if (rjTcCount > rjTvCount) {
+						if(rjTvCount > 0) { equal = "="; }
+						rjTvString = rjTvString + equal + "-1";
+					}
 
-				//write the jump (but sleep a little bit for ensuring the clock eventhandler it's killed)
-				//sleep (1);
-				writeRjJump (rjTCString, rjTVString);
-				return;
+					//write the jump (but sleep a little bit for ensuring the clock eventhandler it's killed)
+					//sleep (1);
+					writeRjJump (rjTcString, rjTvString);
+					return;
+				}
+			} else {
+				//limited by time
+				if (getTotalTime (rjTcString, rjTvString) >= myLimit &&
+						getNumberOfJumps(rjTcString) == getNumberOfJumps(rjTvString) ) 
+				{
+					Console.WriteLine("------------Timer event should be killed----------");
+					timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerRjJump);
+					timerClockJump.Enabled = false;
+
+					//finished writing the TC, let's put a "-1" in the TV
+					if (rjTcCount > rjTvCount) {
+						if(rjTvCount > 0) { equal = "="; }
+						rjTvString = rjTvString + equal + "-1";
+					}
+
+					//write the jump
+					writeRjJump (rjTcString, rjTvString);
+					return;
+				}
 			}
-		} else {
-			//limited by time
-			if (getTotalTime (rjTCString, rjTVString) >= myLimit &&
-					getNumberOfJumps(rjTCString) == getNumberOfJumps(rjTVString) ) 
-			{
-				Console.WriteLine("------------Timer event should be killed----------");
-				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerRjJump);
-				timerClockJump.Enabled = false;
 
-				//write the jump
-				writeRjJump (rjTCString, rjTVString);
-				return;
-			}
-		}
-	
-		int t0,t1,t2,t3;
-		/*
-		int ok = Serial.Read(serial_fd, out t0, out t1, out t2, out t3);
-		if (ok==1) {
-			Console.WriteLine("trama: {0} {1} {2}", t0, t1, realTime(t2, t3) );
-			string myString = "prova " + t0 + ", " + t1 + ", " + realTime(t2, t3) ;
-			appbar2.Push( myString );
-
-			//----------------
-			//first value inside or outside, we forget it
-			//if it was inside, it shows how many time passed until he jumped (we fon't need it now,
-			//but we need in the future for doing test of reaction velocity
-			//if it was outside it show time elapsed until get inside (same as above)
-			//----------------
-
-			//if(platformState && t1 == 0 && firstRjValue) { }
-			if(firstRjValue) {
-				Console.WriteLine("Changed from {0}, to {1} (out)", platformState, t1);
+			//don't record the time until the first event
+			if (firstRjValue) {
 				firstRjValue = false;
-			} 
-			//we were out and now regist in
-			else if(!firstRjValue && !platformState && t1 == 1) {
-				Console.WriteLine("Changed from {0}, to {1} (in)", platformState, t1);
-				platformState = true;
-
-				//record the TV in a temp variable
-				if(rjTVString.Length > 0) {
-					rjTVString = rjTVString + "=" + realTime(t2,t3);
+			} else {
+				//reactive jump has not finished... record the next jump
+				if (rjTcCount == rjTvCount) {
+					double myTc = timestamp/1000;
+					Console.WriteLine("TC: {0}", myTc);
+					if(rjTcCount > 0) { equal = "="; }
+					rjTcString = rjTcString + equal + myTc.ToString();
+					rjTcCount = rjTcCount +.5;
 				} else {
-					rjTVString = realTime(t2,t3).ToString();
-				}
-			} 
-			//we were out and now register out
-			else if(!firstRjValue && platformState && t1 == 0) {
-				Console.WriteLine("Changed from {0}, to {1} (out) ", platformState, t1);
-				platformState = false;
-
-				//record the TC in a temp variable
-				if(rjTCString.Length > 0) {
-					rjTCString = rjTCString + "=" + realTime(t2,t3);
-				} else {
-					rjTCString = realTime(t2,t3).ToString();
+					//rjTcCount > rjTvCount 
+					double myTv = timestamp/1000;
+					Console.WriteLine("TV: {0}", myTv);
+					if(rjTvCount > 0) { equal = "="; }
+					rjTvString = rjTvString + equal + myTv.ToString();
+					rjTvCount = rjTvCount +.5;
 				}
 			}
-			else { 
-				Console.WriteLine("NOT Changed {0} - {1}", platformState, t1);
-			}
-
 		}
-		*/
 	}
 
 	private void writeRjJump (string myTCString, string myTVString) 
@@ -1747,11 +1761,14 @@ public class ChronoJump {
 			myLimit = jumpExtraWin.Limited;
 		}
 
+		int jumps;
 		string limitString = "";
 		if(currentJumpType.JumpsLimited) {
 			limitString = myLimit.ToString() + "J";
+			jumps = (int) myLimit;
 		} else {
 			limitString = myLimit.ToString() + "T";
+			jumps = (int) rjTcCount;
 		}
 		
 		string myWeightString;
@@ -1765,49 +1782,35 @@ public class ChronoJump {
 			myFall = jumpExtraWin.Fall;
 		}
 
-		if(currentJumpType.JumpsLimited) {
-			int jumps = (int)myLimit;
+		currentJumpRj = SqliteJump.InsertRj(currentPerson.UniqueID, currentSession.UniqueID, 
+				currentJumpType.Name, Util.GetMax(myTVString), Util.GetMax(myTCString), 
+				myFall, myWeightString, "", //fall, weight, description
+				Util.GetAverage(myTVString), Util.GetAverage(myTCString),
+				myTVString, myTCString,
+				jumps, getTotalTime(myTCString, myTVString), limitString
+				);
+		lastJumpIsReactive = true;
 
-			currentJumpRj = SqliteJump.InsertRj(currentPerson.UniqueID, currentSession.UniqueID, 
-					currentJumpType.Name, Util.GetMax(myTVString), Util.GetMax(myTCString), 
-					myFall, myWeightString, "", //fall, weight, description
-					Util.GetAverage(myTVString), Util.GetAverage(myTCString),
-					myTVString, myTCString,
-					jumps, getTotalTime(myTCString, myTVString), limitString
-					);
-			lastJumpIsReactive = true;
+		sensitiveGuiYesJump();
 
-			sensitiveGuiYesJump();
+		myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 
-			myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
-
-			if(statsAutomatic) {
-				fillTreeView_stats(false);
-			}
-
-			string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " " + 
-				currentJumpType.Name + " (" + limitString + ") " +
-				" AVG TV: " + Util.TrimDecimals( Util.GetAverage (myTVString).ToString(), prefsDigitsNumber ) +
-				" AVG TC: " + Util.TrimDecimals( Util.GetAverage (myTCString).ToString(), prefsDigitsNumber ) ;
-			appbar2.Push( myStringPush );
+		if(statsAutomatic) {
+			fillTreeView_stats(false);
 		}
-		else {
-			//FIXME:
-			Console.WriteLine("JUMP TIME NOT SUPPORTED");
-		}
-		
+
+		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " " + 
+			currentJumpType.Name + " (" + limitString + ") " +
+			" AVG TV: " + Util.TrimDecimals( Util.GetAverage (myTVString).ToString(), prefsDigitsNumber ) +
+			" AVG TC: " + Util.TrimDecimals( Util.GetAverage (myTCString).ToString(), prefsDigitsNumber ) ;
+		appbar2.Push( myStringPush );
+	
 		//change to page 1 of notebook if we were on 0
 		if(notebook_jumps.CurrentPage == 0) {
 			notebook_jumps.NextPage();
 		}
 	}
 	
-	
-	private static double realTime(int timeh, int timel) 
-	{
-		return (double) ( timeh * 256 + timel ) /10000 ;
-	}
-
 	private static double getTotalTime (string stringTC, string stringTV)
 	{
 		if(stringTC.Length > 0 && stringTV.Length > 0) {

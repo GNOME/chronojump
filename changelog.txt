@@ -1,4 +1,11 @@
 CHANGELOG:
+15 march 2005
+	all Reactive Jumps are working (i think) with the new chronopic code
+	delete files serial.* (old jump detection method)
+	write the jumps in seconds
+	bug repaired in showing identifier of reactive jumps in treeviewRj.Add
+	show first TC, later TV in treeviews
+
 14 march 2005
 	normal jumps and fall jumps now managed by new chronopic module (reactive jumps pending)
 	

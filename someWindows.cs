@@ -79,11 +79,12 @@ public class SessionAddWindow {
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
+		//date comes as (i think): "day/month/year sec/hour/minute" (we use the first three)
 		string [] dateTimeFull = dateedit.Time.ToString().Split(new char[] {' '});
 	
 		bool sessionExists = Sqlite.SessionExists (removeTilde(entry_name.Text));
 		if(sessionExists) {
-			string myString = "Session: '" + removeTilde(entry_name.Text) + "' exists. Please, use another name";
+			string myString =  Catalog.GetString ("Session: '") + removeTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(session_add, myString);
 
@@ -165,14 +166,14 @@ public class SessionLoadWindow {
 		tv.HeadersVisible=true;
 		int count = 0;
 		
-		tv.AppendColumn ("number", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Name", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Place", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Date", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Jumpers", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Jumps", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("RJ Jumps", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Comments", new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Number"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Jumpers"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Jumps"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("RJ Jumps"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
@@ -256,6 +257,8 @@ public class SessionLoadWindow {
 //---------------- PERSON WIDGETS ------------------------
 //--------------------------------------------------------
 
+
+//load person (jumper)
 public class PersonRecuperateWindow {
 	
 	[Widget] Gtk.Window person_recuperate;
@@ -306,13 +309,13 @@ public class PersonRecuperateWindow {
 	private void createTreeView (Gtk.TreeView tv) {
 		tv.HeadersVisible=true;
 		int count = 0;
-		tv.AppendColumn ("Number", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Name", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Sex", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Date born", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Height", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Weight", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Description", new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Number"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Name"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Sex"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Height"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Weight"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Date born"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Description"), new CellRendererText(), "text", count++);
 	}
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
@@ -326,12 +329,14 @@ public class PersonRecuperateWindow {
 			mySessions = Sqlite.SelectAllPersonsRecuperable("name", sessionID); //returns a string of values separated by ':'
 		}
 
+		
+		
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 
 			iter = store.AppendValues (myStringFull[0], myStringFull[1], 
-					getCorrectSex(myStringFull[2]), myStringFull[3], myStringFull[4],
-					myStringFull[5], myStringFull[6]
+					getCorrectSex(myStringFull[2]), myStringFull[4], myStringFull[5],
+					myStringFull[3], myStringFull[6]
 					);
 		}	
 
@@ -339,8 +344,8 @@ public class PersonRecuperateWindow {
 
 	private string getCorrectSex (string sex) 
 	{
-		if (sex == "M") return "Man";
-		else return "Woman";
+		if (sex == "M") return  Catalog.GetString("Man");
+		else return  Catalog.GetString ("Woman");
 	}
 	
 	private void on_checkbutton_sort_by_creation_date_clicked(object o, EventArgs args) {
@@ -422,6 +427,7 @@ public class PersonRecuperateWindow {
 
 }
 
+//new person (jumper)
 public class PersonAddWindow {
 	
 	[Widget] Gtk.Window person_win;
@@ -452,19 +458,17 @@ public class PersonAddWindow {
 		this.parent = parent;
 		this.sessionID = sessionID;
 
-		person_win.Title = "Load jumper";
+		person_win.Title =  Catalog.GetString ("New jumper");
 	}
 	
 	void on_radiobutton_man_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton man toggled");
 		sex = "M";
 		Console.WriteLine("sex: {0}", sex);
 	}
 	
 	void on_radiobutton_woman_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton woman toggled");
 		sex = "F";
 		Console.WriteLine("sex: {0}", sex);
 	}
@@ -493,12 +497,13 @@ public class PersonAddWindow {
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		string dateFull = spinbutton_day.Value.ToString() + ":" + 
-			spinbutton_month.Value.ToString() + ":" + spinbutton_year.Value.ToString(); 
+		//separate by '/' for not confusing with the ':' separation between the other values
+		string dateFull = spinbutton_day.Value.ToString() + "/" + 
+			spinbutton_month.Value.ToString() + "/" + spinbutton_year.Value.ToString(); 
 		
 		bool personExists = Sqlite.PersonExists (removeTilde(entry1.Text));
 		if(personExists) {
-			string myString = "Jumper: '" + removeTilde(entry1.Text) + "' exists. Please, use another name";
+			string myString =  Catalog.GetString ("Jumper: '") + removeTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
@@ -569,19 +574,17 @@ public class PersonModifyWindow
 		this.parent = parent;
 		this.sessionID = sessionID;
 
-		person_win.Title = "Edit jumper";
+		person_win.Title =  Catalog.GetString ("Edit jumper");
 	}
 	
 	void on_radiobutton_man_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton man toggled");
 		sex = "M";
 		Console.WriteLine("sex: {0}", sex);
 	}
 	
 	void on_radiobutton_woman_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton woman toggled");
 		sex = "F";
 		Console.WriteLine("sex: {0}", sex);
 	}
@@ -604,17 +607,13 @@ public class PersonModifyWindow
 		Person myPerson = Sqlite.PersonSelect(personID.ToString()); 
 		
 		entry1.Text = myPerson.Name;
-		//Console.WriteLine("myPerson.Sex: {0}", myPerson.Sex);
 		if (myPerson.Sex == "M") {
-			//Console.WriteLine("SEX Male");
 			radiobutton_man.Active = true;
 		} else {
-			//Console.WriteLine("SEX Female");
 			radiobutton_woman.Active = true;
 		}
 
-		Console.WriteLine(myPerson.DateBorn);
-		string [] dateFull = myPerson.DateBorn.Split(new char[] {':'});
+		string [] dateFull = myPerson.DateBorn.Split(new char[] {'/'});
 		spinbutton_day.Value = Convert.ToDouble ( dateFull[0] );	
 		spinbutton_month.Value = Convert.ToDouble ( dateFull[1] );	
 		spinbutton_year.Value = Convert.ToDouble ( dateFull[2] );	
@@ -647,12 +646,13 @@ public class PersonModifyWindow
 	{
 		bool personExists = Sqlite.PersonExistsAndItsNotMe (uniqueID, removeTilde(entry1.Text));
 		if(personExists) {
-			string myString = "Jumper: '" + removeTilde(entry1.Text) + "' exists. Please, use another name";
+			string myString =  Catalog.GetString ("Jumper: '") + removeTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
-			string dateFull = spinbutton_day.Value.ToString() + ":" + 
-				spinbutton_month.Value.ToString() + ":" + spinbutton_year.Value.ToString(); 
+			//separate by '/' for not confusing with the ':' separation between the other values
+			string dateFull = spinbutton_day.Value.ToString() + "/" + 
+				spinbutton_month.Value.ToString() + "/" + spinbutton_year.Value.ToString(); 
 			
 			currentPerson = new Person (uniqueID, entry1.Text, sex, dateFull, (int) spinbutton_height.Value,
 						(int) spinbutton_weight.Value, textview2.Buffer.Text);
@@ -881,14 +881,12 @@ public class SjPlusWindow {
 
 	void on_radiobutton_kg_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton Kg toggled");
 		option = "Kg";
 		Console.WriteLine("option: {0}", option);
 	}
 	
 	void on_radiobutton_weight_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton %weight toggled");
 		option = "%";
 		Console.WriteLine("option: {0}", option);
 	}
@@ -1037,14 +1035,12 @@ public class RjWindow {
 	
 	void on_radiobutton_jump_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton jump toggled");
 		option = "J";
 		Console.WriteLine("option: {0}", option);
 	}
 	
 	void on_radiobutton_time_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton time toggled");
 		option = "T";
 		Console.WriteLine("option: {0}", option);
 	}

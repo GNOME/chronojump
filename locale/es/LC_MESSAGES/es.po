@@ -1,0 +1,628 @@
+# Spanish translations for PACKAGE package.
+# Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Xavier de Blas <xavi@xdeblas.com>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-01-02 13:27+0100\n"
+"PO-Revision-Date: 2005-01-02 12:19+0100\n"
+"Last-Translator: Xavier de Blas <xavi@xdeblas.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: chronojump.cs:212
+msgid "no tables, creating ..."
+msgstr "no se ha encontrado base de datos, creando tablas ..."
+
+#: chronojump.cs:215
+msgid "tables already created"
+msgstr "tablas creadas"
+
+#: chronojump.cs:236
+msgid "Ready."
+msgstr "Preparado."
+
+#: chronojump.cs:240
+msgid "starting connection with serial port"
+msgstr "comenzando conexion con puerto serie"
+
+#: chronojump.cs:241
+msgid ""
+"if program chrashes, disable next line, and work always in 'simulated' mode"
+msgstr ""
+"si el programa se bloquea, desactivar la siguiente linea y trabajar siempre "
+"en modo simulado"
+
+#: chronojump.cs:270
+msgid "Preferences loaded"
+msgstr "Preferencias cargadas"
+
+#: chronojump.cs:282 chronojump.cs:489 someWindows.cs:170 someWindows.cs:313
+msgid "Name"
+msgstr "Nombre"
+
+#: chronojump.cs:285 chronojump.cs:492
+msgid "height"
+msgstr "altura"
+
+#: chronojump.cs:1363 chronojump.cs:1384
+msgid "You are IN, JUMP when prepared!!"
+msgstr "Estas DENTRO, cuando estes preparado, SALTA!!"
+
+#: chronojump.cs:1377
+msgid "You are OUT, please come inside the platform"
+msgstr "estas FUERA, por favor, entra en la plataforma"
+
+#: chronojump.cs:1379
+msgid "You are OUT, come inside and press button"
+msgstr "estas FUERA, entra y pulsa el boton"
+
+#: chronojump.cs:1417 chronojump.cs:1594 chronojump.cs:1780
+msgid "Last jump: "
+msgstr "Cargar saltador"
+
+#: chronojump.cs:1506 chronojump.cs:1655
+msgid "You are OUT, JUMP when prepared!!"
+msgstr "Estas FUERA, cuando estes preparado SALTA!!"
+
+#: chronojump.cs:1521 chronojump.cs:1647
+msgid "You are IN, please go out the platform"
+msgstr "Estas DENTRO, por favor, sal de la plataforma"
+
+#: chronojump.cs:1523 chronojump.cs:1650
+msgid ""
+"You are IN, please go out the platform, prepare for jump and press button"
+msgstr "estas DENTRO, por favor, sal, preparate para saltar y apreta el boton"
+
+#: chronojump.cs:1610
+#, csharp-format
+msgid "RJ accepted, limited: {0} {1}"
+msgstr "aceptado RJ, limite: {0} {1}"
+
+#: chronojump.cs:1872
+msgid "Last jump deleted"
+msgstr "Borrado ultimo salto"
+
+#: chronojump.cs:1972
+msgid "Do you want to delete selected jump?"
+msgstr "Quieres borrar el salto seleccionado?"
+
+#: chronojump.cs:1973
+msgid "Atention: Deleting a RJ subjump will delete all the RJ"
+msgstr "Atencion: Borrar un subsalto RJ, borrara todo el RJ"
+
+#: someWindows.cs:87
+msgid "Session: '"
+msgstr "La sesion: '"
+
+#: someWindows.cs:87 someWindows.cs:508 someWindows.cs:657
+msgid "' exists. Please, use another name"
+msgstr "' ya existe. Por favor use otro nombre"
+
+#: someWindows.cs:169 someWindows.cs:312
+msgid "Number"
+msgstr "Numero"
+
+#: someWindows.cs:171
+msgid "Place"
+msgstr "Lugar"
+
+#: someWindows.cs:172
+msgid "Date"
+msgstr "Fecha"
+
+#: someWindows.cs:173
+msgid "Jumpers"
+msgstr "Saltadores"
+
+#: someWindows.cs:174
+msgid "Jumps"
+msgstr "Saltos"
+
+#: someWindows.cs:175
+msgid "RJ Jumps"
+msgstr "Saltos RJ"
+
+#: someWindows.cs:176
+msgid "Comments"
+msgstr "Comentarios"
+
+#: someWindows.cs:314 glade/chronojump.glade:2108
+msgid "Sex"
+msgstr "Sexo"
+
+#: someWindows.cs:315
+msgid "Height"
+msgstr "Altura"
+
+#: someWindows.cs:316
+msgid "Weight"
+msgstr "Peso"
+
+#: someWindows.cs:317
+msgid "Date born"
+msgstr "Fecha nacimiento"
+
+#: someWindows.cs:318
+msgid "Description"
+msgstr "Descripcion"
+
+#: someWindows.cs:347
+msgid "Man"
+msgstr "Hombre"
+
+#: someWindows.cs:348
+msgid "Woman"
+msgstr "Mujer"
+
+#: someWindows.cs:461 glade/chronojump.glade:108 glade/chronojump.glade:722
+#: glade/chronojump.glade:767 glade/chronojump.glade:1968
+msgid "New jumper"
+msgstr "Nuevo saltador"
+
+#: someWindows.cs:508 someWindows.cs:657
+msgid "Jumper: '"
+msgstr "Saltador: '"
+
+#: someWindows.cs:579
+msgid "Edit jumper"
+msgstr "Editar saltador"
+
+#: stat.cs:185 stat.cs:316 stat.cs:466 stat.cs:617 stat.cs:771 stat.cs:897
+msgid "Position"
+msgstr "Posicion"
+
+#: stat.cs:186 stat.cs:317 stat.cs:467 stat.cs:618 stat.cs:772 stat.cs:898
+msgid "Jumper"
+msgstr "Saltador"
+
+#: stat.cs:255 stat.cs:402
+msgid "by MAX flight time values "
+msgstr "por valor maximo de tiempo de vuelo "
+
+#: stat.cs:257 stat.cs:404
+msgid "by AVG flight time values "
+msgstr "por valor promedio de tiempo de vuelo "
+
+#: stat.cs:260 stat.cs:407 stat.cs:572 stat.cs:704 stat.cs:848 stat.cs:1022
+msgid "sorted by sex"
+msgstr "ordenados por sexo"
+
+#: stat.cs:262 stat.cs:409 stat.cs:574 stat.cs:707
+msgid " in "
+msgstr " en "
+
+#: stat.cs:262 stat.cs:409 stat.cs:574 stat.cs:707
+msgid " jump "
+msgstr " salto "
+
+#: stat.cs:263 stat.cs:410 stat.cs:575 stat.cs:708 stat.cs:850 stat.cs:1024
+msgid " in '"
+msgstr " en '"
+
+#: stat.cs:263 stat.cs:410 stat.cs:575 stat.cs:708 stat.cs:850 stat.cs:1024
+msgid "' session "
+msgstr "' sesion "
+
+#: stat.cs:266 stat.cs:413 stat.cs:578 stat.cs:711
+msgid "Rank of jumpers "
+msgstr "Ranking de saltadores "
+
+#: stat.cs:270 stat.cs:416 stat.cs:581 stat.cs:714 stat.cs:856
+msgid "Selection of the "
+msgstr "Seleccion de los "
+
+#: stat.cs:271 stat.cs:417 stat.cs:582 stat.cs:715
+msgid " MAX values of flight time "
+msgstr " por valor maximo de tiempo de vuelo "
+
+#: stat.cs:320 stat.cs:471 stat.cs:622
+msgid "Fall"
+msgstr "Caida"
+
+#: stat.cs:468 stat.cs:619 stat.cs:773 stat.cs:899
+msgid "Index %"
+msgstr "Indice %"
+
+#: stat.cs:567 stat.cs:699
+msgid "by MAX values of index: "
+msgstr "por maximos valores del indice: "
+
+#: stat.cs:569 stat.cs:701
+msgid "by AVG values of index: "
+msgstr "por valores promedio del indice: "
+
+#: stat.cs:620
+msgid "TV (AVG)"
+msgstr "TV (promedio)"
+
+#: stat.cs:621
+msgid "TC (AVG)"
+msgstr "TC (promedio)"
+
+#: stat.cs:706
+msgid " using AVG of its subjumps "
+msgstr " usando el promedio de sus subsaltos "
+
+#: stat.cs:751
+msgid "Elasticity Index"
+msgstr "Indice de elasticidad"
+
+#: stat.cs:843
+msgid "by MAX values of index '"
+msgstr "por valores maximos del indice '"
+
+#: stat.cs:845
+msgid "by AVG values of index '"
+msgstr "por valores medios del indice '"
+
+#: stat.cs:853
+msgid "Rank of jumpers"
+msgstr "Ranking de saltadores"
+
+#: stat.cs:857
+msgid " MAX values of index '"
+msgstr " valores maximos del indice '"
+
+#: stat.cs:883
+msgid "Arms using Index"
+msgstr "Indice de utilizacion de brazos"
+
+#: stat.cs:941
+msgid "Jump"
+msgstr "Salto"
+
+#: stat.cs:942
+msgid "Value"
+msgstr "Valor"
+
+#: stat.cs:1027
+msgid "MAX values of some jumps and statistics"
+msgstr "Valores maxioms de algunos saltos y estadisticos"
+
+#: stat.cs:1029
+msgid "AVG values of some jumps and statistics"
+msgstr "Valores medios de algunos saltos y estadisticos"
+
+#: glade/chronojump.glade:51
+msgid "_New session"
+msgstr "_Nueva sesion"
+
+#: glade/chronojump.glade:60
+msgid "_Load sesion"
+msgstr "_Cargar sesion"
+
+#: glade/chronojump.glade:87 glade/chronojump.glade:645
+#: glade/chronojump.glade:690
+msgid "Load jumper"
+msgstr "Cargar saltador"
+
+#: glade/chronojump.glade:129
+msgid "Edit current jumper"
+msgstr "Editar saltador actual"
+
+#: glade/chronojump.glade:182
+msgid "_Jumps"
+msgstr "_Saltos"
+
+#: glade/chronojump.glade:251 glade/chronojump.glade:571
+msgid "Cancel jump"
+msgstr "Cancelar salto"
+
+#: glade/chronojump.glade:272
+msgid "Delete last jump"
+msgstr "Borrar ultimo salto"
+
+#: glade/chronojump.glade:299 glade/chronojump.glade:837
+#: glade/chronojump.glade:1158 glade/chronojump.glade:1320
+msgid "Edit selected jump"
+msgstr "Editar salto seleccionado"
+
+#: glade/chronojump.glade:320 glade/chronojump.glade:1186
+#: glade/chronojump.glade:1348
+msgid "Delete selected jump"
+msgstr "Borrar salto seleccionado"
+
+#: glade/chronojump.glade:341
+msgid "Edit selected RJ jump"
+msgstr "Editar salto RJ seleccionado"
+
+#: glade/chronojump.glade:362
+msgid "Delete selected RJ jump"
+msgstr "Borrar salto RJ seleccionado"
+
+#: glade/chronojump.glade:387
+msgid "_Statistics"
+msgstr "_Estadisticos"
+
+#: glade/chronojump.glade:396
+msgid "Elasticity index"
+msgstr "Indice de elasticidad"
+
+#: glade/chronojump.glade:405
+msgid "Arms index"
+msgstr "Indice de utilizacion de brazos"
+
+#: glade/chronojump.glade:414
+msgid "Intrasession"
+msgstr "Intrasesion"
+
+#: glade/chronojump.glade:423
+msgid "Intersession"
+msgstr "Intersesion"
+
+#: glade/chronojump.glade:436
+msgid "_Platform"
+msgstr "_Plataforma"
+
+#: glade/chronojump.glade:486
+msgid "delete last jump"
+msgstr "borrar ultimo salto"
+
+#: glade/chronojump.glade:799
+msgid "<b>current jumper: </b>"
+msgstr "<b>saltador actual: </b>"
+
+#: glade/chronojump.glade:866
+msgid "Simulated"
+msgstr "Simulado"
+
+#: glade/chronojump.glade:886
+msgid "Serial Port"
+msgstr "Puerto serie"
+
+#: glade/chronojump.glade:910
+msgid "<b>jumpers</b>"
+msgstr "<b>saltadores</b>"
+
+#: glade/chronojump.glade:996
+msgid "by type"
+msgstr "por tipo"
+
+#: glade/chronojump.glade:1016
+msgid "show: "
+msgstr "ver: "
+
+#: glade/chronojump.glade:1270
+msgid "Reactive jumps (RJs):"
+msgstr "Saltos reactivos (RJs):"
+
+#: glade/chronojump.glade:1437
+msgid "<b>jumps</b>"
+msgstr "<b>saltos</b>"
+
+#: glade/chronojump.glade:1557
+msgid "MAX"
+msgstr "Maximos"
+
+#: glade/chronojump.glade:1580
+msgid "AVG"
+msgstr "Promedio"
+
+#: glade/chronojump.glade:1627
+msgid "Jumpers: "
+msgstr "Saltadores: "
+
+#: glade/chronojump.glade:1650
+msgid "Jumps: "
+msgstr "Saltos: "
+
+#: glade/chronojump.glade:1674
+msgid ""
+"by\n"
+"sex"
+msgstr ""
+"por\n"
+"sexo"
+
+#: glade/chronojump.glade:1760
+msgid "Update"
+msgstr "Actualizar"
+
+#: glade/chronojump.glade:1793
+msgid "always"
+msgstr "siempre"
+
+#: glade/chronojump.glade:1813
+msgid "show enunciate"
+msgstr "ver enunciado"
+
+#: glade/chronojump.glade:1849
+msgid "statistic's enunciate"
+msgstr "encunciado del estadistico"
+
+#: glade/chronojump.glade:1907
+msgid "<b>statistics</b>"
+msgstr "<b>estadisticos</b>"
+
+#: glade/chronojump.glade:1999
+msgid "Full name: "
+msgstr "Nombre completo: "
+
+#: glade/chronojump.glade:2023 glade/chronojump.glade:3743
+msgid ""
+"Description / \n"
+"comments"
+msgstr ""
+"Descripcion / \n"
+"Comentarios"
+
+#: glade/chronojump.glade:2139
+msgid "man"
+msgstr "hombre"
+
+#: glade/chronojump.glade:2159
+msgid "woman"
+msgstr "mujer"
+
+#: glade/chronojump.glade:2189
+msgid "Height: (cm)"
+msgstr "Altura: (cm)"
+
+#: glade/chronojump.glade:2213
+msgid "Weight: (Kg)"
+msgstr "Peso: (kg)"
+
+#: glade/chronojump.glade:2279
+msgid ""
+"Born: \n"
+"DD/MM/AAAA"
+msgstr ""
+"Fecha nacimiento: \n"
+"DD/MM/AAAA"
+
+#: glade/chronojump.glade:2426
+msgid "New session"
+msgstr "Nueva sesion"
+
+#: glade/chronojump.glade:2457
+msgid "Name: "
+msgstr "Nombre: "
+
+#: glade/chronojump.glade:2481
+msgid "Place: "
+msgstr "Lugar: "
+
+#: glade/chronojump.glade:2505
+msgid "Date: "
+msgstr "Fecha: "
+
+#: glade/chronojump.glade:2529
+msgid "Comments: "
+msgstr "Comentarios: "
+
+#: glade/chronojump.glade:2700
+msgid "Load session"
+msgstr "Cargar sesion"
+
+#: glade/chronojump.glade:2793
+msgid "Load jumpers"
+msgstr "Cargar saltadores"
+
+#: glade/chronojump.glade:2815
+msgid "Select jumpers you want to load:"
+msgstr "Selecciona los saltadores que deseas cargar:"
+
+#: glade/chronojump.glade:2865
+msgid "sort by creation date"
+msgstr "ordenar por fecha de creacion"
+
+#: glade/chronojump.glade:2947
+msgid "Load"
+msgstr "Cargar"
+
+#: glade/chronojump.glade:2985
+msgid "Preferences"
+msgstr "Preferencias"
+
+#: glade/chronojump.glade:3007
+msgid "Show height"
+msgstr "Mostrar altura"
+
+#: glade/chronojump.glade:3026
+msgid "Confirm jump deletion"
+msgstr "Confirmar borrado de saltos"
+
+#: glade/chronojump.glade:3053
+msgid "Number of decimals: "
+msgstr "Numero de decimales: "
+
+#: glade/chronojump.glade:3147
+msgid "ChronoJump - error"
+msgstr "ChronoJump - error"
+
+#: glade/chronojump.glade:3219
+msgid "SJ with extra load"
+msgstr "SJ con carga extra"
+
+#: glade/chronojump.glade:3246
+msgid ""
+"Select additional weight\n"
+"for the following squat jump"
+msgstr ""
+"Selecciona la carga adicional\n"
+"para el siguiente squat jump"
+
+#: glade/chronojump.glade:3314
+msgid ""
+"% body \n"
+"weightl"
+msgstr ""
+
+#: glade/chronojump.glade:3390
+msgid "DJ falling height"
+msgstr "Altura de caida en DJ"
+
+#: glade/chronojump.glade:3417
+msgid ""
+"Select falling height\n"
+"for the following DJ (cm)"
+msgstr ""
+"Selecciona la altura de caida\n"
+"para el siguiente DJ (cm)"
+
+#: glade/chronojump.glade:3519
+msgid "RJ limit"
+msgstr "Limite al RJ"
+
+#: glade/chronojump.glade:3546
+msgid "Select limit factor for the folowing RJ"
+msgstr "Selecciona el factor limitante para el siguiente RJ"
+
+#: glade/chronojump.glade:3593
+msgid "jumps"
+msgstr "saltos"
+
+#: glade/chronojump.glade:3613
+msgid "time (seconds)"
+msgstr "tiempo (segundos)"
+
+#: glade/chronojump.glade:3688
+msgid "Edit jump"
+msgstr "Editar salto"
+
+#: glade/chronojump.glade:3719
+msgid "Flight time:"
+msgstr "Tiempo de vuelo:"
+
+#: glade/chronojump.glade:3831
+msgid "Contact time:"
+msgstr "Tiempo de contacto:"
+
+#: glade/chronojump.glade:3879
+msgid "Falling height:"
+msgstr "Altura de caida:"
+
+#: glade/chronojump.glade:3927
+msgid "Jump type: "
+msgstr "Tipo de salto: "
+
+#: glade/chronojump.glade:3975
+msgid "Jumper: "
+msgstr "Saltador: "
+
+#: glade/chronojump.glade:4019
+msgid "Identifier: "
+msgstr "Codigo: "
+
+#: glade/chronojump.glade:4067
+msgid "Extra load:"
+msgstr "Carga extra:"
+
+#: glade/chronojump.glade:4115
+msgid "Limit factor:"
+msgstr "Factor limitante"
+
+#: glade/chronojump.glade:4212
+msgid "ChronoJump - Confirm"
+msgstr "ChronoJump - Confirmar"
+
+#: glade/chronojump.glade:4318
+msgid "ChronoJump - Error"
+msgstr "ChronoJump - Error"

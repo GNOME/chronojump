@@ -1,15 +1,30 @@
 TODO:
 ----
 
+show better info in the RJ jump edit
+
+move all the treeview_jumps and treeview_jumps_rj code from chronojump.cs to another file. 
+(For clarity and for later having the possibility of view multiple treeviews in other emerging windows)
 
 correct the non-simulated rj jump
 implement the non-simulated tj rime
 implement the simulated tj rime
 
+make appbar2.push show the different jumps as the are producing in RJ:
+chronojump.cs, lines: 
+			Console.WriteLine("trama: {0} {1} {2}", t0, t1, realTime(t2, t3) );
+			string myString = "prova " + t0 + ", " + t1 + ", " + realTime(t2, t3) ;
+			appbar2.Push( myString );
 
-- normal jump simulated and non simulated DONE
-- sj+ simulated and non simulated DONE
-- dj simulated and non simulated DONE
+
+reimplement all the jumps as a sequence of values like:
+SJ, CMJ, ABK	"1, 1" start inside, finish inside
+DJ 		"0, 1" start outside, finish inside
+Or something like this, or prevent some way of adding new jumps in the future without the need of change the DB.
+
+- show a dbversion code in the DB for making updates without problems
+
+
 - rj simulated and non simulated (NON-SIMULATED PENDING)
 
 
@@ -50,13 +65,6 @@ INTERSESSION SELECTS (but they need to return something for each row (also if th
 
 
 
-BUG: if we try to open a session with no jumps, it's not shown by:
-SELECT session.* FROM session, jump  WHERE session.uniqueID == jump.sessionID  GROUP BY sessionID ORDER BY session.uniqueID;
-try something with LEFT JOIN
-
-
-in stats global calculate for TV and for the DJindex and RjIndex and IE and IUB, the statistics: avg, median, variance, standard deviaton (put checkbox for the wanted stats (probably we need a notebook for all this)
-
 +++
 PROBLEM: sqlite max selection in RJ
 SOLUTION1: learn more sql
@@ -86,9 +94,6 @@ CURRENT:
 	- like before but for one person (not for all sessions)
 
 
-- decide the name of all this (gsalta, JumpFreeLab, ChronoJump), and create a project in softwarelibre.org
-
-
 - (HALF) Put a button for "cancel jump" (specially usefull if we selected we are using the platform)
 
 
@@ -100,6 +105,7 @@ sqlite> SELECT j1.personID, person.name, (j1.tv + j2.tv-j1.tv + j3.tv-j2.tv + j4
 2|pepa|0.0993004424028567|0.184782230008758|0.280872289780933|-0.280872289780933|-0.065258488461962|-0.0202232991439393
 1|xavi1|0.186643592820803|0.465654519789691|-0.366973106920241|0.366973106920241|-0.002864390799247|-0.276146536169641
 
+we can check the lines we need, and execute, and if a line it's not found, try to discover wich values are needed
 
 
 
@@ -284,6 +290,8 @@ and this:  select sessionID, count(*) from personsession group by sessionID ORDE
 17|2
 AND record the two arrays and check the values against the sessionID and show in the table of load sesion
 
+in stats global calculate for TV and for the DJindex and RjIndex and IE and IUB, the statistics: avg, median, variance, standard deviaton (put checkbox for the wanted stats (probably we need a notebook for all this)
+
 --
 preferences value for ask deletion of jumps
 --
@@ -296,3 +304,10 @@ repair BUG in StatGlobalDj and StatGlobalRj: if it's not sex separated and AVG, 
 show the average, and DE at the end of every list of values (in stats)
 
 all in english
+
+---
+corrected bug in load jumper (order of columns, and problems with the dateformat)
+
+gettext suport for al the .cs and glade
+
+made spanish es.po file

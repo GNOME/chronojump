@@ -29,6 +29,7 @@ using System.Collections; //ArrayList
 using System.Timers; 
 
 
+
 public class ChronoJump {
 	[Widget] Gtk.Window app1;
 	[Widget] Gnome.AppBar appbar2;
@@ -105,7 +106,7 @@ public class ChronoJump {
 
 	private Random rand;
 	
-	private static string [] authors = {"Xavier de Blas", "Juan González"};
+	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
 	private static string progversion = "0.1";
 	private static string progname = "ChronoJump";
 	
@@ -193,10 +194,14 @@ public class ChronoJump {
 
 	public ChronoJump (string [] args) 
 	{
+
+		Catalog.Init ("chronojump", "./locale");
+
+		
 		Program program = new Program(progname, progversion, Modules.UI, args);
 
 
-		Glade.XML gxml = new Glade.XML (null, "chronojump.glade", "app1", null);
+		Glade.XML gxml = new Glade.XML (null, "chronojump.glade", "app1", "chronojumpGlade");
 
 		gxml.Autoconnect(this);
 
@@ -204,10 +209,10 @@ public class ChronoJump {
 		
 		//Chech if the DB file exists
 		if (!Sqlite.CheckTables()) {
-			Console.WriteLine ("no tables, creating ...");
+			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
 			Sqlite.CreateFile();
 			Sqlite.CreateTables();
-		} else { Console.WriteLine ("tables already created"); }
+		} else { Console.WriteLine ( Catalog.GetString ("tables already created") ); }
 
 		loadPreferences ();
 		
@@ -227,12 +232,13 @@ public class ChronoJump {
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
-		appbar2.Push("Ready.");
+		//appbar2.Push("Ready.");
+		appbar2.Push ( Catalog.GetString ("Ready.") );
 
 		rand = new Random(40);
 		
-		Console.WriteLine ("starting connection with serial port");
-		Console.WriteLine ("if program chrashes, disable next line, and work always in 'simulated' mode");
+		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
+		Console.WriteLine ( Catalog.GetString ("if program chrashes, disable next line, and work always in 'simulated' mode") );
 		//serial_fd = Serial.Open("/dev/ttyS0");
 		
 		program.Run();
@@ -260,6 +266,8 @@ public class ChronoJump {
 		} else {
 			askDeletion = false;
 		}
+		
+		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
 	}
 
 	/* ---------------------------------------------------------
@@ -271,13 +279,13 @@ public class ChronoJump {
 		tv.HeadersVisible=true;
 		int count = 0;
 	
-		col_name = tv.AppendColumn ("Name", new CellRendererText(), "text", count ++);
+		col_name = tv.AppendColumn ( Catalog.GetString("Name"), new CellRendererText(), "text", count ++);
 		col_tv = tv.AppendColumn ("TV", new CellRendererText(), "text", count ++);
 		if (showHeight) {
-			col_height = tv.AppendColumn ("ALT", new CellRendererText(), "text", count ++);
+			col_height = tv.AppendColumn ( Catalog.GetString("height"), new CellRendererText(), "text", count ++);
 		}
 		col_tc = tv.AppendColumn ("TC", new CellRendererText(), "text", count ++);
-		//tv.AppendColumn ("Caída", new CellRendererText(), "text", 4);
+		//tv.AppendColumn ("Fall", new CellRendererText(), "text", 4);
 		
 	}
 
@@ -361,7 +369,6 @@ public class ChronoJump {
 			}
 			
 			myStringTreeView = tv.Model.GetStringFromIter ( iterTreeView ) ;
-			//Console.WriteLine("+++++++++++++++++ stringtreeview: {0}", myStringTreeView);
 
 			found = false;
 			foreach (string myStringArray in myArrayOfStringItersCollapsed) {
@@ -412,7 +419,6 @@ finishForeach:
 		foreach (string myString in myArrayOfStringItersCollapsed) {
 			if (myString == treeview_jumps.Model.GetStringFromIter (args.Iter) ) {
 				found = true;
-				//Console.WriteLine("TTTT FOUND: {0}", myString);
 			}
 		}
 		if(!found) {
@@ -420,14 +426,12 @@ finishForeach:
 		}
 		
 		foreach (string myString in myArrayOfStringItersCollapsed) {
-			//Console.WriteLine("TTTTTTTTTT {0}", myString);
 		}
 	}
 	
 	private void on_treeview_jumps_row_expanded (object o, RowExpandedArgs args)
 	{
 		string value = (string) treeview_jumps.Model.GetValue (args.Iter, 0);
-		//Console.WriteLine ("expanded: {0}", value);
 		
 		myArrayOfStringItersCollapsed.Remove ( treeview_jumps.Model.GetStringFromIter (args.Iter) );
 	}
@@ -436,7 +440,6 @@ finishForeach:
 	//puts a value in private member selected
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args)
 	{
-		//Console.WriteLine("cursor_changed");
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
@@ -478,13 +481,13 @@ finishForeach:
 		tv.HeadersVisible=true;
 		int count = 0;
 	
-		rj_col_name = tv.AppendColumn ("Name", new CellRendererText(), "text", count ++);
+		rj_col_name = tv.AppendColumn (Catalog.GetString("Name"), new CellRendererText(), "text", count ++);
 		rj_col_tv = tv.AppendColumn ("TV", new CellRendererText(), "text", count ++);
 		if (showHeight) {
-			rj_col_height = tv.AppendColumn ("ALT", new CellRendererText(), "text", count ++);
+			rj_col_height = tv.AppendColumn (Catalog.GetString("height"), new CellRendererText(), "text", count ++);
 		}
 		rj_col_tc = tv.AppendColumn ("TC", new CellRendererText(), "text", count ++);
-		//tv.AppendColumn ("Caída", new CellRendererText(), "text", 4);
+		//tv.AppendColumn ("Fall", new CellRendererText(), "text", 4);
 		
 	}
 
@@ -513,7 +516,6 @@ finishForeach:
 		string myTypeComplet ;
 			
 		foreach (string jump in myJumps) {
-			Console.WriteLine("JA");
 			string [] myStringFull = jump.Split(new char[] {':'});
 
 			//show always the names of jumpers ...
@@ -583,7 +585,6 @@ finishForeach:
 			}
 			
 			myStringTreeView = tv.Model.GetStringFromIter ( iterTreeView ) ;
-			//Console.WriteLine("+++++++++++++++++ stringtreeview: {0}", myStringTreeView);
 
 			found = false;
 			foreach (string myStringArray in myArrayOfStringItersRjCollapsed) {
@@ -610,7 +611,7 @@ finishForeach:
 				tv.Model.IterNthChild ( out iterTreeView, iterTreeView, 0 );
 				for (int i=0; i < children ; i++) {
 					string myStringTreeView2 = tv.Model.GetStringFromIter ( iterTreeView ) ;
-					//Console.WriteLine("+++++++++++++++++ stringtreeview2: {0}, has child: {1}", 
+					//Console.WriteLine("stringtreeview2: {0}, has child: {1}", 
 							//myStringTreeView2, tv.Model.IterNChildren(iterTreeView) );
 					if ( tv.Model.IterHasChild (iterTreeView) ) {
 						tv.CollapseRow(tv.Model.GetPath (iterTreeView) );
@@ -631,7 +632,6 @@ finishForeach:
 	private void on_treeview_jumps_rj_row_collapsed (object o, RowCollapsedArgs args)
 	{
 		string value = (string) treeview_jumps_rj.Model.GetValue (args.Iter, 0);
-		//Console.WriteLine ("collapsed: {0}", value);
 		
 		//put this iter in the row collapsed iters array, but check first if it's not already there.
 		
@@ -640,7 +640,6 @@ finishForeach:
 		foreach (string myString in myArrayOfStringItersRjCollapsed) {
 			if (myString == treeview_jumps_rj.Model.GetStringFromIter (args.Iter) ) {
 				found = true;
-				//Console.WriteLine("TTTT FOUND: {0}", myString);
 			}
 		}
 		if(!found) {
@@ -648,7 +647,6 @@ finishForeach:
 		}
 		
 		foreach (string myString in myArrayOfStringItersRjCollapsed) {
-			//Console.WriteLine("TTTTTTTTTT {0}", myString);
 		}
 	}
 	
@@ -664,7 +662,6 @@ finishForeach:
 	//puts a value in private member selected
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args)
 	{
-		//Console.WriteLine("cursor_changed");
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
@@ -714,9 +711,7 @@ finishForeach:
 		string myText = combo_stats2.Entry.Text;
 		string [] fullTitle = myText.Split(new char[] {' '});
 
-		//Console.WriteLine("preremoving...");
 		if(myStat.SessionName != "") {
-			//Console.WriteLine("removing...");
 			myStat.RemoveHeaders();
 		}
 	
@@ -859,7 +854,6 @@ finishForeach:
 		combo_person_current.PopdownStrings = jumpers; 
 		
 		if(jumpers.Length > 0) {
-			Console.WriteLine("Jumpers not null");
 			return true;
 		} else {
 			return false;
@@ -874,7 +868,6 @@ finishForeach:
 		combo_person_current.PopdownStrings = jumpers; 
 		
 		foreach (string jumper in jumpers) {
-			//Console.WriteLine("jumper: {0}, name: {1}", jumper, name);
 			if (jumper == name) {
 				combo_person_current.Entry.Text = jumper;
 			}
@@ -1005,7 +998,6 @@ finishForeach:
 
 	void on_radiobutton_jumpers_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton jumpers toggled");
 		spinbutton_jumps_num.Sensitive = false;
 		radiobutton_max.Sensitive = true;
 		radiobutton_avg.Sensitive = true;
@@ -1017,7 +1009,6 @@ finishForeach:
 	
 	void on_radiobutton_jumps_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton jumps toggled");
 		spinbutton_jumps_num.Sensitive = true;
 		radiobutton_max.Sensitive = false;
 		radiobutton_avg.Sensitive = false;
@@ -1029,7 +1020,6 @@ finishForeach:
 	
 	void on_radiobutton_max_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton max toggled");
 		if (statsAutomatic) { 
 			fillTreeView_stats();
 		}
@@ -1037,7 +1027,6 @@ finishForeach:
 	
 	void on_radiobutton_avg_toggled (object o, EventArgs args)
 	{
-		Console.WriteLine("radiobutton avg toggled");
 		if (statsAutomatic) { 
 			fillTreeView_stats();
 		}
@@ -1045,7 +1034,6 @@ finishForeach:
 	
 	void on_spinbutton_jumps_num_changed (object o, EventArgs args)
 	{
-		Console.WriteLine("spinbutton jumps num changed");
 		if (statsAutomatic) { 
 			fillTreeView_stats();
 		}
@@ -1237,20 +1225,17 @@ finishForeach:
 	
 	void on_radiobutton_simulated_toggled (object o, EventArgs args)
 	{
-		//Console.WriteLine("radiobutton simulated toggled");
 		simulated = true;
 		Sqlite.PreferencesUpdate("simulated", simulated.ToString());
 	}
 	
 	void on_radiobutton_serial_toggled (object o, EventArgs args)
 	{
-		//Console.WriteLine("radiobutton serial toggled");
 		simulated = false;
 		Sqlite.PreferencesUpdate("simulated", simulated.ToString());
 	}
 	
 	private void on_preferences_activate (object o, EventArgs args) {
-		//Console.WriteLine("preferences");
 		PreferencesWindow myWin = PreferencesWindow.Show(app1, prefsDigitsNumber, showHeight, simulated, askDeletion);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
@@ -1352,8 +1337,8 @@ finishForeach:
 			} while (ok != 1) ;
 
 			if (estadoInicial == 1) {
-				Console.WriteLine("You are IN, JUMP when prepared!!");
-				//appbar2.Push( "Estás dentro, cuando quieras SALTA!!" );
+				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
+				//appbar2.Push( "Estas dentro, cuando quieras SALTA!!" );
 
 				platformState = true;
 
@@ -1366,15 +1351,15 @@ finishForeach:
 				timerClockJump.Enabled = true;
 			} 
 			else {
-				Console.WriteLine("You are OUT, please come inside the platform");
+				Console.WriteLine( Catalog.GetString("You are OUT, please come inside the platform") );
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "You are OUT, come inside and press button", "");
+				confirmWinPlatform = ConfirmWindowPlatform.Show(app1,  Catalog.GetString("You are OUT, come inside and press button"), "");
 
 				//we call again this function
 				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_normal_jump_activate);
 
-				Console.WriteLine("You are IN, JUMP when prepared!!");
-				//appbar2.Push( "Estás dentro, cuando quieras SALTA!!" );
+				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
+				//appbar2.Push( "Estas dentro, cuando quieras SALTA!!" );
 
 			}
 		}
@@ -1406,7 +1391,7 @@ finishForeach:
 			fillTreeView_stats();
 		}
 
-		string myStringPush =  "Last jump: " + currentPerson.Name + " " + myType + " TV:" +
+		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " " + myType + " TV:" +
 			trimDecimals( myTV.ToString() ) ;
 		if (myType == "SJ+") { myStringPush = myStringPush + "(" + myWeight + ")";
 		}
@@ -1495,8 +1480,8 @@ finishForeach:
 			} while (ok != 1) ;
 
 			if (estadoInicial == 0) {
-				Console.WriteLine("You are OUT, JUMP when prepared!!");
-				//appbar2.Push( "Estás fuera, cuando quieras SALTA!!" );
+				Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
+				//appbar2.Push( "Estas fuera, cuando quieras SALTA!!" );
 
 				platformState = false;
 				tcDjJump = 0;
@@ -1510,9 +1495,9 @@ finishForeach:
 				timerClockJump.Enabled = true;
 			} 
 			else {
-				Console.WriteLine("You are IN, please go out the platform");
+				Console.WriteLine( Catalog.GetString("You are IN, please go out the platform") );
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "You are IN, please go out the platform, prepare for jump and press button", "");
+				confirmWinPlatform = ConfirmWindowPlatform.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
 
 				//we call again this function
 				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_dj_fall_accepted);
@@ -1583,14 +1568,13 @@ finishForeach:
 			fillTreeView_stats();
 		}
 
-		string myStringPush =  "Last jump: " + currentPerson.Name + " DJ TV:" +
+		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " DJ TV:" +
 			trimDecimals( myTV.ToString() ) ;
 		appbar2.Push( myStringPush );
 	}
 
 
 	private void on_rj_activate (object o, EventArgs args) {
-		//Console.WriteLine("RJ de {0} rand: {1}", currentPerson.Name, rand.Next(200));
 		Console.WriteLine("RJ");
 
 		rjWin = RjWindow.Show(app1);
@@ -1599,7 +1583,7 @@ finishForeach:
 	}
 
 	private void on_rj_accepted (object o, EventArgs args) {
-		Console.WriteLine("RJ accepted, limited: {0} {1}", rjWin.Limited.ToString(), rjWin.Option);
+		Console.WriteLine( Catalog.GetString("RJ accepted, limited: {0} {1}"), rjWin.Limited.ToString(), rjWin.Option);
 
 		double myTv;
 		double myTc;
@@ -1608,8 +1592,6 @@ finishForeach:
 		string equal = "";
 		string limited = rjWin.Limited.ToString() + rjWin.Option; 
 
-		//if (rjWin.Option == "J") {
-		//
 		//suitable for limited by jump and time
 		if(simulated) {
 			for (int i=0 ; i < rjWin.Limited ; i ++) {
@@ -1638,15 +1620,15 @@ finishForeach:
 
 			//you have to start outside the platform
 			if (estadoInicial == 1) {
-				Console.WriteLine("You are IN, please go out the platform");
+				Console.WriteLine( Catalog.GetString("You are IN, please go out the platform") );
 				platformState = true;
 
-				confirmWinPlatform = ConfirmWindowPlatform.Show(app1, "You are IN, please go out the platform, prepare for jump and press button", "");
+				confirmWinPlatform = ConfirmWindowPlatform.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
 
 				//we call again this function
 				confirmWinPlatform.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 			} else {
-				Console.WriteLine("You are OUT, JUMP when prepared!!");
+				Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
 				platformState = false;
 			}
 
@@ -1672,7 +1654,6 @@ finishForeach:
 	
 		if (rjWin.Option == "J") {
 			int jumps = Convert.ToInt32(rjWin.Limited.ToString());
-			//if( getNumberOfJumps(rjTCString) >= jumps && getNumberOfJumps(rjTVString) >= jumps)
 			if(getNumberOfJumps(rjTCString) >= jumps)
 			{
 				Console.WriteLine("------------Timer event should be killed----------");
@@ -1705,6 +1686,8 @@ finishForeach:
 		int ok = Serial.Read(serial_fd, out t0, out t1, out t2, out t3);
 		if (ok==1) {
 			Console.WriteLine("trama: {0} {1} {2}", t0, t1, realTime(t2, t3) );
+			string myString = "prova " + t0 + ", " + t1 + ", " + realTime(t2, t3) ;
+			appbar2.Push( myString );
 
 			//----------------
 			//first value inside or outside, we forget it
@@ -1713,7 +1696,7 @@ finishForeach:
 			//if it was outside it show time elapsed until get inside (same as above)
 			//----------------
 
-			//if(platformState && t1 == 0 && firstRjValue) {
+			//if(platformState && t1 == 0 && firstRjValue) { }
 			if(firstRjValue) {
 				Console.WriteLine("Changed from {0}, to {1} (out)", platformState, t1);
 				firstRjValue = false;
@@ -1770,7 +1753,7 @@ finishForeach:
 			fillTreeView_stats();
 		}
 
-		string myStringPush =  "Last jump: " + currentPerson.Name + " RJ (" + limited + ") " +
+		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " RJ (" + limited + ") " +
 			" AVG TV: " + trimDecimals( getAverage (myTVString).ToString() ) +
 			" AVG TC: " + trimDecimals( getAverage (myTCString).ToString() ) ;
 		appbar2.Push( myStringPush );
@@ -1839,10 +1822,8 @@ finishForeach:
 			}
 			if(count == 0) { count =1; }
 			
-			Console.WriteLine("Jumps: {0}", count);
 			return count;
 		} else { 
-			Console.WriteLine("zero Jumps");
 			return 0;
 		}
 	}
@@ -1862,7 +1843,7 @@ finishForeach:
 		menuitem_last_jump_delete.Sensitive = false ;
 		button_last_jump_delete.Sensitive = false ;
 		
-		appbar2.Push( "Last jump deleted" );
+		appbar2.Push( Catalog.GetString("Last jump deleted") );
 		
 		if(currentJump.Type == "RJ") {
 			treeview_jumps_rj_storeReset();
@@ -1882,7 +1863,6 @@ finishForeach:
 		Console.WriteLine("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		//if (Convert.ToInt32(jumpSelected) > 0) {
 		if (jumpSelected > 0) {
 			//3.- obtain the data of the selected jump
 			Jump myJump = Sqlite.SelectNormalJumpData( jumpSelected );
@@ -1898,7 +1878,6 @@ finishForeach:
 		Console.WriteLine("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		//if (Convert.ToInt32(jumpSelected) > 0) {
 		if (jumpRjSelected > 0) {
 			//3.- obtain the data of the selected jump
 			Jump myJump = Sqlite.SelectRjJumpData( jumpRjSelected );
@@ -1940,7 +1919,7 @@ finishForeach:
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				bool isRj = false;
-				confirmWin = ConfirmWindow.Show(app1, "¿Do you want to delete selected jump?", 
+				confirmWin = ConfirmWindow.Show(app1, "Do you want to delete selected jump?", 
 						"", "jump", jumpSelected, isRj);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
@@ -1957,16 +1936,16 @@ finishForeach:
 	}
 	
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
-		Console.WriteLine("delete salto seleccionado (RJ)");
+		Console.WriteLine("delete selected (RJ) jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (jumpRjSelected > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				bool isRj = true;
-				confirmWin = ConfirmWindow.Show(app1, "¿Do you want to delete selected jump?", 
-						"Atention: Deleting a RJ subjump will delete all the RJ", "jump", jumpRjSelected,
-						isRj);
+				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
+						 Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"), 
+						 "jump", jumpRjSelected, isRj);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				Console.WriteLine("accept delete selected jump");
@@ -2028,8 +2007,8 @@ finishForeach:
 	private void on_about1_activate (object o, EventArgs args) {
 		new Gnome.About (
 				progname, progversion,
-				"(C) 2004 Xavier de  Blas",
-				"Gestión de salto vertical com plataforma de contactos.",
+				"(C) 2004 Xavier de  Blas, Juan Gonzalez",
+				"Vertical jump analysis with contact plataform.",
 				authors, null, null, null).Run();
 	}
 

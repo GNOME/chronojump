@@ -23,7 +23,7 @@ DLL_SERIAL = serial
 
 CHRONOJUMP = chronojump
 
-CHRONOJUMP_DEP = chronojump.cs stat.cs someWindows.cs sqlite.cs person.cs jump.cs session.cs
+CHRONOJUMP_DEP = chronojump.cs stat.cs someWindows.cs sqlite.cs person.cs jump.cs session.cs Catalog.cs
 RESOURCES = -resource:glade/chronojump.glade,chronojump.glade
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient
 #CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient -r GNU.Gettext

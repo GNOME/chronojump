@@ -1,0 +1,616 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-01-02 13:27+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: chronojump.cs:212
+msgid "no tables, creating ..."
+msgstr ""
+
+#: chronojump.cs:215
+msgid "tables already created"
+msgstr ""
+
+#: chronojump.cs:236
+msgid "Ready."
+msgstr ""
+
+#: chronojump.cs:240
+msgid "starting connection with serial port"
+msgstr ""
+
+#: chronojump.cs:241
+msgid ""
+"if program chrashes, disable next line, and work always in 'simulated' mode"
+msgstr ""
+
+#: chronojump.cs:270
+msgid "Preferences loaded"
+msgstr ""
+
+#: chronojump.cs:282 chronojump.cs:489 someWindows.cs:170 someWindows.cs:313
+msgid "Name"
+msgstr ""
+
+#: chronojump.cs:285 chronojump.cs:492
+msgid "height"
+msgstr ""
+
+#: chronojump.cs:1363 chronojump.cs:1384
+msgid "You are IN, JUMP when prepared!!"
+msgstr ""
+
+#: chronojump.cs:1377
+msgid "You are OUT, please come inside the platform"
+msgstr ""
+
+#: chronojump.cs:1379
+msgid "You are OUT, come inside and press button"
+msgstr ""
+
+#: chronojump.cs:1417 chronojump.cs:1594 chronojump.cs:1780
+msgid "Last jump: "
+msgstr ""
+
+#: chronojump.cs:1506 chronojump.cs:1655
+msgid "You are OUT, JUMP when prepared!!"
+msgstr ""
+
+#: chronojump.cs:1521 chronojump.cs:1647
+msgid "You are IN, please go out the platform"
+msgstr ""
+
+#: chronojump.cs:1523 chronojump.cs:1650
+msgid ""
+"You are IN, please go out the platform, prepare for jump and press button"
+msgstr ""
+
+#: chronojump.cs:1610
+#, csharp-format
+msgid "RJ accepted, limited: {0} {1}"
+msgstr ""
+
+#: chronojump.cs:1872
+msgid "Last jump deleted"
+msgstr ""
+
+#: chronojump.cs:1972
+msgid "Do you want to delete selected jump?"
+msgstr ""
+
+#: chronojump.cs:1973
+msgid "Atention: Deleting a RJ subjump will delete all the RJ"
+msgstr ""
+
+#: someWindows.cs:87
+msgid "Session: '"
+msgstr ""
+
+#: someWindows.cs:87 someWindows.cs:508 someWindows.cs:657
+msgid "' exists. Please, use another name"
+msgstr ""
+
+#: someWindows.cs:169 someWindows.cs:312
+msgid "Number"
+msgstr ""
+
+#: someWindows.cs:171
+msgid "Place"
+msgstr ""
+
+#: someWindows.cs:172
+msgid "Date"
+msgstr ""
+
+#: someWindows.cs:173
+msgid "Jumpers"
+msgstr ""
+
+#: someWindows.cs:174
+msgid "Jumps"
+msgstr ""
+
+#: someWindows.cs:175
+msgid "RJ Jumps"
+msgstr ""
+
+#: someWindows.cs:176
+msgid "Comments"
+msgstr ""
+
+#: someWindows.cs:314 glade/chronojump.glade:2108
+msgid "Sex"
+msgstr ""
+
+#: someWindows.cs:315
+msgid "Height"
+msgstr ""
+
+#: someWindows.cs:316
+msgid "Weight"
+msgstr ""
+
+#: someWindows.cs:317
+msgid "Date born"
+msgstr ""
+
+#: someWindows.cs:318
+msgid "Description"
+msgstr ""
+
+#: someWindows.cs:347
+msgid "Man"
+msgstr ""
+
+#: someWindows.cs:348
+msgid "Woman"
+msgstr ""
+
+#: someWindows.cs:461 glade/chronojump.glade:108 glade/chronojump.glade:722
+#: glade/chronojump.glade:767 glade/chronojump.glade:1968
+msgid "New jumper"
+msgstr ""
+
+#: someWindows.cs:508 someWindows.cs:657
+msgid "Jumper: '"
+msgstr ""
+
+#: someWindows.cs:579
+msgid "Edit jumper"
+msgstr ""
+
+#: stat.cs:185 stat.cs:316 stat.cs:466 stat.cs:617 stat.cs:771 stat.cs:897
+msgid "Position"
+msgstr ""
+
+#: stat.cs:186 stat.cs:317 stat.cs:467 stat.cs:618 stat.cs:772 stat.cs:898
+msgid "Jumper"
+msgstr ""
+
+#: stat.cs:255 stat.cs:402
+msgid "by MAX flight time values "
+msgstr ""
+
+#: stat.cs:257 stat.cs:404
+msgid "by AVG flight time values "
+msgstr ""
+
+#: stat.cs:260 stat.cs:407 stat.cs:572 stat.cs:704 stat.cs:848 stat.cs:1022
+msgid "sorted by sex"
+msgstr ""
+
+#: stat.cs:262 stat.cs:409 stat.cs:574 stat.cs:707
+msgid " in "
+msgstr ""
+
+#: stat.cs:262 stat.cs:409 stat.cs:574 stat.cs:707
+msgid " jump "
+msgstr ""
+
+#: stat.cs:263 stat.cs:410 stat.cs:575 stat.cs:708 stat.cs:850 stat.cs:1024
+msgid " in '"
+msgstr ""
+
+#: stat.cs:263 stat.cs:410 stat.cs:575 stat.cs:708 stat.cs:850 stat.cs:1024
+msgid "' session "
+msgstr ""
+
+#: stat.cs:266 stat.cs:413 stat.cs:578 stat.cs:711
+msgid "Rank of jumpers "
+msgstr ""
+
+#: stat.cs:270 stat.cs:416 stat.cs:581 stat.cs:714 stat.cs:856
+msgid "Selection of the "
+msgstr ""
+
+#: stat.cs:271 stat.cs:417 stat.cs:582 stat.cs:715
+msgid " MAX values of flight time "
+msgstr ""
+
+#: stat.cs:320 stat.cs:471 stat.cs:622
+msgid "Fall"
+msgstr ""
+
+#: stat.cs:468 stat.cs:619 stat.cs:773 stat.cs:899
+msgid "Index %"
+msgstr ""
+
+#: stat.cs:567 stat.cs:699
+msgid "by MAX values of index: "
+msgstr ""
+
+#: stat.cs:569 stat.cs:701
+msgid "by AVG values of index: "
+msgstr ""
+
+#: stat.cs:620
+msgid "TV (AVG)"
+msgstr ""
+
+#: stat.cs:621
+msgid "TC (AVG)"
+msgstr ""
+
+#: stat.cs:706
+msgid " using AVG of its subjumps "
+msgstr ""
+
+#: stat.cs:751
+msgid "Elasticity Index"
+msgstr ""
+
+#: stat.cs:843
+msgid "by MAX values of index '"
+msgstr ""
+
+#: stat.cs:845
+msgid "by AVG values of index '"
+msgstr ""
+
+#: stat.cs:853
+msgid "Rank of jumpers"
+msgstr ""
+
+#: stat.cs:857
+msgid " MAX values of index '"
+msgstr ""
+
+#: stat.cs:883
+msgid "Arms using Index"
+msgstr ""
+
+#: stat.cs:941
+msgid "Jump"
+msgstr ""
+
+#: stat.cs:942
+msgid "Value"
+msgstr ""
+
+#: stat.cs:1027
+msgid "MAX values of some jumps and statistics"
+msgstr ""
+
+#: stat.cs:1029
+msgid "AVG values of some jumps and statistics"
+msgstr ""
+
+#: glade/chronojump.glade:51
+msgid "_New session"
+msgstr ""
+
+#: glade/chronojump.glade:60
+msgid "_Load sesion"
+msgstr ""
+
+#: glade/chronojump.glade:87 glade/chronojump.glade:645
+#: glade/chronojump.glade:690
+msgid "Load jumper"
+msgstr ""
+
+#: glade/chronojump.glade:129
+msgid "Edit current jumper"
+msgstr ""
+
+#: glade/chronojump.glade:182
+msgid "_Jumps"
+msgstr ""
+
+#: glade/chronojump.glade:251 glade/chronojump.glade:571
+msgid "Cancel jump"
+msgstr ""
+
+#: glade/chronojump.glade:272
+msgid "Delete last jump"
+msgstr ""
+
+#: glade/chronojump.glade:299 glade/chronojump.glade:837
+#: glade/chronojump.glade:1158 glade/chronojump.glade:1320
+msgid "Edit selected jump"
+msgstr ""
+
+#: glade/chronojump.glade:320 glade/chronojump.glade:1186
+#: glade/chronojump.glade:1348
+msgid "Delete selected jump"
+msgstr ""
+
+#: glade/chronojump.glade:341
+msgid "Edit selected RJ jump"
+msgstr ""
+
+#: glade/chronojump.glade:362
+msgid "Delete selected RJ jump"
+msgstr ""
+
+#: glade/chronojump.glade:387
+msgid "_Statistics"
+msgstr ""
+
+#: glade/chronojump.glade:396
+msgid "Elasticity index"
+msgstr ""
+
+#: glade/chronojump.glade:405
+msgid "Arms index"
+msgstr ""
+
+#: glade/chronojump.glade:414
+msgid "Intrasession"
+msgstr ""
+
+#: glade/chronojump.glade:423
+msgid "Intersession"
+msgstr ""
+
+#: glade/chronojump.glade:436
+msgid "_Platform"
+msgstr ""
+
+#: glade/chronojump.glade:486
+msgid "delete last jump"
+msgstr ""
+
+#: glade/chronojump.glade:799
+msgid "<b>current jumper: </b>"
+msgstr ""
+
+#: glade/chronojump.glade:866
+msgid "Simulated"
+msgstr ""
+
+#: glade/chronojump.glade:886
+msgid "Serial Port"
+msgstr ""
+
+#: glade/chronojump.glade:910
+msgid "<b>jumpers</b>"
+msgstr ""
+
+#: glade/chronojump.glade:996
+msgid "by type"
+msgstr ""
+
+#: glade/chronojump.glade:1016
+msgid "show: "
+msgstr ""
+
+#: glade/chronojump.glade:1270
+msgid "Reactive jumps (RJs):"
+msgstr ""
+
+#: glade/chronojump.glade:1437
+msgid "<b>jumps</b>"
+msgstr ""
+
+#: glade/chronojump.glade:1557
+msgid "MAX"
+msgstr ""
+
+#: glade/chronojump.glade:1580
+msgid "AVG"
+msgstr ""
+
+#: glade/chronojump.glade:1627
+msgid "Jumpers: "
+msgstr ""
+
+#: glade/chronojump.glade:1650
+msgid "Jumps: "
+msgstr ""
+
+#: glade/chronojump.glade:1674
+msgid ""
+"by\n"
+"sex"
+msgstr ""
+
+#: glade/chronojump.glade:1760
+msgid "Update"
+msgstr ""
+
+#: glade/chronojump.glade:1793
+msgid "always"
+msgstr ""
+
+#: glade/chronojump.glade:1813
+msgid "show enunciate"
+msgstr ""
+
+#: glade/chronojump.glade:1849
+msgid "statistic's enunciate"
+msgstr ""
+
+#: glade/chronojump.glade:1907
+msgid "<b>statistics</b>"
+msgstr ""
+
+#: glade/chronojump.glade:1999
+msgid "Full name: "
+msgstr ""
+
+#: glade/chronojump.glade:2023 glade/chronojump.glade:3743
+msgid ""
+"Description / \n"
+"comments"
+msgstr ""
+
+#: glade/chronojump.glade:2139
+msgid "man"
+msgstr ""
+
+#: glade/chronojump.glade:2159
+msgid "woman"
+msgstr ""
+
+#: glade/chronojump.glade:2189
+msgid "Height: (cm)"
+msgstr ""
+
+#: glade/chronojump.glade:2213
+msgid "Weight: (Kg)"
+msgstr ""
+
+#: glade/chronojump.glade:2279
+msgid ""
+"Born: \n"
+"DD/MM/AAAA"
+msgstr ""
+
+#: glade/chronojump.glade:2426
+msgid "New session"
+msgstr ""
+
+#: glade/chronojump.glade:2457
+msgid "Name: "
+msgstr ""
+
+#: glade/chronojump.glade:2481
+msgid "Place: "
+msgstr ""
+
+#: glade/chronojump.glade:2505
+msgid "Date: "
+msgstr ""
+
+#: glade/chronojump.glade:2529
+msgid "Comments: "
+msgstr ""
+
+#: glade/chronojump.glade:2700
+msgid "Load session"
+msgstr ""
+
+#: glade/chronojump.glade:2793
+msgid "Load jumpers"
+msgstr ""
+
+#: glade/chronojump.glade:2815
+msgid "Select jumpers you want to load:"
+msgstr ""
+
+#: glade/chronojump.glade:2865
+msgid "sort by creation date"
+msgstr ""
+
+#: glade/chronojump.glade:2947
+msgid "Load"
+msgstr ""
+
+#: glade/chronojump.glade:2985
+msgid "Preferences"
+msgstr ""
+
+#: glade/chronojump.glade:3007
+msgid "Show height"
+msgstr ""
+
+#: glade/chronojump.glade:3026
+msgid "Confirm jump deletion"
+msgstr ""
+
+#: glade/chronojump.glade:3053
+msgid "Number of decimals: "
+msgstr ""
+
+#: glade/chronojump.glade:3147
+msgid "ChronoJump - error"
+msgstr ""
+
+#: glade/chronojump.glade:3219
+msgid "SJ with extra load"
+msgstr ""
+
+#: glade/chronojump.glade:3246
+msgid ""
+"Select additional weight\n"
+"for the following squat jump"
+msgstr ""
+
+#: glade/chronojump.glade:3314
+msgid ""
+"% body \n"
+"weightl"
+msgstr ""
+
+#: glade/chronojump.glade:3390
+msgid "DJ falling height"
+msgstr ""
+
+#: glade/chronojump.glade:3417
+msgid ""
+"Select falling height\n"
+"for the following DJ (cm)"
+msgstr ""
+
+#: glade/chronojump.glade:3519
+msgid "RJ limit"
+msgstr ""
+
+#: glade/chronojump.glade:3546
+msgid "Select limit factor for the folowing RJ"
+msgstr ""
+
+#: glade/chronojump.glade:3593
+msgid "jumps"
+msgstr ""
+
+#: glade/chronojump.glade:3613
+msgid "time (seconds)"
+msgstr ""
+
+#: glade/chronojump.glade:3688
+msgid "Edit jump"
+msgstr ""
+
+#: glade/chronojump.glade:3719
+msgid "Flight time:"
+msgstr ""
+
+#: glade/chronojump.glade:3831
+msgid "Contact time:"
+msgstr ""
+
+#: glade/chronojump.glade:3879
+msgid "Falling height:"
+msgstr ""
+
+#: glade/chronojump.glade:3927
+msgid "Jump type: "
+msgstr ""
+
+#: glade/chronojump.glade:3975
+msgid "Jumper: "
+msgstr ""
+
+#: glade/chronojump.glade:4019
+msgid "Identifier: "
+msgstr ""
+
+#: glade/chronojump.glade:4067
+msgid "Extra load:"
+msgstr ""
+
+#: glade/chronojump.glade:4115
+msgid "Limit factor:"
+msgstr ""
+
+#: glade/chronojump.glade:4212
+msgid "ChronoJump - Confirm"
+msgstr ""
+
+#: glade/chronojump.glade:4318
+msgid "ChronoJump - Error"
+msgstr ""

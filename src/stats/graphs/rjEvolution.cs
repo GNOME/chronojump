@@ -34,7 +34,6 @@ public class GraphRjEvolution : StatRjEvolution
 {
 	protected string operation;
 	private Random myRand = new Random();
-	private int countRows;
 
 	public GraphRjEvolution (ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
@@ -43,21 +42,15 @@ public class GraphRjEvolution : StatRjEvolution
 		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
 		this.dataColumns = maxJumps*2 + 2;	//for simplesession (index, (tv , tc)*jumps, fall)
-		//this.dataColumns = 4; //for Simplesession (index, tv(avg), tc(avg), fall)
-		this.valuesTransposed = new ArrayList(0);
-	
-		//two x jumper (row) (in printData we put values and increment size of this)
-		valuesSchemaIndex = new ArrayList(0);
-		colorSchema = new ArrayList (0);
 		
-		//in X axe, we print the number of jumps, not the jumperNames
+		//in X axe, we print the number of jumps, not the jumper names
 		//this should be equal to the number of jumps
-		jumperNames = new ArrayList(0);
+		//xAxisNames = new ArrayList(0);
 		for(int i=0; i<maxJumps ; i++) {
-			jumperNames.Add((i+1).ToString());
+			//xAxisNames.Add((i+1).ToString());
+			CurrentGraphData.XAxisNames.Add((i+1).ToString());
 		}
 		
-		countRows = 0;
 		
 		this.jumpType = jumpType;
 		this.limit = limit;
@@ -70,77 +63,52 @@ public class GraphRjEvolution : StatRjEvolution
 			this.operation = "AVG";
 		}
 
-		this.windowTitle = Catalog.GetString("ChronoJump graph");
-		this.graphTitle = "Rj Evolution " + operation + Catalog.GetString(" values chart of single session");
-		
-		
-		resultCombined = false;
-		resultIsIndex = false;
-		labelLeft = Catalog.GetString("TC (secs.)");
-		labelRight = Catalog.GetString("TV (secs.)");
-
-		//make the X and the Y be equal
-		//initial values for being replaced
-		fixedLeftBottom = 1;
-		fixedRightBottom = 1;
-		fixedLeftTop = 0;
-		fixedRightTop = 0;
+		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
+		CurrentGraphData.GraphTitle = "Rj Evolution " + operation + 
+			Catalog.GetString(" values chart of single session");
+		CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+		CurrentGraphData.LabelRight = "";
 	}
 
 	protected override void printData (string [] statValues) 
 	{
-		int i = 0;
-		//we need to save this transposed
+		GraphSerie serieTc = new GraphSerie();
+		GraphSerie serieTv = new GraphSerie();
+
+		serieTc.IsLeftAxis = true;
+		serieTv.IsLeftAxis = true;
+
+		int myR = myRand.Next(255);
+		int myG = myRand.Next(255);
+		int myB = myRand.Next(255);
 		
+		serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
+				6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
+		serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+				6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
+		
+		//for the line between markers
+		serieTc.SerieColor = Color.FromArgb(myR, myG, myB);
+		serieTv.SerieColor = Color.FromArgb(myR, myG, myB);
+		
+		int i = 0;
 		foreach (string myValue in statValues) 
 		{
 			if(i==0) {
-				valuesTransposed.Add(myValue + " TC");
-				valuesTransposed.Add(myValue + " TV");
+				serieTc.Title = myValue + " TC";
+				serieTv.Title = myValue + " TV";
 
-				//one false, other true for having same color and different shape
-				valuesSchemaIndex.Add ("false"); //TC
-				valuesSchemaIndex.Add ("true"); //TV
-				
-				//FIXME: don't work, stats/main.cs expects a colorname
-				int myR = myRand.Next(255);
-				int myG = myRand.Next(255);
-				int myB = myRand.Next(255);
-				colorSchema.Add (Color.FromArgb(myR, myG, myB).ToString());	//TC
-				colorSchema.Add ( (Color.FromArgb(myR, myG, myB)).ToString() );	//TV
 			} else if(isTC(i)) {
-				valuesTransposed[countRows*2] = valuesTransposed[countRows*2] + ":" + myValue;
-		
-				//make the X and the Y be equal
-				if(myValue != "-") {
-					if(Convert.ToDouble(myValue) < fixedLeftBottom ) { 
-						fixedLeftBottom = (float) Convert.ToDouble(myValue); 
-						fixedRightBottom = (float) Convert.ToDouble(myValue);
-					}
-					if(Convert.ToDouble(myValue) > fixedLeftTop ) { 
-						fixedLeftTop = (float) Convert.ToDouble(myValue);
-						fixedRightTop = (float) Convert.ToDouble(myValue);
-					}
-				}
+				serieTc.SerieData.Add(myValue);
 			} else if(isTV(i)) {
-				valuesTransposed[countRows*2 +1] = valuesTransposed[countRows*2 +1] + ":" + myValue;
-				
-				//make the X and the Y be equal
-				if(myValue != "-") {
-					if(Convert.ToDouble(myValue) < fixedLeftBottom ) { 
-						fixedLeftBottom = (float) Convert.ToDouble(myValue); 
-						fixedRightBottom = (float) Convert.ToDouble(myValue);
-					}
-					if(Convert.ToDouble(myValue) > fixedLeftTop ) { 
-						fixedLeftTop = (float) Convert.ToDouble(myValue);
-						fixedRightTop = (float) Convert.ToDouble(myValue);
-					}
-				}
+				serieTv.SerieData.Add(myValue);
 			}
 			i++;
 		}
 
-		countRows ++;
+		//add created series to GraphSeries ArrayList
+		GraphSeries.Add(serieTc);
+		GraphSeries.Add(serieTv);
 	}
 
 	private bool isTC(int col) {

@@ -31,10 +31,15 @@ public class JumpType
 	protected bool jumpsLimited;
 	protected double fixedValue;	//0 no fixed value
 	//protected string description;
+	protected bool isPredefined;
 
 	//predefined values
 	public JumpType(string name) {
 		this.name = name;
+		
+		//we canot obtain values like has Weight
+		this.isPredefined = false;
+		
 		//if this changes, sqlite/jumpType.cs initialize tables should change
 		if(name == "SJ" || name == "CMJ" || name == "ABK") {
 			startIn 	= true;
@@ -42,36 +47,42 @@ public class JumpType
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "SJ+") {
 			startIn 	= true;
 			hasWeight 	= true;
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "DJ") {
 			startIn 	= false;
 			hasWeight 	= false;
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "RJ(j)") {
 			startIn 	= false;
 			hasWeight 	= false;
 			isRepetitive 	= true;
 			jumpsLimited 	= true;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "RJ(t)") {
 			startIn 	= false;
 			hasWeight 	= false;
 			isRepetitive 	= true;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "triple jump") {
 			startIn 	= false;
 			hasWeight 	= false;
 			isRepetitive 	= true;
 			jumpsLimited 	= true;
 			fixedValue 	= 3;
+			isPredefined	= true;
 		}
 	}
 	
@@ -85,6 +96,9 @@ public class JumpType
 		this.isRepetitive = isRepetitive;
 		this.jumpsLimited = jumpsLimited;
 		this.fixedValue = fixedValue;
+
+		//we can obtain values like has Weight
+		this.isPredefined	= true;
 	}
 	
 	public string Name
@@ -99,7 +113,13 @@ public class JumpType
 	
 	public bool HasWeight
 	{
-		get { return hasWeight; }
+		get { 
+			if(isPredefined) {
+				return hasWeight; 
+			} else {
+				return SqliteJumpType.HasWeight(name);
+			}
+		}
 	}
 	
 	public bool IsRepetitive

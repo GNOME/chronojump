@@ -1,4 +1,11 @@
 CHANGELOG:
+26 march 2005
+	new classes GraphData, GraphSerie, now graphs code is lot nicer and extensible
+	graphs for all current stats
+	all the histogram graphs rewritten as lineplots
+	added GraphSjCmjAbkPlus and stats for weight simple jumps
+	hability of know if a non predefined jumpType has weight
+
 25 march 2005
 	added GraphIeIub, GraphRjIndex, GraphRjPotencyAguado 
 	added StatRjEvolution and GraphRjEvolution

@@ -32,13 +32,16 @@ using System.Drawing.Imaging;
 
 public class GraphGlobal : StatGlobal
 {
+	private Random myRand = new Random();
+
+	//for simplesession
+	GraphSerie serieIndex;
+	GraphSerie serieTv;
+
 	
 	public GraphGlobal (ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType) 
 	{
-		by1Values = new ArrayList(2); 
-		by100Values = new ArrayList(2);
 		this.dataColumns = 1; //for Simplesession
-		
 		this.personID = personID;
 		this.personName = personName;
 		
@@ -50,49 +53,116 @@ public class GraphGlobal : StatGlobal
 			this.operation = "AVG";
 		}
 
-		this.windowTitle = Catalog.GetString("ChronoJump graph");
+		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
+		string mySessions = "single session";
 		if(sessions.Count > 1) {
-			this.graphTitle = "Global " + operation + Catalog.GetString(" values chart of multiple sessions");
-		} else {
-			this.graphTitle = "Global " + operation + Catalog.GetString(" values chart of single session");
+			mySessions = "multiple sessions";
 		}
-		resultCombined = true;
-		labelLeft = Catalog.GetString ("TV (sec.)");
-		labelRight = Catalog.GetString ("Indexes");
+		CurrentGraphData.GraphTitle = "Global " + operation + 
+			Catalog.GetString(" values chart of ") + mySessions;
+		
+		
+		if(sessions.Count == 1) {
+			//four series, the four columns
+			serieIndex = new GraphSerie();
+			serieTv = new GraphSerie();
+				
+			serieIndex.Title = Catalog.GetString("Index");
+			serieTv.Title = "TV";
+			
+			serieIndex.IsLeftAxis = false;
+			serieTv.IsLeftAxis = true;
+
+			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+					6, new Pen (Color.FromName("Red"), 2.0F));
+			serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+					6, new Pen (Color.FromName("LightBlue"), 2.0F));
+		
+			//for the line between markers
+			serieIndex.SerieColor = Color.FromName("Red");
+			serieTv.SerieColor = Color.FromName("LightBlue");
+		
+			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			CurrentGraphData.LabelRight = Catalog.GetString("%");
+		} else {
+			for(int i=0; i < sessions.Count ; i++) {
+				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
+			}
+			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			CurrentGraphData.LabelRight = Catalog.GetString("%");
+		}
 	}
 
 	protected override void printData (string [] statValues) 
 	{
-		//add jump to by1Values or by100Values (as a string separated by ':')
-		string myReturn = "";
-		int i=0;
-		bool by100 = false;
-		foreach (string myValue in statValues) {
-			if(i == 0) {
-				//don't plot AVG and SD rows
+		if(sessions.Count == 1) {
+			int i = 0;
+			//we need to save this transposed
+			string myValueBefore = "";
+			foreach (string myValue in statValues) 
+			{
+				if(i == 0) {
+					//don't plot AVG and SD rows
+					if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
+						//good moment for adding created series to GraphSeries ArrayList
+						//check don't do it two times
+						if(GraphSeries.Count == 0) {
+							GraphSeries.Add(serieIndex);
+							GraphSeries.Add(serieTv);
+						}
+						return;
+					}
+					CurrentGraphData.XAxisNames.Add(myValue);
+					myValueBefore = myValue;
+				} else { 
+					if(myValueBefore == "DjIndex" || myValueBefore == "RjIndex" || 
+							myValueBefore == "RjPotency" || myValueBefore == "IE" || 
+							myValueBefore == "IUB") {
+						serieIndex.SerieData.Add(myValue);
+						serieTv.SerieData.Add("-");
+					} else {
+						serieTv.SerieData.Add(myValue);
+						serieIndex.SerieData.Add("-");
+					}
+				}
+				i++;
+			}
+		} else {
+			GraphSerie mySerie = new GraphSerie();
+			//mySerie.IsLeftAxis = true;
+		
+			int myR = myRand.Next(255);
+			int myG = myRand.Next(255);
+			int myB = myRand.Next(255);
+			
+			
+			mySerie.SerieColor = Color.FromArgb(myR, myG, myB);
+			
+			int i=0;
+			foreach (string myValue in statValues) {
 				if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
 					return;
 				}
-		
-				//this separates "ABK" from "ABK (M)", "ABK (F)", and also "ABK"
-				string [] myValueWithSex = myValue.ToString().Split(new char[] {' '});
-				string myValue2 = myValueWithSex[0];
-					
-				if(myValue2 == "DjIndex" || myValue2 == "RjIndex" || myValue2 == "RjPotency" || 
-						myValue2 == "IE" || myValue2 == "IUB") {
-					by100 = true;
+				if(i == 0) {
+					mySerie.Title = myValue;
+					if(myValue == "DjIndex" || myValue == "RjIndex" || 
+							myValue == "RjPotency" || myValue == "IE" || 
+							myValue == "IUB") {
+						mySerie.IsLeftAxis = false;
+						mySerie.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+								6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
+					} else {
+						mySerie.IsLeftAxis = true;
+						mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+								6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
+					}
+				} else {
+					mySerie.SerieData.Add(myValue);
 				}
+				i++;
 			}
-			if(i > 0) {
-				myReturn = myReturn + ":";
-			}
-			myReturn = myReturn + myValue;
-			i++;
-		}
-		if(by100) {
-			by100Values.Add(myReturn);
-		} else {
-			by1Values.Add(myReturn);
+			GraphSeries.Add(mySerie);
 		}
 	}
 }

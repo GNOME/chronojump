@@ -1,7 +1,6 @@
 TODO:
 ----
 
-integrate the weight simple jumps in stats
 
 repair bug in exiting when graphs are displayed (is for the old DLL?)
 
@@ -18,7 +17,6 @@ stats:
 graphs:
 	study licensing problems of NPlot or how to include it
 	put a button for refreshing the graph
-	make graphs for all stats
 
 show better info in the RJ jump edit
 

@@ -149,7 +149,11 @@ public class Stat
 		return newStr;		
 	}
 	
-	public virtual void prepareData () {
+	public virtual void PrepareData () {
+	}
+
+	//public static virtual void CreateGraph () {
+	public virtual void CreateGraph () {
 	}
 
 	//called before ProcessDataSimpleSession, 

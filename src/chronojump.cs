@@ -302,6 +302,17 @@ public class ChronoJump {
 		myTreeViewJumps.Fill(myJumps, filter);
 	}
 	
+	private void on_checkbutton_sort_by_type_clicked(object o, EventArgs args) {
+		if (sortJumpsByType) { sortJumpsByType = false; }
+		else { sortJumpsByType = true; }
+		
+		string myText = combo_jumps.Entry.Text;
+			
+		treeview_jumps_storeReset();
+		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
+		treeview_jumps.ExpandAll();
+	}
+	
 	private void on_button_tv_collapse_clicked (object o, EventArgs args) {
 		treeview_jumps.CollapseAll();
 	}
@@ -362,13 +373,13 @@ public class ChronoJump {
 	 *  --------------------------------------------------------
 	 */
 	
-	private void fillTreeView_stats () {
+	private void fillTreeView_stats (bool graph) {
 		
 		string myText = combo_stats_stat_name.Entry.Text;
 		string [] fullTitle = myText.Split(new char[] {' '});
 
 		//FIXME: do this different in the future, because with multiple sessions in every stat, has no sense this sessionName property
-		if(myStat.SessionName != "") {
+		if(myStat.SessionName != "" && !graph) {
 			myStat.RemoveColumns();
 		}
 	
@@ -407,23 +418,58 @@ public class ChronoJump {
 				jumperName = currentPerson.Name;
 			}
 	
-			myStat = new StatGlobal(treeview_stats, 
-					sendSelectedSessions, 
-					jumperID, jumperName, 
-					prefsDigitsNumber, checkbutton_stats_sex.Active,  
-					statsJumpsType 
-					);
-
-			myStat.prepareData();
+			if (myText == "Global") {
+				if(graph) {
+					myStat = new GraphGlobal(
+							sendSelectedSessions, 
+							jumperID, jumperName, 
+							prefsDigitsNumber, checkbutton_stats_sex.Active,  
+							statsJumpsType 
+							);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatGlobal(treeview_stats, 
+							sendSelectedSessions, 
+							jumperID, jumperName, 
+							prefsDigitsNumber, checkbutton_stats_sex.Active,  
+							statsJumpsType 
+							);
+					myStat.PrepareData();
+				}
+			} else {
+				if(graph) {
+					myStat = new GraphGlobal(
+						sendSelectedSessions, 
+						jumperID, jumperName, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active,  
+						statsJumpsType 
+						);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				}
+				else {
+					myStat = new StatGlobal(treeview_stats, 
+						sendSelectedSessions, 
+						jumperID, jumperName, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active,  
+						statsJumpsType 
+						);
+					myStat.PrepareData();
+				}
+			}
 		}
 		else if(myText == "SJ" || myText == "CMJ" || myText == "ABK")
 		{
-			myStat = new StatSjCmjAbk (treeview_stats, 
-					sendSelectedSessions, 
-					prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
-					statsJumpsType,
-					limit);
-			myStat.prepareData();
+			if(graph) {
+			} else {
+				myStat = new StatSjCmjAbk (treeview_stats, 
+						sendSelectedSessions, 
+						prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+			}
 		}
 		else if(myText == "SJ+" || myText == "CMJ+" || myText == "ABK+")
 		{
@@ -434,7 +480,7 @@ public class ChronoJump {
 					limit,
 					weightStatsPercent
 					);
-			myStat.prepareData();
+			myStat.PrepareData();
 		}
 		else if(myText == "DJ (TV)")
 		{
@@ -443,7 +489,7 @@ public class ChronoJump {
 					prefsDigitsNumber, checkbutton_stats_sex.Active,
 					statsJumpsType,
 					limit);
-			myStat.prepareData();
+			myStat.PrepareData();
 		}
 		else if(myText == "DJ Index (tv-tc)*100/tc")
 		{
@@ -452,7 +498,7 @@ public class ChronoJump {
 					prefsDigitsNumber, checkbutton_stats_sex.Active,
 					statsJumpsType,
 					limit);
-			myStat.prepareData();
+			myStat.PrepareData();
 		}
 		else if(myText == "RJ Average Index")
 		{
@@ -461,7 +507,7 @@ public class ChronoJump {
 					prefsDigitsNumber, checkbutton_stats_sex.Active,
 					statsJumpsType,
 					limit);
-			myStat.prepareData();
+			myStat.PrepareData();
 		}	
 		else if(myText == "POTENCY (Aguado)") // 9.81^2*TV*TT / (4*jumps*(TT-TV))
 		{
@@ -470,7 +516,7 @@ public class ChronoJump {
 					prefsDigitsNumber, checkbutton_stats_sex.Active, 
 					statsJumpsType,
 					limit);
-			myStat.prepareData();
+			myStat.PrepareData();
 		}
 		else if(myText == "IE (cmj-sj)*100/sj")
 		{
@@ -480,7 +526,7 @@ public class ChronoJump {
 					prefsDigitsNumber, checkbutton_stats_sex.Active, 
 					statsJumpsType,
 					limit);
-			myStat.prepareData();
+			myStat.PrepareData();
 		}
 		else if(myText == "IUB (abk-cmj)*100/cmj")
 		{
@@ -490,7 +536,7 @@ public class ChronoJump {
 					prefsDigitsNumber, checkbutton_stats_sex.Active, 
 					statsJumpsType,
 					limit);
-			myStat.prepareData();
+			myStat.PrepareData();
 		}
 		
 		//show enunciate of the stat in textview_enunciate
@@ -510,8 +556,11 @@ public class ChronoJump {
 	
 	
 	private void on_button_stats_clicked (object o, EventArgs args) {
-		fillTreeView_stats();
+		fillTreeView_stats(false);
+	}
 
+	private void on_button_graph_clicked (object o, EventArgs args) {
+		fillTreeView_stats(true);
 	}
 
 	/* ---------------------------------------------------------
@@ -628,7 +677,7 @@ public class ChronoJump {
 				//if stats "jumper" are selected, and stats are automatic, 
 				//update stats when current person change
 				if(combo_stats_stat_name.Entry.Text == "Jumper" && statsAutomatic) {
-					fillTreeView_stats();
+					fillTreeView_stats(false);
 				}
 			}
 			else {
@@ -649,16 +698,6 @@ public class ChronoJump {
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_checkbutton_sort_by_type_clicked(object o, EventArgs args) {
-		if (sortJumpsByType) { sortJumpsByType = false; }
-		else { sortJumpsByType = true; }
-		
-		string myText = combo_jumps.Entry.Text;
-			
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
-	}
-	
 	private void on_checkbutton_stats_always_clicked(object o, EventArgs args) {
 		if (statsAutomatic) { 
 			statsAutomatic = false; 
@@ -667,7 +706,7 @@ public class ChronoJump {
 		else { 
 			statsAutomatic = true; 
 			button_stats.Sensitive = false;
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 		
 	}
@@ -715,7 +754,7 @@ public class ChronoJump {
 		//in the first the value of Entry.Text is "";
 		string myText = combo_stats_stat_name.Entry.Text;
 		if(myText != "")
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 	}
 	
 	private void on_radiobuttons_stat_session_toggled (object o, EventArgs args)
@@ -733,14 +772,14 @@ public class ChronoJump {
 		update_stats_widgets_sensitiveness();
 		
 		//if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		//}
 	}
 	
 	private void on_checkbutton_stats_sex_clicked(object o, EventArgs args)
 	{
 		//if (statsAutomatic) { 
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		//}
 	}
 
@@ -765,14 +804,14 @@ public class ChronoJump {
 	
 		update_stats_widgets_sensitiveness();
 		//if (statsAutomatic) { 
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		//}
 	}
 	
 	void on_spinbutton_stats_jumps_changed (object o, EventArgs args)
 	{
 		if (statsAutomatic) { 
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 	}
 
@@ -828,7 +867,7 @@ public class ChronoJump {
 			treeview_jumps_rj_storeReset();
 			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 
 			//show hidden widgets
 			sensitiveGuiNoSession();
@@ -869,7 +908,7 @@ public class ChronoJump {
 		//everytime we load a session, we put stats to "Global" 
 		//(if this session has no jumps, it crashes in the others statistics)
 		combo_stats_stat_name.Entry.Text = comboStatsOptions[0];
-		fillTreeView_stats();
+		fillTreeView_stats(false);
 
 		//show hidden widgets
 		sensitiveGuiNoSession();
@@ -905,7 +944,7 @@ public class ChronoJump {
 
 		update_stats_widgets_sensitiveness();
 		//if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		//}
 	}
 
@@ -974,7 +1013,7 @@ public class ChronoJump {
 			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 
 			//if(statsAutomatic) {
-				fillTreeView_stats();
+				fillTreeView_stats(false);
 			//}
 		}
 	}
@@ -1047,7 +1086,7 @@ public class ChronoJump {
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 			
 	}
@@ -1153,7 +1192,7 @@ public class ChronoJump {
 		myTreeViewJumps.Add(currentPerson.Name, currentJump);
 		
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 
 		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " " + myType + " TV:" +
@@ -1327,7 +1366,7 @@ public class ChronoJump {
 		
 		myTreeViewJumps.Add(currentPerson.Name, currentJump);
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 
 		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " DJ TV:" +
@@ -1513,7 +1552,7 @@ public class ChronoJump {
 		myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 
 		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " RJ (" + limited + ") " +
@@ -1615,7 +1654,7 @@ public class ChronoJump {
 		}
 		
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 	}
 
@@ -1656,7 +1695,7 @@ public class ChronoJump {
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, combo_jumps.Entry.Text);
 		
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 	}
 	
@@ -1667,7 +1706,7 @@ public class ChronoJump {
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 		
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 	}
 	
@@ -1691,7 +1730,7 @@ public class ChronoJump {
 				myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
 				
 				if(statsAutomatic) {
-					fillTreeView_stats();
+					fillTreeView_stats(false);
 				}
 			}
 		}
@@ -1716,7 +1755,7 @@ public class ChronoJump {
 				fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 
 				if(statsAutomatic) {
-					fillTreeView_stats();
+					fillTreeView_stats(false);
 				}
 			}
 		}
@@ -1728,7 +1767,7 @@ public class ChronoJump {
 		myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
 
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 	}
 
@@ -1738,7 +1777,7 @@ public class ChronoJump {
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 
 		if(statsAutomatic) {
-			fillTreeView_stats();
+			fillTreeView_stats(false);
 		}
 	}
 

@@ -139,30 +139,54 @@ public class TreeViewJumps
 	public virtual void Add (string jumperName, Jump newJump)
 	{
 		TreeIter iter = new TreeIter();
-		TreeIter iterDeep = new TreeIter();
 		bool modelNotEmpty = treeview.Model.GetIterFirst ( out iter ) ;
 		string iterJumperString;
+		bool found = false;
 		
-		do {
-			iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();
-			if(iterJumperString == jumperName) {
-				//expand the jumper
-				treeview.ExpandToPath( treeview.Model.GetPath(iter) );
-			
-				if (showHeight) {
-					iterDeep = store.AppendValues ( iter, newJump.Type, 
-							trimDecimals(newJump.Tv.ToString()), 
-							trimDecimals( obtainHeight( newJump.Tv.ToString() ) ),
-							trimDecimals(newJump.Tc.ToString()), 
-							newJump.UniqueID.ToString() );
-				} else {
-					iterDeep = store.AppendValues ( iter, newJump.Type, 
-							trimDecimals(newJump.Tv.ToString()), 
-							trimDecimals(newJump.Tc.ToString()), 
-							newJump.UniqueID.ToString() );
+		if(modelNotEmpty) {
+			do {
+				iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();
+				if(iterJumperString == jumperName) {
+					found = true;
+
+					//expand the jumper
+					treeview.ExpandToPath( treeview.Model.GetPath(iter) );
+
+					if (showHeight) {
+						store.AppendValues ( iter, newJump.Type, 
+								trimDecimals(newJump.Tv.ToString()), 
+								trimDecimals( obtainHeight( newJump.Tv.ToString() ) ),
+								trimDecimals(newJump.Tc.ToString()), 
+								newJump.UniqueID.ToString() );
+					} else {
+						store.AppendValues ( iter, newJump.Type, 
+								trimDecimals(newJump.Tv.ToString()), 
+								trimDecimals(newJump.Tc.ToString()), 
+								newJump.UniqueID.ToString() );
+					}
 				}
+			} while (treeview.Model.IterNext (ref iter));
+		}
+
+		//if the jumper has not jumped in this session, it's name doesn't appear in the treeview
+		//create the name, and write the jump
+		if(! found) {
+			iter = store.AppendValues (jumperName);
+			if (showHeight) {
+				store.AppendValues ( iter, newJump.Type, 
+						trimDecimals(newJump.Tv.ToString()), 
+						trimDecimals( obtainHeight( newJump.Tv.ToString() ) ),
+						trimDecimals(newJump.Tc.ToString()), 
+						newJump.UniqueID.ToString() );
+			} else {
+				store.AppendValues ( iter, newJump.Type, 
+						trimDecimals(newJump.Tv.ToString()), 
+						trimDecimals(newJump.Tc.ToString()), 
+						newJump.UniqueID.ToString() );
 			}
-		} while (treeview.Model.IterNext (ref iter));
+			//expand the jumper
+			treeview.ExpandToPath( treeview.Model.GetPath(iter) );
+		}
 	}
 	
 	public virtual void DelJump (int jumpID)
@@ -288,6 +312,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 						myStringFull[1] //jumpUniqueID (not shown) 
 						);
 			}
+			
 			//if it's an RJ, we should make a deeper tree with all the jumps
 			//the info above it's average
 
@@ -323,50 +348,96 @@ public class TreeViewJumpsRj : TreeViewJumps
 		TreeIter iterDeep = new TreeIter();
 		bool modelNotEmpty = treeview.Model.GetIterFirst ( out iter ) ;
 		string iterJumperString;
+		bool found = false;
 		
-		do {
-			iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();
-			if(iterJumperString == jumperName) {
-				//expand the jumper
-				treeview.ExpandToPath( treeview.Model.GetPath(iter) );
-			
-				string myTypeComplet = newJump.Type + "(" + newJump.Limited + ") AVG: "; //limited
-				if (showHeight) {
-					iterDeep = store.AppendValues ( iter, myTypeComplet, 
-							trimDecimals(newJump.TvAvg.ToString()), 
-							trimDecimals( obtainHeight( newJump.TvAvg.ToString() ) ),
-							trimDecimals(newJump.TcAvg.ToString()), 
-							newJump.UniqueID.ToString() );
-				} else {
-					iterDeep = store.AppendValues ( iter, myTypeComplet, 
-							trimDecimals(newJump.TvAvg.ToString()), 
-							trimDecimals(newJump.TcAvg.ToString()), 
-							newJump.UniqueID.ToString() );
-				}
+		if(modelNotEmpty) {
+			do {
+				iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();
+				if(iterJumperString == jumperName) {
+					found = true;
 
-				//fill the subjumps
-				string [] myStringTv = newJump.TvString.Split(new char[] {'='});
-				string [] myStringTc = newJump.TcString.Split(new char[] {'='});
-				int count = 0;
-				foreach (string myTv in myStringTv) {
+					//expand the jumper
+					treeview.ExpandToPath( treeview.Model.GetPath(iter) );
+
+					string myTypeComplet = newJump.Type + "(" + newJump.Limited + ") AVG: "; //limited
 					if (showHeight) {
-						store.AppendValues ( iterDeep, (count+1).ToString(), 
-								trimDecimals( myTv ), 
-								trimDecimals( obtainHeight( myTv ) ),
-								trimDecimals( myStringTc[count] ), 
+						iterDeep = store.AppendValues ( iter, myTypeComplet, 
+								trimDecimals(newJump.TvAvg.ToString()), 
+								trimDecimals( obtainHeight( newJump.TvAvg.ToString() ) ),
+								trimDecimals(newJump.TcAvg.ToString()), 
 								newJump.UniqueID.ToString() );
 					} else {
-						store.AppendValues ( iterDeep, (count+1).ToString(), 
-								trimDecimals( myTv ), 
-								trimDecimals( myStringTc[count] ), 
+						iterDeep = store.AppendValues ( iter, myTypeComplet, 
+								trimDecimals(newJump.TvAvg.ToString()), 
+								trimDecimals(newJump.TcAvg.ToString()), 
 								newJump.UniqueID.ToString() );
 					}
-					count ++;
+
+					//fill the subjumps
+					string [] myStringTv = newJump.TvString.Split(new char[] {'='});
+					string [] myStringTc = newJump.TcString.Split(new char[] {'='});
+					int count = 0;
+					foreach (string myTv in myStringTv) {
+						if (showHeight) {
+							store.AppendValues ( iterDeep, (count+1).ToString(), 
+									trimDecimals( myTv ), 
+									trimDecimals( obtainHeight( myTv ) ),
+									trimDecimals( myStringTc[count] ), 
+									newJump.UniqueID.ToString() );
+						} else {
+							store.AppendValues ( iterDeep, (count+1).ToString(), 
+									trimDecimals( myTv ), 
+									trimDecimals( myStringTc[count] ), 
+									newJump.UniqueID.ToString() );
+						}
+						count ++;
+					}
 				}
+			} while (treeview.Model.IterNext (ref iter));
+		}
+
+		//if the jumper has not jumped in this session, it's name doesn't appear in the treeview
+		//create the name, and write the jump
+		if(! found) {
+			iter = store.AppendValues (jumperName);
+			
+			string myTypeComplet = newJump.Type + "(" + newJump.Limited + ") AVG: "; //limited
+			if (showHeight) {
+				iterDeep = store.AppendValues ( iter, myTypeComplet, 
+						trimDecimals(newJump.TvAvg.ToString()), 
+						trimDecimals( obtainHeight( newJump.TvAvg.ToString() ) ),
+						trimDecimals(newJump.TcAvg.ToString()), 
+						newJump.UniqueID.ToString() );
+			} else {
+				iterDeep = store.AppendValues ( iter, myTypeComplet, 
+						trimDecimals(newJump.TvAvg.ToString()), 
+						trimDecimals(newJump.TcAvg.ToString()), 
+						newJump.UniqueID.ToString() );
 			}
-		} while (treeview.Model.IterNext (ref iter));
+
+			//fill the subjumps
+			string [] myStringTv = newJump.TvString.Split(new char[] {'='});
+			string [] myStringTc = newJump.TcString.Split(new char[] {'='});
+			int count = 0;
+			foreach (string myTv in myStringTv) {
+				if (showHeight) {
+					store.AppendValues ( iterDeep, (count+1).ToString(), 
+							trimDecimals( myTv ), 
+							trimDecimals( obtainHeight( myTv ) ),
+							trimDecimals( myStringTc[count] ), 
+							newJump.UniqueID.ToString() );
+				} else {
+					store.AppendValues ( iterDeep, (count+1).ToString(), 
+							trimDecimals( myTv ), 
+							trimDecimals( myStringTc[count] ), 
+							newJump.UniqueID.ToString() );
+				}
+				count ++;
+			}
+		//expand the jumper
+		treeview.ExpandToPath( treeview.Model.GetPath(iter) );
+		}
 	}
-	
 
 	public virtual void ExpandOptimal()
 	{

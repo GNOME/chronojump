@@ -3,6 +3,10 @@ TODO:
 
 exportCSV
 
+add more columns in treeview_jumps and treeview_jumps_rj (probably one with the jump.UniqueID)
+
+improve the weight inserted text changes appearnew person widget
+in new person widget make "Ok" button sensitive just when user changes the weight
 
 show better info in the RJ jump edit
 

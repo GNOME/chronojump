@@ -1,4 +1,9 @@
 CHANGELOG:
+14 february 2005
+	treeview_jumps and rj bugs fixed in treeview Add in jumper without
+	jumps, and in session without jumps
+	Added info of chronojump database version on startup (in console)
+	Treeview_jumps user interface improvements
 
 13 february 2005
 	new file treeViewJump.cs contains new classes TreeViewJump and

@@ -142,8 +142,6 @@ public class PersonRecuperateWindow {
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			selected = (string) model.GetValue (iter, 0);
 
-			Person currentPerson = SqlitePersonSession.PersonSelect(selected);
-	
 			//allow clicking button_recuperate
 			button_recuperate.Sensitive = true;
 		}
@@ -163,11 +161,26 @@ public class PersonRecuperateWindow {
 		PersonRecuperateWindowBox = null;
 	}
 	
+	void on_row_double_clicked (object o, EventArgs args)
+	{
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			selected = (string) model.GetValue (iter, 0);
+			
+			//activate on_button_recuperate_clicked()
+			button_recuperate.Activate();
+		}
+	}
+	
 	void on_button_recuperate_clicked (object o, EventArgs args)
 	{
 		if(selected != "-1")
 		{
 			int myInt = SqlitePersonSession.Insert(Convert.ToInt32(selected), sessionID);
+			Person currentPerson = SqlitePersonSession.PersonSelect(selected);
 
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
 					typeof (string), typeof(string), typeof(string) );

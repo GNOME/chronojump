@@ -1001,6 +1001,13 @@ public class ChronoJump
 				//don't allow RJ Evolution and multisession
 				radiobutton_current_session.Active = true;
 				radiobutton_selected_sessions.Sensitive = false;
+				//has no sense to study the AVG of rj tv tc evolution string
+				//nota fair to make avg of each subjump, 
+				//specially when some RJs have more jumps than others
+				if(radiobutton_stats_jumps_person_average.Active) {
+					radiobutton_stats_jumps_person_bests.Active = true;
+				}
+				radiobutton_stats_jumps_person_average.Sensitive = false;
 			}
 			else if(category == Catalog.GetString("Global") || category == Catalog.GetString("Jumper") || 
 					category == Catalog.GetString("Indexes") || 
@@ -1016,16 +1023,18 @@ public class ChronoJump
 				radiobutton_stats_jumps_limit.Sensitive = false;
 				spin_stats_jumps_person_bests.Sensitive = false;
 				
-				//Not RJ Evolution (put selected_sessions_radiobutton visible)
+				//Not RJ Evolution (put selected_sessions_radiobutton visible, and person_average)
 				radiobutton_selected_sessions.Sensitive = true;
+				radiobutton_stats_jumps_person_average.Sensitive = true;
 			} else {
 				radiobutton_stats_jumps_all.Sensitive = true;
 				radiobutton_stats_jumps_limit.Sensitive = true;
 				if(radiobutton_stats_jumps_person_bests.Active) {
 					spin_stats_jumps_person_bests.Sensitive = true;
 				}
-				//Not RJ Evolution (put selected_sessions_radiobutton visible)
+				//Not RJ Evolution (put selected_sessions_radiobutton visible, and person_average)
 				radiobutton_selected_sessions.Sensitive = true;
+				radiobutton_stats_jumps_person_average.Sensitive = true;
 			}
 		}
 	}
@@ -1472,6 +1481,8 @@ public class ChronoJump
 			currentJumpType = new JumpType("ABK");
 		} else {
 		}
+			
+		Console.WriteLine("z");
 
 		if (simulated) {
 			//random value
@@ -1482,12 +1493,16 @@ public class ChronoJump
 			writeNormalJump (myTV);
 		}
 		else {
+		Console.WriteLine("y");
 			do {
 				respuesta = cp.Read_platform(out platformState);
 			} while (respuesta!=Chronopic.Respuesta.Ok);
-      
+     
+			Console.WriteLine("a");
+			
     			if (platformState==Chronopic.Plataforma.ON) {
 				appbar2.Push( Catalog.GetString("You are IN, JUMP when prepared!!") );
+			Console.WriteLine("b");
 
 				loggedState = States.ON;
 		
@@ -1506,6 +1521,7 @@ public class ChronoJump
 				thread.Start(); 
 			} 
 			else {
+			Console.WriteLine("c");
 				confirmWin = ConfirmWindow.Show(app1, 
 						Catalog.GetString("You are OUT, come inside and press button"), "");
 
@@ -2263,7 +2279,7 @@ public class ChronoJump
 	private void on_about1_activate (object o, EventArgs args) {
 		new Gnome.About (
 				progname, progversion,
-				"(C) 2004 Xavier de  Blas, Juan Gonzalez",
+				"(C) 2005 Xavier de  Blas, Juan Gonzalez",
 				"Vertical jump analysis with contact platform.",
 				authors, null, null, null).Run();
 	}

@@ -1,31 +1,19 @@
 TODO:
 ----
 
-
-repair bug in exiting when graphs are displayed (is for the old DLL?)
+BUGS:
+- repair bug in treeviews, jumper's get not automatically expanded when make the first jump
+- repair bug in indexes sorting (in indexes tab and in global)
+- repair bug in rj evolution graph, last jump is cutted?
 
 make that serial connection can be stablished regardless before a modem has been used in the same port
 
-repair bug in treeviews, jumper's get not automatically expanded when make the first jump
-
-study how to make IE, IUB (the best two SJ,CMJ and CMJ,ABK; or the worst and the best)
-
-stats: 
-	show all jump types in combo_stats
-	manage the new simple jump types depending on "weight" and "fall"
 
 graphs:
 	study licensing problems of NPlot or how to include it
 	put a button for refreshing the graph
 
 show better info in the RJ jump edit
-
-make appbar2.push show the different jumps as the are producing in RJ:
-chronojump.cs, lines: 
-			Console.WriteLine("trama: {0} {1} {2}", t0, t1, realTime(t2, t3) );
-			string myString = "prova " + t0 + ", " + t1 + ", " + realTime(t2, t3) ;
-			appbar2.Push( myString );
-
 
 preference for wait until finish jump in RJ limited by time or don't wait
 

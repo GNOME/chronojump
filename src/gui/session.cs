@@ -225,6 +225,21 @@ public class SessionLoadWindow {
 		SessionLoadWindowBox.session_load.Hide();
 		SessionLoadWindowBox = null;
 	}
+
+	void on_row_double_clicked (object o, EventArgs args)
+	{
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			//put selection in selected
+			selected = (string) model.GetValue (iter, 0);
+
+			//activate on_button_accept_clicked()
+			button_accept.Activate();
+		}
+	}
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{

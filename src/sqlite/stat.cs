@@ -67,7 +67,7 @@ class SqliteStat : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
-				showSexString = " (" + reader[1].ToString() + ")";
+				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
@@ -122,7 +122,7 @@ class SqliteStat : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
-				showSexString = " (" + reader[1].ToString() + ")";
+				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
@@ -213,7 +213,7 @@ class SqliteStat : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
-				showSexString = " (" + reader[1].ToString() + ")";
+				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
@@ -278,7 +278,7 @@ class SqliteStat : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
-				showSexString = " (" + reader[1].ToString() + ")";
+				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
@@ -346,7 +346,7 @@ class SqliteStat : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
-				showSexString = " (" + reader[1].ToString() + ")";
+				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
@@ -452,7 +452,7 @@ class SqliteStat : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
-				showSexString = " (" + reader[1].ToString() + ")";
+				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
@@ -480,8 +480,6 @@ class SqliteStat : Sqlite
 
 	public static ArrayList IeIub (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
-		//if we search AVG, show AVG of index, and jump1 and jump2
-		//if we search MAX, show MAX of index, MAX of jump1 and MIN of jump2
 		string ini2 = "";
 		if(ini == "MAX(") {
 			ini2 = "MIN(";
@@ -489,12 +487,16 @@ class SqliteStat : Sqlite
 			ini2 = "AVG(";
 		}
 			
-		string orderByString = "ORDER BY ";
+		string orderByString = "";
 		string moreSelect = "";
-		//moreSelect = "((" + ini + "j1.tv" + end + "-" + ini + "j2.tv" + end + ")*100/" + ini + "j2.tv" + end + ") AS myIndex, " +
-			//ini + "j1.tv" + end + ", " + ini + "j2.tv" + end;
-		moreSelect = ini + "(j1.tv-j2.tv)*100/j2.tv" + end + " AS myIndex, " +
-			ini + "j1.tv" + end + ", " + ini2 + "j2.tv" + end;
+		if(ini == "MAX(") {
+			//search MAX of two jumps, not max index!!
+			moreSelect = " ( MAX(j1.tv) - MAX(j2.tv) )*100/MAX(j2.tv) AS myIndex, " +
+				"MAX(j1.tv), MAX(j2.tv) ";
+		} else if(ini == "AVG(") {
+			moreSelect = " ( AVG(j1.tv) - AVG(j2.tv) )*100/AVG(j2.tv) AS myIndex, " +
+				"AVG(j1.tv), AVG(j2.tv)";
+		}
 
 		//if we use AVG or MAX, then we have to group by the results
 		//if there's more than one session, it sends the avg or max
@@ -504,7 +506,7 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, j1.sessionID, ";
+			orderByString = "ORDER BY person.name, j1.sessionID ";
 		}
 		
 		dbcon.Open();
@@ -516,7 +518,11 @@ class SqliteStat : Sqlite
 			" AND j1.personID == person.uniqueID " +
 			" AND j2.personID == person.uniqueID " +
 			groupByString +
-			orderByString + " myIndex DESC ";
+			 //don't order by myIndex, because if we search MAX, 
+			 //we will have high values in big jump1 and low jump2, 
+			 //and we want both jumps as MAX not max index
+			//orderByString + " myIndex DESC ";
+			orderByString ;
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -531,7 +537,7 @@ class SqliteStat : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
-				showSexString = " (" + reader[1].ToString() + ")";
+				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
@@ -591,7 +597,7 @@ class SqliteStat : Sqlite
 		while(reader.Read()) {
 			if (reader[0].ToString() != "DJ") {
 				if (sexSeparated) {
-					myArray.Add (reader[0].ToString() + " (" + reader[3].ToString() + "):" +
+					myArray.Add (reader[0].ToString() + "." + reader[3].ToString() + ":" +
 							reader[1].ToString() + ":" + reader[2].ToString()
 							);
 				} else {
@@ -657,7 +663,7 @@ class SqliteStat : Sqlite
 		//returns always two columns
 		while(reader.Read()) {
 			if (sexSeparated) {
-				myArray.Add (statName +" (" + reader[2].ToString() + "):" + reader[0].ToString() 
+				myArray.Add (statName +"." + reader[2].ToString() + ":" + reader[0].ToString() 
 							+ ":" + reader[1].ToString() );
 			} else {
 				myArray.Add (statName + ":" + reader[0].ToString() 
@@ -675,12 +681,13 @@ class SqliteStat : Sqlite
 	{
 		dbcon.Open();
 
-		
-				string moreSelect = "";
-		//moreSelect = "(( " + operation + "(j1.tv)-" + operation + "(j2.tv) )*100/" + operation + "(j2.tv) ) AS myIndex, " +
-			//operation + "(j1.tv), " + operation + "(j2.tv), sex";
-		moreSelect = operation + "( ( j1.tv-j2.tv )*100/j2.tv ) AS myIndex ";
-			//operation + "(j1.tv), " + operation2 + "(j2.tv), sex";
+		string moreSelect = "";
+		if(operation == "MAX") {
+			//search MAX of two jumps, not max index!!
+			moreSelect = "( ( MAX(j1.tv) - MAX(j2.tv) )*100/MAX(j2.tv) ) AS myIndex ";
+		} else if(operation == "AVG") {
+			moreSelect = "( ( AVG(j1.tv) - AVG(j2.tv) )*100/AVG(j2.tv) ) AS myIndex ";
+		}
 		
 		string personString = "";
 		if(personID != -1) { 
@@ -699,7 +706,7 @@ class SqliteStat : Sqlite
 				" AND j2.type == '" + jump2 + "'" + 
 				personString +
 				" GROUP BY j1.sessionID, person.sex " +
-				" ORDER BY person.sex DESC, j1.sessionID, myIndex DESC" ; 
+				" ORDER BY person.sex DESC, j1.sessionID" ; 
 		} else {
 			//select the MAX or AVG index. 
 			//returns 0-1 rows
@@ -720,7 +727,7 @@ class SqliteStat : Sqlite
 				//if there are no values, 
 				//it does not return any line
 				" GROUP by j1.sessionID, " +
-				" ORDER by j1.sessionID, myIndex DESC";
+				" ORDER by j1.sessionID";
 		}
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -734,7 +741,7 @@ class SqliteStat : Sqlite
 		//returns always two columns
 		while(reader.Read()) {
 			if (sexSeparated) {
-				myArray.Add (statName +" (" + reader[2].ToString() + "):" + reader[0].ToString() 
+				myArray.Add (statName +"." + reader[2].ToString() + ":" + reader[0].ToString() 
 							+ ":" + reader[1].ToString() );
 			} else {
 				myArray.Add (statName + ":" + reader[0].ToString() 

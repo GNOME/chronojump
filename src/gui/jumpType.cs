@@ -94,16 +94,16 @@ public class JumpTypeAddWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		bool jumpTypeExists = SqliteJumpType.Exists (Util.RemoveTilde(entry_name.Text));
+		bool jumpTypeExists = SqliteJumpType.Exists (Util.RemoveTildeAndColonAndDot(entry_name.Text));
 		if(jumpTypeExists) {
 			string myString =  Catalog.GetString ("Jump type: '") + 
-				Util.RemoveTilde(entry_name.Text) + 
+				Util.RemoveTildeAndColonAndDot(entry_name.Text) + 
 				Catalog.GetString ("' exists. Please, use another name");
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(jump_type_add, myString);
 		} else {
 			string myJump = "";
-			myJump = Util.RemoveTildeAndColon(entry_name.Text);
+			myJump = Util.RemoveTildeAndColonAndDot(entry_name.Text);
 			if(radiobutton_startIn_yes.Active) {
 				myJump = myJump + ":1"; 
 			} else {

@@ -3335,6 +3335,7 @@ DD/MM/AAAA </property>
 	      <property name="reorderable">False</property>
 	      <property name="enable_search">False</property>
 	      <signal name="cursor_changed" handler="on_treeview_session_load_cursor_changed" last_modification_time="Sat, 02 Oct 2004 15:16:13 GMT"/>
+	      <signal name="row_activated" handler="on_row_double_clicked" last_modification_time="Tue, 29 Mar 2005 18:43:01 GMT"/>
 	    </widget>
 	  </child>
 	</widget>
@@ -3449,6 +3450,7 @@ DD/MM/AAAA </property>
 	      <property name="reorderable">False</property>
 	      <property name="enable_search">True</property>
 	      <signal name="cursor_changed" handler="on_treeview_person_recuperate_cursor_changed" last_modification_time="Sat, 02 Oct 2004 22:26:30 GMT"/>
+	      <signal name="row_activated" handler="on_row_double_clicked" last_modification_time="Tue, 29 Mar 2005 18:50:40 GMT"/>
 	    </widget>
 	  </child>
 	</widget>
@@ -5246,6 +5248,7 @@ comments</property>
 	      <property name="reorderable">False</property>
 	      <property name="enable_search">False</property>
 	      <signal name="cursor_changed" handler="on_treeview_jumps_more_changed" last_modification_time="Tue, 08 Mar 2005 18:42:19 GMT"/>
+	      <signal name="row_activated" handler="on_row_double_clicked" last_modification_time="Tue, 29 Mar 2005 18:58:09 GMT"/>
 	    </widget>
 	  </child>
 	</widget>
@@ -5938,6 +5941,7 @@ comments</property>
 	      <property name="reorderable">False</property>
 	      <property name="enable_search">False</property>
 	      <signal name="cursor_changed" handler="on_treeview_jumps_rj_more_changed" last_modification_time="Fri, 11 Mar 2005 14:51:47 GMT"/>
+	      <signal name="row_activated" handler="on_row_double_clicked" last_modification_time="Tue, 29 Mar 2005 18:58:26 GMT"/>
 	    </widget>
 	  </child>
 	</widget>

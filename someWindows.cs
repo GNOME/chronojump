@@ -83,7 +83,7 @@ public class SessionAddWindow {
 	
 		bool sessionExists = Sqlite.SessionExists (removeTilde(entry_name.Text));
 		if(sessionExists) {
-			string myString = "La sesión: '" + removeTilde(entry_name.Text) + "' ya existe. Por favor, elija otro nombre";
+			string myString = "Session: '" + removeTilde(entry_name.Text) + "' exists. Please, use another name";
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(session_add, myString);
 
@@ -165,14 +165,14 @@ public class SessionLoadWindow {
 		tv.HeadersVisible=true;
 		int count = 0;
 		
-		tv.AppendColumn ("num.", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Nombre", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Lugar", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Fecha", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Saltadores", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Saltos", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("SaltosRJ", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Comentarios", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("number", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Name", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Place", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Date", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Jumpers", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Jumps", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("RJ Jumps", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Comments", new CellRendererText(), "text", count++);
 	}
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
@@ -306,13 +306,13 @@ public class PersonRecuperateWindow {
 	private void createTreeView (Gtk.TreeView tv) {
 		tv.HeadersVisible=true;
 		int count = 0;
-		tv.AppendColumn ("num.", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Nombre", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Sexo", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Fecha nac.", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Altura", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Peso", new CellRendererText(), "text", count++);
-		tv.AppendColumn ("Descripción", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Number", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Name", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Sex", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Date born", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Height", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Weight", new CellRendererText(), "text", count++);
+		tv.AppendColumn ("Description", new CellRendererText(), "text", count++);
 	}
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
@@ -339,8 +339,8 @@ public class PersonRecuperateWindow {
 
 	private string getCorrectSex (string sex) 
 	{
-		if (sex == "M") return "Hombre";
-		else return "Mujer";
+		if (sex == "M") return "Man";
+		else return "Woman";
 	}
 	
 	private void on_checkbutton_sort_by_creation_date_clicked(object o, EventArgs args) {
@@ -452,7 +452,7 @@ public class PersonAddWindow {
 		this.parent = parent;
 		this.sessionID = sessionID;
 
-		person_win.Title = "Añadir sujeto";
+		person_win.Title = "Load jumper";
 	}
 	
 	void on_radiobutton_man_toggled (object o, EventArgs args)
@@ -498,7 +498,7 @@ public class PersonAddWindow {
 		
 		bool personExists = Sqlite.PersonExists (removeTilde(entry1.Text));
 		if(personExists) {
-			string myString = "El sujeto: '" + removeTilde(entry1.Text) + "' ya existe. Por favor, elija otro nombre";
+			string myString = "Jumper: '" + removeTilde(entry1.Text) + "' exists. Please, use another name";
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
@@ -569,7 +569,7 @@ public class PersonModifyWindow
 		this.parent = parent;
 		this.sessionID = sessionID;
 
-		person_win.Title = "Modificar sujeto";
+		person_win.Title = "Edit jumper";
 	}
 	
 	void on_radiobutton_man_toggled (object o, EventArgs args)
@@ -647,7 +647,7 @@ public class PersonModifyWindow
 	{
 		bool personExists = Sqlite.PersonExistsAndItsNotMe (uniqueID, removeTilde(entry1.Text));
 		if(personExists) {
-			string myString = "El sujeto: '" + removeTilde(entry1.Text) + "' ya existe. Por favor, elija otro nombre";
+			string myString = "Jumper: '" + removeTilde(entry1.Text) + "' exists. Please, use another name";
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {

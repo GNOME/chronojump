@@ -8,7 +8,7 @@
 <widget class="GnomeApp" id="app1">
   <property name="height_request">480</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Gsalta</property>
+  <property name="title" translatable="yes">ChronoJump</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -62,7 +62,7 @@
 			  <signal name="activate" handler="on_open_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image194">
+			    <widget class="GtkImage" id="image221">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-open</property>
 			      <property name="icon_size">1</property>
@@ -84,14 +84,14 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="recuperate_person">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Recuperar sujeto/s</property>
+			  <property name="label" translatable="yes">Load jumper</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_recuperate_person_activate" last_modification_time="Sun, 12 Dec 2004 00:40:31 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image195">
+			    <widget class="GtkImage" id="image222">
 			      <property name="visible">True</property>
-			      <property name="stock">gtk-find</property>
+			      <property name="stock">gtk-open</property>
 			      <property name="icon_size">1</property>
 			      <property name="xalign">0.5</property>
 			      <property name="yalign">0.5</property>
@@ -105,12 +105,12 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="create_person">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Crear nuevo sujeto</property>
+			  <property name="label" translatable="yes">New jumper</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_create_person_activate" last_modification_time="Sun, 12 Dec 2004 00:43:03 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image196">
+			    <widget class="GtkImage" id="image223">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-add</property>
 			      <property name="icon_size">1</property>
@@ -126,12 +126,12 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="menuitem_edit_current_person">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Editar sujeto actual</property>
+			  <property name="label" translatable="yes">Edit current jumper</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_edit_current_person_clicked" last_modification_time="Sun, 17 Oct 2004 11:43:33 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image197">
+			    <widget class="GtkImage" id="image224">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-justify-fill</property>
 			      <property name="icon_size">1</property>
@@ -177,13 +177,13 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkMenuItem" id="saltos">
+		<widget class="GtkMenuItem" id="jumps">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Saltos</property>
+		  <property name="label" translatable="yes">_Jumps</property>
 		  <property name="use_underline">True</property>
 
 		  <child>
-		    <widget class="GtkMenu" id="saltos_menu">
+		    <widget class="GtkMenu" id="jumps_menu">
 
 		      <child>
 			<widget class="GtkMenuItem" id="sj">
@@ -248,12 +248,12 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="menuitem_cancel_jump">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Cancelar salto</property>
+			  <property name="label" translatable="yes">Cancel jump</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_cancel_jump_clicked" last_modification_time="Tue, 19 Oct 2004 17:22:38 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image198">
+			    <widget class="GtkImage" id="image225">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-cancel</property>
 			      <property name="icon_size">1</property>
@@ -269,12 +269,12 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="menuitem_last_jump_delete">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Borrar ultimo salto</property>
+			  <property name="label" translatable="yes">Delete last jump</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_last_jump_delete" last_modification_time="Sun, 03 Oct 2004 23:37:36 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image199">
+			    <widget class="GtkImage" id="image226">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-delete</property>
 			      <property name="icon_size">1</property>
@@ -296,12 +296,12 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="menuitem_edit_selected_jump">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Editar salto seleccionado</property>
+			  <property name="label" translatable="yes">Edit selected jump</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_edit_selected_jump_clicked" last_modification_time="Sun, 17 Oct 2004 11:47:42 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image200">
+			    <widget class="GtkImage" id="image227">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-justify-fill</property>
 			      <property name="icon_size">1</property>
@@ -317,12 +317,12 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="menuitem_delete_selected_jump">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Borrar salto seleccionado</property>
+			  <property name="label" translatable="yes">Delete selected jump</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_delete_selected_jump_clicked" last_modification_time="Tue, 19 Oct 2004 11:54:17 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image201">
+			    <widget class="GtkImage" id="image228">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-delete</property>
 			      <property name="icon_size">1</property>
@@ -338,12 +338,12 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="menuitem_edit_selected_jump_rj">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Editar salto RJ seleccionado</property>
+			  <property name="label" translatable="yes">Edit selected RJ jump</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_edit_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image202">
+			    <widget class="GtkImage" id="image229">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-justify-fill</property>
 			      <property name="icon_size">1</property>
@@ -359,12 +359,12 @@
 		      <child>
 			<widget class="GtkImageMenuItem" id="menuitem_delete_selected_jump_rj">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Borrar salto RJ seleccionado</property>
+			  <property name="label" translatable="yes">Delete selected RJ jump</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_delete_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 			  <child internal-child="image">
-			    <widget class="GtkImage" id="image203">
+			    <widget class="GtkImage" id="image230">
 			      <property name="visible">True</property>
 			      <property name="stock">gtk-delete</property>
 			      <property name="icon_size">1</property>
@@ -382,18 +382,18 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkMenuItem" id="estadísticas1">
+		<widget class="GtkMenuItem" id="stats">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Estadísticas</property>
+		  <property name="label" translatable="yes">_Stats</property>
 		  <property name="use_underline">True</property>
 
 		  <child>
-		    <widget class="GtkMenu" id="estadísticas1_menu">
+		    <widget class="GtkMenu" id="stats_menu">
 
 		      <child>
 			<widget class="GtkMenuItem" id="ind_elasticidad">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Ind. elasticidad</property>
+			  <property name="label" translatable="yes">Elasticity index</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_ind_elasticidad_activate" last_modification_time="Thu, 23 Sep 2004 00:08:57 GMT"/>
 			</widget>
@@ -402,7 +402,7 @@
 		      <child>
 			<widget class="GtkMenuItem" id="ind_utiliz_brazos">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Ind. utiliz. brazos</property>
+			  <property name="label" translatable="yes">Arms index</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_ind_utiliz_brazos_activate" last_modification_time="Thu, 23 Sep 2004 00:09:06 GMT"/>
 			</widget>
@@ -411,7 +411,7 @@
 		      <child>
 			<widget class="GtkMenuItem" id="intrasesion">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Intrasesión</property>
+			  <property name="label" translatable="yes">Intrasession</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_intrasesion_activate" last_modification_time="Thu, 23 Sep 2004 00:10:23 GMT"/>
 			</widget>
@@ -420,7 +420,7 @@
 		      <child>
 			<widget class="GtkMenuItem" id="intersesion">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Intersesión</property>
+			  <property name="label" translatable="yes">Intersession</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_intersesion_activate" last_modification_time="Thu, 23 Sep 2004 00:10:46 GMT"/>
 			</widget>
@@ -431,9 +431,9 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkMenuItem" id="plataforma1">
+		<widget class="GtkMenuItem" id="plataforma">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Plataforma</property>
+		  <property name="label" translatable="yes">_Platform</property>
 		  <property name="use_underline">True</property>
 		</widget>
 	      </child>
@@ -568,7 +568,7 @@
 			  <child>
 			    <widget class="GtkLabel" id="label64">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Cancelar salto	</property>
+			      <property name="label" translatable="yes">Cancel jump</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -670,7 +670,7 @@
 				  <child>
 				    <widget class="GtkImage" id="image106">
 				      <property name="visible">True</property>
-				      <property name="stock">gtk-find</property>
+				      <property name="stock">gtk-open</property>
 				      <property name="icon_size">4</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
@@ -687,7 +687,7 @@
 				  <child>
 				    <widget class="GtkLabel" id="label66">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Recuperar suj/s</property>
+				      <property name="label" translatable="yes">Load jumper</property>
 				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -747,7 +747,7 @@
 				  <child>
 				    <widget class="GtkImage" id="image107">
 				      <property name="visible">True</property>
-				      <property name="stock">gtk-add</property>
+				      <property name="stock">gtk-new</property>
 				      <property name="icon_size">4</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
@@ -764,7 +764,7 @@
 				  <child>
 				    <widget class="GtkLabel" id="label67">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Crear suj.</property>
+				      <property name="label" translatable="yes">New jumper</property>
 				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -796,7 +796,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label_current_jumper">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">&lt;b&gt;saltador actual: &lt;/b&gt;</property>
+			  <property name="label" translatable="yes">&lt;b&gt;current jumper: &lt;/b&gt;</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -863,7 +863,7 @@
 			<widget class="GtkRadioButton" id="radiobutton_simulated_bar">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Simulado</property>
+			  <property name="label" translatable="yes">Simulated</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -883,7 +883,7 @@
 			<widget class="GtkRadioButton" id="radiobutton_serial_bar">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">P. Serie</property>
+			  <property name="label" translatable="yes">Serial Port</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -993,7 +993,7 @@
 						<widget class="GtkCheckButton" id="checkbutton_sort_by_type">
 						  <property name="visible">True</property>
 						  <property name="can_focus">True</property>
-						  <property name="label" translatable="yes">por tipo</property>
+						  <property name="label" translatable="yes">by type</property>
 						  <property name="use_underline">True</property>
 						  <property name="relief">GTK_RELIEF_NORMAL</property>
 						  <property name="focus_on_click">True</property>
@@ -1013,7 +1013,7 @@
 					      <child>
 						<widget class="GtkLabel" id="label43">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">ver: </property>
+						  <property name="label" translatable="yes">show: </property>
 						  <property name="use_underline">False</property>
 						  <property name="use_markup">False</property>
 						  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1267,7 +1267,7 @@
 					  <child>
 					    <widget class="GtkLabel" id="label65">
 					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Saltos reactivos (RJs):</property>
+					      <property name="label" translatable="yes">Reactive jumps (RJs):</property>
 					      <property name="use_underline">False</property>
 					      <property name="use_markup">False</property>
 					      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1434,7 +1434,7 @@
 			  <child>
 			    <widget class="GtkLabel" id="label37">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">&lt;b&gt;saltos&lt;/b&gt;</property>
+			      <property name="label" translatable="yes">&lt;b&gt;jumps&lt;/b&gt;</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">True</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1554,7 +1554,7 @@
 					<widget class="GtkRadioButton" id="radiobutton_max">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="label" translatable="yes">Máximos</property>
+					  <property name="label" translatable="yes">MAX</property>
 					  <property name="use_underline">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -1577,7 +1577,7 @@
 					<widget class="GtkRadioButton" id="radiobutton_avg">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="label" translatable="yes">Medias</property>
+					  <property name="label" translatable="yes">AVG</property>
 					  <property name="use_underline">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -1624,7 +1624,7 @@
 					<widget class="GtkRadioButton" id="radiobutton_jumpers">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="label" translatable="yes">Saltadores: </property>
+					  <property name="label" translatable="yes">Jumpers: </property>
 					  <property name="use_underline">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -1647,7 +1647,7 @@
 					<widget class="GtkRadioButton" id="radiobutton_jumps">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="label" translatable="yes">Saltos: </property>
+					  <property name="label" translatable="yes">Jumps: </property>
 					  <property name="use_underline">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -1671,8 +1671,8 @@
 					<widget class="GtkCheckButton" id="checkbutton_stats_sex">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="label" translatable="yes">por
-sexos</property>
+					  <property name="label" translatable="yes">by
+sex</property>
 					  <property name="use_underline">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -1757,7 +1757,7 @@ sexos</property>
 					      <child>
 						<widget class="GtkLabel" id="label42">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Actualizar</property>
+						  <property name="label" translatable="yes">Update</property>
 						  <property name="use_underline">True</property>
 						  <property name="use_markup">False</property>
 						  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1790,7 +1790,7 @@ sexos</property>
 				    <widget class="GtkCheckButton" id="checkbutton_stats_always">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">siempre</property>
+				      <property name="label" translatable="yes">always</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -1810,7 +1810,7 @@ sexos</property>
 				    <widget class="GtkCheckButton" id="checkbutton_show_enunciate">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">ver enunciado</property>
+				      <property name="label" translatable="yes">show enunciate</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -1904,7 +1904,7 @@ sexos</property>
 		      <child>
 			<widget class="GtkLabel" id="label35">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">&lt;b&gt;estadísticas&lt;/b&gt;</property>
+			  <property name="label" translatable="yes">&lt;b&gt;statistics&lt;/b&gt;</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1965,7 +1965,7 @@ sexos</property>
 
 <widget class="GtkWindow" id="person_win">
   <property name="visible">True</property>
-  <property name="title" translatable="yes"></property>
+  <property name="title" translatable="yes">New jumper</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -1996,7 +1996,7 @@ sexos</property>
 	  <child>
 	    <widget class="GtkLabel" id="label19">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Nombre completo: </property>
+	      <property name="label" translatable="yes">Full name: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2020,8 +2020,8 @@ sexos</property>
 	  <child>
 	    <widget class="GtkLabel" id="label21">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Descripción / 
-comentarios</property>
+	      <property name="label" translatable="yes">Description / 
+comments</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2105,7 +2105,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label41">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Sexo</property>
+	      <property name="label" translatable="yes">Sex</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2136,7 +2136,7 @@ comentarios</property>
 		<widget class="GtkRadioButton" id="radiobutton_man">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">hombre</property>
+		  <property name="label" translatable="yes">man</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -2156,7 +2156,7 @@ comentarios</property>
 		<widget class="GtkRadioButton" id="radiobutton_woman">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">mujer	</property>
+		  <property name="label" translatable="yes">woman</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -2186,7 +2186,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label47">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Altura: (cm)</property>
+	      <property name="label" translatable="yes">Height: (cm)</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2210,7 +2210,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label48">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Peso: (Kg)</property>
+	      <property name="label" translatable="yes">Weight: (Kg)</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2276,7 +2276,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label50">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Fecha nacimiento: 
+	      <property name="label" translatable="yes">Born date: 
 DD/MM/AAAA</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
@@ -2423,7 +2423,7 @@ DD/MM/AAAA</property>
 
 <widget class="GtkWindow" id="session_add">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Nueva sesión</property>
+  <property name="title" translatable="yes">New session</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -2454,7 +2454,7 @@ DD/MM/AAAA</property>
 	  <child>
 	    <widget class="GtkLabel" id="label22">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Nombre: </property>
+	      <property name="label" translatable="yes">Name: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2478,7 +2478,7 @@ DD/MM/AAAA</property>
 	  <child>
 	    <widget class="GtkLabel" id="label23">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Lugar: </property>
+	      <property name="label" translatable="yes">Place: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2502,7 +2502,7 @@ DD/MM/AAAA</property>
 	  <child>
 	    <widget class="GtkLabel" id="label24">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Fecha: </property>
+	      <property name="label" translatable="yes">Date: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2526,7 +2526,7 @@ DD/MM/AAAA</property>
 	  <child>
 	    <widget class="GtkLabel" id="label25">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Comentarios: </property>
+	      <property name="label" translatable="yes">Comments: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2697,7 +2697,7 @@ DD/MM/AAAA</property>
   <property name="width_request">500</property>
   <property name="height_request">350</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Abrir sesión</property>
+  <property name="title" translatable="yes">Load session</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -2715,27 +2715,6 @@ DD/MM/AAAA</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">0</property>
-
-      <child>
-	<widget class="GtkLabel" id="label26">
-	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Selecciona la sesión que quieres abrir:</property>
-	  <property name="use_underline">False</property>
-	  <property name="use_markup">False</property>
-	  <property name="justify">GTK_JUSTIFY_LEFT</property>
-	  <property name="wrap">False</property>
-	  <property name="selectable">False</property>
-	  <property name="xalign">0.5</property>
-	  <property name="yalign">0.5</property>
-	  <property name="xpad">0</property>
-	  <property name="ypad">0</property>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">False</property>
-	</packing>
-      </child>
 
       <child>
 	<widget class="GtkScrolledWindow" id="scrolledwindow5">
@@ -2811,7 +2790,7 @@ DD/MM/AAAA</property>
   <property name="width_request">400</property>
   <property name="height_request">350</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Recuperar sujetos</property>
+  <property name="title" translatable="yes">Load jumpers</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -2833,7 +2812,7 @@ DD/MM/AAAA</property>
       <child>
 	<widget class="GtkLabel" id="label33">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Selecciona los sujetos que desees recuperar:</property>
+	  <property name="label" translatable="yes">Select jumpers you want to load:</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2883,7 +2862,7 @@ DD/MM/AAAA</property>
 	<widget class="GtkCheckButton" id="checkbutton_sort_by_creation_date">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">ordenar por fecha de creación</property>
+	  <property name="label" translatable="yes">sort by creation date</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="focus_on_click">True</property>
@@ -3003,7 +2982,7 @@ DD/MM/AAAA</property>
   <property name="width_request">300</property>
   <property name="height_request">150</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Preferencias</property>
+  <property name="title" translatable="yes">Preferences</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -3025,7 +3004,7 @@ DD/MM/AAAA</property>
 	<widget class="GtkCheckButton" id="checkbutton_height">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">Ver altura de los saltos</property>
+	  <property name="label" translatable="yes">Show height</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="focus_on_click">True</property>
@@ -3044,7 +3023,7 @@ DD/MM/AAAA</property>
 	<widget class="GtkCheckButton" id="checkbutton_ask_deletion">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">Confirmar borrado de saltos</property>
+	  <property name="label" translatable="yes">Confirm jump deletion</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="focus_on_click">True</property>
@@ -3071,7 +3050,7 @@ DD/MM/AAAA</property>
 	  <child>
 	    <widget class="GtkLabel" id="label38">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Número de decimales: </property>
+	      <property name="label" translatable="yes">Number of decimals: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3165,7 +3144,7 @@ DD/MM/AAAA</property>
 
 <widget class="GtkDialog" id="error_dialog">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Gsalta - error</property>
+  <property name="title" translatable="yes">ChronoJump - error</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -3237,7 +3216,7 @@ DD/MM/AAAA</property>
 
 <widget class="GtkWindow" id="sj_plus">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">SJ con carga extra</property>
+  <property name="title" translatable="yes">SJ with extra load</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
@@ -3264,8 +3243,8 @@ DD/MM/AAAA</property>
 	  <child>
 	    <widget class="GtkLabel" id="label44">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Seleccione el peso añadido
-con el que realizará el salto Squat</property>
+	      <property name="label" translatable="yes">Select additional weight
+for the following squat jump</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3332,8 +3311,8 @@ con el que realizará el salto Squat</property>
 		<widget class="GtkRadioButton" id="radiobutton_weight">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">% peso 
-corporal</property>
+		  <property name="label" translatable="yes">% body 
+weightl</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -3408,7 +3387,7 @@ corporal</property>
 
 <widget class="GtkWindow" id="dj_fall">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">DJ altura de caída</property>
+  <property name="title" translatable="yes">DJ falling height</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
@@ -3435,8 +3414,8 @@ corporal</property>
 	  <child>
 	    <widget class="GtkLabel" id="label45">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Seleccione la altura de caída
-(cm)</property>
+	      <property name="label" translatable="yes">Select falling height
+for the following DJ (cm)</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -3564,7 +3543,7 @@ corporal</property>
 	  <child>
 	    <widget class="GtkLabel" id="label46">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Seleccione el factor limitante del salto RJ</property>
+	      <property name="label" translatable="yes">Select limit factor for the folowing RJ</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3611,7 +3590,7 @@ corporal</property>
 		<widget class="GtkRadioButton" id="radiobutton_jump">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">saltos</property>
+		  <property name="label" translatable="yes">jumps</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -3631,7 +3610,7 @@ corporal</property>
 		<widget class="GtkRadioButton" id="radiobutton_time">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">tiempo (seg.)</property>
+		  <property name="label" translatable="yes">time (seconds)</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -3706,7 +3685,7 @@ corporal</property>
 
 <widget class="GtkWindow" id="edit_jump">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Editar salto</property>
+  <property name="title" translatable="yes">Edit jump</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -3737,7 +3716,7 @@ corporal</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_tv_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Tiempo de vuelo:</property>
+	      <property name="label" translatable="yes">Flight time:</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3761,8 +3740,8 @@ corporal</property>
 	  <child>
 	    <widget class="GtkLabel" id="label52">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Descripción / 
-comentarios</property>
+	      <property name="label" translatable="yes">Description / 
+comments</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3849,7 +3828,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_tc_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Tiempo de contacto:</property>
+	      <property name="label" translatable="yes">Contact time:</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3897,7 +3876,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_fall_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Altura de caída:</property>
+	      <property name="label" translatable="yes">Falling height:</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3945,7 +3924,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_type_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Tipo de salto: </property>
+	      <property name="label" translatable="yes">Jump type: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3993,7 +3972,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label63">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Saltador: </property>
+	      <property name="label" translatable="yes">Jumper: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4037,7 +4016,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_jump_id_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Identificador: </property>
+	      <property name="label" translatable="yes">Identifier: </property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4085,7 +4064,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_weight_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Carga extra:</property>
+	      <property name="label" translatable="yes">Extra load:</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4133,7 +4112,7 @@ comentarios</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_limited_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Factor limitante:</property>
+	      <property name="label" translatable="yes">Limit factor:</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4230,7 +4209,7 @@ comentarios</property>
 
 <widget class="GtkWindow" id="confirm_window">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Pregunta</property>
+  <property name="title" translatable="yes">ChronoJump - Confirm</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
@@ -4336,7 +4315,7 @@ comentarios</property>
 
 <widget class="GtkWindow" id="error_window">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Error</property>
+  <property name="title" translatable="yes">ChronoJump - Error</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_CENTER</property>
   <property name="modal">False</property>

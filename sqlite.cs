@@ -1075,7 +1075,7 @@ finishForeach:
 		//2 always sex
 		if (operation == "AVG") {
 			if (index) {
-				selectString = " AVG(jump.tv) AS jump_tv, person.name, person.sex, AVG(jump.tc) AS jump_tc, jump.fall, 100*(AVG(jump.tv)-AVG(jump.tc))/AVG(jump.tc) AS jump_index ";
+				selectString = " AVG(jump.tv) AS jump_tv, person.name, person.sex, AVG(jump.tc) AS jump_tc, jump.fall, AVG(100*((jump.tv-jump.tc)/jump.tc)) AS jump_index ";
 				orderByString = orderByString + "jump_index DESC ";
 			} else {
 				selectString = " AVG(jump.tv) AS jump_tv, person.name, person.sex, AVG(jump.tc) AS jump_tc, jump.fall ";
@@ -1401,54 +1401,6 @@ finishForeach:
 		return myArray;
 	}
 
-	/*
-	//IE (Elasticity index) relationship between SJ and CMJ
-	//IUB (Using of arms index) relationship between CMJ and ABK
-	//this method gets all SJ or CMJ or ABK of all persons in a session
-	public static ArrayList StatClassificationIeIub (int sessionID, string indexType, string operation, bool sexSeparated)
-	{
-		string indexTypeString = "";
-		if (indexType == "IE") {
-			indexTypeString = " AND ( jump.type == 'SJ' OR jump.type == 'CMJ' ) " ;
-		} else { //IUB
-			indexTypeString = " AND ( jump.type == 'CMJ' OR jump.type == 'ABK' ) " ;
-		}
-
-		string sexSeparatedString = "";
-		if (sexSeparated) {
-			sexSeparatedString = "person.sex DESC, ";
-		}
-		
-		dbcon.Open();
-		
-		dbcmd.CommandText = "SELECT person.name, jump.type, " + operation + "(jump.tv), person.sex " +
-			" FROM person, jump " +
-			" WHERE sessionID == " + sessionID +
-			indexTypeString +
-			" AND person.uniqueID == jump.personID " +
-			//sexSeparatedString +
-			" GROUP BY type, personID " +
-			" ORDER BY " + sexSeparatedString + " person.uniqueID, jump.type " ; 
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		ArrayList myArray = new ArrayList(2);
-		while(reader.Read()) {
-			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-					reader[2].ToString() + ":" + reader[3].ToString() );
-		}
-		//if a person has only SJ or CMJ, it returns one line per person
-		//if the person has the two jumps, in returns two lines
-		
-		reader.Close();
-		dbcon.Close();
-		
-		return myArray;
-	}
-	*/
 	
 	public static ArrayList StatGlobalNormal (int sessionID, string operation, bool sexSeparated)
 	{
@@ -1497,7 +1449,9 @@ finishForeach:
 	public static ArrayList StatGlobalDj (int sessionID, string operation, bool sexSeparated)
 	{
 		dbcon.Open();
-		//if (sexSeparated) {
+		if (sexSeparated) {
+			//select the MAX or AVG index grouped by sex
+			//returns 0-2 rows
 			dbcmd.CommandText = "SELECT " + operation + "(100*((tv-tc)/tc)), sex " + 
 				" FROM jump, person " +
 				" WHERE jump.sessionID == " + sessionID + 
@@ -1505,13 +1459,23 @@ finishForeach:
 				" AND jump.type == 'DJ'" +
 				" GROUP BY person.sex " +
 				" ORDER BY person.sex DESC " ; 
-		//} else {
-		//	dbcmd.CommandText = "SELECT " + operation + "(100*((tv-tc)/tc)) AS jump_index " +
-		//		" FROM jump " +
-		//		" WHERE sessionID == " + sessionID + 
-		//		" AND jump.type == 'DJ'" +
-		//		" ORDER BY jump_index " ; 
-		//}
+		} else {
+			//select the MAX or AVG index. 
+			//returns 0-1 rows
+			dbcmd.CommandText = "SELECT " + operation + "(100*((tv-tc)/tc)) AS jump_index " +
+				" FROM jump " +
+				" WHERE sessionID == " + sessionID +
+				" AND jump.type == 'DJ'" +
+				//the following solves a problem
+				//of sqlite, that returns an 
+				//"empty line" when there are no
+				//values to return in a index
+				//calculation.
+				//With the group by, 
+				//if there are no values, 
+				//it does not return any line
+				" GROUP by jump.type ";
+		}
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -1521,23 +1485,14 @@ finishForeach:
 
 		Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA");
 		ArrayList myArray = new ArrayList(2);
-		double myMax = -1000000;
-		bool myMaxExists = false;
 		
 		while(reader.Read()) {
 			Console.WriteLine ("-{0}-", reader[0].ToString());
 			if (sexSeparated) {
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
 			} else {
-				//myArray.Add (reader[0].ToString() );
-				if ( Convert.ToDouble (reader[0].ToString()) > myMax ) {
-					myMax = Convert.ToDouble( reader[0].ToString() );
-					myMaxExists = true;
-				}
+				myArray.Add (reader[0].ToString());
 			}
-		}
-		if ( ! sexSeparated && myMaxExists) { 
-			myArray.Add ( myMax.ToString() ); 
 		}
 		
 		reader.Close();
@@ -1551,7 +1506,9 @@ finishForeach:
 	public static ArrayList StatGlobalRj (int sessionID, string operation, bool sexSeparated)
 	{
 		dbcon.Open();
-		//if (sexSeparated) {
+		if (sexSeparated) {
+			//select the MAX or AVG index grouped by sex
+			//returns 0-2 rows
 			dbcmd.CommandText = "SELECT " + operation + "(100*((tvavg-tcavg)/tcavg)), sex " + 
 				" FROM jumpRj, person " +
 				" WHERE jumpRj.sessionID == " + sessionID + 
@@ -1559,13 +1516,23 @@ finishForeach:
 				" AND jumpRj.type == 'RJ'" +
 				" GROUP BY person.sex " +
 				" ORDER BY person.sex DESC " ; 
-		//} else {
-		//	dbcmd.CommandText = "SELECT " + operation + "(100*((tv-tc)/tc)) AS jump_index " +
-		//		" FROM jump " +
-		//		" WHERE sessionID == " + sessionID + 
-		//		" AND jump.type == 'DJ'" +
-		//		" ORDER BY jump_index " ; 
-		//}
+		} else {
+			//select the MAX or AVG index. 
+			//returns 0-1 rows
+			dbcmd.CommandText = "SELECT " + operation + "(100*((tvavg-tcavg)/tcavg)) AS jump_index " +
+				" FROM jumpRj " +
+				" WHERE sessionID == " + sessionID + 
+				" AND jumpRj.type == 'RJ'" +
+				//the following solves a problem
+				//of sqlite, that returns an 
+				//"empty line" when there are no
+				//values to return in a index
+				//calculation.
+				//With the group by,
+				//if there are no values, 
+				//it does not return any line
+				" GROUP by jumpRj.type "; 
+		}
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -1575,23 +1542,14 @@ finishForeach:
 
 		Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAA");
 		ArrayList myArray = new ArrayList(2);
-		double myMax = -1000000;
-		bool myMaxExists = false;
 		
 		while(reader.Read()) {
 			Console.WriteLine ("-{0}-", reader[0].ToString());
 			if (sexSeparated) {
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
 			} else {
-				//myArray.Add (reader[0].ToString() );
-				if ( Convert.ToDouble (reader[0].ToString()) > myMax ) {
-					myMax = Convert.ToDouble( reader[0].ToString() );
-					myMaxExists = true;
-				}
+				myArray.Add (reader[0].ToString() );
 			}
-		}
-		if ( ! sexSeparated && myMaxExists) { 
-			myArray.Add ( myMax.ToString() ); 
 		}
 		
 		reader.Close();

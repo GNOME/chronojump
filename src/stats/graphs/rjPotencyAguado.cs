@@ -30,29 +30,32 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 
-public class GraphDjIndex : StatDjIndex
+public class GraphRjPotencyAguado : StatRjPotencyAguado
 {
 	protected string operation;
 
-	public GraphDjIndex (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public GraphRjPotencyAguado (ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
 		//by1Values = new ArrayList(2); 
 		by100Values = new ArrayList(2);
-		this.dataColumns = 4; //for Simplesession (index, fall, tc, tv)
-		this.jumpType = jumpType;
+		this.dataColumns = 6; //for Simplesession (index, tv(avg), tc(avg), jumps, time, fall)
 		this.valuesTransposed = new ArrayList(2);
 	
 		valuesSchemaIndex = new ArrayList(dataColumns);
 		valuesSchemaIndex.Add ("true"); //Index
 		valuesSchemaIndex.Add ("false"); //TV
 		valuesSchemaIndex.Add ("false"); //TC
+		valuesSchemaIndex.Add ("true"); //jumps
+		valuesSchemaIndex.Add ("true"); //time
 		valuesSchemaIndex.Add ("true"); //fall
 
 		colorSchema = new ArrayList (dataColumns);
 		colorSchema.Add ("Red");		//Index
 		colorSchema.Add ("LightBlue");		//TV
 		colorSchema.Add ("LightGreen");		//TC
-		colorSchema.Add ("Chocolate");	//fall
+		colorSchema.Add ("LightSalmon");	//jumps
+		colorSchema.Add ("LightGrey");		//time
+		colorSchema.Add ("Chocolate");		//fall
 
 		jumperNames = new ArrayList(2);
 		
@@ -69,10 +72,14 @@ public class GraphDjIndex : StatDjIndex
 
 		this.windowTitle = Catalog.GetString("ChronoJump graph");
 		if(sessions.Count > 1) {
-			this.graphTitle = jumpType + " " + operation + Catalog.GetString(" values chart of multiple sessions");
+			this.graphTitle = "Rj Potency " + operation + Catalog.GetString(" values chart of multiple sessions");
 		} else {
-			this.graphTitle = jumpType + " " + operation + Catalog.GetString(" values chart of single session");
-			
+			this.graphTitle = "Rj Potency " + operation + Catalog.GetString(" values chart of single session");
+		
+			//correct jumps and time for being displayed
+			//jumper, index, tv, tc, jumps, time, fall
+			columnsString[4] = "Jumps (*10)";
+			columnsString[5] = "Time (*10)";
 			//initialize valuesTransposed (with one row x each column name, except the first)
 			bool firstValue = true;
 			foreach (string myCol in columnsString) {
@@ -84,8 +91,8 @@ public class GraphDjIndex : StatDjIndex
 		}
 		resultCombined = false;
 		resultIsIndex = true;
-		labelLeft = Catalog.GetString("seconds");
-		labelRight = Catalog.GetString("Index(%) and fall(cm)");
+		labelLeft = Catalog.GetString("TV, TC (seconds)");
+		labelRight = Catalog.GetString("Index(%), jumps, time(s), fall(cm)");
 	}
 
 	protected override void printData (string [] statValues) 
@@ -102,7 +109,13 @@ public class GraphDjIndex : StatDjIndex
 					}
 					jumperNames.Add(myValue);
 				} else {
-					valuesTransposed[i-1] = valuesTransposed[i-1] + ":" + myValue;
+					//correct jumps and time for being displayed
+					if(i==4 || i==5) {
+						string myValueMult = (Convert.ToDouble(myValue) * 10 ).ToString();
+						valuesTransposed[i-1] = valuesTransposed[i-1] + ":" + myValueMult;
+					} else {
+						valuesTransposed[i-1] = valuesTransposed[i-1] + ":" + myValue;
+					}
 				}
 				i++;
 			}

@@ -27,6 +27,8 @@ using System.Collections; //ArrayList
 
 public class StatRjIndex : Stat
 {
+	protected string [] columnsString = { "Jumper", "Index", "TV(AVG)", "TC(AVG)", "Fall" };
+
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatRjIndex () 
 	{
@@ -49,7 +51,6 @@ public class StatRjIndex : Stat
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jumper", "Index", "TV(AVG)", "TC(AVG)", "Fall" };
 		prepareHeaders(columnsString);
 	}
 	
@@ -64,22 +65,22 @@ public class StatRjIndex : Stat
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.rjIndex(sessionString, multisession, "AVG(", ")", showSex), 
+						SqliteStat.RjIndex(sessionString, multisession, "AVG(", ")", showSex), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.rjIndex(sessionString, multisession, "AVG(", ")", showSex), 
+							SqliteStat.RjIndex(sessionString, multisession, "AVG(", ")", showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
 		} else {
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.rjIndex(sessionString, multisession, "MAX(", ")", showSex),  
+				processDataMultiSession ( SqliteStat.RjIndex(sessionString, multisession, "MAX(", ")", showSex),  
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.rjIndex(sessionString, multisession, "", "", showSex), 
+							SqliteStat.RjIndex(sessionString, multisession, "", "", showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

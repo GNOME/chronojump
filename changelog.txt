@@ -1,4 +1,13 @@
 CHANGELOG:
+25 march 2005
+	added GraphIeIub, GraphRjIndex, GraphRjPotencyAguado 
+	added StatRjEvolution and GraphRjEvolution
+	stats in categories, now all jumps are represented
+	
+	deleted dj stat (djIndex is more powerful)
+	fixed bug in simplesession multivalues
+	fixed bug in counting jumps in reactive limited by time
+
 22 march 2005
 	graphs with multiple values now work for simplesession and
 	multisession (example: djindex: index, tv, tc, fall), suitable also

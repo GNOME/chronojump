@@ -1,6 +1,8 @@
 TODO:
 ----
 
+integrate the weight simple jumps in stats
+
 repair bug in exiting when graphs are displayed (is for the old DLL?)
 
 make that serial connection can be stablished regardless before a modem has been used in the same port
@@ -19,8 +21,6 @@ graphs:
 	make graphs for all stats
 
 show better info in the RJ jump edit
-
-implement the simulated tj rime
 
 make appbar2.push show the different jumps as the are producing in RJ:
 chronojump.cs, lines: 

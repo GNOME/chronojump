@@ -172,72 +172,8 @@ class SqliteStat : Sqlite
 		}
 	}
 
-	//dj (not index)
-	public static ArrayList Dj (string sessionString, bool multisession, string ini, string end, bool showSex)
-	{
-		string orderByString = "ORDER BY ";
-		string moreSelect = "";
-		moreSelect = ini + "jump.tv" + end + ", jump.tc, jump.fall";
-
-		//if we use AVG or MAX, then we have to group by the results
-		//if there's more than one session, it sends the avg or max
-		string groupByString = "";
-		if (ini.Length > 0) {
-			groupByString = " GROUP BY jump.personID, jump.sessionID ";
-		}
-		//if multisession, order by person.name, sessionID for being able to present results later
-		if(multisession) {
-			orderByString = orderByString + "person.name, sessionID, ";
-		}
-		
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			" FROM jump, person " +
-			sessionString +
-			" AND jump.type == 'DJ' " +
-			" AND jump.personID == person.uniqueID " +
-			groupByString +
-			orderByString + ini + "jump.tv" + end + " DESC ";
-
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		
-		string showSexString = "";
-		string returnSessionString = "";
-		string returnTcString = "";
-		string returnFallString = "";
-		ArrayList myArray = new ArrayList(2);
-		while(reader.Read()) {
-			if(showSex) {
-				showSexString = " (" + reader[1].ToString() + ")";
-			}
-			if(multisession) {
-				returnSessionString = ":" + reader[2].ToString();
-			} else {
-				//in multisession we show only one column x session
-				//in simplesession we show all
-				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
-				
-				returnTcString = ":" + reader[4].ToString();
-				returnFallString = ":" + reader[5].ToString();
-			}
-			myArray.Add (reader[0].ToString() + showSexString +
-					returnSessionString + ":" + 		//session
-					reader[3].ToString() +			//tv
-					returnTcString + 			//tc
-					returnFallString			//fall
-				    );
-		}
-		reader.Close();
-		dbcon.Close();
-		return myArray;
-	}
-
 	//dj index 
-	public static ArrayList DjIndex (string sessionString, bool multisession, string ini, string end, bool showSex)
+	public static ArrayList DjIndex (string sessionString, bool multisession, string ini, string end, string jumpType, bool showSex)
 	{
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
@@ -258,7 +194,7 @@ class SqliteStat : Sqlite
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
 			" FROM jump, person " +
 			sessionString +
-			" AND jump.type == 'DJ' " +
+			" AND jump.type == '" + jumpType + "' " +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
 			orderByString + " dj_index DESC, " + ini + "jump.tv" + end + " DESC ";
@@ -303,8 +239,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	//rj index 
-	public static ArrayList rjIndex (string sessionString, bool multisession, string ini, string end, bool showSex)
+	public static ArrayList RjIndex (string sessionString, bool multisession, string ini, string end, bool showSex)
 	{
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
@@ -325,7 +260,6 @@ class SqliteStat : Sqlite
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
 			" FROM jumpRj, person " +
 			sessionString +
-			" AND type == 'RJ' " +
 			" AND jumpRj.personID == person.uniqueID " +
 			groupByString +
 			orderByString + " rj_index DESC, tvavg DESC ";
@@ -370,8 +304,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	//rj index 
-	public static ArrayList rjPotencyAguado (string sessionString, bool multisession, string ini, string end, bool showSex)
+	public static ArrayList RjPotencyAguado (string sessionString, bool multisession, string ini, string end, bool showSex)
 	{
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
@@ -393,7 +326,6 @@ class SqliteStat : Sqlite
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
 			" FROM jumpRj, person " +
 			sessionString +
-			" AND type == 'RJ' " +
 			" AND jumpRj.personID == person.uniqueID " +
 			groupByString +
 			orderByString + " potency DESC, tvavg DESC ";
@@ -437,6 +369,108 @@ class SqliteStat : Sqlite
 					returnJumpsString +			//jumps
 					returnTimeString +			//time
 					returnFallString			//fall
+				    );
+		}
+		reader.Close();
+		dbcon.Close();
+		return myArray;
+	}
+
+	//for rjEvolution (for know the name of columns)
+	public static int ObtainMaxNumberOfJumps (string sessionString)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT MAX(jumps) from jumpRj " + sessionString;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		int myReturn = 0;
+	
+		if(reader.Read()) {
+			myReturn = Convert.ToInt32(reader[0].ToString());
+		}
+		reader.Close();
+		dbcon.Close();
+		return myReturn;
+	}
+
+	//convert the strings of TVs and TCs separated by '=' in
+	//one string mixed and separated by ':' (starting by an ':')
+	private static string combineTCsTVs(string TCs, string TVs, int maxJumps)
+	{
+		string [] TCFull = TCs.Split(new char[] {'='});
+		string [] TVFull = TVs.Split(new char[] {'='});
+		string myReturn = ""; 
+		int i;
+		for(i=0; i < TCFull.Length; i++) {
+			myReturn = myReturn + ":" + TCFull[i] + ":" + TVFull[i];
+		}
+		//fill the row with 0's equalling largest row
+		for(int j=i; j < maxJumps; j++) {
+			myReturn = myReturn + ":-:-";
+		}
+		return myReturn;
+	}
+
+	//maxJumps for make all the results of same length (fill it with '-'s)
+	public static ArrayList RjEvolution (string sessionString, bool multisession, string ini, string end, bool showSex, int maxJumps)
+	{
+		string orderByString = "ORDER BY ";
+		string moreSelect = "";
+		moreSelect = ini + "((tvavg-tcavg)*100/tcavg)" + end + " AS rj_index, tcString, tvString, fall";
+
+		//if we use AVG or MAX, then we have to group by the results
+		//if there's more than one session, it sends the avg or max
+		string groupByString = "";
+		if (ini.Length > 0) {
+			groupByString = " GROUP BY jumpRj.personID, jumpRj.sessionID ";
+		}
+		//if multisession, order by person.name, sessionID for being able to present results later
+		if(multisession) {
+			orderByString = orderByString + "person.name, jumpRj.sessionID, ";
+		}
+		
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
+			" FROM jumpRj, person " +
+			sessionString +
+			" AND jumpRj.personID == person.uniqueID " +
+			groupByString +
+			orderByString + " rj_index DESC, tvavg DESC ";
+
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		string showSexString = "";
+		string returnSessionString = "";
+		string allTCsTVsCombined = "";
+		string returnFallString = "";
+		ArrayList myArray = new ArrayList(2);
+		while(reader.Read()) {
+			if(showSex) {
+				showSexString = " (" + reader[1].ToString() + ")";
+			}
+			if(multisession) {
+				returnSessionString = ":" + reader[2].ToString();
+			} else {
+				//in multisession we show only one column x session
+				//in simplesession we show all
+				
+				//convert the strings of TVs and TCs separated by '=' in
+				//one string mixed and separated by ':'
+				allTCsTVsCombined = combineTCsTVs(reader[4].ToString(), reader[5].ToString(), maxJumps);
+				
+				returnFallString = ":" + reader[6].ToString();
+			}
+			myArray.Add (reader[0].ToString() + showSexString +
+					returnSessionString + ":" + 		//session
+					reader[3].ToString() +			//index
+					allTCsTVsCombined +			//tc:tv:tc:tv...
+					returnFallString 			//fall
 				    );
 		}
 		reader.Close();

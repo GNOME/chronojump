@@ -30,6 +30,7 @@ public class StatIeIub : Stat
 	protected string indexType;
 	protected string jump1;
 	protected string jump2;
+	protected string [] columnsString = new String[4];
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatIeIub () 
@@ -62,7 +63,10 @@ public class StatIeIub : Stat
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jumper", indexType, jump1, jump2 };
+		columnsString[0] = "Jumper";
+		columnsString[1] = indexType;
+		columnsString[2] = jump1;
+		columnsString[3] = jump2;
 		prepareHeaders(columnsString);
 	}
 	

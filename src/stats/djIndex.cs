@@ -37,9 +37,10 @@ public class StatDjIndex : Stat
 		this.limit = 0;
 	}
 
-	public StatDjIndex (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public StatDjIndex (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
 		this.dataColumns = 4;	//for simplesession (index, tv, tc, fall)
+		this.jumpType = jumpType;
 		this.limit = limit;
 		
 		if(sessions.Count > 1) {
@@ -51,7 +52,6 @@ public class StatDjIndex : Stat
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		//string [] columnsString = { "Jumper", "Index", "TV", "TC", "Fall" };
 		prepareHeaders(columnsString);
 	}
 	
@@ -66,22 +66,26 @@ public class StatDjIndex : Stat
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.DjIndex(sessionString, multisession, "AVG(", ")", showSex), 
+						SqliteStat.DjIndex(sessionString, multisession, 
+							"AVG(", ")", jumpType, showSex), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.DjIndex(sessionString, multisession, "AVG(", ")", showSex), 
+							SqliteStat.DjIndex(sessionString, multisession, 
+								"AVG(", ")", jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
 		} else {
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.DjIndex(sessionString, multisession, "MAX(", ")", showSex),  
+				processDataMultiSession ( SqliteStat.DjIndex(sessionString, multisession, 
+							"MAX(", ")", jumpType, showSex),  
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.DjIndex(sessionString, multisession, "", "", showSex), 
+							SqliteStat.DjIndex(sessionString, multisession, 
+								"", "", jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

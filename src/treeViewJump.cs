@@ -100,7 +100,7 @@ public class TreeViewJumps
 	
 		string myType ;
 
-		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", false);
+		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false);
 		
 		foreach (string jump in myJumps) {
 			string [] myStringFull = jump.Split(new char[] {':'});
@@ -155,7 +155,7 @@ public class TreeViewJumps
 		bool modelNotEmpty = treeview.Model.GetIterFirst ( out iter ) ;
 		string iterJumperString;
 		bool found = false;
-		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", false);
+		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false);
 	
 		if(modelNotEmpty) {
 			do {

@@ -136,11 +136,20 @@ class SqliteJumpType : Sqlite
 		}
 	}
 
-	public static string[] SelectJumpTypes(string allJumpsName, bool onlyName) 
+	public static string[] SelectJumpTypes(string allJumpsName, string filter, bool onlyName) 
 	{
+		//allJumpsName: add and "allJumpsName" value
+		//filter: "" all jumps, "TC" only with previous fall, "nonTC" only not with previous fall
+		//onlyName: return only type name
+	
+		string whereString = "";
+		if(filter == "TC") { whereString = " WHERE startIn == 0 "; }
+		else if(filter == "nonTC") { whereString = " WHERE startIn == 1 "; }
+		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM jumpType " +
+			whereString +
 			" ORDER BY uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());

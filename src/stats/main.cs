@@ -156,7 +156,7 @@ public class Stat
 
 
 	
-	//called before ProcessDataSimpleSession, 
+	//called before processDataSimpleSession, 
 	//used for deleting rows dont wanted by the statsJumpsType 0 and 1 values
 	protected ArrayList cleanDontWanted (ArrayList startJumps, int statsJumpsType, int limit)
 	{
@@ -198,6 +198,7 @@ public class Stat
 		//process all SQL results line x line
 		for (i=0 ; i < arrayFromSql.Count ; i ++) {
 			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
+			
 			for (int j=1; j <= dataColumns ; j++) {
 				if(makeAVGSD) {
 					sumValue[j] += Convert.ToDouble(rowFromSql[j]);
@@ -205,7 +206,6 @@ public class Stat
 				}
 				rowFromSql[j] = Util.TrimDecimals(rowFromSql[j], pDN);
 			}
-			//Console.WriteLine("r0 {0} r1 {1}", rowFromSql[0], rowFromSql[1]);
 			printData( rowFromSql );
 		}
 		//only show the row if sqlite returned values
@@ -419,6 +419,11 @@ public class Stat
 	protected bool resultIsIndex; //when plot only a value, is an index?
 	protected string labelLeft;
 	protected string labelRight;
+		
+	protected float fixedLeftBottom = -1;
+	protected float fixedRightBottom = -1;
+	protected float fixedLeftTop = -1;
+	protected float fixedRightTop = -1;
 	
 	//temporary hack for a gtk# garbage collecting error
 	//protected ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
@@ -453,7 +458,7 @@ public class Stat
 			createAxisMultisession (plot);
 		} else {
 			if(dataColumns > 1) {
-				//sj+, djindex, IE, IUB
+				//sj+, djindex, rjIndex, rjPotency, rjEvolution, IE, IUB
 				plotGraphSimplesessionMultiValues (plot, valuesTransposed, valuesSchemaIndex);
 				createAxisSimplesessionMultiValues (plot);
 			} else {
@@ -548,7 +553,7 @@ public class Stat
 		
 		pp.AbscissaData = new StartStep( cPlotted, 1 ); //ini cplotted, step 1
 		pp.OrdinateData = myData;
-		pp.Marker.DropLine = true;
+		//pp.Marker.DropLine = true; it plots out of the graph (Nplot error)
 		pp.Marker.Pen = Pens.Blue;
 		pp.Marker.Filled = true;
 		
@@ -560,27 +565,58 @@ public class Stat
 
 	protected void plotGraphSimplesessionMultiValues (IPlotSurface2D plot, ArrayList myValues, ArrayList valuesSchemaIndex)
 	{
-		int xtics;
+		//color workarround for RjEvolution
+		Random myRand = new Random();
+		int myR = 0;
+		int myG = 0;
+		int myB = 0;
+		
+		int xtics = jumperNames.Count + 2; // +2 for not having values in the left-right edges
 		for(int i=0; i < myValues.Count ; i++) {
 			string [] jump = myValues[i].ToString().Split(new char[] {':'});
-			
-			xtics = dataColumns +2; //each session (+2 for not having values in the left-right edges)
 			
 			double[] lineData = new double[xtics];
 			
 			Marker m;
+			
 			if(valuesSchemaIndex[i] == "true") {
 				int mySquare = 6;
 				//make bigger the index square
 				if(i == 0) { mySquare = 10; }
-				m = new Marker(Marker.MarkerType.Square, mySquare, new Pen(Color.FromName(colorSchema[i].ToString()), 2.0F));
+			
+				if( Color.FromName(colorSchema[i].ToString()).IsKnownColor ) {
+					m = new Marker(Marker.MarkerType.Square, mySquare, 
+							new Pen(Color.FromName(colorSchema[i].ToString()), 2.0F));
+				} else {
+					//color workarround for RjEvolution
+					m = new Marker(Marker.MarkerType.Square, mySquare, 
+							new Pen(Color.FromArgb(myR, myG, myB), 2.0F));
+				}
 			} else {
-				m = new Marker(Marker.MarkerType.Cross1,6,new Pen(Color.FromName(colorSchema[i].ToString()), 2.0F));
+				//color workarround for RjEvolution
+				if( Color.FromName(colorSchema[i].ToString()).IsKnownColor ) {
+					m = new Marker(Marker.MarkerType.Cross1,6,
+							new Pen(Color.FromName(colorSchema[i].ToString()), 2.0F));
+				} else {
+					//color workarround for RjEvolution
+					myR = myRand.Next(255);
+					myG = myRand.Next(255);
+					myB = myRand.Next(255);
+					m = new Marker(Marker.MarkerType.Cross1,6,
+							new Pen(Color.FromArgb(myR, myG, myB), 2.0F));
+				}
 			}
 			PointPlot pp = new PointPlot( m );
 
+			Console.WriteLine("color: {0}", colorSchema[i].ToString());
+			
 			LinePlot lp = new LinePlot();
-			lp.Color = Color.FromName(colorSchema[i].ToString());
+			//color workarround for RjEvolution
+			if( Color.FromName(colorSchema[i].ToString()).IsKnownColor ) {
+				lp.Color = Color.FromName(colorSchema[i].ToString());
+			} else {
+				lp.Color = Color.FromArgb(myR, myG, myB);
+			}
 	
 			//left margin
 			lineData[0] = double.NaN;
@@ -601,9 +637,9 @@ public class Stat
 				}
 				j++;
 				//don't graph AVG and SD right cols in multisession
-				if ( j > xtics -2 ) {
-					break;
-				}
+				//if ( j > xtics -2 ) {
+				//	break;
+				//}
 			}
 			
 			//right margin
@@ -628,6 +664,15 @@ public class Stat
 	protected void plotGraphMultisession(IPlotSurface2D plot, ArrayList myValues, bool by100)
 	{
 		Random myRand = new Random();
+
+		//future: incremental color , not random
+		/*
+		int colorPass;
+		colorPass = (int) 8000000 / myValues.Count;
+		if(by100) {
+			colorPass = colorPass + 8000000;
+		}
+		*/
 			
 		for(int i=0; i < myValues.Count ; i++) {
 			string [] jump = myValues[i].ToString().Split(new char[] {':'});
@@ -642,17 +687,21 @@ public class Stat
 			int myR = myRand.Next(255);
 			int myG = myRand.Next(255);
 			int myB = myRand.Next(255);
+			//int myColor = (int) i*colorPass;
 			
 			Marker m;
 			if(! by100) {
 				m = new Marker(Marker.MarkerType.Cross1,6,new Pen(Color.FromArgb(myR, myG, myB),2.0F));
+				//m = new Marker(Marker.MarkerType.Cross1,6,new Pen(Color.FromArgb(myColor),2.0F));
 			} else {
 				m = new Marker(Marker.MarkerType.Square, 10, new Pen(Color.FromArgb(myR, myG, myB),2.0F));
+				//m = new Marker(Marker.MarkerType.Square, 10, new Pen(Color.FromArgb(myColor),2.0F));
 			}
 			PointPlot pp = new PointPlot( m );
 									
 			LinePlot lp = new LinePlot();
 			lp.Color = Color.FromArgb(myR, myG, myB);
+			//lp.Color = Color.FromArgb(myColor);
 			
 			int j=0;
 			//left margin
@@ -743,8 +792,23 @@ public class Stat
 		
 		//djindex, IE, IUB (if resultIsIndex and it's simplesession, 
 		//for sure there is a left and a right axis)
+		//almost rjEvolution 
 		LinearAxis ly2 = (LinearAxis)plot.YAxis2;
 		ly2.Label = labelRight;
+
+		//max the X and Y axes equal if desired (for RjEvolution)
+		if(fixedLeftBottom != -1) {
+			ly1.WorldMin = fixedLeftBottom;
+		}
+		if(fixedRightBottom != -1) {
+			ly2.WorldMin = fixedRightBottom;
+		}
+		if(fixedLeftTop != -1) {
+			ly1.WorldMax = fixedLeftTop;
+		}
+		if(fixedRightTop != -1) {
+			ly1.WorldMax = fixedRightTop;
+		}
 	}
 	
 	protected void createAxisMultisession (IPlotSurface2D plot)

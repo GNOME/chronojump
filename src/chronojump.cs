@@ -41,6 +41,7 @@ public class ChronoJump
 	[Widget] Gtk.Box hbox_combo_jumps;
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_stats_stat_name;
+	[Widget] Gtk.Box hbox_combo_stats_stat_name2;
 	[Widget] Gtk.Box hbox_combo_person_current;
 	[Widget] Gtk.Box vbox_jumps;
 	[Widget] Gtk.Box vbox_jumps_rj;
@@ -48,6 +49,7 @@ public class ChronoJump
 	[Widget] Gtk.Combo combo_jumps;
 	[Widget] Gtk.Combo combo_jumps_rj;
 	[Widget] Gtk.Combo combo_stats_stat_name;
+	[Widget] Gtk.Combo combo_stats_stat_name2;
 	[Widget] Gtk.Combo combo_person_current;
 
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type;
@@ -144,15 +146,23 @@ public class ChronoJump
 
 	private static string allJumpsName = Catalog.GetString("All jumps");
 	private static string [] comboStatsOptions = {
-		"Global", 
-		"Jumper", 
-		"SJ", "SJ+", "CMJ", "ABK", 
-		"DJ (TV)", 
-		"DJ Index (tv-tc)*100/tc", 
-		"RJ Average Index", 
-		"POTENCY (Aguado)", // 9.81^2*TV*TT / (4*jumps*(TT-TV))
-		"IE (cmj-sj)*100/sj",
-		"IUB (abk-cmj)*100/cmj"
+		Catalog.GetString("Global"), 
+		Catalog.GetString("Jumper"),
+		Catalog.GetString("Simple"),
+		Catalog.GetString("With TC"),
+		Catalog.GetString("Reactive"),
+		Catalog.GetString("Indexes")
+	};
+	
+	private static string [] comboStats2ReactiveOptions = {
+		Catalog.GetString("RJ Average Index"), 
+		Catalog.GetString("POTENCY (Aguado)"), // 9.81^2*TV*TT / (4*jumps*(TT-TV))
+		Catalog.GetString("RJ Evolution") 
+	};
+	
+	private static string [] comboStats2IndexesOptions = {
+		Catalog.GetString("IE (cmj-sj)*100/sj"), 
+		Catalog.GetString("IUB (abk-cmj)*100/cmj")
 	};
 
 	//preferences variables
@@ -249,6 +259,7 @@ public class ChronoJump
 		createComboJumps();
 		createComboJumpsRj();
 		createComboStats();
+		createComboStats2();
 		createComboSujetoCurrent();
 
 		myStat = new Stat(); //create and instance of myStat
@@ -443,10 +454,10 @@ public class ChronoJump
 		}
 	}
 
-	private void fillTreeView_stats (bool graph) {
-		
-		string myText = combo_stats_stat_name.Entry.Text;
-		string [] fullTitle = myText.Split(new char[] {' '});
+	private void fillTreeView_stats (bool graph) 
+	{
+		string category = combo_stats_stat_name.Entry.Text;
+		string statistic = combo_stats_stat_name2.Entry.Text;
 
 		if(statsColumnsToRemove && !graph) {
 			statsRemoveColumns();
@@ -479,62 +490,60 @@ public class ChronoJump
 		}
 
 		
-		if ( myText == "Global" || myText == "Jumper")
-		{
+		if ( category == Catalog.GetString("Global") ) {
 			int jumperID = -1; //all jumpers
 			string jumperName = ""; //all jumpers
-			if (myText == "Jumper") {
-				jumperID = currentPerson.UniqueID;
-				jumperName = currentPerson.Name;
-			}
-	
-			if (myText == "Global") {
-				if(graph) {
-					myStat = new GraphGlobal(
-							sendSelectedSessions, 
-							jumperID, jumperName, 
-							prefsDigitsNumber, checkbutton_stats_sex.Active,  
-							statsJumpsType 
-							);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatGlobal(treeview_stats, 
-							sendSelectedSessions, 
-							jumperID, jumperName, 
-							prefsDigitsNumber, checkbutton_stats_sex.Active,  
-							statsJumpsType 
-							);
-					myStat.PrepareData();
-				}
+			if(graph) {
+				myStat = new GraphGlobal(
+						sendSelectedSessions, 
+						jumperID, jumperName, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active,  
+						statsJumpsType 
+						);
+				myStat.PrepareData();
+				myStat.CreateGraph();
 			} else {
-				if(graph) {
-					myStat = new GraphGlobal(
+				myStat = new StatGlobal(treeview_stats, 
 						sendSelectedSessions, 
 						jumperID, jumperName, 
 						prefsDigitsNumber, checkbutton_stats_sex.Active,  
 						statsJumpsType 
 						);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				}
-				else {
-					myStat = new StatGlobal(treeview_stats, 
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType 
-						);
-					myStat.PrepareData();
-				}
+				myStat.PrepareData();
 			}
 		}
-		else if(myText == "SJ" || myText == "CMJ" || myText == "ABK")
+		else if (category == Catalog.GetString("Jumper"))
+		{
+			int jumperID = Convert.ToInt32(fetchID(statistic));
+			string jumperName = fetchName(statistic);
+			if(graph) {
+				myStat = new GraphGlobal(
+						sendSelectedSessions, 
+						jumperID, jumperName, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active,  
+						statsJumpsType 
+						);
+				myStat.PrepareData();
+				myStat.CreateGraph();
+			}
+			else {
+				myStat = new StatGlobal(treeview_stats, 
+						sendSelectedSessions, 
+						jumperID, jumperName, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active,  
+						statsJumpsType 
+						);
+				myStat.PrepareData();
+			}
+		}
+		//else if(myText == "SJ" || myText == "CMJ" || myText == "ABK")
+		else if(category == Catalog.GetString("Simple"))
 		{
 			if(graph) {
 				myStat = new GraphSjCmjAbk ( 
 						sendSelectedSessions, 
-						prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
+						prefsDigitsNumber, statistic, 
+						checkbutton_stats_sex.Active, 
 						statsJumpsType,
 						limit);
 				myStat.PrepareData();
@@ -542,12 +551,14 @@ public class ChronoJump
 			} else {
 				myStat = new StatSjCmjAbk (treeview_stats, 
 						sendSelectedSessions, 
-						prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
+						prefsDigitsNumber, statistic, 
+						checkbutton_stats_sex.Active, 
 						statsJumpsType,
 						limit);
 				myStat.PrepareData();
 			}
 		}
+		/*
 		else if(myText == "SJ+" || myText == "CMJ+" || myText == "ABK+")
 		{
 			if(graph) {
@@ -562,24 +573,15 @@ public class ChronoJump
 				myStat.PrepareData();
 			}
 		}
-		else if(myText == "DJ (TV)")
-		{
-			if(graph) {
-			} else {
-				myStat = new StatDj(treeview_stats, 
-						sendSelectedSessions, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active,
-						statsJumpsType,
-						limit);
-				myStat.PrepareData();
-			}
-		}
-		else if(myText == "DJ Index (tv-tc)*100/tc")
+		*/
+		//else if(myText == "DJ Index (tv-tc)*100/tc")
+		else if(category == Catalog.GetString("With TC"))
 		{
 			if(graph) {
 				myStat = new GraphDjIndex ( 
 						sendSelectedSessions, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active, 
+						prefsDigitsNumber, statistic, 
+						checkbutton_stats_sex.Active, 
 						statsJumpsType,
 						limit);
 				myStat.PrepareData();
@@ -587,63 +589,117 @@ public class ChronoJump
 			} else {
 				myStat = new StatDjIndex(treeview_stats, 
 						sendSelectedSessions, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active,
+						prefsDigitsNumber, statistic, 
+						checkbutton_stats_sex.Active,
 						statsJumpsType,
 						limit);
 				myStat.PrepareData();
 			}
 		}
-		else if(myText == "RJ Average Index")
-		{
-			if(graph) {
-			} else {
-				myStat = new StatRjIndex(treeview_stats, 
-						sendSelectedSessions, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active,
-						statsJumpsType,
-						limit);
-				myStat.PrepareData();
+		else if(category == Catalog.GetString("Reactive")) {
+			if(statistic == Catalog.GetString("RJ Average Index"))
+			{
+				if(graph) {
+					myStat = new GraphRjIndex ( 
+							sendSelectedSessions, 
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatRjIndex(treeview_stats, 
+							sendSelectedSessions, 
+							prefsDigitsNumber, checkbutton_stats_sex.Active,
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+				}
+			}	
+			else if(statistic == Catalog.GetString("POTENCY (Aguado)"))
+			{
+				if(graph) {
+					myStat = new GraphRjPotencyAguado ( 
+							sendSelectedSessions, 
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatRjPotencyAguado(treeview_stats, 
+							sendSelectedSessions, 
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+				}
 			}
-		}	
-		else if(myText == "POTENCY (Aguado)") // 9.81^2*TV*TT / (4*jumps*(TT-TV))
-		{
-			if(graph) {
-			} else {
-				myStat = new StatRjPotencyAguado(treeview_stats, 
-						sendSelectedSessions, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active, 
-						statsJumpsType,
-						limit);
-				myStat.PrepareData();
+			else if(statistic == Catalog.GetString("RJ Evolution"))
+			{
+				if(graph) {
+					myStat = new GraphRjEvolution ( 
+							sendSelectedSessions, 
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatRjEvolution(treeview_stats, 
+							sendSelectedSessions, 
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+				}
 			}
 		}
-		else if(myText == "IE (cmj-sj)*100/sj")
-		{
-			if(graph) {
-			} else {
-				myStat = new StatIeIub(treeview_stats, 
-						sendSelectedSessions,
-						"IE", 
-						prefsDigitsNumber, checkbutton_stats_sex.Active, 
-						statsJumpsType,
-						limit);
-				myStat.PrepareData();
+		else if(category == Catalog.GetString("Indexes")) {
+			if(statistic == Catalog.GetString("IE (cmj-sj)*100/sj"))
+			{
+				if(graph) {
+					myStat = new GraphIeIub ( 
+							sendSelectedSessions, 
+							"IE",
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatIeIub(treeview_stats, 
+							sendSelectedSessions,
+							"IE", 
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+				}
+			}
+			else if(statistic == Catalog.GetString("IUB (abk-cmj)*100/cmj"))
+			{
+				if(graph) {
+					myStat = new GraphIeIub ( 
+							sendSelectedSessions, 
+							"IUB",
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatIeIub(treeview_stats, 
+							sendSelectedSessions,
+							"IUB", 
+							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit);
+					myStat.PrepareData();
+				}
 			}
 		}
-		else if(myText == "IUB (abk-cmj)*100/cmj")
-		{
-			if(graph) {
-			} else {
-				myStat = new StatIeIub(treeview_stats, 
-						sendSelectedSessions,
-						"IUB", 
-						prefsDigitsNumber, checkbutton_stats_sex.Active, 
-						statsJumpsType,
-						limit);
-				myStat.PrepareData();
-			}
-		}
-		
+
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(myStat.ToString());
@@ -664,7 +720,8 @@ public class ChronoJump
 	 */
 	private void createComboJumps() {
 		combo_jumps = new Combo ();
-		combo_jumps.PopdownStrings = SqliteJumpType.SelectJumpTypes(allJumpsName, true); //only select name
+		combo_jumps.PopdownStrings = 
+			SqliteJumpType.SelectJumpTypes(allJumpsName, "", true); //without filter, only select name
 		
 		combo_jumps.DisableActivate ();
 		combo_jumps.Entry.Changed += new EventHandler (on_combo_jumps_changed);
@@ -697,11 +754,23 @@ public class ChronoJump
 		combo_stats_stat_name.DisableActivate ();
 		combo_stats_stat_name.Entry.Changed += new EventHandler (on_combo_stats_stat_name_changed);
 
-		hbox_combo_stats_stat_name.PackStart(combo_stats_stat_name, false, true, 0);
+		hbox_combo_stats_stat_name.PackStart(combo_stats_stat_name, false, false, 0);
 		hbox_combo_stats_stat_name.ShowAll();
 		
 		combo_stats_stat_name.Sensitive = false;
-		checkbutton_stats_sex.Sensitive = false;
+	}
+	
+	private void createComboStats2() {
+		combo_stats_stat_name2 = new Combo ();
+		//combo_stats_stat_name2.PopdownStrings = comboStatsOptions;
+		
+		combo_stats_stat_name2.DisableActivate ();
+		combo_stats_stat_name2.Entry.Changed += new EventHandler (on_combo_stats_stat_name2_changed);
+
+		hbox_combo_stats_stat_name2.PackStart(combo_stats_stat_name2, false, false, 0);
+		hbox_combo_stats_stat_name2.ShowAll();
+		
+		combo_stats_stat_name2.Sensitive = false;
 	}
 	
 	private void createComboSujetoCurrent() {
@@ -719,11 +788,47 @@ public class ChronoJump
 	}
 		
 	private void updateComboJumps() {
-		combo_jumps.PopdownStrings = SqliteJumpType.SelectJumpTypes(allJumpsName, true); //only select name
+		combo_jumps.PopdownStrings = 
+			SqliteJumpType.SelectJumpTypes(allJumpsName, "", true); //without filter, only select name
 	}
 	
 	private void updateComboJumpsRj() {
 		combo_jumps_rj.PopdownStrings = SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
+	}
+
+	private void updateComboStats2() {
+		if(combo_stats_stat_name.Entry.Text == Catalog.GetString("Global") ) 
+		{
+			string [] nullOptions = { "-" };
+			combo_stats_stat_name2.PopdownStrings = nullOptions;
+			combo_stats_stat_name2.Sensitive = false;
+		}
+		else if(combo_stats_stat_name.Entry.Text == Catalog.GetString("Jumper") )
+		{
+			combo_stats_stat_name2.PopdownStrings = 
+				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
+			combo_stats_stat_name2.Sensitive = true;
+		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("Simple") ) 
+		{
+			combo_stats_stat_name2.PopdownStrings = 
+				SqliteJumpType.SelectJumpTypes("", "nonTC", true); //only select name
+			combo_stats_stat_name2.Sensitive = true;
+		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("With TC") ) 
+		{
+			combo_stats_stat_name2.PopdownStrings = 
+				SqliteJumpType.SelectJumpTypes("", "TC", true); //only select name
+			combo_stats_stat_name2.Sensitive = true;
+		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("Reactive") ) 
+		{
+			combo_stats_stat_name2.PopdownStrings = comboStats2ReactiveOptions;
+			combo_stats_stat_name2.Sensitive = true;
+		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("Indexes") ) 
+		{
+			combo_stats_stat_name2.PopdownStrings = comboStats2IndexesOptions;
+			combo_stats_stat_name2.Sensitive = true;
+		}
+
+		fillTreeView_stats(false);
 	}
 	
 	private bool updateComboSujetoCurrent() {
@@ -737,7 +842,7 @@ public class ChronoJump
 		}
 	}
 	
-	//combosujeto does not to show always the last person as currentperson
+	//combosujeto does not show always the last person as currentperson
 	//imagine when we edit a person and we change the name of him and then we accept,
 	//the combosujeto need to select the person just edited, not the last created person as the SQL says
 	private bool updateComboSujetoCurrent (string name) {
@@ -834,6 +939,19 @@ public class ChronoJump
 		return myStringFull[0];
 	}
 	
+	private string fetchName (string text)
+	{
+		//"id: name" (return only name)
+		bool found = false;
+		int i;
+		for (i=0; ! found ; i++) {
+			if(text[i] == ' ') {
+				found = true;
+			}
+		}
+		return text.Substring(i);
+	}
+	
 	
 	/* ---------------------------------------------------------
 	 * ----------------  STATS CALLBACKS--------------------
@@ -864,38 +982,65 @@ public class ChronoJump
 	}
 
 	private void update_stats_widgets_sensitiveness() {
-		string myText = combo_stats_stat_name.Entry.Text;
-		
-		//some stats should not be showed as limited jumps
-		if(myText == "Global" || myText == "Jumper" || myText == "IE (cmj-sj)*100/sj" || myText == "IUB (abk-cmj)*100/cmj"
-				|| (selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
-		{
-			//change the radiobutton value
-			if(radiobutton_stats_jumps_all.Active || radiobutton_stats_jumps_limit.Active) {
-				radiobutton_stats_jumps_person_bests.Active = true;
-				spin_stats_jumps_person_bests.Sensitive = false; //in this jumps only show the '1' best value
-			}
-			//make no sensitive
-			radiobutton_stats_jumps_all.Sensitive = false;
-			radiobutton_stats_jumps_limit.Sensitive = false;
-			spin_stats_jumps_person_bests.Sensitive = false;
+		string category = combo_stats_stat_name.Entry.Text;
+		string statistic = combo_stats_stat_name2.Entry.Text;
+		if(category == "" || statistic == "") {
+			//for an unknown reason, when we select an option in the combo stats, 
+			//the on_combo_stats_stat_name_changed it's called two times? 
+			//in the first the value of Entry.Text is "";
+			return;
 		} else {
-			radiobutton_stats_jumps_all.Sensitive = true;
-			radiobutton_stats_jumps_limit.Sensitive = true;
-			if(radiobutton_stats_jumps_person_bests.Active) {
-				spin_stats_jumps_person_bests.Sensitive = true;
+			//some stats should not be showed as limited jumps
+			if(category == Catalog.GetString("Reactive") && statistic == Catalog.GetString("RJ Evolution") ) {
+				//don't allow RJ Evolution and multisession
+				radiobutton_current_session.Active = true;
+				radiobutton_selected_sessions.Sensitive = false;
+			}
+			else if(category == Catalog.GetString("Global") || category == Catalog.GetString("Jumper") || 
+					category == Catalog.GetString("Indexes") || 
+					(selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
+			{
+				//change the radiobutton value
+				if(radiobutton_stats_jumps_all.Active || radiobutton_stats_jumps_limit.Active) {
+					radiobutton_stats_jumps_person_bests.Active = true;
+					spin_stats_jumps_person_bests.Sensitive = false; //in this jumps only show the '1' best value
+				}
+				//make no sensitive
+				radiobutton_stats_jumps_all.Sensitive = false;
+				radiobutton_stats_jumps_limit.Sensitive = false;
+				spin_stats_jumps_person_bests.Sensitive = false;
+				
+				//Not RJ Evolution (put selected_sessions_radiobutton visible)
+				radiobutton_selected_sessions.Sensitive = true;
+			} else {
+				radiobutton_stats_jumps_all.Sensitive = true;
+				radiobutton_stats_jumps_limit.Sensitive = true;
+				if(radiobutton_stats_jumps_person_bests.Active) {
+					spin_stats_jumps_person_bests.Sensitive = true;
+				}
+				//Not RJ Evolution (put selected_sessions_radiobutton visible)
+				radiobutton_selected_sessions.Sensitive = true;
 			}
 		}
 	}
 	
 	private void on_combo_stats_stat_name_changed(object o, EventArgs args) {
+		//update combo stat2, there change the treeviewstats (with the combostats2 values changed)
+		updateComboStats2();
+		
+		//update_stats_widgets_sensitiveness();
+	}
+	
+	private void on_combo_stats_stat_name2_changed(object o, EventArgs args) {
+		//there's no need of this:
 		update_stats_widgets_sensitiveness();
 			
 		//for an unknown reason, when we select an option in the combo stats, 
 		//the on_combo_stats_stat_name_changed it's called two times? 
 		//in the first the value of Entry.Text is "";
 		string myText = combo_stats_stat_name.Entry.Text;
-		if(myText != "")
+		string myText2 = combo_stats_stat_name2.Entry.Text;
+		if(myText != "" && myText2 != "")
 			fillTreeView_stats(false);
 	}
 	
@@ -1852,7 +1997,7 @@ public class ChronoJump
 			jumps = (int) myLimit;
 		} else {
 			limitString = myLimit.ToString() + "T";
-			jumps = (int) rjTcCount;
+			jumps = (int) rjTcCount *2;
 		}
 		
 		string myWeightString;

@@ -56,7 +56,6 @@ public class GraphGlobal : StatGlobal
 		} else {
 			this.graphTitle = "Global " + operation + Catalog.GetString(" values chart of single session");
 		}
-		//plotIndexes = true;
 		resultCombined = true;
 		labelLeft = Catalog.GetString ("TV (sec.)");
 		labelRight = Catalog.GetString ("Indexes");

@@ -489,8 +489,8 @@ public class JumpsMoreWindow
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
 		TreeIter iter = new TreeIter();
 
-		//select data without inserting an "all jumps", and not obtain only name of jump
-		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes("", false);
+		//select data without inserting an "all jumps", without filter, and not obtain only name of jump
+		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes("", "", false);
 		foreach (string myType in myJumpTypes) {
 			string [] myStringFull = myType.Split(new char[] {':'});
 			if(myStringFull[2] == "1") {

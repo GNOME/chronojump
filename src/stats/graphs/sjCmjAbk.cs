@@ -56,7 +56,6 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 		} else {
 			this.graphTitle = jumpType + " " + operation + Catalog.GetString(" values chart of single session");
 		}
-		//plotIndexes = false;
 		resultCombined = false;
 		resultIsIndex = false;
 		labelLeft = Catalog.GetString ("TV (sec.)");

@@ -27,6 +27,8 @@ using System.Collections; //ArrayList
 
 public class StatRjPotencyAguado : Stat
 {
+	protected string [] columnsString = { "Jumper", "Index", "TV(AVG)", "TC(AVG)", "Jumps", "Time", "Fall" };
+
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatRjPotencyAguado () 
 	{
@@ -49,7 +51,6 @@ public class StatRjPotencyAguado : Stat
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jumper", "Index", "TV(AVG)", "TC(AVG)", "Jumps", "Time", "Fall" };
 		prepareHeaders(columnsString);
 	}
 	
@@ -64,22 +65,22 @@ public class StatRjPotencyAguado : Stat
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.rjPotencyAguado(sessionString, multisession, "AVG(", ")", showSex), 
+						SqliteStat.RjPotencyAguado(sessionString, multisession, "AVG(", ")", showSex), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.rjPotencyAguado(sessionString, multisession, "AVG(", ")", showSex), 
+							SqliteStat.RjPotencyAguado(sessionString, multisession, "AVG(", ")", showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
 		} else {
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.rjPotencyAguado(sessionString, multisession, "MAX(", ")", showSex),  
+				processDataMultiSession ( SqliteStat.RjPotencyAguado(sessionString, multisession, "MAX(", ")", showSex),  
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.rjPotencyAguado(sessionString, multisession, "", "", showSex), 
+							SqliteStat.RjPotencyAguado(sessionString, multisession, "", "", showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

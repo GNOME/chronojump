@@ -30,34 +30,44 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 
-public class GraphDjIndex : StatDjIndex
+public class GraphIeIub : StatIeIub
 {
 	protected string operation;
 
-	public GraphDjIndex (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public GraphIeIub (ArrayList sessions, string indexType, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
 		//by1Values = new ArrayList(2); 
 		by100Values = new ArrayList(2);
-		this.dataColumns = 4; //for Simplesession (index, fall, tc, tv)
-		this.jumpType = jumpType;
+		this.dataColumns = 3; //for Simplesession (index, jump1, jump2)
 		this.valuesTransposed = new ArrayList(2);
 	
 		valuesSchemaIndex = new ArrayList(dataColumns);
 		valuesSchemaIndex.Add ("true"); //Index
-		valuesSchemaIndex.Add ("false"); //TV
-		valuesSchemaIndex.Add ("false"); //TC
-		valuesSchemaIndex.Add ("true"); //fall
+		valuesSchemaIndex.Add ("false"); //jump1
+		valuesSchemaIndex.Add ("false"); //jump2
 
 		colorSchema = new ArrayList (dataColumns);
 		colorSchema.Add ("Red");		//Index
-		colorSchema.Add ("LightBlue");		//TV
-		colorSchema.Add ("LightGreen");		//TC
-		colorSchema.Add ("Chocolate");	//fall
+		colorSchema.Add ("LightBlue");		//jump1
+		colorSchema.Add ("LightGreen");		//jump2
 
 		jumperNames = new ArrayList(2);
 		
 		this.jumpType = jumpType;
 		this.limit = limit;
+		
+		this.indexType = indexType; //"IE" or "IUB"
+		if(indexType == "IE") {
+			jump1="CMJ";
+			jump2="SJ";
+		} else { //IUB
+			jump1="ABK";
+			jump2="CMJ";
+		}
+		columnsString[0] = "Jumper";
+		columnsString[1] = indexType;
+		columnsString[2] = jump1;
+		columnsString[3] = jump2;
 		
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 	
@@ -69,9 +79,9 @@ public class GraphDjIndex : StatDjIndex
 
 		this.windowTitle = Catalog.GetString("ChronoJump graph");
 		if(sessions.Count > 1) {
-			this.graphTitle = jumpType + " " + operation + Catalog.GetString(" values chart of multiple sessions");
+			this.graphTitle = indexType + " " + operation + Catalog.GetString(" values chart of multiple sessions");
 		} else {
-			this.graphTitle = jumpType + " " + operation + Catalog.GetString(" values chart of single session");
+			this.graphTitle = indexType + " " + operation + Catalog.GetString(" values chart of single session");
 			
 			//initialize valuesTransposed (with one row x each column name, except the first)
 			bool firstValue = true;
@@ -85,7 +95,7 @@ public class GraphDjIndex : StatDjIndex
 		resultCombined = false;
 		resultIsIndex = true;
 		labelLeft = Catalog.GetString("seconds");
-		labelRight = Catalog.GetString("Index(%) and fall(cm)");
+		labelRight = Catalog.GetString("Index(%)");
 	}
 
 	protected override void printData (string [] statValues) 

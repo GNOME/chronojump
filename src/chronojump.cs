@@ -236,13 +236,16 @@ public class ChronoJump {
 		
 		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
 		Console.WriteLine ( Catalog.GetString ("if program crashes, disable next line, and work always in 'simulated' mode") );
-		//serial_fd = Serial.Open("/dev/ttyS0");
+		serial_fd = Serial.Open("/dev/ttyS0");
 		
 		program.Run();
 	}
 
 	private void loadPreferences () 
 	{
+		Console.WriteLine ("Chronojump database version file: {0}", 
+				SqlitePreferences.Select("databaseVersion") );
+		
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
 		if ( SqlitePreferences.Select("showHeight") == "True" ) {
 			showHeight = true;
@@ -591,12 +594,6 @@ public class ChronoJump {
 	private void on_combo_jumps_changed(object o, EventArgs args) {
 		string myText = combo_jumps.Entry.Text;
 
-		if (myText == allJumpsName) {
-			checkbutton_sort_by_type.Sensitive = true ;
-		} else {
-			checkbutton_sort_by_type.Sensitive = false ;
-		}
-		
 		//show the edit-delete selected jumps buttons:
 		menuitem_edit_selected_jump.Sensitive = true;
 		menuitem_delete_selected_jump.Sensitive = true;
@@ -609,6 +606,14 @@ public class ChronoJump {
 		
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
+		
+		if (myText == allJumpsName) {
+			checkbutton_sort_by_type.Sensitive = true ;
+		} else {
+			checkbutton_sort_by_type.Sensitive = false ;
+			//expand all rows if a jump filter is selected:
+			treeview_jumps.ExpandAll();
+		}
 	}
 
 	private void on_combo_person_current_changed(object o, EventArgs args) {

@@ -182,9 +182,9 @@ public class StatSjCmjAbk : Stat
 		int count =0;
 
 		//col0 = treeview.AppendColumn (catalog.GetString("Pos."), new CellRendererText(), "text", count++);
-		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person(sex)
-		col2 = treeview.AppendColumn ("TV", new CellRendererText(), "text", count++);
+		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person(sex)
+		col2 = treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
 	}
 
 	public override void RemoveHeaders() {
@@ -252,23 +252,23 @@ public class StatSjCmjAbk : Stat
 	{
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "by MAX flight time values "; 
+			operationString =  Catalog.GetString ("by MAX flight time values "); 
 		}
-		else { operationString = "by AVG flight time values "; }
+		else { operationString =  Catalog.GetString ("by AVG flight time values "); }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
+		if (this.sexSeparated) { sexSeparatedString =  Catalog.GetString ("sorted by sex"); }
 	
-		string inJump = " in " + jumpType + " jump ";
-		string inSession = " in '" + sessionName + "' session ";
+		string inJump =  Catalog.GetString (" in ") + jumpType +  Catalog.GetString (" jump ");
+		string inSession =  Catalog.GetString (" in '") + sessionName +  Catalog.GetString ("' session ");
 		
 		if ( this.limit == 0 ) { 
-			return "Rank of jumpers " + operationString + 
+			return  Catalog.GetString ("Rank of jumpers ") + operationString + 
 				inJump + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selection of the " + this.limit + 
-				" MAX values of flight time " + inJump + inSession + "."; 
+			return  Catalog.GetString ("Selection of the ") + this.limit + 
+				 Catalog.GetString (" MAX values of flight time ") + inJump + inSession + "."; 
 		}
 	}
 
@@ -313,11 +313,11 @@ public class StatDjTv : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person(sex)
-		col2 = treeview.AppendColumn ("TV", new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ("TC", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ("Fall", new CellRendererText(), "text", count++);
+		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person(sex)
+		col2 = treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
+		col3 = treeview.AppendColumn ( "TC", new CellRendererText(), "text", count++);
+		col4 = treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
 	}
 	
 	public override void RemoveHeaders() {
@@ -399,22 +399,22 @@ public class StatDjTv : Stat
 	{
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "by MAX flight time values "; 
+			operationString =  Catalog.GetString ("by MAX flight time values "); 
 		}
-		else { operationString = "by AVG flight time values "; }
+		else { operationString =  Catalog.GetString ("by AVG flight time values "); }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
+		if (this.sexSeparated) { sexSeparatedString =  Catalog.GetString ("sorted by sex"); }
 	
-		string inJump = " in " + jumpType + " jump ";
-		string inSession = " in '" + sessionName + "' session ";
+		string inJump =  Catalog.GetString (" in ") + jumpType +  Catalog.GetString (" jump ");
+		string inSession =  Catalog.GetString (" in '") + sessionName +  Catalog.GetString ("' session ");
 		
 		if ( this.limit == 0 ) { 
-			return "Rank of jumpers " + operationString + inJump + inSession + sexSeparatedString + "."; 
+			return  Catalog.GetString ("Rank of jumpers ") + operationString + inJump + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selection of the " + this.limit + 
-				" MAX values of flight time " + inJump + inSession + "."; 
+			return  Catalog.GetString ("Selection of the ") + this.limit + 
+				 Catalog.GetString (" MAX values of flight time ") + inJump + inSession + "."; 
 		}
 	}
 
@@ -463,13 +463,12 @@ public class StatDjIndex : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person (sex)
-		//col2 = treeview.AppendColumn ("Índice % (mejor salto)", new CellRendererText(), "text", count++);
-		col2 = treeview.AppendColumn ("Índice %", new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ("TV", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ("TC", new CellRendererText(), "text", count++);
-		col5 = treeview.AppendColumn ("Fall", new CellRendererText(), "text", count++);
+		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
+		col2 = treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
+		col3 = treeview.AppendColumn ( "TV", new CellRendererText(), "text", count++);
+		col4 = treeview.AppendColumn ( "TC", new CellRendererText(), "text", count++);
+		col5 = treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
 	}
 
 	public override void RemoveHeaders() {
@@ -565,22 +564,22 @@ public class StatDjIndex : Stat
 			
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "by MAX values of index: " + indexString ; 
+			operationString = Catalog.GetString("by MAX values of index: ") + indexString ; 
 		}
-		else { operationString = "by AVG values of index: " + indexString ; }
+		else { operationString = Catalog.GetString("by AVG values of index: ") + indexString ; }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
+		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
 
-		string inJump = " in " + jumpType + " jump ";
-		string inSession = " in '" + sessionName + "' session ";
+		string inJump = Catalog.GetString(" in ") + jumpType + Catalog.GetString(" jump ");
+		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
 		
 		if ( this.limit == 0 ) { 
-			return "Rank of jumpers " + operationString + inJump + inSession + sexSeparatedString + "."; 
+			return Catalog.GetString("Rank of jumpers ") + operationString + inJump + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selection of the " + this.limit + 
-				" MAX values of flight time " + inJump + inSession + "."; 
+			return Catalog.GetString("Selection of the ") + this.limit + 
+				Catalog.GetString(" MAX values of flight time ") + inJump + inSession + "."; 
 		}
 	}
 }
@@ -615,12 +614,12 @@ public class StatRjIndex : StatDjIndex
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person (sex)
-		col2 = treeview.AppendColumn ("Índice %", new CellRendererText(), "text", count++);
-		col3 = treeview.AppendColumn ("TV (AVG)", new CellRendererText(), "text", count++);
-		col4 = treeview.AppendColumn ("TC (AVG)", new CellRendererText(), "text", count++);
-		col5 = treeview.AppendColumn ("Caida", new CellRendererText(), "text", count++);
+		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
+		col2 = treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
+		col3 = treeview.AppendColumn ( Catalog.GetString("TV (AVG)"), new CellRendererText(), "text", count++);
+		col4 = treeview.AppendColumn ( Catalog.GetString("TC (AVG)"), new CellRendererText(), "text", count++);
+		col5 = treeview.AppendColumn ( Catalog.GetString("Fall"), new CellRendererText(), "text", count++);
 	}
 	
 	public override void prepareData () 
@@ -697,23 +696,23 @@ public class StatRjIndex : StatDjIndex
 			
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "by MAX values of index: " + indexString ; 
+			operationString = Catalog.GetString("by MAX values of index: ") + indexString ; 
 		}
-		else { operationString = "by AVG values of index: " + indexString ; }
+		else { operationString = Catalog.GetString("by AVG values of index: ") + indexString ; }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
+		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
 	
-		string bySubjumps = " using AVG of its subjumps ";
-		string inJump = " in " + jumpType + " jump ";
-		string inSession = " in '" + sessionName + "' session ";
+		string bySubjumps = Catalog.GetString(" using AVG of its subjumps ");
+		string inJump = Catalog.GetString(" in ") + jumpType + Catalog.GetString(" jump ");
+		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
 		
 		if ( this.limit == 0 ) { 
-			return "Rank of jumpers " + operationString + + bySubjumps + inSession + sexSeparatedString + "."; 
+			return Catalog.GetString("Rank of jumpers ") + operationString + + bySubjumps + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selection of the " + this.limit + 
-				" MAX values of flight time " + inJump + bySubjumps + inSession + "."; 
+			return Catalog.GetString("Selection of the ") + this.limit + 
+				Catalog.GetString(" MAX values of flight time ") + inJump + bySubjumps + inSession + "."; 
 		}
 	}
 }
@@ -749,7 +748,7 @@ public class StatIE : Stat
 		jump1Name = "SJ";
 		jump2Name = "CMJ";
 		indexName = "IE";
-		indexNameString = "Elasticity Index";
+		indexNameString =  Catalog.GetString ("Elasticity Index");
 		indexValueString = "100*(CMJ-SJ)/SJ" ;
 		if (max) {
 			this.operation = "MAX";
@@ -769,9 +768,9 @@ public class StatIE : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++); //person (sex)
-		col2 = treeview.AppendColumn ("Index %", new CellRendererText(), "text", count++);
+		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++); //person (sex)
+		col2 = treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
 		col3 = treeview.AppendColumn ("SJ TV", new CellRendererText(), "text", count++);
 		col4 = treeview.AppendColumn ("CMJ TV", new CellRendererText(), "text", count++);
 	}
@@ -841,21 +840,21 @@ public class StatIE : Stat
 	{
 		string operationString = "";
 		if ( this.operation == "MAX" ) { 
-			operationString = "by MAX values of index '" + indexNameString + "': " + indexValueString;
+			operationString = Catalog.GetString("by MAX values of index '") + indexNameString + "': " + indexValueString;
 		}
-		else { operationString = "by AVG values of index '" + indexNameString + "': " + indexValueString ; }
+		else { operationString = Catalog.GetString("by AVG values of index '") + indexNameString + "': " + indexValueString ; }
 
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
+		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
 	
-		string inSession = " in '" + sessionName + "' session ";
+		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
 
 		if ( this.limit == 0 ) { 
-			return "Rank of jumpers" + operationString + inSession + sexSeparatedString + "."; 
+			return Catalog.GetString("Rank of jumpers") + operationString + inSession + sexSeparatedString + "."; 
 		}
 		else { 
-			return "Selection of the " + this.limit + 
-				" MAX values of index '" + indexNameString + "': " + indexValueString + inSession + "."; 
+			return Catalog.GetString("Selection of the ") + this.limit + 
+				Catalog.GetString(" MAX values of index '") + indexNameString + "': " + indexValueString + inSession + "."; 
 		}
 	}
 }
@@ -881,7 +880,7 @@ public class StatIUB : StatIE
 		jump1Name = "CMJ";
 		jump2Name = "ABK";
 		indexName = "IUB";
-		indexNameString = "Arms using Index";
+		indexNameString = Catalog.GetString("Arms using Index");
 		indexValueString = "100*(ABK-CMJ)/CMJ" ;
 		if (max) {
 			this.operation = "MAX";
@@ -895,9 +894,9 @@ public class StatIUB : StatIE
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Position", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Jumper", new CellRendererText(), "text", count++);
-		col2 = treeview.AppendColumn ("Index %", new CellRendererText(), "text", count++);
+		col0 = treeview.AppendColumn ( Catalog.GetString("Position"), new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn ( Catalog.GetString("Jumper"), new CellRendererText(), "text", count++);
+		col2 = treeview.AppendColumn ( Catalog.GetString("Index %"), new CellRendererText(), "text", count++);
 		col3 = treeview.AppendColumn ("CMJ TV", new CellRendererText(), "text", count++);
 		col4 = treeview.AppendColumn ("ABK TV", new CellRendererText(), "text", count++);
 	}
@@ -939,8 +938,8 @@ public class StatGlobal : Stat
 		treeview.HeadersVisible=true;
 		int count =0;
 
-		col0 = treeview.AppendColumn ("Jump", new CellRendererText(), "text", count++);
-		col1 = treeview.AppendColumn ("Value", new CellRendererText(), "text", count++); 
+		col0 = treeview.AppendColumn (Catalog.GetString("Jump"), new CellRendererText(), "text", count++);
+		col1 = treeview.AppendColumn (Catalog.GetString("Value"), new CellRendererText(), "text", count++); 
 	}
 
 	public override void RemoveHeaders() {
@@ -1020,14 +1019,14 @@ public class StatGlobal : Stat
 	public override string ToString () 
 	{
 		string sexSeparatedString = "";
-		if (this.sexSeparated) { sexSeparatedString = "sorted by sex"; }
+		if (this.sexSeparated) { sexSeparatedString = Catalog.GetString("sorted by sex"); }
 		
-		string inSession = " in '" + sessionName + "' session ";
+		string inSession = Catalog.GetString(" in '") + sessionName + Catalog.GetString("' session ");
 	
 		if ( this.operation == "MAX" ) { 
-			return "MAX values of some jumps and statistics" + inSession + sexSeparatedString + "."  ; 
+			return Catalog.GetString("MAX values of some jumps and statistics") + inSession + sexSeparatedString + "."  ; 
 		} else {
-			return "AVG values of some jumps and statistics" + inSession + sexSeparatedString + "."  ; 
+			return Catalog.GetString("AVG values of some jumps and statistics") + inSession + sexSeparatedString + "."  ; 
 		}
 	}
 }

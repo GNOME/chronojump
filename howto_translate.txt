@@ -1,0 +1,140 @@
+/* based on book "Mono. A Developer's Notebook". Edd Dumbill; Niel M. Bornstein p. 162
+ * and:
+ * http://mwh.sysrq.dk/blog/archive/2004/mar-13.html
+ * http://www.monohispano.org/tutoriales/i18n_gettext-sharp/
+*/
+
+-- pending: how to edit the latin chars or using UTF-8
+
+
+
+This document is divided in three parts:
+
+-DOCUMENTATION FOR TRANSLATORS (when there's no translation in your language yet)
+-DOCUMENTATION FOR TRANSLATORS (when and old tranlation exists)
+-DOCUMENTATION FOR DEVELOPERS
+
+
+----------------------------------------------------------------
+DOCUMENTATION FOR TRANSLATORS (when there's no translation in your language yet)
+----------------------------------------------------------------
+
+
+1.- download the sources
+
+(press enter when you are asked for a password)
+cvs -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login
+cvs -z3 -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump
+
+2.- create the es.po file (example A for spanish, B for portuguese)
+
+(A) msginit -l es --input chronojump.pot --output-file es.po
+(B) msginit -l po --input chronojump.pot --output-file po.po
+(write xavi@xdeblas.com when you are asked for a email)
+
+4.- edit the es.po or po.po file, example:
+
+when you see:
+
+#: chronojump.cs:9
+msgid "Hello"
+msgstr ""
+
+Change it like this:
+
+#: chronojump.cs:9
+msgid "Hello"
+msgstr "Hola"
+
+5.- send the es.po or po.po translated to xavi@xdeblas.com
+
+
+----------------------------------------------------------------
+DOCUMENTATION FOR TRANSLATORS (when and old translation exists)
+----------------------------------------------------------------
+
+When there's an old translation, we have to manage for not repeating all the old translated phrases.
+
+1.- We download the sources as said before
+
+2.- Then create a new po file, with the new code but without any translations (spanish sample)
+
+msginit -l es --input chronojump.pot --output-file es_new.po
+(write xavi@xdeblas.com when you are asked for a email)
+
+3.- merge the old but translated po with the new untranslated (the old is in locale/es/LC_MESSAGES/es.po)
+
+msgmerge -o es.po locale/es/LC_MESSAGES/es.po es_new.po
+
+4.- Edit the new merged file: es.po
+
+The values starting by "#fuzzy" mean that are automatically made and probably are not good. 
+Check, correct them, and delete the fuzzy line
+
+5.- send the es.po translated to xavi@xdeblas.com
+
+
+----------------------------------------------------------------
+DOCUMENTATION FOR DEVELOPERS
+----------------------------------------------------------------
+
+
+1.- download the sources
+
+(press enter when you are asked for a password)
+cvs -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login
+cvs -z3 -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump
+
+
+2.- extract the .pot file
+
+xgettext -o chronojump.pot chronojump.cs someWindows.cs stat.cs glade/chronojump.glade
+
+3.- create the es.po file (example A for spanish, B for portuguese)
+
+(A) msginit -l es --input chronojump.pot --output-file es.po
+(B) msginit -l po --input chronojump.pot --output-file po.po
+(write xavi@xdeblas.com when you are asked for a email)
+
+4.- edit the es.po or po.po file, example:
+
+when you see:
+
+#: chronojump.cs:9
+msgid "Hello"
+msgstr ""
+
+Change it like this:
+
+#: chronojump.cs:9
+msgid "Hello"
+msgstr "Hola"
+
+5.- check if the directory ./locale/es/LC_MESSAGES exists (or ./locale/po/LC_MESSAGES). If not, create it:
+
+(A) mkdir -p ./locale/es/LC_MESSAGES
+(B) mkdir -p ./locale/po/LC_MESSAGES
+
+5.- create the mo file for normal texts and for glade:
+
+(A, spanish)
+msgfmt es.po -o ./locale/es/LC_MESSAGES/chronojump.mo
+msgfmt es.po -o chronojumpGlade.mo
+
+(B, portuguese)
+msgfmt po.po -o ./locale/po/LC_MESSAGES/chronojump.mo
+msgfmt po.po -o chronojumpGlade.mo
+
+6.- copy chronojumpGlade.mo (as root) to a place where libglade can find it
+
+(in Debian)
+
+(A, spanish)
+cp chronojumpGlade.mo /usr/share/locale/es/LC_MESSAGES/.
+(B, portuguese)
+cp chronojumpGlade.mo /usr/share/locale/po/LC_MESSAGES/.
+
+7.- execute_
+
+./chronojump.exe
+

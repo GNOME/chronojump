@@ -114,7 +114,10 @@ public class GraphGlobal : StatGlobal
 						return;
 					}
 					CurrentGraphData.XAxisNames.Add(myValue);
-					myValueBefore = myValue;
+
+					//record the statistic (stripping of sex)
+					string [] stringFullResults = myValue.Split(new char[] {'.'});
+					myValueBefore = stringFullResults[0];
 				} else { 
 					if(myValueBefore == "DjIndex" || myValueBefore == "RjIndex" || 
 							myValueBefore == "RjPotency" || myValueBefore == "IE" || 
@@ -130,7 +133,6 @@ public class GraphGlobal : StatGlobal
 			}
 		} else {
 			GraphSerie mySerie = new GraphSerie();
-			//mySerie.IsLeftAxis = true;
 		
 			int myR = myRand.Next(255);
 			int myG = myRand.Next(255);
@@ -146,9 +148,12 @@ public class GraphGlobal : StatGlobal
 				}
 				if(i == 0) {
 					mySerie.Title = myValue;
-					if(myValue == "DjIndex" || myValue == "RjIndex" || 
-							myValue == "RjPotency" || myValue == "IE" || 
-							myValue == "IUB") {
+					//strip of sex
+					string [] stringFullResults = myValue.Split(new char[] {'.'});
+					string valueNoSex = stringFullResults[0];
+					if(valueNoSex == "DjIndex" || valueNoSex == "RjIndex" || 
+							valueNoSex == "RjPotency" || valueNoSex == "IE" || 
+							valueNoSex == "IUB") {
 						mySerie.IsLeftAxis = false;
 						mySerie.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
 								6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));

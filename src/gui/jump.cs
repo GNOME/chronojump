@@ -537,6 +537,27 @@ public class JumpsMoreWindow
 		}
 	}
 	
+	void on_row_double_clicked (object o, EventArgs args)
+	{
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			//put selection in selected
+			selectedJumpType = (string) model.GetValue (iter, 0);
+			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Yes") ) {
+				selectedStartIn = true;
+			}
+			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Yes") ) {
+				selectedExtraWeight = true;
+			}
+
+			//activate on_button_accept_clicked()
+			button_accept.Activate();
+		}
+	}
+	
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		JumpsMoreWindowBox.jumps_more.Hide();
@@ -722,6 +743,37 @@ public class JumpsRjMoreWindow
 		}
 	}
 	
+	void on_row_double_clicked (object o, EventArgs args)
+	{
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			selectedJumpType = (string) model.GetValue (iter, 0);
+			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Jumps") ) {
+				selectedLimited = true;
+			}
+			
+			if( (string) model.GetValue (iter, 2) == "?") {
+				selectedLimitedValue = 0;
+			} else {
+				selectedLimitedValue = Convert.ToDouble( (string) model.GetValue (iter, 2) );
+			}
+
+			if( (string) model.GetValue (iter, 3) == Catalog.GetString("Yes") ) {
+				selectedStartIn = true;
+			}
+			if( (string) model.GetValue (iter, 4) == Catalog.GetString("Yes") ) {
+				selectedExtraWeight = true;
+			}
+
+			//activate on_button_accept_clicked()
+			button_accept.Activate();
+		}
+	}
+	
+	
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		JumpsRjMoreWindowBox.jumps_rj_more.Hide();
@@ -736,7 +788,7 @@ public class JumpsRjMoreWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		Console.Write("SELECTED");
+		Console.Write("Selected");
 	}
 	
 	public Button Button_accept 

@@ -1,4 +1,17 @@
 CHANGELOG:
+
+2 april 2005
+	RjEvolution stat now without AVG option (has no sense with Rj jumps with
+	different name of subjumps)
+	
+	improved graphs with sex distintion
+	
+	When Indexes MAX is selected now keep MAX of every jump, not max of
+	first and worst of second. Changed in Indexes and in Global
+
+	Double click in session load, person recuperate, jumps more, jumps Rj
+	more
+
 26 march 2005
 	new classes GraphData, GraphSerie, now graphs code is lot nicer and extensible
 	graphs for all current stats

@@ -107,5 +107,15 @@ public class Util
 		myStringBuilder.Replace(":", "");
 		return myStringBuilder.ToString();
 	}
+	
+	//dot is used for separating sex in stats names (cannot be used for a new jumpType)
+	public static string RemoveTildeAndColonAndDot(string myString) 
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace("'", "");
+		myStringBuilder.Replace(":", "");
+		myStringBuilder.Replace(".", "");
+		return myStringBuilder.ToString();
+	}
 }
 

@@ -70,7 +70,9 @@ public class ChronoJump {
 	[Widget] Gtk.Button button_cmj;
 	[Widget] Gtk.Button button_abk;
 	[Widget] Gtk.Button button_dj;
-	[Widget] Gtk.Button button_rj;
+	[Widget] Gtk.Button button_more;
+	[Widget] Gtk.Button button_rj_j;
+	[Widget] Gtk.Button button_rj_t;
 	[Widget] Gtk.Button button_last_jump_delete;
 	[Widget] Gtk.Button button_stats;
 	[Widget] Gtk.MenuItem preferences;
@@ -83,7 +85,11 @@ public class ChronoJump {
 	[Widget] Gtk.MenuItem cmj;
 	[Widget] Gtk.MenuItem abk;
 	[Widget] Gtk.MenuItem dj;
-	[Widget] Gtk.MenuItem rj;
+	[Widget] Gtk.MenuItem more;
+	[Widget] Gtk.MenuItem more_rj;
+	[Widget] Gtk.MenuItem jump_type_add;
+	[Widget] Gtk.MenuItem rj_j;
+	[Widget] Gtk.MenuItem rj_t;
 	[Widget] Gtk.MenuItem menuitem_last_jump_delete;
 	[Widget] Gtk.MenuItem ind_elasticidad;
 	[Widget] Gtk.MenuItem ind_utiliz_brazos;
@@ -103,6 +109,7 @@ public class ChronoJump {
 	[Widget] Gtk.RadioButton radiobutton_stats_jumps_person_bests;
 	[Widget] Gtk.SpinButton spin_stats_jumps_person_bests;
 	[Widget] Gtk.RadioButton radiobutton_stats_jumps_person_average;
+	[Widget] Gtk.Button button_graph;
 	
 	
 	[Widget] Gtk.TextView textview_enunciate;
@@ -110,6 +117,10 @@ public class ChronoJump {
 
 	[Widget] Gtk.RadioMenuItem menuitem_simulated;
 	[Widget] Gtk.RadioMenuItem menuitem_serial_port;
+	
+	[Widget] Gtk.Frame frame_jumpers;
+	[Widget] Gtk.Frame frame_jumps;
+	[Widget] Gtk.Frame frame_stats;
 
 	private Random rand;
 	
@@ -125,8 +136,7 @@ public class ChronoJump {
 	private TreeViewJumpsRj myTreeViewJumpsRj;
 
 
-	private static string allJumpsName = "All jumps";
-	private static string [] comboJumpsOptions = {allJumpsName, "SJ", "SJ+", "CMJ", "ABK", "DJ"};
+	private static string allJumpsName = Catalog.GetString("All jumps");
 	private static string [] comboStatsOptions = {
 		"Global", 
 		"Jumper", 
@@ -151,23 +161,26 @@ public class ChronoJump {
 	private static Session currentSession;
 	private static Jump currentJump;
 	private static JumpRj currentJumpRj;
-	private static bool lastJumpIsRj; //if last Jump is an Rj or not
+	//private static bool lastJumpIsReactive; //if last Jump is an Rj or not
+	private static bool lastJumpIsReactive; //if last Jump is reactive or not
+	private static JumpType currentJumpType;
 
 	//windows needed
 	SessionAddWindow sessionAddWin;
 	SessionLoadWindow sessionLoadWin;
+	SessionSelectStatsWindow sessionSelectStatsWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonAddWindow personAddWin; 
 	PersonModifyWindow personModifyWin; 
-	SjPlusWindow sjPlusWin; 
-	DjFallWindow djFallWin;
-	RjWindow rjWin;
+	JumpsMoreWindow jumpsMoreWin;
+	JumpsRjMoreWindow jumpsRjMoreWin;
+	JumpExtraWindow jumpExtraWin; //for normal and repetitive jumps 
 	EditJumpWindow editJumpWin;
 	EditJumpRjWindow editJumpRjWin;
+	JumpTypeAddWindow jumpTypeAddWin;
 	ConfirmWindow confirmWin;		//for go up or down the platform, and for 
 						//export in a not-newly-created file
 	ConfirmWindowJump confirmWinJump;	//for deleting jumps and RJ jumps
-	SessionSelectStatsWindow sessionSelectStatsWin;
 
 	//timers
 	private static System.Timers.Timer timerClockJump;    
@@ -187,9 +200,6 @@ public class ChronoJump {
 	//useful for deleting headers of lastStat just before making a new Stat
 	private Stat myStat;  
 
-	string lastRealJumpType;
-	
-	
 	public static void Main(string [] args) 
 	{
 		new ChronoJump(args);
@@ -256,11 +266,9 @@ public class ChronoJump {
 		if ( SqlitePreferences.Select("simulated") == "True" ) {
 			simulated = true;
 			menuitem_simulated.Active = true;
-			menuitem_serial_port.Active = false;
 		} else {
 			simulated = false;
 			menuitem_serial_port.Active = true;
-			menuitem_simulated.Active = false;
 		}
 		
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
@@ -360,21 +368,13 @@ public class ChronoJump {
 		myTreeViewJumpsRj.RemoveColumns();
 		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, prefsDigitsNumber );
 	}
-	
-	private static string obtainHeight (string time) {
-		// s = 4.9 * (tv/2)exp2
-		double myValue = 4.9 * ( Convert.ToDouble(time) / 2 ) * (Convert.ToDouble(time) / 2 ) ;
 
-		return myValue.ToString();
-	}
 	
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW STATS ------------------------
 	 *  --------------------------------------------------------
 	 */
 	
-
-
 	private void statsRemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview_stats.Columns;
 		foreach (Gtk.TreeViewColumn column in myColumns) {
@@ -582,16 +582,6 @@ public class ChronoJump {
 		textview_enunciate.Buffer = tb;
 	}
 
-	
-	private static string trimDecimals (string time) {
-		//the +2 is a workarround for not counting the two first characters: "0."
-		//this will not work with the fall
-		return time.Length > prefsDigitsNumber + 2 ? 
-			time.Substring( 0, prefsDigitsNumber + 2 ) : 
-				time;
-	}
-	
-	
 	private void on_button_stats_clicked (object o, EventArgs args) {
 		fillTreeView_stats(false);
 	}
@@ -606,7 +596,8 @@ public class ChronoJump {
 	 */
 	private void createComboJumps() {
 		combo_jumps = new Combo ();
-		combo_jumps.PopdownStrings = comboJumpsOptions;
+		//combo_jumps.PopdownStrings = comboJumpsOptions;
+		combo_jumps.PopdownStrings = SqliteJumpType.SelectJumpTypes(allJumpsName, true); //only select name
 		
 		combo_jumps.DisableActivate ();
 		combo_jumps.Entry.Changed += new EventHandler (on_combo_jumps_changed);
@@ -644,6 +635,10 @@ public class ChronoJump {
 		combo_person_current.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
 		menuitem_edit_current_person.Sensitive = false;
+	}
+		
+	private void updateComboJumps() {
+		combo_jumps.PopdownStrings = SqliteJumpType.SelectJumpTypes(allJumpsName, true); //only select name
 	}
 	
 	private bool updateComboSujetoCurrent() {
@@ -1087,7 +1082,7 @@ public class ChronoJump {
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
-				app1, prefsDigitsNumber, showHeight, simulated, askDeletion, weightStatsPercent);
+				app1, prefsDigitsNumber, showHeight, askDeletion, weightStatsPercent);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
@@ -1131,7 +1126,7 @@ public class ChronoJump {
 		
 
 	/* ---------------------------------------------------------
-	 * ----------------  JUMPS EXECUTION ------------------------
+	 * ----------------  JUMPS EXECUTION (no RJ) ----------------
 	 *  --------------------------------------------------------
 	 */
 
@@ -1141,27 +1136,75 @@ public class ChronoJump {
 		Console.WriteLine("Cancel Jump");
 	}
 		
-	//suitable for sj, sj+, cmj and abk
+	private void on_button_more_clicked (object o, EventArgs args) 
+	{
+		jumpsMoreWin = JumpsMoreWindow.Show(app1);
+		jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
+	}
+	
+	//used from the dialogue "jumps more"
+	private void on_more_jumps_accepted (object o, EventArgs args) 
+	{
+		currentJumpType = new JumpType(
+				jumpsMoreWin.SelectedJumpType,
+				jumpsMoreWin.SelectedStartIn,
+				jumpsMoreWin.SelectedExtraWeight,
+				false,		//isRepetitive
+				false,		//jumpsLimited (false, because is not repetitive)
+				0		//limitValue
+				);
+				
+		if( ! currentJumpType.StartIn || currentJumpType.HasWeight) {
+			on_jump_extra_activate(o, args);
+		} else {
+			on_normal_jump_activate(o, args);
+		}
+	}
+	
+	//here comes the SJ+, DJ and every jump that has weight or fall or both. Also the reactive jumps (for defining it's limited value or weight or fall)
+	private void on_jump_extra_activate (object o, EventArgs args) 
+	{
+		Console.WriteLine("jump extra");
+		if(o == (object) button_sj_plus || o == (object) sj_plus) {
+			currentJumpType = new JumpType("SJ+");
+		} else if(o == (object) button_dj || o == (object) dj) {
+			currentJumpType = new JumpType("DJ");
+		} else {
+		}
+		
+		jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
+		if( currentJumpType.IsRepetitive ) {
+			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
+		} else if( ! currentJumpType.StartIn ) {
+			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_jump_extra_fall_accepted);
+		} else {
+			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_jump_extra_not_fall_accepted);
+		}
+	}
+
+	private void on_jump_extra_not_fall_accepted (object o, EventArgs args) {
+		on_normal_jump_activate (o, args);
+	}
+	
+	private void on_jump_extra_fall_accepted (object o, EventArgs args) {
+		on_jump_fall_accepted (o, args);
+	}
+
+	
+	//suitable for sj, sj+, cmj, cmj+, abk, abk+, ...
+	//all jumps that startIn and are not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-
 		string myType;
 
 		if(o == (object) button_sj || o == (object) sj) {
-			myType = "SJ";
+			currentJumpType = new JumpType("SJ");
 		} else if (o == (object) button_cmj || o == (object) cmj) {
-			myType = "CMJ";
+			currentJumpType = new JumpType("CMJ");
 		} else if (o == (object) button_abk || o == (object) abk) {
-			myType = "ABK";
+			currentJumpType = new JumpType("ABK");
 		} else {
-			//if we call the on_normal_jump_activate from the same function:
-			//on_normal_jump_activate, we cannot now tje object button,
-			//but we have recorded in the first time the value of this in lastRealJumpType
-			//suitable also for the SJ+
-			myType = lastRealJumpType;
 		}
-		//suitable for writing jump type in writeNormalJump, specially when calling from onTimerNormalJump
-		lastRealJumpType = myType;
 
 		if (simulated) {
 			//random value
@@ -1204,25 +1247,22 @@ public class ChronoJump {
 
 				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
 				//appbar2.Push( "Estas dentro, cuando quieras SALTA!!" );
-
 			}
 		}
 	}
 
-
 	//writes the non-simulated normal jump (sj, sj+, cmj, abk) to the DB, and updates treeviews and stats
 	private void writeNormalJump (double myTV) 
 	{
-		string myType = lastRealJumpType;
-
 		string myWeight = "";
-		if (myType == "SJ+") { myWeight = sjPlusWin.Weight + sjPlusWin.Option ;
+		if(currentJumpType.HasWeight) {
+			myWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
 		}
 
 		currentJump = SqliteJump.Insert(currentPerson.UniqueID, currentSession.UniqueID, 
-				myType, myTV, 0, 0,  //type, tv, tc, fall
+				currentJumpType.Name, myTV, 0, 0,  //type, tv, tc, fall
 				myWeight, "", ""); //weight, limited, description
-		lastJumpIsRj = false;
+		lastJumpIsReactive = false;
 
 		sensitiveGuiYesJump();
 		string myText = combo_jumps.Entry.Text;
@@ -1232,9 +1272,10 @@ public class ChronoJump {
 			fillTreeView_stats(false);
 		}
 
-		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " " + myType + " TV:" +
-			trimDecimals( myTV.ToString() ) ;
-		if (myType == "SJ+") { myStringPush = myStringPush + "(" + myWeight + ")";
+		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " " + 
+			currentJumpType.Name + " TV:" + Util.TrimDecimals( myTV.ToString(), prefsDigitsNumber ) ;
+		if(currentJumpType.HasWeight) {
+			myStringPush = myStringPush + "(" + myWeight + ")";
 		}
 		appbar2.Push( myStringPush );
 	}
@@ -1264,7 +1305,6 @@ public class ChronoJump {
 				timerClockJump.Enabled = false;
 				Console.WriteLine("------------Timer event should be killed----------");
 
-
 				//write the Jump
 				writeNormalJump (realTime(t2,t3));
 			}
@@ -1275,31 +1315,8 @@ public class ChronoJump {
 		}
 	}
 
-	//suitable for sj with extra weight
-	private void on_sj_plus_activate (object o, EventArgs args) 
-	{
-		Console.WriteLine("sj+");
-		//button_sj_plus.Sensitive = false;
 
-		sjPlusWin = SjPlusWindow.Show(app1);
-		sjPlusWin.Button_accept.Clicked += new EventHandler(on_sj_plus_accepted);
-	}
-
-	private void on_sj_plus_accepted (object o, EventArgs args) {
-		lastRealJumpType = "SJ+";
-		on_normal_jump_activate (o, args);
-	}
-
-	private void on_dj_activate (object o, EventArgs args) 
-	{
-		Console.WriteLine("dj");
-
-		djFallWin = DjFallWindow.Show(app1);
-
-		djFallWin.Button_accept.Clicked += new EventHandler(on_dj_fall_accepted);
-	}
-
-	private void on_dj_fall_accepted (object o, EventArgs args) 
+	private void on_jump_fall_accepted (object o, EventArgs args) 
 	{
 		if (simulated) {
 			//random values
@@ -1309,7 +1326,7 @@ public class ChronoJump {
 			Console.WriteLine("TC: {0}", myTC.ToString());
 
 			//write the Jump
-			writeDjJump (myTC, myTV);
+			writeJumpFall (myTC, myTV);
 		}
 		else {
 			//initialize this ok, and delete buffer
@@ -1341,7 +1358,7 @@ public class ChronoJump {
 				confirmWin = ConfirmWindow.Show(app1,  Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button"), "");
 
 				//we call again this function
-				confirmWin.Button_accept.Clicked += new EventHandler(on_dj_fall_accepted);
+				confirmWin.Button_accept.Clicked += new EventHandler(on_jump_fall_accepted);
 			}
 		}
 	}
@@ -1380,7 +1397,7 @@ public class ChronoJump {
 
 
 				//write the Jump
-				writeDjJump (tcDjJump, realTime(t2,t3));
+				writeJumpFall (tcDjJump, realTime(t2,t3));
 			}
 			else { 
 				Console.WriteLine("NOT Changed {0} - {1}", platformState, t1);
@@ -1389,14 +1406,18 @@ public class ChronoJump {
 		}
 	}
 
-	private void writeDjJump (double myTC, double myTV) 
+	private void writeJumpFall (double myTC, double myTV) 
 	{
-		int myFall = djFallWin.Fall;
+		int myFall = jumpExtraWin.Fall;
+		string myWeight = "";
+		if(currentJumpType.HasWeight) {
+			myWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
+		}
 
 		currentJump = SqliteJump.Insert(currentPerson.UniqueID, currentSession.UniqueID, 
-				"DJ", myTV, myTC, myFall, //type, tv, tc, fall
-				"", "", ""); //weight, limited, description
-		lastJumpIsRj = false;
+				currentJumpType.Name, myTV, myTC, myFall, //type, tv, tc, fall
+				myWeight, "", ""); //weight, limited, description
+		lastJumpIsReactive = false;
 
 		sensitiveGuiYesJump();
 		string myText = combo_jumps.Entry.Text;
@@ -1406,33 +1427,92 @@ public class ChronoJump {
 			fillTreeView_stats(false);
 		}
 
-		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " DJ TV:" +
-			trimDecimals( myTV.ToString() ) ;
+		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " " + 
+			currentJumpType.Name + " TV:" + Util.TrimDecimals( myTV.ToString(), prefsDigitsNumber ) ;
+		myStringPush = myStringPush + " TC:" + Util.TrimDecimals( myTC.ToString(), prefsDigitsNumber );
+		if (myWeight != "") { 
+			myStringPush = myStringPush + "(" + myWeight + ")";
+		}
 		appbar2.Push( myStringPush );
 	}
 
-
+	
+	/* ---------------------------------------------------------
+	 * ----------------  JUMPS RJ EXECUTION  ------------------
+	 *  --------------------------------------------------------
+	 */
+	
+	private void on_button_more_rj_clicked (object o, EventArgs args) 
+	{
+		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1);
+		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
+	}
+	
+	//used from the dialogue "jumps rj more"
+	private void on_more_jumps_rj_accepted (object o, EventArgs args) 
+	{
+		currentJumpType = new JumpType(
+				jumpsRjMoreWin.SelectedJumpType,
+				jumpsRjMoreWin.SelectedStartIn,
+				jumpsRjMoreWin.SelectedExtraWeight,
+				true,		//isRepetitive
+				jumpsRjMoreWin.SelectedLimited,
+				jumpsRjMoreWin.SelectedLimitedValue
+				);
+		if( ! currentJumpType.StartIn || currentJumpType.HasWeight || currentJumpType.FixedValue == 0) {
+			on_jump_extra_activate(o, args);
+		} else {
+			on_rj_accepted(o, args);
+		}
+	}
+	
 	private void on_rj_activate (object o, EventArgs args) {
-		Console.WriteLine("RJ");
-
-		rjWin = RjWindow.Show(app1);
-
-		rjWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
+		if(o == (object) button_rj_j || o == (object) rj_j) 
+		{
+			currentJumpType = new JumpType(
+				"RJ(j)",
+				false,		//startIn
+				false,		//hasWeight
+				true,		//isRepetitive
+				true,		//jumpsLimited
+				0		//limitValue
+				);
+			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
+			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
+		} else if(o == (object) button_rj_t || o == (object) rj_t) 
+		{
+			currentJumpType = new JumpType(
+				"RJ(t)",
+				false,		//startIn
+				false,		//hasWeight
+				true,		//isRepetitive
+				false,		//jumpsLimited
+				0		//limitValue
+				);
+			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
+			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
+		} else {
+		}
 	}
 
-	private void on_rj_accepted (object o, EventArgs args) {
-		Console.WriteLine( Catalog.GetString("RJ accepted, limited: {0} {1}"), rjWin.Limited.ToString(), rjWin.Option);
-
+	private void on_rj_accepted (object o, EventArgs args) 
+	{
 		double myTv;
 		double myTc;
 		string myTvString = "" ;
 		string myTcString = "" ;
 		string equal = "";
-		string limited = rjWin.Limited.ToString() + rjWin.Option; 
+		double myLimit;
+		if(currentJumpType.FixedValue > 0) {
+			myLimit = currentJumpType.FixedValue;
+		} else {
+			myLimit = jumpExtraWin.Limited;
+		}
 
 		//suitable for limited by jump and time
+		//simulated always simulate limited by jumps
 		if(simulated) {
-			for (int i=0 ; i < rjWin.Limited ; i ++) {
+			for (int i=0 ; i < myLimit ; i ++) {
 				if(i>0) { equal = "="; }
 				//we insert the RJs as a TV and TC string of all jumps separated by '='
 				myTc = rand.NextDouble() * .4;
@@ -1488,11 +1568,16 @@ public class ChronoJump {
 		 //t1 state of platform (0 free (outside), 1 someone inside)
 		 //t2, t3 time (more significative, and less significative) 
 		 //time = t2 * 256 + t3 (in decimals of milliseconds) 0.1 miliseconds
-		 //
 	
-		if (rjWin.Option == "J") {
-			int jumps = Convert.ToInt32(rjWin.Limited.ToString());
-			if(getNumberOfJumps(rjTCString) >= jumps)
+		double myLimit;
+		if(currentJumpType.FixedValue >0) {
+			myLimit = currentJumpType.FixedValue;
+		} else {
+			myLimit = jumpExtraWin.Limited;
+		}
+
+		if (currentJumpType.JumpsLimited) {
+			if(getNumberOfJumps(rjTCString) >= myLimit)
 			{
 				Console.WriteLine("------------Timer event should be killed----------");
 				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerRjJump);
@@ -1505,9 +1590,7 @@ public class ChronoJump {
 			}
 		} else {
 			//limited by time
-			int limitTime = Convert.ToInt32(rjWin.Limited.ToString());
-			//check if we passed the time, but only finish when the number of TC equal the number of TV
-			if (getTotalTime (rjTCString, rjTVString) >= limitTime &&
+			if (getTotalTime (rjTCString, rjTVString) >= myLimit &&
 					getNumberOfJumps(rjTCString) == getNumberOfJumps(rjTVString) ) 
 			{
 				Console.WriteLine("------------Timer event should be killed----------");
@@ -1572,30 +1655,61 @@ public class ChronoJump {
 
 	private void writeRjJump (string myTCString, string myTVString) 
 	{
-		string limited = rjWin.Limited.ToString() + rjWin.Option; 
-		int jumps = Convert.ToInt32(rjWin.Limited.ToString());
-		
-		currentJumpRj = SqliteJump.InsertRj(currentPerson.UniqueID, currentSession.UniqueID, 
-				"RJ", getMax(myTVString), getMax(myTCString), 
-				0, "", "", //fall, weight, description
-				getAverage(myTVString), getAverage(myTCString),
-				myTVString, myTCString,
-				jumps, getTotalTime(myTCString, myTVString), limited
-				);
-		lastJumpIsRj = true;
-		
-		sensitiveGuiYesJump();
-		
-		myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
-
-		if(statsAutomatic) {
-			fillTreeView_stats(false);
+		double myLimit = 0;
+		if(currentJumpType.FixedValue >0) {
+			myLimit = currentJumpType.FixedValue;
+		} else {
+			myLimit = jumpExtraWin.Limited;
 		}
 
-		string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " RJ (" + limited + ") " +
-			" AVG TV: " + trimDecimals( getAverage (myTVString).ToString() ) +
-			" AVG TC: " + trimDecimals( getAverage (myTCString).ToString() ) ;
-		appbar2.Push( myStringPush );
+		string limitString = "";
+		if(currentJumpType.JumpsLimited) {
+			limitString = myLimit.ToString() + "J";
+		} else {
+			limitString = myLimit.ToString() + "T";
+		}
+		
+		string myWeightString;
+		if(currentJumpType.HasWeight) {
+			myWeightString = jumpExtraWin.Weight + jumpExtraWin.Option;
+		} else {
+			myWeightString = "";
+		}
+		int myFall = 0;
+		if( ! currentJumpType.StartIn) {
+			myFall = jumpExtraWin.Fall;
+		}
+
+		if(currentJumpType.JumpsLimited) {
+			int jumps = (int)myLimit;
+
+			currentJumpRj = SqliteJump.InsertRj(currentPerson.UniqueID, currentSession.UniqueID, 
+					currentJumpType.Name, Util.GetMax(myTVString), Util.GetMax(myTCString), 
+					myFall, myWeightString, "", //fall, weight, description
+					Util.GetAverage(myTVString), Util.GetAverage(myTCString),
+					myTVString, myTCString,
+					jumps, getTotalTime(myTCString, myTVString), limitString
+					);
+			lastJumpIsReactive = true;
+
+			sensitiveGuiYesJump();
+
+			myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
+
+			if(statsAutomatic) {
+				fillTreeView_stats(false);
+			}
+
+			string myStringPush =   Catalog.GetString("Last jump: ") + currentPerson.Name + " " + 
+				currentJumpType.Name + " (" + limitString + ") " +
+				" AVG TV: " + Util.TrimDecimals( Util.GetAverage (myTVString).ToString(), prefsDigitsNumber ) +
+				" AVG TC: " + Util.TrimDecimals( Util.GetAverage (myTCString).ToString(), prefsDigitsNumber ) ;
+			appbar2.Push( myStringPush );
+		}
+		else {
+			//FIXME:
+			Console.WriteLine("JUMP TIME NOT SUPPORTED");
+		}
 	}
 	
 	
@@ -1604,30 +1718,6 @@ public class ChronoJump {
 		return (double) ( timeh * 256 + timel ) /10000 ;
 	}
 
-	private static double getMax (string values)
-	{
-		string [] myStringFull = values.Split(new char[] {'='});
-		double max = 0;
-		foreach (string jump in myStringFull) {
-			if ( Convert.ToDouble(jump) > max ) {
-				max = Convert.ToDouble(jump);
-			}
-		}
-		return max ; 
-	}
-	
-	private static double getAverage (string values)
-	{
-		string [] myStringFull = values.Split(new char[] {'='});
-		double myAverage = 0;
-		double myCount = 0;
-		foreach (string jump in myStringFull) {
-			myAverage = myAverage + Convert.ToDouble(jump);
-			myCount ++;
-		}
-		return myAverage / myCount ; 
-	}
-	
 	private static double getTotalTime (string stringTC, string stringTV)
 	{
 		if(stringTC.Length > 0 && stringTV.Length > 0) {
@@ -1667,14 +1757,14 @@ public class ChronoJump {
 	}
 	
 	/* ---------------------------------------------------------
-	 * ----------------  JUMPS EDIT, DELETE----------------------
+	 * ----------------  JUMPS EDIT, DELETE, JUMP TYPE ADD -----
 	 *  --------------------------------------------------------
 	 */
 	
 	private void on_last_jump_delete (object o, EventArgs args) {
 		Console.WriteLine("delete last");
 		
-		if(lastJumpIsRj) {
+		if(lastJumpIsReactive) {
 			SqliteJump.RjDelete(currentJumpRj.UniqueID.ToString());
 		} else {
 			SqliteJump.Delete(currentJump.UniqueID.ToString());
@@ -1684,7 +1774,7 @@ public class ChronoJump {
 		
 		appbar2.Push( Catalog.GetString("Last jump deleted") );
 		
-		if(lastJumpIsRj) {
+		if(lastJumpIsReactive) {
 			myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
 		} else {
 			myTreeViewJumps.DelJump(currentJump.UniqueID);
@@ -1788,8 +1878,7 @@ public class ChronoJump {
 			} else {
 				Console.WriteLine("accept delete selected jump");
 				SqliteJump.RjDelete(myTreeViewJumpsRj.JumpSelectedID.ToString());
-				treeview_jumps_rj_storeReset();
-				fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+				myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
 
 				if(statsAutomatic) {
 					fillTreeView_stats(false);
@@ -1817,6 +1906,18 @@ public class ChronoJump {
 			fillTreeView_stats(false);
 		}
 	}
+	
+	private void on_jump_type_add_activate (object o, EventArgs args) {
+		Console.WriteLine("Add new jump type");
+			
+		jumpTypeAddWin = JumpTypeAddWindow.Show(app1);
+		jumpTypeAddWin.Button_accept.Clicked += new EventHandler(on_jump_type_add_accepted);
+	}
+	
+	private void on_jump_type_add_accepted (object o, EventArgs args) {
+		Console.WriteLine("ACCEPTED Add new jump type");
+		updateComboJumps();
+	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  SOME MORE CALLBACKS---------------------
@@ -1838,34 +1939,47 @@ public class ChronoJump {
 	 *  --------------------------------------------------------
 	 */
 	
-	private void sensitiveGuiNoSession () {
-		button_recup_per.Sensitive = false ;
-		button_create_per.Sensitive = false ;
-		button_sj.Sensitive = false ;
-		button_sj_plus.Sensitive = false ;
-		button_cmj.Sensitive = false ;
-		button_abk.Sensitive = false ;
-		button_dj.Sensitive = false ;
-		button_rj.Sensitive = false ;
-		button_last_jump_delete.Sensitive = false ;
-		button_stats.Sensitive = false;
+	private void sensitiveGuiNoSession () 
+	{
+		//menuitems
 		preferences.Sensitive = false ;
 		menuitem_export_csv.Sensitive = false;
 		menuitem_export_xml.Sensitive = false;
 		recuperate_person.Sensitive = false ;
 		create_person.Sensitive = false ;
-
-		button_cancel_jump.Sensitive = false ;
-		menuitem_cancel_jump.Sensitive = false ;
-	
 		sj.Sensitive = false ;
 		sj_plus.Sensitive = false ;
 		cmj.Sensitive = false ;
 		abk.Sensitive = false ;
 		dj.Sensitive = false ;
-		rj.Sensitive = false ;
+		rj_j.Sensitive = false ;
+		rj_t.Sensitive = false ;
+		more.Sensitive = false;
+		more_rj.Sensitive = false;
+		jump_type_add.Sensitive = false;
 		menuitem_last_jump_delete.Sensitive = false ;
+		menuitem_cancel_jump.Sensitive = false ;
+
+		//frame_jumpers
+		frame_jumpers.Sensitive = false;
+		button_recup_per.Sensitive = false ;
+		button_create_per.Sensitive = false ;
+		
+		//frame_jumps
+		frame_jumps.Sensitive = false;
+		button_sj.Sensitive = false ;
+		button_sj_plus.Sensitive = false ;
+		button_cmj.Sensitive = false ;
+		button_abk.Sensitive = false ;
+		button_dj.Sensitive = false ;
+		button_more.Sensitive = false ;
+		button_rj_j.Sensitive = false ;
+		button_rj_t.Sensitive = false ;
+		button_last_jump_delete.Sensitive = false ;
+		button_stats.Sensitive = false;
 	
+		//frame_stats
+		frame_stats.Sensitive = false;
 		checkbutton_sort_by_type.Sensitive = false ;
 		menuitem_edit_selected_jump.Sensitive = false;
 		menuitem_delete_selected_jump.Sensitive = false;
@@ -1889,9 +2003,14 @@ public class ChronoJump {
 		radiobutton_stats_jumps_person_bests.Sensitive = false;
 		spin_stats_jumps_person_bests.Sensitive = false;
 		radiobutton_stats_jumps_person_average.Sensitive = false;
+		button_graph.Sensitive = false;
+		
+		//other
+		button_cancel_jump.Sensitive = false ;
 	}
 	
 	private void sensitiveGuiYesSession () {
+		frame_jumpers.Sensitive = true;
 		button_recup_per.Sensitive = true ;
 		button_create_per.Sensitive = true ;
 		
@@ -1903,6 +2022,7 @@ public class ChronoJump {
 	}
 
 	private void sensitiveGuiYesPerson () {
+		frame_jumps.Sensitive = true;
 		combo_person_current.Sensitive = true;
 		button_edit_current_person.Sensitive = true;
 		menuitem_edit_current_person.Sensitive = true;
@@ -1912,15 +2032,23 @@ public class ChronoJump {
 		cmj.Sensitive = true ;
 		abk.Sensitive = true ;
 		dj.Sensitive = true ;
-		rj.Sensitive = true ;
+		more.Sensitive = true;
+		more_rj.Sensitive = true;
+		rj_j.Sensitive = true ;
+		rj_t.Sensitive = true ;
+		jump_type_add.Sensitive = true;
+		menuitem_last_jump_delete.Sensitive = true ;
 		
 		button_sj_plus.Sensitive = true ;
 		button_sj.Sensitive = true ;
 		button_cmj.Sensitive = true ;
 		button_abk.Sensitive = true ;
 		button_dj.Sensitive = true ;
-		button_rj.Sensitive = true ;
+		button_more.Sensitive = true ;
+		button_rj_j.Sensitive = true ;
+		button_rj_t.Sensitive = true ;
 
+		frame_stats.Sensitive = true;
 		if(!statsAutomatic) {
 			button_stats.Sensitive = true;
 		}
@@ -1943,7 +2071,6 @@ public class ChronoJump {
 		spin_stats_jumps_person_bests.Sensitive = false;
 	
 		
-		combo_jumps.Entry.Text = comboJumpsOptions[0];
 		menuitem_edit_selected_jump.Sensitive = true;
 		menuitem_delete_selected_jump.Sensitive = true;
 		button_edit_selected_jump.Sensitive = true;
@@ -1956,6 +2083,7 @@ public class ChronoJump {
 		checkbutton_sort_by_type.Sensitive = true ;
 		combo_jumps.Sensitive = true;
 		label_current_jumper.Sensitive = true;
+		button_graph.Sensitive = true;
 	}
 	
 	private void sensitiveGuiYesJump () {

@@ -61,7 +61,7 @@ public class Stat
 	protected TreeIter iter;
 	protected Gtk.TreeView treeview;
 
-	protected static int prefsDigitsNumber;
+	protected static int pDN; //prefsDigitsNumber;
 	//protected static string manName = "M";
 	//protected static string womanName = "F";
 
@@ -91,7 +91,7 @@ public class Stat
 	{
 		this.sessions = sessions;
 		this.treeview = treeview;
-		prefsDigitsNumber = newPrefsDigitsNumber;
+		pDN = newPrefsDigitsNumber;
 		this.showSex = showSex;
 		this.statsJumpsType = statsJumpsType;
 
@@ -203,7 +203,7 @@ public class Stat
 					sumValue[j] += Convert.ToDouble(rowFromSql[j]);
 					sumSquaredValue[j] += makeSquare(rowFromSql[j]);
 				}
-				rowFromSql[j] = trimDecimals(rowFromSql[j]);
+				rowFromSql[j] = Util.TrimDecimals(rowFromSql[j], pDN);
 			}
 			//Console.WriteLine("r0 {0} r1 {1}", rowFromSql[0], rowFromSql[1]);
 			printData( rowFromSql );
@@ -220,8 +220,8 @@ public class Stat
 				sendSD[0] =  Catalog.GetString("SD");
 
 				for (int j=1; j <= dataColumns; j++) {
-					sendAVG[j] = trimDecimals( (sumValue[j] /i).ToString() );
-					sendSD[j] = trimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], i) );
+					sendAVG[j] = Util.TrimDecimals( (sumValue[j] /i).ToString(), pDN );
+					sendSD[j] = Util.TrimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], i), pDN );
 				}
 				printData( sendAVG );
 				printData( sendSD );
@@ -270,7 +270,7 @@ public class Stat
 			for (int j=0; j < sessions.Count ; j++) {
 				string [] str = sessions[j].ToString().Split(new char[] {':'});
 				if(rowFromSql[1] == str[0]) { //if matches the session num
-					sendRow[j+1] = trimDecimals(rowFromSql[2]); //put value from sql in the desired pos of sendRow
+					sendRow[j+1] = Util.TrimDecimals(rowFromSql[2], pDN); //put value from sql in the desired pos of sendRow
 
 					if(makeAVGSD) {
 						sumValue[j+1] += Convert.ToDouble(rowFromSql[2]);
@@ -297,9 +297,9 @@ public class Stat
 
 				for (int j=1; j <= sessions.Count; j++) {
 					if(countRows[j] > 0) {
-						sendAVG[j] = trimDecimals( (sumValue[j] /countRows[j]).ToString() );
+						sendAVG[j] = Util.TrimDecimals( (sumValue[j] /countRows[j]).ToString(), pDN );
 						if(countRows[j] > 1) {
-							sendSD[j] = trimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], countRows[j]) );
+							sendSD[j] = Util.TrimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], countRows[j]), pDN );
 						} else {
 							sendSD[j] = "-";
 						}
@@ -336,9 +336,9 @@ public class Stat
 				}
 			}
 			if(count > 0) {
-				rowReturn[i] = trimDecimals( (sumValue /count).ToString() );
+				rowReturn[i] = Util.TrimDecimals( (sumValue /count).ToString(), pDN );
 				if(count > 1) {
-					rowReturn[i+1] = trimDecimals( calculateSD(sumValue, sumSquaredValue, count) );
+					rowReturn[i+1] = Util.TrimDecimals( calculateSD(sumValue, sumSquaredValue, count), pDN );
 				} else {
 					rowReturn[i+1] = "-";
 				}
@@ -361,15 +361,6 @@ public class Stat
 
 	//public virtual string ObtainEnunciate () {
 	//}
-		
-	protected static string trimDecimals (string time) {
-		//the +2 is a workarround for not counting the two first characters: "0."
-		//this will not work with the fall
-		
-		return time.Length > prefsDigitsNumber + 2 ? 
-			time.Substring( 0, prefsDigitsNumber + 2 ) : 
-				time;
-	}
 
 	protected static double makeSquare (string myValueStr) {
 		double myDouble;

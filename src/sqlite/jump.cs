@@ -29,6 +29,10 @@ using System.Data.SqlClient;
 
 class SqliteJump : Sqlite
 {
+	/*
+	 * create and initialize tables
+	 */
+	
 	protected static void createTable()
 	{
 		dbcmd.CommandText = 
@@ -67,6 +71,11 @@ class SqliteJump : Sqlite
 			"limited TEXT) "; //for RJ, "11J" or "11S" (11 Jumps, 11 seconds)
 		dbcmd.ExecuteNonQuery();
 	}
+
+	
+	/*
+	 * Jump class methods
+	 */
 	
 	public static Jump Insert(int personID, int sessionID, string type, double tv, double tc, int fall, string weight, string limited, string description)
 	{
@@ -104,9 +113,6 @@ class SqliteJump : Sqlite
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 
-		//Jump myJump = new JumpRj (myLast, personID, sessionID, type, tvMax, tcMax,
-		//		fall, weight, description, tvAvg, tcAvg, tvString, tcString, 
-		//		jumps, time, limited );
 		JumpRj myJump = new JumpRj (myLast, personID, sessionID, type, tvString, tcString,
 				fall, weight, description, jumps, time, limited );
 
@@ -115,21 +121,6 @@ class SqliteJump : Sqlite
 		return myJump;
 	}
 
-	/*
-	private static double getAverage (string values)
-	{
-		string [] myStringFull = values.Split(new char[] {'='});
-		double myAverage = 0;
-		double myCount = 0;
-		foreach (string jump in myStringFull) {
-			myAverage = myAverage + Convert.ToDouble(jump);
-			myCount ++;
-		}
-		return myAverage / myCount ; 
-	}
-	*/
-
-	
 	public static string[] SelectAllNormalJumps(int sessionID, string ordered_by) 
 	{
 		string secondOrder;
@@ -308,6 +299,7 @@ class SqliteJump : Sqlite
 		return myJump;
 	}
 		
+
 	public static void Update(int jumpID, int personID, string description)
 	{
 		dbcon.Open();

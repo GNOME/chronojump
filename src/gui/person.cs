@@ -282,9 +282,9 @@ public class PersonAddWindow {
 		string dateFull = spinbutton_day.Value.ToString() + "/" + 
 			spinbutton_month.Value.ToString() + "/" + spinbutton_year.Value.ToString(); 
 		
-		bool personExists = SqlitePersonSession.PersonExists (removeTilde(entry1.Text));
+		bool personExists = SqlitePersonSession.PersonExists (Util.RemoveTilde(entry1.Text));
 		if(personExists) {
-			string myString =  Catalog.GetString ("Jumper: '") + removeTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
@@ -294,13 +294,6 @@ public class PersonAddWindow {
 			PersonAddWindowBox.person_win.Hide();
 			PersonAddWindowBox = null;
 		}
-	}
-	
-	private string removeTilde(string myString) 
-	{
-		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("'", "");
-		return myStringBuilder.ToString();
 	}
 	
 	public Button Button_accept 
@@ -435,9 +428,9 @@ public class PersonModifyWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		bool personExists = SqlitePersonSession.PersonExistsAndItsNotMe (uniqueID, removeTilde(entry1.Text));
+		bool personExists = SqlitePersonSession.PersonExistsAndItsNotMe (uniqueID, Util.RemoveTilde(entry1.Text));
 		if(personExists) {
-			string myString =  Catalog.GetString ("Jumper: '") + removeTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
@@ -453,13 +446,6 @@ public class PersonModifyWindow
 			PersonModifyWindowBox.person_win.Hide();
 			PersonModifyWindowBox = null;
 		}
-	}
-	
-	private string removeTilde(string myString) 
-	{
-		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("'", "''");
-		return myStringBuilder.ToString();
 	}
 	
 	public Button Button_accept 

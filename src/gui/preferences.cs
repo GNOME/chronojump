@@ -51,7 +51,7 @@ public class PreferencesWindow {
 		
 	}
 	
-	static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool simulated, bool askDeletion, bool weightStatsPercent)
+	static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool askDeletion, bool weightStatsPercent)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (parent);

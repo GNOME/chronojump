@@ -714,16 +714,4 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	/*
-	static bool foundInArray (string searching, ArrayList myArray) 
-	{
-		for (int i=0; i< myArray.Count ; i ++) {
-			if (searching == myArray[i].ToString()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
-
 }

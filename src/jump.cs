@@ -51,6 +51,20 @@ public class Jump
 		this.description = description;
 	}
 
+	public bool TypeHasWeight
+	{
+		get {
+			return SqliteJumpType.HasWeight(type);
+		}
+	}
+	
+	public bool TypeHasFall
+	{
+		get {
+			return SqliteJumpType.HasFall(type);
+		}
+	}
+	
 	public string Type
 	{
 		get
@@ -188,30 +202,6 @@ public class JumpRj : Jump
 		this.limited = limited;
 	}
 
-	private double getMax (string values)
-	{
-		string [] myStringFull = values.Split(new char[] {'='});
-		double max = 0;
-		foreach (string jump in myStringFull) {
-			if ( Convert.ToDouble(jump) > max ) {
-				max = Convert.ToDouble(jump);
-			}
-		}
-		return max ; 
-	}
-
-	private double getAverage (string jumps)
-	{
-		string [] myStringFull = jumps.Split(new char[] {'='});
-		double myAverage = 0;
-		double myCount = 0;
-		foreach (string jump in myStringFull) {
-			myAverage = myAverage + Convert.ToDouble(jump);
-			myCount ++;
-		}
-		return myAverage / myCount ; 
-	}
-
 	public string Limited
 	{
 		get {
@@ -223,7 +213,7 @@ public class JumpRj : Jump
 	{
 		get
 		{
-			return getMax (tvString);
+			return Util.GetMax (tvString);
 		}
 	}
 		
@@ -231,7 +221,7 @@ public class JumpRj : Jump
 	{
 		get
 		{
-			return getMax (tcString);
+			return Util.GetMax (tcString);
 		}
 	}
 		
@@ -239,7 +229,7 @@ public class JumpRj : Jump
 	{
 		get
 		{
-			return getAverage (tvString);
+			return Util.GetAverage (tvString);
 		}
 	}
 		
@@ -247,7 +237,7 @@ public class JumpRj : Jump
 	{
 		get
 		{
-			return getAverage (tcString);
+			return Util.GetAverage (tcString);
 		}
 	}
 	

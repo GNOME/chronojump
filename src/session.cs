@@ -55,24 +55,15 @@ public class Session {
 		date = newDate;
 		comments = newComments;
 
-		name = removeTildeAndColon(name);
-		place = removeTildeAndColon(place);
-		comments = removeTildeAndColon(comments);
+		name = Util.RemoveTildeAndColon(name);
+		place = Util.RemoveTildeAndColon(place);
+		comments = Util.RemoveTildeAndColon(comments);
 
 		
 		uniqueID = SqliteSession.Insert (name, place, date, comments);
 
 		Console.WriteLine(this.ToString());
 	}
-	
-	private string removeTildeAndColon(string myString) 
-	{
-		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("'", "");
-		myStringBuilder.Replace(":", "");
-		return myStringBuilder.ToString();
-	}
-	
 	
 	public override string ToString()
 	{

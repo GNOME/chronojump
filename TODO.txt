@@ -1,17 +1,21 @@
 TODO:
 ----
 
+repair bug in treeviews, jumper's gent not automatically expanded when make the first jump
+
+rj filter
+click on rj don't show (jump or time), show weight if needed, show fall if not start in
+
+treeview_jumps and treeview_jumps_rj in a notebook
+
+
 study how to make IE, IUB (the best two SJ,CMJ and CMJ,ABK; or the worst and the best)
 
 graphs:
-	clean code (put code in first class or write an Interface)
 	study licensing problems of NPlot or how to include it
 	put a button for refreshing the graph
 	make graphs for all stats
-	preferences of graph colors for 20 values, and store it in sqlite
 	write statsJumpsType option in graph title
-
-exportCSV
 
 add more columns in treeview_jumps and treeview_jumps_rj (probably one with the jump.UniqueID)
 
@@ -47,17 +51,6 @@ edit jump need the hability of change the DJ fall and the SJ+ weight
 make an edit session and a delete session, the class, probably heredate from sessionload. The widget win is another
 
 
-graph amb nplot
-----------------
-http://netcontrols.org/nplot/
-verio de Miguel de Icaza amb Makefile:
-http://www.bloglines.com/blog/Aakrosh?subid=3446357
-
-
-
-make stat of current jumper (intrasession)
-
-
 - make the currentUser change when a user is selected in the treeview (with double click)
  (or edit this user)
 
@@ -83,10 +76,7 @@ we can check the lines we need, and execute, and if a line it's not found, try t
 - "maximum" cursa i acció complerta (sense modificacions) (com un dj pero amb fall 0)
 
 
-
 RJ time
 
 editCurrentSession  (edit delete sessions (delete it's jumpers and jumps))
-
--stats: put a button for "graph this stat")
 

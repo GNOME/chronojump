@@ -42,7 +42,6 @@ public class EditJumpWindow
 	[Widget] Gtk.Label label_tc_value;
 	[Widget] Gtk.Label label_fall_value;
 	[Widget] Gtk.Label label_weight_value;
-	//[Widget] Gtk.Label label_limited_value;
 	[Widget] Gtk.Box hbox_combo;
 	[Widget] Gtk.Combo combo_jumpers;
 	[Widget] Gtk.TextView textview_description;
@@ -60,7 +59,7 @@ public class EditJumpWindow
 	
 	static public EditJumpWindow Show (Gtk.Window parent, Jump myJump)
 	{
-		Console.WriteLine(myJump);
+		//Console.WriteLine(myJump);
 		if (EditJumpWindowBox == null) {
 			EditJumpWindowBox = new EditJumpWindow (parent);
 		}
@@ -71,7 +70,7 @@ public class EditJumpWindow
 
 
 		return EditJumpWindowBox;
-	}
+}
 	
 	private void fillDialog (Jump myJump)
 	{
@@ -82,11 +81,11 @@ public class EditJumpWindow
 	
 		label_fall_value.Text = "0";
 		label_weight_value.Text = "0";
-		//label_limited_value.Text = "0";
 		
-		if(myJump.Type == "SJ+") {
+		if(myJump.TypeHasWeight) {
 			label_weight_value.Text = myJump.Weight.ToString();
-		} else if (myJump.Type == "DJ") {
+		} 
+		if (myJump.TypeHasFall) {
 			label_fall_value.Text = myJump.Fall.ToString();
 		} 
 
@@ -258,67 +257,122 @@ public class EditJumpRjWindow
 }
 
 //--------------------------------------------------------
-//---------------- SJ+ WIDGET ----------------------------
+//---------------- jump extra WIDGET --------------------
 //--------------------------------------------------------
 
-public class SjPlusWindow {
-	[Widget] Gtk.Window sj_plus;
-	[Widget] Gtk.SpinButton spinbutton1;
+public class JumpExtraWindow 
+{
+	[Widget] Gtk.Window jump_extra;
+	[Widget] Gtk.Label label_limit;
+	[Widget] Gtk.SpinButton spinbutton_limit;
+	[Widget] Gtk.Label label_limit_units;
+	[Widget] Gtk.SpinButton spinbutton_weight;
+	[Widget] Gtk.SpinButton spinbutton_fall;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.RadioButton radiobutton_kg;
 	[Widget] Gtk.RadioButton radiobutton_weight;
+	[Widget] Gtk.Label label_weight;
+	[Widget] Gtk.Label label_fall;
+	[Widget] Gtk.Label label_cm;
 
 	static string option = "Kg";
-	static int weight = 10;
+	static double limited = 3;
+	static bool jumpsLimited;
+	static int weight = 20;
+	static int fall = 20;
 	
-	static SjPlusWindow SjPlusWindowBox;
+	static JumpExtraWindow JumpExtraWindowBox;
 	Gtk.Window parent;
 
-	SjPlusWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "sj_plus", null);
+	JumpExtraWindow (Gtk.Window parent) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_extra", null);
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
 	}
 	
-	static public SjPlusWindow Show (Gtk.Window parent)
+	static public JumpExtraWindow Show (Gtk.Window parent, JumpType myJumpType) 
 	{
-		if (SjPlusWindowBox == null) {
-			SjPlusWindowBox = new SjPlusWindow (parent);
-		}
-		SjPlusWindowBox.spinbutton1.Value = weight;
-		if (option == "Kg") {
-			SjPlusWindowBox.radiobutton_kg.Active = true;
-		} else {
-			SjPlusWindowBox.radiobutton_weight.Active = true;
+		if (JumpExtraWindowBox == null) {
+			JumpExtraWindowBox = new JumpExtraWindow (parent);
 		}
 		
-		SjPlusWindowBox.sj_plus.Show ();
+		if(myJumpType.IsRepetitive) {
+			string jumpsName = Catalog.GetString("jumps");
+			string secondsName = Catalog.GetString("seconds");
+			if(myJumpType.JumpsLimited) {
+				jumpsLimited = true;
+				JumpExtraWindowBox.label_limit_units.Text = jumpsName;
+			} else {
+				jumpsLimited = false;
+				JumpExtraWindowBox.label_limit_units.Text = secondsName;
+			}
+			if(myJumpType.FixedValue > 0) {
+				JumpExtraWindowBox.spinbutton_limit.Sensitive = false;
+				JumpExtraWindowBox.spinbutton_limit.Value = myJumpType.FixedValue;
+			}
+		} else {
+			hideRepetitiveData();	
+		}
+		if(! myJumpType.HasWeight) {
+			hideWeightData();	
+		}
+		if(myJumpType.StartIn) {
+			hideFallData();	
+		}
+		
+		JumpExtraWindowBox.spinbutton_weight.Value = weight;
+		JumpExtraWindowBox.spinbutton_fall.Value = fall;
+		if (option == "Kg") {
+			JumpExtraWindowBox.radiobutton_kg.Active = true;
+		} else {
+			JumpExtraWindowBox.radiobutton_weight.Active = true;
+		}
+		
+		JumpExtraWindowBox.jump_extra.Show ();
 
-		return SjPlusWindowBox;
+		return JumpExtraWindowBox;
+	}
+	
+	static void hideRepetitiveData () {
+		JumpExtraWindowBox.label_limit.Sensitive = false;
+		JumpExtraWindowBox.spinbutton_limit.Sensitive = false;
+		JumpExtraWindowBox.label_limit_units.Sensitive = false;
+	}
+	
+	static void hideWeightData () {
+		JumpExtraWindowBox.label_weight.Sensitive = false;
+		JumpExtraWindowBox.spinbutton_weight.Sensitive = false;
+		JumpExtraWindowBox.radiobutton_kg.Sensitive = false;
+		JumpExtraWindowBox.radiobutton_weight.Sensitive = false;
+	}
+	
+	static void hideFallData () {
+		JumpExtraWindowBox.label_fall.Sensitive = false;
+		JumpExtraWindowBox.spinbutton_fall.Sensitive = false;
+		JumpExtraWindowBox.label_cm.Sensitive = false;
 	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		SjPlusWindowBox.sj_plus.Hide();
-		SjPlusWindowBox = null;
+		JumpExtraWindowBox.jump_extra.Hide();
+		JumpExtraWindowBox = null;
 	}
 	
-	void on_sj_plus_delete_event (object o, EventArgs args)
+	void on_jump_extra_delete_event (object o, EventArgs args)
 	{
-		SjPlusWindowBox.sj_plus.Hide();
-		SjPlusWindowBox = null;
+		JumpExtraWindowBox.jump_extra.Hide();
+		JumpExtraWindowBox = null;
 	}
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		weight = (int) spinbutton1.Value;
+		limited = (double) spinbutton_limit.Value;
+		weight = (int) spinbutton_weight.Value;
+		fall = (int) spinbutton_fall.Value;
 		
-		Console.WriteLine("button_accept_clicked. Value: {0}{1}", spinbutton1.Value.ToString(), option);
-
-		SjPlusWindowBox.sj_plus.Hide();
-		SjPlusWindowBox = null;
+		JumpExtraWindowBox.jump_extra.Hide();
+		JumpExtraWindowBox = null;
 	}
 
 	void on_radiobutton_kg_toggled (object o, EventArgs args)
@@ -344,157 +398,161 @@ public class SjPlusWindow {
 		get { return option;	}
 	}
 
+	public bool JumpsLimited 
+	{
+		get { return jumpsLimited;	}
+	}
+	
+	public double Limited 
+	{
+		get { return limited;	}
+	}
+	
+	public string LimitString
+	{
+		get { 
+			if(jumpsLimited) {
+				return Limited.ToString() + "J";
+			} else {
+				return Limited.ToString() + "T";
+			}
+		}
+	}
+	
 	public int Weight 
 	{
 		get { return weight;	}
 	}
-}
-
-//--------------------------------------------------------
-//---------------- DJ FALL WIDGET ------------------------
-//--------------------------------------------------------
-
-public class DjFallWindow {
-	[Widget] Gtk.Window dj_fall;
-	[Widget] Gtk.SpinButton spinbutton_fall;
-	[Widget] Gtk.Button button_accept;
-
-	static int fall = 20;
 	
-	static DjFallWindow DjFallWindowBox;
-	Gtk.Window parent;
-
-	DjFallWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "dj_fall", null);
-
-		gladeXML.Autoconnect(this);
-		this.parent = parent;
-		
-	}
-	
-	static public DjFallWindow Show (Gtk.Window parent)
-	{
-		if (DjFallWindowBox == null) {
-			DjFallWindowBox = new DjFallWindow (parent);
-		}
-		DjFallWindowBox.spinbutton_fall.Value = fall;
-		
-		DjFallWindowBox.dj_fall.Show ();
-
-		return DjFallWindowBox;
-	}
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		DjFallWindowBox.dj_fall.Hide();
-		DjFallWindowBox = null;
-	}
-	
-	void on_dj_fall_delete_event (object o, EventArgs args)
-	{
-		DjFallWindowBox.dj_fall.Hide();
-		DjFallWindowBox = null;
-	}
-	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		fall = (int) spinbutton_fall.Value;
-		
-		Console.WriteLine("button_accept_clicked. Value: {0}", spinbutton_fall.Value.ToString());
-
-		DjFallWindowBox.dj_fall.Hide();
-		DjFallWindowBox = null;
-	}
-
-	public Button Button_accept 
-	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
-	}
-
 	public int Fall 
 	{
 		get { return fall;	}
 	}
 }
 
+
 //--------------------------------------------------------
-//---------------- RJ WIDGET (similar to sj+ ) -----------
+//---------------- jumps_more widget ---------------------
 //--------------------------------------------------------
 
-
-public class RjWindow {
+public class JumpsMoreWindow 
+{
+	[Widget] Gtk.Window jumps_more;
 	
-	[Widget] Gtk.Window rj;
-	[Widget] Gtk.SpinButton spinbutton_limit;
-
+	private TreeStore store;
+	[Widget] Gtk.TreeView treeview_jumps_more;
 	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.RadioButton radiobutton_jump;
-	[Widget] Gtk.RadioButton radiobutton_time;
-	
-	static RjWindow RjWindowBox;
-	Gtk.Window parent;
 
-	static string option = "J";
-	static int limited = 20;
+	static JumpsMoreWindow JumpsMoreWindowBox;
+	Gtk.Window parent;
 	
-	RjWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "rj", null);
+	private string selectedJumpType;
+	private bool selectedStartIn;
+	private bool selectedExtraWeight;
+	
+	JumpsMoreWindow (Gtk.Window parent) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_more", null);
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
+		createTreeView(treeview_jumps_more);
+		//name, startIn, weight, description
+		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
+		treeview_jumps_more.Model = store;
+		fillTreeView(treeview_jumps_more,store);
+
+		button_accept.Sensitive = false;
 	}
 	
-	static public RjWindow Show (Gtk.Window parent)
+	static public JumpsMoreWindow Show (Gtk.Window parent)
 	{
-		if (RjWindowBox == null) {
-			RjWindowBox = new RjWindow (parent);
+		if (JumpsMoreWindowBox == null) {
+			JumpsMoreWindowBox = new JumpsMoreWindow (parent);
 		}
-		RjWindowBox.spinbutton_limit.Value = limited;
-		if (option == "J") {
-			RjWindowBox.radiobutton_jump.Active = true;
-		} else {
-			RjWindowBox.radiobutton_time.Active = true;
-		}
+		JumpsMoreWindowBox.jumps_more.Show ();
 		
-		RjWindowBox.rj.Show ();
+		return JumpsMoreWindowBox;
+	}
+	
+	private void createTreeView (Gtk.TreeView tv) {
+		tv.HeadersVisible=true;
+		int count = 0;
+		
+		tv.AppendColumn ( Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Start inside"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Extra weight"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
+	}
+	
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
+		TreeIter iter = new TreeIter();
 
-		return RjWindowBox;
-	}
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		RjWindowBox.rj.Hide();
-		RjWindowBox = null;
-	}
-	
-	void on_rj_delete_event (object o, EventArgs args)
-	{
-		RjWindowBox.rj.Hide();
-		RjWindowBox = null;
-	}
-	
-	void on_radiobutton_jump_toggled (object o, EventArgs args)
-	{
-		option = "J";
-		Console.WriteLine("option: {0}", option);
-	}
-	
-	void on_radiobutton_time_toggled (object o, EventArgs args)
-	{
-		option = "T";
-		Console.WriteLine("option: {0}", option);
+		//select data without inserting an "all jumps", and not obtain only name of jump
+		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes("", false);
+		foreach (string myType in myJumpTypes) {
+			string [] myStringFull = myType.Split(new char[] {':'});
+			if(myStringFull[2] == "1") {
+				myStringFull[2] = Catalog.GetString("Yes");
+			} else {
+				myStringFull[2] = Catalog.GetString("No");
+			}
+			if(myStringFull[3] == "1") {
+				myStringFull[3] = Catalog.GetString("Yes");
+			} else {
+				myStringFull[3] = Catalog.GetString("No");
+			}
+
+			iter = store.AppendValues (
+					//myStringFull[0], //don't display de uniqueID
+					myStringFull[1],	//name 
+					myStringFull[2], 	//startIn
+					myStringFull[3], 	//weight
+					myStringFull[4]		//description
+					);
+		}	
 	}
 
+	//puts a value in private member selected
+	private void on_treeview_jumps_more_changed (object o, EventArgs args)
+	{
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+		selectedJumpType = "-1";
+		selectedStartIn = false;
+		selectedExtraWeight = false;
+
+		// you get the iter and the model if something is selected
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			selectedJumpType = (string) model.GetValue (iter, 0);
+			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Yes") ) {
+				selectedStartIn = true;
+			}
+			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Yes") ) {
+				selectedExtraWeight = true;
+			}
+			button_accept.Sensitive = true;
+		}
+	}
+	
+	void on_button_close_clicked (object o, EventArgs args)
+	{
+		JumpsMoreWindowBox.jumps_more.Hide();
+		JumpsMoreWindowBox = null;
+	}
+	
+	void on_jumps_more_delete_event (object o, EventArgs args)
+	{
+		JumpsMoreWindowBox.jumps_more.Hide();
+		JumpsMoreWindowBox = null;
+	}
+	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		limited = (int) spinbutton_limit.Value;
-		
-		RjWindowBox.rj.Hide();
-		RjWindowBox = null;
+		Console.Write("SELECTED");
 	}
-
+	
 	public Button Button_accept 
 	{
 		set {
@@ -504,16 +562,224 @@ public class RjWindow {
 			return button_accept;
 		}
 	}
-
-	public string Option 
+	
+	public string SelectedJumpType 
 	{
-		get { return option;	}
+		set {
+			selectedJumpType = value;	
+		}
+		get {
+			return selectedJumpType;
+		}
 	}
 	
-	public int Limited 
+	public bool SelectedStartIn 
 	{
-		get { return limited; }
+		get {
+			return selectedStartIn;
+		}
 	}
-
+	
+	public bool SelectedExtraWeight 
+	{
+		get {
+			return selectedExtraWeight;
+		}
+	}
 }
 
+//--------------------------------------------------------
+//---------------- jumps_rj_more widget ------------------
+//--------------------------------------------------------
+
+public class JumpsRjMoreWindow 
+{
+	[Widget] Gtk.Window jumps_rj_more;
+	
+	private TreeStore store;
+	[Widget] Gtk.TreeView treeview_jumps_rj_more;
+	[Widget] Gtk.Button button_accept;
+
+	static JumpsRjMoreWindow JumpsRjMoreWindowBox;
+	Gtk.Window parent;
+	
+	private string selectedJumpType;
+	private bool selectedStartIn;
+	private bool selectedExtraWeight;
+	private bool selectedLimited;
+	private double selectedLimitedValue;
+	
+	JumpsRjMoreWindow (Gtk.Window parent) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_rj_more", null);
+
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+		
+		createTreeView(treeview_jumps_rj_more);
+		//name, limited by, limited value, startIn, weight, description
+		store = new TreeStore(typeof (string), typeof (string), typeof(string),
+				typeof (string), typeof (string), typeof (string));
+		treeview_jumps_rj_more.Model = store;
+		fillTreeView(treeview_jumps_rj_more,store);
+			
+		button_accept.Sensitive = false;
+	}
+	
+	static public JumpsRjMoreWindow Show (Gtk.Window parent)
+	{
+		if (JumpsRjMoreWindowBox == null) {
+			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent);
+		}
+		JumpsRjMoreWindowBox.jumps_rj_more.Show ();
+		
+		return JumpsRjMoreWindowBox;
+	}
+	
+	private void createTreeView (Gtk.TreeView tv) {
+		tv.HeadersVisible=true;
+		int count = 0;
+
+		tv.AppendColumn ( Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Limited by"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Limited value"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Start inside"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Extra weight"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
+	}
+	
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
+		TreeIter iter = new TreeIter();
+
+		//select data without inserting an "all jumps", and not obtain only name of jump
+		string [] myJumpTypes = SqliteJumpType.SelectJumpRjTypes("", false);
+		foreach (string myType in myJumpTypes) {
+			string [] myStringFull = myType.Split(new char[] {':'});
+			if(myStringFull[2] == "1") {
+				myStringFull[2] = Catalog.GetString("Yes");
+			} else {
+				myStringFull[2] = Catalog.GetString("No");
+			}
+			if(myStringFull[3] == "1") {
+				myStringFull[3] = Catalog.GetString("Yes");
+			} else {
+				myStringFull[3] = Catalog.GetString("No");
+			}
+			//limited
+			string myLimiter = Catalog.GetString("Jumps");
+			if(myStringFull[4] == "0") {
+				myLimiter = Catalog.GetString("Seconds");
+			}
+			string myLimiterValue = "?";
+			if(Convert.ToDouble(myStringFull[5]) > 0) {
+				myLimiterValue = myStringFull[5];
+			}
+
+			iter = store.AppendValues (
+					//myStringFull[0], //don't display de uniqueID
+					myStringFull[1],	//name 
+					myLimiter,		//jumps or seconds		
+					myLimiterValue,		//? or exact value
+					myStringFull[2], 	//startIn
+					myStringFull[3], 	//weight
+					myStringFull[4]		//description
+					);
+		}	
+	}
+
+	//puts a value in private member selected
+	private void on_treeview_jumps_rj_more_changed (object o, EventArgs args)
+	{
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+		selectedJumpType = "-1";
+		selectedStartIn = false;
+		selectedExtraWeight = false;
+		selectedLimited = false;
+		selectedLimitedValue = 0;
+
+		// you get the iter and the model if something is selected
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			selectedJumpType = (string) model.GetValue (iter, 0);
+			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Jumps") ) {
+				selectedLimited = true;
+			}
+			
+			if( (string) model.GetValue (iter, 2) == "?") {
+				selectedLimitedValue = 0;
+			} else {
+				selectedLimitedValue = Convert.ToDouble( (string) model.GetValue (iter, 2) );
+			}
+
+			if( (string) model.GetValue (iter, 3) == Catalog.GetString("Yes") ) {
+				selectedStartIn = true;
+			}
+			if( (string) model.GetValue (iter, 4) == Catalog.GetString("Yes") ) {
+				selectedExtraWeight = true;
+			}
+			button_accept.Sensitive = true;
+		}
+	}
+	
+	void on_button_close_clicked (object o, EventArgs args)
+	{
+		JumpsRjMoreWindowBox.jumps_rj_more.Hide();
+		JumpsRjMoreWindowBox = null;
+	}
+	
+	void on_jumps_rj_more_delete_event (object o, EventArgs args)
+	{
+		JumpsRjMoreWindowBox.jumps_rj_more.Hide();
+		JumpsRjMoreWindowBox = null;
+	}
+	
+	void on_button_accept_clicked (object o, EventArgs args)
+	{
+		Console.Write("SELECTED");
+	}
+	
+	public Button Button_accept 
+	{
+		set {
+			button_accept = value;	
+		}
+		get {
+			return button_accept;
+		}
+	}
+	
+	public string SelectedJumpType 
+	{
+		get {
+			return selectedJumpType;
+		}
+	}
+	
+	public bool SelectedLimited 
+	{
+		get {
+			return selectedLimited;
+		}
+	}
+	
+	public double SelectedLimitedValue 
+	{
+		get {
+			return selectedLimitedValue;
+		}
+	}
+	
+	public bool SelectedStartIn 
+	{
+		get {
+			return selectedStartIn;
+		}
+	}
+	
+	public bool SelectedExtraWeight 
+	{
+		get {
+			return selectedExtraWeight;
+		}
+	}
+}

@@ -91,9 +91,9 @@ public class SessionAddWindow {
 		//date comes as (i think): "day/month/year sec/hour/minute" (we use the first three)
 		string [] dateTimeFull = dateedit.Time.ToString().Split(new char[] {' '});
 	
-		bool sessionExists = SqlitePersonSession.SessionExists (removeTilde(entry_name.Text));
+		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
 		if(sessionExists) {
-			string myString =  Catalog.GetString ("Session: '") + removeTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(session_add, myString);
 
@@ -105,13 +105,6 @@ public class SessionAddWindow {
 		
 	}
 
-	private string removeTilde(string myString) 
-	{
-		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("'", "");
-		return myStringBuilder.ToString();
-	}
-	
 	public Button Button_accept 
 	{
 		set {
@@ -180,8 +173,8 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumpers"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Jumps"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("RJ Jumps"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Simple Jumps"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Reactive Jumps"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	

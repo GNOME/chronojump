@@ -1,10 +1,32 @@
 CHANGELOG:
-	graph code inherits from stats/main.cs
-	added sjCmjAbk graph
-	fixed bug in stats sorting when AVG is selected
-	fixed bug in removing stats columns after a graph was shown
-	colors in multisesion graphs are created now randomly
+	jumpTypes:
+		Tables jumpType and jumpRjType. New concept of jumps
+		The features of each jump should be known by checking jumpType
+		and jumpRjType tables, not it's name
+		added JumpType class in jumpType.cs 
+		added SqliteJumpType class in new file sqlite/jumpType.cs 
+		added JumpTypeAddWindow in new file gui/jumpType.cs
+		Buttons "more" and "more_rj" for executing lots of jumps(more_jumps widget)
+		Hability of create new jump types (simple and reactive)
+		Added CMJ+ and ABK+
+		database version 0.2
+	bugs:
+		fixed bug in changing to serial port when starting new database
+		fixed minor bugs
+	other:
+		added util.cs with "Util" class suitable for methods that were in different classes
+		user interface get's hidden by it's frames when program starts
+		cleaned some code
 
+28 february 2005 (2)
+	graphs:
+		graph code inherits from stats/main.cs
+		added sjCmjAbk graph
+	bugs:
+		fixed bug in stats sorting when AVG is selected
+		fixed bug in removing stats columns after a graph was shown
+	colors in multisesion graphs are created now randomly
+	
 28 february 2005
 	fixed gtk# garbage collector bug in nplot graphs
 	fixed bug in graphs with sex

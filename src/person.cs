@@ -61,8 +61,8 @@ public class Person {
 		this.description = description;
 		this.sessionID = sessionID;
 
-		name = removeTildeAndColon(name);
-		description = removeTildeAndColon(description);
+		name = Util.RemoveTildeAndColon(name);
+		description = Util.RemoveTildeAndColon(description);
 		
 		//insert in the person table
 		uniqueID = SqlitePerson.Insert (name, sex, dateBorn, height, weight, description);
@@ -72,15 +72,6 @@ public class Person {
 		//insert in the personSession table (fast way of knowing who was in each session)
 		SqlitePersonSession.Insert (uniqueID, sessionID);
 	}
-	
-	private string removeTildeAndColon(string myString) 
-	{
-		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("'", "");
-		myStringBuilder.Replace(":", "");
-		return myStringBuilder.ToString();
-	}
-	
 	
 	public override string ToString()
 	{

@@ -30,9 +30,11 @@ class Test {
     Automata estado_automata;
     double timestamp;
     double toff;
+   
     
     //-- Crear objeto chronopic, para acceder al chronopic
     Chronopic cp = new Chronopic("/dev/ttyS0");
+    
     
     //-- Obtener el estado inicial de la plataforma
     respuesta=cp.Read_platform(out estado_plataforma);
@@ -46,6 +48,7 @@ class Test {
       default:
         break;
     }
+    
     
     Console.WriteLine("Estado plataforma: {0}",estado_plataforma);
     

@@ -42,7 +42,11 @@ public class Chronopic {
    //-- Constructor
    public Chronopic(string disp)
    {
+	Console.WriteLine("1");
+	   
      this.serial_fd=this.Open(disp);
+	
+     Console.WriteLine("2");
    }
 
    //-- Destructor

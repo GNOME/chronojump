@@ -1,6 +1,8 @@
 TODO:
 ----
 
+make that serial connection can be stablished regardless before a modem has been used in the same port
+
 repair bug in treeviews, jumper's get not automatically expanded when make the first jump
 
 study how to make IE, IUB (the best two SJ,CMJ and CMJ,ABK; or the worst and the best)
@@ -35,10 +37,6 @@ make an edit session and a delete session, the class, probably heredate from ses
 
 - make the currentUser change when a user is selected in the treeview (with double click)
  (or edit this user)
-
-
-- (HALF) Put a button for "cancel jump" (specially usefull if we selected we are using the platform)
-
 
 - Capacitat de salt Total: (SJ+100%) + (sj-sj+100%) + (cmj-sj) + (abk-cmj) + (dj-abk)
 (altura DJ ?). Aixo funciona, pero no agafa la linia si falta algun salt:

@@ -6,6 +6,7 @@
 <requires lib="bonobo"/>
 
 <widget class="GnomeApp" id="app1">
+  <property name="width_request">640</property>
   <property name="height_request">480</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">ChronoJump</property>

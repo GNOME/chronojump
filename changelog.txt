@@ -1,5 +1,14 @@
 CHANGELOG:
 
+13 february 2005
+	new file treeViewJump.cs contains new classes TreeViewJump and
+	TreeViewJumpRj (now managing this treeviews is cleaner and powerful:
+	- two expanding modes in normal jumps
+	- three expanding modes in RJ jumps
+	- auto expand of Jumper when he jumps
+	- deleted all old code like ArrayOfStringItersCollapsed and some other
+	chronojump.cs global variables like JumpSelected
+
 12 february 2005
 	new stats (monosession and multisession): DJ index, IE, IUB, RJ index, RJ Potency Aguado
 	stats repaired sorting in monosession

@@ -119,17 +119,10 @@ public class ChronoJump {
 	
 	//normal jumps
 	private TreeStore treeview_jumps_store;
-	private static Gtk.TreeViewColumn col_name;
-	private static Gtk.TreeViewColumn col_tv;
-	private static Gtk.TreeViewColumn col_height;
-	private static Gtk.TreeViewColumn col_tc;
-
+	private TreeViewJumps myTreeViewJumps;
 	//rj jumps
 	private TreeStore treeview_jumps_rj_store;
-	private static Gtk.TreeViewColumn rj_col_name;
-	private static Gtk.TreeViewColumn rj_col_tv;
-	private static Gtk.TreeViewColumn rj_col_height;
-	private static Gtk.TreeViewColumn rj_col_tc;
+	private TreeViewJumpsRj myTreeViewJumpsRj;
 
 
 	private static string allJumpsName = "All jumps";
@@ -153,10 +146,6 @@ public class ChronoJump {
 	private static bool askDeletion;
 	private static bool weightStatsPercent;
 
-	//treeviews collapsed array of iters
-	private ArrayList myArrayOfStringItersCollapsed;
-	private ArrayList myArrayOfStringItersRjCollapsed;
-	
 	//currentPerson currentSession currentJump
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -191,10 +180,6 @@ public class ChronoJump {
 	private bool firstRjValue;
 	private string rjTCString;
 	private string rjTVString;
-
-	//selected jumps
-	private int jumpSelected = 0;
-	private int jumpRjSelected = 0;
 
 	//selected sessions
 	ArrayList selectedSessions;
@@ -233,10 +218,6 @@ public class ChronoJump {
 
 		loadPreferences ();
 		
-
-		myArrayOfStringItersCollapsed = new ArrayList(2);
-		myArrayOfStringItersRjCollapsed = new ArrayList(2);
-		
 		createTreeView_jumps(treeview_jumps);
 		createTreeView_jumps_rj(treeview_jumps_rj);
 
@@ -245,7 +226,7 @@ public class ChronoJump {
 		createComboSujetoCurrent();
 
 		myStat = new Stat(); //create and instance of myStat
-
+		
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
@@ -255,7 +236,7 @@ public class ChronoJump {
 		
 		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
 		Console.WriteLine ( Catalog.GetString ("if program crashes, disable next line, and work always in 'simulated' mode") );
-		serial_fd = Serial.Open("/dev/ttyS0");
+		//serial_fd = Serial.Open("/dev/ttyS0");
 		
 		program.Run();
 	}
@@ -300,199 +281,35 @@ public class ChronoJump {
 	 */
 
 	private void createTreeView_jumps (Gtk.TreeView tv) {
-		tv.HeadersVisible=true;
-		int count = 0;
-	
-		col_name = tv.AppendColumn ( Catalog.GetString("Name"), new CellRendererText(), "text", count ++);
-		col_tv = tv.AppendColumn ("TV", new CellRendererText(), "text", count ++);
-		if (showHeight) {
-			col_height = tv.AppendColumn ( Catalog.GetString("height"), new CellRendererText(), "text", count ++);
-		}
-		col_tc = tv.AppendColumn ("TC", new CellRendererText(), "text", count ++);
-		//tv.AppendColumn ("Fall", new CellRendererText(), "text", 4);
-		
-	}
-
-	private void removeTreeView_jumps (bool seenHeight) {
-		treeview_jumps.RemoveColumn (col_name);
-		treeview_jumps.RemoveColumn (col_tv);
-		if (seenHeight) {
-			treeview_jumps.RemoveColumn (col_height);
-		}
-		treeview_jumps.RemoveColumn (col_tc);
+		//myTreeViewJumps is a TreeViewJumps instance
+		myTreeViewJumps = new TreeViewJumps( tv, sortJumpsByType, showHeight, prefsDigitsNumber );
 	}
 
 	private void fillTreeView_jumps (Gtk.TreeView tv, TreeStore store, string filter) {
-		TreeIter iter = new TreeIter();
-
-		string tempJumper = ":"; //one value that's not possible
-	
 		string [] myJumps;
 		
 		if(sortJumpsByType) {
-			myJumps = SqliteJump.SelectAllNormalJumps(currentSession.UniqueID, "ordered_by_type"); //returns a string of values separated by ':'
+			myJumps = SqliteJump.SelectAllNormalJumps(
+					currentSession.UniqueID, "ordered_by_type"); //returns a string of values separated by ':'
 		}
 		else {
-			myJumps = SqliteJump.SelectAllNormalJumps(currentSession.UniqueID, "ordered_by_time"); //returns a string of values separated by ':'
+			myJumps = SqliteJump.SelectAllNormalJumps(
+					currentSession.UniqueID, "ordered_by_time"); //returns a string of values separated by ':'
 		}
-
-
-		string myType ;
-		string myTypeComplet ;
-			
-		foreach (string jump in myJumps) {
-			string [] myStringFull = jump.Split(new char[] {':'});
-
-			//show always the names of jumpers ...
-			if(tempJumper != myStringFull[0])
-			{
-				iter = store.AppendValues (myStringFull[0]);
-				tempJumper = myStringFull[0];
-			}
-
-			//... but if we selected one type of jump and this it's not the type, don't show
-			if(filter == allJumpsName || filter == myStringFull[4]) {
-
-				myType = myStringFull[4];
-				myTypeComplet = myType;
-				//SJ+ weight and RJ limited, are in fall column
-				if (myType == "DJ") {
-					myTypeComplet = myType + "(" + myStringFull[7] + ")"; //fall
-				} else if (myType == "SJ+") {
-					myTypeComplet = myType + "(" + myStringFull[8] + ")"; //weight
-				}
-				
-				if (showHeight) {
-					store.AppendValues (iter,
-						myTypeComplet,
-						trimDecimals( myStringFull[5].ToString() ),
-						trimDecimals( obtainHeight( myStringFull[5].ToString() ) ),
-						trimDecimals( myStringFull[6].ToString() )
-						, myStringFull[1] //jumpUniqueID (not shown) 
-						);
-				} else {
-					store.AppendValues (iter, 
-						myTypeComplet, 
-						trimDecimals( myStringFull[5].ToString() ),
-						trimDecimals( myStringFull[6].ToString() )
-						, myStringFull[1] //jumpUniqueID (not shown) 
-						);
-				}
-			}
-		}	
-
-		//now we expand what it's NOT marked for collapsing. Found no other way of doing this
-		string myStringTreeView;
-		TreeIter iterTreeView = new TreeIter();
-		bool modelNotEmpty = tv.Model.GetIterFirst ( out iterTreeView ) ;
-		bool found;
-
-		do {
-			if(!modelNotEmpty) {
-				return;
-			}
-			
-			myStringTreeView = tv.Model.GetStringFromIter ( iterTreeView ) ;
-
-			found = false;
-			foreach (string myStringArray in myArrayOfStringItersCollapsed) {
-				if (myStringArray != null) {
-
-					//if iterTreeView it's in the contracted Array list of iters
-					if ( myStringArray == myStringTreeView ) { 
-						found = true;
-						goto finishForeach;
-					}
-				}
-			}
-
-finishForeach:
-
-			if(!found) {
-				tv.ExpandRow( tv.Model.GetPath ( iterTreeView ) , true);
-			}
-
-		} while (tv.Model.IterNext (ref iterTreeView));
-
-	}
-
-	/*
-	private void expandCurrentJumperIfNeeded ()
-	{
-		foreach (string myStringArray in myArrayOfStringItersCollapsed) {
-			if (myStringArray != null) {
-				//if iterTreeView it's in the contracted Array list of iters
-				Console.WriteLine("{0}:::{1}", myStringArray, currentPerson.Name);
-				if ( myStringArray == currentPerson.Name ) { 
-					myArrayOfStringItersCollapsed.Remove ( myStringArray );
-				}
-			}
-		}
-	}
-	*/
-	
-	private void on_treeview_jumps_row_collapsed (object o, RowCollapsedArgs args)
-	{
-		string value = (string) treeview_jumps.Model.GetValue (args.Iter, 0);
-		Console.WriteLine ("collapsed: {0}", value);
-		
-		//put this iter in the row collapsed iters array, but check first if it's not already there.
-		
-		bool found = false;
-		
-		foreach (string myString in myArrayOfStringItersCollapsed) {
-			if (myString == treeview_jumps.Model.GetStringFromIter (args.Iter) ) {
-				found = true;
-			}
-		}
-		if(!found) {
-			myArrayOfStringItersCollapsed.Add ( treeview_jumps.Model.GetStringFromIter (args.Iter) );
-		}
-		
-		foreach (string myString in myArrayOfStringItersCollapsed) {
-		}
+		myTreeViewJumps.Fill(myJumps, filter);
 	}
 	
-	private void on_treeview_jumps_row_expanded (object o, RowExpandedArgs args)
-	{
-		string value = (string) treeview_jumps.Model.GetValue (args.Iter, 0);
-		
-		myArrayOfStringItersCollapsed.Remove ( treeview_jumps.Model.GetStringFromIter (args.Iter) );
+	private void on_button_tv_collapse_clicked (object o, EventArgs args) {
+		treeview_jumps.CollapseAll();
 	}
-
 	
-	//puts a value in private member selected
-	private void on_treeview_jumps_cursor_changed (object o, EventArgs args)
-	{
-		TreeView tv = (TreeView) o;
-		TreeModel model;
-		TreeIter iter;
-
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
-			if(showHeight) {
-				jumpSelected = Convert.ToInt32 ( model.GetValue (iter, 4) );
-			} else {
-				jumpSelected = Convert.ToInt32 ( model.GetValue (iter, 3) );
-			}
-		} else {
-			jumpSelected = 0;
-		}
-
+	private void on_button_tv_expand_clicked (object o, EventArgs args) {
+		treeview_jumps.ExpandAll();
 	}
 	
 	private void treeview_jumps_storeReset() {
-		if (showHeight) {
-			//name, tv, alt, tc, jumpUniqueID
-			//if it's a person, jumpUniqueID is "". 
-			treeview_jumps_store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof(string));
-		} else {
-			//name, tv, tc, jumpUniqueID
-			//if it's a person, jumpUniqueID is "".
-			treeview_jumps_store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
-		}
-		
-		treeview_jumps.Model = treeview_jumps_store;
+		myTreeViewJumps.RemoveColumns();
+		myTreeViewJumps = new TreeViewJumps( treeview_jumps, sortJumpsByType, showHeight, prefsDigitsNumber );
 	}
 
 
@@ -502,222 +319,34 @@ finishForeach:
 	 */
 
 	private void createTreeView_jumps_rj (Gtk.TreeView tv) {
-		tv.HeadersVisible=true;
-		int count = 0;
-	
-		rj_col_name = tv.AppendColumn (Catalog.GetString("Name"), new CellRendererText(), "text", count ++);
-		rj_col_tv = tv.AppendColumn ("TV", new CellRendererText(), "text", count ++);
-		if (showHeight) {
-			rj_col_height = tv.AppendColumn (Catalog.GetString("height"), new CellRendererText(), "text", count ++);
-		}
-		rj_col_tc = tv.AppendColumn ("TC", new CellRendererText(), "text", count ++);
-		//tv.AppendColumn ("Fall", new CellRendererText(), "text", 4);
-		
-	}
-
-	private void removeTreeView_jumps_rj (bool seenHeight) {
-		treeview_jumps_rj.RemoveColumn (rj_col_name);
-		treeview_jumps_rj.RemoveColumn (rj_col_tv);
-		if (seenHeight) {
-			treeview_jumps_rj.RemoveColumn (rj_col_height);
-		}
-		treeview_jumps_rj.RemoveColumn (rj_col_tc);
+		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, prefsDigitsNumber );
 	}
 
 	//no filter in treeview_jumps_rj
 	private void fillTreeView_jumps_rj (Gtk.TreeView tv, TreeStore store) {
-		TreeIter iter = new TreeIter();
-		TreeIter iterDeep = new TreeIter(); //only for RJ
-
-		string tempJumper = ":"; //one value that's not possible
-	
-		string [] myJumps;
-		
-		myJumps = SqliteJump.SelectAllRjJumps(currentSession.UniqueID); //returns a string of values separated by ':'
-
-
-		string myType ;
-		string myTypeComplet ;
-			
-		foreach (string jump in myJumps) {
-			string [] myStringFull = jump.Split(new char[] {':'});
-
-			//show always the names of jumpers ...
-			if(tempJumper != myStringFull[0])
-			{
-				iter = store.AppendValues (myStringFull[0]);
-				tempJumper = myStringFull[0];
-			}
-
-
-			myType = myStringFull[4];
-			myTypeComplet = myType + "(" + myStringFull[16] + ") AVG: "; //limited
-
-			if (showHeight) {
-				iterDeep = store.AppendValues (iter,
-						myTypeComplet,
-						trimDecimals( myStringFull[10].ToString() ), //tvAvg
-						trimDecimals( obtainHeight( myStringFull[10].ToString() ) ), //height(tvAvg)
-						trimDecimals( myStringFull[11].ToString() ), //tcAvg
-						myStringFull[1] //jumpUniqueID (not shown) 
-						);
-			} else {
-				iterDeep = store.AppendValues (iter, 
-						myTypeComplet, 
-						trimDecimals( myStringFull[10].ToString() ), //tvAvg
-						trimDecimals( myStringFull[11].ToString() ), //tcAvg
-						myStringFull[1] //jumpUniqueID (not shown) 
-						);
-			}
-			//if it's an RJ, we should make a deeper tree with all the jumps
-			//the info above it's average
-
-			string [] rjTvs = myStringFull[12].Split(new char[] {'='});
-			string [] rjTcs = myStringFull[13].Split(new char[] {'='});
-			int count = 0;
-			foreach (string myTv in rjTvs) 
-			{
-				if (showHeight) {
-					store.AppendValues (iterDeep, 
-							(count+1).ToString(), 
-							trimDecimals(myTv), 
-							trimDecimals(obtainHeight(myTv)),
-							trimDecimals(rjTcs[count]), 
-							myStringFull[1] //jumpUniqueID 
-							);
-				} else {
-					store.AppendValues (iterDeep, 
-							(count+1).ToString(), 
-							trimDecimals(myTv), 
-							trimDecimals(rjTcs[count]),
-							myStringFull[1] //jumpUniqueID 
-							);
-				}
-				count ++;
-			}
-		}
-
-		//now we expand what it's NOT marked for collapsing. Found no other way of doing this
-		string myStringTreeView;
-		TreeIter iterTreeView = new TreeIter();
-		bool modelNotEmpty = tv.Model.GetIterFirst ( out iterTreeView ) ;
-		bool found;
-
-		do {
-			if(!modelNotEmpty) {
-				return;
-			}
-			
-			myStringTreeView = tv.Model.GetStringFromIter ( iterTreeView ) ;
-
-			found = false;
-			foreach (string myStringArray in myArrayOfStringItersRjCollapsed) {
-				if (myStringArray != null) {
-
-					//if iterTreeView it's in the contracted Array list of iters
-					if ( myStringArray == myStringTreeView ) { 
-						found = true;
-						goto finishForeach;
-					}
-				}
-			}
-
-finishForeach:
-
-			if(!found) {
-				tv.ExpandRow( tv.Model.GetPath ( iterTreeView ) , true);
-			}
-
-			//all the deeper iters (RJs) should be always collapsed
-			if( tv.Model.IterHasChild (iterTreeView) ) {
-				int children = tv.Model.IterNChildren(iterTreeView) ;
-				//Console.WriteLine("HasChild, children: {0}", children );
-				tv.Model.IterNthChild ( out iterTreeView, iterTreeView, 0 );
-				for (int i=0; i < children ; i++) {
-					string myStringTreeView2 = tv.Model.GetStringFromIter ( iterTreeView ) ;
-					//Console.WriteLine("stringtreeview2: {0}, has child: {1}", 
-							//myStringTreeView2, tv.Model.IterNChildren(iterTreeView) );
-					if ( tv.Model.IterHasChild (iterTreeView) ) {
-						tv.CollapseRow(tv.Model.GetPath (iterTreeView) );
-						//Console.WriteLine("collapsed");
-					}
-				
-					tv.Model.IterNext (ref iterTreeView);
-				}
-				tv.Model.IterParent ( out iterTreeView, iterTreeView );
-			}
-		} while (tv.Model.IterNext (ref iterTreeView));
-
-//escape:
-
+		string [] myJumps = SqliteJump.SelectAllRjJumps(
+					currentSession.UniqueID); //returns a string of values separated by ':'
+		myTreeViewJumpsRj.Fill(myJumps, "none");
 	}
 
-	
-	private void on_treeview_jumps_rj_row_collapsed (object o, RowCollapsedArgs args)
-	{
-		string value = (string) treeview_jumps_rj.Model.GetValue (args.Iter, 0);
-		
-		//put this iter in the row collapsed iters array, but check first if it's not already there.
-		
-		bool found = false;
-		
-		foreach (string myString in myArrayOfStringItersRjCollapsed) {
-			if (myString == treeview_jumps_rj.Model.GetStringFromIter (args.Iter) ) {
-				found = true;
-			}
-		}
-		if(!found) {
-			myArrayOfStringItersRjCollapsed.Add ( treeview_jumps_rj.Model.GetStringFromIter (args.Iter) );
-		}
-		
-		foreach (string myString in myArrayOfStringItersRjCollapsed) {
-		}
+	private void on_button_tv_rj_collapse_clicked (object o, EventArgs args) {
+		treeview_jumps_rj.CollapseAll();
 	}
 	
-	private void on_treeview_jumps_rj_row_expanded (object o, RowExpandedArgs args)
-	{
-		string value = (string) treeview_jumps_rj.Model.GetValue (args.Iter, 0);
-		Console.WriteLine ("expanded: {0}", value);
-		
-		myArrayOfStringItersRjCollapsed.Remove ( treeview_jumps_rj.Model.GetStringFromIter (args.Iter) );
+	private void on_button_tv_rj_optimal_clicked (object o, EventArgs args) {
+		treeview_jumps_rj.CollapseAll();
+		myTreeViewJumpsRj.ExpandOptimal();
 	}
-
 	
-	//puts a value in private member selected
-	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args)
-	{
-		TreeView tv = (TreeView) o;
-		TreeModel model;
-		TreeIter iter;
-
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
-			if(showHeight) {
-				jumpRjSelected = Convert.ToInt32 ( model.GetValue (iter, 4) );
-			} else {
-				jumpRjSelected = Convert.ToInt32 ( model.GetValue (iter, 3) );
-			}
-		} else {
-			jumpRjSelected = 0;
-		}
-
+	private void on_button_tv_rj_expand_clicked (object o, EventArgs args) {
+		treeview_jumps_rj.ExpandAll();
 	}
 	
 	private void treeview_jumps_rj_storeReset() {
-		if (showHeight) {
-			//name, tv, alt, tc, jumpUniqueID
-			//if it's a person, jumpUniqueID is "". If it's a RJsubjump, jumpUniqueID equals the RJ jump uniqueID
-			treeview_jumps_rj_store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof(string));
-		} else {
-			//name, tv, tc, jumpUniqueID
-			//if it's a person, jumpUniqueID is "". If it's a RJsubjump, jumpUniqueID equals the RJ jump uniqueID
-			treeview_jumps_rj_store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
-		}
-		
-		treeview_jumps_rj.Model = treeview_jumps_rj_store;
+		myTreeViewJumpsRj.RemoveColumns();
+		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, prefsDigitsNumber );
 	}
 	
-
 	private static string obtainHeight (string time) {
 		// s = 4.9 * (tv/2)exp2
 		double myValue = 4.9 * ( Convert.ToDouble(time) / 2 ) * (Convert.ToDouble(time) / 2 ) ;
@@ -1187,9 +816,6 @@ finishForeach:
 			selectedSessions = new ArrayList(2);
 			selectedSessions.Add(currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date);
 			
-			//clear the arrayList if contracted iters
-			myArrayOfStringItersCollapsed = new ArrayList(2);
-
 			//load the treeview
 			treeview_jumps_storeReset();
 			fillTreeView_jumps(treeview_jumps,treeview_jumps_store,allJumpsName);
@@ -1227,9 +853,6 @@ finishForeach:
 		//put value in selectedSessions
 		selectedSessions = new ArrayList(2);
 		selectedSessions.Add(currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date);
-		
-		//clear the arrayList if contracted iters
-		myArrayOfStringItersCollapsed = new ArrayList(2);
 		
 		//load the treeview_jumps
 		treeview_jumps_storeReset();
@@ -1401,10 +1024,6 @@ finishForeach:
 			weightStatsPercent = false;
 		}
 
-		//...remove corresponding headers...
-		removeTreeView_jumps (showHeight);
-		removeTreeView_jumps_rj (showHeight);
-		
 		//update showHeight
 		if ( SqlitePreferences.Select("showHeight") == "True" ) {
 			showHeight = true;
@@ -1507,10 +1126,6 @@ finishForeach:
 
 			}
 		}
-
-		//check if the row of this jumper it's contracted, if it's, mark for expanding
-		//FIXME: do the same in the other jumps
-		//expandCurrentJumperIfNeeded ();
 	}
 
 
@@ -1530,8 +1145,8 @@ finishForeach:
 
 		sensitiveGuiYesJump();
 		string myText = combo_jumps.Entry.Text;
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps,treeview_jumps_store,myText);
+		myTreeViewJumps.Add(currentPerson.Name, currentJump);
+		
 		if(statsAutomatic) {
 			fillTreeView_stats();
 		}
@@ -1648,10 +1263,6 @@ finishForeach:
 				confirmWin.Button_accept.Clicked += new EventHandler(on_dj_fall_accepted);
 			}
 		}
-
-		//check if the row of this jumper it's contracted, if it's, mark for expanding
-		//FIXME: do the same in the other jumps
-		//expandCurrentJumperIfNeeded ();
 	}
 
 	public void OnTimerDjJump( System.Object source, ElapsedEventArgs e )
@@ -1708,8 +1319,8 @@ finishForeach:
 
 		sensitiveGuiYesJump();
 		string myText = combo_jumps.Entry.Text;
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps,treeview_jumps_store,myText);
+		
+		myTreeViewJumps.Add(currentPerson.Name, currentJump);
 		if(statsAutomatic) {
 			fillTreeView_stats();
 		}
@@ -1892,10 +1503,10 @@ finishForeach:
 				);
 		lastJumpIsRj = true;
 		
-		
 		sensitiveGuiYesJump();
-		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
+		
+		myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
+
 		if(statsAutomatic) {
 			fillTreeView_stats();
 		}
@@ -1904,7 +1515,6 @@ finishForeach:
 			" AVG TV: " + trimDecimals( getAverage (myTVString).ToString() ) +
 			" AVG TC: " + trimDecimals( getAverage (myTCString).ToString() ) ;
 		appbar2.Push( myStringPush );
-				
 	}
 	
 	
@@ -1994,12 +1604,9 @@ finishForeach:
 		appbar2.Push( Catalog.GetString("Last jump deleted") );
 		
 		if(lastJumpIsRj) {
-			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(treeview_jumps_rj,treeview_jumps_rj_store);
+			myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
 		} else {
-			string myText = combo_jumps.Entry.Text;
-			treeview_jumps_storeReset();
-			fillTreeView_jumps(treeview_jumps,treeview_jumps_store,myText);
+			myTreeViewJumps.DelJump(currentJump.UniqueID);
 		}
 		
 		if(statsAutomatic) {
@@ -2011,9 +1618,9 @@ finishForeach:
 		Console.WriteLine("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (jumpSelected > 0) {
+		if (myTreeViewJumps.JumpSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			Jump myJump = SqliteJump.SelectNormalJumpData( jumpSelected );
+			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.JumpSelectedID );
 			Console.WriteLine(myJump);
 		
 			//4.- edit this jump
@@ -2026,9 +1633,9 @@ finishForeach:
 		Console.WriteLine("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (jumpRjSelected > 0) {
+		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJump.SelectRjJumpData( jumpRjSelected );
+			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.JumpSelectedID );
 			Console.WriteLine(myJump);
 		
 			//4.- edit this jump
@@ -2063,19 +1670,21 @@ finishForeach:
 		Console.WriteLine("delete selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		if (jumpSelected > 0) {
+		if (myTreeViewJumps.JumpSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				bool isRj = false;
 				confirmWinJump = ConfirmWindowJump.Show(app1, "Do you want to delete selected jump?", 
-						"", "jump", jumpSelected, isRj);
+						"", "jump", myTreeViewJumps.JumpSelectedID, isRj);
 				confirmWinJump.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
 				Console.WriteLine("accept delete selected jump");
-				SqliteJump.Delete(jumpSelected.ToString());
-				treeview_jumps_storeReset();
-				fillTreeView_jumps(treeview_jumps, treeview_jumps_store, combo_jumps.Entry.Text);
-
+				SqliteJump.Delete(
+						(myTreeViewJumps.JumpSelectedID).ToString()
+						);
+				appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
+				myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
+				
 				if(statsAutomatic) {
 					fillTreeView_stats();
 				}
@@ -2087,17 +1696,17 @@ finishForeach:
 		Console.WriteLine("delete selected (RJ) jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (jumpRjSelected > 0) {
+		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				bool isRj = true;
 				confirmWinJump = ConfirmWindowJump.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
 						 Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"), 
-						 "jump", jumpRjSelected, isRj);
+						 "jump", myTreeViewJumpsRj.JumpSelectedID, isRj);
 				confirmWinJump.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				Console.WriteLine("accept delete selected jump");
-				SqliteJump.RjDelete(jumpRjSelected.ToString());
+				SqliteJump.RjDelete(myTreeViewJumpsRj.JumpSelectedID.ToString());
 				treeview_jumps_rj_storeReset();
 				fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 
@@ -2110,8 +1719,8 @@ finishForeach:
 	
 	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, combo_jumps.Entry.Text);
+		appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
+		myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
 
 		if(statsAutomatic) {
 			fillTreeView_stats();
@@ -2132,23 +1741,6 @@ finishForeach:
 	 * ----------------  SOME MORE CALLBACKS---------------------
 	 *  --------------------------------------------------------
 	 */
-	
-	private void on_ind_elasticidad_activate (object o, EventArgs args) {
-		Console.WriteLine("I. elast.");
-	}
-	
-	private void on_ind_utiliz_brazos_activate (object o, EventArgs args) {
-		Console.WriteLine("I. Ut. brazos");
-	}
-
-	//stats
-	private void on_intrasesion_activate (object o, EventArgs args) {
-		Console.WriteLine("Graf. Intrasesion");
-	}
-	
-	private void on_intersesion_activate (object o, EventArgs args) {
-		Console.WriteLine("Graf. Intersesion");
-	}
 	
 	
 	//help

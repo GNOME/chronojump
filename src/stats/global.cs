@@ -37,7 +37,6 @@ public class StatGlobal : Stat
 
 	public StatGlobal (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType) 
 	{
-		this.sessionName = "nothing";
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for the statName, the AVG horizontal and SD horizontal
 		} else {

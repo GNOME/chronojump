@@ -30,7 +30,6 @@ public class StatRjPotencyAguado : Stat
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatRjPotencyAguado () 
 	{
-		this.sessionName = "";
 		this.showSex = false;
 		this.statsJumpsType = 0;
 		this.limit = 0;
@@ -38,7 +37,6 @@ public class StatRjPotencyAguado : Stat
 
 	public StatRjPotencyAguado (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
-		this.sessionName = "nothing";
 		this.dataColumns = 6;	//for simplesession (index, tv (avg), tc (avg), jumps, time, fall)
 		this.limit = limit;
 		

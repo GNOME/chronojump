@@ -58,7 +58,7 @@ public class ChronoJump {
 	[Widget] Gtk.Button button_edit_selected_jump_rj;
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
 	bool statsAutomatic = false;
-
+	bool statsColumnsToRemove = false;
 
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
@@ -373,15 +373,24 @@ public class ChronoJump {
 	 *  --------------------------------------------------------
 	 */
 	
+
+
+	private void statsRemoveColumns() {
+		Gtk.TreeViewColumn [] myColumns = treeview_stats.Columns;
+		foreach (Gtk.TreeViewColumn column in myColumns) {
+			treeview_stats.RemoveColumn (column);
+		}
+	}
+
 	private void fillTreeView_stats (bool graph) {
 		
 		string myText = combo_stats_stat_name.Entry.Text;
 		string [] fullTitle = myText.Split(new char[] {' '});
 
-		//FIXME: do this different in the future, because with multiple sessions in every stat, has no sense this sessionName property
-		if(myStat.SessionName != "" && !graph) {
-			myStat.RemoveColumns();
+		if(statsColumnsToRemove && !graph) {
+			statsRemoveColumns();
 		}
+		statsColumnsToRemove = true;
 	
 		int statsJumpsType = 0;
 		int limit = -1;
@@ -462,6 +471,13 @@ public class ChronoJump {
 		else if(myText == "SJ" || myText == "CMJ" || myText == "ABK")
 		{
 			if(graph) {
+				myStat = new GraphSjCmjAbk ( 
+						sendSelectedSessions, 
+						prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+				myStat.CreateGraph();
 			} else {
 				myStat = new StatSjCmjAbk (treeview_stats, 
 						sendSelectedSessions, 
@@ -473,70 +489,91 @@ public class ChronoJump {
 		}
 		else if(myText == "SJ+" || myText == "CMJ+" || myText == "ABK+")
 		{
-			myStat = new StatSjCmjAbkPlus (treeview_stats, 
-					sendSelectedSessions, 
-					prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
-					statsJumpsType,
-					limit,
-					weightStatsPercent
-					);
-			myStat.PrepareData();
+			if(graph) {
+			} else {
+				myStat = new StatSjCmjAbkPlus (treeview_stats, 
+						sendSelectedSessions, 
+						prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
+						statsJumpsType,
+						limit,
+						weightStatsPercent
+						);
+				myStat.PrepareData();
+			}
 		}
 		else if(myText == "DJ (TV)")
 		{
-			myStat = new StatDj(treeview_stats, 
-					sendSelectedSessions, 
-					prefsDigitsNumber, checkbutton_stats_sex.Active,
-					statsJumpsType,
-					limit);
-			myStat.PrepareData();
+			if(graph) {
+			} else {
+				myStat = new StatDj(treeview_stats, 
+						sendSelectedSessions, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active,
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+			}
 		}
 		else if(myText == "DJ Index (tv-tc)*100/tc")
 		{
-			myStat = new StatDjIndex(treeview_stats, 
-					sendSelectedSessions, 
-					prefsDigitsNumber, checkbutton_stats_sex.Active,
-					statsJumpsType,
-					limit);
-			myStat.PrepareData();
+			if(graph) {
+			} else {
+				myStat = new StatDjIndex(treeview_stats, 
+						sendSelectedSessions, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active,
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+			}
 		}
 		else if(myText == "RJ Average Index")
 		{
-			myStat = new StatRjIndex(treeview_stats, 
-					sendSelectedSessions, 
-					prefsDigitsNumber, checkbutton_stats_sex.Active,
-					statsJumpsType,
-					limit);
-			myStat.PrepareData();
+			if(graph) {
+			} else {
+				myStat = new StatRjIndex(treeview_stats, 
+						sendSelectedSessions, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active,
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+			}
 		}	
 		else if(myText == "POTENCY (Aguado)") // 9.81^2*TV*TT / (4*jumps*(TT-TV))
 		{
-			myStat = new StatRjPotencyAguado(treeview_stats, 
-					sendSelectedSessions, 
-					prefsDigitsNumber, checkbutton_stats_sex.Active, 
-					statsJumpsType,
-					limit);
-			myStat.PrepareData();
+			if(graph) {
+			} else {
+				myStat = new StatRjPotencyAguado(treeview_stats, 
+						sendSelectedSessions, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active, 
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+			}
 		}
 		else if(myText == "IE (cmj-sj)*100/sj")
 		{
-			myStat = new StatIeIub(treeview_stats, 
-					sendSelectedSessions,
-					"IE", 
-					prefsDigitsNumber, checkbutton_stats_sex.Active, 
-					statsJumpsType,
-					limit);
-			myStat.PrepareData();
+			if(graph) {
+			} else {
+				myStat = new StatIeIub(treeview_stats, 
+						sendSelectedSessions,
+						"IE", 
+						prefsDigitsNumber, checkbutton_stats_sex.Active, 
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+			}
 		}
 		else if(myText == "IUB (abk-cmj)*100/cmj")
 		{
-			myStat = new StatIeIub(treeview_stats, 
-					sendSelectedSessions,
-					"IUB", 
-					prefsDigitsNumber, checkbutton_stats_sex.Active, 
-					statsJumpsType,
-					limit);
-			myStat.PrepareData();
+			if(graph) {
+			} else {
+				myStat = new StatIeIub(treeview_stats, 
+						sendSelectedSessions,
+						"IUB", 
+						prefsDigitsNumber, checkbutton_stats_sex.Active, 
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+			}
 		}
 		
 		//show enunciate of the stat in textview_enunciate

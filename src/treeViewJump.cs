@@ -156,7 +156,7 @@ public class TreeViewJumps
 		string iterJumperString;
 		bool found = false;
 		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", false);
-		
+	
 		if(modelNotEmpty) {
 			do {
 				iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();

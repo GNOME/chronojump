@@ -28,9 +28,11 @@ using Gnome;
 using System.Collections; //ArrayList
 using System.Timers; 
 
+using System.Threading;
 
 
-public class ChronoJump {
+public class ChronoJump 
+{
 	[Widget] Gtk.Window app1;
 	[Widget] Gnome.AppBar appbar2;
 	[Widget] Gtk.TreeView treeview_jumps;
@@ -40,6 +42,8 @@ public class ChronoJump {
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_stats_stat_name;
 	[Widget] Gtk.Box hbox_combo_person_current;
+	[Widget] Gtk.Box vbox_jumps;
+	[Widget] Gtk.Box vbox_jumps_rj;
 	[Widget] Gtk.Label label_current_jumper;
 	[Widget] Gtk.Combo combo_jumps;
 	[Widget] Gtk.Combo combo_jumps_rj;
@@ -51,8 +55,6 @@ public class ChronoJump {
 	[Widget] Gtk.CheckButton checkbutton_stats_sex;
 	[Widget] Gtk.CheckButton checkbutton_stats_always;
 	[Widget] Gtk.CheckButton checkbutton_show_enunciate;
-	bool sortJumpsByType = false;
-	bool sortJumpsRjByType = false;
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump;
 	[Widget] Gtk.Button button_edit_selected_jump;
@@ -184,9 +186,11 @@ public class ChronoJump {
 	ConfirmWindow confirmWin;		//for go up or down the platform, and for 
 						//export in a not-newly-created file
 	ConfirmWindowJump confirmWinJump;	//for deleting jumps and RJ jumps
-
-	//timers
-	private static System.Timers.Timer timerClockJump;    
+		
+	//Thread and progress bar 
+	private Thread thread;
+	[Widget] Gtk.Box hbox_progress_bar;
+	Gtk.ProgressBar progressBar;
 
 	//platform state variables
 	enum States {
@@ -198,8 +202,6 @@ public class ChronoJump {
 	Chronopic cp;
 	States loggedState;		//log of last state
 	private double tcDjJump;	//used for log the jumps with previous fall
-	//private bool firstRjTc;
-	//private bool firstRjTv;
 	private bool firstRjValue;
 	private double rjTcCount;
 	private double rjTvCount;
@@ -210,7 +212,9 @@ public class ChronoJump {
 	ArrayList selectedSessions;
 
 	//useful for deleting headers of lastStat just before making a new Stat
-	private Stat myStat;  
+	private Stat myStat; 
+
+	private bool cancellingJump;
 
 	public static void Main(string [] args) 
 	{
@@ -252,13 +256,19 @@ public class ChronoJump {
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
+		progressBar = new ProgressBar();
+		hbox_progress_bar.PackStart(progressBar, true, true, 0);
+		hbox_progress_bar.ShowAll();
+		
 		appbar2.Push ( Catalog.GetString ("Ready.") );
 
 		rand = new Random(40);
+				
+		//thread = new Thread(new ThreadStart(amazonQuery));
 		
 		//init connecting with chronopic	
 		chronopicInit();
-		
+				
 		program.Run();
 	}
 
@@ -329,13 +339,17 @@ public class ChronoJump {
 
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
-		myTreeViewJumps = new TreeViewJumps( tv, sortJumpsByType, showHeight, prefsDigitsNumber );
+		bool sortByType = false;
+		if(checkbutton_sort_by_type.Active) {
+			sortByType = true;
+		}
+		myTreeViewJumps = new TreeViewJumps( tv, sortByType, showHeight, prefsDigitsNumber );
 	}
 
 	private void fillTreeView_jumps (Gtk.TreeView tv, TreeStore store, string filter) {
 		string [] myJumps;
 		
-		if(sortJumpsByType) {
+		if(checkbutton_sort_by_type.Active) {
 			myJumps = SqliteJump.SelectAllNormalJumps(
 					currentSession.UniqueID, "ordered_by_type");
 		} else {
@@ -346,9 +360,6 @@ public class ChronoJump {
 	}
 
 	private void on_checkbutton_sort_by_type_clicked(object o, EventArgs args) {
-		if (sortJumpsByType) { sortJumpsByType = false; }
-		else { sortJumpsByType = true; }
-		
 		string myText = combo_jumps.Entry.Text;
 			
 		treeview_jumps_storeReset();
@@ -366,7 +377,11 @@ public class ChronoJump {
 	
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
-		myTreeViewJumps = new TreeViewJumps( treeview_jumps, sortJumpsByType, showHeight, prefsDigitsNumber );
+		bool sortByType = false;
+		if(checkbutton_sort_by_type.Active) {
+			sortByType = true;
+		}
+		myTreeViewJumps = new TreeViewJumps( treeview_jumps, sortByType, showHeight, prefsDigitsNumber );
 	}
 
 
@@ -381,7 +396,7 @@ public class ChronoJump {
 
 	private void fillTreeView_jumps_rj (Gtk.TreeView tv, TreeStore store, string filter) {
 		string [] myJumps;
-		if(sortJumpsRjByType) {
+		if(checkbutton_sort_by_type_rj.Active) {
 			myJumps = SqliteJump.SelectAllRjJumps(
 						currentSession.UniqueID, "ordered_by_type"); 
 		} else {
@@ -392,13 +407,9 @@ public class ChronoJump {
 	}
 
 	private void on_checkbutton_sort_by_type_rj_clicked(object o, EventArgs args) {
-		if (sortJumpsRjByType) { sortJumpsRjByType = false; }
-		else { sortJumpsRjByType = true; }
-		
 		string myText = combo_jumps_rj.Entry.Text;
 			
 		treeview_jumps_rj_storeReset();
-		//fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
 		myTreeViewJumpsRj.ExpandOptimal();
 	}
@@ -1230,6 +1241,10 @@ public class ChronoJump {
 	{
 		//FIXME: do something here
 		Console.WriteLine("Cancel Jump");
+
+		//this will cancel jumps
+		cancellingJump = true;
+		progressBar.Fraction = 1.0;
 	}
 		
 	private void on_button_more_clicked (object o, EventArgs args) 
@@ -1291,6 +1306,7 @@ public class ChronoJump {
 	//all jumps that startIn and are not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
+		
 		string myType;
 
 		if(o == (object) button_sj || o == (object) sj) {
@@ -1302,6 +1318,20 @@ public class ChronoJump {
 		} else {
 		}
 
+		/*
+		try {
+			if (thread.IsAlive) {
+				Console.WriteLine("AThread isAlive?: {0}", thread.IsAlive);
+				Console.WriteLine("Thread status: {0}", thread.ThreadState);
+				thread.Abort();
+				Console.WriteLine("BThread isAlive?: {0}", thread.IsAlive);
+				Console.WriteLine("Thread status: {0}", thread.ThreadState);
+			}
+		} catch {
+			Console.WriteLine("Thread is Not Alive, we are in catch");
+		}
+		*/
+		
 		if (simulated) {
 			//random value
 			double myTV = rand.NextDouble() * .6;
@@ -1316,14 +1346,24 @@ public class ChronoJump {
 			} while (respuesta!=Chronopic.Respuesta.Ok);
       
     			if (platformState==Chronopic.Plataforma.ON) {
-				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
+				//Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
+				appbar2.Push( Catalog.GetString("You are IN, JUMP when prepared!!") );
 
 				loggedState = States.ON;
+		
+				//reset progressBar
+				progressBar.Fraction = 0;
+	
+				//hide jumping buttons
+				sensitiveGuiJumping();
+
+				//prepare jump for being cancelled if desired
+				cancellingJump = false;
 				
-				timerClockJump = new System.Timers.Timer();    
-				timerClockJump.Elapsed += new ElapsedEventHandler(OnTimerNormalJump);
-				timerClockJump.Interval = 100; //one decisecond
-				timerClockJump.Enabled = true;
+				//start thread
+				thread = new Thread(new ThreadStart(waitJump));
+				GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+				thread.Start(); 
 			} 
 			else {
 				Console.WriteLine( Catalog.GetString("You are OUT, please come inside the platform") );
@@ -1337,34 +1377,53 @@ public class ChronoJump {
 		}
 	}
 
-	public void OnTimerNormalJump( System.Object source, ElapsedEventArgs e )
+	private void waitJump ()
 	{
 		double timestamp;
-		respuesta = cp.Read_event(out timestamp, out platformState);
-		if (respuesta == Chronopic.Respuesta.Ok) {
-			if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
-				//it's inside, was out (= has landed)
-				
-				//stop the timer event
-				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerNormalJump);
-				timerClockJump.Enabled = false;
-				Console.WriteLine("------------Timer event should be killed----------");
-				
-				//write the jump in seconds
-				writeNormalJump (timestamp/1000);
+		bool success = false;
+		do {
+			respuesta = cp.Read_event(out timestamp, out platformState);
+			if (respuesta == Chronopic.Respuesta.Ok) {
+				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
+					//it's inside, was out (= has landed)
 
-				//change the automata state (not needed in this jump)
-				loggedState = States.ON;
-			} 
-			else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
-				//it's out, was inside (= has jumped)
-				//don't write nothing here
-				
-				//change the automata state
-				loggedState = States.OFF;
+					//change the automata state (not needed in this jump)
+					loggedState = States.ON;
+
+					//write the jump in seconds
+					writeNormalJump (timestamp/1000);
+
+					success = true;
+				}
+				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+					//it's out, was inside (= has jumped)
+					//don't write nothing here
+
+					//change the automata state
+					loggedState = States.OFF;
+
+					//change the progressBar percent
+					progressBar.Fraction = 0.5;
+				}
 			}
-		}
+		} while ( ! success && ! cancellingJump );
 	}
+	
+	private bool Pulse ()
+	{
+		if (thread.IsAlive) {
+			if(progressBar.Fraction == 1) {
+				Console.Write("dying");
+				sensitiveGuiJumped();
+				return false;
+			}
+			Thread.Sleep (150);
+			//Console.Write(thread.ThreadState);
+			return true;
+		}
+		return false;
+	}
+
 
 	//writes the non-simulated normal jump (all non repetitve jumps without startIn (without fall))
 	//sj, sj+, cmj, cmj+, abk, abk+, ...
@@ -1381,7 +1440,6 @@ public class ChronoJump {
 		lastJumpIsReactive = false;
 
 		sensitiveGuiYesJump();
-		string myText = combo_jumps.Entry.Text;
 		myTreeViewJumps.Add(currentPerson.Name, currentJump);
 		
 		if(statsAutomatic) {
@@ -1399,6 +1457,9 @@ public class ChronoJump {
 		if(notebook_jumps.CurrentPage == 1) {
 			notebook_jumps.PrevPage();
 		}
+				
+		//put max value in progressBar. This makes the thread in Pulse() stop
+		this.progressBar.Fraction = 1;
 	}
 
 	/* ---------------------------------------------------------
@@ -1423,15 +1484,25 @@ public class ChronoJump {
 			} while (respuesta!=Chronopic.Respuesta.Ok);
       
     			if (platformState==Chronopic.Plataforma.OFF) {
-				Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
+				//Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
+				appbar2.Push( Catalog.GetString("You are OUT, JUMP when prepared!!") );
 
 				loggedState = States.OFF;
 				tcDjJump = 0;	//useful for tracking the evolution of this jump
 				
-				timerClockJump = new System.Timers.Timer();    
-				timerClockJump.Elapsed += new ElapsedEventHandler(OnTimerDjJump);
-				timerClockJump.Interval = 100; //one decisecond
-				timerClockJump.Enabled = true;
+				//reset progressBar
+				this.progressBar.Fraction = 0;
+			
+				//hide jumping buttons
+				sensitiveGuiJumping();
+
+				//prepare jump for being cancelled if desired
+				cancellingJump = false;
+				
+				//start thread
+				thread = new Thread(new ThreadStart(waitJumpFall));
+				GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+				thread.Start(); 
 			} 
 			else {
 				Console.WriteLine( Catalog.GetString("You are IN, please go out the platform") );
@@ -1445,43 +1516,52 @@ public class ChronoJump {
 		}
 	}
 
-	public void OnTimerDjJump( System.Object source, ElapsedEventArgs e )
+	public void waitJumpFall ()
 	{
 		double timestamp;
-		respuesta = cp.Read_event(out timestamp, out platformState);
-		if (respuesta == Chronopic.Respuesta.Ok) {
-			if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF
-					&& tcDjJump == 0) {
-				//it's inside, was out (= has landed), first time
-				loggedState = States.ON;
+		bool success = false;
+		do {
+			respuesta = cp.Read_event(out timestamp, out platformState);
+			if (respuesta == Chronopic.Respuesta.Ok) {
+				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF
+						&& tcDjJump == 0) {
+					//it's inside, was out (= has landed), first time
+					loggedState = States.ON;
 
-				//dont' write nothing here
-			} 
-			else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
-				//it's out, was inside (= has jumped)
-				//record the TC
-				tcDjJump = timestamp;
-				
-				//change the state
-				loggedState = States.OFF;
+					//dont' write nothing here
+
+					//change the progressBar percent
+					this.progressBar.Fraction = 0.33;
+				} 
+				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+					//it's out, was inside (= has jumped)
+					//record the TC
+					tcDjJump = timestamp;
+
+					//change the state
+					loggedState = States.OFF;
+
+					//change the progressBar percent
+					this.progressBar.Fraction = 0.66;
+				}
+				else if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF
+						&& tcDjJump != 0) {
+					//it's inside, was out (= has landed), second time
+					loggedState = States.ON;
+
+					//write the jump in seconds
+					writeJumpFall (tcDjJump/1000, timestamp/1000);
+
+					//change the automata state (not needed in this jump)
+					loggedState = States.ON;
+
+					//change the progressBar percent
+					//this.progressBar.Fraction = 1;
+
+					success = true;
+				}
 			}
-			else if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF
-					&& tcDjJump != 0) {
-				//it's inside, was out (= has landed), second time
-				loggedState = States.ON;
-
-				//stop the timer event
-				timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerDjJump);
-				timerClockJump.Enabled = false;
-				Console.WriteLine("------------Timer event should be killed----------");
-				
-				//write the jump in seconds
-				writeJumpFall (tcDjJump/1000, timestamp/1000);
-
-				//change the automata state (not needed in this jump)
-				loggedState = States.ON;
-			}
-		}
+		} while ( ! success && ! cancellingJump );
 	}
 
 	private void writeJumpFall (double myTC, double myTV) 
@@ -1498,9 +1578,9 @@ public class ChronoJump {
 		lastJumpIsReactive = false;
 
 		sensitiveGuiYesJump();
-		string myText = combo_jumps.Entry.Text;
 		
 		myTreeViewJumps.Add(currentPerson.Name, currentJump);
+		
 		if(statsAutomatic) {
 			fillTreeView_stats(false);
 		}
@@ -1517,6 +1597,9 @@ public class ChronoJump {
 		if(notebook_jumps.CurrentPage == 1) {
 			notebook_jumps.PrevPage();
 		}
+				
+		//put max value in progressBar. This makes the thread in Pulse() stop
+		this.progressBar.Fraction = 1;
 	}
 
 	
@@ -1624,7 +1707,7 @@ public class ChronoJump {
 				myTv = -1;
 				myTvString = myTvString + equalTv + myTv.ToString();
 			}
-			writeRjJump (myTcString, myTvString);
+			writeJumpReactive (myTcString, myTvString);
 		}
 		else {
 			do {
@@ -1634,10 +1717,12 @@ public class ChronoJump {
 			bool success = false;
       
     			if (platformState==Chronopic.Plataforma.ON && currentJumpType.StartIn ) {
-				Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
+				//Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
+				appbar2.Push( Catalog.GetString("You are IN, JUMP when prepared!!") );
 				success = true;
 			} else if (platformState==Chronopic.Plataforma.OFF && ! currentJumpType.StartIn ) {
-				Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
+				//Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
+				appbar2.Push( Catalog.GetString("You are OUT, JUMP when prepared!!") );
 				success = true;
 			} else {
 				string myMessage = Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button");
@@ -1665,15 +1750,24 @@ public class ChronoJump {
 					rjTcCount = rjTcCount +.5;
 				}
 
-				timerClockJump = new System.Timers.Timer();    
-				timerClockJump.Elapsed += new ElapsedEventHandler(OnTimerRjJump);
-				timerClockJump.Interval = 100; //one decisecond
-				timerClockJump.Enabled = true;
+				//reset progressBar
+				this.progressBar.Fraction = 0;
+				
+				//hide jumping buttons
+				sensitiveGuiJumping();
+				
+				//prepare jump for being cancelled if desired
+				cancellingJump = false;
+				
+				//start thread
+				thread = new Thread(new ThreadStart(waitJumpReactive));
+				GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+				thread.Start(); 
 			}
 		}
 	}
 				
-	public void OnTimerRjJump( System.Object source, ElapsedEventArgs e )
+	public void waitJumpReactive()
 	{
 		double myLimit;
 		if(currentJumpType.FixedValue >0) {
@@ -1681,78 +1775,84 @@ public class ChronoJump {
 		} else {
 			myLimit = jumpExtraWin.Limited;
 		}
-		//Console.WriteLine("myLimit: {0}", myLimit);
-		
-		//wait for a another jump
+
 		double timestamp;
-		respuesta = cp.Read_event(out timestamp, out platformState);
-		
-		if (respuesta == Chronopic.Respuesta.Ok) {
-			string equal = "";
-			//check if reactive jump should finish
-			if (currentJumpType.JumpsLimited) {
-				if(getNumberOfJumps(rjTcString) >= myLimit && getNumberOfJumps(rjTvString) >= myLimit)
-				{
-					Console.WriteLine("------------Timer event should be killed----------");
-					timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerRjJump);
-					timerClockJump.Enabled = false;
+		bool success = false;
+		do {
+			respuesta = cp.Read_event(out timestamp, out platformState);
 
-					//finished writing the TC, let's put a "-1" in the TV
-					if (rjTcCount > rjTvCount) {
-						if(rjTvCount > 0) { equal = "="; }
-						rjTvString = rjTvString + equal + "-1";
-					}
-
-					//write the jump (but sleep a little bit for ensuring the clock eventhandler it's killed)
-					//sleep (1);
-					writeRjJump (rjTcString, rjTvString);
-					return;
-				}
-			} else {
-				//limited by time
-				if (getTotalTime (rjTcString, rjTvString) >= myLimit &&
-						getNumberOfJumps(rjTcString) == getNumberOfJumps(rjTvString) ) 
-				{
-					Console.WriteLine("------------Timer event should be killed----------");
-					timerClockJump.Elapsed -= new ElapsedEventHandler(OnTimerRjJump);
-					timerClockJump.Enabled = false;
-
-					//finished writing the TC, let's put a "-1" in the TV
-					if (rjTcCount > rjTvCount) {
-						if(rjTvCount > 0) { equal = "="; }
-						rjTvString = rjTvString + equal + "-1";
-					}
-
-					//write the jump
-					writeRjJump (rjTcString, rjTvString);
-					return;
-				}
+			//update the progressBar if limit is time
+			if ( ! currentJumpType.JumpsLimited) {
+				double myPb = getTotalTime (rjTcString, rjTvString) / myLimit ;
+				if(myPb > 1.0) { myPb = 1.0; }
+				this.progressBar.Fraction = myPb; 
 			}
+				
+			if (respuesta == Chronopic.Respuesta.Ok) {
+				string equal = "";
+				//check if reactive jump should finish
+				if (currentJumpType.JumpsLimited) {
+					//change the progressBar percent
+					Console.WriteLine("rjTcCount: {0} rjTvCount: {1} bar: {2} limit: {3}", 
+							rjTcCount, rjTvCount, (rjTcCount + rjTvCount) / myLimit, myLimit ) ;
+					this.progressBar.Fraction = (rjTcCount + rjTvCount) / myLimit ;
 
-			//don't record the time until the first event
-			if (firstRjValue) {
-				firstRjValue = false;
-			} else {
-				//reactive jump has not finished... record the next jump
-				if (rjTcCount == rjTvCount) {
-					double myTc = timestamp/1000;
-					Console.WriteLine("TC: {0}", myTc);
-					if(rjTcCount > 0) { equal = "="; }
-					rjTcString = rjTcString + equal + myTc.ToString();
-					rjTcCount = rjTcCount +.5;
+					if(getNumberOfJumps(rjTcString) >= myLimit && getNumberOfJumps(rjTvString) >= myLimit)
+					{
+						//finished writing the TC, let's put a "-1" in the TV
+						if (rjTcCount > rjTvCount) {
+							if(rjTvCount > 0) { equal = "="; }
+							rjTvString = rjTvString + equal + "-1";
+						}
+
+						writeJumpReactive (rjTcString, rjTvString);
+
+						success = true;
+					}
 				} else {
-					//rjTcCount > rjTvCount 
-					double myTv = timestamp/1000;
-					Console.WriteLine("TV: {0}", myTv);
-					if(rjTvCount > 0) { equal = "="; }
-					rjTvString = rjTvString + equal + myTv.ToString();
-					rjTvCount = rjTvCount +.5;
+					//limited by time
+					if (getTotalTime (rjTcString, rjTvString) >= myLimit &&
+							getNumberOfJumps(rjTcString) == getNumberOfJumps(rjTvString) ) 
+					{
+						//finished writing the TC, let's put a "-1" in the TV
+						if (rjTcCount > rjTvCount) {
+							if(rjTvCount > 0) { equal = "="; }
+							rjTvString = rjTvString + equal + "-1";
+						}
+
+						writeJumpReactive (rjTcString, rjTvString);
+
+						success = true;
+					}
+				}
+
+				if ( ! success) {
+					//don't record the time until the first event
+					if (firstRjValue) {
+						firstRjValue = false;
+					} else {
+						//reactive jump has not finished... record the next jump
+						if (rjTcCount == rjTvCount) {
+							double myTc = timestamp/1000;
+							Console.WriteLine("TC: {0}", myTc);
+							if(rjTcCount > 0) { equal = "="; }
+							rjTcString = rjTcString + equal + myTc.ToString();
+							rjTcCount = rjTcCount +.5;
+						} else {
+							//rjTcCount > rjTvCount 
+							double myTv = timestamp/1000;
+							Console.WriteLine("TV: {0}", myTv);
+							if(rjTvCount > 0) { equal = "="; }
+							rjTvString = rjTvString + equal + myTv.ToString();
+							rjTvCount = rjTvCount +.5;
+						}
+					}
 				}
 			}
-		}
+		} while ( ! success && ! cancellingJump );
 	}
 
-	private void writeRjJump (string myTCString, string myTVString) 
+	private void writeJumpReactive (string myTCString, string myTVString) 
 	{
 		double myLimit = 0;
 		if(currentJumpType.FixedValue >0) {
@@ -1809,6 +1909,9 @@ public class ChronoJump {
 		if(notebook_jumps.CurrentPage == 0) {
 			notebook_jumps.NextPage();
 		}
+				
+		//put max value in progressBar. This makes the thread in Pulse() stop
+		this.progressBar.Fraction = 1;
 	}
 	
 	private static double getTotalTime (string stringTC, string stringTV)
@@ -2134,6 +2237,7 @@ public class ChronoJump {
 		rj_t.Sensitive = true ;
 		jump_type_add.Sensitive = true;
 		menuitem_last_jump_delete.Sensitive = true ;
+		button_last_jump_delete.Sensitive = true ;
 		
 		button_sj_plus.Sensitive = true ;
 		button_sj.Sensitive = true ;
@@ -2187,6 +2291,48 @@ public class ChronoJump {
 		button_last_jump_delete.Sensitive = true ;
 		menuitem_last_jump_delete.Sensitive = true ;
 		
+		button_cancel_jump.Sensitive = true ;
+		menuitem_cancel_jump.Sensitive = true ;
+	}
+	
+	private void sensitiveGuiJumping () {
+		//vbox
+		vbox_jumps.Sensitive = false;
+		vbox_jumps_rj.Sensitive = false;
+		
+		//menu
+		sj.Sensitive = false ;
+		sj_plus.Sensitive = false ;
+		cmj.Sensitive = false ;
+		abk.Sensitive = false ;
+		dj.Sensitive = false ;
+		more.Sensitive = false;
+		more_rj.Sensitive = false;
+		rj_j.Sensitive = false ;
+		rj_t.Sensitive = false ;
+		
+		//cancel jump
+		button_cancel_jump.Sensitive = true ;
+		menuitem_cancel_jump.Sensitive = true ;
+	}
+    
+	private void sensitiveGuiJumped () {
+		//vbox
+		vbox_jumps.Sensitive = true;
+		vbox_jumps_rj.Sensitive = true;
+		
+		//menu
+		sj.Sensitive = true ;
+		sj_plus.Sensitive = true ;
+		cmj.Sensitive = true ;
+		abk.Sensitive = true ;
+		dj.Sensitive = true ;
+		more.Sensitive = true;
+		more_rj.Sensitive = true;
+		rj_j.Sensitive = true ;
+		rj_t.Sensitive = true ;
+		
+		//cancel jump
 		button_cancel_jump.Sensitive = true ;
 		menuitem_cancel_jump.Sensitive = true ;
 	}

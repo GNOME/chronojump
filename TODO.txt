@@ -1,6 +1,8 @@
 TODO:
 ----
 
+repair bug in exiting when graphs are displayed (is for the old DLL?)
+
 make that serial connection can be stablished regardless before a modem has been used in the same port
 
 repair bug in treeviews, jumper's get not automatically expanded when make the first jump
@@ -15,7 +17,6 @@ graphs:
 	study licensing problems of NPlot or how to include it
 	put a button for refreshing the graph
 	make graphs for all stats
-	write statsJumpsType option in graph title
 
 show better info in the RJ jump edit
 

@@ -44,21 +44,22 @@ public class GraphGlobal : StatGlobal
 		
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 	
-		/*
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
 		} else {
 			this.operation = "AVG";
 		}
-		*/
 
 		this.windowTitle = Catalog.GetString("ChronoJump graph");
 		if(sessions.Count > 1) {
-			this.graphTitle = Catalog.GetString("Global values chart of multiple sessions");
+			this.graphTitle = "Global " + operation + Catalog.GetString(" values chart of multiple sessions");
 		} else {
-			this.graphTitle = Catalog.GetString("Global values chart of single session");
+			this.graphTitle = "Global " + operation + Catalog.GetString(" values chart of single session");
 		}
-		plotIndexes = true;
+		//plotIndexes = true;
+		resultCombined = true;
+		labelLeft = Catalog.GetString ("TV (sec.)");
+		labelRight = Catalog.GetString ("Indexes");
 	}
 
 	protected override void printData (string [] statValues) 

@@ -401,22 +401,30 @@ public class Stat
 	}
 
 	/*
+	 * ---------------------------------
 	 * graph things to inherit
+	 * ---------------------------------
 	 */
+	
 
 	protected ArrayList by1Values;
 	protected ArrayList by100Values;
+	protected ArrayList valuesTransposed; //for simplesession djindex, ie, iub, ... (this contains values transposed)
+	protected ArrayList jumperNames; //for simplesession djindex, ie, iub, ... (this contains names of jumpers)
+	protected ArrayList valuesSchemaIndex; //for simplesession djindex, ie, iub, ...
+	protected ArrayList colorSchema; //for simplesession djindex, ie, iub, ...
 	protected string windowTitle;
 	protected string graphTitle;
-	protected bool plotIndexes; //for plotting the right index axe
+	protected bool resultCombined; //plot by1 cols, and at right by100 cols (suitable for global and jumper)
+	protected bool resultIsIndex; //when plot only a value, is an index?
+	protected string labelLeft;
+	protected string labelRight;
 	
 	//temporary hack for a gtk# garbage collecting error
 	//protected ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
 	//has to be static
 	protected static ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
 	
-	//public virtual void CreateGraph () {
-	//}
 	public virtual void CreateGraph () 
 	{
 		//Gtk.Window w = new Window ("Chronojump graph");
@@ -428,36 +436,50 @@ public class Stat
 		
 		plot.Title = graphTitle;
 		if(sessions.Count > 1) {
-			plotGraphMultisession (plot, by1Values, false);
-			if(plotIndexes) {
+			//global, jumper
+			if(resultCombined) {
+				plotGraphMultisession (plot, by1Values, false);
 				plotGraphMultisession (plot, by100Values, true);
+			} else {
+				if(resultIsIndex) {
+					//djindex, ie, iub, potency
+					plotGraphMultisession (plot, by100Values, true);
+				} else {
+					//sj, sj+, cmj, abk
+					plotGraphMultisession (plot, by1Values, false);
+				}
 			}
 			//this has to be always the last:
 			createAxisMultisession (plot);
 		} else {
-			int columnsPlotted = 0;
-			columnsPlotted = plotGraphSimplesessionJumps (plot, by1Values);
-			if(plotIndexes) {
-				columnsPlotted = plotGraphSimplesessionIndexes (plot, by100Values, columnsPlotted);
+			if(dataColumns > 1) {
+				//sj+, djindex, IE, IUB
+				plotGraphSimplesessionMultiValues (plot, valuesTransposed, valuesSchemaIndex);
+				createAxisSimplesessionMultiValues (plot);
+			} else {
+				//sj, cmj, global, jumper
+				int columnsPlotted = 0;
+				columnsPlotted = plotGraphSimplesessionJumps (plot, by1Values);
+				//global, jumper
+				if(resultCombined) {
+					columnsPlotted = plotGraphSimplesessionIndexes (plot, by100Values, columnsPlotted);
+				}
+				//this has to be always the last:
+				ArrayList allValues = new ArrayList(2); 
+				for(int i=0; i < by1Values.Count ; i++) {
+					allValues.Add(by1Values[i]);
+				}
+				for(int i=0; i < by100Values.Count ; i++) {
+					allValues.Add(by100Values[i]);
+				}
+				createAxisSimplesession (plot, allValues);
 			}
-
-			//this has to be always the last:
-			ArrayList allValues = new ArrayList(2); 
-			for(int i=0; i < by1Values.Count ; i++) {
-				allValues.Add(by1Values[i]);
-			}
-			for(int i=0; i < by100Values.Count ; i++) {
-				allValues.Add(by100Values[i]);
-			}
-			createAxisSimplesession (plot, allValues);
 		}
 		writeLegend(plot);
 		plot.Add( new Grid() );
 		
-	
 		//fixes a gtk# garbage collecting bug
 		onlyUsefulForNotBeingGarbageCollected.Add(plot);
-		
 		
 		plot.Show ();
 		w.Add (plot);
@@ -466,11 +488,10 @@ public class Stat
 
 	protected int plotGraphSimplesessionJumps(IPlotSurface2D plot, ArrayList myValues)
 	{
-		int xtics = myValues.Count;
-
 		HistogramPlot hp = new HistogramPlot();
 		hp.BaseWidth = 0.4f;
 
+		int xtics = myValues.Count;
 		double[] myData = new double[xtics];
 
 		hp.Label = "TV (seconds)";
@@ -519,7 +540,6 @@ public class Stat
 			{
 				if(j>0) {
 					myData[count] = Convert.ToDouble(myValue);
-					//Console.WriteLine("count {0}, myData {1}", count, myData[count]);
 					count ++;
 				}
 				j++;
@@ -538,6 +558,73 @@ public class Stat
 		return count;
 	}
 
+	protected void plotGraphSimplesessionMultiValues (IPlotSurface2D plot, ArrayList myValues, ArrayList valuesSchemaIndex)
+	{
+		int xtics;
+		for(int i=0; i < myValues.Count ; i++) {
+			string [] jump = myValues[i].ToString().Split(new char[] {':'});
+			
+			xtics = dataColumns +2; //each session (+2 for not having values in the left-right edges)
+			
+			double[] lineData = new double[xtics];
+			
+			Marker m;
+			if(valuesSchemaIndex[i] == "true") {
+				int mySquare = 6;
+				//make bigger the index square
+				if(i == 0) { mySquare = 10; }
+				m = new Marker(Marker.MarkerType.Square, mySquare, new Pen(Color.FromName(colorSchema[i].ToString()), 2.0F));
+			} else {
+				m = new Marker(Marker.MarkerType.Cross1,6,new Pen(Color.FromName(colorSchema[i].ToString()), 2.0F));
+			}
+			PointPlot pp = new PointPlot( m );
+
+			LinePlot lp = new LinePlot();
+			lp.Color = Color.FromName(colorSchema[i].ToString());
+	
+			//left margin
+			lineData[0] = double.NaN;
+	
+			int j=0;
+			foreach (string myValue in jump) 
+			{
+				if(j==0) {
+					//title of serie is in myValues[0]
+					lp.Label = myValue;
+					pp.Label = myValue;
+				} else {
+					if(myValue == "-") {
+						lineData[j] = double.NaN;
+					} else {
+						lineData[j] = Convert.ToDouble(myValue);
+					}
+				}
+				j++;
+				//don't graph AVG and SD right cols in multisession
+				if ( j > xtics -2 ) {
+					break;
+				}
+			}
+			
+			//right margin
+			lineData[j] = double.NaN;
+			
+			lp.DataSource = lineData;
+			pp.OrdinateData = lineData;
+
+			pp.AbscissaData = new StartStep( 0, 1 ); //ini 0, step 1 (ini 0 because in lineData we start with blank value)
+			lp.ShowInLegend = false;
+				
+			if(valuesSchemaIndex[i] == "true") {
+				plot.Add( lp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
+				plot.Add( pp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
+			} else {
+				plot.Add( lp );
+				plot.Add( pp );
+			}
+		}
+	}
+
 	protected void plotGraphMultisession(IPlotSurface2D plot, ArrayList myValues, bool by100)
 	{
 		Random myRand = new Random();
@@ -550,13 +637,6 @@ public class Stat
 			
 			double[] lineData = new double[xtics];
 	
-			/*
-			System.Drawing.Color [] colorArray = { 
-				Color.Green, Color.Blue, Color.Red, Color.Chocolate, Color.Magenta, 
-				Color.Cyan, Color.Chartreuse, Color.IndianRed, Color.HotPink, Color.DarkTurquoise, 
-				Color.Cyan, Color.Aquamarine, Color.
-			};
-			*/
 			//generate colors randomly. 
 			//TODO: Check later repeated colors and contrast with background (force this to white)
 			int myR = myRand.Next(255);
@@ -565,16 +645,13 @@ public class Stat
 			
 			Marker m;
 			if(! by100) {
-				//m = new Marker(Marker.MarkerType.Cross1,6,new Pen(colorArray[i],2.0F));
 				m = new Marker(Marker.MarkerType.Cross1,6,new Pen(Color.FromArgb(myR, myG, myB),2.0F));
 			} else {
-				//m = new Marker(Marker.MarkerType.Square, 10, new Pen(colorArray[i],2.0F));
 				m = new Marker(Marker.MarkerType.Square, 10, new Pen(Color.FromArgb(myR, myG, myB),2.0F));
 			}
 			PointPlot pp = new PointPlot( m );
 									
 			LinePlot lp = new LinePlot();
-			//lp.Color = colorArray[i];
 			lp.Color = Color.FromArgb(myR, myG, myB);
 			
 			int j=0;
@@ -584,7 +661,7 @@ public class Stat
 			foreach (string myValue in jump) 
 			{
 				if(j==0) {
-					//titol de la serie esta a by1Values[0]
+					//title of serie is in myValues[0]
 					lp.Label = myValue;
 					pp.Label = myValue;
 				} else {
@@ -623,13 +700,38 @@ public class Stat
 	protected void createAxisSimplesession (IPlotSurface2D plot, ArrayList myValues)
 	{
 		LabelAxis la = new LabelAxis( plot.XAxis1 );
-		int count =0;
 		for (int i=0; i < myValues.Count; i++) {
 			string [] stringFullResults = myValues[i].ToString().Split(new char[] {':'});
-			la.AddLabel( stringFullResults[0], count++ );
+			la.AddLabel( stringFullResults[0], i);
 		}
 		la.WorldMin = -.5f;
 		la.WorldMax = myValues.Count -1 + .5f;
+		plot.XAxis1 = la;
+		plot.XAxis1.LargeTickSize = 0.0f;
+		plot.XAxis1.TicksLabelAngle = 35.0f;
+	
+		LinearAxis ly1 = (LinearAxis)plot.YAxis1;
+		//ly1.WorldMin = 0.0f;
+		ly1.Label = labelLeft;
+		
+		if(resultCombined || resultIsIndex) {
+			//global, jumper
+			//djindex, IE, IUB (if resultIsIndex and it's simplesession, 
+			//for sure there is a left and a right axis)
+			LinearAxis ly2 = (LinearAxis)plot.YAxis2;
+			ly2.Label = labelRight;
+		}
+	}
+	
+	protected void createAxisSimplesessionMultiValues (IPlotSurface2D plot)
+	{
+		LabelAxis la = new LabelAxis( plot.XAxis1 );
+		int i=1;
+		foreach (string name in jumperNames) {
+			la.AddLabel( name, i++ );
+		}
+		la.WorldMin = 0.7f;
+		la.WorldMax = jumperNames.Count + .3f;
 		//la.Label = Catalog.GetString("Jumps and Indexes");
 		plot.XAxis1 = la;
 		plot.XAxis1.LargeTickSize = 0.0f;
@@ -637,13 +739,12 @@ public class Stat
 	
 		LinearAxis ly1 = (LinearAxis)plot.YAxis1;
 		//ly1.WorldMin = 0.0f;
-		ly1.Label = Catalog.GetString("Jumps TV (seconds)");
+		ly1.Label = labelLeft;
 		
-		if(plotIndexes) {
-			LinearAxis ly2 = (LinearAxis)plot.YAxis2;
-			//ly2.WorldMin = -100.0f;
-			ly2.Label = Catalog.GetString("Indexes (%)");
-		}
+		//djindex, IE, IUB (if resultIsIndex and it's simplesession, 
+		//for sure there is a left and a right axis)
+		LinearAxis ly2 = (LinearAxis)plot.YAxis2;
+		ly2.Label = labelRight;
 	}
 	
 	protected void createAxisMultisession (IPlotSurface2D plot)
@@ -659,14 +760,25 @@ public class Stat
 		plot.XAxis1 = la;
 		plot.XAxis1.LargeTickSize = 0.0f;
 		plot.XAxis1.TicksLabelAngle = 35.0f;
-						 
-		LinearAxis ly1 = (LinearAxis)plot.YAxis1;
-		//ly1.WorldMin = 0.0f;
-		ly1.Label = Catalog.GetString("Jumps TV (seconds)");
-								
-		if(plotIndexes) {
+			
+		if(resultCombined) {
+			//global, jumper
+			LinearAxis ly1 = (LinearAxis)plot.YAxis1;
+			//ly1.WorldMin = 0.0f;
+			ly1.Label = labelLeft;
+
 			LinearAxis ly2 = (LinearAxis)plot.YAxis2;
-			ly2.Label = Catalog.GetString("Indexes (%)");
+			ly2.Label = labelRight;
+		} else {
+			if(resultIsIndex) {
+				//djindex, ie, iub, potency
+				LinearAxis ly2 = (LinearAxis)plot.YAxis2;
+				ly2.Label = labelRight;
+			} else {
+				//sj, sj+, cmj, abk
+				LinearAxis ly1 = (LinearAxis)plot.YAxis1;
+				ly1.Label = labelLeft;
+			}
 		}
 	}
 

@@ -264,8 +264,6 @@ public class ChronoJump
 
 		rand = new Random(40);
 				
-		//thread = new Thread(new ThreadStart(amazonQuery));
-		
 		//init connecting with chronopic	
 		chronopicInit();
 				
@@ -279,7 +277,7 @@ public class ChronoJump
 
 		cp = new Chronopic("/dev/ttyS0");
 
-		//-- Obtener el estado inicial de la plataforma
+		//-- Read initial state of platform
 		respuesta=cp.Read_platform(out platformState);
 		switch(respuesta) {
 			case Chronopic.Respuesta.Error:
@@ -579,6 +577,13 @@ public class ChronoJump
 		else if(myText == "DJ Index (tv-tc)*100/tc")
 		{
 			if(graph) {
+				myStat = new GraphDjIndex ( 
+						sendSelectedSessions, 
+						prefsDigitsNumber, checkbutton_stats_sex.Active, 
+						statsJumpsType,
+						limit);
+				myStat.PrepareData();
+				myStat.CreateGraph();
 			} else {
 				myStat = new StatDjIndex(treeview_stats, 
 						sendSelectedSessions, 
@@ -1239,7 +1244,6 @@ public class ChronoJump
 
 	private void on_cancel_jump_clicked (object o, EventArgs args) 
 	{
-		//FIXME: do something here
 		Console.WriteLine("Cancel Jump");
 
 		//this will cancel jumps
@@ -1318,20 +1322,6 @@ public class ChronoJump
 		} else {
 		}
 
-		/*
-		try {
-			if (thread.IsAlive) {
-				Console.WriteLine("AThread isAlive?: {0}", thread.IsAlive);
-				Console.WriteLine("Thread status: {0}", thread.ThreadState);
-				thread.Abort();
-				Console.WriteLine("BThread isAlive?: {0}", thread.IsAlive);
-				Console.WriteLine("Thread status: {0}", thread.ThreadState);
-			}
-		} catch {
-			Console.WriteLine("Thread is Not Alive, we are in catch");
-		}
-		*/
-		
 		if (simulated) {
 			//random value
 			double myTV = rand.NextDouble() * .6;
@@ -1346,7 +1336,6 @@ public class ChronoJump
 			} while (respuesta!=Chronopic.Respuesta.Ok);
       
     			if (platformState==Chronopic.Plataforma.ON) {
-				//Console.WriteLine( Catalog.GetString("You are IN, JUMP when prepared!!") );
 				appbar2.Push( Catalog.GetString("You are IN, JUMP when prepared!!") );
 
 				loggedState = States.ON;
@@ -1366,8 +1355,6 @@ public class ChronoJump
 				thread.Start(); 
 			} 
 			else {
-				Console.WriteLine( Catalog.GetString("You are OUT, please come inside the platform") );
-
 				confirmWin = ConfirmWindow.Show(app1, 
 						Catalog.GetString("You are OUT, come inside and press button"), "");
 
@@ -1484,7 +1471,6 @@ public class ChronoJump
 			} while (respuesta!=Chronopic.Respuesta.Ok);
       
     			if (platformState==Chronopic.Plataforma.OFF) {
-				//Console.WriteLine( Catalog.GetString("You are OUT, JUMP when prepared!!") );
 				appbar2.Push( Catalog.GetString("You are OUT, JUMP when prepared!!") );
 
 				loggedState = States.OFF;
@@ -1505,8 +1491,6 @@ public class ChronoJump
 				thread.Start(); 
 			} 
 			else {
-				Console.WriteLine( Catalog.GetString("You are IN, please go out the platform") );
-
 				confirmWin = ConfirmWindow.Show(app1, 
 						Catalog.GetString("You are IN, please go out and press button"), "");
 

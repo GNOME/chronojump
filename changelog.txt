@@ -1,5 +1,12 @@
 CHANGELOG:
 22 march 2005
+	graphs with multiple values now work for simplesession and
+	multisession (example: djindex: index, tv, tc, fall), suitable also
+	for IE, IUB, ... Now we can make all kind of graphs
+	
+	created GraphDjIndex
+	corrected bug in graphs global, missing AVG and MAX
+22 march 2005
 	threads in jumps (all jumps work Ok)
 	ProgressBar in jumps
 	Cancel jumps implemented

@@ -211,7 +211,7 @@ public class Jump {
 	{
 		get
 		{
-			return Sqlite.SelectJumperName(personID);
+			return SqlitePerson.SelectJumperName(personID);
 		}
 	}
 

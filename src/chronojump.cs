@@ -58,7 +58,6 @@ public class ChronoJump {
 	[Widget] Gtk.Button button_edit_selected_jump_rj;
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
 	bool statsAutomatic = false;
-	bool statsSex = false;
 
 
 	//widgets for enable or disable
@@ -96,11 +95,14 @@ public class ChronoJump {
 	[Widget] Gtk.RadioButton radiobutton_current_session;
 	[Widget] Gtk.RadioButton radiobutton_selected_sessions;
 	[Widget] Gtk.Button button_stats_select_sessions;
-	[Widget] Gtk.RadioButton radiobutton_jumpers;
-	[Widget] Gtk.RadioButton radiobutton_jumps;
-	[Widget] Gtk.RadioButton radiobutton_max;
-	[Widget] Gtk.RadioButton radiobutton_avg;
-	[Widget] Gtk.SpinButton spinbutton_jumps_num;
+	[Widget] Gtk.RadioButton radiobutton_stats_jumps_all;
+	[Widget] Gtk.RadioButton radiobutton_stats_jumps_limit;
+	[Widget] Gtk.SpinButton spin_stats_jumps_limit;
+	[Widget] Gtk.RadioButton radiobutton_stats_jumps_person_bests;
+	[Widget] Gtk.SpinButton spin_stats_jumps_person_bests;
+	[Widget] Gtk.RadioButton radiobutton_stats_jumps_person_average;
+	
+	
 	[Widget] Gtk.TextView textview_enunciate;
 	[Widget] Gtk.ScrolledWindow scrolledwindow_enunciate;
 
@@ -143,10 +145,11 @@ public class ChronoJump {
 	};
 
 	//preferences variables
-	private static int prefsDigitsNumber ;
-	private static bool showHeight ;
-	private static bool simulated ;
-	private static bool askDeletion ;
+	private static int prefsDigitsNumber;
+	private static bool showHeight;
+	private static bool simulated;
+	private static bool askDeletion;
+	private static bool weightStatsPercent;
 
 	//treeviews collapsed array of iters
 	private ArrayList myArrayOfStringItersCollapsed;
@@ -253,14 +256,14 @@ public class ChronoJump {
 
 	private void loadPreferences () 
 	{
-		prefsDigitsNumber = Convert.ToInt32 ( Sqlite.PreferencesSelect("digitsNumber") ); 
-		if ( Sqlite.PreferencesSelect("showHeight") == "True" ) {
+		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
+		if ( SqlitePreferences.Select("showHeight") == "True" ) {
 			showHeight = true;
 		} else {
 			showHeight = false;
 		}
 			
-		if ( Sqlite.PreferencesSelect("simulated") == "True" ) {
+		if ( SqlitePreferences.Select("simulated") == "True" ) {
 			simulated = true;
 			menuitem_simulated.Active = true;
 		} else {
@@ -268,10 +271,16 @@ public class ChronoJump {
 			menuitem_serial_port.Active = true;
 		}
 		
-		if ( Sqlite.PreferencesSelect("askDeletion") == "True" ) {
+		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
 			askDeletion = true;
 		} else {
 			askDeletion = false;
+		}
+		
+		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) {
+			weightStatsPercent = true;
+		} else {
+			weightStatsPercent = false;
 		}
 		
 		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
@@ -313,10 +322,10 @@ public class ChronoJump {
 		string [] myJumps;
 		
 		if(sortJumpsByType) {
-			myJumps = Sqlite.SelectAllNormalJumps(currentSession.UniqueID, "ordered_by_type"); //returns a string of values separated by ':'
+			myJumps = SqliteJump.SelectAllNormalJumps(currentSession.UniqueID, "ordered_by_type"); //returns a string of values separated by ':'
 		}
 		else {
-			myJumps = Sqlite.SelectAllNormalJumps(currentSession.UniqueID, "ordered_by_time"); //returns a string of values separated by ':'
+			myJumps = SqliteJump.SelectAllNormalJumps(currentSession.UniqueID, "ordered_by_time"); //returns a string of values separated by ':'
 		}
 
 
@@ -516,7 +525,7 @@ finishForeach:
 	
 		string [] myJumps;
 		
-		myJumps = Sqlite.SelectAllRjJumps(currentSession.UniqueID); //returns a string of values separated by ':'
+		myJumps = SqliteJump.SelectAllRjJumps(currentSession.UniqueID); //returns a string of values separated by ':'
 
 
 		string myType ;
@@ -723,11 +732,29 @@ finishForeach:
 			myStat.RemoveColumns();
 		}
 	
-		int limit;
-		if (radiobutton_jumps.Active) {
-			limit = Convert.ToInt32 ( spinbutton_jumps_num.Value ); 
+		int statsJumpsType = 0;
+		int limit = -1;
+		if (radiobutton_stats_jumps_all.Active) {
+			statsJumpsType = 0;
+			limit = -1; //FIXME: this changed form 0 to -1, check problems in stats.cs
+		} else if (radiobutton_stats_jumps_limit.Active) {
+			statsJumpsType = 1;
+			limit = Convert.ToInt32 ( spin_stats_jumps_limit.Value ); 
+		} else if (radiobutton_stats_jumps_person_bests.Active) {
+			statsJumpsType = 2;
+			limit = Convert.ToInt32 ( spin_stats_jumps_person_bests.Value ); 
 		} else {
-			limit = 0;
+			statsJumpsType = 3;
+			limit = -1; //FIXME: this changed form 0 to -1, check problems in stats.cs
+		}
+
+		//we use sendSelectedSessions for not losing selectedSessions ArrayList 
+		//everytime user cicles the sessions select radiobuttons
+		ArrayList sendSelectedSessions = new ArrayList(2);
+		if (radiobutton_current_session.Active) {
+			sendSelectedSessions.Add (currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date); 
+		} else if (radiobutton_selected_sessions.Active) {
+			sendSelectedSessions = selectedSessions;
 		}
 
 		
@@ -740,89 +767,91 @@ finishForeach:
 				jumperName = currentPerson.Name;
 			}
 	
-			//we use sendSelectedSessions for not losing selectedSessions ArrayList 
-			//everytime user cicles the sessions select radiobuttons
-			ArrayList sendSelectedSessions = new ArrayList(2);
-			if (radiobutton_current_session.Active) {
-				sendSelectedSessions.Add (currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date); 
-			} else if (radiobutton_selected_sessions.Active) {
-				sendSelectedSessions = selectedSessions;
-			}
-
 			myStat = new StatGlobal(treeview_stats, 
 					sendSelectedSessions, 
 					jumperID, jumperName, 
-					prefsDigitsNumber, statsSex,  
-					radiobutton_max.Active //show MAX or AVG
+					prefsDigitsNumber, checkbutton_stats_sex.Active,  
+					statsJumpsType 
 					);
 
-			/*FIXME: in this case, convert the sessID sessName to a ArrayList
-			myStat = new StatGlobal(treeview_stats, currentSession.UniqueID, currentSession.Name, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, statsSex,  
-						radiobutton_max.Active //show MAX or AVG
-						);
-						*/
 			myStat.prepareData();
 		}
-		else if(myText == "SJ" || myText == "SJ+" || 
-				myText == "CMJ" || myText == "ABK")
+		else if(myText == "SJ" || myText == "CMJ" || myText == "ABK")
 		{
-			myStat = new StatSjCmjAbk (treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, fullTitle[0], statsSex, 
-					radiobutton_max.Active, //show MAX or AVG
+			myStat = new StatSjCmjAbk (treeview_stats, 
+					sendSelectedSessions, 
+					prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
+					statsJumpsType,
 					limit);
 			myStat.prepareData();
-
-		}	
+		}
+		else if(myText == "SJ+" || myText == "CMJ+" || myText == "ABK+")
+		{
+			myStat = new StatSjCmjAbkPlus (treeview_stats, 
+					sendSelectedSessions, 
+					prefsDigitsNumber, fullTitle[0], checkbutton_stats_sex.Active, 
+					statsJumpsType,
+					limit,
+					weightStatsPercent
+					);
+			myStat.prepareData();
+		}
 		else if(myText == "DJ (TV)")
 		{
-			myStat = new StatDjTv(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, statsSex,
-					radiobutton_max.Active, //show MAX or AVG
+			myStat = new StatDj(treeview_stats, 
+					sendSelectedSessions, 
+					prefsDigitsNumber, checkbutton_stats_sex.Active,
+					statsJumpsType,
 					limit);
 			myStat.prepareData();
-		}	
+		}
+		/*
 		else if(myText == "DJ Index ((tv-tc)/tc)*100")
 		{
 			myStat = new StatDjIndex(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, statsSex,
-					radiobutton_max.Active, //show MAX or AVG
+					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active,
+					//radiobutton_max.Active, //show MAX or AVG
+					statsJumpsType,
 					limit);
 			myStat.prepareData();
 		}
 		else if(myText == "RJ Average Index")
 		{
 			myStat = new StatRjIndex(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, statsSex,
-					radiobutton_max.Active, //show MAX or AVG
+					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active,
+					//radiobutton_max.Active, //show MAX or AVG
+					statsJumpsType,
 					limit);
 			myStat.prepareData();
 		}	
 		else if(myText == "POTENCY (Aguado)") // 9.81^2*TV*TT / (4*jumps*(TT-TV))
 		{
 			myStat = new StatPotencyAguado(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, statsSex, 
-					radiobutton_max.Active, //show MAX or AVG
+					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active, 
+					//radiobutton_max.Active, //show MAX or AVG
+					statsJumpsType,
 					limit);
 			myStat.prepareData();
 		}
 		else if(myText == "IE ((cmj-sj)/sj)*100")
 		{
 			myStat = new StatIE(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, statsSex, 
-					radiobutton_max.Active //show MAX or AVG
+					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active, 
+					//radiobutton_max.Active //show MAX or AVG
+					statsJumpsType,
 					);
 			myStat.prepareData();
 		}
 		else if(myText == "IUB ((abk-cmj)/cmj)*100")
 		{
 			myStat = new StatIUB(treeview_stats, currentSession.UniqueID, 
-					currentSession.Name, prefsDigitsNumber, statsSex, 
-					radiobutton_max.Active //show MAX or AVG
+					currentSession.Name, prefsDigitsNumber, checkbutton_stats_sex.Active, 
+					//radiobutton_max.Active //show MAX or AVG
+					statsJumpsType,
 					);
 			myStat.prepareData();
 		}
+		*/
 		
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
@@ -892,7 +921,7 @@ finishForeach:
 	}
 	
 	private bool updateComboSujetoCurrent() {
-		string [] jumpers = Sqlite.PersonSessionSelectCurrentSession(currentSession.UniqueID);
+		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
 		combo_person_current.PopdownStrings = jumpers; 
 		
 		if(jumpers.Length > 0) {
@@ -906,7 +935,7 @@ finishForeach:
 	//imagine when we edit a person and we change the name of him and then we accept,
 	//the combosujeto need to select the person just edited, not the last created person as the SQL says
 	private bool updateComboSujetoCurrent (string name) {
-		string [] jumpers = Sqlite.PersonSessionSelectCurrentSession(currentSession.UniqueID);
+		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
 		combo_person_current.PopdownStrings = jumpers; 
 		
 		foreach (string jumper in jumpers) {
@@ -950,9 +979,9 @@ finishForeach:
 		if(myText != "") {
 			//if people modify the values in the combo_person_current, and this valeus are not correct, 
 			//let's update the combosujetocurrent
-			if(Sqlite.PersonSelectExistsInSession(fetchID(myText), currentSession.UniqueID)) 
+			if(SqlitePersonSession.PersonSelectExistsInSession(fetchID(myText), currentSession.UniqueID)) 
 			{
-				currentPerson = Sqlite.PersonSelect(fetchID(myText));
+				currentPerson = SqlitePersonSession.PersonSelect(fetchID(myText));
 
 				//if stats "jumper" are selected, and stats are automatic, 
 				//update stats when current person change
@@ -1010,98 +1039,102 @@ finishForeach:
 			scrolledwindow_enunciate.Hide();
 		}
 	}
-	
-	private void on_combo_stats_stat_name_changed(object o, EventArgs args) {
+
+	private void update_stats_widgets_sensitiveness() {
 		string myText = combo_stats_stat_name.Entry.Text;
 		
+		//some stats should not be showed as limited jumps
+		if(myText == "Global" || myText == "Jumper" || myText == "IE ((cmj-sj)/sj)*100" || myText == "IUB ((abk-cmj)/cmj)*100"
+				|| (selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
+		{
+			//change the radiobutton value
+			if(radiobutton_stats_jumps_all.Active || radiobutton_stats_jumps_limit.Active) {
+				radiobutton_stats_jumps_person_bests.Active = true;
+				spin_stats_jumps_person_bests.Sensitive = false; //in this jumps only show the '1' best value
+			}
+			//make no sensitive
+			radiobutton_stats_jumps_all.Sensitive = false;
+			radiobutton_stats_jumps_limit.Sensitive = false;
+			spin_stats_jumps_person_bests.Sensitive = false;
+		} else {
+			radiobutton_stats_jumps_all.Sensitive = true;
+			radiobutton_stats_jumps_limit.Sensitive = true;
+			if(radiobutton_stats_jumps_person_bests.Active) {
+				spin_stats_jumps_person_bests.Sensitive = true;
+			}
+		}
+	}
+	
+	private void on_combo_stats_stat_name_changed(object o, EventArgs args) {
+		update_stats_widgets_sensitiveness();
+			
 		//for an unknown reason, when we select an option in the combo stats, 
 		//the on_combo_stats_stat_name_changed it's called two times? 
 		//in the first the value of Entry.Text is "";
+		string myText = combo_stats_stat_name.Entry.Text;
 		if(myText != "")
 			fillTreeView_stats();
-
-		//some stats should not be showed as limited jumps
-		if(myText == "Global" || myText == "Jumper" || myText == "IE ((cmj-sj)/sj)*100" || myText == "IUB ((abk-cmj)/cmj)*100") 
-		{
-			//change the radiobutton value
-			if(radiobutton_jumps.Active) {
-				radiobutton_jumpers.Active = true;
-			}
-			//make no sensitive
-			radiobutton_jumps.Sensitive = false;
-		} else {
-			radiobutton_jumps.Sensitive = true;
-		}
-		
 	}
 	
 	private void on_radiobuttons_stat_session_toggled (object o, EventArgs args)
 	{
-		if(o == (object) radiobutton_current_session) {
+		if(o == (object) radiobutton_current_session) 
+		{
 			Console.WriteLine("current");
 			button_stats_select_sessions.Sensitive = false;
-		} else if (o == (object) radiobutton_selected_sessions ) {
+		} 
+		else if (o == (object) radiobutton_selected_sessions ) 
+		{
 			Console.WriteLine("selected");
 			button_stats_select_sessions.Sensitive = true;
 		}
-		if(statsAutomatic) {
+		update_stats_widgets_sensitiveness();
+		
+		//if(statsAutomatic) {
 			fillTreeView_stats();
-		}
+		//}
 	}
 	
 	private void on_checkbutton_stats_sex_clicked(object o, EventArgs args)
 	{
-		if (statsSex) { statsSex = false; }
-		else { statsSex = true; }
-		
+		//if (statsAutomatic) { 
+			fillTreeView_stats();
+		//}
+	}
+
+	void on_radiobutton_stats_jumps_clicked (object o, EventArgs args)
+	{
+		if (radiobutton_stats_jumps_all.Active) {
+			spin_stats_jumps_limit.Sensitive = false;
+			spin_stats_jumps_person_bests.Sensitive = false;
+		} 
+		else if (radiobutton_stats_jumps_limit.Active) {
+			spin_stats_jumps_limit.Sensitive = true;
+			spin_stats_jumps_person_bests.Sensitive = false;
+		} 
+		else if (radiobutton_stats_jumps_person_bests.Active) {
+			spin_stats_jumps_limit.Sensitive = false;
+			spin_stats_jumps_person_bests.Sensitive = true;
+		} 
+		else if (radiobutton_stats_jumps_person_average.Active) {
+			spin_stats_jumps_limit.Sensitive = false;
+			spin_stats_jumps_person_bests.Sensitive = false;
+		}
+	
+		update_stats_widgets_sensitiveness();
+		//if (statsAutomatic) { 
+			fillTreeView_stats();
+		//}
+	}
+	
+	void on_spinbutton_stats_jumps_changed (object o, EventArgs args)
+	{
 		if (statsAutomatic) { 
 			fillTreeView_stats();
 		}
 	}
 
-	void on_radiobutton_jumpers_toggled (object o, EventArgs args)
-	{
-		spinbutton_jumps_num.Sensitive = false;
-		radiobutton_max.Sensitive = true;
-		radiobutton_avg.Sensitive = true;
-		checkbutton_stats_sex.Sensitive = true;
-		if (statsAutomatic) { 
-			fillTreeView_stats();
-		}
-	}
 	
-	void on_radiobutton_jumps_toggled (object o, EventArgs args)
-	{
-		spinbutton_jumps_num.Sensitive = true;
-		radiobutton_max.Sensitive = false;
-		radiobutton_avg.Sensitive = false;
-		checkbutton_stats_sex.Sensitive = false;
-		if (statsAutomatic) { 
-			fillTreeView_stats();
-		}
-	}
-	
-	void on_radiobutton_max_toggled (object o, EventArgs args)
-	{
-		if (statsAutomatic) { 
-			fillTreeView_stats();
-		}
-	}
-	
-	void on_radiobutton_avg_toggled (object o, EventArgs args)
-	{
-		if (statsAutomatic) { 
-			fillTreeView_stats();
-		}
-	}
-	
-	void on_spinbutton_jumps_num_changed (object o, EventArgs args)
-	{
-		if (statsAutomatic) { 
-			fillTreeView_stats();
-		}
-	}
-		
 	/* ---------------------------------------------------------
 	 * ----------------  DELETE EVENT, QUIT  -----------------------
 	 *  --------------------------------------------------------
@@ -1235,9 +1268,11 @@ finishForeach:
 			selectedSessions = new ArrayList(2);
 			selectedSessions.Add(currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date);
 		}
-		if(statsAutomatic) {
+
+		update_stats_widgets_sensitiveness();
+		//if(statsAutomatic) {
 			fillTreeView_stats();
-		}
+		//}
 	}
 	
 	
@@ -1294,9 +1329,9 @@ finishForeach:
 			treeview_jumps_rj_storeReset();
 			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 
-			if(statsAutomatic) {
+			//if(statsAutomatic) {
 				fillTreeView_stats();
-			}
+			//}
 		}
 	}
 	
@@ -1320,27 +1355,34 @@ finishForeach:
 	{
 		Console.WriteLine("simulated");
 		simulated = true;
-		Sqlite.PreferencesUpdate("simulated", simulated.ToString());
+		SqlitePreferences.Update("simulated", simulated.ToString());
 	}
 	
 	void on_radiobutton_serial_port_activate (object o, EventArgs args)
 	{
 		Console.WriteLine("serial port");
 		simulated = false;
-		Sqlite.PreferencesUpdate("simulated", simulated.ToString());
+		SqlitePreferences.Update("simulated", simulated.ToString());
 	}
 
 	private void on_preferences_activate (object o, EventArgs args) {
-		PreferencesWindow myWin = PreferencesWindow.Show(app1, prefsDigitsNumber, showHeight, simulated, askDeletion);
+		PreferencesWindow myWin = PreferencesWindow.Show(
+				app1, prefsDigitsNumber, showHeight, simulated, askDeletion, weightStatsPercent);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
 	private void on_preferences_accepted (object o, EventArgs args) {
-		prefsDigitsNumber = Convert.ToInt32 ( Sqlite.PreferencesSelect("digitsNumber") ); 
-		if ( Sqlite.PreferencesSelect("askDeletion") == "True" ) {
+		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
+		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
 			askDeletion = true;
 		} else {
 			askDeletion = false;
+		}
+		
+		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) {
+			weightStatsPercent = true;
+		} else {
+			weightStatsPercent = false;
 		}
 
 		//...remove corresponding headers...
@@ -1348,7 +1390,7 @@ finishForeach:
 		removeTreeView_jumps_rj (showHeight);
 		
 		//update showHeight
-		if ( Sqlite.PreferencesSelect("showHeight") == "True" ) {
+		if ( SqlitePreferences.Select("showHeight") == "True" ) {
 			showHeight = true;
 		} else {
 			showHeight = false;
@@ -1465,7 +1507,7 @@ finishForeach:
 		if (myType == "SJ+") { myWeight = sjPlusWin.Weight + sjPlusWin.Option ;
 		}
 
-		currentJump = Sqlite.JumpInsert(currentPerson.UniqueID, currentSession.UniqueID, 
+		currentJump = SqliteJump.Insert(currentPerson.UniqueID, currentSession.UniqueID, 
 				myType, myTV, 0, 0,  //type, tv, tc, fall
 				myWeight, "", ""); //weight, limited, description
 
@@ -1642,7 +1684,7 @@ finishForeach:
 	{
 		int myFall = djFallWin.Fall;
 
-		currentJump = Sqlite.JumpInsert(currentPerson.UniqueID, currentSession.UniqueID, 
+		currentJump = SqliteJump.Insert(currentPerson.UniqueID, currentSession.UniqueID, 
 				"DJ", myTV, myTC, myFall, //type, tv, tc, fall
 				"", "", ""); //weight, limited, description
 
@@ -1823,7 +1865,7 @@ finishForeach:
 		string limited = rjWin.Limited.ToString() + rjWin.Option; 
 		int jumps = Convert.ToInt32(rjWin.Limited.ToString());
 		
-		currentJump = Sqlite.JumpInsertRj(currentPerson.UniqueID, currentSession.UniqueID, 
+		currentJump = SqliteJump.InsertRj(currentPerson.UniqueID, currentSession.UniqueID, 
 				"RJ", getMax(myTVString), getMax(myTCString), 
 				0, "", "", //fall, weight, description
 				getAverage(myTVString), getAverage(myTCString),
@@ -1922,9 +1964,9 @@ finishForeach:
 	private void on_last_jump_delete (object o, EventArgs args) {
 		Console.WriteLine("delete last");
 		if(currentJump.Type == "RJ") {
-			Sqlite.JumpRjDelete(currentJump.UniqueID.ToString());
+			SqliteJump.RjDelete(currentJump.UniqueID.ToString());
 		} else {
-			Sqlite.JumpDelete(currentJump.UniqueID.ToString());
+			SqliteJump.Delete(currentJump.UniqueID.ToString());
 		}
 		menuitem_last_jump_delete.Sensitive = false ;
 		button_last_jump_delete.Sensitive = false ;
@@ -1951,7 +1993,7 @@ finishForeach:
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (jumpSelected > 0) {
 			//3.- obtain the data of the selected jump
-			Jump myJump = Sqlite.SelectNormalJumpData( jumpSelected );
+			Jump myJump = SqliteJump.SelectNormalJumpData( jumpSelected );
 			Console.WriteLine(myJump);
 		
 			//4.- edit this jump
@@ -1966,7 +2008,7 @@ finishForeach:
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (jumpRjSelected > 0) {
 			//3.- obtain the data of the selected jump
-			Jump myJump = Sqlite.SelectRjJumpData( jumpRjSelected );
+			Jump myJump = SqliteJump.SelectRjJumpData( jumpRjSelected );
 			Console.WriteLine(myJump);
 		
 			//4.- edit this jump
@@ -2010,7 +2052,7 @@ finishForeach:
 				confirmWin.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
 				Console.WriteLine("accept delete selected jump");
-				Sqlite.JumpDelete(jumpSelected.ToString());
+				SqliteJump.Delete(jumpSelected.ToString());
 				treeview_jumps_storeReset();
 				fillTreeView_jumps(treeview_jumps, treeview_jumps_store, combo_jumps.Entry.Text);
 
@@ -2035,7 +2077,7 @@ finishForeach:
 				confirmWin.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				Console.WriteLine("accept delete selected jump");
-				Sqlite.JumpRjDelete(jumpRjSelected.ToString());
+				SqliteJump.RjDelete(jumpRjSelected.ToString());
 				treeview_jumps_rj_storeReset();
 				fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
 
@@ -2151,11 +2193,12 @@ finishForeach:
 		checkbutton_show_enunciate.Sensitive = false;
 		radiobutton_current_session.Sensitive = false;
 		radiobutton_selected_sessions.Sensitive = false;
-		radiobutton_jumpers.Sensitive = false;
-		radiobutton_jumps.Sensitive = false;
-		spinbutton_jumps_num.Sensitive = false;
-		radiobutton_max.Sensitive = false;
-		radiobutton_avg.Sensitive = false;
+		radiobutton_stats_jumps_all.Sensitive = false;
+		radiobutton_stats_jumps_limit.Sensitive = false;
+		spin_stats_jumps_limit.Sensitive = false;
+		radiobutton_stats_jumps_person_bests.Sensitive = false;
+		spin_stats_jumps_person_bests.Sensitive = false;
+		radiobutton_stats_jumps_person_average.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesSession () {
@@ -2194,11 +2237,18 @@ finishForeach:
 		checkbutton_stats_always.Sensitive = true;
 		checkbutton_show_enunciate.Sensitive = true;
 		radiobutton_current_session.Sensitive = true;
+		radiobutton_current_session.Active = true;
 		radiobutton_selected_sessions.Sensitive = true;
-		radiobutton_jumpers.Sensitive = true;
-		//radiobutton_jumps.Sensitive = true; //not activated because it starts with the "Global" stat, where radiobutton_jumps has no sense
-		radiobutton_max.Sensitive = true;
-		radiobutton_avg.Sensitive = true;
+		
+		
+		radiobutton_stats_jumps_person_bests.Sensitive = true;
+		radiobutton_stats_jumps_person_bests.Active = true;
+		radiobutton_stats_jumps_person_average.Sensitive = true;
+		//not activated because it starts with the "Global" stat, where some radiobutton_jumps has no sense:
+		radiobutton_stats_jumps_all.Sensitive = false;
+		radiobutton_stats_jumps_limit.Sensitive = false;
+		//in global stat, there's no option of "two three or more bests jumps"
+		spin_stats_jumps_person_bests.Sensitive = false;
 	
 		
 		combo_jumps.Entry.Text = comboJumpsOptions[0];

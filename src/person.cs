@@ -23,46 +23,54 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 using Mono.Data.SqliteClient;
-using Gtk;
-using Glade;
-using Gnome;
 
+public class Person {
 
-public class Session {
+	private int uniqueID;
+	private string name;
+	private string dateBorn;
+	private int height;
+	private int weight;
+	//int level; // 0,1 o 2
+	private string sex; // "M" (male) , "F" (female)
+	private string description;
 
-	int uniqueID;
-	string name;
-	string place;
-	string date;
-	string comments;
+	private int sessionID;
 	
-
-	//suitable when we load a session from the database for being the current session
-	public Session(string newUniqueID, string newName, string newPlace, string newDate, string newComments) 
+	//suitable when we load a person from the database for being the current Person
+	public Person(int uniqueID, string name, string sex, string dateBorn, int height, int weight, string description) 
 	{
-		uniqueID = Convert.ToInt32(newUniqueID);
-		name = newName;
-		place = newPlace;
-		date = newDate;
-		comments = newComments;
+		this.uniqueID = uniqueID;
+		this.sex = sex;
+		this.name = name;
+		this.dateBorn = dateBorn;
+		this.height = height;
+		this.weight = weight;
+		this.description = description;
 	}
-
+	
 	//typical constructor
-	public Session(string newName, string newPlace, string newDate, string newComments) 
+	//public Person(string name, string sex, string dateBorn, string description, int sessionID) 
+	public Person(string name, string sex, string dateBorn, int height, int weight, string description, int sessionID) 
 	{
-		name = newName;
-		place = newPlace;
-		date = newDate;
-		comments = newComments;
+		this.name = name;
+		this.sex = sex;
+		this.dateBorn = dateBorn;
+		this.height = height;
+		this.weight = weight;
+		this.description = description;
+		this.sessionID = sessionID;
 
 		name = removeTildeAndColon(name);
-		place = removeTildeAndColon(place);
-		comments = removeTildeAndColon(comments);
-
+		description = removeTildeAndColon(description);
 		
-		uniqueID = Sqlite.SessionInsert (name, place, date, comments);
+		//insert in the person table
+		uniqueID = SqlitePerson.Insert (name, sex, dateBorn, height, weight, description);
 
 		Console.WriteLine(this.ToString());
+
+		//insert in the personSession table (fast way of knowing who was in each session)
+		SqlitePersonSession.Insert (uniqueID, sessionID);
 	}
 	
 	private string removeTildeAndColon(string myString) 
@@ -76,7 +84,7 @@ public class Session {
 	
 	public override string ToString()
 	{
-		return "[uniqueID: " + uniqueID + "]" + name + ", " + place + ", " + date + ", " + comments;
+		return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn + ", " + description;
 	}
 	
 	public override bool Equals(object evalString)
@@ -101,39 +109,53 @@ public class Session {
 		}
 	}
 	
-	public string Place
+	public string Sex
 	{
 		get
 		{
-			return place;
+			return sex;
 		}
 		set
 		{
-			place = value;
+			sex = value;
 		}
 	}
 	
-	public string Date
+	public string DateBorn
 	{
 		get
 		{
-			return date;
+			return dateBorn;
 		}
 		set
 		{
-			date = value;
+			dateBorn = value;
 		}
 	}
 	
-	public string Comments
+	public int Height
+	{
+		get {
+			return height;
+		}
+	}
+	
+	public int Weight
+	{
+		get {
+			return weight;
+		}
+	}
+	
+	public string Description
 	{
 		get
 		{
-			return comments;
+			return description;
 		}
 		set 
 		{
-			comments = value;
+			description = value;
 		}
 	}
 	
@@ -149,7 +171,7 @@ public class Session {
 		}
 	}
 	
-	~Session() {}
+	~Person() {}
 	   
 }
 

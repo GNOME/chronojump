@@ -53,7 +53,7 @@ public class SessionAddWindow {
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
+		button_accept.Sensitive = false;
 	}
 	
 	static public SessionAddWindow Show (Gtk.Window parent)
@@ -65,6 +65,17 @@ public class SessionAddWindow {
 
 		return SessionAddWindowBox;
 	}
+	
+	void on_entries_required_changed (object o, EventArgs args)
+	{
+		if(entry_name.Text.ToString().Length > 0) {
+			button_accept.Sensitive = true;
+		}
+		else {
+			button_accept.Sensitive = false;
+		}
+	}
+		
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
@@ -712,10 +723,21 @@ public class PersonAddWindow {
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.sessionID = sessionID;
+		button_accept.Sensitive = false; //only make sensitive when required values are inserted
 
 		person_win.Title =  Catalog.GetString ("New jumper");
 	}
 	
+	void on_entries_required_changed (object o, EventArgs args)
+	{
+		if(entry1.Text.ToString().Length > 0 && (int) spinbutton_weight.Value > 0) {
+			button_accept.Sensitive = true;
+		}
+		else {
+			button_accept.Sensitive = false;
+		}
+	}
+		
 	void on_radiobutton_man_toggled (object o, EventArgs args)
 	{
 		sex = "M";

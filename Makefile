@@ -1,7 +1,7 @@
 # **************************************************************************
 # Fichero makefile.
 # --------------------------------------------------------------------------
-# Licencia GPL. Juan Gonzalez Gomez
+# Licencia GPL. Juan Gonzalez Gomez, Xavier de Blas Foix
 # --------------------------------------------------------------------------
 #
 #***************************************************************************
@@ -23,7 +23,12 @@ DLL_SERIAL = serial
 
 CHRONOJUMP = chronojump
 
-CHRONOJUMP_DEP = chronojump.cs stat.cs someWindows.cs sqlite.cs person.cs jump.cs session.cs Catalog.cs
+CHRONOJUMP_DEP_GUI = src/gui/confirm.cs src/gui/error.cs src/gui/jump.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs
+CHRONOJUMP_DEP_STATS = src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/dj.cs
+CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/personSession.cs src/sqlite/stat.cs
+
+CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/jump.cs src/session.cs src/catalog.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_SQLITE)
+
 RESOURCES = -resource:glade/chronojump.glade,chronojump.glade
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient
 #CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient -r GNU.Gettext

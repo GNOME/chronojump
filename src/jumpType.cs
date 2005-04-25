@@ -37,7 +37,7 @@ public class JumpType
 	public JumpType(string name) {
 		this.name = name;
 		
-		//we canot obtain values like has Weight
+		//we cannot obtain values like has Weight
 		this.isPredefined = false;
 		
 		//if this changes, sqlite/jumpType.cs initialize tables should change

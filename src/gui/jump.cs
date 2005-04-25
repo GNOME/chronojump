@@ -438,10 +438,10 @@ public class JumpExtraWindow
 
 public class JumpsMoreWindow 
 {
-	[Widget] Gtk.Window jumps_more;
+	[Widget] Gtk.Window jumps_runs_more;
 	
 	private TreeStore store;
-	[Widget] Gtk.TreeView treeview_jumps_more;
+	[Widget] Gtk.TreeView treeview_more;
 	[Widget] Gtk.Button button_accept;
 
 	static JumpsMoreWindow JumpsMoreWindowBox;
@@ -452,16 +452,16 @@ public class JumpsMoreWindow
 	private bool selectedExtraWeight;
 	
 	JumpsMoreWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_more", null);
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
-		createTreeView(treeview_jumps_more);
+		createTreeView(treeview_more);
 		//name, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
-		treeview_jumps_more.Model = store;
-		fillTreeView(treeview_jumps_more,store);
+		treeview_more.Model = store;
+		fillTreeView(treeview_more,store);
 
 		button_accept.Sensitive = false;
 	}
@@ -471,7 +471,7 @@ public class JumpsMoreWindow
 		if (JumpsMoreWindowBox == null) {
 			JumpsMoreWindowBox = new JumpsMoreWindow (parent);
 		}
-		JumpsMoreWindowBox.jumps_more.Show ();
+		JumpsMoreWindowBox.jumps_runs_more.Show ();
 		
 		return JumpsMoreWindowBox;
 	}
@@ -515,7 +515,7 @@ public class JumpsMoreWindow
 	}
 
 	//puts a value in private member selected
-	private void on_treeview_jumps_more_changed (object o, EventArgs args)
+	private void on_treeview_changed (object o, EventArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -560,13 +560,13 @@ public class JumpsMoreWindow
 	
 	void on_button_close_clicked (object o, EventArgs args)
 	{
-		JumpsMoreWindowBox.jumps_more.Hide();
+		JumpsMoreWindowBox.jumps_runs_more.Hide();
 		JumpsMoreWindowBox = null;
 	}
 	
 	void on_jumps_more_delete_event (object o, EventArgs args)
 	{
-		JumpsMoreWindowBox.jumps_more.Hide();
+		JumpsMoreWindowBox.jumps_runs_more.Hide();
 		JumpsMoreWindowBox = null;
 	}
 	
@@ -616,10 +616,10 @@ public class JumpsMoreWindow
 
 public class JumpsRjMoreWindow 
 {
-	[Widget] Gtk.Window jumps_rj_more;
+	[Widget] Gtk.Window jumps_runs_more;
 	
 	private TreeStore store;
-	[Widget] Gtk.TreeView treeview_jumps_rj_more;
+	[Widget] Gtk.TreeView treeview_more;
 	[Widget] Gtk.Button button_accept;
 
 	static JumpsRjMoreWindow JumpsRjMoreWindowBox;
@@ -632,17 +632,21 @@ public class JumpsRjMoreWindow
 	private double selectedLimitedValue;
 	
 	JumpsRjMoreWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_rj_more", null);
+		//the glade window is the same as jumps_more
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+
+		//if jumps_runs_more is opened for showing Rj jumpTypes make it wider
+		jumps_runs_more.Resize(600,300);
 		
-		createTreeView(treeview_jumps_rj_more);
+		createTreeView(treeview_more);
 		//name, limited by, limited value, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof(string),
 				typeof (string), typeof (string), typeof (string));
-		treeview_jumps_rj_more.Model = store;
-		fillTreeView(treeview_jumps_rj_more,store);
+		treeview_more.Model = store;
+		fillTreeView(treeview_more,store);
 			
 		button_accept.Sensitive = false;
 	}
@@ -652,7 +656,7 @@ public class JumpsRjMoreWindow
 		if (JumpsRjMoreWindowBox == null) {
 			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent);
 		}
-		JumpsRjMoreWindowBox.jumps_rj_more.Show ();
+		JumpsRjMoreWindowBox.jumps_runs_more.Show ();
 		
 		return JumpsRjMoreWindowBox;
 	}
@@ -703,13 +707,14 @@ public class JumpsRjMoreWindow
 					myLimiterValue,		//? or exact value
 					myStringFull[2], 	//startIn
 					myStringFull[3], 	//weight
-					myStringFull[4]		//description
+					myStringFull[6]		//description
 					);
 		}	
 	}
 
 	//puts a value in private member selected
-	private void on_treeview_jumps_rj_more_changed (object o, EventArgs args)
+	//private void on_treeview_jumps_more_changed (object o, EventArgs args)
+	private void on_treeview_changed (object o, EventArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -776,13 +781,13 @@ public class JumpsRjMoreWindow
 	
 	void on_button_close_clicked (object o, EventArgs args)
 	{
-		JumpsRjMoreWindowBox.jumps_rj_more.Hide();
+		JumpsRjMoreWindowBox.jumps_runs_more.Hide();
 		JumpsRjMoreWindowBox = null;
 	}
 	
-	void on_jumps_rj_more_delete_event (object o, EventArgs args)
+	void on_jumps_more_delete_event (object o, EventArgs args)
 	{
-		JumpsRjMoreWindowBox.jumps_rj_more.Hide();
+		JumpsRjMoreWindowBox.jumps_runs_more.Hide();
 		JumpsRjMoreWindowBox = null;
 	}
 	

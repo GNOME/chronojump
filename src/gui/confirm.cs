@@ -119,6 +119,7 @@ public class ConfirmWindow
 	[Widget] Gtk.Label label1;
 	[Widget] Gtk.Label label2;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_cancel;
 
 	Gtk.Window parent;
 	
@@ -171,6 +172,13 @@ public class ConfirmWindow
 		}
 		get {
 			return button_accept;
+		}
+	}
+
+	public Button Button_cancel 
+	{
+		get {
+			return button_cancel;
 		}
 	}
 

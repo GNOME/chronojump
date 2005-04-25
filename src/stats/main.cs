@@ -546,7 +546,7 @@ public class Stat
 		la.WorldMin = 0.7f;
 		la.WorldMax = graphData.XAxisNames.Count + .3f;
 		plot.XAxis1 = la;
-		plot.XAxis1.LargeTickSize = 0.0f;
+		//plot.XAxis1.LargeTickSize = 0.0f;
 		plot.XAxis1.TicksLabelAngle = 35.0f;
 	
 		if(graphData.LabelLeft != "") {

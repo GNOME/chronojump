@@ -1,13 +1,17 @@
 TODO:
 ----
 
+index Q=tv/tc
+
+Hability of changing sensibility from chronojump
+
+RUNS: treeViewRunInterval, runs execution, edit, delete
+
 BUGS:
 - repair bug in treeviews, jumper's get not automatically expanded when make the first jump
 - repair bug in indexes sorting (in indexes tab and in global)
-- repair bug in rj evolution graph, last jump is cutted?
 
 make that serial connection can be stablished regardless before a modem has been used in the same port
-
 
 graphs:
 	study licensing problems of NPlot or how to include it
@@ -21,18 +25,13 @@ edit jump need the hability of change the DJ fall and the SJ+ weight
 
 make an edit session and a delete session, the class, probably heredate from sessionload. The widget win is another
 
-
-- make the currentUser change when a user is selected in the treeview (with double click)
- (or edit this user)
-
 - Capacitat de salt Total: (SJ+100%) + (sj-sj+100%) + (cmj-sj) + (abk-cmj) + (dj-abk)
 (altura DJ ?). Aixo funciona, pero no agafa la linia si falta algun salt:
 sqlite> SELECT j1.personID, person.name, (j1.tv + j2.tv-j1.tv + j3.tv-j2.tv + j4.tv-j3.tv + j5.tv-j4.tv) AS index_total, j1.tv AS index1, (j2.tv - j1.tv) AS index2, (j3.tv - j2.tv) AS index3, (j4.tv - j3.tv) AS index4, (j5.tv - j4.tv) AS index5 FROM jump AS j1, jump AS j2, jump AS j3, jump AS j4, jump AS j5, person WHERE j1.type="SJ+" and j1.weight="100%" and j2.type="SJ" AND j3.type="CMJ" AND j4.type="ABK" AND j5.type="DJ" AND j1.personID=j2.personID AND j2.personID=j3.personID AND j3.personID=j4.personID AND j4.personID=j5.personID AND j1.personID=person.uniqueID GROUP BY j1.personID;
 2|pepa|0.0993004424028567|0.184782230008758|0.280872289780933|-0.280872289780933|-0.065258488461962|-0.0202232991439393
 1|xavi1|0.186643592820803|0.465654519789691|-0.366973106920241|0.366973106920241|-0.002864390799247|-0.276146536169641
 
-we can check the lines we need, and execute, and if a line it's not found, try to discover wich values are needed
-
-- graf. capacitat de salt total
+	we can check the lines we need, and execute, and if a line it's not found, try to discover wich values are needed
+	graf this
 
 editCurrentSession  (edit delete sessions (delete it's jumpers and jumps))

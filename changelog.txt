@@ -1,5 +1,23 @@
 CHANGELOG:
 
+25 april 2005
+	runs & runsInterval:
+		soon chronojump will manage runs
+		new files: src/run.cs src/runType.cs src/sqlite/run.cs
+		src/sqlite/runType.cs treeViewRun.cs
+		gui prepared for run & runInterval
+		sqlite prepared for run & runInterval
+		pending: treeViewRunInterval, runs execution, edit, delete
+
+	big reorganization: moved all jumps execution code from chronojump.cs to jump.cs
+
+	Initial speed (take off speed) added (changed treeviewjumps.cs for
+	easy adding new cols) (preference added in database)
+	
+	Fixed bug in counting reactive jumps in writeJumpReactive
+	Fixed bug in treeview jumpRj Add (AVG)
+	minor changes
+
 2 april 2005
 	RjEvolution stat now without AVG option (has no sense with Rj jumps with
 	different name of subjumps)

@@ -33,6 +33,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.Window preferences;
 	[Widget] Gtk.SpinButton spinbutton_decimals;
 	[Widget] Gtk.CheckButton checkbutton_height;
+	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
 	[Widget] Gtk.RadioButton radiobutton_weight_stats_percent;
 	[Widget] Gtk.RadioButton radiobutton_weight_stats_kgs;
@@ -51,7 +52,7 @@ public class PreferencesWindow {
 		
 	}
 	
-	static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool askDeletion, bool weightStatsPercent)
+	static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (parent);
@@ -63,6 +64,13 @@ public class PreferencesWindow {
 		}
 		else {
 			PreferencesWindowBox.checkbutton_height.Active = false; 
+		}
+
+		if(showInitialSpeed) { 
+			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
+		}
+		else {
+			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
 		}
 
 		if(askDeletion) { 
@@ -100,6 +108,7 @@ public class PreferencesWindow {
 	{
 		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString());
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString());
+		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString());
 		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString());
 		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radiobutton_weight_stats_percent.Active.ToString());
 		

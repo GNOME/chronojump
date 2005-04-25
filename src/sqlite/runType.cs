@@ -1,0 +1,265 @@
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Xavier de Blas: 
+ * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
+ */
+
+using System;
+using System.Data;
+using System.IO;
+using System.Collections; //ArrayList
+using Mono.Data.SqliteClient;
+using System.Data.SqlClient;
+
+
+class SqliteRunType : Sqlite
+{
+	/*
+	 * create and initialize tables
+	 */
+	
+	//creates table containing the types of simple Runs
+	//following INT values are booleans
+	protected static void createTableRunType()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE runType ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"distance FLOAT, " + //>0 variable distance, ==0 fixed distance
+			"description TEXT )";		
+		dbcmd.ExecuteNonQuery();
+	}
+	
+	//if this changes, runType.cs constructor should change 
+	protected static void initializeTableRunType()
+	{
+		string [] iniRunTypes = {
+			//name:distance:description
+			"Free:0:variable distance running", 
+			"20m:20:run 20 meters"
+		};
+		foreach(string myRunType in iniRunTypes) {
+			RunTypeInsert(myRunType, true);
+		}
+	}
+	
+	//creates table containing the types of Interval Runs 
+	//following INT values are booleans
+	protected static void createTableRunIntervalType()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE runIntervalType ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"distance FLOAT, " + //>0 variable distance, ==0 fixed distance
+					//this distance will be the same in all tracks
+			"tracksLimited INT, " +  //1 limited by tracks (intervals); 0 limited by time
+			"fixedValue INT, " +   //0: no fixed value; 3: 3 intervals or seconds 
+			"description TEXT )";		
+		dbcmd.ExecuteNonQuery();
+	}
+	
+	//if this changes, runType.cs constructor should change 
+	protected static void initializeTableRunIntervalType()
+	{
+		string [] iniRunTypes = {
+			//name:distance:tracksLimited:fixedValue:description
+			"20m10times:20:1:10:Run 10 times a 20m distance",
+			"7m30seconds:7:0:30:Make max laps in 30 seconds",
+			"20m endurance:20:0:0:Continue running in 20m distance"
+		};
+		foreach(string myRunType in iniRunTypes) {
+			RunIntervalTypeInsert(myRunType, true);
+		}
+	}
+
+	/*
+	 * RunType class methods
+	 */
+
+	public static void RunTypeInsert(string myRun, bool dbconOpened)
+	{
+		string [] myStr = myRun.Split(new char[] {':'});
+		if(! dbconOpened) {
+			dbcon.Open();
+		}
+		dbcmd.CommandText = "INSERT INTO runType" + 
+				"(uniqueID, name, distance, description)" +
+				" VALUES (NULL, '"
+				+ myStr[0] + "', " + myStr[1] + ", '" +	//name, distance
+				myStr[2] + "')" ;	//description
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		if(! dbconOpened) {
+			dbcon.Close();
+		}
+	}
+	
+	public static void RunIntervalTypeInsert(string myRun, bool dbconOpened)
+	{
+		string [] myStr = myRun.Split(new char[] {':'});
+		if(! dbconOpened) {
+			dbcon.Open();
+		}
+		dbcmd.CommandText = "INSERT INTO runIntervalType" + 
+				"(uniqueID, name, distance, tracksLimited, fixedValue, description)" +
+				" VALUES (NULL, '"
+				+ myStr[0] + "', " + myStr[1] + ", " +	//name, distance
+				+ myStr[2] + ", " + myStr[3] + ", '" +	//tracksLimited, fixedValue
+				+ myStr[4] + "')" ;	//description
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		if(! dbconOpened) {
+			dbcon.Close();
+		}
+	}
+
+	public static string[] SelectRunTypes(string allRunsName, bool onlyName) 
+	{
+		//allRunsName: add and "allRunsName" value
+		//onlyName: return only type name
+	
+		string whereString = "";
+		
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM runType " +
+			whereString +
+			" ORDER BY uniqueID";
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList myArray = new ArrayList(2);
+
+		int count = new int();
+		count = 0;
+		while(reader.Read()) {
+			if(onlyName) {
+				myArray.Add (reader[1].ToString());
+			} else {
+				myArray.Add (reader[0].ToString() + ":" +	//uniqueID
+						reader[1].ToString() + ":" +	//name
+						reader[2].ToString() + ":" + 	//distance
+						reader[3].ToString() 		//description
+					    );
+			}
+			count ++;
+		}
+
+		reader.Close();
+		dbcon.Close();
+
+		int numRows;
+		if(allRunsName != "") {
+			numRows = count +1;
+		} else {
+			numRows = count;
+		}
+		string [] myTypes = new string[numRows];
+		count =0;
+		if(allRunsName != "") {
+			myTypes [count++] = allRunsName;
+			//Console.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+		}
+		foreach (string line in myArray) {
+			myTypes [count++] = line;
+			//Console.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+		}
+
+		return myTypes;
+	}
+
+	public static string[] SelectRunIntervalTypes(string allRunsName, bool onlyName) 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM runIntervalType " +
+			" ORDER BY uniqueID";
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList myArray = new ArrayList(2);
+
+		int count = new int();
+		count = 0;
+		while(reader.Read()) {
+			if(onlyName) {
+				myArray.Add (reader[1].ToString());
+			} else {
+				myArray.Add (reader[0].ToString() + ":" +	//uniqueID
+						reader[1].ToString() + ":" +	//name
+						reader[2].ToString() + ":" + 	//distance
+						reader[3].ToString() + ":" + 	//tracksLimited
+						reader[4].ToString() + ":" + 	//fixedValue
+						reader[5].ToString() 		//description
+					    );
+			}
+			count ++;
+		}
+
+		reader.Close();
+		dbcon.Close();
+
+		int numRows;
+		if(allRunsName != "") {
+			numRows = count +1;
+		} else {
+			numRows = count;
+		}
+		string [] myTypes = new string[numRows];
+		count =0;
+		if(allRunsName != "") {
+			myTypes [count++] = allRunsName;
+		}
+		foreach (string line in myArray) {
+			myTypes [count++] = line;
+		}
+
+		return myTypes;
+	}
+	
+	public static bool Exists(string typeName)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT uniqueID FROM runType " +
+			" WHERE LOWER(name) == LOWER('" + typeName + "')" ;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		bool exists = new bool();
+		exists = false;
+		
+		if (reader.Read()) {
+			exists = true;
+		}
+		Console.WriteLine("exists = {0}", exists.ToString());
+
+		return exists;
+	}
+}	

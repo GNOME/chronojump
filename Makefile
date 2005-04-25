@@ -24,9 +24,9 @@ CHRONOJUMP_DEP_GRAPHS = src/stats/graphs/graphData.cs src/stats/graphs/graphSeri
 
 
 
-CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpType.cs src/sqlite/personSession.cs src/sqlite/stat.cs
+CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpType.cs src/sqlite/run.cs src/sqlite/runType.cs src/sqlite/personSession.cs src/sqlite/stat.cs
 
-CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/jump.cs src/jumpType.cs src/session.cs src/catalog.cs src/exportSession.cs src/treeViewJump.cs src/util.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE)
+CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/session.cs src/catalog.cs src/exportSession.cs src/treeViewJump.cs src/treeViewRun.cs src/util.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE)
 
 RESOURCES = -resource:glade/chronojump.glade,chronojump.glade 
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient

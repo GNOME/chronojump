@@ -59,23 +59,36 @@ class Sqlite
 		dbcon.Open();
 
 		SqlitePerson.createTable();
-		
+	
+		//jumps
 		SqliteJump.createTable();
 		SqliteJump.rjCreateTable();
 
+		//jump Types
 		SqliteJumpType.createTableJumpType();
 		SqliteJumpType.createTableJumpRjType();
 		SqliteJumpType.initializeTableJumpType();
 		SqliteJumpType.initializeTableJumpRjType();
+		
+		//runs
+		SqliteRun.createTable();
+		SqliteRun.intervalCreateTable();
+		
+		//run Types
+		SqliteRunType.createTableRunType();
+		SqliteRunType.createTableRunIntervalType();
+		SqliteRunType.initializeTableRunType();
+		SqliteRunType.initializeTableRunIntervalType();
 		
 		SqliteSession.createTable();
 		
 		SqlitePersonSession.createTable();
 		
 		SqlitePreferences.createTable();
-		SqlitePreferences.insert ("databaseVersion", "0.2");
+		SqlitePreferences.insert ("databaseVersion", "0.3");
 		SqlitePreferences.insert ("digitsNumber", "7");
 		SqlitePreferences.insert ("showHeight", "True");
+		SqlitePreferences.insert ("showInitialSpeed", "True");
 		SqlitePreferences.insert ("simulated", "True");
 		SqlitePreferences.insert ("weightStatsPercent", "True");
 		SqlitePreferences.insert ("askDeletion", "True");

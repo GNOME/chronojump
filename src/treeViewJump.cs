@@ -29,6 +29,7 @@ public class TreeViewJumps
 {
 	protected bool sortByType;
 	protected bool showHeight;
+	protected bool showInitialSpeed;
 	protected TreeStore store;
 	protected Gtk.TreeView treeview;
 	protected static int pDN; //prefsDigitsNumber;
@@ -38,31 +39,25 @@ public class TreeViewJumps
 	{
 	}
 	
-	public TreeViewJumps (Gtk.TreeView treeview, bool sortByType, bool showHeight, int newPrefsDigitsNumber)
+	public TreeViewJumps (Gtk.TreeView treeview, bool sortByType, bool showHeight, bool showInitialSpeed, int newPrefsDigitsNumber)
 	{
 		this.treeview = treeview;
 		this.sortByType = sortByType;
 		this.showHeight = showHeight;
+		this.showInitialSpeed = showInitialSpeed;
 		pDN = newPrefsDigitsNumber;
 
 		string jumperName = Catalog.GetString("Jumper");
-		string heightName = Catalog.GetString("Height");
 		string weightName = Catalog.GetString("Weight");
 		string fallName = Catalog.GetString("Fall");
+		string heightName = Catalog.GetString("Height");
+		string initialSpeedName = Catalog.GetString("Initial Speed");
 
-		if(showHeight) {
-			//string [] columnsString = { "Jumper", "TC", "TV", "Height", };
-			store = getStore(7); //because, jumpID is not show in last col
-			string [] columnsString = { jumperName, "TC", "TV", heightName, weightName, fallName };
-			treeview.Model = store;
-			prepareHeaders(columnsString);
-		} else {
-			//string [] columnsString = { "Jumper", "TC", "TV" };
-			store = getStore(6); //because, jumpID is not show in last col
-			string [] columnsString = { jumperName, "TC", "TV", weightName, fallName };
-			treeview.Model = store;
-			prepareHeaders(columnsString);
-		}
+		int colsNum = obtainJumpIDColumn() +1;
+		store = getStore(colsNum); //because, jumpID is not show in last col
+		string [] columnsString = { jumperName, "TC", "TV", weightName, fallName };
+		treeview.Model = store;
+		prepareHeaders(columnsString, heightName, initialSpeedName);
 	}
 	
 	protected TreeStore getStore (int columns)
@@ -76,12 +71,18 @@ public class TreeViewJumps
 		return myStore;
 	}
 	
-	protected virtual void prepareHeaders(string [] columnsString) 
+	protected virtual void prepareHeaders(string [] columnsString, string heightName, string initialSpeedName) 
 	{
 		treeview.HeadersVisible=true;
 		int i=0;
 		foreach(string myCol in columnsString) {
 			treeview.AppendColumn (Catalog.GetString(myCol), new CellRendererText(), "text", i++);
+		}
+		if(showHeight) {
+			treeview.AppendColumn (heightName, new CellRendererText(), "text", i++);
+		}
+		if(showInitialSpeed) {
+			treeview.AppendColumn (initialSpeedName, new CellRendererText(), "text", i++);
 		}
 	}
 	
@@ -101,7 +102,7 @@ public class TreeViewJumps
 		string myType ;
 
 		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false);
-		
+
 		foreach (string jump in myJumps) {
 			string [] myStringFull = jump.Split(new char[] {':'});
 
@@ -124,27 +125,24 @@ public class TreeViewJumps
 				if (Util.HasWeight(jumpTypes, myType)) {
 					myWeight = myStringFull[8]; //weight
 				}
-				
-				if (showHeight) {
-					store.AppendValues (iter,
-						myType,
-						Util.TrimDecimals( myStringFull[6].ToString(), pDN ),
-						Util.TrimDecimals( myStringFull[5].ToString(), pDN ),
-						Util.TrimDecimals( obtainHeight( myStringFull[5].ToString() ), pDN ),
-						myWeight,
-						myFall,
-						myStringFull[1] //jumpUniqueID (not shown) 
-						);
-				} else {
-					store.AppendValues (iter, 
-						myType, 
-						Util.TrimDecimals( myStringFull[6].ToString(), pDN ),
-						Util.TrimDecimals( myStringFull[5].ToString(), pDN ),
-						myWeight,
-						myFall,
-						myStringFull[1] //jumpUniqueID (not shown) 
-						);
+		
+				int colsNum = obtainJumpIDColumn() +1;
+				string [] myData = new String [colsNum];
+				int count = 0;
+				myData[count++] = myType;
+				myData[count++] = Util.TrimDecimals( myStringFull[6].ToString(), pDN );
+				myData[count++] = Util.TrimDecimals( myStringFull[5].ToString(), pDN );
+				myData[count++] = myWeight;
+				myData[count++] = myFall;
+				if(showHeight) {
+					myData[count++] = Util.TrimDecimals( obtainHeight( myStringFull[5].ToString() ), pDN );
 				}
+				if(showInitialSpeed) {
+					myData[count++] = Util.TrimDecimals( obtainInitialSpeed( myStringFull[5].ToString() ), pDN );
+				}
+				myData[count++] = myStringFull[1]; //jumpUniqueID (not shown) 
+
+				store.AppendValues (iter, myData);
 			}
 		}	
 	}
@@ -174,23 +172,24 @@ public class TreeViewJumps
 					if (Util.HasWeight(jumpTypes, newJump.Type)) {
 						myWeight = newJump.Weight;
 					}
-				
-					if (showHeight) {
-						store.AppendValues ( iter, newJump.Type, 
-								Util.TrimDecimals(newJump.Tc.ToString(), pDN), 
-								Util.TrimDecimals(newJump.Tv.ToString(), pDN), 
-								Util.TrimDecimals( obtainHeight( newJump.Tv.ToString() ), pDN ),
-								myWeight,
-								myFall,
-								newJump.UniqueID.ToString() );
-					} else {
-						store.AppendValues ( iter, newJump.Type, 
-								Util.TrimDecimals(newJump.Tc.ToString(), pDN), 
-								Util.TrimDecimals(newJump.Tv.ToString(), pDN), 
-								myWeight,
-								myFall,
-								newJump.UniqueID.ToString() );
+			
+					int colsNum = obtainJumpIDColumn() +1;
+					string [] myData = new String [colsNum];
+					int count = 0;
+					myData[count++] = newJump.Type;
+					myData[count++] = Util.TrimDecimals( newJump.Tc.ToString(), pDN );
+					myData[count++] = Util.TrimDecimals( newJump.Tv.ToString(), pDN );
+					myData[count++] = myWeight;
+					myData[count++] = myFall;
+					if(showHeight) {
+						myData[count++] = Util.TrimDecimals( obtainHeight( newJump.Tv.ToString() ), pDN );
 					}
+					if(showInitialSpeed) {
+						myData[count++] = Util.TrimDecimals( obtainInitialSpeed( newJump.Tv.ToString() ), pDN );
+					}
+					myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
+
+					store.AppendValues (iter, myData);
 				}
 			} while (treeview.Model.IterNext (ref iter));
 		}
@@ -209,25 +208,38 @@ public class TreeViewJumps
 				myWeight = newJump.Weight;
 			}
 				
-			if (showHeight) {
-				store.AppendValues ( iter, newJump.Type, 
-						Util.TrimDecimals(newJump.Tc.ToString(), pDN), 
-						Util.TrimDecimals(newJump.Tv.ToString(), pDN), 
-						Util.TrimDecimals( obtainHeight( newJump.Tv.ToString() ), pDN ),
-						myWeight,
-						myFall,
-						newJump.UniqueID.ToString() );
-			} else {
-				store.AppendValues ( iter, newJump.Type, 
-						Util.TrimDecimals(newJump.Tc.ToString(), pDN), 
-						Util.TrimDecimals(newJump.Tv.ToString(), pDN), 
-						myWeight,
-						myFall,
-						newJump.UniqueID.ToString() );
+			int colsNum = obtainJumpIDColumn() +1;
+			string [] myData = new String [colsNum];
+			int count = 0;
+			myData[count++] = newJump.Type;
+			myData[count++] = Util.TrimDecimals( newJump.Tc.ToString(), pDN );
+			myData[count++] = Util.TrimDecimals( newJump.Tv.ToString(), pDN );
+			myData[count++] = myWeight;
+			myData[count++] = myFall;
+			if(showHeight) {
+				myData[count++] = Util.TrimDecimals( obtainHeight( newJump.Tv.ToString() ), pDN );
 			}
+			if(showInitialSpeed) {
+				myData[count++] = Util.TrimDecimals( obtainInitialSpeed( newJump.Tv.ToString() ), pDN );
+			}
+			myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
+
+			store.AppendValues (iter, myData);
+
 			//expand the jumper
 			treeview.ExpandToPath( treeview.Model.GetPath(iter) );
 		}
+	}
+
+	protected int obtainJumpIDColumn () {
+		int jumpIDColumn = 5;
+		if (showHeight) {
+			jumpIDColumn ++;
+		}
+		if (showInitialSpeed) {
+			jumpIDColumn ++;
+		}
+		return jumpIDColumn;
 	}
 	
 	public virtual void DelJump (int jumpID)
@@ -235,10 +247,7 @@ public class TreeViewJumps
 		TreeIter iter = new TreeIter();
 		treeview.Model.GetIterFirst ( out iter ) ;
 		string iterJumperString;
-		int jumpIDColumn = 5;
-		if (showHeight) {
-			jumpIDColumn = 6;
-		}
+		int jumpIDColumn = obtainJumpIDColumn();
 		
 		do {
 			iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();
@@ -259,10 +268,22 @@ public class TreeViewJumps
 
 	protected static string obtainHeight (string time) {
 		// s = 4.9 * (tv/2)exp2
-		double myValue = 4.9 * ( Convert.ToDouble(time) / 2 ) * (Convert.ToDouble(time) / 2 ) ;
+		double timeAsDouble = Convert.ToDouble(time);
+		double height = 4.9 * ( timeAsDouble / 2 ) * ( timeAsDouble / 2 ) ;
 
-		return myValue.ToString();
+		return height.ToString();
 	}
+	
+	protected static string obtainInitialSpeed (string time) {
+		// S = So + Vot + (at^2)/2
+		// Vo = ( ( 4.9 * t^2 ) + S ) / t
+		double timeAsDouble = Convert.ToDouble(time);
+		double height = Convert.ToDouble( obtainHeight(time) );
+		double initialSpeed = ( ( 4.9 * timeAsDouble * timeAsDouble ) + height ) / timeAsDouble;
+
+		return initialSpeed.ToString();
+	}
+
 
 	public int JumpSelectedID {
 		get {
@@ -270,9 +291,9 @@ public class TreeViewJumps
 			TreeModel myModel = treeview.Model;
 			if (treeview.Selection.GetSelected (out myModel, out iter)) {
 				if(showHeight) {
-					return Convert.ToInt32 ( treeview.Model.GetValue(iter, 6) );
+					return Convert.ToInt32 ( treeview.Model.GetValue(iter, obtainJumpIDColumn()) );
 				} else {
-					return Convert.ToInt32 ( treeview.Model.GetValue(iter, 5) );
+					return Convert.ToInt32 ( treeview.Model.GetValue(iter, obtainJumpIDColumn()) );
 				}
 			} else {
 				return 0;
@@ -284,28 +305,24 @@ public class TreeViewJumps
 
 public class TreeViewJumpsRj : TreeViewJumps
 {
-	public TreeViewJumpsRj (Gtk.TreeView treeview, bool showHeight, int newPrefsDigitsNumber)
+	public TreeViewJumpsRj (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, int newPrefsDigitsNumber)
 	{
 		this.treeview = treeview;
 		this.showHeight = showHeight;
+		this.showInitialSpeed = showInitialSpeed;
 		pDN = newPrefsDigitsNumber;
 
 		string jumperName = Catalog.GetString("Jumper");
-		string heightName = Catalog.GetString("Height");
 		string weightName = Catalog.GetString("Weight");
 		string fallName = Catalog.GetString("Fall");
+		string heightName = Catalog.GetString("Height");
+		string initialSpeedName = Catalog.GetString("Initial Speed");
 		
-		if(showHeight) {
-			store = getStore(7); //because, jumpID is not show in last col
-			string [] columnsString = { jumperName, "TC", "TV", heightName, weightName, fallName };
-			treeview.Model = store;
-			prepareHeaders(columnsString);
-		} else {
-			store = getStore(6); //because, jumpID is not show in last col
-			string [] columnsString = { jumperName, "TC", "TV", weightName, fallName };
-			treeview.Model = store;
-			prepareHeaders(columnsString);
-		}
+		int colsNum = obtainJumpIDColumn() +1;
+		store = getStore(colsNum); //because, jumpID is not show in last col
+		string [] columnsString = { jumperName, "TC", "TV", weightName, fallName };
+		treeview.Model = store;
+		prepareHeaders(columnsString, heightName, initialSpeedName);
 	}
 	
 	public override void Fill(string [] myJumps, string filter)
@@ -343,56 +360,52 @@ public class TreeViewJumpsRj : TreeViewJumps
 					myWeight = myStringFull[8];
 				}
 
-				if (showHeight) {
-					iterDeep = store.AppendValues (iter,
-							myTypeComplet,
-							Util.TrimDecimals( myStringFull[11].ToString(), pDN ), //tcAvg
-							Util.TrimDecimals( myStringFull[10].ToString(), pDN ), //tvAvg
-							Util.TrimDecimals( obtainHeight( myStringFull[10].ToString() ), pDN ), //height(tvAvg)
-							myWeight,
-							myFall,
-							myStringFull[1] //jumpUniqueID (not shown) 
-							);
-				} else {
-					iterDeep = store.AppendValues (iter, 
-							myTypeComplet, 
-							Util.TrimDecimals( myStringFull[11].ToString(), pDN ), //tcAvg
-							Util.TrimDecimals( myStringFull[10].ToString(), pDN ), //tvAvg
-							myWeight,
-							myFall,
-							myStringFull[1] //jumpUniqueID (not shown) 
-							);
+				
+				int colsNum = obtainJumpIDColumn() +1;
+				string [] myData = new String [colsNum];
+				int count = 0;
+				myData[count++] = myTypeComplet;
+				myData[count++] = Util.TrimDecimals( myStringFull[11].ToString(), pDN );
+				myData[count++] = Util.TrimDecimals( myStringFull[10].ToString(), pDN );
+				myData[count++] = myWeight;
+				myData[count++] = myFall;
+				if(showHeight) {
+					myData[count++] = Util.TrimDecimals( obtainHeight( myStringFull[10].ToString() ), pDN );
 				}
+				if(showInitialSpeed) {
+					myData[count++] = Util.TrimDecimals( obtainInitialSpeed( myStringFull[10].ToString() ), pDN );
+				}
+				myData[count++] = myStringFull[1]; //jumpUniqueID (not shown) 
+
+				iterDeep = store.AppendValues (iter, myData);
 
 				//if it's an RJ, we should make a deeper tree with all the jumps
 				//the info above it's average
 
 				string [] rjTvs = myStringFull[12].Split(new char[] {'='});
 				string [] rjTcs = myStringFull[13].Split(new char[] {'='});
-				int count = 0;
+				int countRows = 0;
 				foreach (string myTv in rjTvs) 
 				{
-					if (showHeight) {
-						store.AppendValues (iterDeep, 
-								(count+1).ToString(), 
-								Util.TrimDecimals(rjTcs[count], pDN),
-								Util.TrimDecimals(myTv, pDN), 
-								Util.TrimDecimals(obtainHeight(myTv), pDN),
-								"",
-								"",
-								myStringFull[1] //jumpUniqueID 
-								);
-					} else {
-						store.AppendValues (iterDeep, 
-								(count+1).ToString(), 
-								Util.TrimDecimals(rjTcs[count], pDN),
-								Util.TrimDecimals(myTv, pDN), 
-								"",
-								"",
-								myStringFull[1] //jumpUniqueID 
-								);
+					string [] myData2 = new String [colsNum];
+					count = 0;
+					myData2[count++] = (countRows+1).ToString();
+					myData2[count++] = Util.TrimDecimals( rjTcs[countRows], pDN );
+					myData2[count++] = Util.TrimDecimals( myTv, pDN );
+					myData2[count++] = "";
+					myData2[count++] = "";
+					if(showHeight) {
+						myData2[count++] = Util.TrimDecimals( obtainHeight(myTv), pDN );
 					}
-					count ++;
+					if(showInitialSpeed) {
+						myData2[count++] = Util.TrimDecimals( obtainInitialSpeed(myTv), pDN );
+					}
+					myData2[count++] = myStringFull[1]; //jumpUniqueID (not shown) 
+
+					store.AppendValues (iterDeep, myData2);
+
+					
+					countRows ++;
 				}
 			}
 		}
@@ -406,6 +419,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		string iterJumperString;
 		bool found = false;
 		string [] jumpTypes = SqliteJumpType.SelectJumpRjTypes("", false);
+		int colsNum = obtainJumpIDColumn() +1;
 		
 		if(modelNotEmpty) {
 			do {
@@ -426,45 +440,48 @@ public class TreeViewJumpsRj : TreeViewJumps
 					treeview.ExpandToPath( treeview.Model.GetPath(iter) );
 
 					string myTypeComplet = newJump.Type + "(" + newJump.Limited + ") AVG: "; //limited
-					if (showHeight) {
-						iterDeep = store.AppendValues ( iter, myTypeComplet, 
-								Util.TrimDecimals(newJump.TcAvg.ToString(), pDN), 
-								Util.TrimDecimals(newJump.TvAvg.ToString(), pDN), 
-								Util.TrimDecimals( obtainHeight( newJump.TvAvg.ToString() ), pDN ),
-								myWeight,
-								myFall,
-								newJump.UniqueID.ToString() );
-					} else {
-						iterDeep = store.AppendValues ( iter, myTypeComplet, 
-								Util.TrimDecimals(newJump.TcAvg.ToString(), pDN), 
-								Util.TrimDecimals(newJump.TvAvg.ToString(), pDN), 
-								myWeight,
-								myFall,
-								newJump.UniqueID.ToString() );
+					
+					string [] myData = new String [colsNum];
+					int count = 0;
+					myData[count++] = myTypeComplet;
+					myData[count++] = Util.TrimDecimals( newJump.TcAvg.ToString(), pDN );
+					myData[count++] = Util.TrimDecimals( newJump.TvAvg.ToString(), pDN );
+					myData[count++] = myWeight;
+					myData[count++] = myFall;
+					if(showHeight) {
+						myData[count++] = Util.TrimDecimals( obtainHeight( newJump.TvAvg.ToString() ), pDN );
 					}
+					if(showInitialSpeed) {
+						myData[count++] = Util.TrimDecimals( obtainInitialSpeed( newJump.TvAvg.ToString() ), pDN );
+					}
+					myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
+
+					iterDeep = store.AppendValues (iter, myData);
 
 					//fill the subjumps
 					string [] myStringTv = newJump.TvString.Split(new char[] {'='});
 					string [] myStringTc = newJump.TcString.Split(new char[] {'='});
-					int count = 0;
+					int countRows = 0;
 					foreach (string myTv in myStringTv) {
-						if (showHeight) {
-							store.AppendValues ( iterDeep, (count+1).ToString(), 
-									Util.TrimDecimals( myStringTc[count], pDN ), 
-									Util.TrimDecimals( myTv, pDN ), 
-									Util.TrimDecimals( obtainHeight( myTv ), pDN ),
-									"",
-									"",
-									newJump.UniqueID.ToString() );
-						} else {
-							store.AppendValues ( iterDeep, (count+1).ToString(), 
-									Util.TrimDecimals( myStringTc[count], pDN ), 
-									Util.TrimDecimals( myTv, pDN ), 
-									"",
-									"",
-									newJump.UniqueID.ToString() );
+						string [] myData2 = new String [colsNum];
+						count = 0;
+						myData2[count++] = (countRows+1).ToString();
+						myData2[count++] = Util.TrimDecimals( myStringTc[countRows], pDN );
+						myData2[count++] = Util.TrimDecimals( myTv, pDN );
+						myData2[count++] = "";
+						myData2[count++] = "";
+						if(showHeight) {
+							myData2[count++] = Util.TrimDecimals( obtainHeight(myTv), pDN );
 						}
-						count ++;
+						if(showInitialSpeed) {
+							myData2[count++] = Util.TrimDecimals( obtainInitialSpeed(myTv), pDN );
+						}
+						myData2[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
+
+						store.AppendValues (iterDeep, myData2);
+							
+						
+						countRows ++;
 					}
 				}
 			} while (treeview.Model.IterNext (ref iter));
@@ -485,45 +502,48 @@ public class TreeViewJumpsRj : TreeViewJumps
 			}
 
 			string myTypeComplet = newJump.Type + "(" + newJump.Limited + ") AVG: "; //limited
-			if (showHeight) {
-				iterDeep = store.AppendValues ( iter, myTypeComplet, 
-						Util.TrimDecimals(newJump.TcAvg.ToString(), pDN), 
-						Util.TrimDecimals(newJump.TvAvg.ToString(), pDN), 
-						Util.TrimDecimals( obtainHeight( newJump.TvAvg.ToString() ), pDN ),
-						myWeight,
-						myFall,
-						newJump.UniqueID.ToString() );
-			} else {
-				iterDeep = store.AppendValues ( iter, myTypeComplet, 
-						Util.TrimDecimals(newJump.TcAvg.ToString(), pDN), 
-						Util.TrimDecimals(newJump.TvAvg.ToString(), pDN), 
-						myWeight,
-						myFall,
-						newJump.UniqueID.ToString() );
+						
+			string [] myData2 = new String [colsNum];
+			int count = 0;
+			myData2[count++] = myTypeComplet;
+			myData2[count++] = Util.TrimDecimals( newJump.TcAvg.ToString(), pDN );
+			myData2[count++] = Util.TrimDecimals( newJump.TvAvg.ToString(), pDN );
+			myData2[count++] = "";
+			myData2[count++] = "";
+			if(showHeight) {
+				myData2[count++] = Util.TrimDecimals( obtainHeight(newJump.TvAvg.ToString()), pDN );
 			}
+			if(showInitialSpeed) {
+				myData2[count++] = Util.TrimDecimals( obtainInitialSpeed(newJump.TvAvg.ToString()), pDN );
+			}
+			myData2[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
+
+			iterDeep = store.AppendValues (iterDeep, myData2);
+							
 
 			//fill the subjumps
 			string [] myStringTv = newJump.TvString.Split(new char[] {'='});
 			string [] myStringTc = newJump.TcString.Split(new char[] {'='});
-			int count = 0;
+			int countRows = 0;
 			foreach (string myTv in myStringTv) {
-				if (showHeight) {
-					store.AppendValues ( iterDeep, (count+1).ToString(), 
-							Util.TrimDecimals( myStringTc[count], pDN ), 
-							Util.TrimDecimals( myTv, pDN ), 
-							Util.TrimDecimals( obtainHeight( myTv ), pDN ),
-							"",
-							"",
-							newJump.UniqueID.ToString() );
-				} else {
-					store.AppendValues ( iterDeep, (count+1).ToString(), 
-							Util.TrimDecimals( myStringTc[count], pDN ), 
-							Util.TrimDecimals( myTv, pDN ), 
-							"",
-							"",
-							newJump.UniqueID.ToString() );
+				myData2 = new String [colsNum];
+				count = 0;
+				myData2[count++] = (countRows+1).ToString();
+				myData2[count++] = Util.TrimDecimals( myStringTc[countRows], pDN );
+				myData2[count++] = Util.TrimDecimals( myTv, pDN );
+				myData2[count++] = "";
+				myData2[count++] = "";
+				if(showHeight) {
+					myData2[count++] = Util.TrimDecimals( obtainHeight(myTv), pDN );
 				}
-				count ++;
+				if(showInitialSpeed) {
+					myData2[count++] = Util.TrimDecimals( obtainInitialSpeed(myTv), pDN );
+				}
+				myData2[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
+
+				store.AppendValues (iterDeep, myData2);
+
+				countRows ++;
 			}
 		//expand the jumper
 		treeview.ExpandToPath( treeview.Model.GetPath(iter) );

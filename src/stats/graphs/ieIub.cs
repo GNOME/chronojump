@@ -93,9 +93,11 @@ public class GraphIeIub : StatIeIub
 
 			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
-			serieJump1.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			//serieJump1.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			serieJump1.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("LightGreen"), 2.0F));
-			serieJump2.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			//serieJump2.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			serieJump2.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("LightBlue"), 2.0F));
 		
 			//for the line between markers

@@ -1,6 +1,8 @@
 TODO:
 ----
 
+make CSV export do initial speed and height
+
 index Q=tv/tc
 
 Hability of changing sensibility from chronojump

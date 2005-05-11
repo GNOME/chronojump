@@ -75,7 +75,8 @@ public class GraphGlobal : StatGlobal
 
 			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
-			serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("LightBlue"), 2.0F));
 		
 			//for the line between markers
@@ -159,7 +160,8 @@ public class GraphGlobal : StatGlobal
 								6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
 					} else {
 						mySerie.IsLeftAxis = true;
-						mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+						//mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+						mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 								6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
 					}
 				} else {

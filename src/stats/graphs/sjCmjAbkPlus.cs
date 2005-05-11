@@ -74,7 +74,8 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			serieTv.IsLeftAxis = true;
 			serieWeight.IsLeftAxis = false;
 
-			serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("LightBlue"), 2.0F));
 			serieWeight.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
 					6, new Pen (Color.FromName("Chocolate"), 2.0F));
@@ -133,7 +134,8 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			int myG = myRand.Next(255);
 			int myB = myRand.Next(255);
 
-			mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			//mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
 
 			mySerie.SerieColor = Color.FromArgb(myR, myG, myB);

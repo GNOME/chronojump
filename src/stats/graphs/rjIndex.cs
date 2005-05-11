@@ -84,9 +84,11 @@ public class GraphRjIndex : StatRjIndex
 
 			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
-			serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
+			//serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
+			serieTc.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("LightGreen"), 2.0F));
-			serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("LightBlue"), 2.0F));
 			serieFall.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
 					6, new Pen (Color.FromName("Chocolate"), 2.0F));

@@ -69,7 +69,8 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			
 			serieTv.IsLeftAxis = true;
 
-			serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("LightBlue"), 2.0F));
 		
 			//for the line between markers
@@ -118,7 +119,8 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			int myG = myRand.Next(255);
 			int myB = myRand.Next(255);
 
-			mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			//mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
 
 			mySerie.SerieColor = Color.FromArgb(myR, myG, myB);

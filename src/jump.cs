@@ -250,7 +250,8 @@ public class Jump
 				Console.Write("dying");
 
 				//event will be raised, and managed in chronojump.cs
-				falseButtonFinished.Click();
+				//falseButtonFinished.Click();
+				//Now called on write(), now work in mono1.1.6
 				
 				return false;
 			}
@@ -285,6 +286,9 @@ public class Jump
 		
 		//put max value in progressBar. This makes the thread in Pulse() stop
 		progressBar.Fraction = 1;
+		
+		//event will be raised, and managed in chronojump.cs
+		falseButtonFinished.Click();
 	}
 	
 	//from confirm_window cancel button (thread has not started)
@@ -715,6 +719,9 @@ public class JumpRj : Jump
 	
 		//put max value in progressBar. This makes the thread in Pulse() stop
 		progressBar.Fraction = 1;
+		
+		//event will be raised, and managed in chronojump.cs
+		falseButtonFinished.Click();
 	}
 	
 	private double getTotalTime (string stringTC, string stringTV)

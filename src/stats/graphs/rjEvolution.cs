@@ -82,9 +82,11 @@ public class GraphRjEvolution : StatRjEvolution
 		int myG = myRand.Next(255);
 		int myB = myRand.Next(255);
 		
-		serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
+		//serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
+		serieTc.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 				6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
-		serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+		//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
+		serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 				6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
 		
 		//for the line between markers

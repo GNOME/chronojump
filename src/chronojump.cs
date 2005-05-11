@@ -232,8 +232,6 @@ public class ChronoJump
 	//useful for deleting headers of lastStat just before making a new Stat
 	private Stat myStat; 
 
-	private bool cancelling;
-
 	public static void Main(string [] args) 
 	{
 		new ChronoJump(args);
@@ -1767,6 +1765,19 @@ public class ChronoJump
 	 * ----------------  RUNS EXECUTION (no interval) ----------
 	 *  --------------------------------------------------------
 	 */
+	
+	//suitable for all runs not repetitive
+	private void on_normal_run_activate (object o, EventArgs args) 
+	{
+	}
+	
+	private void on_button_run_more_clicked (object o, EventArgs args) 
+	{
+	}
+	
+	private void on_run_extra_activate (object o, EventArgs args) 
+	{
+	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  RUNS EXECUTION (interval) ----------

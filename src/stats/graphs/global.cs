@@ -39,11 +39,12 @@ public class GraphGlobal : StatGlobal
 	GraphSerie serieTv;
 
 	
-	public GraphGlobal (ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType) 
+	public GraphGlobal (ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, bool heightPreferred) 
 	{
 		this.dataColumns = 1; //for Simplesession
 		this.personID = personID;
 		this.personName = personName;
+		this.heightPreferred = heightPreferred;
 		
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 	
@@ -68,7 +69,11 @@ public class GraphGlobal : StatGlobal
 			serieTv = new GraphSerie();
 				
 			serieIndex.Title = Catalog.GetString("Index");
-			serieTv.Title = "TV";
+			if(heightPreferred) {
+				serieTv.Title = Catalog.GetString("Height");
+			} else {
+				serieTv.Title = "TV";
+			}
 			
 			serieIndex.IsLeftAxis = false;
 			serieTv.IsLeftAxis = true;
@@ -83,14 +88,22 @@ public class GraphGlobal : StatGlobal
 			serieIndex.SerieColor = Color.FromName("Red");
 			serieTv.SerieColor = Color.FromName("LightBlue");
 		
-			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			if(heightPreferred) {
+				CurrentGraphData.LabelLeft = Catalog.GetString("centimeters");
+			} else {
+				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			}
 			CurrentGraphData.LabelRight = Catalog.GetString("%");
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			if(heightPreferred) {
+				CurrentGraphData.LabelLeft = Catalog.GetString("centimeters");
+			} else {
+				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			}
 			CurrentGraphData.LabelRight = Catalog.GetString("%");
 		}
 	}

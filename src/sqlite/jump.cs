@@ -77,7 +77,8 @@ class SqliteJump : Sqlite
 	 * Jump class methods
 	 */
 	
-	public static Jump Insert(int personID, int sessionID, string type, double tv, double tc, int fall, string weight, string limited, string description)
+	//public static Jump Insert(int personID, int sessionID, string type, double tv, double tc, int fall, string weight, string limited, string description)
+	public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, string weight, string limited, string description)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO jump" + 
@@ -94,11 +95,13 @@ class SqliteJump : Sqlite
 		Jump myJump = new Jump(myLast, personID, sessionID,
 				type, tv, tc, fall, weight, description );
 		
-		return myJump;
+		//return myJump;
+		return myLast;
 	}
 	
 	//fall has values like "10J" or "10T" (10 jumps, or 10 seconds, respectively)
-	public static JumpRj InsertRj(int personID, int sessionID, string type, double tvMax, double tcMax, int fall, string weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
+	//public static JumpRj InsertRj(int personID, int sessionID, string type, double tvMax, double tcMax, int fall, string weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
+	public static int InsertRj(int personID, int sessionID, string type, double tvMax, double tcMax, int fall, string weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO jumpRj " + 
@@ -118,7 +121,8 @@ class SqliteJump : Sqlite
 
 		dbcon.Close();
 
-		return myJump;
+		//return myJump;
+		return myLast;
 	}
 
 	public static string[] SelectAllNormalJumps(int sessionID, string ordered_by) 

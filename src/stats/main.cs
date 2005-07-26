@@ -36,7 +36,7 @@ using System.Drawing.Imaging;
  *	StatDjTV	
  *	StatDjIndex	
  *		StatRjIndex
- *	StatPotencyAguado
+ *	StatPotencyBosco
  *	StatIE
  *		StatIUB
  * 	StatGlobal	//suitable for global and for a unique jumper
@@ -56,6 +56,7 @@ public class Stat
 	protected bool showSex;
 	protected int statsJumpsType;
 	protected int limit;
+	protected bool heightPreferred;
 
 	protected TreeStore store;
 	protected TreeIter iter;

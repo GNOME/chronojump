@@ -117,5 +117,14 @@ public class Util
 		myStringBuilder.Replace(".", "");
 		return myStringBuilder.ToString();
 	}
+
+	public static string ObtainHeightInCentimeters (string time) {
+		// s = 4.9 * (tv/2)exp2
+		double timeAsDouble = Convert.ToDouble(time);
+		double height = 100 * 4.9 * ( timeAsDouble / 2 ) * ( timeAsDouble / 2 ) ;
+
+		return height.ToString();
+	}
+	
 }
 

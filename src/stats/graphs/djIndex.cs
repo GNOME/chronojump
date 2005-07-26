@@ -36,13 +36,14 @@ public class GraphDjIndex : StatDjIndex
 
 	//for simplesession
 	GraphSerie serieIndex;
+	GraphSerie serieHeight;
 	GraphSerie serieTc;
 	GraphSerie serieTv;
 	GraphSerie serieFall;
 
 	public GraphDjIndex (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
-		this.dataColumns = 4; //for Simplesession (index, fall, tc, tv)
+		this.dataColumns = 5; //for Simplesession (index, height, tv, tc, fall)
 		this.jumpType = jumpType;
 		this.limit = limit;
 		
@@ -66,22 +67,27 @@ public class GraphDjIndex : StatDjIndex
 		if(sessions.Count == 1) {
 			//four series, the four columns
 			serieIndex = new GraphSerie();
+			serieHeight = new GraphSerie();
 			serieTc = new GraphSerie();
 			serieTv = new GraphSerie();
 			serieFall = new GraphSerie();
 				
 			serieIndex.Title = Catalog.GetString("Index");
+			serieHeight.Title = "Height";
 			serieTc.Title = "TC";
 			serieTv.Title = "TV";
 			serieFall.Title = Catalog.GetString("Fall");
 			
 			serieIndex.IsLeftAxis = false;
+			serieHeight.IsLeftAxis = false;
 			serieTc.IsLeftAxis = true;
 			serieTv.IsLeftAxis = true;
 			serieFall.IsLeftAxis = false;
 
 			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
+			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
+					6, new Pen (Color.FromName("Grey"), 2.0F));
 			//serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
 			serieTc.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("LightGreen"), 2.0F));
@@ -93,6 +99,7 @@ public class GraphDjIndex : StatDjIndex
 		
 			//for the line between markers
 			serieIndex.SerieColor = Color.FromName("Red");
+			serieHeight.SerieColor = Color.FromName("Grey");
 			serieTc.SerieColor = Color.FromName("LightGreen");
 			serieTv.SerieColor = Color.FromName("LightBlue");
 			serieFall.SerieColor = Color.FromName("Chocolate");
@@ -123,6 +130,7 @@ public class GraphDjIndex : StatDjIndex
 						//check don't do it two times
 						if(GraphSeries.Count == 0) {
 							GraphSeries.Add(serieIndex);
+							GraphSeries.Add(serieHeight);
 							GraphSeries.Add(serieTc);
 							GraphSeries.Add(serieTv);
 							GraphSeries.Add(serieFall);
@@ -134,10 +142,12 @@ public class GraphDjIndex : StatDjIndex
 				} else if(i == 1) {
 					serieIndex.SerieData.Add(myValue);
 				} else if(i == 2) {
-					serieTv.SerieData.Add(myValue);
+					serieHeight.SerieData.Add(myValue);
 				} else if(i == 3) {
-					serieTc.SerieData.Add(myValue);
+					serieTv.SerieData.Add(myValue);
 				} else if(i == 4) {
+					serieTc.SerieData.Add(myValue);
+				} else if(i == 5) {
 					serieFall.SerieData.Add(myValue);
 				}
 				i++;

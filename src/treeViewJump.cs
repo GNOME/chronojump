@@ -188,6 +188,7 @@ public class TreeViewJumps
 						myData[count++] = Util.TrimDecimals( obtainInitialSpeed( newJump.Tv.ToString() ), pDN );
 					}
 					myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
+					Console.WriteLine(newJump.UniqueID.ToString()); //jumpUniqueID (not shown) 
 
 					store.AppendValues (iter, myData);
 				}
@@ -508,7 +509,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData2[count++] = myTypeComplet;
 			myData2[count++] = Util.TrimDecimals( newJump.TcAvg.ToString(), pDN );
 			myData2[count++] = Util.TrimDecimals( newJump.TvAvg.ToString(), pDN );
-			myData2[count++] = "";
+			myData2[count++] = myWeight;
 			myData2[count++] = "";
 			if(showHeight) {
 				myData2[count++] = Util.TrimDecimals( obtainHeight(newJump.TvAvg.ToString()), pDN );
@@ -518,9 +519,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 			}
 			myData2[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 
-			iterDeep = store.AppendValues (iterDeep, myData2);
+			iterDeep = store.AppendValues (iter, myData2);
 							
-
 			//fill the subjumps
 			string [] myStringTv = newJump.TvString.Split(new char[] {'='});
 			string [] myStringTc = newJump.TcString.Split(new char[] {'='});

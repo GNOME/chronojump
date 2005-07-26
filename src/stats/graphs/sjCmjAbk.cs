@@ -36,13 +36,15 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 	private Random myRand = new Random();
 
 	//for simplesession
+	GraphSerie serieHeight;
 	GraphSerie serieTv;
 	
-	public GraphSjCmjAbk (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public GraphSjCmjAbk (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit, bool heightPreferred) 
 	{
-		this.dataColumns = 1; //for Simplesession
+		this.dataColumns = 2; //for Simplesession
 		this.jumpType = jumpType;
 		this.limit = limit;
+		this.heightPreferred = heightPreferred;
 		
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 	
@@ -64,26 +66,38 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 		if(sessions.Count == 1) {
 			//four series, the four columns
 			serieTv = new GraphSerie();
+			serieHeight = new GraphSerie();
 				
-			serieTv.Title = "TV";
+			serieTv.Title = Catalog.GetString("TV");
+			serieHeight.Title = Catalog.GetString("Height");
 			
 			serieTv.IsLeftAxis = true;
+			serieHeight.IsLeftAxis = false;
 
 			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("LightBlue"), 2.0F));
+					//6, new Pen (Color.FromName("LightBlue"), 2.0F));
+					6, new Pen (Color.FromName("Blue"), 2.0F));
+			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
+					6, new Pen (Color.FromName("Red"), 2.0F));
 		
 			//for the line between markers
-			serieTv.SerieColor = Color.FromName("LightBlue");
+			//serieTv.SerieColor = Color.FromName("LightBlue");
+			serieTv.SerieColor = Color.FromName("Blue");
+			serieHeight.SerieColor = Color.FromName("Red");
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			CurrentGraphData.LabelRight = "";
+			CurrentGraphData.LabelRight = Catalog.GetString("centimeters");
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			if(heightPreferred) {
+				CurrentGraphData.LabelLeft = Catalog.GetString("centimeters");
+			} else {
+				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			}
 			CurrentGraphData.LabelRight = "";
 		}
 	}
@@ -100,6 +114,7 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 						//good moment for adding created series to GraphSeries ArrayList
 						//check don't do it two times
 						if(GraphSeries.Count == 0) {
+							GraphSeries.Add(serieHeight);
 							GraphSeries.Add(serieTv);
 						}
 
@@ -107,8 +122,10 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 					}
 					CurrentGraphData.XAxisNames.Add(myValue);
 				} else if(i == 1) {
+					serieHeight.SerieData.Add(myValue);
+				} else if(i == 2) {
 					serieTv.SerieData.Add(myValue);
-				} 
+				}
 				i++;
 			}
 		} else {

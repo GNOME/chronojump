@@ -30,7 +30,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 
-public class GraphRjPotencyAguado : StatRjPotencyAguado
+public class GraphRjPotencyBosco : StatRjPotencyBosco
 {
 	protected string operation;
 	private Random myRand = new Random();
@@ -44,7 +44,7 @@ public class GraphRjPotencyAguado : StatRjPotencyAguado
 	GraphSerie serieFall;
 
 
-	public GraphRjPotencyAguado (ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public GraphRjPotencyBosco (ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
 		this.dataColumns = 6; //for Simplesession (index, tv(avg), tc(avg), jumps, time, fall)
 		this.jumpType = jumpType;

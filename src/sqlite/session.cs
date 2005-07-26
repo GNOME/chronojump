@@ -207,12 +207,16 @@ class SqliteSession : Sqlite
 		bool found;
 		foreach (string line in myArray) {
 			string lineNotReadOnly = line;
+
+			//if some sessions are deleted, do not use count=0 to mix arrays, use sessionID of line
+			string [] mixingSessionFull = line.Split(new char[] {':'});
+			string mixingSessionID = mixingSessionFull[0];
 			
 			//add persons for each session	
 			found = false;
 			foreach (string line_persons in myArray_persons) {
 				string [] myStringFull = line_persons.Split(new char[] {':'});
-				if(myStringFull[0] == (count+1).ToString()) {
+				if(myStringFull[0] == mixingSessionID) {
 					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
 					found = true;
 				}
@@ -223,7 +227,7 @@ class SqliteSession : Sqlite
 			found = false;
 			foreach (string line_jumps in myArray_jumps) {
 				string [] myStringFull = line_jumps.Split(new char[] {':'});
-				if(myStringFull[0] == (count+1).ToString()) {
+				if(myStringFull[0] == mixingSessionID) {
 					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
 					found = true;
 				}
@@ -234,7 +238,7 @@ class SqliteSession : Sqlite
 			found = false;
 			foreach (string line_jumpsRj in myArray_jumpsRj) {
 				string [] myStringFull = line_jumpsRj.Split(new char[] {':'});
-				if(myStringFull[0] == (count+1).ToString()) {
+				if(myStringFull[0] == mixingSessionID) {
 					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
 					found = true;
 				}

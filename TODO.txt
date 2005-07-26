@@ -1,22 +1,20 @@
-TODO:
-----
+TODO CURRENTLY NOT ADDED IN TASK MANAGER:
+----------------------------------------
 
-make CSV export do initial speed and height
+NEW FUTURE FEATURE (TEMPO): Avaluate the capacity of a person in following a tempo (o pulsation). 
+- Person can follow the tempo that they want and try to evaluate the accuracy. 
+- Or a rhythm (random or predefined) is presented by the program (with the buzzer) and the person has to follow it with the help of the buzzer or without it.
+- The Rhythm can be played with gtick (metronome)
 
-index Q=tv/tc
 
 Hability of changing sensibility from chronojump
 
-RUNS: treeViewRunInterval, runs execution, edit, delete
 
 BUGS:
-- repair bug in treeviews, jumper's get not automatically expanded when make the first jump
-- repair bug in indexes sorting (in indexes tab and in global)
 
 make that serial connection can be stablished regardless before a modem has been used in the same port
 
 graphs:
-	study licensing problems of NPlot or how to include it
 	put a button for refreshing the graph
 
 show better info in the RJ jump edit

@@ -92,6 +92,7 @@ class Sqlite
 		SqlitePreferences.insert ("simulated", "True");
 		SqlitePreferences.insert ("weightStatsPercent", "True");
 		SqlitePreferences.insert ("askDeletion", "True");
+		SqlitePreferences.insert ("heightPreferred", "False");
 
 		dbcon.Close();
 	}

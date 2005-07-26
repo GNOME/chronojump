@@ -38,25 +38,26 @@ public class StatSjCmjAbkPlus : Stat
 		this.limit = 0;
 	}
 
-	public StatSjCmjAbkPlus (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit, bool percent) 
+	public StatSjCmjAbkPlus (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit, bool percent, bool heightPreferred) 
 	{
-		this.dataColumns = 2;	//for simplesession (tv, weight)
+		this.dataColumns = 3;	//for simplesession (height, tv, weight)
 		this.jumpType = jumpType;
 		this.limit = limit;
 		this.percent = percent;
+		this.heightPreferred = heightPreferred;
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper, TV, weight (this col has characters '%' and 'Kg') solved in sqlite
+			store = getStore(dataColumns +1); //jumper, height, TV, weight (this col has characters '%' and 'Kg') solved in sqlite
 		}
 		
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jumper", "TV", "Weight %" };
+		string [] columnsString = { "Jumper", "Height", "TV", "Weight %" };
 		if(! percent) {
-			columnsString[2] = "Weight Kg";
+			columnsString[3] = "Weight Kg";
 		}
 		prepareHeaders(columnsString);
 	}
@@ -74,12 +75,12 @@ public class StatSjCmjAbkPlus : Stat
 			if(multisession) {
 				processDataMultiSession ( 
 						SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
-							"AVG(", ")", jumpType, showSex, percent), 
+							"AVG(", ")", jumpType, showSex, percent, heightPreferred), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
 							SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
-								"AVG(", ")", jumpType, showSex, percent), 
+								"AVG(", ")", jumpType, showSex, percent, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
@@ -87,12 +88,12 @@ public class StatSjCmjAbkPlus : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
 				processDataMultiSession ( SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
-							"MAX(", ")", jumpType, showSex, percent),  
+							"MAX(", ")", jumpType, showSex, percent, heightPreferred),  
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
 							SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
-								"", "", jumpType, showSex, percent), 
+								"", "", jumpType, showSex, percent, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

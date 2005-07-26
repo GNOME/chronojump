@@ -1,5 +1,25 @@
 CHANGELOG:
 
+26 jul 2005
+	height in all stats and graphs (selectable in preferences the
+	preferred value (height or tv) in one-data charts)  (closes Task: 258)
+
+	Changed test-saltos-mono to chronopjump-mini, now suitable for showing
+	TV and TC
+	
+	bugs:
+		repaired sorting in indexes (closes Task: 261)
+		Fixed bug not showing weight in jumpRj
+		Fixed bugs in deleting jumps and jumpsRj (just added in the treeviews)
+		Fixed bug adding the first new Rjs in treeviewRj
+		Fixed bug in load session window, when some sessions are deleted
+	
+	other:
+		update stats always checkbutton (marked by default)
+		button for repeat last jump
+		button for finnish rj jumps (and save until that moment)
+		changed name of function and files: rjPotencyAguado for rjPotencyBosco
+
 25 april 2005
 	runs & runsInterval:
 		soon chronojump will manage runs

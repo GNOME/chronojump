@@ -97,7 +97,6 @@ public class ExportSession
 	{
 		myJumpers = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID);
 		
-		string [] myJumpsTemp;
 		bool sortJumpsByType = false;
 		if(sortJumpsByType) {
 			myJumps= SqliteJump.SelectAllNormalJumps(mySession.UniqueID, "ordered_by_type"); //returns a string of values separated by ':'

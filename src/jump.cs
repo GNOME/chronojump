@@ -280,7 +280,7 @@ public class Jump
 		}
 		appbar.Push( myStringPush );
 
-		SqliteJump.Insert(personID, sessionID, 
+		uniqueID = SqliteJump.Insert(personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
 				weight, "", ""); //weight, limited, description
 		
@@ -703,7 +703,7 @@ public class JumpRj : Jump
 		}
 	
 
-		SqliteJump.InsertRj(personID, sessionID, 
+		uniqueID = SqliteJump.InsertRj(personID, sessionID, 
 				type, Util.GetMax(tvString), Util.GetMax(tcString), 
 				fall, weight, "", //fall, weight, description
 				Util.GetAverage(tvString), Util.GetAverage(tcString),

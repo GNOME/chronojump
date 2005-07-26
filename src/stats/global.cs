@@ -35,7 +35,7 @@ public class StatGlobal : Stat
 	{
 	}
 
-	public StatGlobal (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType) 
+	public StatGlobal (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, bool heightPreferred) 
 	{
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for the statName, the AVG horizontal and SD horizontal
@@ -46,6 +46,7 @@ public class StatGlobal : Stat
 		
 		this.personID = personID;
 		this.personName = personName;
+		this.heightPreferred = heightPreferred;
 		
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 		string [] columnsString = { "Jump", "Value" };
@@ -78,7 +79,8 @@ public class StatGlobal : Stat
 	{
 		string sessionString = obtainSessionSqlString(sessions);
 				
-		processDataMultiSession ( SqliteStat.GlobalNormal(sessionString, operation, showSex, personID), 
+		processDataMultiSession ( SqliteStat.GlobalNormal(sessionString, operation, showSex, 
+					personID, heightPreferred), 
 				true, sessions.Count );
 		processDataMultiSession ( SqliteStat.GlobalOthers("DjIndex", "(100*((tv-tc)/tc))", "jump", "DJ", 
 					sessionString, operation, showSex, personID),

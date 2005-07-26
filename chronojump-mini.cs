@@ -1,13 +1,14 @@
 /***********************************************************/
-/* test-saltos.mono    Juan Gonzalez Gomez. Febrero 2005   */
+/* chronojump-mini    Juan Gonzalez Gomez. Febrero 2005    */
 /*---------------------------------------------------------*/
-/* Medir el tiempo de vuelo de los saltos                  */
+/* Mide tiempo de vuelo y contacto de los saltos           */
+/* Muestra los resultados en consola                       */
 /* Licencia GPL                                            */
 /***********************************************************/
 /*------------------------------------------------------------------------
- $Id$
- $Revision$
- $Source$
+ $Id: 
+ $Revision: 
+ $Source: 
 --------------------------------------------------------------------------*/
 
 using System;
@@ -30,6 +31,7 @@ class Test {
     Automata estado_automata;
     double timestamp;
     double toff;
+    double ton;
    
     
     //-- Crear objeto chronopic, para acceder al chronopic
@@ -96,7 +98,7 @@ class Test {
             toff = timestamp;
             
             //-- Imprimir informacion
-            Console.WriteLine("Tiempo: {0:f1} ms",toff);
+            Console.WriteLine("TV: {0:f1} ms",toff);
           }
           break;
           
@@ -107,6 +109,12 @@ class Test {
             
             //-- Pasar al estado OFF
             estado_automata=Automata.OFF;
+            
+	    //-- Registrar tiempo de contacto
+            ton = timestamp;
+            
+            //-- Imprimir informacion
+            Console.WriteLine("TC: {0:f1} ms",ton);
           }
           break;
       }

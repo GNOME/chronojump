@@ -30,7 +30,7 @@ using System.Data.SqlClient;
 class SqliteStat : Sqlite
 {
 	//sj, cmj, abk (no sj+)
-	public static ArrayList SjCmjAbk (string sessionString, bool multisession, string ini, string end, string jumpType, bool showSex)
+	public static ArrayList SjCmjAbk (string sessionString, bool multisession, string ini, string end, string jumpType, bool showSex, bool heightPreferred)
 	{
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
@@ -63,19 +63,30 @@ class SqliteStat : Sqlite
 		reader = dbcmd.ExecuteReader();
 		
 		string showSexString = "";
-		string returnSessionString = "";
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
-				returnSessionString = ":" + reader[2].ToString();
+				string returnSessionString = ":" + reader[2].ToString();
+				string returnValueString = "";
+				if(heightPreferred) {
+					returnValueString = ":" + Util.ObtainHeightInCentimeters(reader[3].ToString());
+				} else {
+					returnValueString = ":" + reader[3].ToString();
+				}
+				myArray.Add (reader[0].ToString() + showSexString +
+						returnSessionString + 		//session
+						returnValueString		//tv or heightofJump
+					    );
+			} else {
+				//in simple session return: name, sex, height, TV
+				myArray.Add (reader[0].ToString() + showSexString +
+						+ ":" + Util.ObtainHeightInCentimeters(reader[3].ToString())
+						+ ":" + reader[3].ToString()
+					    );
 			}
-			myArray.Add (reader[0].ToString() + showSexString +
-					returnSessionString + ":" + 		//session
-					reader[3].ToString() 			//tv
-				    );
 		}
 		reader.Close();
 		dbcon.Close();
@@ -83,7 +94,7 @@ class SqliteStat : Sqlite
 	}
 	
 	//sj+, cmj+, abk+
-	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string ini, string end, string jumpType, bool showSex, bool weightPercent)
+	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string ini, string end, string jumpType, bool showSex, bool weightPercent, bool heightPreferred)
 	{
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
@@ -117,29 +128,33 @@ class SqliteStat : Sqlite
 		reader = dbcmd.ExecuteReader();
 		
 		string showSexString = "";
-		string returnSessionString = "";
-		string returnWeightString = "";
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}
 			if(multisession) {
-				returnSessionString = ":" + reader[2].ToString();
+				string returnSessionString = ":" + reader[2].ToString();
+				string returnValueString = "";
+				if(heightPreferred) {
+					returnValueString = ":" + Util.ObtainHeightInCentimeters(reader[3].ToString());
+				} else {
+					returnValueString = ":" + reader[3].ToString();
+				}
+				myArray.Add (reader[0].ToString() + showSexString +
+						returnSessionString + 		//session
+						returnValueString		//tv or heightofJump
+					    );
 			} else {
-				//in multisession we show only one column x session
-				//in simplesession we show all
-				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
-				
-				returnWeightString = ":" + convertWeight(
-						reader[4].ToString(), Convert.ToInt32(reader[5].ToString()), weightPercent
-						);
+				//in simple session return: name, sex, height, TV, Fall
+				myArray.Add (reader[0].ToString() + showSexString +
+						+ ":" + Util.ObtainHeightInCentimeters(reader[3].ToString())
+						+ ":" + reader[3].ToString()
+						+ ":" + convertWeight(
+							reader[4].ToString(), Convert.ToInt32(reader[5].ToString()), weightPercent
+							)
+					    );
 			}
-			myArray.Add (reader[0].ToString() + showSexString +
-					returnSessionString + ":" + 		//session
-					reader[3].ToString() +			//tv
-					returnWeightString 			//weight
-				    );
 		}
 		reader.Close();
 		dbcon.Close();
@@ -207,6 +222,7 @@ class SqliteStat : Sqlite
 		
 		string showSexString = "";
 		string returnSessionString = "";
+		string returnHeightString = "";
 		string returnTvString = "";
 		string returnTcString = "";
 		string returnFallString = "";
@@ -222,13 +238,16 @@ class SqliteStat : Sqlite
 				//in simplesession we show all
 				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
 				
+				returnHeightString = ":" + Util.ObtainHeightInCentimeters(reader[4].ToString());	
 				returnTvString = ":" + reader[4].ToString();
 				returnTcString = ":" + reader[5].ToString();
 				returnFallString = ":" + reader[6].ToString();
 			}
+
 			myArray.Add (reader[0].ToString() + showSexString +
 					returnSessionString + ":" + 		//session
-					reader[3].ToString() +			//index
+					reader[3].ToString() + 			//index
+					returnHeightString + 			//height
 					returnTvString + 			//tv
 					returnTcString + 			//tc
 					returnFallString			//fall
@@ -304,7 +323,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	public static ArrayList RjPotencyAguado (string sessionString, bool multisession, string ini, string end, bool showSex)
+	public static ArrayList RjPotencyBosco (string sessionString, bool multisession, string ini, string end, bool showSex)
 	{
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
@@ -375,6 +394,16 @@ class SqliteStat : Sqlite
 		dbcon.Close();
 		return myArray;
 	}
+
+	/*
+	protected static string obtainHeightInCentimeters (string time) {
+		// s = 4.9 * (tv/2)exp2
+		double timeAsDouble = Convert.ToDouble(time);
+		double height = 100 * 4.9 * ( timeAsDouble / 2 ) * ( timeAsDouble / 2 ) ;
+
+		return height.ToString();
+	}
+	*/
 
 	//for rjEvolution (for know the name of columns)
 	public static int ObtainMaxNumberOfJumps (string sessionString)
@@ -487,7 +516,7 @@ class SqliteStat : Sqlite
 			ini2 = "AVG(";
 		}
 			
-		string orderByString = "";
+		string orderByString = "ORDER BY ";
 		string moreSelect = "";
 		if(ini == "MAX(") {
 			//search MAX of two jumps, not max index!!
@@ -506,7 +535,7 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = "ORDER BY person.name, j1.sessionID ";
+			orderByString = orderByString + " person.name, j1.sessionID, ";
 		}
 		
 		dbcon.Open();
@@ -521,8 +550,8 @@ class SqliteStat : Sqlite
 			 //don't order by myIndex, because if we search MAX, 
 			 //we will have high values in big jump1 and low jump2, 
 			 //and we want both jumps as MAX not max index
-			//orderByString + " myIndex DESC ";
-			orderByString ;
+			orderByString + " myIndex DESC ";
+			//orderByString ;
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -561,7 +590,8 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	public static ArrayList GlobalNormal (string sessionString, string operation, bool sexSeparated, int personID)
+	public static ArrayList GlobalNormal (string sessionString, string operation, bool sexSeparated, 
+			int personID, bool heightPreferred)
 	{
 		dbcon.Open();
 		
@@ -596,13 +626,19 @@ class SqliteStat : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if (reader[0].ToString() != "DJ") {
+
+				string heightString = reader[2].ToString();
+				if(heightPreferred) {
+					heightString = Util.ObtainHeightInCentimeters(reader[2].ToString());
+				}
+				
 				if (sexSeparated) {
 					myArray.Add (reader[0].ToString() + "." + reader[3].ToString() + ":" +
-							reader[1].ToString() + ":" + reader[2].ToString()
+							reader[1].ToString() + ":" + heightString
 							);
 				} else {
 					myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() 
-							+ ":" + reader[2].ToString() 
+							+ ":" + heightString 
 							);
 				}
 			}

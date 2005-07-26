@@ -27,7 +27,7 @@ using System.Collections; //ArrayList
 
 public class StatDjIndex : Stat
 {
-	protected string [] columnsString = { "Jumper", "Index", "TV", "TC", "Fall" };
+	protected string [] columnsString = { "Jumper", "Index", "Height", "TV", "TC", "Fall" };
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatDjIndex () 
@@ -39,14 +39,14 @@ public class StatDjIndex : Stat
 
 	public StatDjIndex (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
-		this.dataColumns = 4;	//for simplesession (index, tv, tc, fall)
+		this.dataColumns = 5;	//for simplesession (index, height, tv, tc, fall)
 		this.jumpType = jumpType;
 		this.limit = limit;
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper, tv, tc, fall
+			store = getStore(dataColumns +1); //jumper, index, height, tv, tc, fall
 		}
 		
 		treeview.Model = store;

@@ -35,6 +35,7 @@ public class ChronoJump
 	[Widget] Gtk.TreeView treeview_jumps;
 	[Widget] Gtk.TreeView treeview_jumps_rj;
 	[Widget] Gtk.TreeView treeview_runs;
+	[Widget] Gtk.TreeView treeview_runs_interval;
 	[Widget] Gtk.TreeView treeview_stats;
 	[Widget] Gtk.Box hbox_combo_jumps;
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
@@ -68,7 +69,7 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_delete_selected_run;
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_delete_selected_run;
-	bool statsAutomatic = false;
+	bool statsAutomatic = true;
 	bool statsColumnsToRemove = false;
 
 	//widgets for enable or disable
@@ -111,6 +112,7 @@ public class ChronoJump
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
 	[Widget] Gtk.Button button_cancel;
+	[Widget] Gtk.Button button_finish;
 	[Widget] Gtk.RadioButton radiobutton_current_session;
 	[Widget] Gtk.RadioButton radiobutton_selected_sessions;
 	[Widget] Gtk.Button button_stats_select_sessions;
@@ -148,6 +150,9 @@ public class ChronoJump
 	//normal runs
 	private TreeStore treeview_runs_store;
 	private TreeViewRuns myTreeViewRuns;
+	//runs interval
+	//private TreeStore treeview_runs_interval_store;
+	//private TreeViewRunsInterval myTreeViewRunsInterval;
 
 
 	private static string allJumpsName = Catalog.GetString("All jumps");
@@ -163,7 +168,7 @@ public class ChronoJump
 	
 	private static string [] comboStats2ReactiveOptions = {
 		Catalog.GetString("RJ Average Index"), 
-		Catalog.GetString("POTENCY (Aguado)"), // 9.81^2*TV*TT / (4*jumps*(TT-TV))
+		Catalog.GetString("POTENCY (Bosco)"), // 9.81^2*TV*TT / (4*jumps*(TT-TV))
 		Catalog.GetString("RJ Evolution") 
 	};
 	
@@ -179,6 +184,7 @@ public class ChronoJump
 	private static bool simulated;
 	private static bool askDeletion;
 	private static bool weightStatsPercent;
+	private static bool heightPreferred;
 
 	//currentPerson currentSession currentJump
 	private static Person currentPerson;
@@ -262,6 +268,7 @@ public class ChronoJump
 		createTreeView_jumps(treeview_jumps);
 		createTreeView_jumps_rj(treeview_jumps_rj);
 		createTreeView_runs(treeview_runs);
+		createTreeView_runs_interval(treeview_runs_interval);
 
 		createComboJumps();
 		createComboJumpsRj();
@@ -350,6 +357,12 @@ public class ChronoJump
 			weightStatsPercent = true;
 		} else {
 			weightStatsPercent = false;
+		}
+		
+		if ( SqlitePreferences.Select("heightPreferred") == "True" ) {
+			heightPreferred = true;
+		} else {
+			heightPreferred = false;
 		}
 		
 		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
@@ -507,6 +520,73 @@ public class ChronoJump
 		myTreeViewRuns = new TreeViewRuns( treeview_runs, sortByType, prefsDigitsNumber );
 	}
 
+	/* ---------------------------------------------------------
+	 * ----------------  TREEVIEW RUN INTERVAL -----------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void createTreeView_runs_interval (Gtk.TreeView tv) {
+		/*
+		//myTreeViewRuns is a TreeViewRuns instance
+		bool sortByType = false;
+		if(checkbutton_sort_by_type.Active) {
+			sortByType = true;
+		}
+		myTreeViewRuns = new TreeViewRuns( tv, sortByType, prefsDigitsNumber );
+		*/
+	}
+
+	private void fillTreeView_runs_interval (Gtk.TreeView tv, TreeStore store, string filter) {
+		/*
+		string [] myRuns;
+		
+		if(checkbutton_sort_by_type.Active) {
+			myRuns = SqliteRun.SelectAllNormalRuns(
+					currentSession.UniqueID, "ordered_by_type");
+		} else {
+			myRuns = SqliteRun.SelectAllNormalRuns(
+					currentSession.UniqueID, "ordered_by_time");
+		}
+		myTreeViewRuns.Fill(myRuns, filter);
+		*/
+	}
+	
+	private void on_checkbutton_sort_by_type_run_interval_clicked(object o, EventArgs args) {
+		/*
+		string myText = combo_runs.Entry.Text;
+			
+		treeview_runs_storeReset();
+		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
+		treeview_runs.ExpandAll();
+		*/
+	}
+	
+	private void on_button_tv_run_interval_collapse_clicked (object o, EventArgs args) {
+		/*
+		treeview_runs.CollapseAll();
+		*/
+	}
+	
+	private void on_button_tv_run_interval_optimal_clicked (object o, EventArgs args) {
+	}
+	
+	private void on_button_tv_run_interval_expand_clicked (object o, EventArgs args) {
+		/*
+		treeview_runs.ExpandAll();
+		*/
+	}
+	
+	private void treeview_runs_interval_storeReset() {
+		/*
+		myTreeViewRuns.RemoveColumns();
+		bool sortByType = false;
+		if(checkbutton_sort_by_type.Active) {
+			sortByType = true;
+		}
+		myTreeViewRuns = new TreeViewRuns( treeview_runs, sortByType, prefsDigitsNumber );
+		*/
+	}
+
 	
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW STATS ------------------------
@@ -564,7 +644,7 @@ public class ChronoJump
 						sendSelectedSessions, 
 						jumperID, jumperName, 
 						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType 
+						statsJumpsType, heightPreferred 
 						);
 				myStat.PrepareData();
 				myStat.CreateGraph();
@@ -573,7 +653,7 @@ public class ChronoJump
 						sendSelectedSessions, 
 						jumperID, jumperName, 
 						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType 
+						statsJumpsType, heightPreferred 
 						);
 				myStat.PrepareData();
 			}
@@ -587,7 +667,7 @@ public class ChronoJump
 						sendSelectedSessions, 
 						jumperID, jumperName, 
 						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType 
+						statsJumpsType, heightPreferred 
 						);
 				myStat.PrepareData();
 				myStat.CreateGraph();
@@ -597,7 +677,7 @@ public class ChronoJump
 						sendSelectedSessions, 
 						jumperID, jumperName, 
 						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType 
+						statsJumpsType, heightPreferred  
 						);
 				myStat.PrepareData();
 			}
@@ -613,7 +693,9 @@ public class ChronoJump
 							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit,
-							weightStatsPercent);
+							weightStatsPercent, 
+							heightPreferred 
+							);
 					myStat.PrepareData();
 					myStat.CreateGraph();
 				} else {
@@ -623,7 +705,9 @@ public class ChronoJump
 							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit,
-							weightStatsPercent);
+							weightStatsPercent, 
+							heightPreferred
+							);
 					myStat.PrepareData();
 				}
 			} else {
@@ -633,7 +717,9 @@ public class ChronoJump
 							prefsDigitsNumber, statistic, 
 							checkbutton_stats_sex.Active, 
 							statsJumpsType,
-							limit);
+							limit,
+							heightPreferred
+							);
 					myStat.PrepareData();
 					myStat.CreateGraph();
 				} else {
@@ -642,7 +728,9 @@ public class ChronoJump
 							prefsDigitsNumber, statistic, 
 							checkbutton_stats_sex.Active, 
 							statsJumpsType,
-							limit);
+							limit,
+							heightPreferred
+							);
 					myStat.PrepareData();
 				}
 			}
@@ -655,7 +743,9 @@ public class ChronoJump
 						prefsDigitsNumber, statistic, 
 						checkbutton_stats_sex.Active, 
 						statsJumpsType,
-						limit);
+						limit//,
+						//heightPreferred
+						);
 				myStat.PrepareData();
 				myStat.CreateGraph();
 			} else {
@@ -664,7 +754,9 @@ public class ChronoJump
 						prefsDigitsNumber, statistic, 
 						checkbutton_stats_sex.Active,
 						statsJumpsType,
-						limit);
+						limit//, 
+						//heightPreferred
+						);
 				myStat.PrepareData();
 			}
 		}
@@ -688,10 +780,10 @@ public class ChronoJump
 					myStat.PrepareData();
 				}
 			}	
-			else if(statistic == Catalog.GetString("POTENCY (Aguado)"))
+			else if(statistic == Catalog.GetString("POTENCY (Bosco)"))
 			{
 				if(graph) {
-					myStat = new GraphRjPotencyAguado ( 
+					myStat = new GraphRjPotencyBosco ( 
 							sendSelectedSessions, 
 							prefsDigitsNumber, checkbutton_stats_sex.Active, 
 							statsJumpsType,
@@ -699,7 +791,7 @@ public class ChronoJump
 					myStat.PrepareData();
 					myStat.CreateGraph();
 				} else {
-					myStat = new StatRjPotencyAguado(treeview_stats, 
+					myStat = new StatRjPotencyBosco(treeview_stats, 
 							sendSelectedSessions, 
 							prefsDigitsNumber, checkbutton_stats_sex.Active, 
 							statsJumpsType,
@@ -1028,7 +1120,8 @@ public class ChronoJump
 				}
 			}
 			else {
-				bool myBool = updateComboSujetoCurrent();
+				//bool myBool = updateComboSujetoCurrent();
+				updateComboSujetoCurrent();
 			}
 		}
 	}
@@ -1062,11 +1155,13 @@ public class ChronoJump
 		if (statsAutomatic) { 
 			statsAutomatic = false; 
 			button_stats.Sensitive = true;
+			Console.WriteLine("stats AUTO");
 		}
 		else { 
 			statsAutomatic = true; 
 			button_stats.Sensitive = false;
 			fillTreeView_stats(false);
+			Console.WriteLine("stats NO AUTO");
 		}
 		
 	}
@@ -1274,7 +1369,8 @@ public class ChronoJump
 			button_edit_current_person.Sensitive = false;
 			menuitem_edit_current_person.Sensitive = false;
 			//update combo sujeto current
-			bool myBool = updateComboSujetoCurrent();
+			//bool myBool = updateComboSujetoCurrent();
+			updateComboSujetoCurrent();
 			combo_person_current.Sensitive = false;
 		}
 	}
@@ -1346,9 +1442,11 @@ public class ChronoJump
 
 	private void on_export_session_activate(object o, EventArgs args) {
 		if (o == (object) menuitem_export_csv) {
-			ExportSessionCSV myExport = new ExportSessionCSV(currentSession, app1, appbar2);
+			//ExportSessionCSV myExport = new ExportSessionCSV(currentSession, app1, appbar2);
+			new ExportSessionCSV(currentSession, app1, appbar2);
 		} else if (o == (object) menuitem_export_xml) {
-			ExportSessionXML myExport = new ExportSessionXML(currentSession, app1, appbar2);
+			//ExportSessionXML myExport = new ExportSessionXML(currentSession, app1, appbar2);
+			new ExportSessionXML(currentSession, app1, appbar2);
 		} else {
 			Console.WriteLine("Error exporting");
 		}
@@ -1368,7 +1466,8 @@ public class ChronoJump
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
 		currentPerson = personRecuperateWin.CurrentPerson;
-		bool myBool = updateComboSujetoCurrent();
+		//bool myBool = updateComboSujetoCurrent();
+		updateComboSujetoCurrent();
 		sensitiveGuiYesPerson();
 	}
 		
@@ -1382,7 +1481,8 @@ public class ChronoJump
 		if (personAddWin.CurrentPerson != null)
 		{
 			currentPerson = personAddWin.CurrentPerson;
-			bool myBool = updateComboSujetoCurrent();
+			//bool myBool = updateComboSujetoCurrent();
+			updateComboSujetoCurrent();
 			sensitiveGuiYesPerson();
 		}
 	}
@@ -1397,7 +1497,8 @@ public class ChronoJump
 		if (personModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personModifyWin.CurrentPerson;
-			bool myBool = updateComboSujetoCurrent (currentPerson.UniqueID + ": " + currentPerson.Name);
+			//bool myBool = updateComboSujetoCurrent (currentPerson.UniqueID + ": " + currentPerson.Name);
+			updateComboSujetoCurrent (currentPerson.UniqueID + ": " + currentPerson.Name);
 
 			sensitiveGuiYesPerson();
 
@@ -1447,7 +1548,8 @@ public class ChronoJump
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
-				app1, prefsDigitsNumber, showHeight, showInitialSpeed, askDeletion, weightStatsPercent);
+				app1, prefsDigitsNumber, showHeight, showInitialSpeed, 
+				askDeletion, weightStatsPercent, heightPreferred);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
@@ -1477,6 +1579,13 @@ public class ChronoJump
 			showInitialSpeed = true;
 		} else {
 			showInitialSpeed = false;
+		}
+
+		//update heightPreferred
+		if ( SqlitePreferences.Select("heightPreferred") == "True" ) {
+			heightPreferred = true;
+		} else {
+			heightPreferred = false;
 		}
 
 		//... and recreate the treeview_jumps
@@ -1510,6 +1619,11 @@ public class ChronoJump
 		}
 	}
 		
+	private void on_finish_clicked (object o, EventArgs args) 
+	{
+		Console.WriteLine("Finish (not implemented)");
+	}
+		
 
 	/* ---------------------------------------------------------
 	 * ----------------  JUMPS EXECUTION (no RJ) ----------------
@@ -1520,6 +1634,11 @@ public class ChronoJump
 	{
 		jumpsMoreWin = JumpsMoreWindow.Show(app1);
 		jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
+	}
+	
+	private void on_button_last_clicked (object o, EventArgs args) 
+	{
+		Console.WriteLine("button last (not implemented)");
 	}
 	
 	//used from the dialogue "jumps more"
@@ -1564,8 +1683,6 @@ public class ChronoJump
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-		string myType;
-
 		if(o == (object) button_sj || o == (object) sj) {
 			currentJumpType = new JumpType("SJ");
 		} else if (o == (object) button_cmj || o == (object) cmj) {
@@ -1643,6 +1760,12 @@ public class ChronoJump
 		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
 	}
 	
+	private void on_button_last_rj_clicked (object o, EventArgs args) 
+	{
+		Console.WriteLine("button last rj (not implemented)");
+	}
+	
+	
 	//used from the dialogue "jumps rj more"
 	private void on_more_jumps_rj_accepted (object o, EventArgs args) 
 	{
@@ -1692,8 +1815,6 @@ public class ChronoJump
 
 	private void on_rj_accepted (object o, EventArgs args) 
 	{
-		double myTv;
-		double myTc;
 		double myLimit;
 		if(currentJumpType.FixedValue > 0) {
 			myLimit = currentJumpType.FixedValue;
@@ -1775,6 +1896,11 @@ public class ChronoJump
 	{
 	}
 	
+	private void on_button_run_last_clicked (object o, EventArgs args) 
+	{
+		Console.WriteLine("button run last (not implemented)");
+	}
+	
 	private void on_run_extra_activate (object o, EventArgs args) 
 	{
 	}
@@ -1783,6 +1909,24 @@ public class ChronoJump
 	 * ----------------  RUNS EXECUTION (interval) ----------
 	 *  --------------------------------------------------------
 	 */
+
+	//suitable for all runs repetitive
+	private void on_normal_run_interval_activate (object o, EventArgs args) 
+	{
+	}
+	
+	private void on_button_run_interval_more_clicked (object o, EventArgs args) 
+	{
+	}
+	
+	private void on_button_run_interval_last_clicked (object o, EventArgs args) 
+	{
+		Console.WriteLine("button run interval last (not implemented)");
+	}
+	
+	private void on_run_interval_extra_activate (object o, EventArgs args) 
+	{
+	}
 
 
 
@@ -1872,6 +2016,7 @@ public class ChronoJump
 		Console.WriteLine("delete selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
+		Console.WriteLine(myTreeViewJumps.JumpSelectedID.ToString());
 		if (myTreeViewJumps.JumpSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
@@ -1953,9 +2098,9 @@ public class ChronoJump
 		updateComboJumpsRj();
 	}
 
-	/* ---------------------------------------------------------
-	 * ----------------  RUNS EDIT, DELETE, RUN TYPE ADD -----
-	 *  --------------------------------------------------------
+	/* ---------------------------------------------------------------------
+	 * ----------------  RUNS (no interval) EDIT, DELETE, RUN TYPE ADD -----
+	 *  --------------------------------------------------------------------
 	 */
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
@@ -2103,6 +2248,25 @@ public class ChronoJump
 		//updateComboJumpsRj();
 	}
 
+	/* ---------------------------------------------------------------------
+	 * ----------------  RUNS (no interval) EDIT, DELETE, RUN TYPE ADD -----
+	 *  --------------------------------------------------------------------
+	 */
+	
+	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
+		Console.WriteLine("Edit selected run interval");
+	}
+
+	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
+		Console.WriteLine("delete selected run interval");
+	}
+
+	private void on_run_interval_type_add_activate (object o, EventArgs args) {
+		Console.WriteLine("Add new run interval type");
+	}
+	
+
+		
 	/* ---------------------------------------------------------
 	 * ----------------  SOME MORE CALLBACKS---------------------
 	 *  --------------------------------------------------------
@@ -2181,6 +2345,7 @@ public class ChronoJump
 		
 		//other
 		button_cancel.Sensitive = false ;
+		button_finish.Sensitive = false ;
 	}
 	
 	private void sensitiveGuiYesSession () {
@@ -2211,8 +2376,9 @@ public class ChronoJump
 		vbox_jumps_rj.Sensitive = true;
 
 		frame_stats.Sensitive = true;
-		if(!statsAutomatic) {
-			button_stats.Sensitive = true;
+		if(statsAutomatic) {
+			button_stats.Sensitive = false;
+			checkbutton_stats_always.Active = true;
 		}
 		combo_stats_stat_name.Sensitive = true;
 		checkbutton_stats_sex.Sensitive = true;
@@ -2256,6 +2422,7 @@ public class ChronoJump
 	private void sensitiveGuiYesJump () {
 		button_last_delete.Sensitive = true ;
 		button_cancel.Sensitive = true ;
+		button_finish.Sensitive = true ;
 	}
 	
 	private void sensitiveGuiJumping () {
@@ -2267,8 +2434,9 @@ public class ChronoJump
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
 		
-		//cancel jump
+		//cancel, finish jump
 		button_cancel.Sensitive = true ;
+		button_finish.Sensitive = true ;
 	}
     
 	private void sensitiveGuiJumped () {
@@ -2280,7 +2448,8 @@ public class ChronoJump
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;
 		
-		//cancel jump
+		//cancel, finish jump
 		button_cancel.Sensitive = false ;
+		button_finish.Sensitive = false ;
 	}
 }

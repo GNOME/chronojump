@@ -37,22 +37,23 @@ public class StatSjCmjAbk : Stat
 		this.limit = 0;
 	}
 
-	public StatSjCmjAbk (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public StatSjCmjAbk (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit, bool heightPreferred) 
 	{
-		this.dataColumns = 1;	//for simplesession
+		this.dataColumns = 2;	//for simplesession
 		this.jumpType = jumpType;
 		this.limit = limit;
+		this.heightPreferred = heightPreferred;
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper, TV
+			store = getStore(dataColumns +1); //jumper, height, TV
 		}
 		
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jump", "TV" };
+		string [] columnsString = { "Jump", "Height", "TV" };
 		prepareHeaders(columnsString);
 	}
 
@@ -68,22 +69,22 @@ public class StatSjCmjAbk : Stat
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.SjCmjAbk(sessionString, multisession, "AVG(", ")", jumpType, showSex), 
+						SqliteStat.SjCmjAbk(sessionString, multisession, "AVG(", ")", jumpType, showSex, heightPreferred), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.SjCmjAbk(sessionString, multisession, "AVG(", ")", jumpType, showSex), 
+							SqliteStat.SjCmjAbk(sessionString, multisession, "AVG(", ")", jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
 		} else {
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.SjCmjAbk(sessionString, multisession, "MAX(", ")", jumpType, showSex),  
+				processDataMultiSession ( SqliteStat.SjCmjAbk(sessionString, multisession, "MAX(", ")", jumpType, showSex, heightPreferred),  
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.SjCmjAbk(sessionString, multisession, "", "", jumpType, showSex), 
+							SqliteStat.SjCmjAbk(sessionString, multisession, "", "", jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

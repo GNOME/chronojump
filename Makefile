@@ -19,8 +19,8 @@ MCS = mcs
 CHRONOJUMP = chronojump
 
 CHRONOJUMP_DEP_GUI = src/gui/confirm.cs src/gui/error.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs
-CHRONOJUMP_DEP_STATS = src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/rjIndex.cs src/stats/rjPotencyAguado.cs src/stats/rjEvolution.cs src/stats/ieIub.cs
-CHRONOJUMP_DEP_GRAPHS = src/stats/graphs/graphData.cs src/stats/graphs/graphSerie.cs src/stats/graphs/global.cs src/stats/graphs/sjCmjAbk.cs src/stats/graphs/sjCmjAbkPlus.cs src/stats/graphs/djIndex.cs src/stats/graphs/rjIndex.cs src/stats/graphs/rjPotencyAguado.cs src/stats/graphs/rjEvolution.cs src/stats/graphs/ieIub.cs 
+CHRONOJUMP_DEP_STATS = src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/rjIndex.cs src/stats/rjPotencyBosco.cs src/stats/rjEvolution.cs src/stats/ieIub.cs
+CHRONOJUMP_DEP_GRAPHS = src/stats/graphs/graphData.cs src/stats/graphs/graphSerie.cs src/stats/graphs/global.cs src/stats/graphs/sjCmjAbk.cs src/stats/graphs/sjCmjAbkPlus.cs src/stats/graphs/djIndex.cs src/stats/graphs/rjIndex.cs src/stats/graphs/rjPotencyBosco.cs src/stats/graphs/rjEvolution.cs src/stats/graphs/ieIub.cs 
 
 
 
@@ -32,7 +32,7 @@ RESOURCES = -resource:glade/chronojump.glade,chronojump.glade
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient
 
 #all: $(CHRONOJUMP).exe $(TEST1).exe 
-all: $(CHRONOJUMP).exe test-mono 
+all: $(CHRONOJUMP).exe chronojump-mini 
 
 LIBCHRONOPIC = libchronopic.so
 LIBCHRONOPIC_DEP = chronopic.o 
@@ -40,12 +40,12 @@ LIBCHRONOPIC_DEP = chronopic.o
 DLL_CHRONOPIC = chronopic
 
 
-NAME5= test-saltos.mono
+NAME5= chronojump-mini
 DEP5 = $(NAME5).cs $(DLL_CHRONOPIC).dll
 
 
-#-- Construccion de los ejemplos de prueba en Mono
-test-mono: $(NAME5).exe
+#-- Construccion del chronojump-mini que funciona por consola
+chronojump-mini: $(NAME5).exe
 
 #--------------------------
 #  Reglas

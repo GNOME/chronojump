@@ -547,11 +547,7 @@ class SqliteStat : Sqlite
 			" AND j1.personID == person.uniqueID " +
 			" AND j2.personID == person.uniqueID " +
 			groupByString +
-			 //don't order by myIndex, because if we search MAX, 
-			 //we will have high values in big jump1 and low jump2, 
-			 //and we want both jumps as MAX not max index
 			orderByString + " myIndex DESC ";
-			//orderByString ;
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

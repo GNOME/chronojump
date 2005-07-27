@@ -138,6 +138,7 @@ public class Jump
 			cancel = false;
 
 			//start thread
+			//Console.Write("Start thread");
 			thread = new Thread(new ThreadStart(waitJump));
 			GLib.Idle.Add (new GLib.IdleHandler (Pulse));
 			thread.Start(); 
@@ -241,11 +242,16 @@ public class Jump
 				}
 			}
 		} while ( ! success && ! cancel );
+
+		if(cancel) {
+			//event will be raised, and managed in chronojump.cs
+			falseButtonFinished.Click();
+		}
 	}
 	
 	protected bool Pulse ()
 	{
-		if (thread.IsAlive) {
+		//if (thread.IsAlive) {
 			if(progressBar.Fraction == 1 || cancel) {
 				Console.Write("dying");
 
@@ -258,8 +264,8 @@ public class Jump
 			Thread.Sleep (150);
 			Console.Write(thread.ThreadState);
 			return true;
-		}
-		return false;
+		//}
+		//return false;
 	}
 
 	protected virtual void write()
@@ -284,20 +290,21 @@ public class Jump
 				type, tv, tc, fall,  //type, tv, tc, fall
 				weight, "", ""); //weight, limited, description
 		
-		//put max value in progressBar. This makes the thread in Pulse() stop
-		progressBar.Fraction = 1;
-		
 		//event will be raised, and managed in chronojump.cs
 		falseButtonFinished.Click();
+		
+		//put max value in progressBar. This makes the thread in Pulse() stop
+		progressBar.Fraction = 1;
 	}
 	
 	//from confirm_window cancel button (thread has not started)
+	//this is NOT called when a jump has started and user click on "Cancel"
 	private void cancel_jump(object o, EventArgs args)
 	{
-		cancel = true;
-	
 		//event will be raised, and managed in chronojump.cs
 		falseButtonFinished.Click();
+		
+		cancel = true;
 	}
 	
 	public Gtk.Button FalseButtonFinished
@@ -456,6 +463,9 @@ public class JumpRj : Jump
 	bool firstRjValue;
 	private double tcCount;
 	private double tvCount;
+	
+	//for finishing earlier from chronojump.cs
+	private bool finish;
 
 	//jump execution
 	public JumpRj(int personID, int sessionID, string type, int fall, string weight, double limitAsDouble, bool jumpsLimited, 
@@ -596,6 +606,9 @@ public class JumpRj : Jump
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
+			
+			//prepare jump for being finished earlier if desired
+			finish = false;
 
 			//start thread
 			thread = new Thread(new ThreadStart(waitJump));
@@ -618,22 +631,34 @@ public class JumpRj : Jump
 		do {
 			respuesta = cp.Read_event(out timestamp, out platformState);
 
+			/*
+			if(finish) {
+				write();
+				success = true;
+			}
+			*/
+			
 			//update the progressBar if limit is time
 			if ( ! jumpsLimited) {
-				double myPb = getTotalTime (tcString, tvString) / limitAsDouble ;
-				if(myPb > 1.0) { myPb = 1.0; }
+				double myPb = Util.GetTotalTime (tcString, tvString) / limitAsDouble ;
+				//if(myPb > 1.0) { myPb = 1.0; }
+				//don't allow progressBar be 1.0 before falseButtonClick is called
+				if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
 				progressBar.Fraction = myPb; 
 			}
-
 
 			if (respuesta == Chronopic.Respuesta.Ok) {
 				string equal = "";
 				//check if reactive jump should finish
 				if (jumpsLimited) {
 					//change the progressBar percent
-					progressBar.Fraction = (tcCount + tvCount) / limitAsDouble ;
+					//progressBar.Fraction = (tcCount + tvCount) / limitAsDouble ;
+					//don't allow progressBar be 1.0 before falseButtonClick is called
+					double myPb = (tcCount + tvCount) / limitAsDouble ;
+					if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
+					progressBar.Fraction = myPb; 
 
-					if(getNumberOfJumps(tcString) >= limitAsDouble && getNumberOfJumps(tvString) >= limitAsDouble)
+					if(Util.GetNumberOfJumps(tcString) >= limitAsDouble && Util.GetNumberOfJumps(tvString) >= limitAsDouble)
 					{
 						//finished writing the TC, let's put a "-1" in the TV
 						if (tcCount > tvCount) {
@@ -647,8 +672,8 @@ public class JumpRj : Jump
 					}
 				} else {
 					//limited by time
-					if (getTotalTime (tcString, tvString) >= limitAsDouble &&
-							getNumberOfJumps(tcString) == getNumberOfJumps(tvString) ) 
+					if (Util.GetTotalTime (tcString, tvString) >= limitAsDouble &&
+							Util.GetNumberOfJumps(tcString) == Util.GetNumberOfJumps(tvString) ) 
 					{
 						//finished writing the TC, let's put a "-1" in the TV
 						if (tcCount > tvCount) {
@@ -685,7 +710,15 @@ public class JumpRj : Jump
 					}
 				}
 			}
-		} while ( ! success && ! cancel );
+		} while ( ! success && ! cancel && ! finish );
+		
+		if (finish) {
+			write();
+		}
+		if(cancel || finish) {
+			//event will be raised, and managed in chronojump.cs
+			falseButtonFinished.Click();
+		}
 	}
 				
 
@@ -693,22 +726,32 @@ public class JumpRj : Jump
 	{
 		int jumps;
 		string limitString = "";
-		if(jumpsLimited) {
-			limitString = limitAsDouble.ToString() + "J";
-			jumps = (int) limitAsDouble;
+
+		//if user clicked in finish earlier
+		if(finish) {
+			jumps = Util.GetNumberOfJumps(tvString);
+			if(jumpsLimited) {
+				limitString = jumps.ToString() + "J";
+			} else {
+				limitString = Util.GetTotalTime(tcString, tvString) + "T";
+			}
 		} else {
-			limitString = limitAsDouble.ToString() + "T";
-			string [] myStringFull = tcString.Split(new char[] {'='});
-			jumps = myStringFull.Length;
+			if(jumpsLimited) {
+				limitString = limitAsDouble.ToString() + "J";
+				jumps = (int) limitAsDouble;
+			} else {
+				limitString = limitAsDouble.ToString() + "T";
+				string [] myStringFull = tcString.Split(new char[] {'='});
+				jumps = myStringFull.Length;
+			}
 		}
-	
 
 		uniqueID = SqliteJump.InsertRj(personID, sessionID, 
 				type, Util.GetMax(tvString), Util.GetMax(tcString), 
 				fall, weight, "", //fall, weight, description
 				Util.GetAverage(tvString), Util.GetAverage(tcString),
 				tvString, tcString,
-				jumps, getTotalTime(tcString, tvString), limitString
+				jumps, Util.GetTotalTime(tcString, tvString), limitString
 				);
 
 		string myStringPush =   Catalog.GetString("Last jump: ") + JumperName + " " + 
@@ -717,13 +760,14 @@ public class JumpRj : Jump
 			" AVG TC: " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
 		appbar.Push( myStringPush );
 	
-		//put max value in progressBar. This makes the thread in Pulse() stop
-		progressBar.Fraction = 1;
-		
 		//event will be raised, and managed in chronojump.cs
 		falseButtonFinished.Click();
+		
+		//put max value in progressBar. This makes the thread in Pulse() stop
+		progressBar.Fraction = 1;
 	}
-	
+
+	/*
 	private double getTotalTime (string stringTC, string stringTV)
 	{
 		if(stringTC.Length > 0 && stringTV.Length > 0) {
@@ -744,7 +788,9 @@ public class JumpRj : Jump
 			return 0;
 		}
 	}
-	
+	*/
+
+	/*
 	private int getNumberOfJumps(string myString)
 	{
 		if(myString.Length > 0) {
@@ -760,11 +806,26 @@ public class JumpRj : Jump
 			return 0;
 		}
 	}
+	*/
+	
+	//called from chronojump.cs for finishing jumps earlier
+	public bool Finish
+	{
+		get {
+			return finish;
+		}
+		set {
+			finish = value;
+		}
+	}
 	
 	public string Limited
 	{
 		get {
 			return limited;
+		}
+		set {
+			limited = value;
 		}
 	}
 	
@@ -813,6 +874,24 @@ public class JumpRj : Jump
 			return tcString;
 		}
 	}
+
+	public int Jumps
+	{
+		get {
+			return jumps;
+		}
+		set {
+			jumps = value;
+		}
+	}
+	
+	public bool JumpsLimited
+	{
+		get {
+			return jumpsLimited;
+		}
+	}
+		
 		
 	~JumpRj() {}
 }

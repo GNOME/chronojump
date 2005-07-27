@@ -114,12 +114,6 @@ public class StatIeIub : Stat
 				processDataMultiSession ( SqliteStat.IeIub(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex),  
 						true, sessions.Count);
 			} else {
-				/*
-				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.IeIub(sessionString, multisession, "", "", jump1, jump2, showSex), 
-							statsJumpsType, limit),
-						true, dataColumns);
-				*/
 				processDataSimpleSession ( SqliteStat.IeIub(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex), 
 						true, dataColumns);
 			}

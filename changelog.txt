@@ -1,5 +1,22 @@
 CHANGELOG:
 
+28 jul 2005
+	Task: 277: closed	
+		- buttons for execute jumps are in different place than viewing
+		jumps place (also for runs)
+		- changed menubar (more user friendly)
+		- stats window separated (added src/gui/stats.cs chronojump.cs
+		is now cleaner)
+		
+	Implemented "Last jump" for normal and repetitive jumps (closes task: 257)
+	Implemented "Stop Rj jump" (closes task: 266)
+	Interface of each window is cleaner (border: 10px)
+	
+	bugs:
+		repaired bug in threads in all jumps (deadlock)
+		repaired bug in threads in cancelling all jumps
+		repaired bug: expanding first jump in treeview (closes task: 262)
+	
 26 jul 2005
 	height in all stats and graphs (selectable in preferences the
 	preferred value (height or tv) in one-data charts)  (closes Task: 258)

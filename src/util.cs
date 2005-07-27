@@ -126,5 +126,61 @@ public class Util
 		return height.ToString();
 	}
 	
+	public static int GetNumberOfJumps(string myString)
+	{
+		if(myString.Length > 0) {
+			string [] jumpsSeparated = myString.Split(new char[] {'='});
+			int count = 0;
+			foreach (string temp in jumpsSeparated) {
+				count++;
+			}
+			if(count == 0) { count =1; }
+			
+			return count;
+		} else { 
+			return 0;
+		}
+	}
+	
+	public static double GetTotalTime (string stringTC, string stringTV)
+	{
+		if(stringTC.Length > 0 && stringTV.Length > 0) {
+			string [] tc = stringTC.Split(new char[] {'='});
+			string [] tv = stringTV.Split(new char[] {'='});
+
+			double totalTime = 0;
+
+			foreach (string jump in tc) {
+				totalTime = totalTime + Convert.ToDouble(jump);
+			}
+			foreach (string jump in tv) {
+				totalTime = totalTime + Convert.ToDouble(jump);
+			}
+
+			return totalTime ;
+		} else {
+			return 0;
+		}
+	}
+	
+	public static string FetchID (string text)
+	{
+		string [] myStringFull = text.Split(new char[] {':'});
+		return myStringFull[0];
+	}
+	
+	public static string FetchName (string text)
+	{
+		//"id: name" (return only name)
+		bool found = false;
+		int i;
+		for (i=0; ! found ; i++) {
+			if(text[i] == ' ') {
+				found = true;
+			}
+		}
+		return text.Substring(i);
+	}
+	
 }
 

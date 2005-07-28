@@ -210,5 +210,31 @@ class SqlitePersonSession : Sqlite
 		}
 		return myJumpers;
 	}
+	
+	public static void DeletePersonFromSessionAndJumps(string sessionID, string personID)
+	{
+		dbcon.Open();
+
+		//delete relations (existance) within persons and sessions in this session
+		dbcmd.CommandText = "Delete FROM personSession WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+		dbcmd.ExecuteNonQuery();
+		
+		//delete normal jumps
+		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+			
+		dbcmd.ExecuteNonQuery();
+		
+		//delete repetitive jumps
+		dbcmd.CommandText = "Delete FROM jumpRj WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+		dbcmd.ExecuteNonQuery();
+		
+		//runs PENDING
+		
+		dbcon.Close();
+	}
+
 }
 

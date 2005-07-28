@@ -53,6 +53,19 @@ class SqliteSession : Sqlite
 		return myReturn;
 	}
 	
+	public static void Edit(int uniqueID, string name, string place, string date, string comments)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "UPDATE session " +
+			" SET name = '" + name +
+			"' , date = '" + date +
+			"' , place = '" + place +
+			"' , comments = '" + comments +
+			"' WHERE uniqueID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+	
 	public static Session Select(string myUniqueID)
 	{
 		dbcon.Open();
@@ -252,7 +265,29 @@ class SqliteSession : Sqlite
 		return mySessions;
 	}
 
-	public static void Delete()
+	public static void DeleteWithJumps(string uniqueID)
 	{
+		dbcon.Open();
+
+		//delete the session
+		dbcmd.CommandText = "Delete FROM session WHERE uniqueID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
+		//delete relations (existance) within persons and sessions in this session
+		dbcmd.CommandText = "Delete FROM personSession WHERE sessionID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
+		//delete normal jumps
+		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
+		//delete repetitive jumps
+		dbcmd.CommandText = "Delete FROM jumpRj WHERE sessionID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
+		//runs PENDING
+		
+		dbcon.Close();
 	}
+
 }

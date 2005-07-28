@@ -1,4 +1,15 @@
 CHANGELOG:
+	
+28 jul 2005
+	delete a person from a session and delete it's jumps in this session (closes task: 272)
+	session edit and delete (closes task: 278)
+
+	bugs:
+		-repaired bug in comboSujeto (crashed when user clicks in
+		combo)
+		-bug in duplicated currentPerson in PersonRecuperateWindow
+		class
+		-repaired small bug in try to update stats when they are not created
 
 28 jul 2005
 	Task: 277: closed	

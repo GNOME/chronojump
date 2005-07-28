@@ -109,6 +109,8 @@ public class StatsWindow {
 		
 		createComboStats();
 		createComboStats2();
+		
+		updateComboStats2();
 	}
 	
 
@@ -124,6 +126,11 @@ public class StatsWindow {
 		return StatsWindowBox;
 	}
 
+	public void Hide()
+	{
+		StatsWindowBox.stats_window.Hide ();
+	}
+	
 	public void InitializeSession(Session newCurrentSession) 
 	{
 		currentSession = newCurrentSession;
@@ -589,7 +596,7 @@ public class StatsWindow {
 		//update combo stat2, there change the treeviewstats (with the combostats2 values changed)
 		updateComboStats2();
 		
-		//update_stats_widgets_sensitiveness();
+		update_stats_widgets_sensitiveness();
 	}
 	
 	private void on_combo_stats_stat_name2_changed(object o, EventArgs args) {

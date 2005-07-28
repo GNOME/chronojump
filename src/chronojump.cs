@@ -67,6 +67,7 @@ public class ChronoJump
 	[Widget] Gtk.Button button_open;
 	[Widget] Gtk.Button button_recup_per;
 	[Widget] Gtk.Button button_create_per;
+	[Widget] Gtk.Label label_current_person;
 
 	[Widget] Gtk.Button button_sj;
 	[Widget] Gtk.Button button_sj_plus;
@@ -86,12 +87,13 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_recuperate_person;
 	[Widget] Gtk.MenuItem create_person;
 	[Widget] Gtk.MenuItem menuitem_edit_session;
+	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_recuperate_persons_from_session;
 	[Widget] Gtk.MenuItem menu_persons;
 	[Widget] Gtk.MenuItem menu_jumps;
 	[Widget] Gtk.MenuItem menu_runs;
 	[Widget] Gtk.MenuItem menu_view;
-
+		
 	[Widget] Gtk.MenuItem sj;
 	[Widget] Gtk.MenuItem sj_plus;
 	[Widget] Gtk.MenuItem cmj;
@@ -105,6 +107,7 @@ public class ChronoJump
 
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
+	[Widget] Gtk.MenuItem menuitem_delete_current_person_from_session;
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_finish;
 	
@@ -156,6 +159,7 @@ public class ChronoJump
 
 	//windows needed
 	SessionAddWindow sessionAddWin;
+	SessionEditWindow sessionEditWin;
 	SessionLoadWindow sessionLoadWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonAddWindow personAddWin; 
@@ -167,11 +171,11 @@ public class ChronoJump
 	EditJumpRjWindow editJumpRjWin;
 	JumpTypeAddWindow jumpTypeAddWin;
 	//RunTypeAddWindow runTypeAddWin;
-	ConfirmWindow confirmWin;		//for go up or down the platform, and for 
-						//export in a not-newly-created file
+
 	ConfirmWindowJump confirmWinJump;	//for deleting jumps and RJ jumps
 	StatsWindow statsWin;
-		
+	
+	
 	//Progress bar 
 	[Widget] Gtk.Box hbox_progress_bar;
 	Gtk.ProgressBar progressBar;
@@ -709,17 +713,18 @@ public class ChronoJump
 
 	private void on_combo_person_current_changed(object o, EventArgs args) {
 		string myText = combo_person_current.Entry.Text;
-		if(myText != "") {
+		if(myText != "" && myText.LastIndexOf(":") != -1) {
 			//if people modify the values in the combo_person_current, and this valeus are not correct, 
 			//let's update the combosujetocurrent
+			
 			if(SqlitePersonSession.PersonSelectExistsInSession(Util.FetchID(myText), currentSession.UniqueID)) 
 			{
 				currentPerson = SqlitePersonSession.PersonSelect(Util.FetchID(myText));
 			}
 		}
-		else {
-			updateComboSujetoCurrent();
-		}
+		//else {
+		//	updateComboSujetoCurrent();
+		//}
 	}
 
 	
@@ -745,7 +750,7 @@ public class ChronoJump
 	}
 	
 	/* ---------------------------------------------------------
-	 * ----------------  SESSION NEW, LOAD AND EXPORT ----------
+	 * ----------------  SESSION NEW, LOAD, EXPORT, DELETE -----
 	 *  --------------------------------------------------------
 	 */
 	
@@ -783,9 +788,28 @@ public class ChronoJump
 
 			button_edit_current_person.Sensitive = false;
 			menuitem_edit_current_person.Sensitive = false;
+			menuitem_delete_current_person_from_session.Sensitive = false;
 			//update combo sujeto current
 			updateComboSujetoCurrent();
 			combo_person_current.Sensitive = false;
+		}
+	}
+	
+	private void on_edit_session_activate (object o, EventArgs args) {
+		Console.WriteLine("edit session");
+		sessionEditWin = SessionEditWindow.Show(app1, currentSession);
+		sessionEditWin.Button_accept.Clicked += new EventHandler(on_edit_session_accepted);
+	}
+	
+	private void on_edit_session_accepted (object o, EventArgs args) {
+		if(sessionEditWin.CurrentSession != null) 
+		{
+			currentSession = sessionEditWin.CurrentSession;
+			app1.Title = progname + " - " + currentSession.Name;
+
+			if(createdStatsWin) {
+				statsWin.InitializeSession(currentSession);
+			}
 		}
 	}
 	
@@ -817,6 +841,7 @@ public class ChronoJump
 		
 		button_edit_current_person.Sensitive = false;
 		menuitem_edit_current_person.Sensitive = false;
+		menuitem_delete_current_person_from_session.Sensitive = false;
 		//update combo sujeto current
 		bool myBool = updateComboSujetoCurrent();
 		combo_person_current.Sensitive = false;
@@ -828,10 +853,23 @@ public class ChronoJump
 		}
 	}
 	
-	private void on_edit_session_activate (object o, EventArgs args) {
-		Console.WriteLine("edit session (not implemented)");
+	
+	private void on_delete_session_activate (object o, EventArgs args) {
+		Console.WriteLine("delete session");
+		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Are you sure you want to delete current session"), Catalog.GetString("and all it's jumps?"));
+		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
+	}
+	
+	private void on_delete_session_accepted (object o, EventArgs args) 
+	{
+		Console.WriteLine("session and jumps deleted");
+		SqliteSession.DeleteWithJumps(currentSession.UniqueID.ToString());
+		
+		sensitiveGuiNoSession();
+		app1.Title = progname + "";
 	}
 
+	
 	private void on_export_session_activate(object o, EventArgs args) {
 		if (o == (object) menuitem_export_csv) {
 			new ExportSessionCSV(currentSession, app1, appbar2);
@@ -844,7 +882,7 @@ public class ChronoJump
 
 	
 	/* ---------------------------------------------------------
-	 * ----------------  PERSON RECUPERATE, LOAD, EDIT------
+	 * ----------------  PERSON RECUPERATE, LOAD, EDIT, DELETE -
 	 *  --------------------------------------------------------
 	 */
 	
@@ -897,7 +935,9 @@ public class ChronoJump
 			myText = combo_jumps_rj.Entry.Text;
 			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
 
-			statsWin.FillTreeView_stats(false, true);
+			if(createdStatsWin) {
+				statsWin.FillTreeView_stats(false, true);
+			}
 		}
 	}
 	
@@ -906,6 +946,46 @@ public class ChronoJump
 		//personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession.UniqueID);
 		//personRecuperateWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
+	
+	
+	private void on_delete_current_person_from_session_activate (object o, EventArgs args) {
+		Console.WriteLine("delete current person from this session");
+		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, 
+				Catalog.GetString("Are you sure you want to delete current person and all it's jumps from this session?\n(It's personal data and jumps in other sessions will remain intact)"), 
+				Catalog.GetString("Current Person: ") + currentPerson.Name);
+
+		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
+	}
+	
+	private void on_delete_current_person_from_session_accepted (object o, EventArgs args) 
+	{
+		Console.WriteLine("current person and it's jumps deleted from this session");
+		SqlitePersonSession.DeletePersonFromSessionAndJumps(
+				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
+		
+		treeview_jumps_storeReset();
+		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
+		treeview_jumps_storeReset();
+		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, allJumpsName);
+			
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, true);
+		}
+		
+		bool myBool = updateComboSujetoCurrent();
+		
+		//if there are no persons
+		if(!myBool) {
+			combo_person_current.Sensitive = false;
+			sensitiveGuiNoPerson ();
+			if(createdStatsWin) {
+				statsWin.Hide();
+			}
+		}
+		
+		//CHECK WHAT HAPPEN IF IT WAS THE ONLY PERSON IN THIS SESSION
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  SOME CALLBACKS ------------------------
@@ -1004,7 +1084,9 @@ public class ChronoJump
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
 
-		statsWin.FillTreeView_stats(false, true);
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, true);
+		}
 			
 	}
 	
@@ -1092,6 +1174,9 @@ public class ChronoJump
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
+		Console.WriteLine("currentSession.UniqueID: {0}", currentSession.UniqueID.ToString());
+		Console.WriteLine("currentPerson.UniqueID: {0}", currentPerson.UniqueID.ToString());
+		
 		if(o == (object) button_sj || o == (object) sj) {
 			currentJumpType = new JumpType("SJ");
 		} else if (o == (object) button_cmj || o == (object) cmj) {
@@ -1141,7 +1226,9 @@ public class ChronoJump
 
 			myTreeViewJumps.Add(currentPerson.Name, currentJump);
 		
-			statsWin.FillTreeView_stats(false, false);
+			if(createdStatsWin) {
+				statsWin.FillTreeView_stats(false, false);
+			}
 		
 			//change to page 0 of notebook if were in other
 			while(notebook.CurrentPage > 0) {
@@ -1284,7 +1371,9 @@ public class ChronoJump
 			}
 			myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 
-			statsWin.FillTreeView_stats(false, false);
+			if(createdStatsWin) {
+				statsWin.FillTreeView_stats(false, false);
+			}
 
 			//change to page 1 of notebook if were in other
 			if(notebook.CurrentPage == 0) {
@@ -1373,8 +1462,10 @@ public class ChronoJump
 			} else {
 				myTreeViewJumps.DelJump(currentJump.UniqueID);
 			}
-
-			statsWin.FillTreeView_stats(false, false);
+		
+			if(createdStatsWin) {
+				statsWin.FillTreeView_stats(false, false);
+			}
 		}
 	}
 
@@ -1414,7 +1505,9 @@ public class ChronoJump
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, combo_jumps.Entry.Text);
 	
-		statsWin.FillTreeView_stats(false, false);
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
 	}
 	
 	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
@@ -1423,7 +1516,9 @@ public class ChronoJump
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, combo_jumps_rj.Entry.Text);
 		
-		statsWin.FillTreeView_stats(false, false);
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
 	}
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
@@ -1446,7 +1541,9 @@ public class ChronoJump
 				appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
 				myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
 				
-				statsWin.FillTreeView_stats(false, false);
+				if(createdStatsWin) {
+					statsWin.FillTreeView_stats(false, false);
+				}
 			}
 		}
 	}
@@ -1468,7 +1565,9 @@ public class ChronoJump
 				SqliteJump.RjDelete(myTreeViewJumpsRj.JumpSelectedID.ToString());
 				myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
 
-				statsWin.FillTreeView_stats(false, false);
+				if(createdStatsWin) {
+					statsWin.FillTreeView_stats(false, false);
+				}
 			}
 		}
 	}
@@ -1478,7 +1577,9 @@ public class ChronoJump
 		appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
 		myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
 
-		statsWin.FillTreeView_stats(false, false);
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
 	}
 
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
@@ -1488,7 +1589,9 @@ public class ChronoJump
 		//FIXME:---------------- WORKS?
 		myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
 
-		statsWin.FillTreeView_stats(false, false);
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
 	}
 	
 	private void on_jump_type_add_activate (object o, EventArgs args) {
@@ -1702,7 +1805,9 @@ public class ChronoJump
 		menuitem_recuperate_person.Sensitive = false;
 		menuitem_recuperate_persons_from_session.Sensitive = false;
 		create_person.Sensitive = false;
+		combo_person_current.Sensitive = false;
 		menuitem_edit_session.Sensitive = false;
+		menuitem_delete_session.Sensitive = false;
 		
 		menu_persons.Sensitive = false;
 		menu_jumps.Sensitive = false;
@@ -1711,6 +1816,9 @@ public class ChronoJump
 
 		button_recup_per.Sensitive = false;
 		button_create_per.Sensitive = false;
+		label_current_person.Sensitive = false;
+		button_edit_current_person.Sensitive = false;
+		menuitem_delete_current_person_from_session.Sensitive = false;
 		
 		//notebook
 		notebook.Sensitive = false;
@@ -1725,9 +1833,9 @@ public class ChronoJump
 	}
 	
 	private void sensitiveGuiYesSession () {
-		//frame_jumpers.Sensitive = true;
 		button_recup_per.Sensitive = true;
 		button_create_per.Sensitive = true;
+		label_current_person.Sensitive = true;
 		
 		preferences.Sensitive = true;
 		menuitem_export_csv.Sensitive = true;
@@ -1736,14 +1844,56 @@ public class ChronoJump
 		menuitem_recuperate_persons_from_session.Sensitive = true;
 		create_person.Sensitive = true;
 		menuitem_edit_session.Sensitive = true;
+		menuitem_delete_session.Sensitive = true;
 		menu_persons.Sensitive = true;
 	}
 
+	//only called by delete person functions (if we run out of persons)
+	private void sensitiveGuiNoPerson () {
+		notebook.Sensitive = false;
+		combo_person_current.Sensitive = false;
+		button_edit_current_person.Sensitive = false;
+		menuitem_edit_current_person.Sensitive = false;
+		menuitem_delete_current_person_from_session.Sensitive = false;
+		
+		menu_jumps.Sensitive = false;
+		menu_runs.Sensitive = false;
+		menu_view.Sensitive = false;
+		
+		jump_type_add.Sensitive = false;
+		button_last_delete.Sensitive = false;
+		
+		hbox_jumps.Sensitive = false;
+		hbox_jumps_rj.Sensitive = false;
+		//don't allow repeat last jump
+		button_last.Sensitive = false;
+		button_rj_last.Sensitive = false;
+
+		menuitem_edit_selected_jump.Sensitive = false;
+		menuitem_delete_selected_jump.Sensitive = false;
+		button_edit_selected_jump.Sensitive = false;
+		button_delete_selected_jump.Sensitive = false;
+		menuitem_edit_selected_jump_rj.Sensitive = false;
+		menuitem_delete_selected_jump_rj.Sensitive = false;
+		button_edit_selected_jump_rj.Sensitive = false;
+		button_delete_selected_jump_rj.Sensitive = false;
+		menuitem_edit_selected_run.Sensitive = false;
+		menuitem_delete_selected_run.Sensitive = false;
+		button_edit_selected_run.Sensitive = false;
+		button_delete_selected_run.Sensitive = false;
+		
+		checkbutton_sort_by_type.Sensitive = false;
+		combo_jumps.Sensitive = false;
+		combo_jumps_rj.Sensitive = false;
+		combo_runs.Sensitive = false;
+	}
+	
 	private void sensitiveGuiYesPerson () {
 		notebook.Sensitive = true;
 		combo_person_current.Sensitive = true;
 		button_edit_current_person.Sensitive = true;
 		menuitem_edit_current_person.Sensitive = true;
+		menuitem_delete_current_person_from_session.Sensitive = true;
 		
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;

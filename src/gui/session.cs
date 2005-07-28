@@ -30,7 +30,7 @@ using System.Collections; //ArrayList
 
 public class SessionAddWindow {
 	
-	[Widget] Gtk.Window session_add;
+	[Widget] Gtk.Window session_add_edit;
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Entry entry_place;
 	[Widget] Gnome.DateEdit dateedit;
@@ -46,11 +46,13 @@ public class SessionAddWindow {
 	
 	
 	SessionAddWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add", null);
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add_edit", null);
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		button_accept.Sensitive = false;
+			
+		session_add_edit.Title = Catalog.GetString("New Session");
 	}
 	
 	static public SessionAddWindow Show (Gtk.Window parent)
@@ -58,7 +60,7 @@ public class SessionAddWindow {
 		if (SessionAddWindowBox == null) {
 			SessionAddWindowBox = new SessionAddWindow (parent);
 		}
-		SessionAddWindowBox.session_add.Show ();
+		SessionAddWindowBox.session_add_edit.Show ();
 
 		return SessionAddWindowBox;
 	}
@@ -76,13 +78,13 @@ public class SessionAddWindow {
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		SessionAddWindowBox.session_add.Hide();
+		SessionAddWindowBox.session_add_edit.Hide();
 		SessionAddWindowBox = null;
 	}
 	
-	void on_session_add_delete_event (object o, EventArgs args)
+	void on_session_add_edit_delete_event (object o, EventArgs args)
 	{
-		SessionAddWindowBox.session_add.Hide();
+		SessionAddWindowBox.session_add_edit.Hide();
 		SessionAddWindowBox = null;
 	}
 	
@@ -95,14 +97,135 @@ public class SessionAddWindow {
 		if(sessionExists) {
 			string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			Console.WriteLine (myString);
-			errorWin = ErrorWindow.Show(session_add, myString);
+			errorWin = ErrorWindow.Show(session_add_edit, myString);
 
 		} else {
 			currentSession = new Session (entry_name.Text, entry_place.Text, dateTimeFull[0], textview.Buffer.Text);
-			SessionAddWindowBox.session_add.Hide();
+			SessionAddWindowBox.session_add_edit.Hide();
 			SessionAddWindowBox = null;
 		}
 		
+	}
+
+	public Button Button_accept 
+	{
+		set {
+			button_accept = value;	
+		}
+		get {
+			return button_accept;
+		}
+	}
+
+	public Session CurrentSession 
+	{
+		get {
+			return currentSession;
+		}
+	}
+
+}
+
+public class SessionEditWindow
+{
+
+	[Widget] Gtk.Window session_add_edit; 
+	[Widget] Gtk.Entry entry_name;
+	[Widget] Gtk.Entry entry_place;
+	[Widget] Gnome.DateEdit dateedit;
+	[Widget] Gtk.TextView textview;
+	[Widget] Gtk.Button button_accept;
+	
+	ErrorWindow errorWin;
+
+	private Session currentSession;
+	
+	static SessionEditWindow SessionEditWindowBox;
+	Gtk.Window parent;
+	
+	
+	SessionEditWindow (Gtk.Window parent, Session currentSession) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add_edit", null);
+
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+		this.currentSession = currentSession;
+		button_accept.Sensitive = false;
+		
+		session_add_edit.Title = Catalog.GetString("Session Edit");
+
+		entry_name.Text = currentSession.Name;
+		entry_place.Text = currentSession.Place;
+		
+		string [] dateFull = currentSession.Date.Split(new char[] {'/'});
+		dateedit.Time = new DateTime (Convert.ToInt32(dateFull[2]), 
+				Convert.ToInt32(dateFull[1]), Convert.ToInt32(dateFull[0]));
+		
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.SetText(currentSession.Comments);
+		textview.Buffer = tb;
+	}
+	
+	static public SessionEditWindow Show (Gtk.Window parent, Session currentSession)
+	{
+		if (SessionEditWindowBox == null) {
+			SessionEditWindowBox = new SessionEditWindow (parent, currentSession);
+		}
+		SessionEditWindowBox.session_add_edit.Show ();
+
+		return SessionEditWindowBox;
+	}
+
+	
+	void on_entries_required_changed (object o, EventArgs args)
+	{
+		if(entry_name.Text.ToString().Length > 0) {
+			button_accept.Sensitive = true;
+		}
+		else {
+			button_accept.Sensitive = false;
+		}
+	}
+		
+	
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		SessionEditWindowBox.session_add_edit.Hide();
+		SessionEditWindowBox = null;
+	}
+	
+	void on_session_add_edit_delete_event (object o, EventArgs args)
+	{
+		SessionEditWindowBox.session_add_edit.Hide();
+		SessionEditWindowBox = null;
+	}
+	
+	void on_button_accept_clicked (object o, EventArgs args)
+	{
+		//date comes as (i think): "day/month/year sec/hour/minute" (we use the first three)
+		string [] dateTimeFull = dateedit.Time.ToString().Split(new char[] {' '});
+
+	
+		//check if new name of session exists (is owned by other session),
+		//but all is ok if the name is the same as the old name
+		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
+		if(sessionExists && Util.RemoveTilde(entry_name.Text) != currentSession.Name ) {
+			string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			Console.WriteLine (myString);
+			errorWin = ErrorWindow.Show(session_add_edit, myString);
+
+		} else {
+			currentSession.Name = entry_name.Text.ToString();
+			currentSession.Place = entry_place.Text.ToString(); 
+			currentSession.Date = dateTimeFull[0];
+			currentSession.Comments = textview.Buffer.Text;
+			
+			SqliteSession.Edit(currentSession.UniqueID, currentSession.Name, 
+					currentSession.Place, currentSession.Date, currentSession.Comments);
+
+			SessionEditWindowBox.session_add_edit.Hide();
+			SessionEditWindowBox = null;
+		}
 	}
 
 	public Button Button_accept 

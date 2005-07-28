@@ -180,7 +180,9 @@ public class PersonRecuperateWindow {
 		if(selected != "-1")
 		{
 			int myInt = SqlitePersonSession.Insert(Convert.ToInt32(selected), sessionID);
-			Person currentPerson = SqlitePersonSession.PersonSelect(selected);
+			currentPerson = SqlitePersonSession.PersonSelect(selected);
+
+			Console.WriteLine(currentPerson.Name);
 
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
 					typeof (string), typeof(string), typeof(string) );
@@ -206,7 +208,6 @@ public class PersonRecuperateWindow {
 			return currentPerson;
 		}
 	}
-
 
 }
 

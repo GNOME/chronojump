@@ -77,9 +77,18 @@ public class ChronoJump
 	[Widget] Gtk.Button button_more;
 	[Widget] Gtk.Button button_rj_j;
 	[Widget] Gtk.Button button_rj_t;
+	[Widget] Gtk.Button button_run_free;
+	[Widget] Gtk.Button button_run_20m;
+	[Widget] Gtk.Button button_run_100m;
+	[Widget] Gtk.Button button_run_200m;
+	[Widget] Gtk.Button button_run_400m;
+	[Widget] Gtk.Button button_run_1000m;
+	[Widget] Gtk.Button button_run_2000m;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
+	[Widget] Gtk.Button button_run_last;
+	[Widget] Gtk.Button button_run_interval_last;
 	[Widget] Gtk.Button button_last_delete;
 	[Widget] Gtk.MenuItem preferences;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
@@ -104,6 +113,13 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem jump_type_add;
 	[Widget] Gtk.MenuItem rj_j;
 	[Widget] Gtk.MenuItem rj_t;
+	[Widget] Gtk.MenuItem menuitem_run_free;
+	[Widget] Gtk.MenuItem menuitem_20m;
+	[Widget] Gtk.MenuItem menuitem_100m;
+	[Widget] Gtk.MenuItem menuitem_200m;
+	[Widget] Gtk.MenuItem menuitem_400m;
+	[Widget] Gtk.MenuItem menuitem_1000m;
+	[Widget] Gtk.MenuItem menuitem_2000m;
 
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
@@ -119,7 +135,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.1";
+	private static string progversion = "0.2";
 	private static string progname = "ChronoJump";
 	
 	//normal jumps
@@ -148,14 +164,19 @@ public class ChronoJump
 	private static bool askDeletion;
 	private static bool weightStatsPercent;
 	private static bool heightPreferred;
+	private static bool metersSecondsPreferred;
 
 	private static Person currentPerson;
 	private static Session currentSession;
 	private static Jump currentJump;
 	private static JumpRj currentJumpRj;
+	private static Run currentRun;
+	//private static RunInterval currentRunInterval;
 	private static bool lastEventWasJump; //if last event was Jump (true) or Run (false)
 	private static bool lastJumpIsReactive; //if last Jump is reactive or not
+	private static bool lastRunIsInterval; //if last run is interval or not (obvious) 
 	private static JumpType currentJumpType;
+	private static RunType currentRunType;
 
 	//windows needed
 	SessionAddWindow sessionAddWin;
@@ -170,9 +191,15 @@ public class ChronoJump
 	EditJumpWindow editJumpWin;
 	EditJumpRjWindow editJumpRjWin;
 	JumpTypeAddWindow jumpTypeAddWin;
+	
+	RunExtraWindow runExtraWin; //for normal and intervaled runs 
+	RunsMoreWindow runsMoreWin;
+	//RunsIntervalMoreWindow runsIntervalMoreWin;
 	//RunTypeAddWindow runTypeAddWin;
+	EditRunWindow editRunWin;
+	//EditRunRjWindow editRunRjWin;
 
-	ConfirmWindowJump confirmWinJump;	//for deleting jumps and RJ jumps
+	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	StatsWindow statsWin;
 	
 	
@@ -322,6 +349,12 @@ public class ChronoJump
 			heightPreferred = true;
 		} else {
 			heightPreferred = false;
+		}
+		
+		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) {
+			metersSecondsPreferred = true;
+		} else {
+			metersSecondsPreferred = false;
 		}
 		
 		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
@@ -772,12 +805,18 @@ public class ChronoJump
 			}
 
 			
-			//load the treeview
+			//load the jumps treeview
 			treeview_jumps_storeReset();
 			fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
-			//load the treeview_rj
+			//load the jumps_rj treeview_rj
 			treeview_jumps_rj_storeReset();
 			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, allJumpsName);
+			//load the runs treeview
+			treeview_runs_storeReset();
+			fillTreeView_runs(treeview_runs, treeview_runs_store, allRunsName);
+			//load the runs_interval treeview
+			//treeview_jumps_storeReset();
+			//fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
 
 
 			//show hidden widgets
@@ -833,6 +872,12 @@ public class ChronoJump
 		//load the treeview_jumps_rj
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, allJumpsName);
+		//load the runs treeview
+		treeview_runs_storeReset();
+		fillTreeView_runs(treeview_runs, treeview_runs_store, allRunsName);
+		//load the runs_interval treeview
+		//treeview_jumps_storeReset();
+		//fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
 		
 
 		//show hidden widgets
@@ -983,7 +1028,6 @@ public class ChronoJump
 			}
 		}
 		
-		//CHECK WHAT HAPPEN IF IT WAS THE ONLY PERSON IN THIS SESSION
 	}
 
 
@@ -995,6 +1039,7 @@ public class ChronoJump
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
 		Console.WriteLine("Activated");
 		statsWin = StatsWindow.Show(app1, currentSession, 
+				//prefsDigitsNumber, weightStatsPercent, heightPreferred, metersSecondsPreferred);
 				prefsDigitsNumber, weightStatsPercent, heightPreferred);
 		createdStatsWin = true;
 		statsWin.InitializeSession(currentSession);
@@ -1027,14 +1072,12 @@ public class ChronoJump
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
 				app1, prefsDigitsNumber, showHeight, showInitialSpeed, 
-				askDeletion, weightStatsPercent, heightPreferred);
+				askDeletion, weightStatsPercent, heightPreferred, metersSecondsPreferred);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
 	private void on_preferences_accepted (object o, EventArgs args) {
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
-		//update prefsDigitsNumber in statsWin
-		statsWin.PrefsDigitsNumber = prefsDigitsNumber;
 		
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
 			askDeletion = true;
@@ -1047,8 +1090,6 @@ public class ChronoJump
 		} else {
 			weightStatsPercent = false;
 		}
-		//update weightStatsPercent in statsWin
-		statsWin.WeightStatsPercent = weightStatsPercent;
 
 		//update showHeight
 		if ( SqlitePreferences.Select("showHeight") == "True" ) {
@@ -1070,24 +1111,50 @@ public class ChronoJump
 		} else {
 			heightPreferred = false;
 		}
-		//update heightPreferred in statsWin
-		statsWin.HeightPreferred = heightPreferred;
 
+		//update metersSecondsPreferred
+		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) {
+			metersSecondsPreferred = true;
+		} else {
+			metersSecondsPreferred = false;
+		}
+
+		
 		//... and recreate the treeview_jumps
 		string myText = combo_jumps.Entry.Text;
 		createTreeView_jumps (treeview_jumps);
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
+		
 		//... and recreate the treeview_jumps_rj
 		myText = combo_jumps.Entry.Text;
 		createTreeView_jumps_rj (treeview_jumps_rj);
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
+		
+		//... and recreate the treeview_runs
+		myText = combo_runs.Entry.Text;
+		createTreeView_runs (treeview_runs);
+		treeview_runs_storeReset();
+		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
 
+		//... and recreate the treeview_runs_rj
+		/*
+		myText = combo_runs.Entry.Text;
+		createTreeView_runs (treeview_runs);
+		treeview_runs_storeReset();
+		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
+		*/
+
+		
 		if(createdStatsWin) {
+			statsWin.PrefsDigitsNumber = prefsDigitsNumber;
+			statsWin.WeightStatsPercent = weightStatsPercent;
+			statsWin.HeightPreferred = heightPreferred;
+			//statsWin.HeightPreferred = metersSecondsPreferred;
+			
 			statsWin.FillTreeView_stats(false, true);
 		}
-			
 	}
 	
 	private void on_cancel_clicked (object o, EventArgs args) 
@@ -1174,9 +1241,6 @@ public class ChronoJump
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-		Console.WriteLine("currentSession.UniqueID: {0}", currentSession.UniqueID.ToString());
-		Console.WriteLine("currentPerson.UniqueID: {0}", currentPerson.UniqueID.ToString());
-		
 		if(o == (object) button_sj || o == (object) sj) {
 			currentJumpType = new JumpType("SJ");
 		} else if (o == (object) button_cmj || o == (object) cmj) {
@@ -1396,23 +1460,132 @@ public class ChronoJump
 	 *  --------------------------------------------------------
 	 */
 	
-	//suitable for all runs not repetitive
-	private void on_normal_run_activate (object o, EventArgs args) 
-	{
-	}
-	
 	private void on_button_run_more_clicked (object o, EventArgs args) 
 	{
+		runsMoreWin = RunsMoreWindow.Show(app1);
+		runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
 	}
 	
 	private void on_button_run_last_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("button run last (not implemented)");
+		Console.WriteLine("button run last");
+		//currentRunType contains the last run type
+		if(currentRunType.Distance == 0) {
+			on_run_extra_activate(o, args);
+		} else {
+			on_normal_run_activate(o, args);
+		}
 	}
 	
+	//used from the dialogue "runs more"
+	private void on_more_runs_accepted (object o, EventArgs args) 
+	{
+		currentRunType = new RunType(
+				runsMoreWin.SelectedRunType,	//name
+				false,				//hasIntervals
+				runsMoreWin.SelectedDistance,	//distance
+				false,				//tracksLimited (false, because has not intervals)
+				0				//fixedValue (0, because has not intervals)
+				);
+				
+		if( currentRunType.Distance == 0 ) {
+			on_run_extra_activate(o, args);
+		} else {
+			on_normal_run_activate(o, args);
+		}
+	}
+	
+	//here comes the free runs (and every run with distance = 0 (undefined)
 	private void on_run_extra_activate (object o, EventArgs args) 
 	{
+		Console.WriteLine("run extra");
+	
+		if(o == (object) button_run_free || o == (object) menuitem_run_free) {
+			currentRunType = new RunType("Free");
+		}
+		// add others...
+		
+		runExtraWin = RunExtraWindow.Show(app1, currentRunType);
+		if( currentRunType.HasIntervals ) {
+			runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
+		} else {
+			runExtraWin.Button_accept.Clicked += new EventHandler(on_normal_run_activate);
+		}
 	}
+
+	//suitable for all runs not repetitive
+	private void on_normal_run_activate (object o, EventArgs args) 
+	{
+		if (o == (object) button_run_20m || o == (object) menuitem_20m) {
+			currentRunType = new RunType("20m");
+		} else if (o == (object) button_run_100m || o == (object) menuitem_100m) {
+			currentRunType = new RunType("100m");
+		} else if (o == (object) button_run_200m || o == (object) menuitem_200m) {
+			currentRunType = new RunType("200m");
+		} else if (o == (object) button_run_400m || o == (object) menuitem_400m) {
+			currentRunType = new RunType("400m");
+		} else if (o == (object) button_run_1000m || o == (object) menuitem_1000m) {
+			currentRunType = new RunType("1000m");
+		} else if (o == (object) button_run_2000m || o == (object) menuitem_2000m) {
+			currentRunType = new RunType("2000m");
+		}
+		// add others...
+		
+		//if distance can be always different in this jump,
+		//show values selected in runExtraWin
+		int myDistance = 0;		
+		if(currentRunType.Distance == 0) {
+			myDistance = runExtraWin.Distance;
+		} else {
+			myDistance = (int) currentRunType.Distance;
+		}
+		
+		//hide jumping (running) buttons
+		sensitiveGuiRunning();
+	
+		currentRun = new Run(currentPerson.UniqueID, currentSession.UniqueID, 
+				currentRunType.Name, myDistance, 
+				cp, progressBar, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred);
+		
+		if (simulated) {
+			currentRun.Simulate(rand);
+			on_run_finished(o, args);
+		}
+		else {
+			currentRun.Manage(o, args);
+			currentRun.FalseButtonFinished.Clicked += new EventHandler(on_run_finished);
+		}
+	}
+	
+	private void on_run_finished (object o, EventArgs args)
+	{
+		currentRun.FalseButtonFinished.Clicked -= new EventHandler(on_run_finished);
+		
+		if ( ! currentRun.Cancel ) {
+			lastEventWasJump = false;
+			lastRunIsInterval = false;
+
+			myTreeViewRuns.Add(currentPerson.Name, currentRun);
+		
+			if(createdStatsWin) {
+				statsWin.FillTreeView_stats(false, false);
+			}
+		
+			//change to page 2 of notebook if were in other
+			while(notebook.CurrentPage < 2) {
+				notebook.NextPage();
+			}
+			while(notebook.CurrentPage > 2) {
+				notebook.PrevPage();
+			}
+		}
+		
+		//unhide buttons that allow jumping, running
+		sensitiveGuiRunned();
+		//unhide buttons for delete last jump
+		sensitiveGuiYesJump();
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  RUNS EXECUTION (interval) ----------
@@ -1437,6 +1610,10 @@ public class ChronoJump
 	{
 	}
 
+	private void on_run_interval_accepted (object o, EventArgs args)
+	{
+		Console.WriteLine("run interval accepted (not implemented)");
+	}
 
 
 	/* ---------------------------------------------------------
@@ -1447,25 +1624,79 @@ public class ChronoJump
 	private void on_last_delete (object o, EventArgs args) {
 		Console.WriteLine("delete last (jump or run)");
 		
+		string warningString = "";
 		if(lastEventWasJump) {
-			if(lastJumpIsReactive) {
-				SqliteJump.RjDelete(currentJumpRj.UniqueID.ToString());
+			if (askDeletion) {
+				int myID = myTreeViewJumps.JumpSelectedID;
+				if(lastJumpIsReactive) {
+					warningString = Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"); 
+					myID = myTreeViewJumpsRj.JumpSelectedID;
+				}
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, 
+						Catalog.GetString("Do you want to delete selected jump?"), 
+						warningString, "jump", myID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_jump_delete_accepted);
 			} else {
-				SqliteJump.Delete(currentJump.UniqueID.ToString());
+				on_last_jump_delete_accepted(o, args);
 			}
-			button_last_delete.Sensitive = false ;
-
-			appbar2.Push( Catalog.GetString("Last jump deleted") );
-
-			if(lastJumpIsReactive) {
-				myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
+		} else {
+			if (askDeletion) {
+				int myID = myTreeViewRuns.RunSelectedID;
+				if (lastRunIsInterval) {
+					/*
+					warningString = Catalog.GetString("Atention: Deleting a intervalic sub-run will delete all the run"); 
+					myID = myTreeViewRunsInterval.JumpSelectedID;
+					*/
+				}
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, 
+						Catalog.GetString("Do you want to delete selected run?"), 
+						warningString, "run", myID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_run_delete_accepted);
 			} else {
-				myTreeViewJumps.DelJump(currentJump.UniqueID);
+				on_last_run_delete_accepted(o, args);
 			}
-		
-			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, false);
-			}
+		}
+	}
+
+	private void on_last_jump_delete_accepted (object o, EventArgs args) {
+		if(lastJumpIsReactive) {
+			SqliteJump.RjDelete(currentJumpRj.UniqueID.ToString());
+		} else {
+			SqliteJump.Delete(currentJump.UniqueID.ToString());
+		}
+		button_last_delete.Sensitive = false ;
+
+		appbar2.Push( Catalog.GetString("Last jump deleted") );
+
+		if(lastJumpIsReactive) {
+			myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
+		} else {
+			myTreeViewJumps.DelJump(currentJump.UniqueID);
+		}
+
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
+	}
+
+	private void on_last_run_delete_accepted (object o, EventArgs args) {
+		if (lastRunIsInterval) {
+			//SqliteRun.RjDelete(currentRunRj.UniqueID.ToString());
+		} else {
+			SqliteRun.Delete(currentRun.UniqueID.ToString());
+		}
+		button_last_delete.Sensitive = false ;
+
+		appbar2.Push( Catalog.GetString("Last run deleted") );
+
+		if (lastRunIsInterval) {
+			//myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
+		} else {
+			myTreeViewRuns.DelRun(currentRun.UniqueID);
+		}
+
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
 		}
 	}
 
@@ -1529,21 +1760,11 @@ public class ChronoJump
 		if (myTreeViewJumps.JumpSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				bool isRj = false;
-				confirmWinJump = ConfirmWindowJump.Show(app1, "Do you want to delete selected jump?", 
-						"", "jump", myTreeViewJumps.JumpSelectedID, isRj);
-				confirmWinJump.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected jump?", 
+						"", "jump", myTreeViewJumps.JumpSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
-				Console.WriteLine("accept delete selected jump");
-				SqliteJump.Delete(
-						(myTreeViewJumps.JumpSelectedID).ToString()
-						);
-				appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
-				myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
-				
-				if(createdStatsWin) {
-					statsWin.FillTreeView_stats(false, false);
-				}
+				on_delete_selected_jump_accepted(o, args);
 			}
 		}
 	}
@@ -1555,25 +1776,21 @@ public class ChronoJump
 		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				bool isRj = true;
-				confirmWinJump = ConfirmWindowJump.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
 						 Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"), 
-						 "jump", myTreeViewJumpsRj.JumpSelectedID, isRj);
-				confirmWinJump.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
+						 "jump", myTreeViewJumpsRj.JumpSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
-				Console.WriteLine("accept delete selected jump");
-				SqliteJump.RjDelete(myTreeViewJumpsRj.JumpSelectedID.ToString());
-				myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
-
-				if(createdStatsWin) {
-					statsWin.FillTreeView_stats(false, false);
-				}
+				on_delete_selected_jump_rj_accepted(o, args);
 			}
 		}
 	}
 	
 	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
+		
+		SqliteJump.Delete( (myTreeViewJumps.JumpSelectedID).ToString() );
+		
 		appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
 		myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
 
@@ -1584,9 +1801,10 @@ public class ChronoJump
 
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
-		treeview_jumps_rj_storeReset();
-		//fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
-		//FIXME:---------------- WORKS?
+		
+		SqliteJump.RjDelete(myTreeViewJumpsRj.JumpSelectedID.ToString());
+		
+		appbar2.Push( Catalog.GetString ( "Deleted reactive jump: " ) + myTreeViewJumpsRj.JumpSelectedID );
 		myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
 
 		if(createdStatsWin) {
@@ -1614,19 +1832,17 @@ public class ChronoJump
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
 		Console.WriteLine("Edit selected run (normal)");
-		/*
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumps.JumpSelectedID > 0) {
-			//3.- obtain the data of the selected jump
-			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.JumpSelectedID );
-			Console.WriteLine(myJump);
+		if (myTreeViewRuns.RunSelectedID > 0) {
+			//3.- obtain the data of the selected run
+			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.RunSelectedID );
+			Console.WriteLine(myRun);
 		
-			//4.- edit this jump
-			editJumpWin = EditJumpWindow.Show(app1, myJump);
-			editJumpWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_accepted);
+			//4.- edit this run
+			editRunWin = EditRunWindow.Show(app1, myRun);
+			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
 		}
-		*/
 	}
 	
 	/*
@@ -1645,18 +1861,19 @@ public class ChronoJump
 		}
 	}
 	*/
-	/*
-	private void on_edit_selected_jump_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected jump accepted");
+	
+	private void on_edit_selected_run_accepted (object o, EventArgs args) {
+		Console.WriteLine("edit selected run accepted");
 		
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, combo_jumps.Entry.Text);
+		treeview_runs_storeReset();
+		fillTreeView_runs(treeview_runs, treeview_runs_store, combo_runs.Entry.Text);
 		
-		if(statsAutomatic) {
-			fillTreeView_stats(false);
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
 		}
 	}
 	
+	/*
 	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
 		Console.WriteLine("edit selected jump RJ accepted");
 		
@@ -1668,33 +1885,24 @@ public class ChronoJump
 		}
 	}
 	*/
+
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
 		Console.WriteLine("delete selected run (normal)");
-		/*
+		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		if (myTreeViewJumps.JumpSelectedID > 0) {
+		if (myTreeViewRuns.RunSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				bool isRj = false;
-				confirmWinJump = ConfirmWindowJump.Show(app1, "Do you want to delete selected jump?", 
-						"", "jump", myTreeViewJumps.JumpSelectedID, isRj);
-				confirmWinJump.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected run?", 
+						"", "run", myTreeViewRuns.RunSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
 			} else {
-				Console.WriteLine("accept delete selected jump");
-				SqliteJump.Delete(
-						(myTreeViewJumps.JumpSelectedID).ToString()
-						);
-				appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
-				myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
-				
-				if(statsAutomatic) {
-					fillTreeView_stats(false);
-				}
+				on_delete_selected_run_accepted(o, args);
 			}
 		}
-		*/
 	}
+		
 	
 	/*
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
@@ -1704,11 +1912,10 @@ public class ChronoJump
 		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				bool isRj = true;
-				confirmWinJump = ConfirmWindowJump.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
 						 Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"), 
-						 "jump", myTreeViewJumpsRj.JumpSelectedID, isRj);
-				confirmWinJump.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
+						 "jump", myTreeViewJumpsRj.JumpSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				Console.WriteLine("accept delete selected jump");
 				SqliteJump.RjDelete(myTreeViewJumpsRj.JumpSelectedID.ToString());
@@ -1720,17 +1927,23 @@ public class ChronoJump
 			}
 		}
 	}
-	
-	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected jump");
-		appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
-		myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
+	*/
 
-		if(statsAutomatic) {
-			fillTreeView_stats(false);
+	private void on_delete_selected_run_accepted (object o, EventArgs args) {
+		Console.WriteLine("accept delete selected run");
+		
+		SqliteRun.Delete( (myTreeViewRuns.RunSelectedID).ToString() );
+		
+		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.RunSelectedID );
+	
+		myTreeViewRuns.DelRun(myTreeViewRuns.RunSelectedID);
+
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
 		}
 	}
 
+	/*
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
 		treeview_jumps_rj_storeReset();
@@ -1868,6 +2081,8 @@ public class ChronoJump
 		//don't allow repeat last jump
 		button_last.Sensitive = false;
 		button_rj_last.Sensitive = false;
+		button_run_last.Sensitive = false;
+		button_run_interval_last.Sensitive = false;
 
 		menuitem_edit_selected_jump.Sensitive = false;
 		menuitem_delete_selected_jump.Sensitive = false;
@@ -1907,6 +2122,8 @@ public class ChronoJump
 		//don't allow repeat last jump
 		button_last.Sensitive = false;
 		button_rj_last.Sensitive = false;
+		button_run_last.Sensitive = false;
+		button_run_interval_last.Sensitive = false;
 
 		menuitem_edit_selected_jump.Sensitive = true;
 		menuitem_delete_selected_jump.Sensitive = true;
@@ -1950,6 +2167,23 @@ public class ChronoJump
 		button_last_delete.Sensitive = false;
 	}
     
+	private void sensitiveGuiRunning () {
+		//hbox
+		hbox_jumps.Sensitive = false;
+		hbox_jumps_rj.Sensitive = false;
+		
+		//menu
+		menu_jumps.Sensitive = false;
+		menu_runs.Sensitive = false;
+		
+		//cancel, finish jump, delete last
+		button_cancel.Sensitive = true;
+		if (currentRunType.HasIntervals) {
+			button_finish.Sensitive = true;
+		}
+		button_last_delete.Sensitive = false;
+	}
+    
 	private void sensitiveGuiJumped () {
 		Console.WriteLine("GuiJumped");
 		//hbox
@@ -1977,4 +2211,35 @@ public class ChronoJump
 		button_cancel.Sensitive = false;
 		button_finish.Sensitive = false;
 	}
+	
+	private void sensitiveGuiRunned () {
+		Console.WriteLine("GuiRunned");
+		//hbox
+		hbox_jumps.Sensitive = true;
+		hbox_jumps_rj.Sensitive = true;
+
+		//allow repeat last run (check also if it wasn't cancelled)
+		if(currentRunType.HasIntervals) {
+			/*
+			if(! currentRunInterval.Cancel) {
+				button_rj_last.Sensitive = true;
+				button_last.Sensitive = false;
+			}
+			*/
+		} else {
+			if(! currentRun.Cancel) {
+				button_run_last.Sensitive = true;
+				button_run_interval_last.Sensitive = false;
+			}
+		}
+		
+		//menu
+		menu_jumps.Sensitive = true;
+		menu_runs.Sensitive = true;
+		
+		//cancel, finish jump
+		button_cancel.Sensitive = false;
+		button_finish.Sensitive = false;
+	}
+
 }

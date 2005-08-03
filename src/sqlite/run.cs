@@ -70,23 +70,20 @@ class SqliteRun : Sqlite
 	 * Run class methods
 	 */
 	
-	public static Run Insert(int personID, int sessionID, string type, double distance, double time, string description)
+	public static int Insert(int personID, int sessionID, string type, double distance, double time, string description)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO run" + 
 				"(uniqueID, personID, sessionID, type, distance, time, description)" +
 				" VALUES (NULL, "
 				+ personID + ", " + sessionID + ", '" + type + "', "
-				+ distance + ", " + time + "', '" + description + "')" ;
+				+ distance + ", " + time + ", '" + description + "')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 		dbcon.Close();
 
-		Run myRun = new Run(myLast, personID, sessionID,
-				type, distance, time, description );
-		
-		return myRun;
+		return myLast;
 	}
 	
 	public static RunInterval InsertInterval(int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, int tracks, string description )
@@ -230,20 +227,21 @@ class SqliteRun : Sqlite
 		dbcmd.CommandText = "SELECT * FROM run WHERE uniqueID == " + uniqueID;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
+
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
-
+		
 		Run myRun = new Run(
-				Convert.ToInt32(reader[0]),
-				Convert.ToInt32(reader[1]),
-				Convert.ToInt32(reader[2]),
-				reader[3].ToString(),
+				Convert.ToInt32(reader[0]),	//uniqueID
+				Convert.ToInt32(reader[1]),	//personID
+				Convert.ToInt32(reader[2]),	//sessionID
+				reader[3].ToString(),		//type
 				Convert.ToDouble( reader[4].ToString() ),
 				Convert.ToDouble( reader[5].ToString() ),
-				reader[7].ToString() //description
+				reader[6].ToString() //description
 				);
 	
 		return myRun;
@@ -306,6 +304,7 @@ class SqliteRun : Sqlite
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "Delete FROM run WHERE uniqueID == " + uniqueID;
+		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}

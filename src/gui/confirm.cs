@@ -28,7 +28,7 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 
 
-public class ConfirmWindowJump
+public class ConfirmWindowJumpRun
 {
 	[Widget] Gtk.Window confirm_window;
 	[Widget] Gtk.Label label1;
@@ -39,10 +39,9 @@ public class ConfirmWindowJump
 	
 	string table;
 	int uniqueID;
-	bool isRj;
-	static ConfirmWindowJump ConfirmWindowJumpBox;
+	static ConfirmWindowJumpRun ConfirmWindowJumpRunBox;
 	
-	public ConfirmWindowJump (Gtk.Window parent, string text1, string text2, string table, int uniqueID, bool isRj)
+	public ConfirmWindowJumpRun (Gtk.Window parent, string text1, string text2, string table, int uniqueID)
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
@@ -54,48 +53,35 @@ public class ConfirmWindowJump
 		label2.Text = text2;
 		this.table = table;
 		this.uniqueID = uniqueID;
-		this.isRj = isRj;
 	}
 
-	static public ConfirmWindowJump Show (Gtk.Window parent, string text1, string text2, string table, int uniqueID, bool isRj)
+	static public ConfirmWindowJumpRun Show (Gtk.Window parent, string text1, string text2, string table, int uniqueID)
 	{
-		if (ConfirmWindowJumpBox == null) {
-			ConfirmWindowJumpBox = new ConfirmWindowJump(parent, text1, text2, table, uniqueID, isRj);
+		if (ConfirmWindowJumpRunBox == null) {
+			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(parent, text1, text2, table, uniqueID);
 		}
-		ConfirmWindowJumpBox.confirm_window.Show ();
+		ConfirmWindowJumpRunBox.confirm_window.Show ();
 		
-		return ConfirmWindowJumpBox;
+		return ConfirmWindowJumpRunBox;
 	}
 	
 	protected void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		ConfirmWindowJumpBox.confirm_window.Hide();
-		ConfirmWindowJumpBox = null;
+		ConfirmWindowJumpRunBox.confirm_window.Hide();
+		ConfirmWindowJumpRunBox = null;
 	}
 	
 	protected void on_delete_selected_jump_delete_event (object o, EventArgs args)
 	{
-		ConfirmWindowJumpBox.confirm_window.Hide();
-		ConfirmWindowJumpBox = null;
+		ConfirmWindowJumpRunBox.confirm_window.Hide();
+		ConfirmWindowJumpRunBox = null;
 	}
 	
 
 	protected void on_button_accept_clicked (object o, EventArgs args)
 	{
-		if (table == "jump") {
-			if (isRj) {
-				SqliteJump.RjDelete(uniqueID.ToString());
-			} else {
-				SqliteJump.Delete(uniqueID.ToString());
-			}
-		} else if (table == "person") {
-		} else if (table == "session") {
-		} else {
-			Console.WriteLine ("Error, table: {0}", table);
-		}
-		
-		ConfirmWindowJumpBox.confirm_window.Hide();
-		ConfirmWindowJumpBox = null;
+		ConfirmWindowJumpRunBox.confirm_window.Hide();
+		ConfirmWindowJumpRunBox = null;
 	}
 	
 	public Button Button_accept 
@@ -108,7 +94,7 @@ public class ConfirmWindowJump
 		}
 	}
 
-	~ConfirmWindowJump() {}
+	~ConfirmWindowJumpRun() {}
 	
 }
 

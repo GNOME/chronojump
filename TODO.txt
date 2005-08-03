@@ -19,11 +19,7 @@ graphs:
 
 show better info in the RJ jump edit
 
-preference for wait until finish jump in RJ limited by time or don't wait
-
 edit jump need the hability of change the DJ fall and the SJ+ weight
-
-make an edit session and a delete session, the class, probably heredate from sessionload. The widget win is another
 
 - Capacitat de salt Total: (SJ+100%) + (sj-sj+100%) + (cmj-sj) + (abk-cmj) + (dj-abk)
 (altura DJ ?). Aixo funciona, pero no agafa la linia si falta algun salt:
@@ -34,4 +30,3 @@ sqlite> SELECT j1.personID, person.name, (j1.tv + j2.tv-j1.tv + j3.tv-j2.tv + j4
 	we can check the lines we need, and execute, and if a line it's not found, try to discover wich values are needed
 	graf this
 
-editCurrentSession  (edit delete sessions (delete it's jumpers and jumps))

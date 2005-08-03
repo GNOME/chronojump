@@ -270,7 +270,9 @@ public class SessionLoadWindow {
 		
 		createTreeView(treeview_session_load);
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof (string), typeof (string), typeof (string) );
+				typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)
+				//, typeof(string)
+				);
 		treeview_session_load.Model = store;
 		fillTreeView(treeview_session_load,store);
 
@@ -295,9 +297,11 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Jumpers"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Simple Jumps"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Reactive Jumps"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Simple Runs"), new CellRendererText(), "text", count++);
+		//tv.AppendColumn ( Catalog.GetString ("Runs interval"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	
@@ -313,6 +317,8 @@ public class SessionLoadWindow {
 					myStringFull[5],	//number of jumpers x session
 					myStringFull[6],	//number of jumps x session
 					myStringFull[7],	//number of jumpsRj x session
+					myStringFull[8],	//number of runs x session
+					//myStringFull[9],	//number of runsInterval x session
 					myStringFull[4]		//description of session
 					);
 		}	

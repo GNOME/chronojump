@@ -31,7 +31,11 @@ class Sqlite
 {
 	protected static SqliteConnection dbcon;
 	protected static SqliteCommand dbcmd;
-	static string sqlFile = "chronojump.db";
+	//static string sqlFile = "chronojump.db";
+	//
+	public static string home = Environment.GetEnvironmentVariable("HOME")+"/.chronojump";
+	public static string sqlFile = home + "/chronojump.db";
+	
 	static string connectionString = "URI=file:" + sqlFile ;
 
 	public static void Connect()
@@ -45,6 +49,11 @@ class Sqlite
 	public static void CreateFile()
 	{
 		Console.WriteLine("creating file...");
+		
+		if(!Directory.Exists(home)) {
+			Directory.CreateDirectory (home);
+		}
+		
 		dbcon.Open();
 		dbcon.Close();
 	}
@@ -52,6 +61,7 @@ class Sqlite
 	public static bool CheckTables()
 	{
 		return (File.Exists(sqlFile));
+
 	}
 	
 	public static void CreateTables()
@@ -93,6 +103,7 @@ class Sqlite
 		SqlitePreferences.insert ("weightStatsPercent", "True");
 		SqlitePreferences.insert ("askDeletion", "True");
 		SqlitePreferences.insert ("heightPreferred", "False");
+		SqlitePreferences.insert ("metersSecondsPreferred", "True");
 
 		dbcon.Close();
 	}

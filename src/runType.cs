@@ -45,7 +45,33 @@ public class RunType
 			distance 	= 20;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
-		} else if(name == "20m10times") {
+		} else if(name == "100m") {
+			hasIntervals 	= false; //if it's a runInterval
+			distance 	= 100;
+			tracksLimited 	= false;
+			fixedValue 	= 0;
+		} else if(name == "200m") {
+			hasIntervals 	= false; //if it's a runInterval
+			distance 	= 200;
+			tracksLimited 	= false;
+			fixedValue 	= 0;
+		} else if(name == "400m") {
+			hasIntervals 	= false; //if it's a runInterval
+			distance 	= 400;
+			tracksLimited 	= false;
+			fixedValue 	= 0;
+		} else if(name == "1000m") {
+			hasIntervals 	= false; //if it's a runInterval
+			distance 	= 1000;
+			tracksLimited 	= false;
+			fixedValue 	= 0;
+		} else if(name == "2000m") {
+			hasIntervals 	= false; //if it's a runInterval
+			distance 	= 2000;
+			tracksLimited 	= false;
+			fixedValue 	= 0;
+		} 
+		else if(name == "20m10times") {
 			hasIntervals 	= true; //if it's a runInterval
 			distance 	= 20;
 			tracksLimited 	= true;
@@ -79,6 +105,10 @@ public class RunType
 		get { return name; }
 	}
 	
+	public double Distance
+	{
+		get { return distance; }
+	}
 	
 	public bool HasIntervals
 	{

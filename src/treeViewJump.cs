@@ -247,11 +247,12 @@ public class TreeViewJumps
 	{
 		TreeIter iter = new TreeIter();
 		treeview.Model.GetIterFirst ( out iter ) ;
-		string iterJumperString;
+		//string iterJumperString;
 		int jumpIDColumn = obtainJumpIDColumn();
-		
+	
 		do {
-			iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();
+			//iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();
+			//Console.WriteLine("iterJumperString: {0}", iterJumperString);
 			if( treeview.Model.IterHasChild(iter) ) {
 				treeview.Model.IterChildren (out iter, iter);
 				do {
@@ -510,7 +511,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData2[count++] = Util.TrimDecimals( newJump.TcAvg.ToString(), pDN );
 			myData2[count++] = Util.TrimDecimals( newJump.TvAvg.ToString(), pDN );
 			myData2[count++] = myWeight;
-			myData2[count++] = "";
+			myData2[count++] = myFall;
 			if(showHeight) {
 				myData2[count++] = Util.TrimDecimals( obtainHeight(newJump.TvAvg.ToString()), pDN );
 			}

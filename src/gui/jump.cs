@@ -80,8 +80,8 @@ public class EditJumpWindow
 		label_tv_value.Text = myJump.Tv.ToString();
 		label_tc_value.Text = myJump.Tc.ToString();
 	
-		label_fall_value.Text = "0";
-		label_weight_value.Text = "0";
+		label_fall_value.Text = myJump.Fall.ToString();
+		label_weight_value.Text = myJump.Weight;
 		
 		if(myJump.TypeHasWeight) {
 			label_weight_value.Text = myJump.Weight.ToString();
@@ -89,8 +89,6 @@ public class EditJumpWindow
 		if (myJump.TypeHasFall) {
 			label_fall_value.Text = myJump.Fall.ToString();
 		} 
-
-		this.type = myJump.Type;
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(myJump.Description);
@@ -193,14 +191,9 @@ public class EditJumpRjWindow
 		label_tv_value.Text = myJump.Tv.ToString();
 		label_tc_value.Text = myJump.Tc.ToString();
 	
-		label_fall_value.Text = "0";
-		label_weight_value.Text = "0";
-		label_limited_value.Text = "0";
-		
 		label_limited_value.Text = myJump.Limited.ToString();
-		//future: RJ with weight and/or fall
-		//label_fall_value.Text = myJump.Fall.ToString();
-		//label_weight_value.Text = myJump.Weight.ToString();
+		label_fall_value.Text = myJump.Fall.ToString();
+		label_weight_value.Text = myJump.Weight.ToString();
 
 		this.type = myJump.Type;
 
@@ -564,7 +557,7 @@ public class JumpsMoreWindow
 		JumpsMoreWindowBox = null;
 	}
 	
-	void on_jumps_more_delete_event (object o, EventArgs args)
+	void on_jumps_runs_more_delete_event (object o, EventArgs args)
 	{
 		JumpsMoreWindowBox.jumps_runs_more.Hide();
 		JumpsMoreWindowBox = null;
@@ -785,7 +778,7 @@ public class JumpsRjMoreWindow
 		JumpsRjMoreWindowBox = null;
 	}
 	
-	void on_jumps_more_delete_event (object o, EventArgs args)
+	void on_jumps_runs_more_delete_event (object o, EventArgs args)
 	{
 		JumpsRjMoreWindowBox.jumps_runs_more.Hide();
 		JumpsRjMoreWindowBox = null;

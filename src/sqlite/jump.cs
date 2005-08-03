@@ -84,6 +84,7 @@ class SqliteJump : Sqlite
 				"(uniqueID, personID, sessionID, type, tv, tc, fall, weight, description)" +
 				" VALUES (NULL, "
 				+ personID + ", " + sessionID + ", '" + type + "', "
+				//+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + fall + ", '" 
 				+ tv + ", " + tc + ", " + fall + ", '" 
 				+ weight + "', '" + description + "')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());

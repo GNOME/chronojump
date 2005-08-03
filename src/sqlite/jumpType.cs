@@ -314,15 +314,13 @@ class SqliteJumpType : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 
-		bool startIn = true;
+		bool hasFall = true;
 		while(reader.Read()) {
 			if(reader[0].ToString() == "1") {
-				startIn = false;
-				Console.WriteLine("found type: startIn");
+				hasFall = false;
 			} else {
-				Console.WriteLine("found type: NO startIn");
 			}
 		}
-		return startIn;
+		return hasFall;
 	}
 }	

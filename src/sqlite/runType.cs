@@ -52,7 +52,12 @@ class SqliteRunType : Sqlite
 		string [] iniRunTypes = {
 			//name:distance:description
 			"Free:0:variable distance running", 
-			"20m:20:run 20 meters"
+			"20m:20:run 20 meters",
+			"100m:100:run 100 meters",
+			"200m:200:run 200 meters",
+			"400m:400:run 400 meters",
+			"1000m:1000:run 1000 meters",
+			"2000m:2000:run 2000 meters"
 		};
 		foreach(string myRunType in iniRunTypes) {
 			RunTypeInsert(myRunType, true);

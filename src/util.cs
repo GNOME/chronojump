@@ -181,6 +181,19 @@ public class Util
 		}
 		return text.Substring(i);
 	}
-	
+
+	//in ubuntu (not in debian) found problems between the ',' and the '.'
+	//in mono and sqlite, try to solve with this
+	//but do it later (when found a global solution)
+	//now continue solving errors writing:
+	//export LANG=C
+	//before executing chronojump
+	//it's a pity because we loose translations
+	public static string ConvertToPoint (double myDouble)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myDouble.ToString());
+		myStringBuilder.Replace(",", ".");
+		return myStringBuilder.ToString();
+	}
 }
 

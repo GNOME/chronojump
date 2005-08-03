@@ -132,7 +132,6 @@ public class PersonRecuperateWindow {
 	//puts a value in private member selected
 	private void on_treeview_person_recuperate_cursor_changed (object o, EventArgs args)
 	{
-		Console.WriteLine("cursor_changed");
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
@@ -145,8 +144,6 @@ public class PersonRecuperateWindow {
 			//allow clicking button_recuperate
 			button_recuperate.Sensitive = true;
 		}
-
-		Console.WriteLine (selected);
 	}
 	
 	void on_button_close_clicked (object o, EventArgs args)
@@ -181,8 +178,6 @@ public class PersonRecuperateWindow {
 		{
 			int myInt = SqlitePersonSession.Insert(Convert.ToInt32(selected), sessionID);
 			currentPerson = SqlitePersonSession.PersonSelect(selected);
-
-			Console.WriteLine(currentPerson.Name);
 
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
 					typeof (string), typeof(string), typeof(string) );
@@ -259,13 +254,11 @@ public class PersonAddWindow {
 	void on_radiobutton_man_toggled (object o, EventArgs args)
 	{
 		sex = "M";
-		Console.WriteLine("sex: {0}", sex);
 	}
 	
 	void on_radiobutton_woman_toggled (object o, EventArgs args)
 	{
 		sex = "F";
-		Console.WriteLine("sex: {0}", sex);
 	}
 	
 	static public PersonAddWindow Show (Gtk.Window parent, int sessionID)
@@ -299,7 +292,6 @@ public class PersonAddWindow {
 		bool personExists = SqlitePersonSession.PersonExists (Util.RemoveTilde(entry1.Text));
 		if(personExists) {
 			string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
-			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
 			currentPerson = new Person (entry1.Text, sex, dateFull, (int) spinbutton_height.Value,
@@ -378,13 +370,11 @@ public class PersonModifyWindow
 	void on_radiobutton_man_toggled (object o, EventArgs args)
 	{
 		sex = "M";
-		Console.WriteLine("sex: {0}", sex);
 	}
 	
 	void on_radiobutton_woman_toggled (object o, EventArgs args)
 	{
 		sex = "F";
-		Console.WriteLine("sex: {0}", sex);
 	}
 	
 	//static public PersonModifyWindow Show (Gtk.Window parent, int sessionID)
@@ -445,7 +435,6 @@ public class PersonModifyWindow
 		bool personExists = SqlitePersonSession.PersonExistsAndItsNotMe (uniqueID, Util.RemoveTilde(entry1.Text));
 		if(personExists) {
 			string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
-			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
 			//separate by '/' for not confusing with the ':' separation between the other values

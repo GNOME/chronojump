@@ -1,5 +1,26 @@
 CHANGELOG:
-	
+
+3 aug 2005
+	runs code implemented:
+		edit run, delete run (and delete last jump&run integration) (closes task: 265)
+		runs more
+		run last
+		runextra
+		normalRun (closes task: 264)
+		load session show number of runs
+		added buttons for 100m, 200m, 400m, 1000m, 2000m
+
+	other new code:
+		database in home directory (closes task: 279)
+		delete last check askPending, and better code for all jumps deletion
+
+	bugs:
+		fixed bug in deleting a Rj jump
+		fixed bug in not showing fall and weight in RJ
+		fixed bug in not showing fall in fis Rj of a jumper
+
+	minor changes
+
 28 jul 2005
 	delete a person from a session and delete it's jumps in this session (closes task: 272)
 	session edit and delete (closes task: 278)

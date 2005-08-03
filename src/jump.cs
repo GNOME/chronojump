@@ -528,7 +528,7 @@ public class JumpRj : Jump
 		bool nowTv = false;
 		
 		if( ! TypeHasFall ) {
-			//is start in TV, write a "-1" in TC
+			//if start in TV, write a "-1" in TC
 			nowTv = true;
 			tc = -1;
 			tcString = tc.ToString();

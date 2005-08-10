@@ -1,5 +1,12 @@
 CHANGELOG:
 
+	web created by create_web_chronojump.pl perl script, allows mantain
+	lots of pages in different languages.
+
+	bugs: (this were solved in chronojump 0.2)
+		fixed bug in assigning initial values in run (platform)
+		fixed bug in show speed in km/h
+
 3 aug 2005
 	runs code implemented:
 		edit run, delete run (and delete last jump&run integration) (closes task: 265)

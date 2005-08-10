@@ -1,0 +1,21 @@
+        <h4>Instalación</h4>
+
+	<!--
+	Hasta el momento no se ha liberado ninguna versión ejecutable de ChronoJump. -->
+	<b>Ya</b> puede probar ChronoJump&nbsp;<b>0.2</b> en cualquier PC siguiendo las instrucciones de este correo: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-August/000059.html">Probar ChronoJump 0.2 en Windows desde mono-live-cd o en Linux</a>.
+	<p>
+	Si usted se considera un <b>usuario&nbsp;avanzado</b>, puede probar el programa desde un sistema operativo GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, y bajándose las fuentes del CVS de chronojump:
+	<ol>
+	<li><tt>cvs -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (cuando se le pida un password pulse 'enter').
+	<li><tt>cvs -z3 -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
+	<li>ejecutar <tt>./chronojump.exe</tt> o compilar su propia version con <tt>make</tt>.
+	</ol>
+
+	<p>
+	Puede obtener ayuda apuntándose a las listas de correo que encontrará en el apartado <a href="index_es.html">introducción</a>.
+	<p>
+	El cronometrador es un prototipo a la espera de que se prepare una versión. Cuando esté finalizado se podrá adquirir por un precio inferior a 90 euros o se podrá fabricar si se desea por unos 30 euros.
+	<p>
+	Si desea conocer el avance del proyecto, puede consultar el <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">archivo&nbsp;changelog</a> (clic en el número a la derecha de "Revision"), y los <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">archivos de la lista chronojump-developers</a>.
+
+

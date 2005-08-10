@@ -318,7 +318,6 @@ class SqliteJumpType : Sqlite
 		while(reader.Read()) {
 			if(reader[0].ToString() == "1") {
 				hasFall = false;
-			} else {
 			}
 		}
 		return hasFall;

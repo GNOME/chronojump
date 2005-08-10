@@ -30,18 +30,23 @@ public class TreeViewRuns
 	protected bool sortByType;
 	protected TreeStore store;
 	protected Gtk.TreeView treeview;
-	protected static int pDN; //prefsDigitsNumber;
+	//protected static int pDN; //prefsDigitsNumber;
+	protected int pDN; //prefsDigitsNumber;
+	//protected static bool metersSecondsPreferred;
+	protected bool metersSecondsPreferred;
 	protected static string allRunsName = "All runs";
 	
 	public TreeViewRuns ()
 	{
 	}
 	
-	public TreeViewRuns (Gtk.TreeView treeview, bool sortByType, int newPrefsDigitsNumber)
+	public TreeViewRuns (Gtk.TreeView treeview, bool sortByType, int newPrefsDigitsNumber, bool metersSecondsPreferred)
 	{
 		this.treeview = treeview;
 		this.sortByType = sortByType;
-		pDN = newPrefsDigitsNumber;
+		//pDN = newPrefsDigitsNumber;
+		this.pDN = newPrefsDigitsNumber;
+		this.metersSecondsPreferred = metersSecondsPreferred;
 
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
@@ -87,7 +92,8 @@ public class TreeViewRuns
 
 		string tempRunner = ":"; //one value that's not possible
 	
-		string myType ;
+		string myType;
+		double speed;
 
 		string [] runTypes = SqliteRunType.SelectRunTypes("", false);
 		
@@ -100,6 +106,14 @@ public class TreeViewRuns
 				iter = store.AppendValues (myStringFull[0]);
 				tempRunner = myStringFull[0];
 			}
+			
+			if(metersSecondsPreferred) {
+				speed = Convert.ToDouble( myStringFull[5].ToString() ) /
+					Convert.ToDouble( myStringFull[6].ToString() );
+			} else {
+				speed = ( Convert.ToDouble( myStringFull[5].ToString() ) /
+					Convert.ToDouble( myStringFull[6].ToString() ) ) * 3.6;
+			}
 
 			//... but if we selected one type of run and this it's not the type, don't show
 			if(filter == allRunsName || filter == myStringFull[4]) {
@@ -108,13 +122,7 @@ public class TreeViewRuns
 				
 				store.AppendValues (iter, 
 						myType, 
-						Util.TrimDecimals( 
-							(
-							Convert.ToDouble( myStringFull[5].ToString() )
-							/
-							Convert.ToDouble( myStringFull[6].ToString() )
-							).ToString(), 
-							pDN ),	//speed
+						Util.TrimDecimals( speed.ToString(), pDN ),
 						Util.TrimDecimals( myStringFull[5].ToString(), pDN ), //distance
 						Util.TrimDecimals( myStringFull[6].ToString(), pDN ), //time
 						myStringFull[1] //runUniqueID (not shown) 

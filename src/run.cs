@@ -116,15 +116,15 @@ public class Run
 		//you can start ON or OFF the platform, 
 		//we record always de TV (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
-			appbar.Push( Catalog.GetString("You are OUT, RUN when prepared!!") );
-
-			loggedState = States.ON;
-			startIn = false;
-		} else {
 			appbar.Push( Catalog.GetString("You are IN, RUN when prepared!!") );
 
-			loggedState = States.OFF;
+			loggedState = States.ON;
 			startIn = true;
+		} else {
+			appbar.Push( Catalog.GetString("You are OUT, RUN when prepared!!") );
+
+			loggedState = States.OFF;
+			startIn = false;
 		}
 
 		//reset progressBar

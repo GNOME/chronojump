@@ -1,0 +1,22 @@
+<h4><b>ChronoJump</b> is a complete multiplatform system for measurement, management and statistics of the jump events. </h4>
+
+Chronojump uses a contact platform suitable for two events (in-platform, out-platform), and also a chronometer printed circuit designed <i>ad-hoc</i> in order to obtain precise and trustworthy measurements.
+<p>
+The flight time of a jump is an indicator of the elevation of the Center of gravity of the jumper (as long as the starting and arrival position are the same).
+<p>
+<img src="images/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
+<br><tt>Scheme of management software (ChronoJump) + chronometer (Chronopic) + platform of contacts.</tt>
+<p>
+ChronoJump could also be used for timing races even with intervals and for the measurement of the time of reaction (check <a href="features.html">Features</a>).
+<p>
+We  invite you to participate in the development of ChronoJump contributing with ideas, requests of functionalities, as well as translation, corrections of errors, programming...
+<p>
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<tr><th>Mailing lists</th><th>description</th><th>links</th></tr>
+<tr bgcolor="#e6e6fa"><td>chronojump-developers</td><td>in order to collaborate in the development of ChronoJump</td><td><a href="https://lists.software-libre.org/cgi-bin/mailman/listinfo/chronojump-developers">subscribe</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">see&nbsp;files</a></td></tr>
+<tr><td>chronojump-general_es</td><td>discussion on ChronoJump, in Spanish</td><td><a href="https://lists.software-libre.org/cgi-bin/mailman/listinfo/chronojump-general_es">subscribe</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/">see&nbsp;files</a></td></tr>
+<tr bgcolor="#e6e6fa"><td>chronojump-general_en</td><td>discussion on ChronoJump, in English</td><td><a href="https://lists.software-libre.org/cgi-bin/mailman/listinfo/chronojump-general_en">subscribe</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-general_en/">see&nbsp;files</a></td></tr>
+<tr><td>chronojump-releases</td><td>announcements of new versions. low traffic</td><td><a href="https://lists.software-libre.org/cgi-bin/mailman/listinfo/chronojump-releases">subscribe</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-releases/">see&nbsp;files</a></td></tr>
+<tr bgcolor="#e6e6fa"><td>chronojump-web-translat</td><td>coordination of translations of the Web. Collaborate translating the Web to other languages!</td><td><a href="http://lists.software-libre.org/mailman/listinfo/chronojump-web-translat">subscribe</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-web-translat/">see&nbsp;files</a></td></tr>
+</table>
+

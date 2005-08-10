@@ -1,0 +1,46 @@
+<h4>Características del software de gestión</h4>
+
+ChronoJump permite registrar cualquier salto con las repeticiones que se desee, iniciando desde dentro o fuera de la plataforma, registrando independientemente tiempos de contacto y tiempos de vuelo, así como carga extra, altura de caída, limitación por saltos o tiempo, y descripciones de técnica.
+<p>
+ChronoJump usa una pequeña base de datos <a href="http://www.sqlite.org/">Sqlite</a> que le capacita para vincular saltos a sujetos y sesiones y realizar todo tipo de comparaciones entre estas entidades.
+
+<p>
+Es posible y sencillo crear nuevos tipos de saltos con las variables descritas anteriormente.
+
+<p>
+Es multiplataforma; Al estar programado en C# usando Mono, debería funcionar correctamente en GNU/Linux, MacOSX, Windows, ... hasta el momento sólo se ha probado en GNU/Linux.
+
+<p>
+Incorpora las siguientes estadísticas (siempre que no se especifique lo contrario, se permite mostrar medias, valores máximos, o todos los valores de una única sesión o entre un número indeterminado de sesiones (longitudinal), y con distinción de género)
+<ul>
+<li> Resumen de una o varias sesiones
+<li> Estudio de un único sujeto
+<li> Tiempo de vuelo de saltos simples
+<li> Tiempo de contacto, tiempo de vuelo e índice entre ambos en saltos con caída y en saltos repetitivos (en breve se implementará también la velocidad de despegue).
+<li> Potencia en saltos repetitivos
+<li> Evolución de saltos repetitivos (únicamente en una sesión)
+<li> Índice de elasticidad y de utilizacion de brazos
+<li> ...(la modularidad de ChronoJump facilita la inclusión de nuevos estadísticos)
+</ul>
+
+Graficación de todos los estadísticos descritos mediante la librería gráfica <a href="http://netcontrols.org/nplot/">NPlot</a>.
+
+<p>
+Exportación de saltos a hojas de cálculo (formato CSV).
+
+<h4>Características del cronometrador</h4>
+ El Cronometrador: Chronopic, está basado en la tarjeta Entrenadora Skypic (consultar documentación), y ofrece una precisión de una milésima de segundo según se ha podido comprobar. <tt>[Pendiente de detallar cómo se ha comprobado]</tt>.
+ <p> Algunos sistemas de cronometrado del salto usan únicamente un ordenador personal conectado a la plataforma. Los ordenadores modernos son multitarea, característica que impide garantizar una medición fiable debido a que pueden estar realizando cualquier otra tarea en aquél momento.
+ <p>
+ <h4>Características de la plataforma</h4>
+
+ La plataforma de contactos puede ser fabricada como se explica en el apartado <a href="construction_es.html">Construcción</a>.
+
+ <h4>Características futuras</h4>
+
+ En breve se desea implementar también las siguientes funciones:
+ <ul> <li>Esquema para la disposición de 2 plataformas para cronometrar un circuito de agilidad o velocidad. En este caso se recomienda que cada plataforma esté constituída por un número de conjuntos varilla inferior al convencional. También se apunta la posibilidad de usar 1 plataforma (circuito circular) o más de 2 (sesión con diferentes "estaciones"). <li>Se apunta la posibilidad de sustituir las plataformas de contactos por células fotoeléctricas. El método de fabricación de células fotoeléctricas aún no está descrito, si tiene información al respecto, rogamos su colaboración. <li>Zumbador para medición de tiempo de reacción. Un dispositivo instalado en el propio cronometrador producirá un evento sonoro y se cronometrará el tiempo que sucede hasta que se produce un cambio de envento en la plataforma. Entre muchas utilidades puede ser usado para el control de la Course&nbsp;Navette.
+ <li>Posibilidad de modificar la sensibilidad del cronometrador a cada salto.
+ <li>Si desea otras características, no dude en pedirlo en las listas de correo.
+ </ul>
+

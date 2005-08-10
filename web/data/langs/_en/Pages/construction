@@ -1,0 +1,15 @@
+<h4>Construction to obtaining the chronometer</h4>
+<tt>[Pending]</tt>
+
+
+<h4>Construction of the contact platform</h4>
+The instrument that allows us to know if the subject is in the air or in the ground can be a platform of contacts or a system of photoelectric cells. We propose the following document for the manufacturing of the contact platform:
+
+<ul> <li><a href="construction_contact_platform_es.html">"Instructions for the construction of the contact platform used for the measurement of the jumping capacity"</a> (spanish).
+<li>Also check the <a href="construction_contact_platform_comments_es.html">comments of the contact platform manufacture</a> (spanish). <li>Before the ChronoJump project, the projects <b>Salta</b> and <b>Gsalta</b> were created (nowadays no long existing), in these others the chronometer did not exist, and platform-PC connection was produced by the parallel port. Although <b>this method is not adapted to ChronoJump</b> it is included for those interested: <a href="construction_contact_platform_parallel_port_es.html">information of connection by parallel port</a> (spanish).
+</ul>
+As an alternative, another possibility of construction of the contacts platform has been described, but <b>it has not been proven or adapted to ChronoJump</b>:
+<ul> <li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Development of the Platform Prototype of  a software, for Evaluation of adapted Vertical Jump in video game carpet"</a> (spanish).
+</ul>
+As far as <b>photoelectric&nbsp;cells</b> , one has not documented so far its possibilities of use, price... if you have any information and if you wish to collaborate, join the  Chronojump&nbsp;developers mailing list (mailing lists information can be found at <a href="index.html">ChronoJump introduction webpage</a>).
+

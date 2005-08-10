@@ -471,7 +471,7 @@ public class ChronoJump
 		if(checkbutton_sort_by_type.Active) {
 			sortByType = true;
 		}
-		myTreeViewRuns = new TreeViewRuns( tv, sortByType, prefsDigitsNumber );
+		myTreeViewRuns = new TreeViewRuns( tv, sortByType, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	private void fillTreeView_runs (Gtk.TreeView tv, TreeStore store, string filter) {
@@ -509,7 +509,7 @@ public class ChronoJump
 		if(checkbutton_sort_by_type.Active) {
 			sortByType = true;
 		}
-		myTreeViewRuns = new TreeViewRuns( treeview_runs, sortByType, prefsDigitsNumber );
+		myTreeViewRuns = new TreeViewRuns( treeview_runs, sortByType, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	/* ---------------------------------------------------------
@@ -1039,7 +1039,6 @@ public class ChronoJump
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
 		Console.WriteLine("Activated");
 		statsWin = StatsWindow.Show(app1, currentSession, 
-				//prefsDigitsNumber, weightStatsPercent, heightPreferred, metersSecondsPreferred);
 				prefsDigitsNumber, weightStatsPercent, heightPreferred);
 		createdStatsWin = true;
 		statsWin.InitializeSession(currentSession);
@@ -1151,7 +1150,6 @@ public class ChronoJump
 			statsWin.PrefsDigitsNumber = prefsDigitsNumber;
 			statsWin.WeightStatsPercent = weightStatsPercent;
 			statsWin.HeightPreferred = heightPreferred;
-			//statsWin.HeightPreferred = metersSecondsPreferred;
 			
 			statsWin.FillTreeView_stats(false, true);
 		}

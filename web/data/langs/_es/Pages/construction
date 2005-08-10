@@ -1,0 +1,20 @@
+<h4>Construcción-obtención de cronómetro</h4>
+<tt>[Pendiente]</tt>
+
+
+<h4>Construcción de la plataforma de contactos</h4>
+
+El instrumento que permite saber si el sujeto está en el aire o en el suelo puede ser una plataforma de contactos o un sistema de células fotoeléctricas. Se propone el siguiente documento para la fabricación de la plataforma de contactos:
+
+<ul>
+<li><a href="construction_contact_platform_es.html">"Instrucciones para la construcción de una plataforma de contactos para la medición de la capacidad de salto/s"</a>.
+<li>Consulte también los <a href="construction_contact_platform_comments_es.html">comentarios de fabricación de plataforma de contactos</a>.
+<li>Antes del proyecto ChronoJump, se crearon los proyectos <b>Salta</b> y <b>Gsalta</b> (hoy día desaparecidos), en éstos no existía cronómetro, y la conexión plataforma-PC se producía por el puerto paralelo. Aunque este método <b>no se adapta a ChronoJump</b> se incluye para quienes estén interesados: <a href="construction_contact_platform_parallel_port_es.html">información de conexión por puerto paralelo</a>.
+</ul>
+
+Alternativamente se ha descrito otra posibilidad de construcción de plataforma de contactos que <b>no ha sido probada o adaptada a ChronoJump</b>:
+
+<ul> <li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Desarrollo de Prototipo de Plataforma y Programa de Computación, para Evaluación de Salto Vertical adaptado de Tapete de Videojuego"</a>
+</ul>
+ En cuanto a <b>células&nbsp;fotoeléctricas</b>, no se ha documentado aún sus posibilidades de uso, precio, ... si dispone de información y desea colaborar, apúntese a la lista Chronojump&nbsp;Developers (información sobre listas de correo en la <a href="index_es.html">página de introducción a ChronoJump</a>).
+

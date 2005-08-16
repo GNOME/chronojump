@@ -76,6 +76,13 @@ public class JumpType
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
+		} else if(name == "RJ(unlimited)") {
+			startIn 	= true;
+			hasWeight 	= false;
+			isRepetitive 	= true;
+			jumpsLimited 	= true;	//will finish in a concrete jump, not in a concrete second
+			fixedValue 	= -1;	//don't ask for limit of jumps or seconds
+			isPredefined	= true;
 		} else if(name == "triple jump") {
 			startIn 	= false;
 			hasWeight 	= false;

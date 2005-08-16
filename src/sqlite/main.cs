@@ -94,7 +94,7 @@ class Sqlite
 		SqlitePersonSession.createTable();
 		
 		SqlitePreferences.createTable();
-		SqlitePreferences.insert ("databaseVersion", "0.3");
+		SqlitePreferences.insert ("databaseVersion", "0.4");
 		SqlitePreferences.insert ("digitsNumber", "7");
 		SqlitePreferences.insert ("showHeight", "True");
 		SqlitePreferences.insert ("showInitialSpeed", "True");

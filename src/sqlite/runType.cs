@@ -51,7 +51,7 @@ class SqliteRunType : Sqlite
 	{
 		string [] iniRunTypes = {
 			//name:distance:description
-			"Free:0:variable distance running", 
+			"Custom:0:variable distance running", 
 			"20m:20:run 20 meters",
 			"100m:100:run 100 meters",
 			"200m:200:run 200 meters",
@@ -76,6 +76,7 @@ class SqliteRunType : Sqlite
 					//this distance will be the same in all tracks
 			"tracksLimited INT, " +  //1 limited by tracks (intervals); 0 limited by time
 			"fixedValue INT, " +   //0: no fixed value; 3: 3 intervals or seconds 
+			"unlimited INT, " +		
 			"description TEXT )";		
 		dbcmd.ExecuteNonQuery();
 	}
@@ -84,10 +85,13 @@ class SqliteRunType : Sqlite
 	protected static void initializeTableRunIntervalType()
 	{
 		string [] iniRunTypes = {
-			//name:distance:tracksLimited:fixedValue:description
-			"20m10times:20:1:10:Run 10 times a 20m distance",
-			"7m30seconds:7:0:30:Make max laps in 30 seconds",
-			"20m endurance:20:0:0:Continue running in 20m distance"
+			//name:distance:tracksLimited:fixedValue:unlimited:description
+			"byLaps:0:1:0:0:Run n laps x distance",
+			"byTime:0:0:0:0:Make max laps in n seconds",
+			"unlimited:0:0:0:1:Continue running in n distance",	//suppose limited by time
+			"20m10times:20:1:10:0:Run 10 times a 20m distance",	//only in more runs
+			"7m30seconds:7:0:30:0:Make max laps in 30 seconds",	//only in more runs
+			"20m endurance:20:0:0:1:Continue running in 20m distance"	//only in more runs
 		};
 		foreach(string myRunType in iniRunTypes) {
 			RunIntervalTypeInsert(myRunType, true);
@@ -123,11 +127,11 @@ class SqliteRunType : Sqlite
 			dbcon.Open();
 		}
 		dbcmd.CommandText = "INSERT INTO runIntervalType" + 
-				"(uniqueID, name, distance, tracksLimited, fixedValue, description)" +
+				"(uniqueID, name, distance, tracksLimited, fixedValue, unlimited, description)" +
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, distance
-				+ myStr[2] + ", " + myStr[3] + ", '" +	//tracksLimited, fixedValue
-				+ myStr[4] + "')" ;	//description
+				+ myStr[2] + ", " + myStr[3] + ", " +	//tracksLimited, fixedValue
+				+ myStr[4] + ", '" + myStr[5] +"')" ;	//unlimited, description
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
@@ -220,7 +224,8 @@ class SqliteRunType : Sqlite
 						reader[2].ToString() + ":" + 	//distance
 						reader[3].ToString() + ":" + 	//tracksLimited
 						reader[4].ToString() + ":" + 	//fixedValue
-						reader[5].ToString() 		//description
+						reader[5].ToString() + ":" + 	//unlimited
+						reader[6].ToString() 		//description
 					    );
 			}
 			count ++;

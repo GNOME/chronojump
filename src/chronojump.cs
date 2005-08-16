@@ -39,12 +39,14 @@ public class ChronoJump
 	[Widget] Gtk.Box hbox_combo_jumps;
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_runs;
+	[Widget] Gtk.Box hbox_combo_runs_interval;
 	[Widget] Gtk.Box hbox_combo_person_current;
 	[Widget] Gtk.Box hbox_jumps;
 	[Widget] Gtk.Box hbox_jumps_rj;
 	[Widget] Gtk.Combo combo_jumps;
 	[Widget] Gtk.Combo combo_jumps_rj;
 	[Widget] Gtk.Combo combo_runs;
+	[Widget] Gtk.Combo combo_runs_interval;
 	[Widget] Gtk.Combo combo_person_current;
 
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type;
@@ -57,10 +59,17 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_edit_selected_jump_rj;
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
+	
+	[Widget] Gtk.CheckButton checkbutton_sort_by_type_run;
+	[Widget] Gtk.CheckButton checkbutton_sort_by_type_run_interval;
 	[Widget] Gtk.MenuItem menuitem_edit_selected_run;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_run;
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_delete_selected_run;
+	[Widget] Gtk.MenuItem menuitem_edit_selected_run_interval;
+	[Widget] Gtk.MenuItem menuitem_delete_selected_run_interval;
+	[Widget] Gtk.Button button_edit_selected_run_interval;
+	[Widget] Gtk.Button button_delete_selected_run_interval;
 
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
@@ -77,13 +86,17 @@ public class ChronoJump
 	[Widget] Gtk.Button button_more;
 	[Widget] Gtk.Button button_rj_j;
 	[Widget] Gtk.Button button_rj_t;
-	[Widget] Gtk.Button button_run_free;
+	[Widget] Gtk.Button button_rj_unlimited;
+	[Widget] Gtk.Button button_run_custom;
 	[Widget] Gtk.Button button_run_20m;
 	[Widget] Gtk.Button button_run_100m;
 	[Widget] Gtk.Button button_run_200m;
 	[Widget] Gtk.Button button_run_400m;
 	[Widget] Gtk.Button button_run_1000m;
 	[Widget] Gtk.Button button_run_2000m;
+	[Widget] Gtk.Button button_run_interval_by_laps;
+	[Widget] Gtk.Button button_run_interval_by_time;
+	[Widget] Gtk.Button button_run_interval_unlimited;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
@@ -113,13 +126,17 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem jump_type_add;
 	[Widget] Gtk.MenuItem rj_j;
 	[Widget] Gtk.MenuItem rj_t;
-	[Widget] Gtk.MenuItem menuitem_run_free;
+	[Widget] Gtk.MenuItem rj_unlimited;
+	[Widget] Gtk.MenuItem menuitem_run_custom;
 	[Widget] Gtk.MenuItem menuitem_20m;
 	[Widget] Gtk.MenuItem menuitem_100m;
 	[Widget] Gtk.MenuItem menuitem_200m;
 	[Widget] Gtk.MenuItem menuitem_400m;
 	[Widget] Gtk.MenuItem menuitem_1000m;
 	[Widget] Gtk.MenuItem menuitem_2000m;
+	[Widget] Gtk.MenuItem menuitem_run_interval_by_laps;
+	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
+	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
 
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
@@ -148,8 +165,8 @@ public class ChronoJump
 	private TreeStore treeview_runs_store;
 	private TreeViewRuns myTreeViewRuns;
 	//runs interval
-	//private TreeStore treeview_runs_interval_store;
-	//private TreeViewRunsInterval myTreeViewRunsInterval;
+	private TreeStore treeview_runs_interval_store;
+	private TreeViewRunsInterval myTreeViewRunsInterval;
 
 
 	private static string allJumpsName = Catalog.GetString("All jumps");
@@ -171,7 +188,7 @@ public class ChronoJump
 	private static Jump currentJump;
 	private static JumpRj currentJumpRj;
 	private static Run currentRun;
-	//private static RunInterval currentRunInterval;
+	private static RunInterval currentRunInterval;
 	private static bool lastEventWasJump; //if last event was Jump (true) or Run (false)
 	private static bool lastJumpIsReactive; //if last Jump is reactive or not
 	private static bool lastRunIsInterval; //if last run is interval or not (obvious) 
@@ -197,7 +214,7 @@ public class ChronoJump
 	//RunsIntervalMoreWindow runsIntervalMoreWin;
 	//RunTypeAddWindow runTypeAddWin;
 	EditRunWindow editRunWin;
-	//EditRunRjWindow editRunRjWin;
+	EditRunIntervalWindow editRunIntervalWin;
 
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	StatsWindow statsWin;
@@ -260,6 +277,7 @@ public class ChronoJump
 		createComboJumps();
 		createComboJumpsRj();
 		createComboRuns();
+		createComboRunsInterval();
 		createComboSujetoCurrent();
 		createdStatsWin = false;
 
@@ -468,7 +486,7 @@ public class ChronoJump
 	private void createTreeView_runs (Gtk.TreeView tv) {
 		//myTreeViewRuns is a TreeViewRuns instance
 		bool sortByType = false;
-		if(checkbutton_sort_by_type.Active) {
+		if(checkbutton_sort_by_type_run.Active) {
 			sortByType = true;
 		}
 		myTreeViewRuns = new TreeViewRuns( tv, sortByType, prefsDigitsNumber, metersSecondsPreferred );
@@ -477,7 +495,7 @@ public class ChronoJump
 	private void fillTreeView_runs (Gtk.TreeView tv, TreeStore store, string filter) {
 		string [] myRuns;
 		
-		if(checkbutton_sort_by_type.Active) {
+		if(checkbutton_sort_by_type_run.Active) {
 			myRuns = SqliteRun.SelectAllNormalRuns(
 					currentSession.UniqueID, "ordered_by_type");
 		} else {
@@ -506,7 +524,7 @@ public class ChronoJump
 	private void treeview_runs_storeReset() {
 		myTreeViewRuns.RemoveColumns();
 		bool sortByType = false;
-		if(checkbutton_sort_by_type.Active) {
+		if(checkbutton_sort_by_type_run.Active) {
 			sortByType = true;
 		}
 		myTreeViewRuns = new TreeViewRuns( treeview_runs, sortByType, prefsDigitsNumber, metersSecondsPreferred );
@@ -518,65 +536,56 @@ public class ChronoJump
 	 */
 
 	private void createTreeView_runs_interval (Gtk.TreeView tv) {
-		/*
-		//myTreeViewRuns is a TreeViewRuns instance
+		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
 		bool sortByType = false;
-		if(checkbutton_sort_by_type.Active) {
+		if(checkbutton_sort_by_type_run_interval.Active) {
 			sortByType = true;
 		}
-		myTreeViewRuns = new TreeViewRuns( tv, sortByType, prefsDigitsNumber );
-		*/
+		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, sortByType, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	private void fillTreeView_runs_interval (Gtk.TreeView tv, TreeStore store, string filter) {
-		/*
 		string [] myRuns;
 		
-		if(checkbutton_sort_by_type.Active) {
-			myRuns = SqliteRun.SelectAllNormalRuns(
+		if(checkbutton_sort_by_type_run_interval.Active) {
+			myRuns = SqliteRun.SelectAllIntervalRuns(
 					currentSession.UniqueID, "ordered_by_type");
 		} else {
-			myRuns = SqliteRun.SelectAllNormalRuns(
+			myRuns = SqliteRun.SelectAllIntervalRuns(
 					currentSession.UniqueID, "ordered_by_time");
 		}
-		myTreeViewRuns.Fill(myRuns, filter);
-		*/
+		myTreeViewRunsInterval.Fill(myRuns, filter);
 	}
 	
 	private void on_checkbutton_sort_by_type_run_interval_clicked(object o, EventArgs args) {
-		/*
-		string myText = combo_runs.Entry.Text;
+		string myText = combo_runs_interval.Entry.Text;
 			
-		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
-		treeview_runs.ExpandAll();
-		*/
+		treeview_runs_interval_storeReset();
+		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, myText);
+		treeview_runs_interval.ExpandAll();
 	}
 	
 	private void on_button_tv_run_interval_collapse_clicked (object o, EventArgs args) {
-		/*
-		treeview_runs.CollapseAll();
-		*/
+		treeview_runs_interval.CollapseAll();
 	}
 	
 	private void on_button_tv_run_interval_optimal_clicked (object o, EventArgs args) {
+		treeview_runs_interval.CollapseAll();
+		myTreeViewRunsInterval.ExpandOptimal();
 	}
 	
 	private void on_button_tv_run_interval_expand_clicked (object o, EventArgs args) {
-		/*
-		treeview_runs.ExpandAll();
-		*/
+		treeview_runs_interval.ExpandAll();
 	}
 	
 	private void treeview_runs_interval_storeReset() {
-		/*
-		myTreeViewRuns.RemoveColumns();
+		myTreeViewRunsInterval.RemoveColumns();
 		bool sortByType = false;
-		if(checkbutton_sort_by_type.Active) {
+		if(checkbutton_sort_by_type_run_interval.Active) {
 			sortByType = true;
 		}
-		myTreeViewRuns = new TreeViewRuns( treeview_runs, sortByType, prefsDigitsNumber );
-		*/
+		myTreeViewRunsInterval = new TreeViewRunsInterval( treeview_runs_interval, sortByType, 
+				prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	/* ---------------------------------------------------------
@@ -622,6 +631,20 @@ public class ChronoJump
 		hbox_combo_runs.ShowAll();
 		
 		combo_runs.Sensitive = false;
+	}
+
+	private void createComboRunsInterval() {
+		combo_runs_interval = new Combo ();
+		combo_runs_interval.PopdownStrings = 
+			SqliteRunType.SelectRunIntervalTypes(allRunsName, true); //without filter, only select name
+		
+		combo_runs_interval.DisableActivate ();
+		combo_runs_interval.Entry.Changed += new EventHandler (on_combo_runs_interval_changed);
+
+		hbox_combo_runs_interval.PackStart(combo_runs_interval, true, true, 0);
+		hbox_combo_runs_interval.ShowAll();
+		
+		combo_runs_interval.Sensitive = false;
 	}
 
 	private void createComboSujetoCurrent() {
@@ -735,11 +758,32 @@ public class ChronoJump
 		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
 
 		if (myText == allRunsName) {
-			checkbutton_sort_by_type.Sensitive = true ;
+			checkbutton_sort_by_type_run.Sensitive = true ;
 		} else {
-			checkbutton_sort_by_type.Sensitive = false ;
+			checkbutton_sort_by_type_run.Sensitive = false ;
 			//expand all rows if a runfilter is selected:
 			treeview_runs.ExpandAll();
+		}
+	}
+
+	private void on_combo_runs_interval_changed(object o, EventArgs args) {
+		string myText = combo_runs_interval.Entry.Text;
+
+		//show the edit-delete selected runs buttons:
+		menuitem_edit_selected_run_interval.Sensitive = true;
+		menuitem_delete_selected_run_interval.Sensitive = true;
+		button_edit_selected_run_interval.Sensitive = true;
+		button_delete_selected_run_interval.Sensitive = true;
+
+		treeview_runs_interval_storeReset();
+		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, myText);
+
+		if (myText == allRunsName) {
+			checkbutton_sort_by_type_run_interval.Sensitive = true ;
+		} else {
+			checkbutton_sort_by_type_run_interval.Sensitive = false ;
+			//expand all rows if a runfilter is selected:
+			myTreeViewRunsInterval.ExpandOptimal();
 		}
 	}
 
@@ -815,8 +859,8 @@ public class ChronoJump
 			treeview_runs_storeReset();
 			fillTreeView_runs(treeview_runs, treeview_runs_store, allRunsName);
 			//load the runs_interval treeview
-			//treeview_jumps_storeReset();
-			//fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
+			treeview_runs_interval_storeReset();
+			fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, allRunsName);
 
 
 			//show hidden widgets
@@ -876,8 +920,8 @@ public class ChronoJump
 		treeview_runs_storeReset();
 		fillTreeView_runs(treeview_runs, treeview_runs_store, allRunsName);
 		//load the runs_interval treeview
-		//treeview_jumps_storeReset();
-		//fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
+		treeview_runs_interval_storeReset();
+		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, allRunsName);
 		
 
 		//show hidden widgets
@@ -1137,13 +1181,11 @@ public class ChronoJump
 		treeview_runs_storeReset();
 		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
 
-		//... and recreate the treeview_runs_rj
-		/*
-		myText = combo_runs.Entry.Text;
-		createTreeView_runs (treeview_runs);
-		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
-		*/
+		//... and recreate the treeview_runs_interval
+		myText = combo_runs_interval.Entry.Text;
+		createTreeView_runs_interval (treeview_runs_interval);
+		treeview_runs_interval_storeReset();
+		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, myText);
 
 		
 		if(createdStatsWin) {
@@ -1348,6 +1390,7 @@ public class ChronoJump
 	private void on_rj_activate (object o, EventArgs args) {
 		if(o == (object) button_rj_j || o == (object) rj_j) 
 		{
+			/*
 			currentJumpType = new JumpType(
 				"RJ(j)",
 				false,		//startIn
@@ -1356,10 +1399,13 @@ public class ChronoJump
 				true,		//jumpsLimited
 				0		//limitValue
 				);
+			*/
+			currentJumpType = new JumpType("RJ(j)");
 			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
 			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 		} else if(o == (object) button_rj_t || o == (object) rj_t) 
 		{
+			/*
 			currentJumpType = new JumpType(
 				"RJ(t)",
 				false,		//startIn
@@ -1368,19 +1414,43 @@ public class ChronoJump
 				false,		//jumpsLimited
 				0		//limitValue
 				);
+			*/
+			currentJumpType = new JumpType("RJ(t)");
 			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
 			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
+		} else if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) 
+		{
+			/*
+			currentJumpType = new JumpType(
+				"RJ(unlimited)",
+				true,		//startIn
+				false,		//hasWeight
+				true,		//isRepetitive
+				true,		//jumpsLimited
+				-1		//limitValue	//don't ask for limit of jumps or seconds
+				);
+			*/
+			currentJumpType = new JumpType("RJ(unlimited)");
+
+			//in this jump type, don't ask for limit of jumps or seconds
+			on_rj_accepted(o, args);
 		} else {
 		}
 	}
 
 	private void on_rj_accepted (object o, EventArgs args) 
 	{
-		double myLimit;
-		if(currentJumpType.FixedValue > 0) {
-			myLimit = currentJumpType.FixedValue;
+		double myLimit = 0;
+		
+		//if it's a unlimited interval jump, put -1 as limit value
+		if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) {
+			myLimit = -1;
 		} else {
-			myLimit = jumpExtraWin.Limited;
+			if(currentJumpType.FixedValue > 0) {
+				myLimit = currentJumpType.FixedValue;
+			} else {
+				myLimit = jumpExtraWin.Limited;
+			}
 		}
 
 		string myWeight = "";
@@ -1493,13 +1563,13 @@ public class ChronoJump
 		}
 	}
 	
-	//here comes the free runs (and every run with distance = 0 (undefined)
+	//here comes the unlimited runs (and every run with distance = 0 (undefined)
 	private void on_run_extra_activate (object o, EventArgs args) 
 	{
 		Console.WriteLine("run extra");
 	
-		if(o == (object) button_run_free || o == (object) menuitem_run_free) {
-			currentRunType = new RunType("Free");
+		if(o == (object) button_run_custom || o == (object) menuitem_run_custom) {
+			currentRunType = new RunType("Custom");
 		}
 		// add others...
 		
@@ -1529,7 +1599,7 @@ public class ChronoJump
 		}
 		// add others...
 		
-		//if distance can be always different in this jump,
+		//if distance can be always different in this run,
 		//show values selected in runExtraWin
 		int myDistance = 0;		
 		if(currentRunType.Distance == 0) {
@@ -1590,27 +1660,117 @@ public class ChronoJump
 	 *  --------------------------------------------------------
 	 */
 
-	//suitable for all runs repetitive
-	private void on_normal_run_interval_activate (object o, EventArgs args) 
-	{
-	}
-	
 	private void on_button_run_interval_more_clicked (object o, EventArgs args) 
 	{
+		Console.WriteLine("button run interval more (not implemented)");
 	}
 	
 	private void on_button_run_interval_last_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("button run interval last (not implemented)");
+		on_run_interval_activate(o, args);
 	}
 	
-	private void on_run_interval_extra_activate (object o, EventArgs args) 
+	//suitable for all runs repetitive
+	private void on_run_interval_activate (object o, EventArgs args) 
 	{
+		if(o == (object) button_run_interval_by_laps || o == (object) menuitem_run_interval_by_laps) 
+		{	
+			currentRunType = new RunType("byLaps");
+		} else if(o == (object) button_run_interval_by_time || o == (object) menuitem_run_interval_by_time) 
+		{
+			currentRunType = new RunType("byTime");
+		} else if(o == (object) button_run_interval_unlimited || o == (object) menuitem_run_interval_unlimited) 
+		{
+			currentRunType = new RunType("unlimited");
+		}
+			
+		runExtraWin = RunExtraWindow.Show(app1, currentRunType);
+		runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
 	}
-
+	
 	private void on_run_interval_accepted (object o, EventArgs args)
 	{
-		Console.WriteLine("run interval accepted (not implemented)");
+		Console.WriteLine("run interval accepted");
+		
+		//if distance can be always different in this run,
+		//show values selected in runExtraWin
+		int distanceInterval = 0;		
+		if(currentRunType.Distance == 0) {
+			distanceInterval = runExtraWin.Distance;
+		} else {
+			distanceInterval = (int) currentRunType.Distance;
+		}
+		
+		double myLimit = 0;
+		//if it's a unlimited interval run, put -1 as limit value
+		//if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) {
+		if(currentRunType.Unlimited) {
+			myLimit = -1;
+		} else {
+			if(currentRunType.FixedValue > 0) {
+				myLimit = currentRunType.FixedValue;
+			} else {
+				myLimit = runExtraWin.Limited;
+			}
+		}
+
+
+		//hide running buttons
+		sensitiveGuiRunning();
+		
+		currentRunInterval = new RunInterval(currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
+				distanceInterval, myLimit, currentRunType.TracksLimited, 
+				cp, progressBar, appbar2, app1, prefsDigitsNumber);
+		
+		
+		//suitable for limited by tracks and time
+		if(simulated) {
+			currentRunInterval.Simulate(rand);
+			on_run_interval_finished(o, args);
+		}
+		else {
+			currentRunInterval.Manage(o, args);
+			currentRunInterval.FalseButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
+		}
+	}
+
+	private void on_run_interval_finished (object o, EventArgs args) 
+	{
+		//currentJumpRj.FalseButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
+		
+		//if ( ! currentJumpRj.Cancel ) {
+			lastEventWasJump = false;
+			lastRunIsInterval = true;
+
+			//if user clicked in finish earlier
+			/*
+			if(currentJumpRj.Finish) {
+				currentJumpRj.Jumps = Util.GetNumberOfJumps(currentJumpRj.TvString);
+				if(currentJumpRj.JumpsLimited) {
+					currentJumpRj.Limited = currentJumpRj.Jumps.ToString() + "J";
+				} else {
+					currentJumpRj.Limited = Util.GetTotalTime(
+							currentJumpRj.TcString, currentJumpRj.TvString) + "T";
+				}
+			}
+			*/
+			myTreeViewRunsInterval.Add(currentPerson.Name, currentRunInterval);
+
+			if(createdStatsWin) {
+				statsWin.FillTreeView_stats(false, false);
+			}
+
+			//change to page 4 of notebook if were in other
+			if(notebook.CurrentPage < 4) {
+				notebook.NextPage();
+			}
+		//}
+		
+		sensitiveGuiYesJump();
+		//unhide buttons that allow jumping, running
+		sensitiveGuiRunned();
+		//unhide buttons for delete last jump
+		sensitiveGuiYesJump();
 	}
 
 
@@ -1824,7 +1984,7 @@ public class ChronoJump
 	}
 
 	/* ---------------------------------------------------------------------
-	 * ----------------  RUNS (no interval) EDIT, DELETE, RUN TYPE ADD -----
+	 * ----------------  RUNS 	 EDIT, DELETE, RUN TYPE ADD ------------
 	 *  --------------------------------------------------------------------
 	 */
 	
@@ -1843,22 +2003,20 @@ public class ChronoJump
 		}
 	}
 	
-	/*
-	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args) {
-		Console.WriteLine("Edit selected jump (RJ)");
+	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
+		Console.WriteLine("Edit selected run interval");
 		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
-			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.JumpSelectedID );
-			Console.WriteLine(myJump);
+		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
+		if (myTreeViewRunsInterval.RunSelectedID > 0) {
+			//3.- obtain the data of the selected run
+			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.RunSelectedID );
+			Console.WriteLine(myRun);
 		
-			//4.- edit this jump
-			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump);
-			editJumpRjWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
+			//4.- edit this run
+			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun);
+			editRunIntervalWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_interval_accepted);
 		}
 	}
-	*/
 	
 	private void on_edit_selected_run_accepted (object o, EventArgs args) {
 		Console.WriteLine("edit selected run accepted");
@@ -1871,18 +2029,16 @@ public class ChronoJump
 		}
 	}
 	
-	/*
-	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected jump RJ accepted");
+	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
+		Console.WriteLine("edit selected run interval accepted");
 		
-		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, combo_jumps_rj.Entry.Text);
+		treeview_runs_interval_storeReset();
+		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, combo_runs_interval.Entry.Text);
 		
-		if(statsAutomatic) {
-			fillTreeView_stats(false);
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
 		}
 	}
-	*/
 
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
 		Console.WriteLine("delete selected run (normal)");
@@ -1902,30 +2058,22 @@ public class ChronoJump
 	}
 		
 	
-	/*
-	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
-		Console.WriteLine("delete selected (RJ) jump");
+	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
+		Console.WriteLine("delete selected run interval");
 		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
+		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
+		if (myTreeViewRunsInterval.RunSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
-						 Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"), 
-						 "jump", myTreeViewJumpsRj.JumpSelectedID);
-				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected run?"), 
+						 Catalog.GetString("Atention: Deleting a Intervalic subrun will delete all the run"), 
+						 "run", myTreeViewJumpsRj.JumpSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
 			} else {
-				Console.WriteLine("accept delete selected jump");
-				SqliteJump.RjDelete(myTreeViewJumpsRj.JumpSelectedID.ToString());
-				myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
-
-				if(statsAutomatic) {
-					fillTreeView_stats(false);
-				}
+				on_delete_selected_run_interval_accepted(o, args);
 			}
 		}
 	}
-	*/
 
 	private void on_delete_selected_run_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected run");
@@ -1941,19 +2089,19 @@ public class ChronoJump
 		}
 	}
 
-	/*
-	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected jump");
-		treeview_jumps_rj_storeReset();
-		//fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store);
-		//FIXME:---------------- WORKS?
-		myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
+	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
+		Console.WriteLine("accept delete selected run");
+		
+		SqliteRun.IntervalDelete( (myTreeViewRunsInterval.RunSelectedID).ToString() );
+		
+		appbar2.Push( Catalog.GetString ( "Deleted interval run: " ) + myTreeViewRunsInterval.RunSelectedID );
+	
+		myTreeViewRunsInterval.DelRun(myTreeViewRunsInterval.RunSelectedID);
 
-		if(statsAutomatic) {
-			fillTreeView_stats(false);
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
 		}
 	}
-	*/
 	
 	private void on_run_type_add_activate (object o, EventArgs args) {
 		Console.WriteLine("Add new run type");
@@ -1968,23 +2116,6 @@ public class ChronoJump
 		//updateComboJumpsRj();
 	}
 
-	/* ---------------------------------------------------------------------
-	 * ----------------  RUNS (no interval) EDIT, DELETE, RUN TYPE ADD -----
-	 *  --------------------------------------------------------------------
-	 */
-	
-	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
-		Console.WriteLine("Edit selected run interval");
-	}
-
-	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
-		Console.WriteLine("delete selected run interval");
-	}
-
-	private void on_run_interval_type_add_activate (object o, EventArgs args) {
-		Console.WriteLine("Add new run interval type");
-	}
-	
 
 		
 	/* ---------------------------------------------------------
@@ -2099,6 +2230,7 @@ public class ChronoJump
 		combo_jumps.Sensitive = false;
 		combo_jumps_rj.Sensitive = false;
 		combo_runs.Sensitive = false;
+		combo_runs_interval.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -2140,6 +2272,7 @@ public class ChronoJump
 		combo_jumps.Sensitive = true;
 		combo_jumps_rj.Sensitive = true;
 		combo_runs.Sensitive = true;
+		combo_runs_interval.Sensitive = true;
 	}
 	
 	private void sensitiveGuiYesJump () {
@@ -2218,12 +2351,10 @@ public class ChronoJump
 
 		//allow repeat last run (check also if it wasn't cancelled)
 		if(currentRunType.HasIntervals) {
-			/*
 			if(! currentRunInterval.Cancel) {
-				button_rj_last.Sensitive = true;
-				button_last.Sensitive = false;
+				button_run_interval_last.Sensitive = true;
+				button_run_last.Sensitive = false;
 			}
-			*/
 		} else {
 			if(! currentRun.Cancel) {
 				button_run_last.Sensitive = true;

@@ -54,14 +54,14 @@ class SqliteRun : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
-			"type TEXT, " + //in a future probably there are some types of rj
+			"type TEXT, " +
 			"distanceTotal FLOAT, " +
 			"timeTotal FLOAT, " +
 			"distanceInterval FLOAT, " +
 			"intervalTimesString TEXT, " +
-			"tracks INT, " +
-			"description TEXT) ";
-			//"limited TEXT) "; //for RJ, "11J" or "11S" (11 Jumps, 11 seconds)
+			"tracks FLOAT, " +	//float because if we limit by time (runType tracksLimited false), we do n.nn tracks
+			"description TEXT, " +
+			"limited TEXT) ";
 		dbcmd.ExecuteNonQuery();
 	}
 
@@ -86,25 +86,23 @@ class SqliteRun : Sqlite
 		return myLast;
 	}
 	
-	public static RunInterval InsertInterval(int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, int tracks, string description )
+	public static int InsertInterval(int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited )
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO runInterval " + 
-				"(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description )" +
+				"(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited )" +
 				"VALUES (NULL, " +
 				personID + ", " + sessionID + ", '" + type + "', " +
-				distanceTotal + ", " + timeTotal + ", " + distanceInterval + ", " + 
-				tracks + ", '" + description + "')" ;
+				distanceTotal + ", " + timeTotal + ", " + distanceInterval + ", '" + 
+				intervalTimesString + "', " +
+				tracks + ", '" + description + "', '" + limited + "')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 
-		RunInterval myRun = new RunInterval (myLast, personID, sessionID, type, distanceTotal, timeTotal,
-				distanceInterval, intervalTimesString, tracks, description );
-
 		dbcon.Close();
 
-		return myRun;
+		return myLast;
 	}
 
 	public static string[] SelectAllNormalRuns(int sessionID, string ordered_by) 
@@ -203,7 +201,8 @@ class SqliteRun : Sqlite
 					reader[7].ToString() + ":" + 	//distanceInterval
 					reader[8].ToString() + ":" + 	//intervalTimesString
 					reader[9].ToString() + ":" + 	//tracks
-					reader[10].ToString() 	 	//description
+					reader[10].ToString() + ":" + 	//description
+					reader[11].ToString() 	 	//limited
 					);
 			count ++;
 		}
@@ -269,8 +268,9 @@ class SqliteRun : Sqlite
 				Convert.ToDouble(reader[5]),	//timeTotal
 				Convert.ToDouble(reader[6]),	//distanceInterval
 				reader[7].ToString(),		//intervalTimesString
-				Convert.ToInt32(reader[8]),		//tracks
-				reader[9].ToString() 		//description
+				Convert.ToDouble(reader[8]),		//tracks
+				reader[9].ToString(), 		//description
+				reader[10].ToString() 		//limited
 				);
 
 		return myRun;

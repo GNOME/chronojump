@@ -314,10 +314,49 @@ public class RunInterval : Run
 	double timeTotal;
 	double distanceInterval;
 	string intervalTimesString;
-	int tracks;
+	double tracks; //double because if we limit by time (runType tracksLimited false), we do n.nn tracks
+	string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
+	double limitAsDouble;	//-1 for non limited (unlimited repetitive run until "finish" is clicked)
+	bool tracksLimited;
+	bool firstIntervalValue;
+	double countContactTime;
 
+	//for finishing earlier from chronojump.cs
+	private bool finish;
+	
+	//run execution
+	public RunInterval(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
+			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
+			int pDN)
+	{
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.type = type;
+		this.distanceInterval = distanceInterval;
+		this.limitAsDouble = limitAsDouble;
+		this.tracksLimited = tracksLimited;
 
-	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, int tracks, string description)
+		if(tracksLimited) {
+			this.limited = limitAsDouble.ToString() + "R"; //'R'uns (don't put 'T'racks for not confusing with 'T'ime)
+		} else {
+			this.limited = limitAsDouble.ToString() + "T";
+			timeTotal = limitAsDouble;
+		}
+		
+		
+		this.cp = cp;
+		this.progressBar = progressBar;
+		this.appbar = appbar;
+		this.app = app;
+
+		this.pDN = pDN;
+	
+		falseButtonFinished = new Gtk.Button();
+	}
+	
+	
+	//after inserting database (SQL)
+	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -329,14 +368,263 @@ public class RunInterval : Run
 		this.intervalTimesString = intervalTimesString;
 		this.tracks = tracks;
 		this.description = description;
+		this.limited = limited;
 	}
+
+	public override void Simulate(Random rand)
+	{
+		double intervalTime;
+		intervalTimesString = "";
+		string equalSymbol = "";
+		
+		//if it's a unlimited intetrvalic run and it's simulated, put random value in limitAsDouble (will be tracks)
+		if(limitAsDouble == -1) {
+			limitAsDouble = Convert.ToInt32(rand.NextDouble() * 7);
+			tracksLimited = true;
+			limited = limitAsDouble.ToString() + "R";
+		}
+		
+		if (tracksLimited) {
+			for (double i=0 ; i < limitAsDouble ; i++) {
+				intervalTime = rand.NextDouble() * 15;
+				timeTotal = timeTotal + intervalTime;
+				intervalTimesString = intervalTimesString + equalSymbol + intervalTime.ToString();
+				equalSymbol = "=";
+			}
+		} else {
+			//timeTotal is the defined as max
+			//timeCurrent is actual time running
+			//intervalTime is the time of this track
+			double timeCurrent = 0;
+			while (timeCurrent < timeTotal) {
+				intervalTime = rand.NextDouble() * 15;
+				if (intervalTime + timeCurrent > timeTotal) {
+					intervalTime = timeTotal - timeCurrent;
+				}
+				timeCurrent = timeCurrent + intervalTime;
+				intervalTimesString = intervalTimesString + equalSymbol + intervalTime.ToString();
+				equalSymbol = "=";
+			}
+		}
+		
+		write();
+	}
+
+	public override void Manage(object o, EventArgs args)
+	{
+		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+
+		do {
+			respuesta = cp.Read_platform(out platformState);
+		} while (respuesta!=Chronopic.Respuesta.Ok);
+
+
+		//you can start ON or OFF the platform, 
+		//we record always de TV (or time between we abandonate the platform since we arrive)
+		if (platformState==Chronopic.Plataforma.ON) {
+			appbar.Push( Catalog.GetString("You are IN, RUN when prepared!!") );
+
+			loggedState = States.ON;
+			startIn = true;
+		} else {
+			appbar.Push( Catalog.GetString("You are OUT, RUN when prepared!!") );
+
+			loggedState = States.OFF;
+			startIn = false;
+		}
+
+		//initialize variables
+		intervalTimesString = "";
+		tracks = 0;
+		firstIntervalValue = true;
+		countContactTime = 0;
+		
+		//reset progressBar
+		progressBar.Fraction = 0;
+
+		//prepare jump for being cancelled if desired
+		cancel = false;
+
+		//start thread
+		thread = new Thread(new ThreadStart(waitRun));
+		GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+		thread.Start(); 
+	}
+	
+	protected override void waitRun ()
+	{
+		double timestamp;
+		bool success = false;
+		string equal = "";
+		
+		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+
+		
+		do {
+			//update the progressBar if limit is time
+			if ( ! tracksLimited) {
+				double myPb = Util.GetTotalTime (intervalTimesString) / limitAsDouble ;
+				//if(myPb > 1.0) { myPb = 1.0; }
+				//don't allow progressBar be 1.0 before falseButtonClick is called
+				if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
+				progressBar.Fraction = myPb; 
+			}
+
+			respuesta = cp.Read_event(out timestamp, out platformState);
+			if (respuesta == Chronopic.Respuesta.Ok) {
+				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
+					//has arrived
+					loggedState = States.ON;
+					
+					//if we start out, and we arrive to the platform for the first time, don't record nothing
+					if (firstIntervalValue && ! startIn) {
+						firstIntervalValue = false;
+					} else {
+						if (tracksLimited) {
+							tracks ++;	
+							double myPb = (tracks) / limitAsDouble ;
+							if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
+							progressBar.Fraction = myPb; 
+
+							if(intervalTimesString.Length > 0) { equal = "="; }
+							intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+							
+							if(tracks >= limitAsDouble) 
+							{
+								//finished
+								write();
+								success = true;
+							}
+						} else {
+							if (Util.GetTotalTime (intervalTimesString, countContactTime.ToString()) 
+									>= limitAsDouble) {
+								//finished
+								write();
+								success = true;
+
+							} else {
+								if(intervalTimesString.Length > 0) { equal = "="; }
+								intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+								tracks ++;	
+							}
+						}
+					}
+				}
+				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+					//it's out, was inside (= has abandoned platform)
+					//don't record time
+					//progressBar.Fraction = progressBar.Fraction + 0.1;
+				
+					//count the contact times when limited by time
+					//normally these are despreciable in runs, but if
+					//someone uses this for other application, we should record
+					if( ! tracksLimited) {
+						countContactTime = countContactTime + timestamp/1000;
+					}
+
+					//change the automata state
+					loggedState = States.OFF;
+
+				}
+			}
+		} while ( ! success && ! cancel && ! finish );
+
+		if (finish) {
+			write();
+		}
+		if(cancel || finish) {
+			//event will be raised, and managed in chronojump.cs
+			falseButtonFinished.Click();
+		}
+	}
+
+	protected override void write()
+	{
+		int tracks = 0;
+		string limitString = "";
+
+		//if user clicked in finish earlier
+		if(finish) {
+			/*
+			jumps = Util.GetNumberOfJumps(tvString);
+			if(jumpsLimited) {
+				limitString = jumps.ToString() + "J";
+			} else {
+				limitString = Util.GetTotalTime(tcString, tvString) + "T";
+			}
+			*/
+		} else {
+			if(tracksLimited) {
+				limitString = limitAsDouble.ToString() + "R";
+				tracks = (int) limitAsDouble;
+			} else {
+				limitString = limitAsDouble.ToString() + "T";
+				string [] myStringFull = intervalTimesString.Split(new char[] {'='});
+				tracks = myStringFull.Length;
+			}
+		}
+
+		distanceTotal = tracks * distanceInterval;
+		timeTotal = Util.GetTotalTime(intervalTimesString); 
+			
+		uniqueID = SqliteRun.InsertInterval(personID, sessionID, type, 
+				distanceTotal, timeTotal,
+				distanceInterval, intervalTimesString, tracks, 
+				"", 					//description
+				limitString
+				);
+
+		string myStringPush =   Catalog.GetString("Last run: ") + RunnerName + " " + 
+			type + " (" + limitString + ") " +
+			" AVG Speed: " + Util.TrimDecimals( 
+					Util.GetSpeed(distanceTotal.ToString(),
+						timeTotal.ToString() )
+					, pDN ) ;
+		appbar.Push( myStringPush );
+				
+	
+		//event will be raised, and managed in chronojump.cs
+		falseButtonFinished.Click();
+		
+		//put max value in progressBar. This makes the thread in Pulse() stop
+		progressBar.Fraction = 1;
+	}
+
+	
 
 	public string IntervalTimesString
 	{
-		get {
-			return intervalTimesString;
-		}
+		get { return intervalTimesString; }
 	}
+	
+	public double DistanceInterval
+	{
+		get { return distanceInterval; }
+	}
+		
+	public double DistanceTotal
+	{
+		get { return distanceTotal; }
+	}
+		
+	public double TimeTotal
+	{
+		get { return timeTotal; }
+	}
+		
+	public double Tracks
+	{
+		get { return tracks; }
+	}
+		
+	public string Limited
+	{
+		get { return limited; }
+		set { limited = value; }
+	}
+	
 		
 		
 	~RunInterval() {}

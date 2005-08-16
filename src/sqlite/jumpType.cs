@@ -76,7 +76,9 @@ class SqliteJumpType : Sqlite
 			"startIn INT, " + //if it starts inside or outside the platform
 			"weight INT, " + 
 			"jumpsLimited INT, " +  //1 imited by jumps; 0 limited by time
-			"fixedValue FLOAT, " +   //0: no fixed value; 3.5: 3.5 jumps or seconds 
+			"fixedValue FLOAT, " +  //0: no fixed value (ask), 
+						//-1: don't ask (jump until "finish" button is clicked; 
+						//3.5: 3.5 jumps or seconds 
 			"description TEXT )";		
 		dbcmd.ExecuteNonQuery();
 	}
@@ -88,7 +90,9 @@ class SqliteJumpType : Sqlite
 			//name:startIn:weight:jumpsLimited:limitValue:description
 			"RJ(j):0:0:1:0:RJ limited by jumps",
 			"RJ(t):0:0:0:0:RJ limited by time",
+			"RJ(unlimited):1:0:1:-1:Jump unlimited until finish is clicked",
 			"triple jump:0:0:1:3:Triple jump"
+			//TODO: put something like: "continuous run until "finish" is clicked
 		};
 		foreach(string myJumpType in iniJumpTypes) {
 			JumpRjTypeInsert(myJumpType, true);

@@ -56,7 +56,7 @@ class SqliteJump : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
-			"type TEXT, " + //in a future probably there are some types of rj
+			"type TEXT, " + 
 			"tvMax FLOAT, " +
 			"tcMax FLOAT, " +
 			"fall INT, " +  

@@ -458,7 +458,7 @@ public class JumpRj : Jump
 	int jumps; //total number of jumps
 	double time; //time elapsed
 	string limited; //the teorically values, eleven jumps: "11=J" (time recorded in "time"), 10 seconds: "10=T" (jumps recorded in jumps)
-	double limitAsDouble;
+	double limitAsDouble;	//-1 for non limited (unlimited repetitive jump until "finish" is clicked)
 	bool jumpsLimited;
 	bool firstRjValue;
 	private double tcCount;
@@ -534,6 +534,12 @@ public class JumpRj : Jump
 			tcString = tc.ToString();
 			equalTc = "=";
 		}
+
+		//if it's a unlimited reactive jump and it's simulated, put random value in limitAsDouble (will be jumps)
+		if(limitAsDouble == -1) {
+			limitAsDouble = Convert.ToInt32(rand.NextDouble() * 7);
+		}
+		
 		for (double i=0 ; i < limitAsDouble ; i = i +.5) {
 			//we insert the RJs as a TV and TC string of all jumps separated by '='
 			if( nowTv ) {
@@ -629,8 +635,6 @@ public class JumpRj : Jump
 		//jumpsLimited
 		
 		do {
-			respuesta = cp.Read_event(out timestamp, out platformState);
-
 			/*
 			if(finish) {
 				write();
@@ -647,28 +651,38 @@ public class JumpRj : Jump
 				progressBar.Fraction = myPb; 
 			}
 
+			respuesta = cp.Read_event(out timestamp, out platformState);
 			if (respuesta == Chronopic.Respuesta.Ok) {
 				string equal = "";
 				//check if reactive jump should finish
 				if (jumpsLimited) {
-					//change the progressBar percent
-					//progressBar.Fraction = (tcCount + tvCount) / limitAsDouble ;
-					//don't allow progressBar be 1.0 before falseButtonClick is called
-					double myPb = (tcCount + tvCount) / limitAsDouble ;
-					if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
-					progressBar.Fraction = myPb; 
+					//if reactive jump is "unlimited" not limited by jumps, nor time, 
+					//then play with the progress bar until finish button is pressed
+					if(limitAsDouble == -1) {
+						double myPb = (tcCount + tvCount) / 5 ;
+						if(myPb == 1.0 || myPb > 1.0) { myPb = 0; }
+						progressBar.Fraction = myPb; 
+					}
+					else {
+						//change the progressBar percent
+						//progressBar.Fraction = (tcCount + tvCount) / limitAsDouble ;
+						//don't allow progressBar be 1.0 before falseButtonClick is called
+						double myPb = (tcCount + tvCount) / limitAsDouble ;
+						if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
+						progressBar.Fraction = myPb; 
 
-					if(Util.GetNumberOfJumps(tcString) >= limitAsDouble && Util.GetNumberOfJumps(tvString) >= limitAsDouble)
-					{
-						//finished writing the TC, let's put a "-1" in the TV
-						if (tcCount > tvCount) {
-							if(tvCount > 0) { equal = "="; }
-							tvString = tvString + equal + "-1";
+						if(Util.GetNumberOfJumps(tcString) >= limitAsDouble && Util.GetNumberOfJumps(tvString) >= limitAsDouble)
+						{
+							//finished writing the TC, let's put a "-1" in the TV
+							if (tcCount > tvCount) {
+								if(tvCount > 0) { equal = "="; }
+								tvString = tvString + equal + "-1";
+							}
+
+							write();
+
+							success = true;
 						}
-
-						write();
-
-						success = true;
 					}
 				} else {
 					//limited by time
@@ -767,46 +781,6 @@ public class JumpRj : Jump
 		progressBar.Fraction = 1;
 	}
 
-	/*
-	private double getTotalTime (string stringTC, string stringTV)
-	{
-		if(stringTC.Length > 0 && stringTV.Length > 0) {
-			string [] tc = stringTC.Split(new char[] {'='});
-			string [] tv = stringTV.Split(new char[] {'='});
-
-			double totalTime = 0;
-
-			foreach (string jump in tc) {
-				totalTime = totalTime + Convert.ToDouble(jump);
-			}
-			foreach (string jump in tv) {
-				totalTime = totalTime + Convert.ToDouble(jump);
-			}
-
-			return totalTime ;
-		} else {
-			return 0;
-		}
-	}
-	*/
-
-	/*
-	private int getNumberOfJumps(string myString)
-	{
-		if(myString.Length > 0) {
-			string [] jumpsSeparated = myString.Split(new char[] {'='});
-			int count = 0;
-			foreach (string temp in jumpsSeparated) {
-				count++;
-			}
-			if(count == 0) { count =1; }
-			
-			return count;
-		} else { 
-			return 0;
-		}
-	}
-	*/
 	
 	//called from chronojump.cs for finishing jumps earlier
 	public bool Finish

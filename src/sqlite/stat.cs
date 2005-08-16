@@ -72,7 +72,7 @@ class SqliteStat : Sqlite
 				string returnSessionString = ":" + reader[2].ToString();
 				string returnValueString = "";
 				if(heightPreferred) {
-					returnValueString = ":" + Util.ObtainHeightInCentimeters(reader[3].ToString());
+					returnValueString = ":" + Util.GetHeightInCentimeters(reader[3].ToString());
 				} else {
 					returnValueString = ":" + reader[3].ToString();
 				}
@@ -83,7 +83,7 @@ class SqliteStat : Sqlite
 			} else {
 				//in simple session return: name, sex, height, TV
 				myArray.Add (reader[0].ToString() + showSexString +
-						+ ":" + Util.ObtainHeightInCentimeters(reader[3].ToString())
+						+ ":" + Util.GetHeightInCentimeters(reader[3].ToString())
 						+ ":" + reader[3].ToString()
 					    );
 			}
@@ -137,7 +137,7 @@ class SqliteStat : Sqlite
 				string returnSessionString = ":" + reader[2].ToString();
 				string returnValueString = "";
 				if(heightPreferred) {
-					returnValueString = ":" + Util.ObtainHeightInCentimeters(reader[3].ToString());
+					returnValueString = ":" + Util.GetHeightInCentimeters(reader[3].ToString());
 				} else {
 					returnValueString = ":" + reader[3].ToString();
 				}
@@ -148,7 +148,7 @@ class SqliteStat : Sqlite
 			} else {
 				//in simple session return: name, sex, height, TV, Fall
 				myArray.Add (reader[0].ToString() + showSexString +
-						+ ":" + Util.ObtainHeightInCentimeters(reader[3].ToString())
+						+ ":" + Util.GetHeightInCentimeters(reader[3].ToString())
 						+ ":" + reader[3].ToString()
 						+ ":" + convertWeight(
 							reader[4].ToString(), Convert.ToInt32(reader[5].ToString()), weightPercent
@@ -238,7 +238,7 @@ class SqliteStat : Sqlite
 				//in simplesession we show all
 				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
 				
-				returnHeightString = ":" + Util.ObtainHeightInCentimeters(reader[4].ToString());	
+				returnHeightString = ":" + Util.GetHeightInCentimeters(reader[4].ToString());	
 				returnTvString = ":" + reader[4].ToString();
 				returnTcString = ":" + reader[5].ToString();
 				returnFallString = ":" + reader[6].ToString();
@@ -395,15 +395,6 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	/*
-	protected static string obtainHeightInCentimeters (string time) {
-		// s = 4.9 * (tv/2)exp2
-		double timeAsDouble = Convert.ToDouble(time);
-		double height = 100 * 4.9 * ( timeAsDouble / 2 ) * ( timeAsDouble / 2 ) ;
-
-		return height.ToString();
-	}
-	*/
 
 	//for rjEvolution (for know the name of columns)
 	public static int ObtainMaxNumberOfJumps (string sessionString)
@@ -625,7 +616,7 @@ class SqliteStat : Sqlite
 
 				string heightString = reader[2].ToString();
 				if(heightPreferred) {
-					heightString = Util.ObtainHeightInCentimeters(reader[2].ToString());
+					heightString = Util.GetHeightInCentimeters(reader[2].ToString());
 				}
 				
 				if (sexSeparated) {

@@ -118,7 +118,7 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
-	public static string ObtainHeightInCentimeters (string time) {
+	public static string GetHeightInCentimeters (string time) {
 		// s = 4.9 * (tv/2)exp2
 		double timeAsDouble = Convert.ToDouble(time);
 		double height = 100 * 4.9 * ( timeAsDouble / 2 ) * ( timeAsDouble / 2 ) ;
@@ -162,6 +162,31 @@ public class Util
 			return 0;
 		}
 	}
+	
+	public static double GetTotalTime (string timeString)
+	{
+		if(timeString.Length > 0) {
+			string [] time= timeString.Split(new char[] {'='});
+
+			double totalTime = 0;
+
+			foreach (string temp in time) {
+				totalTime = totalTime + Convert.ToDouble(temp);
+			}
+
+			return totalTime ;
+		} else {
+			return 0;
+		}
+	}
+	
+	public static string GetSpeed (string distance, string time) {
+		double distanceAsDouble = Convert.ToDouble(distance);
+		double timeAsDouble = Convert.ToDouble(time);
+
+		return (distanceAsDouble / timeAsDouble).ToString();
+	}
+					
 	
 	public static string FetchID (string text)
 	{

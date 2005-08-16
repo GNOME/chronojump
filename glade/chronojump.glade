@@ -76,7 +76,7 @@
 			      <signal name="activate" handler="on_open_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image764">
+				<widget class="GtkImage" id="image933">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-open</property>
 				  <property name="icon_size">1</property>
@@ -97,7 +97,7 @@
 			      <signal name="activate" handler="on_edit_session_activate" last_modification_time="Tue, 26 Jul 2005 19:12:07 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image765">
+				<widget class="GtkImage" id="image934">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-edit</property>
 				  <property name="icon_size">1</property>
@@ -119,7 +119,7 @@
 			      <signal name="activate" handler="on_delete_session_activate" last_modification_time="Thu, 28 Jul 2005 13:37:42 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image766">
+				<widget class="GtkImage" id="image935">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-remove</property>
 				  <property name="icon_size">1</property>
@@ -146,7 +146,7 @@
 			      <signal name="activate" handler="on_export_session_activate" last_modification_time="Sat, 12 Feb 2005 21:57:07 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image767">
+				<widget class="GtkImage" id="image936">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-convert</property>
 				  <property name="icon_size">1</property>
@@ -217,7 +217,7 @@
 			      <signal name="activate" handler="on_create_person_activate" last_modification_time="Sun, 12 Dec 2004 00:43:03 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image768">
+				<widget class="GtkImage" id="image937">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-new</property>
 				  <property name="icon_size">1</property>
@@ -238,7 +238,7 @@
 			      <signal name="activate" handler="on_recuperate_person_activate" last_modification_time="Sun, 12 Dec 2004 00:40:31 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image769">
+				<widget class="GtkImage" id="image938">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-open</property>
 				  <property name="icon_size">1</property>
@@ -259,7 +259,7 @@
 			      <signal name="activate" handler="on_edit_current_person_clicked" last_modification_time="Sun, 17 Oct 2004 11:43:33 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image770">
+				<widget class="GtkImage" id="image939">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-justify-fill</property>
 				  <property name="icon_size">1</property>
@@ -280,7 +280,7 @@
 			      <signal name="activate" handler="on_delete_current_person_from_session_activate" last_modification_time="Thu, 28 Jul 2005 15:49:38 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image771">
+				<widget class="GtkImage" id="image940">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-remove</property>
 				  <property name="icon_size">1</property>
@@ -322,119 +322,81 @@
 			<widget class="GtkMenu" id="menu_jumps_menu">
 
 			  <child>
-			    <widget class="GtkMenuItem" id="sj">
+			    <widget class="GtkMenuItem" id="execute_simple_jumps1">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">SJ</property>
+			      <property name="label" translatable="yes">Execute simple jumps</property>
 			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:23:20 GMT"/>
-			    </widget>
-			  </child>
 
-			  <child>
-			    <widget class="GtkMenuItem" id="sj_plus">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">SJ+</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:16:49 GMT"/>
-			    </widget>
-			  </child>
+			      <child>
+				<widget class="GtkMenu" id="execute_simple_jumps1_menu">
 
-			  <child>
-			    <widget class="GtkMenuItem" id="cmj">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">CMJ</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:23:30 GMT"/>
-			    </widget>
-			  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="sj">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">SJ</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:23:20 GMT"/>
+				    </widget>
+				  </child>
 
-			  <child>
-			    <widget class="GtkMenuItem" id="abk">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">ABK</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:26:59 GMT"/>
-			    </widget>
-			  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="sj_plus">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">SJ+</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:16:49 GMT"/>
+				    </widget>
+				  </child>
 
-			  <child>
-			    <widget class="GtkMenuItem" id="dj">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">DJ</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:17:03 GMT"/>
-			    </widget>
-			  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="cmj">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">CMJ</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:23:30 GMT"/>
+				    </widget>
+				  </child>
 
-			  <child>
-			    <widget class="GtkImageMenuItem" id="more_simple_jumps">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">More simple jumps</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_button_more_clicked" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
+				  <child>
+				    <widget class="GtkMenuItem" id="abk">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">ABK</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:26:59 GMT"/>
+				    </widget>
+				  </child>
 
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image772">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-add</property>
-				  <property name="icon_size">1</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
+				  <child>
+				    <widget class="GtkMenuItem" id="dj">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">DJ</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:17:03 GMT"/>
+				    </widget>
+				  </child>
+
+				  <child>
+				    <widget class="GtkImageMenuItem" id="more_simple_jumps">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">More simple jumps</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_button_more_clicked" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
+
+				      <child internal-child="image">
+					<widget class="GtkImage" id="image941">
+					  <property name="visible">True</property>
+					  <property name="stock">gtk-add</property>
+					  <property name="icon_size">1</property>
+					  <property name="xalign">0.5</property>
+					  <property name="yalign">0.5</property>
+					  <property name="xpad">0</property>
+					  <property name="ypad">0</property>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
 				</widget>
 			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkSeparatorMenuItem" id="separador7">
-			      <property name="visible">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="rj_j">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">RJ(j)</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_rj_activate" last_modification_time="Wed, 22 Sep 2004 23:57:11 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="rj_t">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">RJ(t)</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_rj_activate" last_modification_time="Fri, 11 Mar 2005 14:37:31 GMT"/>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkImageMenuItem" id="more_rj">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">More repetitive jumps</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_button_more_rj_clicked" last_modification_time="Fri, 11 Mar 2005 14:45:23 GMT"/>
-
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image773">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-add</property>
-				  <property name="icon_size">1</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkSeparatorMenuItem" id="separador1">
-			      <property name="visible">True</property>
 			    </widget>
 			  </child>
 
@@ -446,7 +408,7 @@
 			      <signal name="activate" handler="on_edit_selected_jump_clicked" last_modification_time="Sun, 17 Oct 2004 11:47:42 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image774">
+				<widget class="GtkImage" id="image942">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-justify-fill</property>
 				  <property name="icon_size">1</property>
@@ -467,7 +429,7 @@
 			      <signal name="activate" handler="on_delete_selected_jump_clicked" last_modification_time="Tue, 19 Oct 2004 11:54:17 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image775">
+				<widget class="GtkImage" id="image943">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-remove</property>
 				  <property name="icon_size">1</property>
@@ -481,6 +443,74 @@
 			  </child>
 
 			  <child>
+			    <widget class="GtkSeparatorMenuItem" id="separador7">
+			      <property name="visible">True</property>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="execute_repetitive_jumps1">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Execute repetitive jumps</property>
+			      <property name="use_underline">True</property>
+
+			      <child>
+				<widget class="GtkMenu" id="execute_repetitive_jumps1_menu">
+
+				  <child>
+				    <widget class="GtkMenuItem" id="rj_j">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">RJ(j)</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_rj_activate" last_modification_time="Wed, 22 Sep 2004 23:57:11 GMT"/>
+				    </widget>
+				  </child>
+
+				  <child>
+				    <widget class="GtkMenuItem" id="rj_t">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">RJ(t)</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_rj_activate" last_modification_time="Fri, 11 Mar 2005 14:37:31 GMT"/>
+				    </widget>
+				  </child>
+
+				  <child>
+				    <widget class="GtkMenuItem" id="rj_unlimited">
+				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Jump until &quot;finish&quot; button is clicked</property>
+				      <property name="label" translatable="yes">RJ(unlimited)</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_rj_activate" last_modification_time="Sun, 14 Aug 2005 17:39:25 GMT"/>
+				    </widget>
+				  </child>
+
+				  <child>
+				    <widget class="GtkImageMenuItem" id="more_rj">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">More repetitive jumps</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_button_more_rj_clicked" last_modification_time="Fri, 11 Mar 2005 14:45:23 GMT"/>
+
+				      <child internal-child="image">
+					<widget class="GtkImage" id="image944">
+					  <property name="visible">True</property>
+					  <property name="stock">gtk-add</property>
+					  <property name="icon_size">1</property>
+					  <property name="xalign">0.5</property>
+					  <property name="yalign">0.5</property>
+					  <property name="xpad">0</property>
+					  <property name="ypad">0</property>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+			    </widget>
+			  </child>
+
+			  <child>
 			    <widget class="GtkImageMenuItem" id="menuitem_edit_selected_jump_rj">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">Edit selected RJ jump</property>
@@ -488,7 +518,7 @@
 			      <signal name="activate" handler="on_edit_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image776">
+				<widget class="GtkImage" id="image945">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-justify-fill</property>
 				  <property name="icon_size">1</property>
@@ -509,7 +539,7 @@
 			      <signal name="activate" handler="on_delete_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image777">
+				<widget class="GtkImage" id="image946">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-remove</property>
 				  <property name="icon_size">1</property>
@@ -536,7 +566,7 @@
 			      <signal name="activate" handler="on_jump_type_add_activate" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image778">
+				<widget class="GtkImage" id="image947">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-new</property>
 				  <property name="icon_size">1</property>
@@ -563,92 +593,99 @@
 			<widget class="GtkMenu" id="menu_runs_menu">
 
 			  <child>
-			    <widget class="GtkMenuItem" id="menuitem_run_free">
+			    <widget class="GtkMenuItem" id="execute_simple_runs1">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">_Free</property>
+			      <property name="label" translatable="yes">Execute simple runs</property>
 			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_run_extra_activate" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
-			    </widget>
-			  </child>
 
-			  <child>
-			    <widget class="GtkMenuItem" id="menuitem_20m">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">20m</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
-			    </widget>
-			  </child>
+			      <child>
+				<widget class="GtkMenu" id="execute_simple_runs1_menu">
 
-			  <child>
-			    <widget class="GtkMenuItem" id="menuitem_100m">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">100m</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
-			    </widget>
-			  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_run_custom">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">_Custom</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_run_extra_activate" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
+				    </widget>
+				  </child>
 
-			  <child>
-			    <widget class="GtkMenuItem" id="menuitem_200m">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">200m</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
-			    </widget>
-			  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_20m">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">20m</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
+				    </widget>
+				  </child>
 
-			  <child>
-			    <widget class="GtkMenuItem" id="menuitem_400m">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">400m</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
-			    </widget>
-			  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_100m">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">100m</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
+				    </widget>
+				  </child>
 
-			  <child>
-			    <widget class="GtkMenuItem" id="menuitem_1000m">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">1000m</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
-			    </widget>
-			  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_200m">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">200m</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
+				    </widget>
+				  </child>
 
-			  <child>
-			    <widget class="GtkMenuItem" id="menuitem_2000m">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">2000m</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
-			    </widget>
-			  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_400m">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">400m</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
+				    </widget>
+				  </child>
 
-			  <child>
-			    <widget class="GtkImageMenuItem" id="more_simple_runs">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">More simple runs</property>
-			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_button_run_more_clicked" last_modification_time="Fri, 22 Apr 2005 14:37:06 GMT"/>
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_1000m">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">1000m</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
+				    </widget>
+				  </child>
 
-			      <child internal-child="image">
-				<widget class="GtkImage" id="image779">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-add</property>
-				  <property name="icon_size">1</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_2000m">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">2000m</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
+				    </widget>
+				  </child>
+
+				  <child>
+				    <widget class="GtkImageMenuItem" id="more_simple_runs">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">More simple runs</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_button_run_more_clicked" last_modification_time="Fri, 22 Apr 2005 14:37:06 GMT"/>
+
+				      <child internal-child="image">
+					<widget class="GtkImage" id="image948">
+					  <property name="visible">True</property>
+					  <property name="stock">gtk-add</property>
+					  <property name="icon_size">1</property>
+					  <property name="xalign">0.5</property>
+					  <property name="yalign">0.5</property>
+					  <property name="xpad">0</property>
+					  <property name="ypad">0</property>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
 				</widget>
 			      </child>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkSeparatorMenuItem" id="separator1">
-			      <property name="visible">True</property>
 			    </widget>
 			  </child>
 
@@ -660,7 +697,7 @@
 			      <signal name="activate" handler="on_edit_selected_run_clicked" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image780">
+				<widget class="GtkImage" id="image949">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-justify-fill</property>
 				  <property name="icon_size">1</property>
@@ -681,7 +718,7 @@
 			      <signal name="activate" handler="on_delete_selected_run_clicked" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image781">
+				<widget class="GtkImage" id="image950">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-remove</property>
 				  <property name="icon_size">1</property>
@@ -695,7 +732,116 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkSeparatorMenuItem" id="separator2">
+			    <widget class="GtkSeparatorMenuItem" id="separador10">
+			      <property name="visible">True</property>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="execute_intervalic_runs1">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Execute intervalic runs</property>
+			      <property name="use_underline">True</property>
+
+			      <child>
+				<widget class="GtkMenu" id="execute_intervalic_runs1_menu">
+
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_run_interval_by_laps">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">By laps</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:33:20 GMT"/>
+				    </widget>
+				  </child>
+
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_run_interval_by_time">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">By time</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:32:57 GMT"/>
+				    </widget>
+				  </child>
+
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem_run_interval_unlimited">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">Unlimited</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:33:31 GMT"/>
+				    </widget>
+				  </child>
+
+				  <child>
+				    <widget class="GtkImageMenuItem" id="more_interval_runs">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">More intervalic runs</property>
+				      <property name="use_underline">True</property>
+				      <signal name="activate" handler="on_button_run_interval_more_clicked" last_modification_time="Tue, 16 Aug 2005 01:18:41 GMT"/>
+
+				      <child internal-child="image">
+					<widget class="GtkImage" id="image951">
+					  <property name="visible">True</property>
+					  <property name="stock">gtk-add</property>
+					  <property name="icon_size">1</property>
+					  <property name="xalign">0.5</property>
+					  <property name="yalign">0.5</property>
+					  <property name="xpad">0</property>
+					  <property name="ypad">0</property>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkImageMenuItem" id="menuitem_edit_selected_run_interval">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Edit selected intervalic run</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_edit_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
+
+			      <child internal-child="image">
+				<widget class="GtkImage" id="image952">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-justify-fill</property>
+				  <property name="icon_size">1</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+			      </child>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkImageMenuItem" id="menuitem_delete_selected_run_interval">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Delete selected intervalic run</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_delete_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
+
+			      <child internal-child="image">
+				<widget class="GtkImage" id="image953">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-remove</property>
+				  <property name="icon_size">1</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+			      </child>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkSeparatorMenuItem" id="separator1">
 			      <property name="visible">True</property>
 			    </widget>
 			  </child>
@@ -708,7 +854,7 @@
 			      <signal name="activate" handler="on_run_type_add_activate" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image782">
+				<widget class="GtkImage" id="image954">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-new</property>
 				  <property name="icon_size">1</property>
@@ -760,7 +906,7 @@
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">Simulated</property>
 			      <property name="use_underline">True</property>
-			      <property name="active">True</property>
+			      <property name="active">False</property>
 			      <signal name="activate" handler="on_radiobutton_simulated_activate" last_modification_time="Sat, 08 Jan 2005 05:09:37 GMT"/>
 			    </widget>
 			  </child>
@@ -770,7 +916,7 @@
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">Serial Port</property>
 			      <property name="use_underline">True</property>
-			      <property name="active">False</property>
+			      <property name="active">True</property>
 			      <property name="group">menuitem_simulated</property>
 			      <signal name="activate" handler="on_radiobutton_serial_port_activate" last_modification_time="Sat, 08 Jan 2005 05:11:45 GMT"/>
 			    </widget>
@@ -1797,6 +1943,24 @@
 				  </child>
 
 				  <child>
+				    <widget class="GtkButton" id="button_rj_unlimited">
+				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Jump until &quot;finish&quot; button is clicked</property>
+				      <property name="can_focus">True</property>
+				      <property name="label" translatable="yes">Unlimited</property>
+				      <property name="use_underline">True</property>
+				      <property name="relief">GTK_RELIEF_NORMAL</property>
+				      <property name="focus_on_click">True</property>
+				      <signal name="clicked" handler="on_rj_activate" last_modification_time="Thu, 23 Sep 2004 00:45:53 GMT"/>
+				    </widget>
+				    <packing>
+				      <property name="padding">0</property>
+				      <property name="expand">False</property>
+				      <property name="fill">False</property>
+				    </packing>
+				  </child>
+
+				  <child>
 				    <widget class="GtkButton" id="button_rj_more">
 				      <property name="visible">True</property>
 				      <property name="tooltip" translatable="yes">More repetitive jumps</property>
@@ -2205,10 +2369,10 @@
 				  <property name="spacing">0</property>
 
 				  <child>
-				    <widget class="GtkButton" id="button_run_free">
+				    <widget class="GtkButton" id="button_run_custom">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">Free</property>
+				      <property name="label" translatable="yes">Custom</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -2722,13 +2886,14 @@
 				  <property name="spacing">0</property>
 
 				  <child>
-				    <widget class="GtkButton" id="button3">
+				    <widget class="GtkButton" id="button_run_interval_by_laps">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">Free</property>
+				      <property name="label" translatable="yes">By laps</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
+				      <signal name="clicked" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:31:27 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -2738,13 +2903,32 @@
 				  </child>
 
 				  <child>
-				    <widget class="GtkButton" id="button4">
+				    <widget class="GtkButton" id="button_run_interval_by_time">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">20m</property>
+				      <property name="label" translatable="yes">By time</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
+				      <signal name="clicked" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:32:33 GMT"/>
+				    </widget>
+				    <packing>
+				      <property name="padding">0</property>
+				      <property name="expand">False</property>
+				      <property name="fill">False</property>
+				    </packing>
+				  </child>
+
+				  <child>
+				    <widget class="GtkButton" id="button_run_interval_unlimited">
+				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">run until &quot;finish&quot; button is clicked</property>
+				      <property name="can_focus">True</property>
+				      <property name="label" translatable="yes">Unlimited</property>
+				      <property name="use_underline">True</property>
+				      <property name="relief">GTK_RELIEF_NORMAL</property>
+				      <property name="focus_on_click">True</property>
+				      <signal name="clicked" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:32:42 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -5019,6 +5203,7 @@ weight</property>
 	      <property name="right_attach">2</property>
 	      <property name="top_attach">0</property>
 	      <property name="bottom_attach">1</property>
+	      <property name="x_padding">4</property>
 	      <property name="x_options"></property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -7761,16 +7946,95 @@ best's</property>
       <child>
 	<widget class="GtkTable" id="table14">
 	  <property name="visible">True</property>
-	  <property name="n_rows">1</property>
+	  <property name="n_rows">2</property>
 	  <property name="n_columns">3</property>
-	  <property name="homogeneous">True</property>
-	  <property name="row_spacing">0</property>
+	  <property name="homogeneous">False</property>
+	  <property name="row_spacing">4</property>
 	  <property name="column_spacing">4</property>
 
 	  <child>
-	    <widget class="GtkLabel" id="label111">
+	    <widget class="GtkLabel" id="label_limit">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Distance</property>
+	      <property name="label" translatable="yes">Limited by</property>
+	      <property name="use_underline">False</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">0</property>
+	      <property name="right_attach">1</property>
+	      <property name="top_attach">1</property>
+	      <property name="bottom_attach">2</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkLabel" id="label_limit_units">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes"></property>
+	      <property name="use_underline">False</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">2</property>
+	      <property name="right_attach">3</property>
+	      <property name="top_attach">1</property>
+	      <property name="bottom_attach">2</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkSpinButton" id="spinbutton_limit">
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="climb_rate">0</property>
+	      <property name="digits">0</property>
+	      <property name="numeric">True</property>
+	      <property name="update_policy">GTK_UPDATE_IF_VALID</property>
+	      <property name="snap_to_ticks">True</property>
+	      <property name="wrap">False</property>
+	      <property name="adjustment">100 0 100000 1 10 10</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">1</property>
+	      <property name="bottom_attach">2</property>
+	      <property name="x_options">expand</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkLabel" id="label_distance">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">Track distance 
+(between platforms)</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -7796,7 +8060,7 @@ best's</property>
 	  </child>
 
 	  <child>
-	    <widget class="GtkLabel" id="label112">
+	    <widget class="GtkLabel" id="label_meters">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">meters</property>
 	      <property name="use_underline">False</property>
@@ -7833,14 +8097,14 @@ best's</property>
 	      <property name="update_policy">GTK_UPDATE_IF_VALID</property>
 	      <property name="snap_to_ticks">True</property>
 	      <property name="wrap">False</property>
-	      <property name="adjustment">1000 0 10000 1 10 10</property>
+	      <property name="adjustment">100 0 10000 1 10 10</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
 	      <property name="top_attach">0</property>
 	      <property name="bottom_attach">1</property>
-	      <property name="x_options">expand</property>
+	      <property name="x_options"></property>
 	      <property name="y_options"></property>
 	    </packing>
 	  </child>

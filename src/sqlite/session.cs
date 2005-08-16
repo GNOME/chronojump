@@ -208,7 +208,7 @@ class SqliteSession : Sqlite
 		while(reader_jumpsRj.Read()) {
 			myArray_jumpsRj.Add (reader_jumpsRj[0].ToString() + ":" + reader_jumpsRj[1].ToString() + ":" );
 		}
-		reader_jumps.Close();
+		reader_jumpsRj.Close();
 		
 		//select runs of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM RUN GROUP BY sessionID ORDER BY sessionID";
@@ -225,25 +225,23 @@ class SqliteSession : Sqlite
 		reader_runs.Close();
 		
 		//select runsInterval of each session
-		/*
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM JUMPRJ GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM RUNINTERVAL GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader_jumpsRj;
-		reader_jumpsRj = dbcmd.ExecuteReader();
-		ArrayList myArray_jumpsRj = new ArrayList(2);
+		SqliteDataReader reader_runs_interval;
+		reader_runs_interval = dbcmd.ExecuteReader();
+		ArrayList myArray_runs_interval = new ArrayList(2);
 		
-		while(reader_jumpsRj.Read()) {
-			myArray_jumpsRj.Add (reader_jumpsRj[0].ToString() + ":" + reader_jumpsRj[1].ToString() + ":" );
+		while(reader_runs_interval.Read()) {
+			myArray_runs_interval.Add (reader_runs_interval[0].ToString() + ":" + reader_runs_interval[1].ToString() + ":" );
 		}
-		reader_jumps.Close();
-		*/
+		reader_runs_interval.Close();
 	
 		//close database connection
 		dbcon.Close();
 
-		//mix six arrayLists
+		//mix seven arrayLists
 		string [] mySessions = new string[count];
 		count =0;
 		bool found;
@@ -299,17 +297,15 @@ class SqliteSession : Sqlite
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
 			
 			//add runsInterval for each session
-			/*
 			found = false;
-			foreach (string line_jumpsRj in myArray_jumpsRj) {
-				string [] myStringFull = line_jumpsRj.Split(new char[] {':'});
+			foreach (string line_runs_interval in myArray_runs_interval) {
+				string [] myStringFull = line_runs_interval.Split(new char[] {':'});
 				if(myStringFull[0] == mixingSessionID) {
 					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
 					found = true;
 				}
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
-			*/
 
 			mySessions [count++] = lineNotReadOnly;
 		}

@@ -1,5 +1,24 @@
 CHANGELOG:
 
+17 aug 2005
+	run interval implemented:
+		combo
+		treeview
+		simulate (also unlimited)
+		execute (unlimited pending)
+		last
+		edit
+		delete
+		show in load session
+
+	new feature: jump or run repetitive until finish button is clicked:	
+		jumpRj with a jump "unlimted" button
+		runInterval with a run "unlimited" button (useful for course navette ad other incremental tests)
+		"run free" renamed "run custom"
+	
+	fixed bug in Date representation in edit session
+
+11 aug 2005
 	web created by create_web_chronojump.pl perl script, allows mantain
 	lots of pages in different languages.
 

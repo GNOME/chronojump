@@ -247,12 +247,9 @@ public class TreeViewJumps
 	{
 		TreeIter iter = new TreeIter();
 		treeview.Model.GetIterFirst ( out iter ) ;
-		//string iterJumperString;
 		int jumpIDColumn = obtainJumpIDColumn();
 	
 		do {
-			//iterJumperString = ( treeview.Model.GetValue (iter, 0) ).ToString();
-			//Console.WriteLine("iterJumperString: {0}", iterJumperString);
 			if( treeview.Model.IterHasChild(iter) ) {
 				treeview.Model.IterChildren (out iter, iter);
 				do {
@@ -441,6 +438,12 @@ public class TreeViewJumpsRj : TreeViewJumps
 					//expand the jumper
 					treeview.ExpandToPath( treeview.Model.GetPath(iter) );
 
+					//if limited  value is "-1" comes from a "unlimited" repetitive jump, 
+					//put jumps count as limitation value
+					if(newJump.Limited == "-1J") { 
+						newJump.Limited = Util.GetNumberOfJumps(newJump.TcString) + "J";
+					}
+					
 					string myTypeComplet = newJump.Type + "(" + newJump.Limited + ") AVG: "; //limited
 					
 					string [] myData = new String [colsNum];

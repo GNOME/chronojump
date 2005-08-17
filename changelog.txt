@@ -1,6 +1,18 @@
 CHANGELOG:
 
 17 aug 2005
+	run interval execute unlimited
+	run interval more
+	run interval cancel
+	run interval finish
+	"more" windows get hided when clic on "accept" (now suitable to clic cancel or finish)
+
+	fixed bugs in unlimited RJ jumps and interval runs
+	
+	chronojump.cs moved to src
+	cleaned gui sensitive code in chronojump.cs
+
+17 aug 2005
 	run interval implemented:
 		combo
 		treeview

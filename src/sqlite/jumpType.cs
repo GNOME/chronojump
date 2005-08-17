@@ -87,12 +87,11 @@ class SqliteJumpType : Sqlite
 	protected static void initializeTableJumpRjType()
 	{
 		string [] iniJumpTypes = {
-			//name:startIn:weight:jumpsLimited:limitValue:description
+			//name:startIn:weight:jumpsLimited:limitValue:unlimited:description
 			"RJ(j):0:0:1:0:RJ limited by jumps",
 			"RJ(t):0:0:0:0:RJ limited by time",
 			"RJ(unlimited):1:0:1:-1:Jump unlimited until finish is clicked",
 			"triple jump:0:0:1:3:Triple jump"
-			//TODO: put something like: "continuous run until "finish" is clicked
 		};
 		foreach(string myJumpType in iniJumpTypes) {
 			JumpRjTypeInsert(myJumpType, true);

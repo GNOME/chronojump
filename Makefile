@@ -41,11 +41,12 @@ DLL_CHRONOPIC = chronopic
 
 
 NAME5= chronojump-mini
-DEP5 = $(NAME5).cs $(DLL_CHRONOPIC).dll
+DEP5 = src/chronojump-mini.cs $(DLL_CHRONOPIC).dll
 
 
 #-- Construccion del chronojump-mini que funciona por consola
-chronojump-mini: $(NAME5).exe
+#chronojump-mini: $(NAME5).exe
+chronojump-mini: chronojump-mini.exe
 
 #--------------------------
 #  Reglas
@@ -85,7 +86,7 @@ sg-serial.o    : sg-serial.h
 # EJEMPLOS DE PRUEBA EN C#
 #-------------------------------
 $(NAME5).exe: $(DEP5)
-	 $(MCS) $(NAME5).cs -unsafe -r $(DLL_CHRONOPIC).dll -o $(NAME5).exe 
+	 $(MCS) src/$(NAME5).cs -unsafe -r $(DLL_CHRONOPIC).dll -o $(NAME5).exe 
    
 clean::
 	  rm -f $(NAME5).exe       

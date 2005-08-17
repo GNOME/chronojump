@@ -538,6 +538,8 @@ public class JumpRj : Jump
 		//if it's a unlimited reactive jump and it's simulated, put random value in limitAsDouble (will be jumps)
 		if(limitAsDouble == -1) {
 			limitAsDouble = Convert.ToInt32(rand.NextDouble() * 7);
+			jumpsLimited = true;
+			limited = limitAsDouble.ToString() + "J";
 		}
 		
 		for (double i=0 ; i < limitAsDouble ; i = i +.5) {
@@ -627,12 +629,13 @@ public class JumpRj : Jump
 	{
 		double timestamp;
 		bool success = false;
+		double pbUnlimited = 0;
 		
 		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 	
-		//limitAsDouble
-		//jumpsLimited
+		Console.WriteLine("jumpsLimited: {0}", jumpsLimited);
+		Console.WriteLine("limitAsDouble: {0}", limitAsDouble);
 		
 		do {
 			/*
@@ -642,12 +645,12 @@ public class JumpRj : Jump
 			}
 			*/
 			
-			//update the progressBar if limit is time
-			if ( ! jumpsLimited) {
+			//update the progressBar if limit is time (and it's not an unlimited reactive jump)
+			if ( ! jumpsLimited && limitAsDouble != -1) {
 				double myPb = Util.GetTotalTime (tcString, tvString) / limitAsDouble ;
 				//if(myPb > 1.0) { myPb = 1.0; }
 				//don't allow progressBar be 1.0 before falseButtonClick is called
-				if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
+				if(myPb >= 1.0) { myPb = 0.99; }
 				progressBar.Fraction = myPb; 
 			}
 
@@ -659,16 +662,17 @@ public class JumpRj : Jump
 					//if reactive jump is "unlimited" not limited by jumps, nor time, 
 					//then play with the progress bar until finish button is pressed
 					if(limitAsDouble == -1) {
-						double myPb = (tcCount + tvCount) / 5 ;
-						if(myPb == 1.0 || myPb > 1.0) { myPb = 0; }
-						progressBar.Fraction = myPb; 
+						//double myPb = (tcCount + tvCount) / 5 ;
+						pbUnlimited += 0.19;
+						if(pbUnlimited >= 1.0) { pbUnlimited = 0; }
+						progressBar.Fraction = pbUnlimited; 
 					}
 					else {
 						//change the progressBar percent
 						//progressBar.Fraction = (tcCount + tvCount) / limitAsDouble ;
 						//don't allow progressBar be 1.0 before falseButtonClick is called
 						double myPb = (tcCount + tvCount) / limitAsDouble ;
-						if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
+						if(myPb >= 1.0) { myPb = 0.99; }
 						progressBar.Fraction = myPb; 
 
 						if(Util.GetNumberOfJumps(tcString) >= limitAsDouble && Util.GetNumberOfJumps(tvString) >= limitAsDouble)
@@ -785,85 +789,55 @@ public class JumpRj : Jump
 	//called from chronojump.cs for finishing jumps earlier
 	public bool Finish
 	{
-		get {
-			return finish;
-		}
-		set {
-			finish = value;
-		}
+		get { return finish; }
+		set { finish = value; }
 	}
 	
 	public string Limited
 	{
-		get {
-			return limited;
-		}
-		set {
-			limited = value;
-		}
+		get { return limited; }
+		set { limited = value; }
 	}
 	
 	public double TvMax
 	{
-		get
-		{
-			return Util.GetMax (tvString);
-		}
+		get { return Util.GetMax (tvString); }
 	}
 		
 	public double TcMax
 	{
-		get
-		{
-			return Util.GetMax (tcString);
-		}
+		get { return Util.GetMax (tcString); }
 	}
 		
 	public double TvAvg
 	{
-		get
-		{
-			return Util.GetAverage (tvString);
-		}
+		get { return Util.GetAverage (tvString); }
 	}
 		
 	public double TcAvg
 	{
-		get
-		{
-			return Util.GetAverage (tcString);
-		}
+		get { return Util.GetAverage (tcString); }
 	}
 	
 	public string TvString
 	{
-		get {
-			return tvString;
-		}
+		get { return tvString; }
 	}
 		
 	public string TcString
 	{
-		get {
-			return tcString;
-		}
+		get { return tcString; }
 	}
 
 	public int Jumps
 	{
-		get {
-			return jumps;
-		}
-		set {
-			jumps = value;
-		}
+		get { return jumps; }
+		set { jumps = value; }
 	}
 	
 	public bool JumpsLimited
 	{
-		get {
-			return jumpsLimited;
-		}
+		get { return jumpsLimited; }
 	}
 		
 		

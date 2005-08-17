@@ -2880,7 +2880,7 @@
 			      <property name="right_padding">0</property>
 
 			      <child>
-				<widget class="GtkHBox" id="hbox73">
+				<widget class="GtkHBox" id="hbox_runs_interval">
 				  <property name="visible">True</property>
 				  <property name="homogeneous">False</property>
 				  <property name="spacing">0</property>
@@ -6402,15 +6402,15 @@ comments</property>
 	  <property name="spacing">0</property>
 
 	  <child>
-	    <widget class="GtkButton" id="button_close">
+	    <widget class="GtkButton" id="button_cancel">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label">gtk-close</property>
+	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
-	      <signal name="clicked" handler="on_button_close_clicked" last_modification_time="Tue, 08 Mar 2005 19:07:36 GMT"/>
+	      <signal name="clicked" handler="on_button_cancel_clicked" last_modification_time="Wed, 17 Aug 2005 15:46:43 GMT"/>
 	    </widget>
 	  </child>
 

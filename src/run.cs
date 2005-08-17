@@ -446,6 +446,9 @@ public class RunInterval : Run
 		//prepare jump for being cancelled if desired
 		cancel = false;
 
+		//prepare jump for being finished earlier if desired
+		finish = false;
+		
 		//start thread
 		thread = new Thread(new ThreadStart(waitRun));
 		GLib.Idle.Add (new GLib.IdleHandler (Pulse));
@@ -457,18 +460,19 @@ public class RunInterval : Run
 		double timestamp;
 		bool success = false;
 		string equal = "";
+		double pbUnlimited = 0;
 		
 		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 
 		
 		do {
-			//update the progressBar if limit is time
-			if ( ! tracksLimited) {
+			//update the progressBar if limit is time (and it's not an unlimited interval run)
+			if ( ! tracksLimited && limitAsDouble != -1) {
 				double myPb = Util.GetTotalTime (intervalTimesString) / limitAsDouble ;
 				//if(myPb > 1.0) { myPb = 1.0; }
 				//don't allow progressBar be 1.0 before falseButtonClick is called
-				if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
+				if(myPb >= 1.0) { myPb = 0.99; }
 				progressBar.Fraction = myPb; 
 			}
 
@@ -482,32 +486,46 @@ public class RunInterval : Run
 					if (firstIntervalValue && ! startIn) {
 						firstIntervalValue = false;
 					} else {
-						if (tracksLimited) {
-							tracks ++;	
-							double myPb = (tracks) / limitAsDouble ;
-							if(myPb == 1.0 || myPb > 1.0) { myPb = 0.99; }
-							progressBar.Fraction = myPb; 
-
+						//if interval run is "unlimited" not limited by tracks, nor time, 
+						//then play with the progress bar until finish button is pressed
+						if(limitAsDouble == -1) {
+							//double myPb = (tcCount + tvCount) / 5 ;
+							pbUnlimited += 0.19;
+							if(pbUnlimited >= 1.0) { pbUnlimited = 0; }
+							progressBar.Fraction = pbUnlimited; 
+									
 							if(intervalTimesString.Length > 0) { equal = "="; }
 							intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
-							
-							if(tracks >= limitAsDouble) 
-							{
-								//finished
-								write();
-								success = true;
-							}
-						} else {
-							if (Util.GetTotalTime (intervalTimesString, countContactTime.ToString()) 
-									>= limitAsDouble) {
-								//finished
-								write();
-								success = true;
+							tracks ++;	
+						}
+						else {
+							if (tracksLimited) {
+								tracks ++;	
+								double myPb = (tracks) / limitAsDouble ;
+								if(myPb >= 1.0) { myPb = 0.99; }
+								progressBar.Fraction = myPb; 
 
-							} else {
 								if(intervalTimesString.Length > 0) { equal = "="; }
 								intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
-								tracks ++;	
+
+								if(tracks >= limitAsDouble) 
+								{
+									//finished
+									write();
+									success = true;
+								}
+							} else {
+								if (Util.GetTotalTime (intervalTimesString, countContactTime.ToString()) 
+										>= limitAsDouble) {
+									//finished
+									write();
+									success = true;
+
+								} else {
+									if(intervalTimesString.Length > 0) { equal = "="; }
+									intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+									tracks ++;	
+								}
 							}
 						}
 					}
@@ -547,14 +565,12 @@ public class RunInterval : Run
 
 		//if user clicked in finish earlier
 		if(finish) {
-			/*
-			jumps = Util.GetNumberOfJumps(tvString);
-			if(jumpsLimited) {
-				limitString = jumps.ToString() + "J";
+			tracks = Util.GetNumberOfJumps(intervalTimesString);
+			if(tracksLimited) {
+				limitString = tracks.ToString() + "R";
 			} else {
-				limitString = Util.GetTotalTime(tcString, tvString) + "T";
+				limitString = Util.GetTotalTime(intervalTimesString) + "T";
 			}
-			*/
 		} else {
 			if(tracksLimited) {
 				limitString = limitAsDouble.ToString() + "R";
@@ -593,6 +609,13 @@ public class RunInterval : Run
 	}
 
 	
+	//called from chronojump.cs for finishing jumps earlier
+	public bool Finish
+	{
+		get { return finish; }
+		set { finish = value; }
+	}
+	
 
 	public string IntervalTimesString
 	{
@@ -617,6 +640,7 @@ public class RunInterval : Run
 	public double Tracks
 	{
 		get { return tracks; }
+		set { tracks = value; }
 	}
 		
 	public string Limited
@@ -625,6 +649,11 @@ public class RunInterval : Run
 		set { limited = value; }
 	}
 	
+	public bool TracksLimited
+	{
+		get { return tracksLimited; }
+	}
+		
 		
 		
 	~RunInterval() {}

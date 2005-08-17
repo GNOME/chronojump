@@ -113,7 +113,7 @@ public class RunType
 	
 	
 	public RunType(string name, bool hasIntervals, double distance, 
-			bool tracksLimited, int fixedValue)
+			bool tracksLimited, int fixedValue, bool unlimited)
 	{
 		this.name 	= name;
 		this.hasIntervals 	= hasIntervals;

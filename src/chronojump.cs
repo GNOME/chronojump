@@ -43,6 +43,8 @@ public class ChronoJump
 	[Widget] Gtk.Box hbox_combo_person_current;
 	[Widget] Gtk.Box hbox_jumps;
 	[Widget] Gtk.Box hbox_jumps_rj;
+	[Widget] Gtk.Box hbox_runs;
+	[Widget] Gtk.Box hbox_runs_interval;
 	[Widget] Gtk.Combo combo_jumps;
 	[Widget] Gtk.Combo combo_jumps_rj;
 	[Widget] Gtk.Combo combo_runs;
@@ -189,7 +191,8 @@ public class ChronoJump
 	private static JumpRj currentJumpRj;
 	private static Run currentRun;
 	private static RunInterval currentRunInterval;
-	private static bool lastEventWasJump; //if last event was Jump (true) or Run (false)
+	private static bool currentEventIsJump; //if current event is Jump (true) or Run (false). Used by Cancel and Finish
+	private static bool lastEventWasJump; //if last event was Jump (true) or Run (false). Used by Last Jump or run delete
 	private static bool lastJumpIsReactive; //if last Jump is reactive or not
 	private static bool lastRunIsInterval; //if last run is interval or not (obvious) 
 	private static JumpType currentJumpType;
@@ -211,7 +214,7 @@ public class ChronoJump
 	
 	RunExtraWindow runExtraWin; //for normal and intervaled runs 
 	RunsMoreWindow runsMoreWin;
-	//RunsIntervalMoreWindow runsIntervalMoreWin;
+	RunsIntervalMoreWindow runsIntervalMoreWin;
 	//RunTypeAddWindow runTypeAddWin;
 	EditRunWindow editRunWin;
 	EditRunIntervalWindow editRunIntervalWin;
@@ -1202,10 +1205,19 @@ public class ChronoJump
 		Console.WriteLine("Cancel");
 
 		//this will cancel jumps or runs
-		if (currentJumpType.IsRepetitive) {
-			currentJumpRj.Cancel = true;
+		
+		if(currentEventIsJump) {
+			if (currentJumpType.IsRepetitive) {
+				currentJumpRj.Cancel = true;
+			} else {
+				currentJump.Cancel = true;
+			}
 		} else {
-			currentJump.Cancel = true;
+			if (currentRunType.HasIntervals) {
+				currentRunInterval.Cancel = true;
+			} else {
+				currentRun.Cancel = true;
+			}
 		}
 	}
 		
@@ -1214,7 +1226,11 @@ public class ChronoJump
 		Console.WriteLine("Finish (not implemented)");
 
 		//this will finish jumps or runs
-		currentJumpRj.Finish = true;
+		if(currentEventIsJump) {
+			currentJumpRj.Finish = true;
+		} else {
+			currentRunInterval.Finish = true;
+		}
 	}
 		
 
@@ -1248,7 +1264,8 @@ public class ChronoJump
 				jumpsMoreWin.SelectedExtraWeight,
 				false,		//isRepetitive
 				false,		//jumpsLimited (false, because is not repetitive)
-				0		//limitValue
+				0,		//limitValue
+				false		//unlimited
 				);
 				
 		if( ! currentJumpType.StartIn || currentJumpType.HasWeight) {
@@ -1299,9 +1316,11 @@ public class ChronoJump
 			myFall = jumpExtraWin.Fall;
 		}
 			
+		//used by cancel and finish
+		currentEventIsJump = true;
 			
 		//hide jumping buttons
-		sensitiveGuiJumping();
+		sensitiveGuiJumpingOrRunning();
 		
 		currentJump = new Jump(currentPerson.UniqueID, currentSession.UniqueID, currentJumpType.Name, myFall, myWeight,
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
@@ -1341,7 +1360,7 @@ public class ChronoJump
 		}
 		
 		//unhide buttons that allow jumping
-		sensitiveGuiJumped();
+		sensitiveGuiJumpedOrRunned();
 		//unhide buttons for delete last jump
 		sensitiveGuiYesJump();
 	}
@@ -1372,15 +1391,19 @@ public class ChronoJump
 	//used from the dialogue "jumps rj more"
 	private void on_more_jumps_rj_accepted (object o, EventArgs args) 
 	{
+		Console.WriteLine("--1 jumpsRjMoreWin.SelectedLimited: {0}", jumpsRjMoreWin.SelectedLimited);
+
 		currentJumpType = new JumpType(
 				jumpsRjMoreWin.SelectedJumpType,
 				jumpsRjMoreWin.SelectedStartIn,
 				jumpsRjMoreWin.SelectedExtraWeight,
 				true,		//isRepetitive
 				jumpsRjMoreWin.SelectedLimited,
-				jumpsRjMoreWin.SelectedLimitedValue
+				jumpsRjMoreWin.SelectedLimitedValue,
+				jumpsRjMoreWin.SelectedUnlimited
 				);
-		if( ! currentJumpType.StartIn || currentJumpType.HasWeight || currentJumpType.FixedValue == 0) {
+		if( ! currentJumpType.StartIn || currentJumpType.HasWeight || 
+				(currentJumpType.FixedValue == 0 && ! currentJumpType.Unlimited) ) {
 			on_jump_extra_activate(o, args);
 		} else {
 			on_rj_accepted(o, args);
@@ -1390,51 +1413,20 @@ public class ChronoJump
 	private void on_rj_activate (object o, EventArgs args) {
 		if(o == (object) button_rj_j || o == (object) rj_j) 
 		{
-			/*
-			currentJumpType = new JumpType(
-				"RJ(j)",
-				false,		//startIn
-				false,		//hasWeight
-				true,		//isRepetitive
-				true,		//jumpsLimited
-				0		//limitValue
-				);
-			*/
 			currentJumpType = new JumpType("RJ(j)");
 			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
 			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 		} else if(o == (object) button_rj_t || o == (object) rj_t) 
 		{
-			/*
-			currentJumpType = new JumpType(
-				"RJ(t)",
-				false,		//startIn
-				false,		//hasWeight
-				true,		//isRepetitive
-				false,		//jumpsLimited
-				0		//limitValue
-				);
-			*/
 			currentJumpType = new JumpType("RJ(t)");
 			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
 			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 		} else if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) 
 		{
-			/*
-			currentJumpType = new JumpType(
-				"RJ(unlimited)",
-				true,		//startIn
-				false,		//hasWeight
-				true,		//isRepetitive
-				true,		//jumpsLimited
-				-1		//limitValue	//don't ask for limit of jumps or seconds
-				);
-			*/
 			currentJumpType = new JumpType("RJ(unlimited)");
 
 			//in this jump type, don't ask for limit of jumps or seconds
 			on_rj_accepted(o, args);
-		} else {
 		}
 	}
 
@@ -1442,8 +1434,8 @@ public class ChronoJump
 	{
 		double myLimit = 0;
 		
-		//if it's a unlimited interval jump, put -1 as limit value
-		if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) {
+		//if it's a unlimited interval run, put -1 as limit value
+		if(currentJumpType.Unlimited) {
 			myLimit = -1;
 		} else {
 			if(currentJumpType.FixedValue > 0) {
@@ -1462,8 +1454,11 @@ public class ChronoJump
 			myFall = jumpExtraWin.Fall;
 		}
 
+		//used by cancel and finish
+		currentEventIsJump = true;
+			
 		//hide jumping buttons
-		sensitiveGuiJumping();
+		sensitiveGuiJumpingOrRunning();
 		
 		currentJumpRj = new JumpRj(currentPerson.UniqueID, currentSession.UniqueID, currentJumpType.Name, myFall, myWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
@@ -1517,7 +1512,7 @@ public class ChronoJump
 		}
 		
 		//unhide buttons that allow jumping
-		sensitiveGuiJumped();
+		sensitiveGuiJumpedOrRunned();
 		//unhide buttons for delete last jump
 		sensitiveGuiYesJump();
 	}
@@ -1553,7 +1548,8 @@ public class ChronoJump
 				false,				//hasIntervals
 				runsMoreWin.SelectedDistance,	//distance
 				false,				//tracksLimited (false, because has not intervals)
-				0				//fixedValue (0, because has not intervals)
+				0,				//fixedValue (0, because has not intervals)
+				false				//unlimited (false, because has not intervals)
 				);
 				
 		if( currentRunType.Distance == 0 ) {
@@ -1608,8 +1604,11 @@ public class ChronoJump
 			myDistance = (int) currentRunType.Distance;
 		}
 		
+		//used by cancel and finish
+		currentEventIsJump = false;
+			
 		//hide jumping (running) buttons
-		sensitiveGuiRunning();
+		sensitiveGuiJumpingOrRunning();
 	
 		currentRun = new Run(currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
@@ -1649,7 +1648,7 @@ public class ChronoJump
 		}
 		
 		//unhide buttons that allow jumping, running
-		sensitiveGuiRunned();
+		sensitiveGuiJumpedOrRunned();
 		//unhide buttons for delete last jump
 		sensitiveGuiYesJump();
 	}
@@ -1662,7 +1661,29 @@ public class ChronoJump
 
 	private void on_button_run_interval_more_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("button run interval more (not implemented)");
+		Console.WriteLine("button run interval more");
+		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
+		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
+	}
+	
+	private void on_more_runs_interval_accepted (object o, EventArgs args) 
+	{
+		currentRunType = new RunType(
+				runsIntervalMoreWin.SelectedRunType,	//name
+				true,					//hasIntervals
+				runsIntervalMoreWin.SelectedDistance,
+				runsIntervalMoreWin.SelectedTracksLimited,
+				runsIntervalMoreWin.SelectedLimitedValue,
+				runsIntervalMoreWin.SelectedUnlimited
+				);
+				
+		//go to run extra if we need something to define
+		if( currentRunType.Distance == 0 || 
+				(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
+			on_run_extra_activate(o, args);
+		} else {
+			on_run_interval_accepted(o, args);
+		}
 	}
 	
 	private void on_button_run_interval_last_clicked (object o, EventArgs args) 
@@ -1670,7 +1691,8 @@ public class ChronoJump
 		on_run_interval_activate(o, args);
 	}
 	
-	//suitable for all runs repetitive
+	//interval runs clicked from user interface
+	//(not suitable for the other runs we found in "more")
 	private void on_run_interval_activate (object o, EventArgs args) 
 	{
 		if(o == (object) button_run_interval_by_laps || o == (object) menuitem_run_interval_by_laps) 
@@ -1683,6 +1705,7 @@ public class ChronoJump
 		{
 			currentRunType = new RunType("unlimited");
 		}
+		
 			
 		runExtraWin = RunExtraWindow.Show(app1, currentRunType);
 		runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
@@ -1715,8 +1738,11 @@ public class ChronoJump
 		}
 
 
+		//used by cancel and finish
+		currentEventIsJump = false;
+			
 		//hide running buttons
-		sensitiveGuiRunning();
+		sensitiveGuiJumpingOrRunning();
 		
 		currentRunInterval = new RunInterval(currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
 				distanceInterval, myLimit, currentRunType.TracksLimited, 
@@ -1736,24 +1762,22 @@ public class ChronoJump
 
 	private void on_run_interval_finished (object o, EventArgs args) 
 	{
-		//currentJumpRj.FalseButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
+		currentRunInterval.FalseButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
 		
-		//if ( ! currentJumpRj.Cancel ) {
+		if ( ! currentRunInterval.Cancel ) {
 			lastEventWasJump = false;
 			lastRunIsInterval = true;
 
 			//if user clicked in finish earlier
-			/*
-			if(currentJumpRj.Finish) {
-				currentJumpRj.Jumps = Util.GetNumberOfJumps(currentJumpRj.TvString);
-				if(currentJumpRj.JumpsLimited) {
-					currentJumpRj.Limited = currentJumpRj.Jumps.ToString() + "J";
+			if(currentRunInterval.Finish) {
+				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString);
+				if(currentRunInterval.TracksLimited) {
+					currentRunInterval.Limited = currentRunInterval.Tracks.ToString() + "R";
 				} else {
-					currentJumpRj.Limited = Util.GetTotalTime(
-							currentJumpRj.TcString, currentJumpRj.TvString) + "T";
+					currentRunInterval.Limited = Util.GetTotalTime(
+							currentRunInterval.IntervalTimesString) + "T";
 				}
 			}
-			*/
 			myTreeViewRunsInterval.Add(currentPerson.Name, currentRunInterval);
 
 			if(createdStatsWin) {
@@ -1764,11 +1788,11 @@ public class ChronoJump
 			if(notebook.CurrentPage < 4) {
 				notebook.NextPage();
 			}
-		//}
+		}
 		
 		sensitiveGuiYesJump();
 		//unhide buttons that allow jumping, running
-		sensitiveGuiRunned();
+		sensitiveGuiJumpedOrRunned();
 		//unhide buttons for delete last jump
 		sensitiveGuiYesJump();
 	}
@@ -2281,84 +2305,63 @@ public class ChronoJump
 		button_finish.Sensitive = false;
 	}
 	
-	private void sensitiveGuiJumping () {
+	private void sensitiveGuiJumpingOrRunning () {
 		//hbox
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
+		hbox_runs.Sensitive = false;
+		hbox_runs_interval.Sensitive = false;
 		
 		//menu
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
 		
-		//cancel, finish jump, delete last
+		//cancel, delete last, finish
 		button_cancel.Sensitive = true;
-		if (currentJumpType.IsRepetitive) {
-			button_finish.Sensitive = true;
-		}
 		button_last_delete.Sensitive = false;
-	}
-    
-	private void sensitiveGuiRunning () {
-		//hbox
-		hbox_jumps.Sensitive = false;
-		hbox_jumps_rj.Sensitive = false;
 		
-		//menu
-		menu_jumps.Sensitive = false;
-		menu_runs.Sensitive = false;
-		
-		//cancel, finish jump, delete last
-		button_cancel.Sensitive = true;
-		if (currentRunType.HasIntervals) {
-			button_finish.Sensitive = true;
+		if(currentEventIsJump) {
+			if (currentJumpType.IsRepetitive) {
+				button_finish.Sensitive = true;
+			}
+		} else {
+			if (currentRunType.HasIntervals) {
+				button_finish.Sensitive = true;
+			}
 		}
-		button_last_delete.Sensitive = false;
 	}
-    
-	private void sensitiveGuiJumped () {
-		Console.WriteLine("GuiJumped");
+   
+	private void sensitiveGuiJumpedOrRunned () {
 		//hbox
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
+		hbox_runs.Sensitive = true;
+		hbox_runs_interval.Sensitive = true;
 
-		//allow repeat last jump (check also if it wasn't cancelled)
-		if(currentJumpType.IsRepetitive) {
-			if(! currentJumpRj.Cancel) {
-				button_rj_last.Sensitive = true;
-				button_last.Sensitive = false;
+		//allow repeat last jump or run (check also if it wasn't cancelled)
+		if(currentEventIsJump) {
+			if(currentJumpType.IsRepetitive) {
+				if(! currentJumpRj.Cancel) {
+					button_rj_last.Sensitive = true;
+					button_last.Sensitive = false;
+				}
+			} else {
+				if(! currentJump.Cancel) {
+					button_last.Sensitive = true;
+					button_rj_last.Sensitive = false;
+				}
 			}
 		} else {
-			if(! currentJump.Cancel) {
-				button_last.Sensitive = true;
-				button_rj_last.Sensitive = false;
-			}
-		}
-		
-		//menu
-		menu_jumps.Sensitive = true;
-		menu_runs.Sensitive = true;
-		
-		//cancel, finish jump
-		button_cancel.Sensitive = false;
-		button_finish.Sensitive = false;
-	}
-	
-	private void sensitiveGuiRunned () {
-		Console.WriteLine("GuiRunned");
-		//hbox
-		hbox_jumps.Sensitive = true;
-		hbox_jumps_rj.Sensitive = true;
-
-		//allow repeat last run (check also if it wasn't cancelled)
-		if(currentRunType.HasIntervals) {
-			if(! currentRunInterval.Cancel) {
-				button_run_interval_last.Sensitive = true;
-				button_run_last.Sensitive = false;
-			}
-		} else {
-			if(! currentRun.Cancel) {
-				button_run_last.Sensitive = true;
-				button_run_interval_last.Sensitive = false;
+			if(currentRunType.HasIntervals) {
+				if(! currentRunInterval.Cancel) {
+					button_run_interval_last.Sensitive = true;
+					button_run_last.Sensitive = false;
+				}
+			} else {
+				if(! currentRun.Cancel) {
+					button_run_last.Sensitive = true;
+					button_run_interval_last.Sensitive = false;
+				}
 			}
 		}
 		

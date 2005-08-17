@@ -32,6 +32,7 @@ public class JumpType
 	protected double fixedValue;	//0 no fixed value
 	//protected string description;
 	protected bool isPredefined;
+	protected bool unlimited;
 
 	//predefined values
 	public JumpType(string name) {
@@ -39,6 +40,8 @@ public class JumpType
 		
 		//we cannot obtain values like has Weight
 		this.isPredefined = false;
+		
+		unlimited = false;	//default value
 		
 		//if this changes, sqlite/jumpType.cs initialize tables should change
 		if(name == "SJ" || name == "CMJ" || name == "ABK") {
@@ -83,6 +86,7 @@ public class JumpType
 			jumpsLimited 	= true;	//will finish in a concrete jump, not in a concrete second
 			fixedValue 	= -1;	//don't ask for limit of jumps or seconds
 			isPredefined	= true;
+			unlimited 	= true;
 		} else if(name == "triple jump") {
 			startIn 	= false;
 			hasWeight 	= false;
@@ -95,7 +99,7 @@ public class JumpType
 	
 	
 	public JumpType(string name, bool startIn, bool hasWeight, 
-			bool isRepetitive, bool jumpsLimited, double fixedValue)
+			bool isRepetitive, bool jumpsLimited, double fixedValue, bool unlimited)
 	{
 		this.name 	= name;
 		this.startIn 	= startIn;
@@ -103,6 +107,7 @@ public class JumpType
 		this.isRepetitive = isRepetitive;
 		this.jumpsLimited = jumpsLimited;
 		this.fixedValue = fixedValue;
+		this.unlimited = unlimited;
 
 		//we can obtain values like has Weight
 		this.isPredefined	= true;
@@ -142,6 +147,11 @@ public class JumpType
 	public double FixedValue
 	{
 		get { return fixedValue; }
+	}
+	
+	public bool Unlimited
+	{
+		get { return unlimited; }
 	}
 }
 

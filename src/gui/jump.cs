@@ -551,7 +551,7 @@ public class JumpsMoreWindow
 		}
 	}
 	
-	void on_button_close_clicked (object o, EventArgs args)
+	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		JumpsMoreWindowBox.jumps_runs_more.Hide();
 		JumpsMoreWindowBox = null;
@@ -565,7 +565,7 @@ public class JumpsMoreWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		Console.Write("SELECTED");
+		JumpsMoreWindowBox.jumps_runs_more.Hide();
 	}
 	
 	public Button Button_accept 
@@ -623,6 +623,7 @@ public class JumpsRjMoreWindow
 	private bool selectedExtraWeight;
 	private bool selectedLimited;
 	private double selectedLimitedValue;
+	private bool selectedUnlimited;
 	
 	JumpsRjMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
@@ -684,13 +685,22 @@ public class JumpsRjMoreWindow
 				myStringFull[3] = Catalog.GetString("No");
 			}
 			//limited
-			string myLimiter = Catalog.GetString("Jumps");
-			if(myStringFull[4] == "0") {
-				myLimiter = Catalog.GetString("Seconds");
-			}
-			string myLimiterValue = "?";
-			if(Convert.ToDouble(myStringFull[5]) > 0) {
-				myLimiterValue = myStringFull[5];
+			string myLimiter = "";
+			string myLimiterValue = "";
+			
+			//check if it's unlimited
+			if(myStringFull[5] == "-1") { //unlimited mark
+				myLimiter= Catalog.GetString("Unlimited");
+				myLimiterValue = "-";
+			} else {
+				myLimiter = Catalog.GetString("Jumps");
+				if(myStringFull[4] == "0") {
+					myLimiter = Catalog.GetString("Seconds");
+				}
+				myLimiterValue = "?";
+				if(Convert.ToDouble(myStringFull[5]) > 0) {
+					myLimiterValue = myStringFull[5];
+				}
 			}
 
 			iter = store.AppendValues (
@@ -717,15 +727,24 @@ public class JumpsRjMoreWindow
 		selectedExtraWeight = false;
 		selectedLimited = false;
 		selectedLimitedValue = 0;
+		selectedUnlimited = false; //true if it's an unlimited reactive jump
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			selectedJumpType = (string) model.GetValue (iter, 0);
+			
+			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Unlimited") ) {
+				selectedUnlimited = true;
+				selectedLimited = true; //unlimited jumps will be limited by clicking on "finish"
+							//and this will be always done by the user when
+							//some jumps are done (not time like in runs)
+			} 
+			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Jumps") ) {
 				selectedLimited = true;
 			}
 			
-			if( (string) model.GetValue (iter, 2) == "?") {
+			if( (string) model.GetValue (iter, 2) == "?" || (string) model.GetValue (iter, 2) == "-") {
 				selectedLimitedValue = 0;
 			} else {
 				selectedLimitedValue = Convert.ToDouble( (string) model.GetValue (iter, 2) );
@@ -749,11 +768,19 @@ public class JumpsRjMoreWindow
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			selectedJumpType = (string) model.GetValue (iter, 0);
+			
+			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Unlimited") ) {
+				selectedUnlimited = true;
+				selectedLimited = true; //unlimited jumps will be limited by clicking on "finish"
+							//and this will be always done by the user when
+							//some jumps are done (not time like in runs)
+			} 
+			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Jumps") ) {
 				selectedLimited = true;
 			}
 			
-			if( (string) model.GetValue (iter, 2) == "?") {
+			if( (string) model.GetValue (iter, 2) == "?" || (string) model.GetValue (iter, 2) == "-") {
 				selectedLimitedValue = 0;
 			} else {
 				selectedLimitedValue = Convert.ToDouble( (string) model.GetValue (iter, 2) );
@@ -772,7 +799,7 @@ public class JumpsRjMoreWindow
 	}
 	
 	
-	void on_button_close_clicked (object o, EventArgs args)
+	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		JumpsRjMoreWindowBox.jumps_runs_more.Hide();
 		JumpsRjMoreWindowBox = null;
@@ -786,52 +813,44 @@ public class JumpsRjMoreWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		Console.Write("Selected");
+		JumpsRjMoreWindowBox.jumps_runs_more.Hide();
 	}
+
 	
 	public Button Button_accept 
 	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+		set { button_accept = value; } 
+		get { return button_accept; }
 	}
 	
 	public string SelectedJumpType 
 	{
-		get {
-			return selectedJumpType;
-		}
+		get { return selectedJumpType; }
 	}
 	
 	public bool SelectedLimited 
 	{
-		get {
-			return selectedLimited;
-		}
+		get { return selectedLimited; }
 	}
 	
 	public double SelectedLimitedValue 
 	{
-		get {
-			return selectedLimitedValue;
-		}
+		get { return selectedLimitedValue; }
 	}
 	
 	public bool SelectedStartIn 
 	{
-		get {
-			return selectedStartIn;
-		}
+		get { return selectedStartIn; }
 	}
 	
 	public bool SelectedExtraWeight 
 	{
-		get {
-			return selectedExtraWeight;
-		}
+		get { return selectedExtraWeight; }
+	}
+	
+	public bool SelectedUnlimited 
+	{
+		get { return selectedUnlimited; }
 	}
 }
 

@@ -1,0 +1,20 @@
+        <h4>Instal·lació</h4>
+
+	<b>Ja</b> podeu provar ChronoJump&nbsp;<b>0.2</b>  a  qualsevol PC seguint les instruccions d'aquest correu: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-August/000059.html">Provar ChronoJump 0.2 a Windows des de mono-live-cd o a Linux</a>.
+
+	<p>
+Si us considereu un <b>usuari&nbsp;avançat</b>, podeu provar el programa des d'un sistema operatiu GNU/Linux, instal·lant <a href="http://www.mono-project.com">Mono</a>, i baixant-vos les fonts del CVS de Chronojump: 
+
+	<ol>
+	<li><tt>cvs -d:pserver:anonymous@cvs.programari-lliure.org:/cvsroot/chronojump login</tt> (quan us  demani una contrasenya premeu “enter”). 
+	<li><tt>cvs -z3 -d:pserver:anonymous@cvs.programari-lliure.org:/cvsroot/chronojump co chronojump</tt> 
+	<li>executeu <tt>./chronojump.exe</tt> o compilar la seva pròpia versió <tt>make</tt>. 
+	</ol>
+	<p>
+Podeu obtenir ajuda apuntant-vos a les llistes de correu que trobareu a l'apartat introducció. 
+
+	<p>
+El cronòmetre és un prototip a l'espera de preparar una versió. Un cop acabat el podreu adquirir per un preu inferior a 90 euros o el podreu fabricar, si ho desitgeu, per uns 30 euros. 
+	<p>
+
+Si desitgeu conèixer com avança el projecte, podeu consultar l'arxiu <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">changelog</a> (fent clic en el número que hi ha a la dreta de "Revisió”), i en els <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">arxius de la llista de chronojump-developers</a>. 

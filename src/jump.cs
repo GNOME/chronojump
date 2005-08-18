@@ -537,7 +537,7 @@ public class JumpRj : Jump
 
 		//if it's a unlimited reactive jump and it's simulated, put random value in limitAsDouble (will be jumps)
 		if(limitAsDouble == -1) {
-			limitAsDouble = Convert.ToInt32(rand.NextDouble() * 7);
+			limitAsDouble = Convert.ToInt32(rand.NextDouble() * 7) +10; //+10 for not allowing being 0
 			jumpsLimited = true;
 			limited = limitAsDouble.ToString() + "J";
 		}

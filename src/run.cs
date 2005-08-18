@@ -379,7 +379,7 @@ public class RunInterval : Run
 		
 		//if it's a unlimited intetrvalic run and it's simulated, put random value in limitAsDouble (will be tracks)
 		if(limitAsDouble == -1) {
-			limitAsDouble = Convert.ToInt32(rand.NextDouble() * 7);
+			limitAsDouble = Convert.ToInt32(rand.NextDouble() * 7) +10; //+10 for not allowing being 0
 			tracksLimited = true;
 			limited = limitAsDouble.ToString() + "R";
 		}

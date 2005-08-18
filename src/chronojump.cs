@@ -215,7 +215,7 @@ public class ChronoJump
 	RunExtraWindow runExtraWin; //for normal and intervaled runs 
 	RunsMoreWindow runsMoreWin;
 	RunsIntervalMoreWindow runsIntervalMoreWin;
-	//RunTypeAddWindow runTypeAddWin;
+	RunTypeAddWindow runTypeAddWin;
 	EditRunWindow editRunWin;
 	EditRunIntervalWindow editRunIntervalWin;
 
@@ -296,7 +296,7 @@ public class ChronoJump
 		rand = new Random(40);
 				
 		//init connecting with chronopic	
-		chronopicInit();
+		//chronopicInit();
 				
 		program.Run();
 	}
@@ -670,8 +670,20 @@ public class ChronoJump
 	}
 	
 	private void updateComboJumpsRj() {
-		combo_jumps_rj.PopdownStrings = SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
+		combo_jumps_rj.PopdownStrings = 
+			SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
 	}
+	
+	private void updateComboRuns() {
+		combo_runs.PopdownStrings = 
+			SqliteRunType.SelectRunTypes(allRunsName, true); //only select name
+	}
+	
+	private void updateComboRunsInterval() {
+		combo_runs_interval.PopdownStrings = 
+			SqliteRunType.SelectRunIntervalTypes(allRunsName, true); //only select name
+	}
+
 
 	private bool updateComboSujetoCurrent() {
 		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
@@ -1202,10 +1214,7 @@ public class ChronoJump
 	
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("Cancel");
-
 		//this will cancel jumps or runs
-		
 		if(currentEventIsJump) {
 			if (currentJumpType.IsRepetitive) {
 				currentJumpRj.Cancel = true;
@@ -1223,8 +1232,6 @@ public class ChronoJump
 		
 	private void on_finish_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("Finish (not implemented)");
-
 		//this will finish jumps or runs
 		if(currentEventIsJump) {
 			currentJumpRj.Finish = true;
@@ -1258,6 +1265,8 @@ public class ChronoJump
 	//used from the dialogue "jumps more"
 	private void on_more_jumps_accepted (object o, EventArgs args) 
 	{
+		jumpsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_accepted);
+		
 		currentJumpType = new JumpType(
 				jumpsMoreWin.SelectedJumpType,
 				jumpsMoreWin.SelectedStartIn,
@@ -1391,7 +1400,7 @@ public class ChronoJump
 	//used from the dialogue "jumps rj more"
 	private void on_more_jumps_rj_accepted (object o, EventArgs args) 
 	{
-		Console.WriteLine("--1 jumpsRjMoreWin.SelectedLimited: {0}", jumpsRjMoreWin.SelectedLimited);
+		jumpsRjMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_rj_accepted);
 
 		currentJumpType = new JumpType(
 				jumpsRjMoreWin.SelectedJumpType,
@@ -1543,6 +1552,8 @@ public class ChronoJump
 	//used from the dialogue "runs more"
 	private void on_more_runs_accepted (object o, EventArgs args) 
 	{
+		runsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_accepted);
+		
 		currentRunType = new RunType(
 				runsMoreWin.SelectedRunType,	//name
 				false,				//hasIntervals
@@ -1661,13 +1672,14 @@ public class ChronoJump
 
 	private void on_button_run_interval_more_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("button run interval more");
 		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
 		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
 	}
 	
 	private void on_more_runs_interval_accepted (object o, EventArgs args) 
 	{
+		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
+		
 		currentRunType = new RunType(
 				runsIntervalMoreWin.SelectedRunType,	//name
 				true,					//hasIntervals
@@ -2130,14 +2142,14 @@ public class ChronoJump
 	private void on_run_type_add_activate (object o, EventArgs args) {
 		Console.WriteLine("Add new run type");
 			
-		//runTypeAddWin = RunTypeAddWindow.Show(app1);
-		//runTypeAddWin.Button_accept.Clicked += new EventHandler(on_run_type_add_accepted);
+		runTypeAddWin = RunTypeAddWindow.Show(app1);
+		runTypeAddWin.Button_accept.Clicked += new EventHandler(on_run_type_add_accepted);
 	}
 	
 	private void on_run_type_add_accepted (object o, EventArgs args) {
 		Console.WriteLine("ACCEPTED Add new run type");
-		//updateComboRuns();
-		//updateComboJumpsRj();
+		updateComboRuns();
+		updateComboRunsInterval();
 	}
 
 

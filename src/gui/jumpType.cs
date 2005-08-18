@@ -39,7 +39,9 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.RadioButton radiobutton_simple;
 	[Widget] Gtk.RadioButton radiobutton_repetitive;
+	[Widget] Gtk.RadioButton radiobutton_unlimited;
 	[Widget] Gtk.VBox vbox_limited;
+	[Widget] Gtk.HBox hbox_fixed;
 	[Widget] Gtk.RadioButton radiobutton_limited_jumps;
 	[Widget] Gtk.CheckButton checkbutton_limited_fixed;
 	[Widget] Gtk.SpinButton spin_fixed_num;
@@ -76,8 +78,10 @@ public class JumpTypeAddWindow
 	private void fillDialog ()
 	{
 		vbox_limited.Sensitive = false;	
+		hbox_fixed.Sensitive = false;	
 		button_accept.Sensitive = false;
 		spin_fixed_num.Sensitive = false;
+		radiobutton_extra_weight_no.Active = true;
 	}
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -121,15 +125,23 @@ public class JumpTypeAddWindow
 			
 				SqliteJumpType.JumpTypeInsert(myJump, false); //false, because dbcon is not opened
 			} else {
-				if(radiobutton_limited_jumps.Active) {
-					myJump = myJump + ":1"; 
+				
+				if(radiobutton_unlimited.Active) {
+					//unlimited (but in jumps do like if it's limited by jumps 
+					//(explanation in sqlite/jumpType.cs)
+					myJump = myJump + ":1:-1"; 
 				} else {
-					myJump = myJump + ":0"; 
-				}
-				if(checkbutton_limited_fixed.Active) {
-					myJump = myJump + ":" + spin_fixed_num.Value; 
-				} else {
-					myJump = myJump + ":0"; 
+					if(radiobutton_limited_jumps.Active) {
+						myJump = myJump + ":1"; 
+					} else {
+						myJump = myJump + ":0";
+					}
+				
+					if(checkbutton_limited_fixed.Active) {
+						myJump = myJump + ":" + spin_fixed_num.Value; 
+					} else {
+						myJump = myJump + ":0"; 
+					}
 				}
 			
 				myJump = myJump + ":" + 
@@ -148,11 +160,25 @@ public class JumpTypeAddWindow
 	void on_radiobutton_simple_toggled (object o, EventArgs args)
 	{
 		vbox_limited.Sensitive = false;	
+		hbox_fixed.Sensitive = false;	
 	}
 	
 	void on_radiobutton_repetitive_toggled (object o, EventArgs args)
 	{
 		vbox_limited.Sensitive = true;	
+		if( ! radiobutton_unlimited.Active) {
+			hbox_fixed.Sensitive = true;	
+		}
+	}
+	
+	void on_radiobutton_limited_jumps_or_time_toggled (object o, EventArgs args)
+	{
+		hbox_fixed.Sensitive = true;	
+	}
+	
+	void on_radiobutton_unlimited_toggled (object o, EventArgs args)
+	{
+		hbox_fixed.Sensitive = false;	
 	}
 	
 	void on_checkbutton_limited_fixed_clicked (object o, EventArgs args)

@@ -1,0 +1,20 @@
+<h4>Construcció-obtenció del cronòmetre</h4>
+<tt>[Pendent]</tt>
+
+
+<h4>Construcció de la plataforma de contactes</h4>
+
+L'instrument que permet saber si el subjecte està a l'aire o a terra pot ser una plataforma de contactes o un sistema de cèl·lules fotoelèctriques. Proposem el següent document amb les intruccions per a fabricar la plataforma de contactes: 
+
+
+<ul>
+<li><a href="construction_contact_platform_ca.html">"Instruccions per la construcció d'una plataforma de contactes per la medició de la capacitat del salts/s"</a>.
+<li>Consulteu també els <a href="construction_contact_platform_comments_ca.html">comentaris de fabricació de la plataforma de contactes</a>.
+<li>Abans del projecte ChronoJump, van ser creats els projectes <b>Salta</b> y <b>Gsalta</b> (avui desapareguts). En aquests programes no existia cronòmetre i la connexió plataforma-PC es feia pel port paral·lel. Malgrat que aquest mètode <b>no s'adapta a ChronoJump</b> s'inclou per aquelles persones que estiguin interessades: <a href="construction_contact_platform_parallel_port_ca.html">informació de connexió per port paral·lel</a>. 
+</ul>
+
+De forma alternativa s'ha descrit una altra possibilitat de construcció de plataforma de contactes que <b>no ha estat provada o adaptada a ChronoJump</b>: 
+<ul><li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Desenvolupament de Prototip de Plataforma i Programa de Computació, per Avaluació del Salt Vertical adaptat del Tapet de Videojoc"</a>
+</ul>
+
+Respecte les <b>cel·lules&nbsp;fotoelèctriques</b>, no han estat documentades encara les seves possibilitats  d'ús, de preu, etc. Si disposeu d'informació i desitgeu col·laborar, apunteu-vos a la llista Chronojump Developers (informació sobre llistes de correu a la <a href="index_ca.html">pàgina d'introducció a ChronoJump</a>). 

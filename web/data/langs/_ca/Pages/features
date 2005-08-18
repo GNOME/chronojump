@@ -1,0 +1,50 @@
+<h4>Característiques del programari de gestió</h4>
+
+El ChronoJump permet el registre de qualsevol salt amb les repeticions que es desitgin. Iniciant-los des de dins o des de fora de la plataforma, enregistrant independentment el temps de contacte i el  temps de vol, axí com la càrrega extra, l'alçada de la caiguda, la limitació per salts o per temps i la descripció tècnica. 
+<p>
+El ChronoJump fa servir una petita base de dades Sqlite que el capacita per vincular salts a subjectes i sessions. D'aquesta manera permet realitzar tot tipus de comparacions entre ambdues variables.
+<p>
+És possible i senzill crear nous tipus de salts amb les variables descrites anteriorment.  
+<p>
+És multiplataforma; Pel fet d'estar programat en C# usant Mono, hauria de funcionar correctament   amb GNU/Linux, MacOSX, Windows... a hores d'ara només s'ha provat amb GNU/Linux. 
+<p>
+Incorpora les següents caractarístiques (sempre que no s'especifiqui el contrari, permet mostrar mitjanes, valors màxims, o bé tots els valors d'una única sessió o entre un número indeterminat de sessions ( longitudinal) i amb distinció de gènere).
+
+<ul>
+<li>Resum d'una o diferents sessions 
+<li>Estudi d'un únic subjecte
+<li>Temps de vol de salts simples 
+<li>Temps de contacte, temps de vol i índex entre ambdós, en salts amb caiguda i en salts  repetitius (breument s'implementarà també la velocitat d'arrencada).
+<li>Potència en salts repetitius 
+<li>Evolució de salts repetitius (únicament en una sessió) 
+<li>Índex d'elasticitat i d'utilització de braços.
+<li>...(la composició modular del ChronoJump facilita la inclusió de nous estadístics) 
+</ul>
+
+Possibilitat de mostrar els gràfics de tots els estadístics descrits mitjançant la llibreria gràfica  <a href="http://netcontrols.org/nplot/">NPlot</a>.
+
+<p>
+Possibilitat d'exportar les dades dels salts a fulls de càlcul (format CSV). 
+
+<h4>Característiques del cronòmetre</h4>
+
+L'aparell Cronometrador: Chronopic, està basat en la targeta Entrenadora Skypic (consulteu la documentació), i ofereix una precisió d'una mil·lèsima de segon, segons s'ha pogut comprovar. <tt>[Pendent de detallar com s'ha comprovat]</tt>. 
+<p>
+Alguns sistemes de cronometratge del salt fan servir, únicament, un ordinador personal connectat a la plataforma. Els ordinadors actuals són multifuncions, característica que els impedeix garantir un mesurament fiable,  pel fet que poden estar realitzant qualsevol altra tasca en aquell mateix moment.
+
+ <p>
+ 
+ <h4>Característiques de la plataforma</h4>
+
+ La plataforma de contactes es pot fabricar tal i com s'explica a l'apartat <a href="construction_ca.html">Construcció</a>.
+
+ <h4>Característiques futuras</h4>
+
+Breument s'hi volen implementar les següents funcions: 
+<ul>
+<li>Esquema per la disposició de dues plataformes per a cronometrar un circuit d'agilitat o velocitat. En aquest cas, es recomana que cada plataforma sigui construïda amb un número de conjunts vareta inferior al convencional. També apunta la possibilitat d'usar una plataforma (circuit circular) o més de dues (sessió amb diferents "estacions"). 
+<li>Es preveu la possibilitat de substituir les plataformes de contactes per cèl·lules fotoelèctriques. El mètode de fabricació de cèl·lules fotoelèctriques encara no està descrit, si teniu informació referent a aquest tema, preguem la seva col·laboració. 
+<li>Vibrador (zumbador) per a mesurar el temps de reacció. Un dispositiu instal·lat al cronòmetre produirà un so i cronometrarà el temps que passi fins que esdevingui un canvi d'estat a la plataforma. Entre moltes altres utilitats pot ser usat pel control de la Course Navette.
+<li>Possibilitat de modificar la sensibilitat del cronòmetre a cada salt. 
+<li>Si desitgeu altres característiques, no dubteu en demanar-les a les llistes de correu.
+</ul>

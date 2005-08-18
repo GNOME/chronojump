@@ -75,10 +75,17 @@ class SqliteJumpType : Sqlite
 			"name TEXT, " +
 			"startIn INT, " + //if it starts inside or outside the platform
 			"weight INT, " + 
-			"jumpsLimited INT, " +  //1 imited by jumps; 0 limited by time
-			"fixedValue FLOAT, " +  //0: no fixed value (ask), 
-						//-1: don't ask (jump until "finish" button is clicked; 
-						//3.5: 3.5 jumps or seconds 
+			"jumpsLimited INT, " +  //1 limited by jumps; 0 limited by time
+			"fixedValue FLOAT, " +  //0: no fixed value (ask in jump_extra widget), 
+						//3.5: 3.5 jumps or seconds (don't ask in jump_extra)
+						//-1: unlimited: jump until "finish" button is clicked 
+						//	don't ask in jump_extra
+						//	always comes with jumpsLimited value)
+						//	in runs, unlimited goes with seconds, this is because
+						//	unlimited jumps can finish when a certain number is reached,
+						//	and it's easy to stop just when on jump is finished.
+						//	In runs, by the other way, sometimes is not possible to arrive
+						//	to the end of the track, and limitation value is seconds
 			"description TEXT )";		
 		dbcmd.ExecuteNonQuery();
 	}
@@ -143,6 +150,7 @@ class SqliteJumpType : Sqlite
 	{
 		//allJumpsName: add and "allJumpsName" value
 		//filter: "" all jumps, "TC" only with previous fall, "nonTC" only not with previous fall
+		//	used in gui/stats.cs
 		//onlyName: return only type name
 	
 		string whereString = "";

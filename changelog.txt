@@ -1,10 +1,23 @@
 CHANGELOG:
 
+18 aug 2005
+	Add run type and run interval type (closes task: 282)
+
+	Add jump type with unlimited and improved usability
+	
+	improved usability of combos of jumps and runs adding a alignement,
+	improved usability in preferences window 
+	minor improving of other gui's
+	
+	fixed bug in jumping or running from more in "simulated" that calls
+	more_accepted several incrementing times (this error comes from the
+	"more" windows change in last cvs commit
+
 17 aug 2005
-	run interval execute unlimited
+	run interval execute unlimited (Fixes task 283)
 	run interval more
 	run interval cancel
-	run interval finish
+	run interval finish (three above fixed task 281)
 	"more" windows get hided when clic on "accept" (now suitable to clic cancel or finish)
 
 	fixed bugs in unlimited RJ jumps and interval runs

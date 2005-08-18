@@ -129,26 +129,6 @@ for (sort keys %languages)
 sub getHeadersWithTitle {
 	my $title=($_);
 		
-	
-#	my $return = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"es\" xml:lang=\"es\">
-#		<head>
-#		<title>$title</title>
-#		<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-#		<style type=\"text/css\">
-#			\@import url(style.css)\;
-#		</style>
-#		</head>
-#
-#		<body id=\"page-main\" class=\"with-sidebar\">
-#
-#		<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
-#		<tr><td align=\"left\">
-#		<div align=\"left\"><img src=\"images/chronojump33.png\" alt=\"logo\" width=\"591\" height=\"177\" border=\"0\">
-#		</div>
-#		</td><td valign=\"bottom\" align=\"right\">
-#		";
-#	return $return;
-
 	my $return = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"es   \">
 
 			  <head>
@@ -298,6 +278,7 @@ sub filterHTML {
 	$return =~ s/Ü/&Uuml;/g;
 	$return =~ s/ç/&ccedil;/g;
 	$return =~ s/Ç/&Ccedil;/g;
+	$return =~ s/·/&middot;/g;
 
 	#português
 	$return =~ s/ã/&atilde;/g;

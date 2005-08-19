@@ -109,7 +109,8 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_export_xml;
 	[Widget] Gtk.MenuItem menuitem_recuperate_person;
-	[Widget] Gtk.MenuItem create_person;
+	[Widget] Gtk.MenuItem menuitem_person_add_single;
+	[Widget] Gtk.MenuItem menuitem_person_add_multiple;
 	[Widget] Gtk.MenuItem menuitem_edit_session;
 	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_recuperate_persons_from_session;
@@ -204,6 +205,7 @@ public class ChronoJump
 	SessionLoadWindow sessionLoadWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonAddWindow personAddWin; 
+	PersonAddMultipleWindow personAddMultipleWin; 
 	PersonModifyWindow personModifyWin; 
 	JumpsMoreWindow jumpsMoreWin;
 	JumpsRjMoreWindow jumpsRjMoreWin;
@@ -1002,18 +1004,33 @@ public class ChronoJump
 		sensitiveGuiYesPerson();
 	}
 		
-	private void on_create_person_activate (object o, EventArgs args) {
-		Console.WriteLine("nuevo suj.");
+	private void on_person_add_single_activate (object o, EventArgs args) {
 		personAddWin = PersonAddWindow.Show(app1, currentSession.UniqueID);
-		personAddWin.Button_accept.Clicked += new EventHandler(on_new_person_accepted);
+		personAddWin.Button_accept.Clicked += new EventHandler(on_person_add_single_accepted);
 	}
 	
-	private void on_new_person_accepted (object o, EventArgs args) {
+	private void on_person_add_single_accepted (object o, EventArgs args) {
 		if (personAddWin.CurrentPerson != null)
 		{
 			currentPerson = personAddWin.CurrentPerson;
 			updateComboSujetoCurrent();
 			sensitiveGuiYesPerson();
+			appbar2.Push( "Successfully added " + currentPerson.Name );
+		}
+	}
+	
+	private void on_person_add_multiple_activate (object o, EventArgs args) {
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession.UniqueID);
+		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
+	}
+	
+	private void on_person_add_multiple_accepted (object o, EventArgs args) {
+		if (personAddMultipleWin.CurrentPerson != null)
+		{
+			currentPerson = personAddMultipleWin.CurrentPerson;
+			updateComboSujetoCurrent();
+			sensitiveGuiYesPerson();
+			appbar2.Push( "Successfully added " + personAddMultipleWin.PersonsCreatedCount + " persons" );
 		}
 	}
 	
@@ -2182,7 +2199,8 @@ public class ChronoJump
 		menuitem_export_xml.Sensitive = false;
 		menuitem_recuperate_person.Sensitive = false;
 		menuitem_recuperate_persons_from_session.Sensitive = false;
-		create_person.Sensitive = false;
+		menuitem_person_add_single.Sensitive = false;
+		menuitem_person_add_multiple.Sensitive = false;
 		combo_person_current.Sensitive = false;
 		menuitem_edit_session.Sensitive = false;
 		menuitem_delete_session.Sensitive = false;
@@ -2220,7 +2238,8 @@ public class ChronoJump
 		menuitem_export_xml.Sensitive = false; //it's not coded yet
 		menuitem_recuperate_person.Sensitive = true;
 		menuitem_recuperate_persons_from_session.Sensitive = true;
-		create_person.Sensitive = true;
+		menuitem_person_add_single.Sensitive = true;
+		menuitem_person_add_multiple.Sensitive = true;
 		menuitem_edit_session.Sensitive = true;
 		menuitem_delete_session.Sensitive = true;
 		menu_persons.Sensitive = true;

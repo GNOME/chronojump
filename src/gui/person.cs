@@ -469,3 +469,223 @@ public class PersonModifyWindow
 	}
 	
 }
+
+//new persons multiple (10)
+public class PersonAddMultipleWindow {
+	
+	[Widget] Gtk.Window person_add_multiple;
+	
+	[Widget] Gtk.Entry entry1;
+	[Widget] Gtk.Entry entry2;
+	[Widget] Gtk.Entry entry3;
+	[Widget] Gtk.Entry entry4;
+	[Widget] Gtk.Entry entry5;
+	[Widget] Gtk.Entry entry6;
+	[Widget] Gtk.Entry entry7;
+	[Widget] Gtk.Entry entry8;
+	[Widget] Gtk.Entry entry9;
+	[Widget] Gtk.Entry entry10;
+	
+	[Widget] Gtk.RadioButton r_1_m;
+	[Widget] Gtk.RadioButton r_1_f;
+	[Widget] Gtk.RadioButton r_2_m;
+	[Widget] Gtk.RadioButton r_2_f;
+	[Widget] Gtk.RadioButton r_3_m;
+	[Widget] Gtk.RadioButton r_3_f;
+	[Widget] Gtk.RadioButton r_4_m;
+	[Widget] Gtk.RadioButton r_4_f;
+	[Widget] Gtk.RadioButton r_5_m;
+	[Widget] Gtk.RadioButton r_5_f;
+	[Widget] Gtk.RadioButton r_6_m;
+	[Widget] Gtk.RadioButton r_6_f;
+	[Widget] Gtk.RadioButton r_7_m;
+	[Widget] Gtk.RadioButton r_7_f;
+	[Widget] Gtk.RadioButton r_8_m;
+	[Widget] Gtk.RadioButton r_8_f;
+	[Widget] Gtk.RadioButton r_9_m;
+	[Widget] Gtk.RadioButton r_9_f;
+	[Widget] Gtk.RadioButton r_10_m;
+	[Widget] Gtk.RadioButton r_10_f;
+
+	[Widget] Gtk.SpinButton spinbutton1;
+	[Widget] Gtk.SpinButton spinbutton2;
+	[Widget] Gtk.SpinButton spinbutton3;
+	[Widget] Gtk.SpinButton spinbutton4;
+	[Widget] Gtk.SpinButton spinbutton5;
+	[Widget] Gtk.SpinButton spinbutton6;
+	[Widget] Gtk.SpinButton spinbutton7;
+	[Widget] Gtk.SpinButton spinbutton8;
+	[Widget] Gtk.SpinButton spinbutton9;
+	[Widget] Gtk.SpinButton spinbutton10;
+	
+	[Widget] Gtk.Button button_accept;
+	
+	static PersonAddMultipleWindow PersonAddMultipleWindowBox;
+	Gtk.Window parent;
+	ErrorWindow errorWin;
+
+	private Person currentPerson;
+	int sessionID;
+	int personsCreatedCount;
+	string errorExistsString;
+	string errorWeightString;
+	
+	PersonAddMultipleWindow (Gtk.Window parent, int sessionID) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_add_multiple", null);
+
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+		this.sessionID = sessionID;
+	}
+	
+	static public PersonAddMultipleWindow Show (Gtk.Window parent, int sessionID)
+	{
+		if (PersonAddMultipleWindowBox == null) {
+			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, sessionID);
+		}
+		PersonAddMultipleWindowBox.person_add_multiple.Show ();
+		
+		return PersonAddMultipleWindowBox;
+	}
+	
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		PersonAddMultipleWindowBox.person_add_multiple.Hide();
+		PersonAddMultipleWindowBox = null;
+	}
+	
+	void on_delete_event (object o, EventArgs args)
+	{
+		PersonAddMultipleWindowBox.person_add_multiple.Hide();
+		PersonAddMultipleWindowBox = null;
+	}
+	
+	void on_button_accept_clicked (object o, EventArgs args)
+	{
+		errorExistsString = "";
+		errorWeightString = "";
+		personsCreatedCount = 0;
+		
+		int count = 1;
+		checkEntries(count++, entry1.Text.ToString(), (int) spinbutton1.Value);
+		checkEntries(count++, entry2.Text.ToString(), (int) spinbutton2.Value);
+		checkEntries(count++, entry3.Text.ToString(), (int) spinbutton3.Value);
+		checkEntries(count++, entry4.Text.ToString(), (int) spinbutton4.Value);
+		checkEntries(count++, entry5.Text.ToString(), (int) spinbutton5.Value);
+		checkEntries(count++, entry6.Text.ToString(), (int) spinbutton6.Value);
+		checkEntries(count++, entry7.Text.ToString(), (int) spinbutton7.Value);
+		checkEntries(count++, entry8.Text.ToString(), (int) spinbutton8.Value);
+		checkEntries(count++, entry9.Text.ToString(), (int) spinbutton9.Value);
+		checkEntries(count++, entry10.Text.ToString(), (int) spinbutton10.Value);
+
+		string combinedErrorString = "";
+		combinedErrorString = readErrorStrings();
+		
+		if (combinedErrorString.Length > 0) {
+			errorWin = ErrorWindow.Show(person_add_multiple, combinedErrorString);
+		} else {
+			prepareAllNonBlankRows();
+		
+			PersonAddMultipleWindowBox.person_add_multiple.Hide();
+			PersonAddMultipleWindowBox = null;
+		}
+	}
+		
+	void checkEntries(int count, string name, int weight) {
+		if(name.Length > 0) {
+			bool personExists = SqlitePersonSession.PersonExists (Util.RemoveTilde(name));
+			if(personExists) {
+				errorExistsString += "[" + count + "] " + name + "\n";
+			}
+			if(weight == 0) {
+				errorWeightString += "[" + count + "] " + name + "\n";
+			}
+		}
+	}
+	
+	string readErrorStrings() {
+		if (errorExistsString.Length > 0) {
+			errorExistsString = "ERROR This person(s) exists in the database:\n" + errorExistsString;
+		}
+		if (errorWeightString.Length > 0) {
+			errorWeightString = "\nERROR weight of this person(s) cannot be 0:\n" + errorWeightString;
+		}
+		
+		return errorExistsString + errorWeightString;
+	}
+
+	//inserts all the rows where name is not blank
+	//all this names doesn't match with other in the database, and the weights are > 0 ( checked in checkEntries() )
+	void prepareAllNonBlankRows() 
+	{
+		//the last is the first for having the first value inserted as currentPerson
+		
+		if( entry10.Text.ToString().Length > 0 ) { 
+			insertPerson (entry10.Text.ToString(), r_10_m.Active, (int) spinbutton10.Value);
+		}
+		if( entry9.Text.ToString().Length > 0 ) { 
+			insertPerson (entry9.Text.ToString(), r_9_m.Active, (int) spinbutton9.Value);
+		}
+		if( entry8.Text.ToString().Length > 0 ) { 
+			insertPerson (entry8.Text.ToString(), r_8_m.Active, (int) spinbutton8.Value);
+		}
+		if( entry7.Text.ToString().Length > 0 ) { 
+			insertPerson (entry7.Text.ToString(), r_7_m.Active, (int) spinbutton7.Value);
+		}
+		if( entry6.Text.ToString().Length > 0 ) { 
+			insertPerson (entry6.Text.ToString(), r_6_m.Active, (int) spinbutton6.Value);
+		}
+		if( entry5.Text.ToString().Length > 0 ) { 
+			insertPerson (entry5.Text.ToString(), r_5_m.Active, (int) spinbutton5.Value);
+		}
+		if( entry4.Text.ToString().Length > 0 ) { 
+			insertPerson (entry4.Text.ToString(), r_4_m.Active, (int) spinbutton4.Value);
+		}
+		if( entry3.Text.ToString().Length > 0 ) { 
+			insertPerson (entry3.Text.ToString(), r_3_m.Active, (int) spinbutton3.Value);
+		}
+		if( entry2.Text.ToString().Length > 0 ) { 
+			insertPerson (entry2.Text.ToString(), r_2_m.Active, (int) spinbutton2.Value);
+		}
+		if( entry1.Text.ToString().Length > 0 ) { 
+			insertPerson (entry1.Text.ToString(), r_1_m.Active, (int) spinbutton1.Value);
+		}
+	}
+
+	void insertPerson (string name, bool male, int weight) 
+	{
+		string sex = "F";
+		if(male) { sex = "M"; }
+		
+		currentPerson = new Person ( name, sex, "0/0/1900", 
+				0, weight, 		//height, weight	
+				"", sessionID		//description, sessionID
+				);
+
+		personsCreatedCount ++;
+	}
+	
+	
+	public Button Button_accept 
+	{
+		set {
+			button_accept = value;	
+		}
+		get {
+			return button_accept;
+		}
+	}
+
+	public int PersonsCreatedCount 
+	{
+		get { return personsCreatedCount; }
+	}
+	
+	public Person CurrentPerson 
+	{
+		get {
+			return currentPerson;
+		}
+	}
+
+}

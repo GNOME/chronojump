@@ -1,5 +1,8 @@
 CHANGELOG:
 
+19 aug 2005
+	Added personAddMultiple (now we can create 10 persons at once) (closes task: 270)
+
 18 aug 2005
 	Add run type and run interval type (closes task: 282)
 

@@ -171,10 +171,8 @@ public class ChronoJump
 	private TreeStore treeview_runs_interval_store;
 	private TreeViewRunsInterval myTreeViewRunsInterval;
 
-
-	private static string allJumpsName = Catalog.GetString("All jumps");
-	private static string allRunsName = Catalog.GetString("All runs");
-
+	private static string allJumpsName;
+	private static string allRunsName;
 	
 	//preferences variables
 	private static int prefsDigitsNumber;
@@ -256,6 +254,10 @@ public class ChronoJump
 	{
 		Catalog.Init ("chronojump", "./locale");
 
+		//assigned here, when Catalog.Init has been called
+		allJumpsName = Catalog.GetString("All jumps");
+		allRunsName = Catalog.GetString("All runs");
+	
 		
 		Program program = new Program(progname, progversion, Modules.UI, args);
 
@@ -272,8 +274,10 @@ public class ChronoJump
 			Sqlite.CreateTables();
 		} else { Console.WriteLine ( Catalog.GetString ("tables already created") ); }
 
-		loadPreferences ();
+		Console.WriteLine("AllJumpsName: {0}", allJumpsName);
 		
+		loadPreferences ();
+
 		createTreeView_jumps(treeview_jumps);
 		createTreeView_jumps_rj(treeview_jumps_rj);
 		createTreeView_runs(treeview_runs);
@@ -298,7 +302,7 @@ public class ChronoJump
 		rand = new Random(40);
 				
 		//init connecting with chronopic	
-		//chronopicInit();
+		chronopicInit();
 				
 		program.Run();
 	}
@@ -330,7 +334,7 @@ public class ChronoJump
 	
 	private void loadPreferences () 
 	{
-		Console.WriteLine ("Chronojump database version file: {0}", 
+		Console.WriteLine (Catalog.GetString("Chronojump database version file: {0}"), 
 				SqlitePreferences.Select("databaseVersion") );
 		
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") );
@@ -828,7 +832,7 @@ public class ChronoJump
 	 */
 	
 	private void on_delete_event (object o, DeleteEventArgs args) {
-		Console.WriteLine("Chao!");
+		Console.WriteLine("Bye!");
     
 		cp.Close();
 		
@@ -836,7 +840,7 @@ public class ChronoJump
 	}
 
 	private void on_quit1_activate (object o, EventArgs args) {
-		Console.WriteLine("Chao!");
+		Console.WriteLine("Bye!");
     
 		cp.Close();
 		
@@ -993,7 +997,7 @@ public class ChronoJump
 	 */
 	
 	private void on_recuperate_person_activate (object o, EventArgs args) {
-		Console.WriteLine("recup. suj.");
+		Console.WriteLine("recuperate person");
 		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession.UniqueID);
 		personRecuperateWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
@@ -1015,7 +1019,7 @@ public class ChronoJump
 			currentPerson = personAddWin.CurrentPerson;
 			updateComboSujetoCurrent();
 			sensitiveGuiYesPerson();
-			appbar2.Push( "Successfully added " + currentPerson.Name );
+			appbar2.Push( Catalog.GetString("Successfully added") + " " + currentPerson.Name );
 		}
 	}
 	
@@ -1030,12 +1034,17 @@ public class ChronoJump
 			currentPerson = personAddMultipleWin.CurrentPerson;
 			updateComboSujetoCurrent();
 			sensitiveGuiYesPerson();
-			appbar2.Push( "Successfully added " + personAddMultipleWin.PersonsCreatedCount + " persons" );
+			
+			string myString = string.Format(Catalog.GetString("Successfully added {0} persons"), personAddMultipleWin.PersonsCreatedCount);
+			appbar2.Push( Catalog.GetString(myString) );
+			
+			//can be done also like this:
+			//appbar2.Push( string.Format(Catalog.GetString("Successfully added {0} persons"), personAddMultipleWin.PersonsCreatedCount) );
 		}
 	}
 	
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
-		Console.WriteLine("modify suj.");
+		Console.WriteLine("modify person");
 		personModifyWin = PersonModifyWindow.Show(app1, currentSession.UniqueID, currentPerson.UniqueID);
 		personModifyWin.Button_accept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
@@ -1113,7 +1122,6 @@ public class ChronoJump
 	 */
 
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
-		Console.WriteLine("Activated");
 		statsWin = StatsWindow.Show(app1, currentSession, 
 				prefsDigitsNumber, weightStatsPercent, heightPreferred);
 		createdStatsWin = true;
@@ -1132,14 +1140,12 @@ public class ChronoJump
 
 	void on_radiobutton_simulated_activate (object o, EventArgs args)
 	{
-		Console.WriteLine("simulated");
 		simulated = true;
 		SqlitePreferences.Update("simulated", simulated.ToString());
 	}
 	
 	void on_radiobutton_serial_port_activate (object o, EventArgs args)
 	{
-		Console.WriteLine("serial port");
 		simulated = false;
 		SqlitePreferences.Update("simulated", simulated.ToString());
 	}
@@ -1981,7 +1987,7 @@ public class ChronoJump
 	}
 	
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
-		Console.WriteLine("delete selected (RJ) jump");
+		Console.WriteLine("delete selected reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.JumpSelectedID > 0) {

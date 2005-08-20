@@ -27,7 +27,12 @@ using System.Collections; //ArrayList
 
 public class StatRjIndex : Stat
 {
-	protected string [] columnsString = { "Jumper", "Index", "TV(AVG)", "TC(AVG)", "Fall" };
+	protected string [] columnsString = { 
+		Catalog.GetString("Jumper"), 
+		Catalog.GetString("Index"), 
+		Catalog.GetString("TV(AVG)"), 
+		Catalog.GetString("TC(AVG)"), 
+		Catalog.GetString("Fall") };
 
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatRjIndex () 

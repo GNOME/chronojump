@@ -53,7 +53,8 @@ public class StatSjCmjAbk : Stat
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jump", "Height", "TV" };
+		string [] columnsString = { Catalog.GetString("Jump"), 
+			Catalog.GetString("Height"), Catalog.GetString("TV") };
 		prepareHeaders(columnsString);
 	}
 

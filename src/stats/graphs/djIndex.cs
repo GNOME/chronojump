@@ -56,12 +56,18 @@ public class GraphDjIndex : StatDjIndex
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		string mySessions = "single session";
+		string mySessions = Catalog.GetString("single session");
 		if(sessions.Count > 1) {
-			mySessions = "multiple sessions";
+			mySessions = Catalog.GetString("multiple sessions");
 		}
-		CurrentGraphData.GraphTitle = "Dj Index " + operation + 
-			Catalog.GetString(" values chart of ") + mySessions;
+		
+		if(this.operation == "MAX") {
+			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of Dj Index in") 
+				+ " " + mySessions; 
+		} else {
+			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of Dj Index in") 
+				+ " " + mySessions; 
+		}
 		
 		
 		if(sessions.Count == 1) {
@@ -73,7 +79,7 @@ public class GraphDjIndex : StatDjIndex
 			serieFall = new GraphSerie();
 				
 			serieIndex.Title = Catalog.GetString("Index");
-			serieHeight.Title = "Height";
+			serieHeight.Title = Catalog.GetString("Height");
 			serieTc.Title = "TC";
 			serieTv.Title = "TV";
 			serieFall.Title = Catalog.GetString("Fall");
@@ -105,13 +111,13 @@ public class GraphDjIndex : StatDjIndex
 			serieFall.SerieColor = Color.FromName("Chocolate");
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			CurrentGraphData.LabelRight = Catalog.GetString("%, cm");
+			CurrentGraphData.LabelRight = "%, cm";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("%");
+			CurrentGraphData.LabelLeft = "%";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

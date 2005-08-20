@@ -291,7 +291,8 @@ public class PersonAddWindow {
 		
 		bool personExists = SqlitePersonSession.PersonExists (Util.RemoveTilde(entry1.Text));
 		if(personExists) {
-			string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			//string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			string myString = string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
 			currentPerson = new Person (entry1.Text, sex, dateFull, (int) spinbutton_height.Value,
@@ -434,7 +435,8 @@ public class PersonModifyWindow
 	{
 		bool personExists = SqlitePersonSession.PersonExistsAndItsNotMe (uniqueID, Util.RemoveTilde(entry1.Text));
 		if(personExists) {
-			string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			//string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			string myString = string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
 			//separate by '/' for not confusing with the ':' separation between the other values

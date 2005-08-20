@@ -31,7 +31,6 @@ CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/jump.cs src/jumpType.cs src
 RESOURCES = -resource:glade/chronojump.glade,chronojump.glade 
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r System.Data -r Mono.Data.SqliteClient
 
-#all: $(CHRONOJUMP).exe $(TEST1).exe 
 all: $(CHRONOJUMP).exe chronojump-mini 
 
 LIBCHRONOPIC = libchronopic.so
@@ -45,7 +44,6 @@ DEP5 = src/chronojump-mini.cs $(DLL_CHRONOPIC).dll
 
 
 #-- Construccion del chronojump-mini que funciona por consola
-#chronojump-mini: $(NAME5).exe
 chronojump-mini: chronojump-mini.exe
 
 #--------------------------
@@ -86,7 +84,7 @@ sg-serial.o    : sg-serial.h
 # EJEMPLOS DE PRUEBA EN C#
 #-------------------------------
 $(NAME5).exe: $(DEP5)
-	 $(MCS) src/$(NAME5).cs -unsafe -r $(DLL_CHRONOPIC).dll -o $(NAME5).exe 
+	 $(MCS) src/catalog.cs src/$(NAME5).cs -unsafe -r $(DLL_CHRONOPIC).dll -o $(NAME5).exe 
    
 clean::
 	  rm -f $(NAME5).exe       

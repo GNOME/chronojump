@@ -59,12 +59,17 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		string mySessions = "single session";
+		string mySessions = Catalog.GetString("single session");
 		if(sessions.Count > 1) {
-			mySessions = "multiple sessions";
+			mySessions = Catalog.GetString("multiple sessions");
 		}
-		CurrentGraphData.GraphTitle = "Rj Potency " + operation + 
-			Catalog.GetString(" values chart of ") + mySessions;
+		if(this.operation == "MAX") {
+			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of RjPotency in ") 
+				+ mySessions; 
+		} else {
+			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of RjPotency in ") 
+				+ mySessions; 
+		}
 		
 		
 		if(sessions.Count == 1) {
@@ -79,8 +84,8 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			serieIndex.Title = Catalog.GetString("Index");
 			serieTc.Title = "TC";
 			serieTv.Title = "TV";
-			serieJumps.Title = Catalog.GetString("Jumps*10");
-			serieTime.Title = Catalog.GetString("Time*10");
+			serieJumps.Title = Catalog.GetString("Jumps") + "*10";
+			serieTime.Title = Catalog.GetString("Time") + "*10";
 			serieFall.Title = Catalog.GetString("Fall");
 			
 			serieIndex.IsLeftAxis = false;
@@ -114,13 +119,17 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			serieFall.SerieColor = Color.FromName("Chocolate");
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			CurrentGraphData.LabelRight = Catalog.GetString("%, jumps, sec, cm");
+			CurrentGraphData.LabelRight = 
+				"%, " +
+				Catalog.GetString("jumps") + ", " + 
+				"seconds" + ", " + 
+				"cm";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("%");
+			CurrentGraphData.LabelLeft = "%";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

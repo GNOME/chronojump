@@ -49,7 +49,7 @@ public class StatGlobal : Stat
 		this.heightPreferred = heightPreferred;
 		
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jump", "Value" };
+		string [] columnsString = { Catalog.GetString("Jump"), Catalog.GetString("Value") };
 		prepareHeaders(columnsString);
 		
 		if (statsJumpsType == 2) {
@@ -106,6 +106,7 @@ public class StatGlobal : Stat
 
 	public override string ToString () 
 	{
+		/*
 		string personString = "";
 		if (personID != -1) {
 			personString = Catalog.GetString(" of '") + personName + Catalog.GetString("' jumper");
@@ -128,5 +129,8 @@ public class StatGlobal : Stat
 		} else {
 			return Catalog.GetString("AVG values of some jumps and statistics") + personString + inSessions + showSexString + "."  ; 
 		}
+		*/
+
+		return "pending";
 	}
 }

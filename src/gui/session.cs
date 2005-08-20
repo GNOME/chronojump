@@ -95,7 +95,8 @@ public class SessionAddWindow {
 	
 		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
 		if(sessionExists) {
-			string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			//string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(session_add_edit, myString);
 
@@ -212,7 +213,8 @@ public class SessionEditWindow
 		//but all is ok if the name is the same as the old name
 		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
 		if(sessionExists && Util.RemoveTilde(entry_name.Text) != currentSession.Name ) {
-			string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			//string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
+			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(session_add_edit, myString);
 

@@ -80,7 +80,7 @@ public class ExportSession
 		} 
 		catch {
 			Console.WriteLine("cannot export to file: {0}", fileName);
-			myAppbar.Push ( Catalog.GetString ("Cannot export in file: ") + fileName );
+			myAppbar.Push ( Catalog.GetString ("Cannot export to file: ") + fileName );
 		}
 		return;
 	}
@@ -159,14 +159,20 @@ public class ExportSessionCSV : ExportSession
 	
 	protected override void printHeader()
 	{
-		writer.WriteLine( Catalog.GetString ( "SessionID, Name, Place, Date, Comments" ) );
+		//writer.WriteLine( Catalog.GetString ( "SessionID, Name, Place, Date, Comments" ) );
+		writer.WriteLine( 
+				Catalog.GetString ("SessionID") + ", " +
+				Catalog.GetString ("Name") + ", " +
+				Catalog.GetString ("Place") + ", " + 
+				Catalog.GetString ("Date") + ", " + 
+				Catalog.GetString ("Comments") );
 		writer.WriteLine( "{0}, {1}, {2}, {3}, {4}", mySession.UniqueID, mySession.Name, 
 					mySession.Place, mySession.Date, mySession.Comments );
 	}
 	
 	protected override void printJumpers()
 	{
-		writer.WriteLine( Catalog.GetString ( "\nJumpers" ) );
+		writer.WriteLine( "\n" + Catalog.GetString ( "Jumpers" ) );
 		foreach (string jumperString in myJumpers) {
 			string [] myStr = jumperString.Split(new char[] {':'});
 			
@@ -178,8 +184,16 @@ public class ExportSessionCSV : ExportSession
 
 	protected override void printJumps()
 	{
-		writer.WriteLine( Catalog.GetString ( "\nNormal Jumps" ) );
-		writer.WriteLine( Catalog.GetString ( "\nJumper name, jump ID, Type, Tv, Tc, Fall, Weight, Description" ) );
+		writer.WriteLine( "\n" + Catalog.GetString ( "Normal Jumps" ) );
+		writer.WriteLine( "\n" + 
+				Catalog.GetString("Jumper name") + ", " +
+				Catalog.GetString("jump ID") + ", " + 
+				Catalog.GetString("Type") + ", " + 
+				Catalog.GetString("TV") + ", " + 
+				Catalog.GetString("TC") + ", " + 
+				Catalog.GetString("Fall") + ", " + 
+				Catalog.GetString("Weight") + ", " + 
+				Catalog.GetString("Description") );
 		
 		foreach (string jumpString in myJumps) {
 			string [] myStr = jumpString.Split(new char[] {':'});
@@ -196,12 +210,25 @@ public class ExportSessionCSV : ExportSession
 
 	protected override void printJumpsRj()
 	{
-		writer.WriteLine( Catalog.GetString ( "\nReactive Jumps" ) );
+		writer.WriteLine( "\n" + Catalog.GetString ( "Reactive Jumps" ) );
 		
 		foreach (string jump in myJumpsRj) {
 			string [] myStr = jump.Split(new char[] {':'});
 
-			writer.WriteLine( Catalog.GetString ( "\nJumper name, jump ID, jump Type, TV Max, TC Max, TV Avg, TC AVG, Fall, Weight, Jumps, Time, Limited, Description" ) );
+			writer.WriteLine( "\n" + 
+					Catalog.GetString("Jumper name") + ", " + 
+					Catalog.GetString("jump ID") + ", " + 
+					Catalog.GetString("jump Type") + ", " + 
+					Catalog.GetString("TV Max") + ", " + 
+					Catalog.GetString("TC Max") + ", " + 
+					Catalog.GetString("TV AVG") + ", " + 
+					Catalog.GetString("TC AVG") + ", " + 
+					Catalog.GetString("Fall") + ", " + 
+					Catalog.GetString("Weight") + ", " + 
+					Catalog.GetString("Jumps") + ", " + 
+					Catalog.GetString("Time") + ", " + 
+					Catalog.GetString("Limited") + ", " + 
+					Catalog.GetString("Description" ) );
 			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}", 
 					myStr[0], myStr[1], 	//person.name, jumpRj.uniqueID
 					//myStr[2], myStr[3], 	//jumpRj.personID, jumpRj.sessionID

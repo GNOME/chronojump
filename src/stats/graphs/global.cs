@@ -55,12 +55,19 @@ public class GraphGlobal : StatGlobal
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		string mySessions = "single session";
+		string mySessions = Catalog.GetString("single session");
 		if(sessions.Count > 1) {
-			mySessions = "multiple sessions";
+			mySessions = Catalog.GetString("multiple sessions");
 		}
-		CurrentGraphData.GraphTitle = "Global " + operation + 
-			Catalog.GetString(" values chart of ") + mySessions;
+		
+		if(this.operation == "MAX") {
+			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of GLobal data in") 
+				+ " " + mySessions; 
+		} else {
+			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of Global data in") 
+				+ " " + mySessions; 
+		}
+		
 		
 		
 		if(sessions.Count == 1) {
@@ -93,7 +100,7 @@ public class GraphGlobal : StatGlobal
 			} else {
 				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
 			}
-			CurrentGraphData.LabelRight = Catalog.GetString("%");
+			CurrentGraphData.LabelRight = "%";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
@@ -104,7 +111,7 @@ public class GraphGlobal : StatGlobal
 			} else {
 				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
 			}
-			CurrentGraphData.LabelRight = Catalog.GetString("%");
+			CurrentGraphData.LabelRight = "%";
 		}
 	}
 

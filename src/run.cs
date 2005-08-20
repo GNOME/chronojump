@@ -213,9 +213,9 @@ public class Run
 	{
 		Console.WriteLine("TIME: {0}", time.ToString());
 		
-		string myStringPush =   Catalog.GetString("Last run: ") + RunnerName + " " + 
-			type + " time:" + Util.TrimDecimals( time.ToString(), pDN ) + 
-			" speed:" + Util.TrimDecimals ( (distance/time).ToString(), pDN );
+		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
+			type + " " + Catalog.GetString("time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) + 
+			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
 		appbar.Push( myStringPush );
 
 		uniqueID = SqliteRun.Insert(personID, sessionID, 
@@ -592,9 +592,9 @@ public class RunInterval : Run
 				limitString
 				);
 
-		string myStringPush =   Catalog.GetString("Last run: ") + RunnerName + " " + 
+		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
 			type + " (" + limitString + ") " +
-			" AVG Speed: " + Util.TrimDecimals( 
+			Catalog.GetString("AVG Speed") + ": " + Util.TrimDecimals( 
 					Util.GetSpeed(distanceTotal.ToString(),
 						timeTotal.ToString() )
 					, pDN ) ;

@@ -48,13 +48,13 @@ public class Platform {
 		if(stream[1] == "0") { state = false; }
 		else if (stream[1] == "1") { state = true; }
 		else { 
-			Console.WriteLine("Erro, state '{0}' non valid", stream[1]);
+			Console.WriteLine(Catalog.GetString("Error, state '{0}' non valid"), stream[1]);
 		}
 	}
 
 	public override string ToString()
 	{
-		return "State: {0}, lastChange {1}", state.ToString(), lastChange);
+		return Catalog.GetString("State: {0}, lastChange {1}"), state.ToString(), lastChange;
 	}
 		
 	public bool State 

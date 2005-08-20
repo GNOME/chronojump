@@ -33,6 +33,8 @@ class Test {
     double toff;
     double ton;
    
+    //connect with catalog.cs for using gettext translation
+    Catalog.Init ("chronojump", "./locale");
     
     //-- Crear objeto chronopic, para acceder al chronopic
     Chronopic cp = new Chronopic("/dev/ttyS0");
@@ -42,23 +44,23 @@ class Test {
     respuesta=cp.Read_platform(out estado_plataforma);
     switch(respuesta) {
       case Chronopic.Respuesta.Error:
-        Console.WriteLine("Error en comunicacion con Chronopic");
+        Console.WriteLine(Catalog.GetString("Error comunicating with Chronopic"));
         return;
       case Chronopic.Respuesta.Timeout:
-        Console.WriteLine("Chronopic no responde");
+        Console.WriteLine(Catalog.GetString("Chronopic is offline"));
         return;
       default:
         break;
     }
     
     
-    Console.WriteLine("Estado plataforma: {0}",estado_plataforma);
+    Console.WriteLine(Catalog.GetString("Platform state: {0}"), estado_plataforma);
     
     //-- Establecer el estado inicial del automata
     if (estado_plataforma==Chronopic.Plataforma.ON) 
       estado_automata=Automata.ON;
     else {
-      Console.WriteLine("Suba a la plataforma para realizar el salto");
+      Console.WriteLine(Catalog.GetString("Go up platform for jumping"));
       
       //-- Esperar a que llegue una trama con el estado de la plataforma
       //-- igual a ON. Esto indica que el usuario se ha subido
@@ -71,8 +73,8 @@ class Test {
     }
     
     Console.WriteLine("");
-    Console.WriteLine("Puede saltar cuando quiera");
-    Console.WriteLine("Pulse control-c para finalizar la sesion");
+    Console.WriteLine(Catalog.GetString("Jump when prepared"));
+    Console.WriteLine(Catalog.GetString("Press CTRL-c for ending session"));
     Console.WriteLine("-----------------------------------------");
     
     while(true) {

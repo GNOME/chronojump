@@ -63,7 +63,7 @@ public class StatIeIub : Stat
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		columnsString[0] = "Jumper";
+		columnsString[0] = Catalog.GetString("Jumper");
 		columnsString[1] = indexType;
 		columnsString[2] = jump1;
 		columnsString[3] = jump2;

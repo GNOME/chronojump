@@ -57,12 +57,17 @@ public class GraphRjIndex : StatRjIndex
 		}
 		
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		string mySessions = "single session";
+		string mySessions = Catalog.GetString("single session");
 		if(sessions.Count > 1) {
-			mySessions = "multiple sessions";
+			mySessions = Catalog.GetString("multiple sessions");
 		}
-		CurrentGraphData.GraphTitle = "Rj Index " + operation + 
-			Catalog.GetString(" values chart of ") + mySessions;
+		if(this.operation == "MAX") {
+			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of RjIndex in ") 
+				+ mySessions; 
+		} else {
+			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of RjIndex in ") 
+				+ mySessions; 
+		}
 		
 		
 		if(sessions.Count == 1) {
@@ -100,13 +105,13 @@ public class GraphRjIndex : StatRjIndex
 			serieFall.SerieColor = Color.FromName("Chocolate");
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			CurrentGraphData.LabelRight = Catalog.GetString("%, cm");
+			CurrentGraphData.LabelRight = "%, cm";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("%");
+			CurrentGraphData.LabelLeft = "%";
 			CurrentGraphData.LabelRight = "";
 		}
 

@@ -634,9 +634,6 @@ public class JumpRj : Jump
 		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 	
-		Console.WriteLine("jumpsLimited: {0}", jumpsLimited);
-		Console.WriteLine("limitAsDouble: {0}", limitAsDouble);
-		
 		do {
 			/*
 			if(finish) {

@@ -34,7 +34,7 @@ public class TreeViewRuns
 	protected int pDN; //prefsDigitsNumber;
 	//protected static bool metersSecondsPreferred;
 	protected bool metersSecondsPreferred;
-	protected static string allRunsName = "All runs";
+	protected static string allRunsName = Catalog.GetString("All runs");
 	protected int runIDColumn;
 	
 	public TreeViewRuns ()

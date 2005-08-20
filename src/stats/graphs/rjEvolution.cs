@@ -64,8 +64,12 @@ public class GraphRjEvolution : StatRjEvolution
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		CurrentGraphData.GraphTitle = "Rj Evolution " + operation + 
-			Catalog.GetString(" values chart of single session");
+		if(this.operation == "MAX") {
+			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of Rj Evolution in single session"); 
+		} else {
+			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of Rj Evolution in single session"); 
+		}
+		
 		CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
 		CurrentGraphData.LabelRight = "";
 	}

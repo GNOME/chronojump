@@ -69,12 +69,20 @@ public class GraphIeIub : StatIeIub
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		string mySessions = "single session";
+		string mySessions = Catalog.GetString("single session");
 		if(sessions.Count > 1) {
-			mySessions = "multiple sessions";
+			mySessions = Catalog.GetString("multiple sessions");
 		}
-		CurrentGraphData.GraphTitle = indexType + " " + operation + 
-			Catalog.GetString(" values chart of ") + mySessions;
+		
+		if(this.operation == "MAX") {
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("MAX values of index: {0} in"), indexType) 
+				+ " " + mySessions; 
+		} else {
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("AVG values of index: {0} data in"), indexType)
+				+ " " + mySessions; 
+		}
 		
 		
 		if(sessions.Count == 1) {
@@ -106,13 +114,13 @@ public class GraphIeIub : StatIeIub
 			serieJump2.SerieColor = Color.FromName("LightBlue");
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			CurrentGraphData.LabelRight = Catalog.GetString("%, cm");
+			CurrentGraphData.LabelRight = "%, cm";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("%");
+			CurrentGraphData.LabelLeft = "%";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

@@ -100,9 +100,12 @@ public class JumpTypeAddWindow
 	{
 		bool jumpTypeExists = SqliteJumpType.Exists (Util.RemoveTildeAndColonAndDot(entry_name.Text));
 		if(jumpTypeExists) {
-			string myString =  Catalog.GetString ("Jump type: '") + 
-				Util.RemoveTildeAndColonAndDot(entry_name.Text) + 
-				Catalog.GetString ("' exists. Please, use another name");
+			//string myString =  Catalog.GetString ("Jump type: '") + 
+			//	Util.RemoveTildeAndColonAndDot(entry_name.Text) + 
+			//	Catalog.GetString ("' exists. Please, use another name");
+			
+			string myString = string.Format(Catalog.GetString("Jump type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
+			
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(jump_type_add, myString);
 		} else {

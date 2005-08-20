@@ -378,7 +378,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="sj">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">SJ</property>
+				      <property name="label">SJ</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:23:20 GMT"/>
 				    </widget>
@@ -387,7 +387,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="sj_plus">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">SJ+</property>
+				      <property name="label">SJ+</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:16:49 GMT"/>
 				    </widget>
@@ -396,7 +396,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="cmj">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">CMJ</property>
+				      <property name="label">CMJ</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:23:30 GMT"/>
 				    </widget>
@@ -405,7 +405,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="abk">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">ABK</property>
+				      <property name="label">ABK</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:26:59 GMT"/>
 				    </widget>
@@ -414,7 +414,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="dj">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">DJ</property>
+				      <property name="label">DJ</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:17:03 GMT"/>
 				    </widget>
@@ -505,7 +505,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="rj_j">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">RJ(j)</property>
+				      <property name="label">RJ(j)</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_rj_activate" last_modification_time="Wed, 22 Sep 2004 23:57:11 GMT"/>
 				    </widget>
@@ -514,7 +514,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="rj_t">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">RJ(t)</property>
+				      <property name="label">RJ(t)</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_rj_activate" last_modification_time="Fri, 11 Mar 2005 14:37:31 GMT"/>
 				    </widget>
@@ -667,7 +667,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="menuitem_100m">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">100m</property>
+				      <property name="label">100m</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
 				    </widget>
@@ -676,7 +676,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="menuitem_200m">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">200m</property>
+				      <property name="label">200m</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
 				    </widget>
@@ -685,7 +685,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="menuitem_400m">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">400m</property>
+				      <property name="label">400m</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
 				    </widget>
@@ -694,7 +694,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="menuitem_1000m">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">1000m</property>
+				      <property name="label">1000m</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
 				    </widget>
@@ -703,7 +703,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="menuitem_2000m">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">2000m</property>
+				      <property name="label">2000m</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_normal_run_activate" last_modification_time="Tue, 02 Aug 2005 22:26:54 GMT"/>
 				    </widget>
@@ -1046,7 +1046,7 @@
 	      <child>
 		<widget class="GtkButton" id="button_cancel">
 		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">Cancel jump</property>
+		  <property name="tooltip" translatable="yes">Cancel jump or run</property>
 		  <property name="can_focus">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -1487,7 +1487,7 @@
 				    <widget class="GtkButton" id="button_sj">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">SJ</property>
+				      <property name="label">SJ</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -1504,7 +1504,7 @@
 				    <widget class="GtkButton" id="button_sj_plus">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">SJ+</property>
+				      <property name="label">SJ+</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -1521,7 +1521,7 @@
 				    <widget class="GtkButton" id="button_cmj">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">CMJ</property>
+				      <property name="label">CMJ</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -1538,7 +1538,7 @@
 				    <widget class="GtkButton" id="button_abk">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">ABK</property>
+				      <property name="label">ABK</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -1555,7 +1555,7 @@
 				    <widget class="GtkButton" id="button_dj">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">DJ</property>
+				      <property name="label">DJ</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -1983,7 +1983,7 @@
 				    <widget class="GtkButton" id="button_rj_j">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">RJ(j)</property>
+				      <property name="label">RJ(j)</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -2000,7 +2000,7 @@
 				    <widget class="GtkButton" id="button_rj_t">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">RJ(t)</property>
+				      <property name="label">RJ(t)</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -2493,7 +2493,7 @@
 				    <widget class="GtkButton" id="button_run_20m">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">20m</property>
+				      <property name="label">20m</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -2510,7 +2510,7 @@
 				    <widget class="GtkButton" id="button_run_100m">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">100m</property>
+				      <property name="label">100m</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -2527,7 +2527,7 @@
 				    <widget class="GtkButton" id="button_run_200m">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">200m</property>
+				      <property name="label">200m</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -2544,7 +2544,7 @@
 				    <widget class="GtkButton" id="button_run_400m">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">400m</property>
+				      <property name="label">400m</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -2561,7 +2561,7 @@
 				    <widget class="GtkButton" id="button_run_1000m">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">1000m</property>
+				      <property name="label">1000m</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -2578,7 +2578,7 @@
 				    <widget class="GtkButton" id="button_run_2000m">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">2000m</property>
+				      <property name="label">2000m</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -3562,7 +3562,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="label19">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Full name &lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Full name&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3590,7 +3590,7 @@
 	  <child>
 	    <widget class="GtkLabel" id="label21">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Description / 
+	      <property name="label" translatable="yes">Description /
 comments</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
@@ -3680,7 +3680,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label41">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Sex &lt;/b&gt;</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Sex&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3793,7 +3793,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label48">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Weight &lt;/b&gt;(Kg) </property>
+	      <property name="label" translatable="yes">&lt;b&gt;Weight&lt;/b&gt;(Kg)</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3865,8 +3865,8 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label50">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Born date  
-DD/MM/AAAA </property>
+	      <property name="label" translatable="yes">Born date
+DD/MM/YYYY</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4036,7 +4036,7 @@ DD/MM/AAAA </property>
     <widget class="GtkVBox" id="vbox5">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child>
 	<widget class="GtkLabel" id="label77">
@@ -4070,13 +4070,13 @@ DD/MM/AAAA </property>
 	  <property name="n_rows">4</property>
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">0</property>
-	  <property name="column_spacing">0</property>
+	  <property name="row_spacing">4</property>
+	  <property name="column_spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label22">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt; </property>
+	      <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4104,7 +4104,7 @@ DD/MM/AAAA </property>
 	  <child>
 	    <widget class="GtkLabel" id="label23">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Place </property>
+	      <property name="label" translatable="yes">Place</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4132,7 +4132,7 @@ DD/MM/AAAA </property>
 	  <child>
 	    <widget class="GtkLabel" id="label24">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Date&lt;/b&gt; </property>
+	      <property name="label" translatable="yes">&lt;b&gt;Date&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4160,7 +4160,7 @@ DD/MM/AAAA </property>
 	  <child>
 	    <widget class="GtkLabel" id="label25">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Comments </property>
+	      <property name="label" translatable="yes">Comments</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4355,7 +4355,7 @@ DD/MM/AAAA </property>
     <widget class="GtkVBox" id="vbox6">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child>
 	<widget class="GtkScrolledWindow" id="scrolledwindow5">
@@ -4436,7 +4436,7 @@ DD/MM/AAAA </property>
   <property name="width_request">400</property>
   <property name="height_request">350</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Load jumpers</property>
+  <property name="title" translatable="yes">Load persons</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
@@ -4454,12 +4454,12 @@ DD/MM/AAAA </property>
     <widget class="GtkVBox" id="vbox7">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child>
 	<widget class="GtkLabel" id="label33">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Select jumpers you want to load:</property>
+	  <property name="label" translatable="yes">Select persons you want to load</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4473,6 +4473,26 @@ DD/MM/AAAA </property>
 	  <property name="width_chars">-1</property>
 	  <property name="single_line_mode">False</property>
 	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">False</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkCheckButton" id="checkbutton_sort_by_creation_date">
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="label" translatable="yes">sort by creation date</property>
+	  <property name="use_underline">True</property>
+	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
+	  <property name="active">False</property>
+	  <property name="inconsistent">False</property>
+	  <property name="draw_indicator">True</property>
+	  <signal name="clicked" handler="on_checkbutton_sort_by_creation_date_clicked" last_modification_time="Sat, 02 Oct 2004 22:58:54 GMT"/>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
@@ -4510,26 +4530,6 @@ DD/MM/AAAA </property>
 	  <property name="padding">0</property>
 	  <property name="expand">True</property>
 	  <property name="fill">True</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkCheckButton" id="checkbutton_sort_by_creation_date">
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">sort by creation date</property>
-	  <property name="use_underline">True</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="focus_on_click">True</property>
-	  <property name="active">False</property>
-	  <property name="inconsistent">False</property>
-	  <property name="draw_indicator">True</property>
-	  <signal name="clicked" handler="on_checkbutton_sort_by_creation_date_clicked" last_modification_time="Sat, 02 Oct 2004 22:58:54 GMT"/>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">False</property>
-	  <property name="fill">False</property>
 	</packing>
       </child>
 
@@ -4663,12 +4663,12 @@ DD/MM/AAAA </property>
 	<widget class="GtkHBox" id="hbox87">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label38">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Number of decimals: </property>
+	      <property name="label" translatable="yes">Decimals number</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4700,7 +4700,7 @@ DD/MM/AAAA </property>
 	      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 	      <property name="snap_to_ticks">False</property>
 	      <property name="wrap">False</property>
-	      <property name="adjustment">1 0 100 1 10 10</property>
+	      <property name="adjustment">1 0 8 1 10 10</property>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
@@ -4994,7 +4994,7 @@ DD/MM/AAAA </property>
     <widget class="GtkVBox" id="vbox11">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child>
 	<widget class="GtkLabel" id="label90">
@@ -5027,13 +5027,13 @@ DD/MM/AAAA </property>
 	  <property name="n_rows">3</property>
 	  <property name="n_columns">4</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">0</property>
-	  <property name="column_spacing">0</property>
+	  <property name="row_spacing">4</property>
+	  <property name="column_spacing">3</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label_weight">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Additional weight </property>
+	      <property name="label" translatable="yes">Additional weight</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5090,7 +5090,7 @@ DD/MM/AAAA </property>
 	    <widget class="GtkRadioButton" id="radiobutton_kg">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">Kg</property>
+	      <property name="label">Kg</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -5137,7 +5137,7 @@ weight</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_cm">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">cm.</property>
+	      <property name="label">cm</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5355,7 +5355,7 @@ weight</property>
     <widget class="GtkVBox" id="vbox17">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child>
 	<widget class="GtkTable" id="table4">
@@ -5369,7 +5369,7 @@ weight</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_tv_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Flight time:</property>
+	      <property name="label" translatable="yes">Flight time</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5454,7 +5454,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_fall_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Falling height:</property>
+	      <property name="label" translatable="yes">Falling height</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5510,7 +5510,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_weight_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Extra weight:</property>
+	      <property name="label" translatable="yes">Extra weight</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5566,7 +5566,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_type_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Jump type:</property>
+	      <property name="label" translatable="yes">Jump type</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5622,7 +5622,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label63">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Jumper:</property>
+	      <property name="label" translatable="yes">Jumper</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5670,7 +5670,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_jump_id_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Identifier:</property>
+	      <property name="label" translatable="yes">Identifier</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5726,7 +5726,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_limited_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Limited by:</property>
+	      <property name="label" translatable="yes">Limited by</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5820,7 +5820,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_tc_title">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Contact time:</property>
+	      <property name="label" translatable="yes">Contact time</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -6118,8 +6118,8 @@ comments</property>
 
 <widget class="GtkWindow" id="stats_select_sessions">
   <property name="border_width">10</property>
-  <property name="width_request">500</property>
-  <property name="height_request">350</property>
+  <property name="width_request">550</property>
+  <property name="height_request">370</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Select sessions for statistics</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -6139,7 +6139,7 @@ comments</property>
     <widget class="GtkVBox" id="vbox24">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child>
 	<widget class="GtkHBox" id="hbox52">
@@ -6212,7 +6212,7 @@ comments</property>
 	<widget class="GtkHBox" id="hbox51">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">4</property>
 
 	  <child>
 	    <widget class="GtkScrolledWindow" id="scrolledwindow10">
@@ -6437,7 +6437,7 @@ comments</property>
     <widget class="GtkVBox" id="vbox26">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child>
 	<widget class="GtkScrolledWindow" id="scrolledwindow12">
@@ -6534,7 +6534,7 @@ comments</property>
     <widget class="GtkVBox" id="vbox27">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child>
 	<widget class="GtkLabel" id="label87">
@@ -6564,11 +6564,11 @@ comments</property>
       <child>
 	<widget class="GtkTable" id="table7">
 	  <property name="visible">True</property>
-	  <property name="n_rows">5</property>
+	  <property name="n_rows">7</property>
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">0</property>
-	  <property name="column_spacing">0</property>
+	  <property name="row_spacing">4</property>
+	  <property name="column_spacing">4</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label81">
@@ -6603,34 +6603,6 @@ comments</property>
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">Start inside</property>
 	      <property name="use_underline">False</property>
-	      <property name="use_markup">True</property>
-	      <property name="justify">GTK_JUSTIFY_LEFT</property>
-	      <property name="wrap">False</property>
-	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
-	      <property name="yalign">0.5</property>
-	      <property name="xpad">0</property>
-	      <property name="ypad">0</property>
-	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-	      <property name="width_chars">-1</property>
-	      <property name="single_line_mode">False</property>
-	      <property name="angle">0</property>
-	    </widget>
-	    <packing>
-	      <property name="left_attach">0</property>
-	      <property name="right_attach">1</property>
-	      <property name="top_attach">2</property>
-	      <property name="bottom_attach">3</property>
-	      <property name="x_options">fill</property>
-	      <property name="y_options"></property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkLabel" id="label84">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Description </property>
-	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
@@ -6649,6 +6621,34 @@ comments</property>
 	      <property name="right_attach">1</property>
 	      <property name="top_attach">4</property>
 	      <property name="bottom_attach">5</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options"></property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkLabel" id="label84">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">Description</property>
+	      <property name="use_underline">False</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">0</property>
+	      <property name="right_attach">1</property>
+	      <property name="top_attach">6</property>
+	      <property name="bottom_attach">7</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -6686,8 +6686,8 @@ comments</property>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">4</property>
-	      <property name="bottom_attach">5</property>
+	      <property name="top_attach">6</property>
+	      <property name="bottom_attach">7</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options">fill</property>
 	    </packing>
@@ -6763,8 +6763,8 @@ comments</property>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">2</property>
-	      <property name="bottom_attach">3</property>
+	      <property name="top_attach">4</property>
+	      <property name="bottom_attach">5</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options">fill</property>
 	    </packing>
@@ -6773,7 +6773,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label85">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Extra weight </property>
+	      <property name="label" translatable="yes">Extra weight</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -6791,8 +6791,8 @@ comments</property>
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
-	      <property name="top_attach">3</property>
-	      <property name="bottom_attach">4</property>
+	      <property name="top_attach">5</property>
+	      <property name="bottom_attach">6</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -6846,8 +6846,8 @@ comments</property>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">3</property>
-	      <property name="bottom_attach">4</property>
+	      <property name="top_attach">5</property>
+	      <property name="bottom_attach">6</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options">fill</property>
 	    </packing>
@@ -6875,8 +6875,8 @@ options</property>
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
-	      <property name="top_attach">1</property>
-	      <property name="bottom_attach">2</property>
+	      <property name="top_attach">2</property>
+	      <property name="bottom_attach">3</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -6901,7 +6901,7 @@ options</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -6929,7 +6929,7 @@ options</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -6957,7 +6957,7 @@ options</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -7160,10 +7160,36 @@ options</property>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
+	      <property name="top_attach">2</property>
+	      <property name="bottom_attach">3</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options">fill</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkHSeparator" id="hseparator5">
+	      <property name="visible">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">3</property>
+	      <property name="bottom_attach">4</property>
+	      <property name="x_options">fill</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkHSeparator" id="hseparator6">
+	      <property name="visible">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
 	      <property name="top_attach">1</property>
 	      <property name="bottom_attach">2</property>
 	      <property name="x_options">fill</property>
-	      <property name="y_options">fill</property>
 	    </packing>
 	  </child>
 	</widget>
@@ -7245,14 +7271,14 @@ options</property>
 	<widget class="GtkHBox" id="hbox74">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label95">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">statistic</property>
+	      <property name="label" translatable="yes">&lt;b&gt;statistic&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
-	      <property name="use_markup">False</property>
+	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
@@ -7320,14 +7346,14 @@ options</property>
 	  <property name="n_columns">5</property>
 	  <property name="homogeneous">False</property>
 	  <property name="row_spacing">4</property>
-	  <property name="column_spacing">4</property>
+	  <property name="column_spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label70">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">session</property>
+	      <property name="label" translatable="yes">&lt;b&gt;session&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
-	      <property name="use_markup">False</property>
+	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
@@ -7376,9 +7402,9 @@ options</property>
 	  <child>
 	    <widget class="GtkLabel" id="label94">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">jumps</property>
+	      <property name="label" translatable="yes">&lt;b&gt;jumps&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
-	      <property name="use_markup">False</property>
+	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
@@ -7404,9 +7430,9 @@ options</property>
 	  <child>
 	    <widget class="GtkLabel" id="label75">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">show</property>
+	      <property name="label" translatable="yes">&lt;b&gt;show&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
-	      <property name="use_markup">False</property>
+	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
@@ -7719,7 +7745,7 @@ best's</property>
 	<widget class="GtkHBox" id="hbox42">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">2</property>
 
 	  <child>
 	    <widget class="GtkButton" id="button_stats">
@@ -8303,7 +8329,7 @@ best's</property>
     <widget class="GtkVBox" id="vbox43">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child>
 	<widget class="GtkTable" id="table15">
@@ -8317,7 +8343,7 @@ best's</property>
 	  <child>
 	    <widget class="GtkLabel" id="label113">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Distance:</property>
+	      <property name="label" translatable="yes">Distance</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8402,7 +8428,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label116">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Time:</property>
+	      <property name="label" translatable="yes">Time</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8458,7 +8484,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label118">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Speed:</property>
+	      <property name="label" translatable="yes">Speed</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8514,7 +8540,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label120">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Run type:</property>
+	      <property name="label" translatable="yes">Run type</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8570,7 +8596,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label122">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Runner:</property>
+	      <property name="label" translatable="yes">Runner</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8631,7 +8657,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label123">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Identifier:</property>
+	      <property name="label" translatable="yes">Identifier</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8687,7 +8713,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label127">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Limited by:</property>
+	      <property name="label" translatable="yes">Limited by</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8849,7 +8875,7 @@ comments</property>
     <widget class="GtkVBox" id="vbox45">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child>
 	<widget class="GtkLabel" id="label132">
@@ -8879,11 +8905,11 @@ comments</property>
       <child>
 	<widget class="GtkTable" id="table17">
 	  <property name="visible">True</property>
-	  <property name="n_rows">4</property>
+	  <property name="n_rows">6</property>
 	  <property name="n_columns">2</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">0</property>
-	  <property name="column_spacing">0</property>
+	  <property name="row_spacing">4</property>
+	  <property name="column_spacing">4</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label133">
@@ -8934,8 +8960,8 @@ comments</property>
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
-	      <property name="top_attach">3</property>
-	      <property name="bottom_attach">4</property>
+	      <property name="top_attach">5</property>
+	      <property name="bottom_attach">6</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -8973,8 +8999,8 @@ comments</property>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">3</property>
-	      <property name="bottom_attach">4</property>
+	      <property name="top_attach">5</property>
+	      <property name="bottom_attach">6</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options">fill</property>
 	    </packing>
@@ -9024,8 +9050,8 @@ options</property>
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
-	      <property name="top_attach">1</property>
-	      <property name="bottom_attach">2</property>
+	      <property name="top_attach">2</property>
+	      <property name="bottom_attach">3</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -9050,7 +9076,7 @@ options</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -9078,7 +9104,7 @@ options</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -9106,7 +9132,7 @@ options</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
 		  <property name="selectable">False</property>
-		  <property name="xalign">0</property>
+		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
@@ -9135,7 +9161,7 @@ options</property>
 		    <widget class="GtkRadioButton" id="radiobutton_limited_tracks">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">jumps</property>
+		      <property name="label" translatable="yes">tracks</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -9309,8 +9335,8 @@ options</property>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">1</property>
-	      <property name="bottom_attach">2</property>
+	      <property name="top_attach">2</property>
+	      <property name="bottom_attach">3</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options">fill</property>
 	    </packing>
@@ -9337,8 +9363,8 @@ options</property>
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
-	      <property name="top_attach">2</property>
-	      <property name="bottom_attach">3</property>
+	      <property name="top_attach">4</property>
+	      <property name="bottom_attach">5</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options"></property>
 	    </packing>
@@ -9431,10 +9457,36 @@ options</property>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
-	      <property name="top_attach">2</property>
-	      <property name="bottom_attach">3</property>
+	      <property name="top_attach">4</property>
+	      <property name="bottom_attach">5</property>
 	      <property name="x_options">fill</property>
 	      <property name="y_options">fill</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkHSeparator" id="hseparator7">
+	      <property name="visible">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">3</property>
+	      <property name="bottom_attach">4</property>
+	      <property name="x_options">fill</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkHSeparator" id="hseparator8">
+	      <property name="visible">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">1</property>
+	      <property name="bottom_attach">2</property>
+	      <property name="x_options">fill</property>
 	    </packing>
 	  </child>
 	</widget>
@@ -9836,7 +9888,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label147">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">1</property>
+	      <property name="label">1</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -9864,7 +9916,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label148">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">2</property>
+	      <property name="label">2</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -9892,7 +9944,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label149">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">3</property>
+	      <property name="label">3</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -9920,7 +9972,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label150">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">4</property>
+	      <property name="label">4</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -9948,7 +10000,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label151">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">5</property>
+	      <property name="label">5</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -9976,7 +10028,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label152">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">6</property>
+	      <property name="label">6</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -10004,7 +10056,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label153">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">7</property>
+	      <property name="label">7</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -10032,7 +10084,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label154">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">8</property>
+	      <property name="label">8</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -10060,7 +10112,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label155">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">9</property>
+	      <property name="label">9</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -10088,7 +10140,7 @@ If you need more, just repeat the operation later</property>
 	  <child>
 	    <widget class="GtkLabel" id="label156">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">10</property>
+	      <property name="label">10</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>

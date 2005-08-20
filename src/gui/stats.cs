@@ -88,8 +88,10 @@ public class StatsWindow {
 	};
 	
 	private static string [] comboStats2IndexesOptions = {
-		Catalog.GetString("IE (cmj-sj)*100/sj"), 
-		Catalog.GetString("IUB (abk-cmj)*100/cmj")
+		//Catalog.GetString("IE (cmj-sj)*100/sj"), 
+		//Catalog.GetString("IUB (abk-cmj)*100/cmj")
+		"IE (cmj-sj)*100/sj", 
+		"IUB (abk-cmj)*100/cmj"
 	};
 
 	

@@ -55,12 +55,20 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		string mySessions = "single session";
+		string mySessions = Catalog.GetString("single session");
 		if(sessions.Count > 1) {
-			mySessions = "multiple sessions";
+			mySessions = Catalog.GetString("multiple sessions");
 		}
-		CurrentGraphData.GraphTitle = jumpType + " " + operation + 
-			Catalog.GetString(" values chart of ") + mySessions;
+		if(this.operation == "MAX") {
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("MAX values of index: {0} in"), jumpType) 
+				+ " " + mySessions; 
+		} else {
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("AVG values of index: {0} data in"), jumpType)
+				+ " " + mySessions; 
+		}
+		
 		
 		
 		if(sessions.Count == 1) {
@@ -68,7 +76,7 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			serieTv = new GraphSerie();
 			serieHeight = new GraphSerie();
 				
-			serieTv.Title = Catalog.GetString("TV");
+			serieTv.Title = "TV";
 			serieHeight.Title = Catalog.GetString("Height");
 			
 			serieTv.IsLeftAxis = true;

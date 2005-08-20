@@ -84,7 +84,7 @@ public class Stat
 		treeview.Model = store;
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { "Jumper", "TV" };
+		string [] columnsString = { Catalog.GetString("Jumper"), Catalog.GetString("TV") };
 		prepareHeaders(columnsString);
 	}
 

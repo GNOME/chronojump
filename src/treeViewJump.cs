@@ -33,7 +33,7 @@ public class TreeViewJumps
 	protected TreeStore store;
 	protected Gtk.TreeView treeview;
 	protected static int pDN; //prefsDigitsNumber;
-	protected static string allJumpsName = "All jumps";
+	protected static string allJumpsName = Catalog.GetString("All jumps");
 	
 	public TreeViewJumps ()
 	{

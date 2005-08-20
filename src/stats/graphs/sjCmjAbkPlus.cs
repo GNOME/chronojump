@@ -57,12 +57,20 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		string mySessions = "single session";
+		string mySessions = Catalog.GetString("single session");
 		if(sessions.Count > 1) {
-			mySessions = "multiple sessions";
+			mySessions = Catalog.GetString("multiple sessions");
 		}
-		CurrentGraphData.GraphTitle = jumpType + " " + operation + 
-			Catalog.GetString(" values chart of ") + mySessions;
+		if(this.operation == "MAX") {
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("MAX values of index: {0} in"), jumpType) 
+				+ " " + mySessions; 
+		} else {
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("AVG values of index: {0} data in"), jumpType)
+				+ " " + mySessions; 
+		}
+		
 		
 		
 		if(sessions.Count == 1) {
@@ -94,9 +102,9 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
 			if(percent) {
-				CurrentGraphData.LabelRight = Catalog.GetString("%, cm");
+				CurrentGraphData.LabelRight = "%, cm";
 			} else {
-				CurrentGraphData.LabelRight = Catalog.GetString("Kg, cm");
+				CurrentGraphData.LabelRight = "Kg, cm";
 			}
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {

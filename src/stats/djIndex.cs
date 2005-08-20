@@ -27,7 +27,13 @@ using System.Collections; //ArrayList
 
 public class StatDjIndex : Stat
 {
-	protected string [] columnsString = { "Jumper", "Index", "Height", "TV", "TC", "Fall" };
+	protected string [] columnsString = { 
+		Catalog.GetString("Jumper"), 
+		Catalog.GetString("Index"), 
+		Catalog.GetString("Height"), 
+		Catalog.GetString("TV"), 
+		Catalog.GetString("TC"), 
+		Catalog.GetString("Fall") };
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatDjIndex () 

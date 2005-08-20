@@ -1,5 +1,23 @@
 CHANGELOG:
 
+20 aug 2005
+	Added updated screenshots to the web site
+
+	Improvements on english string for gettext (closes task: 286). Changes in 
+		src/*.cs
+		src/gui/*.cs
+		src/stats/*.cs		
+		src/stats/graphs/*.cs	
+		and in glade file
+			marked as not translatable in glade  what should not be translated. Clic on the right part of "label"
+			row (the menu options should changed directly using vim... ejem!, an editor ;)
+
+	Spanish translation done (closes task: 287)
+
+	gettext support also in chronojump-mini
+	updated file howto_translate.txt
+	improved GUI
+
 19 aug 2005
 	Added personAddMultiple (now we can create 10 persons at once) (closes task: 270)
 

@@ -149,7 +149,10 @@ class SqliteJumpType : Sqlite
 	public static string[] SelectJumpTypes(string allJumpsName, string filter, bool onlyName) 
 	{
 		//allJumpsName: add and "allJumpsName" value
-		//filter: "" all jumps, "TC" only with previous fall, "nonTC" only not with previous fall
+		//filter: 
+		//	"" all jumps, 
+		//	"TC" only with previous fall, 
+		//	"nonTC" only not with previous fall
 		//	used in gui/stats.cs
 		//onlyName: return only type name
 	

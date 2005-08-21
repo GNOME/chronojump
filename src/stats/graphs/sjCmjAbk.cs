@@ -61,11 +61,11 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 		}
 		if(this.operation == "MAX") {
 			CurrentGraphData.GraphTitle = string.Format(
-					Catalog.GetString("MAX values of index: {0} in"), jumpType) 
+					Catalog.GetString("MAX values of jump: {0} in"), jumpType) 
 				+ " " + mySessions; 
 		} else {
 			CurrentGraphData.GraphTitle = string.Format(
-					Catalog.GetString("AVG values of index: {0} data in"), jumpType)
+					Catalog.GetString("AVG values of jump: {0} data in"), jumpType)
 				+ " " + mySessions; 
 		}
 		

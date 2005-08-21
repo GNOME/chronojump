@@ -1,22 +1,56 @@
 <h4>Captures de pantalla</h4>
 
+<tt>Cliqueu sobre les imatges per ampliar-les.</tt>
+
 <table border="0" cellpadding="4" cellspacing="8">
-<tr>
-<td width="250"><a href="images/chronojump_graphs_volei.png"><img src="images/chronojump_graphs_volei_small.png" width="250" height="188"></a></td>
-<td width="250"><a href="images/chronojump_new_run_type_spanish.png"><img src="images/chronojump_new_run_type_spanish_small.png" width="250" height="188"></a></td>
-<tr>
-<td width="250"><a href="images/chronojump_add_persons_multiple_preferences_spanish.png"><img src="images/chronojump_add_persons_multiple_preferences_spanish_small.png" width="250" height="188"></a></td>
-<td width="250"><a href="images/chronojump_graphs.jpg"><img src="images/chronojump_graphs_small.png" width="250" height="188"></a></td>
+<tr valign="top">
+	<td width="250">
+		<a href="images/chronojump_graphs_volei.png"><img src="images/chronojump_graphs_volei_small.png" width="250" height="188"></a>
+		<br>
+		v.0.2 estadístiques i gràfiques DjIndex (anglès)
+	</td>
+	<td width="250">
+		<a href="images/chronojump_new_run_type_spanish.png"><img src="images/chronojump_new_run_type_spanish_small.png" width="250" height="188"></a>
+		<br>
+		v.0.2 afegir nou tipus de cursa (espanyol)
+	</td>
 </tr>
-<tr>
-<td width="250"><a href="images/chronojump_graphs_reactive.jpg"><img src="images/chronojump_graphs_reactive_small.png" width="250" height="188"></a></td>
-<td width="250"><a href="images/chronopic_foto.jpg"><img src="images/chronopic_foto_small.png" width="250" height="188"></a></td>
+
+<tr valign="top">
+	<td width="250">
+		<a href="images/chronojump_add_persons_multiple_preferences_spanish.png"><img src="images/chronojump_add_persons_multiple_preferences_spanish_small.png" width="250" height="188"></a>
+		<br>
+		v.0.2 afegir múltiples individuus i preferències (espanyol)
+	</td>
+	<td width="250">
+		<a href="images/chronojump_graphs.jpg"><img src="images/chronojump_graphs_small.png" width="250" height="188"></a>
+		<br>
+		v.0.1 gràfiques (anglès)
+	</td>
 </tr>
-<tr>
-<td width="250"><a href="images/plataforma_contactos_final.jpg"><img src="images/plataforma_contactos_final_small.png" width="250" height="188"></a></td>
-<td>&nbsp;</td>
+
+<tr valign="top">
+	<td width="250">
+		<a href="images/chronojump_graphs_reactive.png"><img src="images/chronojump_graphs_reactive_small.png" width="250" height="188"></a>
+		<br>
+		v.0.1 gràficas de salts reactius (anglès)
+	</td>
+	<td width="250">
+		<a href="images/chronopic_foto.jpg"><img src="images/chronopic_foto_small.png" width="250" height="188"></a>
+		<br>
+		propotipus de Chronopic (Skypic + targeta d'expansió)
+	</td>
 </tr>
-<tr>
-<td colspan="2"><tt>Cliqueu sobre les imatges per ampliar-les.</tt></td>
+
+<tr valign="top">
+	<td width="250">
+		<a href="images/plataforma_contactos_final.jpg"><img src="images/plataforma_contactos_final_small.png" width="250" height="188"></a>
+		<br>
+		Platforma de contactes construida seguint aquestes <a href="construction_contact_platform_ca.html">instruccions</a>
+	</td>
+	<td>
+		&nbsp;
+	</td>
 </tr>
+
 </table>

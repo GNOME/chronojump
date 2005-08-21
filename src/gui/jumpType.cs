@@ -98,7 +98,12 @@ public class JumpTypeAddWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
+		//check if this jump type exists, and check it's name is not "All jumps"
 		bool jumpTypeExists = SqliteJumpType.Exists (Util.RemoveTildeAndColonAndDot(entry_name.Text));
+		if(Util.RemoveTildeAndColonAndDot(entry_name.Text) == Catalog.GetString("All jumps")) {
+			jumpTypeExists = true;
+		}
+		
 		if(jumpTypeExists) {
 			//string myString =  Catalog.GetString ("Jump type: '") + 
 			//	Util.RemoveTildeAndColonAndDot(entry_name.Text) + 

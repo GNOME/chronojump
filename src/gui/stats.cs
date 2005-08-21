@@ -72,6 +72,8 @@ public class StatsWindow {
 	//useful for deleting headers of lastStat just before making a new Stat
 	private Stat myStat; 
 	
+	private string allJumpsName = Catalog.GetString("All jumps");
+	
 	private static string [] comboStatsOptions = {
 		Catalog.GetString("Global"), 
 		Catalog.GetString("Jumper"),
@@ -189,12 +191,12 @@ public class StatsWindow {
 		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("Simple") ) 
 		{
 			combo_stats_stat_name2.PopdownStrings = 
-				SqliteJumpType.SelectJumpTypes("", "nonTC", true); //only select name
+				SqliteJumpType.SelectJumpTypes(allJumpsName, "nonTC", true); //only select name
 			combo_stats_stat_name2.Sensitive = true;
 		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("With TC") ) 
 		{
 			combo_stats_stat_name2.PopdownStrings = 
-				SqliteJumpType.SelectJumpTypes("", "TC", true); //only select name
+				SqliteJumpType.SelectJumpTypes(allJumpsName, "TC", true); //only select name
 			combo_stats_stat_name2.Sensitive = true;
 		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("Reactive") ) 
 		{
@@ -303,7 +305,11 @@ public class StatsWindow {
 		else if(category == Catalog.GetString("Simple"))
 		{
 			JumpType myType = new JumpType(statistic);
-			if(myType.HasWeight) {
+
+			//manage all weight jumps and the "All jumps" (simple)
+			if(myType.HasWeight || 
+					statistic == allJumpsName) 
+			{
 				if(graph) {
 					myStat = new GraphSjCmjAbkPlus ( 
 							sendSelectedSessions, 

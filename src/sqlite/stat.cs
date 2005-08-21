@@ -30,11 +30,25 @@ using System.Data.SqlClient;
 class SqliteStat : Sqlite
 {
 	//sj, cmj, abk (no sj+)
-	public static ArrayList SjCmjAbk (string sessionString, bool multisession, string ini, string end, string jumpType, bool showSex, bool heightPreferred)
+	//"All jumps" (simple) is not managed here, is done in SjCmjAbkPlus
+	public static ArrayList SjCmjAbk (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
+		string ini = "";
+		string end = "";
+		if(operationString == "MAX") {
+			ini = "MAX(";
+			end = ")";
+		} else if(operationString == "AVG") {
+			ini = "AVG(";
+			end = ")";
+		}
+		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
 		moreSelect = ini + "jump.tv" + end;
+		
+		string fromString = " FROM jump, person ";
+		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
 
 		//if we use AVG or MAX, then we have to group by the results
 		//if there's more than one session, it sends the avg or max
@@ -49,9 +63,11 @@ class SqliteStat : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			" FROM jump, person " +
+			//" FROM jump, person " +
+			fromString +
 			sessionString +
-			" AND jump.type == '" + jumpType + "' " +
+			//" AND jump.type == '" + jumpType + "' " +
+			jumpTypeString +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
@@ -68,6 +84,7 @@ class SqliteStat : Sqlite
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}
+			
 			if(multisession) {
 				string returnSessionString = ":" + reader[2].ToString();
 				string returnValueString = "";
@@ -94,11 +111,31 @@ class SqliteStat : Sqlite
 	}
 	
 	//sj+, cmj+, abk+
-	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string ini, string end, string jumpType, bool showSex, bool weightPercent, bool heightPreferred)
+	//and "All jumps" (simple)
+	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool weightPercent, bool heightPreferred)
 	{
+		string ini = "";
+		string end = "";
+		if(operationString == "MAX") {
+			ini = "MAX(";
+			end = ")";
+		} else if(operationString == "AVG") {
+			ini = "AVG(";
+			end = ")";
+		}
+		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
 		moreSelect = ini + "jump.tv" + end + ", jump.weight, person.weight";
+
+		//manage allJumps
+		string fromString = " FROM jump, person ";
+		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
+		if(jumpType == Catalog.GetString("All jumps")) {
+			moreSelect = moreSelect + ", jump.type ";
+			fromString = " FROM jump, person, jumpType ";
+			jumpTypeString = " AND jumpType.startIn == 1 AND jump.Type == jumpType.name "; 
+		}
 
 		//if we use AVG or MAX, then we have to group by the results
 		//if there's more than one session, it sends the avg or max, no more columns
@@ -114,9 +151,11 @@ class SqliteStat : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			" FROM jump, person " +
+			//" FROM jump, person " +
+			fromString +
 			sessionString +
-			" AND jump.type == '" + jumpType + "' " +
+			//" AND jump.type == '" + jumpType + "' " +
+			jumpTypeString +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
@@ -128,11 +167,18 @@ class SqliteStat : Sqlite
 		reader = dbcmd.ExecuteReader();
 		
 		string showSexString = "";
+		string showJumpTypeString = "";
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}
+			//manage allJumps (show jumpType beside name (and sex)) 
+			//but only if it's not an AVG of different jumps
+			if(jumpType == Catalog.GetString("All jumps") && operationString != "AVG") {
+				showJumpTypeString = " (" + reader[6].ToString() + ")";
+			}
+			
 			if(multisession) {
 				string returnSessionString = ":" + reader[2].ToString();
 				string returnValueString = "";
@@ -141,13 +187,13 @@ class SqliteStat : Sqlite
 				} else {
 					returnValueString = ":" + reader[3].ToString();
 				}
-				myArray.Add (reader[0].ToString() + showSexString +
+				myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 						returnSessionString + 		//session
 						returnValueString		//tv or heightofJump
 					    );
 			} else {
 				//in simple session return: name, sex, height, TV, Fall
-				myArray.Add (reader[0].ToString() + showSexString +
+				myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 						+ ":" + Util.GetHeightInCentimeters(reader[3].ToString())
 						+ ":" + reader[3].ToString()
 						+ ":" + convertWeight(
@@ -162,6 +208,11 @@ class SqliteStat : Sqlite
 	}
 
 	private static string convertWeight (string jumpW, int personW, bool percentDesired) {
+		//if it was a nono weight jump, return 0
+		if(jumpW.Length == 0) {
+			return "0";
+		}
+
 		int i;
 		bool percentFound;
 		for (i=0 ; i< jumpW.Length ; i ++) {
@@ -188,11 +239,31 @@ class SqliteStat : Sqlite
 	}
 
 	//dj index 
-	public static ArrayList DjIndex (string sessionString, bool multisession, string ini, string end, string jumpType, bool showSex)
+	public static ArrayList DjIndex (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
+		string ini = "";
+		string end = "";
+		if(operationString == "MAX") {
+			ini = "MAX(";
+			end = ")";
+		} else if(operationString == "AVG") {
+			ini = "AVG(";
+			end = ")";
+		}
+		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
 		moreSelect = ini + "((tv-tc)*100/tc)" + end + " AS dj_index, jump.tv, jump.tc, jump.fall";
+		
+		//manage allJumps
+		string fromString = " FROM jump, person ";
+		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
+		if(jumpType == Catalog.GetString("All jumps")) {
+			moreSelect = moreSelect + ", jump.type ";
+			fromString = " FROM jump, person, jumpType ";
+			jumpTypeString = " AND jumpType.startIn == 0 AND jump.Type == jumpType.name "; 
+		}
+
 
 		//if we use AVG or MAX, then we have to group by the results
 		//if there's more than one session, it sends the avg or max
@@ -207,9 +278,11 @@ class SqliteStat : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			" FROM jump, person " +
+			//" FROM jump, person " +
+			fromString +
 			sessionString +
-			" AND jump.type == '" + jumpType + "' " +
+			//" AND jump.type == '" + jumpType + "' " +
+			jumpTypeString +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
 			orderByString + " dj_index DESC, " + ini + "jump.tv" + end + " DESC ";
@@ -221,6 +294,7 @@ class SqliteStat : Sqlite
 		reader = dbcmd.ExecuteReader();
 		
 		string showSexString = "";
+		string showJumpTypeString = "";
 		string returnSessionString = "";
 		string returnHeightString = "";
 		string returnTvString = "";
@@ -231,6 +305,12 @@ class SqliteStat : Sqlite
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}
+			//manage allJumps (show jumpType beside name (and sex)) 
+			//but only if it's not an AVG of different jumps
+			if(jumpType == Catalog.GetString("All jumps") && operationString != "AVG") {
+				showJumpTypeString = " (" + reader[7].ToString() + ")";
+			}
+			
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
 			} else {
@@ -244,7 +324,7 @@ class SqliteStat : Sqlite
 				returnFallString = ":" + reader[6].ToString();
 			}
 
-			myArray.Add (reader[0].ToString() + showSexString +
+			myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 					returnSessionString + ":" + 		//session
 					reader[3].ToString() + 			//index
 					returnHeightString + 			//height
@@ -424,7 +504,12 @@ class SqliteStat : Sqlite
 		string myReturn = ""; 
 		int i;
 		for(i=0; i < TCFull.Length; i++) {
-			myReturn = myReturn + ":" + TCFull[i] + ":" + TVFull[i];
+			//myReturn = myReturn + ":" + TCFull[i] + ":" + TVFull[i];
+			myReturn = myReturn + ":" + TCFull[i];
+			
+			if(TVFull.Length > i) {
+				myReturn = myReturn + ":" + TVFull[i];
+			}
 		}
 		//fill the row with 0's equalling largest row
 		for(int j=i; j < maxJumps; j++) {
@@ -500,12 +585,15 @@ class SqliteStat : Sqlite
 
 	public static ArrayList IeIub (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
+		//What's this? TODO: check old versions of this file
+		/*
 		string ini2 = "";
 		if(ini == "MAX(") {
 			ini2 = "MIN(";
 		} else if (ini == "AVG("){
 			ini2 = "AVG(";
 		}
+		*/
 			
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";

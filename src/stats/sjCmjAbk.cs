@@ -69,23 +69,29 @@ public class StatSjCmjAbk : Stat
 
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
+				string operation = "AVG";
 				processDataMultiSession ( 
-						SqliteStat.SjCmjAbk(sessionString, multisession, "AVG(", ")", jumpType, showSex, heightPreferred), 
+						SqliteStat.SjCmjAbk(sessionString, multisession, operation, jumpType, showSex, heightPreferred), 
 						true, sessions.Count);
 			} else {
+				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.SjCmjAbk(sessionString, multisession, "AVG(", ")", jumpType, showSex, heightPreferred), 
+							SqliteStat.SjCmjAbk(sessionString, multisession, operation, jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
 		} else {
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.SjCmjAbk(sessionString, multisession, "MAX(", ")", jumpType, showSex, heightPreferred),  
+				string operation = "MAX";
+				processDataMultiSession ( SqliteStat.SjCmjAbk(sessionString, multisession, operation, jumpType, showSex, heightPreferred),  
 						true, sessions.Count);
 			} else {
+				string operation = ""; //no need of "MAX", there's an order by jump.tv desc
+							//and clenaDontWanted will do his work
+							
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.SjCmjAbk(sessionString, multisession, "", "", jumpType, showSex, heightPreferred), 
+							SqliteStat.SjCmjAbk(sessionString, multisession, operation, jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

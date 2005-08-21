@@ -1,5 +1,13 @@
 CHANGELOG:
 
+21 aug 2005
+	stats and graphs have now an:
+		All simple jump stats (without TC, and mixing jumps with or without weight)
+		All simple jump stats (with TC)
+	
+	when adding a jumpType or a runType, these cannot be named "All Jumps"
+	and "All runs" respectively
+
 20 aug 2005
 	Added updated screenshots to the web site
 

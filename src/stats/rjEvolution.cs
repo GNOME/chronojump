@@ -64,7 +64,6 @@ public class StatRjEvolution : Stat
 
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 
-		Console.WriteLine("maxjumps: {0}, datacolumns: {1}", maxJumps, dataColumns);
 		prepareHeaders(columnsString);
 	}
 	

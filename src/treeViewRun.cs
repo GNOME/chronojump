@@ -393,6 +393,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 						Util.GetSpeed(newRun.DistanceInterval.ToString(), 	//distance Interval
 							myInterval )			//time Interval
 						, pDN );
+				myData2[count++] = Util.TrimDecimals( myInterval, pDN );
 				myData2[count++] = newRun.UniqueID.ToString(); //runUniqueID (not shown) 
 
 				store.AppendValues (iterDeep, myData2);

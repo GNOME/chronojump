@@ -92,10 +92,18 @@ class SqliteSession : Sqlite
 	}
 	
 	//used by the stats selector of sessions
-	public static string[] SelectAllSessionsSimple() 
+	//also by PersonsRecuperateFromOtherSessionWindowBox (src/gui/person.cs)
+	public static string[] SelectAllSessionsSimple(bool commentsDisable, int sessionIdDisable) 
 	{
+		string selectString = "*";
+		if(commentsDisable) {
+			selectString = " uniqueID, name, place, date ";
+		}
+		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM session ORDER BY uniqueID";
+		//dbcmd.CommandText = "SELECT * FROM session ORDER BY uniqueID";
+		dbcmd.CommandText = "SELECT " + selectString + " FROM session " + 
+			" WHERE uniqueID != " + sessionIdDisable + " ORDER BY uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -108,9 +116,14 @@ class SqliteSession : Sqlite
 		count = 0;
 
 		while(reader.Read()) {
-			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-					reader[2].ToString() + ":" + reader[3].ToString() + ":" +
-					reader[4].ToString() );
+			if(commentsDisable) {
+				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
+						reader[2].ToString() + ":" + reader[3].ToString() );
+			} else {
+				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
+						reader[2].ToString() + ":" + reader[3].ToString() + ":" +
+						reader[4].ToString() );
+			}
 			count ++;
 		}
 

@@ -120,14 +120,14 @@ class SqlitePerson : Sqlite
 	}
 */
 	
-	public static string[] SelectAllPersonsRecuperable(string sortedBy, int except) 
+	public static string[] SelectAllPersonsRecuperable(string sortedBy, int except, int inSession) 
 	{
 		//sortedBy = name or uniqueID (= creation date)
 	
 
-		//1st select all the person.uniqueID of peopleo who are in CurrentSession
-		//2n select all names
-		//3d filter all names (stripping off the first selected)
+		//1st select all the person.uniqueID of people who are in CurrentSession
+		//2n select all names in database (or in one session if inSession != -1)
+		//3d filter all names (save all found in 2 that is not in 1)
 		//
 		//probably this can be made in only one time... future
 		//
@@ -148,7 +148,6 @@ class SqlitePerson : Sqlite
 		count = 0;
 
 		while(reader.Read()) {
-			Console.WriteLine("{0}", reader[0].ToString());
 			myArray.Add (reader[0].ToString());
 			count ++;
 		}
@@ -165,7 +164,14 @@ class SqlitePerson : Sqlite
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM person ORDER BY " + sortedBy;
+		if(inSession == -1) {
+			dbcmd.CommandText = "SELECT * FROM person ORDER BY " + sortedBy;
+		} else {
+			dbcmd.CommandText = "SELECT person.* FROM person, personSession " +
+				" WHERE personSession.sessionID == " + inSession + 
+				" AND person.uniqueID == personSession.personID " + 
+				"ORDER BY " + sortedBy;
+		}
 		
 		SqliteDataReader reader2;
 		reader2 = dbcmd.ExecuteReader();

@@ -459,7 +459,11 @@ public class SessionSelectStatsWindow {
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
 		TreeIter iter = new TreeIter();
 
-		string [] mySessions = SqliteSession.SelectAllSessionsSimple(); //returns a string of values separated by ':'
+		bool commentsDisable = false;
+		int sessionIdDisable = -1; //don't disable any session (-1 as uniqueID is impossible)
+		string [] mySessions = 
+			SqliteSession.SelectAllSessionsSimple(commentsDisable, sessionIdDisable);
+
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 

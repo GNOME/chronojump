@@ -1,5 +1,11 @@
 CHANGELOG:
 
+22 aug 2005
+	load persons multiple finished (closes task: 271)
+
+	fixed bug: partial times in treviewrun add (for the first run of a
+	person) was not shown
+
 21 aug 2005
 	stats and graphs have now an:
 		All simple jump stats (without TC, and mixing jumps with or without weight)

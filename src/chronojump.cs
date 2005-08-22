@@ -202,6 +202,7 @@ public class ChronoJump
 	SessionEditWindow sessionEditWin;
 	SessionLoadWindow sessionLoadWin;
 	PersonRecuperateWindow personRecuperateWin; 
+	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
 	PersonAddWindow personAddWin; 
 	PersonAddMultipleWindow personAddMultipleWin; 
 	PersonModifyWindow personModifyWin; 
@@ -812,7 +813,7 @@ public class ChronoJump
 	private void on_combo_person_current_changed(object o, EventArgs args) {
 		string myText = combo_person_current.Entry.Text;
 		if(myText != "" && myText.LastIndexOf(":") != -1) {
-			//if people modify the values in the combo_person_current, and this valeus are not correct, 
+			//if people modify the values in the combo_person_current, and this values are not correct, 
 			//let's update the combosujetocurrent
 			
 			if(SqlitePersonSession.PersonSelectExistsInSession(Util.FetchID(myText), currentSession.UniqueID)) 
@@ -1008,6 +1009,18 @@ public class ChronoJump
 		sensitiveGuiYesPerson();
 	}
 		
+	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
+		Console.WriteLine("recuperate persons from other session (not implemented)");
+		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession.UniqueID);
+		personsRecuperateFromOtherSessionWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
+	}
+	
+	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args) {
+		currentPerson = personsRecuperateFromOtherSessionWin.CurrentPerson;
+		updateComboSujetoCurrent();
+		sensitiveGuiYesPerson();
+	}
+		
 	private void on_person_add_single_activate (object o, EventArgs args) {
 		personAddWin = PersonAddWindow.Show(app1, currentSession.UniqueID);
 		personAddWin.Button_accept.Clicked += new EventHandler(on_person_add_single_accepted);
@@ -1069,12 +1082,6 @@ public class ChronoJump
 				statsWin.FillTreeView_stats(false, true);
 			}
 		}
-	}
-	
-	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
-		Console.WriteLine("recupuerate persons from other session (not implemented)");
-		//personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession.UniqueID);
-		//personRecuperateWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 	
 	

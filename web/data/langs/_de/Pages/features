@@ -1,0 +1,47 @@
+<h4>Eigenschaften der Management-Software</h4>
+
+ChronoJump darf jeden möglichen Sprung mit den Wiederholungen registrieren, der, innerhalb von Zeit Einleiten gewünscht wird, oder Außenseite die Plattform, unabhängig registrierend vom Kontakt und Flugzeiten, sowie von Extralast, von Fall, von Beschränkung durch Sprünge oder Zeit und Beschreibungen der Technik festsetzt
+<p>
+ChronoJump benutzt ein kleines Datenbank <a href="http://www.sqlite.org">Sqlite</a> das ermöglicht, Sprünge an Probanden und an Maßlernabschnitte zu binden und alle Art von den Vergleichen zwischen diesen drei zu bilden.
+<p>
+Er ist möglich und einfach, um neue Arten von Sprüngen mit den beschriebenen Variablen vorher zu verursachen.
+<p>
+Es ist multiplatform;  Als, programmierend in C # mit Mono, würde es in GNU/Linux, MacOSX, Windows richtig arbeiten müssen..., bis der Moment nur in GNU/Linux nachgewiesen worden ist.
+<p>
+Es enthält die folgenden Statistiken (wann immer das Entgegengesetzte sich nicht spezifiziert, um maximale Durchschnitte, Werte oder alle Werte eines einzigen Lernabschnittes oder zwischen einer indeterminezahl der Lernabschnitte (longitudinal) gewährt wird und mit Unterscheidung der Art) zu zeigen
+
+<ul>
+<li>Zusammenfassung von einen oder einigen Messabschnitten
+<li>Studie eines einzigen Probande
+<li>Flugzeit der einfachen Sprünge
+<li>Zeit des Kontaktes, Flugzeit und Index zwischen beiden in den Sprüngen mit Fall und in den sich wiederholenden    Sprüngen (kurz wird die Geschwindigkeit des Starts auch eingeführt).
+<li>Leistung der wiederholenden Sprüngen
+<li>Entwicklung der sich wiederholenden Sprünge (nur in einem Messabschnitt)
+<li>Index von Elastizität und von Gebrauch der Arme
+<li>... (Die modularität von ChronoJump erleichtert die Einbeziehung von neuem messwerten)
+</ul>
+
+Grafik von allen messwerten beschrieben mittels des graphischen utilery <a href="http://netcontrols.org/nplot/">NPlot</a>.
+<p>
+Export von Messwerten und Daten (Format CSV).
+
+<h4>Eigenschaften des timekeeper</h4>
+Das Timekeeper:  Chronopic, basiert auf dem Trainer Karten Skypic (Unterlagen sehen), und bittet eine Präzision von tausendster von sekunden wie es überprüft ist
+<p>
+Einige Systeme von Zeitmessung des Sprunges benutzen nur ein verbundenes PC zur Plattform.  Die modernen Computer sind multitask, Eigenschaft, der es verhindert, um einem vertrauenswürdigen Maß zu garantieren, weil sie jede mögliche andere Aufgabe in diesem einem Moment bilden können.
+
+ <p>
+<h4>Eigenschaften der Plattform</h4>
+Wie die Plattform der Kontakte kann gebildet werden wird erklärt im Abschnitt Construcción <a href="construction_en.html">englisch</a>, <a href="construction_es.html">spanisch</a>.
+
+<h4>Zukünftige Eigenschaften</h4>
+
+Kurz wird es die folgenden Funktionen auch einzuführen:
+
+<ul>
+<li>Scheme für die Einteilung von 2 Plattformen zu Zeitmessungen einen von Beweglichkeit oder beschleunigen Circuit.  In diesem Fall wird es empfohlen, daß jede Plattform durch eine Zahl der minderwertigen Stange der Sätze bis das herkömmliche festgesetzt wird.  Auch die Möglichkeitkerben des Verwendens von 1 Plattform (kreisförmiger Stromkreis) oder mehr als 2 (Lernabschnitt mit unterschiedlichen "Stationen").
+<li>Die Möglichkeitkerben des Ersetzens der Plattformen der Kontakte durch photoelektrische Zellen.  Die Methode der Herstellung der photoelektrischen Zellen noch nicht beschrieben ist, wenn sie Informationen über die Angelegenheit hat, wir bat um ihre Zusammenarbeit ein.
+<li>Summer für Maß der Zeit der Reaktion.  Eine Vorrichtung, die in angebracht wird, timekeeper zu besitzen, produziert einen sonorous Fall und die Zeit ist registriert, das geschieht, bis eine Änderung von status in der Plattform stattfindet.  Zwischen vielen Dienstprogrammen kann sie für die Steuerung des Courses Navette verwendet werden.
+<li>Möglichkeit des Änderns der Empfindlichkeit des timekeeper zu jedem Sprung.
+<li>Wenn Sie andere Eigenschaften wünscht, zweifelt Sie nicht, den Postlisten nachzufraen.
+</ul>

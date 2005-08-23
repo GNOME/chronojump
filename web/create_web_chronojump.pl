@@ -286,5 +286,13 @@ sub filterHTML {
 	$return =~ s/ê/&ecirc;/g;
 	$return =~ s/ô/&ocirc;/g;
 
+	#deutsch
+	$return =~ s/Ä/&Auml;/g;
+	$return =~ s/Ö/&Ouml;/g;
+	$return =~ s/ä/&auml;/g;
+	$return =~ s/ö/&ouml;/g;
+	$return =~ s/ß/&szlig/g;
+	
+	
 	return $return;
 }

@@ -73,6 +73,12 @@ for (sort keys %languages)
 	#read all the data files for current language
 	open DATAFILES,"ls data/langs/$langSuffix/Pages/ | ";
 	foreach (<DATAFILES>) {
+
+		#strip out CVS dirs
+		if($_ =~ m/CVS/) {
+			next;
+		}
+			
 		my $currentPage = $_;
 		chomp $currentPage;
 		print "--- Processing FILE data/langs/$langSuffix/Pages/$currentPage\n";
@@ -157,6 +163,7 @@ sub getLanguageLinks {
 
 	#print current Language in a h2
 	$return .= "<h2>$langName</h2>\n";
+	$return .= "<font color=\"#cccccc\">----------------</font>\n";
 	$return .= "<ul>\n";
 
 	#print other languages if available

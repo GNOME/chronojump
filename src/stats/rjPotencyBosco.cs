@@ -44,9 +44,10 @@ public class StatRjPotencyBosco : Stat
 		this.limit = 0;
 	}
 
-	public StatRjPotencyBosco (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public StatRjPotencyBosco (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
 		this.dataColumns = 6;	//for simplesession (index, tv (avg), tc (avg), jumps, time, fall)
+		this.jumpType = jumpType;
 		this.limit = limit;
 		
 		if(sessions.Count > 1) {
@@ -71,23 +72,36 @@ public class StatRjPotencyBosco : Stat
 
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
+				string operation = "AVG";
 				processDataMultiSession ( 
-						SqliteStat.RjPotencyBosco(sessionString, multisession, "AVG(", ")", showSex), 
+						SqliteStat.RjPotencyBosco(sessionString, multisession, 
+							//"AVG(", ")", showSex), 
+							operation, jumpType, showSex), 
 						true, sessions.Count);
 			} else {
+				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.RjPotencyBosco(sessionString, multisession, "AVG(", ")", showSex), 
+							SqliteStat.RjPotencyBosco(sessionString, multisession, 
+								//"AVG(", ")", showSex), 
+								operation, jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
 		} else {
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.RjPotencyBosco(sessionString, multisession, "MAX(", ")", showSex),  
+				string operation = "MAX";
+				processDataMultiSession ( SqliteStat.RjPotencyBosco(sessionString, multisession, 
+							//"MAX(", ")", showSex),  
+							operation, jumpType, showSex), 
 						true, sessions.Count);
 			} else {
+				string operation = ""; //no need of "MAX", there's an order by (index) desc
+							//and clenaDontWanted will do his work
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.RjPotencyBosco(sessionString, multisession, "", "", showSex), 
+							SqliteStat.RjPotencyBosco(sessionString, multisession, 
+								//"", "", showSex), 
+								operation, jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

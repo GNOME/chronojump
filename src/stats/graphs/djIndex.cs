@@ -62,11 +62,12 @@ public class GraphDjIndex : StatDjIndex
 		}
 		
 		if(this.operation == "MAX") {
-			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of Dj Index in") 
-				+ " " + mySessions; 
+			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of Dj Index") 
+				+ " ((tv-tc)*100/tc) " + Catalog.GetString("in") + " " + mySessions; 
+			
 		} else {
-			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of Dj Index in") 
-				+ " " + mySessions; 
+			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of Dj Index") 
+				+ " ((tv-tc)*100/tc) " + Catalog.GetString("in") + " " + mySessions; 
 		}
 		
 		

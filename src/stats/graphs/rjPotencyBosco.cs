@@ -44,7 +44,7 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 	GraphSerie serieFall;
 
 
-	public GraphRjPotencyBosco (ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public GraphRjPotencyBosco (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
 		this.dataColumns = 6; //for Simplesession (index, tv(avg), tc(avg), jumps, time, fall)
 		this.jumpType = jumpType;
@@ -64,10 +64,12 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			mySessions = Catalog.GetString("multiple sessions");
 		}
 		if(this.operation == "MAX") {
-			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of RjPotency in ") 
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("MAX values of RjPotency in "), jumpType) 
 				+ mySessions; 
 		} else {
-			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of RjPotency in ") 
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("AVG values of RjPotency in ") , jumpType)
 				+ mySessions; 
 		}
 		

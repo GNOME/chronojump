@@ -42,7 +42,7 @@ public class GraphRjIndex : StatRjIndex
 	GraphSerie serieFall;
 
 
-	public GraphRjIndex (ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public GraphRjIndex (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
 		this.dataColumns = 4; //for Simplesession (index, tv(avg), tc(avg), fall)
 		this.jumpType = jumpType;
@@ -62,10 +62,12 @@ public class GraphRjIndex : StatRjIndex
 			mySessions = Catalog.GetString("multiple sessions");
 		}
 		if(this.operation == "MAX") {
-			CurrentGraphData.GraphTitle = Catalog.GetString("MAX values of RjIndex in ") 
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("MAX values of RjIndex in "), jumpType)
 				+ mySessions; 
 		} else {
-			CurrentGraphData.GraphTitle = Catalog.GetString("AVG values of RjIndex in ") 
+			CurrentGraphData.GraphTitle = string.Format(
+					Catalog.GetString("AVG values of RjIndex in "), jumpType)
 				+ mySessions; 
 		}
 		

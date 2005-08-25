@@ -236,6 +236,7 @@ public class ChronoJump
 	Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 	Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 	Chronopic cp;
+	bool cpRunning;
 	States loggedState;		//log of last state
 	private bool firstRjValue;
 	private double rjTcCount;
@@ -276,7 +277,8 @@ public class ChronoJump
 		} else { Console.WriteLine ( Catalog.GetString ("tables already created") ); }
 
 		Console.WriteLine("AllJumpsName: {0}", allJumpsName);
-		
+	
+		cpRunning = false;
 		loadPreferences ();
 
 		createTreeView_jumps(treeview_jumps);
@@ -303,7 +305,7 @@ public class ChronoJump
 		rand = new Random(40);
 				
 		//init connecting with chronopic	
-		chronopicInit();
+		//chronopicInit();
 				
 		program.Run();
 	}
@@ -312,6 +314,9 @@ public class ChronoJump
 	{
 		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
 		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xavi@xdeblas.com") );
+		Console.WriteLine ( Catalog.GetString ("if you used modem by serial port before (in a linux session) chronojump chrases") );
+		Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
+		Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
 		cp = new Chronopic("/dev/ttyS0");
 
@@ -835,7 +840,9 @@ public class ChronoJump
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		Console.WriteLine("Bye!");
     
-		cp.Close();
+		if(simulated == false) {
+			cp.Close();
+		}
 		
 		Application.Quit();
 	}
@@ -843,7 +850,9 @@ public class ChronoJump
 	private void on_quit1_activate (object o, EventArgs args) {
 		Console.WriteLine("Bye!");
     
-		cp.Close();
+		if(simulated == false) {
+			cp.Close();
+		}
 		
 		Application.Quit();
 	}
@@ -1149,12 +1158,21 @@ public class ChronoJump
 	{
 		simulated = true;
 		SqlitePreferences.Update("simulated", simulated.ToString());
+			
+		//close connection with chronopic if initialized
+		if(cpRunning) {
+			cp.Close();
+		}
 	}
 	
 	void on_radiobutton_serial_port_activate (object o, EventArgs args)
 	{
 		simulated = false;
 		SqlitePreferences.Update("simulated", simulated.ToString());
+		
+		//init connecting with chronopic	
+		chronopicInit();
+		cpRunning = true;
 	}
 
 	private void on_preferences_activate (object o, EventArgs args) {

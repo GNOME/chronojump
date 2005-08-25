@@ -42,9 +42,10 @@ public class StatRjIndex : Stat
 		this.limit = 0;
 	}
 
-	public StatRjIndex (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public StatRjIndex (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
 		this.dataColumns = 4;	//for simplesession (index, tv (avg), tc (avg), fall)
+		this.jumpType = jumpType;
 		this.limit = limit;
 		
 		if(sessions.Count > 1) {
@@ -69,23 +70,36 @@ public class StatRjIndex : Stat
 
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
+				string operation = "AVG";
 				processDataMultiSession ( 
-						SqliteStat.RjIndex(sessionString, multisession, "AVG(", ")", showSex), 
+						SqliteStat.RjIndex(sessionString, multisession, 
+							//"AVG(", ")", showSex), 
+							operation, jumpType, showSex), 
 						true, sessions.Count);
 			} else {
+				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.RjIndex(sessionString, multisession, "AVG(", ")", showSex), 
+							SqliteStat.RjIndex(sessionString, multisession, 
+								//"AVG(", ")", showSex), 
+								operation, jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
 		} else {
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.RjIndex(sessionString, multisession, "MAX(", ")", showSex),  
+				string operation = "MAX";
+				processDataMultiSession ( SqliteStat.RjIndex(sessionString, multisession, 
+							//"MAX(", ")", showSex),  
+							operation, jumpType, showSex), 
 						true, sessions.Count);
 			} else {
+				string operation = ""; //no need of "MAX", there's an order by (index) desc
+							//and clenaDontWanted will do his work
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.RjIndex(sessionString, multisession, "", "", showSex), 
+							SqliteStat.RjIndex(sessionString, multisession, 
+								//"", "", showSex), 
+								operation, jumpType, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

@@ -38,7 +38,7 @@ public class StatRjEvolution : Stat
 		this.limit = 0;
 	}
 
-	public StatRjEvolution (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public StatRjEvolution (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
 	{
 		string sessionString = obtainSessionSqlString(sessions);
 
@@ -46,6 +46,7 @@ public class StatRjEvolution : Stat
 		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
 		this.dataColumns = maxJumps*2 + 2;	//for simplesession (index, (tv , tc)*jumps, fall)
+		this.jumpType = jumpType;
 		this.limit = limit;
 
 		//only simplesession
@@ -75,13 +76,20 @@ public class StatRjEvolution : Stat
 
 		//we send maxJumps for make all the results of same length (fill it with '-'s)
 		if(statsJumpsType == 3) { //avg of each jumper
+			string operation = "AVG";
 			processDataSimpleSession ( cleanDontWanted (
-						SqliteStat.RjEvolution(sessionString, multisession, "AVG(", ")", showSex, maxJumps), 
+						SqliteStat.RjEvolution(sessionString, multisession, 
+							//"AVG(", ")", showSex, maxJumps), 
+							operation, jumpType, showSex, maxJumps), 
 						statsJumpsType, limit),
 					false, dataColumns); //don't print AVG and SD at end of row (has no sense)
 		} else {
+			string operation = ""; //no need of "MAX", there's an order by (index) desc
+							//and clenaDontWanted will do his work
 			processDataSimpleSession ( cleanDontWanted (
-						SqliteStat.RjEvolution(sessionString, multisession, "", "", showSex, maxJumps), 
+						SqliteStat.RjEvolution(sessionString, multisession, 
+							//"", "", showSex, maxJumps), 
+						operation, jumpType, showSex, maxJumps), 
 						statsJumpsType, limit),
 					false, dataColumns); //don't print AVG and SD at end of row (has no sense)
 		}

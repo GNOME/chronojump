@@ -1,5 +1,23 @@
 CHANGELOG:
 
+25 aug 2005
+	drop jump "Q index" (tv/tc) added (closes task: 260) added:
+	src/stats/djQ.cs and src/stats/graphs/djQ.cs
+	
+	stats now have type, subtype and "apply to"
+	rjIndex can be applied to "all reactive" or to one type of reactive
+	jump.
+
+	chronopic now gets initiated when starting if preferences/simulated ==
+	false, or when serial port is selected. Also is Closed only if it was
+	running
+
+	bug solved in show stats rjevolution where there are no rj jumps
+	improved stats gui
+	stats show_enunciate not shown by default
+	
+	Web site: Added a graph of two contact platforms in index 
+
 22 aug 2005
 	load persons multiple finished (closes task: 271)
 

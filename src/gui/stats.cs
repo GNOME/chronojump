@@ -36,10 +36,12 @@ public class StatsWindow {
 	SessionSelectStatsWindow sessionSelectStatsWin;
 
 	[Widget] Gtk.TreeView treeview_stats;
-	[Widget] Gtk.Box hbox_combo_stats_stat_name;
-	[Widget] Gtk.Box hbox_combo_stats_stat_name2;
-	[Widget] Gtk.Combo combo_stats_stat_name;
-	[Widget] Gtk.Combo combo_stats_stat_name2;
+	[Widget] Gtk.Box hbox_combo_stats_stat_type;
+	[Widget] Gtk.Box hbox_combo_stats_stat_subtype;
+	[Widget] Gtk.Box hbox_combo_stats_stat_apply_to;
+	[Widget] Gtk.Combo combo_stats_stat_type;
+	[Widget] Gtk.Combo combo_stats_stat_subtype;
+	[Widget] Gtk.Combo combo_stats_stat_apply_to;
 	[Widget] Gtk.CheckButton checkbutton_stats_sex;
 	[Widget] Gtk.CheckButton checkbutton_stats_always;
 	[Widget] Gtk.Button button_stats;
@@ -66,6 +68,7 @@ public class StatsWindow {
 	bool statsAutomatic = true;
 	bool statsColumnsToRemove = false;
 	private Session currentSession;
+	bool changingCombos = false;
 	//selected sessions
 	ArrayList selectedSessions;
 	
@@ -74,7 +77,7 @@ public class StatsWindow {
 	
 	private string allJumpsName = Catalog.GetString("All jumps");
 	
-	private static string [] comboStatsOptions = {
+	private static string [] comboStatsTypeOptions = {
 		Catalog.GetString("Global"), 
 		Catalog.GetString("Jumper"),
 		Catalog.GetString("Simple"),
@@ -83,15 +86,18 @@ public class StatsWindow {
 		Catalog.GetString("Indexes")
 	};
 	
-	private static string [] comboStats2ReactiveOptions = {
-		Catalog.GetString("RJ Average Index"), 
-		Catalog.GetString("POTENCY (Bosco)"), // 9.81^2*TV*TT / (4*jumps*(TT-TV))
-		Catalog.GetString("RJ Evolution") 
+	private static string [] comboStatsSubTypeWithTCOptions = {
+		Catalog.GetString("Dj Index") + " ((tv-tc)*100/tc)",
+		Catalog.GetString("Q index") + " (tv/tc)" 
 	};
 	
-	private static string [] comboStats2IndexesOptions = {
-		//Catalog.GetString("IE (cmj-sj)*100/sj"), 
-		//Catalog.GetString("IUB (abk-cmj)*100/cmj")
+	private static string [] comboStatsSubTypeReactiveOptions = {
+		Catalog.GetString("Average Index"), 
+		Catalog.GetString("POTENCY (Bosco)"), // 9.81^2*TV*TT / (4*jumps*(TT-TV))
+		Catalog.GetString("Evolution") 
+	};
+	
+	private static string [] comboStatsSubTypeIndexesOptions = {
 		"IE (cmj-sj)*100/sj", 
 		"IUB (abk-cmj)*100/cmj"
 	};
@@ -111,10 +117,14 @@ public class StatsWindow {
 
 		myStat = new Stat(); //create and instance of myStat
 		
-		createComboStats();
-		createComboStats2();
+		createComboStatsType();
+		createComboStatsSubType();
+		createComboStatsApplyTo();
 		
-		updateComboStats2();
+		updateComboStats();
+			
+		textview_enunciate.Hide();
+		scrolledwindow_enunciate.Hide();
 	}
 	
 
@@ -151,61 +161,92 @@ public class StatsWindow {
 		}
 	}
 
-	private void createComboStats() {
-		combo_stats_stat_name = new Combo ();
-		combo_stats_stat_name.PopdownStrings = comboStatsOptions;
+	private void createComboStatsType() {
+		combo_stats_stat_type = new Combo ();
+		combo_stats_stat_type.PopdownStrings = comboStatsTypeOptions;
 		
-		combo_stats_stat_name.DisableActivate ();
-		combo_stats_stat_name.Entry.Changed += new EventHandler (on_combo_stats_stat_name_changed);
+		//combo_stats_stat_type.DisableActivate ();
+		combo_stats_stat_type.Entry.Changed += new EventHandler (on_combo_stats_stat_type_changed);
 
-		hbox_combo_stats_stat_name.PackStart(combo_stats_stat_name, false, false, 0);
-		hbox_combo_stats_stat_name.ShowAll();
+		hbox_combo_stats_stat_type.PackStart(combo_stats_stat_type, false, false, 0);
+		hbox_combo_stats_stat_type.ShowAll();
 		
-		combo_stats_stat_name.Sensitive = true;
+		combo_stats_stat_type.Sensitive = true;
 	}
 	
-	private void createComboStats2() {
-		combo_stats_stat_name2 = new Combo ();
+	private void createComboStatsSubType() {
+		combo_stats_stat_subtype = new Combo ();
 		
-		combo_stats_stat_name2.DisableActivate ();
-		combo_stats_stat_name2.Entry.Changed += new EventHandler (on_combo_stats_stat_name2_changed);
+		//combo_stats_stat_subtype.DisableActivate ();
+		combo_stats_stat_subtype.Entry.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
 
-		hbox_combo_stats_stat_name2.PackStart(combo_stats_stat_name2, false, false, 0);
-		hbox_combo_stats_stat_name2.ShowAll();
+		hbox_combo_stats_stat_subtype.PackStart(combo_stats_stat_subtype, false, false, 0);
+		hbox_combo_stats_stat_subtype.ShowAll();
 		
-		combo_stats_stat_name2.Sensitive = true;
+		combo_stats_stat_subtype.Sensitive = true;
 	}
 
-	private void updateComboStats2() {
-		if(combo_stats_stat_name.Entry.Text == Catalog.GetString("Global") ) 
+	private void createComboStatsApplyTo() {
+		combo_stats_stat_apply_to = new Combo ();
+		
+		//combo_stats_stat_apply_to.DisableActivate ();
+		combo_stats_stat_apply_to.Entry.Changed += new EventHandler (on_combo_stats_stat_apply_to_changed);
+
+		hbox_combo_stats_stat_apply_to.PackStart(combo_stats_stat_apply_to, false, false, 0);
+		hbox_combo_stats_stat_apply_to.ShowAll();
+		
+		combo_stats_stat_apply_to.Sensitive = true;
+	}
+
+	private void updateComboStats() {
+		string [] nullOptions = { "-" };
+		if(combo_stats_stat_type.Entry.Text == Catalog.GetString("Global") ) 
 		{
-			string [] nullOptions = { "-" };
-			combo_stats_stat_name2.PopdownStrings = nullOptions;
-			combo_stats_stat_name2.Sensitive = false;
+			combo_stats_stat_subtype.PopdownStrings = nullOptions;
+			combo_stats_stat_subtype.Sensitive = false;
+			
+			combo_stats_stat_apply_to.PopdownStrings = nullOptions;
+			combo_stats_stat_apply_to.Sensitive = false;
 		}
-		else if(combo_stats_stat_name.Entry.Text == Catalog.GetString("Jumper") )
+		else if(combo_stats_stat_type.Entry.Text == Catalog.GetString("Jumper") )
 		{
-			combo_stats_stat_name2.PopdownStrings = 
+			combo_stats_stat_subtype.PopdownStrings = nullOptions;
+			combo_stats_stat_subtype.Sensitive = false;
+			
+			combo_stats_stat_apply_to.PopdownStrings = 
 				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
-			combo_stats_stat_name2.Sensitive = true;
-		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("Simple") ) 
+			combo_stats_stat_apply_to.Sensitive = true;
+		} else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Simple") ) 
 		{
-			combo_stats_stat_name2.PopdownStrings = 
+			combo_stats_stat_subtype.PopdownStrings = nullOptions;
+			combo_stats_stat_subtype.Sensitive = false;
+			
+			combo_stats_stat_apply_to.PopdownStrings = 
 				SqliteJumpType.SelectJumpTypes(allJumpsName, "nonTC", true); //only select name
-			combo_stats_stat_name2.Sensitive = true;
-		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("With TC") ) 
+			combo_stats_stat_apply_to.Sensitive = true;
+		} else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 
 		{
-			combo_stats_stat_name2.PopdownStrings = 
+			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeWithTCOptions;
+			combo_stats_stat_subtype.Sensitive = true;
+			
+			combo_stats_stat_apply_to.PopdownStrings = 
 				SqliteJumpType.SelectJumpTypes(allJumpsName, "TC", true); //only select name
-			combo_stats_stat_name2.Sensitive = true;
-		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("Reactive") ) 
+			combo_stats_stat_apply_to.Sensitive = true;
+		} else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Reactive") ) 
 		{
-			combo_stats_stat_name2.PopdownStrings = comboStats2ReactiveOptions;
-			combo_stats_stat_name2.Sensitive = true;
-		} else if (combo_stats_stat_name.Entry.Text == Catalog.GetString("Indexes") ) 
+			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeReactiveOptions;
+			combo_stats_stat_subtype.Sensitive = true;
+			
+			combo_stats_stat_apply_to.PopdownStrings = 
+				SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
+			combo_stats_stat_apply_to.Sensitive = true;
+		} else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Indexes") ) 
 		{
-			combo_stats_stat_name2.PopdownStrings = comboStats2IndexesOptions;
-			combo_stats_stat_name2.Sensitive = true;
+			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeIndexesOptions;
+			combo_stats_stat_subtype.Sensitive = true;
+			
+			combo_stats_stat_apply_to.PopdownStrings = nullOptions;
+			combo_stats_stat_apply_to.Sensitive = false;
 		}
 
 		fillTreeView_stats(false);
@@ -220,10 +261,12 @@ public class StatsWindow {
 		}
 	}
 
-	private void fillTreeView_stats (bool graph) 
+	//private void fillTreeView_stats (bool graph) 
+	private bool fillTreeView_stats (bool graph) 
 	{
-		string category = combo_stats_stat_name.Entry.Text;
-		string statistic = combo_stats_stat_name2.Entry.Text;
+		string statisticType = combo_stats_stat_type.Entry.Text;
+		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
+		string statisticApplyTo = combo_stats_stat_apply_to.Entry.Text;
 
 		if(statsColumnsToRemove && !graph) {
 			statsRemoveColumns();
@@ -256,7 +299,7 @@ public class StatsWindow {
 		}
 
 		
-		if ( category == Catalog.GetString("Global") ) {
+		if ( statisticType == Catalog.GetString("Global") ) {
 			int jumperID = -1; //all jumpers
 			string jumperName = ""; //all jumpers
 			if(graph) {
@@ -278,10 +321,18 @@ public class StatsWindow {
 				myStat.PrepareData();
 			}
 		}
-		else if (category == Catalog.GetString("Jumper"))
+		else if (statisticType == Catalog.GetString("Jumper"))
 		{
-			int jumperID = Convert.ToInt32(Util.FetchID(statistic));
-			string jumperName = Util.FetchName(statistic);
+			if(statisticApplyTo.Length == 0) {
+				Console.WriteLine("Jumper-ret");
+				return false;
+			}
+			int jumperID = Convert.ToInt32(Util.FetchID(statisticApplyTo));
+			if(jumperID == -1) {
+				return false;
+			}
+			
+			string jumperName = Util.FetchName(statisticApplyTo);
 			if(graph) {
 				myStat = new GraphGlobal(
 						sendSelectedSessions, 
@@ -302,18 +353,22 @@ public class StatsWindow {
 				myStat.PrepareData();
 			}
 		}
-		else if(category == Catalog.GetString("Simple"))
+		else if(statisticType == Catalog.GetString("Simple"))
 		{
-			JumpType myType = new JumpType(statistic);
+			if(statisticApplyTo.Length == 0) {
+				Console.WriteLine("Simple-ret");
+				return false;
+			}
+			JumpType myType = new JumpType(statisticApplyTo);
 
 			//manage all weight jumps and the "All jumps" (simple)
 			if(myType.HasWeight || 
-					statistic == allJumpsName) 
+					statisticApplyTo == allJumpsName) 
 			{
 				if(graph) {
 					myStat = new GraphSjCmjAbkPlus ( 
 							sendSelectedSessions, 
-							prefsDigitsNumber, statistic, 
+							prefsDigitsNumber, statisticApplyTo, 
 							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit,
@@ -325,7 +380,7 @@ public class StatsWindow {
 				} else {
 					myStat = new StatSjCmjAbkPlus (treeview_stats, 
 							sendSelectedSessions, 
-							prefsDigitsNumber, statistic, 
+							prefsDigitsNumber, statisticApplyTo, 
 							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit,
@@ -338,7 +393,7 @@ public class StatsWindow {
 				if(graph) {
 					myStat = new GraphSjCmjAbk ( 
 							sendSelectedSessions, 
-							prefsDigitsNumber, statistic, 
+							prefsDigitsNumber, statisticApplyTo, 
 							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit,
@@ -349,7 +404,7 @@ public class StatsWindow {
 				} else {
 					myStat = new StatSjCmjAbk (treeview_stats, 
 							sendSelectedSessions, 
-							prefsDigitsNumber, statistic, 
+							prefsDigitsNumber, statisticApplyTo, 
 							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit,
@@ -359,38 +414,72 @@ public class StatsWindow {
 				}
 			}
 		}
-		else if(category == Catalog.GetString("With TC"))
+		else if(statisticType == Catalog.GetString("With TC"))
 		{
-			if(graph) {
-				myStat = new GraphDjIndex ( 
-						sendSelectedSessions, 
-						prefsDigitsNumber, statistic, 
-						checkbutton_stats_sex.Active, 
-						statsJumpsType,
-						limit//,
-						//heightPreferred
-						);
-				myStat.PrepareData();
-				myStat.CreateGraph();
-			} else {
-				myStat = new StatDjIndex(treeview_stats, 
-						sendSelectedSessions, 
-						prefsDigitsNumber, statistic, 
-						checkbutton_stats_sex.Active,
-						statsJumpsType,
-						limit//, 
-						//heightPreferred
-						);
-				myStat.PrepareData();
+			if(statisticApplyTo.Length == 0) {
+				Console.WriteLine("WithTC-ret");
+				return false;
+			}
+			
+			if(statisticSubType == Catalog.GetString("Dj Index") + " ((tv-tc)*100/tc)")
+			{
+				if(graph) {
+					myStat = new GraphDjIndex ( 
+							sendSelectedSessions, 
+							prefsDigitsNumber, statisticApplyTo, 
+							checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit//,
+							//heightPreferred
+							);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatDjIndex(treeview_stats, 
+							sendSelectedSessions, 
+							prefsDigitsNumber, statisticApplyTo, 
+							checkbutton_stats_sex.Active,
+							statsJumpsType,
+							limit//, 
+							//heightPreferred
+							);
+					myStat.PrepareData();
+				}
+			} else if(statisticSubType == Catalog.GetString("Q index") + " (tv/tc)")
+			{
+				if(graph) {
+					myStat = new GraphDjQ ( 
+							sendSelectedSessions, 
+							prefsDigitsNumber, statisticApplyTo, 
+							checkbutton_stats_sex.Active, 
+							statsJumpsType,
+							limit//,
+							//heightPreferred
+							);
+					myStat.PrepareData();
+					myStat.CreateGraph();
+				} else {
+					myStat = new StatDjQ(treeview_stats, 
+							sendSelectedSessions, 
+							prefsDigitsNumber, statisticApplyTo, 
+							checkbutton_stats_sex.Active,
+							statsJumpsType,
+							limit//, 
+							//heightPreferred
+							);
+					myStat.PrepareData();
+				}
 			}
 		}
-		else if(category == Catalog.GetString("Reactive")) {
-			if(statistic == Catalog.GetString("RJ Average Index"))
+		else if(statisticType == Catalog.GetString("Reactive")) {
+			if(statisticSubType == Catalog.GetString("Average Index"))
 			{
 				if(graph) {
 					myStat = new GraphRjIndex ( 
 							sendSelectedSessions, 
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							prefsDigitsNumber, 
+							statisticApplyTo, 
+							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit);
 					myStat.PrepareData();
@@ -398,18 +487,22 @@ public class StatsWindow {
 				} else {
 					myStat = new StatRjIndex(treeview_stats, 
 							sendSelectedSessions, 
-							prefsDigitsNumber, checkbutton_stats_sex.Active,
+							prefsDigitsNumber, 
+							statisticApplyTo, 
+							checkbutton_stats_sex.Active,
 							statsJumpsType,
 							limit);
 					myStat.PrepareData();
 				}
 			}	
-			else if(statistic == Catalog.GetString("POTENCY (Bosco)"))
+			else if(statisticSubType == Catalog.GetString("POTENCY (Bosco)"))
 			{
 				if(graph) {
 					myStat = new GraphRjPotencyBosco ( 
 							sendSelectedSessions, 
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							prefsDigitsNumber, 
+							statisticApplyTo, 
+							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit);
 					myStat.PrepareData();
@@ -417,18 +510,22 @@ public class StatsWindow {
 				} else {
 					myStat = new StatRjPotencyBosco(treeview_stats, 
 							sendSelectedSessions, 
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							prefsDigitsNumber, 
+							statisticApplyTo, 
+							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit);
 					myStat.PrepareData();
 				}
 			}
-			else if(statistic == Catalog.GetString("RJ Evolution"))
+			else if(statisticSubType == Catalog.GetString("Evolution"))
 			{
 				if(graph) {
 					myStat = new GraphRjEvolution ( 
 							sendSelectedSessions, 
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							prefsDigitsNumber, 
+							statisticApplyTo, 
+							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit);
 					myStat.PrepareData();
@@ -436,15 +533,17 @@ public class StatsWindow {
 				} else {
 					myStat = new StatRjEvolution(treeview_stats, 
 							sendSelectedSessions, 
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
+							prefsDigitsNumber, 
+							statisticApplyTo, 
+							checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit);
 					myStat.PrepareData();
 				}
 			}
 		}
-		else if(category == Catalog.GetString("Indexes")) {
-			if(statistic == Catalog.GetString("IE (cmj-sj)*100/sj"))
+		else if(statisticType == Catalog.GetString("Indexes")) {
+			if(statisticSubType == "IE (cmj-sj)*100/sj")
 			{
 				if(graph) {
 					myStat = new GraphIeIub ( 
@@ -465,7 +564,7 @@ public class StatsWindow {
 					myStat.PrepareData();
 				}
 			}
-			else if(statistic == Catalog.GetString("IUB (abk-cmj)*100/cmj"))
+			else if(statisticSubType == "IUB (abk-cmj)*100/cmj")
 			{
 				if(graph) {
 					myStat = new GraphIeIub ( 
@@ -492,6 +591,9 @@ public class StatsWindow {
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(myStat.ToString());
 		textview_enunciate.Buffer = tb;
+
+		//all was fine
+		return true;
 	}
 
 	
@@ -500,11 +602,13 @@ public class StatsWindow {
 	public void Widgets(bool person)
 	{
 		if(person) {
-			combo_stats_stat_name.Sensitive = true;
-			combo_stats_stat_name2.Sensitive = true;
+			combo_stats_stat_type.Sensitive = true;
+			combo_stats_stat_subtype.Sensitive = true;
+			combo_stats_stat_apply_to.Sensitive = true;
 		} else {
-			combo_stats_stat_name.Sensitive = false;
-			combo_stats_stat_name2.Sensitive = false;
+			combo_stats_stat_type.Sensitive = false;
+			combo_stats_stat_subtype.Sensitive = false;
+			combo_stats_stat_apply_to.Sensitive = false;
 		}
 	}
 	
@@ -549,17 +653,19 @@ public class StatsWindow {
 	}
 
 	private void update_stats_widgets_sensitiveness() {
-		string category = combo_stats_stat_name.Entry.Text;
-		string statistic = combo_stats_stat_name2.Entry.Text;
-		if(category == "" || statistic == "") {
+		string statisticType = combo_stats_stat_type.Entry.Text;
+		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
+		//string statisticApplyTo = combo_stats_stat_apply_to.Entry.Text;
+		if(statisticType == "" || statisticSubType == "") {
 			//for an unknown reason, when we select an option in the combo stats, 
-			//the on_combo_stats_stat_name_changed it's called two times? 
+			//the on_combo_stats_stat_type_changed it's called two times? 
 			//in the first the value of Entry.Text is "";
 			return;
 		} else {
 			//some stats should not be showed as limited jumps
-			if(category == Catalog.GetString("Reactive") && statistic == Catalog.GetString("RJ Evolution") ) {
-				//don't allow RJ Evolution and multisession
+			if(statisticType == Catalog.GetString("Reactive") && 
+					statisticSubType == Catalog.GetString("Evolution") ) {
+				//don't allow Evolution be multisession
 				radiobutton_current_session.Active = true;
 				radiobutton_selected_sessions.Sensitive = false;
 				//has no sense to study the AVG of rj tv tc evolution string
@@ -570,8 +676,9 @@ public class StatsWindow {
 				}
 				radiobutton_stats_jumps_person_average.Sensitive = false;
 			}
-			else if(category == Catalog.GetString("Global") || category == Catalog.GetString("Jumper") || 
-					category == Catalog.GetString("Indexes") || 
+			else if(statisticType == Catalog.GetString("Global") || 
+					statisticType == Catalog.GetString("Jumper") || 
+					statisticType == Catalog.GetString("Indexes") || 
 					(selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
 			{
 				//change the radiobutton value
@@ -599,25 +706,40 @@ public class StatsWindow {
 			}
 		}
 	}
-	
-	private void on_combo_stats_stat_name_changed(object o, EventArgs args) {
-		//update combo stat2, there change the treeviewstats (with the combostats2 values changed)
-		updateComboStats2();
+
+	private void on_combo_stats_stat_type_changed(object o, EventArgs args) {
+		//update combo stats_subtype, there change the treeviewstats (with the combostats_subtype values changed)
+		
+		updateComboStats();
 		
 		update_stats_widgets_sensitiveness();
 	}
 	
-	private void on_combo_stats_stat_name2_changed(object o, EventArgs args) {
-		//there's no need of this:
-		update_stats_widgets_sensitiveness();
+	private void on_combo_stats_stat_subtype_changed(object o, EventArgs args) {
 			
 		//for an unknown reason, when we select an option in the combo stats, 
-		//the on_combo_stats_stat_name_changed it's called two times? 
+		//the on_combo_stats_stat_type_changed it's called two times? 
 		//in the first the value of Entry.Text is "";
-		string myText = combo_stats_stat_name.Entry.Text;
-		string myText2 = combo_stats_stat_name2.Entry.Text;
-		if(myText != "" && myText2 != "")
+		
+		string myText = combo_stats_stat_type.Entry.Text;
+		string myText2 = combo_stats_stat_subtype.Entry.Text;
+		string myText3 = combo_stats_stat_apply_to.Entry.Text;
+		if (myText != "" && (myText2 != "" || myText3 !="") ) {
 			fillTreeView_stats(false);
+		}
+	}
+	
+	private void on_combo_stats_stat_apply_to_changed(object o, EventArgs args) {
+			
+		//for an unknown reason, when we select an option in the combo stats, 
+		//the on_combo_stats_stat_type_changed it's called two times? 
+		//in the first the value of Entry.Text is "";
+		string myText = combo_stats_stat_type.Entry.Text;
+		string myText2 = combo_stats_stat_subtype.Entry.Text;
+		string myText3 = combo_stats_stat_apply_to.Entry.Text;
+		if (myText != "" && (myText2 != "" || myText3 !="") ) {
+			fillTreeView_stats(false);
+		}
 	}
 	
 	private void on_radiobuttons_stat_session_toggled (object o, EventArgs args)

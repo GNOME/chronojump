@@ -190,7 +190,17 @@ public class Util
 	
 	public static string FetchID (string text)
 	{
+		if (text.Length == 0) {
+			return "-1";
+		}
 		string [] myStringFull = text.Split(new char[] {':'});
+
+		for (int i=0; i < myStringFull[0].Length; i++)
+			    {
+				    if( ! Char.IsNumber(myStringFull[0], i)) {
+					    return "-1";
+				    }
+			    }
 		return myStringFull[0];
 	}
 	

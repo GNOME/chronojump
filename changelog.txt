@@ -1,5 +1,22 @@
 CHANGELOG:
 
+26 aug 2005
+	Added index F/V (task: 273) in stats and graphs
+	new files: /src/stats/fv.cs /src/stats/graphs/fv.cs
+
+	stats/global now does not show any indexes, only results of jumps, 
+	now gets more simplified for the user, i think it was no relevant
+	info
+
+	Stats indexes IE and IUB now in stats simple, subtypes: "No indexes", "IE",
+	"IUB"
+
+	Added files src/stats/djQ.cs and src/stats/graphs/djQ.cs (forgot in
+	last CVS update)
+
+	fixed bug in stats current sessions/selected sessions radiobuttons
+	group
+
 25 aug 2005
 	drop jump "Q index" (tv/tc) added (closes task: 260) added:
 	src/stats/djQ.cs and src/stats/graphs/djQ.cs

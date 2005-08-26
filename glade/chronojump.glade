@@ -4434,7 +4434,7 @@ DD/MM/YYYY</property>
 <widget class="GtkWindow" id="person_recuperate">
   <property name="border_width">10</property>
   <property name="width_request">400</property>
-  <property name="height_request">400</property>
+  <property name="height_request">420</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Load persons</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -4459,10 +4459,11 @@ DD/MM/YYYY</property>
       <child>
 	<widget class="GtkLabel" id="label33">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Select persons you want to load</property>
+	  <property name="label" translatable="yes">Select persons you want to load.
+(Persons in current session are not listed)</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">False</property>
-	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="justify">GTK_JUSTIFY_CENTER</property>
 	  <property name="wrap">False</property>
 	  <property name="selectable">False</property>
 	  <property name="xalign">0.5</property>
@@ -7507,6 +7508,7 @@ options</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
+			  <property name="group">radiobutton_current_session</property>
 			  <signal name="clicked" handler="on_radiobuttons_stat_session_toggled" last_modification_time="Tue, 04 Jan 2005 12:56:10 GMT"/>
 			</widget>
 			<packing>

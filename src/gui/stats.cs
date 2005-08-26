@@ -83,7 +83,7 @@ public class StatsWindow {
 		Catalog.GetString("Simple"),
 		Catalog.GetString("With TC"),
 		Catalog.GetString("Reactive"),
-		Catalog.GetString("Indexes")
+		//Catalog.GetString("Indexes")
 	};
 	
 	private static string [] comboStatsSubTypeWithTCOptions = {
@@ -97,7 +97,10 @@ public class StatsWindow {
 		Catalog.GetString("Evolution") 
 	};
 	
-	private static string [] comboStatsSubTypeIndexesOptions = {
+	//private static string [] comboStatsSubTypeIndexesOptions = {
+	private static string [] comboStatsSubTypeSimpleOptions = {
+		Catalog.GetString("No indexes"), 
+		"F/V sj+(100%)/sj *100",
 		"IE (cmj-sj)*100/sj", 
 		"IUB (abk-cmj)*100/cmj"
 	};
@@ -216,15 +219,19 @@ public class StatsWindow {
 			combo_stats_stat_apply_to.PopdownStrings = 
 				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
 			combo_stats_stat_apply_to.Sensitive = true;
-		} else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Simple") ) 
+		} 
+		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Simple") ) 
 		{
-			combo_stats_stat_subtype.PopdownStrings = nullOptions;
-			combo_stats_stat_subtype.Sensitive = false;
+			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeSimpleOptions;
+			combo_stats_stat_subtype.Sensitive = true;
 			
+			//by default show all simple nonTC jumps, but if combo_stats_subtype changed
+			//updateComboStatsSubType() will do the work
 			combo_stats_stat_apply_to.PopdownStrings = 
 				SqliteJumpType.SelectJumpTypes(allJumpsName, "nonTC", true); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
-		} else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 
+		} 
+		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 
 		{
 			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeWithTCOptions;
 			combo_stats_stat_subtype.Sensitive = true;
@@ -232,7 +239,8 @@ public class StatsWindow {
 			combo_stats_stat_apply_to.PopdownStrings = 
 				SqliteJumpType.SelectJumpTypes(allJumpsName, "TC", true); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
-		} else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Reactive") ) 
+		} 
+		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Reactive") ) 
 		{
 			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeReactiveOptions;
 			combo_stats_stat_subtype.Sensitive = true;
@@ -240,18 +248,32 @@ public class StatsWindow {
 			combo_stats_stat_apply_to.PopdownStrings = 
 				SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
-		} else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Indexes") ) 
-		{
-			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeIndexesOptions;
-			combo_stats_stat_subtype.Sensitive = true;
-			
-			combo_stats_stat_apply_to.PopdownStrings = nullOptions;
-			combo_stats_stat_apply_to.Sensitive = false;
 		}
 
 		fillTreeView_stats(false);
 	}
 
+	private void updateComboStatsSubType() {
+		if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Simple") ) 
+		{
+			if(combo_stats_stat_subtype.Entry.Text == Catalog.GetString("No indexes")) {
+				combo_stats_stat_apply_to.PopdownStrings = 
+					SqliteJumpType.SelectJumpTypes(allJumpsName, "nonTC", true); //only select name
+				combo_stats_stat_apply_to.Sensitive = true;
+			} else if (combo_stats_stat_subtype.Entry.Text == "IE (cmj-sj)*100/sj") {
+				combo_stats_stat_apply_to.Entry.Text = "CMJ, SJ";
+				combo_stats_stat_apply_to.Sensitive = false;
+			} else if (combo_stats_stat_subtype.Entry.Text == "IUB (abk-cmj)*100/cmj") {
+				combo_stats_stat_apply_to.Entry.Text = "ABK, CMJ";
+				combo_stats_stat_apply_to.Sensitive = false;
+			} else {
+				//"F/V sj+(100%)/sj *100",
+				combo_stats_stat_apply_to.Entry.Text = "SJ+(100%), SJ";
+				combo_stats_stat_apply_to.Sensitive = false;
+			}
+		} 
+	}
+	
 	//way of accessing from chronojump.cs
 	public void FillTreeView_stats (bool graph, bool force) 
 	{
@@ -359,58 +381,112 @@ public class StatsWindow {
 				Console.WriteLine("Simple-ret");
 				return false;
 			}
-			JumpType myType = new JumpType(statisticApplyTo);
-
-			//manage all weight jumps and the "All jumps" (simple)
-			if(myType.HasWeight || 
-					statisticApplyTo == allJumpsName) 
+			
+			if(statisticSubType != Catalog.GetString("No indexes")) 
 			{
-				if(graph) {
-					myStat = new GraphSjCmjAbkPlus ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit,
-							weightStatsPercent, 
-							heightPreferred 
-							);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatSjCmjAbkPlus (treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit,
-							weightStatsPercent, 
-							heightPreferred
-							);
-					myStat.PrepareData();
+				string indexType = "";
+				if(statisticSubType == "IE (cmj-sj)*100/sj") {
+					indexType = "IE";
+				} else if(statisticSubType == "IUB (abk-cmj)*100/cmj") {
+					indexType = "IUB";
+				} else if(statisticSubType == "F/V sj+(100%)/sj *100") {
+					indexType = "F/V";
 				}
-			} else {
-				if(graph) {
-					myStat = new GraphSjCmjAbk ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit,
-							heightPreferred
-							);
-					myStat.PrepareData();
-					myStat.CreateGraph();
+				
+				if(indexType == "IE" || indexType == "IUB") {
+					if(graph) {
+						myStat = new GraphIeIub ( 
+								sendSelectedSessions, 
+								indexType,
+								prefsDigitsNumber, checkbutton_stats_sex.Active, 
+								statsJumpsType,
+								limit);
+						myStat.PrepareData();
+						myStat.CreateGraph();
+					} else {
+						myStat = new StatIeIub(treeview_stats, 
+								sendSelectedSessions,
+								indexType, 
+								prefsDigitsNumber, checkbutton_stats_sex.Active, 
+								statsJumpsType,
+								limit);
+						myStat.PrepareData();
+					}
+				} else {	//F/V
+					if(graph) {
+						myStat = new GraphFv ( 
+								sendSelectedSessions, 
+								indexType,
+								prefsDigitsNumber, checkbutton_stats_sex.Active, 
+								statsJumpsType,
+								limit);
+						myStat.PrepareData();
+						myStat.CreateGraph();
+					} else {
+						myStat = new StatFv(treeview_stats, 
+								sendSelectedSessions,
+								indexType, 
+								prefsDigitsNumber, checkbutton_stats_sex.Active, 
+								statsJumpsType,
+								limit);
+						myStat.PrepareData();
+					}
+				}
+			}
+			else {
+				JumpType myType = new JumpType(statisticApplyTo);
+
+				//manage all weight jumps and the "All jumps" (simple)
+				if(myType.HasWeight || 
+						statisticApplyTo == allJumpsName) 
+				{
+					if(graph) {
+						myStat = new GraphSjCmjAbkPlus ( 
+								sendSelectedSessions, 
+								prefsDigitsNumber, statisticApplyTo, 
+								checkbutton_stats_sex.Active, 
+								statsJumpsType,
+								limit,
+								weightStatsPercent, 
+								heightPreferred 
+								);
+						myStat.PrepareData();
+						myStat.CreateGraph();
+					} else {
+						myStat = new StatSjCmjAbkPlus (treeview_stats, 
+								sendSelectedSessions, 
+								prefsDigitsNumber, statisticApplyTo, 
+								checkbutton_stats_sex.Active, 
+								statsJumpsType,
+								limit,
+								weightStatsPercent, 
+								heightPreferred
+								);
+						myStat.PrepareData();
+					}
 				} else {
-					myStat = new StatSjCmjAbk (treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit,
-							heightPreferred
-							);
-					myStat.PrepareData();
+					if(graph) {
+						myStat = new GraphSjCmjAbk ( 
+								sendSelectedSessions, 
+								prefsDigitsNumber, statisticApplyTo, 
+								checkbutton_stats_sex.Active, 
+								statsJumpsType,
+								limit,
+								heightPreferred
+								);
+						myStat.PrepareData();
+						myStat.CreateGraph();
+					} else {
+						myStat = new StatSjCmjAbk (treeview_stats, 
+								sendSelectedSessions, 
+								prefsDigitsNumber, statisticApplyTo, 
+								checkbutton_stats_sex.Active, 
+								statsJumpsType,
+								limit,
+								heightPreferred
+								);
+						myStat.PrepareData();
+					}
 				}
 			}
 		}
@@ -536,50 +612,6 @@ public class StatsWindow {
 							prefsDigitsNumber, 
 							statisticApplyTo, 
 							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-				}
-			}
-		}
-		else if(statisticType == Catalog.GetString("Indexes")) {
-			if(statisticSubType == "IE (cmj-sj)*100/sj")
-			{
-				if(graph) {
-					myStat = new GraphIeIub ( 
-							sendSelectedSessions, 
-							"IE",
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatIeIub(treeview_stats, 
-							sendSelectedSessions,
-							"IE", 
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-				}
-			}
-			else if(statisticSubType == "IUB (abk-cmj)*100/cmj")
-			{
-				if(graph) {
-					myStat = new GraphIeIub ( 
-							sendSelectedSessions, 
-							"IUB",
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatIeIub(treeview_stats, 
-							sendSelectedSessions,
-							"IUB", 
-							prefsDigitsNumber, checkbutton_stats_sex.Active, 
 							statsJumpsType,
 							limit);
 					myStat.PrepareData();
@@ -720,6 +752,8 @@ public class StatsWindow {
 		//for an unknown reason, when we select an option in the combo stats, 
 		//the on_combo_stats_stat_type_changed it's called two times? 
 		//in the first the value of Entry.Text is "";
+		
+		updateComboStatsSubType();
 		
 		string myText = combo_stats_stat_type.Entry.Text;
 		string myText2 = combo_stats_stat_subtype.Entry.Text;

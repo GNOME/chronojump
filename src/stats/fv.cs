@@ -25,34 +25,19 @@ using Gtk;
 using System.Collections; //ArrayList
 
 
-public class StatIeIub : Stat
+public class StatFv : StatIeIub
 {
-	protected string indexType;
-	protected string jump1;
-	protected string jump2;
-	protected string [] columnsString = new String[4];
-	
-	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
-	public StatIeIub () 
-	{
-		this.showSex = false;
-		this.statsJumpsType = 0;
-		this.limit = 0;
+	public StatFv () {
 	}
 
-	public StatIeIub (Gtk.TreeView treeview, ArrayList sessions, string indexType, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public StatFv (Gtk.TreeView treeview, ArrayList sessions, string indexType, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
 		this.dataColumns = 3;	//for simplesession (IE, cmj, sj)
 		this.limit = limit;
 		this.indexType = indexType; //"IE" or "IUB"
 
-		if(indexType == "IE") {
-			jump1="CMJ";
-			jump2="SJ";
-		} else { //IUB
-			jump1="ABK";
-			jump2="CMJ";
-		}
+		jump1="SJ+";
+		jump2="SJ";
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
@@ -65,26 +50,11 @@ public class StatIeIub : Stat
 		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 		columnsString[0] = Catalog.GetString("Jumper");
 		columnsString[1] = indexType;
-		columnsString[2] = jump1;
-		columnsString[3] = jump2;
+		columnsString[2] = jump1 + " (" + Catalog.GetString("height") + ")";
+		columnsString[3] = jump2 + " (" + Catalog.GetString("height") + ")";
 		prepareHeaders(columnsString);
 	}
 	
-	//session string must be different for indexes
-	protected string obtainSessionSqlStringIndexes(ArrayList sessions)
-	{
-		string newStr = "WHERE (";
-		for (int i=0; i < sessions.Count; i++) {
-			string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
-			newStr = newStr + " (j1.sessionID == " + stringFullResults[0] + 
-				" AND j2.sessionID == " + stringFullResults[0] + ")";
-			if (i+1 < sessions.Count) {
-				newStr = newStr + " OR ";
-			}
-		}
-		newStr = newStr + ") ";
-		return newStr;		
-	}
 	
 	public override void PrepareData() 
 	{
@@ -97,11 +67,11 @@ public class StatIeIub : Stat
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.IeIub(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
+						SqliteStat.Fv(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.IeIub(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
+							SqliteStat.Fv(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
@@ -111,10 +81,10 @@ public class StatIeIub : Stat
 			//max jump1, max jump2 (seems more real)
 			//max jump1, min jump2 (index goes greater)
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.IeIub(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex),  
+				processDataMultiSession ( SqliteStat.Fv(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex),  
 						true, sessions.Count);
 			} else {
-				processDataSimpleSession ( SqliteStat.IeIub(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex), 
+				processDataSimpleSession ( SqliteStat.Fv(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex), 
 						true, dataColumns);
 			}
 		}

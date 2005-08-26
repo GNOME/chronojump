@@ -82,6 +82,11 @@ public class StatGlobal : Stat
 		processDataMultiSession ( SqliteStat.GlobalNormal(sessionString, operation, showSex, 
 					personID, heightPreferred), 
 				true, sessions.Count );
+		
+		//currently disabled GlobalIndexes in stats global
+		//only for showing less info in global.
+		//If enable another time, remember to create a GlobalIndexes for IndexQ, FV an others
+		/*
 		processDataMultiSession ( SqliteStat.GlobalOthers("DjIndex", "(100*((tv-tc)/tc))", "jump", "DJ", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
@@ -102,6 +107,7 @@ public class StatGlobal : Stat
 		processDataMultiSession ( SqliteStat.GlobalIndexes("IUB", "ABK", "CMJ", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
+		*/
 	}
 
 	public override string ToString () 

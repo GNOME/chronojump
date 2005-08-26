@@ -767,6 +767,85 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
+	public static ArrayList Fv (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
+	{
+		string heightJump1 = " 100*4.9* (j1.tv/2) * (j1.tv/2) ";	//jump1 tv converted to height
+		string heightJump2 = " 100*4.9* (j2.tv/2) * (j2.tv/2) ";	//jump2 tv converted to height
+		
+		string orderByString = "ORDER BY ";
+		string moreSelect = "";
+		if(ini == "MAX(") {
+			//search MAX of two jumps, not max index!!
+			moreSelect = " ( MAX(" + heightJump1 + ") )*100/MAX(" + heightJump2 + ") AS myIndex, " +
+				"MAX(" + heightJump1 + "), MAX(" + heightJump2 + ") ";
+		} else if(ini == "AVG(") {
+			moreSelect = " ( AVG(" + heightJump1 + ") )*100/AVG(" + heightJump2 + ") AS myIndex, " +
+				"AVG(" + heightJump1 + "), AVG(" + heightJump2 + ")";
+		}
+
+		//if we use AVG or MAX, then we have to group by the results
+		//if there's more than one session, it sends the avg or max
+		string groupByString = "";
+		if (ini.Length > 0) {
+			groupByString = " GROUP BY j1.personID, j1.sessionID ";
+		}
+		//if multisession, order by person.name, sessionID for being able to present results later
+		if(multisession) {
+			orderByString = orderByString + " person.name, j1.sessionID, ";
+		}
+		
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT person.name, person.sex, j1.sessionID, " + moreSelect +
+			" FROM jump AS j1, jump AS j2, person " +
+			sessionString +
+			" AND j1.type == '" + jump1 + "' " +
+			" AND j2.type == '" + jump2 + "' " +
+			//weight of SJ+ jump is 100% or equals de person weight
+			//the || is "the || concatenation operator which gives a string result." 
+			//http://sqlite.org/lang_expr.html
+			" AND (j1.weight == \"100%\" OR j1.weight == person.weight||'" + "Kg' ) " +
+			" AND j1.personID == person.uniqueID " +
+			" AND j2.personID == person.uniqueID " +
+			groupByString +
+			orderByString + " myIndex DESC ";
+
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		string showSexString = "";
+		string returnSessionString = "";
+		string returnJump1String = "";
+		string returnJump2String = "";
+		ArrayList myArray = new ArrayList(2);
+		while(reader.Read()) {
+			if(showSex) {
+				showSexString = "." + reader[1].ToString() ;
+			}
+			if(multisession) {
+				returnSessionString = ":" + reader[2].ToString();
+			} else {
+				//in multisession we show only one column x session
+				//in simplesession we show all
+				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
+				
+				returnJump1String = ":" + reader[4].ToString();
+				returnJump2String = ":" + reader[5].ToString();
+			}
+			myArray.Add (reader[0].ToString() + showSexString +
+					returnSessionString + ":" + 		//session
+					reader[3].ToString() +			//index
+					returnJump1String + 			//jump1
+					returnJump2String  			//jump2
+				    );
+		}
+		reader.Close();
+		dbcon.Close();
+		return myArray;
+	}
+
 	public static ArrayList GlobalNormal (string sessionString, string operation, bool sexSeparated, 
 			int personID, bool heightPreferred)
 	{
@@ -827,6 +906,10 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
+	//currently disabled GlobalIndexes in stats global
+	//only for showing less info in global.
+	//If enable another time, remember to create a GlobalIndexes for IndexQ, FV an others
+	/*
 	public static ArrayList GlobalOthers (string statName, string statFormulae, string jumpTable, string jumpType, string sessionString, string operation, bool sexSeparated, int personID)
 	{
 		dbcon.Open();
@@ -889,7 +972,12 @@ class SqliteStat : Sqlite
 		
 		return myArray;
 	}
+	*/
 
+	//currently disabled GlobalIndexes in stats global
+	//only for showing less info in global.
+	//If enable another time, remember to create a GlobalIndexes for IndexQ, FV an others
+	/*
 	public static ArrayList GlobalIndexes (string statName, string jump1, string jump2, string sessionString, string operation, bool sexSeparated, int personID)
 	{
 		dbcon.Open();
@@ -967,5 +1055,6 @@ class SqliteStat : Sqlite
 		
 		return myArray;
 	}
+	*/
 
 }

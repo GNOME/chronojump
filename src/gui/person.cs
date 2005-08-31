@@ -945,3 +945,148 @@ public class PersonAddMultipleWindow {
 	}
 
 }
+
+
+//show all events (jumps and runs) of a person in different sessions
+public class PersonShowAllEventsWindow {
+	
+	[Widget] Gtk.Window person_show_all_events;
+	
+	[Widget] Gtk.CheckButton checkbutton_only_current_session;
+	
+	TreeStore store;
+	[Widget] Gtk.TreeView treeview_person_show_all_events;
+	[Widget] Gtk.Box hbox_combo_persons;
+	[Widget] Gtk.Combo combo_persons;
+	
+	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
+	
+	protected Gtk.Window parent;
+
+	protected int sessionID;
+	
+	protected Person currentPerson;
+	
+	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_show_all_events", null);
+
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+
+		this.sessionID = sessionID;
+		this.currentPerson = currentPerson;
+	
+		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
+		createTreeView(treeview_person_show_all_events);
+		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof(string), typeof(string) );
+		treeview_person_show_all_events.Model = store;
+		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
+	}
+	
+	static public PersonShowAllEventsWindow Show (Gtk.Window parent, int sessionID, Person currentPerson)
+	{
+		if (PersonShowAllEventsWindowBox == null) {
+			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, sessionID, currentPerson);
+		}
+		PersonShowAllEventsWindowBox.person_show_all_events.Show ();
+		
+		return PersonShowAllEventsWindowBox;
+	}
+	
+	private void createComboPersons(int sessionID, string personID, string personName) {
+		combo_persons = new Combo ();
+
+		int inSession = -1;		//select persons from all sessions
+		if(checkbutton_only_current_session.Active) {
+			inSession = sessionID;	//select only persons who are on currentSession
+		}
+		string [] myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, inSession);
+
+		//put only id and name in combo
+		string [] myPersons2 = new string[myPersons.Length];
+		int count = 0;
+		foreach (string person in myPersons) {
+			string [] myStr = person.Split(new char[] {':'});
+			myPersons2[count++] = myStr[0] + ":" + myStr[1];
+		}
+		combo_persons.PopdownStrings = myPersons2; 
+
+		//selected is current person
+		foreach (string person in myPersons2) {
+			if (person == personID + ":" + personName) {
+				combo_persons.Entry.Text = person;
+			}
+		}
+
+		combo_persons.DisableActivate ();
+		combo_persons.Entry.Changed += new EventHandler (on_combo_persons_changed);
+
+		hbox_combo_persons.PackStart(combo_persons, true, true, 0);
+		hbox_combo_persons.ShowAll();
+		
+		combo_persons.Sensitive = true;
+	}
+	
+	private void on_combo_persons_changed(object o, EventArgs args) {
+		string myText = combo_persons.Entry.Text;
+		if(myText != "") {
+			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
+					typeof (string), typeof(string), typeof(string) );
+			treeview_person_show_all_events.Model = store;
+			
+			string [] myStringFull = myText.Split(new char[] {':'});
+
+			fillTreeView( treeview_person_show_all_events, store, Convert.ToInt32(myStringFull[0]) );
+		}
+	}
+	
+	protected void on_checkbutton_only_current_session_clicked(object o, EventArgs args) {
+		string myText = combo_persons.Entry.Text;
+		if(myText != "") {
+			string [] myStringFull = myText.Split(new char[] {':'});
+			combo_persons.Destroy();
+			createComboPersons(sessionID, myStringFull[0], myStringFull[1] );
+			on_combo_persons_changed(0, args);	//called for updating the treeview ifcombo_persons.Entry changed
+		}
+	}
+	
+	protected void createTreeView (Gtk.TreeView tv) {
+		tv.HeadersVisible=true;
+		int count = 0;
+
+		tv.AppendColumn ( Catalog.GetString ("Session name"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Date\n(MM/DD/YYYY)"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Jumps\nsimple"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Jumps\nreactive"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Runs\nsimple"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Runs\ninterval"), new CellRendererText(), "text", count++);
+	}
+	
+	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {
+		ArrayList myEvents;
+		//myEvents = SqlitePerson.SelectAllPersonEvents(currentPerson.UniqueID); 
+		myEvents = SqlitePerson.SelectAllPersonEvents(personID); 
+
+		foreach (string myEvent in myEvents) {
+			string [] myStr = myEvent.Split(new char[] {':'});
+
+			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], myStr[6]);
+		}
+	}
+	
+
+	protected virtual void on_button_close_clicked (object o, EventArgs args)
+	{
+		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
+		PersonShowAllEventsWindowBox = null;
+	}
+	
+	protected virtual void on_delete_event (object o, EventArgs args)
+	{
+		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
+		PersonShowAllEventsWindowBox = null;
+	}
+}
+

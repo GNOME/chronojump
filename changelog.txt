@@ -1,5 +1,18 @@
 CHANGELOG:
 
+31 aug 2005
+	show all person events done (closes task: 288)
+
+	export now exports height and initial speed (closes task: 259)
+
+	treeviewjumps shows height in centimeters
+
+	fixed bug in stats global and person with multisession and right yaxis
+	fixed bug in stats/simple/non indexes (showed "all" and "limit" and
+	that's not possible)
+
+	clean code in gui/stats.cs
+
 26 aug 2005
 	Added index F/V (task: 273) in stats and graphs
 	new files: /src/stats/fv.cs /src/stats/graphs/fv.cs

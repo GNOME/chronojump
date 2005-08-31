@@ -206,6 +206,7 @@ public class ChronoJump
 	PersonAddWindow personAddWin; 
 	PersonAddMultipleWindow personAddMultipleWin; 
 	PersonModifyWindow personModifyWin; 
+	PersonShowAllEventsWindow personShowAllEventsWin;
 	JumpsMoreWindow jumpsMoreWin;
 	JumpsRjMoreWindow jumpsRjMoreWin;
 	JumpExtraWindow jumpExtraWin; //for normal and repetitive jumps 
@@ -1091,6 +1092,10 @@ public class ChronoJump
 				statsWin.FillTreeView_stats(false, true);
 			}
 		}
+	}
+	
+	private void on_show_all_person_events_activate (object o, EventArgs args) {
+		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson);
 	}
 	
 	

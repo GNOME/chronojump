@@ -83,12 +83,13 @@ public class StatsWindow {
 		Catalog.GetString("Simple"),
 		Catalog.GetString("With TC"),
 		Catalog.GetString("Reactive"),
-		//Catalog.GetString("Indexes")
 	};
 	
+	static string djIndexFormula = Catalog.GetString("Dj Index") + " ((tv-tc)/tc *100)";
+	static string qIndexFormula = Catalog.GetString("Q index") + " (tv/tc)";
 	private static string [] comboStatsSubTypeWithTCOptions = {
-		Catalog.GetString("Dj Index") + " ((tv-tc)*100/tc)",
-		Catalog.GetString("Q index") + " (tv/tc)" 
+		djIndexFormula,
+		qIndexFormula
 	};
 	
 	private static string [] comboStatsSubTypeReactiveOptions = {
@@ -97,12 +98,14 @@ public class StatsWindow {
 		Catalog.GetString("Evolution") 
 	};
 	
-	//private static string [] comboStatsSubTypeIndexesOptions = {
+	static string fvIndexFormula = "F/V sj+(100%)/sj *100";
+	static string ieIndexFormula = "IE (cmj-sj)/sj *100";
+	static string iubIndexFormula = "IUB (abk-cmj)/cmj *100";
 	private static string [] comboStatsSubTypeSimpleOptions = {
 		Catalog.GetString("No indexes"), 
-		"F/V sj+(100%)/sj *100",
-		"IE (cmj-sj)*100/sj", 
-		"IUB (abk-cmj)*100/cmj"
+		fvIndexFormula,
+		ieIndexFormula, 
+		iubIndexFormula
 	};
 
 	
@@ -260,14 +263,14 @@ public class StatsWindow {
 				combo_stats_stat_apply_to.PopdownStrings = 
 					SqliteJumpType.SelectJumpTypes(allJumpsName, "nonTC", true); //only select name
 				combo_stats_stat_apply_to.Sensitive = true;
-			} else if (combo_stats_stat_subtype.Entry.Text == "IE (cmj-sj)*100/sj") {
+			} else if (combo_stats_stat_subtype.Entry.Text == ieIndexFormula) {
 				combo_stats_stat_apply_to.Entry.Text = "CMJ, SJ";
 				combo_stats_stat_apply_to.Sensitive = false;
-			} else if (combo_stats_stat_subtype.Entry.Text == "IUB (abk-cmj)*100/cmj") {
+			} else if (combo_stats_stat_subtype.Entry.Text == iubIndexFormula) {
 				combo_stats_stat_apply_to.Entry.Text = "ABK, CMJ";
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else {
-				//"F/V sj+(100%)/sj *100",
+				//"F/V sj+(100%)/sj *100",	//fvIndexFormula
 				combo_stats_stat_apply_to.Entry.Text = "SJ+(100%), SJ";
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
@@ -385,11 +388,11 @@ public class StatsWindow {
 			if(statisticSubType != Catalog.GetString("No indexes")) 
 			{
 				string indexType = "";
-				if(statisticSubType == "IE (cmj-sj)*100/sj") {
+				if(statisticSubType == ieIndexFormula) {
 					indexType = "IE";
-				} else if(statisticSubType == "IUB (abk-cmj)*100/cmj") {
+				} else if(statisticSubType == iubIndexFormula) {
 					indexType = "IUB";
-				} else if(statisticSubType == "F/V sj+(100%)/sj *100") {
+				} else if(statisticSubType == fvIndexFormula) {
 					indexType = "F/V";
 				}
 				
@@ -497,7 +500,7 @@ public class StatsWindow {
 				return false;
 			}
 			
-			if(statisticSubType == Catalog.GetString("Dj Index") + " ((tv-tc)*100/tc)")
+			if(statisticSubType == djIndexFormula)
 			{
 				if(graph) {
 					myStat = new GraphDjIndex ( 
@@ -521,7 +524,7 @@ public class StatsWindow {
 							);
 					myStat.PrepareData();
 				}
-			} else if(statisticSubType == Catalog.GetString("Q index") + " (tv/tc)")
+			} else if(statisticSubType == qIndexFormula)
 			{
 				if(graph) {
 					myStat = new GraphDjQ ( 
@@ -687,7 +690,6 @@ public class StatsWindow {
 	private void update_stats_widgets_sensitiveness() {
 		string statisticType = combo_stats_stat_type.Entry.Text;
 		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
-		//string statisticApplyTo = combo_stats_stat_apply_to.Entry.Text;
 		if(statisticType == "" || statisticSubType == "") {
 			//for an unknown reason, when we select an option in the combo stats, 
 			//the on_combo_stats_stat_type_changed it's called two times? 
@@ -710,7 +712,8 @@ public class StatsWindow {
 			}
 			else if(statisticType == Catalog.GetString("Global") || 
 					statisticType == Catalog.GetString("Jumper") || 
-					statisticType == Catalog.GetString("Indexes") || 
+					( statisticType == Catalog.GetString("Simple") && 
+					 statisticSubType != Catalog.GetString("No indexes") ) ||
 					(selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
 			{
 				//change the radiobutton value
@@ -754,6 +757,7 @@ public class StatsWindow {
 		//in the first the value of Entry.Text is "";
 		
 		updateComboStatsSubType();
+		update_stats_widgets_sensitiveness();
 		
 		string myText = combo_stats_stat_type.Entry.Text;
 		string myText2 = combo_stats_stat_subtype.Entry.Text;
@@ -831,7 +835,6 @@ public class StatsWindow {
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
 		Console.WriteLine("select sessions for stats");
-		//sessionSelectStatsWin = SessionSelectStatsWindow.Show(app1, selectedSessions);
 		sessionSelectStatsWin = SessionSelectStatsWindow.Show(stats_window, selectedSessions);
 		sessionSelectStatsWin.Button_accept.Clicked += new EventHandler(on_stats_select_sessions_accepted);
 	}

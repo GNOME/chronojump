@@ -111,7 +111,7 @@ public class GraphGlobal : StatGlobal
 			} else {
 				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
 			}
-			CurrentGraphData.LabelRight = "%";
+			CurrentGraphData.LabelRight = "";
 		}
 	}
 

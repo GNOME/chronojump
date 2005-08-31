@@ -125,7 +125,7 @@ class SqlitePerson : Sqlite
 		//sortedBy = name or uniqueID (= creation date)
 	
 
-		//1st select all the person.uniqueID of people who are in CurrentSession
+		//1st select all the person.uniqueID of people who are in CurrentSession (or none if except == -1)
 		//2n select all names in database (or in one session if inSession != -1)
 		//3d filter all names (save all found in 2 that is not in 1)
 		//
@@ -221,6 +221,143 @@ finishForeach:
 		return myPersons;
 	}
 
+	public static ArrayList SelectAllPersonEvents(int personID) 
+	{
+		SqliteDataReader reader;
+		ArrayList arraySessions = new ArrayList(2);
+		ArrayList arrayJumps = new ArrayList(2);
+		ArrayList arrayJumpsRj = new ArrayList(2);
+		ArrayList arrayRuns = new ArrayList(2);
+		ArrayList arrayRunsInterval = new ArrayList(2);
+		
+		dbcon.Open();
+		
+		//session where this person is loaded
+		dbcmd.CommandText = "SELECT sessionID, session.Name, session.Place, session.Date " + 
+			" FROM personSession, session " + 
+			" WHERE personID = " + personID + " AND session.uniqueID == personSession.sessionID " +
+			" ORDER BY sessionID";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arraySessions.Add ( reader[0].ToString() + ":" + reader[1].ToString() + ":" +
+					reader[2].ToString() + ":" + reader[3].ToString() );
+		}
+		reader.Close();
+
+		
+		//jumps
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM jump WHERE personID = " + personID +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayJumps.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+		
+		//jumpsRj
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM jumpRj WHERE personID = " + personID +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayJumpsRj.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+		
+		//runs
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM run WHERE personID = " + personID +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayRuns.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+		
+		//runsInterval
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM runInterval WHERE personID = " + personID +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayRunsInterval.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+		
+		dbcon.Close();
+		
+		ArrayList arrayAll = new ArrayList(2);
+		string tempJumps;
+		string tempJumpsRj;
+		string tempRuns;
+		string tempRunsInterval;
+		bool found; 	//using found because a person can be loaded in a session 
+				//but whithout having done any event yet
+
+		//foreach session where this jumper it's loaded, check which events has
+		foreach (string mySession in arraySessions) {
+			string [] myStrSession = mySession.Split(new char[] {':'});
+			tempJumps = "";
+			tempJumpsRj = "";
+			tempRuns = "";
+			tempRunsInterval = "";
+			found = false;
+			
+			foreach (string myJumps in arrayJumps) {
+				string [] myStr = myJumps.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempJumps = myStr[1];
+					found = true;
+					break;
+				}
+			}
+		
+			foreach (string myJumpsRj in arrayJumpsRj) {
+				string [] myStr = myJumpsRj.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempJumpsRj = myStr[1];
+					found = true;
+					break;
+				}
+			}
+			
+			foreach (string myRuns in arrayRuns) {
+				string [] myStr = myRuns.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempRuns = myStr[1];
+					found = true;
+					break;
+				}
+			}
+			
+			foreach (string myRunsInterval in arrayRunsInterval) {
+				string [] myStr = myRunsInterval.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempRunsInterval = myStr[1];
+					found = true;
+					break;
+				}
+			}
+			
+			//if has events, write it's data
+			if (found) {
+				arrayAll.Add (myStrSession[1] + ":" + myStrSession[2] + ":" + 	//session name, place
+						myStrSession[3] + ":" + tempJumps + ":" + 	//sessionDate, jumps
+						tempJumpsRj + ":" + tempRuns + ":" + 		//jumpsRj, Runs
+						tempRunsInterval);				//runsInterval
+			}
+		}
+
+		return arrayAll;
+	}
+	
 	public static void Update(Person myPerson)
 	{
 		dbcon.Open();

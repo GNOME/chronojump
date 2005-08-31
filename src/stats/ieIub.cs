@@ -107,9 +107,7 @@ public class StatIeIub : Stat
 			}
 		} else {
 			//if more than on session, show only the avg or max of each jump/jumper
-			//FIXME: indexes max value have two possibilities:
-			//max jump1, max jump2 (seems more real)
-			//max jump1, min jump2 (index goes greater)
+			//some of this options are never called becase we don't allow radiobutton all and limit (only avg and best)
 			if(multisession) {
 				processDataMultiSession ( SqliteStat.IeIub(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex),  
 						true, sessions.Count);

@@ -135,10 +135,10 @@ public class TreeViewJumps
 				myData[count++] = myWeight;
 				myData[count++] = myFall;
 				if(showHeight) {
-					myData[count++] = Util.TrimDecimals( obtainHeight( myStringFull[5].ToString() ), pDN );
+					myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( myStringFull[5].ToString() ), pDN );
 				}
 				if(showInitialSpeed) {
-					myData[count++] = Util.TrimDecimals( obtainInitialSpeed( myStringFull[5].ToString() ), pDN );
+					myData[count++] = Util.TrimDecimals( Util.GetInitialSpeed( myStringFull[5].ToString() ), pDN );
 				}
 				myData[count++] = myStringFull[1]; //jumpUniqueID (not shown) 
 
@@ -182,10 +182,10 @@ public class TreeViewJumps
 					myData[count++] = myWeight;
 					myData[count++] = myFall;
 					if(showHeight) {
-						myData[count++] = Util.TrimDecimals( obtainHeight( newJump.Tv.ToString() ), pDN );
+						myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( newJump.Tv.ToString() ), pDN );
 					}
 					if(showInitialSpeed) {
-						myData[count++] = Util.TrimDecimals( obtainInitialSpeed( newJump.Tv.ToString() ), pDN );
+						myData[count++] = Util.TrimDecimals( Util.GetInitialSpeed( newJump.Tv.ToString() ), pDN );
 					}
 					myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 					Console.WriteLine(newJump.UniqueID.ToString()); //jumpUniqueID (not shown) 
@@ -218,10 +218,10 @@ public class TreeViewJumps
 			myData[count++] = myWeight;
 			myData[count++] = myFall;
 			if(showHeight) {
-				myData[count++] = Util.TrimDecimals( obtainHeight( newJump.Tv.ToString() ), pDN );
+				myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( newJump.Tv.ToString() ), pDN );
 			}
 			if(showInitialSpeed) {
-				myData[count++] = Util.TrimDecimals( obtainInitialSpeed( newJump.Tv.ToString() ), pDN );
+				myData[count++] = Util.TrimDecimals( Util.GetInitialSpeed( newJump.Tv.ToString() ), pDN );
 			}
 			myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 
@@ -264,25 +264,6 @@ public class TreeViewJumps
 			}
 		} while (treeview.Model.IterNext (ref iter));
 	}
-
-	protected static string obtainHeight (string time) {
-		// s = 4.9 * (tv/2)exp2
-		double timeAsDouble = Convert.ToDouble(time);
-		double height = 4.9 * ( timeAsDouble / 2 ) * ( timeAsDouble / 2 ) ;
-
-		return height.ToString();
-	}
-	
-	protected static string obtainInitialSpeed (string time) {
-		// S = So + Vot + (at^2)/2
-		// Vo = ( ( 4.9 * t^2 ) + S ) / t
-		double timeAsDouble = Convert.ToDouble(time);
-		double height = Convert.ToDouble( obtainHeight(time) );
-		double initialSpeed = ( ( 4.9 * timeAsDouble * timeAsDouble ) + height ) / timeAsDouble;
-
-		return initialSpeed.ToString();
-	}
-
 
 	public int JumpSelectedID {
 		get {
@@ -369,10 +350,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 				myData[count++] = myWeight;
 				myData[count++] = myFall;
 				if(showHeight) {
-					myData[count++] = Util.TrimDecimals( obtainHeight( myStringFull[10].ToString() ), pDN );
+					myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( myStringFull[10].ToString() ), pDN );
 				}
 				if(showInitialSpeed) {
-					myData[count++] = Util.TrimDecimals( obtainInitialSpeed( myStringFull[10].ToString() ), pDN );
+					myData[count++] = Util.TrimDecimals( Util.GetInitialSpeed( myStringFull[10].ToString() ), pDN );
 				}
 				myData[count++] = myStringFull[1]; //jumpUniqueID (not shown) 
 
@@ -394,10 +375,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 					myData2[count++] = "";
 					myData2[count++] = "";
 					if(showHeight) {
-						myData2[count++] = Util.TrimDecimals( obtainHeight(myTv), pDN );
+						myData2[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters(myTv), pDN );
 					}
 					if(showInitialSpeed) {
-						myData2[count++] = Util.TrimDecimals( obtainInitialSpeed(myTv), pDN );
+						myData2[count++] = Util.TrimDecimals( Util.GetInitialSpeed(myTv), pDN );
 					}
 					myData2[count++] = myStringFull[1]; //jumpUniqueID (not shown) 
 
@@ -454,10 +435,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 					myData[count++] = myWeight;
 					myData[count++] = myFall;
 					if(showHeight) {
-						myData[count++] = Util.TrimDecimals( obtainHeight( newJump.TvAvg.ToString() ), pDN );
+						myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( newJump.TvAvg.ToString() ), pDN );
 					}
 					if(showInitialSpeed) {
-						myData[count++] = Util.TrimDecimals( obtainInitialSpeed( newJump.TvAvg.ToString() ), pDN );
+						myData[count++] = Util.TrimDecimals( Util.GetInitialSpeed( newJump.TvAvg.ToString() ), pDN );
 					}
 					myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 
@@ -476,10 +457,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 						myData2[count++] = "";
 						myData2[count++] = "";
 						if(showHeight) {
-							myData2[count++] = Util.TrimDecimals( obtainHeight(myTv), pDN );
+							myData2[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters(myTv), pDN );
 						}
 						if(showInitialSpeed) {
-							myData2[count++] = Util.TrimDecimals( obtainInitialSpeed(myTv), pDN );
+							myData2[count++] = Util.TrimDecimals( Util.GetInitialSpeed(myTv), pDN );
 						}
 						myData2[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 
@@ -516,10 +497,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData2[count++] = myWeight;
 			myData2[count++] = myFall;
 			if(showHeight) {
-				myData2[count++] = Util.TrimDecimals( obtainHeight(newJump.TvAvg.ToString()), pDN );
+				myData2[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters(newJump.TvAvg.ToString()), pDN );
 			}
 			if(showInitialSpeed) {
-				myData2[count++] = Util.TrimDecimals( obtainInitialSpeed(newJump.TvAvg.ToString()), pDN );
+				myData2[count++] = Util.TrimDecimals( Util.GetInitialSpeed(newJump.TvAvg.ToString()), pDN );
 			}
 			myData2[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 
@@ -538,10 +519,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 				myData2[count++] = "";
 				myData2[count++] = "";
 				if(showHeight) {
-					myData2[count++] = Util.TrimDecimals( obtainHeight(myTv), pDN );
+					myData2[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters(myTv), pDN );
 				}
 				if(showInitialSpeed) {
-					myData2[count++] = Util.TrimDecimals( obtainInitialSpeed(myTv), pDN );
+					myData2[count++] = Util.TrimDecimals( Util.GetInitialSpeed(myTv), pDN );
 				}
 				myData2[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 

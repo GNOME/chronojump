@@ -230,5 +230,17 @@ public class Util
 		myStringBuilder.Replace(",", ".");
 		return myStringBuilder.ToString();
 	}
+	
+	public static string GetInitialSpeed (string time) {
+		// S = So + Vot + (at^2)/2
+		// Vo = ( ( 4.9 * t^2 ) + S ) / t
+		double timeAsDouble = Convert.ToDouble(time);
+		double height = Convert.ToDouble( GetHeightInCentimeters(time) );
+		height = height / 100; //in meters
+		double initialSpeed = ( ( 4.9 * timeAsDouble * timeAsDouble ) + height ) / timeAsDouble;
+
+		return initialSpeed.ToString();
+	}
+
 }
 

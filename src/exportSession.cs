@@ -189,21 +189,26 @@ public class ExportSessionCSV : ExportSession
 				Catalog.GetString("Jumper name") + ", " +
 				Catalog.GetString("jump ID") + ", " + 
 				Catalog.GetString("Type") + ", " + 
-				Catalog.GetString("TV") + ", " + 
-				Catalog.GetString("TC") + ", " + 
+				"TV, " + 
+				"TC, " + 
 				Catalog.GetString("Fall") + ", " + 
 				Catalog.GetString("Weight") + ", " + 
+				Catalog.GetString("Height") + ", " +
+				Catalog.GetString("Initial Speed") + ", " +
 				Catalog.GetString("Description") );
 		
 		foreach (string jumpString in myJumps) {
 			string [] myStr = jumpString.Split(new char[] {':'});
 			
-			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", 
+			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}", 
 					myStr[0], myStr[1], 	//person.name, jump.uniqueID
 					//myStr[2], myStr[3], 	//jump.personID, jump.sessionID
 					myStr[4], myStr[5],	//jump.type, jump.tv
 					myStr[6], myStr[7],	//jump.tc, jump.fall
-					myStr[8], myStr[9]	//jump.weight, jump.description
+					myStr[8],		//jump.weight,
+					Util.GetHeightInCentimeters(myStr[5]), 
+					Util.GetInitialSpeed(myStr[5]), 
+					myStr[9]		//jump.description
 					);
 		}
 	}
@@ -219,22 +224,33 @@ public class ExportSessionCSV : ExportSession
 					Catalog.GetString("Jumper name") + ", " + 
 					Catalog.GetString("jump ID") + ", " + 
 					Catalog.GetString("jump Type") + ", " + 
-					Catalog.GetString("TV Max") + ", " + 
 					Catalog.GetString("TC Max") + ", " + 
-					Catalog.GetString("TV AVG") + ", " + 
+					Catalog.GetString("TV Max") + ", " + 
+					Catalog.GetString("Max Height") + ", " +
+					Catalog.GetString("Max Initial Speed") + ", " +
 					Catalog.GetString("TC AVG") + ", " + 
+					Catalog.GetString("TV AVG") + ", " + 
+					Catalog.GetString("AVG Height") + ", " +
+					Catalog.GetString("AVG Initial Speed") + ", " +
 					Catalog.GetString("Fall") + ", " + 
 					Catalog.GetString("Weight") + ", " + 
 					Catalog.GetString("Jumps") + ", " + 
 					Catalog.GetString("Time") + ", " + 
 					Catalog.GetString("Limited") + ", " + 
 					Catalog.GetString("Description" ) );
-			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}", 
+			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}", 
 					myStr[0], myStr[1], 	//person.name, jumpRj.uniqueID
 					//myStr[2], myStr[3], 	//jumpRj.personID, jumpRj.sessionID
-					myStr[4], myStr[5],	//jumpRj.type, jumpRj.tvMax
-					myStr[6], myStr[10],	//jumpRj.tcMax, jumpRj.tvAvg
-					myStr[11], myStr[7],	//jumpRj.tvAvg, jumpRj.Fall
+					myStr[4], 		//jumpRj.type 
+					myStr[6], 		//jumpRj.tcMax 
+					myStr[5],		//jumpRj.tvMax
+					Util.GetHeightInCentimeters(myStr[5]), 	//Max height
+					Util.GetInitialSpeed(myStr[5]), 	//Max initial speed
+					myStr[11], 		//jumpRj.tcAvg
+					myStr[10],		//jumpRj.tvAvg
+					Util.GetHeightInCentimeters(myStr[10]), //Avg height
+					Util.GetInitialSpeed(myStr[10]), 	//Avg Initial speed
+					myStr[7],	 	//jumpRj.Fall
 					myStr[8], myStr[14],	//jumpRj.Weight, jumpRj.Jumps
 					myStr[15], myStr[16],	//jumpRj.Time, jumpRj.Limited
 					myStr[9]		//jumpRj.Description

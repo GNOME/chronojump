@@ -1,5 +1,20 @@
 CHANGELOG:
 
+1 set 2005 (RELEASE 0.3)
+	stats global and jumper with every combination between indexestype and
+	selected jumps
+
+	added indexQ to stats global and jumper (for all simple jumps with TC)
+	added fv to stats global and jumper (for Sj+(100%), sj)
+
+	added file chronojump_sample.db to CVS
+	
+	spanish translation updated
+	
+	web: 
+	- mailing lists in new "contact" page
+	- added info about chronopic propotype in construction
+
 31 aug 2005
 	show all person events done (closes task: 288)
 

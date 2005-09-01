@@ -13,7 +13,7 @@ If you are an <b>advanced&nbsp;user</b>: from an operative system GNU/Linux, ins
 <li>Execute <tt>/chronojump.exe</tt> or compile with <tt>make</tt>.
 </ol>
 <p>
-Help can be found subscribing to the mailing lists in the section <a href="index.html">introduction</a>.
+Help can be found subscribing to the <a href="contact.html">mailing lists</a>.
 <p> The timekeeper is a prototype expecting to have a new version. When it is finalized it will be possible to be acquired by a price of less than 90 euros, or it is possible to be handmade if desired by about30 euros.
 <p> If  you wish to know the advance of the project, please check on <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">changelog&nbsp;file</a> (click the number at the right hand corner of "Revision"), and the <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">chronojump developers mailing list archives</a>.
 

@@ -83,21 +83,7 @@ public class StatGlobal : Stat
 					personID, heightPreferred), 
 				true, sessions.Count );
 		
-		//currently disabled GlobalIndexes in stats global
-		//only for showing less info in global.
-		//If enable another time, remember to create a GlobalIndexes for IndexQ, FV an others
-		/*
-		processDataMultiSession ( SqliteStat.GlobalOthers("DjIndex", "(100*((tv-tc)/tc))", "jump", "DJ", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		processDataMultiSession ( SqliteStat.GlobalOthers("RjIndex", "(100*((tvavg-tcavg)/tcavg))", "jumpRj", "RJ", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		processDataMultiSession ( SqliteStat.GlobalOthers("RjPotency", 
-					"(9.81*9.81 * tvavg*jumps * time / (4*jumps*(time - tvavg*jumps)) )", "jumpRj", "RJ", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		
+		//TODO: If enable another time, remember to create a GlobalIndexes for IndexQ, FV an others
 		//session string must be different for indexes
 		sessionString = obtainSessionSqlStringIndexes(sessions);
 		
@@ -107,7 +93,25 @@ public class StatGlobal : Stat
 		processDataMultiSession ( SqliteStat.GlobalIndexes("IUB", "ABK", "CMJ", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
-		*/
+		processDataMultiSession ( SqliteStat.GlobalIndexes("FV", "SJ+", "SJ", 
+					sessionString, operation, showSex, personID),
+				false, sessions.Count );
+		
+		sessionString = obtainSessionSqlString(sessions);
+		processDataMultiSession ( SqliteStat.GlobalOthers("DjIndex", "(100*((tv-tc)/tc))", "jump", 
+					sessionString, operation, showSex, personID),
+				false, sessions.Count );
+		processDataMultiSession ( SqliteStat.GlobalOthers("IndexQ", "(tv/tc)", "jump", 
+					sessionString, operation, showSex, personID),
+				false, sessions.Count );
+		processDataMultiSession ( SqliteStat.GlobalOthers("RjIndex", "(100*((tvavg-tcavg)/tcavg))", "jumpRj", 
+					sessionString, operation, showSex, personID),
+				false, sessions.Count );
+		processDataMultiSession ( SqliteStat.GlobalOthers("RjPotency", 
+					"(9.81*9.81 * tvavg*jumps * time / (4*jumps*(time - tvavg*jumps)) )", "jumpRj",
+					sessionString, operation, showSex, personID),
+				false, sessions.Count );
+	
 	}
 
 	public override string ToString () 

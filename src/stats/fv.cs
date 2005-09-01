@@ -32,9 +32,9 @@ public class StatFv : StatIeIub
 
 	public StatFv (Gtk.TreeView treeview, ArrayList sessions, string indexType, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
 	{
-		this.dataColumns = 3;	//for simplesession (IE, cmj, sj)
+		this.dataColumns = 3;	//for simplesession (FV, cmj, sj)
 		this.limit = limit;
-		this.indexType = indexType; //"IE" or "IUB"
+		this.indexType = indexType; // "FV"
 
 		jump1="SJ+";
 		jump2="SJ";
@@ -42,7 +42,7 @@ public class StatFv : StatIeIub
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper, IE, cmj, sj
+			store = getStore(dataColumns +1); //jumper, FV, cmj, sj
 		}
 		
 		treeview.Model = store;

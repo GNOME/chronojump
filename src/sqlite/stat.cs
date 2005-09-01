@@ -906,13 +906,29 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	//currently disabled GlobalIndexes in stats global
-	//only for showing less info in global.
-	//If enable another time, remember to create a GlobalIndexes for IndexQ, FV an others
-	/*
-	public static ArrayList GlobalOthers (string statName, string statFormulae, string jumpTable, string jumpType, string sessionString, string operation, bool sexSeparated, int personID)
+	//djindex, qindex, rjIndex, rjpotency(bosco)
+	public static ArrayList GlobalOthers (string statName, string statFormulae, string jumpTable, string sessionString, string operation, bool sexSeparated, int personID)
 	{
+
+		//select all possible jumpTypes and put in jumpTypeString for SQL
+		string jumpTypeString= " AND (";
+		string [] myJumpTypes;
+		if(jumpTable == "jump") {
+			myJumpTypes = SqliteJumpType.SelectJumpTypes("", "TC", true);
+		} else {
+			myJumpTypes = SqliteJumpType.SelectJumpRjTypes("", true);
+		}
+		for(int i=0; i < myJumpTypes.Length ; i++) {
+			if (i>0) {
+				jumpTypeString += " OR ";
+			}
+			jumpTypeString += " type == '" + myJumpTypes[i] + "'";
+		}
+		jumpTypeString += " ) ";
+	
+		
 		dbcon.Open();
+
 		
 		string personString = "";
 		if(personID != -1) { 
@@ -922,20 +938,24 @@ class SqliteStat : Sqlite
 		if (sexSeparated) {
 			//select the MAX or AVG index grouped by sex
 			//returns 0-2 rows
-			dbcmd.CommandText = "SELECT sessionID, " + operation + statFormulae + ", sex " + 
+			dbcmd.CommandText = "SELECT sessionID, type, " + operation + statFormulae + ", sex " + 
 				" FROM " + jumpTable + ", person " +
 				sessionString +	
 				" AND personID == person.uniqueID" +
-				" AND type == '" + jumpType + "'" + personString +
-				" GROUP BY sessionID, person.sex " +
-				" ORDER BY person.sex DESC, sessionID" ; 
+				//" AND type == '" + jumpType + "'" + personString +
+				jumpTypeString +
+				personString +
+				" GROUP BY sessionID, type, person.sex " +
+				" ORDER BY person.sex DESC, type, sessionID" ; 
 		} else {
 			//select the MAX or AVG index. 
 			//returns 0-1 rows
-			dbcmd.CommandText = "SELECT sessionID, " + operation + statFormulae +
+			dbcmd.CommandText = "SELECT sessionID, type, " + operation + statFormulae +
 				" FROM " + jumpTable + " " +
 				sessionString +	
-				" AND type == '" + jumpType + "'" + personString +
+				//" AND type == '" + jumpType + "'" + personString +
+				jumpTypeString +
+				personString +
 				//the following solves a problem
 				//of sqlite, that returns an 
 				//"empty line" when there are no
@@ -944,8 +964,8 @@ class SqliteStat : Sqlite
 				//With the group by, 
 				//if there are no values, 
 				//it does not return any line
-				" GROUP by sessionID, " +
-				" ORDER by sessionID";
+				" GROUP by sessionID, type " +
+				" ORDER by type, sessionID";
 		}
 
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -959,11 +979,14 @@ class SqliteStat : Sqlite
 		//returns always two columns
 		while(reader.Read()) {
 			if (sexSeparated) {
-				myArray.Add (statName +"." + reader[2].ToString() + ":" + reader[0].ToString() 
-							+ ":" + reader[1].ToString() );
+				myArray.Add (statName + " (" + reader[1].ToString()  + ")" + 	//stat name(jumptype)
+						"." + reader[3].ToString() + ":" + 		//sex
+						reader[0].ToString() + ":" + reader[2].ToString() //session, value
+						);
 			} else {
-				myArray.Add (statName + ":" + reader[0].ToString() 
-							+ ":" + reader[1].ToString()	);
+				myArray.Add (statName + " (" + reader[1].ToString()  + ") " + ":" + 	//stat name (jumptype)
+						reader[0].ToString() + ":" + reader[2].ToString()	//session, value
+						);
 			}
 		}
 		
@@ -972,22 +995,34 @@ class SqliteStat : Sqlite
 		
 		return myArray;
 	}
-	*/
 
-	//currently disabled GlobalIndexes in stats global
-	//only for showing less info in global.
-	//If enable another time, remember to create a GlobalIndexes for IndexQ, FV an others
-	/*
+	//IE, IUB, FV
 	public static ArrayList GlobalIndexes (string statName, string jump1, string jump2, string sessionString, string operation, bool sexSeparated, int personID)
 	{
 		dbcon.Open();
 
 		string moreSelect = "";
-		if(operation == "MAX") {
-			//search MAX of two jumps, not max index!!
-			moreSelect = "( ( MAX(j1.tv) - MAX(j2.tv) )*100/MAX(j2.tv) ) AS myIndex ";
-		} else if(operation == "AVG") {
-			moreSelect = "( ( AVG(j1.tv) - AVG(j2.tv) )*100/AVG(j2.tv) ) AS myIndex ";
+		string weightString = ""; //used by FV index
+		
+		if(statName == "FV") {
+			string heightJump1 = " 100*4.9* (j1.tv/2) * (j1.tv/2) ";	//jump1 tv converted to height
+			string heightJump2 = " 100*4.9* (j2.tv/2) * (j2.tv/2) ";	//jump2 tv converted to height
+			if(operation == "MAX") {
+				//search MAX of two jumps, not max index!!
+				moreSelect = " ( MAX(" + heightJump1 + ") )*100/MAX(" + heightJump2 + ") AS myIndex, " +
+					"MAX(" + heightJump1 + "), MAX(" + heightJump2 + ") ";
+			} else if(operation == "AVG") {
+				moreSelect = " ( AVG(" + heightJump1 + ") )*100/AVG(" + heightJump2 + ") AS myIndex, " +
+					"AVG(" + heightJump1 + "), AVG(" + heightJump2 + ")";
+			}
+			weightString = " AND (j1.weight == \"100%\" OR j1.weight == person.weight||'" + "Kg' ) ";
+		} else {	//IE, IUB
+			if(operation == "MAX") {
+				//search MAX of two jumps, not max index!!
+				moreSelect = "( ( MAX(j1.tv) - MAX(j2.tv) )*100/MAX(j2.tv) ) AS myIndex ";
+			} else if(operation == "AVG") {
+				moreSelect = "( ( AVG(j1.tv) - AVG(j2.tv) )*100/AVG(j2.tv) ) AS myIndex ";
+			}
 		}
 		
 		string personString = "";
@@ -1001,6 +1036,7 @@ class SqliteStat : Sqlite
 			dbcmd.CommandText = "SELECT j1.sessionID, " + moreSelect + ", person.sex " +
 				" FROM jump AS j1, jump AS j2, person " +
 				sessionString +	
+				weightString + 		//used by FV
 				" AND j1.personID == person.uniqueID" +
 				" AND j2.personID == person.uniqueID" +
 				" AND j1.type == '" + jump1 + "'" + 
@@ -1055,6 +1091,5 @@ class SqliteStat : Sqlite
 		
 		return myArray;
 	}
-	*/
 
 }

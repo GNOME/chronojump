@@ -134,16 +134,27 @@ public class GraphGlobal : StatGlobal
 						}
 						return;
 					}
-					CurrentGraphData.XAxisNames.Add(myValue);
+
+					if(myValue.StartsWith("IndexQ")) {
+						CurrentGraphData.XAxisNames.Add(myValue.Replace("IndexQ", "IndexQ *10"));
+					} else if(myValue == "FV") {
+						CurrentGraphData.XAxisNames.Add(myValue.Replace("FV", "FV *10"));
+					} else {
+						CurrentGraphData.XAxisNames.Add(myValue);
+					}
 
 					//record the statistic (stripping of sex)
 					string [] stringFullResults = myValue.Split(new char[] {'.'});
 					myValueBefore = stringFullResults[0];
 				} else { 
-					if(myValueBefore == "DjIndex" || myValueBefore == "RjIndex" || 
-							myValueBefore == "RjPotency" || myValueBefore == "IE" || 
-							myValueBefore == "IUB") {
+					if(myValueBefore.StartsWith("DjIndex") ||  
+							myValueBefore.StartsWith("RjIndex") || myValueBefore.StartsWith("RjPotency") || 
+							myValueBefore == "IE" || myValueBefore == "IUB") {
 						serieIndex.SerieData.Add(myValue);
+						serieTv.SerieData.Add("-");
+					} else if(myValueBefore.StartsWith("IndexQ") || myValueBefore == "FV") {
+						serieIndex.SerieData.Add( (
+									Convert.ToDouble(myValue) *10).ToString() );
 						serieTv.SerieData.Add("-");
 					} else {
 						serieTv.SerieData.Add(myValue);
@@ -154,27 +165,28 @@ public class GraphGlobal : StatGlobal
 			}
 		} else {
 			GraphSerie mySerie = new GraphSerie();
-		
+
 			int myR = myRand.Next(255);
 			int myG = myRand.Next(255);
 			int myB = myRand.Next(255);
-			
-			
+
+
 			mySerie.SerieColor = Color.FromArgb(myR, myG, myB);
-			
+
 			int i=0;
+			string myValueBefore = "";
 			foreach (string myValue in statValues) {
 				if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
 					return;
 				}
 				if(i == 0) {
-					mySerie.Title = myValue;
 					//strip of sex
 					string [] stringFullResults = myValue.Split(new char[] {'.'});
 					string valueNoSex = stringFullResults[0];
-					if(valueNoSex == "DjIndex" || valueNoSex == "RjIndex" || 
-							valueNoSex == "RjPotency" || valueNoSex == "IE" || 
-							valueNoSex == "IUB") {
+
+					if(valueNoSex.StartsWith("DjIndex") || valueNoSex.StartsWith("IndexQ") || 
+							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith("RjPotency") || 
+							valueNoSex == "IE" || valueNoSex == "IUB" || valueNoSex == "FV" ) {
 						mySerie.IsLeftAxis = false;
 						mySerie.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
 								6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
@@ -184,8 +196,20 @@ public class GraphGlobal : StatGlobal
 						mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 								6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
 					}
+					myValueBefore = valueNoSex; //for changing later indexQ for indexQ*10
+					mySerie.Title = myValue;
 				} else {
-					mySerie.SerieData.Add(myValue);
+					if(myValueBefore.StartsWith("IndexQ")) {
+						mySerie.SerieData.Add( (
+									Convert.ToDouble(myValue) *10).ToString() );
+						mySerie.Title = myValueBefore.Replace("IndexQ", "IndexQ *10");
+					} else if(myValueBefore == "FV") {
+						mySerie.SerieData.Add( (
+									Convert.ToDouble(myValue) *10).ToString() );
+						mySerie.Title = myValueBefore.Replace("FV", "FV *10");
+					} else {
+						mySerie.SerieData.Add(myValue);
+					}
 				}
 				i++;
 			}

@@ -12,7 +12,7 @@ Se você se considera um <b>usuário&nbsp;experiente</b> pode provar o programa 
 <li>executar <tt>./chronojump.exe</tt> ou compilar sua própria versão com <tt>make</tt>.
 </ol>
 <p>
-Também se pode obter ajuda registrando-se nas listas de e-mail que encontrarás na sessão <a href="index_pt.html">introdução</a>.
+Também se pode obter ajuda registrando-se nas <a href="contact_pt.html">listas de e-mail</a>.
 <p> O Cronômetro é um protótipo à espera de uma versão preparada para sua distribuição. Quando esteja finalizado se poderá adquirir por um preço inferior a 90 euros ou se poderá fabricar caso desejes por uns 30 euros aproximadamente.
 <p>
  Se deseja conhecer a evolução do projeto, consulte o <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">arquivo&nbsp;changelog</a> (claque no número da direita de "Revisão"), e os <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">arquivos da lista chronojump-developers</a>.

@@ -44,7 +44,7 @@ public class StatIeIub : Stat
 	{
 		this.dataColumns = 3;	//for simplesession (IE, cmj, sj)
 		this.limit = limit;
-		this.indexType = indexType; //"IE" or "IUB"
+		this.indexType = indexType; //"IE" or "IUB" or "FV"
 
 		if(indexType == "IE") {
 			jump1="CMJ";

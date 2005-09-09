@@ -108,9 +108,13 @@ public class StatsWindow {
 		iubIndexFormula
 	};
 
+	Report report;
+	ReportWindow reportWin;
+
 	
 	StatsWindow (Gtk.Window parent, Session currentSession, 
-			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred)
+			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
+			Report report, ReportWindow reportWin)
 	{
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "stats_window", null);
 
@@ -120,6 +124,9 @@ public class StatsWindow {
 		this.prefsDigitsNumber = prefsDigitsNumber;
 		this.weightStatsPercent = weightStatsPercent;
 		this.heightPreferred = heightPreferred;
+
+		this.report = report;
+		this.reportWin= reportWin;
 
 		myStat = new Stat(); //create and instance of myStat
 		
@@ -135,11 +142,13 @@ public class StatsWindow {
 	
 
 	static public StatsWindow Show (Gtk.Window parent, Session currentSession, 
-			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred)
+			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
+			Report report, ReportWindow reportWin)
 	{
 		if (StatsWindowBox == null) {
 			StatsWindowBox = new StatsWindow (parent, currentSession, 
-					prefsDigitsNumber, weightStatsPercent, heightPreferred);
+					prefsDigitsNumber, weightStatsPercent, heightPreferred, 
+					report, reportWin);
 		}
 		StatsWindowBox.stats_window.Show ();
 		
@@ -830,8 +839,6 @@ public class StatsWindow {
 			fillTreeView_stats(false);
 		}
 	}
-
-	
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
 		Console.WriteLine("select sessions for stats");
@@ -854,6 +861,60 @@ public class StatsWindow {
 		update_stats_widgets_sensitiveness();
 		fillTreeView_stats(false);
 	}
+	
+	private void on_button_add_to_report_clicked (object o, EventArgs args) {
+		Console.WriteLine("add to report window");
+
+		string statisticType = combo_stats_stat_type.Entry.Text;
+		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
+		if(statisticType == "" || statisticSubType == "") {
+			//for an unknown reason, when we select an option in the combo stats, 
+			//the on_combo_stats_stat_type_changed it's called two times? 
+			//in the first the value of Entry.Text is "";
+			return;
+		} else {
+			string statisticApplyTo = combo_stats_stat_apply_to.Entry.Text;
+			if(statisticApplyTo.Length == 0) {
+				statisticApplyTo = "-";
+			}
+		
+			string sessionsAsAString = "";
+			if (radiobutton_current_session.Active) {
+				sessionsAsAString = (currentSession.Name + "[" + currentSession.UniqueID + "]"); 
+			} else if (radiobutton_selected_sessions.Active) {
+				for (int i=0; i < selectedSessions.Count ; i++) {
+					string [] myStrFull = selectedSessions[i].ToString().Split(new char[] {':'});
+					sessionsAsAString += myStrFull[1] + "[" + myStrFull[0] + "] ";
+				}
+			}
+
+		
+			string statsShowJumps = "";
+			if (radiobutton_stats_jumps_all.Active) {
+				statsShowJumps = Catalog.GetString("All");
+			} else if (radiobutton_stats_jumps_limit.Active) {
+				statsShowJumps = Catalog.GetString("Limit") + " " + spin_stats_jumps_limit.Value.ToString(); 
+			} else if (radiobutton_stats_jumps_person_bests.Active) {
+				statsShowJumps = Catalog.GetString("Jumper's best") + " " + spin_stats_jumps_person_bests.Value.ToString(); 
+			} else {
+				statsShowJumps = Catalog.GetString("Jumper's average");
+			}
+
+			bool showSex = false;
+			if(checkbutton_stats_sex.Active) {
+				showSex = true;
+			}
+			
+			//create or show the report window
+			reportWin = ReportWindow.Show(parent, report);
+			//add current stat
+			reportWin.Add(statisticType, statisticSubType, statisticApplyTo, 
+					sessionsAsAString, statsShowJumps, showSex.ToString());
+					
+		}
+		
+	}
+
 	
 	void on_button_close_clicked (object o, EventArgs args)
 	{

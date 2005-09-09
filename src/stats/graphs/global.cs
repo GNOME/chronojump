@@ -200,12 +200,20 @@ public class GraphGlobal : StatGlobal
 					mySerie.Title = myValue;
 				} else {
 					if(myValueBefore.StartsWith("IndexQ")) {
-						mySerie.SerieData.Add( (
-									Convert.ToDouble(myValue) *10).ToString() );
+						if(myValue == "-") {
+							mySerie.SerieData.Add(myValue);
+						} else {
+							mySerie.SerieData.Add( (
+										Convert.ToDouble(myValue) *10).ToString() );
+						}
 						mySerie.Title = myValueBefore.Replace("IndexQ", "IndexQ *10");
 					} else if(myValueBefore == "FV") {
-						mySerie.SerieData.Add( (
-									Convert.ToDouble(myValue) *10).ToString() );
+						if(myValue == "-") {
+							mySerie.SerieData.Add(myValue);
+						} else {
+							mySerie.SerieData.Add( (
+										Convert.ToDouble(myValue) *10).ToString() );
+						}
 						mySerie.Title = myValueBefore.Replace("FV", "FV *10");
 					} else {
 						mySerie.SerieData.Add(myValue);

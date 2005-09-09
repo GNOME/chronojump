@@ -1,5 +1,27 @@
 CHANGELOG:
 
+9 set 2005
+	report (doing task 295)
+		- widget make report done
+		- class report.cs done (added src/report.cs)
+		- button "add to report" added on stats widget (added
+		src/gui/report.cs). It comunicates with report.cs
+		
+		- doing: select the file and print the report, and show some
+		"ok" info (inherites from exportSession).
+		-pending: manage how stats and graphs classes print in HTML
+		
+	exportSession record runs and runsInterval
+
+	All widgets (except app1, jumps_runs_more, stats_window,
+	report_window) converted to "dialog type", now they cannot be hided
+	under main window. Changed the "modal" value to "No" in stats_window and
+	report_window, now they can be loaded all time (and work normal in the
+	others)
+
+	fixed bug in graphs, global indexesQ, and fv in multisession when in a
+	session there is no data
+
 1 set 2005 (RELEASE 0.3)
 	stats global and jumper with every combination between indexestype and
 	selected jumps

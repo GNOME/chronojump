@@ -27,9 +27,11 @@ using Gtk;		//FileSelection widget
 
 public class ExportSession
 {
-	protected string [] myJumpers;
+	protected string [] myPersons;
 	protected string [] myJumps;
 	protected string [] myJumpsRj;
+	protected string [] myRuns;
+	protected string [] myRunsInterval;
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
@@ -40,10 +42,10 @@ public class ExportSession
 	}
 
 	public ExportSession(Session mySession, Gtk.Window app1, Gnome.AppBar mainAppbar) 
-	//public ExportSession(Session mySession, Gtk.Window app1) 
 	{
 		this.mySession = mySession;
 		myAppbar = mainAppbar;
+		
 		checkFile("none");
 	}
 
@@ -93,19 +95,13 @@ public class ExportSession
 		closeWriter();
 	}
 	
-	protected void getData() 
+	protected virtual void getData() 
 	{
-		myJumpers = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID);
-		
-		bool sortJumpsByType = false;
-		if(sortJumpsByType) {
-			myJumps= SqliteJump.SelectAllNormalJumps(mySession.UniqueID, "ordered_by_type"); //returns a string of values separated by ':'
-		}
-		else {
-			myJumps= SqliteJump.SelectAllNormalJumps(mySession.UniqueID, "ordered_by_time"); //returns a string of values separated by ':'
-		}
-
+		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID);
+		myJumps= SqliteJump.SelectAllNormalJumps(mySession.UniqueID, "ordered_by_time");
 		myJumpsRj = SqliteJump.SelectAllRjJumps(mySession.UniqueID, "ordered_by_time");
+		myRuns= SqliteRun.SelectAllNormalRuns(mySession.UniqueID, "ordered_by_time");
+		myRunsInterval = SqliteRun.SelectAllIntervalRuns(mySession.UniqueID, "ordered_by_time");
 	}
 	
 	protected virtual void printData ()
@@ -114,6 +110,8 @@ public class ExportSession
 		printJumpers();
 		printJumps();
 		printJumpsRj();
+		printRuns();
+		printRunsInterval();
 		printFooter();
 	}
 
@@ -130,6 +128,14 @@ public class ExportSession
 	}
 
 	protected virtual void printJumpsRj()
+	{
+	}
+	
+	protected virtual void printRuns()
+	{
+	}
+	
+	protected virtual void printRunsInterval()
 	{
 	}
 	
@@ -173,7 +179,7 @@ public class ExportSessionCSV : ExportSession
 	protected override void printJumpers()
 	{
 		writer.WriteLine( "\n" + Catalog.GetString ( "Jumpers" ) );
-		foreach (string jumperString in myJumpers) {
+		foreach (string jumperString in myPersons) {
 			string [] myStr = jumperString.Split(new char[] {':'});
 			
 			writer.WriteLine ("{0}, {1}", 
@@ -268,6 +274,67 @@ public class ExportSessionCSV : ExportSession
 		}
 	}
 	
+	protected override void printRuns()
+	{
+		writer.WriteLine( "\n" + Catalog.GetString ( "Normal Runs" ) );
+		writer.WriteLine( "\n" + 
+				Catalog.GetString("Runner name") + ", " +
+				Catalog.GetString("run ID") + ", " + 
+				Catalog.GetString("Type") + ", " + 
+				Catalog.GetString("Distance") + ", " + 
+				Catalog.GetString("Time") + ", " + 
+				Catalog.GetString("Speed") + ", " + 
+				Catalog.GetString("Description") );
+		
+		foreach (string runString in myRuns) {
+			string [] myStr = runString.Split(new char[] {':'});
+			
+			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}", 
+					myStr[0], myStr[1], 	//person.name, run.uniqueID
+					myStr[4], myStr[5],	//run.type, run.distance
+					myStr[6], Util.GetSpeed(myStr[5], myStr[6]),	//run.time, speed
+					myStr[7]		//run.description
+					);
+		}
+	}
+
+	protected override void printRunsInterval()
+	{
+		writer.WriteLine( "\n" + Catalog.GetString ( "Interval Runs" ) );
+		writer.WriteLine( "\n" + 
+				Catalog.GetString("Runner name") + ", " +
+				Catalog.GetString("run ID") + ", " + 
+				Catalog.GetString("Type") + ", " + 
+				Catalog.GetString("Distance total") + ", " + 
+				Catalog.GetString("Time total") + ", " +
+				Catalog.GetString("Average speed") + ", " +
+				Catalog.GetString("Distance interval") + ", " + 
+				Catalog.GetString("Tracks") + ", " + 
+				Catalog.GetString("Limited") + ", " +
+				Catalog.GetString("Description") );
+		
+		foreach (string runString in myRunsInterval) {
+			string [] myStr = runString.Split(new char[] {':'});
+			
+			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}", 
+					myStr[0], myStr[1], 	//person.name, run.uniqueID
+					myStr[4], myStr[5],	//run.type, run.distancetotal
+					myStr[6], 		//run.timetotal,
+					Util.GetSpeed(myStr[5], myStr[6]),	//speed AVG
+					myStr[7],	 	//run.distanceInterval
+					myStr[9], myStr[11],	//tracks, limited
+					myStr[10]		//description
+					);
+			
+			//print intervalTimesString
+			string [] timeString = myStr[8].Split(new char[] {'='});
+			writer.WriteLine( Catalog.GetString ( "Interval speed, interval times" ) );
+			foreach(string myTime in timeString) {
+				writer.WriteLine("{0}, {1}", Util.GetSpeed(myStr[7], myTime), myTime);
+			}
+		}
+	}
+
 	protected override void printFooter()
 	{
 		Console.WriteLine( "Correctly exported" );
@@ -338,6 +405,14 @@ public class ExportSessionXML : ExportSession
 	}
 
 	protected override void printJumpsRj()
+	{
+	}
+	
+	protected override void printRuns()
+	{
+	}
+
+	protected override void printRunsInterval()
 	{
 	}
 	

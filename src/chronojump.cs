@@ -196,6 +196,7 @@ public class ChronoJump
 	private static bool lastRunIsInterval; //if last run is interval or not (obvious) 
 	private static JumpType currentJumpType;
 	private static RunType currentRunType;
+	private static Report report;
 
 	//windows needed
 	SessionAddWindow sessionAddWin;
@@ -223,6 +224,7 @@ public class ChronoJump
 
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	StatsWindow statsWin;
+	ReportWindow reportWin;
 	
 	
 	//Progress bar 
@@ -293,6 +295,11 @@ public class ChronoJump
 		createComboRunsInterval();
 		createComboSujetoCurrent();
 		createdStatsWin = false;
+
+		report = new Report(-1); //when a session is loaded or created, it will change the report.SessionID value
+					//TODO: check what happens if a session it's deleted
+					//i suppose report it's deactivated until a new session is created or loaded, 
+					//but check what happens if report window is opened
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
@@ -907,6 +914,9 @@ public class ChronoJump
 			//update combo sujeto current
 			updateComboSujetoCurrent();
 			combo_person_current.Sensitive = false;
+		
+			//update report
+			report.SessionID = currentSession.UniqueID;
 		}
 	}
 	
@@ -972,6 +982,9 @@ public class ChronoJump
 			//activate the gui for persons in main window
 			sensitiveGuiYesPerson();
 		}
+
+		//update report
+		report.SessionID = currentSession.UniqueID;
 	}
 	
 	
@@ -1144,7 +1157,8 @@ public class ChronoJump
 
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
 		statsWin = StatsWindow.Show(app1, currentSession, 
-				prefsDigitsNumber, weightStatsPercent, heightPreferred);
+				prefsDigitsNumber, weightStatsPercent, heightPreferred, 
+				report, reportWin);
 		createdStatsWin = true;
 		statsWin.InitializeSession(currentSession);
 	}
@@ -1293,6 +1307,12 @@ public class ChronoJump
 		}
 	}
 		
+	
+	private void on_show_report_activate (object o, EventArgs args) {
+		Console.WriteLine("open report window");
+		reportWin = ReportWindow.Show(app1, report);
+	}
+	
 
 	/* ---------------------------------------------------------
 	 * ----------------  JUMPS EXECUTION (no RJ) ----------------

@@ -4,7 +4,7 @@
 Until the moment there is no ChronoJump available.
 -->
 
-<b>Now</b> you can try ChronoJump&nbsp;<b>0.2</b> from any PC, you just have to follow the instructions written in this e-mail: (in spanish) <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-August/000059.html">Probar ChronoJump 0.2 en Windows desde mono-live-cd o en Linux</a>.
+<b>Now</b> you can try ChronoJump&nbsp;<b>0.3</b> from any PC, you just have to follow the instructions written in this e-mail: (in spanish) <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000062.html">Probar ChronoJump 0.3 en Windows desde mono-live-cd o en Linux</a>.
 <p>
 If you are an <b>advanced&nbsp;user</b>: from an operative system GNU/Linux, install <a href="http://www.mono-project.com">Mono</a> and download the Chronojump sources on the CVS:
 <ol>
@@ -14,7 +14,7 @@ If you are an <b>advanced&nbsp;user</b>: from an operative system GNU/Linux, ins
 </ol>
 <p>
 Help can be found subscribing to the <a href="contact.html">mailing lists</a>.
-<p> The timekeeper is a prototype expecting to have a new version. When it is finalized it will be possible to be acquired by a price of less than 90 euros, or it is possible to be handmade if desired by about30 euros.
-<p> If  you wish to know the advance of the project, please check on <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">changelog&nbsp;file</a> (click the number at the right hand corner of "Revision"), and the <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">chronojump developers mailing list archives</a>.
+<p> 
+If you wish to know the advance of the project, please check on <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">changelog&nbsp;file</a> (click the number at the right hand corner of "Revision"), and the <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">chronojump developers mailing list archives</a>.
 
 

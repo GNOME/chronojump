@@ -1,17 +1,29 @@
 <h4>Installation</h4>
 
-<!--
-Until the moment there is no ChronoJump available.
--->
 
-<b>Now</b> you can try ChronoJump&nbsp;<b>0.3</b> from any PC, you just have to follow the instructions written in this e-mail: (in spanish) <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000062.html">Probar ChronoJump 0.3 en Windows desde mono-live-cd o en Linux</a>.
-<p>
-If you are an <b>advanced&nbsp;user</b>: from an operative system GNU/Linux, install <a href="http://www.mono-project.com">Mono</a> and download the Chronojump sources on the CVS:
-<ol>
-<li><tt>cvs - d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (when the password is requested press 'enter').
-<li><tt>cvs - z3 - d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
-<li>Execute <tt>/chronojump.exe</tt> or compile with <tt>make</tt>.
-</ol>
+<b>Now</b> you can try ChronoJump&nbsp;<b>0.3</b> from any PC.
+	<p>
+	<h5>GNU/Linux</h5>
+	<ol>
+		<li>Install Mono. 
+		<li>Download: <a href="https://software-libre.org/project/showfiles.php?group_id=63&release_id=148">chronojump-monolive-03.tgz</a>
+	</ol>
+
+	<h5>Windows</h5>
+	<ul>
+		<li>Read this e-mail (spanish): <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000066.html">Chronojump-mono-live-cd 0.3 . Versión deChronojump fácil de usar para usuarios Windows</a>
+	</ul>
+	<p>
+	<h5>CVS</h5>
+	<ul>
+		<li>If you are an <b>advanced&nbsp;user</b>: from an operative system GNU/Linux, install <a href="http://www.mono-project.com">Mono</a> and download the Chronojump sources on the CVS:
+		<ol>
+			<li><tt>cvs - d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (when the password is requested press 'enter').
+			<li><tt>cvs - z3 - d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
+			<li>Execute <tt>/chronojump.exe</tt> or compile with <tt>make</tt>.
+		</ol>
+	</ul>
+	
 <p>
 Help can be found subscribing to the <a href="contact.html">mailing lists</a>.
 <p> 

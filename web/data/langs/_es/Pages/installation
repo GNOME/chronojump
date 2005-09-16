@@ -1,13 +1,27 @@
         <h4>Instalación</h4>
 
-	<b>Ya</b> puede probar ChronoJump&nbsp;<b>0.3</b> en cualquier PC siguiendo las instrucciones de este correo: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000062.html">Probar ChronoJump 0.3 en Windows desde mono-live-cd o en Linux</a>.
+	<b>Ya</b> puede probar ChronoJump&nbsp;<b>0.3</b> en cualquier PC.
 	<p>
-	Si usted se considera un <b>usuario&nbsp;avanzado</b>, puede probar el programa desde un sistema operativo GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, y bajándose las fuentes del CVS de chronojump:
+	<h5>GNU/Linux</h5>
 	<ol>
-	<li><tt>cvs -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (cuando se le pida un password pulse 'enter').
-	<li><tt>cvs -z3 -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
-	<li>ejecutar <tt>./chronojump.exe</tt> o compilar su propia version con <tt>make</tt>.
+		<li>Instalar Mono. 
+		<li>Descargar: <a href="https://software-libre.org/project/showfiles.php?group_id=63&release_id=148">chronojump-monolive-03.tgz</a>
 	</ol>
+
+	<h5>Windows</h5>
+	<ul>
+		<li>Consultar este correo: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000066.html">Chronojump-mono-live-cd 0.3 . Versión deChronojump fácil de usar para usuarios Windows</a>
+	</ul>
+	<p>
+	<h5>CVS</h5>
+	<ul>
+		<li>Si usted se considera un <b>usuario&nbsp;avanzado</b>, puede probar el programa desde un sistema operativo GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, y bajándose las fuentes del CVS de chronojump:
+		<ol>
+			<li><tt>cvs -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (cuando se le pida un password pulse 'enter').
+			<li><tt>cvs -z3 -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
+			<li>ejecutar <tt>./chronojump.exe</tt> o compilar su propia version con <tt>make</tt>.
+		</ol>
+	</ul>
 
 	<p>
 	Puede obtener ayuda apuntándose a las <a href="contact_es.html">listas de correo</a>.

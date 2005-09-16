@@ -38,6 +38,8 @@ public class Report : ExportSession
 	public bool ShowSimpleRuns;
 	public bool ShowIntervalRuns;
 
+	bool toFile = true;
+
 	public ArrayList StatisticsData;
 	
 	public Report(int sessionID)
@@ -145,37 +147,94 @@ public class Report : ExportSession
 	
 	protected override void printHeader()
 	{
-		writer.WriteLine("header");
+		writer.WriteLine("<HTML><HEAD><TITLE>Chronojump Report (insert date)</TITLE>\n");
+		writer.WriteLine("<meta HTTP-EQUIV=\" Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">\n");
+		writer.WriteLine("</HEAD>\n<BODY BGCOLOR=\"#ffffff\" TEXT=\"#444444\">\n");
 	}
 
 	protected override void printJumpers()
 	{
-		writer.WriteLine("jumpers");
+		writer.WriteLine("<h2>jumpers</h2>");
 	}
 
 	protected override void printJumps()
 	{
-		writer.WriteLine("jumps");
+		writer.WriteLine("<h2>Simple Jumps</h2>");
+
+		//obtain every report stats one by one
+		for(int i=0; i < StatisticsData.Count ; i++) {
+			string [] strFull = StatisticsData[i].ToString().Split(new char[] {'\n'});
+			
+			if( strFull[0] == Catalog.GetString("Simple") ) {
+				
+				ArrayList sendSelectedSessions = new ArrayList(1);;
+
+				//separate in sessions
+				string [] sessionsStrFull = strFull[3].Split(new char[] {':'});
+				for (int j=0; j < sessionsStrFull.Length ; j++) {
+					Session mySession = SqliteSession.Select(sessionsStrFull[j]);
+					sendSelectedSessions.Add(mySession.UniqueID + ":" + mySession.Name + ":" + mySession.Date);
+				}
+
+				string applyTo = strFull[2];
+				//if( applyTo == Catalog.GetString("All Jumps") ) {
+				//	applyTo = "-1";
+				//}
+				
+				/*
+				ReportSjCmjAbk myReport = new ReportSjCmjAbk(
+						sendSelectedSessions,
+						4,			//prefsDigitsNumber
+						applyTo,		//applyTo (jumpType)
+						false, 			//showSex
+						3, 			//statsJumpType
+						2,			//limit
+						false			//heightPreferred
+						);
+				*/
+				
+						
+				StatType myStatType = new StatType(
+						strFull[0], 	//statisticType
+						strFull[1], 	//statisticSubType
+						strFull[2], 	//statisticApplyTo
+						sendSelectedSessions, 
+						4,		//prefsDigitsNumber
+						false, 		//checkbutton_stats_sex.Active
+						3,		//statsJumpsType
+						2, 		//limit
+						false, 		//heightPreferred
+						false, 		//weightStatsPercent
+						false, 		//graph
+						toFile,
+						writer
+						);
+
+				bool allFine = myStatType.ChooseStat();
+				
+				//writer.WriteLine(myReport.TableString);
+			}
+		}
 	}
 
 	protected override void printJumpsRj()
 	{
-		writer.WriteLine("jumpsRj");
+		writer.WriteLine("<h2>jumpsRj</h2>");
 	}
 	
 	protected override void printRuns()
 	{
-		writer.WriteLine("runs");
+		writer.WriteLine("<h2>runs</h2>");
 	}
 	
 	protected override void printRunsInterval()
 	{
-		writer.WriteLine("runsInterval");
+		writer.WriteLine("<h2>runsInterval</h2>");
 	}
 	
 	protected override void printFooter()
 	{
-		writer.WriteLine("footer");
+		writer.WriteLine("\n</BODY></HTML>");
 	}
 	
 	

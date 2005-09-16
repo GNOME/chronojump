@@ -83,16 +83,17 @@ public class ReportWindow {
 
 			ReportWindowBox.report_window.Show ();
 		}
+		else {
+			//update all widget only if it's hidden
+			if(! ReportWindowBox.report_window.Visible)
+				{
+				//checkboxes
+				ReportWindowBox.loadCheckBoxes();
 
-		//update all widget only if it's hidden
-		if(! ReportWindowBox.report_window.Visible)
-		{
-			//checkboxes
-			ReportWindowBox.loadCheckBoxes();
+				ReportWindowBox.fillTreeView();
 
-			ReportWindowBox.fillTreeView();
-
-			ReportWindowBox.report_window.Show ();
+				ReportWindowBox.report_window.Show ();
+			}
 		}
 		
 		return ReportWindowBox;
@@ -125,7 +126,7 @@ public class ReportWindow {
 		store.Clear();
 		
 		for (int i=0; i < report.StatisticsData.Count ; i++) {
-			string [] myStringFull = report.StatisticsData[i].ToString().Split(new char[] {':'});
+			string [] myStringFull = report.StatisticsData[i].ToString().Split(new char[] {'\n'});
 
 			store.AppendValues (
 					myStringFull[0],	//type
@@ -140,13 +141,25 @@ public class ReportWindow {
 	}
 
 	//comes from stats window
-	public void Add(string type, string subtype, string applyTo, string sessionString, string showJumps, string showSex)
+	//public void Add(string type, string subtype, string applyTo, string sessionString, string showJumps, string showSex)
+	public void Add(string type, string subtype, string applyTo, ArrayList sendSelectedSessions, string showJumps, string showSex)
 	{
+		string sessionsAsAString = "";
+		for (int i=0; i < sendSelectedSessions.Count ; i++) {
+			if(i>0) {
+				//sessionsAsAString += "\n";
+				sessionsAsAString += ":";
+			}
+			string [] myStrFull = sendSelectedSessions[i].ToString().Split(new char[] {':'});
+			//sessionsAsAString += myStrFull[0] + ":" + myStrFull[1] + ":" + myStrFull[2]; //id, name, date
+			sessionsAsAString += myStrFull[0];
+		}
+
 		store.AppendValues (
 				type, 
 				subtype, 
 				applyTo, 
-				sessionString, 
+				sessionsAsAString, 
 				showJumps, 
 				showSex
 				);
@@ -259,11 +272,11 @@ public class ReportWindow {
 			
 			if (iterOk) {
 				arrayToRecord.Add ( 
-					(string) treeview1.Model.GetValue (myIter, 0) + ":" +	//type
-					(string) treeview1.Model.GetValue (myIter, 1) + ":" +	//subtype
-					(string) treeview1.Model.GetValue (myIter, 2) + ":" +	//apply to
-					(string) treeview1.Model.GetValue (myIter, 3) + ":" +	//sessionString
-					(string) treeview1.Model.GetValue (myIter, 4) + ":" +	//showJumps
+					(string) treeview1.Model.GetValue (myIter, 0) + "\n" +	//type
+					(string) treeview1.Model.GetValue (myIter, 1) + "\n" +	//subtype
+					(string) treeview1.Model.GetValue (myIter, 2) + "\n" +	//apply to
+					(string) treeview1.Model.GetValue (myIter, 3) + "\n" +	//sessionString
+					(string) treeview1.Model.GetValue (myIter, 4) + "\n" +	//showJumps
 					(string) treeview1.Model.GetValue (myIter, 5) 		//showSex
 					);
 			}

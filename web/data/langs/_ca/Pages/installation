@@ -1,16 +1,29 @@
         <h4>Instal·lació</h4>
 
-	<b>Ja</b> podeu provar ChronoJump&nbsp;<b>0.3</b>  a  qualsevol PC seguint les instruccions d'aquest correu: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000062.html">Probar ChronoJump 0.3 en Windows desde mono-live-cd o en Linux</a>.
-
+	<b>Ja</b> podeu provar ChronoJump&nbsp;<b>0.3</b>  a  qualsevol PC.
 	<p>
-Si us considereu un <b>usuari&nbsp;avançat</b>, podeu provar el programa des d'un sistema operatiu GNU/Linux, instal·lant <a href="http://www.mono-project.com">Mono</a>, i baixant-vos les fonts del CVS de Chronojump: 
-
+	<h5>GNU/Linux</h5>
 	<ol>
-	<li><tt>cvs -d:pserver:anonymous@cvs.programari-lliure.org:/cvsroot/chronojump login</tt> (quan us  demani una contrasenya premeu “enter”). 
-	<li><tt>cvs -z3 -d:pserver:anonymous@cvs.programari-lliure.org:/cvsroot/chronojump co chronojump</tt> 
-	<li>executeu <tt>./chronojump.exe</tt> o compilar la seva pròpia versió <tt>make</tt>. 
+		<li>Instal·lar Mono. 
+		<li>Descarregar: <a href="https://software-libre.org/project/showfiles.php?group_id=63&release_id=148">chronojump-monolive-03.tgz</a>
 	</ol>
+
+	<h5>Windows</h5>
+	<ul>
+		<li>Consultar aquest correu (en castellà): <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000066.html">Chronojump-mono-live-cd 0.3 . Versión deChronojump fácil de usar para usuarios Windows</a>
+	</ul>
+	<p>
+	<h5>CVS</h5>
+	<ul>
+		<li>Si us considereu un <b>usuari&nbsp;avançat</b>, podeu provar el programa des d'un sistema operatiu GNU/Linux, instal·lant <a href="http://www.mono-project.com">Mono</a>, i baixant-vos les fonts del CVS de Chronojump: 
+
+		<ol>
+		<li><tt>cvs -d:pserver:anonymous@cvs.programari-lliure.org:/cvsroot/chronojump login</tt> (quan us  demani una contrasenya premeu "enter"). 
+		<li><tt>cvs -z3 -d:pserver:anonymous@cvs.programari-lliure.org:/cvsroot/chronojump co chronojump</tt> 
+		<li>executeu <tt>./chronojump.exe</tt> o compilar la seva pròpia versió <tt>make</tt>. 
+		</ol>
+	</ul>
 	<p>
 Podeu obtenir ajuda apuntant-vos a les <a href="contact_ca.html">llistes de correu</a>. 
 <p>
-Si desitgeu conèixer com avança el projecte, podeu consultar l'arxiu <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">changelog</a> (fent clic en el número que hi ha a la dreta de "Revisió”), i en els <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">arxius de la llista de chronojump-developers</a>. 
+Si desitgeu conèixer com avança el projecte, podeu consultar l'arxiu <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">changelog</a> (fent clic en el número que hi ha a la dreta de "Revisió"), i en els <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">arxius de la llista de chronojump-developers</a>. 

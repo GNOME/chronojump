@@ -1,5 +1,12 @@
 CHANGELOG:
 
+16 set 2005
+	more code for report:
+	1.- new file src/statType.cs (statType class), now gui/stats.cs and report.cs create needed stat and call to prepareData and CreateGraph if needed
+	2.- lots of changes in Stat and StatWindow classes
+	3.- Stat.CreateGraph can plot into window or to a file (for report)
+	4.- added src/stats/report/sjCmjAbk.cs
+
 9 set 2005
 	report (doing task 295)
 		- widget make report done

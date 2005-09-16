@@ -65,6 +65,9 @@ public class Stat
 	protected static int pDN; //prefsDigitsNumber;
 	//protected static string manName = "M";
 	//protected static string womanName = "F";
+	
+	protected bool toReport = false;
+	protected string reportString;
 
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public Stat () 
@@ -95,6 +98,9 @@ public class Stat
 		pDN = newPrefsDigitsNumber;
 		this.showSex = showSex;
 		this.statsJumpsType = statsJumpsType;
+		
+		//initialize reportString
+		reportString = "";
 
 		iter = new TreeIter();
 	}
@@ -356,9 +362,16 @@ public class Stat
 		
 	protected virtual void printData (string [] statValues) 
 	{
+		if(toReport) {
+			reportString += "<TR>";
+			for (int i=0; i < statValues.Length ; i++) {
+				reportString += "<TD>" + statValues[i] + "</TD>";
+			}
+			reportString += "</TR>\n";
+		} else {
 			iter = store.AppendValues (statValues); 
+		}
 	}
-
 
 	//public virtual string ObtainEnunciate () {
 	//}
@@ -419,30 +432,58 @@ public class Stat
 	
 	public virtual void CreateGraph () 
 	{
-		Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
-		
-		w.SetDefaultSize (400, 300);
-		NPlot.Gtk.PlotSurface2D plot = new NPlot.Gtk.PlotSurface2D ();
-		
-		plot.Clear();
-		
-		plot.Title = CurrentGraphData.GraphTitle;
-		
-		plotGraphGraphSeries (plot, 
-				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
-				GraphSeries);
-		createAxisGraphSeries (plot, CurrentGraphData);
+		int x = 400;
+		int y= 300;
 
-		writeLegend(plot);
-		plot.Add( new Grid() );
-		
-		//fixes a gtk# garbage collecting bug
-		onlyUsefulForNotBeingGarbageCollected.Add(plot);
-		
-		plot.Show ();
-		w.Add (plot);
-		w.ShowAll ();
+		if(toReport) {
+			NPlot.PlotSurface2D plot = new NPlot.PlotSurface2D ();
+			Bitmap b = new Bitmap (x, y);
+			Graphics g = Graphics.FromImage (b);
+			g.FillRectangle  (Brushes.White, 0, 0, x, y);
+			Rectangle bounds = new Rectangle (0, 0, x, y);
+
+			//create plot (same as below)
+			plot.Clear();
+			plot.Title = CurrentGraphData.GraphTitle;
+			plotGraphGraphSeries (plot, 
+					CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
+					GraphSeries);
+			createAxisGraphSeries (plot, CurrentGraphData);
+
+			writeLegend(plot);
+			plot.Add( new Grid() );
+
+			//save to file
+			plot.Draw (g, bounds);
+			b.Save ("graph_prova.png", ImageFormat.Png);
+		} else {
+			Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
+
+			w.SetDefaultSize (x, y);
+			NPlot.Gtk.PlotSurface2D plot = new NPlot.Gtk.PlotSurface2D ();
+			
+			//create plot (same as above)
+			plot.Clear();
+			plot.Title = CurrentGraphData.GraphTitle;
+			plotGraphGraphSeries (plot, 
+					CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
+					GraphSeries);
+			createAxisGraphSeries (plot, CurrentGraphData);
+
+			writeLegend(plot);
+			plot.Add( new Grid() );
+
+			//put in window
+			//fixes a gtk# garbage collecting bug
+			onlyUsefulForNotBeingGarbageCollected.Add(plot);
+
+			plot.Show ();
+			w.Add (plot);
+			w.ShowAll ();
+		}
 	}
+
+
 
 	/*
 	 * SAVED COMMENTED FOR HAVING A SAMPLE OF HISTOGRAMS

@@ -1,15 +1,27 @@
 <h4>Instalação</h4>
 
-<b>Agora</b> você pode provar o Chronojum
-<b>0.3</b> 
-desde qualquer PC. Você só tem que ler este e-mail (em español): <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000062.html">Probar ChronoJump 0.3 en Windows desde mono-live-cd o en Linux</a>.
-<p>
-Se você se considera um <b>usuário&nbsp;experiente</b> pode provar o programa com um sistema operacional GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, e baixando as fontes do CVS de chronojump:
-<ol>
-<li><tt>cvs -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (quando te peça uma senha clique em 'enter').
-<li><tt>cvs -z3 -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
-<li>executar <tt>./chronojump.exe</tt> ou compilar sua própria versão com <tt>make</tt>.
-</ol>
+<b>Agora</b> você pode provar o Chronojump <b>0.3</b> desde qualquer PC.
+	<p>
+	<h5>GNU/Linux</h5>
+	<ol>
+		<li>Instale Mono. 
+		<li>Download: <a href="https://software-libre.org/project/showfiles.php?group_id=63&release_id=148">chronojump-monolive-03.tgz</a>
+	</ol>
+
+	<h5>Windows</h5>
+	<ul>
+		<li>Ler este e-mail (em espanhol): <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000066.html">Chronojump-mono-live-cd 0.3 . Versión deChronojump fácil de usar para usuarios Windows</a>
+	</ul>
+	<p>
+	<h5>CVS</h5>
+	<ul>
+		<li>Se você se considera um <b>usuário&nbsp;experiente</b> pode provar o programa com um sistema operacional GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, e baixando as fontes do CVS de chronojump:
+		<ol>
+			<li><tt>cvs -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (quando te peça uma senha clique em 'enter').
+			<li><tt>cvs -z3 -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
+			<li>executar <tt>./chronojump.exe</tt> ou compilar sua própria versão com <tt>make</tt>.
+		</ol>
+	</ul>
 <p>
 Também se pode obter ajuda registrando-se nas <a href="contact_pt.html">listas de e-mail</a>.
 <p>

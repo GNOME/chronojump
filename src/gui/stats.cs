@@ -72,8 +72,7 @@ public class StatsWindow {
 	//selected sessions
 	ArrayList selectedSessions;
 	
-	//useful for deleting headers of lastStat just before making a new Stat
-	private Stat myStat; 
+	//private Stat myStat; 
 	
 	private string allJumpsName = Catalog.GetString("All jumps");
 	
@@ -85,6 +84,7 @@ public class StatsWindow {
 		Catalog.GetString("Reactive"),
 	};
 	
+	//if this changes, change also statType.cs
 	static string djIndexFormula = Catalog.GetString("Dj Index") + " ((tv-tc)/tc *100)";
 	static string qIndexFormula = Catalog.GetString("Q index") + " (tv/tc)";
 	private static string [] comboStatsSubTypeWithTCOptions = {
@@ -98,6 +98,7 @@ public class StatsWindow {
 		Catalog.GetString("Evolution") 
 	};
 	
+	//if this changes, change also statType.cs
 	static string fvIndexFormula = "F/V sj+(100%)/sj *100";
 	static string ieIndexFormula = "IE (cmj-sj)/sj *100";
 	static string iubIndexFormula = "IUB (abk-cmj)/cmj *100";
@@ -108,6 +109,8 @@ public class StatsWindow {
 		iubIndexFormula
 	};
 
+	ArrayList sendSelectedSessions;
+	
 	Report report;
 	ReportWindow reportWin;
 
@@ -128,7 +131,7 @@ public class StatsWindow {
 		this.report = report;
 		this.reportWin= reportWin;
 
-		myStat = new Stat(); //create and instance of myStat
+		//myStat = new Stat(); //create and instance of myStat
 		
 		createComboStatsType();
 		createComboStatsSubType();
@@ -306,7 +309,9 @@ public class StatsWindow {
 			statsRemoveColumns();
 		}
 		statsColumnsToRemove = true;
-	
+
+		bool toReport = false; //all graphs are down for showing in window (not to file like report.cs)
+		
 		int statsJumpsType = 0;
 		int limit = -1;
 		if (radiobutton_stats_jumps_all.Active) {
@@ -325,319 +330,45 @@ public class StatsWindow {
 
 		//we use sendSelectedSessions for not losing selectedSessions ArrayList 
 		//everytime user cicles the sessions select radiobuttons
-		ArrayList sendSelectedSessions = new ArrayList(2);
+		sendSelectedSessions = new ArrayList(2);
 		if (radiobutton_current_session.Active) {
 			sendSelectedSessions.Add (currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date); 
 		} else if (radiobutton_selected_sessions.Active) {
 			sendSelectedSessions = selectedSessions;
 		}
 
+
+		StatType myStatType = new StatType(
+				statisticType,
+				statisticSubType,
+				statisticApplyTo,
+				treeview_stats,
+				sendSelectedSessions, 
+				prefsDigitsNumber, 
+				checkbutton_stats_sex.Active,  
+				statsJumpsType,
+				limit, 
+				heightPreferred,
+				weightStatsPercent, 
+				graph,
+				toReport
+				);
+		bool allFine = myStatType.ChooseStat();
 		
-		if ( statisticType == Catalog.GetString("Global") ) {
-			int jumperID = -1; //all jumpers
-			string jumperName = ""; //all jumpers
-			if(graph) {
-				myStat = new GraphGlobal(
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType, heightPreferred 
-						);
-				myStat.PrepareData();
-				myStat.CreateGraph();
-			} else {
-				myStat = new StatGlobal(treeview_stats, 
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType, heightPreferred 
-						);
-				myStat.PrepareData();
-			}
-		}
-		else if (statisticType == Catalog.GetString("Jumper"))
-		{
-			if(statisticApplyTo.Length == 0) {
-				Console.WriteLine("Jumper-ret");
-				return false;
-			}
-			int jumperID = Convert.ToInt32(Util.FetchID(statisticApplyTo));
-			if(jumperID == -1) {
-				return false;
-			}
-			
-			string jumperName = Util.FetchName(statisticApplyTo);
-			if(graph) {
-				myStat = new GraphGlobal(
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType, heightPreferred 
-						);
-				myStat.PrepareData();
-				myStat.CreateGraph();
-			}
-			else {
-				myStat = new StatGlobal(treeview_stats, 
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, checkbutton_stats_sex.Active,  
-						statsJumpsType, heightPreferred  
-						);
-				myStat.PrepareData();
-			}
-		}
-		else if(statisticType == Catalog.GetString("Simple"))
-		{
-			if(statisticApplyTo.Length == 0) {
-				Console.WriteLine("Simple-ret");
-				return false;
-			}
-			
-			if(statisticSubType != Catalog.GetString("No indexes")) 
-			{
-				string indexType = "";
-				if(statisticSubType == ieIndexFormula) {
-					indexType = "IE";
-				} else if(statisticSubType == iubIndexFormula) {
-					indexType = "IUB";
-				} else if(statisticSubType == fvIndexFormula) {
-					indexType = "F/V";
-				}
-				
-				if(indexType == "IE" || indexType == "IUB") {
-					if(graph) {
-						myStat = new GraphIeIub ( 
-								sendSelectedSessions, 
-								indexType,
-								prefsDigitsNumber, checkbutton_stats_sex.Active, 
-								statsJumpsType,
-								limit);
-						myStat.PrepareData();
-						myStat.CreateGraph();
-					} else {
-						myStat = new StatIeIub(treeview_stats, 
-								sendSelectedSessions,
-								indexType, 
-								prefsDigitsNumber, checkbutton_stats_sex.Active, 
-								statsJumpsType,
-								limit);
-						myStat.PrepareData();
-					}
-				} else {	//F/V
-					if(graph) {
-						myStat = new GraphFv ( 
-								sendSelectedSessions, 
-								indexType,
-								prefsDigitsNumber, checkbutton_stats_sex.Active, 
-								statsJumpsType,
-								limit);
-						myStat.PrepareData();
-						myStat.CreateGraph();
-					} else {
-						myStat = new StatFv(treeview_stats, 
-								sendSelectedSessions,
-								indexType, 
-								prefsDigitsNumber, checkbutton_stats_sex.Active, 
-								statsJumpsType,
-								limit);
-						myStat.PrepareData();
-					}
-				}
-			}
-			else {
-				JumpType myType = new JumpType(statisticApplyTo);
 
-				//manage all weight jumps and the "All jumps" (simple)
-				if(myType.HasWeight || 
-						statisticApplyTo == allJumpsName) 
-				{
-					if(graph) {
-						myStat = new GraphSjCmjAbkPlus ( 
-								sendSelectedSessions, 
-								prefsDigitsNumber, statisticApplyTo, 
-								checkbutton_stats_sex.Active, 
-								statsJumpsType,
-								limit,
-								weightStatsPercent, 
-								heightPreferred 
-								);
-						myStat.PrepareData();
-						myStat.CreateGraph();
-					} else {
-						myStat = new StatSjCmjAbkPlus (treeview_stats, 
-								sendSelectedSessions, 
-								prefsDigitsNumber, statisticApplyTo, 
-								checkbutton_stats_sex.Active, 
-								statsJumpsType,
-								limit,
-								weightStatsPercent, 
-								heightPreferred
-								);
-						myStat.PrepareData();
-					}
-				} else {
-					if(graph) {
-						myStat = new GraphSjCmjAbk ( 
-								sendSelectedSessions, 
-								prefsDigitsNumber, statisticApplyTo, 
-								checkbutton_stats_sex.Active, 
-								statsJumpsType,
-								limit,
-								heightPreferred
-								);
-						myStat.PrepareData();
-						myStat.CreateGraph();
-					} else {
-						myStat = new StatSjCmjAbk (treeview_stats, 
-								sendSelectedSessions, 
-								prefsDigitsNumber, statisticApplyTo, 
-								checkbutton_stats_sex.Active, 
-								statsJumpsType,
-								limit,
-								heightPreferred
-								);
-						myStat.PrepareData();
-					}
-				}
-			}
-		}
-		else if(statisticType == Catalog.GetString("With TC"))
-		{
-			if(statisticApplyTo.Length == 0) {
-				Console.WriteLine("WithTC-ret");
-				return false;
-			}
-			
-			if(statisticSubType == djIndexFormula)
-			{
-				if(graph) {
-					myStat = new GraphDjIndex ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit//,
-							//heightPreferred
-							);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatDjIndex(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							checkbutton_stats_sex.Active,
-							statsJumpsType,
-							limit//, 
-							//heightPreferred
-							);
-					myStat.PrepareData();
-				}
-			} else if(statisticSubType == qIndexFormula)
-			{
-				if(graph) {
-					myStat = new GraphDjQ ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit//,
-							//heightPreferred
-							);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatDjQ(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							checkbutton_stats_sex.Active,
-							statsJumpsType,
-							limit//, 
-							//heightPreferred
-							);
-					myStat.PrepareData();
-				}
-			}
-		}
-		else if(statisticType == Catalog.GetString("Reactive")) {
-			if(statisticSubType == Catalog.GetString("Average Index"))
-			{
-				if(graph) {
-					myStat = new GraphRjIndex ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatRjIndex(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							checkbutton_stats_sex.Active,
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-				}
-			}	
-			else if(statisticSubType == Catalog.GetString("POTENCY (Bosco)"))
-			{
-				if(graph) {
-					myStat = new GraphRjPotencyBosco ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatRjPotencyBosco(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-				}
-			}
-			else if(statisticSubType == Catalog.GetString("Evolution"))
-			{
-				if(graph) {
-					myStat = new GraphRjEvolution ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-					myStat.CreateGraph();
-				} else {
-					myStat = new StatRjEvolution(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							checkbutton_stats_sex.Active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-				}
-			}
-		}
-
+		/*
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(myStat.ToString());
 		textview_enunciate.Buffer = tb;
 
 		//all was fine
-		return true;
+		*/
+		if(allFine) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	
@@ -877,16 +608,23 @@ public class StatsWindow {
 			if(statisticApplyTo.Length == 0) {
 				statisticApplyTo = "-";
 			}
-		
+	
+			/*
 			string sessionsAsAString = "";
 			if (radiobutton_current_session.Active) {
-				sessionsAsAString = (currentSession.Name + "[" + currentSession.UniqueID + "]"); 
+				//sessionsAsAString = (currentSession.Name + "[" + currentSession.UniqueID + "]"); 
+				sessionsAsAString = (currentSession.UniqueID + ":" + currentSession.Name ); 
 			} else if (radiobutton_selected_sessions.Active) {
 				for (int i=0; i < selectedSessions.Count ; i++) {
+					if(i>0) {
+						sessionsAsAString += "\n";
+					}
 					string [] myStrFull = selectedSessions[i].ToString().Split(new char[] {':'});
-					sessionsAsAString += myStrFull[1] + "[" + myStrFull[0] + "] ";
+					//sessionsAsAString += myStrFull[1] + "[" + myStrFull[0] + "] ";
+					sessionsAsAString += myStrFull[0] + ":" + myStrFull[1];
 				}
 			}
+			*/
 
 		
 			string statsShowJumps = "";
@@ -909,7 +647,8 @@ public class StatsWindow {
 			reportWin = ReportWindow.Show(parent, report);
 			//add current stat
 			reportWin.Add(statisticType, statisticSubType, statisticApplyTo, 
-					sessionsAsAString, statsShowJumps, showSex.ToString());
+					//sessionsAsAString, statsShowJumps, showSex.ToString());
+					sendSelectedSessions, statsShowJumps, showSex.ToString());
 					
 		}
 		

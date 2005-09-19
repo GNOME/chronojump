@@ -28,6 +28,7 @@ using NPlot.Gtk;
 using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO; 	//TextWriter
 
 /* ------------ CLASS HERENCY MAP ---------
  *
@@ -91,7 +92,28 @@ public class Stat
 		prepareHeaders(columnsString);
 	}
 
-	protected virtual void completeConstruction (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType)
+	protected void completeConstruction (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview)
+	{
+		this.sessions = myStatTypeStruct.SendSelectedSessions;
+		pDN = myStatTypeStruct.PrefsDigitsNumber;
+		this.showSex = myStatTypeStruct.Sex_active;
+		this.statsJumpsType = myStatTypeStruct.StatsJumpsType;
+		this.heightPreferred = myStatTypeStruct.HeightPreferred;
+		this.statsJumpsType = myStatTypeStruct.StatsJumpsType;
+		this.limit = myStatTypeStruct.Limit;
+		this.jumpType = myStatTypeStruct.StatisticApplyTo;
+		this.toReport = myStatTypeStruct.ToReport;
+		
+		this.treeview = treeview;
+		
+		//initialize reportString
+		reportString = "";
+
+		iter = new TreeIter();
+	}
+	
+	//this method will disappear
+	protected void completeConstruction (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType)
 	{
 		this.sessions = sessions;
 		this.treeview = treeview;
@@ -104,8 +126,8 @@ public class Stat
 
 		iter = new TreeIter();
 	}
-
-	protected virtual void prepareHeaders(string [] columnsString) 
+		
+	protected void prepareHeaders(string [] columnsString) 
 	{
 		treeview.HeadersVisible=true;
 		treeview.AppendColumn (Catalog.GetString(columnsString[0]), new CellRendererText(), "text", 0);
@@ -131,6 +153,36 @@ public class Stat
 				treeview.AppendColumn (columnsString[i], new CellRendererText(), "text", i);
 			}
 		}
+	}
+	
+	protected string prepareHeadersReport(string [] columnsString) 
+	{
+		string myHeaderString = "";
+		myHeaderString += "<TABLE BORDER=\"1\">\n";
+		myHeaderString += "<TR><TH>" + Catalog.GetString(columnsString[0]) + "</TH>";
+		
+		if(sessions.Count > 1) {
+			string [] stringFullResults;
+			for (int i=0; i < sessions.Count ; i++) {
+				stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+				
+				myHeaderString += "<TH>" + stringFullResults[1] + "\n" + 
+					stringFullResults[2] + "\n" + Catalog.GetString(columnsString[1]) + "</TH>"; //name, date, col name
+			}
+			//if multisession, add AVG and SD cols
+			myHeaderString += "<TH>" + Catalog.GetString("AVG") + "</TH>";
+			myHeaderString += "<TH>" + Catalog.GetString("SD") + "</TH>";
+		} else {
+			for(int i=1 ; i <= dataColumns ; i++) {
+				myHeaderString += "<TH>" + columnsString[i] + "</TH>";
+			}
+		}
+		myHeaderString += "</TR>\n";
+
+		//copy to reportString variable
+		//reportString = myHeaderString;
+	
+		return myHeaderString;
 	}
 	
 	protected TreeStore getStore (int columns)
@@ -430,60 +482,79 @@ public class Stat
 	//has to be static
 	protected static ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
 	
-	public virtual void CreateGraph () 
+
+	public void CreateGraph () 
 	{
+		//only graph if there's data
+		if(CurrentGraphData.XAxisNames.Count == 0) {
+			return;
+		}
+		
 		int x = 400;
 		int y= 300;
 
-		if(toReport) {
-			NPlot.PlotSurface2D plot = new NPlot.PlotSurface2D ();
-			Bitmap b = new Bitmap (x, y);
-			Graphics g = Graphics.FromImage (b);
-			g.FillRectangle  (Brushes.White, 0, 0, x, y);
-			Rectangle bounds = new Rectangle (0, 0, x, y);
+		Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
 
-			//create plot (same as below)
-			plot.Clear();
-			plot.Title = CurrentGraphData.GraphTitle;
-			plotGraphGraphSeries (plot, 
-					CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
-					GraphSeries);
-			createAxisGraphSeries (plot, CurrentGraphData);
+		w.SetDefaultSize (x, y);
+		NPlot.Gtk.PlotSurface2D plot = new NPlot.Gtk.PlotSurface2D ();
 
-			writeLegend(plot);
-			plot.Add( new Grid() );
+		//create plot (same as below)
+		plot.Clear();
+		plot.Title = CurrentGraphData.GraphTitle;
+		plotGraphGraphSeries (plot, 
+				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
+				GraphSeries);
+		createAxisGraphSeries (plot, CurrentGraphData);
 
-			//save to file
-			plot.Draw (g, bounds);
-			b.Save ("graph_prova.png", ImageFormat.Png);
-		} else {
-			Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
+		writeLegend(plot);
+		plot.Add( new Grid() );
 
-			w.SetDefaultSize (x, y);
-			NPlot.Gtk.PlotSurface2D plot = new NPlot.Gtk.PlotSurface2D ();
-			
-			//create plot (same as above)
-			plot.Clear();
-			plot.Title = CurrentGraphData.GraphTitle;
-			plotGraphGraphSeries (plot, 
-					CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
-					GraphSeries);
-			createAxisGraphSeries (plot, CurrentGraphData);
+		//put in window
+		//fixes a gtk# garbage collecting bug
+		onlyUsefulForNotBeingGarbageCollected.Add(plot);
 
-			writeLegend(plot);
-			plot.Add( new Grid() );
-
-			//put in window
-			//fixes a gtk# garbage collecting bug
-			onlyUsefulForNotBeingGarbageCollected.Add(plot);
-
-			plot.Show ();
-			w.Add (plot);
-			w.ShowAll ();
-		}
+		plot.Show ();
+		w.Add (plot);
+		w.ShowAll ();
 	}
 
+	public bool CreateGraph (string fileName) 
+	{
+		//only graph if there's data
+		if(CurrentGraphData.XAxisNames.Count == 0) {
+			return false;
+		}
+		
+		int x = 400;
+		int y= 300;
 
+		NPlot.PlotSurface2D plot = new NPlot.PlotSurface2D ();
+		Bitmap b = new Bitmap (x, y);
+		Graphics g = Graphics.FromImage (b);
+		g.FillRectangle  (Brushes.White, 0, 0, x, y);
+		Rectangle bounds = new Rectangle (0, 0, x, y);
+
+		//create plot (same as above)
+		plot.Clear();
+		plot.Title = CurrentGraphData.GraphTitle;
+		plotGraphGraphSeries (plot, 
+				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
+				GraphSeries);
+		createAxisGraphSeries (plot, CurrentGraphData);
+
+		writeLegend(plot);
+		plot.Add( new Grid() );
+
+		//save to file
+		plot.Draw (g, bounds);
+		string directoryName = Util.GetReportDirectoryName(fileName);
+		string [] pngs = Directory.GetFiles(directoryName, "*.png");
+		//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
+		b.Save (directoryName + "/" + (pngs.Length +1).ToString() + ".png", ImageFormat.Png);
+
+		return true;
+	}
+			
 
 	/*
 	 * SAVED COMMENTED FOR HAVING A SAMPLE OF HISTOGRAMS

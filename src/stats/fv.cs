@@ -30,10 +30,11 @@ public class StatFv : StatIeIub
 	public StatFv () {
 	}
 
-	public StatFv (Gtk.TreeView treeview, ArrayList sessions, string indexType, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public StatFv (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview, string indexType)
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+
 		this.dataColumns = 3;	//for simplesession (FV, cmj, sj)
-		this.limit = limit;
 		this.indexType = indexType; // "FV"
 
 		jump1="SJ+";
@@ -45,14 +46,17 @@ public class StatFv : StatIeIub
 			store = getStore(dataColumns +1); //jumper, FV, cmj, sj
 		}
 		
-		treeview.Model = store;
-
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 		columnsString[0] = Catalog.GetString("Jumper");
 		columnsString[1] = indexType;
 		columnsString[2] = jump1 + " (" + Catalog.GetString("height") + ")";
 		columnsString[3] = jump2 + " (" + Catalog.GetString("height") + ")";
-		prepareHeaders(columnsString);
+		
+		if(toReport) {
+			reportString = prepareHeadersReport(columnsString);
+		} else {
+			treeview.Model = store;
+			prepareHeaders(columnsString);
+		}
 	}
 	
 	
@@ -92,6 +96,10 @@ public class StatFv : StatIeIub
 		
 	public override string ToString () 
 	{
-		return "pending";
+		if(toReport) {
+			return reportString + "</TABLE></p>\n";
+		} else { 
+			return "pending";
+		}
 	}
 }

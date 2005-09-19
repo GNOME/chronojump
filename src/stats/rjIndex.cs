@@ -42,11 +42,11 @@ public class StatRjIndex : Stat
 		this.limit = 0;
 	}
 
-	public StatRjIndex (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public StatRjIndex (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview) 
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		this.dataColumns = 4;	//for simplesession (index, tv (avg), tc (avg), fall)
-		this.jumpType = jumpType;
-		this.limit = limit;
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
@@ -54,10 +54,12 @@ public class StatRjIndex : Stat
 			store = getStore(dataColumns +1); //jumper, index, tv(avg), tc(avg), fall
 		}
 		
-		treeview.Model = store;
-
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		prepareHeaders(columnsString);
+		if(toReport) {
+			reportString = prepareHeadersReport(columnsString);
+		} else {
+			treeview.Model = store;
+			prepareHeaders(columnsString);
+		}
 	}
 	
 	public override void PrepareData() 
@@ -108,7 +110,11 @@ public class StatRjIndex : Stat
 		
 	public override string ToString () 
 	{
-		return "pending";
+		if(toReport) {
+			return reportString + "</TABLE></p>\n";
+		} else { 
+			return "pending";
+		}
 	}
 }
 

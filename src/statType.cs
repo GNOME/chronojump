@@ -25,6 +25,36 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.IO; 	//TextWriter
 
+//the onbly purpose of this class is to pass parameters nicer between statType and stat and graphs constructors
+public class StatTypeStruct 
+{
+	public string StatisticApplyTo;
+	public ArrayList SendSelectedSessions;
+	public int PrefsDigitsNumber;
+	public bool Sex_active;
+	public int StatsJumpsType;
+	public int Limit;
+	public bool HeightPreferred;
+	public bool WeightStatsPercent; 
+	public bool ToReport;
+	
+	public StatTypeStruct (string statisticApplyTo, 
+			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
+			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			bool toReport)
+	{
+		this.StatisticApplyTo = statisticApplyTo;
+		this.SendSelectedSessions =  sendSelectedSessions;
+		this.PrefsDigitsNumber =  prefsDigitsNumber;
+		this.Sex_active = sex_active;
+		this.StatsJumpsType = statsJumpsType;
+		this.Limit = limit;
+		this.HeightPreferred = heightPreferred;
+		this.WeightStatsPercent = weightStatsPercent;
+		this.ToReport = toReport;
+	}
+}
+
 public class StatType {
 
 	string statisticType;
@@ -41,6 +71,7 @@ public class StatType {
 	bool graph;
 	bool toReport;
 	TextWriter writer;
+	string fileName;
 	
 	Stat myStat; 
 	//Report myReport; 
@@ -54,6 +85,7 @@ public class StatType {
 	
 	string allJumpsName = Catalog.GetString("All jumps");
 	
+	StatTypeStruct myStatTypeStruct;
 	
 	//comes from gui/stats.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo, Gtk.TreeView treeview_stats,
@@ -61,6 +93,7 @@ public class StatType {
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
 			bool graph, bool toReport)
 	{
+		//some of this will disappear when we use myStatTypeStruct in all classes:
 		this.statisticType = statisticType;
 		this.statisticSubType = statisticSubType;
 		this.statisticApplyTo = statisticApplyTo;
@@ -74,6 +107,12 @@ public class StatType {
 		this.weightStatsPercent = weightStatsPercent;
 		this.graph = graph;
 		this.toReport = toReport;
+	
+		myStatTypeStruct = new StatTypeStruct (
+				statisticApplyTo,
+				sendSelectedSessions, prefsDigitsNumber, sex_active, 
+				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
+				 toReport);
 
 		myStat = new Stat(); //create and instance of myStat
 	}
@@ -82,12 +121,11 @@ public class StatType {
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			bool graph, bool toReport, TextWriter writer)
+			bool graph, bool toReport, TextWriter writer, string fileName)
 	{
 		this.statisticType = statisticType;
 		this.statisticSubType = statisticSubType;
 		this.statisticApplyTo = statisticApplyTo;
-		this.treeview_stats = treeview_stats ;
 		this.sendSelectedSessions =  sendSelectedSessions;
 		this.prefsDigitsNumber =  prefsDigitsNumber;
 		this.sex_active = sex_active;
@@ -98,6 +136,13 @@ public class StatType {
 		this.graph = graph;
 		this.toReport = toReport;
 		this.writer = writer;
+		this.fileName = fileName;
+		
+		myStatTypeStruct = new StatTypeStruct (
+				statisticApplyTo,
+				sendSelectedSessions, prefsDigitsNumber, sex_active, 
+				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
+				 toReport);
 
 		myStat = new Stat(); //create and instance of myStat
 	}
@@ -110,22 +155,9 @@ public class StatType {
 			int jumperID = -1; //all jumpers
 			string jumperName = ""; //all jumpers
 			if(graph) {
-				myStat = new GraphGlobal(
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, sex_active,  
-						statsJumpsType, heightPreferred 
-						);
-				myStat.PrepareData();
-				myStat.CreateGraph();
+				myStat = new GraphGlobal(myStatTypeStruct, jumperID, jumperName);
 			} else {
-				myStat = new StatGlobal(treeview_stats, 
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, sex_active,  
-						statsJumpsType, heightPreferred 
-						);
-				myStat.PrepareData();
+				myStat = new StatGlobal(myStatTypeStruct, treeview_stats, jumperID, jumperName);
 			}
 		}
 		else if (statisticType == Catalog.GetString("Jumper"))
@@ -141,23 +173,11 @@ public class StatType {
 			
 			string jumperName = Util.FetchName(statisticApplyTo);
 			if(graph) {
-				myStat = new GraphGlobal(
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, sex_active,  
-						statsJumpsType, heightPreferred 
-						);
-				myStat.PrepareData();
-				myStat.CreateGraph();
+				myStat = new GraphGlobal(myStatTypeStruct, jumperID, jumperName);
 			}
 			else {
-				myStat = new StatGlobal(treeview_stats, 
-						sendSelectedSessions, 
-						jumperID, jumperName, 
-						prefsDigitsNumber, sex_active,  
-						statsJumpsType, heightPreferred  
-						);
-				myStat.PrepareData();
+				myStat = new StatGlobal(myStatTypeStruct, treeview_stats, 
+						jumperID, jumperName);
 			}
 		}
 		else if(statisticType == Catalog.GetString("Simple"))
@@ -177,44 +197,18 @@ public class StatType {
 				} else if(statisticSubType == fvIndexFormula) {
 					indexType = "F/V";
 				}
-				
+			
 				if(indexType == "IE" || indexType == "IUB") {
 					if(graph) {
-						myStat = new GraphIeIub ( 
-								sendSelectedSessions, 
-								indexType,
-								prefsDigitsNumber, sex_active, 
-								statsJumpsType,
-								limit);
-						myStat.PrepareData();
-						myStat.CreateGraph();
+						myStat = new GraphIeIub (myStatTypeStruct, indexType);
 					} else {
-						myStat = new StatIeIub(treeview_stats, 
-								sendSelectedSessions,
-								indexType, 
-								prefsDigitsNumber, sex_active, 
-								statsJumpsType,
-								limit);
-						myStat.PrepareData();
+						myStat = new StatIeIub(myStatTypeStruct, treeview_stats, indexType); 
 					}
 				} else {	//F/V
 					if(graph) {
-						myStat = new GraphFv ( 
-								sendSelectedSessions, 
-								indexType,
-								prefsDigitsNumber, sex_active, 
-								statsJumpsType,
-								limit);
-						myStat.PrepareData();
-						myStat.CreateGraph();
+						myStat = new GraphFv (myStatTypeStruct, indexType);
 					} else {
-						myStat = new StatFv(treeview_stats, 
-								sendSelectedSessions,
-								indexType, 
-								prefsDigitsNumber, sex_active, 
-								statsJumpsType,
-								limit);
-						myStat.PrepareData();
+						myStat = new StatFv(myStatTypeStruct, treeview_stats, indexType); 
 					}
 				}
 			}
@@ -226,79 +220,15 @@ public class StatType {
 						statisticApplyTo == allJumpsName) 
 				{
 					if(graph) {
-						myStat = new GraphSjCmjAbkPlus ( 
-								sendSelectedSessions, 
-								prefsDigitsNumber, statisticApplyTo, 
-								sex_active, 
-								statsJumpsType,
-								limit,
-								weightStatsPercent, 
-								heightPreferred 
-								);
-						myStat.PrepareData();
-						myStat.CreateGraph();
+						myStat = new GraphSjCmjAbkPlus (myStatTypeStruct);
 					} else {
-						myStat = new StatSjCmjAbkPlus (treeview_stats, 
-								sendSelectedSessions, 
-								prefsDigitsNumber, statisticApplyTo, 
-								sex_active, 
-								statsJumpsType,
-								limit,
-								weightStatsPercent, 
-								heightPreferred
-								);
-						myStat.PrepareData();
+						myStat = new StatSjCmjAbkPlus (myStatTypeStruct, treeview_stats);
 					}
 				} else {
-					if(toReport) {
-						if(graph) {
-							/*
-							myStat = new GraphSjCmjAbk ( 
-									sendSelectedSessions, 
-									prefsDigitsNumber, statisticApplyTo, 
-									sex_active, 
-									statsJumpsType,
-									limit,
-									heightPreferred
-									);
-							myStat.PrepareData();
-							myStat.CreateGraph();
-							*/
-						} else {
-							myStat = new ReportSjCmjAbk (
-									sendSelectedSessions, 
-									prefsDigitsNumber, statisticApplyTo, 
-									sex_active, 
-									statsJumpsType,
-									limit,
-									heightPreferred
-									);
-							myStat.PrepareData();
-							writer.WriteLine(myStat.ToString());
-						}
+					if(graph) {
+						myStat = new GraphSjCmjAbk (myStatTypeStruct);
 					} else {
-						if(graph) {
-							myStat = new GraphSjCmjAbk ( 
-									sendSelectedSessions, 
-									prefsDigitsNumber, statisticApplyTo, 
-									sex_active, 
-									statsJumpsType,
-									limit,
-									heightPreferred
-									);
-							myStat.PrepareData();
-							myStat.CreateGraph();
-						} else {
-							myStat = new StatSjCmjAbk (treeview_stats, 
-									sendSelectedSessions, 
-									prefsDigitsNumber, statisticApplyTo, 
-									sex_active, 
-									statsJumpsType,
-									limit,
-									heightPreferred
-									);
-							myStat.PrepareData();
-						}
+						myStat = new StatSjCmjAbk (myStatTypeStruct, treeview_stats);
 					}
 				}
 			}
@@ -313,50 +243,20 @@ public class StatType {
 			if(statisticSubType == djIndexFormula)
 			{
 				if(graph) {
-					myStat = new GraphDjIndex ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							sex_active, 
-							statsJumpsType,
-							limit//,
-							//heightPreferred
-							);
-					myStat.PrepareData();
-					myStat.CreateGraph();
+					myStat = new GraphDjIndex (myStatTypeStruct);
+							//heightPreferred is not used, check this
 				} else {
-					myStat = new StatDjIndex(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							sex_active,
-							statsJumpsType,
-							limit//, 
-							//heightPreferred
-							);
-					myStat.PrepareData();
+					myStat = new StatDjIndex(myStatTypeStruct, treeview_stats);
+							//heightPreferred is not used, check this
 				}
 			} else if(statisticSubType == qIndexFormula)
 			{
 				if(graph) {
-					myStat = new GraphDjQ ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							sex_active, 
-							statsJumpsType,
-							limit//,
-							//heightPreferred
-							);
-					myStat.PrepareData();
-					myStat.CreateGraph();
+					myStat = new GraphDjQ (myStatTypeStruct);
+							//heightPreferred is not used, check this
 				} else {
-					myStat = new StatDjQ(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, statisticApplyTo, 
-							sex_active,
-							statsJumpsType,
-							limit//, 
-							//heightPreferred
-							);
-					myStat.PrepareData();
+					myStat = new StatDjQ(myStatTypeStruct, treeview_stats);
+							//heightPreferred is not used, check this
 				}
 			}
 		}
@@ -364,77 +264,54 @@ public class StatType {
 			if(statisticSubType == Catalog.GetString("Average Index"))
 			{
 				if(graph) {
-					myStat = new GraphRjIndex ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							sex_active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-					myStat.CreateGraph();
+					myStat = new GraphRjIndex (myStatTypeStruct);
 				} else {
-					myStat = new StatRjIndex(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							sex_active,
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
+					myStat = new StatRjIndex(myStatTypeStruct, treeview_stats);
 				}
 			}	
 			else if(statisticSubType == Catalog.GetString("POTENCY (Bosco)"))
 			{
 				if(graph) {
-					myStat = new GraphRjPotencyBosco ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							sex_active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-					myStat.CreateGraph();
+					myStat = new GraphRjPotencyBosco (myStatTypeStruct);
 				} else {
-					myStat = new StatRjPotencyBosco(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							sex_active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
+					myStat = new StatRjPotencyBosco(myStatTypeStruct, treeview_stats);
 				}
 			}
 			else if(statisticSubType == Catalog.GetString("Evolution"))
 			{
 				if(graph) {
-					myStat = new GraphRjEvolution ( 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							sex_active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
-					myStat.CreateGraph();
+					myStat = new GraphRjEvolution (myStatTypeStruct);
 				} else {
-					myStat = new StatRjEvolution(treeview_stats, 
-							sendSelectedSessions, 
-							prefsDigitsNumber, 
-							statisticApplyTo, 
-							sex_active, 
-							statsJumpsType,
-							limit);
-					myStat.PrepareData();
+					myStat = new StatRjEvolution(myStatTypeStruct, treeview_stats);
 				}
+			}
+		}
+				
+		myStat.PrepareData();
+
+		if(toReport) {
+			if(graph) {
+				bool notEmpty = myStat.CreateGraph(fileName);
+				if(notEmpty) { linkImage(fileName); }
+			} else {
+				writer.WriteLine(myStat.ToString());
+			}
+		} else {
+			if(graph) {
+				myStat.CreateGraph();
 			}
 		}
 
 		return true;
 	}
 	
+	void linkImage(string fileName) {
+		string directoryName = Util.GetReportDirectoryName(fileName);
+		
+		string [] pngs = Directory.GetFiles(directoryName, "*.png");
+		//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
+		writer.WriteLine("<img src=\"" + directoryName + "/" + pngs.Length.ToString() + ".png\">");
+	}
+	
 	~StatType() {}
 }
-

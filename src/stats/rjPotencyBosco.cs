@@ -44,11 +44,11 @@ public class StatRjPotencyBosco : Stat
 		this.limit = 0;
 	}
 
-	public StatRjPotencyBosco (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public StatRjPotencyBosco (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview) 
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		this.dataColumns = 6;	//for simplesession (index, tv (avg), tc (avg), jumps, time, fall)
-		this.jumpType = jumpType;
-		this.limit = limit;
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
@@ -56,10 +56,12 @@ public class StatRjPotencyBosco : Stat
 			store = getStore(dataColumns +1); //jumper, index, tv(avg), tc(avg), jumps, time, fall
 		}
 		
-		treeview.Model = store;
-
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		prepareHeaders(columnsString);
+		if(toReport) {
+			reportString = prepareHeadersReport(columnsString);
+		} else {
+			treeview.Model = store;
+			prepareHeaders(columnsString);
+		}
 	}
 	
 	public override void PrepareData() 
@@ -110,7 +112,11 @@ public class StatRjPotencyBosco : Stat
 		
 	public override string ToString () 
 	{
-		return "pending";
+		if(toReport) {
+			return reportString + "</TABLE></p>\n";
+		} else { 
+			return "pending";
+		}
 	}
 }
 

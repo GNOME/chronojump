@@ -40,16 +40,12 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 	GraphSerie serieTv;
 	GraphSerie serieWeight;
 	
-	public GraphSjCmjAbkPlus (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit, bool percent, bool heightPreferred) 
+	public GraphSjCmjAbkPlus (StatTypeStruct myStatTypeStruct)
 	{
-		this.dataColumns = 3; //for Simplesession
-		this.jumpType = jumpType;
-		this.limit = limit;
-		this.percent = percent;
-		this.heightPreferred = heightPreferred;
+		completeConstruction (myStatTypeStruct, treeview);
 		
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-	
+		this.dataColumns = 3; //for Simplesession
+		
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
 		} else {

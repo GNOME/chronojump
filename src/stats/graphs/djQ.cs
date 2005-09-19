@@ -41,14 +41,12 @@ public class GraphDjQ : StatDjQ
 	GraphSerie serieTv;
 	GraphSerie serieFall;
 
-	public GraphDjQ (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public GraphDjQ (StatTypeStruct myStatTypeStruct)
 	{
-		this.dataColumns = 5; //for Simplesession (index, height, tv, tc, fall)
-		this.jumpType = jumpType;
-		this.limit = limit;
+		completeConstruction (myStatTypeStruct, treeview);
 		
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-	
+		this.dataColumns = 5; //for Simplesession (index, height, tv, tc, fall)
+		
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
 		} else {

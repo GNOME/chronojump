@@ -242,5 +242,13 @@ public class Util
 		return initialSpeed.ToString();
 	}
 
+	public static string GetReportDirectoryName (string fileName) {
+		//gets exportfile.html or exportfile.htm and returns exportfile_files
+		int posOfDot = fileName.LastIndexOf('.');
+		string directoryName = fileName.Substring(0,posOfDot);
+		directoryName += "_files";
+		return directoryName;
+	}
+
 }
 

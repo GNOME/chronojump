@@ -37,12 +37,11 @@ public class StatSjCmjAbk : Stat
 		this.limit = 0;
 	}
 
-	public StatSjCmjAbk (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit, bool heightPreferred) 
+	public StatSjCmjAbk (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview) 
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		this.dataColumns = 2;	//for simplesession
-		this.jumpType = jumpType;
-		this.limit = limit;
-		this.heightPreferred = heightPreferred;
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
@@ -50,12 +49,15 @@ public class StatSjCmjAbk : Stat
 			store = getStore(dataColumns +1); //jumper, height, TV
 		}
 		
-		treeview.Model = store;
-
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 		string [] columnsString = { Catalog.GetString("Jump"), 
 			Catalog.GetString("Height"), Catalog.GetString("TV") };
-		prepareHeaders(columnsString);
+	
+		if(toReport) {
+			reportString = prepareHeadersReport(columnsString);
+		} else {
+			treeview.Model = store;
+			prepareHeaders(columnsString);
+		}
 	}
 
 	
@@ -100,29 +102,33 @@ public class StatSjCmjAbk : Stat
 		
 	public override string ToString () 
 	{
-		/*
-		string operationString = "";
-		//if ( this.operation == "MAX" ) { 
-		if ( statsJumpsType == 3 ) { 
+		if(toReport) {
+			return reportString + "</TABLE></p>\n";
+		} else { 
+			/*
+			   string operationString = "";
+			//if ( this.operation == "MAX" ) { 
+			if ( statsJumpsType == 3 ) { 
 			operationString =  Catalog.GetString ("by AVG flight time values "); 
-		}
-		else { operationString =  Catalog.GetString ("by MAX flight time values "); 
-		}
+			}
+			else { operationString =  Catalog.GetString ("by MAX flight time values "); 
+			}
 
-		string inJump =  Catalog.GetString (" in ") + jumpType +  Catalog.GetString (" jump ");
-		string inSession =  Catalog.GetString (" in '") + sessionName +  Catalog.GetString ("' session ");
+			string inJump =  Catalog.GetString (" in ") + jumpType +  Catalog.GetString (" jump ");
+			string inSession =  Catalog.GetString (" in '") + sessionName +  Catalog.GetString ("' session ");
 
-		string valuesString = "";
-		if ( this.limit != -1 ) {
+			string valuesString = "";
+			if ( this.limit != -1 ) {
 			valuesString = this.limit.ToString();
-		}
-			
-			
+			}
+
+
 			return  Catalog.GetString ("Selection of the ") + valuesString + 
-				 Catalog.GetString (" MAX values of flight time ") + inJump + inSession + "."; 
+			Catalog.GetString (" MAX values of flight time ") + inJump + inSession + "."; 
+			}
+			*/
+			return "pending";
 		}
-		*/
-		return "pending";
 	}
 
 }

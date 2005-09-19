@@ -282,6 +282,12 @@ public class ChronoJump
 		Console.WriteLine("AllJumpsName: {0}", allJumpsName);
 	
 		cpRunning = false;
+
+		report = new Report(-1); //when a session is loaded or created, it will change the report.SessionID value
+					//TODO: check what happens if a session it's deleted
+					//i suppose report it's deactivated until a new session is created or loaded, 
+					//but check what happens if report window is opened
+
 		loadPreferences ();
 
 		createTreeView_jumps(treeview_jumps);
@@ -295,11 +301,6 @@ public class ChronoJump
 		createComboRunsInterval();
 		createComboSujetoCurrent();
 		createdStatsWin = false;
-
-		report = new Report(-1); //when a session is loaded or created, it will change the report.SessionID value
-					//TODO: check what happens if a session it's deleted
-					//i suppose report it's deactivated until a new session is created or loaded, 
-					//but check what happens if report window is opened
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
@@ -397,6 +398,12 @@ public class ChronoJump
 		} else {
 			metersSecondsPreferred = false;
 		}
+	
+		//pass to report
+		report.PrefsDigitsNumber = prefsDigitsNumber;
+		report.HeightPreferred = heightPreferred;
+		report.WeightStatsPercent = weightStatsPercent;
+		
 		
 		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
 	}

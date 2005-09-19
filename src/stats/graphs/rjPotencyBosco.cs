@@ -44,14 +44,12 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 	GraphSerie serieFall;
 
 
-	public GraphRjPotencyBosco (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public GraphRjPotencyBosco (StatTypeStruct myStatTypeStruct)
 	{
-		this.dataColumns = 6; //for Simplesession (index, tv(avg), tc(avg), jumps, time, fall)
-		this.jumpType = jumpType;
-		this.limit = limit;
+		completeConstruction (myStatTypeStruct, treeview);
 		
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-	
+		this.dataColumns = 6; //for Simplesession (index, tv(avg), tc(avg), jumps, time, fall)
+		
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
 		} else {

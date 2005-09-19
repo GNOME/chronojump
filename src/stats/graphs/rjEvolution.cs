@@ -35,8 +35,10 @@ public class GraphRjEvolution : StatRjEvolution
 	protected string operation;
 	private Random myRand = new Random();
 
-	public GraphRjEvolution (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public GraphRjEvolution  (StatTypeStruct myStatTypeStruct)
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		string sessionString = obtainSessionSqlString(sessions);
 		//we need to know the reactive with more jumps for prepare columns
 		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
@@ -51,12 +53,6 @@ public class GraphRjEvolution : StatRjEvolution
 			CurrentGraphData.XAxisNames.Add((i+1).ToString());
 		}
 		
-		
-		this.jumpType = jumpType;
-		this.limit = limit;
-		
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-	
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
 		} else {

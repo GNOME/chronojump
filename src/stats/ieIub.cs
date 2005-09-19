@@ -40,10 +40,11 @@ public class StatIeIub : Stat
 		this.limit = 0;
 	}
 
-	public StatIeIub (Gtk.TreeView treeview, ArrayList sessions, string indexType, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public StatIeIub (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview, string indexType)
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		this.dataColumns = 3;	//for simplesession (IE, cmj, sj)
-		this.limit = limit;
 		this.indexType = indexType; //"IE" or "IUB" or "FV"
 
 		if(indexType == "IE") {
@@ -60,14 +61,17 @@ public class StatIeIub : Stat
 			store = getStore(dataColumns +1); //jumper, IE, cmj, sj
 		}
 		
-		treeview.Model = store;
-
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 		columnsString[0] = Catalog.GetString("Jumper");
 		columnsString[1] = indexType;
 		columnsString[2] = jump1;
 		columnsString[3] = jump2;
-		prepareHeaders(columnsString);
+		
+		if(toReport) {
+			reportString = prepareHeadersReport(columnsString);
+		} else {
+			treeview.Model = store;
+			prepareHeaders(columnsString);
+		}
 	}
 	
 	//session string must be different for indexes
@@ -120,6 +124,10 @@ public class StatIeIub : Stat
 		
 	public override string ToString () 
 	{
-		return "pending";
+		if(toReport) {
+			return reportString + "</TABLE></p>\n";
+		} else { 
+			return "pending";
+		}
 	}
 }

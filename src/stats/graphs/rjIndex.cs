@@ -42,13 +42,11 @@ public class GraphRjIndex : StatRjIndex
 	GraphSerie serieFall;
 
 
-	public GraphRjIndex (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public GraphRjIndex (StatTypeStruct myStatTypeStruct) 
 	{
-		this.dataColumns = 4; //for Simplesession (index, tv(avg), tc(avg), fall)
-		this.jumpType = jumpType;
-		this.limit = limit;
+		completeConstruction (myStatTypeStruct, treeview);
 		
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
+		this.dataColumns = 4; //for Simplesession (index, tv(avg), tc(avg), fall)
 	
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";

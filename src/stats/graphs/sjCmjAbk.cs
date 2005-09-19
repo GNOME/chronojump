@@ -39,15 +39,12 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 	GraphSerie serieHeight;
 	GraphSerie serieTv;
 	
-	public GraphSjCmjAbk (ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit, bool heightPreferred) 
+	public GraphSjCmjAbk (StatTypeStruct myStatTypeStruct)
 	{
-		this.dataColumns = 2; //for Simplesession
-		this.jumpType = jumpType;
-		this.limit = limit;
-		this.heightPreferred = heightPreferred;
+		completeConstruction (myStatTypeStruct, treeview);
 		
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-	
+		this.dataColumns = 2; //for Simplesession
+		
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
 		} else {

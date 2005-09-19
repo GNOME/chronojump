@@ -21,6 +21,7 @@
 
 using System;
 using System.Data;
+using System.IO;
 using System.Collections; //ArrayList
 using Gtk;
 using Glade;
@@ -37,8 +38,12 @@ public class Report : ExportSession
 	public bool ShowReactiveJumps;
 	public bool ShowSimpleRuns;
 	public bool ShowIntervalRuns;
+		
+	private int prefsDigitsNumber;
+	private bool heightPreferred;
+	private bool weightStatsPercent;
 
-	bool toFile = true;
+	bool toReport = true;
 
 	public ArrayList StatisticsData;
 	
@@ -94,11 +99,24 @@ public class Report : ExportSession
 	*/
 
 	public void PrepareFile () {
-		checkFile("none");
-		}
+		checkFile("report");
+	}
 
 	protected override void getData() 
 	{
+		//create directory fileName_files/
+		string directoryName = Util.GetReportDirectoryName(fileName);
+		if(!Directory.Exists(directoryName)) {
+			Directory.CreateDirectory (directoryName);
+		} else {
+			//if it exists before, delete all pngs
+			string [] pngs = Directory.GetFiles(directoryName, "*.png");
+			foreach(string myFile in pngs) {
+				File.Delete(myFile);
+			}
+		}
+
+		
 		//session stuff?
 
 
@@ -141,6 +159,9 @@ public class Report : ExportSession
 		if (ShowIntervalRuns) {
 			printRunsInterval();
 		}
+		
+		printStats();
+		
 		printFooter();
 	}
 
@@ -159,61 +180,105 @@ public class Report : ExportSession
 
 	protected override void printJumps()
 	{
-		writer.WriteLine("<h2>Simple Jumps</h2>");
-
+		writer.WriteLine("<h2>Simple jumps</h2>");
+	}
+	
+	protected void printStats()
+	{
+		writer.WriteLine("<h2>Statitistics</h2>");
+		
 		//obtain every report stats one by one
 		for(int i=0; i < StatisticsData.Count ; i++) {
 			string [] strFull = StatisticsData[i].ToString().Split(new char[] {'\n'});
 			
-			if( strFull[0] == Catalog.GetString("Simple") ) {
-				
-				ArrayList sendSelectedSessions = new ArrayList(1);;
+			string myHeaderStat = "";
 
-				//separate in sessions
-				string [] sessionsStrFull = strFull[3].Split(new char[] {':'});
-				for (int j=0; j < sessionsStrFull.Length ; j++) {
-					Session mySession = SqliteSession.Select(sessionsStrFull[j]);
-					sendSelectedSessions.Add(mySession.UniqueID + ":" + mySession.Name + ":" + mySession.Date);
-				}
+			ArrayList sendSelectedSessions = new ArrayList(1);;
 
-				string applyTo = strFull[2];
-				//if( applyTo == Catalog.GetString("All Jumps") ) {
-				//	applyTo = "-1";
-				//}
-				
-				/*
-				ReportSjCmjAbk myReport = new ReportSjCmjAbk(
-						sendSelectedSessions,
-						4,			//prefsDigitsNumber
-						applyTo,		//applyTo (jumpType)
-						false, 			//showSex
-						3, 			//statsJumpType
-						2,			//limit
-						false			//heightPreferred
-						);
-				*/
-				
-						
-				StatType myStatType = new StatType(
-						strFull[0], 	//statisticType
-						strFull[1], 	//statisticSubType
-						strFull[2], 	//statisticApplyTo
-						sendSelectedSessions, 
-						4,		//prefsDigitsNumber
-						false, 		//checkbutton_stats_sex.Active
-						3,		//statsJumpsType
-						2, 		//limit
-						false, 		//heightPreferred
-						false, 		//weightStatsPercent
-						false, 		//graph
-						toFile,
-						writer
-						);
-
-				bool allFine = myStatType.ChooseStat();
-				
-				//writer.WriteLine(myReport.TableString);
+			//separate in sessions
+			string [] sessionsStrFull = strFull[3].Split(new char[] {':'});
+			for (int j=0; j < sessionsStrFull.Length ; j++) {
+				Session mySession = SqliteSession.Select(sessionsStrFull[j]);
+				sendSelectedSessions.Add(mySession.UniqueID + ":" + mySession.Name + ":" + mySession.Date);
 			}
+
+			string applyTo = strFull[2];
+			myHeaderStat += "<h3>" + applyTo + "</h3> ";
+
+			bool showSex = false;
+			if(strFull[5] == "True") {
+				showSex = true;
+			}
+
+			int statsJumpsType = 0;
+			int limit = -1;
+			string [] strJumpsType = strFull[4].ToString().Split(new char[] {'.'});
+			if(strJumpsType[0] == Catalog.GetString("All")) {
+				statsJumpsType = 0;
+			} else if(strJumpsType[0] == Catalog.GetString("Limit")) {
+				statsJumpsType = 1;
+				limit = Convert.ToInt32 ( strJumpsType[1] ); 
+			} else if(strJumpsType[0] == Catalog.GetString("Jumper's best")) {
+				statsJumpsType = 2;
+				limit = Convert.ToInt32 ( strJumpsType[1] ); 
+			} else if(strJumpsType[0] == Catalog.GetString("Jumper's average")) {
+				statsJumpsType = 3;
+			}
+
+			myHeaderStat += strJumpsType[0];
+			if(limit != -1) {
+				myHeaderStat += " (" + limit.ToString() + ")";
+			}
+
+			myHeaderStat += "\n<p><TABLE BORDER=\"0\"><tr><td>\n";
+			writer.WriteLine(myHeaderStat);
+
+			StatType myStatType;
+			bool allFine;
+			//report of stat
+
+			myStatType = new StatType(
+					strFull[0], 		//statisticType
+					strFull[1], 		//statisticSubType
+					strFull[2], 		//statisticApplyTo
+					sendSelectedSessions, 
+					prefsDigitsNumber,
+					showSex, 	
+					statsJumpsType,
+					limit, 	
+					heightPreferred,
+					weightStatsPercent,
+					false, 			//graph
+					toReport,
+					writer,
+					""
+					);
+
+			allFine = myStatType.ChooseStat();
+
+			writer.WriteLine("</td><td>");
+
+			//report of graph
+			myStatType = new StatType(
+					strFull[0], 		//statisticType
+					strFull[1], 		//statisticSubType
+					strFull[2], 		//statisticApplyTo
+					sendSelectedSessions, 
+					prefsDigitsNumber,
+					showSex, 	
+					statsJumpsType,
+					limit, 	
+					heightPreferred,
+					weightStatsPercent,
+					true, 			//graph
+					toReport,
+					writer,
+					fileName		//fileName for exporting there
+					);
+
+			allFine = myStatType.ChooseStat();
+
+			writer.WriteLine("</table>");
 		}
 	}
 
@@ -241,6 +306,19 @@ public class Report : ExportSession
 	public int SessionID {
 		set { sessionID = value; }
 	}
+	
+	public int PrefsDigitsNumber {
+		set { prefsDigitsNumber = value; }
+	}
+	
+	public bool HeightPreferred {
+		set { heightPreferred = value; }
+	}
+	
+	public bool WeightStatsPercent {
+		set { weightStatsPercent = value; }
+	}
+	
 	
 	~Report() {}
 	   

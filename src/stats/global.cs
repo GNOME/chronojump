@@ -35,22 +35,28 @@ public class StatGlobal : Stat
 	{
 	}
 
-	public StatGlobal (Gtk.TreeView treeview, ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, bool heightPreferred) 
+	public StatGlobal (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview, int personID, string personName) 
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for the statName, the AVG horizontal and SD horizontal
 		} else {
 			store = getStore(sessions.Count +1);
 		}
-		treeview.Model = store;
 		
 		this.personID = personID;
 		this.personName = personName;
-		this.heightPreferred = heightPreferred;
+		//this.heightPreferred = heightPreferred;
 		
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 		string [] columnsString = { Catalog.GetString("Jump"), Catalog.GetString("Value") };
-		prepareHeaders(columnsString);
+		
+		if(toReport) {
+			reportString = prepareHeadersReport(columnsString);
+		} else {
+			treeview.Model = store;
+			prepareHeaders(columnsString);
+		}
 		
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
@@ -116,31 +122,35 @@ public class StatGlobal : Stat
 
 	public override string ToString () 
 	{
-		/*
-		string personString = "";
-		if (personID != -1) {
-			personString = Catalog.GetString(" of '") + personName + Catalog.GetString("' jumper");
-		}
-			
-		string showSexString = "";
-		if (this.showSex) { showSexString = " " + Catalog.GetString("sorted by sex"); }
-		
-		string inSessions = Catalog.GetString(" in sessions: ");
-		for (int i=0; i < sessions.Count ;i++) {
-			string [] str = sessions[i].ToString().Split(new char[] {':'});
-			inSessions = inSessions + "'" + str[1] + "' (" + str[2] + ")";
-			if(i + 1 < sessions.Count) {
-				inSessions = inSessions + ", ";
-			}
-		}
-	
-		if ( this.operation == "MAX" ) { 
-			return Catalog.GetString("MAX values of some jumps and statistics") + personString + inSessions + showSexString + "."  ; 
-		} else {
-			return Catalog.GetString("AVG values of some jumps and statistics") + personString + inSessions + showSexString + "."  ; 
-		}
-		*/
+		if(toReport) {
+			return reportString + "</TABLE></p>\n";
+		} else { 
+			/*
+			   string personString = "";
+			   if (personID != -1) {
+			   personString = Catalog.GetString(" of '") + personName + Catalog.GetString("' jumper");
+			   }
 
-		return "pending";
+			   string showSexString = "";
+			   if (this.showSex) { showSexString = " " + Catalog.GetString("sorted by sex"); }
+
+			   string inSessions = Catalog.GetString(" in sessions: ");
+			   for (int i=0; i < sessions.Count ;i++) {
+			   string [] str = sessions[i].ToString().Split(new char[] {':'});
+			   inSessions = inSessions + "'" + str[1] + "' (" + str[2] + ")";
+			   if(i + 1 < sessions.Count) {
+			   inSessions = inSessions + ", ";
+			   }
+			   }
+
+			   if ( this.operation == "MAX" ) { 
+			   return Catalog.GetString("MAX values of some jumps and statistics") + personString + inSessions + showSexString + "."  ; 
+			   } else {
+			   return Catalog.GetString("AVG values of some jumps and statistics") + personString + inSessions + showSexString + "."  ; 
+			   }
+			   */
+
+			return "pending";
+		}
 	}
 }

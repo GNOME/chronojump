@@ -38,16 +38,15 @@ public class GraphGlobal : StatGlobal
 	GraphSerie serieIndex;
 	GraphSerie serieTv;
 
-	
-	public GraphGlobal (ArrayList sessions, int personID, string personName, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, bool heightPreferred) 
+	public GraphGlobal (StatTypeStruct myStatTypeStruct, int personID, string personName) 
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		this.dataColumns = 1; //for Simplesession
 		this.personID = personID;
 		this.personName = personName;
-		this.heightPreferred = heightPreferred;
+		//this.heightPreferred = heightPreferred;
 		
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-	
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
 		} else {

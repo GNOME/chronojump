@@ -43,11 +43,11 @@ public class StatDjQ : Stat
 		this.limit = 0;
 	}
 
-	public StatDjQ (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public StatDjQ (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview) 
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		this.dataColumns = 5;	//for simplesession (index, height, tv, tc, fall)
-		this.jumpType = jumpType;
-		this.limit = limit;
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
@@ -55,10 +55,12 @@ public class StatDjQ : Stat
 			store = getStore(dataColumns +1); //jumper, index, height, tv, tc, fall
 		}
 		
-		treeview.Model = store;
-
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		prepareHeaders(columnsString);
+		if(toReport) {
+			reportString = prepareHeadersReport(columnsString);
+		} else {
+			treeview.Model = store;
+			prepareHeaders(columnsString);
+		}
 	}
 	
 	public override void PrepareData() 
@@ -106,7 +108,11 @@ public class StatDjQ : Stat
 		
 	public override string ToString () 
 	{
-		return "pending";
+		if(toReport) {
+			return reportString + "</TABLE></p>\n";
+		} else { 
+			return "pending";
+		}
 	}
 }
 

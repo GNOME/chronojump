@@ -51,7 +51,14 @@ public class ExportSession
 
 	protected void checkFile (string formatFile)
 	{
-		string exportString = Catalog.GetString ("Export session in " + formatFile + " format");
+		string exportString = "";
+		if(formatFile == "report") {
+			exportString = Catalog.GetString ("Save report in ");
+		} else {
+			exportString = Catalog.GetString ("Export session in " + formatFile + " format");
+		}
+
+			
 		FileSelection fs = new FileSelection (exportString);
 		fs.SelectMultiple = false;
 
@@ -65,6 +72,9 @@ public class ExportSession
 
 		fileName = fs.Filename;
 		fs.Hide ();
+
+		//add ".html" if needed, remember that on windows should be .htm
+		fileName = addHtmlIfNeeded(fileName);
 
 		try {
 			if (File.Exists(fileName)) {
@@ -93,6 +103,16 @@ public class ExportSession
 		getData();
 		printData();
 		closeWriter();
+	}
+		
+	//remember on windows should be .htm
+	private string addHtmlIfNeeded(string myFile)
+	{
+		int posOfDot = myFile.LastIndexOf('.');
+		if (posOfDot == -1) {
+			myFile += ".html";
+		}
+		return myFile;
 	}
 	
 	protected virtual void getData() 

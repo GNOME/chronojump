@@ -40,16 +40,18 @@ public class GraphFv : StatFv
 	GraphSerie serieJump1;
 	GraphSerie serieJump2;
 
-	public GraphFv (ArrayList sessions, string indexType, int newPrefsDigitsNumber, bool showSex, int statsJumpsType, int limit) 
+	public GraphFv  (StatTypeStruct myStatTypeStruct, string indexType)
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		this.dataColumns = 3; //for Simplesession (index, jump1, jump2)
-		this.jumpType = jumpType;
-		this.limit = limit;
+		//this.jumpType = jumpType;
+		//this.limit = limit;
 		
 		jump1="SJ+";
 		jump2="SJ";
 	
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
+		//completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
 	
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";

@@ -38,16 +38,16 @@ public class StatRjEvolution : Stat
 		this.limit = 0;
 	}
 
-	public StatRjEvolution (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, string jumpType, bool showSex, int statsJumpsType, int limit) 
+	public StatRjEvolution (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview) 
 	{
+		completeConstruction (myStatTypeStruct, treeview);
+		
 		string sessionString = obtainSessionSqlString(sessions);
 
 		//we need to know the reactive with more jumps for prepare columns
 		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
 		this.dataColumns = maxJumps*2 + 2;	//for simplesession (index, (tv , tc)*jumps, fall)
-		this.jumpType = jumpType;
-		this.limit = limit;
 
 		//only simplesession
 		store = getStore(dataColumns +1); //jumper, datacolumns 
@@ -61,11 +61,12 @@ public class StatRjEvolution : Stat
 		}
 		columnsString[i*2 +2] = Catalog.GetString("Fall");
 		
-		treeview.Model = store;
-
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-
-		prepareHeaders(columnsString);
+		if(toReport) {
+			reportString = prepareHeadersReport(columnsString);
+		} else {
+			treeview.Model = store;
+			prepareHeaders(columnsString);
+		}
 	}
 	
 	public override void PrepareData() 
@@ -97,7 +98,11 @@ public class StatRjEvolution : Stat
 		
 	public override string ToString () 
 	{
-		return "pending";
+		if(toReport) {
+			return reportString + "</TABLE></p>\n";
+		} else { 
+			return "pending";
+		}
 	}
 }
 

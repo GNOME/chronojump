@@ -1,5 +1,16 @@
 CHANGELOG:
 
+19 set 2005
+	report of all stats and graphs done (TODO: improve graph size and info
+	to user included in HTML) (task 295 at 90%)
+	
+	report: images save in correct directory and are linked in html
+
+	cleaning StatType (added StatTypeStruct, affects all stats and graphs
+	classes)
+	
+	fixed bug: program crashed when graphing an empty stat (report or not)
+
 16 set 2005
 	more code for report:
 	1.- new file src/statType.cs (statType class), now gui/stats.cs and report.cs create needed stat and call to prepareData and CreateGraph if needed

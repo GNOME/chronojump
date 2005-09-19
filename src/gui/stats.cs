@@ -316,7 +316,7 @@ public class StatsWindow {
 		int limit = -1;
 		if (radiobutton_stats_jumps_all.Active) {
 			statsJumpsType = 0;
-			limit = -1; //FIXME: this changed form 0 to -1, check problems in stats.cs
+			limit = -1;
 		} else if (radiobutton_stats_jumps_limit.Active) {
 			statsJumpsType = 1;
 			limit = Convert.ToInt32 ( spin_stats_jumps_limit.Value ); 
@@ -325,7 +325,7 @@ public class StatsWindow {
 			limit = Convert.ToInt32 ( spin_stats_jumps_person_bests.Value ); 
 		} else {
 			statsJumpsType = 3;
-			limit = -1; //FIXME: this changed form 0 to -1, check problems in stats.cs
+			limit = -1;
 		}
 
 		//we use sendSelectedSessions for not losing selectedSessions ArrayList 
@@ -609,31 +609,15 @@ public class StatsWindow {
 				statisticApplyTo = "-";
 			}
 	
-			/*
-			string sessionsAsAString = "";
-			if (radiobutton_current_session.Active) {
-				//sessionsAsAString = (currentSession.Name + "[" + currentSession.UniqueID + "]"); 
-				sessionsAsAString = (currentSession.UniqueID + ":" + currentSession.Name ); 
-			} else if (radiobutton_selected_sessions.Active) {
-				for (int i=0; i < selectedSessions.Count ; i++) {
-					if(i>0) {
-						sessionsAsAString += "\n";
-					}
-					string [] myStrFull = selectedSessions[i].ToString().Split(new char[] {':'});
-					//sessionsAsAString += myStrFull[1] + "[" + myStrFull[0] + "] ";
-					sessionsAsAString += myStrFull[0] + ":" + myStrFull[1];
-				}
-			}
-			*/
-
-		
 			string statsShowJumps = "";
 			if (radiobutton_stats_jumps_all.Active) {
 				statsShowJumps = Catalog.GetString("All");
 			} else if (radiobutton_stats_jumps_limit.Active) {
-				statsShowJumps = Catalog.GetString("Limit") + " " + spin_stats_jumps_limit.Value.ToString(); 
+				statsShowJumps = Catalog.GetString("Limit") + "." + 
+					spin_stats_jumps_limit.Value.ToString(); 
 			} else if (radiobutton_stats_jumps_person_bests.Active) {
-				statsShowJumps = Catalog.GetString("Jumper's best") + " " + spin_stats_jumps_person_bests.Value.ToString(); 
+				statsShowJumps = Catalog.GetString("Jumper's best") + "." + 
+					spin_stats_jumps_person_bests.Value.ToString(); 
 			} else {
 				statsShowJumps = Catalog.GetString("Jumper's average");
 			}

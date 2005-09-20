@@ -25,7 +25,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using Gnome;
-using System.Collections; //ArrayList
+//using System.Collections; //ArrayList
 
 
 public class ChronoJump 
@@ -1284,6 +1284,11 @@ public class ChronoJump
 			
 			statsWin.FillTreeView_stats(false, true);
 		}
+		
+		//pass to report
+		report.PrefsDigitsNumber = prefsDigitsNumber;
+		report.HeightPreferred = heightPreferred;
+		report.WeightStatsPercent = weightStatsPercent;
 	}
 	
 	private void on_cancel_clicked (object o, EventArgs args) 

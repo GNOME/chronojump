@@ -7381,7 +7381,7 @@ options</property>
   <property name="border_width">10</property>
   <property name="height_request">480</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Statistics</property>
+  <property name="title" translatable="yes">Chronojump Statistics window</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -11524,10 +11524,10 @@ If you need more, just repeat the operation later</property>
 
 <widget class="GtkWindow" id="report_window">
   <property name="border_width">10</property>
-  <property name="width_request">400</property>
+  <property name="width_request">550</property>
   <property name="height_request">420</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">Make report</property>
+  <property name="title" translatable="yes">Chronojump Report window</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

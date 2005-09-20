@@ -59,7 +59,7 @@ public class Report : ExportSession
 
 		StatisticsData = new ArrayList(2);
 		
-		//createIniStatisticsData();
+		mySession = SqliteSession.Select(sessionID.ToString());
 	}
 	
 	public Report(int sessionID, bool showCurrentSessionData, bool showCurrentSessionJumpers, 
@@ -74,29 +74,9 @@ public class Report : ExportSession
 		this.ShowSimpleRuns = showSimpleRuns;
 		this.ShowIntervalRuns = showIntervalRuns;
 		this.StatisticsData = statisticsData;
+		
+		mySession = SqliteSession.Select(sessionID.ToString());
 	}
-
-	/*
-	private void createIniStatisticsData ()
-	{
-		StatisticsData.Add("hello" + ":" + "i" + ":" + "like" + ":" + 
-				"this" + ":" + "thing" + ":" + "a lot");
-		StatisticsData.Add("hello2" + ":" + "i" + ":" + "like2" + ":" + 
-				"this" + ":" + "thing" + ":" + "a lot");
-		StatisticsData.Add("hello3" + ":" + "i" + ":" + "like" + ":" + 
-				"this" + ":" + "thing" + ":" + "a lot3");
-	}
-	*/
-
-	/*
-	//public method for adding stats to the treeview
-	public void Add(string type, string subtype, string applyTo, 
-			string sessionString, string showJumps, bool showSex) 
-	{
-		StatisticsData.Add(type + ":" + subtype + ":" + applyTo + ":" + 
-				sessionString + ":" + showJumps + ":" + showSex);
-	}
-	*/
 
 	public void PrepareFile () {
 		checkFile("report");
@@ -115,10 +95,6 @@ public class Report : ExportSession
 				File.Delete(myFile);
 			}
 		}
-
-		
-		//session stuff?
-
 
 		if(ShowCurrentSessionJumpers) {
 			myPersons = SqlitePersonSession.SelectCurrentSession(sessionID);
@@ -140,23 +116,30 @@ public class Report : ExportSession
 	
 	protected override void printData ()
 	{
-		printHeader();
+		printHtmlHeader();
 
-		//session stuff?
-		
+		if(ShowCurrentSessionData) {
+			writer.WriteLine("<h2>Session</h2>");
+			printSessionInfo();
+		}
 		if(ShowCurrentSessionJumpers) {
+			writer.WriteLine("<h2>Persons</h2>");
 			printJumpers();
 		}
 		if(ShowSimpleJumps) {
+			writer.WriteLine("<h2>Simple jumps</h2>");
 			printJumps();
 		}
 		if(ShowReactiveJumps) {
+			writer.WriteLine("<h2>Reaactive jumps</h2>");
 			printJumpsRj();
 		}
 		if(ShowSimpleRuns) {
+			writer.WriteLine("<h2>Simple runs</h2>");
 			printRuns();
 		}
 		if (ShowIntervalRuns) {
+			writer.WriteLine("<h2>Interval runs</h2>");
 			printRunsInterval();
 		}
 		
@@ -165,22 +148,32 @@ public class Report : ExportSession
 		printFooter();
 	}
 
-	
-	protected override void printHeader()
+	protected void printHtmlHeader()
 	{
 		writer.WriteLine("<HTML><HEAD><TITLE>Chronojump Report (insert date)</TITLE>\n");
-		writer.WriteLine("<meta HTTP-EQUIV=\" Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">\n");
+		writer.WriteLine("<meta HTTP-EQUIV=\" Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n");
 		writer.WriteLine("</HEAD>\n<BODY BGCOLOR=\"#ffffff\" TEXT=\"#444444\">\n");
 	}
+	
+	protected override void writeData (ArrayList exportData) {
+		writer.WriteLine( "<table border=\"1\">" );
+		string iniCell = "<th>";
+		string endCell = "</th>";
+		for(int i=0; i < exportData.Count ; i++) {
+			exportData[i] = exportData[i].ToString().Replace(":", endCell + iniCell);
+			writer.WriteLine( "<tr>" + iniCell + exportData[i] + endCell + "</tr>" );
 
-	protected override void printJumpers()
-	{
-		writer.WriteLine("<h2>jumpers</h2>");
+			iniCell = "<td>";
+			endCell = "</td>";
+		}
+		writer.WriteLine( "</table>\n" );
 	}
 
-	protected override void printJumps()
+	protected override void writeData (string exportData) 
 	{
-		writer.WriteLine("<h2>Simple jumps</h2>");
+		if(exportData == "VERTICAL-SPACE") {
+			writer.WriteLine( "<br>" );
+		}
 	}
 	
 	protected void printStats()
@@ -198,8 +191,8 @@ public class Report : ExportSession
 			//separate in sessions
 			string [] sessionsStrFull = strFull[3].Split(new char[] {':'});
 			for (int j=0; j < sessionsStrFull.Length ; j++) {
-				Session mySession = SqliteSession.Select(sessionsStrFull[j]);
-				sendSelectedSessions.Add(mySession.UniqueID + ":" + mySession.Name + ":" + mySession.Date);
+				Session tempSession = SqliteSession.Select(sessionsStrFull[j]);
+				sendSelectedSessions.Add(tempSession.UniqueID + ":" + tempSession.Name + ":" + tempSession.Date);
 			}
 
 			string applyTo = strFull[2];
@@ -282,21 +275,6 @@ public class Report : ExportSession
 		}
 	}
 
-	protected override void printJumpsRj()
-	{
-		writer.WriteLine("<h2>jumpsRj</h2>");
-	}
-	
-	protected override void printRuns()
-	{
-		writer.WriteLine("<h2>runs</h2>");
-	}
-	
-	protected override void printRunsInterval()
-	{
-		writer.WriteLine("<h2>runsInterval</h2>");
-	}
-	
 	protected override void printFooter()
 	{
 		writer.WriteLine("\n</BODY></HTML>");
@@ -304,7 +282,10 @@ public class Report : ExportSession
 	
 	
 	public int SessionID {
-		set { sessionID = value; }
+		set { 
+			sessionID = value;
+			mySession = SqliteSession.Select(sessionID.ToString());
+		}
 	}
 	
 	public int PrefsDigitsNumber {

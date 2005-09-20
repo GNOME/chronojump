@@ -1,5 +1,9 @@
 CHANGELOG:
 
+20 set 2005
+	report prints session, persons, all jumps and runs
+	report to UTF-8 solved latin char problems
+
 19 set 2005
 	report of all stats and graphs done (TODO: improve graph size and info
 	to user included in HTML) (task 295 at 90%)

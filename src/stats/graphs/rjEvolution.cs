@@ -60,13 +60,13 @@ public class GraphRjEvolution : StatRjEvolution
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		if(this.operation == "MAX") {
-			CurrentGraphData.GraphTitle = string.Format(
-					Catalog.GetString("MAX values of Rj Evolution in single session in "), jumpType); 
+		//title is shown on the graph except it's a report, then title will be on the html
+		if(myStatTypeStruct.ToReport) {
+			CurrentGraphData.GraphTitle = "";
 		} else {
-			CurrentGraphData.GraphTitle = string.Format(
-					Catalog.GetString("AVG values of Rj Evolution in single session in "), jumpType); 
+			CurrentGraphData.GraphTitle = this.ToString();
 		}
+		
 		
 		CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
 		CurrentGraphData.LabelRight = "";

@@ -146,7 +146,7 @@ public class ExportSession
 	}
 
 	
-	protected void printSessionInfo()
+	protected virtual void printSessionInfo()
 	{
 		ArrayList myData = new ArrayList(2);
 		myData.Add( "\n" + 
@@ -158,9 +158,10 @@ public class ExportSession
 		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
 					mySession.Place + ":" + mySession.Date + ":" + mySession.Comments );
 		writeData(myData);
+		writeData("VERTICAL-SPACE");
 	}
 
-	protected void printJumpers()
+	protected virtual void printJumpers()
 	{
 		ArrayList myData = new ArrayList(1);
 		myData.Add ( "\n" + Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name"));
@@ -170,42 +171,50 @@ public class ExportSession
 			myData.Add(myStr[0] + ":" + myStr[1]); 	//person.id, person.name 
 		}
 		writeData(myData);
+		writeData("VERTICAL-SPACE");
 	}
 
 	protected void printJumps()
 	{
-		ArrayList myData = new ArrayList(1);
-		myData.Add( "\n" + 
-				Catalog.GetString("Jumper name") + ":" +
-				Catalog.GetString("jump ID") + ":" + 
-				Catalog.GetString("Type") + ":" + 
-				"TV:" + 
-				"TC:" + 
-				Catalog.GetString("Fall") + ":" + 
-				Catalog.GetString("Weight") + ":" + 
-				Catalog.GetString("Height") + ":" +
-				Catalog.GetString("Initial Speed") + ":" +
-				Catalog.GetString("Description") );
+		int dec=4; //decimals
 		
-		foreach (string jumpString in myJumps) {
-			string [] myStr = jumpString.Split(new char[] {':'});
-			
-			myData.Add (	
-					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jump.uniqueID
-					//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
-					myStr[4] + ":" +  myStr[5] + ":" + 	//jump.type, jump.tv
-					myStr[6] + ":" +  myStr[7] + ":" + 	//jump.tc, jump.fall
-					myStr[8] + ":" + 		//jump.weight,
-					Util.GetHeightInCentimeters(myStr[5]) + ":" +  
-					Util.GetInitialSpeed(myStr[5]) + ":" +  
-					myStr[9]		//jump.description
-					);
+		if(myJumps.Length > 0) {
+			ArrayList myData = new ArrayList(1);
+			myData.Add( "\n" + 
+					Catalog.GetString("Jumper name") + ":" +
+					Catalog.GetString("jump ID") + ":" + 
+					Catalog.GetString("Type") + ":" + 
+					"TC:" + 
+					"TV:" + 
+					Catalog.GetString("Fall") + ":" + 
+					Catalog.GetString("Weight") + ":" + 
+					Catalog.GetString("Height") + ":" +
+					Catalog.GetString("Initial Speed") + ":" +
+					Catalog.GetString("Description") );
+
+			foreach (string jumpString in myJumps) {
+				string [] myStr = jumpString.Split(new char[] {':'});
+
+				myData.Add (	
+						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jump.uniqueID
+						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
+						myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
+						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
+						myStr[8] + ":" + 		//jump.weight,
+						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
+						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5]), dec) + ":" +  
+						myStr[9]		//jump.description
+					   );
+			}
+			writeData(myData);
+			writeData("VERTICAL-SPACE");
 		}
-		writeData(myData);
 	}
 
 	protected void printJumpsRj()
 	{
+		int dec=4; //decimals
+		
 		foreach (string jump in myJumpsRj) {
 			ArrayList myData = new ArrayList(1);
 
@@ -226,24 +235,25 @@ public class ExportSession
 					Catalog.GetString("Jumps") + ":" + 
 					Catalog.GetString("Time") + ":" + 
 					Catalog.GetString("Limited") + ":" + 
-					Catalog.GetString("Description" ) );
+					Catalog.GetString("Description" )
+				  );
 			
 			string [] myStr = jump.Split(new char[] {':'});
-			myData.Add (
+			myData.Add ( "\n" + 
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jumpRj.uniqueID
 					//myStr[2] + ":" +  myStr[3] + ":" +  	//jumpRj.personID, jumpRj.sessionID
 					myStr[4] + ":" +  		//jumpRj.type 
-					myStr[6] + ":" +  		//jumpRj.tcMax 
-					myStr[5] + ":" + 		//jumpRj.tvMax
-					Util.GetHeightInCentimeters(myStr[5]) + ":" +  	//Max height
-					Util.GetInitialSpeed(myStr[5]) + ":" +  	//Max initial speed
-					myStr[11] + ":" +  		//jumpRj.tcAvg
-					myStr[10] + ":" + 		//jumpRj.tvAvg
-					Util.GetHeightInCentimeters(myStr[10]) + ":" +  //Avg height
-					Util.GetInitialSpeed(myStr[10]) + ":" +  	//Avg Initial speed
+					Util.TrimDecimals(myStr[6], dec) + ":" +  		//jumpRj.tcMax 
+					Util.TrimDecimals(myStr[5], dec) + ":" + 		//jumpRj.tvMax
+					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  	//Max height
+					Util.TrimDecimals(Util.GetInitialSpeed(myStr[5]), dec) + ":" +  	//Max initial speed
+					Util.TrimDecimals(myStr[11], dec) + ":" +  		//jumpRj.tcAvg
+					Util.TrimDecimals(myStr[10], dec) + ":" + 		//jumpRj.tvAvg
+					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[10]), dec) + ":" +  //Avg height
+					Util.TrimDecimals(Util.GetInitialSpeed(myStr[10]), dec) + ":" +  	//Avg Initial speed
 					myStr[7] + ":" + 	 	//jumpRj.Fall
 					myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
-					myStr[15] + ":" +  myStr[16] + ":" + 	//jumpRj.Time, jumpRj.Limited
+					Util.TrimDecimals(myStr[15], dec) + ":" +  myStr[16] + ":" + 	//jumpRj.Time, jumpRj.Limited
 					myStr[9]		//jumpRj.Description
 					);
 			
@@ -253,9 +263,11 @@ public class ExportSession
 			string [] tvString = myStr[12].Split(new char[] {'='});
 			string [] tcString = myStr[13].Split(new char[] {'='});
 			int count = 0;
-			myData.Add( Catalog.GetString ( "TV:TC" ) );
+			myData.Add( Catalog.GetString("Count") + ":TC:TV" );
 			foreach(string myTv in tvString) {
-				myData.Add(myTv + ":" +  tcString[count]);
+				myData.Add((count+1).ToString() + ":" + 
+						Util.TrimDecimals(tcString[count], dec) + ":" + 
+						Util.TrimDecimals(myTv, dec));
 				count ++;
 			}
 			writeData(myData);
@@ -265,31 +277,39 @@ public class ExportSession
 	
 	protected void printRuns()
 	{
-		ArrayList myData = new ArrayList(1);
-		myData.Add( "\n" + 
-				Catalog.GetString("Runner name") + ":" +
-				Catalog.GetString("run ID") + ":" + 
-				Catalog.GetString("Type") + ":" + 
-				Catalog.GetString("Distance") + ":" + 
-				Catalog.GetString("Time") + ":" + 
-				Catalog.GetString("Speed") + ":" + 
-				Catalog.GetString("Description") );
+		int dec=4; //decimals
 		
-		foreach (string runString in myRuns) {
-			string [] myStr = runString.Split(new char[] {':'});
-			
-			myData.Add (
-					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
-					myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
-					myStr[6] + ":" +  Util.GetSpeed(myStr[5], myStr[6]) + ":" + 	//run.time, speed
-					myStr[7]		//run.description
-					);
+		if(myRuns.Length > 0) {
+			ArrayList myData = new ArrayList(1);
+			myData.Add( "\n" + 
+					Catalog.GetString("Runner name") + ":" +
+					Catalog.GetString("run ID") + ":" + 
+					Catalog.GetString("Type") + ":" + 
+					Catalog.GetString("Distance") + ":" + 
+					Catalog.GetString("Time") + ":" + 
+					Catalog.GetString("Speed") + ":" + 
+					Catalog.GetString("Description") );
+
+			foreach (string runString in myRuns) {
+				string [] myStr = runString.Split(new char[] {':'});
+
+				myData.Add (
+						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
+						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
+						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
+						Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6]), dec) + ":" + //speed
+						myStr[7]		//run.description
+					   );
+			}
+			writeData(myData);
+			writeData("VERTICAL-SPACE");
 		}
-		writeData(myData);
 	}
 	
 	protected void printRunsInterval()
 	{
+		int dec=4; //decimals
+		
 		foreach (string runString in myRunsInterval) {
 			ArrayList myData = new ArrayList(1);
 
@@ -309,9 +329,9 @@ public class ExportSession
 			string [] myStr = runString.Split(new char[] {':'});
 			myData.Add (
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
-					myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distancetotal
-					myStr[6] + ":" +  		//run.timetotal
-					Util.GetSpeed(myStr[5], myStr[6]) + ":" + 	//speed AVG
+					myStr[4] + ":" +  Util.TrimDecimals(myStr[5], dec) + ":" + 	//run.type, run.distancetotal
+					Util.TrimDecimals(myStr[6], dec) + ":" +  		//run.timetotal
+					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6]), dec) + ":" + 	//speed AVG
 					myStr[7] + ":" + 	 	//run.distanceInterval
 					myStr[9] + ":" +  myStr[11] + ":" + 	//tracks, limited
 					myStr[10]		//description
@@ -321,9 +341,15 @@ public class ExportSession
 			myData = new ArrayList(1);
 			//print intervalTimesString
 			string [] timeString = myStr[8].Split(new char[] {'='});
-			myData.Add( Catalog.GetString ( "Interval speed:interval times" ) );
+			myData.Add( Catalog.GetString ("Count") + ":" + 
+					Catalog.GetString ("Interval speed") + ":" + 
+					Catalog.GetString("interval times") );
+			int count = 1;
 			foreach(string myTime in timeString) {
-				myData.Add(Util.GetSpeed(myStr[7], myTime) + ":" + myTime);
+				myData.Add((count++).ToString() + ":" + 
+						Util.TrimDecimals(Util.GetSpeed(myStr[7], myTime), dec) + ":" + 
+						Util.TrimDecimals(myTime, dec)
+						);
 			}
 			writeData(myData);
 			writeData("VERTICAL-SPACE");
@@ -364,69 +390,6 @@ public class ExportSessionCSV : ExportSession
 	protected override void writeData (string exportData) {
 		//do nothing
 	}
-
-	/*
-	protected override void printRuns()
-	{
-		writer.WriteLine( "\n" + Catalog.GetString ( "Normal Runs" ) );
-		writer.WriteLine( "\n" + 
-				Catalog.GetString("Runner name") + ", " +
-				Catalog.GetString("run ID") + ", " + 
-				Catalog.GetString("Type") + ", " + 
-				Catalog.GetString("Distance") + ", " + 
-				Catalog.GetString("Time") + ", " + 
-				Catalog.GetString("Speed") + ", " + 
-				Catalog.GetString("Description") );
-		
-		foreach (string runString in myRuns) {
-			string [] myStr = runString.Split(new char[] {':'});
-			
-			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}", 
-					myStr[0], myStr[1], 	//person.name, run.uniqueID
-					myStr[4], myStr[5],	//run.type, run.distance
-					myStr[6], Util.GetSpeed(myStr[5], myStr[6]),	//run.time, speed
-					myStr[7]		//run.description
-					);
-		}
-	}
-
-	protected override void printRunsInterval()
-	{
-		writer.WriteLine( "\n" + Catalog.GetString ( "Interval Runs" ) );
-		writer.WriteLine( "\n" + 
-				Catalog.GetString("Runner name") + ", " +
-				Catalog.GetString("run ID") + ", " + 
-				Catalog.GetString("Type") + ", " + 
-				Catalog.GetString("Distance total") + ", " + 
-				Catalog.GetString("Time total") + ", " +
-				Catalog.GetString("Average speed") + ", " +
-				Catalog.GetString("Distance interval") + ", " + 
-				Catalog.GetString("Tracks") + ", " + 
-				Catalog.GetString("Limited") + ", " +
-				Catalog.GetString("Description") );
-		
-		foreach (string runString in myRunsInterval) {
-			string [] myStr = runString.Split(new char[] {':'});
-			
-			writer.WriteLine ("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}", 
-					myStr[0], myStr[1], 	//person.name, run.uniqueID
-					myStr[4], myStr[5],	//run.type, run.distancetotal
-					myStr[6], 		//run.timetotal,
-					Util.GetSpeed(myStr[5], myStr[6]),	//speed AVG
-					myStr[7],	 	//run.distanceInterval
-					myStr[9], myStr[11],	//tracks, limited
-					myStr[10]		//description
-					);
-			
-			//print intervalTimesString
-			string [] timeString = myStr[8].Split(new char[] {'='});
-			writer.WriteLine( Catalog.GetString ( "Interval speed, interval times" ) );
-			foreach(string myTime in timeString) {
-				writer.WriteLine("{0}, {1}", Util.GetSpeed(myStr[7], myTime), myTime);
-			}
-		}
-	}
-	*/
 
 	protected override void printFooter()
 	{

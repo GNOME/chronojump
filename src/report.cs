@@ -47,6 +47,10 @@ public class Report : ExportSession
 
 	public ArrayList StatisticsData;
 	
+	public static string home = Environment.GetEnvironmentVariable("HOME")+"/.chronojump";
+
+	private string progversion;
+	
 	public Report(int sessionID)
 	{
 		this.SessionID = sessionID;
@@ -116,22 +120,27 @@ public class Report : ExportSession
 	
 	protected override void printData ()
 	{
+		copyCssAndLogo();
+		
 		printHtmlHeader();
 
+		writer.WriteLine("<table class=\"empty\" cellspacing=2 cellpadding=2><tr valign=\"top\"><td>\n");
 		if(ShowCurrentSessionData) {
 			writer.WriteLine("<h2>Session</h2>");
 			printSessionInfo();
 		}
+		writer.WriteLine("</td><td>\n");
 		if(ShowCurrentSessionJumpers) {
 			writer.WriteLine("<h2>Persons</h2>");
 			printJumpers();
 		}
+		writer.WriteLine("</td></tr></table>\n");
 		if(ShowSimpleJumps) {
 			writer.WriteLine("<h2>Simple jumps</h2>");
 			printJumps();
 		}
 		if(ShowReactiveJumps) {
-			writer.WriteLine("<h2>Reaactive jumps</h2>");
+			writer.WriteLine("<h2>Reactive jumps</h2>");
 			printJumpsRj();
 		}
 		if(ShowSimpleRuns) {
@@ -148,15 +157,85 @@ public class Report : ExportSession
 		printFooter();
 	}
 
-	protected void printHtmlHeader()
-	{
-		writer.WriteLine("<HTML><HEAD><TITLE>Chronojump Report (insert date)</TITLE>\n");
-		writer.WriteLine("<meta HTTP-EQUIV=\" Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n");
-		writer.WriteLine("</HEAD>\n<BODY BGCOLOR=\"#ffffff\" TEXT=\"#444444\">\n");
+	void copyCssAndLogo() {
+		//copy files, and continue if already exists
+		try {
+			File.Copy(home + "/report_web_style.css" , Util.GetReportDirectoryName(fileName) + "/report_web_style.css" );
+		} catch {}
+		try {
+			File.Copy(home + "/chronojump_logo.png" , Util.GetReportDirectoryName(fileName) + "/chronojump_logo.png");
+		} catch {}
 	}
 	
+	protected void printHtmlHeader()
+	{
+		writer.WriteLine("<HTML><HEAD><TITLE>Chronojump Report (" + DateTime.Now + ")</TITLE>\n");
+		writer.WriteLine("<meta HTTP-EQUIV=\" Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n");
+		writer.WriteLine("<style type=\"text/css\">");
+		writer.WriteLine("	@import url(" + Util.GetReportDirectoryName(fileName) + 
+				"/report_web_style.css); ");
+		writer.WriteLine("</style>");
+		writer.WriteLine("</HEAD>\n<BODY BGCOLOR=\"#ffffff\" TEXT=\"#444444\">\n");
+		
+		writer.WriteLine("<table width=\"100%\" class=\"empty\"><tr><td>\n");
+		writer.WriteLine("<img src=\"" +
+				Util.GetReportDirectoryName(fileName) + "/chronojump_logo.png\">\n ");
+		writer.WriteLine("</td><td width=\"80%\"><h1>Chronojump report</h1></td></tr>\n");
+		writer.WriteLine("</table>\n");
+			
+	}
+
+
+	protected override void printSessionInfo()
+	{
+		ArrayList myData = new ArrayList(2);
+		myData.Add( "\n" + Catalog.GetString ("Name") + ":" + mySession.Name);
+		myData.Add(Catalog.GetString ("SessionID") + ":" + mySession.UniqueID);
+		myData.Add(Catalog.GetString ("Place") + ":" + mySession.Place);
+		myData.Add(Catalog.GetString ("Date") + ":" + mySession.Date);
+		myData.Add(Catalog.GetString ("Comments") + ":" + mySession.Comments);
+		/*
+		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
+					mySession.Place + ":" + mySession.Date + ":" + mySession.Comments );
+		*/
+		writeData(myData);
+		writeData("VERTICAL-SPACE");
+	}
+
+	protected override void printJumpers()
+	{
+		ArrayList myData = new ArrayList(1);
+		myData.Add ( "\n" + 
+				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
+				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
+				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
+				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
+				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
+				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name")
+				);
+
+		string myLine = "";
+		int count = 0;
+		foreach (string jumperString in myPersons) {
+			if(count > 5) {
+				count = 0;
+				myData.Add(myLine);
+				myLine = "";
+			}
+			string [] myStr = jumperString.Split(new char[] {':'});
+			if(count > 0) {
+				myLine += ":";
+			}
+			myLine += myStr[0] + ":" + myStr[1]; 	//person.id, person.name 
+			count ++;
+		}
+		writeData(myData);
+		writeData("VERTICAL-SPACE");
+	}
+
+
 	protected override void writeData (ArrayList exportData) {
-		writer.WriteLine( "<table border=\"1\">" );
+		writer.WriteLine( "<table cellpadding=2 cellspacing=2>" );
 		string iniCell = "<th>";
 		string endCell = "</th>";
 		for(int i=0; i < exportData.Count ; i++) {
@@ -196,7 +275,7 @@ public class Report : ExportSession
 			}
 
 			string applyTo = strFull[2];
-			myHeaderStat += "<h3>" + applyTo + "</h3> ";
+			myHeaderStat += "<h3> " + strFull[0] + " : " + strFull[1] + " : " + applyTo + "</h3> ";
 
 			bool showSex = false;
 			if(strFull[5] == "True") {
@@ -218,12 +297,15 @@ public class Report : ExportSession
 				statsJumpsType = 3;
 			}
 
+			/*
 			myHeaderStat += strJumpsType[0];
 			if(limit != -1) {
 				myHeaderStat += " (" + limit.ToString() + ")";
 			}
+			*/
 
-			myHeaderStat += "\n<p><TABLE BORDER=\"0\"><tr><td>\n";
+			//myHeaderStat += "\n<p><TABLE cellpadding=2 cellspacing=2 class=\"empty\"><tr><td>\n";
+			myHeaderStat += "\n<p><TABLE cellpadding=2 cellspacing=2><tr><td>\n";
 			writer.WriteLine(myHeaderStat);
 
 			StatType myStatType;
@@ -271,12 +353,15 @@ public class Report : ExportSession
 
 			allFine = myStatType.ChooseStat();
 
+			writer.WriteLine("<tr><td colspan=\"2\">" + myStatType.Enunciate + "</td></tr>");
 			writer.WriteLine("</table>");
 		}
 	}
 
 	protected override void printFooter()
 	{
+		writer.WriteLine("\n<div id=\"footer\"><hr align=\"right\" width=\"50%\">");
+		writer.WriteLine("\nGenerated on " + DateTime.Now + ", by <a href=\"http://chronojump.software-libre.org\">Chronojump</a> v." + progversion );
 		writer.WriteLine("\n</BODY></HTML>");
 	}
 	
@@ -300,6 +385,9 @@ public class Report : ExportSession
 		set { weightStatsPercent = value; }
 	}
 	
+	public string Progversion {
+		set { progversion = value; }
+	}
 	
 	~Report() {}
 	   

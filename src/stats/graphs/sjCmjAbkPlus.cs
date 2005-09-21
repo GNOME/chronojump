@@ -53,21 +53,12 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 		}
 
 		CurrentGraphData.WindowTitle = Catalog.GetString("ChronoJump graph");
-		string mySessions = Catalog.GetString("single session");
-		if(sessions.Count > 1) {
-			mySessions = Catalog.GetString("multiple sessions");
-		}
-		if(this.operation == "MAX") {
-			CurrentGraphData.GraphTitle = string.Format(
-					Catalog.GetString("MAX values of index: {0} in"), jumpType) 
-				+ " " + mySessions; 
+		//title is shown on the graph except it's a report, then title will be on the html
+		if(myStatTypeStruct.ToReport) {
+			CurrentGraphData.GraphTitle = "";
 		} else {
-			CurrentGraphData.GraphTitle = string.Format(
-					Catalog.GetString("AVG values of index: {0} data in"), jumpType)
-				+ " " + mySessions; 
+			CurrentGraphData.GraphTitle = this.ToString();
 		}
-		
-		
 		
 		if(sessions.Count == 1) {
 			//four series, the four columns

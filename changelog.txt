@@ -1,5 +1,19 @@
 CHANGELOG:
 
+21 set 2005
+	finished presentation of stats, closed task 295
+
+	added enunciate (comments) to all stats and graphs
+
+	decimals number in CSV and report set to 4
+	
+	improved presentation of report, improved css
+	added report_web_style.css
+	added chronojump_logo.png
+
+	TODO: solve how chronojump_logo.png and report_web_style.css go to
+	.chronojump dir in the installation of chronojump.
+
 20 set 2005
 	report prints session, persons, all jumps and runs
 	report to UTF-8 solved latin char problems

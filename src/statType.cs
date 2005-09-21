@@ -294,7 +294,7 @@ public class StatType {
 				bool notEmpty = myStat.CreateGraph(fileName);
 				if(notEmpty) { linkImage(fileName); }
 			} else {
-				writer.WriteLine(myStat.ToString());
+				writer.WriteLine(myStat.ReportString());
 			}
 		} else {
 			if(graph) {
@@ -313,5 +313,11 @@ public class StatType {
 		writer.WriteLine("<img src=\"" + directoryName + "/" + pngs.Length.ToString() + ".png\">");
 	}
 	
+	
+	public string Enunciate {
+		get { return myStat.ToString(); }
+	}
+	
+
 	~StatType() {}
 }

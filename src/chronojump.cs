@@ -403,6 +403,7 @@ public class ChronoJump
 		report.PrefsDigitsNumber = prefsDigitsNumber;
 		report.HeightPreferred = heightPreferred;
 		report.WeightStatsPercent = weightStatsPercent;
+		report.Progversion = progversion;
 		
 		
 		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );

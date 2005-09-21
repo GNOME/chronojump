@@ -70,6 +70,12 @@ public class Stat
 	protected bool toReport = false;
 	protected string reportString;
 
+
+	//for toString() in every stat
+	protected string allValuesString = "All values";
+	protected string avgValuesString = "Avg values of each jumper";
+	
+
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public Stat () 
 	{
@@ -158,7 +164,7 @@ public class Stat
 	protected string prepareHeadersReport(string [] columnsString) 
 	{
 		string myHeaderString = "";
-		myHeaderString += "<TABLE BORDER=\"1\">\n";
+		myHeaderString += "<TABLE cellspacing=2 cellpadding=2>\n";
 		myHeaderString += "<TR><TH>" + Catalog.GetString(columnsString[0]) + "</TH>";
 		
 		if(sessions.Count > 1) {
@@ -465,6 +471,10 @@ public class Stat
 			treeview.RemoveColumn (column);
 		}
 	}
+	
+	public string ReportString () {
+		return reportString + "</TABLE></p>\n";
+	}
 
 	/*
 	 * ---------------------------------
@@ -490,8 +500,8 @@ public class Stat
 			return;
 		}
 		
-		int x = 400;
-		int y= 300;
+		int x = 500;
+		int y= 400;
 
 		Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
 
@@ -525,8 +535,8 @@ public class Stat
 			return false;
 		}
 		
-		int x = 400;
-		int y= 300;
+		int x = 500;
+		int y= 400;
 
 		NPlot.PlotSurface2D plot = new NPlot.PlotSurface2D ();
 		Bitmap b = new Bitmap (x, y);

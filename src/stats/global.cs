@@ -122,35 +122,31 @@ public class StatGlobal : Stat
 
 	public override string ToString () 
 	{
-		if(toReport) {
-			return reportString + "</TABLE></p>\n";
-		} else { 
-			/*
-			   string personString = "";
-			   if (personID != -1) {
-			   personString = Catalog.GetString(" of '") + personName + Catalog.GetString("' jumper");
-			   }
+		string selectedValuesString = "";
+		
+		/* this options are not possible in this statistic
+		 * 
+		if(statsJumpsType == 0) { //all jumps
+			selectedValuesString = allValuesString; 
+		} else if(statsJumpsType == 1) { //limit
+			selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit); 
+		*/
+		
+		if(statsJumpsType == 2) { //best of each jumper
+			selectedValuesString = string.Format(Catalog.GetString("Max {0} values of each jumper"), limit);
+		} else if(statsJumpsType == 3) { //avg of each jumper
+			selectedValuesString = avgValuesString; 
+		}  
 
-			   string showSexString = "";
-			   if (this.showSex) { showSexString = " " + Catalog.GetString("sorted by sex"); }
-
-			   string inSessions = Catalog.GetString(" in sessions: ");
-			   for (int i=0; i < sessions.Count ;i++) {
-			   string [] str = sessions[i].ToString().Split(new char[] {':'});
-			   inSessions = inSessions + "'" + str[1] + "' (" + str[2] + ")";
-			   if(i + 1 < sessions.Count) {
-			   inSessions = inSessions + ", ";
-			   }
-			   }
-
-			   if ( this.operation == "MAX" ) { 
-			   return Catalog.GetString("MAX values of some jumps and statistics") + personString + inSessions + showSexString + "."  ; 
-			   } else {
-			   return Catalog.GetString("AVG values of some jumps and statistics") + personString + inSessions + showSexString + "."  ; 
-			   }
-			   */
-
-			return "pending";
+		string mySessionString = "";
+		if(sessions.Count > 1) {
+			mySessionString =  Catalog.GetString (" various sessions "); 
+		} else {
+			string [] strFull = sessions[0].ToString().Split(new char[] {':'});
+			mySessionString =  Catalog.GetString (" session ") + 
+				strFull[0] + "(" + strFull[2] + ")";
 		}
+
+		return string.Format(Catalog.GetString("{0} in some jumps and statistics on {1}"), selectedValuesString, mySessionString);
 	}
 }

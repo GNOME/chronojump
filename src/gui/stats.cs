@@ -139,8 +139,8 @@ public class StatsWindow {
 		
 		updateComboStats();
 			
-		textview_enunciate.Hide();
-		scrolledwindow_enunciate.Hide();
+		//textview_enunciate.Hide();
+		//scrolledwindow_enunciate.Hide();
 	}
 	
 
@@ -356,14 +356,11 @@ public class StatsWindow {
 		bool allFine = myStatType.ChooseStat();
 		
 
-		/*
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(myStat.ToString());
+		tb.SetText(myStatType.Enunciate);
 		textview_enunciate.Buffer = tb;
 
-		//all was fine
-		*/
 		if(allFine) {
 			return true;
 		} else {

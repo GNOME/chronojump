@@ -96,10 +96,31 @@ public class StatFv : StatIeIub
 		
 	public override string ToString () 
 	{
-		if(toReport) {
-			return reportString + "</TABLE></p>\n";
-		} else { 
-			return "pending";
+		string selectedValuesString = "";
+		
+		/* this options are not possible in this index
+		 *
+		if(statsJumpsType == 0) { //all jumps
+			selectedValuesString = allValuesString; 
+		} else if(statsJumpsType == 1) { //limit
+			selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit); 
+		*/
+		
+		if(statsJumpsType == 2) { //best of each jumper
+			selectedValuesString = string.Format(Catalog.GetString("Max {0} values of each jumper"), limit);
+		} else if(statsJumpsType == 3) { //avg of each jumper
+			selectedValuesString = avgValuesString; 
+		}  
+
+		string mySessionString = "";
+		if(sessions.Count > 1) {
+			mySessionString =  Catalog.GetString (" various sessions "); 
+		} else {
+			string [] strFull = sessions[0].ToString().Split(new char[] {':'});
+			mySessionString =  Catalog.GetString (" session ") + 
+				strFull[0] + "(" + strFull[2] + ")";
 		}
+
+		return string.Format(Catalog.GetString("{0} in Index FV [SJ+(100%)/SJ *100] on {1}"), selectedValuesString, mySessionString);
 	}
 }

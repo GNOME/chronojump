@@ -297,20 +297,22 @@ public class Report : ExportSession
 				statsJumpsType = 3;
 			}
 
-			/*
-			myHeaderStat += strJumpsType[0];
-			if(limit != -1) {
-				myHeaderStat += " (" + limit.ToString() + ")";
+			//obtain marked jumps of rj evolution if needed
+			int rj_evolution_mark_consecutives = -1;
+			if(strFull[1].StartsWith(Catalog.GetString("Evolution."))) {
+				string [] strEvo = strFull[1].Split(new char[] {'.'});
+				strFull[1] = strEvo[0];
+				rj_evolution_mark_consecutives = Convert.ToInt32(strEvo[1]);
 			}
-			*/
-
-			//myHeaderStat += "\n<p><TABLE cellpadding=2 cellspacing=2 class=\"empty\"><tr><td>\n";
+			
+			
 			myHeaderStat += "\n<p><TABLE cellpadding=2 cellspacing=2><tr><td>\n";
 			writer.WriteLine(myHeaderStat);
 
 			StatType myStatType;
 			bool allFine;
 			//report of stat
+
 
 			myStatType = new StatType(
 					strFull[0], 		//statisticType
@@ -323,6 +325,7 @@ public class Report : ExportSession
 					limit, 	
 					heightPreferred,
 					weightStatsPercent,
+					rj_evolution_mark_consecutives,
 					false, 			//graph
 					toReport,
 					writer,
@@ -330,6 +333,8 @@ public class Report : ExportSession
 					);
 
 			allFine = myStatType.ChooseStat();
+			
+			string myEnunciate ="<tr><td colspan=\"2\">" + myStatType.Enunciate + "</td></tr>";
 
 			writer.WriteLine("</td><td>");
 
@@ -345,6 +350,7 @@ public class Report : ExportSession
 					limit, 	
 					heightPreferred,
 					weightStatsPercent,
+					rj_evolution_mark_consecutives,
 					true, 			//graph
 					toReport,
 					writer,
@@ -353,7 +359,10 @@ public class Report : ExportSession
 
 			allFine = myStatType.ChooseStat();
 
-			writer.WriteLine("<tr><td colspan=\"2\">" + myStatType.Enunciate + "</td></tr>");
+			//enunciate is prented here and not before 
+			//because myStatType of a graph doesn't know the numContinuous value 
+			//needed for enunciate in rj evolution statistic
+			writer.WriteLine(myEnunciate);
 			writer.WriteLine("</table>");
 		}
 	}

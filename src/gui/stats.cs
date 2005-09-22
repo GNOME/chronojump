@@ -60,6 +60,10 @@ public class StatsWindow {
 	[Widget] Gtk.TextView textview_enunciate;
 	[Widget] Gtk.ScrolledWindow scrolledwindow_enunciate;
 	[Widget] Gtk.CheckButton checkbutton_show_enunciate;
+	
+	[Widget] Gtk.Box hbox_mark_consecutives;
+	[Widget] Gtk.CheckButton checkbutton_mark_consecutives;
+	[Widget] Gtk.SpinButton spinbutton_mark_consecutives;
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
@@ -141,6 +145,9 @@ public class StatsWindow {
 			
 		//textview_enunciate.Hide();
 		//scrolledwindow_enunciate.Hide();
+			
+		spinbutton_mark_consecutives.Sensitive = false;
+		hbox_mark_consecutives.Hide();
 	}
 	
 
@@ -287,6 +294,12 @@ public class StatsWindow {
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
 		} 
+		
+		if (combo_stats_stat_subtype.Entry.Text == Catalog.GetString("Evolution") )  {
+			hbox_mark_consecutives.Show();
+		} else {
+			hbox_mark_consecutives.Hide();
+		}
 	}
 	
 	//way of accessing from chronojump.cs
@@ -337,6 +350,10 @@ public class StatsWindow {
 			sendSelectedSessions = selectedSessions;
 		}
 
+		int rj_evolution_mark_consecutives = -1;
+		if(checkbutton_mark_consecutives.Active) {
+			rj_evolution_mark_consecutives = Convert.ToInt32 ( spinbutton_mark_consecutives.Value ); 
+		}
 
 		StatType myStatType = new StatType(
 				statisticType,
@@ -350,6 +367,7 @@ public class StatsWindow {
 				limit, 
 				heightPreferred,
 				weightStatsPercent, 
+				rj_evolution_mark_consecutives,
 				graph,
 				toReport
 				);
@@ -424,6 +442,26 @@ public class StatsWindow {
 		}
 	}
 
+	
+	private void on_checkbutton_mark_consecutives_clicked(object o, EventArgs args) {
+		if(checkbutton_mark_consecutives.Active) {
+			spinbutton_mark_consecutives.Sensitive = true;
+		} else {
+			spinbutton_mark_consecutives.Sensitive = false;
+		}
+		
+		if (statsAutomatic) { 
+			fillTreeView_stats(false);
+		}
+	}
+	
+	void on_spinbutton_mark_consecutives_changed (object o, EventArgs args) {
+		if (statsAutomatic) { 
+			fillTreeView_stats(false);
+		}
+	}
+
+	
 	private void update_stats_widgets_sensitiveness() {
 		string statisticType = combo_stats_stat_type.Entry.Text;
 		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
@@ -601,6 +639,10 @@ public class StatsWindow {
 			//in the first the value of Entry.Text is "";
 			return;
 		} else {
+			if(checkbutton_mark_consecutives.Active) {
+				statisticSubType += "." + ( spinbutton_mark_consecutives.Value ).ToString(); 
+			}
+			
 			string statisticApplyTo = combo_stats_stat_apply_to.Entry.Text;
 			if(statisticApplyTo.Length == 0) {
 				statisticApplyTo = "-";

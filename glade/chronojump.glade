@@ -7979,6 +7979,63 @@ best's</property>
 		      <property name="y_options">fill</property>
 		    </packing>
 		  </child>
+
+		  <child>
+		    <widget class="GtkHBox" id="hbox_mark_consecutives">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">0</property>
+
+		      <child>
+			<widget class="GtkCheckButton" id="checkbutton_mark_consecutives">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">mark best 'n' consecutives</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes">mark consecutives</property>
+			  <property name="use_underline">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="focus_on_click">True</property>
+			  <property name="active">False</property>
+			  <property name="inconsistent">False</property>
+			  <property name="draw_indicator">True</property>
+			  <signal name="clicked" handler="on_checkbutton_mark_consecutives_clicked" last_modification_time="Thu, 22 Sep 2005 17:46:29 GMT"/>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkSpinButton" id="spinbutton_mark_consecutives">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="climb_rate">1</property>
+			  <property name="digits">0</property>
+			  <property name="numeric">True</property>
+			  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			  <property name="snap_to_ticks">True</property>
+			  <property name="wrap">False</property>
+			  <property name="adjustment">5 1 100 1 10 10</property>
+			  <signal name="changed" handler="on_spinbutton_mark_consecutives_changed" last_modification_time="Thu, 22 Sep 2005 17:49:32 GMT"/>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="left_attach">2</property>
+		      <property name="right_attach">3</property>
+		      <property name="top_attach">1</property>
+		      <property name="bottom_attach">2</property>
+		      <property name="x_options">fill</property>
+		      <property name="y_options">fill</property>
+		    </packing>
+		  </child>
 		</widget>
 	      </child>
 	    </widget>
@@ -8123,7 +8180,7 @@ best's</property>
 	  <child>
 	    <widget class="GtkButton" id="button_add_to_report">
 	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">currently does not do nothing</property>
+	      <property name="tooltip" translatable="yes">Add this statistic and its graph to report window</property>
 	      <property name="can_focus">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -8216,6 +8273,7 @@ best's</property>
 	      <child>
 		<widget class="GtkButton" id="button_graph">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Graph this statistic</property>
 		  <property name="can_focus">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>

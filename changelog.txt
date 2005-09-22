@@ -1,5 +1,10 @@
 CHANGELOG:
 
+22 set 2005
+	from stats/reactive/evolution it's possible to find the best subjump
+	or the 'n' best consecutives subjumps. Done for stats and report (currently not possible to implement in
+	graphs)	(closes task 295)
+
 21 set 2005
 	finished presentation of stats, closed task 295
 

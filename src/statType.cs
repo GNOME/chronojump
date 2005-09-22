@@ -67,7 +67,8 @@ public class StatType {
 	int statsJumpsType;
 	int limit;
 	bool heightPreferred;
-	bool weightStatsPercent; 
+	bool weightStatsPercent;
+	int rj_evolution_mark_consecutives;
 	bool graph;
 	bool toReport;
 	TextWriter writer;
@@ -91,7 +92,7 @@ public class StatType {
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo, Gtk.TreeView treeview_stats,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			bool graph, bool toReport)
+			int rj_evolution_mark_consecutives, bool graph, bool toReport)
 	{
 		//some of this will disappear when we use myStatTypeStruct in all classes:
 		this.statisticType = statisticType;
@@ -105,6 +106,7 @@ public class StatType {
 		this.limit = limit;
 		this.heightPreferred = heightPreferred;
 		this.weightStatsPercent = weightStatsPercent;
+		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
 		this.graph = graph;
 		this.toReport = toReport;
 	
@@ -121,6 +123,7 @@ public class StatType {
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			int rj_evolution_mark_consecutives, 
 			bool graph, bool toReport, TextWriter writer, string fileName)
 	{
 		this.statisticType = statisticType;
@@ -133,6 +136,7 @@ public class StatType {
 		this.limit = limit;
 		this.heightPreferred = heightPreferred;
 		this.weightStatsPercent = weightStatsPercent;
+		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
 		this.graph = graph;
 		this.toReport = toReport;
 		this.writer = writer;
@@ -280,9 +284,10 @@ public class StatType {
 			else if(statisticSubType == Catalog.GetString("Evolution"))
 			{
 				if(graph) {
+					//myStat = new GraphRjEvolution (myStatTypeStruct, rj_evolution_mark_consecutives);
 					myStat = new GraphRjEvolution (myStatTypeStruct);
 				} else {
-					myStat = new StatRjEvolution(myStatTypeStruct, treeview_stats);
+					myStat = new StatRjEvolution(myStatTypeStruct, rj_evolution_mark_consecutives, treeview_stats);
 				}
 			}
 		}

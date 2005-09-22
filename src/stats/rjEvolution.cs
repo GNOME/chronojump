@@ -38,9 +38,11 @@ public class StatRjEvolution : Stat
 		this.limit = 0;
 	}
 
-	public StatRjEvolution (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview) 
+	public StatRjEvolution (StatTypeStruct myStatTypeStruct, int numContinuous, Gtk.TreeView treeview) 
 	{
 		completeConstruction (myStatTypeStruct, treeview);
+
+		this.numContinuous = numContinuous;
 		
 		string sessionString = obtainSessionSqlString(sessions);
 
@@ -68,6 +70,86 @@ public class StatRjEvolution : Stat
 			prepareHeaders(columnsString);
 		}
 	}
+
+		
+	protected int findBestContinuous(string [] statValues, int numContinuous)
+	{
+		//if numContinuous is 3, we check the best consecutive three tc,tv values
+		int bestPos=-1;	//position where the three best pair values start
+				//will return -1 if less tha three jumps
+		double bestCount=-10000;	//best value found of 3 pairs
+
+		//read all values in pairs tc,tv
+		//start in pos 2 because first is name, second is index
+		//end in Length-numContinuous*2 because we should not count only the last tc,tv pair or the last two, only the last three
+		//end in -1 because last value is fall
+		for ( int i=2; i < statValues.Length -numContinuous*2 -1 ; i=i+2 ) 
+		{
+			double myCount = 0;
+			bool jumpFinished = false;
+			//read the n consecutive values 
+			for (int j=i; j < i + numContinuous*2 ; j=j+2 )
+			{
+				if( statValues[j] == "-" || statValues[j+1] == "-" ) {
+					jumpFinished = true;
+					break;
+				}
+				double tc = Convert.ToDouble(statValues[i]);
+				double tv = Convert.ToDouble(statValues[i+1]);
+				myCount += (tv * 100) / tc;
+			}
+			
+			//Console.WriteLine("i{0}, myCount{1}, bestCount{2}", i, myCount, bestCount);
+			//if found a max, record it
+			if(myCount > bestCount && !jumpFinished) {
+				bestCount = myCount;
+				bestPos = i;
+				//Console.WriteLine("best i{0}", i);
+			}
+		}
+		return bestPos;
+	}
+
+	protected string [] markBestContinuous(string [] statValues, int numContinuous, int bestPos) {
+		if(toReport) {
+			for ( int i=0; i < statValues.Length ; i=i+2 ) {
+
+				if(i >= bestPos && i < bestPos+numContinuous*2) {
+					//Console.WriteLine("i{0}, bp{1}, svi{2}, svi+1{3}", i, bestPos, statValues[i], statValues[i+1]);
+					statValues[i] = "<font color=\"red\">" + statValues[i] + "</font>";
+					statValues[i+1] = "<font color=\"red\">" + statValues[i+1] + "</font>";
+				}
+			}
+		} else {
+			// this marks the first and the last with '[' and ']'
+			statValues[bestPos] = "[" + statValues[bestPos];
+			statValues[bestPos + (numContinuous*2) -1] = statValues[bestPos + (numContinuous*2) -1] + "]";
+		}
+		
+		return statValues;
+	}
+	
+	protected override void printData (string [] statValues) 
+	{
+		if(numContinuous != -1) {
+			int bestPos = findBestContinuous(statValues, numContinuous);
+			if(bestPos != -1) {
+				statValues = markBestContinuous(statValues, numContinuous, bestPos);
+			}
+		}
+		
+		if(toReport) {
+			reportString += "<TR>";
+			for (int i=0; i < statValues.Length ; i++) {
+				reportString += "<TD>" + statValues[i] + "</TD>";
+			}
+			reportString += "</TR>\n";
+		} else {
+			iter = store.AppendValues (statValues); 
+		}
+	}
+
+	
 	
 	public override void PrepareData() 
 	{
@@ -76,24 +158,16 @@ public class StatRjEvolution : Stat
 		bool multisession = false;
 
 		//we send maxJumps for make all the results of same length (fill it with '-'s)
-		if(statsJumpsType == 3) { //avg of each jumper
-			string operation = "AVG";
-			processDataSimpleSession ( cleanDontWanted (
-						SqliteStat.RjEvolution(sessionString, multisession, 
-							//"AVG(", ")", showSex, maxJumps), 
-							operation, jumpType, showSex, maxJumps), 
-						statsJumpsType, limit),
-					false, dataColumns); //don't print AVG and SD at end of row (has no sense)
-		} else {
-			string operation = ""; //no need of "MAX", there's an order by (index) desc
-							//and clenaDontWanted will do his work
-			processDataSimpleSession ( cleanDontWanted (
-						SqliteStat.RjEvolution(sessionString, multisession, 
-							//"", "", showSex, maxJumps), 
+		//
+		// cannot be avg in this statistic
+		
+		string operation = ""; //no need of "MAX", there's an order by (index) desc
+		//and clenaDontWanted will do his work
+		processDataSimpleSession ( cleanDontWanted (
+					SqliteStat.RjEvolution(sessionString, multisession, 
 						operation, jumpType, showSex, maxJumps), 
-						statsJumpsType, limit),
-					false, dataColumns); //don't print AVG and SD at end of row (has no sense)
-		}
+					statsJumpsType, limit),
+				false, dataColumns); //don't print AVG and SD at end of row (has no sense)
 	}
 		
 	public override string ToString () 
@@ -121,8 +195,13 @@ public class StatRjEvolution : Stat
 			mySessionString =  Catalog.GetString (" session ") + 
 				strFull[0] + "(" + strFull[2] + ")";
 		}
+		
+		string bestResalted = "";
+		if(numContinuous != -1) {
+			bestResalted = string.Format(Catalog.GetString(" (best {0} consecutive jumps marked using [tv/tc *100])"), numContinuous);
+		}
 
-		return string.Format(Catalog.GetString("{0} in Rj Evolution applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in Rj Evolution applied to {1} on {2}{3}"), selectedValuesString, jumpType, mySessionString, bestResalted);
 	}
 }
 

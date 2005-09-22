@@ -147,11 +147,9 @@ public class ReportWindow {
 		string sessionsAsAString = "";
 		for (int i=0; i < sendSelectedSessions.Count ; i++) {
 			if(i>0) {
-				//sessionsAsAString += "\n";
 				sessionsAsAString += ":";
 			}
 			string [] myStrFull = sendSelectedSessions[i].ToString().Split(new char[] {':'});
-			//sessionsAsAString += myStrFull[0] + ":" + myStrFull[1] + ":" + myStrFull[2]; //id, name, date
 			sessionsAsAString += myStrFull[0];
 		}
 

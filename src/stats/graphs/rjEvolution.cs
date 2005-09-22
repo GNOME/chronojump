@@ -35,9 +35,16 @@ public class GraphRjEvolution : StatRjEvolution
 	protected string operation;
 	private Random myRand = new Random();
 
+
+	/*
+	 * if one day i found the way of plotting different (single plots) i will use it for the numContinuous
+	 */
+	
+	//public GraphRjEvolution  (StatTypeStruct myStatTypeStruct, int numContinuous)
 	public GraphRjEvolution  (StatTypeStruct myStatTypeStruct)
 	{
 		completeConstruction (myStatTypeStruct, treeview);
+		//this.numContinuous = numContinuous;
 		
 		string sessionString = obtainSessionSqlString(sessions);
 		//we need to know the reactive with more jumps for prepare columns
@@ -74,6 +81,15 @@ public class GraphRjEvolution : StatRjEvolution
 
 	protected override void printData (string [] statValues) 
 	{
+		/*
+		if(numContinuous != -1) {
+			int bestPos = findBestContinuous(statValues, numContinuous);
+			if(bestPos != -1) {
+				statValues = markBestContinuous(statValues, numContinuous, bestPos);
+			}
+		}
+		*/
+		
 		GraphSerie serieTc = new GraphSerie();
 		GraphSerie serieTv = new GraphSerie();
 

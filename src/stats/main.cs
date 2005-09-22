@@ -75,6 +75,8 @@ public class Stat
 	protected string allValuesString = "All values";
 	protected string avgValuesString = "Avg values of each jumper";
 	
+	protected int numContinuous; //for stats rj evolution
+	
 
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public Stat () 

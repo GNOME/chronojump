@@ -785,6 +785,7 @@ public class PersonAddMultipleWindow {
 	int personsCreatedCount;
 	string errorExistsString;
 	string errorWeightString;
+	string errorRepeatedEntryString;
 	
 	PersonAddMultipleWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_add_multiple", null);
@@ -820,8 +821,9 @@ public class PersonAddMultipleWindow {
 	{
 		errorExistsString = "";
 		errorWeightString = "";
+		errorRepeatedEntryString = "";
 		personsCreatedCount = 0;
-		
+
 		int count = 1;
 		checkEntries(count++, entry1.Text.ToString(), (int) spinbutton1.Value);
 		checkEntries(count++, entry2.Text.ToString(), (int) spinbutton2.Value);
@@ -833,6 +835,8 @@ public class PersonAddMultipleWindow {
 		checkEntries(count++, entry8.Text.ToString(), (int) spinbutton8.Value);
 		checkEntries(count++, entry9.Text.ToString(), (int) spinbutton9.Value);
 		checkEntries(count++, entry10.Text.ToString(), (int) spinbutton10.Value);
+	
+		checkAllEntriesAreDifferent();
 
 		string combinedErrorString = "";
 		combinedErrorString = readErrorStrings();
@@ -858,6 +862,36 @@ public class PersonAddMultipleWindow {
 			}
 		}
 	}
+		
+	void checkAllEntriesAreDifferent() {
+		ArrayList newNames= new ArrayList();
+		newNames.Add(entry1.Text.ToString());
+		newNames.Add(entry2.Text.ToString());
+		newNames.Add(entry3.Text.ToString());
+		newNames.Add(entry4.Text.ToString());
+		newNames.Add(entry5.Text.ToString());
+		newNames.Add(entry6.Text.ToString());
+		newNames.Add(entry7.Text.ToString());
+		newNames.Add(entry8.Text.ToString());
+		newNames.Add(entry9.Text.ToString());
+		newNames.Add(entry10.Text.ToString());
+
+		for(int i=0; i<10; i++) {
+			bool repeated = false;
+			if(Util.RemoveTilde(newNames[i].ToString()).Length > 0) {
+				int j;
+				for(j=i+1; j<10 && !repeated; j++) {
+					if( Util.RemoveTilde(newNames[i].ToString()) == Util.RemoveTilde(newNames[j].ToString()) ) {
+						repeated = true;
+					}
+				}
+				if(repeated) {
+					errorRepeatedEntryString += string.Format("[{0}] {1} - [{2}] {3}\n",
+							i+1, newNames[i].ToString(), j, newNames[j-1].ToString());
+				}
+			}
+		}
+	}
 	
 	string readErrorStrings() {
 		if (errorExistsString.Length > 0) {
@@ -866,8 +900,11 @@ public class PersonAddMultipleWindow {
 		if (errorWeightString.Length > 0) {
 			errorWeightString = "\nERROR weight of this person(s) cannot be 0:\n" + errorWeightString;
 		}
+		if (errorRepeatedEntryString.Length > 0) {
+			errorRepeatedEntryString = "\nERROR this names are repeated:\n" + errorRepeatedEntryString;
+		}
 		
-		return errorExistsString + errorWeightString;
+		return errorExistsString + errorWeightString + errorRepeatedEntryString;
 	}
 
 	//inserts all the rows where name is not blank

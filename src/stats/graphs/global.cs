@@ -116,6 +116,19 @@ public class GraphGlobal : StatGlobal
 			foreach (string myValue in statValues) 
 			{
 				if(i == 0) {
+					
+					//don't plot AVG and SD rows
+					if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
+						return;
+					}
+
+					//global is nicer and cleaner  without the AVG and SD
+					if(GraphSeries.Count == 0) {
+						GraphSeries.Add(serieIndex);
+						GraphSeries.Add(serieTv);
+					}
+					
+					/*
 					//don't plot AVG and SD rows
 					if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
 						//good moment for adding created series to GraphSeries ArrayList
@@ -126,6 +139,7 @@ public class GraphGlobal : StatGlobal
 						}
 						return;
 					}
+					*/
 
 					if(myValue.StartsWith("IndexQ")) {
 						CurrentGraphData.XAxisNames.Add(myValue.Replace("IndexQ", "IndexQ *10"));

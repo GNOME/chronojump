@@ -1,5 +1,19 @@
 CHANGELOG:
 
+24 set 2005
+	doing individual selectable jumps (checkboxes in treeview) for graphs and report.
+		TODO:	
+			* now rjEvolution graph is not correct
+			* now all multisession graphs are broken
+			* later check reports and graphs in reports
+
+	In create persons multiple two persons with same name cannot be added together
+
+	minor changes
+		fixed bug: button and menuitem show all person events hided when there is no current person
+		fixed little bug? in counting report images
+		cleaned stats/main.cs
+
 22 set 2005
 	from stats/reactive/evolution it's possible to find the best subjump
 	or the 'n' best consecutives subjumps. Done for stats and report (currently not possible to implement in

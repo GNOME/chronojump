@@ -145,7 +145,26 @@ public class StatRjEvolution : Stat
 			}
 			reportString += "</TR>\n";
 		} else {
-			iter = store.AppendValues (statValues); 
+			//iter = store.AppendValues (statValues); 
+			iter = new TreeIter();
+			
+			//iter = store.Append (iter);	//doesn't work
+			store.Append (out iter);	//add new row and make iter point to it
+		
+			//addAllNoneIfNeeded(store, iter, statValues.Length);
+			addAllNoneIfNeeded(statValues.Length);
+		
+			TreePath myPath = store.GetPath(iter); 
+			
+			if(statValues[0] != Catalog.GetString("AVG") && statValues[0] != Catalog.GetString("SD")) {
+				store.SetValue(iter, 0, true);	//first col is true if it's not AVG or SD
+				markedRows.Add(myPath.ToString());
+				Console.WriteLine("FROM PRINTDATA (EVOLUTION) Added to markedRows row:{0}", myPath.ToString());
+			}
+			
+			for(int i=0; i < statValues.Length; i++) {
+				store.SetValue(iter, i+1, statValues[i]);
+			}
 		}
 	}
 

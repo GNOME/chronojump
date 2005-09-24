@@ -77,7 +77,8 @@ public class StatsWindow {
 	ArrayList selectedSessions;
 	
 	//private Stat myStat; 
-	
+	private StatType myStatType;
+
 	private string allJumpsName = Catalog.GetString("All jumps");
 	
 	private static string [] comboStatsTypeOptions = {
@@ -136,6 +137,7 @@ public class StatsWindow {
 		this.reportWin= reportWin;
 
 		//myStat = new Stat(); //create and instance of myStat
+		myStatType = new StatType();
 		
 		createComboStatsType();
 		createComboStatsSubType();
@@ -355,7 +357,12 @@ public class StatsWindow {
 			rj_evolution_mark_consecutives = Convert.ToInt32 ( spinbutton_mark_consecutives.Value ); 
 		}
 
-		StatType myStatType = new StatType(
+		ArrayList markedRows = new ArrayList();
+		if(graph) {
+			markedRows = myStatType.MarkedRows;
+		}
+
+		myStatType = new StatType(
 				statisticType,
 				statisticSubType,
 				statisticApplyTo,
@@ -367,9 +374,10 @@ public class StatsWindow {
 				limit, 
 				heightPreferred,
 				weightStatsPercent, 
+				markedRows,
 				rj_evolution_mark_consecutives,
 				graph,
-				toReport
+				toReport  //always false in this class
 				);
 		bool allFine = myStatType.ChooseStat();
 		
@@ -378,7 +386,8 @@ public class StatsWindow {
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(myStatType.Enunciate);
 		textview_enunciate.Buffer = tb;
-
+		tb.SetText(myStatType.Enunciate);
+		
 		if(allFine) {
 			return true;
 		} else {

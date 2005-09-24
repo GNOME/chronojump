@@ -66,7 +66,9 @@ public class Stat
 	protected static int pDN; //prefsDigitsNumber;
 	//protected static string manName = "M";
 	//protected static string womanName = "F";
-	
+
+	protected ArrayList markedRows;
+
 	protected bool toReport = false;
 	protected string reportString;
 
@@ -77,27 +79,11 @@ public class Stat
 	
 	protected int numContinuous; //for stats rj evolution
 	
+	//private bool selectedMakeAVGSD;
 
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public Stat () 
 	{
-		this.showSex = false;
-		this.statsJumpsType = 0;
-		this.limit = 0;
-	}
-
-	public Stat (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType) 
-	{
-		if(sessions.Count > 1) {
-			store = getStore(sessions.Count +3); //+3 (for the statName, the AVG horizontal and SD horizontal
-		} else {
-			store = getStore(sessions.Count +1);
-		}
-		treeview.Model = store;
-
-		completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);
-		string [] columnsString = { Catalog.GetString("Jumper"), Catalog.GetString("TV") };
-		prepareHeaders(columnsString);
 	}
 
 	protected void completeConstruction (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview)
@@ -110,6 +96,9 @@ public class Stat
 		this.statsJumpsType = myStatTypeStruct.StatsJumpsType;
 		this.limit = myStatTypeStruct.Limit;
 		this.jumpType = myStatTypeStruct.StatisticApplyTo;
+		
+		this.markedRows = myStatTypeStruct.MarkedRows;
+		
 		this.toReport = myStatTypeStruct.ToReport;
 		
 		this.treeview = treeview;
@@ -120,25 +109,109 @@ public class Stat
 		iter = new TreeIter();
 	}
 	
-	//this method will disappear
-	protected void completeConstruction (Gtk.TreeView treeview, ArrayList sessions, int newPrefsDigitsNumber, bool showSex, int statsJumpsType)
+	void createCheckboxes(TreeView tv) 
 	{
-		this.sessions = sessions;
-		this.treeview = treeview;
-		pDN = newPrefsDigitsNumber;
-		this.showSex = showSex;
-		this.statsJumpsType = statsJumpsType;
-		
-		//initialize reportString
-		reportString = "";
+		CellRendererToggle rendererToggle = new CellRendererToggle ();
+		rendererToggle.Xalign = 0.0f;
+		GLib.Object ugly = (GLib.Object) rendererToggle;
+		ugly.Data ["column"] = 0;
+		rendererToggle.Toggled += new ToggledHandler (ItemToggled);
+		rendererToggle.Activatable = true;
+		rendererToggle.Active = true;
 
-		iter = new TreeIter();
+		TreeViewColumn column = new TreeViewColumn ("", rendererToggle, "active", 0);
+		column.Sizing = TreeViewColumnSizing.Fixed;
+		column.FixedWidth = 50;
+		column.Clickable = true;
+		tv.InsertColumn (column, 0);
 	}
+
+	void ItemToggled(object o, ToggledArgs args) {
+		Console.WriteLine("Toggled");
+
+		GLib.Object cellRendererToggle = (GLib.Object) o;
+		int column = (int) cellRendererToggle.Data["column"];
+
+		Gtk.TreeIter iter;
+		if (store.GetIterFromString (out iter, args.Path))
+		{
+			bool val = (bool) store.GetValue (iter, column);
+			Console.WriteLine ("toggled {0} with value {1}", args.Path, !val);
+
+			if(args.Path == "0") {
+				if (store.GetIterFirst(out iter)) {
+					val = (bool) store.GetValue (iter, column);
+					store.SetValue (iter, column, !val);
+					
+					//delete all from ArrayList markedRows if have to be activated we add the later
+					//markedRows = new ArrayList();
+					markedRows.RemoveRange(0,markedRows.Count);
+					
+					// ALL/NONE should not be in markedRows
+					/*
+					if(!val) { 
+						markedRows.Add("0");
+					}
+					*/
+					int count = 1;
+					while ( store.IterNext(ref iter) ){
+						//except AVG and SD
+						string avgOrSD = (string) store.GetValue (iter, 1);
+						if(avgOrSD != Catalog.GetString("AVG") && 
+								avgOrSD != Catalog.GetString("SD")) {
+							store.SetValue (iter, column, !val);
+					
+							//if (!val) means was false, and now has changed to true.
+							//all rows have to be activated
+							if(!val) {
+								markedRows.Add(count.ToString());
+							}
+						}
+						count ++;
+					}
+				}
+			} else {
+				//if this row is not AVG or SD
+				string avgOrSD = (string) store.GetValue (iter, 1);
+				if(avgOrSD != Catalog.GetString("AVG") && avgOrSD != Catalog.GetString("SD")) 
+				{
+					//change the checkbox value
+					store.SetValue (iter, column, !val);
+					//add or delete from ArrayList markedRows
+					//if (val) means was true, and now has changed to false. Has been deactivated
+					if(val) {
+						int i = 0;
+						foreach(string myRow in markedRows) {
+							if(myRow == args.Path) {
+								markedRows.RemoveAt(i);
+								Console.WriteLine("deleted from markedRows row:{0}", args.Path);
+								break;
+							}
+							i++;
+						}
+					} else {
+						// ALL/NONE should not be in markedRows
+						if(args.Path != "0") {
+							markedRows.Add(args.Path);
+							Console.WriteLine("Added to markedRows row:{0}", args.Path);
+						}
+					}
+				}
+			}
+		}
 		
+		foreach(string myString in markedRows) {
+			Console.Write(":" + myString);
+		}
+		Console.WriteLine();
+	}
+
 	protected void prepareHeaders(string [] columnsString) 
 	{
+		createCheckboxes(treeview);
+		
 		treeview.HeadersVisible=true;
-		treeview.AppendColumn (Catalog.GetString(columnsString[0]), new CellRendererText(), "text", 0);
+		treeview.AppendColumn (Catalog.GetString(columnsString[0]), new CellRendererText(), "text", 1);
 
 		int i;
 		if(sessions.Count > 1) {
@@ -149,16 +222,16 @@ public class Stat
 				stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				myHeaderString = stringFullResults[1] + "\n" + 
 					stringFullResults[2] + "\n" + Catalog.GetString(columnsString[1]); //name, date, col name
-				treeview.AppendColumn (myHeaderString, new CellRendererText(), "text", i+1); 
+				treeview.AppendColumn (myHeaderString, new CellRendererText(), "text", i+2); 
 			}
 			//if multisession, add AVG and SD cols
-			treeview.AppendColumn (Catalog.GetString("AVG"), new CellRendererText(), "text", i+1); 
-			treeview.AppendColumn (Catalog.GetString("SD"), new CellRendererText(), "text", i+2);
+			treeview.AppendColumn (Catalog.GetString("AVG"), new CellRendererText(), "text", i+2); 
+			treeview.AppendColumn (Catalog.GetString("SD"), new CellRendererText(), "text", i+3);
 		} else {
-			treeview.AppendColumn (Catalog.GetString(columnsString[1]), new CellRendererText(), "text", 1); 
+			treeview.AppendColumn (Catalog.GetString(columnsString[1]), new CellRendererText(), "text", 2); 
 			//if there's only one session, add extra data columns if needed
 			for(i=2 ; i <= dataColumns ; i++) {
-				treeview.AppendColumn (columnsString[i], new CellRendererText(), "text", i);
+				treeview.AppendColumn (columnsString[i], new CellRendererText(), "text", i+1);
 			}
 		}
 	}
@@ -196,8 +269,12 @@ public class Stat
 	protected TreeStore getStore (int columns)
 	{
 		//prepares the TreeStore for required columns
-		Type [] types = new Type [columns];
-		for (int i=0; i < columns; i++) {
+		//columns +1 for the checkbox col (not counted in columns)
+		Type [] types = new Type [columns+1];
+		
+		//adding the checkbox col (not counted in columns)
+		types[0] = typeof (bool);
+		for (int i=1; i <= columns; i++) {
 			types[i] = typeof (string);
 		}
 		TreeStore myStore = new TreeStore(types);
@@ -257,6 +334,9 @@ public class Stat
 	//one column by each dataColumn returned by SQL
 	protected void processDataSimpleSession (ArrayList arrayFromSql, bool makeAVGSD, int dataColumns) 
 	{
+		//record makeavgsd for using in checkboxes for not being selected
+		//selectedMakeAVGSD = makeAVGSD;
+		
 		string [] rowFromSql = new string [dataColumns +1];
 		double [] sumValue = new double [dataColumns +1];
 		double [] sumSquaredValue = new double [dataColumns +1];
@@ -299,6 +379,9 @@ public class Stat
 	//one column by each session returned by SQL
 	protected void processDataMultiSession (ArrayList arrayFromSql, bool makeAVGSD, int sessionsNum) 
 	{
+		//record makeavgsd for using in checkboxes for not being selected
+		//selectedMakeAVGSD = makeAVGSD;
+		
 		string [] rowFromSql = new string [sessionsNum +1];
 		double [] sumValue = new double [sessionsNum +1];
 		double [] sumSquaredValue = new double [sessionsNum +1];
@@ -419,6 +502,24 @@ public class Stat
 			return rowData;
 		}
 	}
+	
+	//protected void addAllNoneIfNeeded(TreeStore store, TreeIter iter, int cols) {
+	protected void addAllNoneIfNeeded(int cols) {
+		//if this is the first row, add the MARK ALL/NONE, and make another row
+		TreePath myPath = store.GetPath(iter); 
+		if(myPath.ToString() == "0") {
+			store.SetValue(iter, 0, true);	//first col is true
+			store.SetValue(iter, 1, Catalog.GetString("MARK ALL/NONE"));	//second col is MARK ALL/NONE
+			//the rest columns are ""
+			for(int i=2; i < cols ; i++) {
+				store.SetValue(iter, i, "");
+			}
+			store.Append (out iter);	//add new row and make iter point to it
+			
+			// ALL/NONE should not be in markedRows
+			//markedRows.Add("0");
+		}
+	}
 		
 	protected virtual void printData (string [] statValues) 
 	{
@@ -429,7 +530,26 @@ public class Stat
 			}
 			reportString += "</TR>\n";
 		} else {
-			iter = store.AppendValues (statValues); 
+			iter = new TreeIter();
+			
+			//iter = store.Append (iter);	//doesn't work
+			store.Append (out iter);	//add new row and make iter point to it
+		
+			//addAllNoneIfNeeded(store, iter, statValues.Length);
+			addAllNoneIfNeeded(statValues.Length);
+			
+			TreePath myPath = store.GetPath(iter); 
+			
+			if(statValues[0] != Catalog.GetString("AVG") && statValues[0] != Catalog.GetString("SD")) {
+				store.SetValue(iter, 0, true);	//first col is true if it's not AVG or SD
+				markedRows.Add(myPath.ToString());
+				Console.WriteLine("FROM PRINTDATA Added to markedRows row:{0}", myPath.ToString());
+			}
+			
+			for(int i=0; i < statValues.Length; i++) {
+				store.SetValue(iter, i+1, statValues[i]);
+			}
+
 		}
 	}
 
@@ -498,6 +618,7 @@ public class Stat
 	public void CreateGraph () 
 	{
 		//only graph if there's data
+		//TODO: check also later if none row is selected
 		if(CurrentGraphData.XAxisNames.Count == 0) {
 			return;
 		}
@@ -533,6 +654,7 @@ public class Stat
 	public bool CreateGraph (string fileName) 
 	{
 		//only graph if there's data
+		//TODO: check also later if none row is selected
 		if(CurrentGraphData.XAxisNames.Count == 0) {
 			return false;
 		}
@@ -561,8 +683,10 @@ public class Stat
 		plot.Draw (g, bounds);
 		string directoryName = Util.GetReportDirectoryName(fileName);
 		string [] pngs = Directory.GetFiles(directoryName, "*.png");
+
 		//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
-		b.Save (directoryName + "/" + (pngs.Length +1).ToString() + ".png", ImageFormat.Png);
+		//there will be always a png with chronojump_logo
+		b.Save (directoryName + "/" + pngs.Length.ToString() + ".png", ImageFormat.Png);
 
 		return true;
 	}
@@ -610,9 +734,13 @@ public class Stat
 	
 	protected void plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
 	{
-		foreach(GraphSerie mySerie in allSeries) {
-			
-			double[] lineData = new double[xtics];
+		int count = 0;
+		foreach(GraphSerie mySerie in allSeries) 
+		{
+			//xtics value is all rows +2 (left & right space)
+			//lineData should contain xtics but without the rows thar are not in markedRows
+			Console.WriteLine("{0}:{1}:{2}", xtics, markedRows.Count, xtics-( (xtics-2)-(markedRows.Count) ) );
+			double[] lineData = new double[ xtics-( (xtics-2)-(markedRows.Count) ) ];
 			
 			Marker m = mySerie.SerieMarker;
 		
@@ -628,23 +756,41 @@ public class Stat
 			//left margin
 			lineData[0] = double.NaN;
 	
-			int j=1;
+			int added=1;
+			int counter=1;
 			foreach (string myValue in mySerie.SerieData) 
 			{
+				//TODO: check this:
 				//don't graph AVG and SD right cols in multisession
-				if ( j > xtics -2 ) {
+				if ( counter > xtics -2 ) {
 					break;
 				}	
-
-				if(myValue == "-") {
-					lineData[j++] = double.NaN;
-				} else {
-					lineData[j++] = Convert.ToDouble(myValue);
+				
+				bool allowedRow = false; 
+				foreach(string marked in markedRows) {
+					// -1 because we should avoid the first row MARK ALL/NONE
+					if(Convert.ToInt32(marked) == counter) {
+						allowedRow = true;
+						break;
+					}
 				}
+				if( ! allowedRow) {
+					counter ++;
+					continue;
+				}
+				
+				if(myValue == "-") {
+					lineData[added++] = double.NaN;
+				} else {
+					lineData[added++] = Convert.ToDouble(myValue);
+				}
+				counter++;
+
+				Console.WriteLine("linedata :" + mySerie +":" + myValue);
 			}
 			
 			//right margin
-			lineData[j] = double.NaN;
+			lineData[added] = double.NaN;
 			
 			lp.DataSource = lineData;
 			pp.OrdinateData = lineData;
@@ -658,31 +804,57 @@ public class Stat
 				plot.Add( lp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
 				plot.Add( pp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
 			}
+				
+			count ++;
 		}
 	}
 		
 	protected void createAxisGraphSeries (IPlotSurface2D plot, GraphData graphData)
 	{
+		Console.Write("A");
 		LabelAxis la = new LabelAxis( plot.XAxis1 );
-		int i=1;
+		Console.Write("B");
+		int added=1;
+		int counter=1;
 		foreach (string name in graphData.XAxisNames) {
-			la.AddLabel( name, i++ );
+		Console.Write("C");
+			bool allowedRow = false; 
+			foreach(string marked in markedRows) {
+		Console.Write("D");
+				if(Convert.ToInt32(marked) == counter) {
+					allowedRow = true;
+					break;
+				}
+			}
+			if( ! allowedRow) {
+				counter ++;
+				continue;
+			}
+			
+		Console.Write("E");
+			la.AddLabel( name, added++ );
+		Console.Write("F");
+			counter ++;
 		}
+		Console.Write("G");
 		la.WorldMin = 0.7f;
-		la.WorldMax = graphData.XAxisNames.Count + .3f;
+		la.WorldMax = graphData.XAxisNames.Count-(graphData.XAxisNames.Count-(markedRows.Count)) + .3f;
 		plot.XAxis1 = la;
 		//plot.XAxis1.LargeTickSize = 0.0f;
 		plot.XAxis1.TicksLabelAngle = 35.0f;
+		Console.Write("H");
 	
 		if(graphData.LabelLeft != "") {
 			LinearAxis ly1 = (LinearAxis)plot.YAxis1;
 			ly1.Label = graphData.LabelLeft;
 		}
 		
+		Console.Write("I");
 		if(graphData.LabelRight != "") {
 			LinearAxis ly2 = (LinearAxis)plot.YAxis2;
 			ly2.Label = graphData.LabelRight;
 		}
+		Console.Write("J");
 	}
 	
 	protected void writeLegend(IPlotSurface2D plot)
@@ -698,6 +870,12 @@ public class Stat
 			return sessions;
 		}
 	}
+
+	public ArrayList MarkedRows {
+		get { return markedRows;
+		}
+	}
+
 
 	~Stat() {}
 }

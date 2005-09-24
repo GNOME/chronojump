@@ -23,11 +23,12 @@ Incorpora as seguintes estatísticas (sempre que não se especifique o contrario
 Graficação de todos as estatísticas descritos mediante a biblioteca gráfica NPlot.
 <p>
 Exportação de dados dos saltos à planilhas eletrônicas (formato CSV).
-
+<p>
+Criação de relatorios personalizados de todos os dados obtidos e das estatísticas (formato HTML)
 
 <h4>Características do cronômetro</h4>
  O Cronômetro: Chronopic, está baseado na placa treinadora Skypic (consultar documentação), e oferece uma precisão de uma milésima de segundo conforme podemos comprovar. <tt>[Pendente de detalhar como comprovamos]</tt>.
- <p> Alguns sistemas de cronômetro de salto usam unicamente um computador pessoal (notebook) conectado à plataforma. Os computadores modernos são multitarefa, característica que impede uma medição fiável devido a que podem estar realizando qualquer outra tarefa em aquele momento.
+ <p> Alguns sistemas de cronômetro de salto usam unicamente um computador pessoal (notebook) conectado à plataforma. Os computadores modernos são multitarefa, característica que impede uma medição fiável devido a que podem estar realizando qualquer outra tarefa em aquele momento. Mais informação: <a href="construction_pt.html">Construção</a>.
  <p>
 
  <h4>Características da plataforma</h4>
@@ -37,7 +38,8 @@ Exportação de dados dos saltos à planilhas eletrônicas (formato CSV).
  <h4>Características futuras</h4>
 
  Em breve pretendemos implementar também as seguintes funções:
- <ul> <li>Esquema para a disposição de 2 plataformas para cronometrar um circuito de agilidade ou velocidade. Neste caso se recomenda que cada plataforma esteja constituída por um número de conjuntos de varas inferior ao convencional. Também se aponta a possibilidade de usar 1 plataforma (circuito circular) ou mais de 2 (sessão com diferentes "estações"). <li>Se aponta a possibilidade de substituir as plataformas de contatos por células fotoelétricas. O método de fabricação de células fotoelétricas ainda não está descrita, se têm informação ao respeito, pedimos sua colaboração.
+ <ul> 
+ <li>Se aponta a possibilidade de substituir as plataformas de contatos por células fotoelétricas. O método de fabricação de células fotoelétricas ainda não está descrita, se têm informação ao respeito, pedimos sua colaboração.
  <li>Campainha para a medição do tempo de reação. Um dispositivo instalado no próprio cronômetro produzirá um estímulo sonoro e se cronometrara o tempo que demora até que se entra na plataforma, ou até que se sai dela. Entre muitas utilidades pode ser usado para o controle da Course Navette.
  <li>Possibilidade de modificar a sensibilidade do cronômetro a cada salto.
  <li>Se deseja outras prestações do programa não deixe de solicitar-las através das listas de e-mail.

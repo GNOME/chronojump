@@ -144,6 +144,8 @@ public class ChronoJump
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_delete_current_person_from_session;
+	[Widget] Gtk.Button button_show_all_person_events;
+	[Widget] Gtk.MenuItem show_all_person_events;
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_finish;
 	
@@ -690,6 +692,8 @@ public class ChronoJump
 		combo_person_current.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
 		menuitem_edit_current_person.Sensitive = false;
+		button_show_all_person_events.Sensitive = false;
+		show_all_person_events.Sensitive = false;
 	}
 		
 	private void updateComboJumps() {
@@ -919,6 +923,8 @@ public class ChronoJump
 			button_edit_current_person.Sensitive = false;
 			menuitem_edit_current_person.Sensitive = false;
 			menuitem_delete_current_person_from_session.Sensitive = false;
+			button_show_all_person_events.Sensitive = false;
+			show_all_person_events.Sensitive = false;
 			//update combo sujeto current
 			updateComboSujetoCurrent();
 			combo_person_current.Sensitive = false;
@@ -981,6 +987,8 @@ public class ChronoJump
 		button_edit_current_person.Sensitive = false;
 		menuitem_edit_current_person.Sensitive = false;
 		menuitem_delete_current_person_from_session.Sensitive = false;
+		button_show_all_person_events.Sensitive = false;
+		show_all_person_events.Sensitive = false;
 		//update combo sujeto current
 		bool myBool = updateComboSujetoCurrent();
 		combo_person_current.Sensitive = false;
@@ -2284,6 +2292,8 @@ public class ChronoJump
 		label_current_person.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
 		menuitem_delete_current_person_from_session.Sensitive = false;
+		button_show_all_person_events.Sensitive = false;
+		show_all_person_events.Sensitive = false;
 		
 		//notebook
 		notebook.Sensitive = false;
@@ -2321,6 +2331,8 @@ public class ChronoJump
 		button_edit_current_person.Sensitive = false;
 		menuitem_edit_current_person.Sensitive = false;
 		menuitem_delete_current_person_from_session.Sensitive = false;
+		button_show_all_person_events.Sensitive = false;
+		show_all_person_events.Sensitive = false;
 		
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
@@ -2363,6 +2375,8 @@ public class ChronoJump
 		button_edit_current_person.Sensitive = true;
 		menuitem_edit_current_person.Sensitive = true;
 		menuitem_delete_current_person_from_session.Sensitive = true;
+		button_show_all_person_events.Sensitive = true;
+		show_all_person_events.Sensitive = true;
 		
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;

@@ -8,7 +8,7 @@ El ChronoJump fa servir una petita base de dades Sqlite que el capacita per vinc
 <p>
 És multiplataforma; Pel fet d'estar programat en C# usant Mono, hauria de funcionar correctament   amb GNU/Linux, MacOSX, Windows... a hores d'ara només s'ha provat amb GNU/Linux. 
 <p>
-Incorpora les següents caractarístiques (sempre que no s'especifiqui el contrari, permet mostrar mitjanes, valors màxims, o bé tots els valors d'una única sessió o entre un número indeterminat de sessions ( longitudinal) i amb distinció de gènere).
+Incorpora les següents característiques (sempre que no s'especifiqui el contrari, permet mostrar mitjanes, valors màxims, o bé tots els valors d'una única sessió o entre un número indeterminat de sessions ( longitudinal) i amb distinció de gènere).
 
 <ul>
 <li>Resum d'una o diferents sessions 
@@ -25,12 +25,14 @@ Possibilitat de mostrar els gràfics de tots els estadístics descrits mitjança
 
 <p>
 Possibilitat d'exportar les dades dels salts a fulls de càlcul (format CSV). 
+<p>
+Creació d'informes personalitzats de totes les dades obtingudes i els estadístics (format HTML). 
 
 <h4>Característiques del cronòmetre</h4>
 
-L'aparell Cronometrador: Chronopic, està basat en la targeta Entrenadora Skypic (consulteu la documentació), i ofereix una precisió d'una mil·lèsima de segon, segons s'ha pogut comprovar. <tt>[Pendent de detallar com s'ha comprovat]</tt>. 
+L'aparell Cronometrador: Chronopic, està basat en la targeta Entrenadora Skypic (consulteu la documentació), i ofereix una precisió d'una mil·lèsima de segon, segons s'ha pogut comprovar. 
 <p>
-Alguns sistemes de cronometratge del salt fan servir, únicament, un ordinador personal connectat a la plataforma. Els ordinadors actuals són multifuncions, característica que els impedeix garantir un mesurament fiable,  pel fet que poden estar realitzant qualsevol altra tasca en aquell mateix moment.
+Alguns sistemes de cronometratge del salt fan servir, únicament, un ordinador personal connectat a la plataforma. Els ordinadors actuals són multifuncions, característica que els impedeix garantir un mesurament fiable,  pel fet que poden estar realitzant qualsevol altra tasca en aquell mateix moment. Més informació a l'apartat <a href="construction_ca.html">Construcció</a>
 
  <p>
  
@@ -38,11 +40,10 @@ Alguns sistemes de cronometratge del salt fan servir, únicament, un ordinador p
 
  La plataforma de contactes es pot fabricar tal i com s'explica a l'apartat <a href="construction_ca.html">Construcció</a>.
 
- <h4>Característiques futuras</h4>
+ <h4>Característiques futures</h4>
 
 Breument s'hi volen implementar les següents funcions: 
 <ul>
-<li>Esquema per la disposició de dues plataformes per a cronometrar un circuit d'agilitat o velocitat. En aquest cas, es recomana que cada plataforma sigui construïda amb un número de conjunts vareta inferior al convencional. També apunta la possibilitat d'usar una plataforma (circuit circular) o més de dues (sessió amb diferents "estacions"). 
 <li>Es preveu la possibilitat de substituir les plataformes de contactes per cèl·lules fotoelèctriques. El mètode de fabricació de cèl·lules fotoelèctriques encara no està descrit, si teniu informació referent a aquest tema, preguem la seva col·laboració. 
 <li>Vibrador (zumbador) per a mesurar el temps de reacció. Un dispositiu instal·lat al cronòmetre produirà un so i cronometrarà el temps que passi fins que esdevingui un canvi d'estat a la plataforma. Entre moltes altres utilitats pot ser usat pel control de la Course Navette.
 <li>Possibilitat de modificar la sensibilitat del cronòmetre a cada salt. 

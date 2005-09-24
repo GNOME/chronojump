@@ -36,11 +36,15 @@ public class StatTypeStruct
 	public int Limit;
 	public bool HeightPreferred;
 	public bool WeightStatsPercent; 
+	
+	public ArrayList MarkedRows;
+	
 	public bool ToReport;
 	
 	public StatTypeStruct (string statisticApplyTo, 
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			ArrayList markedRows, 
 			bool toReport)
 	{
 		this.StatisticApplyTo = statisticApplyTo;
@@ -51,6 +55,7 @@ public class StatTypeStruct
 		this.Limit = limit;
 		this.HeightPreferred = heightPreferred;
 		this.WeightStatsPercent = weightStatsPercent;
+		this.MarkedRows = markedRows;
 		this.ToReport = toReport;
 	}
 }
@@ -69,6 +74,9 @@ public class StatType {
 	bool heightPreferred;
 	bool weightStatsPercent;
 	int rj_evolution_mark_consecutives;
+	
+	ArrayList markedRows;
+	
 	bool graph;
 	bool toReport;
 	TextWriter writer;
@@ -88,10 +96,15 @@ public class StatType {
 	
 	StatTypeStruct myStatTypeStruct;
 	
+	//comes from gui/stats.cs (initialization)
+	public StatType () {
+	}
+	
 	//comes from gui/stats.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo, Gtk.TreeView treeview_stats,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
+			ArrayList markedRows, 
 			int rj_evolution_mark_consecutives, bool graph, bool toReport)
 	{
 		//some of this will disappear when we use myStatTypeStruct in all classes:
@@ -106,15 +119,20 @@ public class StatType {
 		this.limit = limit;
 		this.heightPreferred = heightPreferred;
 		this.weightStatsPercent = weightStatsPercent;
+
+		this.markedRows = markedRows;
+		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
 		this.graph = graph;
 		this.toReport = toReport;
-	
+
+		
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
 				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
-				 toReport);
+				markedRows, 
+				toReport);
 
 		myStat = new Stat(); //create and instance of myStat
 	}
@@ -123,6 +141,7 @@ public class StatType {
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			//ArrayList markedRows, 
 			int rj_evolution_mark_consecutives, 
 			bool graph, bool toReport, TextWriter writer, string fileName)
 	{
@@ -136,6 +155,10 @@ public class StatType {
 		this.limit = limit;
 		this.heightPreferred = heightPreferred;
 		this.weightStatsPercent = weightStatsPercent;
+
+		//this.markedRows = markedRows;
+		this.markedRows = new ArrayList();
+		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
 		this.graph = graph;
 		this.toReport = toReport;
@@ -146,13 +169,13 @@ public class StatType {
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
 				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
-				 toReport);
+				markedRows, 
+				toReport);
 
 		myStat = new Stat(); //create and instance of myStat
 	}
 	
 
-	//TODO: make all this clearer with CASE selections
 	public bool ChooseStat ()
 	{
 		if ( statisticType == Catalog.GetString("Global") ) {
@@ -315,7 +338,8 @@ public class StatType {
 		
 		string [] pngs = Directory.GetFiles(directoryName, "*.png");
 		//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
-		writer.WriteLine("<img src=\"" + directoryName + "/" + pngs.Length.ToString() + ".png\">");
+		//there will be always a png with chronojump_logo
+		writer.WriteLine("<img src=\"" + directoryName + "/" + (pngs.Length -1).ToString() + ".png\">");
 	}
 	
 	
@@ -323,6 +347,12 @@ public class StatType {
 		get { return myStat.ToString(); }
 	}
 	
+
+	public ArrayList MarkedRows {
+		get { 
+			return myStat.MarkedRows;
+		}
+	}
 
 	~StatType() {}
 }

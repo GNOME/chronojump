@@ -85,11 +85,11 @@ public class StatGlobal : Stat
 	{
 		string sessionString = obtainSessionSqlString(sessions);
 				
+		//it's better (nicer, cleaner, easier) to leave all the AVGSD as 'false'
 		processDataMultiSession ( SqliteStat.GlobalNormal(sessionString, operation, showSex, 
 					personID, heightPreferred), 
-				true, sessions.Count );
+				false, sessions.Count );
 		
-		//TODO: If enable another time, remember to create a GlobalIndexes for IndexQ, FV an others
 		//session string must be different for indexes
 		sessionString = obtainSessionSqlStringIndexes(sessions);
 		

@@ -7,6 +7,6 @@ The flight time of a jump is an indicator of the elevation of the Center of grav
 <img src="images/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
 <br><tt>Scheme of management software (ChronoJump) + chronometer (Chronopic) + platform of contacts.</tt>
 <p>
-ChronoJump could also be used for timing races even with intervals and for the measurement of the time of reaction (check <a href="features.html">Features</a>).
+ChronoJump can also be used for timing races even with intervals (check <a href="features.html">Features</a>).
 	<p>
 	<img src="images/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">

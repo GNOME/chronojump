@@ -27,10 +27,12 @@ Graficación de todos los estadísticos descritos mediante la librería gráfica
 
 <p>
 Exportación de saltos a hojas de cálculo (formato CSV).
+<p>
+Creación de informes personalizados de todos los datos obtenidos y los estadísticos (formato HTML). 
 
 <h4>Características del cronometrador</h4>
  El Cronometrador: Chronopic, está basado en la tarjeta Entrenadora Skypic (consultar documentación), y ofrece una precisión de una milésima de segundo según se ha podido comprobar. <tt>[Pendiente de detallar cómo se ha comprobado]</tt>.
- <p> Algunos sistemas de cronometrado del salto usan únicamente un ordenador personal conectado a la plataforma. Los ordenadores modernos son multitarea, característica que impide garantizar una medición fiable debido a que pueden estar realizando cualquier otra tarea en aquél momento.
+ <p> Algunos sistemas de cronometrado del salto usan únicamente un ordenador personal conectado a la plataforma. Los ordenadores modernos son multitarea, característica que impide garantizar una medición fiable debido a que pueden estar realizando cualquier otra tarea en aquél momento. Más información en el apartado de <a href="construction_es.html">Construcción</a>.
  <p>
  <h4>Características de la plataforma</h4>
 
@@ -39,7 +41,9 @@ Exportación de saltos a hojas de cálculo (formato CSV).
  <h4>Características futuras</h4>
 
  En breve se desea implementar también las siguientes funciones:
- <ul> <li>Esquema para la disposición de 2 plataformas para cronometrar un circuito de agilidad o velocidad. En este caso se recomienda que cada plataforma esté constituída por un número de conjuntos varilla inferior al convencional. También se apunta la posibilidad de usar 1 plataforma (circuito circular) o más de 2 (sesión con diferentes "estaciones"). <li>Se apunta la posibilidad de sustituir las plataformas de contactos por células fotoeléctricas. El método de fabricación de células fotoeléctricas aún no está descrito, si tiene información al respecto, rogamos su colaboración. <li>Zumbador para medición de tiempo de reacción. Un dispositivo instalado en el propio cronometrador producirá un evento sonoro y se cronometrará el tiempo que sucede hasta que se produce un cambio de envento en la plataforma. Entre muchas utilidades puede ser usado para el control de la Course&nbsp;Navette.
+ <ul> 
+ <li>Se apunta la posibilidad de sustituir las plataformas de contactos por células fotoeléctricas. El método de fabricación de células fotoeléctricas aún no está descrito, si tiene información al respecto, rogamos su colaboración. 
+ <li>Zumbador para medición de tiempo de reacción. Un dispositivo instalado en el propio cronometrador producirá un evento sonoro y se cronometrará el tiempo que sucede hasta que se produce un cambio de envento en la plataforma. Entre muchas utilidades puede ser usado para el control de la Course&nbsp;Navette.
  <li>Posibilidad de modificar la sensibilidad del cronometrador a cada salto.
  <li>Si desea otras características, no dude en pedirlo en las listas de correo.
  </ul>

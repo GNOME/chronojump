@@ -29,7 +29,7 @@ using System.Data.SqlClient;
 
 class SqliteSession : Sqlite
 {
-	protected static void createTable()
+	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE session ( " +

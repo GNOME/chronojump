@@ -129,6 +129,9 @@ public class StatRjEvolution : Stat
 		return statValues;
 	}
 	
+	//for stripping off unchecked rows in report
+	private int rowsPassedToReport = 1;
+	
 	protected override void printData (string [] statValues) 
 	{
 		if(numContinuous != -1) {
@@ -139,11 +142,21 @@ public class StatRjEvolution : Stat
 		}
 		
 		if(toReport) {
-			reportString += "<TR>";
-			for (int i=0; i < statValues.Length ; i++) {
-				reportString += "<TD>" + statValues[i] + "</TD>";
+			bool allowedRow = false;
+			for(int i=0; i < markedRows.Count; i++) {
+				if(Convert.ToInt32(markedRows[i]) == rowsPassedToReport) {
+					allowedRow = true;
+					break;
+				}
 			}
-			reportString += "</TR>\n";
+			if(allowedRow) {
+				reportString += "<TR>";
+				for (int i=0; i < statValues.Length ; i++) {
+					reportString += "<TD>" + statValues[i] + "</TD>";
+				}
+				reportString += "</TR>\n";
+			}
+			rowsPassedToReport ++;
 		} else {
 			//iter = store.AppendValues (statValues); 
 			iter = new TreeIter();

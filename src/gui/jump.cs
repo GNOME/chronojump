@@ -50,6 +50,8 @@ public class EditJumpWindow
 	static EditJumpWindow EditJumpWindowBox;
 	Gtk.Window parent;
 	string type;
+	double oldJumpWeightPercent = 0; //used for record the % for old person if we change it
+	int oldPersonID; //used for record the % for old person if we change it
 
 	EditJumpWindow (Gtk.Window parent) {
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
@@ -69,7 +71,6 @@ public class EditJumpWindow
 
 		EditJumpWindowBox.fillDialog (myJump);
 
-
 		return EditJumpWindowBox;
 }
 	
@@ -81,10 +82,11 @@ public class EditJumpWindow
 		label_tc_value.Text = myJump.Tc.ToString();
 	
 		label_fall_value.Text = myJump.Fall.ToString();
-		label_weight_value.Text = myJump.Weight;
+		label_weight_value.Text = myJump.Weight.ToString();
 		
 		if(myJump.TypeHasWeight) {
 			label_weight_value.Text = myJump.Weight.ToString();
+			oldJumpWeightPercent = myJump.Weight;
 		} 
 		if (myJump.TypeHasFall) {
 			label_fall_value.Text = myJump.Fall.ToString();
@@ -104,9 +106,10 @@ public class EditJumpWindow
 			}
 		}
 		
+		oldPersonID = myJump.PersonID;
+			
 		hbox_combo.PackStart(combo_jumpers, true, true, 0);
 		hbox_combo.ShowAll();
-	
 	}
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -128,8 +131,21 @@ public class EditJumpWindow
 		string [] myJumperFull = myJumper.Split(new char[] {':'});
 		
 		string myDesc = textview_description.Buffer.Text;
+		
+		//update the weight percent of jump if needed
+		double jumpPercentWeightForNewPerson = 0;
+		if(oldJumpWeightPercent > 0) {
+			//obtain weight of old person
+			double oldPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(oldPersonID)); 
+			double jumpWeightInKg = oldPersonWeight * oldJumpWeightPercent / 100;
+			
+			double newPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myJumperFull[0])); 
+			jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
+			Console.WriteLine("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
+					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
+		}
 	
-		SqliteJump.Update(jumpID, Convert.ToInt32 (myJumperFull[0]), myDesc);
+		SqliteJump.Update("jump", jumpID, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
 
 		EditJumpWindowBox.edit_jump.Hide();
 		EditJumpWindowBox = null;
@@ -161,6 +177,8 @@ public class EditJumpRjWindow
 	static EditJumpRjWindow EditJumpRjWindowBox;
 	Gtk.Window parent;
 	string type;
+	double oldJumpWeightPercent = 0; //used for record the % for old person if we change it
+	int oldPersonID; //used for record the % for old person if we change it
 
 	EditJumpRjWindow (Gtk.Window parent) {
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
@@ -194,6 +212,7 @@ public class EditJumpRjWindow
 		label_limited_value.Text = myJump.Limited.ToString();
 		label_fall_value.Text = myJump.Fall.ToString();
 		label_weight_value.Text = myJump.Weight.ToString();
+		oldJumpWeightPercent = myJump.Weight;
 
 		this.type = myJump.Type;
 
@@ -210,6 +229,8 @@ public class EditJumpRjWindow
 				combo_jumpers.Entry.Text = jumper;
 			}
 		}
+		
+		oldPersonID = myJump.PersonID;
 		
 		hbox_combo.PackStart(combo_jumpers, true, true, 0);
 		hbox_combo.ShowAll();
@@ -235,8 +256,22 @@ public class EditJumpRjWindow
 		string [] myJumperFull = myJumper.Split(new char[] {':'});
 		
 		string myDesc = textview_description.Buffer.Text;
+
+		//update the weight percent of jump if needed
+		double jumpPercentWeightForNewPerson = 0;
+		if(oldJumpWeightPercent > 0) {
+			//obtain weight of old person
+			double oldPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(oldPersonID)); 
+			double jumpWeightInKg = oldPersonWeight * oldJumpWeightPercent / 100;
+			
+			double newPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myJumperFull[0])); 
+			jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
+			Console.WriteLine("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
+					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
+		}
 	
-		SqliteJump.RjUpdate(jumpID, Convert.ToInt32 (myJumperFull[0]), myDesc);
+		SqliteJump.Update("jumpRj", jumpID, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
+
 
 		EditJumpRjWindowBox.edit_jump.Hide();
 		EditJumpRjWindowBox = null;

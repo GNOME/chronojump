@@ -26,6 +26,39 @@ using System.Text; //StringBuilder
 //this class tries to be a space for methods that are used in different classes
 public class Util
 {
+
+	//all numbers are saved in database with '.' as decimal separator (method for numbers)
+	public static string ConvertToPoint (double myDouble)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myDouble.ToString());
+		myStringBuilder.Replace(",", ".");
+		return myStringBuilder.ToString();
+	}
+	
+	//all numbers are saved in database with '.' as decimal separator
+	//method for the tvString, tcString, and runIntervalTimesString
+	public static string ConvertToPoint (string myString)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace(",", ".");
+		return myStringBuilder.ToString();
+	}
+	
+	
+	//used for load from the database all numbers with correct decimal separator (locale defined)
+	//used also for the tvString, tcString, and runIntervalTimesString
+	public static string ChangeDecimalSeparator(string myString) {
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		if(localeInfo.NumberDecimalSeparator != ".") {
+			myStringBuilder.Replace(".", localeInfo.NumberDecimalSeparator);
+		}
+		return myStringBuilder.ToString();
+	}
+
+
 	public static string TrimDecimals (string time, int prefsDigitsNumber) {
 		//the +2 is a workarround for not counting the two first characters: "0."
 		//this will not work with the fall
@@ -217,20 +250,6 @@ public class Util
 		return text.Substring(i);
 	}
 
-	//in ubuntu (not in debian) found problems between the ',' and the '.'
-	//in mono and sqlite, try to solve with this
-	//but do it later (when found a global solution)
-	//now continue solving errors writing:
-	//export LANG=C
-	//before executing chronojump
-	//it's a pity because we loose translations
-	public static string ConvertToPoint (double myDouble)
-	{
-		StringBuilder myStringBuilder = new StringBuilder(myDouble.ToString());
-		myStringBuilder.Replace(",", ".");
-		return myStringBuilder.ToString();
-	}
-	
 	public static string GetInitialSpeed (string time) {
 		// S = So + Vot + (at^2)/2
 		// Vo = ( ( 4.9 * t^2 ) + S ) / t

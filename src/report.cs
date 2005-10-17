@@ -36,8 +36,10 @@ public class Report : ExportSession
 	public bool ShowCurrentSessionJumpers;
 	public bool ShowSimpleJumps;
 	public bool ShowReactiveJumps;
+	public bool ShowReactiveJumpsWithSubjumps;
 	public bool ShowSimpleRuns;
 	public bool ShowIntervalRuns;
+	public bool ShowIntervalRunsWithSubruns;
 		
 	private int prefsDigitsNumber;
 	private bool heightPreferred;
@@ -140,16 +142,24 @@ public class Report : ExportSession
 			printJumps();
 		}
 		if(ShowReactiveJumps) {
-			writer.WriteLine("<h2>Reactive jumps</h2>");
-			printJumpsRj();
+			if(ShowReactiveJumpsWithSubjumps) {
+				writer.WriteLine("<h2>Reactive jumps (with subjumps)</h2>");
+			} else {
+				writer.WriteLine("<h2>Reactive jumps (without subjumps)</h2>");
+			}
+			printJumpsRj(ShowReactiveJumpsWithSubjumps);
 		}
 		if(ShowSimpleRuns) {
 			writer.WriteLine("<h2>Simple runs</h2>");
 			printRuns();
 		}
 		if (ShowIntervalRuns) {
-			writer.WriteLine("<h2>Interval runs</h2>");
-			printRunsInterval();
+			if(ShowIntervalRunsWithSubruns) {
+				writer.WriteLine("<h2>Interval runs (with subruns)</h2>");
+			} else {
+				writer.WriteLine("<h2>Interval runs (without subruns)</h2>");
+			}
+			printRunsInterval(ShowIntervalRunsWithSubruns);
 		}
 		
 		printStats();
@@ -265,13 +275,19 @@ public class Report : ExportSession
 			
 			string myHeaderStat = "";
 
-			ArrayList sendSelectedSessions = new ArrayList(1);;
-
 			//separate in sessions
+			ArrayList sendSelectedSessions = new ArrayList(1);
 			string [] sessionsStrFull = strFull[3].Split(new char[] {':'});
 			for (int j=0; j < sessionsStrFull.Length ; j++) {
 				Session tempSession = SqliteSession.Select(sessionsStrFull[j]);
 				sendSelectedSessions.Add(tempSession.UniqueID + ":" + tempSession.Name + ":" + tempSession.Date);
+			}
+
+			//separate in markedRows
+			ArrayList arrayListMarkedRows = new ArrayList(1);
+			string [] markedStrFull = strFull[6].Split(new char[] {':'});
+			for (int j=0; j < markedStrFull.Length ; j++) {
+				arrayListMarkedRows.Add(markedStrFull[j]);
 			}
 
 			string applyTo = strFull[2];
@@ -325,6 +341,7 @@ public class Report : ExportSession
 					limit, 	
 					heightPreferred,
 					weightStatsPercent,
+					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
 					false, 			//graph
 					toReport,
@@ -350,6 +367,7 @@ public class Report : ExportSession
 					limit, 	
 					heightPreferred,
 					weightStatsPercent,
+					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
 					true, 			//graph
 					toReport,

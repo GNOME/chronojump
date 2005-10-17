@@ -28,7 +28,7 @@ using System.Collections; //ArrayList
 //no sj+
 public class StatSjCmjAbkPlus : Stat
 {
-	protected bool percent; //show weight in simplesession as a percent of body weight or kg
+	//protected bool percent = false; //show weight in simplesession as a percent of body weight or kg
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatSjCmjAbkPlus () 
@@ -53,9 +53,11 @@ public class StatSjCmjAbkPlus : Stat
 
 		string [] columnsString = { Catalog.GetString("Jumper"), Catalog.GetString("Height"), 
 			Catalog.GetString("TV"), Catalog.GetString("Weight %") };
+		/*
 		if(! percent) {
 			columnsString[3] = Catalog.GetString("Weight Kg");
 		}
+		*/
 		
 		if(toReport) {
 			reportString = prepareHeadersReport(columnsString);
@@ -79,13 +81,15 @@ public class StatSjCmjAbkPlus : Stat
 				string operation = "AVG";
 				processDataMultiSession ( 
 						SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
-							operation, jumpType, showSex, percent, heightPreferred), 
+							//operation, jumpType, showSex, percent, heightPreferred), 
+							operation, jumpType, showSex, heightPreferred), 
 						true, sessions.Count);
 			} else {
 				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
 							SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
-								operation, jumpType, showSex, percent, heightPreferred), 
+								//operation, jumpType, showSex, percent, heightPreferred), 
+								operation, jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
@@ -94,14 +98,16 @@ public class StatSjCmjAbkPlus : Stat
 			if(multisession) {
 				string operation = "MAX";
 				processDataMultiSession ( SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
-							operation, jumpType, showSex, percent, heightPreferred),  
+							//operation, jumpType, showSex, percent, heightPreferred),  
+							operation, jumpType, showSex, heightPreferred),  
 						true, sessions.Count);
 			} else {
 				string operation = ""; //no need of "MAX", there's an order by jump.tv desc
 							//and clenaDontWanted will do his work
 				processDataSimpleSession ( cleanDontWanted (
 							SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
-								operation, jumpType, showSex, percent, heightPreferred), 
+								//operation, jumpType, showSex, percent, heightPreferred), 
+								operation, jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

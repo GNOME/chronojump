@@ -158,7 +158,7 @@ public class ChronoJump
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
 	private static string progversion = "0.3";
-	private static string progname = "ChronoJump";
+	private static string progname = "Chronojump";
 	
 	//normal jumps
 	private TreeStore treeview_jumps_store;
@@ -265,7 +265,6 @@ public class ChronoJump
 		allJumpsName = Catalog.GetString("All jumps");
 		allRunsName = Catalog.GetString("All runs");
 	
-		
 		Program program = new Program(progname, progversion, Modules.UI, args);
 
 		Glade.XML gxml = new Glade.XML (null, "chronojump.glade", "app1", "chronojumpGlade");
@@ -316,7 +315,7 @@ public class ChronoJump
 		rand = new Random(40);
 				
 		//init connecting with chronopic	
-		//chronopicInit();
+		chronopicInit();
 				
 		program.Run();
 	}
@@ -1410,9 +1409,14 @@ public class ChronoJump
 		} else {
 		}
 			
-		string myWeight = "";
+		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
-			myWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
+			//jumpWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
+			if(jumpExtraWin.Option == "%") {
+				jumpWeight = jumpExtraWin.Weight;
+			} else {
+				jumpWeight = jumpExtraWin.Weight *100 / currentPerson.Weight;
+			}
 		}
 		int myFall = 0;
 		if( ! currentJumpType.StartIn ) {
@@ -1425,7 +1429,7 @@ public class ChronoJump
 		//hide jumping buttons
 		sensitiveGuiJumpingOrRunning();
 		
-		currentJump = new Jump(currentPerson.UniqueID, currentSession.UniqueID, currentJumpType.Name, myFall, myWeight,
+		currentJump = new Jump(currentPerson.UniqueID, currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
 		
 		if (simulated) {
@@ -1548,9 +1552,14 @@ public class ChronoJump
 			}
 		}
 
-		string myWeight = "";
+		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
-			myWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
+			//jumpWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
+			if(jumpExtraWin.Option == "%") {
+				jumpWeight = jumpExtraWin.Weight;
+			} else {
+				jumpWeight = jumpExtraWin.Weight *100 / currentPerson.Weight;
+			}
 		}
 		int myFall = 0;
 		if( ! currentJumpType.StartIn ) {
@@ -1563,7 +1572,8 @@ public class ChronoJump
 		//hide jumping buttons
 		sensitiveGuiJumpingOrRunning();
 		
-		currentJumpRj = new JumpRj(currentPerson.UniqueID, currentSession.UniqueID, currentJumpType.Name, myFall, myWeight, 
+		currentJumpRj = new JumpRj(currentPerson.UniqueID, currentSession.UniqueID, 
+				currentJumpType.Name, myFall, jumpWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
 		
@@ -1948,9 +1958,9 @@ public class ChronoJump
 
 	private void on_last_jump_delete_accepted (object o, EventArgs args) {
 		if(lastJumpIsReactive) {
-			SqliteJump.RjDelete(currentJumpRj.UniqueID.ToString());
+			SqliteJump.Delete("jumpRj", currentJumpRj.UniqueID.ToString());
 		} else {
-			SqliteJump.Delete(currentJump.UniqueID.ToString());
+			SqliteJump.Delete("jump", currentJump.UniqueID.ToString());
 		}
 		button_last_delete.Sensitive = false ;
 
@@ -2077,7 +2087,7 @@ public class ChronoJump
 	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
 		
-		SqliteJump.Delete( (myTreeViewJumps.JumpSelectedID).ToString() );
+		SqliteJump.Delete( "jump", (myTreeViewJumps.JumpSelectedID).ToString() );
 		
 		appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
 		myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
@@ -2090,7 +2100,7 @@ public class ChronoJump
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
 		
-		SqliteJump.RjDelete(myTreeViewJumpsRj.JumpSelectedID.ToString());
+		SqliteJump.Delete("jumpRj", myTreeViewJumpsRj.JumpSelectedID.ToString());
 		
 		appbar2.Push( Catalog.GetString ( "Deleted reactive jump: " ) + myTreeViewJumpsRj.JumpSelectedID );
 		myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);

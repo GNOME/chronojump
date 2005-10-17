@@ -94,7 +94,10 @@ class Sqlite
 		SqlitePersonSession.createTable();
 		
 		SqlitePreferences.createTable();
-		SqlitePreferences.insert ("databaseVersion", "0.4");
+		
+		SqlitePreferences.insert ("databaseVersion", "0.41"); 
+		//changes from 0.4 to 0.41: jump, jumpRj weight is double (always a percent)
+		
 		SqlitePreferences.insert ("digitsNumber", "7");
 		SqlitePreferences.insert ("showHeight", "True");
 		SqlitePreferences.insert ("showInitialSpeed", "True");

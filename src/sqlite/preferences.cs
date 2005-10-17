@@ -28,7 +28,7 @@ using System.Data.SqlClient;
 
 class SqlitePreferences : Sqlite
 {
-	protected static void createTable()
+	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE preferences ( " +
@@ -37,7 +37,7 @@ class SqlitePreferences : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected static void insert(string myName, string myValue)
+	protected internal static void insert(string myName, string myValue)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO preferences (name, value) VALUES ('" + 

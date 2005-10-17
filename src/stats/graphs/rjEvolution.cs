@@ -36,18 +36,18 @@ public class GraphRjEvolution : StatRjEvolution
 	private Random myRand = new Random();
 
 
-	/*
-	 * if one day i found the way of plotting different (single plots) i will use it for the numContinuous
-	 */
-	
-	//public GraphRjEvolution  (StatTypeStruct myStatTypeStruct, int numContinuous)
-	public GraphRjEvolution  (StatTypeStruct myStatTypeStruct)
+	//numContinuous passed only for writing correct Enunciate	
+	public GraphRjEvolution  (StatTypeStruct myStatTypeStruct, int numContinuous)
 	{
+		isRjEvolution = true;
+
 		completeConstruction (myStatTypeStruct, treeview);
-		//this.numContinuous = numContinuous;
+		this.numContinuous = numContinuous;
 		
 		string sessionString = obtainSessionSqlString(sessions);
 		//we need to know the reactive with more jumps for prepare columns
+		//later this value can be changed in stats/main/plotgraphgraphseries because 
+		//there is possible to check the checked stats rows
 		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
 		this.dataColumns = maxJumps*2 + 2;	//for simplesession (index, (tv , tc)*jumps, fall)
@@ -81,6 +81,9 @@ public class GraphRjEvolution : StatRjEvolution
 
 	protected override void printData (string [] statValues) 
 	{
+		/*
+		 * if one day i found the way of plotting different (single plots) i will use it for the numContinuous
+		 */
 		/*
 		if(numContinuous != -1) {
 			int bestPos = findBestContinuous(statValues, numContinuous);

@@ -40,8 +40,10 @@ public class ReportWindow {
 	[Widget] Gtk.CheckButton cb_jumpers;
 	[Widget] Gtk.CheckButton cb_jumps_simple;
 	[Widget] Gtk.CheckButton cb_jumps_reactive;
+	[Widget] Gtk.CheckButton cb_jumps_reactive_with_subjumps;
 	[Widget] Gtk.CheckButton cb_runs_simple;
 	[Widget] Gtk.CheckButton cb_runs_interval;
+	[Widget] Gtk.CheckButton cb_runs_interval_with_subruns;
 	
 	static ReportWindow ReportWindowBox;
 	
@@ -66,7 +68,8 @@ public class ReportWindow {
 		//treeview
 		createTreeView(treeview1);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof (string), typeof (string) );
+				typeof (string), typeof (string), typeof (string), typeof (string)
+				);
 		treeview1.Model = store;
 	}
 
@@ -108,6 +111,7 @@ public class ReportWindow {
 		tv.AppendColumn ( Catalog.GetString("Session/s"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Show jumps"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Show sex"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Checked rows"), new CellRendererText(), "text", count++);
 	}
 
 	void loadCheckBoxes () 
@@ -116,8 +120,10 @@ public class ReportWindow {
 		if(report.ShowCurrentSessionJumpers) {	cb_jumpers.Active = true; } 
 		if(report.ShowSimpleJumps) { 		cb_jumps_simple.Active = true; } 
 		if(report.ShowReactiveJumps) { 	cb_jumps_reactive.Active = true; } 
+		if(report.ShowReactiveJumpsWithSubjumps) { 	cb_jumps_reactive_with_subjumps.Active = true; } 
 		if(report.ShowSimpleRuns) { 		cb_runs_simple.Active = true; } 
 		if(report.ShowIntervalRuns) { 	cb_runs_interval.Active = true; } 
+		if(report.ShowIntervalRunsWithSubruns) { 	cb_runs_interval_with_subruns.Active = true; } 
 	}
 	
 	void fillTreeView () 
@@ -134,16 +140,31 @@ public class ReportWindow {
 					myStringFull[2],	//applyTo
 					myStringFull[3],	//sessionString
 					myStringFull[4],	//showJumps
-					myStringFull[5]		//showSex
+					myStringFull[5],	//showSex
+					myStringFull[6]		//markedRows
 					);
 		}
 
 	}
 
+	string arrayToString(ArrayList myArrayList) {
+		string myString = "";
+		for (int i=0; i < myArrayList.Count ; i++) {
+			if(i>0) {
+				myString += ":";
+			}
+			string [] myStrFull = myArrayList[i].ToString().Split(new char[] {':'});
+			myString += myStrFull[0];
+		}
+		return myString;
+	}
+	
 	//comes from stats window
 	//public void Add(string type, string subtype, string applyTo, string sessionString, string showJumps, string showSex)
-	public void Add(string type, string subtype, string applyTo, ArrayList sendSelectedSessions, string showJumps, string showSex)
+	public void Add(string type, string subtype, string applyTo, ArrayList sendSelectedSessions, 
+			string showJumps, string showSex, ArrayList markedRows)
 	{
+		/*
 		string sessionsAsAString = "";
 		for (int i=0; i < sendSelectedSessions.Count ; i++) {
 			if(i>0) {
@@ -152,18 +173,39 @@ public class ReportWindow {
 			string [] myStrFull = sendSelectedSessions[i].ToString().Split(new char[] {':'});
 			sessionsAsAString += myStrFull[0];
 		}
+		*/
+		string sessionsAsAString = arrayToString(sendSelectedSessions);
+		string markedRowsAsAString = arrayToString(markedRows);
 
+		
 		store.AppendValues (
 				type, 
 				subtype, 
 				applyTo, 
 				sessionsAsAString, 
 				showJumps, 
-				showSex
+				showSex,
+				markedRowsAsAString 
 				);
 		
 		//show report window if it's not shown
 		report_window.Show ();
+	}
+	
+	protected virtual void on_cb_jumps_reactive_clicked (object o, EventArgs args) {
+		if(cb_jumps_reactive.Active) {
+			cb_jumps_reactive_with_subjumps.Show();
+		} else {
+			cb_jumps_reactive_with_subjumps.Hide();
+		}
+	}
+
+	protected virtual void on_cb_runs_interval_clicked (object o, EventArgs args) {
+		if(cb_runs_interval.Active) {
+			cb_runs_interval_with_subruns.Show();
+		} else {
+			cb_runs_interval_with_subruns.Hide();
+		}
 	}
 
 	protected virtual void on_treeview_cursor_changed (object o, EventArgs args)
@@ -248,11 +290,17 @@ public class ReportWindow {
 		if(cb_jumps_reactive.Active) { report.ShowReactiveJumps = true;  } 
 		else { report.ShowReactiveJumps = false; }
 
+		if(cb_jumps_reactive_with_subjumps.Active) { report.ShowReactiveJumpsWithSubjumps = true;  } 
+		else { report.ShowReactiveJumpsWithSubjumps = false; }
+
 		if(cb_runs_simple.Active) { report.ShowSimpleRuns = true;  } 
 		else { report.ShowSimpleRuns = false; }
 
 		if(cb_runs_interval.Active) { report.ShowIntervalRuns = true;  } 
 		else { report.ShowIntervalRuns = false; }
+
+		if(cb_runs_interval_with_subruns.Active) { report.ShowIntervalRunsWithSubruns = true;  } 
+		else { report.ShowIntervalRunsWithSubruns = false; }
 
 		//treeview
 		TreeIter myIter = new TreeIter ();
@@ -275,7 +323,8 @@ public class ReportWindow {
 					(string) treeview1.Model.GetValue (myIter, 2) + "\n" +	//apply to
 					(string) treeview1.Model.GetValue (myIter, 3) + "\n" +	//sessionString
 					(string) treeview1.Model.GetValue (myIter, 4) + "\n" +	//showJumps
-					(string) treeview1.Model.GetValue (myIter, 5) 		//showSex
+					(string) treeview1.Model.GetValue (myIter, 5) + "\n" +  //showSex
+					(string) treeview1.Model.GetValue (myIter, 6) 		//markedRowsString
 					);
 			}
 		}

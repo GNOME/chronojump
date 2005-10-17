@@ -88,11 +88,11 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			serieWeight.SerieColor = Color.FromName("Chocolate");
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			if(percent) {
+			//if(percent) {
 				CurrentGraphData.LabelRight = "%, cm";
-			} else {
-				CurrentGraphData.LabelRight = "Kg, cm";
-			}
+			//} else {
+			//	CurrentGraphData.LabelRight = "Kg, cm";
+			//}
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});

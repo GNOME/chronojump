@@ -133,9 +133,9 @@ public class ExportSession
 		printSessionInfo();
 		printJumpers();
 		printJumps();
-		printJumpsRj();
+		printJumpsRj(true);
 		printRuns();
-		printRunsInterval();
+		printRunsInterval(true);
 		printFooter();
 	}
 
@@ -211,32 +211,42 @@ public class ExportSession
 		}
 	}
 
-	protected void printJumpsRj()
+	//protected void printJumpsRj()
+	protected void printJumpsRj(bool showSubjumps)
 	{
 		int dec=4; //decimals
+		ArrayList myData = new ArrayList(1);
+		bool isFirstHeader = true;
 		
 		foreach (string jump in myJumpsRj) {
-			ArrayList myData = new ArrayList(1);
+			
+			if(showSubjumps) {
+				myData = new ArrayList(1);
+			}
 
-			myData.Add( "\n" + 
-					Catalog.GetString("Jumper name") + ":" + 
-					Catalog.GetString("jump ID") + ":" + 
-					Catalog.GetString("jump Type") + ":" + 
-					Catalog.GetString("TC Max") + ":" + 
-					Catalog.GetString("TV Max") + ":" + 
-					Catalog.GetString("Max Height") + ":" +
-					Catalog.GetString("Max Initial Speed") + ":" +
-					Catalog.GetString("TC AVG") + ":" + 
-					Catalog.GetString("TV AVG") + ":" + 
-					Catalog.GetString("AVG Height") + ":" +
-					Catalog.GetString("AVG Initial Speed") + ":" +
-					Catalog.GetString("Fall") + ":" + 
-					Catalog.GetString("Weight") + ":" + 
-					Catalog.GetString("Jumps") + ":" + 
-					Catalog.GetString("Time") + ":" + 
-					Catalog.GetString("Limited") + ":" + 
-					Catalog.GetString("Description" )
-				  );
+			//if show subjumps show this every time, else show only one
+			if(isFirstHeader || showSubjumps) {
+				myData.Add( "\n" + 
+						Catalog.GetString("Jumper name") + ":" + 
+						Catalog.GetString("jump ID") + ":" + 
+						Catalog.GetString("jump Type") + ":" + 
+						Catalog.GetString("TC Max") + ":" + 
+						Catalog.GetString("TV Max") + ":" + 
+						Catalog.GetString("Max Height") + ":" +
+						Catalog.GetString("Max Initial Speed") + ":" +
+						Catalog.GetString("TC AVG") + ":" + 
+						Catalog.GetString("TV AVG") + ":" + 
+						Catalog.GetString("AVG Height") + ":" +
+						Catalog.GetString("AVG Initial Speed") + ":" +
+						Catalog.GetString("Fall") + ":" + 
+						Catalog.GetString("Weight") + ":" + 
+						Catalog.GetString("Jumps") + ":" + 
+						Catalog.GetString("Time") + ":" + 
+						Catalog.GetString("Limited") + ":" + 
+						Catalog.GetString("Description" )
+					  );
+				isFirstHeader = false;
+			}
 			
 			string [] myStr = jump.Split(new char[] {':'});
 			myData.Add ( "\n" + 
@@ -257,21 +267,28 @@ public class ExportSession
 					myStr[9]		//jumpRj.Description
 					);
 			
-			writeData(myData);
-			myData = new ArrayList(1);
-			//print tvString and tcString
-			string [] tvString = myStr[12].Split(new char[] {'='});
-			string [] tcString = myStr[13].Split(new char[] {'='});
-			int count = 0;
-			myData.Add( Catalog.GetString("Count") + ":TC:TV" );
-			foreach(string myTv in tvString) {
-				myData.Add((count+1).ToString() + ":" + 
-						Util.TrimDecimals(tcString[count], dec) + ":" + 
-						Util.TrimDecimals(myTv, dec));
-				count ++;
+			if(showSubjumps) {
+				writeData(myData);
+				
+				myData = new ArrayList(1);
+				//print tvString and tcString
+				string [] tvString = myStr[12].Split(new char[] {'='});
+				string [] tcString = myStr[13].Split(new char[] {'='});
+				int count = 0;
+				myData.Add( Catalog.GetString("Count") + ":TC:TV" );
+				foreach(string myTv in tvString) {
+					myData.Add((count+1).ToString() + ":" + 
+							Util.TrimDecimals(tcString[count], dec) + ":" + 
+							Util.TrimDecimals(myTv, dec));
+					count ++;
+				}
+				writeData(myData);
+				writeData("VERTICAL-SPACE");
 			}
+		}
+		//if not showSubjumps write data at last for not having every row as TH
+		if(! showSubjumps) {
 			writeData(myData);
-			writeData("VERTICAL-SPACE");
 		}
 	}
 	
@@ -306,25 +323,33 @@ public class ExportSession
 		}
 	}
 	
-	protected void printRunsInterval()
+	protected void printRunsInterval(bool showSubruns)
 	{
 		int dec=4; //decimals
+		ArrayList myData = new ArrayList(1);
+		bool isFirstHeader = true;
 		
 		foreach (string runString in myRunsInterval) {
-			ArrayList myData = new ArrayList(1);
 
-			myData.Add( "\n" + 
-					Catalog.GetString("Runner name") + ":" +
-					Catalog.GetString("run ID") + ":" + 
-					Catalog.GetString("Type") + ":" + 
-					Catalog.GetString("Distance total") + ":" + 
-					Catalog.GetString("Time total") + ":" +
-					Catalog.GetString("Average speed") + ":" +
-					Catalog.GetString("Distance interval") + ":" + 
-					Catalog.GetString("Tracks") + ":" + 
-					Catalog.GetString("Limited") + ":" +
-					Catalog.GetString("Description") );
+			if(showSubruns) {
+				myData = new ArrayList(1);
+			}
 
+			//if show subruns show this every time, else show only one
+			if(isFirstHeader || showSubruns) {
+				myData.Add( "\n" + 
+						Catalog.GetString("Runner name") + ":" +
+						Catalog.GetString("run ID") + ":" + 
+						Catalog.GetString("Type") + ":" + 
+						Catalog.GetString("Distance total") + ":" + 
+						Catalog.GetString("Time total") + ":" +
+						Catalog.GetString("Average speed") + ":" +
+						Catalog.GetString("Distance interval") + ":" + 
+						Catalog.GetString("Tracks") + ":" + 
+						Catalog.GetString("Limited") + ":" +
+						Catalog.GetString("Description") );
+				isFirstHeader = false;
+			}
 
 			string [] myStr = runString.Split(new char[] {':'});
 			myData.Add (
@@ -336,23 +361,30 @@ public class ExportSession
 					myStr[9] + ":" +  myStr[11] + ":" + 	//tracks, limited
 					myStr[10]		//description
 				   );
-			writeData(myData);
+			
+			if(showSubruns) {
+				writeData(myData);
 
-			myData = new ArrayList(1);
-			//print intervalTimesString
-			string [] timeString = myStr[8].Split(new char[] {'='});
-			myData.Add( Catalog.GetString ("Count") + ":" + 
-					Catalog.GetString ("Interval speed") + ":" + 
-					Catalog.GetString("interval times") );
-			int count = 1;
-			foreach(string myTime in timeString) {
-				myData.Add((count++).ToString() + ":" + 
-						Util.TrimDecimals(Util.GetSpeed(myStr[7], myTime), dec) + ":" + 
-						Util.TrimDecimals(myTime, dec)
-						);
+				myData = new ArrayList(1);
+				//print intervalTimesString
+				string [] timeString = myStr[8].Split(new char[] {'='});
+				myData.Add( Catalog.GetString ("Count") + ":" + 
+						Catalog.GetString ("Interval speed") + ":" + 
+						Catalog.GetString("interval times") );
+				int count = 1;
+				foreach(string myTime in timeString) {
+					myData.Add((count++).ToString() + ":" + 
+							Util.TrimDecimals(Util.GetSpeed(myStr[7], myTime), dec) + ":" + 
+							Util.TrimDecimals(myTime, dec)
+						  );
+				}
+				writeData(myData);
+				writeData("VERTICAL-SPACE");
 			}
+		}
+		//if not showSubruns write data at last for not having every row as TH
+		if(! showSubruns) {
 			writeData(myData);
-			writeData("VERTICAL-SPACE");
 		}
 	}
 	

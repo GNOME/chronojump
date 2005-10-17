@@ -100,8 +100,9 @@ class SqliteStat : Sqlite
 			} else {
 				//in simple session return: name, sex, height, TV
 				myArray.Add (reader[0].ToString() + showSexString +
-						+ ":" + Util.GetHeightInCentimeters(reader[3].ToString())
-						+ ":" + reader[3].ToString()
+						+ ":" + Util.GetHeightInCentimeters(
+							Util.ChangeDecimalSeparator(reader[3].ToString()))
+						+ ":" + Util.ChangeDecimalSeparator(reader[3].ToString())
 					    );
 			}
 		}
@@ -112,7 +113,8 @@ class SqliteStat : Sqlite
 	
 	//sj+, cmj+, abk+
 	//and "All jumps" (simple)
-	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool weightPercent, bool heightPreferred)
+	//public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool weightPercent, bool heightPreferred)
+	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
 		string ini = "";
 		string end = "";
@@ -126,7 +128,7 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "jump.tv" + end + ", jump.weight, person.weight";
+		moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", person.weight";
 
 		//manage allJumps
 		string fromString = " FROM jump, person ";
@@ -183,9 +185,10 @@ class SqliteStat : Sqlite
 				string returnSessionString = ":" + reader[2].ToString();
 				string returnValueString = "";
 				if(heightPreferred) {
-					returnValueString = ":" + Util.GetHeightInCentimeters(reader[3].ToString());
+					returnValueString = ":" + Util.GetHeightInCentimeters(
+							Util.ChangeDecimalSeparator(reader[3].ToString()));
 				} else {
-					returnValueString = ":" + reader[3].ToString();
+					returnValueString = ":" + Util.ChangeDecimalSeparator(reader[3].ToString());
 				}
 				myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 						returnSessionString + 		//session
@@ -194,10 +197,13 @@ class SqliteStat : Sqlite
 			} else {
 				//in simple session return: name, sex, height, TV, Fall
 				myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
-						+ ":" + Util.GetHeightInCentimeters(reader[3].ToString())
-						+ ":" + reader[3].ToString()
+						+ ":" + Util.GetHeightInCentimeters(Util.ChangeDecimalSeparator(
+								reader[3].ToString()))
+						+ ":" + Util.ChangeDecimalSeparator(reader[3].ToString())
 						+ ":" + convertWeight(
-							reader[4].ToString(), Convert.ToInt32(reader[5].ToString()), weightPercent
+							Util.ChangeDecimalSeparator(reader[4].ToString()), 
+							//Convert.ToInt32(reader[5].ToString()), weightPercent
+							Convert.ToInt32(reader[5].ToString()), true
 							)
 					    );
 			}
@@ -214,7 +220,7 @@ class SqliteStat : Sqlite
 		}
 
 		int i;
-		bool percentFound;
+		bool percentFound = true;
 		for (i=0 ; i< jumpW.Length ; i ++) {
 			if (jumpW[i] == '%') {
 				percentFound = true;
@@ -229,10 +235,10 @@ class SqliteStat : Sqlite
 			return jumpW.Substring(0,i);
 		} else if(percentFound && ! percentDesired) {
 			//found a percent, but we wanted Kg
-			return (Convert.ToInt32(jumpW.Substring(0,i))*personW/100).ToString();
+			return (Convert.ToDouble(jumpW.Substring(0,i))*personW/100).ToString();
 		} else if( ! percentFound && percentDesired) {
 			//found Kg, but wanted percent
-			return (Convert.ToInt32(jumpW.Substring(0,i))*100/personW).ToString();
+			return (Convert.ToDouble(jumpW.Substring(0,i))*100/personW).ToString();
 		} else {
 			return "ERROR";
 		}
@@ -323,17 +329,17 @@ class SqliteStat : Sqlite
 			} else {
 				//in multisession we show only one column x session
 				//in simplesession we show all
-				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
 				
-				returnHeightString = ":" + Util.GetHeightInCentimeters(reader[4].ToString());	
-				returnTvString = ":" + reader[4].ToString();
-				returnTcString = ":" + reader[5].ToString();
+				returnHeightString = ":" + Util.GetHeightInCentimeters(
+						Util.ChangeDecimalSeparator(reader[4].ToString()));	
+				returnTvString = ":" + Util.ChangeDecimalSeparator(reader[4].ToString());
+				returnTcString = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
 				returnFallString = ":" + reader[6].ToString();
 			}
 
 			myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 					returnSessionString + ":" + 		//session
-					reader[3].ToString() + 			//index
+					Util.ChangeDecimalSeparator(reader[3].ToString()) + //index
 					returnHeightString + 			//height
 					returnTvString + 			//tv
 					returnTcString + 			//tc
@@ -344,6 +350,11 @@ class SqliteStat : Sqlite
 		dbcon.Close();
 		return myArray;
 	}
+
+	/*
+	 * CONTINUAR PER AQUI
+	 * DECIMAL SEPARATORS
+	 */
 
 	//public static ArrayList RjIndex (string sessionString, bool multisession, string ini, string end, bool showSex)
 	public static ArrayList RjIndex (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)

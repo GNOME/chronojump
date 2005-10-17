@@ -78,7 +78,7 @@ public class Stat
 	protected string avgValuesString = "Avg values of each jumper";
 	
 	protected int numContinuous; //for stats rj evolution
-	
+
 	//private bool selectedMakeAVGSD;
 
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
@@ -260,9 +260,6 @@ public class Stat
 		}
 		myHeaderString += "</TR>\n";
 
-		//copy to reportString variable
-		//reportString = myHeaderString;
-	
 		return myHeaderString;
 	}
 	
@@ -520,15 +517,28 @@ public class Stat
 			//markedRows.Add("0");
 		}
 	}
-		
+	
+	//for stripping off unchecked rows in report
+	private int rowsPassedToReport = 1;
+	
 	protected virtual void printData (string [] statValues) 
 	{
 		if(toReport) {
-			reportString += "<TR>";
-			for (int i=0; i < statValues.Length ; i++) {
-				reportString += "<TD>" + statValues[i] + "</TD>";
+			bool allowedRow = false;
+			for(int i=0; i < markedRows.Count; i++) {
+				if(Convert.ToInt32(markedRows[i]) == rowsPassedToReport) {
+					allowedRow = true;
+					break;
+				}
 			}
-			reportString += "</TR>\n";
+			if(allowedRow) {
+				reportString += "<TR>";
+				for (int i=0; i < statValues.Length ; i++) {
+					reportString += "<TD>" + statValues[i] + "</TD>";
+				}
+				reportString += "</TR>\n";
+			}
+			rowsPassedToReport ++;
 		} else {
 			iter = new TreeIter();
 			
@@ -543,7 +553,7 @@ public class Stat
 			if(statValues[0] != Catalog.GetString("AVG") && statValues[0] != Catalog.GetString("SD")) {
 				store.SetValue(iter, 0, true);	//first col is true if it's not AVG or SD
 				markedRows.Add(myPath.ToString());
-				Console.WriteLine("FROM PRINTDATA Added to markedRows row:{0}", myPath.ToString());
+				//Console.WriteLine("FROM PRINTDATA Added to markedRows row:{0}", myPath.ToString());
 			}
 			
 			for(int i=0; i < statValues.Length; i++) {
@@ -608,6 +618,9 @@ public class Stat
 	protected GraphData CurrentGraphData = new GraphData();
 	protected ArrayList GraphSeries = new ArrayList();
 
+	protected bool isRjEvolution = false; //needed because in RjEvolution graph, series are treaten in a different way
+	int rjEvolutionMaxJumps; //we should care of majjumps of the checked rjEvolution rows
+
 	
 	//temporary hack for a gtk# garbage collecting error
 	//protected ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
@@ -634,9 +647,11 @@ public class Stat
 		//create plot (same as below)
 		plot.Clear();
 		plot.Title = CurrentGraphData.GraphTitle;
-		plotGraphGraphSeries (plot, 
+		int acceptedSeries = plotGraphGraphSeries (plot, 
 				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
 				GraphSeries);
+		if(acceptedSeries == 0) { return; }
+		
 		createAxisGraphSeries (plot, CurrentGraphData);
 
 		writeLegend(plot);
@@ -671,9 +686,11 @@ public class Stat
 		//create plot (same as above)
 		plot.Clear();
 		plot.Title = CurrentGraphData.GraphTitle;
-		plotGraphGraphSeries (plot, 
+		int acceptedSeries = plotGraphGraphSeries (plot, 
 				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
 				GraphSeries);
+		if(acceptedSeries == 0) { return false; }
+		
 		createAxisGraphSeries (plot, CurrentGraphData);
 
 		writeLegend(plot);
@@ -731,16 +748,62 @@ public class Stat
 		return count;
 	}
 */
+
+	bool acceptCheckedData(int myData) {
+		foreach(string marked in markedRows) {
+			if(Convert.ToInt32(marked) == myData) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
-	protected void plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
+	//used only by RjEvolution in plotGraphGraphSeries, 
+	//because rjevolution has a serie for TC and a serie for TV for each jumper
+	int divideAndRoundDown (int myData) {
+		if(myData == 0) { return 0;}
+		
+		if( Math.IEEERemainder( myData, 2) == 0.5) {
+			//if the remainding of division between myData and 2 is .5, decrease .5
+			return Convert.ToInt32(myData/2 -.5); 
+		} else {
+			return Convert.ToInt32(myData/2);
+		}
+	}
+	
+	protected int plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
 	{
-		int count = 0;
+		rjEvolutionMaxJumps = -1;
+		
+		int acceptedSerie = 0;
+		int countSerie = 0;
 		foreach(GraphSerie mySerie in allSeries) 
 		{
+			
+			//in isRjEvolution then check it this serie will be shown (each jumper has a TC and a TV serie)
+			if( isRjEvolution && ! acceptCheckedData( divideAndRoundDown(countSerie) +1 ) ) {
+				countSerie ++;
+				continue;
+			
+			}
+			//in multisession if a stats row is unchecked, jump to next iteration
+			else if( sessions.Count > 1 && ! acceptCheckedData(countSerie +1) ) {
+				countSerie ++;
+				continue;
+			}
+			
+			
 			//xtics value is all rows +2 (left & right space)
 			//lineData should contain xtics but without the rows thar are not in markedRows
-			Console.WriteLine("{0}:{1}:{2}", xtics, markedRows.Count, xtics-( (xtics-2)-(markedRows.Count) ) );
-			double[] lineData = new double[ xtics-( (xtics-2)-(markedRows.Count) ) ];
+			//Console.WriteLine("{0}:{1}:{2}", xtics, markedRows.Count, xtics-( (xtics-2)-(markedRows.Count) ) );
+			double[] lineData;
+			if(sessions.Count == 1 && !isRjEvolution) {
+				//in single session lineData should contain all rows from stats except unchecked
+				lineData = new double[ xtics-( (xtics-2)-(markedRows.Count) ) ];
+			} else {
+				//in multisession lineData does not contain rows from stats, it contains sessions name
+				lineData = new double[ xtics ];
+			}
 			
 			Marker m = mySerie.SerieMarker;
 		
@@ -766,15 +829,8 @@ public class Stat
 					break;
 				}	
 				
-				bool allowedRow = false; 
-				foreach(string marked in markedRows) {
-					// -1 because we should avoid the first row MARK ALL/NONE
-					if(Convert.ToInt32(marked) == counter) {
-						allowedRow = true;
-						break;
-					}
-				}
-				if( ! allowedRow) {
+				//in single session lineData should contain all rows from stats except unchecked
+				if(sessions.Count == 1 && !isRjEvolution && ! acceptCheckedData(counter) ) {
 					counter ++;
 					continue;
 				}
@@ -786,7 +842,11 @@ public class Stat
 				}
 				counter++;
 
-				Console.WriteLine("linedata :" + mySerie +":" + myValue);
+				//Console.WriteLine("linedata :" + mySerie +":" + myValue);
+
+				if(isRjEvolution && myValue != "-" && added -1 > rjEvolutionMaxJumps) {
+					rjEvolutionMaxJumps = added -1;
+				}
 			}
 			
 			//right margin
@@ -805,56 +865,51 @@ public class Stat
 				plot.Add( pp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
 			}
 				
-			count ++;
+			acceptedSerie ++;
+			countSerie ++;
 		}
+		return acceptedSerie; //for knowing if a serie was accepted, and then createAxisGraphSeries
 	}
 		
 	protected void createAxisGraphSeries (IPlotSurface2D plot, GraphData graphData)
 	{
-		Console.Write("A");
 		LabelAxis la = new LabelAxis( plot.XAxis1 );
-		Console.Write("B");
 		int added=1;
 		int counter=1;
 		foreach (string name in graphData.XAxisNames) {
-		Console.Write("C");
-			bool allowedRow = false; 
-			foreach(string marked in markedRows) {
-		Console.Write("D");
-				if(Convert.ToInt32(marked) == counter) {
-					allowedRow = true;
-					break;
-				}
-			}
-			if( ! allowedRow) {
+			if(sessions.Count == 1 && !isRjEvolution && !acceptCheckedData(counter)) {
+				//in single session lineData should contain all rows from stats except unchecked
 				counter ++;
 				continue;
 			}
-			
-		Console.Write("E");
 			la.AddLabel( name, added++ );
-		Console.Write("F");
 			counter ++;
 		}
-		Console.Write("G");
 		la.WorldMin = 0.7f;
-		la.WorldMax = graphData.XAxisNames.Count-(graphData.XAxisNames.Count-(markedRows.Count)) + .3f;
+		
+		if(isRjEvolution) {
+			la.WorldMax = rjEvolutionMaxJumps + .3f;
+		} else {
+			if(sessions.Count == 1) {
+				//in single session lineData should contain all rows from stats except unchecked
+				la.WorldMax = graphData.XAxisNames.Count-(graphData.XAxisNames.Count-(markedRows.Count)) + .3f;
+			} else {
+				la.WorldMax = graphData.XAxisNames.Count + .3f;
+			}
+		}
 		plot.XAxis1 = la;
 		//plot.XAxis1.LargeTickSize = 0.0f;
 		plot.XAxis1.TicksLabelAngle = 35.0f;
-		Console.Write("H");
 	
 		if(graphData.LabelLeft != "") {
 			LinearAxis ly1 = (LinearAxis)plot.YAxis1;
 			ly1.Label = graphData.LabelLeft;
 		}
 		
-		Console.Write("I");
 		if(graphData.LabelRight != "") {
 			LinearAxis ly2 = (LinearAxis)plot.YAxis2;
 			ly2.Label = graphData.LabelRight;
 		}
-		Console.Write("J");
 	}
 	
 	protected void writeLegend(IPlotSurface2D plot)

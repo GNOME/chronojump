@@ -29,7 +29,7 @@ using System.Data.SqlClient;
 
 class SqlitePerson : Sqlite
 {
-	protected static void createTable()
+	protected internal static void createTable()
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE person ( " +
@@ -73,6 +73,25 @@ class SqlitePerson : Sqlite
 		string myReturn = "";
 		if(reader.Read()) {
 			myReturn = reader[0].ToString();
+		}
+		return myReturn;
+	}
+		
+	public static double SelectJumperWeight(int uniqueID)
+	{
+		dbcon.Open();
+
+		dbcmd.CommandText = "SELECT weight FROM person WHERE uniqueID == " + uniqueID;
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		double myReturn = 0;
+		if(reader.Read()) {
+			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
 		}
 		return myReturn;
 	}

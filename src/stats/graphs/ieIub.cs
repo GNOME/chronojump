@@ -104,7 +104,7 @@ public class GraphIeIub : StatIeIub
 			serieJump2.SerieColor = Color.FromName("LightBlue");
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			CurrentGraphData.LabelRight = "%, cm";
+			CurrentGraphData.LabelRight = "%";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});

@@ -1,8 +1,34 @@
 CHANGELOG:
 
+17 oct 2005
+	localizating chronojump (all database decimal characters are '.' and in application depends in the locale. Done by two new methods in Util class: 
+		string ChangeDecimalSeparator(string myString)
+		string ConvertToPoint (double myDouble) overload:
+			string ConvertToPoint (string myString)
+		(remaining some stats classes)
+
+	Repaired weight in stats (%, kg), all weight in database is now recorded in % for later can do avg in stats directly from database.
+
+	Done individual selectable jumps (checkboxes in treeview) for graphs and report.
+		multisession graphs are ok with checked boxes code
+		rjEvolution graph is now ok with checked boxes code
+		reports (graphs)  are now ok with checked boxes code
+		striped off unwanted row stats in reports  
+		
+	Report has a "show Rj subjumps" option and show interval subruns, if deactivated (default) result is nicer and more comparable but less complete)
+
+	Using gnome CVS
+	
+	Minor changes:
+		improved windows stat and report
+		changed accessibility of all sqlite functions from protected to protected internal for new mono
+		fixed bug in edit jump, now changing the owner changes the weight
+		fixed bug in ToString in rjevolution graph with mark consecutives
+		fixed bug in showing not-rjevolution stats with consecutive
+
 24 set 2005
 	doing individual selectable jumps (checkboxes in treeview) for graphs and report.
-		TODO:	
+		TODO (done in next commit):	
 			* now rjEvolution graph is not correct
 			* now all multisession graphs are broken
 			* later check reports and graphs in reports

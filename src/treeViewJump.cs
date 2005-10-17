@@ -48,7 +48,7 @@ public class TreeViewJumps
 		pDN = newPrefsDigitsNumber;
 
 		string jumperName = Catalog.GetString("Jumper");
-		string weightName = Catalog.GetString("Weight");
+		string weightName = Catalog.GetString("Weight %");
 		string fallName = Catalog.GetString("Fall");
 		string heightName = Catalog.GetString("Height");
 		string initialSpeedName = Catalog.GetString("Initial Speed");
@@ -168,7 +168,7 @@ public class TreeViewJumps
 					if (Util.HasFall(jumpTypes, newJump.Type)) {
 						myFall = newJump.Fall + "cm";
 					} 
-					string myWeight = "";
+					double myWeight = 0;
 					if (Util.HasWeight(jumpTypes, newJump.Type)) {
 						myWeight = newJump.Weight;
 					}
@@ -179,7 +179,7 @@ public class TreeViewJumps
 					myData[count++] = newJump.Type;
 					myData[count++] = Util.TrimDecimals( newJump.Tc.ToString(), pDN );
 					myData[count++] = Util.TrimDecimals( newJump.Tv.ToString(), pDN );
-					myData[count++] = myWeight;
+					myData[count++] = myWeight.ToString();
 					myData[count++] = myFall;
 					if(showHeight) {
 						myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( newJump.Tv.ToString() ), pDN );
@@ -204,7 +204,7 @@ public class TreeViewJumps
 			if (Util.HasFall(jumpTypes, newJump.Type)) {
 				myFall = newJump.Fall + "cm";
 			}
-			string myWeight = "";
+			double myWeight = 0;
 			if (Util.HasWeight(jumpTypes, newJump.Type)) {
 				myWeight = newJump.Weight;
 			}
@@ -215,7 +215,7 @@ public class TreeViewJumps
 			myData[count++] = newJump.Type;
 			myData[count++] = Util.TrimDecimals( newJump.Tc.ToString(), pDN );
 			myData[count++] = Util.TrimDecimals( newJump.Tv.ToString(), pDN );
-			myData[count++] = myWeight;
+			myData[count++] = myWeight.ToString();
 			myData[count++] = myFall;
 			if(showHeight) {
 				myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( newJump.Tv.ToString() ), pDN );
@@ -293,7 +293,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		pDN = newPrefsDigitsNumber;
 
 		string jumperName = Catalog.GetString("Jumper");
-		string weightName = Catalog.GetString("Weight");
+		string weightName = Catalog.GetString("Weight %");
 		string fallName = Catalog.GetString("Fall");
 		string heightName = Catalog.GetString("Height");
 		string initialSpeedName = Catalog.GetString("Initial Speed");
@@ -411,7 +411,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 					if (Util.HasFall(jumpTypes, newJump.Type)) {
 						myFall = newJump.Fall + "cm";
 					}
-					string myWeight = "";
+					double myWeight = 0;
 					if (Util.HasWeight(jumpTypes, newJump.Type)) {
 						myWeight = newJump.Weight;
 					}
@@ -432,7 +432,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 					myData[count++] = myTypeComplet;
 					myData[count++] = Util.TrimDecimals( newJump.TcAvg.ToString(), pDN );
 					myData[count++] = Util.TrimDecimals( newJump.TvAvg.ToString(), pDN );
-					myData[count++] = myWeight;
+					myData[count++] = myWeight.ToString();
 					myData[count++] = myFall;
 					if(showHeight) {
 						myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( newJump.TvAvg.ToString() ), pDN );
@@ -482,7 +482,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 			if (Util.HasFall(jumpTypes, newJump.Type)) {
 				myFall = newJump.Fall + "cm";
 			}
-			string myWeight = "";
+			double myWeight = 0;
 			if (Util.HasWeight(jumpTypes, newJump.Type)) {
 				myWeight = newJump.Weight;
 			}
@@ -494,7 +494,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData2[count++] = myTypeComplet;
 			myData2[count++] = Util.TrimDecimals( newJump.TcAvg.ToString(), pDN );
 			myData2[count++] = Util.TrimDecimals( newJump.TvAvg.ToString(), pDN );
-			myData2[count++] = myWeight;
+			myData2[count++] = myWeight.ToString();
 			myData2[count++] = myFall;
 			if(showHeight) {
 				myData2[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters(newJump.TvAvg.ToString()), pDN );

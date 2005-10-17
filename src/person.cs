@@ -37,6 +37,9 @@ public class Person {
 
 	private int sessionID;
 	
+	public Person() {
+	}
+
 	//suitable when we load a person from the database for being the current Person
 	public Person(int uniqueID, string name, string sex, string dateBorn, int height, int weight, string description) 
 	{

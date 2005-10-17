@@ -1,0 +1,11 @@
+<h4><b>ChronoJump</b> est un système complet pour la mesure, la gestion et les statistiques des événements de saut, qui fonctionne sur de multiples ordinateurs</h4>
+<p>
+Chronojump utilise une plateforme de contacts pour deux signaux (une plateforme interne, une plateforme externe), et également un chronomètre conçu par circuit imprimé <i>ad-hoc</i> afin d'obtenir des mesures précises et réelles.
+<p>
+Le temps de vol d'un saut indique l'altitude du centre de gravité du sauteur (d'autant que la position de départ et d'arrivée sont identiques).
+<p>
+<img src="images/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
+<br><tt>Arrangement de logiciel de gestion (ChronoJump) + chronomètre (Chronopic) + plateforme des contacts.</tt>
+<p>
+ChronoJump bidon également être employé pour des courses de synchronisation même avec des intervalles (<a href="features.html">caractéristiques</a> (anglais)).
+<img src="images/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">

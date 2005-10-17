@@ -35,7 +35,7 @@ class SqliteJumpType : Sqlite
 	
 	//creates table containing the types of simple Jumps
 	//following INT values are booleans
-	protected static void createTableJumpType()
+	protected internal static void createTableJumpType()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE jumpType ( " +
@@ -48,7 +48,7 @@ class SqliteJumpType : Sqlite
 	}
 	
 	//if this changes, jumpType.cs constructor should change 
-	protected static void initializeTableJumpType()
+	protected internal static void initializeTableJumpType()
 	{
 		string [] iniJumpTypes = {
 			//name:startIn:weight:description
@@ -67,7 +67,7 @@ class SqliteJumpType : Sqlite
 	
 	//creates table containing the types of repetitive Jumps
 	//following INT values are booleans
-	protected static void createTableJumpRjType()
+	protected internal static void createTableJumpRjType()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE jumpRjType ( " +
@@ -91,7 +91,7 @@ class SqliteJumpType : Sqlite
 	}
 	
 	//if this changes, jumpType.cs constructor should change 
-	protected static void initializeTableJumpRjType()
+	protected internal static void initializeTableJumpRjType()
 	{
 		string [] iniJumpTypes = {
 			//name:startIn:weight:jumpsLimited:limitValue:unlimited:description

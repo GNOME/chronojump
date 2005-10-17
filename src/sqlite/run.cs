@@ -33,7 +33,7 @@ class SqliteRun : Sqlite
 	 * create and initialize tables
 	 */
 	
-	protected static void createTable()
+	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE run ( " +
@@ -47,7 +47,7 @@ class SqliteRun : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected static void intervalCreateTable()
+	protected internal static void intervalCreateTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE runInterval ( " +
@@ -77,7 +77,8 @@ class SqliteRun : Sqlite
 				"(uniqueID, personID, sessionID, type, distance, time, description)" +
 				" VALUES (NULL, "
 				+ personID + ", " + sessionID + ", '" + type + "', "
-				+ distance + ", " + time + ", '" + description + "')" ;
+				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", '" + 
+				description + "')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
@@ -93,9 +94,12 @@ class SqliteRun : Sqlite
 				"(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited )" +
 				"VALUES (NULL, " +
 				personID + ", " + sessionID + ", '" + type + "', " +
-				distanceTotal + ", " + timeTotal + ", " + distanceInterval + ", '" + 
-				intervalTimesString + "', " +
-				tracks + ", '" + description + "', '" + limited + "')" ;
+				Util.ConvertToPoint(distanceTotal) + ", " + 
+				Util.ConvertToPoint(timeTotal) + ", " + 
+				Util.ConvertToPoint(distanceInterval) + ", '" + 
+				Util.ConvertToPoint(intervalTimesString) + "', " +
+				Util.ConvertToPoint(tracks) + ", '" + 
+				description + "', '" + limited + "')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
@@ -142,8 +146,8 @@ class SqliteRun : Sqlite
 					reader[2].ToString() + ":" + 	//run.personID
 					reader[3].ToString() + ":" + 	//run.sessionID
 					reader[4].ToString() + ":" + 	//run.type
-					reader[5].ToString() + ":" + 	//run.distance
-					reader[6].ToString() + ":" + 	//run.time
+					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + //run.distance
+					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + //run.time
 					reader[7].ToString() 		//description
 					);
 			count ++;
@@ -196,11 +200,11 @@ class SqliteRun : Sqlite
 					reader[2].ToString() + ":" + 	//runInterval.personID
 					reader[3].ToString() + ":" + 	//runInterval.sessionID
 					reader[4].ToString() + ":" + 	//runInterval.type
-					reader[5].ToString() + ":" + 	//distanceTotal
-					reader[6].ToString() + ":" + 	//timeTotal
-					reader[7].ToString() + ":" + 	//distanceInterval
-					reader[8].ToString() + ":" + 	//intervalTimesString
-					reader[9].ToString() + ":" + 	//tracks
+					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + //distanceTotal
+					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + //timeTotal
+					Util.ChangeDecimalSeparator(reader[7].ToString()) + ":" + //distanceInterval
+					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + //intervalTimesString
+					Util.ChangeDecimalSeparator(reader[9].ToString()) + ":" + //tracks
 					reader[10].ToString() + ":" + 	//description
 					reader[11].ToString() 	 	//limited
 					);
@@ -238,8 +242,8 @@ class SqliteRun : Sqlite
 				Convert.ToInt32(reader[1]),	//personID
 				Convert.ToInt32(reader[2]),	//sessionID
 				reader[3].ToString(),		//type
-				Convert.ToDouble( reader[4].ToString() ),
-				Convert.ToDouble( reader[5].ToString() ),
+				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[4].ToString()) ),
+				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[5].ToString()) ),
 				reader[6].ToString() //description
 				);
 	
@@ -264,11 +268,11 @@ class SqliteRun : Sqlite
 				Convert.ToInt32(reader[1]),	//personID
 				Convert.ToInt32(reader[2]),	//sessionID
 				reader[3].ToString(),		//type
-				Convert.ToDouble(reader[4]),	//distanceTotal
-				Convert.ToDouble(reader[5]),	//timeTotal
-				Convert.ToDouble(reader[6]),	//distanceInterval
-				reader[7].ToString(),		//intervalTimesString
-				Convert.ToDouble(reader[8]),		//tracks
+				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //distanceTotal
+				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), //timeTotal
+				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), //distanceInterval
+				Util.ChangeDecimalSeparator(reader[7].ToString()),	//intervalTimesString
+				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[8].ToString())), //tracks
 				reader[9].ToString(), 		//description
 				reader[10].ToString() 		//limited
 				);

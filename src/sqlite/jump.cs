@@ -33,7 +33,7 @@ class SqliteJump : Sqlite
 	 * create and initialize tables
 	 */
 	
-	protected static void createTable()
+	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE jump ( " +
@@ -49,7 +49,7 @@ class SqliteJump : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected static void rjCreateTable()
+	protected internal static void rjCreateTable()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE jumpRj ( " +
@@ -77,16 +77,15 @@ class SqliteJump : Sqlite
 	 * Jump class methods
 	 */
 	
-	public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, string weight, string limited, string description)
+	public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string limited, string description)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO jump" + 
 				"(uniqueID, personID, sessionID, type, tv, tc, fall, weight, description)" +
 				" VALUES (NULL, "
 				+ personID + ", " + sessionID + ", '" + type + "', "
-				//+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + fall + ", '" 
-				+ tv + ", " + tc + ", " + fall + ", '" 
-				+ weight + "', '" + description + "')" ;
+				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + fall + ", '" 
+				+  Util.ConvertToPoint(weight) + "', '" + description + "')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
@@ -99,7 +98,7 @@ class SqliteJump : Sqlite
 	}
 	
 	//fall has values like "10J" or "10T" (10 jumps, or 10 seconds, respectively)
-	public static int InsertRj(int personID, int sessionID, string type, double tvMax, double tcMax, int fall, string weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
+	public static int InsertRj(int personID, int sessionID, string type, double tvMax, double tcMax, int fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO jumpRj " + 
@@ -107,9 +106,11 @@ class SqliteJump : Sqlite
 				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited	)" +
 				"VALUES (NULL, " +
 				personID + ", " + sessionID + ", '" + type + "', " +
-				tvMax + ", " + tcMax + ", '" + fall + "', '" + weight + "', '" + description + "', " +
-				tvAvg + ", " + tcAvg + ", '" + tvString + "', '" + tcString + "', " +
-				jumps + ", " + time + ", '" + limited + "')" ;
+				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", '" + 
+				fall + "', '" + Util.ConvertToPoint(weight) + "', '" + description + "', " +
+				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", '" + 
+				Util.ConvertToPoint(tvString) + "', '" + Util.ConvertToPoint(tcString) + "', " +
+				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
@@ -159,10 +160,10 @@ class SqliteJump : Sqlite
 					reader[2].ToString() + ":" + 	//jump.personID
 					reader[3].ToString() + ":" + 	//jump.sessionID
 					reader[4].ToString() + ":" + 	//jump.type
-					reader[5].ToString() + ":" + 	//jump.tv
-					reader[6].ToString() + ":" + 	//jump.tc
+					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//jump.tv
+					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + 	//jump.tc
 					reader[7].ToString() + ":" + 	//fall
-					reader[8].ToString() + ":" + 	//weight
+					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + 	//weight
 					reader[9].ToString() 		//description
 					);
 			count ++;
@@ -215,15 +216,15 @@ class SqliteJump : Sqlite
 					reader[2].ToString() + ":" + 	//jumpRj.personID
 					reader[3].ToString() + ":" + 	//jumpRj.sessionID
 					reader[4].ToString() + ":" + 	//jumpRj.type
-					reader[5].ToString() + ":" + 	//tvMax
-					reader[6].ToString() + ":" + 	//tcMax
+					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//tvMax
+					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + 	//tcMax
 					reader[7].ToString() + ":" + 	//fall
-					reader[8].ToString() + ":" + 	//weight
+					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + 	//weight
 					reader[9].ToString() + ":" + 	//description
-					reader[10].ToString() + ":" + 	//tvAvg,
-					reader[11].ToString() + ":" + 	//tcAvg,
-					reader[12].ToString() + ":" + 	//tvString,
-					reader[13].ToString() + ":" + 	//tcString,
+					Util.ChangeDecimalSeparator(reader[10].ToString()) + ":" + 	//tvAvg,
+					Util.ChangeDecimalSeparator(reader[11].ToString()) + ":" + 	//tcAvg,
+					Util.ChangeDecimalSeparator(reader[12].ToString()) + ":" + 	//tvString,
+					Util.ChangeDecimalSeparator(reader[13].ToString()) + ":" + 	//tcString,
 					reader[14].ToString() + ":" + 	//jumps,
 					reader[15].ToString() + ":" + 	//time,
 					reader[16].ToString() 	 	//limited
@@ -261,10 +262,10 @@ class SqliteJump : Sqlite
 				Convert.ToInt32(reader[1]),
 				Convert.ToInt32(reader[2]),
 				reader[3].ToString(),
-				Convert.ToDouble( reader[4].ToString() ),
-				Convert.ToDouble( reader[5].ToString() ),
+				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[4].ToString()) ),
+				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[5].ToString()) ),
 				Convert.ToInt32(reader[6]),  //fall
-				reader[7].ToString(), //weight
+				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[7].ToString()) ), //weight
 				reader[8].ToString() //description
 				);
 	
@@ -289,13 +290,13 @@ class SqliteJump : Sqlite
 				Convert.ToInt32(reader[1]),	//personID
 				Convert.ToInt32(reader[2]),	//sessionID
 				reader[3].ToString(),		//type
-				reader[11].ToString(),		//tvString
-				reader[12].ToString(),		//tcString
+				Util.ChangeDecimalSeparator(reader[11].ToString()),		//tvString
+				Util.ChangeDecimalSeparator(reader[12].ToString()),		//tcString
 				//tvMax and tcMax not needed by the constructor:
 				//Convert.ToDouble( reader[4].ToString() ), //tvMax
 				//Convert.ToDouble( reader[5].ToString() ), //tcMax
 				Convert.ToInt32(reader[6]),  	//fall
-				reader[7].ToString(), 		//weight
+				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[7].ToString()) ), 	//weight
 				reader[8].ToString(), 		//description
 				//tvAvg and tcAvg not needed by the constructor:
 				//Convert.ToDouble( reader[9].ToString() ), //tvAvg
@@ -309,11 +310,12 @@ class SqliteJump : Sqlite
 	}
 		
 
-	public static void Update(int jumpID, int personID, string description)
+	public static void Update(string jumpTable, int jumpID, int personID, double weight, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE jump " + 
+		dbcmd.CommandText = "UPDATE " + jumpTable + 
 			" SET personID = " + personID + 
+			", weight = " + Util.ConvertToPoint(weight) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + jumpID ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -321,6 +323,7 @@ class SqliteJump : Sqlite
 		dbcon.Close();
 	}
 
+	/*
 	public static void RjUpdate(int jumpID, int personID, string description)
 	{
 		dbcon.Open();
@@ -332,15 +335,18 @@ class SqliteJump : Sqlite
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
+	*/
 
-	public static void Delete(string uniqueID)
+	public static void Delete(string jumpTable, string uniqueID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM jump WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + jumpTable +
+			" WHERE uniqueID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
 
+	/*
 	public static void RjDelete(string uniqueID)
 	{
 		dbcon.Open();
@@ -348,4 +354,5 @@ class SqliteJump : Sqlite
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
+	*/
 }

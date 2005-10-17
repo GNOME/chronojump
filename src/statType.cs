@@ -104,7 +104,7 @@ public class StatType {
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo, Gtk.TreeView treeview_stats,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
-			ArrayList markedRows, 
+			ArrayList markedRows,  
 			int rj_evolution_mark_consecutives, bool graph, bool toReport)
 	{
 		//some of this will disappear when we use myStatTypeStruct in all classes:
@@ -141,7 +141,7 @@ public class StatType {
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			//ArrayList markedRows, 
+			ArrayList markedRows, 
 			int rj_evolution_mark_consecutives, 
 			bool graph, bool toReport, TextWriter writer, string fileName)
 	{
@@ -156,8 +156,7 @@ public class StatType {
 		this.heightPreferred = heightPreferred;
 		this.weightStatsPercent = weightStatsPercent;
 
-		//this.markedRows = markedRows;
-		this.markedRows = new ArrayList();
+		this.markedRows = markedRows;
 		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
 		this.graph = graph;
@@ -308,7 +307,7 @@ public class StatType {
 			{
 				if(graph) {
 					//myStat = new GraphRjEvolution (myStatTypeStruct, rj_evolution_mark_consecutives);
-					myStat = new GraphRjEvolution (myStatTypeStruct);
+					myStat = new GraphRjEvolution (myStatTypeStruct, rj_evolution_mark_consecutives);
 				} else {
 					myStat = new StatRjEvolution(myStatTypeStruct, rj_evolution_mark_consecutives, treeview_stats);
 				}
@@ -341,7 +340,6 @@ public class StatType {
 		//there will be always a png with chronojump_logo
 		writer.WriteLine("<img src=\"" + directoryName + "/" + (pngs.Length -1).ToString() + ".png\">");
 	}
-	
 	
 	public string Enunciate {
 		get { return myStat.ToString(); }

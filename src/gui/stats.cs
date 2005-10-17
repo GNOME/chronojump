@@ -353,7 +353,8 @@ public class StatsWindow {
 		}
 
 		int rj_evolution_mark_consecutives = -1;
-		if(checkbutton_mark_consecutives.Active) {
+		if (combo_stats_stat_subtype.Entry.Text == Catalog.GetString("Evolution") &&
+			checkbutton_mark_consecutives.Active ) {
 			rj_evolution_mark_consecutives = Convert.ToInt32 ( spinbutton_mark_consecutives.Value ); 
 		}
 
@@ -648,7 +649,8 @@ public class StatsWindow {
 			//in the first the value of Entry.Text is "";
 			return;
 		} else {
-			if(checkbutton_mark_consecutives.Active) {
+			if (statisticSubType == Catalog.GetString("Evolution") &&
+				checkbutton_mark_consecutives.Active ) {
 				statisticSubType += "." + ( spinbutton_mark_consecutives.Value ).ToString(); 
 			}
 			
@@ -680,7 +682,8 @@ public class StatsWindow {
 			//add current stat
 			reportWin.Add(statisticType, statisticSubType, statisticApplyTo, 
 					//sessionsAsAString, statsShowJumps, showSex.ToString());
-					sendSelectedSessions, statsShowJumps, showSex.ToString());
+					sendSelectedSessions, statsShowJumps, showSex.ToString(), 
+					myStatType.MarkedRows);
 					
 		}
 		

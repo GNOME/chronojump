@@ -22,6 +22,7 @@
 using System;
 using System.Data;
 using Mono.Data.SqliteClient;
+using System.Text; //StringBuilder
 
 using System.Threading;
 
@@ -35,7 +36,8 @@ public class Jump
 	protected double tv;
 	protected double tc;
 	protected int fall;
-	protected string weight;
+	//protected string weight; 
+	protected double weight; //always write in % (not kg or %) then sqlite can do avgs
 	protected string description;
 
 	//for not checking always in database
@@ -66,7 +68,7 @@ public class Jump
 	}
 
 	//jump execution
-	public Jump(int personID, int sessionID, string type, int fall, string weight,  
+	public Jump(int personID, int sessionID, string type, int fall, double weight,  
 			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
 			int pDN)
 	{
@@ -93,7 +95,7 @@ public class Jump
 	}
 	
 	//after inserting database (SQL)
-	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, string weight, string description)
+	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -105,7 +107,7 @@ public class Jump
 		this.weight = weight;
 		this.description = description;
 	}
-
+		
 	public virtual void Simulate(Random rand)
 	{
 		if(hasFall) {
@@ -281,8 +283,8 @@ public class Jump
 		
 		string myStringPush =   Catalog.GetString("Last jump: ") + JumperName + " " + 
 			type + tcString + " TV:" + Util.TrimDecimals( tv.ToString(), pDN ) ;
-		if(weight.Length > 0) {
-			myStringPush = myStringPush + "(" + weight + ")";
+		if(weight > 0) {
+			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
 		}
 		appbar.Push( myStringPush );
 
@@ -317,134 +319,75 @@ public class Jump
 	//called from chronojump.cs for cancelling jumps
 	public bool Cancel
 	{
-		get {
-			return cancel;
-		}
-		set {
-			cancel = value;
-		}
+		get { return cancel; }
+		set { cancel = value; }
 	}
 	
 	public bool TypeHasWeight
 	{
-		get {
-			return SqliteJumpType.HasWeight(type);
-		}
+		get { return SqliteJumpType.HasWeight(type); }
 	}
 	
 	public bool TypeHasFall
 	{
-		get {
-			return SqliteJumpType.HasFall(type);
-		}
+		get { return SqliteJumpType.HasFall(type); }
 	}
 	
 	public string Type
 	{
-		get
-		{
-			return type;
-		}
-		set
-		{
-			type = value;
-		}
+		get { return type; }
+		set { type = value; }
 	}
 	
 	public double Tv
 	{
-		get
-		{
-			return tv;
-		}
-		set
-		{
-			tv = value;
-		}
+		get { return tv; }
+		set { tv = value; }
 	}
 	
 	public double Tc
 	{
-		get
-		{
-			return tc;
-		}
-		set
-		{
-			tc = value;
-		}
+		get { return tc; }
+		set { tc = value; }
 	}
 	
 	public int Fall
 	{
-		get
-		{
-			return fall;
-		}
-		set
-		{
-			fall = value;
-		}
+		get { return fall; }
+		set { fall = value; }
 	}
 	
-	public string Weight
+	public double Weight
 	{
-		get
-		{
-			return weight;
-		}
-		set 
-		{
-			weight = value;
-		}
+		get { return weight; }
+		set { weight = value; }
 	}
 	
 	public string Description
 	{
-		get
-		{
-			return description;
-		}
-		set 
-		{
-			description = value;
-		}
+		get { return description; }
+		set { description = value; }
 	}
 	
 	public int UniqueID
 	{
-		get
-		{
-			return uniqueID;
-		}
-		set 
-		{
-			uniqueID = value;
-		}
+		get { return uniqueID; }
+		set { uniqueID = value; }
 	}
 
 	public int SessionID
 	{
-		get
-		{
-			return sessionID;
-		}
+		get { return sessionID; }
 	}
 
 	public int PersonID
 	{
-		get
-		{
-			return personID;
-		}
+		get { return personID; }
 	}
 		
 	public string JumperName
 	{
-		get
-		{
-			return SqlitePerson.SelectJumperName(personID);
-		}
+		get { return SqlitePerson.SelectJumperName(personID); }
 	}
 
 	~Jump() {}
@@ -468,7 +411,8 @@ public class JumpRj : Jump
 	private bool finish;
 
 	//jump execution
-	public JumpRj(int personID, int sessionID, string type, int fall, string weight, double limitAsDouble, bool jumpsLimited, 
+	public JumpRj(int personID, int sessionID, string type, int fall, double weight, 
+			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
 			int pDN)
 	{
@@ -503,7 +447,7 @@ public class JumpRj : Jump
 	}
 	
 	//after inserting database (SQL)
-	public JumpRj(int uniqueID, int personID, int sessionID, string type, string tvString, string tcString, int fall, string weight, string description, int jumps, double time, string limited)
+	public JumpRj(int uniqueID, int personID, int sessionID, string type, string tvString, string tcString, int fall, double weight, string description, int jumps, double time, string limited)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;

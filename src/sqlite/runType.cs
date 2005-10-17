@@ -35,7 +35,7 @@ class SqliteRunType : Sqlite
 	
 	//creates table containing the types of simple Runs
 	//following INT values are booleans
-	protected static void createTableRunType()
+	protected internal static void createTableRunType()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE runType ( " +
@@ -47,7 +47,7 @@ class SqliteRunType : Sqlite
 	}
 	
 	//if this changes, runType.cs constructor should change 
-	protected static void initializeTableRunType()
+	protected internal static void initializeTableRunType()
 	{
 		string [] iniRunTypes = {
 			//name:distance:description
@@ -66,7 +66,7 @@ class SqliteRunType : Sqlite
 	
 	//creates table containing the types of Interval Runs 
 	//following INT values are booleans
-	protected static void createTableRunIntervalType()
+	protected internal static void createTableRunIntervalType()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE runIntervalType ( " +
@@ -82,7 +82,7 @@ class SqliteRunType : Sqlite
 	}
 	
 	//if this changes, runType.cs constructor should change 
-	protected static void initializeTableRunIntervalType()
+	protected internal static void initializeTableRunIntervalType()
 	{
 		string [] iniRunTypes = {
 			//name:distance:tracksLimited:fixedValue:unlimited:description

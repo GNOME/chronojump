@@ -1,0 +1,106 @@
+<h4 id="top">FAQ de Chronojump - listado de preguntas frecuentes</h4>
+
+<ol>
+<li><a href="#platform">Plataforma de contactos</a>
+<li><a href="#chronopic">Chronómetro Chronopic</a>
+<li><a href="#chronojump">Software Chronojump</a>
+</ol>
+
+<h5 id="platform">Plataforma de contactos</h5>
+
+<ol>
+<li>¿Cómo puedo construir la plataforma de contactos?
+<p>
+Siga las instrucciones descritas en esta página web: [insertar enlace]
+
+<p><li>¿Dónde puedo comprar la plataforma de contactos? ¿Puedo vender la que he hecho yo?
+<p>
+No comercializamos plataformas de contactos, a cambio instamos a los que deseen usar este método a que se fabriquen su propia plataforma. Si algún particular o empresa decide fabricarlas según el método que hemos explicado o cualquier otro que sea compatible y quiere venderlas, puede avisarnos y haremos difusión de su servicio, aunque no nos haremos responsables de la calidad de las mismas.
+
+<p><li>¿Por qué el acero tiene que ser templado?
+<p>
+El acero de la plataforma de contactos va a ser sometido a numerosas fuerzas, si es templado resiste mejor y tiene más capacidad de retorno a su posición inicial.
+
+<p><li>¿Por qué no usáis células fotoeléctricas?
+<p>
+Por que todavía nadie ha colaborado en ofrecer información sobre cómo fabricarlas, dónde comprarlas, precios, retardo en la detección de eventos... agradeceremos colaboraciones en este aspecto.
+
+<p><li>He descubierto una manera mejor de hacer la plataforma de contactos ¿dónde puedo anunciarla?
+<p>
+Escribe un correo a [insertar enlace] y veremos cómo podemos anunciar tu propuesta.
+
+</ol>
+<p align="right"><a href="#top">Subir</a></p>
+
+<h5 id="chronopic">Cronómetro Chronopic</h5>
+
+<ol>
+<li>¿Por qué es necesario un cronómetro si cualquier ordenador puede hacer esa función?
+<p>
+Los sistemas operativos modernos son multitarea, lo que significa que el ordenador asigna pequeñas cantidades de tiempo para la realización de cada una de las tareas de manera que parece que ejecuta todas a la vez. Si el ordenador se encarga de captar los estímulos que proceden de la plataforma de contactos, en ocasiones será tardío en advertir estos eventos porque estará ocupado en otros <i>asuntos</i>, lo que se traduce en problemas de fiabilidad debido a que dos saltos de la misma duración podrían obtener mediciones distintas por circunstancias aleatorias.<br>
+El cronómetro externo que hemos construido está especializado en la captación de eventos en la plataforma de contactos por lo que no aparecerán errores de fiabilidad en sus registros.<br>
+Chronopic permitirá además que se pueda usar Chronojump o su versión reducida Chronojump-mini en casi cualquier dispositivo electrónico, y asegura una buena compatibilidad hacia el futuro.<br>
+Para más información lea este artículo: [INSERTAR ENLACE]
+
+<p><li>He leído que el cronómetro actual es un prototipo, ¿cuando estará la versión final disponible?
+<p>
+Para la construcción de chronopic se ha usado la tarjeta entrenadora de robots Skypic debido a que es hardware libre, está documentada su construcción, es posible su compra directa y está convenientemente validada. 
+<br>Hasta la fecha se dispone de una tarjeta de expansión que permite conectar Skypic con la plataforma de contactos y un software (firmware) que permite que Skypic sea completamente funcional para la detección de estados y eventos en la plataforma de contactos. <br>
+Más delante se creará la tarjeta Chronopic, con menos instrumentaciones que Skypic, de reducidas dimensiones y que podrá ser fabricada facilmente o adquirida por bajo precio (15-30 euros en España).<br>
+Para más información lea esta página web: [INSERTAR ENLACE]
+
+<p><li>¿Cómo puedo construir el cronómetro?<p>
+<p>
+Dispone de información completa en esta página web: [INSERTAR ENLACE]. Si no tiene conocimientos en electrónica, pida ayuda en esta materia a algún conocido o empresa local.
+
+<p><li>¿Dónde puedo comprar el cronómetro?
+<p>
+La empresa IFARA de Madrid comercializa en España Skypic + tarjeta de expansión + firmware de Chronopic (software necesario para la tarjeta) por 70 euros. Más información en este correo electrónico: [INSERTAR ENLACE].<br>
+Si usted quiere fabricar y vender Skypic + tarjeta de expansión + firmware de Chronopic en España o en cualquier otro país, no dude a ponerse en contacto con nosotros para que hagamos publicidad de su servicio.
+
+</ol>
+<p align="right"><a href="#top">Subir</a></p>
+
+<h5 id="chronojump">Software Chronojump</h5>
+
+<ol>
+<li>¿Puedo acceder al código fuente y modificar el programa, y venderlo?
+<p>
+Chronojump es software libre distribuido bajo los términos de la licencia GPL [enlace], lo que le permite estudiarlo, modificarlo, redistribuirlo, venderlo siempre respetando la citada licencia. Para más información acceda a la página web de GPL en la Wikipedia [INSERTAR ENLACE]
+
+<p><li>¿Cuánto dinero cuesta?
+<p>
+En la web siempre habrá una versión de Chronojump gratuita, pero usted puede comercializar si lo desea una versión, en ella se recomienda que ofrezca servicios extra para que sus clientes se decidan a comprarla. De entre los servicios podría ofrecer cursos a entrenadores, asesoría, integración de plataforma + cronómetro + software en un sólo equipo, ... también puede facillitar el programa si lo desea en cualquier curso, clase o conferencia que usted imparta.
+
+<p><li>¿En qué sistemas operativos y equipos informáticos funciona?
+<p>
+Chronojump está escrito para la plataforma de programación MONO [INSERTAR ENLACE], que ha sido concebida para facilitar que los programas informáticos funcionen un muchos sistemas operativos y equipamientos informáticos. Hasta el momento sólo funciona en sistemas GNU/Linux, pero se facilita un Live-CD que permite que en cualquier ordenador PC (con sistemas operativos Linux, Windows, FreeBSD o cualquier otro) puedan usar Chronojump.<br>
+Para mitades de primavera de 2006 se prevé que habrá una versión para windows que se pueda ejecutar sin necesidad del Live-CD.
+
+<p><li>¿Cómo puedo descargar (download) el programa?
+<p>
+Lea este correo electrónico: [INSERTAR ENLACE]
+
+<p><li>¿Puedo probar Chronojump sin tener el cronómetro ni la plataforma de contactos?
+<p>
+Sí, se ha creado un modo simulado en que se ejecutan saltos y carreras de duración aleatoria para que pueda probar las características del programa. Además se incorpora una base de datos de muestra.
+
+<p><li>¿Cuándo saldrá la versión 1.0 y qué prestaciones tendrá?
+<p>
+Hasta la fecha (a punto de salir la versión 0.4) Chronojump ya tiene más prestaciones que el resto de soluciones comerciales y no-comerciales de las que tenemos conocimiento. Pero aún hay muchos aspectos a incorporar-mejorar que se van describiendo en el archivo de <i>roadmap</i> o hoja de ruta: [INSERTAR ENLACE] (inglés).<br>
+Si desea realizar peticiones de características no dude en escribir un correo a: [INSERTAR ENLACE].
+
+<p><li>¿Cómo puedo saber las últimas novedades del proyecto?
+<p>
+Inscríbase a la lista de correo: [INSERTAR ENLACE] o consulte sus archivos disponibles aquí: [INSERTAR ENLACE]. Además puede consultar el archivo <i>changelog</i> o registro de cambios: [INSERTAR ENLACE].
+
+<p><li>¿Por qué se llama Chronojump si también sirve para medir carreras?
+<p>
+La idea inicial era crear un software para la medición de eventos temporales del salto, pero se ha visto que con poco esfuerzo el mismo software puede servir para cronometrar todo tipo de carreras. Aunque se trabaja en estas líneas y a medio plazo se añadirá la de estudio de ritmos, los esfuerzos principales se destinan a la medición de saltos, por este motivo Chronojump conserva su nombre inicial.
+
+<p><li>Me gustaría colaborar ¿cómo puedo hacerlo?
+<p>
+Escriba a la lista de correo: [INSERTAR ENLACE] preséntese, explíquenos por qué quiere colaborar y cuáles son sus conocimientos.
+
+</ol>
+<p align="right"><a href="#top">Subir</a></p>

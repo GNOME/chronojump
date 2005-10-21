@@ -67,7 +67,7 @@ public class StatsWindow {
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
-	bool weightStatsPercent;
+	//bool weightStatsPercent;
 	
 	bool statsAutomatic = true;
 	bool statsColumnsToRemove = false;
@@ -79,8 +79,6 @@ public class StatsWindow {
 	//private Stat myStat; 
 	private StatType myStatType;
 
-	private string allJumpsName = Catalog.GetString("All jumps");
-	
 	private static string [] comboStatsTypeOptions = {
 		Catalog.GetString("Global"), 
 		Catalog.GetString("Jumper"),
@@ -89,12 +87,9 @@ public class StatsWindow {
 		Catalog.GetString("Reactive"),
 	};
 	
-	//if this changes, change also statType.cs
-	static string djIndexFormula = Catalog.GetString("Dj Index") + " ((tv-tc)/tc *100)";
-	static string qIndexFormula = Catalog.GetString("Q index") + " (tv/tc)";
 	private static string [] comboStatsSubTypeWithTCOptions = {
-		djIndexFormula,
-		qIndexFormula
+		Constants.DjIndexFormula,
+		Constants.QIndexFormula
 	};
 	
 	private static string [] comboStatsSubTypeReactiveOptions = {
@@ -103,15 +98,11 @@ public class StatsWindow {
 		Catalog.GetString("Evolution") 
 	};
 	
-	//if this changes, change also statType.cs
-	static string fvIndexFormula = "F/V sj+(100%)/sj *100";
-	static string ieIndexFormula = "IE (cmj-sj)/sj *100";
-	static string iubIndexFormula = "IUB (abk-cmj)/cmj *100";
 	private static string [] comboStatsSubTypeSimpleOptions = {
 		Catalog.GetString("No indexes"), 
-		fvIndexFormula,
-		ieIndexFormula, 
-		iubIndexFormula
+		Constants.FvIndexFormula,
+		Constants.IeIndexFormula, 
+		Constants.IubIndexFormula
 	};
 
 	ArrayList sendSelectedSessions;
@@ -121,7 +112,8 @@ public class StatsWindow {
 
 	
 	StatsWindow (Gtk.Window parent, Session currentSession, 
-			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
+			//int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
+			int prefsDigitsNumber, bool heightPreferred, 
 			Report report, ReportWindow reportWin)
 	{
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "stats_window", null);
@@ -130,7 +122,7 @@ public class StatsWindow {
 		this.parent = parent;
 		this.currentSession = currentSession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
-		this.weightStatsPercent = weightStatsPercent;
+		//this.weightStatsPercent = weightStatsPercent;
 		this.heightPreferred = heightPreferred;
 
 		this.report = report;
@@ -154,12 +146,14 @@ public class StatsWindow {
 	
 
 	static public StatsWindow Show (Gtk.Window parent, Session currentSession, 
-			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
+			//int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
+			int prefsDigitsNumber, bool heightPreferred, 
 			Report report, ReportWindow reportWin)
 	{
 		if (StatsWindowBox == null) {
 			StatsWindowBox = new StatsWindow (parent, currentSession, 
-					prefsDigitsNumber, weightStatsPercent, heightPreferred, 
+					//prefsDigitsNumber, weightStatsPercent, heightPreferred, 
+					prefsDigitsNumber, heightPreferred, 
 					report, reportWin);
 		}
 		StatsWindowBox.stats_window.Show ();
@@ -252,7 +246,7 @@ public class StatsWindow {
 			//by default show all simple nonTC jumps, but if combo_stats_subtype changed
 			//updateComboStatsSubType() will do the work
 			combo_stats_stat_apply_to.PopdownStrings = 
-				SqliteJumpType.SelectJumpTypes(allJumpsName, "nonTC", true); //only select name
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 		} 
 		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 
@@ -261,7 +255,7 @@ public class StatsWindow {
 			combo_stats_stat_subtype.Sensitive = true;
 			
 			combo_stats_stat_apply_to.PopdownStrings = 
-				SqliteJumpType.SelectJumpTypes(allJumpsName, "TC", true); //only select name
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 		} 
 		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Reactive") ) 
@@ -270,7 +264,7 @@ public class StatsWindow {
 			combo_stats_stat_subtype.Sensitive = true;
 			
 			combo_stats_stat_apply_to.PopdownStrings = 
-				SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
+				SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 		}
 
@@ -282,12 +276,12 @@ public class StatsWindow {
 		{
 			if(combo_stats_stat_subtype.Entry.Text == Catalog.GetString("No indexes")) {
 				combo_stats_stat_apply_to.PopdownStrings = 
-					SqliteJumpType.SelectJumpTypes(allJumpsName, "nonTC", true); //only select name
+					SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true); //only select name
 				combo_stats_stat_apply_to.Sensitive = true;
-			} else if (combo_stats_stat_subtype.Entry.Text == ieIndexFormula) {
+			} else if (combo_stats_stat_subtype.Entry.Text == Constants.IeIndexFormula) {
 				combo_stats_stat_apply_to.Entry.Text = "CMJ, SJ";
 				combo_stats_stat_apply_to.Sensitive = false;
-			} else if (combo_stats_stat_subtype.Entry.Text == iubIndexFormula) {
+			} else if (combo_stats_stat_subtype.Entry.Text == Constants.IubIndexFormula) {
 				combo_stats_stat_apply_to.Entry.Text = "ABK, CMJ";
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else {
@@ -295,6 +289,11 @@ public class StatsWindow {
 				combo_stats_stat_apply_to.Entry.Text = "SJ+(100%), SJ";
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
+		}  else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 
+		{
+			combo_stats_stat_apply_to.PopdownStrings = 
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true); //only select name
+			combo_stats_stat_apply_to.Sensitive = true;
 		} 
 		
 		if (combo_stats_stat_subtype.Entry.Text == Catalog.GetString("Evolution") )  {
@@ -374,7 +373,7 @@ public class StatsWindow {
 				statsJumpsType,
 				limit, 
 				heightPreferred,
-				weightStatsPercent, 
+				//weightStatsPercent, 
 				markedRows,
 				rj_evolution_mark_consecutives,
 				graph,
@@ -716,13 +715,15 @@ public class StatsWindow {
 			heightPreferred = value;
 		}
 	}
-	
+
+	/*
 	public bool WeightStatsPercent
 	{
 		set {
 			weightStatsPercent = value;
 		}
 	}
+	*/
 
 }
 

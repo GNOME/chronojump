@@ -1,5 +1,19 @@
 CHANGELOG:
 
+21 oct 2005
+	Finished localization of classes with ChangeDecimalSeparator
+	All weights in treeviews, stats, graphs and reports are in % (no selectable option in preferences)
+	New class Constants in new file constants.cs for formulas and other strings
+
+	web: created FAQ in spanish
+
+	Fixed bug in stats gui when change type from "simple" to "with TC" and "All jumps" is not selected
+
+	updated pot file and spanish translation 
+	
+	Changed sample database version to 0.41
+	Enunciate in stats person should write person name
+
 17 oct 2005
 	localizating chronojump (all database decimal characters are '.' and in application depends in the locale. Done by two new methods in Util class: 
 		string ChangeDecimalSeparator(string myString)

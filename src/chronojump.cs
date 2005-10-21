@@ -173,16 +173,13 @@ public class ChronoJump
 	private TreeStore treeview_runs_interval_store;
 	private TreeViewRunsInterval myTreeViewRunsInterval;
 
-	private static string allJumpsName;
-	private static string allRunsName;
-	
 	//preferences variables
 	private static int prefsDigitsNumber;
 	private static bool showHeight;
 	private static bool showInitialSpeed;
 	private static bool simulated;
 	private static bool askDeletion;
-	private static bool weightStatsPercent;
+	//private static bool weightStatsPercent;
 	private static bool heightPreferred;
 	private static bool metersSecondsPreferred;
 
@@ -261,10 +258,6 @@ public class ChronoJump
 	{
 		Catalog.Init ("chronojump", "./locale");
 
-		//assigned here, when Catalog.Init has been called
-		allJumpsName = Catalog.GetString("All jumps");
-		allRunsName = Catalog.GetString("All runs");
-	
 		Program program = new Program(progname, progversion, Modules.UI, args);
 
 		Glade.XML gxml = new Glade.XML (null, "chronojump.glade", "app1", "chronojumpGlade");
@@ -280,8 +273,6 @@ public class ChronoJump
 			Sqlite.CreateTables();
 		} else { Console.WriteLine ( Catalog.GetString ("tables already created") ); }
 
-		Console.WriteLine("AllJumpsName: {0}", allJumpsName);
-	
 		cpRunning = false;
 
 		report = new Report(-1); //when a session is loaded or created, it will change the report.SessionID value
@@ -316,7 +307,7 @@ public class ChronoJump
 				
 		//init connecting with chronopic	
 		chronopicInit();
-				
+			
 		program.Run();
 	}
 
@@ -381,12 +372,14 @@ public class ChronoJump
 		} else {
 			askDeletion = false;
 		}
-		
+
+		/*
 		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) {
 			weightStatsPercent = true;
 		} else {
 			weightStatsPercent = false;
 		}
+		*/
 		
 		if ( SqlitePreferences.Select("heightPreferred") == "True" ) {
 			heightPreferred = true;
@@ -403,7 +396,7 @@ public class ChronoJump
 		//pass to report
 		report.PrefsDigitsNumber = prefsDigitsNumber;
 		report.HeightPreferred = heightPreferred;
-		report.WeightStatsPercent = weightStatsPercent;
+		//report.WeightStatsPercent = weightStatsPercent;
 		report.Progversion = progversion;
 		
 		
@@ -627,7 +620,7 @@ public class ChronoJump
 	private void createComboJumps() {
 		combo_jumps = new Combo ();
 		combo_jumps.PopdownStrings = 
-			SqliteJumpType.SelectJumpTypes(allJumpsName, "", true); //without filter, only select name
+			SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
 		
 		combo_jumps.DisableActivate ();
 		combo_jumps.Entry.Changed += new EventHandler (on_combo_jumps_changed);
@@ -640,7 +633,7 @@ public class ChronoJump
 	
 	private void createComboJumpsRj() {
 		combo_jumps_rj = new Combo ();
-		combo_jumps_rj.PopdownStrings = SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
+		combo_jumps_rj.PopdownStrings = SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true); //only select name
 		
 		combo_jumps_rj.DisableActivate ();
 		combo_jumps_rj.Entry.Changed += new EventHandler (on_combo_jumps_rj_changed);
@@ -654,7 +647,7 @@ public class ChronoJump
 	private void createComboRuns() {
 		combo_runs = new Combo ();
 		combo_runs.PopdownStrings = 
-			SqliteRunType.SelectRunTypes(allRunsName, true); //without filter, only select name
+			SqliteRunType.SelectRunTypes(Constants.AllRunsName, true); //without filter, only select name
 		
 		combo_runs.DisableActivate ();
 		combo_runs.Entry.Changed += new EventHandler (on_combo_runs_changed);
@@ -668,7 +661,7 @@ public class ChronoJump
 	private void createComboRunsInterval() {
 		combo_runs_interval = new Combo ();
 		combo_runs_interval.PopdownStrings = 
-			SqliteRunType.SelectRunIntervalTypes(allRunsName, true); //without filter, only select name
+			SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true); //without filter, only select name
 		
 		combo_runs_interval.DisableActivate ();
 		combo_runs_interval.Entry.Changed += new EventHandler (on_combo_runs_interval_changed);
@@ -697,22 +690,22 @@ public class ChronoJump
 		
 	private void updateComboJumps() {
 		combo_jumps.PopdownStrings = 
-			SqliteJumpType.SelectJumpTypes(allJumpsName, "", true); //without filter, only select name
+			SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
 	}
 	
 	private void updateComboJumpsRj() {
 		combo_jumps_rj.PopdownStrings = 
-			SqliteJumpType.SelectJumpRjTypes(allJumpsName, true); //only select name
+			SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true); //only select name
 	}
 	
 	private void updateComboRuns() {
 		combo_runs.PopdownStrings = 
-			SqliteRunType.SelectRunTypes(allRunsName, true); //only select name
+			SqliteRunType.SelectRunTypes(Constants.AllRunsName, true); //only select name
 	}
 	
 	private void updateComboRunsInterval() {
 		combo_runs_interval.PopdownStrings = 
-			SqliteRunType.SelectRunIntervalTypes(allRunsName, true); //only select name
+			SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true); //only select name
 	}
 
 
@@ -760,7 +753,7 @@ public class ChronoJump
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
 		
-		if (myText == allJumpsName) {
+		if (myText == Constants.AllJumpsName) {
 			checkbutton_sort_by_type.Sensitive = true ;
 		} else {
 			checkbutton_sort_by_type.Sensitive = false ;
@@ -782,7 +775,7 @@ public class ChronoJump
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps, treeview_jumps_store, myText);
 
-		if (myText == allJumpsName) {
+		if (myText == Constants.AllJumpsName) {
 			checkbutton_sort_by_type_rj.Sensitive = true ;
 		} else {
 			checkbutton_sort_by_type_rj.Sensitive = false ;
@@ -803,7 +796,7 @@ public class ChronoJump
 		treeview_runs_storeReset();
 		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
 
-		if (myText == allRunsName) {
+		if (myText == Constants.AllRunsName) {
 			checkbutton_sort_by_type_run.Sensitive = true ;
 		} else {
 			checkbutton_sort_by_type_run.Sensitive = false ;
@@ -824,7 +817,7 @@ public class ChronoJump
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, myText);
 
-		if (myText == allRunsName) {
+		if (myText == Constants.AllRunsName) {
 			checkbutton_sort_by_type_run_interval.Sensitive = true ;
 		} else {
 			checkbutton_sort_by_type_run_interval.Sensitive = false ;
@@ -901,16 +894,16 @@ public class ChronoJump
 			
 			//load the jumps treeview
 			treeview_jumps_storeReset();
-			fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
+			fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
 			//load the jumps_rj treeview_rj
 			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, allJumpsName);
+			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, Constants.AllJumpsName);
 			//load the runs treeview
 			treeview_runs_storeReset();
-			fillTreeView_runs(treeview_runs, treeview_runs_store, allRunsName);
+			fillTreeView_runs(treeview_runs, treeview_runs_store, Constants.AllRunsName);
 			//load the runs_interval treeview
 			treeview_runs_interval_storeReset();
-			fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, allRunsName);
+			fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, Constants.AllRunsName);
 
 
 			//show hidden widgets
@@ -967,16 +960,16 @@ public class ChronoJump
 		
 		//load the treeview_jumps
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
+		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
 		//load the treeview_jumps_rj
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, allJumpsName);
+		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, Constants.AllJumpsName);
 		//load the runs treeview
 		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, allRunsName);
+		fillTreeView_runs(treeview_runs, treeview_runs_store, Constants.AllRunsName);
 		//load the runs_interval treeview
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, allRunsName);
+		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, Constants.AllRunsName);
 		
 
 		//show hidden widgets
@@ -1143,9 +1136,9 @@ public class ChronoJump
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, allJumpsName);
+		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
 		treeview_jumps_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, allJumpsName);
+		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, Constants.AllJumpsName);
 			
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, true);
@@ -1172,7 +1165,8 @@ public class ChronoJump
 
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
 		statsWin = StatsWindow.Show(app1, currentSession, 
-				prefsDigitsNumber, weightStatsPercent, heightPreferred, 
+				//prefsDigitsNumber, weightStatsPercent, heightPreferred, 
+				prefsDigitsNumber, heightPreferred, 
 				report, reportWin);
 		createdStatsWin = true;
 		statsWin.InitializeSession(currentSession);
@@ -1212,7 +1206,8 @@ public class ChronoJump
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
 				app1, prefsDigitsNumber, showHeight, showInitialSpeed, 
-				askDeletion, weightStatsPercent, heightPreferred, metersSecondsPreferred);
+				//askDeletion, weightStatsPercent, heightPreferred, metersSecondsPreferred);
+				askDeletion, heightPreferred, metersSecondsPreferred);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
@@ -1224,12 +1219,14 @@ public class ChronoJump
 		} else {
 			askDeletion = false;
 		}
-		
+	
+		/*
 		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) {
 			weightStatsPercent = true;
 		} else {
 			weightStatsPercent = false;
 		}
+		*/
 
 		//update showHeight
 		if ( SqlitePreferences.Select("showHeight") == "True" ) {
@@ -1287,7 +1284,7 @@ public class ChronoJump
 		
 		if(createdStatsWin) {
 			statsWin.PrefsDigitsNumber = prefsDigitsNumber;
-			statsWin.WeightStatsPercent = weightStatsPercent;
+			//statsWin.WeightStatsPercent = weightStatsPercent;
 			statsWin.HeightPreferred = heightPreferred;
 			
 			statsWin.FillTreeView_stats(false, true);
@@ -1296,7 +1293,7 @@ public class ChronoJump
 		//pass to report
 		report.PrefsDigitsNumber = prefsDigitsNumber;
 		report.HeightPreferred = heightPreferred;
-		report.WeightStatsPercent = weightStatsPercent;
+		//report.WeightStatsPercent = weightStatsPercent;
 	}
 	
 	private void on_cancel_clicked (object o, EventArgs args) 

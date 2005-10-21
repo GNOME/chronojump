@@ -102,7 +102,7 @@ class Sqlite
 		SqlitePreferences.insert ("showHeight", "True");
 		SqlitePreferences.insert ("showInitialSpeed", "True");
 		SqlitePreferences.insert ("simulated", "True");
-		SqlitePreferences.insert ("weightStatsPercent", "True");
+		SqlitePreferences.insert ("weightStatsPercent", "True"); //currently not used
 		SqlitePreferences.insert ("askDeletion", "True");
 		SqlitePreferences.insert ("heightPreferred", "False");
 		SqlitePreferences.insert ("metersSecondsPreferred", "True");

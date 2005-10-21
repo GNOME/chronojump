@@ -35,7 +35,7 @@ public class StatTypeStruct
 	public int StatsJumpsType;
 	public int Limit;
 	public bool HeightPreferred;
-	public bool WeightStatsPercent; 
+	//public bool WeightStatsPercent; 
 	
 	public ArrayList MarkedRows;
 	
@@ -43,7 +43,8 @@ public class StatTypeStruct
 	
 	public StatTypeStruct (string statisticApplyTo, 
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			//int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows, 
 			bool toReport)
 	{
@@ -54,7 +55,7 @@ public class StatTypeStruct
 		this.StatsJumpsType = statsJumpsType;
 		this.Limit = limit;
 		this.HeightPreferred = heightPreferred;
-		this.WeightStatsPercent = weightStatsPercent;
+		//this.WeightStatsPercent = weightStatsPercent;
 		this.MarkedRows = markedRows;
 		this.ToReport = toReport;
 	}
@@ -72,7 +73,7 @@ public class StatType {
 	int statsJumpsType;
 	int limit;
 	bool heightPreferred;
-	bool weightStatsPercent;
+	//bool weightStatsPercent;
 	int rj_evolution_mark_consecutives;
 	
 	ArrayList markedRows;
@@ -85,15 +86,6 @@ public class StatType {
 	Stat myStat; 
 	//Report myReport; 
 
-	//if this changes, change also gui/stats.cs
-	static string djIndexFormula = Catalog.GetString("Dj Index") + " ((tv-tc)/tc *100)";
-	static string qIndexFormula = Catalog.GetString("Q index") + " (tv/tc)";
-	static string fvIndexFormula = "F/V sj+(100%)/sj *100";
-	static string ieIndexFormula = "IE (cmj-sj)/sj *100";
-	static string iubIndexFormula = "IUB (abk-cmj)/cmj *100";
-	
-	string allJumpsName = Catalog.GetString("All jumps");
-	
 	StatTypeStruct myStatTypeStruct;
 	
 	//comes from gui/stats.cs (initialization)
@@ -103,7 +95,8 @@ public class StatType {
 	//comes from gui/stats.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo, Gtk.TreeView treeview_stats,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
+			//int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
+			int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows,  
 			int rj_evolution_mark_consecutives, bool graph, bool toReport)
 	{
@@ -118,7 +111,7 @@ public class StatType {
 		this.statsJumpsType = statsJumpsType;
 		this.limit = limit;
 		this.heightPreferred = heightPreferred;
-		this.weightStatsPercent = weightStatsPercent;
+		//this.weightStatsPercent = weightStatsPercent;
 
 		this.markedRows = markedRows;
 		
@@ -130,7 +123,8 @@ public class StatType {
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
-				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
+				//statsJumpsType, limit, heightPreferred, weightStatsPercent, 
+				statsJumpsType, limit, heightPreferred,  
 				markedRows, 
 				toReport);
 
@@ -140,7 +134,8 @@ public class StatType {
 	//comes from report.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			//int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows, 
 			int rj_evolution_mark_consecutives, 
 			bool graph, bool toReport, TextWriter writer, string fileName)
@@ -154,7 +149,7 @@ public class StatType {
 		this.statsJumpsType = statsJumpsType;
 		this.limit = limit;
 		this.heightPreferred = heightPreferred;
-		this.weightStatsPercent = weightStatsPercent;
+		//this.weightStatsPercent = weightStatsPercent;
 
 		this.markedRows = markedRows;
 		
@@ -167,7 +162,8 @@ public class StatType {
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
-				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
+				//statsJumpsType, limit, heightPreferred, weightStatsPercent, 
+				statsJumpsType, limit, heightPreferred, 
 				markedRows, 
 				toReport);
 
@@ -216,11 +212,11 @@ public class StatType {
 			if(statisticSubType != Catalog.GetString("No indexes")) 
 			{
 				string indexType = "";
-				if(statisticSubType == ieIndexFormula) {
+				if(statisticSubType == Constants.IeIndexFormula) {
 					indexType = "IE";
-				} else if(statisticSubType == iubIndexFormula) {
+				} else if(statisticSubType == Constants.IubIndexFormula) {
 					indexType = "IUB";
-				} else if(statisticSubType == fvIndexFormula) {
+				} else if(statisticSubType == Constants.FvIndexFormula) {
 					indexType = "F/V";
 				}
 			
@@ -243,7 +239,7 @@ public class StatType {
 
 				//manage all weight jumps and the "All jumps" (simple)
 				if(myType.HasWeight || 
-						statisticApplyTo == allJumpsName) 
+						statisticApplyTo == Constants.AllJumpsName) 
 				{
 					if(graph) {
 						myStat = new GraphSjCmjAbkPlus (myStatTypeStruct);
@@ -266,7 +262,7 @@ public class StatType {
 				return false;
 			}
 			
-			if(statisticSubType == djIndexFormula)
+			if(statisticSubType == Constants.DjIndexFormula)
 			{
 				if(graph) {
 					myStat = new GraphDjIndex (myStatTypeStruct);
@@ -275,7 +271,7 @@ public class StatType {
 					myStat = new StatDjIndex(myStatTypeStruct, treeview_stats);
 							//heightPreferred is not used, check this
 				}
-			} else if(statisticSubType == qIndexFormula)
+			} else if(statisticSubType == Constants.QIndexFormula)
 			{
 				if(graph) {
 					myStat = new GraphDjQ (myStatTypeStruct);

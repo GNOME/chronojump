@@ -1,27 +1,34 @@
 CHRONOJUMP ROADMAP
 
 chronojump 0.4
-	* put all formulas in a constants class like:
-		class Constants {
-			public const string IeFormula = "(cmj-sj)/sj * 100"
-		} 
-	* solve installation of chronojump_logo.png and the css
-	* update pot & es.po, about
-	* integrate help (starting manual)
-	* html site and lists on gnome
+--------------
+
+remaining:
+- solve nplot with new mono/ubuntu
+- solve installation of chronojump_logo.png and the css
+- update pot & es.po, about
+- integrate help (finishing manual)
+- html site and lists on gnome
 
 chronojump 0.5
-	* stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...)
-	* edit reactive jump and intervalic run
-	* add realtime info of every jump
-	* Chronojump will be a tool for training, not only for showing the results of train:
-		* show realtime graph of some different color lights depending on the value respect previous jumps
-		* add conditions for finishing a jump or run ("when Q index is under x three times" ...) 
+--------------
+
+- plot rjevolution consecutives in colors
+- Chronojump will be a tool for training, not only for showing the results of train:
+	- add realtime info of every jump
+	- show realtime graph of some different color lights depending on the value respect previous jumps
+	- add conditions for finishing a jump or run ("when Q index is under x three times" ...) 
+- edit reactive jump and intervalic run
+- stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...)
 
 chronojump 0.6
-	* user defined numeric variables (ask for including in stats, graphs) (height, weight, sex are some of them)
-	* XY graphs between any two variables
-	* allow height and weight change for a different person in time and use it in intersession stats
+--------------
+
+- user defined numeric variables (ask for including in stats, graphs) (height, weight, sex are some of them)
+- XY graphs between any two variables
+- allow height and weight change for a different person in time and use it in intersession stats
 
 chronojump 0.7
-	* add runs stats and graphs (with last numeric values and height, weight, ... evolution)
+--------------
+
+- add runs stats and graphs (with last numeric values and height, weight, ... evolution)

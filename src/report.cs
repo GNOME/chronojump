@@ -43,7 +43,7 @@ public class Report : ExportSession
 		
 	private int prefsDigitsNumber;
 	private bool heightPreferred;
-	private bool weightStatsPercent;
+	//private bool weightStatsPercent;
 
 	bool toReport = true;
 
@@ -340,7 +340,7 @@ public class Report : ExportSession
 					statsJumpsType,
 					limit, 	
 					heightPreferred,
-					weightStatsPercent,
+					//weightStatsPercent,
 					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
 					false, 			//graph
@@ -366,7 +366,7 @@ public class Report : ExportSession
 					statsJumpsType,
 					limit, 	
 					heightPreferred,
-					weightStatsPercent,
+					//weightStatsPercent,
 					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
 					true, 			//graph
@@ -408,9 +408,11 @@ public class Report : ExportSession
 		set { heightPreferred = value; }
 	}
 	
+	/*
 	public bool WeightStatsPercent {
 		set { weightStatsPercent = value; }
 	}
+	*/
 	
 	public string Progversion {
 		set { progversion = value; }

@@ -34,7 +34,7 @@ public class TreeViewRuns
 	protected int pDN; //prefsDigitsNumber;
 	//protected static bool metersSecondsPreferred;
 	protected bool metersSecondsPreferred;
-	protected static string allRunsName = Catalog.GetString("All runs");
+	//protected static string allRunsName = Catalog.GetString("All runs");
 	protected int runIDColumn;
 	
 	public TreeViewRuns ()
@@ -117,7 +117,7 @@ public class TreeViewRuns
 			}
 
 			//... but if we selected one type of run and this it's not the type, don't show
-			if(filter == allRunsName || filter == myStringFull[4]) {
+			if(filter == Constants.AllRunsName || filter == myStringFull[4]) {
 
 				myType = myStringFull[4];
 				
@@ -253,7 +253,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 			}
 
 			//... but if we selected one type of jump and this it's not the type, don't show
-			if(filter == allRunsName || filter == myStringFull[4]) {
+			if(filter == Constants.AllRunsName || filter == myStringFull[4]) {
 				myType = myStringFull[4];
 				myTypeComplet = myType + "(" + myStringFull[7] + "x" + myStringFull[11] + ") AVG: "; //limited
 

@@ -89,7 +89,8 @@ class SqliteStat : Sqlite
 				string returnSessionString = ":" + reader[2].ToString();
 				string returnValueString = "";
 				if(heightPreferred) {
-					returnValueString = ":" + Util.GetHeightInCentimeters(reader[3].ToString());
+					returnValueString = ":" + Util.GetHeightInCentimeters(
+							Util.ChangeDecimalSeparator(reader[3].ToString()));
 				} else {
 					returnValueString = ":" + reader[3].ToString();
 				}
@@ -351,12 +352,6 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	/*
-	 * CONTINUAR PER AQUI
-	 * DECIMAL SEPARATORS
-	 */
-
-	//public static ArrayList RjIndex (string sessionString, bool multisession, string ini, string end, bool showSex)
 	public static ArrayList RjIndex (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
 		string ini = "";
@@ -433,13 +428,13 @@ class SqliteStat : Sqlite
 				//in simplesession we show all
 				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
 				
-				returnTvString = ":" + reader[4].ToString();
-				returnTcString = ":" + reader[5].ToString();
+				returnTvString = ":" + Util.ChangeDecimalSeparator(reader[4].ToString());
+				returnTcString = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
 				returnFallString = ":" + reader[6].ToString();
 			}
 			myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 					returnSessionString + ":" + 		//session
-					reader[3].ToString() +			//index
+					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
 					returnTvString + 			//tv
 					returnTcString + 			//tc
 					returnFallString			//fall
@@ -529,15 +524,15 @@ class SqliteStat : Sqlite
 				//in simplesession we show all
 				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
 				
-				returnTvString = ":" + reader[4].ToString();
-				returnTcString = ":" + reader[5].ToString();
+				returnTvString = ":" + Util.ChangeDecimalSeparator(reader[4].ToString());
+				returnTcString = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
 				returnJumpsString = ":" + reader[6].ToString();
-				returnTimeString = ":" + reader[7].ToString();
+				returnTimeString = ":" + Util.ChangeDecimalSeparator(reader[7].ToString());
 				returnFallString = ":" + reader[8].ToString();
 			}
 			myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 					returnSessionString + ":" + 		//session
-					reader[3].ToString() +			//index
+					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
 					returnTvString + 			//tv
 					returnTcString + 			//tc
 					returnJumpsString +			//jumps
@@ -680,13 +675,16 @@ class SqliteStat : Sqlite
 				
 				//convert the strings of TVs and TCs separated by '=' in
 				//one string mixed and separated by ':'
-				allTCsTVsCombined = combineTCsTVs(reader[4].ToString(), reader[5].ToString(), maxJumps);
+				allTCsTVsCombined = combineTCsTVs(
+						Util.ChangeDecimalSeparator(reader[4].ToString()), 
+						Util.ChangeDecimalSeparator(reader[5].ToString()), 
+						maxJumps);
 				
 				returnFallString = ":" + reader[6].ToString();
 			}
 			myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 					returnSessionString + ":" + 		//session
-					reader[3].ToString() +			//index
+					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
 					allTCsTVsCombined +			//tc:tv:tc:tv...
 					returnFallString 			//fall
 				    );
@@ -761,14 +759,13 @@ class SqliteStat : Sqlite
 			} else {
 				//in multisession we show only one column x session
 				//in simplesession we show all
-				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
 				
-				returnJump1String = ":" + reader[4].ToString();
-				returnJump2String = ":" + reader[5].ToString();
+				returnJump1String = ":" + Util.ChangeDecimalSeparator(reader[4].ToString());
+				returnJump2String = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
 			}
 			myArray.Add (reader[0].ToString() + showSexString +
 					returnSessionString + ":" + 		//session
-					reader[3].ToString() +			//index
+					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
 					returnJump1String + 			//jump1
 					returnJump2String  			//jump2
 				    );
@@ -840,14 +837,12 @@ class SqliteStat : Sqlite
 			} else {
 				//in multisession we show only one column x session
 				//in simplesession we show all
-				//FIXME: convert this to an integer (with percent or kg, depending on bool percent)
-				
-				returnJump1String = ":" + reader[4].ToString();
-				returnJump2String = ":" + reader[5].ToString();
+				returnJump1String = ":" + Util.ChangeDecimalSeparator(reader[4].ToString());
+				returnJump2String = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
 			}
 			myArray.Add (reader[0].ToString() + showSexString +
 					returnSessionString + ":" + 		//session
-					reader[3].ToString() +			//index
+					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
 					returnJump1String + 			//jump1
 					returnJump2String  			//jump2
 				    );
@@ -894,9 +889,9 @@ class SqliteStat : Sqlite
 		while(reader.Read()) {
 			if (reader[0].ToString() != "DJ") {
 
-				string heightString = reader[2].ToString();
+				string heightString = Util.ChangeDecimalSeparator(reader[2].ToString());
 				if(heightPreferred) {
-					heightString = Util.GetHeightInCentimeters(reader[2].ToString());
+					heightString = Util.GetHeightInCentimeters(Util.ChangeDecimalSeparator(reader[2].ToString()));
 				}
 				
 				if (sexSeparated) {
@@ -992,11 +987,11 @@ class SqliteStat : Sqlite
 			if (sexSeparated) {
 				myArray.Add (statName + " (" + reader[1].ToString()  + ")" + 	//stat name(jumptype)
 						"." + reader[3].ToString() + ":" + 		//sex
-						reader[0].ToString() + ":" + reader[2].ToString() //session, value
+						reader[0].ToString() + ":" + Util.ChangeDecimalSeparator(reader[2].ToString()) //session, value
 						);
 			} else {
 				myArray.Add (statName + " (" + reader[1].ToString()  + ") " + ":" + 	//stat name (jumptype)
-						reader[0].ToString() + ":" + reader[2].ToString()	//session, value
+						reader[0].ToString() + ":" + Util.ChangeDecimalSeparator(reader[2].ToString())	//session, value
 						);
 			}
 		}
@@ -1090,10 +1085,10 @@ class SqliteStat : Sqlite
 		while(reader.Read()) {
 			if (sexSeparated) {
 				myArray.Add (statName +"." + reader[2].ToString() + ":" + reader[0].ToString() 
-							+ ":" + reader[1].ToString() );
+							+ ":" + Util.ChangeDecimalSeparator(reader[1].ToString()) );
 			} else {
 				myArray.Add (statName + ":" + reader[0].ToString() 
-							+ ":" + reader[1].ToString()	);
+							+ ":" + Util.ChangeDecimalSeparator(reader[1].ToString())	);
 			}
 		}
 		

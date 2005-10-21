@@ -53,7 +53,8 @@ public class PreferencesWindow {
 		
 	}
 	
-	static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred)
+	//static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred)
+	static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool heightPreferred, bool metersSecondsPreferred)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (parent);
@@ -81,12 +82,14 @@ public class PreferencesWindow {
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = false; 
 		}
 
+		/*
 		if(weightStatsPercent) { 
 			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = true; 
 		}
 		else {
 			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = false; 
 		}
+		*/
 
 		if(heightPreferred) { 
 			PreferencesWindowBox.checkbutton_height_preferred.Active = true; 
@@ -125,7 +128,7 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString());
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString());
 		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString());
-		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.checkbutton_percent_kg_preferred.Active.ToString());
+		//SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.checkbutton_percent_kg_preferred.Active.ToString());
 		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString());
 		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString());
 		

@@ -33,7 +33,7 @@ public class TreeViewJumps
 	protected TreeStore store;
 	protected Gtk.TreeView treeview;
 	protected static int pDN; //prefsDigitsNumber;
-	protected static string allJumpsName = Catalog.GetString("All jumps");
+	//protected static string allJumpsName = Catalog.GetString("All jumps");
 	
 	public TreeViewJumps ()
 	{
@@ -114,7 +114,7 @@ public class TreeViewJumps
 			}
 
 			//... but if we selected one type of jump and this it's not the type, don't show
-			if(filter == allJumpsName || filter == myStringFull[4]) {
+			if(filter == Constants.AllJumpsName || filter == myStringFull[4]) {
 
 				myType = myStringFull[4];
 				string myFall = "";
@@ -327,7 +327,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 			}
 
 			//... but if we selected one type of jump and this it's not the type, don't show
-			if(filter == allJumpsName || filter == myStringFull[4]) {
+			if(filter == Constants.AllJumpsName || filter == myStringFull[4]) {
 				myType = myStringFull[4];
 				myTypeComplet = myType + "(" + myStringFull[16] + ") AVG: "; //limited
 

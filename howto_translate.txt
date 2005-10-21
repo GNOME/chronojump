@@ -149,8 +149,10 @@ cp es.po locale/es/LC_MESSAGES/.
 
 8.- execute
 
-(change the $LANG acording if needed, if doesn't work, probably you don't have that locale instaled)
-If they are installed, the best is to change in gdm (in ubuntu only use the UTF-8 locales)
+(change the $LANG or $LANGUAGE according if needed, if doesn't work, probably you don't have that locale instaled)
+If they are installed, the best is to change in gdm (in ubuntu only use the UTF-8 locales) for example:
+export LANGUAGE="es_ES.UTF-8"
+
 if not: sudo dpkg-reconfigure locales
 
 if the code or the glade has changed, remember do 'make'

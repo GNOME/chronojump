@@ -172,7 +172,7 @@ public class StatRjEvolution : Stat
 			if(statValues[0] != Catalog.GetString("AVG") && statValues[0] != Catalog.GetString("SD")) {
 				store.SetValue(iter, 0, true);	//first col is true if it's not AVG or SD
 				markedRows.Add(myPath.ToString());
-				Console.WriteLine("FROM PRINTDATA (EVOLUTION) Added to markedRows row:{0}", myPath.ToString());
+				//Console.WriteLine("FROM PRINTDATA (EVOLUTION) Added to markedRows row:{0}", myPath.ToString());
 			}
 			
 			for(int i=0; i < statValues.Length; i++) {

@@ -147,6 +147,12 @@ public class StatGlobal : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in some jumps and statistics on {1}"), selectedValuesString, mySessionString);
+		//if is a stat of a concrete jumper, show it in enunciate
+		string myPersonString = "";
+		if (personID != -1) {
+			myPersonString = string.Format(Catalog.GetString(" for person {0}({1})"), personName, personID);
+		}
+		
+		return string.Format(Catalog.GetString("{0} in some jumps and statistics on {1}{2}"), selectedValuesString, mySessionString, myPersonString);
 	}
 }

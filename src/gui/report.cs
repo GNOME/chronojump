@@ -164,19 +164,8 @@ public class ReportWindow {
 	public void Add(string type, string subtype, string applyTo, ArrayList sendSelectedSessions, 
 			string showJumps, string showSex, ArrayList markedRows)
 	{
-		/*
-		string sessionsAsAString = "";
-		for (int i=0; i < sendSelectedSessions.Count ; i++) {
-			if(i>0) {
-				sessionsAsAString += ":";
-			}
-			string [] myStrFull = sendSelectedSessions[i].ToString().Split(new char[] {':'});
-			sessionsAsAString += myStrFull[0];
-		}
-		*/
 		string sessionsAsAString = arrayToString(sendSelectedSessions);
 		string markedRowsAsAString = arrayToString(markedRows);
-
 		
 		store.AppendValues (
 				type, 

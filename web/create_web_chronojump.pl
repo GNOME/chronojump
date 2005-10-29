@@ -55,10 +55,12 @@ for (sort keys %languages)
 
 	#read the title 
 	my $headersWithTitle = "";
+	my $mainTable = "";
 	open IN,"data/langs/$langSuffix/Title";
 	foreach(<IN>) {
 		chomp $_;
 		$headersWithTitle = &getHeadersWithTitle($_);
+		$mainTable = &getMainTable();
 	}
 	close IN;
 
@@ -82,11 +84,14 @@ for (sort keys %languages)
 		my $currentPage = $_;
 		chomp $currentPage;
 		print "--- Processing FILE data/langs/$langSuffix/Pages/$currentPage\n";
-		my $returnPage = "";
+		my $returnPage = "";	#page for viewing
+		my $returnPrintPage = "";	#page for printing
 
 
 		#print Title
 		$returnPage = $headersWithTitle;
+		$returnPage .= $mainTable;
+		$returnPrintPage = $headersWithTitle;
 
 		#print links to other languages
 		my $languageLinks = &getLanguageLinks($langSuffix, $langName, $currentPage, %languages);
@@ -102,10 +107,14 @@ for (sort keys %languages)
 			<div id=\"content-body\">";
 
 		
+		#put printPage link in correct language
+		$returnPage .= "<p align=\"right\">" . &getPrintName($langSuffix, $currentPage) . "</p>";
+		
 		#read the file
 		open INFILE, "data/langs/$langSuffix/Pages/$currentPage";
 		while (<INFILE>) {
 			$returnPage .= $_;
+			$returnPrintPage .= $_;
 		}
 		close INFILE;
 
@@ -113,21 +122,35 @@ for (sort keys %languages)
 		$returnPage .= &getLicense($langSuffix, $authors, $colaborations, $contributors);
 		
 		$returnPage .= &getFooter($langSuffix);
+		$returnPrintPage .= "</body></html>";
 
 		#filter file (convert á in &aacute; ...)
 		#this is for solving a configuration problem in apache of software-libre.org
 		$returnPage  = filterHTML($returnPage);
+		$returnPrintPage  = filterHTML($returnPrintPage);
 
-		#save file
+		#convert links to images and pass if should be for print (directories change)
+		$returnPage  = getSiteLinks($returnPage, "false");
+		$returnPrintPage  = getSiteLinks($returnPrintPage, "true");
+		
+		#save files
 		my $outputFile = "";
+		my $outputPrintFile = "";
 		if($langSuffix eq "_en") {
 			#don't print "_en" in english 
 			$outputFile = "html_created_no_edit/$currentPage" . ".html";
+			$outputPrintFile = "html_created_no_edit/print/$currentPage" . ".html";
 		} else {
 			$outputFile = "html_created_no_edit/$currentPage$langSuffix" . ".html";
+			$outputPrintFile = "html_created_no_edit/print/$currentPage$langSuffix" . ".html";
 		}
+		
 		open OUT, ">$outputFile";
 		print OUT $returnPage;
+		close OUT;
+		
+		open OUT, ">$outputPrintFile";
+		print OUT $returnPrintPage;
 		close OUT;
 	}
 }
@@ -146,8 +169,12 @@ sub getHeadersWithTitle {
 		</head>
 
 		<body id=\"page-main\" class=\"with-sidebar\">
+		";
+	return $return;
+}
 
-		<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+sub getMainTable {
+	my $return = "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
 		<tr><td align=\"left\">
 		<div align=\"left\"><img src=\"images/chronojump33.png\" alt=\"logo\" width=\"591\" height=\"177\" border=\"0\">
 		</div>
@@ -219,7 +246,38 @@ sub getLicense {
 	
 	return $return;
 }
+
+sub getSiteLinks {
+	my ($pageContent, $forPrint)= @_;
+
+	if($forPrint eq "true") {
+		$pageContent =~ s/:::imageLink:::/..\/images/g;
+		$pageContent =~ s/:::articleLink:::/..\/articles/g;
+	} else {
+		$pageContent =~ s/:::imageLink:::/images/g;
+		$pageContent =~ s/:::articleLink:::/articles/g;
+	}
+
+	return $pageContent;
+}
 		
+sub getPrintName {
+	my ($langSuffix, $currentPage) = @_;
+	
+	my $printName = "";
+	open INFILE, "data/langs/$langSuffix/Print";
+	while (<INFILE>) {
+		$printName .= $_;
+	}
+	close INFILE;
+
+	if($langSuffix eq "_en") {
+		return "<a href=\"print/$currentPage.html\"><font size=\"1\"><tt>$printName</tt></font></a>";
+	} else {
+		return "<a href=\"print/$currentPage$langSuffix.html\"><font size=\"1\"><tt>$printName</tt></font></a>";
+	}
+}
+
 sub getFooter {
 	my ($langSuffix) = @_;
 

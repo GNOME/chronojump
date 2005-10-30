@@ -1,4 +1,8 @@
-<h4><b>ChronoJump</b> est un système complet pour la mesure, la gestion et les statistiques des événements de saut, qui fonctionne sur de multiples ordinateurs</h4>
+:::startTitle:::
+Introduction
+:::endTitle:::
+
+<h5><b>ChronoJump</b> est un système complet pour la mesure, la gestion et les statistiques des événements de saut, qui fonctionne sur de multiples ordinateurs</h5>
 <p>
 Chronojump utilise une plateforme de contacts pour deux signaux (une plateforme interne, une plateforme externe), et également un chronomètre conçu par circuit imprimé <i>ad-hoc</i> afin d'obtenir des mesures précises et réelles.
 <p>

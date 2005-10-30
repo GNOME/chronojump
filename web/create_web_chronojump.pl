@@ -23,6 +23,8 @@
 
 use strict;
 
+my $siteURL = "http://www.gnome.org/projects/chronojump";
+my $CVSURL = "http://cvs.gnome.org/viewcvs/chronojump";
 
 my %languages=();
 
@@ -107,9 +109,6 @@ for (sort keys %languages)
 			<div id=\"content-body\">";
 
 		
-		#put printPage link in correct language
-		$returnPage .= "<p align=\"right\">" . &getPrintName($langSuffix, $currentPage) . "</p>";
-		
 		#read the file
 		open INFILE, "data/langs/$langSuffix/Pages/$currentPage";
 		while (<INFILE>) {
@@ -117,6 +116,11 @@ for (sort keys %languages)
 			$returnPrintPage .= $_;
 		}
 		close INFILE;
+
+		#put printPage link in correct language...
+		$returnPage = &convertTitleAndPrintable($returnPage, $langSuffix, $currentPage, "false");
+		#... and hide :::startTitle:::, :::endTitle::: in the printable
+		$returnPrintPage = &convertTitleAndPrintable($returnPrintPage, $langSuffix, $currentPage, "true");
 
 		#get complete license for this language
 		$returnPage .= &getLicense($langSuffix, $authors, $colaborations, $contributors);
@@ -129,9 +133,9 @@ for (sort keys %languages)
 		$returnPage  = filterHTML($returnPage);
 		$returnPrintPage  = filterHTML($returnPrintPage);
 
-		#convert links to images and pass if should be for print (directories change)
-		$returnPage  = getSiteLinks($returnPage, "false");
-		$returnPrintPage  = getSiteLinks($returnPrintPage, "true");
+		#convert links to images
+		$returnPage  = getSiteLinks($returnPage);
+		$returnPrintPage  = getSiteLinks($returnPrintPage);
 		
 		#save files
 		my $outputFile = "";
@@ -248,20 +252,33 @@ sub getLicense {
 }
 
 sub getSiteLinks {
-	my ($pageContent, $forPrint)= @_;
+	my ($pageContent)= @_;
 
-	if($forPrint eq "true") {
-		$pageContent =~ s/:::imageLink:::/..\/images/g;
-		$pageContent =~ s/:::articleLink:::/..\/articles/g;
-	} else {
-		$pageContent =~ s/:::imageLink:::/images/g;
-		$pageContent =~ s/:::articleLink:::/articles/g;
-	}
+	$pageContent =~ s/:::imageLink:::/$siteURL\/images/g;
+	$pageContent =~ s/:::articleLink:::/$siteURL\/articles/g;
+	$pageContent =~ s/:::webLink:::/$siteURL/g; #only used for 'accessible in' when pointing to bibliography web pages
+	
+	$pageContent =~ s/:::manualLink:::/$CVSURL\/manual/g;
 
 	return $pageContent;
 }
 		
-sub getPrintName {
+sub convertTitleAndPrintable {
+	my ($pageContent, $langSuffix, $currentPage, $isPrintable) = @_;
+
+	if($isPrintable eq "false") {
+		my $printLinkName = &getPrintLinkName($langSuffix, $currentPage);
+		$pageContent =~ s/:::startTitle:::/<table border=\"0\" width=\"100%\"><tr><td align=\"left\"><h4 id=\"top\">/g;
+		$pageContent =~ s/:::endTitle:::/<\/h4><\/td><td align=\"right\">$printLinkName<\/td><\/tr><\/table>/g;
+	} else {
+		$pageContent =~ s/:::startTitle:::/<h4 id=\"top\">/g;
+		$pageContent =~ s/:::endTitle:::/<\/h4>/g;
+	}
+
+	return $pageContent;
+}
+
+sub getPrintLinkName {
 	my ($langSuffix, $currentPage) = @_;
 	
 	my $printName = "";

@@ -105,7 +105,7 @@ Instalación del software Chronojump
 \layout Standard
 
 Consultar esta página: 
-\begin_inset LatexCommand \url[Instalación de Chronojump]{http://chronojump.software-libre.org/installation_es.html}
+\begin_inset LatexCommand \url[Instalación de Chronojump]{http://www.gnome.org/projects/chronojump/installation_es.html}
 
 \end_inset 
 
@@ -116,7 +116,7 @@ Construcción de plataforma de contactos
 \layout Standard
 
 Consultar este artículo: 
-\begin_inset LatexCommand \url["Instrucciones para la construcción de una plataforma de contactos para la medición de la capacidad de salto/s"]{http://chronojump.software-libre.org/construction_contact_platform_es.html}
+\begin_inset LatexCommand \url["Instrucciones para la construcción de una plataforma de contactos para la medición de la capacidad de salto/s"]{http://www.gnome.org/projects/chronojump/construction_contact_platform_es.html}
 
 \end_inset 
 
@@ -127,7 +127,15 @@ Construcción y obtención del cronómetro Chronopic
 \layout Standard
 
 Consultar esta página: 
-\begin_inset LatexCommand \url[Construcción de Chronojump]{http://chronojump.software-libre.org/construction_es.html}
+\begin_inset LatexCommand \url[Construcción de Chronojump]{http://www.gnome.org/projects/chronojump/construction_es.html}
+
+\end_inset 
+
+.
+\layout Standard
+\added_space_top medskip 
+Para más información consulte las preguntas usualmente formuladas 
+\begin_inset LatexCommand \url[FAQ]{http://www.gnome.org/projects/chronojump/faq_es.html}
 
 \end_inset 
 

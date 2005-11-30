@@ -83,7 +83,7 @@ public class EditRunWindow
 		tb.SetText(myRun.Description);
 		textview_description.Buffer = tb;
 
-		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID);
+		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
 		combo_runners = new Combo();
 		combo_runners.PopdownStrings = runners;
 		foreach (string runner in runners) {
@@ -192,7 +192,7 @@ public class EditRunIntervalWindow
 		tb.SetText(myRun.Description);
 		textview_description.Buffer = tb;
 
-		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID);
+		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
 		combo_runners = new Combo();
 		combo_runners.PopdownStrings = runners;
 		foreach (string runner in runners) {

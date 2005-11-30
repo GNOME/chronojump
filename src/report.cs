@@ -103,7 +103,7 @@ public class Report : ExportSession
 		}
 
 		if(ShowCurrentSessionJumpers) {
-			myPersons = SqlitePersonSession.SelectCurrentSession(sessionID);
+			myPersons = SqlitePersonSession.SelectCurrentSession(sessionID, false); //not reversed
 		}
 		if(ShowSimpleJumps) {
 			myJumps= SqliteJump.SelectAllNormalJumps(sessionID, "ordered_by_time");
@@ -223,22 +223,31 @@ public class Report : ExportSession
 				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
 				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name")
 				);
-
+		
 		string myLine = "";
 		int count = 0;
+	
 		foreach (string jumperString in myPersons) {
-			if(count > 5) {
-				count = 0;
-				myData.Add(myLine);
-				myLine = "";
-			}
 			string [] myStr = jumperString.Split(new char[] {':'});
+			Console.WriteLine(myStr[1] + ":");
 			if(count > 0) {
 				myLine += ":";
 			}
 			myLine += myStr[0] + ":" + myStr[1]; 	//person.id, person.name 
 			count ++;
+		
+			//in the sixth element, prepare the line for being printed, and put count to 0
+			if(count > 5) {
+				count = 0;
+				myData.Add(myLine);
+				myLine = "";
+			}
 		}
+		//if there's data, and the line is not just prepared for printing, prepare now
+		if(count > 0) {
+			myData.Add(myLine);
+		}
+		
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}
@@ -271,7 +280,8 @@ public class Report : ExportSession
 		
 		//obtain every report stats one by one
 		for(int i=0; i < StatisticsData.Count ; i++) {
-			string [] strFull = StatisticsData[i].ToString().Split(new char[] {'\n'});
+			//string [] strFull = StatisticsData[i].ToString().Split(new char[] {'\n'});
+			string [] strFull = StatisticsData[i].ToString().Split(new char[] {'\t'});
 			
 			string myHeaderStat = "";
 

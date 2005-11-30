@@ -132,7 +132,8 @@ public class ReportWindow {
 		store.Clear();
 		
 		for (int i=0; i < report.StatisticsData.Count ; i++) {
-			string [] myStringFull = report.StatisticsData[i].ToString().Split(new char[] {'\n'});
+			//string [] myStringFull = report.StatisticsData[i].ToString().Split(new char[] {'\n'});
+			string [] myStringFull = report.StatisticsData[i].ToString().Split(new char[] {'\t'});
 
 			store.AppendValues (
 					myStringFull[0],	//type
@@ -307,12 +308,12 @@ public class ReportWindow {
 			
 			if (iterOk) {
 				arrayToRecord.Add ( 
-					(string) treeview1.Model.GetValue (myIter, 0) + "\n" +	//type
-					(string) treeview1.Model.GetValue (myIter, 1) + "\n" +	//subtype
-					(string) treeview1.Model.GetValue (myIter, 2) + "\n" +	//apply to
-					(string) treeview1.Model.GetValue (myIter, 3) + "\n" +	//sessionString
-					(string) treeview1.Model.GetValue (myIter, 4) + "\n" +	//showJumps
-					(string) treeview1.Model.GetValue (myIter, 5) + "\n" +  //showSex
+					(string) treeview1.Model.GetValue (myIter, 0) + "\t" +	//type
+					(string) treeview1.Model.GetValue (myIter, 1) + "\t" +	//subtype
+					(string) treeview1.Model.GetValue (myIter, 2) + "\t" +	//apply to
+					(string) treeview1.Model.GetValue (myIter, 3) + "\t" +	//sessionString
+					(string) treeview1.Model.GetValue (myIter, 4) + "\t" +	//showJumps
+					(string) treeview1.Model.GetValue (myIter, 5) + "\t" +  //showSex
 					(string) treeview1.Model.GetValue (myIter, 6) 		//markedRowsString
 					);
 			}

@@ -4976,7 +4976,7 @@ DD/MM/YYYY</property>
 	<widget class="GtkCheckButton" id="checkbutton_ask_deletion">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">Confirm jump deletion</property>
+	  <property name="label" translatable="yes">Confirm jump/run deletion</property>
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="focus_on_click">True</property>
@@ -11807,7 +11807,7 @@ If you need more, just repeat the operation later</property>
 		    <widget class="GtkCheckButton" id="cb_runs_interval_with_subruns">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">with subruns</property>
+		      <property name="label" translatable="yes">include subruns</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -11830,7 +11830,7 @@ If you need more, just repeat the operation later</property>
 		    <widget class="GtkCheckButton" id="cb_jumps_reactive_with_subjumps">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">with subjumps</property>
+		      <property name="label" translatable="yes">include subjumps</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>

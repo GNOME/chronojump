@@ -1,5 +1,19 @@
 CHANGELOG:
 
+30 nov 2005
+	fixed bug in printed report (some persons doesn't shown, and order was
+	not correct)
+		
+	0.4 in About
+	
+	fixed getInitialSpeed, formula was bad
+
+	chronopicInit only if non simulated
+
+	changed chars separating data in gui/report.cs from '\n' to '\t' for
+	solving bug in spanish translation. In the future, scape possible '\t'
+	in any translation
+
 21 oct 2005
 	Finished localization of classes with ChangeDecimalSeparator
 	All weights in treeviews, stats, graphs and reports are in % (no selectable option in preferences)

@@ -3,12 +3,20 @@ CHRONOJUMP ROADMAP
 chronojump 0.4
 --------------
 
+	TODO:
+	update the web, add print directory and all it's files
+	repair links of images and articles, add a variable urlSite, and use
+	it instead of the :::imageLink:::, :::articleLink:::
+
+	add a printed from in the print pages (without the "print" directory)
+	
+	add a little image in the print
+
 remaining:
 - solve nplot with new mono/ubuntu
 - solve installation of chronojump_logo.png and the css
 - update pot & es.po, about
 - integrate help (finishing manual)
-- html site and lists on gnome
 
 chronojump 0.5
 --------------

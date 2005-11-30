@@ -157,7 +157,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.3";
+	private static string progversion = "0.4";
 	private static string progname = "Chronojump";
 	
 	//normal jumps
@@ -306,7 +306,9 @@ public class ChronoJump
 		rand = new Random(40);
 				
 		//init connecting with chronopic	
-		chronopicInit();
+		if (cpRunning) {
+			chronopicInit();
+		}
 			
 		program.Run();
 	}
@@ -362,9 +364,13 @@ public class ChronoJump
 		if ( SqlitePreferences.Select("simulated") == "True" ) {
 			simulated = true;
 			menuitem_simulated.Active = true;
+
+			cpRunning = false;
 		} else {
 			simulated = false;
 			menuitem_serial_port.Active = true;
+			
+			cpRunning = true;
 		}
 		
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
@@ -710,7 +716,7 @@ public class ChronoJump
 
 
 	private bool updateComboSujetoCurrent() {
-		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
+		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true); //reversed
 		combo_person_current.PopdownStrings = jumpers; 
 		
 		if(jumpers.Length > 0) {
@@ -724,7 +730,7 @@ public class ChronoJump
 	//imagine when we edit a person and we change the name of him and then we accept,
 	//the combosujeto need to select the person just edited, not the last created person as the SQL says
 	private bool updateComboSujetoCurrent (string name) {
-		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
+		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true); //reversed
 		combo_person_current.PopdownStrings = jumpers; 
 		
 		foreach (string jumper in jumpers) {

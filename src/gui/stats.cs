@@ -235,7 +235,7 @@ public class StatsWindow {
 			combo_stats_stat_subtype.Sensitive = false;
 			
 			combo_stats_stat_apply_to.PopdownStrings = 
-				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID);
+				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, false); //not reversed
 			combo_stats_stat_apply_to.Sensitive = true;
 		} 
 		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Simple") ) 

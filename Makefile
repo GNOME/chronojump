@@ -26,7 +26,7 @@ CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/
 
 CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/session.cs src/catalog.cs src/exportSession.cs src/treeViewJump.cs src/treeViewRun.cs src/util.cs src/constants.cs src/report.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT)
 
-RESOURCES = -resource:glade/chronojump.glade,chronojump.glade 
+RESOURCES = -resource:glade/chronojump.glade,chronojump.glade
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:gnome-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient
 
 all: $(CHRONOJUMP).exe chronojump-mini 

@@ -96,7 +96,7 @@ public class EditJumpWindow
 		tb.SetText(myJump.Description);
 		textview_description.Buffer = tb;
 
-		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID);
+		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID, false); //not reversed
 		combo_jumpers = new Combo();
 		combo_jumpers.PopdownStrings = jumpers;
 		foreach (string jumper in jumpers) {
@@ -220,7 +220,7 @@ public class EditJumpRjWindow
 		tb.SetText(myJump.Description);
 		textview_description.Buffer = tb;
 
-		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID);
+		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID, false); //not reversed
 		combo_jumpers = new Combo();
 		combo_jumpers.PopdownStrings = jumpers;
 		foreach (string jumper in jumpers) {

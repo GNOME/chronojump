@@ -121,7 +121,7 @@ public class ExportSession
 	
 	protected virtual void getData() 
 	{
-		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID);
+		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false); //not reversed
 		myJumps= SqliteJump.SelectAllNormalJumps(mySession.UniqueID, "ordered_by_time");
 		myJumpsRj = SqliteJump.SelectAllRjJumps(mySession.UniqueID, "ordered_by_time");
 		myRuns= SqliteRun.SelectAllNormalRuns(mySession.UniqueID, "ordered_by_time");

@@ -152,7 +152,7 @@ public class Util
 	}
 
 	public static string GetHeightInCentimeters (string time) {
-		// s = 4.9 * (tv/2)exp2
+		// s = 4.9 * (tv/2)^2
 		double timeAsDouble = Convert.ToDouble(time);
 		double height = 100 * 4.9 * ( timeAsDouble / 2 ) * ( timeAsDouble / 2 ) ;
 
@@ -250,13 +250,19 @@ public class Util
 		return text.Substring(i);
 	}
 
-	public static string GetInitialSpeed (string time) {
-		// S = So + Vot + (at^2)/2
-		// Vo = ( ( 4.9 * t^2 ) + S ) / t
+	public static string GetInitialSpeed (string time) 
+	{
 		double timeAsDouble = Convert.ToDouble(time);
 		double height = Convert.ToDouble( GetHeightInCentimeters(time) );
 		height = height / 100; //in meters
-		double initialSpeed = ( ( 4.9 * timeAsDouble * timeAsDouble ) + height ) / timeAsDouble;
+		
+		// bad!! fixed below
+		// S = So + Vot + (at^2)/2
+		// Vo = ( ( 4.9 * t^2 ) + S ) / t
+		// double initialSpeed = ( ( 4.9 * timeAsDouble * timeAsDouble ) + height ) / timeAsDouble;
+		
+		// Vo = sqrt(2gh)
+		double initialSpeed = System.Math.Sqrt ( 2 * 9.81 * height ); 
 
 		return initialSpeed.ToString();
 	}

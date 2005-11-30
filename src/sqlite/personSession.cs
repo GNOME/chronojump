@@ -167,14 +167,14 @@ class SqlitePersonSession : Sqlite
 		return myPerson;
 	}
 	
-	public static string[] SelectCurrentSession(int sessionID) 
+	public static string[] SelectCurrentSession(int sessionID, bool reverse) 
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.* " +
 			"FROM person, personSession " +
 			" WHERE personSession.sessionID == " + sessionID + 
 			" AND person.uniqueID == personSession.personID " + 
-			" ORDER BY personSession.uniqueID";
+			" ORDER BY upper(person.name)";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -201,12 +201,19 @@ class SqlitePersonSession : Sqlite
 
 		string [] myJumpers = new string[count];
 		
-		//show the results in the combo_sujeto_actual in reversed order, 
-		//then when we create a new person, this is the active, and this is shown 
-		//correctly in the combo_sujeto_actual
-		int count2 = count -1;
-		foreach (string line in myArray) {
-			myJumpers [count2--] = line;
+		if(reverse) {
+			//show the results in the combo_sujeto_actual in reversed order, 
+			//then when we create a new person, this is the active, and this is shown 
+			//correctly in the combo_sujeto_actual
+			int count2 = count -1;
+			foreach (string line in myArray) {
+				myJumpers [count2--] = line;
+			}
+		} else {
+			int count2 = 0;
+			foreach (string line in myArray) {
+				myJumpers [count2++] = line;
+			}
 		}
 		return myJumpers;
 	}

@@ -1,0 +1,15 @@
+ChronoJump is a complete multiplatform system for measurement, management and statistics of the jump events.
+
+Chronojump uses a contact platform suitable for two events (in-platform, out-platform), and also a chronometer printed circuit designed ad-hoc in order to obtain precise and trustworthy measurements.
+
+The flight time of a jump is an indicator of the elevation of the Center of gravity of the jumper (as long as the starting and arrival position are the same). 
+
+ChronoJump can also be used for timing races even with intervals.
+
+Chronojump is Free GPL'd software and hardware.
+
+All info in Chronojump website:
+http://gnome.org/projects/chronojump/
+
+Chronojump's manual (currently only in spanish) is here:
+http://cvs.gnome.org/viewcvs/chronojump/manual/chronojump_manual_es.pdf

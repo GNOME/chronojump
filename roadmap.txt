@@ -1,22 +1,8 @@
 CHRONOJUMP ROADMAP
 
-chronojump 0.4
---------------
-
-	TODO:
-	update the web, add print directory and all it's files
-	repair links of images and articles, add a variable urlSite, and use
-	it instead of the :::imageLink:::, :::articleLink:::
-
+TODO:
 	add a printed from in the print pages (without the "print" directory)
-	
 	add a little image in the print
-
-remaining:
-- solve nplot with new mono/ubuntu
-- solve installation of chronojump_logo.png and the css
-- update pot & es.po, about
-- integrate help (finishing manual)
 
 chronojump 0.5
 --------------
@@ -27,7 +13,7 @@ chronojump 0.5
 	- show realtime graph of some different color lights depending on the value respect previous jumps
 	- add conditions for finishing a jump or run ("when Q index is under x three times" ...) 
 - edit reactive jump and intervalic run
-- stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...)
+- stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...) DONE!
 
 chronojump 0.6
 --------------

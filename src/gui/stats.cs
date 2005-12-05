@@ -56,6 +56,7 @@ public class StatsWindow {
 	[Widget] Gtk.SpinButton spin_stats_jumps_person_bests;
 	[Widget] Gtk.RadioButton radiobutton_stats_jumps_person_average;
 	[Widget] Gtk.Button button_graph;
+	[Widget] Gtk.Button button_add_to_report;
 	
 	[Widget] Gtk.TextView textview_enunciate;
 	[Widget] Gtk.ScrolledWindow scrolledwindow_enunciate;
@@ -64,6 +65,9 @@ public class StatsWindow {
 	[Widget] Gtk.Box hbox_mark_consecutives;
 	[Widget] Gtk.CheckButton checkbutton_mark_consecutives;
 	[Widget] Gtk.SpinButton spinbutton_mark_consecutives;
+	
+	[Widget] Gtk.Box hbox_combo_select_checkboxes;
+	[Widget] Gtk.Combo combo_select_checkboxes;
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
@@ -104,6 +108,15 @@ public class StatsWindow {
 		Constants.IeIndexFormula, 
 		Constants.IubIndexFormula
 	};
+		
+	private static string [] comboCheckboxesOptions = {
+		Catalog.GetString("All"),
+		Catalog.GetString("None"),
+		Catalog.GetString("Invert"),
+		Catalog.GetString("Selected"),
+		Catalog.GetString("Male"),
+		Catalog.GetString("Female")
+	};
 
 	ArrayList sendSelectedSessions;
 	
@@ -131,12 +144,15 @@ public class StatsWindow {
 		//myStat = new Stat(); //create and instance of myStat
 		myStatType = new StatType();
 		
+		createComboSelectCheckboxes();
+
 		createComboStatsType();
 		createComboStatsSubType();
 		createComboStatsApplyTo();
 		
 		updateComboStats();
 			
+		
 		//textview_enunciate.Hide();
 		//scrolledwindow_enunciate.Hide();
 			
@@ -219,6 +235,42 @@ public class StatsWindow {
 		combo_stats_stat_apply_to.Sensitive = true;
 	}
 
+	private void createComboSelectCheckboxes() {
+		combo_select_checkboxes = new Combo ();
+		combo_select_checkboxes.PopdownStrings = comboCheckboxesOptions;
+		
+		//combo_select_checkboxes.DisableActivate ();
+		combo_select_checkboxes.Entry.Changed += new EventHandler (on_combo_select_checkboxes_changed);
+
+		hbox_combo_select_checkboxes.PackStart(combo_select_checkboxes, false, false, 0);
+		hbox_combo_select_checkboxes.ShowAll();
+		
+		combo_select_checkboxes.Sensitive = true;
+	}
+	
+	private void on_combo_select_checkboxes_changed(object o, EventArgs args) {
+		string myText = combo_select_checkboxes.Entry.Text;
+			
+		if (myText != "" & myText != Catalog.GetString("Selected")) {
+			try {
+				//if selected 'male' or 'female', showSex and redo the treeview if needed
+				if (myText == Catalog.GetString("Male") ||
+						myText == Catalog.GetString("Female")) {
+					if( ! checkbutton_stats_sex.Active) {
+						//this will redo the treeview
+						checkbutton_stats_sex.Active = true;
+						//put another time the value Male or Female in combo_select_checkboxes
+						combo_select_checkboxes.Entry.Text = myText;
+					}
+				}
+				
+				myStatType.MarkSelected(myText);
+			} catch {
+				Console.WriteLine("Do later!!");
+			}
+		}
+	}
+	
 	private void updateComboStats() {
 		string [] nullOptions = { "-" };
 		if(combo_stats_stat_type.Entry.Text == Catalog.GetString("Global") ) 
@@ -362,6 +414,11 @@ public class StatsWindow {
 			markedRows = myStatType.MarkedRows;
 		}
 
+		//if we change combo_type, subtype, or others, always, show button_graph & add_to_report,
+		//if there's no data, they will be hided, later
+		button_graph.Sensitive = true;
+		button_add_to_report.Sensitive = true;
+		
 		myStatType = new StatType(
 				statisticType,
 				statisticSubType,
@@ -379,8 +436,28 @@ public class StatsWindow {
 				graph,
 				toReport  //always false in this class
 				);
+
 		bool allFine = myStatType.ChooseStat();
-		
+	
+		myStatType.FakeButtonRowCheckedUnchecked.Clicked += 
+			new EventHandler(on_fake_button_row_checked_clicked);
+		myStatType.FakeButtonRowsSelected.Clicked += 
+			new EventHandler(on_fake_button_rows_selected_clicked);
+		myStatType.FakeButtonNoRowsSelected.Clicked += 
+			new EventHandler(on_fake_button_no_rows_selected_clicked);
+
+		//useful for not showing button_graph & add_to_report when there are no rows
+		try {
+			if(myStatType.MarkedRows.Count == 0) {
+				button_graph.Sensitive = false;
+				button_add_to_report.Sensitive = false;
+			}
+		} catch {
+			Console.WriteLine("Do markedRows stuff later");
+		}
+
+		//every time a stat is created, all rows should be checked (except AVG & SD)
+		combo_select_checkboxes.Entry.Text = Catalog.GetString("All");
 
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
@@ -395,6 +472,28 @@ public class StatsWindow {
 		}
 	}
 
+	//changes the combo_select_checkboxes to "Selected" if any row in the treeview is checked or unchecked
+	private void on_fake_button_row_checked_clicked (object o, EventArgs args) {
+		Console.WriteLine("fakeButtonRowCheckedUnchecked in gui/stats.cs !!");
+
+		combo_select_checkboxes.Entry.Text = Catalog.GetString("Selected");
+	}
+	
+	private void on_fake_button_rows_selected_clicked (object o, EventArgs args) {
+		Console.WriteLine("fakeButtonRowsSelected in gui/stats.cs !!");
+		button_graph.Sensitive = true;
+		button_add_to_report.Sensitive = true;
+	}
+	
+	private void on_fake_button_no_rows_selected_clicked (object o, EventArgs args) {
+		Console.WriteLine("fakeButtonNoRowsSelected in gui/stats.cs !!");
+		button_graph.Sensitive = false;
+		button_add_to_report.Sensitive = false;
+
+		//put none in combo
+		combo_select_checkboxes.Entry.Text = Catalog.GetString("None");
+	}
+	
 	
 	//called from chronojump.cs for showing or hiding some widgets
 	//when a person is created or loaded 

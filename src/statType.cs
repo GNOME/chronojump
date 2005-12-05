@@ -88,6 +88,14 @@ public class StatType {
 
 	StatTypeStruct myStatTypeStruct;
 	
+	//used for know when a row is checked in treeview, and change then the combo_selected_rows in gui/stats.cs
+	public Gtk.Button fakeButtonRowCheckedUnchecked;
+
+	//used for know when no rows are selected in treeview, 
+	//and make the graph, add_to_report buttons not sensitive in gui/stats.cs
+	public Gtk.Button fakeButtonRowsSelected;
+	public Gtk.Button fakeButtonNoRowsSelected;
+	
 	//comes from gui/stats.cs (initialization)
 	public StatType () {
 	}
@@ -119,7 +127,6 @@ public class StatType {
 		this.graph = graph;
 		this.toReport = toReport;
 
-		
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
@@ -129,8 +136,27 @@ public class StatType {
 				toReport);
 
 		myStat = new Stat(); //create and instance of myStat
+
+		fakeButtonRowCheckedUnchecked = new Gtk.Button();
+		fakeButtonRowsSelected = new Gtk.Button();
+		fakeButtonNoRowsSelected = new Gtk.Button();
 	}
 
+	private void on_fake_button_row_checked_clicked (object o, EventArgs args) {
+		Console.WriteLine("fakeButtonRowCheckedUnchecked in statType.cs");
+		fakeButtonRowCheckedUnchecked.Click();
+	}
+	
+	private void on_fake_button_rows_selected_clicked (object o, EventArgs args) {
+		Console.WriteLine("fakeButtonRowsSelected in statType.cs");
+		fakeButtonRowsSelected.Click();
+	}
+	
+	private void on_fake_button_no_rows_selected_clicked (object o, EventArgs args) {
+		Console.WriteLine("fakeButtonNoRowsSelected in statType.cs");
+		fakeButtonNoRowsSelected.Click();
+	}
+	
 	//comes from report.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
@@ -309,6 +335,13 @@ public class StatType {
 				}
 			}
 		}
+		
+		myStat.FakeButtonRowCheckedUnchecked.Clicked += 
+			new EventHandler(on_fake_button_row_checked_clicked);
+		myStat.FakeButtonRowsSelected.Clicked += 
+			new EventHandler(on_fake_button_rows_selected_clicked);
+		myStat.FakeButtonNoRowsSelected.Clicked += 
+			new EventHandler(on_fake_button_no_rows_selected_clicked);
 				
 		myStat.PrepareData();
 
@@ -336,6 +369,11 @@ public class StatType {
 		//there will be always a png with chronojump_logo
 		writer.WriteLine("<img src=\"" + directoryName + "/" + (pngs.Length -1).ToString() + ".png\">");
 	}
+
+	public void MarkSelected(string selected) {
+		myStat.MarkSelected(selected);
+	}
+
 	
 	public string Enunciate {
 		get { return myStat.ToString(); }
@@ -343,10 +381,21 @@ public class StatType {
 	
 
 	public ArrayList MarkedRows {
-		get { 
-			return myStat.MarkedRows;
-		}
+		get { return myStat.MarkedRows; }
 	}
+
+	public Gtk.Button FakeButtonRowCheckedUnchecked {
+		get { return  fakeButtonRowCheckedUnchecked; }
+	}
+	
+	public Gtk.Button FakeButtonRowsSelected {
+		get { return  fakeButtonRowsSelected; }
+	}
+	
+	public Gtk.Button FakeButtonNoRowsSelected {
+		get { return  fakeButtonNoRowsSelected; }
+	}
+
 
 	~StatType() {}
 }

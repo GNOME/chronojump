@@ -54,7 +54,7 @@ public class Run
 	protected bool metersSecondsPreferred;
 
 	//for raise a signal and manage it on chronojump.cs
-	protected Gtk.Button falseButtonFinished;
+	protected Gtk.Button fakeButtonFinished;
 	
 	//for cancelling from chronojump.cs
 	protected bool cancel;
@@ -81,7 +81,7 @@ public class Run
 		this.pDN = pDN;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		
-		falseButtonFinished = new Gtk.Button();
+		fakeButtonFinished = new Gtk.Button();
 	}
 	
 	//after inserting database (SQL)
@@ -186,7 +186,7 @@ public class Run
 
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
-			falseButtonFinished.Click();
+			fakeButtonFinished.Click();
 		}
 	}
 	
@@ -197,7 +197,7 @@ public class Run
 				Console.Write("dying");
 
 				//event will be raised, and managed in chronojump.cs
-				//falseButtonFinished.Click();
+				//fakeButtonFinished.Click();
 				//Now called on write(), now work in mono1.1.6
 				
 				return false;
@@ -222,17 +222,17 @@ public class Run
 				type, distance, time, ""); //type, distance, time, description
 		
 		//event will be raised, and managed in chronojump.cs
-		falseButtonFinished.Click();
+		fakeButtonFinished.Click();
 		
 		//put max value in progressBar. This makes the thread in Pulse() stop
 		progressBar.Fraction = 1;
 	}
 	
 
-	public Gtk.Button FalseButtonFinished
+	public Gtk.Button FakeButtonFinished
 	{
 		get {
-			return	falseButtonFinished;
+			return	fakeButtonFinished;
 		}
 	}
 
@@ -351,7 +351,7 @@ public class RunInterval : Run
 
 		this.pDN = pDN;
 	
-		falseButtonFinished = new Gtk.Button();
+		fakeButtonFinished = new Gtk.Button();
 	}
 	
 	
@@ -471,7 +471,7 @@ public class RunInterval : Run
 			if ( ! tracksLimited && limitAsDouble != -1) {
 				double myPb = Util.GetTotalTime (intervalTimesString) / limitAsDouble ;
 				//if(myPb > 1.0) { myPb = 1.0; }
-				//don't allow progressBar be 1.0 before falseButtonClick is called
+				//don't allow progressBar be 1.0 before fakeButtonClick is called
 				if(myPb >= 1.0) { myPb = 0.99; }
 				progressBar.Fraction = myPb; 
 			}
@@ -554,7 +554,7 @@ public class RunInterval : Run
 		}
 		if(cancel || finish) {
 			//event will be raised, and managed in chronojump.cs
-			falseButtonFinished.Click();
+			fakeButtonFinished.Click();
 		}
 	}
 
@@ -602,7 +602,7 @@ public class RunInterval : Run
 				
 	
 		//event will be raised, and managed in chronojump.cs
-		falseButtonFinished.Click();
+		fakeButtonFinished.Click();
 		
 		//put max value in progressBar. This makes the thread in Pulse() stop
 		progressBar.Fraction = 1;

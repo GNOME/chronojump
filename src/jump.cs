@@ -58,7 +58,7 @@ public class Jump
 	protected int pDN;
 
 	//for raise a signal and manage it on chronojump.cs
-	protected Gtk.Button falseButtonFinished;
+	protected Gtk.Button fakeButtonFinished;
 	
 	//for cancelling from chronojump.cs
 	protected bool cancel;
@@ -91,7 +91,7 @@ public class Jump
 			hasFall = false;
 		}
 		
-		falseButtonFinished = new Gtk.Button();
+		fakeButtonFinished = new Gtk.Button();
 	}
 	
 	//after inserting database (SQL)
@@ -247,7 +247,7 @@ public class Jump
 
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
-			falseButtonFinished.Click();
+			fakeButtonFinished.Click();
 		}
 	}
 	
@@ -258,7 +258,7 @@ public class Jump
 				Console.Write("dying");
 
 				//event will be raised, and managed in chronojump.cs
-				//falseButtonFinished.Click();
+				//fakeButtonFinished.Click();
 				//Now called on write(), now work in mono1.1.6
 				
 				return false;
@@ -293,7 +293,7 @@ public class Jump
 				weight, "", ""); //weight, limited, description
 		
 		//event will be raised, and managed in chronojump.cs
-		falseButtonFinished.Click();
+		fakeButtonFinished.Click();
 		
 		//put max value in progressBar. This makes the thread in Pulse() stop
 		progressBar.Fraction = 1;
@@ -304,15 +304,15 @@ public class Jump
 	private void cancel_jump(object o, EventArgs args)
 	{
 		//event will be raised, and managed in chronojump.cs
-		falseButtonFinished.Click();
+		fakeButtonFinished.Click();
 		
 		cancel = true;
 	}
 	
-	public Gtk.Button FalseButtonFinished
+	public Gtk.Button FakeButtonFinished
 	{
 		get {
-			return	falseButtonFinished;
+			return	fakeButtonFinished;
 		}
 	}
 
@@ -443,7 +443,7 @@ public class JumpRj : Jump
 			hasFall = false;
 		}
 		
-		falseButtonFinished = new Gtk.Button();
+		fakeButtonFinished = new Gtk.Button();
 	}
 	
 	//after inserting database (SQL)
@@ -590,7 +590,7 @@ public class JumpRj : Jump
 			if ( ! jumpsLimited && limitAsDouble != -1) {
 				double myPb = Util.GetTotalTime (tcString, tvString) / limitAsDouble ;
 				//if(myPb > 1.0) { myPb = 1.0; }
-				//don't allow progressBar be 1.0 before falseButtonClick is called
+				//don't allow progressBar be 1.0 before fakeButtonClick is called
 				if(myPb >= 1.0) { myPb = 0.99; }
 				progressBar.Fraction = myPb; 
 			}
@@ -611,7 +611,7 @@ public class JumpRj : Jump
 					else {
 						//change the progressBar percent
 						//progressBar.Fraction = (tcCount + tvCount) / limitAsDouble ;
-						//don't allow progressBar be 1.0 before falseButtonClick is called
+						//don't allow progressBar be 1.0 before fakeButtonClick is called
 						double myPb = (tcCount + tvCount) / limitAsDouble ;
 						if(myPb >= 1.0) { myPb = 0.99; }
 						progressBar.Fraction = myPb; 
@@ -676,7 +676,7 @@ public class JumpRj : Jump
 		}
 		if(cancel || finish) {
 			//event will be raised, and managed in chronojump.cs
-			falseButtonFinished.Click();
+			fakeButtonFinished.Click();
 		}
 	}
 				
@@ -720,7 +720,7 @@ public class JumpRj : Jump
 		appbar.Push( myStringPush );
 	
 		//event will be raised, and managed in chronojump.cs
-		falseButtonFinished.Click();
+		fakeButtonFinished.Click();
 		
 		//put max value in progressBar. This makes the thread in Pulse() stop
 		progressBar.Fraction = 1;

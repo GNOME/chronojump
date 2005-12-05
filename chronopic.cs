@@ -43,8 +43,11 @@ public class Chronopic {
    public Chronopic(string disp)
    {
 	Console.WriteLine("1");
-	   
-     this.serial_fd=this.Open(disp);
+	 try {  
+	     this.serial_fd=this.Open(disp);
+	 } catch{
+		 Console.WriteLine("catched!!");
+	 }
 	
      Console.WriteLine("2");
    }

@@ -130,7 +130,8 @@ public class StatRjEvolution : Stat
 	}
 	
 	//for stripping off unchecked rows in report
-	private int rowsPassedToReport = 1;
+	//private int rowsPassedToReport = 1;
+	private int rowsPassedToReport = 0;
 	
 	protected override void printData (string [] statValues) 
 	{
@@ -164,8 +165,7 @@ public class StatRjEvolution : Stat
 			//iter = store.Append (iter);	//doesn't work
 			store.Append (out iter);	//add new row and make iter point to it
 		
-			//addAllNoneIfNeeded(store, iter, statValues.Length);
-			addAllNoneIfNeeded(statValues.Length);
+			//addAllNoneIfNeeded(statValues.Length);
 		
 			TreePath myPath = store.GetPath(iter); 
 			

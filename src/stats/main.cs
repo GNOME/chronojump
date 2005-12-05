@@ -78,12 +78,21 @@ public class Stat
 	protected string avgValuesString = "Avg values of each jumper";
 	
 	protected int numContinuous; //for stats rj evolution
-
+	
+	//for raise a signal and manage it on src/gui/stats.cs
+	//signal will be catched first in src/statType.cs and there a equal signal will be raised
+	public Gtk.Button fakeButtonRowCheckedUnchecked;
+	public Gtk.Button fakeButtonRowsSelected;
+	public Gtk.Button fakeButtonNoRowsSelected;
+	
 	//private bool selectedMakeAVGSD;
 
-	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
+
 	public Stat () 
 	{
+		fakeButtonRowCheckedUnchecked = new Gtk.Button();
+		fakeButtonRowsSelected = new Gtk.Button();
+		fakeButtonNoRowsSelected = new Gtk.Button();
 	}
 
 	protected void completeConstruction (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview)
@@ -127,6 +136,9 @@ public class Stat
 	}
 
 	void ItemToggled(object o, ToggledArgs args) {
+		Console.WriteLine("Fake button will be pressed");
+		fakeButtonRowCheckedUnchecked.Click();
+		
 		Console.WriteLine("Toggled");
 
 		GLib.Object cellRendererToggle = (GLib.Object) o;
@@ -138,72 +150,127 @@ public class Stat
 			bool val = (bool) store.GetValue (iter, column);
 			Console.WriteLine ("toggled {0} with value {1}", args.Path, !val);
 
-			if(args.Path == "0") {
-				if (store.GetIterFirst(out iter)) {
-					val = (bool) store.GetValue (iter, column);
-					store.SetValue (iter, column, !val);
-					
-					//delete all from ArrayList markedRows if have to be activated we add the later
-					//markedRows = new ArrayList();
-					markedRows.RemoveRange(0,markedRows.Count);
-					
-					// ALL/NONE should not be in markedRows
-					/*
-					if(!val) { 
-						markedRows.Add("0");
-					}
-					*/
-					int count = 1;
-					while ( store.IterNext(ref iter) ){
-						//except AVG and SD
-						string avgOrSD = (string) store.GetValue (iter, 1);
-						if(avgOrSD != Catalog.GetString("AVG") && 
-								avgOrSD != Catalog.GetString("SD")) {
-							store.SetValue (iter, column, !val);
-					
-							//if (!val) means was false, and now has changed to true.
-							//all rows have to be activated
-							if(!val) {
-								markedRows.Add(count.ToString());
-							}
+			//if this row is not AVG or SD
+			string avgOrSD = (string) store.GetValue (iter, 1);
+			if(avgOrSD != Catalog.GetString("AVG") && avgOrSD != Catalog.GetString("SD")) 
+			{
+				//change the checkbox value
+				store.SetValue (iter, column, !val);
+				//add or delete from ArrayList markedRows
+				//if (val) means was true, and now has changed to false. Has been deactivated
+				if(val) {
+					int i = 0;
+					foreach(string myRow in markedRows) {
+						if(myRow == args.Path) {
+							markedRows.RemoveAt(i);
+							Console.WriteLine("deleted from markedRows row:{0}", args.Path);
+							break;
 						}
-						count ++;
+						i++;
 					}
-				}
-			} else {
-				//if this row is not AVG or SD
-				string avgOrSD = (string) store.GetValue (iter, 1);
-				if(avgOrSD != Catalog.GetString("AVG") && avgOrSD != Catalog.GetString("SD")) 
-				{
-					//change the checkbox value
-					store.SetValue (iter, column, !val);
-					//add or delete from ArrayList markedRows
-					//if (val) means was true, and now has changed to false. Has been deactivated
-					if(val) {
-						int i = 0;
-						foreach(string myRow in markedRows) {
-							if(myRow == args.Path) {
-								markedRows.RemoveAt(i);
-								Console.WriteLine("deleted from markedRows row:{0}", args.Path);
-								break;
-							}
-							i++;
-						}
-					} else {
-						// ALL/NONE should not be in markedRows
-						if(args.Path != "0") {
-							markedRows.Add(args.Path);
-							Console.WriteLine("Added to markedRows row:{0}", args.Path);
-						}
-					}
+				} else {
+					markedRows.Add(args.Path);
+					Console.WriteLine("Added to markedRows row:{0}", args.Path);
 				}
 			}
+			
+			if (isThereAnyRowSelected(store)) {
+				fakeButtonRowsSelected.Click();
+			} else {
+				fakeButtonNoRowsSelected.Click();
+			}
+		} else {
+			//if we cannot access the treeview, also don't allow to graph or report
+			fakeButtonNoRowsSelected.Click();
 		}
 		
 		foreach(string myString in markedRows) {
 			Console.Write(":" + myString);
 		}
 		Console.WriteLine();
+	}
+			
+	private bool isNotAVGOrSD (Gtk.TreeIter iter) {
+		//except AVG and SD
+		string avgOrSD = (string) store.GetValue (iter, 1);
+		if(avgOrSD != Catalog.GetString("AVG") && avgOrSD != Catalog.GetString("SD")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void MarkSelected(string selected) {
+		Gtk.TreeIter iter;
+		bool okIter = store.GetIterFirst(out iter);
+		if(okIter) {
+			if(selected == Catalog.GetString("All")) {
+				do {
+					if(isNotAVGOrSD(iter)) {
+						store.SetValue (iter, 0, true);
+					}
+				} while ( store.IterNext(ref iter) );
+			} else if(selected == Catalog.GetString("None")) {
+				do {
+					store.SetValue (iter, 0, false);
+				} while ( store.IterNext(ref iter) );
+			} else if(selected == Catalog.GetString("Invert")) {
+				do {
+					if(isNotAVGOrSD(iter)) {
+						bool val = (bool) store.GetValue (iter, 0);
+						store.SetValue (iter, 0, !val);
+					}
+				} while ( store.IterNext(ref iter) );
+			} else if(selected == Catalog.GetString("Male")) {
+				do {
+					if(isNotAVGOrSD(iter)) {
+						string nameAndSex = (string) store.GetValue (iter, 1);
+						string [] stringFull = nameAndSex.Split(new char[] {'.'});
+						if(stringFull.Length > 1 && stringFull[1].StartsWith("M")) {
+							store.SetValue (iter, 0, true);
+						} else {
+							store.SetValue (iter, 0, false);
+						}
+					}
+				} while ( store.IterNext(ref iter) );
+			} else if(selected == Catalog.GetString("Female")) {
+				do {
+					if(isNotAVGOrSD(iter)) {
+						string nameAndSex = (string) store.GetValue (iter, 1);
+						string [] stringFull = nameAndSex.Split(new char[] {'.'});
+						if(stringFull.Length > 1 && stringFull[1].StartsWith("F")) {
+							store.SetValue (iter, 0, true);
+						} else {
+							store.SetValue (iter, 0, false);
+						}
+					}
+				} while ( store.IterNext(ref iter) );
+			}
+
+			//check rows selected and raise a signal if noone is selected
+			if (isThereAnyRowSelected(store)) {
+				fakeButtonRowsSelected.Click();
+			} else {
+				fakeButtonNoRowsSelected.Click();
+			}
+		} else {
+			//if we cannot access the treeview, also don't allow to graph or report
+			fakeButtonNoRowsSelected.Click();
+		}
+	}
+	
+	private bool isThereAnyRowSelected(TreeStore myStore) {
+		Gtk.TreeIter iter;
+		bool okIter = store.GetIterFirst(out iter);
+		if(okIter) {
+			do {
+				bool val = (bool) store.GetValue (iter, 0);
+				if(val) {
+					return true;
+				}
+			} while ( store.IterNext(ref iter) );
+		}
+		return false;
 	}
 
 	protected void prepareHeaders(string [] columnsString) 
@@ -370,6 +437,10 @@ public class Stat
 				printData( sendAVG );
 				printData( sendSD );
 			}
+		} else {
+			//if we cannot access the treeview, also don't allow to graph or report
+			Console.WriteLine("no rows Clicking in stats/main.cs simple session");
+			fakeButtonNoRowsSelected.Click();
 		}
 	}
 
@@ -460,6 +531,10 @@ public class Stat
 				printData( calculateRowAVGSD(sendAVG) );
 				printData( calculateRowAVGSD(sendSD) );
 			}
+		} else {
+			//if we cannot access the treeview, also don't allow to graph or report
+			Console.WriteLine("no rows Clicking in stats/main.cs multi session");
+			fakeButtonNoRowsSelected.Click();
 		}
 			
 	}
@@ -500,26 +575,9 @@ public class Stat
 		}
 	}
 	
-	//protected void addAllNoneIfNeeded(TreeStore store, TreeIter iter, int cols) {
-	protected void addAllNoneIfNeeded(int cols) {
-		//if this is the first row, add the MARK ALL/NONE, and make another row
-		TreePath myPath = store.GetPath(iter); 
-		if(myPath.ToString() == "0") {
-			store.SetValue(iter, 0, true);	//first col is true
-			store.SetValue(iter, 1, Catalog.GetString("MARK ALL/NONE"));	//second col is MARK ALL/NONE
-			//the rest columns are ""
-			for(int i=2; i < cols ; i++) {
-				store.SetValue(iter, i, "");
-			}
-			store.Append (out iter);	//add new row and make iter point to it
-			
-			// ALL/NONE should not be in markedRows
-			//markedRows.Add("0");
-		}
-	}
-	
 	//for stripping off unchecked rows in report
-	private int rowsPassedToReport = 1;
+	//private int rowsPassedToReport = 1;
+	private int rowsPassedToReport = 0;
 	
 	protected virtual void printData (string [] statValues) 
 	{
@@ -545,8 +603,7 @@ public class Stat
 			//iter = store.Append (iter);	//doesn't work
 			store.Append (out iter);	//add new row and make iter point to it
 		
-			//addAllNoneIfNeeded(store, iter, statValues.Length);
-			addAllNoneIfNeeded(statValues.Length);
+			//addAllNoneIfNeeded(statValues.Length);
 			
 			TreePath myPath = store.GetPath(iter); 
 			
@@ -919,16 +976,24 @@ public class Stat
 	}
 	
 
-	public ArrayList Sessions
-	{
-		get { 
-			return sessions;
-		}
+	public ArrayList Sessions {
+		get { return sessions; }
 	}
 
 	public ArrayList MarkedRows {
-		get { return markedRows;
-		}
+		get { return markedRows; }
+	}
+
+	public Gtk.Button FakeButtonRowCheckedUnchecked {
+		get { return  fakeButtonRowCheckedUnchecked; }
+	}
+
+	public Gtk.Button FakeButtonRowsSelected {
+		get { return  fakeButtonRowsSelected; }
+	}
+	
+	public Gtk.Button FakeButtonNoRowsSelected {
+		get { return  fakeButtonNoRowsSelected; }
 	}
 
 

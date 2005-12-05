@@ -1,5 +1,17 @@
 CHANGELOG:
 
+5 des 2005
+	TODO: errorWindow in auto changing to simulated
+
+	treeview_stats have a combo for selection of multiple combination of
+	rows in gui/stats.cs, and when no rows selected, graphs and report
+	cannot be done
+
+	treeview_stats combo can select male or female in all stats
+
+	if there are problems for accessing to /dev/ttyS0, now changes to
+	'simulated' automatically. Future: show a errorWindow
+
 30 nov 2005
 	fixed bug in printed report (some persons doesn't shown, and order was
 	not correct)

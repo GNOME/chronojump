@@ -321,24 +321,34 @@ public class ChronoJump
 		Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
 		Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
-		cp = new Chronopic("/dev/ttyS0");
+		try {
+			Console.WriteLine("J1");
+			cp = new Chronopic("/dev/ttyS0");
+			Console.WriteLine("J2");
 
-		//-- Read initial state of platform
-		respuesta=cp.Read_platform(out platformState);
-		switch(respuesta) {
-			case Chronopic.Respuesta.Error:
-				Console.WriteLine(Catalog.GetString("Error comunicating with Chronopic"));
-				break;
-			case Chronopic.Respuesta.Timeout:
-				Console.WriteLine(Catalog.GetString("Chronopic in not responding"));
-				break;
-			default:
-				Console.WriteLine(Catalog.GetString("Chronopic OK"));
-				break;
+			//-- Read initial state of platform
+			respuesta=cp.Read_platform(out platformState);
+			switch(respuesta) {
+				case Chronopic.Respuesta.Error:
+					Console.WriteLine(Catalog.GetString("Error comunicating with Chronopic"));
+					break;
+				case Chronopic.Respuesta.Timeout:
+					Console.WriteLine(Catalog.GetString("Chronopic in not responding"));
+					break;
+				default:
+					Console.WriteLine(Catalog.GetString("Chronopic OK"));
+					break;
+			}
+			Console.Write(Catalog.GetString("Plataform state: "));
+			Console.WriteLine("{0}", platformState);
+		} catch {
+			Console.WriteLine("Problems connecting to serial port, changed platform to 'Simulated'");
+			//TODO: raise a error window
+			
+			//this will raise on_radiobutton_simulated_ativate and 
+			//will put cpRunning to false, and simulated to true and cp.Close()
+			menuitem_simulated.Active = true;
 		}
-    
-		Console.Write(Catalog.GetString("Plataform state: "));
-		Console.WriteLine("{0}", platformState);
 	}
 	
 	private void loadPreferences () 
@@ -1197,6 +1207,7 @@ public class ChronoJump
 		if(cpRunning) {
 			cp.Close();
 		}
+		cpRunning = false;
 	}
 	
 	void on_radiobutton_serial_port_activate (object o, EventArgs args)
@@ -1445,13 +1456,13 @@ public class ChronoJump
 			} else {
 				currentJump.ManageFall(o, args);
 			}
-			currentJump.FalseButtonFinished.Clicked += new EventHandler(on_jump_finished);
+			currentJump.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
 		}
 	}	
 	
 	private void on_jump_finished (object o, EventArgs args)
 	{
-		currentJump.FalseButtonFinished.Clicked -= new EventHandler(on_jump_finished);
+		currentJump.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 		
 		if ( ! currentJump.Cancel ) {
 			lastEventWasJump = true;
@@ -1589,14 +1600,14 @@ public class ChronoJump
 		}
 		else {
 			currentJumpRj.Manage(o, args);
-			currentJumpRj.FalseButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
+			currentJumpRj.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
 		}
 
 	}
 				
 	private void on_jump_rj_finished (object o, EventArgs args) 
 	{
-		currentJumpRj.FalseButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
+		currentJumpRj.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
 		if ( ! currentJumpRj.Cancel ) {
 			lastEventWasJump = true;
@@ -1738,13 +1749,13 @@ public class ChronoJump
 		}
 		else {
 			currentRun.Manage(o, args);
-			currentRun.FalseButtonFinished.Clicked += new EventHandler(on_run_finished);
+			currentRun.FakeButtonFinished.Clicked += new EventHandler(on_run_finished);
 		}
 	}
 	
 	private void on_run_finished (object o, EventArgs args)
 	{
-		currentRun.FalseButtonFinished.Clicked -= new EventHandler(on_run_finished);
+		currentRun.FakeButtonFinished.Clicked -= new EventHandler(on_run_finished);
 		
 		if ( ! currentRun.Cancel ) {
 			lastEventWasJump = false;
@@ -1875,13 +1886,13 @@ public class ChronoJump
 		}
 		else {
 			currentRunInterval.Manage(o, args);
-			currentRunInterval.FalseButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
+			currentRunInterval.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
 		}
 	}
 
 	private void on_run_interval_finished (object o, EventArgs args) 
 	{
-		currentRunInterval.FalseButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
+		currentRunInterval.FakeButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
 		
 		if ( ! currentRunInterval.Cancel ) {
 			lastEventWasJump = false;

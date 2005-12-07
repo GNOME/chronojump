@@ -1,6 +1,11 @@
 CHANGELOG:
 
 7 des 2005
+	repair_sub_events (reactive jumps) finished!
+	notebook changes for some menu events
+	small bug fixed in showing delete_last button when no jumps or runs done
+
+7 des 2005
 	new window: repair_sub_events, allows repair reactive jumps by parts (future also runs). 
 	Currently can add, edit, remove subjumps (different actions depending
 	on jumpType and selected row)

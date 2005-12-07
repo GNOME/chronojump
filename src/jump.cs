@@ -705,7 +705,7 @@ public class JumpRj : Jump
 			}
 		}
 
-		uniqueID = SqliteJump.InsertRj(personID, sessionID, 
+		uniqueID = SqliteJump.InsertRj("NULL", personID, sessionID, 
 				type, Util.GetMax(tvString), Util.GetMax(tcString), 
 				fall, weight, "", //fall, weight, description
 				Util.GetAverage(tvString), Util.GetAverage(tcString),

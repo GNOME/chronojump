@@ -98,13 +98,13 @@ class SqliteJump : Sqlite
 	}
 	
 	//fall has values like "10J" or "10T" (10 jumps, or 10 seconds, respectively)
-	public static int InsertRj(int personID, int sessionID, string type, double tvMax, double tcMax, int fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
+	public static int InsertRj(string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, int fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO jumpRj " + 
 				"(uniqueID, personID, sessionID, type, tvMax, tcMax, fall, weight, description, " +
 				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited	)" +
-				"VALUES (NULL, " +
+				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", '" + type + "', " +
 				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", '" + 
 				fall + "', '" + Util.ConvertToPoint(weight) + "', '" + description + "', " +

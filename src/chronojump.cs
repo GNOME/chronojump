@@ -61,6 +61,7 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_edit_selected_jump_rj;
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
+	[Widget] Gtk.Button button_repair_selected_reactive_jump;
 	
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type_run;
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type_run_interval;
@@ -212,6 +213,7 @@ public class ChronoJump
 	JumpExtraWindow jumpExtraWin; //for normal and repetitive jumps 
 	EditJumpWindow editJumpWin;
 	EditJumpRjWindow editJumpRjWin;
+	RepairJumpRjWindow repairJumpRjWin;
 	JumpTypeAddWindow jumpTypeAddWin;
 	
 	RunExtraWindow runExtraWin; //for normal and intervaled runs 
@@ -787,6 +789,7 @@ public class ChronoJump
 		menuitem_delete_selected_jump_rj.Sensitive = true;
 		button_edit_selected_jump_rj.Sensitive = true;
 		button_delete_selected_jump_rj.Sensitive = true;
+		button_repair_selected_reactive_jump.Sensitive = true;
 
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps, treeview_jumps_store, myText);
@@ -2019,7 +2022,6 @@ public class ChronoJump
 		if (myTreeViewJumps.JumpSelectedID > 0) {
 			//3.- obtain the data of the selected jump
 			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.JumpSelectedID );
-			Console.WriteLine(myJump);
 		
 			//4.- edit this jump
 			editJumpWin = EditJumpWindow.Show(app1, myJump);
@@ -2034,11 +2036,24 @@ public class ChronoJump
 		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
 			//3.- obtain the data of the selected jump
 			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.JumpSelectedID );
-			Console.WriteLine(myJump);
 		
 			//4.- edit this jump
 			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump);
 			editJumpRjWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
+		}
+	}
+	
+	private void on_repair_selected_reactive_jump_clicked (object o, EventArgs args) {
+		Console.WriteLine("Repair selected subjump");
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
+			//3.- obtain the data of the selected jump
+			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.JumpSelectedID );
+		
+			//4.- edit this jump
+			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump);
+			repairJumpRjWin.Button_accept.Clicked += new EventHandler(on_repair_selected_reactive_jump_accepted);
 		}
 	}
 	
@@ -2062,6 +2077,10 @@ public class ChronoJump
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
 		}
+	}
+	
+	private void on_repair_selected_reactive_jump_accepted (object o, EventArgs args) {
+		Console.WriteLine("Repair selected reactive jump accepted");
 	}
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
@@ -2381,6 +2400,7 @@ public class ChronoJump
 		menuitem_delete_selected_jump_rj.Sensitive = false;
 		button_edit_selected_jump_rj.Sensitive = false;
 		button_delete_selected_jump_rj.Sensitive = false;
+		button_repair_selected_reactive_jump.Sensitive = false;
 		menuitem_edit_selected_run.Sensitive = false;
 		menuitem_delete_selected_run.Sensitive = false;
 		button_edit_selected_run.Sensitive = false;
@@ -2425,6 +2445,7 @@ public class ChronoJump
 		menuitem_delete_selected_jump_rj.Sensitive = true;
 		button_edit_selected_jump_rj.Sensitive = true;
 		button_delete_selected_jump_rj.Sensitive = true;
+		button_repair_selected_reactive_jump.Sensitive = true;
 		menuitem_edit_selected_run.Sensitive = true;
 		menuitem_delete_selected_run.Sensitive = true;
 		button_edit_selected_run.Sensitive = true;

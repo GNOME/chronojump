@@ -328,9 +328,9 @@ public class Jump
 		get { return SqliteJumpType.HasWeight(type); }
 	}
 	
-	public bool TypeHasFall
+	public virtual bool TypeHasFall
 	{
-		get { return SqliteJumpType.HasFall(type); }
+		get { return SqliteJumpType.HasFall("jumpType", type); } //jumpType is the table name
 	}
 	
 	public string Type
@@ -738,6 +738,11 @@ public class JumpRj : Jump
 	{
 		get { return limited; }
 		set { limited = value; }
+	}
+	
+	public override bool TypeHasFall
+	{
+		get { return SqliteJumpType.HasFall("jumpRjType", type); } //jumpRjType is the table name
 	}
 	
 	public double TvMax

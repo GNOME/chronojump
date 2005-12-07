@@ -34,6 +34,10 @@ public class JumpType
 	protected bool isPredefined;
 	protected bool unlimited;
 
+
+	public JumpType() {
+	}
+	
 	//predefined values
 	public JumpType(string name) {
 		this.name = name;
@@ -116,11 +120,13 @@ public class JumpType
 	public string Name
 	{
 		get { return name; }
+		set { name = value; }
 	}
 	
 	public bool StartIn
 	{
 		get { return startIn; }
+		set { startIn = value; }
 	}
 	
 	public bool HasWeight
@@ -132,21 +138,25 @@ public class JumpType
 				return SqliteJumpType.HasWeight(name);
 			}
 		}
+		set { hasWeight = value; }
 	}
 	
 	public bool IsRepetitive
 	{
 		get { return isRepetitive; }
+		set { isRepetitive = value; }
 	}
 	
 	public bool JumpsLimited
 	{
 		get { return jumpsLimited; }
+		set { jumpsLimited = value; }
 	}
 	
 	public double FixedValue
 	{
 		get { return fixedValue; }
+		set { fixedValue = value; }
 	}
 	
 	public bool Unlimited

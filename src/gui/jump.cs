@@ -159,6 +159,10 @@ public class EditJumpWindow
 
 }
 
+//--------------------------------------------------------
+//---------------- edit jumpRJ WIDGET --------------------
+//--------------------------------------------------------
+
 public class EditJumpRjWindow 
 {
 	[Widget] Gtk.Window edit_jump;
@@ -275,6 +279,328 @@ public class EditJumpRjWindow
 
 		EditJumpRjWindowBox.edit_jump.Hide();
 		EditJumpRjWindowBox = null;
+	}
+
+	public Button Button_accept 
+	{
+		set { button_accept = value;	}
+		get { return button_accept;	}
+	}
+
+}
+
+//--------------------------------------------------------
+//---------------- Repair jumpRJ WIDGET ------------------
+//--------------------------------------------------------
+
+public class RepairJumpRjWindow 
+{
+	[Widget] Gtk.Window repair_sub_event;
+	[Widget] Gtk.Label label_header;
+	[Widget] Gtk.Label label_totaltime_value;
+	[Widget] Gtk.TreeView treeview_subevents;
+	private TreeStore store;
+	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_add_before;
+	[Widget] Gtk.Button button_add_after;
+	[Widget] Gtk.Button button_delete;
+	[Widget] Gtk.TextView textview1;
+
+	static RepairJumpRjWindow RepairJumpRjWindowBox;
+	Gtk.Window parent;
+
+	JumpType jumpType;
+	
+
+	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
+
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+	
+		repair_sub_event.Title = Catalog.GetString("Repair reactive jump");
+		
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		label_header.Text = string.Format(Catalog.GetString("Use this window for repair a reactive jump\nDouble clic any cell for editing (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+	
+		
+		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type);
+		
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.SetText(createTextForTextView(jumpType));
+		textview1.Buffer = tb;
+		
+		createTreeView(treeview_subevents);
+		//count, tc, tv
+		store = new TreeStore(typeof (string), typeof (string), typeof(string));
+		treeview_subevents.Model = store;
+		fillTreeView (treeview_subevents, store, myJump);
+	
+		button_add_before.Sensitive = false;
+		button_add_after.Sensitive = false;
+		button_delete.Sensitive = false;
+		
+		label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+	}
+	
+	static public RepairJumpRjWindow Show (Gtk.Window parent, JumpRj myJump)
+	{
+		//Console.WriteLine(myJump);
+		if (RepairJumpRjWindowBox == null) {
+			RepairJumpRjWindowBox = new RepairJumpRjWindow (parent, myJump);
+		}
+		
+		RepairJumpRjWindowBox.repair_sub_event.Show ();
+
+		return RepairJumpRjWindowBox;
+	}
+	
+	private string createTextForTextView (JumpType myJumpType) {
+		string jumpTypeString = string.Format(Catalog.GetString(
+					"JumpType: {0}."), myJumpType.Name);
+
+		//if it's a jump type that starts in, then don't allow first TC be different than -1
+		string startString = "";
+		if(myJumpType.StartIn) {
+			startString = string.Format(Catalog.GetString("\nThis jump type starts inside, the first time should be a flight time."));
+		}
+
+		string fixedString = "";
+		if(myJumpType.FixedValue > 0) {
+			if(myJumpType.JumpsLimited) {
+				//if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TV if found
+				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed for {0} jumps, you cannot add more."), myJumpType.FixedValue);
+			} else {
+				//if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
+				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed for {0} seconds, totaltime cannot be greater."), myJumpType.FixedValue);
+			}
+		}
+		return jumpTypeString + startString + fixedString;
+	}
+
+	
+	private void createTreeView (Gtk.TreeView myTreeView) {
+		myTreeView.HeadersVisible=true;
+		int count = 0;
+
+		myTreeView.AppendColumn ( Catalog.GetString ("Count"), new CellRendererText(), "text", count++);
+		//myTreeView.AppendColumn ( Catalog.GetString ("TC"), new CellRendererText(), "text", count++);
+		//myTreeView.AppendColumn ( Catalog.GetString ("TV"), new CellRendererText(), "text", count++);
+
+		Gtk.TreeViewColumn tcColumn = new Gtk.TreeViewColumn ();
+		tcColumn.Title = Catalog.GetString("TC");
+		Gtk.CellRendererText tcCell = new Gtk.CellRendererText ();
+		tcCell.Editable = true;
+		tcCell.Edited += tcCellEdited;
+		tcColumn.PackStart (tcCell, true);
+		tcColumn.AddAttribute(tcCell, "text", count ++);
+		myTreeView.AppendColumn ( tcColumn );
+		
+		Gtk.TreeViewColumn tvColumn = new Gtk.TreeViewColumn ();
+		tvColumn.Title = Catalog.GetString("TV");
+		Gtk.CellRendererText tvCell = new Gtk.CellRendererText ();
+		tvCell.Editable = true;
+		tvCell.Edited += tvCellEdited;
+		tvColumn.PackStart (tvCell, true);
+		tvColumn.AddAttribute(tvCell, "text", count ++);
+		myTreeView.AppendColumn ( tvColumn );
+	}
+	
+	private void tcCellEdited (object o, Gtk.EditedArgs args)
+	{
+		Gtk.TreeIter iter;
+		store.GetIter (out iter, new Gtk.TreePath (args.Path));
+		if(Util.IsNumber(args.NewText) && (string) treeview_subevents.Model.GetValue(iter,1) != "-1") {
+			//if it's limited by fixed value of seconds
+			//and new seconds are bigger than allowed, return
+			if(jumpType.FixedValue > 0 && ! jumpType.JumpsLimited &&
+					getTotalTime() //current total time in treeview
+					- Convert.ToDouble((string) treeview_subevents.Model.GetValue(iter,1)) //-old cell
+					+ Convert.ToDouble(args.NewText) //+new cell
+					> jumpType.FixedValue) {	//bigger than allowed
+				return;
+			} else {
+				store.SetValue(iter, 1, args.NewText);
+
+				//update the totaltime label
+				label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+			}
+		}
+		
+		//if is not number or if it was -1, the old data will remain
+	}
+
+	private void tvCellEdited (object o, Gtk.EditedArgs args)
+	{
+		Gtk.TreeIter iter;
+		store.GetIter (out iter, new Gtk.TreePath (args.Path));
+		if(Util.IsNumber(args.NewText) && (string) treeview_subevents.Model.GetValue(iter,2) != "-1") {
+			//if it's limited by fixed value of seconds
+			//and new seconds are bigger than allowed, return
+			if(jumpType.FixedValue > 0 && ! jumpType.JumpsLimited &&
+					getTotalTime() //current total time in treeview
+					- Convert.ToDouble((string) treeview_subevents.Model.GetValue(iter,2)) //-old cell
+					+ Convert.ToDouble(args.NewText) //+new cell
+					> jumpType.FixedValue) {	//bigger than allowed
+				return;
+			} else {
+				store.SetValue(iter, 2, args.NewText);
+				
+				//update the totaltime label
+				label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+			}
+		}
+		//if is not number or if it was -1, the old data will remain
+	}
+
+	private double getTotalTime() {
+		TreeIter myIter;
+		double totalTime = 0;
+		bool iterOk = store.GetIterFirst (out myIter);
+		if(iterOk) {
+			do {
+				double myTc = Convert.ToDouble((string) treeview_subevents.Model.GetValue(myIter, 1));
+				double myTv = Convert.ToDouble((string) treeview_subevents.Model.GetValue(myIter, 2));
+				if(myTc != -1) totalTime += myTc;
+				if(myTv != -1) totalTime += myTv;
+			} while (store.IterNext (ref myIter));
+		}
+		return totalTime;
+	}
+	
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, JumpRj myJump)
+	{
+		if(myJump.TcString.Length > 0 && myJump.TvString.Length > 0) {
+			string [] tcArray = myJump.TcString.Split(new char[] {'='});
+			string [] tvArray = myJump.TvString.Split(new char[] {'='});
+
+			int count = 0;
+			foreach (string myTc in tcArray) {
+				string myTv;
+				if(tvArray.Length >= count)
+					myTv = tvArray[count];
+				else
+					myTv = "";
+				
+				store.AppendValues ( (count+1).ToString(), myTc, myTv );
+				count ++;
+			}
+		}
+	}
+
+			
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		RepairJumpRjWindowBox.repair_sub_event.Hide();
+		RepairJumpRjWindowBox = null;
+	}
+	
+	void on_delete_event (object o, EventArgs args)
+	{
+		RepairJumpRjWindowBox.repair_sub_event.Hide();
+		RepairJumpRjWindowBox = null;
+	}
+	
+	void on_treeview_cursor_changed (object o, EventArgs args) {
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+		
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			button_add_before.Sensitive = true;
+			button_add_after.Sensitive = true;
+			button_delete.Sensitive = true;
+
+			//don't allow to add a row before the first if first row has a -1 in 'TC'
+			//also don't allow deleting
+			if((string) model.GetValue (iter, 1) == "-1") {
+				button_add_before.Sensitive = false;
+				button_delete.Sensitive = false;
+			}
+
+			//don't allow to add a row after the last if it has a -1
+			//also don't allow deleting
+			//the only -1 in flight time can be in the last row
+			if((string) model.GetValue (iter, 2) == "-1") {
+				button_add_after.Sensitive = false;
+				button_delete.Sensitive = false;
+			}
+			
+			//don't allow to add a row before or after 
+			//if the jump type is fixed to n jumps and we reached n
+			if(jumpType.FixedValue > 0 && jumpType.JumpsLimited) {
+				int lastRow = 0;
+				do {
+					lastRow = Convert.ToInt32 ((string) model.GetValue (iter, 0));
+				} while (store.IterNext (ref iter));
+
+				//don't allow if max rows reached
+				if(lastRow == jumpType.FixedValue ||
+						( lastRow == jumpType.FixedValue +1 && jumpType.StartIn) ) {
+					button_add_before.Sensitive = false;
+					button_add_after.Sensitive = false;
+				}
+			}
+		}
+	}
+
+	void on_button_add_before_clicked (object o, EventArgs args) {
+		TreeModel model; 
+		TreeIter iter; 
+		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
+			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
+			store.Insert(out iter, position);
+			store.SetValue(iter, 1, "0");
+			store.SetValue(iter, 2, "0");
+			putRowNumbers(store);
+		}
+	}
+	
+	void on_button_add_after_clicked (object o, EventArgs args) {
+		TreeModel model; 
+		TreeIter iter; 
+		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
+			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
+			store.Insert(out iter, position);
+			store.SetValue(iter, 1, "0");
+			store.SetValue(iter, 2, "0");
+			putRowNumbers(store);
+		}
+	}
+	
+	private void putRowNumbers(TreeStore myStore) {
+		TreeIter myIter;
+		bool iterOk = myStore.GetIterFirst (out myIter);
+		if(iterOk) {
+			int count = 1;
+			do {
+				store.SetValue(myIter, 0, (count++).ToString());
+			} while (myStore.IterNext (ref myIter));
+		}
+	}
+		
+	void on_button_delete_clicked (object o, EventArgs args) {
+		TreeModel model; 
+		TreeIter iter; 
+		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
+			store.Remove(ref iter);
+			putRowNumbers(store);
+		
+			label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+
+			button_add_before.Sensitive = false;
+			button_add_after.Sensitive = false;
+			button_delete.Sensitive = false;
+		}
+	}
+	
+	void on_button_accept_clicked (object o, EventArgs args)
+	{
+		//foreach all lines
+		//create a jumpRj calculating all the data for the new changes
+		//save it 
+		//close the window
 	}
 
 	public Button Button_accept 

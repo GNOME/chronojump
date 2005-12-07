@@ -267,6 +267,45 @@ class SqliteJumpType : Sqlite
 		return myTypes;
 	}
 	
+	public static JumpType SelectAndReturnJumpRjType(string typeName) 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM jumpRjType " +
+			" WHERE name  = '" + typeName +
+			"' ORDER BY uniqueID";
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		JumpType myJumpType = new JumpType();
+		
+		while(reader.Read()) {
+			myJumpType.Name = reader[1].ToString();
+			
+			if(reader[2].ToString() == "1") { myJumpType.StartIn = true; }
+			else { myJumpType.StartIn = false; }
+			
+			if(reader[3].ToString() == "1") { myJumpType.HasWeight = true; }
+			else { myJumpType.HasWeight = false; }
+			
+			myJumpType.IsRepetitive = false;
+			
+			if(reader[4].ToString() == "1") { myJumpType.JumpsLimited = true; }
+			else { myJumpType.JumpsLimited = false; }
+			
+			myJumpType.FixedValue = Convert.ToInt32( reader[5].ToString() );
+		}
+
+		reader.Close();
+		dbcon.Close();
+
+		return myJumpType;
+	}
+	
 	public static bool Exists(string typeName)
 	{
 		dbcon.Open();
@@ -313,13 +352,12 @@ class SqliteJumpType : Sqlite
 		return hasWeight;
 	}
 
-	//we know if it has fall if it starts in and 
-	//it's in jumpType table (not jumpRjType)
-	public static bool HasFall(string typeName) 
+	//we know if it has fall if it starts in 
+	public static bool HasFall(string tableName, string typeName) 
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT startIn " +
-			" FROM jumpType " +
+			" FROM " + tableName +
 			" WHERE name == '" + typeName + "'";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());

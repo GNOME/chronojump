@@ -12,8 +12,9 @@ chronojump 0.5
 	- add realtime info of every jump
 	- show realtime graph of some different color lights depending on the value respect previous jumps
 	- add conditions for finishing a jump or run ("when Q index is under x three times" ...) 
-- edit reactive jump and intervalic run
-- stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...) DONE!
+- edit reactive jump and intervalic run [WIP 75%]
+- stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...) [DONE]
+- chronojump should be able of reading from usb with a serial-usb cable (ttyUSB0)
 
 chronojump 0.6
 --------------

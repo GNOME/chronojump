@@ -48,6 +48,9 @@ public class Util
 	//used for load from the database all numbers with correct decimal separator (locale defined)
 	//used also for the tvString, tcString, and runIntervalTimesString
 	public static string ChangeDecimalSeparator(string myString) {
+		if(myString == "") {
+			return "0";
+		}
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 		
@@ -275,5 +278,29 @@ public class Util
 		return directoryName;
 	}
 
+	//gets a string and returns if all the chars are numbers or the decimal point in current localization
+	//there should be also only one decimal point
+	//method made because i didn't find it in mono
+	public static bool IsNumber(string myString) {
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		
+		int countDecimals = 0;
+		foreach(char myChar in myString) {
+			if( ! System.Char.IsNumber(myChar) && myChar.ToString() != localeInfo.NumberDecimalSeparator ) {
+				return false;
+			}
+			if( myChar.ToString() == localeInfo.NumberDecimalSeparator ) {
+				countDecimals ++;
+			}
+		}
+		if(countDecimals > 1) { return false; }
+
+		//false if it's blank, or if it's only a decimal "."
+		if(myString.Length == 0 || (myString.Length == 1 && countDecimals == 1)) { 
+			return false; }
+				
+		return true;
+	}
 }
 

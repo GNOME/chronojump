@@ -1,5 +1,15 @@
 CHANGELOG:
 
+7 des 2005
+	new window: repair_sub_events, allows repair reactive jumps by parts (future also runs). 
+	Currently can add, edit, remove subjumps (different actions depending
+	on jumpType and selected row)
+	TODO: record the new data
+
+	BUG fixed in detection of it startsIn in Rjs creation
+	BUG fixed in ChangeDecimalSeparator when no data is selected (affects
+	edit jumps and runs)
+	
 5 des 2005
 	TODO: errorWindow in auto changing to simulated
 

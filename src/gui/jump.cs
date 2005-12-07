@@ -310,6 +310,7 @@ public class RepairJumpRjWindow
 	Gtk.Window parent;
 
 	JumpType jumpType;
+	JumpRj jumpRj; //used on button_accept
 	
 
 	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump) {
@@ -317,6 +318,7 @@ public class RepairJumpRjWindow
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		this.jumpRj = myJump;
 	
 		repair_sub_event.Title = Catalog.GetString("Repair reactive jump");
 		
@@ -489,19 +491,6 @@ public class RepairJumpRjWindow
 		}
 	}
 
-			
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		RepairJumpRjWindowBox.repair_sub_event.Hide();
-		RepairJumpRjWindowBox = null;
-	}
-	
-	void on_delete_event (object o, EventArgs args)
-	{
-		RepairJumpRjWindowBox.repair_sub_event.Hide();
-		RepairJumpRjWindowBox = null;
-	}
-	
 	void on_treeview_cursor_changed (object o, EventArgs args) {
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -597,12 +586,70 @@ public class RepairJumpRjWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		//foreach all lines
-		//create a jumpRj calculating all the data for the new changes
-		//save it 
+		//foreach all lines... extrac tcString and tvString
+		TreeIter myIter;
+		string tcString = "";
+		string tvString = "";
+		
+		bool iterOk = store.GetIterFirst (out myIter);
+		if(iterOk) {
+			int count = 1;
+			string equal= ""; //first iteration should not appear '='
+			do {
+				tcString = tcString + equal + (string) treeview_subevents.Model.GetValue (myIter, 1);
+				tvString = tvString + equal + (string) treeview_subevents.Model.GetValue (myIter, 2);
+				equal = "=";
+			} while (store.IterNext (ref myIter));
+		}
+			
+		//calculate other variables needed for jumpRj creation
+		
+		int jumps = Util.GetNumberOfJumps(tvString);
+		string limitString = "";
+	
+		if(jumpType.FixedValue > 0) {
+			//if this jumpType has a fixed value of jumps or time, limitstring has not changed
+			if(jumpType.JumpsLimited) {
+				limitString = jumpType.FixedValue.ToString() + "J";
+			} else {
+				limitString = jumpType.FixedValue.ToString() + "T";
+			}
+		} else {
+			//else limitstring should be calculated
+			if(jumpType.JumpsLimited) {
+				limitString = jumps.ToString() + "J";
+			} else {
+				limitString = Util.GetTotalTime(tcString, tvString) + "T";
+			}
+		}
+
+		//save it deleting the old first for having the same uniqueID
+		SqliteJump.Delete("jumpRj", jumpRj.UniqueID.ToString());
+		int uniqueID = SqliteJump.InsertRj(jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
+				jumpRj.Type, Util.GetMax(tvString), Util.GetMax(tcString), 
+				jumpRj.Fall, jumpRj.Weight, jumpRj.Description,
+				Util.GetAverage(tvString), Util.GetAverage(tcString),
+				tvString, tcString,
+				jumps, Util.GetTotalTime(tcString, tvString), limitString
+				);
+
 		//close the window
+		RepairJumpRjWindowBox.repair_sub_event.Hide();
+		RepairJumpRjWindowBox = null;
 	}
 
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		RepairJumpRjWindowBox.repair_sub_event.Hide();
+		RepairJumpRjWindowBox = null;
+	}
+	
+	void on_delete_event (object o, EventArgs args)
+	{
+		RepairJumpRjWindowBox.repair_sub_event.Hide();
+		RepairJumpRjWindowBox = null;
+	}
+	
 	public Button Button_accept 
 	{
 		set { button_accept = value;	}

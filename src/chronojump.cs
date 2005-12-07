@@ -62,6 +62,7 @@ public class ChronoJump
 	[Widget] Gtk.Button button_edit_selected_jump_rj;
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_repair_selected_reactive_jump;
+	[Widget] Gtk.MenuItem menuitem_repair_selected_reactive_jump;
 	
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type_run;
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type_run_interval;
@@ -790,6 +791,7 @@ public class ChronoJump
 		button_edit_selected_jump_rj.Sensitive = true;
 		button_delete_selected_jump_rj.Sensitive = true;
 		button_repair_selected_reactive_jump.Sensitive = true;
+		menuitem_repair_selected_reactive_jump.Sensitive = true;
 
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps, treeview_jumps_store, myText);
@@ -1478,9 +1480,7 @@ public class ChronoJump
 			}
 		
 			//change to page 0 of notebook if were in other
-			while(notebook.CurrentPage > 0) {
-				notebook.PrevPage();
-			}
+			notebook_change(0);
 		}
 		
 		//unhide buttons that allow jumping
@@ -1633,12 +1633,7 @@ public class ChronoJump
 			}
 
 			//change to page 1 of notebook if were in other
-			if(notebook.CurrentPage == 0) {
-				notebook.NextPage();
-			}
-			while(notebook.CurrentPage > 1) {
-				notebook.PrevPage();
-			}
+			notebook_change(1);
 		}
 		
 		//unhide buttons that allow jumping
@@ -1771,12 +1766,7 @@ public class ChronoJump
 			}
 		
 			//change to page 2 of notebook if were in other
-			while(notebook.CurrentPage < 2) {
-				notebook.NextPage();
-			}
-			while(notebook.CurrentPage > 2) {
-				notebook.PrevPage();
-			}
+			notebook_change(2);
 		}
 		
 		//unhide buttons that allow jumping, running
@@ -1917,10 +1907,8 @@ public class ChronoJump
 				statsWin.FillTreeView_stats(false, false);
 			}
 
-			//change to page 4 of notebook if were in other
-			if(notebook.CurrentPage < 4) {
-				notebook.NextPage();
-			}
+			//change to page 3 of notebook if were in other
+			notebook_change(3);
 		}
 		
 		sensitiveGuiYesJump();
@@ -1936,6 +1924,15 @@ public class ChronoJump
 	 *  --------------------------------------------------------
 	 */
 	
+	private void notebook_change(int desiredPage) {
+		if(notebook.CurrentPage < desiredPage) {
+			notebook.NextPage();
+		}
+		while(notebook.CurrentPage > desiredPage) {
+			notebook.PrevPage();
+		}
+	}
+	
 	private void on_last_delete (object o, EventArgs args) {
 		Console.WriteLine("delete last (jump or run)");
 		
@@ -1944,11 +1941,15 @@ public class ChronoJump
 			if (askDeletion) {
 				int myID = myTreeViewJumps.JumpSelectedID;
 				if(lastJumpIsReactive) {
+					notebook_change(1);
 					warningString = Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"); 
 					myID = myTreeViewJumpsRj.JumpSelectedID;
+				} else {
+					notebook_change(0);
 				}
+				
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, 
-						Catalog.GetString("Do you want to delete selected jump?"), 
+						Catalog.GetString("Do you want to delete last jump?"), 
 						warningString, "jump", myID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_jump_delete_accepted);
 			} else {
@@ -1962,9 +1963,13 @@ public class ChronoJump
 					warningString = Catalog.GetString("Atention: Deleting a intervalic sub-run will delete all the run"); 
 					myID = myTreeViewRunsInterval.JumpSelectedID;
 					*/
+					notebook_change(3);
+				} else {
+					notebook_change(2);
 				}
+				
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, 
-						Catalog.GetString("Do you want to delete selected run?"), 
+						Catalog.GetString("Do you want to delete last run?"), 
 						warningString, "run", myID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_run_delete_accepted);
 			} else {
@@ -2016,6 +2021,7 @@ public class ChronoJump
 	}
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
+		notebook_change(0);
 		Console.WriteLine("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -2030,6 +2036,7 @@ public class ChronoJump
 	}
 	
 	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args) {
+		notebook_change(1);
 		Console.WriteLine("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -2044,6 +2051,7 @@ public class ChronoJump
 	}
 	
 	private void on_repair_selected_reactive_jump_clicked (object o, EventArgs args) {
+		notebook_change(1);
 		Console.WriteLine("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -2081,9 +2089,17 @@ public class ChronoJump
 	
 	private void on_repair_selected_reactive_jump_accepted (object o, EventArgs args) {
 		Console.WriteLine("Repair selected reactive jump accepted");
+		
+		treeview_jumps_rj_storeReset();
+		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, combo_jumps_rj.Entry.Text);
+		
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
 	}
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
+		notebook_change(0);
 		Console.WriteLine("delete selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
@@ -2101,6 +2117,7 @@ public class ChronoJump
 	}
 	
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
+		notebook_change(1);
 		Console.WriteLine("delete selected reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -2162,6 +2179,7 @@ public class ChronoJump
 	 */
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
+		notebook_change(2);
 		Console.WriteLine("Edit selected run (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -2177,6 +2195,7 @@ public class ChronoJump
 	}
 	
 	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
+		notebook_change(3);
 		Console.WriteLine("Edit selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
@@ -2214,6 +2233,7 @@ public class ChronoJump
 	}
 
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
+		notebook_change(2);
 		Console.WriteLine("delete selected run (normal)");
 		
 		//1.- check that there's a line selected
@@ -2232,6 +2252,7 @@ public class ChronoJump
 		
 	
 	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
+		notebook_change(3);
 		Console.WriteLine("delete selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
@@ -2401,6 +2422,7 @@ public class ChronoJump
 		button_edit_selected_jump_rj.Sensitive = false;
 		button_delete_selected_jump_rj.Sensitive = false;
 		button_repair_selected_reactive_jump.Sensitive = false;
+		menuitem_repair_selected_reactive_jump.Sensitive = false;
 		menuitem_edit_selected_run.Sensitive = false;
 		menuitem_delete_selected_run.Sensitive = false;
 		button_edit_selected_run.Sensitive = false;
@@ -2427,7 +2449,6 @@ public class ChronoJump
 		menu_view.Sensitive = true;
 		
 		jump_type_add.Sensitive = true;
-		button_last_delete.Sensitive = true;
 		
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
@@ -2446,6 +2467,7 @@ public class ChronoJump
 		button_edit_selected_jump_rj.Sensitive = true;
 		button_delete_selected_jump_rj.Sensitive = true;
 		button_repair_selected_reactive_jump.Sensitive = true;
+		menuitem_repair_selected_reactive_jump.Sensitive = true;
 		menuitem_edit_selected_run.Sensitive = true;
 		menuitem_delete_selected_run.Sensitive = true;
 		button_edit_selected_run.Sensitive = true;

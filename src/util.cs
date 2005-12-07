@@ -168,7 +168,8 @@ public class Util
 			string [] jumpsSeparated = myString.Split(new char[] {'='});
 			int count = 0;
 			foreach (string temp in jumpsSeparated) {
-				count++;
+				if(temp != "-1")
+					count++;
 			}
 			if(count == 0) { count =1; }
 			
@@ -187,10 +188,12 @@ public class Util
 			double totalTime = 0;
 
 			foreach (string jump in tc) {
-				totalTime = totalTime + Convert.ToDouble(jump);
+				if(jump != "-1") 
+					totalTime = totalTime + Convert.ToDouble(jump);
 			}
 			foreach (string jump in tv) {
-				totalTime = totalTime + Convert.ToDouble(jump);
+				if(jump != "-1") 
+					totalTime = totalTime + Convert.ToDouble(jump);
 			}
 
 			return totalTime ;

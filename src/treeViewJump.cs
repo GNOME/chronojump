@@ -168,9 +168,9 @@ public class TreeViewJumps
 					if (Util.HasFall(jumpTypes, newJump.Type)) {
 						myFall = newJump.Fall + "cm";
 					} 
-					double myWeight = 0;
+					string myWeightString = "";
 					if (Util.HasWeight(jumpTypes, newJump.Type)) {
-						myWeight = newJump.Weight;
+						myWeightString = newJump.Weight.ToString();
 					}
 			
 					int colsNum = obtainJumpIDColumn() +1;
@@ -179,7 +179,7 @@ public class TreeViewJumps
 					myData[count++] = newJump.Type;
 					myData[count++] = Util.TrimDecimals( newJump.Tc.ToString(), pDN );
 					myData[count++] = Util.TrimDecimals( newJump.Tv.ToString(), pDN );
-					myData[count++] = myWeight.ToString();
+					myData[count++] = myWeightString;
 					myData[count++] = myFall;
 					if(showHeight) {
 						myData[count++] = Util.TrimDecimals( Util.GetHeightInCentimeters( newJump.Tv.ToString() ), pDN );

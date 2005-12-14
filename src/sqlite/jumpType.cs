@@ -292,7 +292,7 @@ class SqliteJumpType : Sqlite
 			if(reader[3].ToString() == "1") { myJumpType.HasWeight = true; }
 			else { myJumpType.HasWeight = false; }
 			
-			myJumpType.IsRepetitive = false;
+			myJumpType.IsRepetitive = true;
 			
 			if(reader[4].ToString() == "1") { myJumpType.JumpsLimited = true; }
 			else { myJumpType.JumpsLimited = false; }

@@ -159,7 +159,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.4";
+	private static string progversion = "0.41";
 	private static string progname = "Chronojump";
 	
 	//normal jumps
@@ -222,6 +222,7 @@ public class ChronoJump
 	RunsIntervalMoreWindow runsIntervalMoreWin;
 	RunTypeAddWindow runTypeAddWin;
 	EditRunWindow editRunWin;
+	RepairRunIntervalWindow repairRunIntervalWin;
 	EditRunIntervalWindow editRunIntervalWin;
 
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
@@ -2003,7 +2004,7 @@ public class ChronoJump
 		if (lastRunIsInterval) {
 			//SqliteRun.RjDelete(currentRunRj.UniqueID.ToString());
 		} else {
-			SqliteRun.Delete(currentRun.UniqueID.ToString());
+			SqliteRun.Delete("run", currentRun.UniqueID.ToString());
 		}
 		button_last_delete.Sensitive = false ;
 
@@ -2210,6 +2211,22 @@ public class ChronoJump
 		}
 	}
 	
+	private void on_repair_selected_interval_run_clicked (object o, EventArgs args) {
+		notebook_change(3);
+		Console.WriteLine("Repair selected subrun");
+		//1.- check that there's a line selected
+		//2.- check that this line is a run and not a person 
+		//(check also if it's not a individual run interval, then pass the parent run interval)
+		if (myTreeViewRunsInterval.RunSelectedID > 0) {
+			//3.- obtain the data of the selected run
+			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.RunSelectedID );
+		
+			//4.- edit this run
+			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun);
+			repairRunIntervalWin.Button_accept.Clicked += new EventHandler(on_repair_selected_run_interval_accepted);
+		}
+	}
+	
 	private void on_edit_selected_run_accepted (object o, EventArgs args) {
 		Console.WriteLine("edit selected run accepted");
 		
@@ -2223,6 +2240,17 @@ public class ChronoJump
 	
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
 		Console.WriteLine("edit selected run interval accepted");
+		
+		treeview_runs_interval_storeReset();
+		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, combo_runs_interval.Entry.Text);
+		
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
+	}
+
+	private void on_repair_selected_run_interval_accepted (object o, EventArgs args) {
+		Console.WriteLine("repair selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, combo_runs_interval.Entry.Text);
@@ -2272,7 +2300,7 @@ public class ChronoJump
 	private void on_delete_selected_run_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected run");
 		
-		SqliteRun.Delete( (myTreeViewRuns.RunSelectedID).ToString() );
+		SqliteRun.Delete( "run", (myTreeViewRuns.RunSelectedID).ToString() );
 		
 		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.RunSelectedID );
 	
@@ -2286,7 +2314,7 @@ public class ChronoJump
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected run");
 		
-		SqliteRun.IntervalDelete( (myTreeViewRunsInterval.RunSelectedID).ToString() );
+		SqliteRun.Delete( "runInterval", (myTreeViewRunsInterval.RunSelectedID).ToString() );
 		
 		appbar2.Push( Catalog.GetString ( "Deleted interval run: " ) + myTreeViewRunsInterval.RunSelectedID );
 	

@@ -86,11 +86,28 @@ public class Util
 		return max ; 
 	}
 	
+	//don't use if there are no jumps, then the big value 999999999 could return
+	public static double GetMin (string values)
+	{
+		string [] myStringFull = values.Split(new char[] {'='});
+		double min = 999999999999;
+		foreach (string jump in myStringFull) {
+			if ( Convert.ToDouble(jump) < min ) {
+				min = Convert.ToDouble(jump);
+			}
+		}
+		return min ; 
+	}
+	
 	public static double GetAverage (string values)
 	{
 		string [] myStringFull = values.Split(new char[] {'='});
 		double myAverage = 0;
 		double myCount = 0;
+
+		//if(myStringFull[0] == "-1") {
+		//	return 0;
+		//}
 		foreach (string jump in myStringFull) {
 			//if there's a -1 value, should not be counted in the averages
 			if(Convert.ToDouble(jump) != -1) {
@@ -98,7 +115,8 @@ public class Util
 				myCount ++;
 			}
 		}
-		return myAverage / myCount ; 
+		if (myAverage == 0 || myCount == 0) { return 0; } //fixes problems when processing only a -1
+		else { return myAverage / myCount ; }
 	}
 
 	//useful for jumpType and jumpRjType, because the third value is the same
@@ -216,6 +234,22 @@ public class Util
 			return totalTime ;
 		} else {
 			return 0;
+		}
+	}
+
+	//we cannot count with GetNumberOfJumps because that method doesn't count the -1
+	//here we want to know if there's more tc data than tv and remove this tc not needed
+	//there's no need to record a las tc (currently)
+	public static string DeleteLastTcIfNeeded (string tcString, string tvString)
+	{
+		string [] tcFull = tcString.Split(new char[] {'='});
+		string [] tvFull = tvString.Split(new char[] {'='});
+
+		if(tcFull.Length > tvFull.Length) {
+			int lastEqualPos = tcString.LastIndexOf('=');
+			return tcString.Substring(0, lastEqualPos -1);
+		} else {
+			return tcString;
 		}
 	}
 	

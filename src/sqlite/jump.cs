@@ -342,17 +342,8 @@ class SqliteJump : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "Delete FROM " + jumpTable +
 			" WHERE uniqueID == " + uniqueID;
+		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
-
-	/*
-	public static void RjDelete(string uniqueID)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM jumpRj WHERE uniqueID == " + uniqueID;
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
-	*/
 }

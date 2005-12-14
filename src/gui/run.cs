@@ -241,6 +241,310 @@ public class EditRunIntervalWindow
 }
 
 //--------------------------------------------------------
+//---------------- Repair runInterval WIDGET -------------
+//--------------------------------------------------------
+
+public class RepairRunIntervalWindow 
+{
+	[Widget] Gtk.Window repair_sub_event;
+	[Widget] Gtk.Label label_header;
+	[Widget] Gtk.Label label_totaltime_value;
+	[Widget] Gtk.TreeView treeview_subevents;
+	private TreeStore store;
+	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_add_before;
+	[Widget] Gtk.Button button_add_after;
+	[Widget] Gtk.Button button_delete;
+	[Widget] Gtk.TextView textview1;
+
+	static RepairRunIntervalWindow RepairRunIntervalWindowBox;
+	Gtk.Window parent;
+
+	RunType runType;
+	RunInterval runInterval; //used on button_accept
+	
+
+	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
+
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+		this.runInterval = myRun;
+	
+		repair_sub_event.Title = Catalog.GetString("Repair interval run");
+		
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		label_header.Text = string.Format(Catalog.GetString("Use this window for repair a intervalic run\nDouble clic any cell for editing (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+	
+		
+		runType = SqliteRunType.SelectAndReturnRunIntervalType(myRun.Type);
+		
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.SetText(createTextForTextView(runType));
+		textview1.Buffer = tb;
+		
+		createTreeView(treeview_subevents);
+		//count, time
+		store = new TreeStore(typeof (string), typeof (string));
+		treeview_subevents.Model = store;
+		fillTreeView (treeview_subevents, store, myRun);
+	
+		button_add_before.Sensitive = false;
+		button_add_after.Sensitive = false;
+		button_delete.Sensitive = false;
+		
+		label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+	}
+	
+	static public RepairRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun)
+	{
+		//Console.WriteLine(myRun);
+		if (RepairRunIntervalWindowBox == null) {
+			RepairRunIntervalWindowBox = new RepairRunIntervalWindow (parent, myRun);
+		}
+		
+		RepairRunIntervalWindowBox.repair_sub_event.Show ();
+
+		return RepairRunIntervalWindowBox;
+	}
+	
+	private string createTextForTextView (RunType myRunType) {
+		string runTypeString = string.Format(Catalog.GetString(
+					"RunType: {0}."), myRunType.Name);
+
+		string fixedString = "";
+		if(myRunType.FixedValue > 0) {
+			if(myRunType.TracksLimited) {
+				//if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
+				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed for {0} runs, you cannot add more."), myRunType.FixedValue);
+			} else {
+				//if it's a run type timeLimited with a fixed value, then complain when the total time is higher
+				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed for {0} seconds, totaltime cannot be greater."), myRunType.FixedValue);
+			}
+		}
+		return runTypeString + fixedString;
+	}
+
+	
+	private void createTreeView (Gtk.TreeView myTreeView) {
+		myTreeView.HeadersVisible=true;
+		int count = 0;
+
+		myTreeView.AppendColumn ( Catalog.GetString ("Count"), new CellRendererText(), "text", count++);
+		//myTreeView.AppendColumn ( Catalog.GetString ("Time"), new CellRendererText(), "text", count++);
+
+		Gtk.TreeViewColumn timeColumn = new Gtk.TreeViewColumn ();
+		timeColumn.Title = Catalog.GetString("TV");
+		Gtk.CellRendererText timeCell = new Gtk.CellRendererText ();
+		timeCell.Editable = true;
+		timeCell.Edited += timeCellEdited;
+		timeColumn.PackStart (timeCell, true);
+		timeColumn.AddAttribute(timeCell, "text", count ++);
+		myTreeView.AppendColumn ( timeColumn );
+	}
+	
+	private void timeCellEdited (object o, Gtk.EditedArgs args)
+	{
+		Gtk.TreeIter iter;
+		store.GetIter (out iter, new Gtk.TreePath (args.Path));
+		if(Util.IsNumber(args.NewText)) {
+			//if it's limited by fixed value of seconds
+			//and new seconds are bigger than allowed, return
+			if(runType.FixedValue > 0 && ! runType.TracksLimited &&
+					getTotalTime() //current total time in treeview
+					- Convert.ToDouble((string) treeview_subevents.Model.GetValue(iter,1)) //-old cell
+					+ Convert.ToDouble(args.NewText) //+new cell
+					> runType.FixedValue) {	//bigger than allowed
+				return;
+			} else {
+				store.SetValue(iter, 1, args.NewText);
+
+				//update the totaltime label
+				label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+			}
+		}
+		
+		//if is not number or if it was -1, the old data will remain
+	}
+
+	private double getTotalTime() {
+		TreeIter myIter;
+		double totalTime = 0;
+		bool iterOk = store.GetIterFirst (out myIter);
+		if(iterOk) {
+			do {
+				double myTime = Convert.ToDouble((string) treeview_subevents.Model.GetValue(myIter, 1));
+				totalTime += myTime;
+			} while (store.IterNext (ref myIter));
+		}
+		return totalTime;
+	}
+	
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, RunInterval myRun)
+	{
+		if(myRun.IntervalTimesString.Length > 0) {
+			string [] timeArray = myRun.IntervalTimesString.Split(new char[] {'='});
+
+			int count = 0;
+			foreach (string myTime in timeArray) {
+				store.AppendValues ( (count+1).ToString(), myTime );
+				count ++;
+			}
+		}
+	}
+
+	void on_treeview_cursor_changed (object o, EventArgs args) {
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+		
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			button_add_before.Sensitive = true;
+			button_add_after.Sensitive = true;
+			button_delete.Sensitive = true;
+
+			//don't allow to add a row before or after 
+			//if the runtype is fixed to n runs and we reached n
+			if(runType.FixedValue > 0 && runType.TracksLimited) {
+				int lastRow = 0;
+				do {
+					lastRow = Convert.ToInt32 ((string) model.GetValue (iter, 0));
+				} while (store.IterNext (ref iter));
+
+				//don't allow if max rows reached
+				if(lastRow == runType.FixedValue) {
+					button_add_before.Sensitive = false;
+					button_add_after.Sensitive = false;
+				}
+			}
+		}
+	}
+
+	void on_button_add_before_clicked (object o, EventArgs args) {
+		TreeModel model; 
+		TreeIter iter; 
+		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
+			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
+			store.Insert(out iter, position);
+			store.SetValue(iter, 1, "0");
+			putRowNumbers(store);
+		}
+	}
+	
+	void on_button_add_after_clicked (object o, EventArgs args) {
+		TreeModel model; 
+		TreeIter iter; 
+		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
+			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
+			store.Insert(out iter, position);
+			store.SetValue(iter, 1, "0");
+			putRowNumbers(store);
+		}
+	}
+	
+	private void putRowNumbers(TreeStore myStore) {
+		TreeIter myIter;
+		bool iterOk = myStore.GetIterFirst (out myIter);
+		if(iterOk) {
+			int count = 1;
+			do {
+				store.SetValue(myIter, 0, (count++).ToString());
+			} while (myStore.IterNext (ref myIter));
+		}
+	}
+		
+	void on_button_delete_clicked (object o, EventArgs args) {
+		TreeModel model; 
+		TreeIter iter; 
+		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
+			store.Remove(ref iter);
+			putRowNumbers(store);
+		
+			label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+
+			button_add_before.Sensitive = false;
+			button_add_after.Sensitive = false;
+			button_delete.Sensitive = false;
+		}
+	}
+	
+	void on_button_accept_clicked (object o, EventArgs args)
+	{
+		//foreach all lines... extrac intervalTimesString
+		TreeIter myIter;
+		string timeString = "";
+		
+		bool iterOk = store.GetIterFirst (out myIter);
+		if(iterOk) {
+			int count = 1;
+			string equal= ""; //first iteration should not appear '='
+			do {
+				timeString = timeString + equal + (string) treeview_subevents.Model.GetValue (myIter, 1);
+				equal = "=";
+			} while (store.IterNext (ref myIter));
+		}
+			
+		//calculate other variables needed for runInterval creation
+		
+		int runs = Util.GetNumberOfJumps(timeString); //don't need a GetNumberOfRuns, this works
+		string limitString = "";
+	
+		if(runType.FixedValue > 0) {
+			//if this runType has a fixed value of runs or time, limitstring has not changed
+			if(runType.TracksLimited) {
+				limitString = runType.FixedValue.ToString() + "R";
+			} else {
+				limitString = runType.FixedValue.ToString() + "T";
+			}
+		} else {
+			//else limitstring should be calculated
+			if(runType.TracksLimited) {
+				limitString = runs.ToString() + "R";
+			} else {
+				limitString = Util.GetTotalTime(timeString) + "T";
+			}
+		}
+
+		//save it deleting the old first for having the same uniqueID
+		SqliteRun.Delete("runInterval", runInterval.UniqueID.ToString());
+		int uniqueID = SqliteRun.InsertInterval(runInterval.UniqueID.ToString(), 
+				runInterval.PersonID, runInterval.SessionID, 
+				runInterval.Type, 
+				runs * runInterval.DistanceInterval,	//distanceTotal
+				Util.GetTotalTime(timeString), //timeTotal
+				runInterval.DistanceInterval,		//distanceInterval
+				timeString, runs, 
+				runInterval.Description,
+				limitString
+				);
+
+		//close the window
+		RepairRunIntervalWindowBox.repair_sub_event.Hide();
+		RepairRunIntervalWindowBox = null;
+	}
+
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		RepairRunIntervalWindowBox.repair_sub_event.Hide();
+		RepairRunIntervalWindowBox = null;
+	}
+	
+	void on_delete_event (object o, EventArgs args)
+	{
+		RepairRunIntervalWindowBox.repair_sub_event.Hide();
+		RepairRunIntervalWindowBox = null;
+	}
+	
+	public Button Button_accept 
+	{
+		set { button_accept = value;	}
+		get { return button_accept;	}
+	}
+
+}
+
+//--------------------------------------------------------
 //---------------- run extra WIDGET --------------------
 //--------------------------------------------------------
 

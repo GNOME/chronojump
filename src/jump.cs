@@ -135,6 +135,7 @@ public class Jump
 
 			//reset progressBar
 			progressBar.Fraction = 0;
+			progressBar.Text = "";
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
@@ -177,6 +178,7 @@ public class Jump
 
 			//reset progressBar
 			progressBar.Fraction = 0;
+			progressBar.Text = "";
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
@@ -234,6 +236,7 @@ public class Jump
 						tc = timestamp / 1000;
 						
 						progressBar.Fraction = 0.66;
+						progressBar.Text = "tc: " + Util.TrimDecimals( tc.ToString(), pDN);
 					} else {
 						progressBar.Fraction = 0.5;
 					}
@@ -274,14 +277,18 @@ public class Jump
 	{
 		string tcString = "";
 		if(hasFall) {
-			Console.WriteLine("TC: {0}", tc.ToString());
+			//Console.WriteLine("TC: {0}", tc.ToString());
 			tcString = " TC: " + Util.TrimDecimals( tc.ToString(), pDN ) ;
 		} else {
 			tc = 0;
 		}
-		Console.WriteLine("TV: {0}", tv.ToString());
+			
+		//Console.WriteLine("TV: {0}", tv.ToString());
+		progressBar.Text = "tv: " + Util.TrimDecimals( tv.ToString(), pDN);
 		
-		string myStringPush =   Catalog.GetString("Last jump: ") + JumperName + " " + 
+		string myStringPush =   
+			//Catalog.GetString("Last jump: ") + 
+			JumperName + " " + 
 			type + tcString + " TV:" + Util.TrimDecimals( tv.ToString(), pDN ) ;
 		if(weight > 0) {
 			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
@@ -406,6 +413,8 @@ public class JumpRj : Jump
 	bool firstRjValue;
 	private double tcCount;
 	private double tvCount;
+	private double lastTc;
+	private double lastTv;
 	
 	//for finishing earlier from chronojump.cs
 	private bool finish;
@@ -555,6 +564,7 @@ public class JumpRj : Jump
 
 			//reset progressBar
 			progressBar.Fraction = 0;
+			progressBar.Text = "";
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
@@ -589,7 +599,6 @@ public class JumpRj : Jump
 			//update the progressBar if limit is time (and it's not an unlimited reactive jump)
 			if ( ! jumpsLimited && limitAsDouble != -1) {
 				double myPb = Util.GetTotalTime (tcString, tvString) / limitAsDouble ;
-				//if(myPb > 1.0) { myPb = 1.0; }
 				//don't allow progressBar be 1.0 before fakeButtonClick is called
 				if(myPb >= 1.0) { myPb = 0.99; }
 				progressBar.Fraction = myPb; 
@@ -603,10 +612,11 @@ public class JumpRj : Jump
 					//if reactive jump is "unlimited" not limited by jumps, nor time, 
 					//then play with the progress bar until finish button is pressed
 					if(limitAsDouble == -1) {
-						//double myPb = (tcCount + tvCount) / 5 ;
 						pbUnlimited += 0.19;
 						if(pbUnlimited >= 1.0) { pbUnlimited = 0; }
 						progressBar.Fraction = pbUnlimited; 
+						//pulse not used because cannot show text
+						//progressBar.Pulse();
 					}
 					else {
 						//change the progressBar percent
@@ -615,7 +625,7 @@ public class JumpRj : Jump
 						double myPb = (tcCount + tvCount) / limitAsDouble ;
 						if(myPb >= 1.0) { myPb = 0.99; }
 						progressBar.Fraction = myPb; 
-
+			
 						if(Util.GetNumberOfJumps(tcString) >= limitAsDouble && Util.GetNumberOfJumps(tvString) >= limitAsDouble)
 						{
 							//finished writing the TC, let's put a "-1" in the TV
@@ -653,18 +663,33 @@ public class JumpRj : Jump
 					} else {
 						//reactive jump has not finished... record the next jump
 						if (tcCount == tvCount) {
-							double myTc = timestamp/1000;
-							//Console.WriteLine("TC: {0}", myTc);
+							lastTc = timestamp/1000;
+							
+							//update progressBarText
+							//printRelatedInfo AVG will refer to data previous of current event
+							progressBar.Text = 
+								"tc: " +
+								Util.TrimDecimals( lastTc.ToString(), pDN) + 
+								printRelatedInfo(lastTc, tcString);
+							
 							if(tcCount > 0) { equal = "="; }
-							tcString = tcString + equal + myTc.ToString();
+							tcString = tcString + equal + lastTc.ToString();
 							tcCount = tcCount +.5;
 						} else {
 							//tcCount > tvCount 
-							double myTv = timestamp/1000;
-							//Console.WriteLine("TV: {0}", myTv);
+							lastTv = timestamp/1000;
+							
+							//update progressBarText
+							//printRelatedInfo AVG will refer to data previous of current event
+							progressBar.Text = 
+								"tv: " +
+								Util.TrimDecimals( lastTv.ToString(), pDN) +
+								printRelatedInfo(lastTv, tvString);
+							
 							if(tvCount > 0) { equal = "="; }
-							tvString = tvString + equal + myTv.ToString();
+							tvString = tvString + equal + lastTv.ToString();
 							tvCount = tvCount +.5;
+							
 						}
 					}
 				}
@@ -672,7 +697,12 @@ public class JumpRj : Jump
 		} while ( ! success && ! cancel && ! finish );
 		
 		if (finish) {
-			write();
+			if(Util.GetNumberOfJumps(tcString) >= 1 && Util.GetNumberOfJumps(tvString) >= 1) {
+				write();
+			} else {
+				//cancel a jump if clicked finish before any events done
+				cancel = true;
+			}
 		}
 		if(cancel || finish) {
 			//event will be raised, and managed in chronojump.cs
@@ -680,6 +710,24 @@ public class JumpRj : Jump
 		}
 	}
 				
+	private string printRelatedInfo(double myTime, string timeString) {
+		//don't print nothing if we didn't reached 2nd jump (first condition)
+		//there is only one record in timeString and it's a '-1', this means:
+		//for this jumpType there's no initial tc, and it's marked with the -1
+		//then the Util.GetAverage returns 0 (a impossible value) 
+		if(Util.GetNumberOfJumps(timeString) < 1 || Util.GetAverage(timeString) == 0) { 
+			return ""; 
+		}
+
+		//displayed for being easy and fast to understand
+		string myStr = string.Format(" ({0:000}%)", Convert.ToInt32(myTime / Util.GetAverage(timeString) * 100));
+	
+		if(myTime > Util.GetMax(timeString)) { myStr += " MAX"; } 
+		else if (myTime < Util.GetMin(timeString)) { myStr += " min"; }
+		else { myStr += "    "; }
+		
+		return myStr;
+	}
 
 	protected override void write()
 	{
@@ -689,6 +737,11 @@ public class JumpRj : Jump
 		//if user clicked in finish earlier
 		if(finish) {
 			jumps = Util.GetNumberOfJumps(tvString);
+
+			//if user clicked finish and last event was tc, probably there are more TCs than TVs
+			//if last event was tc, it has no sense, it should be deleted
+			tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
+					
 			if(jumpsLimited) {
 				limitString = jumps.ToString() + "J";
 			} else {
@@ -713,7 +766,9 @@ public class JumpRj : Jump
 				jumps, Util.GetTotalTime(tcString, tvString), limitString
 				);
 
-		string myStringPush =   Catalog.GetString("Last jump: ") + JumperName + " " + 
+		string myStringPush =   
+			//Catalog.GetString("Last jump: ") + 
+			JumperName + " " + 
 			type + " (" + limitString + ") " +
 			" AVG TV: " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
 			" AVG TC: " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;

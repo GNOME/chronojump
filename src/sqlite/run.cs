@@ -87,12 +87,12 @@ class SqliteRun : Sqlite
 		return myLast;
 	}
 	
-	public static int InsertInterval(int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited )
+	public static int InsertInterval(string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited )
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO runInterval " + 
 				"(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited )" +
-				"VALUES (NULL, " +
+				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", '" + type + "', " +
 				Util.ConvertToPoint(distanceTotal) + ", " + 
 				Util.ConvertToPoint(timeTotal) + ", " + 
@@ -304,19 +304,12 @@ class SqliteRun : Sqlite
 		dbcon.Close();
 	}
 
-	public static void Delete(string uniqueID)
+	public static void Delete(string runTable, string uniqueID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM run WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + runTable + 
+			" WHERE uniqueID == " + uniqueID;
 		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
-
-	public static void IntervalDelete(string uniqueID)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM runInterval WHERE uniqueID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}

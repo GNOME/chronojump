@@ -251,6 +251,43 @@ class SqliteRunType : Sqlite
 
 		return myTypes;
 	}
+
+	public static RunType SelectAndReturnRunIntervalType(string typeName) 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM runIntervalType " +
+			" WHERE name  = '" + typeName +
+			"' ORDER BY uniqueID";
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		RunType myRunType = new RunType();
+		
+		while(reader.Read()) {
+			myRunType.Name = reader[1].ToString();
+			
+			myRunType.Distance = Convert.ToInt32( reader[2].ToString() );
+			
+			myRunType.HasIntervals = true;
+			
+			if(reader[3].ToString() == "1") { myRunType.TracksLimited = true; }
+			else { myRunType.TracksLimited = false; }
+			
+			myRunType.FixedValue = Convert.ToInt32( reader[4].ToString() );
+			if(reader[5].ToString() == "1") { myRunType.Unlimited = true; }
+			else { myRunType.Unlimited = false; }
+		}
+
+		reader.Close();
+		dbcon.Close();
+
+		return myRunType;
+	}
 	
 	public static bool Exists(string typeName)
 	{

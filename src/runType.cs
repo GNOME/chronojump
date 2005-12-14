@@ -31,6 +31,9 @@ public class RunType
 	protected int fixedValue;
 	protected bool unlimited;
 
+	public RunType() {
+	}
+	
 	//predefined values
 	public RunType(string name) {
 		this.name = name;
@@ -126,31 +129,37 @@ public class RunType
 	public string Name
 	{
 		get { return name; }
+		set { name = value; }
 	}
 	
 	public double Distance
 	{
 		get { return distance; }
+		set { distance = value; }
 	}
 	
 	public bool HasIntervals
 	{
 		get { return hasIntervals; }
+		set { hasIntervals = value; }
 	}
 	
 	public bool TracksLimited
 	{
 		get { return tracksLimited; }
+		set { tracksLimited = value; }
 	}
 	
-	public double FixedValue
+	public int FixedValue
 	{
 		get { return fixedValue; }
+		set { fixedValue = value; }
 	}
 	
 	public bool Unlimited
 	{
 		get { return unlimited; }
+		set { unlimited = value; }
 	}
 }
 

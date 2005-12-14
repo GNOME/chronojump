@@ -585,7 +585,7 @@ public class RunInterval : Run
 		distanceTotal = tracks * distanceInterval;
 		timeTotal = Util.GetTotalTime(intervalTimesString); 
 			
-		uniqueID = SqliteRun.InsertInterval(personID, sessionID, type, 
+		uniqueID = SqliteRun.InsertInterval("NULL", personID, sessionID, type, 
 				distanceTotal, timeTotal,
 				distanceInterval, intervalTimesString, tracks, 
 				"", 					//description

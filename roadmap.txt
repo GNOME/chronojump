@@ -9,10 +9,10 @@ chronojump 0.5
 
 - plot rjevolution consecutives in colors
 - Chronojump will be a tool for training, not only for showing the results of train:
-	- add realtime info of every jump
+	- add realtime info of every reactive jump and intervalic run [DONE]
 	- show realtime graph of some different color lights depending on the value respect previous jumps
 	- add conditions for finishing a jump or run ("when Q index is under x three times" ...) 
-- edit reactive jump and intervalic run [WIP 75%]
+- edit reactive jump and intervalic run [DONE]
 - stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...) [DONE]
 - chronojump should be able of reading from usb with a serial-usb cable (ttyUSB0)
 

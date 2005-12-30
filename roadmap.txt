@@ -1,29 +1,29 @@
 CHRONOJUMP ROADMAP
 
-TODO:
-	add a printed from in the print pages (without the "print" directory)
-	add a little image in the print
-
 chronojump 0.5
 --------------
 
-- plot rjevolution consecutives in colors
+- print rjevolution consecutives in colors in the stats treeview
 - Chronojump will be a tool for training, not only for showing the results of train:
-	- add realtime info of every reactive jump and intervalic run [DONE]
-	- show realtime graph of some different color lights depending on the value respect previous jumps
-	- add conditions for finishing a jump or run ("when Q index is under x three times" ...) 
+	- add realtime info of every reactive jump and intervalic run [DONE for jumpsRj, runs pending]
+	- play a sound of different tone depending the evolution of rjs
 - edit reactive jump and intervalic run [DONE]
 - stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...) [DONE]
-- chronojump should be able of reading from usb with a serial-usb cable (ttyUSB0)
+- chronojump should be able of reading from usb with a serial-usb cable (usually /dev/ttyUSB0), and with a pcmcia (usually /dev/ttyS1) or others. Store in sqlite preferences [DONE] 
+- web: add a printed from in the print pages (without the "print" directory), add a little image in the print
 
 chronojump 0.6
 --------------
 
-- user defined numeric variables (ask for including in stats, graphs) (height, weight, sex are some of them)
-- XY graphs between any two variables
+- user defined numeric variables (ask for including in stats, graphs) (height, weight, sex are some of them) this can be always the same for a subject, or change every session
+- user defined non-numeric variables like sport (football, basquetball, ...)
+- XY graphs between any two variables (also non-numeric)
 - allow height and weight change for a different person in time and use it in intersession stats
+- add conditions for finishing a rj jump or interval run ("when Q index is under x three times" ...) 
+- convert all combos to non-writable (gtk-2.0 ?, glade-2.0?)
 
 chronojump 0.7
 --------------
 
 - add runs stats and graphs (with last numeric values and height, weight, ... evolution)
+- start rhythm code

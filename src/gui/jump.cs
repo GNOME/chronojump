@@ -100,8 +100,8 @@ public class EditJumpWindow
 		combo_jumpers = new Combo();
 		combo_jumpers.PopdownStrings = jumpers;
 		foreach (string jumper in jumpers) {
-			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ": " + myJump.JumperName);
-			if (jumper == myJump.PersonID + ": " + myJump.JumperName) {
+			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ": " + myJump.PersonName);
+			if (jumper == myJump.PersonID + ": " + myJump.PersonName) {
 				combo_jumpers.Entry.Text = jumper;
 			}
 		}
@@ -228,8 +228,8 @@ public class EditJumpRjWindow
 		combo_jumpers = new Combo();
 		combo_jumpers.PopdownStrings = jumpers;
 		foreach (string jumper in jumpers) {
-			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ": " + myJump.JumperName);
-			if (jumper == myJump.PersonID + ": " + myJump.JumperName) {
+			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ": " + myJump.PersonName);
+			if (jumper == myJump.PersonID + ": " + myJump.PersonName) {
 				combo_jumpers.Entry.Text = jumper;
 			}
 		}
@@ -1262,3 +1262,250 @@ public class JumpsRjMoreWindow
 	}
 }
 
+//--------------------------------------------------------
+//---------------- JUMP RJ DOING WIDGET ------------------
+//--------------------------------------------------------
+
+public class JumpRjExecuteWindow 
+{
+	[Widget] Gtk.Window jump_rj_execute;
+	
+	[Widget] Gtk.Label label_jumper;
+	[Widget] Gtk.Label label_jumptype;
+	[Widget] Gtk.Label label_extra;
+	
+	[Widget] Gtk.ProgressBar progressbar_tv_current;
+	[Widget] Gtk.ProgressBar progressbar_tc_current;
+	[Widget] Gtk.ProgressBar progressbar_tv_tc_current_1up;
+	[Widget] Gtk.ProgressBar progressbar_tv_tc_current_0;
+	[Widget] Gtk.ProgressBar progressbar_tv_avg;
+	[Widget] Gtk.ProgressBar progressbar_tc_avg;
+	[Widget] Gtk.ProgressBar progressbar_tv_tc_avg_1up;
+	[Widget] Gtk.ProgressBar progressbar_tv_tc_avg_0;
+	
+	[Widget] Gtk.ProgressBar progressbar_jumps;
+	
+	[Widget] Gtk.Button button_cancel;
+	[Widget] Gtk.Button button_finish;
+
+	int pDN;
+	double limit;
+	bool jumpsLimited;
+	
+	static JumpRjExecuteWindow JumpRjExecuteWindowBox;
+	Gtk.Window parent;
+
+	JumpRjExecuteWindow (Gtk.Window parent) {
+		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_rj_execute", null);
+
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+	}
+	
+	static public JumpRjExecuteWindow Show (Gtk.Window parent, string jumperName, string jumpType, 
+			int pDN, double limit, bool jumpsLimited)
+	{
+		if (JumpRjExecuteWindowBox == null) {
+			JumpRjExecuteWindowBox = new JumpRjExecuteWindow (parent); 
+		}
+		
+		JumpRjExecuteWindowBox.initializeVariables (jumperName, jumpType, pDN, limit, jumpsLimited);
+		
+		JumpRjExecuteWindowBox.jump_rj_execute.Show ();
+
+		return JumpRjExecuteWindowBox;
+	}
+
+	void initializeVariables (string jumperName, string jumpType, int pDN, double limit, bool jumpsLimited) 
+	{
+		this.pDN = pDN;
+		this.limit = limit;
+		this.jumpsLimited = jumpsLimited;
+		this.label_jumper.Text = jumperName;
+		this.label_jumptype.Text = jumpType;
+		this.label_extra.Text = "";
+		
+		progressbar_tv_current.Fraction = 0;
+		progressbar_tc_current.Fraction = 0;
+		progressbar_tv_tc_current_1up.Fraction = 0;
+		progressbar_tv_tc_current_0.Fraction = 0;
+		progressbar_tv_avg.Fraction = 0;
+		progressbar_tc_avg.Fraction = 0;
+		progressbar_tv_tc_avg_1up.Fraction = 0;
+		progressbar_tv_tc_avg_0.Fraction = 0;
+		progressbar_jumps.Fraction = 0;
+		
+		progressbar_tv_current.Text = "";
+		progressbar_tc_current.Text = "";
+		progressbar_tv_tc_current_1up.Text = "";
+		progressbar_tv_tc_current_0.Text = "";
+		progressbar_tv_avg.Text = "";
+		progressbar_tc_avg.Text = "";
+		progressbar_tv_tc_avg_1up.Text = "";
+		progressbar_tv_tc_avg_0.Text = "";
+		progressbar_jumps.Text = "";
+
+		button_finish.Sensitive = true;
+		button_cancel.Sensitive = true;
+	}
+
+	public void JumpEndedHideButtons() {
+		button_finish.Sensitive = false;
+		button_cancel.Sensitive = false;
+		
+		//if it was an unlimited jump, put the jumpsBar at end
+		if(limit == -1) {
+			progressbar_jumps.Fraction = 1.0;
+		}
+	}
+	
+	void on_finish_clicked (object o, EventArgs args)
+	{
+		//event will be raised, and managed in chronojump.cs
+	}
+	
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		//event will be raised, and managed in chronojump.cs
+		JumpEndedHideButtons();
+	}
+		
+	void on_button_close_clicked (object o, EventArgs args)
+	{
+		JumpRjExecuteWindowBox.jump_rj_execute.Hide();
+		JumpRjExecuteWindowBox = null;
+	}
+	
+	void on_jump_rj_execute_delete_event (object o, EventArgs args)
+	{
+		JumpRjExecuteWindowBox.jump_rj_execute.Hide();
+		JumpRjExecuteWindowBox = null;
+	}
+
+	public void ProgressbarJumps (double jumps, double time)
+	{
+		if(limit == -1) {	//unlimited jump (until 'finish' is clicked)
+			progressbar_jumps.Pulse();
+
+			label_extra.Text = string.Format("{0}j {1}s", jumps.ToString(), 
+					Util.TrimDecimals(time.ToString(), pDN));
+		} else {
+			double myFraction;
+			if(jumpsLimited)
+				myFraction = jumps / limit;
+			else
+				myFraction = time / limit;
+			
+			if(myFraction > 1)
+				myFraction = 1;
+			else if(myFraction < 0)
+				myFraction = 0;
+				
+			progressbar_jumps.Fraction = myFraction;
+
+			if(jumpsLimited) { 
+				progressbar_jumps.Text = jumps.ToString() + 
+					" / " + limit.ToString() + Catalog.GetString("jumps");
+				label_extra.Text = Util.TrimDecimals(time.ToString(), pDN) + "s";
+			}
+			else {	
+				progressbar_jumps.Text = Util.TrimDecimals(time.ToString(), pDN) + 
+					" / " + limit.ToString() + Catalog.GetString("seconds");
+				label_extra.Text = jumps + "j";
+			}
+		}
+	}
+	
+
+	public double ProgressbarTvCurrent 
+	{
+		set { 
+			progressbar_tv_current.Text = Util.TrimDecimals(value.ToString(), pDN);
+			if(value > 1.0) value = 1.0;
+			else if(value < 0) value = 0;
+			progressbar_tv_current.Fraction = value;
+		}
+	}
+
+	public double ProgressbarTcCurrent
+	{
+		set { 
+			progressbar_tc_current.Text = Util.TrimDecimals(value.ToString(), pDN);
+			if(value > 1.0) value = 1.0;
+			else if(value < 0) value = 0;
+			progressbar_tc_current.Fraction = value;
+		}
+	}
+
+	public double ProgressbarTvTcCurrent
+	{
+		set { 
+			if(value > 1) {
+				progressbar_tv_tc_current_1up.Text = Util.TrimDecimals(value.ToString(), pDN);
+				if(value > 4.0) value = 4.0;
+				else if(value < 0) value = 0;
+				progressbar_tv_tc_current_1up.Fraction = value/4;
+				progressbar_tv_tc_current_0.Fraction = 1;
+				progressbar_tv_tc_current_0.Text = "";
+			} else {
+				progressbar_tv_tc_current_1up.Fraction = 0;
+				progressbar_tv_tc_current_1up.Text = "";
+				progressbar_tv_tc_current_0.Text = Util.TrimDecimals(value.ToString(), pDN);
+				if(value > 1.0) value = 1.0;
+				else if(value < 0) value = 0;
+				progressbar_tv_tc_current_0.Fraction = value;
+			}
+		}
+	}
+
+	public double ProgressbarTvAvg 
+	{
+		set { 
+			progressbar_tv_avg.Text = Util.TrimDecimals(value.ToString(), pDN);
+			if(value > 1.0) value = 1.0;
+			else if(value < 0) value = 0;
+			progressbar_tv_avg.Fraction = value;
+		}
+	}
+
+	public double ProgressbarTcAvg
+	{
+		set { 
+			progressbar_tc_avg.Text = Util.TrimDecimals(value.ToString(), pDN);
+			if(value > 1.0) value = 1.0;
+			else if(value < 0) value = 0;
+			progressbar_tc_avg.Fraction = value;
+		}
+	}
+
+	public double ProgressbarTvTcAvg
+	{
+		set { 
+			if(value > 0) {
+				progressbar_tv_tc_avg_1up.Text = Util.TrimDecimals(value.ToString(), pDN);
+				if(value > 4.0) value = 4.0;
+				else if(value < 0) value = 0;
+				progressbar_tv_tc_avg_1up.Fraction = value/4;
+				progressbar_tv_tc_avg_0.Fraction = 1;
+				progressbar_tv_tc_avg_0.Text = "";
+			} else {
+				progressbar_tv_tc_avg_1up.Fraction = 0;
+				progressbar_tv_tc_avg_1up.Text = "";
+				progressbar_tv_tc_avg_0.Text = Util.TrimDecimals(value.ToString(), pDN);
+				if(value > 1.0) value = 1.0;
+				else if(value < 0) value = 0;
+				progressbar_tv_tc_avg_0.Fraction = value;
+			}
+		}
+	}
+
+	public Button ButtonCancel 
+	{
+		get { return button_cancel; }
+	}
+	
+	public Button ButtonFinish 
+	{
+		get { return button_finish; }
+	}
+}

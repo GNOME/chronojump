@@ -152,9 +152,10 @@ public class ChronoJump
 	[Widget] Gtk.Button button_finish;
 	
 	[Widget] Gtk.RadioMenuItem menuitem_simulated;
-	[Widget] Gtk.RadioMenuItem menuitem_serial_port;
+	[Widget] Gtk.RadioMenuItem menuitem_chronopic;
 	
 	[Widget] Gtk.Notebook notebook;
+	[Widget] Gtk.ProgressBar progressBar;
 
 	private Random rand;
 	
@@ -176,6 +177,7 @@ public class ChronoJump
 	private TreeViewRunsInterval myTreeViewRunsInterval;
 
 	//preferences variables
+	private static string chronopicPort;
 	private static int prefsDigitsNumber;
 	private static bool showHeight;
 	private static bool showInitialSpeed;
@@ -229,10 +231,7 @@ public class ChronoJump
 	StatsWindow statsWin;
 	ReportWindow reportWin;
 	
-	
-	//Progress bar 
-	[Widget] Gtk.Box hbox_progress_bar;
-	Gtk.ProgressBar progressBar;
+	JumpRjExecuteWindow jumpRjExecuteWin;
 
 	//platform state variables
 	enum States {
@@ -275,7 +274,10 @@ public class ChronoJump
 			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
 			Sqlite.CreateFile();
 			Sqlite.CreateTables();
-		} else { Console.WriteLine ( Catalog.GetString ("tables already created") ); }
+		} else { 
+			Sqlite.AddChronopicPortNameIfNotExists();
+			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
+		}
 
 		cpRunning = false;
 
@@ -301,34 +303,24 @@ public class ChronoJump
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
-		progressBar = new ProgressBar();
-		hbox_progress_bar.PackStart(progressBar, true, true, 0);
-		hbox_progress_bar.ShowAll();
-		
 		appbar2.Push ( Catalog.GetString ("Ready.") );
 
 		rand = new Random(40);
 				
-		//init connecting with chronopic	
-		if (cpRunning) {
-			chronopicInit();
-		}
-			
 		program.Run();
 	}
 
-	private void chronopicInit ()
+	private void chronopicInit (string myPort)
 	{
-		Console.WriteLine ( Catalog.GetString ("starting connection with serial port") );
+		Console.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
 		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xavi@xdeblas.com") );
 		Console.WriteLine ( Catalog.GetString ("if you used modem by serial port before (in a linux session) chronojump chrases") );
 		Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
 		Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
 		try {
-			Console.WriteLine("J1");
-			cp = new Chronopic("/dev/ttyS0");
-			Console.WriteLine("J2");
+			Console.WriteLine("chronopic port: /dev/{0}", myPort);
+			cp = new Chronopic("/dev/" + myPort);
 
 			//-- Read initial state of platform
 			respuesta=cp.Read_platform(out platformState);
@@ -343,10 +335,11 @@ public class ChronoJump
 					Console.WriteLine(Catalog.GetString("Chronopic OK"));
 					break;
 			}
-			Console.Write(Catalog.GetString("Plataform state: "));
-			Console.WriteLine("{0}", platformState);
+			Console.WriteLine(string.Format(
+						Catalog.GetString("Plataform state: {0}, chronopic in port /dev/{1}"), 
+						platformState, chronopicPort));
 		} catch {
-			Console.WriteLine("Problems connecting to serial port, changed platform to 'Simulated'");
+			Console.WriteLine("Problems comunicating to chronopic, changed platform to 'Simulated'");
 			//TODO: raise a error window
 			
 			//this will raise on_radiobutton_simulated_ativate and 
@@ -360,8 +353,9 @@ public class ChronoJump
 		Console.WriteLine (Catalog.GetString("Chronojump database version file: {0}"), 
 				SqlitePreferences.Select("databaseVersion") );
 		
-		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") );
+		chronopicPort = SqlitePreferences.Select("chronopicPort");
 		
+		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") );
 
 		if ( SqlitePreferences.Select("showHeight") == "True" ) {
 			showHeight = true;
@@ -382,7 +376,7 @@ public class ChronoJump
 			cpRunning = false;
 		} else {
 			simulated = false;
-			menuitem_serial_port.Active = true;
+			menuitem_chronopic.Active = true;
 			
 			cpRunning = true;
 		}
@@ -1216,19 +1210,21 @@ public class ChronoJump
 		cpRunning = false;
 	}
 	
-	void on_radiobutton_serial_port_activate (object o, EventArgs args)
+	void on_radiobutton_chronopic_activate (object o, EventArgs args)
 	{
 		simulated = false;
 		SqlitePreferences.Update("simulated", simulated.ToString());
 		
 		//init connecting with chronopic	
-		chronopicInit();
-		cpRunning = true;
+		if(cpRunning == false) {
+			chronopicInit(chronopicPort);
+			cpRunning = true;
+		}
 	}
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
-				app1, prefsDigitsNumber, showHeight, showInitialSpeed, 
+				app1, chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, 
 				//askDeletion, weightStatsPercent, heightPreferred, metersSecondsPreferred);
 				askDeletion, heightPreferred, metersSecondsPreferred);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
@@ -1236,6 +1232,8 @@ public class ChronoJump
 
 	private void on_preferences_accepted (object o, EventArgs args) {
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
+	
+		chronopicPort = SqlitePreferences.Select("chronopicPort");
 		
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
 			askDeletion = true;
@@ -1449,7 +1447,8 @@ public class ChronoJump
 		//hide jumping buttons
 		sensitiveGuiJumpingOrRunning();
 		
-		currentJump = new Jump(currentPerson.UniqueID, currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
+		currentJump = new Jump(currentPerson.UniqueID, currentPerson.Name, 
+				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
 		
 		if (simulated) {
@@ -1589,9 +1588,15 @@ public class ChronoJump
 			
 		//hide jumping buttons
 		sensitiveGuiJumpingOrRunning();
+	
+		//show the jump doing window
+		jumpRjExecuteWin = JumpRjExecuteWindow.Show(app1, currentPerson.Name, 
+				currentJumpType.Name, prefsDigitsNumber, myLimit, currentJumpType.JumpsLimited);
+		jumpRjExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		jumpRjExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		
-		currentJumpRj = new JumpRj(currentPerson.UniqueID, currentSession.UniqueID, 
-				currentJumpType.Name, myFall, jumpWeight, 
+		currentJumpRj = new JumpRj(jumpRjExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
 		

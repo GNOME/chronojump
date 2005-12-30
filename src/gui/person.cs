@@ -536,6 +536,10 @@ public class PersonAddWindow {
 		PersonAddWindowBox.person_win.Hide();
 		PersonAddWindowBox = null;
 	}
+
+	void on_combobox_prova_changed (object o, EventArgs args) {
+		Console.WriteLine("changed!!");
+	}
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{

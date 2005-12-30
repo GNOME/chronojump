@@ -1,5 +1,18 @@
 CHANGELOG:
 
+30 des 2005
+	window for jump reactive executing with realtime info done.
+
+	now rj jumps finish when fall down (always on finishing a tv)
+	time limited jumps doesn't record last jump after the time
+	
+	preferences can change chronopicPort, if doesn't exists, it's created at chronojump start
+	changed "serial port" name to "chronopic" in menu
+	
+	optimization on gui/stats.cs, now creation of treeview stats is 4 times faster (using blockFillingTreeview variable)
+
+	added -nowarn:169 at compile for hide fake warnings between glade and code
+	
 14 des 2005  (minor RELEASE 0.41)
 	jumps and jumpsRj show values in realtime in progressBar
 

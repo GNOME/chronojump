@@ -30,6 +30,7 @@ using System.Threading;
 public class Jump 
 {
 	protected int personID;
+	protected string personName;
 	protected int sessionID;
 	protected int uniqueID;
 	protected string type;
@@ -68,11 +69,12 @@ public class Jump
 	}
 
 	//jump execution
-	public Jump(int personID, int sessionID, string type, int fall, double weight,  
+	public Jump(int personID, string personName, int sessionID, string type, int fall, double weight,  
 			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
 			int pDN)
 	{
 		this.personID = personID;
+		this.personName = personName;
 		this.sessionID = sessionID;
 		this.type = type;
 		this.fall = fall;
@@ -288,7 +290,7 @@ public class Jump
 		
 		string myStringPush =   
 			//Catalog.GetString("Last jump: ") + 
-			JumperName + " " + 
+			personName + " " + 
 			type + tcString + " TV:" + Util.TrimDecimals( tv.ToString(), pDN ) ;
 		if(weight > 0) {
 			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
@@ -392,10 +394,17 @@ public class Jump
 		get { return personID; }
 	}
 		
+	public string PersonName
+	{
+		get { return personName; }
+	}
+	
+	/*
 	public string JumperName
 	{
 		get { return SqlitePerson.SelectJumperName(personID); }
 	}
+	*/
 
 	~Jump() {}
 	   
@@ -418,14 +427,21 @@ public class JumpRj : Jump
 	
 	//for finishing earlier from chronojump.cs
 	private bool finish;
+	
+	//windows needed
+	JumpRjExecuteWindow jumpRjExecuteWin;
 
+	
 	//jump execution
-	public JumpRj(int personID, int sessionID, string type, int fall, double weight, 
+	public JumpRj(JumpRjExecuteWindow jumpRjExecuteWin, int personID, string personName, 
+			int sessionID, string type, int fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
 			int pDN)
 	{
+		this.jumpRjExecuteWin = jumpRjExecuteWin;
 		this.personID = personID;
+		this.personName = personName;
 		this.sessionID = sessionID;
 		this.type = type;
 		this.fall = fall;
@@ -446,17 +462,19 @@ public class JumpRj : Jump
 
 		this.pDN = pDN;
 	
-		if(TypeHasFall) {
-			hasFall = true;
-		} else {
-			hasFall = false;
-		}
+		//progressBar is used here only for put it to 1 when we want to stop the pulse() (the thread)
+		progressBar.Fraction = 0;
+		
+		if(TypeHasFall) { hasFall = true; } 
+		else { hasFall = false; }
 		
 		fakeButtonFinished = new Gtk.Button();
 	}
 	
 	//after inserting database (SQL)
-	public JumpRj(int uniqueID, int personID, int sessionID, string type, string tvString, string tcString, int fall, double weight, string description, int jumps, double time, string limited)
+	public JumpRj(int uniqueID, int personID, int sessionID, string type, 
+			string tvString, string tcString, int fall, double weight, 
+			string description, int jumps, double time, string limited)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -502,19 +520,37 @@ public class JumpRj : Jump
 				tvString = tvString + equalTv + tv.ToString();
 				equalTv = "=";
 				nowTv = false;
+
+				jumpRjExecuteWin.ProgressbarTvCurrent = tv;
+				
+				if(tc == 0 || tv == 0) {
+					jumpRjExecuteWin.ProgressbarTvTcCurrent = 0;
+				} else {
+					jumpRjExecuteWin.ProgressbarTvTcCurrent = tv / tc;
+				}
 			} else {
 				tc = rand.NextDouble() * .4;
 				tcString = tcString + equalTc + tc.ToString();
 				equalTc = "=";
 				nowTv = true;
+				jumpRjExecuteWin.ProgressbarTcCurrent = tc;
 			}
 		}
 
+		//this should disappear in the future. All jumps should finish with a tv
 		if(nowTv) {
 			//finished writing the TC, let's put a "-1" in the TV
 			tv = -1;
 			tvString = tvString + equalTv + tv.ToString();
+				
+			//don't put -1 in progressBar, only 0
+			jumpRjExecuteWin.ProgressbarTvCurrent = 0;
 		}
+					
+		//in simulated only show the progressbarJumps at the end
+		jumpRjExecuteWin.ProgressbarJumps(limitAsDouble, Util.GetTotalTime(tcString, tvString));  
+
+		//write jump
 		write();
 	}
 
@@ -522,7 +558,7 @@ public class JumpRj : Jump
 	{
 		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-
+	
 		do {
 			respuesta = cp.Read_platform(out platformState);
 		} while (respuesta!=Chronopic.Respuesta.Ok);
@@ -559,12 +595,8 @@ public class JumpRj : Jump
 			if ( ! hasFall ) {
 				double myTc = -1;
 				tcString = myTc.ToString();
-				tcCount = tcCount +.5;
+				tcCount = 1;
 			}
-
-			//reset progressBar
-			progressBar.Fraction = 0;
-			progressBar.Text = "";
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
@@ -583,116 +615,93 @@ public class JumpRj : Jump
 	{
 		double timestamp;
 		bool success = false;
-		double pbUnlimited = 0;
 		
 		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 	
 		do {
-			/*
-			if(finish) {
-				write();
-				success = true;
-			}
-			*/
-			
 			//update the progressBar if limit is time (and it's not an unlimited reactive jump)
 			if ( ! jumpsLimited && limitAsDouble != -1) {
-				double myPb = Util.GetTotalTime (tcString, tvString) / limitAsDouble ;
-				//don't allow progressBar be 1.0 before fakeButtonClick is called
-				if(myPb >= 1.0) { myPb = 0.99; }
-				progressBar.Fraction = myPb; 
+				jumpRjExecuteWin.ProgressbarJumps(tvCount, Util.GetTotalTime(tcString, tvString)); 
 			}
 
 			respuesta = cp.Read_event(out timestamp, out platformState);
 			if (respuesta == Chronopic.Respuesta.Ok) {
+				
 				string equal = "";
-				//check if reactive jump should finish
-				if (jumpsLimited) {
-					//if reactive jump is "unlimited" not limited by jumps, nor time, 
-					//then play with the progress bar until finish button is pressed
-					if(limitAsDouble == -1) {
-						pbUnlimited += 0.19;
-						if(pbUnlimited >= 1.0) { pbUnlimited = 0; }
-						progressBar.Fraction = pbUnlimited; 
-						//pulse not used because cannot show text
-						//progressBar.Pulse();
-					}
-					else {
-						//change the progressBar percent
-						//progressBar.Fraction = (tcCount + tvCount) / limitAsDouble ;
-						//don't allow progressBar be 1.0 before fakeButtonClick is called
-						double myPb = (tcCount + tvCount) / limitAsDouble ;
-						if(myPb >= 1.0) { myPb = 0.99; }
-						progressBar.Fraction = myPb; 
-			
-						if(Util.GetNumberOfJumps(tcString) >= limitAsDouble && Util.GetNumberOfJumps(tvString) >= limitAsDouble)
-						{
-							//finished writing the TC, let's put a "-1" in the TV
-							if (tcCount > tvCount) {
-								if(tvCount > 0) { equal = "="; }
-								tvString = tvString + equal + "-1";
-							}
 
-							write();
-
-							success = true;
-						}
-					}
-				} else {
-					//limited by time
-					if (Util.GetTotalTime (tcString, tvString) >= limitAsDouble &&
-							Util.GetNumberOfJumps(tcString) == Util.GetNumberOfJumps(tvString) ) 
-					{
-						//finished writing the TC, let's put a "-1" in the TV
-						if (tcCount > tvCount) {
-							if(tvCount > 0) { equal = "="; }
-							tvString = tvString + equal + "-1";
-						}
-
-						write();
-
-						success = true;
-					}
+				//if limited by time, and current time is higher, don't record more events
+				if (!jumpsLimited && !firstRjValue &&
+						Util.GetTotalTime(tcString, tvString) + timestamp/1000 > limitAsDouble) 
+				{
+					success = true;
 				}
-
+			
+				//while no finished time or jumps, continue recording events
 				if ( ! success) {
 					//don't record the time until the first event
 					if (firstRjValue) {
 						firstRjValue = false;
 					} else {
 						//reactive jump has not finished... record the next jump
-						if (tcCount == tvCount) {
+						Console.WriteLine("tcCount: {0}, tvCount: {1}", tcCount, tvCount);
+						if ( tcCount == tvCount )
+						{
 							lastTc = timestamp/1000;
 							
-							//update progressBarText
-							//printRelatedInfo AVG will refer to data previous of current event
-							progressBar.Text = 
-								"tc: " +
-								Util.TrimDecimals( lastTc.ToString(), pDN) + 
-								printRelatedInfo(lastTc, tcString);
+							jumpRjExecuteWin.ProgressbarTcCurrent = lastTc; 
 							
 							if(tcCount > 0) { equal = "="; }
 							tcString = tcString + equal + lastTc.ToString();
-							tcCount = tcCount +.5;
+							
+							jumpRjExecuteWin.ProgressbarTcAvg = Util.GetAverage(tcString); 
+							
+							tcCount = tcCount + 1;
 						} else {
 							//tcCount > tvCount 
 							lastTv = timestamp/1000;
 							
-							//update progressBarText
-							//printRelatedInfo AVG will refer to data previous of current event
-							progressBar.Text = 
-								"tv: " +
-								Util.TrimDecimals( lastTv.ToString(), pDN) +
-								printRelatedInfo(lastTv, tvString);
+							jumpRjExecuteWin.ProgressbarTvCurrent = lastTv; 
+							//show the tv/tc except if it's the first jump starting inside
+							if(tc != -1)
+								jumpRjExecuteWin.ProgressbarTvTcCurrent = lastTv / lastTc; 
 							
 							if(tvCount > 0) { equal = "="; }
 							tvString = tvString + equal + lastTv.ToString();
-							tvCount = tvCount +.5;
 							
+							jumpRjExecuteWin.ProgressbarTvAvg = Util.GetAverage(tvString); 
+							//show the tv/tc except if it's the first jump starting inside
+							if(tc != -1)
+								jumpRjExecuteWin.ProgressbarTvTcAvg = 
+									Util.GetAverage(tvString) / Util.GetAverage(tcString); 
+							tvCount = tvCount + 1;
 						}
 					}
 				}
+				
+				//check if reactive jump should finish
+				if (jumpsLimited) {
+					//if reactive jump is "unlimited" not limited by jumps, nor time, 
+					//then play with the progress bar until finish button is pressed
+					if(limitAsDouble == -1) {
+						jumpRjExecuteWin.ProgressbarJumps(tvCount, Util.GetTotalTime(tcString, tvString));  
+					}
+					else {
+						jumpRjExecuteWin.ProgressbarJumps(tvCount, Util.GetTotalTime(tcString, tvString));  
+			
+						if(Util.GetNumberOfJumps(tvString) >= limitAsDouble)
+						{
+							write();
+							success = true;
+						}
+					}
+				} else {
+					//limited by time, if passed it, write
+					if(success) {
+						write();
+					}
+				}
+
 			}
 		} while ( ! success && ! cancel && ! finish );
 		
@@ -710,27 +719,10 @@ public class JumpRj : Jump
 		}
 	}
 				
-	private string printRelatedInfo(double myTime, string timeString) {
-		//don't print nothing if we didn't reached 2nd jump (first condition)
-		//there is only one record in timeString and it's a '-1', this means:
-		//for this jumpType there's no initial tc, and it's marked with the -1
-		//then the Util.GetAverage returns 0 (a impossible value) 
-		if(Util.GetNumberOfJumps(timeString) < 1 || Util.GetAverage(timeString) == 0) { 
-			return ""; 
-		}
-
-		//displayed for being easy and fast to understand
-		string myStr = string.Format(" ({0:000}%)", Convert.ToInt32(myTime / Util.GetAverage(timeString) * 100));
-	
-		if(myTime > Util.GetMax(timeString)) { myStr += " MAX"; } 
-		else if (myTime < Util.GetMin(timeString)) { myStr += " min"; }
-		else { myStr += "    "; }
-		
-		return myStr;
-	}
-
 	protected override void write()
 	{
+		jumpRjExecuteWin.JumpEndedHideButtons();
+		
 		int jumps;
 		string limitString = "";
 
@@ -768,7 +760,7 @@ public class JumpRj : Jump
 
 		string myStringPush =   
 			//Catalog.GetString("Last jump: ") + 
-			JumperName + " " + 
+			personName + " " + 
 			type + " (" + limitString + ") " +
 			" AVG TV: " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
 			" AVG TC: " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;

@@ -82,6 +82,9 @@ public class StatsWindow {
 	
 	//private Stat myStat; 
 	private StatType myStatType;
+	
+	//optimization
+	private bool blockFillingTreeview;
 
 	private static string [] comboStatsTypeOptions = {
 		Catalog.GetString("Global"), 
@@ -143,13 +146,20 @@ public class StatsWindow {
 
 		//myStat = new Stat(); //create and instance of myStat
 		myStatType = new StatType();
+
+		//this doesn't allow treeview to be recreated many times (4)
+		//in all the combos that are going to be created
+		blockFillingTreeview = true;
 		
 		createComboSelectCheckboxes();
 
 		createComboStatsType();
 		createComboStatsSubType();
 		createComboStatsApplyTo();
-		
+	
+		// here doesn't do Ok the job, done later in Initialize
+		//blockFillingTreeview = false;
+
 		updateComboStats();
 			
 		
@@ -188,6 +198,9 @@ public class StatsWindow {
 
 		selectedSessions = new ArrayList(2);
 		selectedSessions.Add(currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date);
+
+		//now will be the first time the treeview is updated
+		blockFillingTreeview = false;
 		fillTreeView_stats(false);
 	}
 	
@@ -367,6 +380,12 @@ public class StatsWindow {
 	//private void fillTreeView_stats (bool graph) 
 	private bool fillTreeView_stats (bool graph) 
 	{
+		if(blockFillingTreeview) {
+			return false;
+		}
+		
+		Console.WriteLine("----------FILLING treeview stats---------------");
+		
 		string statisticType = combo_stats_stat_type.Entry.Text;
 		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
 		string statisticApplyTo = combo_stats_stat_apply_to.Entry.Text;
@@ -704,6 +723,7 @@ public class StatsWindow {
 		}
 	
 		update_stats_widgets_sensitiveness();
+		
 		fillTreeView_stats(false);
 	}
 	
@@ -733,6 +753,7 @@ public class StatsWindow {
 		}
 
 		update_stats_widgets_sensitiveness();
+
 		fillTreeView_stats(false);
 	}
 	

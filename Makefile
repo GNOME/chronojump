@@ -68,7 +68,7 @@ clean::
 #-------------------------------
 
 $(CHRONOJUMP).exe: $(DLL_CHRONOPIC).dll NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) 
-	 $(MCS) $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe -r:$(DLL_CHRONOPIC).dll -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing $(CHRONOJUMP_LIB) -out:$(CHRONOJUMP).exe 
+	 $(MCS) $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe -r:$(DLL_CHRONOPIC).dll -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
    
 clean::
 	  rm -f $(CHRONOJUMP).exe  

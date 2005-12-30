@@ -31,6 +31,7 @@ using System.Collections; //ArrayList
 public class PreferencesWindow {
 	
 	[Widget] Gtk.Window preferences;
+	[Widget] Gtk.Entry entry_chronopic;
 	[Widget] Gtk.SpinButton spinbutton_decimals;
 	[Widget] Gtk.CheckButton checkbutton_height;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
@@ -45,19 +46,23 @@ public class PreferencesWindow {
 	Gtk.Window parent;
 
 	
-	PreferencesWindow (Gtk.Window parent) {
+	PreferencesWindow (Gtk.Window parent, string entryChronopic) {
 		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "preferences", null);
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
+		if(entryChronopic.Length > 0) {
+			entry_chronopic.Text = entryChronopic;
+		}
+		
 	}
 	
 	//static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred)
-	static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool heightPreferred, bool metersSecondsPreferred)
+	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool heightPreferred, bool metersSecondsPreferred)
 	{
 		if (PreferencesWindowBox == null) {
-			PreferencesWindowBox = new PreferencesWindow (parent);
+			PreferencesWindowBox = new PreferencesWindow (parent, entryChronopic);
 		}
 		PreferencesWindowBox.spinbutton_decimals.Value = digitsNumber;
 	
@@ -124,6 +129,7 @@ public class PreferencesWindow {
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
+		SqlitePreferences.Update("chronopicPort", entry_chronopic.Text.ToString());
 		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString());
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString());
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString());

@@ -180,13 +180,13 @@ public class Util
 		return height.ToString();
 	}
 	
-	public static int GetNumberOfJumps(string myString)
+	public static int GetNumberOfJumps(string myString, bool countMinus)
 	{
 		if(myString.Length > 0) {
 			string [] jumpsSeparated = myString.Split(new char[] {'='});
 			int count = 0;
 			foreach (string temp in jumpsSeparated) {
-				if(temp != "-1")
+				if(countMinus || temp != "-1")
 					count++;
 			}
 			if(count == 0) { count =1; }

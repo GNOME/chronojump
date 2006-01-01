@@ -308,7 +308,32 @@ class SqliteJump : Sqlite
 
 		return myJump;
 	}
+
+	//checks if there are Rjs with different number of TCs than TVs
+	//then repair database manually, and look if the jump is jumpLimited, and how many jumps there are defined
+	public static void FindBadRjs()
+	{
+		dbcon.Open();
+
+		dbcmd.CommandText = "SELECT uniqueID, tcstring, tvstring, jumps, limited FROM jumpRj";
 		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		reader.Read();
+
+		while(reader.Read()) {
+			if(Util.GetNumberOfJumps(reader[1].ToString(), true) != Util.GetNumberOfJumps(reader[2].ToString(), true)) {
+				Console.WriteLine("Problem with jumpRj: {0}, tcstring{1}, tvstring{2}, jumps{3}, limited{4}", 
+						reader[0].ToString(), 
+						Util.GetNumberOfJumps(reader[1].ToString(), true).ToString(), 
+						Util.GetNumberOfJumps(reader[2].ToString(), true).ToString(), 
+						reader[3].ToString(), reader[4].ToString());
+			}
+		}
+	}
 
 	public static void Update(string jumpTable, int jumpID, int personID, double weight, string description)
 	{
@@ -322,20 +347,6 @@ class SqliteJump : Sqlite
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
-
-	/*
-	public static void RjUpdate(int jumpID, int personID, string description)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "UPDATE jumpRj " + 
-			" SET personID = " + personID + 
-			", description = '" + description +
-			"' WHERE uniqueID == " + jumpID ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
-	*/
 
 	public static void Delete(string jumpTable, string uniqueID)
 	{

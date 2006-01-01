@@ -422,7 +422,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 					//if limited  value is "-1" comes from a "unlimited" repetitive jump, 
 					//put jumps count as limitation value
 					if(newJump.Limited == "-1J") { 
-						newJump.Limited = Util.GetNumberOfJumps(newJump.TcString) + "J";
+						newJump.Limited = Util.GetNumberOfJumps(newJump.TcString, false) + "J";
 					}
 					
 					string myTypeComplet = newJump.Type + "(" + newJump.Limited + ") AVG: "; //limited

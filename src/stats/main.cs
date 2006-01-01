@@ -400,7 +400,7 @@ public class Stat
 	{
 		//record makeavgsd for using in checkboxes for not being selected
 		//selectedMakeAVGSD = makeAVGSD;
-		
+	
 		string [] rowFromSql = new string [dataColumns +1];
 		double [] sumValue = new double [dataColumns +1];
 		double [] sumSquaredValue = new double [dataColumns +1];

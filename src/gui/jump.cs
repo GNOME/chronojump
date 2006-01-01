@@ -604,7 +604,7 @@ public class RepairJumpRjWindow
 			
 		//calculate other variables needed for jumpRj creation
 		
-		int jumps = Util.GetNumberOfJumps(tvString);
+		int jumps = Util.GetNumberOfJumps(tvString, false);
 		string limitString = "";
 	
 		if(jumpType.FixedValue > 0) {
@@ -1263,7 +1263,7 @@ public class JumpsRjMoreWindow
 }
 
 //--------------------------------------------------------
-//---------------- JUMP RJ DOING WIDGET ------------------
+//---------------- JUMP RJ EXECUTE WIDGET ----------------
 //--------------------------------------------------------
 
 public class JumpRjExecuteWindow 
@@ -1272,7 +1272,9 @@ public class JumpRjExecuteWindow
 	
 	[Widget] Gtk.Label label_jumper;
 	[Widget] Gtk.Label label_jumptype;
-	[Widget] Gtk.Label label_extra;
+	[Widget] Gtk.Label label_progress_name;
+	[Widget] Gtk.Label label_extra_name;
+	[Widget] Gtk.Label label_extra_value;
 	
 	[Widget] Gtk.ProgressBar progressbar_tv_current;
 	[Widget] Gtk.ProgressBar progressbar_tc_current;
@@ -1283,7 +1285,12 @@ public class JumpRjExecuteWindow
 	[Widget] Gtk.ProgressBar progressbar_tv_tc_avg_1up;
 	[Widget] Gtk.ProgressBar progressbar_tv_tc_avg_0;
 	
-	[Widget] Gtk.ProgressBar progressbar_jumps;
+	[Widget] Gtk.ProgressBar progressbar_execution;
+	
+	[Widget] Gtk.CheckButton checkbutton_show_tv_tc;
+	[Widget] Gtk.Box hbox_tv_tc;
+	[Widget] Gtk.Box vbox_tv_tc;
+	[Widget] Gtk.Label label_tv_tc;
 	
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_finish;
@@ -1291,6 +1298,7 @@ public class JumpRjExecuteWindow
 	int pDN;
 	double limit;
 	bool jumpsLimited;
+	static bool showTvTc = false;
 	
 	static JumpRjExecuteWindow JumpRjExecuteWindowBox;
 	Gtk.Window parent;
@@ -1300,6 +1308,9 @@ public class JumpRjExecuteWindow
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		
+		//in first rj jump in a session, always doesn't show the tv/tc
+		//showTvTc = false;
 	}
 	
 	static public JumpRjExecuteWindow Show (Gtk.Window parent, string jumperName, string jumpType, 
@@ -1323,7 +1334,7 @@ public class JumpRjExecuteWindow
 		this.jumpsLimited = jumpsLimited;
 		this.label_jumper.Text = jumperName;
 		this.label_jumptype.Text = jumpType;
-		this.label_extra.Text = "";
+		this.label_extra_value.Text = "";
 		
 		progressbar_tv_current.Fraction = 0;
 		progressbar_tc_current.Fraction = 0;
@@ -1333,7 +1344,7 @@ public class JumpRjExecuteWindow
 		progressbar_tc_avg.Fraction = 0;
 		progressbar_tv_tc_avg_1up.Fraction = 0;
 		progressbar_tv_tc_avg_0.Fraction = 0;
-		progressbar_jumps.Fraction = 0;
+		progressbar_execution.Fraction = 0;
 		
 		progressbar_tv_current.Text = "";
 		progressbar_tc_current.Text = "";
@@ -1343,10 +1354,41 @@ public class JumpRjExecuteWindow
 		progressbar_tc_avg.Text = "";
 		progressbar_tv_tc_avg_1up.Text = "";
 		progressbar_tv_tc_avg_0.Text = "";
-		progressbar_jumps.Text = "";
+		progressbar_execution.Text = "";
 
 		button_finish.Sensitive = true;
 		button_cancel.Sensitive = true;
+
+		if(showTvTc) {
+			tv_tc_show_hide(true);
+			checkbutton_show_tv_tc.Active = true;
+		} else {
+			tv_tc_show_hide(false);
+			checkbutton_show_tv_tc.Active = false;
+		}
+	}
+	
+	void on_checkbutton_show_tv_tc_clicked (object o, EventArgs args)
+	{
+		if(checkbutton_show_tv_tc.Active) {
+			tv_tc_show_hide(true);
+			showTvTc = true;
+		} else {
+			tv_tc_show_hide(false);
+			showTvTc = false;
+		}
+	}
+	
+	void tv_tc_show_hide (bool show) {
+		if(show) {
+			hbox_tv_tc.Show();
+			vbox_tv_tc.Show();
+			label_tv_tc.Show();
+		} else {
+			hbox_tv_tc.Hide();
+			vbox_tv_tc.Hide();
+			label_tv_tc.Hide();
+		}
 	}
 
 	public void JumpEndedHideButtons() {
@@ -1355,7 +1397,7 @@ public class JumpRjExecuteWindow
 		
 		//if it was an unlimited jump, put the jumpsBar at end
 		if(limit == -1) {
-			progressbar_jumps.Fraction = 1.0;
+			progressbar_execution.Fraction = 1.0;
 		}
 	}
 	
@@ -1382,12 +1424,13 @@ public class JumpRjExecuteWindow
 		JumpRjExecuteWindowBox = null;
 	}
 
-	public void ProgressbarJumps (double jumps, double time)
+	public void ProgressbarExecution (double jumps, double time)
 	{
 		if(limit == -1) {	//unlimited jump (until 'finish' is clicked)
-			progressbar_jumps.Pulse();
-
-			label_extra.Text = string.Format("{0}j {1}s", jumps.ToString(), 
+			progressbar_execution.Pulse();
+			label_progress_name.Text = "";
+			label_extra_name.Text = "";
+			label_extra_value.Text = string.Format(Catalog.GetString("{0} jumps; {1} seconds"), jumps.ToString(), 
 					Util.TrimDecimals(time.ToString(), pDN));
 		} else {
 			double myFraction;
@@ -1401,17 +1444,19 @@ public class JumpRjExecuteWindow
 			else if(myFraction < 0)
 				myFraction = 0;
 				
-			progressbar_jumps.Fraction = myFraction;
+			progressbar_execution.Fraction = myFraction;
 
 			if(jumpsLimited) { 
-				progressbar_jumps.Text = jumps.ToString() + 
-					" / " + limit.ToString() + Catalog.GetString("jumps");
-				label_extra.Text = Util.TrimDecimals(time.ToString(), pDN) + "s";
+				label_progress_name.Text = Catalog.GetString("Jumps");
+				progressbar_execution.Text = jumps.ToString() + " / " + limit.ToString();
+				label_extra_name.Text = Catalog.GetString("Time");
+				label_extra_value.Text = Util.TrimDecimals(time.ToString(), pDN);
 			}
 			else {	
-				progressbar_jumps.Text = Util.TrimDecimals(time.ToString(), pDN) + 
-					" / " + limit.ToString() + Catalog.GetString("seconds");
-				label_extra.Text = jumps + "j";
+				label_progress_name.Text = Catalog.GetString("Time");
+				progressbar_execution.Text = Util.TrimDecimals(time.ToString(), pDN) + " / " + limit.ToString();
+				label_extra_name.Text = Catalog.GetString("Jumps");
+				label_extra_value.Text = jumps.ToString();
 			}
 		}
 	}

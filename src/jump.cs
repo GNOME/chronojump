@@ -547,8 +547,12 @@ public class JumpRj : Jump
 			jumpRjExecuteWin.ProgressbarTvCurrent = 0;
 		}
 					
-		//in simulated only show the progressbarJumps at the end
-		jumpRjExecuteWin.ProgressbarJumps(limitAsDouble, Util.GetTotalTime(tcString, tvString));  
+		//in simulated only show the progressbarExecution, and the AVGs at the end
+		jumpRjExecuteWin.ProgressbarExecution(limitAsDouble, Util.GetTotalTime(tcString, tvString));  
+		jumpRjExecuteWin.ProgressbarTcAvg = Util.GetAverage(tcString); 
+		jumpRjExecuteWin.ProgressbarTvAvg = Util.GetAverage(tvString); 
+		jumpRjExecuteWin.ProgressbarTvTcAvg = 
+			Util.GetAverage(tvString) / Util.GetAverage(tcString); 
 
 		//write jump
 		write();
@@ -622,7 +626,7 @@ public class JumpRj : Jump
 		do {
 			//update the progressBar if limit is time (and it's not an unlimited reactive jump)
 			if ( ! jumpsLimited && limitAsDouble != -1) {
-				jumpRjExecuteWin.ProgressbarJumps(tvCount, Util.GetTotalTime(tcString, tvString)); 
+				jumpRjExecuteWin.ProgressbarExecution(tvCount, Util.GetTotalTime(tcString, tvString)); 
 			}
 
 			respuesta = cp.Read_event(out timestamp, out platformState);
@@ -684,12 +688,12 @@ public class JumpRj : Jump
 					//if reactive jump is "unlimited" not limited by jumps, nor time, 
 					//then play with the progress bar until finish button is pressed
 					if(limitAsDouble == -1) {
-						jumpRjExecuteWin.ProgressbarJumps(tvCount, Util.GetTotalTime(tcString, tvString));  
+						jumpRjExecuteWin.ProgressbarExecution(tvCount, Util.GetTotalTime(tcString, tvString));  
 					}
 					else {
-						jumpRjExecuteWin.ProgressbarJumps(tvCount, Util.GetTotalTime(tcString, tvString));  
+						jumpRjExecuteWin.ProgressbarExecution(tvCount, Util.GetTotalTime(tcString, tvString));  
 			
-						if(Util.GetNumberOfJumps(tvString) >= limitAsDouble)
+						if(Util.GetNumberOfJumps(tvString, false) >= limitAsDouble)
 						{
 							write();
 							success = true;
@@ -706,7 +710,7 @@ public class JumpRj : Jump
 		} while ( ! success && ! cancel && ! finish );
 		
 		if (finish) {
-			if(Util.GetNumberOfJumps(tcString) >= 1 && Util.GetNumberOfJumps(tvString) >= 1) {
+			if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
 				write();
 			} else {
 				//cancel a jump if clicked finish before any events done
@@ -728,7 +732,7 @@ public class JumpRj : Jump
 
 		//if user clicked in finish earlier
 		if(finish) {
-			jumps = Util.GetNumberOfJumps(tvString);
+			jumps = Util.GetNumberOfJumps(tvString, false);
 
 			//if user clicked finish and last event was tc, probably there are more TCs than TVs
 			//if last event was tc, it has no sense, it should be deleted

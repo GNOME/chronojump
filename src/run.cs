@@ -565,7 +565,7 @@ public class RunInterval : Run
 
 		//if user clicked in finish earlier
 		if(finish) {
-			tracks = Util.GetNumberOfJumps(intervalTimesString);
+			tracks = Util.GetNumberOfJumps(intervalTimesString, false);
 			if(tracksLimited) {
 				limitString = tracks.ToString() + "R";
 			} else {

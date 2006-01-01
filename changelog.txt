@@ -1,5 +1,13 @@
 CHANGELOG:
 
+1 jan 2006
+	improved rj execute window
+		show/hide checkbox for tv/tc
+		added arrows, better info jumps/time, nicer window
+		simulated mode now uses the avg progressbars
+
+	written SqliteJumps.FindBadRjs for find old rjs with different number of tcs than tvs
+
 30 des 2005
 	window for jump reactive executing with realtime info done.
 

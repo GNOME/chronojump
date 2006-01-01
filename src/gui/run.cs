@@ -487,7 +487,7 @@ public class RepairRunIntervalWindow
 			
 		//calculate other variables needed for runInterval creation
 		
-		int runs = Util.GetNumberOfJumps(timeString); //don't need a GetNumberOfRuns, this works
+		int runs = Util.GetNumberOfJumps(timeString, false); //don't need a GetNumberOfRuns, this works
 		string limitString = "";
 	
 		if(runType.FixedValue > 0) {

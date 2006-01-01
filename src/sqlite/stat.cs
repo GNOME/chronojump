@@ -658,6 +658,7 @@ class SqliteStat : Sqlite
 		string returnFallString = "";
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
+			//Console.WriteLine(reader[3].ToString());
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}

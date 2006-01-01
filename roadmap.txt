@@ -10,7 +10,6 @@ chronojump 0.5
 - edit reactive jump and intervalic run [DONE]
 - stats checkboxes selectable by an outside combo with (all, none, invert, man, woman, ...) [DONE]
 - chronojump should be able of reading from usb with a serial-usb cable (usually /dev/ttyUSB0), and with a pcmcia (usually /dev/ttyS1) or others. Store in sqlite preferences [DONE] 
-- web: add a printed from in the print pages (without the "print" directory), add a little image in the print
 
 chronojump 0.6
 --------------

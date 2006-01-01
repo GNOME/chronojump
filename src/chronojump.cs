@@ -277,6 +277,8 @@ public class ChronoJump
 		} else { 
 			Sqlite.AddChronopicPortNameIfNotExists();
 			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
+			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
+			//SqliteJump.FindBadRjs();
 		}
 
 		cpRunning = false;
@@ -1624,7 +1626,7 @@ public class ChronoJump
 
 			//if user clicked in finish earlier
 			if(currentJumpRj.Finish) {
-				currentJumpRj.Jumps = Util.GetNumberOfJumps(currentJumpRj.TvString);
+				currentJumpRj.Jumps = Util.GetNumberOfJumps(currentJumpRj.TvString, false);
 				if(currentJumpRj.JumpsLimited) {
 					currentJumpRj.Limited = currentJumpRj.Jumps.ToString() + "J";
 				} else {
@@ -1899,7 +1901,7 @@ public class ChronoJump
 
 			//if user clicked in finish earlier
 			if(currentRunInterval.Finish) {
-				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString);
+				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString, false);
 				if(currentRunInterval.TracksLimited) {
 					currentRunInterval.Limited = currentRunInterval.Tracks.ToString() + "R";
 				} else {

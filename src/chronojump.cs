@@ -32,6 +32,7 @@ public class ChronoJump
 {
 	[Widget] Gtk.Window app1;
 	[Widget] Gnome.AppBar appbar2;
+	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
 	[Widget] Gtk.TreeView treeview_jumps_rj;
 	[Widget] Gtk.TreeView treeview_runs;
@@ -40,7 +41,6 @@ public class ChronoJump
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_runs;
 	[Widget] Gtk.Box hbox_combo_runs_interval;
-	[Widget] Gtk.Box hbox_combo_person_current;
 	[Widget] Gtk.Box hbox_jumps;
 	[Widget] Gtk.Box hbox_jumps_rj;
 	[Widget] Gtk.Box hbox_runs;
@@ -49,7 +49,6 @@ public class ChronoJump
 	[Widget] Gtk.Combo combo_jumps_rj;
 	[Widget] Gtk.Combo combo_runs;
 	[Widget] Gtk.Combo combo_runs_interval;
-	[Widget] Gtk.Combo combo_person_current;
 
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type;
 	[Widget] Gtk.CheckButton checkbutton_sort_by_type_rj;
@@ -78,9 +77,9 @@ public class ChronoJump
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
 	[Widget] Gtk.Button button_open;
+	[Widget] Gtk.Frame frame_persons;
 	[Widget] Gtk.Button button_recup_per;
 	[Widget] Gtk.Button button_create_per;
-	[Widget] Gtk.Label label_current_person;
 
 	[Widget] Gtk.Button button_sj;
 	[Widget] Gtk.Button button_sj_plus;
@@ -160,9 +159,12 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.41";
+	private static string progversion = "0.42";
 	private static string progname = "Chronojump";
 	
+	//persons
+	private TreeStore treeview_persons_store;
+	private TreeViewPersons myTreeViewPersons;
 	//normal jumps
 	private TreeStore treeview_jumps_store;
 	private TreeViewJumps myTreeViewJumps;
@@ -290,6 +292,7 @@ public class ChronoJump
 
 		loadPreferences ();
 
+		createTreeView_persons(treeview_persons);
 		createTreeView_jumps(treeview_jumps);
 		createTreeView_jumps_rj(treeview_jumps_rj);
 		createTreeView_runs(treeview_runs);
@@ -299,7 +302,6 @@ public class ChronoJump
 		createComboJumpsRj();
 		createComboRuns();
 		createComboRunsInterval();
-		createComboSujetoCurrent();
 		createdStatsWin = false;
 
 		//We have no session, mark some widgets as ".Sensitive = false"
@@ -417,6 +419,68 @@ public class ChronoJump
 		
 		
 		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
+	}
+
+	/* ---------------------------------------------------------
+	 * ----------------  TREEVIEW PERSONS ----------------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void createTreeView_persons (Gtk.TreeView tv) {
+		myTreeViewPersons = new TreeViewPersons( tv );
+	}
+
+	private void fillTreeView_persons () {
+		string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true); //reversed
+
+		if(myPersons.Length > 0) {
+			//fill treeview
+			myTreeViewPersons.Fill(myPersons);
+		}
+	}
+
+	private int findRowOfCurrentPerson(Gtk.TreeView tv, TreeStore store, Person currentPerson) {
+		return myTreeViewPersons.FindRow(currentPerson.UniqueID);
+	}
+	
+	//return true if selection is done (there's any person)
+	private bool selectRowTreeView_persons(Gtk.TreeView tv, TreeStore store, int rowNum) 
+	{
+		myTreeViewPersons.SelectRow(rowNum);
+		
+		//the selection of row in treeViewPersons.SelectRow is not a real selection 
+		//and unfortunately doesn't raises the on_treeview_persons_cursor_changed ()
+		//for this reason we reproduce the method here
+		TreeModel model;
+		TreeIter iter;
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			string selectedID = (string) model.GetValue (iter, 1); //name, ID
+			currentPerson = SqlitePersonSession.PersonSelect(selectedID);
+			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private void treeview_persons_storeReset() {
+		myTreeViewPersons.RemoveColumns();
+		myTreeViewPersons = new TreeViewPersons(treeview_persons);
+	}
+	
+	private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+
+		// you get the iter and the model if something is selected
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			string selectedID = (string) model.GetValue (iter, 1); //name, ID
+		
+			Console.WriteLine (selectedID);
+			currentPerson = SqlitePersonSession.PersonSelect(selectedID);
+			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);
+		}
 	}
 
 	/* ---------------------------------------------------------
@@ -688,22 +752,6 @@ public class ChronoJump
 		combo_runs_interval.Sensitive = false;
 	}
 
-	private void createComboSujetoCurrent() {
-		combo_person_current = new Combo ();
-		
-		combo_person_current.DisableActivate ();
-		combo_person_current.Entry.Changed += new EventHandler (on_combo_person_current_changed);
-
-		hbox_combo_person_current.PackStart(combo_person_current, true, true, 0);
-		hbox_combo_person_current.ShowAll();
-
-		combo_person_current.Sensitive = false;
-		button_edit_current_person.Sensitive = false;
-		menuitem_edit_current_person.Sensitive = false;
-		button_show_all_person_events.Sensitive = false;
-		show_all_person_events.Sensitive = false;
-	}
-		
 	private void updateComboJumps() {
 		combo_jumps.PopdownStrings = 
 			SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
@@ -722,38 +770,6 @@ public class ChronoJump
 	private void updateComboRunsInterval() {
 		combo_runs_interval.PopdownStrings = 
 			SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true); //only select name
-	}
-
-
-	private bool updateComboSujetoCurrent() {
-		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true); //reversed
-		combo_person_current.PopdownStrings = jumpers; 
-		
-		if(jumpers.Length > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	//combosujeto does not show always the last person as currentperson
-	//imagine when we edit a person and we change the name of him and then we accept,
-	//the combosujeto need to select the person just edited, not the last created person as the SQL says
-	private bool updateComboSujetoCurrent (string name) {
-		string [] jumpers = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true); //reversed
-		combo_person_current.PopdownStrings = jumpers; 
-		
-		foreach (string jumper in jumpers) {
-			if (jumper == name) {
-				combo_person_current.Entry.Text = jumper;
-			}
-		}
-		
-		if(jumpers.Length > 0) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
 	private void on_combo_jumps_changed(object o, EventArgs args) {
@@ -844,23 +860,6 @@ public class ChronoJump
 		}
 	}
 
-
-	private void on_combo_person_current_changed(object o, EventArgs args) {
-		string myText = combo_person_current.Entry.Text;
-		if(myText != "" && myText.LastIndexOf(":") != -1) {
-			//if people modify the values in the combo_person_current, and this values are not correct, 
-			//let's update the combosujetocurrent
-			
-			if(SqlitePersonSession.PersonSelectExistsInSession(Util.FetchID(myText), currentSession.UniqueID)) 
-			{
-				currentPerson = SqlitePersonSession.PersonSelect(Util.FetchID(myText));
-			}
-		}
-		//else {
-		//	updateComboSujetoCurrent();
-		//}
-	}
-
 	
 	/* ---------------------------------------------------------
 	 * ----------------  DELETE EVENT, QUIT  -----------------------
@@ -908,8 +907,10 @@ public class ChronoJump
 			if(createdStatsWin) {
 				statsWin.InitializeSession(currentSession);
 			}
-
 			
+			//load the persons treeview
+			treeview_persons_storeReset();
+			fillTreeView_persons();
 			//load the jumps treeview
 			treeview_jumps_storeReset();
 			fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
@@ -935,9 +936,6 @@ public class ChronoJump
 			menuitem_delete_current_person_from_session.Sensitive = false;
 			button_show_all_person_events.Sensitive = false;
 			show_all_person_events.Sensitive = false;
-			//update combo sujeto current
-			updateComboSujetoCurrent();
-			combo_person_current.Sensitive = false;
 		
 			//update report
 			report.SessionID = currentSession.UniqueID;
@@ -976,6 +974,10 @@ public class ChronoJump
 			statsWin.InitializeSession(currentSession);
 		}
 		
+		//load the persons treeview (and try to select first)
+		treeview_persons_storeReset();
+		fillTreeView_persons();
+		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
 		//load the treeview_jumps
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
@@ -999,12 +1001,9 @@ public class ChronoJump
 		menuitem_delete_current_person_from_session.Sensitive = false;
 		button_show_all_person_events.Sensitive = false;
 		show_all_person_events.Sensitive = false;
-		//update combo sujeto current
-		bool myBool = updateComboSujetoCurrent();
-		combo_person_current.Sensitive = false;
-		
+
 		//if there are persons
-		if(myBool) {
+		if(foundPersons) {
 			//activate the gui for persons in main window
 			sensitiveGuiYesPerson();
 		}
@@ -1054,8 +1053,15 @@ public class ChronoJump
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
 		currentPerson = personRecuperateWin.CurrentPerson;
-		updateComboSujetoCurrent();
-		sensitiveGuiYesPerson();
+		treeview_persons_storeReset();
+		fillTreeView_persons();
+		int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+		if(rowToSelect != -1) {
+			selectRowTreeView_persons(treeview_persons,
+					treeview_persons_store, 
+					rowToSelect);
+			sensitiveGuiYesPerson();
+		}
 	}
 		
 	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
@@ -1066,8 +1072,15 @@ public class ChronoJump
 	
 	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args) {
 		currentPerson = personsRecuperateFromOtherSessionWin.CurrentPerson;
-		updateComboSujetoCurrent();
-		sensitiveGuiYesPerson();
+		treeview_persons_storeReset();
+		fillTreeView_persons();
+		int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+		if(rowToSelect != -1) {
+			selectRowTreeView_persons(treeview_persons,
+					treeview_persons_store, 
+					rowToSelect);
+			sensitiveGuiYesPerson();
+		}
 	}
 		
 	private void on_person_add_single_activate (object o, EventArgs args) {
@@ -1079,9 +1092,16 @@ public class ChronoJump
 		if (personAddWin.CurrentPerson != null)
 		{
 			currentPerson = personAddWin.CurrentPerson;
-			updateComboSujetoCurrent();
-			sensitiveGuiYesPerson();
-			appbar2.Push( Catalog.GetString("Successfully added") + " " + currentPerson.Name );
+			treeview_persons_storeReset();
+			fillTreeView_persons();
+			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+			if(rowToSelect != -1) {
+				selectRowTreeView_persons(treeview_persons,
+						treeview_persons_store, 
+						rowToSelect);
+				sensitiveGuiYesPerson();
+				appbar2.Push( Catalog.GetString("Successfully added") + " " + currentPerson.Name );
+			}
 		}
 	}
 	
@@ -1094,14 +1114,18 @@ public class ChronoJump
 		if (personAddMultipleWin.CurrentPerson != null)
 		{
 			currentPerson = personAddMultipleWin.CurrentPerson;
-			updateComboSujetoCurrent();
-			sensitiveGuiYesPerson();
+			treeview_persons_storeReset();
+			fillTreeView_persons();
+			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+			if(rowToSelect != -1) {
+				selectRowTreeView_persons(treeview_persons,
+						treeview_persons_store, 
+						rowToSelect);
+				sensitiveGuiYesPerson();
 			
-			string myString = string.Format(Catalog.GetString("Successfully added {0} persons"), personAddMultipleWin.PersonsCreatedCount);
-			appbar2.Push( Catalog.GetString(myString) );
-			
-			//can be done also like this:
-			//appbar2.Push( string.Format(Catalog.GetString("Successfully added {0} persons"), personAddMultipleWin.PersonsCreatedCount) );
+				string myString = string.Format(Catalog.GetString("Successfully added {0} persons"), personAddMultipleWin.PersonsCreatedCount);
+		appbar2.Push( Catalog.GetString(myString) );
+			}
 		}
 	}
 	
@@ -1115,9 +1139,15 @@ public class ChronoJump
 		if (personModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personModifyWin.CurrentPerson;
-			updateComboSujetoCurrent (currentPerson.UniqueID + ": " + currentPerson.Name);
-
-			sensitiveGuiYesPerson();
+			treeview_persons_storeReset();
+			fillTreeView_persons();
+			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+			if(rowToSelect != -1) {
+				selectRowTreeView_persons(treeview_persons,
+						treeview_persons_store, 
+						rowToSelect);
+				sensitiveGuiYesPerson();
+			}
 
 			treeview_jumps_storeReset();
 			string myText = combo_jumps.Entry.Text;
@@ -1153,20 +1183,22 @@ public class ChronoJump
 		SqlitePersonSession.DeletePersonFromSessionAndJumps(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
+		treeview_persons_storeReset();
+		fillTreeView_persons();
+		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
+		
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
-		treeview_jumps_storeReset();
+		
+		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, Constants.AllJumpsName);
 			
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, true);
 		}
 		
-		bool myBool = updateComboSujetoCurrent();
-		
 		//if there are no persons
-		if(!myBool) {
-			combo_person_current.Sensitive = false;
+		if(!foundPersons) {
 			sensitiveGuiNoPerson ();
 			if(createdStatsWin) {
 				statsWin.Hide();
@@ -2377,7 +2409,7 @@ public class ChronoJump
 		menuitem_recuperate_persons_from_session.Sensitive = false;
 		menuitem_person_add_single.Sensitive = false;
 		menuitem_person_add_multiple.Sensitive = false;
-		combo_person_current.Sensitive = false;
+		treeview_persons.Sensitive = false;
 		menuitem_edit_session.Sensitive = false;
 		menuitem_delete_session.Sensitive = false;
 		
@@ -2386,9 +2418,9 @@ public class ChronoJump
 		menu_runs.Sensitive = false;
 		menu_view.Sensitive = false;
 
+		frame_persons.Sensitive = false;
 		button_recup_per.Sensitive = false;
 		button_create_per.Sensitive = false;
-		label_current_person.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
 		menuitem_delete_current_person_from_session.Sensitive = false;
 		button_show_all_person_events.Sensitive = false;
@@ -2407,9 +2439,9 @@ public class ChronoJump
 	}
 	
 	private void sensitiveGuiYesSession () {
+		frame_persons.Sensitive = true;
 		button_recup_per.Sensitive = true;
 		button_create_per.Sensitive = true;
-		label_current_person.Sensitive = true;
 		
 		preferences.Sensitive = true;
 		menuitem_export_csv.Sensitive = true;
@@ -2426,7 +2458,7 @@ public class ChronoJump
 	//only called by delete person functions (if we run out of persons)
 	private void sensitiveGuiNoPerson () {
 		notebook.Sensitive = false;
-		combo_person_current.Sensitive = false;
+		treeview_persons.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
 		menuitem_edit_current_person.Sensitive = false;
 		menuitem_delete_current_person_from_session.Sensitive = false;
@@ -2472,7 +2504,7 @@ public class ChronoJump
 	
 	private void sensitiveGuiYesPerson () {
 		notebook.Sensitive = true;
-		combo_person_current.Sensitive = true;
+		treeview_persons.Sensitive = true;
 		button_edit_current_person.Sensitive = true;
 		menuitem_edit_current_person.Sensitive = true;
 		menuitem_delete_current_person_from_session.Sensitive = true;

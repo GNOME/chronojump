@@ -1,5 +1,12 @@
 CHANGELOG:
 
+2 jan 2006 (minor RELEASE 0.42)
+	persons gui changed, deleted the combo and now managed with a clearer,
+	easier, powerfuler treeview at left of main window (added
+	treeViewPerson.cs)
+	
+	fixed bug: not showing jumps after deleting a person from a session
+	
 1 jan 2006
 	improved rj execute window
 		show/hide checkbox for tv/tc
@@ -7,6 +14,7 @@ CHANGELOG:
 		simulated mode now uses the avg progressbars
 
 	written SqliteJumps.FindBadRjs for find old rjs with different number of tcs than tvs
+
 
 30 des 2005
 	window for jump reactive executing with realtime info done.

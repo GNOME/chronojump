@@ -187,12 +187,8 @@ class SqlitePersonSession : Sqlite
 		count = 0;
 
 		while(reader.Read()) {
-			/*
-			Console.WriteLine("[{0}] {1} {2} {3}",
-					reader[0].ToString(), reader[1].ToString(), 
-					reader[2].ToString(), reader[3].ToString() );
-			*/
-			myArray.Add (reader[0].ToString() + ": " + reader[1].ToString() );
+			//myArray.Add (reader[0].ToString() + ": " + reader[1].ToString() );
+			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
 			count ++;
 		}
 

@@ -14,6 +14,7 @@ chronojump 0.5
 chronojump 0.6
 --------------
 
+- jumpers in a left treeview instead of in the toolbar
 - user defined numeric variables (ask for including in stats, graphs) (height, weight, sex are some of them) this can be always the same for a subject, or change every session
 - user defined non-numeric variables like sport (football, basquetball, ...)
 - XY graphs between any two variables (also non-numeric)

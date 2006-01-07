@@ -34,6 +34,7 @@ public class GraphRjEvolution : StatRjEvolution
 {
 	protected string operation;
 	private Random myRand = new Random();
+	private int countSeriesGraphColors = 0;
 
 
 	//numContinuous passed only for writing correct Enunciate	
@@ -99,20 +100,28 @@ public class GraphRjEvolution : StatRjEvolution
 		serieTc.IsLeftAxis = true;
 		serieTv.IsLeftAxis = true;
 
-		int myR = myRand.Next(255);
-		int myG = myRand.Next(255);
-		int myB = myRand.Next(255);
+		//color code
+		Color myColor = new Color();
+		if(countSeriesGraphColors > Constants.Colors.Length) {
+			int myR = myRand.Next(255 - 40); //not 255 for not being so light colors
+			int myG = myRand.Next(255 - 40);
+			int myB = myRand.Next(255 - 40);
+			myColor = Color.FromArgb(myR, myG, myB);
+		} else {
+			myColor = Color.FromName(Constants.Colors[countSeriesGraphColors]);
+			countSeriesGraphColors ++;
+		}
 		
 		//serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
 		serieTc.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-				6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
+				6, new Pen (myColor, 2.0F));
 		//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
-		serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-				6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
+		serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
+				6, new Pen (myColor, 2.0F));
 		
 		//for the line between markers
-		serieTc.SerieColor = Color.FromArgb(myR, myG, myB);
-		serieTv.SerieColor = Color.FromArgb(myR, myG, myB);
+		serieTc.SerieColor = myColor;
+		serieTv.SerieColor = myColor;
 		
 		int i = 0;
 		foreach (string myValue in statValues) 
@@ -136,7 +145,7 @@ public class GraphRjEvolution : StatRjEvolution
 
 	private bool isTC(int col) {
 		for (int i=0; i < maxJumps ; i++) {
-			if (i*2 +2 == col) { //TC cols: 2, 4, 6, 8, ...
+			if (i*2 +3 == col) { //TC cols: 3, 5, 7, 9, ...
 				return true;
 			}
 		}
@@ -145,7 +154,7 @@ public class GraphRjEvolution : StatRjEvolution
 	
 	private bool isTV(int col) {
 		for (int i=0; i < maxJumps ; i++) {
-			if (i*2 +3 == col) { //TV cols: 3, 5, 6, 9, ...
+			if (i*2 +4 == col) { //TV cols: 4, 6, 8, 10, ...
 				return true;
 			}
 		}

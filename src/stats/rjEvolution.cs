@@ -53,15 +53,31 @@ public class StatRjEvolution : Stat
 
 		//only simplesession
 		store = getStore(dataColumns +1); //jumper, datacolumns 
-		string [] columnsString = new String[dataColumns +1];
+		string [] columnsString;
+	      
+	       //in report, show only 5 TCs and 5 TVs every row, 
+	       //if there are more jumps to show, let's cut them
+		if(toReport && maxJumps > 5 ) {
+			columnsString = new String[14]; //jumper, index, fall, count, 5 tc+tv
+		} else {
+			columnsString =	new String[dataColumns +1];
+		}
 		columnsString[0] = Catalog.GetString("Jumper");
 		columnsString[1] = Catalog.GetString("Index");
-		int i;
-		for(i=0; i < maxJumps; i++) {
-			columnsString[i*2 +2] = Catalog.GetString("TC") + (i+1).ToString(); //cols: 2, 4, 6, ...
-			columnsString[i*2 +2 +1] = Catalog.GetString("TV") + (i+1).ToString(); //cols: 3, 5, 7, ...
+		columnsString[2] = Catalog.GetString("Fall");
+
+		if(toReport && maxJumps > 5) {
+			columnsString[3] = Catalog.GetString("Count");
+			for(int i=0; i < maxJumps && i < 5; i++) {
+				columnsString[(i+1)*2 +2] = Catalog.GetString("TC"); //cols: 4, 6, 8, ...
+				columnsString[(i+1)*2 +3] = Catalog.GetString("TV"); //cols: 5, 7, 9, ...
+			}
+		} else {
+			for(int i=0; i < maxJumps; i++) {
+				columnsString[(i+1)*2 +1] = Catalog.GetString("TC") + (i+1).ToString(); //cols: 3, 5, 7, ...
+				columnsString[(i+1)*2 +2] = Catalog.GetString("TV") + (i+1).ToString(); //cols: 4, 6, 8, ...
+			}
 		}
-		columnsString[i*2 +2] = Catalog.GetString("Fall");
 		
 		if(toReport) {
 			reportString = prepareHeadersReport(columnsString);
@@ -80,10 +96,9 @@ public class StatRjEvolution : Stat
 		double bestCount=-10000;	//best value found of 3 pairs
 
 		//read all values in pairs tc,tv
-		//start in pos 2 because first is name, second is index
+		//start in pos 3 because first is name, second is index, third fall
 		//end in Length-numContinuous*2 because we should not count only the last tc,tv pair or the last two, only the last three
-		//end in -1 because last value is fall
-		for ( int i=2; i < statValues.Length -numContinuous*2 -1 ; i=i+2 ) 
+		for ( int i=3; i < statValues.Length -numContinuous*2 ; i=i+2 ) 
 		{
 			double myCount = 0;
 			bool jumpFinished = false;
@@ -152,8 +167,39 @@ public class StatRjEvolution : Stat
 			}
 			if(allowedRow) {
 				reportString += "<TR>";
-				for (int i=0; i < statValues.Length ; i++) {
-					reportString += "<TD>" + statValues[i] + "</TD>";
+				//in report, if there are more than 5 jumps, break the row
+				if(maxJumps > 5) {
+					//show 5 jumps in a row (every jump has 2 cols: TC + TV)
+					int countCols = -3; //jumper, index , fall, count (from -3 to 0)
+					int countRows = 0;
+					for (int i=0; i < statValues.Length ; i++) 
+					{
+						//if a jump is shorter than the others, 
+						//there's no need of filling rows with '-' in every cell
+						if(countCols >= 1 && statValues[i] == "-") {
+							break;
+						}	
+						
+						//when countCols is 0, and countRows is 0 we should print the first 'Count'
+						if(countCols == 0 && countRows == 0) {
+							reportString += "<TD>1-5</TD>";
+						}
+						
+						//change line
+						if(countCols >= 10) {
+							reportString += "</TR><TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD>&nbsp;</TD>";
+							countRows ++;
+							countCols = 0;
+							reportString += "<TD>" + (countRows*5 + 1) + "-" + 
+								(countRows*5 +5) + "</TD>";
+						}
+						reportString += "<TD>" + statValues[i] + "</TD>";
+						countCols ++;
+					}
+				} else {
+					for (int i=0; i < statValues.Length ; i++) {
+						reportString += "<TD>" + statValues[i] + "</TD>";
+					}
 				}
 				reportString += "</TR>\n";
 			}

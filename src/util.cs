@@ -283,7 +283,7 @@ public class Util
 		bool found = false;
 		int i;
 		for (i=0; ! found ; i++) {
-			if(text[i] == ' ') {
+			if(text[i] == ':') {
 				found = true;
 			}
 		}
@@ -292,14 +292,8 @@ public class Util
 
 	public static string GetInitialSpeed (string time) 
 	{
-		double timeAsDouble = Convert.ToDouble(time);
 		double height = Convert.ToDouble( GetHeightInCentimeters(time) );
 		height = height / 100; //in meters
-		
-		// bad!! fixed below
-		// S = So + Vot + (at^2)/2
-		// Vo = ( ( 4.9 * t^2 ) + S ) / t
-		// double initialSpeed = ( ( 4.9 * timeAsDouble * timeAsDouble ) + height ) / timeAsDouble;
 		
 		// Vo = sqrt(2gh)
 		double initialSpeed = System.Math.Sqrt ( 2 * 9.81 * height ); 

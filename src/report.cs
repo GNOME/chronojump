@@ -215,21 +215,22 @@ public class Report : ExportSession
 	protected override void printJumpers()
 	{
 		ArrayList myData = new ArrayList(1);
-		myData.Add ( "\n" + 
-				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
-				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
-				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
-				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
-				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
-				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name")
-				);
+		
+		//put 6 jumpers x row, now write the headers, but if there are less than 6 persons,do less columns
+		string tempString = "\n";
+		for(int i=0; i < 6 && i < myPersons.Length ; i ++) {
+			if(i > 0) {
+				tempString += ":";
+			}
+			tempString += Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name");
+		}
+		myData.Add (tempString);
 		
 		string myLine = "";
 		int count = 0;
 	
 		foreach (string jumperString in myPersons) {
 			string [] myStr = jumperString.Split(new char[] {':'});
-			Console.WriteLine(myStr[1] + ":");
 			if(count > 0) {
 				myLine += ":";
 			}
@@ -336,7 +337,7 @@ public class Report : ExportSession
 			writer.WriteLine(myHeaderStat);
 
 			StatType myStatType;
-			bool allFine;
+			//bool allFine;
 			//report of stat
 
 
@@ -359,7 +360,8 @@ public class Report : ExportSession
 					""
 					);
 
-			allFine = myStatType.ChooseStat();
+			//allFine = myStatType.ChooseStat();
+			myStatType.ChooseStat();
 			
 			string myEnunciate ="<tr><td colspan=\"2\">" + myStatType.Enunciate + "</td></tr>";
 
@@ -385,7 +387,8 @@ public class Report : ExportSession
 					fileName		//fileName for exporting there
 					);
 
-			allFine = myStatType.ChooseStat();
+			//allFine = myStatType.ChooseStat();
+			myStatType.ChooseStat();
 
 			//enunciate is prented here and not before 
 			//because myStatType of a graph doesn't know the numContinuous value 

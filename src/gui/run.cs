@@ -87,8 +87,8 @@ public class EditRunWindow
 		combo_runners = new Combo();
 		combo_runners.PopdownStrings = runners;
 		foreach (string runner in runners) {
-			Console.WriteLine("runner: {0}, name: {1}", runner, myRun.PersonID + ": " + myRun.RunnerName);
-			if (runner == myRun.PersonID + ": " + myRun.RunnerName) {
+			Console.WriteLine("runner: {0}, name: {1}", runner, myRun.PersonID + ":" + myRun.RunnerName);
+			if (runner == myRun.PersonID + ":" + myRun.RunnerName) {
 				combo_runners.Entry.Text = runner;
 			}
 		}
@@ -196,7 +196,7 @@ public class EditRunIntervalWindow
 		combo_runners = new Combo();
 		combo_runners.PopdownStrings = runners;
 		foreach (string runner in runners) {
-			if (runner == myRun.PersonID + ": " + myRun.RunnerName) {
+			if (runner == myRun.PersonID + ":" + myRun.RunnerName) {
 				combo_runners.Entry.Text = runner;
 			}
 		}
@@ -477,7 +477,6 @@ public class RepairRunIntervalWindow
 		
 		bool iterOk = store.GetIterFirst (out myIter);
 		if(iterOk) {
-			int count = 1;
 			string equal= ""; //first iteration should not appear '='
 			do {
 				timeString = timeString + equal + (string) treeview_subevents.Model.GetValue (myIter, 1);
@@ -508,7 +507,7 @@ public class RepairRunIntervalWindow
 
 		//save it deleting the old first for having the same uniqueID
 		SqliteRun.Delete("runInterval", runInterval.UniqueID.ToString());
-		int uniqueID = SqliteRun.InsertInterval(runInterval.UniqueID.ToString(), 
+		SqliteRun.InsertInterval(runInterval.UniqueID.ToString(), 
 				runInterval.PersonID, runInterval.SessionID, 
 				runInterval.Type, 
 				runs * runInterval.DistanceInterval,	//distanceTotal
@@ -713,9 +712,8 @@ public class RunsMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
-		TreeIter iter = new TreeIter();
-
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myRunTypes = SqliteRunType.SelectRunTypes("", false);
 		foreach (string myType in myRunTypes) {
@@ -724,7 +722,7 @@ public class RunsMoreWindow
 				myStringFull[2] = Catalog.GetString("Not defined");
 			}
 
-			iter = store.AppendValues (
+			store.AppendValues (
 					//myStringFull[0], //don't display the uniqueID
 					myStringFull[1],	//name 
 					myStringFull[2], 	//distance
@@ -880,9 +878,8 @@ public class RunsIntervalMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
-		TreeIter iter = new TreeIter();
-
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myTypes = SqliteRunType.SelectRunIntervalTypes("", false);
 		foreach (string myType in myTypes) {
@@ -907,7 +904,7 @@ public class RunsIntervalMoreWindow
 				}
 			}
 
-			iter = store.AppendValues (
+			store.AppendValues (
 					//myStringFull[0], //don't display de uniqueID
 					myStringFull[1],	//name 
 					myStringFull[2],	//distance

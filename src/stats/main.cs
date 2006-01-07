@@ -135,6 +135,36 @@ public class Stat
 		tv.InsertColumn (column, 0);
 	}
 
+	
+	private void addRowToMarkedRows(string rowToAdd) {
+		//add a row only if doesn't exist in markedRows previously
+		bool found = false;
+		foreach(string myRow in markedRows) {
+			if(myRow == rowToAdd) {
+				found = true;
+				break;
+			}
+		}
+		if(!found) {
+			markedRows.Add(rowToAdd);
+			//Console.WriteLine("Added to markedRows row:{0}", rowToAdd);
+		}
+	}
+	
+	private void deleteRowFromMarkedRows(string rowToDelete)
+	{
+		int i = 0;
+		foreach(string myRow in markedRows) {
+			if(myRow == rowToDelete) {
+				markedRows.RemoveAt(i);
+				//Console.WriteLine("deleted from markedRows row:{0}", rowToDelete);
+				break;
+			}
+			i++;
+		}
+	}
+	
+	
 	void ItemToggled(object o, ToggledArgs args) {
 		Console.WriteLine("Fake button will be pressed");
 		fakeButtonRowCheckedUnchecked.Click();
@@ -159,18 +189,9 @@ public class Stat
 				//add or delete from ArrayList markedRows
 				//if (val) means was true, and now has changed to false. Has been deactivated
 				if(val) {
-					int i = 0;
-					foreach(string myRow in markedRows) {
-						if(myRow == args.Path) {
-							markedRows.RemoveAt(i);
-							Console.WriteLine("deleted from markedRows row:{0}", args.Path);
-							break;
-						}
-						i++;
-					}
+					deleteRowFromMarkedRows(args.Path);
 				} else {
-					markedRows.Add(args.Path);
-					Console.WriteLine("Added to markedRows row:{0}", args.Path);
+					addRowToMarkedRows(args.Path);
 				}
 			}
 			
@@ -208,17 +229,23 @@ public class Stat
 				do {
 					if(isNotAVGOrSD(iter)) {
 						store.SetValue (iter, 0, true);
+						addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 					}
 				} while ( store.IterNext(ref iter) );
 			} else if(selected == Catalog.GetString("None")) {
 				do {
 					store.SetValue (iter, 0, false);
+					deleteRowFromMarkedRows(treeview.Model.GetPath(iter).ToString());
 				} while ( store.IterNext(ref iter) );
 			} else if(selected == Catalog.GetString("Invert")) {
 				do {
 					if(isNotAVGOrSD(iter)) {
 						bool val = (bool) store.GetValue (iter, 0);
 						store.SetValue (iter, 0, !val);
+						if(val)
+							deleteRowFromMarkedRows(treeview.Model.GetPath(iter).ToString());
+						else
+							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 					}
 				} while ( store.IterNext(ref iter) );
 			} else if(selected == Catalog.GetString("Male")) {
@@ -227,9 +254,12 @@ public class Stat
 						string nameAndSex = (string) store.GetValue (iter, 1);
 						string [] stringFull = nameAndSex.Split(new char[] {'.'});
 						if(stringFull.Length > 1 && stringFull[1].StartsWith("M")) {
+						//if(stringFull[1].StartsWith("M")) {
 							store.SetValue (iter, 0, true);
+							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 						} else {
 							store.SetValue (iter, 0, false);
+							deleteRowFromMarkedRows(treeview.Model.GetPath(iter).ToString());
 						}
 					}
 				} while ( store.IterNext(ref iter) );
@@ -239,9 +269,12 @@ public class Stat
 						string nameAndSex = (string) store.GetValue (iter, 1);
 						string [] stringFull = nameAndSex.Split(new char[] {'.'});
 						if(stringFull.Length > 1 && stringFull[1].StartsWith("F")) {
+						//if(stringFull[1].StartsWith("F")) {
 							store.SetValue (iter, 0, true);
+							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 						} else {
 							store.SetValue (iter, 0, false);
+							deleteRowFromMarkedRows(treeview.Model.GetPath(iter).ToString());
 						}
 					}
 				} while ( store.IterNext(ref iter) );
@@ -321,7 +354,8 @@ public class Stat
 			myHeaderString += "<TH>" + Catalog.GetString("AVG") + "</TH>";
 			myHeaderString += "<TH>" + Catalog.GetString("SD") + "</TH>";
 		} else {
-			for(int i=1 ; i <= dataColumns ; i++) {
+			//for(int i=1 ; i <= dataColumns ; i++) {
+			for(int i=1 ; i < columnsString.Length ; i++) {
 				myHeaderString += "<TH>" + columnsString[i] + "</TH>";
 			}
 		}
@@ -838,13 +872,13 @@ public class Stat
 		{
 			
 			//in isRjEvolution then check it this serie will be shown (each jumper has a TC and a TV serie)
-			if( isRjEvolution && ! acceptCheckedData( divideAndRoundDown(countSerie) +1 ) ) {
+			if( isRjEvolution && ! acceptCheckedData( divideAndRoundDown(countSerie)) ) {
 				countSerie ++;
 				continue;
 			
 			}
 			//in multisession if a stats row is unchecked, jump to next iteration
-			else if( sessions.Count > 1 && ! acceptCheckedData(countSerie +1) ) {
+			else if( sessions.Count > 1 && ! acceptCheckedData(countSerie) ) {
 				countSerie ++;
 				continue;
 			}
@@ -852,7 +886,7 @@ public class Stat
 			
 			//xtics value is all rows +2 (left & right space)
 			//lineData should contain xtics but without the rows thar are not in markedRows
-			//Console.WriteLine("{0}:{1}:{2}", xtics, markedRows.Count, xtics-( (xtics-2)-(markedRows.Count) ) );
+			Console.WriteLine("{0}:{1}:{2}", xtics, markedRows.Count, xtics-( (xtics-2)-(markedRows.Count) ) );
 			double[] lineData;
 			if(sessions.Count == 1 && !isRjEvolution) {
 				//in single session lineData should contain all rows from stats except unchecked
@@ -877,12 +911,12 @@ public class Stat
 			lineData[0] = double.NaN;
 	
 			int added=1;
-			int counter=1;
+			int counter=0;
 			foreach (string myValue in mySerie.SerieData) 
 			{
 				//TODO: check this:
 				//don't graph AVG and SD right cols in multisession
-				if ( counter > xtics -2 ) {
+				if ( counter >= xtics -2 ) {
 					break;
 				}	
 				
@@ -932,7 +966,7 @@ public class Stat
 	{
 		LabelAxis la = new LabelAxis( plot.XAxis1 );
 		int added=1;
-		int counter=1;
+		int counter=0;
 		foreach (string name in graphData.XAxisNames) {
 			if(sessions.Count == 1 && !isRjEvolution && !acceptCheckedData(counter)) {
 				//in single session lineData should contain all rows from stats except unchecked

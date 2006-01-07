@@ -91,8 +91,8 @@ class SqliteJump : Sqlite
 		int myLast = dbcon.LastInsertRowId;
 		dbcon.Close();
 
-		Jump myJump = new Jump(myLast, personID, sessionID,
-				type, tv, tc, fall, weight, description );
+		//Jump myJump = new Jump(myLast, personID, sessionID,
+		//		type, tv, tc, fall, weight, description );
 		
 		return myLast;
 	}
@@ -115,8 +115,8 @@ class SqliteJump : Sqlite
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 
-		JumpRj myJump = new JumpRj (myLast, personID, sessionID, type, tvString, tcString,
-				fall, weight, description, jumps, time, limited );
+		//JumpRj myJump = new JumpRj (myLast, personID, sessionID, type, tvString, tcString,
+		//		fall, weight, description, jumps, time, limited );
 
 		dbcon.Close();
 

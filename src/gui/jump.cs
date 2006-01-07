@@ -100,8 +100,8 @@ public class EditJumpWindow
 		combo_jumpers = new Combo();
 		combo_jumpers.PopdownStrings = jumpers;
 		foreach (string jumper in jumpers) {
-			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ": " + myJump.PersonName);
-			if (jumper == myJump.PersonID + ": " + myJump.PersonName) {
+			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ":" + myJump.PersonName);
+			if (jumper == myJump.PersonID + ":" + myJump.PersonName) {
 				combo_jumpers.Entry.Text = jumper;
 			}
 		}
@@ -228,8 +228,8 @@ public class EditJumpRjWindow
 		combo_jumpers = new Combo();
 		combo_jumpers.PopdownStrings = jumpers;
 		foreach (string jumper in jumpers) {
-			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ": " + myJump.PersonName);
-			if (jumper == myJump.PersonID + ": " + myJump.PersonName) {
+			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ":" + myJump.PersonName);
+			if (jumper == myJump.PersonID + ":" + myJump.PersonName) {
 				combo_jumpers.Entry.Text = jumper;
 			}
 		}
@@ -593,7 +593,6 @@ public class RepairJumpRjWindow
 		
 		bool iterOk = store.GetIterFirst (out myIter);
 		if(iterOk) {
-			int count = 1;
 			string equal= ""; //first iteration should not appear '='
 			do {
 				tcString = tcString + equal + (string) treeview_subevents.Model.GetValue (myIter, 1);
@@ -625,7 +624,8 @@ public class RepairJumpRjWindow
 
 		//save it deleting the old first for having the same uniqueID
 		SqliteJump.Delete("jumpRj", jumpRj.UniqueID.ToString());
-		int uniqueID = SqliteJump.InsertRj(jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
+		//int uniqueID = SqliteJump.InsertRj(jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
+		SqliteJump.InsertRj(jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
 				jumpRj.Type, Util.GetMax(tvString), Util.GetMax(tcString), 
 				jumpRj.Fall, jumpRj.Weight, jumpRj.Description,
 				Util.GetAverage(tvString), Util.GetAverage(tcString),
@@ -887,9 +887,8 @@ public class JumpsMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
-		TreeIter iter = new TreeIter();
-
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	{
 		//select data without inserting an "all jumps", without filter, and not obtain only name of jump
 		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes("", "", false);
 		foreach (string myType in myJumpTypes) {
@@ -905,7 +904,7 @@ public class JumpsMoreWindow
 				myStringFull[3] = Catalog.GetString("No");
 			}
 
-			iter = store.AppendValues (
+			store.AppendValues (
 					//myStringFull[0], //don't display de uniqueID
 					myStringFull[1],	//name 
 					myStringFull[2], 	//startIn
@@ -1075,9 +1074,8 @@ public class JumpsRjMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
-		TreeIter iter = new TreeIter();
-
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myJumpTypes = SqliteJumpType.SelectJumpRjTypes("", false);
 		foreach (string myType in myJumpTypes) {
@@ -1111,7 +1109,7 @@ public class JumpsRjMoreWindow
 				}
 			}
 
-			iter = store.AppendValues (
+			store.AppendValues (
 					//myStringFull[0], //don't display de uniqueID
 					myStringFull[1],	//name 
 					myLimiter,		//jumps or seconds		

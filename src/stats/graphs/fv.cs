@@ -34,6 +34,7 @@ public class GraphFv : StatFv
 {
 	protected string operation;
 	private Random myRand = new Random();
+	private int countSeriesGraphColors = 0;
 
 	//for simplesession
 	GraphSerie serieIndex;
@@ -142,14 +143,24 @@ public class GraphFv : StatFv
 			GraphSerie mySerie = new GraphSerie();
 			mySerie.IsLeftAxis = true;
 		
-			int myR = myRand.Next(255);
-			int myG = myRand.Next(255);
-			int myB = myRand.Next(255);
 			
+			//color code
+			Color myColor = new Color();
+			if(countSeriesGraphColors > Constants.Colors.Length) {
+				int myR = myRand.Next(255 - 40); //not 255 for not being so light colors
+				int myG = myRand.Next(255 - 40);
+				int myB = myRand.Next(255 - 40);
+				myColor = Color.FromArgb(myR, myG, myB);
+			} else {
+				myColor = Color.FromName(Constants.Colors[countSeriesGraphColors]);
+				countSeriesGraphColors ++;
+			}
+		
 			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromArgb(myR, myG, myB), 2.0F));
+					6, new Pen (myColor, 2.0F));
 			
-			mySerie.SerieColor = Color.FromArgb(myR, myG, myB);
+			mySerie.SerieColor = myColor;
+			
 			
 			int i=0;
 			foreach (string myValue in statValues) {

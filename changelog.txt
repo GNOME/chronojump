@@ -1,5 +1,27 @@
 CHANGELOG:
 
+6 jan 2006 (minor RELEASE 0.43)
+	graphs: all multisession graphs and rjEvolution now have a palette in
+	constants.cs if palette is small for graph, then use random but values
+	far from white
+
+	graph rjEvolution now has different marker for tv and tc
+
+	report: less cols for persons if not needed
+	report: rjEvolution jumps data in rows
+	
+	fixed size in treeview persons
+
+	fixed three noticeable bugs: (1) some bad code inherited from old use of
+	"all/none" row in stats treeview, (2) some bad code for the old using
+	"id: name" for comboPerson. These bugs make crash the rjEvolution
+	report, and makes problems in some parts of the code if the jumper
+	name has no ' ' (3) checkboxes in treeview stats doesn't add rows to
+	markedRows without checking if that exists (and delete doesn't check
+	if there is more than one of every row)
+
+	fixed all warnings
+	
 2 jan 2006 (minor RELEASE 0.42)
 	persons gui changed, deleted the combo and now managed with a clearer,
 	easier, powerfuler treeview at left of main window (added

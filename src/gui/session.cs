@@ -308,14 +308,13 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
-		TreeIter iter = new TreeIter();
-
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	{
 		string [] mySessions = SqliteSession.SelectAllSessions(); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 
-			iter = store.AppendValues (myStringFull[0], myStringFull[1], 
+			store.AppendValues (myStringFull[0], myStringFull[1], 
 					myStringFull[2], myStringFull[3], 
 					myStringFull[5],	//number of jumpers x session
 					myStringFull[6],	//number of jumps x session
@@ -456,9 +455,8 @@ public class SessionSelectStatsWindow {
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) {
-		TreeIter iter = new TreeIter();
-
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	{
 		bool commentsDisable = false;
 		int sessionIdDisable = -1; //don't disable any session (-1 as uniqueID is impossible)
 		string [] mySessions = 
@@ -467,7 +465,7 @@ public class SessionSelectStatsWindow {
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 
-			iter = store.AppendValues (myStringFull[0], myStringFull[1], 
+			store.AppendValues (myStringFull[0], myStringFull[1], 
 					myStringFull[2], myStringFull[3], 
 					myStringFull[4]		//description of session
 					);
@@ -479,7 +477,6 @@ public class SessionSelectStatsWindow {
 	//now, find iters corresponding to each of this sessions and put in the selected treeview, and delete from the unselected treeview
 	private void processOldSelectedSessions (Gtk.TreeView treeview1, TreeStore store1, TreeStore store2, ArrayList oldSelectedSessions) {
 		TreeIter iter1 = new TreeIter();
-		TreeIter iter2 = new TreeIter();
 		string [] strIter = {"", "", "", "", ""};
 		
 		for (int i=0; i < oldSelectedSessions.Count ; i ++) {
@@ -490,8 +487,8 @@ public class SessionSelectStatsWindow {
 				strIter [j] = (string) treeview1.Model.GetValue (iter1, j);
 			}
 
-			//create iter2
-			iter2 = store2.AppendValues (strIter[0], strIter[1], strIter[2], strIter[3], strIter[4]);
+			//print values
+			store2.AppendValues (strIter[0], strIter[1], strIter[2], strIter[3], strIter[4]);
 
 			//delete iter1
 			store1.Remove(ref iter1);
@@ -504,7 +501,6 @@ public class SessionSelectStatsWindow {
 		TreeIter iter1; //iter of the first treeview
 		TreeIter iter2; //iter of second treeview. Used for search the row on we are going to insert
 		TreeIter iter3; //new iter in first treeview
-		TreePath path;
 		int i;
 		string [] str = {"", "", "", "", ""};
 
@@ -531,7 +527,6 @@ public class SessionSelectStatsWindow {
 		TreeIter iter1; //iter of first treeview. Used for search the row on we are going to insert
 		TreeIter iter2; //iter of the second treeview
 		TreeIter iter3; //new iter in first treeview
-		TreePath path2;
 		int i;
 		string [] str = {"", "", "", "", ""};
 

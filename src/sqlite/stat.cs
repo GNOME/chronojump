@@ -686,8 +686,8 @@ class SqliteStat : Sqlite
 			myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 					returnSessionString + ":" + 		//session
 					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
-					allTCsTVsCombined +			//tc:tv:tc:tv...
-					returnFallString 			//fall
+					returnFallString + 			//fall
+					allTCsTVsCombined			//tc:tv:tc:tv...
 				    );
 		}
 		reader.Close();

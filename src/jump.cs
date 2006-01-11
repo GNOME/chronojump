@@ -101,6 +101,7 @@ public class Jump
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
+		this.personName = SqlitePerson.SelectJumperName(personID);
 		this.sessionID = sessionID;
 		this.type = type;
 		this.tv = tv;
@@ -478,6 +479,7 @@ public class JumpRj : Jump
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
+		this.personName = SqlitePerson.SelectJumperName(personID);
 		this.sessionID = sessionID;
 		this.type = type;
 		this.tvString = tvString;

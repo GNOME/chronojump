@@ -38,19 +38,28 @@ public class EditJumpWindow
 	[Widget] Gtk.Window edit_jump;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Label label_jump_id_value;
-	[Widget] Gtk.Label label_type_value;
-	[Widget] Gtk.Label label_tv_value;
-	[Widget] Gtk.Label label_tc_value;
-	[Widget] Gtk.Label label_fall_value;
-	[Widget] Gtk.Label label_weight_value;
-	[Widget] Gtk.Box hbox_combo;
+	[Widget] Gtk.Entry entry_tv_value;
+	[Widget] Gtk.Entry entry_tc_value;
+	[Widget] Gtk.Entry entry_fall_value;
+	[Widget] Gtk.Entry entry_weight_value;
+	[Widget] Gtk.Label label_limited_title;
+	[Widget] Gtk.Label label_limited_value;
+	[Widget] Gtk.Box hbox_combo_jumpType;
+	[Widget] Gtk.Box hbox_combo_jumper;
+	[Widget] Gtk.Combo combo_jumpTypes;
 	[Widget] Gtk.Combo combo_jumpers;
 	[Widget] Gtk.TextView textview_description;
 
 	static EditJumpWindow EditJumpWindowBox;
 	Gtk.Window parent;
+	int pDN;
 	string type;
-	double oldJumpWeightPercent = 0; //used for record the % for old person if we change it
+	string entryTv; //contains a entry that is a Number. If changed the entry as is not a number, recuperate this
+	string entryTc = "0";
+	string entryFall = "0"; 
+	
+	string entryWeight = "0"; //used for record the % for old person if we change it
+
 	int oldPersonID; //used for record the % for old person if we change it
 
 	EditJumpWindow (Gtk.Window parent) {
@@ -60,12 +69,13 @@ public class EditJumpWindow
 		this.parent = parent;
 	}
 	
-	static public EditJumpWindow Show (Gtk.Window parent, Jump myJump)
+	static public EditJumpWindow Show (Gtk.Window parent, Jump myJump, int pDN)
 	{
-		//Console.WriteLine(myJump);
 		if (EditJumpWindowBox == null) {
 			EditJumpWindowBox = new EditJumpWindow (parent);
 		}
+		
+		EditJumpWindowBox.pDN = pDN;
 		
 		EditJumpWindowBox.edit_jump.Show ();
 
@@ -77,30 +87,58 @@ public class EditJumpWindow
 	private void fillDialog (Jump myJump)
 	{
 		label_jump_id_value.Text = myJump.UniqueID.ToString();
-		label_type_value.Text = myJump.Type;
-		label_tv_value.Text = myJump.Tv.ToString();
-		label_tc_value.Text = myJump.Tc.ToString();
+
+		//inicialize entryTv and assign to the entry_tv_value (same for tc, fall, weight)
+		entryTv = myJump.Tv.ToString();
+		entry_tv_value.Text = Util.TrimDecimals(entryTv, pDN);
 	
-		label_fall_value.Text = myJump.Fall.ToString();
-		label_weight_value.Text = myJump.Weight.ToString();
-		
 		if(myJump.TypeHasWeight) {
-			label_weight_value.Text = myJump.Weight.ToString();
-			oldJumpWeightPercent = myJump.Weight;
-		} 
+			entryWeight = myJump.Weight.ToString();
+			entry_weight_value.Text = entryWeight;
+			entry_weight_value.Sensitive = true;
+		} else {
+			entry_weight_value.Sensitive = false;
+		}
+		
 		if (myJump.TypeHasFall) {
-			label_fall_value.Text = myJump.Fall.ToString();
-		} 
+			entryTc = myJump.Tc.ToString();
+			entry_tc_value.Text = Util.TrimDecimals(entryTc, pDN);
+			entryFall = myJump.Fall.ToString();
+			entry_fall_value.Text = entryFall;
+			entry_tc_value.Sensitive = true;
+			entry_fall_value.Sensitive = true;
+		} else {
+			entry_tc_value.Sensitive = false;
+			entry_fall_value.Sensitive = false;
+		}
+	
+		//hide limited value (show in rj class)
+		label_limited_title.Hide();
+		label_limited_value.Hide();
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(myJump.Description);
 		textview_description.Buffer = tb;
 
+		combo_jumpTypes = new Combo ();
+		string [] jumpTypes;
+		if (myJump.TypeHasFall) {
+			jumpTypes = SqliteJumpType.SelectJumpTypes("", "TC", true); //don't show allJumpsName row, TC jumps, only select name
+		} else {
+			jumpTypes = SqliteJumpType.SelectJumpTypes("", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
+		}
+		combo_jumpTypes.PopdownStrings = jumpTypes;
+		foreach (string jumpType in jumpTypes) {
+			if (jumpType == myJump.Type) {
+				combo_jumpTypes.Entry.Text = jumpType;
+			}
+		}
+		
+		
 		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID, false); //not reversed
 		combo_jumpers = new Combo();
 		combo_jumpers.PopdownStrings = jumpers;
 		foreach (string jumper in jumpers) {
-			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ":" + myJump.PersonName);
 			if (jumper == myJump.PersonID + ":" + myJump.PersonName) {
 				combo_jumpers.Entry.Text = jumper;
 			}
@@ -108,8 +146,46 @@ public class EditJumpWindow
 		
 		oldPersonID = myJump.PersonID;
 			
-		hbox_combo.PackStart(combo_jumpers, true, true, 0);
-		hbox_combo.ShowAll();
+		hbox_combo_jumpType.PackStart(combo_jumpTypes, true, true, 0);
+		hbox_combo_jumpType.ShowAll();
+		hbox_combo_jumper.PackStart(combo_jumpers, true, true, 0);
+		hbox_combo_jumper.ShowAll();
+	}
+	
+	private void on_entry_tv_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_tv_value.Text.ToString())){
+			entryTv = entry_tv_value.Text.ToString();
+		} else {
+			entry_tv_value.Text = "";
+			entry_tv_value.Text = entryTv;
+		}
+	}
+		
+	private void on_entry_tc_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_tc_value.Text.ToString())){
+			entryTc = entry_tc_value.Text.ToString();
+		} else {
+			entry_tc_value.Text = "";
+			entry_tc_value.Text = entryTc;
+		}
+	}
+		
+	private void on_entry_fall_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_fall_value.Text.ToString())){
+			entryFall = entry_fall_value.Text.ToString();
+		} else {
+			entry_fall_value.Text = "";
+			entry_fall_value.Text = entryFall;
+		}
+	}
+		
+	private void on_entry_weight_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_weight_value.Text.ToString())){
+			entryWeight = entry_weight_value.Text.ToString();
+		} else {
+			entry_weight_value.Text = "";
+			entry_weight_value.Text = entryWeight;
+		}
 	}
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -134,10 +210,10 @@ public class EditJumpWindow
 		
 		//update the weight percent of jump if needed
 		double jumpPercentWeightForNewPerson = 0;
-		if(oldJumpWeightPercent > 0) {
+		if(entryWeight != "0") {
 			//obtain weight of old person
 			double oldPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(oldPersonID)); 
-			double jumpWeightInKg = oldPersonWeight * oldJumpWeightPercent / 100;
+			double jumpWeightInKg = oldPersonWeight * Convert.ToDouble(entryWeight) / 100;
 			
 			double newPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myJumperFull[0])); 
 			jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
@@ -145,7 +221,7 @@ public class EditJumpWindow
 					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
 		}
 	
-		SqliteJump.Update("jump", jumpID, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
+		SqliteJump.Update(jumpID, combo_jumpTypes.Entry.Text, entryTv, entryTc, entryFall, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
 
 		EditJumpWindowBox.edit_jump.Hide();
 		EditJumpWindowBox = null;
@@ -168,20 +244,23 @@ public class EditJumpRjWindow
 	[Widget] Gtk.Window edit_jump;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Label label_jump_id_value;
-	[Widget] Gtk.Label label_type_value;
-	[Widget] Gtk.Label label_tv_value;
-	[Widget] Gtk.Label label_tc_value;
-	[Widget] Gtk.Label label_fall_value;
-	[Widget] Gtk.Label label_weight_value;
+	[Widget] Gtk.Label label_tc_title;
+	[Widget] Gtk.Label label_tv_title;
+	[Widget] Gtk.Entry entry_tc_value;
+	[Widget] Gtk.Entry entry_tv_value;
+	[Widget] Gtk.Entry entry_fall_value;
+	[Widget] Gtk.Entry entry_weight_value;
 	[Widget] Gtk.Label label_limited_value;
-	[Widget] Gtk.Box hbox_combo;
+	[Widget] Gtk.Box hbox_combo_jumper;
 	[Widget] Gtk.Combo combo_jumpers;
 	[Widget] Gtk.TextView textview_description;
 
 	static EditJumpRjWindow EditJumpRjWindowBox;
 	Gtk.Window parent;
+	int pDN;
 	string type;
-	double oldJumpWeightPercent = 0; //used for record the % for old person if we change it
+	string entryFall = "0"; 
+	string entryWeight = "0"; //used for record the % for old person if we change it
 	int oldPersonID; //used for record the % for old person if we change it
 
 	EditJumpRjWindow (Gtk.Window parent) {
@@ -191,12 +270,14 @@ public class EditJumpRjWindow
 		this.parent = parent;
 	}
 	
-	static public EditJumpRjWindow Show (Gtk.Window parent, JumpRj myJump)
+	static public EditJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
 	{
 		Console.WriteLine(myJump);
 		if (EditJumpRjWindowBox == null) {
 			EditJumpRjWindowBox = new EditJumpRjWindow (parent);
 		}
+		
+		EditJumpRjWindowBox.pDN = pDN;
 		
 		EditJumpRjWindowBox.edit_jump.Show ();
 
@@ -209,14 +290,26 @@ public class EditJumpRjWindow
 	private void fillDialog (JumpRj myJump)
 	{
 		label_jump_id_value.Text = myJump.UniqueID.ToString();
-		label_type_value.Text = myJump.Type;
-		label_tv_value.Text = myJump.Tv.ToString();
-		label_tc_value.Text = myJump.Tc.ToString();
-	
+		//label_type_value.Text = myJump.Type;
+
+		//hide tc and tv data
+		label_tc_title.Hide();
+		label_tv_title.Hide();
+		entry_tc_value.Hide();
+		entry_tv_value.Hide();
+		
 		label_limited_value.Text = myJump.Limited.ToString();
-		label_fall_value.Text = myJump.Fall.ToString();
-		label_weight_value.Text = myJump.Weight.ToString();
-		oldJumpWeightPercent = myJump.Weight;
+		
+		entryFall = myJump.Fall.ToString();
+		entry_fall_value.Text = entryFall;
+		
+		if (Util.HasWeight(SqliteJumpType.SelectJumpRjTypes("", false), myJump.Type)) {
+			entryWeight = myJump.Weight.ToString();
+			entry_weight_value.Text = entryWeight;
+			entry_weight_value.Sensitive = true;
+		} else {
+			entry_weight_value.Sensitive = false;
+		}
 
 		this.type = myJump.Type;
 
@@ -236,11 +329,38 @@ public class EditJumpRjWindow
 		
 		oldPersonID = myJump.PersonID;
 		
-		hbox_combo.PackStart(combo_jumpers, true, true, 0);
-		hbox_combo.ShowAll();
+		hbox_combo_jumper.PackStart(combo_jumpers, true, true, 0);
+		hbox_combo_jumper.ShowAll();
 	
 	}
+	
+	//this is never called, created here for compatibility with editjump class
+	private void on_entry_tv_value_changed (object o, EventArgs args) {
+	}
 		
+	//this is never called, created here for compatibility with editjump class
+	private void on_entry_tc_value_changed (object o, EventArgs args) {
+	}
+		
+	private void on_entry_fall_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_fall_value.Text.ToString())){
+			entryFall = entry_fall_value.Text.ToString();
+		} else {
+			entry_fall_value.Text = "";
+			entry_fall_value.Text = entryFall;
+		}
+	}
+		
+	private void on_entry_weight_value_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_weight_value.Text.ToString())){
+			entryWeight = entry_weight_value.Text.ToString();
+		} else {
+			entry_weight_value.Text = "";
+			entry_weight_value.Text = entryWeight;
+		}
+	}
+		
+	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		EditJumpRjWindowBox.edit_jump.Hide();
@@ -263,10 +383,10 @@ public class EditJumpRjWindow
 
 		//update the weight percent of jump if needed
 		double jumpPercentWeightForNewPerson = 0;
-		if(oldJumpWeightPercent > 0) {
+		if(entryWeight != "0") {
 			//obtain weight of old person
 			double oldPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(oldPersonID)); 
-			double jumpWeightInKg = oldPersonWeight * oldJumpWeightPercent / 100;
+			double jumpWeightInKg = oldPersonWeight * Convert.ToDouble(entryWeight) / 100;
 			
 			double newPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myJumperFull[0])); 
 			jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
@@ -274,7 +394,7 @@ public class EditJumpRjWindow
 					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
 		}
 	
-		SqliteJump.Update("jumpRj", jumpID, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
+		SqliteJump.UpdateRj(jumpID, Convert.ToInt32 (myJumperFull[0]), entryFall, jumpPercentWeightForNewPerson, myDesc);
 
 
 		EditJumpRjWindowBox.edit_jump.Hide();
@@ -1486,7 +1606,7 @@ public class JumpRjExecuteWindow
 			if(value > 1) {
 				progressbar_tv_tc_current_1up.Text = Util.TrimDecimals(value.ToString(), pDN);
 				if(value > 4.0) value = 4.0;
-				else if(value < 0) value = 0;
+				else if(value <= 0) value = 0.01; //fix the div by 0 bug
 				progressbar_tv_tc_current_1up.Fraction = value/4;
 				progressbar_tv_tc_current_0.Fraction = 1;
 				progressbar_tv_tc_current_0.Text = "";
@@ -1527,7 +1647,7 @@ public class JumpRjExecuteWindow
 			if(value > 0) {
 				progressbar_tv_tc_avg_1up.Text = Util.TrimDecimals(value.ToString(), pDN);
 				if(value > 4.0) value = 4.0;
-				else if(value < 0) value = 0;
+				else if(value <= 0) value = 0.01; //fix the div by 0 bug
 				progressbar_tv_tc_avg_1up.Fraction = value/4;
 				progressbar_tv_tc_avg_0.Fraction = 1;
 				progressbar_tv_tc_avg_0.Text = "";

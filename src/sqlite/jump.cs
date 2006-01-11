@@ -335,11 +335,27 @@ class SqliteJump : Sqlite
 		}
 	}
 
-	public static void Update(string jumpTable, int jumpID, int personID, double weight, string description)
+	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE " + jumpTable + 
-			" SET personID = " + personID + 
+		dbcmd.CommandText = "UPDATE jump SET personID = " + personID + 
+			", type = '" + type +
+			"', tv = " + Util.ConvertToPoint(tv) +
+			", tc = " + Util.ConvertToPoint(tc) +
+			", fall = " + Util.ConvertToPoint(fall) +
+			", weight = " + Util.ConvertToPoint(weight) + 
+			", description = '" + description +
+			"' WHERE uniqueID == " + jumpID ;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+
+	public static void UpdateRj(int jumpID, int personID, string fall, double weight, string description)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "UPDATE jumpRj SET personID = " + personID + 
+			", fall = " + Util.ConvertToPoint(Convert.ToDouble(fall)) + 
 			", weight = " + Util.ConvertToPoint(weight) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + jumpID ;

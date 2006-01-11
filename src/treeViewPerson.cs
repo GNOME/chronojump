@@ -115,11 +115,42 @@ public class TreeViewPersons
 		}
 		return found;
 	}
-	
+
+	//add in the row position by alfabetical order
 	public void Add (string jumperID, string jumperName)
 	{
-		//first name, then ID
-		store.AppendValues (jumperName, jumperID);
+		TreeIter iter = new TreeIter();
+		bool iterOk = store.GetIterFirst(out iter);
+		int found = -1;
+
+		int count = 0;
+		if(iterOk) {
+			do {
+				//search until find when jumperName is lexicographically > than current row
+				if(String.Compare(jumperName.ToUpper(), 
+							((string) treeview.Model.GetValue (iter, 0)).ToUpper()) < 0 ) {
+					found = count;
+					break;
+				}
+				count ++;
+			} while (store.IterNext (ref iter));
+		}
+		
+		TreeIter iter2 = new TreeIter();
+		
+		if(found != -1) {
+			store.Insert (out iter2, found);
+			//first name, then ID
+			store.SetValue (iter2, 0, jumperName);
+			store.SetValue (iter2, 1, jumperID);
+		} else {
+			//first name, then ID
+			iter2 = store.AppendValues (jumperName, jumperID);
+		}
+			
+		//scroll treeview if needed
+		TreePath path = store.GetPath (iter2);
+		treeview.ScrollToCell (path, null, true, 0, 0);
 	}
 }
 

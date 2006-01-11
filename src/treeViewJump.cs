@@ -190,7 +190,11 @@ public class TreeViewJumps
 					myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 					Console.WriteLine(newJump.UniqueID.ToString()); //jumpUniqueID (not shown) 
 
-					store.AppendValues (iter, myData);
+					TreeIter iter2 = new TreeIter();
+					iter2 = store.AppendValues (iter, myData);
+					//scroll treeview if needed
+					TreePath path = store.GetPath (iter2);
+					treeview.ScrollToCell (path, null, true, 0, 0);
 				}
 			} while (treeview.Model.IterNext (ref iter));
 		}
@@ -225,7 +229,12 @@ public class TreeViewJumps
 			}
 			myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 
-			store.AppendValues (iter, myData);
+			TreeIter iter2 = new TreeIter();
+			iter2 = store.AppendValues (iter, myData);
+					
+			//scroll treeview if needed
+			TreePath path = store.GetPath (iter2);
+			treeview.ScrollToCell (path, null, true, 0, 0);
 
 			//expand the jumper
 			treeview.ExpandToPath( treeview.Model.GetPath(iter) );
@@ -443,6 +452,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 					myData[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 
 					iterDeep = store.AppendValues (iter, myData);
+			
+					//scroll treeview if needed
+					TreePath path = store.GetPath (iterDeep);
+					treeview.ScrollToCell (path, null, true, 0, 0);
 
 					//fill the subjumps
 					string [] myStringTv = newJump.TvString.Split(new char[] {'='});
@@ -505,6 +518,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData2[count++] = newJump.UniqueID.ToString(); //jumpUniqueID (not shown) 
 
 			iterDeep = store.AppendValues (iter, myData2);
+					
+			//scroll treeview if needed
+			TreePath path = store.GetPath (iterDeep);
+			treeview.ScrollToCell (path, null, true, 0, 0);
 							
 			//fill the subjumps
 			string [] myStringTv = newJump.TvString.Split(new char[] {'='});

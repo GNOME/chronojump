@@ -327,7 +327,7 @@ public class Util
 		}
 		if(countDecimals > 1) { return false; }
 
-		//false if it's blank, or if it's only a decimal "."
+		//false if it's blank, or it's only a decimal "."
 		if(myString.Length == 0 || (myString.Length == 1 && countDecimals == 1)) { 
 			return false; }
 				

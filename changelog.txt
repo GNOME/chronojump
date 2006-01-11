@@ -1,5 +1,16 @@
 CHANGELOG:
 
+11 jan 2006
+	edit jump, jumpRj allow to change lot of data of the jump. Also some rows
+	hidden. Do the same with runs
+
+	treeview_persons in alfabetical order (when add or load a person, it
+	puts in correct row, and scrolls the treeview if needed)
+	treeview jump & run scrolls automatically to new event
+
+	fixed division by zero in rjexecution gui progressbat_tv_tc
+	fixed bug in edit jump & edit jumpRj (jumpername)
+
 6 jan 2006 (minor RELEASE 0.43)
 	graphs: all multisession graphs and rjEvolution now have a palette in
 	constants.cs if palette is small for graph, then use random but values

@@ -159,7 +159,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.43";
+	private static string progversion = "0.44";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -431,7 +431,7 @@ public class ChronoJump
 	}
 
 	private void fillTreeView_persons () {
-		string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true); //reversed
+		string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, false); //not reversed
 
 		if(myPersons.Length > 0) {
 			//fill treeview
@@ -1053,8 +1053,9 @@ public class ChronoJump
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
 		currentPerson = personRecuperateWin.CurrentPerson;
-		treeview_persons_storeReset();
-		fillTreeView_persons();
+		
+		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
+
 		int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
 		if(rowToSelect != -1) {
 			selectRowTreeView_persons(treeview_persons,
@@ -1092,8 +1093,8 @@ public class ChronoJump
 		if (personAddWin.CurrentPerson != null)
 		{
 			currentPerson = personAddWin.CurrentPerson;
-			treeview_persons_storeReset();
-			fillTreeView_persons();
+			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
+			
 			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
 			if(rowToSelect != -1) {
 				selectRowTreeView_persons(treeview_persons,
@@ -2070,7 +2071,7 @@ public class ChronoJump
 			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.JumpSelectedID );
 		
 			//4.- edit this jump
-			editJumpWin = EditJumpWindow.Show(app1, myJump);
+			editJumpWin = EditJumpWindow.Show(app1, myJump, prefsDigitsNumber);
 			editJumpWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_accepted);
 		}
 	}
@@ -2085,7 +2086,7 @@ public class ChronoJump
 			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.JumpSelectedID );
 		
 			//4.- edit this jump
-			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump);
+			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
 			editJumpRjWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
 		}
 	}

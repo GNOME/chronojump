@@ -148,11 +148,15 @@ public class TreeViewRuns
 					//expand the runner
 					treeview.ExpandToPath( treeview.Model.GetPath(iter) );
 
-					store.AppendValues ( iter, newRun.Type, 
+					TreeIter iter2 = new TreeIter();
+					iter2 = store.AppendValues ( iter, newRun.Type, 
 							Util.TrimDecimals(newRun.Speed.ToString(), pDN), 
 							Util.TrimDecimals(newRun.Distance.ToString(), pDN), 
 							Util.TrimDecimals(newRun.Time.ToString(), pDN), 
 							newRun.UniqueID.ToString() );
+					
+					TreePath path = store.GetPath (iter2);
+					treeview.ScrollToCell (path, null, true, 0, 0);
 				}
 			} while (treeview.Model.IterNext (ref iter));
 		}
@@ -162,11 +166,16 @@ public class TreeViewRuns
 		if(! found) {
 			iter = store.AppendValues (runnerName);
 	
-			store.AppendValues ( iter, newRun.Type, 
+			TreeIter iter2 = new TreeIter();
+			iter2 = store.AppendValues ( iter, newRun.Type, 
 					Util.TrimDecimals(newRun.Speed.ToString(), pDN), 
 					Util.TrimDecimals(newRun.Distance.ToString(), pDN), 
 					Util.TrimDecimals(newRun.Time.ToString(), pDN), 
 					newRun.UniqueID.ToString() );
+		
+			//scroll treeview if needed
+			TreePath path = store.GetPath (iter2);
+			treeview.ScrollToCell (path, null, true, 0, 0);
 			
 			//expand the runner
 			treeview.ExpandToPath( treeview.Model.GetPath(iter) );
@@ -337,6 +346,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 					myData[count++] = newRun.UniqueID.ToString(); //runUniqueID (not shown) 
 
 					iterDeep = store.AppendValues (iter, myData);
+					//scroll treeview if needed
+					TreePath path = store.GetPath (iterDeep);
+					treeview.ScrollToCell (path, null, true, 0, 0);
 
 					//fill the intervals
 					string [] allIntervalTimes = newRun.IntervalTimesString.Split(new char[] {'='});
@@ -381,6 +393,10 @@ public class TreeViewRunsInterval : TreeViewRuns
 			myData2[count++] = newRun.UniqueID.ToString(); //runUniqueID (not shown) 
 
 			iterDeep = store.AppendValues (iter, myData2);
+					
+			//scroll treeview if needed
+			TreePath path = store.GetPath (iterDeep);
+			treeview.ScrollToCell (path, null, true, 0, 0);
 							
 			//fill the intervals
 			string [] allIntervalTimes = newRun.IntervalTimesString.Split(new char[] {'='});

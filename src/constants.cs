@@ -21,7 +21,6 @@
 
 using System;
 using System.Data;
-using System.Collections; //ArrayList
 
 public class Constants
 {
@@ -37,12 +36,6 @@ public class Constants
 	//strings
 	public static string AllJumpsName = Catalog.GetString("All jumps");
 	public static string AllRunsName = Catalog.GetString("All runs");
-	
-	/*
-	public static string [] ColorsRGB = {
-		"1,11,111", "2,22,222", "3,33,223", "4,44,224", "5,55,225"
-	};
-	*/
 	
 	//30 colors defined
 	public static string [] Colors = {

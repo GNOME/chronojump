@@ -37,17 +37,28 @@ public class EditRunWindow
 {
 	[Widget] Gtk.Window edit_run;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_run_id_value;
-	[Widget] Gtk.Label label_type_value;
-	[Widget] Gtk.Label label_distance_value;
-	[Widget] Gtk.Label label_time_value;
+	[Widget] Gtk.Entry entry_distance;
+	[Widget] Gtk.Entry entry_time;
 	[Widget] Gtk.Label label_speed_value;
-	[Widget] Gtk.Box hbox_combo;
+	
+	[Widget] Gtk.Box hbox_combo_runType;
+	[Widget] Gtk.Combo combo_runType;
+	[Widget] Gtk.Box hbox_combo_runner;
 	[Widget] Gtk.Combo combo_runners;
+	
 	[Widget] Gtk.TextView textview_description;
+	
+	[Widget] Gtk.Label label_limited_name;
+	[Widget] Gtk.Label label_limited_value;
 
 	static EditRunWindow EditRunWindowBox;
 	Gtk.Window parent;
+	int pDN;
+	string entryDistance; //contains a entry that is a Number. If changed the entry as is not a number, recuperate this
+	string entryTime; 
+
 	string type;
 
 	EditRunWindow (Gtk.Window parent) {
@@ -55,13 +66,19 @@ public class EditRunWindow
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a run\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
-	static public EditRunWindow Show (Gtk.Window parent, Run myRun)
+	static public EditRunWindow Show (Gtk.Window parent, Run myRun, int pDN)
 	{
 		if (EditRunWindowBox == null) {
 			EditRunWindowBox = new EditRunWindow (parent);
 		}
+		
+		EditRunWindowBox.pDN = pDN;
 		
 		EditRunWindowBox.edit_run.Show ();
 
@@ -74,15 +91,37 @@ public class EditRunWindow
 	private void fillDialog (Run myRun)
 	{
 		label_run_id_value.Text = myRun.UniqueID.ToString();
-		label_type_value.Text = myRun.Type;
-		label_distance_value.Text = myRun.Distance.ToString();
-		label_time_value.Text = myRun.Time.ToString();
-		label_speed_value.Text = myRun.Speed.ToString();
+
+		entryDistance = myRun.Distance.ToString();
+		entry_distance.Text = Util.TrimDecimals(entryDistance, pDN);
+		//if the jumptype hasnot a predefined distance, make the widget sensitive
+		RunType myRunType = new RunType (myRun.Type);
+		if(myRunType.Distance == 0) {
+			entry_distance.Sensitive = true;
+		} else {
+			entry_distance.Sensitive = false;
+		}
+			
+		entryTime = myRun.Time.ToString();
+		entry_time.Text = Util.TrimDecimals(entryTime, pDN);
+		label_speed_value.Text = Util.TrimDecimals(myRun.Speed.ToString(), pDN);
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(myRun.Description);
 		textview_description.Buffer = tb;
 
+		combo_runType = new Combo ();
+		string [] runTypes = SqliteRunType.SelectRunTypes("", true); //don't show allRunsName row, only select name
+		combo_runType.PopdownStrings = runTypes;
+		foreach (string runType in runTypes) {
+			if (runType == myRun.Type) {
+				combo_runType.Entry.Text = runType;
+			}
+		}
+		combo_runType.Entry.Changed += new EventHandler (on_combo_runType_changed);
+		hbox_combo_runType.PackStart(combo_runType, true, true, 0);
+		hbox_combo_runType.ShowAll();
+		
 		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
 		combo_runners = new Combo();
 		combo_runners.PopdownStrings = runners;
@@ -93,9 +132,53 @@ public class EditRunWindow
 			}
 		}
 		
-		hbox_combo.PackStart(combo_runners, true, true, 0);
-		hbox_combo.ShowAll();
+		hbox_combo_runner.PackStart(combo_runners, true, true, 0);
+		hbox_combo_runner.ShowAll();
 	
+		label_limited_name.Hide();
+		label_limited_value.Hide();
+		
+	
+	}
+		
+	private void on_entry_time_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_time.Text.ToString())){
+			entryTime = entry_time.Text.ToString();
+			label_speed_value.Text = Util.TrimDecimals(
+					Util.GetSpeed (entryDistance, entryTime) , pDN);
+		} else {
+			entry_time.Text = "";
+			entry_time.Text = entryTime;
+		}
+	}
+	
+	private void on_entry_distance_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_distance.Text.ToString())){
+			entryDistance = entry_distance.Text.ToString();
+			label_speed_value.Text = Util.TrimDecimals(
+					Util.GetSpeed (entryDistance, entryTime) , pDN);
+		} else {
+			entry_distance.Text = "";
+			entry_distance.Text = entryDistance;
+		}
+	}
+		
+		
+	private void on_combo_runType_changed (object o, EventArgs args) {
+		//if the distance of the new runType is fixed, put this distance
+		//if not conserve the old
+		RunType myRunType = new RunType (combo_runType.Entry.Text);
+		if(myRunType.Distance != 0) {
+			entryDistance = myRunType.Distance.ToString();
+			entry_distance.Text = "";
+			entry_distance.Text = Util.TrimDecimals(entryDistance, pDN);
+			entry_distance.Sensitive = false;
+		} else {
+			entry_distance.Sensitive = true;
+		}
+		
+		label_speed_value.Text = Util.TrimDecimals(
+				Util.GetSpeed (entryDistance, entryTime) , pDN);
 	}
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -118,7 +201,7 @@ public class EditRunWindow
 		
 		string myDesc = textview_description.Buffer.Text;
 	
-		SqliteRun.Update(runID, Convert.ToInt32 (myRunnerFull[0]), myDesc);
+		SqliteRun.Update(runID, combo_runType.Entry.Text, entryDistance, entryTime, Convert.ToInt32 (myRunnerFull[0]), myDesc);
 
 		EditRunWindowBox.edit_run.Hide();
 		EditRunWindowBox = null;
@@ -136,18 +219,21 @@ public class EditRunIntervalWindow
 {
 	[Widget] Gtk.Window edit_run;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_run_id_value;
-	[Widget] Gtk.Label label_type_value;
-	[Widget] Gtk.Label label_distance_value;
-	[Widget] Gtk.Label label_time_value;
+	[Widget] Gtk.Entry entry_distance;
+	[Widget] Gtk.Label label_time_name;
+	[Widget] Gtk.Entry entry_time;
 	[Widget] Gtk.Label label_speed_value;
 	[Widget] Gtk.Label label_limited_value;
-	[Widget] Gtk.Box hbox_combo;
+	[Widget] Gtk.Box hbox_combo_runType;
+	[Widget] Gtk.Box hbox_combo_runner;
 	[Widget] Gtk.Combo combo_runners;
 	[Widget] Gtk.TextView textview_description;
 
 	static EditRunIntervalWindow EditRunIntervalWindowBox;
 	Gtk.Window parent;
+	int pDN;
 	string type;
 
 	EditRunIntervalWindow (Gtk.Window parent) {
@@ -155,14 +241,20 @@ public class EditRunIntervalWindow
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a intervalic run\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
-	static public EditRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun)
+	static public EditRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
 	{
 		Console.WriteLine(myRun);
 		if (EditRunIntervalWindowBox == null) {
 			EditRunIntervalWindowBox = new EditRunIntervalWindow (parent);
 		}
+		
+		EditRunIntervalWindowBox.pDN = pDN;
 		
 		EditRunIntervalWindowBox.edit_run.Show ();
 
@@ -175,13 +267,19 @@ public class EditRunIntervalWindow
 	private void fillDialog (RunInterval myRun)
 	{
 		label_run_id_value.Text = myRun.UniqueID.ToString();
-		label_type_value.Text = myRun.Type;
-		label_distance_value.Text = myRun.DistanceInterval.ToString() + 
+		entry_distance.Text = myRun.DistanceInterval.ToString() + 
 			"x" + myRun.Limited;
-		label_time_value.Text = myRun.TimeTotal.ToString();
-		label_speed_value.Text = Util.GetSpeed(
-				myRun.DistanceTotal.ToString(),
-				myRun.TimeTotal.ToString() );
+		entry_distance.Sensitive = false;
+
+		label_time_name.Text = Catalog.GetString("Totaltime");
+		entry_time.Text = myRun.TimeTotal.ToString();
+		//don't allow to change totaltime in rjedit
+		entry_time.Sensitive = false; 
+		
+		label_speed_value.Text = Util.TrimDecimals( 
+				Util.GetSpeed(
+					myRun.DistanceTotal.ToString(),
+					myRun.TimeTotal.ToString() ), pDN);
 
 		
 		label_limited_value.Text = myRun.Limited;
@@ -201,9 +299,21 @@ public class EditRunIntervalWindow
 			}
 		}
 		
-		hbox_combo.PackStart(combo_runners, true, true, 0);
-		hbox_combo.ShowAll();
+		hbox_combo_runner.PackStart(combo_runners, true, true, 0);
+		hbox_combo_runner.ShowAll();
+		
+		Gtk.Label label_runType = new Label();
+		label_runType.Text = myRun.Type;
+		hbox_combo_runType.PackStart(label_runType, false, false, 0);
+		hbox_combo_runType.ShowAll();
+	}
 	
+	private void on_entry_time_changed (object o, EventArgs args) {
+		//do nothing, this is never called in reactive jumps
+	}
+		
+	private void on_entry_distance_changed (object o, EventArgs args) {
+		//do nothing, this is never called in reactive jumps
 	}
 		
 	void on_button_cancel_clicked (object o, EventArgs args)

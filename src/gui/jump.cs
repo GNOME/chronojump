@@ -37,6 +37,7 @@ public class EditJumpWindow
 {
 	[Widget] Gtk.Window edit_jump;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_jump_id_value;
 	[Widget] Gtk.Entry entry_tv_value;
 	[Widget] Gtk.Entry entry_tc_value;
@@ -44,10 +45,12 @@ public class EditJumpWindow
 	[Widget] Gtk.Entry entry_weight_value;
 	[Widget] Gtk.Label label_limited_title;
 	[Widget] Gtk.Label label_limited_value;
+	
 	[Widget] Gtk.Box hbox_combo_jumpType;
+	[Widget] Gtk.Combo combo_jumpType;
 	[Widget] Gtk.Box hbox_combo_jumper;
-	[Widget] Gtk.Combo combo_jumpTypes;
 	[Widget] Gtk.Combo combo_jumpers;
+	
 	[Widget] Gtk.TextView textview_description;
 
 	static EditJumpWindow EditJumpWindowBox;
@@ -67,6 +70,10 @@ public class EditJumpWindow
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a jump\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditJumpWindow Show (Gtk.Window parent, Jump myJump, int pDN)
@@ -120,17 +127,17 @@ public class EditJumpWindow
 		tb.SetText(myJump.Description);
 		textview_description.Buffer = tb;
 
-		combo_jumpTypes = new Combo ();
+		combo_jumpType = new Combo ();
 		string [] jumpTypes;
 		if (myJump.TypeHasFall) {
 			jumpTypes = SqliteJumpType.SelectJumpTypes("", "TC", true); //don't show allJumpsName row, TC jumps, only select name
 		} else {
 			jumpTypes = SqliteJumpType.SelectJumpTypes("", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
 		}
-		combo_jumpTypes.PopdownStrings = jumpTypes;
+		combo_jumpType.PopdownStrings = jumpTypes;
 		foreach (string jumpType in jumpTypes) {
 			if (jumpType == myJump.Type) {
-				combo_jumpTypes.Entry.Text = jumpType;
+				combo_jumpType.Entry.Text = jumpType;
 			}
 		}
 		
@@ -146,7 +153,7 @@ public class EditJumpWindow
 		
 		oldPersonID = myJump.PersonID;
 			
-		hbox_combo_jumpType.PackStart(combo_jumpTypes, true, true, 0);
+		hbox_combo_jumpType.PackStart(combo_jumpType, true, true, 0);
 		hbox_combo_jumpType.ShowAll();
 		hbox_combo_jumper.PackStart(combo_jumpers, true, true, 0);
 		hbox_combo_jumper.ShowAll();
@@ -221,7 +228,7 @@ public class EditJumpWindow
 					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
 		}
 	
-		SqliteJump.Update(jumpID, combo_jumpTypes.Entry.Text, entryTv, entryTc, entryFall, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
+		SqliteJump.Update(jumpID, combo_jumpType.Entry.Text, entryTv, entryTc, entryFall, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
 
 		EditJumpWindowBox.edit_jump.Hide();
 		EditJumpWindowBox = null;
@@ -243,6 +250,7 @@ public class EditJumpRjWindow
 {
 	[Widget] Gtk.Window edit_jump;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_jump_id_value;
 	[Widget] Gtk.Label label_tc_title;
 	[Widget] Gtk.Label label_tv_title;
@@ -251,6 +259,7 @@ public class EditJumpRjWindow
 	[Widget] Gtk.Entry entry_fall_value;
 	[Widget] Gtk.Entry entry_weight_value;
 	[Widget] Gtk.Label label_limited_value;
+	[Widget] Gtk.Box hbox_combo_jumpType;
 	[Widget] Gtk.Box hbox_combo_jumper;
 	[Widget] Gtk.Combo combo_jumpers;
 	[Widget] Gtk.TextView textview_description;
@@ -268,6 +277,10 @@ public class EditJumpRjWindow
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a reactive jump\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
@@ -290,7 +303,6 @@ public class EditJumpRjWindow
 	private void fillDialog (JumpRj myJump)
 	{
 		label_jump_id_value.Text = myJump.UniqueID.ToString();
-		//label_type_value.Text = myJump.Type;
 
 		//hide tc and tv data
 		label_tc_title.Hide();
@@ -326,12 +338,15 @@ public class EditJumpRjWindow
 				combo_jumpers.Entry.Text = jumper;
 			}
 		}
-		
-		oldPersonID = myJump.PersonID;
-		
 		hbox_combo_jumper.PackStart(combo_jumpers, true, true, 0);
 		hbox_combo_jumper.ShowAll();
-	
+		
+		Gtk.Label label_jumpType = new Label();
+		label_jumpType.Text = myJump.Type;
+		hbox_combo_jumpType.PackStart(label_jumpType, false, false, 0);
+		hbox_combo_jumpType.ShowAll();
+		
+		oldPersonID = myJump.PersonID;
 	}
 	
 	//this is never called, created here for compatibility with editjump class

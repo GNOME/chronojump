@@ -29,6 +29,7 @@ public class RunType
 	protected double distance;
 	protected bool tracksLimited;
 	protected int fixedValue;
+	protected bool isPredefined;
 	protected bool unlimited;
 
 	public RunType() {
@@ -37,6 +38,8 @@ public class RunType
 	//predefined values
 	public RunType(string name) {
 		this.name = name;
+
+		this.isPredefined = false;
 
 		unlimited = false;	//default value
 		
@@ -48,69 +51,82 @@ public class RunType
 			distance 	= 0;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "20m") {
 			hasIntervals 	= false; 
 			distance 	= 20;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "100m") {
 			hasIntervals 	= false; 
 			distance 	= 100;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "200m") {
 			hasIntervals 	= false; 
 			distance 	= 200;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "400m") {
 			hasIntervals 	= false; 
 			distance 	= 400;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "1000m") {
 			hasIntervals 	= false; 
 			distance 	= 1000;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "2000m") {
 			hasIntervals 	= false; 
 			distance 	= 2000;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} //interval
 		else if(name == "byLaps") {
 			hasIntervals 	= true; 
 			distance 	= 0;
 			tracksLimited 	= true;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "byTime") {
 			hasIntervals 	= true; 
 			distance 	= 0;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
+			isPredefined	= true;
 		} else if(name == "unlimited") {
 			hasIntervals 	= true; 
 			distance 	= 0;
 			tracksLimited 	= false;	//limited by time
 			fixedValue 	= 0;
 			unlimited 	= true;
+			isPredefined	= true;
 		} else if(name == "20m10times") {
 			hasIntervals 	= true; 
 			distance 	= 20;
 			tracksLimited 	= true;
 			fixedValue 	= 10;
+			isPredefined	= true;
 		} else if(name == "7m30seconds") {
 			hasIntervals 	= true; 
 			distance 	= 7;
 			tracksLimited 	= false;
 			fixedValue 	= 30;
+			isPredefined	= true;
 		} else if(name == "20m endurance") {
 			hasIntervals 	= true; 
 			distance 	= 20;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			unlimited 	= true;
+			isPredefined	= true;
 		}
 	}
 	
@@ -124,6 +140,8 @@ public class RunType
 		this.tracksLimited = tracksLimited;
 		this.fixedValue = fixedValue;
 		this.unlimited = unlimited;
+		
+		this.isPredefined	= true;
 	}
 	
 	public string Name
@@ -134,7 +152,13 @@ public class RunType
 	
 	public double Distance
 	{
-		get { return distance; }
+		get { 
+			if(isPredefined) {
+				return distance; 
+			} else {
+				return SqliteRunType.Distance(name);
+			}
+		}
 		set { distance = value; }
 	}
 	

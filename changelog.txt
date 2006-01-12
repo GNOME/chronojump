@@ -1,5 +1,9 @@
 CHANGELOG:
 
+12 jan 2006
+	edit run allows changing type, distance and time; speed changes automatically.
+	EditJumpRj widget fixed (is the same gui as edit run)
+
 11 jan 2006
 	edit jump, jumpRj allow to change lot of data of the jump. Also some rows
 	hidden. Do the same with runs

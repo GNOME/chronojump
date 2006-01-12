@@ -2230,7 +2230,7 @@ public class ChronoJump
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
-			editRunWin = EditRunWindow.Show(app1, myRun);
+			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber);
 			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
 		}
 	}
@@ -2246,7 +2246,7 @@ public class ChronoJump
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
-			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun);
+			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber);
 			editRunIntervalWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_interval_accepted);
 		}
 	}

@@ -3,6 +3,7 @@ CHRONOJUMP ROADMAP
 chronojump 0.5
 --------------
 
+- when a person is selected in treeview persons, a row in treeviews jump, jumpRj, run, runInterval should be created (if is not already) and selected
 - hability of creating a jump or run in a selected value (if was obtained with mini, by example) do a simulate, and later edit with a edit jump widget with more power [DONE]
 - print rjevolution consecutives in colors in the stats treeview
 - Chronojump will be a tool for training, not only for showing the results of train:

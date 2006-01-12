@@ -280,11 +280,14 @@ class SqliteRun : Sqlite
 		return myRun;
 	}
 
-	public static void Update(int runID, int personID, string description)
+	public static void Update(int runID, string type, string distance, string time, int personID, string description)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE run " + 
 			" SET personID = " + personID + 
+			", type = '" + type +
+			"', distance = " + Util.ConvertToPoint(Convert.ToDouble(distance)) + 
+			", time = " + Util.ConvertToPoint(Convert.ToDouble(time)) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + runID ;
 		Console.WriteLine(dbcmd.CommandText.ToString());

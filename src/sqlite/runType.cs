@@ -309,4 +309,25 @@ class SqliteRunType : Sqlite
 
 		return exists;
 	}
+	
+	public static double Distance (string typeName) 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT distance " +
+			" FROM runType " +
+			" WHERE name == '" + typeName + "'";
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		double distance = 0;
+		while(reader.Read()) {
+			distance = Convert.ToDouble(reader[0].ToString());
+		}
+		return distance;
+	}
+
 }	

@@ -94,15 +94,15 @@ public class GraphIeIub : StatIeIub
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			//serieJump1.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieJump1.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("LightGreen"), 2.0F));
+					6, new Pen (Color.FromName("Green"), 2.0F));
 			//serieJump2.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieJump2.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("LightBlue"), 2.0F));
+					6, new Pen (Color.FromName("Blue"), 2.0F));
 		
 			//for the line between markers
 			serieIndex.SerieColor = Color.FromName("Red");
-			serieJump1.SerieColor = Color.FromName("LightGreen");
-			serieJump2.SerieColor = Color.FromName("LightBlue");
+			serieJump1.SerieColor = Color.FromName("Green");
+			serieJump2.SerieColor = Color.FromName("Blue");
 		
 			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
 			CurrentGraphData.LabelRight = "%";

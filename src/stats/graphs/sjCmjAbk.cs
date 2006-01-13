@@ -73,13 +73,11 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 
 			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					//6, new Pen (Color.FromName("LightBlue"), 2.0F));
 					6, new Pen (Color.FromName("Blue"), 2.0F));
 			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 		
 			//for the line between markers
-			//serieTv.SerieColor = Color.FromName("LightBlue");
 			serieTv.SerieColor = Color.FromName("Blue");
 			serieHeight.SerieColor = Color.FromName("Red");
 		

@@ -93,10 +93,10 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			//serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
 			serieTc.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("LightGreen"), 2.0F));
+					6, new Pen (Color.FromName("Green"), 2.0F));
 			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("LightBlue"), 2.0F));
+					6, new Pen (Color.FromName("Blue"), 2.0F));
 			serieJumps.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
 					6, new Pen (Color.FromName("Orange"), 2.0F));
 			serieTime.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
@@ -106,8 +106,8 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 		
 			//for the line between markers
 			serieIndex.SerieColor = Color.FromName("Red");
-			serieTc.SerieColor = Color.FromName("LightGreen");
-			serieTv.SerieColor = Color.FromName("LightBlue");
+			serieTc.SerieColor = Color.FromName("Green");
+			serieTv.SerieColor = Color.FromName("Blue");
 			serieJumps.SerieColor = Color.FromName("Orange");
 			serieTime.SerieColor = Color.FromName("Black");
 			serieFall.SerieColor = Color.FromName("Chocolate");

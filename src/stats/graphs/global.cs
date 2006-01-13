@@ -82,11 +82,11 @@ public class GraphGlobal : StatGlobal
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("LightBlue"), 2.0F));
+					6, new Pen (Color.FromName("Blue"), 2.0F));
 		
 			//for the line between markers
 			serieIndex.SerieColor = Color.FromName("Red");
-			serieTv.SerieColor = Color.FromName("LightBlue");
+			serieTv.SerieColor = Color.FromName("Blue");
 		
 			if(heightPreferred) {
 				CurrentGraphData.LabelLeft = Catalog.GetString("centimeters");

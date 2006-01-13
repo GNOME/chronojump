@@ -1,5 +1,11 @@
 CHANGELOG:
 
+13 jan 2006
+	fixed bug in creation of rjJumps limited by time that allows sometimes
+	finishing with a tc and this made crash the stats/rjEvolution
+
+	all the graphs now in not-light colors
+	
 12 jan 2006
 	edit run allows changing type, distance and time; speed changes automatically.
 	EditJumpRj widget fixed (is the same gui as edit run)

@@ -49,7 +49,7 @@ public class StatRjEvolution : Stat
 		//we need to know the reactive with more jumps for prepare columns
 		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
-		this.dataColumns = maxJumps*2 + 2;	//for simplesession (index, (tv , tc)*jumps, fall)
+		this.dataColumns = maxJumps*2 + 2;	//for simplesession (index, fall, (tv , tc)*jumps)
 
 		//only simplesession
 		store = getStore(dataColumns +1); //jumper, datacolumns 

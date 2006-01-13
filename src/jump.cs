@@ -750,6 +750,10 @@ public class JumpRj : Jump
 				limitString = limitAsDouble.ToString() + "J";
 				jumps = (int) limitAsDouble;
 			} else {
+				//if time finished and the last event was tc, probably there are more TCs than TVs
+				//if last event was tc, it has no sense, it should be deleted
+				tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
+				
 				limitString = limitAsDouble.ToString() + "T";
 				string [] myStringFull = tcString.Split(new char[] {'='});
 				jumps = myStringFull.Length;

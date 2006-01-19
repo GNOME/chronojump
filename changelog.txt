@@ -1,5 +1,8 @@
 CHANGELOG:
 
+19 jan 2006 (minor RELEASE 0.44)
+	stats window shorter (465 px) for fitting in a 640x480 resolution
+
 13 jan 2006
 	fixed bug in creation of rjJumps limited by time that allows sometimes
 	finishing with a tc and this made crash the stats/rjEvolution

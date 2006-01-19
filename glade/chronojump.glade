@@ -7473,7 +7473,7 @@ options</property>
 
 <widget class="GtkWindow" id="stats_window">
   <property name="border_width">10</property>
-  <property name="height_request">500</property>
+  <property name="height_request">465</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Chronojump Statistics window</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>

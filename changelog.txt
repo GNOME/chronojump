@@ -1,5 +1,9 @@
 CHANGELOG:
 
+27 jan 2006
+	fixed bug in raising fakeButton in report/graphs (sometimes chrashed
+	report)
+	
 19 jan 2006 (minor RELEASE 0.44)
 	stats window shorter (465 px) for fitting in a 640x480 resolution
 
@@ -11,7 +15,7 @@ CHANGELOG:
 	
 12 jan 2006
 	edit run allows changing type, distance and time; speed changes automatically.
-	EditJumpRj widget fixed (is the same gui as edit run)
+	EditRunInterval widget fixed (is the same gui as edit run)
 
 11 jan 2006
 	edit jump, jumpRj allow to change lot of data of the jump. Also some rows

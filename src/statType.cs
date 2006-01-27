@@ -154,7 +154,10 @@ public class StatType {
 	
 	private void on_fake_button_no_rows_selected_clicked (object o, EventArgs args) {
 		Console.WriteLine("fakeButtonNoRowsSelected in statType.cs");
-		fakeButtonNoRowsSelected.Click();
+		//only raise another click if this is not a report. This new click will update things in gui/stats.cs
+		//this fakeButtons are not initialized in the coming-from-report-statType-constructor
+		if(! toReport)
+			fakeButtonNoRowsSelected.Click();
 	}
 	
 	//comes from report.cs

@@ -1,5 +1,11 @@
 CHANGELOG:
 
+28 jan 2006
+	event treeviews improved:
+		- unnable to select persons for not confusing users about who
+		do events (treeview persons is the responsible)
+		- removed sort_by_type because was unnecesary
+
 27 jan 2006
 	fixed bug in raising fakeButton in report/graphs (sometimes chrashed
 	report)

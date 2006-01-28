@@ -27,7 +27,6 @@ using System.Collections; //ArrayList
 
 public class TreeViewJumps
 {
-	protected bool sortByType;
 	protected bool showHeight;
 	protected bool showInitialSpeed;
 	protected TreeStore store;
@@ -39,10 +38,9 @@ public class TreeViewJumps
 	{
 	}
 	
-	public TreeViewJumps (Gtk.TreeView treeview, bool sortByType, bool showHeight, bool showInitialSpeed, int newPrefsDigitsNumber)
+	public TreeViewJumps (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, int newPrefsDigitsNumber)
 	{
 		this.treeview = treeview;
-		this.sortByType = sortByType;
 		this.showHeight = showHeight;
 		this.showInitialSpeed = showInitialSpeed;
 		pDN = newPrefsDigitsNumber;
@@ -272,6 +270,10 @@ public class TreeViewJumps
 				treeview.Model.IterParent (out iter, iter);
 			}
 		} while (treeview.Model.IterNext (ref iter));
+	}
+
+	public void Unselect () {
+		treeview.Selection.UnselectAll();
 	}
 
 	public int JumpSelectedID {

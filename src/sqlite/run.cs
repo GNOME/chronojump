@@ -109,23 +109,14 @@ class SqliteRun : Sqlite
 		return myLast;
 	}
 
-	public static string[] SelectAllNormalRuns(int sessionID, string ordered_by) 
+	public static string[] SelectAllNormalRuns(int sessionID) 
 	{
-		string secondOrder;
-		if(ordered_by == "ordered_by_time") {
-			secondOrder = "run.uniqueID";
-		}
-		else { //by type
-			secondOrder = "run.type, " + "run.uniqueID";
-		}
-		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, run.* " +
 			" FROM person, run " +
 			" WHERE person.uniqueID == run.personID" + 
 			" AND run.sessionID == " + sessionID + 
-			" ORDER BY person.uniqueID, " +
-			secondOrder;
+			" ORDER BY person.uniqueID, run.uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -165,23 +156,14 @@ class SqliteRun : Sqlite
 		return myRuns;
 	}
 
-	public static string[] SelectAllIntervalRuns(int sessionID, string ordered_by) 
+	public static string[] SelectAllIntervalRuns(int sessionID) 
 	{
-		string secondOrder;
-		if(ordered_by == "ordered_by_time") {
-			secondOrder = "runInterval.uniqueID";
-		}
-		else { //by type
-			secondOrder = "runInterval.type, " + "runInterval.uniqueID";
-		}
-		
-		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, runInterval.* " +
 			" FROM person, runInterval " +
 			" WHERE person.uniqueID == runInterval.personID" + 
 			" AND runInterval.sessionID == " + sessionID + 
-			" ORDER BY person.uniqueID, " + secondOrder;
+			" ORDER BY person.uniqueID, runInterval.uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

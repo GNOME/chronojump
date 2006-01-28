@@ -27,7 +27,6 @@ using System.Collections; //ArrayList
 
 public class TreeViewRuns
 {
-	protected bool sortByType;
 	protected TreeStore store;
 	protected Gtk.TreeView treeview;
 	//protected static int pDN; //prefsDigitsNumber;
@@ -41,10 +40,9 @@ public class TreeViewRuns
 	{
 	}
 	
-	public TreeViewRuns (Gtk.TreeView treeview, bool sortByType, int newPrefsDigitsNumber, bool metersSecondsPreferred)
+	public TreeViewRuns (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred)
 	{
 		this.treeview = treeview;
-		this.sortByType = sortByType;
 		//pDN = newPrefsDigitsNumber;
 		this.pDN = newPrefsDigitsNumber;
 		this.metersSecondsPreferred = metersSecondsPreferred;
@@ -202,6 +200,10 @@ public class TreeViewRuns
 		} while (treeview.Model.IterNext (ref iter));
 	}
 
+	public void Unselect () {
+		treeview.Selection.UnselectAll();
+	}
+
 	public int RunSelectedID {
 		get {
 			TreeIter iter = new TreeIter();
@@ -220,10 +222,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 {
 	int colsNum;
 	
-	public TreeViewRunsInterval (Gtk.TreeView treeview, bool sortByType, int newPrefsDigitsNumber, bool metersSecondsPreferred)
+	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred)
 	{
 		this.treeview = treeview;
-		this.sortByType = sortByType;
 		//pDN = newPrefsDigitsNumber;
 		this.pDN = newPrefsDigitsNumber;
 		this.metersSecondsPreferred = metersSecondsPreferred;

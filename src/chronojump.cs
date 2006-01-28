@@ -50,8 +50,6 @@ public class ChronoJump
 	[Widget] Gtk.Combo combo_runs;
 	[Widget] Gtk.Combo combo_runs_interval;
 
-	[Widget] Gtk.CheckButton checkbutton_sort_by_type;
-	[Widget] Gtk.CheckButton checkbutton_sort_by_type_rj;
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump;
 	[Widget] Gtk.Button button_edit_selected_jump;
@@ -63,8 +61,6 @@ public class ChronoJump
 	[Widget] Gtk.Button button_repair_selected_reactive_jump;
 	[Widget] Gtk.MenuItem menuitem_repair_selected_reactive_jump;
 	
-	[Widget] Gtk.CheckButton checkbutton_sort_by_type_run;
-	[Widget] Gtk.CheckButton checkbutton_sort_by_type_run_interval;
 	[Widget] Gtk.MenuItem menuitem_edit_selected_run;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_run;
 	[Widget] Gtk.Button button_edit_selected_run;
@@ -490,34 +486,16 @@ public class ChronoJump
 
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
-		bool sortByType = false;
-		if(checkbutton_sort_by_type.Active) {
-			sortByType = true;
-		}
-		myTreeViewJumps = new TreeViewJumps( tv, sortByType, showHeight, showInitialSpeed, prefsDigitsNumber );
+		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, prefsDigitsNumber );
 	}
 
 	private void fillTreeView_jumps (Gtk.TreeView tv, TreeStore store, string filter) {
 		string [] myJumps;
 		
-		if(checkbutton_sort_by_type.Active) {
-			myJumps = SqliteJump.SelectAllNormalJumps(
-					currentSession.UniqueID, "ordered_by_type");
-		} else {
-			myJumps = SqliteJump.SelectAllNormalJumps(
-					currentSession.UniqueID, "ordered_by_time");
-		}
+		myJumps = SqliteJump.SelectAllNormalJumps(currentSession.UniqueID);
 		myTreeViewJumps.Fill(myJumps, filter);
 	}
 
-	private void on_checkbutton_sort_by_type_clicked(object o, EventArgs args) {
-		string myText = combo_jumps.Entry.Text;
-			
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
-		treeview_jumps.ExpandAll();
-	}
-	
 	private void on_button_tv_collapse_clicked (object o, EventArgs args) {
 		treeview_jumps.CollapseAll();
 	}
@@ -528,13 +506,17 @@ public class ChronoJump
 	
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
-		bool sortByType = false;
-		if(checkbutton_sort_by_type.Active) {
-			sortByType = true;
-		}
-		myTreeViewJumps = new TreeViewJumps( treeview_jumps, sortByType, showHeight, showInitialSpeed, prefsDigitsNumber );
+		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, prefsDigitsNumber );
 	}
 
+	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
+		// don't select if it's a person, 
+		// is for not confusing with the person treeviews that controls who jumps
+		if (myTreeViewJumps.JumpSelectedID == 0) {
+			Console.WriteLine("don't select");
+			myTreeViewJumps.Unselect();
+		}
+	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW JUMPS RJ ---------------------
@@ -547,24 +529,10 @@ public class ChronoJump
 
 	private void fillTreeView_jumps_rj (Gtk.TreeView tv, TreeStore store, string filter) {
 		string [] myJumps;
-		if(checkbutton_sort_by_type_rj.Active) {
-			myJumps = SqliteJump.SelectAllRjJumps(
-						currentSession.UniqueID, "ordered_by_type"); 
-		} else {
-			myJumps = SqliteJump.SelectAllRjJumps(
-						currentSession.UniqueID, "ordered_by_time");
-		}
+		myJumps = SqliteJump.SelectAllRjJumps(currentSession.UniqueID);
 		myTreeViewJumpsRj.Fill(myJumps, filter);
 	}
 
-	private void on_checkbutton_sort_by_type_rj_clicked(object o, EventArgs args) {
-		string myText = combo_jumps_rj.Entry.Text;
-			
-		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
-		myTreeViewJumpsRj.ExpandOptimal();
-	}
-	
 	private void on_button_tv_rj_collapse_clicked (object o, EventArgs args) {
 		treeview_jumps_rj.CollapseAll();
 	}
@@ -583,6 +551,15 @@ public class ChronoJump
 		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, prefsDigitsNumber );
 	}
 
+	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args) {
+		// don't select if it's a person, 
+		// is for not confusing with the person treeviews that controls who jumps
+		if (myTreeViewJumpsRj.JumpSelectedID == 0) {
+			Console.WriteLine("don't select");
+			myTreeViewJumpsRj.Unselect();
+		}
+	}
+
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW RUNS -------------------------
 	 *  --------------------------------------------------------
@@ -590,32 +567,12 @@ public class ChronoJump
 
 	private void createTreeView_runs (Gtk.TreeView tv) {
 		//myTreeViewRuns is a TreeViewRuns instance
-		bool sortByType = false;
-		if(checkbutton_sort_by_type_run.Active) {
-			sortByType = true;
-		}
-		myTreeViewRuns = new TreeViewRuns( tv, sortByType, prefsDigitsNumber, metersSecondsPreferred );
+		myTreeViewRuns = new TreeViewRuns( tv, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	private void fillTreeView_runs (Gtk.TreeView tv, TreeStore store, string filter) {
-		string [] myRuns;
-		
-		if(checkbutton_sort_by_type_run.Active) {
-			myRuns = SqliteRun.SelectAllNormalRuns(
-					currentSession.UniqueID, "ordered_by_type");
-		} else {
-			myRuns = SqliteRun.SelectAllNormalRuns(
-					currentSession.UniqueID, "ordered_by_time");
-		}
+		string [] myRuns = SqliteRun.SelectAllNormalRuns(currentSession.UniqueID);
 		myTreeViewRuns.Fill(myRuns, filter);
-	}
-	
-	private void on_checkbutton_sort_by_type_run_clicked(object o, EventArgs args) {
-		string myText = combo_runs.Entry.Text;
-			
-		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
-		treeview_runs.ExpandAll();
 	}
 	
 	private void on_button_tv_run_collapse_clicked (object o, EventArgs args) {
@@ -628,11 +585,16 @@ public class ChronoJump
 	
 	private void treeview_runs_storeReset() {
 		myTreeViewRuns.RemoveColumns();
-		bool sortByType = false;
-		if(checkbutton_sort_by_type_run.Active) {
-			sortByType = true;
+		myTreeViewRuns = new TreeViewRuns( treeview_runs, prefsDigitsNumber, metersSecondsPreferred );
+	}
+
+	private void on_treeview_runs_cursor_changed (object o, EventArgs args) {
+		// don't select if it's a person, 
+		// is for not confusing with the person treeviews that controls who runs
+		if (myTreeViewRuns.RunSelectedID == 0) {
+			Console.WriteLine("don't select");
+			myTreeViewRuns.Unselect();
 		}
-		myTreeViewRuns = new TreeViewRuns( treeview_runs, sortByType, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	/* ---------------------------------------------------------
@@ -642,32 +604,12 @@ public class ChronoJump
 
 	private void createTreeView_runs_interval (Gtk.TreeView tv) {
 		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
-		bool sortByType = false;
-		if(checkbutton_sort_by_type_run_interval.Active) {
-			sortByType = true;
-		}
-		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, sortByType, prefsDigitsNumber, metersSecondsPreferred );
+		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	private void fillTreeView_runs_interval (Gtk.TreeView tv, TreeStore store, string filter) {
-		string [] myRuns;
-		
-		if(checkbutton_sort_by_type_run_interval.Active) {
-			myRuns = SqliteRun.SelectAllIntervalRuns(
-					currentSession.UniqueID, "ordered_by_type");
-		} else {
-			myRuns = SqliteRun.SelectAllIntervalRuns(
-					currentSession.UniqueID, "ordered_by_time");
-		}
+		string [] myRuns = SqliteRun.SelectAllIntervalRuns(currentSession.UniqueID);
 		myTreeViewRunsInterval.Fill(myRuns, filter);
-	}
-	
-	private void on_checkbutton_sort_by_type_run_interval_clicked(object o, EventArgs args) {
-		string myText = combo_runs_interval.Entry.Text;
-			
-		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, myText);
-		treeview_runs_interval.ExpandAll();
 	}
 	
 	private void on_button_tv_run_interval_collapse_clicked (object o, EventArgs args) {
@@ -685,12 +627,17 @@ public class ChronoJump
 	
 	private void treeview_runs_interval_storeReset() {
 		myTreeViewRunsInterval.RemoveColumns();
-		bool sortByType = false;
-		if(checkbutton_sort_by_type_run_interval.Active) {
-			sortByType = true;
-		}
-		myTreeViewRunsInterval = new TreeViewRunsInterval( treeview_runs_interval, sortByType, 
+		myTreeViewRunsInterval = new TreeViewRunsInterval( treeview_runs_interval,  
 				prefsDigitsNumber, metersSecondsPreferred );
+	}
+
+	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args) {
+		// don't select if it's a person, 
+		// is for not confusing with the person treeviews that controls who runs
+		if (myTreeViewRunsInterval.RunSelectedID == 0) {
+			Console.WriteLine("don't select");
+			myTreeViewRunsInterval.Unselect();
+		}
 	}
 
 	/* ---------------------------------------------------------
@@ -785,13 +732,9 @@ public class ChronoJump
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
 		
-		if (myText == Constants.AllJumpsName) {
-			checkbutton_sort_by_type.Sensitive = true ;
-		} else {
-			checkbutton_sort_by_type.Sensitive = false ;
-			//expand all rows if a jump filter is selected:
+		//expand all rows if a jump filter is selected:
+		if (myText != Constants.AllJumpsName)
 			treeview_jumps.ExpandAll();
-		}
 	}
 	
 	private void on_combo_jumps_rj_changed(object o, EventArgs args) {
@@ -809,13 +752,9 @@ public class ChronoJump
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(treeview_jumps, treeview_jumps_store, myText);
 
-		if (myText == Constants.AllJumpsName) {
-			checkbutton_sort_by_type_rj.Sensitive = true ;
-		} else {
-			checkbutton_sort_by_type_rj.Sensitive = false ;
-			//expand all rows if a jump filter is selected:
+		//expand all rows if a jump filter is selected:
+		if (myText != Constants.AllJumpsName) 
 			myTreeViewJumpsRj.ExpandOptimal();
-		}
 	}
 
 	private void on_combo_runs_changed(object o, EventArgs args) {
@@ -830,13 +769,9 @@ public class ChronoJump
 		treeview_runs_storeReset();
 		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
 
-		if (myText == Constants.AllRunsName) {
-			checkbutton_sort_by_type_run.Sensitive = true ;
-		} else {
-			checkbutton_sort_by_type_run.Sensitive = false ;
-			//expand all rows if a runfilter is selected:
+		//expand all rows if a runfilter is selected:
+		if (myText != Constants.AllRunsName) 
 			treeview_runs.ExpandAll();
-		}
 	}
 
 	private void on_combo_runs_interval_changed(object o, EventArgs args) {
@@ -851,13 +786,9 @@ public class ChronoJump
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, myText);
 
-		if (myText == Constants.AllRunsName) {
-			checkbutton_sort_by_type_run_interval.Sensitive = true ;
-		} else {
-			checkbutton_sort_by_type_run_interval.Sensitive = false ;
-			//expand all rows if a runfilter is selected:
+		//expand all rows if a runfilter is selected
+		if (myText != Constants.AllRunsName) 
 			myTreeViewRunsInterval.ExpandOptimal();
-		}
 	}
 
 	
@@ -2496,7 +2427,6 @@ public class ChronoJump
 		button_edit_selected_run.Sensitive = false;
 		button_delete_selected_run.Sensitive = false;
 		
-		checkbutton_sort_by_type.Sensitive = false;
 		combo_jumps.Sensitive = false;
 		combo_jumps_rj.Sensitive = false;
 		combo_runs.Sensitive = false;
@@ -2541,7 +2471,6 @@ public class ChronoJump
 		button_edit_selected_run.Sensitive = true;
 		button_delete_selected_run.Sensitive = true;
 		
-		checkbutton_sort_by_type.Sensitive = true;
 		combo_jumps.Sensitive = true;
 		combo_jumps_rj.Sensitive = true;
 		combo_runs.Sensitive = true;

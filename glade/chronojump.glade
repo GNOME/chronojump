@@ -1872,27 +1872,6 @@
 						  <property name="fill">True</property>
 						</packing>
 					      </child>
-
-					      <child>
-						<widget class="GtkCheckButton" id="checkbutton_sort_by_type">
-						  <property name="visible">True</property>
-						  <property name="tooltip" translatable="yes">sort by type or by jump date</property>
-						  <property name="can_focus">True</property>
-						  <property name="label" translatable="yes">by type</property>
-						  <property name="use_underline">True</property>
-						  <property name="relief">GTK_RELIEF_NORMAL</property>
-						  <property name="focus_on_click">True</property>
-						  <property name="active">False</property>
-						  <property name="inconsistent">False</property>
-						  <property name="draw_indicator">True</property>
-						  <signal name="clicked" handler="on_checkbutton_sort_by_type_clicked" last_modification_time="Sat, 02 Oct 2004 18:02:35 GMT"/>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
 					    </widget>
 					  </child>
 					</widget>
@@ -1930,6 +1909,7 @@
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
+					  <signal name="cursor_changed" handler="on_treeview_jumps_cursor_changed" last_modification_time="Sat, 28 Jan 2006 17:41:08 GMT"/>
 					</widget>
 				      </child>
 				    </widget>
@@ -2394,27 +2374,6 @@
 						  <property name="fill">True</property>
 						</packing>
 					      </child>
-
-					      <child>
-						<widget class="GtkCheckButton" id="checkbutton_sort_by_type_rj">
-						  <property name="visible">True</property>
-						  <property name="tooltip" translatable="yes">sort by type or by jump date</property>
-						  <property name="can_focus">True</property>
-						  <property name="label" translatable="yes">by type</property>
-						  <property name="use_underline">True</property>
-						  <property name="relief">GTK_RELIEF_NORMAL</property>
-						  <property name="focus_on_click">True</property>
-						  <property name="active">False</property>
-						  <property name="inconsistent">False</property>
-						  <property name="draw_indicator">True</property>
-						  <signal name="clicked" handler="on_checkbutton_sort_by_type_rj_clicked" last_modification_time="Sat, 12 Mar 2005 17:40:33 GMT"/>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
 					    </widget>
 					  </child>
 					</widget>
@@ -2453,6 +2412,7 @@
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
+					  <signal name="cursor_changed" handler="on_treeview_jumps_rj_cursor_changed" last_modification_time="Sat, 28 Jan 2006 18:02:08 GMT"/>
 					</widget>
 				      </child>
 				    </widget>
@@ -2926,27 +2886,6 @@
 						  <property name="fill">True</property>
 						</packing>
 					      </child>
-
-					      <child>
-						<widget class="GtkCheckButton" id="checkbutton_sort_by_type_run">
-						  <property name="visible">True</property>
-						  <property name="tooltip" translatable="yes">sort by type or by run date</property>
-						  <property name="can_focus">True</property>
-						  <property name="label" translatable="yes">by type</property>
-						  <property name="use_underline">True</property>
-						  <property name="relief">GTK_RELIEF_NORMAL</property>
-						  <property name="focus_on_click">True</property>
-						  <property name="active">False</property>
-						  <property name="inconsistent">False</property>
-						  <property name="draw_indicator">True</property>
-						  <signal name="clicked" handler="on_checkbutton_sort_by_type_run_clicked" last_modification_time="Thu, 21 Apr 2005 13:46:49 GMT"/>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
 					    </widget>
 					  </child>
 					</widget>
@@ -2984,6 +2923,7 @@
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
+					  <signal name="cursor_changed" handler="on_treeview_runs_cursor_changed" last_modification_time="Sat, 28 Jan 2006 18:04:24 GMT"/>
 					</widget>
 				      </child>
 				    </widget>
@@ -3448,27 +3388,6 @@
 						  <property name="fill">True</property>
 						</packing>
 					      </child>
-
-					      <child>
-						<widget class="GtkCheckButton" id="checkbutton_sort_by_type_run_interval">
-						  <property name="visible">True</property>
-						  <property name="tooltip" translatable="yes">sort by type or by run date</property>
-						  <property name="can_focus">True</property>
-						  <property name="label" translatable="yes">by type</property>
-						  <property name="use_underline">True</property>
-						  <property name="relief">GTK_RELIEF_NORMAL</property>
-						  <property name="focus_on_click">True</property>
-						  <property name="active">False</property>
-						  <property name="inconsistent">False</property>
-						  <property name="draw_indicator">True</property>
-						  <signal name="clicked" handler="on_checkbutton_sort_by_type_run_interval_clicked" last_modification_time="Wed, 20 Jul 2005 09:17:53 GMT"/>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
 					    </widget>
 					  </child>
 					</widget>
@@ -3506,6 +3425,7 @@
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
+					  <signal name="cursor_changed" handler="on_treeview_runs_interval_cursor_changed" last_modification_time="Sat, 28 Jan 2006 18:04:31 GMT"/>
 					</widget>
 				      </child>
 				    </widget>

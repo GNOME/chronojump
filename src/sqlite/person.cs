@@ -96,49 +96,6 @@ class SqlitePerson : Sqlite
 		return myReturn;
 	}
 		
-
-/*
-	public static string[] SelectAllPersons(string orderedBy) 
-	{
-		//orderedBy = name or uniqueID (= creation date)
-		
-		dbcon.Open();
-
-		dbcmd.CommandText = "SELECT * FROM " + personTableName + " ORDER BY " + orderedBy;
-		
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		ArrayList myArray = new ArrayList(2);
-
-		int count = new int();
-		count = 0;
-
-		//we don't include height and weight, now
-		while(reader.Read()) {
-			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-					reader[2].ToString() + ":" + reader[3].ToString() + ":" +
-					reader[6].ToString()
-					);
-			count ++;
-		}
-
-		reader.Close();
-		dbcon.Close();
-
-		string [] myPersons = new string[count];
-		count =0;
-		foreach (string line in myArray) {
-			myPersons [count++] = line;
-		}
-
-		return myPersons;
-	}
-*/
-	
 	public static string[] SelectAllPersonsRecuperable(string sortedBy, int except, int inSession) 
 	{
 		//sortedBy = name or uniqueID (= creation date)

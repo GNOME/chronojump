@@ -743,7 +743,7 @@ public class StatsWindow {
 	private void on_stats_select_sessions_accepted (object o, EventArgs args) {
 		Console.WriteLine("select sessions for stats accepted");
 		
-		if (sessionSelectStatsWin.ArrayOfSelectedSessions[0] != "-1") { 
+		if ((sessionSelectStatsWin.ArrayOfSelectedSessions[0]).ToString() != "-1") { 
 			//there are sessionsSelected, put them in selectedSessions ArrayList
 			selectedSessions = sessionSelectStatsWin.ArrayOfSelectedSessions;
 		} else {

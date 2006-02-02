@@ -665,8 +665,9 @@ public class Stat
 	
 	protected static string calculateSD(double sumValues, double sumSquaredValues, int count) {
 		if(count >1) {
-			return (System.Math.Sqrt(
-					sumSquaredValues -(sumValues*sumValues/count) / (count -1) )).ToString();
+			//return (System.Math.Sqrt(
+			//		sumSquaredValues -(sumValues*sumValues/count) / (count -1) )).ToString();
+			return "-";
 		} else {
 			return "-";
 		}

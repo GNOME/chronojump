@@ -1,5 +1,20 @@
 CHANGELOG:
 
+2 feb 2005 (minor minor RELEASE 0.44a)
+	created cmjPlusPotency statistic and graph. Added files: src/stats/cmjPlusPotency.cs, src/stats/graphs/cmjPlusPotency.cs
+	
+	Util.TrimDecimals now handles corrrectly decimal values higher than 9.99
+
+	calculateSD deactivated in stats/main.cs doesn't work ok
+
+	TODO: 
+		- a person can have decimal weight
+		- if person weight changes, ask about: 1.- changing all the weights
+		%in the current session. 2.- in all sessions; 3.- don't change
+		weights. Notify first the weight jumps in all sessions, only
+		ask if there are weight jumps in a session
+		- velez 50%
+
 28 jan 2006
 	event treeviews improved:
 		- unnable to select persons for not confusing users about who

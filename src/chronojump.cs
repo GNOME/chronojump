@@ -155,7 +155,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.44";
+	private static string progversion = "0.44a";
 	private static string progname = "Chronojump";
 	
 	//persons

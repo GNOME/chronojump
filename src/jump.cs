@@ -684,6 +684,8 @@ public class JumpRj : Jump
 						}
 					}
 				}
+
+				Console.Write("*D*");
 				
 				//check if reactive jump should finish
 				if (jumpsLimited) {
@@ -707,6 +709,7 @@ public class JumpRj : Jump
 						write();
 					}
 				}
+				Console.Write("*E*");
 
 			}
 		} while ( ! success && ! cancel && ! finish );

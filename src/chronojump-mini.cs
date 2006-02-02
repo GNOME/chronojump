@@ -40,6 +40,8 @@ class Test {
     Chronopic cp = new Chronopic("/dev/ttyS0");
     //Chronopic cp = new Chronopic("/dev/ttyS1");
     //Chronopic cp = new Chronopic("/dev/ttyUSB0");
+    //Chronopic cp = new Chronopic("/dev/ttyS17");
+    //Chronopic cp = new Chronopic("/dev/ttyS1");
     
     
     //-- Obtener el estado inicial de la plataforma

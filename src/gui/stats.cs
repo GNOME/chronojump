@@ -109,7 +109,8 @@ public class StatsWindow {
 		Catalog.GetString("No indexes"), 
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
-		Constants.IubIndexFormula
+		Constants.IubIndexFormula,
+		Constants.CmjPlusPotencyFormula
 	};
 		
 	private static string [] comboCheckboxesOptions = {
@@ -349,9 +350,13 @@ public class StatsWindow {
 			} else if (combo_stats_stat_subtype.Entry.Text == Constants.IubIndexFormula) {
 				combo_stats_stat_apply_to.Entry.Text = "ABK, CMJ";
 				combo_stats_stat_apply_to.Sensitive = false;
-			} else {
+			} else if (combo_stats_stat_subtype.Entry.Text == Constants.FvIndexFormula) {
 				//"F/V sj+(100%)/sj *100",	//fvIndexFormula
 				combo_stats_stat_apply_to.Entry.Text = "SJ+(100%), SJ";
+				combo_stats_stat_apply_to.Sensitive = false;
+			} else {
+				//Constants.CmjPlusPotencyFormula
+				combo_stats_stat_apply_to.Entry.Text = "CMJ+";
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
 		}  else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 
@@ -612,6 +617,20 @@ public class StatsWindow {
 				}
 				radiobutton_stats_jumps_person_average.Sensitive = false;
 			}
+			//in cmjPlusPotency show only "all jumps" radiobutton
+			else if(statisticType == Catalog.GetString("Simple") &&
+					 statisticSubType == Constants.CmjPlusPotencyFormula) {
+				//change the radiobutton value
+				if(radiobutton_stats_jumps_limit.Active || radiobutton_stats_jumps_person_average.Active ||
+						radiobutton_stats_jumps_person_bests.Active) {
+					radiobutton_stats_jumps_all.Active = true;
+				}
+				radiobutton_stats_jumps_all.Sensitive = true;
+				//make no sensitive
+				radiobutton_stats_jumps_limit.Sensitive = false;
+				radiobutton_stats_jumps_person_bests.Sensitive = false;
+				radiobutton_stats_jumps_person_average.Sensitive = false;
+			}
 			else if(statisticType == Catalog.GetString("Global") || 
 					statisticType == Catalog.GetString("Jumper") || 
 					( statisticType == Catalog.GetString("Simple") && 
@@ -623,6 +642,8 @@ public class StatsWindow {
 					radiobutton_stats_jumps_person_bests.Active = true;
 					spin_stats_jumps_person_bests.Sensitive = false; //in this jumps only show the '1' best value
 				}
+				radiobutton_stats_jumps_person_bests.Sensitive = true;
+				radiobutton_stats_jumps_person_average.Sensitive = true;
 				//make no sensitive
 				radiobutton_stats_jumps_all.Sensitive = false;
 				radiobutton_stats_jumps_limit.Sensitive = false;

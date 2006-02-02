@@ -1576,8 +1576,10 @@ public class JumpRjExecuteWindow
 				myFraction = 1;
 			else if(myFraction < 0)
 				myFraction = 0;
-				
+			
+			Console.Write("{0}-{1}-{2}",jumps, limit, myFraction);
 			progressbar_execution.Fraction = myFraction;
+			Console.WriteLine("fraction done");
 
 			if(jumpsLimited) { 
 				label_progress_name.Text = Catalog.GetString("Jumps");

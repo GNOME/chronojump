@@ -114,7 +114,6 @@ class SqliteStat : Sqlite
 	
 	//sj+, cmj+, abk+
 	//and "All jumps" (simple)
-	//public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool weightPercent, bool heightPreferred)
 	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
 		string ini = "";
@@ -847,6 +846,110 @@ class SqliteStat : Sqlite
 					returnJump1String + 			//jump1
 					returnJump2String  			//jump2
 				    );
+		}
+		reader.Close();
+		dbcon.Close();
+		return myArray;
+	}
+
+	public static ArrayList CmjPlusPotency (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
+	{
+		string ini = "";
+		string end = "";
+		if(operationString == "MAX") {
+			ini = "MAX(";
+			end = ")";
+		//} else if(operationString == "AVG") {
+		//	ini = "AVG(";
+		//	end = ")";
+		}
+		
+		string orderByString = "ORDER BY ";
+		string moreSelect = "";
+		//moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", person.weight";
+		//jump weight in Kg = jump weight in % * person.weight / 100
+		//jump height in centimeters = 100*4.9* pow(jump.tv/2, 2)
+		
+		//moreSelect = ini + 
+		//	"(person.weight + jump.weight*person.weight/100) * 9.81 * 2 * 9.81 * 100*4.9* jump.tv/2 * jump.tv/2" + end + " AS potencyIndexWithoutSqrt, " +
+		moreSelect = 
+			ini + "(person.weight + jump.weight*person.weight/100) * 9.81" + end + " AS indexPart1, " + 
+			//ini + "2 * 9.81 * 100*4.9* jump.tv/2 * jump.tv/2" + end + " AS indexPart2WithoutSqrt, " + //cm
+			ini + "2 * 9.81 * 4.9 * jump.tv/2 * jump.tv/2" + end + " AS indexPart2WithoutSqrt, " +	//m
+			"person.weight, jump.weight*person.weight/100 AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2"; 
+			//TODO: check if ini,end is needed here
+
+		string fromString = " FROM jump, person ";
+		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
+
+
+		//if we use AVG or MAX, then we have to group by the results
+		//if there's more than one session, it sends the avg or max, no more columns
+		//there's no chance of mixing tv and weight of different jumps in multisessions because only tv is returned
+		string groupByString = "";
+		if (ini.Length > 0) {
+			groupByString = " GROUP BY jump.personID, jump.sessionID ";
+		}
+		//if multisession, order by person.name, sessionID for being able to present results later
+		if(multisession) {
+			orderByString = orderByString + "person.name, sessionID, ";
+		}
+		
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
+			fromString +
+			sessionString +
+			jumpTypeString +
+			" AND jump.personID == person.uniqueID " +
+			groupByString +
+			//orderByString + ini + "indexPart1 * indexPart2WithoutSqrt" + end + " DESC ";
+			orderByString + "extraWeight";
+
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		string showSexString = "";
+		ArrayList myArray = new ArrayList(2);
+		while(reader.Read()) {
+			if(showSex) {
+				showSexString = "." + reader[1].ToString() ;
+			}
+			
+			if(multisession) {
+				string returnSessionString = ":" + reader[2].ToString();
+				string returnValueString = "";
+				returnValueString = ":" + 
+					(
+					 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))
+					 * 
+					 System.Math.Sqrt(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())))
+					).ToString();
+				myArray.Add (reader[0].ToString() + showSexString +
+						returnSessionString + 		//session
+						returnValueString		//index
+					    );
+			} else {
+				//in simple session return: name, sex, index, personweight, jumpweight, jumpheight
+				bool showExtraWeightInName = true; //this is nice for graph
+				string extraWeightString = "";
+				if(showExtraWeightInName) {
+					extraWeightString = "(" + Util.ChangeDecimalSeparator(reader[6].ToString()) + ")";//extra weight
+				}
+				myArray.Add (reader[0].ToString() + showSexString + extraWeightString +
+						+ ":" + 
+						(
+						 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))
+						 * 
+						 System.Math.Sqrt(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())))
+						).ToString()
+						+ ":" + Util.ChangeDecimalSeparator(reader[5].ToString()) //person weight
+						+ ":" + Util.ChangeDecimalSeparator(reader[6].ToString()) //extra weight
+						+ ":" + Util.ChangeDecimalSeparator(reader[7].ToString()) //height
+							);
+			}
 		}
 		reader.Close();
 		dbcon.Close();

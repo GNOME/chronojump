@@ -68,9 +68,35 @@ public class Util
 		if(time == "-1") {
 			return "-";
 		} else {
+			/*
+			 * this doesn't work fine for values like 1234,4 because it counts the 1234
+			 * this is ONLY suitable for values starting with "0."
 			return time.Length > prefsDigitsNumber + 2 ? 
 				time.Substring( 0, prefsDigitsNumber + 2 ) : 
 					time;
+					*/
+			System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+			localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		
+			int countIntegers = 0;
+			bool decimalPointFound = false;
+			foreach(char myChar in time) {
+				if( myChar.ToString() == localeInfo.NumberDecimalSeparator ) {
+					decimalPointFound = true;
+					break;
+				} else {
+					countIntegers ++;
+				}
+			}
+			
+			if(decimalPointFound) {
+				return time.Length > countIntegers + 1 + prefsDigitsNumber ? 
+					time.Substring( 0, countIntegers + 1 + prefsDigitsNumber ) : 
+						time;
+			} else {
+				return time;
+			}
+			
 		}
 	}
 	

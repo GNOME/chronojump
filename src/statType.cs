@@ -247,6 +247,8 @@ public class StatType {
 					indexType = "IUB";
 				} else if(statisticSubType == Constants.FvIndexFormula) {
 					indexType = "F/V";
+				} else if(statisticSubType == Constants.CmjPlusPotencyFormula) {
+					indexType = "cmjPlus";
 				}
 			
 				if(indexType == "IE" || indexType == "IUB") {
@@ -255,11 +257,18 @@ public class StatType {
 					} else {
 						myStat = new StatIeIub(myStatTypeStruct, treeview_stats, indexType); 
 					}
-				} else {	//F/V
+				} else if(indexType == "F/V") {
 					if(graph) {
 						myStat = new GraphFv (myStatTypeStruct, indexType);
 					} else {
 						myStat = new StatFv(myStatTypeStruct, treeview_stats, indexType); 
+					}
+				} else {
+					//indexType = "cmjPlusPotency";
+					if(graph) {
+						myStat = new GraphCmjPlusPotency(myStatTypeStruct); 
+					} else {
+						myStat = new StatCmjPlusPotency(myStatTypeStruct, treeview_stats); 
 					}
 				}
 			}

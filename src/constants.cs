@@ -32,6 +32,8 @@ public class Constants
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
+	public static string CmjPlusPotencyFormula = Catalog.GetString("Potency") + 
+		" (Pc + Pb) * 9.81 * sqrt(2 * 9,81 * h)";
 	
 	//strings
 	public static string AllJumpsName = Catalog.GetString("All jumps");

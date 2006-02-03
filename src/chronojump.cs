@@ -1199,7 +1199,7 @@ public class ChronoJump
 	private void on_preferences_accepted (object o, EventArgs args) {
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
 	
-		chronopicPort = SqlitePreferences.Select("chronopicPort");
+		string myPort = SqlitePreferences.Select("chronopicPort");
 		if(myPort != chronopicPort && cpRunning) {
 			chronopicInit (myPort);
 		}

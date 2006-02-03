@@ -1200,6 +1200,10 @@ public class ChronoJump
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
 	
 		chronopicPort = SqlitePreferences.Select("chronopicPort");
+		if(myPort != chronopicPort && cpRunning) {
+			chronopicInit (myPort);
+		}
+		chronopicPort = myPort;
 		
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
 			askDeletion = true;

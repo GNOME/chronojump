@@ -1,0 +1,61 @@
+:::startTitle:::
+Capturas de pantalla
+:::endTitle:::
+			
+<tt>Faga clic nas imaxes para amplialas.</tt>
+
+<table border="0" cellpadding="4" cellspacing="8">
+<tr valign="top">
+	<td width="250">
+		<a href=":::imageLink:::/chronojump-04.png"><img src=":::imageLink:::/chronojump-04_small.png" width="250" height="188"></a>
+		<br>
+		v.0.4 Informe HTML (inglés)
+	</td>
+	<td width="250">
+		<a href=":::imageLink:::/chronojump_graphs_volei.png"><img src=":::imageLink:::/chronojump_graphs_volei_small.png" width="250" height="188"></a>
+		<br>
+		v.0.3 Estatísticas e gráfica DjIndex (inglés)
+	</td>
+</tr>
+
+<tr valign="top">
+	<td width="250">
+		<a href=":::imageLink:::/chronojump_new_run_type_spanish.png"><img src=":::imageLink:::/chronojump_new_run_type_spanish_small.png" width="250" height="188"></a>
+		<br>
+		v.0.3 Engadir novo tipo de carreira (castelán)
+	</td>
+	<td width="250">
+		<a href=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish.png"><img src=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish_small.png" width="250" height="188"></a>
+		<br>
+		v.0.3 Engadir múltiples suxeitos e preferencias (castelán)
+	</td>
+</tr>
+
+<tr valign="top">
+	<td width="250">
+		<a href=":::imageLink:::/chronojump_graphs.jpg"><img src=":::imageLink:::/chronojump_graphs_small.png" width="250" height="188"></a>
+		<br>
+		v.0.1 Gráficas (inglés)
+	</td>
+	<td width="250">
+		<a href=":::imageLink:::/chronojump_graphs_reactive.png"><img src=":::imageLink:::/chronojump_graphs_reactive_small.png" width="250" height="188"></a>
+		<br>
+		v.0.1 Gráficas de saltos reactivos (inglés)
+	</td>
+</tr>
+
+<tr valign="top">
+	<td width="250">
+		<a href=":::imageLink:::/chronopic_foto.jpg"><img src=":::imageLink:::/chronopic_foto_small.png" width="250" height="188"></a>
+		<br>
+		Prototipo de ChronoPic (Skypic + tarxeta de expansión)
+	</td>
+	<td width="250">
+		<a href=":::imageLink:::/plataforma_contactos_final.jpg"><img src=":::imageLink:::/plataforma_contactos_final_small.png" width="250" height="188"></a>
+		<br>
+		Plataforma de contactos construída seguindo estas <a href="construction_contact_platform_gl.html">instrucións</a>
+	</td>
+</tr>
+
+</table>
+

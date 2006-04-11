@@ -1,0 +1,54 @@
+:::startTitle:::
+Características do software de xestión
+:::endTitle:::
+
+ChronoJump permite rexistrar calquera salto coas repeticións desexadas, iniciándose desde dentro ou fóra da plataforma, rexistrando independentemente tempos de contacto e tempos de voo, así como a carga extra, a altura da caída, a limitación por saltos ou tempo e descricións da técnica.
+<p>
+ChronoJump usa unha pequena base de datos <a href="http://www.sqlite.org/">Sqlite</a> que o capacita para ligar saltos a suxeitos e sesións, e para realizar todo tipo de comparacións entre estas entidades.
+
+<p>
+É posible e sinxelo crear novos tipos de saltos coas variables descritas con anterioridade.
+
+<p>
+É multiplataforma. Ao estar programado en C# usando Mono, debería funcionar correctamente en GNU/Linux, MacOSX, Windows, ... Polo de agora, só se probou en GNU/Linux.
+
+<p>
+Incorpora as seguintes estatísticas (sempre que non se especifique o contrario, permite mostrar medias, valores máximos, ou todos os valores dunha única sesión ou entre un número indeterminado de sesións -lonxitudinal-, e distinción de xénero)
+<ul>
+<li> Resumo dunha ou varias sesións
+<li> Estudo dun único suxeito
+
+<li> Tempo de voo de saltos simples
+<li> Tempo de contacto, tempo de voo e índice entre ambos en saltos con caída e en saltos repetitivos (en breve engadirase tamén a velocidade de saída).
+<li> Potencia en saltos repetitivos
+<li> Evolución de saltos repetitivos (unicamente nunha sesión)
+<li> Índice de elasticidade e de uso dos brazos
+<li> ...(a modularidade de ChronoJump facilita a inclusión de novas estatísticas)
+</ul>
+
+Representación gráfica de todas as estatísticas descritas mediante a libraría gráfica <a href="http://netcontrols.org/nplot/">NPlot</a>.
+
+
+<p>
+Exportación de saltos a follas de cálculo (formato CSV).
+<p>
+Creación de informes personalizados de todos os datos obtidos e das estatísticas (formato HTML). 
+
+<h5>Características do cronómetro</h5>
+ O Cronómetro: Chronopic, está baseado na tarxeta Adestradora Skypic (consulte documentación), e ofrece unha precisión de 1 milésima de segundo tal e como se comprobou. <tt>[Pendente de explicitarse esta comprobación]</tt>.
+ <p> Algúns sistemas de cronometraxe do salto empregan unicamente un ordenador persoal conectado á plataforma. Os ordenadores modernos son multitarefa, característica que impide garantir unha medición fiable debido a que poden estar realizando calquera outra tarefa nese momento. Máis información no apartado de <a href="construction_gl.html">Construción</a>.
+ <p>
+ <h5>Características da plataforma</h5>
+
+ A plataforma de contactos pode ser fabricada como se explica no apartado de <a href="construction_gl.html"> Construción</a>.
+
+ <h5>Características futuras</h5>
+
+ En breve, espérase engadir tamén as seguintes funcións:
+ <ul> 
+ <li>Apúntase a posibilidade de substituír as plataformas de contactos por células fotoeléctricas. O método de fabricación de células fotoeléctricas aínda non está descrito, se ten información ao respecto, pregamos a súa colaboración. 
+ <li>Indicador acústico para medición do tempo de reacción. Un dispositivo instalado no propio cronómetro producirá un son que indicará o inicio da cronometraxe do tempo que sucede ata que se produce un cambio de evento na plataforma. Entre outras moitas utilidades, pode ser usado para o control da Course&nbsp;Navette.
+ <li>Posibilidade de modificar a sensibilidade do cronómetro en cada salto.
+ <li>Se desexa outras aplicacións, non dubide en solicitalo mediante as listas de correo.
+ </ul>
+

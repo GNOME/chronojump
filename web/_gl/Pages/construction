@@ -1,0 +1,31 @@
+:::startTitle:::
+Construción
+:::endTitle:::
+
+<h5>Construción-obtención do cronómetro</h5>
+<ul>
+<li>Para información sobre a <b>fabricación</b> do cronómetro, ler este e-mail: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00001.html">Documentación sobre Chronopic 1.0 e o Prototipo 1 (en castelán)</a>
+<li>Para información referente á <b>compra</b> do cronómetro xa fabricado, ler este e-mail : <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Adquisición do Prototipo I de Chronopic (en castelán)</a>
+</ul>
+
+<h5>Construción da plataforma de contactos</h5>
+
+O instrumento que permite saber se o suxeito está no aire ou no chan pode ser unha plataforma de contactos ou un sistema de células fotoeléctricas. Proponse o seguinte documento para a fabricación da plataforma de contactos:
+
+<ul>
+<li><a href="construction_contact_platform_gl.html">"Instrucións para a construción dunha plataforma de contactos para a medición da capacidade de salto/s"</a>.
+<li>Consulte tamén os <a href="construction_contact_platform_comments_es.html">comentarios sobre a fabricación da plataforma de contactos</a> (en castelán).
+<li>Antes do proxecto ChronoJump, creáronse os proxectos <b>Salta</b> e <b>Gsalta</b> (hoxe en día desaparecidos), nos que non existía cronómetro e a conexión plataforma-PC se establecía polo porto paralelo. Aínda que este método <b>non se adapta a ChronoJump</b> inclúese para quen teña interese: <a href="construction_contact_platform_parallel_port_es.html">información da conexión por porto paralelo (en castelán)</a>.
+
+</ul>
+
+De xeito alternativo, describiuse outra posibilidade de construción da plataforma de contactos que <b>nin se probou nin se adaptou a ChronoJump</b>:
+
+<ul> 
+<li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Desenvolvemento de Prototipo de Plataforma e Programa de Computación, para Avaliación do Salto Vertical Adaptado do Tapete de Videoxogo" (en castelán)</a>
+</ul>
+ No referente ás <b>células&nbsp;fotoeléctricas</b>, aínda non se documentaron as súas posibilidades de uso, prezo, ... se dispón de información e desexa colaborar, anótese na <a href="contact_gl.html">lista chronojump-devel-list</a>.
+
+
+
+

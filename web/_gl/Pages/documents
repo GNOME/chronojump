@@ -1,50 +1,50 @@
 :::startTitle:::
-Documentos: Ìndice
+Documentos: √≠ndice
 :::endTitle:::
 
 <font size="2">
 <ol>
-<li>Documentos EspecÌficos de ChronoJump
-<li>Artigos relacionados coa valoraciÛn das capacidades condicionais con plataforma de contactos:
+<li>Documentos Espec√≠ficos de ChronoJump
+<li>Artigos relacionados coa valoraci√≥n das capacidades condicionais con plataforma de contactos:
 <ol>
-<li>Bases dos modelos da manifestaciÛn/compoÒentes da forza do salto
-<li>C·lculo das expresiÛns matem·ticas a partir das que se extraen os compoÒentes e manifestaciÛns da forza
+<li>Bases dos modelos da manifestaci√≥n/compo√±entes da forza do salto
+<li>C√°lculo das expresi√≥ns matem√°ticas a partir das que se extraen os compo√±entes e manifestaci√≥ns da forza
 <li>Consellos sobre o adestramento do salto
-<li>M·is bibliografÌa relacionada
+<li>M√°is bibliograf√≠a relacionada
 </ol>
-<li>Artigos referentes · instrumentalizaciÛn empregada
+<li>Artigos referentes √° instrumentalizaci√≥n empregada
 </ol>
 </font>
 
 
-<h5>1. Documentos especÌficos de ChronoJump</h5>
+<h5>1. Documentos espec√≠ficos de ChronoJump</h5>
 
 <ul>
 <li>De Blas, X (2005). <a href=":::manualLink:::/chronojump_manual_es.pdf">Manual de ChronoJump</a> (PDF) (clic en 'Download').
-<li>De Blas, X (2005). Primeres aproximacions a la creaciÛ d'un mËtode de mesura, gestiÛ i estadÌstica de la capacitat de salt  a partir de l'avaluaciÛ de temps de vol i temps de contacte a una plataforma de contactes amb programari i maquinari lliure. Projecte ChronoJump. <i> Revista Aloma. Revista de Psicologia, CiËncies de l'EducaciÛ i de l'Esport</i>, vol. 15, p.107-123. <tt>DispoÒible en <a href=":::articleLink:::/article_chronojump_aloma.html">:::articleLink:::/article_chronojump_aloma.html</a>. Se o desexa, pode consultar esta <a href="http://www.internostrum.com/tradurl.php?linkdesc=&direccio=ca-es&inurl=:::articleLink:::/article_chronojump_aloma.html">traduciÛn autom·tica ao espa&ntilde;ol</a> (texto non revisado)</tt>.
+<li>De Blas, X (2005). Primeres aproximacions a la creaci√≥ d'un m√®tode de mesura, gesti√≥ i estad√≠stica de la capacitat de salt  a partir de l'avaluaci√≥ de temps de vol i temps de contacte a una plataforma de contactes amb programari i maquinari lliure. Projecte ChronoJump. <i> Revista Aloma. Revista de Psicologia, Ci√®ncies de l'Educaci√≥ i de l'Esport</i>, vol. 15, p.107-123. <tt>Dispo√±ible en <a href=":::articleLink:::/article_chronojump_aloma.html">:::articleLink:::/article_chronojump_aloma.html</a>. Se o desexa, pode consultar esta <a href="http://www.internostrum.com/tradurl.php?linkdesc=&direccio=ca-es&inurl=:::articleLink:::/article_chronojump_aloma.html">traduci√≥n autom√°tica ao espa&ntilde;ol</a> (texto non revisado)</tt>.
 
-<li>De Blas, X, Gonz·lez-GÛmez, J. (2005) Proyecto Chronojump: Sistema de Medida de la Capacidad de Salto usando Software y Hardware Libres. Actas I Congreso de TecnologÌas del Software Libre.  <tt>[pendente de publicaciÛn]. DispoÒible en <a href=":::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf">:::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf</a></tt>.
-<li>Busc‡, B., De Blas, X., Daza, E. (2004) Instrucciones para la construcciÛn de una plataforma de contactos para la mediciÛn de la capacidad de salto/s [en liÒa]. <tt>DispoÒible en <a href="construction_contact_plataform_gl.html">http://:::webLink:::/construction_contact_platform_gl.html</a> (consulta 5-4-05)</tt>.
-<li>Proxecto (ligado a ChronoJump) do M·ster de programaciÛn en entornos de software libre da UOC: <a href=":::articleLink:::/proyecto_final_master_chronojump.pdf">Proxecto M·ster en PDF (en castel·n)</a>
+<li>De Blas, X, Gonz√°lez-G√≥mez, J. (2005) Proyecto Chronojump: Sistema de Medida de la Capacidad de Salto usando Software y Hardware Libres. Actas I Congreso de Tecnolog√≠as del Software Libre.  <tt>[pendente de publicaci√≥n]. Dispo√±ible en <a href=":::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf">:::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf</a></tt>.
+<li>Busc√†, B., De Blas, X., Daza, E. (2004) Instrucciones para la construcci√≥n de una plataforma de contactos para la medici√≥n de la capacidad de salto/s [en li√±a]. <tt>Dispo√±ible en <a href="construction_contact_plataform_gl.html">http://:::webLink:::/construction_contact_platform_gl.html</a> (consulta 5-4-05)</tt>.
+<li>Proxecto (ligado a ChronoJump) do M√°ster de programaci√≥n en entornos de software libre da UOC: <a href=":::articleLink:::/proyecto_final_master_chronojump.pdf">Proxecto M√°ster en PDF (en castel√°n)</a>
 
-<li>PresentaciÛn de ChronoJump no I Congreso de TecnoloxÌas do Software libre na CoruÒa (7 xullo 2005) <a href="http://chronojump.software-libre.org/presentations/congreso_gpul/index.html">Diapositivas</a>.
+<li>Presentaci√≥n de ChronoJump no I Congreso de Tecnolox√≠as do Software libre na Coru√±a (7 xullo 2005) <a href="http://chronojump.software-libre.org/presentations/congreso_gpul/index.html">Diapositivas</a>.
 
 </ul>
-<h5>2. Artigos relacionados coa valoraciÛn das capacidades condicionais con plataforma de contactos:</h5>
+<h5>2. Artigos relacionados coa valoraci√≥n das capacidades condicionais con plataforma de contactos:</h5>
 
-Agradecementos ao Dr. Michel&nbsp;Marina (INEFC Barcelona) pola axuda prestada neste apartado. <tt>Pendente: Unificar formato bibliogr·fico</tt>.
+Agradecementos ao Dr. Michel&nbsp;Marina (INEFC Barcelona) pola axuda prestada neste apartado. <tt>Pendente: Unificar formato bibliogr√°fico</tt>.
 
-<h5>2.1 Bases dos modelos da manifestaciÛn/compoÒentes da forza do salto</h5>
+<h5>2.1 Bases dos modelos da manifestaci√≥n/compo√±entes da forza do salto</h5>
 <ul>
 <li>Asmussen, E. and F. Bonde-Petersen. Storage of elastic energy in skeletal muscles in man. Acta Physiol Scand 91: 385-92, 1974.
-<li>Bosco, C. Elasticit‡ musculare e forza esplosiva nelle attivit‡ fÌsico-esportive. Roma, Societ‡ Stampa Sportiva. 1985.
+<li>Bosco, C. Elasticit√† musculare e forza esplosiva nelle attivit√† f√≠sico-esportive. Roma, Societ√† Stampa Sportiva. 1985.
 <li>Bosco, C. and P. V. Komi. Potentiation of the mechanical behavior of the human skeletal muscle through prestretching. Acta Physiol Scand 106: 467-72, 1979.
 <li>Bosco, C., P. V. Komi, and A. Ito. Prestretch potentiation of human skeletal muscle during ballistic movement. Acta Physiol Scand 111: 135-40, 1981.
 <li>Bosco, C., P. Luhtanen, and P. V. Komi. A simple method for measurement of mechanical power in jumping. Eur J Appl Physiol Occup Physiol 50: 273-82, 1983.
 <li>Bosco, C., J. Tihanyi, P. V. Komi, G. Fekete, and P. Apor. Store and recoil of elastic energy in slow and fast types of human skeletal muscles. Acta Physiol Scand 116: 343-9, 1982.
 </ul>
 
-<h5>2.2 C·lculo das expresiÛns matem·ticas a partir das que se extraen os compoÒentes e manifestaciÛns da forza</h5>
+<h5>2.2 C√°lculo das expresi√≥ns matem√°ticas a partir das que se extraen os compo√±entes e manifestaci√≥ns da forza</h5>
 
 <ul>
 <li>Bosco, C., P. Luhtanen, and P. V. Komi. A simple method for measurement of mechanical power in jumping. Eur J Appl Physiol Occup Physiol 50: 273-82, 1983.
@@ -64,25 +64,25 @@ Agradecementos ao Dr. Michel&nbsp;Marina (INEFC Barcelona) pola axuda prestada n
 <li>SEWALL, L. & MICHELI, L.J. (1986). Strength training for children.  J Pediatr Orthop 6, 143-6.
 </ul>
 
-<h5>2.4 M·is bibliografÌa relacionada</h5>
+<h5>2.4 M√°is bibliograf√≠a relacionada</h5>
 <ul>
-<li>Bosco, C., (1987). Valoraciones funcionales de la fuerza din·mica explosiva y de la potencia anaerÛbica al·ctica con el test de Bosco. Apuntes de medicina del deporte. vol. (XXIV), p. 151-158.
-<li>Bosco, C. (1994). La valoraciÛn de la fuerza con el test de Bosco. Deporte & Entrenamiento. Barcelona: Paidotribo.
-<li>Esper, A. (2000). Influencia de distintos tipos de calentamientos musculares sobre la saltabilidad. Revista Digital de EducaciÛn FÌsica [En liÒa], AÒo 5 - N∞ 25 - Septiembre de 2000. <tt>DispoÒible en <a href="http://www.efdeportes.com/efd25a/calen.htm">http://www.efdeportes.com/efd25a/calen.htm</a> (consulta 13-1-05)</tt>
+<li>Bosco, C., (1987). Valoraciones funcionales de la fuerza din√°mica explosiva y de la potencia anaer√≥bica al√°ctica con el test de Bosco. Apuntes de medicina del deporte. vol. (XXIV), p. 151-158.
+<li>Bosco, C. (1994). La valoraci√≥n de la fuerza con el test de Bosco. Deporte & Entrenamiento. Barcelona: Paidotribo.
+<li>Esper, A. (2000). Influencia de distintos tipos de calentamientos musculares sobre la saltabilidad. Revista Digital de Educaci√≥n F√≠sica [En li√±a], A√±o 5 - N¬∞ 25 - Septiembre de 2000. <tt>Dispo√±ible en <a href="http://www.efdeportes.com/efd25a/calen.htm">http://www.efdeportes.com/efd25a/calen.htm</a> (consulta 13-1-05)</tt>
 
-<li>Frick, U., Schmidtbleicher, D., Wˆrn, C (1991). Comparison of biomechanical methods for determining the height of vertical jumps. Leistungssport, n˙m. (2), p. 48-53.
-<li>Gonz·lez, J.J, Gorostiaga, E. (1995). Fundamentos del entrenamiento de la fuerza: AplicaciÛn al rendimiento deportivo. Barcelona: INDE.
+<li>Frick, U., Schmidtbleicher, D., W√∂rn, C (1991). Comparison of biomechanical methods for determining the height of vertical jumps. Leistungssport, n√∫m. (2), p. 48-53.
+<li>Gonz√°lez, J.J, Gorostiaga, E. (1995). Fundamentos del entrenamiento de la fuerza: Aplicaci√≥n al rendimiento deportivo. Barcelona: INDE.
 <li>Hatze, H. (1998). Validity and Reliability of Methods for Testing Vertical Jumping Performance. Journal of Applied Biomechanics, vol. (14), p. 127-140.
-<li>Miranda da Rocha, C., Ugrinowitsch, C., Barbanti, V.J. (2005). A especificidade do treinamento e a habilidade de saltar verticalmente. Um estudo com jogadores de basquetebol e voleibol de diferentes categorias. Revista Digital de EducaciÛn FÌsica [En liÒa], AÒo 10 - N∞ 84 - Mayo de 2005. <tt>DispoÒible en <a href="http://www.efdeportes.com/efd84/saltar.htm">http://www.efdeportes.com/efd84/saltar.htm</a> (consulta 22-5-05)</tt>
-<li>VÈlez, U. (1992). El entrenamiento de la fuerza para la mejora del salto. Apunts. Vol. (XXIX). p. 139-156.
+<li>Miranda da Rocha, C., Ugrinowitsch, C., Barbanti, V.J. (2005). A especificidade do treinamento e a habilidade de saltar verticalmente. Um estudo com jogadores de basquetebol e voleibol de diferentes categorias. Revista Digital de Educaci√≥n F√≠sica [En li√±a], A√±o 10 - N¬∞ 84 - Mayo de 2005. <tt>Dispo√±ible en <a href="http://www.efdeportes.com/efd84/saltar.htm">http://www.efdeportes.com/efd84/saltar.htm</a> (consulta 22-5-05)</tt>
+<li>V√©lez, U. (1992). El entrenamiento de la fuerza para la mejora del salto. Apunts. Vol. (XXIX). p. 139-156.
 </ul>
 
-<h5>3. Artigos referentes · instrumentalizaciÛn empregada</h5>
+<h5>3. Artigos referentes √° instrumentalizaci√≥n empregada</h5>
 <ul>
-<li>Gonz·lez, I., Gonz·lez, J., GÛmez-Arribas, F. (2003). Hardware libre: clasificaciÛn y desarrollo de hardware reconfigurable en entornos GNU/Linux [en liÒa]. <tt>DispoÒible en <a href="http://www.iearobotics.com/personal/juan/publicaciones/index.html">http://www.iearobotics.com/personal/juan/publicaciones/index.html</a> (consulta 13-1-05)</tt>.
+<li>Gonz√°lez, I., Gonz√°lez, J., G√≥mez-Arribas, F. (2003). Hardware libre: clasificaci√≥n y desarrollo de hardware reconfigurable en entornos GNU/Linux [en li√±a]. <tt>Dispo√±ible en <a href="http://www.iearobotics.com/personal/juan/publicaciones/index.html">http://www.iearobotics.com/personal/juan/publicaciones/index.html</a> (consulta 13-1-05)</tt>.
 
-<li>GÛnz·lez, J., Prieto-Moreno, A. (2004). Herramientas hardware y software para el desarrollo de aplicaciones con Microcontroladores PIC bajo plataformas GNU/Linux [en liÒa]. <tt>DispoÒible en <a href="http://www.iearobotics.com/personal/juan/publicaciones/index.html">http://www.iearobotics.com/personal/juan/publicaciones/index.html</a> (consulta 13-1-05)</tt>.
-<li>GÛnz·lez, J., Prieto-Moreno, A. (2005). Hardware Libre: la Tarjeta Skypic, una Entrenadora para Microcontroladores PIC
+<li>G√≥nz√°lez, J., Prieto-Moreno, A. (2004). Herramientas hardware y software para el desarrollo de aplicaciones con Microcontroladores PIC bajo plataformas GNU/Linux [en li√±a]. <tt>Dispo√±ible en <a href="http://www.iearobotics.com/personal/juan/publicaciones/index.html">http://www.iearobotics.com/personal/juan/publicaciones/index.html</a> (consulta 13-1-05)</tt>.
+<li>G√≥nz√°lez, J., Prieto-Moreno, A. (2005). Hardware Libre: la Tarjeta Skypic, una Entrenadora para Microcontroladores PIC
 </ul>
 
 

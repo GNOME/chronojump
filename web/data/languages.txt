@@ -3,4 +3,6 @@ Deutsch:_de
 English:_en
 Español:_es
 Français:_fr
+Galego:_gl
+Italiano:_it
 Português:_pt

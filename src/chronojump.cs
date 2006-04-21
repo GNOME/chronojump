@@ -37,18 +37,22 @@ public class ChronoJump
 	[Widget] Gtk.TreeView treeview_jumps_rj;
 	[Widget] Gtk.TreeView treeview_runs;
 	[Widget] Gtk.TreeView treeview_runs_interval;
+	[Widget] Gtk.TreeView treeview_pulses;
 	[Widget] Gtk.Box hbox_combo_jumps;
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_runs;
 	[Widget] Gtk.Box hbox_combo_runs_interval;
+	[Widget] Gtk.Box hbox_combo_pulses;
 	[Widget] Gtk.Box hbox_jumps;
 	[Widget] Gtk.Box hbox_jumps_rj;
 	[Widget] Gtk.Box hbox_runs;
 	[Widget] Gtk.Box hbox_runs_interval;
+	[Widget] Gtk.Box hbox_pulses;
 	[Widget] Gtk.Combo combo_jumps;
 	[Widget] Gtk.Combo combo_jumps_rj;
 	[Widget] Gtk.Combo combo_runs;
 	[Widget] Gtk.Combo combo_runs_interval;
+	[Widget] Gtk.Combo combo_pulses;
 
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump;
@@ -69,6 +73,8 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_delete_selected_run_interval;
 	[Widget] Gtk.Button button_edit_selected_run_interval;
 	[Widget] Gtk.Button button_delete_selected_run_interval;
+
+	//posar pulses
 
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
@@ -96,6 +102,9 @@ public class ChronoJump
 	[Widget] Gtk.Button button_run_interval_by_laps;
 	[Widget] Gtk.Button button_run_interval_by_time;
 	[Widget] Gtk.Button button_run_interval_unlimited;
+	[Widget] Gtk.Button button_pulse_custom;
+	[Widget] Gtk.Button button_pulse_more;
+	[Widget] Gtk.Button button_pulse_last;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
@@ -638,6 +647,63 @@ public class ChronoJump
 			Console.WriteLine("don't select");
 			myTreeViewRunsInterval.Unselect();
 		}
+	}
+
+	/* ---------------------------------------------------------
+	 * ----------------  TREEVIEW PULSES -----------------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void createTreeView_pulses (Gtk.TreeView tv) {
+		/*
+		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
+		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, prefsDigitsNumber, metersSecondsPreferred );
+		*/
+	}
+
+	private void fillTreeView_pulses (Gtk.TreeView tv, TreeStore store, string filter) {
+		/*
+		string [] myRuns = SqliteRun.SelectAllIntervalRuns(currentSession.UniqueID);
+		myTreeViewRunsInterval.Fill(myRuns, filter);
+		*/
+	}
+	
+	private void on_button_tv_pulse_collapse_clicked (object o, EventArgs args) {
+		/*
+		treeview_runs_interval.CollapseAll();
+		*/
+	}
+	
+	private void on_button_tv_pulse_optimal_clicked (object o, EventArgs args) {
+		/*
+		treeview_runs_interval.CollapseAll();
+		myTreeViewRunsInterval.ExpandOptimal();
+		*/
+	}
+	
+	private void on_button_tv_pulse_expand_clicked (object o, EventArgs args) {
+		/*
+		treeview_runs_interval.ExpandAll();
+		*/
+	}
+	
+	private void treeview_pulses_storeReset() {
+		/*
+		myTreeViewRunsInterval.RemoveColumns();
+		myTreeViewRunsInterval = new TreeViewRunsInterval( treeview_runs_interval,  
+				prefsDigitsNumber, metersSecondsPreferred );
+		*/
+	}
+
+	private void on_treeview_pulses_cursor_changed (object o, EventArgs args) {
+		/*
+		// don't select if it's a person, 
+		// is for not confusing with the person treeviews that controls who runs
+		if (myTreeViewRunsInterval.RunSelectedID == 0) {
+			Console.WriteLine("don't select");
+			myTreeViewRunsInterval.Unselect();
+		}
+		*/
 	}
 
 	/* ---------------------------------------------------------
@@ -1894,6 +1960,161 @@ public class ChronoJump
 		sensitiveGuiYesJump();
 	}
 
+	/* ---------------------------------------------------------
+	 * ----------------  PULSES EXECUTION ----------- ----------
+	 *  --------------------------------------------------------
+	 */
+
+	private void on_button_pulse_more_clicked (object o, EventArgs args) 
+	{
+		/*
+		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
+		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
+		*/
+	}
+	
+	private void on_more_pulse_accepted (object o, EventArgs args) 
+	{
+		/*
+		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
+		
+		currentRunType = new RunType(
+				runsIntervalMoreWin.SelectedRunType,	//name
+				true,					//hasIntervals
+				runsIntervalMoreWin.SelectedDistance,
+				runsIntervalMoreWin.SelectedTracksLimited,
+				runsIntervalMoreWin.SelectedLimitedValue,
+				runsIntervalMoreWin.SelectedUnlimited
+				);
+				
+		//go to run extra if we need something to define
+		if( currentRunType.Distance == 0 || 
+				(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
+			on_run_extra_activate(o, args);
+		} else {
+			on_run_interval_accepted(o, args);
+		}
+		*/
+	}
+	
+	private void on_button_pulse_last_clicked (object o, EventArgs args) 
+	{
+		/*
+		on_run_interval_activate(o, args);
+		*/
+	}
+	
+	//interval runs clicked from user interface
+	//(not suitable for the other runs we found in "more")
+	private void on_pulse_activate (object o, EventArgs args) 
+	{
+		/*
+		if(o == (object) button_run_interval_by_laps || o == (object) menuitem_run_interval_by_laps) 
+		{	
+			currentRunType = new RunType("byLaps");
+		} else if(o == (object) button_run_interval_by_time || o == (object) menuitem_run_interval_by_time) 
+		{
+			currentRunType = new RunType("byTime");
+		} else if(o == (object) button_run_interval_unlimited || o == (object) menuitem_run_interval_unlimited) 
+		{
+			currentRunType = new RunType("unlimited");
+		}
+		
+			
+		runExtraWin = RunExtraWindow.Show(app1, currentRunType);
+		runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
+		*/
+	}
+	
+	private void on_pulse_accepted (object o, EventArgs args)
+	{
+		/*
+		Console.WriteLine("run interval accepted");
+		
+		//if distance can be always different in this run,
+		//show values selected in runExtraWin
+		int distanceInterval = 0;		
+		if(currentRunType.Distance == 0) {
+			distanceInterval = runExtraWin.Distance;
+		} else {
+			distanceInterval = (int) currentRunType.Distance;
+		}
+		
+		double myLimit = 0;
+		//if it's a unlimited interval run, put -1 as limit value
+		//if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) {
+		if(currentRunType.Unlimited) {
+			myLimit = -1;
+		} else {
+			if(currentRunType.FixedValue > 0) {
+				myLimit = currentRunType.FixedValue;
+			} else {
+				myLimit = runExtraWin.Limited;
+			}
+		}
+
+
+		//used by cancel and finish
+		currentEventIsJump = false;
+			
+		//hide running buttons
+		sensitiveGuiJumpingOrRunning();
+		
+		currentRunInterval = new RunInterval(currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
+				distanceInterval, myLimit, currentRunType.TracksLimited, 
+				cp, progressBar, appbar2, app1, prefsDigitsNumber);
+		
+		
+		//suitable for limited by tracks and time
+		if(simulated) {
+			currentRunInterval.Simulate(rand);
+			on_run_interval_finished(o, args);
+		}
+		else {
+			currentRunInterval.Manage(o, args);
+			currentRunInterval.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
+		}
+		*/
+	}
+
+	private void on_pulse_finished (object o, EventArgs args) 
+	{
+		/*
+		currentRunInterval.FakeButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
+		
+		if ( ! currentRunInterval.Cancel ) {
+			lastEventWasJump = false;
+			lastRunIsInterval = true;
+
+			//if user clicked in finish earlier
+			if(currentRunInterval.Finish) {
+				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString, false);
+				if(currentRunInterval.TracksLimited) {
+					currentRunInterval.Limited = currentRunInterval.Tracks.ToString() + "R";
+				} else {
+					currentRunInterval.Limited = Util.GetTotalTime(
+							currentRunInterval.IntervalTimesString) + "T";
+				}
+			}
+			myTreeViewRunsInterval.Add(currentPerson.Name, currentRunInterval);
+
+			if(createdStatsWin) {
+				statsWin.FillTreeView_stats(false, false);
+			}
+
+			//change to page 3 of notebook if were in other
+			notebook_change(3);
+		}
+		
+		sensitiveGuiYesJump();
+		//unhide buttons that allow jumping, running
+		sensitiveGuiJumpedOrRunned();
+		//unhide buttons for delete last jump
+		sensitiveGuiYesJump();
+		*/
+	}
+
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  JUMPS EDIT, DELETE, JUMP TYPE ADD -----
@@ -2311,6 +2532,127 @@ public class ChronoJump
 		Console.WriteLine("ACCEPTED Add new run type");
 		updateComboRuns();
 		updateComboRunsInterval();
+	}
+
+	/* ---------------------------------------------------------------------
+	 * ----------------  PULSE 	 EDIT, DELETE, PULSE TYPE ADD ------------
+	 *  --------------------------------------------------------------------
+	 */
+	
+	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
+		notebook_change(5);
+		Console.WriteLine("Edit selected pulse");
+		/*
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		if (myTreeViewRuns.RunSelectedID > 0) {
+			//3.- obtain the data of the selected run
+			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.RunSelectedID );
+			Console.WriteLine(myRun);
+		
+			//4.- edit this run
+			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber);
+			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
+		}
+		*/
+	}
+	
+	private void on_repair_selected_pulse_clicked (object o, EventArgs args) {
+		notebook_change(5);
+		Console.WriteLine("Repair selected pulse");
+		/*
+		//1.- check that there's a line selected
+		//2.- check that this line is a run and not a person 
+		//(check also if it's not a individual run interval, then pass the parent run interval)
+		if (myTreeViewRunsInterval.RunSelectedID > 0) {
+			//3.- obtain the data of the selected run
+			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.RunSelectedID );
+		
+			//4.- edit this run
+			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun);
+			repairRunIntervalWin.Button_accept.Clicked += new EventHandler(on_repair_selected_run_interval_accepted);
+		}
+		*/
+	}
+	
+	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
+		Console.WriteLine("edit selected pulse accepted");
+		
+		/*
+		treeview_runs_storeReset();
+		fillTreeView_runs(treeview_runs, treeview_runs_store, combo_runs.Entry.Text);
+		
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
+		*/
+	}
+	
+	private void on_repair_selected_pulse_accepted (object o, EventArgs args) {
+		Console.WriteLine("repair selected pulse accepted");
+		
+		/*
+		treeview_runs_interval_storeReset();
+		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, combo_runs_interval.Entry.Text);
+		
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
+		*/
+	}
+
+	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
+		notebook_change(5);
+		Console.WriteLine("delete selected pulse");
+		
+		/*
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person
+		if (myTreeViewRuns.RunSelectedID > 0) {
+			//3.- display confirmwindow of deletion 
+			if (askDeletion) {
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected run?", 
+						"", "run", myTreeViewRuns.RunSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
+			} else {
+				on_delete_selected_run_accepted(o, args);
+			}
+		}
+		*/
+	}
+		
+	private void on_delete_selected_pulse_accepted (object o, EventArgs args) {
+		Console.WriteLine("accept delete selected pulse");
+		
+		/*
+		SqliteRun.Delete( "run", (myTreeViewRuns.RunSelectedID).ToString() );
+		
+		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.RunSelectedID );
+	
+		myTreeViewRuns.DelRun(myTreeViewRuns.RunSelectedID);
+
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
+		*/
+	}
+
+	
+	private void on_pulse_type_add_activate (object o, EventArgs args) {
+		Console.WriteLine("Add new pulse type");
+			
+		/*
+		runTypeAddWin = RunTypeAddWindow.Show(app1);
+		runTypeAddWin.Button_accept.Clicked += new EventHandler(on_run_type_add_accepted);
+		*/
+	}
+	
+	private void on_pulse_type_add_accepted (object o, EventArgs args) {
+		Console.WriteLine("ACCEPTED Add new pulse type");
+		/*
+		updateComboRuns();
+		updateComboRunsInterval();
+		*/
 	}
 
 

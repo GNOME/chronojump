@@ -1,9 +1,17 @@
 CHANGELOG:
 
-3 feb 2005
+21 apr 2006
+	pulses code started (gui in main window, pulses.cs, pulseType.cs,
+	sqlite 1/2)
+	
+	fixed bug in comunicating gui/stats.cs with statType.cs, the
+	ckeckboxes doesn't change when combo in stats is selected after
+	a graph is done (the stat doesn't had values for: store, treeview.Model and markedRows)
+
+3 feb 2006
 	fixed changing of port in preferences and activating chonopic
 
-2 feb 2005 (minor minor RELEASE 0.44a)
+2 feb 2006 (minor minor RELEASE 0.44a)
 	created cmjPlusPotency statistic and graph. Added files: src/stats/cmjPlusPotency.cs, src/stats/graphs/cmjPlusPotency.cs
 	
 	Util.TrimDecimals now handles corrrectly decimal values higher than 9.99

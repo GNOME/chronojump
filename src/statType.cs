@@ -82,6 +82,11 @@ public class StatType {
 	bool toReport;
 	TextWriter writer;
 	string fileName;
+
+	//this contains the last store of a non-graph stat, 
+	//useful for allow to change treeview_stats after a graph stat is done
+	//(the graph stat doesn't generate a store)
+	Gtk.TreeStore lastStore; 
 	
 	Stat myStat; 
 	//Report myReport; 
@@ -135,7 +140,7 @@ public class StatType {
 				markedRows, 
 				toReport);
 
-		myStat = new Stat(); //create and instance of myStat
+		myStat = new Stat(); //create an instance of myStat
 
 		fakeButtonRowCheckedUnchecked = new Gtk.Button();
 		fakeButtonRowsSelected = new Gtk.Button();
@@ -369,6 +374,18 @@ public class StatType {
 				myStat.CreateGraph();
 			}
 		}
+	
+		//if we just made a graph, store is not made, 
+		//and we cannot change the Male/female visualizations in the combo
+		//with this we can assign a store to the graph (we assign the store of the last stat (not graph)
+		if(! toReport) {
+			if(! graph)
+				lastStore = myStat.Store;
+			else {
+				myStat.Store = lastStore;
+				myStat.MarkedRows = markedRows;
+			}
+		}
 
 		return true;
 	}
@@ -406,6 +423,17 @@ public class StatType {
 	
 	public Gtk.Button FakeButtonNoRowsSelected {
 		get { return  fakeButtonNoRowsSelected; }
+	}
+
+	//if we just made a graph, store is not made, 
+	//and we cannot change the Male/female visualizations in the combo
+	//with this we can assign a store to the graph (we assign the store of the last stat (not graph)
+	public Gtk.TreeStore LastStore {
+		get { return lastStore; }
+		set { 
+			lastStore = value; 
+			treeview_stats.Model = lastStore;
+		}
 	}
 
 

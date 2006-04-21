@@ -160,3 +160,6 @@ if the code or the glade has changed, remember do 'make'
 ./chronojump.exe
 ./chronojump-mini.exe
 
+
+-- Appendix
+If somone send files not in UTF-8, convert them using vim writing: :set fileencoding=utf8

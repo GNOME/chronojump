@@ -83,6 +83,8 @@ public class StatsWindow {
 	//private Stat myStat; 
 	private StatType myStatType;
 	
+	Gtk.TreeStore lastStore; 
+	
 	//optimization
 	private bool blockFillingTreeview;
 
@@ -461,7 +463,27 @@ public class StatsWindow {
 				toReport  //always false in this class
 				);
 
+		//if we just made a graph, store is not made, 
+		//and we cannot change the Male/female visualizations in the combo
+		//with this we can assign a store to the graph (we assign the store of the last stat (not graph)
+		//define lastStore before Choosing Stat
+		if(! toReport) 
+			if (graph)
+				myStatType.LastStore = lastStore;
+		
+		
 		bool allFine = myStatType.ChooseStat();
+		
+		
+		//if we just made a graph, store is not made, 
+		//and we cannot change the Male/female visualizations in the combo
+		//with this we can assign a store to the graph (we assign the store of the last stat (not graph)
+		//assign lastStore here
+		if(! toReport)
+			if(! graph)
+				lastStore = myStatType.LastStore;
+		
+
 	
 		myStatType.FakeButtonRowCheckedUnchecked.Clicked += 
 			new EventHandler(on_fake_button_row_checked_clicked);
@@ -481,8 +503,10 @@ public class StatsWindow {
 		}
 
 		//every time a stat is created, all rows should be checked (except AVG & SD)
-		combo_select_checkboxes.Entry.Text = Catalog.GetString("All");
-
+		//but not if we clicked graph
+		if(! graph)
+			combo_select_checkboxes.Entry.Text = Catalog.GetString("All");
+		
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(myStatType.Enunciate);

@@ -157,7 +157,7 @@ public class Stat
 		foreach(string myRow in markedRows) {
 			if(myRow == rowToDelete) {
 				markedRows.RemoveAt(i);
-				//Console.WriteLine("deleted from markedRows row:{0}", rowToDelete);
+				//Console..WriteLine("deleted from markedRows row:{0}", rowToDelete);
 				break;
 			}
 			i++;
@@ -254,7 +254,6 @@ public class Stat
 						string nameAndSex = (string) store.GetValue (iter, 1);
 						string [] stringFull = nameAndSex.Split(new char[] {'.'});
 						if(stringFull.Length > 1 && stringFull[1].StartsWith("M")) {
-						//if(stringFull[1].StartsWith("M")) {
 							store.SetValue (iter, 0, true);
 							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 						} else {
@@ -269,7 +268,6 @@ public class Stat
 						string nameAndSex = (string) store.GetValue (iter, 1);
 						string [] stringFull = nameAndSex.Split(new char[] {'.'});
 						if(stringFull.Length > 1 && stringFull[1].StartsWith("F")) {
-						//if(stringFull[1].StartsWith("F")) {
 							store.SetValue (iter, 0, true);
 							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 						} else {
@@ -1017,6 +1015,8 @@ public class Stat
 
 	public ArrayList MarkedRows {
 		get { return markedRows; }
+		//assigned for operating when a graph is the last stat made
+		set { markedRows = value; } 
 	}
 
 	public Gtk.Button FakeButtonRowCheckedUnchecked {
@@ -1031,6 +1031,17 @@ public class Stat
 		get { return  fakeButtonNoRowsSelected; }
 	}
 
+	//if we just made a graph, store is not made, 
+	//and we cannot change the Male/female visualizations in the combo
+	//with this we can assign a store to the graph (we assign the store of the last stat (not graph)
+	public TreeStore Store {
+		get { return store; }
+		set { 
+			store = value; 
+			treeview = new TreeView();
+			treeview.Model = store;
+		}
+	}
 
 	~Stat() {}
 }

@@ -135,7 +135,7 @@ public class Run
 
 		//start thread
 		thread = new Thread(new ThreadStart(waitRun));
-		GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
 	}
 	
@@ -190,7 +190,7 @@ public class Run
 		}
 	}
 	
-	protected bool Pulse ()
+	protected bool PulseGTK ()
 	{
 		//if (thread.IsAlive) {
 			if(progressBar.Fraction == 1 || cancel) {
@@ -224,7 +224,7 @@ public class Run
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in Pulse() stop
+		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
 	}
 	
@@ -451,7 +451,7 @@ public class RunInterval : Run
 		
 		//start thread
 		thread = new Thread(new ThreadStart(waitRun));
-		GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
 	}
 	
@@ -604,7 +604,7 @@ public class RunInterval : Run
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in Pulse() stop
+		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
 	}
 

@@ -146,11 +146,11 @@ public class Jump
 			//start thread
 			//Console.Write("Start thread");
 			thread = new Thread(new ThreadStart(waitJump));
-			GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
 		else {
-			ConfirmWindow confirmWin;		//for go up or down the platform, and for 
+			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, 
 					Catalog.GetString("You are OUT, come inside and press button"), "");
 
@@ -188,11 +188,11 @@ public class Jump
 
 			//start thread
 			thread = new Thread(new ThreadStart(waitJump));
-			GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
 		else {
-			ConfirmWindow confirmWin;		//for go up or down the platform, and for 
+			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, 
 					Catalog.GetString("You are IN, please, go out and press button"), "");
 
@@ -257,7 +257,7 @@ public class Jump
 		}
 	}
 	
-	protected bool Pulse ()
+	protected bool PulseGTK ()
 	{
 		//if (thread.IsAlive) {
 			if(progressBar.Fraction == 1 || cancel) {
@@ -305,7 +305,7 @@ public class Jump
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in Pulse() stop
+		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
 	}
 	
@@ -463,7 +463,7 @@ public class JumpRj : Jump
 
 		this.pDN = pDN;
 	
-		//progressBar is used here only for put it to 1 when we want to stop the pulse() (the thread)
+		//progressBar is used here only for put it to 1 when we want to stop the pulseGTK() (the thread)
 		progressBar.Fraction = 0;
 		
 		if(TypeHasFall) { hasFall = true; } 
@@ -582,7 +582,7 @@ public class JumpRj : Jump
 			if (platformState==Chronopic.Plataforma.OFF ) {
 				myMessage = Catalog.GetString("You are OUT, please put on the platform, prepare for jump and press button");
 			}
-			ConfirmWindow confirmWin;		//for go up or down the platform, and for 
+			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, myMessage, "");
 
 			//we call again this function
@@ -612,7 +612,7 @@ public class JumpRj : Jump
 
 			//start thread
 			thread = new Thread(new ThreadStart(waitJump));
-			GLib.Idle.Add (new GLib.IdleHandler (Pulse));
+			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		}
 	}
@@ -782,7 +782,7 @@ public class JumpRj : Jump
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in Pulse() stop
+		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
 	}
 

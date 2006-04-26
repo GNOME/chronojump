@@ -4,6 +4,16 @@
  * http://www.monohispano.org/tutoriales/i18n_gettext-sharp/
 */
 
+
+---------
+Attention!! All changed, now the rule of thumb is this email:
+http://mail.gnome.org/archives/gnome-i18n/2006-April/msg00218.html
+
+Changed also the mail of es translator, and: "Project-Id-Version: es\n"
+---------
+
+
+
 This document is divided in three parts:
 
 -DOCUMENTATION FOR TRANSLATORS (when there's no translation in your language yet)

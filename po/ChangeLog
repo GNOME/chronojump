@@ -1,0 +1,5 @@
+2006-04-29  Raphael Higino  <raphaelh@cvs.gnome.org>
+
+	* ChangeLog: Added this file.
+	* LINGUAS: Added pt_BR line.
+	* pt_BR.po: Added Brazilian Portuguese translation.

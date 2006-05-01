@@ -45,3 +45,4 @@ src/stats/sjCmjAbkPlus.cs
 src/treeViewJump.cs
 src/treeViewPerson.cs
 src/treeViewRun.cs
+src/treeViewPulse.cs

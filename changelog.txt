@@ -1,5 +1,11 @@
 CHANGELOG:
 
+1 may 2006
+	databaseVersion 0.42: pulse and pulseType tables
+	some advances in pulse
+	added translator_credits to about
+	simplified chronojump.cs sensitiveGuiYesPerson and sentitiveGuiNoPerson
+
 21 apr 2006
 	pulses code started (gui in main window, pulses.cs, pulseType.cs,
 	sqlite 1/2)

@@ -38,6 +38,7 @@ public class Constants
 	//strings
 	public static string AllJumpsName = Catalog.GetString("All jumps");
 	public static string AllRunsName = Catalog.GetString("All runs");
+	public static string AllPulsesName = Catalog.GetString("All pulses");
 	
 	//30 colors defined
 	public static string [] Colors = {

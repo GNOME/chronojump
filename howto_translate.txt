@@ -4,12 +4,27 @@
  * http://www.monohispano.org/tutoriales/i18n_gettext-sharp/
 */
 
-
 ---------
+---------
+** CREATION **
 Attention!! All changed, now the rule of thumb is this email:
 http://mail.gnome.org/archives/gnome-i18n/2006-April/msg00218.html
 
 Changed also the mail of es translator, and: "Project-Id-Version: es\n"
+
+
+for ** UPDATE ** , i do:
+
+check for missing files
+chronojump/po $ intltool-update -m
+
+add missing files to POTFILES.in
+chronojump/po $ cat missing >> POTFILES.in
+
+check creating a .pot (only for checking, unneded for the translators)
+chronojump/po $ intltool-update -p
+chronojump/po $ vim untitled.pot
+---------
 ---------
 
 

@@ -254,9 +254,9 @@ public class Pulse
 	
 	protected bool PulseGTK ()
 	{
-		/*
 		//if (thread.IsAlive) {
-			if(progressBar.Fraction == 1 || cancel) {
+			//if(progressBar.Fraction == 1 || cancel) {
+			if(cancel) {
 				Console.Write("dying");
 
 				//event will be raised, and managed in chronojump.cs
@@ -267,7 +267,7 @@ public class Pulse
 			}
 			Thread.Sleep (150);
 			Console.Write(thread.ThreadState);
-		*/
+		
 			return true;
 		//}
 		//return false;
@@ -276,18 +276,13 @@ public class Pulse
 
 	protected void write()
 	{
-		/*
-		int tracks = 0;
+		int totalPulsesNum = 0;
 
 		//if user clicked in finish earlier
-		if(finish) {
-			tracks = Util.GetNumberOfJumps(intervalTimesString, false);
-			if(tracksLimited) {
-				limitString = tracks.ToString() + "R";
-			} else {
-				limitString = Util.GetTotalTime(intervalTimesString) + "T";
-			}
-		} else {
+		//if(finish) {
+			totalPulsesNum = Util.GetNumberOfJumps(timesString, false);
+		/*
+		  } else {
 			if(tracksLimited) {
 				limitString = limitAsDouble.ToString() + "R";
 				tracks = (int) limitAsDouble;
@@ -297,11 +292,8 @@ public class Pulse
 				tracks = myStringFull.Length;
 			}
 		}
-
-		distanceTotal = tracks * distanceInterval;
-		timeTotal = Util.GetTotalTime(intervalTimesString); 
 		*/
-			
+
 		uniqueID = SqlitePulse.Insert(personID, sessionID, type, 
 				fixedPulse, totalPulsesNum, timesString, 
 				"" 					//description
@@ -329,15 +321,33 @@ public class Pulse
 	}
 	
 
+	public string Type
+	{
+		get { return type; }
+	}
+	
+	public int UniqueID
+	{
+		get { return uniqueID; }
+	}
+	
 	public string TimesString
 	{
 		get { return timesString; }
 	}
 	
+	/*
 	public int Tracks
 	{
 		get { return tracks; }
 		set { tracks = value; }
+	}
+	*/
+	
+	public double FixedPulse
+	{
+		get { return fixedPulse; }
+		set { fixedPulse = value; }
 	}
 	
 		

@@ -182,6 +182,9 @@ public class ChronoJump
 	//runs interval
 	private TreeStore treeview_runs_interval_store;
 	private TreeViewRunsInterval myTreeViewRunsInterval;
+	//pulses
+	private TreeStore treeview_pulses_store;
+	private TreeViewPulses myTreeViewPulses;
 
 	//preferences variables
 	private static string chronopicPort;
@@ -281,11 +284,13 @@ public class ChronoJump
 			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
 			Sqlite.CreateFile();
 			Sqlite.CreateTables();
-		} else { 
-			Sqlite.AddChronopicPortNameIfNotExists();
+		} else {
+			Sqlite.ConvertToLastVersion();
 			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
+
+			
 		}
 
 		cpRunning = false;
@@ -302,11 +307,13 @@ public class ChronoJump
 		createTreeView_jumps_rj(treeview_jumps_rj);
 		createTreeView_runs(treeview_runs);
 		createTreeView_runs_interval(treeview_runs_interval);
+		createTreeView_pulses(treeview_pulses);
 
 		createComboJumps();
 		createComboJumpsRj();
 		createComboRuns();
 		createComboRunsInterval();
+		createComboPulses();
 		createdStatsWin = false;
 
 		//We have no session, mark some widgets as ".Sensitive = false"
@@ -655,55 +662,40 @@ public class ChronoJump
 	 */
 
 	private void createTreeView_pulses (Gtk.TreeView tv) {
-		/*
-		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
-		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, prefsDigitsNumber, metersSecondsPreferred );
-		*/
+		//myTreeViewPulses is a TreeViewPulses instance
+		myTreeViewPulses = new TreeViewPulses( tv, prefsDigitsNumber );
 	}
 
 	private void fillTreeView_pulses (Gtk.TreeView tv, TreeStore store, string filter) {
-		/*
-		string [] myRuns = SqliteRun.SelectAllIntervalRuns(currentSession.UniqueID);
-		myTreeViewRunsInterval.Fill(myRuns, filter);
-		*/
+		string [] myPulses = SqlitePulse.SelectAllPulses(currentSession.UniqueID);
+		myTreeViewPulses.Fill(myPulses, filter);
 	}
 	
 	private void on_button_tv_pulse_collapse_clicked (object o, EventArgs args) {
-		/*
-		treeview_runs_interval.CollapseAll();
-		*/
+		treeview_pulses.CollapseAll();
 	}
 	
 	private void on_button_tv_pulse_optimal_clicked (object o, EventArgs args) {
-		/*
-		treeview_runs_interval.CollapseAll();
-		myTreeViewRunsInterval.ExpandOptimal();
-		*/
+		treeview_pulses.CollapseAll();
+		myTreeViewPulses.ExpandOptimal();
 	}
 	
 	private void on_button_tv_pulse_expand_clicked (object o, EventArgs args) {
-		/*
-		treeview_runs_interval.ExpandAll();
-		*/
+		treeview_pulses.ExpandAll();
 	}
 	
 	private void treeview_pulses_storeReset() {
-		/*
-		myTreeViewRunsInterval.RemoveColumns();
-		myTreeViewRunsInterval = new TreeViewRunsInterval( treeview_runs_interval,  
-				prefsDigitsNumber, metersSecondsPreferred );
-		*/
+		myTreeViewPulses.RemoveColumns();
+		myTreeViewPulses = new TreeViewPulses( treeview_pulses, prefsDigitsNumber );
 	}
 
 	private void on_treeview_pulses_cursor_changed (object o, EventArgs args) {
-		/*
 		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who runs
-		if (myTreeViewRunsInterval.RunSelectedID == 0) {
+		// is for not confusing with the person treeviews that controls who is executing
+		if (myTreeViewPulses.PulseSelectedID == 0) {
 			Console.WriteLine("don't select");
-			myTreeViewRunsInterval.Unselect();
+			myTreeViewPulses.Unselect();
 		}
-		*/
 	}
 
 	/* ---------------------------------------------------------
@@ -764,6 +756,21 @@ public class ChronoJump
 		
 		combo_runs_interval.Sensitive = false;
 	}
+	
+	private void createComboPulses() {
+		combo_pulses = new Combo ();
+		combo_pulses.PopdownStrings = 
+			SqlitePulseType.SelectPulseTypes(Constants.AllPulsesName, true); //without filter, only select name
+		
+		combo_pulses.DisableActivate ();
+		combo_pulses.Entry.Changed += new EventHandler (on_combo_pulses_changed);
+
+		hbox_combo_pulses.PackStart(combo_pulses, true, true, 0);
+		hbox_combo_pulses.ShowAll();
+		
+		combo_pulses.Sensitive = false;
+	}
+
 
 	private void updateComboJumps() {
 		combo_jumps.PopdownStrings = 
@@ -783,6 +790,11 @@ public class ChronoJump
 	private void updateComboRunsInterval() {
 		combo_runs_interval.PopdownStrings = 
 			SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true); //only select name
+	}
+	
+	private void updateComboPulses() {
+		combo_runs.PopdownStrings = 
+			SqlitePulseType.SelectPulseTypes(Constants.AllRunsName, true); //only select name
 	}
 	
 	private void on_combo_jumps_changed(object o, EventArgs args) {
@@ -855,6 +867,26 @@ public class ChronoJump
 		//expand all rows if a runfilter is selected
 		if (myText != Constants.AllRunsName) 
 			myTreeViewRunsInterval.ExpandOptimal();
+	}
+
+	private void on_combo_pulses_changed(object o, EventArgs args) {
+		Console.WriteLine("changed!");
+		/*
+		string myText = combo_pulses.Entry.Text;
+
+		//show the edit-delete selected runs buttons:
+		menuitem_edit_selected_run_interval.Sensitive = true;
+		menuitem_delete_selected_run_interval.Sensitive = true;
+		button_edit_selected_run_interval.Sensitive = true;
+		button_delete_selected_run_interval.Sensitive = true;
+
+		treeview_pulses_storeReset();
+		fillTreeView_pulses(treeview_pulses, treeview_pulses_store, myText);
+
+		//expand all rows if a runfilter is selected
+		if (myText != Constants.AllRunsName) 
+			myTreeViewRunsInterval.ExpandOptimal();
+		*/
 	}
 
 	
@@ -2004,9 +2036,13 @@ public class ChronoJump
 		*/
 	}
 	
+	private void on_button_pulse_free_activate (object o, EventArgs args) 
+	{
+	}
+	
 	//interval runs clicked from user interface
 	//(not suitable for the other runs we found in "more")
-	private void on_pulse_activate (object o, EventArgs args) 
+	private void on_button_pulse_custom_activate (object o, EventArgs args) 
 	{
 		/*
 		if(o == (object) button_run_interval_by_laps || o == (object) menuitem_run_interval_by_laps) 
@@ -2665,11 +2701,14 @@ public class ChronoJump
 	
 	//help
 	private void on_about1_activate (object o, EventArgs args) {
+		string translator_credits = Catalog.GetString ("translator-credits");
 		new Gnome.About (
 				progname, progversion,
 				"(C) 2005 Xavier de  Blas, Juan Gonzalez",
-				"Vertical jump analysis with contact platform.",
-				authors, null, null, null).Run();
+				"sport short-events measurement with contact platform.",
+				authors, null, 
+				(translator_credits == "translator-credits") ? null : translator_credits
+				, null).Run();
 	}
 
 	/* ---------------------------------------------------------
@@ -2706,8 +2745,8 @@ public class ChronoJump
 		
 		//notebook
 		notebook.Sensitive = false;
-		hbox_jumps.Sensitive = false;
-		hbox_jumps_rj.Sensitive = false;
+		//hbox_jumps.Sensitive = false;
+		//hbox_jumps_rj.Sensitive = false;
 		
 		button_last_delete.Sensitive = false;
 		
@@ -2737,6 +2776,7 @@ public class ChronoJump
 	private void sensitiveGuiNoPerson () {
 		notebook.Sensitive = false;
 		treeview_persons.Sensitive = false;
+		
 		button_edit_current_person.Sensitive = false;
 		menuitem_edit_current_person.Sensitive = false;
 		menuitem_delete_current_person_from_session.Sensitive = false;
@@ -2747,9 +2787,10 @@ public class ChronoJump
 		menu_runs.Sensitive = false;
 		menu_view.Sensitive = false;
 		
-		jump_type_add.Sensitive = false;
+		//jump_type_add.Sensitive = false;
 		button_last_delete.Sensitive = false;
 		
+		/*
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		//don't allow repeat last jump
@@ -2757,17 +2798,20 @@ public class ChronoJump
 		button_rj_last.Sensitive = false;
 		button_run_last.Sensitive = false;
 		button_run_interval_last.Sensitive = false;
+		button_pulse_last.Sensitive = false;
 
 		menuitem_edit_selected_jump.Sensitive = false;
 		menuitem_delete_selected_jump.Sensitive = false;
 		button_edit_selected_jump.Sensitive = false;
 		button_delete_selected_jump.Sensitive = false;
+		
 		menuitem_edit_selected_jump_rj.Sensitive = false;
 		menuitem_delete_selected_jump_rj.Sensitive = false;
 		button_edit_selected_jump_rj.Sensitive = false;
 		button_delete_selected_jump_rj.Sensitive = false;
 		button_repair_selected_reactive_jump.Sensitive = false;
 		menuitem_repair_selected_reactive_jump.Sensitive = false;
+		
 		menuitem_edit_selected_run.Sensitive = false;
 		menuitem_delete_selected_run.Sensitive = false;
 		button_edit_selected_run.Sensitive = false;
@@ -2777,6 +2821,7 @@ public class ChronoJump
 		combo_jumps_rj.Sensitive = false;
 		combo_runs.Sensitive = false;
 		combo_runs_interval.Sensitive = false;
+		*/
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -2792,8 +2837,9 @@ public class ChronoJump
 		menu_runs.Sensitive = true;
 		menu_view.Sensitive = true;
 		
-		jump_type_add.Sensitive = true;
-		
+		//jump_type_add.Sensitive = true;
+	
+		/*
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		//don't allow repeat last jump
@@ -2816,11 +2862,13 @@ public class ChronoJump
 		menuitem_delete_selected_run.Sensitive = true;
 		button_edit_selected_run.Sensitive = true;
 		button_delete_selected_run.Sensitive = true;
+		*/
 		
 		combo_jumps.Sensitive = true;
 		combo_jumps_rj.Sensitive = true;
 		combo_runs.Sensitive = true;
 		combo_runs_interval.Sensitive = true;
+		combo_pulses.Sensitive = true;
 	}
 	
 	private void sensitiveGuiYesJump () {

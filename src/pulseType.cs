@@ -24,9 +24,10 @@ using System.Data;
 
 public class PulseType 
 {
-	protected string name;
-	protected double fixedPulse; //-1: not fixed, 0,344: 0,344 seconds between pulses
-	protected int totalPulsesNum; //-1: not fixed (unlimited), 5: 5 times
+	private string name;
+	private double fixedPulse; //-1: not fixed, 0,344: 0,344 seconds between pulses
+	private int totalPulsesNum; //-1: not fixed (unlimited), 5: 5 times
+	private string description; //currently unused
 
 	public PulseType() {
 	}

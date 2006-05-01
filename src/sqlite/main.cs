@@ -63,7 +63,25 @@ class Sqlite
 
 	}
 	
-	public static void AddChronopicPortNameIfNotExists() {
+	public static void ConvertToLastVersion() {
+		addChronopicPortNameIfNotExists();
+		
+		string myVersion = SqlitePreferences.Select("databaseVersion");
+		if(myVersion == "0.41") {
+			dbcon.Open();
+			
+			SqlitePulse.createTable();
+			SqlitePulseType.createTablePulseType();
+			SqlitePulseType.initializeTablePulseType();
+			
+			SqlitePreferences.Update ("databaseVersion", "0.42"); 
+			Console.WriteLine("Converted DB to 0.42 (added pulse and pulseType tables)");
+			
+			dbcon.Close();
+		}
+	}
+	
+	private static void addChronopicPortNameIfNotExists() {
 		string myPort = SqlitePreferences.Select("chronopicPort");
 		if(myPort == "0") {
 			//if doesn't exist (for any reason, like old database)
@@ -98,13 +116,20 @@ class Sqlite
 		SqliteRunType.initializeTableRunType();
 		SqliteRunType.initializeTableRunIntervalType();
 		
+		//pulses and pulseTypes
+		SqlitePulse.createTable();
+		SqlitePulseType.createTablePulseType();
+		SqlitePulseType.initializeTablePulseType();
+	
+		
 		SqliteSession.createTable();
 		
 		SqlitePersonSession.createTable();
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.insert ("databaseVersion", "0.41"); 
+		SqlitePreferences.insert ("databaseVersion", "0.42"); 
+		//changes from 0.41 to 0.42: added pulse and pulseType tables
 		//changes from 0.4 to 0.41: jump, jumpRj weight is double (always a percent)
 		
 		SqlitePreferences.insert ("chronopicPort", "ttyS0");

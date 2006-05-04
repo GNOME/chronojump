@@ -607,7 +607,7 @@ public class ChronoJump
 	private void on_treeview_runs_cursor_changed (object o, EventArgs args) {
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
-		if (myTreeViewRuns.RunSelectedID == 0) {
+		if (myTreeViewRuns.EventSelectedID == 0) {
 			Console.WriteLine("don't select");
 			myTreeViewRuns.Unselect();
 		}
@@ -650,7 +650,7 @@ public class ChronoJump
 	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args) {
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
-		if (myTreeViewRunsInterval.RunSelectedID == 0) {
+		if (myTreeViewRunsInterval.EventSelectedID == 0) {
 			Console.WriteLine("don't select");
 			myTreeViewRunsInterval.Unselect();
 		}
@@ -2190,7 +2190,7 @@ public class ChronoJump
 			}
 		} else {
 			if (askDeletion) {
-				int myID = myTreeViewRuns.RunSelectedID;
+				int myID = myTreeViewRuns.EventSelectedID;
 				if (lastRunIsInterval) {
 					/*
 					warningString = Catalog.GetString("Atention: Deleting a intervalic sub-run will delete all the run"); 
@@ -2245,7 +2245,7 @@ public class ChronoJump
 		if (lastRunIsInterval) {
 			//myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
 		} else {
-			myTreeViewRuns.DelRun(currentRun.UniqueID);
+			myTreeViewRuns.DelEvent(currentRun.UniqueID);
 		}
 
 		if(createdStatsWin) {
@@ -2416,9 +2416,9 @@ public class ChronoJump
 		Console.WriteLine("Edit selected run (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewRuns.RunSelectedID > 0) {
+		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.RunSelectedID );
+			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.EventSelectedID );
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
@@ -2432,9 +2432,9 @@ public class ChronoJump
 		Console.WriteLine("Edit selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
-		if (myTreeViewRunsInterval.RunSelectedID > 0) {
+		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.RunSelectedID );
+			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.EventSelectedID );
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
@@ -2443,15 +2443,15 @@ public class ChronoJump
 		}
 	}
 	
-	private void on_repair_selected_interval_run_clicked (object o, EventArgs args) {
+	private void on_repair_selected_run_interval_clicked (object o, EventArgs args) {
 		notebook_change(3);
 		Console.WriteLine("Repair selected subrun");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person 
 		//(check also if it's not a individual run interval, then pass the parent run interval)
-		if (myTreeViewRunsInterval.RunSelectedID > 0) {
+		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.RunSelectedID );
+			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.EventSelectedID );
 		
 			//4.- edit this run
 			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun);
@@ -2498,11 +2498,11 @@ public class ChronoJump
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		if (myTreeViewRuns.RunSelectedID > 0) {
+		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected run?", 
-						"", "run", myTreeViewRuns.RunSelectedID);
+						"", "run", myTreeViewRuns.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
 			} else {
 				on_delete_selected_run_accepted(o, args);
@@ -2516,7 +2516,7 @@ public class ChronoJump
 		Console.WriteLine("delete selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
-		if (myTreeViewRunsInterval.RunSelectedID > 0) {
+		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected run?"), 
@@ -2532,11 +2532,11 @@ public class ChronoJump
 	private void on_delete_selected_run_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected run");
 		
-		SqliteRun.Delete( "run", (myTreeViewRuns.RunSelectedID).ToString() );
+		SqliteRun.Delete( "run", (myTreeViewRuns.EventSelectedID).ToString() );
 		
-		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.RunSelectedID );
+		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.EventSelectedID );
 	
-		myTreeViewRuns.DelRun(myTreeViewRuns.RunSelectedID);
+		myTreeViewRuns.DelEvent(myTreeViewRuns.EventSelectedID);
 
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2546,11 +2546,11 @@ public class ChronoJump
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected run");
 		
-		SqliteRun.Delete( "runInterval", (myTreeViewRunsInterval.RunSelectedID).ToString() );
+		SqliteRun.Delete( "runInterval", (myTreeViewRunsInterval.EventSelectedID).ToString() );
 		
-		appbar2.Push( Catalog.GetString ( "Deleted interval run: " ) + myTreeViewRunsInterval.RunSelectedID );
+		appbar2.Push( Catalog.GetString ( "Deleted interval run: " ) + myTreeViewRunsInterval.EventSelectedID );
 	
-		myTreeViewRunsInterval.DelRun(myTreeViewRunsInterval.RunSelectedID);
+		myTreeViewRunsInterval.DelEvent(myTreeViewRunsInterval.EventSelectedID);
 
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);

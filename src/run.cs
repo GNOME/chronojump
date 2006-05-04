@@ -254,7 +254,7 @@ public class Run
 		set { type = value; }
 	}
 	
-	public double Speed
+	public virtual double Speed
 	{
 		get { 
 			if(metersSecondsPreferred) {
@@ -323,7 +323,11 @@ public class RunInterval : Run
 
 	//for finishing earlier from chronojump.cs
 	private bool finish;
-	
+
+
+	public RunInterval() {
+	}
+
 	//run execution
 	public RunInterval(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
 			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
@@ -620,21 +624,25 @@ public class RunInterval : Run
 	public string IntervalTimesString
 	{
 		get { return intervalTimesString; }
+		set { intervalTimesString = value; }
 	}
 	
 	public double DistanceInterval
 	{
 		get { return distanceInterval; }
+		set { distanceInterval = value; }
 	}
 		
 	public double DistanceTotal
 	{
 		get { return distanceTotal; }
+		set { distanceTotal = value; }
 	}
 		
 	public double TimeTotal
 	{
 		get { return timeTotal; }
+		set { timeTotal = value; }
 	}
 		
 	public double Tracks
@@ -654,6 +662,18 @@ public class RunInterval : Run
 		get { return tracksLimited; }
 	}
 		
+	public override double Speed
+	{
+		get { 
+			//if(metersSecondsPreferred) {
+				return distanceTotal / timeTotal ; 
+			/*} else {
+				return (distanceTotal / timeTotal) * 3.6 ; 
+			}
+			*/
+		}
+	}
+	
 		
 		
 	~RunInterval() {}

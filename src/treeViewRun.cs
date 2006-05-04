@@ -25,17 +25,10 @@ using Gtk;
 using System.Collections; //ArrayList
 
 
-public class TreeViewRuns
+public class TreeViewRuns : TreeViewEvent
 {
-	protected TreeStore store;
-	protected Gtk.TreeView treeview;
-	//protected static int pDN; //prefsDigitsNumber;
-	protected int pDN; //prefsDigitsNumber;
-	//protected static bool metersSecondsPreferred;
 	protected bool metersSecondsPreferred;
-	//protected static string allRunsName = Catalog.GetString("All runs");
-	protected int runIDColumn;
-	
+		
 	public TreeViewRuns ()
 	{
 	}
@@ -43,189 +36,60 @@ public class TreeViewRuns
 	public TreeViewRuns (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred)
 	{
 		this.treeview = treeview;
-		//pDN = newPrefsDigitsNumber;
 		this.pDN = newPrefsDigitsNumber;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 
+		treeviewHasTwoLevels = false;
+		dataLineNamePosition = 0; //position of name in the data to be printed
+		dataLineTypePosition = 4; //position of type in the data to be printed
+		allEventsName = Constants.AllRunsName;
+		eventIDColumn = 4; //column where the uniqueID of event will be (and will be hidded)
+	
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
 		string distanceName = Catalog.GetString("Distance");
 		string timeName = Catalog.GetString("Time");
 
-		store = getStore(5); //because, runID is not show in last col
 		string [] columnsString = { runnerName, speedName, distanceName, timeName };
+		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
-	
-		runIDColumn = 4;
 	}
+
 	
-	protected TreeStore getStore (int columns)
+	protected override System.Object getObjectFromString(string [] myStringOfData) {
+		Run myRun = new Run();
+		myRun.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
+		myRun.Type = myStringOfData[4].ToString();
+		myRun.Distance = Convert.ToDouble(myStringOfData[5].ToString());
+		myRun.Time = Convert.ToDouble(myStringOfData[6].ToString());
+		//speed is not needed to define
+
+		return myRun;
+	}
+
+	protected override string [] getLineToStore(System.Object myObject)
 	{
-		//prepares the TreeStore for required columns
-		Type [] types = new Type [columns];
-		for (int i=0; i < columns; i++) {
-			types[i] = typeof (string);
-		}
-		TreeStore myStore = new TreeStore(types);
-		return myStore;
-	}
-	
-	protected virtual void prepareHeaders(string [] columnsString) 
-	{
-		treeview.HeadersVisible=true;
-		int i=0;
-		foreach(string myCol in columnsString) {
-			treeview.AppendColumn (Catalog.GetString(myCol), new CellRendererText(), "text", i++);
-		}
-	}
-	
-	public virtual void RemoveColumns() {
-		Gtk.TreeViewColumn [] myColumns = treeview.Columns;
-		foreach (Gtk.TreeViewColumn column in myColumns) {
-			treeview.RemoveColumn (column);
-		}
-	}
+		Run newRun = (Run)myObject;
 
-	public virtual void Fill(string [] myRuns, string filter)
-	{
-		TreeIter iter = new TreeIter();
-
-		string tempRunner = ":"; //one value that's not possible
-	
-		string myType;
-		double speed;
-
-		foreach (string run in myRuns) {
-			string [] myStringFull = run.Split(new char[] {':'});
-
-			//show always the names of runners ...
-			if(tempRunner != myStringFull[0])
-			{
-				iter = store.AppendValues (myStringFull[0]);
-				tempRunner = myStringFull[0];
-			}
-			
-			if(metersSecondsPreferred) {
-				speed = Convert.ToDouble( myStringFull[5].ToString() ) /
-					Convert.ToDouble( myStringFull[6].ToString() );
-			} else {
-				speed = ( Convert.ToDouble( myStringFull[5].ToString() ) /
-					Convert.ToDouble( myStringFull[6].ToString() ) ) * 3.6;
-			}
-
-			//... but if we selected one type of run and this it's not the type, don't show
-			if(filter == Constants.AllRunsName || filter == myStringFull[4]) {
-
-				myType = myStringFull[4];
-				
-				store.AppendValues (iter, 
-						myType, 
-						Util.TrimDecimals( speed.ToString(), pDN ),
-						Util.TrimDecimals( myStringFull[5].ToString(), pDN ), //distance
-						Util.TrimDecimals( myStringFull[6].ToString(), pDN ), //time
-						myStringFull[1] //runUniqueID (not shown) 
-						);
-			}
-		}	
-	}
-	
-	public virtual void Add (string runnerName, Run newRun)
-	{
-		TreeIter iter = new TreeIter();
-		bool modelNotEmpty = treeview.Model.GetIterFirst ( out iter ) ;
-		string iterRunnerString;
-		bool found = false;
-	
-		if(modelNotEmpty) {
-			do {
-				iterRunnerString = ( treeview.Model.GetValue (iter, 0) ).ToString();
-				if(iterRunnerString == runnerName) {
-					found = true;
-
-					//expand the runner
-					treeview.ExpandToPath( treeview.Model.GetPath(iter) );
-
-					TreeIter iter2 = new TreeIter();
-					iter2 = store.AppendValues ( iter, newRun.Type, 
-							Util.TrimDecimals(newRun.Speed.ToString(), pDN), 
-							Util.TrimDecimals(newRun.Distance.ToString(), pDN), 
-							Util.TrimDecimals(newRun.Time.ToString(), pDN), 
-							newRun.UniqueID.ToString() );
-					
-					TreePath path = store.GetPath (iter2);
-					treeview.ScrollToCell (path, null, true, 0, 0);
-				}
-			} while (treeview.Model.IterNext (ref iter));
-		}
-
-		//if the runner has not run in this session, it's name doesn't appear in the treeview
-		//create the name, and write the run
-		if(! found) {
-			iter = store.AppendValues (runnerName);
-	
-			TreeIter iter2 = new TreeIter();
-			iter2 = store.AppendValues ( iter, newRun.Type, 
-					Util.TrimDecimals(newRun.Speed.ToString(), pDN), 
-					Util.TrimDecimals(newRun.Distance.ToString(), pDN), 
-					Util.TrimDecimals(newRun.Time.ToString(), pDN), 
-					newRun.UniqueID.ToString() );
-		
-			//scroll treeview if needed
-			TreePath path = store.GetPath (iter2);
-			treeview.ScrollToCell (path, null, true, 0, 0);
-			
-			//expand the runner
-			treeview.ExpandToPath( treeview.Model.GetPath(iter) );
-		}
-	}
-	
-	public virtual void DelRun (int runID)
-	{
-		TreeIter iter = new TreeIter();
-		treeview.Model.GetIterFirst ( out iter ) ;
-		
-		do {
-			if( treeview.Model.IterHasChild(iter) ) {
-				treeview.Model.IterChildren (out iter, iter);
-				do {
-					int iterRunID =  Convert.ToInt32 ( treeview.Model.GetValue (iter, runIDColumn) );
-					if(iterRunID == runID) {
-						store.Remove(ref iter);
-						return;
-					}
-				} while (treeview.Model.IterNext (ref iter));
-				treeview.Model.IterParent (out iter, iter);
-			}
-		} while (treeview.Model.IterNext (ref iter));
-	}
-
-	public void Unselect () {
-		treeview.Selection.UnselectAll();
-	}
-
-	public int RunSelectedID {
-		get {
-			TreeIter iter = new TreeIter();
-			TreeModel myModel = treeview.Model;
-			if (treeview.Selection.GetSelected (out myModel, out iter)) {
-				return Convert.ToInt32 ( treeview.Model.GetValue(iter, runIDColumn) );
-			} else {
-				return 0;
-			}
-		}
+		string [] myData = new String [5]; //columnsString +1
+		int count = 0;
+		myData[count++] = newRun.Type;
+		myData[count++] = Util.TrimDecimals(newRun.Speed.ToString(), pDN);
+		myData[count++]	= Util.TrimDecimals(newRun.Distance.ToString(), pDN);
+		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
+		myData[count++] = newRun.UniqueID.ToString();
+		return myData;
 	}
 	
 }
 
+
 public class TreeViewRunsInterval : TreeViewRuns
 {
-	int colsNum;
-	
 	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred)
 	{
 		this.treeview = treeview;
-		//pDN = newPrefsDigitsNumber;
 		this.pDN = newPrefsDigitsNumber;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 
@@ -233,205 +97,84 @@ public class TreeViewRunsInterval : TreeViewRuns
 		string speedName = Catalog.GetString("Speed");
 		string timeName = Catalog.GetString("Time");
 		
-		colsNum = 4;
-		store = getStore(colsNum); //because, runID is not show in last col
+		treeviewHasTwoLevels = true;
+		dataLineNamePosition = 0; //position of name in the data to be printed
+		dataLineTypePosition = 4; //position of type in the data to be printed
+		allEventsName = Constants.AllRunsName;
+		eventIDColumn = 3;
+		
 		string [] columnsString = { runnerName, speedName, timeName };
+		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
-	
-		runIDColumn = 3;
 	}
+
 	
-	public override void Fill(string [] myRuns, string filter)
-	{
-		TreeIter iter = new TreeIter();
-		TreeIter iterDeep = new TreeIter(); //only for Interval
-
-		string tempRunner = ":"; //one value that's not possible
-
-		string myType ;
-		string myTypeComplet ;
-			
-		foreach (string run in myRuns) {
-			string [] myStringFull = run.Split(new char[] {':'});
-
-			//show always the names of runners ...
-			if(tempRunner != myStringFull[0])
-			{
-				iter = store.AppendValues (myStringFull[0]);
-				tempRunner = myStringFull[0];
-			}
-
-			//... but if we selected one type of jump and this it's not the type, don't show
-			if(filter == Constants.AllRunsName || filter == myStringFull[4]) {
-				myType = myStringFull[4];
-				myTypeComplet = myType + "(" + myStringFull[7] + "x" + myStringFull[11] + ") AVG: "; //limited
-
-				string [] myData = new String [colsNum];
-				int count = 0;
-				myData[count++] = myTypeComplet;
-				myData[count++] = Util.TrimDecimals( 
-						Util.GetSpeed(myStringFull[5].ToString(), 	//distanceTotal
-							myStringFull[6].ToString() )		//timeTotal
-							, pDN );
-				myData[count++] = Util.TrimDecimals( 
-						Util.GetAverage(myStringFull[8].ToString()).ToString()	//AVG of intervalTimesString
-							, pDN );
-				myData[count++] = myStringFull[1]; //runUniqueID (not shown) 
-
-				iterDeep = store.AppendValues (iter, myData);
-
-				//if it's an Interval run, we should make a deeper tree with all the runs
-				//the info above it's average
-
-				string [] intervalTimes = myStringFull[8].Split(new char[] {'='});
-				int countRows = 0;
-				foreach (string myInterval in intervalTimes) 
-				{
-					string [] myData2 = new String [colsNum];
-					count = 0;
-					myData2[count++] = (countRows+1).ToString();
-					myData2[count++] = Util.TrimDecimals( 
-						Util.GetSpeed(
-							myStringFull[7].ToString(), //distanceInterval (all the intervals must have same distance)
-							myInterval )			//time this interval
-							, pDN );
-					myData2[count++] = Util.TrimDecimals( myInterval, pDN );
-					myData2[count++] = myStringFull[1]; //jumpUniqueID (not shown) 
-
-					store.AppendValues (iterDeep, myData2);
-
-					
-					countRows ++;
-				}
-			}
-		}
-	}
-	
-	public virtual void Add (string runnerName, RunInterval newRun)
-	{
-		TreeIter iter = new TreeIter();
-		TreeIter iterDeep = new TreeIter();
-		bool modelNotEmpty = treeview.Model.GetIterFirst ( out iter ) ;
-		string iterRunnerString;
-		bool found = false;
+	protected override System.Object getObjectFromString(string [] myStringOfData) {
+		RunInterval myRunI = new RunInterval();
+		myRunI.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
+		myRunI.Type = myStringOfData[4].ToString();
+		myRunI.DistanceTotal = Convert.ToDouble(myStringOfData[5].ToString());
+		myRunI.TimeTotal = Convert.ToDouble(myStringOfData[6].ToString());
+		myRunI.DistanceInterval = Convert.ToDouble(myStringOfData[7].ToString());
+		myRunI.IntervalTimesString = myStringOfData[8].ToString();
+		myRunI.Limited = myStringOfData[11].ToString();
+		//speed is not needed to define
 		
-		if(modelNotEmpty) {
-			do {
-				iterRunnerString = ( treeview.Model.GetValue (iter, 0) ).ToString();
-				if(iterRunnerString == runnerName) {
-					found = true;
-				
-					//expand the runner
-					treeview.ExpandToPath( treeview.Model.GetPath(iter) );
-
-					//if limited  value is "-1" comes from a "unlimited" intervalic run, 
-					//put runs total time as limitation value
-					if(newRun.Limited == "-1T") { 
-						newRun.Limited = newRun.TimeTotal.ToString() + "T";
-					}
-					
-					string myTypeComplet = newRun.Type + "(" + 
-						newRun.DistanceInterval + "x" + newRun.Limited + ") AVG: "; //limited
-					
-					string [] myData = new String [colsNum];
-					int count = 0;
-					myData[count++] = myTypeComplet;
-					myData[count++] = Util.TrimDecimals( 
-							Util.GetSpeed(newRun.DistanceTotal.ToString(), 	//distanceTotal
-								newRun.TimeTotal.ToString() )			//timeTotal
-							, pDN );
-					myData[count++] = Util.TrimDecimals( 
-							Util.GetAverage(newRun.IntervalTimesString.ToString()).ToString()
-							, pDN );
-					myData[count++] = newRun.UniqueID.ToString(); //runUniqueID (not shown) 
-
-					iterDeep = store.AppendValues (iter, myData);
-					//scroll treeview if needed
-					TreePath path = store.GetPath (iterDeep);
-					treeview.ScrollToCell (path, null, true, 0, 0);
-
-					//fill the intervals
-					string [] allIntervalTimes = newRun.IntervalTimesString.Split(new char[] {'='});
-					int countRows = 0;
-					foreach (string myInterval in allIntervalTimes) {
-						string [] myData2 = new String [colsNum];
-						count = 0;
-						myData2[count++] = (countRows+1).ToString();
-						myData2[count++] = Util.TrimDecimals( 
-								Util.GetSpeed(newRun.DistanceInterval.ToString(), 	//distance Interval
-									myInterval )			//time Interval
-								, pDN );
-						myData2[count++] = Util.TrimDecimals( myInterval, pDN );
-						myData2[count++] = newRun.UniqueID.ToString(); //runUniqueID (not shown) 
-
-						store.AppendValues (iterDeep, myData2);
-							
-						countRows ++;
-					}
-				}
-			} while (treeview.Model.IterNext (ref iter));
-		}
-
-		//if the runner has not run in this session, it's name doesn't appear in the treeview
-		//create the name, and write the run
-		if(! found) {
-			iter = store.AppendValues (runnerName);
-			
-			string myTypeComplet = newRun.Type + "(" + 
-				newRun.DistanceInterval + "x" + newRun.Limited + ") AVG: "; //limited
-						
-			string [] myData2 = new String [colsNum];
-			int count = 0;
-			myData2[count++] = myTypeComplet;
-			myData2[count++] = Util.TrimDecimals( 
-					Util.GetSpeed(newRun.DistanceTotal.ToString(), 	//distanceTotal
-						newRun.TimeTotal.ToString() )			//timeTotal
-					, pDN );
-			myData2[count++] = Util.TrimDecimals( 
-					Util.GetAverage(newRun.IntervalTimesString.ToString()).ToString()
-					, pDN );
-			myData2[count++] = newRun.UniqueID.ToString(); //runUniqueID (not shown) 
-
-			iterDeep = store.AppendValues (iter, myData2);
-					
-			//scroll treeview if needed
-			TreePath path = store.GetPath (iterDeep);
-			treeview.ScrollToCell (path, null, true, 0, 0);
-							
-			//fill the intervals
-			string [] allIntervalTimes = newRun.IntervalTimesString.Split(new char[] {'='});
-			int countRows = 0;
-			foreach (string myInterval in allIntervalTimes) {
-				myData2 = new String [colsNum];
-				count = 0;
-				myData2[count++] = (countRows+1).ToString();
-				myData2[count++] = Util.TrimDecimals( 
-						Util.GetSpeed(newRun.DistanceInterval.ToString(), 	//distance Interval
-							myInterval )			//time Interval
-						, pDN );
-				myData2[count++] = Util.TrimDecimals( myInterval, pDN );
-				myData2[count++] = newRun.UniqueID.ToString(); //runUniqueID (not shown) 
-
-				store.AppendValues (iterDeep, myData2);
-
-				countRows ++;
-			}
-		//expand the runner
-		treeview.ExpandToPath( treeview.Model.GetPath(iter) );
-		}
+		return myRunI;
 	}
-
-	public virtual void ExpandOptimal()
+	
+	protected override string [] getLineToStore(System.Object myObject)
 	{
-		TreeIter iter = new TreeIter();
-		bool tvExists = treeview.Model.GetIterFirst ( out iter ) ; //returns false if empty
-	
-		if (tvExists) {
-			do {
-				treeview.ExpandToPath( treeview.Model.GetPath(iter) );
-			} while (treeview.Model.IterNext (ref iter));
-		}
+		RunInterval newRunI = (RunInterval)myObject;
+
+		//typeComplet
+		string myTypeComplet = newRunI.Type + "(" + newRunI.DistanceInterval + "x" + newRunI.Limited + ") AVG: ";
+		
+		string [] myData = new String [4]; //columnsString +1
+		int count = 0;
+		myData[count++] = myTypeComplet;
+		myData[count++] = Util.TrimDecimals(newRunI.Speed.ToString(), pDN);
+		myData[count++] = Util.TrimDecimals( 
+				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
+							, pDN );
+		myData[count++] = newRunI.UniqueID.ToString();
+		return myData;
 	}
 	
+
+	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
+	{
+		RunInterval newRunI = (RunInterval)myObject;
+
+		//check the time
+		string [] myStringFull = newRunI.IntervalTimesString.Split(new char[] {'='});
+		string timeInterval = myStringFull[lineCount];
+
+		
+		//write line for treeview
+		string [] myData = new String [4]; //columnsString +1
+		int count = 0;
+		myData[count++] = (lineCount +1).ToString();
+		myData[count++] =  Util.TrimDecimals( 
+				Util.GetSpeed(
+					newRunI.DistanceInterval.ToString(), //distanceInterval (same for all subevents)
+					timeInterval )
+				, pDN );
+
+		myData[count++] = Util.TrimDecimals( timeInterval, pDN );
+		myData[count++] = newRunI.UniqueID.ToString(); 
+
+		return myData;
+	}
+	
+	protected override int getNumOfSubEvents(System.Object myObject)
+	{
+		RunInterval newRunI = (RunInterval)myObject;
+
+		string [] myStringFull = newRunI.IntervalTimesString.Split(new char[] {'='});
+
+		return myStringFull.Length; 
+	} 
+			
 }

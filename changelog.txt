@@ -1,5 +1,12 @@
 CHANGELOG:
 
+4 may 2006
+	Created new parent class TreeViewEvent
+	TreeViewRuns (simple and interval) now inherits from TreeViewEvent. Code is a lot cleaner
+	and extensible (soon jumps, pulses and others will inherit easily)
+	
+	fixed bug in treeview run interval expand..delete buttons
+
 1 may 2006
 	databaseVersion 0.42: pulse and pulseType tables
 	some advances in pulse

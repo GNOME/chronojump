@@ -670,7 +670,7 @@ public class RunExtraWindow
 	[Widget] Gtk.Button button_accept;
 
 	static int distance = 100;
-	static int limited = 100;
+	static int limited = 10;
 	static bool tracksLimited;
 	
 	static RunExtraWindow RunExtraWindowBox;

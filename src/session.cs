@@ -25,7 +25,7 @@ using System.Text; //StringBuilder
 using Mono.Data.SqliteClient;
 using Gtk;
 using Glade;
-using Gnome;
+//using Gnome;
 
 
 public class Session {

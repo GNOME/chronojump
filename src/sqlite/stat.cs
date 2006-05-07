@@ -101,7 +101,7 @@ class SqliteStat : Sqlite
 			} else {
 				//in simple session return: name, sex, height, TV
 				myArray.Add (reader[0].ToString() + showSexString +
-						+ ":" + Util.GetHeightInCentimeters(
+						":" + Util.GetHeightInCentimeters(
 							Util.ChangeDecimalSeparator(reader[3].ToString()))
 						+ ":" + Util.ChangeDecimalSeparator(reader[3].ToString())
 					    );
@@ -197,7 +197,7 @@ class SqliteStat : Sqlite
 			} else {
 				//in simple session return: name, sex, height, TV, Fall
 				myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
-						+ ":" + Util.GetHeightInCentimeters(Util.ChangeDecimalSeparator(
+						":" + Util.GetHeightInCentimeters(Util.ChangeDecimalSeparator(
 								reader[3].ToString()))
 						+ ":" + Util.ChangeDecimalSeparator(reader[3].ToString())
 						+ ":" + convertWeight(
@@ -939,7 +939,7 @@ class SqliteStat : Sqlite
 					extraWeightString = "(" + Util.ChangeDecimalSeparator(reader[6].ToString()) + ")";//extra weight
 				}
 				myArray.Add (reader[0].ToString() + showSexString + extraWeightString +
-						+ ":" + 
+						":" + 
 						(
 						 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))
 						 * 

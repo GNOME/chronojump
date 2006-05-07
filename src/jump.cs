@@ -25,6 +25,7 @@ using Mono.Data.SqliteClient;
 using System.Text; //StringBuilder
 
 using System.Threading;
+using System.IO.Ports;
 
 
 public class Jump 
@@ -51,10 +52,13 @@ public class Jump
 		OFF
 	}
 	
-	protected Chronopic cp;
+	//better as private and don't inherit, don't know why
+	//protected Chronopic cp;
+	private Chronopic cp;
 	protected States loggedState;		//log of last state
 	protected Gtk.ProgressBar progressBar;
-	protected Gnome.AppBar appbar;
+	//protected Gnome.AppBar appbar;
+	protected Gtk.Statusbar appbar;
 	protected Gtk.Window app;
 	protected int pDN;
 
@@ -70,7 +74,7 @@ public class Jump
 
 	//jump execution
 	public Jump(int personID, string personName, int sessionID, string type, int fall, double weight,  
-			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
+			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN)
 	{
 		this.personID = personID;
@@ -124,15 +128,20 @@ public class Jump
 	
 	public virtual void Manage(object o, EventArgs args)
 	{
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
+		Console.WriteLine("A1");
 
 		do {
-			respuesta = cp.Read_platform(out platformState);
-		} while (respuesta!=Chronopic.Respuesta.Ok);
+			Console.WriteLine("B");
+			ok = cp.Read_platform(out platformState);
+			Console.WriteLine("C");
+		} while (! ok);
 
 		if (platformState==Chronopic.Plataforma.ON) {
-			appbar.Push( Catalog.GetString("You are IN, JUMP when prepared!!") );
+			Console.WriteLine("D1");
+			appbar.Push( 1,Catalog.GetString("You are IN, JUMP when prepared!!") );
 
 			loggedState = States.ON;
 
@@ -164,15 +173,16 @@ public class Jump
 	
 	public void ManageFall(object o, EventArgs args)
 	{
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
 
 		do {
-			respuesta = cp.Read_platform(out platformState);
-		} while (respuesta!=Chronopic.Respuesta.Ok);
+			ok = cp.Read_platform(out platformState);
+		} while (! ok);
 
 		if (platformState==Chronopic.Plataforma.OFF) {
-			appbar.Push( Catalog.GetString("You are OUT, JUMP when prepared!!") );
+			appbar.Push( 1,Catalog.GetString("You are OUT, JUMP when prepared!!") );
 
 			loggedState = States.OFF;
 
@@ -210,12 +220,16 @@ public class Jump
 		double timestamp;
 		bool success = false;
 		
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
 		
+		Console.WriteLine("P0");
 		do {
-			respuesta = cp.Read_event(out timestamp, out platformState);
-			if (respuesta == Chronopic.Respuesta.Ok) {
+			ok = cp.Read_event(out timestamp, out platformState);
+			//if (respuesta == Chronopic.Respuesta.Ok) {
+			if (ok) {
+				Console.WriteLine("P1");
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has landed
 					loggedState = States.ON;
@@ -296,7 +310,7 @@ public class Jump
 		if(weight > 0) {
 			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
 		}
-		appbar.Push( myStringPush );
+		appbar.Push( 1,myStringPush );
 
 		uniqueID = SqliteJump.Insert(personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
@@ -426,6 +440,8 @@ public class JumpRj : Jump
 	private double lastTc;
 	private double lastTv;
 	
+	//better as private and don't inherit, don't know why
+	private Chronopic cp;
 	//for finishing earlier from chronojump.cs
 	private bool finish;
 	
@@ -437,7 +453,7 @@ public class JumpRj : Jump
 	public JumpRj(JumpRjExecuteWindow jumpRjExecuteWin, int personID, string personName, 
 			int sessionID, string type, int fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
+			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN)
 	{
 		this.jumpRjExecuteWin = jumpRjExecuteWin;
@@ -562,20 +578,27 @@ public class JumpRj : Jump
 
 	public override void Manage(object o, EventArgs args)
 	{
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		Chronopic.Plataforma platformState = Chronopic.Plataforma.UNKNOW;	//on (in platform), off (jumping), or unknow
 	
+		bool ok = false;
 		do {
-			respuesta = cp.Read_platform(out platformState);
-		} while (respuesta!=Chronopic.Respuesta.Ok);
+			try {
+			//respuesta = cp.Read_platform(out platformState);
+			ok = cp.Read_platform(out platformState);
+			} catch {
+				Console.WriteLine("Manage called after finishing constructor, do later");
+			}
+		//} while (respuesta!=Chronopic.Respuesta.Ok);
+		} while (!ok);
 
 		bool success = false;
 
 		if (platformState==Chronopic.Plataforma.OFF && hasFall ) {
-			appbar.Push( Catalog.GetString("You are OUT, JUMP when prepared!!") );
+			appbar.Push( 1,Catalog.GetString("You are OUT, JUMP when prepared!!") );
 			success = true;
 		} else if (platformState==Chronopic.Plataforma.ON && ! hasFall ) {
-			appbar.Push( Catalog.GetString("You are IN, JUMP when prepared!!") );
+			appbar.Push( 1,Catalog.GetString("You are IN, JUMP when prepared!!") );
 			success = true;
 		} else {
 			string myMessage = Catalog.GetString("You are IN, please go out the platform, prepare for jump and press button");
@@ -622,8 +645,11 @@ public class JumpRj : Jump
 		double timestamp;
 		bool success = false;
 		
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
+	
+		Console.Write("A");
 	
 		do {
 			//update the progressBar if limit is time (and it's not an unlimited reactive jump)
@@ -631,8 +657,13 @@ public class JumpRj : Jump
 				jumpRjExecuteWin.ProgressbarExecution(tvCount, Util.GetTotalTime(tcString, tvString)); 
 			}
 
-			respuesta = cp.Read_event(out timestamp, out platformState);
-			if (respuesta == Chronopic.Respuesta.Ok) {
+			//respuesta = cp.Read_event(out timestamp, out platformState);
+			ok = cp.Read_event(out timestamp, out platformState);
+		Console.Write("E");
+			//if (respuesta == Chronopic.Respuesta.Ok) {
+Console.Write(Util.GetTotalTime(tcString, tvString));
+			if (ok) {
+		Console.Write("F");
 				
 				string equal = "";
 
@@ -777,7 +808,7 @@ public class JumpRj : Jump
 			type + " (" + limitString + ") " +
 			" AVG TV: " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
 			" AVG TC: " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
-		appbar.Push( myStringPush );
+		appbar.Push( 1,myStringPush );
 	
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();

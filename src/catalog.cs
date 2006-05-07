@@ -11,16 +11,25 @@ class Catalog {
 	[DllImport("libc")]
 		static extern IntPtr textdomain (IntPtr domainname);
 
+	static bool have_gettext;
+
 	public static void Init (String package, String localedir)
 	{
 		IntPtr ipackage = Marshal.StringToHGlobalAuto (package);
 		IntPtr ilocaledir = Marshal.StringToHGlobalAuto (localedir);
 		IntPtr iutf8 = Marshal.StringToHGlobalAuto ("UTF-8");
-		bindtextdomain (ipackage, ilocaledir);
-		textdomain (ipackage);
-		Marshal.FreeHGlobal (ipackage);
-		Marshal.FreeHGlobal (ilocaledir);
-		Marshal.FreeHGlobal (iutf8);
+		
+		try {
+			bindtextdomain (ipackage, ilocaledir);
+			textdomain (ipackage);
+			Marshal.FreeHGlobal (ipackage);
+			Marshal.FreeHGlobal (ilocaledir);
+			Marshal.FreeHGlobal (iutf8);
+
+			have_gettext = true;
+		} catch {
+			have_gettext = false;
+		}
 	}
 	
 	[DllImport("libc")]
@@ -28,13 +37,17 @@ class Catalog {
 
 	public static String GetString (String s)
 	{
-		IntPtr inptr = Marshal.StringToHGlobalAuto(s);
-		IntPtr sptr = gettext (inptr);
-		Marshal.FreeHGlobal (inptr);
-		if (inptr == sptr)
+		if(have_gettext) {
+			IntPtr inptr = Marshal.StringToHGlobalAuto(s);
+			IntPtr sptr = gettext (inptr);
+			Marshal.FreeHGlobal (inptr);
+			if (inptr == sptr)
+				return s;
+			else 
+				return Marshal.PtrToStringAuto (sptr);
+		} else { 
 			return s;
-		else 
-			return Marshal.PtrToStringAuto (sptr);
+		}
 	}
 
 	

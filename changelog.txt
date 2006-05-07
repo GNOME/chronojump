@@ -1,5 +1,26 @@
 CHANGELOG:
 
+7 may 2006
+	windows compatibility
+		chronopic code now uses mono/.net (2.0) and serial port code in
+		chronopic.cs (the .so is no more used). Makefile simplified a lot
+		
+		all gnome code & glade replaced for gtk (stock-icons,
+		dateedit, about dialog,  Application Window,  Application
+		bar) 
+
+		added gui/about.cs
+		
+		catalog.cs checks if there's gettext
+		
+		default chronopicPort is /dev/ttyS0 (added '/dev/' because
+		windows ports doesn't have the '/dev/')
+
+		fixed some double '+' that crashed on .net
+	
+	fixed crash in opening preferences window
+	added icons in the menu
+
 4 may 2006
 	Created new parent class TreeViewEvent
 	TreeViewRuns (simple and interval) now inherits from TreeViewEvent. Code is a lot cleaner

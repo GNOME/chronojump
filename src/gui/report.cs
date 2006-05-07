@@ -22,7 +22,7 @@
 using System;
 using Gtk;
 using Glade;
-using Gnome;
+//using Gnome;
 using GLib; //for Value
 using System.Collections; //ArrayList
 

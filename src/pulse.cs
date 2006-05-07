@@ -52,10 +52,13 @@ public class Pulse
 		OFF
 	}
 	
-	protected Chronopic cp;
+	//better as private and don't inherit, don't know why
+	//protected Chronopic cp;
+	private Chronopic cp;
 	protected States loggedState;		//log of last state
 	//protected Gtk.ProgressBar progressBar;
-	protected Gnome.AppBar appbar;
+	//protected Gnome.AppBar appbar;
+	protected Gtk.Statusbar appbar;
 	protected Gtk.Window app;
 	protected int pDN;
 
@@ -67,7 +70,7 @@ public class Pulse
 	
 	//execution
 	public Pulse(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
+			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN)
 	{
 		this.personID = personID;
@@ -126,12 +129,16 @@ public class Pulse
 
 	public void Manage(object o, EventArgs args)
 	{
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
+		Console.WriteLine("A1");
 
 		do {
-			respuesta = cp.Read_platform(out platformState);
-		} while (respuesta!=Chronopic.Respuesta.Ok);
+			Console.WriteLine("B");
+			ok = cp.Read_platform(out platformState);
+			Console.WriteLine("C");
+		} while (! ok);
 
 		bool success = false;
 
@@ -147,7 +154,7 @@ public class Pulse
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(Manage);
 		} else {
-			appbar.Push( Catalog.GetString("You are OUT, start when prepared!!") );
+			appbar.Push( 1, Catalog.GetString("You are OUT, start when prepared!!") );
 
 			loggedState = States.OFF;
 
@@ -183,13 +190,16 @@ public class Pulse
 		string equal = "";
 		//double pbUnlimited = 0;
 		
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
 
 		
 		do {
-			respuesta = cp.Read_event(out timestamp, out platformState);
-			if (respuesta == Chronopic.Respuesta.Ok) {
+			ok = cp.Read_event(out timestamp, out platformState);
+			//if (respuesta == Chronopic.Respuesta.Ok) {
+			if (ok) {
+				Console.WriteLine("P1");
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -300,7 +310,7 @@ public class Pulse
 				);
 
 		string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
-		appbar.Push( myStringPush );
+		appbar.Push( 1, myStringPush );
 				
 	
 		//event will be raised, and managed in chronojump.cs

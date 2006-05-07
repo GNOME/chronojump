@@ -22,7 +22,7 @@
 using System;
 using Gtk;
 using Glade;
-using Gnome;
+//using Gnome;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
@@ -33,7 +33,9 @@ public class SessionAddWindow {
 	[Widget] Gtk.Window session_add_edit;
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Entry entry_place;
-	[Widget] Gnome.DateEdit dateedit;
+	[Widget] Gtk.SpinButton spinbutton_day;
+	[Widget] Gtk.SpinButton spinbutton_month;
+	[Widget] Gtk.SpinButton spinbutton_year;
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Button button_accept;
 	
@@ -51,6 +53,10 @@ public class SessionAddWindow {
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		button_accept.Sensitive = false;
+		
+		spinbutton_day.Value = DateTime.Now.Day;
+		spinbutton_month.Value = DateTime.Now.Month;
+		spinbutton_year.Value = DateTime.Now.Year;
 			
 		session_add_edit.Title = Catalog.GetString("New Session");
 	}
@@ -90,22 +96,20 @@ public class SessionAddWindow {
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		//date comes as (i think): "day/month/year sec/hour/minute" (we use the first three)
-		string [] dateTimeFull = dateedit.Time.ToString().Split(new char[] {' '});
-	
+		string nowDate = spinbutton_day.Value.ToString() + "/" + spinbutton_month.Value.ToString() + "/" +
+			spinbutton_year.Value.ToString();
+		
 		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
 		if(sessionExists) {
-			//string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(session_add_edit, myString);
 
 		} else {
-			currentSession = new Session (entry_name.Text, entry_place.Text, dateTimeFull[0], textview.Buffer.Text);
+			currentSession = new Session (entry_name.Text, entry_place.Text, nowDate, textview.Buffer.Text);
 			SessionAddWindowBox.session_add_edit.Hide();
 			SessionAddWindowBox = null;
 		}
-		
 	}
 
 	public Button Button_accept 
@@ -133,7 +137,9 @@ public class SessionEditWindow
 	[Widget] Gtk.Window session_add_edit; 
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Entry entry_place;
-	[Widget] Gnome.DateEdit dateedit;
+	[Widget] Gtk.SpinButton spinbutton_day;
+	[Widget] Gtk.SpinButton spinbutton_month;
+	[Widget] Gtk.SpinButton spinbutton_year;
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Button button_accept;
 	
@@ -159,10 +165,10 @@ public class SessionEditWindow
 		entry_place.Text = currentSession.Place;
 		
 		string [] dateFull = currentSession.Date.Split(new char[] {'/'});
-		Console.WriteLine("2: {0}, 0: {1}, 1: {2}", Convert.ToInt32(dateFull[2]), 
-				Convert.ToInt32(dateFull[0]), Convert.ToInt32(dateFull[1]));
-		dateedit.Time = new DateTime (Convert.ToInt32(dateFull[2]), 
-				Convert.ToInt32(dateFull[0]), Convert.ToInt32(dateFull[1]));
+			
+		spinbutton_day.Value = Convert.ToDouble(dateFull[0]);
+		spinbutton_month.Value = Convert.ToDouble(dateFull[1]);
+		spinbutton_year.Value = Convert.ToDouble(dateFull[2]);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(currentSession.Comments);
@@ -205,15 +211,14 @@ public class SessionEditWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		//date comes as (i think): "day/month/year sec/hour/minute" (we use the first three)
-		string [] dateTimeFull = dateedit.Time.ToString().Split(new char[] {' '});
+		string nowDate = spinbutton_day.Value.ToString() + "/" + spinbutton_month.Value.ToString() + "/" +
+			spinbutton_year.Value.ToString();
 
 	
 		//check if new name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name
 		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
 		if(sessionExists && Util.RemoveTilde(entry_name.Text) != currentSession.Name ) {
-			//string myString =  Catalog.GetString ("Session: '") + Util.RemoveTilde(entry_name.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(session_add_edit, myString);
@@ -221,7 +226,7 @@ public class SessionEditWindow
 		} else {
 			currentSession.Name = entry_name.Text.ToString();
 			currentSession.Place = entry_place.Text.ToString(); 
-			currentSession.Date = dateTimeFull[0];
+			currentSession.Date = nowDate;
 			currentSession.Comments = textview.Buffer.Text;
 			
 			SqliteSession.Edit(currentSession.UniqueID, currentSession.Name, 

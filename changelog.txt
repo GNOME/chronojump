@@ -1,6 +1,9 @@
 CHANGELOG:
 
 7 may 2006
+	TreeViewJumps (simple and reactive) now inherits from TreeViewEvent. Code is a lot cleaner
+	
+7 may 2006
 	windows compatibility
 		chronopic code now uses mono/.net (2.0) and serial port code in
 		chronopic.cs (the .so is no more used). Makefile simplified a lot

@@ -488,6 +488,9 @@ public class JumpRj : Jump
 		fakeButtonFinished = new Gtk.Button();
 	}
 	
+	public JumpRj() {
+	}
+
 	//after inserting database (SQL)
 	public JumpRj(int uniqueID, int personID, int sessionID, string type, 
 			string tvString, string tcString, int fall, double weight, 
@@ -859,11 +862,13 @@ Console.Write(Util.GetTotalTime(tcString, tvString));
 	public string TvString
 	{
 		get { return tvString; }
+		set { tvString = value; }
 	}
 		
 	public string TcString
 	{
 		get { return tcString; }
+		set { tcString = value; }
 	}
 
 	public int Jumps

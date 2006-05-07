@@ -561,7 +561,7 @@ public class ChronoJump
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
-		if (myTreeViewJumps.JumpSelectedID == 0) {
+		if (myTreeViewJumps.EventSelectedID == 0) {
 			Console.WriteLine("don't select");
 			myTreeViewJumps.Unselect();
 		}
@@ -603,7 +603,7 @@ public class ChronoJump
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args) {
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
-		if (myTreeViewJumpsRj.JumpSelectedID == 0) {
+		if (myTreeViewJumpsRj.EventSelectedID == 0) {
 			Console.WriteLine("don't select");
 			myTreeViewJumpsRj.Unselect();
 		}
@@ -2205,11 +2205,11 @@ public class ChronoJump
 		string warningString = "";
 		if(lastEventWasJump) {
 			if (askDeletion) {
-				int myID = myTreeViewJumps.JumpSelectedID;
+				int myID = myTreeViewJumps.EventSelectedID;
 				if(lastJumpIsReactive) {
 					notebook_change(1);
 					warningString = Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"); 
-					myID = myTreeViewJumpsRj.JumpSelectedID;
+					myID = myTreeViewJumpsRj.EventSelectedID;
 				} else {
 					notebook_change(0);
 				}
@@ -2227,7 +2227,7 @@ public class ChronoJump
 				if (lastRunIsInterval) {
 					/*
 					warningString = Catalog.GetString("Atention: Deleting a intervalic sub-run will delete all the run"); 
-					myID = myTreeViewRunsInterval.JumpSelectedID;
+					myID = myTreeViewRunsInterval.EventSelectedID;
 					*/
 					notebook_change(3);
 				} else {
@@ -2255,9 +2255,9 @@ public class ChronoJump
 		appbar2.Push( 1, Catalog.GetString("Last jump deleted") );
 
 		if(lastJumpIsReactive) {
-			myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
+			myTreeViewJumpsRj.DelEvent(currentJumpRj.UniqueID);
 		} else {
-			myTreeViewJumps.DelJump(currentJump.UniqueID);
+			myTreeViewJumps.DelEvent(currentJump.UniqueID);
 		}
 
 		if(createdStatsWin) {
@@ -2276,7 +2276,7 @@ public class ChronoJump
 		appbar2.Push( 1, Catalog.GetString("Last run deleted") );
 
 		if (lastRunIsInterval) {
-			//myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
+			//myTreeViewJumpsRj.DelEvent(currentJumpRj.UniqueID);
 		} else {
 			myTreeViewRuns.DelEvent(currentRun.UniqueID);
 		}
@@ -2291,9 +2291,9 @@ public class ChronoJump
 		Console.WriteLine("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumps.JumpSelectedID > 0) {
+		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.JumpSelectedID );
+			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.EventSelectedID );
 		
 			//4.- edit this jump
 			editJumpWin = EditJumpWindow.Show(app1, myJump, prefsDigitsNumber);
@@ -2306,9 +2306,9 @@ public class ChronoJump
 		Console.WriteLine("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
+		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.JumpSelectedID );
+			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
 			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
@@ -2321,9 +2321,9 @@ public class ChronoJump
 		Console.WriteLine("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
+		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.JumpSelectedID );
+			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
 			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump);
@@ -2369,12 +2369,12 @@ public class ChronoJump
 		Console.WriteLine("delete selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		Console.WriteLine(myTreeViewJumps.JumpSelectedID.ToString());
-		if (myTreeViewJumps.JumpSelectedID > 0) {
+		Console.WriteLine(myTreeViewJumps.EventSelectedID.ToString());
+		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected jump?", 
-						"", "jump", myTreeViewJumps.JumpSelectedID);
+						"", "jump", myTreeViewJumps.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
 				on_delete_selected_jump_accepted(o, args);
@@ -2387,12 +2387,12 @@ public class ChronoJump
 		Console.WriteLine("delete selected reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewJumpsRj.JumpSelectedID > 0) {
+		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
 						 Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"), 
-						 "jump", myTreeViewJumpsRj.JumpSelectedID);
+						 "jump", myTreeViewJumpsRj.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				on_delete_selected_jump_rj_accepted(o, args);
@@ -2403,10 +2403,10 @@ public class ChronoJump
 	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
 		
-		SqliteJump.Delete( "jump", (myTreeViewJumps.JumpSelectedID).ToString() );
+		SqliteJump.Delete( "jump", (myTreeViewJumps.EventSelectedID).ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
-		myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
+		appbar2.Push( 1, Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.EventSelectedID );
+		myTreeViewJumps.DelEvent(myTreeViewJumps.EventSelectedID);
 
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2416,10 +2416,10 @@ public class ChronoJump
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected jump");
 		
-		SqliteJump.Delete("jumpRj", myTreeViewJumpsRj.JumpSelectedID.ToString());
+		SqliteJump.Delete("jumpRj", myTreeViewJumpsRj.EventSelectedID.ToString());
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted reactive jump: " ) + myTreeViewJumpsRj.JumpSelectedID );
-		myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
+		appbar2.Push( 1, Catalog.GetString ( "Deleted reactive jump: " ) + myTreeViewJumpsRj.EventSelectedID );
+		myTreeViewJumpsRj.DelEvent(myTreeViewJumpsRj.EventSelectedID);
 
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2554,7 +2554,7 @@ public class ChronoJump
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected run?"), 
 						 Catalog.GetString("Atention: Deleting a Intervalic subrun will delete all the run"), 
-						 "run", myTreeViewJumpsRj.JumpSelectedID);
+						 "run", myTreeViewJumpsRj.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
 			} else {
 				on_delete_selected_run_interval_accepted(o, args);

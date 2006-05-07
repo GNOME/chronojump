@@ -37,14 +37,22 @@ class Test {
     Catalog.Init ("chronojump", "./locale");
     
     //-- Crear objeto chronopic, para acceder al chronopic
-    Chronopic cp = new Chronopic("/dev/ttyS0");
+//    Chronopic cp = new Chronopic("/dev/ttyS0");
     //Chronopic cp = new Chronopic("/dev/ttyS1");
     //Chronopic cp = new Chronopic("/dev/ttyUSB0");
     //Chronopic cp = new Chronopic("/dev/ttyS17");
     //Chronopic cp = new Chronopic("/dev/ttyS1");
     
+SerialPort sp;
+	Chronopic cp;
+			sp = new SerialPort("/dev/ttyS0");
+			sp.Open();
     
+			cp = new Chronopic(sp);
+
+			
     //-- Obtener el estado inicial de la plataforma
+    /*
     respuesta=cp.Read_platform(out estado_plataforma);
     switch(respuesta) {
       case Chronopic.Respuesta.Error:
@@ -56,7 +64,7 @@ class Test {
       default:
         break;
     }
-    
+    */
     
     Console.WriteLine(Catalog.GetString("Platform state: {0}"), estado_plataforma);
     

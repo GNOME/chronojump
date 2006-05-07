@@ -3,28 +3,21 @@
 /*--------------------------------------------*/
 /* Licencia GPL                               */
 /**********************************************/
-/*------------------------------------------------------------------------
- $Id$
- $Revision$
- $Source$
---------------------------------------------------------------------------*/
+
 using System;
-using System.Runtime.InteropServices;
+using System.IO.Ports;
+using System.Threading;
 
 public class Chronopic {
 
-   //-- Acceso a la libreria chronopic
-   const string library = "chronopic";
-
    //****************************
-   //  TIPOS                     
+   //  TIPOS PUBLICOS
    //****************************
-   //-- Respuestas en el acceso a Chronopic
-   public enum Respuesta : int
+   public enum ErrorType
    {
-     Ok = 1,
-     Error = -1,
-     Timeout = 0,
+     Ok = 0,        //-- OK. No hay error
+     Timeout = 1,   //-- Error por Timeout
+     Invalid = 2,   //-- Error por recibir caracter invalido
    }
    
    //-- Estado de la plataforma
@@ -40,167 +33,249 @@ public class Chronopic {
    //******************************
   
    //-- Constructor
-   public Chronopic(string disp)
+   public Chronopic(SerialPort sp)
    {
-	Console.WriteLine("1");
-	 try {  
-	     this.serial_fd=this.Open(disp);
-	 } catch{
-		 Console.WriteLine("catched!!");
-	 }
-	
-     Console.WriteLine("2");
+     //-- Comprobar si puerto serie ya estaba abierto
+     if (sp != null)
+			if (sp.IsOpen)
+				sp.Close();
+  
+     //-- Abrir puerto serie
+     sp.Open();
+     
+     //-- Configurar timeout por defecto
+     sp.ReadTimeout = DefaultTimeout;
+     
+     //-- Guardar el puerto serie
+     this.sp = sp;
+     
+     //-- Vaciar buffer
+     this.flush();
    }
 
    //-- Destructor
    ~Chronopic()
    {
-     if (this.serial_fd!=-1)
-       this.Close();
+     //-- Cerrar puerto serie
+     sp.Close();
    }
-
-   
 
    //***************************************
    //  METODOS PUBLICOS
    //***************************************
    
-   //----------------------------
-   //-- Cerrar el puerto serie 
-   //----------------------------
-   public void Close()
-   {
-     Chronopic.close(this.serial_fd);
-     this.serial_fd=-1;
-   }
-   
-   //----------------------------------
+   //--------------------------------------------------
    //-- Leer un evento en Chronopic
-   //----------------------------------
-   public Respuesta Read_event(out double timestamp, 
-                               out Plataforma plataforma)
+   //-- Devuelve:
+   //--   * timestamp : Marca de tiempo
+   //--   * plataforma: Nuevo estado de la plataforma
+   //--------------------------------------------------
+   public bool Read_event(out double timestamp, 
+                          out Plataforma plataforma)
    {
      double t;
-     int estado;
-     int error;
-     Respuesta resp;
      
-     //-- Leer trama
-     error=read(this.serial_fd,out t, out estado);
+     //-- Trama de Evento
+     byte[] trama = new byte[5];
+     bool ok;
      
-     //-- Convertir el error al tipo Respuesta
-     switch(error) {
-       case 0:
-         resp = Respuesta.Timeout;
-         plataforma = Plataforma.UNKNOW;
-         timestamp = 0.0;
-         break;
-       case 1:
-         resp = Respuesta.Ok;
-         timestamp = t;
-         if (estado==0) 
-           plataforma = Plataforma.OFF;
-         else
-           plataforma = Plataforma.ON;
-         break;
-       default:
-         resp = Respuesta.Error;
-         timestamp = 0.0;
-         plataforma = Plataforma.UNKNOW;
-         break;
+     //-- Esperar a que llegue la trama o que se
+     //-- produzca un timeout
+     ok = Read_cambio(trama);
+     
+     //-- Si hay timeout o errores
+     if (ok==false) {
+       plataforma = Plataforma.UNKNOW;
+       timestamp = 0.0;
+
+
+       //xaviBlas. flush 
+      // if(this.error == ErrorType.Invalid) {
+	//	this.flush();
+       //}
+
+       
+       return false;
      }
      
-     return resp;
+     //-- Comprobar que el estado transmitido en la trama es correcto
+     //-- El estado de la plataforma solo puede tener los valores 0,1
+     if (trama[1]!=0 && trama[1]!=1) {
+       //-- Trama erronea
+       plataforma = Plataforma.UNKNOW;
+       timestamp = 0.0;
+       return false;
+     }
+     
+     //-- Actualizar el estado
+     if (trama[1]==0)
+       plataforma = Plataforma.OFF;
+     else 
+       plataforma = Plataforma.ON;
+       
+     //-- Obtener el tiempo
+     t = (double)((trama[2]*65536 + trama[3]*256 + trama[4])*8)/1000;
+     
+     timestamp = t;
+     
+     return true;
    }   
    
    //----------------------------------------
    //-- Obtener el estado de la plataforma
    //----------------------------------------
-   public Respuesta Read_platform(out Plataforma plataforma)
+   public bool Read_platform(out Plataforma plataforma)
    {
-     int error;
-     int estado;
-     Respuesta resp;
+     //-- Crear la trama
+     byte[] trama = {(byte)Trama.Estado};
+     byte[] respuesta = new byte[2];
+     int n;
+     int count;
+     bool status;
+    
+     //-- Enviar la trama por el puerto serie
+     sp.Write(trama,0,1);
      
-     //-- Enviar trama de estado
-     error=Chronopic.estado(this.serial_fd, out estado);
-     
-     //-- Convertir el error al tipo Respueta
-     switch(error) {
-       case 0: 
-         resp = Respuesta.Timeout;
+     //-- Esperar a que llegue la respuesta
+     //-- Se espera hasta que en el buffer se tengan el numero de bytes
+     //-- esperados para la trama. (para esta trama 2). Si hay un 
+     //-- timeout se aborta
+     count=0;
+     do {
+       n = sp.Read(respuesta,count,2-count);
+       count+=n;
+     } while (count<2 && n!=-1);
+    
+     //-- Comprobar la respuesta recibida
+		 switch(count) {
+       case 2 : //-- Datos listos
+         if (respuesta[0]==(byte)Trama.REstado) {
+           switch (respuesta[1]) {
+             case 0: 
+               plataforma = Plataforma.OFF;
+               this.error=ErrorType.Ok;
+               status=true;
+               break;      
+             case 1: 
+               plataforma = Plataforma.ON;
+               this.error=ErrorType.Ok;
+               status=true;
+               break;      
+             default:
+               plataforma = Plataforma.UNKNOW;
+               this.error=ErrorType.Invalid;
+               status=false;
+               break;
+           }
+		     }
+		     else {  //-- Recibida respuesta invalida
+           plataforma = Plataforma.UNKNOW;
+		       this.error=ErrorType.Invalid;
+		       status=false;
+		      
+		       //-- Esperar un tiempo y vaciar buffer
+		       Thread.Sleep(ErrorTimeout);
+		       this.flush();
+		     }
+		     break;
+       default : //-- Timeout (u otro error desconocido)
+         status=false;
          plataforma = Plataforma.UNKNOW;
-         break;
-       case 1:
-         resp = Respuesta.Ok;
-         if (estado==0)
-           plataforma = Plataforma.OFF;
-         else
-           plataforma = Plataforma.ON;
-         break;
-       default:
-         resp = Respuesta.Error;
-         plataforma = Plataforma.UNKNOW;
-         break;
+	       this.error=ErrorType.Timeout;
+	    	 break;
      }
      
-     //-- Devolver Respuesta
-     return resp;
+     return status;
    }
-   
-   //-- Leer bytes
-   public unsafe int Read(byte[] buffer, int bytes, int timeout)
+
+   /****************************/
+   /* PROPIEDADES              */
+   /****************************/
+   public ErrorType Error 
    {
-     int error;
-     
-     fixed(byte *bytepointer = buffer)
-     {
-       error=read(this.serial_fd,bytepointer,bytes,timeout);
+     get {
+       return this.error;
      }
-     
-     return error;
-   }
-   
-   public void Solicitar_estado()
-   {
-     solicitar_estado(this.serial_fd);
    }
 
    //***************************************
    //  METODOS PRIVADOS
    //***************************************
-   
-   //-- Apertura del puerto serie
-   private int Open(string disp)
+   //-- Esperar a recibir una trama de cambio de estado
+   private bool Read_cambio(byte[] respuesta)
    {
-     return Chronopic.open(disp);
+     //-- Crear la trama
+     int n;
+     int count;
+     bool status;
+    
+     //-- Esperar a que llegue la respuesta
+     //-- Se espera hasta que en el buffer se tengan el numero de bytes
+     //-- esperados para la trama. (En el caso de id son 4). Si hay un 
+     //-- timeout se aborta
+     count=0;
+     do {
+       n = sp.Read(respuesta,count,5-count);
+       count+=n;
+     } while (count<5 && n!=-1);
+    
+     //-- Comprobar la respuesta recibida
+     switch(count) {
+       case 5 : //-- Datos listos
+         if (respuesta[0]==(byte)Trama.Evento) {  //-- Trama de evento
+           this.error=ErrorType.Ok;
+           status=true;
+         }
+         else {  //-- Recibida trama invalida
+           this.error=ErrorType.Invalid;
+           status=false;
+          
+           //-- Esperar un tiempo y vaciar buffer
+           Thread.Sleep(ErrorTimeout);
+           this.flush();
+         }
+         break;
+       default : //-- Timeout (u otro error desconocido)
+         status=false;
+         this.error=ErrorType.Timeout;
+         break;
+     }
+      
+    return status;
+  }
+   
+   //-- Vaciar buffer de entrada
+   //-- De momento se hace leyendo muchos datos y descartando
+   private void flush()
+   {
+     byte[] buffer = new byte[256];
+    
+     sp.Read(buffer,0,256);
    }
-   
-   //-------------- Importado del modulo chronopic---------------------
-   [DllImport(library,EntryPoint="chronopic_open")] 
-   extern static int open(string disp);
-   
-   [DllImport(library,EntryPoint="chronopic_close")] 
-   static extern int close(int fd);
-   
-   [DllImport(library,EntryPoint="chronopic_get_trama_cambio")] 
-   static extern int read(int serial_fd, out double t, out int estado);
-   
-   [DllImport(library,EntryPoint="chronopic_flush")] 
-   static extern int flush(int fd);
-   
-   [DllImport(library,EntryPoint="chronopic_estado")] 
-   static extern int estado(int fd, out int estado);
-   
-   [DllImport(library,EntryPoint="chronopic_read")]
-   static extern unsafe int read(int serial_fd, byte *trama,
-                                 int bytes,int timeout);
-   [DllImport(library,EntryPoint="chronopic_solicitar_estado")]
-   static extern void solicitar_estado(int serial_fd);
-                              
-   
+  
+  /**********************************/
+  /* TIPOS PRIVADOS                 */
+  /**********************************/
+  //-- Identificacion de las tramas
+  private enum Trama
+  {
+    Evento =  'X',  //-- Trama de evento
+    Estado =  'E',  //-- Trama de solicitud de estado
+    REstado = 'E',  //-- Trama de respuesta de estado
+  }
+  
+  /*********************************************************************/
+  /* CONSTANTES PRIVADAS                                               */
+  /*********************************************************************/
+  private const int DefaultTimeout = 100;  //-- En ms 
+  private const int ErrorTimeout   = 500;  //-- En ms
+  
   //------------------------------
   //   Propiedades privadas
   //------------------------------
-  int serial_fd;
+  //-- Puerto serie donde esta conectada la Chronopic
+  private SerialPort sp;
+  //-- Ultimo error que se ha producido
+  private ErrorType error = ErrorType.Ok;
+ 
 }

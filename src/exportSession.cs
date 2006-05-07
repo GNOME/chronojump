@@ -36,13 +36,15 @@ public class ExportSession
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
-	protected static Gnome.AppBar myAppbar;
+	//protected static Gnome.AppBar myAppbar;
+	protected static Gtk.Statusbar myAppbar;
 	protected string fileName;
 
 	public ExportSession() {
 	}
 
-	public ExportSession(Session mySession, Gtk.Window app1, Gnome.AppBar mainAppbar) 
+	//public ExportSession(Session mySession, Gtk.Window app1, Gnome.AppBar mainAppbar) 
+	public ExportSession(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar) 
 	{
 		this.mySession = mySession;
 		myAppbar = mainAppbar;
@@ -68,7 +70,7 @@ public class ExportSession
 			Console.WriteLine("cancelled");
 			//report does not currently send the appBar reference
 			if(formatFile != "report") {
-				myAppbar.Push ( Catalog.GetString ("Cancelled") );
+				myAppbar.Push ( 1, Catalog.GetString ("Cancelled") );
 			}
 			fs.Hide ();
 			return ;
@@ -96,7 +98,7 @@ public class ExportSession
 		} 
 		catch {
 			Console.WriteLine("cannot export to file: {0}", fileName);
-			myAppbar.Push ( Catalog.GetString ("Cannot export to file: ") + fileName );
+			myAppbar.Push ( 1, Catalog.GetString ("Cannot export to file: ") + fileName );
 		}
 		return;
 	}
@@ -404,7 +406,7 @@ public class ExportSession
 public class ExportSessionCSV : ExportSession 
 {
 	
-	public ExportSessionCSV(Session mySession, Gtk.Window app1, Gnome.AppBar mainAppbar) 
+	public ExportSessionCSV(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar) 
 	//public ExportCSV(Session mySession, Gtk.Window app1) 
 	{
 		this.mySession = mySession;
@@ -426,7 +428,7 @@ public class ExportSessionCSV : ExportSession
 	protected override void printFooter()
 	{
 		Console.WriteLine( "Correctly exported" );
-		myAppbar.Push ( Catalog.GetString ("Exported to file: ") + fileName );
+		myAppbar.Push ( 1, Catalog.GetString ("Exported to file: ") + fileName );
 	}
 	
 	~ExportSessionCSV() {}
@@ -436,7 +438,7 @@ public class ExportSessionXML : ExportSession
 {
 	private XmlTextWriter xr;
 		
-	public ExportSessionXML(Session mySession, Gtk.Window app1, Gnome.AppBar mainAppbar) 
+	public ExportSessionXML(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar) 
 	//public ExportXML(Session mySession, Gtk.Window app1) 
 	{
 		this.mySession = mySession;

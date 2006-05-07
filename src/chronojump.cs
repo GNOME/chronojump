@@ -24,14 +24,16 @@ using System;
 using Gtk;
 using Gdk;
 using Glade;
-using Gnome;
+//using Gnome;
 //using System.Collections; //ArrayList
+using System.IO.Ports;
 
 
 public class ChronoJump 
 {
 	[Widget] Gtk.Window app1;
-	[Widget] Gnome.AppBar appbar2;
+	//[Widget] Gnome.AppBar appbar2;
+	[Widget] Gtk.Statusbar appbar2;
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
 	[Widget] Gtk.TreeView treeview_jumps_rj;
@@ -111,7 +113,7 @@ public class ChronoJump
 	[Widget] Gtk.Button button_run_last;
 	[Widget] Gtk.Button button_run_interval_last;
 	[Widget] Gtk.Button button_last_delete;
-	[Widget] Gtk.MenuItem preferences;
+	[Widget] Gtk.MenuItem menuitem_preferences;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_export_xml;
 	[Widget] Gtk.MenuItem menuitem_recuperate_person;
@@ -164,7 +166,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.44a";
+	private static string progversion = "0.47";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -249,7 +251,8 @@ public class ChronoJump
 		OFF
 	}
 	Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-	Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+	//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+	SerialPort sp;
 	Chronopic cp;
 	bool cpRunning;
 	States loggedState;		//log of last state
@@ -261,6 +264,7 @@ public class ChronoJump
 	
 	private bool createdStatsWin;
 
+	//const int statusbarID = 1;
 
 	public static void Main(string [] args) 
 	{
@@ -269,16 +273,23 @@ public class ChronoJump
 
 	public ChronoJump (string [] args) 
 	{
+		Console.Write("A");
 		Catalog.Init ("chronojump", "./locale");
 
-		Program program = new Program(progname, progversion, Modules.UI, args);
+		Console.Write("B");
+		//Program program = new Program(progname, progversion, Modules.UI, args);
+		Application.Init();
 
+		Console.Write("C");
 		Glade.XML gxml = new Glade.XML (null, "chronojump.glade", "app1", "chronojumpGlade");
 
+		Console.Write("D");
 		gxml.Autoconnect(this);
 
+		Console.Write("E");
 		Sqlite.Connect();
 		
+		Console.Write("F");
 		//Chech if the DB file exists
 		if (!Sqlite.CheckTables()) {
 			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
@@ -300,6 +311,7 @@ public class ChronoJump
 					//i suppose report it's deactivated until a new session is created or loaded, 
 					//but check what happens if report window is opened
 
+		Console.Write("G");
 		loadPreferences ();
 
 		createTreeView_persons(treeview_persons);
@@ -319,11 +331,19 @@ public class ChronoJump
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
-		appbar2.Push ( Catalog.GetString ("Ready.") );
+		Console.Write("H");
+		//appbar2 = new Statusbar();
+		Console.Write("H2");
+		//appbar2.Push ( statusbarID, Catalog.GetString ("Ready.") );
+		appbar2.Push ( 1, Catalog.GetString ("Ready.") );
 
+		Console.Write("I");
 		rand = new Random(40);
 				
-		program.Run();
+		Console.Write("J");
+		//program.Run();
+		Application.Run();
+		Console.Write("K");
 	}
 
 	private void chronopicInit (string myPort)
@@ -335,7 +355,10 @@ public class ChronoJump
 		Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
 		try {
-			Console.WriteLine("chronopic port: /dev/{0}", myPort);
+			Console.WriteLine("chronopic port: {0}", myPort);
+			sp = new SerialPort(myPort);
+			sp.Open();
+			/*
 			cp = new Chronopic("/dev/" + myPort);
 
 			//-- Read initial state of platform
@@ -354,6 +377,16 @@ public class ChronoJump
 			Console.WriteLine(string.Format(
 						Catalog.GetString("Plataform state: {0}, chronopic in port /dev/{1}"), 
 						platformState, chronopicPort));
+			*/
+			//-- Crear objeto chronopic, para acceder al chronopic
+			cp = new Chronopic(sp);
+
+			//-- Obtener el estado inicial de la plataforma
+			bool ok=cp.Read_platform(out platformState);
+			if (!ok) {
+				//-- Si hay error terminar
+				Console.WriteLine("Error: {0}",cp.Error);
+			}
 		} catch {
 			Console.WriteLine("Problems comunicating to chronopic, changed platform to 'Simulated'");
 			//TODO: raise a error window
@@ -899,7 +932,7 @@ public class ChronoJump
 		Console.WriteLine("Bye!");
     
 		if(simulated == false) {
-			cp.Close();
+			sp.Close();
 		}
 		
 		Application.Quit();
@@ -909,7 +942,7 @@ public class ChronoJump
 		Console.WriteLine("Bye!");
     
 		if(simulated == false) {
-			cp.Close();
+			sp.Close();
 		}
 		
 		Application.Quit();
@@ -1130,7 +1163,7 @@ public class ChronoJump
 						treeview_persons_store, 
 						rowToSelect);
 				sensitiveGuiYesPerson();
-				appbar2.Push( Catalog.GetString("Successfully added") + " " + currentPerson.Name );
+				appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + currentPerson.Name );
 			}
 		}
 	}
@@ -1154,7 +1187,7 @@ public class ChronoJump
 				sensitiveGuiYesPerson();
 			
 				string myString = string.Format(Catalog.GetString("Successfully added {0} persons"), personAddMultipleWin.PersonsCreatedCount);
-		appbar2.Push( Catalog.GetString(myString) );
+		appbar2.Push( 1, Catalog.GetString(myString) );
 			}
 		}
 	}
@@ -1269,7 +1302,7 @@ public class ChronoJump
 			
 		//close connection with chronopic if initialized
 		if(cpRunning) {
-			cp.Close();
+			sp.Close();
 		}
 		cpRunning = false;
 	}
@@ -2219,7 +2252,7 @@ public class ChronoJump
 		}
 		button_last_delete.Sensitive = false ;
 
-		appbar2.Push( Catalog.GetString("Last jump deleted") );
+		appbar2.Push( 1, Catalog.GetString("Last jump deleted") );
 
 		if(lastJumpIsReactive) {
 			myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
@@ -2240,7 +2273,7 @@ public class ChronoJump
 		}
 		button_last_delete.Sensitive = false ;
 
-		appbar2.Push( Catalog.GetString("Last run deleted") );
+		appbar2.Push( 1, Catalog.GetString("Last run deleted") );
 
 		if (lastRunIsInterval) {
 			//myTreeViewJumpsRj.DelJump(currentJumpRj.UniqueID);
@@ -2372,7 +2405,7 @@ public class ChronoJump
 		
 		SqliteJump.Delete( "jump", (myTreeViewJumps.JumpSelectedID).ToString() );
 		
-		appbar2.Push( Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.JumpSelectedID );
 		myTreeViewJumps.DelJump(myTreeViewJumps.JumpSelectedID);
 
 		if(createdStatsWin) {
@@ -2385,7 +2418,7 @@ public class ChronoJump
 		
 		SqliteJump.Delete("jumpRj", myTreeViewJumpsRj.JumpSelectedID.ToString());
 		
-		appbar2.Push( Catalog.GetString ( "Deleted reactive jump: " ) + myTreeViewJumpsRj.JumpSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted reactive jump: " ) + myTreeViewJumpsRj.JumpSelectedID );
 		myTreeViewJumpsRj.DelJump(myTreeViewJumpsRj.JumpSelectedID);
 
 		if(createdStatsWin) {
@@ -2534,7 +2567,7 @@ public class ChronoJump
 		
 		SqliteRun.Delete( "run", (myTreeViewRuns.EventSelectedID).ToString() );
 		
-		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.EventSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.EventSelectedID );
 	
 		myTreeViewRuns.DelEvent(myTreeViewRuns.EventSelectedID);
 
@@ -2548,7 +2581,7 @@ public class ChronoJump
 		
 		SqliteRun.Delete( "runInterval", (myTreeViewRunsInterval.EventSelectedID).ToString() );
 		
-		appbar2.Push( Catalog.GetString ( "Deleted interval run: " ) + myTreeViewRunsInterval.EventSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted interval run: " ) + myTreeViewRunsInterval.EventSelectedID );
 	
 		myTreeViewRunsInterval.DelEvent(myTreeViewRunsInterval.EventSelectedID);
 
@@ -2698,17 +2731,14 @@ public class ChronoJump
 	 *  --------------------------------------------------------
 	 */
 	
-	
 	//help
 	private void on_about1_activate (object o, EventArgs args) {
 		string translator_credits = Catalog.GetString ("translator-credits");
-		new Gnome.About (
-				progname, progversion,
-				"(C) 2005 Xavier de  Blas, Juan Gonzalez",
-				"sport short-events measurement with contact platform.",
-				authors, null, 
-				(translator_credits == "translator-credits") ? null : translator_credits
-				, null).Run();
+		//only print if exist (don't print 'translator-credits' word
+		if(translator_credits == "translator-credits") 
+			translator_credits = "";
+
+		new About(progversion, authors, translator_credits);
 	}
 
 	/* ---------------------------------------------------------
@@ -2719,7 +2749,7 @@ public class ChronoJump
 	private void sensitiveGuiNoSession () 
 	{
 		//menuitems
-		preferences.Sensitive = false;
+		menuitem_preferences.Sensitive = false;
 		menuitem_export_csv.Sensitive = false;
 		menuitem_export_xml.Sensitive = false;
 		menuitem_recuperate_person.Sensitive = false;
@@ -2760,7 +2790,7 @@ public class ChronoJump
 		button_recup_per.Sensitive = true;
 		button_create_per.Sensitive = true;
 		
-		preferences.Sensitive = true;
+		menuitem_preferences.Sensitive = true;
 		menuitem_export_csv.Sensitive = true;
 		menuitem_export_xml.Sensitive = false; //it's not coded yet
 		menuitem_recuperate_person.Sensitive = true;

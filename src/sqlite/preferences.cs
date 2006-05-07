@@ -41,7 +41,7 @@ class SqlitePreferences : Sqlite
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO preferences (name, value) VALUES ('" + 
-			+ myName + "', '" + myValue + "')" ;
+			myName + "', '" + myValue + "')" ;
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}

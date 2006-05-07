@@ -137,7 +137,7 @@ class SqliteJumpType : Sqlite
 				"(uniqueID, name, startIn, weight, jumpsLimited, fixedValue, description)" +
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
-				+ myStr[2] + ", " + myStr[3] + ", " +	//weight, jumpsLimited
+				myStr[2] + ", " + myStr[3] + ", " +	//weight, jumpsLimited
 				myStr[4] + ", '" + myStr[5] + "')" ;	//fixedValue, description
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

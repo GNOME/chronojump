@@ -48,7 +48,7 @@ public class Run
 	protected Chronopic cp;
 	protected States loggedState;		//log of last state
 	protected Gtk.ProgressBar progressBar;
-	protected Gnome.AppBar appbar;
+	protected Gtk.Statusbar appbar;
 	protected Gtk.Window app;
 	protected int pDN;
 	protected bool metersSecondsPreferred;
@@ -65,7 +65,7 @@ public class Run
 
 	//run execution
 	public Run(int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
+			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN, bool metersSecondsPreferred)
 	{
 		this.personID = personID;
@@ -105,23 +105,26 @@ public class Run
 
 	public virtual void Manage(object o, EventArgs args)
 	{
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
 
 		do {
-			respuesta = cp.Read_platform(out platformState);
-		} while (respuesta!=Chronopic.Respuesta.Ok);
+			//respuesta = cp.Read_platform(out platformState);
+			ok = cp.Read_platform(out platformState);
+		//} while (respuesta!=Chronopic.Respuesta.Ok);
+		} while (!ok);
 
 
 		//you can start ON or OFF the platform, 
 		//we record always de TV (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
-			appbar.Push( Catalog.GetString("You are IN, RUN when prepared!!") );
+			appbar.Push( 1,Catalog.GetString("You are IN, RUN when prepared!!") );
 
 			loggedState = States.ON;
 			startIn = true;
 		} else {
-			appbar.Push( Catalog.GetString("You are OUT, RUN when prepared!!") );
+			appbar.Push( 1,Catalog.GetString("You are OUT, RUN when prepared!!") );
 
 			loggedState = States.OFF;
 			startIn = false;
@@ -144,15 +147,18 @@ public class Run
 		double timestamp;
 		bool success = false;
 		
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
 	
 		//we allow start from the platform or outside
 		bool arrived = false; 
 		
 		do {
-			respuesta = cp.Read_event(out timestamp, out platformState);
-			if (respuesta == Chronopic.Respuesta.Ok) {
+			//respuesta = cp.Read_event(out timestamp, out platformState);
+			ok = cp.Read_event(out timestamp, out platformState);
+			//if (respuesta == Chronopic.Respuesta.Ok) {
+			if (ok) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -216,7 +222,7 @@ public class Run
 		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
 			type + " " + Catalog.GetString("time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) + 
 			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
-		appbar.Push( myStringPush );
+		appbar.Push( 1,myStringPush );
 
 		uniqueID = SqliteRun.Insert(personID, sessionID, 
 				type, distance, time, ""); //type, distance, time, description
@@ -330,7 +336,7 @@ public class RunInterval : Run
 
 	//run execution
 	public RunInterval(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.ProgressBar progressBar, Gnome.AppBar appbar, Gtk.Window app, 
+			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN)
 	{
 		this.personID = personID;
@@ -416,23 +422,26 @@ public class RunInterval : Run
 
 	public override void Manage(object o, EventArgs args)
 	{
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
 
 		do {
-			respuesta = cp.Read_platform(out platformState);
-		} while (respuesta!=Chronopic.Respuesta.Ok);
+			//respuesta = cp.Read_platform(out platformState);
+			ok = cp.Read_platform(out platformState);
+		//} while (respuesta!=Chronopic.Respuesta.Ok);
+		} while (!ok);
 
 
 		//you can start ON or OFF the platform, 
 		//we record always de TV (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
-			appbar.Push( Catalog.GetString("You are IN, RUN when prepared!!") );
+			appbar.Push( 1,Catalog.GetString("You are IN, RUN when prepared!!") );
 
 			loggedState = States.ON;
 			startIn = true;
 		} else {
-			appbar.Push( Catalog.GetString("You are OUT, RUN when prepared!!") );
+			appbar.Push( 1,Catalog.GetString("You are OUT, RUN when prepared!!") );
 
 			loggedState = States.OFF;
 			startIn = false;
@@ -466,8 +475,9 @@ public class RunInterval : Run
 		string equal = "";
 		double pbUnlimited = 0;
 		
-		Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
+		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		bool ok;
 
 		
 		do {
@@ -480,8 +490,10 @@ public class RunInterval : Run
 				progressBar.Fraction = myPb; 
 			}
 
-			respuesta = cp.Read_event(out timestamp, out platformState);
-			if (respuesta == Chronopic.Respuesta.Ok) {
+			//respuesta = cp.Read_event(out timestamp, out platformState);
+			ok = cp.Read_event(out timestamp, out platformState);
+			//if (respuesta == Chronopic.Respuesta.Ok) {
+			if (ok) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -602,7 +614,7 @@ public class RunInterval : Run
 					Util.GetSpeed(distanceTotal.ToString(),
 						timeTotal.ToString() )
 					, pDN ) ;
-		appbar.Push( myStringPush );
+		appbar.Push( 1,myStringPush );
 				
 	
 		//event will be raised, and managed in chronojump.cs

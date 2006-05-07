@@ -130,8 +130,8 @@ class SqliteRunType : Sqlite
 				"(uniqueID, name, distance, tracksLimited, fixedValue, unlimited, description)" +
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, distance
-				+ myStr[2] + ", " + myStr[3] + ", " +	//tracksLimited, fixedValue
-				+ myStr[4] + ", '" + myStr[5] +"')" ;	//unlimited, description
+				myStr[2] + ", " + myStr[3] + ", " +	//tracksLimited, fixedValue
+				myStr[4] + ", '" + myStr[5] +"')" ;	//unlimited, description
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {

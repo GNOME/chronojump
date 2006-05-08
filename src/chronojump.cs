@@ -24,15 +24,12 @@ using System;
 using Gtk;
 using Gdk;
 using Glade;
-//using Gnome;
-//using System.Collections; //ArrayList
 using System.IO.Ports;
 
 
 public class ChronoJump 
 {
 	[Widget] Gtk.Window app1;
-	//[Widget] Gnome.AppBar appbar2;
 	[Widget] Gtk.Statusbar appbar2;
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
@@ -277,11 +274,18 @@ public class ChronoJump
 		Catalog.Init ("chronojump", "./locale");
 
 		Console.Write("B");
-		//Program program = new Program(progname, progversion, Modules.UI, args);
 		Application.Init();
 
 		Console.Write("C");
-		Glade.XML gxml = new Glade.XML (null, "chronojump.glade", "app1", "chronojumpGlade");
+
+		Glade.XML gxml;
+		try {
+			//linux
+			gxml = Glade.XML.FromAssembly ("chronojump.glade", "app1", "chronojumpGlade");
+		} catch {
+			//windows
+			gxml = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "app1", "chronojumpGlade");
+		}
 
 		Console.Write("D");
 		gxml.Autoconnect(this);
@@ -332,16 +336,13 @@ public class ChronoJump
 		sensitiveGuiNoSession();
 
 		Console.Write("H");
-		//appbar2 = new Statusbar();
-		Console.Write("H2");
-		//appbar2.Push ( statusbarID, Catalog.GetString ("Ready.") );
 		appbar2.Push ( 1, Catalog.GetString ("Ready.") );
 
 		Console.Write("I");
 		rand = new Random(40);
 				
 		Console.Write("J");
-		//program.Run();
+		
 		Application.Run();
 		Console.Write("K");
 	}
@@ -354,10 +355,12 @@ public class ChronoJump
 		Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
 		Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
+		
 		try {
 			Console.WriteLine("chronopic port: {0}", myPort);
 			sp = new SerialPort(myPort);
 			sp.Open();
+		
 			/*
 			cp = new Chronopic("/dev/" + myPort);
 
@@ -725,7 +728,7 @@ public class ChronoJump
 	private void on_treeview_pulses_cursor_changed (object o, EventArgs args) {
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who is executing
-		if (myTreeViewPulses.PulseSelectedID == 0) {
+		if (myTreeViewPulses.EventSelectedID == 0) {
 			Console.WriteLine("don't select");
 			myTreeViewPulses.Unselect();
 		}

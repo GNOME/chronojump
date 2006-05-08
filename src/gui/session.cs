@@ -48,7 +48,12 @@ public class SessionAddWindow {
 	
 	
 	SessionAddWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add_edit", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add_edit", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "session_add_edit", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -88,7 +93,7 @@ public class SessionAddWindow {
 		SessionAddWindowBox = null;
 	}
 	
-	void on_session_add_edit_delete_event (object o, EventArgs args)
+	void on_session_add_edit_delete_event (object o, DeleteEventArgs args)
 	{
 		SessionAddWindowBox.session_add_edit.Hide();
 		SessionAddWindowBox = null;
@@ -152,7 +157,12 @@ public class SessionEditWindow
 	
 	
 	SessionEditWindow (Gtk.Window parent, Session currentSession) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add_edit", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add_edit", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "session_add_edit", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -203,7 +213,7 @@ public class SessionEditWindow
 		SessionEditWindowBox = null;
 	}
 	
-	void on_session_add_edit_delete_event (object o, EventArgs args)
+	void on_session_add_edit_delete_event (object o, DeleteEventArgs args)
 	{
 		SessionEditWindowBox.session_add_edit.Hide();
 		SessionEditWindowBox = null;
@@ -272,7 +282,12 @@ public class SessionLoadWindow {
 	private Session currentSession;
 	
 	SessionLoadWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_load", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_load", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "session_load", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -356,13 +371,13 @@ public class SessionLoadWindow {
 		SessionLoadWindowBox = null;
 	}
 	
-	void on_session_load_delete_event (object o, EventArgs args)
+	void on_session_load_delete_event (object o, DeleteEventArgs args)
 	{
 		SessionLoadWindowBox.session_load.Hide();
 		SessionLoadWindowBox = null;
 	}
 
-	void on_row_double_clicked (object o, EventArgs args)
+	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -422,7 +437,12 @@ public class SessionSelectStatsWindow {
 	private ArrayList arrayOfSelectedSessions;
 	
 	SessionSelectStatsWindow (Gtk.Window parent, ArrayList oldSelectedSessions) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "stats_select_sessions", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "stats_select_sessions", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "stats_select_sessions", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -597,7 +617,7 @@ public class SessionSelectStatsWindow {
 		SessionSelectStatsWindowBox = null;
 	}
 	
-	void on_delete_event (object o, EventArgs args)
+	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		SessionSelectStatsWindowBox.stats_select_sessions.Hide();
 		SessionSelectStatsWindowBox = null;

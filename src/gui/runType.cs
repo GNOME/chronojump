@@ -56,7 +56,12 @@ public class RunTypeAddWindow
 	ErrorWindow errorWin;
 
 	RunTypeAddWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "run_type_add", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "run_type_add", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "run_type_add", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -90,7 +95,7 @@ public class RunTypeAddWindow
 		RunTypeAddWindowBox = null;
 	}
 	
-	void on_delete_event (object o, EventArgs args)
+	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		RunTypeAddWindowBox.run_type_add.Hide();
 		RunTypeAddWindowBox = null;

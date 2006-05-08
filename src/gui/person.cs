@@ -55,7 +55,12 @@ public class PersonRecuperateWindow {
 	}
 
 	PersonRecuperateWindow (Gtk.Window parent, int sessionID) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_recuperate", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_recuperate", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_recuperate", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -161,13 +166,13 @@ public class PersonRecuperateWindow {
 		PersonRecuperateWindowBox = null;
 	}
 	
-	protected virtual void on_person_recuperate_delete_event (object o, EventArgs args)
+	protected virtual void on_person_recuperate_delete_event (object o, DeleteEventArgs args)
 	{
 		PersonRecuperateWindowBox.person_recuperate.Hide();
 		PersonRecuperateWindowBox = null;
 	}
 	
-	protected virtual void on_row_double_clicked (object o, EventArgs args)
+	protected virtual void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -225,7 +230,12 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	[Widget] Gtk.Combo combo_sessions;
 	
 	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, int sessionID) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_recuperate", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_recuperate", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_recuperate", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -398,14 +408,14 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		PersonsRecuperateFromOtherSessionWindowBox = null;
 	}
 	
-	protected override void on_person_recuperate_delete_event (object o, EventArgs args)
+	protected override void on_person_recuperate_delete_event (object o, DeleteEventArgs args)
 	{
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Hide();
 		PersonsRecuperateFromOtherSessionWindowBox = null;
 	}
 	
 	
-	protected override void on_row_double_clicked (object o, EventArgs args) {
+	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args) {
 		//don't do nothing
 	}
 	
@@ -485,7 +495,12 @@ public class PersonAddWindow {
 	private string sex = "M";
 	
 	PersonAddWindow (Gtk.Window parent, int sessionID) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_win", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_win", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_win", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -531,7 +546,7 @@ public class PersonAddWindow {
 		PersonAddWindowBox = null;
 	}
 	
-	void on_person_win_delete_event (object o, EventArgs args)
+	void on_person_win_delete_event (object o, DeleteEventArgs args)
 	{
 		PersonAddWindowBox.person_win.Hide();
 		PersonAddWindowBox = null;
@@ -603,7 +618,12 @@ public class PersonModifyWindow
 	
 	
 	PersonModifyWindow (Gtk.Window parent, int sessionID) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_win", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_win", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_win", null);
+		}
 		
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -679,7 +699,7 @@ public class PersonModifyWindow
 	}
 	
 	//void on_person_modify_delete_event (object o, EventArgs args)
-	void on_person_win_delete_event (object o, EventArgs args)
+	void on_person_win_delete_event (object o, DeleteEventArgs args)
 	{
 		PersonModifyWindowBox.person_win.Hide();
 		PersonModifyWindowBox = null;
@@ -788,7 +808,12 @@ public class PersonAddMultipleWindow {
 	string errorRepeatedEntryString;
 	
 	PersonAddMultipleWindow (Gtk.Window parent, int sessionID) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_add_multiple", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_add_multiple", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_add_multiple", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -811,7 +836,7 @@ public class PersonAddMultipleWindow {
 		PersonAddMultipleWindowBox = null;
 	}
 	
-	void on_delete_event (object o, EventArgs args)
+	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		PersonAddMultipleWindowBox.person_add_multiple.Hide();
 		PersonAddMultipleWindowBox = null;
@@ -1005,7 +1030,12 @@ public class PersonShowAllEventsWindow {
 	protected Person currentPerson;
 	
 	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_show_all_events", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_show_all_events", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_show_all_events", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -1120,7 +1150,7 @@ public class PersonShowAllEventsWindow {
 		PersonShowAllEventsWindowBox = null;
 	}
 	
-	protected virtual void on_delete_event (object o, EventArgs args)
+	protected virtual void on_delete_event (object o, DeleteEventArgs args)
 	{
 		PersonShowAllEventsWindowBox.person_show_all_events.Hide();
 		PersonShowAllEventsWindowBox = null;

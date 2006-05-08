@@ -62,7 +62,12 @@ public class EditRunWindow
 	string type;
 
 	EditRunWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_run", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_run", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "edit_run", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -187,7 +192,7 @@ public class EditRunWindow
 		EditRunWindowBox = null;
 	}
 	
-	void on_edit_run_delete_event (object o, EventArgs args)
+	void on_edit_run_delete_event (object o, DeleteEventArgs args)
 	{
 		EditRunWindowBox.edit_run.Hide();
 		EditRunWindowBox = null;
@@ -237,7 +242,12 @@ public class EditRunIntervalWindow
 	string type;
 
 	EditRunIntervalWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_run", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_run", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "edit_run", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -322,7 +332,7 @@ public class EditRunIntervalWindow
 		EditRunIntervalWindowBox = null;
 	}
 	
-	void on_edit_run_delete_event (object o, EventArgs args)
+	void on_edit_run_delete_event (object o, DeleteEventArgs args)
 	{
 		EditRunIntervalWindowBox.edit_run.Hide();
 		EditRunIntervalWindowBox = null;
@@ -375,7 +385,12 @@ public class RepairRunIntervalWindow
 	
 
 	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "repair_sub_event", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -564,7 +579,7 @@ public class RepairRunIntervalWindow
 		}
 	}
 		
-	void on_button_delete_clicked (object o, EventArgs args) {
+	void on_button_delete_clicked (object o, DeleteEventArgs args) {
 		TreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
@@ -639,7 +654,7 @@ public class RepairRunIntervalWindow
 		RepairRunIntervalWindowBox = null;
 	}
 	
-	void on_delete_event (object o, EventArgs args)
+	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		RepairRunIntervalWindowBox.repair_sub_event.Hide();
 		RepairRunIntervalWindowBox = null;
@@ -677,7 +692,12 @@ public class RunExtraWindow
 	Gtk.Window parent;
 
 	RunExtraWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "run_extra", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "run_extra", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "run_extra", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -737,7 +757,7 @@ public class RunExtraWindow
 		RunExtraWindowBox = null;
 	}
 	
-	void on_run_extra_delete_event (object o, EventArgs args)
+	void on_run_extra_delete_event (object o, DeleteEventArgs args)
 	{
 		RunExtraWindowBox.run_extra.Hide();
 		RunExtraWindowBox = null;
@@ -789,7 +809,12 @@ public class RunsMoreWindow
 	private double selectedDistance;
 	
 	RunsMoreWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -863,7 +888,7 @@ public class RunsMoreWindow
 		}
 	}
 	
-	void on_row_double_clicked (object o, EventArgs args)
+	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -889,7 +914,7 @@ public class RunsMoreWindow
 		RunsMoreWindowBox = null;
 	}
 	
-	void on_jumps_runs_more_delete_event (object o, EventArgs args)
+	void on_jumps_runs_more_delete_event (object o, DeleteEventArgs args)
 	{
 		RunsMoreWindowBox.jumps_runs_more.Hide();
 		RunsMoreWindowBox = null;
@@ -952,7 +977,12 @@ public class RunsIntervalMoreWindow
 	
 	RunsIntervalMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -1060,7 +1090,7 @@ public class RunsIntervalMoreWindow
 		}
 	}
 	
-	void on_row_double_clicked (object o, EventArgs args)
+	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -1096,7 +1126,7 @@ public class RunsIntervalMoreWindow
 		RunsIntervalMoreWindowBox = null;
 	}
 	
-	void on_jumps_runs_more_delete_event (object o, EventArgs args)
+	void on_jumps_runs_more_delete_event (object o, DeleteEventArgs args)
 	{
 		RunsIntervalMoreWindowBox.jumps_runs_more.Hide();
 		RunsIntervalMoreWindowBox = null;

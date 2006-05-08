@@ -66,7 +66,13 @@ public class EditJumpWindow
 	int oldPersonID; //used for record the % for old person if we change it
 
 	EditJumpWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "edit_jump", null);
+		}
+
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -201,7 +207,7 @@ public class EditJumpWindow
 		EditJumpWindowBox = null;
 	}
 	
-	void on_edit_jump_delete_event (object o, EventArgs args)
+	void on_edit_jump_delete_event (object o, DeleteEventArgs args)
 	{
 		EditJumpWindowBox.edit_jump.Hide();
 		EditJumpWindowBox = null;
@@ -273,7 +279,12 @@ public class EditJumpRjWindow
 	int oldPersonID; //used for record the % for old person if we change it
 
 	EditJumpRjWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "edit_jump", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -382,7 +393,7 @@ public class EditJumpRjWindow
 		EditJumpRjWindowBox = null;
 	}
 	
-	void on_edit_jump_delete_event (object o, EventArgs args)
+	void on_edit_jump_delete_event (object o, DeleteEventArgs args)
 	{
 		EditJumpRjWindowBox.edit_jump.Hide();
 		EditJumpRjWindowBox = null;
@@ -449,7 +460,12 @@ public class RepairJumpRjWindow
 	
 
 	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "repair_sub_event", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -704,7 +720,7 @@ public class RepairJumpRjWindow
 		}
 	}
 		
-	void on_button_delete_clicked (object o, EventArgs args) {
+	void on_button_delete_clicked (object o, DeleteEventArgs args) {
 		TreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
@@ -779,7 +795,7 @@ public class RepairJumpRjWindow
 		RepairJumpRjWindowBox = null;
 	}
 	
-	void on_delete_event (object o, EventArgs args)
+	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		RepairJumpRjWindowBox.repair_sub_event.Hide();
 		RepairJumpRjWindowBox = null;
@@ -822,7 +838,12 @@ public class JumpExtraWindow
 	Gtk.Window parent;
 
 	JumpExtraWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_extra", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_extra", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jump_extra", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -896,7 +917,7 @@ public class JumpExtraWindow
 		JumpExtraWindowBox = null;
 	}
 	
-	void on_jump_extra_delete_event (object o, EventArgs args)
+	void on_jump_extra_delete_event (object o, DeleteEventArgs args)
 	{
 		JumpExtraWindowBox.jump_extra.Hide();
 		JumpExtraWindowBox = null;
@@ -988,7 +1009,12 @@ public class JumpsMoreWindow
 	private bool selectedExtraWeight;
 	
 	JumpsMoreWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_runs_more", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jump_runs_more", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -1072,7 +1098,7 @@ public class JumpsMoreWindow
 		}
 	}
 	
-	void on_row_double_clicked (object o, EventArgs args)
+	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -1099,7 +1125,7 @@ public class JumpsMoreWindow
 		JumpsMoreWindowBox = null;
 	}
 	
-	void on_jumps_runs_more_delete_event (object o, EventArgs args)
+	void on_jumps_runs_more_delete_event (object o, DeleteEventArgs args)
 	{
 		JumpsMoreWindowBox.jumps_runs_more.Hide();
 		JumpsMoreWindowBox = null;
@@ -1169,7 +1195,12 @@ public class JumpsRjMoreWindow
 	
 	JumpsRjMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_runs_more", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jump_runs_more", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -1301,7 +1332,7 @@ public class JumpsRjMoreWindow
 		}
 	}
 	
-	void on_row_double_clicked (object o, EventArgs args)
+	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -1346,7 +1377,7 @@ public class JumpsRjMoreWindow
 		JumpsRjMoreWindowBox = null;
 	}
 	
-	void on_jumps_runs_more_delete_event (object o, EventArgs args)
+	void on_jumps_runs_more_delete_event (object o, DeleteEventArgs args)
 	{
 		JumpsRjMoreWindowBox.jumps_runs_more.Hide();
 		JumpsRjMoreWindowBox = null;
@@ -1437,7 +1468,12 @@ public class JumpRjExecuteWindow
 	Gtk.Window parent;
 
 	JumpRjExecuteWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_rj_execute", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_rj_execute", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jump_rj_execute", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -1551,7 +1587,7 @@ public class JumpRjExecuteWindow
 		JumpRjExecuteWindowBox = null;
 	}
 	
-	void on_jump_rj_execute_delete_event (object o, EventArgs args)
+	void on_jump_rj_execute_delete_event (object o, DeleteEventArgs args)
 	{
 		JumpRjExecuteWindowBox.jump_rj_execute.Hide();
 		JumpRjExecuteWindowBox = null;

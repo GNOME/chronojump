@@ -44,7 +44,12 @@ public class ConfirmWindowJumpRun
 	public ConfirmWindowJumpRun (Gtk.Window parent, string text1, string text2, string table, int uniqueID)
 	{
 		//Setup (text, table, uniqueID);
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "confirm_window", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -71,7 +76,7 @@ public class ConfirmWindowJumpRun
 		ConfirmWindowJumpRunBox = null;
 	}
 	
-	protected void on_delete_selected_jump_delete_event (object o, EventArgs args)
+	protected void on_delete_selected_jump_delete_event (object o, DeleteEventArgs args)
 	{
 		ConfirmWindowJumpRunBox.confirm_window.Hide();
 		ConfirmWindowJumpRunBox = null;
@@ -113,7 +118,13 @@ public class ConfirmWindow
 	
 	public ConfirmWindow (Gtk.Window parent, string text1, string text2)
 	{
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "confirm_window", null);
+		}
+
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -138,7 +149,7 @@ public class ConfirmWindow
 		ConfirmWindowBox = null;
 	}
 	
-	protected void on_delete_selected_jump_delete_event (object o, EventArgs args)
+	protected void on_delete_selected_jump_delete_event (object o, DeleteEventArgs args)
 	{
 		ConfirmWindowBox.confirm_window.Hide();
 		ConfirmWindowBox = null;

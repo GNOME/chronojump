@@ -23,45 +23,29 @@ using System;
 using Gtk;
 using Glade;
 
-public class About
+public class HelpPorts
 {
-	[Widget] Gtk.Dialog dialog_about;
-	[Widget] Gtk.Label dialog_about_label_version;
-	[Widget] Gtk.Label dialog_about_label_developers;
-	[Widget] Gtk.Label dialog_about_label_translators;
+	[Widget] Gtk.Dialog dialog_help_ports;
 
-	public About (string version, string [] authors, string translators)
+	public HelpPorts ()
 	{
 		Glade.XML gladeXML;
 		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "dialog_about", null);
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "dialog_help_ports", null);
 		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "dialog_about", null);
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "dialog_help_ports", null);
 		}
-		
+
 		gladeXML.Autoconnect(this);
-		
-		dialog_about_label_version.Text = version; 
-		dialog_about_label_translators.Text = translators; 
-		
-		//put authos separated by commas
-		string authorsString = "";
-		string comma = "";
-		foreach (string singleAuthor in authors) {
-			authorsString += comma;
-			authorsString += singleAuthor;
-			comma = ", ";
-		}
-		dialog_about_label_developers.Text = authorsString;
 	}
 				
 
 	public void on_button_close_clicked (object obj, EventArgs args) {
-		dialog_about.Destroy ();
+		dialog_help_ports.Destroy ();
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args) {
-		dialog_about.Destroy ();
+		dialog_help_ports.Destroy ();
 	}
 }
 

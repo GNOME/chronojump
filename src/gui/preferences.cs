@@ -47,7 +47,12 @@ public class PreferencesWindow {
 
 	
 	PreferencesWindow (Gtk.Window parent, string entryChronopic) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "preferences", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "preferences", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "preferences", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -121,7 +126,7 @@ public class PreferencesWindow {
 		PreferencesWindowBox = null;
 	}
 	
-	void on_preferences_delete_event (object o, EventArgs args)
+	void on_preferences_delete_event (object o, DeleteEventArgs args)
 	{
 		PreferencesWindowBox.preferences.Hide();
 		PreferencesWindowBox = null;
@@ -140,6 +145,10 @@ public class PreferencesWindow {
 		
 		PreferencesWindowBox.preferences.Hide();
 		PreferencesWindowBox = null;
+	}
+
+	private void on_button_help_clicked (object o, EventArgs args) {
+		new HelpPorts();
 	}
 
 	public Button Button_accept 

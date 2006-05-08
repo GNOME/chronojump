@@ -1,5 +1,16 @@
 CHANGELOG:
 
+8 may 2006
+	TreeViewPulse now inherits from TreeViewEvent. Code is a lot cleaner
+	
+	Glade is called as assembly and with a try{}catch{} that allows linux
+	and windows assembly reference
+	
+	Added dialog with help in ports (is shown on preferences window)
+	
+	row_double_clicked events as Gtk.RowActivatedArgs args
+	delete_events params as DeleteEventArgs args
+	
 7 may 2006
 	TreeViewJumps (simple and reactive) now inherits from TreeViewEvent. Code is a lot cleaner
 	

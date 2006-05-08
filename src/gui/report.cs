@@ -58,7 +58,12 @@ public class ReportWindow {
 	}
 
 	ReportWindow (Gtk.Window parent, Report report ) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "report_window", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "report_window", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "report_window", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -251,7 +256,7 @@ public class ReportWindow {
 		}
 	}
 	
-	protected virtual void on_button_delete_clicked (object o, EventArgs args) {
+	protected virtual void on_button_delete_clicked (object o, DeleteEventArgs args) {
 		if(selected)
 		{
 			TreeModel model;
@@ -331,7 +336,7 @@ public class ReportWindow {
 		//ReportWindowBox = null;
 	}
 	
-	protected virtual void on_delete_event (object o, EventArgs args)
+	protected virtual void on_delete_event (object o, DeleteEventArgs args)
 	{
 		recordData();
 		

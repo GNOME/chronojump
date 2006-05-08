@@ -67,6 +67,10 @@ public class Pulse
 	
 	//for cancelling from chronojump.cs
 	protected bool cancel;
+
+	//used on treeviewPulse
+	public Pulse() {
+	}
 	
 	//execution
 	public Pulse(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
@@ -334,16 +338,19 @@ public class Pulse
 	public string Type
 	{
 		get { return type; }
+		set { type = value; }
 	}
 	
 	public int UniqueID
 	{
 		get { return uniqueID; }
+		set { uniqueID = value; }
 	}
 	
 	public string TimesString
 	{
 		get { return timesString; }
+		set { timesString = value; }
 	}
 	
 	/*

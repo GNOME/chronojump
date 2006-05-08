@@ -57,7 +57,12 @@ public class JumpTypeAddWindow
 	ErrorWindow errorWin;
 
 	JumpTypeAddWindow (Gtk.Window parent) {
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_type_add", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_type_add", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jump_type_add", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -90,7 +95,7 @@ public class JumpTypeAddWindow
 		JumpTypeAddWindowBox = null;
 	}
 	
-	void on_jump_type_add_delete_event (object o, EventArgs args)
+	void on_jump_type_add_delete_event (object o, DeleteEventArgs args)
 	{
 		JumpTypeAddWindowBox.jump_type_add.Hide();
 		JumpTypeAddWindowBox = null;

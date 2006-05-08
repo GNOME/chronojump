@@ -135,7 +135,12 @@ public class StatsWindow {
 			int prefsDigitsNumber, bool heightPreferred, 
 			Report report, ReportWindow reportWin)
 	{
-		Glade.XML gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "stats_window", null);
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "stats_window", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "stats_window", null);
+		}
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
@@ -860,7 +865,7 @@ public class StatsWindow {
 		StatsWindowBox = null;
 	}
 	
-	void on_stats_window_delete_event (object o, EventArgs args)
+	void on_stats_window_delete_event (object o, DeleteEventArgs args)
 	{
 		StatsWindowBox.stats_window.Hide();
 		StatsWindowBox = null;

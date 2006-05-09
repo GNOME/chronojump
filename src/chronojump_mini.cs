@@ -12,6 +12,7 @@
 --------------------------------------------------------------------------*/
 
 using System;
+using System.IO.Ports;
 
 class Test {
   
@@ -27,47 +28,60 @@ class Test {
   public static void Main()
   {
     Chronopic.Plataforma estado_plataforma;
-    Chronopic.Respuesta respuesta;
     Automata estado_automata;
     double timestamp;
     double toff;
     double ton;
+    bool ok;
    
     //connect with catalog.cs for using gettext translation
     Catalog.Init ("chronojump", "./locale");
     
-    //-- Crear objeto chronopic, para acceder al chronopic
-//    Chronopic cp = new Chronopic("/dev/ttyS0");
-    //Chronopic cp = new Chronopic("/dev/ttyS1");
-    //Chronopic cp = new Chronopic("/dev/ttyUSB0");
-    //Chronopic cp = new Chronopic("/dev/ttyS17");
-    //Chronopic cp = new Chronopic("/dev/ttyS1");
     
-SerialPort sp;
-	Chronopic cp;
-			sp = new SerialPort("/dev/ttyS0");
-			sp.Open();
-    
-			cp = new Chronopic(sp);
+	Console.WriteLine(Catalog.GetString("On GNU/Linux, typical serial ports are"));
+	Console.WriteLine("\t/dev/ttyS0\n\t/dev/ttyS1");
+	Console.WriteLine(Catalog.GetString("On GNU/Linux, typical USB-serial ports are"));
+	Console.WriteLine("\t/dev/ttyUSB0\n\t/dev/ttyUSB1");
+	Console.WriteLine(Catalog.GetString("On Windows, typical serial and USB-serial ports are"));
+	Console.WriteLine("\tCOM1\n\tCOM2");
+	Console.WriteLine(Catalog.GetString("Also COM3 and COM4 can be used on Windows"));
+	Console.WriteLine("-----------------------");
+	Console.WriteLine(Catalog.GetString("Print the port name where chronopic is connected:"));
 
-			
+	string portName=Console.ReadLine();
+
+	Console.WriteLine(Catalog.GetString("Opening port... if get hanged, generate events with chronopic or the platform"));
+    	//-- Crear puerto serie		
+	SerialPort sp;
+	sp = new SerialPort(portName);
+	
+    	//-- Abrir puerto serie. Si ocurre algun error
+	//-- Se lanzara una excepcion
+	try {
+		sp.Open();
+    	} catch (Exception e){
+		Console.WriteLine(Catalog.GetString("Error opening serial port"));
+		Console.WriteLine(e);
+		Environment.Exit(1);
+	}
+    
+		
+    //-- Crear objeto chronopic, para acceder al chronopic
+    Chronopic cp = new Chronopic(sp);
+
     //-- Obtener el estado inicial de la plataforma
-    /*
-    respuesta=cp.Read_platform(out estado_plataforma);
-    switch(respuesta) {
-      case Chronopic.Respuesta.Error:
-        Console.WriteLine(Catalog.GetString("Error comunicating with Chronopic"));
-        return;
-      case Chronopic.Respuesta.Timeout:
-        Console.WriteLine(Catalog.GetString("Chronopic is offline"));
-        return;
-      default:
-        break;
+    // this do...while is here because currently there's no timeout on chronopic.cs on windows
+    do {
+	    ok=cp.Read_platform(out estado_plataforma);
+    } while(!ok);
+    if (!ok) {
+      //-- Si hay error terminar
+      Console.WriteLine(string.Format(Catalog.GetString("Error: {0}"),cp.Error));
+      System.Environment.Exit(-1);
     }
-    */
+    Console.WriteLine(string.Format(Catalog.GetString("Platform state: {0}"), estado_plataforma));
     
-    Console.WriteLine(Catalog.GetString("Platform state: {0}"), estado_plataforma);
-    
+
     //-- Establecer el estado inicial del automata
     if (estado_plataforma==Chronopic.Plataforma.ON) 
       estado_automata=Automata.ON;
@@ -77,8 +91,8 @@ SerialPort sp;
       //-- Esperar a que llegue una trama con el estado de la plataforma
       //-- igual a ON. Esto indica que el usuario se ha subido
       do {
-      respuesta = cp.Read_event(out timestamp, out estado_plataforma);
-      } while (respuesta!=Chronopic.Respuesta.Ok);
+        ok = cp.Read_event(out timestamp, out estado_plataforma);
+      } while (!ok);
       
       //-- Se han subido a la plataforma
       estado_automata = Automata.ON;
@@ -93,8 +107,8 @@ SerialPort sp;
     
       //-- Esperar a que llegue una trama
       do {
-        respuesta = cp.Read_event(out timestamp, out estado_plataforma);
-      } while (respuesta!=Chronopic.Respuesta.Ok);
+        ok = cp.Read_event(out timestamp, out estado_plataforma);
+      } while (ok==false);
       
       
       //-- Segun el estado del automata

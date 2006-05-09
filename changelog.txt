@@ -1,6 +1,26 @@
 CHANGELOG:
 
 9 may 2006
+	chronojump and chronojump_mini both work nicely on windows and linux (events, graphs, ...)
+	
+	Util.IsWindows prints the operating system
+	In every Chronojump windows start, put "simulated" in preferences (for solving chronojump crashes on windows for not detecting the chronopic
+	
+	Chronopic doesn't configure DefaultTimeOut if it's on windows (until
+	we know how to do it)
+
+	Before changing to chronopic mode on windows, it's shown a dialog like:
+	"if it's windows, you have to generate a event with chronopic, if not,
+	it will crash, restart (simulated automatically) and then select another port". 
+	New class DialogMessage for all kind of dialogs.
+	Finally used a confirmWindow because then, chronopic is called wen
+	user clics on accept button.
+
+	chronojump-mini now named chronojump_mini (better for Makefile)
+	chronojump_mini picks port from the user
+	Makefile (Linux) compiles also chronojump_mini
+
+9 may 2006
 	windows compatibilty: added chronojump.csproj, chronojump.sln and the
 	four Nplot dlls for windows
 	

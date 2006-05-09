@@ -159,7 +159,7 @@ public class ChronoJump
 	
 	[Widget] Gtk.Notebook notebook;
 	[Widget] Gtk.ProgressBar progressBar;
-
+		
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
@@ -260,6 +260,8 @@ public class ChronoJump
 	private string rjTvString;
 	
 	private bool createdStatsWin;
+	
+	private bool preferencesLoaded;
 
 	//const int statusbarID = 1;
 
@@ -277,7 +279,9 @@ public class ChronoJump
 		Application.Init();
 
 		Console.Write("C");
-
+		
+		Util.IsWindows();	//only as additional info here
+		
 		Glade.XML gxml;
 		try {
 			//linux
@@ -304,9 +308,12 @@ public class ChronoJump
 			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
-
-			
 		}
+
+		//start as "simulated" if we are on windows
+		//(until we improve the Timeout on chronopic)
+		if(Util.IsWindows())
+			SqlitePreferences.Update("simulated", "True");
 
 		cpRunning = false;
 
@@ -316,7 +323,12 @@ public class ChronoJump
 					//but check what happens if report window is opened
 
 		Console.Write("G");
+
+		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
+		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
+		preferencesLoaded = false;
 		loadPreferences ();
+		preferencesLoaded = true;
 
 		createTreeView_persons(treeview_persons);
 		createTreeView_jumps(treeview_jumps);
@@ -1298,7 +1310,7 @@ public class ChronoJump
 	private void on_paste1_activate (object o, EventArgs args) {
 	}
 
-	void on_radiobutton_simulated_activate (object o, EventArgs args)
+	void on_radiobutton_simulated (object o, EventArgs args)
 	{
 		simulated = true;
 		SqlitePreferences.Update("simulated", simulated.ToString());
@@ -1310,8 +1322,37 @@ public class ChronoJump
 		cpRunning = false;
 	}
 	
-	void on_radiobutton_chronopic_activate (object o, EventArgs args)
+	void on_radiobutton_chronopic (object o, EventArgs args)
 	{
+		if(! preferencesLoaded)
+			return;
+
+		if(! menuitem_chronopic.Active) {
+			Console.WriteLine("INACTIVE");
+			return;
+		}
+
+		Console.WriteLine("ACTIVE");
+	
+		//on windows currently there's no timeout on init of chronopic
+		//show this window, and start chronopic only when button_accept is clicjed
+		if(Util.IsWindows()) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **:</b> generate a event with the platform or with chronopic.\nIf you don't do it, Chronojump will crash.\n"), Catalog.GetString("If crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port on preferences window"));
+			confirmWin.Button_accept.Clicked += new EventHandler(on_chronopic_accepted);
+			confirmWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
+		} else {
+			simulated = false;
+			SqlitePreferences.Update("simulated", simulated.ToString());
+
+			//init connecting with chronopic	
+			if(cpRunning == false) {
+				chronopicInit(chronopicPort);
+				cpRunning = true;
+			}
+		}
+	}
+
+	private void on_chronopic_accepted (object o, EventArgs args) {
 		simulated = false;
 		SqlitePreferences.Update("simulated", simulated.ToString());
 		
@@ -1321,6 +1362,12 @@ public class ChronoJump
 			cpRunning = true;
 		}
 	}
+
+	private void on_chronopic_cancelled (object o, EventArgs args) {
+		menuitem_chronopic.Active = false;
+		menuitem_simulated.Active = true;
+	}
+	
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(

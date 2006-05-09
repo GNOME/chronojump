@@ -256,7 +256,7 @@ public class ReportWindow {
 		}
 	}
 	
-	protected virtual void on_button_delete_clicked (object o, DeleteEventArgs args) {
+	protected virtual void on_button_delete_clicked (object o, EventArgs args) {
 		if(selected)
 		{
 			TreeModel model;

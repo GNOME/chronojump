@@ -1,5 +1,11 @@
 CHANGELOG:
 
+9 may 2006
+	windows compatibilty: added chronojump.csproj, chronojump.sln and the
+	four Nplot dlls for windows
+	
+	fixed little bug in report window
+
 8 may 2006
 	TreeViewPulse now inherits from TreeViewEvent. Code is a lot cleaner
 	

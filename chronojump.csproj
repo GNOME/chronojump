@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{73FA3FA8-998A-4125-B47A-57792388F5F3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>chronojump</RootNamespace>
+    <AssemblyName>chronojump</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="chronopic.cs" />
+    <Compile Include="src\catalog.cs" />
+    <Compile Include="src\chronojump.cs" />
+    <Compile Include="src\constants.cs" />
+    <Compile Include="src\exportSession.cs" />
+    <Compile Include="src\gui\confirm.cs" />
+    <Compile Include="src\gui\error.cs" />
+    <Compile Include="src\gui\jump.cs" />
+    <Compile Include="src\gui\jumpType.cs" />
+    <Compile Include="src\gui\person.cs" />
+    <Compile Include="src\gui\preferences.cs" />
+    <Compile Include="src\gui\report.cs" />
+    <Compile Include="src\gui\run.cs" />
+    <Compile Include="src\gui\runType.cs" />
+    <Compile Include="src\gui\session.cs" />
+    <Compile Include="src\gui\stats.cs" />
+    <Compile Include="src\gui\about.cs" />
+    <Compile Include="src\gui\helpPorts.cs" />
+    <Compile Include="src\jump.cs" />
+    <Compile Include="src\jumpType.cs" />
+    <Compile Include="src\pulse.cs" />
+    <Compile Include="src\pulseType.cs" />
+    <Compile Include="src\person.cs" />
+    <Compile Include="src\report.cs" />
+    <Compile Include="src\run.cs" />
+    <Compile Include="src\runType.cs" />
+    <Compile Include="src\session.cs" />
+    <Compile Include="src\sqlite\jump.cs" />
+    <Compile Include="src\sqlite\jumpType.cs" />
+    <Compile Include="src\sqlite\pulse.cs" />
+    <Compile Include="src\sqlite\pulseType.cs" />
+    <Compile Include="src\sqlite\main.cs" />
+    <Compile Include="src\sqlite\person.cs" />
+    <Compile Include="src\sqlite\personSession.cs" />
+    <Compile Include="src\sqlite\preferences.cs" />
+    <Compile Include="src\sqlite\run.cs" />
+    <Compile Include="src\sqlite\runType.cs" />
+    <Compile Include="src\sqlite\session.cs" />
+    <Compile Include="src\sqlite\stat.cs" />
+    <Compile Include="src\stats\cmjPlusPotency.cs" />
+    <Compile Include="src\stats\djIndex.cs" />
+    <Compile Include="src\stats\djQ.cs" />
+    <Compile Include="src\stats\fv.cs" />
+    <Compile Include="src\stats\global.cs" />
+    <Compile Include="src\stats\graphs\cmjPlusPotency.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\djIndex.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\djQ.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\fv.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\global.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\graphData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\graphSerie.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\ieIub.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\rjEvolution.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\rjIndex.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\rjPotencyBosco.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\sjCmjAbk.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\graphs\sjCmjAbkPlus.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\stats\ieIub.cs" />
+    <Compile Include="src\stats\main.cs" />
+    <Compile Include="src\stats\rjEvolution.cs" />
+    <Compile Include="src\stats\rjIndex.cs" />
+    <Compile Include="src\stats\rjPotencyBosco.cs" />
+    <Compile Include="src\stats\sjCmjAbk.cs" />
+    <Compile Include="src\stats\sjCmjAbkPlus.cs" />
+    <Compile Include="src\statType.cs" />
+    <Compile Include="src\treeViewEvent.cs" />
+    <Compile Include="src\treeViewJump.cs" />
+    <Compile Include="src\treeViewPerson.cs" />
+    <Compile Include="src\treeViewPulse.cs" />
+    <Compile Include="src\treeViewRun.cs" />
+    <Compile Include="src\util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="glade\chronojump.glade" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="locale\es\LC_MESSAGES\es.po" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="locale\es\LC_MESSAGES\chronojump.mo" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="art-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-dotnet, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Mono.Data, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\GTK\2.8\lib\mono-1.1.13\Mono.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.SqliteClient, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\GTK\2.8\lib\mono-1.1.13\Mono.Data.SqliteClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Posix, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\GTK\2.8\lib\mono-1.1.13\Mono.Posix.dll</HintPath>
+    </Reference>
+    <Reference Include="NPlot, Version=0.9.8.5, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\nplot_win_dlls\NPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="NPlot.Gtk, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\nplot_win_dlls\NPlot.Gtk.dll</HintPath>
+    </Reference>
+    <Reference Include="pango-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\stats\report\" />
+  </ItemGroup>
+</Project>

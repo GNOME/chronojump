@@ -23,6 +23,9 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 
+using System.Diagnostics; 	//for detect OS
+using System.IO; 		//for detect OS
+
 //this class tries to be a space for methods that are used in different classes
 public class Util
 {
@@ -359,5 +362,17 @@ public class Util
 				
 		return true;
 	}
-}
 
+	//Adapted from Mono. A developer's notebook. p 244
+	public static bool IsWindows() {
+		OperatingSystem os = Environment.OSVersion;
+
+		Console.WriteLine("platform: {0}, version: {1}", os.Platform, os.Version);
+
+		if(os.Platform.ToString().ToUpper().StartsWith("WIN"))
+			return true;
+		else 
+			return false;
+	}
+	
+}

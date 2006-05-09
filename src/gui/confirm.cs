@@ -34,6 +34,7 @@ public class ConfirmWindowJumpRun
 	[Widget] Gtk.Label label1;
 	[Widget] Gtk.Label label2;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_cancel;
 
 	Gtk.Window parent;
 	
@@ -81,7 +82,6 @@ public class ConfirmWindowJumpRun
 		ConfirmWindowJumpRunBox.confirm_window.Hide();
 		ConfirmWindowJumpRunBox = null;
 	}
-	
 
 	protected void on_button_accept_clicked (object o, EventArgs args)
 	{
@@ -91,12 +91,8 @@ public class ConfirmWindowJumpRun
 	
 	public Button Button_accept 
 	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+		set { button_accept = value; }
+		get { return button_accept; }
 	}
 
 	~ConfirmWindowJumpRun() {}
@@ -151,8 +147,11 @@ public class ConfirmWindow
 	
 	protected void on_delete_selected_jump_delete_event (object o, DeleteEventArgs args)
 	{
-		ConfirmWindowBox.confirm_window.Hide();
-		ConfirmWindowBox = null;
+		//ConfirmWindowBox.confirm_window.Hide();
+		//ConfirmWindowBox = null;
+
+		//better raise this signal, and then can be controlled equal if it's cancel or delete
+		button_cancel.Click();
 	}
 	
 
@@ -164,19 +163,14 @@ public class ConfirmWindow
 	
 	public Button Button_accept 
 	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+		set { button_accept = value; }
+		get { return button_accept; }
 	}
 
 	public Button Button_cancel 
 	{
-		get {
-			return button_cancel;
-		}
+		set { button_cancel = value; }
+		get { return button_cancel; }
 	}
 
 	~ConfirmWindow() {}

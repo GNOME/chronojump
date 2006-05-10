@@ -34,7 +34,6 @@ public class ConfirmWindowJumpRun
 	[Widget] Gtk.Label label1;
 	[Widget] Gtk.Label label2;
 	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Button button_cancel;
 
 	Gtk.Window parent;
 	

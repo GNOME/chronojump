@@ -1,5 +1,9 @@
 CHANGELOG:
 
+10 may 2006 (minor minor RELEASE 0.47, only for windows)
+	default port: COM1
+	updated manual
+
 9 may 2006
 	chronojump and chronojump_mini both work nicely on windows and linux (events, graphs, ...)
 	

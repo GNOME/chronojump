@@ -30,7 +30,7 @@
 Manual de Chronojump en español
 \layout Author
 
-http://chronojump.software-libre.org
+http://gnome.org/projects/chronojump
 \newline 
 
 \newline 
@@ -90,6 +90,12 @@ Carreras simples
 \layout Subsubsection
 
 Carreras con tramos
+\layout Subsection
+
+Ritmos
+\layout Subsection
+
+Otros eventos
 \layout Section
 
 Proyecto Chronojump
@@ -160,10 +166,10 @@ En la figura
 Menú donde podrá acceder de forma organizada a la mayoría de las funcionalidades.
 \layout Description
 
-Barra\SpecialChar ~
+Marco\SpecialChar ~
 de\SpecialChar ~
-herramientas que proporciona un rápido acceso a las operaciones de
- sujeto.
+sujeto que proporciona un rápido acceso a las operaciones de sujeto
+ (parte izquierda de la ventana principal).
 \layout Description
 
 Pestañas que permite cambiar el módulo de trabajo entre los posibles, actualmene
@@ -199,7 +205,7 @@ collapsed false
 \align center 
 
 \begin_inset Graphics
-	filename chronojump_main_window_spanish.png
+	filename chronojump_main_window_english-spanish.png
 	lyxscale 50
 	scale 50
 
@@ -234,7 +240,7 @@ sesiones
 sujetos
 \layout Enumerate
 
-eventos (saltos, carreras)
+eventos (saltos, carreras, ritmos, ...)
 \layout Standard
 
 Todas las modificaciones de sesiones, sujetos y eventos, serán actualizadas
@@ -324,7 +330,8 @@ Cada uno de los individuos que pueden realizan eventos (saltos o carreras)
 Sujeto actual
 \layout Standard
 
-El sujeto seleccionado en la barra de herramientas es conocido como 
+El sujeto seleccionado en la parte izquierda de la ventana principal de
+ Chronojump es conocido como 
 \emph on 
 sujeto actual
 \emph default 
@@ -452,8 +459,9 @@ Manejo de eventos
 \layout Standard
 
 Hasta el momento Chronojump maneja dos tipos de eventos: saltos y carreras.
- Estos eventos serán detectados por las señales enviadas por la plataforma
- de contactos cuando el sujeto pise o despegue de la misma.
+ Más adelante Chronojump podrá manejar ritmos y otros tipos de eventos.
+ Estos eventos son detectados por las señales enviadas por la plataforma
+ de contactos cuando el sujeto pisa o despega de la misma.
 \layout Subsection
 
 Saltos
@@ -2261,6 +2269,12 @@ Ejemplos de tipos de carreras creados por el usuario.
 \end_inset 
 
 
+\layout Subsection
+
+Ritmos
+\layout Standard
+
+[Pendiente]
 \layout Section
 
 Estadísticas
@@ -2288,7 +2302,7 @@ collapsed false
 \align center 
 
 \begin_inset Graphics
-	filename chronojump_stats_window_spanish.png
+	filename chronojump_stats_window_english-spanish.png
 	lyxscale 50
 	scale 50
 
@@ -2624,7 +2638,7 @@ Se presentan a continuación otros botones de acción vinculados al estadístico
 Enunciado de los estadísticos
 \layout Standard
 
-Todo estadísitico dispone de un enunciado que se crea automáticamente en
+Todo estadístico dispone de un enunciado que se crea automáticamente en
  función de las selecciones que ha realizado el usuario en la ventana de
  estadísticas.
  El enunciado puede ayudarle a entender el estadístico.
@@ -2678,6 +2692,8 @@ En la primera columna de cada fila encontrará una pequeña caja de selección
  para los gráficos y los informes que Chronojump genera.
  La primera fila contiene una caja de selección que le permite seleccionar
  y deseleccionar rápidamente todos los valores.
+ Además, se muestra un cuadro de selección en la parte inferior izquierda
+ que le permite agilizar la selección de filas en base a distintos criterios.
  Encontrará más información sobre gráficos y los informes en los apartados
  
 \begin_inset LatexCommand \ref{sub:Creación-de-graficos}
@@ -2803,6 +2819,7 @@ collapsed false
 
 \begin_inset Graphics
 	filename chronojump_report_spanish.png
+	lyxscale 50
 	scale 50
 
 \end_inset 
@@ -2861,7 +2878,50 @@ Se ha previsto una ventana de preferencias en
 \emph on 
 Archivos / Preferencias
 \emph default 
- con la finalidad de cambiar el número de decimales mostrados, las unidades
- usadas, la visualización de columnas y la pertinencia de la pregunta de
- confirmación del borrado de eventos.
+ con la finalidad de cambiar el puerto en el que está conectado Chronopic
+ (normalmente será el 
+\emph on 
+COM1
+\emph default 
+ en Windows y el 
+\emph on 
+/dev/ttyS0
+\emph default 
+ en GNU/Linux).
+ Se muestra una ventana de ayuda sobre puertos haciendo clic en el icono
+ situado en la parte superior derecha de la ventana (en la imagen se muestra
+ como un flotador)
+\layout Standard
+
+Además esta ventana permite modificar el número de decimales mostrados,
+ las unidades usadas, la visualización de columnas y la pertinencia de la
+ pregunta de confirmación del borrado de eventos.
+\layout Standard
+
+
+\begin_inset Float figure
+wide false
+collapsed false
+
+\layout Standard
+\align center 
+
+\begin_inset Graphics
+	filename chronojump_preferences.png
+	scale 50
+
+\end_inset 
+
+
+\layout Caption
+
+
+\begin_inset LatexCommand \label{fig:Preferencias}
+
+\end_inset 
+
+Preferencias
+\end_inset 
+
+
 \the_end

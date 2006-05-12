@@ -10911,7 +10911,7 @@ If you need more, just repeat the operation later</property>
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="jump_type_add">
+		    <widget class="GtkImageMenuItem" id="menuitem_jump_type_add">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Add jump type</property>
 		      <property name="use_underline">True</property>
@@ -11220,7 +11220,7 @@ If you need more, just repeat the operation later</property>
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="run_type_add">
+		    <widget class="GtkImageMenuItem" id="menuitem_run_type_add">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Add run type</property>
 		      <property name="use_underline">True</property>

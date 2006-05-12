@@ -1,5 +1,9 @@
 CHANGELOG:
 
+12 may 2006 (minor minor RELEASE 0.47a, only for windows)
+	fixed bug in opening window for add_jump_type and add_run_type
+	fixed bug in more jumps and more jumpsRj 
+	
 10 may 2006 (minor minor RELEASE 0.47, only for windows)
 	default port: COM1
 	updated manual

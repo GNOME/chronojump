@@ -1011,9 +1011,9 @@ public class JumpsMoreWindow
 	JumpsMoreWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_runs_more", null);
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
 		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jump_runs_more", null);
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
 		}
 
 		gladeXML.Autoconnect(this);
@@ -1197,9 +1197,9 @@ public class JumpsRjMoreWindow
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_runs_more", null);
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
 		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jump_runs_more", null);
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
 		}
 
 		gladeXML.Autoconnect(this);

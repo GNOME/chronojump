@@ -131,7 +131,7 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem dj;
 	[Widget] Gtk.MenuItem more_simple_jumps;
 	[Widget] Gtk.MenuItem more_rj;
-	[Widget] Gtk.MenuItem jump_type_add;
+	[Widget] Gtk.MenuItem menuitem_jump_type_add;
 	[Widget] Gtk.MenuItem rj_j;
 	[Widget] Gtk.MenuItem rj_t;
 	[Widget] Gtk.MenuItem rj_unlimited;
@@ -163,7 +163,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.47";
+	private static string progversion = "0.47a";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -2867,7 +2867,7 @@ public class ChronoJump
 		menu_runs.Sensitive = false;
 		menu_view.Sensitive = false;
 		
-		//jump_type_add.Sensitive = false;
+		//menuitem_jump_type_add.Sensitive = false;
 		button_last_delete.Sensitive = false;
 		
 		/*
@@ -2917,7 +2917,7 @@ public class ChronoJump
 		menu_runs.Sensitive = true;
 		menu_view.Sensitive = true;
 		
-		//jump_type_add.Sensitive = true;
+		//menuitem_jump_type_add.Sensitive = true;
 	
 		/*
 		hbox_jumps.Sensitive = true;

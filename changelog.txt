@@ -1,6 +1,6 @@
 CHANGELOG:
 
-12 may 2006 (minor minor RELEASE 0.47a, only for windows)
+12 may 2006 (minor minor RELEASE 0.47a, linux and windows)
 	fixed bug in opening window for add_jump_type and add_run_type
 	fixed bug in more jumps and more jumpsRj 
 	

@@ -77,8 +77,7 @@ Na web sempre haberá unha versión de ChronoJump gratuíta, pero vostede pode c
 
 <p><li>En que sistemas operativos e equipos informáticos funciona?
 <p>
-ChronoJump está escrito para a plataforma de programación <a href="http://www.mono-project.com">MONO</a>, concibida para facilitar que os programas funcionen en moitos sistemas operativos e equipamentos informáticos. Polo de agora, só funciona en sistemas GNU/Linux, pero ofrécese un Live-CD que permite o emprego de ChronoJump desde calquera ordenador PC (con sistemas operativos Linux, Windows, FreeBSD ou calquera outro).<br>
-Para mediados da primavera de 2006 está previsto que haxa unha versión executable para Windows sen necesidade do Live-CD.
+ChronoJump está escrito para a plataforma de programación <a href="http://www.mono-project.com">MONO</a>, concibida para facilitar que os programas funcionen en moitos sistemas operativos e equipamentos informáticos. Polo de agora, funciona en sistemas GNU/Linux é Windows.<br>
 
 <p><li>Como podo descargar o programa?
 <p>

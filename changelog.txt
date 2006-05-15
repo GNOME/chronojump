@@ -1,5 +1,11 @@
 CHANGELOG:
 
+15 may 2006
+	dialogMessage (with an icon) prints info when starting in Simulated mode, and when
+	auto-changing to simulated because there are problems with chronopic
+
+	little changes in platform radiobuttons callbacks
+
 12 may 2006 (minor minor RELEASE 0.47a, linux and windows)
 	fixed bug in opening window for add_jump_type and add_run_type
 	fixed bug in more jumps and more jumpsRj 

@@ -10,7 +10,7 @@ ChronoJump usa unha pequena base de datos <a href="http://www.sqlite.org/">Sqlit
 É posible e sinxelo crear novos tipos de saltos coas variables descritas con anterioridade.
 
 <p>
-É multiplataforma. Ao estar programado en C# usando Mono, debería funcionar correctamente en GNU/Linux, MacOSX, Windows, ... Polo de agora, só se probou en GNU/Linux.
+É multiplataforma. Ao estar programado en C# usando Mono, debería funcionar correctamente en GNU/Linux, MacOSX, Windows, ... Polo de agora, só se probou en GNU/Linux é Windows.
 
 <p>
 Incorpora as seguintes estatísticas (sempre que non se especifique o contrario, permite mostrar medias, valores máximos, ou todos os valores dunha única sesión ou entre un número indeterminado de sesións -lonxitudinal-, e distinción de xénero)

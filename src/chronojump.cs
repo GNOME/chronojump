@@ -312,7 +312,7 @@ public class ChronoJump
 
 		//start as "simulated" if we are on windows
 		//(until we improve the Timeout on chronopic)
-		if(Util.IsWindows())
+		if(Util.IsWindows()) 
 			SqlitePreferences.Update("simulated", "True");
 
 		cpRunning = false;
@@ -355,6 +355,11 @@ public class ChronoJump
 				
 		Console.Write("J");
 		
+		if(simulated)
+			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
+		
+		Console.Write("J2");
+		
 		Application.Run();
 		Console.Write("K");
 	}
@@ -367,6 +372,8 @@ public class ChronoJump
 		Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
 		Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
+	
+		bool success = true;
 		
 		try {
 			Console.WriteLine("chronopic port: {0}", myPort);
@@ -401,9 +408,27 @@ public class ChronoJump
 			if (!ok) {
 				//-- Si hay error terminar
 				Console.WriteLine("Error: {0}",cp.Error);
+				/*
+				new DialogMessage(Catalog.GetString("Problems comunicating to chronopic, changed platform to 'Simulated'"));
+				*/
+				success = false;
 			}
 		} catch {
+			/*
+			new DialogMessage(Catalog.GetString("Problems comunicating to chronopic, changed platform to 'Simulated'"));
 			Console.WriteLine("Problems comunicating to chronopic, changed platform to 'Simulated'");
+			//TODO: raise a error window
+			
+			//this will raise on_radiobutton_simulated_ativate and 
+			//will put cpRunning to false, and simulated to true and cp.Close()
+			menuitem_simulated.Active = true;
+			*/	
+			success = false;
+		}
+				
+		if(! success) {
+			new DialogMessage(Catalog.GetString("Problems comunicating to chronopic, changed platform to 'Simulated'"));
+			//Console.WriteLine("Problems comunicating to chronopic, changed platform to 'Simulated'");
 			//TODO: raise a error window
 			
 			//this will raise on_radiobutton_simulated_ativate and 
@@ -1312,14 +1337,19 @@ public class ChronoJump
 
 	void on_radiobutton_simulated (object o, EventArgs args)
 	{
-		simulated = true;
-		SqlitePreferences.Update("simulated", simulated.ToString());
-			
-		//close connection with chronopic if initialized
-		if(cpRunning) {
-			sp.Close();
+		if(menuitem_simulated.Active) {
+			Console.WriteLine("RadioSimulated - ACTIVE");
+			simulated = true;
+			SqlitePreferences.Update("simulated", simulated.ToString());
+
+			//close connection with chronopic if initialized
+			if(cpRunning) {
+				sp.Close();
+			}
+			cpRunning = false;
 		}
-		cpRunning = false;
+		else
+			Console.WriteLine("RadioSimulated - INACTIVE");
 	}
 	
 	void on_radiobutton_chronopic (object o, EventArgs args)
@@ -1328,11 +1358,11 @@ public class ChronoJump
 			return;
 
 		if(! menuitem_chronopic.Active) {
-			Console.WriteLine("INACTIVE");
+			Console.WriteLine("RadioChronopic - INACTIVE");
 			return;
 		}
 
-		Console.WriteLine("ACTIVE");
+		Console.WriteLine("RadioChronopic - ACTIVE");
 	
 		//on windows currently there's no timeout on init of chronopic
 		//show this window, and start chronopic only when button_accept is clicjed

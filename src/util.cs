@@ -364,6 +364,10 @@ public class Util
 	}
 
 	//Adapted from Mono. A developer's notebook. p 244
+	
+	//this is used in chronojump for working with the ports,
+	//in chronojump we compile now for Linux with Mono and for Windows with .NET
+	//it should be something like IsDotNet()
 	public static bool IsWindows() {
 		OperatingSystem os = Environment.OSVersion;
 

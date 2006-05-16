@@ -8,7 +8,7 @@ Instalación
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
 	<tr bgcolor="#e6e6fa"><th>Sistemas operativos</th><th><center>Instrucións</center></th></tr>
 	<tr><td><b>GNU/Linux</b></td><td>Instalar Mono e Gtk#, <a href="http://ftp.gnome.org/pub/GNOME/sources/chronojump/047a/">Descargar Chronojump v.047 para Linux</a></td></tr>
-	<tr><td><b>Windows</b></td><td>Consulte este correo:(inglés, castelán) <a href="http://mail.gnome.org/archives/chronojump-list/2006-May/msg00003.html">Chronojump 0.47 for windows released!</a></td></tr>
+	<tr><td><b>Windows</b></td><td>Consulte este correo: <a href="http://mail.gnome.org/archives/chronojump-list/2006-May/msg00008.html">Chronojump 0.47 for windows. Easy installation</a> (inglés, castelán)</td></tr>
 	</table>
 	
 	<p>

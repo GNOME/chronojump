@@ -22,10 +22,13 @@
 using System;
 using Gtk;
 using Glade;
+using System.IO.Ports;
 
 public class HelpPorts
 {
 	[Widget] Gtk.Dialog dialog_help_ports;
+	[Widget] Gtk.TextView textview_info;
+	[Widget] Gtk.TextView textview_detected;
 
 	public HelpPorts ()
 	{
@@ -35,8 +38,39 @@ public class HelpPorts
 		} catch {
 			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "dialog_help_ports", null);
 		}
-
+		
 		gladeXML.Autoconnect(this);
+	
+		string messageInfo;
+		string messageDetected = "";
+		
+		if(Util.IsWindows()) {
+			messageInfo = string.Format(Catalog.GetString("Typical serial and USB-serial ports on Windows:"));
+			messageInfo += "\n\tCOM1\n\tCOM2\n\n";
+			messageInfo += string.Format(Catalog.GetString("Also, these are possible:"));
+			messageInfo += "\n\tCOM3 ... COM8";
+
+			string jumpLine = "";
+			foreach (string s in SerialPort.GetPortNames()) {
+				messageDetected += jumpLine + s;
+				jumpLine = "\n";
+			}
+		} else {
+			messageInfo = string.Format(Catalog.GetString("Typical serial ports on GNU/Linux:"));
+			messageInfo += "\n\t/dev/ttyS0\n\t/dev/ttyS1\n\n";
+			messageInfo += string.Format(Catalog.GetString("Typical USB-serial ports on GNU/Linux:"));
+			messageInfo += "\n\t/dev/ttyUSB0\n\t/dev/ttyUSB1";
+				
+			messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled on GNU/Linux"));
+		}
+			
+		TextBuffer tb1 = new TextBuffer (new TextTagTable());
+		tb1.SetText(messageInfo);
+		textview_info.Buffer = tb1;
+		
+		TextBuffer tb2 = new TextBuffer (new TextTagTable());
+		tb2.SetText(messageDetected);
+		textview_detected.Buffer = tb2;
 	}
 				
 

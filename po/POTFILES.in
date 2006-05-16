@@ -3,6 +3,7 @@ src/chronojump-mini.cs
 src/chronojump.cs
 src/constants.cs
 src/exportSession.cs
+src/gui/helpPorts.cs
 src/gui/jump.cs
 src/gui/jumpType.cs
 src/gui/person.cs

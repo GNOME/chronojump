@@ -1,5 +1,9 @@
 CHANGELOG:
 
+16 may 2006
+	helpPorts now shows different info for Linux and Windows, and in
+	Windows autodetects ports
+
 15 may 2006
 	dialogMessage (with an icon) prints info when starting in Simulated mode, and when
 	auto-changing to simulated because there are problems with chronopic

@@ -1,5 +1,4 @@
 glade/chronojump.glade
-src/chronojump-mini.cs
 src/chronojump.cs
 src/constants.cs
 src/exportSession.cs

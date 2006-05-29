@@ -1,0 +1,2376 @@
+# Vietnamese translation for ChronoJump.
+# Copyright © 2006 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2006.
+# 
+msgid ""
+""
+msgstr "Project-Id-Version: chronojump Gnome HEAD\n"
+"Report-Msgid-Bugs-To: xavi@xdeblas.com\n"
+"POT-Creation-Date: 2006-05-28 10:08+0200\n"
+"PO-Revision-Date: 2006-05-29 21:56+0930\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: LocFactoryEditor 1.6b36\n"
+
+#: ../glade/chronojump.glade.h:2
+#, no-c-format
+msgid ""
+"% body \n"
+"weight"
+msgstr "%s độ\n"
+"nặng"
+
+#: ../glade/chronojump.glade.h:4
+msgid "0"
+msgstr "0"
+
+#: ../glade/chronojump.glade.h:5
+msgid "1"
+msgstr "1"
+
+#: ../glade/chronojump.glade.h:6
+msgid "1000m"
+msgstr "1000m"
+
+#: ../glade/chronojump.glade.h:7
+msgid "100m"
+msgstr "100m"
+
+#: ../glade/chronojump.glade.h:8
+msgid "2000m"
+msgstr "2000m"
+
+#: ../glade/chronojump.glade.h:9
+msgid "200m"
+msgstr "200m"
+
+#: ../glade/chronojump.glade.h:10
+msgid "20m"
+msgstr "20m"
+
+#: ../glade/chronojump.glade.h:11
+msgid "4"
+msgstr "4"
+
+#: ../glade/chronojump.glade.h:12
+msgid "400m"
+msgstr "400m"
+
+#: ../glade/chronojump.glade.h:13
+msgid "<- unselect"
+msgstr "← bỏ chọn"
+
+# Name: don't translate / Tên: đừng dịch
+#: ../glade/chronojump.glade.h:14
+msgid "<b>Chronojump</b>"
+msgstr "<b>Chronojump</b>"
+
+#: ../glade/chronojump.glade.h:15
+msgid ""
+"<b>Date</b>\n"
+"D/M/YYYY"
+msgstr "<b>Ngày</b>"
+"ng/T/NNNN"
+
+#: ../glade/chronojump.glade.h:17
+msgid "<b>Detected</b>"
+msgstr "<b>Phát hiện</b>"
+
+#: ../glade/chronojump.glade.h:18
+msgid "<b>Full name</b>"
+msgstr "<b>Họ tên</b>"
+
+#: ../glade/chronojump.glade.h:19
+msgid "<b>Name</b>"
+msgstr "<b>Tên</b>"
+
+#: ../glade/chronojump.glade.h:20
+msgid "<b>Name</b> "
+msgstr "<b>Tên</b> "
+
+#: ../glade/chronojump.glade.h:21
+msgid "<b>Sex</b>"
+msgstr "<b>Giới tính</b>"
+
+#: ../glade/chronojump.glade.h:22
+msgid "<b>Weight</b> (kg)"
+msgstr "<b>Nặng</b> (kg)"
+
+#: ../glade/chronojump.glade.h:23
+msgid "<b>Weight</b>(Kg)"
+msgstr "<b>Nặng</b>(Kg)"
+
+#: ../glade/chronojump.glade.h:24
+msgid "<b>execute</b>"
+msgstr "<b>thực hiện</b>"
+
+#: ../glade/chronojump.glade.h:25
+msgid "<b>general data</b>"
+msgstr "<b>dữ liệu chung</b>"
+
+#: ../glade/chronojump.glade.h:26
+msgid "<b>persons</b>"
+msgstr "<b>người</b>"
+
+#: ../glade/chronojump.glade.h:27
+msgid "<b>statistic</b>"
+msgstr "<b>thống kê</b>"
+
+#: ../glade/chronojump.glade.h:28
+msgid "<b>statistics data</b>"
+msgstr "<b>dữ liệu thống kê</b>"
+
+#: ../glade/chronojump.glade.h:29
+msgid "<b>view</b>"
+msgstr "<b>xem</b>"
+
+#: ../glade/chronojump.glade.h:30
+msgid "ABK"
+msgstr "ABK"
+
+#: ../glade/chronojump.glade.h:31
+msgid "About"
+msgstr "Giới thiệu"
+
+#: ../glade/chronojump.glade.h:32
+msgid "Add jump type"
+msgstr "Thêm kiểu nhảy"
+
+#: ../glade/chronojump.glade.h:33
+msgid "Add multiple persons"
+msgstr "Thêm nhiều người"
+
+#: ../glade/chronojump.glade.h:34
+msgid "Add run type"
+msgstr "Thêm kiểu chạy"
+
+#: ../glade/chronojump.glade.h:35
+msgid "Add this statistic and its graph to report window"
+msgstr "Thêm thống kê này và đồ thị của nó vào cửa sổ thông báo"
+
+#: ../glade/chronojump.glade.h:36
+msgid "Add to report"
+msgstr "Thêm vào thông báo"
+
+#: ../glade/chronojump.glade.h:37
+msgid "Additional weight"
+msgstr "Nặng thêm"
+
+#: ../glade/chronojump.glade.h:38
+msgid "Average"
+msgstr "Trung bình"
+
+#: ../glade/chronojump.glade.h:39
+msgid ""
+"Born date\n"
+"DD/MM/YYYY"
+msgstr "Ngày sinh\n"
+"ng/TT/NNNN"
+
+#: ../glade/chronojump.glade.h:41
+msgid "By laps"
+msgstr "Theo vòng"
+
+#: ../glade/chronojump.glade.h:42
+msgid "By time"
+msgstr "Theo giờ"
+
+#: ../glade/chronojump.glade.h:43
+msgid "CMJ"
+msgstr "CMJ"
+
+#: ../glade/chronojump.glade.h:44
+msgid "Cancel jump or run"
+msgstr "Thôi nhảy hay chạy"
+
+#: ../glade/chronojump.glade.h:45
+msgid "ChronoJump - Confirm"
+msgstr "ChronoJump — Xác nhận"
+
+#: ../glade/chronojump.glade.h:46
+msgid "ChronoJump - Error"
+msgstr "ChronoJump — Lỗi"
+
+#: ../glade/chronojump.glade.h:47
+msgid "ChronoJump - error"
+msgstr "ChronoJump — lỗi"
+
+# Name: don't translate/Tên: đừng dịch
+#: ../glade/chronojump.glade.h:48
+msgid "Chronojump"
+msgstr "Chronojump"
+
+#: ../glade/chronojump.glade.h:49
+msgid "Chronojump Report window"
+msgstr "Cửa sổ thông báo của Chronojump"
+
+#: ../glade/chronojump.glade.h:50
+msgid "Chronojump Statistics window"
+msgstr "Cửa sổ thống kê của Chronojump"
+
+# Name: don't translate/Tên: đừng dịch
+#: ../glade/chronojump.glade.h:51
+msgid "Chronopic"
+msgstr "Chronopic"
+
+#: ../glade/chronojump.glade.h:52
+msgid "Chronopic in"
+msgstr "Chronopic trong"
+
+#: ../glade/chronojump.glade.h:53
+msgid "Collapse all"
+msgstr "Thu gọn hết"
+
+#: ../glade/chronojump.glade.h:54
+#: ../src/exportSession.cs:159
+#: ../src/gui/session.cs:328
+#: ../src/gui/session.cs:480
+#: ../src/report.cs:206
+msgid "Comments"
+msgstr "Ghi chú"
+
+#: ../glade/chronojump.glade.h:55
+msgid "Confirm jump/run deletion"
+msgstr "Xác nhận việc xoá bỏ nhảy/chạy"
+
+#: ../glade/chronojump.glade.h:56
+msgid "Contact time"
+msgstr "Giờ liên lạc"
+
+#: ../glade/chronojump.glade.h:57
+msgid "Create a new jump type in the database"
+msgstr "Tạo một kiểu nhảy mới trong cơ sở dữ liệu"
+
+#: ../glade/chronojump.glade.h:58
+msgid "Create a new run type in the database"
+msgstr "Tạo một kiểu chạy mới trong cơ sở dữ liệu"
+
+#: ../glade/chronojump.glade.h:59
+msgid "Create new Jump Type"
+msgstr "Tạo kiểu nhảy mới"
+
+#: ../glade/chronojump.glade.h:60
+msgid "Create new Run Type"
+msgstr "Tạo kiểu chạy mới"
+
+#: ../glade/chronojump.glade.h:61
+msgid "Current"
+msgstr "Hiện có"
+
+#: ../glade/chronojump.glade.h:62
+msgid "Custom"
+msgstr "Tự chọn"
+
+#: ../glade/chronojump.glade.h:63
+msgid "DJ"
+msgstr "DJ"
+
+#: ../glade/chronojump.glade.h:64
+msgid "Decimals number"
+msgstr "Số thập phân"
+
+#: ../glade/chronojump.glade.h:65
+msgid "Delete selected RJ jump"
+msgstr "Xoá bỏ sự nhảy RJ đã chọn"
+
+#: ../glade/chronojump.glade.h:66
+msgid "Delete selected intervalic run"
+msgstr "Xoá bỏ sự chạy lúc nghỉ đã chọn"
+
+#: ../glade/chronojump.glade.h:67
+msgid "Delete selected jump"
+msgstr "Xoá bỏ sự nhảy đã chọn"
+
+#: ../glade/chronojump.glade.h:68
+msgid "Delete selected run"
+msgstr "Xoá bỏ sự chạy đã chọn"
+
+#: ../glade/chronojump.glade.h:69
+#: ../src/exportSession.cs:195
+#: ../src/exportSession.cs:248
+#: ../src/exportSession.cs:310
+#: ../src/exportSession.cs:352
+#: ../src/gui/jump.cs:1048
+#: ../src/gui/jump.cs:1240
+#: ../src/gui/person.cs:100
+#: ../src/gui/run.cs:847
+#: ../src/gui/run.cs:1018
+msgid "Description"
+msgstr "Mô tả"
+
+#: ../glade/chronojump.glade.h:70
+msgid "Description "
+msgstr "Mô tả "
+
+#: ../glade/chronojump.glade.h:71
+msgid ""
+"Description /\n"
+"comments"
+msgstr "Mô tả /\n"
+"ghi chú"
+
+#: ../glade/chronojump.glade.h:73
+#: ../src/exportSession.cs:307
+#: ../src/gui/run.cs:846
+#: ../src/gui/run.cs:1015
+#: ../src/treeViewRun.cs:50
+msgid "Distance"
+msgstr "Khoảng cách"
+
+#: ../glade/chronojump.glade.h:74
+msgid "Edit jump"
+msgstr "Sửa nhảy"
+
+#: ../glade/chronojump.glade.h:75
+msgid "Edit run"
+msgstr "Sửa chạy"
+
+#: ../glade/chronojump.glade.h:76
+msgid "Edit selected RJ jump"
+msgstr "Hiệu chỉnh sự nhảy RJ đã chọn"
+
+#: ../glade/chronojump.glade.h:77
+msgid "Edit selected intervalic run"
+msgstr "Hiệu chỉnh sự chạy lúc nghỉ đã chọn"
+
+#: ../glade/chronojump.glade.h:78
+msgid "Edit selected jump"
+msgstr "Hiệu chỉnh sự nhảy đã chọn"
+
+#: ../glade/chronojump.glade.h:79
+msgid "Edit selected person"
+msgstr "Hiệu chỉnh người đã chọn"
+
+#: ../glade/chronojump.glade.h:80
+msgid "Edit selected run"
+msgstr "Hiệu chỉnh sự chạy đã chọn"
+
+#: ../glade/chronojump.glade.h:81
+msgid "Execute intervalic runs"
+msgstr "Thực hiện các sự chạy lúc nghỉ"
+
+#: ../glade/chronojump.glade.h:82
+msgid "Execute repetitive jump"
+msgstr "Thực hiện sự nhảy lặp lại"
+
+#: ../glade/chronojump.glade.h:83
+msgid "Execute simple jumps"
+msgstr "Thực hiện các sự nhảy đơn giản"
+
+#: ../glade/chronojump.glade.h:84
+msgid "Execute simple run"
+msgstr "Thực hiện sự chạy đơn giản"
+
+#: ../glade/chronojump.glade.h:85
+msgid "Expand all"
+msgstr "Bung hết"
+
+#: ../glade/chronojump.glade.h:86
+msgid "Export session to _CSV"
+msgstr "Xuất phiên chạy dạng _CSV"
+
+#: ../glade/chronojump.glade.h:87
+msgid "Export session to _XML"
+msgstr "Xuất phiên chạy dạng _XML"
+
+#: ../glade/chronojump.glade.h:88
+msgid "Extra data for this jump"
+msgstr "Dữ liệu thêm cho sự nhảy này"
+
+#: ../glade/chronojump.glade.h:89
+msgid "Extra data for this run"
+msgstr "Dữ liệu thêm cho sự chạy này"
+
+#: ../glade/chronojump.glade.h:90
+#: ../src/gui/jump.cs:1047
+#: ../src/gui/jump.cs:1239
+#: ../src/stats/graphs/cmjPlusPotency.cs:76
+msgid "Extra weight"
+msgstr "Nặng thêm"
+
+#: ../glade/chronojump.glade.h:92
+#, no-c-format
+msgid "Extra weight %"
+msgstr "% nặng thêm"
+
+#: ../glade/chronojump.glade.h:93
+msgid "F"
+msgstr "F"
+
+#: ../glade/chronojump.glade.h:94
+msgid "Falling height"
+msgstr "Cao rơi"
+
+#: ../glade/chronojump.glade.h:95
+msgid "Finish jump (save jump until this moment)"
+msgstr "Nhảy xong (lưu sự nhảy cho đến lúc này)"
+
+#: ../glade/chronojump.glade.h:96
+msgid "Flight time"
+msgstr "Giờ bay"
+
+#: ../glade/chronojump.glade.h:97
+msgid "Free"
+msgstr "Tự do"
+
+#: ../glade/chronojump.glade.h:98
+msgid "From session"
+msgstr "Từ phiên chạy"
+
+#: ../glade/chronojump.glade.h:99
+msgid "Graph"
+msgstr "Đồ thị"
+
+#: ../glade/chronojump.glade.h:100
+msgid "Graph this statistic"
+msgstr "Tạo đồ thị bằng thống kê này"
+
+#: ../glade/chronojump.glade.h:101
+msgid "Height (cm)"
+msgstr "Cao (cm)"
+
+#: ../glade/chronojump.glade.h:102
+msgid "Identifier"
+msgstr "Bộ nhận diện"
+
+#.this.heightPreferred = heightPreferred;
+#: ../glade/chronojump.glade.h:103
+#: ../src/stats/global.cs:52
+#: ../src/stats/report/sjCmjAbk.cs:51
+#: ../src/stats/sjCmjAbk.cs:52
+msgid "Jump"
+msgstr "Nhảy"
+
+#: ../glade/chronojump.glade.h:104
+msgid "Jump Reactive"
+msgstr "Nhảy phản ứng"
+
+#: ../glade/chronojump.glade.h:105
+msgid "Jump type"
+msgstr "Kiểu nhảy"
+
+#: ../glade/chronojump.glade.h:106
+msgid "Jump until \"finish\" button is clicked"
+msgstr "Nhảy đến khi nút « Xong » đã được nhấn"
+
+#: ../glade/chronojump.glade.h:107
+#: ../src/gui/stats.cs:93
+#: ../src/gui/stats.cs:305
+#: ../src/gui/stats.cs:664
+#: ../src/statType.cs:219
+#: ../src/stats/cmjPlusPotency.cs:54
+#: ../src/stats/djIndex.cs:31
+#: ../src/stats/djQ.cs:31
+#: ../src/stats/fv.cs:49
+#: ../src/stats/ieIub.cs:64
+#: ../src/stats/rjEvolution.cs:65
+#: ../src/stats/rjIndex.cs:31
+#: ../src/stats/rjPotencyBosco.cs:31
+#: ../src/stats/sjCmjAbkPlus.cs:54
+#: ../src/treeViewJump.cs:33
+msgid "Jumper"
+msgstr "Người nhảy"
+
+#: ../glade/chronojump.glade.h:108
+#: ../src/gui/jump.cs:1236
+#: ../src/gui/run.cs:1016
+msgid "Limited by"
+msgstr "Bị hạn chế bởi"
+
+#: ../glade/chronojump.glade.h:109
+msgid "Limited by "
+msgstr "Bị hạn chế bởi "
+
+#: ../glade/chronojump.glade.h:110
+msgid "Load"
+msgstr "Tải"
+
+#: ../glade/chronojump.glade.h:111
+msgid "Load person"
+msgstr "Tải người"
+
+#: ../glade/chronojump.glade.h:112
+msgid "Load persons"
+msgstr "Tải các người"
+
+#: ../glade/chronojump.glade.h:113
+msgid "Load persons from other session"
+msgstr "Tải các người từ phiên chạy khác"
+
+#: ../glade/chronojump.glade.h:114
+msgid "Load session"
+msgstr "Tải phiên chạy"
+
+#: ../glade/chronojump.glade.h:115
+msgid "M"
+msgstr "M"
+
+#: ../glade/chronojump.glade.h:116
+msgid ""
+"Main\n"
+"options"
+msgstr "Tùy chọn\n"
+"chính"
+
+#: ../glade/chronojump.glade.h:118
+msgid "Make report"
+msgstr "Thông báo"
+
+#: ../glade/chronojump.glade.h:119
+msgid "More"
+msgstr "Thêm"
+
+#: ../glade/chronojump.glade.h:120
+msgid "More intervalic runs"
+msgstr "Sự chạy lúc nghỉ thêm"
+
+#: ../glade/chronojump.glade.h:121
+msgid "More repetitive jumps"
+msgstr "Sự nhãy lặp lại thêm"
+
+#: ../glade/chronojump.glade.h:122
+msgid "More simple jumps"
+msgstr "Sự nhảy đơn giản thêm"
+
+#: ../glade/chronojump.glade.h:123
+msgid "More simple runs"
+msgstr "Sự chạy đơn giản thêm"
+
+#.only make sensitive when required values are inserted
+#: ../glade/chronojump.glade.h:124
+#: ../src/gui/person.cs:510
+msgid "New jumper"
+msgstr "Người nhảy mới"
+
+#: ../glade/chronojump.glade.h:125
+msgid "New person"
+msgstr "Người mới"
+
+#: ../glade/chronojump.glade.h:126
+msgid "New persons (multiple)"
+msgstr "Các người mới"
+
+#: ../glade/chronojump.glade.h:127
+msgid "Notes"
+msgstr "Ghi chú"
+
+#: ../glade/chronojump.glade.h:128
+msgid "Optimal expand"
+msgstr "Mở rộng tối ưa"
+
+#.column where the uniqueID of event will be (and will be hidded)
+#: ../glade/chronojump.glade.h:129
+#: ../src/treeViewPulse.cs:45
+msgid "Person"
+msgstr "Người"
+
+#: ../glade/chronojump.glade.h:130
+msgid "Pla_tform"
+msgstr "Nền _tảng"
+
+#: ../glade/chronojump.glade.h:131
+#: ../src/exportSession.cs:157
+#: ../src/gui/person.cs:1126
+#: ../src/gui/session.cs:321
+#: ../src/gui/session.cs:478
+#: ../src/report.cs:204
+msgid "Place"
+msgstr "Nơi"
+
+#: ../glade/chronojump.glade.h:132
+msgid ""
+"Please fill these values\n"
+"(bold titles are required)"
+msgstr "Hãy điền vào các trường này\n"
+"(cần thiết các phần in đậm)"
+
+#: ../glade/chronojump.glade.h:134
+msgid "Prefer height over TV"
+msgstr "Thích độ cao hơn TV"
+
+#: ../glade/chronojump.glade.h:135
+msgid "Prefer m/s over Km/h"
+msgstr "Thích mét/giây hơn Km/giờ"
+
+#: ../glade/chronojump.glade.h:136
+msgid "Preferences"
+msgstr "Tùy thích"
+
+#: ../glade/chronojump.glade.h:137
+msgid "Pulse"
+msgstr "Mạch"
+
+#: ../glade/chronojump.glade.h:138
+msgid "RJ(j)"
+msgstr "RJ(j)"
+
+#: ../glade/chronojump.glade.h:139
+msgid "RJ(t)"
+msgstr "RJ(t)"
+
+#: ../glade/chronojump.glade.h:140
+msgid "RJ(unlimited)"
+msgstr "RJ(vô hạn)"
+
+#: ../glade/chronojump.glade.h:141
+msgid "Reactive jump"
+msgstr "Nhảy phản ứng"
+
+#: ../glade/chronojump.glade.h:142
+msgid "Repair selected RJ jump"
+msgstr "Sửa chữa sự nhảy RJ đã chọn"
+
+#: ../glade/chronojump.glade.h:143
+msgid "Repair selected interval run"
+msgstr "Sửa chữa sự chạy lúc nghỉ đã chọn"
+
+#: ../glade/chronojump.glade.h:144
+msgid "Repair selected reactive jump"
+msgstr "Sửa chữa sự nhảy phản ứng đã chọn"
+
+#: ../glade/chronojump.glade.h:145
+msgid "Report window"
+msgstr "Cửa sổ thông báo"
+
+#: ../glade/chronojump.glade.h:146
+msgid "Run"
+msgstr "Chạy"
+
+#: ../glade/chronojump.glade.h:147
+msgid "Run Interval"
+msgstr "Khoảng chạy"
+
+#: ../glade/chronojump.glade.h:148
+msgid "Run type"
+msgstr "Kiểu chạy"
+
+#.column where the uniqueID of event will be (and will be hidded)
+#: ../glade/chronojump.glade.h:149
+#: ../src/treeViewRun.cs:48
+#: ../src/treeViewRun.cs:96
+msgid "Runner"
+msgstr "Người chạy"
+
+#: ../glade/chronojump.glade.h:150
+msgid "SJ"
+msgstr "SJ"
+
+#: ../glade/chronojump.glade.h:151
+msgid "SJ+"
+msgstr "SJ+"
+
+#: ../glade/chronojump.glade.h:152
+msgid "Select data for HTML report"
+msgstr "Chọn dữ liệu cho thông báo dạng HTML"
+
+#: ../glade/chronojump.glade.h:153
+msgid ""
+"Select persons you want to load.\n"
+"(Persons in current session are not listed)"
+msgstr "Chọn các người cần tải.\n"
+"(Không hiện người nào trong phiên chạy hiện thời)"
+
+#: ../glade/chronojump.glade.h:155
+msgid "Select sessions for statistics"
+msgstr "Chọn các phiên chạy cho thống kê"
+
+#: ../glade/chronojump.glade.h:156
+msgid "Serial ports help"
+msgstr "Trợ giúp về cổng nối tiếp"
+
+#: ../glade/chronojump.glade.h:157
+msgid "Show all events of a person"
+msgstr "Hiện mọi sự kiện của người nào"
+
+#: ../glade/chronojump.glade.h:158
+msgid "Show height"
+msgstr "Hiện độ cao"
+
+#: ../glade/chronojump.glade.h:159
+msgid "Show initial speed"
+msgstr "Hiện tốc độ đầu tiên"
+
+#: ../glade/chronojump.glade.h:160
+msgid "Simulated"
+msgstr "Đã mô phỏng"
+
+#: ../glade/chronojump.glade.h:161
+#: ../src/exportSession.cs:309
+#: ../src/treeViewRun.cs:49
+#: ../src/treeViewRun.cs:97
+msgid "Speed"
+msgstr "Tốc độ"
+
+#: ../glade/chronojump.glade.h:162
+#: ../src/gui/jump.cs:1046
+#: ../src/gui/jump.cs:1238
+msgid "Start inside"
+msgstr "Bắt đầu bên trong"
+
+#: ../glade/chronojump.glade.h:163
+msgid "Stats window"
+msgstr "Cửa sổ thống kê"
+
+#: ../glade/chronojump.glade.h:164
+#: ../src/gui/jump.cs:545
+#: ../src/stats/djIndex.cs:35
+#: ../src/stats/djQ.cs:35
+#: ../src/stats/rjEvolution.cs:72
+#: ../src/stats/rjEvolution.cs:77
+msgid "TC"
+msgstr "TC"
+
+#.cols: 4, 6, 8, ...
+#.cols: 3, 5, 7, ...
+#: ../glade/chronojump.glade.h:165
+#: ../src/gui/jump.cs:554
+#: ../src/gui/run.cs:463
+#: ../src/stats/djIndex.cs:34
+#: ../src/stats/djQ.cs:34
+#: ../src/stats/report/sjCmjAbk.cs:52
+#: ../src/stats/rjEvolution.cs:73
+#: ../src/stats/rjEvolution.cs:78
+#: ../src/stats/sjCmjAbk.cs:53
+#: ../src/stats/sjCmjAbkPlus.cs:55
+msgid "TV"
+msgstr "TV"
+
+#: ../glade/chronojump.glade.h:166
+msgid "TV/TC"
+msgstr "TV/TC"
+
+#: ../glade/chronojump.glade.h:167
+msgid ""
+"This dialog explains wich ports are suitable to be connected with chronopic"
+msgstr "Hộp thoại này giải thích cổng nào thích hợp để kết nối đến chronopic"
+
+#: ../glade/chronojump.glade.h:168
+#: ../src/exportSession.cs:246
+#: ../src/exportSession.cs:308
+#: ../src/gui/jump.cs:1623
+#: ../src/gui/jump.cs:1627
+#: ../src/stats/graphs/rjPotencyBosco.cs:82
+#: ../src/stats/rjPotencyBosco.cs:36
+#: ../src/treeViewRun.cs:51
+#: ../src/treeViewRun.cs:98
+#: ../src/treeViewPulse.cs:46
+msgid "Time"
+msgstr "Thời gian"
+
+#: ../glade/chronojump.glade.h:169
+#: ../src/gui/run.cs:284
+msgid "Totaltime"
+msgstr "Tổng thời gian"
+
+#: ../glade/chronojump.glade.h:170
+msgid ""
+"Track distance \n"
+"(between platforms)"
+msgstr "Khoảng cách đường \n"
+"(giữa hai nền tảng)"
+
+#: ../glade/chronojump.glade.h:172
+#: ../src/exportSession.cs:188
+#: ../src/exportSession.cs:306
+#: ../src/exportSession.cs:345
+#: ../src/gui/report.cs:113
+msgid "Type"
+msgstr "Kiểu"
+
+#.check if it's unlimited
+#.unlimited mark
+#: ../glade/chronojump.glade.h:173
+#: ../src/gui/jump.cs:1265
+#: ../src/gui/jump.cs:1308
+#: ../src/gui/jump.cs:1344
+#: ../src/gui/run.cs:1034
+#: ../src/gui/run.cs:1075
+#: ../src/gui/run.cs:1103
+msgid "Unlimited"
+msgstr "Vô hạn"
+
+#: ../glade/chronojump.glade.h:174
+msgid "Update stats"
+msgstr "Trạng thái cập nhật"
+
+#: ../glade/chronojump.glade.h:175
+msgid ""
+"Use this window for adding until 10 persons\n"
+"If you need more, just repeat the operation later"
+msgstr "Dùng cửa sổ này để thêm đến 10 người;\n"
+"nếu bạn cần hơn 10 người, hãy lặp lại\n"
+"thao tác vào lúc sau."
+
+#: ../glade/chronojump.glade.h:177
+msgid "_About"
+msgstr "_Giới thiệu"
+
+#: ../glade/chronojump.glade.h:178
+msgid "_Custom"
+msgstr "Tự _chọn"
+
+#: ../glade/chronojump.glade.h:179
+msgid "_Delete current person from this session"
+msgstr "_Xoá bỏ người hiện thời ra phiên chạy này"
+
+#: ../glade/chronojump.glade.h:180
+msgid "_Delete session"
+msgstr "_Xoá bỏ phiên chạy"
+
+#: ../glade/chronojump.glade.h:181
+msgid "_Edit current person"
+msgstr "Sửa người hi_ện có"
+
+#: ../glade/chronojump.glade.h:182
+msgid "_Edit session"
+msgstr "Sửa phi_ên chạy"
+
+#: ../glade/chronojump.glade.h:183
+msgid "_File"
+msgstr "_Tập tin"
+
+#: ../glade/chronojump.glade.h:184
+msgid "_Help"
+msgstr "Trợ g_iúp"
+
+#: ../glade/chronojump.glade.h:185
+msgid "_Jump"
+msgstr "_Nhảy"
+
+#: ../glade/chronojump.glade.h:186
+msgid "_Load person"
+msgstr "_Tải người"
+
+#: ../glade/chronojump.glade.h:187
+msgid "_Load session"
+msgstr "_Tải phiên chạy"
+
+#: ../glade/chronojump.glade.h:188
+msgid "_New person"
+msgstr "_Người mới"
+
+#: ../glade/chronojump.glade.h:189
+msgid "_New session"
+msgstr "Phiê_n chạy mới"
+
+#: ../glade/chronojump.glade.h:190
+msgid "_Person"
+msgstr "N_gười"
+
+#: ../glade/chronojump.glade.h:191
+msgid "_Preferences"
+msgstr "Tù_y thích"
+
+#: ../glade/chronojump.glade.h:192
+msgid "_Quit"
+msgstr "T_hoát"
+
+#: ../glade/chronojump.glade.h:193
+msgid "_Run"
+msgstr "_Chạy"
+
+#: ../glade/chronojump.glade.h:194
+msgid "_Show all events of current person"
+msgstr "Hiện mọi _sự kiện của người hiện có"
+
+#: ../glade/chronojump.glade.h:195
+msgid "_View"
+msgstr "_Xem"
+
+#: ../glade/chronojump.glade.h:196
+msgid "all"
+msgstr "tất cả"
+
+#: ../glade/chronojump.glade.h:197
+msgid "always"
+msgstr "luôn"
+
+#: ../glade/chronojump.glade.h:198
+msgid "apply to"
+msgstr "áp dụng cho"
+
+#: ../glade/chronojump.glade.h:199
+msgid "current"
+msgstr "hiện có"
+
+#: ../glade/chronojump.glade.h:200
+msgid "current session data"
+msgstr "dữ liệu phiên chạy hiện có"
+
+#: ../glade/chronojump.glade.h:201
+msgid "current session jumpers"
+msgstr "các người nhảy phiên chạy hiện có"
+
+#: ../glade/chronojump.glade.h:202
+msgid "delete current session"
+msgstr "xoá bỏ phiên chạy hiện có"
+
+#: ../glade/chronojump.glade.h:203
+msgid "delete last event (jump or run)"
+msgstr "xoá sự kiện cuối cùng (sự nhảy hay chạy)"
+
+#: ../glade/chronojump.glade.h:204
+msgid "developers"
+msgstr "nhà phát triển"
+
+#: ../glade/chronojump.glade.h:205
+msgid "enunciate"
+msgstr "nói"
+
+#: ../glade/chronojump.glade.h:206
+msgid "female"
+msgstr "nữ"
+
+#: ../glade/chronojump.glade.h:207
+msgid "fixed: "
+msgstr "cố định: "
+
+#: ../glade/chronojump.glade.h:208
+msgid "include subjumps"
+msgstr "gồm sự nhảy phụ"
+
+#: ../glade/chronojump.glade.h:209
+msgid "include subruns"
+msgstr "gồm sự chạy phụ"
+
+#: ../glade/chronojump.glade.h:210
+msgid "intervalic"
+msgstr "lúc nghỉ"
+
+#: ../glade/chronojump.glade.h:211
+msgid "intervalic runs"
+msgstr "các sự chạy lúc nghỉ"
+
+#: ../glade/chronojump.glade.h:212
+msgid "jump extra data"
+msgstr "dữ liệu nhảy thêm"
+
+#: ../glade/chronojump.glade.h:213
+msgid ""
+"jumper's\n"
+"average"
+msgstr "trung bình\n"
+"người nhảy"
+
+#: ../glade/chronojump.glade.h:215
+msgid ""
+"jumper's\n"
+"best's"
+msgstr "tốt nhãt\n"
+"người nhảy"
+
+#: ../glade/chronojump.glade.h:217
+#: ../src/gui/jump.cs:859
+#: ../src/stats/graphs/rjPotencyBosco.cs:118
+msgid "jumps"
+msgstr "nhảy"
+
+#: ../glade/chronojump.glade.h:218
+msgid "last"
+msgstr "cuối cùng"
+
+#: ../glade/chronojump.glade.h:219
+msgid "limit"
+msgstr "hạn chế"
+
+#: ../glade/chronojump.glade.h:220
+msgid "male"
+msgstr "nam"
+
+#: ../glade/chronojump.glade.h:221
+msgid "man"
+msgstr "nam nhi"
+
+#: ../glade/chronojump.glade.h:222
+msgid "mark best 'n' consecutives"
+msgstr "đánh dấu « n » liên tiếp tốt nhất"
+
+#: ../glade/chronojump.glade.h:223
+msgid "mark consecutives"
+msgstr "đánh dấu liên tiếp"
+
+#: ../glade/chronojump.glade.h:224
+msgid "meters"
+msgstr "mét"
+
+#: ../glade/chronojump.glade.h:225
+msgid "more"
+msgstr "thêm"
+
+#: ../glade/chronojump.glade.h:226
+msgid "no"
+msgstr "không"
+
+#: ../glade/chronojump.glade.h:227
+msgid "none"
+msgstr "không có"
+
+#: ../glade/chronojump.glade.h:228
+msgid "other"
+msgstr "khác"
+
+#: ../glade/chronojump.glade.h:229
+msgid "reactive jumps"
+msgstr "nhảy phản ứng"
+
+#: ../glade/chronojump.glade.h:230
+msgid "repetitive"
+msgstr "lặp lại"
+
+#: ../glade/chronojump.glade.h:231
+msgid "run extra data"
+msgstr "dữ liệu chạy thêm"
+
+#: ../glade/chronojump.glade.h:232
+msgid "run until \"finish\" button is clicked"
+msgstr "chạy đến khi nút « Xong » đã được nhấn"
+
+#: ../glade/chronojump.glade.h:233
+msgid "select"
+msgstr "chọn"
+
+#: ../glade/chronojump.glade.h:234
+msgid "select ->"
+msgstr "chọn →"
+
+#: ../glade/chronojump.glade.h:235
+msgid "selected"
+msgstr "đã chọn"
+
+#: ../glade/chronojump.glade.h:236
+msgid "session"
+msgstr "phiên chạy"
+
+#: ../glade/chronojump.glade.h:237
+msgid "show TV/TC"
+msgstr "hiện TV/TC"
+
+#: ../glade/chronojump.glade.h:238
+msgid "show all events of this person"
+msgstr "hiện mọi sự kiện của người này"
+
+#: ../glade/chronojump.glade.h:239
+msgid "show jumps"
+msgstr "hiện nhảy"
+
+#: ../glade/chronojump.glade.h:240
+msgid "show only persons in current session"
+msgstr "hiện chỉ các người trong phiên chạy hiện có"
+
+#: ../glade/chronojump.glade.h:241
+msgid "show sex"
+msgstr "hiện giới tính"
+
+#: ../glade/chronojump.glade.h:242
+msgid "show..."
+msgstr "hiện..."
+
+#: ../glade/chronojump.glade.h:243
+msgid "simple"
+msgstr "đơn giản"
+
+#: ../glade/chronojump.glade.h:244
+msgid "simple jumps"
+msgstr "nhảy đơn giản"
+
+#: ../glade/chronojump.glade.h:245
+msgid "simple runs"
+msgstr "chạy đơn giản"
+
+#: ../glade/chronojump.glade.h:246
+msgid "sort by creation date"
+msgstr "sắp xếp theo ngày tạo"
+
+#: ../glade/chronojump.glade.h:247
+msgid "statistic's enunciate"
+msgstr "nói thống kê"
+
+#: ../glade/chronojump.glade.h:248
+#: ../src/run.cs:223
+msgid "time"
+msgstr "giờ"
+
+#: ../glade/chronojump.glade.h:249
+#: ../src/gui/run.cs:713
+msgid "tracks"
+msgstr "đường"
+
+#: ../glade/chronojump.glade.h:250
+msgid "translators"
+msgstr "dịch giả"
+
+#: ../glade/chronojump.glade.h:251
+msgid "type / subtype"
+msgstr "kiểu/kiểu phụ"
+
+#: ../glade/chronojump.glade.h:252
+msgid "unlimited"
+msgstr "vô hạn"
+
+#: ../glade/chronojump.glade.h:253
+msgid "unselected"
+msgstr "chưa chọn"
+
+#: ../glade/chronojump.glade.h:254
+msgid "value"
+msgstr "giá trị"
+
+#: ../glade/chronojump.glade.h:255
+msgid "version"
+msgstr "phiên bản"
+
+#: ../glade/chronojump.glade.h:256
+msgid "woman"
+msgstr "phụ nữ"
+
+#: ../glade/chronojump.glade.h:257
+msgid "yes"
+msgstr "có"
+
+#: ../src/chronojump.cs:303
+msgid "no tables, creating ..."
+msgstr "chưa có bảng, đang tạo..."
+
+#: ../src/chronojump.cs:308
+msgid "tables already created"
+msgstr "các bảng đã được tạo"
+
+#: ../src/chronojump.cs:351
+msgid "Ready."
+msgstr "Sẵn sàng."
+
+#: ../src/chronojump.cs:359
+msgid ""
+"Starting Chronojump in Simulated mode, change platform to 'Chronopic' for "
+"real detection of events"
+msgstr "Đang khởi chạy trình Chronojump trong chế độ Đã mô phỏng; hãy thay đổi nền tảng sang « Chronopic » để phát hiện thật các sự kiện."
+
+#: ../src/chronojump.cs:369
+msgid "starting connection with chronopic"
+msgstr "đang kết nối đến chronopic..."
+
+#: ../src/chronojump.cs:370
+msgid "if program crashes, write to xavi@xdeblas.com"
+msgstr "Nếu chương trình này sụp đổ, vui lòng gởi thư cho <xavi@xdeblas.com>."
+
+#: ../src/chronojump.cs:371
+msgid ""
+"if you used modem by serial port before (in a linux session) chronojump "
+"chrases"
+msgstr "Nếu bạn đã sử dụng bộ điều giải thông qua cổng nối tiếp (trong phiên chạy linux), trình chronojump sẽ sụp đổ."
+
+#: ../src/chronojump.cs:372
+msgid "change variable using 'sqlite ~/.chronojump/chronojump.db' and"
+msgstr "thay đổi biến bằng « sqlite ~/.chronojump/chronojump.db » và"
+
+#: ../src/chronojump.cs:373
+msgid "'update preferences set value=\"True\" where name=\"simulated\";'"
+msgstr "« cập nhật tùy thích: đặt giá trị value=\"True\" (đúng) mà tên name=\"simulated\" (đã mô phỏng); »"
+
+#: ../src/chronojump.cs:430
+msgid "Problems comunicating to chronopic, changed platform to 'Simulated'"
+msgstr "Gặp khó khăn trong việc liên lạc với chronopic nên thay đổi nền tảng sang « Đã mô phỏng »."
+
+#: ../src/chronojump.cs:442
+#, csharp-format
+msgid "Chronojump database version file: {0}"
+msgstr "Tập tin phiên chạy cơ sở dữ liệu Chronojump: {0}"
+
+#: ../src/chronojump.cs:506
+msgid "Preferences loaded"
+msgstr "Tùy thích đã được tải"
+
+#: ../src/chronojump.cs:1120
+msgid "Are you sure you want to delete current session"
+msgstr "Bạn có chắc là muốn xoá bỏ phiên chạy hiện thời"
+
+#: ../src/chronojump.cs:1120
+msgid "and all it's jumps?"
+msgstr "và mọi sự nhảy của nó không?"
+
+#: ../src/chronojump.cs:1206
+msgid "Successfully added"
+msgstr "Đã được thêm"
+
+#: ../src/chronojump.cs:1229
+#, csharp-format
+msgid "Successfully added {0} persons"
+msgstr "{0} người đã được thêm"
+
+#: ../src/chronojump.cs:1277
+msgid ""
+"Are you sure you want to delete current person and all it's jumps from this "
+"session?\n"
+"(It's personal data and jumps in other sessions will remain intact)"
+msgstr "Bạn có chắc là muốn xoá bỏ người hiện thời và mọi sự nhảy của họ ra phiên chạy này không?\n"
+"(Các dữ liệu cá nhân và sự nhảy của họ trong phiên chạy khác sẽ còn lại nguyên vẹn.)"
+
+#: ../src/chronojump.cs:1278
+msgid "Current Person: "
+msgstr "Người hiện có : "
+
+#: ../src/chronojump.cs:1370
+msgid ""
+"** Attention **:</b> generate a event with the platform or with chronopic.\n"
+"If you don't do it, Chronojump will crash.\n"
+msgstr "•• Chu ý ••:</b> tạo ra một sự kiện bằng nền tảng hay bằng chronopic.\n"
+"Nếu bạn không làm như thế, trình Chronojump sẽ sụp đổ.\n"
+
+#: ../src/chronojump.cs:1370
+msgid ""
+"If crashes, try to close it and open again, then Chronojump will be "
+"configured as simulated, and you can change the port on preferences window"
+msgstr "Nếu nó có phải sụp đổ, hãy thử đóng nó rồi mở lại, và sau đó trình Chronojump sẽ được cấu hình như được mô phỏng, và bạn có thể thay đổi cổng trong cửa sổ Tùy thích."
+
+#: ../src/chronojump.cs:2291
+#: ../src/chronojump.cs:2474
+msgid "Atention: Deleting a RJ subjump will delete all the RJ"
+msgstr "Chu ý : việc xoá bỏ sự nhảy phụ RJ sẽ cũng xoá bỏ toàn bộ RJ."
+
+#: ../src/chronojump.cs:2298
+msgid "Do you want to delete last jump?"
+msgstr "Bạn có muốn xoá bỏ sự nhảy cuối cùng không?"
+
+#: ../src/chronojump.cs:2318
+msgid "Do you want to delete last run?"
+msgstr "Bạn có muốn xoá bỏ sự chạy cuối cùng không?"
+
+#: ../src/chronojump.cs:2335
+msgid "Last jump deleted"
+msgstr "Sự nhảy cuối cùng bị xoá bỏ"
+
+#: ../src/chronojump.cs:2356
+msgid "Last run deleted"
+msgstr "Sự chạy cuối cùng bị xoá bỏ"
+
+#: ../src/chronojump.cs:2473
+msgid "Do you want to delete selected jump?"
+msgstr "Bạn có muốn xoá bỏ sự nhảy đã chọn không?"
+
+#: ../src/chronojump.cs:2488
+msgid "Deleted jump: "
+msgstr "Sự nhảy bị xoá bỏ : "
+
+#: ../src/chronojump.cs:2501
+msgid "Deleted reactive jump: "
+msgstr "Sự nhảy phản ứng bị xoá bỏ : "
+
+#: ../src/chronojump.cs:2635
+msgid "Do you want to delete selected run?"
+msgstr "Bạn có muốn xoá bỏ sự chạy đã chọn không?"
+
+#: ../src/chronojump.cs:2636
+msgid "Atention: Deleting a Intervalic subrun will delete all the run"
+msgstr "Chu ý : việc xoá bỏ sự chạy phụ lúc nghỉ sẽ cũng xoá bỏ toàn bộ sự chạy đó."
+
+#: ../src/chronojump.cs:2650
+msgid "Deleted run: "
+msgstr "Sự chạy bị xoá bỏ : "
+
+#: ../src/chronojump.cs:2664
+msgid "Deleted interval run: "
+msgstr "Sự chạy lúc nghỉ bị xoá bỏ : "
+
+#: ../src/chronojump.cs:2816
+msgid "translator-credits"
+msgstr "Nhóm Việt hoá GNOME (http://gnomevi.sourceforge.net)"
+
+#.the strings created by Catalog cannot be const
+#.formulas
+#: ../src/constants.cs:30
+#: ../src/stats/djIndex.cs:32
+msgid "Dj Index"
+msgstr "Chỉ mục DJ"
+
+#: ../src/constants.cs:31
+msgid "Q index"
+msgstr "Chỉ mục Q"
+
+#: ../src/constants.cs:35
+#: ../src/stats/cmjPlusPotency.cs:55
+msgid "Potency"
+msgstr "Lực lượng"
+
+#.strings
+#.manage allJumps (show jumpType beside name (and sex))
+#.but only if it's not an AVG of different jumps
+#: ../src/constants.cs:39
+#: ../src/gui/jumpType.cs:108
+#: ../src/sqlite/stat.cs:136
+#: ../src/sqlite/stat.cs:180
+#: ../src/sqlite/stat.cs:274
+#: ../src/sqlite/stat.cs:323
+#: ../src/sqlite/stat.cs:373
+#: ../src/sqlite/stat.cs:419
+#: ../src/sqlite/stat.cs:467
+#: ../src/sqlite/stat.cs:515
+#: ../src/sqlite/stat.cs:620
+#: ../src/sqlite/stat.cs:666
+msgid "All jumps"
+msgstr "Mọi sự nhảy"
+
+#: ../src/constants.cs:40
+#: ../src/gui/runType.cs:108
+msgid "All runs"
+msgstr "Mọi sự chạy"
+
+#: ../src/constants.cs:41
+msgid "All pulses"
+msgstr "Mọi mạch"
+
+#: ../src/exportSession.cs:59
+msgid "Save report in "
+msgstr "Lưu báo cáo dạng "
+
+#: ../src/exportSession.cs:61
+msgid "Export session in "
+msgstr "Xuất phiên chạy dạng "
+
+#: ../src/exportSession.cs:61
+msgid " format"
+msgstr " dạng thức"
+
+#: ../src/exportSession.cs:73
+msgid "Cancelled"
+msgstr "Bị thôi"
+
+#: ../src/exportSession.cs:90
+msgid "Are you sure you want to overwrite file: "
+msgstr "Bạn có chắc muốn ghi đè lên tập tin: "
+
+#: ../src/exportSession.cs:101
+msgid "Cannot export to file: "
+msgstr "Không thể xuất tới tập tin: "
+
+#: ../src/exportSession.cs:155
+#: ../src/report.cs:203
+msgid "SessionID"
+msgstr "ID phiên chạy"
+
+#: ../src/exportSession.cs:156
+#: ../src/exportSession.cs:169
+#: ../src/gui/jump.cs:1045
+#: ../src/gui/jump.cs:1235
+#: ../src/gui/person.cs:95
+#: ../src/gui/run.cs:845
+#: ../src/gui/run.cs:1014
+#: ../src/gui/session.cs:320
+#: ../src/gui/session.cs:477
+#: ../src/report.cs:202
+#: ../src/report.cs:225
+msgid "Name"
+msgstr "Tên"
+
+#: ../src/exportSession.cs:158
+#: ../src/gui/session.cs:479
+#: ../src/report.cs:205
+msgid "Date"
+msgstr "Ngày"
+
+#: ../src/exportSession.cs:169
+#: ../src/gui/person.cs:94
+#: ../src/report.cs:225
+msgid "ID"
+msgstr "ID"
+
+#: ../src/exportSession.cs:186
+#: ../src/exportSession.cs:232
+msgid "Jumper name"
+msgstr "Tên người nhảy"
+
+#: ../src/exportSession.cs:187
+#: ../src/exportSession.cs:233
+msgid "jump ID"
+msgstr "ID nhảy"
+
+#: ../src/exportSession.cs:191
+#: ../src/exportSession.cs:243
+#: ../src/stats/djIndex.cs:36
+#: ../src/stats/djQ.cs:36
+#: ../src/stats/graphs/djIndex.cs:77
+#: ../src/stats/graphs/djQ.cs:77
+#: ../src/stats/graphs/rjIndex.cs:77
+#: ../src/stats/graphs/rjPotencyBosco.cs:83
+#: ../src/stats/rjEvolution.cs:67
+#: ../src/stats/rjIndex.cs:35
+#: ../src/stats/rjPotencyBosco.cs:37
+#: ../src/treeViewJump.cs:35
+msgid "Fall"
+msgstr "Rơi"
+
+#: ../src/exportSession.cs:192
+#: ../src/exportSession.cs:244
+#: ../src/gui/person.cs:98
+msgid "Weight"
+msgstr "Nặng"
+
+#: ../src/exportSession.cs:193
+#: ../src/gui/person.cs:97
+#: ../src/stats/cmjPlusPotency.cs:58
+#: ../src/stats/djIndex.cs:33
+#: ../src/stats/djQ.cs:33
+#: ../src/stats/graphs/cmjPlusPotency.cs:77
+#: ../src/stats/graphs/djIndex.cs:74
+#: ../src/stats/graphs/djQ.cs:74
+#: ../src/stats/graphs/global.cs:73
+#: ../src/stats/graphs/sjCmjAbk.cs:69
+#: ../src/stats/report/sjCmjAbk.cs:52
+#: ../src/stats/sjCmjAbk.cs:53
+#: ../src/stats/sjCmjAbkPlus.cs:54
+#: ../src/treeViewJump.cs:36
+msgid "Height"
+msgstr "Cao"
+
+#: ../src/exportSession.cs:194
+#: ../src/treeViewJump.cs:37
+msgid "Initial Speed"
+msgstr "Tốc độ bạn đầu"
+
+#: ../src/exportSession.cs:234
+msgid "jump Type"
+msgstr "Kiểu nhảy"
+
+#: ../src/exportSession.cs:235
+msgid "TC Max"
+msgstr "TC tối đa"
+
+#: ../src/exportSession.cs:236
+msgid "TV Max"
+msgstr "TV tối đa"
+
+#: ../src/exportSession.cs:237
+msgid "Max Height"
+msgstr "Cao tối đa"
+
+#: ../src/exportSession.cs:238
+msgid "Max Initial Speed"
+msgstr "Tốc độ bạn đầu tối đa"
+
+#: ../src/exportSession.cs:239
+msgid "TC AVG"
+msgstr "TC trung bình"
+
+#: ../src/exportSession.cs:240
+msgid "TV AVG"
+msgstr "TV trung bình"
+
+#: ../src/exportSession.cs:241
+msgid "AVG Height"
+msgstr "Cao trung bình"
+
+#: ../src/exportSession.cs:242
+msgid "AVG Initial Speed"
+msgstr "Tốc độ bạn đầu trung bình"
+
+#: ../src/exportSession.cs:245
+#: ../src/gui/jump.cs:1268
+#: ../src/gui/jump.cs:1315
+#: ../src/gui/jump.cs:1351
+#: ../src/gui/jump.cs:1621
+#: ../src/gui/jump.cs:1629
+#: ../src/stats/graphs/rjPotencyBosco.cs:81
+#: ../src/stats/rjPotencyBosco.cs:35
+msgid "Jumps"
+msgstr "Nhảy"
+
+#: ../src/exportSession.cs:247
+#: ../src/exportSession.cs:351
+msgid "Limited"
+msgstr "Bị hạn chế"
+
+#: ../src/exportSession.cs:280
+#: ../src/exportSession.cs:373
+#: ../src/gui/jump.cs:540
+#: ../src/gui/run.cs:459
+#: ../src/stats/rjEvolution.cs:70
+msgid "Count"
+msgstr "Tổng"
+
+#: ../src/exportSession.cs:304
+#: ../src/exportSession.cs:343
+msgid "Runner name"
+msgstr "Tên người chạy"
+
+#: ../src/exportSession.cs:305
+#: ../src/exportSession.cs:344
+msgid "run ID"
+msgstr "ID chạy"
+
+#: ../src/exportSession.cs:346
+msgid "Distance total"
+msgstr "Tổng khoảng cách"
+
+#: ../src/exportSession.cs:347
+msgid "Time total"
+msgstr "Tổng thời gian"
+
+#: ../src/exportSession.cs:348
+msgid "Average speed"
+msgstr "Tốc độ trung bình"
+
+#: ../src/exportSession.cs:349
+msgid "Distance interval"
+msgstr "Khoảng cách giữa"
+
+#: ../src/exportSession.cs:350
+#: ../src/gui/run.cs:1037
+#: ../src/gui/run.cs:1079
+#: ../src/gui/run.cs:1107
+msgid "Tracks"
+msgstr "Đường"
+
+#: ../src/exportSession.cs:374
+msgid "Interval speed"
+msgstr "Tốc độ khoảng"
+
+#: ../src/exportSession.cs:375
+msgid "interval times"
+msgstr "Thời gian khoảng"
+
+#: ../src/exportSession.cs:431
+msgid "Exported to file: "
+msgstr "Xuất vào tập tin: "
+
+#: ../src/gui/helpPorts.cs:48
+msgid "Typical serial and USB-serial ports on Windows:"
+msgstr "Cổng thường kiểu nối tiếp và nối tiếp USB trên Windows:"
+
+#: ../src/gui/helpPorts.cs:50
+msgid "Also, these are possible:"
+msgstr "Cũng có thể sử dụng:"
+
+#: ../src/gui/helpPorts.cs:59
+msgid "Typical serial ports on GNU/Linux:"
+msgstr "Cổng thường kiểu nối tiếp trên GNU/Linux:"
+
+#: ../src/gui/helpPorts.cs:61
+msgid "Typical USB-serial ports on GNU/Linux:"
+msgstr "Cổng thường kiểu nối tiếp USB trên GNU/Linux:"
+
+#: ../src/gui/helpPorts.cs:64
+msgid "Auto-Detection currently disabled on GNU/Linux"
+msgstr "Khả năng phát hiện tự động hiện thời bị tắt trên GNU/Linux"
+
+#: ../src/gui/jump.cs:82
+#, csharp-format
+msgid ""
+"Use this window for edit a jump\n"
+"(decimal separator: '{0}')"
+msgstr "Dùng cửa sổ này để sửa đổi sự nhảy\n"
+"(dấu phân cách thập phân: '{0}')"
+
+#: ../src/gui/jump.cs:294
+#, csharp-format
+msgid ""
+"Use this window for edit a reactive jump\n"
+"(decimal separator: '{0}')"
+msgstr "Dùng cửa sổ này để sửa đổi sự nhảy phản ứng\n"
+"(dấu phân cách thập phân: '{0}')"
+
+#: ../src/gui/jump.cs:474
+msgid "Repair reactive jump"
+msgstr "Sửa chữa sự nhảy phản ứng"
+
+#: ../src/gui/jump.cs:478
+#, csharp-format
+msgid ""
+"Use this window for repair a reactive jump\n"
+"Double clic any cell for editing (decimal separator: '{0}')"
+msgstr "Dùng cửa sổ này để sửa đổi sự nhảy phản ứng.\n"
+"Nhấn đúp ô nào để sửa đổi (dấu phân cách thập phân: '{0}')"
+
+#.update the totaltime label
+#: ../src/gui/jump.cs:497
+#: ../src/gui/jump.cs:580
+#: ../src/gui/jump.cs:604
+#: ../src/gui/jump.cs:730
+#: ../src/gui/jump.cs:860
+#: ../src/gui/run.cs:422
+#: ../src/gui/run.cs:489
+#: ../src/gui/run.cs:589
+#: ../src/gui/run.cs:714
+#: ../src/stats/graphs/djIndex.cs:105
+#: ../src/stats/graphs/djQ.cs:105
+#: ../src/stats/graphs/global.cs:94
+#: ../src/stats/graphs/global.cs:105
+#: ../src/stats/graphs/ieIub.cs:107
+#: ../src/stats/graphs/rjEvolution.cs:79
+#: ../src/stats/graphs/rjIndex.cs:101
+#: ../src/stats/graphs/rjPotencyBosco.cs:115
+#: ../src/stats/graphs/sjCmjAbk.cs:84
+#: ../src/stats/graphs/sjCmjAbk.cs:94
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:91
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:105
+msgid "seconds"
+msgstr "giây"
+
+#: ../src/gui/jump.cs:514
+#, csharp-format
+msgid "JumpType: {0}."
+msgstr "Kiểu nhảy: {0}."
+
+#: ../src/gui/jump.cs:519
+msgid ""
+"\n"
+"This jump type starts inside, the first time should be a flight time."
+msgstr "\n"
+"Kiểu nhảy này bắt đầu ở trong; thời gian đầu nên là thời gian bay."
+
+#.if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TV if found
+#: ../src/gui/jump.cs:526
+#, csharp-format
+msgid ""
+"\n"
+"This jump type is fixed for {0} jumps, you cannot add more."
+msgstr "\n"
+"Kiểu nhảy này là cố định tại {0} sự nhảy: bạn không thể thêm điều nữa."
+
+#.if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
+#: ../src/gui/jump.cs:529
+#, csharp-format
+msgid ""
+"\n"
+"This jump type is fixed for {0} seconds, totaltime cannot be greater."
+msgstr "\n"
+"Kiểu nhảy này là cố định tại {0} giây: tổng thời gian không thể là số lớn hơn."
+
+#: ../src/gui/jump.cs:1058
+#: ../src/gui/jump.cs:1063
+#: ../src/gui/jump.cs:1091
+#: ../src/gui/jump.cs:1094
+#: ../src/gui/jump.cs:1110
+#: ../src/gui/jump.cs:1113
+#: ../src/gui/jump.cs:1250
+#: ../src/gui/jump.cs:1255
+#: ../src/gui/jump.cs:1325
+#: ../src/gui/jump.cs:1328
+#: ../src/gui/jump.cs:1361
+#: ../src/gui/jump.cs:1364
+msgid "Yes"
+msgstr "Có"
+
+#: ../src/gui/jump.cs:1060
+#: ../src/gui/jump.cs:1065
+#: ../src/gui/jump.cs:1252
+#: ../src/gui/jump.cs:1257
+msgid "No"
+msgstr "Không"
+
+#: ../src/gui/jump.cs:1237
+#: ../src/gui/run.cs:1017
+msgid "Limited value"
+msgstr "Giá trị bị hạn chế"
+
+#: ../src/gui/jump.cs:1270
+#: ../src/gui/run.cs:1039
+msgid "Seconds"
+msgstr "Giây"
+
+#: ../src/gui/jump.cs:1602
+#, csharp-format
+msgid "{0} jumps; {1} seconds"
+msgstr "{0} sự nhảy; {1} giây"
+
+#.string myString =  Catalog.GetString ("Jump type: '") +
+#.Util.RemoveTildeAndColonAndDot(entry_name.Text) +
+#.Catalog.GetString ("' exists. Please, use another name");
+#: ../src/gui/jumpType.cs:117
+#, csharp-format
+msgid "Jump type: '{0}' exists. Please, use another name"
+msgstr "Kiểu sự nhảy '{0}' đã có. Hãy dùng một tên khác."
+
+#: ../src/gui/person.cs:96
+msgid "Sex"
+msgstr "Giới tính"
+
+#: ../src/gui/person.cs:99
+msgid "Date born"
+msgstr "Ngày sinh"
+
+#: ../src/gui/person.cs:128
+msgid "Man"
+msgstr "Nam nhi"
+
+#: ../src/gui/person.cs:129
+msgid "Woman"
+msgstr "Phụ nữ"
+
+#: ../src/gui/person.cs:392
+msgid "MARK ALL/NONE"
+msgstr "ĐÁNH DẤU HẾT/KHÔNG"
+
+#.string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
+#: ../src/gui/person.cs:564
+#: ../src/gui/person.cs:713
+#, csharp-format
+msgid "Person: '{0}' exists. Please, use another name"
+msgstr "Người '{0}' đã có. Hãy dùng một tên khác."
+
+#: ../src/gui/person.cs:632
+msgid "Edit jumper"
+msgstr "Sửa đổi người nhảy"
+
+#: ../src/gui/person.cs:1125
+msgid "Session name"
+msgstr "Tên phiên chạy"
+
+#: ../src/gui/person.cs:1127
+msgid ""
+"Date\n"
+"(MM/DD/YYYY)"
+msgstr "Ngày\n"
+"(TT/ng/NNNN)"
+
+#: ../src/gui/person.cs:1128
+msgid ""
+"Jumps\n"
+"simple"
+msgstr "Nhảy\n"
+"đơn giản"
+
+#: ../src/gui/person.cs:1129
+msgid ""
+"Jumps\n"
+"reactive"
+msgstr "Nhảy\n"
+"phản ứng"
+
+#: ../src/gui/person.cs:1130
+msgid ""
+"Runs\n"
+"simple"
+msgstr "Chạy\n"
+"đơn giản"
+
+#: ../src/gui/person.cs:1131
+msgid ""
+"Runs\n"
+"interval"
+msgstr "Chạy\n"
+"khoảng"
+
+#: ../src/gui/report.cs:114
+msgid "Subtype"
+msgstr "Kiểu phụ"
+
+#: ../src/gui/report.cs:115
+msgid "Apply to"
+msgstr "Áp dụng cho"
+
+#: ../src/gui/report.cs:116
+msgid "Session/s"
+msgstr "Phiên chạy"
+
+#: ../src/gui/report.cs:117
+msgid "Show jumps"
+msgstr "Hiện sự nhảy"
+
+#: ../src/gui/report.cs:118
+msgid "Show sex"
+msgstr "Hiện giới tính"
+
+#: ../src/gui/report.cs:119
+msgid "Checked rows"
+msgstr "Các hành đã chọn"
+
+#: ../src/gui/run.cs:77
+#, csharp-format
+msgid ""
+"Use this window for edit a run\n"
+"(decimal separator: '{0}')"
+msgstr "Dùng cửa sổ này để sửa đổi sự chạy\n"
+"(dấu phân cách thập phân: '{0}')"
+
+#: ../src/gui/run.cs:257
+#, csharp-format
+msgid ""
+"Use this window for edit a intervalic run\n"
+"(decimal separator: '{0}')"
+msgstr "Dùng cửa sổ này để sửa đổi sự chạy lúc nghỉ\n"
+"(dấu phân cách thập phân: '{0}')"
+
+#: ../src/gui/run.cs:399
+msgid "Repair interval run"
+msgstr "Sửa chữa sự chạy lúc nghỉ"
+
+#: ../src/gui/run.cs:403
+#, csharp-format
+msgid ""
+"Use this window for repair a intervalic run\n"
+"Double clic any cell for editing (decimal separator: '{0}')"
+msgstr "Dùng cửa sổ này để sửa chữa sự chạy lúc nghỉ.\n"
+"Nhấn đúp ô nào để sửa đổi (dấu phân cách thập phân: '{0}')"
+
+#: ../src/gui/run.cs:439
+#, csharp-format
+msgid "RunType: {0}."
+msgstr "Kiểu chạy: {0}."
+
+#.if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
+#: ../src/gui/run.cs:445
+#, csharp-format
+msgid ""
+"\n"
+"This run type is fixed for {0} runs, you cannot add more."
+msgstr "\n"
+"Kiểu chạy này là cố định tại {0} sự chạy: không thể thêm điều nữa."
+
+#.if it's a run type timeLimited with a fixed value, then complain when the total time is higher
+#: ../src/gui/run.cs:448
+#, csharp-format
+msgid ""
+"\n"
+"This run type is fixed for {0} seconds, totaltime cannot be greater."
+msgstr "\n"
+"Kiểu chạy này là cố định tại {0} giây: tổng thời gian không thể là số lớn hơn."
+
+#: ../src/gui/run.cs:857
+#: ../src/gui/run.cs:881
+#: ../src/gui/run.cs:900
+msgid "Not defined"
+msgstr "Chưa xác định"
+
+#.string myString =  Catalog.GetString ("Run type: '") +
+#.Util.RemoveTildeAndColonAndDot(entry_name.Text) +
+#.Catalog.GetString ("' exists. Please, use another name");
+#: ../src/gui/runType.cs:116
+#, csharp-format
+msgid "Run type: '{0}' exists. Please, use another name"
+msgstr "Kiểu chạy '{0}' đã có. Hãy dùng một tên khác."
+
+#: ../src/gui/session.cs:66
+msgid "New Session"
+msgstr "Phiên chạy mới"
+
+#: ../src/gui/session.cs:109
+#: ../src/gui/session.cs:232
+#, csharp-format
+msgid "Session: '{0}' exists. Please, use another name"
+msgstr "Phiên chạy '{0}' đã có. Hãy dùng một tên khác."
+
+#: ../src/gui/session.cs:172
+msgid "Session Edit"
+msgstr "Sửa đổi phiên chạy"
+
+#: ../src/gui/session.cs:319
+#: ../src/gui/session.cs:476
+msgid "Number"
+msgstr "Số"
+
+#: ../src/gui/session.cs:322
+msgid "Date (M/D/Y)"
+msgstr "Ngày (T/ng/N)"
+
+#: ../src/gui/session.cs:323
+msgid "Persons"
+msgstr "Người"
+
+#: ../src/gui/session.cs:324
+msgid "Jumps simple"
+msgstr "Nhảy đơn giản"
+
+#: ../src/gui/session.cs:325
+msgid "Jumps reactive"
+msgstr "Nhày phản ứng"
+
+#: ../src/gui/session.cs:326
+msgid "Runs simple"
+msgstr "Chạy đơn giản"
+
+#: ../src/gui/session.cs:327
+msgid "Runs interval"
+msgstr "Chạy khoảng"
+
+#: ../src/gui/stats.cs:92
+#: ../src/gui/stats.cs:297
+#: ../src/gui/stats.cs:663
+#: ../src/statType.cs:210
+msgid "Global"
+msgstr "Toàn cục"
+
+#.in cmjPlusPotency show only "all jumps" radiobutton
+#: ../src/gui/stats.cs:94
+#: ../src/gui/stats.cs:314
+#: ../src/gui/stats.cs:348
+#: ../src/gui/stats.cs:650
+#: ../src/gui/stats.cs:665
+#: ../src/statType.cs:239
+msgid "Simple"
+msgstr "Đơn giản"
+
+#: ../src/gui/stats.cs:95
+#: ../src/gui/stats.cs:325
+#: ../src/gui/stats.cs:369
+#: ../src/statType.cs:301
+msgid "With TC"
+msgstr "Với TC"
+
+#.some stats should not be showed as limited jumps
+#: ../src/gui/stats.cs:96
+#: ../src/gui/stats.cs:334
+#: ../src/gui/stats.cs:636
+#: ../src/statType.cs:328
+msgid "Reactive"
+msgstr "Phản ứng"
+
+#: ../src/gui/stats.cs:105
+#: ../src/statType.cs:329
+msgid "Average Index"
+msgstr "Chỉ mục trung bình"
+
+#: ../src/gui/stats.cs:106
+#: ../src/statType.cs:337
+msgid "POTENCY (Bosco)"
+msgstr "LỰC LƯỢNG (Bosco)"
+
+#.9.81^2*TV*TT / (4*jumps*(TT-TV))
+#: ../src/gui/stats.cs:107
+#: ../src/gui/stats.cs:376
+#: ../src/gui/stats.cs:438
+#: ../src/gui/stats.cs:637
+#: ../src/gui/stats.cs:821
+#: ../src/statType.cs:345
+msgid "Evolution"
+msgstr "Evolution"
+
+#: ../src/gui/stats.cs:111
+#: ../src/gui/stats.cs:350
+#: ../src/gui/stats.cs:666
+#: ../src/statType.cs:246
+msgid "No indexes"
+msgstr "Không có chỉ mục"
+
+#: ../src/gui/stats.cs:119
+#: ../src/gui/stats.cs:513
+#: ../src/gui/stats.cs:833
+#: ../src/report.cs:315
+#: ../src/stats/main.cs:228
+msgid "All"
+msgstr "Tất cả"
+
+#.put none in combo
+#: ../src/gui/stats.cs:120
+#: ../src/gui/stats.cs:547
+#: ../src/stats/main.cs:235
+msgid "None"
+msgstr "Không có"
+
+#: ../src/gui/stats.cs:121
+#: ../src/stats/main.cs:240
+msgid "Invert"
+msgstr "Đảo"
+
+#: ../src/gui/stats.cs:122
+#: ../src/gui/stats.cs:275
+#: ../src/gui/stats.cs:532
+msgid "Selected"
+msgstr "Đã chọn"
+
+#.if selected 'male' or 'female', showSex and redo the treeview if needed
+#: ../src/gui/stats.cs:123
+#: ../src/gui/stats.cs:278
+#: ../src/stats/main.cs:251
+msgid "Male"
+msgstr "Nam"
+
+#: ../src/gui/stats.cs:124
+#: ../src/gui/stats.cs:279
+#: ../src/stats/main.cs:265
+msgid "Female"
+msgstr "Nữ"
+
+#: ../src/gui/stats.cs:835
+#: ../src/report.cs:317
+msgid "Limit"
+msgstr "Hạn chế"
+
+#: ../src/gui/stats.cs:838
+#: ../src/report.cs:320
+msgid "Jumper's best"
+msgstr "Tốt nhất của người nhảy"
+
+#: ../src/gui/stats.cs:841
+#: ../src/report.cs:323
+msgid "Jumper's average"
+msgstr "Trung bình của người nhảy"
+
+#: ../src/jump.cs:144
+#: ../src/jump.cs:604
+msgid "You are IN, JUMP when prepared!!"
+msgstr "Bạn đã VÀO, NHẢY khi sẵn sàng !"
+
+#: ../src/jump.cs:164
+msgid "You are OUT, come inside and press button"
+msgstr "Bạn đã đi RA, đến vào rồi bấm cái nút"
+
+#: ../src/jump.cs:185
+#: ../src/jump.cs:601
+msgid "You are OUT, JUMP when prepared!!"
+msgstr "Bạn đã đi RA, NHẢY khi sẵn sàng !"
+
+#: ../src/jump.cs:207
+msgid "You are IN, please, go out and press button"
+msgstr "Bạn đã VÀO, đi ra rồi bấm cái nút"
+
+#: ../src/jump.cs:607
+msgid ""
+"You are IN, please go out the platform, prepare for jump and press button"
+msgstr "Bạn đã VÀO, đi ra nền tảng, chuẩn bị nhảy rồi bấm cái nút"
+
+#: ../src/jump.cs:609
+msgid ""
+"You are OUT, please put on the platform, prepare for jump and press button"
+msgstr "Bạn đã đi RA, vào nền tảng, chuẩn bị nhảy rồi bấm cái nút"
+
+#: ../src/platform.cs:51
+#, csharp-format
+msgid "Error, state '{0}' non valid"
+msgstr "Lỗi : tình trạng « {0} » không hợp lệ"
+
+#: ../src/platform.cs:57
+#, csharp-format
+msgid "State: {0}, lastChange {1}"
+msgstr "Tình trạng: « {0} », thay đổi cuối cùng {1}"
+
+#: ../src/pulse.cs:153
+msgid ""
+"You are IN, please go out the platform, prepare for start, and press button!!"
+msgstr "Bạn đã VÀO, đi ra nền tảng, chuẩn bị bắt đầu, rồi bấm cái nút !"
+
+#: ../src/pulse.cs:161
+msgid "You are OUT, start when prepared!!"
+msgstr "Bạn đã đi RA, bắt đầu khi sẵn sàng !"
+
+#: ../src/pulse.cs:316
+msgid "Last pulse"
+msgstr "Mạch cuối cùng"
+
+#: ../src/report.cs:329
+msgid "Evolution."
+msgstr "Evolution."
+
+#: ../src/run.cs:122
+#: ../src/run.cs:439
+msgid "You are IN, RUN when prepared!!"
+msgstr "Bạn đã VÀO, CHẠY khi sẵn sàng !"
+
+#: ../src/run.cs:127
+#: ../src/run.cs:444
+msgid "You are OUT, RUN when prepared!!"
+msgstr "Bạn đã đi RA, CHẠY khi sẵn sàng !"
+
+#: ../src/run.cs:222
+#: ../src/run.cs:611
+msgid "Last run"
+msgstr "Chạy cuối cùng"
+
+#: ../src/run.cs:224
+msgid "speed"
+msgstr "tốc độ"
+
+#: ../src/run.cs:613
+msgid "AVG Speed"
+msgstr "Tốc độ trung bình"
+
+#: ../src/stats/cmjPlusPotency.cs:56
+msgid "Person Weight"
+msgstr "Nặng người"
+
+#: ../src/stats/cmjPlusPotency.cs:57
+msgid "Extra Weight"
+msgstr "Nặng thêm"
+
+#.limit
+#: ../src/stats/djIndex.cs:115
+#: ../src/stats/djQ.cs:115
+#: ../src/stats/ieIub.cs:131
+#: ../src/stats/rjEvolution.cs:257
+#: ../src/stats/rjIndex.cs:117
+#: ../src/stats/rjPotencyBosco.cs:119
+#: ../src/stats/sjCmjAbk.cs:113
+#: ../src/stats/sjCmjAbkPlus.cs:123
+#, csharp-format
+msgid "First {0} values"
+msgstr "Giá trị {0} thứ nhất"
+
+#.best of each jumper
+#.this options are not possible in this index
+#.*
+#.if(statsJumpsType == 0) { //all jumps
+#.selectedValuesString = allValuesString;
+#.} else if(statsJumpsType == 1) { //limit
+#.selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit);
+#.
+#.best of each jumper
+#.this options are not possible in this statistic
+#.*
+#.if(statsJumpsType == 0) { //all jumps
+#.selectedValuesString = allValuesString;
+#.} else if(statsJumpsType == 1) { //limit
+#.selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit);
+#.
+#.best of each jumper
+#: ../src/stats/djIndex.cs:117
+#: ../src/stats/djQ.cs:117
+#: ../src/stats/fv.cs:110
+#: ../src/stats/global.cs:136
+#: ../src/stats/ieIub.cs:133
+#: ../src/stats/rjEvolution.cs:259
+#: ../src/stats/rjIndex.cs:119
+#: ../src/stats/rjPotencyBosco.cs:121
+#: ../src/stats/sjCmjAbk.cs:115
+#: ../src/stats/sjCmjAbkPlus.cs:125
+#, csharp-format
+msgid "Max {0} values of each jumper"
+msgstr "Giá trị {0} tối đa của mỗi người nhảy"
+
+#: ../src/stats/djIndex.cs:124
+#: ../src/stats/djQ.cs:124
+#: ../src/stats/fv.cs:117
+#: ../src/stats/global.cs:143
+#: ../src/stats/ieIub.cs:140
+#: ../src/stats/rjEvolution.cs:270
+#: ../src/stats/rjIndex.cs:126
+#: ../src/stats/rjPotencyBosco.cs:128
+#: ../src/stats/sjCmjAbk.cs:122
+#: ../src/stats/sjCmjAbkPlus.cs:132
+msgid " various sessions "
+msgstr " phiên chạy khác nhau "
+
+#: ../src/stats/djIndex.cs:127
+#: ../src/stats/djQ.cs:127
+#: ../src/stats/fv.cs:120
+#: ../src/stats/global.cs:146
+#: ../src/stats/ieIub.cs:143
+#: ../src/stats/rjEvolution.cs:273
+#: ../src/stats/rjIndex.cs:129
+#: ../src/stats/rjPotencyBosco.cs:131
+#: ../src/stats/sjCmjAbk.cs:125
+#: ../src/stats/sjCmjAbkPlus.cs:135
+msgid " session "
+msgstr " phiên chạy "
+
+#: ../src/stats/djIndex.cs:131
+#, csharp-format
+msgid "{0} in Dj Index [(tv-tc)/tc * 100] applied to {1} on {2}"
+msgstr "{0} trong chỉ mục Dj [(tv-tc)/tc * 100] được áp dụng cho {1} trên {2}"
+
+#: ../src/stats/djQ.cs:32
+msgid "Q Index"
+msgstr "Chỉ mục Q"
+
+#: ../src/stats/djQ.cs:131
+#, csharp-format
+msgid "{0} in Q Index [tv/tc] applied to {1} on {2}"
+msgstr "{0} trong chỉ mục Q [tv/tc] được áp dụng cho {1} trên {2}"
+
+#: ../src/stats/fv.cs:51
+#: ../src/stats/fv.cs:52
+#: ../src/stats/graphs/fv.cs:78
+#: ../src/stats/graphs/fv.cs:79
+msgid "height"
+msgstr "cao"
+
+#: ../src/stats/fv.cs:124
+#, csharp-format
+msgid "{0} in Index FV [SJ+(100%)/SJ *100] on {1}"
+msgstr "{0} trong chỉ mục FV [SJ+(100%)/SJ *100] trên {1}"
+
+#: ../src/stats/global.cs:52
+msgid "Value"
+msgstr "Giá trị"
+
+#: ../src/stats/global.cs:153
+#, csharp-format
+msgid " for person {0}({1})"
+msgstr " cho người {0}({1})"
+
+#: ../src/stats/global.cs:156
+#, csharp-format
+msgid "{0} in some jumps and statistics on {1}{2}"
+msgstr "{0} trong một số sự nhảy và thống kê trên {1}{2}"
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:59
+#: ../src/stats/graphs/djIndex.cs:57
+#: ../src/stats/graphs/djQ.cs:57
+#: ../src/stats/graphs/fv.cs:63
+#: ../src/stats/graphs/global.cs:57
+#: ../src/stats/graphs/ieIub.cs:70
+#: ../src/stats/graphs/rjEvolution.cs:70
+#: ../src/stats/graphs/rjIndex.cs:58
+#: ../src/stats/graphs/rjPotencyBosco.cs:60
+#: ../src/stats/graphs/sjCmjAbk.cs:55
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:56
+msgid "ChronoJump graph"
+msgstr "Đồ thị ChronoJump"
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:74
+msgid "CmjPlusPotency"
+msgstr "Lực lượng thêm CMJ"
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:75
+msgid "Person weight"
+msgstr "Nặng người"
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:99
+#: ../src/stats/graphs/cmjPlusPotency.cs:106
+msgid "watts"
+msgstr "oát"
+
+#.don't plot AVG and SD rows
+#.if multisession, add AVG and SD cols
+#: ../src/stats/graphs/cmjPlusPotency.cs:120
+#: ../src/stats/graphs/cmjPlusPotency.cs:169
+#: ../src/stats/graphs/djIndex.cs:126
+#: ../src/stats/graphs/djIndex.cs:177
+#: ../src/stats/graphs/djQ.cs:126
+#: ../src/stats/graphs/djQ.cs:178
+#: ../src/stats/graphs/fv.cs:121
+#: ../src/stats/graphs/fv.cs:167
+#: ../src/stats/graphs/global.cs:122
+#: ../src/stats/graphs/global.cs:193
+#: ../src/stats/graphs/ieIub.cs:128
+#: ../src/stats/graphs/ieIub.cs:172
+#: ../src/stats/graphs/rjIndex.cs:123
+#: ../src/stats/graphs/rjIndex.cs:170
+#: ../src/stats/graphs/rjPotencyBosco.cs:140
+#: ../src/stats/graphs/rjPotencyBosco.cs:195
+#: ../src/stats/graphs/sjCmjAbk.cs:108
+#: ../src/stats/graphs/sjCmjAbk.cs:150
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:119
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:164
+#: ../src/stats/main.cs:185
+#: ../src/stats/main.cs:217
+#: ../src/stats/main.cs:326
+#: ../src/stats/main.cs:352
+#: ../src/stats/main.cs:462
+#: ../src/stats/main.cs:545
+#: ../src/stats/main.cs:642
+#: ../src/stats/report/sjCmjAbk.cs:72
+#: ../src/stats/rjEvolution.cs:218
+msgid "AVG"
+msgstr "TB"
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:120
+#: ../src/stats/graphs/cmjPlusPotency.cs:169
+#: ../src/stats/graphs/djIndex.cs:126
+#: ../src/stats/graphs/djIndex.cs:177
+#: ../src/stats/graphs/djQ.cs:126
+#: ../src/stats/graphs/djQ.cs:178
+#: ../src/stats/graphs/fv.cs:121
+#: ../src/stats/graphs/fv.cs:167
+#: ../src/stats/graphs/global.cs:122
+#: ../src/stats/graphs/global.cs:193
+#: ../src/stats/graphs/ieIub.cs:128
+#: ../src/stats/graphs/ieIub.cs:172
+#: ../src/stats/graphs/rjIndex.cs:123
+#: ../src/stats/graphs/rjIndex.cs:170
+#: ../src/stats/graphs/rjPotencyBosco.cs:140
+#: ../src/stats/graphs/rjPotencyBosco.cs:195
+#: ../src/stats/graphs/sjCmjAbk.cs:108
+#: ../src/stats/graphs/sjCmjAbk.cs:150
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:119
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:164
+#: ../src/stats/main.cs:185
+#: ../src/stats/main.cs:217
+#: ../src/stats/main.cs:327
+#: ../src/stats/main.cs:353
+#: ../src/stats/main.cs:463
+#: ../src/stats/main.cs:546
+#: ../src/stats/main.cs:642
+#: ../src/stats/report/sjCmjAbk.cs:73
+#: ../src/stats/rjEvolution.cs:218
+msgid "SD"
+msgstr "SD"
+
+#: ../src/stats/graphs/djIndex.cs:73
+#: ../src/stats/graphs/fv.cs:77
+#: ../src/stats/graphs/global.cs:71
+#: ../src/stats/graphs/ieIub.cs:85
+#: ../src/stats/graphs/rjIndex.cs:74
+#: ../src/stats/graphs/rjPotencyBosco.cs:78
+#: ../src/stats/rjEvolution.cs:66
+#: ../src/stats/rjIndex.cs:32
+#: ../src/stats/rjPotencyBosco.cs:32
+msgid "Index"
+msgstr "Chỉ mục"
+
+#: ../src/stats/graphs/djQ.cs:73
+msgid "Index *100"
+msgstr "Chỉ mục*100"
+
+#: ../src/stats/graphs/global.cs:92
+#: ../src/stats/graphs/global.cs:103
+#: ../src/stats/graphs/sjCmjAbk.cs:85
+#: ../src/stats/graphs/sjCmjAbk.cs:92
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:103
+msgid "centimeters"
+msgstr "cen-ti-mét"
+
+#: ../src/stats/ieIub.cs:151
+#, csharp-format
+msgid "{0} in index {1} on {2}"
+msgstr "{0} trong chỉ mục {1} trên {2}"
+
+#: ../src/stats/rjEvolution.cs:279
+#, csharp-format
+msgid " (best {0} consecutive jumps marked using [tv/tc *100])"
+msgstr " ({0} sự nhảy liên tiếp tốt nhất được đánh dấu bằng [tv/tc *100])"
+
+#: ../src/stats/rjEvolution.cs:282
+#, csharp-format
+msgid "{0} in Rj Evolution applied to {1} on {2}{3}"
+msgstr "{0} in Rj Evolution được áp dụng cho {1} trên {2}{3}"
+
+#: ../src/stats/rjIndex.cs:33
+#: ../src/stats/rjPotencyBosco.cs:33
+msgid "TV(AVG)"
+msgstr "TV(TB)"
+
+#: ../src/stats/rjIndex.cs:34
+#: ../src/stats/rjPotencyBosco.cs:34
+msgid "TC(AVG)"
+msgstr "TC(TB)"
+
+#: ../src/stats/rjIndex.cs:133
+#, csharp-format
+msgid "{0} in Rj Index [(tvavg-tcavg)/tcavg *100] applied to {1} on {2}"
+msgstr "{0} trong chỉ mục Rj [(tvavg-tcavg)/tcavg *100] được áp dụng cho {1} trên {2}"
+
+#: ../src/stats/rjPotencyBosco.cs:135
+#, csharp-format
+msgid ""
+"{0} in Rj Potency Bosco [(9.81^2 *tvavg * jumps * time) / (4 * jumps * (time "
+"- tvavg*jumps) ] applied to {1} on {2}"
+msgstr "{0} in Rj Lực lượng Bosco [(9.81^2 *tvavg * nhảy * thời gian) / (4 * nhảy * (thời gian - tvavg*nhảy) ] được áp dụng cho {1} trên {2}"
+
+#: ../src/stats/sjCmjAbk.cs:129
+#, csharp-format
+msgid "{0} in {1} jump on {2}"
+msgstr "{0} trong {1} sự nhảy trên {2}"
+
+#: ../src/stats/sjCmjAbkPlus.cs:55
+#: ../src/treeViewJump.cs:34
+msgid "Weight %"
+msgstr "Nặng %"
+
+#: ../src/stats/sjCmjAbkPlus.cs:139
+#, csharp-format
+msgid "{0} in {1} on {2}"
+msgstr "{0} trong {1} trên {2}"
+
+#: ../src/treeViewPerson.cs:42
+msgid "person"
+msgstr "người"
+
+#: ../src/treeViewPulse.cs:47
+msgid "Difference"
+msgstr "Hiệu"
+
+#: ../src/treeViewPulse.cs:48
+msgid "Difference %"
+msgstr "Hiệu %"

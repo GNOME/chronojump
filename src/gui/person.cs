@@ -40,6 +40,7 @@ public class PersonRecuperateWindow {
 	protected string selected;
 	[Widget] protected Gtk.TreeView treeview_person_recuperate;
 	[Widget] protected Gtk.Button button_recuperate;
+	[Widget] protected Gtk.Statusbar statusbar1;
 	
 	[Widget] protected Gtk.Box hbox_from_session_hide; //used in person recuperate multiple (hided in current class)
 	
@@ -96,7 +97,7 @@ public class PersonRecuperateWindow {
 		tv.AppendColumn ( Catalog.GetString("Sex"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Height"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Weight"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString("Date born"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Date of Birth"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Description"), new CellRendererText(), "text", count++);
 	}
 	
@@ -198,6 +199,8 @@ public class PersonRecuperateWindow {
 			treeview_person_recuperate.Model = store;
 		
 			fillTreeView(treeview_person_recuperate,store);
+				
+			statusbar1.Push( 1, Catalog.GetString("Loaded") + " " + currentPerson.Name );
 		}
 	}
 	

@@ -1,5 +1,17 @@
 CHANGELOG:
 
+
+4 jun 2006
+	load persons has now a statusbar showing who's just loaded
+
+	on linux starts also always as simulated (avoid problems with gtk
+	radiobutton chronopic menu)
+	
+	fixed web site on report
+
+	fixed lots of english strings, thanks to Clytie Siddall (Vietnamese
+	translation)
+
 16 may 2006
 	helpPorts now shows different info for Linux and Windows, and in
 	Windows autodetects ports

@@ -297,7 +297,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label48">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Weight&lt;/b&gt;(Kg)</property>
+	      <property name="label" translatable="yes">&lt;b&gt;Weight&lt;/b&gt; (Kg)</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -369,7 +369,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label50">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Born date
+	      <property name="label" translatable="yes">Date of Birth
 DD/MM/YYYY</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
@@ -1254,6 +1254,18 @@ D/M/YYYY</property>
 	  <property name="fill">False</property>
 	</packing>
       </child>
+
+      <child>
+	<widget class="GtkStatusbar" id="statusbar1">
+	  <property name="visible">True</property>
+	  <property name="has_resize_grip">True</property>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">False</property>
+	</packing>
+      </child>
     </widget>
   </child>
 </widget>
@@ -1386,7 +1398,7 @@ D/M/YYYY</property>
 	  <child>
 	    <widget class="GtkLabel" id="label38">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Decimals number</property>
+	      <property name="label" translatable="yes">Decimal number</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1597,7 +1609,7 @@ D/M/YYYY</property>
 <widget class="GtkDialog" id="error_dialog">
   <property name="border_width">10</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">ChronoJump - error</property>
+  <property name="title" translatable="yes">ChronoJump - Error</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
@@ -3273,7 +3285,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label81">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt; </property>
+	      <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4285,7 +4297,7 @@ average</property>
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="label" translatable="yes">jumper's
-best's</property>
+bests</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -4729,7 +4741,7 @@ best's</property>
 	    <widget class="GtkCheckButton" id="checkbutton_show_enunciate">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">enunciate</property>
+	      <property name="label" translatable="yes">description</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -4758,7 +4770,7 @@ best's</property>
 	      <child>
 		<widget class="GtkTextView" id="textview_enunciate">
 		  <property name="visible">True</property>
-		  <property name="tooltip" translatable="yes">statistic's enunciate</property>
+		  <property name="tooltip" translatable="yes">statistic's description</property>
 		  <property name="editable">False</property>
 		  <property name="overwrite">True</property>
 		  <property name="accepts_tab">False</property>
@@ -5906,7 +5918,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label133">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt; </property>
+	      <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -5934,7 +5946,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label_description">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Description </property>
+	      <property name="label" translatable="yes">Description</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -6090,7 +6102,7 @@ options</property>
 	      <child>
 		<widget class="GtkLabel" id="label139">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Limited by </property>
+		  <property name="label" translatable="yes">Limited by</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -6248,7 +6260,7 @@ options</property>
 		<widget class="GtkRadioButton" id="radiobutton_interval">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">intervalic</property>
+		  <property name="label" translatable="yes">intervallic</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -6565,8 +6577,8 @@ options</property>
 	  <child>
 	    <widget class="GtkLabel" id="label143">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Use this window for adding until 10 persons
-If you need more, just repeat the operation later</property>
+	      <property name="label" translatable="yes">Use this window for adding until 10 persons.
+If you need more, just repeat the operation later.</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -8372,7 +8384,7 @@ If you need more, just repeat the operation later</property>
 		    <widget class="GtkCheckButton" id="cb_runs_interval">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">intervalic runs</property>
+		      <property name="label" translatable="yes">intervallic runs</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -11092,7 +11104,7 @@ If you need more, just repeat the operation later</property>
 		  <child>
 		    <widget class="GtkMenuItem" id="execute_intervalic_runs1">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Execute intervalic runs</property>
+		      <property name="label" translatable="yes">Execute intervallic runs</property>
 		      <property name="use_underline">True</property>
 
 		      <child>
@@ -11128,7 +11140,7 @@ If you need more, just repeat the operation later</property>
 			  <child>
 			    <widget class="GtkImageMenuItem" id="more_interval_runs">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">More intervalic runs</property>
+			      <property name="label" translatable="yes">More intervallic runs</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_button_run_interval_more_clicked" last_modification_time="Tue, 16 Aug 2005 01:18:41 GMT"/>
 
@@ -11153,7 +11165,7 @@ If you need more, just repeat the operation later</property>
 		  <child>
 		    <widget class="GtkImageMenuItem" id="menuitem_edit_selected_run_interval">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Edit selected intervalic run</property>
+		      <property name="label" translatable="yes">Edit selected intervallic run</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_edit_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
 
@@ -11174,7 +11186,7 @@ If you need more, just repeat the operation later</property>
 		  <child>
 		    <widget class="GtkImageMenuItem" id="menuitem_repair_selected_interval_run">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Repair selected interval run</property>
+		      <property name="label" translatable="yes">Repair selected intervallic run</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_repair_selected_run_interval_clicked" last_modification_time="Wed, 03 May 2006 15:15:38 GMT"/>
 
@@ -11195,7 +11207,7 @@ If you need more, just repeat the operation later</property>
 		  <child>
 		    <widget class="GtkImageMenuItem" id="menuitem_delete_selected_run_interval">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Delete selected intervalic run</property>
+		      <property name="label" translatable="yes">Delete selected intervallic run</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_delete_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
 
@@ -13347,7 +13359,7 @@ If you need more, just repeat the operation later</property>
 				      <child>
 					<widget class="GtkButton" id="button_repair_selected_interval_run">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Repair selected interval run</property>
+					  <property name="tooltip" translatable="yes">Repair selected intervallic run</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -13614,7 +13626,7 @@ If you need more, just repeat the operation later</property>
 		  <child>
 		    <widget class="GtkLabel" id="label97">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Run Interval</property>
+		      <property name="label" translatable="yes">Run Intervallic</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -13831,7 +13843,7 @@ If you need more, just repeat the operation later</property>
 				      <child>
 					<widget class="GtkButton" id="button_repair_selected_pulse">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Repair selected interval run</property>
+					  <property name="tooltip" translatable="yes">Repair selected intervallic run</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -14784,7 +14796,7 @@ If you need more, just repeat the operation later</property>
 	<widget class="GtkHBox" id="hbox130">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">8</property>
 
 	  <child>
 	    <widget class="GtkImage" id="image1662">

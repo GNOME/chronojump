@@ -312,7 +312,8 @@ public class ChronoJump
 
 		//start as "simulated" if we are on windows
 		//(until we improve the Timeout on chronopic)
-		if(Util.IsWindows()) 
+		//changed: do also in Linux, because there are some problems in the initialization of chronopic (for the radiobutton in the gtk menu)
+		//if(Util.IsWindows()) 
 			SqlitePreferences.Update("simulated", "True");
 
 		cpRunning = false;
@@ -368,7 +369,7 @@ public class ChronoJump
 	{
 		Console.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
 		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xavi@xdeblas.com") );
-		Console.WriteLine ( Catalog.GetString ("if you used modem by serial port before (in a linux session) chronojump chrases") );
+		Console.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a linux session), chronojump will crash.") );
 		Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
 		Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
@@ -387,7 +388,7 @@ public class ChronoJump
 			respuesta=cp.Read_platform(out platformState);
 			switch(respuesta) {
 				case Chronopic.Respuesta.Error:
-					Console.WriteLine(Catalog.GetString("Error comunicating with Chronopic"));
+					Console.WriteLine(Catalog.GetString("Error communicating with Chronopic"));
 					break;
 				case Chronopic.Respuesta.Timeout:
 					Console.WriteLine(Catalog.GetString("Chronopic in not responding"));
@@ -409,14 +410,14 @@ public class ChronoJump
 				//-- Si hay error terminar
 				Console.WriteLine("Error: {0}",cp.Error);
 				/*
-				new DialogMessage(Catalog.GetString("Problems comunicating to chronopic, changed platform to 'Simulated'"));
+				new DialogMessage(Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'"));
 				*/
 				success = false;
 			}
 		} catch {
 			/*
-			new DialogMessage(Catalog.GetString("Problems comunicating to chronopic, changed platform to 'Simulated'"));
-			Console.WriteLine("Problems comunicating to chronopic, changed platform to 'Simulated'");
+			new DialogMessage(Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'"));
+			Console.WriteLine("Problems communicating to chronopic, changed platform to 'Simulated'");
 			//TODO: raise a error window
 			
 			//this will raise on_radiobutton_simulated_ativate and 
@@ -427,8 +428,8 @@ public class ChronoJump
 		}
 				
 		if(! success) {
-			new DialogMessage(Catalog.GetString("Problems comunicating to chronopic, changed platform to 'Simulated'"));
-			//Console.WriteLine("Problems comunicating to chronopic, changed platform to 'Simulated'");
+			new DialogMessage(Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'"));
+			//Console.WriteLine("Problems communicating to chronopic, changed platform to 'Simulated'");
 			//TODO: raise a error window
 			
 			//this will raise on_radiobutton_simulated_ativate and 
@@ -1117,7 +1118,7 @@ public class ChronoJump
 	
 	private void on_delete_session_activate (object o, EventArgs args) {
 		Console.WriteLine("delete session");
-		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Are you sure you want to delete current session"), Catalog.GetString("and all it's jumps?"));
+		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Are you sure you want to delete current session"), Catalog.GetString("and all its jumps?"));
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
 	}
 	
@@ -1274,7 +1275,7 @@ public class ChronoJump
 	private void on_delete_current_person_from_session_activate (object o, EventArgs args) {
 		Console.WriteLine("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, 
-				Catalog.GetString("Are you sure you want to delete current person and all it's jumps from this session?\n(It's personal data and jumps in other sessions will remain intact)"), 
+				Catalog.GetString("Are you sure you want to delete current person and all its jumps from this session?\n(Its personal data and jumps in other sessions will remain intact)"), 
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
@@ -1282,7 +1283,7 @@ public class ChronoJump
 	
 	private void on_delete_current_person_from_session_accepted (object o, EventArgs args) 
 	{
-		Console.WriteLine("current person and it's jumps deleted from this session");
+		Console.WriteLine("current person and its jumps deleted from this session");
 		SqlitePersonSession.DeletePersonFromSessionAndJumps(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
@@ -1367,7 +1368,7 @@ public class ChronoJump
 		//on windows currently there's no timeout on init of chronopic
 		//show this window, and start chronopic only when button_accept is clicjed
 		if(Util.IsWindows()) {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **:</b> generate a event with the platform or with chronopic.\nIf you don't do it, Chronojump will crash.\n"), Catalog.GetString("If crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port on preferences window"));
+			ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **: generate a event with the platform or with chronopic.\nIf you don't do it, Chronojump will crash.\n"), Catalog.GetString("If it crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port in the preferences window"));
 			confirmWin.Button_accept.Clicked += new EventHandler(on_chronopic_accepted);
 			confirmWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
 		} else {
@@ -1576,7 +1577,7 @@ public class ChronoJump
 		}
 	}
 	
-	//here comes the SJ+, DJ and every jump that has weight or fall or both. Also the reactive jumps (for defining it's limited value or weight or fall)
+	//here comes the SJ+, DJ and every jump that has weight or fall or both. Also the reactive jumps (for defining is limited value or weight or fall)
 	private void on_jump_extra_activate (object o, EventArgs args) 
 	{
 		Console.WriteLine("jump extra");
@@ -2288,7 +2289,7 @@ public class ChronoJump
 				int myID = myTreeViewJumps.EventSelectedID;
 				if(lastJumpIsReactive) {
 					notebook_change(1);
-					warningString = Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"); 
+					warningString = Catalog.GetString("Attention: Deleting a RJ subjump will delete the whole jump"); 
 					myID = myTreeViewJumpsRj.EventSelectedID;
 				} else {
 					notebook_change(0);
@@ -2306,7 +2307,7 @@ public class ChronoJump
 				int myID = myTreeViewRuns.EventSelectedID;
 				if (lastRunIsInterval) {
 					/*
-					warningString = Catalog.GetString("Atention: Deleting a intervalic sub-run will delete all the run"); 
+					warningString = Catalog.GetString("Attention: Deleting a intervalic sub-run will delete the whole run"); 
 					myID = myTreeViewRunsInterval.EventSelectedID;
 					*/
 					notebook_change(3);
@@ -2471,7 +2472,7 @@ public class ChronoJump
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
-						 Catalog.GetString("Atention: Deleting a RJ subjump will delete all the RJ"), 
+						 Catalog.GetString("Attention: Deleting a RJ subjump will delete the whole jump"), 
 						 "jump", myTreeViewJumpsRj.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
@@ -2633,7 +2634,7 @@ public class ChronoJump
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected run?"), 
-						 Catalog.GetString("Atention: Deleting a Intervalic subrun will delete all the run"), 
+						 Catalog.GetString("Attention: Deleting a Intervallic subrun will delete the whole run"), 
 						 "run", myTreeViewJumpsRj.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
 			} else {
@@ -2661,7 +2662,7 @@ public class ChronoJump
 		
 		SqliteRun.Delete( "runInterval", (myTreeViewRunsInterval.EventSelectedID).ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted interval run: " ) + myTreeViewRunsInterval.EventSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted intervallic run: " ) + myTreeViewRunsInterval.EventSelectedID );
 	
 		myTreeViewRunsInterval.DelEvent(myTreeViewRunsInterval.EventSelectedID);
 

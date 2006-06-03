@@ -74,7 +74,7 @@ public class EditRunWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a run\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditRunWindow Show (Gtk.Window parent, Run myRun, int pDN)
@@ -254,7 +254,7 @@ public class EditRunIntervalWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a intervalic run\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a intervallic run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
@@ -396,11 +396,11 @@ public class RepairRunIntervalWindow
 		this.parent = parent;
 		this.runInterval = myRun;
 	
-		repair_sub_event.Title = Catalog.GetString("Repair interval run");
+		repair_sub_event.Title = Catalog.GetString("Repair intervallic run");
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for repair a intervalic run\nDouble clic any cell for editing (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window for repair a intervallic run.\nDouble clic any cell for editing (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
 		runType = SqliteRunType.SelectAndReturnRunIntervalType(myRun.Type);

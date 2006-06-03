@@ -401,7 +401,7 @@ public class Report : ExportSession
 	protected override void printFooter()
 	{
 		writer.WriteLine("\n<div id=\"footer\"><hr align=\"right\" width=\"50%\">");
-		writer.WriteLine("\nGenerated on " + DateTime.Now + ", by <a href=\"http://chronojump.software-libre.org\">Chronojump</a> v." + progversion );
+		writer.WriteLine("\nGenerated on " + DateTime.Now + ", by <a href=\"http://gnome.org/projects/chronojump\">Chronojump</a> v." + progversion );
 		writer.WriteLine("\n</BODY></HTML>");
 	}
 	

@@ -79,7 +79,7 @@ public class EditJumpWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a jump\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a jump.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditJumpWindow Show (Gtk.Window parent, Jump myJump, int pDN)
@@ -291,7 +291,7 @@ public class EditJumpRjWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a reactive jump\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a reactive jump.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
@@ -475,7 +475,7 @@ public class RepairJumpRjWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for repair a reactive jump\nDouble clic any cell for editing (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window for repair a reactive jump.\nDouble clic any cell for editing (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
 		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type);

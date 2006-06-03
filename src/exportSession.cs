@@ -56,9 +56,9 @@ public class ExportSession
 	{
 		string exportString = "";
 		if(formatFile == "report") {
-			exportString = Catalog.GetString ("Save report in ");
+			exportString = Catalog.GetString ("Save report as...");
 		} else {
-			exportString = Catalog.GetString ("Export session in " + formatFile + " format");
+			exportString = Catalog.GetString ("Export session in format " + formatFile);
 		}
 
 			

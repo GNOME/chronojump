@@ -74,7 +74,7 @@ public class EditRunWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditRunWindow Show (Gtk.Window parent, Run myRun, int pDN)
@@ -254,7 +254,7 @@ public class EditRunIntervalWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a intervallic run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a intervallic run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
@@ -400,7 +400,7 @@ public class RepairRunIntervalWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for repair a intervallic run.\nDouble clic any cell for editing (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to repair a intervallic run.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
 		runType = SqliteRunType.SelectAndReturnRunIntervalType(myRun.Type);
@@ -442,10 +442,10 @@ public class RepairRunIntervalWindow
 		if(myRunType.FixedValue > 0) {
 			if(myRunType.TracksLimited) {
 				//if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
-				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed for {0} runs, you cannot add more."), myRunType.FixedValue);
+				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed to {0} runs, you cannot add more."), myRunType.FixedValue);
 			} else {
 				//if it's a run type timeLimited with a fixed value, then complain when the total time is higher
-				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed for {0} seconds, totaltime cannot be greater."), myRunType.FixedValue);
+				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed to {0} seconds, totaltime cannot be greater."), myRunType.FixedValue);
 			}
 		}
 		return runTypeString + fixedString;

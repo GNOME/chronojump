@@ -1118,13 +1118,13 @@ public class ChronoJump
 	
 	private void on_delete_session_activate (object o, EventArgs args) {
 		Console.WriteLine("delete session");
-		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Are you sure you want to delete current session"), Catalog.GetString("and all its jumps?"));
+		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Are you sure you want to delete the current session"), Catalog.GetString("and all the session events?"));
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
 	}
 	
 	private void on_delete_session_accepted (object o, EventArgs args) 
 	{
-		Console.WriteLine("session and jumps deleted");
+		appbar2.Push( 1, Catalog.GetString("Deleted session and all its events") );
 		SqliteSession.DeleteWithJumps(currentSession.UniqueID.ToString());
 		
 		sensitiveGuiNoSession();
@@ -1169,7 +1169,7 @@ public class ChronoJump
 	}
 		
 	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
-		Console.WriteLine("recuperate persons from other session (not implemented)");
+		Console.WriteLine("recuperate persons from other session");
 		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession.UniqueID);
 		personsRecuperateFromOtherSessionWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
@@ -1275,7 +1275,7 @@ public class ChronoJump
 	private void on_delete_current_person_from_session_activate (object o, EventArgs args) {
 		Console.WriteLine("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, 
-				Catalog.GetString("Are you sure you want to delete current person and all its jumps from this session?\n(Its personal data and jumps in other sessions will remain intact)"), 
+				Catalog.GetString("Are you sure you want to delete the current person and all his/her jumps from this session?\n(His/her personal data and events in other sessions will remain intact)"), 
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
@@ -1283,7 +1283,7 @@ public class ChronoJump
 	
 	private void on_delete_current_person_from_session_accepted (object o, EventArgs args) 
 	{
-		Console.WriteLine("current person and its jumps deleted from this session");
+		appbar2.Push( 1, Catalog.GetString("Deleted person and all his/her events on this session") );
 		SqlitePersonSession.DeletePersonFromSessionAndJumps(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		

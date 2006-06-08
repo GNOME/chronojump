@@ -61,9 +61,9 @@ public class EditJumpWindow
 	string entryTc = "0";
 	string entryFall = "0"; 
 	
-	string entryWeight = "0"; //used for record the % for old person if we change it
+	string entryWeight = "0"; //used to record the % for old person if we change it
 
-	int oldPersonID; //used for record the % for old person if we change it
+	int oldPersonID; //used to record the % for old person if we change it
 
 	EditJumpWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
@@ -79,7 +79,7 @@ public class EditJumpWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a jump.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a jump.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditJumpWindow Show (Gtk.Window parent, Jump myJump, int pDN)
@@ -275,8 +275,8 @@ public class EditJumpRjWindow
 	int pDN;
 	string type;
 	string entryFall = "0"; 
-	string entryWeight = "0"; //used for record the % for old person if we change it
-	int oldPersonID; //used for record the % for old person if we change it
+	string entryWeight = "0"; //used to record the % for old person if we change it
+	int oldPersonID; //used to record the % for old person if we change it
 
 	EditJumpRjWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
@@ -291,7 +291,7 @@ public class EditJumpRjWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for edit a reactive jump.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a reactive jump.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
 	static public EditJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
@@ -475,7 +475,7 @@ public class RepairJumpRjWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window for repair a reactive jump.\nDouble clic any cell for editing (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to repair a reactive jump.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
 		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type);
@@ -523,10 +523,10 @@ public class RepairJumpRjWindow
 		if(myJumpType.FixedValue > 0) {
 			if(myJumpType.JumpsLimited) {
 				//if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TV if found
-				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed for {0} jumps, you cannot add more."), myJumpType.FixedValue);
+				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed to {0} jumps, you cannot add more."), myJumpType.FixedValue);
 			} else {
 				//if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
-				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed for {0} seconds, totaltime cannot be greater."), myJumpType.FixedValue);
+				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed to {0} seconds, totaltime cannot be greater."), myJumpType.FixedValue);
 			}
 		}
 		return jumpTypeString + startString + fixedString;
@@ -1205,7 +1205,7 @@ public class JumpsRjMoreWindow
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 
-		//if jumps_runs_more is opened for showing Rj jumpTypes make it wider
+		//if jumps_runs_more is opened to showing Rj jumpTypes make it wider
 		jumps_runs_more.Resize(600,300);
 		
 		createTreeView(treeview_more);

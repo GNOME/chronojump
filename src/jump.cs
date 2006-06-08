@@ -161,7 +161,7 @@ public class Jump
 		else {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, 
-					Catalog.GetString("You are OUT, come inside and press 'accept' button"), "");
+					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "");
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(Manage);
@@ -204,7 +204,7 @@ public class Jump
 		else {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, 
-					Catalog.GetString("You are IN, please leave the platform, and press 'accept' button"), "");
+					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "");
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(ManageFall);
@@ -604,9 +604,9 @@ public class JumpRj : Jump
 			appbar.Push( 1,Catalog.GetString("You are IN, JUMP when prepared!!") );
 			success = true;
 		} else {
-			string myMessage = Catalog.GetString("You are IN, please leave the platform, and press 'accept' button");
+			string myMessage = Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button");
 			if (platformState==Chronopic.Plataforma.OFF ) {
-				myMessage = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press 'accept' button");
+				myMessage = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press the 'accept' button");
 			}
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, myMessage, "");

@@ -1,6 +1,10 @@
 CHANGELOG:
 
 
+8 jun 2006
+	fixed more english strings, thanks to Clytie Siddall (Vietnamese
+	translation)
+
 4 jun 2006
 	load persons has now a statusbar showing who's just loaded
 

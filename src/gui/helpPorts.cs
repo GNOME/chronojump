@@ -45,10 +45,7 @@ public class HelpPorts
 		string messageDetected = "";
 		
 		if(Util.IsWindows()) {
-			messageInfo = string.Format(Catalog.GetString("Typical serial and USB-serial ports on Windows:"));
-			messageInfo += "\n\tCOM1\n\tCOM2\n\n";
-			messageInfo += string.Format(Catalog.GetString("Also, these are possible:"));
-			messageInfo += "\n\tCOM3 ... COM8";
+			messageInfo = Constants.PortNamesWindows;
 
 			string jumpLine = "";
 			foreach (string s in SerialPort.GetPortNames()) {
@@ -56,10 +53,7 @@ public class HelpPorts
 				jumpLine = "\n";
 			}
 		} else {
-			messageInfo = string.Format(Catalog.GetString("Typical serial ports on GNU/Linux:"));
-			messageInfo += "\n\t/dev/ttyS0\n\t/dev/ttyS1\n\n";
-			messageInfo += string.Format(Catalog.GetString("Typical USB-serial ports on GNU/Linux:"));
-			messageInfo += "\n\t/dev/ttyUSB0\n\t/dev/ttyUSB1";
+			messageInfo = Constants.PortNamesLinux;
 				
 			messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled on GNU/Linux"));
 		}

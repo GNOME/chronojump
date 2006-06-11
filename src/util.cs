@@ -20,7 +20,7 @@
  */
 
 using System;
-using System.Data;
+//using System.Data;
 using System.Text; //StringBuilder
 
 using System.Diagnostics; 	//for detect OS

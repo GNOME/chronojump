@@ -1,4 +1,5 @@
 glade/chronojump.glade
+src/chronojump_mini.cs
 src/chronojump.cs
 src/constants.cs
 src/exportSession.cs
@@ -44,5 +45,5 @@ src/stats/sjCmjAbk.cs
 src/stats/sjCmjAbkPlus.cs
 src/treeViewJump.cs
 src/treeViewPerson.cs
-src/treeViewRun.cs
 src/treeViewPulse.cs
+src/treeViewRun.cs

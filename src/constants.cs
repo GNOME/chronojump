@@ -20,7 +20,7 @@
  */
 
 using System;
-using System.Data;
+//using System.Data;
 
 public class Constants
 {
@@ -50,5 +50,16 @@ public class Constants
 		"MediumBlue", "MediumOrchid", "MediumPurple", "MediumTurquoise", "MediumVioletRed", "YellowGreen" 
 	};
 
-}
+	public static string PortNamesWindows = 
+		string.Format(Catalog.GetString("Typical serial and USB-serial ports on Windows:") + 
+				"\n\tCOM1\n\tCOM2\n\n" + 
+				Catalog.GetString("Also, these are possible:") + 
+				"\n\tCOM3 ... COM8");
+	
+	public static string PortNamesLinux = 
+		string.Format(Catalog.GetString("Typical serial serial ports on GNU/Linux:") + 
+				"\n\t/dev/ttyS0\n\t/dev/ttyS1\n\n" +
+				Catalog.GetString("Typical USB-serial ports on GNU/Linux:") +
+				"\n\t/dev/ttyUSB0\n\t/dev/ttyUSB1");
 
+}

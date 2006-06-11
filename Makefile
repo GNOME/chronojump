@@ -36,7 +36,7 @@ CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.Sq
 #-- Construccion del chronojump_mini que funciona por consola
 CHRONOJUMP_MINI = chronojump_mini
 
-CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs src/catalog.cs chronopic.cs 
+CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs src/catalog.cs chronopic.cs src/util.cs src/constants.cs 
 
 all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
 

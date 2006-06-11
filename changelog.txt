@@ -1,6 +1,11 @@
 CHANGELOG:
 
-
+11 jun 2006
+	chronojump_mini named chronojump-mini (solved problem with cvs
+	POTFILES.in)
+	improved text managing on ports info, also chronojump-mini.cs in
+	POTFILES.in
+	
 8 jun 2006
 	fixed more english strings, thanks to Clytie Siddall (Vietnamese
 	translation)

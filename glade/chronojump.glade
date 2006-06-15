@@ -13680,6 +13680,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_pulse_free">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">start managing pulses freely</property>
 				      <property name="can_focus">True</property>
 				      <property name="label" translatable="yes">Free</property>
 				      <property name="use_underline">True</property>
@@ -13697,6 +13698,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_pulse_custom">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">define desired pulse step</property>
 				      <property name="can_focus">True</property>
 				      <property name="label" translatable="yes">Custom</property>
 				      <property name="use_underline">True</property>
@@ -13714,7 +13716,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_pulse_more">
 				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">More simple jumps</property>
+				      <property name="tooltip" translatable="yes">More pulse types</property>
 				      <property name="can_focus">True</property>
 				      <property name="label" translatable="yes">more</property>
 				      <property name="use_underline">True</property>
@@ -13814,7 +13816,7 @@ If you need more, just repeat the operation later.</property>
 				      <child>
 					<widget class="GtkButton" id="button_delete_selected_pulse">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Delete selected jump</property>
+					  <property name="tooltip" translatable="yes">Delete selected pulse</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -13843,7 +13845,7 @@ If you need more, just repeat the operation later.</property>
 				      <child>
 					<widget class="GtkButton" id="button_repair_selected_pulse">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Repair selected intervallic run</property>
+					  <property name="tooltip" translatable="yes">Repair selected pulse</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -13872,7 +13874,7 @@ If you need more, just repeat the operation later.</property>
 				      <child>
 					<widget class="GtkButton" id="button_edit_selected_pulse">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Edit selected jump</property>
+					  <property name="tooltip" translatable="yes">Edit selected pulse</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -14160,7 +14162,7 @@ If you need more, just repeat the operation later.</property>
 	  <child>
 	    <widget class="GtkButton" id="button_last_delete">
 	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">delete last event (jump or run)</property>
+	      <property name="tooltip" translatable="yes">delete last event</property>
 	      <property name="can_focus">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -14188,7 +14190,7 @@ If you need more, just repeat the operation later.</property>
 	  <child>
 	    <widget class="GtkButton" id="button_cancel">
 	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Cancel jump or run</property>
+	      <property name="tooltip" translatable="yes">Cancel event</property>
 	      <property name="can_focus">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -14216,7 +14218,7 @@ If you need more, just repeat the operation later.</property>
 	  <child>
 	    <widget class="GtkButton" id="button_finish">
 	      <property name="visible">True</property>
-	      <property name="tooltip" translatable="yes">Cancel jump or run</property>
+	      <property name="tooltip" translatable="yes">Finish event</property>
 	      <property name="can_focus">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>

@@ -1,5 +1,21 @@
 CHANGELOG:
 
+15 jun 2006
+	working on "0.48 CVS" version, it has Event class, parent of jump, run and pulse
+	added src/event.cs (makefile and csproj changed)
+
+	pulses code is working! currently only for "free pulse" type
+	treeviewPulse is working
+	last_event_delete for pulse is working
+	
+	changed database version to 0.43 (adds de free pulseType). Correctly
+	repaired in first chronojump 0.48 boot.
+
+	loadSession shows pulsesNum
+
+	added info on not-implemented-yet pulse buttons
+	improved some glade tooltips
+
 11 jun 2006
 	chronojump_mini named chronojump-mini (solved problem with cvs
 	POTFILES.in)

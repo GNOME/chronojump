@@ -24,17 +24,12 @@ using System.Data;
 using Mono.Data.SqliteClient;
 
 using System.Threading;
+using System.IO.Ports;
 
-public class Pulse
+public class Pulse : Event
 {
-	int personID;
-	string personName;
-	int sessionID;
-	int uniqueID;
-	string type;
 	double fixedPulse;
 	int totalPulsesNum;
-	string description;
 
 	string timesString;
 	int tracks;
@@ -44,30 +39,11 @@ public class Pulse
 	//for finishing earlier from chronojump.cs
 	private bool finish;
 	
-	protected Thread thread;
-	
-	//platform state variables
-	protected enum States {
-		ON,
-		OFF
-	}
-	
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
 	private Chronopic cp;
-	protected States loggedState;		//log of last state
-	//protected Gtk.ProgressBar progressBar;
-	//protected Gnome.AppBar appbar;
-	protected Gtk.Statusbar appbar;
-	protected Gtk.Window app;
-	protected int pDN;
 
-	//for raise a signal and manage it on chronojump.cs
-	protected Gtk.Button fakeButtonFinished;
 	
-	//for cancelling from chronojump.cs
-	protected bool cancel;
-
 	//used on treeviewPulse
 	public Pulse() {
 	}
@@ -86,7 +62,7 @@ public class Pulse
 		
 	
 		this.cp = cp;
-		//this.progressBar = progressBar;
+		this.progressBar = progressBar;
 		this.appbar = appbar;
 		this.app = app;
 
@@ -111,7 +87,7 @@ public class Pulse
 		this.description = description;
 	}
 
-	public void Simulate(Random rand)
+	public override void Simulate(Random rand)
 	{
 		double intervalTime;
 		timesString = "";
@@ -131,19 +107,11 @@ public class Pulse
 		write();
 	}
 
-	public void Manage(object o, EventArgs args)
+	public override void Manage(object o, EventArgs args)
 	{
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-		bool ok;
-		Console.WriteLine("A1");
+		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
 
-		do {
-			Console.WriteLine("B");
-			ok = cp.Read_platform(out platformState);
-			Console.WriteLine("C");
-		} while (! ok);
-
+		
 		bool success = false;
 
 		//you should start OFF (outside) the platform 
@@ -172,7 +140,8 @@ public class Pulse
 			firstPulse = true;
 
 			//reset progressBar
-			//progressBar.Fraction = 0;
+			progressBar.Fraction = 0;
+			progressBar.Text = "";
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
@@ -181,20 +150,19 @@ public class Pulse
 			finish = false;
 
 			//start thread
-			thread = new Thread(new ThreadStart(waitPulse));
+			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		}
 	}
 	
-	protected void waitPulse ()
+	protected override void waitEvent ()
 	{
 		double timestamp;
 		bool success = false;
 		string equal = "";
-		//double pbUnlimited = 0;
+		double pbUnlimited = 0;
 		
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 		bool ok;
 
@@ -215,12 +183,10 @@ public class Pulse
 						//if is "unlimited", 
 						//then play with the progress bar until finish button is pressed
 						if(totalPulsesNum == -1) {
-							/*
 							//double myPb = (tcCount + tvCount) / 5 ;
 							pbUnlimited += 0.19;
 							if(pbUnlimited >= 1.0) { pbUnlimited = 0; }
-							//progressBar.Fraction = pbUnlimited; 
-							*/
+							progressBar.Fraction = pbUnlimited; 
 
 							if(timesString.Length > 0) { equal = "="; }
 							timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
@@ -266,29 +232,8 @@ public class Pulse
 		}
 	}
 	
-	protected bool PulseGTK ()
-	{
-		//if (thread.IsAlive) {
-			//if(progressBar.Fraction == 1 || cancel) {
-			if(cancel) {
-				Console.Write("dying");
 
-				//event will be raised, and managed in chronojump.cs
-				//fakeButtonFinished.Click();
-				//Now called on write(), now work in mono1.1.6
-				
-				return false;
-			}
-			Thread.Sleep (150);
-			Console.Write(thread.ThreadState);
-		
-			return true;
-		//}
-		//return false;
-	}
-
-
-	protected void write()
+	protected override void write()
 	{
 		int totalPulsesNum = 0;
 
@@ -321,11 +266,33 @@ public class Pulse
 		fakeButtonFinished.Click();
 		
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
-		/*
 		progressBar.Fraction = 1;
-		*/
 	}
 
+	//called from treeViewPulse
+	public double GetErrorAverage(bool relative)
+	{
+		double pulseToComparate = Convert.ToDouble(Util.GetAverage(timesString));
+		string [] myStringFull = timesString.Split(new char[] {'='});
+		string myErrors = "";
+		string separatorString = "";
+		double error = 0;
+		
+		foreach (string myPulse in myStringFull) {
+			if(relative)
+				error = (Convert.ToDouble(myPulse) - pulseToComparate) *100 / pulseToComparate; 
+			else
+				error = Convert.ToDouble(myPulse) - pulseToComparate;
+
+			//all the values should be positive
+			if (error < 0)
+				error = error * -1;
+			
+			myErrors += separatorString + error.ToString();
+			separatorString = "=";
+		}
+		return Util.GetAverage(myErrors);
+	}
 	
 	//called from chronojump.cs for finishing jumps earlier
 	public bool Finish
@@ -335,18 +302,6 @@ public class Pulse
 	}
 	
 
-	public string Type
-	{
-		get { return type; }
-		set { type = value; }
-	}
-	
-	public int UniqueID
-	{
-		get { return uniqueID; }
-		set { uniqueID = value; }
-	}
-	
 	public string TimesString
 	{
 		get { return timesString; }

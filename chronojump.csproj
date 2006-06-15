@@ -57,6 +57,7 @@
     <Compile Include="src\gui\about.cs" />
     <Compile Include="src\gui\helpPorts.cs" />
     <Compile Include="src\gui\dialogMessage.cs" />
+    <Compile Include="src\event.cs" />
     <Compile Include="src\jump.cs" />
     <Compile Include="src\jumpType.cs" />
     <Compile Include="src\pulse.cs" />

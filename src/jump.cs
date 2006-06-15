@@ -28,46 +28,19 @@ using System.Threading;
 using System.IO.Ports;
 
 
-public class Jump 
+public class Jump : Event 
 {
-	protected int personID;
-	protected string personName;
-	protected int sessionID;
-	protected int uniqueID;
-	protected string type;
 	protected double tv;
 	protected double tc;
 	protected int fall;
-	//protected string weight; 
 	protected double weight; //always write in % (not kg or %) then sqlite can do avgs
-	protected string description;
 
 	//for not checking always in database
 	protected bool hasFall;
 
-	protected Thread thread;
-	//platform state variables
-	protected enum States {
-		ON,
-		OFF
-	}
-	
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
 	private Chronopic cp;
-	protected States loggedState;		//log of last state
-	protected Gtk.ProgressBar progressBar;
-	//protected Gnome.AppBar appbar;
-	protected Gtk.Statusbar appbar;
-	protected Gtk.Window app;
-	protected int pDN;
-
-	//for raise a signal and manage it on chronojump.cs
-	protected Gtk.Button fakeButtonFinished;
-	
-	//for cancelling from chronojump.cs
-	protected bool cancel;
-	
 	
 	public Jump() {
 	}
@@ -115,7 +88,7 @@ public class Jump
 		this.description = description;
 	}
 		
-	public virtual void Simulate(Random rand)
+	public override void Simulate(Random rand)
 	{
 		if(hasFall) {
 			tc = rand.NextDouble() * .4;
@@ -126,21 +99,12 @@ public class Jump
 	}
 
 	
-	public virtual void Manage(object o, EventArgs args)
+	public override void Manage(object o, EventArgs args)
 	{
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-		bool ok;
-		Console.WriteLine("A1");
-
-		do {
-			Console.WriteLine("B");
-			ok = cp.Read_platform(out platformState);
-			Console.WriteLine("C");
-		} while (! ok);
-
+		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		
+		
 		if (platformState==Chronopic.Plataforma.ON) {
-			Console.WriteLine("D1");
 			appbar.Push( 1,Catalog.GetString("You are IN, JUMP when prepared!!") );
 
 			loggedState = States.ON;
@@ -154,7 +118,7 @@ public class Jump
 
 			//start thread
 			//Console.Write("Start thread");
-			thread = new Thread(new ThreadStart(waitJump));
+			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
@@ -167,20 +131,15 @@ public class Jump
 			confirmWin.Button_accept.Clicked += new EventHandler(Manage);
 			
 			//if confirmWin.Button_cancel is pressed retuen
-			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_jump);
+			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event);
 		}
 	}
 	
 	public void ManageFall(object o, EventArgs args)
 	{
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-		bool ok;
+		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
 
-		do {
-			ok = cp.Read_platform(out platformState);
-		} while (! ok);
-
+		
 		if (platformState==Chronopic.Plataforma.OFF) {
 			appbar.Push( 1,Catalog.GetString("You are OUT, JUMP when prepared!!") );
 
@@ -197,7 +156,7 @@ public class Jump
 			cancel = false;
 
 			//start thread
-			thread = new Thread(new ThreadStart(waitJump));
+			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
@@ -210,26 +169,23 @@ public class Jump
 			confirmWin.Button_accept.Clicked += new EventHandler(ManageFall);
 			
 			//if confirmWin.Button_cancel is pressed retuen
-			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_jump);
+			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event);
 		}
 	}
 	
 	
-	protected virtual void waitJump ()
+	//protected virtual void waitJump ()
+	protected override void waitEvent ()
 	{
 		double timestamp;
 		bool success = false;
 		
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 		bool ok;
 		
-		Console.WriteLine("P0");
 		do {
 			ok = cp.Read_event(out timestamp, out platformState);
-			//if (respuesta == Chronopic.Respuesta.Ok) {
 			if (ok) {
-				Console.WriteLine("P1");
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has landed
 					loggedState = States.ON;
@@ -271,26 +227,7 @@ public class Jump
 		}
 	}
 	
-	protected bool PulseGTK ()
-	{
-		//if (thread.IsAlive) {
-			if(progressBar.Fraction == 1 || cancel) {
-				Console.Write("dying");
-
-				//event will be raised, and managed in chronojump.cs
-				//fakeButtonFinished.Click();
-				//Now called on write(), now work in mono1.1.6
-				
-				return false;
-			}
-			Thread.Sleep (150);
-			Console.Write(thread.ThreadState);
-			return true;
-		//}
-		//return false;
-	}
-
-	protected virtual void write()
+	protected override void write()
 	{
 		string tcString = "";
 		if(hasFall) {
@@ -323,30 +260,6 @@ public class Jump
 		progressBar.Fraction = 1;
 	}
 	
-	//from confirm_window cancel button (thread has not started)
-	//this is NOT called when a jump has started and user click on "Cancel"
-	private void cancel_jump(object o, EventArgs args)
-	{
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
-		
-		cancel = true;
-	}
-	
-	public Gtk.Button FakeButtonFinished
-	{
-		get {
-			return	fakeButtonFinished;
-		}
-	}
-
-	//called from chronojump.cs for cancelling jumps
-	public bool Cancel
-	{
-		get { return cancel; }
-		set { cancel = value; }
-	}
-	
 	public bool TypeHasWeight
 	{
 		get { return SqliteJumpType.HasWeight(type); }
@@ -355,12 +268,6 @@ public class Jump
 	public virtual bool TypeHasFall
 	{
 		get { return SqliteJumpType.HasFall("jumpType", type); } //jumpType is the table name
-	}
-	
-	public string Type
-	{
-		get { return type; }
-		set { type = value; }
 	}
 	
 	public double Tv
@@ -386,33 +293,7 @@ public class Jump
 		get { return weight; }
 		set { weight = value; }
 	}
-	
-	public string Description
-	{
-		get { return description; }
-		set { description = value; }
-	}
-	
-	public int UniqueID
-	{
-		get { return uniqueID; }
-		set { uniqueID = value; }
-	}
 
-	public int SessionID
-	{
-		get { return sessionID; }
-	}
-
-	public int PersonID
-	{
-		get { return personID; }
-	}
-		
-	public string PersonName
-	{
-		get { return personName; }
-	}
 	
 	/*
 	public string JumperName
@@ -581,20 +462,8 @@ public class JumpRj : Jump
 
 	public override void Manage(object o, EventArgs args)
 	{
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState = Chronopic.Plataforma.UNKNOW;	//on (in platform), off (jumping), or unknow
-	
-		bool ok = false;
-		do {
-			try {
-			//respuesta = cp.Read_platform(out platformState);
-			ok = cp.Read_platform(out platformState);
-			} catch {
-				Console.WriteLine("Manage called after finishing constructor, do later");
-			}
-		//} while (respuesta!=Chronopic.Respuesta.Ok);
-		} while (!ok);
-
+		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		
 		bool success = false;
 
 		if (platformState==Chronopic.Plataforma.OFF && hasFall ) {
@@ -637,22 +506,20 @@ public class JumpRj : Jump
 			finish = false;
 
 			//start thread
-			thread = new Thread(new ThreadStart(waitJump));
+			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		}
 	}
 
-	protected override void waitJump ()
+	protected override void waitEvent ()
 	{
 		double timestamp;
 		bool success = false;
 		
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 		bool ok;
 	
-		Console.Write("A");
 	
 		do {
 			//update the progressBar if limit is time (and it's not an unlimited reactive jump)
@@ -660,13 +527,9 @@ public class JumpRj : Jump
 				jumpRjExecuteWin.ProgressbarExecution(tvCount, Util.GetTotalTime(tcString, tvString)); 
 			}
 
-			//respuesta = cp.Read_event(out timestamp, out platformState);
 			ok = cp.Read_event(out timestamp, out platformState);
-		Console.Write("E");
-			//if (respuesta == Chronopic.Respuesta.Ok) {
-Console.Write(Util.GetTotalTime(tcString, tvString));
+			Console.Write(Util.GetTotalTime(tcString, tvString));
 			if (ok) {
-		Console.Write("F");
 				
 				string equal = "";
 
@@ -719,8 +582,6 @@ Console.Write(Util.GetTotalTime(tcString, tvString));
 					}
 				}
 
-				Console.Write("*D*");
-				
 				//check if reactive jump should finish
 				if (jumpsLimited) {
 					//if reactive jump is "unlimited" not limited by jumps, nor time, 
@@ -743,8 +604,6 @@ Console.Write(Util.GetTotalTime(tcString, tvString));
 						write();
 					}
 				}
-				Console.Write("*E*");
-
 			}
 		} while ( ! success && ! cancel && ! finish );
 		

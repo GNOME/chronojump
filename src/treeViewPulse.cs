@@ -47,8 +47,6 @@ public class TreeViewPulses : TreeViewEvent
 		string diffName = Catalog.GetString("Difference");
 		string diffPercentName = Catalog.GetString("Difference %");
 
-		//int colsNum = obtainPulseIDColumn() +1;
-		//store = getStore(colsNum); //because, jumpID is not show in last col
 		string [] columnsString = { jumperName, timeName, diffName, diffPercentName };
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
@@ -67,15 +65,23 @@ public class TreeViewPulses : TreeViewEvent
 
 	protected override string [] getLineToStore(System.Object myObject)
 	{
-		Run newRun = (Run)myObject;
-
+		Pulse newPulse = (Pulse)myObject;
+		
+		//if fixedPulse is not defined, comparate each pulse with the averave
+		string myTypeComplet ="";
+		if(newPulse.FixedPulse == -1) 
+			myTypeComplet = newPulse.Type + " AVG: ";
+		else
+			myTypeComplet = newPulse.Type + "(" + newPulse.FixedPulse + ") pre-fixed: ";
+		
+		
 		string [] myData = new String [5]; //columnsString +1
 		int count = 0;
-		myData[count++] = newRun.Type;
-		myData[count++] = "";
-		myData[count++]	= "";
-		myData[count++] = "";
-		myData[count++] = newRun.UniqueID.ToString();
+		myData[count++] = myTypeComplet;
+		myData[count++] = Util.TrimDecimals(Util.GetAverage(newPulse.TimesString).ToString(), pDN);
+		myData[count++]	= "+/- " + Util.TrimDecimals( newPulse.GetErrorAverage(false).ToString(), pDN );
+		myData[count++]	= "+/- " + Util.TrimDecimals( newPulse.GetErrorAverage(true).ToString(), pDN );
+		myData[count++] = newPulse.UniqueID.ToString();
 		return myData;
 	}
 
@@ -88,16 +94,26 @@ public class TreeViewPulses : TreeViewEvent
 		string [] myStringFull = newPulse.TimesString.Split(new char[] {'='});
 		string timeInterval = myStringFull[lineCount];
 
+
+		//if fixedPulse is not defined, comparate each pulse with the averave
+		double pulseToComparate = 0;
+		if(newPulse.FixedPulse == -1) 
+			pulseToComparate = Util.GetAverage(newPulse.TimesString);
+		else
+			pulseToComparate = newPulse.FixedPulse;
+
+		
+		double absoluteError = Convert.ToDouble(timeInterval) - pulseToComparate;
+		double relativeError = absoluteError * 100 / pulseToComparate;
+		
 		
 		//write line for treeview
-		string [] myData = new String [4]; //columnsString +1
+		string [] myData = new String [5]; //columnsString +1
 		int count = 0;
 		myData[count++] = (lineCount +1).ToString();
 		myData[count++] = Util.TrimDecimals( timeInterval, pDN );
-		myData[count++] = Util.TrimDecimals( ( Convert.ToDouble(timeInterval) - 
-					Convert.ToDouble(newPulse.FixedPulse) ).ToString(), pDN );
-		myData[count++] = Util.TrimDecimals( ( Convert.ToDouble(timeInterval) * 100 / 
-					Convert.ToDouble(newPulse.FixedPulse) ).ToString(), pDN );
+		myData[count++] = Util.TrimDecimals( absoluteError.ToString(), pDN );
+		myData[count++] = Util.TrimDecimals( relativeError.ToString(), pDN );
 
 		myData[count++] = newPulse.UniqueID.ToString(); 
 		return myData;

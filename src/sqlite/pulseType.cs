@@ -52,10 +52,11 @@ class SqlitePulseType : Sqlite
 	{
 		string [] iniPulseTypes = {
 			//name:fixedPulse:totalPulsesNum:description
-			"Custom:-1:-1:default" 
+			"Free:-1:-1:free pulseStep mode",	
+			"Custom:-1:-1:select pulseStep" //the difference between free and custom is: on custom user is asked for the pulseType, on free not
 		};
 		foreach(string myPulseType in iniPulseTypes) {
-			PulseTypeInsert(myPulseType, true);
+			Insert(myPulseType, true);
 		}
 	}
 	
@@ -63,7 +64,7 @@ class SqlitePulseType : Sqlite
 	 * PulseType class methods
 	 */
 
-	public static void PulseTypeInsert(string myPulse, bool dbconOpened)
+	public static void Insert(string myPulse, bool dbconOpened)
 	{
 		string [] myStr = myPulse.Split(new char[] {':'});
 		if(! dbconOpened) {

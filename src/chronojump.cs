@@ -251,6 +251,8 @@ public class ChronoJump
 	RepairRunIntervalWindow repairRunIntervalWin;
 	EditRunIntervalWindow editRunIntervalWin;
 
+	PulseExtraWindow pulseExtraWin;
+	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	StatsWindow statsWin;
 	ReportWindow reportWin;
@@ -2208,7 +2210,6 @@ public class ChronoJump
 	//(not suitable for the other runs we found in "more")
 	private void on_button_pulse_custom_activate (object o, EventArgs args) 
 	{
-		appbar2.Push ( 1, "pulse custom (NOT IMPLEMENTED YET)");
 		/*
 		if(o == (object) button_run_interval_by_laps || o == (object) menuitem_run_interval_by_laps) 
 		{	
@@ -2220,62 +2221,40 @@ public class ChronoJump
 		{
 			currentRunType = new RunType("unlimited");
 		}
-		
-			
-		runExtraWin = RunExtraWindow.Show(app1, currentRunType);
-		runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
 		*/
+		
+		currentPulseType = new PulseType("Custom");
+			
+		pulseExtraWin = PulseExtraWindow.Show(app1, currentPulseType);
+		pulseExtraWin.Button_accept.Clicked += new EventHandler(on_pulse_accepted);
 	}
 	
 	private void on_pulse_accepted (object o, EventArgs args)
 	{
-		/*
-		Console.WriteLine("run interval accepted");
+		Console.WriteLine("pulse accepted");
 		
-		//if distance can be always different in this run,
-		//show values selected in runExtraWin
-		int distanceInterval = 0;		
-		if(currentRunType.Distance == 0) {
-			distanceInterval = runExtraWin.Distance;
-		} else {
-			distanceInterval = (int) currentRunType.Distance;
-		}
-		
-		double myLimit = 0;
-		//if it's a unlimited interval run, put -1 as limit value
-		//if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) {
-		if(currentRunType.Unlimited) {
-			myLimit = -1;
-		} else {
-			if(currentRunType.FixedValue > 0) {
-				myLimit = currentRunType.FixedValue;
-			} else {
-				myLimit = runExtraWin.Limited;
-			}
-		}
-
+		double pulseStep = pulseExtraWin.PulseStep;
+		int totalPulses = pulseExtraWin.TotalPulses;
 
 		//used by cancel and finish
 		currentEventIs = eventType.PULSE;
 			
-		//hide running buttons
+		//hide pulse buttons
 		sensitiveGuiEventDoing();
 		
-		currentRunInterval = new RunInterval(currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
-				distanceInterval, myLimit, currentRunType.TracksLimited, 
+		currentPulse = new Pulse(currentPerson.UniqueID, currentPerson.Name, 
+				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
 		
 		
-		//suitable for limited by tracks and time
-		if(simulated) {
-			currentRunInterval.Simulate(rand);
-			on_run_interval_finished(o, args);
+		if (simulated) {
+			currentPulse.Simulate(rand);
+			on_pulse_finished(o, args);
 		}
 		else {
-			currentRunInterval.Manage(o, args);
-			currentRunInterval.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
+			currentPulse.Manage(o, args);
+			currentPulse.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
 		}
-		*/
 	}
 
 	private void on_pulse_finished (object o, EventArgs args) 

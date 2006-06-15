@@ -162,6 +162,7 @@ public class Pulse : Event
 		bool success = false;
 		string equal = "";
 		double pbUnlimited = 0;
+		double myPb = 0;
 		
 		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 		bool ok;
@@ -183,7 +184,6 @@ public class Pulse : Event
 						//if is "unlimited", 
 						//then play with the progress bar until finish button is pressed
 						if(totalPulsesNum == -1) {
-							//double myPb = (tcCount + tvCount) / 5 ;
 							pbUnlimited += 0.19;
 							if(pbUnlimited >= 1.0) { pbUnlimited = 0; }
 							progressBar.Fraction = pbUnlimited; 
@@ -194,9 +194,9 @@ public class Pulse : Event
 						}
 						else {
 							tracks ++;	
-							double myPb = (tracks) / totalPulsesNum ;
+							myPb = (double) tracks / totalPulsesNum ;
 							if(myPb >= 1.0) { myPb = 0.99; }
-							//progressBar.Fraction = myPb; 
+							progressBar.Fraction = myPb; 
 
 							if(timesString.Length > 0) { equal = "="; }
 							timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();

@@ -1,6 +1,14 @@
 CHANGELOG:
 
 15 jun 2006
+	now custom pulses can be done, expressed on seconds-between-pulses or
+	ppm (nice for integrating with gtick), and unlimited or limited
+	
+	progressbar works
+	
+	added src/gui/pulse.cs (pulse extra). Makefile and csproj changed
+
+15 jun 2006
 	working on "0.48 CVS" version, it has Event class, parent of jump, run and pulse
 	added src/event.cs (makefile and csproj changed)
 

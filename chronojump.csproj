@@ -52,6 +52,7 @@
     <Compile Include="src\gui\report.cs" />
     <Compile Include="src\gui\run.cs" />
     <Compile Include="src\gui\runType.cs" />
+    <Compile Include="src\gui\pulse.cs" />
     <Compile Include="src\gui\session.cs" />
     <Compile Include="src\gui\stats.cs" />
     <Compile Include="src\gui\about.cs" />

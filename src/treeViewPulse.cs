@@ -72,7 +72,7 @@ public class TreeViewPulses : TreeViewEvent
 		if(newPulse.FixedPulse == -1) 
 			myTypeComplet = newPulse.Type + " AVG: ";
 		else
-			myTypeComplet = newPulse.Type + "(" + newPulse.FixedPulse + ") pre-fixed: ";
+			myTypeComplet = newPulse.Type + "(" + Util.TrimDecimals(newPulse.FixedPulse.ToString(), 3) + ") AVG: ";
 		
 		
 		string [] myData = new String [5]; //columnsString +1

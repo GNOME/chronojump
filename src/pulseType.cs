@@ -32,6 +32,17 @@ public class PulseType
 	public PulseType() {
 	}
 	
+	//predefined values
+	public PulseType(string name) {
+		this.name = name;
+		
+		//if this changes, sqlite/pulseType.cs initialize table should change
+		if(name == "Free" || name == "Custom") {
+			fixedPulse = -1;
+			totalPulsesNum = -1;
+		}
+	}
+	
 	public PulseType(string name, double fixedPulse, int totalPulsesNum)
 	{
 		this.name 	= name;

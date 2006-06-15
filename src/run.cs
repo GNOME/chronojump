@@ -25,40 +25,18 @@ using Mono.Data.SqliteClient;
 
 using System.Threading;
 
-public class Run 
+public class Run : Event 
 {
-	protected int personID;
-	protected int sessionID;
-	protected int uniqueID;
-	protected string type;
 	protected double distance;
 	protected double time;
-	protected string description;
 
 	//for not checking always in database
 	protected bool startIn;
 	
-	protected Thread thread;
-	//platform state variables
-	protected enum States {
-		ON,
-		OFF
-	}
 	
 	protected Chronopic cp;
-	protected States loggedState;		//log of last state
-	protected Gtk.ProgressBar progressBar;
-	protected Gtk.Statusbar appbar;
-	protected Gtk.Window app;
-	protected int pDN;
 	protected bool metersSecondsPreferred;
 
-	//for raise a signal and manage it on chronojump.cs
-	protected Gtk.Button fakeButtonFinished;
-	
-	//for cancelling from chronojump.cs
-	protected bool cancel;
-	
 	
 	public Run() {
 	}
@@ -96,26 +74,17 @@ public class Run
 		this.description = description;
 	}
 
-	public virtual void Simulate(Random rand)
+	public override void Simulate(Random rand)
 	{
 		time = rand.NextDouble() * 15;
 		Console.WriteLine("time: {0}", time.ToString());
 		write();
 	}
 
-	public virtual void Manage(object o, EventArgs args)
+	public override void Manage(object o, EventArgs args)
 	{
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-		bool ok;
-
-		do {
-			//respuesta = cp.Read_platform(out platformState);
-			ok = cp.Read_platform(out platformState);
-		//} while (respuesta!=Chronopic.Respuesta.Ok);
-		} while (!ok);
-
-
+		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		
 		//you can start ON or OFF the platform, 
 		//we record always de TV (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
@@ -137,12 +106,12 @@ public class Run
 		cancel = false;
 
 		//start thread
-		thread = new Thread(new ThreadStart(waitRun));
+		thread = new Thread(new ThreadStart(waitEvent));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
 	}
 	
-	protected virtual void waitRun ()
+	protected override void waitEvent ()
 	{
 		double timestamp;
 		bool success = false;
@@ -196,26 +165,7 @@ public class Run
 		}
 	}
 	
-	protected bool PulseGTK ()
-	{
-		//if (thread.IsAlive) {
-			if(progressBar.Fraction == 1 || cancel) {
-				Console.Write("dying");
-
-				//event will be raised, and managed in chronojump.cs
-				//fakeButtonFinished.Click();
-				//Now called on write(), now work in mono1.1.6
-				
-				return false;
-			}
-			Thread.Sleep (150);
-			Console.Write(thread.ThreadState);
-			return true;
-		//}
-		//return false;
-	}
-
-	protected virtual void write()
+	protected override void write()
 	{
 		Console.WriteLine("TIME: {0}", time.ToString());
 		
@@ -235,30 +185,6 @@ public class Run
 	}
 	
 
-	public Gtk.Button FakeButtonFinished
-	{
-		get {
-			return	fakeButtonFinished;
-		}
-	}
-
-	//called from chronojump.cs for cancelling jumps
-	public bool Cancel
-	{
-		get {
-			return cancel;
-		}
-		set {
-			cancel = value;
-		}
-	}
-	
-	
-	public string Type
-	{
-		get { return type; }
-		set { type = value; }
-	}
 	
 	public virtual double Speed
 	{
@@ -283,28 +209,6 @@ public class Run
 		set { time = value; }
 	}
 	
-	public string Description
-	{
-		get { return description; }
-		set { description = value; }
-	}
-	
-	public int UniqueID
-	{
-		get { return uniqueID; }
-		set { uniqueID = value; }
-	}
-
-	public int SessionID
-	{
-		get { return sessionID; }
-	}
-
-	public int PersonID
-	{
-		get { return personID; }
-	}
-		
 	public string RunnerName
 	{
 		get { return SqlitePerson.SelectJumperName(personID); }
@@ -422,17 +326,9 @@ public class RunInterval : Run
 
 	public override void Manage(object o, EventArgs args)
 	{
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-		bool ok;
+		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
 
-		do {
-			//respuesta = cp.Read_platform(out platformState);
-			ok = cp.Read_platform(out platformState);
-		//} while (respuesta!=Chronopic.Respuesta.Ok);
-		} while (!ok);
-
-
+		
 		//you can start ON or OFF the platform, 
 		//we record always de TV (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
@@ -463,12 +359,12 @@ public class RunInterval : Run
 		finish = false;
 		
 		//start thread
-		thread = new Thread(new ThreadStart(waitRun));
+		thread = new Thread(new ThreadStart(waitEvent));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
 	}
 	
-	protected override void waitRun ()
+	protected override void waitEvent ()
 	{
 		double timestamp;
 		bool success = false;

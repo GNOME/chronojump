@@ -78,6 +78,16 @@ class Sqlite
 			Console.WriteLine("Converted DB to 0.42 (added pulse and pulseType tables)");
 			
 			dbcon.Close();
+			myVersion = "0.42";
+		}
+		
+		if(myVersion == "0.42") {
+			dbcon.Open();
+			SqlitePulseType.Insert ("Free:-1:-1:free PulseStep mode", true); 
+			SqlitePreferences.Update ("databaseVersion", "0.43"); 
+			Console.WriteLine("Converted DB to 0.43 (added 'free' pulseType)");
+			dbcon.Close();
+			myVersion = "0.43";
 		}
 	}
 	
@@ -128,7 +138,8 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.insert ("databaseVersion", "0.42"); 
+		SqlitePreferences.insert ("databaseVersion", "0.43"); 
+		//changes from 0.42 to 0.43: added 'free' pulseType
 		//changes from 0.41 to 0.42: added pulse and pulseType tables
 		//changes from 0.4 to 0.41: jump, jumpRj weight is double (always a percent)
 		

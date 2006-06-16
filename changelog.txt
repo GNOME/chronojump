@@ -1,5 +1,8 @@
 CHANGELOG:
 
+16 jun 2006
+	fixed little bug in custom pulse
+
 15 jun 2006
 	now custom pulses can be done, expressed on seconds-between-pulses or
 	ppm (nice for integrating with gtick), and unlimited or limited

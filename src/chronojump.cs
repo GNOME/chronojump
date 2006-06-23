@@ -25,7 +25,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using System.IO.Ports;
-
+using Mono.Unix;
 
 public class ChronoJump 
 {
@@ -289,25 +289,39 @@ public class ChronoJump
 
 	public ChronoJump (string [] args) 
 	{
+		//works on Linux
+		//Console.WriteLine("lang: {0}", System.Environment.GetEnvironmentVariable("LANG"));
+		//Console.WriteLine("language: {0}", System.Environment.GetEnvironmentVariable("LANGUAGE"));
+		
+		
+		Sqlite.Connect();
+
+		//we need to connect sqlite to do the languageChange
+		//change language works on windows. On Linux let's change the locale
+		if(Util.IsWindows()) 
+			languageChange();
+
+		
 		Catalog.Init ("chronojump", "./locale");
 
 		Application.Init();
 
 		Util.IsWindows();	//only as additional info here
+
 		
 		Glade.XML gxml;
 		try {
 			//linux
-			gxml = Glade.XML.FromAssembly ("chronojump.glade", "app1", "chronojumpGlade");
+			//gxml = Glade.XML.FromAssembly ("chronojump.glade", "app1", "chronojumpGlade");
+			gxml = Glade.XML.FromAssembly ("chronojump.glade", "app1", null);
 		} catch {
 			//windows
-			gxml = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "app1", "chronojumpGlade");
+			//gxml = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "app1", "chronojumpGlade");
+			gxml = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "app1", null);
 		}
 
 		gxml.Autoconnect(this);
-
-		Sqlite.Connect();
-		
+	
 		//Chech if the DB file exists
 		if (!Sqlite.CheckTables()) {
 			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
@@ -501,6 +515,10 @@ public class ChronoJump
 			metersSecondsPreferred = false;
 		}
 	
+		//change language works on windows. On Linux let's change the locale
+		if(Util.IsWindows())
+			languageChange();
+			
 		//pass to report
 		report.PrefsDigitsNumber = prefsDigitsNumber;
 		report.HeightPreferred = heightPreferred;
@@ -509,6 +527,17 @@ public class ChronoJump
 		
 		
 		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
+	}
+
+	private void languageChange () {
+		string myLanguage = SqlitePreferences.Select("language");
+		if ( myLanguage != "0") {
+			Console.WriteLine("myLanguage: {0}", myLanguage);
+			System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(myLanguage);
+			System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(myLanguage);
+			//probably only works on newly created windows, if change, then say user has to restart
+			Console.WriteLine ("Changed language to {0}", myLanguage );
+		}
 	}
 
 	/* ---------------------------------------------------------
@@ -1411,13 +1440,14 @@ public class ChronoJump
 		PreferencesWindow myWin = PreferencesWindow.Show(
 				app1, chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, 
 				//askDeletion, weightStatsPercent, heightPreferred, metersSecondsPreferred);
-				askDeletion, heightPreferred, metersSecondsPreferred);
+				askDeletion, heightPreferred, metersSecondsPreferred,
+				System.Threading.Thread.CurrentThread.CurrentUICulture.ToString() );
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
 	private void on_preferences_accepted (object o, EventArgs args) {
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
-	
+
 		string myPort = SqlitePreferences.Select("chronopicPort");
 		if(myPort != chronopicPort && cpRunning) {
 			chronopicInit (myPort);
@@ -1466,6 +1496,10 @@ public class ChronoJump
 			metersSecondsPreferred = false;
 		}
 
+		//change language works on windows. On Linux let's change the locale
+		if(Util.IsWindows()) 
+			languageChange();
+	
 		
 		//... and recreate the treeview_jumps
 		string myText = combo_jumps.Entry.Text;

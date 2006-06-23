@@ -1,5 +1,10 @@
 CHANGELOG:
 
+23 jun 2006
+	preferences can choose language on windows
+	database 0.43 has also language preference
+	fixed bug in repair event windows
+
 16 jun 2006
 	fixed little bug in custom pulse
 

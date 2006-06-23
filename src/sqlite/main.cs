@@ -84,8 +84,9 @@ class Sqlite
 		if(myVersion == "0.42") {
 			dbcon.Open();
 			SqlitePulseType.Insert ("Free:-1:-1:free PulseStep mode", true); 
+			SqlitePreferences.Insert ("language", "es-ES"); 
 			SqlitePreferences.Update ("databaseVersion", "0.43"); 
-			Console.WriteLine("Converted DB to 0.43 (added 'free' pulseType)");
+			Console.WriteLine("Converted DB to 0.43 (added 'free' pulseType & language peference)");
 			dbcon.Close();
 			myVersion = "0.43";
 		}
@@ -95,7 +96,7 @@ class Sqlite
 		string myPort = SqlitePreferences.Select("chronopicPort");
 		if(myPort == "0") {
 			//if doesn't exist (for any reason, like old database)
-			SqlitePreferences.insert ("chronopicPort", "COM1");
+			SqlitePreferences.Insert ("chronopicPort", "COM1");
 			Console.WriteLine("Added Chronopic port");
 		}
 	}
@@ -138,20 +139,20 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.insert ("databaseVersion", "0.43"); 
-		//changes from 0.42 to 0.43: added 'free' pulseType
+		SqlitePreferences.Insert ("databaseVersion", "0.43"); 
+		//changes from 0.42 to 0.43: added 'free' pulseType & language preference
 		//changes from 0.41 to 0.42: added pulse and pulseType tables
 		//changes from 0.4 to 0.41: jump, jumpRj weight is double (always a percent)
 		
-		SqlitePreferences.insert ("chronopicPort", "COM1");
-		SqlitePreferences.insert ("digitsNumber", "3");
-		SqlitePreferences.insert ("showHeight", "True");
-		SqlitePreferences.insert ("showInitialSpeed", "True");
-		SqlitePreferences.insert ("simulated", "True");
-		SqlitePreferences.insert ("weightStatsPercent", "True"); //currently not used
-		SqlitePreferences.insert ("askDeletion", "True");
-		SqlitePreferences.insert ("heightPreferred", "False");
-		SqlitePreferences.insert ("metersSecondsPreferred", "True");
+		SqlitePreferences.Insert ("chronopicPort", "COM1");
+		SqlitePreferences.Insert ("digitsNumber", "3");
+		SqlitePreferences.Insert ("showHeight", "True");
+		SqlitePreferences.Insert ("showInitialSpeed", "True");
+		SqlitePreferences.Insert ("simulated", "True");
+		SqlitePreferences.Insert ("weightStatsPercent", "True"); //currently not used
+		SqlitePreferences.Insert ("askDeletion", "True");
+		SqlitePreferences.Insert ("heightPreferred", "False");
+		SqlitePreferences.Insert ("metersSecondsPreferred", "True");
 
 		dbcon.Close();
 	}

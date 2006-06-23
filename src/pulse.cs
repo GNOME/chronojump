@@ -25,6 +25,7 @@ using Mono.Data.SqliteClient;
 
 using System.Threading;
 using System.IO.Ports;
+using Mono.Unix;
 
 public class Pulse : Event
 {

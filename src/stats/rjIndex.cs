@@ -23,6 +23,7 @@ using System;
 using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
+using Mono.Unix;
 
 
 public class StatRjIndex : Stat

@@ -14,6 +14,8 @@
 using System;
 using System.IO.Ports;
 
+using Mono.Unix;
+
 class Test {
 
 	//-- Estado del automata
@@ -34,6 +36,9 @@ class Test {
 		double ton;
 		bool ok;
 
+		System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-ES");
+		System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("es-ES");
+		
 		//connect with catalog.cs for using gettext translation
 		Catalog.Init ("chronojump", "./locale");
 

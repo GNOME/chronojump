@@ -23,6 +23,7 @@ using System;
 using Gtk;
 using Glade;
 using System.IO.Ports;
+using Mono.Unix;
 
 public class HelpPorts
 {

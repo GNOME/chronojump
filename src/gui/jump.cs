@@ -22,12 +22,11 @@
 using System;
 using Gtk;
 using Glade;
-//using Gnome;
-//using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 
 using System.Threading;
+using Mono.Unix;
 
 //--------------------------------------------------------
 //---------------- EDIT JUMP WIDGET ----------------------
@@ -720,7 +719,7 @@ public class RepairJumpRjWindow
 		}
 	}
 		
-	void on_button_delete_clicked (object o, DeleteEventArgs args) {
+	void on_button_delete_clicked (object o, EventArgs args) {
 		TreeModel model; 
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {

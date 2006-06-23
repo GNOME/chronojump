@@ -29,6 +29,7 @@ using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO; 	//TextWriter
+using Mono.Unix;
 
 /* ------------ CLASS HERENCY MAP ---------
  *

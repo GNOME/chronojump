@@ -26,7 +26,7 @@ using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
-
+using Mono.Unix;
 
 public class PreferencesWindow {
 	
@@ -39,13 +39,29 @@ public class PreferencesWindow {
 	[Widget] Gtk.CheckButton checkbutton_height_preferred;
 	[Widget] Gtk.CheckButton checkbutton_meters_seconds_preferred;
 	[Widget] Gtk.CheckButton checkbutton_percent_kg_preferred;
+	[Widget] Gtk.Box hbox_language_row;
+	[Widget] Gtk.Box hbox_combo_language;
+	[Widget] Gtk.Combo combo_language;
+	[Widget] Gtk.Separator hseparator_language;
 
 	[Widget] Gtk.Button button_accept;
 	
 	static PreferencesWindow PreferencesWindowBox;
 	Gtk.Window parent;
 
+	//language when window is called. If changes, then chnge data in sql and show 
+	//dialogMessage
+	private string languageIni;
 	
+	private static string [] comboLanguageOptions = {
+		"es-ES", 
+		"en-GB", 
+		"zh-CN", 
+		"vi-VN", 
+		"sv-SE", 
+	};
+	
+		
 	PreferencesWindow (Gtk.Window parent, string entryChronopic) {
 		Glade.XML gladeXML;
 		try {
@@ -64,11 +80,19 @@ public class PreferencesWindow {
 	}
 	
 	//static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred)
-	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool heightPreferred, bool metersSecondsPreferred)
+	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (parent, entryChronopic);
 		}
+
+
+		PreferencesWindowBox.languageIni = culture;
+		if(Util.IsWindows())
+			PreferencesWindowBox.createComboLanguage(culture);
+		else 
+			PreferencesWindowBox.hideLanguageStuff();
+		
 		PreferencesWindowBox.spinbutton_decimals.Value = digitsNumber;
 	
 		if(showHeight) { 
@@ -120,6 +144,37 @@ public class PreferencesWindow {
 		return PreferencesWindowBox;
 	}
 	
+	private void createComboLanguage(string myLanguage) {
+		combo_language = new Combo ();
+		combo_language.PopdownStrings = comboLanguageOptions;
+		
+		//combo_language.Entry.Changed += new EventHandler (on_combo_language_changed);
+
+		hbox_combo_language.PackStart(combo_language, false, false, 0);
+		hbox_combo_language.ShowAll();
+		
+		bool found = false;
+		foreach (string lang in comboLanguageOptions) {
+			if (myLanguage == lang) {
+				combo_language.Entry.Text = lang;
+				found = true;
+			}
+		}
+		if(!found)
+			combo_language.Entry.Text = "en-GB";
+
+		
+		//if(Util.IsWindows())
+			combo_language.Sensitive = true;
+		//else 
+		//	combo_language.Sensitive = false;
+	}
+			
+	private void hideLanguageStuff() {
+		hbox_language_row.Hide();
+		hseparator_language.Hide();
+	}
+	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		PreferencesWindowBox.preferences.Hide();
@@ -143,6 +198,22 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString());
 		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString());
 		
+		if(Util.IsWindows()) {
+			//if language has changed
+			if(PreferencesWindowBox.combo_language.Entry.Text != languageIni) {
+				string myLanguage = SqlitePreferences.Select("language");
+				if ( myLanguage != null && myLanguage != "" && myLanguage != "0") {
+					//if language exists in sqlite preferences update it
+					SqlitePreferences.Update("language", PreferencesWindowBox.combo_language.Entry.Text);
+				} else {
+					//else: create it
+					SqlitePreferences.Insert("language", PreferencesWindowBox.combo_language.Entry.Text);
+				}
+
+				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."));
+			}
+		}
+
 		PreferencesWindowBox.preferences.Hide();
 		PreferencesWindowBox = null;
 	}

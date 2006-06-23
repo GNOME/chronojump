@@ -25,6 +25,7 @@ using System.IO; 	//TextWriter
 using System.Xml;	//XmlTextWriter
 using Gtk;		//FileSelection widget
 using System.Collections; //ArrayList
+using Mono.Unix;
 
 public class ExportSession
 {

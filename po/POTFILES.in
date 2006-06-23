@@ -7,6 +7,7 @@ src/gui/helpPorts.cs
 src/gui/jump.cs
 src/gui/jumpType.cs
 src/gui/person.cs
+src/gui/preferences.cs
 src/gui/report.cs
 src/gui/run.cs
 src/gui/runType.cs

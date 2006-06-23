@@ -24,6 +24,7 @@ using System.Data;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.IO; 	//TextWriter
+using Mono.Unix;
 
 //the onbly purpose of this class is to pass parameters nicer between statType and stat and graphs constructors
 public class StatTypeStruct 

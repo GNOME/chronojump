@@ -28,6 +28,7 @@ using NPlot.Gtk;
 using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Mono.Unix;
 
 
 public class GraphGlobal : StatGlobal

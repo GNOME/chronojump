@@ -37,7 +37,7 @@ class SqlitePreferences : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected internal static void insert(string myName, string myValue)
+	public static void Insert(string myName, string myValue)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO preferences (name, value) VALUES ('" + 

@@ -39,7 +39,10 @@
   -->
   <ItemGroup>
     <Compile Include="chronopic.cs" />
-    <Compile Include="src\catalog.cs" />
+<!--    
+currently using Mono.Unix on Mono.Posix
+<Compile Include="src\catalog.cs" />
+-->
     <Compile Include="src\chronojump.cs" />
     <Compile Include="src\constants.cs" />
     <Compile Include="src\exportSession.cs" />

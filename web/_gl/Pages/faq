@@ -86,7 +86,7 @@ Entre na páxina web de <a href="installation_gl.html">instalación de ChronoJum
 <p><li>Podo probar ChronoJump sen ter o cronómetro nin a plataforma de contactos?
 <p>
 
-Si, creouse un modo simulado no que se executan saltos e carreiras de duración aleatoria para que se poidan probar as características do programa. Ademais incorpórase unha base de datos de exemplo.
+Si, creouse un modo simulado no que se executan saltos, carreiras de duración aleatoria e ritmos para que se poidan probar as características do programa.
 
 <p><li>Cando sairá a versión 1.0 e que prestacións terá?
 <p>Ata o momento (a piques de saír a versión 0.4) ChronoJump xa ten máis prestacións que o resto de solucións comerciais e non-comerciais das que temos coñecemento. Pero aínda hai moitos aspectos que incorporar e/ou mellorar que se van describindo no arquivo de <a href="http://cvs.gnome.org/viewcvs/chronojump/roadmap.txt"><i>roadmap</i> ou folla de ruta</a> (inglés).<br>
@@ -99,7 +99,7 @@ Inscríbase ou consulte os arquivos das <a href="contact_gl.html">listas de corr
 
 <p><li>Por que se chama ChronoJump se tamén serve para medir carreiras?
 <p>
-A idea inicial era crear un software para a medición das fases temporais do salto, pero comprobouse  que con pouco esforzo o mesmo software podería servir para cronometrar todo tipo de carreiras. Aínda que se traballa nestas liñas, e a medio prazo se vai engadir o estudo de ritmos, os esforzos principais destínanse á medición de saltos, razón pola que ChronoJump conserva o seu nome inicial.
+A idea inicial era crear un software para a medición das fases temporais do salto, pero comprobouse  que con pouco esforzo o mesmo software podería servir para cronometrar todo tipo de carreiras e ritmos. Aínda que se traballa nestas liñas, os esforzos principais destínanse á medición de saltos, razón pola que ChronoJump conserva o seu nome inicial.
 
 <p><li>Gustaríame colaborar, como podo facelo?
 <p>

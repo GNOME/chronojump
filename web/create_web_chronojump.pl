@@ -24,6 +24,7 @@
 use strict;
 
 my $siteURL = "http://www.gnome.org/projects/chronojump";
+#my $siteURL = ".";
 my $CVSURL = "http://cvs.gnome.org/viewcvs/chronojump";
 
 my %languages=();

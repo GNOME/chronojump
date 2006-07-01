@@ -26,8 +26,11 @@ Incorpora as seguintes estatísticas (sempre que non se especifique o contrario,
 <li> ...(a modularidade de ChronoJump facilita a inclusión de novas estatísticas)
 </ul>
 
-Representación gráfica de todas as estatísticas descritas mediante a libraría gráfica <a href="http://netcontrols.org/nplot/">NPlot</a>.
+Chronojump permite también el estudio de <b>carreras</b> y <b>ritmos</b>. [pendiente de traducir]
 
+<p>
+
+Representación gráfica de todas as estatísticas descritas mediante a libraría gráfica <a href="http://netcontrols.org/nplot/">NPlot</a>.
 
 <p>
 Exportación de saltos a follas de cálculo (formato CSV).

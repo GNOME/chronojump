@@ -1,5 +1,8 @@
 CHANGELOG:
 
+24 jun 2006 (minor RELEASE 0.48 for windows and Linux)
+
+
 23 jun 2006
 	preferences can choose language on windows
 	database 0.43 has also language preference

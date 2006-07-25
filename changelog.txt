@@ -1,5 +1,9 @@
 CHANGELOG:
 
+25 jul 2006
+
+	added french translation.
+	updated windows 0.48 zip
 
 25 jul 2006 (fixed bug in starting 0.48 for windows when database is not created)
 

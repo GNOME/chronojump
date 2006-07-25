@@ -90,6 +90,8 @@ class Sqlite
 			dbcon.Close();
 			myVersion = "0.43";
 		}
+
+		//if changes are made here, remember to change also in CreateTables()
 	}
 	
 	private static void addChronopicPortNameIfNotExists() {
@@ -153,6 +155,7 @@ class Sqlite
 		SqlitePreferences.Insert ("askDeletion", "True");
 		SqlitePreferences.Insert ("heightPreferred", "False");
 		SqlitePreferences.Insert ("metersSecondsPreferred", "True");
+		SqlitePreferences.Insert ("language", "es-ES"); 
 
 		dbcon.Close();
 	}

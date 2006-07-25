@@ -296,6 +296,25 @@ public class ChronoJump
 		
 		Sqlite.Connect();
 
+		//Chech if the DB file exists
+		if (!Sqlite.CheckTables()) {
+			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
+			Sqlite.CreateFile();
+			Sqlite.CreateTables();
+		} else {
+			Sqlite.ConvertToLastVersion();
+			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
+			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
+			//SqliteJump.FindBadRjs();
+		}
+		
+		//start as "simulated" if we are on windows
+		//(until we improve the Timeout on chronopic)
+		//changed: do also in Linux, because there are some problems in the initialization of chronopic (for the radiobutton in the gtk menu)
+		//if(Util.IsWindows()) 
+			SqlitePreferences.Update("simulated", "True");
+
+			
 		//we need to connect sqlite to do the languageChange
 		//change language works on windows. On Linux let's change the locale
 		if(Util.IsWindows()) 
@@ -321,24 +340,6 @@ public class ChronoJump
 		}
 
 		gxml.Autoconnect(this);
-	
-		//Chech if the DB file exists
-		if (!Sqlite.CheckTables()) {
-			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
-			Sqlite.CreateFile();
-			Sqlite.CreateTables();
-		} else {
-			Sqlite.ConvertToLastVersion();
-			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
-			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
-			//SqliteJump.FindBadRjs();
-		}
-
-		//start as "simulated" if we are on windows
-		//(until we improve the Timeout on chronopic)
-		//changed: do also in Linux, because there are some problems in the initialization of chronopic (for the radiobutton in the gtk menu)
-		//if(Util.IsWindows()) 
-			SqlitePreferences.Update("simulated", "True");
 
 		cpRunning = false;
 

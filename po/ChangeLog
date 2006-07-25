@@ -1,3 +1,9 @@
+2006-07-25  Christophe Merlet  <redfox@redfoxcenter.org>
+
+	* LINGUAS: Added fr.
+	* fr.po: Added French translation from
+	Jonathan Ernst <jonathan@ernstfamily.ch>.
+
 2006-06-07  Clytie Siddall <clytie@riverland.net.au>
 
 	* vi.po: Updated Vietnamese translation.

@@ -1,5 +1,8 @@
 CHANGELOG:
 
+
+25 jul 2006 (fixed bug in starting 0.48 for windows when database is not created)
+
 24 jun 2006 (minor RELEASE 0.48 for windows and Linux)
 
 

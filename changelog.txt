@@ -1,5 +1,20 @@
 CHANGELOG:
 
+
+27 jul 2006
+	improvements on person recuperate
+		A search filter name has been added
+		rows cannot be selected now (the important is the checkbox
+		row). 
+		Improved sensitiveness of button_recuperate in same window. 
+
+	improvements on person recuperate from other session
+		Does feedback of inserted persons. 
+		Improved sensitiveness of button_recuperate in same window. 
+	
+	added french to preferences (forgotten)
+	catalog.cs deleted from cvs (not more needed, now using Mono.Posix)
+
 25 jul 2006
 
 	added french translation.

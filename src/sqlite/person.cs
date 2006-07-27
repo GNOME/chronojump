@@ -96,7 +96,7 @@ class SqlitePerson : Sqlite
 		return myReturn;
 	}
 		
-	public static string[] SelectAllPersonsRecuperable(string sortedBy, int except, int inSession) 
+	public static string[] SelectAllPersonsRecuperable(string sortedBy, int except, int inSession, string searchFilterName) 
 	{
 		//sortedBy = name or uniqueID (= creation date)
 	
@@ -141,7 +141,10 @@ class SqlitePerson : Sqlite
 		
 		dbcon.Open();
 		if(inSession == -1) {
-			dbcmd.CommandText = "SELECT * FROM person ORDER BY " + sortedBy;
+			if(searchFilterName == "")
+				dbcmd.CommandText = "SELECT * FROM person ORDER BY " + sortedBy;
+			else
+				dbcmd.CommandText = "SELECT * FROM person WHERE LOWER(name) LIKE LOWER ('%" + searchFilterName + "%') ORDER BY " + sortedBy;
 		} else {
 			dbcmd.CommandText = "SELECT person.* FROM person, personSession " +
 				" WHERE personSession.sessionID == " + inSession + 
@@ -170,12 +173,7 @@ class SqlitePerson : Sqlite
 			
 finishForeach:
 			
-			if (found) {
-				//Console.WriteLine("FOUND: {0}", reader2[0].ToString());
-			} else  {
-				//Console.WriteLine("{0} {1} {2} {3}", reader2[0].ToString(), reader2[1].ToString(), 
-				//		reader2[2].ToString(), reader2[3].ToString()
-				//		);
+			if (!found) {
 				myArray2.Add (reader2[0].ToString() + ":" + reader2[1].ToString() + ":" +
 						reader2[2].ToString() + ":" + reader2[3].ToString() + ":" +
 						reader2[4].ToString() + ":" + reader2[5].ToString() + ":" +

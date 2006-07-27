@@ -56,6 +56,7 @@ public class PreferencesWindow {
 	private static string [] comboLanguageOptions = {
 		"es-ES", 
 		"en-GB", 
+		"fr-FR", 
 		"zh-CN", 
 		"vi-VN", 
 		"sv-SE", 

@@ -613,7 +613,7 @@ public class ChronoJump
 		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, prefsDigitsNumber );
 	}
 
-	private void fillTreeView_jumps (Gtk.TreeView tv, TreeStore store, string filter) {
+	private void fillTreeView_jumps (string filter) {
 		string [] myJumps;
 		
 		myJumps = SqliteJump.SelectAllNormalJumps(currentSession.UniqueID);
@@ -651,7 +651,7 @@ public class ChronoJump
 		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, prefsDigitsNumber );
 	}
 
-	private void fillTreeView_jumps_rj (Gtk.TreeView tv, TreeStore store, string filter) {
+	private void fillTreeView_jumps_rj (string filter) {
 		string [] myJumps;
 		myJumps = SqliteJump.SelectAllRjJumps(currentSession.UniqueID);
 		myTreeViewJumpsRj.Fill(myJumps, filter);
@@ -694,7 +694,7 @@ public class ChronoJump
 		myTreeViewRuns = new TreeViewRuns( tv, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
-	private void fillTreeView_runs (Gtk.TreeView tv, TreeStore store, string filter) {
+	private void fillTreeView_runs (string filter) {
 		string [] myRuns = SqliteRun.SelectAllNormalRuns(currentSession.UniqueID);
 		myTreeViewRuns.Fill(myRuns, filter);
 	}
@@ -731,7 +731,7 @@ public class ChronoJump
 		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
-	private void fillTreeView_runs_interval (Gtk.TreeView tv, TreeStore store, string filter) {
+	private void fillTreeView_runs_interval (string filter) {
 		string [] myRuns = SqliteRun.SelectAllIntervalRuns(currentSession.UniqueID);
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 	}
@@ -774,7 +774,7 @@ public class ChronoJump
 		myTreeViewPulses = new TreeViewPulses( tv, prefsDigitsNumber );
 	}
 
-	private void fillTreeView_pulses (Gtk.TreeView tv, TreeStore store, string filter) {
+	private void fillTreeView_pulses (string filter) {
 		string [] myPulses = SqlitePulse.SelectAllPulses(currentSession.UniqueID);
 		myTreeViewPulses.Fill(myPulses, filter);
 	}
@@ -916,7 +916,7 @@ public class ChronoJump
 		button_delete_selected_jump.Sensitive = true;
 		
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
+		fillTreeView_jumps(myText);
 		
 		//expand all rows if a jump filter is selected:
 		if (myText != Constants.AllJumpsName)
@@ -936,7 +936,7 @@ public class ChronoJump
 		menuitem_repair_selected_reactive_jump.Sensitive = true;
 
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps, treeview_jumps_store, myText);
+		fillTreeView_jumps_rj(myText);
 
 		//expand all rows if a jump filter is selected:
 		if (myText != Constants.AllJumpsName) 
@@ -953,7 +953,7 @@ public class ChronoJump
 		button_delete_selected_run.Sensitive = true;
 
 		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
+		fillTreeView_runs(myText);
 
 		//expand all rows if a runfilter is selected:
 		if (myText != Constants.AllRunsName) 
@@ -970,7 +970,7 @@ public class ChronoJump
 		button_delete_selected_run_interval.Sensitive = true;
 
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, myText);
+		fillTreeView_runs_interval(myText);
 
 		//expand all rows if a runfilter is selected
 		if (myText != Constants.AllRunsName) 
@@ -987,7 +987,7 @@ public class ChronoJump
 		button_delete_selected_pulse.Sensitive = true;
 
 		treeview_pulses_storeReset();
-		fillTreeView_pulses(treeview_pulses, treeview_pulses_store, myText);
+		fillTreeView_pulses(myText);
 
 		//expand all rows if a runfilter is selected
 		if (myText != Constants.AllPulsesName) 
@@ -1045,21 +1045,26 @@ public class ChronoJump
 			//load the persons treeview
 			treeview_persons_storeReset();
 			fillTreeView_persons();
+			
 			//load the jumps treeview
 			treeview_jumps_storeReset();
-			fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
+			fillTreeView_jumps(Constants.AllJumpsName);
+			
 			//load the jumps_rj treeview_rj
 			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, Constants.AllJumpsName);
+			fillTreeView_jumps_rj(Constants.AllJumpsName);
+			
 			//load the runs treeview
 			treeview_runs_storeReset();
-			fillTreeView_runs(treeview_runs, treeview_runs_store, Constants.AllRunsName);
+			fillTreeView_runs(Constants.AllRunsName);
+			
 			//load the runs_interval treeview
 			treeview_runs_interval_storeReset();
-			fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, Constants.AllRunsName);
+			fillTreeView_runs_interval(Constants.AllRunsName);
+			
 			//load the pulses treeview
 			treeview_pulses_storeReset();
-			fillTreeView_pulses(treeview_pulses, treeview_pulses_store, Constants.AllPulsesName);
+			fillTreeView_pulses(Constants.AllPulsesName);
 
 
 			//show hidden widgets
@@ -1115,21 +1120,26 @@ public class ChronoJump
 		treeview_persons_storeReset();
 		fillTreeView_persons();
 		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
+		
 		//load the treeview_jumps
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
+		fillTreeView_jumps(Constants.AllJumpsName);
+		
 		//load the treeview_jumps_rj
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, Constants.AllJumpsName);
+		fillTreeView_jumps_rj(Constants.AllJumpsName);
+		
 		//load the runs treeview
 		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, Constants.AllRunsName);
+		fillTreeView_runs(Constants.AllRunsName);
+		
 		//load the runs_interval treeview
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, Constants.AllRunsName);
+		fillTreeView_runs_interval(Constants.AllRunsName);
+		
 		//load the pulses treeview
 		treeview_pulses_storeReset();
-		fillTreeView_pulses(treeview_pulses, treeview_pulses_store, Constants.AllPulsesName);
+		fillTreeView_pulses(Constants.AllPulsesName);
 		
 
 		//show hidden widgets
@@ -1292,11 +1302,12 @@ public class ChronoJump
 
 			treeview_jumps_storeReset();
 			string myText = combo_jumps.Entry.Text;
-			fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
+			fillTreeView_jumps(myText);
+			
 			//load the treeview_rj
 			treeview_jumps_rj_storeReset();
 			myText = combo_jumps_rj.Entry.Text;
-			fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
+			fillTreeView_jumps_rj(myText);
 
 			if(createdStatsWin) {
 				statsWin.FillTreeView_stats(false, true);
@@ -1329,10 +1340,10 @@ public class ChronoJump
 		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
 		
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, Constants.AllJumpsName);
+		fillTreeView_jumps(Constants.AllJumpsName);
 		
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, Constants.AllJumpsName);
+		fillTreeView_jumps_rj(Constants.AllJumpsName);
 			
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, true);
@@ -1501,44 +1512,48 @@ public class ChronoJump
 		if(Util.IsWindows()) 
 			languageChange();
 	
-		
-		//... and recreate the treeview_jumps
-		string myText = combo_jumps.Entry.Text;
-		createTreeView_jumps (treeview_jumps);
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, myText);
-		
-		//... and recreate the treeview_jumps_rj
-		myText = combo_jumps.Entry.Text;
-		createTreeView_jumps_rj (treeview_jumps_rj);
-		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, myText);
-		
-		//... and recreate the treeview_runs
-		myText = combo_runs.Entry.Text;
-		createTreeView_runs (treeview_runs);
-		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, myText);
 
-		//... and recreate the treeview_runs_interval
-		myText = combo_runs_interval.Entry.Text;
-		createTreeView_runs_interval (treeview_runs_interval);
-		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, myText);
+		//this will crash if currentSession is not created/loaded, then go to catch
+		try {
+			//... and recreate the treeview_jumps
+			string myText = combo_jumps.Entry.Text;
+			createTreeView_jumps (treeview_jumps);
+			treeview_jumps_storeReset();
+			fillTreeView_jumps(myText);
 
-		
-		if(createdStatsWin) {
-			statsWin.PrefsDigitsNumber = prefsDigitsNumber;
-			//statsWin.WeightStatsPercent = weightStatsPercent;
-			statsWin.HeightPreferred = heightPreferred;
-			
-			statsWin.FillTreeView_stats(false, true);
+			//... and recreate the treeview_jumps_rj
+			myText = combo_jumps.Entry.Text;
+			createTreeView_jumps_rj (treeview_jumps_rj);
+			treeview_jumps_rj_storeReset();
+			fillTreeView_jumps_rj(myText);
+
+			//... and recreate the treeview_runs
+			myText = combo_runs.Entry.Text;
+			createTreeView_runs (treeview_runs);
+			treeview_runs_storeReset();
+			fillTreeView_runs(myText);
+
+			//... and recreate the treeview_runs_interval
+			myText = combo_runs_interval.Entry.Text;
+			createTreeView_runs_interval (treeview_runs_interval);
+			treeview_runs_interval_storeReset();
+			fillTreeView_runs_interval(myText);
 		}
-		
-		//pass to report
-		report.PrefsDigitsNumber = prefsDigitsNumber;
-		report.HeightPreferred = heightPreferred;
-		//report.WeightStatsPercent = weightStatsPercent;
+		catch 
+		{
+			if(createdStatsWin) {
+				statsWin.PrefsDigitsNumber = prefsDigitsNumber;
+				//statsWin.WeightStatsPercent = weightStatsPercent;
+				statsWin.HeightPreferred = heightPreferred;
+
+				statsWin.FillTreeView_stats(false, true);
+			}
+
+			//pass to report
+			report.PrefsDigitsNumber = prefsDigitsNumber;
+			report.HeightPreferred = heightPreferred;
+			//report.WeightStatsPercent = weightStatsPercent;
+		}
 	}
 	
 	private void on_cancel_clicked (object o, EventArgs args) 
@@ -2522,7 +2537,7 @@ public class ChronoJump
 		Console.WriteLine("edit selected jump accepted");
 		
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(treeview_jumps, treeview_jumps_store, combo_jumps.Entry.Text);
+		fillTreeView_jumps(combo_jumps.Entry.Text);
 	
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2533,7 +2548,7 @@ public class ChronoJump
 		Console.WriteLine("edit selected jump RJ accepted");
 		
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, combo_jumps_rj.Entry.Text);
+		fillTreeView_jumps_rj(combo_jumps_rj.Entry.Text);
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2544,7 +2559,7 @@ public class ChronoJump
 		Console.WriteLine("Repair selected reactive jump accepted");
 		
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(treeview_jumps_rj, treeview_jumps_rj_store, combo_jumps_rj.Entry.Text);
+		fillTreeView_jumps_rj(combo_jumps_rj.Entry.Text);
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2683,7 +2698,7 @@ public class ChronoJump
 		Console.WriteLine("edit selected run accepted");
 		
 		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, combo_runs.Entry.Text);
+		fillTreeView_runs(combo_runs.Entry.Text);
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2694,7 +2709,7 @@ public class ChronoJump
 		Console.WriteLine("edit selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, combo_runs_interval.Entry.Text);
+		fillTreeView_runs_interval(combo_runs_interval.Entry.Text);
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2705,7 +2720,7 @@ public class ChronoJump
 		Console.WriteLine("repair selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, combo_runs_interval.Entry.Text);
+		fillTreeView_runs_interval(combo_runs_interval.Entry.Text);
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2838,7 +2853,7 @@ public class ChronoJump
 		
 		/*
 		treeview_runs_storeReset();
-		fillTreeView_runs(treeview_runs, treeview_runs_store, combo_runs.Entry.Text);
+		fillTreeView_runs(combo_runs.Entry.Text);
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2851,7 +2866,7 @@ public class ChronoJump
 		
 		/*
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(treeview_runs_interval, treeview_runs_interval_store, combo_runs_interval.Entry.Text);
+		fillTreeView_runs_interval(combo_runs_interval.Entry.Text);
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -2939,7 +2954,7 @@ public class ChronoJump
 	private void sensitiveGuiNoSession () 
 	{
 		//menuitems
-		menuitem_preferences.Sensitive = false;
+		menuitem_preferences.Sensitive = true;
 		menuitem_export_csv.Sensitive = false;
 		menuitem_export_xml.Sensitive = false;
 		menuitem_recuperate_person.Sensitive = false;
@@ -2980,7 +2995,6 @@ public class ChronoJump
 		button_recup_per.Sensitive = true;
 		button_create_per.Sensitive = true;
 		
-		menuitem_preferences.Sensitive = true;
 		menuitem_export_csv.Sensitive = true;
 		menuitem_export_xml.Sensitive = false; //it's not coded yet
 		menuitem_recuperate_person.Sensitive = true;
@@ -3009,39 +3023,6 @@ public class ChronoJump
 		
 		//menuitem_jump_type_add.Sensitive = false;
 		button_last_delete.Sensitive = false;
-		
-		/*
-		hbox_jumps.Sensitive = false;
-		hbox_jumps_rj.Sensitive = false;
-		//don't allow repeat last jump
-		button_last.Sensitive = false;
-		button_rj_last.Sensitive = false;
-		button_run_last.Sensitive = false;
-		button_run_interval_last.Sensitive = false;
-		button_pulse_last.Sensitive = false;
-
-		menuitem_edit_selected_jump.Sensitive = false;
-		menuitem_delete_selected_jump.Sensitive = false;
-		button_edit_selected_jump.Sensitive = false;
-		button_delete_selected_jump.Sensitive = false;
-		
-		menuitem_edit_selected_jump_rj.Sensitive = false;
-		menuitem_delete_selected_jump_rj.Sensitive = false;
-		button_edit_selected_jump_rj.Sensitive = false;
-		button_delete_selected_jump_rj.Sensitive = false;
-		button_repair_selected_reactive_jump.Sensitive = false;
-		menuitem_repair_selected_reactive_jump.Sensitive = false;
-		
-		menuitem_edit_selected_run.Sensitive = false;
-		menuitem_delete_selected_run.Sensitive = false;
-		button_edit_selected_run.Sensitive = false;
-		button_delete_selected_run.Sensitive = false;
-		
-		combo_jumps.Sensitive = false;
-		combo_jumps_rj.Sensitive = false;
-		combo_runs.Sensitive = false;
-		combo_runs_interval.Sensitive = false;
-		*/
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -3056,33 +3037,6 @@ public class ChronoJump
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;
 		menu_view.Sensitive = true;
-		
-		//menuitem_jump_type_add.Sensitive = true;
-	
-		/*
-		hbox_jumps.Sensitive = true;
-		hbox_jumps_rj.Sensitive = true;
-		//don't allow repeat last jump
-		button_last.Sensitive = false;
-		button_rj_last.Sensitive = false;
-		button_run_last.Sensitive = false;
-		button_run_interval_last.Sensitive = false;
-
-		menuitem_edit_selected_jump.Sensitive = true;
-		menuitem_delete_selected_jump.Sensitive = true;
-		button_edit_selected_jump.Sensitive = true;
-		button_delete_selected_jump.Sensitive = true;
-		menuitem_edit_selected_jump_rj.Sensitive = true;
-		menuitem_delete_selected_jump_rj.Sensitive = true;
-		button_edit_selected_jump_rj.Sensitive = true;
-		button_delete_selected_jump_rj.Sensitive = true;
-		button_repair_selected_reactive_jump.Sensitive = true;
-		menuitem_repair_selected_reactive_jump.Sensitive = true;
-		menuitem_edit_selected_run.Sensitive = true;
-		menuitem_delete_selected_run.Sensitive = true;
-		button_edit_selected_run.Sensitive = true;
-		button_delete_selected_run.Sensitive = true;
-		*/
 		
 		combo_jumps.Sensitive = true;
 		combo_jumps_rj.Sensitive = true;

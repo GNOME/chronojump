@@ -1,6 +1,10 @@
 CHANGELOG:
 
 7 sep 2006
+	Preferences window can be used when no session is created/loaded, fixes bug: 353909
+	Code cleaning in chronojump.cs
+	
+7 sep 2006
 	default port on Linux different than on Windows, fixes bug: 353905
 
 27 jul 2006

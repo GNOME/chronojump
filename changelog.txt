@@ -1,5 +1,7 @@
 CHANGELOG:
 
+7 sep 2006
+	default port on Linux different than on Windows, fixes bug: 353905
 
 27 jul 2006
 	improvements on person recuperate

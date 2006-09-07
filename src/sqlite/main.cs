@@ -98,7 +98,11 @@ class Sqlite
 		string myPort = SqlitePreferences.Select("chronopicPort");
 		if(myPort == "0") {
 			//if doesn't exist (for any reason, like old database)
-			SqlitePreferences.Insert ("chronopicPort", "COM1");
+			if(Util.IsWindows()) 
+				SqlitePreferences.Insert ("chronopicPort", "COM1");
+			else
+				SqlitePreferences.Insert ("chronopicPort", "/dev/ttyS0");
+			
 			Console.WriteLine("Added Chronopic port");
 		}
 	}
@@ -146,7 +150,11 @@ class Sqlite
 		//changes from 0.41 to 0.42: added pulse and pulseType tables
 		//changes from 0.4 to 0.41: jump, jumpRj weight is double (always a percent)
 		
-		SqlitePreferences.Insert ("chronopicPort", "COM1");
+		if(Util.IsWindows()) 
+			SqlitePreferences.Insert ("chronopicPort", "COM1");
+		else
+			SqlitePreferences.Insert ("chronopicPort", "/dev/ttyS0");
+		
 		SqlitePreferences.Insert ("digitsNumber", "3");
 		SqlitePreferences.Insert ("showHeight", "True");
 		SqlitePreferences.Insert ("showInitialSpeed", "True");

@@ -207,8 +207,6 @@ public class ChronoJump
 	private static RunInterval currentRunInterval;
 	private static Pulse currentPulse;
 
-	//private static bool currentEventIsJump; //if current event is Jump (true) or Run (false). Used by Cancel and Finish
-	//private static bool lastEventWasJump; //if last event was Jump (true) or Run (false). Used by Last event delete
 	//Used by Cancel and Finish
 	
 	private enum eventType {
@@ -1576,11 +1574,15 @@ public class ChronoJump
 				break;
 			case eventType.PULSE:
 				Console.WriteLine("on_cancel_clicked: pulse");
+				currentPulse.Cancel = true;
 				break;
 			default:
 				Console.WriteLine("on_cancel_clicked: default (bug?)");
 				break;
 		}
+
+		//unhide event buttons for next event
+		sensitiveGuiEventDone();
 	}
 		
 	private void on_finish_clicked (object o, EventArgs args) 
@@ -1601,6 +1603,9 @@ public class ChronoJump
 				Console.WriteLine("on_finish_clicked: default (bug?)");
 				break;
 		}
+		
+		//unhide event buttons for next event
+		sensitiveGuiEventDone();
 	}
 		
 	
@@ -1728,7 +1733,6 @@ public class ChronoJump
 		currentJump.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 		
 		if ( ! currentJump.Cancel ) {
-			//lastEventWasJump = true;
 			lastEventWas = eventType.JUMP;
 			lastJumpIsReactive = false;
 
@@ -1878,7 +1882,6 @@ public class ChronoJump
 		currentJumpRj.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
 		if ( ! currentJumpRj.Cancel ) {
-			//lastEventWasJump = true;
 			lastEventWas = eventType.JUMP;
 			lastJumpIsReactive = true;
 
@@ -2022,7 +2025,6 @@ public class ChronoJump
 		currentRun.FakeButtonFinished.Clicked -= new EventHandler(on_run_finished);
 		
 		if ( ! currentRun.Cancel ) {
-			//lastEventWasJump = false;
 			lastEventWas = eventType.RUN;
 			lastRunIsInterval = false;
 
@@ -2155,7 +2157,6 @@ public class ChronoJump
 		currentRunInterval.FakeButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
 		
 		if ( ! currentRunInterval.Cancel ) {
-			//lastEventWasJump = false;
 			lastEventWas = eventType.RUN;
 			lastRunIsInterval = true;
 
@@ -3045,14 +3046,12 @@ public class ChronoJump
 		combo_pulses.Sensitive = true;
 	}
 	
-	//private void sensitiveGuiYesJump () {
 	private void sensitiveGuiYesEvent () {
 		button_last_delete.Sensitive = true;
 		button_cancel.Sensitive = false;
 		button_finish.Sensitive = false;
 	}
 	
-	//private void sensitiveGuiJumpingOrRunning () {
 	private void sensitiveGuiEventDoing () {
 		//hbox
 		hbox_jumps.Sensitive = false;
@@ -3089,7 +3088,6 @@ public class ChronoJump
 		}
 	}
    
-	//private void sensitiveGuiJumpedOrRunned () {
 	private void sensitiveGuiEventDone () {
 		//hbox
 		hbox_jumps.Sensitive = true;

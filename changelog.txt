@@ -1,5 +1,9 @@
 CHANGELOG:
 
+8 sep 2006
+	event buttons done get unresponsive when a rj jump is cancelled. Fixes bug: 354334
+	fixed? cancelling of pulse
+
 7 sep 2006
 	Preferences window can be used when no session is created/loaded, fixes bug: 353909
 	Code cleaning in chronojump.cs

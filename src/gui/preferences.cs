@@ -35,6 +35,12 @@ public class PreferencesWindow {
 	[Widget] Gtk.SpinButton spinbutton_decimals;
 	[Widget] Gtk.CheckButton checkbutton_height;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
+	
+	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
+	[Widget] Gtk.Box hbox_indexes;
+	[Widget] Gtk.RadioButton radiobutton_show_q_index;
+	[Widget] Gtk.RadioButton radiobutton_show_dj_index;
+	
 	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
 	[Widget] Gtk.CheckButton checkbutton_height_preferred;
 	[Widget] Gtk.CheckButton checkbutton_meters_seconds_preferred;
@@ -81,7 +87,9 @@ public class PreferencesWindow {
 	}
 	
 	//static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred)
-	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture)
+	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, 
+			bool showInitialSpeed, bool showQIndex, bool showDjIndex,
+			bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (parent, entryChronopic);
@@ -108,6 +116,21 @@ public class PreferencesWindow {
 		}
 		else {
 			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
+		}
+
+		if(showQIndex || showDjIndex) { 
+			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = true; 
+			if(showQIndex) {
+				PreferencesWindowBox.radiobutton_show_q_index.Active = true; 
+				PreferencesWindowBox.radiobutton_show_dj_index.Active = false; 
+			} else {
+				PreferencesWindowBox.radiobutton_show_q_index.Active = false; 
+				PreferencesWindowBox.radiobutton_show_dj_index.Active = true; 
+			}
+		}
+		else {
+			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = false; 
+			PreferencesWindowBox.hbox_indexes.Hide();
 		}
 
 		if(askDeletion) { 
@@ -176,6 +199,14 @@ public class PreferencesWindow {
 		hseparator_language.Hide();
 	}
 	
+	private void on_checkbutton_show_tv_tc_index_clicked (object o, EventArgs args) {
+		if(checkbutton_show_tv_tc_index.Active)
+			hbox_indexes.Show();
+		else
+			hbox_indexes.Hide();
+	}
+		
+	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		PreferencesWindowBox.preferences.Hide();
@@ -194,6 +225,16 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString());
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString());
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString());
+		
+		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
+			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString());
+			SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString());
+		} else {
+			SqlitePreferences.Update("showQIndex", "False");
+			SqlitePreferences.Update("showDjIndex", "False");
+		}
+		
+		
 		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString());
 		//SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.checkbutton_percent_kg_preferred.Active.ToString());
 		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString());

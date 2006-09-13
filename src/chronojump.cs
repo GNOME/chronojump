@@ -193,6 +193,8 @@ public class ChronoJump
 	private static int prefsDigitsNumber;
 	private static bool showHeight;
 	private static bool showInitialSpeed;
+	private static bool showQIndex;
+	private static bool showDjIndex;
 	private static bool simulated;
 	private static bool askDeletion;
 	//private static bool weightStatsPercent;
@@ -475,7 +477,21 @@ public class ChronoJump
 		} else {
 			showInitialSpeed = false;
 		}
+		
+		//only one of showQIndex or showDjIndex can be true. Also none of them
+		if ( SqlitePreferences.Select("showQIndex") == "True" ) {
+			showQIndex = true;
+		} else {
+			showQIndex = false;
+		}
 			
+		if ( SqlitePreferences.Select("showDjIndex") == "True" ) {
+			showDjIndex = true;
+		} else {
+			showDjIndex = false;
+		}
+			
+		
 		if ( SqlitePreferences.Select("simulated") == "True" ) {
 			simulated = true;
 			menuitem_simulated.Active = true;
@@ -608,7 +624,7 @@ public class ChronoJump
 
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
-		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, prefsDigitsNumber );
+		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber );
 	}
 
 	private void fillTreeView_jumps (string filter) {
@@ -628,7 +644,7 @@ public class ChronoJump
 	
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
-		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, prefsDigitsNumber );
+		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber );
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
@@ -646,7 +662,7 @@ public class ChronoJump
 	 */
 
 	private void createTreeView_jumps_rj (Gtk.TreeView tv) {
-		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, prefsDigitsNumber );
+		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber );
 	}
 
 	private void fillTreeView_jumps_rj (string filter) {
@@ -670,7 +686,7 @@ public class ChronoJump
 	
 	private void treeview_jumps_rj_storeReset() {
 		myTreeViewJumpsRj.RemoveColumns();
-		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, prefsDigitsNumber );
+		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber );
 	}
 
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args) {
@@ -1448,7 +1464,7 @@ public class ChronoJump
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
-				app1, chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, 
+				app1, chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, showQIndex, showDjIndex, 
 				//askDeletion, weightStatsPercent, heightPreferred, metersSecondsPreferred);
 				askDeletion, heightPreferred, metersSecondsPreferred,
 				System.Threading.Thread.CurrentThread.CurrentUICulture.ToString() );
@@ -1492,6 +1508,19 @@ public class ChronoJump
 			showInitialSpeed = false;
 		}
 
+		//update showQIndex or showDjIndex
+		if ( SqlitePreferences.Select("showQIndex") == "True" ) {
+			showQIndex = true;
+		} else {
+			showQIndex = false;
+		}
+			
+		if ( SqlitePreferences.Select("showDjIndex") == "True" ) {
+			showDjIndex = true;
+		} else {
+			showDjIndex = false;
+		}
+			
 		//update heightPreferred
 		if ( SqlitePreferences.Select("heightPreferred") == "True" ) {
 			heightPreferred = true;

@@ -330,6 +330,28 @@ public class Util
 		return initialSpeed.ToString();
 	}
 
+	public static double GetQIndex (double tv, double tc) 
+	{
+		if(tv == 0 || tc == 0)
+			return 0;
+		
+		if(tv == -1 || tc == -1)
+			return 0;
+		
+		return tv/tc;
+	}
+
+	public static double GetDjIndex (double tv, double tc) 
+	{
+		if(tv == 0 || tc == 0)
+			return 0;
+		
+		if(tv == -1 || tc == -1)
+			return 0;
+		
+		return 100 * (tv-tc)/tc;
+	}
+
 	public static string GetReportDirectoryName (string fileName) {
 		//gets exportfile.html or exportfile.htm and returns exportfile_files
 		int posOfDot = fileName.LastIndexOf('.');

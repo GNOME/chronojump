@@ -30,22 +30,30 @@ public class TreeViewJumps : TreeViewEvent
 {
 	protected bool showHeight;
 	protected bool showInitialSpeed;
+	protected bool showQIndex;
+	protected bool showDjIndex;
 	
 	protected string jumperName = Catalog.GetString("Jumper");
 	protected string weightName = Catalog.GetString("Weight %");
 	protected string fallName = Catalog.GetString("Fall");
 	protected string heightName = Catalog.GetString("Height");
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
+
+	//one of both indexes can be shown if selected on preferences
+	protected string qIndexName = Catalog.GetString("Q Index");
+	protected string djIndexName = Catalog.GetString("Dj Index");
 		
 	public TreeViewJumps ()
 	{
 	}
 	
-	public TreeViewJumps (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, int newPrefsDigitsNumber)
+	public TreeViewJumps (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, bool showQIndex, bool showDjIndex, int newPrefsDigitsNumber)
 	{
 		this.treeview = treeview;
 		this.showHeight = showHeight;
 		this.showInitialSpeed = showInitialSpeed;
+		this.showQIndex = showQIndex;
+		this.showDjIndex = showDjIndex;
 		pDN = newPrefsDigitsNumber;
 
 		treeviewHasTwoLevels = false;
@@ -65,12 +73,14 @@ public class TreeViewJumps : TreeViewEvent
 
 	protected string [] obtainColumnsString(string [] columnsStringPre) {
 		//for sure there should be a better way than this
-
+ 
 		//check long of new array
 		int i = 5;
 		if (showHeight)  
 			i ++;
 		if (showInitialSpeed) 
+			i ++;
+		if (showQIndex || showDjIndex) 
 			i ++;
 
 		//create new array
@@ -82,7 +92,11 @@ public class TreeViewJumps : TreeViewEvent
 		if (showHeight)  
 			columnsString[i++] = heightName;
 		if (showInitialSpeed) 
-			columnsString[i] = initialSpeedName;
+			columnsString[i++] = initialSpeedName;
+		if (showQIndex) 
+			columnsString[i++] = qIndexName;
+		if (showDjIndex) 
+			columnsString[i++] = djIndexName;
 
 		return columnsString;
 	}
@@ -108,6 +122,8 @@ public class TreeViewJumps : TreeViewEvent
 			i ++;
 		if (showInitialSpeed) 
 			i ++;
+		if (showQIndex || showDjIndex) 
+			i ++;
 
 		string [] myData = new String [i+1]; //columnsString +1
 		int count = 0;
@@ -120,6 +136,10 @@ public class TreeViewJumps : TreeViewEvent
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
 		if (showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(newJump.Tv.ToString()), pDN);
+		if(showQIndex)
+			myData[count++] = Util.TrimDecimals(Util.GetQIndex(newJump.Tv, newJump.Tc).ToString(), pDN);
+		if(showDjIndex)
+			myData[count++] = Util.TrimDecimals(Util.GetDjIndex(newJump.Tv, newJump.Tc).ToString(), pDN);
 		
 		myData[count++] = newJump.UniqueID.ToString();
 		return myData;
@@ -129,11 +149,13 @@ public class TreeViewJumps : TreeViewEvent
 
 public class TreeViewJumpsRj : TreeViewJumps
 {
-	public TreeViewJumpsRj (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, int newPrefsDigitsNumber)
+	public TreeViewJumpsRj (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, bool showQIndex, bool showDjIndex, int newPrefsDigitsNumber)
 	{
 		this.treeview = treeview;
 		this.showHeight = showHeight;
 		this.showInitialSpeed = showInitialSpeed;
+		this.showQIndex = showQIndex;
+		this.showDjIndex = showDjIndex;
 		pDN = newPrefsDigitsNumber;
 
 		treeviewHasTwoLevels = true;
@@ -175,22 +197,28 @@ public class TreeViewJumpsRj : TreeViewJumps
 			i ++;
 		if (showInitialSpeed) 
 			i ++;
+		if (showQIndex || showDjIndex) 
+			i ++;
 
 		//little optimization
-		string avgTcString = Util.GetAverage(newJumpRj.TcString).ToString();
-		string avgTvString = Util.GetAverage(newJumpRj.TvString).ToString();
+		double avgTc = Util.GetAverage(newJumpRj.TcString);
+		double avgTv = Util.GetAverage(newJumpRj.TvString);
 		
 		string [] myData = new String [i+1]; //columnsString +1
 		int count = 0;
 		myData[count++] = myTypeComplet;
-		myData[count++] = Util.TrimDecimals(avgTcString, pDN);
-		myData[count++] = Util.TrimDecimals(avgTvString, pDN);
+		myData[count++] = Util.TrimDecimals(avgTc.ToString(), pDN);
+		myData[count++] = Util.TrimDecimals(avgTv.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(newJumpRj.Weight.ToString(), pDN);
 		myData[count++] = newJumpRj.Fall.ToString();
 		if (showHeight)  
-			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(avgTvString), pDN);
+			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(avgTv.ToString()), pDN);
 		if (showInitialSpeed) 
-			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(avgTvString), pDN);
+			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(avgTv.ToString()), pDN);
+		if(showQIndex)
+			myData[count++] = Util.TrimDecimals(Util.GetQIndex(avgTv, avgTc).ToString(), pDN);
+		if(showDjIndex)
+			myData[count++] = Util.TrimDecimals(Util.GetDjIndex(avgTv, avgTc).ToString(), pDN);
 		
 		myData[count++] = newJumpRj.UniqueID.ToString();
 		return myData;
@@ -213,6 +241,9 @@ public class TreeViewJumpsRj : TreeViewJumps
 			i ++;
 		if (showInitialSpeed) 
 			i ++;
+		if (showQIndex || showDjIndex) 
+			i ++;
+		
 		string [] myData = new String [i+1]; //columnsString +1
 		int count = 0;
 		myData[count++] = (lineCount +1).ToString();
@@ -224,6 +255,15 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(thisTv), pDN);
 		if (showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(thisTv), pDN);
+		if(showQIndex)
+			myData[count++] = Util.TrimDecimals(
+					Util.GetQIndex(Convert.ToDouble(thisTv), Convert.ToDouble(thisTc)).ToString(), 
+					pDN);
+		if(showDjIndex)
+			myData[count++] = Util.TrimDecimals(
+					Util.GetDjIndex(Convert.ToDouble(thisTv), Convert.ToDouble(thisTc)).ToString(), 
+					pDN);
+		
 		
 		myData[count++] = newJumprRj.UniqueID.ToString(); 
 

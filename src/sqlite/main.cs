@@ -91,6 +91,16 @@ class Sqlite
 			myVersion = "0.43";
 		}
 
+		if(myVersion == "0.43") {
+			dbcon.Open();
+			SqlitePreferences.Insert ("showQIndex", "False"); 
+			SqlitePreferences.Insert ("showDjIndex", "False"); 
+			SqlitePreferences.Update ("databaseVersion", "0.44"); 
+			Console.WriteLine("Converted DB to 0.44 (added showQIndex, showDjIndex)");
+			dbcon.Close();
+			myVersion = "0.44";
+		}
+
 		//if changes are made here, remember to change also in CreateTables()
 	}
 	
@@ -145,7 +155,8 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.43"); 
+		SqlitePreferences.Insert ("databaseVersion", "0.44"); 
+		//changes from 0.43 to 0.44: added showQIndex and showDjIndex
 		//changes from 0.42 to 0.43: added 'free' pulseType & language preference
 		//changes from 0.41 to 0.42: added pulse and pulseType tables
 		//changes from 0.4 to 0.41: jump, jumpRj weight is double (always a percent)
@@ -158,6 +169,8 @@ class Sqlite
 		SqlitePreferences.Insert ("digitsNumber", "3");
 		SqlitePreferences.Insert ("showHeight", "True");
 		SqlitePreferences.Insert ("showInitialSpeed", "True");
+		SqlitePreferences.Insert ("showQIndex", "False"); //for treeviewJumps
+		SqlitePreferences.Insert ("showDjIndex", "False"); //for treeviewJumps
 		SqlitePreferences.Insert ("simulated", "True");
 		SqlitePreferences.Insert ("weightStatsPercent", "True"); //currently not used
 		SqlitePreferences.Insert ("askDeletion", "True");

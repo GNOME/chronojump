@@ -1,5 +1,8 @@
 CHANGELOG:
 
+18 sep 2006
+	Added a calendar and shown the dates to user in his locale. Fixes bug: 356005
+
 13 sep 2006
 	added Q Index, Dj Index support in treeview_jumps simple and reactive.
 	Configurable by preferences. Changed database to 0.44 and

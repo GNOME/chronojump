@@ -532,9 +532,14 @@ public class PersonAddWindow {
 	[Widget] Gtk.Entry entry1;
 	[Widget] Gtk.RadioButton radiobutton_man;
 	[Widget] Gtk.RadioButton radiobutton_woman;
-	[Widget] Gtk.SpinButton spinbutton_day;
-	[Widget] Gtk.SpinButton spinbutton_month;
-	[Widget] Gtk.SpinButton spinbutton_year;
+
+	//[Widget] Gtk.SpinButton spinbutton_day;
+	//[Widget] Gtk.SpinButton spinbutton_month;
+	//[Widget] Gtk.SpinButton spinbutton_year;
+
+	[Widget] Gtk.Label label_date;
+	[Widget] Gtk.Button button_change_date;
+
 	[Widget] Gtk.TextView textview2;
 	[Widget] Gtk.SpinButton spinbutton_height;
 	[Widget] Gtk.SpinButton spinbutton_weight;
@@ -544,6 +549,9 @@ public class PersonAddWindow {
 	static PersonAddWindow PersonAddWindowBox;
 	Gtk.Window parent;
 	ErrorWindow errorWin;
+
+	DialogCalendar myDialogCalendar;
+	DateTime dateTime;
 
 	private Person currentPerson;
 	private int sessionID;
@@ -562,6 +570,9 @@ public class PersonAddWindow {
 		this.sessionID = sessionID;
 		button_accept.Sensitive = false; //only make sensitive when required values are inserted
 
+		dateTime = DateTime.Today;
+		label_date.Text = dateTime.ToLongDateString();
+		
 		person_win.Title =  Catalog.GetString ("New jumper");
 	}
 	
@@ -606,12 +617,26 @@ public class PersonAddWindow {
 		PersonAddWindowBox.person_win.Hide();
 		PersonAddWindowBox = null;
 	}
+	
+	
+	void on_button_change_date_clicked (object o, EventArgs args)
+	{
+		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select Date of Birth"));
+		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
+	}
+
+	void on_calendar_changed (object obj, EventArgs args)
+	{
+		dateTime = myDialogCalendar.MyDateTime;
+		label_date.Text = dateTime.ToLongDateString();
+	}
+
 
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		//separate by '/' for not confusing with the ':' separation between the other values
-		string dateFull = spinbutton_day.Value.ToString() + "/" + 
-			spinbutton_month.Value.ToString() + "/" + spinbutton_year.Value.ToString(); 
+		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
+			dateTime.Year.ToString();
 		
 		bool personExists = SqlitePersonSession.PersonExists (Util.RemoveTilde(entry1.Text));
 		if(personExists) {
@@ -654,9 +679,10 @@ public class PersonModifyWindow
 	[Widget] Gtk.RadioButton radiobutton_man;
 	[Widget] Gtk.RadioButton radiobutton_woman;
 	[Widget] Gtk.TextView textview2;
-	[Widget] Gtk.SpinButton spinbutton_day;
-	[Widget] Gtk.SpinButton spinbutton_month;
-	[Widget] Gtk.SpinButton spinbutton_year;
+	
+	[Widget] Gtk.Label label_date;
+	[Widget] Gtk.Button button_change_date;
+
 	[Widget] Gtk.SpinButton spinbutton_height;
 	[Widget] Gtk.SpinButton spinbutton_weight;
 	
@@ -665,6 +691,9 @@ public class PersonModifyWindow
 	static PersonModifyWindow PersonModifyWindowBox;
 	Gtk.Window parent;
 	ErrorWindow errorWin;
+	
+	DialogCalendar myDialogCalendar;
+	DateTime dateTime;
 
 	private Person currentPerson;
 	private int sessionID;
@@ -732,9 +761,23 @@ public class PersonModifyWindow
 		}
 
 		string [] dateFull = myPerson.DateBorn.Split(new char[] {'/'});
-		spinbutton_day.Value = Convert.ToDouble ( dateFull[0] );	
-		spinbutton_month.Value = Convert.ToDouble ( dateFull[1] );	
-		spinbutton_year.Value = Convert.ToDouble ( dateFull[2] );	
+		
+		try {
+			//Datetime (year, month, day) constructor
+			dateTime = new DateTime(
+					Convert.ToInt32(dateFull[2]), 
+					Convert.ToInt32(dateFull[1]), 
+					Convert.ToInt32(dateFull[0]));
+		}
+		catch {
+			//Datetime (year, month, day) constructor
+			dateTime = new DateTime(
+					Convert.ToInt32(dateFull[2]), 
+					Convert.ToInt32(dateFull[0]), 
+					Convert.ToInt32(dateFull[1]));
+		}
+		
+		label_date.Text = dateTime.ToLongDateString();
 		
 		spinbutton_height.Value = myPerson.Height;
 		spinbutton_weight.Value = myPerson.Weight;
@@ -760,6 +803,20 @@ public class PersonModifyWindow
 		PersonModifyWindowBox = null;
 	}
 	
+	
+	void on_button_change_date_clicked (object o, EventArgs args)
+	{
+		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"));
+		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
+	}
+
+	void on_calendar_changed (object obj, EventArgs args)
+	{
+		dateTime = myDialogCalendar.MyDateTime;
+		label_date.Text = dateTime.ToLongDateString();
+	}
+
+	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		bool personExists = SqlitePersonSession.PersonExistsAndItsNotMe (uniqueID, Util.RemoveTilde(entry1.Text));
@@ -769,8 +826,8 @@ public class PersonModifyWindow
 			errorWin = ErrorWindow.Show(person_win, myString);
 		} else {
 			//separate by '/' for not confusing with the ':' separation between the other values
-			string dateFull = spinbutton_day.Value.ToString() + "/" + 
-				spinbutton_month.Value.ToString() + "/" + spinbutton_year.Value.ToString(); 
+			string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
+				dateTime.Year.ToString();
 			
 			currentPerson = new Person (uniqueID, entry1.Text, sex, dateFull, (int) spinbutton_height.Value,
 						(int) spinbutton_weight.Value, textview2.Buffer.Text);
@@ -1179,7 +1236,7 @@ public class PersonShowAllEventsWindow {
 
 		tv.AppendColumn ( Catalog.GetString ("Session name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Date\n(MM/DD/YYYY)"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Date\n"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nsimple"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nreactive"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Runs\nsimple"), new CellRendererText(), "text", count++);

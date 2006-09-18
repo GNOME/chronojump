@@ -33,14 +33,18 @@ public class SessionAddWindow {
 	[Widget] Gtk.Window session_add_edit;
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Entry entry_place;
-	[Widget] Gtk.SpinButton spinbutton_day;
-	[Widget] Gtk.SpinButton spinbutton_month;
-	[Widget] Gtk.SpinButton spinbutton_year;
+	
+	[Widget] Gtk.Label label_date;
+	[Widget] Gtk.Button button_change_date;
+	
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Button button_accept;
 	
 	ErrorWindow errorWin;
 
+	DialogCalendar myDialogCalendar;
+	DateTime dateTime;
+	
 	private Session currentSession;
 	
 	static SessionAddWindow SessionAddWindowBox;
@@ -59,9 +63,8 @@ public class SessionAddWindow {
 		this.parent = parent;
 		button_accept.Sensitive = false;
 		
-		spinbutton_day.Value = DateTime.Now.Day;
-		spinbutton_month.Value = DateTime.Now.Month;
-		spinbutton_year.Value = DateTime.Now.Year;
+		dateTime = DateTime.Today;
+		label_date.Text = dateTime.ToLongDateString();
 			
 		session_add_edit.Title = Catalog.GetString("New Session");
 	}
@@ -98,11 +101,25 @@ public class SessionAddWindow {
 		SessionAddWindowBox.session_add_edit.Hide();
 		SessionAddWindowBox = null;
 	}
+
+	
+	void on_button_change_date_clicked (object o, EventArgs args)
+	{
+		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"));
+		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
+	}
+
+	void on_calendar_changed (object obj, EventArgs args)
+	{
+		dateTime = myDialogCalendar.MyDateTime;
+		label_date.Text = dateTime.ToLongDateString();
+	}
+
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		string nowDate = spinbutton_day.Value.ToString() + "/" + spinbutton_month.Value.ToString() + "/" +
-			spinbutton_year.Value.ToString();
+		string nowDate = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
+			dateTime.Year.ToString();
 		
 		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
 		if(sessionExists) {
@@ -142,14 +159,18 @@ public class SessionEditWindow
 	[Widget] Gtk.Window session_add_edit; 
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.Entry entry_place;
-	[Widget] Gtk.SpinButton spinbutton_day;
-	[Widget] Gtk.SpinButton spinbutton_month;
-	[Widget] Gtk.SpinButton spinbutton_year;
+	
+	[Widget] Gtk.Label label_date;
+	[Widget] Gtk.Button button_change_date;
+
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Button button_accept;
 	
 	ErrorWindow errorWin;
 
+	DialogCalendar myDialogCalendar;
+	DateTime dateTime;
+	
 	private Session currentSession;
 	
 	static SessionEditWindow SessionEditWindowBox;
@@ -176,9 +197,22 @@ public class SessionEditWindow
 		
 		string [] dateFull = currentSession.Date.Split(new char[] {'/'});
 			
-		spinbutton_day.Value = Convert.ToDouble(dateFull[0]);
-		spinbutton_month.Value = Convert.ToDouble(dateFull[1]);
-		spinbutton_year.Value = Convert.ToDouble(dateFull[2]);
+		try {
+			//Datetime (year, month, day) constructor
+			dateTime = new DateTime(
+					Convert.ToInt32(dateFull[2]), 
+					Convert.ToInt32(dateFull[1]), 
+					Convert.ToInt32(dateFull[0]));
+		}
+		catch {
+			//Datetime (year, month, day) constructor
+			dateTime = new DateTime(
+					Convert.ToInt32(dateFull[2]), 
+					Convert.ToInt32(dateFull[0]), 
+					Convert.ToInt32(dateFull[1]));
+		}
+		
+		label_date.Text = dateTime.ToLongDateString();
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(currentSession.Comments);
@@ -218,13 +252,23 @@ public class SessionEditWindow
 		SessionEditWindowBox.session_add_edit.Hide();
 		SessionEditWindowBox = null;
 	}
-	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		string nowDate = spinbutton_day.Value.ToString() + "/" + spinbutton_month.Value.ToString() + "/" +
-			spinbutton_year.Value.ToString();
 
 	
+	void on_button_change_date_clicked (object o, EventArgs args)
+	{
+		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"));
+		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
+	}
+
+	void on_calendar_changed (object obj, EventArgs args)
+	{
+		dateTime = myDialogCalendar.MyDateTime;
+		label_date.Text = dateTime.ToLongDateString();
+	}
+
+
+	void on_button_accept_clicked (object o, EventArgs args)
+	{
 		//check if new name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name
 		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
@@ -234,6 +278,9 @@ public class SessionEditWindow
 			errorWin = ErrorWindow.Show(session_add_edit, myString);
 
 		} else {
+			string nowDate = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
+				dateTime.Year.ToString();
+			
 			currentSession.Name = entry_name.Text.ToString();
 			currentSession.Place = entry_place.Text.ToString(); 
 			currentSession.Date = nowDate;
@@ -319,7 +366,7 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Number"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Date (M/D/Y)"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
@@ -335,8 +382,31 @@ public class SessionLoadWindow {
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 
+			//conversion of date
+			//comes in day/month/year
+			//but it seems in first chronojump versions, dateTime comes in month/day/year. Check this, file a bug, put a filter, put some info in session.Comments
+			string [] dateFull = myStringFull[3].Split(new char[] {'/'});
+			DateTime dateTime;
+			try {
+				//Datetime (year, month, day) constructor
+				dateTime = new DateTime(
+						Convert.ToInt32(dateFull[2]), 
+						Convert.ToInt32(dateFull[1]), 
+						Convert.ToInt32(dateFull[0]));
+			}
+			catch {
+				//Datetime (year, month, day) constructor
+				dateTime = new DateTime(
+						Convert.ToInt32(dateFull[2]), 
+						Convert.ToInt32(dateFull[0]), 
+						Convert.ToInt32(dateFull[1]));
+			}
+		
+			
 			store.AppendValues (myStringFull[0], myStringFull[1], 
-					myStringFull[2], myStringFull[3], 
+					myStringFull[2], 
+					//myStringFull[3], 
+					dateTime.ToShortDateString(),
 					myStringFull[5],	//number of jumpers x session
 					myStringFull[6],	//number of jumps x session
 					myStringFull[7],	//number of jumpsRj x session

@@ -401,4 +401,27 @@ public class Util
 			return false;
 	}
 	
+	public static DateTime DateAsDateTime (string dateString) {
+		string [] dateFull = dateString.Split(new char[] {'/'});
+		DateTime dateTime;
+
+		try {
+			//Datetime (year, month, day) constructor
+			dateTime = new DateTime(
+					Convert.ToInt32(dateFull[2]), 
+					Convert.ToInt32(dateFull[1]), 
+					Convert.ToInt32(dateFull[0]));
+		}
+		catch {
+			//Datetime (year, month, day) constructor
+			//in old chronojump versions, date was recorded in a different way, solve like this
+			dateTime = new DateTime(
+					Convert.ToInt32(dateFull[2]), 
+					Convert.ToInt32(dateFull[0]), 
+					Convert.ToInt32(dateFull[1]));
+		}
+		return dateTime;
+	}
+	
+	
 }

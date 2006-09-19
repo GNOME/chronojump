@@ -533,10 +533,6 @@ public class PersonAddWindow {
 	[Widget] Gtk.RadioButton radiobutton_man;
 	[Widget] Gtk.RadioButton radiobutton_woman;
 
-	//[Widget] Gtk.SpinButton spinbutton_day;
-	//[Widget] Gtk.SpinButton spinbutton_month;
-	//[Widget] Gtk.SpinButton spinbutton_year;
-
 	[Widget] Gtk.Label label_date;
 	[Widget] Gtk.Button button_change_date;
 
@@ -760,24 +756,7 @@ public class PersonModifyWindow
 			radiobutton_woman.Active = true;
 		}
 
-		string [] dateFull = myPerson.DateBorn.Split(new char[] {'/'});
-		
-		try {
-			//Datetime (year, month, day) constructor
-			dateTime = new DateTime(
-					Convert.ToInt32(dateFull[2]), 
-					Convert.ToInt32(dateFull[1]), 
-					Convert.ToInt32(dateFull[0]));
-		}
-		catch {
-			//Datetime (year, month, day) constructor
-			dateTime = new DateTime(
-					Convert.ToInt32(dateFull[2]), 
-					Convert.ToInt32(dateFull[0]), 
-					Convert.ToInt32(dateFull[1]));
-		}
-		
-		label_date.Text = dateTime.ToLongDateString();
+		label_date.Text = myPerson.DateLong;
 		
 		spinbutton_height.Value = myPerson.Height;
 		spinbutton_weight.Value = myPerson.Weight;

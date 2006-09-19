@@ -195,24 +195,7 @@ public class SessionEditWindow
 		entry_name.Text = currentSession.Name;
 		entry_place.Text = currentSession.Place;
 		
-		string [] dateFull = currentSession.Date.Split(new char[] {'/'});
-			
-		try {
-			//Datetime (year, month, day) constructor
-			dateTime = new DateTime(
-					Convert.ToInt32(dateFull[2]), 
-					Convert.ToInt32(dateFull[1]), 
-					Convert.ToInt32(dateFull[0]));
-		}
-		catch {
-			//Datetime (year, month, day) constructor
-			dateTime = new DateTime(
-					Convert.ToInt32(dateFull[2]), 
-					Convert.ToInt32(dateFull[0]), 
-					Convert.ToInt32(dateFull[1]));
-		}
-		
-		label_date.Text = dateTime.ToLongDateString();
+		label_date.Text = currentSession.DateLong;
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.SetText(currentSession.Comments);
@@ -382,31 +365,10 @@ public class SessionLoadWindow {
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
 
-			//conversion of date
-			//comes in day/month/year
-			//but it seems in first chronojump versions, dateTime comes in month/day/year. Check this, file a bug, put a filter, put some info in session.Comments
-			string [] dateFull = myStringFull[3].Split(new char[] {'/'});
-			DateTime dateTime;
-			try {
-				//Datetime (year, month, day) constructor
-				dateTime = new DateTime(
-						Convert.ToInt32(dateFull[2]), 
-						Convert.ToInt32(dateFull[1]), 
-						Convert.ToInt32(dateFull[0]));
-			}
-			catch {
-				//Datetime (year, month, day) constructor
-				dateTime = new DateTime(
-						Convert.ToInt32(dateFull[2]), 
-						Convert.ToInt32(dateFull[0]), 
-						Convert.ToInt32(dateFull[1]));
-			}
-		
 			
 			store.AppendValues (myStringFull[0], myStringFull[1], 
 					myStringFull[2], 
-					//myStringFull[3], 
-					dateTime.ToShortDateString(),
+					Util.DateAsDateTime(myStringFull[3]).ToShortDateString(),
 					myStringFull[5],	//number of jumpers x session
 					myStringFull[6],	//number of jumps x session
 					myStringFull[7],	//number of jumpsRj x session

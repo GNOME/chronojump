@@ -1,5 +1,11 @@
 CHANGELOG:
 
+19 sep 2006
+	Fixed Bug: 356569 "Problem with day/month month/day on recording dates"
+	Better integration of dates in all code
+	
+	Shown a message dialog with fileName of report or exportSession
+
 18 sep 2006
 	Added a calendar and shown the dates to user in his locale. Fixes bug: 356005
 

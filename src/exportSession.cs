@@ -95,6 +95,9 @@ public class ExportSession
 				getData();
 				printData();
 				closeWriter();
+			
+				string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
+				new DialogMessage(myString);
 			}
 		} 
 		catch {
@@ -159,7 +162,7 @@ public class ExportSession
 				Catalog.GetString ("Date") + ":" + 
 				Catalog.GetString ("Comments") );
 		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
-					mySession.Place + ":" + mySession.Date + ":" + mySession.Comments );
+					mySession.Place + ":" + mySession.DateShort + ":" + mySession.Comments );
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}

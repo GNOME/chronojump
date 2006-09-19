@@ -27,7 +27,7 @@ using System.Text; //StringBuilder
 using System.Threading;
 using System.IO.Ports;
 using Mono.Unix;
-
+using System.Timers;
 
 public class Jump : Event 
 {
@@ -175,7 +175,6 @@ public class Jump : Event
 	}
 	
 	
-	//protected virtual void waitJump ()
 	protected override void waitEvent ()
 	{
 		double timestamp;
@@ -327,6 +326,12 @@ public class JumpRj : Jump
 	//for finishing earlier from chronojump.cs
 	private bool finish;
 	
+	//a timer for controlling the time between events and update the progressbar
+	//timer has a delegate that 10/s updates the time progressBar. 
+	//It starts when the first event is detected
+	private System.Timers.Timer timerClock = new System.Timers.Timer();    
+	double timerCount; // 10 times x second
+	
 	//windows needed
 	JumpRjExecuteWindow jumpRjExecuteWin;
 
@@ -451,7 +456,8 @@ public class JumpRj : Jump
 		}
 					
 		//in simulated only show the progressbarExecution, and the AVGs at the end
-		jumpRjExecuteWin.ProgressbarExecution(limitAsDouble, Util.GetTotalTime(tcString, tvString));  
+		jumpRjExecuteWin.ProgressbarEventExecution(limitAsDouble);  
+		jumpRjExecuteWin.ProgressbarTimeExecution(Util.GetTotalTime(tcString, tvString));  
 		jumpRjExecuteWin.ProgressbarTcAvg = Util.GetAverage(tcString); 
 		jumpRjExecuteWin.ProgressbarTvAvg = Util.GetAverage(tvString); 
 		jumpRjExecuteWin.ProgressbarTvTcAvg = 
@@ -460,6 +466,7 @@ public class JumpRj : Jump
 		//write jump
 		write();
 	}
+	
 
 	public override void Manage(object o, EventArgs args)
 	{
@@ -523,29 +530,23 @@ public class JumpRj : Jump
 	
 	
 		do {
-			//update the progressBar if limit is time (and it's not an unlimited reactive jump)
-			if ( ! jumpsLimited && limitAsDouble != -1) {
-				jumpRjExecuteWin.ProgressbarExecution(tvCount, Util.GetTotalTime(tcString, tvString)); 
-			}
-
 			ok = cp.Read_event(out timestamp, out platformState);
 			Console.Write(Util.GetTotalTime(tcString, tvString));
 			if (ok) {
 				
 				string equal = "";
-
-				//if limited by time, and current time is higher, don't record more events
-				if (!jumpsLimited && !firstRjValue &&
-						Util.GetTotalTime(tcString, tvString) + timestamp/1000 > limitAsDouble) 
-				{
-					success = true;
-				}
 			
 				//while no finished time or jumps, continue recording events
 				if ( ! success) {
 					//don't record the time until the first event
 					if (firstRjValue) {
 						firstRjValue = false;
+
+						//but start timer
+						timerCount = 0;
+						timerClock.Elapsed += new ElapsedEventHandler(OnTimer);
+						timerClock.Interval = 100; //10 times x second
+						timerClock.Enabled = true;
 					} else {
 						//reactive jump has not finished... record the next jump
 						Console.WriteLine("tcCount: {0}, tvCount: {1}", tcCount, tvCount);
@@ -578,25 +579,25 @@ public class JumpRj : Jump
 							if(tc != -1)
 								jumpRjExecuteWin.ProgressbarTvTcAvg = 
 									Util.GetAverage(tvString) / Util.GetAverage(tcString); 
+				
 							tvCount = tvCount + 1;
+							
+							//update event progressbar
+							jumpRjExecuteWin.ProgressbarEventExecution(tvCount);  
 						}
 					}
 				}
 
 				//check if reactive jump should finish
 				if (jumpsLimited) {
-					//if reactive jump is "unlimited" not limited by jumps, nor time, 
-					//then play with the progress bar until finish button is pressed
-					if(limitAsDouble == -1) {
-						jumpRjExecuteWin.ProgressbarExecution(tvCount, Util.GetTotalTime(tcString, tvString));  
-					}
-					else {
-						jumpRjExecuteWin.ProgressbarExecution(tvCount, Util.GetTotalTime(tcString, tvString));  
-			
+					if(limitAsDouble != -1) {
 						if(Util.GetNumberOfJumps(tvString, false) >= limitAsDouble)
 						{
 							write();
 							success = true;
+							
+							//update event progressbar
+							jumpRjExecuteWin.ProgressbarEventExecution(tvCount);  
 						}
 					}
 				} else {
@@ -607,6 +608,9 @@ public class JumpRj : Jump
 				}
 			}
 		} while ( ! success && ! cancel && ! finish );
+	
+		//stop calling the timer for the progressBar updating
+		timerClock.Elapsed -= new ElapsedEventHandler(OnTimer);
 		
 		if (finish) {
 			if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
@@ -621,6 +625,20 @@ public class JumpRj : Jump
 			fakeButtonFinished.Click();
 		}
 	}
+
+	public void OnTimer( Object source, ElapsedEventArgs e )
+	{
+		timerCount = timerCount + .1; //10 times x second
+		
+		//check if it should finish (limited by time, and not-unlimited, and passed time)
+		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble) {
+			jumpRjExecuteWin.ProgressbarTimeExecution(limitAsDouble);  //for ending just at the value (not ,1 seconds before)
+			finish = true;
+		}
+		else
+			jumpRjExecuteWin.ProgressbarTimeExecution(timerCount);  
+	}
+	
 				
 	protected override void write()
 	{

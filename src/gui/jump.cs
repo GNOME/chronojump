@@ -1435,9 +1435,6 @@ public class JumpRjExecuteWindow
 	
 	[Widget] Gtk.Label label_jumper;
 	[Widget] Gtk.Label label_jumptype;
-	[Widget] Gtk.Label label_progress_name;
-	[Widget] Gtk.Label label_extra_name;
-	[Widget] Gtk.Label label_extra_value;
 	
 	[Widget] Gtk.ProgressBar progressbar_tv_current;
 	[Widget] Gtk.ProgressBar progressbar_tc_current;
@@ -1448,7 +1445,13 @@ public class JumpRjExecuteWindow
 	[Widget] Gtk.ProgressBar progressbar_tv_tc_avg_1up;
 	[Widget] Gtk.ProgressBar progressbar_tv_tc_avg_0;
 	
-	[Widget] Gtk.ProgressBar progressbar_execution;
+	[Widget] Gtk.ProgressBar progressbar_event;
+	[Widget] Gtk.ProgressBar progressbar_time;
+
+	//currently gtk-sharp cannot display a label in a progressBar in activity mode (Pulse() not Fraction)
+	//then we show the value in a label:
+	[Widget] Gtk.Label label_event_value;
+	[Widget] Gtk.Label label_time_value;
 	
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc;
 	[Widget] Gtk.Box hbox_tv_tc;
@@ -1457,6 +1460,7 @@ public class JumpRjExecuteWindow
 	
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_finish;
+	[Widget] Gtk.Button button_close;
 
 	int pDN;
 	double limit;
@@ -1483,12 +1487,14 @@ public class JumpRjExecuteWindow
 	
 	static public JumpRjExecuteWindow Show (Gtk.Window parent, string jumperName, string jumpType, 
 			int pDN, double limit, bool jumpsLimited)
+			//int pDN, double limit)
 	{
 		if (JumpRjExecuteWindowBox == null) {
 			JumpRjExecuteWindowBox = new JumpRjExecuteWindow (parent); 
 		}
 		
 		JumpRjExecuteWindowBox.initializeVariables (jumperName, jumpType, pDN, limit, jumpsLimited);
+		//JumpRjExecuteWindowBox.initializeVariables (jumperName, jumpType, pDN, limit);
 		
 		JumpRjExecuteWindowBox.jump_rj_execute.Show ();
 
@@ -1496,13 +1502,13 @@ public class JumpRjExecuteWindow
 	}
 
 	void initializeVariables (string jumperName, string jumpType, int pDN, double limit, bool jumpsLimited) 
+	//void initializeVariables (string jumperName, string jumpType, int pDN, double limit) 
 	{
 		this.pDN = pDN;
 		this.limit = limit;
 		this.jumpsLimited = jumpsLimited;
 		this.label_jumper.Text = jumperName;
 		this.label_jumptype.Text = jumpType;
-		this.label_extra_value.Text = "";
 		
 		progressbar_tv_current.Fraction = 0;
 		progressbar_tc_current.Fraction = 0;
@@ -1512,7 +1518,8 @@ public class JumpRjExecuteWindow
 		progressbar_tc_avg.Fraction = 0;
 		progressbar_tv_tc_avg_1up.Fraction = 0;
 		progressbar_tv_tc_avg_0.Fraction = 0;
-		progressbar_execution.Fraction = 0;
+		progressbar_event.Fraction = 0;
+		progressbar_time.Fraction = 0;
 		
 		progressbar_tv_current.Text = "";
 		progressbar_tc_current.Text = "";
@@ -1522,10 +1529,14 @@ public class JumpRjExecuteWindow
 		progressbar_tc_avg.Text = "";
 		progressbar_tv_tc_avg_1up.Text = "";
 		progressbar_tv_tc_avg_0.Text = "";
-		progressbar_execution.Text = "";
+		progressbar_event.Text = "";
+		progressbar_time.Text = "";
+		label_event_value.Text = "";
+		label_time_value.Text = "";
 
 		button_finish.Sensitive = true;
 		button_cancel.Sensitive = true;
+		button_close.Sensitive = false;
 
 		if(showTvTc) {
 			tv_tc_show_hide(true);
@@ -1562,10 +1573,11 @@ public class JumpRjExecuteWindow
 	public void JumpEndedHideButtons() {
 		button_finish.Sensitive = false;
 		button_cancel.Sensitive = false;
+		button_close.Sensitive = true;
 		
 		//if it was an unlimited jump, put the jumpsBar at end
 		if(limit == -1) {
-			progressbar_execution.Fraction = 1.0;
+			progressbar_event.Fraction = 1.0;
 		}
 	}
 	
@@ -1588,49 +1600,66 @@ public class JumpRjExecuteWindow
 	
 	void on_jump_rj_execute_delete_event (object o, DeleteEventArgs args)
 	{
+		//if there's an event doing, simulate a cancel
+		//if there's not, simulate also
+		button_cancel.Click();
+		
 		JumpRjExecuteWindowBox.jump_rj_execute.Hide();
 		JumpRjExecuteWindowBox = null;
 	}
 
-	public void ProgressbarExecution (double jumps, double time)
+	public void ProgressbarEventExecution (double jumps)
 	{
 		if(limit == -1) {	//unlimited jump (until 'finish' is clicked)
-			progressbar_execution.Pulse();
-			label_progress_name.Text = "";
-			label_extra_name.Text = "";
-			label_extra_value.Text = string.Format(Catalog.GetString("{0} jumps; {1} seconds"), jumps.ToString(), 
-					Util.TrimDecimals(time.ToString(), pDN));
+			progressbar_event.Pulse();
+			//progressbar_event.Text = jumps.ToString();
+			label_event_value.Text = jumps.ToString();
 		} else {
-			double myFraction;
-			if(jumpsLimited)
-				myFraction = jumps / limit;
-			else
-				myFraction = time / limit;
-			
+			double myFraction = jumps / limit;
+
 			if(myFraction > 1)
 				myFraction = 1;
 			else if(myFraction < 0)
 				myFraction = 0;
-			
-			Console.Write("{0}-{1}-{2}",jumps, limit, myFraction);
-			progressbar_execution.Fraction = myFraction;
-			Console.WriteLine("fraction done");
 
-			if(jumpsLimited) { 
-				label_progress_name.Text = Catalog.GetString("Jumps");
-				progressbar_execution.Text = jumps.ToString() + " / " + limit.ToString();
-				label_extra_name.Text = Catalog.GetString("Time");
-				label_extra_value.Text = Util.TrimDecimals(time.ToString(), pDN);
-			}
-			else {	
-				label_progress_name.Text = Catalog.GetString("Time");
-				progressbar_execution.Text = Util.TrimDecimals(time.ToString(), pDN) + " / " + limit.ToString();
-				label_extra_name.Text = Catalog.GetString("Jumps");
-				label_extra_value.Text = jumps.ToString();
+			//Console.Write("{0}-{1}", limit, myFraction);
+
+			if(jumpsLimited) {
+				progressbar_event.Fraction = myFraction;
+				progressbar_event.Text = jumps.ToString() + " / " + limit.ToString();
+			} else {
+				progressbar_event.Pulse();
+				label_event_value.Text = jumps.ToString();
 			}
 		}
 	}
-	
+
+	public void ProgressbarTimeExecution (double time)
+	{
+		if(limit == -1) {	//unlimited jump (until 'finish' is clicked)
+			progressbar_time.Pulse();
+			//progressbar_time.Text = time.ToString();
+			label_time_value.Text = Util.TrimDecimals(time.ToString(), 1);
+		} else {
+			double myFraction = time / limit;
+
+			if(myFraction > 1)
+				myFraction = 1;
+			else if(myFraction < 0)
+				myFraction = 0;
+
+			//Console.Write("{0}-{1}", limit, myFraction);
+
+			if(jumpsLimited) {
+				progressbar_time.Pulse();
+				label_time_value.Text = Util.TrimDecimals(time.ToString(), 1);
+			} else {
+				progressbar_time.Fraction = myFraction;
+				progressbar_time.Text = "";
+				progressbar_time.Text = Util.TrimDecimals(time.ToString(), 1) + " / " + limit.ToString();
+			}
+		}
+	}
 
 	public double ProgressbarTvCurrent 
 	{

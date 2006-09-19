@@ -1,6 +1,13 @@
 CHANGELOG:
 
 19 sep 2006
+	Changes in Rj Execute Windows: 
+	- now has two progressbars: jump, time.
+	- Time progressbar updates 10xsec
+	- close button is unsensitive while jumping (there's cancel and finish)
+	- Closing window while jumping is threated as cancel (event raised)
+
+19 sep 2006
 	Fixed Bug: 356569 "Problem with day/month month/day on recording dates"
 	Better integration of dates in all code
 	

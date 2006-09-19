@@ -103,16 +103,22 @@ public class Session {
 			place = value;
 		}
 	}
-	
+
 	public string Date
 	{
-		get
-		{
-			return date;
+		get { return date; }
+		set { date = value; }
+	}
+
+	public string DateLong {
+		get {
+			return Util.DateAsDateTime(date).ToLongDateString();
 		}
-		set
-		{
-			date = value;
+	}
+	
+	public string DateShort {
+		get {
+			return Util.DateAsDateTime(date).ToShortDateString();
 		}
 	}
 	

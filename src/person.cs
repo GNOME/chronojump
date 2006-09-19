@@ -118,15 +118,22 @@ public class Person {
 	
 	public string DateBorn
 	{
-		get
-		{
-			return dateBorn;
-		}
-		set
-		{
-			dateBorn = value;
+		get { return dateBorn; }
+		set { dateBorn = value; }
+	}
+	
+	public string DateLong {
+		get {
+			return Util.DateAsDateTime(dateBorn).ToLongDateString();
 		}
 	}
+	
+	public string DateShort {
+		get {
+			return Util.DateAsDateTime(dateBorn).ToShortDateString();
+		}
+	}
+	
 	
 	public int Height
 	{

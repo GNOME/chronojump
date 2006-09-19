@@ -202,7 +202,7 @@ public class Report : ExportSession
 		myData.Add( "\n" + Catalog.GetString ("Name") + ":" + mySession.Name);
 		myData.Add(Catalog.GetString ("SessionID") + ":" + mySession.UniqueID);
 		myData.Add(Catalog.GetString ("Place") + ":" + mySession.Place);
-		myData.Add(Catalog.GetString ("Date") + ":" + mySession.Date);
+		myData.Add(Catalog.GetString ("Date") + ":" + mySession.DateShort);
 		myData.Add(Catalog.GetString ("Comments") + ":" + mySession.Comments);
 		/*
 		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
@@ -291,7 +291,7 @@ public class Report : ExportSession
 			string [] sessionsStrFull = strFull[3].Split(new char[] {':'});
 			for (int j=0; j < sessionsStrFull.Length ; j++) {
 				Session tempSession = SqliteSession.Select(sessionsStrFull[j]);
-				sendSelectedSessions.Add(tempSession.UniqueID + ":" + tempSession.Name + ":" + tempSession.Date);
+				sendSelectedSessions.Add(tempSession.UniqueID + ":" + tempSession.Name + ":" + tempSession.DateShort);
 			}
 
 			//separate in markedRows

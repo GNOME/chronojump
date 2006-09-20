@@ -19,7 +19,7 @@ MCS = gmcs
 
 CHRONOJUMP = chronojump
 
-CHRONOJUMP_DEP_GUI = src/gui/confirm.cs src/gui/error.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogCalendar.cs
+CHRONOJUMP_DEP_GUI = src/gui/confirm.cs src/gui/error.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogCalendar.cs
 
 CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/djQ.cs src/stats/rjIndex.cs src/stats/rjPotencyBosco.cs src/stats/rjEvolution.cs src/stats/ieIub.cs src/stats/fv.cs src/stats/cmjPlusPotency.cs
 

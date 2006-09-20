@@ -456,8 +456,17 @@ public class JumpRj : Jump
 		}
 					
 		//in simulated only show the progressbarExecution, and the AVGs at the end
-		jumpRjExecuteWin.ProgressbarEventExecution(limitAsDouble);  
-		jumpRjExecuteWin.ProgressbarTimeExecution(Util.GetTotalTime(tcString, tvString));  
+		jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+				true, //isEvent
+				true, //percentageMode
+				limitAsDouble
+				);  
+		jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: it's a time
+				true, //percentageMode
+				Util.GetTotalTime(tcString, tvString)
+				);  
+		
 		jumpRjExecuteWin.ProgressbarTcAvg = Util.GetAverage(tcString); 
 		jumpRjExecuteWin.ProgressbarTvAvg = Util.GetAverage(tvString); 
 		jumpRjExecuteWin.ProgressbarTvTcAvg = 
@@ -583,7 +592,11 @@ public class JumpRj : Jump
 							tvCount = tvCount + 1;
 							
 							//update event progressbar
-							jumpRjExecuteWin.ProgressbarEventExecution(tvCount);  
+							jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+									true, //isEvent
+									jumpsLimited, //if jumpsLimited: do fraction; if time limited: do pulse
+									tvCount
+									);  
 						}
 					}
 				}
@@ -597,7 +610,11 @@ public class JumpRj : Jump
 							success = true;
 							
 							//update event progressbar
-							jumpRjExecuteWin.ProgressbarEventExecution(tvCount);  
+							jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+									true, //isEvent
+									true, //percentageMode
+									tvCount
+									);  
 						}
 					}
 				} else {
@@ -629,20 +646,31 @@ public class JumpRj : Jump
 	public void OnTimer( Object source, ElapsedEventArgs e )
 	{
 		timerCount = timerCount + .1; //10 times x second
-		
-		//check if it should finish (limited by time, and not-unlimited, and passed time)
+
+		//check if it should finish now (time limited, not unlimited and time exceeded)
 		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble) {
-			jumpRjExecuteWin.ProgressbarTimeExecution(limitAsDouble);  //for ending just at the value (not ,1 seconds before)
+			jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+					false, //isEvent false: time
+					true, //percentageMode: it has finished, show bar at 100%
+					limitAsDouble
+					);  
+
 			finish = true;
 		}
-		else
-			jumpRjExecuteWin.ProgressbarTimeExecution(timerCount);  
+		else {
+			//limited by jumps or time, but has no finished
+			jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+					false, //isEvent false: time
+					!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
+					timerCount
+					); 
+		}
 	}
-	
+
 				
 	protected override void write()
 	{
-		jumpRjExecuteWin.JumpEndedHideButtons();
+		jumpRjExecuteWin.EventEndedHideButtons();
 		
 		int jumps;
 		string limitString = "";

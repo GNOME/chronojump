@@ -1,5 +1,9 @@
 CHANGELOG:
 
+20 sep 2006
+	75% separating EventExecuteWindow in new file src/gui/event.cs,
+	JumpRjExecuteWindow inherits (bug 355599)
+
 19 sep 2006
 	Changes in Rj Execute Windows: 
 	- now has two progressbars: jump, time.

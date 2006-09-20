@@ -1882,9 +1882,8 @@ public class ChronoJump
 		sensitiveGuiEventDoing();
 	
 		//show the jump doing window
-		jumpRjExecuteWin = JumpRjExecuteWindow.Show(app1, currentPerson.Name, 
-				currentJumpType.Name, prefsDigitsNumber, myLimit, currentJumpType.JumpsLimited);
-				//currentJumpType.Name, prefsDigitsNumber, myLimit);
+		jumpRjExecuteWin = JumpRjExecuteWindow.Show(currentPerson.Name, 
+				currentJumpType.Name, prefsDigitsNumber, myLimit);
 		jumpRjExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		jumpRjExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		

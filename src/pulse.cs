@@ -37,9 +37,6 @@ public class Pulse : Event
 	double contactTime;
 	bool firstPulse;
 
-	//for finishing earlier from chronojump.cs
-	private bool finish;
-	
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
 	private Chronopic cp;
@@ -70,6 +67,8 @@ public class Pulse : Event
 		this.pDN = pDN;
 	
 		fakeButtonFinished = new Gtk.Button();
+
+		simulated = false;
 	}
 	
 	
@@ -88,8 +87,10 @@ public class Pulse : Event
 		this.description = description;
 	}
 
-	public override void Simulate(Random rand)
+	//public override void Simulate(Random rand)
+	public void Simulate(Random rand)
 	{
+		/*
 		double intervalTime;
 		timesString = "";
 		string equalSymbol = "";
@@ -106,9 +107,11 @@ public class Pulse : Event
 		}
 		
 		write();
+		*/
 	}
 
-	public override void Manage(object o, EventArgs args)
+	//public override void Manage(object o, EventArgs args)
+	public override void Manage()
 	{
 		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
 
@@ -125,7 +128,7 @@ public class Pulse : Event
 			confirmWin = ConfirmWindow.Show(app, myMessage, "");
 
 			//we call again this function
-			confirmWin.Button_accept.Clicked += new EventHandler(Manage);
+			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
 		} else {
 			appbar.Push( 1, Catalog.GetString("You are OUT, start when prepared!!") );
 
@@ -238,21 +241,7 @@ public class Pulse : Event
 	{
 		int totalPulsesNum = 0;
 
-		//if user clicked in finish earlier
-		//if(finish) {
-			totalPulsesNum = Util.GetNumberOfJumps(timesString, false);
-		/*
-		  } else {
-			if(tracksLimited) {
-				limitString = limitAsDouble.ToString() + "R";
-				tracks = (int) limitAsDouble;
-			} else {
-				limitString = limitAsDouble.ToString() + "T";
-				string [] myStringFull = intervalTimesString.Split(new char[] {'='});
-				tracks = myStringFull.Length;
-			}
-		}
-		*/
+		totalPulsesNum = Util.GetNumberOfJumps(timesString, false);
 
 		uniqueID = SqlitePulse.Insert(personID, sessionID, type, 
 				fixedPulse, totalPulsesNum, timesString, 
@@ -294,28 +283,12 @@ public class Pulse : Event
 		}
 		return Util.GetAverage(myErrors);
 	}
-	
-	//called from chronojump.cs for finishing jumps earlier
-	public bool Finish
-	{
-		get { return finish; }
-		set { finish = value; }
-	}
-	
 
 	public string TimesString
 	{
 		get { return timesString; }
 		set { timesString = value; }
 	}
-	
-	/*
-	public int Tracks
-	{
-		get { return tracks; }
-		set { tracks = value; }
-	}
-	*/
 	
 	public double FixedPulse
 	{

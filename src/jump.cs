@@ -27,7 +27,7 @@ using System.Text; //StringBuilder
 using System.Threading;
 using System.IO.Ports;
 using Mono.Unix;
-using System.Timers;
+using System.Timers; //for ElapsedEventArgs
 
 public class Jump : Event 
 {
@@ -72,6 +72,8 @@ public class Jump : Event
 		}
 		
 		fakeButtonFinished = new Gtk.Button();
+		
+		simulated = false;
 	}
 	
 	//after inserting database (SQL)
@@ -89,6 +91,7 @@ public class Jump : Event
 		this.description = description;
 	}
 		
+		/*
 	public override void Simulate(Random rand)
 	{
 		if(hasFall) {
@@ -97,12 +100,45 @@ public class Jump : Event
 		tv = rand.NextDouble() * .6;
 		Console.WriteLine("TV: {0}", tv.ToString());
 		write();
-	}
 
-	
-	public override void Manage(object o, EventArgs args)
+	}
+		*/
+
+	public override void SimulateInitValues(Random randSent)
 	{
-		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		Console.WriteLine("From jump.cs");
+
+		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
+		simulated = true;
+		simulatedTimeAccumulatedBefore = 0;
+		simulatedTimeLast = 0;
+		simulatedContactTimeMin = 0.2; //seconds
+		simulatedContactTimeMax = 0.3; //seconds
+		simulatedFlightTimeMin = 0.3; //seconds
+		simulatedFlightTimeMax = 0.6; //seconds
+
+		if(hasFall) {
+			//values of simulation will be the contactTime
+			//at the first time, the second will be flightTime
+			simulatedCurrentTimeIntervalsAreContact = true;
+		} else {
+			//values of simulation will be the flightTime
+			//at the first time (and the only)
+			simulatedCurrentTimeIntervalsAreContact = false;
+		}
+
+		//Manage();
+	}
+	
+	//public override void Manage(object o, EventArgs args)
+	public override void Manage()
+	{
+		//Chronopic.Plataforma platformState;
+		
+		if (simulated) 
+			platformState = Chronopic.Plataforma.ON;
+		else
+			platformState = chronopicInitialValue(cp);
 		
 		
 		if (platformState==Chronopic.Plataforma.ON) {
@@ -117,6 +153,11 @@ public class Jump : Event
 			//prepare jump for being cancelled if desired
 			cancel = false;
 
+			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
+			//mark now that we have landed:
+			if (simulated)
+				platformState = Chronopic.Plataforma.OFF;
+			
 			//start thread
 			//Console.Write("Start thread");
 			thread = new Thread(new ThreadStart(waitEvent));
@@ -129,16 +170,21 @@ public class Jump : Event
 					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "");
 
 			//we call again this function
-			confirmWin.Button_accept.Clicked += new EventHandler(Manage);
+			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
 			
 			//if confirmWin.Button_cancel is pressed retuen
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event);
 		}
 	}
-	
-	public void ManageFall(object o, EventArgs args)
+
+	//public void ManageFall(object o, EventArgs args)
+	public void ManageFall()
 	{
-		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		//Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		if (simulated) 
+			platformState = Chronopic.Plataforma.OFF;
+		else
+			platformState = chronopicInitialValue(cp);
 
 		
 		if (platformState==Chronopic.Plataforma.OFF) {
@@ -156,6 +202,11 @@ public class Jump : Event
 			//prepare jump for being cancelled if desired
 			cancel = false;
 
+			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
+			//mark now that we have arrived:
+			if (simulated)
+				platformState = Chronopic.Plataforma.ON;
+			
 			//start thread
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
@@ -167,50 +218,94 @@ public class Jump : Event
 					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "");
 
 			//we call again this function
-			confirmWin.Button_accept.Clicked += new EventHandler(ManageFall);
+			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManageFall);
 			
 			//if confirmWin.Button_cancel is pressed retuen
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event);
 		}
 	}
 	
+	//for calling it again after a confirmWindow says that you have to be in or out the platform
+	//and press ok button
+	//This method is for not having problems with the parameters of the delegate
+	private void callAgainManageFall(object o, EventArgs args) {
+		ManageFall();
+	}
+	
 	
 	protected override void waitEvent ()
 	{
-		double timestamp;
+		double timestamp = 0;
 		bool success = false;
 		
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+		//Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 		bool ok;
 		
 		do {
-			ok = cp.Read_event(out timestamp, out platformState);
+			if(simulated) {
+				ok = true;
+				//timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+			}
+			else 
+				ok = cp.Read_event(out timestamp, out platformState);
+			
 			if (ok) {
-				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
+				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
+				{
 					//has landed
-					loggedState = States.ON;
-					
+				
 					if(hasFall && tc == 0) {
 						//jump with fall, landed first time
+						initializeTimer();
+
 						this.progressBar.Fraction = 0.33;
 					} else {
 						//jump with fall: second landed; or without fall first landing
+					
+						//it seems, sometimes we arrive here before the assignation of simulatedTimeLast is done
+						//then wait some bucle(s)
+						//if(timestamp == 0)
+						//	continue;
+						//	NOT NEEDED: put a Thread.Sleep there
+				
+						if(simulated)
+							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						
+						Console.Write("t1:{0}", timestamp);
+
 						tv = timestamp / 1000;
 						write ();
 
 						success = true;
 					}
+					
+					loggedState = States.ON;
 				}
-				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) 
+				{
+			
 					//it's out, was inside (= has jumped)
+					
 					if(hasFall) {
+						//it seems, sometimes we arrive here before the assignation of simulatedTimeLast is done
+						//then wait some bucle(s)
+						//if(timestamp == 0)
+						//	continue;
+						//	NOT NEEDED: put a Thread.Sleep there
+						
+						if(simulated)
+							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+						
+						Console.Write("t2:{0}", timestamp);
+						
 						//record the TC
 						tc = timestamp / 1000;
 						
 						progressBar.Fraction = 0.66;
 						progressBar.Text = "tc: " + Util.TrimDecimals( tc.ToString(), pDN);
 					} else {
+						initializeTimer();
+						
 						progressBar.Fraction = 0.5;
 					}
 
@@ -220,11 +315,18 @@ public class Jump : Event
 				}
 			}
 		} while ( ! success && ! cancel );
+		
+		timerClock.Elapsed -= new ElapsedEventHandler(onTimer);
+		timerClock.Enabled = false;
 
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
 		}
+	}
+	
+	protected override bool shouldFinishByTime() {
+		return false; //this kind of events (simple or Dj jumps) cannot be finished by time
 	}
 	
 	protected override void write()
@@ -323,14 +425,6 @@ public class JumpRj : Jump
 	
 	//better as private and don't inherit, don't know why
 	private Chronopic cp;
-	//for finishing earlier from chronojump.cs
-	private bool finish;
-	
-	//a timer for controlling the time between events and update the progressbar
-	//timer has a delegate that 10/s updates the time progressBar. 
-	//It starts when the first event is detected
-	private System.Timers.Timer timerClock = new System.Timers.Timer();    
-	double timerCount; // 10 times x second
 	
 	//windows needed
 	JumpRjExecuteWindow jumpRjExecuteWin;
@@ -398,7 +492,9 @@ public class JumpRj : Jump
 		this.limited = limited;
 	}
 
-	public override void Simulate(Random rand)
+	/*
+	//public override void Simulate(Random rand)
+	public void Simulate(Random rand)
 	{
 		tvString = "" ;
 		tcString = "" ;
@@ -475,11 +571,25 @@ public class JumpRj : Jump
 		//write jump
 		write();
 	}
-	
+	*/
 
-	public override void Manage(object o, EventArgs args)
+	//public override void Manage(object o, EventArgs args)
+	public override void Manage()
 	{
-		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		//Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		if (simulated)
+			if(hasFall) 
+				platformState = Chronopic.Plataforma.OFF;
+			else 
+				platformState = Chronopic.Plataforma.ON;
+		else
+			platformState = chronopicInitialValue(cp);
+
+		if(platformState == Chronopic.Plataforma.OFF)
+			loggedState = States.OFF;
+		else
+			loggedState = States.ON;
+
 		
 		bool success = false;
 
@@ -498,7 +608,7 @@ public class JumpRj : Jump
 			confirmWin = ConfirmWindow.Show(app, myMessage, "");
 
 			//we call again this function
-			confirmWin.Button_accept.Clicked += new EventHandler(Manage);
+			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
 		}
 
 		if(success) {
@@ -522,27 +632,49 @@ public class JumpRj : Jump
 			//prepare jump for being finished earlier if desired
 			finish = false;
 
+			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
+			//mark now that the opposite as before:
+			if (simulated)
+				if(hasFall)
+					platformState = Chronopic.Plataforma.ON;
+				else 
+					platformState = Chronopic.Plataforma.OFF;
+			
 			//start thread
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		}
 	}
-
+		
 	protected override void waitEvent ()
 	{
-		double timestamp;
+		double timestamp = 0;
 		bool success = false;
 		
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+	//	Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 		bool ok;
 	
 	
 		do {
-			ok = cp.Read_event(out timestamp, out platformState);
-			Console.Write(Util.GetTotalTime(tcString, tvString));
-			if (ok) {
+			if(simulated) {
+				ok = true;
+				//timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+			} else
+				ok = cp.Read_event(out timestamp, out platformState);
+			
+			
+			//if chronopic signal is Ok and state has changed
+			if (ok && (
+					(platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) ||
+					(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) ) {
 				
+			
+				if(simulated)
+					timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+
+				Console.Write(Util.GetTotalTime(tcString, tvString));
+
 				string equal = "";
 			
 				//while no finished time or jumps, continue recording events
@@ -552,10 +684,13 @@ public class JumpRj : Jump
 						firstRjValue = false;
 
 						//but start timer
+						initializeTimer();
+						/*
 						timerCount = 0;
-						timerClock.Elapsed += new ElapsedEventHandler(OnTimer);
+						timerClock.Elapsed += new ElapsedEventHandler(onTimer);
 						timerClock.Interval = 100; //10 times x second
 						timerClock.Enabled = true;
+						*/
 					} else {
 						//reactive jump has not finished... record the next jump
 						Console.WriteLine("tcCount: {0}, tvCount: {1}", tcCount, tvCount);
@@ -563,31 +698,31 @@ public class JumpRj : Jump
 						{
 							lastTc = timestamp/1000;
 							
-							jumpRjExecuteWin.ProgressbarTcCurrent = lastTc; 
+//							jumpRjExecuteWin.ProgressbarTcCurrent = lastTc; 
 							
 							if(tcCount > 0) { equal = "="; }
 							tcString = tcString + equal + lastTc.ToString();
 							
-							jumpRjExecuteWin.ProgressbarTcAvg = Util.GetAverage(tcString); 
+//							jumpRjExecuteWin.ProgressbarTcAvg = Util.GetAverage(tcString); 
 							
 							tcCount = tcCount + 1;
 						} else {
 							//tcCount > tvCount 
 							lastTv = timestamp/1000;
 							
-							jumpRjExecuteWin.ProgressbarTvCurrent = lastTv; 
+//							jumpRjExecuteWin.ProgressbarTvCurrent = lastTv; 
 							//show the tv/tc except if it's the first jump starting inside
 							if(tc != -1)
-								jumpRjExecuteWin.ProgressbarTvTcCurrent = lastTv / lastTc; 
+//								jumpRjExecuteWin.ProgressbarTvTcCurrent = lastTv / lastTc; 
 							
 							if(tvCount > 0) { equal = "="; }
 							tvString = tvString + equal + lastTv.ToString();
 							
-							jumpRjExecuteWin.ProgressbarTvAvg = Util.GetAverage(tvString); 
+//							jumpRjExecuteWin.ProgressbarTvAvg = Util.GetAverage(tvString); 
 							//show the tv/tc except if it's the first jump starting inside
 							if(tc != -1)
-								jumpRjExecuteWin.ProgressbarTvTcAvg = 
-									Util.GetAverage(tvString) / Util.GetAverage(tcString); 
+//								jumpRjExecuteWin.ProgressbarTvTcAvg = 
+//									Util.GetAverage(tvString) / Util.GetAverage(tcString); 
 				
 							tvCount = tvCount + 1;
 							
@@ -623,11 +758,18 @@ public class JumpRj : Jump
 						write();
 					}
 				}
+
+				if(platformState == Chronopic.Plataforma.OFF)
+					loggedState = States.OFF;
+				else
+					loggedState = States.ON;
+
 			}
 		} while ( ! success && ! cancel && ! finish );
 	
 		//stop calling the timer for the progressBar updating
-		timerClock.Elapsed -= new ElapsedEventHandler(OnTimer);
+		timerClock.Elapsed -= new ElapsedEventHandler(onTimer);
+		timerClock.Enabled = false;
 		
 		if (finish) {
 			if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
@@ -643,28 +785,29 @@ public class JumpRj : Jump
 		}
 	}
 
-	public void OnTimer( Object source, ElapsedEventArgs e )
-	{
-		timerCount = timerCount + .1; //10 times x second
-
+	protected override bool shouldFinishByTime() {
 		//check if it should finish now (time limited, not unlimited and time exceeded)
-		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble) {
-			jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
-					false, //isEvent false: time
-					true, //percentageMode: it has finished, show bar at 100%
-					limitAsDouble
-					);  
+		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble)
+			return true;
+		else
+			return false;
+	}
+	
+	protected override void updateProgressbarForFinish() {
+		jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: time
+				true, //percentageMode: it has finished, show bar at 100%
+				limitAsDouble
+				);  
+	}
 
-			finish = true;
-		}
-		else {
-			//limited by jumps or time, but has no finished
-			jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
-					false, //isEvent false: time
-					!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
-					timerCount
-					); 
-		}
+	protected override void updateTimeProgressbar() {
+		//limited by jumps or time, but has no finished
+		jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: time
+				!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
+				timerCount
+				); 
 	}
 
 				
@@ -726,14 +869,7 @@ public class JumpRj : Jump
 		progressBar.Fraction = 1;
 	}
 
-	
-	//called from chronojump.cs for finishing jumps earlier
-	public bool Finish
-	{
-		get { return finish; }
-		set { finish = value; }
-	}
-	
+
 	public string Limited
 	{
 		get { return limited; }

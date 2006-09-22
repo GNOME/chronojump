@@ -61,6 +61,8 @@ public class Run : Event
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		
 		fakeButtonFinished = new Gtk.Button();
+
+		simulated = false;
 	}
 	
 	//after inserting database (SQL)
@@ -75,14 +77,18 @@ public class Run : Event
 		this.description = description;
 	}
 
-	public override void Simulate(Random rand)
+	//public override void Simulate(Random rand)
+	public virtual void Simulate(Random rand)
 	{
+		/*
 		time = rand.NextDouble() * 15;
 		Console.WriteLine("time: {0}", time.ToString());
 		write();
+		*/
 	}
 
-	public override void Manage(object o, EventArgs args)
+	//public override void Manage(object o, EventArgs args)
+	public override void Manage()
 	{
 		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
 		
@@ -232,9 +238,7 @@ public class RunInterval : Run
 	bool firstIntervalValue;
 	double countContactTime;
 
-	//for finishing earlier from chronojump.cs
-	private bool finish;
-
+	
 
 	public RunInterval() {
 	}
@@ -267,6 +271,8 @@ public class RunInterval : Run
 		this.pDN = pDN;
 	
 		fakeButtonFinished = new Gtk.Button();
+
+		simulated = false;
 	}
 	
 	
@@ -288,6 +294,7 @@ public class RunInterval : Run
 
 	public override void Simulate(Random rand)
 	{
+		/*
 		double intervalTime;
 		intervalTimesString = "";
 		string equalSymbol = "";
@@ -323,9 +330,11 @@ public class RunInterval : Run
 		}
 		
 		write();
+		*/
 	}
 
-	public override void Manage(object o, EventArgs args)
+	//public override void Manage(object o, EventArgs args)
+	public override void Manage()
 	{
 		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
 
@@ -521,14 +530,6 @@ public class RunInterval : Run
 		progressBar.Fraction = 1;
 	}
 
-	
-	//called from chronojump.cs for finishing jumps earlier
-	public bool Finish
-	{
-		get { return finish; }
-		set { finish = value; }
-	}
-	
 
 	public string IntervalTimesString
 	{

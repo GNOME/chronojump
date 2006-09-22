@@ -1,5 +1,9 @@
 CHANGELOG:
 
+22 sep 2006
+	really simulated for normal jump, Drop jump, and reactive jumps
+	code reorganization: onTimer at event class
+
 20 sep 2006
 	75% separating EventExecuteWindow in new file src/gui/event.cs,
 	JumpRjExecuteWindow inherits (bug 355599)

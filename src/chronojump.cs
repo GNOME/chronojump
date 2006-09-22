@@ -1743,18 +1743,29 @@ public class ChronoJump
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
 		
+		/*
+		 * IMPORTANT, CHANGE THIS FOR ALL EVENTS
+		 */
 		if (simulated) {
-			currentJump.Simulate(rand);
-			on_jump_finished(o, args);
+			currentJump.SimulateInitValues(rand);
+			/*
+			 * IMPORTANT, CHANGE THIS FOR ALL EVENTS
+			 */
+			//on_jump_finished(o, args);
 		}
-		else {
-			if( currentJumpType.StartIn ) {
-				currentJump.Manage(o, args);
-			} else {
-				currentJump.ManageFall(o, args);
-			}
-			currentJump.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
+		
+		if( currentJumpType.StartIn ) {
+			//currentJump.Manage(o, args);
+			currentJump.Manage();
+		} else {
+			//currentJump.ManageFall(o, args);
+			currentJump.ManageFall();
 		}
+
+		/*
+		 * IMPORTANT, CHANGE THIS FOR ALL EVENTS
+		 */
+		currentJump.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
 	}	
 	
 	private void on_jump_finished (object o, EventArgs args)
@@ -1896,13 +1907,15 @@ public class ChronoJump
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
 		if(simulated) {
-			currentJumpRj.Simulate(rand);
-			on_jump_rj_finished(o, args);
+			//currentJumpRj.Simulate(rand);
+			currentJumpRj.SimulateInitValues(rand);
+			//on_jump_rj_finished(o, args);
 		}
-		else {
-			currentJumpRj.Manage(o, args);
-			currentJumpRj.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
-		}
+		//else {
+			//currentJumpRj.Manage(o, args);
+		currentJumpRj.Manage();
+		currentJumpRj.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
+		//}
 
 	}
 				
@@ -2044,7 +2057,8 @@ public class ChronoJump
 			on_run_finished(o, args);
 		}
 		else {
-			currentRun.Manage(o, args);
+			//currentRun.Manage(o, args);
+			currentRun.Manage();
 			currentRun.FakeButtonFinished.Clicked += new EventHandler(on_run_finished);
 		}
 	}
@@ -2176,7 +2190,8 @@ public class ChronoJump
 			on_run_interval_finished(o, args);
 		}
 		else {
-			currentRunInterval.Manage(o, args);
+			//currentRunInterval.Manage(o, args);
+			currentRunInterval.Manage();
 			currentRunInterval.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
 		}
 	}
@@ -2281,7 +2296,8 @@ public class ChronoJump
 			on_pulse_finished(o, args);
 		}
 		else {
-			currentPulse.Manage(o, args);
+			//currentPulse.Manage(o, args);
+			currentPulse.Manage();
 			currentPulse.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
 		}
 	}
@@ -2332,7 +2348,8 @@ public class ChronoJump
 			on_pulse_finished(o, args);
 		}
 		else {
-			currentPulse.Manage(o, args);
+			//currentPulse.Manage(o, args);
+			currentPulse.Manage();
 			currentPulse.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
 		}
 	}

@@ -26,6 +26,7 @@ using Glade;
 //using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using Mono.Unix;
 
 using System.Threading;
 
@@ -37,8 +38,12 @@ using System.Threading;
 
 public class EventExecuteWindow 
 {
+	[Widget] Gtk.Window event_execute;
+	
 	[Widget] Gtk.Label label_person;
 	[Widget] Gtk.Label label_event_type;
+	[Widget] Gtk.Label label_sub_event_name;
+	[Widget] Gtk.Label label_simulated;
 	
 	/*
 	[Widget] Gtk.ProgressBar progressbar_tv_current;
@@ -52,14 +57,14 @@ public class EventExecuteWindow
 
 	*/
 	
-	[Widget] protected Gtk.ProgressBar progressbar_event;
-	[Widget] protected Gtk.ProgressBar progressbar_time;
+	[Widget] Gtk.ProgressBar progressbar_event;
+	[Widget] Gtk.ProgressBar progressbar_time;
 	
 
 	//currently gtk-sharp cannot display a label in a progressBar in activity mode (Pulse() not Fraction)
 	//then we show the value in a label:
-	[Widget] protected Gtk.Label label_event_value;
-	[Widget] protected Gtk.Label label_time_value;
+	[Widget] Gtk.Label label_event_value;
+	[Widget] Gtk.Label label_time_value;
 	
 	/*
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc;
@@ -68,29 +73,67 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_tv_tc;
 	*/
 	
-	[Widget] protected Gtk.Button button_cancel;
-	[Widget] protected Gtk.Button button_finish;
-	[Widget] protected Gtk.Button button_close;
+	[Widget] Gtk.Button button_cancel;
+	[Widget] Gtk.Button button_finish;
+	[Widget] Gtk.Button button_close;
 
-	protected int pDN;
-	protected double limit;
+	int pDN;
+	double limit;
+	//private bool simulated;
 
 	/*
 	bool jumpsLimited;
 	static bool showTvTc = false;
 	*/
 	
+	static EventExecuteWindow EventExecuteWindowBox;
 		
-	protected EventExecuteWindow () {
+	EventExecuteWindow () {
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "event_execute", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "event_execute", null);
+		}
+
+		gladeXML.Autoconnect(this);
+		
+		//in first rj jump in a session, always doesn't show the tv/tc
+		//showTvTc = false;
 	}
 
-
-	protected void initializeVariables (string personName, string eventType, int pDN) 
+	static public EventExecuteWindow Show (string windowTitle, string eventName, string personName, string eventType, int pDN, double limit, bool simulated)
 	{
+		if (EventExecuteWindowBox == null) {
+			EventExecuteWindowBox = new EventExecuteWindow (); 
+		}
+		
+		//initialize global inherited variables
+		EventExecuteWindowBox.initializeVariables (windowTitle, eventName, personName, eventType, pDN, limit, simulated);
+		//initialize specific variables
+		//EventExecuteWindowBox.initializeSpecificVariables (limit);
+	
+		EventExecuteWindowBox.event_execute.Show ();
+
+		return EventExecuteWindowBox;
+	}
+
+	//protected void initializeVariables (string personName, string eventType, int pDN) 
+	void initializeVariables (string windowTitle, string eventName, string personName, string eventType, int pDN, double limit, bool simulated) 
+	{
+		event_execute.Title = windowTitle;
+		this.label_sub_event_name.Text = eventName; //"Jumps", "Runs" or "Ticks"
 		this.label_person.Text = personName;
 		this.label_event_type.Text = eventType;
 		this.pDN = pDN;
-		
+		this.limit = limit;
+
+		if(simulated)
+			label_simulated.Show();
+		else
+			label_simulated.Hide();
+			
+
 		button_finish.Sensitive = true;
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
@@ -106,18 +149,28 @@ public class EventExecuteWindow
 		//event will be raised, and managed in chronojump.cs
 	}
 
-	protected void on_button_cancel_clicked (object o, EventArgs args)
+	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		//event will be raised, and managed in chronojump.cs
 		EventEndedHideButtons();
 	}
 		
-	protected virtual void on_button_close_clicked (object o, EventArgs args)
+	void on_button_close_clicked (object o, EventArgs args)
 	{
+		EventExecuteWindowBox.event_execute.Hide();
+		EventExecuteWindowBox = null;
 	}
 	
-	protected virtual void on_delete_event (object o, DeleteEventArgs args)
+	void on_delete_event (object o, DeleteEventArgs args)
 	{
+		//if there's an event doing, simulate a cancel
+		//if there's not, simulate also
+		button_cancel.Click();
+		
+		//JumpRjExecuteWindowBox.jump_rj_execute.Hide();
+		//JumpRjExecuteWindowBox = null;
+		EventExecuteWindowBox.event_execute.Hide();
+		EventExecuteWindowBox = null;
 	}
 	
 	public void ProgressbarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 
@@ -134,22 +187,24 @@ public class EventExecuteWindow
 			progressbar.Pulse();
 			label_value.Text = events.ToString();
 		} else {
-			double myFraction = events / limit;
-
-			if(myFraction > 1)
-				myFraction = 1;
-			else if(myFraction < 0)
-				myFraction = 0;
-
-			//Console.Write("{0}-{1}", limit, myFraction);
-
 			if(percentageMode) {
+				double myFraction = events / limit;
+
+				if(myFraction > 1)
+					myFraction = 1;
+				else if(myFraction < 0)
+					myFraction = 0;
+
+				//Console.Write("{0}-{1}", limit, myFraction);
 				progressbar.Fraction = myFraction;
 				progressbar.Text = Util.TrimDecimals(events.ToString(), 1) + " / " + limit.ToString();
 			} else {
 				//activity mode
 				progressbar.Pulse();
-				label_value.Text = Util.TrimDecimals(events.ToString(), 1);
+
+				//pass -1 in events in activity mode if don't want to use this label
+				if(events != -1)
+					label_value.Text = Util.TrimDecimals(events.ToString(), 1);
 			}
 		}
 	}

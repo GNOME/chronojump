@@ -1,5 +1,13 @@
 CHANGELOG:
 
+23 sep 2006
+	New common EventExecuteWindow!! (working on bug 355599)
+	simple jumps, drop jumps, and reactive jump now use the common EventExecute window 
+	deleted the new Timer and make the PulseGTK do his function: 
+	 1- move the activity mode progressbars
+	 2- decide if a event should finish by time
+	fixed bug in preferences chronopicPort string
+
 22 sep 2006
 	really simulated for normal jump, Drop jump, and reactive jumps
 	code reorganization: onTimer at event class

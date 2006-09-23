@@ -26,7 +26,6 @@ using System.Text; //StringBuilder
 
 using System.Threading;
 using System.IO.Ports;
-using System.Timers;
 
 
 public class Event 
@@ -56,7 +55,7 @@ public class Event
 	//timer has a delegate that 10/s updates the time progressBar. 
 	//It starts when the first event is detected
 	protected System.Timers.Timer timerClock = new System.Timers.Timer();    
-	protected double timerCount; // 10 times x second
+	protected double timerCount; // every 150 milliseconds: 
 
 	protected Random rand;
 	protected bool simulated;
@@ -84,6 +83,7 @@ public class Event
 	//for cancelling from chronojump.cs
 	protected bool cancel;
 
+	protected EventExecuteWindow eventExecuteWin;
 	
 	public Event() {
 		simulated = false;
@@ -100,17 +100,11 @@ public class Event
 		simulated = true;
 		simulatedTimeAccumulatedBefore = 0;
 		simulatedTimeLast = 0;
-		//simulatedContactTimeMin = 0.2; //seconds
-		//simulatedContactTimeMax = 0.3; //seconds
-		//simulatedFlightTimeMin = 0.3; //seconds
-		//simulatedFlightTimeMax = 0.6; //seconds
 		simulatedContactTimeMin = 0; //seconds
 		simulatedContactTimeMax = 0; //seconds
 		simulatedFlightTimeMin = 0; //seconds
 		simulatedFlightTimeMax = 0; //seconds
 		simulatedCurrentTimeIntervalsAreContact = false;
-
-		//Manage();
 	}
 
 	protected virtual Chronopic.Plataforma chronopicInitialValue(Chronopic cp)
@@ -150,6 +144,8 @@ public class Event
 	
 	protected bool PulseGTK ()
 	{
+			onTimer();
+
 		//if (thread.IsAlive) {
 			if(progressBar.Fraction == 1 || cancel) {
 				Console.Write("dying");
@@ -168,18 +164,15 @@ public class Event
 	}
 
 	protected void initializeTimer () {
-		//start onTimer for moving the time progressBar (activiy mode)	
+		//put onTimer count to 0 for moving the time progressBar (activiy mode)	
 		//also in simulated, allows to change platform state
-		//this should be done only one time
 		timerCount = 0;
-		timerClock.Elapsed += new ElapsedEventHandler(onTimer);
-		timerClock.Interval = 100; //10 times x second
-		timerClock.Enabled = true;
 	}
 		
-	//onTimer allow to update progressbar_time 10/s
+	//onTimer allow to update progressbar_time every 150 milliseconds
 	//also can change platform state in simulated mode
-	protected void onTimer( Object source, ElapsedEventArgs e )
+	//protected void onTimer( Object source, ElapsedEventArgs e )
+	protected void onTimer( )
 	{
 		timerCount = timerCount + .1; //10 times x second
 		

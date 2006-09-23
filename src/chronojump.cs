@@ -257,7 +257,8 @@ public class ChronoJump
 	StatsWindow statsWin;
 	ReportWindow reportWin;
 	
-	JumpRjExecuteWindow jumpRjExecuteWin;
+	//JumpRjExecuteWindow jumpRjExecuteWin;
+	EventExecuteWindow eventExecuteWin;
 
 	//platform state variables
 	enum States {
@@ -389,8 +390,8 @@ public class ChronoJump
 		Console.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
 		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xavi@xdeblas.com") );
 		Console.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a linux session), chronojump will crash.") );
-		Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
-		Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
+		//Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
+		//Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
 	
 		bool success = true;
@@ -1738,11 +1739,22 @@ public class ChronoJump
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
-		
-		currentJump = new Jump(currentPerson.UniqueID, currentPerson.Name, 
+
+		//show the event doing window
+		double myLimit = 3; //3 phases for show the Dj
+		if( currentJumpType.StartIn )
+			myLimit = 2; //2 for normal jump
+			
+		eventExecuteWin = EventExecuteWindow.Show(
+				Catalog.GetString("Execute Jump"), Catalog.GetString("Phases"),  
+				currentPerson.Name, currentJumpType.Name, prefsDigitsNumber, myLimit, simulated);
+		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+
+		currentJump = new Jump(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
-		
+
 		/*
 		 * IMPORTANT, CHANGE THIS FOR ALL EVENTS
 		 */
@@ -1892,13 +1904,14 @@ public class ChronoJump
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 	
-		//show the jump doing window
-		jumpRjExecuteWin = JumpRjExecuteWindow.Show(currentPerson.Name, 
-				currentJumpType.Name, prefsDigitsNumber, myLimit);
-		jumpRjExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		jumpRjExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		//show the event doing window
+		eventExecuteWin = EventExecuteWindow.Show(
+				Catalog.GetString("Execute Reactive Jump"), Catalog.GetString("Jumps"),  
+				currentPerson.Name, currentJumpType.Name, prefsDigitsNumber, myLimit, simulated);
+		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		
-		currentJumpRj = new JumpRj(jumpRjExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+		currentJumpRj = new JumpRj(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
@@ -1906,16 +1919,11 @@ public class ChronoJump
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
-		if(simulated) {
-			//currentJumpRj.Simulate(rand);
+		if(simulated) 
 			currentJumpRj.SimulateInitValues(rand);
-			//on_jump_rj_finished(o, args);
-		}
-		//else {
-			//currentJumpRj.Manage(o, args);
+		
 		currentJumpRj.Manage();
 		currentJumpRj.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
-		//}
 
 	}
 				

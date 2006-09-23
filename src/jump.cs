@@ -27,7 +27,6 @@ using System.Text; //StringBuilder
 using System.Threading;
 using System.IO.Ports;
 using Mono.Unix;
-using System.Timers; //for ElapsedEventArgs
 
 public class Jump : Event 
 {
@@ -47,10 +46,11 @@ public class Jump : Event
 	}
 
 	//jump execution
-	public Jump(int personID, string personName, int sessionID, string type, int fall, double weight,  
+	public Jump(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, int fall, double weight,  
 			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN)
 	{
+		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -258,7 +258,12 @@ public class Jump : Event
 						//jump with fall, landed first time
 						initializeTimer();
 
-						this.progressBar.Fraction = 0.33;
+						//this.progressBar.Fraction = 0.33;
+						eventExecuteWin.ProgressbarEventOrTimePreExecution(
+								true, //isEvent
+								true, //jumpsLimited: percentageMode
+								1 //it's a drop: phase 1/3
+								);  
 					} else {
 						//jump with fall: second landed; or without fall first landing
 					
@@ -277,6 +282,17 @@ public class Jump : Event
 						write ();
 
 						success = true;
+						
+						//update event progressbar
+						double percentageToPass = 2; //normal jump has two phases
+						if(hasFall)
+							percentageToPass = 3; //drop jump has three phases
+							
+						eventExecuteWin.ProgressbarEventOrTimePreExecution(
+								true, //isEvent
+								true, //percentageMode
+								percentageToPass
+								);  
 					}
 					
 					loggedState = States.ON;
@@ -301,12 +317,26 @@ public class Jump : Event
 						//record the TC
 						tc = timestamp / 1000;
 						
-						progressBar.Fraction = 0.66;
-						progressBar.Text = "tc: " + Util.TrimDecimals( tc.ToString(), pDN);
+						//progressBar.Fraction = 0.66;
+						//progressBar.Text = "tc: " + Util.TrimDecimals( tc.ToString(), pDN);
+						
+						//update event progressbar
+						eventExecuteWin.ProgressbarEventOrTimePreExecution(
+								true, //isEvent
+								true, //percentageMode
+								2 //it's a drop jump: phase 2/3
+								);  
 					} else {
 						initializeTimer();
 						
-						progressBar.Fraction = 0.5;
+						//progressBar.Fraction = 0.5;
+						
+						//update event progressbar
+						eventExecuteWin.ProgressbarEventOrTimePreExecution(
+								true, //isEvent
+								true, //percentageMode
+								1 //normal jump, phase 1/2
+								);  
 					}
 
 					//change the automata state
@@ -316,8 +346,8 @@ public class Jump : Event
 			}
 		} while ( ! success && ! cancel );
 		
-		timerClock.Elapsed -= new ElapsedEventHandler(onTimer);
-		timerClock.Enabled = false;
+		//timerClock.Elapsed -= new ElapsedEventHandler(onTimer);
+		//timerClock.Enabled = false;
 
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
@@ -329,8 +359,19 @@ public class Jump : Event
 		return false; //this kind of events (simple or Dj jumps) cannot be finished by time
 	}
 	
+	protected override void updateTimeProgressbar() {
+		//has no finished, but move progressbar time
+		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: time
+				false, //activity mode
+				-1	//don't want to show info on label
+				); 
+	}
+
 	protected override void write()
 	{
+		eventExecuteWin.EventEndedHideButtons();
+
 		string tcString = "";
 		if(hasFall) {
 			//Console.WriteLine("TC: {0}", tc.ToString());
@@ -340,7 +381,7 @@ public class Jump : Event
 		}
 			
 		//Console.WriteLine("TV: {0}", tv.ToString());
-		progressBar.Text = "tv: " + Util.TrimDecimals( tv.ToString(), pDN);
+		//progressBar.Text = "tv: " + Util.TrimDecimals( tv.ToString(), pDN);
 		
 		string myStringPush =   
 			//Catalog.GetString("Last jump: ") + 
@@ -427,17 +468,21 @@ public class JumpRj : Jump
 	private Chronopic cp;
 	
 	//windows needed
-	JumpRjExecuteWindow jumpRjExecuteWin;
+	//EventExecuteWindow eventExecuteWin;
 
 	
 	//jump execution
-	public JumpRj(JumpRjExecuteWindow jumpRjExecuteWin, int personID, string personName, 
+	//public JumpRj(JumpRjExecuteWindow jumpRjExecuteWin, int personID, string personName, 
+	//public JumpRj(EventExecuteWindow jumpRjExecuteWin, int personID, string personName, 
+	public JumpRj(EventExecuteWindow eventExecuteWin, int personID, string personName, 
 			int sessionID, string type, int fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN)
 	{
-		this.jumpRjExecuteWin = jumpRjExecuteWin;
+		//this.jumpRjExecuteWin = jumpRjExecuteWin;
+		//this.jumpRjExecuteWin = (JumpRjExecuteWindow) jumpRjExecuteWin;
+		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -685,6 +730,7 @@ public class JumpRj : Jump
 
 						//but start timer
 						initializeTimer();
+
 						/*
 						timerCount = 0;
 						timerClock.Elapsed += new ElapsedEventHandler(onTimer);
@@ -712,7 +758,7 @@ public class JumpRj : Jump
 							
 //							jumpRjExecuteWin.ProgressbarTvCurrent = lastTv; 
 							//show the tv/tc except if it's the first jump starting inside
-							if(tc != -1)
+//							if(tc != -1)
 //								jumpRjExecuteWin.ProgressbarTvTcCurrent = lastTv / lastTc; 
 							
 							if(tvCount > 0) { equal = "="; }
@@ -720,14 +766,15 @@ public class JumpRj : Jump
 							
 //							jumpRjExecuteWin.ProgressbarTvAvg = Util.GetAverage(tvString); 
 							//show the tv/tc except if it's the first jump starting inside
-							if(tc != -1)
+//							if(tc != -1)
 //								jumpRjExecuteWin.ProgressbarTvTcAvg = 
 //									Util.GetAverage(tvString) / Util.GetAverage(tcString); 
 				
 							tvCount = tvCount + 1;
 							
 							//update event progressbar
-							jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+							//jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+							eventExecuteWin.ProgressbarEventOrTimePreExecution(
 									true, //isEvent
 									jumpsLimited, //if jumpsLimited: do fraction; if time limited: do pulse
 									tvCount
@@ -745,7 +792,7 @@ public class JumpRj : Jump
 							success = true;
 							
 							//update event progressbar
-							jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+							eventExecuteWin.ProgressbarEventOrTimePreExecution(
 									true, //isEvent
 									true, //percentageMode
 									tvCount
@@ -768,8 +815,8 @@ public class JumpRj : Jump
 		} while ( ! success && ! cancel && ! finish );
 	
 		//stop calling the timer for the progressBar updating
-		timerClock.Elapsed -= new ElapsedEventHandler(onTimer);
-		timerClock.Enabled = false;
+		//timerClock.Elapsed -= new ElapsedEventHandler(onTimer);
+		//timerClock.Enabled = false;
 		
 		if (finish) {
 			if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
@@ -794,7 +841,7 @@ public class JumpRj : Jump
 	}
 	
 	protected override void updateProgressbarForFinish() {
-		jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+		eventExecuteWin.ProgressbarEventOrTimePreExecution(
 				false, //isEvent false: time
 				true, //percentageMode: it has finished, show bar at 100%
 				limitAsDouble
@@ -803,7 +850,7 @@ public class JumpRj : Jump
 
 	protected override void updateTimeProgressbar() {
 		//limited by jumps or time, but has no finished
-		jumpRjExecuteWin.ProgressbarEventOrTimePreExecution(
+		eventExecuteWin.ProgressbarEventOrTimePreExecution(
 				false, //isEvent false: time
 				!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
 				timerCount
@@ -813,7 +860,7 @@ public class JumpRj : Jump
 				
 	protected override void write()
 	{
-		jumpRjExecuteWin.EventEndedHideButtons();
+		eventExecuteWin.EventEndedHideButtons();
 		
 		int jumps;
 		string limitString = "";

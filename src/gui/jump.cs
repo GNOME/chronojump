@@ -1425,13 +1425,15 @@ public class JumpsRjMoreWindow
 	}
 }
 
+/*
 //--------------------------------------------------------
 //---------------- JUMP RJ EXECUTE WIDGET ----------------
 //--------------------------------------------------------
 
 public class JumpRjExecuteWindow : EventExecuteWindow 
 {
-	[Widget] Gtk.Window jump_rj_execute;
+	//[Widget] Gtk.Window jump_rj_execute;
+	//[Widget] Gtk.Window event_execute;
 	
 	[Widget] Gtk.Label label_person;
 	[Widget] Gtk.Label label_event_type;
@@ -1453,9 +1455,12 @@ public class JumpRjExecuteWindow : EventExecuteWindow
 	//bool jumpsLimited;
 	static bool showTvTc = false;
 	
-	static JumpRjExecuteWindow JumpRjExecuteWindowBox;
+	//static JumpRjExecuteWindow JumpRjExecuteWindowBox;
 
-	
+	*/
+
+
+	/*
 	JumpRjExecuteWindow () {
 		Glade.XML gladeXML;
 		try {
@@ -1469,27 +1474,43 @@ public class JumpRjExecuteWindow : EventExecuteWindow
 		//in first rj jump in a session, always doesn't show the tv/tc
 		//showTvTc = false;
 	}
-	
+	*/
+
+/*	
 	static public JumpRjExecuteWindow Show (string jumperName, string jumpType, 
 			int pDN, double limit)
 	{
+*/
+/*
 		if (JumpRjExecuteWindowBox == null) {
 			JumpRjExecuteWindowBox = new JumpRjExecuteWindow (); 
 		}
+*/
+
+/*
+		if (EventExecuteWindowBox == null) {
+			EventExecuteWindowBox = new JumpRjExecuteWindow (); 
+		}
 		
 		//initialize global inherited variables
-		JumpRjExecuteWindowBox.initializeVariables (jumperName, jumpType, pDN);
+		//JumpRjExecuteWindowBox.initializeVariables (jumperName, jumpType, pDN);
+		EventExecuteWindowBox.initializeVariables (jumperName, jumpType, pDN);
 		//initialize specific variables
-		JumpRjExecuteWindowBox.initializeSpecificVariables (limit);
+		//JumpRjExecuteWindowBox.initializeSpecificVariables (limit);
+		EventExecuteWindowBox.initializeSpecificVariables (limit);
 		
-		JumpRjExecuteWindowBox.jump_rj_execute.Show ();
+		//JumpRjExecuteWindowBox.jump_rj_execute.Show ();
+		EventExecuteWindowBox.jump_rj_execute.Show ();
 
-		return JumpRjExecuteWindowBox;
+		//return JumpRjExecuteWindowBox;
+		return EventExecuteWindowBox;
 	}
 
-	private void initializeSpecificVariables (double limit) 
+	//private void initializeSpecificVariables (double limit) 
+	//call from outside
+	public void InitializeSpecificVariables () 
 	{
-		this.limit = limit;
+		//this.limit = limit;
 		//this.jumpsLimited = jumpsLimited;
 		
 		progressbar_tv_current.Fraction = 0;
@@ -1562,19 +1583,32 @@ public class JumpRjExecuteWindow : EventExecuteWindow
 	
 	protected override void on_button_close_clicked (object o, EventArgs args)
 	{
-		JumpRjExecuteWindowBox.jump_rj_execute.Hide();
-		JumpRjExecuteWindowBox = null;
+*/
+
+/*
+		//JumpRjExecuteWindowBox.jump_rj_execute.Hide();
+		//JumpRjExecuteWindowBox = null;
+		EventExecuteWindowBox.event_execute.Hide();
+		EventExecuteWindowBox = null;
+*/
+/*
 	}
 	
 	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
+*/
+/*
 		//if there's an event doing, simulate a cancel
 		//if there's not, simulate also
 		button_cancel.Click();
 		
-		JumpRjExecuteWindowBox.jump_rj_execute.Hide();
-		JumpRjExecuteWindowBox = null;
-	}
+		//JumpRjExecuteWindowBox.jump_rj_execute.Hide();
+		//JumpRjExecuteWindowBox = null;
+		EventExecuteWindowBox.event_execute.Hide();
+		EventExecuteWindowBox = null;
+*/
+/*	
+	}	
 
 
 	public double ProgressbarTvCurrent 
@@ -1660,4 +1694,4 @@ public class JumpRjExecuteWindow : EventExecuteWindow
 	}
 
 }
-
+*/

@@ -43,10 +43,11 @@ public class Run : Event
 	}
 
 	//run execution
-	public Run(int personID, int sessionID, string type, double distance,   
+	public Run(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distance,   
 			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN, bool metersSecondsPreferred)
 	{
+		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.type = type;
@@ -77,20 +78,27 @@ public class Run : Event
 		this.description = description;
 	}
 
-	//public override void Simulate(Random rand)
-	public virtual void Simulate(Random rand)
+	public override void SimulateInitValues(Random randSent)
 	{
-		/*
-		time = rand.NextDouble() * 15;
-		Console.WriteLine("time: {0}", time.ToString());
-		write();
-		*/
-	}
+		Console.WriteLine("From run.cs");
 
-	//public override void Manage(object o, EventArgs args)
+		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
+		simulated = true;
+		simulatedTimeAccumulatedBefore = 0;
+		simulatedTimeLast = 0;
+		simulatedContactTimeMin = 0; //seconds
+		simulatedContactTimeMax = 1; //seconds ('0' gives problems)
+		simulatedFlightTimeMin = 3; //seconds
+		simulatedFlightTimeMax = 4; //seconds
+
+	}
+	
 	public override void Manage()
 	{
-		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
+		if (simulated) 
+			platformState = Chronopic.Plataforma.ON;
+		else
+			platformState = chronopicInitialValue(cp);
 		
 		//you can start ON or OFF the platform, 
 		//we record always de TV (or time between we abandonate the platform since we arrive)
@@ -104,6 +112,28 @@ public class Run : Event
 
 			loggedState = States.OFF;
 			startIn = false;
+		}
+	
+		if (simulated) {
+			if(startIn) {
+				//values of simulation will be the flightTime (between two platforms)
+				//at the first time (and the only)
+				//start running being on the platform
+				simulatedCurrentTimeIntervalsAreContact = false;
+			
+				//in simulated mode, make the run start just when we arrive to waitEvent at the first time
+				//mark now that we have abandoned platform:
+				platformState = Chronopic.Plataforma.OFF;
+			} else {
+				//values of simulation will be the contactTime
+				//at the first time, the second will be flightTime (between two platforms)
+				//come with previous run ("salida lanzada")
+				simulatedCurrentTimeIntervalsAreContact = true;
+				
+				//in simulated mode, make the run start just when we arrive to waitEvent at the first time
+				//mark now that we have reached the platform:
+				platformState = Chronopic.Plataforma.ON;
+			}
 		}
 
 		//reset progressBar
@@ -120,45 +150,69 @@ public class Run : Event
 	
 	protected override void waitEvent ()
 	{
-		double timestamp;
+		double timestamp = 0;
 		bool success = false;
 		
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 		bool ok;
 	
 		//we allow start from the platform or outside
 		bool arrived = false; 
 		
 		do {
-			//respuesta = cp.Read_event(out timestamp, out platformState);
-			ok = cp.Read_event(out timestamp, out platformState);
-			//if (respuesta == Chronopic.Respuesta.Ok) {
+			if(simulated)
+				ok = true;
+			else 
+				ok = cp.Read_event(out timestamp, out platformState);
+			
 			if (ok) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
 					
 					if( ! startIn && ! arrived ) {
-						//run started out (behind the platform) and it's the first arrive
-						this.progressBar.Fraction = 0.20;
 						arrived = true;
+						
+						initializeTimer();
+
+						eventExecuteWin.ProgressbarEventOrTimePreExecution(
+								true, //isEvent
+								true, //tracksLimited: percentageMode
+								1 //just reached platform, phase 1/3
+								);  
 					} else {
 						//run finished: 
 						//if started outside (behind platform) it's the second arrive
 						//if started inside: it's the first arrive
 						
+						if(simulated)
+							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+						
 						time = timestamp / 1000;
 						write ();
 
 						success = true;
+						
+						eventExecuteWin.ProgressbarEventOrTimePreExecution(
+								true, //isEvent
+								true, //percentageMode
+								//percentageToPass
+								3
+								);  
 					}
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 					//it's out, was inside (= has abandoned platform)
 					//don't record time
-						progressBar.Fraction = 0.5;
+						
+					initializeTimer();
 
+					//update event progressbar
+					eventExecuteWin.ProgressbarEventOrTimePreExecution(
+							true, //isEvent
+							true, //percentageMode
+							2 //normal run, phase 2/3
+							);  
+					
 					//change the automata state
 					loggedState = States.OFF;
 
@@ -172,8 +226,23 @@ public class Run : Event
 		}
 	}
 	
+	protected override bool shouldFinishByTime() {
+		return false; //this kind of events (simple runs) cannot be finished by time
+	}
+	
+	protected override void updateTimeProgressbar() {
+		//has no finished, but move progressbar time
+		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: time
+				false, //activity mode
+				-1	//don't want to show info on label
+				); 
+	}
+
 	protected override void write()
 	{
+		eventExecuteWin.EventEndedHideButtons();
+
 		Console.WriteLine("TIME: {0}", time.ToString());
 		
 		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
@@ -236,7 +305,6 @@ public class RunInterval : Run
 	double limitAsDouble;	//-1 for non limited (unlimited repetitive run until "finish" is clicked)
 	bool tracksLimited;
 	bool firstIntervalValue;
-	double countContactTime;
 
 	
 
@@ -244,10 +312,11 @@ public class RunInterval : Run
 	}
 
 	//run execution
-	public RunInterval(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
+	public RunInterval(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
 			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN)
 	{
+		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.type = type;
@@ -292,113 +361,29 @@ public class RunInterval : Run
 		this.limited = limited;
 	}
 
-	public override void Simulate(Random rand)
+	protected override void waitEvent ()
 	{
-		/*
-		double intervalTime;
-		intervalTimesString = "";
-		string equalSymbol = "";
+		double timestamp = 0;
+		bool success = false;
+		string equal = "";
 		
-		//if it's a unlimited intetrvalic run and it's simulated, put random value in limitAsDouble (will be tracks)
-		if(limitAsDouble == -1) {
-			limitAsDouble = Convert.ToInt32(rand.NextDouble() * 7) +10; //+10 for not allowing being 0
-			tracksLimited = true;
-			limited = limitAsDouble.ToString() + "R";
-		}
 		
-		if (tracksLimited) {
-			for (double i=0 ; i < limitAsDouble ; i++) {
-				intervalTime = rand.NextDouble() * 15;
-				timeTotal = timeTotal + intervalTime;
-				intervalTimesString = intervalTimesString + equalSymbol + intervalTime.ToString();
-				equalSymbol = "=";
-			}
-		} else {
-			//timeTotal is the defined as max
-			//timeCurrent is actual time running
-			//intervalTime is the time of this track
-			double timeCurrent = 0;
-			while (timeCurrent < timeTotal) {
-				intervalTime = rand.NextDouble() * 15;
-				if (intervalTime + timeCurrent > timeTotal) {
-					intervalTime = timeTotal - timeCurrent;
-				}
-				timeCurrent = timeCurrent + intervalTime;
-				intervalTimesString = intervalTimesString + equalSymbol + intervalTime.ToString();
-				equalSymbol = "=";
-			}
-		}
-		
-		write();
-		*/
-	}
-
-	//public override void Manage(object o, EventArgs args)
-	public override void Manage()
-	{
-		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
-
-		
-		//you can start ON or OFF the platform, 
-		//we record always de TV (or time between we abandonate the platform since we arrive)
-		if (platformState==Chronopic.Plataforma.ON) {
-			appbar.Push( 1,Catalog.GetString("You are IN, RUN when prepared!!") );
-
-			loggedState = States.ON;
-			startIn = true;
-		} else {
-			appbar.Push( 1,Catalog.GetString("You are OUT, RUN when prepared!!") );
-
-			loggedState = States.OFF;
-			startIn = false;
-		}
-
 		//initialize variables
 		intervalTimesString = "";
 		tracks = 0;
 		firstIntervalValue = true;
-		countContactTime = 0;
 		
-		//reset progressBar
-		progressBar.Fraction = 0;
-
-		//prepare jump for being cancelled if desired
-		cancel = false;
-
-		//prepare jump for being finished earlier if desired
-		finish = false;
-		
-		//start thread
-		thread = new Thread(new ThreadStart(waitEvent));
-		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-		thread.Start(); 
-	}
-	
-	protected override void waitEvent ()
-	{
-		double timestamp;
-		bool success = false;
-		string equal = "";
-		double pbUnlimited = 0;
-		
-		//Chronopic.Respuesta respuesta;		//ok, error, or timeout in calling the platform
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 		bool ok;
 
+		timerCount = 0;
 		
 		do {
-			//update the progressBar if limit is time (and it's not an unlimited interval run)
-			if ( ! tracksLimited && limitAsDouble != -1) {
-				double myPb = Util.GetTotalTime (intervalTimesString) / limitAsDouble ;
-				//if(myPb > 1.0) { myPb = 1.0; }
-				//don't allow progressBar be 1.0 before fakeButtonClick is called
-				if(myPb >= 1.0) { myPb = 0.99; }
-				progressBar.Fraction = myPb; 
-			}
 
-			//respuesta = cp.Read_event(out timestamp, out platformState);
-			ok = cp.Read_event(out timestamp, out platformState);
-			//if (respuesta == Chronopic.Respuesta.Ok) {
+			if(simulated) 
+				ok = true;
+			else
+				ok = cp.Read_event(out timestamp, out platformState);
+			
 			if (ok) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
@@ -408,24 +393,33 @@ public class RunInterval : Run
 					if (firstIntervalValue && ! startIn) {
 						firstIntervalValue = false;
 					} else {
+						//has arrived and not in the "running previous"
+						
 						//if interval run is "unlimited" not limited by tracks, nor time, 
 						//then play with the progress bar until finish button is pressed
 						if(limitAsDouble == -1) {
-							//double myPb = (tcCount + tvCount) / 5 ;
-							pbUnlimited += 0.19;
-							if(pbUnlimited >= 1.0) { pbUnlimited = 0; }
-							progressBar.Fraction = pbUnlimited; 
-									
+							
+							if(simulated)
+								timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+							
 							if(intervalTimesString.Length > 0) { equal = "="; }
 							intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 							tracks ++;	
+								
+							eventExecuteWin.ProgressbarEventOrTimePreExecution(
+									true, //isEvent
+									true, //unlimited: activity mode
+									tracks
+									);  
 						}
 						else {
+							//has arrived, limited
 							if (tracksLimited) {
+								//has arrived, limited by tracks
 								tracks ++;	
-								double myPb = (tracks) / limitAsDouble ;
-								if(myPb >= 1.0) { myPb = 0.99; }
-								progressBar.Fraction = myPb; 
+
+								if(simulated)
+									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
 								if(intervalTimesString.Length > 0) { equal = "="; }
 								intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
@@ -436,18 +430,32 @@ public class RunInterval : Run
 									write();
 									success = true;
 								}
-							} else {
-								if (Util.GetTotalTime (intervalTimesString, countContactTime.ToString()) 
-										>= limitAsDouble) {
-									//finished
-									write();
-									success = true;
+								
+								eventExecuteWin.ProgressbarEventOrTimePreExecution(
+										true, //isEvent
+										true, //tracksLimited: percentageMode
+										tracks
+										);  
 
-								} else {
+							} else {
+								//has arrived, limited by time
+								
+								if(simulated)
+									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+								
+								if(success)
+									write();
+								else {
 									if(intervalTimesString.Length > 0) { equal = "="; }
 									intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 									tracks ++;	
 								}
+								
+								eventExecuteWin.ProgressbarEventOrTimePreExecution(
+										true, //isEvent
+										false, //timeLimited: activity mode
+										tracks
+										);  
 							}
 						}
 					}
@@ -460,9 +468,6 @@ public class RunInterval : Run
 					//count the contact times when limited by time
 					//normally these are despreciable in runs, but if
 					//someone uses this for other application, we should record
-					if( ! tracksLimited) {
-						countContactTime = countContactTime + timestamp/1000;
-					}
 
 					//change the automata state
 					loggedState = States.OFF;
@@ -479,9 +484,37 @@ public class RunInterval : Run
 			fakeButtonFinished.Click();
 		}
 	}
+	
+	protected override bool shouldFinishByTime() {
+		//check if it should finish now (time limited, not unlimited and time exceeded)
+		if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble)
+			return true;
+		else
+			return false;
+	}
+	
+	protected override void updateProgressbarForFinish() {
+		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: time
+				true, //percentageMode: it has finished, show bar at 100%
+				limitAsDouble
+				);  
+	}
+
+	protected override void updateTimeProgressbar() {
+		//limited by jumps or time, but has no finished
+		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: time
+				!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
+				timerCount
+				); 
+	}
+
 
 	protected override void write()
 	{
+		eventExecuteWin.EventEndedHideButtons();
+		
 		int tracks = 0;
 		string limitString = "";
 

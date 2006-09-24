@@ -422,6 +422,31 @@ public class Util
 		}
 		return dateTime;
 	}
+
+	public static string GetHomeDir() {
+		return Environment.GetEnvironmentVariable("HOME")+"/.chronojump";
+	}
 	
+	public static void BackupDirCreateIfNeeded () {
+		string backupDir = GetHomeDir() + "/backup";
+		if( ! Directory.Exists(backupDir)) {
+			Directory.CreateDirectory (backupDir);
+			Console.WriteLine ("created backup dir");
+		}
+	}
+	
+	public static void BackupDatabase () {
+		string homeDir = GetHomeDir();
+		string backupDir = homeDir + "/backup";
+		
+		StringBuilder myStringBuilder = new StringBuilder(DateTime.Now.ToString());
+		myStringBuilder.Replace("/", "-"); //replace the '/' for '-' for not having problems with the directories
+		
+		if(File.Exists(homeDir + "/chronojump.db"))
+			File.Copy(homeDir + "/chronojump.db", backupDir + "/chronojump_" + myStringBuilder + ".db");
+		else {
+			Console.WriteLine("Error, chronojump.db file doesn't exist!");
+		}
+	}
 	
 }

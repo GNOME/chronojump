@@ -1,5 +1,12 @@
 CHANGELOG:
 
+24 sep 2006
+	run, run intervallic, pulse uses the EventExecuteWindow (bug 355599 fixed)
+	bug 357341 (75%) autoincremental copy of database done, but not compressed yet (not possible in current Mono implementation)
+
+	Real simul goes at correct speed with the sync of 150 ms on timerCount calls
+	Fixed bug in opening changing two times to radio_chronopic when is not available
+
 23 sep 2006
 	New common EventExecuteWindow!! (working on bug 355599)
 	simple jumps, drop jumps, and reactive jump now use the common EventExecute window 

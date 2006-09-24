@@ -32,7 +32,8 @@ class Sqlite
 	protected static SqliteConnection dbcon;
 	protected static SqliteCommand dbcmd;
 	
-	public static string home = Environment.GetEnvironmentVariable("HOME")+"/.chronojump";
+	//public static string home = Environment.GetEnvironmentVariable("HOME")+"/.chronojump";
+	public static string home = Util.GetHomeDir();
 	public static string sqlFile = home + "/chronojump.db";
 	
 	static string connectionString = "URI=file:" + sqlFile ;

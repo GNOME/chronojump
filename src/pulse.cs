@@ -47,10 +47,11 @@ public class Pulse : Event
 	}
 	
 	//execution
-	public Pulse(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
+	public Pulse(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
 			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
 			int pDN)
 	{
+		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -87,36 +88,37 @@ public class Pulse : Event
 		this.description = description;
 	}
 
-	//public override void Simulate(Random rand)
-	public void Simulate(Random rand)
-	{
-		/*
-		double intervalTime;
-		timesString = "";
-		string equalSymbol = "";
-		
-		//if it's a unlimited pulse and it's simulated, put random value in totalPulsesNum
-		if(totalPulsesNum == -1) {
-			totalPulsesNum = Convert.ToInt32(rand.NextDouble() * 7) +10; //+10 for not allowing being 0
-		}
-		
-		for (double i=0 ; i < totalPulsesNum ; i++) {
-			intervalTime = rand.NextDouble() * 15;
-			timesString = timesString + equalSymbol + intervalTime.ToString();
-			equalSymbol = "=";
-		}
-		
-		write();
-		*/
-	}
 
-	//public override void Manage(object o, EventArgs args)
+	public override void SimulateInitValues(Random randSent)
+	{
+		Console.WriteLine("From pulse.cs");
+
+		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
+		simulated = true;
+		simulatedTimeAccumulatedBefore = 0;
+		simulatedTimeLast = 0;
+		simulatedContactTimeMin = 0; //seconds
+		simulatedContactTimeMax = .2; //seconds ('0' gives problems)
+		simulatedFlightTimeMin = 0.8; //seconds
+		simulatedFlightTimeMax = 1.3; //seconds
+
+		//values of simulation will be the contactTime at the first time 
+		//(next flight, contact, next flight...)
+		//tc+tv will be registered
+		simulatedCurrentTimeIntervalsAreContact = true;
+	}
+	
+	
 	public override void Manage()
 	{
-		Chronopic.Plataforma platformState = chronopicInitialValue(cp);
-
-		
 		bool success = false;
+		
+		
+		if (simulated) 
+			platformState = Chronopic.Plataforma.OFF;
+		else
+			platformState = chronopicInitialValue(cp);
+		
 
 		//you should start OFF (outside) the platform 
 		//we record always de TC+TV (or time between we pulse platform and we pulse again)
@@ -153,6 +155,11 @@ public class Pulse : Event
 			//prepare jump for being finished earlier if desired
 			finish = false;
 
+			//in simulated mode, make the event start just when we arrive to waitEvent at the first time
+			//mark now that we have landed:
+			if (simulated)
+				platformState = Chronopic.Plataforma.ON;
+			
 			//start thread
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
@@ -162,83 +169,122 @@ public class Pulse : Event
 	
 	protected override void waitEvent ()
 	{
-		double timestamp;
-		bool success = false;
-		string equal = "";
-		double pbUnlimited = 0;
-		double myPb = 0;
-		
-		Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-		bool ok;
+			double timestamp = 0;
+			bool success = false;
+			string equal = "";
 
-		
-		do {
-			ok = cp.Read_event(out timestamp, out platformState);
-			//if (respuesta == Chronopic.Respuesta.Ok) {
-			if (ok) {
-				Console.WriteLine("P1");
-				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
-					//has arrived
-					loggedState = States.ON;
-					
-					//if we arrive to the platform for the first time, don't record anything
-					if (firstPulse) {
-						firstPulse = false;
-					} else {
-						//if is "unlimited", 
-						//then play with the progress bar until finish button is pressed
-						if(totalPulsesNum == -1) {
-							pbUnlimited += 0.19;
-							if(pbUnlimited >= 1.0) { pbUnlimited = 0; }
-							progressBar.Fraction = pbUnlimited; 
+			bool ok;
 
-							if(timesString.Length > 0) { equal = "="; }
-							timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
-							tracks ++;	
-						}
-						else {
-							tracks ++;	
-							myPb = (double) tracks / totalPulsesNum ;
-							if(myPb >= 1.0) { myPb = 0.99; }
-							progressBar.Fraction = myPb; 
+			do {
+					if(simulated) 
+							ok = true;
+					else 
+							ok = cp.Read_event(out timestamp, out platformState);
 
-							if(timesString.Length > 0) { equal = "="; }
-							timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
 
-							if(tracks >= totalPulsesNum) 
-							{
-								//finished
-								write();
-								success = true;
+					if (ok) {
+							if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
+									//has arrived
+
+									//if we arrive to the platform for the first time, don't record anything
+									if (firstPulse) {
+											firstPulse = false;
+											initializeTimer();
+									} else {
+											//is not the first pulse
+											if(totalPulsesNum == -1) {
+													//if is "unlimited", 
+													//then play with the progress bar until finish button is pressed
+													if(simulated)
+															timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+													if(timesString.Length > 0) { equal = "="; }
+													timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
+													tracks ++;	
+
+													//update event progressbar
+													eventExecuteWin.ProgressbarEventOrTimePreExecution(
+																	true, //isEvent
+																	false, //activityMode
+																	tracks
+																	);  
+											}
+											else {
+													//is not the first pulse, and it's limited by tracks (ticks)
+													tracks ++;	
+
+													if(simulated)
+															timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+													if(timesString.Length > 0) { equal = "="; }
+													timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
+
+													if(tracks >= totalPulsesNum) 
+													{
+															//finished
+															write();
+															success = true;
+													}
+
+													//update event progressbar
+													eventExecuteWin.ProgressbarEventOrTimePreExecution(
+																	true, //isEvent
+																	true, //PercentageMode
+																	tracks
+																	);  
+											}
+									}
+
+									//change the automata state
+									loggedState = States.ON;
 							}
-						}
+							else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+									//it's out, was inside (= has abandoned platform)
+									//don't record time
+									if(simulated)
+											timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+									contactTime = timestamp;
+
+									//change the automata state
+									loggedState = States.OFF;
+							}
 					}
-				}
-				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
-					//it's out, was inside (= has abandoned platform)
-					//don't record time
-					//progressBar.Fraction = progressBar.Fraction + 0.1;
-				
-					contactTime = timestamp;
+			} while ( ! success && ! cancel && ! finish );
 
-					//change the automata state
-					loggedState = States.OFF;
-				}
+			if (finish) {
+					write();
 			}
-		} while ( ! success && ! cancel && ! finish );
+			if(cancel || finish) {
+					//event will be raised, and managed in chronojump.cs
+					fakeButtonFinished.Click();
+			}
+	}
 
-		if (finish) {
-			write();
-		}
-		if(cancel || finish) {
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
-		}
+	//now pulses are not thought for being able to finish by time
+	protected override bool shouldFinishByTime() {
+			return false;
 	}
 	
+	protected override void updateProgressbarForFinish() {
+		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: time
+				true, //percentageMode: it has finished, show bar at 100%
+				totalPulsesNum
+				);  
+	}
+
+	protected override void updateTimeProgressbar() {
+		//limited by jumps or time, but has no finished
+		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+				false, //isEvent false: time
+				false, //activiyMode
+				timerCount
+				); 
+	}
+
 
 	protected override void write()
 	{
+		eventExecuteWin.EventEndedHideButtons();
+
 		int totalPulsesNum = 0;
 
 		totalPulsesNum = Util.GetNumberOfJumps(timesString, false);
@@ -259,6 +305,7 @@ public class Pulse : Event
 		progressBar.Fraction = 1;
 	}
 
+	
 	//called from treeViewPulse
 	public double GetErrorAverage(bool relative)
 	{

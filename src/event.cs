@@ -174,7 +174,7 @@ public class Event
 	//protected void onTimer( Object source, ElapsedEventArgs e )
 	protected void onTimer( )
 	{
-		timerCount = timerCount + .1; //10 times x second
+		timerCount = timerCount + .15; //0,15 segons == 150 milliseconds, time between each call of onTimer
 		
 		if(simulated) {
 			eventSimulatedShouldChangePlatform();
@@ -226,20 +226,18 @@ public class Event
 		}
 	}
 
-	protected virtual void simulateChangePlatform() {
+	protected void simulateChangePlatform() {
 		Console.Write("Changing!");
-		Console.WriteLine("timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore);
+		Console.WriteLine("PRE timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore);
 
 		simulatedTimeLast = timerCount - simulatedTimeAccumulatedBefore;
-		simulatedTimeAccumulatedBefore = timerCount;
+		//simulatedTimeAccumulatedBefore = timerCount;
+		simulatedTimeAccumulatedBefore = Math.Round(timerCount,2);
+		Console.WriteLine("POST: timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore);
 
 		//change the boolean who points to 'which are the MINs and the MAXs
 		simulatedCurrentTimeIntervalsAreContact = ! simulatedCurrentTimeIntervalsAreContact;
 		
-		//wait 1/100 sec to change the plataformaState values, 
-		//if not, sometimes, it waitEvent tries to manage data, when the simulatedTimeLast variable (just up) has not been asssigned yet
-		//Thread.Sleep (10); 
-
 		if(platformState == Chronopic.Plataforma.ON)
 			platformState = Chronopic.Plataforma.OFF;
 		else

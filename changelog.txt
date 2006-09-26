@@ -1,5 +1,9 @@
 CHANGELOG:
 
+26 sep 2006
+	starting graphs on EventExecuteWindow
+	fixed bug in allowing press 'finish' when a event has finished
+
 24 sep 2006
 	run, run intervallic, pulse uses the EventExecuteWindow (bug 355599 fixed)
 	bug 357341 (75%) autoincremental copy of database done, but not compressed yet (not possible in current Mono implementation)

@@ -31,6 +31,8 @@ using Mono.Unix;
 using System.Threading;
 
 
+using Gdk; //for the EventMask
+
 
 //--------------------------------------------------------
 //---------------- EVENT EXECUTE WIDGET ----------------
@@ -76,7 +78,15 @@ public class EventExecuteWindow
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_finish;
 	[Widget] Gtk.Button button_close;
+	
 
+
+	[Widget] Gtk.DrawingArea drawingarea;
+	Gdk.Pixmap pixmap = null;
+
+
+
+	
 	int pDN;
 	double limit;
 	//private bool simulated;
@@ -112,7 +122,8 @@ public class EventExecuteWindow
 		EventExecuteWindowBox.initializeVariables (windowTitle, eventName, personName, eventType, pDN, limit, simulated);
 		//initialize specific variables
 		//EventExecuteWindowBox.initializeSpecificVariables (limit);
-	
+
+
 		EventExecuteWindowBox.event_execute.Show ();
 
 		return EventExecuteWindowBox;
@@ -138,10 +149,194 @@ public class EventExecuteWindow
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
 	}
+
+
+	public void on_drawingarea_configure_event(object o, ConfigureEventArgs args)
+	{
+		Console.Write("A");
+		Gdk.EventConfigure ev = args.Event;
+		Gdk.Window window = ev.Window;
+	
+
+		Console.Write("B1");
+		
+		Gdk.Rectangle allocation = drawingarea.Allocation;
+		
+		Console.Write("B2");
+		
+		//pixmap = new Gdk.Pixmap (drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
+		pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+		
+		Console.Write("B3");
+		
+		pixmap.DrawRectangle (drawingarea.Style.WhiteGC, true, 0, 0,
+				allocation.Width, allocation.Height);
+
+
+		
+		Console.Write("C");
+	}
+
+	public void on_drawingarea_expose_event(object o, ExposeEventArgs args)
+	{
+		Console.Write("D");
+		
+		Gdk.Rectangle area = args.Event.Area;
+
+		Console.Write("E1");
+
+		if(pixmap == null) {
+			Console.Write("E2");
+			//pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+		} else {
+			Console.Write("E3");
+
+			args.Event.Window.DrawDrawable(drawingarea.Style.WhiteGC, pixmap,
+				area.X, area.Y,
+				area.X, area.Y,
+				area.Width, area.Height);
+		}
+		
+		Console.Write("E4");
+	}
+
+	private void DrawBrush (double x, double y, bool black)
+	{
+		/*
+		Gdk.Rectangle update_rect = new Gdk.Rectangle ();
+		update_rect.X = (int) x - 5;
+		update_rect.Y = (int) y - 5;
+		update_rect.Width = 10;
+		update_rect.Height = 10;
+
+		//pixmap.DrawRectangle (black ? drawingarea.Style.BlackGC : drawingarea.Style.WhiteGC, true,
+		pixmap.DrawRectangle (drawingarea.Style.WhiteGC, true,
+				update_rect.X, update_rect.Y,
+				update_rect.Width, update_rect.Height);
+		drawingarea.QueueDrawArea (update_rect.X, update_rect.Y,
+				update_rect.Width, update_rect.Height);
+		*/
+	}
+
+	
+
+
+	[Widget] Gtk.Label label_tv_now;
+	[Widget] Gtk.Label label_tc_now;
+	[Widget] Gtk.Label label_tv_person;
+	[Widget] Gtk.Label label_tc_person;
+	[Widget] Gtk.Label label_tv_session;
+	[Widget] Gtk.Label label_tc_session;
+
+
+	
+	private void dibuja(Gtk.DrawingArea drawingarea)
+	{
+		double topMargin = 10; 
+		int ancho=drawingarea.Allocation.Width;
+		int alto=drawingarea.Allocation.Height;
+		
+		
+		Console.Write("dibuja1");
+		
+		double tvNow = 0.45;
+		double tvPerson = 0.50;
+		double tvSession = 0.80;
+		
+		double tcNow = 0.25;
+		double tcPerson = 0.40;
+		double tcSession = 0.35;
+
+		double maxValue = tvSession;
+
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
+		
+		
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
+		
+		
+		Console.Write("dibuja4");
+
+		label_tv_now.Text = tvNow.ToString();
+		label_tv_person.Text = tvPerson.ToString();
+		label_tv_session.Text = tvSession.ToString();
+		label_tc_now.Text = tcNow.ToString();
+		label_tc_person.Text = tcPerson.ToString();
+		label_tc_session.Text = tcSession.ToString();
+
+		/*
+		label_tc_now.Text = "";
+		label_tc_person.Text = ""; 
+		label_tc_session.Text = "";
+		*/
+	}
+
+
+
+
+	
+
+	/*
+	 * projecte cubevirtual de juan gonzalez
+	 */
+	Gdk.GC pen_rojo;
+	Gdk.GC pen_azul;
+	Gdk.GC pen_negro;
+	Gdk.GC pen_blanco;
+	
+	protected void paintSomething()
+	{
+	}
+
+	/**********************************/
+	/* Configurar las colores a usar  */
+	/**********************************/
+	void configurar_colores()
+	{
+		//-- Configurar los colores
+		Gdk.Color rojo = new Gdk.Color(0xff,0,0);
+		Gdk.Color azul  = new Gdk.Color(0,0,0xff);
+		Gdk.Color negro = new Gdk.Color(0,0,0);
+		Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
+
+		Gdk.Colormap colormap = Gdk.Colormap.System;
+		colormap.AllocColor (ref rojo, true, true);
+		colormap.AllocColor (ref azul,true,true);
+		colormap.AllocColor (ref negro,true,true);
+		colormap.AllocColor (ref blanco,true,true);
+
+		//-- Configurar los contextos graficos (pinceles)
+		pen_rojo = new Gdk.GC(drawingarea.GdkWindow);
+		pen_azul = new Gdk.GC(drawingarea.GdkWindow);
+		pen_negro = new Gdk.GC(drawingarea.GdkWindow);
+		pen_blanco= new Gdk.GC(drawingarea.GdkWindow);
+
+		pen_rojo.Foreground = rojo;
+		pen_azul.Foreground = azul;
+	}
+
+
+
 	
 	public virtual void EventEndedHideButtons() {
 		button_cancel.Sensitive = false;
 		button_close.Sensitive = true;
+		button_finish.Sensitive = false;
+		
+		
+		Console.Write("k1");
+		// -- Dibujar la funcion
+		dibuja (drawingarea);
+		Console.Write("k2");
+		//pixmap.DrawLine (gc, 0, 0, 100, 100);
+		// -- Solicitar refresco
+		
+		drawingarea.QueueDraw();
+		Console.Write("k3");
 	}
 	
 	void on_finish_clicked (object o, EventArgs args)

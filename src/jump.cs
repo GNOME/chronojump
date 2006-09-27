@@ -328,8 +328,6 @@ public class Jump : Event
 
 	protected override void write()
 	{
-		eventExecuteWin.EventEndedHideButtons();
-
 		string tcString = "";
 		if(hasFall) {
 			//Console.WriteLine("TC: {0}", tc.ToString());
@@ -359,6 +357,8 @@ public class Jump : Event
 		
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
+		
+		eventExecuteWin.EventEnded(tv, tc);
 	}
 	
 	public bool TypeHasWeight
@@ -715,8 +715,6 @@ public class JumpRj : Jump
 				
 	protected override void write()
 	{
-		eventExecuteWin.EventEndedHideButtons();
-		
 		int jumps;
 		string limitString = "";
 
@@ -769,6 +767,9 @@ public class JumpRj : Jump
 		
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
+		
+		
+		eventExecuteWin.EventEnded(-1, -1);
 	}
 
 

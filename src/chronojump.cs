@@ -1756,8 +1756,17 @@ public class ChronoJump
 			myLimit = 2; //2 for normal jump
 			
 		eventExecuteWin = EventExecuteWindow.Show(
-				Catalog.GetString("Execute Jump"), Catalog.GetString("Phases"),  
-				currentPerson.Name, currentJumpType.Name, prefsDigitsNumber, myLimit, simulated);
+				/*
+				   Catalog.GetString("Execute Jump"), Catalog.GetString("Phases"),  
+				   currentPerson.Name, currentJumpType.Name, prefsDigitsNumber, myLimit, simulated);
+				   */
+			Catalog.GetString("Execute Jump"), //windowTitle
+			Catalog.GetString("Phases"),  	  //name of the different moments
+			currentPerson.UniqueID, currentPerson.Name, 
+			currentSession.UniqueID, 
+			"Jump", //tableName
+			currentJumpType.Name, 
+			prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
@@ -1901,11 +1910,13 @@ public class ChronoJump
 		sensitiveGuiEventDoing();
 	
 		//show the event doing window
+		/*
 		eventExecuteWin = EventExecuteWindow.Show(
 				Catalog.GetString("Execute Reactive Jump"), Catalog.GetString("Jumps"),  
 				currentPerson.Name, currentJumpType.Name, prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		*/
 		
 		currentJumpRj = new JumpRj(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
@@ -2059,12 +2070,14 @@ public class ChronoJump
 			myLimit = 2; //2 for normal jump
 		*/
 		double myLimit = 3; //same for startingIn than out (before)
-			
+		
+		/*
 		eventExecuteWin = EventExecuteWindow.Show(
 				Catalog.GetString("Execute Run"), Catalog.GetString("Phases"),  
 				currentPerson.Name, currentRunType.Name, prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		*/
 
 		
 		currentRun = new Run(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 
@@ -2195,11 +2208,13 @@ public class ChronoJump
 		sensitiveGuiEventDoing();
 		
 		//show the event doing window
+		/*
 		eventExecuteWin = EventExecuteWindow.Show(
 				Catalog.GetString("Execute Intervallic Run"), Catalog.GetString("Runs"),  
 				currentPerson.Name, currentRunType.Name, prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		*/
 
 		
 		currentRunInterval = new RunInterval(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
@@ -2371,11 +2386,13 @@ public class ChronoJump
 		sensitiveGuiEventDoing();
 		
 		//show the event doing window
+		/*
 		eventExecuteWin = EventExecuteWindow.Show(
 				Catalog.GetString("Execute Pulse"), Catalog.GetString("Pulses"),  
 				currentPerson.Name, currentPulseType.Name, prefsDigitsNumber, totalPulses, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		*/
 		
 		
 		currentPulse = new Pulse(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 

@@ -44,7 +44,7 @@ public class EventExecuteWindow
 	
 	[Widget] Gtk.Label label_person;
 	[Widget] Gtk.Label label_event_type;
-	[Widget] Gtk.Label label_sub_event_name;
+	[Widget] Gtk.Label label_phases_name;
 	[Widget] Gtk.Label label_simulated;
 	
 	/*
@@ -80,21 +80,17 @@ public class EventExecuteWindow
 	[Widget] Gtk.Button button_close;
 	
 
-
 	[Widget] Gtk.DrawingArea drawingarea;
 	Gdk.Pixmap pixmap = null;
 
 
-
+	int personID;	
+	int sessionID;	
+	string tableName;	
+	string eventType;	
 	
 	int pDN;
 	double limit;
-	//private bool simulated;
-
-	/*
-	bool jumpsLimited;
-	static bool showTvTc = false;
-	*/
 	
 	static EventExecuteWindow EventExecuteWindowBox;
 		
@@ -107,35 +103,36 @@ public class EventExecuteWindow
 		}
 
 		gladeXML.Autoconnect(this);
-		
-		//in first rj jump in a session, always doesn't show the tv/tc
-		//showTvTc = false;
 	}
 
-	static public EventExecuteWindow Show (string windowTitle, string eventName, string personName, string eventType, int pDN, double limit, bool simulated)
+	static public EventExecuteWindow Show (string windowTitle, string phasesName, int personID, string personName, int sessionID, 
+			string tableName, string eventType, int pDN, double limit, bool simulated)
 	{
 		if (EventExecuteWindowBox == null) {
 			EventExecuteWindowBox = new EventExecuteWindow (); 
 		}
 		
-		//initialize global inherited variables
-		EventExecuteWindowBox.initializeVariables (windowTitle, eventName, personName, eventType, pDN, limit, simulated);
-		//initialize specific variables
-		//EventExecuteWindowBox.initializeSpecificVariables (limit);
-
+		EventExecuteWindowBox.initializeVariables (windowTitle, phasesName, personID, personName, sessionID, 
+				tableName, eventType, pDN, limit, simulated);
 
 		EventExecuteWindowBox.event_execute.Show ();
 
 		return EventExecuteWindowBox;
 	}
 
-	//protected void initializeVariables (string personName, string eventType, int pDN) 
-	void initializeVariables (string windowTitle, string eventName, string personName, string eventType, int pDN, double limit, bool simulated) 
+	void initializeVariables (string windowTitle, string phasesName, int personID, string personName, int sessionID,
+			string tableName, string eventType, int pDN, double limit, bool simulated) 
 	{
 		event_execute.Title = windowTitle;
-		this.label_sub_event_name.Text = eventName; //"Jumps", "Runs" or "Ticks"
+		this.label_phases_name.Text = phasesName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
+								//"Phases" (simple jumps, dj, simple runs)
+		this.personID = personID;
 		this.label_person.Text = personName;
-		this.label_event_type.Text = eventType;
+		this.tableName = tableName;
+		this.sessionID = sessionID;
+
+		this.eventType = eventType;
+		this.label_event_type.Text = this.eventType;
 		this.pDN = pDN;
 		this.limit = limit;
 
@@ -145,7 +142,12 @@ public class EventExecuteWindow
 			label_simulated.Hide();
 			
 
-		button_finish.Sensitive = true;
+		//allow to finish earlier if the event has subevents
+		if(tableName == "jumpRj" || tableName == "runInterval" || tableName == "pulse")
+			button_finish.Sensitive = true;
+		else
+			button_finish.Sensitive = false;
+			
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
 	}
@@ -164,17 +166,11 @@ public class EventExecuteWindow
 		
 		Console.Write("B2");
 		
-		//pixmap = new Gdk.Pixmap (drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 		pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
 		Console.Write("B3");
 		
-		pixmap.DrawRectangle (drawingarea.Style.WhiteGC, true, 0, 0,
-				allocation.Width, allocation.Height);
-
-
-		
-		Console.Write("C");
+		erasePaint(drawingarea);
 	}
 
 	public void on_drawingarea_expose_event(object o, ExposeEventArgs args)
@@ -185,11 +181,8 @@ public class EventExecuteWindow
 
 		Console.Write("E1");
 
-		if(pixmap == null) {
+		if(pixmap != null) {
 			Console.Write("E2");
-			//pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
-		} else {
-			Console.Write("E3");
 
 			args.Event.Window.DrawDrawable(drawingarea.Style.WhiteGC, pixmap,
 				area.X, area.Y,
@@ -197,27 +190,14 @@ public class EventExecuteWindow
 				area.Width, area.Height);
 		}
 		
-		Console.Write("E4");
+		Console.Write("E3");
 	}
 
-	private void DrawBrush (double x, double y, bool black)
-	{
-		/*
-		Gdk.Rectangle update_rect = new Gdk.Rectangle ();
-		update_rect.X = (int) x - 5;
-		update_rect.Y = (int) y - 5;
-		update_rect.Width = 10;
-		update_rect.Height = 10;
 
-		//pixmap.DrawRectangle (black ? drawingarea.Style.BlackGC : drawingarea.Style.WhiteGC, true,
-		pixmap.DrawRectangle (drawingarea.Style.WhiteGC, true,
-				update_rect.X, update_rect.Y,
-				update_rect.Width, update_rect.Height);
-		drawingarea.QueueDrawArea (update_rect.X, update_rect.Y,
-				update_rect.Width, update_rect.Height);
-		*/
-	}
-
+		private void erasePaint(Gtk.DrawingArea drawingarea) {
+			pixmap.DrawRectangle (drawingarea.Style.WhiteGC, true, 0, 0,
+					drawingarea.Allocation.Width, drawingarea.Allocation.Height);
+		}
 	
 
 
@@ -230,124 +210,111 @@ public class EventExecuteWindow
 
 
 	
-	private void dibuja(Gtk.DrawingArea drawingarea)
+	private void paint (Gtk.DrawingArea drawingarea, 
+			double tvNow, double tvPerson, double tvSession, 
+			double tcNow, double tcPerson, double tcSession)
 	{
+		//TEMPORARY, for only make graph of normal jump events
+		if(tvNow == -1) 
+			return;
+
+		
 		double topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
 		
-		Console.Write("dibuja1");
+		Console.Write(" paint1 ");
 		
-		double tvNow = 0.45;
-		double tvPerson = 0.50;
-		double tvSession = 0.80;
+		//change in a near future ;)
+		double maxValue = tvNow;
+		if(tvPerson > maxValue) maxValue = tvPerson;
+		if(tvSession > maxValue) maxValue = tvSession;
+		if(tcNow > maxValue) maxValue = tcNow;
+		if(tcPerson > maxValue) maxValue = tcPerson;
+		if(tcSession > maxValue) maxValue = tcSession;
 		
-		double tcNow = 0.25;
-		double tcPerson = 0.40;
-		double tcSession = 0.35;
-
-		double maxValue = tvSession;
-
+		
+		Console.WriteLine("{0}, {1}, {2}", tvNow, tvPerson, tvSession);
+		Console.WriteLine("{0}, {1}, {2}", tcNow, tcPerson, tcSession);
+		Console.WriteLine("maxValue: {0}", maxValue);
+		
+		erasePaint(drawingarea);
+		
 		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
 		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
 		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
-		
 		
 		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
 		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
 		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
 		
 		
-		Console.Write("dibuja4");
+		Console.Write(" paint2 ");
 
-		label_tv_now.Text = tvNow.ToString();
-		label_tv_person.Text = tvPerson.ToString();
-		label_tv_session.Text = tvSession.ToString();
-		label_tc_now.Text = tcNow.ToString();
-		label_tc_person.Text = tcPerson.ToString();
-		label_tc_session.Text = tcSession.ToString();
-
-		/*
-		label_tc_now.Text = "";
-		label_tc_person.Text = ""; 
-		label_tc_session.Text = "";
-		*/
+		label_tv_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
+		label_tv_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
+		label_tv_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
+		label_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
+		label_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
+		label_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
 	}
 
 
 
 
 	
-
-	/*
-	 * projecte cubevirtual de juan gonzalez
-	 */
-	Gdk.GC pen_rojo;
-	Gdk.GC pen_azul;
-	Gdk.GC pen_negro;
-	Gdk.GC pen_blanco;
-	
-	protected void paintSomething()
-	{
+	public void EventEnded(double tv, double tc) {
+		hideButtons();
+		prepareGraph(tv, tc);
 	}
-
-	/**********************************/
-	/* Configurar las colores a usar  */
-	/**********************************/
-	void configurar_colores()
-	{
-		//-- Configurar los colores
-		Gdk.Color rojo = new Gdk.Color(0xff,0,0);
-		Gdk.Color azul  = new Gdk.Color(0,0,0xff);
-		Gdk.Color negro = new Gdk.Color(0,0,0);
-		Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
-
-		Gdk.Colormap colormap = Gdk.Colormap.System;
-		colormap.AllocColor (ref rojo, true, true);
-		colormap.AllocColor (ref azul,true,true);
-		colormap.AllocColor (ref negro,true,true);
-		colormap.AllocColor (ref blanco,true,true);
-
-		//-- Configurar los contextos graficos (pinceles)
-		pen_rojo = new Gdk.GC(drawingarea.GdkWindow);
-		pen_azul = new Gdk.GC(drawingarea.GdkWindow);
-		pen_negro = new Gdk.GC(drawingarea.GdkWindow);
-		pen_blanco= new Gdk.GC(drawingarea.GdkWindow);
-
-		pen_rojo.Foreground = rojo;
-		pen_azul.Foreground = azul;
-	}
-
-
-
 	
-	public virtual void EventEndedHideButtons() {
+	private void hideButtons() {
 		button_cancel.Sensitive = false;
 		button_close.Sensitive = true;
 		button_finish.Sensitive = false;
-		
-		
+	}
+
+	private void prepareGraph(double tv, double tc) {
 		Console.Write("k1");
-		// -- Dibujar la funcion
-		dibuja (drawingarea);
-		Console.Write("k2");
-		//pixmap.DrawLine (gc, 0, 0, 100, 100);
-		// -- Solicitar refresco
 		
+		//obtain data
+		double tvPersonAVG = SqliteJump.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TV");
+		double tvSessionAVG = SqliteJump.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TV");
+
+		double tcPersonAVG = 0; 
+		double tcSessionAVG = 0; 
+		if(tc > 0) {
+			tcPersonAVG = SqliteJump.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TC");
+			tcSessionAVG = SqliteJump.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TC");
+		}
+		
+		//paint graph
+		paint (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
+		
+		Console.Write("k2");
+		
+		// -- refresh
 		drawingarea.QueueDraw();
+		
 		Console.Write("k3");
 	}
 	
 	void on_finish_clicked (object o, EventArgs args)
 	{
 		//event will be raised, and managed in chronojump.cs
+		//see ButtonFinish at end of file
+	}
+			
+	void on_button_help_clicked (object o, EventArgs args)
+	{
+		new DialogHelp(Catalog.GetString("This window show the execution of an event. In the graph, you see:\n-\"Now\": shows the data of current event.\n-\"Person AVG\": shows the Average of current person executing this event type on this session.\n-\"Session AVG\": shows the Average of all persons executing this event type on this session.\n\nAt the bottom you see the evolution of the event, and you can finish it (depending on event type), or cancel it."));
 	}
 
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		//event will be raised, and managed in chronojump.cs
-		EventEndedHideButtons();
+		hideButtons();
 	}
 		
 	void on_button_close_clicked (object o, EventArgs args)
@@ -362,8 +329,6 @@ public class EventExecuteWindow
 		//if there's not, simulate also
 		button_cancel.Click();
 		
-		//JumpRjExecuteWindowBox.jump_rj_execute.Hide();
-		//JumpRjExecuteWindowBox = null;
 		EventExecuteWindowBox.event_execute.Hide();
 		EventExecuteWindowBox = null;
 	}
@@ -404,6 +369,59 @@ public class EventExecuteWindow
 		}
 	}
 
+	
+	public Button ButtonCancel 
+	{
+		get { return button_cancel; }
+	}
+	
+	public Button ButtonFinish 
+	{
+		get { return button_finish; }
+	}
+
+	
+/* some tests and code	
+
+	//projecte cubevirtual de juan gonzalez
+	
+	Gdk.GC pen_rojo;
+	Gdk.GC pen_azul;
+	Gdk.GC pen_negro;
+	Gdk.GC pen_blanco;
+	
+	protected void paintSomething()
+	{
+	}
+
+	void configurar_colores()
+	{
+		//-- Configurar los colores
+		Gdk.Color rojo = new Gdk.Color(0xff,0,0);
+		Gdk.Color azul  = new Gdk.Color(0,0,0xff);
+		Gdk.Color negro = new Gdk.Color(0,0,0);
+		Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
+
+		Gdk.Colormap colormap = Gdk.Colormap.System;
+		colormap.AllocColor (ref rojo, true, true);
+		colormap.AllocColor (ref azul,true,true);
+		colormap.AllocColor (ref negro,true,true);
+		colormap.AllocColor (ref blanco,true,true);
+
+		//-- Configurar los contextos graficos (pinceles)
+		pen_rojo = new Gdk.GC(drawingarea.GdkWindow);
+		pen_azul = new Gdk.GC(drawingarea.GdkWindow);
+		pen_negro = new Gdk.GC(drawingarea.GdkWindow);
+		pen_blanco= new Gdk.GC(drawingarea.GdkWindow);
+
+		pen_rojo.Foreground = rojo;
+		pen_azul.Foreground = azul;
+	}
+*/
+
+	
+	//old code
+	 
 	/*
 	public double ProgressbarPreSet(Gtk.Progressbar progressbar, double myValue) 
 	{
@@ -462,14 +480,5 @@ public class EventExecuteWindow
 	}
 	*/
 
-	public Button ButtonCancel 
-	{
-		get { return button_cancel; }
-	}
-	
-	public Button ButtonFinish 
-	{
-		get { return button_finish; }
-	}
 }
 

@@ -283,8 +283,6 @@ public class Pulse : Event
 
 	protected override void write()
 	{
-		eventExecuteWin.EventEndedHideButtons();
-
 		int totalPulsesNum = 0;
 
 		totalPulsesNum = Util.GetNumberOfJumps(timesString, false);
@@ -303,6 +301,8 @@ public class Pulse : Event
 		
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
+		
+		eventExecuteWin.EventEnded(-1, -1);
 	}
 
 	

@@ -1,5 +1,13 @@
 CHANGELOG:
 
+27 sep 2006
+	EventExecuteWindow:
+	-passed data of current simple or dj, passed also the person and
+	session avg for this event (sj, cmj...) at this session
+	-added help button and its message in new help dialog
+	-"finish" cannot be pressed in event without subevents
+	-improved gui
+
 26 sep 2006
 	starting graphs on EventExecuteWindow
 	fixed bug in allowing press 'finish' when a event has finished

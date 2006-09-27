@@ -241,8 +241,6 @@ public class Run : Event
 
 	protected override void write()
 	{
-		eventExecuteWin.EventEndedHideButtons();
-
 		Console.WriteLine("TIME: {0}", time.ToString());
 		
 		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
@@ -258,6 +256,8 @@ public class Run : Event
 		
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
+		
+		eventExecuteWin.EventEnded(-1, -1);
 	}
 	
 
@@ -513,8 +513,6 @@ public class RunInterval : Run
 
 	protected override void write()
 	{
-		eventExecuteWin.EventEndedHideButtons();
-		
 		int tracks = 0;
 		string limitString = "";
 
@@ -561,6 +559,9 @@ public class RunInterval : Run
 		
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
+		
+		eventExecuteWin.EventEnded(-1, -1);
+		
 	}
 
 

@@ -40,8 +40,8 @@ public class TreeViewJumps : TreeViewEvent
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
 
 	//one of both indexes can be shown if selected on preferences
-	protected string qIndexName = Catalog.GetString("Q Index");
-	protected string djIndexName = Catalog.GetString("Dj Index");
+	protected string qIndexName = "Q Index";
+	protected string djIndexName = "Dj Index";
 		
 	public TreeViewJumps ()
 	{
@@ -61,7 +61,7 @@ public class TreeViewJumps : TreeViewEvent
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllJumpsName;
 		
-		string [] columnsStringPre = { jumperName, "TC", "TV", weightName, fallName };
+		string [] columnsStringPre = { jumperName, "TC", "TF", weightName, fallName };
 		string [] columnsString = obtainColumnsString(columnsStringPre);
 	
 
@@ -163,7 +163,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllJumpsName;
 			
-		string [] columnsStringPre = { jumperName, "TC", "TV", weightName, fallName };
+		string [] columnsStringPre = { jumperName, "TC", "TF", weightName, fallName };
 		string [] columnsString = obtainColumnsString(columnsStringPre);
 
 		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 

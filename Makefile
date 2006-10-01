@@ -12,7 +12,6 @@ CC = gcc
 CFLAGS = -Wall
 
 #-- Compilador de C#
-#MCS = mcs
 MCS = gmcs
 
 #-------- Nombres y dependencias de los programas a construir
@@ -39,6 +38,7 @@ CHRONOJUMP_MINI = chronojump_mini
 CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs chronopic.cs src/util.cs src/constants.cs 
 
 all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
+#all: $(CHRONOJUMP) $(CHRONOJUMP_MINI)
 
 
 #-------------------------------
@@ -47,6 +47,8 @@ all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
 
 $(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) 
 	 $(MCS) $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
+#$(CHRONOJUMP): NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) 
+#	 $(MCS) $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP) 
    
     
 #------------------------------------
@@ -55,6 +57,8 @@ $(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP)
 
 $(CHRONOJUMP_MINI).exe: $(CHRONOJUMP_MINI_DEP)
 	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(CHRONOJUMP_MINI).exe 
+#$(CHRONOJUMP_MINI): $(CHRONOJUMP_MINI_DEP)
+#	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(CHRONOJUMP_MINI)
     
 #--------------------------
 #  REGLAS GENERICAS
@@ -64,3 +68,4 @@ $(CHRONOJUMP_MINI).exe: $(CHRONOJUMP_MINI_DEP)
 
 clean::
 	  rm -f $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe  
+#	  rm -f $(CHRONOJUMP) $(CHRONOJUMP_MINI)

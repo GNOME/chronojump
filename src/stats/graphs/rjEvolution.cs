@@ -128,12 +128,12 @@ public class GraphRjEvolution : StatRjEvolution
 		foreach (string myValue in statValues) 
 		{
 			if(i==0) {
-				serieTc.Title = myValue + " TC";
-				serieTv.Title = myValue + " TV";
+				serieTc.Title = myValue + " " + Catalog.GetString("TC");
+				serieTv.Title = myValue + " " + Catalog.GetString("TF");
 
-			} else if(isTC(i)) {
+			} else if(isTF(i)) {
 				serieTc.SerieData.Add(myValue);
-			} else if(isTV(i)) {
+			} else if(isTF(i)) {
 				serieTv.SerieData.Add(myValue);
 			}
 			i++;
@@ -153,9 +153,9 @@ public class GraphRjEvolution : StatRjEvolution
 		return false;
 	}
 	
-	private bool isTV(int col) {
+	private bool isTF(int col) {
 		for (int i=0; i < maxJumps ; i++) {
-			if (i*2 +4 == col) { //TV cols: 4, 6, 8, 10, ...
+			if (i*2 +4 == col) { //TF cols: 4, 6, 8, 10, ...
 				return true;
 			}
 		}

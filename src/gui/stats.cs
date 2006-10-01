@@ -103,7 +103,7 @@ public class StatsWindow {
 	
 	private static string [] comboStatsSubTypeReactiveOptions = {
 		Catalog.GetString("Average Index"), 
-		Catalog.GetString("POTENCY (Bosco)"), // 9.81^2*TV*TT / (4*jumps*(TT-TV))
+		Catalog.GetString("POTENCY (Bosco)"), // 9.81^2*TF*TT / (4*jumps*(TT-TF))
 		Catalog.GetString("Evolution") 
 	};
 	

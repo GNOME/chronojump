@@ -101,7 +101,7 @@ public class Run : Event
 			platformState = chronopicInitialValue(cp);
 		
 		//you can start ON or OFF the platform, 
-		//we record always de TV (or time between we abandonate the platform since we arrive)
+		//we record always de TF (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
 			appbar.Push( 1,Catalog.GetString("You are IN, RUN when prepared!!") );
 

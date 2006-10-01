@@ -1,5 +1,7 @@
 CHANGELOG:
 
+	EventExecute: changed rows tv/tc
+	
 27 sep 2006
 	EventExecuteWindow:
 	-passed data of current simple or dj, passed also the person and

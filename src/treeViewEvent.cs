@@ -76,7 +76,6 @@ public class TreeViewEvent
 		treeview.HeadersVisible=true;
 		int i=0;
 		foreach(string myCol in columnsString) {
-			//treeview.AppendColumn (Catalog.GetString(myCol), new CellRendererText(), "text", i++);
 			treeview.AppendColumn (myCol, new CellRendererText(), "text", i++);
 		}
 	}

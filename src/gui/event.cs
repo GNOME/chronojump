@@ -80,6 +80,9 @@ public class EventExecuteWindow
 	[Widget] Gtk.Button button_close;
 	
 
+	[Widget] Gtk.HBox hbox_drawingarea;
+
+
 	[Widget] Gtk.DrawingArea drawingarea;
 	Gdk.Pixmap pixmap = null;
 
@@ -103,6 +106,20 @@ public class EventExecuteWindow
 		}
 
 		gladeXML.Autoconnect(this);
+		
+		/* afegit a saco pq sembla que el galde falla en alguns monos (juanfer)
+		 */
+
+		/*
+		drawingarea = new Gtk.DrawingArea ();
+		drawingarea.SetSizeRequest (200, 200);
+		hbox_drawingarea.PackStart(drawingarea, false, false, 0);
+		hbox_drawingarea.ShowAll();
+
+		drawingarea.ExposeEvent += new ExposeEventHandler (on_drawingarea_expose_event);
+		drawingarea.ConfigureEvent += new ConfigureEventHandler (on_drawingarea_configure_event);
+		*/
+		
 	}
 
 	static public EventExecuteWindow Show (string windowTitle, string phasesName, int personID, string personName, int sessionID, 
@@ -152,7 +169,6 @@ public class EventExecuteWindow
 		button_close.Sensitive = false;
 	}
 
-
 	public void on_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
 		Console.Write("A");
@@ -172,9 +188,27 @@ public class EventExecuteWindow
 		
 		erasePaint(drawingarea);
 	}
-
+	
 	public void on_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
+		/* in some mono installations, configure_event is not called, but expose_event yes. 
+		 * Do here the initialization
+		 */
+		
+		Console.Write("C");
+		
+		if(pixmap == null) {
+			Console.Write("T1");
+			
+			Gdk.Rectangle allocation = drawingarea.Allocation;
+			//pixmap = new Gdk.Pixmap (args.Event.Window, allocation.Width, allocation.Height, -1);
+			pixmap = new Gdk.Pixmap (drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
+			erasePaint(drawingarea);
+
+			Console.Write("T2");
+		}
+
+			
 		Console.Write("D");
 		
 		Gdk.Rectangle area = args.Event.Area;
@@ -201,12 +235,12 @@ public class EventExecuteWindow
 	
 
 
-	[Widget] Gtk.Label label_tv_now;
-	[Widget] Gtk.Label label_tc_now;
-	[Widget] Gtk.Label label_tv_person;
 	[Widget] Gtk.Label label_tc_person;
 	[Widget] Gtk.Label label_tv_session;
 	[Widget] Gtk.Label label_tc_session;
+	[Widget] Gtk.Label label_tv_now;
+	[Widget] Gtk.Label label_tc_now;
+	[Widget] Gtk.Label label_tv_person;
 
 
 	
@@ -235,29 +269,30 @@ public class EventExecuteWindow
 		if(tcSession > maxValue) maxValue = tcSession;
 		
 		
-		Console.WriteLine("{0}, {1}, {2}", tvNow, tvPerson, tvSession);
 		Console.WriteLine("{0}, {1}, {2}", tcNow, tcPerson, tcSession);
+		Console.WriteLine("{0}, {1}, {2}", tvNow, tvPerson, tvSession);
 		Console.WriteLine("maxValue: {0}", maxValue);
 		
 		erasePaint(drawingarea);
 		
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
 		
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
+		
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
 		
 		
 		Console.Write(" paint2 ");
 
-		label_tv_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
-		label_tv_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
-		label_tv_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
 		label_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
 		label_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
 		label_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
+		label_tv_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
+		label_tv_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
+		label_tv_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
 	}
 
 
@@ -308,7 +343,7 @@ public class EventExecuteWindow
 			
 	void on_button_help_clicked (object o, EventArgs args)
 	{
-		new DialogHelp(Catalog.GetString("This window show the execution of an event. In the graph, you see:\n-\"Now\": shows the data of current event.\n-\"Person AVG\": shows the Average of current person executing this event type on this session.\n-\"Session AVG\": shows the Average of all persons executing this event type on this session.\n\nAt the bottom you see the evolution of the event, and you can finish it (depending on event type), or cancel it."));
+		new DialogHelp(Catalog.GetString("This window shows the execution of an event. In the graph, you may see:\n-\"Now\": shows the data of the current event.\n-\"Person AVG\": shows the average of the current person executing this type of event on this session.\n-\"Session AVG\": shows the Average of all persons executing this type of event on this session.\n(For more statistics data, you may use the statistics window).\n\nAt the bottom you may see the evolution of the event, and you may finish it (depending on the type of event), or even cancel it."));
 	}
 
 	void on_button_cancel_clicked (object o, EventArgs args)

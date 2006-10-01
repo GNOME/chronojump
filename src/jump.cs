@@ -331,18 +331,18 @@ public class Jump : Event
 		string tcString = "";
 		if(hasFall) {
 			//Console.WriteLine("TC: {0}", tc.ToString());
-			tcString = " TC: " + Util.TrimDecimals( tc.ToString(), pDN ) ;
+			tcString = " " + Catalog.GetString("TC") + ": " + Util.TrimDecimals( tc.ToString(), pDN ) ;
 		} else {
 			tc = 0;
 		}
 			
-		//Console.WriteLine("TV: {0}", tv.ToString());
-		//progressBar.Text = "tv: " + Util.TrimDecimals( tv.ToString(), pDN);
+		//Console.WriteLine("TF: {0}", tv.ToString());
+		//progressBar.Text = "tf: " + Util.TrimDecimals( tv.ToString(), pDN);
 		
 		string myStringPush =   
 			//Catalog.GetString("Last jump: ") + 
 			personName + " " + 
-			type + tcString + " TV:" + Util.TrimDecimals( tv.ToString(), pDN ) ;
+			type + tcString + " " + Catalog.GetString("TF") + ": " + Util.TrimDecimals( tv.ToString(), pDN ) ;
 		if(weight > 0) {
 			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
 		}
@@ -525,14 +525,14 @@ public class JumpRj : Jump
 		}
 
 		if(success) {
-			//initialize strings of TCs and TVs
+			//initialize strings of TCs and TFs
 			tcString = "";
 			tvString = "";
 			tcCount = 0;
 			tvCount = 0;
 			firstRjValue = true;
 
-			//if jump starts on TV, write a "-1" in TC
+			//if jump starts on TF, write a "-1" in TC
 			if ( ! hasFall ) {
 				double myTc = -1;
 				tcString = myTc.ToString();
@@ -722,7 +722,7 @@ public class JumpRj : Jump
 		if(finish) {
 			jumps = Util.GetNumberOfJumps(tvString, false);
 
-			//if user clicked finish and last event was tc, probably there are more TCs than TVs
+			//if user clicked finish and last event was tc, probably there are more TCs than TFs
 			//if last event was tc, it has no sense, it should be deleted
 			tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
 					
@@ -736,7 +736,7 @@ public class JumpRj : Jump
 				limitString = limitAsDouble.ToString() + "J";
 				jumps = (int) limitAsDouble;
 			} else {
-				//if time finished and the last event was tc, probably there are more TCs than TVs
+				//if time finished and the last event was tc, probably there are more TCs than TFs
 				//if last event was tc, it has no sense, it should be deleted
 				tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
 				
@@ -758,8 +758,8 @@ public class JumpRj : Jump
 			//Catalog.GetString("Last jump: ") + 
 			personName + " " + 
 			type + " (" + limitString + ") " +
-			" AVG TV: " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
-			" AVG TC: " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
+			" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
+			" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
 		appbar.Push( 1,myStringPush );
 	
 		//event will be raised, and managed in chronojump.cs

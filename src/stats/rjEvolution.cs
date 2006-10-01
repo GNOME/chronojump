@@ -56,7 +56,7 @@ public class StatRjEvolution : Stat
 		store = getStore(dataColumns +1); //jumper, datacolumns 
 		string [] columnsString;
 	      
-	       //in report, show only 5 TCs and 5 TVs every row, 
+	       //in report, show only 5 TCs and 5 TFs every row, 
 	       //if there are more jumps to show, let's cut them
 		if(toReport && maxJumps > 5 ) {
 			columnsString = new String[14]; //jumper, index, fall, count, 5 tc+tv
@@ -71,12 +71,12 @@ public class StatRjEvolution : Stat
 			columnsString[3] = Catalog.GetString("Count");
 			for(int i=0; i < maxJumps && i < 5; i++) {
 				columnsString[(i+1)*2 +2] = Catalog.GetString("TC"); //cols: 4, 6, 8, ...
-				columnsString[(i+1)*2 +3] = Catalog.GetString("TV"); //cols: 5, 7, 9, ...
+				columnsString[(i+1)*2 +3] = Catalog.GetString("TF"); //cols: 5, 7, 9, ...
 			}
 		} else {
 			for(int i=0; i < maxJumps; i++) {
 				columnsString[(i+1)*2 +1] = Catalog.GetString("TC") + (i+1).ToString(); //cols: 3, 5, 7, ...
-				columnsString[(i+1)*2 +2] = Catalog.GetString("TV") + (i+1).ToString(); //cols: 4, 6, 8, ...
+				columnsString[(i+1)*2 +2] = Catalog.GetString("TF") + (i+1).ToString(); //cols: 4, 6, 8, ...
 			}
 		}
 		
@@ -170,7 +170,7 @@ public class StatRjEvolution : Stat
 				reportString += "<TR>";
 				//in report, if there are more than 5 jumps, break the row
 				if(maxJumps > 5) {
-					//show 5 jumps in a row (every jump has 2 cols: TC + TV)
+					//show 5 jumps in a row (every jump has 2 cols: TC + TF)
 					int countCols = -3; //jumper, index , fall, count (from -3 to 0)
 					int countRows = 0;
 					for (int i=0; i < statValues.Length ; i++) 
@@ -277,7 +277,7 @@ public class StatRjEvolution : Stat
 		
 		string bestResalted = "";
 		if(numContinuous != -1) {
-			bestResalted = string.Format(Catalog.GetString(" (best {0} consecutive jumps marked using [tv/tc *100])"), numContinuous);
+			bestResalted = string.Format(Catalog.GetString(" (best {0} consecutive jumps marked using [tf/tc *100])"), numContinuous);
 		}
 
 		return string.Format(Catalog.GetString("{0} in Rj Evolution applied to {1} on {2}{3}"), selectedValuesString, jumpType, mySessionString, bestResalted);

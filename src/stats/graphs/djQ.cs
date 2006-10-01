@@ -73,8 +73,8 @@ public class GraphDjQ : StatDjQ
 				
 			serieIndex.Title = Catalog.GetString("Index *100");
 			serieHeight.Title = Catalog.GetString("Height");
-			serieTc.Title = "TC";
-			serieTv.Title = "TV";
+			serieTc.Title = Catalog.GetString("TC");
+			serieTv.Title = Catalog.GetString("TF");
 			serieFall.Title = Catalog.GetString("Fall");
 			
 			serieIndex.IsLeftAxis = false;

@@ -226,11 +226,11 @@ public class Util
 		}
 	}
 	
-	public static double GetTotalTime (string stringTC, string stringTV)
+	public static double GetTotalTime (string stringTC, string stringTF)
 	{
-		if(stringTC.Length > 0 && stringTV.Length > 0) {
+		if(stringTC.Length > 0 && stringTF.Length > 0) {
 			string [] tc = stringTC.Split(new char[] {'='});
-			string [] tv = stringTV.Split(new char[] {'='});
+			string [] tv = stringTF.Split(new char[] {'='});
 
 			double totalTime = 0;
 

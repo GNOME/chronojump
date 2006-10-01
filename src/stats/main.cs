@@ -813,7 +813,7 @@ public class Stat
 		int xtics = myValues.Count;
 		double[] myData = new double[xtics];
 
-		hp.Label = "TV (seconds)";
+		hp.Label = "TF (seconds)";
 
 		int count=0;
 		for(int i=0; i < myValues.Count ; i++) {
@@ -852,7 +852,7 @@ public class Stat
 	}
 	
 	//used only by RjEvolution in plotGraphGraphSeries, 
-	//because rjevolution has a serie for TC and a serie for TV for each jumper
+	//because rjevolution has a serie for TC and a serie for TF for each jumper
 	int divideAndRoundDown (int myData) {
 		if(myData == 0) { return 0;}
 		
@@ -873,7 +873,7 @@ public class Stat
 		foreach(GraphSerie mySerie in allSeries) 
 		{
 			
-			//in isRjEvolution then check it this serie will be shown (each jumper has a TC and a TV serie)
+			//in isRjEvolution then check it this serie will be shown (each jumper has a TC and a TF serie)
 			if( isRjEvolution && ! acceptCheckedData( divideAndRoundDown(countSerie)) ) {
 				countSerie ++;
 				continue;

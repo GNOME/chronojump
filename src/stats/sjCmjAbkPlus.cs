@@ -48,12 +48,12 @@ public class StatSjCmjAbkPlus : Stat
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper, height, TV, weight (this col has characters '%' and 'Kg') solved in sqlite
+			store = getStore(dataColumns +1); //jumper, height, TF, weight (this col has characters '%' and 'Kg') solved in sqlite
 		}
 		
 
 		string [] columnsString = { Catalog.GetString("Jumper"), Catalog.GetString("Height"), 
-			Catalog.GetString("TV"), Catalog.GetString("Weight %") };
+			Catalog.GetString("TF"), Catalog.GetString("Weight %") };
 		/*
 		if(! percent) {
 			columnsString[3] = Catalog.GetString("Weight Kg");

@@ -121,7 +121,7 @@ public class Pulse : Event
 		
 
 		//you should start OFF (outside) the platform 
-		//we record always de TC+TV (or time between we pulse platform and we pulse again)
+		//we record always de TC+TF (or time between we pulse platform and we pulse again)
 		//we don't care about the time between the get in and the get out the platform
 		if (platformState==Chronopic.Plataforma.ON) {
 			string myMessage = Catalog.GetString("You are IN, please leave the platform, prepare for start, and press the 'accept' button!!");

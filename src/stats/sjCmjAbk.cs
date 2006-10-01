@@ -47,11 +47,11 @@ public class StatSjCmjAbk : Stat
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper, height, TV
+			store = getStore(dataColumns +1); //jumper, height, TF
 		}
 		
 		string [] columnsString = { Catalog.GetString("Jump"), 
-			Catalog.GetString("Height"), Catalog.GetString("TV") };
+			Catalog.GetString("Height"), Catalog.GetString("TF") };
 	
 		if(toReport) {
 			reportString = prepareHeadersReport(columnsString);

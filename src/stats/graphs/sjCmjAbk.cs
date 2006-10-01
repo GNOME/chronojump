@@ -66,7 +66,7 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			serieTv = new GraphSerie();
 			serieHeight = new GraphSerie();
 				
-			serieTv.Title = "TV";
+			serieTv.Title = Catalog.GetString("TF");
 			serieHeight.Title = Catalog.GetString("Height");
 			
 			serieTv.IsLeftAxis = true;

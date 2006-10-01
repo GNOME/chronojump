@@ -521,7 +521,7 @@ public class RepairJumpRjWindow
 		string fixedString = "";
 		if(myJumpType.FixedValue > 0) {
 			if(myJumpType.JumpsLimited) {
-				//if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TV if found
+				//if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TF if found
 				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed to {0} jumps, you cannot add more."), myJumpType.FixedValue);
 			} else {
 				//if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
@@ -537,8 +537,6 @@ public class RepairJumpRjWindow
 		int count = 0;
 
 		myTreeView.AppendColumn ( Catalog.GetString ("Count"), new CellRendererText(), "text", count++);
-		//myTreeView.AppendColumn ( Catalog.GetString ("TC"), new CellRendererText(), "text", count++);
-		//myTreeView.AppendColumn ( Catalog.GetString ("TV"), new CellRendererText(), "text", count++);
 
 		Gtk.TreeViewColumn tcColumn = new Gtk.TreeViewColumn ();
 		tcColumn.Title = Catalog.GetString("TC");
@@ -550,7 +548,7 @@ public class RepairJumpRjWindow
 		myTreeView.AppendColumn ( tcColumn );
 		
 		Gtk.TreeViewColumn tvColumn = new Gtk.TreeViewColumn ();
-		tvColumn.Title = Catalog.GetString("TV");
+		tvColumn.Title = Catalog.GetString("TF");
 		Gtk.CellRendererText tvCell = new Gtk.CellRendererText ();
 		tvCell.Editable = true;
 		tvCell.Edited += tvCellEdited;

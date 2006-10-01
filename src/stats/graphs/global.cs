@@ -73,7 +73,7 @@ public class GraphGlobal : StatGlobal
 			if(heightPreferred) {
 				serieTv.Title = Catalog.GetString("Height");
 			} else {
-				serieTv.Title = "TV";
+				serieTv.Title = Catalog.GetString("TF");
 			}
 			
 			serieIndex.IsLeftAxis = false;

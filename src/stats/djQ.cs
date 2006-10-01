@@ -32,7 +32,7 @@ public class StatDjQ : Stat
 		Catalog.GetString("Jumper"), 
 		Catalog.GetString("Q Index"), 
 		Catalog.GetString("Height"), 
-		Catalog.GetString("TV"), 
+		Catalog.GetString("TF"), 
 		Catalog.GetString("TC"), 
 		Catalog.GetString("Fall") };
 	
@@ -129,7 +129,7 @@ public class StatDjQ : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in Q Index [tv/tc] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in Q Index [tf/tc] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
 	}
 }
 

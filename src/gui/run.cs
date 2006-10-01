@@ -280,7 +280,7 @@ public class EditRunIntervalWindow
 			"x" + myRun.Limited;
 		entry_distance.Sensitive = false;
 
-		label_time_name.Text = Catalog.GetString("Totaltime");
+		label_time_name.Text = Catalog.GetString("Total Time");
 		entry_time.Text = myRun.TimeTotal.ToString();
 		//don't allow to change totaltime in rjedit
 		entry_time.Sensitive = false; 
@@ -459,7 +459,7 @@ public class RepairRunIntervalWindow
 		//myTreeView.AppendColumn ( Catalog.GetString ("Time"), new CellRendererText(), "text", count++);
 
 		Gtk.TreeViewColumn timeColumn = new Gtk.TreeViewColumn ();
-		timeColumn.Title = Catalog.GetString("TV");
+		timeColumn.Title = Catalog.GetString("TF");
 		Gtk.CellRendererText timeCell = new Gtk.CellRendererText ();
 		timeCell.Editable = true;
 		timeCell.Edited += timeCellEdited;

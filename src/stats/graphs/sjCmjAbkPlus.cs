@@ -68,7 +68,7 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			serieHeight = new GraphSerie();
 			serieWeight = new GraphSerie();
 				
-			serieTv.Title = "TV";
+			serieTv.Title = Catalog.GetString("TF");
 			serieHeight.Title = "Height";
 			serieWeight.Title = "Weight";
 			

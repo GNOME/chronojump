@@ -144,7 +144,7 @@ class Test {
 						toff = timestamp;
 
 						//-- Imprimir informacion
-						Console.WriteLine("TV: {0:f1} ms",toff);
+						Console.WriteLine("TF: {0:f1} ms",toff);
 					}
 					break;
 

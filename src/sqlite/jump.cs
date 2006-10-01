@@ -332,7 +332,7 @@ class SqliteJump : Sqlite
 	}
 
 
-	//checks if there are Rjs with different number of TCs than TVs
+	//checks if there are Rjs with different number of TCs than TFs
 	//then repair database manually, and look if the jump is jumpLimited, and how many jumps there are defined
 	public static void FindBadRjs()
 	{

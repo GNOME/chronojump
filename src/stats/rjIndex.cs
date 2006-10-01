@@ -31,7 +31,7 @@ public class StatRjIndex : Stat
 	protected string [] columnsString = { 
 		Catalog.GetString("Jumper"), 
 		Catalog.GetString("Index"), 
-		Catalog.GetString("TV(AVG)"), 
+		Catalog.GetString("TF(AVG)"), 
 		Catalog.GetString("TC(AVG)"), 
 		Catalog.GetString("Fall") };
 
@@ -131,7 +131,7 @@ public class StatRjIndex : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in Rj Index [(tvavg-tcavg)/tcavg *100] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in Rj Index [(tfavg-tcavg)/tcavg *100] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
 	}
 }
 

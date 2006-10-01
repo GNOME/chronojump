@@ -100,7 +100,7 @@ class SqliteStat : Sqlite
 						returnValueString		//tv or heightofJump
 					    );
 			} else {
-				//in simple session return: name, sex, height, TV
+				//in simple session return: name, sex, height, TF
 				myArray.Add (reader[0].ToString() + showSexString +
 						":" + Util.GetHeightInCentimeters(
 							Util.ChangeDecimalSeparator(reader[3].ToString()))
@@ -196,7 +196,7 @@ class SqliteStat : Sqlite
 						returnValueString		//tv or heightofJump
 					    );
 			} else {
-				//in simple session return: name, sex, height, TV, Fall
+				//in simple session return: name, sex, height, TF, Fall
 				myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 						":" + Util.GetHeightInCentimeters(Util.ChangeDecimalSeparator(
 								reader[3].ToString()))
@@ -575,20 +575,19 @@ class SqliteStat : Sqlite
 		}
 	}
 
-	//convert the strings of TVs and TCs separated by '=' in
+	//convert the strings of TFs and TCs separated by '=' in
 	//one string mixed and separated by ':' (starting by an ':')
-	private static string combineTCsTVs(string TCs, string TVs, int maxJumps)
+	private static string combineTCsTFs(string TCs, string TFs, int maxJumps)
 	{
 		string [] TCFull = TCs.Split(new char[] {'='});
-		string [] TVFull = TVs.Split(new char[] {'='});
+		string [] TFFull = TFs.Split(new char[] {'='});
 		string myReturn = ""; 
 		int i;
 		for(i=0; i < TCFull.Length; i++) {
-			//myReturn = myReturn + ":" + TCFull[i] + ":" + TVFull[i];
 			myReturn = myReturn + ":" + TCFull[i];
 			
-			if(TVFull.Length > i) {
-				myReturn = myReturn + ":" + TVFull[i];
+			if(TFFull.Length > i) {
+				myReturn = myReturn + ":" + TFFull[i];
 			}
 		}
 		//fill the row with 0's equalling largest row
@@ -654,7 +653,7 @@ class SqliteStat : Sqlite
 		string showSexString = "";
 		string showJumpTypeString = "";
 		string returnSessionString = "";
-		string allTCsTVsCombined = "";
+		string allTCsTFsCombined = "";
 		string returnFallString = "";
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
@@ -674,9 +673,9 @@ class SqliteStat : Sqlite
 				//in multisession we show only one column x session
 				//in simplesession we show all
 				
-				//convert the strings of TVs and TCs separated by '=' in
+				//convert the strings of TFs and TCs separated by '=' in
 				//one string mixed and separated by ':'
-				allTCsTVsCombined = combineTCsTVs(
+				allTCsTFsCombined = combineTCsTFs(
 						Util.ChangeDecimalSeparator(reader[4].ToString()), 
 						Util.ChangeDecimalSeparator(reader[5].ToString()), 
 						maxJumps);
@@ -687,7 +686,7 @@ class SqliteStat : Sqlite
 					returnSessionString + ":" + 		//session
 					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
 					returnFallString + 			//fall
-					allTCsTVsCombined			//tc:tv:tc:tv...
+					allTCsTFsCombined			//tc:tv:tc:tv...
 				    );
 		}
 		reader.Close();

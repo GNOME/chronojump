@@ -32,7 +32,7 @@ public class StatDjIndex : Stat
 		Catalog.GetString("Jumper"), 
 		Catalog.GetString("Dj Index"), 
 		Catalog.GetString("Height"), 
-		Catalog.GetString("TV"), 
+		Catalog.GetString("TF"), 
 		Catalog.GetString("TC"), 
 		Catalog.GetString("Fall") };
 	
@@ -129,7 +129,7 @@ public class StatDjIndex : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in Dj Index [(tv-tc)/tc * 100] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in Dj Index [(tf-tc)/tc * 100] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
 	}
 }
 

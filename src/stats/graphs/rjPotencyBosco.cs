@@ -77,8 +77,8 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			serieFall = new GraphSerie();
 				
 			serieIndex.Title = Catalog.GetString("Index");
-			serieTc.Title = "TC";
-			serieTv.Title = "TV";
+			serieTc.Title = Catalog.GetString("TC");
+			serieTv.Title = Catalog.GetString("TF");
 			serieJumps.Title = Catalog.GetString("Jumps") + "*10";
 			serieTime.Title = Catalog.GetString("Time") + "*10";
 			serieFall.Title = Catalog.GetString("Fall");

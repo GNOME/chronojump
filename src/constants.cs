@@ -27,8 +27,8 @@ public class Constants
 	//the strings created by Catalog cannot be const
 	
 	//formulas
-	public static string DjIndexFormula = Catalog.GetString("Dj Index") + " ((tv-tc)/tc *100)";
-	public static string QIndexFormula = Catalog.GetString("Q index") + " (tv/tc)";
+	public static string DjIndexFormula = "Dj Index ((tv-tc)/tc *100)";
+	public static string QIndexFormula = "Q index (tv/tc)";
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";

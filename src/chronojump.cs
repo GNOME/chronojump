@@ -1346,7 +1346,7 @@ public class ChronoJump
 	private void on_delete_current_person_from_session_activate (object o, EventArgs args) {
 		Console.WriteLine("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, 
-				Catalog.GetString("Are you sure you want to delete the current person and all his/her jumps from this session?\n(His/her personal data and events in other sessions will remain intact)"), 
+				Catalog.GetString("Are you sure you want to delete the current person and all his/her events (jumps, runs, pulses) from this session?\n(His/her personal data and events in other sessions will remain intact)"), 
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
@@ -2473,7 +2473,7 @@ public class ChronoJump
 					int myID = myTreeViewJumps.EventSelectedID;
 					if(lastJumpIsReactive) {
 						notebook_change(1);
-						warningString = Catalog.GetString("Attention: Deleting a RJ subjump will delete the whole jump"); 
+						warningString = Catalog.GetString("Attention: Deleting a Reactive subjump will delete the whole jump"); 
 						myID = myTreeViewJumpsRj.EventSelectedID;
 					} else {
 						notebook_change(0);
@@ -2692,7 +2692,7 @@ public class ChronoJump
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1,  Catalog.GetString("Do you want to delete selected jump?"), 
-						 Catalog.GetString("Attention: Deleting a RJ subjump will delete the whole jump"), 
+						 Catalog.GetString("Attention: Deleting a Reactive subjump will delete the whole jump"), 
 						 "jump", myTreeViewJumpsRj.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {

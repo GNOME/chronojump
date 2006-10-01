@@ -190,8 +190,8 @@ public class ExportSession
 					Catalog.GetString("Jumper name") + ":" +
 					Catalog.GetString("jump ID") + ":" + 
 					Catalog.GetString("Type") + ":" + 
-					"TC:" + 
-					"TV:" + 
+					Catalog.GetString("TC") + ":" + 
+					Catalog.GetString("TF") + ":" + 
 					Catalog.GetString("Fall") + ":" + 
 					Catalog.GetString("Weight") + ":" + 
 					Catalog.GetString("Height") + ":" +
@@ -237,11 +237,11 @@ public class ExportSession
 						Catalog.GetString("jump ID") + ":" + 
 						Catalog.GetString("jump Type") + ":" + 
 						Catalog.GetString("TC Max") + ":" + 
-						Catalog.GetString("TV Max") + ":" + 
+						Catalog.GetString("TF Max") + ":" + 
 						Catalog.GetString("Max Height") + ":" +
 						Catalog.GetString("Max Initial Speed") + ":" +
 						Catalog.GetString("TC AVG") + ":" + 
-						Catalog.GetString("TV AVG") + ":" + 
+						Catalog.GetString("TF AVG") + ":" + 
 						Catalog.GetString("AVG Height") + ":" +
 						Catalog.GetString("AVG Initial Speed") + ":" +
 						Catalog.GetString("Fall") + ":" + 
@@ -281,7 +281,7 @@ public class ExportSession
 				string [] tvString = myStr[12].Split(new char[] {'='});
 				string [] tcString = myStr[13].Split(new char[] {'='});
 				int count = 0;
-				myData.Add( Catalog.GetString("Count") + ":TC:TV" );
+				myData.Add( Catalog.GetString("Count") + ":TC:TF" );
 				foreach(string myTv in tvString) {
 					myData.Add((count+1).ToString() + ":" + 
 							Util.TrimDecimals(tcString[count], dec) + ":" + 

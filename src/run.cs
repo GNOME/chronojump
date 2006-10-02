@@ -174,7 +174,7 @@ public class Run : Event
 						
 						initializeTimer();
 
-						eventExecuteWin.ProgressbarEventOrTimePreExecution(
+						eventExecuteWin.ProgressBarEventOrTimePreExecution(
 								true, //isEvent
 								true, //tracksLimited: percentageMode
 								1 //just reached platform, phase 1/3
@@ -192,7 +192,7 @@ public class Run : Event
 
 						success = true;
 						
-						eventExecuteWin.ProgressbarEventOrTimePreExecution(
+						eventExecuteWin.ProgressBarEventOrTimePreExecution(
 								true, //isEvent
 								true, //percentageMode
 								//percentageToPass
@@ -207,7 +207,7 @@ public class Run : Event
 					initializeTimer();
 
 					//update event progressbar
-					eventExecuteWin.ProgressbarEventOrTimePreExecution(
+					eventExecuteWin.ProgressBarEventOrTimePreExecution(
 							true, //isEvent
 							true, //percentageMode
 							2 //normal run, phase 2/3
@@ -230,9 +230,9 @@ public class Run : Event
 		return false; //this kind of events (simple runs) cannot be finished by time
 	}
 	
-	protected override void updateTimeProgressbar() {
+	protected override void updateTimeProgressBar() {
 		//has no finished, but move progressbar time
-		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activity mode
 				-1	//don't want to show info on label
@@ -406,7 +406,7 @@ public class RunInterval : Run
 							intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 							tracks ++;	
 								
-							eventExecuteWin.ProgressbarEventOrTimePreExecution(
+							eventExecuteWin.ProgressBarEventOrTimePreExecution(
 									true, //isEvent
 									true, //unlimited: activity mode
 									tracks
@@ -431,7 +431,7 @@ public class RunInterval : Run
 									success = true;
 								}
 								
-								eventExecuteWin.ProgressbarEventOrTimePreExecution(
+								eventExecuteWin.ProgressBarEventOrTimePreExecution(
 										true, //isEvent
 										true, //tracksLimited: percentageMode
 										tracks
@@ -451,7 +451,7 @@ public class RunInterval : Run
 									tracks ++;	
 								}
 								
-								eventExecuteWin.ProgressbarEventOrTimePreExecution(
+								eventExecuteWin.ProgressBarEventOrTimePreExecution(
 										true, //isEvent
 										false, //timeLimited: activity mode
 										tracks
@@ -493,17 +493,17 @@ public class RunInterval : Run
 			return false;
 	}
 	
-	protected override void updateProgressbarForFinish() {
-		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+	protected override void updateProgressBarForFinish() {
+		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				true, //percentageMode: it has finished, show bar at 100%
 				limitAsDouble
 				);  
 	}
 
-	protected override void updateTimeProgressbar() {
+	protected override void updateTimeProgressBar() {
 		//limited by jumps or time, but has no finished
-		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
 				timerCount

@@ -2930,7 +2930,7 @@ comments</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="focus_on_map">True</property>
   <property name="urgency_hint">False</property>
-  <signal name="destroy" handler="on_delete_window_event" last_modification_time="Sun, 14 Nov 2004 23:58:19 GMT"/>
+  <signal name="delete_event" handler="on_delete_window_event" last_modification_time="Mon, 02 Oct 2006 17:16:33 GMT"/>
 
   <child>
     <widget class="GtkVBox" id="vbox22">

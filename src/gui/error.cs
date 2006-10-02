@@ -65,7 +65,7 @@ public class ErrorWindow
 		return ErrorWindowBox;
 	}
 	
-	protected void on_delete_window_event (object o, DeleteEventArgs args)
+	void on_delete_window_event (object o, DeleteEventArgs args)
 	{
 		ErrorWindowBox.error_window.Hide();
 		ErrorWindowBox = null;

@@ -84,7 +84,7 @@ public class EventExecuteWindow
 
 
 	[Widget] Gtk.DrawingArea drawingarea;
-	Gdk.Pixmap pixmap = null;
+	static Gdk.Pixmap pixmap = null;
 
 
 	int personID;	
@@ -94,6 +94,12 @@ public class EventExecuteWindow
 	
 	int pDN;
 	double limit;
+	
+	private enum phasesGraph {
+		UNSTARTED, DOING, DONE
+	}
+	private phasesGraph graphProgress;
+
 	
 	static EventExecuteWindow EventExecuteWindowBox;
 		
@@ -167,6 +173,8 @@ public class EventExecuteWindow
 			
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
+
+		graphProgress = phasesGraph.UNSTARTED; 
 	}
 
 	public void on_drawingarea_configure_event(object o, ConfigureEventArgs args)
@@ -181,12 +189,16 @@ public class EventExecuteWindow
 		Gdk.Rectangle allocation = drawingarea.Allocation;
 		
 		Console.Write("B2");
+	
+		if(pixmap == null) {
+			pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
-		pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+			Console.Write("B3");
 		
-		Console.Write("B3");
-		
-		erasePaint(drawingarea);
+			erasePaint(drawingarea);
+			
+			graphProgress = phasesGraph.DOING; 
+		}
 	}
 	
 	public void on_drawingarea_expose_event(object o, ExposeEventArgs args)
@@ -206,6 +218,8 @@ public class EventExecuteWindow
 			erasePaint(drawingarea);
 
 			Console.Write("T2");
+		
+			graphProgress = phasesGraph.DOING; 
 		}
 
 			
@@ -215,6 +229,9 @@ public class EventExecuteWindow
 
 		Console.Write("E1");
 
+		//sometimes this is called when pait is finished
+		//don't let this erase win
+		//if(graphProgress != phasesGraph.DONE) {
 		if(pixmap != null) {
 			Console.Write("E2");
 
@@ -293,23 +310,32 @@ public class EventExecuteWindow
 		label_tv_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
 		label_tv_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
 		label_tv_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
+			
+		graphProgress = phasesGraph.DONE; 
 	}
 
 
 
-
-	
-	public void EventEnded(double tv, double tc) {
-		hideButtons();
-		prepareGraph(tv, tc);
-	}
-	
 	private void hideButtons() {
 		button_cancel.Sensitive = false;
 		button_close.Sensitive = true;
 		button_finish.Sensitive = false;
 	}
 
+
+	// simple and DJ jump	
+	public void EventEnded(double tv, double tc) {
+		hideButtons();
+		prepareGraph(tv, tc);
+	}
+	
+	// Reactive jump 
+	public void EventEnded(string tvString, string tcString) {
+		hideButtons();
+		prepareGraph(tvString, tcString);
+	}
+	
+	// simple and DJ jump	
 	private void prepareGraph(double tv, double tc) {
 		Console.Write("k1");
 		
@@ -334,6 +360,12 @@ public class EventExecuteWindow
 		
 		Console.Write("k3");
 	}
+	
+	// Reactive jump 
+	private void prepareGraph(string tvString, string tcString) {
+		Console.Write("graph graph");
+	}
+
 	
 	void on_finish_clicked (object o, EventArgs args)
 	{
@@ -368,7 +400,7 @@ public class EventExecuteWindow
 		EventExecuteWindowBox = null;
 	}
 	
-	public void ProgressbarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 
+	public void ProgressBarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 
 	{
 		if (isEvent) 
 			progressbarEventOrTimeExecution (progressbar_event, percentageMode, label_event_value, events);
@@ -516,4 +548,3 @@ public class EventExecuteWindow
 	*/
 
 }
-

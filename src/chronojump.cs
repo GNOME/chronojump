@@ -1910,13 +1910,20 @@ public class ChronoJump
 		sensitiveGuiEventDoing();
 	
 		//show the event doing window
-		/*
 		eventExecuteWin = EventExecuteWindow.Show(
+		/*
 				Catalog.GetString("Execute Reactive Jump"), Catalog.GetString("Jumps"),  
 				currentPerson.Name, currentJumpType.Name, prefsDigitsNumber, myLimit, simulated);
+		*/
+			Catalog.GetString("Execute Reactive Jump"), //windowTitle
+			Catalog.GetString("Jumps"),  	  //name of the different moments
+			currentPerson.UniqueID, currentPerson.Name, 
+			currentSession.UniqueID, 
+			"JumpRj", //tableName
+			currentJumpType.Name, 
+			prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-		*/
 		
 		currentJumpRj = new JumpRj(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 

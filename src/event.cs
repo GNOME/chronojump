@@ -46,6 +46,10 @@ public class Event
 		ON,
 		OFF
 	}
+
+	//don't make the waitEvent update the progressBars, just flag this variable
+	//and make the PulseGTK do it
+	protected bool needUpdateEventProgressBar;
 	
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
@@ -54,7 +58,7 @@ public class Event
 	//a timer for controlling the time between events and update the progressbar
 	//timer has a delegate that 10/s updates the time progressBar. 
 	//It starts when the first event is detected
-	protected System.Timers.Timer timerClock = new System.Timers.Timer();    
+	//protected System.Timers.Timer timerClock = new System.Timers.Timer();    
 	protected double timerCount; // every 150 milliseconds: 
 
 	protected Random rand;
@@ -70,6 +74,7 @@ public class Event
 
 	protected Chronopic.Plataforma platformState;
 	
+	protected UpdateProgressBar updateProgressBar;
 	
 	protected States loggedState;		//log of last state
 	protected Gtk.ProgressBar progressBar;
@@ -146,8 +151,8 @@ public class Event
 	{
 			onTimer();
 
-		//if (thread.IsAlive) {
-			if(progressBar.Fraction == 1 || cancel) {
+		if ( ! thread.IsAlive || cancel) {
+			//if(progressBar.Fraction == 1 || cancel) {
 				Console.Write("dying");
 
 				//event will be raised, and managed in chronojump.cs
@@ -180,13 +185,32 @@ public class Event
 			eventSimulatedShouldChangePlatform();
 		}
 
+		if(needUpdateEventProgressBar) {
+Console.Write("wwa ");				
+			//update event progressbar
+			/*
+			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					true, //isEvent
+					true, //percentageMode
+					1 //normal jump, phase 1/2
+					);  
+			*/
+			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					updateProgressBar.IsEvent,
+					updateProgressBar.PercentageMode,
+					updateProgressBar.ValueToShow
+					);  
+
+			needUpdateEventProgressBar = false;
+Console.Write("wwb ");				
+		}
 		//check if it should finish by time
 		if(shouldFinishByTime()) {
-			updateProgressbarForFinish();
+			updateProgressBarForFinish();
 			finish = true;
 		} 
 		else 
-			updateTimeProgressbar();
+			updateTimeProgressBar();
 	}
 			
 	//check if we should simulate an arriving or leaving the platform depending on random time values
@@ -250,10 +274,10 @@ public class Event
 		return true;
 	}
 	
-	protected virtual void updateProgressbarForFinish() {
+	protected virtual void updateProgressBarForFinish() {
 	}
 	
-	protected virtual void updateTimeProgressbar() {
+	protected virtual void updateTimeProgressBar() {
 	}
 	
 	protected virtual void write() {
@@ -326,3 +350,4 @@ public class Event
 	~Event() {}
 	   
 }
+

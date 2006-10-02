@@ -1,5 +1,14 @@
 CHANGELOG:
 
+2 oct 2006
+	- IMPORTANT: on simple jump (and DJ): all the gtk interaction is done only on PulseGTK (not
+	on waitEvent), this seems to solve the thread problems
+	All the rest of events are broken now
+	
+	fixed bug on errorWindow
+
+1 oct 2006
+	changed lots of strings for better translation
 	EventExecute: changed rows tv/tc
 	
 27 sep 2006

@@ -202,7 +202,7 @@ public class Pulse : Event
 													tracks ++;	
 
 													//update event progressbar
-													eventExecuteWin.ProgressbarEventOrTimePreExecution(
+													eventExecuteWin.ProgressBarEventOrTimePreExecution(
 																	true, //isEvent
 																	false, //activityMode
 																	tracks
@@ -225,7 +225,7 @@ public class Pulse : Event
 													}
 
 													//update event progressbar
-													eventExecuteWin.ProgressbarEventOrTimePreExecution(
+													eventExecuteWin.ProgressBarEventOrTimePreExecution(
 																	true, //isEvent
 																	true, //PercentageMode
 																	tracks
@@ -263,17 +263,17 @@ public class Pulse : Event
 			return false;
 	}
 	
-	protected override void updateProgressbarForFinish() {
-		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+	protected override void updateProgressBarForFinish() {
+		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				true, //percentageMode: it has finished, show bar at 100%
 				totalPulsesNum
 				);  
 	}
 
-	protected override void updateTimeProgressbar() {
+	protected override void updateTimeProgressBar() {
 		//limited by jumps or time, but has no finished
-		eventExecuteWin.ProgressbarEventOrTimePreExecution(
+		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activiyMode
 				timerCount

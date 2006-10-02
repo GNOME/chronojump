@@ -15603,7 +15603,7 @@ Event&lt;/b&gt;</property>
 		      </child>
 
 		      <child>
-			<widget class="GtkTable" id="table37">
+			<widget class="GtkTable" id="table_simple_jump_values">
 			  <property name="visible">True</property>
 			  <property name="n_rows">3</property>
 			  <property name="n_columns">3</property>
@@ -15903,7 +15903,7 @@ Event&lt;/b&gt;</property>
 			  </child>
 
 			  <child>
-			    <widget class="GtkLabel" id="label255">
+			    <widget class="GtkLabel" id="label_tc">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">TC</property>
 			      <property name="use_underline">False</property>
@@ -15928,7 +15928,7 @@ Event&lt;/b&gt;</property>
 			  </child>
 
 			  <child>
-			    <widget class="GtkLabel" id="label256">
+			    <widget class="GtkLabel" id="label_tf">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">TF</property>
 			      <property name="use_underline">False</property>

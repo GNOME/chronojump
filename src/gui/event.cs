@@ -260,8 +260,12 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_tv_person;
 
 
+	[Widget] Gtk.Label label_tc;
+	[Widget] Gtk.Label label_tf;
+	[Widget] Gtk.Table table_simple_jump_values;
+
 	
-	private void paint (Gtk.DrawingArea drawingarea, 
+	private void paintJumpSimple (Gtk.DrawingArea drawingarea, 
 			double tvNow, double tvPerson, double tvSession, 
 			double tcNow, double tcPerson, double tcSession)
 	{
@@ -314,6 +318,103 @@ public class EventExecuteWindow
 		graphProgress = phasesGraph.DONE; 
 	}
 
+	
+	private void paintJumpReactive (Gtk.DrawingArea drawingarea, string tvString, string tcString, 
+			double avgTV, double avgTC, double maxValue, int jumps)
+	{
+	/*
+		//TEMPORARY, for only make graph of normal jump events
+		if(tvNow == -1) 
+			return;
+	*/
+
+		
+		double topMargin = 10; 
+		int ancho=drawingarea.Allocation.Width;
+		int alto=drawingarea.Allocation.Height;
+		
+		
+		Console.Write(" paint1 reactive 1");
+		
+		/*
+		//change in a near future ;)
+		double maxValue = tvNow;
+		if(tvPerson > maxValue) maxValue = tvPerson;
+		if(tvSession > maxValue) maxValue = tvSession;
+		if(tcNow > maxValue) maxValue = tcNow;
+		if(tcPerson > maxValue) maxValue = tcPerson;
+		if(tcSession > maxValue) maxValue = tcSession;
+		*/
+		/*
+		Console.WriteLine("{0}, {1}, {2}", tcNow, tcPerson, tcSession);
+		Console.WriteLine("{0}, {1}, {2}", tvNow, tvPerson, tvSession);
+		Console.WriteLine("maxValue: {0}", maxValue);
+		*/
+		
+		erasePaint(drawingarea);
+		
+		
+		string [] myTVStringFull = tvString.Split(new char[] {'='});
+		int count = 0;
+		double oldValue = 0;
+		double myTVDouble = 0;
+		foreach (string myTV in myTVStringFull) {
+			myTVDouble = Convert.ToDouble(myTV);
+			if(myTVDouble < 0)
+				myTVDouble = 0;
+			
+			if (count > 0)
+				pixmap.DrawLine(drawingarea.Style.BlackGC, 
+						Convert.ToInt32(ancho*(count-.5)/jumps) , Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
+						Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTVDouble * (alto - topMargin) / maxValue)));
+			
+			oldValue = myTVDouble;
+			count ++;
+		}
+
+		string [] myTCStringFull = tcString.Split(new char[] {'='});
+		count = 0;
+		oldValue = 0;
+		double myTCDouble = 0;
+		foreach (string myTC in myTCStringFull) {
+			myTCDouble = Convert.ToDouble(myTC);
+			if(myTCDouble < 0)
+				myTCDouble = 0;
+			
+			if (count > 0)
+				pixmap.DrawLine(drawingarea.Style.BlackGC, 
+						Convert.ToInt32(ancho*(count-.5)/jumps) , Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
+						Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTCDouble * (alto - topMargin) / maxValue)));
+			
+			oldValue = myTCDouble;
+			count ++;
+		}
+
+	
+		/*
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
+		
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
+		*/
+		
+		Console.Write(" paint reactive 2 ");
+
+		/*
+		label_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
+		label_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
+		label_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
+		label_tv_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
+		label_tv_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
+		label_tv_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
+		*/
+			
+		graphProgress = phasesGraph.DONE; 
+	}
+
 
 
 	private void hideButtons() {
@@ -351,7 +452,7 @@ public class EventExecuteWindow
 		}
 		
 		//paint graph
-		paint (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
+		paintJumpSimple (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
 		
 		Console.Write("k2");
 		
@@ -359,11 +460,36 @@ public class EventExecuteWindow
 		drawingarea.QueueDraw();
 		
 		Console.Write("k3");
+		
+		label_tc.Show();
+		label_tf.Show();
+		table_simple_jump_values.Show();
 	}
 	
 	// Reactive jump 
 	private void prepareGraph(string tvString, string tcString) {
-		Console.Write("graph graph");
+		label_tc.Hide();
+		label_tf.Hide();
+		table_simple_jump_values.Hide();
+		
+		Console.Write("l1");
+
+		//search AVGs and MAXs
+		double maxValue = Util.GetMax(tvString);
+		double maxTC = Util.GetMax(tcString);
+		if(maxTC > maxValue)
+			maxValue = maxTC;
+		int jumps = Util.GetNumberOfJumps(tvString, true); 
+
+		//paint graph
+		paintJumpReactive (drawingarea, tvString, tcString, Util.GetAverage(tvString), Util.GetAverage(tcString), maxValue, jumps);
+		
+		Console.Write("l2");
+		
+		// -- refresh
+		drawingarea.QueueDraw();
+		
+		Console.Write("l3");
 	}
 
 	

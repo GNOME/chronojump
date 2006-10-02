@@ -514,6 +514,12 @@ public class JumpRj : Jump
 		else { hasFall = false; }
 		
 		fakeButtonFinished = new Gtk.Button();
+		
+		simulated = false;
+			
+		needUpdateEventProgressBar = false;
+		
+		//updateProgressBar = new UpdateProgressBar();
 	}
 	
 	public JumpRj() {
@@ -699,9 +705,18 @@ public class JumpRj : Jump
 						{
 							write();
 							success = true;
-							
+						
+							/*
 							//update event progressbar
 							eventExecuteWin.ProgressBarEventOrTimePreExecution(
+									true, //isEvent
+									true, //percentageMode
+									tvCount
+									);  
+							*/
+							//don't do it, put a boolean value and let the PulseGTK do it
+							needUpdateEventProgressBar = true;
+							updateProgressBar= new UpdateProgressBar (
 									true, //isEvent
 									true, //percentageMode
 									tvCount
@@ -817,7 +832,7 @@ public class JumpRj : Jump
 		fakeButtonFinished.Click();
 		
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
-		progressBar.Fraction = 1;
+		//progressBar.Fraction = 1;
 		
 		
 		eventExecuteWin.EventEnded(tvString, tcString);

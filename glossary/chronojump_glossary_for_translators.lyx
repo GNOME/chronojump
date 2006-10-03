@@ -27,6 +27,10 @@
 \layout Title
 
 Glossary for Chronojump Translators
+\layout Comment
+
+remember to delete the first lines from to tittles (bug of lyx->html conversor,
+ and to put real '<' and '>' on both pngs and jpgs
 \layout Standard
 
 ChronoJump, is a "complete multiplatform system for measurement, management
@@ -44,15 +48,17 @@ The knowledge of different the kinds of jump, the specific terminology and
  and offer a small glossary of the terms that can be confusing.
  There is also an intentional need to write this document briefly, this
  guide was thought for being short and practical.
-\layout Standard
-\align center 
+\layout Comment
 
-\begin_inset Graphics
-	filename images/chronojump_esquema.png
-
+<img src=
+\begin_inset Quotes erd
 \end_inset 
 
+http://www.gnome.org/projects/chronojump/images/chronojump_esquema.png
+\begin_inset Quotes erd
+\end_inset 
 
+>
 \layout Subsection*
 
 
@@ -216,15 +222,17 @@ The other is made only with the necessary components.
 \end_inset 
 
 , currently there are no manufacturers selling this model.
-\layout Standard
-\align center 
+\layout Comment
 
-\begin_inset Graphics
-	filename images/chronopic_foto.jpg
-
+<img src=
+\begin_inset Quotes erd
 \end_inset 
 
+http://www.gnome.org/projects/chronojump/images/chronopic_foto.jpg
+\begin_inset Quotes erd
+\end_inset 
 
+>
 \end_deeper 
 \layout Description
 
@@ -868,15 +876,17 @@ Runs
 
 
 \begin_deeper 
-\layout Standard
-\align center 
+\layout Comment
 
-\begin_inset Graphics
-	filename images/plataforma_contactos_final.jpg
-
+<img src=
+\begin_inset Quotes erd
 \end_inset 
 
+http://www.gnome.org/projects/chronojump/images/plataforma_contactos_final.jpg
+\begin_inset Quotes erd
+\end_inset 
 
+>
 \end_deeper 
 \layout Description
 
@@ -1056,15 +1066,18 @@ Run, and the instructor will tell you when to stop
 
 .
 \end_deeper 
-\layout Standard
-\align center 
+\layout Comment
 
-\begin_inset Graphics
-	filename images/chronojump_esquema_two_platforms.png
-
+<img src=
+\begin_inset Quotes erd
 \end_inset 
 
+http://www.gnome.org/projects/chronojump/images/chronojump_esquema_two_platforms.pn
+g
+\begin_inset Quotes erd
+\end_inset 
 
+>
 \end_deeper 
 \layout Description
 

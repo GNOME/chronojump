@@ -344,6 +344,13 @@ public class EventExecuteWindow
 		pixmap.DrawLine(pen_rojo_discont, 
 				0, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)),
 				ancho, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)));
+	
+		/*
+		double valTest = 0.70;
+		pixmap.DrawLine(pen_negro_discont, 
+				0, Convert.ToInt32(alto - (valTest * (alto - topMargin) / maxValue)),
+				ancho, Convert.ToInt32(alto - (valTest * (alto - topMargin) / maxValue)));
+		*/
 		
 		//blue tf evolution	
 		string [] myTVStringFull = tvString.Split(new char[] {'='});
@@ -546,20 +553,20 @@ public class EventExecuteWindow
 	Gdk.GC pen_azul;
 	Gdk.GC pen_rojo_discont;
 	Gdk.GC pen_azul_discont;
-	//Gdk.GC pen_negro;
+	Gdk.GC pen_negro_discont;
 	//Gdk.GC pen_blanco;
 	
 	void configurar_colores()
 	{
 		Gdk.Color rojo = new Gdk.Color(0xff,0,0);
 		Gdk.Color azul  = new Gdk.Color(0,0,0xff);
-		//Gdk.Color negro = new Gdk.Color(0,0,0);
+		Gdk.Color negro = new Gdk.Color(0,0,0);
 		//Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref rojo, true, true);
 		colormap.AllocColor (ref azul,true,true);
-		//colormap.AllocColor (ref negro,true,true);
+		colormap.AllocColor (ref negro,true,true);
 		//colormap.AllocColor (ref blanco,true,true);
 
 		//-- Configurar los contextos graficos (pinceles)
@@ -569,6 +576,7 @@ public class EventExecuteWindow
 		pen_azul_discont = new Gdk.GC(drawingarea.GdkWindow);
 		//pen_negro = new Gdk.GC(drawingarea.GdkWindow);
 		//pen_blanco= new Gdk.GC(drawingarea.GdkWindow);
+		pen_negro_discont = new Gdk.GC(drawingarea.GdkWindow);
 
 		pen_rojo.Foreground = rojo;
 		pen_azul.Foreground = azul;
@@ -577,5 +585,8 @@ public class EventExecuteWindow
 		pen_azul_discont.Foreground = azul;
 		pen_rojo_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_azul_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		
+		pen_negro_discont.Foreground = negro;
+		pen_negro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 	}
 }

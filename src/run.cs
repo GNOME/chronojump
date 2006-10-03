@@ -257,7 +257,8 @@ public class Run : Event
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
 		
-		eventExecuteWin.EventEnded(-1, -1);
+		//eventExecuteWin.EventEnded(-1, -1);
+		eventExecuteWin.EventEnded();
 	}
 	
 
@@ -560,7 +561,8 @@ public class RunInterval : Run
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
 		
-		eventExecuteWin.EventEnded(-1, -1);
+		//eventExecuteWin.EventEnded(-1, -1);
+		eventExecuteWin.EventEnded();
 		
 	}
 

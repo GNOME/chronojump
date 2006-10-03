@@ -302,7 +302,8 @@ public class Pulse : Event
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		progressBar.Fraction = 1;
 		
-		eventExecuteWin.EventEnded(-1, -1);
+		//eventExecuteWin.EventEnded(-1, -1);
+		eventExecuteWin.EventEnded();
 	}
 
 	

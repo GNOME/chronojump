@@ -125,7 +125,8 @@ public class EventExecuteWindow
 		drawingarea.ExposeEvent += new ExposeEventHandler (on_drawingarea_expose_event);
 		drawingarea.ConfigureEvent += new ConfigureEventHandler (on_drawingarea_configure_event);
 		*/
-		
+	
+		configurar_colores();
 	}
 
 	static public EventExecuteWindow Show (string windowTitle, string phasesName, int personID, string personName, int sessionID, 
@@ -170,7 +171,7 @@ public class EventExecuteWindow
 			button_finish.Sensitive = true;
 		else
 			button_finish.Sensitive = false;
-			
+		
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
 
@@ -296,14 +297,16 @@ public class EventExecuteWindow
 		
 		erasePaint(drawingarea);
 		
+	
+		//red for TC
+		pixmap.DrawLine(pen_rojo, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(pen_rojo, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(pen_rojo, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
 		
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
-		
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
+		//blue for TF
+		pixmap.DrawLine(pen_azul, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(pen_azul, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
+		pixmap.DrawLine(pen_azul, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
 		
 		
 		Console.Write(" paint2 ");
@@ -322,13 +325,6 @@ public class EventExecuteWindow
 	private void paintJumpReactive (Gtk.DrawingArea drawingarea, string tvString, string tcString, 
 			double avgTV, double avgTC, double maxValue, int jumps)
 	{
-	/*
-		//TEMPORARY, for only make graph of normal jump events
-		if(tvNow == -1) 
-			return;
-	*/
-
-		
 		double topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
@@ -336,24 +332,20 @@ public class EventExecuteWindow
 		
 		Console.Write(" paint1 reactive 1");
 		
-		/*
-		//change in a near future ;)
-		double maxValue = tvNow;
-		if(tvPerson > maxValue) maxValue = tvPerson;
-		if(tvSession > maxValue) maxValue = tvSession;
-		if(tcNow > maxValue) maxValue = tcNow;
-		if(tcPerson > maxValue) maxValue = tcPerson;
-		if(tcSession > maxValue) maxValue = tcSession;
-		*/
-		/*
-		Console.WriteLine("{0}, {1}, {2}", tcNow, tcPerson, tcSession);
-		Console.WriteLine("{0}, {1}, {2}", tvNow, tvPerson, tvSession);
-		Console.WriteLine("maxValue: {0}", maxValue);
-		*/
-		
 		erasePaint(drawingarea);
 		
+		//blue tf average discountinuos line	
+		pixmap.DrawLine(pen_azul_discont, 
+				0, Convert.ToInt32(alto - (avgTV * (alto - topMargin) / maxValue)),
+				ancho, Convert.ToInt32(alto - (avgTV * (alto - topMargin) / maxValue)));
+	
 		
+		//red tc average discountinuos line	
+		pixmap.DrawLine(pen_rojo_discont, 
+				0, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)),
+				ancho, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)));
+		
+		//blue tf evolution	
 		string [] myTVStringFull = tvString.Split(new char[] {'='});
 		int count = 0;
 		double oldValue = 0;
@@ -364,54 +356,35 @@ public class EventExecuteWindow
 				myTVDouble = 0;
 			
 			if (count > 0)
-				pixmap.DrawLine(drawingarea.Style.BlackGC, 
-						Convert.ToInt32(ancho*(count-.5)/jumps) , Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
+				pixmap.DrawLine(pen_azul, //blue for TF
+						Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
 						Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTVDouble * (alto - topMargin) / maxValue)));
 			
 			oldValue = myTVDouble;
 			count ++;
 		}
 
+		//read tc evolution	
 		string [] myTCStringFull = tcString.Split(new char[] {'='});
 		count = 0;
 		oldValue = 0;
 		double myTCDouble = 0;
 		foreach (string myTC in myTCStringFull) {
 			myTCDouble = Convert.ToDouble(myTC);
-			if(myTCDouble < 0)
-				myTCDouble = 0;
 			
-			if (count > 0)
-				pixmap.DrawLine(drawingarea.Style.BlackGC, 
-						Convert.ToInt32(ancho*(count-.5)/jumps) , Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
+			//if we are at second value (or more), and first was not a "-1"
+			//-1 means here that first jump has not TC (started inside)
+			if (count > 0 && oldValue != -1)
+				pixmap.DrawLine(pen_rojo, //red for TC
+						Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
 						Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTCDouble * (alto - topMargin) / maxValue)));
 			
 			oldValue = myTCDouble;
 			count ++;
 		}
-
-	
-		/*
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
-		
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(drawingarea.Style.BlackGC, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
-		*/
 		
 		Console.Write(" paint reactive 2 ");
 
-		/*
-		label_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
-		label_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
-		label_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
-		label_tv_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
-		label_tv_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
-		label_tv_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
-		*/
-			
 		graphProgress = phasesGraph.DONE; 
 	}
 
@@ -424,20 +397,13 @@ public class EventExecuteWindow
 	}
 
 
-	// simple and DJ jump	
-	public void EventEnded(double tv, double tc) {
+	public void EventEnded() {
 		hideButtons();
-		prepareGraph(tv, tc);
 	}
 	
-	// Reactive jump 
-	public void EventEnded(string tvString, string tcString) {
-		hideButtons();
-		prepareGraph(tvString, tcString);
-	}
 	
 	// simple and DJ jump	
-	private void prepareGraph(double tv, double tc) {
+	public void PrepareGraph(double tv, double tc) {
 		Console.Write("k1");
 		
 		//obtain data
@@ -467,7 +433,7 @@ public class EventExecuteWindow
 	}
 	
 	// Reactive jump 
-	private void prepareGraph(string tvString, string tcString) {
+	public void PrepareGraph(string tvString, string tcString) {
 		label_tc.Hide();
 		label_tf.Hide();
 		table_simple_jump_values.Hide();
@@ -574,103 +540,42 @@ public class EventExecuteWindow
 	}
 
 	
-/* some tests and code	
-
 	//projecte cubevirtual de juan gonzalez
 	
 	Gdk.GC pen_rojo;
 	Gdk.GC pen_azul;
-	Gdk.GC pen_negro;
-	Gdk.GC pen_blanco;
+	Gdk.GC pen_rojo_discont;
+	Gdk.GC pen_azul_discont;
+	//Gdk.GC pen_negro;
+	//Gdk.GC pen_blanco;
 	
-	protected void paintSomething()
-	{
-	}
-
 	void configurar_colores()
 	{
-		//-- Configurar los colores
 		Gdk.Color rojo = new Gdk.Color(0xff,0,0);
 		Gdk.Color azul  = new Gdk.Color(0,0,0xff);
-		Gdk.Color negro = new Gdk.Color(0,0,0);
-		Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
+		//Gdk.Color negro = new Gdk.Color(0,0,0);
+		//Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref rojo, true, true);
 		colormap.AllocColor (ref azul,true,true);
-		colormap.AllocColor (ref negro,true,true);
-		colormap.AllocColor (ref blanco,true,true);
+		//colormap.AllocColor (ref negro,true,true);
+		//colormap.AllocColor (ref blanco,true,true);
 
 		//-- Configurar los contextos graficos (pinceles)
 		pen_rojo = new Gdk.GC(drawingarea.GdkWindow);
 		pen_azul = new Gdk.GC(drawingarea.GdkWindow);
-		pen_negro = new Gdk.GC(drawingarea.GdkWindow);
-		pen_blanco= new Gdk.GC(drawingarea.GdkWindow);
+		pen_rojo_discont = new Gdk.GC(drawingarea.GdkWindow);
+		pen_azul_discont = new Gdk.GC(drawingarea.GdkWindow);
+		//pen_negro = new Gdk.GC(drawingarea.GdkWindow);
+		//pen_blanco= new Gdk.GC(drawingarea.GdkWindow);
 
 		pen_rojo.Foreground = rojo;
 		pen_azul.Foreground = azul;
-	}
-*/
-
-	
-	//old code
-	 
-	/*
-	public double ProgressbarPreSet(Gtk.Progressbar progressbar, double myValue) 
-	{
-	}
 		
-	public double ProgressbarSet(Gtk.Progressbar progressbar, double myValue) 
-	{
-		progressbar.Text = Util.TrimDecimals(myValue.ToString(), pDN);
-		if(myValue > 1.0) myValue = 1.0;
-		else if(myValue < 0) myValue = 0;
-		progressbar.Fraction = myValue;
+		pen_rojo_discont.Foreground = rojo;
+		pen_azul_discont.Foreground = azul;
+		pen_rojo_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_azul_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 	}
-	*/
-
-	/*
-	public double ProgressbarTvTcCurrent
-	{
-		set { 
-			if(value > 1) {
-				progressbar_tv_tc_current_1up.Text = Util.TrimDecimals(value.ToString(), pDN);
-				if(value > 4.0) value = 4.0;
-				else if(value <= 0) value = 0.01; //fix the div by 0 bug
-				progressbar_tv_tc_current_1up.Fraction = value/4;
-				progressbar_tv_tc_current_0.Fraction = 1;
-				progressbar_tv_tc_current_0.Text = "";
-			} else {
-				progressbar_tv_tc_current_1up.Fraction = 0;
-				progressbar_tv_tc_current_1up.Text = "";
-				progressbar_tv_tc_current_0.Text = Util.TrimDecimals(value.ToString(), pDN);
-				if(value > 1.0) value = 1.0;
-				else if(value < 0) value = 0;
-				progressbar_tv_tc_current_0.Fraction = value;
-			}
-		}
-	}
-
-	public double ProgressbarTvTcAvg
-	{
-		set { 
-			if(value > 0) {
-				progressbar_tv_tc_avg_1up.Text = Util.TrimDecimals(value.ToString(), pDN);
-				if(value > 4.0) value = 4.0;
-				else if(value <= 0) value = 0.01; //fix the div by 0 bug
-				progressbar_tv_tc_avg_1up.Fraction = value/4;
-				progressbar_tv_tc_avg_0.Fraction = 1;
-				progressbar_tv_tc_avg_0.Text = "";
-			} else {
-				progressbar_tv_tc_avg_1up.Fraction = 0;
-				progressbar_tv_tc_avg_1up.Text = "";
-				progressbar_tv_tc_avg_0.Text = Util.TrimDecimals(value.ToString(), pDN);
-				if(value > 1.0) value = 1.0;
-				else if(value < 0) value = 0;
-				progressbar_tv_tc_avg_0.Fraction = value;
-			}
-		}
-	}
-	*/
-
 }

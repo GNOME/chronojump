@@ -104,9 +104,9 @@ public class Jump : Event
 		simulatedTimeAccumulatedBefore = 0;
 		simulatedTimeLast = 0;
 		simulatedContactTimeMin = 0.2; //seconds
-		simulatedContactTimeMax = 0.3; //seconds
-		simulatedFlightTimeMin = 0.3; //seconds
-		simulatedFlightTimeMax = 0.6; //seconds
+		simulatedContactTimeMax = 0.37; //seconds
+		simulatedFlightTimeMin = 0.4; //seconds
+		simulatedFlightTimeMax = 0.7; //seconds
 
 		if(hasFall) {
 			//values of simulation will be the contactTime
@@ -242,21 +242,14 @@ Console.Write("w2 ");
 						initializeTimer();
 
 Console.Write("w3 ");				
-						//this.progressBar.Fraction = 0.33;
-						/*
-						eventExecuteWin.ProgressBarEventOrTimePreExecution(
-								true, //isEvent
-								true, //jumpsLimited: percentageMode
-								1 //it's a drop: phase 1/3
-								);  
-						*/
+						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
-						needUpdateEventProgressBar = true;
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //jumpsLimited: percentageMode
 								1 //it's a drop: phase 1/3
 								);
+						needUpdateEventProgressBar = true;
 Console.Write("w4 ");				
 					} else {
 						//jump with fall: second landed; or without fall first landing
@@ -277,20 +270,14 @@ Console.Write("w4 ");
 							percentageToPass = 3; //drop jump has three phases
 							
 Console.Write("w5 ");			
-						/*
-						eventExecuteWin.ProgressBarEventOrTimePreExecution(
-								true, //isEvent
-								true, //percentageMode
-								percentageToPass
-								);  
-						*/
+						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
-						needUpdateEventProgressBar = true;
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //percentageMode
 								percentageToPass
 								);
+						needUpdateEventProgressBar = true;
 Console.Write("w6 ");				
 					}
 					
@@ -313,41 +300,30 @@ Console.Write("w6 ");
 						
 						//update event progressbar
 Console.Write("w7 ");			
-						/*
-						eventExecuteWin.ProgressBarEventOrTimePreExecution(
-								true, //isEvent
-								true, //percentageMode
-								2 //it's a drop jump: phase 2/3
-								);  
-								*/
+						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
-						needUpdateEventProgressBar = true;
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //percentageMode
 								2 //it's a drop jump: phase 2/3
 								);
+						needUpdateEventProgressBar = true;
 Console.Write("w8 ");				
 					} else {
 Console.Write("w9 ");				
 						initializeTimer();
 						
 Console.Write("wa ");				
-/*
+						
 						//update event progressbar
-						eventExecuteWin.ProgressBarEventOrTimePreExecution(
-								true, //isEvent
-								true, //percentageMode
-								1 //normal jump, phase 1/2
-								);  
-*/
+						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
-						needUpdateEventProgressBar = true;
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //percentageMode
 								1 //normal jump, phase 1/2
 								);
+						needUpdateEventProgressBar = true;
 Console.Write("wb ");				
 					}
 
@@ -409,7 +385,8 @@ Console.Write("wb ");
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		//progressBar.Fraction = 1;
 		
-		eventExecuteWin.EventEnded(tv, tc);
+		eventExecuteWin.PrepareGraph(tv, tc);
+		eventExecuteWin.EventEnded();
 	}
 	
 	public bool TypeHasWeight
@@ -604,11 +581,12 @@ public class JumpRj : Jump
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that the opposite as before:
-			if (simulated)
+			if (simulated) {
 				if(hasFall)
 					platformState = Chronopic.Plataforma.ON;
 				else 
 					platformState = Chronopic.Plataforma.OFF;
+			}
 			
 			//start thread
 			thread = new Thread(new ThreadStart(waitEvent));
@@ -659,41 +637,30 @@ public class JumpRj : Jump
 						{
 							lastTc = timestamp/1000;
 							
-//							jumpRjExecuteWin.ProgressBarTcCurrent = lastTc; 
-							
 							if(tcCount > 0) { equal = "="; }
 							tcString = tcString + equal + lastTc.ToString();
-							
-//							jumpRjExecuteWin.ProgressBarTcAvg = Util.GetAverage(tcString); 
 							
 							tcCount = tcCount + 1;
 						} else {
 							//tcCount > tvCount 
 							lastTv = timestamp/1000;
 							
-//							jumpRjExecuteWin.ProgressBarTvCurrent = lastTv; 
-							//show the tv/tc except if it's the first jump starting inside
-//							if(tc != -1)
-//								jumpRjExecuteWin.ProgressBarTvTcCurrent = lastTv / lastTc; 
-							
 							if(tvCount > 0) { equal = "="; }
 							tvString = tvString + equal + lastTv.ToString();
 							
-//							jumpRjExecuteWin.ProgressBarTvAvg = Util.GetAverage(tvString); 
-							//show the tv/tc except if it's the first jump starting inside
-//							if(tc != -1)
-//								jumpRjExecuteWin.ProgressBarTvTcAvg = 
-//									Util.GetAverage(tvString) / Util.GetAverage(tcString); 
-				
 							tvCount = tvCount + 1;
 							
 							//update event progressbar
-							//jumpRjExecuteWin.ProgressBarEventOrTimePreExecution(
-							eventExecuteWin.ProgressBarEventOrTimePreExecution(
+							//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+							updateProgressBar= new UpdateProgressBar (
 									true, //isEvent
 									jumpsLimited, //if jumpsLimited: do fraction; if time limited: do pulse
 									tvCount
 									);  
+							needUpdateEventProgressBar = true;
+							
+							//update graph
+							eventExecuteWin.PrepareGraph(tvString, tcString);
 						}
 					}
 				}
@@ -706,21 +673,17 @@ public class JumpRj : Jump
 							write();
 							success = true;
 						
-							/*
 							//update event progressbar
-							eventExecuteWin.ProgressBarEventOrTimePreExecution(
-									true, //isEvent
-									true, //percentageMode
-									tvCount
-									);  
-							*/
-							//don't do it, put a boolean value and let the PulseGTK do it
-							needUpdateEventProgressBar = true;
+							//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 							updateProgressBar= new UpdateProgressBar (
 									true, //isEvent
 									true, //percentageMode
 									tvCount
 									);  
+							needUpdateEventProgressBar = true;
+							
+							//update graph
+							eventExecuteWin.PrepareGraph(tvString, tcString);
 						}
 					}
 				} else {
@@ -834,8 +797,7 @@ public class JumpRj : Jump
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		//progressBar.Fraction = 1;
 		
-		
-		eventExecuteWin.EventEnded(tvString, tcString);
+		eventExecuteWin.EventEnded();
 	}
 
 

@@ -1,5 +1,13 @@
 CHANGELOG:
 
+3 oct 2006
+	eventWindowGraphs: 
+	- rj gets dinamically updated, with avgs, colors and different linetypes
+	- works for all kind of jumps (simples, dj, reactives (limited by
+	jump, time or unlimited)
+	- colors in simple and dj jumps
+	- fixed bug on "finish" not sensitive before
+
 2 oct 2006
 	first test of reactive jumps with gtk interaction on pulseGTK, and
 	graph on evetnWindow

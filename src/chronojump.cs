@@ -1764,7 +1764,7 @@ public class ChronoJump
 			Catalog.GetString("Phases"),  	  //name of the different moments
 			currentPerson.UniqueID, currentPerson.Name, 
 			currentSession.UniqueID, 
-			"Jump", //tableName
+			"jump", //tableName
 			currentJumpType.Name, 
 			prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
@@ -1919,7 +1919,7 @@ public class ChronoJump
 			Catalog.GetString("Jumps"),  	  //name of the different moments
 			currentPerson.UniqueID, currentPerson.Name, 
 			currentSession.UniqueID, 
-			"JumpRj", //tableName
+			"jumpRj", //tableName
 			currentJumpType.Name, 
 			prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);

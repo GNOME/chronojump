@@ -1,5 +1,14 @@
 CHANGELOG:
 
+5 oct 2006
+	eventWindow gets cleaned before every new event
+	eventWindow: fixed bug on starting timer on Reactives before the jumper does
+	anything. (Ion timer progressBar shows a pulse with no values first,
+	and a progress with time later)
+	
+3 oct 2006
+	Added chronojump glossary for translators
+
 3 oct 2006
 	eventWindowGraphs: 
 	- rj gets dinamically updated, with avgs, colors and different linetypes

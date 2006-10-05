@@ -660,7 +660,7 @@ public class JumpRj : Jump
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							eventExecuteWin.PrepareGraph(tvString, tcString);
+							eventExecuteWin.PrepareGraph(lastTv, lastTc, tvString, tcString);
 						}
 					}
 				}
@@ -683,7 +683,7 @@ public class JumpRj : Jump
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							eventExecuteWin.PrepareGraph(tvString, tcString);
+							eventExecuteWin.PrepareGraph(lastTv, lastTc, tvString, tcString);
 						}
 					}
 				} else {
@@ -733,12 +733,22 @@ public class JumpRj : Jump
 	}
 
 	protected override void updateTimeProgressBar() {
-		//limited by jumps or time, but has no finished
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
-				false, //isEvent false: time
-				!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
-				timerCount
-				); 
+		//limited by jumps or time or unlimited, but has no finished
+
+		if(firstRjValue)  
+			//until it has not landed for first time, show a pulse with no values
+			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					false, //isEvent false: time
+					false, //activity mode
+					-1	//don't want to show info on label
+					); 
+		else
+			//after show a progressBar with time value
+			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					false, //isEvent false: time
+					!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
+					timerCount
+					); 
 	}
 
 				

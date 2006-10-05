@@ -22,8 +22,6 @@
 using System;
 using Gtk;
 using Glade;
-//using Gnome;
-//using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
@@ -47,18 +45,6 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_phases_name;
 	[Widget] Gtk.Label label_simulated;
 	
-	/*
-	[Widget] Gtk.ProgressBar progressbar_tv_current;
-	[Widget] Gtk.ProgressBar progressbar_tc_current;
-	[Widget] Gtk.ProgressBar progressbar_tv_tc_current_1up;
-	[Widget] Gtk.ProgressBar progressbar_tv_tc_current_0;
-	[Widget] Gtk.ProgressBar progressbar_tv_avg;
-	[Widget] Gtk.ProgressBar progressbar_tc_avg;
-	[Widget] Gtk.ProgressBar progressbar_tv_tc_avg_1up;
-	[Widget] Gtk.ProgressBar progressbar_tv_tc_avg_0;
-
-	*/
-	
 	[Widget] Gtk.ProgressBar progressbar_event;
 	[Widget] Gtk.ProgressBar progressbar_time;
 	
@@ -68,20 +54,28 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_event_value;
 	[Widget] Gtk.Label label_time_value;
 	
-	/*
-	[Widget] Gtk.CheckButton checkbutton_show_tv_tc;
-	[Widget] Gtk.Box hbox_tv_tc;
-	[Widget] Gtk.Box vbox_tv_tc;
-	[Widget] Gtk.Label label_tv_tc;
-	*/
-	
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_finish;
 	[Widget] Gtk.Button button_close;
+
 	
+	[Widget] Gtk.VBox vbox_simple_jump;
+	[Widget] Gtk.VBox vbox_reactive_jump;
+	[Widget] Gtk.Table table_simple_jump_values;
+	[Widget] Gtk.Table table_reactive_jump_values;
 
-	[Widget] Gtk.HBox hbox_drawingarea;
 
+	[Widget] Gtk.Label label_jump_simple_tc_now;
+	[Widget] Gtk.Label label_jump_simple_tc_person;
+	[Widget] Gtk.Label label_jump_simple_tc_session;
+	[Widget] Gtk.Label label_jump_simple_tf_now;
+	[Widget] Gtk.Label label_jump_simple_tf_person;
+	[Widget] Gtk.Label label_jump_simple_tf_session;
+
+	[Widget] Gtk.Label label_jump_reactive_tc_now;
+	[Widget] Gtk.Label label_jump_reactive_tc_avg;
+	[Widget] Gtk.Label label_jump_reactive_tf_now;
+	[Widget] Gtk.Label label_jump_reactive_tf_avg;
 
 	[Widget] Gtk.DrawingArea drawingarea;
 	static Gdk.Pixmap pixmap = null;
@@ -113,20 +107,7 @@ public class EventExecuteWindow
 
 		gladeXML.Autoconnect(this);
 		
-		/* afegit a saco pq sembla que el galde falla en alguns monos (juanfer)
-		 */
-
-		/*
-		drawingarea = new Gtk.DrawingArea ();
-		drawingarea.SetSizeRequest (200, 200);
-		hbox_drawingarea.PackStart(drawingarea, false, false, 0);
-		hbox_drawingarea.ShowAll();
-
-		drawingarea.ExposeEvent += new ExposeEventHandler (on_drawingarea_expose_event);
-		drawingarea.ConfigureEvent += new ConfigureEventHandler (on_drawingarea_configure_event);
-		*/
-	
-		configurar_colores();
+		configureColors();
 	}
 
 	static public EventExecuteWindow Show (string windowTitle, string phasesName, int personID, string personName, int sessionID, 
@@ -171,11 +152,77 @@ public class EventExecuteWindow
 			button_finish.Sensitive = true;
 		else
 			button_finish.Sensitive = false;
+
+		if(tableName == "jump")
+			showJumpSimpleLabels();
+		else if (tableName == "jumpRj")
+			showJumpReactiveLabels();
+			
 		
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
 
+		clearDrawingArea();
+		clearProgressBars();
+
 		graphProgress = phasesGraph.UNSTARTED; 
+	}
+
+	
+	private void showJumpSimpleLabels() {
+		//hide reactive info
+		vbox_reactive_jump.Hide();
+		table_reactive_jump_values.Hide();
+		
+		//show simple jump info
+		vbox_simple_jump.Show();
+		table_simple_jump_values.Show();
+
+		//initializeLabels
+		label_jump_simple_tc_now.Text = "";
+		label_jump_simple_tc_person.Text = "";
+		label_jump_simple_tc_session.Text = "";
+		label_jump_simple_tf_now.Text = "";
+		label_jump_simple_tf_person.Text = "";
+		label_jump_simple_tf_session.Text = "";
+	}
+	
+	
+	private void showJumpReactiveLabels() {
+		//hide simple jump info
+		vbox_simple_jump.Hide();
+		table_simple_jump_values.Hide();
+		
+		//show reactive info
+		vbox_reactive_jump.Show();
+		table_reactive_jump_values.Show();
+
+		//initializeLabels
+		label_jump_reactive_tc_now.Text = "";
+		label_jump_reactive_tc_avg.Text = "";
+		label_jump_reactive_tf_now.Text = "";
+		label_jump_reactive_tf_avg.Text = "";
+	}
+	
+	//called for cleaning the graph of a event done before than the current
+	private void clearDrawingArea() 
+	{
+		if(pixmap == null) 
+			pixmap = new Gdk.Pixmap (drawingarea.GdkWindow, drawingarea.Allocation.Width, drawingarea.Allocation.Height, -1);
+		
+		erasePaint(drawingarea);
+	}
+	
+	private void clearProgressBars() 
+	{
+		progressbar_event.Fraction = 0;
+		progressbar_event.Text = "";
+		progressbar_time.Fraction = 0;
+		progressbar_time.Text = "";
+	
+		//clear also the close labels
+		label_event_value.Text = "";
+		label_time_value.Text = "";
 	}
 
 	public void on_drawingarea_configure_event(object o, ConfigureEventArgs args)
@@ -246,24 +293,62 @@ public class EventExecuteWindow
 	}
 
 
-		private void erasePaint(Gtk.DrawingArea drawingarea) {
-			pixmap.DrawRectangle (drawingarea.Style.WhiteGC, true, 0, 0,
-					drawingarea.Allocation.Width, drawingarea.Allocation.Height);
-		}
+	private void erasePaint(Gtk.DrawingArea drawingarea) {
+		pixmap.DrawRectangle (drawingarea.Style.WhiteGC, true, 0, 0,
+				drawingarea.Allocation.Width, drawingarea.Allocation.Height);
+	}
 	
 
+	// simple and DJ jump	
+	public void PrepareGraph(double tv, double tc) {
+		
+		Console.Write("k1");
+		
+		//obtain data
+		double tvPersonAVG = SqliteJump.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TV");
+		double tvSessionAVG = SqliteJump.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TV");
 
-	[Widget] Gtk.Label label_tc_person;
-	[Widget] Gtk.Label label_tv_session;
-	[Widget] Gtk.Label label_tc_session;
-	[Widget] Gtk.Label label_tv_now;
-	[Widget] Gtk.Label label_tc_now;
-	[Widget] Gtk.Label label_tv_person;
+		double tcPersonAVG = 0; 
+		double tcSessionAVG = 0; 
+		if(tc > 0) {
+			tcPersonAVG = SqliteJump.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TC");
+			tcSessionAVG = SqliteJump.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TC");
+		}
+		
+		//paint graph
+		paintJumpSimple (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
+		
+		Console.Write("k2");
+		
+		// -- refresh
+		drawingarea.QueueDraw();
+		
+		Console.Write("k3");
+		
+	}
+	
+	// Reactive jump 
+	public void PrepareGraph(double lastTv, double lastTc, string tvString, string tcString) {
+		Console.Write("l1");
 
+		//search AVGs and MAXs
+		double maxValue = Util.GetMax(tvString);
+		double maxTC = Util.GetMax(tcString);
+		if(maxTC > maxValue)
+			maxValue = maxTC;
+		int jumps = Util.GetNumberOfJumps(tvString, true); 
 
-	[Widget] Gtk.Label label_tc;
-	[Widget] Gtk.Label label_tf;
-	[Widget] Gtk.Table table_simple_jump_values;
+		//paint graph
+		paintJumpReactive (drawingarea, lastTv, lastTc, tvString, tcString, Util.GetAverage(tvString), Util.GetAverage(tcString), maxValue, jumps);
+		
+		Console.Write("l2");
+		
+		// -- refresh
+		drawingarea.QueueDraw();
+		
+		Console.Write("l3");
+	}
+
 
 	
 	private void paintJumpSimple (Gtk.DrawingArea drawingarea, 
@@ -311,18 +396,18 @@ public class EventExecuteWindow
 		
 		Console.Write(" paint2 ");
 
-		label_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
-		label_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
-		label_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
-		label_tv_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
-		label_tv_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
-		label_tv_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
+		label_jump_simple_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
+		label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
+		label_jump_simple_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
+		label_jump_simple_tf_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
+		label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
+		label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
 			
 		graphProgress = phasesGraph.DONE; 
 	}
 
 	
-	private void paintJumpReactive (Gtk.DrawingArea drawingarea, string tvString, string tcString, 
+	private void paintJumpReactive (Gtk.DrawingArea drawingarea, double lastTv, double lastTc, string tvString, string tcString, 
 			double avgTV, double avgTC, double maxValue, int jumps)
 	{
 		double topMargin = 10; 
@@ -357,6 +442,7 @@ public class EventExecuteWindow
 		int count = 0;
 		double oldValue = 0;
 		double myTVDouble = 0;
+
 		foreach (string myTV in myTVStringFull) {
 			myTVDouble = Convert.ToDouble(myTV);
 			if(myTVDouble < 0)
@@ -376,6 +462,7 @@ public class EventExecuteWindow
 		count = 0;
 		oldValue = 0;
 		double myTCDouble = 0;
+		
 		foreach (string myTC in myTCStringFull) {
 			myTCDouble = Convert.ToDouble(myTC);
 			
@@ -392,6 +479,11 @@ public class EventExecuteWindow
 		
 		Console.Write(" paint reactive 2 ");
 
+		label_jump_reactive_tc_now.Text = Util.TrimDecimals(lastTc.ToString(), pDN);
+		label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), pDN);
+		label_jump_reactive_tf_now.Text = Util.TrimDecimals(lastTv.ToString(), pDN);
+		label_jump_reactive_tf_avg.Text = Util.TrimDecimals(avgTV.ToString(), pDN);
+		
 		graphProgress = phasesGraph.DONE; 
 	}
 
@@ -409,62 +501,6 @@ public class EventExecuteWindow
 	}
 	
 	
-	// simple and DJ jump	
-	public void PrepareGraph(double tv, double tc) {
-		Console.Write("k1");
-		
-		//obtain data
-		double tvPersonAVG = SqliteJump.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TV");
-		double tvSessionAVG = SqliteJump.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TV");
-
-		double tcPersonAVG = 0; 
-		double tcSessionAVG = 0; 
-		if(tc > 0) {
-			tcPersonAVG = SqliteJump.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TC");
-			tcSessionAVG = SqliteJump.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TC");
-		}
-		
-		//paint graph
-		paintJumpSimple (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
-		
-		Console.Write("k2");
-		
-		// -- refresh
-		drawingarea.QueueDraw();
-		
-		Console.Write("k3");
-		
-		label_tc.Show();
-		label_tf.Show();
-		table_simple_jump_values.Show();
-	}
-	
-	// Reactive jump 
-	public void PrepareGraph(string tvString, string tcString) {
-		label_tc.Hide();
-		label_tf.Hide();
-		table_simple_jump_values.Hide();
-		
-		Console.Write("l1");
-
-		//search AVGs and MAXs
-		double maxValue = Util.GetMax(tvString);
-		double maxTC = Util.GetMax(tcString);
-		if(maxTC > maxValue)
-			maxValue = maxTC;
-		int jumps = Util.GetNumberOfJumps(tvString, true); 
-
-		//paint graph
-		paintJumpReactive (drawingarea, tvString, tcString, Util.GetAverage(tvString), Util.GetAverage(tcString), maxValue, jumps);
-		
-		Console.Write("l2");
-		
-		// -- refresh
-		drawingarea.QueueDraw();
-		
-		Console.Write("l3");
-	}
-
 	
 	void on_finish_clicked (object o, EventArgs args)
 	{
@@ -556,7 +592,8 @@ public class EventExecuteWindow
 	Gdk.GC pen_negro_discont;
 	//Gdk.GC pen_blanco;
 	
-	void configurar_colores()
+
+	void configureColors()
 	{
 		Gdk.Color rojo = new Gdk.Color(0xff,0,0);
 		Gdk.Color azul  = new Gdk.Color(0,0,0xff);

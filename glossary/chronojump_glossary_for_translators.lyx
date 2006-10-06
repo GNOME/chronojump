@@ -187,7 +187,7 @@ Chronopic
 
 \end_inset 
 
-Chronopic Free Hardware used for recording and managing the changes detected
+Chronopic Open Hardware used for recording and managing the changes detected
  on the 
 \shape slanted 
 \bar under 
@@ -205,7 +205,7 @@ Platform
 \begin_deeper 
 \layout Itemize
 
-One is derived from Skypic: free hardware for controlling little robots,
+One is derived from Skypic: open hardware for controlling little robots,
  vastly used but with lots of unnecessary components.
  This link points out how to build it and how to buy it 
 \begin_inset LatexCommand \url{http://www.gnome.org/projects/chronojump/construction.html}

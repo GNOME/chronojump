@@ -255,7 +255,7 @@ public class ChronoJump
 	StatsWindow statsWin;
 	ReportWindow reportWin;
 	
-	EventExecuteWindow eventExecuteWin;
+	static EventExecuteWindow eventExecuteWin;
 
 	//platform state variables
 	enum States {
@@ -1767,12 +1767,12 @@ public class ChronoJump
 			"jump", //tableName
 			currentJumpType.Name, 
 			prefsDigitsNumber, myLimit, simulated);
+
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
-		//see on_update_clicked() below for possible problems with this
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 		currentJump = new Jump(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
@@ -1789,14 +1789,35 @@ public class ChronoJump
 
 		currentJump.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
 	}	
+
+	/*
+	 * update button is clicked on eventWindow, chronojump.cs delegate points here
+	 */
 	
 	private void on_update_clicked (object o, EventArgs args) {
-		//check that this method is not called more than one time, because we will create the delegate in every eventType, and we don't close it
-		//probably we should know which was the last event and proceed, 
-		//or do it in another way: like storing the data on the eventExecuteWin (store the event when it's done) passing in the get{} set{} way (set)
-		//and call the eventExecuteWin to repaint that event
-		eventExecuteWin.PrepareGraph(currentJump.Tv, currentJump.Tc);
+		Console.WriteLine("--On_update_clicked--");
+		switch (currentEventIs) {
+			case eventType.JUMP:
+				if(currentJumpType.IsRepetitive) 
+					eventExecuteWin.PrepareJumpReactiveGraph(
+							Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
+							currentJumpRj.TvString, currentJumpRj.TcString);
+				else
+					eventExecuteWin.PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
+				break;
+			case eventType.RUN:
+				//if(currentRunType.HasIntervals) 
+					//eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
+				//else
+					eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
+				break;
+			case eventType.PULSE:
+				break;
+		}
+	
 	}
+
+	
 	
 	private void on_jump_finished (object o, EventArgs args)
 	{
@@ -1937,6 +1958,10 @@ public class ChronoJump
 			prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		
+		//when user clicks on update the eventExecute window 
+		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 		
 		currentJumpRj = new JumpRj(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
@@ -2091,13 +2116,26 @@ public class ChronoJump
 		*/
 		double myLimit = 3; //same for startingIn than out (before)
 		
-		/*
 		eventExecuteWin = EventExecuteWindow.Show(
+				/*
 				Catalog.GetString("Execute Run"), Catalog.GetString("Phases"),  
 				currentPerson.Name, currentRunType.Name, prefsDigitsNumber, myLimit, simulated);
+				*/
+			Catalog.GetString("Execute Run"), //windowTitle
+			Catalog.GetString("Phases"),  	  //name of the different moments
+			currentPerson.UniqueID, currentPerson.Name, 
+			currentSession.UniqueID, 
+			"run", //tableName
+			currentRunType.Name, 
+			prefsDigitsNumber, myLimit, simulated);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-		*/
+
+
+		//when user clicks on update the eventExecute window 
+		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 		
 		currentRun = new Run(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 

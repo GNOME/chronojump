@@ -148,6 +148,16 @@ public class Util
 		else { return myAverage / myCount ; }
 	}
 
+	public static double GetLast (string values)
+	{
+		string [] myStringFull = values.Split(new char[] {'='});
+		double lastSubEvent = 0;
+		foreach (string myString in myStringFull) 
+			lastSubEvent = Convert.ToDouble(myString);
+			
+		return lastSubEvent; 
+	}
+	
 	//useful for jumpType and jumpRjType, because the third value is the same
 	public static bool HasWeight(string [] jumpTypes, string myType) {
 		foreach (string myString in jumpTypes) {

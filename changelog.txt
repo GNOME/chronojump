@@ -1,6 +1,10 @@
 CHANGELOG:
 
 9 oct 2006
+	-eventbox for colors on tc/tf labels on eventWindow
+	-fixed bug in reactive jump by time (it finished when time passed but jumper hasn't started)
+
+9 oct 2006
 	graphConfigureWin works for jump reactive
 	graphEventWin & ConfigureWin works for run simple
 

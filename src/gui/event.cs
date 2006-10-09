@@ -56,6 +56,7 @@ public class EventExecuteWindow
 	
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_finish;
+	[Widget] Gtk.Button button_update;
 	[Widget] Gtk.Button button_close;
 
 	
@@ -85,6 +86,7 @@ public class EventExecuteWindow
 	int sessionID;	
 	string tableName;	
 	string eventType;	
+	private string lastEventWas;
 	
 	int pDN;
 	double limit;
@@ -93,7 +95,9 @@ public class EventExecuteWindow
 		UNSTARTED, DOING, DONE
 	}
 	private phasesGraph graphProgress;
+	
 
+	static EventGraphConfigureWindow eventGraphConfigureWin;
 	
 	static EventExecuteWindow EventExecuteWindowBox;
 		
@@ -110,14 +114,21 @@ public class EventExecuteWindow
 		configureColors();
 	}
 
-	static public EventExecuteWindow Show (string windowTitle, string phasesName, int personID, string personName, int sessionID, 
+	static public EventExecuteWindow Show (
+			string windowTitle, string phasesName, int personID, string personName, int sessionID, 
 			string tableName, string eventType, int pDN, double limit, bool simulated)
 	{
 		if (EventExecuteWindowBox == null) {
 			EventExecuteWindowBox = new EventExecuteWindow (); 
 		}
+
+		//create the properties window if doesnt' exists, but do not show
+		if(eventGraphConfigureWin == null)
+			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
+
 		
-		EventExecuteWindowBox.initializeVariables (windowTitle, phasesName, personID, personName, sessionID, 
+		EventExecuteWindowBox.initializeVariables (
+				windowTitle, phasesName, personID, personName, sessionID, 
 				tableName, eventType, pDN, limit, simulated);
 
 		EventExecuteWindowBox.event_execute.Show ();
@@ -125,7 +136,8 @@ public class EventExecuteWindow
 		return EventExecuteWindowBox;
 	}
 
-	void initializeVariables (string windowTitle, string phasesName, int personID, string personName, int sessionID,
+	void initializeVariables (
+			string windowTitle, string phasesName, int personID, string personName, int sessionID,
 			string tableName, string eventType, int pDN, double limit, bool simulated) 
 	{
 		event_execute.Title = windowTitle;
@@ -157,6 +169,9 @@ public class EventExecuteWindow
 			showJumpSimpleLabels();
 		else if (tableName == "jumpRj")
 			showJumpReactiveLabels();
+
+		//for the "update" button
+		lastEventWas = tableName;
 			
 		
 		button_cancel.Sensitive = true;
@@ -300,7 +315,13 @@ public class EventExecuteWindow
 	
 
 	// simple and DJ jump	
-	public void PrepareGraph(double tv, double tc) {
+	public void PrepareGraph(double tv, double tc) 
+	{
+		//check graph properties window is not null (propably user has closed it with the DeleteEvent
+		//then create it, but not show it
+		if(eventGraphConfigureWin == null)
+			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
+
 		
 		Console.Write("k1");
 		
@@ -329,6 +350,11 @@ public class EventExecuteWindow
 	
 	// Reactive jump 
 	public void PrepareGraph(double lastTv, double lastTc, string tvString, string tcString) {
+		//check graph properties window is not null (propably user has closed it with the DeleteEvent
+		//then create it, but not show it
+		if(eventGraphConfigureWin == null)
+			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
+
 		Console.Write("l1");
 
 		//search AVGs and MAXs
@@ -360,45 +386,97 @@ public class EventExecuteWindow
 			return;
 
 		
-		double topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
 		
 		Console.Write(" paint1 ");
 		
-		//change in a near future ;)
-		double maxValue = tvNow;
-		if(tvPerson > maxValue) maxValue = tvPerson;
-		if(tvSession > maxValue) maxValue = tvSession;
-		if(tcNow > maxValue) maxValue = tcNow;
-		if(tcPerson > maxValue) maxValue = tcPerson;
-		if(tcSession > maxValue) maxValue = tcSession;
+		double maxValue = 0;
+		double minValue = 0;
+		double topMargin = 10; 
+		//double bottomMargin = 10; 
+
+		//if max value of graph is automatic
+		if(eventGraphConfigureWin.Max == -1) {
+			maxValue = Util.GetMax(
+					tvNow.ToString() + "=" + tvPerson.ToString() + "=" + tvSession.ToString() + "=" +
+					tcNow.ToString() + "=" + tcPerson.ToString() + "=" + tcSession.ToString());
+		} else {
+			maxValue = eventGraphConfigureWin.Max;
+			topMargin = 0;
+		}
+		
+		//if min value of graph is automatic
+		/*
+		if(eventGraphConfigureWin.Min == -1) {
+			if(tcNow == 0)
+				//if has not tc, get minimum in tv values
+				minValue = Util.GetMin(
+						tvNow.ToString() + "=" + tvPerson.ToString() + "=" + tvSession.ToString());
+			else
+				//if has tc, get minimum in all values
+				minValue = Util.GetMin(
+						tvNow.ToString() + "=" + tvPerson.ToString() + "=" + tvSession.ToString() + "=" +
+						tcNow.ToString() + "=" + tcPerson.ToString() + "=" + tcSession.ToString());
+		} else {
+			minValue = eventGraphConfigureWin.Min;
+			bottomMargin = 0;
+		}
+		*/
+		minValue = eventGraphConfigureWin.Min;
 		
 		
 		Console.WriteLine("{0}, {1}, {2}", tcNow, tcPerson, tcSession);
 		Console.WriteLine("{0}, {1}, {2}", tvNow, tvPerson, tvSession);
 		Console.WriteLine("maxValue: {0}", maxValue);
+		Console.WriteLine("minValue: {0}", minValue);
+
 		
 		erasePaint(drawingarea);
 		
+		Console.Write(" paint7 ");
 	
-		//red for TC
-		pixmap.DrawLine(pen_rojo, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - (tcNow * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(pen_rojo, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - (tcPerson * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(pen_rojo, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - (tcSession * (alto - topMargin) / maxValue)));
+		//check now here that we will have not division by zero problems
+		if(maxValue - minValue > 0) {
+			//red for TC
+			pixmap.DrawLine(pen_rojo, ancho*1/6, alto, ancho*1/6, Convert.ToInt32(alto - ((tcNow - minValue) * (alto - topMargin) / (maxValue - minValue))));
+			pixmap.DrawLine(pen_rojo, ancho*3/6, alto, ancho*3/6, Convert.ToInt32(alto - ((tcPerson - minValue) * (alto - topMargin) / (maxValue - minValue))));
+			pixmap.DrawLine(pen_rojo, ancho*5/6, alto, ancho*5/6, Convert.ToInt32(alto - ((tcSession - minValue) * (alto - topMargin) / (maxValue - minValue))));
 		
-		//blue for TF
-		pixmap.DrawLine(pen_azul, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - (tvNow * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(pen_azul, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - (tvPerson * (alto - topMargin) / maxValue)));
-		pixmap.DrawLine(pen_azul, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - (tvSession * (alto - topMargin) / maxValue)));
+			//blue for TF
+			pixmap.DrawLine(pen_azul, ancho*1/6 +10, alto, ancho*1/6 +10, Convert.ToInt32(alto - ((tvNow - minValue) * (alto - topMargin) / (maxValue - minValue))));
+			pixmap.DrawLine(pen_azul, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - ((tvPerson - minValue) * (alto - topMargin) / (maxValue - minValue))));
+			pixmap.DrawLine(pen_azul, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - ((tvSession - minValue) * (alto - topMargin) / (maxValue - minValue))));
+
 		
+			//paint reference guide black and green if needed
+			double blackValue = eventGraphConfigureWin.BlackGuide;
+			if(blackValue != -1) 
+				pixmap.DrawLine(pen_negro_discont, 
+						0, Convert.ToInt32(alto - ((blackValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
+						ancho, Convert.ToInt32(alto - ((blackValue - minValue) * (alto - topMargin) / (maxValue - minValue))));
+
+			double greenValue = eventGraphConfigureWin.GreenGuide;
+			if(greenValue != -1) 
+				pixmap.DrawLine(pen_green_discont, 
+						0, Convert.ToInt32(alto - ((greenValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
+						ancho, Convert.ToInt32(alto - ((greenValue - minValue) * (alto - topMargin) / (maxValue - minValue))));
+		}
+		
+	
 		
 		Console.Write(" paint2 ");
 
-		label_jump_simple_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
-		label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
-		label_jump_simple_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
+		if(tcNow > 0) {
+			label_jump_simple_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
+			label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
+			label_jump_simple_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
+		} else {
+			label_jump_simple_tc_now.Text = "";
+			label_jump_simple_tc_person.Text = "";
+			label_jump_simple_tc_session.Text = "";
+		}
 		label_jump_simple_tf_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
 		label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
 		label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
@@ -430,12 +508,6 @@ public class EventExecuteWindow
 				0, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)),
 				ancho, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)));
 	
-		/*
-		double valTest = 0.70;
-		pixmap.DrawLine(pen_negro_discont, 
-				0, Convert.ToInt32(alto - (valTest * (alto - topMargin) / maxValue)),
-				ancho, Convert.ToInt32(alto - (valTest * (alto - topMargin) / maxValue)));
-		*/
 		
 		//blue tf evolution	
 		string [] myTVStringFull = tvString.Split(new char[] {'='});
@@ -502,10 +574,22 @@ public class EventExecuteWindow
 	
 	
 	
+	void on_button_properties_clicked (object o, EventArgs args) {
+		//now show the eventGraphConfigureWin
+		eventGraphConfigureWin = EventGraphConfigureWindow.Show(true);
+	}
+
+	void on_button_update_clicked (object o, EventArgs args) 
+	{
+		//event will be raised, and managed in chronojump.cs
+		//see ButtonUpdate at end of class
+	}
+	
+		
 	void on_finish_clicked (object o, EventArgs args)
 	{
 		//event will be raised, and managed in chronojump.cs
-		//see ButtonFinish at end of file
+		//see ButtonFinish at end of class
 	}
 			
 	void on_button_help_clicked (object o, EventArgs args)
@@ -582,14 +666,20 @@ public class EventExecuteWindow
 		get { return button_finish; }
 	}
 
+	public Button ButtonUpdate 
+	{
+		get { return button_update; }
+	}
+	
 	
 	//projecte cubevirtual de juan gonzalez
 	
-	Gdk.GC pen_rojo;
-	Gdk.GC pen_azul;
-	Gdk.GC pen_rojo_discont;
-	Gdk.GC pen_azul_discont;
-	Gdk.GC pen_negro_discont;
+	Gdk.GC pen_rojo; //tc
+	Gdk.GC pen_azul; //tf
+	Gdk.GC pen_rojo_discont; //avg tc in reactive
+	Gdk.GC pen_azul_discont; //avg tf in reactive
+	Gdk.GC pen_negro_discont; //guide
+	Gdk.GC pen_green_discont; //guide
 	//Gdk.GC pen_blanco;
 	
 
@@ -598,12 +688,14 @@ public class EventExecuteWindow
 		Gdk.Color rojo = new Gdk.Color(0xff,0,0);
 		Gdk.Color azul  = new Gdk.Color(0,0,0xff);
 		Gdk.Color negro = new Gdk.Color(0,0,0);
+		Gdk.Color green = new Gdk.Color(0,0xff,0);
 		//Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref rojo, true, true);
 		colormap.AllocColor (ref azul,true,true);
 		colormap.AllocColor (ref negro,true,true);
+		colormap.AllocColor (ref green,true,true);
 		//colormap.AllocColor (ref blanco,true,true);
 
 		//-- Configurar los contextos graficos (pinceles)
@@ -614,6 +706,7 @@ public class EventExecuteWindow
 		//pen_negro = new Gdk.GC(drawingarea.GdkWindow);
 		//pen_blanco= new Gdk.GC(drawingarea.GdkWindow);
 		pen_negro_discont = new Gdk.GC(drawingarea.GdkWindow);
+		pen_green_discont = new Gdk.GC(drawingarea.GdkWindow);
 
 		pen_rojo.Foreground = rojo;
 		pen_azul.Foreground = azul;
@@ -625,5 +718,167 @@ public class EventExecuteWindow
 		
 		pen_negro_discont.Foreground = negro;
 		pen_negro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_green_discont.Foreground = green;
+		pen_green_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 	}
 }
+
+
+//--------------------------------------------------------
+//---------------- EVENT GRAPH CONFIGURE WIDGET ----------------
+//--------------------------------------------------------
+
+
+public class EventGraphConfigureWindow 
+{
+	[Widget] Gtk.Window event_graph_configure;
+	
+	[Widget] Gtk.Button button_finish;
+	[Widget] Gtk.Button button_close;
+
+	[Widget] Gtk.CheckButton checkbutton_max_auto;
+	//[Widget] Gtk.CheckButton checkbutton_min_auto;
+	[Widget] Gtk.CheckButton checkbutton_show_black_guide;
+	[Widget] Gtk.CheckButton checkbutton_show_green_guide;
+	
+	[Widget] Gtk.SpinButton spinbutton_max;
+	[Widget] Gtk.SpinButton spinbutton_min;
+	[Widget] Gtk.SpinButton spinbutton_black_guide;
+	[Widget] Gtk.SpinButton spinbutton_green_guide;
+
+	
+	static EventGraphConfigureWindow EventGraphConfigureWindowBox;
+		
+	EventGraphConfigureWindow () {
+		Glade.XML gladeXML;
+		try {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "event_graph_configure", null);
+		} catch {
+			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "event_graph_configure", null);
+		}
+
+		gladeXML.Autoconnect(this);
+	}
+
+	//bool reallyShow
+	//we create this window on start of event_execute widget for having the graph execute values defined
+	//but we don't want to show until user clicks on "properties" on the event_execute widget
+	static public EventGraphConfigureWindow Show (bool reallyShow)
+	{
+		if (EventGraphConfigureWindowBox == null) {
+			EventGraphConfigureWindowBox = new EventGraphConfigureWindow (); 
+			EventGraphConfigureWindowBox.initializeWidgets(); 
+		}
+		
+		if(reallyShow)
+			EventGraphConfigureWindowBox.event_graph_configure.Show ();
+		else
+			EventGraphConfigureWindowBox.event_graph_configure.Hide ();
+		
+		return EventGraphConfigureWindowBox;
+	}
+	
+	void initializeWidgets ()
+	{
+		checkbutton_max_auto.Active = true;
+		//checkbutton_min_auto.Active = false;
+		
+		checkbutton_show_black_guide.Active = false;
+		checkbutton_show_green_guide.Active = false;
+			
+		spinbutton_black_guide.Sensitive = false;
+		spinbutton_green_guide.Sensitive = false;
+	}
+
+	void on_checkbutton_max_auto_clicked (object o, EventArgs args) {
+		if(checkbutton_max_auto.Active)
+			spinbutton_max.Sensitive = false;
+		else
+			spinbutton_max.Sensitive = true;
+	}
+	
+	/*
+	void on_checkbutton_min_auto_clicked (object o, EventArgs args) {
+		Console.WriteLine("ch_min_auto Clicked");
+		if(checkbutton_min_auto.Active)
+			spinbutton_min.Sensitive = false;
+		else
+			spinbutton_min.Sensitive = true;
+	}
+	*/
+	
+	void on_checkbutton_show_black_guide_clicked (object o, EventArgs args) {
+		if(checkbutton_show_black_guide.Active)
+			spinbutton_black_guide.Sensitive = true;
+		else
+			spinbutton_black_guide.Sensitive = false;
+	}
+	
+	void on_checkbutton_show_green_guide_clicked (object o, EventArgs args) {
+		if(checkbutton_show_green_guide.Active)
+			spinbutton_green_guide.Sensitive = true;
+		else
+			spinbutton_green_guide.Sensitive = false;
+	}
+	
+		
+	void on_button_help_clicked (object o, EventArgs args)
+	{
+		Console.WriteLine("help Clicked");
+		/*
+		new DialogHelp(Catalog.GetString("This window shows the execution of an event. In the graph, you may see:\n-\"Now\": shows the data of the current event.\n-\"Person AVG\": shows the average of the current person executing this type of event on this session.\n-\"Session AVG\": shows the Average of all persons executing this type of event on this session.\n(For more statistics data, you may use the statistics window).\n\nAt the bottom you may see the evolution of the event, and you may finish it (depending on the type of event), or even cancel it."));
+		*/
+	}
+
+	void on_button_close_clicked (object o, EventArgs args)
+	{
+		EventGraphConfigureWindowBox.event_graph_configure.Hide();
+		//EventGraphConfigureWindowBox = null;
+	}
+
+	void on_delete_event (object o, DeleteEventArgs args)
+	{
+		EventGraphConfigureWindowBox.event_graph_configure.Hide();
+		EventGraphConfigureWindowBox = null;
+	}
+
+	public double Max {
+		get {
+			if(checkbutton_max_auto.Active)
+				return -1;
+			else
+				return Convert.ToDouble(spinbutton_max.Value);
+		}
+	}
+
+	public double Min {
+		get {
+			/*
+			if(checkbutton_min_auto.Active)
+				return -1;
+			else
+			*/
+				return Convert.ToDouble(spinbutton_min.Value);
+		}
+	}
+
+	public double BlackGuide {
+		get {
+			if(checkbutton_show_black_guide.Active)
+				return Convert.ToDouble(spinbutton_black_guide.Value);
+			else
+				return -1;
+		}
+	}
+
+	public double GreenGuide {
+		get {
+			if(checkbutton_show_green_guide.Active)
+				return Convert.ToDouble(spinbutton_green_guide.Value);
+			else
+				return -1;
+		}
+	}
+
+}
+

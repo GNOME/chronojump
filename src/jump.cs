@@ -718,7 +718,8 @@ public class JumpRj : Jump
 
 	protected override bool shouldFinishByTime() {
 		//check if it should finish now (time limited, not unlimited and time exceeded)
-		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble)
+		//check also that rj has started (!firstRjValue)
+		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble && !firstRjValue)
 			return true;
 		else
 			return false;

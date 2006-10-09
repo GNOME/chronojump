@@ -60,19 +60,31 @@ public class EventExecuteWindow
 	[Widget] Gtk.Button button_close;
 
 	
-	[Widget] Gtk.VBox vbox_simple_jump;
-	[Widget] Gtk.VBox vbox_reactive_jump;
-	[Widget] Gtk.VBox vbox_run_simple;
+	//[Widget] Gtk.VBox vbox_simple_jump;
+	//[Widget] Gtk.VBox vbox_reactive_jump;
+	//[Widget] Gtk.VBox vbox_run_simple;
+	[Widget] Gtk.Table table_jump_simple;
+	[Widget] Gtk.Table table_jump_reactive;
+	[Widget] Gtk.Table table_run_simple;
 	//interval
 	//pulse
 	
-	[Widget] Gtk.Table table_simple_jump_values;
-	[Widget] Gtk.Table table_reactive_jump_values;
+	[Widget] Gtk.Table table_jump_simple_values;
+	[Widget] Gtk.Table table_jump_reactive_values;
 	[Widget] Gtk.Table table_run_simple_values;
 	//interval
 	//pulse
 
 
+	//for the color change in the background of the cell label
+	[Widget] Gtk.EventBox eventbox_jump_simple_tc;
+	[Widget] Gtk.EventBox eventbox_jump_simple_tf;
+	[Widget] Gtk.EventBox eventbox_jump_reactive_tc;
+	[Widget] Gtk.EventBox eventbox_jump_reactive_tf;
+	[Widget] Gtk.EventBox eventbox_run_simple_time;
+	[Widget] Gtk.EventBox eventbox_run_simple_speed;
+
+	
 	[Widget] Gtk.Label label_jump_simple_tc_now;
 	[Widget] Gtk.Label label_jump_simple_tc_person;
 	[Widget] Gtk.Label label_jump_simple_tc_session;
@@ -196,21 +208,30 @@ public class EventExecuteWindow
 		clearDrawingArea();
 		clearProgressBars();
 
+	
+		eventbox_jump_simple_tc.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 255, 0, 0));
+		eventbox_jump_simple_tf.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
+		eventbox_jump_reactive_tc.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 255, 0, 0));
+		eventbox_jump_reactive_tf.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
+		eventbox_run_simple_time.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 255, 0, 0));
+		eventbox_run_simple_speed.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
+		
 		graphProgress = phasesGraph.UNSTARTED; 
 	}
 
 	
 	private void showJumpSimpleLabels() {
 		//hide reactive info
-		vbox_reactive_jump.Hide();
-		table_reactive_jump_values.Hide();
+		table_jump_reactive.Hide();
+		table_jump_reactive_values.Hide();
 		//hide run simple info
-		vbox_run_simple.Hide();
+		table_run_simple.Hide();
 		table_run_simple_values.Hide();
 		
 		//show simple jump info
-		vbox_simple_jump.Show();
-		table_simple_jump_values.Show();
+		//vbox_simple_jump.Show();
+		table_jump_simple.Show();
+		table_jump_simple_values.Show();
 
 		//initializeLabels
 		label_jump_simple_tc_now.Text = "";
@@ -224,15 +245,16 @@ public class EventExecuteWindow
 	
 	private void showJumpReactiveLabels() {
 		//hide simple jump info
-		vbox_simple_jump.Hide();
-		table_simple_jump_values.Hide();
+		//vbox_simple_jump.Hide();
+		table_jump_simple.Hide();
+		table_jump_simple_values.Hide();
 		//hide run simple info
-		vbox_run_simple.Hide();
+		table_run_simple.Hide();
 		table_run_simple_values.Hide();
 		
 		//show reactive info
-		vbox_reactive_jump.Show();
-		table_reactive_jump_values.Show();
+		table_jump_reactive.Show();
+		table_jump_reactive_values.Show();
 
 		//initializeLabels
 		label_jump_reactive_tc_now.Text = "";
@@ -243,14 +265,15 @@ public class EventExecuteWindow
 	
 	private void showRunSimpleLabels() {
 		//hide simple jump info
-		vbox_simple_jump.Hide();
-		table_simple_jump_values.Hide();
+		//vbox_simple_jump.Hide();
+		table_jump_simple.Hide();
+		table_jump_simple_values.Hide();
 		//hide reactive info
-		vbox_reactive_jump.Hide();
-		table_reactive_jump_values.Hide();
+		table_jump_reactive.Hide();
+		table_jump_reactive_values.Hide();
 		
 		//show run simple info
-		vbox_run_simple.Show();
+		table_run_simple.Show();
 		table_run_simple_values.Show();
 		
 		//initializeLabels
@@ -439,7 +462,9 @@ public class EventExecuteWindow
 		double distanceSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "distance");
 
 		//paint graph
-		paintJumpSimpleOrRunSimple (drawingarea, time, timePersonAVG, timeSessionAVG, speed, distancePersonAVG / timePersonAVG, distanceSessionAVG /timeSessionAVG);
+		paintJumpSimpleOrRunSimple (drawingarea, 
+				speed, distancePersonAVG / timePersonAVG, distanceSessionAVG /timeSessionAVG, 
+				time, timePersonAVG, timeSessionAVG);
 		
 		//printLabels
 		printLabelsRunSimple (time, timePersonAVG, timeSessionAVG, speed, distancePersonAVG / timePersonAVG, distanceSessionAVG /timeSessionAVG);

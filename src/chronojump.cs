@@ -1770,6 +1770,11 @@ public class ChronoJump
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
+		//when user clicks on update the eventExecute window 
+		//(for showing with his new confgured values: max, min and guides
+		//see on_update_clicked() below for possible problems with this
+		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+
 		currentJump = new Jump(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				cp, progressBar, appbar2, app1, prefsDigitsNumber);
@@ -1784,6 +1789,14 @@ public class ChronoJump
 
 		currentJump.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
 	}	
+	
+	private void on_update_clicked (object o, EventArgs args) {
+		//check that this method is not called more than one time, because we will create the delegate in every eventType, and we don't close it
+		//probably we should know which was the last event and proceed, 
+		//or do it in another way: like storing the data on the eventExecuteWin (store the event when it's done) passing in the get{} set{} way (set)
+		//and call the eventExecuteWin to repaint that event
+		eventExecuteWin.PrepareGraph(currentJump.Tv, currentJump.Tc);
+	}
 	
 	private void on_jump_finished (object o, EventArgs args)
 	{

@@ -1,6 +1,10 @@
 CHANGELOG:
 
 9 oct 2006
+	graphConfigureWin works for jump reactive
+	graphEventWin & ConfigureWin works for run simple
+
+9 oct 2006
 	Added graphConfigureWin, allows to fix vertical margins, and
 	put guides (currently both only on simple jumps). 
 	Nice update button for testing the graph properties

@@ -62,8 +62,15 @@ public class EventExecuteWindow
 	
 	[Widget] Gtk.VBox vbox_simple_jump;
 	[Widget] Gtk.VBox vbox_reactive_jump;
+	[Widget] Gtk.VBox vbox_run_simple;
+	//interval
+	//pulse
+	
 	[Widget] Gtk.Table table_simple_jump_values;
 	[Widget] Gtk.Table table_reactive_jump_values;
+	[Widget] Gtk.Table table_run_simple_values;
+	//interval
+	//pulse
 
 
 	[Widget] Gtk.Label label_jump_simple_tc_now;
@@ -77,6 +84,13 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_jump_reactive_tc_avg;
 	[Widget] Gtk.Label label_jump_reactive_tf_now;
 	[Widget] Gtk.Label label_jump_reactive_tf_avg;
+
+	[Widget] Gtk.Label label_run_simple_time_now;
+	[Widget] Gtk.Label label_run_simple_time_person;
+	[Widget] Gtk.Label label_run_simple_time_session;
+	[Widget] Gtk.Label label_run_simple_speed_now;
+	[Widget] Gtk.Label label_run_simple_speed_person;
+	[Widget] Gtk.Label label_run_simple_speed_session;
 
 	[Widget] Gtk.DrawingArea drawingarea;
 	static Gdk.Pixmap pixmap = null;
@@ -169,6 +183,8 @@ public class EventExecuteWindow
 			showJumpSimpleLabels();
 		else if (tableName == "jumpRj")
 			showJumpReactiveLabels();
+		else if (tableName == "run")
+			showRunSimpleLabels();
 
 		//for the "update" button
 		lastEventWas = tableName;
@@ -188,6 +204,9 @@ public class EventExecuteWindow
 		//hide reactive info
 		vbox_reactive_jump.Hide();
 		table_reactive_jump_values.Hide();
+		//hide run simple info
+		vbox_run_simple.Hide();
+		table_run_simple_values.Hide();
 		
 		//show simple jump info
 		vbox_simple_jump.Show();
@@ -207,6 +226,9 @@ public class EventExecuteWindow
 		//hide simple jump info
 		vbox_simple_jump.Hide();
 		table_simple_jump_values.Hide();
+		//hide run simple info
+		vbox_run_simple.Hide();
+		table_run_simple_values.Hide();
 		
 		//show reactive info
 		vbox_reactive_jump.Show();
@@ -219,6 +241,27 @@ public class EventExecuteWindow
 		label_jump_reactive_tf_avg.Text = "";
 	}
 	
+	private void showRunSimpleLabels() {
+		//hide simple jump info
+		vbox_simple_jump.Hide();
+		table_simple_jump_values.Hide();
+		//hide reactive info
+		vbox_reactive_jump.Hide();
+		table_reactive_jump_values.Hide();
+		
+		//show run simple info
+		vbox_run_simple.Show();
+		table_run_simple_values.Show();
+		
+		//initializeLabels
+		label_run_simple_time_now.Text = "";
+		label_run_simple_time_person.Text = "";
+		label_run_simple_time_session.Text = "";
+		label_run_simple_speed_now.Text = "";
+		label_run_simple_speed_person.Text = "";
+		label_run_simple_speed_session.Text = "";
+	}
+		
 	//called for cleaning the graph of a event done before than the current
 	private void clearDrawingArea() 
 	{
@@ -315,7 +358,7 @@ public class EventExecuteWindow
 	
 
 	// simple and DJ jump	
-	public void PrepareGraph(double tv, double tc) 
+	public void PrepareJumpSimpleGraph(double tv, double tc) 
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -326,18 +369,21 @@ public class EventExecuteWindow
 		Console.Write("k1");
 		
 		//obtain data
-		double tvPersonAVG = SqliteJump.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TV");
-		double tvSessionAVG = SqliteJump.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TV");
+		double tvPersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TV");
+		double tvSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TV");
 
 		double tcPersonAVG = 0; 
 		double tcSessionAVG = 0; 
 		if(tc > 0) {
-			tcPersonAVG = SqliteJump.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TC");
-			tcSessionAVG = SqliteJump.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TC");
+			tcPersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TC");
+			tcSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TC");
 		}
 		
 		//paint graph
-		paintJumpSimple (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
+		paintJumpSimpleOrRunSimple (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
+
+		//printLabels
+		printLabelsJumpSimple (tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
 		
 		Console.Write("k2");
 		
@@ -349,7 +395,7 @@ public class EventExecuteWindow
 	}
 	
 	// Reactive jump 
-	public void PrepareGraph(double lastTv, double lastTc, string tvString, string tcString) {
+	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString) {
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
@@ -375,9 +421,93 @@ public class EventExecuteWindow
 		Console.Write("l3");
 	}
 
+	// run simple
+	public void PrepareRunSimpleGraph(double time, double speed) 
+	{
+		//check graph properties window is not null (propably user has closed it with the DeleteEvent
+		//then create it, but not show it
+		if(eventGraphConfigureWin == null)
+			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
+		
+		Console.Write("k1");
+		
+		//obtain data
+		double timePersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "time");
+		double timeSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "time");
+		double distancePersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "distance");
+		double distanceSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "distance");
+
+		//paint graph
+		paintJumpSimpleOrRunSimple (drawingarea, time, timePersonAVG, timeSessionAVG, speed, distancePersonAVG / timePersonAVG, distanceSessionAVG /timeSessionAVG);
+		
+		//printLabels
+		printLabelsRunSimple (time, timePersonAVG, timeSessionAVG, speed, distancePersonAVG / timePersonAVG, distanceSessionAVG /timeSessionAVG);
+		
+		Console.Write("k2");
+		
+		// -- refresh
+		drawingarea.QueueDraw();
+		
+		Console.Write("k3");
+		
+	}
 	
-	private void paintJumpSimple (Gtk.DrawingArea drawingarea, 
+	// run interval
+	public void PrepareRunIntervalGraph() 
+	{
+	}
+
+	// pulse 
+	public void PreparePulseGraph() 
+	{
+	}
+
+	private void printLabelsJumpSimple (double tvNow, double tvPerson, double tvSession, double tcNow, double tcPerson, double tcSession) {
+		if(tcNow > 0) {
+			label_jump_simple_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
+			label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
+			label_jump_simple_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
+		} else {
+			label_jump_simple_tc_now.Text = "";
+			label_jump_simple_tc_person.Text = "";
+			label_jump_simple_tc_session.Text = "";
+		}
+		label_jump_simple_tf_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
+		label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
+		label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
+	}
+	
+	private void printLabelsRunSimple (double timeNow, double timePerson, double timeSession, double speedNow, double speedPerson, double speedSession) {
+		label_run_simple_time_now.Text = Util.TrimDecimals(timeNow.ToString(), pDN);
+		label_run_simple_time_person.Text = Util.TrimDecimals(timePerson.ToString(), pDN);
+		label_run_simple_time_session.Text = Util.TrimDecimals(timeSession.ToString(), pDN);
+		
+		label_run_simple_speed_now.Text = Util.TrimDecimals(speedNow.ToString(), pDN);
+		label_run_simple_speed_person.Text = Util.TrimDecimals(speedPerson.ToString(), pDN);
+		label_run_simple_speed_session.Text = Util.TrimDecimals(speedSession.ToString(), pDN);
+	}
+	
+	/*
+	private void printLabelsJumpReactive (tvNow, tvPersonAVG, tvSessionAVG, tcNow, tcPersonAVG, tcSessionAVG);
+		if(tcNow > 0) {
+			label_jump_simple_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
+			label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
+			label_jump_simple_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), pDN);
+		} else {
+			label_jump_simple_tc_now.Text = "";
+			label_jump_simple_tc_person.Text = "";
+			label_jump_simple_tc_session.Text = "";
+		}
+		label_jump_simple_tf_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
+		label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
+		label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
+	}
+		*/
+
+	//if it's a run, tc means time, and tf(tv) means speed
+	//simply works
+	private void paintJumpSimpleOrRunSimple (Gtk.DrawingArea drawingarea, 
 			double tvNow, double tvPerson, double tvSession, 
 			double tcNow, double tcPerson, double tcSession)
 	{
@@ -394,7 +524,7 @@ public class EventExecuteWindow
 		
 		double maxValue = 0;
 		double minValue = 0;
-		double topMargin = 10; 
+		int topMargin = 10; 
 		//double bottomMargin = 10; 
 
 		//if max value of graph is automatic
@@ -449,25 +579,17 @@ public class EventExecuteWindow
 			pixmap.DrawLine(pen_azul, ancho*3/6 +10, alto, ancho*3/6 +10, Convert.ToInt32(alto - ((tvPerson - minValue) * (alto - topMargin) / (maxValue - minValue))));
 			pixmap.DrawLine(pen_azul, ancho*5/6 +10, alto, ancho*5/6 +10, Convert.ToInt32(alto - ((tvSession - minValue) * (alto - topMargin) / (maxValue - minValue))));
 
-		
+	
 			//paint reference guide black and green if needed
-			double blackValue = eventGraphConfigureWin.BlackGuide;
-			if(blackValue != -1) 
-				pixmap.DrawLine(pen_negro_discont, 
-						0, Convert.ToInt32(alto - ((blackValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
-						ancho, Convert.ToInt32(alto - ((blackValue - minValue) * (alto - topMargin) / (maxValue - minValue))));
-
-			double greenValue = eventGraphConfigureWin.GreenGuide;
-			if(greenValue != -1) 
-				pixmap.DrawLine(pen_green_discont, 
-						0, Convert.ToInt32(alto - ((greenValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
-						ancho, Convert.ToInt32(alto - ((greenValue - minValue) * (alto - topMargin) / (maxValue - minValue))));
+			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, maxValue, minValue);
 		}
 		
 	
 		
 		Console.Write(" paint2 ");
 
+		/*
 		if(tcNow > 0) {
 			label_jump_simple_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), pDN);
 			label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), pDN);
@@ -480,6 +602,7 @@ public class EventExecuteWindow
 		label_jump_simple_tf_now.Text = Util.TrimDecimals(tvNow.ToString(), pDN);
 		label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), pDN);
 		label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), pDN);
+		*/
 			
 		graphProgress = phasesGraph.DONE; 
 	}
@@ -488,7 +611,7 @@ public class EventExecuteWindow
 	private void paintJumpReactive (Gtk.DrawingArea drawingarea, double lastTv, double lastTc, string tvString, string tcString, 
 			double avgTV, double avgTC, double maxValue, int jumps)
 	{
-		double topMargin = 10; 
+		int topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
@@ -497,56 +620,69 @@ public class EventExecuteWindow
 		
 		erasePaint(drawingarea);
 		
-		//blue tf average discountinuos line	
-		pixmap.DrawLine(pen_azul_discont, 
-				0, Convert.ToInt32(alto - (avgTV * (alto - topMargin) / maxValue)),
-				ancho, Convert.ToInt32(alto - (avgTV * (alto - topMargin) / maxValue)));
-	
+		double minValue = eventGraphConfigureWin.Min;
 		
-		//red tc average discountinuos line	
-		pixmap.DrawLine(pen_rojo_discont, 
-				0, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)),
-				ancho, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)));
-	
-		
-		//blue tf evolution	
-		string [] myTVStringFull = tvString.Split(new char[] {'='});
-		int count = 0;
-		double oldValue = 0;
-		double myTVDouble = 0;
+		//check now here that we will have not division by zero problems
+		if(maxValue - minValue > 0) {
 
-		foreach (string myTV in myTVStringFull) {
-			myTVDouble = Convert.ToDouble(myTV);
-			if(myTVDouble < 0)
-				myTVDouble = 0;
-			
-			if (count > 0)
-				pixmap.DrawLine(pen_azul, //blue for TF
-						Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
-						Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTVDouble * (alto - topMargin) / maxValue)));
-			
-			oldValue = myTVDouble;
-			count ++;
-		}
+			//blue tf average discountinuos line	
+			//pixmap.DrawLine(pen_azul_discont, 
+			//		0, Convert.ToInt32(alto - (avgTV * (alto - topMargin) / maxValue)),
+			//		ancho, Convert.ToInt32(alto - (avgTV * (alto - topMargin) / maxValue)));
+			drawGuideOrAVG(pen_azul_discont, avgTV, alto, ancho, topMargin, maxValue, minValue);
 
-		//read tc evolution	
-		string [] myTCStringFull = tcString.Split(new char[] {'='});
-		count = 0;
-		oldValue = 0;
-		double myTCDouble = 0;
-		
-		foreach (string myTC in myTCStringFull) {
-			myTCDouble = Convert.ToDouble(myTC);
+
+			//red tc average discountinuos line	
+			//pixmap.DrawLine(pen_rojo_discont, 
+			//		0, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)),
+			//		ancho, Convert.ToInt32(alto - (avgTC * (alto - topMargin) / maxValue)));
+			drawGuideOrAVG(pen_rojo_discont, avgTC, alto, ancho, topMargin, maxValue, minValue);
+
+
+			//paint reference guide black and green if needed
+			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, maxValue, minValue);
+
 			
-			//if we are at second value (or more), and first was not a "-1"
-			//-1 means here that first jump has not TC (started inside)
-			if (count > 0 && oldValue != -1)
-				pixmap.DrawLine(pen_rojo, //red for TC
-						Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
-						Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTCDouble * (alto - topMargin) / maxValue)));
-			
-			oldValue = myTCDouble;
-			count ++;
+			//blue tf evolution	
+			string [] myTVStringFull = tvString.Split(new char[] {'='});
+			int count = 0;
+			double oldValue = 0;
+			double myTVDouble = 0;
+
+			foreach (string myTV in myTVStringFull) {
+				myTVDouble = Convert.ToDouble(myTV);
+				if(myTVDouble < 0)
+					myTVDouble = 0;
+
+				if (count > 0)
+					pixmap.DrawLine(pen_azul, //blue for TF
+							Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
+							Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTVDouble * (alto - topMargin) / maxValue)));
+
+				oldValue = myTVDouble;
+				count ++;
+			}
+
+			//read tc evolution	
+			string [] myTCStringFull = tcString.Split(new char[] {'='});
+			count = 0;
+			oldValue = 0;
+			double myTCDouble = 0;
+
+			foreach (string myTC in myTCStringFull) {
+				myTCDouble = Convert.ToDouble(myTC);
+
+				//if we are at second value (or more), and first was not a "-1"
+				//-1 means here that first jump has not TC (started inside)
+				if (count > 0 && oldValue != -1)
+					pixmap.DrawLine(pen_rojo, //red for TC
+							Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
+							Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTCDouble * (alto - topMargin) / maxValue)));
+
+				oldValue = myTCDouble;
+				count ++;
+			}
 		}
 		
 		Console.Write(" paint reactive 2 ");
@@ -559,6 +695,15 @@ public class EventExecuteWindow
 		graphProgress = phasesGraph.DONE; 
 	}
 
+	private void drawGuideOrAVG(Gdk.GC myPen, double guideHeight, int alto, int ancho, int topMargin, double maxValue, double minValue) 
+	{
+		if(guideHeight == -1)
+			return; //return if checkbox guide is not checked
+		else
+			pixmap.DrawLine(myPen, 
+					0, Convert.ToInt32(alto - ((guideHeight - minValue) * (alto - topMargin) / (maxValue - minValue))),
+					ancho, Convert.ToInt32(alto - ((guideHeight - minValue) * (alto - topMargin) / (maxValue - minValue))));
+	}
 
 
 	private void hideButtons() {

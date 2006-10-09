@@ -291,46 +291,6 @@ class SqliteJump : Sqlite
 		return myJump;
 	}
 	
-	//called from gui/event.cs for doing the graph
-	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
-	public static double SelectAllEventsOfAType(int sessionID, int personID, string table, string type, string valueToSelect) 
-	{
-		//if personIDString == -1, the applies for all persons
-		
-		string personIDString = "";
-		if(personID != -1)
-			personIDString = " AND personID == " + personID; 
-
-		
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT AVG(" + valueToSelect + ")" +
-			" FROM " + table +				
-			" WHERE sessionID == " + sessionID + 
-			" AND type == '" + type + "' " +
-			personIDString; 
-		
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		double myReturn = 0;
-		bool found = false;
-		if(reader.Read()) {
-			found = true;
-			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
-		}
-		reader.Close();
-		dbcon.Close();
-
-		if (found) {
-			return myReturn;
-		} else {
-			return 0;
-		}
-	}
-
 
 	//checks if there are Rjs with different number of TCs than TFs
 	//then repair database manually, and look if the jump is jumpLimited, and how many jumps there are defined

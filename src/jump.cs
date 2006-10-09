@@ -385,7 +385,7 @@ Console.Write("wb ");
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
 		//progressBar.Fraction = 1;
 		
-		eventExecuteWin.PrepareGraph(tv, tc);
+		eventExecuteWin.PrepareJumpSimpleGraph(tv, tc);
 		eventExecuteWin.EventEnded();
 	}
 	
@@ -660,7 +660,7 @@ public class JumpRj : Jump
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							eventExecuteWin.PrepareGraph(lastTv, lastTc, tvString, tcString);
+							eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
 						}
 					}
 				}
@@ -683,7 +683,7 @@ public class JumpRj : Jump
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							eventExecuteWin.PrepareGraph(lastTv, lastTc, tvString, tcString);
+							eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
 						}
 					}
 				} else {

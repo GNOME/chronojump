@@ -64,13 +64,13 @@ public class EventExecuteWindow
 	[Widget] Gtk.Table table_jump_reactive;
 	[Widget] Gtk.Table table_run_simple;
 	[Widget] Gtk.Table table_run_interval;
-	//pulse
+	[Widget] Gtk.Table table_pulse;
 	
 	[Widget] Gtk.Table table_jump_simple_values;
 	[Widget] Gtk.Table table_jump_reactive_values;
 	[Widget] Gtk.Table table_run_simple_values;
 	[Widget] Gtk.Table table_run_interval_values;
-	//pulse
+	[Widget] Gtk.Table table_pulse_values;
 
 
 	//for the color change in the background of the cell label
@@ -82,6 +82,7 @@ public class EventExecuteWindow
 	[Widget] Gtk.EventBox eventbox_run_simple_speed;
 	[Widget] Gtk.EventBox eventbox_run_interval_time;
 	[Widget] Gtk.EventBox eventbox_run_interval_speed;
+	[Widget] Gtk.EventBox eventbox_pulse_time;
 
 	
 	[Widget] Gtk.Label label_jump_simple_tc_now;
@@ -108,6 +109,9 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_run_interval_speed_now;
 	[Widget] Gtk.Label label_run_interval_speed_avg;
 	
+	[Widget] Gtk.Label label_pulse_now;
+	[Widget] Gtk.Label label_pulse_avg;
+
 	
 	[Widget] Gtk.DrawingArea drawingarea;
 	static Gdk.Pixmap pixmap = null;
@@ -207,6 +211,8 @@ public class EventExecuteWindow
 			showRunSimpleLabels();
 		else if (tableName == "runInterval")
 			showRunIntervalLabels();
+		else if (tableName == "pulse")
+			showPulseLabels();
 
 		//for the "update" button
 		lastEventWas = tableName;
@@ -227,21 +233,35 @@ public class EventExecuteWindow
 		eventbox_run_simple_speed.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
 		eventbox_run_interval_time.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 255, 0, 0));
 		eventbox_run_interval_speed.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
+		eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255)); //only one serie in pulse, leave blue
 		
 		graphProgress = phasesGraph.UNSTARTED; 
 	}
 
-	
-	private void showJumpSimpleLabels() {
+	private void hideAllTables() {
+		//hide simple jump info
+		table_jump_simple.Hide();
+		table_jump_simple_values.Hide();
+		
 		//hide reactive info
 		table_jump_reactive.Hide();
 		table_jump_reactive_values.Hide();
+		
 		//hide run simple info
 		table_run_simple.Hide();
 		table_run_simple_values.Hide();
+		
 		//hide run interval info
 		table_run_interval.Hide();
 		table_run_interval_values.Hide();
+		
+		//hide pulse info
+		table_pulse.Hide();
+		table_pulse_values.Hide();
+	}
+	
+	private void showJumpSimpleLabels() {
+		hideAllTables();
 		
 		//show simple jump info
 		table_jump_simple.Show();
@@ -258,15 +278,7 @@ public class EventExecuteWindow
 	
 	
 	private void showJumpReactiveLabels() {
-		//hide simple jump info
-		table_jump_simple.Hide();
-		table_jump_simple_values.Hide();
-		//hide run simple info
-		table_run_simple.Hide();
-		table_run_simple_values.Hide();
-		//hide run interval info
-		table_run_interval.Hide();
-		table_run_interval_values.Hide();
+		hideAllTables();
 		
 		//show reactive info
 		table_jump_reactive.Show();
@@ -280,15 +292,7 @@ public class EventExecuteWindow
 	}
 	
 	private void showRunSimpleLabels() {
-		//hide simple jump info
-		table_jump_simple.Hide();
-		table_jump_simple_values.Hide();
-		//hide reactive info
-		table_jump_reactive.Hide();
-		table_jump_reactive_values.Hide();
-		//hide run interval info
-		table_run_interval.Hide();
-		table_run_interval_values.Hide();
+		hideAllTables();
 		
 		//show run simple info
 		table_run_simple.Show();
@@ -304,15 +308,7 @@ public class EventExecuteWindow
 	}
 		
 	private void showRunIntervalLabels() {
-		//hide simple jump info
-		table_jump_simple.Hide();
-		table_jump_simple_values.Hide();
-		//hide reactive info
-		table_jump_reactive.Hide();
-		table_jump_reactive_values.Hide();
-		//hide run simple info
-		table_run_simple.Hide();
-		table_run_simple_values.Hide();
+		hideAllTables();
 		
 		//show run interval info
 		table_run_interval.Show();
@@ -323,6 +319,18 @@ public class EventExecuteWindow
 		label_run_interval_time_avg.Text = "";
 		label_run_interval_speed_now.Text = "";
 		label_run_interval_speed_avg.Text = "";
+	}
+	
+	private void showPulseLabels() {
+		hideAllTables();
+		
+		//show pulse info
+		table_pulse.Show();
+		table_pulse_values.Show();
+
+		//initializeLabels
+		label_pulse_now.Text = "";
+		label_pulse_avg.Text = "";
 	}
 	
 	//called for cleaning the graph of a event done before than the current
@@ -388,7 +396,6 @@ public class EventExecuteWindow
 			Console.Write("T1");
 			
 			Gdk.Rectangle allocation = drawingarea.Allocation;
-			//pixmap = new Gdk.Pixmap (args.Event.Window, allocation.Width, allocation.Height, -1);
 			pixmap = new Gdk.Pixmap (drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			erasePaint(drawingarea);
 
@@ -449,7 +456,7 @@ public class EventExecuteWindow
 		}
 		
 		//paint graph
-		paintJumpSimpleOrRunSimple (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
+		paintJumpSimple (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
 
 		//printLabels
 		printLabelsJumpSimple (tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
@@ -517,9 +524,10 @@ public class EventExecuteWindow
 		double distanceSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "distance");
 
 		//paint graph
-		paintJumpSimpleOrRunSimple (drawingarea, 
-				speed, distancePersonAVG / timePersonAVG, distanceSessionAVG /timeSessionAVG, 
-				time, timePersonAVG, timeSessionAVG);
+		if(eventGraphConfigureWin.RunsTimeActive) 	//paint time
+			paintRunSimple (drawingarea, pen_rojo, time, timePersonAVG, timeSessionAVG);
+		else						//paint speed
+			paintRunSimple (drawingarea, pen_azul, speed, distancePersonAVG / timePersonAVG, distanceSessionAVG /timeSessionAVG);
 		
 		//printLabels
 		printLabelsRunSimple (time, timePersonAVG, timeSessionAVG, speed, distancePersonAVG / timePersonAVG, distanceSessionAVG /timeSessionAVG);
@@ -530,7 +538,6 @@ public class EventExecuteWindow
 		drawingarea.QueueDraw();
 		
 		Console.Write("k3");
-		
 	}
 	
 	// run interval
@@ -541,15 +548,19 @@ public class EventExecuteWindow
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
 		Console.Write("l1");
+			
+		bool paintTime = false; //paint speed
+		if(eventGraphConfigureWin.RunsTimeActive) 
+			paintTime = true;
 
 		//search MAX 
 		double maxValue = 0;
 		int topMargin = 10;
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
-			maxValue = Util.GetMax(timesString);
-			//check if speed max is higher than time max (it should be)
-			if(distance / Util.GetMin(timesString) > maxValue)
+			if(paintTime)
+				maxValue = Util.GetMax(timesString);
+			else
 				maxValue = distance / Util.GetMin(timesString);
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
@@ -559,7 +570,7 @@ public class EventExecuteWindow
 		int tracks = Util.GetNumberOfJumps(timesString, true); 
 
 		//paint graph
-		paintRunInterval (drawingarea, distance, lastTime, timesString, Util.GetAverage(timesString), maxValue, tracks, topMargin);
+		paintRunInterval (drawingarea, paintTime, distance, lastTime, timesString, Util.GetAverage(timesString), maxValue, tracks, topMargin);
 		
 		Console.Write("l2");
 		
@@ -571,9 +582,38 @@ public class EventExecuteWindow
 
 
 	// pulse 
-	public void PreparePulseGraph() 
-	{
+	public void PreparePulseGraph(double lastTime, string timesString) { 
+		//check graph properties window is not null (propably user has closed it with the DeleteEvent
+		//then create it, but not show it
+		if(eventGraphConfigureWin == null)
+			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
+
+		Console.Write("l1");
+
+		//search MAX 
+		double maxValue = 0;
+		int topMargin = 10;
+		//if max value of graph is automatic
+		if(eventGraphConfigureWin.Max == -1) 
+			maxValue = Util.GetMax(timesString);
+		else {
+			maxValue = eventGraphConfigureWin.Max;
+			topMargin = 0;
+		}
+			
+		int pulses = Util.GetNumberOfJumps(timesString, true); 
+
+		//paint graph
+		paintPulse (drawingarea, lastTime, timesString, Util.GetAverage(timesString), maxValue, pulses, topMargin);
+		
+		Console.Write("l2");
+		
+		// -- refresh
+		drawingarea.QueueDraw();
+		
+		Console.Write("l3");
 	}
+	
 
 	private void printLabelsJumpSimple (double tvNow, double tvPerson, double tvSession, double tcNow, double tcPerson, double tcSession) {
 		if(tcNow > 0) {
@@ -601,16 +641,10 @@ public class EventExecuteWindow
 	}
 	
 
-	//if it's a run, tc means time, and tf(tv) means speed
-	//simply works
-	private void paintJumpSimpleOrRunSimple (Gtk.DrawingArea drawingarea, 
+	private void paintJumpSimple (Gtk.DrawingArea drawingarea, 
 			double tvNow, double tvPerson, double tvSession, 
 			double tcNow, double tcPerson, double tcSession)
 	{
-		//TEMPORARY, for only make graph of normal jump events
-		if(tvNow == -1) 
-			return;
-
 		
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
@@ -671,6 +705,59 @@ public class EventExecuteWindow
 		graphProgress = phasesGraph.DONE; 
 	}
 
+	private void paintRunSimple (Gtk.DrawingArea drawingarea, Gdk.GC myPen, double now, double person, double session)
+	{
+		int ancho=drawingarea.Allocation.Width;
+		int alto=drawingarea.Allocation.Height;
+		
+		
+		Console.Write(" paint1 ");
+		
+		double maxValue = 0;
+		double minValue = 0;
+		int topMargin = 10; 
+		//double bottomMargin = 10; 
+
+		//if max value of graph is automatic
+		if(eventGraphConfigureWin.Max == -1) {
+			maxValue = Util.GetMax(now.ToString() + "=" + person.ToString() + "=" + session.ToString());
+		} else {
+			maxValue = eventGraphConfigureWin.Max;
+			topMargin = 0;
+		}
+		
+		minValue = eventGraphConfigureWin.Min;
+		
+		
+		//Console.WriteLine("{0}, {1}, {2}", tcNow, tcPerson, tcSession);
+		//Console.WriteLine("{0}, {1}, {2}", tvNow, tvPerson, tvSession);
+		Console.WriteLine("maxValue: {0}", maxValue);
+		Console.WriteLine("minValue: {0}", minValue);
+
+		
+		erasePaint(drawingarea);
+		
+		Console.Write(" paint7 ");
+	
+		//check now here that we will have not division by zero problems
+		if(maxValue - minValue > 0) {
+			pixmap.DrawLine(myPen, ancho*1/6 , alto, ancho*1/6 , Convert.ToInt32(alto - ((now - minValue) * (alto - topMargin) / (maxValue - minValue))));
+			pixmap.DrawLine(myPen, ancho*3/6 , alto, ancho*3/6 , Convert.ToInt32(alto - ((person - minValue) * (alto - topMargin) / (maxValue - minValue))));
+			pixmap.DrawLine(myPen, ancho*5/6 , alto, ancho*5/6 , Convert.ToInt32(alto - ((session - minValue) * (alto - topMargin) / (maxValue - minValue))));
+
+	
+			//paint reference guide black and green if needed
+			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, maxValue, minValue);
+		}
+		
+	
+		
+		Console.Write(" paint2 ");
+
+		graphProgress = phasesGraph.DONE; 
+	}
+
 	
 	private void paintJumpReactive (Gtk.DrawingArea drawingarea, double lastTv, double lastTc, string tvString, string tcString, 
 			double avgTV, double avgTC, double maxValue, int jumps, int topMargin)
@@ -715,8 +802,8 @@ public class EventExecuteWindow
 
 				if (count > 0)
 					pixmap.DrawLine(pen_azul, //blue for TF
-							Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
-							Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTVDouble * (alto - topMargin) / maxValue)));
+							Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - ((oldValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
+							Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - ((myTVDouble - minValue) * (alto - topMargin) / (maxValue - minValue))));
 
 				oldValue = myTVDouble;
 				count ++;
@@ -735,8 +822,8 @@ public class EventExecuteWindow
 				//-1 means here that first jump has not TC (started inside)
 				if (count > 0 && oldValue != -1)
 					pixmap.DrawLine(pen_rojo, //red for TC
-							Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
-							Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - (myTCDouble * (alto - topMargin) / maxValue)));
+							Convert.ToInt32(ancho*(count-.5)/jumps), Convert.ToInt32(alto - ((oldValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
+							Convert.ToInt32(ancho*(count+.5)/jumps), Convert.ToInt32(alto - ((myTCDouble - minValue) * (alto - topMargin) / (maxValue - minValue))));
 
 				oldValue = myTCDouble;
 				count ++;
@@ -753,7 +840,7 @@ public class EventExecuteWindow
 		graphProgress = phasesGraph.DONE; 
 	}
 
-	private void paintRunInterval (Gtk.DrawingArea drawingarea, double distance, double lastTime, 
+	private void paintRunInterval (Gtk.DrawingArea drawingarea, bool paintTime, double distance, double lastTime, 
 			string timesString, double avgTime, double maxValue, int tracks, int topMargin)
 	{
 		//int topMargin = 10; 
@@ -770,12 +857,12 @@ public class EventExecuteWindow
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) {
 
-			//blue speed average discountinuos line	
-			drawGuideOrAVG(pen_azul_discont, distance/avgTime, alto, ancho, topMargin, maxValue, minValue);
-
-
-			//red time average discountinuos line	
-			drawGuideOrAVG(pen_rojo_discont, avgTime, alto, ancho, topMargin, maxValue, minValue);
+			if(paintTime)
+				//red time average discountinuos line	
+				drawGuideOrAVG(pen_rojo_discont, avgTime, alto, ancho, topMargin, maxValue, minValue);
+			else
+				//blue speed average discountinuos line	
+				drawGuideOrAVG(pen_azul_discont, distance/avgTime, alto, ancho, topMargin, maxValue, minValue);
 
 
 			//paint reference guide black and green if needed
@@ -796,13 +883,15 @@ public class EventExecuteWindow
 					myTimeDouble = 0;
 
 				if (count > 0) {
-					pixmap.DrawLine(pen_rojo, //red for time
-							Convert.ToInt32(ancho*(count-.5)/tracks), Convert.ToInt32(alto - (oldValue * (alto - topMargin) / maxValue)),
-							Convert.ToInt32(ancho*(count+.5)/tracks), Convert.ToInt32(alto - (myTimeDouble * (alto - topMargin) / maxValue)));
+					if(paintTime)
+						pixmap.DrawLine(pen_rojo,
+								Convert.ToInt32(ancho*(count-.5)/tracks), Convert.ToInt32(alto - ((oldValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
+								Convert.ToInt32(ancho*(count+.5)/tracks), Convert.ToInt32(alto - ((myTimeDouble - minValue) * (alto - topMargin) / (maxValue - minValue))));
+					else
 					
-					pixmap.DrawLine(pen_azul, //blue for speed
-							Convert.ToInt32(ancho*(count-.5)/tracks), Convert.ToInt32(alto - (distance/oldValue * (alto - topMargin) / maxValue)),
-							Convert.ToInt32(ancho*(count+.5)/tracks), Convert.ToInt32(alto - (distance/myTimeDouble * (alto - topMargin) / maxValue)));
+						pixmap.DrawLine(pen_azul,
+								Convert.ToInt32(ancho*(count-.5)/tracks), Convert.ToInt32(alto - ((distance/oldValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
+								Convert.ToInt32(ancho*(count+.5)/tracks), Convert.ToInt32(alto - ((distance/myTimeDouble - minValue) * (alto - topMargin) / (maxValue - minValue))));
 					
 				}
 
@@ -818,6 +907,62 @@ public class EventExecuteWindow
 		label_run_interval_time_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
 		label_run_interval_speed_now.Text = Util.TrimDecimals((distance / lastTime).ToString(), pDN);
 		label_run_interval_speed_avg.Text = Util.TrimDecimals((distance / avgTime).ToString(), pDN);
+		
+		graphProgress = phasesGraph.DONE; 
+	}
+
+	private void paintPulse (Gtk.DrawingArea drawingarea, double lastTime, 
+			string timesString, double avgTime, double maxValue, int pulses, int topMargin)
+	{
+		//int topMargin = 10; 
+		int ancho=drawingarea.Allocation.Width;
+		int alto=drawingarea.Allocation.Height;
+		
+		
+		Console.Write(" paint1 pulse 1");
+		
+		erasePaint(drawingarea);
+		
+		double minValue = eventGraphConfigureWin.Min;
+		
+		//check now here that we will have not division by zero problems
+		if(maxValue - minValue > 0) {
+
+			//blue time average discountinuos line	
+			drawGuideOrAVG(pen_azul_discont, avgTime, alto, ancho, topMargin, maxValue, minValue);
+
+			//paint reference guide black and green if needed
+			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, maxValue, minValue);
+
+			
+			//blue time evolution	
+			string [] myTimesStringFull = timesString.Split(new char[] {'='});
+			int count = 0;
+			double oldValue = 0;
+			double myTimeDouble = 0;
+
+			foreach (string myTime in myTimesStringFull) {
+				myTimeDouble = Convert.ToDouble(myTime);
+				if(myTimeDouble < 0)
+					myTimeDouble = 0;
+
+				if (count > 0) {
+					pixmap.DrawLine(pen_azul, //blue for time
+							Convert.ToInt32(ancho*(count-.5)/pulses), Convert.ToInt32(alto - ((oldValue - minValue) * (alto - topMargin) / (maxValue - minValue))),
+							Convert.ToInt32(ancho*(count+.5)/pulses), Convert.ToInt32(alto - ((myTimeDouble - minValue) * (alto - topMargin) / (maxValue - minValue))));
+				}
+
+				oldValue = myTimeDouble;
+				count ++;
+			}
+
+		}
+		
+		Console.Write(" paint pulse 2 ");
+
+		label_pulse_now.Text = Util.TrimDecimals(lastTime.ToString(), pDN);
+		label_pulse_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
 		
 		graphProgress = phasesGraph.DONE; 
 	}
@@ -1016,6 +1161,10 @@ public class EventGraphConfigureWindow
 	[Widget] Gtk.SpinButton spinbutton_min;
 	[Widget] Gtk.SpinButton spinbutton_black_guide;
 	[Widget] Gtk.SpinButton spinbutton_green_guide;
+	
+	[Widget] Gtk.Frame frame_runs;
+	[Widget] Gtk.RadioButton radiobutton_time;
+	[Widget] Gtk.RadioButton radiobutton_speed;
 
 	
 	static EventGraphConfigureWindow EventGraphConfigureWindowBox;
@@ -1148,6 +1297,13 @@ public class EventGraphConfigureWindow
 				return Convert.ToDouble(spinbutton_green_guide.Value);
 			else
 				return -1;
+		}
+	}
+	
+	//check if it's active from eventExecuteWindow
+	public bool RunsTimeActive {
+		get {
+			return (radiobutton_time.Active);
 		}
 	}
 

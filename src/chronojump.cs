@@ -1759,10 +1759,6 @@ public class ChronoJump
 			myLimit = 2; //2 for normal jump
 			
 		eventExecuteWin = EventExecuteWindow.Show(
-				/*
-				   Catalog.GetString("Execute Jump"), Catalog.GetString("Phases"),  
-				   currentPerson.Name, currentJumpType.Name, prefsDigitsNumber, myLimit, simulated);
-				   */
 			Catalog.GetString("Execute Jump"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
 			currentPerson.UniqueID, currentPerson.Name, 
@@ -1816,6 +1812,7 @@ public class ChronoJump
 					eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
 				break;
 			case eventType.PULSE:
+					eventExecuteWin.PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
 				break;
 		}
 	
@@ -1950,10 +1947,6 @@ public class ChronoJump
 	
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
-		/*
-				Catalog.GetString("Execute Reactive Jump"), Catalog.GetString("Jumps"),  
-				currentPerson.Name, currentJumpType.Name, prefsDigitsNumber, myLimit, simulated);
-		*/
 			Catalog.GetString("Execute Reactive Jump"), //windowTitle
 			Catalog.GetString("Jumps"),  	  //name of the different moments
 			currentPerson.UniqueID, currentPerson.Name, 
@@ -2123,10 +2116,6 @@ public class ChronoJump
 		double myLimit = 3; //same for startingIn than out (before)
 		
 		eventExecuteWin = EventExecuteWindow.Show(
-				/*
-				Catalog.GetString("Execute Run"), Catalog.GetString("Phases"),  
-				currentPerson.Name, currentRunType.Name, prefsDigitsNumber, myLimit, simulated);
-				*/
 			Catalog.GetString("Execute Run"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
 			currentPerson.UniqueID, currentPerson.Name, 
@@ -2274,10 +2263,6 @@ public class ChronoJump
 		
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
-		/*
-				Catalog.GetString("Execute Intervallic Run"), Catalog.GetString("Runs"),  
-				currentPerson.Name, currentRunType.Name, prefsDigitsNumber, myLimit, simulated);
-		*/
 			Catalog.GetString("Execute Intervallic Run"), //windowTitle
 			Catalog.GetString("Tracks"),  	  //name of the different moments
 			currentPerson.UniqueID, currentPerson.Name, 
@@ -2462,14 +2447,22 @@ public class ChronoJump
 		sensitiveGuiEventDoing();
 		
 		//show the event doing window
-		/*
 		eventExecuteWin = EventExecuteWindow.Show(
-				Catalog.GetString("Execute Pulse"), Catalog.GetString("Pulses"),  
-				currentPerson.Name, currentPulseType.Name, prefsDigitsNumber, totalPulses, simulated);
+			Catalog.GetString("Execute Pulse"), //windowTitle
+			Catalog.GetString("Pulses"),  	  //name of the different moments
+			currentPerson.UniqueID, currentPerson.Name, 
+			currentSession.UniqueID, 
+			"pulse", //tableName
+			currentPulseType.Name, 
+			prefsDigitsNumber, totalPulses, simulated);
+
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-		*/
 		
+		//when user clicks on update the eventExecute window 
+		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+
 		
 		currentPulse = new Pulse(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 

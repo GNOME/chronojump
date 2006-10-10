@@ -661,6 +661,10 @@ public class JumpRj : Jump
 							
 							//update graph
 							eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
+
+							//put button_finish as sensitive when first jump is done (there's something recordable)
+							if(tvCount == 1)
+								needSensitiveButtonFinish = true;
 						}
 					}
 				}

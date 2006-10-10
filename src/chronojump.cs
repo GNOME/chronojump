@@ -1806,9 +1806,10 @@ public class ChronoJump
 					eventExecuteWin.PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
 				break;
 			case eventType.RUN:
-				//if(currentRunType.HasIntervals) 
-					//eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
-				//else
+				if(currentRunType.HasIntervals) 
+					eventExecuteWin.PrepareRunIntervalGraph(currentRunInterval.DistanceInterval, 
+							Util.GetLast(currentRunInterval.IntervalTimesString), currentRunInterval.IntervalTimesString);
+				else
 					eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
 				break;
 			case eventType.PULSE:
@@ -2266,14 +2267,25 @@ public class ChronoJump
 		sensitiveGuiEventDoing();
 		
 		//show the event doing window
-		/*
 		eventExecuteWin = EventExecuteWindow.Show(
+		/*
 				Catalog.GetString("Execute Intervallic Run"), Catalog.GetString("Runs"),  
 				currentPerson.Name, currentRunType.Name, prefsDigitsNumber, myLimit, simulated);
+		*/
+			Catalog.GetString("Execute Intervallic Run"), //windowTitle
+			Catalog.GetString("Tracks"),  	  //name of the different moments
+			currentPerson.UniqueID, currentPerson.Name, 
+			currentSession.UniqueID, 
+			"runInterval", //tableName
+			currentRunType.Name, 
+			prefsDigitsNumber, myLimit, simulated);
+
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-		*/
 
+		//when user clicks on update the eventExecute window 
+		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 		
 		currentRunInterval = new RunInterval(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
 				distanceInterval, myLimit, currentRunType.TracksLimited, 
@@ -2549,11 +2561,9 @@ public class ChronoJump
 				if (askDeletion) {
 					int myID = myTreeViewRuns.EventSelectedID;
 					if (lastRunIsInterval) {
-						/*
-						   warningString = Catalog.GetString("Attention: Deleting a intervalic sub-run will delete the whole run"); 
-						   myID = myTreeViewRunsInterval.EventSelectedID;
-						   */
 						notebook_change(3);
+						warningString = Catalog.GetString("Attention: Deleting a intervalic sub-run will delete the whole run"); 
+						myID = myTreeViewRunsInterval.EventSelectedID;
 					} else {
 						notebook_change(2);
 					}
@@ -2570,8 +2580,6 @@ public class ChronoJump
 				if (askDeletion) {
 					int myID = myTreeViewPulses.EventSelectedID;
 					notebook_change(4);
-					//warningString = Catalog.GetString("Attention: Deleting a RJ subjump will delete the whole jump"); 
-
 					confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, 
 							Catalog.GetString("Do you want to delete last pulse?"), 
 							warningString, "pulse", myID);
@@ -2588,45 +2596,42 @@ public class ChronoJump
 	}
 
 	private void on_last_jump_delete_accepted (object o, EventArgs args) {
-		if(lastJumpIsReactive) {
+		if(lastJumpIsReactive) 
 			SqliteJump.Delete("jumpRj", currentJumpRj.UniqueID.ToString());
-		} else {
+		else 
 			SqliteJump.Delete("jump", currentJump.UniqueID.ToString());
-		}
+		
 		button_last_delete.Sensitive = false ;
 
 		appbar2.Push( 1, Catalog.GetString("Last jump deleted") );
 
-		if(lastJumpIsReactive) {
+		if(lastJumpIsReactive) 
 			myTreeViewJumpsRj.DelEvent(currentJumpRj.UniqueID);
-		} else {
+		else 
 			myTreeViewJumps.DelEvent(currentJump.UniqueID);
-		}
+		
 
-		if(createdStatsWin) {
+		if(createdStatsWin) 
 			statsWin.FillTreeView_stats(false, false);
-		}
 	}
 
 	private void on_last_run_delete_accepted (object o, EventArgs args) {
-		if (lastRunIsInterval) {
-			//SqliteRun.RjDelete(currentRunRj.UniqueID.ToString());
-		} else {
+		if (lastRunIsInterval) 
+			SqliteRun.Delete("runInterval", currentRunInterval.UniqueID.ToString());
+		else 
 			SqliteRun.Delete("run", currentRun.UniqueID.ToString());
-		}
+		
 		button_last_delete.Sensitive = false ;
 
 		appbar2.Push( 1, Catalog.GetString("Last run deleted") );
 
-		if (lastRunIsInterval) {
-			//myTreeViewJumpsRj.DelEvent(currentJumpRj.UniqueID);
-		} else {
+		if (lastRunIsInterval) 
+			myTreeViewRunsInterval.DelEvent(currentRunInterval.UniqueID);
+		else 
 			myTreeViewRuns.DelEvent(currentRun.UniqueID);
-		}
 
-		if(createdStatsWin) {
+		if(createdStatsWin) 
 			statsWin.FillTreeView_stats(false, false);
-		}
 	}
 
 	private void on_last_pulse_delete_accepted (object o, EventArgs args) {

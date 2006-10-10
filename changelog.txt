@@ -1,5 +1,11 @@
 CHANGELOG:
 
+10 oct 2006
+	graphEventWin & graphConfigureWin for run interval (only pulse remains)
+	eventWindow now is not hidden by mainwindow everytime we do a different type of event
+	fixed bug in maxValue (not auto) in runInterval
+	deletelastEvent now deletes intervallic run. Fixes: 360982
+
 9 oct 2006
 	-eventbox for colors on tc/tf labels on eventWindow
 	-fixed bug in reactive jump by time (it finished when time passed but jumper hasn't started)

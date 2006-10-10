@@ -408,11 +408,16 @@ public class RunInterval : Run
 							intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 							tracks ++;	
 								
-							eventExecuteWin.ProgressBarEventOrTimePreExecution(
+							//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+							updateProgressBar= new UpdateProgressBar (
 									true, //isEvent
 									true, //unlimited: activity mode
 									tracks
 									);  
+							needUpdateEventProgressBar = true;
+							
+							//update graph
+							eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
 						}
 						else {
 							//has arrived, limited
@@ -433,11 +438,16 @@ public class RunInterval : Run
 									success = true;
 								}
 								
-								eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								updateProgressBar= new UpdateProgressBar (
 										true, //isEvent
 										true, //tracksLimited: percentageMode
 										tracks
 										);  
+								needUpdateEventProgressBar = true;
+							
+								//update graph
+								eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
 
 							} else {
 								//has arrived, limited by time
@@ -453,11 +463,16 @@ public class RunInterval : Run
 									tracks ++;	
 								}
 								
-								eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								updateProgressBar= new UpdateProgressBar (
 										true, //isEvent
 										false, //timeLimited: activity mode
 										tracks
 										);  
+								needUpdateEventProgressBar = true;
+							
+								//update graph
+								eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
 							}
 						}
 					}
@@ -489,7 +504,8 @@ public class RunInterval : Run
 	
 	protected override bool shouldFinishByTime() {
 		//check if it should finish now (time limited, not unlimited and time exceeded)
-		if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble)
+		//check also that's not the firstIntervalValue if come from outside CHECK THIS THING
+		if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble && ! (firstIntervalValue && ! startIn)) 
 			return true;
 		else
 			return false;
@@ -505,11 +521,18 @@ public class RunInterval : Run
 
 	protected override void updateTimeProgressBar() {
 		//limited by jumps or time, but has no finished
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
-				false, //isEvent false: time
-				!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
-				timerCount
-				); 
+		if(firstIntervalValue && !startIn) 
+			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					false, //isEvent false: time
+					false, //activity mode
+					-1	//don't want to show info on label
+					); 
+		else
+			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					false, //isEvent false: time
+					!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
+					timerCount
+					); 
 	}
 
 
@@ -560,9 +583,10 @@ public class RunInterval : Run
 		fakeButtonFinished.Click();
 		
 		//put max value in progressBar. This makes the thread in PulseGTK() stop
-		progressBar.Fraction = 1;
+		//progressBar.Fraction = 1;
 		
 		//eventExecuteWin.EventEnded(-1, -1);
+		eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
 		eventExecuteWin.EventEnded();
 		
 	}

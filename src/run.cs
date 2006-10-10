@@ -392,9 +392,9 @@ public class RunInterval : Run
 					loggedState = States.ON;
 					
 					//if we start out, and we arrive to the platform for the first time, don't record nothing
-					if (firstIntervalValue && ! startIn) {
+					if (firstIntervalValue && ! startIn) 
 						firstIntervalValue = false;
-					} else {
+					else {
 						//has arrived and not in the "running previous"
 						
 						//if interval run is "unlimited" not limited by tracks, nor time, 
@@ -418,6 +418,10 @@ public class RunInterval : Run
 							
 							//update graph
 							eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
+							
+							//put button_finish as sensitive when first jump is done (there's something recordable)
+							if(tracks == 1)
+								needSensitiveButtonFinish = true;
 						}
 						else {
 							//has arrived, limited
@@ -449,6 +453,9 @@ public class RunInterval : Run
 								//update graph
 								eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
 
+								//put button_finish as sensitive when first jump is done (there's something recordable)
+								if(tracks == 1)
+									needSensitiveButtonFinish = true;
 							} else {
 								//has arrived, limited by time
 								
@@ -473,6 +480,10 @@ public class RunInterval : Run
 							
 								//update graph
 								eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
+
+								//put button_finish as sensitive when first jump is done (there's something recordable)
+								if(tracks == 1)
+									needSensitiveButtonFinish = true;
 							}
 						}
 					}

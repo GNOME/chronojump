@@ -452,8 +452,11 @@ public class ChronoJump
 			success = false;
 		}
 			
-		if(success)
+		if(success) {
 			cpRunning = true;
+			string myString = string.Format(Catalog.GetString("Connected to Chronopic on port: {0}"), myPort);
+			appbar2.Push( 1, myString);
+		}
 		if(! success) {
 			new DialogMessage(Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'"));
 			//Console.WriteLine("Problems communicating to chronopic, changed platform to 'Simulated'");
@@ -1836,12 +1839,13 @@ public class ChronoJump
 		
 			//change to page 0 of notebook if were in other
 			notebook_change(0);
+		
+			//unhide buttons for delete last jump
+			sensitiveGuiYesEvent();
 		}
 		
 		//unhide buttons that allow jumping
 		sensitiveGuiEventDone();
-		//unhide buttons for delete last jump
-		sensitiveGuiYesEvent();
 	}
 
 
@@ -2006,12 +2010,13 @@ public class ChronoJump
 
 			//change to page 1 of notebook if were in other
 			notebook_change(1);
+			
+			//unhide buttons for delete last jump
+			sensitiveGuiYesEvent();
 		}
 		
 		//unhide buttons that allow jumping
 		sensitiveGuiEventDone();
-		//unhide buttons for delete last jump
-		sensitiveGuiYesEvent();
 	}
 
 	
@@ -2166,12 +2171,13 @@ public class ChronoJump
 		
 			//change to page 2 of notebook if were in other
 			notebook_change(2);
+			
+			//unhide buttons for delete last jump
+			sensitiveGuiYesEvent();
 		}
 		
 		//unhide buttons that allow jumping, running
 		sensitiveGuiEventDone();
-		//unhide buttons for delete last jump
-		sensitiveGuiYesEvent();
 	}
 
 
@@ -2326,13 +2332,13 @@ public class ChronoJump
 
 			//change to page 3 of notebook if were in other
 			notebook_change(3);
+		
+			//unhide buttons for delete last jump
+			sensitiveGuiYesEvent();
 		}
 		
-		sensitiveGuiYesEvent();
 		//unhide buttons that allow jumping, running
 		sensitiveGuiEventDone();
-		//unhide buttons for delete last jump
-		sensitiveGuiYesEvent();
 	}
 
 	/* ---------------------------------------------------------
@@ -2508,13 +2514,13 @@ public class ChronoJump
 
 			//change to page 4 of notebook if were in other
 			notebook_change(4);
+		
+			//unhide buttons for delete last jump
+			sensitiveGuiYesEvent();
 		}
 		
-		sensitiveGuiYesEvent();
 		//unhide buttons that allow jumping, running
 		sensitiveGuiEventDone();
-		//unhide buttons for delete last jump
-		sensitiveGuiYesEvent();
 	}
 
 

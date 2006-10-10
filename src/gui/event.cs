@@ -190,11 +190,14 @@ public class EventExecuteWindow
 			label_simulated.Hide();
 			
 
+		/*
 		//allow to finish earlier if the event has subevents
 		if(tableName == "jumpRj" || tableName == "runInterval" || tableName == "pulse")
 			button_finish.Sensitive = true;
 		else
 			button_finish.Sensitive = false;
+		*/
+		button_finish.Sensitive = false;
 
 		if(tableName == "jump")
 			showJumpSimpleLabels();
@@ -331,6 +334,12 @@ public class EventExecuteWindow
 		erasePaint(drawingarea);
 	}
 	
+	//reactive, interval, pulse events, put flag needSensitiveButtonFinish to true when started
+	//event.cs (Pulse.GTK) calls this method:
+	public void ButtonFinishMakeSensitive() {
+		button_finish.Sensitive = true;
+	}
+		
 	private void clearProgressBars() 
 	{
 		progressbar_event.Fraction = 0;
@@ -996,7 +1005,6 @@ public class EventGraphConfigureWindow
 {
 	[Widget] Gtk.Window event_graph_configure;
 	
-	[Widget] Gtk.Button button_finish;
 	[Widget] Gtk.Button button_close;
 
 	[Widget] Gtk.CheckButton checkbutton_max_auto;

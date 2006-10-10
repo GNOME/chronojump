@@ -1,6 +1,12 @@
 CHANGELOG:
 
 10 oct 2006
+	-fixed buggy effect when user cancels a event and it's recorded as zero
+	-now delete_last_event button is not sensitive after a cancelled event
+	-finish now only appears when there's some reactive or interval
+	recordable (with one or more subevents)
+
+10 oct 2006
 	graphEventWin & graphConfigureWin for run interval (only pulse remains)
 	eventWindow now is not hidden by mainwindow everytime we do a different type of event
 	fixed bug in maxValue (not auto) in runInterval

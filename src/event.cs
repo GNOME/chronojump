@@ -50,6 +50,9 @@ public class Event
 	//don't make the waitEvent update the progressBars, just flag this variable
 	//and make the PulseGTK do it
 	protected bool needUpdateEventProgressBar;
+	//also for the sensitive of finish button on jumpsReactive, runsInterval and pulses
+	protected bool needSensitiveButtonFinish;
+	
 	
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
@@ -204,6 +207,12 @@ Console.Write("wwa ");
 			needUpdateEventProgressBar = false;
 Console.Write("wwb ");				
 		}
+		
+		if(needSensitiveButtonFinish) {
+			eventExecuteWin.ButtonFinishMakeSensitive();
+			needSensitiveButtonFinish = false;
+		}
+		
 		//check if it should finish by time
 		if(shouldFinishByTime()) {
 			updateProgressBarForFinish();
@@ -287,10 +296,10 @@ Console.Write("wwb ");
 	//this is NOT called when a event has started and user click on "Cancel"
 	protected void cancel_event(object o, EventArgs args)
 	{
+		cancel = true;
+		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
-		
-		cancel = true;
 	}
 	
 	public Gtk.Button FakeButtonFinished

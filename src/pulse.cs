@@ -176,85 +176,104 @@ public class Pulse : Event
 			bool ok;
 
 			do {
-					if(simulated) 
-							ok = true;
-					else 
-							ok = cp.Read_event(out timestamp, out platformState);
+				if(simulated) 
+					ok = true;
+				else 
+					ok = cp.Read_event(out timestamp, out platformState);
 
 
-					if (ok) {
-							if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
-									//has arrived
+				if (ok) {
+					if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
+						//has arrived
 
-									//if we arrive to the platform for the first time, don't record anything
-									if (firstPulse) {
-											firstPulse = false;
-											initializeTimer();
-									} else {
-											//is not the first pulse
-											if(totalPulsesNum == -1) {
-													//if is "unlimited", 
-													//then play with the progress bar until finish button is pressed
-													if(simulated)
-															timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
-													if(timesString.Length > 0) { equal = "="; }
-													timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
-													tracks ++;	
+						//if we arrive to the platform for the first time, don't record anything
+						if (firstPulse) {
+							firstPulse = false;
+							initializeTimer();
+						} else {
+							//is not the first pulse
+							if(totalPulsesNum == -1) {
+								//if is "unlimited", 
+								//then play with the progress bar until finish button is pressed
+								if(simulated)
+									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+								if(timesString.Length > 0) { equal = "="; }
+								timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
+								tracks ++;	
 
-													//update event progressbar
-													eventExecuteWin.ProgressBarEventOrTimePreExecution(
-																	true, //isEvent
-																	false, //activityMode
-																	tracks
-																	);  
-											}
-											else {
-													//is not the first pulse, and it's limited by tracks (ticks)
-													tracks ++;	
+								//update event progressbar
+								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								updateProgressBar= new UpdateProgressBar (
+										true, //isEvent
+										false, //activityMode
+										tracks
+										);  
 
-													if(simulated)
-															timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
-													if(timesString.Length > 0) { equal = "="; }
-													timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
+								needUpdateEventProgressBar = true;
 
-													if(tracks >= totalPulsesNum) 
-													{
-															//finished
-															write();
-															success = true;
-													}
+								//update graph
+								eventExecuteWin.PreparePulseGraph(timestamp/1000, timesString);
 
-													//update event progressbar
-													eventExecuteWin.ProgressBarEventOrTimePreExecution(
-																	true, //isEvent
-																	true, //PercentageMode
-																	tracks
-																	);  
-											}
-									}
-
-									//change the automata state
-									loggedState = States.ON;
+								//put button_finish as sensitive when first jump is done (there's something recordable)
+								if(tracks == 1)
+									needSensitiveButtonFinish = true;
 							}
-							else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
-									//it's out, was inside (= has abandoned platform)
-									//don't record time
-									if(simulated)
-											timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
-									contactTime = timestamp;
+							else {
+								//is not the first pulse, and it's limited by tracks (ticks)
+								tracks ++;	
 
-									//change the automata state
-									loggedState = States.OFF;
+								if(simulated)
+									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+								if(timesString.Length > 0) { equal = "="; }
+								timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
+
+								if(tracks >= totalPulsesNum) 
+								{
+									//finished
+									write();
+									success = true;
+								}
+
+								//update event progressbar
+								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								updateProgressBar= new UpdateProgressBar (
+										true, //isEvent
+										true, //PercentageMode
+										tracks
+										);  
+								needUpdateEventProgressBar = true;
+
+								//update graph
+								eventExecuteWin.PreparePulseGraph(timestamp/1000, timesString);
+
+								//put button_finish as sensitive when first jump is done (there's something recordable)
+								if(tracks == 1)
+									needSensitiveButtonFinish = true;
 							}
+						}
+
+						//change the automata state
+						loggedState = States.ON;
 					}
+					else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+						//it's out, was inside (= has abandoned platform)
+						//don't record time
+						if(simulated)
+							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+						contactTime = timestamp;
+
+						//change the automata state
+						loggedState = States.OFF;
+					}
+				}
 			} while ( ! success && ! cancel && ! finish );
 
 			if (finish) {
-					write();
+				write();
 			}
 			if(cancel || finish) {
-					//event will be raised, and managed in chronojump.cs
-					fakeButtonFinished.Click();
+				//event will be raised, and managed in chronojump.cs
+				fakeButtonFinished.Click();
 			}
 	}
 
@@ -272,7 +291,7 @@ public class Pulse : Event
 	}
 
 	protected override void updateTimeProgressBar() {
-		//limited by jumps or time, but has no finished
+		//limited by tracks, but has no finished
 		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activiyMode
@@ -303,6 +322,7 @@ public class Pulse : Event
 		progressBar.Fraction = 1;
 		
 		//eventExecuteWin.EventEnded(-1, -1);
+		eventExecuteWin.PreparePulseGraph(Util.GetLast(timesString), timesString);
 		eventExecuteWin.EventEnded();
 	}
 

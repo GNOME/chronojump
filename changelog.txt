@@ -1,6 +1,10 @@
 CHANGELOG:
 
 10 oct 2006
+	graphEventWin & graphConfigureWin for pulse: closed: 353054
+	eventWindowRuns graph time OR speed, config on graphConfigureWin
+
+10 oct 2006
 	-fixed buggy effect when user cancels a event and it's recorded as zero
 	-now delete_last_event button is not sensitive after a cancelled event
 	-finish now only appears when there's some reactive or interval

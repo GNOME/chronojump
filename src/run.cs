@@ -44,8 +44,7 @@ public class Run : Event
 
 	//run execution
 	public Run(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
-			int pDN, bool metersSecondsPreferred)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -54,7 +53,6 @@ public class Run : Event
 		this.distance = distance;
 		
 		this.cp = cp;
-		this.progressBar = progressBar;
 		this.appbar = appbar;
 		this.app = app;
 
@@ -64,6 +62,9 @@ public class Run : Event
 		fakeButtonFinished = new Gtk.Button();
 
 		simulated = false;
+		
+		needUpdateEventProgressBar = false;
+		needUpdateGraph = false;
 	}
 	
 	//after inserting database (SQL)
@@ -136,9 +137,6 @@ public class Run : Event
 			}
 		}
 
-		//reset progressBar
-		progressBar.Fraction = 0;
-
 		//prepare jump for being cancelled if desired
 		cancel = false;
 
@@ -172,13 +170,15 @@ public class Run : Event
 					if( ! startIn && ! arrived ) {
 						arrived = true;
 						
-						initializeTimer();
+						//initializeTimer();
 
-						eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //tracksLimited: percentageMode
 								1 //just reached platform, phase 1/3
 								);  
+						needUpdateEventProgressBar = true;
 					} else {
 						//run finished: 
 						//if started outside (behind platform) it's the second arrive
@@ -192,12 +192,14 @@ public class Run : Event
 
 						success = true;
 						
-						eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //percentageMode
 								//percentageToPass
 								3
 								);  
+						needUpdateEventProgressBar = true;
 					}
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
@@ -207,11 +209,13 @@ public class Run : Event
 					initializeTimer();
 
 					//update event progressbar
-					eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					updateProgressBar = new UpdateProgressBar (
 							true, //isEvent
 							true, //percentageMode
 							2 //normal run, phase 2/3
 							);  
+					needUpdateEventProgressBar = true;
 					
 					//change the automata state
 					loggedState = States.OFF;
@@ -231,11 +235,17 @@ public class Run : Event
 	}
 	
 	protected override void updateTimeProgressBar() {
+		double myTimeValue = timerCount; //show time from the timerCount
+		if(needEndEvent)
+			myTimeValue = time; //if run has finished, sync info in time label with Chronopic data
+		
 		//has no finished, but move progressbar time
 		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activity mode
-				-1	//don't want to show info on label
+				//-1	//don't want to show info on label
+				//timerCount	//show time, but remember to update later with the MORE RELIABLE time from chronopic
+				myTimeValue
 				); 
 	}
 
@@ -254,12 +264,13 @@ public class Run : Event
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in PulseGTK() stop
-		//progressBar.Fraction = 1;
+		//eventExecuteWin.PrepareRunSimpleGraph(time, distance/time);
+		prepareEventGraphRunSimple = new PrepareEventGraphRunSimple(time, distance/time);
+		needUpdateGraphType = eventType.RUN;
+		needUpdateGraph = true;
 		
-		//eventExecuteWin.EventEnded(-1, -1);
-		eventExecuteWin.PrepareRunSimpleGraph(time, distance/time);
-		eventExecuteWin.EventEnded();
+		//eventExecuteWin.EventEnded();
+		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 	}
 	
 
@@ -315,8 +326,7 @@ public class RunInterval : Run
 
 	//run execution
 	public RunInterval(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
-			int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -335,7 +345,6 @@ public class RunInterval : Run
 		
 		
 		this.cp = cp;
-		this.progressBar = progressBar;
 		this.appbar = appbar;
 		this.app = app;
 
@@ -344,6 +353,9 @@ public class RunInterval : Run
 		fakeButtonFinished = new Gtk.Button();
 
 		simulated = false;
+		
+		needUpdateEventProgressBar = false;
+		needUpdateGraph = false;
 	}
 	
 	
@@ -378,6 +390,7 @@ public class RunInterval : Run
 		bool ok;
 
 		timerCount = 0;
+		bool initialized = false;
 		
 		do {
 
@@ -417,7 +430,11 @@ public class RunInterval : Run
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
+							//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
+							prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+							needUpdateGraphType = eventType.RUNINTERVAL;
+							needUpdateGraph = true;
+							
 							
 							//put button_finish as sensitive when first jump is done (there's something recordable)
 							if(tracks == 1)
@@ -451,7 +468,10 @@ public class RunInterval : Run
 								needUpdateEventProgressBar = true;
 							
 								//update graph
-								eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
+								//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
+								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+								needUpdateGraphType = eventType.RUNINTERVAL;
+								needUpdateGraph = true;
 
 								//put button_finish as sensitive when first jump is done (there's something recordable)
 								if(tracks == 1)
@@ -479,7 +499,10 @@ public class RunInterval : Run
 								needUpdateEventProgressBar = true;
 							
 								//update graph
-								eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
+								//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
+								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+								needUpdateGraphType = eventType.RUNINTERVAL;
+								needUpdateGraph = true;
 
 								//put button_finish as sensitive when first jump is done (there's something recordable)
 								if(tracks == 1)
@@ -491,11 +514,29 @@ public class RunInterval : Run
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 					//it's out, was inside (= has abandoned platform)
 					//don't record time
-					//progressBar.Fraction = progressBar.Fraction + 0.1;
 				
 					//count the contact times when limited by time
 					//normally these are despreciable in runs, but if
 					//someone uses this for other application, we should record
+
+
+					//if starts in, the first time it gets out, we have to put chrono at 0
+					if(startIn) {
+						//if(timerCount == 0) 	//but only one time
+						if(!initialized) {
+							initializeTimer();
+							initialized = true;
+						}
+					} 
+					//if starts out(before) the first time we arrive here should not be accounted
+					else {
+						if (!firstIntervalValue)	//don't count the time before arriving to first platform CHECK THIS
+							//if(timerCount == 0) 	//but only one time
+							if(!initialized) {
+								initializeTimer();
+								initialized = true;
+							}
+					}
 
 					//change the automata state
 					loggedState = States.OFF;
@@ -531,19 +572,31 @@ public class RunInterval : Run
 	}
 
 	protected override void updateTimeProgressBar() {
-		//limited by jumps or time, but has no finished
-		if(firstIntervalValue && !startIn) 
+		if(needEndEvent) {
 			eventExecuteWin.ProgressBarEventOrTimePreExecution(
 					false, //isEvent false: time
 					false, //activity mode
-					-1	//don't want to show info on label
+					Util.GetTotalTime(intervalTimesString) 
 					); 
-		else
-			eventExecuteWin.ProgressBarEventOrTimePreExecution(
-					false, //isEvent false: time
-					!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
-					timerCount
-					); 
+			Console.WriteLine("**** {0}", Util.GetTotalTime(intervalTimesString));
+			/* WHY DOES NOT ARRIVE HERE? */
+			
+		}
+		else {
+			//limited by jumps or time, but has no finished
+			if(firstIntervalValue && !startIn) 
+				eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						false, //isEvent false: time
+						false, //activity mode
+						-1	//don't want to show info on label
+						); 
+			else
+				eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						false, //isEvent false: time
+						!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
+						timerCount
+						); 
+		}
 	}
 
 
@@ -593,12 +646,13 @@ public class RunInterval : Run
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in PulseGTK() stop
-		//progressBar.Fraction = 1;
-		
-		//eventExecuteWin.EventEnded(-1, -1);
-		eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
-		eventExecuteWin.EventEnded();
+		//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
+		prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
+		needUpdateGraphType = eventType.RUNINTERVAL;
+		needUpdateGraph = true;
+
+		//eventExecuteWin.EventEnded();
+		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		
 	}
 

@@ -1,5 +1,34 @@
 CHANGELOG:
 
+13 oct 2006
+	progrVersion changed to "0.5-Pre1"
+	
+	All events does not do the graph directly, they create an object,
+	put a flag, and the GTK thread does it
+	new file:prepareEventGraphObjects.c
+	Also it doesn't end the event directly, uses another flag
+	This will help with thread problems when graph hasn't finished (normally related to Pango)
+
+	timerCount is shown on the eventExecute on runs simple
+	and synced at end with chronopic data in progressbarEventOrTimeExecution 
+	-runInterval is synced, but id doesn't work. See updateTimeProgressBar() 
+	-also pulse (does not work)
+	
+	eventWindow "auto" also for MIN (not default). Works on all events
+	texts are shown on graph (minY, maxY and guides).
+	
+	lines end with a circle (deactivable)
+	jumpReactive, run interval, and pulse has Y beige lines (deactivable)
+	jumpReactive, runInterval and pulse write at right the values
+	
+	graph get erased just when start a new event
+	eventExecute on_update_clicked is called only one time now
+	eventExecute hide the tables before showing itself
+
+	main progressBar deleted, statusBar fills now all space
+	fixed: pulses buttons where sensitive while any event
+	eventGraphConfigure moved to new file src/gui/eventGraphConfigure.cs
+
 10 oct 2006
 	graphEventWin & graphConfigureWin for pulse: closed: 353054
 	eventWindowRuns graph time OR speed, config on graphConfigureWin

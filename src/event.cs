@@ -50,10 +50,27 @@ public class Event
 	//don't make the waitEvent update the progressBars, just flag this variable
 	//and make the PulseGTK do it
 	protected bool needUpdateEventProgressBar;
+	protected UpdateProgressBar updateProgressBar; //instance with the info to update
+	
 	//also for the sensitive of finish button on jumpsReactive, runsInterval and pulses
 	protected bool needSensitiveButtonFinish;
+	//also for the graph creation	
+	protected bool needUpdateGraph;
+	protected enum eventType {
+		JUMP, JUMPREACTIVE, RUN, RUNINTERVAL, PULSE
+	}
+	protected eventType needUpdateGraphType;
 	
+	protected PrepareEventGraphJumpSimple prepareEventGraphJumpSimple; //instance with the info to create
+	protected PrepareEventGraphJumpReactive prepareEventGraphJumpReactive; //instance with the info to create
+	protected PrepareEventGraphRunSimple prepareEventGraphRunSimple; //instance with the info to create
+	protected PrepareEventGraphRunInterval prepareEventGraphRunInterval; //instance with the info to create
+	protected PrepareEventGraphPulse prepareEventGraphPulse; //instance with the info to create
 	
+	protected bool needEndEvent;
+
+
+
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
 	//private Chronopic cp;
@@ -77,10 +94,8 @@ public class Event
 
 	protected Chronopic.Plataforma platformState;
 	
-	protected UpdateProgressBar updateProgressBar;
-	
 	protected States loggedState;		//log of last state
-	protected Gtk.ProgressBar progressBar;
+	//protected Gtk.ProgressBar progressBar;
 	protected Gtk.Statusbar appbar;
 	protected Gtk.Window app;
 	protected int pDN;
@@ -152,7 +167,16 @@ public class Event
 	
 	protected bool PulseGTK ()
 	{
-			onTimer();
+		onTimer();
+
+
+		//thread is (in jump, as an example), started in Manage:
+		//thread = new Thread(new ThreadStart(waitEvent));
+		//GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+		//thread.Start(); 
+		//
+		//when waitEvent it's done (with success, for example)
+		//then thread is dead
 
 		if ( ! thread.IsAlive || cancel) {
 			//if(progressBar.Fraction == 1 || cancel) {
@@ -184,6 +208,17 @@ public class Event
 	{
 		timerCount = timerCount + .15; //0,15 segons == 150 milliseconds, time between each call of onTimer
 		
+		/* this will be good for not continue counting the time on eventWindow when event has finished
+		 * this will help to sync chronopic data with the timerCount data
+		 * later also, copy the value of the chronopic to the timerCount label
+		 */
+		if(needEndEvent) {
+			eventExecuteWin.EventEnded();
+			//needEndEvent = false;
+		} else 
+			updateTimeProgressBar();
+		
+		
 		if(simulated) {
 			eventSimulatedShouldChangePlatform();
 		}
@@ -191,13 +226,6 @@ public class Event
 		if(needUpdateEventProgressBar) {
 Console.Write("wwa ");				
 			//update event progressbar
-			/*
-			eventExecuteWin.ProgressBarEventOrTimePreExecution(
-					true, //isEvent
-					true, //percentageMode
-					1 //normal jump, phase 1/2
-					);  
-			*/
 			eventExecuteWin.ProgressBarEventOrTimePreExecution(
 					updateProgressBar.IsEvent,
 					updateProgressBar.PercentageMode,
@@ -206,6 +234,12 @@ Console.Write("wwa ");
 
 			needUpdateEventProgressBar = false;
 Console.Write("wwb ");				
+		}
+		
+	
+		if(needUpdateGraph) {
+			updateGraph();
+			needUpdateGraph = false;
 		}
 		
 		if(needSensitiveButtonFinish) {
@@ -218,8 +252,8 @@ Console.Write("wwb ");
 			updateProgressBarForFinish();
 			finish = true;
 		} 
-		else 
-			updateTimeProgressBar();
+		//else 
+		//	updateTimeProgressBar();
 	}
 			
 	//check if we should simulate an arriving or leaving the platform depending on random time values
@@ -279,13 +313,53 @@ Console.Write("wwb ");
 		Console.WriteLine("Changed!");
 	}
 			
+	private void updateGraph() {
+		switch(needUpdateGraphType) {
+			case eventType.JUMP:
+				Console.Write("update graph: JUMP");
+				eventExecuteWin.PrepareJumpSimpleGraph(
+						prepareEventGraphJumpSimple.tv, 
+						prepareEventGraphJumpSimple.tc);
+				break;
+			case eventType.JUMPREACTIVE:
+				Console.Write("update graph: JUMPREACTIVE");
+				eventExecuteWin.PrepareJumpReactiveGraph(
+						prepareEventGraphJumpReactive.lastTv, 
+						prepareEventGraphJumpReactive.lastTc,
+						prepareEventGraphJumpReactive.tvString,
+						prepareEventGraphJumpReactive.tcString);
+				break;
+			case eventType.RUN:
+				Console.Write("update graph: RUN");
+				eventExecuteWin.PrepareRunSimpleGraph(
+						prepareEventGraphRunSimple.time, 
+						prepareEventGraphRunSimple.speed);
+				break;
+			case eventType.RUNINTERVAL:
+				Console.Write("update graph: RUNINTERVAL");
+				eventExecuteWin.PrepareRunIntervalGraph(
+						prepareEventGraphRunInterval.distance, 
+						prepareEventGraphRunInterval.lastTime,
+						prepareEventGraphRunInterval.timesString);
+				break;
+			case eventType.PULSE:
+				Console.Write("update graph: PULSE");
+				eventExecuteWin.PreparePulseGraph(
+						prepareEventGraphPulse.lastTime, 
+						prepareEventGraphPulse.timesString);
+				break;
+		}
+	}
+	
 	protected virtual bool shouldFinishByTime() {
 		return true;
 	}
-	
+
+	//called by the GTK loop (can call eventExecuteWin directly
 	protected virtual void updateProgressBarForFinish() {
 	}
 	
+	//called by the GTK loop (can call eventExecuteWin directly
 	protected virtual void updateTimeProgressBar() {
 	}
 	

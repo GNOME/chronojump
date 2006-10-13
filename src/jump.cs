@@ -47,8 +47,7 @@ public class Jump : Event
 
 	//jump execution
 	public Jump(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, int fall, double weight,  
-			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
-			int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -59,7 +58,6 @@ public class Jump : Event
 		this.weight = weight;
 		
 		this.cp = cp;
-		this.progressBar = progressBar;
 		this.appbar = appbar;
 		this.app = app;
 
@@ -76,6 +74,7 @@ public class Jump : Event
 		simulated = false;
 			
 		needUpdateEventProgressBar = false;
+		needUpdateGraph = false;
 		
 		//updateProgressBar = new UpdateProgressBar();
 	}
@@ -132,10 +131,6 @@ public class Jump : Event
 
 			loggedState = States.ON;
 
-			//reset progressBar
-			progressBar.Fraction = 0;
-			progressBar.Text = "";
-
 			//prepare jump for being cancelled if desired
 			cancel = false;
 
@@ -178,10 +173,6 @@ public class Jump : Event
 
 			//useful also for tracking the jump phases
 			tc = 0;
-
-			//reset progressBar
-			progressBar.Fraction = 0;
-			progressBar.Text = "";
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
@@ -363,9 +354,6 @@ Console.Write("wb ");
 			tc = 0;
 		}
 			
-		//Console.WriteLine("TF: {0}", tv.ToString());
-		//progressBar.Text = "tf: " + Util.TrimDecimals( tv.ToString(), pDN);
-		
 		string myStringPush =   
 			//Catalog.GetString("Last jump: ") + 
 			personName + " " + 
@@ -382,11 +370,13 @@ Console.Write("wb ");
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in PulseGTK() stop
-		//progressBar.Fraction = 1;
+		//eventExecuteWin.PrepareJumpSimpleGraph(tv, tc);
+		prepareEventGraphJumpSimple = new PrepareEventGraphJumpSimple(tv, tc);
+		needUpdateGraphType = eventType.JUMP;
+		needUpdateGraph = true;
 		
-		eventExecuteWin.PrepareJumpSimpleGraph(tv, tc);
-		eventExecuteWin.EventEnded();
+		//eventExecuteWin.EventEnded();
+		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 	
 	public bool TypeHasWeight
@@ -458,8 +448,7 @@ public class JumpRj : Jump
 	public JumpRj(EventExecuteWindow eventExecuteWin, int personID, string personName, 
 			int sessionID, string type, int fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
-			int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -478,15 +467,11 @@ public class JumpRj : Jump
 		}
 		
 		this.cp = cp;
-		this.progressBar = progressBar;
 		this.appbar = appbar;
 		this.app = app;
 
 		this.pDN = pDN;
 	
-		//progressBar is used here only for put it to 1 when we want to stop the pulseGTK() (the thread)
-		progressBar.Fraction = 0;
-		
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
 		
@@ -495,6 +480,7 @@ public class JumpRj : Jump
 		simulated = false;
 			
 		needUpdateEventProgressBar = false;
+		needUpdateGraph = false;
 		
 		//updateProgressBar = new UpdateProgressBar();
 	}
@@ -660,7 +646,10 @@ public class JumpRj : Jump
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
+							//eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
+							prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString);
+							needUpdateGraphType = eventType.JUMPREACTIVE;
+							needUpdateGraph = true;
 
 							//put button_finish as sensitive when first jump is done (there's something recordable)
 							if(tvCount == 1)
@@ -687,7 +676,10 @@ public class JumpRj : Jump
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
+							//eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
+							prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString);
+							needUpdateGraphType = eventType.JUMPREACTIVE;
+							needUpdateGraph = true;
 						}
 					}
 				} else {
@@ -809,10 +801,8 @@ public class JumpRj : Jump
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in PulseGTK() stop
-		//progressBar.Fraction = 1;
-		
-		eventExecuteWin.EventEnded();
+		//eventExecuteWin.EventEnded();
+		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 	}
 
 

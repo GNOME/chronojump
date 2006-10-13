@@ -159,12 +159,11 @@ public class ChronoJump
 	[Widget] Gtk.RadioMenuItem menuitem_chronopic;
 	
 	[Widget] Gtk.Notebook notebook;
-	[Widget] Gtk.ProgressBar progressBar;
 		
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.48";
+	private static string progversion = "0.5-Pre1";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -1772,11 +1771,12 @@ public class ChronoJump
 
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 		currentJump = new Jump(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				cp, progressBar, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber);
 
 		if (simulated) 
 			currentJump.SimulateInitValues(rand);
@@ -1959,12 +1959,13 @@ public class ChronoJump
 		
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 		
 		currentJumpRj = new JumpRj(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
-				cp, progressBar, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber);
 		
 		
 		//suitable for limited by jump and time
@@ -2130,12 +2131,13 @@ public class ChronoJump
 
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 		
 		currentRun = new Run(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp, progressBar, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred);
+				cp, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred);
 		
 		if (simulated) 
 			currentRun.SimulateInitValues(rand);
@@ -2276,11 +2278,12 @@ public class ChronoJump
 
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 		
 		currentRunInterval = new RunInterval(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
 				distanceInterval, myLimit, currentRunType.TracksLimited, 
-				cp, progressBar, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber);
 		
 		
 		//suitable for limited by tracks and time
@@ -2374,30 +2377,6 @@ public class ChronoJump
 	
 	private void on_button_pulse_free_activate (object o, EventArgs args) 
 	{
-		/*
-		//used by cancel and finish
-		currentEventIs = eventType.PULSE;
-			
-		//hide jumping buttons
-		sensitiveGuiEventDoing();
-			
-		currentPulseType = new PulseType("Free");
-		
-		currentPulse = new Pulse(currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, currentPulseType.Name, currentPulseType.FixedPulse, currentPulseType.TotalPulsesNum, 
-				cp, progressBar, appbar2, app1, prefsDigitsNumber);
-		
-		if (simulated) {
-			currentPulse.Simulate(rand);
-			on_pulse_finished(o, args);
-		}
-		else {
-			//currentPulse.Manage(o, args);
-			currentPulse.Manage();
-			currentPulse.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
-		}
-		*/
-
 		currentPulseType = new PulseType("Free");
 		on_pulse_accepted(o, args);
 	}
@@ -2406,19 +2385,6 @@ public class ChronoJump
 	//(not suitable for the other runs we found in "more")
 	private void on_button_pulse_custom_activate (object o, EventArgs args) 
 	{
-		/*
-		if(o == (object) button_run_interval_by_laps || o == (object) menuitem_run_interval_by_laps) 
-		{	
-			currentRunType = new RunType("byLaps");
-		} else if(o == (object) button_run_interval_by_time || o == (object) menuitem_run_interval_by_time) 
-		{
-			currentRunType = new RunType("byTime");
-		} else if(o == (object) button_run_interval_unlimited || o == (object) menuitem_run_interval_unlimited) 
-		{
-			currentRunType = new RunType("unlimited");
-		}
-		*/
-		
 		currentPulseType = new PulseType("Custom");
 			
 		pulseExtraWin = PulseExtraWindow.Show(app1, currentPulseType);
@@ -2461,12 +2427,13 @@ public class ChronoJump
 		
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 		
 		currentPulse = new Pulse(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp, progressBar, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber);
 		
 		if(simulated)	
 			currentPulse.SimulateInitValues(rand);
@@ -2485,6 +2452,7 @@ public class ChronoJump
 			lastEventWas = eventType.PULSE;
 
 			/*
+			 * CURRENTLY NOT NEEDED... check
 			//if user clicked in finish earlier
 			if(currentPulse.Finish) {
 				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString, false);
@@ -3212,6 +3180,7 @@ public class ChronoJump
 		hbox_jumps_rj.Sensitive = false;
 		hbox_runs.Sensitive = false;
 		hbox_runs_interval.Sensitive = false;
+		hbox_pulses.Sensitive = false;
 		
 		//menu
 		menu_jumps.Sensitive = false;
@@ -3227,6 +3196,7 @@ public class ChronoJump
 		hbox_jumps_rj.Sensitive = true;
 		hbox_runs.Sensitive = true;
 		hbox_runs_interval.Sensitive = true;
+		hbox_pulses.Sensitive = true;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		switch (currentEventIs) {

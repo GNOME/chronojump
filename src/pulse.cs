@@ -48,8 +48,7 @@ public class Pulse : Event
 	
 	//execution
 	public Pulse(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.ProgressBar progressBar, Gtk.Statusbar appbar, Gtk.Window app, 
-			int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -61,7 +60,6 @@ public class Pulse : Event
 		
 	
 		this.cp = cp;
-		this.progressBar = progressBar;
 		this.appbar = appbar;
 		this.app = app;
 
@@ -70,6 +68,9 @@ public class Pulse : Event
 		fakeButtonFinished = new Gtk.Button();
 
 		simulated = false;
+		
+		needUpdateEventProgressBar = false;
+		needUpdateGraph = false;
 	}
 	
 	
@@ -145,10 +146,6 @@ public class Pulse : Event
 			tracks = 0;
 			firstPulse = true;
 
-			//reset progressBar
-			progressBar.Fraction = 0;
-			progressBar.Text = "";
-
 			//prepare jump for being cancelled if desired
 			cancel = false;
 
@@ -212,7 +209,10 @@ public class Pulse : Event
 								needUpdateEventProgressBar = true;
 
 								//update graph
-								eventExecuteWin.PreparePulseGraph(timestamp/1000, timesString);
+								//eventExecuteWin.PreparePulseGraph(timestamp/1000, timesString);
+								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000, timesString);
+								needUpdateGraphType = eventType.PULSE;
+								needUpdateGraph = true;
 
 								//put button_finish as sensitive when first jump is done (there's something recordable)
 								if(tracks == 1)
@@ -244,7 +244,10 @@ public class Pulse : Event
 								needUpdateEventProgressBar = true;
 
 								//update graph
-								eventExecuteWin.PreparePulseGraph(timestamp/1000, timesString);
+								//eventExecuteWin.PreparePulseGraph(timestamp/1000, timesString);
+								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000, timesString);
+								needUpdateGraphType = eventType.PULSE;
+								needUpdateGraph = true;
 
 								//put button_finish as sensitive when first jump is done (there's something recordable)
 								if(tracks == 1)
@@ -318,12 +321,12 @@ public class Pulse : Event
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//put max value in progressBar. This makes the thread in PulseGTK() stop
-		progressBar.Fraction = 1;
-		
-		//eventExecuteWin.EventEnded(-1, -1);
-		eventExecuteWin.PreparePulseGraph(Util.GetLast(timesString), timesString);
-		eventExecuteWin.EventEnded();
+		//eventExecuteWin.PreparePulseGraph(Util.GetLast(timesString), timesString);
+		prepareEventGraphPulse = new PrepareEventGraphPulse(Util.GetLast(timesString), timesString);
+		needUpdateGraphType = eventType.PULSE;
+		needUpdateGraph = true;
+		//eventExecuteWin.EventEnded();
+		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 	}
 
 	

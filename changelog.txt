@@ -1,5 +1,24 @@
 CHANGELOG:
 
+TODO: fix the rounding in all chronojump with the Math.Round()
+
+15 oct 2006
+	progrVersion changed to "0.5-Pre2"
+	string freeze
+
+	Fixed final time in soft chrono in eventWindow in all events
+	
+	databaseVersion 0.45 (added allowFinishRjAfterTime)
+		-preferences can select if finish rj time when jumper lands (after time finished)
+		
+	runInterval now counts also the tc's (race = tc+tv)
+	
+	updated help on eventExecuteWindow
+	disable help on eventGraphConfigure
+	eventExecute: math.round: 3 decimals
+	fixed run time phases on eventExecute
+	fixed some showing of -1 values on eventWindow
+
 13 oct 2006
 	progrVersion changed to "0.5-Pre1"
 	

@@ -102,7 +102,17 @@ class Sqlite
 			myVersion = "0.44";
 		}
 
+		if(myVersion == "0.44") {
+			dbcon.Open();
+			SqlitePreferences.Insert ("allowFinishRjAfterTime", "True"); 
+			SqlitePreferences.Update ("databaseVersion", "0.45"); 
+			Console.WriteLine("Converted DB to 0.45 (added allowFinishRjAfterTime)");
+			dbcon.Close();
+			myVersion = "0.45";
+		}
+
 		//if changes are made here, remember to change also in CreateTables()
+		//remember to change also the databaseVersion below
 	}
 	
 	private static void addChronopicPortNameIfNotExists() {
@@ -156,7 +166,8 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.44"); 
+		SqlitePreferences.Insert ("databaseVersion", "0.45"); 
+		//changes from 0.44 to 0.45: added allowFinishRjAfterTime
 		//changes from 0.43 to 0.44: added showQIndex and showDjIndex
 		//changes from 0.42 to 0.43: added 'free' pulseType & language preference
 		//changes from 0.41 to 0.42: added pulse and pulseType tables
@@ -178,6 +189,7 @@ class Sqlite
 		SqlitePreferences.Insert ("heightPreferred", "False");
 		SqlitePreferences.Insert ("metersSecondsPreferred", "True");
 		SqlitePreferences.Insert ("language", "es-ES"); 
+		SqlitePreferences.Insert ("allowFinishRjAfterTime", "True"); 
 
 		dbcon.Close();
 	}

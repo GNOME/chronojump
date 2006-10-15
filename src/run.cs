@@ -38,6 +38,14 @@ public class Run : Event
 	protected Chronopic cp;
 	protected bool metersSecondsPreferred;
 
+	//used by the updateTimeProgressBar for display its time information
+	//changes a bit on runSimple and runInterval
+	//explained at each of the updateTimeProgressBar() 
+	protected enum runPhases {
+		PRE_RUNNING, PLATFORM_INI, RUNNING, PLATFORM_END
+	}
+	protected runPhases runPhase;
+		
 	
 	public Run() {
 	}
@@ -108,11 +116,13 @@ public class Run : Event
 
 			loggedState = States.ON;
 			startIn = true;
+			runPhase = runPhases.PLATFORM_INI;
 		} else {
 			appbar.Push( 1,Catalog.GetString("You are OUT, RUN when prepared!!") );
 
 			loggedState = States.OFF;
 			startIn = false;
+			runPhase = runPhases.PRE_RUNNING;
 		}
 	
 		if (simulated) {
@@ -153,9 +163,6 @@ public class Run : Event
 		
 		bool ok;
 	
-		//we allow start from the platform or outside
-		bool arrived = false; 
-		
 		do {
 			if(simulated)
 				ok = true;
@@ -167,12 +174,9 @@ public class Run : Event
 					//has arrived
 					loggedState = States.ON;
 					
-					if( ! startIn && ! arrived ) {
-						arrived = true;
+					if(runPhase == runPhases.PRE_RUNNING) {
+						runPhase = runPhases.PLATFORM_INI;
 						
-						//initializeTimer();
-
-						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //tracksLimited: percentageMode
@@ -192,7 +196,6 @@ public class Run : Event
 
 						success = true;
 						
-						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //percentageMode
@@ -200,6 +203,8 @@ public class Run : Event
 								3
 								);  
 						needUpdateEventProgressBar = true;
+						
+						runPhase = runPhases.PLATFORM_END;
 					}
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
@@ -209,7 +214,6 @@ public class Run : Event
 					initializeTimer();
 
 					//update event progressbar
-					//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 					updateProgressBar = new UpdateProgressBar (
 							true, //isEvent
 							true, //percentageMode
@@ -219,7 +223,8 @@ public class Run : Event
 					
 					//change the automata state
 					loggedState = States.OFF;
-
+						
+					runPhase = runPhases.RUNNING;
 				}
 			}
 		} while ( ! success && ! cancel );
@@ -235,16 +240,39 @@ public class Run : Event
 	}
 	
 	protected override void updateTimeProgressBar() {
-		double myTimeValue = timerCount; //show time from the timerCount
-		if(needEndEvent)
-			myTimeValue = time; //if run has finished, sync info in time label with Chronopic data
+		/* 4 situations:
+		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label
+			case runPhases.PRE_RUNNING:
+		 *   2-  if we are on the platform, it should be a pulse with no time value on label
+			case runPhases.PLATFORM_INI:
+		 *   3- if we leave the platform, it should be a pulse with timerCount on label
+			case runPhases.RUNNING:
+		 *   4- if we arrive (finish), it should be a pulse with chronopic time on label
+			case runPhases.PLATFORM_END:
+		 */
+				
+		double myTimeValue = 0;
+		switch (runPhase) {
+			case runPhases.PRE_RUNNING:
+				myTimeValue = -1; //don't show nothing on label_timer 
+				break;
+			case runPhases.PLATFORM_INI:
+				myTimeValue = -1;
+				break;
+			case runPhases.RUNNING:
+				myTimeValue = timerCount; //show time from the timerCount
+				break;
+			case runPhases.PLATFORM_END:
+				myTimeValue = timerCount; //show time from the timerCount
+				//but chronojump.cs will update info soon with chronopic value
+				break;
+		}
+				
 		
 		//has no finished, but move progressbar time
 		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activity mode
-				//-1	//don't want to show info on label
-				//timerCount	//show time, but remember to update later with the MORE RELIABLE time from chronopic
 				myTimeValue
 				); 
 	}
@@ -270,7 +298,7 @@ public class Run : Event
 		needUpdateGraph = true;
 		
 		//eventExecuteWin.EventEnded();
-		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
+		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 	
 
@@ -317,8 +345,6 @@ public class RunInterval : Run
 	string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
 	double limitAsDouble;	//-1 for non limited (unlimited repetitive run until "finish" is clicked)
 	bool tracksLimited;
-	bool firstIntervalValue;
-
 	
 
 	public RunInterval() {
@@ -385,12 +411,13 @@ public class RunInterval : Run
 		//initialize variables
 		intervalTimesString = "";
 		tracks = 0;
-		firstIntervalValue = true;
 		
 		bool ok;
 
 		timerCount = 0;
-		bool initialized = false;
+		//bool initialized = false;
+		
+		double lastTc = 0;
 		
 		do {
 
@@ -405,9 +432,13 @@ public class RunInterval : Run
 					loggedState = States.ON;
 					
 					//if we start out, and we arrive to the platform for the first time, don't record nothing
-					if (firstIntervalValue && ! startIn) 
-						firstIntervalValue = false;
+					if(runPhase == runPhases.PRE_RUNNING) {
+						runPhase = runPhases.RUNNING;
+						//run starts
+						initializeTimer();
+					}
 					else {
+						runPhase = runPhases.RUNNING;
 						//has arrived and not in the "running previous"
 						
 						//if interval run is "unlimited" not limited by tracks, nor time, 
@@ -417,8 +448,11 @@ public class RunInterval : Run
 							if(simulated)
 								timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 							
+							double myRaceTime = lastTc + timestamp/1000;
+							
 							if(intervalTimesString.Length > 0) { equal = "="; }
-							intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+							//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+							intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
 							tracks ++;	
 								
 							//eventExecuteWin.ProgressBarEventOrTimePreExecution(
@@ -431,7 +465,8 @@ public class RunInterval : Run
 							
 							//update graph
 							//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
-							prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+							//prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+							prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
 							needUpdateGraphType = eventType.RUNINTERVAL;
 							needUpdateGraph = true;
 							
@@ -449,14 +484,17 @@ public class RunInterval : Run
 								if(simulated)
 									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
+								double myRaceTime = lastTc + timestamp/1000;
 								if(intervalTimesString.Length > 0) { equal = "="; }
-								intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+								//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+								intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
 
 								if(tracks >= limitAsDouble) 
 								{
 									//finished
 									write();
 									success = true;
+									runPhase = runPhases.PLATFORM_END;
 								}
 								
 								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
@@ -469,7 +507,8 @@ public class RunInterval : Run
 							
 								//update graph
 								//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
-								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+								//prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
 								needUpdateGraphType = eventType.RUNINTERVAL;
 								needUpdateGraph = true;
 
@@ -478,15 +517,20 @@ public class RunInterval : Run
 									needSensitiveButtonFinish = true;
 							} else {
 								//has arrived, limited by time
+								runPhase = runPhases.RUNNING;
 								
 								if(simulated)
 									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 								
-								if(success)
+								double myRaceTime = lastTc + timestamp/1000;
+								if(success) {
 									write();
+									runPhase = runPhases.PLATFORM_END;
+								}
 								else {
 									if(intervalTimesString.Length > 0) { equal = "="; }
-									intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+									//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
+									intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
 									tracks ++;	
 								}
 								
@@ -500,7 +544,8 @@ public class RunInterval : Run
 							
 								//update graph
 								//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
-								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+								//prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
+								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
 								needUpdateGraphType = eventType.RUNINTERVAL;
 								needUpdateGraph = true;
 
@@ -513,30 +558,15 @@ public class RunInterval : Run
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 					//it's out, was inside (= has abandoned platform)
-					//don't record time
-				
-					//count the contact times when limited by time
-					//normally these are despreciable in runs, but if
-					//someone uses this for other application, we should record
-
-
-					//if starts in, the first time it gets out, we have to put chrono at 0
-					if(startIn) {
-						//if(timerCount == 0) 	//but only one time
-						if(!initialized) {
-							initializeTimer();
-							initialized = true;
-						}
-					} 
-					//if starts out(before) the first time we arrive here should not be accounted
-					else {
-						if (!firstIntervalValue)	//don't count the time before arriving to first platform CHECK THIS
-							//if(timerCount == 0) 	//but only one time
-							if(!initialized) {
-								initializeTimer();
-								initialized = true;
-							}
-					}
+		
+					if(runPhase == runPhases.PLATFORM_INI) {
+						//run starts
+						initializeTimer();
+						lastTc = 0;
+					} else
+						lastTc = timestamp/1000;
+						
+					runPhase = runPhases.RUNNING;
 
 					//change the automata state
 					loggedState = States.OFF;
@@ -547,6 +577,7 @@ public class RunInterval : Run
 
 		if (finish) {
 			write();
+			runPhase = runPhases.PLATFORM_END;
 		}
 		if(cancel || finish) {
 			//event will be raised, and managed in chronojump.cs
@@ -556,8 +587,9 @@ public class RunInterval : Run
 	
 	protected override bool shouldFinishByTime() {
 		//check if it should finish now (time limited, not unlimited and time exceeded)
-		//check also that's not the firstIntervalValue if come from outside CHECK THIS THING
-		if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble && ! (firstIntervalValue && ! startIn)) 
+		//check that the run started
+		if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble 
+				&& !(runPhase == runPhases.PRE_RUNNING) && !(runPhase == runPhases.PLATFORM_INI)) 
 			return true;
 		else
 			return false;
@@ -572,31 +604,41 @@ public class RunInterval : Run
 	}
 
 	protected override void updateTimeProgressBar() {
-		if(needEndEvent) {
-			eventExecuteWin.ProgressBarEventOrTimePreExecution(
-					false, //isEvent false: time
-					false, //activity mode
-					Util.GetTotalTime(intervalTimesString) 
-					); 
-			Console.WriteLine("**** {0}", Util.GetTotalTime(intervalTimesString));
-			/* WHY DOES NOT ARRIVE HERE? */
-			
+		/* 4 situations:
+		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label 
+		 *   	case runPhases.PRE_RUNNING:
+		 *   2- we started in, and we haven't leaved the platform, a pulse but with no time value on label
+		 *   	case runPhases.PLATFORM_INI:
+		 *   3- we are in the platform or outside at any time except 1,2 and 4. timerCount have to be shown, and progress should be Fraction or Pulse depending on if ot's time limited or not
+		 *   	case runPhases.RUNNING:
+		 *  4.- we have arrived (or jump finished at any time)
+		 *   	case runPhases.PLATFORM_END:
+		 */
+		
+		
+		double myTimeValue = 0;
+		switch (runPhase) {
+			case runPhases.PRE_RUNNING:
+				myTimeValue = -1; //don't show nothing on label_timer 
+				break;
+			case runPhases.PLATFORM_INI:
+				myTimeValue = -1;
+				break;
+			case runPhases.RUNNING:
+				//myProgressOrTime = !tracksLimited;
+				myTimeValue = timerCount; //show time from the timerCount
+				break;
+			case runPhases.PLATFORM_END:
+				myTimeValue = timerCount; //show time from the timerCount
+				//but chronojump.cs will update info soon with chronopic value
+				break;
 		}
-		else {
-			//limited by jumps or time, but has no finished
-			if(firstIntervalValue && !startIn) 
-				eventExecuteWin.ProgressBarEventOrTimePreExecution(
-						false, //isEvent false: time
-						false, //activity mode
-						-1	//don't want to show info on label
-						); 
-			else
-				eventExecuteWin.ProgressBarEventOrTimePreExecution(
-						false, //isEvent false: time
-						!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
-						timerCount
-						); 
-		}
+				
+		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+				false, //isEvent false: time
+				!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
+				myTimeValue
+				); 
 	}
 
 

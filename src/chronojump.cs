@@ -163,7 +163,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.5-Pre1";
+	private static string progversion = "0.5-Pre2";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -197,6 +197,7 @@ public class ChronoJump
 	//private static bool weightStatsPercent;
 	private static bool heightPreferred;
 	private static bool metersSecondsPreferred;
+	private static bool allowFinishRjAfterTime;
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -477,30 +478,37 @@ public class ChronoJump
 		
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") );
 
-		if ( SqlitePreferences.Select("showHeight") == "True" ) {
-			showHeight = true;
-		} else {
-			showHeight = false;
-		}
+	
+		if ( SqlitePreferences.Select("allowFinishRjAfterTime") == "True" ) 
+			allowFinishRjAfterTime = true;
+		 else 
+			allowFinishRjAfterTime = false;
+		
 			
-		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) {
+		if ( SqlitePreferences.Select("showHeight") == "True" ) 
+			showHeight = true;
+		 else 
+			showHeight = false;
+		
+			
+		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) 
 			showInitialSpeed = true;
-		} else {
+		 else 
 			showInitialSpeed = false;
-		}
+		
 		
 		//only one of showQIndex or showDjIndex can be true. Also none of them
-		if ( SqlitePreferences.Select("showQIndex") == "True" ) {
+		if ( SqlitePreferences.Select("showQIndex") == "True" ) 
 			showQIndex = true;
-		} else {
+		 else 
 			showQIndex = false;
-		}
+		
 			
-		if ( SqlitePreferences.Select("showDjIndex") == "True" ) {
+		if ( SqlitePreferences.Select("showDjIndex") == "True" ) 
 			showDjIndex = true;
-		} else {
+		 else 
 			showDjIndex = false;
-		}
+		
 			
 		
 		if ( SqlitePreferences.Select("simulated") == "True" ) {
@@ -515,31 +523,31 @@ public class ChronoJump
 			cpRunning = true;
 		}
 		
-		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
+		if ( SqlitePreferences.Select("askDeletion") == "True" ) 
 			askDeletion = true;
-		} else {
+		 else 
 			askDeletion = false;
-		}
+		
 
 		/*
-		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) {
+		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) 
 			weightStatsPercent = true;
-		} else {
+		 else 
 			weightStatsPercent = false;
-		}
+		
 		*/
 		
-		if ( SqlitePreferences.Select("heightPreferred") == "True" ) {
+		if ( SqlitePreferences.Select("heightPreferred") == "True" ) 
 			heightPreferred = true;
-		} else {
+		 else 
 			heightPreferred = false;
-		}
 		
-		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) {
+		
+		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) 
 			metersSecondsPreferred = true;
-		} else {
+		 else 
 			metersSecondsPreferred = false;
-		}
+		
 	
 		//change language works on windows. On Linux let's change the locale
 		if(Util.IsWindows())
@@ -1478,9 +1486,9 @@ public class ChronoJump
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
 				app1, chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, showQIndex, showDjIndex, 
-				//askDeletion, weightStatsPercent, heightPreferred, metersSecondsPreferred);
 				askDeletion, heightPreferred, metersSecondsPreferred,
-				System.Threading.Thread.CurrentThread.CurrentUICulture.ToString() );
+				System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
+				allowFinishRjAfterTime);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
@@ -1492,62 +1500,69 @@ public class ChronoJump
 			chronopicInit (myPort);
 		}
 		chronopicPort = myPort;
+	
 		
-		if ( SqlitePreferences.Select("askDeletion") == "True" ) {
+		if ( SqlitePreferences.Select("askDeletion") == "True" ) 
 			askDeletion = true;
-		} else {
+		 else 
 			askDeletion = false;
-		}
+		
 	
 		/*
-		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) {
+		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) 
 			weightStatsPercent = true;
-		} else {
+		 else 
 			weightStatsPercent = false;
-		}
+		
 		*/
 
 		//update showHeight
-		if ( SqlitePreferences.Select("showHeight") == "True" ) {
+		if ( SqlitePreferences.Select("showHeight") == "True" ) 
 			showHeight = true;
-		} else {
+		 else 
 			showHeight = false;
-		}
+		
 
 		//update showInitialSpeed
-		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) {
+		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) 
 			showInitialSpeed = true;
-		} else {
+		 else 
 			showInitialSpeed = false;
-		}
+		
 
 		//update showQIndex or showDjIndex
-		if ( SqlitePreferences.Select("showQIndex") == "True" ) {
+		if ( SqlitePreferences.Select("showQIndex") == "True" ) 
 			showQIndex = true;
-		} else {
+		 else 
 			showQIndex = false;
-		}
+		
 			
-		if ( SqlitePreferences.Select("showDjIndex") == "True" ) {
+		if ( SqlitePreferences.Select("showDjIndex") == "True" ) 
 			showDjIndex = true;
-		} else {
+		 else 
 			showDjIndex = false;
-		}
+		
 			
 		//update heightPreferred
-		if ( SqlitePreferences.Select("heightPreferred") == "True" ) {
+		if ( SqlitePreferences.Select("heightPreferred") == "True" ) 
 			heightPreferred = true;
-		} else {
+		 else 
 			heightPreferred = false;
-		}
+		
 
 		//update metersSecondsPreferred
-		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) {
+		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) 
 			metersSecondsPreferred = true;
-		} else {
+		 else 
 			metersSecondsPreferred = false;
-		}
+		
 
+		//update allowFinish...
+		if ( SqlitePreferences.Select("allowFinishRjAfterTime") == "True" ) 
+			allowFinishRjAfterTime = true;
+		else 
+			allowFinishRjAfterTime = false;
+		
 		//change language works on windows. On Linux let's change the locale
 		if(Util.IsWindows()) 
 			languageChange();
@@ -1954,6 +1969,7 @@ public class ChronoJump
 			"jumpRj", //tableName
 			currentJumpType.Name, 
 			prefsDigitsNumber, myLimit, simulated);
+		
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		
@@ -1965,7 +1981,7 @@ public class ChronoJump
 		currentJumpRj = new JumpRj(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
-				cp, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime);
 		
 		
 		//suitable for limited by jump and time
@@ -2007,6 +2023,9 @@ public class ChronoJump
 			
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
+
+			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
+			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentJumpRj.TcString, currentJumpRj.TvString);
 		}
 		
 		//unhide buttons that allow jumping
@@ -2124,6 +2143,7 @@ public class ChronoJump
 			"run", //tableName
 			currentRunType.Name, 
 			prefsDigitsNumber, myLimit, simulated);
+		
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -2165,6 +2185,9 @@ public class ChronoJump
 			
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
+
+			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
+			eventExecuteWin.LabelTimeValue = currentRun.Time;
 		}
 		
 		//unhide buttons that allow jumping, running
@@ -2323,6 +2346,9 @@ public class ChronoJump
 		
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
+
+			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
+			eventExecuteWin.LabelTimeValue = currentRunInterval.TimeTotal;
 		}
 		
 		//unhide buttons that allow jumping, running
@@ -2478,6 +2504,9 @@ public class ChronoJump
 		
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
+
+			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
+			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
 		}
 		
 		//unhide buttons that allow jumping, running

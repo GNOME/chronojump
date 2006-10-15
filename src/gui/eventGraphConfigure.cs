@@ -129,13 +129,14 @@ public class EventGraphConfigureWindow
 	}
 	
 		
+	/*
 	void on_button_help_clicked (object o, EventArgs args)
 	{
 		Console.WriteLine("help Clicked");
-		/*
-		new DialogHelp(Catalog.GetString("This window shows the execution of an event. In the graph, you may see:\n-\"Now\": shows the data of the current event.\n-\"Person AVG\": shows the average of the current person executing this type of event on this session.\n-\"Session AVG\": shows the Average of all persons executing this type of event on this session.\n(For more statistics data, you may use the statistics window).\n\nAt the bottom you may see the evolution of the event, and you may finish it (depending on the type of event), or even cancel it."));
-		*/
+	
+		new DialogHelp(Catalog.GetString("This window allows to change the graph options. \nFirst, you can adjust the Y parameters\nSecond, put guides\n"));
 	}
+	*/
 
 	void on_button_close_clicked (object o, EventArgs args)
 	{

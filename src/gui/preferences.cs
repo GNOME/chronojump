@@ -36,6 +36,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.CheckButton checkbutton_height;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	
+	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
 	[Widget] Gtk.Box hbox_indexes;
 	[Widget] Gtk.RadioButton radiobutton_show_q_index;
@@ -58,7 +59,8 @@ public class PreferencesWindow {
 	//language when window is called. If changes, then chnge data in sql and show 
 	//dialogMessage
 	private string languageIni;
-	
+
+	//for windows, on linux it takes language ok from the locale
 	private static string [] comboLanguageOptions = {
 		"es-ES", 
 		"en-GB", 
@@ -89,7 +91,7 @@ public class PreferencesWindow {
 	//static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred)
 	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, 
 			bool showInitialSpeed, bool showQIndex, bool showDjIndex,
-			bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture)
+			bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture, bool allowFinishRjAfterTime)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (parent, entryChronopic);
@@ -103,20 +105,27 @@ public class PreferencesWindow {
 			PreferencesWindowBox.hideLanguageStuff();
 		
 		PreferencesWindowBox.spinbutton_decimals.Value = digitsNumber;
-	
-		if(showHeight) { 
-			PreferencesWindowBox.checkbutton_height.Active = true; 
-		}
-		else {
-			PreferencesWindowBox.checkbutton_height.Active = false; 
-		}
 
-		if(showInitialSpeed) { 
+		
+		if(allowFinishRjAfterTime)
+			PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active = true; 
+		else
+			PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active = false; 
+			
+		
+		if(showHeight) 
+			PreferencesWindowBox.checkbutton_height.Active = true; 
+		
+		else 
+			PreferencesWindowBox.checkbutton_height.Active = false; 
+		
+
+		if(showInitialSpeed)  
 			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
-		}
-		else {
+		
+		else 
 			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
-		}
+		
 
 		if(showQIndex || showDjIndex) { 
 			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = true; 
@@ -133,35 +142,35 @@ public class PreferencesWindow {
 			PreferencesWindowBox.hbox_indexes.Hide();
 		}
 
-		if(askDeletion) { 
+		if(askDeletion)  
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = true; 
-		}
-		else {
+		
+		else 
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = false; 
-		}
+		
 
 		/*
-		if(weightStatsPercent) { 
+		if(weightStatsPercent)  
 			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = true; 
-		}
-		else {
+		
+		else 
 			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = false; 
-		}
+		
 		*/
 
-		if(heightPreferred) { 
+		if(heightPreferred)  
 			PreferencesWindowBox.checkbutton_height_preferred.Active = true; 
-		}
-		else {
+		
+		else 
 			PreferencesWindowBox.checkbutton_height_preferred.Active = false; 
-		}
+		
 
-		if(metersSecondsPreferred) { 
+		if(metersSecondsPreferred)  
 			PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active = true; 
-		}
-		else {
+		
+		else 
 			PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active = false; 
-		}
+		
 
 		PreferencesWindowBox.preferences.Show ();
 
@@ -225,6 +234,7 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString());
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString());
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString());
+		SqlitePreferences.Update("allowFinishRjAfterTime", PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active.ToString());
 		
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
 			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString());

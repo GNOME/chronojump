@@ -35,12 +35,21 @@ public class Pulse : Event
 	string timesString;
 	int tracks;
 	double contactTime;
-	bool firstPulse;
+	//bool firstPulse;
 
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
 	private Chronopic cp;
 
+	//used by the updateTimeProgressBar for display its time information
+	//explained also at updateTimeProgressBar() 
+	protected enum pulsePhases {
+		WAIT_FIRST_EVENT, //we are outside at beginning
+			DOING, 
+			DONE
+	}
+	protected pulsePhases pulsePhase;
+		
 	
 	//used on treeviewPulse
 	public Pulse() {
@@ -144,7 +153,7 @@ public class Pulse : Event
 			//initialize variables
 			timesString = "";
 			tracks = 0;
-			firstPulse = true;
+			//firstPulse = true;
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
@@ -152,6 +161,9 @@ public class Pulse : Event
 			//prepare jump for being finished earlier if desired
 			finish = false;
 
+			//mark we haven't started
+			pulsePhase = pulsePhases.WAIT_FIRST_EVENT;
+			
 			//in simulated mode, make the event start just when we arrive to waitEvent at the first time
 			//mark now that we have landed:
 			if (simulated)
@@ -184,8 +196,11 @@ public class Pulse : Event
 						//has arrived
 
 						//if we arrive to the platform for the first time, don't record anything
-						if (firstPulse) {
-							firstPulse = false;
+						//if (firstPulse) {
+						//	firstPulse = false;
+						if(pulsePhase == pulsePhases.WAIT_FIRST_EVENT) {
+							pulsePhase = pulsePhases.DOING;
+							//pulse starts
 							initializeTimer();
 						} else {
 							//is not the first pulse
@@ -232,6 +247,7 @@ public class Pulse : Event
 									//finished
 									write();
 									success = true;
+									pulsePhase = pulsePhases.DONE;
 								}
 
 								//update event progressbar
@@ -260,7 +276,7 @@ public class Pulse : Event
 					}
 					else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 						//it's out, was inside (= has abandoned platform)
-						//don't record time
+						
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						contactTime = timestamp;
@@ -273,6 +289,7 @@ public class Pulse : Event
 
 			if (finish) {
 				write();
+				pulsePhase = pulsePhases.DONE;
 			}
 			if(cancel || finish) {
 				//event will be raised, and managed in chronojump.cs
@@ -294,11 +311,19 @@ public class Pulse : Event
 	}
 
 	protected override void updateTimeProgressBar() {
+		double myTimeValue = 0;
+		if(pulsePhase == pulsePhases.WAIT_FIRST_EVENT) 
+			myTimeValue = -1;
+		else
+			myTimeValue = timerCount;
+
+		//if event has end, chronojump will overwrite label_time_value
+			
 		//limited by tracks, but has no finished
 		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activiyMode
-				timerCount
+				myTimeValue
 				); 
 	}
 

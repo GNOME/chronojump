@@ -900,17 +900,6 @@ public class EventExecuteWindow
 				count ++;
 			}
 			
-			/*
-			//write text
-			layout.SetMarkup((Math.Round(myTVDouble,2)).ToString());
-			pixmap.DrawLayout (pen_azul, ancho -rightMargin, (int)calculatePaintHeight(myTVDouble, alto, maxValue, minValue, topMargin, bottomMargin) -7, layout); //-7 for aligning (is baseline) (font is Courier 7)
-
-			if(eventGraphConfigureWin.PaintCircle) {
-				//put circle in last value
-				count --;
-				pixmap.DrawArc(pen_azul, true, Convert.ToInt32((ancho - rightMargin) *(count+.5)/jumps) - radio/2, calculatePaintHeight(myTVDouble, alto, maxValue, minValue, topMargin, bottomMargin) - radio/2, radio, radio, 0, 360*64);
-			}
-			*/
 			drawCircleAndWriteValue(pen_azul, myTVDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 
 			//read tc evolution	
@@ -933,17 +922,6 @@ public class EventExecuteWindow
 				count ++;
 			}
 			
-			/*
-			//write text
-			layout.SetMarkup((Math.Round(myTCDouble,2)).ToString());
-			pixmap.DrawLayout (pen_rojo, ancho -rightMargin, (int)calculatePaintHeight(myTCDouble, alto, maxValue, minValue, topMargin, bottomMargin) -7, layout); //-7 for aligning (is baseline) (font is Courier 7)
-
-			if(eventGraphConfigureWin.PaintCircle) {
-				//put circle in last value
-				count --;
-				pixmap.DrawArc(pen_rojo, true, Convert.ToInt32((ancho - rightMargin) *(count+.5)/jumps) - radio/2, calculatePaintHeight(myTCDouble, alto, maxValue, minValue, topMargin, bottomMargin) - radio/2, radio, radio, 0, 360*64);
-			}
-			*/
 			drawCircleAndWriteValue(pen_rojo, myTCDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 
 		}
@@ -1026,17 +1004,6 @@ public class EventExecuteWindow
 				count ++;
 			}
 			
-			/*
-			//write text
-			layout.SetMarkup((Math.Round(myValue,2)).ToString());
-			pixmap.DrawLayout (myPen, ancho -rightMargin, (int)calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) -7, layout); //-7 for aligning (is baseline) (font is Courier 7)
-
-			if(eventGraphConfigureWin.PaintCircle) {
-				//put circle in last value
-				count --;
-				pixmap.DrawArc(myPen, true, Convert.ToInt32((ancho - rightMargin) *(count+.5)/tracks) - radio/2, calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) - radio/2, radio, radio, 0, 360*64);
-			}
-			*/
 			drawCircleAndWriteValue(myPen, myValue, --count, tracks, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 
 		}
@@ -1117,7 +1084,7 @@ public class EventExecuteWindow
 			double maxValue, double minValue, int topMargin, int bottomMargin) {
 
 		//write text
-		layout.SetMarkup((Math.Round(myValue,2)).ToString());
+		layout.SetMarkup((Math.Round(myValue,3)).ToString());
 		pixmap.DrawLayout (myPen, ancho -rightMargin, (int)calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) -7, layout); //-7 for aligning (is baseline) (font is Courier 7)
 
 		if(eventGraphConfigureWin.PaintCircle) {
@@ -1136,7 +1103,7 @@ public class EventExecuteWindow
 					0, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin),
 					ancho - rightMargin, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin));
 			//write textual data
-			layout.SetMarkup((Math.Round(guideHeight,2)).ToString());
+			layout.SetMarkup((Math.Round(guideHeight,3)).ToString());
 			pixmap.DrawLayout (pen_gris, ancho -rightMargin, (int)calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin) -7, layout); //-7 for aligning with Courier 7 font baseline
 		}
 	}
@@ -1152,11 +1119,11 @@ public class EventExecuteWindow
 		Console.WriteLine("(ini) PIXMAP: {0}, LAYOUT: {1}", pixmap, layout);
 		Console.Write(" margin0 ");
 		//write margins textual data
-		layout.SetMarkup((Math.Round(maxValue, 2)).ToString());
+		layout.SetMarkup((Math.Round(maxValue, 3)).ToString());
 		pixmap.DrawLayout (pen_gris, 0, 0, layout);
 		//pixmap.DrawLayout (pen_gris, 0, 3, layout); //y to 3 (not 0) probably this solves rando Pango problems where this is not written and interface gets "clumsy"
 		Console.Write(" margin1 ");
-		layout.SetMarkup((Math.Round(minValue, 2)).ToString());
+		layout.SetMarkup((Math.Round(minValue, 3)).ToString());
 		pixmap.DrawLayout (pen_gris, 0, alto -10, layout); //don't search Y using alto - bottomMargin, because bottomMargin can be 0, 
 									//and text goes down from the baseline, and will not be seen
 		Console.Write(" margin2 ");
@@ -1204,30 +1171,9 @@ public class EventExecuteWindow
 			
 	void on_button_help_clicked (object o, EventArgs args)
 	{
-		new DialogHelp(Catalog.GetString("This window shows the execution of an event. In the graph, you may see:\n-\"Now\": shows the data of the current event.\n-\"Person AVG\": shows the average of the current person executing this type of event on this session.\n-\"Session AVG\": shows the Average of all persons executing this type of event on this session.\n(For more statistics data, you may use the statistics window).\n\nAt the bottom you may see the evolution of the event, and you may finish it (depending on the type of event), or even cancel it."));
+		new DialogHelp(Catalog.GetString("This window shows the execution of an event. In the graph, you may see:\n\nSIMPLE EVENTS:\n-\"Now\": shows the data of the current event.\n-\"Person AVG\": shows the average of the current person executing this type of event on this session.\n-\"Session AVG\": shows the Average of all persons executing this type of event on this session.\n\nMULTIPLE EVENTS:\n-\"Now\": shows the data of the current sub-event.\n-\"AVG\": shows the average of the current event.\n\n(For more statistics data, you may use the statistics window).\n\nYou may change the graph options using buttons on the left.\n\nAt the bottom you may see the evolution of the event, and you may finish it (depending on the type of event), or even cancel it."));
 	}
 
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		//event will be raised, and managed in chronojump.cs
-		hideButtons();
-	}
-		
-	void on_button_close_clicked (object o, EventArgs args)
-	{
-		EventExecuteWindowBox.event_execute.Hide();
-		EventExecuteWindowBox = null;
-	}
-	
-	void on_delete_event (object o, DeleteEventArgs args)
-	{
-		//if there's an event doing, simulate a cancel
-		//if there's not, simulate also
-		button_cancel.Click();
-		
-		EventExecuteWindowBox.event_execute.Hide();
-		EventExecuteWindowBox = null;
-	}
 	
 	public void ProgressBarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 
 	{
@@ -1242,7 +1188,8 @@ public class EventExecuteWindow
 		if(limit == -1) {	//unlimited event (until 'finish' is clicked)
 			progressbar.Pulse();
 			//label_value.Text = events.ToString();
-			label_value.Text = Math.Round(events,2).ToString();
+			if(events != -1)
+				label_value.Text = Math.Round(events,3).ToString();
 		} else {
 			if(percentageMode) {
 				double myFraction = events / limit;
@@ -1255,7 +1202,10 @@ public class EventExecuteWindow
 				//Console.Write("{0}-{1}", limit, myFraction);
 				progressbar.Fraction = myFraction;
 				//progressbar.Text = Util.TrimDecimals(events.ToString(), 1) + " / " + limit.ToString();
-				progressbar.Text = Math.Round(events,2).ToString() + " / " + limit.ToString();
+				if(events == -1) //we don't want to display nothing
+					progressbar.Text = "";
+				else
+					progressbar.Text = Math.Round(events,3).ToString() + " / " + limit.ToString();
 			} else {
 				//activity mode
 				progressbar.Pulse();
@@ -1263,28 +1213,11 @@ public class EventExecuteWindow
 				//pass -1 in events in activity mode if don't want to use this label
 				if(events != -1)
 					//label_value.Text = Util.TrimDecimals(events.ToString(), 1);
-					label_value.Text = Math.Round(events,2).ToString();
+					label_value.Text = Math.Round(events,3).ToString();
 			}
 		}
 	}
 
-	
-	public Button ButtonCancel 
-	{
-		get { return button_cancel; }
-	}
-	
-	public Button ButtonFinish 
-	{
-		get { return button_finish; }
-	}
-
-	public Button ButtonUpdate 
-	{
-		get { return button_update; }
-	}
-	
-	
 	//projecte cubevirtual de juan gonzalez
 	
 	Gdk.GC pen_rojo; //tc, also time
@@ -1348,4 +1281,51 @@ public class EventExecuteWindow
 		pen_beige_discont.Foreground = beige;
 		pen_beige_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 	}
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		//event will be raised, and managed in chronojump.cs
+		hideButtons();
+	}
+		
+	void on_button_close_clicked (object o, EventArgs args)
+	{
+		EventExecuteWindowBox.event_execute.Hide();
+		EventExecuteWindowBox = null;
+	}
+	
+	void on_delete_event (object o, DeleteEventArgs args)
+	{
+		//if there's an event doing, simulate a cancel
+		//if there's not, simulate also
+		button_cancel.Click();
+		
+		EventExecuteWindowBox.event_execute.Hide();
+		EventExecuteWindowBox = null;
+	}
+	
+	//when event finishes, we should put in the label_time, the correct totalTime, that comes from chronopic
+	//label_time shows a updating value from a software chrono: onTimer, this is not exact and is now
+	//replaced with the chronopic timer
+	public double LabelTimeValue 
+	{
+		set { label_time_value.Text = Math.Round(value,3).ToString();
+			                }
+	}
+	
+	
+	public Button ButtonCancel 
+	{
+		get { return button_cancel; }
+	}
+	
+	public Button ButtonFinish 
+	{
+		get { return button_finish; }
+	}
+
+	public Button ButtonUpdate 
+	{
+		get { return button_update; }
+	}
+	
 }

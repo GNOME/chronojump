@@ -442,13 +442,17 @@ public class JumpRj : Jump
 	
 	//better as private and don't inherit, don't know why
 	private Chronopic cp;
-	
+
+	//this records a jump when time has finished (if jumper was in the air)
+	private bool allowFinishAfterTime;
+	//this will be a flag for finishing if allowFinishAfterTime is true
+	private bool shouldFinishAtNextFall = true;
 	
 	//jump execution
 	public JumpRj(EventExecuteWindow eventExecuteWin, int personID, string personName, 
 			int sessionID, string type, int fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool allowFinishAfterTime)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -471,6 +475,7 @@ public class JumpRj : Jump
 		this.app = app;
 
 		this.pDN = pDN;
+		this.allowFinishAfterTime = allowFinishAfterTime;
 	
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
@@ -585,6 +590,8 @@ public class JumpRj : Jump
 	{
 		double timestamp = 0;
 		bool success = false;
+				
+		shouldFinishAtNextFall = false;
 		
 		bool ok;
 	
@@ -606,8 +613,11 @@ public class JumpRj : Jump
 
 				Console.Write(Util.GetTotalTime(tcString, tvString));
 
+
+					
+				
 				string equal = "";
-			
+				
 				//while no finished time or jumps, continue recording events
 				if ( ! success) {
 					//don't record the time until the first event
@@ -657,7 +667,13 @@ public class JumpRj : Jump
 						}
 					}
 				}
+				
+				//if we finish by time, and allowFinishAfterTime == true, when time passed, if the jumper is jumping
+				//if flags the shouldFinishAtNextFall that will finish when he arrives to the platform
+				if(shouldFinishAtNextFall && platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
+					success = true;
 
+				
 				//check if reactive jump should finish
 				if (jumpsLimited) {
 					if(limitAsDouble != -1) {
@@ -715,9 +731,28 @@ public class JumpRj : Jump
 	protected override bool shouldFinishByTime() {
 		//check if it should finish now (time limited, not unlimited and time exceeded)
 		//check also that rj has started (!firstRjValue)
+
 		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble && !firstRjValue)
-			return true;
+		{
+			//limited by Time, we are jumping and time passed
+			if ( tcCount == tvCount ) {
+				//if we are on floor
+				return true;
+			} else {
+				//we are on air
+				if(allowFinishAfterTime) {
+					//allow to finish later, return false, and waitEvent (looking at shouldFinishAtNextFall)
+					//will finishJump when he falls 
+					shouldFinishAtNextFall = true;
+					return false;
+				} else {
+					//we are at air, but ! shouldFinishAfterTime, then finish now discarding current jump
+					return true;
+				}
+			}
+		}
 		else
+			//we haven't finished, return false
 			return false;
 	}
 	

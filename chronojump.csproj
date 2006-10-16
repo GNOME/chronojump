@@ -48,6 +48,8 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\exportSession.cs" />
     <Compile Include="src\gui\confirm.cs" />
     <Compile Include="src\gui\error.cs" />
+    <Compile Include="src\gui\event.cs" />
+    <Compile Include="src\gui\eventGraphConfigure.cs" />
     <Compile Include="src\gui\jump.cs" />
     <Compile Include="src\gui\jumpType.cs" />
     <Compile Include="src\gui\person.cs" />
@@ -61,6 +63,8 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\gui\about.cs" />
     <Compile Include="src\gui\helpPorts.cs" />
     <Compile Include="src\gui\dialogMessage.cs" />
+    <Compile Include="src\gui\dialogHelp.cs" />
+    <Compile Include="src\gui\dialogCalendar.cs" />
     <Compile Include="src\event.cs" />
     <Compile Include="src\jump.cs" />
     <Compile Include="src\jumpType.cs" />
@@ -141,6 +145,8 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\treeViewPulse.cs" />
     <Compile Include="src\treeViewRun.cs" />
     <Compile Include="src\util.cs" />
+    <Compile Include="src\updateProgressBar.cs" />
+    <Compile Include="src\prepareEventGraphObjects.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="glade\chronojump.glade" />

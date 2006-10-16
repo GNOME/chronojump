@@ -35,7 +35,6 @@ public class Pulse : Event
 	string timesString;
 	int tracks;
 	double contactTime;
-	//bool firstPulse;
 
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
@@ -153,7 +152,6 @@ public class Pulse : Event
 			//initialize variables
 			timesString = "";
 			tracks = 0;
-			//firstPulse = true;
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
@@ -196,8 +194,6 @@ public class Pulse : Event
 						//has arrived
 
 						//if we arrive to the platform for the first time, don't record anything
-						//if (firstPulse) {
-						//	firstPulse = false;
 						if(pulsePhase == pulsePhases.WAIT_FIRST_EVENT) {
 							pulsePhase = pulsePhases.DOING;
 							//pulse starts

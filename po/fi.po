@@ -1,0 +1,2428 @@
+# Finnish messages for chronojump
+# Copyright (C) 2006 Ilkka Tuohela
+# Ilkka Tuohela <hile@iki.fi> 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: chronojump\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-16 16:40+0300\n"
+"PO-Revision-Date: 2006-10-16 16:42+0300\n"
+"Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
+"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../glade/chronojump.glade.h:1
+msgid " "
+msgstr ""
+
+#: ../glade/chronojump.glade.h:3
+#, no-c-format
+msgid ""
+"% body \n"
+"weight"
+msgstr ""
+"% ruumiin \n"
+"painosta"
+
+#: ../glade/chronojump.glade.h:5
+msgid "1000m"
+msgstr "1000m"
+
+#: ../glade/chronojump.glade.h:6
+msgid "100m"
+msgstr "100m"
+
+#: ../glade/chronojump.glade.h:7
+msgid "2000m"
+msgstr "2000m"
+
+#: ../glade/chronojump.glade.h:8
+msgid "200m"
+msgstr "200m"
+
+#: ../glade/chronojump.glade.h:9
+msgid "20m"
+msgstr "20m"
+
+#: ../glade/chronojump.glade.h:10
+msgid "400m"
+msgstr "400m"
+
+#: ../glade/chronojump.glade.h:11
+msgid "<- unselect"
+msgstr "<- poista valinta"
+
+#: ../glade/chronojump.glade.h:12
+msgid "<b>Chronojump</b>"
+msgstr "<b>Chronojump</b>"
+
+#: ../glade/chronojump.glade.h:13
+msgid "<b>Detected</b>"
+msgstr "<b>Havaittu</b>"
+
+#: ../glade/chronojump.glade.h:14
+msgid "<b>Full name</b>"
+msgstr "<b>Kokonaisaika</b>"
+
+#: ../glade/chronojump.glade.h:15
+msgid "<b>Guides</b>"
+msgstr "<b>Ohjeet</b>"
+
+#: ../glade/chronojump.glade.h:16
+msgid "<b>Name</b>"
+msgstr "<b>Nimi</b>"
+
+#: ../glade/chronojump.glade.h:17
+msgid "<b>Other</b>"
+msgstr "<b>Muu</b>"
+
+#: ../glade/chronojump.glade.h:18
+msgid "<b>Sex</b>"
+msgstr "<b>Sukupuoli</b>"
+
+#: ../glade/chronojump.glade.h:19
+msgid ""
+"<b>Simulated\n"
+"Event</b>"
+msgstr ""
+"<b>Simuloitu\n"
+"tapahtuma</b>"
+
+#: ../glade/chronojump.glade.h:21
+msgid "<b>Vertical Axe</b>"
+msgstr "<b>Pystyakseli</b>"
+
+#: ../glade/chronojump.glade.h:22
+msgid "<b>Weight</b> (Kg)"
+msgstr "<b>Paino</b> (kg)"
+
+#: ../glade/chronojump.glade.h:23
+msgid "<b>Weight</b> (kg)"
+msgstr "<b>Paino</b> (kg)"
+
+#: ../glade/chronojump.glade.h:24
+msgid "<b>execute</b>"
+msgstr "<b>suorita</b>"
+
+#: ../glade/chronojump.glade.h:25
+msgid "<b>general data</b>"
+msgstr "<b>yleistiedot</b>"
+
+#: ../glade/chronojump.glade.h:26
+msgid "<b>persons</b>"
+msgstr "<b>Henkilöt</b>"
+
+#: ../glade/chronojump.glade.h:27
+msgid "<b>pulse step</b>"
+msgstr "<b>pulssiaskel</b>"
+
+#: ../glade/chronojump.glade.h:28
+msgid "<b>statistic</b>"
+msgstr "<b>tilasto</b>"
+
+#: ../glade/chronojump.glade.h:29
+msgid "<b>statistics data</b>"
+msgstr "<b>tilastotiedot</b>"
+
+#: ../glade/chronojump.glade.h:30
+msgid "<b>view</b>"
+msgstr "<b>näkymä</b>"
+
+#: ../glade/chronojump.glade.h:31
+msgid "ABK"
+msgstr "ABK"
+
+#: ../glade/chronojump.glade.h:32
+msgid "About"
+msgstr "Tietoja"
+
+#: ../glade/chronojump.glade.h:33
+msgid "Add jump type"
+msgstr "Lisää hypyn tyyppi"
+
+#: ../glade/chronojump.glade.h:34
+msgid "Add multiple persons"
+msgstr "Lisää useita henkilöitä"
+
+#: ../glade/chronojump.glade.h:35
+msgid "Add run type"
+msgstr "Lisää juoksutyyppi"
+
+#: ../glade/chronojump.glade.h:36
+msgid "Add this statistic and its graph to report window"
+msgstr "Lisää tämä tilasto ja sen kaavio raportti-ikkunaan"
+
+#: ../glade/chronojump.glade.h:37
+msgid "Add to report"
+msgstr "Lisää raporttiin"
+
+#: ../glade/chronojump.glade.h:38
+msgid "Additional weight"
+msgstr "Lisäpainot"
+
+#: ../glade/chronojump.glade.h:39
+msgid "Allow RJ's finish after time"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:40
+msgid "By laps"
+msgstr "Kierroksien mukaan"
+
+#: ../glade/chronojump.glade.h:41
+msgid "By time"
+msgstr "Ajan mukaan"
+
+#: ../glade/chronojump.glade.h:42
+msgid "CMJ"
+msgstr "CMJ"
+
+#: ../glade/chronojump.glade.h:43
+msgid "ChronoJump - Confirm"
+msgstr "Chronojump - vahvistus"
+
+#: ../glade/chronojump.glade.h:44
+msgid "ChronoJump - Error"
+msgstr "Chronojump - virhe"
+
+#: ../glade/chronojump.glade.h:45
+msgid "Chronojump"
+msgstr "Chronojump"
+
+#: ../glade/chronojump.glade.h:46
+msgid "Chronojump Report window"
+msgstr "Chronojumpin raportti-ikkuna"
+
+#: ../glade/chronojump.glade.h:47
+msgid "Chronojump Statistics window"
+msgstr "Chronojumpin tilastoikkuna"
+
+#: ../glade/chronojump.glade.h:48
+msgid "Chronopic"
+msgstr "Chronopic"
+
+#: ../glade/chronojump.glade.h:49
+msgid "Chronopic in"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:50
+msgid "Collapse all"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:51 ../src/exportSession.cs:163
+#: ../src/gui/session.cs:359 ../src/gui/session.cs:514 ../src/report.cs:206
+msgid "Comments"
+msgstr "Kommentit"
+
+#: ../glade/chronojump.glade.h:52
+msgid "Configure graph"
+msgstr "Määrittele kaavio"
+
+#: ../glade/chronojump.glade.h:53
+msgid "Confirm jump/run deletion"
+msgstr "Vahvista hypyn tai juoksun poisto"
+
+#: ../glade/chronojump.glade.h:54
+msgid "Contact time"
+msgstr "Yhteysaika"
+
+#: ../glade/chronojump.glade.h:55
+msgid "Create a new jump type in the database"
+msgstr "Luo uusi hyppytyyppi tietokantaan"
+
+#: ../glade/chronojump.glade.h:56
+msgid "Create a new run type in the database"
+msgstr "Luo uusi juoksutyyppi tietokantaan"
+
+#: ../glade/chronojump.glade.h:57
+msgid "Create new Jump Type"
+msgstr "Luo uusi hyppytyyppi"
+
+#: ../glade/chronojump.glade.h:58
+msgid "Create new Run Type"
+msgstr "Luo uusi juoksutyyppi"
+
+#: ../glade/chronojump.glade.h:59
+msgid "Custom"
+msgstr "Oma"
+
+#: ../glade/chronojump.glade.h:60
+msgid "DJ"
+msgstr "DJ"
+
+#: ../glade/chronojump.glade.h:61 ../src/exportSession.cs:162
+#: ../src/gui/session.cs:352 ../src/gui/session.cs:513 ../src/report.cs:205
+msgid "Date"
+msgstr "Päiväys"
+
+#: ../glade/chronojump.glade.h:62 ../src/gui/person.cs:102
+msgid "Date of Birth"
+msgstr "Syntymäpäivä"
+
+#: ../glade/chronojump.glade.h:63
+msgid "Decimal number"
+msgstr "Desimaaliluku"
+
+#: ../glade/chronojump.glade.h:64
+msgid "Delete selected RJ jump"
+msgstr "Poista valittu RJ-hyppy"
+
+#: ../glade/chronojump.glade.h:65
+msgid "Delete selected intervallic run"
+msgstr "Poista valittu intervallijuoksu"
+
+#: ../glade/chronojump.glade.h:66
+msgid "Delete selected jump"
+msgstr "Poista valittu hyppy"
+
+#: ../glade/chronojump.glade.h:67
+msgid "Delete selected pulse"
+msgstr "Poista valittu pulssi"
+
+#: ../glade/chronojump.glade.h:68
+msgid "Delete selected run"
+msgstr "Poista valittu juoksu"
+
+#: ../glade/chronojump.glade.h:69 ../src/exportSession.cs:199
+#: ../src/exportSession.cs:252 ../src/exportSession.cs:314
+#: ../src/exportSession.cs:356 ../src/gui/jump.cs:1045 ../src/gui/jump.cs:1237
+#: ../src/gui/person.cs:103 ../src/gui/run.cs:846 ../src/gui/run.cs:1017
+msgid "Description"
+msgstr "Kuvaus"
+
+#: ../glade/chronojump.glade.h:70
+msgid ""
+"Description /\n"
+"comments"
+msgstr ""
+"Kuvaus /\n"
+"kommentit"
+
+#: ../glade/chronojump.glade.h:72 ../src/exportSession.cs:311
+#: ../src/gui/run.cs:845 ../src/gui/run.cs:1014 ../src/treeViewRun.cs:51
+msgid "Distance"
+msgstr "Matka"
+
+#: ../glade/chronojump.glade.h:73
+msgid "DjIndex"
+msgstr "DJ-indeksi"
+
+#: ../glade/chronojump.glade.h:74
+msgid "Edit jump"
+msgstr "Muokkaa hyppyä"
+
+#: ../glade/chronojump.glade.h:75
+msgid "Edit run"
+msgstr "Muokkaa juoksua"
+
+#: ../glade/chronojump.glade.h:76
+msgid "Edit selected RJ jump"
+msgstr "Muokkaa valittua RJ-hyppyä"
+
+#: ../glade/chronojump.glade.h:77
+msgid "Edit selected intervallic run"
+msgstr "Muokkaa valittua intervallijuoksua"
+
+#: ../glade/chronojump.glade.h:78
+msgid "Edit selected jump"
+msgstr "Muokkaa valittua hyppyä"
+
+#: ../glade/chronojump.glade.h:79
+msgid "Edit selected person"
+msgstr "Muokka valittua henkilöä"
+
+#: ../glade/chronojump.glade.h:80
+msgid "Edit selected pulse"
+msgstr "Muokkaa valittua pulssia"
+
+#: ../glade/chronojump.glade.h:81
+msgid "Edit selected run"
+msgstr "Muokkaa valittua juoksua"
+
+#: ../glade/chronojump.glade.h:82
+msgid "Execute intervallic runs"
+msgstr "Suorita intervallijuoksuja"
+
+#: ../glade/chronojump.glade.h:83
+msgid "Execute reactive jump"
+msgstr "Suorita reaktiivisia hyppyjä"
+
+#: ../glade/chronojump.glade.h:84
+msgid "Execute simple jumps"
+msgstr "Suorita yksinkertaisia hyppyjä"
+
+#: ../glade/chronojump.glade.h:85
+msgid "Execute simple run"
+msgstr "Suorita yksinkertainen juoksu"
+
+#: ../glade/chronojump.glade.h:86
+msgid "Expand all"
+msgstr "Laajenna kaikki"
+
+#: ../glade/chronojump.glade.h:87
+msgid "Export session to _CSV"
+msgstr "Vie istunto _CSV-muotoon"
+
+#: ../glade/chronojump.glade.h:88
+msgid "Export session to _XML"
+msgstr "Vie istunto _XML-muotoon"
+
+#: ../glade/chronojump.glade.h:89
+msgid "Extra data for this jump"
+msgstr "Tämän hypyn lisätiedot"
+
+#: ../glade/chronojump.glade.h:90
+msgid "Extra data for this pulse"
+msgstr "Tämän pulssin lisätiedot"
+
+#: ../glade/chronojump.glade.h:91
+msgid "Extra data for this run"
+msgstr "Tämä juoksun lisätiedot"
+
+#: ../glade/chronojump.glade.h:92 ../src/gui/jump.cs:1044
+#: ../src/gui/jump.cs:1236
+msgid "Extra weight"
+msgstr "Lisäpainot"
+
+#: ../glade/chronojump.glade.h:94
+#, no-c-format
+msgid "Extra weight %"
+msgstr "Lisäpainojen %"
+
+#: ../glade/chronojump.glade.h:95
+msgid "F"
+msgstr "F"
+
+#: ../glade/chronojump.glade.h:96
+msgid "Falling height"
+msgstr "Putoamiskorkeus"
+
+#: ../glade/chronojump.glade.h:97
+msgid "Finish"
+msgstr "Valmis"
+
+#: ../glade/chronojump.glade.h:98
+msgid "Finish jump (save jump until this moment)"
+msgstr "Viimeistele hyppy (tallenna hyppy tähän hetkeen saakka)"
+
+#: ../glade/chronojump.glade.h:99
+msgid "Flight time"
+msgstr "Lentoaika"
+
+#: ../glade/chronojump.glade.h:100
+msgid "Free"
+msgstr "Vapaa"
+
+#: ../glade/chronojump.glade.h:101
+msgid "From session"
+msgstr "Istunnosta"
+
+#: ../glade/chronojump.glade.h:102
+msgid "Graph"
+msgstr "Kaavio"
+
+#: ../glade/chronojump.glade.h:103
+msgid "Graph this statistic"
+msgstr "Piirrä kaavio tästä tilastosta"
+
+#: ../glade/chronojump.glade.h:104
+msgid "Height (cm)"
+msgstr "Korkeus (cm)"
+
+#: ../glade/chronojump.glade.h:105
+msgid "Help"
+msgstr "Ohje"
+
+#: ../glade/chronojump.glade.h:106
+msgid "Identifier"
+msgstr "Tunniste"
+
+#: ../glade/chronojump.glade.h:107
+msgid ""
+"If a reactive jump is limited by time, and time has running out, allow "
+"finish jump"
+msgstr ""
+
+#. this.heightPreferred = heightPreferred;
+#: ../glade/chronojump.glade.h:108 ../src/stats/global.cs:53
+#: ../src/stats/report/sjCmjAbk.cs:51 ../src/stats/sjCmjAbk.cs:53
+msgid "Jump"
+msgstr "Hyppy"
+
+#: ../glade/chronojump.glade.h:109
+msgid "Jump AVG"
+msgstr "Hypyn keskiarvo"
+
+#: ../glade/chronojump.glade.h:110
+msgid "Jump Reactive"
+msgstr "Reaktiivinen hyppy"
+
+#: ../glade/chronojump.glade.h:111
+msgid "Jump type"
+msgstr "Hypyn tyyppi"
+
+#: ../glade/chronojump.glade.h:112
+msgid "Jump until \"finish\" button is clicked"
+msgstr "Hypi kunnes \"Valmis\"-painiketta painetaan"
+
+#: ../glade/chronojump.glade.h:113 ../src/gui/stats.cs:93
+#: ../src/gui/stats.cs:305 ../src/gui/stats.cs:664 ../src/statType.cs:220
+#: ../src/stats/cmjPlusPotency.cs:55 ../src/stats/djIndex.cs:32
+#: ../src/stats/djQ.cs:32 ../src/stats/fv.cs:50 ../src/stats/ieIub.cs:65
+#: ../src/stats/rjEvolution.cs:66 ../src/stats/rjIndex.cs:32
+#: ../src/stats/rjPotencyBosco.cs:32 ../src/stats/sjCmjAbkPlus.cs:55
+#: ../src/treeViewJump.cs:36
+msgid "Jumper"
+msgstr "Hyppääjä"
+
+#: ../glade/chronojump.glade.h:114
+msgid "Language"
+msgstr "Kieli"
+
+#: ../glade/chronojump.glade.h:115 ../src/gui/jump.cs:1233
+#: ../src/gui/run.cs:1015
+msgid "Limited by"
+msgstr "Rajoitettu arvoon "
+
+#: ../glade/chronojump.glade.h:116
+msgid "Limited by "
+msgstr "Rajoitettu arvoon "
+
+#: ../glade/chronojump.glade.h:117
+msgid "Load"
+msgstr "Lataa"
+
+#: ../glade/chronojump.glade.h:118
+msgid "Load person"
+msgstr "Lataa henkilö"
+
+#: ../glade/chronojump.glade.h:119
+msgid "Load persons"
+msgstr "Lataa henkilöitä"
+
+#: ../glade/chronojump.glade.h:120
+msgid "Load persons from other session"
+msgstr "Lataa henkilöitä toisesta istunnosta"
+
+#: ../glade/chronojump.glade.h:121
+msgid "Load session"
+msgstr "Lataa istunto"
+
+#: ../glade/chronojump.glade.h:122
+msgid "M"
+msgstr "M"
+
+#: ../glade/chronojump.glade.h:123
+msgid ""
+"Main\n"
+"options"
+msgstr ""
+"Pää-\n"
+"valinnat"
+
+#: ../glade/chronojump.glade.h:125
+msgid "Make report"
+msgstr "Tee raportti"
+
+#: ../glade/chronojump.glade.h:126
+msgid "Maximum"
+msgstr "Maksimi"
+
+#: ../glade/chronojump.glade.h:127
+msgid "Message"
+msgstr "Viesti"
+
+#: ../glade/chronojump.glade.h:128
+msgid "Minimum"
+msgstr "Minimi"
+
+#: ../glade/chronojump.glade.h:129
+msgid "More"
+msgstr "Lisää"
+
+#: ../glade/chronojump.glade.h:130
+msgid "More intervallic runs"
+msgstr "Lisää intervallijuoksuja"
+
+#: ../glade/chronojump.glade.h:131
+msgid "More pulse types"
+msgstr "Lisää pulssityyppejä"
+
+#: ../glade/chronojump.glade.h:132
+msgid "More reactive jumps"
+msgstr "Lisää reaktiivisia hyppyjä"
+
+#: ../glade/chronojump.glade.h:133
+msgid "More simple jumps"
+msgstr "Lisää yksinkertaisia hyppyjä"
+
+#: ../glade/chronojump.glade.h:134
+msgid "More simple runs"
+msgstr "Lisää yksinkertaisia juoksuja"
+
+#: ../glade/chronojump.glade.h:135 ../src/gui/person.cs:572
+msgid "New jumper"
+msgstr "Uusi hyppääjä"
+
+#: ../glade/chronojump.glade.h:136
+msgid "New person"
+msgstr "Uusi henkilö"
+
+#: ../glade/chronojump.glade.h:137
+msgid "New persons (multiple)"
+msgstr "Uudet henkilöt (useita)"
+
+#: ../glade/chronojump.glade.h:138
+msgid "Notes"
+msgstr "Huomautukset"
+
+#: ../glade/chronojump.glade.h:139
+msgid "Now"
+msgstr "Nyt"
+
+#: ../glade/chronojump.glade.h:140
+msgid "Optimal expand"
+msgstr "Optimaalinen laajennus"
+
+#: ../glade/chronojump.glade.h:141
+msgid "Paint a circle at end"
+msgstr ""
+
+#. column where the uniqueID of event will be (and will be hidded)
+#: ../glade/chronojump.glade.h:142 ../src/treeViewPulse.cs:46
+msgid "Person"
+msgstr "Henkilö"
+
+#: ../glade/chronojump.glade.h:143
+msgid "Person AVG"
+msgstr "Henkilön keskiarvo"
+
+#: ../glade/chronojump.glade.h:144
+msgid "Pla_tform"
+msgstr "A_lusta"
+
+#: ../glade/chronojump.glade.h:145 ../src/exportSession.cs:161
+#: ../src/gui/person.cs:1217 ../src/gui/session.cs:351
+#: ../src/gui/session.cs:512 ../src/report.cs:204
+msgid "Place"
+msgstr "Sijainti"
+
+#: ../glade/chronojump.glade.h:146
+msgid ""
+"Please fill these values\n"
+"(bold titles are required)"
+msgstr ""
+"Ole hyvä ja täyty nämä arvot\n"
+"(korostetut kentät vaaditaan)"
+
+#: ../glade/chronojump.glade.h:148
+msgid "Prefer height over TF"
+msgstr "Suosi korkeutta TF:n sijasta"
+
+#: ../glade/chronojump.glade.h:149
+msgid "Prefer m/s over Km/h"
+msgstr "Suosi m/s km/h sijasta"
+
+#: ../glade/chronojump.glade.h:150
+msgid "Preferences"
+msgstr "Asetukset"
+
+#: ../glade/chronojump.glade.h:151
+msgid "Properties"
+msgstr "Ominaisuudet"
+
+#: ../glade/chronojump.glade.h:152
+msgid "Pulse"
+msgstr "Pulssi"
+
+#: ../glade/chronojump.glade.h:153
+msgid "Pulse AVG"
+msgstr "Pulssin keskiarvo"
+
+#: ../glade/chronojump.glade.h:154
+msgid "QIndex"
+msgstr "Q-indeksi"
+
+#: ../glade/chronojump.glade.h:155
+msgid "RJ(j)"
+msgstr "RJ(j)"
+
+#: ../glade/chronojump.glade.h:156
+msgid "RJ(t)"
+msgstr "RJ(t)"
+
+#: ../glade/chronojump.glade.h:157
+msgid "RJ(unlimited)"
+msgstr "RJ(rajoittamaton)"
+
+#: ../glade/chronojump.glade.h:158
+msgid "Repair selected RJ jump"
+msgstr "Korjaa valittu RJ-hyppy"
+
+#: ../glade/chronojump.glade.h:159
+msgid "Repair selected intervallic run"
+msgstr "Korjaa valittu intervallijuoksu"
+
+#: ../glade/chronojump.glade.h:160
+msgid "Repair selected pulse"
+msgstr "Korjaa valittu pulssi"
+
+#: ../glade/chronojump.glade.h:161
+msgid "Repair selected reactive jump"
+msgstr "Korjaa valittu reaktiivinen hyppy"
+
+#: ../glade/chronojump.glade.h:162
+msgid "Report window"
+msgstr "Raportti-ikkuna"
+
+#: ../glade/chronojump.glade.h:163
+msgid "Run"
+msgstr "Juoksu"
+
+#: ../glade/chronojump.glade.h:164
+msgid "Run AVG"
+msgstr "Juoksun keskiarvo"
+
+#: ../glade/chronojump.glade.h:165
+msgid "Run Intervallic"
+msgstr "Juokse intervalleilla"
+
+#: ../glade/chronojump.glade.h:166
+msgid "Run type"
+msgstr "Juoksun tyyppi"
+
+#. column where the uniqueID of event will be (and will be hidded)
+#: ../glade/chronojump.glade.h:167 ../src/treeViewRun.cs:49
+#: ../src/treeViewRun.cs:97
+msgid "Runner"
+msgstr "Juoksija"
+
+#: ../glade/chronojump.glade.h:168
+msgid "Runs"
+msgstr "Juoksut"
+
+#: ../glade/chronojump.glade.h:169
+msgid "SJ"
+msgstr "SJ"
+
+#: ../glade/chronojump.glade.h:170
+msgid "SJ+"
+msgstr "SJ+"
+
+#: ../glade/chronojump.glade.h:171
+msgid "Search filter"
+msgstr "Hakusuodatin"
+
+#: ../glade/chronojump.glade.h:172
+msgid "Select data for HTML report"
+msgstr "Valitse tiedot HTML-raporttiin"
+
+#: ../glade/chronojump.glade.h:173
+msgid ""
+"Select persons you want to load.\n"
+"(Persons in current session are not listed)"
+msgstr ""
+"suodatintaValitse ladattavat henkilöt.\n"
+"(Nykyisen istunnon henkilöitä ei näytetä)"
+
+#: ../glade/chronojump.glade.h:175
+msgid "Select sessions for statistics"
+msgstr "Valitse tilastojen istunnot"
+
+#: ../glade/chronojump.glade.h:176
+msgid "Serial ports help"
+msgstr "Ohjeita sarjaporteista"
+
+#: ../glade/chronojump.glade.h:177
+msgid "Session AVG"
+msgstr "Istunnon keskiarvo"
+
+#: ../glade/chronojump.glade.h:178
+msgid "Show all events of a person"
+msgstr "Näytä kaikki henkilön tapahtumat"
+
+#: ../glade/chronojump.glade.h:179
+msgid "Show black guide"
+msgstr "Näytä musta ohje"
+
+#: ../glade/chronojump.glade.h:180
+msgid "Show green guide"
+msgstr "Näytä vihreä ohje"
+
+#: ../glade/chronojump.glade.h:181
+msgid "Show grid (on multiple events)"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:182
+msgid "Show height"
+msgstr "Näytä korkeus"
+
+#: ../glade/chronojump.glade.h:183
+msgid "Show indexes between TF and TC"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:184
+msgid "Show initial speed"
+msgstr "Näytä alkunopeus"
+
+#: ../glade/chronojump.glade.h:185
+msgid "Show speed"
+msgstr "Näytä nopeus"
+
+#: ../glade/chronojump.glade.h:186
+msgid "Show time"
+msgstr "Näytä aika"
+
+#: ../glade/chronojump.glade.h:187
+msgid "Simulated"
+msgstr "Simuloitu"
+
+#: ../glade/chronojump.glade.h:188 ../src/exportSession.cs:313
+#: ../src/treeViewRun.cs:50 ../src/treeViewRun.cs:98
+msgid "Speed"
+msgstr "Nopeus"
+
+#: ../glade/chronojump.glade.h:189 ../src/gui/jump.cs:1043
+#: ../src/gui/jump.cs:1235
+msgid "Start inside"
+msgstr "Aloita sisältä"
+
+#: ../glade/chronojump.glade.h:190
+msgid "Stats window"
+msgstr "Tilastoikkuna"
+
+#. Console.WriteLine("TC: {0}", tc.ToString());
+#: ../glade/chronojump.glade.h:191 ../src/exportSession.cs:193
+#: ../src/gui/jump.cs:542 ../src/jump.cs:352 ../src/stats/djIndex.cs:36
+#: ../src/stats/djQ.cs:36 ../src/stats/graphs/djIndex.cs:76
+#: ../src/stats/graphs/djQ.cs:76 ../src/stats/graphs/rjEvolution.cs:131
+#: ../src/stats/graphs/rjIndex.cs:76 ../src/stats/graphs/rjPotencyBosco.cs:80
+#: ../src/stats/rjEvolution.cs:73 ../src/stats/rjEvolution.cs:78
+msgid "TC"
+msgstr "TC"
+
+#. cols: 4, 6, 8, ...
+#. cols: 3, 5, 7, ...
+#: ../glade/chronojump.glade.h:192 ../src/exportSession.cs:194
+#: ../src/gui/jump.cs:551 ../src/gui/run.cs:462 ../src/jump.cs:360
+#: ../src/stats/djIndex.cs:35 ../src/stats/djQ.cs:35
+#: ../src/stats/graphs/djIndex.cs:77 ../src/stats/graphs/djQ.cs:77
+#: ../src/stats/graphs/global.cs:76 ../src/stats/graphs/rjEvolution.cs:132
+#: ../src/stats/graphs/rjIndex.cs:77 ../src/stats/graphs/rjPotencyBosco.cs:81
+#: ../src/stats/graphs/sjCmjAbk.cs:69 ../src/stats/graphs/sjCmjAbkPlus.cs:71
+#: ../src/stats/rjEvolution.cs:74 ../src/stats/rjEvolution.cs:79
+#: ../src/stats/sjCmjAbk.cs:54 ../src/stats/sjCmjAbkPlus.cs:56
+msgid "TF"
+msgstr "TF"
+
+#: ../glade/chronojump.glade.h:193
+msgid ""
+"This dialog explains wich ports are suitable to be connected with chronopic"
+msgstr ""
+"Tämä ikkuna selittää, mitkä portit ovat sopivia chronopiciin yhdistämiseen"
+
+#: ../glade/chronojump.glade.h:194 ../src/exportSession.cs:250
+#: ../src/exportSession.cs:312 ../src/stats/graphs/rjPotencyBosco.cs:83
+#: ../src/stats/rjPotencyBosco.cs:37 ../src/treeViewPulse.cs:47
+#: ../src/treeViewRun.cs:52 ../src/treeViewRun.cs:99
+msgid "Time"
+msgstr "Aika"
+
+#: ../glade/chronojump.glade.h:195
+msgid "Totaltime"
+msgstr "Kokonaisaika"
+
+#: ../glade/chronojump.glade.h:196
+msgid ""
+"Track distance \n"
+"(between platforms)"
+msgstr ""
+"Ratojen väli\n"
+"(alustojen välillä)"
+
+#: ../glade/chronojump.glade.h:198 ../src/exportSession.cs:192
+#: ../src/exportSession.cs:310 ../src/exportSession.cs:349
+#: ../src/gui/report.cs:113
+msgid "Type"
+msgstr "Tyyppi"
+
+#. check if it's unlimited
+#. unlimited mark
+#: ../glade/chronojump.glade.h:199 ../src/gui/jump.cs:1262
+#: ../src/gui/jump.cs:1305 ../src/gui/jump.cs:1341 ../src/gui/run.cs:1033
+#: ../src/gui/run.cs:1074 ../src/gui/run.cs:1102
+msgid "Unlimited"
+msgstr "Rajoittamaton"
+
+#: ../glade/chronojump.glade.h:200
+msgid "Update"
+msgstr "Päivitä"
+
+#: ../glade/chronojump.glade.h:201
+msgid "Update stats"
+msgstr "Päivitä tilastot"
+
+#: ../glade/chronojump.glade.h:202
+msgid ""
+"Use this window to add until 10 people.\n"
+"If you need more, just repeat the operation later."
+msgstr ""
+"Käytä tätä ikkunaa enintään 10 henkilön lisäämiseen.\n"
+"Jos lisäät useampia voit toistaa toiminnon myöhemmin."
+
+#: ../glade/chronojump.glade.h:204
+msgid "_About"
+msgstr "_Tietoja"
+
+#: ../glade/chronojump.glade.h:205
+msgid "_Custom"
+msgstr "_Oma"
+
+#: ../glade/chronojump.glade.h:206
+msgid "_Delete current person from this session"
+msgstr "_Poista nykyinen henkilö tästä istunnosta"
+
+#: ../glade/chronojump.glade.h:207
+msgid "_Delete session"
+msgstr "_Poista istunto"
+
+#: ../glade/chronojump.glade.h:208
+msgid "_Edit current person"
+msgstr "_Muokkaa valittua henkilöä"
+
+#: ../glade/chronojump.glade.h:209
+msgid "_Edit session"
+msgstr "_Muokkaa istuntoa"
+
+#: ../glade/chronojump.glade.h:210
+msgid "_File"
+msgstr "_Tiedosto"
+
+#: ../glade/chronojump.glade.h:211
+msgid "_Help"
+msgstr "O_hje"
+
+#: ../glade/chronojump.glade.h:212
+msgid "_Jump"
+msgstr "_Hyppy"
+
+#: ../glade/chronojump.glade.h:213
+msgid "_Load person"
+msgstr "_Lataa henkilö"
+
+#: ../glade/chronojump.glade.h:214
+msgid "_Load session"
+msgstr "_Lataa istunto"
+
+#: ../glade/chronojump.glade.h:215
+msgid "_New person"
+msgstr "_Uusi henkilö"
+
+#: ../glade/chronojump.glade.h:216
+msgid "_New session"
+msgstr "_Uusi istunto"
+
+#: ../glade/chronojump.glade.h:217
+msgid "_Person"
+msgstr "_Henkilö"
+
+#: ../glade/chronojump.glade.h:218
+msgid "_Preferences"
+msgstr "_Asetukset"
+
+#: ../glade/chronojump.glade.h:219
+msgid "_Quit"
+msgstr "_Lopeta"
+
+#: ../glade/chronojump.glade.h:220
+msgid "_Run"
+msgstr "_Juoksu"
+
+#: ../glade/chronojump.glade.h:221
+msgid "_Show all events of current person"
+msgstr "_Näytä kaikki valitun henkilön tapahtumat"
+
+#: ../glade/chronojump.glade.h:222
+msgid "_View"
+msgstr "_Näytä"
+
+#: ../glade/chronojump.glade.h:223
+msgid "all"
+msgstr "kaikki"
+
+#: ../glade/chronojump.glade.h:224
+msgid "always"
+msgstr "aina"
+
+#: ../glade/chronojump.glade.h:225
+msgid "apply to"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:226
+msgid "auto"
+msgstr "automaattinen"
+
+#: ../glade/chronojump.glade.h:227
+msgid "change"
+msgstr "muuta"
+
+#: ../glade/chronojump.glade.h:228
+msgid "current"
+msgstr "nykyinen"
+
+#: ../glade/chronojump.glade.h:229
+msgid "current session data"
+msgstr "nykyisen istunnon tiedot"
+
+#: ../glade/chronojump.glade.h:230
+msgid "current session jumpers"
+msgstr "nykyisen istunnon hyppääjät"
+
+#: ../glade/chronojump.glade.h:231
+msgid "define desired pulse step"
+msgstr "määritä haluttu pulssiaskel"
+
+#: ../glade/chronojump.glade.h:232
+msgid "delete current session"
+msgstr "poista valittu istunto"
+
+#: ../glade/chronojump.glade.h:233
+msgid "delete last event"
+msgstr "poista viimeinen tapahtuma"
+
+#: ../glade/chronojump.glade.h:234
+msgid "description"
+msgstr "kuvaus"
+
+#: ../glade/chronojump.glade.h:235
+msgid "developers"
+msgstr "kehittäjät"
+
+#: ../glade/chronojump.glade.h:236
+msgid "female"
+msgstr "nainen"
+
+#: ../glade/chronojump.glade.h:237
+msgid "fixed: "
+msgstr "kiinteä: "
+
+#: ../glade/chronojump.glade.h:238
+msgid "include subjumps"
+msgstr "näytä myös alihypyt"
+
+#: ../glade/chronojump.glade.h:239
+msgid "include subruns"
+msgstr "näytä myös alijuoksut"
+
+#: ../glade/chronojump.glade.h:240
+msgid "intervallic"
+msgstr "intervalli"
+
+#: ../glade/chronojump.glade.h:241
+msgid "intervallic runs"
+msgstr "intervallijuoksut"
+
+#: ../glade/chronojump.glade.h:242
+msgid "jump extra data"
+msgstr "hyppyjen lisätiedot"
+
+#: ../glade/chronojump.glade.h:243
+msgid ""
+"jumper's\n"
+"average"
+msgstr ""
+"hyppääjän\n"
+"keskiarvo"
+
+#: ../glade/chronojump.glade.h:245
+msgid ""
+"jumper's\n"
+"bests"
+msgstr ""
+"hyppääjän\n"
+"parhaat"
+
+#: ../glade/chronojump.glade.h:247 ../src/gui/jump.cs:856
+#: ../src/stats/graphs/rjPotencyBosco.cs:119
+msgid "jumps"
+msgstr "hypyt"
+
+#: ../glade/chronojump.glade.h:248
+msgid "last"
+msgstr "viimeisin"
+
+#: ../glade/chronojump.glade.h:249
+msgid "limit"
+msgstr "raja"
+
+#: ../glade/chronojump.glade.h:250
+msgid "male"
+msgstr "miespuolinen"
+
+#: ../glade/chronojump.glade.h:251
+msgid "man"
+msgstr "mies"
+
+#: ../glade/chronojump.glade.h:252
+msgid "mark best 'n' consecutives"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:253
+msgid "mark consecutives"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:254
+msgid "meters"
+msgstr "metriä"
+
+#: ../glade/chronojump.glade.h:255
+msgid "more"
+msgstr "lisää"
+
+#: ../glade/chronojump.glade.h:256
+msgid "no"
+msgstr "ei"
+
+#: ../glade/chronojump.glade.h:257
+msgid "none"
+msgstr "ei mitään"
+
+#: ../glade/chronojump.glade.h:258
+msgid "other"
+msgstr "muu"
+
+#: ../glade/chronojump.glade.h:259
+msgid "ppm"
+msgstr "ppm"
+
+#: ../glade/chronojump.glade.h:260
+msgid "pulse extra data"
+msgstr "pulssin lisätiedot"
+
+#: ../glade/chronojump.glade.h:261
+msgid "reactive jumps"
+msgstr "reaktiiviset hypyt"
+
+#: ../glade/chronojump.glade.h:262
+msgid "repetitive"
+msgstr "toistuva"
+
+#: ../glade/chronojump.glade.h:263
+msgid "run extra data"
+msgstr "juoksun lisätiedot"
+
+#: ../glade/chronojump.glade.h:264
+msgid "run until \"finish\" button is clicked"
+msgstr "juokse, kunnes \"Valmis\"-painiketta painetaan"
+
+#. update the totaltime label
+#: ../glade/chronojump.glade.h:265 ../src/gui/jump.cs:496
+#: ../src/gui/jump.cs:577 ../src/gui/jump.cs:601 ../src/gui/jump.cs:727
+#: ../src/gui/jump.cs:857 ../src/gui/run.cs:421 ../src/gui/run.cs:488
+#: ../src/gui/run.cs:588 ../src/gui/run.cs:713
+#: ../src/stats/graphs/djIndex.cs:106 ../src/stats/graphs/djQ.cs:106
+#: ../src/stats/graphs/global.cs:95 ../src/stats/graphs/global.cs:106
+#: ../src/stats/graphs/ieIub.cs:108 ../src/stats/graphs/rjEvolution.cs:80
+#: ../src/stats/graphs/rjIndex.cs:102
+#: ../src/stats/graphs/rjPotencyBosco.cs:116
+#: ../src/stats/graphs/sjCmjAbk.cs:85 ../src/stats/graphs/sjCmjAbk.cs:95
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:92
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:106
+msgid "seconds"
+msgstr "sekuntia"
+
+#: ../glade/chronojump.glade.h:266
+msgid "select"
+msgstr "valitse"
+
+#: ../glade/chronojump.glade.h:267
+msgid "select ->"
+msgstr "valitse ->"
+
+#: ../glade/chronojump.glade.h:268
+msgid "selected"
+msgstr "valittu"
+
+#: ../glade/chronojump.glade.h:269
+msgid "session"
+msgstr "istunto"
+
+#: ../glade/chronojump.glade.h:270
+msgid "show all events of this person"
+msgstr "näytä kaikki tämän henkilön tapahtumat"
+
+#: ../glade/chronojump.glade.h:271
+msgid "show jumps"
+msgstr "näytä hypyt"
+
+#: ../glade/chronojump.glade.h:272
+msgid "show only persons in current session"
+msgstr "näytä vain nykyisen istunnon henkilöt"
+
+#: ../glade/chronojump.glade.h:273
+msgid "show sex"
+msgstr "näytä sukupuoli"
+
+#: ../glade/chronojump.glade.h:274
+msgid "show..."
+msgstr "näytä..."
+
+#: ../glade/chronojump.glade.h:275
+msgid "simple"
+msgstr "yksinkertainen"
+
+#: ../glade/chronojump.glade.h:276
+msgid "simple jumps"
+msgstr "yksinkertaiset hypyt"
+
+#: ../glade/chronojump.glade.h:277
+msgid "simple runs"
+msgstr "yksinkertaiset juoksut"
+
+#: ../glade/chronojump.glade.h:278
+msgid "sort by creation date"
+msgstr "järjestä luontipäivän mukaan"
+
+#: ../glade/chronojump.glade.h:279
+msgid "start managing pulses freely"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:280
+msgid "statistic's description"
+msgstr "tilaston kuvaus"
+
+#: ../glade/chronojump.glade.h:281 ../src/run.cs:285
+msgid "time"
+msgstr "aika"
+
+#: ../glade/chronojump.glade.h:282
+msgid "total pulses"
+msgstr "kaikki pulssit"
+
+#: ../glade/chronojump.glade.h:283 ../src/gui/run.cs:712
+msgid "tracks"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:284
+msgid "translators"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:285
+msgid "type / subtype"
+msgstr "tyyppi / alityyppi"
+
+#: ../glade/chronojump.glade.h:286
+msgid "unlimited"
+msgstr "rajoittamaton"
+
+#: ../glade/chronojump.glade.h:287
+msgid "unlimited pulses"
+msgstr "rajoittamattomat pulssit"
+
+#: ../glade/chronojump.glade.h:288
+msgid "unselected"
+msgstr "ei valittu"
+
+#: ../glade/chronojump.glade.h:289
+msgid "value"
+msgstr "arvo"
+
+#: ../glade/chronojump.glade.h:290
+msgid "version"
+msgstr "versio"
+
+#: ../glade/chronojump.glade.h:291
+msgid "woman"
+msgstr "nainen"
+
+#: ../glade/chronojump.glade.h:292
+msgid "yes"
+msgstr "kyllä"
+
+#: ../src/chronojump_mini.cs:59 ../src/gui/helpPorts.cs:59
+msgid "Auto-Detection currently disabled on GNU/Linux"
+msgstr ""
+
+#: ../src/chronojump_mini.cs:67
+msgid "Print the port name where chronopic is connected:"
+msgstr "Näytä portin nimi, kun chronopic saa yhteyden:"
+
+#: ../src/chronojump_mini.cs:71
+msgid ""
+"Opening port... if get hanged, generate events with chronopic or the platform"
+msgstr ""
+"Avataan porttia... jos tämä jää jumiin, luo tapahtumia chronopicillä tai "
+"alustalla"
+
+#: ../src/chronojump_mini.cs:81
+msgid "Error opening serial port"
+msgstr "Virhe avattaessa sarjaporttia"
+
+#. -- Si hay error terminar
+#: ../src/chronojump_mini.cs:97
+#, csharp-format
+msgid "Error: {0}"
+msgstr "Virhe: {0}"
+
+#: ../src/chronojump_mini.cs:100
+#, csharp-format
+msgid "Platform state: {0}"
+msgstr "Alustan tila: {0}"
+
+#: ../src/chronojump_mini.cs:107
+msgid "Go up platform for jumping"
+msgstr ""
+
+#: ../src/chronojump_mini.cs:120
+msgid "Jump when prepared"
+msgstr "Hypi, kun olet valmis"
+
+#: ../src/chronojump_mini.cs:121
+msgid "Press CTRL-c for ending session"
+msgstr "Lopeta istunto painamalla Ctrl-C"
+
+#: ../src/chronojump.cs:299
+msgid "no tables, creating ..."
+msgstr "ei tauluja, luodaan..."
+
+#: ../src/chronojump.cs:304
+msgid "tables already created"
+msgstr "taulut on jo luotu"
+
+#: ../src/chronojump.cs:381
+msgid "Ready."
+msgstr "Valmis."
+
+#: ../src/chronojump.cs:387
+msgid ""
+"Starting Chronojump in Simulated mode, change platform to 'Chronopic' for "
+"real detection of events"
+msgstr ""
+
+#: ../src/chronojump.cs:395
+msgid "starting connection with chronopic"
+msgstr "käynnistetään yhteys chronopicillä"
+
+#: ../src/chronojump.cs:396
+msgid "if program crashes, write to xavi@xdeblas.com"
+msgstr "jos ohjelma kaatuu, kerro siitä osoitteseen xavi@xdeblas.com"
+
+#: ../src/chronojump.cs:397
+msgid ""
+"If you have previously used the modem via a serial port (in a linux session, "
+"and you selected serial port), chronojump will crash."
+msgstr ""
+"Jos käytit aikaisemmin modeemia sarjaporttina (linuxin istunnosta, ja "
+"valitsit sarjaportin), chronojump kaatuu."
+
+#: ../src/chronojump.cs:457
+#, csharp-format
+msgid "Connected to Chronopic on port: {0}"
+msgstr ""
+
+#: ../src/chronojump.cs:461
+msgid "Problems communicating to chronopic, changed platform to 'Simulated'"
+msgstr "Ongelmia yhteydessä chronopiciin, muutettiin alustaksi \"Simuloitu\""
+
+#: ../src/chronojump.cs:474
+#, csharp-format
+msgid "Chronojump database version file: {0}"
+msgstr "Chronojumpin tietokannan versiotiedosto: {0}"
+
+#: ../src/chronojump.cs:563
+msgid "Preferences loaded"
+msgstr "Asetukset ladattu"
+
+#: ../src/chronojump.cs:1201
+msgid "Are you sure you want to delete the current session"
+msgstr "Haluatko varmasti poistaa nykyisen istunnon"
+
+#: ../src/chronojump.cs:1201
+msgid "and all the session events?"
+msgstr "ja kaikki istunnon tapahtumat?"
+
+#: ../src/chronojump.cs:1207
+msgid "Deleted session and all its events"
+msgstr "Poistettiin istunto ja kaikki sen tapahtumat"
+
+#: ../src/chronojump.cs:1287
+msgid "Successfully added"
+msgstr "Lisäys onnistui"
+
+#. more inserted
+#: ../src/chronojump.cs:1310 ../src/gui/person.cs:520
+#, csharp-format
+msgid "Successfully added {0} persons"
+msgstr "{0} henkilöä lisätty onnistuneesti"
+
+#: ../src/chronojump.cs:1359
+msgid ""
+"Are you sure you want to delete the current person and all his/her events "
+"(jumps, runs, pulses) from this session?\n"
+"(His/her personal data and events in other sessions will remain intact)"
+msgstr ""
+"Haluatko varmasti poistaa nykyisen henkilön ja hänen tapahtumansa (hypyt, "
+"juoksut ja pulssit) tästä istunnosta?\n"
+"(henkilön tiedot ja tapahtumat muissa istunnoissa säilytetään)"
+
+#: ../src/chronojump.cs:1360
+msgid "Current Person: "
+msgstr "Valittu henkilö: "
+
+#: ../src/chronojump.cs:1367
+msgid "Deleted person and all his/her events on this session"
+msgstr ""
+
+#: ../src/chronojump.cs:1454
+msgid ""
+"** Attention **: generate a event with the platform or with chronopic.\n"
+"If you don't do it, Chronojump will crash.\n"
+msgstr ""
+
+#: ../src/chronojump.cs:1454
+msgid ""
+"If it crashes, try to close it and open again, then Chronojump will be "
+"configured as simulated, and you can change the port in the preferences "
+"window"
+msgstr ""
+
+#: ../src/chronojump.cs:1776
+msgid "Execute Jump"
+msgstr "Suorita hyppy"
+
+#. windowTitle
+#: ../src/chronojump.cs:1777 ../src/chronojump.cs:2140
+msgid "Phases"
+msgstr "Vaiheet"
+
+#: ../src/chronojump.cs:1965
+msgid "Execute Reactive Jump"
+msgstr "Suorita reaktiivinen hyppy"
+
+#. windowTitle
+#: ../src/chronojump.cs:1966 ../src/exportSession.cs:249
+#: ../src/gui/jump.cs:1265 ../src/gui/jump.cs:1312 ../src/gui/jump.cs:1348
+#: ../src/stats/graphs/rjPotencyBosco.cs:82 ../src/stats/rjPotencyBosco.cs:36
+msgid "Jumps"
+msgstr "Hypyt"
+
+#: ../src/chronojump.cs:2139
+msgid "Execute Run"
+msgstr "Suorita juoksu"
+
+#: ../src/chronojump.cs:2291
+msgid "Execute Intervallic Run"
+msgstr "Suorita intervallijuoksu"
+
+#. windowTitle
+#: ../src/chronojump.cs:2292 ../src/exportSession.cs:354
+#: ../src/gui/run.cs:1036 ../src/gui/run.cs:1078 ../src/gui/run.cs:1106
+msgid "Tracks"
+msgstr ""
+
+#: ../src/chronojump.cs:2443
+msgid "Execute Pulse"
+msgstr "Suorita pulssi"
+
+#. windowTitle
+#: ../src/chronojump.cs:2444 ../src/gui/session.cs:358
+msgid "Pulses"
+msgstr "Pulssit"
+
+#: ../src/chronojump.cs:2542 ../src/chronojump.cs:2754
+msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
+msgstr "Huomautus: reaktiivisen alihypyn poisto poistaa koko hypyn"
+
+#: ../src/chronojump.cs:2549
+msgid "Do you want to delete last jump?"
+msgstr "Haluatko poistaa viimeisimmän hypyn?"
+
+#: ../src/chronojump.cs:2561
+msgid "Attention: Deleting a intervalic sub-run will delete the whole run"
+msgstr "Huomautus: intervallisen alijuoksun poisto poistaa koko juoksun"
+
+#: ../src/chronojump.cs:2568
+msgid "Do you want to delete last run?"
+msgstr "Haluatko poistaa viimeisimmän juoksun?"
+
+#: ../src/chronojump.cs:2580
+msgid "Do you want to delete last pulse?"
+msgstr "Haluatko poistaa viimeisimmän pulssin?"
+
+#: ../src/chronojump.cs:2602
+msgid "Last jump deleted"
+msgstr "Viimeisin hyppy poistettu"
+
+#: ../src/chronojump.cs:2622
+msgid "Last run deleted"
+msgstr "Viimeisin juoksu poistettu"
+
+#: ../src/chronojump.cs:2638
+msgid "Last pulse deleted"
+msgstr "Viimeisin pulssi poistettu"
+
+#: ../src/chronojump.cs:2753
+msgid "Do you want to delete selected jump?"
+msgstr "Haluatko poistaa valitun hypyn?"
+
+#: ../src/chronojump.cs:2768
+msgid "Deleted jump: "
+msgstr "Poistettu hyppy: "
+
+#: ../src/chronojump.cs:2781
+msgid "Deleted reactive jump: "
+msgstr "Poistettu reaktiivinen hyppy: "
+
+#: ../src/chronojump.cs:2915
+msgid "Do you want to delete selected run?"
+msgstr "Haluatko poistaa valitun juoksun?"
+
+#: ../src/chronojump.cs:2916
+msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
+msgstr ""
+
+#: ../src/chronojump.cs:2930
+msgid "Deleted run: "
+msgstr "Poistettu juoksu: "
+
+#: ../src/chronojump.cs:2944
+msgid "Deleted intervallic run: "
+msgstr "Poistettu intervallijuoksu: "
+
+#: ../src/chronojump.cs:3099
+msgid "translator-credits"
+msgstr ""
+"Ilkka Tuohela, 2006.\n"
+"http://www.gnome.fi/"
+
+#: ../src/constants.cs:35 ../src/stats/cmjPlusPotency.cs:56
+msgid "Potency"
+msgstr ""
+
+#. strings
+#. manage allJumps (show jumpType beside name (and sex))
+#. but only if it's not an AVG of different jumps
+#: ../src/constants.cs:39 ../src/gui/jumpType.cs:108 ../src/sqlite/stat.cs:137
+#: ../src/sqlite/stat.cs:181 ../src/sqlite/stat.cs:275
+#: ../src/sqlite/stat.cs:324 ../src/sqlite/stat.cs:374
+#: ../src/sqlite/stat.cs:420 ../src/sqlite/stat.cs:468
+#: ../src/sqlite/stat.cs:516 ../src/sqlite/stat.cs:620
+#: ../src/sqlite/stat.cs:666
+msgid "All jumps"
+msgstr "Kaikki hypyt"
+
+#: ../src/constants.cs:40 ../src/gui/runType.cs:108
+msgid "All runs"
+msgstr "Kaikki juoksut"
+
+#: ../src/constants.cs:41
+msgid "All pulses"
+msgstr "Kaikki pulssit"
+
+#: ../src/constants.cs:54
+msgid "Typical serial and USB-serial ports on Windows:"
+msgstr "Tyypilliset sarjaportit ja USB-sarjaportit Windowsissa:"
+
+#: ../src/constants.cs:56
+msgid "Also, these are possible:"
+msgstr "Myös nämä ovat mahdollisia:"
+
+#: ../src/constants.cs:60
+msgid "Typical serial serial ports on GNU/Linux:"
+msgstr "Tyypilliset sarjaportit GNU/Linuxissa:"
+
+#: ../src/constants.cs:62
+msgid "Typical USB-serial ports on GNU/Linux:"
+msgstr "Tyypilliset USB-sarjaportit GNU/Linuxissa:"
+
+#: ../src/exportSession.cs:60
+msgid "Save report as..."
+msgstr "Tallenna raportti nimellä..."
+
+#: ../src/exportSession.cs:62
+msgid "Export session in format "
+msgstr "Vie istunto muodossa "
+
+#: ../src/exportSession.cs:74
+msgid "Cancelled"
+msgstr "Peruttu"
+
+#: ../src/exportSession.cs:91
+msgid "Are you sure you want to overwrite file: "
+msgstr "Haluatko varmasti korvata tiedoston: "
+
+#: ../src/exportSession.cs:99
+#, csharp-format
+msgid "Saved to {0}"
+msgstr "Tallennettu tiedostoon {0}"
+
+#: ../src/exportSession.cs:105
+msgid "Cannot export to file: "
+msgstr "Tiedostoon ei voi viedä: "
+
+#: ../src/exportSession.cs:159 ../src/report.cs:203
+msgid "SessionID"
+msgstr "Istunnon tunniste"
+
+#: ../src/exportSession.cs:160 ../src/exportSession.cs:173
+#: ../src/gui/jump.cs:1042 ../src/gui/jump.cs:1232 ../src/gui/person.cs:98
+#: ../src/gui/run.cs:844 ../src/gui/run.cs:1013 ../src/gui/session.cs:350
+#: ../src/gui/session.cs:511 ../src/report.cs:202 ../src/report.cs:225
+msgid "Name"
+msgstr "Nimi"
+
+#: ../src/exportSession.cs:173 ../src/gui/person.cs:97 ../src/report.cs:225
+msgid "ID"
+msgstr "Tunniste"
+
+#: ../src/exportSession.cs:190 ../src/exportSession.cs:236
+msgid "Jumper name"
+msgstr "Hyppääjän nnimi"
+
+#: ../src/exportSession.cs:191 ../src/exportSession.cs:237
+msgid "jump ID"
+msgstr "hypyn tunniste"
+
+#: ../src/exportSession.cs:195 ../src/exportSession.cs:247
+#: ../src/stats/djIndex.cs:37 ../src/stats/djQ.cs:37
+#: ../src/stats/graphs/djIndex.cs:78 ../src/stats/graphs/djQ.cs:78
+#: ../src/stats/graphs/rjIndex.cs:78 ../src/stats/graphs/rjPotencyBosco.cs:84
+#: ../src/stats/rjEvolution.cs:68 ../src/stats/rjIndex.cs:36
+#: ../src/stats/rjPotencyBosco.cs:38 ../src/treeViewJump.cs:38
+msgid "Fall"
+msgstr ""
+
+#: ../src/exportSession.cs:196 ../src/exportSession.cs:248
+#: ../src/gui/person.cs:101
+msgid "Weight"
+msgstr "Paino"
+
+#: ../src/exportSession.cs:197 ../src/gui/person.cs:100
+#: ../src/stats/cmjPlusPotency.cs:59 ../src/stats/djIndex.cs:34
+#: ../src/stats/djQ.cs:34 ../src/stats/graphs/cmjPlusPotency.cs:78
+#: ../src/stats/graphs/djIndex.cs:75 ../src/stats/graphs/djQ.cs:75
+#: ../src/stats/graphs/global.cs:74 ../src/stats/graphs/sjCmjAbk.cs:70
+#: ../src/stats/report/sjCmjAbk.cs:52 ../src/stats/sjCmjAbk.cs:54
+#: ../src/stats/sjCmjAbkPlus.cs:55 ../src/treeViewJump.cs:39
+msgid "Height"
+msgstr "Pituus"
+
+#: ../src/exportSession.cs:198 ../src/treeViewJump.cs:40
+msgid "Initial Speed"
+msgstr "Alkunopeus"
+
+#: ../src/exportSession.cs:238
+msgid "jump Type"
+msgstr "hypyn tyyppi"
+
+#: ../src/exportSession.cs:239
+msgid "TC Max"
+msgstr "TC-maksimi"
+
+#: ../src/exportSession.cs:240
+msgid "TF Max"
+msgstr "TF-maksimi"
+
+#: ../src/exportSession.cs:241
+msgid "Max Height"
+msgstr "Maksimikorkeus"
+
+#: ../src/exportSession.cs:242
+msgid "Max Initial Speed"
+msgstr "Alkunopeuden maksimi"
+
+#: ../src/exportSession.cs:243
+msgid "TC AVG"
+msgstr "TC-keskiarvo"
+
+#: ../src/exportSession.cs:244
+msgid "TF AVG"
+msgstr "TF-keskiarvo"
+
+#: ../src/exportSession.cs:245
+msgid "AVG Height"
+msgstr "Keskiarvokorkeus"
+
+#: ../src/exportSession.cs:246
+msgid "AVG Initial Speed"
+msgstr "Alkunopeuden keskiarvo"
+
+#: ../src/exportSession.cs:251 ../src/exportSession.cs:355
+msgid "Limited"
+msgstr "Rajoitettu"
+
+#: ../src/exportSession.cs:284 ../src/exportSession.cs:377
+#: ../src/gui/jump.cs:539 ../src/gui/run.cs:458 ../src/stats/rjEvolution.cs:71
+msgid "Count"
+msgstr "Laskuri"
+
+#: ../src/exportSession.cs:308 ../src/exportSession.cs:347
+msgid "Runner name"
+msgstr "Juoksijan nimi"
+
+#: ../src/exportSession.cs:309 ../src/exportSession.cs:348
+msgid "run ID"
+msgstr "juoksun tunniste"
+
+#: ../src/exportSession.cs:350
+msgid "Distance total"
+msgstr "Kokonaismatka"
+
+#: ../src/exportSession.cs:351
+msgid "Time total"
+msgstr "Kokonaisaika"
+
+#: ../src/exportSession.cs:352
+msgid "Average speed"
+msgstr "Keskinopeus"
+
+#: ../src/exportSession.cs:353
+msgid "Distance interval"
+msgstr ""
+
+#: ../src/exportSession.cs:378
+msgid "Interval speed"
+msgstr "Intervallinopeus"
+
+#: ../src/exportSession.cs:379
+msgid "interval times"
+msgstr "intervallin ajat"
+
+#: ../src/exportSession.cs:435
+msgid "Exported to file: "
+msgstr "Vietiin tiedostoon: "
+
+#: ../src/gui/event.cs:1174
+msgid ""
+"This window shows the execution of an event. In the graph, you may see:\n"
+"\n"
+"SIMPLE EVENTS:\n"
+"-\"Now\": shows the data of the current event.\n"
+"-\"Person AVG\": shows the average of the current person executing this type "
+"of event on this session.\n"
+"-\"Session AVG\": shows the Average of all persons executing this type of "
+"event on this session.\n"
+"\n"
+"MULTIPLE EVENTS:\n"
+"-\"Now\": shows the data of the current sub-event.\n"
+"-\"AVG\": shows the average of the current event.\n"
+"\n"
+"(For more statistics data, you may use the statistics window).\n"
+"\n"
+"You may change the graph options using buttons on the left.\n"
+"\n"
+"At the bottom you may see the evolution of the event, and you may finish it "
+"(depending on the type of event), or even cancel it."
+msgstr ""
+
+#: ../src/gui/jump.cs:81
+#, csharp-format
+msgid ""
+"Use this window to edit a jump.\n"
+"(decimal separator: '{0}')"
+msgstr ""
+"Käytä tätä ikkunaa hypyn muokkaukseen.\n"
+"(desimaalierotin on {0})"
+
+#: ../src/gui/jump.cs:293
+#, csharp-format
+msgid ""
+"Use this window to edit a reactive jump.\n"
+"(decimal separator: '{0}')"
+msgstr ""
+"Käytä tätä ikkunaa reaktiivisen hypyn muokkaukseen.\n"
+"(desimaalierotin on {0})"
+
+#: ../src/gui/jump.cs:473
+msgid "Repair reactive jump"
+msgstr "Korjaa reaktiivinen hyppy"
+
+#: ../src/gui/jump.cs:477
+#, csharp-format
+msgid ""
+"Use this window to repair a reactive jump.\n"
+"Double clic any cell to edit it (decimal separator: '{0}')"
+msgstr ""
+"Käytä tätä ikkunaa reaktiivisen hypyn korjaukseen.\n"
+"Muokkaa solua kaksoisnapsauttamalla sitä (desimaalierotin on {0})"
+
+#: ../src/gui/jump.cs:513
+#, csharp-format
+msgid "JumpType: {0}."
+msgstr "Hyppytyyppi: {0}."
+
+#: ../src/gui/jump.cs:518
+msgid ""
+"\n"
+"This jump type starts inside, the first time should be a flight time."
+msgstr ""
+"\n"
+"Tämä hyppytyyppi alkaa sisältä, ensimmäisen ajan tulisi olla lentoaika."
+
+#. if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TF if found
+#: ../src/gui/jump.cs:525
+#, csharp-format
+msgid ""
+"\n"
+"This jump type is fixed to {0} jumps, you cannot add more."
+msgstr ""
+"\n"
+"Tämä hyppytyyppi on rajattu {0} hyppyyn, et voi lisätä enempää."
+
+#. if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
+#: ../src/gui/jump.cs:528
+#, csharp-format
+msgid ""
+"\n"
+"This jump type is fixed to {0} seconds, totaltime cannot be greater."
+msgstr ""
+"\n"
+"Tämä hyppytyyppi on rajattu {0} sekuntiin, kokonaiskesto ei voi olla "
+"suurempi."
+
+#: ../src/gui/jump.cs:1055 ../src/gui/jump.cs:1060 ../src/gui/jump.cs:1088
+#: ../src/gui/jump.cs:1091 ../src/gui/jump.cs:1107 ../src/gui/jump.cs:1110
+#: ../src/gui/jump.cs:1247 ../src/gui/jump.cs:1252 ../src/gui/jump.cs:1322
+#: ../src/gui/jump.cs:1325 ../src/gui/jump.cs:1358 ../src/gui/jump.cs:1361
+msgid "Yes"
+msgstr "Kyllä"
+
+#: ../src/gui/jump.cs:1057 ../src/gui/jump.cs:1062 ../src/gui/jump.cs:1249
+#: ../src/gui/jump.cs:1254
+msgid "No"
+msgstr "Ei"
+
+#: ../src/gui/jump.cs:1234 ../src/gui/run.cs:1016
+msgid "Limited value"
+msgstr "Rajattu arvo"
+
+#: ../src/gui/jump.cs:1267 ../src/gui/run.cs:1038
+msgid "Seconds"
+msgstr "Sekuntia"
+
+#. string myString =  Catalog.GetString ("Jump type: '") +
+#. Util.RemoveTildeAndColonAndDot(entry_name.Text) +
+#. Catalog.GetString ("' exists. Please, use another name");
+#: ../src/gui/jumpType.cs:117
+#, csharp-format
+msgid "Jump type: '{0}' exists. Please, use another name"
+msgstr "Hypyn tyyppi: {0} on olemassa. Käytä toista nimeä"
+
+#: ../src/gui/person.cs:99
+msgid "Sex"
+msgstr "Sukupuoli"
+
+#: ../src/gui/person.cs:131
+msgid "Man"
+msgstr "Mies"
+
+#: ../src/gui/person.cs:132
+msgid "Woman"
+msgstr "Nainen"
+
+#: ../src/gui/person.cs:221 ../src/gui/person.cs:518
+msgid "Loaded"
+msgstr "Ladattu"
+
+#: ../src/gui/person.cs:423
+msgid "MARK ALL/NONE"
+msgstr "Merkitse kaikki/ei mitään"
+
+#: ../src/gui/person.cs:620
+msgid "Select Date of Birth"
+msgstr "Valitse syntymäpäivä"
+
+#. string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
+#: ../src/gui/person.cs:640 ../src/gui/person.cs:804
+#, csharp-format
+msgid "Person: '{0}' exists. Please, use another name"
+msgstr "Henkilö: \"{0}\" on jo olemassa, valitse toinen nimi"
+
+#: ../src/gui/person.cs:712
+msgid "Edit jumper"
+msgstr "Muokkaa hyppääjää"
+
+#: ../src/gui/person.cs:788 ../src/gui/session.cs:108
+#: ../src/gui/session.cs:242
+msgid "Select session date"
+msgstr "Valitse istunnon päiväys"
+
+#: ../src/gui/person.cs:1216
+msgid "Session name"
+msgstr "Istunnon nimi"
+
+#: ../src/gui/person.cs:1218
+msgid "Date\n"
+msgstr "Päiväys\n"
+
+#: ../src/gui/person.cs:1219
+msgid ""
+"Jumps\n"
+"simple"
+msgstr ""
+"Hypyt\n"
+"yksinkertainen"
+
+#: ../src/gui/person.cs:1220
+msgid ""
+"Jumps\n"
+"reactive"
+msgstr ""
+"Hypyt\n"
+"reaktiivinen"
+
+#: ../src/gui/person.cs:1221
+msgid ""
+"Runs\n"
+"simple"
+msgstr ""
+"Juoksut\n"
+"yksinkertainen"
+
+#: ../src/gui/person.cs:1222
+msgid ""
+"Runs\n"
+"interval"
+msgstr ""
+"Juoksut\n"
+"intervalli"
+
+#: ../src/gui/preferences.cs:265
+msgid "Restart Chronojump to operate completely on your language."
+msgstr ""
+
+#: ../src/gui/report.cs:114
+msgid "Subtype"
+msgstr "Alityyppi"
+
+#: ../src/gui/report.cs:115
+msgid "Apply to"
+msgstr ""
+
+#: ../src/gui/report.cs:116
+msgid "Session/s"
+msgstr "Istunnot"
+
+#: ../src/gui/report.cs:117
+msgid "Show jumps"
+msgstr "Näytä hypyt"
+
+#: ../src/gui/report.cs:118
+msgid "Show sex"
+msgstr "Näytä sukupuoli"
+
+#: ../src/gui/report.cs:119
+msgid "Checked rows"
+msgstr "Merkityt rivit"
+
+#: ../src/gui/run.cs:76
+#, csharp-format
+msgid ""
+"Use this window to edit a run.\n"
+"(decimal separator: '{0}')"
+msgstr ""
+"Käytä tätä ikkunaa juoksun muokaamiseen.\n"
+"(desimaalierotin on {0})"
+
+#: ../src/gui/run.cs:256
+#, csharp-format
+msgid ""
+"Use this window to edit a intervallic run.\n"
+"(decimal separator: '{0}')"
+msgstr ""
+"Käytä tätä ikkunaa intervallijuoksun muokaamiseen.\n"
+"(desimaalierotin on {0})"
+
+#: ../src/gui/run.cs:283
+msgid "Total Time"
+msgstr "Kokonaisaika"
+
+#: ../src/gui/run.cs:398
+msgid "Repair intervallic run"
+msgstr "Korjaa intervallijuoksu"
+
+#: ../src/gui/run.cs:402
+#, csharp-format
+msgid ""
+"Use this window to repair a intervallic run.\n"
+"Double clic any cell to edit it (decimal separator: '{0}')"
+msgstr ""
+"Käytä tätä ikkunaa intervallijuoksun korjaukseen.\n"
+"Muokkaa solua kaksoisnapsauttamalla sitä (desimaalierotin on {0})"
+
+#: ../src/gui/run.cs:438
+#, csharp-format
+msgid "RunType: {0}."
+msgstr "Juoksutyyppi: {0}."
+
+#. if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
+#: ../src/gui/run.cs:444
+#, csharp-format
+msgid ""
+"\n"
+"This run type is fixed to {0} runs, you cannot add more."
+msgstr ""
+"\n"
+"Tämä juoksutyyppi on rajattu {0} juoksuun, et voi lisätä enempää."
+
+#. if it's a run type timeLimited with a fixed value, then complain when the total time is higher
+#: ../src/gui/run.cs:447
+#, csharp-format
+msgid ""
+"\n"
+"This run type is fixed to {0} seconds, totaltime cannot be greater."
+msgstr ""
+"\n"
+"Tämä juoksutyyppi on rajattu {0} sekuntiin, kesto ei voi olla pidempi."
+
+#: ../src/gui/run.cs:856 ../src/gui/run.cs:880 ../src/gui/run.cs:899
+msgid "Not defined"
+msgstr "Ei määritelty"
+
+#. string myString =  Catalog.GetString ("Run type: '") +
+#. Util.RemoveTildeAndColonAndDot(entry_name.Text) +
+#. Catalog.GetString ("' exists. Please, use another name");
+#: ../src/gui/runType.cs:116
+#, csharp-format
+msgid "Run type: '{0}' exists. Please, use another name"
+msgstr "Juoksun tyyppi: \"{0}\" on jo olemassa, valitse toinen nimi"
+
+#: ../src/gui/session.cs:69
+msgid "New Session"
+msgstr "Uusi istunto"
+
+#: ../src/gui/session.cs:126 ../src/gui/session.cs:259
+#, csharp-format
+msgid "Session: '{0}' exists. Please, use another name"
+msgstr "Istunto: \"{0} \" on jo olemassa, valitse toinen nimi"
+
+#: ../src/gui/session.cs:193
+msgid "Session Edit"
+msgstr "Istunnon muokkaus"
+
+#: ../src/gui/session.cs:349 ../src/gui/session.cs:510
+msgid "Number"
+msgstr "Numero"
+
+#: ../src/gui/session.cs:353
+msgid "Persons"
+msgstr "Henkilöt"
+
+#: ../src/gui/session.cs:354
+msgid "Jumps simple"
+msgstr "Yksinkertaiset hypyt"
+
+#: ../src/gui/session.cs:355
+msgid "Jumps reactive"
+msgstr "Reaktiiviset hypyt"
+
+#: ../src/gui/session.cs:356
+msgid "Runs simple"
+msgstr "Yksinkertaiset juoksut"
+
+#: ../src/gui/session.cs:357
+msgid "Runs interval"
+msgstr "Intervallijuoksut"
+
+#: ../src/gui/stats.cs:92 ../src/gui/stats.cs:297 ../src/gui/stats.cs:663
+#: ../src/statType.cs:211
+msgid "Global"
+msgstr "Yleinen"
+
+#. in cmjPlusPotency show only "all jumps" radiobutton
+#: ../src/gui/stats.cs:94 ../src/gui/stats.cs:314 ../src/gui/stats.cs:348
+#: ../src/gui/stats.cs:650 ../src/gui/stats.cs:665 ../src/statType.cs:240
+msgid "Simple"
+msgstr "Yksinkertainen"
+
+#: ../src/gui/stats.cs:95 ../src/gui/stats.cs:325 ../src/gui/stats.cs:369
+#: ../src/statType.cs:302
+msgid "With TC"
+msgstr ""
+
+#. some stats should not be showed as limited jumps
+#: ../src/gui/stats.cs:96 ../src/gui/stats.cs:334 ../src/gui/stats.cs:636
+#: ../src/statType.cs:329
+msgid "Reactive"
+msgstr "Reaktiivinen"
+
+#: ../src/gui/stats.cs:105 ../src/statType.cs:330
+msgid "Average Index"
+msgstr "Keskiarvoindeksi"
+
+#: ../src/gui/stats.cs:106 ../src/statType.cs:338
+msgid "POTENCY (Bosco)"
+msgstr ""
+
+#. 9.81^2*TF*TT / (4*jumps*(TT-TF))
+#: ../src/gui/stats.cs:107 ../src/gui/stats.cs:376 ../src/gui/stats.cs:438
+#: ../src/gui/stats.cs:637 ../src/gui/stats.cs:821 ../src/statType.cs:346
+msgid "Evolution"
+msgstr "Kehitys"
+
+#: ../src/gui/stats.cs:111 ../src/gui/stats.cs:350 ../src/gui/stats.cs:666
+#: ../src/statType.cs:247
+msgid "No indexes"
+msgstr "Ei indeksejä"
+
+#: ../src/gui/stats.cs:119 ../src/gui/stats.cs:513 ../src/gui/stats.cs:833
+#: ../src/report.cs:315 ../src/stats/main.cs:229
+msgid "All"
+msgstr "Kaikki"
+
+#. put none in combo
+#: ../src/gui/stats.cs:120 ../src/gui/stats.cs:547 ../src/stats/main.cs:236
+msgid "None"
+msgstr "Ei mitään"
+
+#: ../src/gui/stats.cs:121 ../src/stats/main.cs:241
+msgid "Invert"
+msgstr "Käännä"
+
+#: ../src/gui/stats.cs:122 ../src/gui/stats.cs:275 ../src/gui/stats.cs:532
+msgid "Selected"
+msgstr "Valittu"
+
+#. if selected 'male' or 'female', showSex and redo the treeview if needed
+#: ../src/gui/stats.cs:123 ../src/gui/stats.cs:278 ../src/stats/main.cs:252
+msgid "Male"
+msgstr "Mies"
+
+#: ../src/gui/stats.cs:124 ../src/gui/stats.cs:279 ../src/stats/main.cs:266
+msgid "Female"
+msgstr "Nainen"
+
+#: ../src/gui/stats.cs:835 ../src/report.cs:317
+msgid "Limit"
+msgstr "Rajoitus"
+
+#: ../src/gui/stats.cs:838 ../src/report.cs:320
+msgid "Jumper's best"
+msgstr "Hyppääjän paras"
+
+#: ../src/gui/stats.cs:841 ../src/report.cs:323
+msgid "Jumper's average"
+msgstr "Hyppääjän keskiarvo"
+
+#: ../src/jump.cs:130 ../src/jump.cs:538
+msgid "You are IN, JUMP when prepared!!"
+msgstr ""
+
+#: ../src/jump.cs:151
+msgid "You are OUT, come inside and press the 'accept' button"
+msgstr ""
+
+#: ../src/jump.cs:170 ../src/jump.cs:535
+msgid "You are OUT, JUMP when prepared!!"
+msgstr ""
+
+#: ../src/jump.cs:193 ../src/jump.cs:541
+msgid "You are IN, please leave the platform, and press the 'accept' button"
+msgstr ""
+
+#: ../src/jump.cs:543
+msgid ""
+"You are OUT, please enter the platform, prepare for jump and press the "
+"'accept' button"
+msgstr ""
+
+#: ../src/jump.cs:832
+msgid "AVG TF"
+msgstr "TF-keskiarvo"
+
+#: ../src/jump.cs:833
+msgid "AVG TC"
+msgstr "TC-keskiarvo"
+
+#: ../src/platform.cs:51
+#, csharp-format
+msgid "Error, state '{0}' non valid"
+msgstr "Virhe, tila \"{0}\" ei ole kelvollinen"
+
+#: ../src/platform.cs:57
+#, csharp-format
+msgid "State: {0}, lastChange {1}"
+msgstr "Tila: {0}, viimeinen muutos {1}"
+
+#: ../src/pulse.cs:137
+msgid ""
+"You are IN, please leave the platform, prepare for start, and press the "
+"'accept' button!!"
+msgstr ""
+
+#: ../src/pulse.cs:145
+msgid "You are OUT, start when prepared!!"
+msgstr ""
+
+#: ../src/pulse.cs:342
+msgid "Last pulse"
+msgstr "Viimeisin pulssi"
+
+#: ../src/report.cs:329
+msgid "Evolution."
+msgstr "Kehitys."
+
+#: ../src/run.cs:115
+msgid "You are IN, RUN when prepared!!"
+msgstr ""
+
+#: ../src/run.cs:121
+msgid "You are OUT, RUN when prepared!!"
+msgstr ""
+
+#: ../src/run.cs:284 ../src/run.cs:679
+msgid "Last run"
+msgstr "Viimeksi ajettu"
+
+#: ../src/run.cs:286
+msgid "speed"
+msgstr "nopeus"
+
+#: ../src/run.cs:681
+msgid "AVG Speed"
+msgstr "Keskinopeus"
+
+#: ../src/stats/cmjPlusPotency.cs:57 ../src/stats/graphs/cmjPlusPotency.cs:76
+msgid "Person's Weight"
+msgstr "Henkilön paino"
+
+#: ../src/stats/cmjPlusPotency.cs:58 ../src/stats/graphs/cmjPlusPotency.cs:77
+msgid "Extra Weight"
+msgstr "Lisäpaino"
+
+#: ../src/stats/djIndex.cs:33
+msgid "Dj Index"
+msgstr "Dj-indeksi"
+
+#. limit
+#: ../src/stats/djIndex.cs:116 ../src/stats/djQ.cs:116
+#: ../src/stats/ieIub.cs:132 ../src/stats/rjEvolution.cs:258
+#: ../src/stats/rjIndex.cs:118 ../src/stats/rjPotencyBosco.cs:120
+#: ../src/stats/sjCmjAbk.cs:114 ../src/stats/sjCmjAbkPlus.cs:124
+#, csharp-format
+msgid "First {0} values"
+msgstr "Ensimämiset {0} arvoa"
+
+#. best of each jumper
+#. this options are not possible in this index
+#. *
+#. if(statsJumpsType == 0) { //all jumps
+#. selectedValuesString = allValuesString;
+#. } else if(statsJumpsType == 1) { //limit
+#. selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit);
+#.
+#. best of each jumper
+#. this options are not possible in this statistic
+#. *
+#. if(statsJumpsType == 0) { //all jumps
+#. selectedValuesString = allValuesString;
+#. } else if(statsJumpsType == 1) { //limit
+#. selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit);
+#.
+#. best of each jumper
+#: ../src/stats/djIndex.cs:118 ../src/stats/djQ.cs:118 ../src/stats/fv.cs:111
+#: ../src/stats/global.cs:137 ../src/stats/ieIub.cs:134
+#: ../src/stats/rjEvolution.cs:260 ../src/stats/rjIndex.cs:120
+#: ../src/stats/rjPotencyBosco.cs:122 ../src/stats/sjCmjAbk.cs:116
+#: ../src/stats/sjCmjAbkPlus.cs:126
+#, csharp-format
+msgid "Max {0} values of each jumper"
+msgstr "Enintään {0} kullekin hyppääjälle"
+
+#: ../src/stats/djIndex.cs:125 ../src/stats/djQ.cs:125 ../src/stats/fv.cs:118
+#: ../src/stats/global.cs:144 ../src/stats/ieIub.cs:141
+#: ../src/stats/rjEvolution.cs:271 ../src/stats/rjIndex.cs:127
+#: ../src/stats/rjPotencyBosco.cs:129 ../src/stats/sjCmjAbk.cs:123
+#: ../src/stats/sjCmjAbkPlus.cs:133
+msgid " various sessions "
+msgstr " eri istuntoja "
+
+#: ../src/stats/djIndex.cs:128 ../src/stats/djQ.cs:128 ../src/stats/fv.cs:121
+#: ../src/stats/global.cs:147 ../src/stats/ieIub.cs:144
+#: ../src/stats/rjEvolution.cs:274 ../src/stats/rjIndex.cs:130
+#: ../src/stats/rjPotencyBosco.cs:132 ../src/stats/sjCmjAbk.cs:126
+#: ../src/stats/sjCmjAbkPlus.cs:136
+msgid " session "
+msgstr " istunto "
+
+#: ../src/stats/djIndex.cs:132
+#, csharp-format
+msgid "{0} in Dj Index [(tf-tc)/tc * 100] applied to {1} on {2}"
+msgstr ""
+
+#: ../src/stats/djQ.cs:33
+msgid "Q Index"
+msgstr "Q-indeksi"
+
+#: ../src/stats/djQ.cs:132
+#, csharp-format
+msgid "{0} in Q Index [tf/tc] applied to {1} on {2}"
+msgstr ""
+
+#: ../src/stats/fv.cs:52 ../src/stats/fv.cs:53 ../src/stats/graphs/fv.cs:79
+#: ../src/stats/graphs/fv.cs:80
+msgid "height"
+msgstr "pituus"
+
+#: ../src/stats/fv.cs:125
+#, csharp-format
+msgid "{0} in Index FV [SJ+(100%)/SJ *100] on {1}"
+msgstr ""
+
+#: ../src/stats/global.cs:53
+msgid "Value"
+msgstr "Arvo"
+
+#: ../src/stats/global.cs:154
+#, csharp-format
+msgid " for person {0}({1})"
+msgstr " henkilölle {0}({1})"
+
+#: ../src/stats/global.cs:157
+#, csharp-format
+msgid "{0} in some jumps and statistics on {1}{2}"
+msgstr ""
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:60 ../src/stats/graphs/djIndex.cs:58
+#: ../src/stats/graphs/djQ.cs:58 ../src/stats/graphs/fv.cs:64
+#: ../src/stats/graphs/global.cs:58 ../src/stats/graphs/ieIub.cs:71
+#: ../src/stats/graphs/rjEvolution.cs:71 ../src/stats/graphs/rjIndex.cs:59
+#: ../src/stats/graphs/rjPotencyBosco.cs:61 ../src/stats/graphs/sjCmjAbk.cs:56
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:57
+msgid "ChronoJump graph"
+msgstr "ChronoJumpin kaavio"
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:75
+msgid "CmjPlusPotency"
+msgstr ""
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:100
+#: ../src/stats/graphs/cmjPlusPotency.cs:107
+msgid "watts"
+msgstr "wattia"
+
+#. don't plot AVG and SD rows
+#. if multisession, add AVG and SD cols
+#: ../src/stats/graphs/cmjPlusPotency.cs:121
+#: ../src/stats/graphs/cmjPlusPotency.cs:170
+#: ../src/stats/graphs/djIndex.cs:127 ../src/stats/graphs/djIndex.cs:178
+#: ../src/stats/graphs/djQ.cs:127 ../src/stats/graphs/djQ.cs:179
+#: ../src/stats/graphs/fv.cs:122 ../src/stats/graphs/fv.cs:168
+#: ../src/stats/graphs/global.cs:123 ../src/stats/graphs/global.cs:194
+#: ../src/stats/graphs/ieIub.cs:129 ../src/stats/graphs/ieIub.cs:173
+#: ../src/stats/graphs/rjIndex.cs:124 ../src/stats/graphs/rjIndex.cs:171
+#: ../src/stats/graphs/rjPotencyBosco.cs:141
+#: ../src/stats/graphs/rjPotencyBosco.cs:196
+#: ../src/stats/graphs/sjCmjAbk.cs:109 ../src/stats/graphs/sjCmjAbk.cs:151
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:120
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:165 ../src/stats/main.cs:186
+#: ../src/stats/main.cs:218 ../src/stats/main.cs:328 ../src/stats/main.cs:355
+#: ../src/stats/main.cs:465 ../src/stats/main.cs:548 ../src/stats/main.cs:645
+#: ../src/stats/report/sjCmjAbk.cs:72 ../src/stats/rjEvolution.cs:219
+msgid "AVG"
+msgstr "AVG"
+
+#: ../src/stats/graphs/cmjPlusPotency.cs:121
+#: ../src/stats/graphs/cmjPlusPotency.cs:170
+#: ../src/stats/graphs/djIndex.cs:127 ../src/stats/graphs/djIndex.cs:178
+#: ../src/stats/graphs/djQ.cs:127 ../src/stats/graphs/djQ.cs:179
+#: ../src/stats/graphs/fv.cs:122 ../src/stats/graphs/fv.cs:168
+#: ../src/stats/graphs/global.cs:123 ../src/stats/graphs/global.cs:194
+#: ../src/stats/graphs/ieIub.cs:129 ../src/stats/graphs/ieIub.cs:173
+#: ../src/stats/graphs/rjIndex.cs:124 ../src/stats/graphs/rjIndex.cs:171
+#: ../src/stats/graphs/rjPotencyBosco.cs:141
+#: ../src/stats/graphs/rjPotencyBosco.cs:196
+#: ../src/stats/graphs/sjCmjAbk.cs:109 ../src/stats/graphs/sjCmjAbk.cs:151
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:120
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:165 ../src/stats/main.cs:186
+#: ../src/stats/main.cs:218 ../src/stats/main.cs:329 ../src/stats/main.cs:356
+#: ../src/stats/main.cs:466 ../src/stats/main.cs:549 ../src/stats/main.cs:645
+#: ../src/stats/report/sjCmjAbk.cs:73 ../src/stats/rjEvolution.cs:219
+msgid "SD"
+msgstr "SD"
+
+#: ../src/stats/graphs/djIndex.cs:74 ../src/stats/graphs/fv.cs:78
+#: ../src/stats/graphs/global.cs:72 ../src/stats/graphs/ieIub.cs:86
+#: ../src/stats/graphs/rjIndex.cs:75 ../src/stats/graphs/rjPotencyBosco.cs:79
+#: ../src/stats/rjEvolution.cs:67 ../src/stats/rjIndex.cs:33
+#: ../src/stats/rjPotencyBosco.cs:33
+msgid "Index"
+msgstr "Indeksi"
+
+#: ../src/stats/graphs/djQ.cs:74
+msgid "Index *100"
+msgstr "Indeksi *100"
+
+#: ../src/stats/graphs/global.cs:93 ../src/stats/graphs/global.cs:104
+#: ../src/stats/graphs/sjCmjAbk.cs:86 ../src/stats/graphs/sjCmjAbk.cs:93
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:104
+msgid "centimeters"
+msgstr "senttimetriä"
+
+#: ../src/stats/ieIub.cs:152
+#, csharp-format
+msgid "{0} in index {1} on {2}"
+msgstr ""
+
+#: ../src/stats/report/sjCmjAbk.cs:52
+msgid "TV"
+msgstr ""
+
+#: ../src/stats/rjEvolution.cs:280
+#, csharp-format
+msgid " (best {0} consecutive jumps marked using [tf/tc *100])"
+msgstr "(parhaat {0} perättäistä hyppyä merkitty käyttäen [tf/tc *100])"
+
+#: ../src/stats/rjEvolution.cs:283
+#, csharp-format
+msgid "{0} in Rj Evolution applied to {1} on {2}{3}"
+msgstr ""
+
+#: ../src/stats/rjIndex.cs:34 ../src/stats/rjPotencyBosco.cs:34
+msgid "TF(AVG)"
+msgstr "TF(keskiarvo)"
+
+#: ../src/stats/rjIndex.cs:35 ../src/stats/rjPotencyBosco.cs:35
+msgid "TC(AVG)"
+msgstr "TC(keskiarvo)"
+
+#: ../src/stats/rjIndex.cs:134
+#, csharp-format
+msgid "{0} in Rj Index [(tfavg-tcavg)/tcavg *100] applied to {1} on {2}"
+msgstr ""
+
+#: ../src/stats/rjPotencyBosco.cs:136
+#, csharp-format
+msgid ""
+"{0} in Rj Potency Bosco [(9.81^2 *tfavg * jumps * time) / (4 * jumps * (time "
+"- tfavg*jumps) ] applied to {1} on {2}"
+msgstr ""
+
+#: ../src/stats/sjCmjAbk.cs:130
+#, csharp-format
+msgid "{0} in {1} jump on {2}"
+msgstr ""
+
+#: ../src/stats/sjCmjAbkPlus.cs:56 ../src/treeViewJump.cs:37
+msgid "Weight %"
+msgstr "Paino %"
+
+#: ../src/stats/sjCmjAbkPlus.cs:140
+#, csharp-format
+msgid "{0} in {1} on {2}"
+msgstr ""
+
+#: ../src/treeViewPerson.cs:43
+msgid "person"
+msgstr "henkilö"
+
+#: ../src/treeViewPulse.cs:48
+msgid "Difference"
+msgstr "Ero"
+
+#: ../src/treeViewPulse.cs:49
+msgid "Difference %"
+msgstr "Ero %"

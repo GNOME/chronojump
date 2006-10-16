@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-16 16:40+0300\n"
-"PO-Revision-Date: 2006-10-16 16:42+0300\n"
+"PO-Revision-Date: 2006-10-16 17:21+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:1
 msgid " "
-msgstr ""
+msgstr " "
 
 #: ../glade/chronojump.glade.h:3
 #, no-c-format
@@ -445,6 +445,8 @@ msgid ""
 "If a reactive jump is limited by time, and time has running out, allow "
 "finish jump"
 msgstr ""
+"Jos reaktiivinen hyppy on aikarajoitettu ja aika loppuu, salli "
+"hypyn lopetus"
 
 #. this.heightPreferred = heightPreferred;
 #: ../glade/chronojump.glade.h:108 ../src/stats/global.cs:53
@@ -589,7 +591,7 @@ msgstr "Optimaalinen laajennus"
 
 #: ../glade/chronojump.glade.h:141
 msgid "Paint a circle at end"
-msgstr ""
+msgstr "Piirrä ympyrä loppuun"
 
 #. column where the uniqueID of event will be (and will be hidded)
 #: ../glade/chronojump.glade.h:142 ../src/treeViewPulse.cs:46
@@ -754,7 +756,7 @@ msgstr "Näytä vihreä ohje"
 
 #: ../glade/chronojump.glade.h:181
 msgid "Show grid (on multiple events)"
-msgstr ""
+msgstr "Näytä ruudukko (useille tapahtumille)"
 
 #: ../glade/chronojump.glade.h:182
 msgid "Show height"
@@ -762,7 +764,7 @@ msgstr "Näytä korkeus"
 
 #: ../glade/chronojump.glade.h:183
 msgid "Show indexes between TF and TC"
-msgstr ""
+msgstr "Näytä indeksit TF:n ja TC:n välissä"
 
 #: ../glade/chronojump.glade.h:184
 msgid "Show initial speed"
@@ -959,7 +961,7 @@ msgstr "aina"
 
 #: ../glade/chronojump.glade.h:225
 msgid "apply to"
-msgstr ""
+msgstr "toteuta kohteelle"
 
 #: ../glade/chronojump.glade.h:226
 msgid "auto"
@@ -1068,11 +1070,11 @@ msgstr "mies"
 
 #: ../glade/chronojump.glade.h:252
 msgid "mark best 'n' consecutives"
-msgstr ""
+msgstr "merkitse parhaat ja perättäiset"
 
 #: ../glade/chronojump.glade.h:253
 msgid "mark consecutives"
-msgstr ""
+msgstr "merkitse perättäiset"
 
 #: ../glade/chronojump.glade.h:254
 msgid "meters"
@@ -1188,7 +1190,7 @@ msgstr "järjestä luontipäivän mukaan"
 
 #: ../glade/chronojump.glade.h:279
 msgid "start managing pulses freely"
-msgstr ""
+msgstr "aloita pulssien vapaa hallinta"
 
 #: ../glade/chronojump.glade.h:280
 msgid "statistic's description"
@@ -1204,11 +1206,11 @@ msgstr "kaikki pulssit"
 
 #: ../glade/chronojump.glade.h:283 ../src/gui/run.cs:712
 msgid "tracks"
-msgstr ""
+msgstr "radat"
 
 #: ../glade/chronojump.glade.h:284
 msgid "translators"
-msgstr ""
+msgstr "kääntäjät"
 
 #: ../glade/chronojump.glade.h:285
 msgid "type / subtype"
@@ -1244,7 +1246,7 @@ msgstr "kyllä"
 
 #: ../src/chronojump_mini.cs:59 ../src/gui/helpPorts.cs:59
 msgid "Auto-Detection currently disabled on GNU/Linux"
-msgstr ""
+msgstr "Automaattinen tunnistus ei ole käytettävissä GNU/Linuxissa"
 
 #: ../src/chronojump_mini.cs:67
 msgid "Print the port name where chronopic is connected:"
@@ -1274,7 +1276,7 @@ msgstr "Alustan tila: {0}"
 
 #: ../src/chronojump_mini.cs:107
 msgid "Go up platform for jumping"
-msgstr ""
+msgstr "Siirry alustalle hyppimään"
 
 #: ../src/chronojump_mini.cs:120
 msgid "Jump when prepared"
@@ -1301,6 +1303,8 @@ msgid ""
 "Starting Chronojump in Simulated mode, change platform to 'Chronopic' for "
 "real detection of events"
 msgstr ""
+"Käynnistetään Chronojump simulaatiotilassa. Muuta alustaksi 'Chronopic' "
+"jos haluat oikeasti havaita tapahtumia"
 
 #: ../src/chronojump.cs:395
 msgid "starting connection with chronopic"
@@ -1321,7 +1325,7 @@ msgstr ""
 #: ../src/chronojump.cs:457
 #, csharp-format
 msgid "Connected to Chronopic on port: {0}"
-msgstr ""
+msgstr "Yhdistettiin Chronopiciin portissa {0}"
 
 #: ../src/chronojump.cs:461
 msgid "Problems communicating to chronopic, changed platform to 'Simulated'"
@@ -1374,13 +1378,15 @@ msgstr "Valittu henkilö: "
 
 #: ../src/chronojump.cs:1367
 msgid "Deleted person and all his/her events on this session"
-msgstr ""
+msgstr "Poistettiin henkilö ja kaikki hänen tapahtumansa tästä istunnosta"
 
 #: ../src/chronojump.cs:1454
 msgid ""
 "** Attention **: generate a event with the platform or with chronopic.\n"
 "If you don't do it, Chronojump will crash.\n"
 msgstr ""
+"** Huomio **: luo tapahtuma alustalta tai chronopicillä.\n"
+"Jos et tee näin, Chronojump kaatuu.\n"
 
 #: ../src/chronojump.cs:1454
 msgid ""
@@ -1388,6 +1394,9 @@ msgid ""
 "configured as simulated, and you can change the port in the preferences "
 "window"
 msgstr ""
+"Jos ohjelma kaatuu, yritä sulkea se ja avata uudestaan. Tällöin "
+"Chronojump siirtyy käyttämään simulointitilaa ja voit vaihtaa porttia "
+"asetusikkunasta"
 
 #: ../src/chronojump.cs:1776
 msgid "Execute Jump"
@@ -1482,7 +1491,7 @@ msgstr "Haluatko poistaa valitun juoksun?"
 
 #: ../src/chronojump.cs:2916
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
-msgstr ""
+msgstr "Huomio: Intervallisen alijuoksun poisto poistaa koko juoksun"
 
 #: ../src/chronojump.cs:2930
 msgid "Deleted run: "
@@ -1593,7 +1602,7 @@ msgstr "hypyn tunniste"
 #: ../src/stats/rjEvolution.cs:68 ../src/stats/rjIndex.cs:36
 #: ../src/stats/rjPotencyBosco.cs:38 ../src/treeViewJump.cs:38
 msgid "Fall"
-msgstr ""
+msgstr "Tippuminen"
 
 #: ../src/exportSession.cs:196 ../src/exportSession.cs:248
 #: ../src/gui/person.cs:101
@@ -1681,7 +1690,7 @@ msgstr "Keskinopeus"
 
 #: ../src/exportSession.cs:353
 msgid "Distance interval"
-msgstr ""
+msgstr "Etäisyyksien väli"
 
 #: ../src/exportSession.cs:378
 msgid "Interval speed"
@@ -1892,7 +1901,8 @@ msgstr ""
 
 #: ../src/gui/preferences.cs:265
 msgid "Restart Chronojump to operate completely on your language."
-msgstr ""
+msgstr "Käynnnistä Chronojump uudestaan jotta se toimii kokonaan omalla "
+"kielelläsi."
 
 #: ../src/gui/report.cs:114
 msgid "Subtype"
@@ -1900,7 +1910,7 @@ msgstr "Alityyppi"
 
 #: ../src/gui/report.cs:115
 msgid "Apply to"
-msgstr ""
+msgstr "Toteuta kohteelle"
 
 #: ../src/gui/report.cs:116
 msgid "Session/s"
@@ -2041,7 +2051,7 @@ msgstr "Yksinkertainen"
 #: ../src/gui/stats.cs:95 ../src/gui/stats.cs:325 ../src/gui/stats.cs:369
 #: ../src/statType.cs:302
 msgid "With TC"
-msgstr ""
+msgstr "TC:n kanssa"
 
 #. some stats should not be showed as limited jumps
 #: ../src/gui/stats.cs:96 ../src/gui/stats.cs:334 ../src/gui/stats.cs:636
@@ -2109,25 +2119,27 @@ msgstr "Hyppääjän keskiarvo"
 
 #: ../src/jump.cs:130 ../src/jump.cs:538
 msgid "You are IN, JUMP when prepared!!"
-msgstr ""
+msgstr "Olet sisällä, hyppää kun olet valmis!"
 
 #: ../src/jump.cs:151
 msgid "You are OUT, come inside and press the 'accept' button"
-msgstr ""
+msgstr "Olet ulkona, tule alustalle ja paina \"Hyväksy\"-painiketta"
 
 #: ../src/jump.cs:170 ../src/jump.cs:535
 msgid "You are OUT, JUMP when prepared!!"
-msgstr ""
+msgstr "Olet ulkona, hyppää kun olet valmis!"
 
 #: ../src/jump.cs:193 ../src/jump.cs:541
 msgid "You are IN, please leave the platform, and press the 'accept' button"
-msgstr ""
+msgstr "Olet sisällä, poistu alustalta ja paina \"Hyväksy\"-painiketta"
 
 #: ../src/jump.cs:543
 msgid ""
 "You are OUT, please enter the platform, prepare for jump and press the "
 "'accept' button"
 msgstr ""
+"Olet ulkona, siirry alustalle, valmistaudu hyppyyn ja paina "
+"\"Hyväksy\"-painiketta"
 
 #: ../src/jump.cs:832
 msgid "AVG TF"
@@ -2152,10 +2164,12 @@ msgid ""
 "You are IN, please leave the platform, prepare for start, and press the "
 "'accept' button!!"
 msgstr ""
+"Olet sisällä, poistu alustalta, valmistaudu aloitukseen ja paina "
+"\"Hyväksy\"-painiketta"
 
 #: ../src/pulse.cs:145
 msgid "You are OUT, start when prepared!!"
-msgstr ""
+msgstr "Olet ulkona, aloita kun olet valmis!"
 
 #: ../src/pulse.cs:342
 msgid "Last pulse"
@@ -2167,11 +2181,11 @@ msgstr "Kehitys."
 
 #: ../src/run.cs:115
 msgid "You are IN, RUN when prepared!!"
-msgstr ""
+msgstr "Olet sisällä, juokse kun olet valmis!"
 
 #: ../src/run.cs:121
 msgid "You are OUT, RUN when prepared!!"
-msgstr ""
+msgstr "Olet ulkona, juokse kun olet valmis!"
 
 #: ../src/run.cs:284 ../src/run.cs:679
 msgid "Last run"

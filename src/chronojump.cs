@@ -163,7 +163,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.5-Pre2";
+	private static string progversion = "0.5-Pre3";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -406,49 +406,22 @@ public class ChronoJump
 			sp = new SerialPort(myPort);
 			sp.Open();
 		
-			/*
-			cp = new Chronopic("/dev/" + myPort);
-
-			//-- Read initial state of platform
-			respuesta=cp.Read_platform(out platformState);
-			switch(respuesta) {
-				case Chronopic.Respuesta.Error:
-					Console.WriteLine(Catalog.GetString("Error communicating with Chronopic"));
-					break;
-				case Chronopic.Respuesta.Timeout:
-					Console.WriteLine(Catalog.GetString("Chronopic in not responding"));
-					break;
-				default:
-					Console.WriteLine(Catalog.GetString("Chronopic OK"));
-					break;
-			}
-			Console.WriteLine(string.Format(
-						Catalog.GetString("Plataform state: {0}, chronopic in port /dev/{1}"), 
-						platformState, chronopicPort));
-			*/
-			//-- Crear objeto chronopic, para acceder al chronopic
+			//-- Create chronopic object, for accessing chronopic
 			cp = new Chronopic(sp);
 
-			//-- Obtener el estado inicial de la plataforma
-			bool ok=cp.Read_platform(out platformState);
-			if (!ok) {
-				//-- Si hay error terminar
-				Console.WriteLine("Error: {0}",cp.Error);
-				/*
-				new DialogMessage(Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'"));
-				*/
-				success = false;
+			//on windows, this check make a crash 
+			//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
+			//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
+			if ( ! Util.IsWindows()) {
+				//-- Obtener el estado inicial de la plataforma
+				bool ok=cp.Read_platform(out platformState);
+				if (!ok) {
+					//-- Si hay error terminar
+					Console.WriteLine("Error: {0}",cp.Error);
+					success = false;
+				}
 			}
 		} catch {
-			/*
-			new DialogMessage(Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'"));
-			Console.WriteLine("Problems communicating to chronopic, changed platform to 'Simulated'");
-			//TODO: raise a error window
-			
-			//this will raise on_radiobutton_simulated_ativate and 
-			//will put cpRunning to false, and simulated to true and cp.Close()
-			menuitem_simulated.Active = true;
-			*/	
 			success = false;
 		}
 			

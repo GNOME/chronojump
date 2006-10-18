@@ -1,7 +1,13 @@
 CHANGELOG:
 
-TODO: fix the rounding in all chronojump with the Math.Round()
-
+18 oct 2006
+	progrVersion changed to "0.5-Pre3"
+	On windows, comprobation of Chronopic is not made now (it crashed for
+	the timeout)
+	fixed bug: 355306 (max decimals == 3 , forced in widget on preferences)
+	fixed bug: 360980 (now AVGs of reactive and interval limited by time
+	are seen ok)
+	
 15 oct 2006
 	progrVersion changed to "0.5-Pre2"
 	string freeze

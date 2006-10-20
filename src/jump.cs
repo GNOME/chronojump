@@ -467,7 +467,7 @@ public class JumpRj : Jump
 		if(jumpsLimited) {
 			this.limited = limitAsDouble.ToString() + "J";
 		} else {
-			this.limited = limitAsDouble.ToString() + "T";
+			//this.limited = limitAsDouble.ToString() + "T"; define later, because it can be higher if allowFinishRjAfterTime is defined
 		}
 		
 		this.cp = cp;
@@ -801,6 +801,7 @@ public class JumpRj : Jump
 				limitString = jumps.ToString() + "J";
 			} else {
 				limitString = Util.GetTotalTime(tcString, tvString) + "T";
+				limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
 			}
 		} else {
 			if(jumpsLimited) {
@@ -811,7 +812,10 @@ public class JumpRj : Jump
 				//if last event was tc, it has no sense, it should be deleted
 				tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
 				
-				limitString = limitAsDouble.ToString() + "T";
+				//limitString = limitAsDouble.ToString() + "T";
+				limitString = Util.GetTotalTime(tcString, tvString) + "T";
+				limited = limitString; //define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
+				
 				string [] myStringFull = tcString.Split(new char[] {'='});
 				jumps = myStringFull.Length;
 			}

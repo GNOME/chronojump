@@ -1985,6 +1985,7 @@ public class ChronoJump
 							currentJumpRj.TcString, currentJumpRj.TvString) + "T";
 				}
 			}
+
 			myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 
 			if(createdStatsWin) {

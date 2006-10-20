@@ -891,7 +891,7 @@ msgstr "_Nueva sesión"
 
 #: ../glade/chronojump.glade.h:206
 msgid "_Person"
-msgstr "_atleta"
+msgstr "A_tleta"
 
 #: ../glade/chronojump.glade.h:207
 msgid "_Preferences"

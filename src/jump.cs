@@ -668,6 +668,9 @@ public class JumpRj : Jump
 					}
 				}
 				
+				//update timerCount, with the chronopic data
+				timerCount =  Util.GetTotalTime(tcString, tvString);
+				
 				//if we finish by time, and allowFinishAfterTime == true, when time passed, if the jumper is jumping
 				//if flags the shouldFinishAtNextFall that will finish when he arrives to the platform
 				if(shouldFinishAtNextFall && platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
@@ -733,6 +736,7 @@ public class JumpRj : Jump
 		//check also that rj has started (!firstRjValue)
 
 		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble && !firstRjValue)
+		//if( !jumpsLimited && limitAsDouble != -1 && Util.GetTotalTime(tcString, tvString) > limitAsDouble && !firstRjValue)
 		{
 			//limited by Time, we are jumping and time passed
 			if ( tcCount == tvCount ) {

@@ -1,5 +1,8 @@
 CHANGELOG:
 
+20 oct 2006
+	updated translations (on locale), added fi, en_GB
+
 18 oct 2006
 	progrVersion changed to "0.5-Pre3"
 	On windows, comprobation of Chronopic is not made now (it crashed for

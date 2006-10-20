@@ -1,6 +1,9 @@
 CHANGELOG:
 
 20 oct 2006
+	fixed bug in treeview time limited on rj when allowFinishRjAfterTime is true
+
+20 oct 2006
 	updated translations (on locale), added fi, en_GB
 
 18 oct 2006

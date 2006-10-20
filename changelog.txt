@@ -1,7 +1,7 @@
 CHANGELOG:
 
 20 oct 2006
-	fixing limit in rj time...
+	fixed limit in rj time
 
 20 oct 2006
 	fixed bug in treeview time limited on rj when allowFinishRjAfterTime is true

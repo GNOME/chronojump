@@ -669,7 +669,13 @@ public class JumpRj : Jump
 				}
 				
 				//update timerCount, with the chronopic data
-				timerCount =  Util.GetTotalTime(tcString, tvString);
+				//but in the first jump probably one is zero and then GetTotalTime returns a 0
+				if(tvString.Length == 0) 
+					timerCount =  Util.GetTotalTime(tcString);
+				else if (tcString.Length == 0) 
+					timerCount =  Util.GetTotalTime(tvString);
+				else 
+					timerCount =  Util.GetTotalTime(tcString, tvString);
 				
 				//if we finish by time, and allowFinishAfterTime == true, when time passed, if the jumper is jumping
 				//if flags the shouldFinishAtNextFall that will finish when he arrives to the platform

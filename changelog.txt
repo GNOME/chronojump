@@ -1,5 +1,9 @@
 CHANGELOG:
 
+21 oct 2006
+	fixing limit in rj time...
+	progressBar time is in activity while waiting intervallic first run
+
 20 oct 2006
 	fixed limit in rj time
 

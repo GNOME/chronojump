@@ -617,18 +617,22 @@ public class RunInterval : Run
 		
 		
 		double myTimeValue = 0;
+		bool percentageMode = true; //false is activity mode
 		switch (runPhase) {
 			case runPhases.PRE_RUNNING:
+				percentageMode = false;
 				myTimeValue = -1; //don't show nothing on label_timer 
 				break;
 			case runPhases.PLATFORM_INI:
+				percentageMode = false;
 				myTimeValue = -1;
 				break;
 			case runPhases.RUNNING:
-				//myProgressOrTime = !tracksLimited;
+				percentageMode = !tracksLimited;
 				myTimeValue = timerCount; //show time from the timerCount
 				break;
 			case runPhases.PLATFORM_END:
+				percentageMode = !tracksLimited;
 				myTimeValue = timerCount; //show time from the timerCount
 				//but chronojump.cs will update info soon with chronopic value
 				break;
@@ -636,7 +640,8 @@ public class RunInterval : Run
 				
 		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
-				!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
+				//!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
+				percentageMode,
 				myTimeValue
 				); 
 	}

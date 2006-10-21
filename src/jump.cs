@@ -635,6 +635,8 @@ public class JumpRj : Jump
 							
 							if(tcCount > 0) { equal = "="; }
 							tcString = tcString + equal + lastTc.ToString();
+
+							updateTimerCountWithChronopicData(tcString, tvString);
 							
 							tcCount = tcCount + 1;
 						} else {
@@ -644,6 +646,7 @@ public class JumpRj : Jump
 							if(tvCount > 0) { equal = "="; }
 							tvString = tvString + equal + lastTv.ToString();
 							
+							updateTimerCountWithChronopicData(tcString, tvString);							
 							tvCount = tvCount + 1;
 							
 							//update event progressbar
@@ -667,7 +670,8 @@ public class JumpRj : Jump
 						}
 					}
 				}
-				
+			
+				/*
 				//update timerCount, with the chronopic data
 				//but in the first jump probably one is zero and then GetTotalTime returns a 0
 				if(tvString.Length == 0) 
@@ -676,6 +680,7 @@ public class JumpRj : Jump
 					timerCount =  Util.GetTotalTime(tvString);
 				else 
 					timerCount =  Util.GetTotalTime(tcString, tvString);
+				*/
 				
 				//if we finish by time, and allowFinishAfterTime == true, when time passed, if the jumper is jumping
 				//if flags the shouldFinishAtNextFall that will finish when he arrives to the platform
@@ -793,6 +798,18 @@ public class JumpRj : Jump
 					); 
 	}
 
+
+	private void updateTimerCountWithChronopicData(string tcString, string tvString) {
+		//update timerCount, with the chronopic data
+		//but in the first jump probably one is zero and then GetTotalTime returns a 0
+		if(tvString.Length == 0) 
+			timerCount =  Util.GetTotalTime(tcString);
+		else if (tcString.Length == 0) 
+			timerCount =  Util.GetTotalTime(tvString);
+		else 
+			timerCount =  Util.GetTotalTime(tcString, tvString);
+	}
+				
 				
 	protected override void write()
 	{

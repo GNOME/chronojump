@@ -453,6 +453,7 @@ public class RunInterval : Run
 							if(intervalTimesString.Length > 0) { equal = "="; }
 							//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 							intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
+							updateTimerCountWithChronopicData(intervalTimesString);
 							tracks ++;	
 								
 							//eventExecuteWin.ProgressBarEventOrTimePreExecution(
@@ -488,6 +489,7 @@ public class RunInterval : Run
 								if(intervalTimesString.Length > 0) { equal = "="; }
 								//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 								intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
+								updateTimerCountWithChronopicData(intervalTimesString);
 
 								if(tracks >= limitAsDouble) 
 								{
@@ -531,6 +533,7 @@ public class RunInterval : Run
 									if(intervalTimesString.Length > 0) { equal = "="; }
 									//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 									intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
+									updateTimerCountWithChronopicData(intervalTimesString);
 									tracks ++;	
 								}
 								
@@ -588,7 +591,8 @@ public class RunInterval : Run
 	protected override bool shouldFinishByTime() {
 		//check if it should finish now (time limited, not unlimited and time exceeded)
 		//check that the run started
-		if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble 
+		//if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble 
+		if( ! tracksLimited && limitAsDouble != -1 && Util.GetTotalTime(intervalTimesString) > limitAsDouble 
 				&& !(runPhase == runPhases.PRE_RUNNING) && !(runPhase == runPhases.PLATFORM_INI)) 
 			return true;
 		else
@@ -646,6 +650,12 @@ public class RunInterval : Run
 				); 
 	}
 
+	private void updateTimerCountWithChronopicData(string timesString) {
+		//update timerCount, with the chronopic data
+		//Console.WriteLine("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString));
+		timerCount =  Util.GetTotalTime(timesString);
+	}
+				
 
 	protected override void write()
 	{
@@ -654,10 +664,22 @@ public class RunInterval : Run
 
 		//if user clicked in finish earlier
 		if(finish) {
-			tracks = Util.GetNumberOfJumps(intervalTimesString, false);
 			if(tracksLimited) {
+				tracks = Util.GetNumberOfJumps(intervalTimesString, false);
 				limitString = tracks.ToString() + "R";
 			} else {
+				//when we mark that run should finish by time, chronopic thread is probably capturing data
+				//check if it captured more than date limit, and if it has done, delete last(s) run(s)
+				if(limitAsDouble != -1) {
+					bool eventPassed = Util.EventPassedFromMaxTime(intervalTimesString, limitAsDouble);
+					while(eventPassed) {
+						intervalTimesString = Util.DeleteLastSubEvent(intervalTimesString);
+						Console.WriteLine("Deleted one event out of time");
+						eventPassed = Util.EventPassedFromMaxTime(intervalTimesString, limitAsDouble);
+					}
+				}
+				//tracks are defined here (and not before) because can change on "while(eventPassed)" before
+				tracks = Util.GetNumberOfJumps(intervalTimesString, false);
 				limitString = Util.GetTotalTime(intervalTimesString) + "T";
 			}
 		} else {

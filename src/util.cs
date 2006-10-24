@@ -261,17 +261,24 @@ public class Util
 	
 	public static double GetTotalTime (string timeString)
 	{
-		if(timeString.Length > 0) {
-			string [] time= timeString.Split(new char[] {'='});
+		try{
 
-			double totalTime = 0;
+			if(timeString.Length > 0) {
+				string [] time= timeString.Split(new char[] {'='});
 
-			foreach (string temp in time) {
-				totalTime = totalTime + Convert.ToDouble(temp);
+				double totalTime = 0;
+
+				foreach (string temp in time) {
+					totalTime = totalTime + Convert.ToDouble(temp);
+				}
+
+				return totalTime ;
+			} else {
+				return 0;
 			}
-
-			return totalTime ;
-		} else {
+		}
+		//it seems in runInterval, sometimes intervalTimesString is not defined. Check this, now just return a 0, like if it's idefined but is 0-length
+		catch {
 			return 0;
 		}
 	}
@@ -314,6 +321,16 @@ public class Util
 		}
 		else
 			return false;			//eventsTime are lower than timeLimit: no problem
+	}
+
+	//also for runInterval (simple and without allowFinish...
+	public static bool EventPassedFromMaxTime(
+			string timesString, double timeLimit) 
+	{
+		if(Util.GetTotalTime(timesString) > timeLimit) 
+			return true;	//eventsTime are higher than timeLimit: one ore more exceeds 
+		else
+			return false;	//eventsTime are lower than timeLimit: no problem
 	}
 	
 	public static string DeleteLastSubEvent (string myString)

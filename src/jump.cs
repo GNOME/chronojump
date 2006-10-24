@@ -811,8 +811,6 @@ public class JumpRj : Jump
 			timerCount =  Util.GetTotalTime(tvString);
 		else 
 			timerCount =  Util.GetTotalTime(tcString, tvString);
-		
-		Console.WriteLine("///F timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString));
 	}
 				
 				
@@ -822,6 +820,7 @@ public class JumpRj : Jump
 		string limitString = "";
 
 		//if user clicked in finish earlier
+		//CHECK this, i think
 		if(finish) {
 			//if user clicked finish and last event was tc, probably there are more TCs than TFs
 			//if last event was tc, it has no sense, it should be deleted

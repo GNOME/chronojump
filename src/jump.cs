@@ -729,6 +729,7 @@ public class JumpRj : Jump
 	
 		
 		if (finish) {
+			//write only if there's a jump at minimum
 			if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
 				write();
 			} else {
@@ -746,8 +747,8 @@ public class JumpRj : Jump
 		//check if it should finish now (time limited, not unlimited and time exceeded)
 		//check also that rj has started (!firstRjValue)
 
-		if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble && !firstRjValue)
-		//if( !jumpsLimited && limitAsDouble != -1 && Util.GetTotalTime(tcString, tvString) > limitAsDouble && !firstRjValue)
+		//if( !jumpsLimited && limitAsDouble != -1 && timerCount > limitAsDouble && !firstRjValue)
+		if( !jumpsLimited && limitAsDouble != -1 && Util.GetTotalTime(tcString, tvString) > limitAsDouble && !firstRjValue)
 		{
 			//limited by Time, we are jumping and time passed
 			if ( tcCount == tvCount ) {
@@ -756,6 +757,7 @@ public class JumpRj : Jump
 			} else {
 				//we are on air
 				if(allowFinishAfterTime) {
+					Console.Write("ALLOW!!");
 					//allow to finish later, return false, and waitEvent (looking at shouldFinishAtNextFall)
 					//will finishJump when he falls 
 					shouldFinishAtNextFall = true;
@@ -802,12 +804,15 @@ public class JumpRj : Jump
 	private void updateTimerCountWithChronopicData(string tcString, string tvString) {
 		//update timerCount, with the chronopic data
 		//but in the first jump probably one is zero and then GetTotalTime returns a 0
+		Console.WriteLine("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString));
 		if(tvString.Length == 0) 
 			timerCount =  Util.GetTotalTime(tcString);
 		else if (tcString.Length == 0) 
 			timerCount =  Util.GetTotalTime(tvString);
 		else 
 			timerCount =  Util.GetTotalTime(tcString, tvString);
+		
+		Console.WriteLine("///F timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString));
 	}
 				
 				
@@ -823,6 +828,20 @@ public class JumpRj : Jump
 			//if user clicked finish and last event was tc, probably there are more TCs than TFs
 			//if last event was tc, it has no sense, it should be deleted
 			tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
+
+			//when we mark that jump should finish by time, chronopic thread is probably capturing data
+			//check if it captured more than date limit, and if it has done, delete last(s) jump(s)
+			//also have in mind that allowFinishAfterTime exist
+			if( ! jumpsLimited && limitAsDouble != -1) {
+				bool eventPassed = Util.EventPassedFromMaxTime(tcString, tvString, limitAsDouble, allowFinishAfterTime);
+				while(eventPassed) {
+					tcString = Util.DeleteLastSubEvent(tcString);
+					tvString = Util.DeleteLastSubEvent(tvString);
+					Console.WriteLine("Deleted one event out of time");
+					eventPassed = Util.EventPassedFromMaxTime(tcString, tvString, limitAsDouble, allowFinishAfterTime);
+				}
+			}
+
 					
 			if(jumpsLimited) {
 				limitString = jumps.ToString() + "J";

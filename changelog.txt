@@ -1,5 +1,10 @@
 CHANGELOG:
 
+24 oct 2006
+	progrVersion changed to "0.5-Pre4"
+	on rjTime limit, no events can be now out of time
+	PulseGtk from 150ms to 0,5
+
 21 oct 2006
 	fixing limit in rj time...
 	progressBar time is in activity while waiting intervallic first run

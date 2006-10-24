@@ -823,8 +823,6 @@ public class JumpRj : Jump
 
 		//if user clicked in finish earlier
 		if(finish) {
-			jumps = Util.GetNumberOfJumps(tvString, false);
-
 			//if user clicked finish and last event was tc, probably there are more TCs than TFs
 			//if last event was tc, it has no sense, it should be deleted
 			tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
@@ -841,6 +839,8 @@ public class JumpRj : Jump
 					eventPassed = Util.EventPassedFromMaxTime(tcString, tvString, limitAsDouble, allowFinishAfterTime);
 				}
 			}
+
+			jumps = Util.GetNumberOfJumps(tvString, false);
 
 					
 			if(jumpsLimited) {

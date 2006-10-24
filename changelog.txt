@@ -1,6 +1,11 @@
 CHANGELOG:
 
 24 oct 2006
+	progrVersion changed to "0.5-Pre5"
+	runInterval timelimit uses new jumpReactive time limit code
+	eventWindow does not get on the front of errorWindow ("go out", "go in")
+	
+24 oct 2006
 	Fixed number of jumps if rjTimeLimit deleted last jump
 
 24 oct 2006

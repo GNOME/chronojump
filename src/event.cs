@@ -76,10 +76,10 @@ public class Event
 	//private Chronopic cp;
 	
 	//a timer for controlling the time between events and update the progressbar
-	//timer has a delegate that 10/s updates the time progressBar. 
+	//timer has a delegate that updates the time progressBar. 
 	//It starts when the first event is detected
 	//protected System.Timers.Timer timerClock = new System.Timers.Timer();    
-	protected double timerCount; // every 150 milliseconds: 
+	protected double timerCount; // every 50 milliseconds: 
 
 	protected Random rand;
 	protected bool simulated;
@@ -188,7 +188,7 @@ public class Event
 				
 				return false;
 			}
-			Thread.Sleep (150);
+			Thread.Sleep (50);
 			Console.Write(thread.ThreadState);
 			return true;
 		//}
@@ -201,12 +201,12 @@ public class Event
 		timerCount = 0;
 	}
 		
-	//onTimer allow to update progressbar_time every 150 milliseconds
+	//onTimer allow to update progressbar_time every 50 milliseconds
 	//also can change platform state in simulated mode
 	//protected void onTimer( Object source, ElapsedEventArgs e )
 	protected void onTimer( )
 	{
-		timerCount = timerCount + .15; //0,15 segons == 150 milliseconds, time between each call of onTimer
+		timerCount = timerCount + .05; //0,05 segons == 50 milliseconds, time between each call of onTimer
 		
 		/* this will be good for not continue counting the time on eventWindow when event has finished
 		 * this will help to sync chronopic data with the timerCount data

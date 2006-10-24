@@ -1308,8 +1308,13 @@ public class EventExecuteWindow
 	//replaced with the chronopic timer
 	public double LabelTimeValue 
 	{
-		set { label_time_value.Text = Math.Round(value,3).ToString();
-			                }
+		set { 
+			label_time_value.Text = Math.Round(value,3).ToString();
+		
+			//also put progressBar text to "" because probably doesn't mach labe_time
+			progressbar_time.Fraction = 1; 
+			progressbar_time.Text = ""; 
+		}
 	}
 	
 	

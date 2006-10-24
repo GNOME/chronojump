@@ -292,6 +292,37 @@ public class Util
 		}
 	}
 	
+	//called from jumpRj.Write() and from interval
+	//when we mark that jump should finish by time, chronopic thread is probably capturing data
+	//check if it captured more than date limit, and if it has done, delete last(s) jump(s)
+	//also have in mind that allowFinishAfterTime exist
+	public static bool EventPassedFromMaxTime(
+			string tcString, string tvString, double timeLimit, bool allowFinishAfterTime) 
+	{
+		if(Util.GetTotalTime(tcString, tvString) > timeLimit) {
+			if(allowFinishAfterTime) {
+				//if allowFinishAfterTime, know if there's one event with part of the tv after time (ok) or more (bad)
+				if(Util.GetTotalTime(tcString, tvString) - Util.GetLast(tvString) > timeLimit)
+					return true;	//eventsTime are higher than timeLimit and allowFinish... 
+							//and without the lastTv it exceeds, then one ore more exceeds 
+				else
+					return false;	//eventsTime are higher than timeLimit and allowFinish... 
+							//but without the lastTv no exceeds, then no problem
+			} 
+			else
+				return true;		//eventsTime are higher than timeLimit and !allowFinish... one ore more exceeds 
+		}
+		else
+			return false;			//eventsTime are lower than timeLimit: no problem
+	}
+	
+	public static string DeleteLastSubEvent (string myString)
+	{
+		int lastEqualPos = myString.LastIndexOf('=');
+		return myString.Substring(0, lastEqualPos -1);
+	}
+
+
 	public static string GetSpeed (string distance, string time) {
 		double distanceAsDouble = Convert.ToDouble(distance);
 		double timeAsDouble = Convert.ToDouble(time);

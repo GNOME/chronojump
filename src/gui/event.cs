@@ -1203,9 +1203,11 @@ public class EventExecuteWindow
 				progressbar.Fraction = myFraction;
 				//progressbar.Text = Util.TrimDecimals(events.ToString(), 1) + " / " + limit.ToString();
 				if(events == -1) //we don't want to display nothing
-					progressbar.Text = "";
-				else
-					progressbar.Text = Math.Round(events,2).ToString() + " / " + limit.ToString();
+					//progressbar.Text = "";
+					label_value.Text = "";
+				else 
+					//progressbar.Text = Math.Round(events,3).ToString() + " / " + limit.ToString();
+					label_value.Text = Math.Round(events,3).ToString();
 			} else {
 				//activity mode
 				progressbar.Pulse();

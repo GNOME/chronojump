@@ -1,5 +1,10 @@
 CHRONOJUMP ROADMAP
 
+++++++++++++++++++++
+WARNING, ROADMAP TOTALLY OUTDATED!!!
+++++++++++++++++++++
+
+
 chronojump 0.5
 --------------
 

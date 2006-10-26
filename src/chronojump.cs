@@ -163,7 +163,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.5-Pre5";
+	private static string progversion = "0.5";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -337,11 +337,9 @@ public class ChronoJump
 		Glade.XML gxml;
 		try {
 			//linux
-			//gxml = Glade.XML.FromAssembly ("chronojump.glade", "app1", "chronojumpGlade");
 			gxml = Glade.XML.FromAssembly ("chronojump.glade", "app1", null);
 		} catch {
 			//windows
-			//gxml = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "app1", "chronojumpGlade");
 			gxml = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "app1", null);
 		}
 
@@ -1722,7 +1720,6 @@ public class ChronoJump
 			
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
-			//jumpWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
 			if(jumpExtraWin.Option == "%") {
 				jumpWeight = jumpExtraWin.Weight;
 			} else {

@@ -2000,6 +2000,8 @@ public class ChronoJump
 
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
 			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentJumpRj.TcString, currentJumpRj.TvString);
+			//possible deletion of last jump can make the jumps on event window be false
+			eventExecuteWin.LabelEventValue = currentJumpRj.Jumps;
 		}
 		
 		//unhide buttons that allow jumping
@@ -2323,6 +2325,8 @@ public class ChronoJump
 
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
 			eventExecuteWin.LabelTimeValue = currentRunInterval.TimeTotal;
+			//possible deletion of last run can make the runs on event window be false
+			eventExecuteWin.LabelEventValue = currentRunInterval.Tracks;
 		}
 		
 		//unhide buttons that allow jumping, running

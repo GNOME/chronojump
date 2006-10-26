@@ -1205,7 +1205,7 @@ public class EventExecuteWindow
 				if(events == -1) //we don't want to display nothing
 					progressbar.Text = "";
 				else
-					progressbar.Text = Math.Round(events,3).ToString() + " / " + limit.ToString();
+					progressbar.Text = Math.Round(events,2).ToString() + " / " + limit.ToString();
 			} else {
 				//activity mode
 				progressbar.Pulse();
@@ -1316,7 +1316,12 @@ public class EventExecuteWindow
 			progressbar_time.Text = ""; 
 		}
 	}
-	
+	//same as LabelTimeValue	
+	public double LabelEventValue 
+	{
+		set { label_event_value.Text = value.ToString(); }
+	}
+		
 	
 	public Button ButtonCancel 
 	{

@@ -1,5 +1,7 @@
 CHANGELOG:
 
+26 oct 2006 (RELEASE 0.5)
+	timeLimit blinky fixed on eventWindow
 	fixed value of events done on interval and reactive when last subevent is
 	deleted because of the synchro between chronometers
 

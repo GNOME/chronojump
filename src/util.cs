@@ -312,7 +312,7 @@ public class Util
 				if(Util.GetTotalTime(tcString, tvString) - Util.GetLast(tvString) > timeLimit)
 					return true;	//eventsTime are higher than timeLimit and allowFinish... 
 							//and without the lastTv it exceeds, then one ore more exceeds 
-				else
+				else 
 					return false;	//eventsTime are higher than timeLimit and allowFinish... 
 							//but without the lastTv no exceeds, then no problem
 			} 

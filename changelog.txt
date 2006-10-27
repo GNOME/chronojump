@@ -1,5 +1,13 @@
 CHANGELOG:
 
+27 oct 2006
+	fixed bugs on eventWindow:
+	-updated graph on rj by time when a jump is deleted because exceeds
+	-not count an extra jump if user is in platform when time ends and
+	allowFinish... is true
+	-end time is always shown ok when allowFinish... and it exceeds
+	progrVersion changed to "0.5-Rev1"
+
 26 oct 2006 (RELEASE 0.5)
 	timeLimit blinky fixed on eventWindow
 	fixed value of events done on interval and reactive when last subevent is

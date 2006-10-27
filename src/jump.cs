@@ -671,21 +671,10 @@ public class JumpRj : Jump
 					}
 				}
 			
-				/*
-				//update timerCount, with the chronopic data
-				//but in the first jump probably one is zero and then GetTotalTime returns a 0
-				if(tvString.Length == 0) 
-					timerCount =  Util.GetTotalTime(tcString);
-				else if (tcString.Length == 0) 
-					timerCount =  Util.GetTotalTime(tvString);
-				else 
-					timerCount =  Util.GetTotalTime(tcString, tvString);
-				*/
-				
 				//if we finish by time, and allowFinishAfterTime == true, when time passed, if the jumper is jumping
 				//if flags the shouldFinishAtNextFall that will finish when he arrives to the platform
 				if(shouldFinishAtNextFall && platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
-					success = true;
+					finish = true;
 
 				
 				//check if reactive jump should finish
@@ -712,7 +701,8 @@ public class JumpRj : Jump
 							needUpdateGraph = true;
 						}
 					}
-				} else {
+				} 
+				else {
 					//limited by time, if passed it, write
 					if(success) {
 						write();
@@ -737,7 +727,8 @@ public class JumpRj : Jump
 				cancel = true;
 			}
 		}
-		if(cancel || finish) {
+		//if(cancel || finish) {
+		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
 		}
@@ -777,7 +768,8 @@ public class JumpRj : Jump
 		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				true, //percentageMode: it has finished, show bar at 100%
-				limitAsDouble
+				//limitAsDouble
+				Util.GetTotalTime(tcString, tvString)
 				);  
 	}
 
@@ -816,6 +808,7 @@ public class JumpRj : Jump
 				
 	protected override void write()
 	{
+		Console.WriteLine("----------WRITING----------");
 		int jumps;
 		string limitString = "";
 
@@ -828,6 +821,7 @@ public class JumpRj : Jump
 			//when we mark that jump should finish by time, chronopic thread is probably capturing data
 			//check if it captured more than date limit, and if it has done, delete last(s) jump(s)
 			//also have in mind that allowFinishAfterTime exist
+			bool deletedEvent = false;
 			if( ! jumpsLimited && limitAsDouble != -1) {
 				bool eventPassed = Util.EventPassedFromMaxTime(tcString, tvString, limitAsDouble, allowFinishAfterTime);
 				while(eventPassed) {
@@ -835,7 +829,14 @@ public class JumpRj : Jump
 					tvString = Util.DeleteLastSubEvent(tvString);
 					Console.WriteLine("Deleted one event out of time");
 					eventPassed = Util.EventPassedFromMaxTime(tcString, tvString, limitAsDouble, allowFinishAfterTime);
+					deletedEvent = true;
 				}
+			}
+			if(deletedEvent) {
+				//update graph if a event was deleted
+				prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(Util.GetLast(tvString), Util.GetLast(tcString), tvString, tcString);
+				needUpdateGraphType = eventType.JUMPREACTIVE;
+				needUpdateGraph = true;
 			}
 
 			jumps = Util.GetNumberOfJumps(tvString, false);

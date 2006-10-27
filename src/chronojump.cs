@@ -163,7 +163,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.5";
+	private static string progversion = "0.5-rev1";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -1966,6 +1966,7 @@ public class ChronoJump
 				
 	private void on_jump_rj_finished (object o, EventArgs args) 
 	{
+		Console.WriteLine("ON JUMP RJ FINISHED");
 		currentJumpRj.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
 		if ( ! currentJumpRj.Cancel ) {

@@ -249,8 +249,8 @@ Console.Write("wwb ");
 		
 		//check if it should finish by time
 		if(shouldFinishByTime()) {
-			updateProgressBarForFinish();
 			finish = true;
+			updateProgressBarForFinish();
 		} 
 		//else 
 		//	updateTimeProgressBar();

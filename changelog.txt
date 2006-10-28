@@ -1,5 +1,10 @@
 CHANGELOG:
 
+28 oct 2006
+	added pulse menu (closes bug: 365918)
+	fixed notebook_change
+	progrVersion changed to "0.5-Rev2"
+
 27 oct 2006
 	fixed bugs on eventWindow:
 	-updated graph on rj by time when a jump is deleted because exceeds

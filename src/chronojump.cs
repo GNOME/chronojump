@@ -125,6 +125,7 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menu_persons;
 	[Widget] Gtk.MenuItem menu_jumps;
 	[Widget] Gtk.MenuItem menu_runs;
+	[Widget] Gtk.MenuItem menu_pulses;
 	[Widget] Gtk.MenuItem menu_view;
 		
 	[Widget] Gtk.MenuItem sj;
@@ -163,7 +164,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.5-rev1";
+	private static string progversion = "0.5-rev2";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -1737,6 +1738,9 @@ public class ChronoJump
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 
+		//change to page 0 of notebook if were in other
+		notebook_change(0);
+		
 		//show the event doing window
 		double myLimit = 3; //3 phases for show the Dj
 		if( currentJumpType.StartIn )
@@ -1818,9 +1822,6 @@ public class ChronoJump
 			if(createdStatsWin) {
 				statsWin.FillTreeView_stats(false, false);
 			}
-		
-			//change to page 0 of notebook if were in other
-			notebook_change(0);
 		
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
@@ -1930,6 +1931,9 @@ public class ChronoJump
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 	
+		//change to page 1 of notebook if were in other
+		notebook_change(1);
+		
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Reactive Jump"), //windowTitle
@@ -1990,9 +1994,6 @@ public class ChronoJump
 				statsWin.FillTreeView_stats(false, false);
 			}
 
-			//change to page 1 of notebook if were in other
-			notebook_change(1);
-			
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
 
@@ -2101,6 +2102,9 @@ public class ChronoJump
 		//hide jumping (running) buttons
 		sensitiveGuiEventDoing();
 	
+		//change to page 2 of notebook if were in other
+		notebook_change(2);
+			
 		//show the event doing window
 		/*
 		double myLimit = 3; //3 phases for show the Dj
@@ -2154,9 +2158,6 @@ public class ChronoJump
 				statsWin.FillTreeView_stats(false, false);
 			}
 		
-			//change to page 2 of notebook if were in other
-			notebook_change(2);
-			
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
 
@@ -2260,6 +2261,9 @@ public class ChronoJump
 		//hide running buttons
 		sensitiveGuiEventDoing();
 		
+		//change to page 3 of notebook if were in other
+		notebook_change(3);
+		
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Intervallic Run"), //windowTitle
@@ -2315,9 +2319,6 @@ public class ChronoJump
 				statsWin.FillTreeView_stats(false, false);
 			}
 
-			//change to page 3 of notebook if were in other
-			notebook_change(3);
-		
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
 
@@ -2414,6 +2415,9 @@ public class ChronoJump
 		//hide pulse buttons
 		sensitiveGuiEventDoing();
 		
+		//change to page 4 of notebook if were in other
+		notebook_change(4);
+		
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Pulse"), //windowTitle
@@ -2475,9 +2479,6 @@ public class ChronoJump
 			}
 			*/
 
-			//change to page 4 of notebook if were in other
-			notebook_change(4);
-		
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
 
@@ -2497,7 +2498,7 @@ public class ChronoJump
 	 */
 	
 	private void notebook_change(int desiredPage) {
-		if(notebook.CurrentPage < desiredPage) {
+		while(notebook.CurrentPage < desiredPage) {
 			notebook.NextPage();
 		}
 		while(notebook.CurrentPage > desiredPage) {
@@ -3102,6 +3103,7 @@ public class ChronoJump
 		menu_persons.Sensitive = false;
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
+		menu_pulses.Sensitive = false;
 		menu_view.Sensitive = false;
 
 		frame_persons.Sensitive = false;
@@ -3149,6 +3151,7 @@ public class ChronoJump
 		
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
+		menu_pulses.Sensitive = false;
 		menu_view.Sensitive = false;
 		
 		//menuitem_jump_type_add.Sensitive = false;
@@ -3166,6 +3169,7 @@ public class ChronoJump
 		
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;
+		menu_pulses.Sensitive = true;
 		menu_view.Sensitive = true;
 		
 		combo_jumps.Sensitive = true;
@@ -3190,6 +3194,7 @@ public class ChronoJump
 		//menu
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
+		menu_pulses.Sensitive = false;
 		
 		//cancel, delete last, finish
 		button_last_delete.Sensitive = false;
@@ -3242,6 +3247,7 @@ public class ChronoJump
 		//menu
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;
+		menu_pulses.Sensitive = true;
 	}
 
 }

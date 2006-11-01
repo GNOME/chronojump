@@ -23,6 +23,15 @@
 
 use strict;
 
+#CONSTANTS
+my $currentVersion = "0.5";
+my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2006-October/msg00015.html";
+my $linuxMailDownloadName = "Chronojump 0.5 released! Chronojump 0.5 liberado!";
+my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2006-June/msg00003.html";
+my $windowsMailDownloadName = "Chronojump 0.48 for windows released!!";
+
+
+
 my $siteURL = "http://www.gnome.org/projects/chronojump";
 #my $siteURL = ".";
 my $CVSURL = "http://cvs.gnome.org/viewcvs/chronojump";
@@ -137,7 +146,11 @@ for (sort keys %languages)
 		#convert links to images
 		$returnPage  = getSiteLinks($returnPage);
 		$returnPrintPage  = getSiteLinks($returnPrintPage);
-		
+	
+		#write constants
+		$returnPage  = getConstants($returnPage);
+		$returnPrintPage  = getConstants($returnPrintPage);
+	
 		#save files
 		my $outputFile = "";
 		my $outputPrintFile = "";
@@ -258,8 +271,19 @@ sub getSiteLinks {
 	$pageContent =~ s/:::imageLink:::/$siteURL\/images/g;
 	$pageContent =~ s/:::articleLink:::/$siteURL\/articles/g;
 	$pageContent =~ s/:::webLink:::/$siteURL/g; #only used for 'accessible in' when pointing to bibliography web pages
-	
 	$pageContent =~ s/:::manualLink:::/$CVSURL\/manual/g;
+
+	return $pageContent;
+}
+		
+sub getConstants {
+	my ($pageContent)= @_;
+
+	$pageContent =~ s/:::currentVersion:::/$currentVersion/g;
+	$pageContent =~ s/:::linuxMailDownloadLink:::/$linuxMailDownloadLink/g;
+	$pageContent =~ s/:::linuxMailDownloadName:::/$linuxMailDownloadName/g;
+	$pageContent =~ s/:::windowsMailDownloadLink:::/$windowsMailDownloadLink/g;
+	$pageContent =~ s/:::windowsMailDownloadName:::/$windowsMailDownloadName/g;
 
 	return $pageContent;
 }

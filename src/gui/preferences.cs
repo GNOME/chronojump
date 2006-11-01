@@ -62,12 +62,14 @@ public class PreferencesWindow {
 
 	//for windows, on linux it takes language ok from the locale
 	private static string [] comboLanguageOptions = {
-		"es-ES", 
 		"en-GB", 
+		"es-ES", 
+		"fi-FI", 
 		"fr-FR", 
-		"zh-CN", 
-		"vi-VN", 
+		"pt-BR", 
 		"sv-SE", 
+		"vi-VN", 
+		"zh-CN", 
 	};
 	
 		

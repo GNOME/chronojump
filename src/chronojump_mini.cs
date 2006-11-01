@@ -47,6 +47,7 @@ class Test {
 
 		if(Util.IsWindows()) {
 			messageInfo = Constants.PortNamesWindows;
+			messageDetected = Catalog.GetString("Detected ports:") + "\n";
 
 			string jumpLine = "";
 			foreach (string s in SerialPort.GetPortNames()) {

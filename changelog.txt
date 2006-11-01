@@ -1,5 +1,13 @@
 CHANGELOG:
 
+1 nov 2006 (RELEASE 0.5 Windows)
+	Windows changes (also affects Linux)
+	-dialogMessage about close/open chronojump if port is not detected (if not close, the good port values can also fail on windows (timeout problems))
+	-database copy, fixed path
+	-corrected circle position
+	-added finish and portuguese (BR)
+	progrVersion changed to "0.5-Rev3"
+
 28 oct 2006
 	added pulse menu (closes bug: 365918)
 	fixed notebook_change
@@ -13,7 +21,7 @@ CHANGELOG:
 	-end time is always shown ok when allowFinish... and it exceeds
 	progrVersion changed to "0.5-Rev1"
 
-26 oct 2006 (RELEASE 0.5)
+26 oct 2006 (RELEASE 0.5 Linux)
 	timeLimit blinky fixed on eventWindow
 	fixed value of events done on interval and reactive when last subevent is
 	deleted because of the synchro between chronometers

@@ -128,8 +128,9 @@ public class EventExecuteWindow
 	}
 	private phasesGraph graphProgress;
 	
-	int rightMargin = 30; 	//at the right we write text
 	int radio = 8; 		//radious of the circles
+	int arcSystemCorrection = 0; //on Windows circles are paint just one pixel left, fix it
+	int rightMargin = 30; 	//at the right we write text (on windows we change later)
 	
 	//for writing text
 	Pango.Layout layout;
@@ -148,6 +149,11 @@ public class EventExecuteWindow
 
 		gladeXML.Autoconnect(this);
 		
+		if(Util.IsWindows()) {
+			rightMargin = 50;
+			arcSystemCorrection = 1;
+		}
+
 		configureColors();
 	}
 
@@ -782,13 +788,13 @@ public class EventExecuteWindow
 			//circles
 			if(eventGraphConfigureWin.PaintCircle) {
 				if(tcNow > 0) {
-					pixmap.DrawArc(pen_rojo, true, ancho*1/6 - radio/2 , calculatePaintHeight(tcNow, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-					pixmap.DrawArc(pen_rojo, true, ancho*3/6 - radio/2 , calculatePaintHeight(tcPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-					pixmap.DrawArc(pen_rojo, true, ancho*5/6 - radio/2 , calculatePaintHeight(tcSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+					pixmap.DrawArc(pen_rojo, true, ancho*1/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(tcNow, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+					pixmap.DrawArc(pen_rojo, true, ancho*3/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(tcPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+					pixmap.DrawArc(pen_rojo, true, ancho*5/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(tcSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
 				}
-				pixmap.DrawArc(pen_azul, true, ancho*1/6 +10 - radio/2 , calculatePaintHeight(tvNow, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				pixmap.DrawArc(pen_azul, true, ancho*3/6 +10 - radio/2 , calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				pixmap.DrawArc(pen_azul, true, ancho*5/6 +10 - radio/2 , calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+				pixmap.DrawArc(pen_azul, true, ancho*1/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvNow, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+				pixmap.DrawArc(pen_azul, true, ancho*3/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+				pixmap.DrawArc(pen_azul, true, ancho*5/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
 			}	
 			
 	
@@ -827,9 +833,9 @@ public class EventExecuteWindow
 
 
 			if(eventGraphConfigureWin.PaintCircle) {
-				pixmap.DrawArc(myPen, true, ancho*1/6 - radio/2 , calculatePaintHeight(now, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				pixmap.DrawArc(myPen, true, ancho*3/6 - radio/2 , calculatePaintHeight(person, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				pixmap.DrawArc(myPen, true, ancho*5/6 - radio/2 , calculatePaintHeight(session, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+				pixmap.DrawArc(myPen, true, ancho*1/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(now, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+				pixmap.DrawArc(myPen, true, ancho*3/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(person, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+				pixmap.DrawArc(myPen, true, ancho*5/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(session, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
 			}	
 			
 	
@@ -1089,7 +1095,7 @@ public class EventExecuteWindow
 
 		if(eventGraphConfigureWin.PaintCircle) {
 			//put circle in last value
-			pixmap.DrawArc(myPen, true, Convert.ToInt32((ancho - rightMargin) *(count+.5)/total) - radio/2, calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) - radio/2, radio, radio, 0, 360*64);
+			pixmap.DrawArc(myPen, true, Convert.ToInt32((ancho - rightMargin) *(count+.5)/total) - radio/2 + arcSystemCorrection, calculatePaintHeight(myValue, alto, maxValue, minValue, topMargin, bottomMargin) - radio/2, radio, radio, 0, 360*64);
 		}
 	}
 

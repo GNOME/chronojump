@@ -164,7 +164,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.5-rev2";
+	private static string progversion = "0.5-rev3";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -430,7 +430,11 @@ public class ChronoJump
 			appbar2.Push( 1, myString);
 		}
 		if(! success) {
-			new DialogMessage(Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'"));
+			string myString = Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'");
+			if(Util.IsWindows())
+				myString += Catalog.GetString("\n\nOn Windows we recommend to close/open Chronojump after every unsuccessful port test.");
+			new DialogMessage(myString);
+
 			//Console.WriteLine("Problems communicating to chronopic, changed platform to 'Simulated'");
 			//TODO: raise a error window
 			

@@ -498,10 +498,14 @@ public class Util
 		string backupDir = homeDir + "/backup";
 		
 		StringBuilder myStringBuilder = new StringBuilder(DateTime.Now.ToString());
-		myStringBuilder.Replace("/", "-"); //replace the '/' for '-' for not having problems with the directories
-		
-		if(File.Exists(homeDir + "/chronojump.db"))
-			File.Copy(homeDir + "/chronojump.db", backupDir + "/chronojump_" + myStringBuilder + ".db");
+		//for not having problems with the directories:
+		myStringBuilder.Replace(" ", "_"); //replace the ' ' (date-hour separator) for '_' 
+		myStringBuilder.Replace("/", "-"); //replace the '/' (date separator) for '-' 
+		myStringBuilder.Replace(":", "-"); //replace the ':' (hour separator) for '-'
+
+		if(File.Exists(System.IO.Path.Combine(homeDir, "chronojump.db")))
+			File.Copy(System.IO.Path.Combine(homeDir, "chronojump.db"), 
+				System.IO.Path.Combine(backupDir, "chronojump_" + myStringBuilder + ".db"));
 		else {
 			Console.WriteLine("Error, chronojump.db file doesn't exist!");
 		}

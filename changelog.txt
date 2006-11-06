@@ -1,6 +1,11 @@
 CHANGELOG:
 
-1 nov 2006 (RELEASE 0.5 Windows)
+6 nov 2006
+	On windows report file has extension "htm"  (linux "html")
+	Fixed tf in rjEvolution graph
+	progrVersion changed to "0.5-Rev4"
+
+1 nov 2006
 	Windows changes (also affects Linux)
 	-dialogMessage about close/open chronojump if port is not detected (if not close, the good port values can also fail on windows (timeout problems))
 	-database copy, fixed path

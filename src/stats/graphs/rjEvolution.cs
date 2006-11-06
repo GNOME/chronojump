@@ -131,7 +131,7 @@ public class GraphRjEvolution : StatRjEvolution
 				serieTc.Title = myValue + " " + Catalog.GetString("TC");
 				serieTv.Title = myValue + " " + Catalog.GetString("TF");
 
-			} else if(isTF(i)) {
+			} else if(isTC(i)) {
 				serieTc.SerieData.Add(myValue);
 			} else if(isTF(i)) {
 				serieTv.SerieData.Add(myValue);

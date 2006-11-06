@@ -115,12 +115,14 @@ public class ExportSession
 		closeWriter();
 	}
 		
-	//remember on windows should be .htm
 	private string addHtmlIfNeeded(string myFile)
 	{
 		int posOfDot = myFile.LastIndexOf('.');
 		if (posOfDot == -1) {
-			myFile += ".html";
+			if(Util.IsWindows())
+				myFile += ".htm";
+			else
+				myFile += ".html";
 		}
 		return myFile;
 	}

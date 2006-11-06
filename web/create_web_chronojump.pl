@@ -27,8 +27,8 @@ use strict;
 my $currentVersion = "0.5";
 my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2006-October/msg00015.html";
 my $linuxMailDownloadName = "Chronojump 0.5 released! Chronojump 0.5 liberado!";
-my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2006-June/msg00003.html";
-my $windowsMailDownloadName = "Chronojump 0.48 for windows released!!";
+my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2006-November/msg00001.html";
+my $windowsMailDownloadName = "Chronojump 0.5 for Windows released";
 
 
 

@@ -1,0 +1,55 @@
+com mono_server (xsp, apache)
+-----------------------------
+
+*************
+US
+*************
+
+executar:
+xsp --root /var/www/mono/
+o
+xsp2 --root /var/www/mono/
+
+re-executar cada cop que s'hagi canviat un dels .cs o .aspx
+
+posar scripts a:
+/var/www/mono
+(crec que no cal que siguin executables)
+
+ARA ESTAN A:
+~/progs_meus/chronojump/chronojump/chronojump_server
+i tenen LINK SIMBOLIC
+
+navegar a:
+http://localhost:8080/hello.aspx?name=
+http://localhost:8080/hello.aspx?name=pepe
+
+http://localhost:8080/hello2.aspx?name=pepita
+(aquest darrer té separat el .cs del html)
+
+
+per a EXEMPLES:
+sudo apt-get install asp.net-examples
+xavier@brindis:/var/www/mono/samples $ ln -s /usr/share/asp.net-demos/1.1/ samples
+http://localhost:8080/samples/html/button.aspx
+
+
+*************
+INSTALACIO
+*************
+
+----------------NOU
+
+He posat el mono1.2 de mono-project.com, així tinc el mono-xsp2 sense problemes (amb ubuntu edgy o feisty o altres repositoris, hi havia problemes de dependencies circulars)
+
+--------------- OLD
+info: Mono. A developer's notebook. Capítol 7
+També info a bookmarks de mono_server a firefox (no ho he usat)
+
+
+instal·lats:
+
+apache_1.3.34-2ubuntu0.1_i386.deb         libapache-mod-mono_1.1.10-1_i386.deb  mono-apache-server_1.1.10-0ubuntu2_all.deb 
+apache2-utils_2.0.55-4ubuntu2.1_i386.deb  libapr0_2.0.55-4ubuntu2.1_i386.deb    mono-xsp_1.1.10-0ubuntu2_all.deb            wwwconfig-common_0.0.44_all.deb
+apache-common_1.3.34-2ubuntu0.1_i386.deb  mono-xsp-base_1.1.10-0ubuntu2_all.deb
+

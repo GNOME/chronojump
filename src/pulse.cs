@@ -53,7 +53,8 @@ public class Pulse : Event
 	//used on treeviewPulse
 	public Pulse() {
 	}
-	
+
+/*	
 	//execution
 	public Pulse(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
 			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
@@ -81,7 +82,7 @@ public class Pulse : Event
 		needUpdateGraph = false;
 	}
 	
-	
+*/
 	//after inserting database (SQL)
 	public Pulse(int uniqueID, int personID, int sessionID, string type, double fixedPulse, 
 			int totalPulsesNum, string timesString, string description)
@@ -97,7 +98,7 @@ public class Pulse : Event
 		this.description = description;
 	}
 
-
+/*
 	public override void SimulateInitValues(Random randSent)
 	{
 		Console.WriteLine("From pulse.cs");
@@ -116,7 +117,6 @@ public class Pulse : Event
 		//tc+tv will be registered
 		simulatedCurrentTimeIntervalsAreContact = true;
 	}
-	
 	
 	public override void Manage()
 	{
@@ -349,7 +349,7 @@ public class Pulse : Event
 		//eventExecuteWin.EventEnded();
 		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 	}
-
+*/
 	
 	//called from treeViewPulse
 	public double GetErrorAverage(bool relative)
@@ -375,7 +375,7 @@ public class Pulse : Event
 		}
 		return Util.GetAverage(myErrors);
 	}
-
+	
 	public string TimesString
 	{
 		get { return timesString; }

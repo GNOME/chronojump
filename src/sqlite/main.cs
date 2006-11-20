@@ -65,6 +65,7 @@ class Sqlite
 	}
 	
 	public static void ConvertToLastVersion() {
+/*
 		addChronopicPortNameIfNotExists();
 		
 		string myVersion = SqlitePreferences.Select("databaseVersion");
@@ -113,9 +114,11 @@ class Sqlite
 
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
+*/
 	}
 	
 	private static void addChronopicPortNameIfNotExists() {
+/*
 		string myPort = SqlitePreferences.Select("chronopicPort");
 		if(myPort == "0") {
 			//if doesn't exist (for any reason, like old database)
@@ -126,10 +129,12 @@ class Sqlite
 			
 			Console.WriteLine("Added Chronopic port");
 		}
+*/
 	}
 	
 	public static void CreateTables()
 	{
+/*
 		dbcon.Open();
 
 		SqlitePerson.createTable();
@@ -192,5 +197,6 @@ class Sqlite
 		SqlitePreferences.Insert ("allowFinishRjAfterTime", "True"); 
 
 		dbcon.Close();
+*/
 	}
 }

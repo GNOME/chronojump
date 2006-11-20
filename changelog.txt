@@ -1,5 +1,17 @@
 CHANGELOG:
 
+20 nov 2006
+	Server code started (connects to DB and uses chronojump methods).
+	Fixed bug: 353051
+
+	separating events and eventExecutions, for calling event
+	definitions from the server without the need of gtk or chronopic: done
+	event, jump and jumpRj. Rest of events are unusable now.
+	Added src/execute/event.cs src/execute/jump.cs 
+
+	Fixed bug: When a event is deleted, if it gets updated on eventWindowGraph,
+	chronojump chrases (chrashed when there are no events of this person).
+
 6 nov 2006
 	On windows report file has extension "htm"  (linux "html")
 	Fixed tf in rjEvolution graph

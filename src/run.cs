@@ -50,6 +50,7 @@ public class Run : Event
 	public Run() {
 	}
 
+/*
 	//run execution
 	public Run(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distance,   
 			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred)
@@ -74,6 +75,7 @@ public class Run : Event
 		needUpdateEventProgressBar = false;
 		needUpdateGraph = false;
 	}
+*/
 	
 	//after inserting database (SQL)
 	public Run(int uniqueID, int personID, int sessionID, string type, double distance, double time, string description)
@@ -87,6 +89,7 @@ public class Run : Event
 		this.description = description;
 	}
 
+/*
 	public override void SimulateInitValues(Random randSent)
 	{
 		Console.WriteLine("From run.cs");
@@ -240,6 +243,7 @@ public class Run : Event
 	}
 	
 	protected override void updateTimeProgressBar() {
+*/
 		/* 4 situations:
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label
 			case runPhases.PRE_RUNNING:
@@ -250,7 +254,7 @@ public class Run : Event
 		 *   4- if we arrive (finish), it should be a pulse with chronopic time on label
 			case runPhases.PLATFORM_END:
 		 */
-				
+/*				
 		double myTimeValue = 0;
 		switch (runPhase) {
 			case runPhases.PRE_RUNNING:
@@ -300,7 +304,7 @@ public class Run : Event
 		//eventExecuteWin.EventEnded();
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
-	
+*/
 
 	
 	public virtual double Speed
@@ -349,7 +353,7 @@ public class RunInterval : Run
 
 	public RunInterval() {
 	}
-
+/*
 	//run execution
 	public RunInterval(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
 			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
@@ -383,7 +387,7 @@ public class RunInterval : Run
 		needUpdateEventProgressBar = false;
 		needUpdateGraph = false;
 	}
-	
+*/
 	
 	//after inserting database (SQL)
 	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited)
@@ -401,6 +405,7 @@ public class RunInterval : Run
 		this.limited = limited;
 	}
 
+/*
 	protected override void waitEvent ()
 	{
 		double timestamp = 0;
@@ -608,6 +613,7 @@ public class RunInterval : Run
 	}
 
 	protected override void updateTimeProgressBar() {
+*/
 		/* 4 situations:
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label 
 		 *   	case runPhases.PRE_RUNNING:
@@ -619,7 +625,7 @@ public class RunInterval : Run
 		 *   	case runPhases.PLATFORM_END:
 		 */
 		
-		
+/*		
 		double myTimeValue = 0;
 		bool percentageMode = true; //false is activity mode
 		switch (runPhase) {
@@ -724,7 +730,7 @@ public class RunInterval : Run
 		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		
 	}
-
+*/
 
 	public string IntervalTimesString
 	{

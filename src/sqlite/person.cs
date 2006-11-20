@@ -203,7 +203,7 @@ finishForeach:
 		ArrayList arrayJumpsRj = new ArrayList(2);
 		ArrayList arrayRuns = new ArrayList(2);
 		ArrayList arrayRunsInterval = new ArrayList(2);
-		
+	
 		dbcon.Open();
 		
 		//session where this person is loaded
@@ -266,7 +266,9 @@ finishForeach:
 		reader.Close();
 		
 		dbcon.Close();
-		
+	
+		//pending pulses
+	
 		ArrayList arrayAll = new ArrayList(2);
 		string tempJumps;
 		string tempJumpsRj;
@@ -320,6 +322,9 @@ finishForeach:
 				}
 			}
 			
+			//pending pulses
+
+
 			//if has events, write it's data
 			if (found) {
 				arrayAll.Add (myStrSession[1] + ":" + myStrSession[2] + ":" + 	//session name, place

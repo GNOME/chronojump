@@ -1,5 +1,14 @@
 CHANGELOG:
 
+22 nov 2006
+	Server integrations:
+		sqliteMain uncommented references to other sqlite files. Now sqlite works again
+		all events working with execute classes separation:
+		added src/execute/run.cs & src/execute/pulse.cs
+		clean code & tests pending. Also check the if(currentPulse.Finish) on chronojump.cs 2444
+
+	Fixed sensitiveness of buttons when a event is done
+
 20 nov 2006
 	Server code started (connects to DB and uses chronojump methods).
 	Fixed bug: 353051

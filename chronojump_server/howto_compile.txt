@@ -1,9 +1,12 @@
+gmcs -t:library -out:bin/chronojumpServer.dll -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services -r:Mono.Posix  chronojumpServer.cs ../src/sqlite/*.cs ../src/util.cs ../src/person.cs ../src/event.cs ../src/jump.cs ../src/run.cs ../src/session.cs ../src/jumpType.cs ../src/runType.cs 
+
+
+old:
+
 gmcs -t:library -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services -out:bin/chronojumpServer.dll  chronojumpServer.cs ../src/sqlite/person.cs ../src/sqlite/main.cs ../src/util.cs ../src/person.cs ../src/sqlite/personSession.cs -r:Mono.Posix
 
-old:
 gmcs -t:library -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services -out:bin/DirectoryLister.dll  DirectoryLister.cs
 
-old:
 gmcs -t:library -r:System.Web.Services -out:bin/DirectoryLister.dll DirectoryLister.cs
 
 mcs tambe funciona per la majoria de coses

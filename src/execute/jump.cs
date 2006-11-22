@@ -858,6 +858,7 @@ public class JumpRjExecute : JumpExecute
 		get { return SqliteJumpType.HasFall("jumpRjType", type); } //jumpRjType is the table name
 	}
 
+/*
 	public double TvMax
 	{
 		get { return Util.GetMax (tvString); }
@@ -900,6 +901,7 @@ public class JumpRjExecute : JumpExecute
 	{
 		get { return jumpsLimited; }
 	}
-		
+*/	
+
 	~JumpRjExecute() {}
 }

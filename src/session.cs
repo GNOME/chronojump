@@ -23,8 +23,6 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 using Mono.Data.SqliteClient;
-using Gtk;
-using Glade;
 using Mono.Unix;
 
 

@@ -2,6 +2,9 @@ glade/chronojump.glade
 src/chronojump_mini.cs
 src/chronojump.cs
 src/constants.cs
+src/execute/jump.cs
+src/execute/run.cs
+src/execute/pulse.cs
 src/exportSession.cs
 src/gui/event.cs
 src/gui/helpPorts.cs
@@ -14,11 +17,8 @@ src/gui/run.cs
 src/gui/runType.cs
 src/gui/session.cs
 src/gui/stats.cs
-src/jump.cs
 src/platform.cs
-src/pulse.cs
 src/report.cs
-src/run.cs
 src/sqlite/stat.cs
 src/statType.cs
 src/stats/cmjPlusPotency.cs

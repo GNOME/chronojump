@@ -1,5 +1,9 @@
 CHANGELOG:
 
+12 feb 2007
+	Connecting to server from gtk client. Changes on Makefile
+	migration cvs -> svn
+
 22 nov 2006
 	Server integrations:
 		sqliteMain uncommented references to other sqlite files. Now sqlite works again

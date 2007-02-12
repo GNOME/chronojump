@@ -84,23 +84,6 @@ public class PulseExecute : EventExecute
 		eventDone = new Pulse();
 	}
 	
-/*
-	//after inserting database (SQL)
-	public Pulse(int uniqueID, int personID, int sessionID, string type, double fixedPulse, 
-			int totalPulsesNum, string timesString, string description)
-	{
-		this.uniqueID = uniqueID;
-		this.personName = SqlitePerson.SelectJumperName(personID);
-		this.personID = personID;
-		this.sessionID = sessionID;
-		this.type = type;
-		this.fixedPulse = fixedPulse;
-		this.totalPulsesNum = totalPulsesNum;
-		this.timesString = timesString;
-		this.description = description;
-	}
-*/
-
 	public override void SimulateInitValues(Random randSent)
 	{
 		Console.WriteLine("From pulse.cs");
@@ -355,20 +338,6 @@ public class PulseExecute : EventExecute
 		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 	}
 
-/*	
-	public string TimesString
-	{
-		get { return timesString; }
-		set { timesString = value; }
-	}
-	
-	public double FixedPulse
-	{
-		get { return fixedPulse; }
-		set { fixedPulse = value; }
-	}
-*/	
-		
 		
 	~PulseExecute() {}
 }

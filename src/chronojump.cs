@@ -294,7 +294,18 @@ public class ChronoJump
 		//works on Linux
 		//Console.WriteLine("lang: {0}", System.Environment.GetEnvironmentVariable("LANG"));
 		//Console.WriteLine("language: {0}", System.Environment.GetEnvironmentVariable("LANGUAGE"));
-		
+	
+
+		/* SERVER COMMUNICATION TESTS */
+		ChronojumpServer myServer = new ChronojumpServer();
+		string [] myListDir = myServer.ListDirectory("/home");
+		foreach (string myResult in myListDir) 
+			Console.WriteLine(myResult);
+
+		Console.WriteLine(myServer.ConnectDatabase());
+		Console.WriteLine(myServer.SelectPersonName(3));
+		/* END OF SERVER COMMUNICATION TESTS */
+
 		
 		Sqlite.Connect();
 

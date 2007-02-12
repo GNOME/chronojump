@@ -1,4 +1,6 @@
-<h4>Características del software de gestión</h4>
+:::startTitle:::
+Características del software de gestión
+:::endTitle:::
 
 ChronoJump permite registrar cualquier salto con las repeticiones que se desee, iniciando desde dentro o fuera de la plataforma, registrando independientemente tiempos de contacto y tiempos de vuelo, así como carga extra, altura de caída, limitación por saltos o tiempo, y descripciones de técnica.
 <p>
@@ -8,7 +10,7 @@ ChronoJump usa una pequeña base de datos <a href="http://www.sqlite.org/">Sqlit
 Es posible y sencillo crear nuevos tipos de saltos con las variables descritas anteriormente.
 
 <p>
-Es multiplataforma; Al estar programado en C# usando Mono, debería funcionar correctamente en GNU/Linux, MacOSX, Windows, ... hasta el momento sólo se ha probado en GNU/Linux.
+Es multiplataforma; Al estar programado en C# usando Mono, debería funcionar correctamente en GNU/Linux, MacOSX, Windows, ... hasta el momento funciona en GNU/Linux y Windows.
 
 <p>
 Incorpora las siguientes estadísticas (siempre que no se especifique lo contrario, se permite mostrar medias, valores máximos, o todos los valores de una única sesión o entre un número indeterminado de sesiones (longitudinal), y con distinción de género)
@@ -23,6 +25,10 @@ Incorpora las siguientes estadísticas (siempre que no se especifique lo contrar
 <li> ...(la modularidad de ChronoJump facilita la inclusión de nuevos estadísticos)
 </ul>
 
+Chronojump permite también el estudio de <b>carreras</b> y <b>ritmos</b>.
+
+<p>
+
 Graficación de todos los estadísticos descritos mediante la librería gráfica <a href="http://netcontrols.org/nplot/">NPlot</a>.
 
 <p>
@@ -30,15 +36,15 @@ Exportación de saltos a hojas de cálculo (formato CSV).
 <p>
 Creación de informes personalizados de todos los datos obtenidos y los estadísticos (formato HTML). 
 
-<h4>Características del cronometrador</h4>
+<h5>Características del cronometrador</h5>
  El Cronometrador: Chronopic, está basado en la tarjeta Entrenadora Skypic (consultar documentación), y ofrece una precisión de una milésima de segundo según se ha podido comprobar. <tt>[Pendiente de detallar cómo se ha comprobado]</tt>.
  <p> Algunos sistemas de cronometrado del salto usan únicamente un ordenador personal conectado a la plataforma. Los ordenadores modernos son multitarea, característica que impide garantizar una medición fiable debido a que pueden estar realizando cualquier otra tarea en aquél momento. Más información en el apartado de <a href="construction_es.html">Construcción</a>.
  <p>
- <h4>Características de la plataforma</h4>
+ <h5>Características de la plataforma</h5>
 
  La plataforma de contactos puede ser fabricada como se explica en el apartado <a href="construction_es.html">Construcción</a>.
 
- <h4>Características futuras</h4>
+ <h5>Características futuras</h5>
 
  En breve se desea implementar también las siguientes funciones:
  <ul> 

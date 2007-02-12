@@ -1,4 +1,6 @@
-<h4 id="top">FAQ de Chronojump - listado de preguntas frecuentes</h4>
+:::startTitle:::
+FAQ de Chronojump - listado de preguntas frecuentes
+:::endTitle:::
 
 <ol>
 <li><a href="#platform">Plataforma de contactos</a>
@@ -11,7 +13,7 @@
 <ol>
 <li>¿Cómo puedo construir la plataforma de contactos?
 <p>
-Siga las instrucciones descritas en esta página web: [insertar enlace]
+Siga las instrucciones descritas en esta página web: <a href="construction_contact_platform_es.html">"Instrucciones para la construcción de una plataforma de contactos para la medición de la capacidad de salto/s"</a>.
 
 <p><li>¿Dónde puedo comprar la plataforma de contactos? ¿Puedo vender la que he hecho yo?
 <p>
@@ -27,7 +29,7 @@ Por que todavía nadie ha colaborado en ofrecer información sobre cómo fabrica
 
 <p><li>He descubierto una manera mejor de hacer la plataforma de contactos ¿dónde puedo anunciarla?
 <p>
-Escribe un correo a [insertar enlace] y veremos cómo podemos anunciar tu propuesta.
+Escribe un correo a la lista <a href="contact_es.html">chronojump-list</a> y veremos cómo podemos anunciar tu propuesta.
 
 </ol>
 <p align="right"><a href="#top">Subir</a></p>
@@ -40,22 +42,22 @@ Escribe un correo a [insertar enlace] y veremos cómo podemos anunciar tu propue
 Los sistemas operativos modernos son multitarea, lo que significa que el ordenador asigna pequeñas cantidades de tiempo para la realización de cada una de las tareas de manera que parece que ejecuta todas a la vez. Si el ordenador se encarga de captar los estímulos que proceden de la plataforma de contactos, en ocasiones será tardío en advertir estos eventos porque estará ocupado en otros <i>asuntos</i>, lo que se traduce en problemas de fiabilidad debido a que dos saltos de la misma duración podrían obtener mediciones distintas por circunstancias aleatorias.<br>
 El cronómetro externo que hemos construido está especializado en la captación de eventos en la plataforma de contactos por lo que no aparecerán errores de fiabilidad en sus registros.<br>
 Chronopic permitirá además que se pueda usar Chronojump o su versión reducida Chronojump-mini en casi cualquier dispositivo electrónico, y asegura una buena compatibilidad hacia el futuro.<br>
-Para más información lea este artículo: [INSERTAR ENLACE]
+Para más información lea este artículo: <a href=":::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf">"Proyecto Chronojump: Sistema de Medida de la Capacidad de Salto usando Software y Hardware Libres"</a>.
 
 <p><li>He leído que el cronómetro actual es un prototipo, ¿cuando estará la versión final disponible?
 <p>
 Para la construcción de chronopic se ha usado la tarjeta entrenadora de robots Skypic debido a que es hardware libre, está documentada su construcción, es posible su compra directa y está convenientemente validada. 
 <br>Hasta la fecha se dispone de una tarjeta de expansión que permite conectar Skypic con la plataforma de contactos y un software (firmware) que permite que Skypic sea completamente funcional para la detección de estados y eventos en la plataforma de contactos. <br>
 Más delante se creará la tarjeta Chronopic, con menos instrumentaciones que Skypic, de reducidas dimensiones y que podrá ser fabricada facilmente o adquirida por bajo precio (15-30 euros en España).<br>
-Para más información lea esta página web: [INSERTAR ENLACE]
+Para más información lea esta página web: <a href="http://www.iearobotics.com/personal/juan/proyectos/chronopic/1.0/">documentación de Chronopic 1.0 y el prototipo 1</a>.
 
 <p><li>¿Cómo puedo construir el cronómetro?<p>
 <p>
-Dispone de información completa en esta página web: [INSERTAR ENLACE]. Si no tiene conocimientos en electrónica, pida ayuda en esta materia a algún conocido o empresa local.
+Dispone de información completa en esta página web: <a href="http://www.iearobotics.com/personal/juan/proyectos/chronopic/1.0/">documentación de Chronopic 1.0 y el prototipo 1</a>. Si no tiene conocimientos en electrónica, pida ayuda en esta materia a algún conocido o empresa local.
 
 <p><li>¿Dónde puedo comprar el cronómetro?
 <p>
-La empresa IFARA de Madrid comercializa en España Skypic + tarjeta de expansión + firmware de Chronopic (software necesario para la tarjeta) por 70 euros. Más información en este correo electrónico: [INSERTAR ENLACE].<br>
+La empresa IFARA de Madrid comercializa en España Skypic + tarjeta de expansión + firmware de Chronopic (software necesario para la tarjeta) por 70 euros. Más información en este correo electrónico: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Adquisición del Prototipo I de la chronopic</a>.<br>
 Si usted quiere fabricar y vender Skypic + tarjeta de expansión + firmware de Chronopic en España o en cualquier otro país, no dude a ponerse en contacto con nosotros para que hagamos publicidad de su servicio.
 
 </ol>
@@ -64,9 +66,9 @@ Si usted quiere fabricar y vender Skypic + tarjeta de expansión + firmware de C
 <h5 id="chronojump">Software Chronojump</h5>
 
 <ol>
-<li>¿Puedo acceder al código fuente y modificar el programa, y venderlo?
+<li>¿Puedo acceder al código fuente y modificar el programa?, ¿y venderlo?
 <p>
-Chronojump es software libre distribuido bajo los términos de la licencia GPL [enlace], lo que le permite estudiarlo, modificarlo, redistribuirlo, venderlo siempre respetando la citada licencia. Para más información acceda a la página web de GPL en la Wikipedia [INSERTAR ENLACE]
+Chronojump es software libre distribuido bajo los términos de la <a href="http://www.gnu.org/licenses/licenses.html#GPL">licencia GPL</a>, lo que le permite estudiarlo, modificarlo, redistribuirlo, venderlo siempre respetando la citada licencia. Para más información acceda a la página web de <a href="http://es.wikipedia.org/wiki/GPL">GPL en la Wikipedia</a>.
 
 <p><li>¿Cuánto dinero cuesta?
 <p>
@@ -74,33 +76,32 @@ En la web siempre habrá una versión de Chronojump gratuita, pero usted puede c
 
 <p><li>¿En qué sistemas operativos y equipos informáticos funciona?
 <p>
-Chronojump está escrito para la plataforma de programación MONO [INSERTAR ENLACE], que ha sido concebida para facilitar que los programas informáticos funcionen un muchos sistemas operativos y equipamientos informáticos. Hasta el momento sólo funciona en sistemas GNU/Linux, pero se facilita un Live-CD que permite que en cualquier ordenador PC (con sistemas operativos Linux, Windows, FreeBSD o cualquier otro) puedan usar Chronojump.<br>
-Para mitades de primavera de 2006 se prevé que habrá una versión para windows que se pueda ejecutar sin necesidad del Live-CD.
+Chronojump está escrito para la plataforma de programación <a href="http://www.mono-project.com">MONO</a>, que ha sido concebida para facilitar que los programas informáticos funcionen un muchos sistemas operativos y equipamientos informáticos. Hasta el momento funciona en sistemas GNU/Linux y en Windows.<br>
 
 <p><li>¿Cómo puedo descargar (download) el programa?
 <p>
-Lea este correo electrónico: [INSERTAR ENLACE]
+Acceda a la página web de <a href="installation_es.html">instalación de Chronojump</a>.
 
 <p><li>¿Puedo probar Chronojump sin tener el cronómetro ni la plataforma de contactos?
 <p>
-Sí, se ha creado un modo simulado en que se ejecutan saltos y carreras de duración aleatoria para que pueda probar las características del programa. Además se incorpora una base de datos de muestra.
+Sí, se ha creado un modo simulado en que se ejecutan saltos, carreras de duración aleatoria y ritmos para que pueda probar las características del programa.
 
 <p><li>¿Cuándo saldrá la versión 1.0 y qué prestaciones tendrá?
 <p>
-Hasta la fecha (a punto de salir la versión 0.4) Chronojump ya tiene más prestaciones que el resto de soluciones comerciales y no-comerciales de las que tenemos conocimiento. Pero aún hay muchos aspectos a incorporar-mejorar que se van describiendo en el archivo de <i>roadmap</i> o hoja de ruta: [INSERTAR ENLACE] (inglés).<br>
-Si desea realizar peticiones de características no dude en escribir un correo a: [INSERTAR ENLACE].
+Hasta la fecha (versión :::currentVersion:::) Chronojump ya tiene más prestaciones que el resto de soluciones comerciales y no-comerciales de las que tenemos conocimiento. Pero aún hay muchos aspectos a incorporar-mejorar que se van describiendo en el archivo de <a href="http://cvs.gnome.org/viewcvs/chronojump/roadmap.txt"><i>roadmap</i> o hoja de ruta</a> (inglés).<br>
+Si desea realizar peticiones de características no dude en escribir un correo a la lista de correo <a href="contact_es.html">chronojump-list</a>.
 
 <p><li>¿Cómo puedo saber las últimas novedades del proyecto?
 <p>
-Inscríbase a la lista de correo: [INSERTAR ENLACE] o consulte sus archivos disponibles aquí: [INSERTAR ENLACE]. Además puede consultar el archivo <i>changelog</i> o registro de cambios: [INSERTAR ENLACE].
+Inscríbase o consulte los acrivos de las <a href="contact_es.html">listas de correo</a>. Además puede consultar el archivo <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt"><i>changelog</i> o registro de cambios</a>.
 
 <p><li>¿Por qué se llama Chronojump si también sirve para medir carreras?
 <p>
-La idea inicial era crear un software para la medición de eventos temporales del salto, pero se ha visto que con poco esfuerzo el mismo software puede servir para cronometrar todo tipo de carreras. Aunque se trabaja en estas líneas y a medio plazo se añadirá la de estudio de ritmos, los esfuerzos principales se destinan a la medición de saltos, por este motivo Chronojump conserva su nombre inicial.
+La idea inicial era crear un software para la medición de eventos temporales del salto, pero se ha visto que con poco esfuerzo el mismo software puede servir para cronometrar todo tipo de carreras y ritmos. Aunque se trabaja en estas líneas, los esfuerzos principales se destinan a la medición de saltos, por este motivo Chronojump conserva su nombre inicial.
 
 <p><li>Me gustaría colaborar ¿cómo puedo hacerlo?
 <p>
-Escriba a la lista de correo: [INSERTAR ENLACE] preséntese, explíquenos por qué quiere colaborar y cuáles son sus conocimientos.
+Escriba a la lista de correo <a href="contact_es.html">chronojump-devel-list</a> preséntese, explíquenos por qué quiere colaborar y cuáles son sus conocimientos.
 
 </ol>
 <p align="right"><a href="#top">Subir</a></p>

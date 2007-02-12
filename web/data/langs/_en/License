@@ -3,7 +3,7 @@
 <div id="sidebar">
 				<h3>License</h3>
 				<p>
-					ChronoJump is <a href="http://en.wikipedia.org/wiki/Free_Software">free&nbsp;software&nbsp</a> distributed under the <a href="http://en.wikipedia.org/wiki/GPL">GPL</a> license. The <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/?cvsroot=chronojump">program</a> and <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronopic/?cvsroot=chronojump">chronometer</a> <em>source&nbsp;code</em> is available, it is also possible to modify and redistribute.<br><br>
+					ChronoJump is <a href="http://en.wikipedia.org/wiki/Free_Software">free&nbsp;software&nbsp</a> distributed under the <a href="http://en.wikipedia.org/wiki/GPL">GPL</a> license. The <a href="http://cvs.gnome.org/viewcvs/chronojump/">program and chronometer</a> <em>source&nbsp;code</em> is available, it is also possible to modify and redistribute.<br><br>
 					The chronometer and the contacts platform come along with construction guidelines.<br><br>
 			      		It is not possible to verify the validity and fiability of a digital measuring instrument if the <em>source&nbsp;code</em> is not available. Therefore Chronojump is appopriate to investigations.
 			      </p>

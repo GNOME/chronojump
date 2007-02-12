@@ -1,17 +1,19 @@
-<h4>Construcció / Plataforma de contactes per port paral·lel</h4>
+:::startTitle:::
+Construcció / Plataforma de contactes per port paral·lel
+:::endTitle:::
 
 <b>Aquest mètode no és compatible amb el ChronoJump</b>. El mètode es refereix als antics programes Salta i Gsalta, reemplaçats actualment pel ChronoJump.  El ChronoJump <b>no</b> utilitza el port paral·lel. Però aquesta informació es manté per raons històriques. 
 
-<h4>Connexió pel port paral·lel </h4>
+<h5>Connexió pel port paral·lel </h5>
 
 Continuant el mètode descrit en la <a href="construction_contact_platform_ca.html">fabricació de la plataforma de contactes</a>... 
 
 <p>
 unirem un cap del cable que procedeix d'un costat dels conjunts vareta a un cable del connector DB25 i el farem arribar a l'entrada "patilla" número  19. L'altra punta del cable la fixarem a un  acable del DB25 que anirà a un pont situat entre les entrades "patilles"  número 6,7 i 11. Entre els dos cables hi pot anar un pont lluminós o led, l'entrada negativa (patilla negativa) del qual anirà connectada a l'entrada número 19, i l'entrada positiva al pont. 
 <p>
-<center><img src="images/plataforma_contactos_puerto_paralelo.jpg"></center>
+<center><img src=":::imageLink:::/plataforma_contactos_puerto_paralelo.jpg"></center>
 
-<h4>Comentaris</h4>
+<h5>Comentaris</h5>
 
 En Javier Peña López ens comenta que, si l'ordinador no detecta la manta, caldrà accedir a la seva BIOS (prement la tecla F1 a l'inici, o F2, o SUPR, segons els models) i seguir els passos següents: 
 

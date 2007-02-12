@@ -1,32 +1,26 @@
-<h4>Installation</h4>
+:::startTitle:::
+Installation
+:::endTitle:::
 
 
-<b>Now</b> you can try ChronoJump&nbsp;<b>0.3</b> from any PC.
+<b>Now</b> you can try ChronoJump&nbsp;<b>:::currentVersion:::</b> from any PC. This version is fully usable.
 	<p>
-	<h5>GNU/Linux</h5>
-	<ol>
-		<li>Install Mono. 
-		<li>Download: <a href="https://software-libre.org/project/showfiles.php?group_id=63&release_id=148">chronojump-monolive-03.tgz</a>
-	</ol>
 
-	<h5>Windows</h5>
-	<ul>
-		<li>Read this e-mail (spanish): <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000066.html">Chronojump-mono-live-cd 0.3 . Versión deChronojump fácil de usar para usuarios Windows</a>
-	</ul>
+	<table width="100%" border="0" cellspacing="2" cellpadding="2">
+	<tr bgcolor="#e6e6fa"><th>Operating systems</th><th><center>Instructions</center></th></tr>
+	<tr><td><b>GNU/Linux</b></td><td>Install Mono, libgdiplus, and Gtk#. Read this e-mail: <a href=":::linuxMailDownloadLink:::">:::linuxMailDownloadName:::</a></td></tr>
+	<tr><td><b>Windows</b></td><td>Read this e-mail: <a href=":::windowsMailDownloadLink:::">:::windowsMailDownloadName:::</a></td></tr>
+	</table>
+	
 	<p>
 	<h5>CVS</h5>
 	<ul>
-		<li>If you are an <b>advanced&nbsp;user</b>: from an operative system GNU/Linux, install <a href="http://www.mono-project.com">Mono</a> and download the Chronojump sources on the CVS:
-		<ol>
-			<li><tt>cvs - d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (when the password is requested press 'enter').
-			<li><tt>cvs - z3 - d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
-			<li>Execute <tt>/chronojump.exe</tt> or compile with <tt>make</tt>.
-		</ol>
+		<li>If you are an <b>advanced&nbsp;user</b>: from an operative system GNU/Linux, install <a href="http://www.mono-project.com">Mono</a>, download the Chronojump sources on the <a href="http://cvs.gnome.org/viewcvs/chronojump/">chronojump CVS on GNOME</a>, and execute <tt>mono chronojump.exe</tt> or compile with <tt>make clean</tt>, <tt>make</tt>.
 	</ul>
 	
 <p>
-Help can be found subscribing to the <a href="contact.html">mailing lists</a>.
+Help can be found reading the <a href="http://cvs.gnome.org/viewcvs/chronojump/manual/chronojump_manual_es.pdf">manual</a> (spanish), subscribing to the <a href="contact.html">mailing lists</a>. We recommend you to read the <a href="faq.html">FAQ</a>.
 <p> 
-If you wish to know the advance of the project, please check on <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">changelog&nbsp;file</a> (click the number at the right hand corner of "Revision"), and the <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">chronojump developers mailing list archives</a>.
+If you wish to know the advance of the project, please check on <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt">changelog&nbsp;file</a> (click the number at the right hand corner of "Revision").
 
 

@@ -1,4 +1,6 @@
-<h4>Construcció / Comentaris de plataforma de contactes</h4>
+:::startTitle:::
+Construcció / Comentaris de plataforma de contactes
+:::endTitle:::
 
 En Joraike comentava en <a href="http://www.deporteyciencia.com/article.pl?sid=04/07/06/096224">aquesta història de deporteyciencia.com</a> el següent: 
 <ul>
@@ -8,6 +10,6 @@ En Joraike comentava en <a href="http://www.deporteyciencia.com/article.pl?sid=0
 </ul>
 
 <center>
-<img src="images/plataforma_contactos_joraike.jpg" width="400" height="358" border="1">
+<img src=":::imageLink:::/plataforma_contactos_joraike.jpg" width="400" height="358" border="1">
 <br><tt>Fotografia de la manta construïda per en Joraike.</tt>
 </center>

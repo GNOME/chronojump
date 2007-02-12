@@ -1,12 +1,16 @@
-<h4><b>ChronoJump</b> is a complete multiplatform system for measurement, management and statistics of the jump events. </h4>
+:::startTitle:::
+Introduction
+:::endTitle:::
+
+<h5><b>ChronoJump</b> is a complete multiplatform system for measurement, management and statistics of jump time events (contact time, flight time). </h5>
 
 Chronojump uses a contact platform suitable for two events (in-platform, out-platform), and also a chronometer printed circuit designed <i>ad-hoc</i> in order to obtain precise and trustworthy measurements.
 <p>
 The flight time of a jump is an indicator of the elevation of the Center of gravity of the jumper (as long as the starting and arrival position are the same).
 <p>
-<img src="images/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
+<img src=":::imageLink:::/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
 <br><tt>Scheme of management software (ChronoJump) + chronometer (Chronopic) + platform of contacts.</tt>
 <p>
-ChronoJump can also be used for timing races even with intervals (check <a href="features.html">Features</a>).
+ChronoJump can also be used for timing races even with intervals and rhythms.
 	<p>
-	<img src="images/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">
+	<img src=":::imageLink:::/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">

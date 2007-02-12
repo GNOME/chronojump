@@ -1,10 +1,18 @@
-<h4>Construcción-obtención de cronómetro</h4>
+:::startTitle:::
+Construcción
+:::endTitle:::
+
+<h5>Construcción-obtención de cronómetro</h5>
 <ul>
-<li>Para información a cerca de la <b>fabricación</b> del cronómetro, leer este e-mail: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-August/000060.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a>
-<li>Para información a cerca de la <b>compra</b> del cronómetro ya fabricado, leer este email: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000070.html">Adquisición del Prototipo I de la chronopic</a>
+<li>Chronopic original
+  <ul>
+  <li>Para información a cerca de la <b>compra</b> del cronómetro ya fabricado, leer este email: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Adquisición del Prototipo I de la chronopic</a>.
+  <li><b>[Expertos]</b> Para información a cerca de la <b>fabricación</b> del cronómetro, leer este e-mail: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00001.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a>. <a href=":::articleLink:::/chronopic_cables_es.doc">Construcción de cables para Chronopic</a>, y <a href=":::articleLink:::/record_chronopic_pic_icprog_es.doc">Grabación de Chronopic con ICPROG</a>.
+  </ul>
+<li>Alternativamente, puede construir la <a href="construction_chronopic_juanfer_es.html">Chronopic_juanfer</a> (más barata y más fácil de fabricar).
 </ul>
 
-<h4>Construcción de la plataforma de contactos</h4>
+<h5>Construcción de la plataforma de contactos</h5>
 
 El instrumento que permite saber si el sujeto está en el aire o en el suelo puede ser una plataforma de contactos o un sistema de células fotoeléctricas. Se propone el siguiente documento para la fabricación de la plataforma de contactos:
 
@@ -19,5 +27,5 @@ Alternativamente se ha descrito otra posibilidad de construcción de plataforma 
 <ul> 
 <li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Desarrollo de Prototipo de Plataforma y Programa de Computación, para Evaluación de Salto Vertical adaptado de Tapete de Videojuego"</a>
 </ul>
- En cuanto a <b>células&nbsp;fotoeléctricas</b>, no se ha documentado aún sus posibilidades de uso, precio, ... si dispone de información y desea colaborar, apúntese a la <a href="contact_es.html">lista Chronojump&nbsp;Developers</a>.
+ En cuanto a <b>células&nbsp;fotoeléctricas</b>, no se ha documentado aún sus posibilidades de uso, precio, ... si dispone de información y desea colaborar, apúntese a la <a href="contact_es.html">lista chronojump-devel-list</a>.
 

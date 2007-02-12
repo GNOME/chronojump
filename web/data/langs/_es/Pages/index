@@ -1,12 +1,16 @@
-        <h4><b>ChronoJump</b> es un completo sistema multiplataforma para la medici&oacute;n, gesti&oacute;n y estad&iacute;stica de las fases temporales del salto.</h4>
+:::startTitle:::
+Introducción
+:::endTitle:::
+	
+	<h5><b>ChronoJump</b> es un completo sistema multiplataforma para la medici&oacute;n, gesti&oacute;n y estad&iacute;stica de las fases temporales del salto.</h5>
 
 	ChronoJump se sirve de una plataforma de contactos con dos eventos (en-plataforma, fuera-de-plataforma), y de un circuito impreso cronometrador diseñado <i>ad-hoc</i> para obtener mediciones precisas y fiables.
 	<p>
 	El tiempo de vuelo de un salto es indicador de la elevación del Centro de Gravedad del mismo (siempre y cuando la posición de salida y de llegada sea la misma).
 	<p>
-	<img src="images/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
+	<img src=":::imageLink:::/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
 	<br><tt>Esquema de software de gestión (ChronoJump) + cronómetro (Chronopic) + plataforma de contactos.</tt>
 	<p>
-	ChronoJump puede ser usado también para el cronometrado de carreras incluso con intérvalos (consultar <a href="features_es.html">Características</a>).
+	ChronoJump puede ser usado también para el cronometrado de carreras incluso con intérvalos, y ritmos.
 	<p>
-	<img src="images/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">
+	<img src=":::imageLink:::/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">

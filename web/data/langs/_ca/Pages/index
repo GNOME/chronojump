@@ -1,12 +1,16 @@
-	<h4><b>El ChronoJump</b> és un complet sistema multiplataforma per a la mesura, la gestió i l'estadística de les fases temporals del salt.</h4>
+:::startTitle:::
+Introducció
+:::endTitle:::
+	
+	<h5><b>El ChronoJump</b> és un complet sistema multiplataforma per a la mesura, la gestió i l'estadística de les fases temporals del salt.</h5>
 	El ChronoJump utilitza una plataforma de contactes amb dues eventualitats (dins-de-plataforma, fora-de-plataforma), i  un circuit imprès de cronometratge dissenyat <i>ad-hoc</i> per a obtenir mesures precises i fiables. 
 	<p>
 	El temps de vol d'un salt és l'indicador d'elevació del seu Centre de Gravetat (sempre que la posició de sortida i d'arribada sigui la mateixa). 
 	<p>
-	<img src="images/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
+	<img src=":::imageLink:::/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
 	<br>
 	<tt>Esquema de programari de gestió (ChronoJump) + cronòmetre (Chronopic) + plataforma de contactes.</tt>
 	<p>
-	El ChronoJump pot utilitzar-se, també, per a cronometrar curses, fins i tot, amb intèrvals. (consulteu <a href="features_ca.html">Característiques</a>).
+	El ChronoJump pot utilitzar-se, també, per a cronometrar curses, fins i tot, amb intèrvals  i ritmes.
 	<p>
-	<img src="images/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">
+	<img src=":::imageLink:::/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">

@@ -1,30 +1,24 @@
-<h4>Instalação</h4>
+:::startTitle:::
+Instalação
+:::endTitle:::
 
-<b>Agora</b> você pode provar o Chronojump <b>0.3</b> desde qualquer PC.
+<b>Agora</b> você pode provar o Chronojump <b>:::currentVersion:::</b> desde qualquer PC. Estas versão é completamente utilizável.
 	<p>
-	<h5>GNU/Linux</h5>
-	<ol>
-		<li>Instale Mono. 
-		<li>Download: <a href="https://software-libre.org/project/showfiles.php?group_id=63&release_id=148">chronojump-monolive-03.tgz</a>
-	</ol>
 
-	<h5>Windows</h5>
-	<ul>
-		<li>Ler este e-mail (em espanhol): <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000066.html">Chronojump-mono-live-cd 0.3 . Versión deChronojump fácil de usar para usuarios Windows</a>
-	</ul>
+	<table width="100%" border="0" cellspacing="2" cellpadding="2">
+	<tr bgcolor="#e6e6fa"><th>Sistemas operacionales</th><th><center>Instrucciones</center></th></tr>
+	<tr><td><b>GNU/Linux</b></td><td>Instale Monol, libgdiplus e Gtk#. Ler este e-mail (em inglês e espanhol): <a href=":::linuxMailDownloadLink:::">:::linuxMailDownloadName:::</a></td></tr>
+	<tr><td><b>Windows</b></td><td>Ler este e-mail (em inglês e espanhol): <a href=":::windowsMailDownloadLink:::">:::windowsMailDownloadName:::</a></td></tr>
+	</table>
+	
 	<p>
 	<h5>CVS</h5>
 	<ul>
-		<li>Se você se considera um <b>usuário&nbsp;experiente</b> pode provar o programa com um sistema operacional GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, e baixando as fontes do CVS de chronojump:
-		<ol>
-			<li><tt>cvs -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump login</tt> (quando te peça uma senha clique em 'enter').
-			<li><tt>cvs -z3 -d:pserver:anonymous@cvs.software-libre.org:/cvsroot/chronojump co chronojump</tt>
-			<li>executar <tt>./chronojump.exe</tt> ou compilar sua própria versão com <tt>make</tt>.
-		</ol>
+		<li>Se você se considera um <b>usuário&nbsp;experiente</b> pode provar o programa com um sistema operacional GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, baixando as fontes do <a href="http://cvs.gnome.org/viewcvs/chronojump/">CVS de chronojump do GNOME</a>, e executar <tt>mono chronojump.exe</tt> ou compilar sua própria versão com <tt>make clean</tt>, <tt>make</tt>.
 	</ul>
 <p>
-Também se pode obter ajuda registrando-se nas <a href="contact_pt.html">listas de e-mail</a>.
+Também se pode obter ajuda consultando o <a href="http://cvs.gnome.org/viewcvs/chronojump/manual/chronojump_manual_es.pdf">manual</a> (castelán), registrando-se nas <a href="contact_pt.html">listas de e-mail</a>, e leyendo la <a href="faq_pt.html">FAQ</a>.
 <p>
- Se deseja conhecer a evolução do projeto, consulte o <a href="http://cvs.software-libre.org/cgi-bin/cvsweb.cgi/chronojump/changelog.txt?cvsroot=chronojump">arquivo&nbsp;changelog</a> (claque no número da direita de "Revisão"), e os <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">arquivos da lista chronojump-developers</a>.
+ Se deseja conhecer a evolução do projeto, consulte o <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt">arquivo&nbsp;changelog</a> (claque no número da direita de "Revisão").
 
 

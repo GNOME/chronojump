@@ -1,14 +1,32 @@
-<h4>Contacti</h4>
+:::startTitle:::
+Contacti
+:::endTitle:::
 
-	Esteu convidat a participar en el desenvolupament del ChronoJump aportant idees, fent peticions de 
-	funcionalitats, així com traduint, corregint errades, programant, etc.
-	<p>
-	<table width="100%" border="0" cellspacing="2" cellpadding="2">
-	<tr><th>Llistes de correu</th><th>descripció</th><th>enllaços</th></tr>
-	<tr bgcolor="#e6e6fa"><td>chronojump-developers</td><td>per col·laborar amb el ChronoJump</td><td><a href="https://lists.software-libre.org/cgi-bin/mailman/listinfo/chronojump-developers">subscriure's</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-developers/">veure&nbsp;arxius</a></td></tr>
-	<tr><td>chronojump-general_es</td><td>discussió sobre ChronoJump, en espanyol</td><td><a href="https://lists.software-libre.org/cgi-bin/mailman/listinfo/chronojump-general_es">subscriure's</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/">veure&nbsp;arxius</a></td></tr>
-	<tr bgcolor="#e6e6fa"><td>chronojump-general_en</td><td>discussió sobre ChronoJum, en anglès</td><td><a href="https://lists.software-libre.org/cgi-bin/mailman/listinfo/chronojump-general_en">subscriure's</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-general_en/">veure&nbsp;arxius</a></td></tr>
-	<tr><td>chronojump-releases</td><td>només anuncis de l'aparició de la nova versió poc tràfic</td><td><a href="https://lists.software-libre.org/cgi-bin/mailman/listinfo/chronojump-releases">subscriure's</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-releases/">veure&nbsp;arxius</a></td></tr>
-	<tr bgcolor="#e6e6fa"><td>chronojump-web-translat</td><td>coordinació de traduccions del web. Col·laboreu traduint el web a altres idiomes.</td><td><a href="http://lists.software-libre.org/mailman/listinfo/chronojump-web-translat">subscriure's</a><!--</td><td>--> /  <a href="http://lists.software-libre.org/pipermail/chronojump-web-translat/">veure&nbsp;arxius</a></td></tr>
-	</table>
-
+Esteu convidat a participar en el desenvolupament del ChronoJump aportant idees, fent peticions de 
+funcionalitats, així com traduint, corregint errades, programant, etc.
+<p>
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+	<tr bgcolor="#e6e6fa"><th>Llistes de correu</th><th>descripció</th><th>idioma</th><th>enllaços</th></tr>
+	<tr>
+		<td>chronojump-list</td>
+		<td>discussió sobre ChronoJump</td>
+		<td>anglès i espanyol</td>
+		<td>
+			<a href="http://mail.gnome.org/mailman/listinfo/chronojump-list">subscriure's</a>
+			<!--</td><td>--> 
+			/  
+			<a href="http://mail.gnome.org/archives/chronojump-list/">veure&nbsp;arxius</a>
+		</td>
+	</tr>
+	<tr>
+		<td>chronojump-devel-list</td>
+		<td>per col·laborar en el desenvolupament de ChronoJump</td>
+		<td>anglès i espanyol</td>
+		<td>
+			<a href="http://mail.gnome.org/mailman/listinfo/chronojump-devel-list">subscriure's</a>
+			<!--</td><td>--> 
+			/  
+			<a href="http://mail.gnome.org/archives/chronojump-devel-list/">veure&nbsp;arxius</a>
+		</td>
+	</tr>
+</table>

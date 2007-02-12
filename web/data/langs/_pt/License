@@ -3,7 +3,7 @@
 <div id="sidebar">
 				<h3>Licença</h3>
 				<p>
-					ChronoJump é <a href="http://pt.wikipedia.org/wiki/Software_Libre">software&nbsp;livre</a> distribuído com Licença <a href="http://pt.wikipedia.org/wiki/GNU_General_Public_License">GPL</a>. Ó <em>código fonte</em> <a href="http://cvs.gnome.org/viewcvs/chronojump/">do&nbsp;programa e do&nbsp;cronômetro</a> pode ser consultado, assim como modificado e re-distribuirdo.<br><br>
+					ChronoJump é <a href="http://pt.wikipedia.org/wiki/Software_Libre">software&nbsp;livre</a> distribuído com Licença <a href="http://pt.wikipedia.org/wiki/GNU_General_Public_License">GPL</a>. Ó <em>código fonte</em> <a href="http://svn.gnome.org/viewcvs/chronojump/trunk/">do&nbsp;programa e do&nbsp;cronômetro</a> pode ser consultado, assim como modificado e re-distribuirdo.<br><br>
 					As instruções para a construção da plataforma de contato e o cronômetro também estão disponíveis.<br><br>
 				Não é possível verificar a validez e a fidelidade de um instrumento informático de medida se não de oferece o <em>Código Fonte</em>. Por esta razão Chronojump é apropriado para a pesquisa.	
 			      </p>

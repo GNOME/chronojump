@@ -27,8 +27,9 @@ use strict;
 my $currentVersion = "0.5";
 my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2006-October/msg00015.html";
 my $linuxMailDownloadName = "Chronojump 0.5 released! Chronojump 0.5 liberado!";
-my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2006-November/msg00001.html";
-my $windowsMailDownloadName = "Chronojump 0.5 for Windows released";
+my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-February/msg00006.html";
+my $windowsMailDownloadName = "Chronojump 0.5 for Windows installation";
+my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-February/msg00005.html";
 
 
 
@@ -284,6 +285,7 @@ sub getConstants {
 	$pageContent =~ s/:::linuxMailDownloadName:::/$linuxMailDownloadName/g;
 	$pageContent =~ s/:::windowsMailDownloadLink:::/$windowsMailDownloadLink/g;
 	$pageContent =~ s/:::windowsMailDownloadName:::/$windowsMailDownloadName/g;
+	$pageContent =~ s/:::changesMailDownloadLink:::/$changesMailDownloadLink/g;
 
 	return $pageContent;
 }

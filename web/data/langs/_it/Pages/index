@@ -1,0 +1,16 @@
+:::startTitle:::
+Introduzione
+:::endTitle:::
+
+<h5>Il <b>ChronoJump</b> è un sistema completo multipiattaforma per la misura, la gestione e la statistica delle fasi temporali del salto.</h5>
+<p>
+Il ChronoJump usa una piattaforma di contatti con due modalità (dentro-la-piattaforma, fuori-la-piattaforma), e un circuito stampato di cronometraggio disegnato per ottenere misure precise e affidabili. 
+<p>
+Il tempo di volo di un salto è l’indicatore di altezza del suo Centro di Gravità (sempre che la posizione di partenza e quella di arrivo siano le stesse). 
+<p>
+<img src=":::imageLink:::/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
+<br><tt>Schema di programmario di gestione (ChronoJump) + cronometro (Chronopic) + piattaforma di contatti.</tt>
+<p>
+Il ChronoJump si può usare anche per cronometrare corse  con o senza intervalli, [and rhythms, pending to translate]. 
+<p>
+<img src=":::imageLink:::/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">

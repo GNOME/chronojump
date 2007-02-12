@@ -23,8 +23,6 @@ using System;
 using System.Data;
 using Mono.Data.SqliteClient;
 
-//using System.Threading;
-//using System.IO.Ports;
 using Mono.Unix;
 
 public class Pulse : Event
@@ -36,21 +34,6 @@ public class Pulse : Event
 	int tracks;
 	double contactTime;
 
-	//better as private and don't inherit, don't know why
-	//protected Chronopic cp;
-	//private Chronopic cp;
-
-	//used by the updateTimeProgressBar for display its time information
-	//explained also at updateTimeProgressBar() 
-/*
-	protected enum pulsePhases {
-		WAIT_FIRST_EVENT, //we are outside at beginning
-			DOING, 
-			DONE
-	}
-	protected pulsePhases pulsePhase;
-*/
-	
 	//used on treeviewPulse
 	public Pulse() {
 	}
@@ -108,7 +91,6 @@ public class Pulse : Event
 		set { fixedPulse = value; }
 	}
 	
-		
 		
 	~Pulse() {}
 }

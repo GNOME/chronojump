@@ -858,50 +858,6 @@ public class JumpRjExecute : JumpExecute
 		get { return SqliteJumpType.HasFall("jumpRjType", type); } //jumpRjType is the table name
 	}
 
-/*
-	public double TvMax
-	{
-		get { return Util.GetMax (tvString); }
-	}
-		
-	public double TcMax
-	{
-		get { return Util.GetMax (tcString); }
-	}
-		
-	public double TvAvg
-	{
-		get { return Util.GetAverage (tvString); }
-	}
-		
-	public double TcAvg
-	{
-		get { return Util.GetAverage (tcString); }
-	}
-	
-	public string TvString
-	{
-		get { return tvString; }
-		set { tvString = value; }
-	}
-		
-	public string TcString
-	{
-		get { return tcString; }
-		set { tcString = value; }
-	}
-
-	public int Jumps
-	{
-		get { return jumps; }
-		set { jumps = value; }
-	}
-	
-	public bool JumpsLimited
-	{
-		get { return jumpsLimited; }
-	}
-*/	
 
 	~JumpRjExecute() {}
 }

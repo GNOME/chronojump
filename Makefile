@@ -28,10 +28,12 @@ CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/
 
 CHRONOJUMP_DEP_EXECUTE = src/execute/event.cs src/execute/jump.cs src/execute/run.cs src/execute/pulse.cs 
 
-CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/util.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE)
+CHRONOJUMP_DEP_SERVER = chronojump_server/ChronojumpServer.cs
+
+CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/util.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
 
 RESOURCES = -resource:glade/chronojump.glade,chronojump.glade
-CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient
+CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services
 
 
 #-- Construccion del chronojump_mini que funciona por consola

@@ -1,55 +1,73 @@
-<h4>Capturas de telas</h4>
+:::startTitle:::
+Capturas de telas
+:::endTitle:::
 
 <tt>Clique nas imagens para ampliar</tt>
 
 <table border="0" cellpadding="4" cellspacing="8">
+
 <tr valign="top">
 	<td width="250">
-		<a href="images/chronojump_graphs_volei.png"><img src="images/chronojump_graphs_volei_small.png" width="250" height="188"></a>
+		<a href=":::imageLink:::/chronojump_main_047.png"><img src=":::imageLink:::/chronojump_main_047_small.png" width="250" height="188"></a>
+		<br>
+		v.0.47 (Inglês)
+	</td>
+	<td width="250">
+		<a href=":::imageLink:::/chronojump_windows.png"><img src=":::imageLink:::/chronojump_windows_small.png" width="250" height="188"></a>
+		<br>
+		v.0.47 Windows XP (Inglês)
+	</td>
+</tr>
+
+<tr valign="top">
+	<td width="250">
+		<a href=":::imageLink:::/chronojump-04.png"><img src=":::imageLink:::/chronojump-04_small.png" width="250" height="188"></a>
+		<br>
+		v.0.4 relatório HTML (Inglês)
+	</td>
+	<td width="250">
+		<a href=":::imageLink:::/chronojump_graphs_volei.png"><img src=":::imageLink:::/chronojump_graphs_volei_small.png" width="250" height="188"></a>
 		<br>
 		v.0.3 Estatística e gráfico DjIndex (Inglês)
 	</td>
+</tr>
+
+<tr valign="top">
 	<td width="250">
-		<a href="images/chronojump_new_run_type_spanish.png"><img src="images/chronojump_new_run_type_spanish_small.png" width="250" height="188"></a>
+		<a href=":::imageLink:::/chronojump_new_run_type_spanish.png"><img src=":::imageLink:::/chronojump_new_run_type_spanish_small.png" width="250" height="188"></a>
 		<br>
 		v.0.3 Adicionar novo tipo de carreira (Espanhol)
 	</td>
-</tr>
-
-<tr valign="top">
 	<td width="250">
-		<a href="images/chronojump_add_persons_multiple_preferences_spanish.png"><img src="images/chronojump_add_persons_multiple_preferences_spanish_small.png" width="250" height="188"></a>
+		<a href=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish.png"><img src=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish_small.png" width="250" height="188"></a>
 		<br>
 		v.0.3 Adicionar sujeitos múltiples e preferências (Espanhol)
 	</td>
+</tr>
+
+<tr valign="top">
 	<td width="250">
-		<a href="images/chronojump_graphs.jpg"><img src="images/chronojump_graphs_small.png" width="250" height="188"></a>
+		<a href=":::imageLink:::/chronojump_graphs.jpg"><img src=":::imageLink:::/chronojump_graphs_small.png" width="250" height="188"></a>
 		<br>
 		v.0.1 Gráficos (Inglês)
 	</td>
-</tr>
-
-<tr valign="top">
 	<td width="250">
-		<a href="images/chronojump_graphs_reactive.png"><img src="images/chronojump_graphs_reactive_small.png" width="250" height="188"></a>
+		<a href=":::imageLink:::/chronojump_graphs_reactive.png"><img src=":::imageLink:::/chronojump_graphs_reactive_small.png" width="250" height="188"></a>
 		<br>
 		v.0.1 Gráficos de saltos reativos (inglês)
 	</td>
-	<td width="250">
-		<a href="images/chronopic_foto.jpg"><img src="images/chronopic_foto_small.png" width="250" height="188"></a>
-		<br>
-		Protótipo do Chronojump (Skypic + cartão de expansão)
-	</td>
 </tr>
 
 <tr valign="top">
 	<td width="250">
-		<a href="images/plataforma_contactos_final.jpg"><img src="images/plataforma_contactos_final_small.png" width="250" height="188"></a>
+		<a href=":::imageLink:::/chronopic_foto.jpg"><img src=":::imageLink:::/chronopic_foto_small.png" width="250" height="188"></a>
+		<br>
+		Protótipo do Chronojump (Skypic + cartão de expansão)
+	</td>
+	<td width="250">
+		<a href=":::imageLink:::/plataforma_contactos_final.jpg"><img src=":::imageLink:::/plataforma_contactos_final_small.png" width="250" height="188"></a>
 		<br>
 		Plataforma de contatos construída seguindo estas <a href="construction_contact_platform_es.html">instruções</a> (Espanhol)
-	</td>
-	<td>
-		&nbsp;
 	</td>
 </tr>
 

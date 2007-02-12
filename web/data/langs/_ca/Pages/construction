@@ -1,10 +1,18 @@
-<h4>Construcció-obtenció del cronòmetre</h4>
+:::startTitle:::
+Construcció
+:::endTitle:::
+
+<h5>Construcció-obtenció del cronòmetre</h5>
 <ul>
-<li>Per a informació al voltant de la <b>fabricació</b> del cronòmetre llegir aquest correu: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-August/000060.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a> (castellà)
-<li>Per a informació al voltant de la <b>compra</b> del cronòmetre ja fabricat llegir aquest correu: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000070.html">Adquisición del Prototipo I de la chronopic</a> (castellà)
+<li>Chronopic original
+  <ul>
+  <li>Per a informació al voltant de la <b>compra</b> del cronòmetre ja fabricat llegir aquest correu: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Adquisición del Prototipo I de la chronopic</a> (castellà)
+  <li><b>[Experts]</b> Per a informació al voltant de la <b>fabricació</b> del cronòmetre llegir aquest correu: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00001.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a> (castellà). <a href=":::articleLink:::/chronopic_cables_es.doc">Construcció de cables per a Chronopic</a> (castellà). <a href=":::articleLink:::/record_chronopic_pic_icprog_es.doc">Enregistrament de Chronopic amb ICPROG</a> (castellà).
+  </ul>
+<li>Alternativament, pot construir la <a href="construction_chronopic_juanfer_es.html">Chronopic_juanfer</a> (castellà) (més barata i més fàcil de fabricar).
 </ul>
 
-<h4>Construcció de la plataforma de contactes</h4>
+<h5>Construcció de la plataforma de contactes</h5>
 
 L'instrument que permet saber si el subjecte està a l'aire o a terra pot ser una plataforma de contactes o un sistema de cèl·lules fotoelèctriques. Proposem el següent document amb les intruccions per a fabricar la plataforma de contactes: 
 
@@ -19,4 +27,4 @@ De forma alternativa s'ha descrit una altra possibilitat de construcció de plat
 <ul><li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Desenvolupament de Prototip de Plataforma i Programa de Computació, per Avaluació del Salt Vertical adaptat del Tapet de Videojoc"</a>
 </ul>
 
-Respecte les <b>cel·lules&nbsp;fotoelèctriques</b>, no han estat documentades encara les seves possibilitats  d'ús, de preu, etc. Si disposeu d'informació i desitgeu col·laborar, apunteu-vos a la <a href="contact_ca.html">llista Chronojump Developers</a>. 
+Respecte les <b>cel·lules&nbsp;fotoelèctriques</b>, no han estat documentades encara les seves possibilitats  d'ús, de preu, etc. Si disposeu d'informació i desitgeu col·laborar, apunteu-vos a la <a href="contact_ca.html">llista chronojump-devel-list</a>. 

@@ -1,5 +1,7 @@
+:::startTitle:::
+Documents: índex
+:::endTitle:::
 
-<h4>Documents: índex</h4>
 <font size="2">
 <ol>
 <li>Documents Específics de ChronoJump
@@ -15,15 +17,18 @@
 </font>
 
 
-<h4>1. Documents específics de ChronoJump</h4>
+<h5>1. Documents específics de ChronoJump</h5>
 <ul>
-<li>De Blas, X (2005). Primeres aproximacions a la creació d'un mètode de mesura, gestió i estadística de la capacitat de salt  a partir de l'avaluació de temps de vol i temps de contacte a una plataforma de contactes amb programari i maquinari lliure. Projecte ChronoJump. <i> Revista Aloma. Revista de Psicologia, Ciències de l'Educació i de l'Esport</i>, vol. 15, p.107-123. <tt>Accessible en <a href="articles/article_chronojump_aloma.html">http://chronojump.software-libre.org/articles/article_chronojump_aloma.html</a>. Si lo desea, puede consultar esta <a href="http://www.internostrum.com/tradurl.php?linkdesc=&direccio=ca-es&inurl=http://chronojump.software-libre.org/articles/article_chronojump_aloma.html">traducción automatizada al espa&ntilde;ol</a> (texto no revisado)</tt>.
-<li>De Blas, X, González-Gómez, J. (2005) Proyecto Chronojump: Sistema de Medida de la Capacidad de Salto usando Software y Hardware Libres. Actas I Congreso de Tecnologías del Software Libre.  <tt>[pendent de publicació]. Accessible en <a href="articles/chronojump_sistema_de_medida_congreso_gpul.pdf">http://chronojump.software-libre.org/chronojump_sistema_de_medida_congreso_gpul.pdf</a></tt>.
-<li>Buscà, B., De Blas, X., Daza, E. (2004) Instrucciones para la construcción de una plataforma de contactos para la medición de la capacidad de salto/s [en línia]. <tt>Accessible en <a href="construccion_plataforma_contactos.html">http://chronojump.software-libre.org/construction_contact_platform_ca.html</a> (consulta 5-4-05)</tt>.
-<li>Projecte (vinculat a Chronojump) de màster de programació en entorns de programari lliure a la UOC: <a href="http://chronojump.software-libre.org/articles/proyecto_final_master_chronojump.pdf">Projecte Master en PDF</a> (castellà)
-<li>Presentació de ChronoJump al Ier Congreso de Tecnologías del Software libre A Coruña 7 jul. 2005 <a href="http://chronojump.software-libre.org/presentations/congreso_gpul/index.html">Diapositives</a> (castellà)
+<li>De Blas, X (2005). <a href=":::manualLink:::/chronojump_manual_es.pdf">Manual de Chronojump</a> (PDF en espanyol) (clic a 'Download').
+<li>De Blas, X (2005). Primeres aproximacions a la creació d'un mètode de mesura, gestió i estadística de la capacitat de salt  a partir de l'avaluació de temps de vol i temps de contacte a una plataforma de contactes amb programari i maquinari lliure. Projecte ChronoJump. <i> Revista Aloma. Revista de Psicologia, Ciències de l'Educació i de l'Esport</i>, vol. 15, p.107-123. <tt>Accessible en <a href=":::articleLink:::/article_chronojump_aloma.html">:::articleLink:::/article_chronojump_aloma.html</a>. Si lo desea, puede consultar esta <a href="http://www.internostrum.com/tradurl.php?linkdesc=&direccio=ca-es&inurl=:::articleLink:::/article_chronojump_aloma.html">traducción automatizada al espa&ntilde;ol</a> (texto no revisado)</tt>.
+<li>De Blas, X, González-Gómez, J. (2005) Proyecto Chronojump: Sistema de Medida de la Capacidad de Salto usando Software y Hardware Libres. Actas I Congreso de Tecnologías del Software Libre.  <tt>[pendent de publicació]. Accessible en <a href=":::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf">:::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf</a></tt>.
+<li>Buscà, B., De Blas, X., Daza, E. (2004) Instrucciones para la construcción de una plataforma de contactos para la medición de la capacidad de salto/s [en línia]. <tt>Accessible en <a href="construction_contact_platform_es.html">:::webLink:::/construction_contact_platform_ca.html</a> (consulta 5-4-05)</tt>.
+<li>Projecte (vinculat a Chronojump) de màster de programació en entorns de programari lliure a la UOC: <a href=":::articleLink:::/proyecto_final_master_chronojump.pdf">Projecte Master en PDF</a> (castellà)
+<!--
+<li>Presentació de ChronoJump al Ier Congreso de Tecnologías del Software libre A Coruña 7 jul. 2005 <a href="http://chronojump.software-libre.org/presentations/congreso_gpul/index.html">Diapositives</a> (castellà) [TODO: CHECK THIS LINK]
+-->
 </ul>
-<h4>2. Articles relacionats amb la valoració de les capacitats condicionals amb plataforma de contactes:</h4>
+<h5>2. Articles relacionats amb la valoració de les capacitats condicionals amb plataforma de contactes:</h5>
 
 Agraïments al Dr. Michel Marina (INEFC Barcelona) per l'ajuda que ens ha prestat en aquest apartat. Michel&nbsp;Marina (INEFC Barcelona) por la ayuda prestada en este apartado. <tt>Pendent: Unificar format bibliogràfic</tt>.
 
@@ -67,7 +72,7 @@ Agraïments al Dr. Michel Marina (INEFC Barcelona) per l'ajuda que ens ha presta
 <li>Vélez, U. (1992). El entrenamiento de la fuerza para la mejora del salto. Apunts. Vol. (XXIX). p. 139-156.
 </ul>
 
-<h4>3. Més bibliografia relacionada.</h4>
+<h5>3. Més bibliografia relacionada.</h5>
 <ul>
 <li>González, I., González, J., Gómez-Arribas, F. (2003). Hardware libre: clasificación y desarrollo de hardware reconfigurable en entornos GNU/Linux [en línia]. <tt>Accessible en <a href="http://www.iearobotics.com/personal/juan/publicaciones/index.html">http://www.iearobotics.com/personal/juan/publicaciones/index.html</a> (consulta 13-1-05)</tt>.
 <li>Gónzález, J., Prieto-Moreno, A. (2004). Herramientas hardware y software para el desarrollo de aplicaciones con Microcontroladores PIC bajo plataformas GNU/Linux [en línia]. <tt>Accessible en <a href="http://www.iearobotics.com/personal/juan/publicaciones/index.html">http://www.iearobotics.com/personal/juan/publicaciones/index.html</a> (consulta 13-1-05)</tt>.

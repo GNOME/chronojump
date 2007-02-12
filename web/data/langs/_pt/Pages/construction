@@ -1,15 +1,23 @@
-<h4>Construção-obtenção do cronômetro</h4>
+:::startTitle:::
+Construção
+:::endTitle:::
+
+<h5>Construção-obtenção do cronômetro</h5>
 <ul>
-<li>Para informação de <b>fabricação</b> de cronômetro, ler este e-mail: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-August/000060.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a> (em espanhol)
-<li>Para informação de <b>compra</b> de cronômetro fabricado, ler este e-mail: <a href="http://lists.software-libre.org/pipermail/chronojump-general_es/2005-September/000070.html">Adquisición del Prototipo I de la chronopic</a> (em espanhol)
+<li>Original Chronopic [Pending to translate]
+  <ul>
+  <li>Para informação de <b>compra</b> de cronômetro fabricado, ler este e-mail: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Adquisición del Prototipo I de la chronopic</a> (em espanhol)
+  <li><b>[Experts]</b> Para informação de <b>fabricação</b> de cronômetro, ler este e-mail: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00001.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a> (em espanhol). <a href=":::articleLink:::/chronopic_cables_es.doc">Construction of Chronopic cables</a> (spanish). <a href=":::articleLink:::/record_chronopic_pic_icprog_es.doc">Record Chronopic with ICPROG</a> (spanish). [Pending to translate]
+  </ul>
+  <li>Check also the <a href="construction_chronopic_juanfer.html">Chronopic_juanfer</a> (cheaper, easier to build). [Pending to translate]
 </ul>
 
-<h4>Construção de Plataforma de contatos</h4>
+<h5>Construção de Plataforma de contatos</h5>
 
 O instrumento que permite saber se o sujeito está no ar (voando) ou no chão (em terra o em contato) pode ser uma plataforma de contatos ou um sistema de células fotoelétricas. Propomos o seguinte documento para a fabricação da plataforma de contatos:
 
 <ul>
-<li><a href="construction_contact_platform_es.html">"Instruções para a construção da plataforma de contatos para a medição da capacidade de salto/s"</a>. (disponível em espanhol)
+<li><a href="construction_contact_platform_pt.html">"Instruções para a construção da plataforma de contatos para a medição da capacidade de salto/s"</a>.
 <li>Consulte também os <a href="construction_contact_platform_comments_es.html">comentários sobre a fabricação de plataforma de contatos</a> (disponível em espanhol)
 <li>Antes do projeto ChronoJump, se criaram os projetos <b>Salta</b> e <b>Gsalta</b> (atualmente não disponíveis - interrompidos), nestes não existia cronômetro, e a conexão plataforma-PC se produzia por um porta paralela. Mesmo que <b>este método não se adapta a ChronoJump</b> se disponibiliza para todos que se interessem: <a href="construction_contact_platform_parallel_port_es.html">informação de conexão por porta paralela</a> (disponível em espanhol).
 </ul>
@@ -19,6 +27,6 @@ De forma alternativa escrevemos outra possibilidade de construção da plataform
 <li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Desenvolvimento de um Protótipo de Plataforma e Programa de Computação, para Avaliação de Salto Vertical adaptado do Tapete de Videojogos (videogames)"</a> (disponível em espanhol)
 </ul>
 
-Respeito as <b>células&nbsp;fotoeléctricas</b>, não foi documentado até este momento suas possibilidades de uso, preço, ... se dispõe de informação e deseja colaborar, inscreva-se na <a href="contact_pt.html">lista Chronojump&nbsp;developers</a>.
+Respeito as <b>células&nbsp;fotoeléctricas</b>, não foi documentado até este momento suas possibilidades de uso, preço, ... se dispõe de informação e deseja colaborar, inscreva-se na <a href="contact_pt.html">lista chronojump-devel-list</a>.
 
 

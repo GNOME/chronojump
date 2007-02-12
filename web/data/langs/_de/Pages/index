@@ -1,13 +1,17 @@
-        <h4><b>ChronoJump</b> ist ein komplettes Systemmultiplatform für das Maß, das Management und die Statistik der temporären Phasen des Sprunges.
-	</h4>
+:::startTitle:::
+Einleitung
+:::endTitle:::
+	
+	<h5><b>ChronoJump</b> ist ein komplettes Systemmultiplatform für das Maß, das Management und die Statistik der temporären Phasen des Sprunges.
+	</h5>
 
 ChronoJump gebrauch eine Kontakte Plattform mit zwei Fällen (In-plattform, Aus-plattform) und ein gedruckter Stromkreis timekeeperAnzeige-sichel entwarf, um die exakten und vertrauenswürdigen Maße zu erhalten
 <p>
 Die Flugzeit eines Sprunges ist Anzeige des Aufzugs des Schwerpunktes (wie lang, da die Position des Ausganges und der Ankunft die gleiche ist).
 	<p>
-	<img src="images/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
+	<img src=":::imageLink:::/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
 	<br><tt>Entwurf von Software des Managements (ChronoJump) + Chronometer (Chronopic) + Plattform der Kontakte.</tt>
 	<p>
-	ChronoJump könnte auch für das  Maß der Zeit eines Rennen verwendet mit Intervallen (Sehen: Eigenschaften <features_de.html>).
+	ChronoJump könnte auch für das  Maß der Zeit eines Rennen verwendet mit Intervallen [and rhythms, pending to translate].
 	<p>
-	<img src="images/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">
+	<img src=":::imageLink:::/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">

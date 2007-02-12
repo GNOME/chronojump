@@ -3,7 +3,7 @@
 <div id="sidebar">
 				<h3>Lizenz</h3>
 				<p>
-					ChronoJump ist <a href="http://de.wikipedia.org/wiki/Freie_Software">freies&nbsp;Software</a>, verteilt unter Lizenz <a href="http://de.wikipedia.org/wiki/GNU_General_Public_License">GPL</a>. Das <a href="http://cvs.gnome.org/viewcvs/chronojump/">Quellenprogramm (source code)  und das Chronometer</a> ist vorhanden un kann  geändert und neuverteilt seien.
+					ChronoJump ist <a href="http://de.wikipedia.org/wiki/Freie_Software">freies&nbsp;Software</a>, verteilt unter Lizenz <a href="http://de.wikipedia.org/wiki/GNU_General_Public_License">GPL</a>. Das <a href="http://svn.gnome.org/viewcvs/chronojump/trunk/">Quellenprogramm (source code)  und das Chronometer</a> ist vorhanden un kann  geändert und neuverteilt seien.
 					<br><br>
 					Anweisungen des Aufbaus der Plattform von Kontakten und von Chronometer werden erleichtert.
 					<br><br>

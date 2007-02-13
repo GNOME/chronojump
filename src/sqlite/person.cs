@@ -203,6 +203,8 @@ finishForeach:
 		ArrayList arrayJumpsRj = new ArrayList(2);
 		ArrayList arrayRuns = new ArrayList(2);
 		ArrayList arrayRunsInterval = new ArrayList(2);
+		ArrayList arrayPulses = new ArrayList(2);
+		ArrayList arrayPersons = new ArrayList(2);
 	
 		dbcon.Open();
 		
@@ -265,15 +267,27 @@ finishForeach:
 		}
 		reader.Close();
 		
-		dbcon.Close();
+		//pulses
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM pulse WHERE personID = " + personID +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayPulses.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
 	
-		//pending pulses
+	
+		dbcon.Close();
+		
 	
 		ArrayList arrayAll = new ArrayList(2);
 		string tempJumps;
 		string tempJumpsRj;
 		string tempRuns;
 		string tempRunsInterval;
+		string tempPulses;
 		bool found; 	//using found because a person can be loaded in a session 
 				//but whithout having done any event yet
 
@@ -284,6 +298,7 @@ finishForeach:
 			tempJumpsRj = "";
 			tempRuns = "";
 			tempRunsInterval = "";
+			tempPulses = "";
 			found = false;
 			
 			foreach (string myJumps in arrayJumps) {
@@ -322,7 +337,15 @@ finishForeach:
 				}
 			}
 			
-			//pending pulses
+			foreach (string myPulses in arrayPulses) {
+				string [] myStr = myPulses.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempPulses = myStr[1];
+					found = true;
+					break;
+				}
+			}
+			
 
 
 			//if has events, write it's data
@@ -330,7 +353,7 @@ finishForeach:
 				arrayAll.Add (myStrSession[1] + ":" + myStrSession[2] + ":" + 	//session name, place
 						myStrSession[3] + ":" + tempJumps + ":" + 	//sessionDate, jumps
 						tempJumpsRj + ":" + tempRuns + ":" + 		//jumpsRj, Runs
-						tempRunsInterval);				//runsInterval
+						tempRunsInterval + ":" + tempPulses);		//runsInterval, pulses
 			}
 		}
 

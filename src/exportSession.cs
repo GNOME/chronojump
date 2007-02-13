@@ -34,6 +34,7 @@ public class ExportSession
 	protected string [] myJumpsRj;
 	protected string [] myRuns;
 	protected string [] myRunsInterval;
+	//protected string [] myPulses;
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
@@ -80,8 +81,13 @@ public class ExportSession
 		fileName = fs.Filename;
 		fs.Hide ();
 
-		//add ".html" if needed, remember that on windows should be .htm
-		fileName = addHtmlIfNeeded(fileName);
+		if(formatFile == "report") {
+			//add ".html" if needed, remember that on windows should be .htm
+			fileName = addHtmlIfNeeded(fileName);
+		} else {
+			//add ".csv" if needed
+			fileName = addCsvIfNeeded(fileName);
+		}
 
 		try {
 			if (File.Exists(fileName)) {
@@ -127,6 +133,15 @@ public class ExportSession
 		return myFile;
 	}
 	
+	private string addCsvIfNeeded(string myFile)
+	{
+		int posOfDot = myFile.LastIndexOf('.');
+		if (posOfDot == -1) 
+			myFile += ".csv";
+		
+		return myFile;
+	}
+	
 	protected virtual void getData() 
 	{
 		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false); //not reversed
@@ -134,6 +149,7 @@ public class ExportSession
 		myJumpsRj = SqliteJump.SelectAllRjJumps(mySession.UniqueID);
 		myRuns= SqliteRun.SelectAllNormalRuns(mySession.UniqueID);
 		myRunsInterval = SqliteRun.SelectAllIntervalRuns(mySession.UniqueID);
+		//myPulses = SqlitePulse.SelectAllPulses(mySession.UniqueID);
 	}
 	
 	protected virtual void printData ()
@@ -144,6 +160,7 @@ public class ExportSession
 		printJumpsRj(true);
 		printRuns();
 		printRunsInterval(true);
+		//printPulses(true);
 		printFooter();
 	}
 
@@ -396,6 +413,11 @@ public class ExportSession
 		}
 	}
 	
+	protected void printPulses(bool showSubpulses)
+	{
+		//continue...
+	}
+	
 	protected virtual void printFooter()
 	{
 	}
@@ -422,7 +444,15 @@ public class ExportSessionCSV : ExportSession
 
 	protected override void writeData (ArrayList exportData) {
 		for(int i=0; i < exportData.Count ; i++) {
-			exportData[i] = exportData[i].ToString().Replace(":", ", ");
+			//if the locale of this user shows the decimal point as ',', show it as '.' for not confusing with the comma separator
+			//exportData[i] = exportData[i].ToString().Replace(",", ".");
+
+			//correctly separate the rows with no problems with decimals
+			//1 delete the ';'
+			exportData[i] = exportData[i].ToString().Replace(";", " ");
+			//2 put '; ' as separator
+			exportData[i] = exportData[i].ToString().Replace(":", "; ");
+
 			writer.WriteLine( exportData[i] );
 		}
 	}

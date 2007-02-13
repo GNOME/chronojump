@@ -1,5 +1,22 @@
 CHANGELOG:
 
+13 feb 2007
+	fixed bugs: 
+	- in runInterval, extraWin was shown when sometimes there's no need, after aclick on "last" button
+	- when a runInterval subrun limited by time or unlimited, finish after the time prepared for the whole run, it doesn't get saved, and
+	it shows message to user.
+	- fixed bug: when a jump type is created it's shown always at more jumps at first time (works for simple and reactive) Works also for both types of runs
+	- if CSV export with not extension, now adds "csv" and not "html" or "html"
+	- "Woman" is shown now when a woman can be loaded to a session
+
+	new features and other changes:
+	- person show all events window: show pulses now
+	- export CSV now separates with ';': better export to gnumeric, excel an OO
+	- Added info about CSV export in menu and the tooltip
+	- Tooltips in event buttons and in menu
+	- chronojump.cs removed connect to server
+
+	there's a crash now in runIntervallic with chronopic
 12 feb 2007
 	Connecting to server from gtk client. Changes on Makefile
 	migration cvs -> svn

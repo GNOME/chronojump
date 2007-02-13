@@ -129,7 +129,8 @@ public class PersonRecuperateWindow {
 	protected string getCorrectSex (string sex) 
 	{
 		if (sex == "M") return  Catalog.GetString("Man");
-		else if (sex == "W") return  Catalog.GetString ("Woman");
+		//this "F" is in spanish, change in the future to "W"
+		else if (sex == "F") return  Catalog.GetString ("Woman");
 		else { 
 			return ""; //PersonsRecuperateFromOtherSessionWindow should pass a "" for ALL PERSONS
 		}
@@ -1137,7 +1138,7 @@ public class PersonShowAllEventsWindow {
 		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
 		createTreeView(treeview_person_show_all_events);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof(string), typeof(string) );
+				typeof (string), typeof(string), typeof(string), typeof(string) );
 		treeview_person_show_all_events.Model = store;
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
@@ -1190,7 +1191,7 @@ public class PersonShowAllEventsWindow {
 		string myText = combo_persons.Entry.Text;
 		if(myText != "") {
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-					typeof (string), typeof(string), typeof(string) );
+					typeof (string), typeof(string), typeof(string), typeof(string) );
 			treeview_person_show_all_events.Model = store;
 			
 			string [] myStringFull = myText.Split(new char[] {':'});
@@ -1220,6 +1221,7 @@ public class PersonShowAllEventsWindow {
 		tv.AppendColumn ( Catalog.GetString ("Jumps\nreactive"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Runs\nsimple"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Runs\ninterval"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
 	}
 	
 	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {
@@ -1230,7 +1232,7 @@ public class PersonShowAllEventsWindow {
 		foreach (string myEvent in myEvents) {
 			string [] myStr = myEvent.Split(new char[] {':'});
 
-			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], myStr[6]);
+			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], myStr[6], myStr[7]);
 		}
 	}
 	

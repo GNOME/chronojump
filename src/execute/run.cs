@@ -488,7 +488,15 @@ public class RunIntervalExecute : RunExecute
 								
 								double myRaceTime = lastTc + timestamp/1000;
 								if(success) {
-									write();
+									//write();
+									//write only if there's a run at minimum
+									if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
+										write();
+									} else {
+										//cancel a run if clicked finish before any events done, or ended by time without events
+										cancel = true;
+									}
+
 									runPhase = runPhases.PLATFORM_END;
 								}
 								else {
@@ -541,7 +549,15 @@ public class RunIntervalExecute : RunExecute
 		} while ( ! success && ! cancel && ! finish );
 
 		if (finish) {
-			write();
+			//write();
+			//write only if there's a run at minimum
+			if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
+				write();
+			} else {
+				//cancel a run if clicked finish before any events done, or ended by time without events
+				cancel = true;
+			}
+
 			runPhase = runPhases.PLATFORM_END;
 		}
 		if(cancel || finish) {
@@ -635,8 +651,23 @@ public class RunIntervalExecute : RunExecute
 					bool eventPassed = Util.EventPassedFromMaxTime(intervalTimesString, limitAsDouble);
 					while(eventPassed) {
 						intervalTimesString = Util.DeleteLastSubEvent(intervalTimesString);
-						Console.WriteLine("Deleted one event out of time");
-						eventPassed = Util.EventPassedFromMaxTime(intervalTimesString, limitAsDouble);
+
+						//run limited by time that first subRun has arrived later than maximum for the whole run,
+						//and DeleteLastSubEvent returns "-" as a mark
+						if(intervalTimesString[0] == '-') {
+							new DialogMessage(Catalog.GetString("Run will not be recorded, 1st subrun is out of time"));
+	
+							//mark for not having problems with cancelled
+							cancel = true;
+							//event will be raised, and managed in chronojump.cs
+							fakeButtonFinished.Click();
+
+							//end this piece of code
+							return;
+						} else {
+							Console.WriteLine("Deleted one event out of time");
+							eventPassed = Util.EventPassedFromMaxTime(intervalTimesString, limitAsDouble);
+						}
 					}
 				}
 				//tracks are defined here (and not before) because can change on "while(eventPassed)" before

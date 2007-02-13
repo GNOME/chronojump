@@ -297,6 +297,7 @@ public class ChronoJump
 	
 
 		/* SERVER COMMUNICATION TESTS */
+/*
 		ChronojumpServer myServer = new ChronojumpServer();
 		string [] myListDir = myServer.ListDirectory("/home");
 		foreach (string myResult in myListDir) 
@@ -304,6 +305,7 @@ public class ChronoJump
 
 		Console.WriteLine(myServer.ConnectDatabase());
 		Console.WriteLine(myServer.SelectPersonName(3));
+*/
 		/* END OF SERVER COMMUNICATION TESTS */
 
 		
@@ -1660,7 +1662,11 @@ public class ChronoJump
 				0,		//limitValue
 				false		//unlimited
 				);
-				
+
+		//destroy the win for not having updating problems if a new jump type is created
+		//jumpsMoreWin = null; //don't work
+		jumpsMoreWin.Destroy(); //works ;)
+		
 		if( ! currentJumpType.StartIn || currentJumpType.HasWeight) {
 			on_jump_extra_activate(o, args);
 		} else {
@@ -1856,6 +1862,10 @@ public class ChronoJump
 				jumpsRjMoreWin.SelectedLimitedValue,
 				jumpsRjMoreWin.SelectedUnlimited
 				);
+
+		//destroy the win for not having updating problems if a new jump type is created
+		jumpsRjMoreWin.Destroy();
+		
 		if( ! currentJumpType.StartIn || currentJumpType.HasWeight || 
 				(currentJumpType.FixedValue == 0 && ! currentJumpType.Unlimited) ) {
 			on_jump_extra_activate(o, args);
@@ -2032,6 +2042,9 @@ public class ChronoJump
 				false				//unlimited (false, because has not intervals)
 				);
 				
+		//destroy the win for not having updating problems if a new run type is created
+		runsMoreWin.Destroy();
+		
 		if( currentRunType.Distance == 0 ) {
 			on_run_extra_activate(o, args);
 		} else {
@@ -2184,10 +2197,18 @@ public class ChronoJump
 				runsIntervalMoreWin.SelectedLimitedValue,
 				runsIntervalMoreWin.SelectedUnlimited
 				);
-				
+
+		bool unlimited = false;
+		if(runsIntervalMoreWin.SelectedUnlimited)
+			unlimited = true;
+
+		//destroy the win for not having updating problems if a new runInterval type is created
+		runsIntervalMoreWin.Destroy();
+		
 		//go to run extra if we need something to define
 		if( currentRunType.Distance == 0 || 
-				(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
+				//(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
+				(currentRunType.FixedValue == 0 && ! unlimited) ) {
 			on_run_extra_activate(o, args);
 		} else {
 			on_run_interval_accepted(o, args);
@@ -2196,7 +2217,13 @@ public class ChronoJump
 	
 	private void on_button_run_interval_last_clicked (object o, EventArgs args) 
 	{
-		on_run_interval_activate(o, args);
+		//go to run extra if we need something to define
+		if( currentRunType.Distance == 0 || 
+				(currentRunType.FixedValue == 0 && ! currentRunType.Unlimited) ) {
+			on_run_extra_activate(o, args);
+		} else {
+			on_run_interval_accepted(o, args);
+		}
 	}
 	
 	//interval runs clicked from user interface

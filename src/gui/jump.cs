@@ -1133,6 +1133,14 @@ public class JumpsMoreWindow
 		JumpsMoreWindowBox.jumps_runs_more.Hide();
 	}
 	
+	//when a jump is done using jumpsMoreWindow, the accept doesn't destroy this instance, because 
+	//later we need data from it.
+	//This is used for destroying, then if a new jump type is added, it will be shown at first time clicking "more" button
+	public void Destroy() {		
+		JumpsMoreWindowBox = null;
+	}
+
+
 	public Button Button_accept 
 	{
 		set {
@@ -1383,6 +1391,13 @@ public class JumpsRjMoreWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		JumpsRjMoreWindowBox.jumps_runs_more.Hide();
+	}
+
+	//when a jump Rj is done using jumpsRjMoreWindow, the accept doesn't destroy this instance, because 
+	//later we need data from it.
+	//This is used for destroying, then if a new jump rj type is added, it will be shown at first time clicking "more" button
+	public void Destroy() {		
+		JumpsRjMoreWindowBox = null;
 	}
 
 	

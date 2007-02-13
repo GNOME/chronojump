@@ -336,7 +336,16 @@ public class Util
 	public static string DeleteLastSubEvent (string myString)
 	{
 		int lastEqualPos = myString.LastIndexOf('=');
-		return myString.Substring(0, lastEqualPos -1);
+		if(lastEqualPos > 0) {
+			Console.WriteLine(myString.Substring(0, lastEqualPos));
+			return myString.Substring(0, lastEqualPos);
+		}
+		else
+			//probably string has only one subEvent, then we cannot delete last
+			//imagine a runInterval where we only have 10 seconds for go, return, go... n times. And imagine, going is like 20 seconds, then 
+			//runInterval write will try to delete last subEvent, but this is the only one
+			//then return the time in negative (-) as a mark, and caller will show the time late in a popup win
+			return "-" + myString;
 	}
 
 

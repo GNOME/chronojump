@@ -924,6 +924,14 @@ public class RunsMoreWindow
 		RunsMoreWindowBox.jumps_runs_more.Hide();
 	}
 	
+	//when a run is done using runsMoreWindow, the accept doesn't destroy this instance, because 
+	//later we need data from it.
+	//This is used for destroying, then if a new run type is added, it will be shown at first time clicking "more" button
+	public void Destroy() {		
+		RunsMoreWindowBox = null;
+	}
+
+
 	public Button Button_accept 
 	{
 		set {
@@ -1136,6 +1144,13 @@ public class RunsIntervalMoreWindow
 		RunsIntervalMoreWindowBox.jumps_runs_more.Hide();
 	}
 	
+	//when a runInterval is done using runsIntervalMoreWindow, the accept doesn't destroy this instance, because 
+	//later we need data from it.
+	//This is used for destroying, then if a new runInterval type is added, it will be shown at first time clicking "more" button
+	public void Destroy() {		
+		RunsIntervalMoreWindowBox = null;
+	}
+
 	public Button Button_accept 
 	{
 		set {

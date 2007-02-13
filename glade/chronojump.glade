@@ -8219,7 +8219,7 @@ If you need more, just repeat the operation later.</property>
 
 <widget class="GtkWindow" id="person_show_all_events">
   <property name="border_width">10</property>
-  <property name="width_request">480</property>
+  <property name="width_request">520</property>
   <property name="height_request">350</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Show all events of a person</property>
@@ -9487,7 +9487,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_new_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1699">
+			<widget class="GtkImage" id="image1897">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -9508,7 +9508,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_open_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1700">
+			<widget class="GtkImage" id="image1898">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -9529,7 +9529,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_session_activate" last_modification_time="Tue, 26 Jul 2005 19:12:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1701">
+			<widget class="GtkImage" id="image1899">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -9551,7 +9551,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_session_activate" last_modification_time="Thu, 28 Jul 2005 13:37:42 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1702">
+			<widget class="GtkImage" id="image1900">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9573,12 +9573,13 @@ If you need more, just repeat the operation later.</property>
 		  <child>
 		    <widget class="GtkImageMenuItem" id="menuitem_export_csv">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Export session to _CSV</property>
+		      <property name="tooltip" translatable="yes">Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric</property>
+		      <property name="label" translatable="yes">Export session to _CSV (Spreadsheet)</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_export_session_activate" last_modification_time="Sat, 12 Feb 2005 21:57:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1703">
+			<widget class="GtkImage" id="image1901">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-convert</property>
 			  <property name="icon_size">1</property>
@@ -9614,7 +9615,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_preferences_activate" last_modification_time="Mon, 04 Oct 2004 19:19:19 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1704">
+			<widget class="GtkImage" id="image1902">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -9641,7 +9642,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_quit1_activate" last_modification_time="Wed, 22 Sep 2004 23:17:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1705">
+			<widget class="GtkImage" id="image1903">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-quit</property>
 			  <property name="icon_size">1</property>
@@ -9675,7 +9676,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_person_add_single_activate" last_modification_time="Thu, 18 Aug 2005 23:07:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1706">
+			<widget class="GtkImage" id="image1904">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -9696,7 +9697,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_person_add_multiple_activate" last_modification_time="Thu, 18 Aug 2005 23:01:23 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1707">
+			<widget class="GtkImage" id="image1905">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -9723,7 +9724,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_recuperate_person_activate" last_modification_time="Sun, 12 Dec 2004 00:40:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1708">
+			<widget class="GtkImage" id="image1906">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -9744,7 +9745,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_recuperate_persons_from_session_activate" last_modification_time="Tue, 26 Jul 2005 19:12:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1709">
+			<widget class="GtkImage" id="image1907">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -9771,7 +9772,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_current_person_clicked" last_modification_time="Sun, 17 Oct 2004 11:43:33 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1710">
+			<widget class="GtkImage" id="image1908">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-justify-fill</property>
 			  <property name="icon_size">1</property>
@@ -9792,7 +9793,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_show_all_person_events_activate" last_modification_time="Mon, 29 Aug 2005 09:51:24 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1711">
+			<widget class="GtkImage" id="image1909">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-index</property>
 			  <property name="icon_size">1</property>
@@ -9819,7 +9820,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_current_person_from_session_activate" last_modification_time="Thu, 28 Jul 2005 15:49:38 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1712">
+			<widget class="GtkImage" id="image1910">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9857,6 +9858,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="sj">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Squat Jump</property>
 			      <property name="label" translatable="yes">SJ</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:23:20 GMT"/>
@@ -9866,6 +9868,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="sj_plus">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Squat Jump with extra weight</property>
 			      <property name="label" translatable="yes">SJ+</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:16:49 GMT"/>
@@ -9875,6 +9878,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="cmj">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">CounterMovement Jump</property>
 			      <property name="label" translatable="yes">CMJ</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:23:30 GMT"/>
@@ -9884,6 +9888,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="abk">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Abalakov Jump (CounterMovement using arms)</property>
 			      <property name="label" translatable="yes">ABK</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:26:59 GMT"/>
@@ -9893,6 +9898,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="dj">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Drop Jump</property>
 			      <property name="label" translatable="yes">DJ</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:17:03 GMT"/>
@@ -9907,7 +9913,7 @@ If you need more, just repeat the operation later.</property>
 			      <signal name="activate" handler="on_button_more_clicked" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image1713">
+				<widget class="GtkImage" id="image1911">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -9932,7 +9938,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_selected_jump_clicked" last_modification_time="Sun, 17 Oct 2004 11:47:42 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1714">
+			<widget class="GtkImage" id="image1912">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-justify-fill</property>
 			  <property name="icon_size">1</property>
@@ -9953,7 +9959,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_selected_jump_clicked" last_modification_time="Tue, 19 Oct 2004 11:54:17 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1715">
+			<widget class="GtkImage" id="image1913">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9984,6 +9990,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="rj_j">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Reactive Jump limited by Jumps</property>
 			      <property name="label" translatable="yes">RJ(j)</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_rj_activate" last_modification_time="Wed, 22 Sep 2004 23:57:11 GMT"/>
@@ -9993,6 +10000,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="rj_t">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Reactive Jump limited by Time</property>
 			      <property name="label" translatable="yes">RJ(t)</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_rj_activate" last_modification_time="Fri, 11 Mar 2005 14:37:31 GMT"/>
@@ -10002,7 +10010,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="rj_unlimited">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Jump until &quot;finish&quot; button is clicked</property>
+			      <property name="tooltip" translatable="yes">Reactive Jump unlimited (until &quot;finish&quot; button is clicked)</property>
 			      <property name="label" translatable="yes">RJ(unlimited)</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_rj_activate" last_modification_time="Sun, 14 Aug 2005 17:39:25 GMT"/>
@@ -10017,7 +10025,7 @@ If you need more, just repeat the operation later.</property>
 			      <signal name="activate" handler="on_button_more_rj_clicked" last_modification_time="Fri, 11 Mar 2005 14:45:23 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image1716">
+				<widget class="GtkImage" id="image1914">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -10042,7 +10050,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1717">
+			<widget class="GtkImage" id="image1915">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-justify-fill</property>
 			  <property name="icon_size">1</property>
@@ -10063,7 +10071,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_repair_selected_reactive_jump_clicked" last_modification_time="Wed, 07 Dec 2005 01:14:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1718">
+			<widget class="GtkImage" id="image1916">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -10084,7 +10092,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1719">
+			<widget class="GtkImage" id="image1917">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -10111,7 +10119,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_jump_type_add_activate" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1720">
+			<widget class="GtkImage" id="image1918">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -10217,7 +10225,7 @@ If you need more, just repeat the operation later.</property>
 			      <signal name="activate" handler="on_button_run_more_clicked" last_modification_time="Fri, 22 Apr 2005 14:37:06 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image1721">
+				<widget class="GtkImage" id="image1919">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -10242,7 +10250,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_selected_run_clicked" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1722">
+			<widget class="GtkImage" id="image1920">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-justify-fill</property>
 			  <property name="icon_size">1</property>
@@ -10263,7 +10271,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_selected_run_clicked" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1723">
+			<widget class="GtkImage" id="image1921">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -10294,6 +10302,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="menuitem_run_interval_by_laps">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Intervallic run limited by Laps</property>
 			      <property name="label" translatable="yes">By laps</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:33:20 GMT"/>
@@ -10303,6 +10312,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="menuitem_run_interval_by_time">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Intervallic run limited by Time</property>
 			      <property name="label" translatable="yes">By time</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:32:57 GMT"/>
@@ -10312,6 +10322,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="menuitem_run_interval_unlimited">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Intervallic run unlimited (until &quot;finish&quot; button is clicked)</property>
 			      <property name="label" translatable="yes">Unlimited</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:33:31 GMT"/>
@@ -10326,7 +10337,7 @@ If you need more, just repeat the operation later.</property>
 			      <signal name="activate" handler="on_button_run_interval_more_clicked" last_modification_time="Tue, 16 Aug 2005 01:18:41 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image1724">
+				<widget class="GtkImage" id="image1922">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -10351,7 +10362,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1725">
+			<widget class="GtkImage" id="image1923">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-justify-fill</property>
 			  <property name="icon_size">1</property>
@@ -10372,7 +10383,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_repair_selected_run_interval_clicked" last_modification_time="Wed, 03 May 2006 15:15:38 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1726">
+			<widget class="GtkImage" id="image1924">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -10393,7 +10404,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1727">
+			<widget class="GtkImage" id="image1925">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -10420,7 +10431,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_run_type_add_activate" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1728">
+			<widget class="GtkImage" id="image1926">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -10472,7 +10483,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_button_pulse_more_clicked" last_modification_time="Sat, 28 Oct 2006 08:57:53 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1729">
+			<widget class="GtkImage" id="image1927">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-add</property>
 			  <property name="icon_size">1</property>
@@ -10506,7 +10517,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_menuitem_view_stats_activate" last_modification_time="Tue, 26 Jul 2005 23:54:29 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1730">
+			<widget class="GtkImage" id="image1928">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-select-color</property>
 			  <property name="icon_size">1</property>
@@ -10527,7 +10538,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_show_report_activate" last_modification_time="Tue, 06 Sep 2005 09:10:32 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1731">
+			<widget class="GtkImage" id="image1929">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-jump-to</property>
 			  <property name="icon_size">1</property>
@@ -10595,7 +10606,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_about1_activate" last_modification_time="Wed, 22 Sep 2004 23:17:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1732">
+			<widget class="GtkImage" id="image1930">
 			  <property name="visible">True</property>
 			  <property name="stock">gnome-stock-about</property>
 			  <property name="icon_size">1</property>
@@ -10920,6 +10931,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_sj">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Squat Jump</property>
 				      <property name="can_focus">True</property>
 				      <property name="label">SJ</property>
 				      <property name="use_underline">True</property>
@@ -10937,6 +10949,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_sj_plus">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Squat Jump with extra weight</property>
 				      <property name="can_focus">True</property>
 				      <property name="label">SJ+</property>
 				      <property name="use_underline">True</property>
@@ -10954,6 +10967,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_cmj">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">CounterMovement Jump</property>
 				      <property name="can_focus">True</property>
 				      <property name="label">CMJ</property>
 				      <property name="use_underline">True</property>
@@ -10971,6 +10985,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_abk">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Abalakov Jump (CounterMovement using arms)</property>
 				      <property name="can_focus">True</property>
 				      <property name="label">ABK</property>
 				      <property name="use_underline">True</property>
@@ -10988,6 +11003,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_dj">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Drop Jump</property>
 				      <property name="can_focus">True</property>
 				      <property name="label">DJ</property>
 				      <property name="use_underline">True</property>
@@ -11397,6 +11413,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_rj_j">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Reactive Jump limited by Jumps</property>
 				      <property name="can_focus">True</property>
 				      <property name="label">RJ(j)</property>
 				      <property name="use_underline">True</property>
@@ -11414,6 +11431,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_rj_t">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Reactive Jump limited by Time</property>
 				      <property name="can_focus">True</property>
 				      <property name="label">RJ(t)</property>
 				      <property name="use_underline">True</property>
@@ -11431,7 +11449,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_rj_unlimited">
 				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">Jump until &quot;finish&quot; button is clicked</property>
+				      <property name="tooltip" translatable="yes">Reactive Jump unlimited (until &quot;finish&quot; button is clicked)</property>
 				      <property name="can_focus">True</property>
 				      <property name="label" translatable="yes">Unlimited</property>
 				      <property name="use_underline">True</property>
@@ -12411,6 +12429,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_run_interval_by_laps">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Intervallic run limited by Laps</property>
 				      <property name="can_focus">True</property>
 				      <property name="label" translatable="yes">By laps</property>
 				      <property name="use_underline">True</property>
@@ -12428,12 +12447,13 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_run_interval_by_time">
 				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Intervallic run limited by Time</property>
 				      <property name="can_focus">True</property>
 				      <property name="label" translatable="yes">By time</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
-				      <signal name="clicked" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:32:33 GMT"/>
+				      <signal name="clicked" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:31:27 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12445,7 +12465,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_run_interval_unlimited">
 				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">run until &quot;finish&quot; button is clicked</property>
+				      <property name="tooltip" translatable="yes">Intervallic run unlimited (until &quot;finish&quot; button is clicked)</property>
 				      <property name="can_focus">True</property>
 				      <property name="label" translatable="yes">Unlimited</property>
 				      <property name="use_underline">True</property>

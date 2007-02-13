@@ -663,7 +663,14 @@ public class JumpRjExecute : JumpExecute
 				else {
 					//limited by time, if passed it, write
 					if(success) {
-						write();
+						//write();
+						//write only if there's a jump at minimum
+						if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
+							write();
+						} else {
+							//cancel a jump if clicked finish before any events done
+							cancel = true;
+						}
 					}
 				}
 

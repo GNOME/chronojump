@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="es   ">
+
+			  <head>
+			  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>ChronoJump - software libre para cronometrado del salto</title>
+		<style type="text/css">
+			@import url(style.css);
+		</style>
+		</head>
+
+		<body id="page-main" class="with-sidebar">
+		<h4 id="top">
+Caracter&iacute;sticas del software de gesti&oacute;n
+</h4>
+
+ChronoJump permite registrar cualquier salto con las repeticiones que se desee, iniciando desde dentro o fuera de la plataforma, registrando independientemente tiempos de contacto y tiempos de vuelo, as&iacute; como carga extra, altura de ca&iacute;da, limitaci&oacute;n por saltos o tiempo, y descripciones de t&eacute;cnica.
+<p>
+ChronoJump usa una peque&ntilde;a base de datos <a href="http://www.sqlite.org/">Sqlite</a> que le capacita para vincular saltos a sujetos y sesiones y realizar todo tipo de comparaciones entre estas entidades.
+
+<p>
+Es posible y sencillo crear nuevos tipos de saltos con las variables descritas anteriormente.
+
+<p>
+Es multiplataforma; Al estar programado en C# usando Mono, deber&iacute;a funcionar correctamente en GNU/Linux, MacOSX, Windows, ... hasta el momento funciona en GNU/Linux y Windows.
+
+<p>
+Incorpora las siguientes estad&iacute;sticas (siempre que no se especifique lo contrario, se permite mostrar medias, valores m&aacute;ximos, o todos los valores de una &uacute;nica sesi&oacute;n o entre un n&uacute;mero indeterminado de sesiones (longitudinal), y con distinci&oacute;n de g&eacute;nero)
+<ul>
+<li> Resumen de una o varias sesiones
+<li> Estudio de un &uacute;nico sujeto
+<li> Tiempo de vuelo de saltos simples
+<li> Tiempo de contacto, tiempo de vuelo e &iacute;ndice entre ambos en saltos con ca&iacute;da y en saltos repetitivos (en breve se implementar&aacute; tambi&eacute;n la velocidad de despegue).
+<li> Potencia en saltos repetitivos
+<li> Evoluci&oacute;n de saltos repetitivos (&uacute;nicamente en una sesi&oacute;n)
+<li> &Iacute;ndice de elasticidad y de utilizacion de brazos
+<li> ...(la modularidad de ChronoJump facilita la inclusi&oacute;n de nuevos estad&iacute;sticos)
+</ul>
+
+Chronojump permite tambi&eacute;n el estudio de <b>carreras</b> y <b>ritmos</b>.
+
+<p>
+
+Graficaci&oacute;n de todos los estad&iacute;sticos descritos mediante la librer&iacute;a gr&aacute;fica <a href="http://netcontrols.org/nplot/">NPlot</a>.
+
+<p>
+Exportaci&oacute;n de saltos a hojas de c&aacute;lculo (formato CSV).
+<p>
+Creaci&oacute;n de informes personalizados de todos los datos obtenidos y los estad&iacute;sticos (formato HTML). 
+
+<h5>Caracter&iacute;sticas del cronometrador</h5>
+ El Cronometrador: Chronopic, est&aacute; basado en la tarjeta Entrenadora Skypic (consultar documentaci&oacute;n), y ofrece una precisi&oacute;n de una mil&eacute;sima de segundo seg&uacute;n se ha podido comprobar. <tt>[Pendiente de detallar c&oacute;mo se ha comprobado]</tt>.
+ <p> Algunos sistemas de cronometrado del salto usan &uacute;nicamente un ordenador personal conectado a la plataforma. Los ordenadores modernos son multitarea, caracter&iacute;stica que impide garantizar una medici&oacute;n fiable debido a que pueden estar realizando cualquier otra tarea en aqu&eacute;l momento. M&aacute;s informaci&oacute;n en el apartado de <a href="construction_es.html">Construcci&oacute;n</a>.
+ <p>
+ <h5>Caracter&iacute;sticas de la plataforma</h5>
+
+ La plataforma de contactos puede ser fabricada como se explica en el apartado <a href="construction_es.html">Construcci&oacute;n</a>.
+
+ <h5>Caracter&iacute;sticas futuras</h5>
+
+ En breve se desea implementar tambi&eacute;n las siguientes funciones:
+ <ul> 
+ <li>Se apunta la posibilidad de sustituir las plataformas de contactos por c&eacute;lulas fotoel&eacute;ctricas. El m&eacute;todo de fabricaci&oacute;n de c&eacute;lulas fotoel&eacute;ctricas a&uacute;n no est&aacute; descrito, si tiene informaci&oacute;n al respecto, rogamos su colaboraci&oacute;n. 
+ <li>Zumbador para medici&oacute;n de tiempo de reacci&oacute;n. Un dispositivo instalado en el propio cronometrador producir&aacute; un evento sonoro y se cronometrar&aacute; el tiempo que sucede hasta que se produce un cambio de envento en la plataforma. Entre muchas utilidades puede ser usado para el control de la Course&nbsp;Navette.
+ <li>Posibilidad de modificar la sensibilidad del cronometrador a cada salto.
+ <li>Si desea otras caracter&iacute;sticas, no dude en pedirlo en las listas de correo.
+ </ul>
+
+</body></html>

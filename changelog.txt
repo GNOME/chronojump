@@ -1,6 +1,9 @@
 CHANGELOG:
 
 18 feb 2007
+	language window on first start on Windows (fixes: 353049)
+
+18 feb 2007
 	Added "Free" jump
 	UI: separated "more" buttons from predecessors
 	Added Dzongkha support

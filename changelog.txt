@@ -1,5 +1,10 @@
 CHANGELOG:
 
+18 feb 2007
+	Added "Free" jump
+	UI: separated "more" buttons from predecessors
+	Added Dzongkha support
+
 13 feb 2007
 	fixed bugs: 
 	- in runInterval, extraWin was shown when sometimes there's no need, after aclick on "last" button

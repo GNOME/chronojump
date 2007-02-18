@@ -48,7 +48,7 @@ public class JumpType
 		unlimited = false;	//default value
 		
 		//if this changes, sqlite/jumpType.cs initialize tables should change
-		if(name == "SJ" || name == "CMJ" || name == "ABK") {
+		if(name == "Free" || name == "SJ" || name == "CMJ" || name == "ABK") {
 			startIn 	= true;
 			hasWeight 	= false;
 			isRepetitive 	= false;

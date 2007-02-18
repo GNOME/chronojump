@@ -111,6 +111,15 @@ class Sqlite
 			myVersion = "0.45";
 		}
 
+		if(myVersion == "0.45") {
+			dbcon.Open();
+			SqliteJumpType.JumpTypeInsert ("Free:1:0:Free jump", true); 
+			SqlitePreferences.Update ("databaseVersion", "0.46"); 
+			Console.WriteLine("Added Free jump type");
+			dbcon.Close();
+			myVersion = "0.46";
+		}
+
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
 	}
@@ -166,7 +175,8 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.45"); 
+		SqlitePreferences.Insert ("databaseVersion", "0.46"); 
+		//changes from 0.45 to 0.46: added "Free" jump type
 		//changes from 0.44 to 0.45: added allowFinishRjAfterTime
 		//changes from 0.43 to 0.44: added showQIndex and showDjIndex
 		//changes from 0.42 to 0.43: added 'free' pulseType & language preference

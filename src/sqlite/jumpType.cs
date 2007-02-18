@@ -52,6 +52,7 @@ class SqliteJumpType : Sqlite
 	{
 		string [] iniJumpTypes = {
 			//name:startIn:weight:description
+			"Free:1:0:Free jump", 
 			"SJ:1:0:SJ jump", 
 			"SJ+:1:1:SJ jump with weight", 
 			"CMJ:1:0:CMJ jump", 

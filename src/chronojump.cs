@@ -27,6 +27,7 @@ using Glade;
 using System.IO.Ports;
 using Mono.Unix;
 
+
 public class ChronoJump 
 {
 	[Widget] Gtk.Window app1;
@@ -85,6 +86,7 @@ public class ChronoJump
 	[Widget] Gtk.Button button_recup_per;
 	[Widget] Gtk.Button button_create_per;
 
+	[Widget] Gtk.Button button_free;
 	[Widget] Gtk.Button button_sj;
 	[Widget] Gtk.Button button_sj_plus;
 	[Widget] Gtk.Button button_cmj;
@@ -128,6 +130,7 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menu_pulses;
 	[Widget] Gtk.MenuItem menu_view;
 		
+	[Widget] Gtk.MenuItem menuitem_jump_free;
 	[Widget] Gtk.MenuItem sj;
 	[Widget] Gtk.MenuItem sj_plus;
 	[Widget] Gtk.MenuItem cmj;
@@ -307,6 +310,7 @@ public class ChronoJump
 		Console.WriteLine(myServer.SelectPersonName(3));
 */
 		/* END OF SERVER COMMUNICATION TESTS */
+
 
 		
 		Sqlite.Connect();
@@ -1697,7 +1701,9 @@ public class ChronoJump
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-		if(o == (object) button_sj || o == (object) sj) {
+		if(o == (object) button_free || o == (object) menuitem_jump_free) {
+			currentJumpType = new JumpType("Free");
+		}else if(o == (object) button_sj || o == (object) sj) {
 			currentJumpType = new JumpType("SJ");
 		} else if (o == (object) button_cmj || o == (object) cmj) {
 			currentJumpType = new JumpType("CMJ");

@@ -71,6 +71,10 @@ public class PreferencesWindow {
 		"vi-VN", 
 		"zh-CN", 
 	};
+	//TODO: add:
+	//ar (when there ara not fuzzy lines)
+	//dz (check if it's possible on win)
+	//see in both langs how to write as xx_XX
 	
 		
 	PreferencesWindow (Gtk.Window parent, string entryChronopic) {

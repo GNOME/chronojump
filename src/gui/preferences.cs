@@ -56,26 +56,10 @@ public class PreferencesWindow {
 	static PreferencesWindow PreferencesWindowBox;
 	Gtk.Window parent;
 
-	//language when window is called. If changes, then chnge data in sql and show 
+	//language when window is called. If changes, then change data in sql and show 
 	//dialogMessage
 	private string languageIni;
 
-	//for windows, on linux it takes language ok from the locale
-	private static string [] comboLanguageOptions = {
-		"en-GB", 
-		"es-ES", 
-		"fi-FI", 
-		"fr-FR", 
-		"pt-BR", 
-		"sv-SE", 
-		"vi-VN", 
-		"zh-CN", 
-	};
-	//TODO: add:
-	//ar (when there ara not fuzzy lines)
-	//dz (check if it's possible on win)
-	//see in both langs how to write as xx_XX
-	
 		
 	PreferencesWindow (Gtk.Window parent, string entryChronopic) {
 		Glade.XML gladeXML;
@@ -97,16 +81,17 @@ public class PreferencesWindow {
 	//static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred)
 	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, 
 			bool showInitialSpeed, bool showQIndex, bool showDjIndex,
-			bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture, bool allowFinishRjAfterTime)
+			//bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture, bool allowFinishRjAfterTime)
+			bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string language, bool allowFinishRjAfterTime)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (parent, entryChronopic);
 		}
 
 
-		PreferencesWindowBox.languageIni = culture;
+		PreferencesWindowBox.languageIni = language;
 		if(Util.IsWindows())
-			PreferencesWindowBox.createComboLanguage(culture);
+			PreferencesWindowBox.createComboLanguage(language);
 		else 
 			PreferencesWindowBox.hideLanguageStuff();
 		
@@ -185,7 +170,7 @@ public class PreferencesWindow {
 	
 	private void createComboLanguage(string myLanguage) {
 		combo_language = new Combo ();
-		combo_language.PopdownStrings = comboLanguageOptions;
+		combo_language.PopdownStrings = Constants.Languages;
 		
 		//combo_language.Entry.Changed += new EventHandler (on_combo_language_changed);
 
@@ -193,7 +178,7 @@ public class PreferencesWindow {
 		hbox_combo_language.ShowAll();
 		
 		bool found = false;
-		foreach (string lang in comboLanguageOptions) {
+		foreach (string lang in Constants.Languages) {
 			if (myLanguage == lang) {
 				combo_language.Entry.Text = lang;
 				found = true;
@@ -203,10 +188,10 @@ public class PreferencesWindow {
 			combo_language.Entry.Text = "en-GB";
 
 		
-		//if(Util.IsWindows())
+		if(Util.IsWindows())
 			combo_language.Sensitive = true;
-		//else 
-		//	combo_language.Sensitive = false;
+		else 
+			combo_language.Sensitive = false;
 	}
 			
 	private void hideLanguageStuff() {
@@ -256,7 +241,7 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString());
 		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString());
 		
-		if(Util.IsWindows()) {
+		//if(Util.IsWindows()) {
 			//if language has changed
 			if(PreferencesWindowBox.combo_language.Entry.Text != languageIni) {
 				string myLanguage = SqlitePreferences.Select("language");
@@ -270,7 +255,7 @@ public class PreferencesWindow {
 
 				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."));
 			}
-		}
+		//}
 
 		PreferencesWindowBox.preferences.Hide();
 		PreferencesWindowBox = null;

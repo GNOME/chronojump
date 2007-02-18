@@ -230,6 +230,7 @@ public class ChronoJump
 	private static Report report;
 
 	//windows needed
+	//LanguageWindow languageWin;
 	SessionAddWindow sessionAddWin;
 	SessionEditWindow sessionEditWin;
 	SessionLoadWindow sessionLoadWin;
@@ -311,15 +312,20 @@ public class ChronoJump
 */
 		/* END OF SERVER COMMUNICATION TESTS */
 
-
 		
 		Sqlite.Connect();
+
+		//isFirstTime we run chronojump in this machine? 
+		//(or is there a DB file?)
+		bool isFirstTime = false;
 
 		//Chech if the DB file exists
 		if (!Sqlite.CheckTables()) {
 			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
 			Sqlite.CreateFile();
 			Sqlite.CreateTables();
+
+			isFirstTime = true;
 		} else {
 			Sqlite.ConvertToLastVersion();
 			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
@@ -344,8 +350,10 @@ public class ChronoJump
 			
 		//we need to connect sqlite to do the languageChange
 		//change language works on windows. On Linux let's change the locale
+/*
 		if(Util.IsWindows()) 
 			languageChange();
+*/
 
 		
 		Catalog.Init ("chronojump", "./locale");
@@ -354,7 +362,29 @@ public class ChronoJump
 
 		Util.IsWindows();	//only as additional info here
 
-		
+
+		//if firstTime on windows, then ask for the language
+		if(Util.IsWindows() && isFirstTime) {
+			//show language dialog (only first time)
+			LanguageWindow languageWin = LanguageWindow.Show();
+
+			languageWin.ButtonAccept.Clicked += new EventHandler(on_language_clicked);
+			Application.Run();
+		} else {
+			createMainWindow();
+			Application.Run();
+		}
+	}
+
+	//only called the first time the software runs
+	//and only on windows
+	private void on_language_clicked(object o, EventArgs args) {
+		createMainWindow();
+	}
+
+
+	private void createMainWindow()
+	{
 		Glade.XML gxml;
 		try {
 			//linux
@@ -366,12 +396,13 @@ public class ChronoJump
 
 		gxml.Autoconnect(this);
 
+
 		cpRunning = false;
 
 		report = new Report(-1); //when a session is loaded or created, it will change the report.SessionID value
-					//TODO: check what happens if a session it's deleted
-					//i think report it's deactivated until a new session is created or loaded, 
-					//but check what happens if report window is opened
+		//TODO: check what happens if a session it's deleted
+		//i think report it's deactivated until a new session is created or loaded, 
+		//but check what happens if report window is opened
 
 
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
@@ -400,14 +431,13 @@ public class ChronoJump
 		appbar2.Push ( 1, Catalog.GetString ("Ready.") );
 
 		rand = new Random(40);
-				
-		
+
+
 		if(simulated)
 			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
-		
-		
-		Application.Run();
+
 	}
+
 
 	private void chronopicInit (string myPort)
 	{
@@ -569,6 +599,7 @@ public class ChronoJump
 			Console.WriteLine ("Changed language to {0}", myLanguage );
 		}
 	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW PERSONS ----------------------
@@ -1483,7 +1514,8 @@ public class ChronoJump
 		PreferencesWindow myWin = PreferencesWindow.Show(
 				app1, chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, showQIndex, showDjIndex, 
 				askDeletion, heightPreferred, metersSecondsPreferred,
-				System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
+				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
+				SqlitePreferences.Select("language"),
 				allowFinishRjAfterTime);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}

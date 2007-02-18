@@ -49,6 +49,23 @@ public class Constants
 		"LightGray", "LightGreen", "LightPink", "LightSalmon", "LightYellow", 
 		"MediumBlue", "MediumOrchid", "MediumPurple", "MediumTurquoise", "MediumVioletRed", "YellowGreen" 
 	};
+	
+	//for windows, on linux it takes language ok from the locale
+	public static string [] Languages = {
+		"en-GB", 
+		"es-ES", 
+		"fi-FI", 
+		"fr-FR", 
+		"pt-BR", 
+		"sv-SE", 
+		"vi-VN", 
+		"zh-CN", 
+	};
+	//TODO: add:
+	//ar (when there ara not fuzzy lines)
+	//dz (check if it's possible on win)
+	//see in both langs how to write as xx_XX
+	
 
 	public static string PortNamesWindows = 
 		string.Format(Catalog.GetString("Typical serial and USB-serial ports on Windows:") + 

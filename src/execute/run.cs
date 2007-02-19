@@ -98,10 +98,13 @@ public class RunExecute : EventExecute
 	
 	public override void Manage()
 	{
+Console.WriteLine("MANAGE!!!!");
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
 		else
 			platformState = chronopicInitialValue(cp);
+
+Console.WriteLine("MANAGE(b)!!!!");
 		
 		//you can start ON or OFF the platform, 
 		//we record always de TF (or time between we abandonate the platform since we arrive)
@@ -143,11 +146,14 @@ public class RunExecute : EventExecute
 
 		//prepare jump for being cancelled if desired
 		cancel = false;
+		totallyCancelled = false;
 
+Console.WriteLine("MANAGE(2)!!!!");
 		//start thread
 		thread = new Thread(new ThreadStart(waitEvent));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
+Console.WriteLine("MANAGE(3)!!!!");
 	}
 	
 	protected override void waitEvent ()
@@ -156,14 +162,15 @@ public class RunExecute : EventExecute
 		bool success = false;
 		
 		bool ok;
-	
+
 		do {
 			if(simulated)
 				ok = true;
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
 			
-			if (ok) {
+			//if (ok) {
+			if (ok && !cancel) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -226,6 +233,8 @@ public class RunExecute : EventExecute
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
+
+			totallyCancelled = true;
 		}
 	}
 	
@@ -385,9 +394,10 @@ public class RunIntervalExecute : RunExecute
 
 			if(simulated) 
 				ok = true;
-			else
+			else 
 				ok = cp.Read_event(out timestamp, out platformState);
-			
+		
+	
 			if (ok) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
@@ -563,6 +573,8 @@ public class RunIntervalExecute : RunExecute
 		if(cancel || finish) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
+			
+			totallyCancelled = true;
 		}
 	}
 	

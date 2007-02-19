@@ -241,7 +241,7 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString());
 		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString());
 		
-		//if(Util.IsWindows()) {
+		if(Util.IsWindows()) {
 			//if language has changed
 			if(PreferencesWindowBox.combo_language.Entry.Text != languageIni) {
 				string myLanguage = SqlitePreferences.Select("language");
@@ -255,7 +255,7 @@ public class PreferencesWindow {
 
 				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."));
 			}
-		//}
+		}
 
 		PreferencesWindowBox.preferences.Hide();
 		PreferencesWindowBox = null;

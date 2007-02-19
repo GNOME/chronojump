@@ -1647,6 +1647,22 @@ public class ChronoJump
 
 		//unhide event buttons for next event
 		sensitiveGuiEventDone();
+
+		if(!simulated)
+			checkCancelTotally(o, args);
+	}
+
+	//if user doesn't touch the platform after pressing "cancel", sometimes it gets waiting a Read_event
+	//now the event cancels ok, and next will be ok, also	
+	private void checkCancelTotally (object o, EventArgs args) 
+	{
+		if(currentEventExecute.TotallyCancelled) 
+			Console.WriteLine("totallyCancelled");
+		else {
+			Console.Write("NOT-totallyCancelled ");
+			errorWin = ErrorWindow.Show(app1, Catalog.GetString("Please, touch the contact platform for full cancelling.\nThen press button\n"));
+			errorWin.Button_accept.Clicked += new EventHandler(checkCancelTotally);
+		}
 	}
 		
 	private void on_finish_clicked (object o, EventArgs args) 

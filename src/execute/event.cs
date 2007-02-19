@@ -37,9 +37,6 @@ public class EventExecute
 	protected string type;
 	protected string description;
 
-	//for finishing earlier from chronojump.cs
-	protected bool finish;
-	
 	protected Thread thread;
 	//platform state variables
 	protected enum States {
@@ -111,6 +108,10 @@ public class EventExecute
 	//if not, it wiil shown a popup from chronojump.cs (on_cancel_clicked)	
 	protected bool totallyCancelled;
 
+	//for finishing earlier from chronojump.cs
+	protected bool finish;
+	protected bool totallyFinished;
+	
 
 
 	protected EventExecuteWindow eventExecuteWin;
@@ -434,6 +435,12 @@ Console.Write("wwb ");
 	{
 		get { return totallyCancelled; }
 		set { totallyCancelled = value; }
+	}
+
+	public bool TotallyFinished
+	{
+		get { return totallyFinished; }
+		set { totallyFinished = value; }
 	}
 
 	public Event EventDone {

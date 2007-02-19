@@ -167,7 +167,7 @@ public class ChronoJump
 	private Random rand;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.5-rev4";
+	private static string progversion = "0.5-cvs";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -1671,6 +1671,22 @@ public class ChronoJump
 		
 		//unhide event buttons for next event
 		sensitiveGuiEventDone();
+
+		if(!simulated)
+			checkFinishTotally(o, args);
+	}
+		
+	//if user doesn't touch the platform after pressing "finish", sometimes it gets waiting a Read_event
+	//now the event finishes ok, and next will be ok, also	
+	private void checkFinishTotally (object o, EventArgs args) 
+	{
+		if(currentEventExecute.TotallyFinished) 
+			Console.WriteLine("totallyFinished");
+		else {
+			Console.Write("NOT-totallyFinished ");
+			errorWin = ErrorWindow.Show(app1, Catalog.GetString("Please, touch the contact platform for full finishing.\nThen press button\n"));
+			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
+		}
 	}
 		
 	

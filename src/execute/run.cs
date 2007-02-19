@@ -398,7 +398,7 @@ public class RunIntervalExecute : RunExecute
 				ok = cp.Read_event(out timestamp, out platformState);
 		
 	
-			if (ok) {
+			if (ok && !cancel && !finish) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -563,6 +563,8 @@ public class RunIntervalExecute : RunExecute
 			//write only if there's a run at minimum
 			if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
 				write();
+			
+				totallyFinished = true;
 			} else {
 				//cancel a run if clicked finish before any events done, or ended by time without events
 				cancel = true;

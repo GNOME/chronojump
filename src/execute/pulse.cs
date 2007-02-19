@@ -140,6 +140,7 @@ public class PulseExecute : EventExecute
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
+			totallyCancelled = false;
 
 			//prepare jump for being finished earlier if desired
 			finish = false;
@@ -275,6 +276,8 @@ public class PulseExecute : EventExecute
 			if(cancel || finish) {
 				//event will be raised, and managed in chronojump.cs
 				fakeButtonFinished.Click();
+			
+				totallyCancelled = true;
 			}
 	}
 

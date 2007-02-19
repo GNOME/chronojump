@@ -106,6 +106,13 @@ public class EventExecute
 	//for cancelling from chronojump.cs
 	protected bool cancel;
 
+	//cancel doesn't finish until platform is touched (after pressing cancel button)
+	//this variable controls that platform has been touched
+	//if not, it wiil shown a popup from chronojump.cs (on_cancel_clicked)	
+	protected bool totallyCancelled;
+
+
+
 	protected EventExecuteWindow eventExecuteWin;
 	
 	protected Event eventDone;
@@ -133,11 +140,17 @@ public class EventExecute
 		simulatedCurrentTimeIntervalsAreContact = false;
 	}
 
-	protected virtual Chronopic.Plataforma chronopicInitialValue(Chronopic cp)
+	//protected virtual Chronopic.Plataforma chronopicInitialValue(Chronopic cp)
+	protected Chronopic.Plataforma chronopicInitialValue(Chronopic cp)
 	{
 		Chronopic.Plataforma myPlatformState  = Chronopic.Plataforma.UNKNOW; //on (in platform), off (jumping), or unknow
 		bool ok = false;
 		Console.WriteLine("A1");
+
+
+int conta=0;
+
+
 
 		do {
 			Console.WriteLine("B");
@@ -147,6 +160,19 @@ public class EventExecute
 				Console.WriteLine("Manage called after finishing constructor, do later");
 			}
 			Console.WriteLine("C");
+
+
+
+conta++;
+if(conta >3) {
+	Console.WriteLine("Exceeded!");
+	return myPlatformState;
+}
+
+
+
+
+
 		} while (! ok);
 
 		return myPlatformState;
@@ -402,6 +428,12 @@ Console.Write("wwb ");
 	{
 		get { return cancel; }
 		set { cancel = value; }
+	}
+
+	public bool TotallyCancelled
+	{
+		get { return totallyCancelled; }
+		set { totallyCancelled = value; }
 	}
 
 	public Event EventDone {

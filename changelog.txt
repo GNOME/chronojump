@@ -1,6 +1,12 @@
 CHANGELOG:
 
 19 feb 2007
+	cancel works now in all events (using totallyCancelled variable, and a
+	popup) (fixes: 409571)
+
+	fixed preferences bug on Linux created at 18 feb
+
+19 feb 2007
 	Standard deviation (or typical) on stats (fixes: 407044) Thanks to Carles Virgili
 
 18 feb 2007

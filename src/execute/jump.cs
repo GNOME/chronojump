@@ -124,6 +124,7 @@ public class JumpExecute : EventExecute
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
+			totallyCancelled = false;
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have leaved platform:
@@ -167,6 +168,9 @@ public class JumpExecute : EventExecute
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
+			totallyCancelled = false;
+
+
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have arrived:
@@ -212,7 +216,8 @@ public class JumpExecute : EventExecute
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
 			
-			if (ok) {
+			//if (ok) {
+			if (ok && !cancel) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
 					//has landed
@@ -314,11 +319,15 @@ Console.Write("wb ");
 
 				}
 			}
+//Console.WriteLine("PREEXIT");
 		} while ( ! success && ! cancel );
+//Console.WriteLine("EXIT");
 		
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
+
+			totallyCancelled = true;
 		}
 	}
 	
@@ -524,6 +533,7 @@ public class JumpRjExecute : JumpExecute
 
 			//prepare jump for being cancelled if desired
 			cancel = false;
+			totallyCancelled = false;
 			
 			//prepare jump for being finished earlier if desired
 			finish = false;
@@ -696,6 +706,8 @@ public class JumpRjExecute : JumpExecute
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
+			
+			totallyCancelled = true;
 		}
 	}
 

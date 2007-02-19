@@ -77,7 +77,11 @@ public class ErrorWindow
 		ErrorWindowBox.error_window.Hide();
 		ErrorWindowBox = null;
 	}
-	
+
+	public Button Button_accept {
+		get { return button_accept; }
+	} 	
+
 	~ErrorWindow() {}
 	
 }

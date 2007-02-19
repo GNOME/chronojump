@@ -379,6 +379,7 @@ public class ChronoJump
 	//only called the first time the software runs
 	//and only on windows
 	private void on_language_clicked(object o, EventArgs args) {
+		languageChange();
 		createMainWindow();
 	}
 

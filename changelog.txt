@@ -1,6 +1,9 @@
 CHANGELOG:
 
 19 feb 2007
+	"finish" works now in all events (donie like in cancel with totallyFinished)
+
+19 feb 2007
 	cancel works now in all events (using totallyCancelled variable, and a
 	popup) (fixes: 409571)
 

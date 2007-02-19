@@ -144,6 +144,7 @@ public class PulseExecute : EventExecute
 
 			//prepare jump for being finished earlier if desired
 			finish = false;
+			totallyFinished= false;
 
 			//mark we haven't started
 			pulsePhase = pulsePhases.WAIT_FIRST_EVENT;
@@ -175,7 +176,7 @@ public class PulseExecute : EventExecute
 					ok = cp.Read_event(out timestamp, out platformState);
 
 
-				if (ok) {
+				if (ok && !cancel && !finish) {
 					if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 						//has arrived
 
@@ -272,6 +273,7 @@ public class PulseExecute : EventExecute
 			if (finish) {
 				write();
 				pulsePhase = pulsePhases.DONE;
+				totallyFinished= true;
 			}
 			if(cancel || finish) {
 				//event will be raised, and managed in chronojump.cs

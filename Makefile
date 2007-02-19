@@ -50,7 +50,7 @@ all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
 #-------------------------------
 
 $(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) 
-	 $(MCS) $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
+	 $(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
 #$(CHRONOJUMP): NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) 
 #	 $(MCS) $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP) 
    

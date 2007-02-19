@@ -537,6 +537,7 @@ public class JumpRjExecute : JumpExecute
 			
 			//prepare jump for being finished earlier if desired
 			finish = false;
+			totallyFinished = false;
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that the opposite as before:
@@ -573,7 +574,9 @@ public class JumpRjExecute : JumpExecute
 			//if chronopic signal is Ok and state has changed
 			if (ok && (
 					(platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) ||
-					(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) ) {
+					//(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) ) {
+					(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) 
+						&& !cancel && !finish) {
 				
 			
 				if(simulated)
@@ -697,6 +700,8 @@ public class JumpRjExecute : JumpExecute
 			//write only if there's a jump at minimum
 			if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
 				write();
+				
+				totallyFinished = true;
 			} else {
 				//cancel a jump if clicked finish before any events done
 				cancel = true;

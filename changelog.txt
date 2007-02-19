@@ -1,5 +1,8 @@
 CHANGELOG:
 
+19 feb 2007
+	Standard deviation (or typical) on stats (fixes: 407044) Thanks to Carles Virgili
+
 18 feb 2007
 	language window on first start on Windows (fixes: 353049)
 

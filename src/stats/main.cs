@@ -433,26 +433,25 @@ public class Stat
 	//one column by each dataColumn returned by SQL
 	protected void processDataSimpleSession (ArrayList arrayFromSql, bool makeAVGSD, int dataColumns) 
 	{
-		//record makeavgsd for using in checkboxes for not being selected
-		//selectedMakeAVGSD = makeAVGSD;
-	
 		string [] rowFromSql = new string [dataColumns +1];
 		double [] sumValue = new double [dataColumns +1];
-		double [] sumSquaredValue = new double [dataColumns +1];
+		string [] valuesList = new string [dataColumns +1];
 		int i;
+		string separator;
 
 		//process all SQL results line x line
-		for (i=0 ; i < arrayFromSql.Count ; i ++) {
+		for (i=0, separator=""; i < arrayFromSql.Count ; i ++) {
 			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
 			
 			for (int j=1; j <= dataColumns ; j++) {
 				if(makeAVGSD) {
 					sumValue[j] += Convert.ToDouble(rowFromSql[j]);
-					sumSquaredValue[j] += makeSquare(rowFromSql[j]);
+					valuesList[j] += separator + rowFromSql[j];
 				}
 				rowFromSql[j] = Util.TrimDecimals(rowFromSql[j], pDN);
 			}
 			printData( rowFromSql );
+			separator = ":";
 		}
 		//only show the row if sqlite returned values
 		if(i > 0)
@@ -467,7 +466,7 @@ public class Stat
 
 				for (int j=1; j <= dataColumns; j++) {
 					sendAVG[j] = Util.TrimDecimals( (sumValue[j] /i).ToString(), pDN );
-					sendSD[j] = Util.TrimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], i), pDN );
+					sendSD[j] = Util.TrimDecimals( Util.CalculateSD(valuesList[j], sumValue[j], i).ToString(), pDN );
 				}
 				printData( sendAVG );
 				printData( sendSD );
@@ -487,9 +486,8 @@ public class Stat
 		
 		string [] rowFromSql = new string [sessionsNum +1];
 		double [] sumValue = new double [sessionsNum +1];
-		double [] sumSquaredValue = new double [sessionsNum +1];
+		string [] valuesList = new string [sessionsNum +1];
 		string [] sendRow = new string [sessionsNum +1];
-		//int [] countRows = new int [sessions.Count +1]; //count the number of valid cells (rows) for make the AVG
 		int [] countRows = new int [sessionsNum +1]; //count the number of valid cells (rows) for make the AVG
 		int i;
 		
@@ -497,7 +495,7 @@ public class Stat
 		for(int j=1; j< sessionsNum+1 ; j++) {
 			sendRow[j] = "-";
 			sumValue[j] = 0;
-			sumSquaredValue[j] = 0;
+			valuesList[j] = "";
 			countRows[j] = 0;
 		}
 		string oldStat = "-1";
@@ -506,7 +504,6 @@ public class Stat
 		for (i=0 ; i < arrayFromSql.Count ; i ++) {
 			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
 
-			//if (sessionsNum == 1 || rowFromSql[0] != oldStat) {
 			if (rowFromSql[0] != oldStat) {
 				//print the values, except on the first iteration
 				if (i>0) {
@@ -527,7 +524,13 @@ public class Stat
 
 					if(makeAVGSD) {
 						sumValue[j+1] += Convert.ToDouble(rowFromSql[2]);
-						sumSquaredValue[j+1] += makeSquare(rowFromSql[2]);
+
+						if(valuesList[j+1] == "")
+							valuesList[j+1] = rowFromSql[2];
+						else
+							valuesList[j+1] += ":" + rowFromSql[2];
+
+
 						countRows[j+1] ++;
 					}
 				}
@@ -552,7 +555,7 @@ public class Stat
 					if(countRows[j] > 0) {
 						sendAVG[j] = Util.TrimDecimals( (sumValue[j] /countRows[j]).ToString(), pDN );
 						if(countRows[j] > 1) {
-							sendSD[j] = Util.TrimDecimals( calculateSD(sumValue[j], sumSquaredValue[j], countRows[j]), pDN );
+							sendSD[j] = Util.TrimDecimals( Util.CalculateSD(valuesList[j], sumValue[j], countRows[j]).ToString(), pDN );
 						} else {
 							sendSD[j] = "-";
 						}
@@ -580,7 +583,8 @@ public class Stat
 		string [] rowReturn = new String[sessions.Count +3];
 		int count =0;
 		double sumValue = 0;
-		double sumSquaredValue = 0;
+		string valuesList ="";
+		string separator ="";
 	
 		if(sessions.Count > 1) {
 			int i=0;
@@ -589,13 +593,14 @@ public class Stat
 				if(i>0 && rowReturn[i] != "-") { //first column is text
 					count++;
 					sumValue += Convert.ToDouble(rowReturn[i]); 
-					sumSquaredValue += makeSquare(rowReturn[i]); 
+					valuesList += separator + rowReturn[i];
+					separator = ":";
 				}
 			}
 			if(count > 0) {
 				rowReturn[i] = Util.TrimDecimals( (sumValue /count).ToString(), pDN );
 				if(count > 1) {
-					rowReturn[i+1] = Util.TrimDecimals( calculateSD(sumValue, sumSquaredValue, count), pDN );
+					rowReturn[i+1] = Util.TrimDecimals( Util.CalculateSD(valuesList, sumValue, count).ToString(), pDN );
 				} else {
 					rowReturn[i+1] = "-";
 				}
@@ -662,16 +667,6 @@ public class Stat
 		double myDouble;
 		myDouble = Convert.ToDouble(myValueStr);
 		return myDouble * myDouble;
-	}
-	
-	protected static string calculateSD(double sumValues, double sumSquaredValues, int count) {
-		if(count >1) {
-			//return (System.Math.Sqrt(
-			//		sumSquaredValues -(sumValues*sumValues/count) / (count -1) )).ToString();
-			return "-";
-		} else {
-			return "-";
-		}
 	}
 	
 	//true if found equal or more than 'limit' occurrences of 'searching' in array

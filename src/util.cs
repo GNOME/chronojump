@@ -158,6 +158,44 @@ public class Util
 		return lastSubEvent; 
 	}
 	
+	public static double CalculateSD(string valuesList, double sumValues, int count) {
+		if(count >1) {
+			/*	  
+			 * std = SQRT( Σ(Xi-Xavg)² /n )
+			 * stdSample = SQRT(n / n-1) * std
+			 */
+
+			double avg = sumValues / count;
+			double summatory = 0;
+			string [] valuesListFull = valuesList.Split(new char[] {':'});
+			
+			for(int i=0; i<count; i++) {
+				summatory += System.Math.Pow ( (Convert.ToDouble(valuesListFull[i]) - avg), 2);
+			}
+
+			/*
+			 * things inside the sqrt have an "(Double)" for not being returned a truncated number (without comma). 
+			 * Eg: 
+			 * System.Math.Sqrt(10/9) = 1 
+			 * System.Math.Sqrt(10/(Double)9) = 1,05409255338946
+			 */
+			
+			double std = System.Math.Sqrt(summatory / (Double)count);
+			double stdSample = System.Math.Sqrt( count/(Double)(count-1) ) * std;
+
+			/*
+			Console.WriteLine(valuesList);
+			Console.WriteLine(sumValues.ToString());
+			Console.WriteLine(count.ToString());
+			Console.WriteLine("std: {0}, stdSample: {1}", std, stdSample);
+			*/
+
+			return stdSample;
+		} else {
+			return -1;
+		}
+	}
+	
 	//useful for jumpType and jumpRjType, because the third value is the same
 	public static bool HasWeight(string [] jumpTypes, string myType) {
 		foreach (string myString in jumpTypes) {

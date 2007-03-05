@@ -329,7 +329,7 @@ msgstr "Índice Dj"
 
 #: ../glade/chronojump.glade.h:77
 msgid "Drop Jump"
-msgstr "Quitar salto"
+msgstr "Salto en caída"
 
 #: ../glade/chronojump.glade.h:78
 msgid "Edit jump"

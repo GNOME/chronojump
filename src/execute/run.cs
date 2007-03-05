@@ -83,7 +83,7 @@ public class RunExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		Console.WriteLine("From run.cs");
+		Console.WriteLine("From execute/run.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;

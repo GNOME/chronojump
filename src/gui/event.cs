@@ -62,12 +62,14 @@ public class EventExecuteWindow
 	[Widget] Gtk.Table table_run_simple;
 	[Widget] Gtk.Table table_run_interval;
 	[Widget] Gtk.Table table_pulse;
+	[Widget] Gtk.Table table_reaction_time;
 	
 	[Widget] Gtk.Table table_jump_simple_values;
 	[Widget] Gtk.Table table_jump_reactive_values;
 	[Widget] Gtk.Table table_run_simple_values;
 	[Widget] Gtk.Table table_run_interval_values;
 	[Widget] Gtk.Table table_pulse_values;
+	[Widget] Gtk.Table table_reaction_time_values;
 
 
 	//for the color change in the background of the cell label
@@ -80,6 +82,7 @@ public class EventExecuteWindow
 	[Widget] Gtk.EventBox eventbox_run_interval_time;
 	[Widget] Gtk.EventBox eventbox_run_interval_speed;
 	[Widget] Gtk.EventBox eventbox_pulse_time;
+	[Widget] Gtk.EventBox eventbox_reaction_time_time;
 
 	
 	[Widget] Gtk.Label label_jump_simple_tc_now;
@@ -108,6 +111,10 @@ public class EventExecuteWindow
 	
 	[Widget] Gtk.Label label_pulse_now;
 	[Widget] Gtk.Label label_pulse_avg;
+
+	[Widget] Gtk.Label label_reaction_time_now;
+	[Widget] Gtk.Label label_reaction_time_person;
+	[Widget] Gtk.Label label_reaction_time_session;
 
 	
 	[Widget] Gtk.DrawingArea drawingarea;
@@ -218,6 +225,8 @@ public class EventExecuteWindow
 			showRunIntervalLabels();
 		else if (tableName == "pulse")
 			showPulseLabels();
+		else if (tableName == "reactionTime")
+			showReactionTimeLabels(); 
 
 		//for the "update" button
 		lastEventWas = tableName;
@@ -266,11 +275,13 @@ public class EventExecuteWindow
 		//hide pulse info
 		table_pulse.Hide();
 		table_pulse_values.Hide();
+		
+		//hide reaction time info
+		table_reaction_time.Hide();
+		table_reaction_time_values.Hide();
 	}
 	
 	private void showJumpSimpleLabels() {
-		//hideAllTables();
-		
 		//show simple jump info
 		table_jump_simple.Show();
 		table_jump_simple_values.Show();
@@ -286,8 +297,6 @@ public class EventExecuteWindow
 	
 	
 	private void showJumpReactiveLabels() {
-		//hideAllTables();
-		
 		//show reactive info
 		table_jump_reactive.Show();
 		table_jump_reactive_values.Show();
@@ -300,8 +309,6 @@ public class EventExecuteWindow
 	}
 	
 	private void showRunSimpleLabels() {
-		//hideAllTables();
-		
 		//show run simple info
 		table_run_simple.Show();
 		table_run_simple_values.Show();
@@ -316,8 +323,6 @@ public class EventExecuteWindow
 	}
 		
 	private void showRunIntervalLabels() {
-		//hideAllTables();
-		
 		//show run interval info
 		table_run_interval.Show();
 		table_run_interval_values.Show();
@@ -330,8 +335,6 @@ public class EventExecuteWindow
 	}
 	
 	private void showPulseLabels() {
-		//hideAllTables();
-		
 		//show pulse info
 		table_pulse.Show();
 		table_pulse_values.Show();
@@ -340,6 +343,18 @@ public class EventExecuteWindow
 		label_pulse_now.Text = "";
 		label_pulse_avg.Text = "";
 	}
+	
+	private void showReactionTimeLabels() {
+		//show info
+		table_reaction_time.Show();
+		table_reaction_time_values.Show();
+
+		//initializeLabels
+		label_reaction_time_now.Text = "";
+		label_reaction_time_person.Text = "";
+		label_reaction_time_session.Text = "";
+	}
+
 	
 	//called for cleaning the graph of a event done before than the current
 	private void clearDrawingArea() 
@@ -724,6 +739,56 @@ public class EventExecuteWindow
 		Console.Write("l3");
 	}
 	
+	public void PrepareReactionTimeGraph(double time) 
+	{
+		//check graph properties window is not null (propably user has closed it with the DeleteEvent
+		//then create it, but not show it
+		if(eventGraphConfigureWin == null)
+			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
+
+		
+		Console.Write("k1");
+		
+		//obtain data
+		double timePersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "time");
+		double timeSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "time");
+
+		double maxValue = 0;
+		double minValue = 0;
+		int topMargin = 10; 
+		int bottomMargin = 10; 
+
+		//if max value of graph is automatic
+		if(eventGraphConfigureWin.Max == -1) {
+			maxValue = Util.GetMax(
+					time.ToString() + "=" + timePersonAVG.ToString() + "=" + timeSessionAVG.ToString());
+		} else {
+			maxValue = eventGraphConfigureWin.Max;
+			topMargin = 0;
+		}
+		
+		//if min value of graph is automatic
+		if(eventGraphConfigureWin.Min == -1) {
+			minValue = Util.GetMin(
+					time.ToString() + "=" + timePersonAVG.ToString() + "=" + timeSessionAVG.ToString());
+		} else {
+			minValue = eventGraphConfigureWin.Min;
+			bottomMargin = 0;
+		}
+		
+		//paint graph (use simple jump method)
+		paintJumpSimple (drawingarea, time, timePersonAVG, timeSessionAVG, 0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
+
+		printLabelsReactionTime (time, timePersonAVG, timeSessionAVG);
+		
+		Console.Write("k2");
+	
+		// -- refresh
+		drawingarea.QueueDraw();
+	
+		Console.Write("k3");
+	}
+	
 
 	private void printLabelsJumpSimple (double tvNow, double tvPerson, double tvSession, double tcNow, double tcPerson, double tcSession) {
 		if(tcNow > 0) {
@@ -748,6 +813,12 @@ public class EventExecuteWindow
 		label_run_simple_speed_now.Text = Util.TrimDecimals(speedNow.ToString(), pDN);
 		label_run_simple_speed_person.Text = Util.TrimDecimals(speedPerson.ToString(), pDN);
 		label_run_simple_speed_session.Text = Util.TrimDecimals(speedSession.ToString(), pDN);
+	}
+	
+	private void printLabelsReactionTime (double timeNow, double timePerson, double timeSession) {
+		label_reaction_time_now.Text = Util.TrimDecimals(timeNow.ToString(), pDN);
+		label_reaction_time_person.Text = Util.TrimDecimals(timePerson.ToString(), pDN);
+		label_reaction_time_session.Text = Util.TrimDecimals(timeSession.ToString(), pDN);
 	}
 	
 

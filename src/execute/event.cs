@@ -54,15 +54,17 @@ public class EventExecute
 	//also for the graph creation	
 	protected bool needUpdateGraph;
 	protected enum eventType {
-		JUMP, JUMPREACTIVE, RUN, RUNINTERVAL, PULSE
+		JUMP, JUMPREACTIVE, RUN, RUNINTERVAL, PULSE, REACTIONTIME
 	}
 	protected eventType needUpdateGraphType;
-	
-	protected PrepareEventGraphJumpSimple prepareEventGraphJumpSimple; //instance with the info to create
-	protected PrepareEventGraphJumpReactive prepareEventGraphJumpReactive; //instance with the info to create
-	protected PrepareEventGraphRunSimple prepareEventGraphRunSimple; //instance with the info to create
-	protected PrepareEventGraphRunInterval prepareEventGraphRunInterval; //instance with the info to create
-	protected PrepareEventGraphPulse prepareEventGraphPulse; //instance with the info to create
+
+	//instances with the info to create
+	protected PrepareEventGraphJumpSimple prepareEventGraphJumpSimple; 
+	protected PrepareEventGraphJumpReactive prepareEventGraphJumpReactive;
+	protected PrepareEventGraphRunSimple prepareEventGraphRunSimple;
+	protected PrepareEventGraphRunInterval prepareEventGraphRunInterval;
+	protected PrepareEventGraphPulse prepareEventGraphPulse;
+	protected PrepareEventGraphReactionTime prepareEventGraphReactionTime;
 	
 	protected bool needEndEvent;
 
@@ -381,6 +383,11 @@ Console.Write("wwb ");
 				eventExecuteWin.PreparePulseGraph(
 						prepareEventGraphPulse.lastTime, 
 						prepareEventGraphPulse.timesString);
+				break;
+			case eventType.REACTIONTIME:
+				Console.Write("update graph: REACTIONTIME");
+				eventExecuteWin.PrepareReactionTimeGraph(
+						prepareEventGraphReactionTime.time); 
 				break;
 		}
 	}

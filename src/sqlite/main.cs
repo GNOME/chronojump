@@ -120,6 +120,17 @@ class Sqlite
 			myVersion = "0.46";
 		}
 
+		if(myVersion == "0.46") {
+			dbcon.Open();
+
+			SqliteReactionTime.createTable();
+
+			SqlitePreferences.Update ("databaseVersion", "0.47"); 
+			Console.WriteLine("Added reaction time table");
+			dbcon.Close();
+			myVersion = "0.47";
+		}
+
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
 	}
@@ -168,14 +179,18 @@ class Sqlite
 		SqlitePulseType.createTablePulseType();
 		SqlitePulseType.initializeTablePulseType();
 	
+		//reactionTimes
+		SqliteReactionTime.createTable();
 		
+
 		SqliteSession.createTable();
 		
 		SqlitePersonSession.createTable();
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.46"); 
+		SqlitePreferences.Insert ("databaseVersion", "0.47"); 
+		//changes from 0.46 to 0.47: added reactionTime table
 		//changes from 0.45 to 0.46: added "Free" jump type
 		//changes from 0.44 to 0.45: added allowFinishRjAfterTime
 		//changes from 0.43 to 0.44: added showQIndex and showDjIndex

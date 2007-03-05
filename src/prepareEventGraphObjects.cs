@@ -106,3 +106,16 @@ public class PrepareEventGraphPulse {
 	~PrepareEventGraphPulse() {}
 }
 
+public class PrepareEventGraphReactionTime {
+	public double time;
+
+	public PrepareEventGraphReactionTime() {
+	}
+
+	public PrepareEventGraphReactionTime(double time) {
+		this.time = time;
+	}
+
+	~PrepareEventGraphReactionTime() {}
+}
+

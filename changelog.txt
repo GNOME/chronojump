@@ -1,5 +1,18 @@
 CHANGELOG:
 
+5 mar 2007
+	We have now reaction time!! (works for simulated and real)
+	-remains code in: load sess, search person events, menu stuff
+	-database changed to 0.47
+
+	Created compile_po_files.sh for updating the translations when needed
+
+	starting catalan translation
+
+	rewfiles: compile_po_files.sh, src/reactionTime.cs,
+	src/execute/reactionTime.cs src/treeViewReactionTime.cs
+	src/sqlite/reactionTime.cs
+	po/ca.po locale de ar i de ca
 19 feb 2007
 	"finish" works now in all events (donie like in cancel with totallyFinished)
 

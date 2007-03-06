@@ -37,8 +37,8 @@ public class ChronoJump
 	[Widget] Gtk.TreeView treeview_jumps_rj;
 	[Widget] Gtk.TreeView treeview_runs;
 	[Widget] Gtk.TreeView treeview_runs_interval;
-	[Widget] Gtk.TreeView treeview_pulses;
 	[Widget] Gtk.TreeView treeview_reaction_times;
+	[Widget] Gtk.TreeView treeview_pulses;
 	[Widget] Gtk.Box hbox_combo_jumps;
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_runs;
@@ -75,14 +75,14 @@ public class ChronoJump
 	[Widget] Gtk.Button button_edit_selected_run_interval;
 	[Widget] Gtk.Button button_delete_selected_run_interval;
 
+	[Widget] Gtk.Button button_edit_selected_reaction_time;
+	[Widget] Gtk.Button button_delete_selected_reaction_time;
+
 	//[Widget] Gtk.MenuItem menuitem_edit_selected_pulse;
 	//[Widget] Gtk.MenuItem menuitem_delete_selected_pulse;
 	[Widget] Gtk.Button button_edit_selected_pulse;
 	[Widget] Gtk.Button button_delete_selected_pulse;
 	
-	[Widget] Gtk.Button button_edit_selected_reaction_time;
-	[Widget] Gtk.Button button_delete_selected_reaction_time;
-
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
 	[Widget] Gtk.Button button_open;
@@ -110,10 +110,10 @@ public class ChronoJump
 	[Widget] Gtk.Button button_run_interval_by_laps;
 	[Widget] Gtk.Button button_run_interval_by_time;
 	[Widget] Gtk.Button button_run_interval_unlimited;
+	[Widget] Gtk.Button button_reaction_time_execute;
 	[Widget] Gtk.Button button_pulse_custom;
 	[Widget] Gtk.Button button_pulse_more;
 	[Widget] Gtk.Button button_pulse_last;
-	[Widget] Gtk.Button button_reaction_time_execute;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
@@ -190,12 +190,12 @@ public class ChronoJump
 	//runs interval
 	private TreeStore treeview_runs_interval_store;
 	private TreeViewRunsInterval myTreeViewRunsInterval;
-	//pulses
-	private TreeStore treeview_pulses_store;
-	private TreeViewPulses myTreeViewPulses;
 	//reaction times
 	private TreeStore treeview_reaction_times_store;
 	private TreeViewReactionTimes myTreeViewReactionTimes;
+	//pulses
+	private TreeStore treeview_pulses_store;
+	private TreeViewPulses myTreeViewPulses;
 
 	//preferences variables
 	private static string chronopicPort;
@@ -217,8 +217,8 @@ public class ChronoJump
 	private static JumpRj currentJumpRj;
 	private static Run currentRun;
 	private static RunInterval currentRunInterval;
-	private static Pulse currentPulse;
 	private static ReactionTime currentReactionTime;
+	private static Pulse currentPulse;
 	
 	private static EventExecute currentEventExecute;
 
@@ -426,15 +426,15 @@ public class ChronoJump
 		createTreeView_jumps_rj(treeview_jumps_rj);
 		createTreeView_runs(treeview_runs);
 		createTreeView_runs_interval(treeview_runs_interval);
-		createTreeView_pulses(treeview_pulses);
 		createTreeView_reaction_times(treeview_reaction_times);
+		createTreeView_pulses(treeview_pulses);
 
 		createComboJumps();
 		createComboJumpsRj();
 		createComboRuns();
 		createComboRunsInterval();
-		createComboPulses();
 		//reaction_times has no combo
+		createComboPulses();
 		createdStatsWin = false;
 
 		//We have no session, mark some widgets as ".Sensitive = false"
@@ -682,7 +682,7 @@ public class ChronoJump
 
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
-		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber );
+		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	private void fillTreeView_jumps (string filter) {
@@ -702,7 +702,7 @@ public class ChronoJump
 	
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
-		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber );
+		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
@@ -720,7 +720,7 @@ public class ChronoJump
 	 */
 
 	private void createTreeView_jumps_rj (Gtk.TreeView tv) {
-		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber );
+		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	private void fillTreeView_jumps_rj (string filter) {
@@ -744,7 +744,7 @@ public class ChronoJump
 	
 	private void treeview_jumps_rj_storeReset() {
 		myTreeViewJumpsRj.RemoveColumns();
-		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber );
+		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
 	}
 
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args) {
@@ -837,6 +837,44 @@ public class ChronoJump
 	}
 
 	/* ---------------------------------------------------------
+	 * ----------------  TREEVIEW REACTION TIMES ---------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void createTreeView_reaction_times (Gtk.TreeView tv) {
+		//myTreeViewReactionTimes is a TreeViewReactionTimes instance
+		myTreeViewReactionTimes = new TreeViewReactionTimes( tv, prefsDigitsNumber );
+	}
+
+	//private void fillTreeView_reaction_times (string filter) {
+	private void fillTreeView_reaction_times () {
+		string [] myRTs = SqliteReactionTime.SelectAllReactionTimes(currentSession.UniqueID);
+		myTreeViewReactionTimes.Fill(myRTs, "");
+	}
+	
+	private void on_button_reaction_time_collapse_clicked (object o, EventArgs args) {
+		treeview_reaction_times.CollapseAll();
+	}
+	
+	private void on_button_reaction_time_expand_clicked (object o, EventArgs args) {
+		treeview_reaction_times.ExpandAll();
+	}
+	
+	private void treeview_reaction_times_storeReset() {
+		myTreeViewReactionTimes.RemoveColumns();
+		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, prefsDigitsNumber );
+	}
+
+	private void on_treeview_reaction_times_cursor_changed (object o, EventArgs args) {
+		// don't select if it's a person, 
+		// is for not confusing with the person treeviews that controls who is executing
+		if (myTreeViewReactionTimes.EventSelectedID == 0) {
+			Console.WriteLine("don't select");
+			myTreeViewReactionTimes.Unselect();
+		}
+	}
+
+	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW PULSES -----------------------
 	 *  --------------------------------------------------------
 	 */
@@ -875,44 +913,6 @@ public class ChronoJump
 		if (myTreeViewPulses.EventSelectedID == 0) {
 			Console.WriteLine("don't select");
 			myTreeViewPulses.Unselect();
-		}
-	}
-
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW REACTION TIMES ---------------
-	 *  --------------------------------------------------------
-	 */
-
-	private void createTreeView_reaction_times (Gtk.TreeView tv) {
-		//myTreeViewReactionTimes is a TreeViewReactionTimes instance
-		myTreeViewReactionTimes = new TreeViewReactionTimes( tv, prefsDigitsNumber );
-	}
-
-	//private void fillTreeView_reaction_times (string filter) {
-	private void fillTreeView_reaction_times () {
-		string [] myRTs = SqliteReactionTime.SelectAllReactionTimes(currentSession.UniqueID);
-		myTreeViewReactionTimes.Fill(myRTs, "");
-	}
-	
-	private void on_button_reaction_time_collapse_clicked (object o, EventArgs args) {
-		treeview_reaction_times.CollapseAll();
-	}
-	
-	private void on_button_reaction_time_expand_clicked (object o, EventArgs args) {
-		treeview_reaction_times.ExpandAll();
-	}
-	
-	private void treeview_reaction_times_storeReset() {
-		myTreeViewReactionTimes.RemoveColumns();
-		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, prefsDigitsNumber );
-	}
-
-	private void on_treeview_reaction_times_cursor_changed (object o, EventArgs args) {
-		// don't select if it's a person, 
-		// is for not confusing with the person treeviews that controls who is executing
-		if (myTreeViewReactionTimes.EventSelectedID == 0) {
-			Console.WriteLine("don't select");
-			myTreeViewReactionTimes.Unselect();
 		}
 	}
 
@@ -975,6 +975,8 @@ public class ChronoJump
 		combo_runs_interval.Sensitive = false;
 	}
 	
+	//no need of reationTimes
+
 	private void createComboPulses() {
 		combo_pulses = new Combo ();
 		combo_pulses.PopdownStrings = 
@@ -988,8 +990,6 @@ public class ChronoJump
 		
 		combo_pulses.Sensitive = false;
 	}
-
-	//no need of reationTimes
 
 	private void updateComboJumps() {
 		combo_jumps.PopdownStrings = 
@@ -1011,12 +1011,12 @@ public class ChronoJump
 			SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true); //only select name
 	}
 	
+	//no need of reationTimes
+	
 	private void updateComboPulses() {
 		combo_runs.PopdownStrings = 
 			SqlitePulseType.SelectPulseTypes(Constants.AllRunsName, true); //only select name
 	}
-	
-	//no need of reationTimes
 	
 	private void on_combo_jumps_changed(object o, EventArgs args) {
 		string myText = combo_jumps.Entry.Text;
@@ -1090,6 +1090,8 @@ public class ChronoJump
 			myTreeViewRunsInterval.ExpandOptimal();
 	}
 
+	//no need of reationTimes
+	
 	private void on_combo_pulses_changed(object o, EventArgs args) {
 		string myText = combo_pulses.Entry.Text;
 
@@ -1107,8 +1109,6 @@ public class ChronoJump
 			myTreeViewPulses.ExpandOptimal();
 	}
 
-	//no need of reationTimes
-	
 	
 	/* ---------------------------------------------------------
 	 * ----------------  DELETE EVENT, QUIT  -----------------------
@@ -2450,165 +2450,6 @@ public class ChronoJump
 		sensitiveGuiEventDone();
 	}
 
-
-	/* ---------------------------------------------------------
-	 * ----------------  PULSES EXECUTION ----------- ----------
-	 *  --------------------------------------------------------
-	 */
-
-	private void on_button_pulse_more_clicked (object o, EventArgs args) 
-	{
-		appbar2.Push ( 1, "pulse more (NOT IMPLEMENTED YET)");
-		/*
-		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
-		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
-		*/
-	}
-	
-	private void on_more_pulse_accepted (object o, EventArgs args) 
-	{
-		/*
-		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
-		
-		currentRunType = new RunType(
-				runsIntervalMoreWin.SelectedRunType,	//name
-				true,					//hasIntervals
-				runsIntervalMoreWin.SelectedDistance,
-				runsIntervalMoreWin.SelectedTracksLimited,
-				runsIntervalMoreWin.SelectedLimitedValue,
-				runsIntervalMoreWin.SelectedUnlimited
-				);
-				
-		//go to run extra if we need something to define
-		if( currentRunType.Distance == 0 || 
-				(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
-			on_run_extra_activate(o, args);
-		} else {
-			on_run_interval_accepted(o, args);
-		}
-		*/
-	}
-	
-	private void on_button_pulse_last_clicked (object o, EventArgs args) 
-	{
-		appbar2.Push ( 1, "pulse last (NOT IMPLEMENTED YET)");
-		/*
-		on_run_interval_activate(o, args);
-		*/
-	}
-	
-	private void on_button_pulse_free_activate (object o, EventArgs args) 
-	{
-		currentPulseType = new PulseType("Free");
-		on_pulse_accepted(o, args);
-	}
-	
-	//interval runs clicked from user interface
-	//(not suitable for the other runs we found in "more")
-	private void on_button_pulse_custom_activate (object o, EventArgs args) 
-	{
-		currentPulseType = new PulseType("Custom");
-			
-		pulseExtraWin = PulseExtraWindow.Show(app1, currentPulseType);
-		pulseExtraWin.Button_accept.Clicked += new EventHandler(on_pulse_accepted);
-	}
-	
-	private void on_pulse_accepted (object o, EventArgs args)
-	{
-		Console.WriteLine("pulse accepted");
-	
-		double pulseStep = 0;
-		int totalPulses = 0;
-
-		if(currentPulseType.Name == "Free") {
-			pulseStep = currentPulseType.FixedPulse; // -1
-			totalPulses = currentPulseType.TotalPulsesNum; //-1
-		} else { //custom (info comes from Extra Window
-			pulseStep = pulseExtraWin.PulseStep;
-			totalPulses = pulseExtraWin.TotalPulses; //-1: unlimited; or 'n': limited by 'n' pulses
-		}
-
-		//used by cancel and finish
-		currentEventIs = eventType.PULSE;
-			
-		//hide pulse buttons
-		sensitiveGuiEventDoing();
-		
-		//change to page 4 of notebook if were in other
-		notebook_change(4);
-		
-		//show the event doing window
-		eventExecuteWin = EventExecuteWindow.Show(
-			Catalog.GetString("Execute Pulse"), //windowTitle
-			Catalog.GetString("Pulses"),  	  //name of the different moments
-			currentPerson.UniqueID, currentPerson.Name, 
-			currentSession.UniqueID, 
-			"pulse", //tableName
-			currentPulseType.Name, 
-			prefsDigitsNumber, totalPulses, simulated);
-
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
-		
-		//when user clicks on update the eventExecute window 
-		//(for showing with his new confgured values: max, min and guides
-		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
-		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
-
-		currentEventExecute = new PulseExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp, appbar2, app1, prefsDigitsNumber);
-		
-		if(simulated)	
-			currentEventExecute.SimulateInitValues(rand);
-		
-		currentEventExecute.Manage();
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
-	}
-
-	private void on_pulse_finished (object o, EventArgs args) 
-	{
-		Console.WriteLine("pulse finished");
-		
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
-		
-		if ( ! currentEventExecute.Cancel ) {
-			lastEventWas = eventType.PULSE;
-			/*
-			 * CURRENTLY NOT NEEDED... check
-			//if user clicked in finish earlier
-			if(currentPulse.Finish) {
-				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString, false);
-				if(currentRunInterval.TracksLimited) {
-					currentRunInterval.Limited = currentRunInterval.Tracks.ToString() + "R";
-				} else {
-					currentRunInterval.Limited = Util.GetTotalTime(
-							currentRunInterval.IntervalTimesString) + "T";
-				}
-			}
-			*/
-			
-			currentPulse = (Pulse) currentEventExecute.EventDone;
-
-			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
-			
-			/*
-			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, false);
-			}
-			*/
-			
-			//unhide buttons for delete last jump
-			sensitiveGuiYesEvent();
-
-			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
-			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
-		}
-		
-		//unhide buttons that allow jumping, running
-		sensitiveGuiEventDone();
-	}
-
 	/* ---------------------------------------------------------
 	 * ----------------  REACTION TIMES EXECUTION --------------
 	 *  --------------------------------------------------------
@@ -2649,8 +2490,8 @@ public class ChronoJump
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 
-		//change to page 0 of notebook if were in other
-		notebook_change(5);
+		//change to page 4 of notebook if were in other
+		notebook_change(4);
 		
 		//show the event doing window
 		double myLimit = 2;
@@ -2751,6 +2592,165 @@ public class ChronoJump
 	}
 
 
+	/* ---------------------------------------------------------
+	 * ----------------  PULSES EXECUTION ----------- ----------
+	 *  --------------------------------------------------------
+	 */
+
+	private void on_button_pulse_more_clicked (object o, EventArgs args) 
+	{
+		appbar2.Push ( 1, "pulse more (NOT IMPLEMENTED YET)");
+		/*
+		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
+		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
+		*/
+	}
+	
+	private void on_more_pulse_accepted (object o, EventArgs args) 
+	{
+		/*
+		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
+		
+		currentRunType = new RunType(
+				runsIntervalMoreWin.SelectedRunType,	//name
+				true,					//hasIntervals
+				runsIntervalMoreWin.SelectedDistance,
+				runsIntervalMoreWin.SelectedTracksLimited,
+				runsIntervalMoreWin.SelectedLimitedValue,
+				runsIntervalMoreWin.SelectedUnlimited
+				);
+				
+		//go to run extra if we need something to define
+		if( currentRunType.Distance == 0 || 
+				(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
+			on_run_extra_activate(o, args);
+		} else {
+			on_run_interval_accepted(o, args);
+		}
+		*/
+	}
+	
+	private void on_button_pulse_last_clicked (object o, EventArgs args) 
+	{
+		appbar2.Push ( 1, "pulse last (NOT IMPLEMENTED YET)");
+		/*
+		on_run_interval_activate(o, args);
+		*/
+	}
+	
+	private void on_button_pulse_free_activate (object o, EventArgs args) 
+	{
+		currentPulseType = new PulseType("Free");
+		on_pulse_accepted(o, args);
+	}
+	
+	//interval runs clicked from user interface
+	//(not suitable for the other runs we found in "more")
+	private void on_button_pulse_custom_activate (object o, EventArgs args) 
+	{
+		currentPulseType = new PulseType("Custom");
+			
+		pulseExtraWin = PulseExtraWindow.Show(app1, currentPulseType);
+		pulseExtraWin.Button_accept.Clicked += new EventHandler(on_pulse_accepted);
+	}
+	
+	private void on_pulse_accepted (object o, EventArgs args)
+	{
+		Console.WriteLine("pulse accepted");
+	
+		double pulseStep = 0;
+		int totalPulses = 0;
+
+		if(currentPulseType.Name == "Free") {
+			pulseStep = currentPulseType.FixedPulse; // -1
+			totalPulses = currentPulseType.TotalPulsesNum; //-1
+		} else { //custom (info comes from Extra Window
+			pulseStep = pulseExtraWin.PulseStep;
+			totalPulses = pulseExtraWin.TotalPulses; //-1: unlimited; or 'n': limited by 'n' pulses
+		}
+
+		//used by cancel and finish
+		currentEventIs = eventType.PULSE;
+			
+		//hide pulse buttons
+		sensitiveGuiEventDoing();
+		
+		//change to page 5 of notebook if were in other
+		notebook_change(5);
+		
+		//show the event doing window
+		eventExecuteWin = EventExecuteWindow.Show(
+			Catalog.GetString("Execute Pulse"), //windowTitle
+			Catalog.GetString("Pulses"),  	  //name of the different moments
+			currentPerson.UniqueID, currentPerson.Name, 
+			currentSession.UniqueID, 
+			"pulse", //tableName
+			currentPulseType.Name, 
+			prefsDigitsNumber, totalPulses, simulated);
+
+		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		
+		//when user clicks on update the eventExecute window 
+		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
+		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+
+		currentEventExecute = new PulseExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
+				cp, appbar2, app1, prefsDigitsNumber);
+		
+		if(simulated)	
+			currentEventExecute.SimulateInitValues(rand);
+		
+		currentEventExecute.Manage();
+		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
+	}
+
+	private void on_pulse_finished (object o, EventArgs args) 
+	{
+		Console.WriteLine("pulse finished");
+		
+		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
+		
+		if ( ! currentEventExecute.Cancel ) {
+			lastEventWas = eventType.PULSE;
+			/*
+			 * CURRENTLY NOT NEEDED... check
+			//if user clicked in finish earlier
+			if(currentPulse.Finish) {
+				currentRunInterval.Tracks = Util.GetNumberOfJumps(currentRunInterval.IntervalTimesString, false);
+				if(currentRunInterval.TracksLimited) {
+					currentRunInterval.Limited = currentRunInterval.Tracks.ToString() + "R";
+				} else {
+					currentRunInterval.Limited = Util.GetTotalTime(
+							currentRunInterval.IntervalTimesString) + "T";
+				}
+			}
+			*/
+			
+			currentPulse = (Pulse) currentEventExecute.EventDone;
+
+			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
+			
+			/*
+			if(createdStatsWin) {
+				statsWin.FillTreeView_stats(false, false);
+			}
+			*/
+			
+			//unhide buttons for delete last jump
+			sensitiveGuiYesEvent();
+
+			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
+			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
+		}
+		
+		//unhide buttons that allow jumping, running
+		sensitiveGuiEventDone();
+	}
+
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS EDIT ---------------------------
@@ -2820,7 +2820,7 @@ public class ChronoJump
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
-			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber);
+			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
 			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
 		}
 	}
@@ -2836,7 +2836,7 @@ public class ChronoJump
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
-			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber);
+			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
 			editRunIntervalWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_interval_accepted);
 		}
 	}
@@ -2863,40 +2863,8 @@ public class ChronoJump
 		}
 	}
 
-	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
-		notebook_change(4);
-		Console.WriteLine("Edit selected pulse");
-		appbar2.Push ( 1, "Edit selected pulse (NOT IMPLEMENTED YET)");
-		/*
-		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewRuns.RunSelectedID > 0) {
-			//3.- obtain the data of the selected run
-			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.RunSelectedID );
-			Console.WriteLine(myRun);
-		
-			//4.- edit this run
-			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber);
-			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
-		}
-		*/
-	}
-	
-	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected pulse accepted");
-		
-		/*
-		treeview_runs_storeReset();
-		fillTreeView_runs(combo_runs.Entry.Text);
-		
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
-		}
-		*/
-	}
-	
 	private void on_edit_selected_reaction_time_clicked (object o, EventArgs args) {
-		notebook_change(5);
+		notebook_change(4);
 		Console.WriteLine("Edit selected reaction time");
 		appbar2.Push ( 1, "Edit selected reaction time (NOT IMPLEMENTED YET)");
 		/*
@@ -2916,6 +2884,38 @@ public class ChronoJump
 	
 	private void on_edit_selected_reaction_time_accepted (object o, EventArgs args) {
 		Console.WriteLine("edit selected reaction time accepted");
+		
+		/*
+		treeview_runs_storeReset();
+		fillTreeView_runs(combo_runs.Entry.Text);
+		
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
+		*/
+	}
+	
+	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
+		notebook_change(5);
+		Console.WriteLine("Edit selected pulse");
+		appbar2.Push ( 1, "Edit selected pulse (NOT IMPLEMENTED YET)");
+		/*
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		if (myTreeViewRuns.RunSelectedID > 0) {
+			//3.- obtain the data of the selected run
+			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.RunSelectedID );
+			Console.WriteLine(myRun);
+		
+			//4.- edit this run
+			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber);
+			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
+		}
+		*/
+	}
+	
+	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
+		Console.WriteLine("edit selected pulse accepted");
 		
 		/*
 		treeview_runs_storeReset();
@@ -3060,6 +3060,43 @@ public class ChronoJump
 		}
 	}
 	
+	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
+		notebook_change(4);
+		Console.WriteLine("delete selected reaction time");
+		appbar2.Push ( 1, "delete selected reaction time (NOT IMPLEMENTED YET)");
+		
+		/*
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person
+		if (myTreeViewRuns.RunSelectedID > 0) {
+			//3.- display confirmwindow of deletion 
+			if (askDeletion) {
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected run?", 
+						"", "run", myTreeViewRuns.RunSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
+			} else {
+				on_delete_selected_run_accepted(o, args);
+			}
+		}
+		*/
+	}
+		
+	private void on_delete_selected_reaction_time_accepted (object o, EventArgs args) {
+		Console.WriteLine("accept delete selected reaction time");
+		
+		/*
+		SqliteRun.Delete( "run", (myTreeViewRuns.RunSelectedID).ToString() );
+		
+		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.RunSelectedID );
+	
+		myTreeViewRuns.DelRun(myTreeViewRuns.RunSelectedID);
+
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
+		*/
+	}
+
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
 		notebook_change(5);
 		Console.WriteLine("delete selected pulse");
@@ -3083,43 +3120,6 @@ public class ChronoJump
 		
 	private void on_delete_selected_pulse_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected pulse");
-		
-		/*
-		SqliteRun.Delete( "run", (myTreeViewRuns.RunSelectedID).ToString() );
-		
-		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.RunSelectedID );
-	
-		myTreeViewRuns.DelRun(myTreeViewRuns.RunSelectedID);
-
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
-		}
-		*/
-	}
-
-	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
-		notebook_change(5);
-		Console.WriteLine("delete selected reaction time");
-		appbar2.Push ( 1, "delete selected reaction time (NOT IMPLEMENTED YET)");
-		
-		/*
-		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person
-		if (myTreeViewRuns.RunSelectedID > 0) {
-			//3.- display confirmwindow of deletion 
-			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected run?", 
-						"", "run", myTreeViewRuns.RunSelectedID);
-				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
-			} else {
-				on_delete_selected_run_accepted(o, args);
-			}
-		}
-		*/
-	}
-		
-	private void on_delete_selected_reaction_time_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected reaction time");
 		
 		/*
 		SqliteRun.Delete( "run", (myTreeViewRuns.RunSelectedID).ToString() );
@@ -3178,28 +3178,28 @@ public class ChronoJump
 					on_last_run_delete_accepted(o, args);
 				}
 				break;
-			case eventType.PULSE:
-				if (askDeletion) {
-					int myID = myTreeViewPulses.EventSelectedID;
-					notebook_change(4);
-					confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, 
-							Catalog.GetString("Do you want to delete last pulse?"), 
-							warningString, "pulse", myID);
-					confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_pulse_delete_accepted);
-				} else {
-					on_last_pulse_delete_accepted(o, args);
-				}
-				break;
 			case eventType.REACTIONTIME:
 				if (askDeletion) {
 					int myID = myTreeViewReactionTimes.EventSelectedID;
-					notebook_change(5);
+					notebook_change(4);
 					confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, 
 							Catalog.GetString("Do you want to delete last reaction time?"), 
 							warningString, "reaction time", myID);
 					confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_reaction_time_delete_accepted);
 				} else {
 					on_last_reaction_time_delete_accepted(o, args);
+				}
+				break;
+			case eventType.PULSE:
+				if (askDeletion) {
+					int myID = myTreeViewPulses.EventSelectedID;
+					notebook_change(5);
+					confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, 
+							Catalog.GetString("Do you want to delete last pulse?"), 
+							warningString, "pulse", myID);
+					confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_pulse_delete_accepted);
+				} else {
+					on_last_pulse_delete_accepted(o, args);
 				}
 				break;
 			default:
@@ -3248,22 +3248,6 @@ public class ChronoJump
 			statsWin.FillTreeView_stats(false, false);
 	}
 
-	private void on_last_pulse_delete_accepted (object o, EventArgs args) {
-		SqlitePulse.Delete(currentPulse.UniqueID.ToString());
-		
-		button_last_delete.Sensitive = false ;
-
-		appbar2.Push( 1, Catalog.GetString("Last pulse deleted") );
-
-		myTreeViewPulses.DelEvent(currentPulse.UniqueID);
-
-		/*
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
-		}
-		*/
-	}
-
 	private void on_last_reaction_time_delete_accepted (object o, EventArgs args) {
 		SqliteReactionTime.Delete(currentReactionTime.UniqueID.ToString());
 		
@@ -3272,6 +3256,22 @@ public class ChronoJump
 		appbar2.Push( 1, Catalog.GetString("Last reaction time deleted") );
 
 		myTreeViewReactionTimes.DelEvent(currentReactionTime.UniqueID);
+
+		/*
+		if(createdStatsWin) {
+			statsWin.FillTreeView_stats(false, false);
+		}
+		*/
+	}
+
+	private void on_last_pulse_delete_accepted (object o, EventArgs args) {
+		SqlitePulse.Delete(currentPulse.UniqueID.ToString());
+		
+		button_last_delete.Sensitive = false ;
+
+		appbar2.Push( 1, Catalog.GetString("Last pulse deleted") );
+
+		myTreeViewPulses.DelEvent(currentPulse.UniqueID);
 
 		/*
 		if(createdStatsWin) {
@@ -3313,6 +3313,8 @@ public class ChronoJump
 		updateComboRunsInterval();
 	}
 
+	//reactiontime has no types
+
 	private void on_pulse_type_add_activate (object o, EventArgs args) {
 		Console.WriteLine("Add new pulse type");
 			
@@ -3329,8 +3331,6 @@ public class ChronoJump
 		updateComboRunsInterval();
 		*/
 	}
-
-	//reactiontime has no types
 
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS REPAIR -------------------------
@@ -3605,11 +3605,11 @@ public class ChronoJump
 						//}
 					}
 					break;
-				case eventType.PULSE:
-					Console.WriteLine("sensitiveGuiEventDone pulse");
-					break;
 				case eventType.REACTIONTIME:
 					Console.WriteLine("sensitiveGuiEventDone reaction time");
+					break;
+				case eventType.PULSE:
+					Console.WriteLine("sensitiveGuiEventDone pulse");
 					break;
 				default:
 					Console.WriteLine("sensitiveGuiEventDone default");

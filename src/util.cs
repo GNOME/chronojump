@@ -387,11 +387,15 @@ public class Util
 	}
 
 
-	public static string GetSpeed (string distance, string time) {
+	//public static string GetSpeed (string distance, string time) {
+	public static string GetSpeed (string distance, string time, bool metersSecondsPreferred) {
 		double distanceAsDouble = Convert.ToDouble(distance);
 		double timeAsDouble = Convert.ToDouble(time);
 
-		return (distanceAsDouble / timeAsDouble).ToString();
+		if(metersSecondsPreferred)
+			return (distanceAsDouble / timeAsDouble).ToString();
+		else
+			return (3.6 * distanceAsDouble / timeAsDouble).ToString();
 	}
 					
 	
@@ -424,13 +428,16 @@ public class Util
 		return text.Substring(i);
 	}
 
-	public static string GetInitialSpeed (string time) 
+	public static string GetInitialSpeed (string time, bool metersSecondsPreferred) 
 	{
 		double height = Convert.ToDouble( GetHeightInCentimeters(time) );
 		height = height / 100; //in meters
 		
 		// Vo = sqrt(2gh)
 		double initialSpeed = System.Math.Sqrt ( 2 * 9.81 * height ); 
+
+		if(! metersSecondsPreferred)
+			initialSpeed *= 3.6;
 
 		return initialSpeed.ToString();
 	}

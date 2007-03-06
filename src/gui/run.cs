@@ -55,6 +55,7 @@ public class EditRunWindow
 	static EditRunWindow EditRunWindowBox;
 	Gtk.Window parent;
 	int pDN;
+	bool metersSecondsPreferred;
 	string entryDistance; //contains a entry that is a Number. If changed the entry as is not a number, recuperate this
 	string entryTime; 
 
@@ -76,13 +77,14 @@ public class EditRunWindow
 		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
-	static public EditRunWindow Show (Gtk.Window parent, Run myRun, int pDN)
+	static public EditRunWindow Show (Gtk.Window parent, Run myRun, int pDN, bool metersSecondsPreferred)
 	{
 		if (EditRunWindowBox == null) {
 			EditRunWindowBox = new EditRunWindow (parent);
 		}
 		
 		EditRunWindowBox.pDN = pDN;
+		EditRunWindowBox.metersSecondsPreferred = metersSecondsPreferred;
 		
 		EditRunWindowBox.edit_run.Show ();
 
@@ -149,7 +151,7 @@ public class EditRunWindow
 		if(Util.IsNumber(entry_time.Text.ToString())){
 			entryTime = entry_time.Text.ToString();
 			label_speed_value.Text = Util.TrimDecimals(
-					Util.GetSpeed (entryDistance, entryTime) , pDN);
+					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
 		} else {
 			entry_time.Text = "";
 			entry_time.Text = entryTime;
@@ -160,7 +162,7 @@ public class EditRunWindow
 		if(Util.IsNumber(entry_distance.Text.ToString())){
 			entryDistance = entry_distance.Text.ToString();
 			label_speed_value.Text = Util.TrimDecimals(
-					Util.GetSpeed (entryDistance, entryTime) , pDN);
+					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
 		} else {
 			entry_distance.Text = "";
 			entry_distance.Text = entryDistance;
@@ -182,7 +184,7 @@ public class EditRunWindow
 		}
 		
 		label_speed_value.Text = Util.TrimDecimals(
-				Util.GetSpeed (entryDistance, entryTime) , pDN);
+				Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
 	}
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -238,6 +240,7 @@ public class EditRunIntervalWindow
 	static EditRunIntervalWindow EditRunIntervalWindowBox;
 	Gtk.Window parent;
 	int pDN;
+	bool metersSecondsPreferred;
 	string type;
 
 	EditRunIntervalWindow (Gtk.Window parent) {
@@ -256,7 +259,7 @@ public class EditRunIntervalWindow
 		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a intervallic run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 	
-	static public EditRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
+	static public EditRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN, bool metersSecondsPreferred)
 	{
 		Console.WriteLine(myRun);
 		if (EditRunIntervalWindowBox == null) {
@@ -264,6 +267,7 @@ public class EditRunIntervalWindow
 		}
 		
 		EditRunIntervalWindowBox.pDN = pDN;
+		EditRunIntervalWindowBox.metersSecondsPreferred = metersSecondsPreferred;
 		
 		EditRunIntervalWindowBox.edit_run.Show ();
 
@@ -288,7 +292,8 @@ public class EditRunIntervalWindow
 		label_speed_value.Text = Util.TrimDecimals( 
 				Util.GetSpeed(
 					myRun.DistanceTotal.ToString(),
-					myRun.TimeTotal.ToString() ), pDN);
+					myRun.TimeTotal.ToString(), 
+					metersSecondsPreferred), pDN);
 
 		
 		label_limited_value.Text = myRun.Limited;

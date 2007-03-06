@@ -717,7 +717,7 @@ public class RunIntervalExecute : RunExecute
 			type + " (" + limitString + ") " +
 			Catalog.GetString("AVG Speed") + ": " + Util.TrimDecimals( 
 					Util.GetSpeed(distanceTotal.ToString(),
-						timeTotal.ToString() )
+						timeTotal.ToString(), metersSecondsPreferred )
 					, pDN ) ;
 		appbar.Push( 1,myStringPush );
 				

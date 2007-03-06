@@ -1,5 +1,10 @@
 CHANGELOG:
 
+6 mar 2007
+	units in all treeviews (except in stats)
+	fixed use of m/s or km/h in different parts of code like run treeviews
+	reaction time before pulse. In the gui, and in the code
+
 5 mar 2007
 	We have now reaction time!! (works for simulated and real)
 	-remains code in: load sess, search person events, menu stuff

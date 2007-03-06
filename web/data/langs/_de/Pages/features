@@ -23,7 +23,7 @@ Es enthält die folgenden Statistiken (wann immer das Entgegengesetzte sich nich
 <li>... (Die modularität von ChronoJump erleichtert die Einbeziehung von neuem messwerten)
 </ul>
 
-Chronojump permite también el estudio de <b>carreras</b> y <b>ritmos</b>. [pending to translate]
+Chronojump allow to record also <b>races</b>, <b>reaction time</b> and <b>rhythm</b>. [pending to translate]
 
 <p>
 
@@ -49,7 +49,6 @@ Kurz wird es die folgenden Funktionen auch einzuführen:
 
 <ul>
 <li>Die Möglichkeitkerben des Ersetzens der Plattformen der Kontakte durch photoelektrische Zellen.  Die Methode der Herstellung der photoelektrischen Zellen noch nicht beschrieben ist, wenn sie Informationen über die Angelegenheit hat, wir bat um ihre Zusammenarbeit ein.
-<li>Summer für Maß der Zeit der Reaktion.  Eine Vorrichtung, die in angebracht wird, timekeeper zu besitzen, produziert einen sonorous Fall und die Zeit ist registriert, das geschieht, bis eine Änderung von status in der Plattform stattfindet.  Zwischen vielen Dienstprogrammen kann sie für die Steuerung des Courses Navette verwendet werden.
 <li>Möglichkeit des Änderns der Empfindlichkeit des timekeeper zu jedem Sprung.
 <li>Wenn Sie andere Eigenschaften wünscht, zweifelt Sie nicht, den Postlisten nachzufraen.
 </ul>

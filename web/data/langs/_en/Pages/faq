@@ -80,7 +80,7 @@ Accede the web page <a href="installation.html">Chronojump install</a>.
 
 <p><li>Can I try Chronojump even though I don´t have either the chronometer or the contact platform?
 <p>
-Yes, it has been created a simulation mode of jumps, races of different lengths of time and rhythms, so that it is possible to try the program features.
+Yes, it has been created a simulation mode of jumps, races of different lengths of time, reaction time and rhythms, so that it is possible to try the program features.
 
 <p><li>When it will be the release of the 1.0 version and what benefits will it have?
 <p>
@@ -91,9 +91,9 @@ If you wish to ask the features please write us an e-mail to the mail list <a hr
 <p>
 Subscribe or check the files on <a href="contact.html">mailing lists</a>. Or check <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt">changelog</a>.
 
-<p><li>Why is it called Chronojump, does it also work to measure races?
+<p><li>Why is it called Chronojump, does it also work to measure races, reaction times and rhythms?
 <p>
-The initial idea was the creation of a software destined to measure temporal jump events, but it was seen that with a little more effort the same software can be used to chronometer all kinds of races and rhythms. Even though we are now working on these bases, the initial efforts will be centered on jumps measurements, that is why Chronojump maintains its original name.
+The initial idea was the creation of a software destined to measure temporal jump events, but it was seen that with a little more effort the same software can be used to chronometer all kinds of races, reaction times and rhythms. Even though we are now working on these bases, the initial efforts will be centered on jumps measurements, that is why Chronojump maintains its original name.
 
 <p><li>I would like to collaborate, how can I do it?
 <p>

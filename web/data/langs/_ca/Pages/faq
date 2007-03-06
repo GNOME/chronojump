@@ -84,20 +84,20 @@ Accediu a la pàgina web de <a href="installation_ca.html">instal·lació de Chr
 
 <p><li>Puc provar el Chronojump sense tenir el cronòmetre ni la plataforma de contactes?
 <p>
-Sí, s'ha creat una forma simulada, on s'executen salts, curses de durada aleatòria i ritmes per provar les característiques del programa.
+Sí, s'ha creat una forma simulada, on s'executen salts, curses de durada aleatòria, temps de reacció i ritmes per provar les característiques del programa.
 
 <p><li>Quan sortirà la versió 1.0 i quines prestacions tindrà? 
 <p>
 A data d'avui (versió :::currentVersion:::), el Chronojump ja té més prestacions que la resta de solucions comercials i no-comercials de què tenim coneixement. Però encara queden molts aspectes per incorporar i millorar. Aquests aspectes es descriuen a l'arxiu de <a href="http://cvs.gnome.org/viewcvs/chronojump/roadmap.txt"><i>roadmap</i> o full de ruta</a> (anglès).<br>
 Si desitgeu fer peticions de característiques no dubteu a escriure un correu a la llista de correu <a href="contact_ca.html">chronojump-list</a>.
 
-<p><li> Com puc conèixer les darreres novetats del projecte ? 
+<p><li> Com puc conèixer les darreres novetats del projecte? 
 <p>
 Us podeu inscriure o consultar els arxius de les <a href="contact_ca.html">llistes de correu</a>. A més a més, podeu consultar l'arxiu <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt"><i>changelog</i> o registre de canvis</a>.
 
-<p><li>Per què s'anomena Chronojump si també serveix per a mesurar curses?
+<p><li>Per què s'anomena Chronojump si també serveix per a mesurar curses, temps de reacció i ritmes?
 <p>
-La idea inicial va ser crear un programari per mesurar els esdeveniments temporals de salt,  però s'ha comprovat que amb poc esforç, el mateix programari pot servir per a cronometrar tot tipus de curses i ritmes. Encara que s'està treballant en aquesta línia, els esforços principals es destinen a la mesura de salts. Per aquest motiu el Chronojump conserva el seu nom inicial.
+La idea inicial va ser crear un programari per mesurar els esdeveniments temporals de salt,  però s'ha comprovat que amb poc esforç, el mateix programari pot servir per a cronometrar tot tipus de curses, temps de reacció i ritmes. Encara que s'està treballant en aquesta línia, els esforços principals es destinen a la mesura de salts. Per aquest motiu el Chronojump conserva el seu nom inicial.
 
 <p><li>M'agradaria col·laborar-hi. Com ho puc fer? 
 <p>

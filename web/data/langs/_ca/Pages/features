@@ -23,7 +23,7 @@ Incorpora les següents característiques (sempre que no s'especifiqui el contra
 <li>...(la composició modular del ChronoJump facilita la inclusió de nous estadístics) 
 </ul>
 
-Chronojump permet també l'estudi de <b>curses</b> i <b>ritmes</b>.
+Chronojump permet també l'estudi de <b>curses</b>, <b>temps de reacció</b> i <b>ritmes</b>.
 
 <p>
 
@@ -51,7 +51,6 @@ Alguns sistemes de cronometratge del salt fan servir, únicament, un ordinador p
 Breument s'hi volen implementar les següents funcions: 
 <ul>
 <li>Es preveu la possibilitat de substituir les plataformes de contactes per cèl·lules fotoelèctriques. El mètode de fabricació de cèl·lules fotoelèctriques encara no està descrit, si teniu informació referent a aquest tema, preguem la seva col·laboració. 
-<li>Vibrador (zumbador) per a mesurar el temps de reacció. Un dispositiu instal·lat al cronòmetre produirà un so i cronometrarà el temps que passi fins que esdevingui un canvi d'estat a la plataforma. Entre moltes altres utilitats pot ser usat pel control de la Course Navette.
 <li>Possibilitat de modificar la sensibilitat del cronòmetre a cada salt. 
 <li>Si desitgeu altres característiques, no dubteu en demanar-les a les llistes de correu.
 </ul>

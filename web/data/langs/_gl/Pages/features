@@ -26,7 +26,7 @@ Incorpora as seguintes estatísticas (sempre que non se especifique o contrario,
 <li> ...(a modularidade de ChronoJump facilita a inclusión de novas estatísticas)
 </ul>
 
-Chronojump permite también el estudio de <b>carreras</b> y <b>ritmos</b>. [pendiente de traducir]
+Chronojump permite también el estudio de <b>carreras</b>, <b>tiempo de reacción</b> y <b>ritmos</b>. [pendiente de traducir]
 
 <p>
 
@@ -50,7 +50,6 @@ Creación de informes personalizados de todos os datos obtidos e das estatístic
  En breve, espérase engadir tamén as seguintes funcións:
  <ul> 
  <li>Apúntase a posibilidade de substituír as plataformas de contactos por células fotoeléctricas. O método de fabricación de células fotoeléctricas aínda non está descrito, se ten información ao respecto, pregamos a súa colaboración. 
- <li>Indicador acústico para medición do tempo de reacción. Un dispositivo instalado no propio cronómetro producirá un son que indicará o inicio da cronometraxe do tempo que sucede ata que se produce un cambio de evento na plataforma. Entre outras moitas utilidades, pode ser usado para o control da Course&nbsp;Navette.
  <li>Posibilidade de modificar a sensibilidade do cronómetro en cada salto.
  <li>Se desexa outras aplicacións, non dubide en solicitalo mediante as listas de correo.
  </ul>

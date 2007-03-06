@@ -84,7 +84,7 @@ Acceda a la página web de <a href="installation_es.html">instalación de Chrono
 
 <p><li>¿Puedo probar Chronojump sin tener el cronómetro ni la plataforma de contactos?
 <p>
-Sí, se ha creado un modo simulado en que se ejecutan saltos, carreras de duración aleatoria y ritmos para que pueda probar las características del programa.
+Sí, se ha creado un modo simulado en que se ejecutan saltos, carreras de duración aleatoria, tiempos de reacción y ritmos para que pueda probar las características del programa.
 
 <p><li>¿Cuándo saldrá la versión 1.0 y qué prestaciones tendrá?
 <p>
@@ -95,9 +95,9 @@ Si desea realizar peticiones de características no dude en escribir un correo a
 <p>
 Inscríbase o consulte los acrivos de las <a href="contact_es.html">listas de correo</a>. Además puede consultar el archivo <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt"><i>changelog</i> o registro de cambios</a>.
 
-<p><li>¿Por qué se llama Chronojump si también sirve para medir carreras?
+<p><li>¿Por qué se llama Chronojump si también sirve para medir carreras, tiempos de reacción y ritmos?
 <p>
-La idea inicial era crear un software para la medición de eventos temporales del salto, pero se ha visto que con poco esfuerzo el mismo software puede servir para cronometrar todo tipo de carreras y ritmos. Aunque se trabaja en estas líneas, los esfuerzos principales se destinan a la medición de saltos, por este motivo Chronojump conserva su nombre inicial.
+La idea inicial era crear un software para la medición de eventos temporales del salto, pero se ha visto que con poco esfuerzo el mismo software puede servir para cronometrar todo tipo de carreras, tiempos de reacción y ritmos. Aunque se trabaja en estas líneas, los esfuerzos principales se destinan a la medición de saltos, por este motivo Chronojump conserva su nombre inicial.
 
 <p><li>Me gustaría colaborar ¿cómo puedo hacerlo?
 <p>

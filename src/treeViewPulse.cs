@@ -44,9 +44,9 @@ public class TreeViewPulses : TreeViewEvent
 		eventIDColumn = 4; //column where the uniqueID of event will be (and will be hidded)
 		
 		string jumperName = Catalog.GetString("Person");
-		string timeName = Catalog.GetString("Time");
+		string timeName = Catalog.GetString("Time") + "\n(s)";
 		string diffName = Catalog.GetString("Difference");
-		string diffPercentName = Catalog.GetString("Difference %");
+		string diffPercentName = Catalog.GetString("Difference") + "\n(%)";
 
 		string [] columnsString = { jumperName, timeName, diffName, diffPercentName };
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col

@@ -48,8 +48,13 @@ public class TreeViewRuns : TreeViewEvent
 	
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
-		string distanceName = Catalog.GetString("Distance");
-		string timeName = Catalog.GetString("Time");
+		if(metersSecondsPreferred)
+			speedName += "\n(m/s)";
+		else
+			speedName += "\n(Km/h)";
+
+		string distanceName = Catalog.GetString("Distance") + "\n(m)";
+		string timeName = Catalog.GetString("Time") + "\n(s)";
 
 		string [] columnsString = { runnerName, speedName, distanceName, timeName };
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
@@ -76,7 +81,11 @@ public class TreeViewRuns : TreeViewEvent
 		string [] myData = new String [5]; //columnsString +1
 		int count = 0;
 		myData[count++] = newRun.Type;
-		myData[count++] = Util.TrimDecimals(newRun.Speed.ToString(), pDN);
+		//myData[count++] = Util.TrimDecimals(newRun.Speed.ToString(), pDN); this doesn't know the metersSecondsPreferred
+		myData[count++] = Util.TrimDecimals(Util.GetSpeed(
+					newRun.Distance.ToString(),
+					newRun.Time.ToString(),
+					metersSecondsPreferred ), pDN);
 		myData[count++]	= Util.TrimDecimals(newRun.Distance.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
 		myData[count++] = newRun.UniqueID.ToString();
@@ -96,7 +105,12 @@ public class TreeViewRunsInterval : TreeViewRuns
 
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
-		string timeName = Catalog.GetString("Time");
+		if(metersSecondsPreferred)
+			speedName += "\n(m/s)";
+		else
+			speedName += "\n(Km/h)";
+
+		string timeName = Catalog.GetString("Time") + "\n(s)";
 		
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
@@ -139,7 +153,12 @@ public class TreeViewRunsInterval : TreeViewRuns
 		string [] myData = new String [4]; //columnsString +1
 		int count = 0;
 		myData[count++] = myTypeComplet;
-		myData[count++] = Util.TrimDecimals(newRunI.Speed.ToString(), pDN);
+		//myData[count++] = Util.TrimDecimals(newRunI.Speed.ToString(), pDN); //this doesn't know the metersSecondsPreferred
+		myData[count++] = Util.TrimDecimals(Util.GetSpeed(
+					newRunI.DistanceTotal.ToString(),
+					newRunI.TimeTotal.ToString(),
+					metersSecondsPreferred), 
+				pDN);
 		myData[count++] = Util.TrimDecimals( 
 				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
 							, pDN );
@@ -164,7 +183,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] =  Util.TrimDecimals( 
 				Util.GetSpeed(
 					newRunI.DistanceInterval.ToString(), //distanceInterval (same for all subevents)
-					timeInterval )
+					timeInterval,
+					metersSecondsPreferred )
 				, pDN );
 
 		myData[count++] = Util.TrimDecimals( timeInterval, pDN );

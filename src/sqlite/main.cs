@@ -174,14 +174,14 @@ class Sqlite
 		SqliteRunType.initializeTableRunType();
 		SqliteRunType.initializeTableRunIntervalType();
 		
+		//reactionTimes
+		SqliteReactionTime.createTable();
+		
 		//pulses and pulseTypes
 		SqlitePulse.createTable();
 		SqlitePulseType.createTablePulseType();
 		SqlitePulseType.initializeTablePulseType();
 	
-		//reactionTimes
-		SqliteReactionTime.createTable();
-		
 
 		SqliteSession.createTable();
 		

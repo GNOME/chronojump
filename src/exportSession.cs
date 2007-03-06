@@ -227,7 +227,7 @@ public class ExportSession
 						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
 						myStr[8] + ":" + 		//jump.weight,
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
-						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5]), dec) + ":" +  
+						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
 						myStr[9]		//jump.description
 					   );
 			}
@@ -281,11 +281,11 @@ public class ExportSession
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//jumpRj.tcMax 
 					Util.TrimDecimals(myStr[5], dec) + ":" + 		//jumpRj.tvMax
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  	//Max height
-					Util.TrimDecimals(Util.GetInitialSpeed(myStr[5]), dec) + ":" +  	//Max initial speed
+					Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  	//Max initial speed (true:m/s)
 					Util.TrimDecimals(myStr[11], dec) + ":" +  		//jumpRj.tcAvg
 					Util.TrimDecimals(myStr[10], dec) + ":" + 		//jumpRj.tvAvg
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[10]), dec) + ":" +  //Avg height
-					Util.TrimDecimals(Util.GetInitialSpeed(myStr[10]), dec) + ":" +  	//Avg Initial speed
+					Util.TrimDecimals(Util.GetInitialSpeed(myStr[10], true), dec) + ":" +  	//Avg Initial speed (true:m/s)
 					myStr[7] + ":" + 	 	//jumpRj.Fall
 					myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myStr[15], dec) + ":" +  myStr[16] + ":" + 	//jumpRj.Time, jumpRj.Limited
@@ -339,7 +339,7 @@ public class ExportSession
 						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
-						Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6]), dec) + ":" + //speed
+						Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + //speed in m/s (true)
 						myStr[7]		//run.description
 					   );
 			}
@@ -381,7 +381,7 @@ public class ExportSession
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
 					myStr[4] + ":" +  Util.TrimDecimals(myStr[5], dec) + ":" + 	//run.type, run.distancetotal
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//run.timetotal
-					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6]), dec) + ":" + 	//speed AVG
+					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
 					myStr[9] + ":" +  myStr[11] + ":" + 	//tracks, limited
 					myStr[10]		//description
@@ -399,7 +399,7 @@ public class ExportSession
 				int count = 1;
 				foreach(string myTime in timeString) {
 					myData.Add((count++).ToString() + ":" + 
-							Util.TrimDecimals(Util.GetSpeed(myStr[7], myTime), dec) + ":" + 
+							Util.TrimDecimals(Util.GetSpeed(myStr[7], myTime, true), dec) + ":" + //true for: m/s
 							Util.TrimDecimals(myTime, dec)
 						  );
 				}

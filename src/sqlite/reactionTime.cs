@@ -113,36 +113,6 @@ class SqliteReactionTime : Sqlite
 		return myEvents;
 	}
 
-/*
-	public static Jump SelectNormalJumpData(int uniqueID)
-	{
-		dbcon.Open();
-
-		dbcmd.CommandText = "SELECT * FROM jump WHERE uniqueID == " + uniqueID;
-		
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		reader.Read();
-
-		Jump myJump = new Jump(
-				Convert.ToInt32(reader[0]),
-				Convert.ToInt32(reader[1]),
-				Convert.ToInt32(reader[2]),
-				reader[3].ToString(),
-				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[4].ToString()) ),
-				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[5].ToString()) ),
-				Convert.ToInt32(reader[6]),  //fall
-				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[7].ToString()) ), //weight
-				reader[8].ToString() //description
-				);
-	
-		return myJump;
-	}
-*/
-
 	public static void Update(int eventID, string type, string time, int personID, string description)
 	{
 		dbcon.Open();

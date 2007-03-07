@@ -251,6 +251,20 @@ class SqliteSession : Sqlite
 		}
 		reader_runs_interval.Close();
 	
+		//select reaction time of each session
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM REACTIONTIME GROUP BY sessionID ORDER BY sessionID";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader_rt;
+		reader_rt = dbcmd.ExecuteReader();
+		ArrayList myArray_rt = new ArrayList(2);
+		
+		while(reader_rt.Read()) {
+			myArray_rt.Add (reader_rt[0].ToString() + ":" + reader_rt[1].ToString() + ":" );
+		}
+		reader_rt.Close();
+	
 		//select pulses of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM PULSE GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -335,6 +349,17 @@ class SqliteSession : Sqlite
 			}
 			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
 			
+			//add reaction time for each session
+			found = false;
+			foreach (string line_rt in myArray_rt) {
+				string [] myStringFull = line_rt.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID) {
+					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
+					found = true;
+				}
+			}
+			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
+
 			//add pulses for each session
 			found = false;
 			foreach (string line_pulses in myArray_pulses) {

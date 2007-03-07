@@ -2974,7 +2974,7 @@ public class ChronoJump
 		
 		SqliteJump.Delete( "jump", (myTreeViewJumps.EventSelectedID).ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted jump: " ) + myTreeViewJumps.EventSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted jump" ));
 		myTreeViewJumps.DelEvent(myTreeViewJumps.EventSelectedID);
 
 		if(createdStatsWin) {
@@ -2987,7 +2987,7 @@ public class ChronoJump
 		
 		SqliteJump.Delete("jumpRj", myTreeViewJumpsRj.EventSelectedID.ToString());
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted reactive jump: " ) + myTreeViewJumpsRj.EventSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted reactive jump" ));
 		myTreeViewJumpsRj.DelEvent(myTreeViewJumpsRj.EventSelectedID);
 
 		if(createdStatsWin) {
@@ -3037,7 +3037,7 @@ public class ChronoJump
 		
 		SqliteRun.Delete( "run", (myTreeViewRuns.EventSelectedID).ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.EventSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted selected run" ));
 	
 		myTreeViewRuns.DelEvent(myTreeViewRuns.EventSelectedID);
 
@@ -3051,7 +3051,7 @@ public class ChronoJump
 		
 		SqliteRun.Delete( "runInterval", (myTreeViewRunsInterval.EventSelectedID).ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted intervallic run: " ) + myTreeViewRunsInterval.EventSelectedID );
+		appbar2.Push( 1, Catalog.GetString ( "Deleted intervallic run" ));
 	
 		myTreeViewRunsInterval.DelEvent(myTreeViewRunsInterval.EventSelectedID);
 
@@ -3063,34 +3063,31 @@ public class ChronoJump
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
 		notebook_change(4);
 		Console.WriteLine("delete selected reaction time");
-		appbar2.Push ( 1, "delete selected reaction time (NOT IMPLEMENTED YET)");
 		
-		/*
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		if (myTreeViewRuns.RunSelectedID > 0) {
+		Console.WriteLine(myTreeViewReactionTimes.EventSelectedID.ToString());
+		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected run?", 
-						"", "run", myTreeViewRuns.RunSelectedID);
-				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected event?", 
+						"", "reactiontime", myTreeViewReactionTimes.EventSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_reaction_time_accepted);
 			} else {
-				on_delete_selected_run_accepted(o, args);
+				on_delete_selected_reaction_time_accepted(o, args);
 			}
 		}
-		*/
 	}
 		
 	private void on_delete_selected_reaction_time_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected reaction time");
 		
-		/*
-		SqliteRun.Delete( "run", (myTreeViewRuns.RunSelectedID).ToString() );
+		SqliteJump.Delete( "reactiontime", (myTreeViewReactionTimes.EventSelectedID).ToString() );
 		
-		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.RunSelectedID );
-	
-		myTreeViewRuns.DelRun(myTreeViewRuns.RunSelectedID);
+		appbar2.Push( 1, Catalog.GetString ( "Deleted reaction time" ) );
+		myTreeViewReactionTimes.DelEvent(myTreeViewReactionTimes.EventSelectedID);
 
+		/*
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
 		}
@@ -3100,34 +3097,31 @@ public class ChronoJump
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
 		notebook_change(5);
 		Console.WriteLine("delete selected pulse");
-		appbar2.Push ( 1, "delete selected pulse (NOT IMPLEMENTED YET)");
 		
-		/*
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		if (myTreeViewRuns.RunSelectedID > 0) {
+		Console.WriteLine(myTreeViewPulses.EventSelectedID.ToString());
+		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected run?", 
-						"", "run", myTreeViewRuns.RunSelectedID);
-				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(app1, "Do you want to delete selected event?", 
+						"", "pulses", myTreeViewPulses.EventSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_pulse_accepted);
 			} else {
-				on_delete_selected_run_accepted(o, args);
+				on_delete_selected_pulse_accepted(o, args);
 			}
 		}
-		*/
 	}
 		
 	private void on_delete_selected_pulse_accepted (object o, EventArgs args) {
 		Console.WriteLine("accept delete selected pulse");
 		
-		/*
-		SqliteRun.Delete( "run", (myTreeViewRuns.RunSelectedID).ToString() );
+		SqliteJump.Delete( "pulse", (myTreeViewPulses.EventSelectedID).ToString() );
 		
-		appbar2.Push( Catalog.GetString ( "Deleted run: " ) + myTreeViewRuns.RunSelectedID );
-	
-		myTreeViewRuns.DelRun(myTreeViewRuns.RunSelectedID);
+		appbar2.Push( 1, Catalog.GetString ( "Deleted pulse" ) );
+		myTreeViewPulses.DelEvent(myTreeViewPulses.EventSelectedID);
 
+		/*
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
 		}

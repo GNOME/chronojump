@@ -203,6 +203,7 @@ finishForeach:
 		ArrayList arrayJumpsRj = new ArrayList(2);
 		ArrayList arrayRuns = new ArrayList(2);
 		ArrayList arrayRunsInterval = new ArrayList(2);
+		ArrayList arrayRTs = new ArrayList(2);
 		ArrayList arrayPulses = new ArrayList(2);
 		ArrayList arrayPersons = new ArrayList(2);
 	
@@ -267,6 +268,17 @@ finishForeach:
 		}
 		reader.Close();
 		
+		//reaction time
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM reactiontime WHERE personID = " + personID +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayRTs.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+	
 		//pulses
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM pulse WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
@@ -287,6 +299,7 @@ finishForeach:
 		string tempJumpsRj;
 		string tempRuns;
 		string tempRunsInterval;
+		string tempRTs;
 		string tempPulses;
 		bool found; 	//using found because a person can be loaded in a session 
 				//but whithout having done any event yet
@@ -298,6 +311,7 @@ finishForeach:
 			tempJumpsRj = "";
 			tempRuns = "";
 			tempRunsInterval = "";
+			tempRTs = "";
 			tempPulses = "";
 			found = false;
 			
@@ -337,6 +351,15 @@ finishForeach:
 				}
 			}
 			
+			foreach (string myRTs in arrayRTs) {
+				string [] myStr = myRTs.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempRTs = myStr[1];
+					found = true;
+					break;
+				}
+			}
+			
 			foreach (string myPulses in arrayPulses) {
 				string [] myStr = myPulses.Split(new char[] {':'});
 				if(myStrSession[0] == myStr[0]) {
@@ -353,7 +376,8 @@ finishForeach:
 				arrayAll.Add (myStrSession[1] + ":" + myStrSession[2] + ":" + 	//session name, place
 						myStrSession[3] + ":" + tempJumps + ":" + 	//sessionDate, jumps
 						tempJumpsRj + ":" + tempRuns + ":" + 		//jumpsRj, Runs
-						tempRunsInterval + ":" + tempPulses);		//runsInterval, pulses
+						tempRunsInterval + ":" + tempRTs + ":" + 	//runsInterval, Reaction times
+						tempPulses);					//pulses
 			}
 		}
 

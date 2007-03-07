@@ -1,5 +1,10 @@
 CHANGELOG:
 
+7 mar 2007
+	reactionTime session info on load session
+	reactionTime on show person events
+	delete selected reaction time && delete selected pulse works
+
 6 mar 2007
 	units in all treeviews (except in stats)
 	fixed use of m/s or km/h in different parts of code like run treeviews

@@ -36,8 +36,8 @@ public class RunExecute : EventExecute
 	protected bool startIn;
 	
 	
-	//protected Chronopic cp;
-	private Chronopic cp;
+	protected Chronopic cp;
+	//private Chronopic cp; //thi doesn't work
 	protected bool metersSecondsPreferred;
 
 	//used by the updateTimeProgressBar for display its time information
@@ -329,7 +329,7 @@ public class RunIntervalExecute : RunExecute
 	double limitAsDouble;	//-1 for non limited (unlimited repetitive run until "finish" is clicked)
 	bool tracksLimited;
 	
-	private Chronopic cp;
+	//private Chronopic cp;
 
 	public RunIntervalExecute() {
 	}

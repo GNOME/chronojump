@@ -150,11 +150,6 @@ public class EventExecute
 		bool ok = false;
 		Console.WriteLine("A1");
 
-
-int conta=0;
-
-
-
 		do {
 			Console.WriteLine("B");
 			try {
@@ -163,19 +158,6 @@ int conta=0;
 				Console.WriteLine("Manage called after finishing constructor, do later");
 			}
 			Console.WriteLine("C");
-
-
-
-conta++;
-if(conta >3) {
-	Console.WriteLine("Exceeded!");
-	return myPlatformState;
-}
-
-
-
-
-
 		} while (! ok);
 
 		return myPlatformState;
@@ -205,7 +187,6 @@ if(conta >3) {
 	{
 		onTimer();
 
-
 		//thread is (in jump, as an example), started in Manage:
 		//thread = new Thread(new ThreadStart(waitEvent));
 		//GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
@@ -215,20 +196,12 @@ if(conta >3) {
 		//then thread is dead
 
 		if ( ! thread.IsAlive || cancel) {
-			//if(progressBar.Fraction == 1 || cancel) {
 				Console.Write("dying");
-
-				//event will be raised, and managed in chronojump.cs
-				//fakeButtonFinished.Click();
-				//Now called on write(), now work in mono1.1.6
-				
 				return false;
 			}
 			Thread.Sleep (50);
 			Console.Write(thread.ThreadState);
 			return true;
-		//}
-		//return false;
 	}
 
 	protected void initializeTimer () {

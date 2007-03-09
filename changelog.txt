@@ -1,5 +1,8 @@
 CHANGELOG:
 
+9 mar 2007
+	runInterval now doesn't crash. Fixes: 409775 & 407772
+
 7 mar 2007
 	reactionTime session info on load session
 	reactionTime on show person events

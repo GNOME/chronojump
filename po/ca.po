@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chronojump\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-02-19 02:51+0100\n"
+"PO-Revision-Date: 2007-03-08 00:15+0100\n"
 "Last-Translator: Xavier de Blas <xaviblas@gmail.com>\n"
 "Language-Team: Català <xaviblas@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -267,7 +267,7 @@ msgstr ""
 #: ../glade/chronojump.glade.h:64
 #: ../src/gui/person.cs:102
 msgid "Date of Birth"
-msgstr ""
+msgstr "Data de naixement"
 
 #: ../glade/chronojump.glade.h:65
 msgid "Decimal number"
@@ -318,7 +318,7 @@ msgstr ""
 #: ../src/gui/run.cs:1022
 #: ../src/treeViewRun.cs:51
 msgid "Distance"
-msgstr ""
+msgstr "Distància"
 
 #: ../glade/chronojump.glade.h:75
 msgid "DjIndex"
@@ -645,7 +645,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:151
 msgid "Pla_tform"
-msgstr ""
+msgstr "Pla_taforma"
 
 #: ../glade/chronojump.glade.h:152
 #: ../src/exportSession.cs:180
@@ -1254,7 +1254,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:284
 msgid "show jumps"
-msgstr ""
+msgstr "Mostra salts"
 
 #: ../glade/chronojump.glade.h:285
 msgid "show only persons in current session"

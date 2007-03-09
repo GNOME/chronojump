@@ -1376,7 +1376,7 @@ msgid ""
 "Starting Chronojump in Simulated mode, change platform to 'Chronopic' for "
 "real detection of events"
 msgstr ""
-"Iniciar Chronojump en modo Simulado, cambiar plataforma a 'Chronopic' para "
+"Iniciando Chronojump en modo Simulado, cambiar plataforma a 'Chronopic' para "
 "detección real de eventos"
 
 #: ../src/chronojump.cs:445

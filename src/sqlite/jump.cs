@@ -49,10 +49,12 @@ class SqliteJump : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected internal static void rjCreateTable()
+	protected internal static void rjCreateTable(string tableName)
 	{
+		//values: 'jumpRj' and 'tempJumpRj'
+
 		dbcmd.CommandText = 
-			"CREATE TABLE jumpRj ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -98,11 +100,11 @@ class SqliteJump : Sqlite
 	}
 	
 	//fall has values like "10J" or "10T" (10 jumps, or 10 seconds, respectively)
-	public static int InsertRj(string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, int fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
+	public static int InsertRj(string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, int fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited )
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO jumpRj " + 
-				"(uniqueID, personID, sessionID, type, tvMax, tcMax, fall, weight, description, " +
+		dbcmd.CommandText = "INSERT INTO " + tableName + 
+				" (uniqueID, personID, sessionID, type, tvMax, tcMax, fall, weight, description, " +
 				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited	)" +
 				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", '" + type + "', " +
@@ -352,6 +354,15 @@ class SqliteJump : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "Delete FROM " + jumpTable +
 			" WHERE uniqueID == " + uniqueID;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+	
+	public static void DeleteTempTables()
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "Delete FROM tempJumpRj";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();

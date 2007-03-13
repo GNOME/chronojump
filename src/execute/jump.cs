@@ -474,6 +474,8 @@ public class JumpRjExecute : JumpExecute
 		needUpdateEventProgressBar = false;
 		needUpdateGraph = false;
 		
+		timesForSavingRepetitive = 10; //number of times that this repetive event needs for being recorded in temporal table
+
 		//initialize eventDone as a JumpRj	
 		eventDone = new JumpRj();
 
@@ -563,6 +565,8 @@ public class JumpRjExecute : JumpExecute
 		shouldFinishAtNextFall = false;
 		
 		bool ok;
+
+		int countForSavingTempTable = 0;
 	
 		do {
 			if(simulated) 
@@ -638,6 +642,14 @@ public class JumpRjExecute : JumpExecute
 							//put button_finish as sensitive when first jump is done (there's something recordable)
 							if(tvCount == 1)
 								needSensitiveButtonFinish = true;
+
+							//save temp table if needed
+							countForSavingTempTable ++;
+							if(countForSavingTempTable == timesForSavingRepetitive) {
+								writeRj(true); //tempTable
+								countForSavingTempTable = 0;
+							}
+
 						}
 					}
 				}
@@ -653,7 +665,7 @@ public class JumpRjExecute : JumpExecute
 					if(limitAsDouble != -1) {
 						if(Util.GetNumberOfJumps(tvString, false) >= limitAsDouble)
 						{
-							write();
+							writeRj(false); //tempTable
 							success = true;
 						
 							//update event progressbar
@@ -679,7 +691,7 @@ public class JumpRjExecute : JumpExecute
 						//write();
 						//write only if there's a jump at minimum
 						if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
-							write();
+							writeRj(false); //tempTable
 						} else {
 							//cancel a jump if clicked finish before any events done
 							cancel = true;
@@ -699,7 +711,7 @@ public class JumpRjExecute : JumpExecute
 		if (finish) {
 			//write only if there's a jump at minimum
 			if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
-				write();
+				writeRj(false); //tempTable
 				
 				totallyFinished = true;
 			} else {
@@ -788,7 +800,7 @@ public class JumpRjExecute : JumpExecute
 	}
 				
 				
-	protected override void write()
+	protected void writeRj(bool tempTable)
 	{
 		Console.WriteLine("----------WRITING----------");
 		int jumps;
@@ -837,7 +849,9 @@ public class JumpRjExecute : JumpExecute
 			} else {
 				//if time finished and the last event was tc, probably there are more TCs than TFs
 				//if last event was tc, it has no sense, it should be deleted
-				tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
+				//this is not aplicable in tempTable
+				if(! tempTable)
+					tcString = Util.DeleteLastTcIfNeeded(tcString, tvString);
 				
 				//limitString = limitAsDouble.ToString() + "T";
 				limitString = Util.GetTotalTime(tcString, tvString) + "T";
@@ -848,32 +862,42 @@ public class JumpRjExecute : JumpExecute
 			}
 		}
 
-		uniqueID = SqliteJump.InsertRj("NULL", personID, sessionID, 
-				type, Util.GetMax(tvString), Util.GetMax(tcString), 
-				fall, weight, "", //fall, weight, description
-				Util.GetAverage(tvString), Util.GetAverage(tcString),
-				tvString, tcString,
-				jumps, Util.GetTotalTime(tcString, tvString), limitString
-				);
+		if(tempTable) 
+			SqliteJump.InsertRj("tempJumpRj", "NULL", personID, sessionID, 
+					type, Util.GetMax(tvString), Util.GetMax(tcString), 
+					fall, weight, "", //fall, weight, description
+					Util.GetAverage(tvString), Util.GetAverage(tcString),
+					tvString, tcString,
+					jumps, Util.GetTotalTime(tcString, tvString), limitString
+					);
+		else {
+			uniqueID = SqliteJump.InsertRj("jumpRj", "NULL", personID, sessionID, 
+					type, Util.GetMax(tvString), Util.GetMax(tcString), 
+					fall, weight, "", //fall, weight, description
+					Util.GetAverage(tvString), Util.GetAverage(tcString),
+					tvString, tcString,
+					jumps, Util.GetTotalTime(tcString, tvString), limitString
+					);
 
-		//define the created object
-		eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, "", jumps, Util.GetTotalTime(tcString, tvString), limitString); 
+			//define the created object
+			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, "", jumps, Util.GetTotalTime(tcString, tvString), limitString); 
 
-		
-		//event will be raised, and managed in chronojump.cs
-		string myStringPush =   
-			//Catalog.GetString("Last jump: ") + 
-			personName + " " + 
-			type + " (" + limitString + ") " +
-			" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
-			" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
-		appbar.Push( 1,myStringPush );
-	
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
-		
-		//eventExecuteWin.EventEnded();
-		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
+
+			//event will be raised, and managed in chronojump.cs
+			string myStringPush =   
+				//Catalog.GetString("Last jump: ") + 
+				personName + " " + 
+				type + " (" + limitString + ") " +
+				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
+				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
+			appbar.Push( 1,myStringPush );
+
+			//event will be raised, and managed in chronojump.cs
+			fakeButtonFinished.Click();
+
+			//eventExecuteWin.EventEnded();
+			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
+		}
 	}
 
 

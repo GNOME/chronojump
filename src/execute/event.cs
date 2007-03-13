@@ -98,6 +98,8 @@ public class EventExecute
 	protected Gtk.Statusbar appbar;
 	protected Gtk.Window app;
 	protected int pDN;
+	
+	protected int timesForSavingRepetitive; //number of times that this repetive event needs for being recorded in temporal table
 
 	//for raise a signal and manage it on chronojump.cs
 	protected Gtk.Button fakeButtonFinished;

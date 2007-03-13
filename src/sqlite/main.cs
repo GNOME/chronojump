@@ -131,6 +131,18 @@ class Sqlite
 			myVersion = "0.47";
 		}
 
+		if(myVersion == "0.47") {
+			dbcon.Open();
+
+			SqliteJump.rjCreateTable("tempJumpRj");
+			SqliteRun.intervalCreateTable("tempRunInterval");
+
+			SqlitePreferences.Update ("databaseVersion", "0.48"); 
+			Console.WriteLine("created tempJumpReactive and tempRunInterval tables");
+			dbcon.Close();
+			myVersion = "0.48";
+		}
+
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
 	}
@@ -156,7 +168,8 @@ class Sqlite
 	
 		//jumps
 		SqliteJump.createTable();
-		SqliteJump.rjCreateTable();
+		SqliteJump.rjCreateTable("jumpRj");
+		SqliteJump.rjCreateTable("tempJumpRj");
 
 		//jump Types
 		SqliteJumpType.createTableJumpType();
@@ -166,7 +179,8 @@ class Sqlite
 		
 		//runs
 		SqliteRun.createTable();
-		SqliteRun.intervalCreateTable();
+		SqliteRun.intervalCreateTable("runInterval");
+		SqliteRun.intervalCreateTable("tempRunInterval");
 		
 		//run Types
 		SqliteRunType.createTableRunType();
@@ -189,7 +203,8 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.47"); 
+		SqlitePreferences.Insert ("databaseVersion", "0.48"); 
+		//changes from 0.47 to 0.48: added tempJumpReactive and tempRunInterval tables
 		//changes from 0.46 to 0.47: added reactionTime table
 		//changes from 0.45 to 0.46: added "Free" jump type
 		//changes from 0.44 to 0.45: added allowFinishRjAfterTime

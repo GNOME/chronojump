@@ -1,5 +1,10 @@
 CHANGELOG:
 
+13 mar 2007
+	working on 417961: temp table for long repetitive events
+	need check: (counting & deleteTemp after threads have done)
+	need: do stuff on start if a temp table is found
+
 9 mar 2007
 	runInterval now doesn't crash. Fixes: 409775 & 407772
 

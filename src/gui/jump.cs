@@ -773,7 +773,7 @@ public class RepairJumpRjWindow
 		//save it deleting the old first for having the same uniqueID
 		SqliteJump.Delete("jumpRj", jumpRj.UniqueID.ToString());
 		//int uniqueID = SqliteJump.InsertRj(jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
-		SqliteJump.InsertRj(jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
+		SqliteJump.InsertRj("jumpRj", jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
 				jumpRj.Type, Util.GetMax(tvString), Util.GetMax(tcString), 
 				jumpRj.Fall, jumpRj.Weight, jumpRj.Description,
 				Util.GetAverage(tvString), Util.GetAverage(tcString),

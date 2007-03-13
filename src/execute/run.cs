@@ -193,7 +193,7 @@ Console.WriteLine("MANAGE(3)!!!!");
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						
 						time = timestamp / 1000;
-						write ();
+						write();
 
 						success = true;
 						
@@ -367,6 +367,8 @@ public class RunIntervalExecute : RunExecute
 		needUpdateEventProgressBar = false;
 		needUpdateGraph = false;
 		
+		timesForSavingRepetitive = 1; //number of times that this repetive event needs for being recorded in temporal table
+
 		//initialize eventDone as a RunInterval
 		eventDone = new RunInterval();
 	}
@@ -388,6 +390,8 @@ public class RunIntervalExecute : RunExecute
 		timerCount = 0;
 		//bool initialized = false;
 		
+		int countForSavingTempTable = 0;
+	
 		double lastTc = 0;
 		
 		do {
@@ -466,7 +470,7 @@ public class RunIntervalExecute : RunExecute
 								if(tracks >= limitAsDouble) 
 								{
 									//finished
-									write();
+									writeRunInterval(false); //tempTable = false
 									success = true;
 									runPhase = runPhases.PLATFORM_END;
 								}
@@ -501,7 +505,7 @@ public class RunIntervalExecute : RunExecute
 									//write();
 									//write only if there's a run at minimum
 									if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
-										write();
+										writeRunInterval(false); //tempTable = false
 									} else {
 										//cancel a run if clicked finish before any events done, or ended by time without events
 										cancel = true;
@@ -537,6 +541,15 @@ public class RunIntervalExecute : RunExecute
 									needSensitiveButtonFinish = true;
 							}
 						}
+						
+
+						//save temp table if needed
+						countForSavingTempTable ++;
+						if(countForSavingTempTable == timesForSavingRepetitive) {
+							writeRunInterval(true); //tempTable
+							countForSavingTempTable = 0;
+						}
+	
 					}
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
@@ -562,7 +575,7 @@ public class RunIntervalExecute : RunExecute
 			//write();
 			//write only if there's a run at minimum
 			if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
-				write();
+				writeRunInterval(false); //tempTable = false
 			
 				totallyFinished = true;
 			} else {
@@ -648,7 +661,7 @@ public class RunIntervalExecute : RunExecute
 	}
 				
 
-	protected override void write()
+	protected void writeRunInterval(bool tempTable)
 	{
 		int tracks = 0;
 		string limitString = "";
@@ -701,38 +714,50 @@ public class RunIntervalExecute : RunExecute
 
 		distanceTotal = tracks * distanceInterval;
 		timeTotal = Util.GetTotalTime(intervalTimesString); 
-			
-		uniqueID = SqliteRun.InsertInterval("NULL", personID, sessionID, type, 
-				distanceTotal, timeTotal,
-				distanceInterval, intervalTimesString, tracks, 
-				"", 					//description
-				limitString
-				);
 		
-		//define the created object
-		eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, "", limitString); 
-
-
-		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
-			type + " (" + limitString + ") " +
-			Catalog.GetString("AVG Speed") + ": " + Util.TrimDecimals( 
-					Util.GetSpeed(distanceTotal.ToString(),
-						timeTotal.ToString(), metersSecondsPreferred )
-					, pDN ) ;
-		appbar.Push( 1,myStringPush );
-				
 	
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
-		
-		//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
-		prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
-		needUpdateGraphType = eventType.RUNINTERVAL;
-		needUpdateGraph = true;
+		if(tempTable)
+			{
+			SqliteRun.InsertInterval("tempRunInterval", "NULL", personID, sessionID, type, 
+					distanceTotal, timeTotal,
+					distanceInterval, intervalTimesString, tracks, 
+					"", 					//description
+					limitString
+					);
+			}
 
-		//eventExecuteWin.EventEnded();
-		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
-		
+		else {
+			uniqueID = SqliteRun.InsertInterval("runInterval", "NULL", personID, sessionID, type, 
+					distanceTotal, timeTotal,
+					distanceInterval, intervalTimesString, tracks, 
+					"", 					//description
+					limitString
+					);
+
+			//define the created object
+			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, "", limitString); 
+
+
+			string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
+				type + " (" + limitString + ") " +
+				Catalog.GetString("AVG Speed") + ": " + Util.TrimDecimals( 
+						Util.GetSpeed(distanceTotal.ToString(),
+							timeTotal.ToString(), metersSecondsPreferred )
+						, pDN ) ;
+			appbar.Push( 1,myStringPush );
+
+
+			//event will be raised, and managed in chronojump.cs
+			fakeButtonFinished.Click();
+
+			//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
+			prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
+			needUpdateGraphType = eventType.RUNINTERVAL;
+			needUpdateGraph = true;
+
+			//eventExecuteWin.EventEnded();
+			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
+		}		
 	}
 
 /*

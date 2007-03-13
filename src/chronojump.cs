@@ -2100,6 +2100,10 @@ public class ChronoJump
 			eventExecuteWin.LabelEventValue = currentJumpRj.Jumps;
 		}
 		
+		//delete the temp tables if exists
+		SqliteJump.DeleteTempTables();
+
+
 		//unhide buttons that allow jumping
 		sensitiveGuiEventDone();
 	}
@@ -2445,6 +2449,10 @@ public class ChronoJump
 			//possible deletion of last run can make the runs on event window be false
 			eventExecuteWin.LabelEventValue = currentRunInterval.Tracks;
 		}
+		
+		//delete the temp tables if exists
+		SqliteRun.DeleteTempTables();
+
 		
 		//unhide buttons that allow jumping, running
 		sensitiveGuiEventDone();

@@ -636,7 +636,7 @@ public class RepairRunIntervalWindow
 
 		//save it deleting the old first for having the same uniqueID
 		SqliteRun.Delete("runInterval", runInterval.UniqueID.ToString());
-		SqliteRun.InsertInterval(runInterval.UniqueID.ToString(), 
+		SqliteRun.InsertInterval("runInterval", runInterval.UniqueID.ToString(), 
 				runInterval.PersonID, runInterval.SessionID, 
 				runInterval.Type, 
 				runs * runInterval.DistanceInterval,	//distanceTotal

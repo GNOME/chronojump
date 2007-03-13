@@ -47,11 +47,13 @@ class SqliteRun : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected internal static void intervalCreateTable()
+	protected internal static void intervalCreateTable(string tableName)
 	{
+		//values: 'runInterval' and 'tempRunInterval'
+
 		dbcmd.CommandText = 
-			"CREATE TABLE runInterval ( " +
-			"uniqueID INTEGER PRIMARY KEY, " +
+			"CREATE TABLE " + tableName  +
+			" (uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
 			"type TEXT, " +
@@ -87,11 +89,11 @@ class SqliteRun : Sqlite
 		return myLast;
 	}
 	
-	public static int InsertInterval(string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited )
+	public static int InsertInterval(string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited )
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO runInterval " + 
-				"(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited )" +
+		dbcmd.CommandText = "INSERT INTO "+ tableName + 
+				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited )" +
 				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", '" + type + "', " +
 				Util.ConvertToPoint(distanceTotal) + ", " + 
@@ -294,6 +296,15 @@ class SqliteRun : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "Delete FROM " + runTable + 
 			" WHERE uniqueID == " + uniqueID;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+	
+	public static void DeleteTempTables()
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "Delete FROM tempRunInterval";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();

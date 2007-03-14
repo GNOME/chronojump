@@ -234,11 +234,13 @@ class SqliteRun : Sqlite
 		return myRun;
 	}
 		
-	public static RunInterval SelectIntervalRunData(int uniqueID)
+	public static RunInterval SelectIntervalRunData(string tableName, int uniqueID)
 	{
+		//tableName can be runInterval or tempRunInterval
+
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT * FROM runInterval WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -296,15 +298,6 @@ class SqliteRun : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "Delete FROM " + runTable + 
 			" WHERE uniqueID == " + uniqueID;
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
-	
-	public static void DeleteTempTables()
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM tempRunInterval";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();

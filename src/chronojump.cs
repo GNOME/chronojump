@@ -342,6 +342,8 @@ public class ChronoJump
 			//SqliteJump.FindBadRjs();
 		}
 
+		string recuperatedString = recuperateBrokenEvents();
+
 		//backup the database
 		Util.BackupDirCreateIfNeeded();
 
@@ -380,7 +382,7 @@ public class ChronoJump
 			languageWin.ButtonAccept.Clicked += new EventHandler(on_language_clicked);
 			Application.Run();
 		} else {
-			createMainWindow();
+			createMainWindow(recuperatedString);
 			Application.Run();
 		}
 	}
@@ -389,11 +391,11 @@ public class ChronoJump
 	//and only on windows
 	private void on_language_clicked(object o, EventArgs args) {
 		languageChange();
-		createMainWindow();
+		createMainWindow("");
 	}
 
 
-	private void createMainWindow()
+	private void createMainWindow(string recuperatedString)
 	{
 		Glade.XML gxml;
 		try {
@@ -440,7 +442,10 @@ public class ChronoJump
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
-		appbar2.Push ( 1, Catalog.GetString ("Ready.") );
+		if(recuperatedString == "")
+			appbar2.Push ( 1, Catalog.GetString ("Ready.") );
+		else
+			appbar2.Push ( 1, recuperatedString );
 
 		rand = new Random(40);
 
@@ -448,6 +453,45 @@ public class ChronoJump
 		if(simulated)
 			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
 
+	}
+
+	//recuperate temp jumpRj or RunI if chronojump hangs
+	private string recuperateBrokenEvents() 
+	{
+		string returnString = "";
+		string tableName = "tempJumpRj";
+		int existsTempData = Sqlite.TempDataExists(tableName);
+		if(existsTempData > 0)
+		{
+			JumpRj myJump = SqliteJump.SelectRjJumpData("tempJumpRj", existsTempData);
+			SqliteJump.InsertRj("jumpRj", "NULL", myJump.PersonID, myJump.SessionID,
+					myJump.Type, myJump.TvMax, myJump.TcMax, 
+					myJump.Fall, myJump.Weight, "", //fall, weight, description
+					myJump.TvAvg, myJump.TcAvg,
+					myJump.TvString, myJump.TcString,
+					myJump.Jumps, Util.GetTotalTime(myJump.TcString, myJump.TvString), myJump.Limited
+					);
+
+			Sqlite.DeleteTempEvents(tableName);
+			returnString = "Recuperated last Reactive Jump";
+		}
+
+		tableName = "tempRunInterval";
+		existsTempData = Sqlite.TempDataExists(tableName);
+		if(existsTempData > 0)
+		{
+			RunInterval myRun = SqliteRun.SelectIntervalRunData("tempRunInterval", existsTempData);
+			SqliteRun.InsertInterval("runInterval", "NULL", myRun.PersonID, myRun.SessionID,
+					myRun.Type, myRun.DistanceTotal, myRun.TimeTotal, 
+					myRun.DistanceInterval, myRun.IntervalTimesString,  
+					myRun.Tracks, "", //description
+					myRun.Limited
+					);
+
+			Sqlite.DeleteTempEvents(tableName);
+			returnString = "Recuperated last Intervallic Run";
+		}
+		return returnString;
 	}
 
 
@@ -2101,7 +2145,7 @@ public class ChronoJump
 		}
 		
 		//delete the temp tables if exists
-		SqliteJump.DeleteTempTables();
+		Sqlite.DeleteTempEvents("tempJumpRj");
 
 
 		//unhide buttons that allow jumping
@@ -2451,7 +2495,7 @@ public class ChronoJump
 		}
 		
 		//delete the temp tables if exists
-		SqliteRun.DeleteTempTables();
+		Sqlite.DeleteTempEvents("tempRunInterval");
 
 		
 		//unhide buttons that allow jumping, running
@@ -2787,7 +2831,7 @@ public class ChronoJump
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.EventSelectedID );
+			JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
 			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
@@ -2840,7 +2884,7 @@ public class ChronoJump
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.EventSelectedID );
+			RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
@@ -3346,7 +3390,7 @@ public class ChronoJump
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJump.SelectRjJumpData( myTreeViewJumpsRj.EventSelectedID );
+			JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
 			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump);
@@ -3373,7 +3417,7 @@ public class ChronoJump
 		//(check also if it's not a individual run interval, then pass the parent run interval)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.EventSelectedID );
+			RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
 		
 			//4.- edit this run
 			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun);

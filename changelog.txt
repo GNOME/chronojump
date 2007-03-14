@@ -1,5 +1,8 @@
 CHANGELOG:
 
+14 mar 2007
+	closed 417961
+
 13 mar 2007
 	working on 417961: temp table for long repetitive events
 	need check: (counting & deleteTemp after threads have done)

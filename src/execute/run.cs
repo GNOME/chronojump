@@ -427,12 +427,10 @@ public class RunIntervalExecute : RunExecute
 							double myRaceTime = lastTc + timestamp/1000;
 							
 							if(intervalTimesString.Length > 0) { equal = "="; }
-							//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 							intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
 							updateTimerCountWithChronopicData(intervalTimesString);
 							tracks ++;	
 								
-							//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 							updateProgressBar= new UpdateProgressBar (
 									true, //isEvent
 									true, //unlimited: activity mode
@@ -441,8 +439,6 @@ public class RunIntervalExecute : RunExecute
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
-							//prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
 							prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
 							needUpdateGraphType = eventType.RUNINTERVAL;
 							needUpdateGraph = true;
@@ -463,10 +459,18 @@ public class RunIntervalExecute : RunExecute
 
 								double myRaceTime = lastTc + timestamp/1000;
 								if(intervalTimesString.Length > 0) { equal = "="; }
-								//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 								intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
 								updateTimerCountWithChronopicData(intervalTimesString);
 
+
+								//save temp table if needed
+								countForSavingTempTable ++;
+								if(countForSavingTempTable == timesForSavingRepetitive) {
+									writeRunInterval(true); //tempTable
+									countForSavingTempTable = 0;
+								}
+
+	
 								if(tracks >= limitAsDouble) 
 								{
 									//finished
@@ -484,8 +488,6 @@ public class RunIntervalExecute : RunExecute
 								needUpdateEventProgressBar = true;
 							
 								//update graph
-								//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
-								//prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
 								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
 								needUpdateGraphType = eventType.RUNINTERVAL;
 								needUpdateGraph = true;
@@ -515,13 +517,19 @@ public class RunIntervalExecute : RunExecute
 								}
 								else {
 									if(intervalTimesString.Length > 0) { equal = "="; }
-									//intervalTimesString = intervalTimesString + equal + (timestamp/1000).ToString();
 									intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
 									updateTimerCountWithChronopicData(intervalTimesString);
 									tracks ++;	
+								
+									//save temp table if needed
+									countForSavingTempTable ++;
+									if(countForSavingTempTable == timesForSavingRepetitive) {
+										writeRunInterval(true); //tempTable
+										countForSavingTempTable = 0;
+									}
+
 								}
 								
-								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 								updateProgressBar= new UpdateProgressBar (
 										true, //isEvent
 										false, //timeLimited: activity mode
@@ -530,8 +538,6 @@ public class RunIntervalExecute : RunExecute
 								needUpdateEventProgressBar = true;
 							
 								//update graph
-								//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, timestamp/1000, intervalTimesString);
-								//prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, timestamp/1000, intervalTimesString);
 								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
 								needUpdateGraphType = eventType.RUNINTERVAL;
 								needUpdateGraph = true;
@@ -541,15 +547,6 @@ public class RunIntervalExecute : RunExecute
 									needSensitiveButtonFinish = true;
 							}
 						}
-						
-
-						//save temp table if needed
-						countForSavingTempTable ++;
-						if(countForSavingTempTable == timesForSavingRepetitive) {
-							writeRunInterval(true); //tempTable
-							countForSavingTempTable = 0;
-						}
-	
 					}
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {

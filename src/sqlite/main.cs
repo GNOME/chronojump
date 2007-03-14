@@ -233,4 +233,40 @@ class Sqlite
 
 		dbcon.Close();
 	}
+
+	/* 
+	 * temp data stuff
+	 */
+	public static int TempDataExists(string tableName)
+	{
+		//tableName can be tempJumpRj or tempRunInterval
+		
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT MAX(uniqueID) FROM " + tableName;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		int exists = 0;
+		
+		if (reader.Read()) {
+			exists = Convert.ToInt32(reader[0]);
+		}
+		Console.WriteLine("exists = {0}", exists.ToString());
+
+		return exists;
+	}
+
+	public static void DeleteTempEvents(string tableName)
+	{
+		//tableName can be tempJumpRj or tempRunInterval
+
+		dbcon.Open();
+		//dbcmd.CommandText = "Delete FROM tempJumpRj";
+		dbcmd.CommandText = "Delete FROM " + tableName;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
 }

@@ -256,11 +256,13 @@ class SqliteJump : Sqlite
 		return myJump;
 	}
 		
-	public static JumpRj SelectRjJumpData(int uniqueID)
+	public static JumpRj SelectRjJumpData(string tableName, int uniqueID)
 	{
+		//tableName is jumpRj or tempJumpRj
+
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT * FROM jumpRj WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -359,12 +361,4 @@ class SqliteJump : Sqlite
 		dbcon.Close();
 	}
 	
-	public static void DeleteTempTables()
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM tempJumpRj";
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
 }

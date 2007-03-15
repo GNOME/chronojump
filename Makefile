@@ -30,7 +30,7 @@ CHRONOJUMP_DEP_EXECUTE = src/execute/event.cs src/execute/jump.cs src/execute/ru
 
 CHRONOJUMP_DEP_SERVER = chronojump_server/ChronojumpServer.cs
 
-CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
+CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs src/endingConditions.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
 
 RESOURCES = -resource:glade/chronojump.glade,chronojump.glade
 CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services

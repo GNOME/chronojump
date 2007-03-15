@@ -1,5 +1,8 @@
 CHANGELOG:
 
+15 mar 2007
+	Doing: 65733 (Conditions for ending repetitive events). Done endingConditions.cs
+
 14 mar 2007
 	closed 417961
 

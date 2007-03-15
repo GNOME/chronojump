@@ -699,6 +699,13 @@ public class JumpRjExecute : JumpExecute
 					}
 				}
 
+/*
+				EndingConditionsJumpRj conditions = new EndingConditionsJumpRj();
+				if(! conditionsOk(tv,tc)) {
+					finish = true;
+					posar MARCA de que les conditions no estan be i després mostrar quines
+*/
+
 				if(platformState == Chronopic.Plataforma.OFF)
 					loggedState = States.OFF;
 				else

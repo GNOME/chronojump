@@ -56,7 +56,7 @@ public class PulseExecute : EventExecute
 
 	//execution
 	public PulseExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -72,6 +72,7 @@ public class PulseExecute : EventExecute
 		this.app = app;
 
 		this.pDN = pDN;
+		this.volumeOn = volumeOn;
 	
 		fakeButtonFinished = new Gtk.Button();
 
@@ -122,11 +123,13 @@ public class PulseExecute : EventExecute
 
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, myMessage, "");
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
 		} else {
 			appbar.Push( 1, Catalog.GetString("You are OUT, start when prepared!!") );
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
 

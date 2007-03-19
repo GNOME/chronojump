@@ -64,6 +64,7 @@ public class Constants
 	//TODO: add:
 	//ar (when there ara not fuzzy lines)
 	//dz (check if it's possible on win)
+	//ca
 	//see in both langs how to write as xx_XX
 	
 
@@ -79,4 +80,11 @@ public class Constants
 				Catalog.GetString("Typical USB-serial ports on GNU/Linux:") +
 				"\n\t/dev/ttyUSB0\n\t/dev/ttyUSB1");
 
+//	public static System.Media.SystemSound SoundCanStart = System.Media.SystemSounds.Question; 
+//	public static System.Media.SystemSounds SoundGood = System.Media.SystemSounds.Exclamation; 
+//	public static System.Media.SystemSounds SoundBad = System.Media.SystemSounds.Beep; 
+	public enum SoundTypes {
+		CAN_START, GOOD, BAD
+	}
+	//public soundTypes SoundType;
 }

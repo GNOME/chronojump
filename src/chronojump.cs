@@ -170,6 +170,7 @@ public class ChronoJump
 	[Widget] Gtk.Notebook notebook;
 		
 	private Random rand;
+	bool volumeOn;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
 	private static string progversion = "0.5-svn";
@@ -271,6 +272,7 @@ public class ChronoJump
 	ErrorWindow errorWin;
 	StatsWindow statsWin;
 	ReportWindow reportWin;
+	RepetitiveConditionsWindow repetitiveConditionsWin;
 	
 	static EventExecuteWindow eventExecuteWin;
 
@@ -320,6 +322,8 @@ public class ChronoJump
 		Console.WriteLine(myServer.SelectPersonName(3));
 */
 		/* END OF SERVER COMMUNICATION TESTS */
+
+
 
 		
 		Sqlite.Connect();
@@ -394,7 +398,46 @@ public class ChronoJump
 		createMainWindow("");
 	}
 
+	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
+		if(volumeOn)
+			volumeOn = false;
+		else
+			volumeOn = true;
 
+		Console.WriteLine("VolumeOn: {0}", volumeOn.ToString());
+	}
+
+	private void on_button_rj_bells_clicked(object o, EventArgs args) {
+		repetitiveConditionsWin = RepetitiveConditionsWindow.Show(true);
+	}
+
+/*
+	private void on_so_asterisk_clicked(object o, EventArgs args) {
+		Console.WriteLine("Asterisk");
+		System.Media.SystemSounds.Asterisk.Play();
+	}
+	
+	private void on_so_beep_clicked(object o, EventArgs args) {
+		Console.WriteLine("Beep");
+		System.Media.SystemSounds.Beep.Play();
+	}
+	
+	private void on_so_exclamation_clicked(object o, EventArgs args) {
+		Console.WriteLine("Exclamation");
+		System.Media.SystemSounds.Exclamation.Play();
+	}
+	
+	private void on_so_hand_clicked(object o, EventArgs args) {
+		Console.WriteLine("Hand");
+		System.Media.SystemSounds.Hand.Play();
+	}
+	
+	private void on_so_question_clicked(object o, EventArgs args) {
+		Console.WriteLine("Question");
+		System.Media.SystemSounds.Question.Play();
+	}
+*/
+	
 	private void createMainWindow(string recuperatedString)
 	{
 		Glade.XML gxml;
@@ -439,6 +482,8 @@ public class ChronoJump
 		createComboPulses();
 		createdStatsWin = false;
 
+		repetitiveConditionsWin = RepetitiveConditionsWindow.Show(false);
+
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
@@ -448,7 +493,7 @@ public class ChronoJump
 			appbar2.Push ( 1, recuperatedString );
 
 		rand = new Random(40);
-
+		volumeOn = true;
 
 		if(simulated)
 			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
@@ -1929,7 +1974,7 @@ public class ChronoJump
 
 		currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				cp, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 
 		if (simulated) 
 			currentEventExecute.SimulateInitValues(rand);
@@ -2094,7 +2139,7 @@ public class ChronoJump
 		currentEventExecute = new JumpRjExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
-				cp, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime);
+				cp, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin);
 		
 		
 		//suitable for limited by jump and time
@@ -2284,7 +2329,7 @@ public class ChronoJump
 
 		currentEventExecute = new RunExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred);
+				cp, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn);
 		
 		if (simulated) 
 			currentEventExecute.SimulateInitValues(rand);
@@ -2448,7 +2493,7 @@ public class ChronoJump
 	
 		currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
 				distanceInterval, myLimit, currentRunType.TracksLimited, 
-				cp, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 		
 		
 		//suitable for limited by tracks and time
@@ -2569,7 +2614,7 @@ public class ChronoJump
 		currentEventExecute = new ReactionTimeExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
 				//currentJumpType.Name, 
-				cp, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 
 		if (simulated) 
 			currentEventExecute.SimulateInitValues(rand);
@@ -2618,7 +2663,7 @@ public class ChronoJump
 					if(currentJumpType.IsRepetitive) 
 						eventExecuteWin.PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
-								currentJumpRj.TvString, currentJumpRj.TcString);
+								currentJumpRj.TvString, currentJumpRj.TcString, volumeOn, repetitiveConditionsWin);
 					else 
 						eventExecuteWin.PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
 					break;
@@ -2750,7 +2795,7 @@ public class ChronoJump
 
 		currentEventExecute = new PulseExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp, appbar2, app1, prefsDigitsNumber);
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 		
 		if(simulated)	
 			currentEventExecute.SimulateInitValues(rand);
@@ -3393,7 +3438,7 @@ public class ChronoJump
 			JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
-			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump);
+			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
 			repairJumpRjWin.Button_accept.Clicked += new EventHandler(on_repair_selected_reactive_jump_accepted);
 		}
 	}
@@ -3420,7 +3465,7 @@ public class ChronoJump
 			RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
 		
 			//4.- edit this run
-			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun);
+			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber);
 			repairRunIntervalWin.Button_accept.Clicked += new EventHandler(on_repair_selected_run_interval_accepted);
 		}
 	}

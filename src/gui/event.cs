@@ -523,7 +523,8 @@ public class EventExecuteWindow
 	}
 	
 	// Reactive jump 
-	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString) {
+	public void PrepareJumpReactiveGraph(double lastTv, double lastTc, string tvString, string tcString, 
+			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin) {
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
@@ -556,15 +557,54 @@ public class EventExecuteWindow
 		int jumps = Util.GetNumberOfJumps(tvString, true); 
 
 		//paint graph
-		paintJumpReactive (drawingarea, lastTv, lastTc, tvString, tcString, Util.GetAverage(tvString), Util.GetAverage(tcString), maxValue, minValue, jumps, topMargin, bottomMargin);
+		paintJumpReactive (drawingarea, lastTv, lastTc, tvString, tcString, Util.GetAverage(tvString), Util.GetAverage(tcString), 
+				maxValue, minValue, jumps, topMargin, bottomMargin, 
+				bestOrWorstTvTcIndex(true, tvString, tcString), bestOrWorstTvTcIndex(false, tvString, tcString), 
+				volumeOn, repetitiveConditionsWin);
 		
 		Console.Write("l2");
-		
+	
 		// -- refresh
 		drawingarea.QueueDraw();
 		
 		Console.Write("l3");
 	}
+	
+	//identify which subjump is the best or the worst in tv/tc index	
+	private int bestOrWorstTvTcIndex(bool isBest, string tvString, string tcString) 
+	{
+		string [] myTVStringFull = tvString.Split(new char[] {'='});
+		string [] myTCStringFull = tcString.Split(new char[] {'='});
+		double myTVDouble = 0;
+		double myTCDouble = 0;
+		double maxTvTc = 0;
+		double minTvTc = 100000;
+		int count = 0;
+		int posSelected = 0;
+
+		foreach (string myTV in myTVStringFull) {
+			myTVDouble = Convert.ToDouble(myTV);
+			myTCDouble = Convert.ToDouble(myTCStringFull[count]);
+			if(myTCDouble > 0) {
+				if(isBest) {
+					if(myTVDouble / myTCDouble > maxTvTc) {
+						maxTvTc = myTVDouble / myTCDouble;
+						posSelected = count;
+					}
+				}
+				else {
+					if(myTVDouble / myTCDouble < minTvTc) {
+						minTvTc = myTVDouble / myTCDouble;
+						posSelected = count;
+					}
+				}
+			}
+
+			count ++;
+		}
+		return posSelected; 
+	}
+			
 
 	// run simple
 	public void PrepareRunSimpleGraph(double time, double speed) 
@@ -924,7 +964,9 @@ public class EventExecuteWindow
 
 	
 	private void paintJumpReactive (Gtk.DrawingArea drawingarea, double lastTv, double lastTc, string tvString, string tcString, 
-			double avgTV, double avgTC, double maxValue, double minValue, int jumps, int topMargin, int bottomMargin)
+			double avgTV, double avgTC, double maxValue, double minValue, int jumps, 
+			int topMargin, int bottomMargin, int posMax, int posMin, bool volumeOn,
+			RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		//int topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
@@ -1000,9 +1042,42 @@ public class EventExecuteWindow
 			}
 			
 			drawCircleAndWriteValue(pen_rojo, myTCDouble, --count, jumps, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
+		
+
+			//draw best tv/tc
+			pixmap.DrawLine(pen_brown_bold,
+					Convert.ToInt32((ancho-rightMargin)*(posMax+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTVStringFull[posMax]), alto, maxValue, minValue, topMargin, bottomMargin),
+					Convert.ToInt32((ancho-rightMargin)*(posMax+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTCStringFull[posMax]), alto, maxValue, minValue, topMargin, bottomMargin));
+			//draw worst tv/tc
+			pixmap.DrawLine(pen_violet_bold,
+					Convert.ToInt32((ancho-rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTVStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin),
+					Convert.ToInt32((ancho-rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTCStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin));
+
+			//sounds of best & worst
+			if(count > 0) {
+				if(repetitiveConditionsWin.TfTcBest && posMax == count) 
+					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				else if(repetitiveConditionsWin.TfTcWorst && posMin == count) 
+					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+				
+				if(repetitiveConditionsWin.TfGreater && lastTv > repetitiveConditionsWin.TfGreaterValue) 
+					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				if(repetitiveConditionsWin.TfLower && lastTv < repetitiveConditionsWin.TfLowerValue) 
+					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+
+				if(repetitiveConditionsWin.TcGreater && lastTc > repetitiveConditionsWin.TcGreaterValue) 
+					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+				if(repetitiveConditionsWin.TcLower && lastTc < repetitiveConditionsWin.TcLowerValue) 
+					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+
+				if(lastTc > 0 && repetitiveConditionsWin.TfTcGreater && lastTv/lastTc > repetitiveConditionsWin.TfTcGreaterValue) 
+					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				if(lastTc > 0 && repetitiveConditionsWin.TfTcLower && lastTv/lastTc < repetitiveConditionsWin.TfTcLowerValue) 
+					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+			}
 
 		}
-		
+
 		Console.Write(" paint reactive 2 ");
 
 		label_jump_reactive_tc_now.Text = Util.TrimDecimals(lastTc.ToString(), pDN);
@@ -1307,6 +1382,8 @@ public class EventExecuteWindow
 	Gdk.GC pen_green_discont; //guide
 	Gdk.GC pen_gris; //textual data
 	Gdk.GC pen_beige_discont; //Y cols
+	Gdk.GC pen_brown_bold; //best tv/tc in rj
+	Gdk.GC pen_violet_bold; //worst tv/tc in rj
 	//Gdk.GC pen_blanco;
 	
 
@@ -1318,6 +1395,8 @@ public class EventExecuteWindow
 		Gdk.Color green = new Gdk.Color(0,0xff,0);
 		Gdk.Color gris = new Gdk.Color(0x66,0x66,0x66);
 		Gdk.Color beige = new Gdk.Color(0x99,0x99,0x99);
+		Gdk.Color brown = new Gdk.Color(0xd6,0x88,0x33);
+		Gdk.Color violet = new Gdk.Color(0xc4,0x20,0xf3);
 		//Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
@@ -1327,6 +1406,8 @@ public class EventExecuteWindow
 		colormap.AllocColor (ref green,true,true);
 		colormap.AllocColor (ref gris,true,true);
 		colormap.AllocColor (ref beige,true,true);
+		colormap.AllocColor (ref brown,true,true);
+		colormap.AllocColor (ref violet,true,true);
 		//colormap.AllocColor (ref blanco,true,true);
 
 		//-- Configurar los contextos graficos (pinceles)
@@ -1340,6 +1421,8 @@ public class EventExecuteWindow
 		pen_green_discont = new Gdk.GC(drawingarea.GdkWindow);
 		pen_gris = new Gdk.GC(drawingarea.GdkWindow);
 		pen_beige_discont = new Gdk.GC(drawingarea.GdkWindow);
+		pen_brown_bold = new Gdk.GC(drawingarea.GdkWindow);
+		pen_violet_bold = new Gdk.GC(drawingarea.GdkWindow);
 
 		
 		pen_rojo.Foreground = rojo;
@@ -1359,6 +1442,11 @@ public class EventExecuteWindow
 
 		pen_beige_discont.Foreground = beige;
 		pen_beige_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		
+		pen_brown_bold.Foreground = brown;
+		pen_brown_bold.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_violet_bold.Foreground = violet;
+		pen_violet_bold.SetLineAttributes(2, Gdk.LineStyle.Solid, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 	}
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{

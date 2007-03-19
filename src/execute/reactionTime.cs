@@ -43,7 +43,7 @@ public class ReactionTimeExecute : EventExecute
 
 	//reactionTime execution
 	public ReactionTimeExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID,   
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -55,6 +55,7 @@ public class ReactionTimeExecute : EventExecute
 		this.app = app;
 
 		this.pDN = pDN;
+		this.volumeOn = volumeOn;
 	
 		fakeButtonFinished = new Gtk.Button();
 		
@@ -97,6 +98,8 @@ public class ReactionTimeExecute : EventExecute
 		if (platformState==Chronopic.Plataforma.ON) {
 			appbar.Push( 1,Catalog.GetString("You are IN, RELEASE when prepared!!") );
 
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
+
 			loggedState = States.ON;
 
 			//prepare reactionTime for being cancelled if desired
@@ -118,6 +121,7 @@ public class ReactionTimeExecute : EventExecute
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, 
 					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "");
+			System.Media.SystemSounds.Beep.Play();
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);

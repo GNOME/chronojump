@@ -1,3 +1,4 @@
+[encoding: UTF-8]
 glade/chronojump.glade
 src/chronojump_mini.cs
 src/chronojump.cs

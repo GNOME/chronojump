@@ -54,7 +54,7 @@ public class RunExecute : EventExecute
 
 	//run execution
 	public RunExecute(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -68,6 +68,7 @@ public class RunExecute : EventExecute
 
 		this.pDN = pDN;
 		this.metersSecondsPreferred = metersSecondsPreferred;
+		this.volumeOn = volumeOn;
 		
 		fakeButtonFinished = new Gtk.Button();
 
@@ -110,12 +111,14 @@ Console.WriteLine("MANAGE(b)!!!!");
 		//we record always de TF (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
 			appbar.Push( 1,Catalog.GetString("You are IN, RUN when prepared!!") );
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.ON;
 			startIn = true;
 			runPhase = runPhases.PLATFORM_INI;
 		} else {
 			appbar.Push( 1,Catalog.GetString("You are OUT, RUN when prepared!!") );
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
 			startIn = false;
@@ -336,7 +339,7 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -359,6 +362,7 @@ public class RunIntervalExecute : RunExecute
 		this.app = app;
 
 		this.pDN = pDN;
+		this.volumeOn = volumeOn;
 	
 		fakeButtonFinished = new Gtk.Button();
 

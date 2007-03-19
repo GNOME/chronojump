@@ -565,4 +565,22 @@ public class Util
 		}
 	}
 	
+	//public static void PlaySound (System.Media.SystemSounds mySound, bool volumeOn) {
+	public static void PlaySound (Constants.SoundTypes mySound, bool volumeOn) {
+		if(volumeOn) {
+			//mySound.SystemSound.Play();
+			switch(mySound) {
+				case Constants.SoundTypes.CAN_START:
+					System.Media.SystemSounds.Question.Play();
+					break;
+				case Constants.SoundTypes.GOOD:
+					System.Media.SystemSounds.Asterisk.Play();
+					break;
+				case Constants.SoundTypes.BAD:
+					System.Media.SystemSounds.Beep.Play();
+					break;
+			}
+		}
+	}
+		
 }

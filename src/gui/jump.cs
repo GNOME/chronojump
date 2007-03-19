@@ -453,12 +453,13 @@ public class RepairJumpRjWindow
 
 	static RepairJumpRjWindow RepairJumpRjWindowBox;
 	Gtk.Window parent;
+	//int pDN;
 
 	JumpType jumpType;
 	JumpRj jumpRj; //used on button_accept
 	
 
-	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump) {
+	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump, int pDN) {
 		Glade.XML gladeXML;
 		try {
 			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
@@ -469,6 +470,8 @@ public class RepairJumpRjWindow
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.jumpRj = myJump;
+
+		//this.pDN = pDN;
 	
 		repair_sub_event.Title = Catalog.GetString("Repair reactive jump");
 		
@@ -487,7 +490,7 @@ public class RepairJumpRjWindow
 		//count, tc, tv
 		store = new TreeStore(typeof (string), typeof (string), typeof(string));
 		treeview_subevents.Model = store;
-		fillTreeView (treeview_subevents, store, myJump);
+		fillTreeView (treeview_subevents, store, myJump, pDN);
 	
 		button_add_before.Sensitive = false;
 		button_add_after.Sensitive = false;
@@ -496,11 +499,11 @@ public class RepairJumpRjWindow
 		label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
 	}
 	
-	static public RepairJumpRjWindow Show (Gtk.Window parent, JumpRj myJump)
+	static public RepairJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
 	{
 		//Console.WriteLine(myJump);
 		if (RepairJumpRjWindowBox == null) {
-			RepairJumpRjWindowBox = new RepairJumpRjWindow (parent, myJump);
+			RepairJumpRjWindowBox = new RepairJumpRjWindow (parent, myJump, pDN);
 		}
 		
 		RepairJumpRjWindowBox.repair_sub_event.Show ();
@@ -619,7 +622,7 @@ public class RepairJumpRjWindow
 		return totalTime;
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store, JumpRj myJump)
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, JumpRj myJump, int pDN)
 	{
 		if(myJump.TcString.Length > 0 && myJump.TvString.Length > 0) {
 			string [] tcArray = myJump.TcString.Split(new char[] {'='});
@@ -629,11 +632,11 @@ public class RepairJumpRjWindow
 			foreach (string myTc in tcArray) {
 				string myTv;
 				if(tvArray.Length >= count)
-					myTv = tvArray[count];
+					myTv = Util.TrimDecimals(tvArray[count], pDN);
 				else
 					myTv = "";
 				
-				store.AppendValues ( (count+1).ToString(), myTc, myTv );
+				store.AppendValues ( (count+1).ToString(), Util.TrimDecimals(myTc, pDN), myTv );
 				count ++;
 			}
 		}

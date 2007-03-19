@@ -388,7 +388,7 @@ public class RepairRunIntervalWindow
 	RunInterval runInterval; //used on button_accept
 	
 
-	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun) {
+	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun, int pDN) {
 		Glade.XML gladeXML;
 		try {
 			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
@@ -417,7 +417,7 @@ public class RepairRunIntervalWindow
 		//count, time
 		store = new TreeStore(typeof (string), typeof (string));
 		treeview_subevents.Model = store;
-		fillTreeView (treeview_subevents, store, myRun);
+		fillTreeView (treeview_subevents, store, myRun, pDN);
 	
 		button_add_before.Sensitive = false;
 		button_add_after.Sensitive = false;
@@ -426,11 +426,11 @@ public class RepairRunIntervalWindow
 		label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
 	}
 	
-	static public RepairRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun)
+	static public RepairRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
 	{
 		//Console.WriteLine(myRun);
 		if (RepairRunIntervalWindowBox == null) {
-			RepairRunIntervalWindowBox = new RepairRunIntervalWindow (parent, myRun);
+			RepairRunIntervalWindowBox = new RepairRunIntervalWindow (parent, myRun, pDN);
 		}
 		
 		RepairRunIntervalWindowBox.repair_sub_event.Show ();
@@ -510,14 +510,14 @@ public class RepairRunIntervalWindow
 		return totalTime;
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store, RunInterval myRun)
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, RunInterval myRun, int pDN)
 	{
 		if(myRun.IntervalTimesString.Length > 0) {
 			string [] timeArray = myRun.IntervalTimesString.Split(new char[] {'='});
 
 			int count = 0;
 			foreach (string myTime in timeArray) {
-				store.AppendValues ( (count+1).ToString(), myTime );
+				store.AppendValues ( (count+1).ToString(), Util.TrimDecimals(myTime, pDN) );
 				count ++;
 			}
 		}

@@ -1,5 +1,18 @@
 CHANGELOG:
 
+19 mar 2007
+	Done: 65733 (Conditions for ending repetitive events: not end, now "beep"). 
+	endingConditions.cs moved to gui/repetitiveConditions.cs
+
+	new feature: "realtime" sounds in configurable values of tf, tc & tf/tc in reactive jumps (src/gui/repetitiveConditions.cs)
+	sound: "question" when user can start event, and "beep" when should go up or down & click again
+	sound can be activated or deactivated from mainwindow
+	this does not compile with 1.2, needs mono 1.2.3
+
+	some imagebuttons changed
+	event execute tc/tf values inverted (clearer now)
+	repair event shows events with correct decimals
+
 15 mar 2007
 	Doing: 65733 (Conditions for ending repetitive events). Done endingConditions.cs
 

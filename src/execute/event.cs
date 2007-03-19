@@ -67,7 +67,9 @@ public class EventExecute
 	protected PrepareEventGraphReactionTime prepareEventGraphReactionTime;
 	
 	protected bool needEndEvent;
-
+	
+	protected bool volumeOn;
+	protected RepetitiveConditionsWindow repetitiveConditionsWin;
 
 
 	//better as private and don't inherit, don't know why
@@ -338,7 +340,8 @@ Console.Write("wwb ");
 						prepareEventGraphJumpReactive.lastTv, 
 						prepareEventGraphJumpReactive.lastTc,
 						prepareEventGraphJumpReactive.tvString,
-						prepareEventGraphJumpReactive.tcString);
+						prepareEventGraphJumpReactive.tcString,
+						volumeOn, repetitiveConditionsWin);
 				break;
 			case eventType.RUN:
 				Console.Write("update graph: RUN");
@@ -381,6 +384,15 @@ Console.Write("wwb ");
 	
 	protected virtual void write() {
 	}
+
+
+	protected virtual void goodEvent() {
+		Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+	} 
+	
+	protected virtual void badEvent() {
+		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+	} 
 	
 	//from confirm_window cancel button (thread has not started)
 	//this is NOT called when a event has started and user click on "Cancel"

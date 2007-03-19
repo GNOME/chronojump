@@ -49,7 +49,7 @@ public class JumpExecute : EventExecute
 
 	//jump execution
 	public JumpExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, int fall, double weight,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -64,6 +64,7 @@ public class JumpExecute : EventExecute
 		this.app = app;
 
 		this.pDN = pDN;
+		this.volumeOn = volumeOn;
 	
 		if(TypeHasFall) {
 			hasFall = true;
@@ -119,6 +120,7 @@ public class JumpExecute : EventExecute
 		
 		if (platformState==Chronopic.Plataforma.ON) {
 			appbar.Push( 1,Catalog.GetString("You are IN, JUMP when prepared!!") );
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.ON;
 
@@ -142,6 +144,8 @@ public class JumpExecute : EventExecute
 			confirmWin = ConfirmWindow.Show(app, 
 					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "");
 
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
 			
@@ -160,6 +164,7 @@ public class JumpExecute : EventExecute
 		
 		if (platformState==Chronopic.Plataforma.OFF) {
 			appbar.Push( 1,Catalog.GetString("You are OUT, JUMP when prepared!!") );
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
 
@@ -186,6 +191,7 @@ public class JumpExecute : EventExecute
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, 
 					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "");
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManageFall);
@@ -439,7 +445,8 @@ public class JumpRjExecute : JumpExecute
 	public JumpRjExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, 
 			int sessionID, string type, int fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool allowFinishAfterTime)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
+			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -449,7 +456,7 @@ public class JumpRjExecute : JumpExecute
 		this.fall = fall;
 		this.weight = weight;
 		this.limitAsDouble = limitAsDouble;
-		this.jumpsLimited = jumpsLimited;
+		this.repetitiveConditionsWin = repetitiveConditionsWin;
 
 		if(jumpsLimited) {
 			this.limited = limitAsDouble.ToString() + "J";
@@ -463,6 +470,7 @@ public class JumpRjExecute : JumpExecute
 
 		this.pDN = pDN;
 		this.allowFinishAfterTime = allowFinishAfterTime;
+		this.volumeOn = volumeOn;
 	
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
@@ -502,9 +510,11 @@ public class JumpRjExecute : JumpExecute
 
 		if (platformState==Chronopic.Plataforma.OFF && hasFall ) {
 			appbar.Push( 1,Catalog.GetString("You are OUT, JUMP when prepared!!") );
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 			success = true;
 		} else if (platformState==Chronopic.Plataforma.ON && ! hasFall ) {
 			appbar.Push( 1,Catalog.GetString("You are IN, JUMP when prepared!!") );
+			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 			success = true;
 		} else {
 			string myMessage = Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button");
@@ -513,6 +523,7 @@ public class JumpRjExecute : JumpExecute
 			}
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(app, myMessage, "");
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
@@ -634,7 +645,6 @@ public class JumpRjExecute : JumpExecute
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							//eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
 							prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString);
 							needUpdateGraphType = eventType.JUMPREACTIVE;
 							needUpdateGraph = true;
@@ -678,7 +688,6 @@ public class JumpRjExecute : JumpExecute
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							//eventExecuteWin.PrepareJumpReactiveGraph(lastTv, lastTc, tvString, tcString);
 							prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString);
 							needUpdateGraphType = eventType.JUMPREACTIVE;
 							needUpdateGraph = true;

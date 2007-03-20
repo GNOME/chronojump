@@ -77,6 +77,7 @@ public class EventExecuteWindow
 	[Widget] Gtk.EventBox eventbox_jump_simple_tf;
 	[Widget] Gtk.EventBox eventbox_jump_reactive_tc;
 	[Widget] Gtk.EventBox eventbox_jump_reactive_tf;
+	//[Widget] Gtk.EventBox eventbox_jump_reactive_tf_tc;
 	[Widget] Gtk.EventBox eventbox_run_simple_time;
 	[Widget] Gtk.EventBox eventbox_run_simple_speed;
 	[Widget] Gtk.EventBox eventbox_run_interval_time;
@@ -96,6 +97,8 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_jump_reactive_tc_avg;
 	[Widget] Gtk.Label label_jump_reactive_tf_now;
 	[Widget] Gtk.Label label_jump_reactive_tf_avg;
+	[Widget] Gtk.Label label_jump_reactive_tf_tc_now;
+	[Widget] Gtk.Label label_jump_reactive_tf_tc_avg;
 
 	[Widget] Gtk.Label label_run_simple_time_now;
 	[Widget] Gtk.Label label_run_simple_time_person;
@@ -116,6 +119,15 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_reaction_time_person;
 	[Widget] Gtk.Label label_reaction_time_session;
 
+	[Widget] Gtk.Image image_jump_reactive_tf_good;
+	[Widget] Gtk.Image image_jump_reactive_tf_bad;
+	[Widget] Gtk.Image image_jump_reactive_tc_good;
+	[Widget] Gtk.Image image_jump_reactive_tc_bad;
+	[Widget] Gtk.Image image_jump_reactive_tf_tc_good;
+	[Widget] Gtk.Image image_jump_reactive_tf_tc_bad;
+
+	[Widget] Gtk.Image image_run_interval_time_good;
+	[Widget] Gtk.Image image_run_interval_time_bad;
 	
 	[Widget] Gtk.DrawingArea drawingarea;
 	static Gdk.Pixmap pixmap = null;
@@ -178,6 +190,7 @@ public class EventExecuteWindow
 
 		
 		EventExecuteWindowBox.hideAllTables();
+		EventExecuteWindowBox.hideImages();
 
 		EventExecuteWindowBox.initializeVariables (
 				windowTitle, phasesName, personID, personName, sessionID, 
@@ -255,6 +268,17 @@ public class EventExecuteWindow
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
 	}
 
+	private void hideImages() {
+		image_jump_reactive_tf_good.Hide();
+		image_jump_reactive_tf_bad.Hide();
+		image_jump_reactive_tc_good.Hide();
+		image_jump_reactive_tc_bad.Hide();
+		image_jump_reactive_tf_tc_good.Hide();
+		image_jump_reactive_tf_tc_bad.Hide();
+		image_run_interval_time_good.Hide();
+		image_run_interval_time_bad.Hide();
+	}
+
 	private void hideAllTables() {
 		//hide simple jump info
 		table_jump_simple.Hide();
@@ -306,6 +330,8 @@ public class EventExecuteWindow
 		label_jump_reactive_tc_avg.Text = "";
 		label_jump_reactive_tf_now.Text = "";
 		label_jump_reactive_tf_avg.Text = "";
+		label_jump_reactive_tf_tc_now.Text = "";
+		label_jump_reactive_tf_tc_avg.Text = "";
 	}
 	
 	private void showRunSimpleLabels() {
@@ -681,7 +707,8 @@ public class EventExecuteWindow
 	}
 	
 	// run interval
-	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString) {
+	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString,
+			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin) {
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
@@ -724,7 +751,9 @@ public class EventExecuteWindow
 		int tracks = Util.GetNumberOfJumps(timesString, true); 
 
 		//paint graph
-		paintRunInterval (drawingarea, paintTime, distance, lastTime, timesString, Util.GetAverage(timesString), maxValue, minValue, tracks, topMargin, bottomMargin);
+		paintRunInterval (drawingarea, paintTime, distance, lastTime, timesString, Util.GetAverage(timesString), maxValue, minValue, tracks, topMargin, bottomMargin,
+				Util.GetPosMax(timesString), Util.GetPosMin(timesString),
+				volumeOn, repetitiveConditionsWin);
 		
 		Console.Write("l2");
 		
@@ -1053,29 +1082,61 @@ public class EventExecuteWindow
 					Convert.ToInt32((ancho-rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTVStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin),
 					Convert.ToInt32((ancho-rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTCStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin));
 
+			//bells & images
+			image_jump_reactive_tf_good.Hide();
+			image_jump_reactive_tf_bad.Hide();
+			image_jump_reactive_tc_good.Hide();
+			image_jump_reactive_tc_bad.Hide();
+			image_jump_reactive_tf_tc_good.Hide();
+			image_jump_reactive_tf_tc_bad.Hide();
+			bool showTfGood = false;
+			bool showTfBad = false;
+			bool showTcGood = false;
+			bool showTcBad = false;
+			bool showTfTcGood = false;
+			bool showTfTcBad = false;
+
 			//sounds of best & worst
 			if(count > 0) {
-				if(repetitiveConditionsWin.TfTcBest && posMax == count) 
-					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
-				else if(repetitiveConditionsWin.TfTcWorst && posMin == count) 
-					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
-				
-				if(repetitiveConditionsWin.TfGreater && lastTv > repetitiveConditionsWin.TfGreaterValue) 
-					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
-				if(repetitiveConditionsWin.TfLower && lastTv < repetitiveConditionsWin.TfLowerValue) 
-					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
-
-				if(repetitiveConditionsWin.TcGreater && lastTc > repetitiveConditionsWin.TcGreaterValue) 
-					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
-				if(repetitiveConditionsWin.TcLower && lastTc < repetitiveConditionsWin.TcLowerValue) 
-					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
-
-				if(lastTc > 0 && repetitiveConditionsWin.TfTcGreater && lastTv/lastTc > repetitiveConditionsWin.TfTcGreaterValue) 
-					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
-				if(lastTc > 0 && repetitiveConditionsWin.TfTcLower && lastTv/lastTc < repetitiveConditionsWin.TfTcLowerValue) 
-					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+				if(repetitiveConditionsWin.TfTcBest && posMax == count)
+					showTfTcGood = true;
+				else if(repetitiveConditionsWin.TfTcWorst && posMin == count)
+					showTfTcBad = true;
 			}
+				
+			if(repetitiveConditionsWin.TfGreater && lastTv > repetitiveConditionsWin.TfGreaterValue) 
+				showTfGood = true;
+			if(repetitiveConditionsWin.TfLower && lastTv < repetitiveConditionsWin.TfLowerValue) 
+				showTfBad = true;
 
+			if(repetitiveConditionsWin.TcGreater && lastTc > repetitiveConditionsWin.TcGreaterValue) 
+				showTcBad = true;
+			if(repetitiveConditionsWin.TcLower && lastTc < repetitiveConditionsWin.TcLowerValue) 
+				showTcGood = true;
+
+			if(lastTc > 0 && repetitiveConditionsWin.TfTcGreater && lastTv/lastTc > repetitiveConditionsWin.TfTcGreaterValue) 
+				showTfTcGood = true;
+			if(lastTc > 0 && repetitiveConditionsWin.TfTcLower && lastTv/lastTc < repetitiveConditionsWin.TfTcLowerValue) 
+				showTfTcGood = true;
+
+
+			if(showTfGood || showTcGood || showTfTcGood)
+				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+			if(showTfBad || showTcBad || showTfTcBad)
+				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+
+			if(showTfGood)
+				image_jump_reactive_tf_good.Show();
+			if(showTfBad)
+				image_jump_reactive_tf_bad.Show();
+			if(showTcGood)
+				image_jump_reactive_tc_good.Show();
+			if(showTcBad)
+				image_jump_reactive_tc_bad.Show();
+			if(showTfTcGood)
+				image_jump_reactive_tf_tc_good.Show();
+			if(showTfTcBad)
+				image_jump_reactive_tf_tc_bad.Show();
 		}
 
 		Console.Write(" paint reactive 2 ");
@@ -1084,12 +1145,22 @@ public class EventExecuteWindow
 		label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), pDN);
 		label_jump_reactive_tf_now.Text = Util.TrimDecimals(lastTv.ToString(), pDN);
 		label_jump_reactive_tf_avg.Text = Util.TrimDecimals(avgTV.ToString(), pDN);
+		if(lastTc > 0)
+			label_jump_reactive_tf_tc_now.Text = Util.TrimDecimals((lastTv/lastTc).ToString(), pDN);
+		else
+			label_jump_reactive_tf_tc_now.Text = "0";
+		if(avgTC > 0)
+			label_jump_reactive_tf_tc_avg.Text = Util.TrimDecimals((avgTV/avgTC).ToString(), pDN);
+		else
+			label_jump_reactive_tf_tc_avg.Text = "0";
 		
 		graphProgress = phasesGraph.DONE; 
 	}
 
 	private void paintRunInterval (Gtk.DrawingArea drawingarea, bool paintTime, double distance, double lastTime, 
-			string timesString, double avgTime, double maxValue, double minValue, int tracks, int topMargin, int bottomMargin)
+			string timesString, double avgTime, double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
+			int hightValuePosition, int lowValuePosition,
+			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		//int topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
@@ -1157,7 +1228,35 @@ public class EventExecuteWindow
 			}
 			
 			drawCircleAndWriteValue(myPen, myValue, --count, tracks, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
+		
 
+			//bells & images
+			image_run_interval_time_good.Hide();
+			image_run_interval_time_bad.Hide();
+			bool showTimeGood = false;
+			bool showTimeBad = false;
+	
+			//sounds of best & worst
+			if(count > 0) {
+				if(repetitiveConditionsWin.RunTimeBest && lowValuePosition == count) 
+					showTimeGood = true;
+				else if(repetitiveConditionsWin.RunTimeWorst && hightValuePosition == count) 
+					showTimeBad = true;
+			}
+
+			if(repetitiveConditionsWin.RunTimeLower && lastTime < repetitiveConditionsWin.RunTimeLowerValue) 
+				showTimeGood = true;
+			if(repetitiveConditionsWin.RunTimeGreater && lastTime > repetitiveConditionsWin.RunTimeGreaterValue) 
+				showTimeBad = true;
+
+			if(showTimeGood) {
+				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				image_run_interval_time_good.Show();
+			}
+			if(showTimeBad) {
+				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+				image_run_interval_time_bad.Show();
+			}
 		}
 		
 		Console.Write(" paint interval 2 ");

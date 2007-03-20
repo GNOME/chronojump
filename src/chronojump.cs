@@ -398,19 +398,6 @@ public class ChronoJump
 		createMainWindow("");
 	}
 
-	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
-		if(volumeOn)
-			volumeOn = false;
-		else
-			volumeOn = true;
-
-		Console.WriteLine("VolumeOn: {0}", volumeOn.ToString());
-	}
-
-	private void on_button_rj_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin = RepetitiveConditionsWindow.Show(true);
-	}
-
 /*
 	private void on_so_asterisk_clicked(object o, EventArgs args) {
 		Console.WriteLine("Asterisk");
@@ -482,7 +469,7 @@ public class ChronoJump
 		createComboPulses();
 		createdStatsWin = false;
 
-		repetitiveConditionsWin = RepetitiveConditionsWindow.Show(false);
+		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
@@ -2493,7 +2480,7 @@ public class ChronoJump
 	
 		currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
 				distanceInterval, myLimit, currentRunType.TracksLimited, 
-				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn, repetitiveConditionsWin);
 		
 		
 		//suitable for limited by tracks and time
@@ -2670,7 +2657,7 @@ public class ChronoJump
 				case eventType.RUN:
 					if(currentRunType.HasIntervals) 
 						eventExecuteWin.PrepareRunIntervalGraph(currentRunInterval.DistanceInterval, 
-								Util.GetLast(currentRunInterval.IntervalTimesString), currentRunInterval.IntervalTimesString);
+								Util.GetLast(currentRunInterval.IntervalTimesString), currentRunInterval.IntervalTimesString, volumeOn, repetitiveConditionsWin);
 					else
 						eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
 					break;
@@ -3539,6 +3526,25 @@ public class ChronoJump
 		new About(progversion, authors, translator_credits);
 	}
 
+	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
+		if(volumeOn)
+			volumeOn = false;
+		else
+			volumeOn = true;
+
+//		if(repetitiveConditionsWin != null)
+			repetitiveConditionsWin.VolumeOn = volumeOn;
+
+		//Console.WriteLine("VolumeOn: {0}", volumeOn.ToString());
+	}
+
+	private void on_button_rj_bells_clicked(object o, EventArgs args) {
+		repetitiveConditionsWin.View(true, volumeOn); //show jumps
+	}
+
+	private void on_button_time_bells_clicked(object o, EventArgs args) {
+		repetitiveConditionsWin.View(false, volumeOn); //show runs
+	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  SENSITIVE GUI METHODS-------------------

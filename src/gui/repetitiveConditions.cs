@@ -22,13 +22,17 @@
 using System;
 using Gtk;
 using Glade;
+using Mono.Unix;
 
 public class RepetitiveConditionsWindow 
 {
 	[Widget] Gtk.Window repetitive_conditions;
-	
-	[Widget] Gtk.CheckButton checkbutton_tf_tc_best;
-	[Widget] Gtk.CheckButton checkbutton_tf_tc_worst;
+//	[Widget] Gtk.ScrolledWindow scrolled_conditions;
+
+	/* jumps */	
+	[Widget] Gtk.Table table_jump_conditions;
+	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_best;
+	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_worst;
 
 	[Widget] Gtk.CheckButton checkbutton_tf_greater;
 	[Widget] Gtk.CheckButton checkbutton_tf_lower;
@@ -43,13 +47,27 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_tc_lower;
 	[Widget] Gtk.SpinButton spinbutton_tf_tc_greater;
 	[Widget] Gtk.SpinButton spinbutton_tf_tc_lower;
+
+	/* runs */	
+	[Widget] Gtk.Table table_run_conditions;
+	[Widget] Gtk.CheckButton checkbutton_run_time_best;
+	[Widget] Gtk.CheckButton checkbutton_run_time_worst;
 	
+	[Widget] Gtk.CheckButton checkbutton_time_greater;
+	[Widget] Gtk.CheckButton checkbutton_time_lower;
+
+	[Widget] Gtk.SpinButton spinbutton_time_greater;
+	[Widget] Gtk.SpinButton spinbutton_time_lower;
+
+	/* bell tests*/	
 	[Widget] Gtk.RadioButton radiobutton_test_good;
 	[Widget] Gtk.RadioButton radiobutton_test_bad;
 
 	[Widget] Gtk.Button button_test;
 	[Widget] Gtk.Button button_close;
 
+	//static bool volumeOn;
+	bool volumeOn;
 	
 	static RepetitiveConditionsWindow RepetitiveConditionsWindowBox;
 		
@@ -64,47 +82,84 @@ public class RepetitiveConditionsWindow
 		gladeXML.Autoconnect(this);
 	}
 
-	static public RepetitiveConditionsWindow Show (bool reallyShow)
+	static public RepetitiveConditionsWindow Create ()
 	{
 		if (RepetitiveConditionsWindowBox == null) {
 			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
-			//RepetitiveConditionsWindowBox.initializeWidgets(); 
 		}
-		
-		if(reallyShow)
-			RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
-		else
-			RepetitiveConditionsWindowBox.repetitive_conditions.Hide ();
+	
+		//don't show until View is called
+		RepetitiveConditionsWindowBox.repetitive_conditions.Hide ();
 		
 		return RepetitiveConditionsWindowBox;
 	}
 	
+	public void View (bool showJumps, bool volumeOn) {
+		//this.volumeOn = volumeOn;
+
+		//when user "deleted_event" the window
+		if (RepetitiveConditionsWindowBox == null) {
+			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
+		}
+		RepetitiveConditionsWindowBox.showWidgets(showJumps);
+		RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
+		RepetitiveConditionsWindowBox.volumeOn = volumeOn;
+	}
+
+	void showWidgets(bool showJumps) {
+		if(showJumps) {
+			table_jump_conditions.Show();
+			checkbutton_jump_tf_tc_best.Show();
+			checkbutton_jump_tf_tc_worst.Show();
+			table_run_conditions.Hide();
+			checkbutton_run_time_best.Hide();
+			checkbutton_run_time_worst.Hide();
+//			scrolled_conditions	
+		} else {
+			table_run_conditions.Show();
+			checkbutton_run_time_best.Show();
+			checkbutton_run_time_worst.Show();
+			table_jump_conditions.Hide();
+			checkbutton_jump_tf_tc_best.Hide();
+			checkbutton_jump_tf_tc_worst.Hide();
+		}
+	}
+
+
 	void on_button_test_clicked (object o, EventArgs args)
 	{
-		if (radiobutton_test_good.Active) 
-			Util.PlaySound(Constants.SoundTypes.GOOD, true);
-		else
-			Util.PlaySound(Constants.SoundTypes.BAD, true);
+		if(volumeOn) {
+			if (radiobutton_test_good.Active) 
+				Util.PlaySound(Constants.SoundTypes.GOOD, true);
+			else
+				Util.PlaySound(Constants.SoundTypes.BAD, true);
+		} else
+			new DialogMessage(Catalog.GetString("You need to activate sounds in main window (bottom)"));
+
 	}
 
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		RepetitiveConditionsWindowBox.repetitive_conditions.Hide();
-		//RepetitiveConditionsWindowBox = null;
+//		RepetitiveConditionsWindowBox = null;
 	}
 
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		RepetitiveConditionsWindowBox.repetitive_conditions.Hide();
-		//RepetitiveConditionsWindowBox = null;
+		RepetitiveConditionsWindowBox = null;
 	}
 
+	public bool VolumeOn {
+		set { volumeOn = value; }
+	}
 
+	/* JUMPS */
 	public bool TfTcBest {
-		get { return checkbutton_tf_tc_best.Active; }
+		get { return checkbutton_jump_tf_tc_best.Active; }
 	}
 	public bool TfTcWorst {
-		get { return checkbutton_tf_tc_worst.Active; }
+		get { return checkbutton_jump_tf_tc_worst.Active; }
 	}
 
 
@@ -157,6 +212,29 @@ public class RepetitiveConditionsWindow
 		get { return Convert.ToDouble(spinbutton_tf_tc_lower.Value); }
 	}
 
+	/* RUNS */
+	public bool RunTimeBest {
+		get { return checkbutton_run_time_best.Active; }
+	}
+	public bool RunTimeWorst {
+		get { return checkbutton_run_time_worst.Active; }
+	}
+
+	public bool RunTimeGreater {
+		get { return checkbutton_time_greater.Active; }
+	}
+
+	public bool RunTimeLower {
+		get { return checkbutton_time_lower.Active; }
+	}
+
+	public double RunTimeGreaterValue {
+		get { return Convert.ToDouble(spinbutton_time_greater.Value); }
+	}
+
+	public double RunTimeLowerValue {
+		get { return Convert.ToDouble(spinbutton_time_lower.Value); }
+	}
 
 }
 

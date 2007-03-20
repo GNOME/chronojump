@@ -51,3 +51,4 @@ src/treeViewPulse.cs
 src/treeViewRun.cs
 src/execute/reactionTime.cs
 src/treeViewReactionTime.cs
+src/gui/repetitiveConditions.cs

@@ -339,7 +339,8 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN,
+			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -363,6 +364,7 @@ public class RunIntervalExecute : RunExecute
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
+		this.repetitiveConditionsWin = repetitiveConditionsWin;
 	
 		fakeButtonFinished = new Gtk.Button();
 

@@ -158,6 +158,39 @@ public class Util
 		return lastSubEvent; 
 	}
 	
+	public static int GetPosMax (string values)
+	{
+		string [] myStringFull = values.Split(new char[] {'='});
+		double max = 0;
+		int count = 0;
+		int countMax = 0;
+		foreach (string myEvent in myStringFull) {
+			if ( Convert.ToDouble(myEvent) > max ) {
+				max = Convert.ToDouble(myEvent);
+				countMax = count;
+			}
+			count ++;
+		}
+		return countMax ; 
+	}
+	
+	//don't use if there are no jumps, then the big value 999999999 could return
+	public static int GetPosMin (string values)
+	{
+		string [] myStringFull = values.Split(new char[] {'='});
+		double min = 999999999999;
+		int count = 0;
+		int countMin = 0;
+		foreach (string myEvent in myStringFull) {
+			if ( Convert.ToDouble(myEvent) < min ) {
+				min = Convert.ToDouble(myEvent);
+				countMin = count;
+			}
+			count ++;
+		}
+		return countMin ; 
+	}
+	
 	public static double CalculateSD(string valuesList, double sumValues, int count) {
 		if(count >1) {
 			/*	  

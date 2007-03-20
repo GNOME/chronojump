@@ -1,5 +1,10 @@
 CHANGELOG:
 
+20 mar 2007
+	repetitive_events works also for run (closed 65733)
+	new feature!: shows "good", "bad" icons on eventExecute
+	improvements on repetive_events close, delete
+
 19 mar 2007
 	Done: 65733 (Conditions for ending repetitive events: not end, now "beep"). 
 	endingConditions.cs moved to gui/repetitiveConditions.cs

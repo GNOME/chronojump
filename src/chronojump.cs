@@ -173,7 +173,7 @@ public class ChronoJump
 	bool volumeOn;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.5-svn";
+	private static string progversion = "0.51";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -365,10 +365,8 @@ public class ChronoJump
 			
 		//we need to connect sqlite to do the languageChange
 		//change language works on windows. On Linux let's change the locale
-/*
 		if(Util.IsWindows()) 
 			languageChange();
-*/
 
 		
 		Catalog.Init ("chronojump", "./locale");

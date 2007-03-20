@@ -65,6 +65,8 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\gui\dialogMessage.cs" />
     <Compile Include="src\gui\dialogHelp.cs" />
     <Compile Include="src\gui\dialogCalendar.cs" />
+    <Compile Include="src\gui\repetitiveConditions.cs" />
+    <Compile Include="src\gui\language.cs" />
     <Compile Include="src\event.cs" />
     <Compile Include="src\jump.cs" />
     <Compile Include="src\jumpType.cs" />
@@ -72,6 +74,7 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\pulseType.cs" />
     <Compile Include="src\person.cs" />
     <Compile Include="src\report.cs" />
+    <Compile Include="src\reactionTime.cs" />
     <Compile Include="src\run.cs" />
     <Compile Include="src\runType.cs" />
     <Compile Include="src\session.cs" />
@@ -85,6 +88,7 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\sqlite\preferences.cs" />
     <Compile Include="src\sqlite\run.cs" />
     <Compile Include="src\sqlite\runType.cs" />
+    <Compile Include="src\sqlite\reactionTime.cs" />
     <Compile Include="src\sqlite\session.cs" />
     <Compile Include="src\sqlite\stat.cs" />
     <Compile Include="src\stats\cmjPlusPotency.cs" />
@@ -143,10 +147,16 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\treeViewJump.cs" />
     <Compile Include="src\treeViewPerson.cs" />
     <Compile Include="src\treeViewPulse.cs" />
+    <Compile Include="src\treeViewReactionTime.cs" />
     <Compile Include="src\treeViewRun.cs" />
     <Compile Include="src\util.cs" />
     <Compile Include="src\updateProgressBar.cs" />
     <Compile Include="src\prepareEventGraphObjects.cs" />
+    <Compile Include="src\execute\event.cs" />
+    <Compile Include="src\execute\jump.cs" />
+    <Compile Include="src\execute\run.cs" />
+    <Compile Include="src\execute\reactionTime.cs" />
+    <Compile Include="src\execute\pulse.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="glade\chronojump.glade" />

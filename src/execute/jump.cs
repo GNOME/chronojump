@@ -456,7 +456,6 @@ public class JumpRjExecute : JumpExecute
 		this.fall = fall;
 		this.weight = weight;
 		this.limitAsDouble = limitAsDouble;
-		this.repetitiveConditionsWin = repetitiveConditionsWin;
 
 		if(jumpsLimited) {
 			this.limited = limitAsDouble.ToString() + "J";
@@ -471,6 +470,7 @@ public class JumpRjExecute : JumpExecute
 		this.pDN = pDN;
 		this.allowFinishAfterTime = allowFinishAfterTime;
 		this.volumeOn = volumeOn;
+		this.repetitiveConditionsWin = repetitiveConditionsWin;
 	
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }

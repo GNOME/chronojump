@@ -354,7 +354,8 @@ Console.Write("wwb ");
 				eventExecuteWin.PrepareRunIntervalGraph(
 						prepareEventGraphRunInterval.distance, 
 						prepareEventGraphRunInterval.lastTime,
-						prepareEventGraphRunInterval.timesString);
+						prepareEventGraphRunInterval.timesString,
+						volumeOn, repetitiveConditionsWin);
 				break;
 			case eventType.PULSE:
 				Console.Write("update graph: PULSE");

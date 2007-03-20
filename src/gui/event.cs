@@ -167,6 +167,10 @@ public class EventExecuteWindow
 		}
 
 		gladeXML.Autoconnect(this);
+
+		//this hides it when it's creating (hiding and showing tables stuff)
+		//then user doesn't see a moving/changing creation window
+		event_execute.Hide ();
 		
 		if(Util.IsWindows()) {
 			rightMargin = 50;

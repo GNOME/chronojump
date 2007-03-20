@@ -48,7 +48,7 @@ all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
 # Regla para compilar CHRONOJUMP (C#)
 #-------------------------------
 
-$(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) 
+$(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs
 	 $(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
    
     

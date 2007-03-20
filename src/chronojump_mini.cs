@@ -84,9 +84,9 @@ class Test {
 			Environment.Exit(1);
 		}
 
-
 		//-- Crear objeto chronopic, para acceder al chronopic
 		Chronopic cp = new Chronopic(sp);
+
 
 		//-- Obtener el estado inicial de la plataforma
 		// this do...while is here because currently there's no timeout on chronopic.cs on windows

@@ -1,6 +1,10 @@
 CHANGELOG:
 
 20 mar 2007
+	fixed: 420520: problem with chronopic timeout in mono1.2.3
+	minor gui improvements
+
+20 mar 2007
 	repetitive_events works also for run (closed 65733)
 	new feature!: shows "good", "bad" icons on eventExecute
 	improvements on repetive_events close, delete

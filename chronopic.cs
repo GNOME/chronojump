@@ -206,7 +206,7 @@ public class Chronopic {
 	private bool Read_cambio(byte[] respuesta)
 	{
 		//-- Crear la trama
-		int n;
+		int n=0;
 		int count;
 		bool status;
 
@@ -216,8 +216,16 @@ public class Chronopic {
 		//-- timeout se aborta
 		count=0;
 		do {
-			n = sp.Read(respuesta,count,5-count);
-			count+=n;
+			//try, catch done because mono-1.2.3 throws an exception when there's a timeout
+			//http://bugzilla.gnome.org/show_bug.cgi?id=420520
+			bool success = false;
+			do {
+				try {
+					n = sp.Read(respuesta,count,5-count);
+					count+=n;
+					success = true;
+				} catch {}
+			} while (!success);
 		} while (count<5 && n!=-1);
 
 		//-- Comprobar la respuesta recibida
@@ -251,7 +259,15 @@ public class Chronopic {
 	{
 		byte[] buffer = new byte[256];
 
-		sp.Read(buffer,0,256);
+		//try, catch done because mono-1.2.3 throws an exception when there's a timeout
+		//http://bugzilla.gnome.org/show_bug.cgi?id=420520
+		bool success = false;
+		do{
+			try{
+				sp.Read(buffer,0,256);
+				success = true;
+			} catch {}
+		} while(!success);
 	}
 
 	/**********************************/

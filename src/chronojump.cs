@@ -1608,28 +1608,20 @@ public class ChronoJump
 			return;
 
 		if(! menuitem_chronopic.Active) {
+			appbar2.Push( 1, Catalog.GetString("Changed to simulated mode"));
 			Console.WriteLine("RadioChronopic - INACTIVE");
 			return;
 		}
 
 		Console.WriteLine("RadioChronopic - ACTIVE");
 	
-		//on windows currently there's no timeout on init of chronopic
-		//show this window, and start chronopic only when button_accept is clicjed
-		if(Util.IsWindows()) {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **: generate a event with the platform or with chronopic.\nIf you don't do it, Chronojump will crash.\n"), Catalog.GetString("If it crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port in the preferences window"));
-			confirmWin.Button_accept.Clicked += new EventHandler(on_chronopic_accepted);
-			confirmWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
-		} else {
-			simulated = false;
-			SqlitePreferences.Update("simulated", simulated.ToString());
+		//done also in linux because mono-1.2.3 throws an exception when there's a timeout
+		//http://bugzilla.gnome.org/show_bug.cgi?id=420520
 
-			//init connecting with chronopic	
-			if(cpRunning == false) {
-				chronopicInit(chronopicPort);
-				//cpRunning = true;
-			}
-		}
+		//ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **: generate a event with the platform or with chronopic.\nIf you don't do it, Chronojump will crash.\n"), Catalog.GetString("If it crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port in the preferences window"));
+		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **: Chronojump will wait until you generate a event with the platform or with chronopic."), "");
+		confirmWin.Button_accept.Clicked += new EventHandler(on_chronopic_accepted);
+		confirmWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
 	}
 
 	private void on_chronopic_accepted (object o, EventArgs args) {

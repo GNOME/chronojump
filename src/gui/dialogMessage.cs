@@ -36,10 +36,14 @@ public class DialogMessage
 		} catch {
 			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "dialog_message", null);
 		}
-		
+	
 		gladeXML.Autoconnect(this);
-		
+	
+		//with this, user doesn't see a moving/changing creation window
+		dialog_message.Hide();	
+
 		label_message.Text = message; 
+		dialog_message.Show();	
 	}
 				
 

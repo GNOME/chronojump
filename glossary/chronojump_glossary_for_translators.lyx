@@ -1,74 +1,108 @@
-#LyX 1.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 221
+#LyX 1.4.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 245
+\begin_document
+\begin_header
 \textclass article
+\begin_preamble
+\usepackage{a4}
+\end_preamble
 \language spanish
 \inputencoding auto
 \fontscheme times
 \graphics default
 \paperfontsize default
-\spacing single 
-\papersize a4paper
-\paperpackage a4wide
-\use_geometry 0
-\use_amsmath 0
-\use_natbib 0
-\use_numerical_citations 0
+\spacing single
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\cite_engine basic
+\use_bibtopic false
 \paperorientation portrait
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
 \defskip medskip
 \quotes_language english
-\quotes_times 2
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
+\tracking_changes false
+\output_changes true
+\end_header
 
-\layout Title
+\begin_body
 
+\begin_layout Title
 Glossary for Chronojump Translators
-\layout Comment
+\end_layout
 
+\begin_layout Date
+March, 22, 2007
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Standard
 remember to delete the first lines from to tittles (bug of lyx->html conversor,
  and to put real '<' and '>' on both pngs and jpgs
-\layout Standard
+\end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 ChronoJump, is a "complete multiplatform system for measurement, management
  and statistics of the jump events" 
 \begin_inset LatexCommand \url{http://www.gnome.org/projects/chronojump/}
 
-\end_inset 
+\end_inset
 
  
-\newline 
-The knowledge of different the kinds of jump, the specific terminology and
- the concepts surrounding other "events" which are measured, like runs and
- rhythms, may difficult the translation of the software.
+\newline
+The knowledge of different the kinds of jump, the specific terminology
+ and the concepts surrounding other "events" which are measured, like runs
+ and rhythms, may difficult the translation of the software.
  The purpose of this document is to bring a clear context to the translator
  and offer a small glossary of the terms that can be confusing.
  There is also an intentional need to write this document briefly, this
  guide was thought for being short and practical.
-\layout Comment
+\end_layout
 
+\begin_layout Standard
+\align center
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Standard
 <img src=
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
-http://www.gnome.org/projects/chronojump/images/chronojump_esquema.png
+http://www.gnome.org/projects/chronojump/images/chronojump_esquema_jump_300.png
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 >
-\layout Subsection*
+\end_layout
+
+\end_inset
 
 
+\end_layout
+
+\begin_layout Subsection*
 \begin_inset LatexCommand \label{sub:Context:-An-sports}
 
-\end_inset 
+\end_inset
 
 Context: An sports evaluation
-\layout Standard
+\end_layout
 
+\begin_layout Standard
 Commonly, the sports instructor, physical educator, trainer, kyneologist...
  apply some tests to one or more people who jump (referred sometimes as
  "persons" or "jumpers" in jump tests) using an instrument nowadays connected
@@ -83,817 +117,919 @@ Commonly, the sports instructor, physical educator, trainer, kyneologist...
  Each session has a name, place, date, possible comments, and also people
  who perform a specific jump, run or pulses.
  
-\layout Subsection*
+\end_layout
 
+\begin_layout Subsection*
 Glossary:
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:AbalakovJump}
 
-\end_inset 
+\end_inset
 
-Abalakov\SpecialChar ~
+Abalakov\InsetSpace ~
 Jump (also called 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 ABK
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 ) a kind of 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 simple jump
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  (we recommend not to translate the term).
-\layout Description
+\end_layout
 
+\begin_layout Description
 ABK (See 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Abalakov jump
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:AbalakovJump}
 
-\end_inset 
+\end_inset
 
 ).
-\layout Description
+\end_layout
 
+\begin_layout Description
+Bell Chronojump uses a software bell as an auditive and configurable way
+ to tell the 
+\shape slanted
+\bar under
+Jumper
+\begin_inset LatexCommand \ref{des:Jumper}
 
+\end_inset
+
+ 
+\shape default
+\bar default
+or
+\shape slanted
+\bar under
+ Runner
+\shape default
+\bar default
+
+\begin_inset LatexCommand \ref{des:Runner}
+
+\end_inset
+
+ info about the parameters of the 
+\shape slanted
+\bar under
+event
+\shape default
+\bar default
+
+\begin_inset LatexCommand \ref{des:Event}
+
+\end_inset
+
+: 
+\shape slanted
+\bar under
+TC
+\shape default
+\bar default
+
+\begin_inset LatexCommand \ref{des:TC}
+
+\end_inset
+
+,
+\shape slanted
+\bar under
+ TF
+\shape default
+\bar default
+
+\begin_inset LatexCommand \ref{des:TF}
+
+\end_inset
+
+, TF/TC and time.
+\end_layout
+
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Chronojump}
 
-\end_inset 
+\end_inset
 
 Chronojump Sometimes referred as the free (GPL) software for managing the
  data coming from the 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Chronopic
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Chronopic}
 
-\end_inset 
+\end_inset
 
  
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 chronometer
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Chronometer}
 
-\end_inset 
+\end_inset
 
 , and sometimes referred as the whole project: Software, Hardware, documentation
 , website, ...
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Chronometer}
 
-\end_inset 
+\end_inset
 
 Chronometer Instrument used for measuring time.
  In Chronojump project we use 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Chronopic
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Chronopic}
 
-\end_inset 
+\end_inset
 
 .
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Chronopic}
 
-\end_inset 
+\end_inset
 
 Chronopic Open Hardware used for recording and managing the changes detected
  on the 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Platform
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Platform}
 
-\end_inset 
+\end_inset
 
 .
  At this moment there are two Chronopic models (both using same firmware):
  
-\begin_deeper 
-\layout Itemize
+\end_layout
 
+\begin_deeper
+\begin_layout Itemize
 One is derived from Skypic: open hardware for controlling little robots,
  vastly used but with lots of unnecessary components.
  This link points out how to build it and how to buy it 
 \begin_inset LatexCommand \url{http://www.gnome.org/projects/chronojump/construction.html}
 
-\end_inset 
+\end_inset
 
 
-\layout Itemize
+\end_layout
 
+\begin_layout Itemize
 The other is made only with the necessary components.
  This link points out how to build it 
 \begin_inset LatexCommand \url{http://www.gnome.org/projects/chronojump/construction.html}
 
-\end_inset 
+\end_inset
 
 , currently there are no manufacturers selling this model.
-\layout Comment
+\end_layout
 
+\end_deeper
+\begin_layout Standard
+\align center
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Standard
 <img src=
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 http://www.gnome.org/projects/chronojump/images/chronopic_foto.jpg
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 >
-\end_deeper 
-\layout Description
+\end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
 CMJ (See 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Countermovement jump
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:CountermovementJump}
 
-\end_inset 
+\end_inset
 
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:CountermovementJump}
 
-\end_inset 
+\end_inset
 
-Countermovement\SpecialChar ~
+Countermovement\InsetSpace ~
 Jump (abbreviated 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 CMJ
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 ) a kind of 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 simple jump
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  (we recommend not to translate the term).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Contactplatform}
 
-\end_inset 
+\end_inset
 
-Contact\SpecialChar ~
+Contact\InsetSpace ~
 platform (See 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Platform
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Platform}
 
-\end_inset 
+\end_inset
 
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Contacttime}
 
-\end_inset 
+\end_inset
 
-Contact\SpecialChar ~
+Contact\InsetSpace ~
 time Time where the person is in the platform.
  Also referred as 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Time of Contact
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Timeofcontact}
 
-\end_inset 
+\end_inset
 
  or 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 TC
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:TC}
 
-\end_inset 
+\end_inset
 
 .
-\layout Description
+\end_layout
 
+\begin_layout Description
 DJ (See 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Drop jump
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:DropJump}
 
-\end_inset 
+\end_inset
 
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:DropJump}
 
-\end_inset 
+\end_inset
 
-Drop\SpecialChar ~
+Drop\InsetSpace ~
 Jump (abbreviated 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 DJ
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 ) a kind of 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 simple jump
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  where there's a previous fall from a determined height and then jumps.
  On this jump, the recorded data is one 
-\shape slanted 
-\bar under 
-contact\SpecialChar ~
+\shape slanted
+\bar under
+contact\InsetSpace ~
 time
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Contacttime}
 
-\end_inset 
+\end_inset
 
 , and one 
-\shape slanted 
-\bar under 
-flight\SpecialChar ~
+\shape slanted
+\bar under
+flight\InsetSpace ~
 time
 \begin_inset LatexCommand \ref{des:Flightime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 .
  (we recommend not to translate the term).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Event}
 
-\end_inset 
+\end_inset
 
 Event Simplification of 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 time event
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
  where we refer to something that's measured by time.
  On Chronojump we use this word for referring 
-\shape slanted 
-\bar under 
-Jumps
-\shape default 
-\bar default 
+\shape slanted
+\bar under
+Jump
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 , 
-\shape slanted 
-\bar under 
-Runs
-\shape default 
-\bar default 
+\shape slanted
+\bar under
+Run
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Run}
 
-\end_inset 
+\end_inset
 
- or 
-\shape slanted 
-\bar under 
-Pulses
-\shape default 
-\bar default 
+, 
+\shape slanted
+\bar under
+Reaction time
+\begin_inset LatexCommand \ref{des:Reaction-time}
+
+\end_inset
+
+ 
+\shape default
+\bar default
+or 
+\shape slanted
+\bar under
+Pulse
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Pulse}
 
-\end_inset 
+\end_inset
 
 .
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Finish}
 
-\end_inset 
+\end_inset
 
 Finish Action of ending an event by pressing a button.
  This action can be done for finishing an unlimited 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 event
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Event}
 
-\end_inset 
+\end_inset
 
 , or making shorter a 
-\shape slanted 
-\bar under 
-reactive\SpecialChar ~
+\shape slanted
+\bar under
+reactive\InsetSpace ~
 jump
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 , 
-\shape slanted 
-\bar under 
-intervallic\SpecialChar ~
+\shape slanted
+\bar under
+intervallic\InsetSpace ~
 run
 \begin_inset LatexCommand \ref{des:Run}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  or 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 pulse
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Pulse}
 
-\end_inset 
+\end_inset
 
 .
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Flightime}
 
-\end_inset 
+\end_inset
 
-Fligh\SpecialChar ~
+Fligh\InsetSpace ~
 time Time where the person is not in contact with the platform.
  Also referred as Time of Flight
 \begin_inset LatexCommand \ref{des:Timeofflight}
 
-\end_inset 
+\end_inset
 
  or TF
 \begin_inset LatexCommand \ref{des:TF}
 
-\end_inset 
+\end_inset
 
 .
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Jump}
 
-\end_inset 
+\end_inset
 
 Jump jump is one of the tree 
-\emph on 
-\bar under 
+\emph on
+\bar under
 events
 \begin_inset LatexCommand \ref{des:Event}
 
-\end_inset 
+\end_inset
 
 
-\emph default 
-\bar default 
+\emph default
+\bar default
  that are currently evaluated.
  Also there are two kind of jumps: 
-\emph on 
+\emph on
 Simple
-\emph default 
+\emph default
  and 
-\emph on 
+\emph on
 Reactive
-\emph default 
+\emph default
 .
  
-\begin_deeper 
-\layout Description
+\end_layout
 
-Simple\SpecialChar ~
+\begin_deeper
+\begin_layout Description
+Simple\InsetSpace ~
 jump: jump that have only one 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 flight time
 \begin_inset LatexCommand \ref{des:Flightime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 .
  On this jump, jumper starts and ends inside the 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 platform
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Platform}
 
-\end_inset 
+\end_inset
 
 .
  There's a special type called 
-\shape slanted 
-\bar under 
-Drop\SpecialChar ~
+\shape slanted
+\bar under
+Drop\InsetSpace ~
 Jump
 \begin_inset LatexCommand \ref{des:DropJump}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  where jumper falls down from a predefined height (called 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 falling height
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 ), and then jumps.
  In this case, the recorded data is one 
-\shape slanted 
-\bar under 
-contact\SpecialChar ~
+\shape slanted
+\bar under
+contact\InsetSpace ~
 time
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Contacttime}
 
-\end_inset 
+\end_inset
 
 , and one 
-\shape slanted 
-\bar under 
-flight\SpecialChar ~
+\shape slanted
+\bar under
+flight\InsetSpace ~
 time
 \begin_inset LatexCommand \ref{des:Flightime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 .
  
-\layout Description
+\end_layout
 
-Reactive\SpecialChar ~
+\begin_layout Description
+Reactive\InsetSpace ~
 jump (abbreviated 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 RJ
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 ) this jump is described as a number of repetitive or reactive jumps performed
  consecutively.
  All the 
-\shape slanted 
-\bar under 
-contact\SpecialChar ~
+\shape slanted
+\bar under
+contact\InsetSpace ~
 times
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Contacttime}
 
-\end_inset 
+\end_inset
 
 , and 
-\shape slanted 
-\bar under 
-flight\SpecialChar ~
+\shape slanted
+\bar under
+flight\InsetSpace ~
 times
 \begin_inset LatexCommand \ref{des:Flightime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  are recorded.
  It's common to try to maintain as much time as possible low contact and
  height flight time.
  This jump is limited (ended) by:
-\begin_deeper 
-\layout Itemize
+\end_layout
 
+\begin_deeper
+\begin_layout Itemize
 the number of jumps: 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 Perform 'n' jumps
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 
-\layout Itemize
+\end_layout
 
+\begin_layout Itemize
 the jumping time: 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 Jump during 'n' seconds
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 
-\layout Itemize
+\end_layout
 
+\begin_layout Itemize
 unlimited: 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 Jump, and trainer will tell you when to stop
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 .
-\end_deeper 
-\end_deeper 
-\layout Description
+\end_layout
 
-
+\end_deeper
+\end_deeper
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Jumper}
 
-\end_inset 
+\end_inset
 
 Jumper The name of a 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 person
 \begin_inset LatexCommand \ref{des:Person}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  is called when does a 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 jump
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 .
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Loadperson}
 
-\end_inset 
+\end_inset
 
-Load\SpecialChar ~
+Load\InsetSpace ~
 person As all data is stored in a database, there's no need to define
  or create a new 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 person
 \begin_inset LatexCommand \ref{des:Person}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  twice, if one person is evaluated in one 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 session
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Session}
 
-\end_inset 
+\end_inset
 
 , and we want to re-evaluate in another session, we call this action 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 Load Person
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 , and it has to be understood as 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 To use this known person also in current session
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 .
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Person}
 
-\end_inset 
+\end_inset
 
 Person The human who executes the tests.
  Depending on what he is doing, may be called as 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Jumper
 \begin_inset LatexCommand \ref{des:Jumper}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  or 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Runner
 \begin_inset LatexCommand \ref{des:Runner}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 .
  Person does not receive a special name when is performing 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 pulse
 \begin_inset LatexCommand \ref{des:Pulse}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  tests.
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Platform}
 
-\end_inset 
+\end_inset
 
 Platform It's an instrument used for knowing if a person is on the floor
  or in the air.
  A person can have two states on the platform: inside or outside.
  On 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 jumps
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 , the time that a person is in the air (
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 flight time
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Flightime}
 
-\end_inset 
+\end_inset
 
 ) is used to find the height of the Center of Gravity of the jumper.
  On 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Runs
 \begin_inset LatexCommand \ref{des:Run}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  the time that the person is not in the platform is used to determine the
  speed.
  The platform can be easily built following this instructions: 
 \begin_inset LatexCommand \url{http://www.gnome.org/projects/chronojump/construction_contact_platform.html}
 
-\end_inset 
+\end_inset
 
 
-\begin_deeper 
-\layout Comment
+\end_layout
 
+\begin_layout Standard
+\align center
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Standard
 <img src=
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 http://www.gnome.org/projects/chronojump/images/plataforma_contactos_final.jpg
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 >
-\end_deeper 
-\layout Description
+\end_layout
+
+\end_inset
 
 
+\end_layout
+
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Pulse}
 
-\end_inset 
+\end_inset
 
 Pulse We call 'pulse' to the ability of a person on following a rhythm (predefin
 ed or natural), and when this rhythm is primary: only one repeating beat.
@@ -901,109 +1037,165 @@ ed or natural), and when this rhythm is primary: only one repeating beat.
  (instructor decides when to stop).
  On pulses we want to know the number of beats per second and the rhythm
  of the pulse as time passes.
-\layout Description
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Standard
+<img src=
+\begin_inset Quotes erd
+\end_inset
+
+http://www.gnome.org/projects/chronojump/images/chronojump_esquema_pulse_300.png
+\begin_inset Quotes erd
+\end_inset
+
+>
+\end_layout
+
+\end_inset
 
 
+\end_layout
+
+\begin_layout Description
+\begin_inset LatexCommand \label{des:Reaction-time}
+
+\end_inset
+
+Reaction\InsetSpace ~
+time: time between a signal (chronopic light) and a response (user
+ clicks on Chronopic or touches platform).
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Standard
+<img src=
+\begin_inset Quotes erd
+\end_inset
+
+http://www.gnome.org/projects/chronojump/images/chronojump_esquema_reaction_time_3
+00.png
+\begin_inset Quotes erd
+\end_inset
+
+>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Report}
 
-\end_inset 
+\end_inset
 
 Report A detailed document containing the data of the 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 session
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Session}
 
-\end_inset 
+\end_inset
 
  (date, place, comments), the 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 persons
 \begin_inset LatexCommand \ref{des:Person}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  who participated, the 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 events
 \begin_inset LatexCommand \ref{des:Event}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  developed, and 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 statistics
 \begin_inset LatexCommand \ref{des:Statistic}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  evaluated.
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Run}
 
-\end_inset 
+\end_inset
 
 Run Run is one of the tree 
-\emph on 
-\bar under 
+\emph on
+\bar under
 events
 \begin_inset LatexCommand \ref{des:Event}
 
-\end_inset 
+\end_inset
 
 
-\emph default 
-\bar default 
+\emph default
+\bar default
  that are currently evaluated.
  Also there are two kind of runs: 
-\emph on 
+\emph on
 Simple
-\emph default 
+\emph default
  and Intervallic.
  
-\begin_deeper 
-\layout Description
+\end_layout
 
-Simple\SpecialChar ~
+\begin_deeper
+\begin_layout Description
+Simple\InsetSpace ~
 run: run that have only one 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 flight time
 \begin_inset LatexCommand \ref{des:Flightime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 .
  On this run, runner starts on the 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 platform
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Platform}
 
-\end_inset 
+\end_inset
 
 , or a few meters before it.
  The run stop when the runner arrives to a second platform.
@@ -1012,289 +1204,308 @@ platform
  platforms.
  This time is normally converted to an average speed, knowing the distance
  between both.
-\layout Description
+\end_layout
 
-Intervallic\SpecialChar ~
+\begin_layout Description
+Intervallic\InsetSpace ~
 run: this run is described as a number of individual runs called
  
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 tracks
 \begin_inset LatexCommand \ref{des:Track}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 .
  Every time each track are recorded, and it's also converted to speed, as
  all the tracks have the same distance.
  This run is limited (ended) by:
-\begin_deeper 
-\layout Itemize
+\end_layout
 
+\begin_deeper
+\begin_layout Itemize
 the number of tracks: 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 Run 'n' tracks
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 
-\layout Itemize
+\end_layout
 
+\begin_layout Itemize
 the running time: 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 Run during 'n' seconds
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 
-\layout Itemize
+\end_layout
 
+\begin_layout Itemize
 unlimited: 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 Run, and the instructor will tell you when to stop
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 .
-\end_deeper 
-\layout Comment
+\end_layout
 
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\align center
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Standard
 <img src=
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
-http://www.gnome.org/projects/chronojump/images/chronojump_esquema_two_platforms.pn
-g
+http://www.gnome.org/projects/chronojump/images/chronojump_esquema_run_300.png
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 >
-\end_deeper 
-\layout Description
+\end_layout
+
+\end_inset
 
 
+\end_layout
+
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Runner}
 
-\end_inset 
+\end_inset
 
 Runner The name of a 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 person
 \begin_inset LatexCommand \ref{des:Person}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  is called when does a 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 run
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Run}
 
-\end_inset 
+\end_inset
 
 .
-\layout Description
+\end_layout
 
+\begin_layout Description
 RJ (See 
-\shape slanted 
-\bar under 
-reactive\SpecialChar ~
+\shape slanted
+\bar under
+reactive\InsetSpace ~
 jump
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Session}
 
-\end_inset 
+\end_inset
 
 Session (See 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Context: An Sports Evaluation
 \begin_inset LatexCommand \ref{sub:Context:-An-sports}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 ).
-\layout Description
+\end_layout
 
+\begin_layout Description
 SJ (See 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Squat jump
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:SquatJump}
 
-\end_inset 
+\end_inset
 
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:SquatJump}
 
-\end_inset 
+\end_inset
 
-Squat\SpecialChar ~
+Squat\InsetSpace ~
 Jump (abbreviated 
 \begin_inset Quotes eld
-\end_inset 
+\end_inset
 
 SJ
 \begin_inset Quotes erd
-\end_inset 
+\end_inset
 
 ) a kind of 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 simple jump
 \begin_inset LatexCommand \ref{des:Jump}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
  (we recommend not to translate the term).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Statistic}
 
-\end_inset 
+\end_inset
 
 Statistic Evaluation of one or more tests presented on a tabular and/or
  graphical way.
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:TC}
 
-\end_inset 
+\end_inset
 
 TC (See 
-\shape slanted 
-\bar under 
-contact\SpecialChar ~
+\shape slanted
+\bar under
+contact\InsetSpace ~
 time
 \begin_inset LatexCommand \ref{des:Contacttime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:TF}
 
-\end_inset 
+\end_inset
 
 TF (See 
-\shape slanted 
-\bar under 
-flight\SpecialChar ~
+\shape slanted
+\bar under
+flight\InsetSpace ~
 time
 \begin_inset LatexCommand \ref{des:Flightime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Timeofcontact}
 
-\end_inset 
+\end_inset
 
-Time\SpecialChar ~
-of\SpecialChar ~
+Time\InsetSpace ~
+of\InsetSpace ~
 contact (See 
-\shape slanted 
-\bar under 
-contact\SpecialChar ~
+\shape slanted
+\bar under
+contact\InsetSpace ~
 time
 \begin_inset LatexCommand \ref{des:Contacttime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Timeofflight}
 
-\end_inset 
+\end_inset
 
-Time\SpecialChar ~
-of\SpecialChar ~
+Time\InsetSpace ~
+of\InsetSpace ~
 flight (See 
-\shape slanted 
-\bar under 
-flight\SpecialChar ~
+\shape slanted
+\bar under
+flight\InsetSpace ~
 time
 \begin_inset LatexCommand \ref{des:Flightime}
 
-\end_inset 
+\end_inset
 
 
-\shape default 
-\bar default 
+\shape default
+\bar default
 ).
-\layout Description
+\end_layout
 
-
+\begin_layout Description
 \begin_inset LatexCommand \label{des:Track}
 
-\end_inset 
+\end_inset
 
 Track Is the distance between two platforms in a Intervallic 
-\shape slanted 
-\bar under 
+\shape slanted
+\bar under
 Run
-\shape default 
-\bar default 
+\shape default
+\bar default
 
 \begin_inset LatexCommand \ref{des:Run}
 
-\end_inset 
+\end_inset
 
 .
-\the_end
+\end_layout
+
+\end_body
+\end_document

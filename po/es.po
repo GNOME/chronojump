@@ -846,11 +846,11 @@ msgstr "Velocidad"
 
 #: ../glade/chronojump.glade.h:202
 msgid "Squat Jump"
-msgstr "Salto rechoncho"
+msgstr "Salto Squat"
 
 #: ../glade/chronojump.glade.h:203
 msgid "Squat Jump with extra weight"
-msgstr "Salto rechoncho con peso extra"
+msgstr "Salto Squat con peso extra"
 
 #: ../glade/chronojump.glade.h:204 ../src/gui/jump.cs:1043
 #: ../src/gui/jump.cs:1243

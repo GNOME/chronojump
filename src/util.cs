@@ -615,5 +615,54 @@ public class Util
 			}
 		}
 	}
+
+	/* LANGUAGES STUFF */
+	public static string GetLanguageCode(string languageString) {
+		string [] myStringFull = languageString.Split(new char[] {':'});
+		return myStringFull[0];
+	}
+
+	public static string GetLanguageName(string languageString) {
+		string [] myStringFull = languageString.Split(new char[] {':'});
+		return myStringFull[1];
+	}
+	
+	public static string GetLanguageNameFromCode(string languageCode) {
+		foreach (string lang in Constants.Languages) {
+			if (languageCode == GetLanguageCode(lang)) {
+				return GetLanguageName(lang);
+			}
+		}
+		//if there's an error:
+		return GetLanguageName(Constants.LanguageDefault);
+	}
+		
+	public static string GetLanguageCodeFromName(string languageName) {
+		foreach (string lang in Constants.Languages) {
+			if (languageName == GetLanguageName(lang)) {
+				return GetLanguageCode(lang);
+			}
+		}
+		//if there's an error:
+		return GetLanguageCode(Constants.LanguageDefault);
+	}
+		
+	public static string [] GetLanguagesCodes() {
+		string [] codes = new string[Constants.Languages.Length];
+		int count = 0;
+		foreach (string lang in Constants.Languages) 
+			codes[count++] = GetLanguageCode(lang);
+
+		return codes;
+	}
+		
+	public static string [] GetLanguagesNames() {
+		string [] names = new string[Constants.Languages.Length];
+		int count = 0;
+		foreach (string lang in Constants.Languages) 
+			names[count++] = GetLanguageName(lang);
+		
+		return names;
+	}
 		
 }

@@ -168,9 +168,10 @@ public class PreferencesWindow {
 		return PreferencesWindowBox;
 	}
 	
-	private void createComboLanguage(string myLanguage) {
+	//private void createComboLanguage(string myLanguage) {
+	private void createComboLanguage(string myLanguageCode) {
 		combo_language = new Combo ();
-		combo_language.PopdownStrings = Constants.Languages;
+		combo_language.PopdownStrings = Util.GetLanguagesNames();
 		
 		//combo_language.Entry.Changed += new EventHandler (on_combo_language_changed);
 
@@ -179,13 +180,13 @@ public class PreferencesWindow {
 		
 		bool found = false;
 		foreach (string lang in Constants.Languages) {
-			if (myLanguage == lang) {
-				combo_language.Entry.Text = lang;
+			if (myLanguageCode == Util.GetLanguageCode(lang)) {
+				combo_language.Entry.Text = Util.GetLanguageName(lang);
 				found = true;
 			}
 		}
 		if(!found)
-			combo_language.Entry.Text = "en-GB";
+			combo_language.Entry.Text = Util.GetLanguageName(Constants.LanguageDefault);
 
 		
 		if(Util.IsWindows())
@@ -247,10 +248,10 @@ public class PreferencesWindow {
 				string myLanguage = SqlitePreferences.Select("language");
 				if ( myLanguage != null && myLanguage != "" && myLanguage != "0") {
 					//if language exists in sqlite preferences update it
-					SqlitePreferences.Update("language", PreferencesWindowBox.combo_language.Entry.Text);
+					SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(PreferencesWindowBox.combo_language.Entry.Text));
 				} else {
 					//else: create it
-					SqlitePreferences.Insert("language", PreferencesWindowBox.combo_language.Entry.Text);
+					SqlitePreferences.Insert("language", Util.GetLanguageCodeFromName(PreferencesWindowBox.combo_language.Entry.Text));
 				}
 
 				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."));

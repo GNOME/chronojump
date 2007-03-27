@@ -51,20 +51,21 @@ public class Constants
 	};
 	
 	//for windows, on linux it takes language ok from the locale
+	public static string LanguageDefault = "en-GB:English (United Kingdom)";
 	public static string [] Languages = {
-		"en-GB", 
-		"es-ES", 
-		"fi-FI", 
-		"fr-FR", 
-		"pt-BR", 
-		"sv-SE", 
-		"vi-VN", 
-		"zh-CN", 
+		"ca-ES:Catalan", 
+		"zh-CN:Chinese", 
+		LanguageDefault, 
+		//"dz-BT:Dzongkha", Sorry, Dzongkha does not work on Windows
+		"fi-FI:Finnish", 
+		"fr-FR:French", 
+		"pt-BR:Portuguese (Brazil)", 
+		"es-ES:Spanish (Spain)", 
+		"sv-SE:Swedish", 
+		"vi-VN:Vietnamese", 
 	};
 	//TODO: add:
 	//ar (when there ara not fuzzy lines)
-	//dz (check if it's possible on win)
-	//ca
 	//see in both langs how to write as xx_XX
 	
 

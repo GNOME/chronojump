@@ -1,5 +1,9 @@
 CHANGELOG:
 
+27 mar 2007
+	Now in languages it's show the name, but recorded the code
+	Added catalan into language menus
+
 23 mar 2007
 	Added catalan translation, thanks to Eli
 

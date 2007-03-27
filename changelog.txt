@@ -1,6 +1,10 @@
 CHANGELOG:
 
 27 mar 2007
+	"Event" for "test": working on 423353
+	Removed help in gui/event until know how to explain better
+
+27 mar 2007
 	Now in languages it's show the name, but recorded the code
 	Added catalan into language menus
 

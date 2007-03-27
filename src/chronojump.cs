@@ -1362,13 +1362,13 @@ public class ChronoJump
 	
 	private void on_delete_session_activate (object o, EventArgs args) {
 		Console.WriteLine("delete session");
-		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Are you sure you want to delete the current session"), Catalog.GetString("and all the session events?"));
+		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Are you sure you want to delete the current session"), Catalog.GetString("and all the session tests?"));
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
 	}
 	
 	private void on_delete_session_accepted (object o, EventArgs args) 
 	{
-		appbar2.Push( 1, Catalog.GetString("Deleted session and all its events") );
+		appbar2.Push( 1, Catalog.GetString("Deleted session and all its tests") );
 		SqliteSession.DeleteWithJumps(currentSession.UniqueID.ToString());
 		
 		sensitiveGuiNoSession();
@@ -1520,7 +1520,7 @@ public class ChronoJump
 	private void on_delete_current_person_from_session_activate (object o, EventArgs args) {
 		Console.WriteLine("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, 
-				Catalog.GetString("Are you sure you want to delete the current person and all his/her events (jumps, runs, pulses) from this session?\n(His/her personal data and events in other sessions will remain intact)"), 
+				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact)"), 
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
@@ -1528,7 +1528,7 @@ public class ChronoJump
 	
 	private void on_delete_current_person_from_session_accepted (object o, EventArgs args) 
 	{
-		appbar2.Push( 1, Catalog.GetString("Deleted person and all his/her events on this session") );
+		appbar2.Push( 1, Catalog.GetString("Deleted person and all his/her tests on this session") );
 		SqlitePersonSession.DeletePersonFromSessionAndJumps(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
@@ -2660,7 +2660,7 @@ public class ChronoJump
 			}
 		}
 		catch {
-			errorWin = ErrorWindow.Show(app1, Catalog.GetString("Cannot update. Probably this event was deleted."));
+			errorWin = ErrorWindow.Show(app1, Catalog.GetString("Cannot update. Probably this test was deleted."));
 		}
 	
 	}

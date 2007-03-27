@@ -615,7 +615,6 @@ public class PersonAddWindow {
 		PersonAddWindowBox = null;
 	}
 	
-	
 	void on_button_change_date_clicked (object o, EventArgs args)
 	{
 		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select Date of Birth"));

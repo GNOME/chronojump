@@ -11,11 +11,14 @@
  span.roman {font-family: serif; font-style: normal; font-weight: normal;} 
  span.overacc2 {position: relative;  left: .8em; top: -1.2ex;}
  span.overacc1 {position: relative;  left: .6em; top: -1.2ex;} --></style>
+ 
 <title> Glossary for Chronojump Translators</title>
     
 <h1 align="center">Glossary for Chronojump Translators </h1>
 
-<h2 align="center">March, 22, 2007</h2>
+<div class="p"><!----></div>
+
+<h3 align="center">March, 27, 2007 </h3>
 
 <div class="p"><!----></div>
 
@@ -24,25 +27,24 @@ conversor, and to put real '&lt;' and '&#62;' on both pngs and jpgs-->
 
 <div class="p"><!----></div>
 ChronoJump, is a "complete multiplatform system for measurement,
-management and statistics of the jump events" <a href="http://www.gnome.org/projects/chronojump/"><tt>http://www.gnome.org/projects/chronojump/</tt></a>
-<br />
+management and statistics of the jump, run, reaction time and pulse
+tests" <a href="http://www.gnome.org/projects/chronojump/"><tt>http://www.gnome.org/projects/chronojump/</tt></a> <br />
 The knowledge of different the kinds of jump, the specific terminology
-and the concepts surrounding other "events" which
-are measured, like runs and rhythms, may difficult the translation
-of the software. The purpose of this document is to bring a clear
-context to the translator and offer a small glossary of the terms
-that can be confusing. There is also an intentional need to write
-this document briefly, this guide was thought for being short and
-practical.
+and the concepts surrounding other "tests" which
+are measured, like runs, reaction times and pulses, may difficult
+the translation of the software. The purpose of this document is to
+bring a clear context to the translator and offer a small glossary
+of the terms that can be confusing. There is also an intentional need
+to write this document briefly, this guide was thought for being short
+and practical.
 
 <div class="p"><!----></div>
 
 <center>
 <img src="http://www.gnome.org/projects/chronojump/images/chronojump_esquema_jump_300.png">
-</center>
 
 <div class="p"><!----></div>
-
+</center>
 <h3><a name="sub:Context:-An-sports">
 </a>Context: An sports evaluation</h3>
 
@@ -77,7 +79,7 @@ not to translate the term).</dd>
  <dt><b>Bell</b></dt>
 	<dd> Chronojump uses a software bell as an auditive and configurable
 way to tell the <i><u>Jumper<a href="#des:Jumper">*</a></u></i> or <i><u>Runner</u></i><a href="#des:Runner">*</a>
-info about the parameters of the <i><u>event</u></i><a href="#des:Event">*</a>:
+info about the parameters of the <i><u>test</u></i><a href="#des:Test">*</a>:
 <i><u>TC</u></i><a href="#des:TC">*</a>, <i><u>TF</u></i><a href="#des:TF">*</a>,
 TF/TC and time.</dd>
  <dt><b><a name="des:Chronojump">
@@ -145,17 +147,10 @@ previous fall from a determined height and then jumps. On this jump,
 the recorded data is one <i><u>contact&nbsp;time</u></i><a href="#des:Contacttime">*</a>,
 and one <i><u>flight&nbsp;time<a href="#des:Flightime">*</a></u></i>. (we
 recommend not to translate the term).</dd>
- <dt><b><a name="des:Event">
-</a>Event</b></dt>
-	<dd> Simplification of "time event"
-where we refer to something that's measured by time. On Chronojump
-we use this word for referring <i><u>Jump</u></i><a href="#des:Jump">*</a>,
-<i><u>Run</u></i><a href="#des:Run">*</a>, <i><u>Reaction
-time<a href="#des:Reaction-time">*</a></u></i> or <i><u>Pulse</u></i><a href="#des:Pulse">*</a>.</dd>
  <dt><b><a name="des:Finish">
 </a>Finish</b></dt>
-	<dd> Action of ending an event by pressing
-a button. This action can be done for finishing an unlimited <i><u>event</u></i><a href="#des:Event">*</a>,
+	<dd> Action of ending a test by pressing
+a button. This action can be done for finishing an unlimited <i><u>test</u></i><a href="#des:Test">*</a>,
 or making shorter a <i><u>reactive&nbsp;jump</u></i><a href="#des:Jump">*</a>,
 <i><u>intervallic&nbsp;run<a href="#des:Run">*</a></u></i> or <i><u>pulse</u></i><a href="#des:Pulse">*</a>.</dd>
  <dt><b><a name="des:Flightime">
@@ -165,7 +160,7 @@ in contact with the platform. Also referred as Time of Flight<a href="#des:Timeo
 or TF<a href="#des:TF">*</a>.</dd>
  <dt><b><a name="des:Jump">
 </a>Jump</b></dt>
-	<dd> jump is one of the tree <em><u>events<a href="#des:Event">*</a></u></em>
+	<dd> jump is one of the tree <em><u>tests<a href="#des:Test">*</a></u></em>
 that are currently evaluated. Also there are two kind of jumps: <em>Simple</em>
 and <em>Reactive</em>. 
 
@@ -221,8 +216,8 @@ known person also in current session".</dd>
 	<dd> The human who executes the tests. Depending
 on what he is doing, may be called as <i><u>Jumper<a href="#des:Jumper">*</a></u></i>
 or <i><u>Runner<a href="#des:Runner">*</a></u></i>. Person does not receive
-a special name when is performing <i><u>pulse<a href="#des:Pulse">*</a></u></i>
-tests.</dd>
+a special name when is performing <i><u>reaction time<a href="#des:Reaction-time">*</a></u></i>
+or <i><u>pulse<a href="#des:Pulse">*</a></u></i> tests.</dd>
  <dt><b><a name="des:Platform">
 </a>Platform</b></dt>
 	<dd> It's an instrument used for knowing
@@ -275,11 +270,11 @@ platform).</dd>
 	<dd> A detailed document containing the
 data of the <i><u>session</u></i><a href="#des:Session">*</a> (date, place,
 comments), the <i><u>persons<a href="#des:Person">*</a></u></i> who participated,
-the <i><u>events<a href="#des:Event">*</a></u></i> developed, and <i><u>statistics<a href="#des:Statistic">*</a></u></i>
+the <i><u>tests<a href="#des:Test">*</a></u></i> developed, and <i><u>statistics<a href="#des:Statistic">*</a></u></i>
 evaluated.</dd>
  <dt><b><a name="des:Run">
 </a>Run</b></dt>
-	<dd> Run is one of the tree <em><u>events<a href="#des:Event">*</a></u></em>
+	<dd> Run is one of the tree <em><u>tests<a href="#des:Test">*</a></u></em>
 that are currently evaluated. Also there are two kind of runs: <em>Simple</em>
 and Intervallic. 
 
@@ -345,6 +340,12 @@ not to translate the term).</dd>
 </a>Statistic</b></dt>
 	<dd> Evaluation of one or more tests
 presented on a tabular and/or graphical way.</dd>
+ <dt><b><a name="des:Test">
+</a>Test</b></dt>
+	<dd> On Chronojump we use this word for referring
+<i><u>Jump</u></i><a href="#des:Jump">*</a>, <i><u>Run</u></i><a href="#des:Run">*</a>,
+<i><u>Reaction time<a href="#des:Reaction-time">*</a></u></i> or <i><u>Pulse</u></i><a href="#des:Pulse">*</a>.
+All of them are time-related tests.</dd>
  <dt><b><a name="des:TC">
 </a>TC</b></dt>
 	<dd> (See <i><u>contact&nbsp;time<a href="#des:Contacttime">*</a></u></i>).</dd>
@@ -369,5 +370,5 @@ in a Intervallic <i><u>Run</u></i><a href="#des:Run">*</a>.</dd>
 T<sub><font size="-1">E</font></sub>X
 by <a href="http://hutchinson.belmont.ma.us/tth/">
 T<sub><font size="-1">T</font></sub>H</a>,
-version 3.67.<br />On 22 Mar 2007, 18:26.</small>
+version 3.67.<br />On 27 Mar 2007, 17:30.</small>
 </html>

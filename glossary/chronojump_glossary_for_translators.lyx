@@ -37,7 +37,7 @@ Glossary for Chronojump Translators
 \end_layout
 
 \begin_layout Date
-March, 22, 2007
+March, 27, 2007
 \end_layout
 
 \begin_layout Standard
@@ -56,7 +56,7 @@ remember to delete the first lines from to tittles (bug of lyx->html conversor,
 
 \begin_layout Standard
 ChronoJump, is a "complete multiplatform system for measurement, management
- and statistics of the jump events" 
+ and statistics of the jump, run, reaction time and pulse tests" 
 \begin_inset LatexCommand \url{http://www.gnome.org/projects/chronojump/}
 
 \end_inset
@@ -64,8 +64,8 @@ ChronoJump, is a "complete multiplatform system for measurement, management
  
 \newline
 The knowledge of different the kinds of jump, the specific terminology
- and the concepts surrounding other "events" which are measured, like runs
- and rhythms, may difficult the translation of the software.
+ and the concepts surrounding other "tests" which are measured, like runs,
+ reaction times and pulses, may difficult the translation of the software.
  The purpose of this document is to bring a clear context to the translator
  and offer a small glossary of the terms that can be confusing.
  There is also an intentional need to write this document briefly, this
@@ -193,11 +193,11 @@ or
  info about the parameters of the 
 \shape slanted
 \bar under
-event
+test
 \shape default
 \bar default
 
-\begin_inset LatexCommand \ref{des:Event}
+\begin_inset LatexCommand \ref{des:Test}
 
 \end_inset
 
@@ -510,80 +510,19 @@ time
 \end_layout
 
 \begin_layout Description
-\begin_inset LatexCommand \label{des:Event}
-
-\end_inset
-
-Event Simplification of 
-\begin_inset Quotes eld
-\end_inset
-
-time event
-\begin_inset Quotes erd
-\end_inset
-
- where we refer to something that's measured by time.
- On Chronojump we use this word for referring 
-\shape slanted
-\bar under
-Jump
-\shape default
-\bar default
-
-\begin_inset LatexCommand \ref{des:Jump}
-
-\end_inset
-
-, 
-\shape slanted
-\bar under
-Run
-\shape default
-\bar default
-
-\begin_inset LatexCommand \ref{des:Run}
-
-\end_inset
-
-, 
-\shape slanted
-\bar under
-Reaction time
-\begin_inset LatexCommand \ref{des:Reaction-time}
-
-\end_inset
-
- 
-\shape default
-\bar default
-or 
-\shape slanted
-\bar under
-Pulse
-\shape default
-\bar default
-
-\begin_inset LatexCommand \ref{des:Pulse}
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Description
 \begin_inset LatexCommand \label{des:Finish}
 
 \end_inset
 
-Finish Action of ending an event by pressing a button.
+Finish Action of ending a test by pressing a button.
  This action can be done for finishing an unlimited 
 \shape slanted
 \bar under
-event
+test
 \shape default
 \bar default
 
-\begin_inset LatexCommand \ref{des:Event}
+\begin_inset LatexCommand \ref{des:Test}
 
 \end_inset
 
@@ -653,8 +592,8 @@ time Time where the person is not in contact with the platform.
 Jump jump is one of the tree 
 \emph on
 \bar under
-events
-\begin_inset LatexCommand \ref{des:Event}
+tests
+\begin_inset LatexCommand \ref{des:Test}
 
 \end_inset
 
@@ -941,6 +880,17 @@ Runner
  Person does not receive a special name when is performing 
 \shape slanted
 \bar under
+reaction time
+\begin_inset LatexCommand \ref{des:Reaction-time}
+
+\end_inset
+
+
+\shape default
+\bar default
+ or 
+\shape slanted
+\bar under
 pulse
 \begin_inset LatexCommand \ref{des:Pulse}
 
@@ -1124,8 +1074,8 @@ persons
  who participated, the 
 \shape slanted
 \bar under
-events
-\begin_inset LatexCommand \ref{des:Event}
+tests
+\begin_inset LatexCommand \ref{des:Test}
 
 \end_inset
 
@@ -1154,8 +1104,8 @@ statistics
 Run Run is one of the tree 
 \emph on
 \bar under
-events
-\begin_inset LatexCommand \ref{des:Event}
+tests
+\begin_inset LatexCommand \ref{des:Test}
 
 \end_inset
 
@@ -1402,6 +1352,59 @@ simple jump
 
 Statistic Evaluation of one or more tests presented on a tabular and/or
  graphical way.
+\end_layout
+
+\begin_layout Description
+\begin_inset LatexCommand \label{des:Test}
+
+\end_inset
+
+Test On Chronojump we use this word for referring 
+\shape slanted
+\bar under
+Jump
+\shape default
+\bar default
+
+\begin_inset LatexCommand \ref{des:Jump}
+
+\end_inset
+
+, 
+\shape slanted
+\bar under
+Run
+\shape default
+\bar default
+
+\begin_inset LatexCommand \ref{des:Run}
+
+\end_inset
+
+, 
+\shape slanted
+\bar under
+Reaction time
+\begin_inset LatexCommand \ref{des:Reaction-time}
+
+\end_inset
+
+ 
+\shape default
+\bar default
+or 
+\shape slanted
+\bar under
+Pulse
+\shape default
+\bar default
+
+\begin_inset LatexCommand \ref{des:Pulse}
+
+\end_inset
+
+.
+ All of them are time-related tests.
 \end_layout
 
 \begin_layout Description

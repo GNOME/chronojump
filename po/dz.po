@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD.pot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-18 03:28+0000\n"
-"PO-Revision-Date: 2007-01-30 13:59+0530\n"
-"Last-Translator: Jurmey Rabgay <pemai_jurmey@hotmail.com>\n"
+"POT-Creation-Date: 2007-03-28 03:37+0100\n"
+"PO-Revision-Date: 2007-03-28 12:25+0530\n"
+"Last-Translator: sonam pelden <sonaa_peldn@yahoo.com>\n"
 "Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -61,256 +61,342 @@ msgid "<- unselect"
 msgstr "<- སེལ་འཐུ་བཤོལ་ནི་"
 
 #: ../glade/chronojump.glade.h:12
+msgid "<b>Best and worst values</b>"
+msgstr "<b>གནས་གོང་ཚུ་དྲག་ཤོས་དང་བྱང་ཉེས་</b>"
+
+#: ../glade/chronojump.glade.h:13
 msgid "<b>Chronojump</b>"
 msgstr "<b>ཀོརོ་ནོ་ཇམཔ་</b>"
 
-#: ../glade/chronojump.glade.h:13
+#: ../glade/chronojump.glade.h:14
 msgid "<b>Detected</b>"
 msgstr "<b>སྐྱོན་འཛིན་འབད་ཡོདཔ་</b>"
 
-#: ../glade/chronojump.glade.h:14
+#: ../glade/chronojump.glade.h:15
 msgid "<b>Full name</b>"
 msgstr "<b>མིང་ཆ་ཚང་</b>"
 
-#: ../glade/chronojump.glade.h:15
+#: ../glade/chronojump.glade.h:16
 msgid "<b>Guides</b>"
 msgstr "<b>འཁྱིད་ནི་</b>"
 
-#: ../glade/chronojump.glade.h:16
+#: ../glade/chronojump.glade.h:17
 msgid "<b>Name</b>"
 msgstr "<b>མིང་</b>"
 
-#: ../glade/chronojump.glade.h:17
+#: ../glade/chronojump.glade.h:18
+msgid "<b>Other conditions</b>"
+msgstr "<b>གནས་སྟངས་གཞན་ཚུ</b>"
+
+#: ../glade/chronojump.glade.h:19
 msgid "<b>Other</b>"
 msgstr "<b>གཞན་</b>"
 
-#: ../glade/chronojump.glade.h:18
+#: ../glade/chronojump.glade.h:20
 msgid "<b>Sex</b>"
 msgstr "<b>མཚན་མ་</b>"
 
-#: ../glade/chronojump.glade.h:19
+#: ../glade/chronojump.glade.h:21
 msgid ""
 "<b>Simulated\n"
-"Event</b>"
+"Test</b>"
 msgstr ""
 "<b>མཚུངས་བཟོས་\n"
-"བྱུང་ལས་</b>"
+"བརྟག་ཞིབ</b>"
 
-#: ../glade/chronojump.glade.h:21
+#: ../glade/chronojump.glade.h:23
+msgid "<b>TC</b>"
+msgstr "<b>ཊི་སི་</b>"
+
+#: ../glade/chronojump.glade.h:24
+msgid "<b>TF</b>"
+msgstr "<b>ཊི་ཨེཕ་</b>"
+
+#: ../glade/chronojump.glade.h:25
+msgid "<b>Time</b>(s)"
+msgstr "<b>དུས་ཚོད་</b>(s)"
+
+#: ../glade/chronojump.glade.h:26
 msgid "<b>Vertical Axe</b>"
 msgstr "<b>ཀེར་ཕྲང་ཚད་ཐིག་</b>"
 
-#: ../glade/chronojump.glade.h:22
+#: ../glade/chronojump.glade.h:27
 msgid "<b>Weight</b> (Kg)"
 msgstr "<b>ལྗིད་ཚད་</b> (ཀེ་ཇི་)"
 
-#: ../glade/chronojump.glade.h:23
+#: ../glade/chronojump.glade.h:28
 msgid "<b>Weight</b> (kg)"
 msgstr "<b>ལྗིད་ཚད་</b> (ཀེ་ཇི་)"
 
-#: ../glade/chronojump.glade.h:24
+#: ../glade/chronojump.glade.h:29
 msgid "<b>execute</b>"
 msgstr "<b>ལག་ལེན་</b>"
 
-#: ../glade/chronojump.glade.h:25
+#: ../glade/chronojump.glade.h:30
 msgid "<b>general data</b>"
 msgstr "<b>སྤྱིར་བཏང་གནད་སྡུད་</b>"
 
-#: ../glade/chronojump.glade.h:26
+#: ../glade/chronojump.glade.h:31
 msgid "<b>persons</b>"
 msgstr "<b>གང་ཟག་ཚུ་</b>"
 
-#: ../glade/chronojump.glade.h:27
+#: ../glade/chronojump.glade.h:32
 msgid "<b>pulse step</b>"
 msgstr "<b>འཕར་རྩའི་རིམ་པ་</b>"
 
-#: ../glade/chronojump.glade.h:28
+#: ../glade/chronojump.glade.h:33
 msgid "<b>statistic</b>"
 msgstr "<b>ཚད་རྩིས་</b>"
 
-#: ../glade/chronojump.glade.h:29
+#: ../glade/chronojump.glade.h:34
 msgid "<b>statistics data</b>"
 msgstr "<b>ཚད་རྩིས་གནད་སྡུད་</b>"
 
-#: ../glade/chronojump.glade.h:30
+#: ../glade/chronojump.glade.h:35
+msgid "<b>test bells</b>"
+msgstr "<b>དྲིལ་བརྡ་ཚུ་བརྟག་ཞིབ་འབད་</b>"
+
+#: ../glade/chronojump.glade.h:36
 msgid "<b>view</b>"
 msgstr "<b>སྟོན་</b>"
 
-#: ../glade/chronojump.glade.h:31
+#: ../glade/chronojump.glade.h:37
 msgid "ABK"
 msgstr "ཨེ་བི་ཀེ་"
 
-#: ../glade/chronojump.glade.h:32
+#. don't plot AVG and SD rows
+#. if multisession, add AVG and SD cols
+#: ../glade/chronojump.glade.h:38
+#: ../src/stats/graphs/cmjPlusPotency.cs:121
+#: ../src/stats/graphs/cmjPlusPotency.cs:170
+#: ../src/stats/graphs/djIndex.cs:127
+#: ../src/stats/graphs/djIndex.cs:178
+#: ../src/stats/graphs/djQ.cs:127
+#: ../src/stats/graphs/djQ.cs:179
+#: ../src/stats/graphs/fv.cs:122
+#: ../src/stats/graphs/fv.cs:168
+#: ../src/stats/graphs/global.cs:123
+#: ../src/stats/graphs/global.cs:194
+#: ../src/stats/graphs/ieIub.cs:129
+#: ../src/stats/graphs/ieIub.cs:173
+#: ../src/stats/graphs/rjIndex.cs:124
+#: ../src/stats/graphs/rjIndex.cs:171
+#: ../src/stats/graphs/rjPotencyBosco.cs:141
+#: ../src/stats/graphs/rjPotencyBosco.cs:196
+#: ../src/stats/graphs/sjCmjAbk.cs:109
+#: ../src/stats/graphs/sjCmjAbk.cs:151
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:120
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:165
+#: ../src/stats/main.cs:186
+#: ../src/stats/main.cs:218
+#: ../src/stats/main.cs:328
+#: ../src/stats/main.cs:355
+#: ../src/stats/main.cs:464
+#: ../src/stats/main.cs:551
+#: ../src/stats/main.cs:650
+#: ../src/stats/rjEvolution.cs:219
+msgid "AVG"
+msgstr "ཨེ་བི་ཇི་"
+
+#: ../glade/chronojump.glade.h:39
+msgid "Abalakov Jump (CounterMovement using arms)"
+msgstr "ཨཱ་བ་ལ་ཀོཕ་མཆོང་  (ཨརམསི་ལག་ལེན་འཐབ་སྟེ་ གདོང་ལེན་འགུལ་སྤྱོད་)"
+
+#: ../glade/chronojump.glade.h:40
 msgid "About"
 msgstr "སྐོར་ལས་"
 
-#: ../glade/chronojump.glade.h:33
+#: ../glade/chronojump.glade.h:41
 msgid "Add jump type"
 msgstr "མཆོང་པའི་དབྱེ་བ་ཁ་སྐོང་རྐྱབས་"
 
-#: ../glade/chronojump.glade.h:34
+#: ../glade/chronojump.glade.h:42
 msgid "Add multiple persons"
 msgstr "སྣ་མང་གང་ཟག་ཚུ་ ཁ་སྐོང་རྐྱབས་"
 
-#: ../glade/chronojump.glade.h:35
+#: ../glade/chronojump.glade.h:43
 msgid "Add run type"
 msgstr "གཡོག་བཀོལ་དབྱེ་བ་ཁ་སྐོང་རྐྱབས་"
 
-#: ../glade/chronojump.glade.h:36
+#: ../glade/chronojump.glade.h:44
 msgid "Add this statistic and its graph to report window"
 msgstr "སྒོ་སྒྲིག་གི་སྙན་ཞུའི་དོན་ལུ་ ཚད་རྩིས་དང་དེ་གི་ཚད་ཁྲམ་འདི་ ཁ་སྐོང་རྐྱབས་"
 
-#: ../glade/chronojump.glade.h:37
+#: ../glade/chronojump.glade.h:45
 msgid "Add to report"
 msgstr "སྙན་ཞུ་ལུ་ཁ་སྐོང་རྐྱབས་"
 
-#: ../glade/chronojump.glade.h:38
+#: ../glade/chronojump.glade.h:46
 msgid "Additional weight"
 msgstr "ཁ་སྐོང་ཅན་གྱི་ལྗིད་ཚད་"
 
-#: ../glade/chronojump.glade.h:39
+#: ../glade/chronojump.glade.h:47
 msgid "Allow RJ's finish after time"
 msgstr "ཆུ་ཚོད་ཀྱི་ཤུལ་ལས་ ཨར་ཨེ་རྫོགས་བཅུག་"
 
-#: ../glade/chronojump.glade.h:40
+#: ../glade/chronojump.glade.h:48
+msgid "Bell bad"
+msgstr "དྲིལ་བརྡ་བྱང་ཉེས་"
+
+#: ../glade/chronojump.glade.h:49
+msgid "Bell good"
+msgstr "དྲིལ་བརྡ་ལེགས་ཤོམ་"
+
+#: ../glade/chronojump.glade.h:50
+msgid "Bells"
+msgstr "དྲིལ་བརྡ་ཚུ་"
+
+#: ../glade/chronojump.glade.h:51
 msgid "By laps"
 msgstr "བཀོག་བཞག་གི་ཐོག་ལས་"
 
-#: ../glade/chronojump.glade.h:41
+#: ../glade/chronojump.glade.h:52
 msgid "By time"
 msgstr "དུས་ཚོད་ཁར་"
 
-#: ../glade/chronojump.glade.h:42
+#: ../glade/chronojump.glade.h:53
 msgid "CMJ"
 msgstr "སི་ཨེམ་ཇེ་"
 
-#: ../glade/chronojump.glade.h:43
+#: ../glade/chronojump.glade.h:54
 msgid "ChronoJump - Confirm"
 msgstr "ཀོ་རོ་ནོ་ཇམཔ་-ངེས་དཔྱད་"
 
-#: ../glade/chronojump.glade.h:44
+#: ../glade/chronojump.glade.h:55
 msgid "ChronoJump - Error"
 msgstr "ཀོ་རོ་ནོ་ཇམཔ་-འཛོལ་བ་"
 
-#: ../glade/chronojump.glade.h:45
+#: ../glade/chronojump.glade.h:56
 msgid "Chronojump"
 msgstr "ཀོ་རོ་ནོ་ཇམཔ་"
 
-#: ../glade/chronojump.glade.h:46
+#: ../glade/chronojump.glade.h:57
 msgid "Chronojump Report window"
 msgstr "ཀོ་རོ་ནོ་ཇམཔ་ སྙན་ཞུ་སྒོ་སྒྲིག་"
 
-#: ../glade/chronojump.glade.h:47
+#: ../glade/chronojump.glade.h:58
 msgid "Chronojump Statistics window"
 msgstr "ཀོ་རོ་ནོ་ཇམཔ་ ཚད་རྩིས་སྒོ་སྒྲིག་"
 
-#: ../glade/chronojump.glade.h:48
+#: ../glade/chronojump.glade.h:59
+msgid "Chronojump language select"
+msgstr "ཀོརོ་ནོ་ཇམཔི་སྐད་ཡིག་སེལ་འཐུ་"
+
+#: ../glade/chronojump.glade.h:60
 msgid "Chronopic"
 msgstr "ཀོ་རོ་ནོ་པིག་"
 
-#: ../glade/chronojump.glade.h:49
+#: ../glade/chronojump.glade.h:61
 msgid "Chronopic in"
 msgstr "ཀོ་རོ་ནོ་པིག་ ནང་"
 
-#: ../glade/chronojump.glade.h:50
+#: ../glade/chronojump.glade.h:62
 msgid "Collapse all"
 msgstr "ཆ་མཉམ་ཧྲམ་"
 
-#: ../glade/chronojump.glade.h:51
-#: ../src/exportSession.cs:165
-#: ../src/gui/session.cs:359
-#: ../src/gui/session.cs:514
+#: ../glade/chronojump.glade.h:63
+#: ../src/exportSession.cs:182
+#: ../src/gui/session.cs:360
+#: ../src/gui/session.cs:516
 #: ../src/report.cs:206
 msgid "Comments"
 msgstr "བསམ་བཀོད་"
 
-#: ../glade/chronojump.glade.h:52
+#: ../glade/chronojump.glade.h:64
+msgid "Conditions in repetive test"
+msgstr "རི་པི་ཊིཔ་བརྟག་ཞིབ་ནང་གནས་སྟངས་ཚུ་"
+
+#: ../glade/chronojump.glade.h:65
 msgid "Configure graph"
 msgstr "པར་རིས་ཚད་ཁྲམ་"
 
-#: ../glade/chronojump.glade.h:53
+#: ../glade/chronojump.glade.h:66
 msgid "Confirm jump/run deletion"
 msgstr "ངེས་དཔྱད་ཇམཔ/གཡོག་བཀོལ་བཏོན་གཏང་བ་"
 
-#: ../glade/chronojump.glade.h:54
+#: ../glade/chronojump.glade.h:67
 msgid "Contact time"
 msgstr "འབྲེལ་སའི་ཆུ་ཚོད་"
 
-#: ../glade/chronojump.glade.h:55
+#: ../glade/chronojump.glade.h:68
+msgid "CounterMovement Jump"
+msgstr "གདོང་ལེན་འགུལ་བསྐྱོད་མཆོང་"
+
+#: ../glade/chronojump.glade.h:69
 msgid "Create a new jump type in the database"
 msgstr "གནད་སྡུད་གཞི་རྟེན་ནང་ ཇམཔ་དབྱེ་བ་གསརཔ་ཅིག་ གསར་བསྐྲུན་འབད་"
 
-#: ../glade/chronojump.glade.h:56
+#: ../glade/chronojump.glade.h:70
 msgid "Create a new run type in the database"
 msgstr "གནད་སྡུད་གཞི་རྟེན་ནང་ གཡོག་བཀོལ་དབྱེ་བ་གསརཔ་ཅིག་ གསར་བསྐྲུན་འབད་"
 
-#: ../glade/chronojump.glade.h:57
+#: ../glade/chronojump.glade.h:71
 msgid "Create new Jump Type"
 msgstr "ཇམཔ་དབྱེ་བ་གསརཔ་ གསར་བསྐྲུན་འབད་"
 
-#: ../glade/chronojump.glade.h:58
+#: ../glade/chronojump.glade.h:72
 msgid "Create new Run Type"
 msgstr "གཡོག་བཀོལ་དབྱེ་བ་གསརཔ་ གསར་བསྐྲུན་འབད་"
 
-#: ../glade/chronojump.glade.h:59
+#: ../glade/chronojump.glade.h:73
 msgid "Custom"
 msgstr "སྲོལ་སྒྲིག་"
 
-#: ../glade/chronojump.glade.h:60
+#: ../glade/chronojump.glade.h:74
 msgid "DJ"
 msgstr "ཌི་ཇེ་"
 
-#: ../glade/chronojump.glade.h:61
-#: ../src/exportSession.cs:164
+#: ../glade/chronojump.glade.h:75
+#: ../src/exportSession.cs:181
 #: ../src/gui/session.cs:352
-#: ../src/gui/session.cs:513
+#: ../src/gui/session.cs:515
 #: ../src/report.cs:205
 msgid "Date"
 msgstr "ཚེས་གྲངས་"
 
-#: ../glade/chronojump.glade.h:62
+#: ../glade/chronojump.glade.h:76
 #: ../src/gui/person.cs:102
 msgid "Date of Birth"
 msgstr "སྐྱེས་ཚེས་"
 
-#: ../glade/chronojump.glade.h:63
+#: ../glade/chronojump.glade.h:77
 msgid "Decimal number"
 msgstr "བཅུ་ཚག་ཨང་"
 
-#: ../glade/chronojump.glade.h:64
+#: ../glade/chronojump.glade.h:78
 msgid "Delete selected RJ jump"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཨར་ཇེ་ཇམཔ་འདི་ བཏོན་གཏང་"
 
-#: ../glade/chronojump.glade.h:65
+#: ../glade/chronojump.glade.h:79
 msgid "Delete selected intervallic run"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་འདི་ བཏོན་གཏང་"
 
-#: ../glade/chronojump.glade.h:66
+#: ../glade/chronojump.glade.h:80
 msgid "Delete selected jump"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཇམཔ་འདི་བཏོན་གཏང་"
 
-#: ../glade/chronojump.glade.h:67
+#: ../glade/chronojump.glade.h:81
 msgid "Delete selected pulse"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་འཕར་རྩ་འདི་བཏོན་གཏང་"
 
-#: ../glade/chronojump.glade.h:68
+#: ../glade/chronojump.glade.h:82
 msgid "Delete selected run"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་གཡོག་བཀོལ་འདི་ བཏོན་གཏང་"
 
-#: ../glade/chronojump.glade.h:69
-#: ../src/exportSession.cs:201
-#: ../src/exportSession.cs:254
-#: ../src/exportSession.cs:316
-#: ../src/exportSession.cs:358
-#: ../src/gui/jump.cs:1045
-#: ../src/gui/jump.cs:1237
+#: ../glade/chronojump.glade.h:83
+#: ../src/exportSession.cs:218
+#: ../src/exportSession.cs:271
+#: ../src/exportSession.cs:333
+#: ../src/exportSession.cs:375
+#: ../src/gui/jump.cs:1048
+#: ../src/gui/jump.cs:1248
 #: ../src/gui/person.cs:103
-#: ../src/gui/run.cs:846
-#: ../src/gui/run.cs:1017
+#: ../src/gui/run.cs:851
+#: ../src/gui/run.cs:1030
 msgid "Description"
 msgstr "འགྲེལ་བཤད་"
 
-#: ../glade/chronojump.glade.h:70
+#: ../glade/chronojump.glade.h:84
 msgid ""
 "Description /\n"
 "comments"
@@ -318,177 +404,189 @@ msgstr ""
 "འགྲེལ་བཤད་ /\n"
 "བསམ་བཀོད་"
 
-#: ../glade/chronojump.glade.h:72
-#: ../src/exportSession.cs:313
-#: ../src/gui/run.cs:845
-#: ../src/gui/run.cs:1014
-#: ../src/treeViewRun.cs:51
+#: ../glade/chronojump.glade.h:86
+#: ../src/exportSession.cs:330
+#: ../src/gui/run.cs:850
+#: ../src/gui/run.cs:1027
+#: ../src/treeViewRun.cs:56
 msgid "Distance"
 msgstr "གྱང་ཚད་"
 
-#: ../glade/chronojump.glade.h:73
+#: ../glade/chronojump.glade.h:87
 msgid "DjIndex"
 msgstr "ཌི་ཇེ་ཨིན་ཌེཀསི་"
 
-#: ../glade/chronojump.glade.h:74
+#: ../glade/chronojump.glade.h:88
+msgid "Drop Jump"
+msgstr "ཇམཔ་བཞག་"
+
+#: ../glade/chronojump.glade.h:89
 msgid "Edit jump"
 msgstr "ཇམཔ་ཞུན་དག་འབད་"
 
-#: ../glade/chronojump.glade.h:75
+#: ../glade/chronojump.glade.h:90
 msgid "Edit run"
 msgstr "གཡོག་བཀོལ་ཞུན་དག་འབད་"
 
-#: ../glade/chronojump.glade.h:76
+#: ../glade/chronojump.glade.h:91
 msgid "Edit selected RJ jump"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཨར་ཇེ་ ཇམཔ་ ཞུན་དག་འབད་"
 
-#: ../glade/chronojump.glade.h:77
+#: ../glade/chronojump.glade.h:92
 msgid "Edit selected intervallic run"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་འདི་ ཞུན་དག་འབད་"
 
-#: ../glade/chronojump.glade.h:78
+#: ../glade/chronojump.glade.h:93
 msgid "Edit selected jump"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཇམཔ་འདི་ཞུན་དག་འབད་"
 
-#: ../glade/chronojump.glade.h:79
+#: ../glade/chronojump.glade.h:94
 msgid "Edit selected person"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་གང་ཟག་ཞུན་དག་འབད་ཀཀ"
 
-#: ../glade/chronojump.glade.h:80
+#: ../glade/chronojump.glade.h:95
 msgid "Edit selected pulse"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་འཕར་རྩ་ཞུན་དག་འབད་"
 
-#: ../glade/chronojump.glade.h:81
+#: ../glade/chronojump.glade.h:96
 msgid "Edit selected run"
 msgstr "སེལའཐུ་འབད་ཡོད་པའི་གཡོག་བཀོལ་ཞུན་དག་འབད་ཀཀ"
 
-#: ../glade/chronojump.glade.h:82
+#: ../glade/chronojump.glade.h:97
 msgid "Execute intervallic runs"
 msgstr "ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་འདི་ ལག་ལེན་འཐབ་"
 
-#: ../glade/chronojump.glade.h:83
+#: ../glade/chronojump.glade.h:98
+msgid "Execute reaction time"
+msgstr "དུས་ཚོད་གདོང་ལེན་ལག་ལེན་འཐབ་"
+
+#: ../glade/chronojump.glade.h:99
 msgid "Execute reactive jump"
 msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ ལག་ལེན་འཐབ་"
 
-#: ../glade/chronojump.glade.h:84
+#: ../glade/chronojump.glade.h:100
 msgid "Execute simple jumps"
 msgstr "འཇམ་སམ་ཇམཔ་ ལག་ལེན་འཐབ་"
 
-#: ../glade/chronojump.glade.h:85
+#: ../glade/chronojump.glade.h:101
 msgid "Execute simple run"
 msgstr "འཇམ་སམ་གཡོག་བཀོལ་ ལག་ལེན་འཐབ་"
 
-#: ../glade/chronojump.glade.h:86
+#: ../glade/chronojump.glade.h:102
 msgid "Expand all"
 msgstr "ཆ་མཉམ་རྒྱ་བསྐྱེད་འབད་"
 
-#: ../glade/chronojump.glade.h:87
-msgid "Export session to _CSV"
-msgstr "ལཱ་ཡུན་འདི་ སི་ཨེསི་བི་ལུ་ཕྱིར་འདྲེན་འབད་(_C)"
+#: ../glade/chronojump.glade.h:103
+msgid "Export session to _CSV (Spreadsheet)"
+msgstr "ལཱ་ཡུན་འདི་ སི་ཨེསི་བི་(ཤོག་ཁྲམ་ལུ་)ལུ་ཕྱིར་འདྲེན་འབད་(_C)"
 
-#: ../glade/chronojump.glade.h:88
+#: ../glade/chronojump.glade.h:104
 msgid "Export session to _XML"
 msgstr "ཨེགསི་ཨེམ་ཨེལ་ལུ་ ལཱ་ཡུན་ཕྱིར་འདྲེན་འབད་"
 
-#: ../glade/chronojump.glade.h:89
+#: ../glade/chronojump.glade.h:105
 msgid "Extra data for this jump"
 msgstr "ཇམཔ་འདི་གི་དོན་ལུ་ གནད་སྡུད་ཐེབས་"
 
-#: ../glade/chronojump.glade.h:90
+#: ../glade/chronojump.glade.h:106
 msgid "Extra data for this pulse"
 msgstr "འཕར་་རྩ་གི་དོན་ལུ་ གནད་སྡུད་ཐེབས་"
 
-#: ../glade/chronojump.glade.h:91
+#: ../glade/chronojump.glade.h:107
 msgid "Extra data for this run"
 msgstr "གཡོག་བཀོལ་དོན་ལུ་ གནད་སྡུད་ཐེབས་"
 
-#: ../glade/chronojump.glade.h:92
-#: ../src/gui/jump.cs:1044
-#: ../src/gui/jump.cs:1236
+#: ../glade/chronojump.glade.h:108
+#: ../src/gui/jump.cs:1047
+#: ../src/gui/jump.cs:1247
 msgid "Extra weight"
 msgstr "ལྗིད་ཚད་ཐེབས་"
 
-#: ../glade/chronojump.glade.h:94
+#: ../glade/chronojump.glade.h:110
 #, no-c-format
 msgid "Extra weight %"
 msgstr "ལྗིད་ཚད་ཐེབས་ %"
 
-#: ../glade/chronojump.glade.h:95
+#: ../glade/chronojump.glade.h:111
 msgid "F"
 msgstr "ཨེཕ་"
 
-#: ../glade/chronojump.glade.h:96
+#: ../glade/chronojump.glade.h:112
 msgid "Falling height"
 msgstr "འབུད་བའི་མཐོ་ཚད་"
 
-#: ../glade/chronojump.glade.h:97
+#: ../glade/chronojump.glade.h:113
 msgid "Finish"
 msgstr "རྗོགས་ནི་"
 
-#: ../glade/chronojump.glade.h:98
+#: ../glade/chronojump.glade.h:114
 msgid "Finish jump (save jump until this moment)"
 msgstr "ཇམཔ་རྫོགས་པ་(ཡུད་ཙམ་ཅིག་གི་བར་ཇམཔ་སྲུངས་)"
 
-#: ../glade/chronojump.glade.h:99
+#: ../glade/chronojump.glade.h:115
 msgid "Flight time"
 msgstr "འཕུར་བསྐྱོད་དུས་ཚོད་"
 
-#: ../glade/chronojump.glade.h:100
+#: ../glade/chronojump.glade.h:116
 msgid "Free"
 msgstr "དལཝ་"
 
-#: ../glade/chronojump.glade.h:101
+#: ../glade/chronojump.glade.h:117
 msgid "From session"
 msgstr "ལཱ་ཡུན་ལས་"
 
-#: ../glade/chronojump.glade.h:102
+#: ../glade/chronojump.glade.h:118
 msgid "Graph"
 msgstr "ཚད་ཁྲམ་"
 
-#: ../glade/chronojump.glade.h:103
+#: ../glade/chronojump.glade.h:119
 msgid "Graph this statistic"
 msgstr "ཚད་རྩིས་འདི་ཚད་ཁྲམ་བཟོ་"
 
-#: ../glade/chronojump.glade.h:104
+#: ../glade/chronojump.glade.h:120
 msgid "Height (cm)"
 msgstr "མཐོ་ཚད་(སི་ཨེམ་)"
 
-#: ../glade/chronojump.glade.h:105
+#: ../glade/chronojump.glade.h:121
 msgid "Help"
 msgstr "གྲོགས་རམ་"
 
-#: ../glade/chronojump.glade.h:106
+#: ../glade/chronojump.glade.h:122
 msgid "Identifier"
 msgstr "ངོས་འཛིན་འབད་མི་"
 
-#: ../glade/chronojump.glade.h:107
+#: ../glade/chronojump.glade.h:123
 msgid "If a reactive jump is limited by time, and time has running out, allow finish jump"
 msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ཅིག་ ཆུ་ཚོད་ཀྱིས་ཚད་བཟོ་སྟེ་ཡོད་པ་ཅིན་ དེ་ལས་ཆུ་ཚོད་གཡོག་བཀོལ་ཏེ་ཡོད་པ་ཅིན་ ཇམཔ་འདི་རྫོགས་བཅུག་"
 
+#: ../glade/chronojump.glade.h:124
+msgid "Intervallic run limited by Laps"
+msgstr "ཨེལ་ཨེ་པི་ཚུ་གིས་ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་བའི་ཚད་"
+
+#: ../glade/chronojump.glade.h:125
+msgid "Intervallic run limited by Time"
+msgstr "ཆུ་ཚོད་ཀྱིས་སྦེ་ཨིན་ཊར་བེ་ལིཀ་གཡོག་ཚད་"
+
+#: ../glade/chronojump.glade.h:126
+msgid "Intervallic run unlimited (until \"finish\" button is clicked)"
+msgstr "(until \"finish\" ཨེབ་རྟ་འདི་ཨེབ་གཏང་འབད་ཡོདཔ་)ཚད་མེད་པའི་ཨིན་ཊར་བེ་ལིཀ་གཡོག་བཀོལ།"
+
 #. this.heightPreferred = heightPreferred;
-#: ../glade/chronojump.glade.h:108
+#: ../glade/chronojump.glade.h:127
 #: ../src/stats/global.cs:53
 #: ../src/stats/sjCmjAbk.cs:53
 msgid "Jump"
 msgstr "ཇམཔ་"
 
-#: ../glade/chronojump.glade.h:109
-msgid "Jump AVG"
-msgstr "ཇམཔ་ ཨེ་བི་ཇི་"
-
-#: ../glade/chronojump.glade.h:110
+#: ../glade/chronojump.glade.h:128
 msgid "Jump Reactive"
 msgstr "ཇམཔ་ གདོང་ལེན་འབད་བཏུབ་"
 
-#: ../glade/chronojump.glade.h:111
+#: ../glade/chronojump.glade.h:129
 msgid "Jump type"
 msgstr "ཇམཔ་དབྱེ་བ་"
 
-#: ../glade/chronojump.glade.h:112
-msgid "Jump until \"finish\" button is clicked"
-msgstr "\"finish\"ཨེབ་རྟ་གུ་ཨེབ་གཏང་མ་འབད་ཚུན་ ཇམཔ་འབད་"
-
-#: ../glade/chronojump.glade.h:113
+#: ../glade/chronojump.glade.h:130
 #: ../src/gui/stats.cs:93
 #: ../src/gui/stats.cs:305
 #: ../src/gui/stats.cs:664
@@ -506,45 +604,45 @@ msgstr "\"finish\"ཨེབ་རྟ་གུ་ཨེབ་གཏང་མ་�
 msgid "Jumper"
 msgstr "མཆོང་མི་"
 
-#: ../glade/chronojump.glade.h:114
+#: ../glade/chronojump.glade.h:131
 msgid "Language"
 msgstr "སྐད་ཡིག་"
 
-#: ../glade/chronojump.glade.h:115
-#: ../src/gui/jump.cs:1233
-#: ../src/gui/run.cs:1015
+#: ../glade/chronojump.glade.h:132
+#: ../src/gui/jump.cs:1244
+#: ../src/gui/run.cs:1028
 msgid "Limited by"
 msgstr "ཚད་བཟོ་སྟེ་"
 
-#: ../glade/chronojump.glade.h:116
+#: ../glade/chronojump.glade.h:133
 msgid "Limited by "
 msgstr "ཚད་བཟོ་སྟེ་"
 
-#: ../glade/chronojump.glade.h:117
+#: ../glade/chronojump.glade.h:134
 msgid "Load"
 msgstr "མངོན་གསལ་"
 
-#: ../glade/chronojump.glade.h:118
+#: ../glade/chronojump.glade.h:135
 msgid "Load person"
 msgstr "མངོན་གསལ་གང་ཟག་"
 
-#: ../glade/chronojump.glade.h:119
+#: ../glade/chronojump.glade.h:136
 msgid "Load persons"
 msgstr "མངོན་གསལ་གང་ཟག་ཚུ་"
 
-#: ../glade/chronojump.glade.h:120
+#: ../glade/chronojump.glade.h:137
 msgid "Load persons from other session"
 msgstr "ལཱ་ཡུན་སོ་སོར་ལས་མངོན་གསལ་གང་ཟག་ཚུ་"
 
-#: ../glade/chronojump.glade.h:121
+#: ../glade/chronojump.glade.h:138
 msgid "Load session"
 msgstr "མངོན་གསལ་ལཱ་ཡུན་"
 
-#: ../glade/chronojump.glade.h:122
+#: ../glade/chronojump.glade.h:139
 msgid "M"
 msgstr "ཨེམ་"
 
-#: ../glade/chronojump.glade.h:123
+#: ../glade/chronojump.glade.h:140
 msgid ""
 "Main\n"
 "options"
@@ -552,107 +650,108 @@ msgstr ""
 "གདམ་ཁ་\n"
 "ངོ་མ་ཚུ་"
 
-#: ../glade/chronojump.glade.h:125
+#: ../glade/chronojump.glade.h:142
 msgid "Make report"
 msgstr "སྙན་ཞུ་བཟོ་"
 
-#: ../glade/chronojump.glade.h:126
+#: ../glade/chronojump.glade.h:143
 msgid "Maximum"
 msgstr "མང་མཐའ་"
 
-#: ../glade/chronojump.glade.h:127
+#: ../glade/chronojump.glade.h:144
 msgid "Message"
 msgstr "འཕྲིན་དོན་"
 
-#: ../glade/chronojump.glade.h:128
+#: ../glade/chronojump.glade.h:145
 msgid "Minimum"
 msgstr "ཉུང་མཐའ་"
 
-#: ../glade/chronojump.glade.h:129
+#: ../glade/chronojump.glade.h:146
 msgid "More"
 msgstr "ལེ་ཤ་"
 
-#: ../glade/chronojump.glade.h:130
+#: ../glade/chronojump.glade.h:147
 msgid "More intervallic runs"
 msgstr "ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་ལེ་ཤ་"
 
-#: ../glade/chronojump.glade.h:131
+#: ../glade/chronojump.glade.h:148
 msgid "More pulse types"
 msgstr "འཕར་རྩའི་དབྱེ་བ་ལེ་ཤ་"
 
-#: ../glade/chronojump.glade.h:132
+#: ../glade/chronojump.glade.h:149
 msgid "More pulses"
 msgstr "འཕར་རྩ་མངམ་"
 
-#: ../glade/chronojump.glade.h:133
+#: ../glade/chronojump.glade.h:150
 msgid "More reactive jumps"
 msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ལེ་ཤ་"
 
-#: ../glade/chronojump.glade.h:134
+#: ../glade/chronojump.glade.h:151
 msgid "More simple jumps"
 msgstr "འཇམ་སམ་གྱི་ཇམཔ་ལེ་ཤ་"
 
-#: ../glade/chronojump.glade.h:135
+#: ../glade/chronojump.glade.h:152
 msgid "More simple runs"
 msgstr "འཇམ་སམ་གཡོག་བཀོལ་ལེ་ཤ་"
 
-#: ../glade/chronojump.glade.h:136
-#: ../src/gui/person.cs:572
+#: ../glade/chronojump.glade.h:153
+#: ../src/gui/person.cs:573
 msgid "New jumper"
 msgstr "མཆོང་མི་གསརཔ་"
 
-#: ../glade/chronojump.glade.h:137
+#: ../glade/chronojump.glade.h:154
 msgid "New person"
 msgstr "གང་ཟག་གསརཔ་"
 
-#: ../glade/chronojump.glade.h:138
+#: ../glade/chronojump.glade.h:155
 msgid "New persons (multiple)"
 msgstr "གང་ཟག་གསརཔ་ཚུ་(སྣ་མང་)"
 
-#: ../glade/chronojump.glade.h:139
+#: ../glade/chronojump.glade.h:156
 msgid "Notes"
 msgstr "དྲན་འཛིན་ཚུ་"
 
-#: ../glade/chronojump.glade.h:140
+#: ../glade/chronojump.glade.h:157
 msgid "Now"
 msgstr "ད་ལས་ཕར་"
 
-#: ../glade/chronojump.glade.h:141
+#: ../glade/chronojump.glade.h:158
 msgid "Optimal expand"
 msgstr "གང་དྲག་རྒྱ་བསྐྱེད་"
 
-#: ../glade/chronojump.glade.h:142
+#: ../glade/chronojump.glade.h:159
 msgid "P_ulse"
 msgstr "འཕར་རྩ་(_u)"
 
-#: ../glade/chronojump.glade.h:143
+#: ../glade/chronojump.glade.h:160
 msgid "Paint a circle at end"
 msgstr "མཇུག་ལུ་སྒོར་ཐིག་ཅིག་གུ་ཚོན་གཏང་"
 
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:144
+#: ../glade/chronojump.glade.h:161
 #: ../src/treeViewPulse.cs:46
+#: ../src/treeViewReactionTime.cs:31
 msgid "Person"
 msgstr "གང་ཟག་"
 
-#: ../glade/chronojump.glade.h:145
+#: ../glade/chronojump.glade.h:162
 msgid "Person AVG"
 msgstr "གང་ཟག་ ཨེ་བི་ཇི་"
 
-#: ../glade/chronojump.glade.h:146
+#: ../glade/chronojump.glade.h:163
 msgid "Pla_tform"
 msgstr "གཞི་སྟེགས་(_t)"
 
-#: ../glade/chronojump.glade.h:147
-#: ../src/exportSession.cs:163
+#: ../glade/chronojump.glade.h:164
+#: ../src/exportSession.cs:180
 #: ../src/gui/person.cs:1217
 #: ../src/gui/session.cs:351
-#: ../src/gui/session.cs:512
+#: ../src/gui/session.cs:514
 #: ../src/report.cs:204
 msgid "Place"
 msgstr "ས་གནས་"
 
-#: ../glade/chronojump.glade.h:148
+#: ../glade/chronojump.glade.h:165
 msgid ""
 "Please fill these values\n"
 "(bold titles are required)"
@@ -660,110 +759,127 @@ msgstr ""
 "བེ་ལུ་འདི་ཚུ་བཀང་\n"
 "(རྒྱགས་པ་བཟོ་ཡོད་པའི་མགོ་མིང་ཚུ་དགོཔ་ཨིན་)"
 
-#: ../glade/chronojump.glade.h:150
+#: ../glade/chronojump.glade.h:167
+msgid "Please select <b>Chronojump</b> language"
+msgstr "སྐད་ཡིག་<b>ཀོརོ་ནོ་ཇམཔི་</b> འདི་སེལ་འཐུ་འབད་གནང་"
+
+#: ../glade/chronojump.glade.h:168
 msgid "Prefer height over TF"
 msgstr "ཊི་ཨེཕ་གི་ལྟག་ལས་ མཐོ་ཚད་དགའ་"
 
-#: ../glade/chronojump.glade.h:151
+#: ../glade/chronojump.glade.h:169
 msgid "Prefer m/s over Km/h"
 msgstr "ཀེ་ཨེམ་/ཨེཆ་ གི་ལྟག་ལས་ ཨེམ་/ཨེསི་དགའ་"
 
-#: ../glade/chronojump.glade.h:152
+#: ../glade/chronojump.glade.h:170
 msgid "Preferences"
 msgstr "དགའ་གདམ་ཚུ་"
 
-#: ../glade/chronojump.glade.h:153
+#: ../glade/chronojump.glade.h:171
 msgid "Properties"
 msgstr "རྒྱུ་དངོས་ཚུ་"
 
-#: ../glade/chronojump.glade.h:154
+#: ../glade/chronojump.glade.h:172
 msgid "Pulse"
 msgstr "འཕར་རྩ་"
 
-#: ../glade/chronojump.glade.h:155
-msgid "Pulse AVG"
-msgstr "འཕར་རྩ་ ཨེ་བི་ཇི་"
-
-#: ../glade/chronojump.glade.h:156
+#: ../glade/chronojump.glade.h:173
 msgid "QIndex"
 msgstr "ཀིའུ་ཨིན་ཌེཀསི་"
 
-#: ../glade/chronojump.glade.h:157
+#: ../glade/chronojump.glade.h:174
 msgid "RJ(j)"
 msgstr "ཨར་ཇེ་(ཇེ་)"
 
-#: ../glade/chronojump.glade.h:158
+#: ../glade/chronojump.glade.h:175
 msgid "RJ(t)"
 msgstr "ཨར་ཇེ་(ཊི་)"
 
-#: ../glade/chronojump.glade.h:159
+#: ../glade/chronojump.glade.h:176
 msgid "RJ(unlimited)"
 msgstr "ཨར་ཇེ་(ཚད་མེདཔ་)"
 
-#: ../glade/chronojump.glade.h:160
+#: ../glade/chronojump.glade.h:177
+#: ../src/gui/session.cs:358
+msgid "Reaction time"
+msgstr "གདོང་ལེན་དུས་ཚོད་"
+
+#: ../glade/chronojump.glade.h:178
+msgid "Reactive Jump limited by Jumps"
+msgstr "མཆོང་མི་དེ་གིས་ལོག་ཤུགས་ལྡན་མཆོང་ཚད་"
+
+#: ../glade/chronojump.glade.h:179
+msgid "Reactive Jump limited by Time"
+msgstr "ཆུ་ཚོད་ཀྱིས་སྦེ་མཆོང་ཚད་ལོག་ཤུགས་ལྡན་བཟོ་"
+
+#: ../glade/chronojump.glade.h:180
+msgid "Reactive Jump unlimited (until \"finish\" button is clicked)"
+msgstr "(until \"finish\" ཨེབ་རྟ་འདི་ཨེབ་གཏང་ཡོདཔ་)ཚད་མེད་ལོག་ཤུགས་ལྡན་མཆོང་"
+
+#: ../glade/chronojump.glade.h:181
 msgid "Repair selected RJ jump"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ ཨར་ཇེ་ ཇམཔ་འདི་ ཉམས་བཅོས་འབད་"
 
-#: ../glade/chronojump.glade.h:161
+#: ../glade/chronojump.glade.h:182
 msgid "Repair selected intervallic run"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་ ཉམས་བཅོས་འབད་"
 
-#: ../glade/chronojump.glade.h:162
+#: ../glade/chronojump.glade.h:183
 msgid "Repair selected pulse"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་འཕར་རྩ་ ཉམས་བཅོས་འབད་"
 
-#: ../glade/chronojump.glade.h:163
+#: ../glade/chronojump.glade.h:184
 msgid "Repair selected reactive jump"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ ཉམས་བཅོས་འབད་"
 
-#: ../glade/chronojump.glade.h:164
+#: ../glade/chronojump.glade.h:185
 msgid "Report window"
 msgstr "སྙན་ཞུ་སྒོ་སྒྲིག་"
 
-#: ../glade/chronojump.glade.h:165
+#: ../glade/chronojump.glade.h:186
 msgid "Run"
 msgstr "གཡོག་བཀོལ་"
 
-#: ../glade/chronojump.glade.h:166
-msgid "Run AVG"
-msgstr "གཡོག་བཀོལ་ ཨེ་བི་ཇི་"
-
-#: ../glade/chronojump.glade.h:167
+#: ../glade/chronojump.glade.h:187
 msgid "Run Intervallic"
 msgstr "གཡོག་བཀོལ་ཨིན་ཊར་བེ་ལིག་"
 
-#: ../glade/chronojump.glade.h:168
+#: ../glade/chronojump.glade.h:188
 msgid "Run type"
 msgstr "གཡོག་བཀོལ་དབྱེ་བ་"
 
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:169
+#: ../glade/chronojump.glade.h:189
 #: ../src/treeViewRun.cs:49
-#: ../src/treeViewRun.cs:97
+#: ../src/treeViewRun.cs:106
 msgid "Runner"
 msgstr "གཡོག་བཀོལ་པ་"
 
-#: ../glade/chronojump.glade.h:170
+#: ../glade/chronojump.glade.h:190
 msgid "Runs"
 msgstr "གཡོག་བཀོལ་ཚུ་"
 
-#: ../glade/chronojump.glade.h:171
+#: ../glade/chronojump.glade.h:191
 msgid "SJ"
 msgstr "ཨེསི་ཇེ་"
 
-#: ../glade/chronojump.glade.h:172
+#: ../glade/chronojump.glade.h:192
 msgid "SJ+"
 msgstr "ཨེསི་ཇེ་ +"
 
-#: ../glade/chronojump.glade.h:173
+#: ../glade/chronojump.glade.h:193
 msgid "Search filter"
 msgstr "འཚོལ་ཞིབ་ཚགས་མ་"
 
-#: ../glade/chronojump.glade.h:174
+#: ../glade/chronojump.glade.h:194
+msgid "Select conditions for beep signals"
+msgstr "བརྡ་བཀོད་བཏོན་ནིའི་བརྡ་རྟགས་ཚུ་གི་དོན་ལུ་གནས་སྟངས་ཚུ་སེལ་འཐུ་འབད་"
+
+#: ../glade/chronojump.glade.h:195
 msgid "Select data for HTML report"
 msgstr "ཨེཅ་ཊི་ཨེམ་ཨེལ་སྙན་ཞུ་གི་དོན་ལུ་ གནད་སྡུད་སེལ་འཐུ་འབད་"
 
-#: ../glade/chronojump.glade.h:175
+#: ../glade/chronojump.glade.h:196
 msgid ""
 "Select persons you want to load.\n"
 "(Persons in current session are not listed)"
@@ -771,80 +887,92 @@ msgstr ""
 "མངོན་གསལ་འབད་དགོ་མནོ་མི་གང་ཟག་ཚུ་སེལ་འཐུ་འབད།\n"
 "(ད་ལྟོའི་ལཱ་ཡུན་ནང་ཡོད་པའི་གང་ཟག་ཚུ་ ཐོ་ཡིག་ལུ་མ་བཀོད་)"
 
-#: ../glade/chronojump.glade.h:177
+#: ../glade/chronojump.glade.h:198
 msgid "Select sessions for statistics"
 msgstr "ཚད་རྩིས་ཀྱི་དོན་ལུ་ ལཱ་ཡུན་སེལ་འཐུ་འབད་"
 
-#: ../glade/chronojump.glade.h:178
+#: ../glade/chronojump.glade.h:199
 msgid "Serial ports help"
 msgstr "ཨང་རིམ་འདྲེན་ལམ་གྱི་གྲོགས་རམ་"
 
-#: ../glade/chronojump.glade.h:179
+#: ../glade/chronojump.glade.h:200
 msgid "Session AVG"
 msgstr "ལཱ་ཡུན་ ཨེ་བི་ཇི་"
 
-#: ../glade/chronojump.glade.h:180
-msgid "Show all events of a person"
-msgstr "གང་ཟག་གི་བྱུང་ལས་ཚུ་ཆ་མཉམ་སྟོན་"
+#: ../glade/chronojump.glade.h:201
+msgid "Show all tests of a person"
+msgstr "གང་ཟག་གི་བརྟག་ཞིབ་ཚུ་ཆ་མཉམ་སྟོན་"
 
-#: ../glade/chronojump.glade.h:181
+#: ../glade/chronojump.glade.h:202
 msgid "Show black guide"
 msgstr "ལམ་སྟོན་པ་གནགཔོ་སྟོན་"
 
-#: ../glade/chronojump.glade.h:182
+#: ../glade/chronojump.glade.h:203
 msgid "Show green guide"
 msgstr "ལམ་སྟོན་པ་ལྗང་ཁུ་སྟོན་"
 
-#: ../glade/chronojump.glade.h:183
-msgid "Show grid (on multiple events)"
-msgstr "གིརིཌི་སྟོན་(སྣ་མང་བྱུང་ལས་གུ་)"
+#: ../glade/chronojump.glade.h:204
+msgid "Show grid (on repetitive tests)"
+msgstr "གིརིཌི་སྟོན་(རི་པི་ཏི་ཏིཕ་བརྟག་ཞིབ་གུ་)"
 
-#: ../glade/chronojump.glade.h:184
+#: ../glade/chronojump.glade.h:205
 msgid "Show height"
 msgstr "མཐོ་ཚད་སྟོན་"
 
-#: ../glade/chronojump.glade.h:185
+#: ../glade/chronojump.glade.h:206
 msgid "Show indexes between TF and TC"
 msgstr "ཊི་ཨེཕ་དང་ཊི་སི་གཉིས་ཀྱི་བར་ནའི་ཟུར་ཐོ་ཚུ་སྟོན་"
 
-#: ../glade/chronojump.glade.h:186
+#: ../glade/chronojump.glade.h:207
 msgid "Show initial speed"
 msgstr "འགོ་ཐོག་མགྱོགས་ཚད་སྟོན་"
 
-#: ../glade/chronojump.glade.h:187
+#: ../glade/chronojump.glade.h:208
 msgid "Show speed"
 msgstr "མགྱོགས་ཚད་སྟོན་"
 
-#: ../glade/chronojump.glade.h:188
+#: ../glade/chronojump.glade.h:209
 msgid "Show time"
 msgstr "ཆུ་ཚོད་སྟོན་"
 
-#: ../glade/chronojump.glade.h:189
+#: ../glade/chronojump.glade.h:210
+msgid "Simple jump with no special technique"
+msgstr "ཐབས་འཕྲུལ་དམིགས་བསལ་དང་ཅིག་ཁར་མཆོང་འཇམ་སམ་"
+
+#: ../glade/chronojump.glade.h:211
 msgid "Simulated"
 msgstr "མཚུངས་པ་བཟོ་ཡོདཔ་"
 
-#: ../glade/chronojump.glade.h:190
-#: ../src/exportSession.cs:315
+#: ../glade/chronojump.glade.h:212
+#: ../src/exportSession.cs:332
 #: ../src/treeViewRun.cs:50
-#: ../src/treeViewRun.cs:98
+#: ../src/treeViewRun.cs:107
 msgid "Speed"
 msgstr "མགྱོགས་ཚད་"
 
-#: ../glade/chronojump.glade.h:191
-#: ../src/gui/jump.cs:1043
-#: ../src/gui/jump.cs:1235
+#: ../glade/chronojump.glade.h:213
+msgid "Squat Jump"
+msgstr "ཇམཔ་ སིཀོའིཊི་"
+
+#: ../glade/chronojump.glade.h:214
+msgid "Squat Jump with extra weight"
+msgstr "ལྗིད་ཚད་ཧེང་བཀལ་དང་ཅིག་ཁར་ སིཀོཊི་མཆོང་"
+
+#: ../glade/chronojump.glade.h:215
+#: ../src/gui/jump.cs:1046
+#: ../src/gui/jump.cs:1246
 msgid "Start inside"
 msgstr "ནང་ན་འགོ་བཙུགས་"
 
-#: ../glade/chronojump.glade.h:192
+#: ../glade/chronojump.glade.h:216
 msgid "Stats window"
 msgstr "སི་ཊེཊིསི་སྒོ་སྒྲིག་"
 
 #. Console.WriteLine("TC: {0}", tc.ToString());
-#: ../glade/chronojump.glade.h:193
-#: ../src/execute/jump.cs:343
-#: ../src/exportSession.cs:195
-#: ../src/gui/jump.cs:542
+#: ../glade/chronojump.glade.h:217
+#: ../src/execute/jump.cs:358
+#: ../src/exportSession.cs:212
+#: ../src/gui/jump.cs:545
 #: ../src/stats/djIndex.cs:36
 #: ../src/stats/djQ.cs:36
 #: ../src/stats/graphs/djIndex.cs:76
@@ -859,11 +987,11 @@ msgstr "ཊི་སི་"
 
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
-#: ../glade/chronojump.glade.h:194
-#: ../src/execute/jump.cs:351
-#: ../src/exportSession.cs:196
-#: ../src/gui/jump.cs:551
-#: ../src/gui/run.cs:462
+#: ../glade/chronojump.glade.h:218
+#: ../src/execute/jump.cs:366
+#: ../src/exportSession.cs:213
+#: ../src/gui/jump.cs:554
+#: ../src/gui/run.cs:467
 #: ../src/stats/djIndex.cs:35
 #: ../src/stats/djQ.cs:35
 #: ../src/stats/graphs/djIndex.cs:77
@@ -881,26 +1009,32 @@ msgstr "ཊི་སི་"
 msgid "TF"
 msgstr "ཊི་ཨེཕ་"
 
-#: ../glade/chronojump.glade.h:195
+#: ../glade/chronojump.glade.h:219
+msgid "TF / TC"
+msgstr "ཊི་ཨེཕ་ / ཊི་སི་"
+
+#: ../glade/chronojump.glade.h:220
 msgid "This dialog explains wich ports are suitable to be connected with chronopic"
 msgstr "ཌའི་ལོག་འདི་གིས་ ཀོརོ་ནོ་པིག་ལུ་མཐུད་ནི་ཨིན་པའི་འོས་འབབ་ལྡན་པའི་འདྲེན་ལམ་ག་འདི་ཨིན་ན་ གསལ་བཤད་འབདཝ་ཨིན་"
 
-#: ../glade/chronojump.glade.h:196
-#: ../src/exportSession.cs:252
-#: ../src/exportSession.cs:314
+#: ../glade/chronojump.glade.h:221
+#: ../src/exportSession.cs:269
+#: ../src/exportSession.cs:331
 #: ../src/stats/graphs/rjPotencyBosco.cs:83
 #: ../src/stats/rjPotencyBosco.cs:37
 #: ../src/treeViewPulse.cs:47
-#: ../src/treeViewRun.cs:52
-#: ../src/treeViewRun.cs:99
+#: ../src/treeViewRun.cs:57
+#: ../src/treeViewRun.cs:113
+#: ../src/execute/reactionTime.cs:236
+#: ../src/treeViewReactionTime.cs:51
 msgid "Time"
 msgstr "ཆུ་ཚོད་"
 
-#: ../glade/chronojump.glade.h:197
+#: ../glade/chronojump.glade.h:222
 msgid "Totaltime"
 msgstr "དུས་ཚོད་བསྡོམས་"
 
-#: ../glade/chronojump.glade.h:198
+#: ../glade/chronojump.glade.h:223
 msgid ""
 "Track distance \n"
 "(between platforms)"
@@ -908,35 +1042,35 @@ msgstr ""
 "རྗེས་ལམ་གྱི་རིང་ཚད་ \n"
 "(གཞི་སྟེགས་ཀྱི་བར་ན་)"
 
-#: ../glade/chronojump.glade.h:200
-#: ../src/exportSession.cs:194
-#: ../src/exportSession.cs:312
-#: ../src/exportSession.cs:351
+#: ../glade/chronojump.glade.h:225
+#: ../src/exportSession.cs:211
+#: ../src/exportSession.cs:329
+#: ../src/exportSession.cs:368
 #: ../src/gui/report.cs:113
 msgid "Type"
 msgstr "དབྱེ་བ་"
 
 #. check if it's unlimited
 #. unlimited mark
-#: ../glade/chronojump.glade.h:201
-#: ../src/gui/jump.cs:1262
-#: ../src/gui/jump.cs:1305
-#: ../src/gui/jump.cs:1341
-#: ../src/gui/run.cs:1033
-#: ../src/gui/run.cs:1074
-#: ../src/gui/run.cs:1102
+#: ../glade/chronojump.glade.h:226
+#: ../src/gui/jump.cs:1273
+#: ../src/gui/jump.cs:1316
+#: ../src/gui/jump.cs:1352
+#: ../src/gui/run.cs:1046
+#: ../src/gui/run.cs:1087
+#: ../src/gui/run.cs:1115
 msgid "Unlimited"
 msgstr "ཚད་མེདཔ་"
 
-#: ../glade/chronojump.glade.h:202
+#: ../glade/chronojump.glade.h:227
 msgid "Update"
 msgstr "དུས་མཐུན་"
 
-#: ../glade/chronojump.glade.h:203
+#: ../glade/chronojump.glade.h:228
 msgid "Update stats"
 msgstr "དུས་མཐུན་སི་ཊེཊསི་"
 
-#: ../glade/chronojump.glade.h:204
+#: ../glade/chronojump.glade.h:229
 msgid ""
 "Use this window to add until 10 people.\n"
 "If you need more, just repeat the operation later."
@@ -944,163 +1078,191 @@ msgstr ""
 "མི་ ༡༠ མ་གང་ཚུན་ཚོད་ཁ་སྐོང་བརྐྱབ་ནི་གི་དོན་ལུ་ སྒོ་སྒྲིག་འདི་ལག་ལེན་འཐབ།\n"
 "ཧེང་བཀལ་དགོ་པ་ཅིན་ ཤུལ་ལས་བཀོལ་སྤྱོད་འདི་ཡང་བསྐྱར་འབད།"
 
-#: ../glade/chronojump.glade.h:206
+#: ../glade/chronojump.glade.h:231
+msgid "Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
+msgstr "ཨེམ་ཨེསི་ཨེགསི་སེལ་ཡང་ན་ཨོ་པཱན་ཨོ་ཕིསི་ཡང་ན་ཇི་ནུ་མེ་རིག་བཟུམ་མའི་ཤོག་ཁྲམ་གཅིག་ལུ་ཕྱིར་འདྲེན་འབད་ནི་ལུ་གལ་ཅན་ཡོདཔ་ཨིན།"
+
+#: ../glade/chronojump.glade.h:232
 msgid "_About"
 msgstr "སྐོར་ལས་(_A)"
 
-#: ../glade/chronojump.glade.h:207
+#: ../glade/chronojump.glade.h:233
 msgid "_Custom"
 msgstr "སྲོལ་སྒྲིག་(_C)"
 
-#: ../glade/chronojump.glade.h:208
+#: ../glade/chronojump.glade.h:234
 msgid "_Delete current person from this session"
 msgstr "ལཱ་ཡུན་འདི་ནང་ལས་ ད་ལྟོའི་གང་ཟག་འདི་བཏོན་གཏང་(_D)"
 
-#: ../glade/chronojump.glade.h:209
+#: ../glade/chronojump.glade.h:235
 msgid "_Delete session"
 msgstr "ལཱ་ཡུན་བཏོན་གཏང་(_D)"
 
-#: ../glade/chronojump.glade.h:210
+#: ../glade/chronojump.glade.h:236
 msgid "_Edit current person"
 msgstr "ད་ལྟོའི་གང་ཟག་འདི་ཞུན་དག་འབད་(_E)"
 
-#: ../glade/chronojump.glade.h:211
+#: ../glade/chronojump.glade.h:237
 msgid "_Edit session"
 msgstr "ལཱ་ཡུན་ཞུན་དག་འབད་(_E)"
 
-#: ../glade/chronojump.glade.h:212
+#: ../glade/chronojump.glade.h:238
 msgid "_File"
 msgstr "ཡིག་སྣོད་(_F)"
 
-#: ../glade/chronojump.glade.h:213
+#: ../glade/chronojump.glade.h:239
 msgid "_Help"
 msgstr "གྲོགས་རམ་(_H)"
 
-#: ../glade/chronojump.glade.h:214
+#: ../glade/chronojump.glade.h:240
 msgid "_Jump"
 msgstr "ཇམཔ་(_J)"
 
-#: ../glade/chronojump.glade.h:215
+#: ../glade/chronojump.glade.h:241
 msgid "_Load person"
 msgstr "གང་ཟག་མངོན་གསལ་འབད་(_L)"
 
-#: ../glade/chronojump.glade.h:216
+#: ../glade/chronojump.glade.h:242
 msgid "_Load session"
 msgstr "ལཱ་ཡུན་མངོན་གསལ་འབད་(_L)"
 
-#: ../glade/chronojump.glade.h:217
+#: ../glade/chronojump.glade.h:243
 msgid "_New person"
 msgstr "གང་ཟག་གསརཔ་(_N)"
 
-#: ../glade/chronojump.glade.h:218
+#: ../glade/chronojump.glade.h:244
 msgid "_New session"
 msgstr "ལཱ་ཡུན་གསརཔ་(_N)"
 
-#: ../glade/chronojump.glade.h:219
+#: ../glade/chronojump.glade.h:245
 msgid "_Person"
 msgstr "གང་ཟག་(_P)"
 
-#: ../glade/chronojump.glade.h:220
+#: ../glade/chronojump.glade.h:246
 msgid "_Preferences"
 msgstr "དགའ་གདམ་ཚུ་(_P)"
 
-#: ../glade/chronojump.glade.h:221
+#: ../glade/chronojump.glade.h:247
 msgid "_Quit"
 msgstr "སྤང་(_Q)"
 
-#: ../glade/chronojump.glade.h:222
+#: ../glade/chronojump.glade.h:248
 msgid "_Run"
 msgstr "གཡོག་བཀོལ་(_R)"
 
-#: ../glade/chronojump.glade.h:223
-msgid "_Show all events of current person"
-msgstr "ད་ལྟོའི་གང་ཟག་གི་བྱུང་ལས་ཚུ་ཆ་མཉམ་སྟོན་(_S)"
+#: ../glade/chronojump.glade.h:249
+msgid "_Show all tests of current person"
+msgstr "ད་ལྟོའི་གང་ཟག་གི་བརྟག་ཞིབ་ཚུ་ཆ་མཉམ་སྟོན་(_S)"
 
-#: ../glade/chronojump.glade.h:224
+#: ../glade/chronojump.glade.h:250
 msgid "_View"
 msgstr "སྟོན་(_V)"
 
-#: ../glade/chronojump.glade.h:225
+#: ../glade/chronojump.glade.h:251
+msgid "action"
+msgstr "བྱ་བ་"
+
+#: ../glade/chronojump.glade.h:252
 msgid "all"
 msgstr "ཆ་མཉམ་"
 
-#: ../glade/chronojump.glade.h:226
+#: ../glade/chronojump.glade.h:253
 msgid "always"
 msgstr "ཨ་རྟག་ར་"
 
-#: ../glade/chronojump.glade.h:227
+#: ../glade/chronojump.glade.h:254
+msgid "and show best TF / TC"
+msgstr "དང་ཊི་ཨེཕ་ / ཊི་སི་ལེགས་ཤོམ་སྟོན་"
+
+#: ../glade/chronojump.glade.h:255
+msgid "and show best time"
+msgstr "དང་དུས་ཚོད་ལེགས་ཤོམ་འདི་སྟོན་"
+
+#: ../glade/chronojump.glade.h:256
+msgid "and show worst TF / TC"
+msgstr "དང་ཊི་ཨེཕ་ /ཊི་སི་བྱང་ཉེས་འདི་སྟོན་"
+
+#: ../glade/chronojump.glade.h:257
+msgid "and show worst time"
+msgstr "དང་དུས་ཚོད་བྱང་ཉེས་འདི་སྟོན་"
+
+#: ../glade/chronojump.glade.h:258
 msgid "apply to"
 msgstr "འཇུག་སྤྱོད་འབད་"
 
-#: ../glade/chronojump.glade.h:228
+#: ../glade/chronojump.glade.h:259
 msgid "auto"
 msgstr "རང་བཞིན་"
 
-#: ../glade/chronojump.glade.h:229
+#: ../glade/chronojump.glade.h:260
 msgid "change"
 msgstr "འགྱུར་བ་"
 
-#: ../glade/chronojump.glade.h:230
+#: ../glade/chronojump.glade.h:261
+msgid "condition"
+msgstr "གནས་སྟངས་"
+
+#: ../glade/chronojump.glade.h:262
 msgid "current"
 msgstr "ད་ལྟོ་"
 
-#: ../glade/chronojump.glade.h:231
+#: ../glade/chronojump.glade.h:263
 msgid "current session data"
 msgstr "ད་ལྟོའི་ལཱ་ཡུན་གནད་སྡུད་"
 
-#: ../glade/chronojump.glade.h:232
+#: ../glade/chronojump.glade.h:264
 msgid "current session jumpers"
 msgstr "ད་ལྟོའི་ལཱ་ཡུན་མཆོང་མི་"
 
-#: ../glade/chronojump.glade.h:233
+#: ../glade/chronojump.glade.h:265
 msgid "define desired pulse step"
 msgstr "རེ་བ་བསྐྱེད་ཡོད་པའི་འཕར་རྩའི་རིམ་པ་ ངེས་འཛིན་འབད་"
 
-#: ../glade/chronojump.glade.h:234
+#: ../glade/chronojump.glade.h:266
 msgid "delete current session"
 msgstr "ད་ལྟོའི་ལཱ་ཡུན་བཏོན་གཏང་"
 
-#: ../glade/chronojump.glade.h:235
-msgid "delete last event"
-msgstr "མཇུག་གི་བྱུང་ལས་བཏོན་གཏང་"
+#: ../glade/chronojump.glade.h:267
+msgid "delete last test"
+msgstr "མཇུག་གི་བརྟག་ཞིབ་བཏོན་གཏང་"
 
-#: ../glade/chronojump.glade.h:236
+#: ../glade/chronojump.glade.h:268
 msgid "description"
 msgstr "འགྲེལ་བཤད་"
 
-#: ../glade/chronojump.glade.h:237
+#: ../glade/chronojump.glade.h:269
 msgid "developers"
 msgstr "བཟོ་མི་"
 
-#: ../glade/chronojump.glade.h:238
+#: ../glade/chronojump.glade.h:270
 msgid "female"
 msgstr "མོ་"
 
-#: ../glade/chronojump.glade.h:239
+#: ../glade/chronojump.glade.h:271
 msgid "fixed: "
 msgstr "གཏན་བཟོས་:"
 
-#: ../glade/chronojump.glade.h:240
+#: ../glade/chronojump.glade.h:272
 msgid "include subjumps"
 msgstr "ཡན་ལག་ཇམཔསི་ གྲངས་སུ་བཙུགས་"
 
-#: ../glade/chronojump.glade.h:241
+#: ../glade/chronojump.glade.h:273
 msgid "include subruns"
 msgstr "ཡན་ལག་གཡོག་བཀོལ་ཚུ་ གྲངས་སུ་བཙུགས་"
 
-#: ../glade/chronojump.glade.h:242
+#: ../glade/chronojump.glade.h:274
 msgid "intervallic"
 msgstr "ཨིན་ཊར་བེ་ལིག་"
 
-#: ../glade/chronojump.glade.h:243
+#: ../glade/chronojump.glade.h:275
 msgid "intervallic runs"
 msgstr "ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་"
 
-#: ../glade/chronojump.glade.h:244
+#: ../glade/chronojump.glade.h:276
 msgid "jump extra data"
 msgstr "ཇམཔ་གནད་སྡུད་ཐེབས་"
 
-#: ../glade/chronojump.glade.h:245
+#: ../glade/chronojump.glade.h:277
 msgid ""
 "jumper's\n"
 "average"
@@ -1108,7 +1270,7 @@ msgstr ""
 "མཆོང་མིའི་\n"
 "ཆ་སྙོམས་"
 
-#: ../glade/chronojump.glade.h:247
+#: ../glade/chronojump.glade.h:279
 msgid ""
 "jumper's\n"
 "bests"
@@ -1116,91 +1278,87 @@ msgstr ""
 "མཆོང་མིའི་\n"
 "དགའ་ཤོས་"
 
-#: ../glade/chronojump.glade.h:249
-#: ../src/gui/jump.cs:856
+#: ../glade/chronojump.glade.h:281
+#: ../src/gui/jump.cs:859
 #: ../src/stats/graphs/rjPotencyBosco.cs:119
 msgid "jumps"
 msgstr "ཇམཔསི་"
 
-#: ../glade/chronojump.glade.h:250
+#: ../glade/chronojump.glade.h:282
 msgid "last"
 msgstr "མཇུག་"
 
-#: ../glade/chronojump.glade.h:251
+#: ../glade/chronojump.glade.h:283
 msgid "limit"
 msgstr "ཚད་"
 
-#: ../glade/chronojump.glade.h:252
+#: ../glade/chronojump.glade.h:284
 msgid "male"
 msgstr "ཕོ་"
 
-#: ../glade/chronojump.glade.h:253
+#: ../glade/chronojump.glade.h:285
 msgid "man"
 msgstr "ཕོ་སྐྱེས་"
 
-#: ../glade/chronojump.glade.h:254
+#: ../glade/chronojump.glade.h:286
 msgid "mark best 'n' consecutives"
 msgstr "དྲག་ཤོས་དང་རིམ་མཐུད་གུ་རྟགས་བཀལ་"
 
-#: ../glade/chronojump.glade.h:255
+#: ../glade/chronojump.glade.h:287
 msgid "mark consecutives"
 msgstr "རིམ་མཐུད་ཚུ་གུ་རྟགས་བཀལ་"
 
-#: ../glade/chronojump.glade.h:256
+#: ../glade/chronojump.glade.h:288
 msgid "meters"
 msgstr "མི་ཊར་ཚུ་"
 
-#: ../glade/chronojump.glade.h:257
+#: ../glade/chronojump.glade.h:289
 msgid "more"
 msgstr "ལེ་ཤ་"
 
-#: ../glade/chronojump.glade.h:258
+#: ../glade/chronojump.glade.h:290
 msgid "no"
 msgstr "མེད་"
 
-#: ../glade/chronojump.glade.h:259
+#: ../glade/chronojump.glade.h:291
 msgid "none"
 msgstr "ཅི་མེད་"
 
-#: ../glade/chronojump.glade.h:260
+#: ../glade/chronojump.glade.h:292
 msgid "other"
 msgstr "གཞན་"
 
-#: ../glade/chronojump.glade.h:261
+#: ../glade/chronojump.glade.h:293
 msgid "ppm"
 msgstr "པི་པི་ཨེམ་"
 
-#: ../glade/chronojump.glade.h:262
+#: ../glade/chronojump.glade.h:294
 msgid "pulse extra data"
 msgstr "འཕར་རྩའི་གནད་སྡུད་ཐེབས་"
 
-#: ../glade/chronojump.glade.h:263
+#: ../glade/chronojump.glade.h:295
 msgid "reactive jumps"
 msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔསི་"
 
-#: ../glade/chronojump.glade.h:264
+#: ../glade/chronojump.glade.h:296
 msgid "repetitive"
 msgstr "ཡང་བསྐྱར་འབད་བཏུབ་"
 
-#: ../glade/chronojump.glade.h:265
+#: ../glade/chronojump.glade.h:297
 msgid "run extra data"
 msgstr "གནད་སྡུད་ཐེབས་གཡོག་བཀོལ་"
 
-#: ../glade/chronojump.glade.h:266
-msgid "run until \"finish\" button is clicked"
-msgstr "\"finish\"ཨེབ་རྟ་འདི་མ་ཨེབ་ཚུན་ཚོད་ གཡོག་བཀོལ་"
-
 #. update the totaltime label
-#: ../glade/chronojump.glade.h:267
-#: ../src/gui/jump.cs:496
-#: ../src/gui/jump.cs:577
-#: ../src/gui/jump.cs:601
-#: ../src/gui/jump.cs:727
-#: ../src/gui/jump.cs:857
-#: ../src/gui/run.cs:421
-#: ../src/gui/run.cs:488
-#: ../src/gui/run.cs:588
-#: ../src/gui/run.cs:713
+#: ../glade/chronojump.glade.h:298
+#: ../src/gui/jump.cs:499
+#: ../src/gui/jump.cs:580
+#: ../src/gui/jump.cs:604
+#: ../src/gui/jump.cs:730
+#: ../src/gui/jump.cs:860
+#: ../src/gui/run.cs:426
+#: ../src/gui/run.cs:493
+#: ../src/gui/run.cs:593
+#: ../src/gui/run.cs:718
 #: ../src/stats/graphs/djIndex.cs:106
 #: ../src/stats/graphs/djQ.cs:106
 #: ../src/stats/graphs/global.cs:95
@@ -1216,113 +1374,125 @@ msgstr "\"finish\"ཨེབ་རྟ་འདི་མ་ཨེབ་ཚུན�
 msgid "seconds"
 msgstr "དཀར་ཆ་ཚུ་"
 
-#: ../glade/chronojump.glade.h:268
+#: ../glade/chronojump.glade.h:299
 msgid "select"
 msgstr "སེལ་འཐུ་འབད་"
 
-#: ../glade/chronojump.glade.h:269
+#: ../glade/chronojump.glade.h:300
 msgid "select ->"
 msgstr "སེལ་འཐུ་འབད་ ->"
 
-#: ../glade/chronojump.glade.h:270
+#: ../glade/chronojump.glade.h:301
 msgid "selected"
 msgstr "སེལ་འཐུ་འབད་ཡོདཔ་"
 
-#: ../glade/chronojump.glade.h:271
+#: ../glade/chronojump.glade.h:302
 msgid "session"
 msgstr "ལཱ་ཡུན་"
 
-#: ../glade/chronojump.glade.h:272
-msgid "show all events of this person"
-msgstr "གངཟག་འདི་གི་བྱུང་ལས་ཚུ་ཆ་མཉམ་སྟོན་"
+#: ../glade/chronojump.glade.h:303
+msgid "show all tests of this person"
+msgstr "གངཟག་འདི་གི་བརྟག་ཞིབ་ཚུ་ཆ་མཉམ་སྟོན་"
 
-#: ../glade/chronojump.glade.h:273
+#: ../glade/chronojump.glade.h:304
 msgid "show jumps"
 msgstr "ཇམཔསི་སྟོན་"
 
-#: ../glade/chronojump.glade.h:274
+#: ../glade/chronojump.glade.h:305
 msgid "show only persons in current session"
 msgstr "ད་ལྟོའི་ལཱ་ཡུན་ནང་ གང་ཟག་རྐྱངམ་ཅིག་སྟོན་"
 
-#: ../glade/chronojump.glade.h:275
+#: ../glade/chronojump.glade.h:306
 msgid "show sex"
 msgstr "མཚན་མ་སྟོན་"
 
-#: ../glade/chronojump.glade.h:276
+#: ../glade/chronojump.glade.h:307
 msgid "show..."
 msgstr "སྟོན་་་་་་"
 
-#: ../glade/chronojump.glade.h:277
+#: ../glade/chronojump.glade.h:308
 msgid "simple"
 msgstr "འཇམ་སམ་"
 
-#: ../glade/chronojump.glade.h:278
+#: ../glade/chronojump.glade.h:309
 msgid "simple jumps"
 msgstr "འཇམ་སམ་གྱི་ཇམཔསི་"
 
-#: ../glade/chronojump.glade.h:279
+#: ../glade/chronojump.glade.h:310
 msgid "simple runs"
 msgstr "འཇམ་སམ་གཡོག་བཀོལ་"
 
-#: ../glade/chronojump.glade.h:280
+#: ../glade/chronojump.glade.h:311
 msgid "sort by creation date"
 msgstr "གསར་བསྐྲུན་ཚེས་གྲངས་ཀྱིས་དབྱེ་སེལ་འབད་ནི་"
 
-#: ../glade/chronojump.glade.h:281
+#: ../glade/chronojump.glade.h:312
 msgid "start managing pulses freely"
 msgstr "འཛིན་སྐྱོང་འཕར་རྩ་ཚུ་སྟོང་མར་ འགོ་བཙུགས་"
 
-#: ../glade/chronojump.glade.h:282
+#: ../glade/chronojump.glade.h:313
 msgid "statistic's description"
 msgstr "ཚད་རྩིས་ཀྱི་འགྲེལ་བཤད་"
 
-#: ../glade/chronojump.glade.h:283
-#: ../src/execute/run.cs:279
+#: ../glade/chronojump.glade.h:314
+msgid "test \"bad\" bell"
+msgstr "བརྟག་ཞིབ་ \"bad\" དྲིལ་བརྡ་"
+
+#: ../glade/chronojump.glade.h:315
+msgid "test \"good\" bell"
+msgstr "བརྟག་ཞིབ་ \"good\" དྲིལ་བརྡ་"
+
+#: ../glade/chronojump.glade.h:316
+msgid "test!"
+msgstr "བརྟག་ཞིབ!"
+
+#: ../glade/chronojump.glade.h:317
+#: ../src/execute/run.cs:291
 msgid "time"
 msgstr "ཆུ་ཚོད་"
 
-#: ../glade/chronojump.glade.h:284
+#: ../glade/chronojump.glade.h:318
 msgid "total pulses"
 msgstr "འཕར་རྩ་བསྡོམས་"
 
-#: ../glade/chronojump.glade.h:285
-#: ../src/gui/run.cs:712
+#: ../glade/chronojump.glade.h:319
+#: ../src/gui/run.cs:717
 msgid "tracks"
 msgstr "རྗེས་ལམ་"
 
-#: ../glade/chronojump.glade.h:286
+#: ../glade/chronojump.glade.h:320
 msgid "translators"
 msgstr "སྐད་སྒྱུར་པ་"
 
-#: ../glade/chronojump.glade.h:287
+#: ../glade/chronojump.glade.h:321
 msgid "type / subtype"
 msgstr "དབྱེ་བ་/ཡན་ལག་དབྱེ་བ་"
 
-#: ../glade/chronojump.glade.h:288
+#: ../glade/chronojump.glade.h:322
 msgid "unlimited"
 msgstr "ཚད་མེདཔ་"
 
-#: ../glade/chronojump.glade.h:289
+#: ../glade/chronojump.glade.h:323
 msgid "unlimited pulses"
 msgstr "ཚད་མེད་པའི་འཕར་རྩ་"
 
-#: ../glade/chronojump.glade.h:290
+#: ../glade/chronojump.glade.h:324
 msgid "unselected"
 msgstr "སེལ་འཐུ་མ་འབདཝ་"
 
-#: ../glade/chronojump.glade.h:291
+#: ../glade/chronojump.glade.h:325
 msgid "value"
 msgstr "བེ་ལུ་"
 
-#: ../glade/chronojump.glade.h:292
+#: ../glade/chronojump.glade.h:326
 msgid "version"
 msgstr "ཐོན་རིམ་"
 
-#: ../glade/chronojump.glade.h:293
+#: ../glade/chronojump.glade.h:327
 msgid "woman"
 msgstr "ཨམ་སྲུ་"
 
-#: ../glade/chronojump.glade.h:294
+#: ../glade/chronojump.glade.h:328
 msgid "yes"
 msgstr "ཨིན་"
 
@@ -1370,44 +1540,44 @@ msgstr "གྲ་གྲིགས་འབད་ཡོད་པའི་ཚེ་
 msgid "Press CTRL-c for ending session"
 msgstr "ལཱ་ཡུན་མཇུག་བསྡུ་ནི་གི་དོན་ལུ་ཚད་འཛིན་-སི་ལུ་ཨེབས་"
 
-#: ../src/chronojump.cs:303
+#: ../src/chronojump.cs:337
 msgid "no tables, creating ..."
 msgstr "ཐིག་ཁྲམ་མེད་ གསར་བསྐྲུན་འབད་དོ་་་་་"
 
-#: ../src/chronojump.cs:308
+#: ../src/chronojump.cs:344
 msgid "tables already created"
 msgstr "ཐིག་ཁྲམ་ཚུ་ཧེ་མ་ལས་གསར་བསྐྲུན་འབད་ཡོདཔ་"
 
-#: ../src/chronojump.cs:383
+#: ../src/chronojump.cs:476
 msgid "Ready."
 msgstr "གྲ་སྒྲིག"
 
-#: ../src/chronojump.cs:389
+#: ../src/chronojump.cs:484
 msgid "Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"
 msgstr "མཚུངས་བཟོས་ཐབས་ལམ་ནང་ལུ་ ཀོརོ་ནོ་ཇམཔ་འགོ་བཙུག་དོ་ བྱུང་ལས་སྐྱོན་འཛིན་ངོ་མའི་དོན་ལུ་ གཞི་སྟེགས་འདི་ 'Chronopic' ལུ་བསྒྱུར་བཅོས་འབད་"
 
-#: ../src/chronojump.cs:397
+#: ../src/chronojump.cs:530
 msgid "starting connection with chronopic"
 msgstr "ཀོརོ་ནོ་པིག་དང་གཅིག་ཁར་མཐུད་ལམ་འགོ་བཙུགས་དོ་"
 
-#: ../src/chronojump.cs:398
+#: ../src/chronojump.cs:531
 msgid "if program crashes, write to xavi@xdeblas.com"
 msgstr "ལས་རིམ་བརྡབ་འཁྲུག་ནང་ལུ་ xavi@xdeblas.com ལུ་བྲིས་"
 
-#: ../src/chronojump.cs:399
+#: ../src/chronojump.cs:532
 msgid "If you have previously used the modem via a serial port (in a linux session, and you selected serial port), chronojump will crash."
 msgstr "ཁྱོད་ཀྱིས་ ཧེ་མ་ལས་ཨང་རིམ་འདྲེན་ལམ་(ལི་ནགསི་ལཱ་ཡུན་ཅིག་ནང་ ཨང་རིམ་འདྲེན་ལམ་སེལ་འཐུ་འབད་ཡོདཔ་)ཅིག་ལས་བརྒྱུད་དེ་ མོ་ཌེམ་ལག་ལེན་འཐབ་ཡོད་པ་ཅིན་ ཀོརོ་པོ་ཇམཔ་བརྡབ་འཁྲུག་འབད་འོང་།"
 
-#: ../src/chronojump.cs:432
+#: ../src/chronojump.cs:565
 #, csharp-format
 msgid "Connected to Chronopic on port: {0}"
 msgstr "འདྲེན་ལམ་གུ་ ཀོརོ་ནོ་པིག་ལིུ་མཐུད་ཡོདཔ་: {0}"
 
-#: ../src/chronojump.cs:436
+#: ../src/chronojump.cs:569
 msgid "Problems communicating to chronopic, changed platform to 'Simulated'"
 msgstr "ཀོརོ་ནོ་པིག་ལུ་བརྒྱུད་འབྲེལ་འཐབ་པའི་སྐབས་ལུ་དཀའ་ངལ་བྱུངམ་ལས་ གཞི་སྟེགས་འདི་ 'Simulated'ལུ་བསྒྱུར་བཅོས་འབད་ཡོདཔ་"
 
-#: ../src/chronojump.cs:438
+#: ../src/chronojump.cs:571
 msgid ""
 "\n"
 "\n"
@@ -1417,184 +1587,221 @@ msgstr ""
 "\n"
 "ང་བཅས་ཀྱིས་ སྒོ་སྒྲིག་གུ་ལུ་ ཨ་རྟག་ར་འདྲེན་ལམ་བརྟག་དཔྱད་འཐུས་ཤོར་འབྱུང་བའི་ཤུལ་མ་ ཁ་ཕྱེ་/ཁ་བསྡམ་ནིའི་འོས་སྦྱོར་འབདཝ་ཨིན།"
 
-#: ../src/chronojump.cs:453
+#: ../src/chronojump.cs:586
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "ཀོརོ་ནོ་ཇམཔ་གནད་སྡུད་གཞི་རྟེན་གྱི་ཐོན་རིམ་ཡིག་སྣོད་: {0}"
 
-#: ../src/chronojump.cs:542
+#: ../src/chronojump.cs:675
 msgid "Preferences loaded"
 msgstr "དགའ་གདམ་ཚུ་མངོན་གསལ་འབད་ཡོདཔ་"
 
-#: ../src/chronojump.cs:1180
+#: ../src/chronojump.cs:1365
 msgid "Are you sure you want to delete the current session"
 msgstr "ཁྱོད་ཀྱིས་ ད་ལྟོའི་ལཱ་ཡུན་དང་"
 
-#: ../src/chronojump.cs:1180
-msgid "and all the session events?"
-msgstr "ལཱ་ཡུན་བྱུང་ལས་ཚུ་ཆ་མཉམ་བཏོན་གཏང་ནི་ཨིན་ན་?"
+#: ../src/chronojump.cs:1365
+msgid "and all the session tests?"
+msgstr "ལཱ་ཡུན་བརྟག་ཞིབ་ཚུ་ཆ་མཉམ?"
 
-#: ../src/chronojump.cs:1186
-msgid "Deleted session and all its events"
-msgstr "བཏོན་བཏང་ཡོད་པའི་ལཱ་ཡུན་དང་དེ་གི་བྱུང་ལས་ཚུ་"
+#: ../src/chronojump.cs:1371
+msgid "Deleted session and all its tests"
+msgstr "བཏོན་བཏང་ཡོད་པའི་ལཱ་ཡུན་དང་དེ་གི་བརྟག་ཞིབ་ཚུ་"
 
-#: ../src/chronojump.cs:1266
+#: ../src/chronojump.cs:1451
 msgid "Successfully added"
 msgstr "མཐར་འཁྱོལ་ཅན་སྦེ་ཁ་སྐོང་བརྐྱབས་ཡོདཔ་"
 
 #. more inserted
-#: ../src/chronojump.cs:1289
-#: ../src/gui/person.cs:520
+#: ../src/chronojump.cs:1474
+#: ../src/gui/person.cs:521
 #, csharp-format
 msgid "Successfully added {0} persons"
 msgstr "མཐར་འཁྱོལ་ཅན་སྦེ་ཁ་སྐོང་བརྐྱབས་ཡོད་པའི་ {0} གང་ཟག་ཚུ་"
 
-#: ../src/chronojump.cs:1338
+#: ../src/chronojump.cs:1523
 msgid ""
-"Are you sure you want to delete the current person and all his/her events (jumps, runs, pulses) from this session?\n"
-"(His/her personal data and events in other sessions will remain intact)"
+"Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n"
+"(His/her personal data and tests in other sessions will remain intact)"
 msgstr ""
-"ཁྱོད་ཀྱིས་ ད་ལྟོའི་གང་ཟག་དང་ཁོ/མོ་གི་བྱུང་ལས་(ཇམཔསི་ གཡོག་བཀོལ་ འཕར་རྩ་)ཚུ་ཆ་མཉམ་ལཱ་ཡུན་འདི་ནང་ལས་བཏོན་གཏང་ནི་ཨིན་ན་?\n"
-"(ལཱ་ཡུན་སོར་སོའི་ནང་ལུ་ ཁོ་/མོ་གི་རང་དོན་གནད་སྡུད་དང་བྱུང་ལས་ཚུ་ མ་དཀྲོགས་པར་སྡོད་འོང་)"
+"ཁྱོད་ཀྱིས་ ད་ལྟོའི་གང་ཟག་དང་ཁོ/མོ་གི་བརྟག་ཞིབ་(ཇམཔསི་ གཡོག་བཀོལ་ འཕར་རྩ་) ཚུ་ཆ་མཉམ་ལཱ་ཡུན་འདི་ནང་ལས་བཏོན་གཏང་ནི་ཨིན་ན?\n"
+"(ལཱ་ཡུན་སོར་སོའི་ནང་ལུ་ ཁོ་/མོ་གི་རང་དོན་གནད་སྡུད་དང་བརྟག་ཞིབ་ཚུ་ མ་དཀྲོགས་པར་སྡོད་འོང་)"
 
-#: ../src/chronojump.cs:1339
+#: ../src/chronojump.cs:1524
 msgid "Current Person: "
 msgstr "ད་ལྟོའི་གང་ཟག་:"
 
-#: ../src/chronojump.cs:1346
-msgid "Deleted person and all his/her events on this session"
-msgstr "ལཱ་ཡུན་འདི་གི་ཐོག་ཁར་ བཏོན་བཏང་ཡོད་པའི་གང་ཟག་དང་ ཁོ་/མོ་གི་བྱུང་ལས་ཚུ་ཆ་མཉམ་"
+#: ../src/chronojump.cs:1531
+msgid "Deleted person and all his/her tests on this session"
+msgstr "ལཱ་ཡུན་འདི་གི་ཐོག་ཁར་ བཏོན་བཏང་ཡོད་པའི་གང་ཟག་དང་ ཁོ་/མོ་གི་བརྟག་ཞིབ་ཚུ་ཆ་མཉམ་"
 
-#: ../src/chronojump.cs:1433
+#: ../src/chronojump.cs:1609
+msgid "Changed to simulated mode"
+msgstr "མཚུངས་བཟོ་ཡོད་པའི་ཐབས་ལམ་ལུ་བསྒྱུར་བཅོས་འབད་"
+
+#. done also in linux because mono-1.2.3 throws an exception when there's a timeout
+#. http://bugzilla.gnome.org/show_bug.cgi?id=420520
+#. ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **: generate a event with the platform or with chronopic.\nIf you don't do it, Chronojump will crash.\n"), Catalog.GetString("If it crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port in the preferences window"));
+#: ../src/chronojump.cs:1620
+msgid "** Attention **: Chronojump will wait until you generate a event with the platform or with chronopic."
+msgstr "**  དྲན་བཏོན་ **: གཞི་སྟེགས་ ཡང་ན་ ཀོརོ་ནོ་པིག་དང་གཅིག་ཁར་མཉེན་རིམ་ཡང་ན་  བྱུང་ལས་ཅིག་བཟོ་བཏོན་དེ་མ་འབད་བ་ཅིན་ ཀོརོ་ནོ་ཇམཔ་འདི་བརྡབ་འཁྲུག་འབྱུང་འོང་།"
+
+#: ../src/chronojump.cs:1791
 msgid ""
-"** Attention **: generate a event with the platform or with chronopic.\n"
-"If you don't do it, Chronojump will crash.\n"
+"Please, touch the contact platform for full cancelling.\n"
+"Then press button\n"
 msgstr ""
-"** དྲན་བཏོན་ **: གཞི་སྟེགས་ ཡང་ན་ ཀོརོ་ནོ་པིག་དང་གཅིག་ཁར་བྱུང་ལས་ཅིག་ བཟོ་བཏོན་འབད། \n"
-"དེ་མ་འབད་བ་ཅིན་ ཀོརོ་ནོ་ཇམཔ་འདི་བརྡབ་འཁྲུག་འབྱུང་འོང་།\n"
+"ཆ་མེད་ཧྲིལ་བུ་གི་དོན་ལུ་འབྲེལ་བའི་མཉེན་རིམ་འདི་བཟུང་གནང་། \n"
+"དེ་ལས་ཨེབ་རྟ་ཨེབ་གཏང་འབད།\n"
 
-#: ../src/chronojump.cs:1433
-msgid "If it crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port in the preferences window"
-msgstr "བརྡབ་འཁྲུག་འབྱུང་པ་ཅིན་ ཁ་བསྡམ་ཞིནམ་ལས་ལོག་ཁ་ཕྱེ་ དེ་སྦེ་འབད་བ་ཅིན་ ཀོརོ་ནོ་ཇམཔ་འདི་ མཚུངས་པ་བཟོ་ཡོདཔ་བཟུམ་སྦེ་རིམ་སྒྲིག་འབད་འོང་ དེ་ལས་ཁྱོད་ཀྱིས་ དགའ་གདམ་སྒོ་སྒྲིག་ནང་ལུ་ འདྲེན་ལམ་སོར་ཚུགས་"
+#: ../src/chronojump.cs:1815
+msgid ""
+"Please, touch the contact platform for full finishing.\n"
+"Then press button\n"
+msgstr ""
+"ཆ་ཚང་མཇུག་བསྡུ་ནི་ལུ་ མཉེན་རིམ་འབྲེལ་བ་འདི་བཟུང་གནང་།\n"
+"དེ་ལས་ཨེབ་རྟ་ཨེབ་གཏང་འབད\n"
 
-#: ../src/chronojump.cs:1720
+#: ../src/chronojump.cs:1936
 msgid "Execute Jump"
 msgstr "ཇམཔ་ གཡོག་བཀོལ་"
 
 #. windowTitle
-#: ../src/chronojump.cs:1721
-#: ../src/chronojump.cs:2097
+#: ../src/chronojump.cs:1937
+#: ../src/chronojump.cs:2289
+#: ../src/chronojump.cs:2575
 msgid "Phases"
 msgstr "གོ་རིམ་"
 
-#: ../src/chronojump.cs:1780
-msgid "Cannot update. Probably this event was deleted."
-msgstr "དུས་མཐུན་བཟོ་མི་ཚུགས། བྱུང་ལས་འདི་བཏོན་བཏང་ཡོདཔ།"
-
-#: ../src/chronojump.cs:1915
+#: ../src/chronojump.cs:2100
 msgid "Execute Reactive Jump"
 msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ ལག་ལེན་འཐབ་"
 
 #. windowTitle
-#: ../src/chronojump.cs:1916
-#: ../src/exportSession.cs:251
-#: ../src/gui/jump.cs:1265
-#: ../src/gui/jump.cs:1312
-#: ../src/gui/jump.cs:1348
+#: ../src/chronojump.cs:2101
+#: ../src/exportSession.cs:268
+#: ../src/gui/jump.cs:1276
+#: ../src/gui/jump.cs:1323
+#: ../src/gui/jump.cs:1359
 #: ../src/stats/graphs/rjPotencyBosco.cs:82
 #: ../src/stats/rjPotencyBosco.cs:36
 msgid "Jumps"
 msgstr "ཇམཔསི་"
 
-#: ../src/chronojump.cs:2096
+#: ../src/chronojump.cs:2288
 msgid "Execute Run"
 msgstr "གཡོག་བཀོལ་ལག་ལེན་འཐབ་"
 
-#: ../src/chronojump.cs:2249
+#: ../src/chronojump.cs:2455
 msgid "Execute Intervallic Run"
 msgstr "ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་ ལག་ལེན་འཐབ་"
 
 #. windowTitle
-#: ../src/chronojump.cs:2250
-#: ../src/exportSession.cs:356
-#: ../src/gui/run.cs:1036
-#: ../src/gui/run.cs:1078
-#: ../src/gui/run.cs:1106
+#: ../src/chronojump.cs:2456
+#: ../src/exportSession.cs:373
+#: ../src/gui/run.cs:1049
+#: ../src/gui/run.cs:1091
+#: ../src/gui/run.cs:1119
 msgid "Tracks"
 msgstr "རྗེས་འཚོལ་"
 
-#: ../src/chronojump.cs:2406
+#: ../src/chronojump.cs:2574
+msgid "Execute Reaction Time"
+msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་དུས་ཚོད་ལག་ལེན་འཐབ་"
+
+#: ../src/chronojump.cs:2663
+msgid "Cannot update. Probably this test was deleted."
+msgstr "དུས་མཐུན་བཟོ་མི་ཚུགས། བརྟག་ཞིབ་འདི་བཏོན་བཏང་ཡོདཔ།"
+
+#: ../src/chronojump.cs:2757
 msgid "Execute Pulse"
 msgstr "འཕར་རྩ་ལག་ལེན་འཐབ་"
 
 #. windowTitle
-#: ../src/chronojump.cs:2407
-#: ../src/gui/session.cs:358
+#: ../src/chronojump.cs:2758
+#: ../src/gui/person.cs:1224
+#: ../src/gui/session.cs:359
 msgid "Pulses"
 msgstr "འཕར་རྩ་"
 
-#: ../src/chronojump.cs:2501
-#: ../src/chronojump.cs:2713
-msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
-msgstr "ད"
-
-#: ../src/chronojump.cs:2508
-msgid "Do you want to delete last jump?"
-msgstr "མཇུག་གི་ཇམཔ་འདི་ བཏོན་གཏང་ནི་ཨིན་ན་?"
-
-#: ../src/chronojump.cs:2520
-msgid "Attention: Deleting a intervalic sub-run will delete the whole run"
-msgstr "དྲནམ་བཏོན་: ཨིན་ཊར་བེ་ལིག་ ཡན་ལག་-གཡོག་བཀོལ་ཅིག་གྱིས་ གཡོག་བཀོལ་ཧྲིལ་བུ་བཏོན་གཏངམ་ཨིན་"
-
-#: ../src/chronojump.cs:2527
-msgid "Do you want to delete last run?"
-msgstr "མཇུག་གི་གཡོག་བཀོལ་འདི་བཏོན་གཏང་ཨིན་ན་?"
-
-#: ../src/chronojump.cs:2539
-msgid "Do you want to delete last pulse?"
-msgstr "མཇུག་གི་འཕར་་རྩ་འདི་བཏོན་གཏང་ནི་ཨིན་ན་?"
-
-#: ../src/chronojump.cs:2561
-msgid "Last jump deleted"
-msgstr "མཇུག་གི་ཇམཔ་འདི་བཏོན་བཏང་ཡི་"
-
-#: ../src/chronojump.cs:2581
-msgid "Last run deleted"
-msgstr "མཇུག་གི་གཡོག་བཀོལ་འདི་བཏོན་བཏང་ཡི་"
-
-#: ../src/chronojump.cs:2597
-msgid "Last pulse deleted"
-msgstr "མཇུག་གི་འཕར་་རྩ་འདི་བཏོན་བཏང་ཡི་"
-
-#: ../src/chronojump.cs:2712
+#: ../src/chronojump.cs:3036
 msgid "Do you want to delete selected jump?"
 msgstr "ཁྱོད་ཀྱིས་ སེལ་འཐུ་འབད་ཡོད་པའི་ཇམཔ་འདི་བཏོང་གཏང་ནི་ཨིན་ན་?"
 
-#: ../src/chronojump.cs:2727
-msgid "Deleted jump: "
-msgstr "ཇམཔ་བཏོན་གཏང་:"
+#: ../src/chronojump.cs:3037
+#: ../src/chronojump.cs:3216
+msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
+msgstr "ད"
 
-#: ../src/chronojump.cs:2740
-msgid "Deleted reactive jump: "
-msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ བཏོན་བཏང་ཡོདཔ་:"
+#: ../src/chronojump.cs:3051
+msgid "Deleted jump"
+msgstr "ཇམཔ་བཏོན་གཏང་"
 
-#: ../src/chronojump.cs:2874
+#: ../src/chronojump.cs:3064
+msgid "Deleted reactive jump"
+msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ བཏོན་བཏང་ཡོདཔ་"
+
+#: ../src/chronojump.cs:3099
 msgid "Do you want to delete selected run?"
 msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་གཡོག་བཀོལ་འདི་བཏོན་གཏང་ནི་ཨིན་ན་?"
 
-#: ../src/chronojump.cs:2875
+#: ../src/chronojump.cs:3100
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "དྲན་པ་བཏོན་: ཨིན་ཊར་བེ་ལིག་ཡན་ལག་གཡོག་བཀོལ་ཅིག་བཏོན་གཏང་མི་གིས་ གཡོག་བཀོལ་ཧྲིལ་བུ་བཏོན་གཏངམ་ཨིན་"
 
-#: ../src/chronojump.cs:2889
-msgid "Deleted run: "
-msgstr "བཏོན་བཏང་ཡོད་པའི་གཡོག་བཀོལ་:"
+#: ../src/chronojump.cs:3114
+msgid "Deleted selected run"
+msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་གཡོག་བཀོལ་འདི་བཏོན་གཏང་"
 
-#: ../src/chronojump.cs:2903
-msgid "Deleted intervallic run: "
-msgstr "བཏོན་བཏང་ཡོད་པའི་ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་:"
+#: ../src/chronojump.cs:3128
+msgid "Deleted intervallic run"
+msgstr "བཏོན་བཏང་ཡོད་པའི་ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་"
 
-#: ../src/chronojump.cs:3058
+#: ../src/chronojump.cs:3161
+msgid "Deleted reaction time"
+msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ བཏོན་བཏང་ཡོདཔ་"
+
+#: ../src/chronojump.cs:3195
+msgid "Deleted pulse"
+msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་འཕར་རྩ་འདི་བཏོན་གཏང་ཡོདཔ་"
+
+#: ../src/chronojump.cs:3223
+msgid "Do you want to delete last jump?"
+msgstr "མཇུག་གི་ཇམཔ་འདི་ བཏོན་གཏང་ནི་ཨིན་ན་?"
+
+#: ../src/chronojump.cs:3235
+msgid "Attention: Deleting a intervalic sub-run will delete the whole run"
+msgstr "དྲནམ་བཏོན་: ཨིན་ཊར་བེ་ལིག་ ཡན་ལག་-གཡོག་བཀོལ་ཅིག་གྱིས་ གཡོག་བཀོལ་ཧྲིལ་བུ་བཏོན་གཏངམ་ཨིན་"
+
+#: ../src/chronojump.cs:3242
+msgid "Do you want to delete last run?"
+msgstr "མཇུག་གི་གཡོག་བཀོལ་འདི་བཏོན་གཏང་ཨིན་ན་?"
+
+#: ../src/chronojump.cs:3254
+msgid "Do you want to delete last reaction time?"
+msgstr "ཁྱོད་ཀྱིས་མཇུག་གི་གཡོག་བཀོལ་འདི་བཏོན་གཏང་ཨིན་ན་?"
+
+#: ../src/chronojump.cs:3266
+msgid "Do you want to delete last pulse?"
+msgstr "མཇུག་གི་འཕར་་རྩ་འདི་བཏོན་གཏང་ནི་ཨིན་ན་?"
+
+#: ../src/chronojump.cs:3288
+msgid "Last jump deleted"
+msgstr "མཇུག་གི་ཇམཔ་འདི་བཏོན་བཏང་ཡི་"
+
+#: ../src/chronojump.cs:3308
+msgid "Last run deleted"
+msgstr "མཇུག་གི་གཡོག་བཀོལ་འདི་བཏོན་བཏང་ཡི་"
+
+#: ../src/chronojump.cs:3324
+msgid "Last reaction time deleted"
+msgstr "མཇུག་གི་གཡོག་བཀོལ་འདི་བཏོན་བཏང་ཡོདཔ་"
+
+#: ../src/chronojump.cs:3340
+msgid "Last pulse deleted"
+msgstr "མཇུག་གི་འཕར་་རྩ་འདི་བཏོན་བཏང་ཡི་"
+
+#: ../src/chronojump.cs:3511
 msgid "translator-credits"
 msgstr "སྐད་སྒྱུར་་པའི་ངོ་བསྟོད་"
 
@@ -1630,148 +1837,153 @@ msgstr "གཡོག་བཀོལ་ཆ་མཉམ་"
 msgid "All pulses"
 msgstr "འཕར་རྩ་ཆ་མཉམ་"
 
-#: ../src/constants.cs:54
+#: ../src/constants.cs:73
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "སྒོ་སྒྲིག་གུ་ལུ་དབྱེ་བ་ཅན་གྱི་ཨང་རིམ་དང་ཡུ་ཨེསི་བི་-ཨང་རིམ་འདྲེན་ལམ་:"
 
-#: ../src/constants.cs:56
+#: ../src/constants.cs:75
 msgid "Also, these are possible:"
 msgstr "དེ་མ་ཚད་ དེ་ཚུ་ཡང་འབད་ཚུགས་:"
 
-#: ../src/constants.cs:60
+#: ../src/constants.cs:79
 msgid "Typical serial serial ports on GNU/Linux:"
 msgstr "ཇི་ཨེན་ཡུ་/ལི་ནགསི་གུ་ལུ་ དབྱེ་བ་ཅན་གྱི་ཨང་རིམ་འདྲེན་ལམ་:"
 
-#: ../src/constants.cs:62
+#: ../src/constants.cs:81
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "ཇི་ཨེན་ཡུ་/ལི་ནགསི་གུ་ལུ་ དབྱེ་བ་ཅན་གྱི་ཡུ་ཨེསི་བི་-ཨང་རིམ་འདྲེན་ལམ་:"
 
-#: ../src/execute/jump.cs:121
-#: ../src/execute/jump.cs:496
+#: ../src/execute/jump.cs:122
+#: ../src/execute/jump.cs:516
 msgid "You are IN, JUMP when prepared!!"
 msgstr "ཁྱོད་ནང་ན་འདུག་ གྲ་སྒྲིག་འབད་ཡོད་པའི་ཚེ་མཆོང་!!"
 
-#: ../src/execute/jump.cs:142
+#: ../src/execute/jump.cs:145
+#: ../src/execute/reactionTime.cs:123
 msgid "You are OUT, come inside and press the 'accept' button"
 msgstr "ཁྱོད་ཕྱི་ཁ་ཨིན་པས་ ནང་ན་འོང་ཞིནམ་ལས་ 'accept'ཨེབ་རྟ་འདི་ཨེབས་"
 
-#: ../src/execute/jump.cs:161
-#: ../src/execute/jump.cs:493
+#: ../src/execute/jump.cs:166
+#: ../src/execute/jump.cs:512
 msgid "You are OUT, JUMP when prepared!!"
 msgstr "ཁྱོད་ཕྱི་ཁར་ཨིན་པས་ གྲ་སྒྲིག་འབད་བའི་ཚེ་མཆོང་!!"
 
-#: ../src/execute/jump.cs:184
-#: ../src/execute/jump.cs:499
+#: ../src/execute/jump.cs:193
+#: ../src/execute/jump.cs:520
 msgid "You are IN, please leave the platform, and press the 'accept' button"
 msgstr "ཁྱོད་ནང་ན་ཨིན་པས་ གཞི་སྟེགས་འདི་བཞག་ཞིནམ་ལས་ 'accept'ཨེབ་རྟ་འདི་ཨེབས་"
 
-#: ../src/execute/jump.cs:501
+#: ../src/execute/jump.cs:522
 msgid "You are OUT, please enter the platform, prepare for jump and press the 'accept' button"
 msgstr "ཁྱོད་ཕྱི་ཁར་ཨིན་པས་ གཞི་སྟེགས་འདི་བཙུགས་ཞིནམ་ལས་ མཆོང་ནི་གི་དོན་ལུ་གྲ་སྒྲིག་འབད་ དེ་ལས་ 'accept'ཨེབ་རྟ་འདི་ཨེབས་"
 
-#: ../src/execute/jump.cs:844
+#: ../src/execute/jump.cs:907
 msgid "AVG TF"
 msgstr "ཨེ་བི་ཇི་ ཊི་ཨེཕ་"
 
-#: ../src/execute/jump.cs:845
+#: ../src/execute/jump.cs:908
 msgid "AVG TC"
 msgstr "ཨེ་བི་ཇི་ ཊི་ཨེཕ་"
 
-#: ../src/execute/run.cs:109
+#: ../src/execute/run.cs:113
 msgid "You are IN, RUN when prepared!!"
 msgstr "ཁྱོད་ནང་ན་ཨིན་པས་ གྲ་སྒྲིག་འབད་ཡོད་པའི་ཚེ་གཡོག་བཀོལ་!!"
 
-#: ../src/execute/run.cs:115
+#: ../src/execute/run.cs:120
 msgid "You are OUT, RUN when prepared!!"
 msgstr "ཁྱོད་ཕྱི་ཁར་ཨིན་པས་ གྲ་སྒྲིག་འབད་བའི་ཚེ་གཡོག་བཀོལ་!!"
 
-#: ../src/execute/run.cs:278
-#: ../src/execute/run.cs:671
+#: ../src/execute/run.cs:290
+#: ../src/execute/run.cs:744
 msgid "Last run"
 msgstr "གཡོག་བཀོལ་མཇུག་"
 
-#: ../src/execute/run.cs:280
+#: ../src/execute/run.cs:292
 msgid "speed"
 msgstr "མགྱོགས་ཚད་"
 
-#: ../src/execute/run.cs:673
+#: ../src/execute/run.cs:688
+msgid "Run will not be recorded, 1st subrun is out of time"
+msgstr "གཡོག་བཀལ་ནི་འདི་སྒྲ་བཟུང་མི་འབད་  ༡་པའི་སབ་རཱན་འདི་དུས་ལས་ཡལ་སོང་ནུག་"
+
+#: ../src/execute/run.cs:746
 msgid "AVG Speed"
 msgstr "ཨེ་བི་ཇི་ མགྱོགས་ཚད་"
 
-#: ../src/execute/pulse.cs:138
+#: ../src/execute/pulse.cs:122
 msgid "You are IN, please leave the platform, prepare for start, and press the 'accept' button!!"
 msgstr "ཁྱོད་ནང་ན་ཨིནམ་ལས་ གཞི་སྟེགས་བཀོག་བཞག་སྟེ་འགོ་བཙུག་ནི་གི་གྲ་སྒྲིག་འབད་ དེ་ལས་  'accept'ཨེབ་རྟ་འདི་ཨེབས་!!"
 
-#: ../src/execute/pulse.cs:146
+#: ../src/execute/pulse.cs:131
 msgid "You are OUT, start when prepared!!"
 msgstr "ཁྱོད་ཕྱི་ཁར་ཨིན་པས་ གྲ་སྒྲིག་འབད་ཡོད་པའི་ཚེ་འགོ་བཙུགས་!!"
 
-#: ../src/execute/pulse.cs:343
+#: ../src/execute/pulse.cs:334
 msgid "Last pulse"
 msgstr "མཇུག་གི་འཕར་རྩ་"
 
-#: ../src/exportSession.cs:60
+#: ../src/exportSession.cs:61
 msgid "Save report as..."
 msgstr "སྙན་ཞུ་སྲུངས་་་"
 
-#: ../src/exportSession.cs:62
+#: ../src/exportSession.cs:63
 msgid "Export session in format "
 msgstr "ལཱ་ཡུན་འདི་རྩ་སྒྲིག་ནང་ལུ་ཕྱིར་འདྲེན་འབད་"
 
-#: ../src/exportSession.cs:74
+#: ../src/exportSession.cs:75
 msgid "Cancelled"
 msgstr "ཆ་མེད་བཏང་ཡོདཔ་"
 
-#: ../src/exportSession.cs:91
+#: ../src/exportSession.cs:97
 msgid "Are you sure you want to overwrite file: "
 msgstr "ཁྱོད་ཀྱིས་ ཐད་རི་འབའ་རི་ཚབ་སྲུང་འབད་ནི་ཨིན་ན་:"
 
-#: ../src/exportSession.cs:99
+#: ../src/exportSession.cs:105
 #, csharp-format
 msgid "Saved to {0}"
 msgstr " {0}ལུ་སྲུངས་ཡི་"
 
-#: ../src/exportSession.cs:105
+#: ../src/exportSession.cs:111
 msgid "Cannot export to file: "
 msgstr "ཡིག་སྣོད་ལུ་ཕྱིར་འདྲེན་འབད་མི་ཚུགས་:"
 
-#: ../src/exportSession.cs:161
+#: ../src/exportSession.cs:178
 #: ../src/report.cs:203
 msgid "SessionID"
 msgstr "ལཱ་ཡུན་ཨའི་ཌི་"
 
-#: ../src/exportSession.cs:162
-#: ../src/exportSession.cs:175
-#: ../src/gui/jump.cs:1042
-#: ../src/gui/jump.cs:1232
+#: ../src/exportSession.cs:179
+#: ../src/exportSession.cs:192
+#: ../src/gui/jump.cs:1045
+#: ../src/gui/jump.cs:1243
 #: ../src/gui/person.cs:98
-#: ../src/gui/run.cs:844
-#: ../src/gui/run.cs:1013
+#: ../src/gui/run.cs:849
+#: ../src/gui/run.cs:1026
 #: ../src/gui/session.cs:350
-#: ../src/gui/session.cs:511
+#: ../src/gui/session.cs:513
 #: ../src/report.cs:202
 #: ../src/report.cs:225
 msgid "Name"
 msgstr "མིང་"
 
-#: ../src/exportSession.cs:175
+#: ../src/exportSession.cs:192
 #: ../src/gui/person.cs:97
 #: ../src/report.cs:225
 msgid "ID"
 msgstr "ཨའི་ཌི་"
 
-#: ../src/exportSession.cs:192
-#: ../src/exportSession.cs:238
+#: ../src/exportSession.cs:209
+#: ../src/exportSession.cs:255
 msgid "Jumper name"
 msgstr "མཆོང་མིའི་མིང་"
 
-#: ../src/exportSession.cs:193
-#: ../src/exportSession.cs:239
+#: ../src/exportSession.cs:210
+#: ../src/exportSession.cs:256
 msgid "jump ID"
 msgstr "ཇམཔ་ ཨའི་ཌི་"
 
-#: ../src/exportSession.cs:197
-#: ../src/exportSession.cs:249
+#: ../src/exportSession.cs:214
+#: ../src/exportSession.cs:266
 #: ../src/stats/djIndex.cs:37
 #: ../src/stats/djQ.cs:37
 #: ../src/stats/graphs/djIndex.cs:78
@@ -1785,13 +1997,14 @@ msgstr "ཇམཔ་ ཨའི་ཌི་"
 msgid "Fall"
 msgstr "འབུད་ནི་"
 
-#: ../src/exportSession.cs:198
-#: ../src/exportSession.cs:250
+#: ../src/exportSession.cs:215
+#: ../src/exportSession.cs:267
 #: ../src/gui/person.cs:101
+#: ../src/treeViewJump.cs:37
 msgid "Weight"
 msgstr "ལྗིད་ཚད་"
 
-#: ../src/exportSession.cs:199
+#: ../src/exportSession.cs:216
 #: ../src/gui/person.cs:100
 #: ../src/stats/cmjPlusPotency.cs:59
 #: ../src/stats/djIndex.cs:34
@@ -1807,133 +2020,97 @@ msgstr "ལྗིད་ཚད་"
 msgid "Height"
 msgstr "མཐོ་ཚད་"
 
-#: ../src/exportSession.cs:200
+#: ../src/exportSession.cs:217
 #: ../src/treeViewJump.cs:40
 msgid "Initial Speed"
 msgstr "འགོ་ཐོག་མགྱོགས་ཚད་"
 
-#: ../src/exportSession.cs:240
+#: ../src/exportSession.cs:257
 msgid "jump Type"
 msgstr "ཇམཔ་དབྱེ་བ་"
 
-#: ../src/exportSession.cs:241
+#: ../src/exportSession.cs:258
 msgid "TC Max"
 msgstr "ཊི་སི་ མང་མཐའ་"
 
-#: ../src/exportSession.cs:242
+#: ../src/exportSession.cs:259
 msgid "TF Max"
 msgstr "ཊི་ཨེཕ་ མང་མཐའ་"
 
-#: ../src/exportSession.cs:243
+#: ../src/exportSession.cs:260
 msgid "Max Height"
 msgstr "མཐོ་ཚད་མང་མཐའ་"
 
-#: ../src/exportSession.cs:244
+#: ../src/exportSession.cs:261
 msgid "Max Initial Speed"
 msgstr "འགོ་ཐོག་མགྱོགས་ཚད་མང་མཐའ་"
 
-#: ../src/exportSession.cs:245
+#: ../src/exportSession.cs:262
 msgid "TC AVG"
 msgstr "ཊི་སི་ ཨེ་བི་ཇི་"
 
-#: ../src/exportSession.cs:246
+#: ../src/exportSession.cs:263
 msgid "TF AVG"
 msgstr "ཊི་ཨེཕ་ ཨེ་བི་ཇི་"
 
-#: ../src/exportSession.cs:247
+#: ../src/exportSession.cs:264
 msgid "AVG Height"
 msgstr "ཨེ་བི་ཇི་ མཐོ་ཚད་"
 
-#: ../src/exportSession.cs:248
+#: ../src/exportSession.cs:265
 msgid "AVG Initial Speed"
 msgstr "ཨེ་བི་ཇི་ འགོ་ཐོག་མགྱོགས་ཚད་"
 
-#: ../src/exportSession.cs:253
-#: ../src/exportSession.cs:357
+#: ../src/exportSession.cs:270
+#: ../src/exportSession.cs:374
 msgid "Limited"
 msgstr "ཚད་ཡོདཔ་"
 
-#: ../src/exportSession.cs:286
-#: ../src/exportSession.cs:379
-#: ../src/gui/jump.cs:539
-#: ../src/gui/run.cs:458
+#: ../src/exportSession.cs:303
+#: ../src/exportSession.cs:396
+#: ../src/gui/jump.cs:542
+#: ../src/gui/run.cs:463
 #: ../src/stats/rjEvolution.cs:71
 msgid "Count"
 msgstr "གྱངས་ནི་"
 
-#: ../src/exportSession.cs:310
-#: ../src/exportSession.cs:349
+#: ../src/exportSession.cs:327
+#: ../src/exportSession.cs:366
 msgid "Runner name"
 msgstr "གཡོག་བཀོལཔ་གི་མིང་"
 
-#: ../src/exportSession.cs:311
-#: ../src/exportSession.cs:350
+#: ../src/exportSession.cs:328
+#: ../src/exportSession.cs:367
 msgid "run ID"
 msgstr "གཡོག་བཀོལ་ ཨའི་ཌི་"
 
-#: ../src/exportSession.cs:352
+#: ../src/exportSession.cs:369
 msgid "Distance total"
 msgstr "རྒྱང་ཚད་བསྡོམས༌"
 
-#: ../src/exportSession.cs:353
+#: ../src/exportSession.cs:370
 msgid "Time total"
 msgstr "དུས་ཚོད་བསྡོམས་"
 
-#: ../src/exportSession.cs:354
+#: ../src/exportSession.cs:371
 msgid "Average speed"
 msgstr "ཆ་སྙོམས་མགྱོགས་ཚད་"
 
-#: ../src/exportSession.cs:355
+#: ../src/exportSession.cs:372
 msgid "Distance interval"
 msgstr "རྒྱང་ཚད་བར་མཚམས་"
 
-#: ../src/exportSession.cs:380
+#: ../src/exportSession.cs:397
 msgid "Interval speed"
 msgstr "བར་མཚམས་མགྱོགས་ཚད་"
 
-#: ../src/exportSession.cs:381
+#: ../src/exportSession.cs:398
 msgid "interval times"
 msgstr "བར་མཚམས་དུས་ཚོད་"
 
-#: ../src/exportSession.cs:437
+#: ../src/exportSession.cs:467
 msgid "Exported to file: "
 msgstr "ཡིག་སྣོད་ལུ་ཕྱིར་འདྲེན་འབད་ཡི་:"
-
-#: ../src/gui/event.cs:1180
-msgid ""
-"This window shows the execution of an event. In the graph, you may see:\n"
-"\n"
-"SIMPLE EVENTS:\n"
-"-\"Now\": shows the data of the current event.\n"
-"-\"Person AVG\": shows the average of the current person executing this type of event on this session.\n"
-"-\"Session AVG\": shows the Average of all persons executing this type of event on this session.\n"
-"\n"
-"MULTIPLE EVENTS:\n"
-"-\"Now\": shows the data of the current sub-event.\n"
-"-\"AVG\": shows the average of the current event.\n"
-"\n"
-"(For more statistics data, you may use the statistics window).\n"
-"\n"
-"You may change the graph options using buttons on the left.\n"
-"\n"
-"At the bottom you may see the evolution of the event, and you may finish it (depending on the type of event), or even cancel it."
-msgstr ""
-"སྒོ་སྒྲིག་འདི་གིས་ བྱུང་ལས་ཀྱི་ལག་ལེན་འཐབ་ནི་སྟོནམ་ཨིན། ཚད་ཁྲམ་ནང་ ཁྱོད་ཀྱིས་:\n"
-"\n"
-"འཇམ་སམ་བྱུང་ལས་:\n"
-"-\"Now\": ད་ལྟོའི་འབྱུང་ལས་ཀྱི་གནད་སྡུད་སྟོནམ་ཨིན།\n"
-"-\"Person AVG\": ལཱ་ཡུན་འདི་གུ་ འདི་བཟུམ་གྱི་བྱུང་ལས་ཚུ་ལག་ལེན་འཐབ་སྟེ་ ད་ལྟོའི་གང་ཟག་གི་ཆ་སྙོམས་སྟོནམ་ཨིན།\n"
-"-\"Session AVG\": ལཱ་ཡུན་འདི་གུ་ འདི་བཟུམ་གྱི་བྱུང་ལས་ཚུ་ལག་ལེན་འཐབ་སྟེ་ གང་ཟག་ཆ་མཉམ་གྱི་ཆ་སྙོམས་སྟོནམ་ཨིན།\n"
-"\n"
-"སྣ་མང་བྱུང་ལས་ཚུ་:\n"
-"-\"Now\": ད་ལྟོའི་ཡན་ལག་འབྱུང་ལས་ཀྱི་གནད་སྡུད་སྟོནམ་ཨིན།\n"
-"-\"AVG\": ད་ལྟོའི་བྱུང་ལས་ཀྱི་ཆ་སྙོམས་སྟོནམ་ཨིན།\n"
-"\n"
-"(ཚད་རྩིས་གནད་སྡུད་ལེ་ཤ་གི་དོན་ལུ་ ཚད་རྩིས་སྒོ་སྒྲིག་ལག་ལེན་འཐབ་རུང་བཏུབ་)།\n"
-"\n"
-"ཁྱོད་ཀྱིས་ གཡོན་ཁ་ཐུག་ལུ་ཨེབ་རྟ་ལག་ལེན་འཐབ་པའི་སྒོ་ལས་ ཚད་ཁྲམ་གདམ་ཁ་ཚུ་སོར་ཚུགས།\n"
-"\n"
-"At the bottom you may see the evolution of the event, and you may finish it (depending on the type of event), or even cancel it."
 
 #: ../src/gui/jump.cs:81
 #, csharp-format
@@ -1953,11 +2130,12 @@ msgstr ""
 "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ཅིག་ཞུན་དག་འབད་ནི་ལུ་ སྒོ་སྒྲིག་འདི་ལག་ལེན་འཐབ།\n"
 "(བཅུ་ཚག་དབྱེ་བྱེད་: '{0}')"
 
-#: ../src/gui/jump.cs:473
+#. this.pDN = pDN;
+#: ../src/gui/jump.cs:476
 msgid "Repair reactive jump"
 msgstr "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ ཉམས་བཅོས་འབད་"
 
-#: ../src/gui/jump.cs:477
+#: ../src/gui/jump.cs:480
 #, csharp-format
 msgid ""
 "Use this window to repair a reactive jump.\n"
@@ -1966,12 +2144,12 @@ msgstr ""
 "གདོང་ལེན་འབད་བཏུབ་པའི་ཇམཔ་ཅིག་ཉམས་བཅོས་འབད་ནི་གི་དོན་ལུ་ སྒོ་སྒྲིག་འདི་ལག་ལེན་འཐབ།\n"
 "དེ་ཞུན་དག་འབད་ནི་གི་དོན་ལས་ ནང་ཐིག་གང་རུང་ཅིག་གུ་ ཚར་གཉིས་ཨེབ་གཏང་འབད་(བཅུ་ཚག་དབྱེ་བྱེད་: '{0}')"
 
-#: ../src/gui/jump.cs:513
+#: ../src/gui/jump.cs:516
 #, csharp-format
 msgid "JumpType: {0}."
 msgstr "ཇམཔ་དབྱེ་བ་: {0}"
 
-#: ../src/gui/jump.cs:518
+#: ../src/gui/jump.cs:521
 msgid ""
 "\n"
 "This jump type starts inside, the first time should be a flight time."
@@ -1980,7 +2158,7 @@ msgstr ""
 "ཇམཔ་དབྱེ་བ་འདི་ནང་ལུ་སྦེ་འགོ་བཙུགསཔ་ཨིན་ དེ་འབདཝ་ད་ དང་པམ་འདི་ འཕུར་བསྐྱོད་ཆུ་ཚོད་ཨིན་དགོ"
 
 #. if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TF if found
-#: ../src/gui/jump.cs:525
+#: ../src/gui/jump.cs:528
 #, csharp-format
 msgid ""
 "\n"
@@ -1990,7 +2168,7 @@ msgstr ""
 "ཇམཔ་འདི་ {0}ཇམཔསི་ལུ་གཏན་བཟོ་འབད་ཡོདཔ་ལས་ ཁྱོད་ཀྱིས་ཧེང་བཀལ་ཁ་སྐོང་རྐྱབ་མི་ཚུགས།"
 
 #. if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
-#: ../src/gui/jump.cs:528
+#: ../src/gui/jump.cs:531
 #, csharp-format
 msgid ""
 "\n"
@@ -1999,35 +2177,35 @@ msgstr ""
 "\n"
 "ཇམཔ་འདི་ {0}ཇམཔསི་ལུ་གཏན་བཟོ་འབད་ཡོདཔ་ལས་ ཆུ་ཚོད་བསྡོམས་འདི་སྦོམ་འགྱོ་མི་བཏུབ།"
 
-#: ../src/gui/jump.cs:1055
-#: ../src/gui/jump.cs:1060
-#: ../src/gui/jump.cs:1088
+#: ../src/gui/jump.cs:1058
+#: ../src/gui/jump.cs:1063
 #: ../src/gui/jump.cs:1091
-#: ../src/gui/jump.cs:1107
+#: ../src/gui/jump.cs:1094
 #: ../src/gui/jump.cs:1110
-#: ../src/gui/jump.cs:1247
-#: ../src/gui/jump.cs:1252
-#: ../src/gui/jump.cs:1322
-#: ../src/gui/jump.cs:1325
-#: ../src/gui/jump.cs:1358
-#: ../src/gui/jump.cs:1361
+#: ../src/gui/jump.cs:1113
+#: ../src/gui/jump.cs:1258
+#: ../src/gui/jump.cs:1263
+#: ../src/gui/jump.cs:1333
+#: ../src/gui/jump.cs:1336
+#: ../src/gui/jump.cs:1369
+#: ../src/gui/jump.cs:1372
 msgid "Yes"
 msgstr "ཨིན་"
 
-#: ../src/gui/jump.cs:1057
-#: ../src/gui/jump.cs:1062
-#: ../src/gui/jump.cs:1249
-#: ../src/gui/jump.cs:1254
+#: ../src/gui/jump.cs:1060
+#: ../src/gui/jump.cs:1065
+#: ../src/gui/jump.cs:1260
+#: ../src/gui/jump.cs:1265
 msgid "No"
 msgstr "མེན་"
 
-#: ../src/gui/jump.cs:1234
-#: ../src/gui/run.cs:1016
+#: ../src/gui/jump.cs:1245
+#: ../src/gui/run.cs:1029
 msgid "Limited value"
 msgstr "ཚད་ཡོད་པའི་བེ་ལུ་"
 
-#: ../src/gui/jump.cs:1267
-#: ../src/gui/run.cs:1038
+#: ../src/gui/jump.cs:1278
+#: ../src/gui/run.cs:1051
 msgid "Seconds"
 msgstr "དཀར་ཆ་ཚུ་"
 
@@ -2047,16 +2225,17 @@ msgstr "མཚན་མ་"
 msgid "Man"
 msgstr "ཕོ་སྐྱེས་"
 
-#: ../src/gui/person.cs:132
+#. this "F" is in spanish, change in the future to "W"
+#: ../src/gui/person.cs:133
 msgid "Woman"
 msgstr "ཨམ་སྲུ་"
 
-#: ../src/gui/person.cs:221
-#: ../src/gui/person.cs:518
+#: ../src/gui/person.cs:222
+#: ../src/gui/person.cs:519
 msgid "Loaded"
 msgstr "མངོན་གསལ་འབད་ཡོདཔ་"
 
-#: ../src/gui/person.cs:423
+#: ../src/gui/person.cs:424
 msgid "MARK ALL/NONE"
 msgstr "ཆ་མཉམ་/ཅི་མེད་རྟགས་བཀལ་"
 
@@ -2121,7 +2300,15 @@ msgstr ""
 "གཡོག་བཀོལ་\n"
 "བར་མཚམས་"
 
-#: ../src/gui/preferences.cs:267
+#: ../src/gui/person.cs:1223
+msgid ""
+"Reaction\n"
+"time"
+msgstr ""
+"གདོང་ལེན་འབད་ནིའི་\n"
+"ཆུ་ཚོད་"
+
+#: ../src/gui/preferences.cs:257
 msgid "Restart Chronojump to operate completely on your language."
 msgstr "ཁྱོད་རའི་སྐད་ཡིག་ཐོག་ལུ་ཡོངས་རྫོགས་སྦེ་ལག་ལེན་འཐབ་དགོ་པ་ཅིན་ ཀོརོ་ནོ་ཇམཔ་འདི་ལོག་འགོ་བཙུགས།"
 
@@ -2149,7 +2336,7 @@ msgstr "མཚན་མ་སྟོན་"
 msgid "Checked rows"
 msgstr "ཞིབ་དཔྱད་འབད་ཡོད་པའི་གྲལ་ཐིག་ཚུ་"
 
-#: ../src/gui/run.cs:76
+#: ../src/gui/run.cs:77
 #, csharp-format
 msgid ""
 "Use this window to edit a run.\n"
@@ -2158,7 +2345,7 @@ msgstr ""
 "གཡོག་བཀོལ་ཅིག་ཞུན་དག་འབད་ནི་གི་དོན་ལས་ སྒོ་སྒྲིག་འདི་ལག་ལེན་འཐབ།\n"
 "(བཅུ་ཚག་དབྱེ་བྱེད་: '{0}')"
 
-#: ../src/gui/run.cs:256
+#: ../src/gui/run.cs:259
 #, csharp-format
 msgid ""
 "Use this window to edit a intervallic run.\n"
@@ -2167,15 +2354,15 @@ msgstr ""
 "ཨིན་ཊར་བེ་ལུག་གཡོག་བཀོལ་ཅིག་ཞུན་དག་འབད་ནི་གི་དོན་ལས་ སྒོ་སྒྲིག་འདི་ལག་ལེན་འཐབ།\n"
 "(བཅུ་ཚག་དབྱེ་བྱེད་: '{0}')"
 
-#: ../src/gui/run.cs:283
+#: ../src/gui/run.cs:287
 msgid "Total Time"
 msgstr "དུས་ཚོད་བསྡོམས་"
 
-#: ../src/gui/run.cs:398
+#: ../src/gui/run.cs:403
 msgid "Repair intervallic run"
 msgstr "ཨིན་ཊར་བེ་ལིག་གཡོག་བཀོལ་འདི་ ཉམས་བཅོས་འབད་"
 
-#: ../src/gui/run.cs:402
+#: ../src/gui/run.cs:407
 #, csharp-format
 msgid ""
 "Use this window to repair a intervallic run.\n"
@@ -2184,13 +2371,13 @@ msgstr ""
 "ཨིན་ཊར་བེ་ལུག་གཡོག་བཀོལ་ཅིག་ཉམས་བཅོས་འབད་ནི་གི་དོན་ལས་ སྒོ་སྒྲིག་འདི་ལག་ལེན་འཐབ།\n"
 "དེ་ཞུན་དག་འབད་ནི་ལུ་ ནང་ཐིག་གང་རུང་ཅིག་གི་གུ་ཚར་གཉིས་ཨེབ་གཏང་འབད་(བཅུ་ཚག་དབྱེ་བྱེད་: '{0}')"
 
-#: ../src/gui/run.cs:438
+#: ../src/gui/run.cs:443
 #, csharp-format
 msgid "RunType: {0}."
 msgstr "གཡོག་བཀོལ་དབྱེ་བ་: {0}"
 
 #. if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
-#: ../src/gui/run.cs:444
+#: ../src/gui/run.cs:449
 #, csharp-format
 msgid ""
 "\n"
@@ -2200,7 +2387,7 @@ msgstr ""
 "གཡོག་བཀོལ་དབྱེ་བ་འདི་ {0} གཡོག་བཀོལ་ལུ་གཏན་བཟོ་འབད་ཡོདཔ་ལས་ ཁྱོད་ཀྱིས་ཧེང་བཀལ་ཁ་སྐོང་བརྐྱབ་མི་ཚུགས།"
 
 #. if it's a run type timeLimited with a fixed value, then complain when the total time is higher
-#: ../src/gui/run.cs:447
+#: ../src/gui/run.cs:452
 #, csharp-format
 msgid ""
 "\n"
@@ -2209,9 +2396,9 @@ msgstr ""
 "\n"
 "གཡོག་བཀོལ་དབྱེ་བ་འདི་ {0} གཡོག་བཀོལ་ལུ་གཏན་བཟོ་འབད་ཡོདཔ་ལས་ ཆུ་ཚོད་བསྡོམས་འདི་ སྦོམ་སྦེ་བཟོ་མི་ཚུགས།"
 
-#: ../src/gui/run.cs:856
-#: ../src/gui/run.cs:880
-#: ../src/gui/run.cs:899
+#: ../src/gui/run.cs:861
+#: ../src/gui/run.cs:885
+#: ../src/gui/run.cs:904
 msgid "Not defined"
 msgstr "ངེས་འཛིན་འབད་"
 
@@ -2238,7 +2425,7 @@ msgid "Session Edit"
 msgstr "ལཱ་ཡུན་ཞུན་དག་"
 
 #: ../src/gui/session.cs:349
-#: ../src/gui/session.cs:510
+#: ../src/gui/session.cs:512
 msgid "Number"
 msgstr "ཨང་གྲངས་"
 
@@ -2536,39 +2723,6 @@ msgstr "སི་ཨེམ་ཇི་པ་ལསི་པོ་ཊེན་ས
 msgid "watts"
 msgstr "ཝཊིསི་"
 
-#. don't plot AVG and SD rows
-#. if multisession, add AVG and SD cols
-#: ../src/stats/graphs/cmjPlusPotency.cs:121
-#: ../src/stats/graphs/cmjPlusPotency.cs:170
-#: ../src/stats/graphs/djIndex.cs:127
-#: ../src/stats/graphs/djIndex.cs:178
-#: ../src/stats/graphs/djQ.cs:127
-#: ../src/stats/graphs/djQ.cs:179
-#: ../src/stats/graphs/fv.cs:122
-#: ../src/stats/graphs/fv.cs:168
-#: ../src/stats/graphs/global.cs:123
-#: ../src/stats/graphs/global.cs:194
-#: ../src/stats/graphs/ieIub.cs:129
-#: ../src/stats/graphs/ieIub.cs:173
-#: ../src/stats/graphs/rjIndex.cs:124
-#: ../src/stats/graphs/rjIndex.cs:171
-#: ../src/stats/graphs/rjPotencyBosco.cs:141
-#: ../src/stats/graphs/rjPotencyBosco.cs:196
-#: ../src/stats/graphs/sjCmjAbk.cs:109
-#: ../src/stats/graphs/sjCmjAbk.cs:151
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:120
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:165
-#: ../src/stats/main.cs:186
-#: ../src/stats/main.cs:218
-#: ../src/stats/main.cs:328
-#: ../src/stats/main.cs:355
-#: ../src/stats/main.cs:465
-#: ../src/stats/main.cs:548
-#: ../src/stats/main.cs:645
-#: ../src/stats/rjEvolution.cs:219
-msgid "AVG"
-msgstr "ཨེ་བི་ཇི་"
-
 #: ../src/stats/graphs/cmjPlusPotency.cs:121
 #: ../src/stats/graphs/cmjPlusPotency.cs:170
 #: ../src/stats/graphs/djIndex.cs:127
@@ -2593,9 +2747,9 @@ msgstr "ཨེ་བི་ཇི་"
 #: ../src/stats/main.cs:218
 #: ../src/stats/main.cs:329
 #: ../src/stats/main.cs:356
-#: ../src/stats/main.cs:466
-#: ../src/stats/main.cs:549
-#: ../src/stats/main.cs:645
+#: ../src/stats/main.cs:465
+#: ../src/stats/main.cs:552
+#: ../src/stats/main.cs:650
 #: ../src/stats/rjEvolution.cs:219
 msgid "SD"
 msgstr "ཨེསི་ཌི་"
@@ -2665,7 +2819,6 @@ msgid "{0} in {1} jump on {2}"
 msgstr "{2}གུ་ {1}ཇམཔ་ནང་{0}"
 
 #: ../src/stats/sjCmjAbkPlus.cs:56
-#: ../src/treeViewJump.cs:37
 msgid "Weight %"
 msgstr "ལྗིད་ཚད་ %"
 
@@ -2679,10 +2832,73 @@ msgid "person"
 msgstr "གང་ཟག་"
 
 #: ../src/treeViewPulse.cs:48
+#: ../src/treeViewPulse.cs:49
 msgid "Difference"
 msgstr "མ་འདྲཝ་"
 
-#: ../src/treeViewPulse.cs:49
-msgid "Difference %"
-msgstr "མ་འདྲཝ་ %"
+#: ../src/execute/reactionTime.cs:99
+msgid "You are IN, RELEASE when prepared!!"
+msgstr "ཁྱོད་ནང་ན་ཨིན་པས་ གྲ་སྒྲིག་འབད་ཡོད་པའི་ཚེ་འཛིན་གྲོལ་འབདཝ་ཨིན!!"
+
+#: ../src/gui/repetitiveConditions.cs:137
+msgid "You need to activate sounds in main window (bottom)"
+msgstr "སྒོ་སྒྲིག་ (མཇུག་)ངོ་མའི་ནང་ལུ་ཁྱོད་ཀྱིས་སྒྲ་སྐད་ཚུ་ཤུགས་ལྡན་བཟོ་དགོ་"
+
+#~ msgid "Jump AVG"
+#~ msgstr "ཇམཔ་ ཨེ་བི་ཇི་"
+#~ msgid "Pulse AVG"
+#~ msgstr "འཕར་རྩ་ ཨེ་བི་ཇི་"
+#~ msgid "Run AVG"
+#~ msgstr "གཡོག་བཀོལ་ ཨེ་བི་ཇི་"
+#~ msgid ""
+#~ "If it crashes, try to close it and open again, then Chronojump will be "
+#~ "configured as simulated, and you can change the port in the preferences "
+#~ "window"
+#~ msgstr ""
+#~ "བརྡབ་འཁྲུག་འབྱུང་པ་ཅིན་ ཁ་བསྡམ་ཞིནམ་ལས་ལོག་ཁ་ཕྱེ་ དེ་སྦེ་འབད་བ་ཅིན་ ཀོརོ་ནོ་ཇམཔ་འདི་ མཚུངས་པ་"
+#~ "བཟོ་ཡོདཔ་བཟུམ་སྦེ་རིམ་སྒྲིག་འབད་འོང་ དེ་ལས་ཁྱོད་ཀྱིས་ དགའ་གདམ་སྒོ་སྒྲིག་ནང་ལུ་ འདྲེན་ལམ་སོར་ཚུགས་"
+#~ msgid "Deleted run: "
+#~ msgstr "བཏོན་བཏང་ཡོད་པའི་གཡོག་བཀོལ་:"
+#~ msgid ""
+#~ "This window shows the execution of an event. In the graph, you may see:\n"
+#~ "\n"
+#~ "SIMPLE EVENTS:\n"
+#~ "-\"Now\": shows the data of the current event.\n"
+#~ "-\"Person AVG\": shows the average of the current person executing this "
+#~ "type of event on this session.\n"
+#~ "-\"Session AVG\": shows the Average of all persons executing this type of "
+#~ "event on this session.\n"
+#~ "\n"
+#~ "MULTIPLE EVENTS:\n"
+#~ "-\"Now\": shows the data of the current sub-event.\n"
+#~ "-\"AVG\": shows the average of the current event.\n"
+#~ "\n"
+#~ "(For more statistics data, you may use the statistics window).\n"
+#~ "\n"
+#~ "You may change the graph options using buttons on the left.\n"
+#~ "\n"
+#~ "At the bottom you may see the evolution of the event, and you may finish "
+#~ "it (depending on the type of event), or even cancel it."
+#~ msgstr ""
+#~ "སྒོ་སྒྲིག་འདི་གིས་ བྱུང་ལས་ཀྱི་ལག་ལེན་འཐབ་ནི་སྟོནམ་ཨིན། ཚད་ཁྲམ་ནང་ ཁྱོད་ཀྱིས་:\n"
+#~ "\n"
+#~ "འཇམ་སམ་བྱུང་ལས་:\n"
+#~ "-\"Now\": ད་ལྟོའི་འབྱུང་ལས་ཀྱི་གནད་སྡུད་སྟོནམ་ཨིན།\n"
+#~ "-\"Person AVG\": ལཱ་ཡུན་འདི་གུ་ འདི་བཟུམ་གྱི་བྱུང་ལས་ཚུ་ལག་ལེན་འཐབ་སྟེ་ ད་ལྟོའི་གང་ཟག་གི་ཆ་"
+#~ "སྙོམས་སྟོནམ་ཨིན།\n"
+#~ "-\"Session AVG\": ལཱ་ཡུན་འདི་གུ་ འདི་བཟུམ་གྱི་བྱུང་ལས་ཚུ་ལག་ལེན་འཐབ་སྟེ་ གང་ཟག་ཆ་མཉམ་གྱི་"
+#~ "ཆ་སྙོམས་སྟོནམ་ཨིན།\n"
+#~ "\n"
+#~ "སྣ་མང་བྱུང་ལས་ཚུ་:\n"
+#~ "-\"Now\": ད་ལྟོའི་ཡན་ལག་འབྱུང་ལས་ཀྱི་གནད་སྡུད་སྟོནམ་ཨིན།\n"
+#~ "-\"AVG\": ད་ལྟོའི་བྱུང་ལས་ཀྱི་ཆ་སྙོམས་སྟོནམ་ཨིན།\n"
+#~ "\n"
+#~ "(ཚད་རྩིས་གནད་སྡུད་ལེ་ཤ་གི་དོན་ལུ་ ཚད་རྩིས་སྒོ་སྒྲིག་ལག་ལེན་འཐབ་རུང་བཏུབ་)།\n"
+#~ "\n"
+#~ "ཁྱོད་ཀྱིས་ གཡོན་ཁ་ཐུག་ལུ་ཨེབ་རྟ་ལག་ལེན་འཐབ་པའི་སྒོ་ལས་ ཚད་ཁྲམ་གདམ་ཁ་ཚུ་སོར་ཚུགས།\n"
+#~ "\n"
+#~ "At the bottom you may see the evolution of the event, and you may finish "
+#~ "it (depending on the type of event), or even cancel it."
+#~ msgid "Difference %"
+#~ msgstr "མ་འདྲཝ་ %"
 

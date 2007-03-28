@@ -1,5 +1,9 @@
 CHANGELOG:
 
+28 mar 2007
+	Added totalTime, avg and Sd in treeviewJumpRj
+	Changed title of webpages (show all tests info)
+
 27 mar 2007
 	"Event" for "test": working on 423353
 	Removed help in gui/event until know how to explain better

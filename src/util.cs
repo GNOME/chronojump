@@ -190,6 +190,7 @@ public class Util
 		}
 		return countMin ; 
 	}
+
 	
 	public static double CalculateSD(string valuesList, double sumValues, int count) {
 		if(count >1) {
@@ -279,6 +280,13 @@ public class Util
 		myStringBuilder.Replace("'", "");
 		myStringBuilder.Replace(":", "");
 		myStringBuilder.Replace(".", "");
+		return myStringBuilder.ToString();
+	}
+	
+	public static string ChangeEqualForColon(string myString) 
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace("=", ":");
 		return myStringBuilder.ToString();
 	}
 

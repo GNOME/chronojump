@@ -56,7 +56,7 @@ public class TreeViewRuns : TreeViewEvent
 		string distanceName = Catalog.GetString("Distance") + "\n(m)";
 		string timeName = Catalog.GetString("Time") + "\n(s)";
 
-		string [] columnsString = { runnerName, speedName, distanceName, timeName };
+		columnsString = new string[]{ runnerName, speedName, distanceName, timeName };
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -78,7 +78,7 @@ public class TreeViewRuns : TreeViewEvent
 	{
 		Run newRun = (Run)myObject;
 
-		string [] myData = new String [5]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = newRun.Type;
 		//myData[count++] = Util.TrimDecimals(newRun.Speed.ToString(), pDN); this doesn't know the metersSecondsPreferred
@@ -118,7 +118,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		allEventsName = Constants.AllRunsName;
 		eventIDColumn = 3;
 		
-		string [] columnsString = { runnerName, speedName, timeName };
+		columnsString = new string[]{runnerName, speedName, timeName};
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -150,10 +150,12 @@ public class TreeViewRunsInterval : TreeViewRuns
 		string myTypeComplet = newRunI.Type + "(" + newRunI.DistanceInterval + "x" + 
 			Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ") AVG: ";
 		
-		string [] myData = new String [4]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = myTypeComplet;
-		//myData[count++] = Util.TrimDecimals(newRunI.Speed.ToString(), pDN); //this doesn't know the metersSecondsPreferred
+		myData[count++] = "";
+		myData[count++] = "";
+/*
 		myData[count++] = Util.TrimDecimals(Util.GetSpeed(
 					newRunI.DistanceTotal.ToString(),
 					newRunI.TimeTotal.ToString(),
@@ -162,6 +164,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = Util.TrimDecimals( 
 				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
 							, pDN );
+*/
 		myData[count++] = newRunI.UniqueID.ToString();
 		return myData;
 	}
@@ -177,7 +180,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 
 		
 		//write line for treeview
-		string [] myData = new String [4]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = (lineCount +1).ToString();
 		myData[count++] =  Util.TrimDecimals( 
@@ -202,4 +205,52 @@ public class TreeViewRunsInterval : TreeViewRuns
 		return myStringFull.Length; 
 	} 
 			
+	protected override string [] printTotal(System.Object myObject, int cols) {
+		RunInterval newRunI = (RunInterval)myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("Total");
+		myData[count++] = "";
+		myData[count++] = Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN );
+		myData[count++] = newRunI.UniqueID.ToString(); 
+		
+		return myData;
+	}
+	
+	protected override string [] printAVG(System.Object myObject, int cols) {
+		RunInterval newRunI = (RunInterval)myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("AVG");
+		myData[count++] = Util.TrimDecimals(Util.GetSpeed(
+					newRunI.DistanceTotal.ToString(),
+					newRunI.TimeTotal.ToString(),
+					metersSecondsPreferred), 
+				pDN);
+		myData[count++] = Util.TrimDecimals( 
+				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
+							, pDN );
+		myData[count++] = newRunI.UniqueID.ToString(); 
+		
+		return myData;
+	}
+
+	protected override string [] printSD(System.Object myObject, int cols) {
+		RunInterval newRunI = (RunInterval)myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("SD");
+		myData[count++] = "";
+		myData[count++] = Util.TrimDecimals(Util.CalculateSD(
+					Util.ChangeEqualForColon(newRunI.IntervalTimesString),
+					Util.GetTotalTime(newRunI.IntervalTimesString),
+					Util.GetNumberOfJumps(newRunI.IntervalTimesString, false)).ToString(),
+				pDN);
+		myData[count++] = newRunI.UniqueID.ToString(); 
+		
+		return myData;
+	}
 }

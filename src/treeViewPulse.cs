@@ -48,7 +48,7 @@ public class TreeViewPulses : TreeViewEvent
 		string diffName = Catalog.GetString("Difference");
 		string diffPercentName = Catalog.GetString("Difference") + "\n(%)";
 
-		string [] columnsString = { jumperName, timeName, diffName, diffPercentName };
+		columnsString = new string[]{jumperName, timeName, diffName, diffPercentName};
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -76,7 +76,8 @@ public class TreeViewPulses : TreeViewEvent
 			myTypeComplet = newPulse.Type + "(" + Util.TrimDecimals(newPulse.FixedPulse.ToString(), 3) + ") AVG: ";
 		
 		
-		string [] myData = new String [5]; //columnsString +1
+		//string [] myData = new String [5]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = myTypeComplet;
 		myData[count++] = Util.TrimDecimals(Util.GetAverage(newPulse.TimesString).ToString(), pDN);
@@ -109,7 +110,8 @@ public class TreeViewPulses : TreeViewEvent
 		
 		
 		//write line for treeview
-		string [] myData = new String [5]; //columnsString +1
+		//string [] myData = new String [5]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = (lineCount +1).ToString();
 		myData[count++] = Util.TrimDecimals( timeInterval, pDN );

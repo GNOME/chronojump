@@ -48,7 +48,7 @@ public class TreeViewReactionTimes : TreeViewEvent
 		allEventsName = "";
 		
 
-		string [] columnsString = { personName, Catalog.GetString("Time") + " (s)" };
+		columnsString = new string[]{personName, Catalog.GetString("Time") + " (s)"};
 
 		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
@@ -69,7 +69,8 @@ public class TreeViewReactionTimes : TreeViewEvent
 	{
 		ReactionTime newReactionTime = (ReactionTime)myObject;
 
-		string [] myData = new String [3]; //columnsString +1
+		//string [] myData = new String [3]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		//myData[count++] = newReactionTime.Type;
 		myData[count++] = "";

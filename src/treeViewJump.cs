@@ -65,8 +65,9 @@ public class TreeViewJumps : TreeViewEvent
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllJumpsName;
 		
-		string [] columnsStringPre = { jumperName, "TC\n(s)", "TF\n(s)", weightName, fallName };
-		string [] columnsString = obtainColumnsString(columnsStringPre);
+		string [] columnsStringPre = { jumperName, "TC\n(s)", "TF\n(s)", weightName, fallName }; //Note: if this changes, check the '5's in obtainColumnsString
+
+		columnsString = obtainColumnsString(columnsStringPre);
 	
 
 		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 
@@ -75,9 +76,19 @@ public class TreeViewJumps : TreeViewEvent
 		prepareHeaders(columnsString);
 	}
 
-	protected string [] obtainColumnsString(string [] columnsStringPre) {
-		//for sure there should be a better way than this
- 
+	protected override int getColsNum() {
+		int i = columnsString.Length;
+		if (showHeight)  
+			i ++;
+		if (showInitialSpeed) 
+			i ++;
+		if (showQIndex || showDjIndex) 
+			i ++;
+		return i +1; //+1 is for the uniqueID hidden col (last)
+	}
+	
+	protected string [] obtainColumnsString(string [] columnsStringPre) 
+	{
 		//check long of new array
 		int i = 5;
 		if (showHeight)  
@@ -128,15 +139,7 @@ public class TreeViewJumps : TreeViewEvent
 	{
 		Jump newJump = (Jump)myObject;
 
-		int i = 5;
-		if (showHeight)  
-			i ++;
-		if (showInitialSpeed) 
-			i ++;
-		if (showQIndex || showDjIndex) 
-			i ++;
-
-		string [] myData = new String [i+1]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = newJump.Type;
 		myData[count++] = Util.TrimDecimals(newJump.Tc.ToString(), pDN);
@@ -176,7 +179,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		allEventsName = Constants.AllJumpsName;
 			
 		string [] columnsStringPre = { jumperName, "TC\n(s)", "TF\n(s)", weightName, fallName };
-		string [] columnsString = obtainColumnsString(columnsStringPre);
+		columnsString = obtainColumnsString(columnsStringPre);
 
 		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
@@ -205,35 +208,35 @@ public class TreeViewJumpsRj : TreeViewJumps
 		//do this for showing the Limited with selected decimals and without loosing the end letter: 'J' or 'T'
 		string myLimitedWithoutLetter = newJumpRj.Limited.Substring(0, newJumpRj.Limited.Length -1);
 		string myLimitedLetter = newJumpRj.Limited.Substring(newJumpRj.Limited.Length -1, 1);
-		string myTypeComplet = newJumpRj.Type + "(" + Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ") AVG: ";
+		//string myTypeComplet = newJumpRj.Type + "(" + Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ") AVG: ";
+		string myTypeComplet = newJumpRj.Type + "(" + Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ")";
 		
-		int i = 5;
-		if (showHeight)  
-			i ++;
-		if (showInitialSpeed) 
-			i ++;
-		if (showQIndex || showDjIndex) 
-			i ++;
-
 		//little optimization
 		double avgTc = Util.GetAverage(newJumpRj.TcString);
 		double avgTv = Util.GetAverage(newJumpRj.TvString);
 		
-		string [] myData = new String [i+1]; //columnsString +1
+		//string [] myData = new String [i+1]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = myTypeComplet;
-		myData[count++] = Util.TrimDecimals(avgTc.ToString(), pDN);
-		myData[count++] = Util.TrimDecimals(avgTv.ToString(), pDN);
+		//myData[count++] = Util.TrimDecimals(avgTc.ToString(), pDN);
+		myData[count++] = "";
+		//myData[count++] = Util.TrimDecimals(avgTv.ToString(), pDN);
+		myData[count++] = "";
 		myData[count++] = Util.TrimDecimals(newJumpRj.Weight.ToString(), pDN);
 		myData[count++] = newJumpRj.Fall.ToString();
 		if (showHeight)  
-			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(avgTv.ToString()), pDN);
+			//myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(avgTv.ToString()), pDN);
+			myData[count++] = "";
 		if (showInitialSpeed) 
-			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(avgTv.ToString(), metersSecondsPreferred), pDN);
+			//myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(avgTv.ToString(), metersSecondsPreferred), pDN);
+			myData[count++] = "";
 		if(showQIndex)
-			myData[count++] = Util.TrimDecimals(Util.GetQIndex(avgTv, avgTc).ToString(), pDN);
+			//myData[count++] = Util.TrimDecimals(Util.GetQIndex(avgTv, avgTc).ToString(), pDN);
+			myData[count++] = "";
 		if(showDjIndex)
-			myData[count++] = Util.TrimDecimals(Util.GetDjIndex(avgTv, avgTc).ToString(), pDN);
+			//myData[count++] = Util.TrimDecimals(Util.GetDjIndex(avgTv, avgTc).ToString(), pDN);
+			myData[count++] = "";
 		
 		myData[count++] = newJumpRj.UniqueID.ToString();
 		return myData;
@@ -249,17 +252,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		string [] myStringTc = newJumprRj.TcString.Split(new char[] {'='});
 		string thisTc = myStringTc[lineCount];
 
-		
-		//write line for treeview
-		int i = 5;
-		if (showHeight)  
-			i ++;
-		if (showInitialSpeed) 
-			i ++;
-		if (showQIndex || showDjIndex) 
-			i ++;
-		
-		string [] myData = new String [i+1]; //columnsString +1
+		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = (lineCount +1).ToString();
 		myData[count++] = Util.TrimDecimals( thisTc, pDN );
@@ -284,6 +277,13 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		return myData;
 	}
+
+/*	
+	protected override string [] printTotal(System.Object myObject, int cols) {
+		string [] nothing = new string[0];
+		return nothing;
+	}
+*/
 	
 	protected override int getNumOfSubEvents(System.Object myObject)
 	{

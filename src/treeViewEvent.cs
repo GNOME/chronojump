@@ -37,6 +37,8 @@ public class TreeViewEvent
 	protected string allEventsName; //Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 	protected int eventIDColumn; //column where the uniqueID of event will be (and will be hidded)
 	
+	protected string [] columnsString;
+
 	public TreeViewEvent ()
 	{
 	}
@@ -53,7 +55,7 @@ public class TreeViewEvent
 		allEventsName = "";
 		eventIDColumn = 4;
 
-		string [] columnsString = {};
+		columnsString = new string[0];
 	
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
@@ -120,7 +122,32 @@ public class TreeViewEvent
 
 		return myData;
 	}
+
+	protected virtual int getColsNum() {
+		return columnsString.Length +1;
+	}
 	
+	protected void addStatisticInfo(TreeIter iterDeep, System.Object myObject) {
+		store.AppendValues(iterDeep, printTotal(myObject, getColsNum()));
+		store.AppendValues(iterDeep, printAVG(myObject, getColsNum()));
+		store.AppendValues(iterDeep, printSD(myObject, getColsNum()));
+	}
+	
+	protected virtual string [] printTotal(System.Object myObject, int cols) {
+		string [] nothing = new string[0];
+		return nothing;
+	}
+	
+	protected virtual string [] printAVG(System.Object myObject, int cols) {
+		string [] nothing = new string[0];
+		return nothing;
+	}
+
+	protected virtual string [] printSD(System.Object myObject, int cols) {
+		string [] nothing = new string[0];
+		return nothing;
+	}
+
 	public virtual void Fill(string [] myEvents, string filter)
 	{
 		TreeIter iter = new TreeIter();
@@ -146,6 +173,7 @@ public class TreeViewEvent
 				//getLineToStoreFromString is overriden in two level treeviews
 				iterDeep = store.AppendValues (iter, getLineToStore(myEvent));
 				if(treeviewHasTwoLevels) {
+					addStatisticInfo(iterDeep, myEvent);
 					for(int i = 0; i < getNumOfSubEvents(myEvent); i ++) {
 						store.AppendValues(iterDeep, getSubLineToStore(myEvent, i));
 					}
@@ -180,6 +208,7 @@ public class TreeViewEvent
 					treeview.ScrollToCell (path, null, true, 0, 0);
 				
 					if(treeviewHasTwoLevels) {
+						addStatisticInfo(iterDeep, newEvent);
 						for(int i=0; i < getNumOfSubEvents(newEvent); i++) {
 							store.AppendValues(iterDeep, getSubLineToStore(newEvent, i));
 						}
@@ -199,6 +228,7 @@ public class TreeViewEvent
 			treeview.ScrollToCell (path, null, true, 0, 0);
 		
 			if(treeviewHasTwoLevels) {
+				addStatisticInfo(iterDeep, newEvent);
 				for(int i=0; i < getNumOfSubEvents(newEvent); i++) {
 					store.AppendValues(iterDeep, getSubLineToStore(newEvent, i));
 				}

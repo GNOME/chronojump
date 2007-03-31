@@ -69,7 +69,6 @@ public class TreeViewReactionTimes : TreeViewEvent
 	{
 		ReactionTime newReactionTime = (ReactionTime)myObject;
 
-		//string [] myData = new String [3]; //columnsString +1
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 		//myData[count++] = newReactionTime.Type;

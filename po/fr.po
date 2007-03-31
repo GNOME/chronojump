@@ -1364,7 +1364,7 @@ msgid "starting connection with chronopic"
 msgstr "Problème de connexion avec le serveur YCHT"
 
 #: ../src/chronojump.cs:389
-msgid "if program crashes, write to xavi@xdeblas.com"
+msgid "if program crashes, write to xaviblas@gmail.com"
 msgstr ""
 
 #: ../src/chronojump.cs:390

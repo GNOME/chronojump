@@ -139,12 +139,11 @@ class SqlitePulseType : Sqlite
 		return myTypes;
 	}
 
-	/*
-	public static PulseType SelectAndReturnPulseRjType(string typeName) 
+	public static PulseType SelectAndReturnPulseType(string typeName) 
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
-			" FROM pulseRjType " +
+			" FROM pulseType " +
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
@@ -158,19 +157,8 @@ class SqlitePulseType : Sqlite
 		
 		while(reader.Read()) {
 			myPulseType.Name = reader[1].ToString();
-			
-			if(reader[2].ToString() == "1") { myPulseType.StartIn = true; }
-			else { myPulseType.StartIn = false; }
-			
-			if(reader[3].ToString() == "1") { myPulseType.HasWeight = true; }
-			else { myPulseType.HasWeight = false; }
-			
-			myPulseType.IsRepetitive = true;
-			
-			if(reader[4].ToString() == "1") { myPulseType.PulsesLimited = true; }
-			else { myPulseType.PulsesLimited = false; }
-			
-			myPulseType.FixedValue = Convert.ToInt32( reader[5].ToString() );
+			myPulseType.FixedPulse = Convert.ToDouble(reader[2].ToString());
+			myPulseType.TotalPulsesNum = Convert.ToInt32(reader[3]);
 		}
 
 		reader.Close();
@@ -178,7 +166,6 @@ class SqlitePulseType : Sqlite
 
 		return myPulseType;
 	}
-	*/
 	
 	/*
 	public static bool Exists(string typeName)

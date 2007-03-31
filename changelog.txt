@@ -1,7 +1,14 @@
 CHANGELOG:
 
+31 mar 2007 (minor RELEASE 0.52 for Linux and windows)
+	Added totalTime, avg and Sd in treeviewJump and treeViewPulse
+	updated translations to catalan and spanish (dzongkha deactivated on windows)
+	logo & css copied to userDir if not done before
+	metersSecondsPreferred ok on executeRun
+	"catched" error on languageChange if there's a problem (like Dzongkha on Windows, .NET)
+
 28 mar 2007
-	Added totalTime, avg and Sd in treeviewJumpRj
+	Added totalTime, avg and Sd in treeviewRunInterval
 	Changed title of webpages (show all tests info)
 
 27 mar 2007

@@ -32,8 +32,8 @@ msgid "starting connection with chronopic"
 msgstr "påbörjar anslutning till chronopic"
 
 #: src/chronojump.cs:320
-msgid "if program crashes, write to xavi@xdeblas.com"
-msgstr "om programmet kraschar, skriv till xavi@xdeblas.com"
+msgid "if program crashes, write to xaviblas@gmail.com"
+msgstr "om programmet kraschar, skriv till xaviblas@gmail.com"
 
 #: src/chronojump.cs:321
 msgid "if you used modem by serial port before (in a linux session) chronojump chrases"

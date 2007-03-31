@@ -39,6 +39,10 @@ public class Constants
 	public static string AllJumpsName = Catalog.GetString("All jumps");
 	public static string AllRunsName = Catalog.GetString("All runs");
 	public static string AllPulsesName = Catalog.GetString("All pulses");
+
+	//fileNames
+	public static string FileNameLogo = "chronojump_logo.png";
+	public static string FileNameCSS = "report_web_style.css";
 	
 	//30 colors defined
 	public static string [] Colors = {
@@ -56,7 +60,7 @@ public class Constants
 		"ca-ES:Catalan", 
 		"zh-CN:Chinese", 
 		LanguageDefault, 
-		//"dz-BT:Dzongkha", Sorry, Dzongkha does not work on Windows
+		"dz-BT:Dzongkha",
 		"fi-FI:Finnish", 
 		"fr-FR:French", 
 		"pt-BR:Portuguese (Brazil)", 
@@ -64,6 +68,11 @@ public class Constants
 		"sv-SE:Swedish", 
 		"vi-VN:Vietnamese", 
 	};
+
+	/* *** ATTENTIOn ***: dz-BT deactivated on Windows compilation...
+	 * in the next release, do it better
+	 */
+
 	//TODO: add:
 	//ar (when there ara not fuzzy lines)
 	//see in both langs how to write as xx_XX

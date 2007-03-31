@@ -1311,8 +1311,8 @@ msgid "starting connection with chronopic"
 msgstr "käynnistetään yhteys chronopicillä"
 
 #: ../src/chronojump.cs:396
-msgid "if program crashes, write to xavi@xdeblas.com"
-msgstr "jos ohjelma kaatuu, kerro siitä osoitteseen xavi@xdeblas.com"
+msgid "if program crashes, write to xaviblas@gmail.com"
+msgstr "jos ohjelma kaatuu, kerro siitä osoitteseen xaviblas@gmail.com"
 
 #: ../src/chronojump.cs:397
 msgid ""

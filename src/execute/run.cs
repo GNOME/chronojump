@@ -339,7 +339,7 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN,
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		this.eventExecuteWin = eventExecuteWin;
@@ -362,6 +362,7 @@ public class RunIntervalExecute : RunExecute
 		this.appbar = appbar;
 		this.app = app;
 
+		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
 		this.repetitiveConditionsWin = repetitiveConditionsWin;

@@ -148,7 +148,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 		string myLimitedWithoutLetter = newRunI.Limited.Substring(0, newRunI.Limited.Length -1);
 		string myLimitedLetter = newRunI.Limited.Substring(newRunI.Limited.Length -1, 1);
 		string myTypeComplet = newRunI.Type + "(" + newRunI.DistanceInterval + "x" + 
-			Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ") AVG: ";
+			//Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ") AVG: ";
+			Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ")";
 		
 		string [] myData = new String [getColsNum()];
 		int count = 0;

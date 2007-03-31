@@ -605,6 +605,14 @@ public class Util
 			Console.WriteLine("Error, chronojump.db file doesn't exist!");
 		}
 	}
+
+	public static void CopyArchivesOninstallation(string fileName) {
+		string homeDir = GetHomeDir();
+		//copy files, and continue if already exists or if origin file doesn't exist
+		try {
+			File.Copy(fileName , homeDir + "/" + fileName );
+		} catch {}
+	}
 	
 	//public static void PlaySound (System.Media.SystemSounds mySound, bool volumeOn) {
 	public static void PlaySound (Constants.SoundTypes mySound, bool volumeOn) {

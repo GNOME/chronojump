@@ -170,10 +170,10 @@ public class Report : ExportSession
 	void copyCssAndLogo() {
 		//copy files, and continue if already exists
 		try {
-			File.Copy(home + "/report_web_style.css" , Util.GetReportDirectoryName(fileName) + "/report_web_style.css" );
+			File.Copy(home + "/" + Constants.FileNameCSS , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameCSS );
 		} catch {}
 		try {
-			File.Copy(home + "/chronojump_logo.png" , Util.GetReportDirectoryName(fileName) + "/chronojump_logo.png");
+			File.Copy(home + "/" + Constants.FileNameLogo , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo);
 		} catch {}
 	}
 	
@@ -189,7 +189,7 @@ public class Report : ExportSession
 		
 		writer.WriteLine("<table width=\"100%\" class=\"empty\"><tr><td>\n");
 		writer.WriteLine("<img src=\"" +
-				Util.GetReportDirectoryName(fileName) + "/chronojump_logo.png\">\n ");
+				Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo + "\">\n ");
 		writer.WriteLine("</td><td width=\"80%\"><h1>Chronojump report</h1></td></tr>\n");
 		writer.WriteLine("</table>\n");
 			

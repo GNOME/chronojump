@@ -26,6 +26,7 @@ using Gdk;
 using Glade;
 using System.IO.Ports;
 using Mono.Unix;
+using System.IO; //"File" things
 
 
 public class ChronoJump 
@@ -173,7 +174,7 @@ public class ChronoJump
 	bool volumeOn;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.51";
+	private static string progversion = "0.52";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -267,6 +268,7 @@ public class ChronoJump
 	EditRunIntervalWindow editRunIntervalWin;
 
 	PulseExtraWindow pulseExtraWin;
+	RepairPulseWindow repairPulseWin;
 	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ErrorWindow errorWin;
@@ -345,6 +347,17 @@ public class ChronoJump
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
 		}
+
+		//check if logo and css exists
+		if(! File.Exists(Util.GetHomeDir() + "/" + Constants.FileNameLogo)) {
+			Util.CopyArchivesOninstallation(Constants.FileNameLogo);
+			Console.WriteLine("Copied " + Constants.FileNameLogo);
+		}
+		if(! File.Exists(Util.GetHomeDir() + "/" + Constants.FileNameCSS)) {
+			Util.CopyArchivesOninstallation(Constants.FileNameCSS);
+			Console.WriteLine("Copied " + Constants.FileNameCSS);
+		}
+
 
 		string recuperatedString = recuperateBrokenEvents();
 
@@ -528,7 +541,7 @@ public class ChronoJump
 	private void chronopicInit (string myPort)
 	{
 		Console.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
-		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xavi@xdeblas.com") );
+		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xaviblas@gmail.com") );
 		Console.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a linux session, and you selected serial port), chronojump will crash.") );
 		//Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
 		//Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
@@ -678,11 +691,15 @@ public class ChronoJump
 	private void languageChange () {
 		string myLanguage = SqlitePreferences.Select("language");
 		if ( myLanguage != "0") {
-			Console.WriteLine("myLanguage: {0}", myLanguage);
-			System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(myLanguage);
-			System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(myLanguage);
-			//probably only works on newly created windows, if change, then say user has to restart
-			Console.WriteLine ("Changed language to {0}", myLanguage );
+			try {
+				Console.WriteLine("myLanguage: {0}", myLanguage);
+				System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(myLanguage);
+				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(myLanguage);
+				//probably only works on newly created windows, if change, then say user has to restart
+				Console.WriteLine ("Changed language to {0}", myLanguage );
+			} catch {
+				new DialogMessage(Catalog.GetString("There's a problem with this language on this computer. Please, choose another language."));
+			}
 		}
 	}
 
@@ -2470,7 +2487,7 @@ public class ChronoJump
 	
 		currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
 				distanceInterval, myLimit, currentRunType.TracksLimited, 
-				cp, appbar2, app1, prefsDigitsNumber, volumeOn, repetitiveConditionsWin);
+				cp, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin);
 		
 		
 		//suitable for limited by tracks and time
@@ -3461,29 +3478,27 @@ public class ChronoJump
 	private void on_repair_selected_pulse_clicked (object o, EventArgs args) {
 		notebook_change(5);
 		Console.WriteLine("Repair selected pulse");
-		appbar2.Push ( 1, "repair selected pulse (NOT IMPLEMENTED YET)");
-		/*
+		//appbar2.Push ( 1, "repair selected pulse (NOT IMPLEMENTED YET)");
 		//1.- check that there's a line selected
-		//2.- check that this line is a run and not a person 
-		//(check also if it's not a individual run interval, then pass the parent run interval)
-		if (myTreeViewRunsInterval.RunSelectedID > 0) {
-			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRun.SelectIntervalRunData( myTreeViewRunsInterval.RunSelectedID );
+		//2.- check that this line is a pulse and not a person 
+		//(check also if it's not a individual pulse, then pass the parent pulse)
+		if (myTreeViewPulses.EventSelectedID > 0) {
+			//3.- obtain the data of the selected pulse
+			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
 		
-			//4.- edit this run
-			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun);
-			repairRunIntervalWin.Button_accept.Clicked += new EventHandler(on_repair_selected_run_interval_accepted);
+			//4.- edit this pulse
+			repairPulseWin = RepairPulseWindow.Show(app1, myPulse, prefsDigitsNumber);
+			repairPulseWin.Button_accept.Clicked += new EventHandler(on_repair_selected_pulse_accepted);
 		}
-		*/
 	}
 	
 	private void on_repair_selected_pulse_accepted (object o, EventArgs args) {
 		Console.WriteLine("repair selected pulse accepted");
 		
-		/*
-		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(combo_runs_interval.Entry.Text);
+		treeview_pulses_storeReset();
+		fillTreeView_pulses(combo_pulses.Entry.Text);
 		
+		/*
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
 		}

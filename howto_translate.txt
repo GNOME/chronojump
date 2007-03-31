@@ -21,9 +21,12 @@ chronojump/po $ intltool-update -m
 add missing files to POTFILES.in
 chronojump/po $ cat missing >> POTFILES.in
 
-check creating a .pot (only for checking, unneded for the translators)
+check creating a .pot (creates untitled.pot)
 chronojump/po $ intltool-update -p
-chronojump/po $ vim untitled.pot
+
+merge untitled.pot with old catalan translation
+mv ca.po ca_old.po
+msgmerge -o ca.po ca_old.po untitled.pot
 ---------
 ---------
 

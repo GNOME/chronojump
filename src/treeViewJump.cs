@@ -278,12 +278,104 @@ public class TreeViewJumpsRj : TreeViewJumps
 		return myData;
 	}
 
-/*	
 	protected override string [] printTotal(System.Object myObject, int cols) {
-		string [] nothing = new string[0];
-		return nothing;
+		JumpRj newJumpRj = (JumpRj)myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("Total");
+		myData[count++] = Util.TrimDecimals(Util.GetTotalTime(newJumpRj.TcString).ToString(), pDN);
+		myData[count++] = Util.TrimDecimals(Util.GetTotalTime(newJumpRj.TvString).ToString(), pDN);
+		myData[count++] = ""; //weight
+		myData[count++] = ""; //fall
+		if (showHeight)  
+			myData[count++] = ""; 
+		if (showInitialSpeed) 
+			myData[count++] = ""; 
+		if (showQIndex || showDjIndex) 
+			myData[count++] = ""; 
+
+		myData[count++] = newJumpRj.UniqueID.ToString(); 
+		
+		return myData;
 	}
-*/
+	
+	protected override string [] printAVG(System.Object myObject, int cols) {
+		JumpRj newJumpRj = (JumpRj)myObject;
+
+		//littleOptimization
+		double tcAVGDouble = Util.GetAverage(newJumpRj.TcString);
+		double tvAVGDouble = Util.GetAverage(newJumpRj.TvString);
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("AVG");
+		myData[count++] = Util.TrimDecimals(tcAVGDouble.ToString(), pDN);
+		myData[count++] = Util.TrimDecimals(tvAVGDouble.ToString(), pDN);
+		myData[count++] = ""; //weight
+		myData[count++] = ""; //fall
+
+		//this values are calculated using the AVG of the tcs or tvs, not as an avg of individual values
+
+		if (showHeight)  
+			myData[count++] = Util.TrimDecimals(
+					Util.GetHeightInCentimeters(
+						tvAVGDouble.ToString())
+					, pDN);
+		if (showInitialSpeed) 
+			myData[count++] = Util.TrimDecimals(
+					Util.GetInitialSpeed(
+						tvAVGDouble.ToString(), metersSecondsPreferred)
+					, pDN);
+		if (showQIndex) 
+			myData[count++] = Util.TrimDecimals(
+					Util.GetQIndex(tvAVGDouble,tcAVGDouble).ToString(), pDN);
+		else if (showDjIndex) 
+			myData[count++] = Util.TrimDecimals(
+					Util.GetDjIndex(tvAVGDouble,tcAVGDouble).ToString(), pDN);
+
+		myData[count++] = newJumpRj.UniqueID.ToString(); 
+		
+		return myData;
+	}
+	
+	protected override string [] printSD(System.Object myObject, int cols) {
+		JumpRj newJumpRj = (JumpRj)myObject;
+
+		//littleOptimization
+		//double tcAVGDouble = Util.GetAverage(newJumpRj.TcString);
+		//double tvAVGDouble = Util.GetAverage(newJumpRj.TvString);
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("SD");
+		myData[count++] = Util.TrimDecimals(Util.CalculateSD(
+			Util.ChangeEqualForColon(newJumpRj.TcString),
+			Util.GetTotalTime(newJumpRj.TcString),
+			Util.GetNumberOfJumps(newJumpRj.TcString, false)).ToString(),
+				pDN);
+		myData[count++] = Util.TrimDecimals(Util.CalculateSD(
+			Util.ChangeEqualForColon(newJumpRj.TvString),
+			Util.GetTotalTime(newJumpRj.TvString),
+			Util.GetNumberOfJumps(newJumpRj.TvString, false)).ToString(),
+				pDN);
+		
+		
+		myData[count++] = ""; //weight
+		myData[count++] = ""; //fall
+
+		if (showHeight)  
+			myData[count++] = "";
+		if (showInitialSpeed) 
+			myData[count++] = "";
+		if (showQIndex || showDjIndex) 
+			myData[count++] = "";
+
+		myData[count++] = newJumpRj.UniqueID.ToString(); 
+		
+		return myData;
+	}
+	
 	
 	protected override int getNumOfSubEvents(System.Object myObject)
 	{

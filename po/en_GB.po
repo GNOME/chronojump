@@ -1471,8 +1471,8 @@ msgid "starting connection with chronopic"
 msgstr "starting connection with chronopic"
 
 #: ../src/chronojump.cs:457
-msgid "if program crashes, write to xavi@xdeblas.com"
-msgstr "if program crashes, write to xavi@xdeblas.com"
+msgid "if program crashes, write to xaviblas@gmail.com"
+msgstr "if program crashes, write to xaviblas@gmail.com"
 
 #: ../src/chronojump.cs:458
 msgid "If you have previously used the modem via a serial port (in a linux session, and you selected serial port), chronojump will crash."

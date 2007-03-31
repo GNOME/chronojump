@@ -477,7 +477,7 @@ public class RepairJumpRjWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to repair a reactive jump.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
 		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type);

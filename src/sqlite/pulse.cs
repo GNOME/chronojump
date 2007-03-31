@@ -53,13 +53,12 @@ class SqlitePulse : Sqlite
 	 * Pulse class methods
 	 */
 	
-	public static int Insert(int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description)
+	public static int Insert(string uniqueID, int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO pulse" + 
 				"(uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timeString, description)" +
-				" VALUES (NULL, "
-				+ personID + ", " + sessionID + ", '" + type + "', "
+				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", '"
 				+ timeString + "', '" + description + "')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -145,12 +144,13 @@ class SqlitePulse : Sqlite
 	
 		return myRun;
 	}
+	*/
 		
-	public static RunInterval SelectIntervalRunData(int uniqueID)
+	public static Pulse SelectPulseData(int uniqueID)
 	{
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT * FROM runInterval WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM pulse WHERE uniqueID == " + uniqueID;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -159,23 +159,19 @@ class SqlitePulse : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
-		RunInterval myRun = new RunInterval(
+		Pulse myPulse = new Pulse(
 				Convert.ToInt32(reader[0]),	//uniqueID
 				Convert.ToInt32(reader[1]),	//personID
 				Convert.ToInt32(reader[2]),	//sessionID
 				reader[3].ToString(),		//type
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //distanceTotal
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), //timeTotal
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), //distanceInterval
-				Util.ChangeDecimalSeparator(reader[7].ToString()),	//intervalTimesString
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[8].ToString())), //tracks
-				reader[9].ToString(), 		//description
-				reader[10].ToString() 		//limited
+				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //fixedPulsel
+				Convert.ToInt32(reader[5]),	//totalPulsesNum
+				reader[6].ToString(),		//timesString
+				reader[7].ToString()		//description
 				);
 
-		return myRun;
+		return myPulse;
 	}
-	*/
 
 	/*
 	public static void Update(int pulseID, string type, string distance, string time, int personID, string description)

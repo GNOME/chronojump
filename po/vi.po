@@ -1378,8 +1378,8 @@ msgid "starting connection with chronopic"
 msgstr "đang kết nối đến chronopic..."
 
 #: ../src/chronojump.cs:396
-msgid "if program crashes, write to xavi@xdeblas.com"
-msgstr "Nếu chương trình này sụp đổ, vui lòng gởi thư cho <xavi@xdeblas.com>."
+msgid "if program crashes, write to xaviblas@gmail.com"
+msgstr "Nếu chương trình này sụp đổ, vui lòng gởi thư cho <xaviblas@gmail.com>."
 
 #: ../src/chronojump.cs:397
 msgid ""

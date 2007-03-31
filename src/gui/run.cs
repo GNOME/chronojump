@@ -404,7 +404,7 @@ public class RepairRunIntervalWindow
 		
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to repair a intervallic run.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
 		runType = SqliteRunType.SelectAndReturnRunIntervalType(myRun.Type);

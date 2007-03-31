@@ -71,18 +71,22 @@ public class TreeViewPulses : TreeViewEvent
 		//if fixedPulse is not defined, comparate each pulse with the averave
 		string myTypeComplet ="";
 		if(newPulse.FixedPulse == -1) 
-			myTypeComplet = newPulse.Type + " AVG: ";
+			myTypeComplet = newPulse.Type;
 		else
-			myTypeComplet = newPulse.Type + "(" + Util.TrimDecimals(newPulse.FixedPulse.ToString(), 3) + ") AVG: ";
+			myTypeComplet = newPulse.Type + "(" + Util.TrimDecimals(newPulse.FixedPulse.ToString(), 3) + ")";
 		
 		
-		//string [] myData = new String [5]; //columnsString +1
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = myTypeComplet;
-		myData[count++] = Util.TrimDecimals(Util.GetAverage(newPulse.TimesString).ToString(), pDN);
+		/*
+		   myData[count++] = Util.TrimDecimals(Util.GetAverage(newPulse.TimesString).ToString(), pDN);
 		myData[count++]	= "+/- " + Util.TrimDecimals( newPulse.GetErrorAverage(false).ToString(), pDN );
 		myData[count++]	= "+/- " + Util.TrimDecimals( newPulse.GetErrorAverage(true).ToString(), pDN );
+		*/
+		myData[count++]	= "";
+		myData[count++]	= "";
+		myData[count++]	= "";
 		myData[count++] = newPulse.UniqueID.ToString();
 		return myData;
 	}
@@ -110,7 +114,6 @@ public class TreeViewPulses : TreeViewEvent
 		
 		
 		//write line for treeview
-		//string [] myData = new String [5]; //columnsString +1
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = (lineCount +1).ToString();
@@ -119,6 +122,52 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++] = Util.TrimDecimals( relativeError.ToString(), pDN );
 
 		myData[count++] = newPulse.UniqueID.ToString(); 
+		return myData;
+	}
+	
+	protected override string [] printTotal(System.Object myObject, int cols) {
+		Pulse newPulse = (Pulse)myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("Total");
+		myData[count++] = Util.TrimDecimals( Util.GetTotalTime(newPulse.TimesString).ToString(), pDN );
+		myData[count++] = ""; 
+		myData[count++] = "";
+		myData[count++] = newPulse.UniqueID.ToString(); 
+		
+		return myData;
+	}
+	
+	protected override string [] printAVG(System.Object myObject, int cols) {
+		Pulse newPulse = (Pulse)myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("AVG");
+		myData[count++] = Util.TrimDecimals( Util.GetAverage(newPulse.TimesString).ToString(), pDN );
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = newPulse.UniqueID.ToString(); 
+		
+		return myData;
+	}
+	
+	protected override string [] printSD(System.Object myObject, int cols) {
+		Pulse newPulse = (Pulse)myObject;
+
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("SD");
+		myData[count++] = Util.TrimDecimals( Util.CalculateSD(
+			Util.ChangeEqualForColon(newPulse.TimesString),
+			Util.GetTotalTime(newPulse.TimesString),
+			Util.GetNumberOfJumps(newPulse.TimesString, false)).ToString(),
+				pDN );
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = newPulse.UniqueID.ToString(); 
+		
 		return myData;
 	}
 	

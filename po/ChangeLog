@@ -1,3 +1,9 @@
+2007-04-04  Duarte Loreto <happyguy_pt@hotmail.com>
+
+	* pt.po: Added Portuguese translation by Artur Martins
+	<arturmartins@gmail.com>.
+	* LINGUAS: Added pt (Portuguese).
+
 2007-03-28  Pema Geyleg <pema.geyleg@gmail.com>
 
 	* dz.po: Updated dzongkha translation.

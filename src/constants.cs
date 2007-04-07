@@ -64,6 +64,7 @@ public class Constants
 		"fi-FI:Finnish", 
 		"fr-FR:French", 
 		"pt-BR:Portuguese (Brazil)", 
+		"pt-PT:Portuguese (Portugal)", 
 		"es-ES:Spanish (Spain)", 
 		"sv-SE:Swedish", 
 		"vi-VN:Vietnamese", 

@@ -24,12 +24,12 @@
 use strict;
 
 #CONSTANTS
-my $currentVersion = "0.5";
-my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2006-October/msg00015.html";
-my $linuxMailDownloadName = "Chronojump 0.5 released! Chronojump 0.5 liberado!";
-my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-February/msg00006.html";
-my $windowsMailDownloadName = "Chronojump 0.5 for Windows installation";
-my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-February/msg00005.html";
+my $currentVersion = "0.52";
+my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00004.html";
+my $linuxMailDownloadName = "Chronojump 0.52 for Linux (New!) Installation";
+my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00003.html";
+my $windowsMailDownloadName = "Chronojump 0.52 for Windows (New!) Installation";
+my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00002.html";
 
 
 

@@ -169,7 +169,7 @@ public class ChronoJump
 	[Widget] Gtk.RadioMenuItem menuitem_chronopic;
 	
 	[Widget] Gtk.Notebook notebook;
-		
+	
 	private Random rand;
 	bool volumeOn;
 	

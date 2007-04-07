@@ -1,4 +1,4 @@
-CHANGELOG:
+CHRONOJUMP DETAILED CHANGELOG:
 
 31 mar 2007 (minor RELEASE 0.52 for Linux and windows)
 	Added totalTime, avg and Sd in treeviewJump and treeViewPulse

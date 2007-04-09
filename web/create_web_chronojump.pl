@@ -25,6 +25,10 @@ use strict;
 
 #CONSTANTS
 my $currentVersion = "0.52";
+#my $currentVersionDate = "31-03-2007";
+my $currentVersionDay = "31";
+my $currentVersionMonth = 3; #if it's from 1 to 9, put only one digit
+my $currentVersionYear = "2007";
 my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00004.html";
 my $linuxMailDownloadName = "Chronojump 0.52 for Linux (New!) Installation";
 my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00003.html";
@@ -77,14 +81,6 @@ for (sort keys %languages)
 	}
 	close IN;
 
-	#read the links horizontal bar
-	my $horizontalBarHTML = "";
-	open IN,"data/langs/$langSuffix/Links";
-	foreach(<IN>) {
-		$horizontalBarHTML .= $_;
-	}
-	close IN;
-
 	#read all the data files for current language
 	open DATAFILES,"ls data/langs/$langSuffix/Pages/ | ";
 	foreach (<DATAFILES>) {
@@ -99,6 +95,27 @@ for (sort keys %languages)
 		print "--- Processing FILE data/langs/$langSuffix/Pages/$currentPage\n";
 		my $returnPage = "";	#page for viewing
 		my $returnPrintPage = "";	#page for printing
+
+
+		#read the links horizontal bar
+		my $horizontalBarHTML = "";
+		open IN,"data/langs/$langSuffix/Links";
+		foreach(<IN>) {
+			my @parts = "";
+			#see the filename of each horizontal bar link
+			if ($_ =~ m{<li><a href="(.*)\.html"}ig) {
+				#delete the "_xx" if exists
+				@parts = split(/_/,$1);
+				#print "$parts[0]\n";
+			}
+			if ($parts[0] eq $currentPage) {
+				#print the "currentPage" style and don't print the link
+				$_ =~ m{html">(.*)<\/a};
+				$_ = "<li id=\"currentPage\">$1<\/li>\n";
+			} 
+			$horizontalBarHTML .= $_;
+		}
+		close IN;
 
 
 		#print Title
@@ -139,19 +156,19 @@ for (sort keys %languages)
 		$returnPage .= &getFooter($langSuffix);
 		$returnPrintPage .= "</body></html>";
 
-		#filter file (convert á in &aacute; ...)
-		#this is for solving a configuration problem in apache of software-libre.org
-		$returnPage  = filterHTML($returnPage);
-		$returnPrintPage  = filterHTML($returnPrintPage);
-
 		#convert links to images
 		$returnPage  = getSiteLinks($returnPage);
 		$returnPrintPage  = getSiteLinks($returnPrintPage);
 	
 		#write constants
-		$returnPage  = getConstants($returnPage);
-		$returnPrintPage  = getConstants($returnPrintPage);
+		$returnPage  = getConstants($returnPage, $langSuffix);
+		$returnPrintPage  = getConstants($returnPrintPage, $langSuffix);
 	
+		#filter file (convert á in &aacute; ...)
+		#this is for solving a configuration problem in apache of software-libre.org
+		$returnPage  = filterHTML($returnPage);
+		$returnPrintPage  = filterHTML($returnPrintPage);
+
 		#save files
 		my $outputFile = "";
 		my $outputPrintFile = "";
@@ -203,6 +220,51 @@ sub getMainTable {
 }
 
 sub getLanguageLinks {
+	my ($langSuffix, $langName, $currentPage, %languages) = @_;
+
+	my $return = "<div id=\"sidebar\">\n";
+
+	my $printLink = "true";
+	my $link = "";
+
+	#print other languages if available
+	for (sort keys %languages) 
+	{
+		if($langSuffix eq $_) {
+			$printLink = "false";
+			$return .= "<li id=\"currentLanguage\">";
+		}
+		else { 
+			$printLink = "true";
+			$return .= "<li>"; 
+		}
+			
+		#if found this document in other language show link
+		if(-e "data/langs/$_/Pages/$currentPage") {
+			#if it's english, don't print the "_en"
+			if($_ eq "_en") {
+				$link = "<a href=\"$currentPage.html\">";
+			} else {
+				$link = "<a href=\"$currentPage$_.html\">";
+			}
+
+			if($printLink eq "true") {
+				$return .= "$link$languages{$_}</a>";
+			} else {
+				$return .= "$languages{$_}";
+			}
+		} else {
+			$return .= "$languages{$_} (pending)";
+		}
+
+		$return .= "</li>\n";
+	}
+	$return .= "</ul><br><br>\n";
+	$return .= "</div></td></tr></table>\n";
+	return $return;
+}
+
+sub getLanguageLinksOld {
 	my ($langSuffix, $langName, $currentPage, %languages) = @_;
 
 	my $return = "<div id=\"sidebar\">\n";
@@ -278,7 +340,7 @@ sub getSiteLinks {
 }
 		
 sub getConstants {
-	my ($pageContent)= @_;
+	my ($pageContent, $langSuffix)= @_;
 
 	$pageContent =~ s/:::currentVersion:::/$currentVersion/g;
 	$pageContent =~ s/:::linuxMailDownloadLink:::/$linuxMailDownloadLink/g;
@@ -286,6 +348,9 @@ sub getConstants {
 	$pageContent =~ s/:::windowsMailDownloadLink:::/$windowsMailDownloadLink/g;
 	$pageContent =~ s/:::windowsMailDownloadName:::/$windowsMailDownloadName/g;
 	$pageContent =~ s/:::changesMailDownloadLink:::/$changesMailDownloadLink/g;
+
+	my $newDate = getLocalisedDate($langSuffix, $currentVersionDay, $currentVersionMonth, $currentVersionYear);
+	$pageContent =~ s/:::currentVersionDate:::/$newDate/g;
 
 	return $pageContent;
 }
@@ -404,4 +469,55 @@ sub filterHTML {
 	
 	
 	return $return;
+}
+
+sub getLocalisedDate {
+	my ($langSuffix, $day, $month, $year) = @_;
+
+	my %english = ('1', 'January', '2', 'February', '3', 'March', '4', 'April', '5', 'May', '6', 'June', 
+			'7', 'July', '8', 'August', '9', 'September', '10', 'October', '11', 'November', '12', 'December' );
+
+	my %spanish = ('1', 'Enero', '2', 'Febrero', '3', 'Marzo', '4', 'Abril', '5', 'Mayo', '6', 'Junio', 
+			'7', 'Julio', '8', 'Agosto', '9', 'Septiembre', '10', 'Octubre', '11', 'Noviembre', '12', 'Diciembre' );
+
+	my %catalan = ('1', 'Gener', '2', 'Febrer', '3', 'Març', '4', 'Abril', '5', 'Maig', '6', 'Juny', 
+			'7', 'Juliol', '8', 'Agost', '9', 'Septembre', '10', 'Octubre', '11', 'Novembre', '12', 'Desembre' );
+
+	my %french = ('1', 'Janvier', '2', 'Février', '3', 'Mars', '4', 'Avril', '5', 'Mai', '6', 'Juin', 
+			'7', 'Juilliet', '8', 'Aôut', '9', 'Septembre', '10', 'Octobre', '11', 'Novembre', '12', 'Décembre' );
+
+	my %italian = ('1', 'gennaio', '2', 'febbraio', '3', 'marzo', '4', 'aprile', '5', 'maggio', '6', 'giugno', 
+			'7', 'luglio', '8', 'agosto', '9', 'settembre', '10', 'ottobre', '11', 'novembre', '12', 'dicembre' );
+
+	my %portuguese = ('1', 'janeiro', '2', 'fevereiro', '3', 'março', '4', 'abril', '5', 'maio', '6', 'junho',
+			'7', 'julho', '8', 'agosto', '9', 'setembro', '10', 'outubro', '11', 'novembro', '12', 'dezembro' );
+
+	my %gaelican = ('1', 'Xaneiro', '2', 'Febrero', '3', 'Marzo', '4', 'Abril', '5', 'Mayo', '6', 'Junio', 
+			'7', 'Julio', '8', 'Agosto', '9', 'Septiembre', '10', 'Octubre', '11', 'Noviembre', '12', 'Diciembre' );
+
+	my %deutsch = ('1', 'Januar', '2', 'Februar', '3', 'März', '4', 'April', '5', 'Mai', '6', 'Juni', 
+			'7', 'Juli', '8', 'August', '9', 'September', '10', 'Oktober', '11', 'November', '12', 'Dezeember' );
+
+
+	if($langSuffix eq "_en") {
+		return "$english{$month}-$day-$year"; #english the only one MM-DD-YYYY (i think)
+	} elsif($langSuffix eq "_es") {
+		return "$day-$spanish{$month}-$year";
+	} elsif($langSuffix eq "_ca") {
+		return "$day-$catalan{$month}-$year";
+	} elsif($langSuffix eq "_fr") {
+		return "$day-$french{$month}-$year";
+	} elsif($langSuffix eq "_it") {
+		return "$day-$italian{$month}-$year";
+	} elsif($langSuffix eq "_pt") {
+		return "$day-$portuguese{$month}-$year";
+	} elsif($langSuffix eq "_gl") {
+		return "$day-$gaelican{$month}-$year";
+	} elsif($langSuffix eq "_de") {
+		return "$day-$deutsch{$month}-$year";
+	} else {
+		print "Date on $langSuffix not localized!!!";
+		return "$english{$month}-$day-$year";
+	}
+
 }

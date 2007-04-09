@@ -94,11 +94,16 @@ hr.dotted {
 	display: inline;
 }
 #nav-top li a, #nav-bottom li a {
-	color: #fff;
+/*	color: #fff;*/
+	/*background-color:#e6e6fa;*/
+}
+#nav-top li#currentPage {
+	padding: 1em;
+	background-color:#ffcc33;
 }
 #nav-top li a:visited, #nav-bottom li a:visited {
-	/* color: #a6a; */
-	color: #def;
+	 color: #a6a; 
+/*	color: #ff00ff;*/
 }
 #nav-top li, #nav-bottom li {
 	padding: 3px 8px;
@@ -112,7 +117,8 @@ hr.dotted {
 	margin: 0;
 	padding: 0.5em;
 	border: 1px solid #5B7189;
-	background-color: #BCC1C7;
+/*	background-color: #BCC1C7;*/
+	background-color: #e6e6fa;
 	-moz-border-radius: 2.5px;
 }
 #nav-bottom {
@@ -164,6 +170,11 @@ hr.dotted {
 #sidebar a img {
 	border: 0px solid #222222;
 	padding-left: 10px;
+}
+
+#sidebar li#currentLanguage{
+	background-color:#e6e6fa;
+	font-size: 16px;
 }
 
 #sidebar p {

@@ -110,7 +110,7 @@ for (sort keys %languages)
 			if ($parts[0] eq $currentPage) {
 				#print the "currentPage" style and don't print the link
 				$_ =~ m{html">(.*)<\/a};
-				$_ = "<li id=\"currentPage\">$1<\/li>\n";
+				$_ = "<li id=\"currentPage\">$1<\/li>";
 			} 
 			$horizontalBarHTML .= $_;
 		}

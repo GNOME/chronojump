@@ -1,2 +1,2 @@
-<br><a href="http://www.deporteyciencia.com"><img src="images/deporteyciencia_blues.png" width="88" height="110" border="0" alt="deporteyciencia.com sitio colaborativo en ciencias del deporte"></a>
+<br><a href="http://www.deporteyciencia.com"><img src="images/deporteyciencia_blues.gif" width="88" height="110" border="0" alt="deporteyciencia.com sitio colaborativo en ciencias del deporte"></a>
 <br><br><A href="http://gnome.org"><IMG src="images/gnome_logo_88_blues.png" width="88" height="137" border="0" alt="GNOME"></A>

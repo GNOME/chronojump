@@ -25,7 +25,6 @@ use strict;
 
 #CONSTANTS
 my $currentVersion = "0.52";
-#my $currentVersionDate = "31-03-2007";
 my $currentVersionDay = "31";
 my $currentVersionMonth = 3; #if it's from 1 to 9, put only one digit
 my $currentVersionYear = "2007";
@@ -223,6 +222,7 @@ sub getLanguageLinks {
 	my ($langSuffix, $langName, $currentPage, %languages) = @_;
 
 	my $return = "<div id=\"sidebar\">\n";
+	$return .= "<ul>\n";
 
 	my $printLink = "true";
 	my $link = "";
@@ -259,7 +259,7 @@ sub getLanguageLinks {
 
 		$return .= "</li>\n";
 	}
-	$return .= "</ul><br><br>\n";
+	$return .= "</ul><br>\n";
 	$return .= "</div></td></tr></table>\n";
 	return $return;
 }
@@ -381,9 +381,9 @@ sub getPrintLinkName {
 	close INFILE;
 
 	if($langSuffix eq "_en") {
-		return "<a href=\"print/$currentPage.html\"><font size=\"1\"><tt>$printName</tt></font></a>";
+		return "<a href=\"print/$currentPage.html\"><font size=\"2\"><tt>$printName</tt></font></a>";
 	} else {
-		return "<a href=\"print/$currentPage$langSuffix.html\"><font size=\"1\"><tt>$printName</tt></font></a>";
+		return "<a href=\"print/$currentPage$langSuffix.html\"><font size=\"2\"><tt>$printName</tt></font></a>";
 	}
 }
 

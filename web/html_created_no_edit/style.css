@@ -7,7 +7,8 @@ body {
 	margin: 0px;
 	font-family: verdana, trebuchet ms,luxi sans,sans-serif;
 	/*font-size: x-small;*/
-	font-size: small;
+	/*font-size: small;*/
+	font-size: 75%;
 	text-align: center;
 }
 
@@ -58,6 +59,8 @@ a:hover > .img-alone {
 	border: 0;
 	clear: both;
 }
+
+
 hr.dotted {
 	border-bottom: 1px dotted #ccc;
 }
@@ -98,7 +101,7 @@ hr.dotted {
 	/*background-color:#e6e6fa;*/
 }
 #nav-top li#currentPage {
-	padding: 1em;
+	padding: ,9em;
 	background-color:#ffcc33;
 }
 #nav-top li a:visited, #nav-bottom li a:visited {
@@ -146,14 +149,15 @@ hr.dotted {
 	/*width: 500px;*/
 	float: left;
 	margin: 10px;
+	font-size: 75%;
 }
 /*-------------------> menu contenidos <------------------*/
 #sidebar {
 	float: right;
 	width: 210px;
 	text-align: left;
-	font-size: smaller;
 	border-left: 1px dashed #cccccc;
+	font-size: 75%;
 }
 #sidebar h2 {
 	font-size: small;

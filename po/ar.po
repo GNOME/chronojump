@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-17 21:14+0000\n"
+"POT-Creation-Date: 2007-04-14 18:21+0100\n"
 "PO-Revision-Date: 2006-11-18 00:06+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n == 0 ? 0 : n == 1 ? 1 : n == 2 ? 2 : n >= 3 && n <= 10 ? 3 : n >= 11 && n <= 99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n == 0 ? 0 : n == 1 ? 1 : n == 2 ? 2 : n >= "
+"3 && n <= 10 ? 3 : n >= 11 && n <= 99 ? 4 : 5;\n"
 "X-Poedit-Language: Arabic\n"
 
 #: ../glade/chronojump.glade.h:1
@@ -58,981 +59,1054 @@ msgid "<- unselect"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:12
-msgid "<b>Chronojump</b>"
+msgid "<b>Best and worst values</b>"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:13
+msgid "<b>Chronojump</b>"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:14
 #, fuzzy
 msgid "<b>Detected</b>"
 msgstr "كُشِف خلل"
 
-#: ../glade/chronojump.glade.h:14
+#: ../glade/chronojump.glade.h:15
 #, fuzzy
 msgid "<b>Full name</b>"
 msgstr "الإ_سم الكامل..."
 
-#: ../glade/chronojump.glade.h:15
+#: ../glade/chronojump.glade.h:16
 msgid "<b>Guides</b>"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:16
+#: ../glade/chronojump.glade.h:17
 #, fuzzy
 msgid "<b>Name</b>"
 msgstr "اسم"
 
-#: ../glade/chronojump.glade.h:17
+#: ../glade/chronojump.glade.h:18
+#, fuzzy
+msgid "<b>Other conditions</b>"
+msgstr "أخرى"
+
+#: ../glade/chronojump.glade.h:19
 #, fuzzy
 msgid "<b>Other</b>"
 msgstr "أخرى"
 
-#: ../glade/chronojump.glade.h:18
+#: ../glade/chronojump.glade.h:20
 msgid "<b>Sex</b>"
-msgstr ""
-
-#: ../glade/chronojump.glade.h:19
-msgid ""
-"<b>Simulated\n"
-"Event</b>"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:21
 #, fuzzy
+msgid ""
+"<b>Simulated\n"
+"Test</b>"
+msgstr "خطوة النبض"
+
+#: ../glade/chronojump.glade.h:23
+#, fuzzy
+msgid "<b>TC</b>"
+msgstr "اسم"
+
+#: ../glade/chronojump.glade.h:24
+#, fuzzy
+msgid "<b>TF</b>"
+msgstr "اسم"
+
+#: ../glade/chronojump.glade.h:25
+#, fuzzy
+msgid "<b>Time</b>(s)"
+msgstr "اسم"
+
+#: ../glade/chronojump.glade.h:26
+#, fuzzy
 msgid "<b>Vertical Axe</b>"
 msgstr "قلب _عمودي"
 
-#: ../glade/chronojump.glade.h:22
+#: ../glade/chronojump.glade.h:27
 #, fuzzy
 msgid "<b>Weight</b> (Kg)"
 msgstr "وزن الخط"
 
-#: ../glade/chronojump.glade.h:23
+#: ../glade/chronojump.glade.h:28
 #, fuzzy
 msgid "<b>Weight</b> (kg)"
 msgstr "وزن الخط"
 
-#: ../glade/chronojump.glade.h:24
+#: ../glade/chronojump.glade.h:29
 #, fuzzy
 msgid "<b>execute</b>"
 msgstr "نفّذ %s"
 
-#: ../glade/chronojump.glade.h:25
+#: ../glade/chronojump.glade.h:30
 #, fuzzy
 msgid "<b>general data</b>"
 msgstr "البيانات الشخصية"
 
-#: ../glade/chronojump.glade.h:26
+#: ../glade/chronojump.glade.h:31
 #, fuzzy
 msgid "<b>persons</b>"
 msgstr "رؤساء الجلسة"
 
-#: ../glade/chronojump.glade.h:27
+#: ../glade/chronojump.glade.h:32
 #, fuzzy
 msgid "<b>pulse step</b>"
 msgstr "خطوة النبض"
 
-#: ../glade/chronojump.glade.h:28
+#: ../glade/chronojump.glade.h:33
 msgid "<b>statistic</b>"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:29
+#: ../glade/chronojump.glade.h:34
 #, fuzzy
 msgid "<b>statistics data</b>"
 msgstr "البيانات الشخصية"
 
-#: ../glade/chronojump.glade.h:30
+#: ../glade/chronojump.glade.h:35
+#, fuzzy
+msgid "<b>test bells</b>"
+msgstr "كُشِف خلل"
+
+#: ../glade/chronojump.glade.h:36
 #, fuzzy
 msgid "<b>view</b>"
 msgstr "عرض"
 
-#: ../glade/chronojump.glade.h:31
+#: ../glade/chronojump.glade.h:37
 msgid "ABK"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:32
-#, fuzzy
-msgid "About"
-msgstr "عن البرنامج"
-
-#: ../glade/chronojump.glade.h:33
-#, fuzzy
-msgid "Add jump type"
-msgstr "نوع جهاز الخرج"
-
-#: ../glade/chronojump.glade.h:34
-#, fuzzy
-msgid "Add multiple persons"
-msgstr "رسائل غير مراجعة متعدّد"
-
-#: ../glade/chronojump.glade.h:35
-#, fuzzy
-msgid "Add run type"
-msgstr "انقر لإختيار نوع المستورد:"
-
-#: ../glade/chronojump.glade.h:36
-msgid "Add this statistic and its graph to report window"
+#. don't plot AVG and SD rows
+#. if multisession, add AVG and SD cols
+#: ../glade/chronojump.glade.h:38 ../src/stats/graphs/cmjPlusPotency.cs:121
+#: ../src/stats/graphs/cmjPlusPotency.cs:170
+#: ../src/stats/graphs/djIndex.cs:127 ../src/stats/graphs/djIndex.cs:178
+#: ../src/stats/graphs/djQ.cs:127 ../src/stats/graphs/djQ.cs:179
+#: ../src/stats/graphs/fv.cs:122 ../src/stats/graphs/fv.cs:168
+#: ../src/stats/graphs/global.cs:123 ../src/stats/graphs/global.cs:194
+#: ../src/stats/graphs/ieIub.cs:129 ../src/stats/graphs/ieIub.cs:173
+#: ../src/stats/graphs/rjIndex.cs:124 ../src/stats/graphs/rjIndex.cs:171
+#: ../src/stats/graphs/rjPotencyBosco.cs:141
+#: ../src/stats/graphs/rjPotencyBosco.cs:196
+#: ../src/stats/graphs/sjCmjAbk.cs:109 ../src/stats/graphs/sjCmjAbk.cs:151
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:120
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:165 ../src/stats/main.cs:186
+#: ../src/stats/main.cs:218 ../src/stats/main.cs:328 ../src/stats/main.cs:355
+#: ../src/stats/main.cs:464 ../src/stats/main.cs:551 ../src/stats/main.cs:650
+#: ../src/stats/rjEvolution.cs:219 ../src/treeViewJump.cs:312
+#: ../src/treeViewPulse.cs:147 ../src/treeViewRun.cs:227
+msgid "AVG"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:37
-#, fuzzy
-msgid "Add to report"
-msgstr "مُرفق للإضافة."
-
-#: ../glade/chronojump.glade.h:38
-#, fuzzy
-msgid "Additional weight"
-msgstr "وزن الخط"
-
 #: ../glade/chronojump.glade.h:39
-msgid "Allow RJ's finish after time"
+msgid "Abalakov Jump (CounterMovement using arms)"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:40
 #, fuzzy
+msgid "About"
+msgstr "عن البرنامج"
+
+#: ../glade/chronojump.glade.h:41
+#, fuzzy
+msgid "Add jump type"
+msgstr "نوع جهاز الخرج"
+
+#: ../glade/chronojump.glade.h:42
+#, fuzzy
+msgid "Add multiple persons"
+msgstr "رسائل غير مراجعة متعدّد"
+
+#: ../glade/chronojump.glade.h:43
+#, fuzzy
+msgid "Add run type"
+msgstr "انقر لإختيار نوع المستورد:"
+
+#: ../glade/chronojump.glade.h:44
+msgid "Add this statistic and its graph to report window"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:45
+#, fuzzy
+msgid "Add to report"
+msgstr "مُرفق للإضافة."
+
+#: ../glade/chronojump.glade.h:46
+#, fuzzy
+msgid "Additional weight"
+msgstr "وزن الخط"
+
+#: ../glade/chronojump.glade.h:47
+msgid "Allow RJ's finish after time"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:48
+msgid "Bell bad"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:49
+msgid "Bell good"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:50
+msgid "Bells"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:51
+#, fuzzy
 msgid "By laps"
 msgstr "المطورون"
 
-#: ../glade/chronojump.glade.h:41
+#: ../glade/chronojump.glade.h:52
 #, fuzzy
 msgid "By time"
 msgstr "وقت غير سليم"
 
-#: ../glade/chronojump.glade.h:42
+#: ../glade/chronojump.glade.h:53
 msgid "CMJ"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:43
+#: ../glade/chronojump.glade.h:54
 #, fuzzy
 msgid "ChronoJump - Confirm"
-msgstr "تأكيد كلمة المرور:"
+msgstr "تأكيد كلمة السر:"
 
-#: ../glade/chronojump.glade.h:44
+#: ../glade/chronojump.glade.h:55
 #, fuzzy
 msgid "ChronoJump - Error"
 msgstr ""
 "خطأ GConf:\n"
 "  %s"
 
-#: ../glade/chronojump.glade.h:45
-msgid "Chronojump"
-msgstr ""
-
-#: ../glade/chronojump.glade.h:46
-#, fuzzy
-msgid "Chronojump Report window"
-msgstr "إرساء نافذة البرنامج"
-
-#: ../glade/chronojump.glade.h:47
-#, fuzzy
-msgid "Chronojump Statistics window"
-msgstr "إرساء نافذة البرنامج"
-
-#: ../glade/chronojump.glade.h:48
-msgid "Chronopic"
-msgstr ""
-
-#: ../glade/chronojump.glade.h:49
-#, fuzzy
-msgid "Chronopic in"
-msgstr "تكبير"
-
-#: ../glade/chronojump.glade.h:50
-#, fuzzy
-msgid "Collapse all"
-msgstr "إنهيار الكل"
-
-#: ../glade/chronojump.glade.h:51
-#: ../src/exportSession.cs:165
-#: ../src/gui/session.cs:359
-#: ../src/gui/session.cs:514
-#: ../src/report.cs:206
-#, fuzzy
-msgid "Comments"
-msgstr "_تعليقات:"
-
-#: ../glade/chronojump.glade.h:52
-#, fuzzy
-msgid "Configure graph"
-msgstr "حجم الرسم البياني"
-
-#: ../glade/chronojump.glade.h:53
-msgid "Confirm jump/run deletion"
-msgstr ""
-
-#: ../glade/chronojump.glade.h:54
-#, fuzzy
-msgid "Contact time"
-msgstr "وقت غير سليم"
-
-#: ../glade/chronojump.glade.h:55
-msgid "Create a new jump type in the database"
-msgstr ""
-
 #: ../glade/chronojump.glade.h:56
-msgid "Create a new run type in the database"
+msgid "Chronojump"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:57
 #, fuzzy
+msgid "Chronojump Report window"
+msgstr "إرساء نافذة البرنامج"
+
+#: ../glade/chronojump.glade.h:58
+#, fuzzy
+msgid "Chronojump Statistics window"
+msgstr "إرساء نافذة البرنامج"
+
+#: ../glade/chronojump.glade.h:59
+msgid "Chronojump language select"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:60
+msgid "Chronopic"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:61
+#, fuzzy
+msgid "Chronopic in"
+msgstr "تكبير"
+
+#: ../glade/chronojump.glade.h:62
+#, fuzzy
+msgid "Collapse all"
+msgstr "إنهيار الكل"
+
+#: ../glade/chronojump.glade.h:63 ../src/exportSession.cs:182
+#: ../src/gui/session.cs:360 ../src/gui/session.cs:516 ../src/report.cs:206
+#, fuzzy
+msgid "Comments"
+msgstr "_تعليقات:"
+
+#: ../glade/chronojump.glade.h:64
+msgid "Conditions in repetive test"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:65
+#, fuzzy
+msgid "Configure graph"
+msgstr "حجم الرسم البياني"
+
+#: ../glade/chronojump.glade.h:66
+msgid "Confirm jump/run deletion"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:67
+#, fuzzy
+msgid "Contact time"
+msgstr "وقت غير سليم"
+
+#: ../glade/chronojump.glade.h:68
+msgid "CounterMovement Jump"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:69
+msgid "Create a new jump type in the database"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:70
+msgid "Create a new run type in the database"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:71
+#, fuzzy
 msgid "Create new Jump Type"
 msgstr "نوع التّبليغ ببريدٍ جديد"
 
-#: ../glade/chronojump.glade.h:58
+#: ../glade/chronojump.glade.h:72
 #, fuzzy
 msgid "Create new Run Type"
 msgstr "نوع التّبليغ ببريدٍ جديد"
 
-#: ../glade/chronojump.glade.h:59
+#: ../glade/chronojump.glade.h:73
 #, fuzzy
 msgid "Custom"
 msgstr "مخصص"
 
-#: ../glade/chronojump.glade.h:60
+#: ../glade/chronojump.glade.h:74
 msgid "DJ"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:61
-#: ../src/exportSession.cs:164
-#: ../src/gui/session.cs:352
-#: ../src/gui/session.cs:513
-#: ../src/report.cs:205
+#: ../glade/chronojump.glade.h:75 ../src/exportSession.cs:181
+#: ../src/gui/session.cs:352 ../src/gui/session.cs:515 ../src/report.cs:205
 #, fuzzy
 msgid "Date"
 msgstr "التاريخ"
 
-#: ../glade/chronojump.glade.h:62
-#: ../src/gui/person.cs:102
+#: ../glade/chronojump.glade.h:76 ../src/gui/person.cs:102
 #, fuzzy
 msgid "Date of Birth"
 msgstr "تاريخ آخر"
 
-#: ../glade/chronojump.glade.h:63
+#: ../glade/chronojump.glade.h:77
 #, fuzzy
 msgid "Decimal number"
 msgstr "عدد عشري"
 
-#: ../glade/chronojump.glade.h:64
+#: ../glade/chronojump.glade.h:78
 #, fuzzy
 msgid "Delete selected RJ jump"
 msgstr "حذف وصلة الموقع المزار المنتقات"
 
-#: ../glade/chronojump.glade.h:65
+#: ../glade/chronojump.glade.h:79
 #, fuzzy
 msgid "Delete selected intervallic run"
 msgstr "حذف وصلة الموقع المزار المنتقات"
 
-#: ../glade/chronojump.glade.h:66
+#: ../glade/chronojump.glade.h:80
 #, fuzzy
 msgid "Delete selected jump"
 msgstr "_حذف المهام المنتقاة"
 
-#: ../glade/chronojump.glade.h:67
+#: ../glade/chronojump.glade.h:81
 #, fuzzy
 msgid "Delete selected pulse"
 msgstr "_حذف المهام المنتقاة"
 
-#: ../glade/chronojump.glade.h:68
+#: ../glade/chronojump.glade.h:82
 #, fuzzy
 msgid "Delete selected run"
 msgstr "_حذف المهام المنتقاة"
 
-#: ../glade/chronojump.glade.h:69
-#: ../src/exportSession.cs:201
-#: ../src/exportSession.cs:254
-#: ../src/exportSession.cs:316
-#: ../src/exportSession.cs:358
-#: ../src/gui/jump.cs:1045
-#: ../src/gui/jump.cs:1237
-#: ../src/gui/person.cs:103
-#: ../src/gui/run.cs:846
-#: ../src/gui/run.cs:1017
+#: ../glade/chronojump.glade.h:83 ../src/exportSession.cs:218
+#: ../src/exportSession.cs:271 ../src/exportSession.cs:333
+#: ../src/exportSession.cs:375 ../src/gui/jump.cs:1048 ../src/gui/jump.cs:1248
+#: ../src/gui/person.cs:103 ../src/gui/run.cs:851 ../src/gui/run.cs:1030
 #, fuzzy
 msgid "Description"
 msgstr "الوصف"
 
-#: ../glade/chronojump.glade.h:70
+#: ../glade/chronojump.glade.h:84
 #, fuzzy
 msgid ""
 "Description /\n"
 "comments"
 msgstr "الوصف يحتوي على"
 
-#: ../glade/chronojump.glade.h:72
-#: ../src/exportSession.cs:313
-#: ../src/gui/run.cs:845
-#: ../src/gui/run.cs:1014
-#: ../src/treeViewRun.cs:51
+#: ../glade/chronojump.glade.h:86 ../src/exportSession.cs:330
+#: ../src/gui/run.cs:850 ../src/gui/run.cs:1027 ../src/treeViewRun.cs:56
 #, fuzzy
 msgid "Distance"
 msgstr "km"
 
-#: ../glade/chronojump.glade.h:73
+#: ../glade/chronojump.glade.h:87
 msgid "DjIndex"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:74
+#: ../glade/chronojump.glade.h:88
+#, fuzzy
+msgid "Drop Jump"
+msgstr "قفز إلى"
+
+#: ../glade/chronojump.glade.h:89
 #, fuzzy
 msgid "Edit jump"
 msgstr "قفز إلى"
 
-#: ../glade/chronojump.glade.h:75
+#: ../glade/chronojump.glade.h:90
 #, fuzzy
 msgid "Edit run"
 msgstr "تشغيل برنامج"
 
-#: ../glade/chronojump.glade.h:76
+#: ../glade/chronojump.glade.h:91
 #, fuzzy
 msgid "Edit selected RJ jump"
 msgstr "انقر لتحرير اللوحة المنتقات"
 
-#: ../glade/chronojump.glade.h:77
+#: ../glade/chronojump.glade.h:92
 #, fuzzy
 msgid "Edit selected intervallic run"
 msgstr "شغّل \"%s\" على أي عنصر منتقى"
 
-#: ../glade/chronojump.glade.h:78
+#: ../glade/chronojump.glade.h:93
 #, fuzzy
 msgid "Edit selected jump"
 msgstr "تحرير المفتاح المنتقى"
 
-#: ../glade/chronojump.glade.h:79
+#: ../glade/chronojump.glade.h:94
 #, fuzzy
 msgid "Edit selected person"
 msgstr "تحرير المفتاح المنتقى"
 
-#: ../glade/chronojump.glade.h:80
+#: ../glade/chronojump.glade.h:95
 #, fuzzy
 msgid "Edit selected pulse"
 msgstr "تحرير المفتاح المنتقى"
 
-#: ../glade/chronojump.glade.h:81
+#: ../glade/chronojump.glade.h:96
 #, fuzzy
 msgid "Edit selected run"
 msgstr "تحرير المفتاح المنتقى"
 
-#: ../glade/chronojump.glade.h:82
+#: ../glade/chronojump.glade.h:97
 #, fuzzy
 msgid "Execute intervallic runs"
 msgstr "لم يمكن تنفيذ '%s': %s\n"
 
-#: ../glade/chronojump.glade.h:83
+#: ../glade/chronojump.glade.h:98
+#, fuzzy
+msgid "Execute reaction time"
+msgstr "لم يمكن تنفيذ '%s': %s\n"
+
+#: ../glade/chronojump.glade.h:99
 #, fuzzy
 msgid "Execute reactive jump"
 msgstr "لم يمكن تنفيذ '%s': %s\n"
 
-#: ../glade/chronojump.glade.h:84
+#: ../glade/chronojump.glade.h:100
 #, fuzzy
 msgid "Execute simple jumps"
 msgstr "لم يمكن تنفيذ '%s': %s\n"
 
-#: ../glade/chronojump.glade.h:85
+#: ../glade/chronojump.glade.h:101
 #, fuzzy
 msgid "Execute simple run"
 msgstr "لا يمكن تشغيل إكيجا"
 
-#: ../glade/chronojump.glade.h:86
+#: ../glade/chronojump.glade.h:102
 #, fuzzy
 msgid "Expand all"
 msgstr "نسخ ال_كل"
 
-#: ../glade/chronojump.glade.h:87
+#: ../glade/chronojump.glade.h:103
 #, fuzzy
-msgid "Export session to _CSV"
+msgid "Export session to _CSV (Spreadsheet)"
 msgstr "_تصدير علامات المواقع إلى ملف"
 
-#: ../glade/chronojump.glade.h:88
+#: ../glade/chronojump.glade.h:104
 #, fuzzy
 msgid "Export session to _XML"
 msgstr "_تصدير علامات المواقع إلى ملف"
 
-#: ../glade/chronojump.glade.h:89
+#: ../glade/chronojump.glade.h:105
 msgid "Extra data for this jump"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:90
+#: ../glade/chronojump.glade.h:106
 msgid "Extra data for this pulse"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:91
+#: ../glade/chronojump.glade.h:107
 msgid "Extra data for this run"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:92
-#: ../src/gui/jump.cs:1044
-#: ../src/gui/jump.cs:1236
+#: ../glade/chronojump.glade.h:108 ../src/gui/jump.cs:1047
+#: ../src/gui/jump.cs:1247
 #, fuzzy
 msgid "Extra weight"
 msgstr "وزن الخط"
 
-#: ../glade/chronojump.glade.h:94
+#: ../glade/chronojump.glade.h:110
 #, fuzzy, no-c-format
 msgid "Extra weight %"
 msgstr "وزن الخط"
 
-#: ../glade/chronojump.glade.h:95
+#: ../glade/chronojump.glade.h:111
 #, fuzzy
 msgid "F"
 msgstr "F"
 
-#: ../glade/chronojump.glade.h:96
+#: ../glade/chronojump.glade.h:112
 #, fuzzy
 msgid "Falling height"
 msgstr "ارتفاع القصاصة"
 
-#: ../glade/chronojump.glade.h:97
+#: ../glade/chronojump.glade.h:113
 #, fuzzy
 msgid "Finish"
 msgstr "إ_نهاء"
 
-#: ../glade/chronojump.glade.h:98
+#: ../glade/chronojump.glade.h:114
 msgid "Finish jump (save jump until this moment)"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:99
+#: ../glade/chronojump.glade.h:115
 #, fuzzy
 msgid "Flight time"
 msgstr "وقت غير سليم"
 
-#: ../glade/chronojump.glade.h:100
+#: ../glade/chronojump.glade.h:116
 #, fuzzy
 msgid "Free"
 msgstr "متوفّر"
 
-#: ../glade/chronojump.glade.h:101
+#: ../glade/chronojump.glade.h:117
 #, fuzzy
 msgid "From session"
 msgstr "بدأ الجلسة من الملف المحفوظ"
 
-#: ../glade/chronojump.glade.h:102
+#: ../glade/chronojump.glade.h:118
 #, fuzzy
 msgid "Graph"
 msgstr "حجم الرسم البياني"
 
-#: ../glade/chronojump.glade.h:103
+#: ../glade/chronojump.glade.h:119
 #, fuzzy
 msgid "Graph this statistic"
 msgstr "على هذا الحاسوب"
 
-#: ../glade/chronojump.glade.h:104
+#: ../glade/chronojump.glade.h:120
 #, fuzzy
 msgid "Height (cm)"
 msgstr "ارتفاع القصاصة"
 
-#: ../glade/chronojump.glade.h:105
+#: ../glade/chronojump.glade.h:121
 #, fuzzy
 msgid "Help"
 msgstr "مساعدة"
 
-#: ../glade/chronojump.glade.h:106
+#: ../glade/chronojump.glade.h:122
 #, fuzzy
 msgid "Identifier"
 msgstr "مميّز الجسم (%s)"
 
-#: ../glade/chronojump.glade.h:107
-msgid "If a reactive jump is limited by time, and time has running out, allow finish jump"
+#: ../glade/chronojump.glade.h:123
+msgid ""
+"If a reactive jump is limited by time, and time has running out, allow "
+"finish jump"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:124
+msgid "Intervallic run limited by Laps"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:125
+msgid "Intervallic run limited by Time"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:126
+msgid "Intervallic run unlimited (until \"finish\" button is clicked)"
 msgstr ""
 
 #. this.heightPreferred = heightPreferred;
-#: ../glade/chronojump.glade.h:108
-#: ../src/stats/global.cs:53
+#: ../glade/chronojump.glade.h:127 ../src/stats/global.cs:53
 #: ../src/stats/sjCmjAbk.cs:53
 #, fuzzy
 msgid "Jump"
 msgstr "قفز إلى"
 
-#: ../glade/chronojump.glade.h:109
-#, fuzzy
-msgid "Jump AVG"
-msgstr "قفز إلى"
-
-#: ../glade/chronojump.glade.h:110
+#: ../glade/chronojump.glade.h:128
 #, fuzzy
 msgid "Jump Reactive"
 msgstr "قفز إلى"
 
-#: ../glade/chronojump.glade.h:111
+#: ../glade/chronojump.glade.h:129
 #, fuzzy
 msgid "Jump type"
 msgstr "نوع التّنبيه"
 
-#: ../glade/chronojump.glade.h:112
-msgid "Jump until \"finish\" button is clicked"
-msgstr ""
-
-#: ../glade/chronojump.glade.h:113
-#: ../src/gui/stats.cs:93
-#: ../src/gui/stats.cs:305
-#: ../src/gui/stats.cs:664
-#: ../src/statType.cs:220
-#: ../src/stats/cmjPlusPotency.cs:55
-#: ../src/stats/djIndex.cs:32
-#: ../src/stats/djQ.cs:32
-#: ../src/stats/fv.cs:50
-#: ../src/stats/ieIub.cs:65
-#: ../src/stats/rjEvolution.cs:66
-#: ../src/stats/rjIndex.cs:32
-#: ../src/stats/rjPotencyBosco.cs:32
-#: ../src/stats/sjCmjAbkPlus.cs:55
+#: ../glade/chronojump.glade.h:130 ../src/gui/stats.cs:93
+#: ../src/gui/stats.cs:305 ../src/gui/stats.cs:664 ../src/statType.cs:220
+#: ../src/stats/cmjPlusPotency.cs:55 ../src/stats/djIndex.cs:32
+#: ../src/stats/djQ.cs:32 ../src/stats/fv.cs:50 ../src/stats/ieIub.cs:65
+#: ../src/stats/rjEvolution.cs:66 ../src/stats/rjIndex.cs:32
+#: ../src/stats/rjPotencyBosco.cs:32 ../src/stats/sjCmjAbkPlus.cs:55
 #: ../src/treeViewJump.cs:36
 msgid "Jumper"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:114
+#: ../glade/chronojump.glade.h:131
 #, fuzzy
 msgid "Language"
 msgstr "لغة"
 
-#: ../glade/chronojump.glade.h:115
-#: ../src/gui/jump.cs:1233
-#: ../src/gui/run.cs:1015
+#: ../glade/chronojump.glade.h:132 ../src/gui/jump.cs:1244
+#: ../src/gui/run.cs:1028
 #, fuzzy
 msgid "Limited by"
 msgstr "المطورون"
 
-#: ../glade/chronojump.glade.h:116
+#: ../glade/chronojump.glade.h:133
 #, fuzzy
 msgid "Limited by "
 msgstr "المطورون"
 
-#: ../glade/chronojump.glade.h:117
+#: ../glade/chronojump.glade.h:134
 #, fuzzy
 msgid "Load"
 msgstr "تحميل"
 
-#: ../glade/chronojump.glade.h:118
+#: ../glade/chronojump.glade.h:135
 #, fuzzy
 msgid "Load person"
 msgstr "شخص مجهول"
 
-#: ../glade/chronojump.glade.h:119
+#: ../glade/chronojump.glade.h:136
 #, fuzzy
 msgid "Load persons"
 msgstr "رؤساء الجلسة"
 
-#: ../glade/chronojump.glade.h:120
+#: ../glade/chronojump.glade.h:137
 msgid "Load persons from other session"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:121
+#: ../glade/chronojump.glade.h:138
 #, fuzzy
 msgid "Load session"
 msgstr "تحميل ملف الجلسة المعطى"
 
-#: ../glade/chronojump.glade.h:122
+#: ../glade/chronojump.glade.h:139
 #, fuzzy
 msgid "M"
 msgstr "M"
 
-#: ../glade/chronojump.glade.h:123
+#: ../glade/chronojump.glade.h:140
 #, fuzzy
 msgid ""
 "Main\n"
 "options"
 msgstr "عمود الأدوات الرّئيسي"
 
-#: ../glade/chronojump.glade.h:125
+#: ../glade/chronojump.glade.h:142
 #, fuzzy
 msgid "Make report"
 msgstr "تقرير عن حالة الطقس"
 
-#: ../glade/chronojump.glade.h:126
+#: ../glade/chronojump.glade.h:143
 #, fuzzy
 msgid "Maximum"
 msgstr "الحد الأقصى:"
 
-#: ../glade/chronojump.glade.h:127
+#: ../glade/chronojump.glade.h:144
 #, fuzzy
 msgid "Message"
 msgstr "رسالة"
 
-#: ../glade/chronojump.glade.h:128
+#: ../glade/chronojump.glade.h:145
 #, fuzzy
 msgid "Minimum"
 msgstr "الحد الأدنى:"
 
-#: ../glade/chronojump.glade.h:129
+#: ../glade/chronojump.glade.h:146
 #, fuzzy
 msgid "More"
 msgstr "_المزيد..."
 
-#: ../glade/chronojump.glade.h:130
+#: ../glade/chronojump.glade.h:147
 #, fuzzy
 msgid "More intervallic runs"
 msgstr "إظهار _تفاصيل أكثر"
 
-#: ../glade/chronojump.glade.h:131
+#: ../glade/chronojump.glade.h:148
 #, fuzzy
 msgid "More pulse types"
 msgstr "كل الفئات المدعومة"
 
-#: ../glade/chronojump.glade.h:132
+#: ../glade/chronojump.glade.h:149
 #, fuzzy
 msgid "More pulses"
 msgstr "_خيارات أخرى"
 
-#: ../glade/chronojump.glade.h:133
+#: ../glade/chronojump.glade.h:150
 #, fuzzy
 msgid "More reactive jumps"
 msgstr "إظهار _تفاصيل أكثر"
 
-#: ../glade/chronojump.glade.h:134
+#: ../glade/chronojump.glade.h:151
 #, fuzzy
 msgid "More simple jumps"
 msgstr "إظهار _تفاصيل أكثر"
 
-#: ../glade/chronojump.glade.h:135
+#: ../glade/chronojump.glade.h:152
 #, fuzzy
 msgid "More simple runs"
 msgstr "إظهار _تفاصيل أكثر"
 
-#: ../glade/chronojump.glade.h:136
-#: ../src/gui/person.cs:572
+#: ../glade/chronojump.glade.h:153 ../src/gui/person.cs:573
 #, fuzzy
 msgid "New jumper"
 msgstr "فا_صل جديد"
 
-#: ../glade/chronojump.glade.h:137
+#: ../glade/chronojump.glade.h:154
 #, fuzzy
 msgid "New person"
 msgstr "شخص مجهول"
 
-#: ../glade/chronojump.glade.h:138
+#: ../glade/chronojump.glade.h:155
 #, fuzzy
 msgid "New persons (multiple)"
 msgstr "رسائل غير مراجعة متعدّد"
 
-#: ../glade/chronojump.glade.h:139
+#: ../glade/chronojump.glade.h:156
 #, fuzzy
 msgid "Notes"
 msgstr "ملاحظات"
 
-#: ../glade/chronojump.glade.h:140
+#: ../glade/chronojump.glade.h:157
 #, fuzzy
 msgid "Now"
 msgstr "الآن"
 
-#: ../glade/chronojump.glade.h:141
+#: ../glade/chronojump.glade.h:158
 #, fuzzy
 msgid "Optimal expand"
 msgstr "تمديد اللسان"
 
-#: ../glade/chronojump.glade.h:142
+#: ../glade/chronojump.glade.h:159
 msgid "P_ulse"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:143
+#: ../glade/chronojump.glade.h:160
 #, fuzzy
 msgid "Paint a circle at end"
 msgstr "نماذج فارغة في النّهاية:"
 
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:144
-#: ../src/treeViewPulse.cs:46
+#: ../glade/chronojump.glade.h:161 ../src/treeViewPulse.cs:46
+#: ../src/treeViewReactionTime.cs:31
 #, fuzzy
 msgid "Person"
 msgstr "شخص مجهول"
 
-#: ../glade/chronojump.glade.h:145
+#: ../glade/chronojump.glade.h:162
 #, fuzzy
 msgid "Person AVG"
 msgstr "شخص مجهول"
 
-#: ../glade/chronojump.glade.h:146
+#: ../glade/chronojump.glade.h:163
 msgid "Pla_tform"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:147
-#: ../src/exportSession.cs:163
-#: ../src/gui/person.cs:1217
-#: ../src/gui/session.cs:351
-#: ../src/gui/session.cs:512
-#: ../src/report.cs:204
+#: ../glade/chronojump.glade.h:164 ../src/exportSession.cs:180
+#: ../src/gui/person.cs:1217 ../src/gui/session.cs:351
+#: ../src/gui/session.cs:514 ../src/report.cs:204
 #, fuzzy
 msgid "Place"
 msgstr "افتح مكان شبكة %s"
 
-#: ../glade/chronojump.glade.h:148
+#: ../glade/chronojump.glade.h:165
 msgid ""
 "Please fill these values\n"
 "(bold titles are required)"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:150
+#: ../glade/chronojump.glade.h:167
+msgid "Please select <b>Chronojump</b> language"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:168
 msgid "Prefer height over TF"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:151
+#: ../glade/chronojump.glade.h:169
 #, fuzzy
 msgid "Prefer m/s over Km/h"
 msgstr "افضل نصا عاديا"
 
-#: ../glade/chronojump.glade.h:152
+#: ../glade/chronojump.glade.h:170
 #, fuzzy
 msgid "Preferences"
 msgstr "تفضيلات"
 
-#: ../glade/chronojump.glade.h:153
+#: ../glade/chronojump.glade.h:171
 #, fuzzy
 msgid "Properties"
 msgstr "خصائص"
 
-#: ../glade/chronojump.glade.h:154
+#: ../glade/chronojump.glade.h:172
 #, fuzzy
 msgid "Pulse"
 msgstr "خطوة النبض"
 
-#: ../glade/chronojump.glade.h:155
-#, fuzzy
-msgid "Pulse AVG"
-msgstr "خطوة النبض"
-
-#: ../glade/chronojump.glade.h:156
+#: ../glade/chronojump.glade.h:173
 msgid "QIndex"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:157
+#: ../glade/chronojump.glade.h:174
 msgid "RJ(j)"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:158
+#: ../glade/chronojump.glade.h:175
 msgid "RJ(t)"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:159
+#: ../glade/chronojump.glade.h:176
 #, fuzzy
 msgid "RJ(unlimited)"
 msgstr "طلبات غير محدودة"
 
-#: ../glade/chronojump.glade.h:160
+#: ../glade/chronojump.glade.h:177 ../src/gui/session.cs:358
+#, fuzzy
+msgid "Reaction time"
+msgstr "وقت غير سليم"
+
+#: ../glade/chronojump.glade.h:178
+msgid "Reactive Jump limited by Jumps"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:179
+msgid "Reactive Jump limited by Time"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:180
+msgid "Reactive Jump unlimited (until \"finish\" button is clicked)"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:181
 msgid "Repair selected RJ jump"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:161
+#: ../glade/chronojump.glade.h:182
 #, fuzzy
 msgid "Repair selected intervallic run"
 msgstr "شغّل \"%s\" على أي عنصر منتقى"
 
-#: ../glade/chronojump.glade.h:162
+#: ../glade/chronojump.glade.h:183
 #, fuzzy
 msgid "Repair selected pulse"
 msgstr "لم يتم انتقاء أيّة تطبيقات"
 
-#: ../glade/chronojump.glade.h:163
+#: ../glade/chronojump.glade.h:184
 msgid "Repair selected reactive jump"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:164
+#: ../glade/chronojump.glade.h:185
 #, fuzzy
 msgid "Report window"
 msgstr "مبدل النافذة"
 
-#: ../glade/chronojump.glade.h:165
+#: ../glade/chronojump.glade.h:186
 #, fuzzy
 msgid "Run"
 msgstr "تشغيل"
 
-#: ../glade/chronojump.glade.h:166
-#, fuzzy
-msgid "Run AVG"
-msgstr "تشغيل برنامج"
-
-#: ../glade/chronojump.glade.h:167
+#: ../glade/chronojump.glade.h:187
 #, fuzzy
 msgid "Run Intervallic"
 msgstr "تشغيل برنامج"
 
-#: ../glade/chronojump.glade.h:168
+#: ../glade/chronojump.glade.h:188
 #, fuzzy
 msgid "Run type"
 msgstr "نوع التّنبيه"
 
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:169
-#: ../src/treeViewRun.cs:49
-#: ../src/treeViewRun.cs:97
+#: ../glade/chronojump.glade.h:189 ../src/treeViewRun.cs:49
+#: ../src/treeViewRun.cs:106
 msgid "Runner"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:170
+#: ../glade/chronojump.glade.h:190
 msgid "Runs"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:171
+#: ../glade/chronojump.glade.h:191
 msgid "SJ"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:172
+#: ../glade/chronojump.glade.h:192
 msgid "SJ+"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:173
+#: ../glade/chronojump.glade.h:193
 #, fuzzy
 msgid "Search filter"
 msgstr "خطأ أثناء تنفيذ بحث المصفات: %s: %s"
 
-#: ../glade/chronojump.glade.h:174
+#: ../glade/chronojump.glade.h:194
+msgid "Select conditions for beep signals"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:195
 #, fuzzy
 msgid "Select data for HTML report"
 msgstr "إنتقاء خط HTML الثّابت العرض للطّباعة"
 
-#: ../glade/chronojump.glade.h:175
+#: ../glade/chronojump.glade.h:196
 msgid ""
 "Select persons you want to load.\n"
 "(Persons in current session are not listed)"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:177
+#: ../glade/chronojump.glade.h:198
 #, fuzzy
 msgid "Select sessions for statistics"
 msgstr "عربي"
 
-#: ../glade/chronojump.glade.h:178
+#: ../glade/chronojump.glade.h:199
 #, fuzzy
 msgid "Serial ports help"
 msgstr "عرض مساعدة المؤشّرات"
 
-#: ../glade/chronojump.glade.h:179
+#: ../glade/chronojump.glade.h:200
 #, fuzzy
 msgid "Session AVG"
 msgstr "اختيرت جلسة %s"
 
-#: ../glade/chronojump.glade.h:180
+#: ../glade/chronojump.glade.h:201
 #, fuzzy
-msgid "Show all events of a person"
+msgid "Show all tests of a person"
 msgstr "عرض _كل مساحات العمل:"
 
-#: ../glade/chronojump.glade.h:181
+#: ../glade/chronojump.glade.h:202
 #, fuzzy
 msgid "Show black guide"
 msgstr "مستوى اللاعب الأسود"
 
-#: ../glade/chronojump.glade.h:182
+#: ../glade/chronojump.glade.h:203
 #, fuzzy
 msgid "Show green guide"
 msgstr "أخضر على أسود"
 
-#: ../glade/chronojump.glade.h:183
-msgid "Show grid (on multiple events)"
+#: ../glade/chronojump.glade.h:204
+msgid "Show grid (on repetitive tests)"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:184
+#: ../glade/chronojump.glade.h:205
 #, fuzzy
 msgid "Show height"
 msgstr "ارتفاع القصاصة"
 
-#: ../glade/chronojump.glade.h:185
+#: ../glade/chronojump.glade.h:206
 msgid "Show indexes between TF and TC"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:186
+#: ../glade/chronojump.glade.h:207
 #, fuzzy
 msgid "Show initial speed"
 msgstr "عرض مقبض تغيير السرعة"
 
-#: ../glade/chronojump.glade.h:187
+#: ../glade/chronojump.glade.h:208
 #, fuzzy
 msgid "Show speed"
 msgstr "عرض مقبض تغيير السرعة"
 
-#: ../glade/chronojump.glade.h:188
+#: ../glade/chronojump.glade.h:209
 #, fuzzy
 msgid "Show time"
 msgstr "اظهار وقت آ_خر تعديل"
 
-#: ../glade/chronojump.glade.h:189
+#: ../glade/chronojump.glade.h:210
+msgid "Simple jump with no special technique"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:211
 msgid "Simulated"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:190
-#: ../src/exportSession.cs:315
-#: ../src/treeViewRun.cs:50
-#: ../src/treeViewRun.cs:98
+#: ../glade/chronojump.glade.h:212 ../src/exportSession.cs:332
+#: ../src/treeViewRun.cs:50 ../src/treeViewRun.cs:107
 #, fuzzy
 msgid "Speed"
 msgstr "سرعة"
 
-#: ../glade/chronojump.glade.h:191
-#: ../src/gui/jump.cs:1043
-#: ../src/gui/jump.cs:1235
+#: ../glade/chronojump.glade.h:213
+#, fuzzy
+msgid "Squat Jump"
+msgstr "قفز إلى"
+
+#: ../glade/chronojump.glade.h:214
+msgid "Squat Jump with extra weight"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:215 ../src/gui/jump.cs:1046
+#: ../src/gui/jump.cs:1246
 #, fuzzy
 msgid "Start inside"
 msgstr "إبدأ مخفياً"
 
-#: ../glade/chronojump.glade.h:192
+#: ../glade/chronojump.glade.h:216
 #, fuzzy
 msgid "Stats window"
 msgstr "مبدل النافذة"
 
 #. Console.WriteLine("TC: {0}", tc.ToString());
-#: ../glade/chronojump.glade.h:193
-#: ../src/exportSession.cs:195
-#: ../src/gui/jump.cs:542
-#: ../src/jump.cs:352
-#: ../src/stats/djIndex.cs:36
-#: ../src/stats/djQ.cs:36
-#: ../src/stats/graphs/djIndex.cs:76
-#: ../src/stats/graphs/djQ.cs:76
-#: ../src/stats/graphs/rjEvolution.cs:131
-#: ../src/stats/graphs/rjIndex.cs:76
-#: ../src/stats/graphs/rjPotencyBosco.cs:80
-#: ../src/stats/rjEvolution.cs:73
+#: ../glade/chronojump.glade.h:217 ../src/execute/jump.cs:358
+#: ../src/exportSession.cs:212 ../src/gui/jump.cs:545
+#: ../src/stats/djIndex.cs:36 ../src/stats/djQ.cs:36
+#: ../src/stats/graphs/djIndex.cs:76 ../src/stats/graphs/djQ.cs:76
+#: ../src/stats/graphs/rjEvolution.cs:131 ../src/stats/graphs/rjIndex.cs:76
+#: ../src/stats/graphs/rjPotencyBosco.cs:80 ../src/stats/rjEvolution.cs:73
 #: ../src/stats/rjEvolution.cs:78
 msgid "TC"
 msgstr ""
 
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
-#: ../glade/chronojump.glade.h:194
-#: ../src/exportSession.cs:196
-#: ../src/gui/jump.cs:551
-#: ../src/gui/run.cs:462
-#: ../src/jump.cs:360
-#: ../src/stats/djIndex.cs:35
-#: ../src/stats/djQ.cs:35
-#: ../src/stats/graphs/djIndex.cs:77
-#: ../src/stats/graphs/djQ.cs:77
-#: ../src/stats/graphs/global.cs:76
-#: ../src/stats/graphs/rjEvolution.cs:132
-#: ../src/stats/graphs/rjIndex.cs:77
-#: ../src/stats/graphs/rjPotencyBosco.cs:81
-#: ../src/stats/graphs/sjCmjAbk.cs:69
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:71
-#: ../src/stats/rjEvolution.cs:74
-#: ../src/stats/rjEvolution.cs:79
-#: ../src/stats/sjCmjAbk.cs:54
-#: ../src/stats/sjCmjAbkPlus.cs:56
+#: ../glade/chronojump.glade.h:218 ../src/execute/jump.cs:366
+#: ../src/exportSession.cs:213 ../src/gui/jump.cs:554 ../src/gui/run.cs:467
+#: ../src/stats/djIndex.cs:35 ../src/stats/djQ.cs:35
+#: ../src/stats/graphs/djIndex.cs:77 ../src/stats/graphs/djQ.cs:77
+#: ../src/stats/graphs/global.cs:76 ../src/stats/graphs/rjEvolution.cs:132
+#: ../src/stats/graphs/rjIndex.cs:77 ../src/stats/graphs/rjPotencyBosco.cs:81
+#: ../src/stats/graphs/sjCmjAbk.cs:69 ../src/stats/graphs/sjCmjAbkPlus.cs:71
+#: ../src/stats/rjEvolution.cs:74 ../src/stats/rjEvolution.cs:79
+#: ../src/stats/sjCmjAbk.cs:54 ../src/stats/sjCmjAbkPlus.cs:56
 msgid "TF"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:195
-msgid "This dialog explains wich ports are suitable to be connected with chronopic"
+#: ../glade/chronojump.glade.h:219
+msgid "TF / TC"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:196
-#: ../src/exportSession.cs:252
-#: ../src/exportSession.cs:314
-#: ../src/stats/graphs/rjPotencyBosco.cs:83
-#: ../src/stats/rjPotencyBosco.cs:37
-#: ../src/treeViewPulse.cs:47
-#: ../src/treeViewRun.cs:52
-#: ../src/treeViewRun.cs:99
+#: ../glade/chronojump.glade.h:220
+msgid ""
+"This dialog explains wich ports are suitable to be connected with chronopic"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:221 ../src/exportSession.cs:269
+#: ../src/exportSession.cs:331 ../src/gui/pulse.cs:272
+#: ../src/stats/graphs/rjPotencyBosco.cs:83 ../src/stats/rjPotencyBosco.cs:37
+#: ../src/treeViewPulse.cs:47 ../src/treeViewRun.cs:57
+#: ../src/treeViewRun.cs:113 ../src/execute/reactionTime.cs:236
+#: ../src/treeViewReactionTime.cs:51
 #, fuzzy
 msgid "Time"
 msgstr "الوقت"
 
-#: ../glade/chronojump.glade.h:197
+#: ../glade/chronojump.glade.h:222
 msgid "Totaltime"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:198
+#: ../glade/chronojump.glade.h:223
 msgid ""
 "Track distance \n"
 "(between platforms)"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:200
-#: ../src/exportSession.cs:194
-#: ../src/exportSession.cs:312
-#: ../src/exportSession.cs:351
+#: ../glade/chronojump.glade.h:225 ../src/exportSession.cs:211
+#: ../src/exportSession.cs:329 ../src/exportSession.cs:368
 #: ../src/gui/report.cs:113
 #, fuzzy
 msgid "Type"
@@ -1040,473 +1114,499 @@ msgstr "النّوع"
 
 #. check if it's unlimited
 #. unlimited mark
-#: ../glade/chronojump.glade.h:201
-#: ../src/gui/jump.cs:1262
-#: ../src/gui/jump.cs:1305
-#: ../src/gui/jump.cs:1341
-#: ../src/gui/run.cs:1033
-#: ../src/gui/run.cs:1074
-#: ../src/gui/run.cs:1102
+#: ../glade/chronojump.glade.h:226 ../src/gui/jump.cs:1273
+#: ../src/gui/jump.cs:1316 ../src/gui/jump.cs:1352 ../src/gui/run.cs:1046
+#: ../src/gui/run.cs:1087 ../src/gui/run.cs:1115
 #, fuzzy
 msgid "Unlimited"
 msgstr "غير محدود"
 
-#: ../glade/chronojump.glade.h:202
+#: ../glade/chronojump.glade.h:227
 #, fuzzy
 msgid "Update"
 msgstr "تحديث"
 
-#: ../glade/chronojump.glade.h:203
+#: ../glade/chronojump.glade.h:228
 #, fuzzy
 msgid "Update stats"
 msgstr "التحديث التالي:"
 
-#: ../glade/chronojump.glade.h:204
+#: ../glade/chronojump.glade.h:229
 msgid ""
 "Use this window to add until 10 people.\n"
 "If you need more, just repeat the operation later."
 msgstr ""
 
-#: ../glade/chronojump.glade.h:206
+#: ../glade/chronojump.glade.h:231
+msgid ""
+"Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:232
 #, fuzzy
 msgid "_About"
 msgstr "_حول"
 
-#: ../glade/chronojump.glade.h:207
+#: ../glade/chronojump.glade.h:233
 #, fuzzy
 msgid "_Custom"
 msgstr "مخصص:"
 
-#: ../glade/chronojump.glade.h:208
+#: ../glade/chronojump.glade.h:234
 msgid "_Delete current person from this session"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:209
+#: ../glade/chronojump.glade.h:235
 #, fuzzy
 msgid "_Delete session"
 msgstr "اختيرت جلسة %s"
 
-#: ../glade/chronojump.glade.h:210
+#: ../glade/chronojump.glade.h:236
 #, fuzzy
 msgid "_Edit current person"
 msgstr "_تحرير التقويم الحالي..."
 
-#: ../glade/chronojump.glade.h:211
+#: ../glade/chronojump.glade.h:237
 #, fuzzy
 msgid "_Edit session"
 msgstr "تحرير اسم الجلسة"
 
-#: ../glade/chronojump.glade.h:212
+#: ../glade/chronojump.glade.h:238
 #, fuzzy
 msgid "_File"
 msgstr "_ملف"
 
-#: ../glade/chronojump.glade.h:213
+#: ../glade/chronojump.glade.h:239
 #, fuzzy
 msgid "_Help"
 msgstr "م_ساعدة"
 
-#: ../glade/chronojump.glade.h:214
+#: ../glade/chronojump.glade.h:240
 #, fuzzy
 msgid "_Jump"
 msgstr "قفز إلى"
 
-#: ../glade/chronojump.glade.h:215
+#: ../glade/chronojump.glade.h:241
 #, fuzzy
 msgid "_Load person"
 msgstr "شخص مجهول"
 
-#: ../glade/chronojump.glade.h:216
+#: ../glade/chronojump.glade.h:242
 #, fuzzy
 msgid "_Load session"
 msgstr "تحميل ملف الجلسة المعطى"
 
-#: ../glade/chronojump.glade.h:217
+#: ../glade/chronojump.glade.h:243
 #, fuzzy
 msgid "_New person"
 msgstr "شخص مجهول"
 
-#: ../glade/chronojump.glade.h:218
+#: ../glade/chronojump.glade.h:244
 #, fuzzy
 msgid "_New session"
 msgstr "إضافة جلسة جديدة"
 
-#: ../glade/chronojump.glade.h:219
+#: ../glade/chronojump.glade.h:245
 #, fuzzy
 msgid "_Person"
 msgstr "شخص مجهول"
 
-#: ../glade/chronojump.glade.h:220
+#: ../glade/chronojump.glade.h:246
 #, fuzzy
 msgid "_Preferences"
 msgstr "الت_فضيلات"
 
-#: ../glade/chronojump.glade.h:221
+#: ../glade/chronojump.glade.h:247
 #, fuzzy
 msgid "_Quit"
 msgstr "إ_نهي"
 
-#: ../glade/chronojump.glade.h:222
+#: ../glade/chronojump.glade.h:248
 #, fuzzy
 msgid "_Run"
 msgstr "ت_نفيذ"
 
-#: ../glade/chronojump.glade.h:223
-msgid "_Show all events of current person"
-msgstr ""
+#: ../glade/chronojump.glade.h:249
+#, fuzzy
+msgid "_Show all tests of current person"
+msgstr "عرض _كل مساحات العمل:"
 
-#: ../glade/chronojump.glade.h:224
+#: ../glade/chronojump.glade.h:250
 #, fuzzy
 msgid "_View"
 msgstr "_اعرض"
 
-#: ../glade/chronojump.glade.h:225
+#: ../glade/chronojump.glade.h:251
+#, fuzzy
+msgid "action"
+msgstr "تلقائي"
+
+#: ../glade/chronojump.glade.h:252
 #, fuzzy
 msgid "all"
 msgstr "الكل"
 
-#: ../glade/chronojump.glade.h:226
+#: ../glade/chronojump.glade.h:253
 #, fuzzy
 msgid "always"
 msgstr "دائماً"
 
-#: ../glade/chronojump.glade.h:227
+#: ../glade/chronojump.glade.h:254
+msgid "and show best TF / TC"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:255
+msgid "and show best time"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:256
+msgid "and show worst TF / TC"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:257
+msgid "and show worst time"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:258
 #, fuzzy
 msgid "apply to"
 msgstr "مسجل ل %s"
 
-#: ../glade/chronojump.glade.h:228
+#: ../glade/chronojump.glade.h:259
 #, fuzzy
 msgid "auto"
 msgstr "تلقائي"
 
-#: ../glade/chronojump.glade.h:229
+#: ../glade/chronojump.glade.h:260
 #, fuzzy
 msgid "change"
-msgstr "تغيير كلمة المرور"
+msgstr "تغيير كلمة السر"
 
-#: ../glade/chronojump.glade.h:230
+#: ../glade/chronojump.glade.h:261
+#, fuzzy
+msgid "condition"
+msgstr "الوصف"
+
+#: ../glade/chronojump.glade.h:262
 #, fuzzy
 msgid "current"
 msgstr "الحالي"
 
-#: ../glade/chronojump.glade.h:231
+#: ../glade/chronojump.glade.h:263
 #, fuzzy
 msgid "current session data"
 msgstr "نهاية الجلسة الحالية"
 
-#: ../glade/chronojump.glade.h:232
+#: ../glade/chronojump.glade.h:264
 #, fuzzy
 msgid "current session jumpers"
 msgstr "نهاية الجلسة الحالية"
 
-#: ../glade/chronojump.glade.h:233
+#: ../glade/chronojump.glade.h:265
 msgid "define desired pulse step"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:234
+#: ../glade/chronojump.glade.h:266
 #, fuzzy
 msgid "delete current session"
 msgstr "نهاية الجلسة الحالية"
 
-#: ../glade/chronojump.glade.h:235
+#: ../glade/chronojump.glade.h:267
 #, fuzzy
-msgid "delete last event"
+msgid "delete last test"
 msgstr "مظهر أحداث الأشهر"
 
-#: ../glade/chronojump.glade.h:236
+#: ../glade/chronojump.glade.h:268
 #, fuzzy
 msgid "description"
 msgstr "الوصف"
 
-#: ../glade/chronojump.glade.h:237
+#: ../glade/chronojump.glade.h:269
 #, fuzzy
 msgid "developers"
 msgstr "المطوّرون"
 
-#: ../glade/chronojump.glade.h:238
+#: ../glade/chronojump.glade.h:270
 msgid "female"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:239
+#: ../glade/chronojump.glade.h:271
 #, fuzzy
 msgid "fixed: "
 msgstr "_عرض ثابت:"
 
-#: ../glade/chronojump.glade.h:240
+#: ../glade/chronojump.glade.h:272
 #, fuzzy
 msgid "include subjumps"
 msgstr "_تضمين الدلائل المحوية"
 
-#: ../glade/chronojump.glade.h:241
+#: ../glade/chronojump.glade.h:273
 #, fuzzy
 msgid "include subruns"
 msgstr "_تضمين الدلائل المحوية"
 
-#: ../glade/chronojump.glade.h:242
+#: ../glade/chronojump.glade.h:274
 msgid "intervallic"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:243
+#: ../glade/chronojump.glade.h:275
 msgid "intervallic runs"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:244
+#: ../glade/chronojump.glade.h:276
 #, fuzzy
 msgid "jump extra data"
 msgstr "بيانات إضا_فيّة للمقطوعة:"
 
-#: ../glade/chronojump.glade.h:245
+#: ../glade/chronojump.glade.h:277
 msgid ""
 "jumper's\n"
 "average"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:247
+#: ../glade/chronojump.glade.h:279
 msgid ""
 "jumper's\n"
 "bests"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:249
-#: ../src/gui/jump.cs:856
+#: ../glade/chronojump.glade.h:281 ../src/gui/jump.cs:859
 #: ../src/stats/graphs/rjPotencyBosco.cs:119
 msgid "jumps"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:250
+#: ../glade/chronojump.glade.h:282
 #, fuzzy
 msgid "last"
 msgstr "الأخير"
 
-#: ../glade/chronojump.glade.h:251
+#: ../glade/chronojump.glade.h:283
 #, fuzzy
 msgid "limit"
 msgstr "حدّ الإ_نزال:"
 
-#: ../glade/chronojump.glade.h:252
+#: ../glade/chronojump.glade.h:284
 msgid "male"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:253
+#: ../glade/chronojump.glade.h:285
 #, fuzzy
 msgid "man"
 msgstr "جزيرة مان"
 
-#: ../glade/chronojump.glade.h:254
+#: ../glade/chronojump.glade.h:286
 #, fuzzy
 msgid "mark best 'n' consecutives"
 msgstr "أفضل ت_باين"
 
-#: ../glade/chronojump.glade.h:255
+#: ../glade/chronojump.glade.h:287
 #, fuzzy
 msgid "mark consecutives"
 msgstr "علامة، احتواء"
 
-#: ../glade/chronojump.glade.h:256
+#: ../glade/chronojump.glade.h:288
 #, fuzzy
 msgid "meters"
 msgstr "أمتار"
 
-#: ../glade/chronojump.glade.h:257
+#: ../glade/chronojump.glade.h:289
 #, fuzzy
 msgid "more"
 msgstr "_المزيد..."
 
-#: ../glade/chronojump.glade.h:258
+#: ../glade/chronojump.glade.h:290
 #, fuzzy
 msgid "no"
 msgstr "لا"
 
-#: ../glade/chronojump.glade.h:259
+#: ../glade/chronojump.glade.h:291
 #, fuzzy
 msgid "none"
 msgstr "لا يوجد"
 
-#: ../glade/chronojump.glade.h:260
+#: ../glade/chronojump.glade.h:292
 #, fuzzy
 msgid "other"
 msgstr "غير ذلك"
 
-#: ../glade/chronojump.glade.h:261
+#: ../glade/chronojump.glade.h:293
 msgid "ppm"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:262
+#: ../glade/chronojump.glade.h:294
 #, fuzzy
 msgid "pulse extra data"
 msgstr "بيانات إضا_فيّة للمقطوعة:"
 
-#: ../glade/chronojump.glade.h:263
+#: ../glade/chronojump.glade.h:295
 msgid "reactive jumps"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:264
+#: ../glade/chronojump.glade.h:296
 msgid "repetitive"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:265
+#: ../glade/chronojump.glade.h:297
 #, fuzzy
 msgid "run extra data"
 msgstr "بيانات إضا_فيّة للمقطوعة:"
 
-#: ../glade/chronojump.glade.h:266
-msgid "run until \"finish\" button is clicked"
-msgstr ""
-
 #. update the totaltime label
-#: ../glade/chronojump.glade.h:267
-#: ../src/gui/jump.cs:496
-#: ../src/gui/jump.cs:577
-#: ../src/gui/jump.cs:601
-#: ../src/gui/jump.cs:727
-#: ../src/gui/jump.cs:857
-#: ../src/gui/run.cs:421
-#: ../src/gui/run.cs:488
-#: ../src/gui/run.cs:588
-#: ../src/gui/run.cs:713
-#: ../src/stats/graphs/djIndex.cs:106
-#: ../src/stats/graphs/djQ.cs:106
-#: ../src/stats/graphs/global.cs:95
-#: ../src/stats/graphs/global.cs:106
-#: ../src/stats/graphs/ieIub.cs:108
-#: ../src/stats/graphs/rjEvolution.cs:80
+#: ../glade/chronojump.glade.h:298 ../src/gui/jump.cs:499
+#: ../src/gui/jump.cs:580 ../src/gui/jump.cs:604 ../src/gui/jump.cs:730
+#: ../src/gui/jump.cs:860 ../src/gui/pulse.cs:223 ../src/gui/pulse.cs:304
+#: ../src/gui/pulse.cs:411 ../src/gui/run.cs:426 ../src/gui/run.cs:493
+#: ../src/gui/run.cs:593 ../src/gui/run.cs:718
+#: ../src/stats/graphs/djIndex.cs:106 ../src/stats/graphs/djQ.cs:106
+#: ../src/stats/graphs/global.cs:95 ../src/stats/graphs/global.cs:106
+#: ../src/stats/graphs/ieIub.cs:108 ../src/stats/graphs/rjEvolution.cs:80
 #: ../src/stats/graphs/rjIndex.cs:102
 #: ../src/stats/graphs/rjPotencyBosco.cs:116
-#: ../src/stats/graphs/sjCmjAbk.cs:85
-#: ../src/stats/graphs/sjCmjAbk.cs:95
+#: ../src/stats/graphs/sjCmjAbk.cs:85 ../src/stats/graphs/sjCmjAbk.cs:95
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:92
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:106
 #, fuzzy
 msgid "seconds"
 msgstr "ثوان"
 
-#: ../glade/chronojump.glade.h:268
+#: ../glade/chronojump.glade.h:299
 #, fuzzy
 msgid "select"
 msgstr "_إختار"
 
-#: ../glade/chronojump.glade.h:269
+#: ../glade/chronojump.glade.h:300
 #, fuzzy
 msgid "select ->"
 msgstr "_إختار"
 
-#: ../glade/chronojump.glade.h:270
+#: ../glade/chronojump.glade.h:301
 #, fuzzy
 msgid "selected"
 msgstr "مُنتقى"
 
-#: ../glade/chronojump.glade.h:271
+#: ../glade/chronojump.glade.h:302
 #, fuzzy
 msgid "session"
 msgstr "جلسة"
 
-#: ../glade/chronojump.glade.h:272
-msgid "show all events of this person"
-msgstr ""
+#: ../glade/chronojump.glade.h:303
+#, fuzzy
+msgid "show all tests of this person"
+msgstr "عرض _كل مساحات العمل:"
 
-#: ../glade/chronojump.glade.h:273
+#: ../glade/chronojump.glade.h:304
 #, fuzzy
 msgid "show jumps"
 msgstr "اظهار التفاصيل"
 
-#: ../glade/chronojump.glade.h:274
+#: ../glade/chronojump.glade.h:305
 msgid "show only persons in current session"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:275
+#: ../glade/chronojump.glade.h:306
 #, fuzzy
 msgid "show sex"
 msgstr "اظهار التفاصيل"
 
-#: ../glade/chronojump.glade.h:276
+#: ../glade/chronojump.glade.h:307
 #, fuzzy
 msgid "show..."
 msgstr "عرض"
 
-#: ../glade/chronojump.glade.h:277
+#: ../glade/chronojump.glade.h:308
 msgid "simple"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:278
+#: ../glade/chronojump.glade.h:309
 #, fuzzy
 msgid "simple jumps"
-msgstr "كلمة المرور بسيطة جدا."
+msgstr "كلمة السر بسيطة جدا."
 
-#: ../glade/chronojump.glade.h:279
+#: ../glade/chronojump.glade.h:310
 #, fuzzy
 msgid "simple runs"
-msgstr "كلمة المرور بسيطة جدا."
+msgstr "كلمة السر بسيطة جدا."
 
-#: ../glade/chronojump.glade.h:280
+#: ../glade/chronojump.glade.h:311
 #, fuzzy
 msgid "sort by creation date"
 msgstr "ترتيب قائمة الملفات بحسب الإسم"
 
-#: ../glade/chronojump.glade.h:281
+#: ../glade/chronojump.glade.h:312
 msgid "start managing pulses freely"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:282
+#: ../glade/chronojump.glade.h:313
 #, fuzzy
 msgid "statistic's description"
 msgstr "الوصف يحتوي على"
 
-#: ../glade/chronojump.glade.h:283
-#: ../src/run.cs:285
+#: ../glade/chronojump.glade.h:314
+msgid "test \"bad\" bell"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:315
+msgid "test \"good\" bell"
+msgstr ""
+
+#: ../glade/chronojump.glade.h:316
+#, fuzzy
+msgid "test!"
+msgstr "ملاحظات"
+
+#: ../glade/chronojump.glade.h:317 ../src/execute/run.cs:291
 #, fuzzy
 msgid "time"
 msgstr "الوقت"
 
-#: ../glade/chronojump.glade.h:284
+#: ../glade/chronojump.glade.h:318
 #, fuzzy
 msgid "total pulses"
 msgstr "مجموع الصفحات"
 
-#: ../glade/chronojump.glade.h:285
-#: ../src/gui/run.cs:712
+#: ../glade/chronojump.glade.h:319 ../src/gui/run.cs:717
 msgid "tracks"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:286
+#: ../glade/chronojump.glade.h:320
 msgid "translators"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:287
+#: ../glade/chronojump.glade.h:321
 #, fuzzy
 msgid "type / subtype"
 msgstr "نوع التّنبيه"
 
-#: ../glade/chronojump.glade.h:288
+#: ../glade/chronojump.glade.h:322
 #, fuzzy
 msgid "unlimited"
 msgstr "غير محدود"
 
-#: ../glade/chronojump.glade.h:289
+#: ../glade/chronojump.glade.h:323
 #, fuzzy
 msgid "unlimited pulses"
 msgstr "طلبات غير محدودة"
 
-#: ../glade/chronojump.glade.h:290
+#: ../glade/chronojump.glade.h:324
 #, fuzzy
 msgid "unselected"
 msgstr "غير منتقى"
 
-#: ../glade/chronojump.glade.h:291
+#: ../glade/chronojump.glade.h:325
 #, fuzzy
 msgid "value"
 msgstr "القيمة"
 
-#: ../glade/chronojump.glade.h:292
+#: ../glade/chronojump.glade.h:326
 #, fuzzy
 msgid "version"
 msgstr "اﻻصدارة"
 
-#: ../glade/chronojump.glade.h:293
+#: ../glade/chronojump.glade.h:327
 msgid "woman"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:294
+#: ../glade/chronojump.glade.h:328
 #, fuzzy
 msgid "yes"
 msgstr "نعم"
@@ -1516,8 +1616,7 @@ msgstr "نعم"
 msgid "Detected ports:"
 msgstr "كُشِف خلل"
 
-#: ../src/chronojump_mini.cs:60
-#: ../src/gui/helpPorts.cs:59
+#: ../src/chronojump_mini.cs:60 ../src/gui/helpPorts.cs:59
 msgid "Auto-Detection currently disabled on GNU/Linux"
 msgstr ""
 
@@ -1526,7 +1625,8 @@ msgid "Print the port name where chronopic is connected:"
 msgstr ""
 
 #: ../src/chronojump_mini.cs:72
-msgid "Opening port... if get hanged, generate events with chronopic or the platform"
+msgid ""
+"Opening port... if get hanged, generate events with chronopic or the platform"
 msgstr ""
 
 #: ../src/chronojump_mini.cs:82
@@ -1558,275 +1658,315 @@ msgstr "تنشيط عند السكون"
 msgid "Press CTRL-c for ending session"
 msgstr ""
 
-#: ../src/chronojump.cs:300
+#: ../src/chronojump.cs:339
 #, fuzzy
 msgid "no tables, creating ..."
 msgstr "%s: فشل إنشاء الانبوب"
 
-#: ../src/chronojump.cs:305
+#: ../src/chronojump.cs:346
 #, fuzzy
 msgid "tables already created"
 msgstr "لم تنشأ المحفوظة"
 
-#: ../src/chronojump.cs:380
+#: ../src/chronojump.cs:489
 #, fuzzy
 msgid "Ready."
 msgstr "حاظر"
 
-#: ../src/chronojump.cs:386
-msgid "Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"
+#: ../src/chronojump.cs:497
+msgid ""
+"Starting Chronojump in Simulated mode, change platform to 'Chronopic' for "
+"real detection of events"
 msgstr ""
 
-#: ../src/chronojump.cs:394
+#: ../src/chronojump.cs:543
 msgid "starting connection with chronopic"
 msgstr ""
 
-#: ../src/chronojump.cs:395
+#: ../src/chronojump.cs:544
 msgid "if program crashes, write to xaviblas@gmail.com"
 msgstr ""
 
-#: ../src/chronojump.cs:396
-msgid "If you have previously used the modem via a serial port (in a linux session, and you selected serial port), chronojump will crash."
+#: ../src/chronojump.cs:545
+msgid ""
+"If you have previously used the modem via a serial port (in a linux session, "
+"and you selected serial port), chronojump will crash."
 msgstr ""
 
-#: ../src/chronojump.cs:429
+#: ../src/chronojump.cs:578
 #, csharp-format
 msgid "Connected to Chronopic on port: {0}"
 msgstr ""
 
-#: ../src/chronojump.cs:433
+#: ../src/chronojump.cs:582
 msgid "Problems communicating to chronopic, changed platform to 'Simulated'"
 msgstr ""
 
-#: ../src/chronojump.cs:435
+#: ../src/chronojump.cs:584
 msgid ""
 "\n"
 "\n"
-"On Windows we recommend to close/open Chronojump after every unsuccessful port test."
+"On Windows we recommend to close/open Chronojump after every unsuccessful "
+"port test."
 msgstr ""
 
-#: ../src/chronojump.cs:450
+#: ../src/chronojump.cs:599
 #, fuzzy, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "استرجاع لنسخة محفوظة من الملف"
 
-#: ../src/chronojump.cs:539
+#: ../src/chronojump.cs:688
 #, fuzzy
 msgid "Preferences loaded"
 msgstr "تم تحميل المستند."
 
-#: ../src/chronojump.cs:1177
+#: ../src/chronojump.cs:701
+msgid ""
+"There's a problem with this language on this computer. Please, choose "
+"another language."
+msgstr ""
+
+#: ../src/chronojump.cs:1382
 #, fuzzy
 msgid "Are you sure you want to delete the current session"
 msgstr "أمتأكد أنك تريد حذف المشاركة هذه؟"
 
-#: ../src/chronojump.cs:1177
+#: ../src/chronojump.cs:1382
 #, fuzzy
-msgid "and all the session events?"
+msgid "and all the session tests?"
 msgstr "و كل الورق تحتها"
 
-#: ../src/chronojump.cs:1183
-msgid "Deleted session and all its events"
-msgstr ""
+#: ../src/chronojump.cs:1388
+#, fuzzy
+msgid "Deleted session and all its tests"
+msgstr "انتق تاريخ من الأسفل."
 
-#: ../src/chronojump.cs:1263
+#: ../src/chronojump.cs:1468
 #, fuzzy
 msgid "Successfully added"
 msgstr "سي-في-إس-مضاف"
 
 #. more inserted
-#: ../src/chronojump.cs:1286
-#: ../src/gui/person.cs:520
+#: ../src/chronojump.cs:1491 ../src/gui/person.cs:521
 #, fuzzy, csharp-format
 msgid "Successfully added {0} persons"
 msgstr "تمت إضافة بريمج لوحة المهام '%s'"
 
-#: ../src/chronojump.cs:1335
+#: ../src/chronojump.cs:1540
 msgid ""
-"Are you sure you want to delete the current person and all his/her events (jumps, runs, pulses) from this session?\n"
-"(His/her personal data and events in other sessions will remain intact)"
+"Are you sure you want to delete the current person and all his/her tests "
+"(jumps, runs, pulses, ...) from this session?\n"
+"(His/her personal data and tests in other sessions will remain intact)"
 msgstr ""
 
-#: ../src/chronojump.cs:1336
+#: ../src/chronojump.cs:1541
 #, fuzzy
 msgid "Current Person: "
 msgstr "شخص مجهول"
 
-#: ../src/chronojump.cs:1343
-msgid "Deleted person and all his/her events on this session"
+#: ../src/chronojump.cs:1548
+msgid "Deleted person and all his/her tests on this session"
 msgstr ""
 
-#: ../src/chronojump.cs:1430
+#: ../src/chronojump.cs:1626
+msgid "Changed to simulated mode"
+msgstr ""
+
+#. done also in linux because mono-1.2.3 throws an exception when there's a timeout
+#. http://bugzilla.gnome.org/show_bug.cgi?id=420520
+#. ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **: generate a event with the platform or with chronopic.\nIf you don't do it, Chronojump will crash.\n"), Catalog.GetString("If it crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port in the preferences window"));
+#: ../src/chronojump.cs:1637
 msgid ""
-"** Attention **: generate a event with the platform or with chronopic.\n"
-"If you don't do it, Chronojump will crash.\n"
+"** Attention **: Chronojump will wait until you generate a event with the "
+"platform or with chronopic."
 msgstr ""
 
-#: ../src/chronojump.cs:1430
-msgid "If it crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port in the preferences window"
+#: ../src/chronojump.cs:1808
+msgid ""
+"Please, touch the contact platform for full cancelling.\n"
+"Then press button\n"
 msgstr ""
 
-#: ../src/chronojump.cs:1754
+#: ../src/chronojump.cs:1832
+msgid ""
+"Please, touch the contact platform for full finishing.\n"
+"Then press button\n"
+msgstr ""
+
+#: ../src/chronojump.cs:1953
 #, fuzzy
 msgid "Execute Jump"
 msgstr "قفز إلى"
 
 #. windowTitle
-#: ../src/chronojump.cs:1755
-#: ../src/chronojump.cs:2122
+#: ../src/chronojump.cs:1954 ../src/chronojump.cs:2306
+#: ../src/chronojump.cs:2592
 msgid "Phases"
 msgstr ""
 
-#: ../src/chronojump.cs:1943
+#: ../src/chronojump.cs:2117
 #, fuzzy
 msgid "Execute Reactive Jump"
 msgstr "لم يمكن تنفيذ '%s': %s\n"
 
 #. windowTitle
-#: ../src/chronojump.cs:1944
-#: ../src/exportSession.cs:251
-#: ../src/gui/jump.cs:1265
-#: ../src/gui/jump.cs:1312
-#: ../src/gui/jump.cs:1348
-#: ../src/stats/graphs/rjPotencyBosco.cs:82
-#: ../src/stats/rjPotencyBosco.cs:36
+#: ../src/chronojump.cs:2118 ../src/exportSession.cs:268
+#: ../src/gui/jump.cs:1276 ../src/gui/jump.cs:1323 ../src/gui/jump.cs:1359
+#: ../src/stats/graphs/rjPotencyBosco.cs:82 ../src/stats/rjPotencyBosco.cs:36
 msgid "Jumps"
 msgstr ""
 
-#: ../src/chronojump.cs:2121
+#: ../src/chronojump.cs:2305
 #, fuzzy
 msgid "Execute Run"
 msgstr "تشغيل برنامج"
 
-#: ../src/chronojump.cs:2273
+#: ../src/chronojump.cs:2472
 #, fuzzy
 msgid "Execute Intervallic Run"
 msgstr "لا يمكن تشغيل إكيجا"
 
 #. windowTitle
-#: ../src/chronojump.cs:2274
-#: ../src/exportSession.cs:356
-#: ../src/gui/run.cs:1036
-#: ../src/gui/run.cs:1078
-#: ../src/gui/run.cs:1106
+#: ../src/chronojump.cs:2473 ../src/exportSession.cs:373
+#: ../src/gui/run.cs:1049 ../src/gui/run.cs:1091 ../src/gui/run.cs:1119
 msgid "Tracks"
 msgstr ""
 
-#: ../src/chronojump.cs:2427
+#: ../src/chronojump.cs:2591
+#, fuzzy
+msgid "Execute Reaction Time"
+msgstr "لم يمكن تنفيذ '%s': %s\n"
+
+#: ../src/chronojump.cs:2680
+msgid "Cannot update. Probably this test was deleted."
+msgstr ""
+
+#: ../src/chronojump.cs:2774
 #, fuzzy
 msgid "Execute Pulse"
 msgstr "خطوة النبض"
 
 #. windowTitle
-#: ../src/chronojump.cs:2428
-#: ../src/gui/session.cs:358
+#: ../src/chronojump.cs:2775 ../src/gui/person.cs:1224
+#: ../src/gui/session.cs:359
 msgid "Pulses"
 msgstr ""
 
-#: ../src/chronojump.cs:2523
-#: ../src/chronojump.cs:2735
-msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
-msgstr ""
-
-#: ../src/chronojump.cs:2530
-#, fuzzy
-msgid "Do you want to delete last jump?"
-msgstr "هل تريد حذف البريمج من إعداداتك؟"
-
-#: ../src/chronojump.cs:2542
-msgid "Attention: Deleting a intervalic sub-run will delete the whole run"
-msgstr ""
-
-#: ../src/chronojump.cs:2549
-#, fuzzy
-msgid "Do you want to delete last run?"
-msgstr "هل تريد تشغيل \"%s\" أم عرض محتوياته؟"
-
-#: ../src/chronojump.cs:2561
-#, fuzzy
-msgid "Do you want to delete last pulse?"
-msgstr "هل تريد حذف البريمج من إعداداتك؟"
-
-#: ../src/chronojump.cs:2583
-#, fuzzy
-msgid "Last jump deleted"
-msgstr "إخفاء الرّسائل ال_محذوفة"
-
-#: ../src/chronojump.cs:2603
-#, fuzzy
-msgid "Last run deleted"
-msgstr "إخفاء الرّسائل ال_محذوفة"
-
-#: ../src/chronojump.cs:2619
-#, fuzzy
-msgid "Last pulse deleted"
-msgstr "إخفاء الرّسائل ال_محذوفة"
-
-#: ../src/chronojump.cs:2734
+#: ../src/chronojump.cs:3053
 #, fuzzy
 msgid "Do you want to delete selected jump?"
 msgstr "أمتأكدٌ أنّك تريد حذف العنصر المنتقى نهائيّاً؟"
 
-#: ../src/chronojump.cs:2749
+#: ../src/chronojump.cs:3054 ../src/chronojump.cs:3233
+msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
+msgstr ""
+
+#: ../src/chronojump.cs:3068
 #, fuzzy
-msgid "Deleted jump: "
+msgid "Deleted jump"
 msgstr "قفز إلى"
 
-#: ../src/chronojump.cs:2762
+#: ../src/chronojump.cs:3081
 #, fuzzy
-msgid "Deleted reactive jump: "
+msgid "Deleted reactive jump"
 msgstr "إخفاء الرّسائل ال_محذوفة"
 
-#: ../src/chronojump.cs:2896
+#: ../src/chronojump.cs:3116
 #, fuzzy
 msgid "Do you want to delete selected run?"
 msgstr "أمتأكدٌ أنّك تريد حذف العنصر المنتقى نهائيّاً؟"
 
-#: ../src/chronojump.cs:2897
+#: ../src/chronojump.cs:3117
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr ""
 
-#: ../src/chronojump.cs:2911
+#: ../src/chronojump.cs:3131
 #, fuzzy
-msgid "Deleted run: "
-msgstr "تشغيل برنامج"
+msgid "Deleted selected run"
+msgstr "_حذف المهام المنتقاة"
 
-#: ../src/chronojump.cs:2925
+#: ../src/chronojump.cs:3145
 #, fuzzy
-msgid "Deleted intervallic run: "
+msgid "Deleted intervallic run"
 msgstr "لا يمكن تشغيل إكيجا"
 
-#: ../src/chronojump.cs:3080
+#: ../src/chronojump.cs:3178
+#, fuzzy
+msgid "Deleted reaction time"
+msgstr "إخفاء الرّسائل ال_محذوفة"
+
+#: ../src/chronojump.cs:3212
+#, fuzzy
+msgid "Deleted pulse"
+msgstr "_حذف المهام المنتقاة"
+
+#: ../src/chronojump.cs:3240
+#, fuzzy
+msgid "Do you want to delete last jump?"
+msgstr "هل تريد حذف البريمج من إعداداتك؟"
+
+#: ../src/chronojump.cs:3252
+msgid "Attention: Deleting a intervalic sub-run will delete the whole run"
+msgstr ""
+
+#: ../src/chronojump.cs:3259
+#, fuzzy
+msgid "Do you want to delete last run?"
+msgstr "هل تريد تشغيل \"%s\" أم عرض محتوياته؟"
+
+#: ../src/chronojump.cs:3271
+#, fuzzy
+msgid "Do you want to delete last reaction time?"
+msgstr "هل تريد تشغيل \"%s\" أم عرض محتوياته؟"
+
+#: ../src/chronojump.cs:3283
+#, fuzzy
+msgid "Do you want to delete last pulse?"
+msgstr "هل تريد حذف البريمج من إعداداتك؟"
+
+#: ../src/chronojump.cs:3305
+#, fuzzy
+msgid "Last jump deleted"
+msgstr "إخفاء الرّسائل ال_محذوفة"
+
+#: ../src/chronojump.cs:3325
+#, fuzzy
+msgid "Last run deleted"
+msgstr "إخفاء الرّسائل ال_محذوفة"
+
+#: ../src/chronojump.cs:3341
+#, fuzzy
+msgid "Last reaction time deleted"
+msgstr "إخفاء الرّسائل ال_محذوفة"
+
+#: ../src/chronojump.cs:3357
+#, fuzzy
+msgid "Last pulse deleted"
+msgstr "إخفاء الرّسائل ال_محذوفة"
+
+#: ../src/chronojump.cs:3526
 #, fuzzy
 msgid "translator-credits"
 msgstr "Yousef Raffah يوسف رفه (yousef@raffah.com)"
 
-#: ../src/constants.cs:35
-#: ../src/stats/cmjPlusPotency.cs:56
+#: ../src/constants.cs:35 ../src/stats/cmjPlusPotency.cs:56
 msgid "Potency"
 msgstr ""
 
 #. strings
 #. manage allJumps (show jumpType beside name (and sex))
 #. but only if it's not an AVG of different jumps
-#: ../src/constants.cs:39
-#: ../src/gui/jumpType.cs:108
-#: ../src/sqlite/stat.cs:137
-#: ../src/sqlite/stat.cs:181
-#: ../src/sqlite/stat.cs:275
-#: ../src/sqlite/stat.cs:324
-#: ../src/sqlite/stat.cs:374
-#: ../src/sqlite/stat.cs:420
-#: ../src/sqlite/stat.cs:468
-#: ../src/sqlite/stat.cs:516
-#: ../src/sqlite/stat.cs:620
+#: ../src/constants.cs:39 ../src/gui/jumpType.cs:108 ../src/sqlite/stat.cs:137
+#: ../src/sqlite/stat.cs:181 ../src/sqlite/stat.cs:275
+#: ../src/sqlite/stat.cs:324 ../src/sqlite/stat.cs:374
+#: ../src/sqlite/stat.cs:420 ../src/sqlite/stat.cs:468
+#: ../src/sqlite/stat.cs:516 ../src/sqlite/stat.cs:620
 #: ../src/sqlite/stat.cs:666
 #, fuzzy
 msgid "All jumps"
 msgstr "نسخ ال_كل"
 
-#: ../src/constants.cs:40
-#: ../src/gui/runType.cs:108
+#: ../src/constants.cs:40 ../src/gui/runType.cs:108
 #, fuzzy
 msgid "All runs"
 msgstr "نسخ ال_كل"
@@ -1836,260 +1976,284 @@ msgstr "نسخ ال_كل"
 msgid "All pulses"
 msgstr "نسخ ال_كل"
 
-#: ../src/constants.cs:54
+#: ../src/constants.cs:83
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr ""
 
-#: ../src/constants.cs:56
+#: ../src/constants.cs:85
 #, fuzzy
 msgid "Also, these are possible:"
 msgstr "بعض هذه الخصائص مقفولة"
 
-#: ../src/constants.cs:60
+#: ../src/constants.cs:89
 msgid "Typical serial serial ports on GNU/Linux:"
 msgstr ""
 
-#: ../src/constants.cs:62
+#: ../src/constants.cs:91
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr ""
 
-#: ../src/exportSession.cs:60
+#: ../src/execute/jump.cs:122 ../src/execute/jump.cs:516
+#, fuzzy
+msgid "You are IN, JUMP when prepared!!"
+msgstr "تنشيط عند السكون"
+
+#: ../src/execute/jump.cs:145 ../src/execute/reactionTime.cs:123
+msgid "You are OUT, come inside and press the 'accept' button"
+msgstr ""
+
+#: ../src/execute/jump.cs:166 ../src/execute/jump.cs:512
+msgid "You are OUT, JUMP when prepared!!"
+msgstr ""
+
+#: ../src/execute/jump.cs:193 ../src/execute/jump.cs:520
+msgid "You are IN, please leave the platform, and press the 'accept' button"
+msgstr ""
+
+#: ../src/execute/jump.cs:522
+msgid ""
+"You are OUT, please enter the platform, prepare for jump and press the "
+"'accept' button"
+msgstr ""
+
+#: ../src/execute/jump.cs:907
+msgid "AVG TF"
+msgstr ""
+
+#: ../src/execute/jump.cs:908
+msgid "AVG TC"
+msgstr ""
+
+#: ../src/execute/run.cs:113
+#, fuzzy
+msgid "You are IN, RUN when prepared!!"
+msgstr "تنشيط عند السكون"
+
+#: ../src/execute/run.cs:120
+#, fuzzy
+msgid "You are OUT, RUN when prepared!!"
+msgstr "تنشيط عند السكون"
+
+#: ../src/execute/run.cs:290 ../src/execute/run.cs:745
+#, fuzzy
+msgid "Last run"
+msgstr "تشغيل برنامج"
+
+#: ../src/execute/run.cs:292
+#, fuzzy
+msgid "speed"
+msgstr "<b>السرعة:</b>"
+
+#: ../src/execute/run.cs:689
+msgid "Run will not be recorded, 1st subrun is out of time"
+msgstr ""
+
+#: ../src/execute/run.cs:747
+#, fuzzy
+msgid "AVG Speed"
+msgstr "الاتصال السريع"
+
+#: ../src/execute/pulse.cs:122
+msgid ""
+"You are IN, please leave the platform, prepare for start, and press the "
+"'accept' button!!"
+msgstr ""
+
+#: ../src/execute/pulse.cs:131
+msgid "You are OUT, start when prepared!!"
+msgstr ""
+
+#: ../src/execute/pulse.cs:334
+#, fuzzy
+msgid "Last pulse"
+msgstr "خطوة النبض"
+
+#: ../src/exportSession.cs:61
 #, fuzzy
 msgid "Save report as..."
 msgstr "حفظ الملف كـ"
 
-#: ../src/exportSession.cs:62
+#: ../src/exportSession.cs:63
 #, fuzzy
 msgid "Export session in format "
 msgstr "تهيئة الملفّات ب_تهيئة HTML"
 
-#: ../src/exportSession.cs:74
+#: ../src/exportSession.cs:75
 #, fuzzy
 msgid "Cancelled"
 msgstr "أُلغيت العملية"
 
-#: ../src/exportSession.cs:91
+#: ../src/exportSession.cs:97
 #, fuzzy
 msgid "Are you sure you want to overwrite file: "
 msgstr "هل أنت متأكّدٌ أنّك تريد حذف الحساب  %s؟"
 
-#: ../src/exportSession.cs:99
+#: ../src/exportSession.cs:105
 #, fuzzy, csharp-format
 msgid "Saved to {0}"
 msgstr "ارتداد للمحفوظ"
 
-#: ../src/exportSession.cs:105
+#: ../src/exportSession.cs:111
 #, fuzzy
 msgid "Cannot export to file: "
 msgstr "_تصدير علامات المواقع إلى ملف"
 
-#: ../src/exportSession.cs:161
-#: ../src/report.cs:203
+#: ../src/exportSession.cs:178 ../src/report.cs:203
 msgid "SessionID"
 msgstr ""
 
-#: ../src/exportSession.cs:162
-#: ../src/exportSession.cs:175
-#: ../src/gui/jump.cs:1042
-#: ../src/gui/jump.cs:1232
-#: ../src/gui/person.cs:98
-#: ../src/gui/run.cs:844
-#: ../src/gui/run.cs:1013
-#: ../src/gui/session.cs:350
-#: ../src/gui/session.cs:511
-#: ../src/report.cs:202
-#: ../src/report.cs:225
+#: ../src/exportSession.cs:179 ../src/exportSession.cs:192
+#: ../src/gui/jump.cs:1045 ../src/gui/jump.cs:1243 ../src/gui/person.cs:98
+#: ../src/gui/run.cs:849 ../src/gui/run.cs:1026 ../src/gui/session.cs:350
+#: ../src/gui/session.cs:513 ../src/report.cs:202 ../src/report.cs:225
 #, fuzzy
 msgid "Name"
 msgstr "اسم"
 
-#: ../src/exportSession.cs:175
-#: ../src/gui/person.cs:97
-#: ../src/report.cs:225
+#: ../src/exportSession.cs:192 ../src/gui/person.cs:97 ../src/report.cs:225
 #, fuzzy
 msgid "ID"
 msgstr "الهوية"
 
-#: ../src/exportSession.cs:192
-#: ../src/exportSession.cs:238
+#: ../src/exportSession.cs:209 ../src/exportSession.cs:255
 #, fuzzy
 msgid "Jumper name"
 msgstr "اسم الموصول"
 
-#: ../src/exportSession.cs:193
-#: ../src/exportSession.cs:239
+#: ../src/exportSession.cs:210 ../src/exportSession.cs:256
 #, fuzzy
 msgid "jump ID"
 msgstr "هوية البوّاب:"
 
-#: ../src/exportSession.cs:197
-#: ../src/exportSession.cs:249
-#: ../src/stats/djIndex.cs:37
-#: ../src/stats/djQ.cs:37
-#: ../src/stats/graphs/djIndex.cs:78
-#: ../src/stats/graphs/djQ.cs:78
-#: ../src/stats/graphs/rjIndex.cs:78
-#: ../src/stats/graphs/rjPotencyBosco.cs:84
-#: ../src/stats/rjEvolution.cs:68
-#: ../src/stats/rjIndex.cs:36
-#: ../src/stats/rjPotencyBosco.cs:38
-#: ../src/treeViewJump.cs:38
+#: ../src/exportSession.cs:214 ../src/exportSession.cs:266
+#: ../src/stats/djIndex.cs:37 ../src/stats/djQ.cs:37
+#: ../src/stats/graphs/djIndex.cs:78 ../src/stats/graphs/djQ.cs:78
+#: ../src/stats/graphs/rjIndex.cs:78 ../src/stats/graphs/rjPotencyBosco.cs:84
+#: ../src/stats/rjEvolution.cs:68 ../src/stats/rjIndex.cs:36
+#: ../src/stats/rjPotencyBosco.cs:38 ../src/treeViewJump.cs:38
 msgid "Fall"
 msgstr ""
 
-#: ../src/exportSession.cs:198
-#: ../src/exportSession.cs:250
-#: ../src/gui/person.cs:101
+#: ../src/exportSession.cs:215 ../src/exportSession.cs:267
+#: ../src/gui/person.cs:101 ../src/treeViewJump.cs:37
 #, fuzzy
 msgid "Weight"
 msgstr "وزن الخط"
 
-#: ../src/exportSession.cs:199
-#: ../src/gui/person.cs:100
-#: ../src/stats/cmjPlusPotency.cs:59
-#: ../src/stats/djIndex.cs:34
-#: ../src/stats/djQ.cs:34
-#: ../src/stats/graphs/cmjPlusPotency.cs:78
-#: ../src/stats/graphs/djIndex.cs:75
-#: ../src/stats/graphs/djQ.cs:75
-#: ../src/stats/graphs/global.cs:74
-#: ../src/stats/graphs/sjCmjAbk.cs:70
-#: ../src/stats/sjCmjAbk.cs:54
-#: ../src/stats/sjCmjAbkPlus.cs:55
+#: ../src/exportSession.cs:216 ../src/gui/person.cs:100
+#: ../src/stats/cmjPlusPotency.cs:59 ../src/stats/djIndex.cs:34
+#: ../src/stats/djQ.cs:34 ../src/stats/graphs/cmjPlusPotency.cs:78
+#: ../src/stats/graphs/djIndex.cs:75 ../src/stats/graphs/djQ.cs:75
+#: ../src/stats/graphs/global.cs:74 ../src/stats/graphs/sjCmjAbk.cs:70
+#: ../src/stats/sjCmjAbk.cs:54 ../src/stats/sjCmjAbkPlus.cs:55
 #: ../src/treeViewJump.cs:39
 #, fuzzy
 msgid "Height"
 msgstr "الارتفاع"
 
-#: ../src/exportSession.cs:200
-#: ../src/treeViewJump.cs:40
+#: ../src/exportSession.cs:217 ../src/treeViewJump.cs:40
 #, fuzzy
 msgid "Initial Speed"
 msgstr "الاتصال السريع"
 
-#: ../src/exportSession.cs:240
+#: ../src/exportSession.cs:257
 #, fuzzy
 msgid "jump Type"
 msgstr "نوع التّنبيه"
 
-#: ../src/exportSession.cs:241
+#: ../src/exportSession.cs:258
 #, fuzzy
 msgid "TC Max"
 msgstr "أقصى عدد من السّطور"
 
-#: ../src/exportSession.cs:242
+#: ../src/exportSession.cs:259
 #, fuzzy
 msgid "TF Max"
 msgstr "أقصى عدد من السّطور"
 
-#: ../src/exportSession.cs:243
+#: ../src/exportSession.cs:260
 #, fuzzy
 msgid "Max Height"
 msgstr "ارتفاع القصاصة"
 
-#: ../src/exportSession.cs:244
+#: ../src/exportSession.cs:261
 #, fuzzy
 msgid "Max Initial Speed"
 msgstr "تغيير السرعة آليا"
 
-#: ../src/exportSession.cs:245
+#: ../src/exportSession.cs:262
 msgid "TC AVG"
 msgstr ""
 
-#: ../src/exportSession.cs:246
+#: ../src/exportSession.cs:263
 msgid "TF AVG"
 msgstr ""
 
-#: ../src/exportSession.cs:247
+#: ../src/exportSession.cs:264
 #, fuzzy
 msgid "AVG Height"
 msgstr "ارتفاع القصاصة"
 
-#: ../src/exportSession.cs:248
+#: ../src/exportSession.cs:265
 #, fuzzy
 msgid "AVG Initial Speed"
 msgstr "تغيير السرعة آليا"
 
-#: ../src/exportSession.cs:253
-#: ../src/exportSession.cs:357
+#: ../src/exportSession.cs:270 ../src/exportSession.cs:374
 msgid "Limited"
 msgstr ""
 
-#: ../src/exportSession.cs:286
-#: ../src/exportSession.cs:379
-#: ../src/gui/jump.cs:539
-#: ../src/gui/run.cs:458
+#: ../src/exportSession.cs:303 ../src/exportSession.cs:396
+#: ../src/gui/jump.cs:542 ../src/gui/pulse.cs:268 ../src/gui/run.cs:463
 #: ../src/stats/rjEvolution.cs:71
 #, fuzzy
 msgid "Count"
 msgstr "عد الرموز "
 
-#: ../src/exportSession.cs:310
-#: ../src/exportSession.cs:349
+#: ../src/exportSession.cs:327 ../src/exportSession.cs:366
 #, fuzzy
 msgid "Runner name"
 msgstr "اسم الموصول"
 
-#: ../src/exportSession.cs:311
-#: ../src/exportSession.cs:350
+#: ../src/exportSession.cs:328 ../src/exportSession.cs:367
 #, fuzzy
 msgid "run ID"
 msgstr "هوية البوّاب:"
 
-#: ../src/exportSession.cs:352
+#: ../src/exportSession.cs:369
 #, fuzzy
 msgid "Distance total"
 msgstr "مجموع الصفحات"
 
-#: ../src/exportSession.cs:353
+#: ../src/exportSession.cs:370
 #, fuzzy
 msgid "Time total"
 msgstr "مجموع الصفحات"
 
-#: ../src/exportSession.cs:354
+#: ../src/exportSession.cs:371
 #, fuzzy
 msgid "Average speed"
 msgstr "الاتصال السريع"
 
-#: ../src/exportSession.cs:355
+#: ../src/exportSession.cs:372
 #, fuzzy
 msgid "Distance interval"
 msgstr "فترة ال_تحديث"
 
-#: ../src/exportSession.cs:380
+#: ../src/exportSession.cs:397
 #, fuzzy
 msgid "Interval speed"
 msgstr "الاتصال السريع"
 
-#: ../src/exportSession.cs:381
+#: ../src/exportSession.cs:398
 #, fuzzy
 msgid "interval times"
 msgstr "فترة ال_تحديث"
 
-#: ../src/exportSession.cs:437
+#: ../src/exportSession.cs:467
 #, fuzzy
 msgid "Exported to file: "
 msgstr "إ_لحاق للملف"
-
-#: ../src/gui/event.cs:1180
-msgid ""
-"This window shows the execution of an event. In the graph, you may see:\n"
-"\n"
-"SIMPLE EVENTS:\n"
-"-\"Now\": shows the data of the current event.\n"
-"-\"Person AVG\": shows the average of the current person executing this type of event on this session.\n"
-"-\"Session AVG\": shows the Average of all persons executing this type of event on this session.\n"
-"\n"
-"MULTIPLE EVENTS:\n"
-"-\"Now\": shows the data of the current sub-event.\n"
-"-\"AVG\": shows the average of the current event.\n"
-"\n"
-"(For more statistics data, you may use the statistics window).\n"
-"\n"
-"You may change the graph options using buttons on the left.\n"
-"\n"
-"At the bottom you may see the evolution of the event, and you may finish it (depending on the type of event), or even cancel it."
-msgstr ""
 
 #: ../src/gui/jump.cs:81
 #, csharp-format
@@ -2105,30 +2269,31 @@ msgid ""
 "(decimal separator: '{0}')"
 msgstr ""
 
-#: ../src/gui/jump.cs:473
+#. this.pDN = pDN;
+#: ../src/gui/jump.cs:476
 msgid "Repair reactive jump"
 msgstr ""
 
-#: ../src/gui/jump.cs:477
+#: ../src/gui/jump.cs:480 ../src/gui/pulse.cs:204 ../src/gui/run.cs:407
 #, csharp-format
 msgid ""
-"Use this window to repair a reactive jump.\n"
+"Use this window to repair this test.\n"
 "Double clic any cell to edit it (decimal separator: '{0}')"
 msgstr ""
 
-#: ../src/gui/jump.cs:513
+#: ../src/gui/jump.cs:516
 #, csharp-format
 msgid "JumpType: {0}."
 msgstr ""
 
-#: ../src/gui/jump.cs:518
+#: ../src/gui/jump.cs:521
 msgid ""
 "\n"
 "This jump type starts inside, the first time should be a flight time."
 msgstr ""
 
 #. if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TF if found
-#: ../src/gui/jump.cs:525
+#: ../src/gui/jump.cs:528
 #, csharp-format
 msgid ""
 "\n"
@@ -2136,45 +2301,33 @@ msgid ""
 msgstr ""
 
 #. if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
-#: ../src/gui/jump.cs:528
+#: ../src/gui/jump.cs:531
 #, csharp-format
 msgid ""
 "\n"
 "This jump type is fixed to {0} seconds, totaltime cannot be greater."
 msgstr ""
 
-#: ../src/gui/jump.cs:1055
-#: ../src/gui/jump.cs:1060
-#: ../src/gui/jump.cs:1088
-#: ../src/gui/jump.cs:1091
-#: ../src/gui/jump.cs:1107
-#: ../src/gui/jump.cs:1110
-#: ../src/gui/jump.cs:1247
-#: ../src/gui/jump.cs:1252
-#: ../src/gui/jump.cs:1322
-#: ../src/gui/jump.cs:1325
-#: ../src/gui/jump.cs:1358
-#: ../src/gui/jump.cs:1361
+#: ../src/gui/jump.cs:1058 ../src/gui/jump.cs:1063 ../src/gui/jump.cs:1091
+#: ../src/gui/jump.cs:1094 ../src/gui/jump.cs:1110 ../src/gui/jump.cs:1113
+#: ../src/gui/jump.cs:1258 ../src/gui/jump.cs:1263 ../src/gui/jump.cs:1333
+#: ../src/gui/jump.cs:1336 ../src/gui/jump.cs:1369 ../src/gui/jump.cs:1372
 #, fuzzy
 msgid "Yes"
 msgstr "نعم"
 
-#: ../src/gui/jump.cs:1057
-#: ../src/gui/jump.cs:1062
-#: ../src/gui/jump.cs:1249
-#: ../src/gui/jump.cs:1254
+#: ../src/gui/jump.cs:1060 ../src/gui/jump.cs:1065 ../src/gui/jump.cs:1260
+#: ../src/gui/jump.cs:1265
 #, fuzzy
 msgid "No"
 msgstr "لا"
 
-#: ../src/gui/jump.cs:1234
-#: ../src/gui/run.cs:1016
+#: ../src/gui/jump.cs:1245 ../src/gui/run.cs:1029
 #, fuzzy
 msgid "Limited value"
 msgstr "قيمة التحجيم"
 
-#: ../src/gui/jump.cs:1267
-#: ../src/gui/run.cs:1038
+#: ../src/gui/jump.cs:1278 ../src/gui/run.cs:1051
 #, fuzzy
 msgid "Seconds"
 msgstr "ثوان"
@@ -2196,17 +2349,17 @@ msgstr ""
 msgid "Man"
 msgstr "جزيرة مان"
 
-#: ../src/gui/person.cs:132
+#. this "F" is in spanish, change in the future to "W"
+#: ../src/gui/person.cs:133
 msgid "Woman"
 msgstr ""
 
-#: ../src/gui/person.cs:221
-#: ../src/gui/person.cs:518
+#: ../src/gui/person.cs:222 ../src/gui/person.cs:519
 #, fuzzy
 msgid "Loaded"
 msgstr "تم تحميل المستند."
 
-#: ../src/gui/person.cs:423
+#: ../src/gui/person.cs:424
 #, fuzzy
 msgid "MARK ALL/NONE"
 msgstr "أظهر كل المكونات"
@@ -2217,8 +2370,7 @@ msgid "Select Date of Birth"
 msgstr "انتق تاريخ من الأسفل."
 
 #. string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
-#: ../src/gui/person.cs:640
-#: ../src/gui/person.cs:804
+#: ../src/gui/person.cs:640 ../src/gui/person.cs:804
 #, fuzzy, csharp-format
 msgid "Person: '{0}' exists. Please, use another name"
 msgstr "\"%s\" موجود بالفعل، رجاء ضع اسما آخر."
@@ -2228,8 +2380,7 @@ msgstr "\"%s\" موجود بالفعل، رجاء ضع اسما آخر."
 msgid "Edit jumper"
 msgstr "ت_حرير الخط"
 
-#: ../src/gui/person.cs:788
-#: ../src/gui/session.cs:108
+#: ../src/gui/person.cs:788 ../src/gui/session.cs:108
 #: ../src/gui/session.cs:242
 #, fuzzy
 msgid "Select session date"
@@ -2269,8 +2420,24 @@ msgid ""
 "interval"
 msgstr ""
 
-#: ../src/gui/preferences.cs:267
+#: ../src/gui/person.cs:1223
+msgid ""
+"Reaction\n"
+"time"
+msgstr ""
+
+#: ../src/gui/preferences.cs:257
 msgid "Restart Chronojump to operate completely on your language."
+msgstr ""
+
+#: ../src/gui/pulse.cs:200
+#, fuzzy
+msgid "Repair pulse"
+msgstr "لم يتم انتقاء أيّة تطبيقات"
+
+#: ../src/gui/pulse.cs:240
+#, csharp-format
+msgid "PulseType: {0}."
 msgstr ""
 
 #: ../src/gui/report.cs:114
@@ -2302,44 +2469,37 @@ msgstr "اظهار التفاصيل"
 msgid "Checked rows"
 msgstr "سطور مجموعة الإطارات"
 
-#: ../src/gui/run.cs:76
+#: ../src/gui/run.cs:77
 #, csharp-format
 msgid ""
 "Use this window to edit a run.\n"
 "(decimal separator: '{0}')"
 msgstr ""
 
-#: ../src/gui/run.cs:256
+#: ../src/gui/run.cs:259
 #, csharp-format
 msgid ""
 "Use this window to edit a intervallic run.\n"
 "(decimal separator: '{0}')"
 msgstr ""
 
-#: ../src/gui/run.cs:283
+#: ../src/gui/run.cs:287
 #, fuzzy
 msgid "Total Time"
 msgstr "وقت غير سليم"
 
-#: ../src/gui/run.cs:398
+#: ../src/gui/run.cs:403
 #, fuzzy
 msgid "Repair intervallic run"
 msgstr "لا يمكن تشغيل إكيجا"
 
-#: ../src/gui/run.cs:402
-#, csharp-format
-msgid ""
-"Use this window to repair a intervallic run.\n"
-"Double clic any cell to edit it (decimal separator: '{0}')"
-msgstr ""
-
-#: ../src/gui/run.cs:438
+#: ../src/gui/run.cs:443
 #, csharp-format
 msgid "RunType: {0}."
 msgstr ""
 
 #. if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
-#: ../src/gui/run.cs:444
+#: ../src/gui/run.cs:449
 #, csharp-format
 msgid ""
 "\n"
@@ -2347,16 +2507,14 @@ msgid ""
 msgstr ""
 
 #. if it's a run type timeLimited with a fixed value, then complain when the total time is higher
-#: ../src/gui/run.cs:447
+#: ../src/gui/run.cs:452
 #, csharp-format
 msgid ""
 "\n"
 "This run type is fixed to {0} seconds, totaltime cannot be greater."
 msgstr ""
 
-#: ../src/gui/run.cs:856
-#: ../src/gui/run.cs:880
-#: ../src/gui/run.cs:899
+#: ../src/gui/run.cs:861 ../src/gui/run.cs:885 ../src/gui/run.cs:904
 #, fuzzy
 msgid "Not defined"
 msgstr "معَرّف من طرف المستخدم"
@@ -2374,8 +2532,7 @@ msgstr ""
 msgid "New Session"
 msgstr "إضافة جلسة جديدة"
 
-#: ../src/gui/session.cs:126
-#: ../src/gui/session.cs:259
+#: ../src/gui/session.cs:126 ../src/gui/session.cs:259
 #, fuzzy, csharp-format
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "\"%s\" موجود بالفعل، رجاء ضع اسما آخر."
@@ -2385,8 +2542,7 @@ msgstr "\"%s\" موجود بالفعل، رجاء ضع اسما آخر."
 msgid "Session Edit"
 msgstr "تحرير اسم الجلسة"
 
-#: ../src/gui/session.cs:349
-#: ../src/gui/session.cs:510
+#: ../src/gui/session.cs:349 ../src/gui/session.cs:512
 #, fuzzy
 msgid "Number"
 msgstr "الرقم"
@@ -2399,7 +2555,7 @@ msgstr "رؤساء الجلسة"
 #: ../src/gui/session.cs:354
 #, fuzzy
 msgid "Jumps simple"
-msgstr "كلمة المرور بسيطة جدا."
+msgstr "كلمة السر بسيطة جدا."
 
 #: ../src/gui/session.cs:355
 msgid "Jumps reactive"
@@ -2408,168 +2564,104 @@ msgstr ""
 #: ../src/gui/session.cs:356
 #, fuzzy
 msgid "Runs simple"
-msgstr "كلمة المرور بسيطة جدا."
+msgstr "كلمة السر بسيطة جدا."
 
 #: ../src/gui/session.cs:357
 #, fuzzy
 msgid "Runs interval"
 msgstr "فترة ال_تحديث"
 
-#: ../src/gui/stats.cs:92
-#: ../src/gui/stats.cs:297
-#: ../src/gui/stats.cs:663
+#: ../src/gui/stats.cs:92 ../src/gui/stats.cs:297 ../src/gui/stats.cs:663
 #: ../src/statType.cs:211
 #, fuzzy
 msgid "Global"
 msgstr "شامل"
 
 #. in cmjPlusPotency show only "all jumps" radiobutton
-#: ../src/gui/stats.cs:94
-#: ../src/gui/stats.cs:314
-#: ../src/gui/stats.cs:348
-#: ../src/gui/stats.cs:650
-#: ../src/gui/stats.cs:665
-#: ../src/statType.cs:240
+#: ../src/gui/stats.cs:94 ../src/gui/stats.cs:314 ../src/gui/stats.cs:348
+#: ../src/gui/stats.cs:650 ../src/gui/stats.cs:665 ../src/statType.cs:240
 msgid "Simple"
 msgstr ""
 
-#: ../src/gui/stats.cs:95
-#: ../src/gui/stats.cs:325
-#: ../src/gui/stats.cs:369
+#: ../src/gui/stats.cs:95 ../src/gui/stats.cs:325 ../src/gui/stats.cs:369
 #: ../src/statType.cs:302
 #, fuzzy
 msgid "With TC"
 msgstr "الفتح بـاستخدام"
 
 #. some stats should not be showed as limited jumps
-#: ../src/gui/stats.cs:96
-#: ../src/gui/stats.cs:334
-#: ../src/gui/stats.cs:636
+#: ../src/gui/stats.cs:96 ../src/gui/stats.cs:334 ../src/gui/stats.cs:636
 #: ../src/statType.cs:329
 msgid "Reactive"
 msgstr ""
 
-#: ../src/gui/stats.cs:105
-#: ../src/statType.cs:330
+#: ../src/gui/stats.cs:105 ../src/statType.cs:330
 #, fuzzy
 msgid "Average Index"
 msgstr "الفهرس النهائي"
 
-#: ../src/gui/stats.cs:106
-#: ../src/statType.cs:338
+#: ../src/gui/stats.cs:106 ../src/statType.cs:338
 msgid "POTENCY (Bosco)"
 msgstr ""
 
 #. 9.81^2*TF*TT / (4*jumps*(TT-TF))
-#: ../src/gui/stats.cs:107
-#: ../src/gui/stats.cs:376
-#: ../src/gui/stats.cs:438
-#: ../src/gui/stats.cs:637
-#: ../src/gui/stats.cs:821
-#: ../src/statType.cs:346
+#: ../src/gui/stats.cs:107 ../src/gui/stats.cs:376 ../src/gui/stats.cs:438
+#: ../src/gui/stats.cs:637 ../src/gui/stats.cs:821 ../src/statType.cs:346
 #, fuzzy
 msgid "Evolution"
 msgstr "افُليوشِن"
 
-#: ../src/gui/stats.cs:111
-#: ../src/gui/stats.cs:350
-#: ../src/gui/stats.cs:666
+#: ../src/gui/stats.cs:111 ../src/gui/stats.cs:350 ../src/gui/stats.cs:666
 #: ../src/statType.cs:247
 #, fuzzy
 msgid "No indexes"
 msgstr "لا تاريخ"
 
-#: ../src/gui/stats.cs:119
-#: ../src/gui/stats.cs:513
-#: ../src/gui/stats.cs:833
-#: ../src/report.cs:315
-#: ../src/stats/main.cs:229
+#: ../src/gui/stats.cs:119 ../src/gui/stats.cs:513 ../src/gui/stats.cs:833
+#: ../src/report.cs:315 ../src/stats/main.cs:229
 #, fuzzy
 msgid "All"
 msgstr "الكل"
 
 #. put none in combo
-#: ../src/gui/stats.cs:120
-#: ../src/gui/stats.cs:547
-#: ../src/stats/main.cs:236
+#: ../src/gui/stats.cs:120 ../src/gui/stats.cs:547 ../src/stats/main.cs:236
 #, fuzzy
 msgid "None"
 msgstr "لا شيء"
 
-#: ../src/gui/stats.cs:121
-#: ../src/stats/main.cs:241
+#: ../src/gui/stats.cs:121 ../src/stats/main.cs:241
 #, fuzzy
 msgid "Invert"
 msgstr "_إعكس"
 
-#: ../src/gui/stats.cs:122
-#: ../src/gui/stats.cs:275
-#: ../src/gui/stats.cs:532
+#: ../src/gui/stats.cs:122 ../src/gui/stats.cs:275 ../src/gui/stats.cs:532
 #, fuzzy
 msgid "Selected"
 msgstr "مُنتقى"
 
 #. if selected 'male' or 'female', showSex and redo the treeview if needed
-#: ../src/gui/stats.cs:123
-#: ../src/gui/stats.cs:278
-#: ../src/stats/main.cs:252
+#: ../src/gui/stats.cs:123 ../src/gui/stats.cs:278 ../src/stats/main.cs:252
 msgid "Male"
 msgstr ""
 
-#: ../src/gui/stats.cs:124
-#: ../src/gui/stats.cs:279
-#: ../src/stats/main.cs:266
+#: ../src/gui/stats.cs:124 ../src/gui/stats.cs:279 ../src/stats/main.cs:266
 msgid "Female"
 msgstr ""
 
-#: ../src/gui/stats.cs:835
-#: ../src/report.cs:317
+#: ../src/gui/stats.cs:835 ../src/report.cs:317
 #, fuzzy
 msgid "Limit"
 msgstr "حدّ الإ_نزال:"
 
-#: ../src/gui/stats.cs:838
-#: ../src/report.cs:320
+#: ../src/gui/stats.cs:838 ../src/report.cs:320
 #, fuzzy
 msgid "Jumper's best"
 msgstr "أفضل ملا_ئمة"
 
-#: ../src/gui/stats.cs:841
-#: ../src/report.cs:323
+#: ../src/gui/stats.cs:841 ../src/report.cs:323
 #, fuzzy
 msgid "Jumper's average"
 msgstr "متوسط التحميل"
-
-#: ../src/jump.cs:130
-#: ../src/jump.cs:538
-msgid "You are IN, JUMP when prepared!!"
-msgstr ""
-
-#: ../src/jump.cs:151
-msgid "You are OUT, come inside and press the 'accept' button"
-msgstr ""
-
-#: ../src/jump.cs:170
-#: ../src/jump.cs:535
-msgid "You are OUT, JUMP when prepared!!"
-msgstr ""
-
-#: ../src/jump.cs:193
-#: ../src/jump.cs:541
-msgid "You are IN, please leave the platform, and press the 'accept' button"
-msgstr ""
-
-#: ../src/jump.cs:543
-msgid "You are OUT, please enter the platform, prepare for jump and press the 'accept' button"
-msgstr ""
-
-#: ../src/jump.cs:881
-msgid "AVG TF"
-msgstr ""
-
-#: ../src/jump.cs:882
-msgid "AVG TC"
-msgstr ""
 
 #: ../src/platform.cs:51
 #, fuzzy, csharp-format
@@ -2581,56 +2673,17 @@ msgstr "خطأ عند قراءة ملف الحالة المحفوظ: %s"
 msgid "State: {0}, lastChange {1}"
 msgstr "ال_ولاية/المحافظة:"
 
-#: ../src/pulse.cs:136
-msgid "You are IN, please leave the platform, prepare for start, and press the 'accept' button!!"
-msgstr ""
-
-#: ../src/pulse.cs:144
-msgid "You are OUT, start when prepared!!"
-msgstr ""
-
-#: ../src/pulse.cs:338
-#, fuzzy
-msgid "Last pulse"
-msgstr "خطوة النبض"
-
 #: ../src/report.cs:329
 #, fuzzy
 msgid "Evolution."
 msgstr "افُليوشِن"
 
-#: ../src/run.cs:115
-msgid "You are IN, RUN when prepared!!"
-msgstr ""
-
-#: ../src/run.cs:121
-msgid "You are OUT, RUN when prepared!!"
-msgstr ""
-
-#: ../src/run.cs:284
-#: ../src/run.cs:706
-#, fuzzy
-msgid "Last run"
-msgstr "تشغيل برنامج"
-
-#: ../src/run.cs:286
-#, fuzzy
-msgid "speed"
-msgstr "<b>السرعة:</b>"
-
-#: ../src/run.cs:708
-#, fuzzy
-msgid "AVG Speed"
-msgstr "الاتصال السريع"
-
-#: ../src/stats/cmjPlusPotency.cs:57
-#: ../src/stats/graphs/cmjPlusPotency.cs:76
+#: ../src/stats/cmjPlusPotency.cs:57 ../src/stats/graphs/cmjPlusPotency.cs:76
 #, fuzzy
 msgid "Person's Weight"
 msgstr "وزن الخط"
 
-#: ../src/stats/cmjPlusPotency.cs:58
-#: ../src/stats/graphs/cmjPlusPotency.cs:77
+#: ../src/stats/cmjPlusPotency.cs:58 ../src/stats/graphs/cmjPlusPotency.cs:77
 #, fuzzy
 msgid "Extra Weight"
 msgstr "وزن الخط"
@@ -2641,14 +2694,10 @@ msgid "Dj Index"
 msgstr "الفهرس النهائي"
 
 #. limit
-#: ../src/stats/djIndex.cs:116
-#: ../src/stats/djQ.cs:116
-#: ../src/stats/ieIub.cs:132
-#: ../src/stats/rjEvolution.cs:258
-#: ../src/stats/rjIndex.cs:118
-#: ../src/stats/rjPotencyBosco.cs:120
-#: ../src/stats/sjCmjAbk.cs:114
-#: ../src/stats/sjCmjAbkPlus.cs:124
+#: ../src/stats/djIndex.cs:116 ../src/stats/djQ.cs:116
+#: ../src/stats/ieIub.cs:132 ../src/stats/rjEvolution.cs:258
+#: ../src/stats/rjIndex.cs:118 ../src/stats/rjPotencyBosco.cs:120
+#: ../src/stats/sjCmjAbk.cs:114 ../src/stats/sjCmjAbkPlus.cs:124
 #, fuzzy, csharp-format
 msgid "First {0} values"
 msgstr "<b>القيم النسبيّة</b>"
@@ -2670,43 +2719,28 @@ msgstr "<b>القيم النسبيّة</b>"
 #. selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit);
 #.
 #. best of each jumper
-#: ../src/stats/djIndex.cs:118
-#: ../src/stats/djQ.cs:118
-#: ../src/stats/fv.cs:111
-#: ../src/stats/global.cs:137
-#: ../src/stats/ieIub.cs:134
-#: ../src/stats/rjEvolution.cs:260
-#: ../src/stats/rjIndex.cs:120
-#: ../src/stats/rjPotencyBosco.cs:122
-#: ../src/stats/sjCmjAbk.cs:116
+#: ../src/stats/djIndex.cs:118 ../src/stats/djQ.cs:118 ../src/stats/fv.cs:111
+#: ../src/stats/global.cs:137 ../src/stats/ieIub.cs:134
+#: ../src/stats/rjEvolution.cs:260 ../src/stats/rjIndex.cs:120
+#: ../src/stats/rjPotencyBosco.cs:122 ../src/stats/sjCmjAbk.cs:116
 #: ../src/stats/sjCmjAbkPlus.cs:126
 #, csharp-format
 msgid "Max {0} values of each jumper"
 msgstr ""
 
-#: ../src/stats/djIndex.cs:125
-#: ../src/stats/djQ.cs:125
-#: ../src/stats/fv.cs:118
-#: ../src/stats/global.cs:144
-#: ../src/stats/ieIub.cs:141
-#: ../src/stats/rjEvolution.cs:271
-#: ../src/stats/rjIndex.cs:127
-#: ../src/stats/rjPotencyBosco.cs:129
-#: ../src/stats/sjCmjAbk.cs:123
+#: ../src/stats/djIndex.cs:125 ../src/stats/djQ.cs:125 ../src/stats/fv.cs:118
+#: ../src/stats/global.cs:144 ../src/stats/ieIub.cs:141
+#: ../src/stats/rjEvolution.cs:271 ../src/stats/rjIndex.cs:127
+#: ../src/stats/rjPotencyBosco.cs:129 ../src/stats/sjCmjAbk.cs:123
 #: ../src/stats/sjCmjAbkPlus.cs:133
 #, fuzzy
 msgid " various sessions "
 msgstr "حفظ الجلسات"
 
-#: ../src/stats/djIndex.cs:128
-#: ../src/stats/djQ.cs:128
-#: ../src/stats/fv.cs:121
-#: ../src/stats/global.cs:147
-#: ../src/stats/ieIub.cs:144
-#: ../src/stats/rjEvolution.cs:274
-#: ../src/stats/rjIndex.cs:130
-#: ../src/stats/rjPotencyBosco.cs:132
-#: ../src/stats/sjCmjAbk.cs:126
+#: ../src/stats/djIndex.cs:128 ../src/stats/djQ.cs:128 ../src/stats/fv.cs:121
+#: ../src/stats/global.cs:147 ../src/stats/ieIub.cs:144
+#: ../src/stats/rjEvolution.cs:274 ../src/stats/rjIndex.cs:130
+#: ../src/stats/rjPotencyBosco.cs:132 ../src/stats/sjCmjAbk.cs:126
 #: ../src/stats/sjCmjAbkPlus.cs:136
 #, fuzzy
 msgid " session "
@@ -2727,9 +2761,7 @@ msgstr "فهرس"
 msgid "{0} in Q Index [tf/tc] applied to {1} on {2}"
 msgstr ""
 
-#: ../src/stats/fv.cs:52
-#: ../src/stats/fv.cs:53
-#: ../src/stats/graphs/fv.cs:79
+#: ../src/stats/fv.cs:52 ../src/stats/fv.cs:53 ../src/stats/graphs/fv.cs:79
 #: ../src/stats/graphs/fv.cs:80
 #, fuzzy
 msgid "height"
@@ -2755,16 +2787,11 @@ msgstr "شخص مجهول"
 msgid "{0} in some jumps and statistics on {1}{2}"
 msgstr ""
 
-#: ../src/stats/graphs/cmjPlusPotency.cs:60
-#: ../src/stats/graphs/djIndex.cs:58
-#: ../src/stats/graphs/djQ.cs:58
-#: ../src/stats/graphs/fv.cs:64
-#: ../src/stats/graphs/global.cs:58
-#: ../src/stats/graphs/ieIub.cs:71
-#: ../src/stats/graphs/rjEvolution.cs:71
-#: ../src/stats/graphs/rjIndex.cs:59
-#: ../src/stats/graphs/rjPotencyBosco.cs:61
-#: ../src/stats/graphs/sjCmjAbk.cs:56
+#: ../src/stats/graphs/cmjPlusPotency.cs:60 ../src/stats/graphs/djIndex.cs:58
+#: ../src/stats/graphs/djQ.cs:58 ../src/stats/graphs/fv.cs:64
+#: ../src/stats/graphs/global.cs:58 ../src/stats/graphs/ieIub.cs:71
+#: ../src/stats/graphs/rjEvolution.cs:71 ../src/stats/graphs/rjIndex.cs:59
+#: ../src/stats/graphs/rjPotencyBosco.cs:61 ../src/stats/graphs/sjCmjAbk.cs:56
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:57
 #, fuzzy
 msgid "ChronoJump graph"
@@ -2779,78 +2806,30 @@ msgstr ""
 msgid "watts"
 msgstr ""
 
-#. don't plot AVG and SD rows
-#. if multisession, add AVG and SD cols
 #: ../src/stats/graphs/cmjPlusPotency.cs:121
 #: ../src/stats/graphs/cmjPlusPotency.cs:170
-#: ../src/stats/graphs/djIndex.cs:127
-#: ../src/stats/graphs/djIndex.cs:178
-#: ../src/stats/graphs/djQ.cs:127
-#: ../src/stats/graphs/djQ.cs:179
-#: ../src/stats/graphs/fv.cs:122
-#: ../src/stats/graphs/fv.cs:168
-#: ../src/stats/graphs/global.cs:123
-#: ../src/stats/graphs/global.cs:194
-#: ../src/stats/graphs/ieIub.cs:129
-#: ../src/stats/graphs/ieIub.cs:173
-#: ../src/stats/graphs/rjIndex.cs:124
-#: ../src/stats/graphs/rjIndex.cs:171
+#: ../src/stats/graphs/djIndex.cs:127 ../src/stats/graphs/djIndex.cs:178
+#: ../src/stats/graphs/djQ.cs:127 ../src/stats/graphs/djQ.cs:179
+#: ../src/stats/graphs/fv.cs:122 ../src/stats/graphs/fv.cs:168
+#: ../src/stats/graphs/global.cs:123 ../src/stats/graphs/global.cs:194
+#: ../src/stats/graphs/ieIub.cs:129 ../src/stats/graphs/ieIub.cs:173
+#: ../src/stats/graphs/rjIndex.cs:124 ../src/stats/graphs/rjIndex.cs:171
 #: ../src/stats/graphs/rjPotencyBosco.cs:141
 #: ../src/stats/graphs/rjPotencyBosco.cs:196
-#: ../src/stats/graphs/sjCmjAbk.cs:109
-#: ../src/stats/graphs/sjCmjAbk.cs:151
+#: ../src/stats/graphs/sjCmjAbk.cs:109 ../src/stats/graphs/sjCmjAbk.cs:151
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:120
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:165
-#: ../src/stats/main.cs:186
-#: ../src/stats/main.cs:218
-#: ../src/stats/main.cs:328
-#: ../src/stats/main.cs:355
-#: ../src/stats/main.cs:465
-#: ../src/stats/main.cs:548
-#: ../src/stats/main.cs:645
-#: ../src/stats/rjEvolution.cs:219
-msgid "AVG"
-msgstr ""
-
-#: ../src/stats/graphs/cmjPlusPotency.cs:121
-#: ../src/stats/graphs/cmjPlusPotency.cs:170
-#: ../src/stats/graphs/djIndex.cs:127
-#: ../src/stats/graphs/djIndex.cs:178
-#: ../src/stats/graphs/djQ.cs:127
-#: ../src/stats/graphs/djQ.cs:179
-#: ../src/stats/graphs/fv.cs:122
-#: ../src/stats/graphs/fv.cs:168
-#: ../src/stats/graphs/global.cs:123
-#: ../src/stats/graphs/global.cs:194
-#: ../src/stats/graphs/ieIub.cs:129
-#: ../src/stats/graphs/ieIub.cs:173
-#: ../src/stats/graphs/rjIndex.cs:124
-#: ../src/stats/graphs/rjIndex.cs:171
-#: ../src/stats/graphs/rjPotencyBosco.cs:141
-#: ../src/stats/graphs/rjPotencyBosco.cs:196
-#: ../src/stats/graphs/sjCmjAbk.cs:109
-#: ../src/stats/graphs/sjCmjAbk.cs:151
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:120
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:165
-#: ../src/stats/main.cs:186
-#: ../src/stats/main.cs:218
-#: ../src/stats/main.cs:329
-#: ../src/stats/main.cs:356
-#: ../src/stats/main.cs:466
-#: ../src/stats/main.cs:549
-#: ../src/stats/main.cs:645
-#: ../src/stats/rjEvolution.cs:219
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:165 ../src/stats/main.cs:186
+#: ../src/stats/main.cs:218 ../src/stats/main.cs:329 ../src/stats/main.cs:356
+#: ../src/stats/main.cs:465 ../src/stats/main.cs:552 ../src/stats/main.cs:650
+#: ../src/stats/rjEvolution.cs:219 ../src/treeViewJump.cs:351
+#: ../src/treeViewPulse.cs:161 ../src/treeViewRun.cs:246
 msgid "SD"
 msgstr ""
 
-#: ../src/stats/graphs/djIndex.cs:74
-#: ../src/stats/graphs/fv.cs:78
-#: ../src/stats/graphs/global.cs:72
-#: ../src/stats/graphs/ieIub.cs:86
-#: ../src/stats/graphs/rjIndex.cs:75
-#: ../src/stats/graphs/rjPotencyBosco.cs:79
-#: ../src/stats/rjEvolution.cs:67
-#: ../src/stats/rjIndex.cs:33
+#: ../src/stats/graphs/djIndex.cs:74 ../src/stats/graphs/fv.cs:78
+#: ../src/stats/graphs/global.cs:72 ../src/stats/graphs/ieIub.cs:86
+#: ../src/stats/graphs/rjIndex.cs:75 ../src/stats/graphs/rjPotencyBosco.cs:79
+#: ../src/stats/rjEvolution.cs:67 ../src/stats/rjIndex.cs:33
 #: ../src/stats/rjPotencyBosco.cs:33
 #, fuzzy
 msgid "Index"
@@ -2861,10 +2840,8 @@ msgstr "فهرس"
 msgid "Index *100"
 msgstr "تكبير 100%"
 
-#: ../src/stats/graphs/global.cs:93
-#: ../src/stats/graphs/global.cs:104
-#: ../src/stats/graphs/sjCmjAbk.cs:86
-#: ../src/stats/graphs/sjCmjAbk.cs:93
+#: ../src/stats/graphs/global.cs:93 ../src/stats/graphs/global.cs:104
+#: ../src/stats/graphs/sjCmjAbk.cs:86 ../src/stats/graphs/sjCmjAbk.cs:93
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:104
 #, fuzzy
 msgid "centimeters"
@@ -2885,13 +2862,11 @@ msgstr ""
 msgid "{0} in Rj Evolution applied to {1} on {2}{3}"
 msgstr ""
 
-#: ../src/stats/rjIndex.cs:34
-#: ../src/stats/rjPotencyBosco.cs:34
+#: ../src/stats/rjIndex.cs:34 ../src/stats/rjPotencyBosco.cs:34
 msgid "TF(AVG)"
 msgstr ""
 
-#: ../src/stats/rjIndex.cs:35
-#: ../src/stats/rjPotencyBosco.cs:35
+#: ../src/stats/rjIndex.cs:35 ../src/stats/rjPotencyBosco.cs:35
 msgid "TC(AVG)"
 msgstr ""
 
@@ -2902,7 +2877,9 @@ msgstr ""
 
 #: ../src/stats/rjPotencyBosco.cs:136
 #, csharp-format
-msgid "{0} in Rj Potency Bosco [(9.81^2 *tfavg * jumps * time) / (4 * jumps * (time - tfavg*jumps) ] applied to {1} on {2}"
+msgid ""
+"{0} in Rj Potency Bosco [(9.81^2 *tfavg * jumps * time) / (4 * jumps * (time "
+"- tfavg*jumps) ] applied to {1} on {2}"
 msgstr ""
 
 #: ../src/stats/sjCmjAbk.cs:130
@@ -2911,7 +2888,6 @@ msgid "{0} in {1} jump on {2}"
 msgstr "%s هي نافذة معششة في الهيكل %d"
 
 #: ../src/stats/sjCmjAbkPlus.cs:56
-#: ../src/treeViewJump.cs:37
 #, fuzzy
 msgid "Weight %"
 msgstr "وزن الخط"
@@ -2921,16 +2897,42 @@ msgstr "وزن الخط"
 msgid "{0} in {1} on {2}"
 msgstr "استماع على:"
 
+#: ../src/treeViewJump.cs:286 ../src/treeViewPulse.cs:133
+#: ../src/treeViewRun.cs:214
+#, fuzzy
+msgid "Total"
+msgstr "مجموع الصفحات"
+
 #: ../src/treeViewPerson.cs:43
 #, fuzzy
 msgid "person"
 msgstr "شخص مجهول"
 
-#: ../src/treeViewPulse.cs:48
+#: ../src/treeViewPulse.cs:48 ../src/treeViewPulse.cs:49
 msgid "Difference"
 msgstr ""
 
-#: ../src/treeViewPulse.cs:49
-msgid "Difference %"
+#: ../src/execute/reactionTime.cs:99
+#, fuzzy
+msgid "You are IN, RELEASE when prepared!!"
+msgstr "تنشيط عند السكون"
+
+#: ../src/gui/repetitiveConditions.cs:137
+msgid "You need to activate sounds in main window (bottom)"
 msgstr ""
 
+#, fuzzy
+#~ msgid "Jump AVG"
+#~ msgstr "قفز إلى"
+
+#, fuzzy
+#~ msgid "Pulse AVG"
+#~ msgstr "خطوة النبض"
+
+#, fuzzy
+#~ msgid "Run AVG"
+#~ msgstr "تشغيل برنامج"
+
+#, fuzzy
+#~ msgid "Deleted run: "
+#~ msgstr "تشغيل برنامج"

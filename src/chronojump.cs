@@ -106,8 +106,6 @@ public class ChronoJump
 	[Widget] Gtk.Button button_run_100m;
 	[Widget] Gtk.Button button_run_200m;
 	[Widget] Gtk.Button button_run_400m;
-	[Widget] Gtk.Button button_run_1000m;
-	[Widget] Gtk.Button button_run_2000m;
 	[Widget] Gtk.Button button_run_interval_by_laps;
 	[Widget] Gtk.Button button_run_interval_by_time;
 	[Widget] Gtk.Button button_run_interval_unlimited;
@@ -153,8 +151,6 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_100m;
 	[Widget] Gtk.MenuItem menuitem_200m;
 	[Widget] Gtk.MenuItem menuitem_400m;
-	[Widget] Gtk.MenuItem menuitem_1000m;
-	[Widget] Gtk.MenuItem menuitem_2000m;
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_laps;
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
 	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
@@ -169,6 +165,11 @@ public class ChronoJump
 	[Widget] Gtk.RadioMenuItem menuitem_chronopic;
 	
 	[Widget] Gtk.Notebook notebook;
+	
+	[Widget] Gtk.Frame frame_image_test;
+	[Widget] Gtk.Image image_test;
+	[Widget] Gtk.Button button_image_test;
+	
 	
 	private Random rand;
 	bool volumeOn;
@@ -409,6 +410,11 @@ public class ChronoJump
 		createMainWindow("");
 	}
 
+
+	private void on_button_image_test_clicked(object o, EventArgs args) {
+		new DialogImageTest();
+	}
+
 /*
 	private void on_so_asterisk_clicked(object o, EventArgs args) {
 		Console.WriteLine("Asterisk");
@@ -448,6 +454,12 @@ public class ChronoJump
 		}
 
 		gxml.Autoconnect(this);
+
+
+		Pixbuf pixbuf = new Pixbuf (null, "no_image.png");
+		image_test.Pixbuf = pixbuf;
+		button_image_test.Sensitive=false;
+		
 
 
 		cpRunning = false;
@@ -1911,6 +1923,10 @@ public class ChronoJump
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
+		Pixbuf pixbuf = new Pixbuf (null, "agility_505-h150.png");
+		image_test.Pixbuf = pixbuf;
+		button_image_test.Sensitive=true;
+
 		if(o == (object) button_free || o == (object) menuitem_jump_free) {
 			currentJumpType = new JumpType("Free");
 		}else if(o == (object) button_sj || o == (object) sj) {
@@ -2266,11 +2282,7 @@ public class ChronoJump
 			currentRunType = new RunType("200m");
 		} else if (o == (object) button_run_400m || o == (object) menuitem_400m) {
 			currentRunType = new RunType("400m");
-		} else if (o == (object) button_run_1000m || o == (object) menuitem_1000m) {
-			currentRunType = new RunType("1000m");
-		} else if (o == (object) button_run_2000m || o == (object) menuitem_2000m) {
-			currentRunType = new RunType("2000m");
-		}
+		} 
 		// add others...
 		
 		//if distance can be always different in this run,
@@ -3576,6 +3588,7 @@ public class ChronoJump
 		menu_pulses.Sensitive = false;
 		menu_view.Sensitive = false;
 
+		frame_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
 		button_recup_per.Sensitive = false;
 		button_create_per.Sensitive = false;
@@ -3593,6 +3606,7 @@ public class ChronoJump
 	}
 	
 	private void sensitiveGuiYesSession () {
+		frame_image_test.Sensitive = true;
 		frame_persons.Sensitive = true;
 		button_recup_per.Sensitive = true;
 		button_create_per.Sensitive = true;

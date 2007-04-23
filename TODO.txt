@@ -1,7 +1,15 @@
 
+TODO: 
+-put a image_file, and a image_desc for every test type. 
+-create some images
+-DialogImageTest will get data from event passed
+-add image and desc on new event type creation (desc is the current Description)
+-put a try{} catch on loading of images (probably user made a mistake)
+-allow to change image and desc of any event type
+-write some filter to update DB.
+
 
 ** OUTDATED file **
-
 
 
 

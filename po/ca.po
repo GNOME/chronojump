@@ -738,7 +738,7 @@ msgstr "atleta"
 
 #: ../glade/chronojump.glade.h:162
 msgid "Person AVG"
-msgstr "Mitjana personal"
+msgstr "Mitjana\npersonal"
 
 #: ../glade/chronojump.glade.h:163
 msgid "Pla_tform"
@@ -899,7 +899,7 @@ msgstr "Ajuda del port serie"
 
 #: ../glade/chronojump.glade.h:200
 msgid "Session AVG"
-msgstr "Mitjana de la sessió"
+msgstr "Mitjana\nde la sessió"
 
 #: ../glade/chronojump.glade.h:201
 msgid "Show all tests of a person"

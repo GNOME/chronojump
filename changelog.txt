@@ -1,5 +1,18 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+23 apr 2007
+	1st test on put images of tests on main window
+	1st test on DialogImageTest (with image and text)
+	
+	Added: src/gui/dialog_image_test.cs, images/no-image.png
+	images/agility_505-h150.png
+	
+	event execute win is now centered
+	better tables on eventExecute
+	main notebook can displace (good for maemo)
+	1Km, 2Km not shown on run execute bar and menu
+	Makefile compile if glade changed
+
 7 apr 2007
 	Added portuguese from portugal
 

@@ -71,6 +71,9 @@ public class EventExecuteWindow
 	[Widget] Gtk.Table table_pulse_values;
 	[Widget] Gtk.Table table_reaction_time_values;
 
+	[Widget] Gtk.HBox hbox_jump_simple_titles;
+	[Widget] Gtk.HBox hbox_run_simple_titles;
+	[Widget] Gtk.HBox hbox_reaction_time_titles;
 
 	//for the color change in the background of the cell label
 	[Widget] Gtk.EventBox eventbox_jump_simple_tc;
@@ -285,6 +288,7 @@ public class EventExecuteWindow
 
 	private void hideAllTables() {
 		//hide simple jump info
+		hbox_jump_simple_titles.Hide();
 		table_jump_simple.Hide();
 		table_jump_simple_values.Hide();
 		
@@ -293,6 +297,7 @@ public class EventExecuteWindow
 		table_jump_reactive_values.Hide();
 		
 		//hide run simple info
+		hbox_run_simple_titles.Hide();
 		table_run_simple.Hide();
 		table_run_simple_values.Hide();
 		
@@ -305,12 +310,14 @@ public class EventExecuteWindow
 		table_pulse_values.Hide();
 		
 		//hide reaction time info
+		hbox_reaction_time_titles.Hide();
 		table_reaction_time.Hide();
 		table_reaction_time_values.Hide();
 	}
 	
 	private void showJumpSimpleLabels() {
 		//show simple jump info
+		hbox_jump_simple_titles.Show();
 		table_jump_simple.Show();
 		table_jump_simple_values.Show();
 
@@ -340,6 +347,7 @@ public class EventExecuteWindow
 	
 	private void showRunSimpleLabels() {
 		//show run simple info
+		hbox_run_simple_titles.Show();
 		table_run_simple.Show();
 		table_run_simple_values.Show();
 		
@@ -376,6 +384,7 @@ public class EventExecuteWindow
 	
 	private void showReactionTimeLabels() {
 		//show info
+		hbox_reaction_time_titles.Show();
 		table_reaction_time.Show();
 		table_reaction_time_values.Show();
 

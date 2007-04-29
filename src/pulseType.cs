@@ -22,18 +22,19 @@
 using System;
 using System.Data;
 
-public class PulseType 
+public class PulseType : EventType
 {
-	private string name;
 	private double fixedPulse; //-1: not fixed, 0,344: 0,344 seconds between pulses
 	private int totalPulsesNum; //-1: not fixed (unlimited), 5: 5 times
 	private string description; //currently unused
 
 	public PulseType() {
+		type = Types.PULSE;
 	}
 	
 	//predefined values
 	public PulseType(string name) {
+		type = Types.PULSE;
 		this.name = name;
 		
 		//if this changes, sqlite/pulseType.cs initialize table should change
@@ -45,17 +46,12 @@ public class PulseType
 	
 	public PulseType(string name, double fixedPulse, int totalPulsesNum)
 	{
+		type = Types.PULSE;
 		this.name 	= name;
 		this.fixedPulse = fixedPulse;
 		this.totalPulsesNum = totalPulsesNum;
 	}
-	
-	public string Name
-	{
-		get { return name; }
-		set { name = value; }
-	}
-	
+
 	public double FixedPulse
 	{
 		get { return fixedPulse; }

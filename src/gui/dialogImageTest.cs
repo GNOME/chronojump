@@ -31,8 +31,7 @@ public class DialogImageTest
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Label label_test;
 
-//	public DialogImageTest (string message)
-	public DialogImageTest ()
+	public DialogImageTest (EventType myEventType)
 	{
 		Glade.XML gladeXML;
 		try {
@@ -43,10 +42,10 @@ public class DialogImageTest
 		
 		gladeXML.Autoconnect(this);
 		
-		label_frame_test.Text = "<b>Test XYZ</b>"; 
+		label_frame_test.Text = "<b>" + myEventType.Name + "</b>"; 
 		label_frame_test.UseMarkup = true; 
-		label_test.Text = "Explanation ZYZ"; 
-                Pixbuf pixbuf = new Pixbuf (null, "agility_505.png");
+		label_test.Text = myEventType.Description; 
+                Pixbuf pixbuf = new Pixbuf (null, myEventType.ImageFileName);
                 image_test.Pixbuf = pixbuf;
 	}
 				

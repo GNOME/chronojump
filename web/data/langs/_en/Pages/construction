@@ -2,18 +2,30 @@
 Construction
 :::endTitle:::
 
-<h5>Construction to obtaining the chronometer</h5>
-<ul>
-<li>Original Chronopic
-  <ul>
-  <li>If you want information about <b>how to buy</b> a just-made chronometer, read this e-mail: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Adquisición del Prototipo I de la chronopic</a> (spanish).
-  <li><b>[Experts]</b> If you want information about the <b>construction</b> of the chronometer, read this e-mail: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00001.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a> (spanish). <a href=":::articleLink:::/chronopic_cables_es.doc">Construction of Chronopic cables</a> (spanish). <a href=":::articleLink:::/record_chronopic_pic_icprog_es.doc">Record Chronopic with ICPROG</a> (spanish).
-  </ul>
-<li>Check also the <a href="construction_chronopic_juanfer.html">Chronopic_juanfer</a> (cheaper, easier to build).
-</ul>
+<ol>
+<li>Buying or constructing the chronometer
+<li>Construction of the contact platform
+<li>Photoelectric&nbsp;cells
+</ol>
 
 
-<h5>Construction of the contact platform</h5>
+<h5>1.- Buying or Constructing the chronometer</h5>
+
+
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<tr bgcolor="#e6e6fa"><th>Buy Chronopic</th><th>Write to</th><th>Price aproximated</th><th>Comments</th></tr>
+<tr><td>on Spain</td><td>andres@ifara.com</td><td>70 Euros +IVA</td><td>on PCB</td></tr>
+<tr><td>on South America</td><td>juanfer@juanfer.com.ar</td><td>150$ argentines +sending</td><td>"selfmade" circuit</td></tr>
+<tr><td colspan="4">Note1: we are not responsible on possible unworking Chronopics.</td></tr>
+<tr><td colspan="4">Note2: if you want to sell chronopics, please write an email to xaviblas@gmail.com.</td></tr>
+</table>
+
+<p><b>Construction</b> [Experts] If you want information about the <b>construction</b> of the chronometer, read this e-mail: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00001.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a> (spanish). <a href=":::articleLink:::/chronopic_cables_es.doc">Construction of Chronopic cables</a> (spanish). <a href=":::articleLink:::/record_chronopic_pic_icprog_es.doc">Record Chronopic with ICPROG</a> (spanish).
+<br>
+Check also the <a href="construction_chronopic_juanfer.html">Chronopic_juanfer</a> (cheaper, easier to build).
+
+
+<h5>2.- Construction of the contact platform</h5>
 The instrument that allows us to know if the subject is in the air or in the ground can be a platform of contacts or a system of photoelectric cells. We propose the following document for the manufacturing of the contact platform:
 
 <ul> <li><a href="construction_contact_platform.html">"Instructions for the construction of the contact platform used for the measurement of the jumping capacity"</a>.
@@ -22,5 +34,8 @@ The instrument that allows us to know if the subject is in the air or in the gro
 As an alternative, another possibility of construction of the contacts platform has been described, but <b>it has not been proven or adapted to ChronoJump</b>:
 <ul> <li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Development of the Platform Prototype of  a software, for Evaluation of adapted Vertical Jump in video game carpet"</a> (spanish).
 </ul>
+
+<h5>3.- Photoelectric&nbsp;cells</h5>
+
 As far as <b>photoelectric&nbsp;cells</b> , one has not documented so far its possibilities of use, price... if you have any information and if you wish to collaborate, join the  <a href="contact.html">chronojump-devel-list mailing list</a>.
 

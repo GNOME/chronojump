@@ -1,12 +1,16 @@
 
 TODO: 
--put a image_file, and a image_desc for every test type. 
--create some images
--DialogImageTest will get data from event passed
+-event edit (run) shows km/h not looking at prefs	DONE
+-put a image_file, and a image_desc for every test type. DONE 
+-create some images					DONE
+-DialogImageTest will get data from event passed	DONE
+-write some filter to update DB.			DONE
 -add image and desc on new event type creation (desc is the current Description)
--put a try{} catch on loading of images (probably user made a mistake)
 -allow to change image and desc of any event type
--write some filter to update DB.
+-put a try{} catch on loading of images (probably user made a mistake)
+-clean warnings!!
+-fix combo stuff on gtk2, see if it works on windows and maemo
+
 
 
 ** OUTDATED file **

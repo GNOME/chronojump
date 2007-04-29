@@ -811,6 +811,7 @@ public class RunsMoreWindow
 	
 	private string selectedRunType;
 	private double selectedDistance;
+	private string selectedDescription;
 	
 	RunsMoreWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
@@ -878,6 +879,7 @@ public class RunsMoreWindow
 		TreeIter iter;
 		selectedRunType = "-1";
 		selectedDistance = 0;
+		selectedDescription = "";
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
@@ -887,6 +889,7 @@ public class RunsMoreWindow
 			} else {
 				selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 			}
+			selectedDescription = (string) model.GetValue (iter, 2);
 			
 			button_accept.Sensitive = true;
 		}
@@ -906,6 +909,7 @@ public class RunsMoreWindow
 			} else {
 				selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 			}
+			selectedDescription = (string) model.GetValue (iter, 2);
 
 			//activate on_button_accept_clicked()
 			button_accept.Activate();
@@ -957,11 +961,12 @@ public class RunsMoreWindow
 		}
 	}
 	
-	public double SelectedDistance 
-	{
-		get {
-			return selectedDistance;
-		}
+	public double SelectedDistance {
+		get { return selectedDistance; }
+	}
+
+	public string SelectedDescription {
+		get { return selectedDescription; }
 	}
 	
 }
@@ -986,6 +991,7 @@ public class RunsIntervalMoreWindow
 	private bool selectedTracksLimited;
 	private int selectedLimitedValue;
 	private bool selectedUnlimited;
+	private string selectedDescription;
 	
 	RunsIntervalMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
@@ -1078,6 +1084,7 @@ public class RunsIntervalMoreWindow
 		selectedTracksLimited = false;
 		selectedLimitedValue = 0;
 		selectedUnlimited = false; //true if it's an unlimited run
+		selectedDescription = "";
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
@@ -1097,6 +1104,8 @@ public class RunsIntervalMoreWindow
 			} else {
 				selectedLimitedValue = Convert.ToInt32( (string) model.GetValue (iter, 3) );
 			}
+		
+			selectedDescription = (string) model.GetValue (iter, 4);
 
 			button_accept.Sensitive = true;
 		}
@@ -1125,6 +1134,8 @@ public class RunsIntervalMoreWindow
 			} else {
 				selectedLimitedValue = Convert.ToInt32( (string) model.GetValue (iter, 3) );
 			}
+			
+			selectedDescription = (string) model.GetValue (iter, 4);
 			
 			//activate on_button_accept_clicked()
 			button_accept.Activate();
@@ -1189,6 +1200,11 @@ public class RunsIntervalMoreWindow
 	public bool SelectedUnlimited 
 	{
 		get { return selectedUnlimited; }
+	}
+	
+	public string SelectedDescription 
+	{
+		get { return selectedDescription; }
 	}
 	
 }

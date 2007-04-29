@@ -92,6 +92,10 @@ public class Run : Event
 		get { return SqlitePerson.SelectJumperName(personID); }
 	}
 
+	public bool MetersSecondsPreferred {
+		set { metersSecondsPreferred = value; }
+	}
+
 	~Run() {}
 	   
 }

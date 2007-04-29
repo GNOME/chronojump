@@ -2,17 +2,29 @@
 Construcció
 :::endTitle:::
 
-<h5>Construcció-obtenció del cronòmetre</h5>
-<ul>
-<li>Chronopic original
-  <ul>
-  <li>Per a informació al voltant de la <b>compra</b> del cronòmetre ja fabricat llegir aquest correu: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Adquisición del Prototipo I de la chronopic</a> (castellà)
-  <li><b>[Experts]</b> Per a informació al voltant de la <b>fabricació</b> del cronòmetre llegir aquest correu: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00001.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a> (castellà). <a href=":::articleLink:::/chronopic_cables_es.doc">Construcció de cables per a Chronopic</a> (castellà). <a href=":::articleLink:::/record_chronopic_pic_icprog_es.doc">Enregistrament de Chronopic amb ICPROG</a> (castellà).
-  </ul>
-<li>Alternativament, pot construir la <a href="construction_chronopic_juanfer_es.html">Chronopic_juanfer</a> (castellà) (més barata i més fàcil de fabricar).
-</ul>
+<ol>
+<li>Compra-Construcció del cronòmetre
+<li>Construcció de la plataforma de contactes
+<li>Cel·lules fotoelèctricas
+</ol>
 
-<h5>Construcció de la plataforma de contactes</h5>
+<h5>1.- Compra-Construcció del cronòmetre</h5>
+
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<tr bgcolor="#e6e6fa"><th>Comprar Chronopic</th><th>Escriure a</th><th>Preu aproximat</th><th>Comentaris</th></tr>
+<tr><td>a Espanya</td><td>andres@ifara.com</td><td>70 Euros +IVA</td><td>Gravat en PCB</td></tr>
+<tr><td>a Sudamèrica</td><td>juanfer@juanfer.com.ar</td><td>150$ argentins +enviament</td><td>Placa casolana</td></tr>
+<tr><td colspan="4">Nota1: no ens fem responsables de que els Chronopics comprats funcionin.</td></tr>
+<tr><td colspan="4">Nota2: si desitja comercialitzar chronopics escrigui un correu a xaviblas@gmail.com.</td></tr>
+</table>
+
+
+<p><b>Construcció</b> [Experts] Per a informació al voltant de la <b>fabricació</b> del cronòmetre llegir aquest correu: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00001.html">Documentación sobre Chronopic 1.0 y el Prototipo 1</a> (castellà). <a href=":::articleLink:::/chronopic_cables_es.doc">Construcció de cables per a Chronopic</a> (castellà). <a href=":::articleLink:::/record_chronopic_pic_icprog_es.doc">Enregistrament de Chronopic amb ICPROG</a> (castellà).
+<br>
+Alternativament, pot construir la <a href="construction_chronopic_juanfer_es.html">Chronopic_juanfer</a> (castellà) (més barata i més fàcil de fabricar).
+
+
+<h5>2.- Construcció de la plataforma de contactes</h5>
 
 L'instrument que permet saber si el subjecte està a l'aire o a terra pot ser una plataforma de contactes o un sistema de cèl·lules fotoelèctriques. Proposem el següent document amb les intruccions per a fabricar la plataforma de contactes: 
 
@@ -26,5 +38,7 @@ L'instrument que permet saber si el subjecte està a l'aire o a terra pot ser un
 De forma alternativa s'ha descrit una altra possibilitat de construcció de plataforma de contactes que <b>no ha estat provada o adaptada a ChronoJump</b>: 
 <ul><li><a href="http://www.deporteyciencia.com/wiki.pl?Plataforma_Contactos_Con_Tapete_Videojuego1">"Desenvolupament de Prototip de Plataforma i Programa de Computació, per Avaluació del Salt Vertical adaptat del Tapet de Videojoc"</a>
 </ul>
+
+<h5>3.- Cel·lules fotoelèctricas</h5>
 
 Respecte les <b>cel·lules&nbsp;fotoelèctriques</b>, no han estat documentades encara les seves possibilitats  d'ús, de preu, etc. Si disposeu d'informació i desitgeu col·laborar, apunteu-vos a la <a href="contact_ca.html">llista chronojump-devel-list</a>. 

@@ -30,8 +30,10 @@ my $currentVersionMonth = 3; #if it's from 1 to 9, put only one digit
 my $currentVersionYear = "2007";
 my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00004.html";
 my $linuxMailDownloadName = "Chronojump 0.52 for Linux (New!) Installation";
-my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00003.html";
-my $windowsMailDownloadName = "Chronojump 0.52 for Windows (New!) Installation";
+my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-April/msg00012.html";
+my $windowsMailDownloadName = "Chronojump 0.52 for Windows (New!) Installation (updated)";
+my $maemoMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-April/msg00002.html";
+my $maemoMailDownloadName = "chronojump_mini for Maemo!! Chronojump_mini funcionando en Maemo!!";
 my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00002.html";
 
 
@@ -347,6 +349,8 @@ sub getConstants {
 	$pageContent =~ s/:::linuxMailDownloadName:::/$linuxMailDownloadName/g;
 	$pageContent =~ s/:::windowsMailDownloadLink:::/$windowsMailDownloadLink/g;
 	$pageContent =~ s/:::windowsMailDownloadName:::/$windowsMailDownloadName/g;
+	$pageContent =~ s/:::maemoMailDownloadLink:::/$maemoMailDownloadLink/g;
+	$pageContent =~ s/:::maemoMailDownloadName:::/$maemoMailDownloadName/g;
 	$pageContent =~ s/:::changesMailDownloadLink:::/$changesMailDownloadLink/g;
 
 	my $newDate = getLocalisedDate($langSuffix, $currentVersionDay, $currentVersionMonth, $currentVersionYear);

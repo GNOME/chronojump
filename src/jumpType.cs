@@ -22,24 +22,25 @@
 using System;
 using System.Data;
 
-public class JumpType 
+public class JumpType : EventType
 {
-	protected string name;
 	protected bool startIn;
 	protected bool hasWeight;
 	protected bool isRepetitive;
 	protected bool jumpsLimited;
 	protected double fixedValue;	//0 no fixed value
 	//protected string description;
-	protected bool isPredefined;
+	//protected bool isPredefined;
 	protected bool unlimited;
 
 
 	public JumpType() {
+		type = Types.JUMP;
 	}
 	
 	//predefined values
 	public JumpType(string name) {
+		type = Types.JUMP;
 		this.name = name;
 		
 		//we cannot obtain values like has Weight
@@ -48,7 +49,7 @@ public class JumpType
 		unlimited = false;	//default value
 		
 		//if this changes, sqlite/jumpType.cs initialize tables should change
-		if(name == "Free" || name == "SJ" || name == "CMJ" || name == "ABK") {
+		if(name == "Free" || name == "SJ" || name == "CMJ" || name == "ABK" || name == "Rocket") {
 			startIn 	= true;
 			hasWeight 	= false;
 			isRepetitive 	= false;
@@ -105,6 +106,7 @@ public class JumpType
 	public JumpType(string name, bool startIn, bool hasWeight, 
 			bool isRepetitive, bool jumpsLimited, double fixedValue, bool unlimited)
 	{
+		type = Types.JUMP;
 		this.name 	= name;
 		this.startIn 	= startIn;
 		this.hasWeight 	= hasWeight;
@@ -116,13 +118,7 @@ public class JumpType
 		//we can obtain values like has Weight
 		this.isPredefined	= true;
 	}
-	
-	public string Name
-	{
-		get { return name; }
-		set { name = value; }
-	}
-	
+
 	public bool StartIn
 	{
 		get { return startIn; }

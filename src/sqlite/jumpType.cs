@@ -59,7 +59,8 @@ class SqliteJumpType : Sqlite
 			"CMJ+:1:1:CMJ jump with weight", 
 			"ABK:1:0:ABK jump", 
 			"ABK+:1:1:ABK jump with weight", 
-			"DJ:0:0:DJ jump"
+			"DJ:0:0:DJ jump",
+			"Rocket:1:0:Rocket jump"
 		};
 		foreach(string myJumpType in iniJumpTypes) {
 			JumpTypeInsert(myJumpType, true);

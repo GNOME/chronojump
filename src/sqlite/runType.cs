@@ -57,13 +57,31 @@ class SqliteRunType : Sqlite
 			"200m:200:run 200 meters",
 			"400m:400:run 400 meters",
 			"1000m:1000:run 1000 meters",
-			"2000m:2000:run 2000 meters"
+			"2000m:2000:run 2000 meters",
+
+			//also simple agility tests
+			"Agility-20Yard:18.28:20Yard Agility test",
+			"Agility-505:10:505 Agility test",
+			"Agility-Illinois:60:Illinois Agility test",
+			"Agility-Shuttle-Run:40:Shuttle Run Agility test",
+			"Agility-ZigZag:17.6:ZigZag Agility test"
 		};
 		foreach(string myRunType in iniRunTypes) {
 			RunTypeInsert(myRunType, true);
 		}
+	
+		AddGraphLinks();	
 	}
 	
+	public static void AddGraphLinks() {
+		SqliteEvent.Insert ("run", "Agility-20Yard", "agility_20yard.png");
+		SqliteEvent.Insert ("run", "Agility-505", "agility_505.png");
+		SqliteEvent.Insert ("run", "Agility-Illinois", "agility_illinois.png");
+		SqliteEvent.Insert ("run", "Agility-Shuttle-Run", "agility_shuttle.png");
+		SqliteEvent.Insert ("run", "Agility-ZigZag", "agility_zigzag.png");
+	}
+
+
 	//creates table containing the types of Interval Runs 
 	//following INT values are booleans
 	protected internal static void createTableRunIntervalType()

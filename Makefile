@@ -24,19 +24,24 @@ CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src
 
 CHRONOJUMP_DEP_GRAPHS = src/stats/graphs/graphData.cs src/stats/graphs/graphSerie.cs src/stats/graphs/global.cs src/stats/graphs/sjCmjAbk.cs src/stats/graphs/sjCmjAbkPlus.cs src/stats/graphs/djIndex.cs src/stats/graphs/djQ.cs src/stats/graphs/rjIndex.cs src/stats/graphs/rjPotencyBosco.cs src/stats/graphs/rjEvolution.cs src/stats/graphs/ieIub.cs src/stats/graphs/fv.cs src/stats/graphs/cmjPlusPotency.cs
 
-CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpType.cs src/sqlite/run.cs src/sqlite/runType.cs src/sqlite/personSession.cs src/sqlite/stat.cs src/sqlite/pulse.cs src/sqlite/pulseType.cs src/sqlite/reactionTime.cs 
+CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpType.cs src/sqlite/run.cs src/sqlite/runType.cs src/sqlite/personSession.cs src/sqlite/stat.cs src/sqlite/pulse.cs src/sqlite/pulseType.cs src/sqlite/reactionTime.cs src/sqlite/event.cs
 
 CHRONOJUMP_DEP_EXECUTE = src/execute/event.cs src/execute/jump.cs src/execute/run.cs src/execute/pulse.cs src/execute/reactionTime.cs
 
 CHRONOJUMP_DEP_SERVER = chronojump_server/ChronojumpServer.cs
 
-CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs src/repetitiveConditions.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
+CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/eventType.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/reactionTimeType.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs src/repetitiveConditions.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
 
 RESOURCES_GLADE = -resource:glade/chronojump.glade,chronojump.glade
-RESOURCES_IMAGES = -resource:images/no_image.png,no_image.png -resource:images/agility_505.png,agility_505.png -resource:images/agility_505-h150.png,agility_505-h150.png
+RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
+		-resource:images/agility_505.png,agility_505.png 		-resource:images/mini/agility_505.png,mini/agility_505.png \
+		-resource:images/agility_20yard.png,agility_20yard.png		-resource:images/mini/agility_20yard.png,mini/agility_20yard.png \
+		-resource:images/agility_illinois.png,agility_illinois.png 	-resource:images/mini/agility_illinois.png,mini/agility_illinois.png \
+		-resource:images/agility_shuttle.png,agility_shuttle.png 	-resource:images/mini/agility_shuttle.png,mini/agility_shuttle.png \
+		-resource:images/agility_zigzag.png,agility_zigzag.png 		-resource:images/mini/agility_zigzag.png,mini/agility_zigzag.png \
 
-#CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services
-CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services 
+CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services
+#CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services 
 
 
 #-- Construccion del chronojump_mini que funciona por consola
@@ -53,6 +58,8 @@ all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
 
 $(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade
 	 $(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
+#$(CHRONOJUMP).exe: $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade
+#	 $(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) -unsafe chronopic.cs -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
    
     
 #------------------------------------

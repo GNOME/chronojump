@@ -145,7 +145,7 @@ msgstr "<b>fase de pols</b>"
 
 #: ../glade/chronojump.glade.h:33
 msgid "<b>statistic</b>"
-msgstr "<b>estadística>"
+msgstr "<b>estadística</b>"
 
 #: ../glade/chronojump.glade.h:34
 msgid "<b>statistics data</b>"

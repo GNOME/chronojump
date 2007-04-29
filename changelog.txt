@@ -1,5 +1,22 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+29 apr 2007
+	changed to gtk-sharp-2.0 and glade-sharp-2.0
+		-changing the selected method on treeviews (see gui/session load)
+	NPlot updated to 0.9.9.2
+
+	Added Agility tests: 423350
+	Showing little image of every test 423352 (only for agility now)
+	DialogImageTest works getting the eventType name and image
+	added 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag) with its images
+	added rocket jump
+	added sqlite/event.cs with graph stuff
+	added "mini" images dir and files
+	added eventType.cs, reactionTimeType.cs
+
+	edit run shows speed in correct units
+	Fixed bug: 433444: Constants created before Catalog: "All jumps" was no localized
+
 23 apr 2007
 	1st test on put images of tests on main window
 	1st test on DialogImageTest (with image and text)

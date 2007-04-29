@@ -97,6 +97,7 @@ public class ChronoJump
 	[Widget] Gtk.Button button_cmj;
 	[Widget] Gtk.Button button_abk;
 	[Widget] Gtk.Button button_dj;
+	[Widget] Gtk.Button button_rocket;
 	[Widget] Gtk.Button button_more;
 	[Widget] Gtk.Button button_rj_j;
 	[Widget] Gtk.Button button_rj_t;
@@ -140,6 +141,7 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem cmj;
 	[Widget] Gtk.MenuItem abk;
 	[Widget] Gtk.MenuItem dj;
+	[Widget] Gtk.MenuItem menuitem_jump_rocket;
 	[Widget] Gtk.MenuItem more_simple_jumps;
 	[Widget] Gtk.MenuItem more_rj;
 	[Widget] Gtk.MenuItem menuitem_jump_type_add;
@@ -226,13 +228,8 @@ public class ChronoJump
 	private static EventExecute currentEventExecute;
 
 	//Used by Cancel and Finish
-	
-	private enum eventType {
-		JUMP, RUN, PULSE, REACTIONTIME
-	}
-	
-	private static eventType currentEventIs;
-	private static eventType lastEventWas;
+	private static EventType currentEventType;
+	private static EventType lastEventType;
 
 	private static bool lastJumpIsReactive; //if last Jump is reactive or not
 	private static bool lastRunIsInterval; //if last run is interval or not (obvious) 
@@ -304,6 +301,7 @@ public class ChronoJump
 
 	public static void Main(string [] args) 
 	{
+		Catalog.Init ("chronojump", "./locale");
 		new ChronoJump(args);
 	}
 
@@ -383,8 +381,6 @@ public class ChronoJump
 			languageChange();
 
 		
-		Catalog.Init ("chronojump", "./locale");
-
 		Application.Init();
 
 		Util.IsWindows();	//only as additional info here
@@ -412,7 +408,7 @@ public class ChronoJump
 
 
 	private void on_button_image_test_clicked(object o, EventArgs args) {
-		new DialogImageTest();
+		new DialogImageTest(currentRunType);
 	}
 
 /*
@@ -445,18 +441,32 @@ public class ChronoJump
 	private void createMainWindow(string recuperatedString)
 	{
 		Glade.XML gxml;
+Console.Write("1");
 		try {
+Console.Write("2");
 			//linux
 			gxml = Glade.XML.FromAssembly ("chronojump.glade", "app1", null);
+			/*
+			gxml = new Glade.XML (this.GetType().Assembly, 
+                                 "chronojump.glade", 
+                                 "app1", 
+                                 null);
+*/
+			//gxml = Glade.XML.FromAssembly ("/media/mmc1/chronojump.glade", "app1", null);
+Console.Write("3");
 		} catch {
+Console.Write("4");
 			//windows
 			gxml = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "app1", null);
+Console.Write("5");
 		}
+Console.Write("6");
 
 		gxml.Autoconnect(this);
 
+Console.Write("7");
 
-		Pixbuf pixbuf = new Pixbuf (null, "no_image.png");
+		Pixbuf pixbuf = new Pixbuf (null, "mini/no_image.png");
 		image_test.Pixbuf = pixbuf;
 		button_image_test.Sensitive=false;
 		
@@ -508,6 +518,8 @@ public class ChronoJump
 		if(simulated)
 			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
 
+		Console.WriteLine(Constants.AllJumpsName);
+		Console.WriteLine(Catalog.GetString("All jumps"));
 	}
 
 	//recuperate temp jumpRj or RunI if chronojump hangs
@@ -1328,10 +1340,12 @@ public class ChronoJump
 		Console.WriteLine("open session");
 		sessionLoadWin = SessionLoadWindow.Show(app1);
 		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted);
+		//on_load_session_accepted(o, args);
 	}
 	
 	private void on_load_session_accepted (object o, EventArgs args) {
 		currentSession = sessionLoadWin.CurrentSession;
+		//currentSession = SqliteSession.Select("1");
 		app1.Title = progname + " - " + currentSession.Name;
 		
 		if(createdStatsWin) {
@@ -1851,7 +1865,22 @@ public class ChronoJump
 		Console.WriteLine("open report window");
 		reportWin = ReportWindow.Show(app1, report);
 	}
+
 	
+	private void changeTestImage(string tableName, string eventName) {
+		//string fileNameString = SqliteEvent.SelectFileName(tableName, eventName);
+		string fileNameString = currentRunType.ImageFileName;
+		Pixbuf pixbuf;
+		if(fileNameString != "") {
+			pixbuf = new Pixbuf (null, "mini/" + fileNameString);
+			button_image_test.Sensitive=true;
+		} else {
+			pixbuf = new Pixbuf (null, "mini/no_image.png");
+			button_image_test.Sensitive=false;
+		}
+		image_test.Pixbuf = pixbuf;
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  JUMPS EXECUTION (no RJ) ----------------
@@ -1923,9 +1952,11 @@ public class ChronoJump
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-		Pixbuf pixbuf = new Pixbuf (null, "agility_505-h150.png");
+/*
+		Pixbuf pixbuf = new Pixbuf (null, "mini/agility_505.png");
 		image_test.Pixbuf = pixbuf;
 		button_image_test.Sensitive=true;
+*/
 
 		if(o == (object) button_free || o == (object) menuitem_jump_free) {
 			currentJumpType = new JumpType("Free");
@@ -1935,6 +1966,8 @@ public class ChronoJump
 			currentJumpType = new JumpType("CMJ");
 		} else if (o == (object) button_abk || o == (object) abk) {
 			currentJumpType = new JumpType("ABK");
+		} else if (o == (object) button_rocket || o == (object) menuitem_jump_rocket) {
+			currentJumpType = new JumpType("Rocket");
 		} else {
 		}
 			
@@ -1952,7 +1985,7 @@ public class ChronoJump
 		}
 			
 		//used by cancel and finish
-		currentEventIs = eventType.JUMP;
+		currentEventType = new JumpType();
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
@@ -2003,7 +2036,7 @@ public class ChronoJump
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventWas = eventType.JUMP;
+			lastEventType = new JumpType();
 			lastJumpIsReactive = false;
 
 			currentJump = (Jump) currentEventExecute.EventDone;
@@ -2120,7 +2153,7 @@ public class ChronoJump
 		}
 
 		//used by cancel and finish
-		currentEventIs = eventType.JUMP;
+		currentEventType = new JumpType();
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
@@ -2168,7 +2201,7 @@ public class ChronoJump
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventWas = eventType.JUMP;
+			lastEventType = new JumpType();
 			lastJumpIsReactive = true;
 
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
@@ -2233,15 +2266,18 @@ public class ChronoJump
 	private void on_more_runs_accepted (object o, EventArgs args) 
 	{
 		runsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_accepted);
-		
+	
 		currentRunType = new RunType(
 				runsMoreWin.SelectedRunType,	//name
 				false,				//hasIntervals
 				runsMoreWin.SelectedDistance,	//distance
 				false,				//tracksLimited (false, because has not intervals)
 				0,				//fixedValue (0, because has not intervals)
-				false				//unlimited (false, because has not intervals)
+				false,				//unlimited (false, because has not intervals)
+				runsMoreWin.SelectedDescription,
+				SqliteEvent.SelectFileName("run", runsMoreWin.SelectedRunType)
 				);
+		
 				
 		//destroy the win for not having updating problems if a new run type is created
 		runsMoreWin.Destroy();
@@ -2285,6 +2321,8 @@ public class ChronoJump
 		} 
 		// add others...
 		
+		changeTestImage("run", currentRunType.Name);
+
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
 		int myDistance = 0;		
@@ -2295,7 +2333,7 @@ public class ChronoJump
 		}
 		
 		//used by cancel and finish
-		currentEventIs = eventType.RUN;
+		currentEventType = new RunType();
 			
 		//hide jumping (running) buttons
 		sensitiveGuiEventDoing();
@@ -2349,7 +2387,7 @@ public class ChronoJump
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventWas = eventType.RUN;
+			lastEventType = new RunType();
 			lastRunIsInterval = false;
 			
 			currentRun = (Run) currentEventExecute.EventDone;
@@ -2392,7 +2430,9 @@ public class ChronoJump
 				runsIntervalMoreWin.SelectedDistance,
 				runsIntervalMoreWin.SelectedTracksLimited,
 				runsIntervalMoreWin.SelectedLimitedValue,
-				runsIntervalMoreWin.SelectedUnlimited
+				runsIntervalMoreWin.SelectedUnlimited,
+				runsIntervalMoreWin.SelectedDescription,
+				SqliteEvent.SelectFileName("runInterval", runsMoreWin.SelectedRunType)
 				);
 
 		bool unlimited = false;
@@ -2471,7 +2511,7 @@ public class ChronoJump
 
 
 		//used by cancel and finish
-		currentEventIs = eventType.RUN;
+		currentEventType = new RunType();
 			
 		//hide running buttons
 		sensitiveGuiEventDoing();
@@ -2515,7 +2555,7 @@ public class ChronoJump
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventWas = eventType.RUN;
+			lastEventType = new RunType();
 			lastRunIsInterval = true;
 
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
@@ -2588,7 +2628,7 @@ public class ChronoJump
 		}
 */			
 		//used by cancel and finish
-		currentEventIs = eventType.REACTIONTIME;
+		currentEventType = new ReactionTimeType();
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
@@ -2637,7 +2677,7 @@ public class ChronoJump
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_reaction_time_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventWas = eventType.REACTIONTIME;
+			lastEventType = new ReactionTimeType();
 
 			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
 			
@@ -2655,44 +2695,6 @@ public class ChronoJump
 		sensitiveGuiEventDone();
 	}
 
-
-
-	/*
-	 * update button is clicked on eventWindow, chronojump.cs delegate points here
-	 */
-	
-	private void on_update_clicked (object o, EventArgs args) {
-		Console.WriteLine("--On_update_clicked--");
-		try {
-			switch (currentEventIs) {
-				case eventType.JUMP:
-					if(currentJumpType.IsRepetitive) 
-						eventExecuteWin.PrepareJumpReactiveGraph(
-								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
-								currentJumpRj.TvString, currentJumpRj.TcString, volumeOn, repetitiveConditionsWin);
-					else 
-						eventExecuteWin.PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
-					break;
-				case eventType.RUN:
-					if(currentRunType.HasIntervals) 
-						eventExecuteWin.PrepareRunIntervalGraph(currentRunInterval.DistanceInterval, 
-								Util.GetLast(currentRunInterval.IntervalTimesString), currentRunInterval.IntervalTimesString, volumeOn, repetitiveConditionsWin);
-					else
-						eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
-					break;
-				case eventType.PULSE:
-					eventExecuteWin.PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
-					break;
-				case eventType.REACTIONTIME:
-					eventExecuteWin.PrepareReactionTimeGraph(currentReactionTime.Time);
-					break;
-			}
-		}
-		catch {
-			errorWin = ErrorWindow.Show(app1, Catalog.GetString("Cannot update. Probably this test was deleted."));
-		}
-	
-	}
 
 
 	/* ---------------------------------------------------------
@@ -2773,7 +2775,7 @@ public class ChronoJump
 		}
 
 		//used by cancel and finish
-		currentEventIs = eventType.PULSE;
+		currentEventType = new PulseType();
 			
 		//hide pulse buttons
 		sensitiveGuiEventDoing();
@@ -2817,7 +2819,7 @@ public class ChronoJump
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventWas = eventType.PULSE;
+			lastEventType = new PulseType();
 			/*
 			 * CURRENTLY NOT NEEDED... check
 			//if user clicked in finish earlier
@@ -2851,6 +2853,44 @@ public class ChronoJump
 		
 		//unhide buttons that allow jumping, running
 		sensitiveGuiEventDone();
+	}
+
+
+	/*
+	 * update button is clicked on eventWindow, chronojump.cs delegate points here
+	 */
+	
+	private void on_update_clicked (object o, EventArgs args) {
+		Console.WriteLine("--On_update_clicked--");
+		try {
+			switch (currentEventType.Type) {
+				case EventType.Types.JUMP:
+					if(currentJumpType.IsRepetitive) 
+						eventExecuteWin.PrepareJumpReactiveGraph(
+								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
+								currentJumpRj.TvString, currentJumpRj.TcString, volumeOn, repetitiveConditionsWin);
+					else 
+						eventExecuteWin.PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
+					break;
+				case EventType.Types.RUN:
+					if(currentRunType.HasIntervals) 
+						eventExecuteWin.PrepareRunIntervalGraph(currentRunInterval.DistanceInterval, 
+								Util.GetLast(currentRunInterval.IntervalTimesString), currentRunInterval.IntervalTimesString, volumeOn, repetitiveConditionsWin);
+					else
+						eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
+					break;
+				case EventType.Types.PULSE:
+					eventExecuteWin.PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
+					break;
+				case EventType.Types.REACTIONTIME:
+					eventExecuteWin.PrepareReactionTimeGraph(currentReactionTime.Time);
+					break;
+			}
+		}
+		catch {
+			errorWin = ErrorWindow.Show(app1, Catalog.GetString("Cannot update. Probably this test was deleted."));
+		}
+	
 	}
 
 
@@ -2920,6 +2960,7 @@ public class ChronoJump
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
 			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.EventSelectedID );
+			myRun.MetersSecondsPreferred = metersSecondsPreferred;
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
@@ -3236,8 +3277,8 @@ public class ChronoJump
 		Console.WriteLine("delete last event");
 		
 		string warningString = "";
-		switch (lastEventWas) {
-			case eventType.JUMP:
+		switch (lastEventType.Type) {
+			case EventType.Types.JUMP:
 				if (askDeletion) {
 					int myID = myTreeViewJumps.EventSelectedID;
 					if(lastJumpIsReactive) {
@@ -3256,7 +3297,7 @@ public class ChronoJump
 					on_last_jump_delete_accepted(o, args);
 				}
 				break;
-			case eventType.RUN:
+			case EventType.Types.RUN:
 				if (askDeletion) {
 					int myID = myTreeViewRuns.EventSelectedID;
 					if (lastRunIsInterval) {
@@ -3275,7 +3316,7 @@ public class ChronoJump
 					on_last_run_delete_accepted(o, args);
 				}
 				break;
-			case eventType.REACTIONTIME:
+			case EventType.Types.REACTIONTIME:
 				if (askDeletion) {
 					int myID = myTreeViewReactionTimes.EventSelectedID;
 					notebook_change(4);
@@ -3287,7 +3328,7 @@ public class ChronoJump
 					on_last_reaction_time_delete_accepted(o, args);
 				}
 				break;
-			case eventType.PULSE:
+			case EventType.Types.PULSE:
 				if (askDeletion) {
 					int myID = myTreeViewPulses.EventSelectedID;
 					notebook_change(5);
@@ -3694,8 +3735,8 @@ public class ChronoJump
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(! currentEventExecute.Cancel) {
-			switch (currentEventIs) {
-				case eventType.JUMP:
+			switch (currentEventType.Type) {
+				case EventType.Types.JUMP:
 					if(currentJumpType.IsRepetitive) {
 						//if(! currentJumpRj.Cancel) {
 						button_rj_last.Sensitive = true;
@@ -3708,7 +3749,7 @@ public class ChronoJump
 						//}
 					}
 					break;
-				case eventType.RUN:
+				case EventType.Types.RUN:
 					if(currentRunType.HasIntervals) {
 						//if(! currentRunInterval.Cancel) {
 						button_run_interval_last.Sensitive = true;
@@ -3721,10 +3762,10 @@ public class ChronoJump
 						//}
 					}
 					break;
-				case eventType.REACTIONTIME:
+				case EventType.Types.REACTIONTIME:
 					Console.WriteLine("sensitiveGuiEventDone reaction time");
 					break;
-				case eventType.PULSE:
+				case EventType.Types.PULSE:
 					Console.WriteLine("sensitiveGuiEventDone pulse");
 					break;
 				default:

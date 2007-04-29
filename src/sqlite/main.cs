@@ -143,6 +143,27 @@ class Sqlite
 			myVersion = "0.48";
 		}
 
+		if(myVersion == "0.48") {
+			dbcon.Open();
+
+			SqliteJumpType.JumpTypeInsert ("Rocket:1:0:Rocket jump", true); 
+			
+			SqliteRunType.RunTypeInsert ("Agility-20Yard:18.28:20Yard Agility test", true);
+			SqliteRunType.RunTypeInsert ("Agility-505:10:505 Agility test", true);
+			SqliteRunType.RunTypeInsert ("Agility-Illinois:60:Illinois Agility test", true);
+			SqliteRunType.RunTypeInsert ("Agility-Shuttle-Run:40:Shuttle Run Agility test", true);
+			SqliteRunType.RunTypeInsert ("Agility-ZigZag:17.6:ZigZag Agility test", true);
+		
+			SqliteEvent.createGraphLinkTable();
+			SqliteRunType.AddGraphLinks();	
+
+			SqlitePreferences.Update ("databaseVersion", "0.49"); 
+			Console.WriteLine("Added graphLinkTable, added Rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag. Added graphs pof the 5 agility tests)");
+
+			dbcon.Close();
+			myVersion = "0.49";
+		}
+
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
 	}
@@ -165,6 +186,9 @@ class Sqlite
 		dbcon.Open();
 
 		SqlitePerson.createTable();
+
+		//graphLinkTable
+		SqliteEvent.createGraphLinkTable();
 	
 		//jumps
 		SqliteJump.createTable();
@@ -203,7 +227,8 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.48"); 
+		SqlitePreferences.Insert ("databaseVersion", "0.49"); 
+		//changes from 0.48 to 0.49: added graphLinkTable, added rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag). Added graphs pof the 5 agility tests
 		//changes from 0.47 to 0.48: added tempJumpReactive and tempRunInterval tables
 		//changes from 0.46 to 0.47: added reactionTime table
 		//changes from 0.45 to 0.46: added "Free" jump type

@@ -9,6 +9,7 @@ Instalación
 	<tr bgcolor="#e6e6fa"><th>Sistemas operativos</th><th><center>Instrucciones para la instalación</center></th></tr>
 	<tr><td><b>GNU/Linux</b></td><td>Instalar Mono, libgdiplus y Gtk#. Consultar este correo (inglés y castellano): <a href=":::linuxMailDownloadLink:::">:::linuxMailDownloadName:::</a></td></tr>
 	<tr><td><b>Windows</b></td><td>Consultar este correo: <a href=":::windowsMailDownloadLink:::">:::windowsMailDownloadName:::</a> (inglés y castellano)</td></tr>
+	<tr><td><b>Maemo N770</b></td><td>Consultar este correo: <a href=":::maemoMailDownloadLink:::">:::maemoMailDownloadName:::</a> (inglés y castellano)</td></tr>
 	</table>
 	
 	<p><br>

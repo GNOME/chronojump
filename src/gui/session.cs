@@ -330,6 +330,9 @@ public class SessionLoadWindow {
 		fillTreeView(treeview_session_load,store);
 
 		button_accept.Sensitive = false;
+
+		 treeview_session_load.Selection.Changed += OnSelectionEntry;
+
 	}
 	
 	static public SessionLoadWindow Show (Gtk.Window parent)
@@ -381,6 +384,89 @@ public class SessionLoadWindow {
 					);
 		}	
 
+	}
+	
+	private void OnSelectionEntry (object o, EventArgs args)
+	{
+		Console.WriteLine("selected?? ");
+
+		TreeModel model;
+		TreeIter iter;
+		selected = "-1";
+
+               if (((TreeSelection)o).GetSelected(out model, out iter))
+               {
+                       // Initiation des valeurs selon la sélection
+                       selected = (string)model.GetValue (iter, 0);
+			button_accept.Sensitive = true;
+                }
+		Console.WriteLine (selected);
+
+/*
+
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+		selected = "-1";
+
+		// you get the iter and the model if something is selected
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			selected = (string) model.GetValue (iter, 0);
+			button_accept.Sensitive = true;
+		}
+
+		Console.WriteLine (selected);
+*/
+	}
+
+	private void on_treeview_session_load_selection_motify_event (object o, SelectionNotifyEventArgs args)
+	{
+		Console.WriteLine("selection motify_event ");
+	}
+
+	private void on_treeview_session_load_selection_received (object o, SelectionReceivedArgs args)
+	{
+		Console.WriteLine("selection received ");
+	}
+
+	private void on_treeview_session_load_selection_request_event (object o, SelectionRequestEventArgs args)
+	{
+		Console.WriteLine("selection request_event ");
+	}
+
+	private void on_treeview_session_load_selection_get (object o, SelectionGetArgs args)
+	{
+		Console.WriteLine("selection get ");
+	}
+
+	private void on_treeview_session_load_move_cursor (object o, MoveCursorArgs args)
+	{
+		Console.WriteLine("move cursor ");
+	}
+
+	private void on_treeview_session_load_toggle_cursor_row (object o, ToggleCursorRowArgs args)
+	{
+		Console.WriteLine("toggle cursor row");
+	}
+
+	//puts a value in private member selected
+	private void on_treeview_session_load_select_cursor_row (object o, SelectCursorRowArgs args)
+	{
+		Console.WriteLine("select cursor row");
+/*
+		TreeView tv = (TreeView) o;
+		TreeModel model;
+		TreeIter iter;
+		selected = "-1";
+
+		// you get the iter and the model if something is selected
+		if (tv.Selection.GetSelected (out model, out iter)) {
+			selected = (string) model.GetValue (iter, 0);
+			button_accept.Sensitive = true;
+		}
+
+		Console.WriteLine (selected);
+*/
 	}
 	
 	//puts a value in private member selected

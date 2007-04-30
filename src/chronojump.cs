@@ -113,12 +113,12 @@ public class ChronoJump
 	[Widget] Gtk.Button button_reaction_time_execute;
 	[Widget] Gtk.Button button_pulse_custom;
 	[Widget] Gtk.Button button_pulse_more;
-	[Widget] Gtk.Button button_pulse_last;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
 	[Widget] Gtk.Button button_run_last;
 	[Widget] Gtk.Button button_run_interval_last;
+	[Widget] Gtk.Button button_pulse_last;
 	[Widget] Gtk.Button button_last_delete;
 	[Widget] Gtk.MenuItem menuitem_preferences;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
@@ -1953,7 +1953,7 @@ Console.Write("7");
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
 /*
-		Pixbuf pixbuf = new Pixbuf (null, "mini/agility_505.png");
+		Pixbuf pixbuf = new Pixbuf (null, "mini/jump_sj.png");
 		image_test.Pixbuf = pixbuf;
 		button_image_test.Sensitive=true;
 */
@@ -3643,6 +3643,12 @@ Console.Write("7");
 		//hbox_jumps.Sensitive = false;
 		//hbox_jumps_rj.Sensitive = false;
 		
+		button_last.Sensitive = false;
+		button_rj_last.Sensitive=false;
+		button_run_last.Sensitive=false;
+		button_run_interval_last.Sensitive=false;
+		button_pulse_last.Sensitive=false;
+		
 		button_last_delete.Sensitive = false;
 	}
 	
@@ -3738,28 +3744,20 @@ Console.Write("7");
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
 					if(currentJumpType.IsRepetitive) {
-						//if(! currentJumpRj.Cancel) {
 						button_rj_last.Sensitive = true;
 						button_last.Sensitive = false;
-						//}
 					} else {
-						//if(! currentJump.Cancel) {
 						button_last.Sensitive = true;
 						button_rj_last.Sensitive = false;
-						//}
 					}
 					break;
 				case EventType.Types.RUN:
 					if(currentRunType.HasIntervals) {
-						//if(! currentRunInterval.Cancel) {
 						button_run_interval_last.Sensitive = true;
 						button_run_last.Sensitive = false;
-						//}
 					} else {
-						//if(! currentRun.Cancel) {
 						button_run_last.Sensitive = true;
 						button_run_interval_last.Sensitive = false;
-						//}
 					}
 					break;
 				case EventType.Types.REACTIONTIME:
@@ -3767,6 +3765,7 @@ Console.Write("7");
 					break;
 				case EventType.Types.PULSE:
 					Console.WriteLine("sensitiveGuiEventDone pulse");
+					button_pulse_last.Sensitive = true;
 					break;
 				default:
 					Console.WriteLine("sensitiveGuiEventDone default");

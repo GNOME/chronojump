@@ -54,19 +54,31 @@ class SqliteJumpType : Sqlite
 			//name:startIn:weight:description
 			"Free:1:0:Free jump", 
 			"SJ:1:0:SJ jump", 
-			"SJ+:1:1:SJ jump with weight", 
+			"SJl:1:1:SJ jump with weight", 
 			"CMJ:1:0:CMJ jump", 
-			"CMJ+:1:1:CMJ jump with weight", 
+			"CMJl:1:1:CMJ jump with weight", 
 			"ABK:1:0:ABK jump", 
-			"ABK+:1:1:ABK jump with weight", 
+			"ABKl:1:1:ABK jump with weight", 
 			"DJ:0:0:DJ jump",
 			"Rocket:1:0:Rocket jump"
 		};
 		foreach(string myJumpType in iniJumpTypes) {
 			JumpTypeInsert(myJumpType, true);
 		}
+
+		AddGraphLinks();	
 	}
 	
+	public static void AddGraphLinks() {
+		SqliteEvent.Insert ("jump", "Free", "jump_free.png");
+		SqliteEvent.Insert ("jump", "SJ", "jump_sj.png");
+		SqliteEvent.Insert ("jump", "SJl", "jump_sj_l.png");
+		SqliteEvent.Insert ("jump", "CMJ", "jump_cmj.png");
+		SqliteEvent.Insert ("jump", "ABK", "jump_abk.png");
+		SqliteEvent.Insert ("jump", "Rocket", "jump_rocket.png");
+		SqliteEvent.Insert ("jump", "DJ", "jump_dj.png");
+	}
+
 	//creates table containing the types of repetitive Jumps
 	//following INT values are booleans
 	protected internal static void createTableJumpRjType()
@@ -105,6 +117,15 @@ class SqliteJumpType : Sqlite
 		foreach(string myJumpType in iniJumpTypes) {
 			JumpRjTypeInsert(myJumpType, true);
 		}
+		
+		AddGraphLinksRj();	
+	}
+
+	public static void AddGraphLinksRj() {
+		SqliteEvent.Insert ("jumpRj", "RJ(j)", "jump_rj.png");
+		SqliteEvent.Insert ("jumpRj", "RJ(t)", "jump_rj.png");
+		SqliteEvent.Insert ("jumpRj", "RJ(unlimited)", "jump_rj_in.png");
+		SqliteEvent.Insert ("jumpRj", "triple jump", "jump_rj.png");
 	}
 
 	/*
@@ -376,4 +397,15 @@ class SqliteJumpType : Sqlite
 		}
 		return hasFall;
 	}
+	
+	public static void Update(string nameOld, string nameNew)
+	{
+		//dbcon.Open();
+		dbcmd.CommandText = "UPDATE jumpType SET name = '" + nameNew + 
+			"' WHERE name == '" + nameOld + "'";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		//dbcon.Close();
+	}
+
 }	

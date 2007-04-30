@@ -1007,6 +1007,7 @@ public class JumpsMoreWindow
 	private string selectedJumpType;
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
+	private string selectedDescription;
 	
 	JumpsMoreWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
@@ -1084,6 +1085,7 @@ public class JumpsMoreWindow
 		selectedJumpType = "-1";
 		selectedStartIn = false;
 		selectedExtraWeight = false;
+		selectedDescription = "";
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
@@ -1094,6 +1096,7 @@ public class JumpsMoreWindow
 			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Yes") ) {
 				selectedExtraWeight = true;
 			}
+			selectedDescription = (string) model.GetValue (iter, 3);
 			button_accept.Sensitive = true;
 		}
 	}
@@ -1113,6 +1116,7 @@ public class JumpsMoreWindow
 			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Yes") ) {
 				selectedExtraWeight = true;
 			}
+			selectedDescription = (string) model.GetValue (iter, 3);
 
 			//activate on_button_accept_clicked()
 			button_accept.Activate();
@@ -1177,6 +1181,10 @@ public class JumpsMoreWindow
 			return selectedExtraWeight;
 		}
 	}
+	
+	public string SelectedDescription {
+		get { return selectedDescription; }
+	}
 }
 
 //--------------------------------------------------------
@@ -1200,6 +1208,7 @@ public class JumpsRjMoreWindow
 	private bool selectedLimited;
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
+	private string selectedDescription;
 	
 	JumpsRjMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
@@ -1308,6 +1317,7 @@ public class JumpsRjMoreWindow
 		selectedLimited = false;
 		selectedLimitedValue = 0;
 		selectedUnlimited = false; //true if it's an unlimited reactive jump
+		selectedDescription = "";
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
@@ -1336,6 +1346,7 @@ public class JumpsRjMoreWindow
 			if( (string) model.GetValue (iter, 4) == Catalog.GetString("Yes") ) {
 				selectedExtraWeight = true;
 			}
+			selectedDescription = (string) model.GetValue (iter, 5);
 			button_accept.Sensitive = true;
 		}
 	}
@@ -1372,6 +1383,7 @@ public class JumpsRjMoreWindow
 			if( (string) model.GetValue (iter, 4) == Catalog.GetString("Yes") ) {
 				selectedExtraWeight = true;
 			}
+			selectedDescription = (string) model.GetValue (iter, 5);
 
 			//activate on_button_accept_clicked()
 			button_accept.Activate();
@@ -1438,5 +1450,10 @@ public class JumpsRjMoreWindow
 	public bool SelectedUnlimited 
 	{
 		get { return selectedUnlimited; }
+	}
+	
+	public string SelectedDescription 
+	{
+		get { return selectedDescription; }
 	}
 }

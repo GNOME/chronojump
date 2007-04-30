@@ -163,6 +163,20 @@ class Sqlite
 			dbcon.Close();
 			myVersion = "0.49";
 		}
+		
+		if(myVersion == "0.49") {
+			dbcon.Open();
+			SqliteJumpType.Update ("SJ+", "SJl"); 
+			SqliteJumpType.Update ("CMJ+", "CJl"); 
+			SqliteJumpType.Update ("ABK+", "ABKl"); 
+			SqliteJump.ChangeWeightToL();
+			SqliteJumpType.AddGraphLinks();	
+			SqliteJumpType.AddGraphLinksRj();	
+			SqlitePreferences.Update ("databaseVersion", "0.50"); 
+			Console.WriteLine("changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links");
+			dbcon.Close();
+			myVersion = "0.50";
+		}
 
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
@@ -227,7 +241,8 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.49"); 
+		SqlitePreferences.Insert ("databaseVersion", "0.50"); 
+		//changes from 0.49 to 0.50: changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links
 		//changes from 0.48 to 0.49: added graphLinkTable, added rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag). Added graphs pof the 5 agility tests
 		//changes from 0.47 to 0.48: added tempJumpReactive and tempRunInterval tables
 		//changes from 0.46 to 0.47: added reactionTime table

@@ -360,5 +360,24 @@ class SqliteJump : Sqlite
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
-	
+
+	//onle for change SJ+ CMJ+ and ABK+ to SJl...
+	public static void ChangeWeightToL()
+	{
+		//dbcon.Open();
+		
+		dbcmd.CommandText = "UPDATE jump SET type = 'SJl' WHERE type == 'SJ+'";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		dbcmd.CommandText = "UPDATE jump SET type = 'CMJl' WHERE type == 'CMJ+'";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		dbcmd.CommandText = "UPDATE jump SET type = 'ABKl' WHERE type == 'ABK+'";
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		//dbcon.Close();
+	}
 }

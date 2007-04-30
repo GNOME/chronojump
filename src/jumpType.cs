@@ -21,6 +21,7 @@
 
 using System;
 using System.Data;
+using Mono.Unix;
 
 public class JumpType : EventType
 {
@@ -47,6 +48,7 @@ public class JumpType : EventType
 		this.isPredefined = false;
 		
 		unlimited = false;	//default value
+		imageFileName = "";
 		
 		//if this changes, sqlite/jumpType.cs initialize tables should change
 		if(name == "Free" || name == "SJ" || name == "CMJ" || name == "ABK" || name == "Rocket") {
@@ -56,13 +58,31 @@ public class JumpType : EventType
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-		} else if(name == "SJ+") {
+			if(name == "Free") {
+				description	= Catalog.GetString("Free Jump");
+				imageFileName = "jump_free.png";
+			} else if (name == "SJ") {
+				description	= Catalog.GetString("SJ Jump");
+				imageFileName = "jump_sj.png";
+			} else if (name == "CMJ") {
+				description	= Catalog.GetString("CMJ Jump");
+				imageFileName = "jump_cmj.png";
+			} else if (name == "ABK") {
+				description	= Catalog.GetString("ABK Jump");
+				imageFileName = "jump_abk.png";
+			} else if (name == "Rocket") {
+				description	= Catalog.GetString("Rocket Jump");
+				imageFileName = "jump_rocket.png";
+			}
+		} else if(name == "SJl") {
 			startIn 	= true;
 			hasWeight 	= true;
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
+			description	= Catalog.GetString("SJ Jump with weight");
+			imageFileName = "jump_sj_l.png";
 		} else if(name == "DJ") {
 			startIn 	= false;
 			hasWeight 	= false;
@@ -70,6 +90,8 @@ public class JumpType : EventType
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
+			description	= Catalog.GetString("DJ Jump");
+			imageFileName = "jump_dj.png";
 		} else if(name == "RJ(j)") {
 			startIn 	= false;
 			hasWeight 	= false;
@@ -77,6 +99,8 @@ public class JumpType : EventType
 			jumpsLimited 	= true;
 			fixedValue 	= 0;
 			isPredefined	= true;
+			description	= Catalog.GetString("RJ limited by jumps");
+			imageFileName = "jump_rj.png";
 		} else if(name == "RJ(t)") {
 			startIn 	= false;
 			hasWeight 	= false;
@@ -84,6 +108,8 @@ public class JumpType : EventType
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
+			description	= Catalog.GetString("RJ limited by time");
+			imageFileName = "jump_rj.png";
 		} else if(name == "RJ(unlimited)") {
 			startIn 	= true;
 			hasWeight 	= false;
@@ -92,6 +118,8 @@ public class JumpType : EventType
 			fixedValue 	= -1;	//don't ask for limit of jumps or seconds
 			isPredefined	= true;
 			unlimited 	= true;
+			description	= Catalog.GetString("Jump unlimited until finish is clicked");
+			imageFileName = "jump_rj_in.png";
 		} else if(name == "triple jump") {
 			startIn 	= false;
 			hasWeight 	= false;
@@ -99,12 +127,14 @@ public class JumpType : EventType
 			jumpsLimited 	= true;
 			fixedValue 	= 3;
 			isPredefined	= true;
+			description	= Catalog.GetString("Triple jump");
+			imageFileName = "jump_rj.png";
 		}
 	}
 	
 	
 	public JumpType(string name, bool startIn, bool hasWeight, 
-			bool isRepetitive, bool jumpsLimited, double fixedValue, bool unlimited)
+			bool isRepetitive, bool jumpsLimited, double fixedValue, bool unlimited, string description, string imageFileName)
 	{
 		type = Types.JUMP;
 		this.name 	= name;
@@ -114,6 +144,8 @@ public class JumpType : EventType
 		this.jumpsLimited = jumpsLimited;
 		this.fixedValue = fixedValue;
 		this.unlimited = unlimited;
+		this.description = description;
+		this.imageFileName = imageFileName;
 
 		//we can obtain values like has Weight
 		this.isPredefined	= true;

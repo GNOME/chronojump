@@ -1,6 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
 30 apr 2007
+	changed all SJ+, CMJ+, ABK+ to SJl, CMJl, ABKl
+	added graphs: jump_free, jump_rj_in, jump_sjl
+	linking all graphs to jumps and jumpsRj
+
+30 apr 2007
 	added graphs for sj, cmj, abk, dj, rj, rocket (not linked in soft)
 	last event button is not sensitive now when there are no events
 

@@ -10,18 +10,11 @@ Según su autor, se construye en una hora, y el precio total en Argentina ronda 
 Si quiere usar la otra Chronopic -más cara (70 Euros en España)- consulte la <a href="construction_es.html">página de construcctión</a>.
 
 <br><br>
-<h5>Construcción del la Chronopic_juanfer v.01</h5>
+<h5>Construcción del la Chronopic_juanfer v.1.1 (9-feb-2007)</h5>
 
-<p>
-<img src=":::imageLink:::/chronopic_juanfer_front.jpg" width="500" height="390" hspace="6" vspace="8">
-<br>Vista frontal de la Chronopic_juanfer.
-<p>
-<p>
-<img src=":::imageLink:::/chronopic_juanfer_back.jpg" width="500" height="296" hspace="6" vspace="8">
-<br>Vista trasera de la Chronopic_juanfer.
-<p>
-<img src=":::imageLink:::/chronopic_juanfer_schema.jpg" width="559" height="368" hspace="6" vspace="8">
+<img src=":::imageLink:::/chronopic_juanfer_1-1_schema.jpg" width="436" height="444" hspace="6" vspace="8">
 <br>Esquema de la Chronopic_juanfer.
+
 
 Notas:
 <ul>
@@ -52,3 +45,19 @@ Lista de componentes:
 <li> 1 zócalo 2 x 14 estrecho para el PIC
 <li> Tarjeta experimental 8cm x 5cm aproximadamente
 </ul>
+
+
+<h5>Fotos de la vieja Chronopic_juanfer v.0.1</h5>
+<p>
+<img src=":::imageLink:::/chronopic_juanfer_front.jpg" width="500" height="390" hspace="6" vspace="8">
+<br>Vista frontal de la Chronopic_juanfer.
+<p>
+<p>
+<img src=":::imageLink:::/chronopic_juanfer_back.jpg" width="500" height="296" hspace="6" vspace="8">
+<br>Vista trasera de la Chronopic_juanfer.
+<!--
+<p>
+<img src=":::imageLink:::/chronopic_juanfer_schema.jpg" width="559" height="368" hspace="6" vspace="8">
+<br>Esquema de la Chronopic_juanfer.
+-->
+

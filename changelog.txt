@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+30 apr 2007
+	added graphs for sj, cmj, abk, dj, rj, rocket (not linked in soft)
+	last event button is not sensitive now when there are no events
+
 29 apr 2007
 	changed to gtk-sharp-2.0 and glade-sharp-2.0
 		-changing the selected method on treeviews (see gui/session load)
@@ -16,6 +20,7 @@ CHRONOJUMP DETAILED CHANGELOG:
 
 	edit run shows speed in correct units
 	Fixed bug: 433444: Constants created before Catalog: "All jumps" was no localized
+	preferences decimals number, min is now 1 (was 0)
 
 23 apr 2007
 	1st test on put images of tests on main window

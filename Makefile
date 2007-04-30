@@ -39,6 +39,12 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/agility_illinois.png,agility_illinois.png 	-resource:images/mini/agility_illinois.png,mini/agility_illinois.png \
 		-resource:images/agility_shuttle.png,agility_shuttle.png 	-resource:images/mini/agility_shuttle.png,mini/agility_shuttle.png \
 		-resource:images/agility_zigzag.png,agility_zigzag.png 		-resource:images/mini/agility_zigzag.png,mini/agility_zigzag.png \
+		-resource:images/jump_sj.png,jump_sj.png 			-resource:images/mini/jump_sj.png,mini/jump_sj.png \
+		-resource:images/jump_cmj.png,jump_cmj.png 			-resource:images/mini/jump_cmj.png,mini/jump_cmj.png \
+		-resource:images/jump_abk.png,jump_abk.png 			-resource:images/mini/jump_abk.png,mini/jump_abk.png \
+		-resource:images/jump_dj.png,jump_dj.png 			-resource:images/mini/jump_dj.png,mini/jump_dj.png \
+		-resource:images/jump_rj.png,jump_rj.png 			-resource:images/mini/jump_rj.png,mini/jump_rj.png \
+		-resource:images/jump_rocket.png,jump_rocket.png 		-resource:images/mini/jump_rocket.png,mini/jump_rocket.png \
 
 CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services
 #CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services 

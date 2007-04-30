@@ -408,7 +408,8 @@ public class ChronoJump
 
 
 	private void on_button_image_test_clicked(object o, EventArgs args) {
-		new DialogImageTest(currentRunType);
+		//new DialogImageTest(currentRunType);
+		new DialogImageTest(currentEventType);
 	}
 
 /*
@@ -517,9 +518,6 @@ Console.Write("7");
 
 		if(simulated)
 			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
-
-		Console.WriteLine(Constants.AllJumpsName);
-		Console.WriteLine(Catalog.GetString("All jumps"));
 	}
 
 	//recuperate temp jumpRj or RunI if chronojump hangs
@@ -1867,9 +1865,9 @@ Console.Write("7");
 	}
 
 	
-	private void changeTestImage(string tableName, string eventName) {
+	private void changeTestImage(string tableName, string eventName, string fileNameString) {
 		//string fileNameString = SqliteEvent.SelectFileName(tableName, eventName);
-		string fileNameString = currentRunType.ImageFileName;
+		//string fileNameString = currentRunType.ImageFileName;
 		Pixbuf pixbuf;
 		if(fileNameString != "") {
 			pixbuf = new Pixbuf (null, "mini/" + fileNameString);
@@ -1915,7 +1913,9 @@ Console.Write("7");
 				false,		//isRepetitive
 				false,		//jumpsLimited (false, because is not repetitive)
 				0,		//limitValue
-				false		//unlimited
+				false,		//unlimited
+				jumpsMoreWin.SelectedDescription,
+				SqliteEvent.SelectFileName("jump", jumpsMoreWin.SelectedJumpType)
 				);
 
 		//destroy the win for not having updating problems if a new jump type is created
@@ -1929,12 +1929,12 @@ Console.Write("7");
 		}
 	}
 	
-	//here comes the SJ+, DJ and every jump that has weight or fall or both. Also the reactive jumps (for defining is limited value or weight or fall)
+	//here comes the SJl, DJ and every jump that has weight or fall or both. Also the reactive jumps (for defining is limited value or weight or fall)
 	private void on_jump_extra_activate (object o, EventArgs args) 
 	{
 		Console.WriteLine("jump extra");
 		if(o == (object) button_sj_plus || o == (object) sj_plus) {
-			currentJumpType = new JumpType("SJ+");
+			currentJumpType = new JumpType("SJl");
 		} else if(o == (object) button_dj || o == (object) dj) {
 			currentJumpType = new JumpType("DJ");
 		} else {
@@ -1970,6 +1970,8 @@ Console.Write("7");
 			currentJumpType = new JumpType("Rocket");
 		} else {
 		}
+		
+		changeTestImage("jump", currentJumpType.Name, currentJumpType.ImageFileName);
 			
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
@@ -1985,7 +1987,8 @@ Console.Write("7");
 		}
 			
 		//used by cancel and finish
-		currentEventType = new JumpType();
+		//currentEventType = new JumpType();
+		currentEventType = currentJumpType;
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
@@ -2090,7 +2093,9 @@ Console.Write("7");
 				true,		//isRepetitive
 				jumpsRjMoreWin.SelectedLimited,
 				jumpsRjMoreWin.SelectedLimitedValue,
-				jumpsRjMoreWin.SelectedUnlimited
+				jumpsRjMoreWin.SelectedUnlimited,
+				jumpsRjMoreWin.SelectedDescription,
+				SqliteEvent.SelectFileName("jumpRj", jumpsRjMoreWin.SelectedJumpType)
 				);
 
 		//destroy the win for not having updating problems if a new jump type is created
@@ -2125,6 +2130,8 @@ Console.Write("7");
 	}
 	private void on_rj_accepted (object o, EventArgs args) 
 	{
+		changeTestImage("jumpRj", currentJumpType.Name, currentJumpType.ImageFileName);
+
 		double myLimit = 0;
 		
 		//if it's a unlimited interval run, put -1 as limit value
@@ -2153,7 +2160,8 @@ Console.Write("7");
 		}
 
 		//used by cancel and finish
-		currentEventType = new JumpType();
+		//currentEventType = new JumpType();
+		currentEventType = currentJumpType;
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
@@ -2321,7 +2329,7 @@ Console.Write("7");
 		} 
 		// add others...
 		
-		changeTestImage("run", currentRunType.Name);
+		changeTestImage("run", currentRunType.Name, currentRunType.ImageFileName);
 
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
@@ -2333,7 +2341,8 @@ Console.Write("7");
 		}
 		
 		//used by cancel and finish
-		currentEventType = new RunType();
+		//currentEventType = new RunType();
+		currentEventType = currentRunType;
 			
 		//hide jumping (running) buttons
 		sensitiveGuiEventDoing();
@@ -2511,7 +2520,8 @@ Console.Write("7");
 
 
 		//used by cancel and finish
-		currentEventType = new RunType();
+		//currentEventType = new RunType();
+		currentEventType = currentRunType;
 			
 		//hide running buttons
 		sensitiveGuiEventDoing();
@@ -2628,7 +2638,8 @@ Console.Write("7");
 		}
 */			
 		//used by cancel and finish
-		currentEventType = new ReactionTimeType();
+		//currentEventType = new ReactionTimeType();
+		//currentEventType = currentReactionTimeType;
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
@@ -2775,7 +2786,8 @@ Console.Write("7");
 		}
 
 		//used by cancel and finish
-		currentEventType = new PulseType();
+		//currentEventType = new PulseType();
+		currentEventType = currentPulseType;
 			
 		//hide pulse buttons
 		sensitiveGuiEventDoing();

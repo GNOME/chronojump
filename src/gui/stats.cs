@@ -359,11 +359,11 @@ public class StatsWindow {
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else if (combo_stats_stat_subtype.Entry.Text == Constants.FvIndexFormula) {
 				//"F/V sj+(100%)/sj *100",	//fvIndexFormula
-				combo_stats_stat_apply_to.Entry.Text = "SJ+(100%), SJ";
+				combo_stats_stat_apply_to.Entry.Text = "SJl(100%), SJ";
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else {
 				//Constants.CmjPlusPotencyFormula
-				combo_stats_stat_apply_to.Entry.Text = "CMJ+";
+				combo_stats_stat_apply_to.Entry.Text = "CMJl";
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
 		}  else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 

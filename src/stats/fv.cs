@@ -38,7 +38,7 @@ public class StatFv : StatIeIub
 		this.dataColumns = 3;	//for simplesession (FV, cmj, sj)
 		this.indexType = indexType; // "FV"
 
-		jump1="SJ+";
+		jump1="SJl";
 		jump2="SJ";
 		
 		if(sessions.Count > 1) {
@@ -122,6 +122,6 @@ public class StatFv : StatIeIub
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in Index FV [SJ+(100%)/SJ *100] on {1}"), selectedValuesString, mySessionString);
+		return string.Format(Catalog.GetString("{0} in Index FV [SJl(100%)/SJ *100] on {1}"), selectedValuesString, mySessionString);
 	}
 }

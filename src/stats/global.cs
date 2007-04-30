@@ -100,7 +100,7 @@ public class StatGlobal : Stat
 		processDataMultiSession ( SqliteStat.GlobalIndexes("IUB", "ABK", "CMJ", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
-		processDataMultiSession ( SqliteStat.GlobalIndexes("FV", "SJ+", "SJ", 
+		processDataMultiSession ( SqliteStat.GlobalIndexes("FV", "SJl", "SJ", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
 		

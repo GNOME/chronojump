@@ -50,7 +50,7 @@ public class GraphFv : StatFv
 		//this.jumpType = jumpType;
 		//this.limit = limit;
 		
-		jump1="SJ+";
+		jump1="SJl";
 		jump2="SJ";
 	
 		//completeConstruction (treeview, sessions, newPrefsDigitsNumber, showSex, statsJumpsType);

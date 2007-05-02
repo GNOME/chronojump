@@ -10921,9 +10921,9 @@ If you need more, just repeat the operation later.</property>
 			  <property name="spacing">0</property>
 
 			  <child>
-			    <widget class="GtkLabel" id="label450">
+			    <widget class="GtkLabel" id="label_image_test">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">&lt;b&gt;image of test&lt;/b&gt;</property>
+			      <property name="label" translatable="yes"></property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">True</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -10933,8 +10933,8 @@ If you need more, just repeat the operation later.</property>
 			      <property name="yalign">0.5</property>
 			      <property name="xpad">0</property>
 			      <property name="ypad">0</property>
-			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-			      <property name="width_chars">-1</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_END</property>
+			      <property name="width_chars">15</property>
 			      <property name="single_line_mode">False</property>
 			      <property name="angle">0</property>
 			    </widget>
@@ -10948,7 +10948,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkButton" id="button_image_test">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Expand image</property>
+			      <property name="tooltip" translatable="yes">Expand image and show description</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -10989,7 +10989,7 @@ If you need more, just repeat the operation later.</property>
 		<packing>
 		  <property name="padding">0</property>
 		  <property name="expand">False</property>
-		  <property name="fill">True</property>
+		  <property name="fill">False</property>
 		</packing>
 	      </child>
 
@@ -11045,6 +11045,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_jump_activate" last_modification_time="Sat, 17 Feb 2007 23:07:58 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 20:05:25 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11063,6 +11064,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:21:23 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 19:40:46 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11081,6 +11083,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:16:40 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 19:51:43 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11099,6 +11102,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:21:34 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 19:51:52 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11117,6 +11121,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_jump_activate" last_modification_time="Sat, 02 Oct 2004 20:26:49 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 20:00:28 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11135,6 +11140,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_jump_extra_activate" last_modification_time="Fri, 11 Mar 2005 13:16:30 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 20:00:36 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11153,6 +11159,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_jump_activate" last_modification_time="Sun, 29 Apr 2007 11:24:29 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 20:00:45 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11577,6 +11584,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_rj_activate" last_modification_time="Thu, 23 Sep 2004 00:45:53 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 20:06:07 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11595,6 +11603,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_rj_activate" last_modification_time="Thu, 23 Sep 2004 00:45:53 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 20:08:00 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -11613,6 +11622,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_rj_activate" last_modification_time="Thu, 23 Sep 2004 00:45:53 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Tue, 01 May 2007 20:08:16 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12175,6 +12185,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_run_extra_activate" last_modification_time="Thu, 21 Apr 2005 13:51:01 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Wed, 02 May 2007 12:56:21 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12192,6 +12203,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_run_activate" last_modification_time="Thu, 21 Apr 2005 13:51:12 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Wed, 02 May 2007 12:56:30 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12209,6 +12221,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_run_activate" last_modification_time="Thu, 21 Apr 2005 13:51:12 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Wed, 02 May 2007 12:56:38 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12226,6 +12239,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_run_activate" last_modification_time="Thu, 21 Apr 2005 13:51:12 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Wed, 02 May 2007 12:56:47 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12243,6 +12257,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_normal_run_activate" last_modification_time="Thu, 21 Apr 2005 13:51:12 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Wed, 02 May 2007 12:56:56 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12667,6 +12682,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:31:27 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Wed, 02 May 2007 12:57:14 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12685,6 +12701,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:31:27 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Wed, 02 May 2007 12:57:24 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12703,6 +12720,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_run_interval_activate" last_modification_time="Tue, 16 Aug 2005 13:32:42 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Wed, 02 May 2007 12:57:33 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>

@@ -171,6 +171,7 @@ public class ChronoJump
 	[Widget] Gtk.Frame frame_image_test;
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Button button_image_test;
+	[Widget] Gtk.Label label_image_test;
 	
 	
 	private Random rand;
@@ -1864,10 +1865,60 @@ Console.Write("7");
 		reportWin = ReportWindow.Show(app1, report);
 	}
 
+	private void on_enter_notify (object o, Gtk.EnterNotifyEventArgs args) {
+		Console.WriteLine("enter notify");
+	}
+
+
+	private void on_button_enter (object o, EventArgs args) {
+		//jump simple
+		if(o == (object) button_free || o == (object) menuitem_jump_free) {
+			currentEventType = new JumpType("Free");
+		} else if(o == (object) button_sj) {
+			currentEventType = new JumpType("SJ");
+		} else 	if(o == (object) button_sj_plus) {
+			currentEventType = new JumpType("SJl");
+		} else 	if(o == (object) button_cmj) {
+			currentEventType = new JumpType("CMJ");
+		} else 	if(o == (object) button_abk) {
+			currentEventType = new JumpType("ABK");
+		} else 	if(o == (object) button_dj) {
+			currentEventType = new JumpType("DJ");
+		} else 	if(o == (object) button_rocket) {
+			currentEventType = new JumpType("Rocket");
+		//jumpRJ
+		} else 	if(o == (object) button_rj_j) {
+			currentEventType = new JumpType("RJ(j)");
+		} else 	if(o == (object) button_rj_t) {
+			currentEventType = new JumpType("RJ(t)");
+		} else 	if(o == (object) button_rj_unlimited) {
+			currentEventType = new JumpType("RJ(unlimited)");
+		//run
+		} else 	if(o == (object) button_run_custom) {
+			currentEventType = new RunType("Custom");
+		} else 	if(o == (object) button_run_20m) {
+			currentEventType = new RunType("20m");
+		} else 	if(o == (object) button_run_20m) {
+			currentEventType = new RunType("100m");
+		} else 	if(o == (object) button_run_100m) {
+			currentEventType = new RunType("200m");
+		} else 	if(o == (object) button_run_200m) {
+			currentEventType = new RunType("400m");
+		//run interval
+		} else 	if(o == (object) button_run_interval_by_laps) {
+			currentEventType = new RunType("byLaps");
+		} else 	if(o == (object) button_run_interval_by_time) {
+			currentEventType = new RunType("byTime");
+		} else 	if(o == (object) button_run_interval_unlimited) {
+			currentEventType = new RunType("unlimited");
+		}
+		//reactionTime
+		//pulse
+
+		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+	}
 	
 	private void changeTestImage(string tableName, string eventName, string fileNameString) {
-		//string fileNameString = SqliteEvent.SelectFileName(tableName, eventName);
-		//string fileNameString = currentRunType.ImageFileName;
 		Pixbuf pixbuf;
 		if(fileNameString != "") {
 			pixbuf = new Pixbuf (null, "mini/" + fileNameString);
@@ -1876,6 +1927,8 @@ Console.Write("7");
 			pixbuf = new Pixbuf (null, "mini/no_image.png");
 			button_image_test.Sensitive=false;
 		}
+		label_image_test.Text = "<b>" + eventName + "</b>"; 
+		label_image_test.UseMarkup = true; 
 		image_test.Pixbuf = pixbuf;
 	}
 
@@ -1889,6 +1942,12 @@ Console.Write("7");
 	{
 		jumpsMoreWin = JumpsMoreWindow.Show(app1);
 		jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
+		jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_draw_image_test);
+	}
+	
+	private void on_more_jumps_draw_image_test (object o, EventArgs args) {
+		currentJumpType = new JumpType(jumpsMoreWin.SelectedEventName);
+		changeTestImage("jump", currentJumpType.Name, currentJumpType.ImageFileName);
 	}
 	
 	private void on_button_last_clicked (object o, EventArgs args) 
@@ -1907,7 +1966,9 @@ Console.Write("7");
 		jumpsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_accepted);
 		
 		currentJumpType = new JumpType(
-				jumpsMoreWin.SelectedJumpType,
+				//jumpsMoreWin.SelectedJumpType,
+				jumpsMoreWin.SelectedEventName, //type of jump
+								//SelectedEventType would be: jump, or run, ...
 				jumpsMoreWin.SelectedStartIn,
 				jumpsMoreWin.SelectedExtraWeight,
 				false,		//isRepetitive
@@ -1915,7 +1976,7 @@ Console.Write("7");
 				0,		//limitValue
 				false,		//unlimited
 				jumpsMoreWin.SelectedDescription,
-				SqliteEvent.SelectFileName("jump", jumpsMoreWin.SelectedJumpType)
+				SqliteEvent.SelectFileName("jump", jumpsMoreWin.SelectedEventName)
 				);
 
 		//destroy the win for not having updating problems if a new jump type is created
@@ -1952,12 +2013,6 @@ Console.Write("7");
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-/*
-		Pixbuf pixbuf = new Pixbuf (null, "mini/jump_sj.png");
-		image_test.Pixbuf = pixbuf;
-		button_image_test.Sensitive=true;
-*/
-
 		if(o == (object) button_free || o == (object) menuitem_jump_free) {
 			currentJumpType = new JumpType("Free");
 		}else if(o == (object) button_sj || o == (object) sj) {
@@ -2068,6 +2123,12 @@ Console.Write("7");
 	{
 		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1);
 		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
+		jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_draw_image_test);
+	}
+	
+	private void on_more_jumps_rj_draw_image_test (object o, EventArgs args) {
+		currentJumpType = new JumpType(jumpsRjMoreWin.SelectedEventName);
+		changeTestImage("jumpRj", currentJumpType.Name, currentJumpType.ImageFileName);
 	}
 	
 	private void on_button_last_rj_clicked (object o, EventArgs args) 
@@ -2087,7 +2148,8 @@ Console.Write("7");
 		jumpsRjMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_rj_accepted);
 
 		currentJumpType = new JumpType(
-				jumpsRjMoreWin.SelectedJumpType,
+				//jumpsRjMoreWin.SelectedJumpType,
+				jumpsRjMoreWin.SelectedEventName,
 				jumpsRjMoreWin.SelectedStartIn,
 				jumpsRjMoreWin.SelectedExtraWeight,
 				true,		//isRepetitive
@@ -2095,7 +2157,7 @@ Console.Write("7");
 				jumpsRjMoreWin.SelectedLimitedValue,
 				jumpsRjMoreWin.SelectedUnlimited,
 				jumpsRjMoreWin.SelectedDescription,
-				SqliteEvent.SelectFileName("jumpRj", jumpsRjMoreWin.SelectedJumpType)
+				SqliteEvent.SelectFileName("jumpRj", jumpsRjMoreWin.SelectedEventName)
 				);
 
 		//destroy the win for not having updating problems if a new jump type is created

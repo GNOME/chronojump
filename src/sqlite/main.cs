@@ -155,7 +155,7 @@ class Sqlite
 			SqliteRunType.RunTypeInsert ("Agility-ZigZag:17.6:ZigZag Agility test", true);
 		
 			SqliteEvent.createGraphLinkTable();
-			SqliteRunType.AddGraphLinks();	
+			SqliteRunType.AddGraphLinksRunSimpleAgility();	
 
 			SqlitePreferences.Update ("databaseVersion", "0.49"); 
 			Console.WriteLine("Added graphLinkTable, added Rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag. Added graphs pof the 5 agility tests)");
@@ -176,6 +176,16 @@ class Sqlite
 			Console.WriteLine("changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links");
 			dbcon.Close();
 			myVersion = "0.50";
+		}
+
+		if(myVersion == "0.50") {
+			dbcon.Open();
+			SqliteRunType.AddGraphLinksRunSimple();	
+			SqliteRunType.AddGraphLinksRunInterval();	
+			SqlitePreferences.Update ("databaseVersion", "0.51"); 
+			Console.WriteLine("added graphLinks for run simple and interval");
+			dbcon.Close();
+			myVersion = "0.51";
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -241,7 +251,8 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.50"); 
+		SqlitePreferences.Insert ("databaseVersion", "0.51"); 
+		//changes from 0.50 to 0.51 added graphLinks for run simple and interval
 		//changes from 0.49 to 0.50: changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links
 		//changes from 0.48 to 0.49: added graphLinkTable, added rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag). Added graphs pof the 5 agility tests
 		//changes from 0.47 to 0.48: added tempJumpReactive and tempRunInterval tables

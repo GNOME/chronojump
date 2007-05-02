@@ -55,6 +55,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= Catalog.GetString("variable distance running");
+			imageFileName = "run_simple.png";
 		} else if(name == "20m") {
 			hasIntervals 	= false; 
 			distance 	= 20;
@@ -63,6 +64,7 @@ public class RunType : EventType
 			isPredefined	= true;
 			description	= "";
 			description	= Catalog.GetString("run 20 meters");
+			imageFileName = "run_simple.png";
 		} else if(name == "100m") {
 			hasIntervals 	= false; 
 			distance 	= 100;
@@ -70,6 +72,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= Catalog.GetString("run 100 meters");
+			imageFileName = "run_simple.png";
 		} else if(name == "200m") {
 			hasIntervals 	= false; 
 			distance 	= 200;
@@ -77,6 +80,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= Catalog.GetString("run 200 meters");
+			imageFileName = "run_simple.png";
 		} else if(name == "400m") {
 			hasIntervals 	= false; 
 			distance 	= 400;
@@ -84,6 +88,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= Catalog.GetString("run 400 meters");
+			imageFileName = "run_simple.png";
 		} else if(name == "1000m") {
 			hasIntervals 	= false; 
 			distance 	= 1000;
@@ -91,6 +96,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= Catalog.GetString("run 1000 meters");
+			imageFileName = "run_simple.png";
 		} else if(name == "2000m") {
 			hasIntervals 	= false; 
 			distance 	= 2000;
@@ -98,6 +104,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= Catalog.GetString("run 2000 meters");
+			imageFileName = "run_simple.png";
 		} //agility
 		else if(name == "Agility-20Yard") {
 			hasIntervals 	= false; 
@@ -147,6 +154,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= Catalog.GetString("Run n laps x distance");
+			imageFileName = "run_interval.png";
 		} else if(name == "byTime") {
 			hasIntervals 	= true; 
 			distance 	= 0;
@@ -154,6 +162,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= Catalog.GetString("Make max laps in n seconds");
+			imageFileName = "run_interval.png";
 		} else if(name == "unlimited") {
 			hasIntervals 	= true; 
 			distance 	= 0;
@@ -162,6 +171,7 @@ public class RunType : EventType
 			unlimited 	= true;
 			isPredefined	= true;
 			description	= Catalog.GetString("Continue running in n distance");
+			imageFileName = "run_interval.png";
 		} else if(name == "20m10times") {
 			hasIntervals 	= true; 
 			distance 	= 20;
@@ -169,6 +179,7 @@ public class RunType : EventType
 			fixedValue 	= 10;
 			isPredefined	= true;
 			description	= Catalog.GetString("Run 10 times a 20m distance");
+			imageFileName = "run_interval.png";
 		} else if(name == "7m30seconds") {
 			hasIntervals 	= true; 
 			distance 	= 7;
@@ -176,6 +187,7 @@ public class RunType : EventType
 			fixedValue 	= 30;
 			isPredefined	= true;
 			description	= Catalog.GetString("Make max laps in 30 seconds");
+			imageFileName = "run_interval.png";
 		} else if(name == "20m endurance") {
 			hasIntervals 	= true; 
 			distance 	= 20;
@@ -184,6 +196,7 @@ public class RunType : EventType
 			unlimited 	= true;
 			isPredefined	= true;
 			description	= Catalog.GetString("Continue running in 20m distance");
+			imageFileName = "run_interval.png";
 		}
 	}
 	

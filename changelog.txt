@@ -1,5 +1,12 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+2 may 2007
+	button_enter (like mouse_over) now shows the graph
+	added run, runInterval images
+	jumps_more, jumps_rj_more shows the graph
+	jumps_more, rj_more inherits from EventSimpleMoreWindow
+	Fixed graph of ABK and SJl 
+
 30 apr 2007
 	changed all SJ+, CMJ+, ABK+ to SJl, CMJl, ABKl
 	added graphs: jump_free, jump_rj_in, jump_sjl

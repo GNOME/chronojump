@@ -26,7 +26,7 @@ public class PulseType : EventType
 {
 	private double fixedPulse; //-1: not fixed, 0,344: 0,344 seconds between pulses
 	private int totalPulsesNum; //-1: not fixed (unlimited), 5: 5 times
-	private string description; //currently unused
+	//private string description; //currently unused
 
 	public PulseType() {
 		type = Types.PULSE;

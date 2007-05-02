@@ -90,13 +90,6 @@ public class Jump : Event
 	}
 
 	
-	/*
-	public string JumperName
-	{
-		get { return SqlitePerson.SelectJumperName(personID); }
-	}
-	*/
-
 	~Jump() {}
 	   
 }

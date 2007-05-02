@@ -993,23 +993,30 @@ public class JumpExtraWindow
 //---------------- jumps_more widget ---------------------
 //--------------------------------------------------------
 
-public class JumpsMoreWindow 
+public class JumpsMoreWindow : EventMoreWindow
 {
 	[Widget] Gtk.Window jumps_runs_more;
 	
-	private TreeStore store;
-	[Widget] Gtk.TreeView treeview_more;
-	[Widget] Gtk.Button button_accept;
+//	private TreeStore store;
+//	[Widget] Gtk.TreeView treeview_more;
+//	[Widget] Gtk.Button button_accept;
 
 	static JumpsMoreWindow JumpsMoreWindowBox;
-	Gtk.Window parent;
+//	Gtk.Window parent;
 	
-	private string selectedJumpType;
+//	private string selectedJumpType;
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
-	private string selectedDescription;
-	
-	JumpsMoreWindow (Gtk.Window parent) {
+//	private string selectedDescription;
+//	public Gtk.Button button_selected;
+
+/*	
+	JumpsMoreWindow () {
+		//for inheritance issues
+	}
+*/
+
+	public JumpsMoreWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		try {
 			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
@@ -1019,14 +1026,26 @@ public class JumpsMoreWindow
 
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
+/*		
+		button_selected = new Gtk.Button();
+
 		createTreeView(treeview_more);
+*/
+		selectedEventType = EventType.Types.JUMP.ToString();
+		
 		//name, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
+
+		initializeThings();
+
+/*
 		treeview_more.Model = store;
 		fillTreeView(treeview_more,store);
 
 		button_accept.Sensitive = false;
+		 
+		treeview_more.Selection.Changed += OnSelectionEntry;
+*/
 	}
 	
 	static public JumpsMoreWindow Show (Gtk.Window parent)
@@ -1039,7 +1058,7 @@ public class JumpsMoreWindow
 		return JumpsMoreWindowBox;
 	}
 	
-	private void createTreeView (Gtk.TreeView tv) {
+	protected override void createTreeView (Gtk.TreeView tv) {
 		tv.HeadersVisible=true;
 		int count = 0;
 		
@@ -1049,7 +1068,7 @@ public class JumpsMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", without filter, and not obtain only name of jump
 		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes("", "", false);
@@ -1077,19 +1096,19 @@ public class JumpsMoreWindow
 	}
 
 	//puts a value in private member selected
-	private void on_treeview_changed (object o, EventArgs args)
+	protected override void on_treeview_changed (object o, EventArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
-		selectedJumpType = "-1";
+		selectedEventName = "-1";
 		selectedStartIn = false;
 		selectedExtraWeight = false;
 		selectedDescription = "";
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			selectedJumpType = (string) model.GetValue (iter, 0);
+			selectedEventName = (string) model.GetValue (iter, 0);
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Yes") ) {
 				selectedStartIn = true;
 			}
@@ -1101,7 +1120,7 @@ public class JumpsMoreWindow
 		}
 	}
 	
-	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
+	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -1109,7 +1128,7 @@ public class JumpsMoreWindow
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			//put selection in selected
-			selectedJumpType = (string) model.GetValue (iter, 0);
+			selectedEventName = (string) model.GetValue (iter, 0);
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Yes") ) {
 				selectedStartIn = true;
 			}
@@ -1147,6 +1166,12 @@ public class JumpsMoreWindow
 		JumpsMoreWindowBox = null;
 	}
 
+/*
+	//fired when something is selected for drawing on imageTest
+	public Button Button_selected
+	{
+		get { return button_selected; }
+	}
 
 	public Button Button_accept 
 	{
@@ -1167,7 +1192,7 @@ public class JumpsMoreWindow
 			return selectedJumpType;
 		}
 	}
-	
+*/	
 	public bool SelectedStartIn 
 	{
 		get {
@@ -1181,36 +1206,38 @@ public class JumpsMoreWindow
 			return selectedExtraWeight;
 		}
 	}
-	
+/*	
 	public string SelectedDescription {
 		get { return selectedDescription; }
 	}
+*/
 }
 
 //--------------------------------------------------------
 //---------------- jumps_rj_more widget ------------------
 //--------------------------------------------------------
 
-public class JumpsRjMoreWindow 
+public class JumpsRjMoreWindow : EventMoreWindow 
 {
 	[Widget] Gtk.Window jumps_runs_more;
 	
-	private TreeStore store;
-	[Widget] Gtk.TreeView treeview_more;
-	[Widget] Gtk.Button button_accept;
+//	private TreeStore store;
+//	[Widget] Gtk.TreeView treeview_more;
+//	[Widget] Gtk.Button button_accept;
 
 	static JumpsRjMoreWindow JumpsRjMoreWindowBox;
-	Gtk.Window parent;
+//	Gtk.Window parent;
 	
-	private string selectedJumpType;
+//	private string selectedJumpType;
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
 	private bool selectedLimited;
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
-	private string selectedDescription;
+//	private string selectedDescription;
+//	public Gtk.Button button_selected;
 	
-	JumpsRjMoreWindow (Gtk.Window parent) {
+	public JumpsRjMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		try {
@@ -1222,19 +1249,42 @@ public class JumpsRjMoreWindow
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 
+//		button_selected = new Gtk.Button();
+
 		//if jumps_runs_more is opened to showing Rj jumpTypes make it wider
 		jumps_runs_more.Resize(600,300);
 		
-		createTreeView(treeview_more);
+//		createTreeView(treeview_more);
+		
+		selectedEventType = EventType.Types.JUMP.ToString();
+
 		//name, limited by, limited value, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof(string),
 				typeof (string), typeof (string), typeof (string));
 		treeview_more.Model = store;
-		fillTreeView(treeview_more,store);
+//		fillTreeView(treeview_more,store);
 			
-		button_accept.Sensitive = false;
+//		button_accept.Sensitive = false;
+
+//		treeview_more.Selection.Changed += OnSelectionEntry;
+		
+		initializeThings();
 	}
-	
+
+/*	
+	private void OnSelectionEntry (object o, EventArgs args)
+	{
+		TreeModel model;
+		TreeIter iter;
+
+		if (((TreeSelection)o).GetSelected(out model, out iter))
+		{
+			selectedJumpType = (string) model.GetValue (iter, 0);
+			button_selected.Click();
+		}
+	}
+*/
+
 	static public JumpsRjMoreWindow Show (Gtk.Window parent)
 	{
 		if (JumpsRjMoreWindowBox == null) {
@@ -1245,7 +1295,7 @@ public class JumpsRjMoreWindow
 		return JumpsRjMoreWindowBox;
 	}
 	
-	private void createTreeView (Gtk.TreeView tv) {
+	protected override void createTreeView (Gtk.TreeView tv) {
 		tv.HeadersVisible=true;
 		int count = 0;
 
@@ -1257,7 +1307,7 @@ public class JumpsRjMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myJumpTypes = SqliteJumpType.SelectJumpRjTypes("", false);
@@ -1306,12 +1356,12 @@ public class JumpsRjMoreWindow
 
 	//puts a value in private member selected
 	//private void on_treeview_jumps_more_changed (object o, EventArgs args)
-	private void on_treeview_changed (object o, EventArgs args)
+	protected override void on_treeview_changed (object o, EventArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
-		selectedJumpType = "-1";
+		selectedEventName = "-1";
 		selectedStartIn = false;
 		selectedExtraWeight = false;
 		selectedLimited = false;
@@ -1321,7 +1371,7 @@ public class JumpsRjMoreWindow
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			selectedJumpType = (string) model.GetValue (iter, 0);
+			selectedEventName = (string) model.GetValue (iter, 0);
 			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Unlimited") ) {
 				selectedUnlimited = true;
@@ -1351,14 +1401,14 @@ public class JumpsRjMoreWindow
 		}
 	}
 	
-	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
+	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			selectedJumpType = (string) model.GetValue (iter, 0);
+			selectedEventName = (string) model.GetValue (iter, 0);
 			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Unlimited") ) {
 				selectedUnlimited = true;
@@ -1415,7 +1465,13 @@ public class JumpsRjMoreWindow
 		JumpsRjMoreWindowBox = null;
 	}
 
-	
+/*	
+	//fired when something is selected for drawing on imageTest
+	public Button Button_selected
+	{
+		get { return button_selected; }
+	}
+
 	public Button Button_accept 
 	{
 		set { button_accept = value; } 
@@ -1426,7 +1482,7 @@ public class JumpsRjMoreWindow
 	{
 		get { return selectedJumpType; }
 	}
-	
+*/	
 	public bool SelectedLimited 
 	{
 		get { return selectedLimited; }
@@ -1451,9 +1507,11 @@ public class JumpsRjMoreWindow
 	{
 		get { return selectedUnlimited; }
 	}
-	
+
+/*	
 	public string SelectedDescription 
 	{
 		get { return selectedDescription; }
 	}
+*/
 }

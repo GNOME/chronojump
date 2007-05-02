@@ -812,6 +812,7 @@ public class RunsMoreWindow
 	private string selectedRunType;
 	private double selectedDistance;
 	private string selectedDescription;
+	public Gtk.Button button_selected;
 	
 	RunsMoreWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
@@ -824,6 +825,8 @@ public class RunsMoreWindow
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
+		button_selected = new Gtk.Button();
+
 		createTreeView(treeview_more);
 		//name, distance, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string));
@@ -831,6 +834,8 @@ public class RunsMoreWindow
 		fillTreeView(treeview_more,store);
 
 		button_accept.Sensitive = false;
+
+		//treeview_more.Selection.Changed += OnSelectionEntry;
 	}
 	
 	static public RunsMoreWindow Show (Gtk.Window parent)

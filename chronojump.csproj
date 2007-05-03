@@ -39,16 +39,13 @@
   -->
   <ItemGroup>
     <Compile Include="chronopic.cs" />
-<!--    
-currently using Mono.Unix on Mono.Posix
-<Compile Include="src\catalog.cs" />
--->
     <Compile Include="src\chronojump.cs" />
     <Compile Include="src\constants.cs" />
     <Compile Include="src\exportSession.cs" />
     <Compile Include="src\gui\confirm.cs" />
     <Compile Include="src\gui\error.cs" />
     <Compile Include="src\gui\event.cs" />
+    <Compile Include="src\gui\eventExecute.cs" />
     <Compile Include="src\gui\eventGraphConfigure.cs" />
     <Compile Include="src\gui\jump.cs" />
     <Compile Include="src\gui\jumpType.cs" />
@@ -65,9 +62,11 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\gui\dialogMessage.cs" />
     <Compile Include="src\gui\dialogHelp.cs" />
     <Compile Include="src\gui\dialogCalendar.cs" />
+    <Compile Include="src\gui\dialogImageTest.cs" />
     <Compile Include="src\gui\repetitiveConditions.cs" />
     <Compile Include="src\gui\language.cs" />
     <Compile Include="src\event.cs" />
+    <Compile Include="src\eventType.cs" />
     <Compile Include="src\jump.cs" />
     <Compile Include="src\jumpType.cs" />
     <Compile Include="src\pulse.cs" />
@@ -75,9 +74,11 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\person.cs" />
     <Compile Include="src\report.cs" />
     <Compile Include="src\reactionTime.cs" />
+    <Compile Include="src\reactionTimeType.cs" />
     <Compile Include="src\run.cs" />
     <Compile Include="src\runType.cs" />
     <Compile Include="src\session.cs" />
+    <Compile Include="src\sqlite\event.cs" />
     <Compile Include="src\sqlite\jump.cs" />
     <Compile Include="src\sqlite\jumpType.cs" />
     <Compile Include="src\sqlite\pulse.cs" />
@@ -159,7 +160,52 @@ currently using Mono.Unix on Mono.Posix
     <Compile Include="src\execute\pulse.cs" />
   </ItemGroup>
   <ItemGroup>
+
     <EmbeddedResource Include="glade\chronojump.glade" />
+
+    <EmbeddedResource Include="images\mini\no_image.png" />
+
+    <EmbeddedResource Include="images\jump_free.png" />
+    <EmbeddedResource Include="images\mini\jump_free.png" />
+    <EmbeddedResource Include="images\jump_sj.png" />
+    <EmbeddedResource Include="images\mini\jump_sj.png" />
+    <EmbeddedResource Include="images\jump_sj_l.png" />
+    <EmbeddedResource Include="images\mini\jump_sj_l.png" />
+    <EmbeddedResource Include="images\jump_cmj.png" />
+    <EmbeddedResource Include="images\mini\jump_cmj.png" />
+    <EmbeddedResource Include="images\jump_abk.png" />
+    <EmbeddedResource Include="images\mini\jump_abk.png" />
+    <EmbeddedResource Include="images\jump_dj.png" />
+    <EmbeddedResource Include="images\mini\jump_dj.png" />
+    <EmbeddedResource Include="images\jump_rj.png" />
+    <EmbeddedResource Include="images\mini\jump_rj.png" />
+    <EmbeddedResource Include="images\jump_rj_in.png" />
+    <EmbeddedResource Include="images\mini\jump_rj_in.png" />
+    <EmbeddedResource Include="images\jump_rocket.png" />
+    <EmbeddedResource Include="images\mini\jump_rocket.png" />
+
+    <EmbeddedResource Include="images\run_simple.png" />
+    <EmbeddedResource Include="images\mini\run_simple.png" />
+    <EmbeddedResource Include="images\run_interval.png" />
+    <EmbeddedResource Include="images\mini\run_interval.png" />
+
+
+    <EmbeddedResource Include="images\agility_20yard.png" />
+    <EmbeddedResource Include="images\mini\agility_20yard.png" />
+    <EmbeddedResource Include="images\agility_505.png" />
+    <EmbeddedResource Include="images\mini\agility_505.png" />
+<!--
+don't compile, hexagon mini isn't done
+    <EmbeddedResource Include="images\agility_hexagon.png" />
+    <EmbeddedResource Include="images\mini\agility_hexagon.png" />
+-->
+    <EmbeddedResource Include="images\agility_illinois.png" />
+    <EmbeddedResource Include="images\mini\agility_illinois.png" />
+    <EmbeddedResource Include="images\agility_shuttle.png" />
+    <EmbeddedResource Include="images\mini\agility_shuttle.png" />
+    <EmbeddedResource Include="images\agility_zigzag.png" />
+    <EmbeddedResource Include="images\mini\agility_zigzag.png" />
+
   </ItemGroup>
   <ItemGroup>
     <Content Include="locale\es\LC_MESSAGES\es.po" />

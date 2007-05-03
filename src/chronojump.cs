@@ -468,7 +468,7 @@ Console.Write("6");
 
 Console.Write("7");
 
-		Pixbuf pixbuf = new Pixbuf (null, "mini/no_image.png");
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
 		image_test.Pixbuf = pixbuf;
 		button_image_test.Sensitive=false;
 		
@@ -1921,10 +1921,11 @@ Console.Write("7");
 	private void changeTestImage(string tableName, string eventName, string fileNameString) {
 		Pixbuf pixbuf;
 		if(fileNameString != "") {
-			pixbuf = new Pixbuf (null, "mini/" + fileNameString);
+			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + fileNameString);
 			button_image_test.Sensitive=true;
 		} else {
-			pixbuf = new Pixbuf (null, "mini/no_image.png");
+			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+
 			button_image_test.Sensitive=false;
 		}
 		label_image_test.Text = "<b>" + eventName + "</b>"; 

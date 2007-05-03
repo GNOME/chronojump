@@ -45,7 +45,7 @@ public class DialogImageTest
 		label_frame_test.Text = "<b>" + myEventType.Name + "</b>"; 
 		label_frame_test.UseMarkup = true; 
 		label_test.Text = myEventType.Description; 
-                Pixbuf pixbuf = new Pixbuf (null, myEventType.ImageFileName);
+                Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + myEventType.ImageFileName);
                 image_test.Pixbuf = pixbuf;
 	}
 				

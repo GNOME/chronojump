@@ -680,5 +680,23 @@ public class Util
 		
 		return names;
 	}
+
+	public static string GetImagePath(bool mini) {
+		string returnString = "";
+		if (Util.IsWindows()) {
+			if (mini) {
+				returnString = Constants.ImagesMiniWindows;
+			} else {
+				returnString = Constants.ImagesWindows;
+			}
+		} else {
+			if (mini) {
+				returnString = Constants.ImagesMiniLinux;
+			} else {
+				returnString = Constants.ImagesLinux;
+			}
+		}
+		return returnString;
+	}
 		
 }

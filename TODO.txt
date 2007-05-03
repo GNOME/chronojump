@@ -9,8 +9,8 @@ TODO:
 -allow to change image and desc of any event type
 -put a try{} catch on loading of images (probably user made a mistake)
 -clean warnings!!
--fix combo stuff on gtk2, see if it works on windows and maemo
-
+-fix combo stuff on gtk2, see if it works on windows and maemo WINDOWS WORKS
+-fix nplot texts ON WINDOWS WORKS (NOT ON LINUX)
 
 
 ** OUTDATED file **

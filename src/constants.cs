@@ -98,4 +98,10 @@ public class Constants
 		CAN_START, GOOD, BAD
 	}
 	//public soundTypes SoundType;
+
+	public static string ImagesWindows = "chronojump.images.";
+	public static string ImagesMiniWindows = "chronojump.images.mini.";
+	public static string ImagesLinux = "";
+	public static string ImagesMiniLinux = "mini/";
+
 }

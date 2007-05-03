@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+3 may 2007
+	new code now runs on windows: updated csproj, changed way to load image resources
+
 2 may 2007
 	button_enter (like mouse_over) now shows the graph
 	added run, runInterval images

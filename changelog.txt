@@ -1,6 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
 5 may 2007
+	fixed combo_jumps.active calls
+	put AllJumps as active
+
+5 may 2007
 	gtk2 integration: 
 		-all onSelectionEntry() on treeviews work now: sessionLoad, personRecuperateWindow, 
 		PersonsRecuperateFromOtherSessionWindow, reportWindow, RepairEvents windows, treeviewPersons

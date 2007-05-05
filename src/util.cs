@@ -606,6 +606,9 @@ public class Util
 		}
 	}
 
+/*
+ * currently not used, we copy the assemblies now
+ *
 	public static void CopyArchivesOninstallation(string fileName) {
 		string homeDir = GetHomeDir();
 		//copy files, and continue if already exists or if origin file doesn't exist
@@ -613,6 +616,7 @@ public class Util
 			File.Copy(fileName , homeDir + "/" + fileName );
 		} catch {}
 	}
+*/
 	
 	//public static void PlaySound (System.Media.SystemSounds mySound, bool volumeOn) {
 	public static void PlaySound (Constants.SoundTypes mySound, bool volumeOn) {

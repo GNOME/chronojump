@@ -206,6 +206,9 @@
     <EmbeddedResource Include="images\mini\agility_shuttle.png" />
     <EmbeddedResource Include="images\agility_zigzag.png" />
     <EmbeddedResource Include="images\mini\agility_zigzag.png" />
+    
+    <EmbeddedResource Include="images\chronojump_logo.png" />
+    <EmbeddedResource Include="images\report_web_style.css" />
 
   </ItemGroup>
   <ItemGroup>

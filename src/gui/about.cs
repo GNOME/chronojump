@@ -33,12 +33,7 @@ public class About
 	public About (string version, string [] authors, string translators)
 	{
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "dialog_about", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "dialog_about", null);
-		}
-		
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_about", null);
 		gladeXML.Autoconnect(this);
 		
 		dialog_about_label_version.Text = version; 

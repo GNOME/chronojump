@@ -63,12 +63,7 @@ public class PreferencesWindow {
 		
 	PreferencesWindow (Gtk.Window parent, string entryChronopic) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "preferences", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "preferences", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		

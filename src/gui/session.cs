@@ -53,12 +53,7 @@ public class SessionAddWindow {
 	
 	SessionAddWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add_edit", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "session_add_edit", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		button_accept.Sensitive = false;
@@ -179,12 +174,7 @@ public class SessionEditWindow
 	
 	SessionEditWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_add_edit", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "session_add_edit", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.currentSession = currentSession;
@@ -313,12 +303,7 @@ public class SessionLoadWindow {
 	
 	SessionLoadWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "session_load", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "session_load", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -331,8 +316,7 @@ public class SessionLoadWindow {
 
 		button_accept.Sensitive = false;
 
-		 treeview_session_load.Selection.Changed += OnSelectionEntry;
-
+		treeview_session_load.Selection.Changed += onSelectionEntry;
 	}
 	
 	static public SessionLoadWindow Show (Gtk.Window parent)
@@ -386,117 +370,17 @@ public class SessionLoadWindow {
 
 	}
 	
-	private void OnSelectionEntry (object o, EventArgs args)
+	private void onSelectionEntry (object o, EventArgs args)
 	{
-		Console.WriteLine("selected?? ");
-
 		TreeModel model;
 		TreeIter iter;
 		selected = "-1";
 
-               if (((TreeSelection)o).GetSelected(out model, out iter))
-               {
-                       // Initiation des valeurs selon la sélection
-                       selected = (string)model.GetValue (iter, 0);
-			button_accept.Sensitive = true;
-                }
-		Console.WriteLine (selected);
-
-/*
-
-		TreeView tv = (TreeView) o;
-		TreeModel model;
-		TreeIter iter;
-		selected = "-1";
-
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
-			selected = (string) model.GetValue (iter, 0);
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
+			selected = (string)model.GetValue (iter, 0);
 			button_accept.Sensitive = true;
 		}
-
 		Console.WriteLine (selected);
-*/
-	}
-
-	private void on_treeview_session_load_selection_motify_event (object o, SelectionNotifyEventArgs args)
-	{
-		Console.WriteLine("selection motify_event ");
-	}
-
-	private void on_treeview_session_load_selection_received (object o, SelectionReceivedArgs args)
-	{
-		Console.WriteLine("selection received ");
-	}
-
-	private void on_treeview_session_load_selection_request_event (object o, SelectionRequestEventArgs args)
-	{
-		Console.WriteLine("selection request_event ");
-	}
-
-	private void on_treeview_session_load_selection_get (object o, SelectionGetArgs args)
-	{
-		Console.WriteLine("selection get ");
-	}
-
-	private void on_treeview_session_load_move_cursor (object o, MoveCursorArgs args)
-	{
-		Console.WriteLine("move cursor ");
-	}
-
-	private void on_treeview_session_load_toggle_cursor_row (object o, ToggleCursorRowArgs args)
-	{
-		Console.WriteLine("toggle cursor row");
-	}
-
-	//puts a value in private member selected
-	private void on_treeview_session_load_select_cursor_row (object o, SelectCursorRowArgs args)
-	{
-		Console.WriteLine("select cursor row");
-/*
-		TreeView tv = (TreeView) o;
-		TreeModel model;
-		TreeIter iter;
-		selected = "-1";
-
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
-			selected = (string) model.GetValue (iter, 0);
-			button_accept.Sensitive = true;
-		}
-
-		Console.WriteLine (selected);
-*/
-	}
-	
-	//puts a value in private member selected
-	private void on_treeview_session_load_cursor_changed (object o, EventArgs args)
-	{
-		Console.WriteLine("cursor_changed");
-		TreeView tv = (TreeView) o;
-		TreeModel model;
-		TreeIter iter;
-		selected = "-1";
-
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
-			selected = (string) model.GetValue (iter, 0);
-			button_accept.Sensitive = true;
-		}
-
-		Console.WriteLine (selected);
-	}
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		SessionLoadWindowBox.session_load.Hide();
-		SessionLoadWindowBox = null;
-	}
-	
-	void on_session_load_delete_event (object o, DeleteEventArgs args)
-	{
-		SessionLoadWindowBox.session_load.Hide();
-		SessionLoadWindowBox = null;
 	}
 
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
@@ -513,7 +397,6 @@ public class SessionLoadWindow {
 			button_accept.Activate();
 		}
 	}
-	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		if(selected != "-1")
@@ -524,6 +407,19 @@ public class SessionLoadWindow {
 		}
 	}
 	
+	
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		SessionLoadWindowBox.session_load.Hide();
+		SessionLoadWindowBox = null;
+	}
+	
+	void on_session_load_delete_event (object o, DeleteEventArgs args)
+	{
+		SessionLoadWindowBox.session_load.Hide();
+		SessionLoadWindowBox = null;
+	}
+
 	public Button Button_accept 
 	{
 		set {
@@ -560,12 +456,7 @@ public class SessionSelectStatsWindow {
 	
 	SessionSelectStatsWindow (Gtk.Window parent, ArrayList oldSelectedSessions) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "stats_select_sessions", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "stats_select_sessions", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_select_sessions", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 	

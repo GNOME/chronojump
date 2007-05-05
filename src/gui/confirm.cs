@@ -45,12 +45,7 @@ public class ConfirmWindowJumpRun
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "confirm_window", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -114,13 +109,7 @@ public class ConfirmWindow
 	public ConfirmWindow (Gtk.Window parent, string text1, string text2)
 	{
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "confirm_window", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "confirm_window", null);
-		}
-
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		

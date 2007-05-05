@@ -57,12 +57,7 @@ public class RunTypeAddWindow
 
 	RunTypeAddWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "run_type_add", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "run_type_add", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_type_add", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 	}

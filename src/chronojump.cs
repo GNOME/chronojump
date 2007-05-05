@@ -50,7 +50,8 @@ public class ChronoJump
 	[Widget] Gtk.Box hbox_runs;
 	[Widget] Gtk.Box hbox_runs_interval;
 	[Widget] Gtk.Box hbox_pulses;
-	[Widget] Gtk.Combo combo_jumps;
+	[Widget] Gtk.ComboBox combo_jumps;
+//	[Widget] Gtk.Combo combo_jumps;
 	[Widget] Gtk.Combo combo_jumps_rj;
 	[Widget] Gtk.Combo combo_runs;
 	[Widget] Gtk.Combo combo_runs_interval;
@@ -93,7 +94,7 @@ public class ChronoJump
 
 	[Widget] Gtk.Button button_free;
 	[Widget] Gtk.Button button_sj;
-	[Widget] Gtk.Button button_sj_plus;
+	[Widget] Gtk.Button button_sj_l;
 	[Widget] Gtk.Button button_cmj;
 	[Widget] Gtk.Button button_abk;
 	[Widget] Gtk.Button button_dj;
@@ -107,6 +108,11 @@ public class ChronoJump
 	[Widget] Gtk.Button button_run_100m;
 	[Widget] Gtk.Button button_run_200m;
 	[Widget] Gtk.Button button_run_400m;
+	[Widget] Gtk.Button button_run_20yard;
+	[Widget] Gtk.Button button_run_505;
+	[Widget] Gtk.Button button_run_illinois;
+	[Widget] Gtk.Button button_run_shuttle;
+	[Widget] Gtk.Button button_run_zigzag;
 	[Widget] Gtk.Button button_run_interval_by_laps;
 	[Widget] Gtk.Button button_run_interval_by_time;
 	[Widget] Gtk.Button button_run_interval_unlimited;
@@ -132,12 +138,12 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menu_persons;
 	[Widget] Gtk.MenuItem menu_jumps;
 	[Widget] Gtk.MenuItem menu_runs;
-	[Widget] Gtk.MenuItem menu_pulses;
+	[Widget] Gtk.MenuItem menu_other;
 	[Widget] Gtk.MenuItem menu_view;
 		
 	[Widget] Gtk.MenuItem menuitem_jump_free;
 	[Widget] Gtk.MenuItem sj;
-	[Widget] Gtk.MenuItem sj_plus;
+	[Widget] Gtk.MenuItem sj_l;
 	[Widget] Gtk.MenuItem cmj;
 	[Widget] Gtk.MenuItem abk;
 	[Widget] Gtk.MenuItem dj;
@@ -153,6 +159,11 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_100m;
 	[Widget] Gtk.MenuItem menuitem_200m;
 	[Widget] Gtk.MenuItem menuitem_400m;
+	[Widget] Gtk.MenuItem menuitem_run_20yard;
+	[Widget] Gtk.MenuItem menuitem_run_505;
+	[Widget] Gtk.MenuItem menuitem_run_illinois;
+	[Widget] Gtk.MenuItem menuitem_run_shuttle;
+	[Widget] Gtk.MenuItem menuitem_run_zigzag;
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_laps;
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
 	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
@@ -178,7 +189,7 @@ public class ChronoJump
 	bool volumeOn;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.52";
+	private static string progversion = "0.52-cvs";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -349,6 +360,9 @@ public class ChronoJump
 		}
 
 		//check if logo and css exists
+/*
+ * currently not used, we copy the assemblies now
+ *
 		if(! File.Exists(Util.GetHomeDir() + "/" + Constants.FileNameLogo)) {
 			Util.CopyArchivesOninstallation(Constants.FileNameLogo);
 			Console.WriteLine("Copied " + Constants.FileNameLogo);
@@ -357,7 +371,7 @@ public class ChronoJump
 			Util.CopyArchivesOninstallation(Constants.FileNameCSS);
 			Console.WriteLine("Copied " + Constants.FileNameCSS);
 		}
-
+*/
 
 		string recuperatedString = recuperateBrokenEvents();
 
@@ -409,7 +423,6 @@ public class ChronoJump
 
 
 	private void on_button_image_test_clicked(object o, EventArgs args) {
-		//new DialogImageTest(currentRunType);
 		new DialogImageTest(currentEventType);
 	}
 
@@ -443,36 +456,14 @@ public class ChronoJump
 	private void createMainWindow(string recuperatedString)
 	{
 		Glade.XML gxml;
-Console.Write("1");
-		try {
-Console.Write("2");
-			//linux
-			gxml = Glade.XML.FromAssembly ("chronojump.glade", "app1", null);
-			/*
-			gxml = new Glade.XML (this.GetType().Assembly, 
-                                 "chronojump.glade", 
-                                 "app1", 
-                                 null);
-*/
-			//gxml = Glade.XML.FromAssembly ("/media/mmc1/chronojump.glade", "app1", null);
-Console.Write("3");
-		} catch {
-Console.Write("4");
-			//windows
-			gxml = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "app1", null);
-Console.Write("5");
-		}
-Console.Write("6");
-
+		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "app1", null);
 		gxml.Autoconnect(this);
 
-Console.Write("7");
-
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+		//Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 		image_test.Pixbuf = pixbuf;
 		button_image_test.Sensitive=false;
 		
-
 
 		cpRunning = false;
 
@@ -734,6 +725,7 @@ Console.Write("7");
 
 	private void createTreeView_persons (Gtk.TreeView tv) {
 		myTreeViewPersons = new TreeViewPersons( tv );
+		tv.Selection.Changed += onTreeviewPersonsSelectionEntry;
 	}
 
 	private void fillTreeView_persons () {
@@ -774,13 +766,15 @@ Console.Write("7");
 		myTreeViewPersons = new TreeViewPersons(treeview_persons);
 	}
 	
-	private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
-		TreeView tv = (TreeView) o;
+	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
+	private void onTreeviewPersonsSelectionEntry (object o, EventArgs args) {
+		//TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 
 		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
+		//if (tv.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 1); //name, ID
 		
 			Console.WriteLine (selectedID);
@@ -1035,12 +1029,24 @@ Console.Write("7");
 	 *  --------------------------------------------------------
 	 */
 	private void createComboJumps() {
-		combo_jumps = new Combo ();
-		combo_jumps.PopdownStrings = 
-			SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
+		//combo_jumps = new Combo ();
+		combo_jumps = ComboBox.NewText ();
+
+		//combo_jumps.PopdownStrings = 
+		//	SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
+
+		foreach (string str in SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)) //without filter, only select name
+		//string [] myStr = SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
+		//foreach (string str in myStr)
+                {
+                                //comboListStore.AppendValues (str);
+				//Console.Write(str);
+                                combo_jumps.AppendText (str);
+		}
 		
-		combo_jumps.DisableActivate ();
-		combo_jumps.Entry.Changed += new EventHandler (on_combo_jumps_changed);
+		//combo_jumps.DisableActivate ();
+		//combo_jumps.Entry.Changed += new EventHandler (on_combo_jumps_changed);
+		combo_jumps.Changed += new EventHandler (on_combo_jumps_changed);
 
 		hbox_combo_jumps.PackStart(combo_jumps, true, true, 0);
 		hbox_combo_jumps.ShowAll();
@@ -1106,8 +1112,10 @@ Console.Write("7");
 	}
 
 	private void updateComboJumps() {
-		combo_jumps.PopdownStrings = 
-			SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
+		foreach (string str in SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)) //without filter, only select name
+                {
+			combo_jumps.AppendText (str);
+		}
 	}
 	
 	private void updateComboJumpsRj() {
@@ -1133,7 +1141,23 @@ Console.Write("7");
 	}
 	
 	private void on_combo_jumps_changed(object o, EventArgs args) {
-		string myText = combo_jumps.Entry.Text;
+		//from monodoc
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+
+		TreeIter iter;
+		string selected = "";
+
+		if (combo.GetActiveIter (out iter))
+			//Console.WriteLine ((string) combo.Model.GetValue (iter, 0));
+			selected = (string) combo.Model.GetValue (iter, 0);
+		//end from monodoc
+
+		//Console.WriteLine(selected);
+
+		//string myText = combo_jumps.Entry.Text;
+		//string myText = combo_jumps.Active.ToString();
 
 		//show the edit-delete selected jumps buttons:
 		
@@ -1143,10 +1167,12 @@ Console.Write("7");
 		button_delete_selected_jump.Sensitive = true;
 		
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(myText);
+		//fillTreeView_jumps(myText);
+		fillTreeView_jumps(selected);
 		
 		//expand all rows if a jump filter is selected:
-		if (myText != Constants.AllJumpsName)
+		//if (myText != Constants.AllJumpsName)
+		if (selected != Constants.AllJumpsName)
 			treeview_jumps.ExpandAll();
 	}
 	
@@ -1540,7 +1566,8 @@ Console.Write("7");
 			}
 
 			treeview_jumps_storeReset();
-			string myText = combo_jumps.Entry.Text;
+			//string myText = combo_jumps.Entry.Text;
+			string myText = combo_jumps.Active.ToString();
 			fillTreeView_jumps(myText);
 			
 			//load the treeview_rj
@@ -1770,13 +1797,14 @@ Console.Write("7");
 		//this will crash if currentSession is not created/loaded, then go to catch
 		try {
 			//... and recreate the treeview_jumps
-			string myText = combo_jumps.Entry.Text;
+			//string myText = combo_jumps.Entry.Text;
+			string myText = combo_jumps.Active.ToString();
 			createTreeView_jumps (treeview_jumps);
 			treeview_jumps_storeReset();
 			fillTreeView_jumps(myText);
 
 			//... and recreate the treeview_jumps_rj
-			myText = combo_jumps.Entry.Text;
+			myText = combo_jumps_rj.Entry.Text;
 			createTreeView_jumps_rj (treeview_jumps_rj);
 			treeview_jumps_rj_storeReset();
 			fillTreeView_jumps_rj(myText);
@@ -1876,12 +1904,18 @@ Console.Write("7");
 			currentEventType = new JumpType("Free");
 		} else if(o == (object) button_sj) {
 			currentEventType = new JumpType("SJ");
-		} else 	if(o == (object) button_sj_plus) {
+		} else 	if(o == (object) button_sj_l) {
 			currentEventType = new JumpType("SJl");
 		} else 	if(o == (object) button_cmj) {
 			currentEventType = new JumpType("CMJ");
+//no cmj_l button currently
+//		} else 	if(o == (object) button_cmj_l) {
+//			currentEventType = new JumpType("CMJl");
 		} else 	if(o == (object) button_abk) {
 			currentEventType = new JumpType("ABK");
+//no abk_l button currently
+//		} else 	if(o == (object) button_abk_l) {
+//			currentEventType = new JumpType("ABKl");
 		} else 	if(o == (object) button_dj) {
 			currentEventType = new JumpType("DJ");
 		} else 	if(o == (object) button_rocket) {
@@ -1904,6 +1938,16 @@ Console.Write("7");
 			currentEventType = new RunType("200m");
 		} else 	if(o == (object) button_run_200m) {
 			currentEventType = new RunType("400m");
+		} else 	if(o == (object) button_run_20yard) {
+			currentEventType = new RunType("Agility-20Yard");
+		} else 	if(o == (object) button_run_505) {
+			currentEventType = new RunType("Agility-505");
+		} else 	if(o == (object) button_run_illinois) {
+			currentEventType = new RunType("Agility-Illinois");
+		} else 	if(o == (object) button_run_shuttle) {
+			currentEventType = new RunType("Agility-Shuttle-Run");
+		} else 	if(o == (object) button_run_zigzag) {
+			currentEventType = new RunType("Agility-ZigZag");
 		//run interval
 		} else 	if(o == (object) button_run_interval_by_laps) {
 			currentEventType = new RunType("byLaps");
@@ -1947,8 +1991,8 @@ Console.Write("7");
 	}
 	
 	private void on_more_jumps_draw_image_test (object o, EventArgs args) {
-		currentJumpType = new JumpType(jumpsMoreWin.SelectedEventName);
-		changeTestImage("jump", currentJumpType.Name, currentJumpType.ImageFileName);
+		currentEventType = new JumpType(jumpsMoreWin.SelectedEventName);
+		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
 	}
 	
 	private void on_button_last_clicked (object o, EventArgs args) 
@@ -1995,10 +2039,15 @@ Console.Write("7");
 	private void on_jump_extra_activate (object o, EventArgs args) 
 	{
 		Console.WriteLine("jump extra");
-		if(o == (object) button_sj_plus || o == (object) sj_plus) {
+		if(o == (object) button_sj_l || o == (object) sj_l) {
 			currentJumpType = new JumpType("SJl");
 		} else if(o == (object) button_dj || o == (object) dj) {
 			currentJumpType = new JumpType("DJ");
+// currently no cmj_l, abk_l buttons or menu
+//		} else if(o == (object) button_cmj_l || o == (object) cmj_l) {
+//			currentJumpType = new JumpType("CMJl");
+//		} else if(o == (object) button_abk_l || o == (object) abk_l) {
+//			currentJumpType = new JumpType("ABKl");
 		} else {
 		}
 		
@@ -2126,10 +2175,10 @@ Console.Write("7");
 		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
 		jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_draw_image_test);
 	}
-	
+
 	private void on_more_jumps_rj_draw_image_test (object o, EventArgs args) {
-		currentJumpType = new JumpType(jumpsRjMoreWin.SelectedEventName);
-		changeTestImage("jumpRj", currentJumpType.Name, currentJumpType.ImageFileName);
+		currentEventType = new JumpType(jumpsRjMoreWin.SelectedEventName);
+		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
 	}
 	
 	private void on_button_last_rj_clicked (object o, EventArgs args) 
@@ -2320,7 +2369,14 @@ Console.Write("7");
 	{
 		runsMoreWin = RunsMoreWindow.Show(app1);
 		runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
+		runsMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_draw_image_test);
 	}
+	
+	private void on_more_runs_draw_image_test (object o, EventArgs args) {
+		currentEventType = new RunType(runsMoreWin.SelectedEventName);
+		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+	}
+	
 	
 	private void on_button_run_last_clicked (object o, EventArgs args) 
 	{
@@ -2339,14 +2395,14 @@ Console.Write("7");
 		runsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_accepted);
 	
 		currentRunType = new RunType(
-				runsMoreWin.SelectedRunType,	//name
+				runsMoreWin.SelectedEventName,	//name
 				false,				//hasIntervals
 				runsMoreWin.SelectedDistance,	//distance
 				false,				//tracksLimited (false, because has not intervals)
 				0,				//fixedValue (0, because has not intervals)
 				false,				//unlimited (false, because has not intervals)
 				runsMoreWin.SelectedDescription,
-				SqliteEvent.SelectFileName("run", runsMoreWin.SelectedRunType)
+				SqliteEvent.SelectFileName("run", runsMoreWin.SelectedEventName)
 				);
 		
 				
@@ -2389,6 +2445,16 @@ Console.Write("7");
 			currentRunType = new RunType("200m");
 		} else if (o == (object) button_run_400m || o == (object) menuitem_400m) {
 			currentRunType = new RunType("400m");
+		} else if (o == (object) button_run_20yard || o == (object) menuitem_run_20yard) {
+			currentRunType = new RunType("Agility-20Yard");
+		} else if (o == (object) button_run_505 || o == (object) menuitem_run_505) {
+			currentRunType = new RunType("Agility-505");
+		} else if (o == (object) button_run_illinois || o == (object) menuitem_run_illinois) {
+			currentRunType = new RunType("Agility-Illinois");
+		} else if (o == (object) button_run_shuttle || o == (object) menuitem_run_shuttle) {
+			currentRunType = new RunType("Agility-Shuttle-Run");
+		} else if (o == (object) button_run_zigzag || o == (object) menuitem_run_zigzag) {
+			currentRunType = new RunType("Agility-ZigZag");
 		} 
 		// add others...
 		
@@ -2490,6 +2556,12 @@ Console.Write("7");
 	{
 		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
 		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
+		runsIntervalMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_interval_draw_image_test);
+	}
+	
+	private void on_more_runs_interval_draw_image_test (object o, EventArgs args) {
+		currentEventType = new RunType(runsIntervalMoreWin.SelectedEventName);
+		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
 	}
 	
 	private void on_more_runs_interval_accepted (object o, EventArgs args) 
@@ -2497,14 +2569,14 @@ Console.Write("7");
 		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
 		
 		currentRunType = new RunType(
-				runsIntervalMoreWin.SelectedRunType,	//name
+				runsIntervalMoreWin.SelectedEventName,	//name
 				true,					//hasIntervals
 				runsIntervalMoreWin.SelectedDistance,
 				runsIntervalMoreWin.SelectedTracksLimited,
 				runsIntervalMoreWin.SelectedLimitedValue,
 				runsIntervalMoreWin.SelectedUnlimited,
 				runsIntervalMoreWin.SelectedDescription,
-				SqliteEvent.SelectFileName("runInterval", runsMoreWin.SelectedRunType)
+				SqliteEvent.SelectFileName("runInterval", runsMoreWin.SelectedEventName)
 				);
 
 		bool unlimited = false;
@@ -2701,7 +2773,7 @@ Console.Write("7");
 		}
 */			
 		//used by cancel and finish
-		//currentEventType = new ReactionTimeType();
+		currentEventType = new ReactionTimeType();
 		//currentEventType = currentReactionTimeType;
 			
 		//hide jumping buttons
@@ -3009,7 +3081,8 @@ Console.Write("7");
 		Console.WriteLine("edit selected jump accepted");
 		
 		treeview_jumps_storeReset();
-		fillTreeView_jumps(combo_jumps.Entry.Text);
+		//fillTreeView_jumps(combo_jumps.Entry.Text);
+		fillTreeView_jumps(combo_jumps.Active.ToString());
 	
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3701,7 +3774,7 @@ Console.Write("7");
 		menu_persons.Sensitive = false;
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
-		menu_pulses.Sensitive = false;
+		menu_other.Sensitive = false;
 		menu_view.Sensitive = false;
 
 		frame_image_test.Sensitive = false;
@@ -3757,7 +3830,7 @@ Console.Write("7");
 		
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
-		menu_pulses.Sensitive = false;
+		menu_other.Sensitive = false;
 		menu_view.Sensitive = false;
 		
 		//menuitem_jump_type_add.Sensitive = false;
@@ -3775,7 +3848,7 @@ Console.Write("7");
 		
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;
-		menu_pulses.Sensitive = true;
+		menu_other.Sensitive = true;
 		menu_view.Sensitive = true;
 		
 		combo_jumps.Sensitive = true;
@@ -3800,7 +3873,7 @@ Console.Write("7");
 		//menu
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
-		menu_pulses.Sensitive = false;
+		menu_other.Sensitive = false;
 		
 		//cancel, delete last, finish
 		button_last_delete.Sensitive = false;
@@ -3851,7 +3924,7 @@ Console.Write("7");
 		//menu
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;
-		menu_pulses.Sensitive = true;
+		menu_other.Sensitive = true;
 	}
 
 }

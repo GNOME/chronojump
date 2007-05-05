@@ -59,12 +59,7 @@ public class ReportWindow {
 
 	ReportWindow (Gtk.Window parent, Report report ) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "report_window", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "report_window", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "report_window", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 
@@ -76,6 +71,8 @@ public class ReportWindow {
 				typeof (string), typeof (string), typeof (string), typeof (string)
 				);
 		treeview1.Model = store;
+		
+		treeview1.Selection.Changed += onSelectionEntry;
 	}
 
 	//if it's created
@@ -203,15 +200,15 @@ public class ReportWindow {
 		}
 	}
 
-	protected virtual void on_treeview_cursor_changed (object o, EventArgs args)
+	protected virtual void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeView tv = (TreeView) o;
+		//TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		selected = false;
 
 		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selected = true;
 		}
 	}

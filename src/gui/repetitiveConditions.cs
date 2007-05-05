@@ -73,12 +73,7 @@ public class RepetitiveConditionsWindow
 		
 	RepetitiveConditionsWindow () {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repetitive_conditions", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "repetitive_conditions", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repetitive_conditions", null);
 		gladeXML.Autoconnect(this);
 	}
 

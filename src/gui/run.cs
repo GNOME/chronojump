@@ -63,12 +63,7 @@ public class EditRunWindow
 
 	EditRunWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_run", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "edit_run", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_run", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -245,12 +240,7 @@ public class EditRunIntervalWindow
 
 	EditRunIntervalWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_run", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "edit_run", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_run", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -390,12 +380,7 @@ public class RepairRunIntervalWindow
 
 	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun, int pDN) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "repair_sub_event", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.runInterval = myRun;
@@ -424,6 +409,8 @@ public class RepairRunIntervalWindow
 		button_delete.Sensitive = false;
 		
 		label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+		
+		treeview_subevents.Selection.Changed += onSelectionEntry;
 	}
 	
 	static public RepairRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
@@ -523,12 +510,14 @@ public class RepairRunIntervalWindow
 		}
 	}
 
-	void on_treeview_cursor_changed (object o, EventArgs args) {
-		TreeView tv = (TreeView) o;
+	//void on_treeview_cursor_changed (object o, EventArgs args) {
+	void onSelectionEntry (object o, EventArgs args) {
+		//TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		
-		if (tv.Selection.GetSelected (out model, out iter)) {
+		//if (tv.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			button_add_before.Sensitive = true;
 			button_add_after.Sensitive = true;
 			button_delete.Sensitive = true;
@@ -697,12 +686,7 @@ public class RunExtraWindow
 
 	RunExtraWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "run_extra", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "run_extra", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_extra", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 	}
@@ -798,44 +782,24 @@ public class RunExtraWindow
 //---------------- runs_more widget ----------------------
 //--------------------------------------------------------
 
-public class RunsMoreWindow 
+public class RunsMoreWindow : EventMoreWindow 
 {
 	[Widget] Gtk.Window jumps_runs_more;
-	
-	private TreeStore store;
-	[Widget] Gtk.TreeView treeview_more;
-	[Widget] Gtk.Button button_accept;
-
 	static RunsMoreWindow RunsMoreWindowBox;
-	Gtk.Window parent;
 	
-	private string selectedRunType;
 	private double selectedDistance;
-	private string selectedDescription;
-	public Gtk.Button button_selected;
 	
 	RunsMoreWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
-		button_selected = new Gtk.Button();
 
-		createTreeView(treeview_more);
+		selectedEventType = EventType.Types.RUN.ToString();
 		//name, distance, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string));
-		treeview_more.Model = store;
-		fillTreeView(treeview_more,store);
-
-		button_accept.Sensitive = false;
-
-		//treeview_more.Selection.Changed += OnSelectionEntry;
+		
+		initializeThings();
 	}
 	
 	static public RunsMoreWindow Show (Gtk.Window parent)
@@ -848,7 +812,7 @@ public class RunsMoreWindow
 		return RunsMoreWindowBox;
 	}
 	
-	private void createTreeView (Gtk.TreeView tv) {
+	protected override void createTreeView (Gtk.TreeView tv) {
 		tv.HeadersVisible=true;
 		int count = 0;
 		
@@ -857,7 +821,7 @@ public class RunsMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myRunTypes = SqliteRunType.SelectRunTypes("", false);
@@ -877,30 +841,29 @@ public class RunsMoreWindow
 	}
 
 	//puts a value in private member selected
-	private void on_treeview_changed (object o, EventArgs args)
+	protected override void on_treeview_changed (object o, EventArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
-		selectedRunType = "-1";
+		selectedEventName = "-1";
 		selectedDistance = 0;
 		selectedDescription = "";
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			selectedRunType = (string) model.GetValue (iter, 0);
+			selectedEventName = (string) model.GetValue (iter, 0);
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Not defined") ) {
 				selectedDistance = 0;
 			} else {
 				selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 			}
 			selectedDescription = (string) model.GetValue (iter, 2);
-			
 			button_accept.Sensitive = true;
 		}
 	}
 	
-	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
+	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -908,7 +871,7 @@ public class RunsMoreWindow
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			//put selection in selected
-			selectedRunType = (string) model.GetValue (iter, 0);
+			selectedEventName = (string) model.GetValue (iter, 0);
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Not defined") ) {
 				selectedDistance = 0;
 			} else {
@@ -945,79 +908,38 @@ public class RunsMoreWindow
 		RunsMoreWindowBox = null;
 	}
 
-
-	public Button Button_accept 
-	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
-	}
-	
-	public string SelectedRunType 
-	{
-		set {
-			selectedRunType = value;	
-		}
-		get {
-			return selectedRunType;
-		}
-	}
-	
 	public double SelectedDistance {
 		get { return selectedDistance; }
 	}
-
-	public string SelectedDescription {
-		get { return selectedDescription; }
-	}
-	
 }
 
 //--------------------------------------------------------
 //---------------- runs_interval_more widget ------------------
 //--------------------------------------------------------
 
-public class RunsIntervalMoreWindow 
+public class RunsIntervalMoreWindow : EventMoreWindow 
 {
 	[Widget] Gtk.Window jumps_runs_more;
-	
-	private TreeStore store;
-	[Widget] Gtk.TreeView treeview_more;
-	[Widget] Gtk.Button button_accept;
-
 	static RunsIntervalMoreWindow RunsIntervalMoreWindowBox;
-	Gtk.Window parent;
 
-	private string selectedRunType;
 	private double selectedDistance;
 	private bool selectedTracksLimited;
 	private int selectedLimitedValue;
 	private bool selectedUnlimited;
-	private string selectedDescription;
 	
 	RunsIntervalMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
-		createTreeView(treeview_more);
+		selectedEventType = EventType.Types.RUN.ToString();
 		//name, distance, limited by tracks or seconds, limit value, description
 		store = new TreeStore(typeof (string), typeof (string), typeof(string),
 				typeof (string), typeof (string) );
-		treeview_more.Model = store;
-		fillTreeView(treeview_more,store);
-			
-		button_accept.Sensitive = false;
+		
+		initializeThings();
 	}
 	
 	static public RunsIntervalMoreWindow Show (Gtk.Window parent)
@@ -1030,7 +952,7 @@ public class RunsIntervalMoreWindow
 		return RunsIntervalMoreWindowBox;
 	}
 	
-	private void createTreeView (Gtk.TreeView tv) {
+	protected override void createTreeView (Gtk.TreeView tv) {
 		tv.HeadersVisible=true;
 		int count = 0;
 
@@ -1041,7 +963,7 @@ public class RunsIntervalMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myTypes = SqliteRunType.SelectRunIntervalTypes("", false);
@@ -1079,12 +1001,12 @@ public class RunsIntervalMoreWindow
 	}
 
 	//puts a value in private member selected
-	private void on_treeview_changed (object o, EventArgs args)
+	protected override void on_treeview_changed (object o, EventArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
-		selectedRunType = "-1";
+		selectedEventName = "-1";
 		selectedDistance = -1;
 		selectedTracksLimited = false;
 		selectedLimitedValue = 0;
@@ -1093,7 +1015,7 @@ public class RunsIntervalMoreWindow
 
 		// you get the iter and the model if something is selected
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			selectedRunType = (string) model.GetValue (iter, 0);
+			selectedEventName = (string) model.GetValue (iter, 0);
 			selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 
 			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Unlimited") ) {
@@ -1116,14 +1038,14 @@ public class RunsIntervalMoreWindow
 		}
 	}
 	
-	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
+	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			selectedRunType = (string) model.GetValue (iter, 0);
+			selectedEventName = (string) model.GetValue (iter, 0);
 			selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 
 			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Unlimited") ) {
@@ -1171,22 +1093,7 @@ public class RunsIntervalMoreWindow
 	public void Destroy() {		
 		RunsIntervalMoreWindowBox = null;
 	}
-
-	public Button Button_accept 
-	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
-	}
 	
-	public string SelectedRunType 
-	{
-		get { return selectedRunType; }
-	}
-
 	public double SelectedDistance 
 	{
 		get { return selectedDistance; }
@@ -1206,10 +1113,4 @@ public class RunsIntervalMoreWindow
 	{
 		get { return selectedUnlimited; }
 	}
-	
-	public string SelectedDescription 
-	{
-		get { return selectedDescription; }
-	}
-	
 }

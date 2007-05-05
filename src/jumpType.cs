@@ -74,15 +74,23 @@ public class JumpType : EventType
 				description	= Catalog.GetString("Rocket Jump");
 				imageFileName = "jump_rocket.png";
 			}
-		} else if(name == "SJl") {
+		} else if(name == "SJl" || name == "CMJl" || name == "ABKl") {
 			startIn 	= true;
 			hasWeight 	= true;
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("SJ Jump with weight");
-			imageFileName = "jump_sj_l.png";
+			if(name == "SJl") {
+				description	= Catalog.GetString("SJ Jump with weight");
+				imageFileName = "jump_sj_l.png";
+			} else if(name == "CMJl") {
+				description	= Catalog.GetString("CMJ Jump with weight");
+				imageFileName = "jump_cmj_l.png";
+			} else if(name == "ABKl") {
+				description	= Catalog.GetString("ABK Jump with weight");
+				imageFileName = "jump_abk_l.png";
+			}
 		} else if(name == "DJ") {
 			startIn 	= false;
 			hasWeight 	= false;

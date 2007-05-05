@@ -41,12 +41,7 @@ public class LanguageWindow
 	public LanguageWindow ()
 	{
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "language_window", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "language_window", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "language_window", null);
 		gladeXML.Autoconnect(this);
 		//this.parent = parent;
 	}

@@ -170,10 +170,32 @@ public class Report : ExportSession
 	void copyCssAndLogo() {
 		//copy files, and continue if already exists
 		try {
-			File.Copy(home + "/" + Constants.FileNameCSS , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameCSS );
+			//File.Copy(home + "/" + Constants.FileNameCSS , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameCSS );
+			//File.Copy(Constants.FileNameCSS , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameCSS );
+			
+			Stream s = this.GetType().Assembly.GetManifestResourceStream(
+					Util.GetImagePath(false) + Constants.FileNameCSS);
+			FileStream myFile = File.Create(Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameCSS);
+			byte[] buffer = new byte[32768];
+			int n = s.Read (buffer, 0, buffer.Length);
+			while (n > 0) {
+				myFile.Write (buffer, 0, n);
+				n = s.Read (buffer, 0, buffer.Length);
+			}
 		} catch {}
 		try {
-			File.Copy(home + "/" + Constants.FileNameLogo , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo);
+			//File.Copy(home + "/" + Constants.FileNameLogo , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo);
+			//File.Copy(Constants.FileNameLogo , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo);
+			
+			Stream s = this.GetType().Assembly.GetManifestResourceStream(
+					Util.GetImagePath(false) + Constants.FileNameLogo);
+			FileStream myFile = File.Create(Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo);
+			byte[] buffer = new byte[32768];
+			int n = s.Read (buffer, 0, buffer.Length);
+			while (n > 0) {
+				myFile.Write (buffer, 0, n);
+				n = s.Read (buffer, 0, buffer.Length);
+			}
 		} catch {}
 	}
 	

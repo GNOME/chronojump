@@ -35,35 +35,23 @@ using Mono.Unix;
 
 public class EventMoreWindow 
 {
-	//[Widget] Gtk.Window jumps_runs_more;
-	
 	protected TreeStore store;
 	[Widget] protected Gtk.TreeView treeview_more;
 	[Widget] protected Gtk.Button button_accept;
-
-	//static JumpsMoreWindow JumpsMoreWindowBox;
 	protected Gtk.Window parent;
-	
+
 	protected string selectedEventType;
 	protected string selectedEventName;
-	//protected bool selectedStartIn;
-	//protected bool selectedExtraWeight;
 	protected string selectedDescription;
 	public Gtk.Button button_selected;
 	
 	public EventMoreWindow () {
-		//for inheritance issues
 	}
 
-	EventMoreWindow (Gtk.Window parent) {
+	public EventMoreWindow (Gtk.Window parent) {
 /*
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 */
@@ -74,7 +62,8 @@ public class EventMoreWindow
 		initializeThings();
 	}
 
-	protected void initializeThings() {
+	protected void initializeThings() 
+	{
 		button_selected = new Gtk.Button();
 		
 		createTreeView(treeview_more);

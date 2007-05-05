@@ -163,12 +163,7 @@ public class EventExecuteWindow
 		
 	EventExecuteWindow () {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "event_execute", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "event_execute", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "event_execute", null);
 		gladeXML.Autoconnect(this);
 
 		//this hides it when it's creating (hiding and showing tables stuff)

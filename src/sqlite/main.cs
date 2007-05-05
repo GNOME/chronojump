@@ -188,6 +188,17 @@ class Sqlite
 			myVersion = "0.51";
 		}
 
+		if(myVersion == "0.51") {
+			dbcon.Open();
+			SqliteJumpType.Update ("CJl", "CMJl"); 
+			SqliteEvent.Insert ("jump", "CMJl", "jump_cmj_l.png", true);
+			SqliteEvent.Insert ("jump", "ABKl", "jump_abk_l.png", true);
+			SqlitePreferences.Update ("databaseVersion", "0.52"); 
+			Console.WriteLine("added graphLinks for cmj_l and abk_l, fixed CMJl name");
+			dbcon.Close();
+			myVersion = "0.52";
+		}
+
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
 	}
@@ -251,18 +262,20 @@ class Sqlite
 		
 		SqlitePreferences.createTable();
 		
-		SqlitePreferences.Insert ("databaseVersion", "0.51"); 
-		//changes from 0.50 to 0.51 added graphLinks for run simple and interval
-		//changes from 0.49 to 0.50: changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links
-		//changes from 0.48 to 0.49: added graphLinkTable, added rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag). Added graphs pof the 5 agility tests
-		//changes from 0.47 to 0.48: added tempJumpReactive and tempRunInterval tables
-		//changes from 0.46 to 0.47: added reactionTime table
-		//changes from 0.45 to 0.46: added "Free" jump type
-		//changes from 0.44 to 0.45: added allowFinishRjAfterTime
-		//changes from 0.43 to 0.44: added showQIndex and showDjIndex
-		//changes from 0.42 to 0.43: added 'free' pulseType & language preference
-		//changes from 0.41 to 0.42: added pulse and pulseType tables
-		//changes from 0.4 to 0.41: jump, jumpRj weight is double (always a percent)
+		SqlitePreferences.Insert ("databaseVersion", "0.52"); 
+		//changes [from - to - desc]
+		//0.51 - 0.52 added graphLinks for cmj_l and abk_l. Fixed CMJ_l name
+		//0.50 - 0.51 added graphLinks for run simple and interval
+		//0.49 - 0.50: changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links
+		//0.48 - 0.49: added graphLinkTable, added rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag). Added graphs pof the 5 agility tests
+		//0.47 - 0.48: added tempJumpReactive and tempRunInterval tables
+		//0.46 - 0.47: added reactionTime table
+		//0.45 - 0.46: added "Free" jump type
+		//0.44 - 0.45: added allowFinishRjAfterTime
+		//0.43 - 0.44: added showQIndex and showDjIndex
+		//0.42 - 0.43: added 'free' pulseType & language preference
+		//0.41 - 0.42: added pulse and pulseType tables
+		//0.4 - 0.41: jump, jumpRj weight is double (always a percent)
 		
 		if(Util.IsWindows()) 
 			SqlitePreferences.Insert ("chronopicPort", "COM1");

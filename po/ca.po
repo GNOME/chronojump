@@ -149,7 +149,7 @@ msgstr "<b>estadística</b>"
 
 #: ../glade/chronojump.glade.h:34
 msgid "<b>statistics data</b>"
-msgstr "<b>dades estadístiques/b>"
+msgstr "<b>dades estadístiques</b>"
 
 #: ../glade/chronojump.glade.h:35
 msgid "<b>test bells</b>"

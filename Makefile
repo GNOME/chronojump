@@ -33,9 +33,11 @@ CHRONOJUMP_DEP_SERVER = chronojump_server/ChronojumpServer.cs
 CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/eventType.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/reactionTimeType.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs src/repetitiveConditions.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
 
 RESOURCES_GLADE = -resource:glade/chronojump.glade,chronojump.glade
+
 RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/agility_505.png,agility_505.png 		-resource:images/mini/agility_505.png,mini/agility_505.png \
 		-resource:images/agility_20yard.png,agility_20yard.png		-resource:images/mini/agility_20yard.png,mini/agility_20yard.png \
+		-resource:images/agility_hexagon.png,agility_hexagon.png 	-resource:images/mini/agility_hexagon.png,mini/agility_hexagon.png \
 		-resource:images/agility_illinois.png,agility_illinois.png 	-resource:images/mini/agility_illinois.png,mini/agility_illinois.png \
 		-resource:images/agility_shuttle.png,agility_shuttle.png 	-resource:images/mini/agility_shuttle.png,mini/agility_shuttle.png \
 		-resource:images/agility_zigzag.png,agility_zigzag.png 		-resource:images/mini/agility_zigzag.png,mini/agility_zigzag.png \
@@ -43,13 +45,19 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/jump_sj.png,jump_sj.png 			-resource:images/mini/jump_sj.png,mini/jump_sj.png \
 		-resource:images/jump_sj_l.png,jump_sj_l.png 			-resource:images/mini/jump_sj_l.png,mini/jump_sj_l.png \
 		-resource:images/jump_cmj.png,jump_cmj.png 			-resource:images/mini/jump_cmj.png,mini/jump_cmj.png \
+		-resource:images/jump_cmj_l.png,jump_cmj_l.png 			-resource:images/mini/jump_cmj_l.png,mini/jump_cmj_l.png \
 		-resource:images/jump_abk.png,jump_abk.png 			-resource:images/mini/jump_abk.png,mini/jump_abk.png \
+		-resource:images/jump_abk_l.png,jump_abk_l.png 			-resource:images/mini/jump_abk_l.png,mini/jump_abk_l.png \
 		-resource:images/jump_dj.png,jump_dj.png 			-resource:images/mini/jump_dj.png,mini/jump_dj.png \
 		-resource:images/jump_rocket.png,jump_rocket.png 		-resource:images/mini/jump_rocket.png,mini/jump_rocket.png \
 		-resource:images/jump_rj.png,jump_rj.png 			-resource:images/mini/jump_rj.png,mini/jump_rj.png \
 		-resource:images/jump_rj_in.png,jump_rj_in.png 			-resource:images/mini/jump_rj_in.png,mini/jump_rj_in.png \
 		-resource:images/run_simple.png,run_simple.png 			-resource:images/mini/run_simple.png,mini/run_simple.png \
 		-resource:images/run_interval.png,run_interval.png 		-resource:images/mini/run_interval.png,mini/run_interval.png \
+
+RESOURCES_REPORT = -resource:images/chronojump_logo.png,chronojump_logo.png \
+		-resource:images/report_web_style.css,report_web_style.css \
+
 
 CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services
 #CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services 
@@ -68,9 +76,7 @@ all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
 #-------------------------------
 
 $(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade
-	 $(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
-#$(CHRONOJUMP).exe: $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade
-#	 $(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) -unsafe chronopic.cs -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
+	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
    
     
 #------------------------------------

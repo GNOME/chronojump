@@ -1,5 +1,24 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+5 may 2007
+	gtk2 integration: 
+		-all onSelectionEntry() on treeviews work now: sessionLoad, personRecuperateWindow, 
+		PersonsRecuperateFromOtherSessionWindow, reportWindow, RepairEvents windows, treeviewPersons
+		-1st combobox working: combo_jumps (pending: try on windows)
+	new features:
+		-buttons for agility on runs
+		-select graph works on more on runs & runsInterval. 
+		-added mini/agility_hexagon.png
+		-put "others" on menu, and include pulses and reaction time there
+		-zoom button on image_test changed to gtk-info
+		-chronojump_logo and report_css as resources (pending: try on windows)
+		-chronojump_logo on startup
+	bugs fixed:
+		-on not ending good reactionTime (EventType was not assigned)
+		-if something is selected on jumps_runs_more, the dialogImageTest should have correct info
+		-fixed CMJ_l name on DB
+	Cleaned code on all "more" gui and on loading glade
+
 3 may 2007
 	new code now runs on windows: updated csproj, changed way to load image resources
 

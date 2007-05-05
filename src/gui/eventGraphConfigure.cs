@@ -59,12 +59,7 @@ public class EventGraphConfigureWindow
 		
 	EventGraphConfigureWindow () {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "event_graph_configure", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "event_graph_configure", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "event_graph_configure", null);
 		gladeXML.Autoconnect(this);
 	}
 

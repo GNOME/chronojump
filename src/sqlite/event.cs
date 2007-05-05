@@ -48,16 +48,20 @@ class SqliteEvent : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert(string tableName, string eventName, string graphFileName)
+	public static int Insert(string tableName, string eventName, string graphFileName, bool dbconOpened)
 	{
-		dbcon.Open();
+		if(! dbconOpened) {
+			dbcon.Open();
+		}
 		dbcmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
 				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
-		dbcon.Close();
+		if(! dbconOpened) {
+			dbcon.Close();
+		}
 
 		return myLast;
 	}

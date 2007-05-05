@@ -66,13 +66,7 @@ public class EditJumpWindow
 
 	EditJumpWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "edit_jump", null);
-		}
-
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_jump", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -279,12 +273,7 @@ public class EditJumpRjWindow
 
 	EditJumpRjWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "edit_jump", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "edit_jump", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_jump", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
@@ -461,12 +450,7 @@ public class RepairJumpRjWindow
 
 	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump, int pDN) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "repair_sub_event", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.jumpRj = myJump;
@@ -497,6 +481,8 @@ public class RepairJumpRjWindow
 		button_delete.Sensitive = false;
 		
 		label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+		
+		treeview_subevents.Selection.Changed += onSelectionEntry;
 	}
 	
 	static public RepairJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
@@ -642,12 +628,14 @@ public class RepairJumpRjWindow
 		}
 	}
 
-	void on_treeview_cursor_changed (object o, EventArgs args) {
-		TreeView tv = (TreeView) o;
+	//void on_treeview_cursor_changed (object o, EventArgs args) {
+	void onSelectionEntry (object o, EventArgs args) {
+		//TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		
-		if (tv.Selection.GetSelected (out model, out iter)) {
+		//if (tv.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			button_add_before.Sensitive = true;
 			button_add_after.Sensitive = true;
 			button_delete.Sensitive = true;
@@ -839,12 +827,7 @@ public class JumpExtraWindow
 
 	JumpExtraWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jump_extra", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jump_extra", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_extra", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 	}
@@ -996,56 +979,22 @@ public class JumpExtraWindow
 public class JumpsMoreWindow : EventMoreWindow
 {
 	[Widget] Gtk.Window jumps_runs_more;
-	
-//	private TreeStore store;
-//	[Widget] Gtk.TreeView treeview_more;
-//	[Widget] Gtk.Button button_accept;
-
 	static JumpsMoreWindow JumpsMoreWindowBox;
-//	Gtk.Window parent;
-	
-//	private string selectedJumpType;
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
-//	private string selectedDescription;
-//	public Gtk.Button button_selected;
-
-/*	
-	JumpsMoreWindow () {
-		//for inheritance issues
-	}
-*/
 
 	public JumpsMoreWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-/*		
-		button_selected = new Gtk.Button();
-
-		createTreeView(treeview_more);
-*/
+		
 		selectedEventType = EventType.Types.JUMP.ToString();
 		
 		//name, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
 
 		initializeThings();
-
-/*
-		treeview_more.Model = store;
-		fillTreeView(treeview_more,store);
-
-		button_accept.Sensitive = false;
-		 
-		treeview_more.Selection.Changed += OnSelectionEntry;
-*/
 	}
 	
 	static public JumpsMoreWindow Show (Gtk.Window parent)
@@ -1165,34 +1114,7 @@ public class JumpsMoreWindow : EventMoreWindow
 	public void Destroy() {		
 		JumpsMoreWindowBox = null;
 	}
-
-/*
-	//fired when something is selected for drawing on imageTest
-	public Button Button_selected
-	{
-		get { return button_selected; }
-	}
-
-	public Button Button_accept 
-	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
-	}
 	
-	public string SelectedJumpType 
-	{
-		set {
-			selectedJumpType = value;	
-		}
-		get {
-			return selectedJumpType;
-		}
-	}
-*/	
 	public bool SelectedStartIn 
 	{
 		get {
@@ -1206,11 +1128,6 @@ public class JumpsMoreWindow : EventMoreWindow
 			return selectedExtraWeight;
 		}
 	}
-/*	
-	public string SelectedDescription {
-		get { return selectedDescription; }
-	}
-*/
 }
 
 //--------------------------------------------------------
@@ -1220,71 +1137,33 @@ public class JumpsMoreWindow : EventMoreWindow
 public class JumpsRjMoreWindow : EventMoreWindow 
 {
 	[Widget] Gtk.Window jumps_runs_more;
-	
-//	private TreeStore store;
-//	[Widget] Gtk.TreeView treeview_more;
-//	[Widget] Gtk.Button button_accept;
-
 	static JumpsRjMoreWindow JumpsRjMoreWindowBox;
-//	Gtk.Window parent;
 	
-//	private string selectedJumpType;
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
 	private bool selectedLimited;
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
-//	private string selectedDescription;
-//	public Gtk.Button button_selected;
 	
 	public JumpsRjMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "jumps_runs_more", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "jumps_runs_more", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 
-//		button_selected = new Gtk.Button();
-
 		//if jumps_runs_more is opened to showing Rj jumpTypes make it wider
 		jumps_runs_more.Resize(600,300);
-		
-//		createTreeView(treeview_more);
 		
 		selectedEventType = EventType.Types.JUMP.ToString();
 
 		//name, limited by, limited value, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof(string),
 				typeof (string), typeof (string), typeof (string));
-		treeview_more.Model = store;
-//		fillTreeView(treeview_more,store);
-			
-//		button_accept.Sensitive = false;
-
-//		treeview_more.Selection.Changed += OnSelectionEntry;
 		
 		initializeThings();
 	}
-
-/*	
-	private void OnSelectionEntry (object o, EventArgs args)
-	{
-		TreeModel model;
-		TreeIter iter;
-
-		if (((TreeSelection)o).GetSelected(out model, out iter))
-		{
-			selectedJumpType = (string) model.GetValue (iter, 0);
-			button_selected.Click();
-		}
-	}
-*/
-
+	
 	static public JumpsRjMoreWindow Show (Gtk.Window parent)
 	{
 		if (JumpsRjMoreWindowBox == null) {
@@ -1465,24 +1344,6 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		JumpsRjMoreWindowBox = null;
 	}
 
-/*	
-	//fired when something is selected for drawing on imageTest
-	public Button Button_selected
-	{
-		get { return button_selected; }
-	}
-
-	public Button Button_accept 
-	{
-		set { button_accept = value; } 
-		get { return button_accept; }
-	}
-	
-	public string SelectedJumpType 
-	{
-		get { return selectedJumpType; }
-	}
-*/	
 	public bool SelectedLimited 
 	{
 		get { return selectedLimited; }
@@ -1507,11 +1368,4 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	{
 		get { return selectedUnlimited; }
 	}
-
-/*	
-	public string SelectedDescription 
-	{
-		get { return selectedDescription; }
-	}
-*/
 }

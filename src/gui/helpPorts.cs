@@ -34,12 +34,7 @@ public class HelpPorts
 	public HelpPorts ()
 	{
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "dialog_help_ports", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "dialog_help_ports", null);
-		}
-		
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_help_ports", null);
 		gladeXML.Autoconnect(this);
 	
 		string messageInfo;

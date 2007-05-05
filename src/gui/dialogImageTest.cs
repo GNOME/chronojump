@@ -34,12 +34,7 @@ public class DialogImageTest
 	public DialogImageTest (EventType myEventType)
 	{
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "dialog_image_test", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "dialog_image_test", null);
-		}
-		
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_image_test", null);
 		gladeXML.Autoconnect(this);
 		
 		label_frame_test.Text = "<b>" + myEventType.Name + "</b>"; 

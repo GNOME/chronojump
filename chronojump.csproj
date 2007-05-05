@@ -173,8 +173,12 @@
     <EmbeddedResource Include="images\mini\jump_sj_l.png" />
     <EmbeddedResource Include="images\jump_cmj.png" />
     <EmbeddedResource Include="images\mini\jump_cmj.png" />
+    <EmbeddedResource Include="images\jump_cmj_l.png" />
+    <EmbeddedResource Include="images\mini\jump_cmj_l.png" />
     <EmbeddedResource Include="images\jump_abk.png" />
     <EmbeddedResource Include="images\mini\jump_abk.png" />
+    <EmbeddedResource Include="images\jump_abk_l.png" />
+    <EmbeddedResource Include="images\mini\jump_abk_l.png" />
     <EmbeddedResource Include="images\jump_dj.png" />
     <EmbeddedResource Include="images\mini\jump_dj.png" />
     <EmbeddedResource Include="images\jump_rj.png" />
@@ -194,11 +198,8 @@
     <EmbeddedResource Include="images\mini\agility_20yard.png" />
     <EmbeddedResource Include="images\agility_505.png" />
     <EmbeddedResource Include="images\mini\agility_505.png" />
-<!--
-don't compile, hexagon mini isn't done
     <EmbeddedResource Include="images\agility_hexagon.png" />
     <EmbeddedResource Include="images\mini\agility_hexagon.png" />
--->
     <EmbeddedResource Include="images\agility_illinois.png" />
     <EmbeddedResource Include="images\mini\agility_illinois.png" />
     <EmbeddedResource Include="images\agility_shuttle.png" />

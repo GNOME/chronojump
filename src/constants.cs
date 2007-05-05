@@ -99,8 +99,10 @@ public class Constants
 	}
 	//public soundTypes SoundType;
 
+	public static string GladeWindows = "chronojump.glade.";
 	public static string ImagesWindows = "chronojump.images.";
 	public static string ImagesMiniWindows = "chronojump.images.mini.";
+	public static string GladeLinux = "";
 	public static string ImagesLinux = "";
 	public static string ImagesMiniLinux = "mini/";
 

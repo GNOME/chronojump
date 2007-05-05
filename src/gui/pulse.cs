@@ -52,12 +52,7 @@ public class PulseExtraWindow
 
 	PulseExtraWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "pulse_extra", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "pulse_extra", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "pulse_extra", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 	}
@@ -187,12 +182,7 @@ public class RepairPulseWindow
 
 	RepairPulseWindow (Gtk.Window parent, Pulse myPulse, int pDN) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "repair_sub_event", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "repair_sub_event", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.myPulse = myPulse;
@@ -221,6 +211,8 @@ public class RepairPulseWindow
 		button_delete.Sensitive = false;
 		
 		label_totaltime_value.Text = getTotalTime().ToString() + " " + Catalog.GetString("seconds");
+		
+		treeview_subevents.Selection.Changed += onSelectionEntry;
 	}
 	
 	static public RepairPulseWindow Show (Gtk.Window parent, Pulse myPulse, int pDN)
@@ -336,12 +328,14 @@ public class RepairPulseWindow
 		}
 	}
 
-	void on_treeview_cursor_changed (object o, EventArgs args) {
-		TreeView time = (TreeView) o;
+	//void on_treeview_cursor_changed (object o, EventArgs args) {
+	void onSelectionEntry (object o, EventArgs args) {
+		//TreeView time = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		
-		if (time.Selection.GetSelected (out model, out iter)) {
+		//if (time.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			button_add_before.Sensitive = true;
 			button_add_after.Sensitive = true;
 			button_delete.Sensitive = true;

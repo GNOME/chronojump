@@ -59,12 +59,7 @@ public class PersonRecuperateWindow {
 
 	PersonRecuperateWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_recuperate", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_recuperate", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 
@@ -80,6 +75,8 @@ public class PersonRecuperateWindow {
 				typeof (string), typeof(string), typeof(string) );
 		treeview_person_recuperate.Model = store;
 		fillTreeView(treeview_person_recuperate, store, "");
+
+		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 	
 	static public PersonRecuperateWindow Show (Gtk.Window parent, int sessionID)
@@ -163,22 +160,20 @@ public class PersonRecuperateWindow {
 		button_recuperate.Sensitive = false;
 	}
 	
-	//puts a value in private member selected
-	protected virtual void on_treeview_person_recuperate_cursor_changed (object o, EventArgs args)
+	protected virtual void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		selected = "-1";
 
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
-			selected = (string) model.GetValue (iter, 0);
-
-			//allow clicking button_recuperate
+		if (((TreeSelection)o).GetSelected(out model, out iter))
+		{
+			selected = (string)model.GetValue (iter, 0);
 			button_recuperate.Sensitive = true;
 		}
+		Console.WriteLine (selected);
 	}
+
 	
 	protected virtual void on_button_close_clicked (object o, EventArgs args)
 	{
@@ -253,12 +248,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	
 	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_recuperate", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_recuperate", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 
@@ -286,6 +276,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		//check if there are rows checked for having sensitive or not in recuperate button
 		buttonRecuperateChangeSensitiveness();
 		
+		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 
 	static public new PersonsRecuperateFromOtherSessionWindow Show (Gtk.Window parent, int sessionID)
@@ -429,7 +420,8 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		return myPersonsReturn;
 	}
 	
-	protected override void on_treeview_person_recuperate_cursor_changed (object o, EventArgs args)
+	//protected override void on_treeview_person_recuperate_cursor_changed (object o, EventArgs args)
+	protected override void onSelectionEntry (object o, EventArgs args)
 	{
 		//unselect, because in this treeview the important it's what is checked on first row, and not the selected row
 		treeview_person_recuperate.Selection.UnselectAll();
@@ -556,12 +548,7 @@ public class PersonAddWindow {
 	
 	PersonAddWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_win", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_win", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.sessionID = sessionID;
@@ -699,12 +686,7 @@ public class PersonModifyWindow
 	
 	PersonModifyWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_win", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_win", null);
-		}
-		
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.sessionID = sessionID;
@@ -900,12 +882,7 @@ public class PersonAddMultipleWindow {
 	
 	PersonAddMultipleWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_add_multiple", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_add_multiple", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_add_multiple", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.sessionID = sessionID;
@@ -1122,12 +1099,7 @@ public class PersonShowAllEventsWindow {
 	
 	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson) {
 		Glade.XML gladeXML;
-		try {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade", "person_show_all_events", null);
-		} catch {
-			gladeXML = Glade.XML.FromAssembly ("chronojump.glade.chronojump.glade", "person_show_all_events", null);
-		}
-
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_show_all_events", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 

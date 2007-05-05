@@ -768,12 +768,10 @@ public class ChronoJump
 	
 	//private void on_treeview_persons_cursor_changed (object o, EventArgs args) {
 	private void onTreeviewPersonsSelectionEntry (object o, EventArgs args) {
-		//TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 
 		// you get the iter and the model if something is selected
-		//if (tv.Selection.GetSelected (out model, out iter)) {
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 1); //name, ID
 		
@@ -1036,14 +1034,11 @@ public class ChronoJump
 		//	SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
 
 		foreach (string str in SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)) //without filter, only select name
-		//string [] myStr = SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
-		//foreach (string str in myStr)
-                {
-                                //comboListStore.AppendValues (str);
-				//Console.Write(str);
-                                combo_jumps.AppendText (str);
-		}
+			combo_jumps.AppendText (str);
 		
+
+		combo_jumps.Active = 0;
+
 		//combo_jumps.DisableActivate ();
 		//combo_jumps.Entry.Changed += new EventHandler (on_combo_jumps_changed);
 		combo_jumps.Changed += new EventHandler (on_combo_jumps_changed);
@@ -1113,9 +1108,7 @@ public class ChronoJump
 
 	private void updateComboJumps() {
 		foreach (string str in SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)) //without filter, only select name
-                {
 			combo_jumps.AppendText (str);
-		}
 	}
 	
 	private void updateComboJumpsRj() {
@@ -1141,20 +1134,12 @@ public class ChronoJump
 	}
 	
 	private void on_combo_jumps_changed(object o, EventArgs args) {
-		//from monodoc
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 
-		TreeIter iter;
-		string selected = "";
+		string myText = getComboBoxActive(combo);
 
-		if (combo.GetActiveIter (out iter))
-			//Console.WriteLine ((string) combo.Model.GetValue (iter, 0));
-			selected = (string) combo.Model.GetValue (iter, 0);
-		//end from monodoc
-
-		//Console.WriteLine(selected);
 
 		//string myText = combo_jumps.Entry.Text;
 		//string myText = combo_jumps.Active.ToString();
@@ -1167,12 +1152,10 @@ public class ChronoJump
 		button_delete_selected_jump.Sensitive = true;
 		
 		treeview_jumps_storeReset();
-		//fillTreeView_jumps(myText);
-		fillTreeView_jumps(selected);
+		fillTreeView_jumps(myText);
 		
 		//expand all rows if a jump filter is selected:
-		//if (myText != Constants.AllJumpsName)
-		if (selected != Constants.AllJumpsName)
+		if (myText != Constants.AllJumpsName)
 			treeview_jumps.ExpandAll();
 	}
 	
@@ -1249,6 +1232,14 @@ public class ChronoJump
 			myTreeViewPulses.ExpandOptimal();
 	}
 
+
+	private static string getComboBoxActive(ComboBox myCombo) {
+		TreeIter iter;
+		string myText = "";
+		if (myCombo.GetActiveIter (out iter))
+			myText = (string) myCombo.Model.GetValue (iter, 0);
+		return myText;
+	}
 	
 	/* ---------------------------------------------------------
 	 * ----------------  DELETE EVENT, QUIT  -----------------------
@@ -1567,7 +1558,12 @@ public class ChronoJump
 
 			treeview_jumps_storeReset();
 			//string myText = combo_jumps.Entry.Text;
-			string myText = combo_jumps.Active.ToString();
+			//string myText = combo_jumps.Active.ToString();
+			//string myText = "";
+			//if (combo.GetActiveIter (out iter))
+			//	myText = (string) combo_jumps.Model.GetValue (iter, 0);
+			string myText = getComboBoxActive(combo_jumps);
+
 			fillTreeView_jumps(myText);
 			
 			//load the treeview_rj
@@ -1580,6 +1576,7 @@ public class ChronoJump
 			}
 		}
 	}
+
 	
 	private void on_show_all_person_events_activate (object o, EventArgs args) {
 		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson);
@@ -1798,7 +1795,8 @@ public class ChronoJump
 		try {
 			//... and recreate the treeview_jumps
 			//string myText = combo_jumps.Entry.Text;
-			string myText = combo_jumps.Active.ToString();
+			//string myText = combo_jumps.Active.ToString();
+			string myText = getComboBoxActive(combo_jumps);
 			createTreeView_jumps (treeview_jumps);
 			treeview_jumps_storeReset();
 			fillTreeView_jumps(myText);
@@ -3082,7 +3080,7 @@ public class ChronoJump
 		
 		treeview_jumps_storeReset();
 		//fillTreeView_jumps(combo_jumps.Entry.Text);
-		fillTreeView_jumps(combo_jumps.Active.ToString());
+		fillTreeView_jumps(getComboBoxActive(combo_jumps));
 	
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);

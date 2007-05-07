@@ -151,6 +151,7 @@
     <Compile Include="src\treeViewReactionTime.cs" />
     <Compile Include="src\treeViewRun.cs" />
     <Compile Include="src\util.cs" />
+    <Compile Include="src\utilGtk.cs" />
     <Compile Include="src\updateProgressBar.cs" />
     <Compile Include="src\prepareEventGraphObjects.cs" />
     <Compile Include="src\execute\event.cs" />

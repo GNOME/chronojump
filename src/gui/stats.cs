@@ -39,9 +39,9 @@ public class StatsWindow {
 	[Widget] Gtk.Box hbox_combo_stats_stat_type;
 	[Widget] Gtk.Box hbox_combo_stats_stat_subtype;
 	[Widget] Gtk.Box hbox_combo_stats_stat_apply_to;
-	[Widget] Gtk.Combo combo_stats_stat_type;
-	[Widget] Gtk.Combo combo_stats_stat_subtype;
-	[Widget] Gtk.Combo combo_stats_stat_apply_to;
+	[Widget] Gtk.ComboBox combo_stats_stat_type;
+	[Widget] Gtk.ComboBox combo_stats_stat_subtype;
+	[Widget] Gtk.ComboBox combo_stats_stat_apply_to;
 	[Widget] Gtk.CheckButton checkbutton_stats_sex;
 	[Widget] Gtk.CheckButton checkbutton_stats_always;
 	[Widget] Gtk.Button button_stats;
@@ -67,7 +67,7 @@ public class StatsWindow {
 	[Widget] Gtk.SpinButton spinbutton_mark_consecutives;
 	
 	[Widget] Gtk.Box hbox_combo_select_checkboxes;
-	[Widget] Gtk.Combo combo_select_checkboxes;
+	[Widget] Gtk.ComboBox combo_select_checkboxes;
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
@@ -215,57 +215,51 @@ public class StatsWindow {
 	}
 
 	private void createComboStatsType() {
-		combo_stats_stat_type = new Combo ();
-		combo_stats_stat_type.PopdownStrings = comboStatsTypeOptions;
+		combo_stats_stat_type = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions);
+		combo_stats_stat_type.Active = 0;
 		
-		//combo_stats_stat_type.DisableActivate ();
-		combo_stats_stat_type.Entry.Changed += new EventHandler (on_combo_stats_stat_type_changed);
+		combo_stats_stat_type.Changed += new EventHandler (on_combo_stats_stat_type_changed);
 
 		hbox_combo_stats_stat_type.PackStart(combo_stats_stat_type, false, false, 0);
 		hbox_combo_stats_stat_type.ShowAll();
-		
 		combo_stats_stat_type.Sensitive = true;
 	}
 	
 	private void createComboStatsSubType() {
-		combo_stats_stat_subtype = new Combo ();
+		combo_stats_stat_subtype = ComboBox.NewText ();
 		
-		//combo_stats_stat_subtype.DisableActivate ();
-		combo_stats_stat_subtype.Entry.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
+		combo_stats_stat_subtype.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
 
 		hbox_combo_stats_stat_subtype.PackStart(combo_stats_stat_subtype, false, false, 0);
 		hbox_combo_stats_stat_subtype.ShowAll();
-		
 		combo_stats_stat_subtype.Sensitive = true;
 	}
 
 	private void createComboStatsApplyTo() {
-		combo_stats_stat_apply_to = new Combo ();
+		combo_stats_stat_apply_to = ComboBox.NewText ();
 		
-		//combo_stats_stat_apply_to.DisableActivate ();
-		combo_stats_stat_apply_to.Entry.Changed += new EventHandler (on_combo_stats_stat_apply_to_changed);
+		combo_stats_stat_apply_to.Changed += new EventHandler (on_combo_stats_stat_apply_to_changed);
 
 		hbox_combo_stats_stat_apply_to.PackStart(combo_stats_stat_apply_to, false, false, 0);
 		hbox_combo_stats_stat_apply_to.ShowAll();
-		
 		combo_stats_stat_apply_to.Sensitive = true;
 	}
 
 	private void createComboSelectCheckboxes() {
-		combo_select_checkboxes = new Combo ();
-		combo_select_checkboxes.PopdownStrings = comboCheckboxesOptions;
+		combo_select_checkboxes = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions);
 		
 		//combo_select_checkboxes.DisableActivate ();
-		combo_select_checkboxes.Entry.Changed += new EventHandler (on_combo_select_checkboxes_changed);
+		combo_select_checkboxes.Changed += new EventHandler (on_combo_select_checkboxes_changed);
 
 		hbox_combo_select_checkboxes.PackStart(combo_select_checkboxes, false, false, 0);
 		hbox_combo_select_checkboxes.ShowAll();
-		
 		combo_select_checkboxes.Sensitive = true;
 	}
 	
 	private void on_combo_select_checkboxes_changed(object o, EventArgs args) {
-		string myText = combo_select_checkboxes.Entry.Text;
+		string myText = UtilGtk.ComboGetActive(combo_select_checkboxes);
 			
 		if (myText != "" & myText != Catalog.GetString("Selected")) {
 			try {
@@ -276,7 +270,7 @@ public class StatsWindow {
 						//this will redo the treeview
 						checkbutton_stats_sex.Active = true;
 						//put another time the value Male or Female in combo_select_checkboxes
-						combo_select_checkboxes.Entry.Text = myText;
+						combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, myText);
 					}
 				}
 				
@@ -289,86 +283,99 @@ public class StatsWindow {
 	
 	private void updateComboStats() {
 		string [] nullOptions = { "-" };
-		if(combo_stats_stat_type.Entry.Text == Catalog.GetString("Global") ) 
+		if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Global") ) 
 		{
-			combo_stats_stat_subtype.PopdownStrings = nullOptions;
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions);
 			combo_stats_stat_subtype.Sensitive = false;
 			
-			combo_stats_stat_apply_to.PopdownStrings = nullOptions;
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, nullOptions);
 			combo_stats_stat_apply_to.Sensitive = false;
 		}
-		else if(combo_stats_stat_type.Entry.Text == Catalog.GetString("Jumper") )
+		else if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Jumper") )
 		{
-			combo_stats_stat_subtype.PopdownStrings = nullOptions;
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions);
 			combo_stats_stat_subtype.Sensitive = false;
 			
-			combo_stats_stat_apply_to.PopdownStrings = 
-				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, false); //not reversed
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to,  
+				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, false)); //not reversed
 			combo_stats_stat_apply_to.Sensitive = true;
+			combo_stats_stat_apply_to.Active = 0;
 		} 
-		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Simple") ) 
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Simple") ) 
 		{
-			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeSimpleOptions;
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions);
 			combo_stats_stat_subtype.Sensitive = true;
+			combo_stats_stat_subtype.Active = 0;
 			
 			//by default show all simple nonTC jumps, but if combo_stats_subtype changed
 			//updateComboStatsSubType() will do the work
-			combo_stats_stat_apply_to.PopdownStrings = 
-				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true); //only select name
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true)); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
+			combo_stats_stat_apply_to.Active = 0;
 		} 
-		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("With TC") ) 
 		{
-			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeWithTCOptions;
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeWithTCOptions);
 			combo_stats_stat_subtype.Sensitive = true;
+			combo_stats_stat_subtype.Active = 0;
 			
-			combo_stats_stat_apply_to.PopdownStrings = 
-				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true); //only select name
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true)); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
+			combo_stats_stat_apply_to.Active = 0;
 		} 
-		else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Reactive") ) 
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Reactive") ) 
 		{
-			combo_stats_stat_subtype.PopdownStrings = comboStatsSubTypeReactiveOptions;
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeReactiveOptions);
 			combo_stats_stat_subtype.Sensitive = true;
+			combo_stats_stat_subtype.Active = 0;
 			
-			combo_stats_stat_apply_to.PopdownStrings = 
-				SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true); //only select name
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+				SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true)); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
+			combo_stats_stat_apply_to.Active = 0;
 		}
 
 		fillTreeView_stats(false);
 	}
 
 	private void updateComboStatsSubType() {
-		if (combo_stats_stat_type.Entry.Text == Catalog.GetString("Simple") ) 
+		if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Simple") ) 
 		{
-			if(combo_stats_stat_subtype.Entry.Text == Catalog.GetString("No indexes")) {
-				combo_stats_stat_apply_to.PopdownStrings = 
-					SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true); //only select name
+			if(UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("No indexes")) {
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+					SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true)); //only select name
 				combo_stats_stat_apply_to.Sensitive = true;
-			} else if (combo_stats_stat_subtype.Entry.Text == Constants.IeIndexFormula) {
-				combo_stats_stat_apply_to.Entry.Text = "CMJ, SJ";
+				combo_stats_stat_apply_to.Active = 0;
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.IeIndexFormula) {
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "CMJ, SJ");
+				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
-			} else if (combo_stats_stat_subtype.Entry.Text == Constants.IubIndexFormula) {
-				combo_stats_stat_apply_to.Entry.Text = "ABK, CMJ";
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.IubIndexFormula) {
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "ABK, CMJ");
+				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
-			} else if (combo_stats_stat_subtype.Entry.Text == Constants.FvIndexFormula) {
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.FvIndexFormula) {
 				//"F/V sj+(100%)/sj *100",	//fvIndexFormula
-				combo_stats_stat_apply_to.Entry.Text = "SJl(100%), SJ";
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "SJl(100%), SJ");
+				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else {
 				//Constants.CmjPlusPotencyFormula
-				combo_stats_stat_apply_to.Entry.Text = "CMJl";
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "CMJl");
+				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
-		}  else if (combo_stats_stat_type.Entry.Text == Catalog.GetString("With TC") ) 
+		}  else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("With TC") ) 
 		{
-			combo_stats_stat_apply_to.PopdownStrings = 
-				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true); //only select name
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true)); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
+			combo_stats_stat_apply_to.Active = 0;
 		} 
 		
-		if (combo_stats_stat_subtype.Entry.Text == Catalog.GetString("Evolution") )  {
+		if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") )  {
 			hbox_mark_consecutives.Show();
 		} else {
 			hbox_mark_consecutives.Hide();
@@ -393,9 +400,9 @@ public class StatsWindow {
 		
 		Console.WriteLine("----------FILLING treeview stats---------------");
 		
-		string statisticType = combo_stats_stat_type.Entry.Text;
-		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
-		string statisticApplyTo = combo_stats_stat_apply_to.Entry.Text;
+		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
+		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
+		string statisticApplyTo = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
 
 		if(statsColumnsToRemove && !graph) {
 			statsRemoveColumns();
@@ -430,7 +437,7 @@ public class StatsWindow {
 		}
 
 		int rj_evolution_mark_consecutives = -1;
-		if (combo_stats_stat_subtype.Entry.Text == Catalog.GetString("Evolution") &&
+		if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") &&
 			checkbutton_mark_consecutives.Active ) {
 			rj_evolution_mark_consecutives = Convert.ToInt32 ( spinbutton_mark_consecutives.Value ); 
 		}
@@ -505,7 +512,7 @@ public class StatsWindow {
 		//every time a stat is created, all rows should be checked (except AVG & SD)
 		//but not if we clicked graph
 		if(! graph)
-			combo_select_checkboxes.Entry.Text = Catalog.GetString("All");
+			combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("All"));
 		
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
@@ -524,7 +531,7 @@ public class StatsWindow {
 	private void on_fake_button_row_checked_clicked (object o, EventArgs args) {
 		Console.WriteLine("fakeButtonRowCheckedUnchecked in gui/stats.cs !!");
 
-		combo_select_checkboxes.Entry.Text = Catalog.GetString("Selected");
+		combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("Selected"));
 	}
 	
 	private void on_fake_button_rows_selected_clicked (object o, EventArgs args) {
@@ -539,7 +546,7 @@ public class StatsWindow {
 		button_add_to_report.Sensitive = false;
 
 		//put none in combo
-		combo_select_checkboxes.Entry.Text = Catalog.GetString("None");
+		combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("None"));
 	}
 	
 	
@@ -619,8 +626,8 @@ public class StatsWindow {
 
 	
 	private void update_stats_widgets_sensitiveness() {
-		string statisticType = combo_stats_stat_type.Entry.Text;
-		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
+		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
+		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		if(statisticType == "" || statisticSubType == "") {
 			//for an unknown reason, when we select an option in the combo stats, 
 			//the on_combo_stats_stat_type_changed it's called two times? 
@@ -706,9 +713,9 @@ public class StatsWindow {
 		updateComboStatsSubType();
 		update_stats_widgets_sensitiveness();
 		
-		string myText = combo_stats_stat_type.Entry.Text;
-		string myText2 = combo_stats_stat_subtype.Entry.Text;
-		string myText3 = combo_stats_stat_apply_to.Entry.Text;
+		string myText = UtilGtk.ComboGetActive(combo_stats_stat_type);
+		string myText2 = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
+		string myText3 = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
 		if (myText != "" && (myText2 != "" || myText3 !="") ) {
 			fillTreeView_stats(false);
 		}
@@ -719,9 +726,9 @@ public class StatsWindow {
 		//for an unknown reason, when we select an option in the combo stats, 
 		//the on_combo_stats_stat_type_changed it's called two times? 
 		//in the first the value of Entry.Text is "";
-		string myText = combo_stats_stat_type.Entry.Text;
-		string myText2 = combo_stats_stat_subtype.Entry.Text;
-		string myText3 = combo_stats_stat_apply_to.Entry.Text;
+		string myText = UtilGtk.ComboGetActive(combo_stats_stat_type);
+		string myText2 = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
+		string myText3 = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
 		if (myText != "" && (myText2 != "" || myText3 !="") ) {
 			fillTreeView_stats(false);
 		}
@@ -805,8 +812,8 @@ public class StatsWindow {
 	private void on_button_add_to_report_clicked (object o, EventArgs args) {
 		Console.WriteLine("add to report window");
 
-		string statisticType = combo_stats_stat_type.Entry.Text;
-		string statisticSubType = combo_stats_stat_subtype.Entry.Text;
+		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
+		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		if(statisticType == "" || statisticSubType == "") {
 			//for an unknown reason, when we select an option in the combo stats, 
 			//the on_combo_stats_stat_type_changed it's called two times? 
@@ -818,7 +825,7 @@ public class StatsWindow {
 				statisticSubType += "." + ( spinbutton_mark_consecutives.Value ).ToString(); 
 			}
 			
-			string statisticApplyTo = combo_stats_stat_apply_to.Entry.Text;
+			string statisticApplyTo = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
 			if(statisticApplyTo.Length == 0) {
 				statisticApplyTo = "-";
 			}

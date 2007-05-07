@@ -999,7 +999,7 @@ comments</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_CENTER</property>
-	  <property name="wrap">False</property>
+	  <property name="wrap">True</property>
 	  <property name="selectable">False</property>
 	  <property name="xalign">0.5</property>
 	  <property name="yalign">0.5</property>
@@ -1013,7 +1013,7 @@ comments</property>
 	<packing>
 	  <property name="padding">0</property>
 	  <property name="expand">False</property>
-	  <property name="fill">False</property>
+	  <property name="fill">True</property>
 	</packing>
       </child>
 
@@ -10743,19 +10743,6 @@ If you need more, just repeat the operation later.</property>
 			      <property name="spacing">4</property>
 
 			      <child>
-				<widget class="GtkHButtonBox" id="hbuttonbox27">
-				  <property name="visible">True</property>
-				  <property name="layout_style">GTK_BUTTONBOX_DEFAULT_STYLE</property>
-				  <property name="spacing">0</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">False</property>
-				</packing>
-			      </child>
-
-			      <child>
 				<widget class="GtkHBox" id="hbox126">
 				  <property name="visible">True</property>
 				  <property name="homogeneous">False</property>
@@ -11046,7 +11033,7 @@ If you need more, just repeat the operation later.</property>
 		    <packing>
 		      <property name="padding">0</property>
 		      <property name="expand">False</property>
-		      <property name="fill">True</property>
+		      <property name="fill">False</property>
 		    </packing>
 		  </child>
 		</widget>
@@ -11072,7 +11059,7 @@ If you need more, just repeat the operation later.</property>
 		    <widget class="GtkVBox" id="vbox20">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkFrame" id="frame1">
@@ -11359,7 +11346,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image110">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -11388,7 +11375,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1972">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-edit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -11417,7 +11404,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image333">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-in</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -11446,7 +11433,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image330">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-out</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -11611,7 +11598,7 @@ If you need more, just repeat the operation later.</property>
 		    <widget class="GtkVBox" id="vbox21">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkFrame" id="frame3">
@@ -11902,7 +11889,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image111">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -11930,7 +11917,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkImage" id="image1348">
 					      <property name="visible">True</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="icon_name">stock_form-add-field</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
@@ -11960,7 +11947,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1971">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-edit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -11989,7 +11976,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image334">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-in</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -12018,7 +12005,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image335">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-fit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -12047,7 +12034,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image332">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-out</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -12213,7 +12200,7 @@ If you need more, just repeat the operation later.</property>
 		    <widget class="GtkVBox" id="vbox34">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkFrame" id="frame5">
@@ -12664,7 +12651,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image445">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -12693,7 +12680,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1973">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-edit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -12722,7 +12709,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image442">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-in</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -12751,7 +12738,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image443">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-out</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -12916,7 +12903,7 @@ If you need more, just repeat the operation later.</property>
 		    <widget class="GtkVBox" id="vbox36">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkFrame" id="frame7">
@@ -13186,7 +13173,7 @@ If you need more, just repeat the operation later.</property>
 				<widget class="GtkVBox" id="vbox41">
 				  <property name="visible">True</property>
 				  <property name="homogeneous">False</property>
-				  <property name="spacing">0</property>
+				  <property name="spacing">6</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hbox64">
@@ -13207,7 +13194,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image547">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13235,7 +13222,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkImage" id="image1406">
 					      <property name="visible">True</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="icon_name">stock_form-add-field</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
@@ -13265,7 +13252,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1974">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-edit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13294,7 +13281,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image544">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-in</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13323,7 +13310,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image548">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-fit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13352,7 +13339,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image545">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-out</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13542,7 +13529,7 @@ If you need more, just repeat the operation later.</property>
 				<widget class="GtkVBox" id="vbox94">
 				  <property name="visible">True</property>
 				  <property name="homogeneous">False</property>
-				  <property name="spacing">0</property>
+				  <property name="spacing">6</property>
 
 				  <child>
 				    <widget class="GtkHBox" id="hbox142">
@@ -13563,7 +13550,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1964">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13592,7 +13579,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1975">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-edit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13621,7 +13608,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1966">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-in</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13650,7 +13637,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1967">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-out</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13779,7 +13766,7 @@ If you need more, just repeat the operation later.</property>
 		    <widget class="GtkVBox" id="vbox67">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">0</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkFrame" id="frame13">
@@ -13969,7 +13956,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1472">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13997,7 +13984,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkImage" id="image1473">
 					      <property name="visible">True</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="icon_name">stock_form-add-field</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
@@ -14027,7 +14014,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1976">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-edit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -14056,7 +14043,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1475">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-in</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -14085,7 +14072,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1476">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-fit</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -14114,7 +14101,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1477">
 					      <property name="visible">True</property>
 					      <property name="stock">gtk-zoom-out</property>
-					      <property name="icon_size">4</property>
+					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>

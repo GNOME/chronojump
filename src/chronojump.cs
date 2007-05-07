@@ -51,11 +51,10 @@ public class ChronoJump
 	[Widget] Gtk.Box hbox_runs_interval;
 	[Widget] Gtk.Box hbox_pulses;
 	[Widget] Gtk.ComboBox combo_jumps;
-//	[Widget] Gtk.Combo combo_jumps;
-	[Widget] Gtk.Combo combo_jumps_rj;
-	[Widget] Gtk.Combo combo_runs;
-	[Widget] Gtk.Combo combo_runs_interval;
-	[Widget] Gtk.Combo combo_pulses;
+	[Widget] Gtk.ComboBox combo_jumps_rj;
+	[Widget] Gtk.ComboBox combo_runs;
+	[Widget] Gtk.ComboBox combo_runs_interval;
+	[Widget] Gtk.ComboBox combo_pulses;
 
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump;
@@ -1027,125 +1026,74 @@ public class ChronoJump
 	 *  --------------------------------------------------------
 	 */
 	private void createComboJumps() {
-		//combo_jumps = new Combo ();
 		combo_jumps = ComboBox.NewText ();
-
-		//combo_jumps.PopdownStrings = 
-		//	SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true); //without filter, only select name
-
-		foreach (string str in SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)) //without filter, only select name
-			combo_jumps.AppendText (str);
+		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)); //without filter, only select name
 		
-
 		combo_jumps.Active = 0;
-
-		//combo_jumps.DisableActivate ();
-		//combo_jumps.Entry.Changed += new EventHandler (on_combo_jumps_changed);
 		combo_jumps.Changed += new EventHandler (on_combo_jumps_changed);
 
 		hbox_combo_jumps.PackStart(combo_jumps, true, true, 0);
 		hbox_combo_jumps.ShowAll();
-		
 		combo_jumps.Sensitive = false;
 	}
 	
 	private void createComboJumpsRj() {
-		combo_jumps_rj = new Combo ();
-		combo_jumps_rj.PopdownStrings = SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true); //only select name
+		combo_jumps_rj = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true)); //only select name
 		
-		combo_jumps_rj.DisableActivate ();
-		combo_jumps_rj.Entry.Changed += new EventHandler (on_combo_jumps_rj_changed);
+		combo_jumps_rj.Active = 0;
+		combo_jumps_rj.Changed += new EventHandler (on_combo_jumps_rj_changed);
 
 		hbox_combo_jumps_rj.PackStart(combo_jumps_rj, true, true, 0);
 		hbox_combo_jumps_rj.ShowAll();
-		
 		combo_jumps_rj.Sensitive = false;
 	}
 	
 	private void createComboRuns() {
-		combo_runs = new Combo ();
-		combo_runs.PopdownStrings = 
-			SqliteRunType.SelectRunTypes(Constants.AllRunsName, true); //without filter, only select name
+		combo_runs = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true)); //without filter, only select name
 		
-		combo_runs.DisableActivate ();
-		combo_runs.Entry.Changed += new EventHandler (on_combo_runs_changed);
+		combo_runs.Active = 0;
+		combo_runs.Changed += new EventHandler (on_combo_runs_changed);
 
 		hbox_combo_runs.PackStart(combo_runs, true, true, 0);
 		hbox_combo_runs.ShowAll();
-		
 		combo_runs.Sensitive = false;
 	}
 
 	private void createComboRunsInterval() {
-		combo_runs_interval = new Combo ();
-		combo_runs_interval.PopdownStrings = 
-			SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true); //without filter, only select name
+		combo_runs_interval = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true)); //without filter, only select name
 		
-		combo_runs_interval.DisableActivate ();
-		combo_runs_interval.Entry.Changed += new EventHandler (on_combo_runs_interval_changed);
+		combo_runs_interval.Active = 0;
+		combo_runs_interval.Changed += new EventHandler (on_combo_runs_interval_changed);
 
 		hbox_combo_runs_interval.PackStart(combo_runs_interval, true, true, 0);
 		hbox_combo_runs_interval.ShowAll();
-		
 		combo_runs_interval.Sensitive = false;
 	}
 	
 	//no need of reationTimes
 
 	private void createComboPulses() {
-		combo_pulses = new Combo ();
-		combo_pulses.PopdownStrings = 
-			SqlitePulseType.SelectPulseTypes(Constants.AllPulsesName, true); //without filter, only select name
+		combo_pulses = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_pulses, SqlitePulseType.SelectPulseTypes(Constants.AllPulsesName, true)); //without filter, only select name
 		
-		combo_pulses.DisableActivate ();
-		combo_pulses.Entry.Changed += new EventHandler (on_combo_pulses_changed);
+		combo_pulses.Active = 0;
+		combo_pulses.Changed += new EventHandler (on_combo_pulses_changed);
 
 		hbox_combo_pulses.PackStart(combo_pulses, true, true, 0);
 		hbox_combo_pulses.ShowAll();
-		
 		combo_pulses.Sensitive = false;
 	}
 
-	private void updateComboJumps() {
-		foreach (string str in SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)) //without filter, only select name
-			combo_jumps.AppendText (str);
-	}
-	
-	private void updateComboJumpsRj() {
-		combo_jumps_rj.PopdownStrings = 
-			SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true); //only select name
-	}
-	
-	private void updateComboRuns() {
-		combo_runs.PopdownStrings = 
-			SqliteRunType.SelectRunTypes(Constants.AllRunsName, true); //only select name
-	}
-	
-	private void updateComboRunsInterval() {
-		combo_runs_interval.PopdownStrings = 
-			SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true); //only select name
-	}
-	
-	//no need of reationTimes
-	
-	private void updateComboPulses() {
-		combo_runs.PopdownStrings = 
-			SqlitePulseType.SelectPulseTypes(Constants.AllRunsName, true); //only select name
-	}
-	
 	private void on_combo_jumps_changed(object o, EventArgs args) {
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
-
-		string myText = getComboBoxActive(combo);
-
-
-		//string myText = combo_jumps.Entry.Text;
-		//string myText = combo_jumps.Active.ToString();
+		string myText = UtilGtk.ComboGetActive(combo);
 
 		//show the edit-delete selected jumps buttons:
-		
 		menuitem_edit_selected_jump.Sensitive = true;
 		menuitem_delete_selected_jump.Sensitive = true;
 		button_edit_selected_jump.Sensitive = true;
@@ -1160,10 +1108,12 @@ public class ChronoJump
 	}
 	
 	private void on_combo_jumps_rj_changed(object o, EventArgs args) {
-		string myText = combo_jumps_rj.Entry.Text;
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+		string myText = UtilGtk.ComboGetActive(combo);
 
 		//show the edit-delete selected jumps buttons:
-
 		menuitem_edit_selected_jump_rj.Sensitive = true;
 		menuitem_delete_selected_jump_rj.Sensitive = true;
 		button_edit_selected_jump_rj.Sensitive = true;
@@ -1180,7 +1130,10 @@ public class ChronoJump
 	}
 
 	private void on_combo_runs_changed(object o, EventArgs args) {
-		string myText = combo_runs.Entry.Text;
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+		string myText = UtilGtk.ComboGetActive(combo);
 
 		//show the edit-delete selected runs buttons:
 		menuitem_edit_selected_run.Sensitive = true;
@@ -1197,7 +1150,10 @@ public class ChronoJump
 	}
 
 	private void on_combo_runs_interval_changed(object o, EventArgs args) {
-		string myText = combo_runs_interval.Entry.Text;
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+		string myText = UtilGtk.ComboGetActive(combo);
 
 		//show the edit-delete selected runs buttons:
 		menuitem_edit_selected_run_interval.Sensitive = true;
@@ -1216,7 +1172,10 @@ public class ChronoJump
 	//no need of reationTimes
 	
 	private void on_combo_pulses_changed(object o, EventArgs args) {
-		string myText = combo_pulses.Entry.Text;
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+		string myText = UtilGtk.ComboGetActive(combo);
 
 		//show the edit-delete selected runs buttons:
 		//menuitem_edit_selected_run_interval.Sensitive = true;
@@ -1233,14 +1192,6 @@ public class ChronoJump
 	}
 
 
-	private static string getComboBoxActive(ComboBox myCombo) {
-		TreeIter iter;
-		string myText = "";
-		if (myCombo.GetActiveIter (out iter))
-			myText = (string) myCombo.Model.GetValue (iter, 0);
-		return myText;
-	}
-	
 	/* ---------------------------------------------------------
 	 * ----------------  DELETE EVENT, QUIT  -----------------------
 	 *  --------------------------------------------------------
@@ -1555,21 +1506,21 @@ public class ChronoJump
 						rowToSelect);
 				sensitiveGuiYesPerson();
 			}
-
+/*
 			treeview_jumps_storeReset();
-			//string myText = combo_jumps.Entry.Text;
-			//string myText = combo_jumps.Active.ToString();
-			//string myText = "";
-			//if (combo.GetActiveIter (out iter))
-			//	myText = (string) combo_jumps.Model.GetValue (iter, 0);
-			string myText = getComboBoxActive(combo_jumps);
-
+			string myText = UtilGtk.ComboGetActive(combo_jumps);
 			fillTreeView_jumps(myText);
 			
 			//load the treeview_rj
 			treeview_jumps_rj_storeReset();
 			myText = combo_jumps_rj.Entry.Text;
 			fillTreeView_jumps_rj(myText);
+*/
+			on_combo_jumps_changed(combo_jumps, args);
+			on_combo_jumps_rj_changed(combo_jumps_rj, args);
+			on_combo_runs_changed(combo_runs, args);
+			on_combo_runs_interval_changed(combo_runs_interval, args);
+			on_combo_pulses_changed(combo_pulses, args);
 
 			if(createdStatsWin) {
 				statsWin.FillTreeView_stats(false, true);
@@ -1793,31 +1744,19 @@ public class ChronoJump
 
 		//this will crash if currentSession is not created/loaded, then go to catch
 		try {
-			//... and recreate the treeview_jumps
-			//string myText = combo_jumps.Entry.Text;
-			//string myText = combo_jumps.Active.ToString();
-			string myText = getComboBoxActive(combo_jumps);
 			createTreeView_jumps (treeview_jumps);
-			treeview_jumps_storeReset();
-			fillTreeView_jumps(myText);
-
-			//... and recreate the treeview_jumps_rj
-			myText = combo_jumps_rj.Entry.Text;
 			createTreeView_jumps_rj (treeview_jumps_rj);
-			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(myText);
-
-			//... and recreate the treeview_runs
-			myText = combo_runs.Entry.Text;
 			createTreeView_runs (treeview_runs);
-			treeview_runs_storeReset();
-			fillTreeView_runs(myText);
-
-			//... and recreate the treeview_runs_interval
-			myText = combo_runs_interval.Entry.Text;
 			createTreeView_runs_interval (treeview_runs_interval);
-			treeview_runs_interval_storeReset();
-			fillTreeView_runs_interval(myText);
+			createTreeView_reaction_times(treeview_reaction_times);
+			createTreeView_pulses(treeview_pulses);
+			
+			on_combo_jumps_changed(combo_jumps, args);
+			on_combo_jumps_rj_changed(combo_jumps_rj, args);
+			on_combo_runs_changed(combo_runs, args);
+			on_combo_runs_interval_changed(combo_runs_interval, args);
+			//currently no combo_reaction_times
+			on_combo_pulses_changed(combo_pulses, args);
 		}
 		catch 
 		{
@@ -3079,8 +3018,7 @@ public class ChronoJump
 		Console.WriteLine("edit selected jump accepted");
 		
 		treeview_jumps_storeReset();
-		//fillTreeView_jumps(combo_jumps.Entry.Text);
-		fillTreeView_jumps(getComboBoxActive(combo_jumps));
+		fillTreeView_jumps(UtilGtk.ComboGetActive(combo_jumps));
 	
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3091,7 +3029,7 @@ public class ChronoJump
 		Console.WriteLine("edit selected jump RJ accepted");
 		
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(combo_jumps_rj.Entry.Text);
+		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3135,7 +3073,7 @@ public class ChronoJump
 		Console.WriteLine("edit selected run accepted");
 		
 		treeview_runs_storeReset();
-		fillTreeView_runs(combo_runs.Entry.Text);
+		fillTreeView_runs(UtilGtk.ComboGetActive(combo_runs));
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3146,7 +3084,7 @@ public class ChronoJump
 		Console.WriteLine("edit selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(combo_runs_interval.Entry.Text);
+		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_runs_interval));
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3157,64 +3095,21 @@ public class ChronoJump
 		notebook_change(4);
 		Console.WriteLine("Edit selected reaction time");
 		appbar2.Push ( 1, "Edit selected reaction time (NOT IMPLEMENTED YET)");
-		/*
-		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewRuns.RunSelectedID > 0) {
-			//3.- obtain the data of the selected run
-			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.RunSelectedID );
-			Console.WriteLine(myRun);
-		
-			//4.- edit this run
-			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber);
-			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
-		}
-		*/
 	}
 	
 	private void on_edit_selected_reaction_time_accepted (object o, EventArgs args) {
 		Console.WriteLine("edit selected reaction time accepted");
 		
-		/*
-		treeview_runs_storeReset();
-		fillTreeView_runs(combo_runs.Entry.Text);
-		
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
-		}
-		*/
 	}
 	
 	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
 		notebook_change(5);
 		Console.WriteLine("Edit selected pulse");
 		appbar2.Push ( 1, "Edit selected pulse (NOT IMPLEMENTED YET)");
-		/*
-		//1.- check that there's a line selected
-		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
-		if (myTreeViewRuns.RunSelectedID > 0) {
-			//3.- obtain the data of the selected run
-			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.RunSelectedID );
-			Console.WriteLine(myRun);
-		
-			//4.- edit this run
-			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber);
-			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
-		}
-		*/
 	}
 	
 	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
 		Console.WriteLine("edit selected pulse accepted");
-		
-		/*
-		treeview_runs_storeReset();
-		fillTreeView_runs(combo_runs.Entry.Text);
-		
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
-		}
-		*/
 	}
 	
 
@@ -3580,8 +3475,8 @@ public class ChronoJump
 	
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
 		Console.WriteLine("ACCEPTED Add new jump type");
-		updateComboJumps();
-		updateComboJumpsRj();
+		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true)); //without filter, only select name
 	}
 
 	private void on_run_type_add_activate (object o, EventArgs args) {
@@ -3593,27 +3488,18 @@ public class ChronoJump
 	
 	private void on_run_type_add_accepted (object o, EventArgs args) {
 		Console.WriteLine("ACCEPTED Add new run type");
-		updateComboRuns();
-		updateComboRunsInterval();
+		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true)); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true)); //without filter, only select name
 	}
 
 	//reactiontime has no types
 
 	private void on_pulse_type_add_activate (object o, EventArgs args) {
 		Console.WriteLine("Add new pulse type");
-			
-		/*
-		runTypeAddWin = RunTypeAddWindow.Show(app1);
-		runTypeAddWin.Button_accept.Clicked += new EventHandler(on_run_type_add_accepted);
-		*/
 	}
 	
 	private void on_pulse_type_add_accepted (object o, EventArgs args) {
 		Console.WriteLine("ACCEPTED Add new pulse type");
-		/*
-		updateComboRuns();
-		updateComboRunsInterval();
-		*/
 	}
 
 	/* ---------------------------------------------------------
@@ -3640,7 +3526,7 @@ public class ChronoJump
 		Console.WriteLine("Repair selected reactive jump accepted");
 		
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(combo_jumps_rj.Entry.Text);
+		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3667,7 +3553,7 @@ public class ChronoJump
 		Console.WriteLine("repair selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(combo_runs_interval.Entry.Text);
+		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_runs_interval));
 		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3695,7 +3581,7 @@ public class ChronoJump
 		Console.WriteLine("repair selected pulse accepted");
 		
 		treeview_pulses_storeReset();
-		fillTreeView_pulses(combo_pulses.Entry.Text);
+		fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
 		
 		/*
 		if(createdStatsWin) {

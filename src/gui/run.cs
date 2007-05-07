@@ -43,9 +43,9 @@ public class EditRunWindow
 	[Widget] Gtk.Label label_speed_value;
 	
 	[Widget] Gtk.Box hbox_combo_runType;
-	[Widget] Gtk.Combo combo_runType;
+	[Widget] Gtk.ComboBox combo_runType;
 	[Widget] Gtk.Box hbox_combo_runner;
-	[Widget] Gtk.Combo combo_runners;
+	[Widget] Gtk.ComboBox combo_runners;
 	
 	[Widget] Gtk.TextView textview_description;
 	
@@ -111,35 +111,24 @@ public class EditRunWindow
 		tb.SetText(myRun.Description);
 		textview_description.Buffer = tb;
 
-		combo_runType = new Combo ();
+		combo_runType = ComboBox.NewText ();
 		string [] runTypes = SqliteRunType.SelectRunTypes("", true); //don't show allRunsName row, only select name
-		combo_runType.PopdownStrings = runTypes;
-		foreach (string runType in runTypes) {
-			if (runType == myRun.Type) {
-				combo_runType.Entry.Text = runType;
-			}
-		}
-		combo_runType.Entry.Changed += new EventHandler (on_combo_runType_changed);
+		UtilGtk.ComboUpdate(combo_runType, runTypes);
+		combo_runType.Active = UtilGtk.ComboMakeActive(runTypes, myRun.Type);
+		combo_runType.Changed += new EventHandler (on_combo_runType_changed);
 		hbox_combo_runType.PackStart(combo_runType, true, true, 0);
 		hbox_combo_runType.ShowAll();
 		
 		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
-		combo_runners = new Combo();
-		combo_runners.PopdownStrings = runners;
-		foreach (string runner in runners) {
-			Console.WriteLine("runner: {0}, name: {1}", runner, myRun.PersonID + ":" + myRun.RunnerName);
-			if (runner == myRun.PersonID + ":" + myRun.RunnerName) {
-				combo_runners.Entry.Text = runner;
-			}
-		}
+		combo_runners = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_runners, runners);
+		combo_runners.Active = UtilGtk.ComboMakeActive(runners, myRun.PersonID + ":" + myRun.RunnerName);
 		
 		hbox_combo_runner.PackStart(combo_runners, true, true, 0);
 		hbox_combo_runner.ShowAll();
 	
 		label_limited_name.Hide();
 		label_limited_value.Hide();
-		
-	
 	}
 		
 	private void on_entry_time_changed (object o, EventArgs args) {
@@ -168,7 +157,7 @@ public class EditRunWindow
 	private void on_combo_runType_changed (object o, EventArgs args) {
 		//if the distance of the new runType is fixed, put this distance
 		//if not conserve the old
-		RunType myRunType = new RunType (combo_runType.Entry.Text);
+		RunType myRunType = new RunType (UtilGtk.ComboGetActive(combo_runType));
 		if(myRunType.Distance != 0) {
 			entryDistance = myRunType.Distance.ToString();
 			entry_distance.Text = "";
@@ -197,12 +186,12 @@ public class EditRunWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		int runID = Convert.ToInt32 ( label_run_id_value.Text );
-		string myRunner = combo_runners.Entry.Text;
+		string myRunner = UtilGtk.ComboGetActive(combo_runners);
 		string [] myRunnerFull = myRunner.Split(new char[] {':'});
 		
 		string myDesc = textview_description.Buffer.Text;
 	
-		SqliteRun.Update(runID, combo_runType.Entry.Text, entryDistance, entryTime, Convert.ToInt32 (myRunnerFull[0]), myDesc);
+		SqliteRun.Update(runID, UtilGtk.ComboGetActive(combo_runType), entryDistance, entryTime, Convert.ToInt32 (myRunnerFull[0]), myDesc);
 
 		EditRunWindowBox.edit_run.Hide();
 		EditRunWindowBox = null;
@@ -229,7 +218,7 @@ public class EditRunIntervalWindow
 	[Widget] Gtk.Label label_limited_value;
 	[Widget] Gtk.Box hbox_combo_runType;
 	[Widget] Gtk.Box hbox_combo_runner;
-	[Widget] Gtk.Combo combo_runners;
+	[Widget] Gtk.ComboBox combo_runners;
 	[Widget] Gtk.TextView textview_description;
 
 	static EditRunIntervalWindow EditRunIntervalWindowBox;
@@ -295,13 +284,9 @@ public class EditRunIntervalWindow
 		textview_description.Buffer = tb;
 
 		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
-		combo_runners = new Combo();
-		combo_runners.PopdownStrings = runners;
-		foreach (string runner in runners) {
-			if (runner == myRun.PersonID + ":" + myRun.RunnerName) {
-				combo_runners.Entry.Text = runner;
-			}
-		}
+		combo_runners = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_runners, runners);
+		combo_runners.Active = UtilGtk.ComboMakeActive(runners, myRun.PersonID + ":" + myRun.RunnerName);
 		
 		hbox_combo_runner.PackStart(combo_runners, true, true, 0);
 		hbox_combo_runner.ShowAll();
@@ -335,7 +320,7 @@ public class EditRunIntervalWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		int runID = Convert.ToInt32 ( label_run_id_value.Text );
-		string myRunner = combo_runners.Entry.Text;
+		string myRunner = UtilGtk.ComboGetActive(combo_runners);
 		string [] myRunnerFull = myRunner.Split(new char[] {':'});
 		
 		string myDesc = textview_description.Buffer.Text;

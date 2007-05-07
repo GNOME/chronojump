@@ -1,8 +1,7 @@
 
 TODO: 
 
--1st combobox working: combo_jumps (pending: try on windows)
--chronojump_logo and report_css as resources (pending: try on windows)
+try preferences/language combo (and default) on windows
 
 -event edit (run) shows km/h not looking at prefs	DONE
 -put a image_file, and a image_desc for every test type. DONE 

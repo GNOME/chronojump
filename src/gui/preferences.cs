@@ -48,7 +48,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.CheckButton checkbutton_percent_kg_preferred;
 	[Widget] Gtk.Box hbox_language_row;
 	[Widget] Gtk.Box hbox_combo_language;
-	[Widget] Gtk.Combo combo_language;
+	[Widget] Gtk.ComboBox combo_language;
 	[Widget] Gtk.Separator hseparator_language;
 
 	[Widget] Gtk.Button button_accept;
@@ -165,8 +165,8 @@ public class PreferencesWindow {
 	
 	//private void createComboLanguage(string myLanguage) {
 	private void createComboLanguage(string myLanguageCode) {
-		combo_language = new Combo ();
-		combo_language.PopdownStrings = Util.GetLanguagesNames();
+		combo_language = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames());
 		
 		//combo_language.Entry.Changed += new EventHandler (on_combo_language_changed);
 
@@ -174,15 +174,16 @@ public class PreferencesWindow {
 		hbox_combo_language.ShowAll();
 		
 		bool found = false;
+		int count = 0;
 		foreach (string lang in Constants.Languages) {
 			if (myLanguageCode == Util.GetLanguageCode(lang)) {
-				combo_language.Entry.Text = Util.GetLanguageName(lang);
+				combo_language.Active = count;
 				found = true;
 			}
+			count ++;
 		}
 		if(!found)
-			combo_language.Entry.Text = Util.GetLanguageName(Constants.LanguageDefault);
-
+			combo_language.Active = UtilGtk.ComboMakeActive(Constants.Languages, Util.GetLanguageName(Constants.LanguageDefault));
 		
 		if(Util.IsWindows())
 			combo_language.Sensitive = true;
@@ -239,14 +240,14 @@ public class PreferencesWindow {
 		
 		if(Util.IsWindows()) {
 			//if language has changed
-			if(PreferencesWindowBox.combo_language.Entry.Text != languageIni) {
+			if(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language) != languageIni) {
 				string myLanguage = SqlitePreferences.Select("language");
 				if ( myLanguage != null && myLanguage != "" && myLanguage != "0") {
 					//if language exists in sqlite preferences update it
-					SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(PreferencesWindowBox.combo_language.Entry.Text));
+					SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
 				} else {
 					//else: create it
-					SqlitePreferences.Insert("language", Util.GetLanguageCodeFromName(PreferencesWindowBox.combo_language.Entry.Text));
+					SqlitePreferences.Insert("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
 				}
 
 				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."));

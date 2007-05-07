@@ -29,7 +29,7 @@ public class LanguageWindow
 	[Widget] Gtk.Window language_window;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Box hbox_combo_language;
-	[Widget] Gtk.Combo combo_language;
+	[Widget] Gtk.ComboBox combo_language;
 	[Widget] Gtk.Label label_linux_restart;
 	
 
@@ -70,14 +70,14 @@ public class LanguageWindow
 	
 	//private void createComboLanguage(string myLanguage) {
 	private void createComboLanguage() {
-		combo_language = new Combo ();
-		combo_language.PopdownStrings = Util.GetLanguagesNames();
+		combo_language = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames());
 		
 
 		hbox_combo_language.PackStart(combo_language, false, false, 0);
 		hbox_combo_language.ShowAll();
 
-		combo_language.Entry.Text = Util.GetLanguageName(Constants.LanguageDefault);
+		combo_language.Active = UtilGtk.ComboMakeActive(Util.GetLanguagesNames(), Util.GetLanguageName(Constants.LanguageDefault));
 
 		//if(Util.IsWindows())
 			combo_language.Sensitive = true;
@@ -101,7 +101,7 @@ public class LanguageWindow
 
 	protected void on_button_accept_clicked (object o, EventArgs args)
 	{
-		SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(LanguageWindowBox.combo_language.Entry.Text));
+		SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(LanguageWindowBox.combo_language)));
 
 		LanguageWindowBox.language_window.Hide();
 		LanguageWindowBox = null;

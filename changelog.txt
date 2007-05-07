@@ -1,5 +1,14 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+7 may 2007
+	gtk2 integration: ALL combos replaced for comoboxes
+		all test combos in main window,
+		PersonRecuperateFromOtherSessionWindow, PersonShowAllEventWindow
+		EditJump, EditJumpRj, EditRun, EditRunInterval
+		Preferences, stats, languageWindow
+	gui improvements on mainWindow
+	added UtilGtk
+
 5 may 2007
 	fixed combo_jumps.active calls
 	put AllJumps as active
@@ -8,14 +17,14 @@ CHRONOJUMP DETAILED CHANGELOG:
 	gtk2 integration: 
 		-all onSelectionEntry() on treeviews work now: sessionLoad, personRecuperateWindow, 
 		PersonsRecuperateFromOtherSessionWindow, reportWindow, RepairEvents windows, treeviewPersons
-		-1st combobox working: combo_jumps (pending: try on windows)
+		-1st combobox working: combo_jumps
 	new features:
 		-buttons for agility on runs
 		-select graph works on more on runs & runsInterval. 
 		-added mini/agility_hexagon.png
 		-put "others" on menu, and include pulses and reaction time there
 		-zoom button on image_test changed to gtk-info
-		-chronojump_logo and report_css as resources (pending: try on windows)
+		-chronojump_logo and report_css as resources
 		-chronojump_logo on startup
 	bugs fixed:
 		-on not ending good reactionTime (EventType was not assigned)

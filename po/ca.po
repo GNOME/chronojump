@@ -887,7 +887,7 @@ msgid ""
 "(Persons in current session are not listed)"
 msgstr ""
 "Seleccioneu els atletes que desitgeu carregar.\n"
-"(No es mostraran els atletes que ja hem carregat en aquesta sessió)"
+"(No es mostraran els atletes que ja hem carregat\nen aquesta sessió)"
 
 #: ../glade/chronojump.glade.h:198
 msgid "Select sessions for statistics"
@@ -1329,7 +1329,7 @@ msgstr "cap"
 
 #: ../glade/chronojump.glade.h:292
 msgid "other"
-msgstr "un altre"
+msgstr "altres"
 
 #: ../glade/chronojump.glade.h:293
 msgid "ppm"

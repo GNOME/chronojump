@@ -46,9 +46,9 @@ public class EditJumpWindow
 	[Widget] Gtk.Label label_limited_value;
 	
 	[Widget] Gtk.Box hbox_combo_jumpType;
-	[Widget] Gtk.Combo combo_jumpType;
+	[Widget] Gtk.ComboBox combo_jumpType;
 	[Widget] Gtk.Box hbox_combo_jumper;
-	[Widget] Gtk.Combo combo_jumpers;
+	[Widget] Gtk.ComboBox combo_jumpers;
 	
 	[Widget] Gtk.TextView textview_description;
 
@@ -126,29 +126,20 @@ public class EditJumpWindow
 		tb.SetText(myJump.Description);
 		textview_description.Buffer = tb;
 
-		combo_jumpType = new Combo ();
+		combo_jumpType = ComboBox.NewText ();
 		string [] jumpTypes;
 		if (myJump.TypeHasFall) {
 			jumpTypes = SqliteJumpType.SelectJumpTypes("", "TC", true); //don't show allJumpsName row, TC jumps, only select name
 		} else {
 			jumpTypes = SqliteJumpType.SelectJumpTypes("", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
 		}
-		combo_jumpType.PopdownStrings = jumpTypes;
-		foreach (string jumpType in jumpTypes) {
-			if (jumpType == myJump.Type) {
-				combo_jumpType.Entry.Text = jumpType;
-			}
-		}
-		
+		UtilGtk.ComboUpdate(combo_jumpType, jumpTypes);
+		combo_jumpType.Active = UtilGtk.ComboMakeActive(jumpTypes, myJump.Type);
 		
 		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID, false); //not reversed
-		combo_jumpers = new Combo();
-		combo_jumpers.PopdownStrings = jumpers;
-		foreach (string jumper in jumpers) {
-			if (jumper == myJump.PersonID + ":" + myJump.PersonName) {
-				combo_jumpers.Entry.Text = jumper;
-			}
-		}
+		combo_jumpers = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_jumpers, jumpers);
+		combo_jumpers.Active = UtilGtk.ComboMakeActive(jumpers, myJump.PersonID + ":" + myJump.PersonName);
 		
 		oldPersonID = myJump.PersonID;
 			
@@ -209,7 +200,7 @@ public class EditJumpWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		int jumpID = Convert.ToInt32 ( label_jump_id_value.Text );
-		string myJumper = combo_jumpers.Entry.Text;
+		string myJumper = UtilGtk.ComboGetActive(combo_jumpers);
 		string [] myJumperFull = myJumper.Split(new char[] {':'});
 		
 		string myDesc = textview_description.Buffer.Text;
@@ -227,7 +218,7 @@ public class EditJumpWindow
 					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
 		}
 	
-		SqliteJump.Update(jumpID, combo_jumpType.Entry.Text, entryTv, entryTc, entryFall, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
+		SqliteJump.Update(jumpID, UtilGtk.ComboGetActive(combo_jumpType), entryTv, entryTc, entryFall, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
 
 		EditJumpWindowBox.edit_jump.Hide();
 		EditJumpWindowBox = null;
@@ -260,7 +251,7 @@ public class EditJumpRjWindow
 	[Widget] Gtk.Label label_limited_value;
 	[Widget] Gtk.Box hbox_combo_jumpType;
 	[Widget] Gtk.Box hbox_combo_jumper;
-	[Widget] Gtk.Combo combo_jumpers;
+	[Widget] Gtk.ComboBox combo_jumpers;
 	[Widget] Gtk.TextView textview_description;
 
 	static EditJumpRjWindow EditJumpRjWindowBox;
@@ -329,14 +320,10 @@ public class EditJumpRjWindow
 		textview_description.Buffer = tb;
 
 		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID, false); //not reversed
-		combo_jumpers = new Combo();
-		combo_jumpers.PopdownStrings = jumpers;
-		foreach (string jumper in jumpers) {
-			Console.WriteLine("jumper: {0}, name: {1}", jumper, myJump.PersonID + ":" + myJump.PersonName);
-			if (jumper == myJump.PersonID + ":" + myJump.PersonName) {
-				combo_jumpers.Entry.Text = jumper;
-			}
-		}
+		combo_jumpers = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_jumpers, jumpers);
+		combo_jumpers.Active = UtilGtk.ComboMakeActive(jumpers, myJump.PersonID + ":" + myJump.PersonName);
+		
 		hbox_combo_jumper.PackStart(combo_jumpers, true, true, 0);
 		hbox_combo_jumper.ShowAll();
 		
@@ -390,7 +377,7 @@ public class EditJumpRjWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		int jumpID = Convert.ToInt32 ( label_jump_id_value.Text );
-		string myJumper = combo_jumpers.Entry.Text;
+		string myJumper = UtilGtk.ComboGetActive(combo_jumpers);
 		string [] myJumperFull = myJumper.Split(new char[] {':'});
 		
 		string myDesc = textview_description.Buffer.Text;

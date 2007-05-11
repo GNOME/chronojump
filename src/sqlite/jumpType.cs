@@ -70,15 +70,15 @@ class SqliteJumpType : Sqlite
 	}
 	
 	public static void AddGraphLinks() {
-		SqliteEvent.Insert ("jump", "Free", "jump_free.png", false);
-		SqliteEvent.Insert ("jump", "SJ", "jump_sj.png", false);
-		SqliteEvent.Insert ("jump", "SJl", "jump_sj_l.png", false);
-		SqliteEvent.Insert ("jump", "CMJ", "jump_cmj.png", false);
-		SqliteEvent.Insert ("jump", "CMJl", "jump_cmj_l.png", false);
-		SqliteEvent.Insert ("jump", "ABK", "jump_abk.png", false);
-		SqliteEvent.Insert ("jump", "ABKl", "jump_abk_l.png", false);
-		SqliteEvent.Insert ("jump", "Rocket", "jump_rocket.png", false);
-		SqliteEvent.Insert ("jump", "DJ", "jump_dj.png", false);
+		SqliteEvent.Insert ("jump", "Free", "jump_free.png", true);
+		SqliteEvent.Insert ("jump", "SJ", "jump_sj.png", true);
+		SqliteEvent.Insert ("jump", "SJl", "jump_sj_l.png", true);
+		SqliteEvent.Insert ("jump", "CMJ", "jump_cmj.png", true);
+		SqliteEvent.Insert ("jump", "CMJl", "jump_cmj_l.png", true);
+		SqliteEvent.Insert ("jump", "ABK", "jump_abk.png", true);
+		SqliteEvent.Insert ("jump", "ABKl", "jump_abk_l.png", true);
+		SqliteEvent.Insert ("jump", "Rocket", "jump_rocket.png", true);
+		SqliteEvent.Insert ("jump", "DJ", "jump_dj.png", true);
 	}
 
 	//creates table containing the types of repetitive Jumps
@@ -124,10 +124,10 @@ class SqliteJumpType : Sqlite
 	}
 
 	public static void AddGraphLinksRj() {
-		SqliteEvent.Insert ("jumpRj", "RJ(j)", "jump_rj.png", false);
-		SqliteEvent.Insert ("jumpRj", "RJ(t)", "jump_rj.png", false);
-		SqliteEvent.Insert ("jumpRj", "RJ(unlimited)", "jump_rj_in.png", false);
-		SqliteEvent.Insert ("jumpRj", "triple jump", "jump_rj.png", false);
+		SqliteEvent.Insert ("jumpRj", "RJ(j)", "jump_rj.png", true);
+		SqliteEvent.Insert ("jumpRj", "RJ(t)", "jump_rj.png", true);
+		SqliteEvent.Insert ("jumpRj", "RJ(unlimited)", "jump_rj_in.png", true);
+		SqliteEvent.Insert ("jumpRj", "triple jump", "jump_rj.png", true);
 	}
 
 	/*

@@ -53,12 +53,11 @@ Para máis información lea esta páxina web: <a href="http://www.iearobotics.co
 
 <p><li>Como podo construír o cronómetro?<p>
 <p>
-Dispón da información completa nesta páxina web: <a href="http://www.iearobotics.com/personal/juan/proyectos/chronopic/1.0/">Documentación de Chronopic 1.0 e o Prototipo 1 (en castelán)</a>. Se non ten coñecementos de electrónica, pida axuda neste eido a algún coñecido ou a algunha empresa local.
+Lea la <a href="construction_gl.html">páxina de Construción</a>.
 
 <p><li>Onde podo mercar o cronómetro?
 
-<p>A empresa IFARA de Madrid comercializa en España Skypic + a tarxeta de expansión + o firmware de Chronopic (software necesario para a tarxeta) por 70 euros. Máis información nesta mensaxe: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Adquisición do Prototipo I da Chronopic (en castelán)</a>.<br>
-Se vostede quere fabricar e vender Skypic + a tarxeta de expansión + o firmware de Chronopic en España ou en calquera outro país, non dubide en poñerse en contacto connosco para que fagamos publicidade do seu servizo.
+Lea la <a href="construction_gl.html">páxina de Construción</a>.
 
 </ol>
 <p align="right"><a href="#top">Subir</a></p>
@@ -89,12 +88,15 @@ Entre na páxina web de <a href="installation_gl.html">instalación de ChronoJum
 Si, creouse un modo simulado no que se executan saltos, carreiras de duración aleatoria, tempo de reacción e ritmos para que se poidan probar as características do programa.
 
 <p><li>Cando sairá a versión 1.0 e que prestacións terá?
-<p>Ata o momento (versión :::currentVersion:::) ChronoJump xa ten máis prestacións que o resto de solucións comerciais e non-comerciais das que temos coñecemento. Pero aínda hai moitos aspectos que incorporar e/ou mellorar que se van describindo no arquivo de <a href="http://cvs.gnome.org/viewcvs/chronojump/roadmap.txt"><i>roadmap</i> ou folla de ruta</a> (inglés).<br>
+<p>Ata o momento (versión :::currentVersion:::) ChronoJump xa ten máis prestacións que o resto de solucións comerciais e non-comerciais das que temos coñecemento. 
+<!--Pero aínda hai moitos aspectos que incorporar e/ou mellorar que se van describindo no arquivo de <a href="http://cvs.gnome.org/viewcvs/chronojump/roadmap.txt"><i>roadmap</i> ou folla de ruta</a> (inglés).
+-->
+<br>
 Se desexa realizar peticións de novas prestacións non dubide en escribir unha mensaxe á lista  <a href="contact_gl.html">chronojump-list</a>.
 
 <p><li>Como podo saber as últimas novidades do proxecto?
 <p>
-Inscríbase ou consulte os arquivos das <a href="contact_gl.html">listas de correo</a>. Ademais pode consultar o arquivo <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt"><i>changelog</i> ou rexistro de cambios</a>.
+Inscríbase ou consulte os arquivos das <a href="contact_gl.html">listas de correo</a>. Ademais pode consultar o arquivo <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt?view=markup"><i>changelog</i> ou rexistro de cambios</a>.
 
 
 <p><li>Por que se chama ChronoJump se tamén serve para medir carreiras, tempo de reacción e ritmos?

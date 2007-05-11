@@ -76,29 +76,29 @@ class SqliteRunType : Sqlite
 	}
 	
 	public static void AddGraphLinksRunSimple() {
-		SqliteEvent.Insert ("run", "20m", "run_simple.png", false);
-		SqliteEvent.Insert ("run", "100m", "run_simple.png", false);
-		SqliteEvent.Insert ("run", "200m", "run_simple.png", false);
-		SqliteEvent.Insert ("run", "400m", "run_simple.png", false);
-		SqliteEvent.Insert ("run", "1000m", "run_simple.png", false);
-		SqliteEvent.Insert ("run", "2000m", "run_simple.png", false);
+		SqliteEvent.Insert ("run", "20m", "run_simple.png", true);
+		SqliteEvent.Insert ("run", "100m", "run_simple.png", true);
+		SqliteEvent.Insert ("run", "200m", "run_simple.png", true);
+		SqliteEvent.Insert ("run", "400m", "run_simple.png", true);
+		SqliteEvent.Insert ("run", "1000m", "run_simple.png", true);
+		SqliteEvent.Insert ("run", "2000m", "run_simple.png", true);
 	}
 
 	public static void AddGraphLinksRunSimpleAgility() {
-		SqliteEvent.Insert ("run", "Agility-20Yard", "agility_20yard.png", false);
-		SqliteEvent.Insert ("run", "Agility-505", "agility_505.png", false);
-		SqliteEvent.Insert ("run", "Agility-Illinois", "agility_illinois.png", false);
-		SqliteEvent.Insert ("run", "Agility-Shuttle-Run", "agility_shuttle.png", false);
-		SqliteEvent.Insert ("run", "Agility-ZigZag", "agility_zigzag.png", false);
+		SqliteEvent.Insert ("run", "Agility-20Yard", "agility_20yard.png", true);
+		SqliteEvent.Insert ("run", "Agility-505", "agility_505.png", true);
+		SqliteEvent.Insert ("run", "Agility-Illinois", "agility_illinois.png", true);
+		SqliteEvent.Insert ("run", "Agility-Shuttle-Run", "agility_shuttle.png", true);
+		SqliteEvent.Insert ("run", "Agility-ZigZag", "agility_zigzag.png", true);
 	}
 
 	public static void AddGraphLinksRunInterval() {
-		SqliteEvent.Insert ("runInterval", "byLaps", "run_interval.png", false);
-		SqliteEvent.Insert ("runInterval", "byTime", "run_interval.png", false);
-		SqliteEvent.Insert ("runInterval", "unlimited", "run_interval.png", false);
-		SqliteEvent.Insert ("runInterval", "20m10times", "run_interval.png", false);
-		SqliteEvent.Insert ("runInterval", "7m30seconds", "run_interval.png", false);
-		SqliteEvent.Insert ("runInterval", "20m endurance", "run_interval.png", false);
+		SqliteEvent.Insert ("runInterval", "byLaps", "run_interval.png", true);
+		SqliteEvent.Insert ("runInterval", "byTime", "run_interval.png", true);
+		SqliteEvent.Insert ("runInterval", "unlimited", "run_interval.png", true);
+		SqliteEvent.Insert ("runInterval", "20m10times", "run_interval.png", true);
+		SqliteEvent.Insert ("runInterval", "7m30seconds", "run_interval.png", true);
+		SqliteEvent.Insert ("runInterval", "20m endurance", "run_interval.png", true);
 	}
 
 

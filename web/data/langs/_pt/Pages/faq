@@ -53,12 +53,12 @@ Para informação mais detalhada leia esta página web: <a href="http://www.iear
  
 <p><li>Como posso construir o cronômetro?<p>
 <p>
-Dispõe de informação completa nesta página web: <a href="http://www.iearobotics.com/personal/juan/proyectos/chronopic/1.0/">documentação de Chronopic 1.0 e o prototipo 1</a>. Se não têm conhecimentos em eletrônica, peça ajuda neste assunto a algum conhecido ou empresa local.
+Leia la <a href="construction_pt.html">páxina de Construção</a>.
  
 <p><li>Onde posso comprar o cronômetro?
 <p>
-A empresa IFARA de Madrid comercializa em Espanha Skypic + placa de expansão + firmware de Chronopic (software necessário para a placa) por 70 euros. Mais informações neste e-mail: <a href="http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html">Aquisição do Protótipo I da chronopic</a>.<br>
-Se você quer fabricar e vender Skypic + placa de expansão + firmware de Chronopic em Espanha ou em qualquer outro país, não duvide a colocar-se em contato conosco para que façamos publicidade do seu serviço.
+Leia la <a href="construction_pt.html">páxina de Construção</a>.
+
 </ol>
 <p align="right"><a href="#top">Subir</a></p>
 
@@ -87,12 +87,15 @@ Sim, se criou um módulo simulado no qual se executam saltos e corridas de dura�
  
 <p><li>¿Cuándo saldrá la versión 1.0 y qué prestaciones tendrá?
 <p>
-Até a data (versão :::currentVersion:::) Chronojump já têm mais prestações que o resto de soluções comerciais e não-comerciais das que temos conhecimento. Mais ainda temos muitos aspectos a incorporar-melhorar que serão descritos no arquivo de <a href="http://cvs.gnome.org/viewcvs/chronojump/roadmap.txt"><i>roadmap</i> ou folha de rota</a> (inglês).<br>
+Até a data (versão :::currentVersion:::) Chronojump já têm mais prestações que o resto de soluções comerciais e não-comerciais das que temos conhecimento. 
+<!--Mais ainda temos muitos aspectos a incorporar-melhorar que serão descritos no arquivo de <a href="http://cvs.gnome.org/viewcvs/chronojump/roadmap.txt"><i>roadmap</i> ou folha de rota</a> (inglês).
+-->
+<br>
 Se desejas realizar pedidos de características não duvide em escrever um e-mail a lista de e-mails <a href="contact_es.html">chronojump-list</a>.
  
 <p><li>Como posso saber as últimas novidades do projeto?
 <p>
-Inscreva-se ou consulte os arquivos das <a href="contact_es.html">listas de e-mail</a>. Ademais podes consultar o arquivo <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt"><i>changelog</i> oo registro de mudanças</a>.
+Inscreva-se ou consulte os arquivos das <a href="contact_es.html">listas de e-mail</a>. Ademais podes consultar o arquivo <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt?view=markup"><i>changelog</i> oo registro de mudanças</a>.
  
 <p><li>Porque se denomina Chronojump se também serve para medir corridas, tempo de reação e ritmos?
 <p>

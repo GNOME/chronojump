@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+11 may 2007
+	fixed bug in sqlite addgraphlinks insertion (dbcon opened or not)
+
 7 may 2007
 	gtk2 integration: ALL combos replaced for comoboxes
 		all test combos in main window,

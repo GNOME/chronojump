@@ -507,8 +507,8 @@ public class ChronoJump
 		rand = new Random(40);
 		volumeOn = true;
 
-		if(simulated)
-			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
+//		if(simulated)
+//			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
 	}
 
 	//recuperate temp jumpRj or RunI if chronojump hangs

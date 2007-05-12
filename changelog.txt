@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+12 may 2007
+	changed NPlot dlls for working on Linux on mono web installer (mono
+	installed on feisty is buggy with serialport)
+
 11 may 2007
 	fixed bug in sqlite addgraphlinks insertion (dbcon opened or not)
 

@@ -575,7 +575,10 @@ public class ChronoJump
 			//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
 			if ( ! Util.IsWindows()) {
 				//-- Obtener el estado inicial de la plataforma
-				bool ok=cp.Read_platform(out platformState);
+				bool ok=false;
+				do {
+					ok=cp.Read_platform(out platformState);
+				} while(!ok);
 				if (!ok) {
 					//-- Si hay error terminar
 					Console.WriteLine("Error: {0}",cp.Error);

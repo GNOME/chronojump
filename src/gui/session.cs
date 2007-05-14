@@ -188,7 +188,7 @@ public class SessionEditWindow
 		label_date.Text = currentSession.DateLong;
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(currentSession.Comments);
+		tb.Text = currentSession.Comments;
 		textview.Buffer = tb;
 	}
 	

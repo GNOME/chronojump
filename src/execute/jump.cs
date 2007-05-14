@@ -457,6 +457,7 @@ public class JumpRjExecute : JumpExecute
 		this.weight = weight;
 		this.limitAsDouble = limitAsDouble;
 
+		this.jumpsLimited = jumpsLimited;
 		if(jumpsLimited) {
 			this.limited = limitAsDouble.ToString() + "J";
 		} else {

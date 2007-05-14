@@ -1,8 +1,23 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+14 may 2007
+	finished gtk2 integration, Bug 433446 ¿ Convert to gtk-2.0 (Closed)
+	changed obsoleted:
+	`Gtk.TextBuffer.SetText(string)' is obsolete: `Use the TextBuffer.Text property's setter'
+	`Gtk.TreeStore.Insert(out Gtk.TreeIter, int)' is obsolete: `Replaced
+	by InsertNode' (same for Append and AppendNode)
+	`GLib.Object.Data' is obsolete
+
+	Added description of every event on all main treeviews (but pulse and
+	reactionTime still have no "edit" implemented)
+	
+	fixed bug in jumpsLimited assignement on jumpRj
+	fixed gnome dependency on glade. (works with Glade 2.12.1)
+
 12 may 2007
 	changed NPlot dlls for working on Linux on mono web installer (mono
 	installed on feisty is buggy with serialport)
+	Nplot plots the texts now
 
 11 may 2007
 	fixed bug in sqlite addgraphlinks insertion (dbcon opened or not)

@@ -516,9 +516,9 @@ public class StatsWindow {
 		
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(myStatType.Enunciate);
+		tb.Text = myStatType.Enunciate;
 		textview_enunciate.Buffer = tb;
-		tb.SetText(myStatType.Enunciate);
+		tb.Text = myStatType.Enunciate;
 		
 		if(allFine) {
 			return true;

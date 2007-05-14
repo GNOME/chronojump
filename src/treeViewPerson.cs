@@ -140,7 +140,8 @@ public class TreeViewPersons
 		TreeIter iter2 = new TreeIter();
 		
 		if(found != -1) {
-			store.Insert (out iter2, found);
+			//store.Insert (out iter2, found);
+			iter2 = store.InsertNode (found);
 			//first name, then ID
 			store.SetValue (iter2, 0, jumperName);
 			store.SetValue (iter2, 1, jumperID);

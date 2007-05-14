@@ -197,7 +197,7 @@ public class RepairPulseWindow
 		pulseType = SqlitePulseType.SelectAndReturnPulseType(myPulse.Type);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(createTextForTextView(pulseType));
+		tb.Text = createTextForTextView(pulseType);
 		textview1.Buffer = tb;
 		
 		createTreeView(treeview_subevents);
@@ -367,7 +367,7 @@ public class RepairPulseWindow
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
-			store.Insert(out iter, position);
+			iter = store.InsertNode(position);
 			store.SetValue(iter, 1, "0");
 			putRowNumbers(store);
 		}
@@ -378,7 +378,7 @@ public class RepairPulseWindow
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
-			store.Insert(out iter, position);
+			iter = store.InsertNode(position);
 			store.SetValue(iter, 1, "0");
 			putRowNumbers(store);
 		}

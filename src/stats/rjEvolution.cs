@@ -210,7 +210,8 @@ public class StatRjEvolution : Stat
 			iter = new TreeIter();
 			
 			//iter = store.Append (iter);	//doesn't work
-			store.Append (out iter);	//add new row and make iter point to it
+			//store.Append (out iter);	//add new row and make iter point to it
+			iter = store.AppendNode ();
 		
 			//addAllNoneIfNeeded(statValues.Length);
 		

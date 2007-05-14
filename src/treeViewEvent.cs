@@ -23,6 +23,7 @@ using System;
 using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
+using Mono.Unix;
 
 
 public class TreeViewEvent
@@ -36,6 +37,7 @@ public class TreeViewEvent
 	protected int dataLineTypePosition; //position of type in the data to be printed
 	protected string allEventsName; //Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 	protected int eventIDColumn; //column where the uniqueID of event will be (and will be hidded)
+	protected string descriptionName = Catalog.GetString("Description");
 	
 	protected string [] columnsString;
 

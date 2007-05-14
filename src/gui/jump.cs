@@ -123,7 +123,7 @@ public class EditJumpWindow
 		label_limited_value.Hide();
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(myJump.Description);
+		tb.Text = myJump.Description;
 		textview_description.Buffer = tb;
 
 		combo_jumpType = ComboBox.NewText ();
@@ -316,7 +316,7 @@ public class EditJumpRjWindow
 		this.type = myJump.Type;
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(myJump.Description);
+		tb.Text = myJump.Description;
 		textview_description.Buffer = tb;
 
 		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID, false); //not reversed
@@ -454,7 +454,7 @@ public class RepairJumpRjWindow
 		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(createTextForTextView(jumpType));
+		tb.Text = createTextForTextView(jumpType);
 		textview1.Buffer = tb;
 		
 		createTreeView(treeview_subevents);
@@ -665,7 +665,7 @@ public class RepairJumpRjWindow
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
-			store.Insert(out iter, position);
+			iter = store.InsertNode(position);
 			store.SetValue(iter, 1, "0");
 			store.SetValue(iter, 2, "0");
 			putRowNumbers(store);
@@ -677,7 +677,7 @@ public class RepairJumpRjWindow
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
-			store.Insert(out iter, position);
+			iter = store.InsertNode(position);
 			store.SetValue(iter, 1, "0");
 			store.SetValue(iter, 2, "0");
 			putRowNumbers(store);
@@ -940,7 +940,7 @@ public class JumpExtraWindow
 	{
 		get { 
 			if(jumpsLimited) {
-				return Limited.ToString() + "J";
+				return limited.ToString() + "J";
 			} else {
 				return Limited.ToString() + "T";
 			}

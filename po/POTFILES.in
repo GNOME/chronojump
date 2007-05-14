@@ -47,6 +47,7 @@ src/stats/rjIndex.cs
 src/stats/rjPotencyBosco.cs
 src/stats/sjCmjAbk.cs
 src/stats/sjCmjAbkPlus.cs
+src/treeViewEvent.cs
 src/treeViewJump.cs
 src/treeViewPerson.cs
 src/treeViewPulse.cs

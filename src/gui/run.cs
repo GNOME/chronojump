@@ -108,7 +108,7 @@ public class EditRunWindow
 		label_speed_value.Text = Util.TrimDecimals(myRun.Speed.ToString(), pDN);
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(myRun.Description);
+		tb.Text = myRun.Description;
 		textview_description.Buffer = tb;
 
 		combo_runType = ComboBox.NewText ();
@@ -280,7 +280,7 @@ public class EditRunIntervalWindow
 		this.type = myRun.Type;
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(myRun.Description);
+		tb.Text = myRun.Description;
 		textview_description.Buffer = tb;
 
 		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
@@ -380,7 +380,7 @@ public class RepairRunIntervalWindow
 		runType = SqliteRunType.SelectAndReturnRunIntervalType(myRun.Type);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.SetText(createTextForTextView(runType));
+		tb.Text = createTextForTextView(runType);
 		textview1.Buffer = tb;
 		
 		createTreeView(treeview_subevents);
@@ -529,7 +529,7 @@ public class RepairRunIntervalWindow
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ) -1; //count starts at '0'
-			store.Insert(out iter, position);
+			iter = store.InsertNode(position);
 			store.SetValue(iter, 1, "0");
 			putRowNumbers(store);
 		}
@@ -540,7 +540,7 @@ public class RepairRunIntervalWindow
 		TreeIter iter; 
 		if (treeview_subevents.Selection.GetSelected (out model, out iter)) {
 			int position = Convert.ToInt32( (string) model.GetValue (iter, 0) ); //count starts at '0'
-			store.Insert(out iter, position);
+			iter = store.InsertNode(position);
 			store.SetValue(iter, 1, "0");
 			putRowNumbers(store);
 		}

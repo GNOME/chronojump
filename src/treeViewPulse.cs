@@ -41,14 +41,14 @@ public class TreeViewPulses : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllPulsesName;
-		eventIDColumn = 4; //column where the uniqueID of event will be (and will be hidded)
+		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidded)
 		
 		string jumperName = Catalog.GetString("Person");
 		string timeName = Catalog.GetString("Time") + "\n(s)";
 		string diffName = Catalog.GetString("Difference");
 		string diffPercentName = Catalog.GetString("Difference") + "\n(%)";
 
-		columnsString = new string[]{jumperName, timeName, diffName, diffPercentName};
+		columnsString = new string[]{jumperName, timeName, diffName, diffPercentName, descriptionName};
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -60,6 +60,7 @@ public class TreeViewPulses : TreeViewEvent
 		myPulse.Type = myStringOfData[4].ToString();
 		myPulse.FixedPulse = Convert.ToDouble(myStringOfData[5].ToString());
 		myPulse.TimesString = myStringOfData[7].ToString();
+		myPulse.Description = myStringOfData[8].ToString();
 
 		return myPulse;
 	}
@@ -87,6 +88,7 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++]	= "";
 		myData[count++]	= "";
 		myData[count++]	= "";
+		myData[count++]	= newPulse.Description;
 		myData[count++] = newPulse.UniqueID.ToString();
 		return myData;
 	}
@@ -120,6 +122,7 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++] = Util.TrimDecimals( timeInterval, pDN );
 		myData[count++] = Util.TrimDecimals( absoluteError.ToString(), pDN );
 		myData[count++] = Util.TrimDecimals( relativeError.ToString(), pDN );
+		myData[count++] = ""; 
 
 		myData[count++] = newPulse.UniqueID.ToString(); 
 		return myData;
@@ -134,6 +137,7 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++] = Util.TrimDecimals( Util.GetTotalTime(newPulse.TimesString).ToString(), pDN );
 		myData[count++] = ""; 
 		myData[count++] = "";
+		myData[count++] = ""; 
 		myData[count++] = newPulse.UniqueID.ToString(); 
 		
 		return myData;
@@ -147,6 +151,7 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++] = Catalog.GetString("AVG");
 		myData[count++] = Util.TrimDecimals( Util.GetAverage(newPulse.TimesString).ToString(), pDN );
 		myData[count++] = "";
+		myData[count++] = ""; 
 		myData[count++] = "";
 		myData[count++] = newPulse.UniqueID.ToString(); 
 		
@@ -166,6 +171,7 @@ public class TreeViewPulses : TreeViewEvent
 				pDN );
 		myData[count++] = "";
 		myData[count++] = "";
+		myData[count++] = ""; 
 		myData[count++] = newPulse.UniqueID.ToString(); 
 		
 		return myData;

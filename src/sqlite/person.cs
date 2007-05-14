@@ -205,7 +205,6 @@ finishForeach:
 		ArrayList arrayRunsInterval = new ArrayList(2);
 		ArrayList arrayRTs = new ArrayList(2);
 		ArrayList arrayPulses = new ArrayList(2);
-		ArrayList arrayPersons = new ArrayList(2);
 	
 		dbcon.Open();
 		

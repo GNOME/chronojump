@@ -90,7 +90,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected string [] obtainColumnsString(string [] columnsStringPre) 
 	{
 		//check long of new array
-		int i = 5;
+		int i = 6;
 		if (showHeight)  
 			i ++;
 		if (showInitialSpeed) 
@@ -119,6 +119,8 @@ public class TreeViewJumps : TreeViewEvent
 			columnsString[i++] = qIndexName;
 		if (showDjIndex) 
 			columnsString[i++] = djIndexName;
+			
+		columnsString[i++] = descriptionName;
 
 		return columnsString;
 	}
@@ -131,6 +133,7 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Tc = Convert.ToDouble(myStringOfData[6].ToString());
 		myJump.Fall = Convert.ToInt32(myStringOfData[7].ToString());
 		myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
+		myJump.Description = myStringOfData[9].ToString();
 
 		return myJump;
 	}
@@ -155,6 +158,8 @@ public class TreeViewJumps : TreeViewEvent
 		if(showDjIndex)
 			myData[count++] = Util.TrimDecimals(Util.GetDjIndex(newJump.Tv, newJump.Tc).ToString(), pDN);
 		
+		myData[count++] = newJump.Description;
+
 		myData[count++] = newJump.UniqueID.ToString();
 		return myData;
 	}
@@ -196,6 +201,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myJumpRj.TvString = myStringOfData[12].ToString();
 		myJumpRj.TcString = myStringOfData[13].ToString();
 		myJumpRj.Limited = myStringOfData[16].ToString();
+		myJumpRj.Description = myStringOfData[9].ToString();
 
 		return myJumpRj;
 	}
@@ -208,36 +214,25 @@ public class TreeViewJumpsRj : TreeViewJumps
 		//do this for showing the Limited with selected decimals and without loosing the end letter: 'J' or 'T'
 		string myLimitedWithoutLetter = newJumpRj.Limited.Substring(0, newJumpRj.Limited.Length -1);
 		string myLimitedLetter = newJumpRj.Limited.Substring(newJumpRj.Limited.Length -1, 1);
-		//string myTypeComplet = newJumpRj.Type + "(" + Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ") AVG: ";
 		string myTypeComplet = newJumpRj.Type + "(" + Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ")";
 		
-		//little optimization
-		double avgTc = Util.GetAverage(newJumpRj.TcString);
-		double avgTv = Util.GetAverage(newJumpRj.TvString);
-		
-		//string [] myData = new String [i+1]; //columnsString +1
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = myTypeComplet;
-		//myData[count++] = Util.TrimDecimals(avgTc.ToString(), pDN);
 		myData[count++] = "";
-		//myData[count++] = Util.TrimDecimals(avgTv.ToString(), pDN);
 		myData[count++] = "";
 		myData[count++] = Util.TrimDecimals(newJumpRj.Weight.ToString(), pDN);
 		myData[count++] = newJumpRj.Fall.ToString();
 		if (showHeight)  
-			//myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(avgTv.ToString()), pDN);
 			myData[count++] = "";
 		if (showInitialSpeed) 
-			//myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(avgTv.ToString(), metersSecondsPreferred), pDN);
 			myData[count++] = "";
 		if(showQIndex)
-			//myData[count++] = Util.TrimDecimals(Util.GetQIndex(avgTv, avgTc).ToString(), pDN);
 			myData[count++] = "";
 		if(showDjIndex)
-			//myData[count++] = Util.TrimDecimals(Util.GetDjIndex(avgTv, avgTc).ToString(), pDN);
 			myData[count++] = "";
 		
+		myData[count++] = newJumpRj.Description;
 		myData[count++] = newJumpRj.UniqueID.ToString();
 		return myData;
 	}
@@ -273,6 +268,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 					pDN);
 		
 		
+		myData[count++] = ""; 
 		myData[count++] = newJumprRj.UniqueID.ToString(); 
 
 		return myData;
@@ -295,6 +291,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if (showQIndex || showDjIndex) 
 			myData[count++] = ""; 
 
+		myData[count++] = ""; 
 		myData[count++] = newJumpRj.UniqueID.ToString(); 
 		
 		return myData;
@@ -334,6 +331,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 			myData[count++] = Util.TrimDecimals(
 					Util.GetDjIndex(tvAVGDouble,tcAVGDouble).ToString(), pDN);
 
+		myData[count++] = ""; 
 		myData[count++] = newJumpRj.UniqueID.ToString(); 
 		
 		return myData;
@@ -341,10 +339,6 @@ public class TreeViewJumpsRj : TreeViewJumps
 	
 	protected override string [] printSD(System.Object myObject, int cols) {
 		JumpRj newJumpRj = (JumpRj)myObject;
-
-		//littleOptimization
-		//double tcAVGDouble = Util.GetAverage(newJumpRj.TcString);
-		//double tvAVGDouble = Util.GetAverage(newJumpRj.TvString);
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
@@ -371,6 +365,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if (showQIndex || showDjIndex) 
 			myData[count++] = "";
 
+		myData[count++] = ""; 
 		myData[count++] = newJumpRj.UniqueID.ToString(); 
 		
 		return myData;

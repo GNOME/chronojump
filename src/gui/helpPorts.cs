@@ -55,11 +55,11 @@ public class HelpPorts
 		}
 			
 		TextBuffer tb1 = new TextBuffer (new TextTagTable());
-		tb1.SetText(messageInfo);
+		tb1.Text = messageInfo;
 		textview_info.Buffer = tb1;
 		
 		TextBuffer tb2 = new TextBuffer (new TextTagTable());
-		tb2.SetText(messageDetected);
+		tb2.Text = messageDetected;
 		textview_detected.Buffer = tb2;
 	}
 				

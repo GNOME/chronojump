@@ -44,7 +44,7 @@ public class TreeViewRuns : TreeViewEvent
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsName;
-		eventIDColumn = 4; //column where the uniqueID of event will be (and will be hidded)
+		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidded)
 	
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");
@@ -56,7 +56,7 @@ public class TreeViewRuns : TreeViewEvent
 		string distanceName = Catalog.GetString("Distance") + "\n(m)";
 		string timeName = Catalog.GetString("Time") + "\n(s)";
 
-		columnsString = new string[]{ runnerName, speedName, distanceName, timeName };
+		columnsString = new string[]{ runnerName, speedName, distanceName, timeName, descriptionName };
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -69,6 +69,7 @@ public class TreeViewRuns : TreeViewEvent
 		myRun.Type = myStringOfData[4].ToString();
 		myRun.Distance = Convert.ToDouble(myStringOfData[5].ToString());
 		myRun.Time = Convert.ToDouble(myStringOfData[6].ToString());
+		myRun.Description = myStringOfData[7].ToString();
 		//speed is not needed to define
 
 		return myRun;
@@ -88,6 +89,7 @@ public class TreeViewRuns : TreeViewEvent
 					metersSecondsPreferred ), pDN);
 		myData[count++]	= Util.TrimDecimals(newRun.Distance.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
+		myData[count++] = newRun.Description;
 		myData[count++] = newRun.UniqueID.ToString();
 		return myData;
 	}
@@ -116,9 +118,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsName;
-		eventIDColumn = 3;
+		eventIDColumn = 4;
 		
-		columnsString = new string[]{runnerName, speedName, timeName};
+		columnsString = new string[]{runnerName, speedName, timeName, descriptionName};
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -134,6 +136,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myRunI.DistanceInterval = Convert.ToDouble(myStringOfData[7].ToString());
 		myRunI.IntervalTimesString = myStringOfData[8].ToString();
 		myRunI.Limited = myStringOfData[11].ToString();
+		myRunI.Description = myStringOfData[10].ToString();
 		//speed is not needed to define
 		
 		return myRunI;
@@ -166,6 +169,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
 							, pDN );
 */
+		myData[count++] = newRunI.Description;
 		myData[count++] = newRunI.UniqueID.ToString();
 		return myData;
 	}
@@ -192,6 +196,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 				, pDN );
 
 		myData[count++] = Util.TrimDecimals( timeInterval, pDN );
+		myData[count++] = "";
 		myData[count++] = newRunI.UniqueID.ToString(); 
 
 		return myData;
@@ -214,6 +219,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = Catalog.GetString("Total");
 		myData[count++] = "";
 		myData[count++] = Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN );
+		myData[count++] = "";
 		myData[count++] = newRunI.UniqueID.ToString(); 
 		
 		return myData;
@@ -233,6 +239,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = Util.TrimDecimals( 
 				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
 							, pDN );
+		myData[count++] = "";
 		myData[count++] = newRunI.UniqueID.ToString(); 
 		
 		return myData;
@@ -250,6 +257,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 					Util.GetTotalTime(newRunI.IntervalTimesString),
 					Util.GetNumberOfJumps(newRunI.IntervalTimesString, false)).ToString(),
 				pDN);
+		myData[count++] = "";
 		myData[count++] = newRunI.UniqueID.ToString(); 
 		
 		return myData;

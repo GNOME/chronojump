@@ -121,17 +121,13 @@ public class Stat
 	
 	void createCheckboxes(TreeView tv) 
 	{
-		CellRendererToggle rendererToggle = new CellRendererToggle ();
-		rendererToggle.Xalign = 0.0f;
-		GLib.Object ugly = (GLib.Object) rendererToggle;
-		ugly.Data ["column"] = 0;
-		rendererToggle.Toggled += new ToggledHandler (ItemToggled);
-		rendererToggle.Activatable = true;
-		rendererToggle.Active = true;
+		CellRendererToggle crt = new CellRendererToggle();
+		crt.Visible = true;
+		crt.Activatable = true;
+		crt.Active = true;
+		crt.Toggled += ItemToggled;
 
-		TreeViewColumn column = new TreeViewColumn ("", rendererToggle, "active", 0);
-		column.Sizing = TreeViewColumnSizing.Fixed;
-		column.FixedWidth = 50;
+		TreeViewColumn column = new TreeViewColumn ("", crt, "active", 0);
 		column.Clickable = true;
 		tv.InsertColumn (column, 0);
 	}
@@ -172,11 +168,10 @@ public class Stat
 		
 		Console.WriteLine("Toggled");
 
-		GLib.Object cellRendererToggle = (GLib.Object) o;
-		int column = (int) cellRendererToggle.Data["column"];
+		int column = 0;
 
-		Gtk.TreeIter iter;
-		if (store.GetIterFromString (out iter, args.Path))
+		TreeIter iter;
+		if (store.GetIter (out iter, new TreePath(args.Path)))
 		{
 			bool val = (bool) store.GetValue (iter, column);
 			Console.WriteLine ("toggled {0} with value {1}", args.Path, !val);
@@ -641,7 +636,8 @@ public class Stat
 			iter = new TreeIter();
 			
 			//iter = store.Append (iter);	//doesn't work
-			store.Append (out iter);	//add new row and make iter point to it
+			//store.Append (out iter);	//add new row and make iter point to it
+			iter = store.AppendNode ();
 		
 			//addAllNoneIfNeeded(statValues.Length);
 			

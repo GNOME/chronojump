@@ -954,11 +954,11 @@ msgstr "Velocitat"
 
 #: ../glade/chronojump.glade.h:213
 msgid "Squat Jump"
-msgstr "Salt \"rechoncho\""
+msgstr "Salt SJ"
 
 #: ../glade/chronojump.glade.h:214
 msgid "Squat Jump with extra weight"
-msgstr "Salt \"rechoncho\" amb pes extra"
+msgstr "Salt SJ amb pes extra"
 
 #: ../glade/chronojump.glade.h:215
 #: ../src/gui/jump.cs:1046

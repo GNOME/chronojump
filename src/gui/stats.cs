@@ -814,7 +814,7 @@ public class StatsWindow {
 
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
-		if(statisticType == "" || statisticSubType == "") {
+		if(statisticType == "" && statisticSubType == "") {
 			//for an unknown reason, when we select an option in the combo stats, 
 			//the on_combo_stats_stat_type_changed it's called two times? 
 			//in the first the value of Entry.Text is "";

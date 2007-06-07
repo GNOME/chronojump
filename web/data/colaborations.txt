@@ -1,5 +1,7 @@
 <ul>
 <li><a href="mailto:marchesedavid@yahoo.com.ar">David Marchese</a>
-<li><a href="mailto:juanfer@juanfer.com.ar">Juan Fernando Pardo</a>
 <li><a href="http://www.bortoleto.com/malu.htm">Maria Luisa Belloto</a>
+<li>Bernat Buscà
+<li>Josep Ma Padullés
+<li>Alberto García-Fogeda
 </ul>

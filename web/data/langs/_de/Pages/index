@@ -1,7 +1,12 @@
-<table width="100%" border="0" cellspacing="0" cellpadding="4"><tr bgcolor="#e6e6fa"><td align="left">Last&nbsp;Chronojump&nbsp;Version:&nbsp;<b>:::currentVersion:::</b>&nbsp;(:::currentVersionDate:::) </td><td align="right"> ... <a href="installation.html">install!</a> </td></tr></table>
 :::startTitle:::
-Einleitung
+News
 :::endTitle:::
+<ul>
+  <li>Last&nbsp;Chronojump&nbsp;Version:&nbsp; <a href="installation.html"><b>:::currentVersion:::</b>&nbsp;(:::currentVersionDate:::)</a> 
+  <li><a href="courses_es.html">1st Chronojump course on Barcelona</a> (spanish) (July 2007)
+</ul>
+
+<h4>Einleitung</h4>
 	
 	<h5><b>ChronoJump</b> ist ein komplettes Systemmultiplatform für das Maß, das Management und die Statistik der temporären Phasen des Sprunges.
 	</h5>

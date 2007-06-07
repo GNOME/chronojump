@@ -547,7 +547,7 @@ msgstr "Feu el gràfic d'aquesta estadística"
 
 #: ../glade/chronojump.glade.h:120
 msgid "Height (cm)"
-msgstr "Açada (cm)"
+msgstr "Alçada (cm)"
 
 #: ../glade/chronojump.glade.h:121
 msgid "Help"
@@ -2029,7 +2029,7 @@ msgstr "Pes"
 #: ../src/stats/sjCmjAbkPlus.cs:55
 #: ../src/treeViewJump.cs:39
 msgid "Height"
-msgstr "Açada"
+msgstr "Alçada"
 
 #: ../src/exportSession.cs:217
 #: ../src/treeViewJump.cs:40
@@ -2050,7 +2050,7 @@ msgstr "TV Max"
 
 #: ../src/exportSession.cs:260
 msgid "Max Height"
-msgstr "Açada Max"
+msgstr "Alçada Max"
 
 #: ../src/exportSession.cs:261
 msgid "Max Initial Speed"
@@ -2066,7 +2066,7 @@ msgstr "TV (promig)"
 
 #: ../src/exportSession.cs:264
 msgid "AVG Height"
-msgstr "Açada (promig)"
+msgstr "Alçada (promig)"
 
 #: ../src/exportSession.cs:265
 msgid "AVG Initial Speed"

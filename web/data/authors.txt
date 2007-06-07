@@ -1,4 +1,5 @@
 <ul>
 <li><a href="http://www.xdeblas.com">Xavier de Blas</a></li>
 <li><a href="http://www.iearobotics.com/personal/juan/">Ju&aacute;n Gonz&aacute;lez</a></li>
+<li><a href="mailto:juanfer@juanfer.com.ar">Juan Fernando Pardo</a>
 </ul>

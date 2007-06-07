@@ -191,8 +191,8 @@ class Sqlite
 		if(myVersion == "0.51") {
 			dbcon.Open();
 			SqliteJumpType.Update ("CJl", "CMJl"); 
-			SqliteEvent.Insert ("jump", "CMJl", "jump_cmj_l.png", true);
-			SqliteEvent.Insert ("jump", "ABKl", "jump_abk_l.png", true);
+			SqliteEvent.GraphLinkInsert ("jump", "CMJl", "jump_cmj_l.png", true);
+			SqliteEvent.GraphLinkInsert ("jump", "ABKl", "jump_abk_l.png", true);
 			SqlitePreferences.Update ("databaseVersion", "0.52"); 
 			Console.WriteLine("added graphLinks for cmj_l and abk_l, fixed CMJl name");
 			dbcon.Close();

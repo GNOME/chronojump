@@ -68,17 +68,20 @@ class SqliteJumpType : Sqlite
 
 		AddGraphLinks();	
 	}
-	
+
+	//put the graph links on the db
+	//don't put the full description because if the user changes language, description will be in old lang
+	//description will be on src/jumpType
 	public static void AddGraphLinks() {
-		SqliteEvent.Insert ("jump", "Free", "jump_free.png", true);
-		SqliteEvent.Insert ("jump", "SJ", "jump_sj.png", true);
-		SqliteEvent.Insert ("jump", "SJl", "jump_sj_l.png", true);
-		SqliteEvent.Insert ("jump", "CMJ", "jump_cmj.png", true);
-		SqliteEvent.Insert ("jump", "CMJl", "jump_cmj_l.png", true);
-		SqliteEvent.Insert ("jump", "ABK", "jump_abk.png", true);
-		SqliteEvent.Insert ("jump", "ABKl", "jump_abk_l.png", true);
-		SqliteEvent.Insert ("jump", "Rocket", "jump_rocket.png", true);
-		SqliteEvent.Insert ("jump", "DJ", "jump_dj.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "Free", "jump_free.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "SJ", "jump_sj.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "SJl", "jump_sj_l.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "CMJ", "jump_cmj.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "CMJl", "jump_cmj_l.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "ABK", "jump_abk.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "ABKl", "jump_abk_l.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "Rocket", "jump_rocket.png", true);
+		SqliteEvent.GraphLinkInsert ("jump", "DJ", "jump_dj.png", true);
 	}
 
 	//creates table containing the types of repetitive Jumps
@@ -124,10 +127,10 @@ class SqliteJumpType : Sqlite
 	}
 
 	public static void AddGraphLinksRj() {
-		SqliteEvent.Insert ("jumpRj", "RJ(j)", "jump_rj.png", true);
-		SqliteEvent.Insert ("jumpRj", "RJ(t)", "jump_rj.png", true);
-		SqliteEvent.Insert ("jumpRj", "RJ(unlimited)", "jump_rj_in.png", true);
-		SqliteEvent.Insert ("jumpRj", "triple jump", "jump_rj.png", true);
+		SqliteEvent.GraphLinkInsert ("jumpRj", "RJ(j)", "jump_rj.png", true);
+		SqliteEvent.GraphLinkInsert ("jumpRj", "RJ(t)", "jump_rj.png", true);
+		SqliteEvent.GraphLinkInsert ("jumpRj", "RJ(unlimited)", "jump_rj_in.png", true);
+		SqliteEvent.GraphLinkInsert ("jumpRj", "triple jump", "jump_rj.png", true);
 	}
 
 	/*

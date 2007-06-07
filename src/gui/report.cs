@@ -338,7 +338,7 @@ public class ReportWindow {
 		recordData();
 		
 		ReportWindowBox.report_window.Hide();
-		//ReportWindowBox = null;
+		ReportWindowBox = null;
 	}
 	
 	protected virtual void on_button_make_report_clicked (object o, EventArgs args)

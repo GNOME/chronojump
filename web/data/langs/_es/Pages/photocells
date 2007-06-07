@@ -1,0 +1,20 @@
+:::startTitle:::
+Fotocélulas
+:::endTitle:::
+
+
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<tr bgcolor="#e6e6fa"><th>Tipo</th><th>Fabricantes</th><th>Precio aproximado</th><th>Comentarios</th></tr>
+<tr valign="top"><td>Kits</td><td><a href="http://fadisel.com/Productes.aspx?x=r&t=photocell">Cebek</a>, <a href="http://www.kadex.com/cast/saleskit/saleskit.htm">Sales</a> (buscar relé óptico), ...</td><td>11-20 eur</td><td>Dos fotocélulas del mismo fabricante y modelo pueden tener distinto retardo.</td></tr>
+<br>
+<tr valign="top"><td>Profesionales</td><td><a href="http://www.omron247.com/doc/pdfcatal.nsf/D5CEF5558BD10BDB862570E4005445CF/$FILE/C04photoelectricSelgd1.pdf">Omron</a>, <a href="http://www.sick.com/home/search/en.html?query=photoelectric">Sick</a>, Omega, ...</td><td>50-90 eur (cada fotocélula) (Omega mucho más caras)</td><td>El retardo es conocido y ajustable. 2 fotocélulas de mismo modelo tendrán el mismo retardo. Existe retardo de activación y de desactivación (aunque éste último en muchas ocasiones no funciona).</td></tr>
+<tr valign="top"><td>&nbsp;</td><td colspan="3">Entre las profesionales cabe diferenciar entre las que tienen salida por relé y las que tienen salida por transistor. Por relé es más cara, tiene 30-50ms de retardo, y no es necesario un circuito para captar datos. Por transistor es más barata, con 10-12ms de retardo, y requiere circuito para captar datos.</td></tr>
+</table>
+
+<br><br>
+
+Este apartado requiere de su colaboración, si quiere añadir o modificar cualquier información, escriba <a href="contact_es.html">a la lista de desarrolladores: chronojump-devel</a>, o escriba un correo a xavi@xdeblas.com
+
+<br><br>
+
+Agradecimientos a JMa Padullés por su aportación en este apartado.

@@ -336,6 +336,7 @@ sub getSiteLinks {
 	$pageContent =~ s/:::imageLink:::/$siteURL\/images/g;
 	$pageContent =~ s/:::articleLink:::/$siteURL\/articles/g;
 	$pageContent =~ s/:::webLink:::/$siteURL/g; #only used for 'accessible in' when pointing to bibliography web pages
+							#used also to access new images on root dir, because image dir is not refresed now on gnome pages
 	$pageContent =~ s/:::manualLink:::/$CVSURL\/manual/g;
 
 	return $pageContent;

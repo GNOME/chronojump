@@ -507,8 +507,8 @@ public class ChronoJump
 		rand = new Random(40);
 		volumeOn = true;
 
-//		if(simulated)
-//			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
+		if(simulated)
+			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
 	}
 
 	//recuperate temp jumpRj or RunI if chronojump hangs
@@ -1961,7 +1961,7 @@ public class ChronoJump
 				0,		//limitValue
 				false,		//unlimited
 				jumpsMoreWin.SelectedDescription,
-				SqliteEvent.SelectFileName("jump", jumpsMoreWin.SelectedEventName)
+				SqliteEvent.GraphLinkSelectFileName("jump", jumpsMoreWin.SelectedEventName)
 				);
 
 		//destroy the win for not having updating problems if a new jump type is created
@@ -2147,7 +2147,7 @@ public class ChronoJump
 				jumpsRjMoreWin.SelectedLimitedValue,
 				jumpsRjMoreWin.SelectedUnlimited,
 				jumpsRjMoreWin.SelectedDescription,
-				SqliteEvent.SelectFileName("jumpRj", jumpsRjMoreWin.SelectedEventName)
+				SqliteEvent.GraphLinkSelectFileName("jumpRj", jumpsRjMoreWin.SelectedEventName)
 				);
 
 		//destroy the win for not having updating problems if a new jump type is created
@@ -2342,7 +2342,7 @@ public class ChronoJump
 				0,				//fixedValue (0, because has not intervals)
 				false,				//unlimited (false, because has not intervals)
 				runsMoreWin.SelectedDescription,
-				SqliteEvent.SelectFileName("run", runsMoreWin.SelectedEventName)
+				SqliteEvent.GraphLinkSelectFileName("run", runsMoreWin.SelectedEventName)
 				);
 		
 				
@@ -2516,7 +2516,7 @@ public class ChronoJump
 				runsIntervalMoreWin.SelectedLimitedValue,
 				runsIntervalMoreWin.SelectedUnlimited,
 				runsIntervalMoreWin.SelectedDescription,
-				SqliteEvent.SelectFileName("runInterval", runsMoreWin.SelectedEventName)
+				SqliteEvent.GraphLinkSelectFileName("runInterval", runsMoreWin.SelectedEventName)
 				);
 
 		bool unlimited = false;

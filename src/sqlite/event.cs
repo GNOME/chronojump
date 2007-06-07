@@ -48,7 +48,7 @@ class SqliteEvent : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert(string tableName, string eventName, string graphFileName, bool dbconOpened)
+	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened)
 	{
 		if(! dbconOpened) {
 			dbcon.Open();
@@ -66,7 +66,7 @@ class SqliteEvent : Sqlite
 		return myLast;
 	}
 	
-	public static string SelectFileName(string tableName, string eventName)
+	public static string GraphLinkSelectFileName(string tableName, string eventName)
 	{
 		dbcon.Open();
 

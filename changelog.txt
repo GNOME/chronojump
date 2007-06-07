@@ -1,5 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+7 jun 2007
+	Fixed bug on report / stats adding
+	fixed bug on report destroy window
+	fixed Makefile
+
 14 may 2007
 	finished gtk2 integration, Bug 433446 ¿ Convert to gtk-2.0 (Closed)
 	changed obsoleted:

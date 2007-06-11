@@ -187,8 +187,8 @@ public class ChronoJump
 	private Random rand;
 	bool volumeOn;
 	
-	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez"};
-	private static string progversion = "0.52-cvs";
+	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
+	private static string progversion = "0.52-svn";
 	private static string progname = "Chronojump";
 	
 	//persons

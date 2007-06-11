@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+11 jun 2007 
+	added juanfer as author in about
+
 7 jun 2007
 	Fixed bug on report / stats adding
 	fixed bug on report destroy window

@@ -12,6 +12,25 @@ Construção
 
 <h5>1.- Construção-obtenção do cronômetro</h5>
 
+Chronopic 2.0 Vinda logo
+
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<tr bgcolor="#e6e6fa"><th>USB - frontal</th><th>USB - detrás</th></tr>
+<tr>
+<td><a href=":::webLink:::/chronopic_2_0_usb_front.jpg"><img src="chronopic_2_0_usb_front_mini.jpg"></a></td>
+<td><a href=":::webLink:::/chronopic_2_0_usb_back.jpg"><img src="chronopic_2_0_usb_back_mini.jpg"></a></td>
+</tr>
+<tr bgcolor="#e6e6fa"><th>Serie - frontal</th><th>Serie - detrás</th></tr>
+<tr>
+<td><a href=":::webLink:::/chronopic_2_0_serial_front.jpg"><img src="chronopic_2_0_serial_front_mini.jpg"></a></td>
+<td><a href=":::webLink:::/chronopic_2_0_serial_back.jpg"><img src="chronopic_2_0_serial_back_mini.jpg"></a></td>
+</tr>
+</table>
+
+<p><br>
+<table bgcolor="#999999" width="100%"><tr><td>
+<b>Velho Chronopic 1.0</b>
+
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
 <tr bgcolor="#e6e6fa"><th>Compra Chronopic</th><th>Escribir a</th><th>Precio aproximado</th><th>Comentarios</th></tr>
 <tr><td>en España</td><td>andres@ifara.com</td><td>70 Euros +IVA</td><td>Grabado en PCB</td></tr>
@@ -25,6 +44,7 @@ Construção
 <br>
 Check also the <a href="construction_chronopic_juanfer.html">Chronopic_juanfer</a> (cheaper, easier to build). [Pending to translate]
 
+</td></tr></table>
 
 <h5>2.- Construção de Plataforma de contatos</h5>
 

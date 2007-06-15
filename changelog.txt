@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+15 jun 2007
+	test to fix this bug thread:
+	http://mail.gnome.org/archives/chronojump-list/2007-June/msg00013.html
+	
 11 jun 2007 
 	added juanfer as author in about
 

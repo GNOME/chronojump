@@ -225,6 +225,8 @@ public class EventExecute
 		 * this will help to sync chronopic data with the timerCount data
 		 * later also, copy the value of the chronopic to the timerCount label
 		 */
+
+		//updateTimeProgressBar();
 		if(needEndEvent) {
 			eventExecuteWin.EventEnded();
 			//needEndEvent = false;

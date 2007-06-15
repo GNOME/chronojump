@@ -824,6 +824,7 @@ public class JumpRjExecute : JumpExecute
 		string limitString = "";
 
 		//if user clicked in finish earlier
+		//or toggled with shouldFinishAtNextTime
 		if(finish) {
 			//if user clicked finish and last event was tc, probably there are more TCs than TFs
 			//if last event was tc, it has no sense, it should be deleted
@@ -848,6 +849,21 @@ public class JumpRjExecute : JumpExecute
 				prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(Util.GetLast(tvString), Util.GetLast(tcString), tvString, tcString);
 				needUpdateGraphType = eventType.JUMPREACTIVE;
 				needUpdateGraph = true;
+
+
+
+				//try to fix this:
+				//http://mail.gnome.org/archives/chronojump-list/2007-June/msg00013.html
+							updateProgressBar= new UpdateProgressBar (
+									true, //isEvent
+									jumpsLimited, //if jumpsLimited: do fraction; if time limited: do pulse
+									 Util.GetNumberOfJumps(tvString, false)
+									);  
+							needUpdateEventProgressBar = true;
+				//and this:
+				//http://mail.gnome.org/archives/chronojump-list/2007-June/msg00017.html
+							updateTimerCountWithChronopicData(tcString, tvString);							
+							
 			}
 
 			jumps = Util.GetNumberOfJumps(tvString, false);

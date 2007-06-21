@@ -86,7 +86,7 @@ public class GraphDjIndex : StatDjIndex
 			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("Grey"), 2.0F));
+					6, new Pen (Color.FromName("Gray"), 2.0F));
 			//serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
 			serieTc.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Green"), 2.0F));
@@ -98,7 +98,7 @@ public class GraphDjIndex : StatDjIndex
 		
 			//for the line between markers
 			serieIndex.SerieColor = Color.FromName("Red");
-			serieHeight.SerieColor = Color.FromName("Grey");
+			serieHeight.SerieColor = Color.FromName("Gray");
 			serieTc.SerieColor = Color.FromName("Green");
 			serieTv.SerieColor = Color.FromName("Blue");
 			serieFall.SerieColor = Color.FromName("Chocolate");

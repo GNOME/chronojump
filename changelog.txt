@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+21 jun 2007
+	Fixed bug on graph djQ & djIndex: Changed "Grey" from "Gray"
+
 15 jun 2007
 	test to fix this bug thread:
 	http://mail.gnome.org/archives/chronojump-list/2007-June/msg00013.html

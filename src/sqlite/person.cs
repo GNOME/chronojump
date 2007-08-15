@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqlitePerson : Sqlite
@@ -74,6 +76,7 @@ class SqlitePerson : Sqlite
 		if(reader.Read()) {
 			myReturn = reader[0].ToString();
 		}
+		dbcon.Close();
 		return myReturn;
 	}
 		
@@ -93,6 +96,7 @@ class SqlitePerson : Sqlite
 		if(reader.Read()) {
 			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
 		}
+		dbcon.Close();
 		return myReturn;
 	}
 		

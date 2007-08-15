@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqlitePulse : Sqlite
@@ -117,35 +119,6 @@ class SqlitePulse : Sqlite
 		return myPulses;
 	}
 
-	/*
-	public static Run SelectNormalRunData(int uniqueID)
-	{
-		dbcon.Open();
-
-		dbcmd.CommandText = "SELECT * FROM run WHERE uniqueID == " + uniqueID;
-		
-		Console.WriteLine(dbcmd.CommandText.ToString());
-
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		reader.Read();
-		
-		Run myRun = new Run(
-				Convert.ToInt32(reader[0]),	//uniqueID
-				Convert.ToInt32(reader[1]),	//personID
-				Convert.ToInt32(reader[2]),	//sessionID
-				reader[3].ToString(),		//type
-				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[4].ToString()) ),
-				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[5].ToString()) ),
-				reader[6].ToString() //description
-				);
-	
-		return myRun;
-	}
-	*/
-		
 	public static Pulse SelectPulseData(int uniqueID)
 	{
 		dbcon.Open();
@@ -170,6 +143,7 @@ class SqlitePulse : Sqlite
 				reader[7].ToString()		//description
 				);
 
+		dbcon.Close();
 		return myPulse;
 	}
 

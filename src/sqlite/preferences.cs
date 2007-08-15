@@ -22,8 +22,10 @@
 using System;
 using System.Data;
 using System.IO;
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqlitePreferences : Sqlite
@@ -37,13 +39,35 @@ class SqlitePreferences : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
+	protected internal static void initializeTable(string databaseVersion)
+	{
+		Insert ("databaseVersion", databaseVersion); 
+		if(Util.IsWindows()) 
+			Insert ("chronopicPort", "COM1");
+		else
+			Insert ("chronopicPort", "/dev/ttyS0");
+		
+		Insert ("digitsNumber", "3");
+		Insert ("showHeight", "True");
+		Insert ("showInitialSpeed", "True");
+		Insert ("showQIndex", "False"); //for treeviewJumps
+		Insert ("showDjIndex", "False"); //for treeviewJumps
+		Insert ("simulated", "True");
+		Insert ("weightStatsPercent", "True"); //currently not used
+		Insert ("askDeletion", "True");
+		Insert ("heightPreferred", "False");
+		Insert ("metersSecondsPreferred", "True");
+		Insert ("language", "es-ES"); 
+		Insert ("allowFinishRjAfterTime", "True"); 
+	}
+
 	public static void Insert(string myName, string myValue)
 	{
-		dbcon.Open();
+		//dbcon.Open();
 		dbcmd.CommandText = "INSERT INTO preferences (name, value) VALUES ('" + 
 			myName + "', '" + myValue + "')" ;
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		//dbcon.Close();
 	}
 
 	public static void Update(string myName, string myValue)
@@ -64,6 +88,7 @@ class SqlitePreferences : Sqlite
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
+		//SqliteDataReader reader;
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 

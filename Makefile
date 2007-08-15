@@ -59,7 +59,9 @@ RESOURCES_REPORT = -resource:images/chronojump_logo.png,chronojump_logo.png \
 		-resource:images/report_web_style.css,report_web_style.css \
 
 
-CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services
+#CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services
+CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.Sqlite -r:System.Web.Services
+#CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.Sqlite -r:Mono.Data.SqliteClient -r:System.Web.Services
 #CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services 
 
 

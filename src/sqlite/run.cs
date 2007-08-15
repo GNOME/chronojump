@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqliteRun : Sqlite
@@ -231,6 +233,7 @@ class SqliteRun : Sqlite
 				reader[6].ToString() //description
 				);
 	
+		dbcon.Close();
 		return myRun;
 	}
 		
@@ -263,6 +266,7 @@ class SqliteRun : Sqlite
 				reader[10].ToString() 		//limited
 				);
 
+		dbcon.Close();
 		return myRun;
 	}
 

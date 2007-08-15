@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqliteSession : Sqlite
@@ -88,6 +90,7 @@ class SqliteSession : Sqlite
 		Session mySession = new Session(values[0], 
 			values[1], values[2], values[3], values[4]);
 		
+		dbcon.Close();
 		return mySession;
 	}
 	

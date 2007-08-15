@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqliteRunType : Sqlite
@@ -76,9 +78,13 @@ class SqliteRunType : Sqlite
 	}
 	
 	public static void AddGraphLinksRunSimple() {
+Console.WriteLine("A");		
 		SqliteEvent.GraphLinkInsert ("run", "20m", "run_simple.png", true);
+Console.WriteLine("B");		
 		SqliteEvent.GraphLinkInsert ("run", "100m", "run_simple.png", true);
+Console.WriteLine("C");		
 		SqliteEvent.GraphLinkInsert ("run", "200m", "run_simple.png", true);
+Console.WriteLine("D");		
 		SqliteEvent.GraphLinkInsert ("run", "400m", "run_simple.png", true);
 		SqliteEvent.GraphLinkInsert ("run", "1000m", "run_simple.png", true);
 		SqliteEvent.GraphLinkInsert ("run", "2000m", "run_simple.png", true);
@@ -345,6 +351,7 @@ class SqliteRunType : Sqlite
 		}
 		Console.WriteLine("exists = {0}", exists.ToString());
 
+		dbcon.Close();
 		return exists;
 	}
 	
@@ -365,6 +372,7 @@ class SqliteRunType : Sqlite
 		while(reader.Read()) {
 			distance = Convert.ToDouble(reader[0].ToString());
 		}
+		dbcon.Close();
 		return distance;
 	}
 

@@ -1,5 +1,25 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+16 aug 2007
+	0.53-svn Not yet ready to be used on windows mono
+	Working on Windows Mono version!!
+	-language selector is also hidden on windows now (mono works with
+	locale)
+	-new method to connect with sqlite:
+	using Mono.Data.SqliteClient instead of using Mono.Data.Sqlite. Adding
+	some dbcon.Close(); because now chrases if they are not present
+
+	PENDENT: connect fine with "data source"
+		see how to update old database if needed
+	
+	-fixed some bugs on two dbcons opened at same time
+	-Changing from Mono.Data.SqliteClient to Mono.Data.Sqlite (new in
+	 mono.1.2.4) because old connection system fails a lot on chronojump
+	 mono windows
+	-changed stock icons (don't work on win)
+	-fixed bug on reaction times treeview header:
+	http://mail.gnome.org/archives/chronojump-devel-list/2007-August/msg00001.html
+
 21 jun 2007
 	Fixed bug on graph djQ & djIndex: Changed "Grey" from "Gray"
 

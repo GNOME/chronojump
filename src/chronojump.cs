@@ -188,7 +188,7 @@ public class ChronoJump
 	bool volumeOn;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.52-svn";
+	private static string progversion = "0.53-svn";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -391,8 +391,8 @@ public class ChronoJump
 			
 		//we need to connect sqlite to do the languageChange
 		//change language works on windows. On Linux let's change the locale
-		if(Util.IsWindows()) 
-			languageChange();
+		//if(Util.IsWindows()) 
+		//	languageChange();
 
 		
 		Application.Init();
@@ -400,6 +400,7 @@ public class ChronoJump
 		Util.IsWindows();	//only as additional info here
 
 
+		/*
 		//if firstTime on windows, then ask for the language
 		if(Util.IsWindows() && isFirstTime) {
 			//show language dialog (only first time)
@@ -408,16 +409,19 @@ public class ChronoJump
 			languageWin.ButtonAccept.Clicked += new EventHandler(on_language_clicked);
 			Application.Run();
 		} else {
+		*/
 			createMainWindow(recuperatedString);
 			Application.Run();
+			/*
 		}
+		*/
 	}
 
 	//only called the first time the software runs
 	//and only on windows
 	private void on_language_clicked(object o, EventArgs args) {
-		languageChange();
-		createMainWindow("");
+		//languageChange();
+		//createMainWindow("");
 	}
 
 
@@ -515,6 +519,7 @@ public class ChronoJump
 	private string recuperateBrokenEvents() 
 	{
 		string returnString = "";
+		
 		string tableName = "tempJumpRj";
 		int existsTempData = Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
@@ -547,6 +552,7 @@ public class ChronoJump
 			Sqlite.DeleteTempEvents(tableName);
 			returnString = "Recuperated last Intervallic Run";
 		}
+		
 		return returnString;
 	}
 
@@ -691,8 +697,8 @@ public class ChronoJump
 		
 	
 		//change language works on windows. On Linux let's change the locale
-		if(Util.IsWindows())
-			languageChange();
+		//if(Util.IsWindows())
+		//	languageChange();
 			
 		//pass to report
 		report.PrefsDigitsNumber = prefsDigitsNumber;
@@ -704,6 +710,11 @@ public class ChronoJump
 		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
 	}
 
+	/*
+	 * languageChange is not related to windows and linux, is related to .net or mono
+	 * on .net (windows) we can change language. On mono, we use locale
+	 * now since 0.53 svn, we use mono on windows and linux, then this is not used
+	 *
 	private void languageChange () {
 		string myLanguage = SqlitePreferences.Select("language");
 		if ( myLanguage != "0") {
@@ -718,7 +729,7 @@ public class ChronoJump
 			}
 		}
 	}
-
+*/
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW PERSONS ----------------------
@@ -1741,8 +1752,8 @@ public class ChronoJump
 			allowFinishRjAfterTime = false;
 		
 		//change language works on windows. On Linux let's change the locale
-		if(Util.IsWindows()) 
-			languageChange();
+		//if(Util.IsWindows()) 
+		//	languageChange();
 	
 
 		//this will crash if currentSession is not created/loaded, then go to catch
@@ -1751,15 +1762,18 @@ public class ChronoJump
 			createTreeView_jumps_rj (treeview_jumps_rj);
 			createTreeView_runs (treeview_runs);
 			createTreeView_runs_interval (treeview_runs_interval);
-			createTreeView_reaction_times(treeview_reaction_times);
 			createTreeView_pulses(treeview_pulses);
+			createTreeView_reaction_times(treeview_reaction_times);
 			
 			on_combo_jumps_changed(combo_jumps, args);
 			on_combo_jumps_rj_changed(combo_jumps_rj, args);
 			on_combo_runs_changed(combo_runs, args);
 			on_combo_runs_interval_changed(combo_runs_interval, args);
-			//currently no combo_reaction_times
 			on_combo_pulses_changed(combo_pulses, args);
+
+			//currently no combo_reaction_times
+			treeview_reaction_times_storeReset();
+			fillTreeView_reaction_times();
 		}
 		catch 
 		{

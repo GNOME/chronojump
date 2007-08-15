@@ -21,7 +21,6 @@
 
 using System;
 using System.Data;
-using Mono.Data.SqliteClient;
 using System.Text; //StringBuilder
 
 using System.Threading;

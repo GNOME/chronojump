@@ -8,9 +8,9 @@
 PO_DIR="po"
 LOCALE_DIR="locale"
 
-export created=0
-export updated=0
-export nothingDone=0
+created=0
+updated=0
+nothingDone=0
 
 echo "Available PO files:"
 for i in `ls $PO_DIR/*.po`; do 

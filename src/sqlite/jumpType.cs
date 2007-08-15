@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqliteJumpType : Sqlite
@@ -350,6 +352,7 @@ class SqliteJumpType : Sqlite
 		if (reader.Read()) {
 			exists = true;
 		}
+		dbcon.Close();
 		Console.WriteLine("exists = {0}", exists.ToString());
 
 		return exists;
@@ -377,6 +380,7 @@ class SqliteJumpType : Sqlite
 				Console.WriteLine("found type: NO hasWeight");
 			}
 		}
+		dbcon.Close();
 		return hasWeight;
 	}
 
@@ -400,6 +404,7 @@ class SqliteJumpType : Sqlite
 				hasFall = false;
 			}
 		}
+		dbcon.Close();
 		return hasFall;
 	}
 	

@@ -23,8 +23,10 @@ using System;
 //using System.Data;
 //using System.IO;
 //using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 /* this class has some initializations used for all events */
@@ -50,17 +52,26 @@ class SqliteEvent : Sqlite
 	
 	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened)
 	{
+		Console.WriteLine("1");
 		if(! dbconOpened) {
+		Console.WriteLine("2");
 			dbcon.Open();
 		}
+		Console.WriteLine("3");
 		dbcmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
 				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
+		Console.WriteLine("4");
 		Console.WriteLine(dbcmd.CommandText.ToString());
+		Console.WriteLine("5");
 		dbcmd.ExecuteNonQuery();
+		Console.WriteLine("6");
 		int myLast = dbcon.LastInsertRowId;
+		Console.WriteLine("7");
 		if(! dbconOpened) {
+		Console.WriteLine("8");
 			dbcon.Close();
+		Console.WriteLine("9");
 		}
 
 		return myLast;
@@ -83,6 +94,7 @@ class SqliteEvent : Sqlite
 			returnString = reader[0].ToString();
 		}
 	
+		dbcon.Close();
 		return returnString;
 	}
 		

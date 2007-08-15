@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqliteJump : Sqlite
@@ -253,6 +255,7 @@ class SqliteJump : Sqlite
 				reader[8].ToString() //description
 				);
 	
+		dbcon.Close();
 		return myJump;
 	}
 		
@@ -292,6 +295,7 @@ class SqliteJump : Sqlite
 				reader[15].ToString()		//limited
 				);
 
+		dbcon.Close();
 		return myJump;
 	}
 	
@@ -320,6 +324,7 @@ class SqliteJump : Sqlite
 						reader[3].ToString(), reader[4].ToString());
 			}
 		}
+		dbcon.Close();
 	}
 
 	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description)

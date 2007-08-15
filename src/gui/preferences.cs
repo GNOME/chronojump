@@ -85,9 +85,9 @@ public class PreferencesWindow {
 
 
 		PreferencesWindowBox.languageIni = language;
-		if(Util.IsWindows())
-			PreferencesWindowBox.createComboLanguage(language);
-		else 
+		//if(Util.IsWindows())
+		//	PreferencesWindowBox.createComboLanguage(language);
+		//else 
 			PreferencesWindowBox.hideLanguageStuff();
 		
 		PreferencesWindowBox.spinbutton_decimals.Value = digitsNumber;
@@ -163,7 +163,6 @@ public class PreferencesWindow {
 		return PreferencesWindowBox;
 	}
 	
-	//private void createComboLanguage(string myLanguage) {
 	private void createComboLanguage(string myLanguageCode) {
 		combo_language = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames());
@@ -185,9 +184,9 @@ public class PreferencesWindow {
 		if(!found)
 			combo_language.Active = UtilGtk.ComboMakeActive(Constants.Languages, Util.GetLanguageName(Constants.LanguageDefault));
 		
-		if(Util.IsWindows())
-			combo_language.Sensitive = true;
-		else 
+		//if(Util.IsWindows())
+		//	combo_language.Sensitive = true;
+		//else 
 			combo_language.Sensitive = false;
 	}
 			
@@ -238,6 +237,7 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString());
 		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString());
 		
+		/*
 		if(Util.IsWindows()) {
 			//if language has changed
 			if(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language) != languageIni) {
@@ -253,6 +253,7 @@ public class PreferencesWindow {
 				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."));
 			}
 		}
+		*/
 
 		PreferencesWindowBox.preferences.Hide();
 		PreferencesWindowBox = null;

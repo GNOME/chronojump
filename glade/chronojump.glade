@@ -11760,7 +11760,7 @@ If you need more, just repeat the operation later.</property>
 						<widget class="GtkImage" id="image2132">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_bell</property>
+						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -11917,7 +11917,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1348">
 					      <property name="visible">True</property>
 					      <property name="icon_size">1</property>
-					      <property name="icon_name">stock_form-add-field</property>
+					      <property name="icon_name">gtk-about</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13065,7 +13065,7 @@ If you need more, just repeat the operation later.</property>
 						<widget class="GtkImage" id="image2173">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_bell</property>
+						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -13222,7 +13222,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1406">
 					      <property name="visible">True</property>
 					      <property name="icon_size">1</property>
-					      <property name="icon_name">stock_form-add-field</property>
+					      <property name="icon_name">gtk-about</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13984,7 +13984,7 @@ If you need more, just repeat the operation later.</property>
 					    <widget class="GtkImage" id="image1473">
 					      <property name="visible">True</property>
 					      <property name="icon_size">1</property>
-					      <property name="icon_name">stock_form-add-field</property>
+					      <property name="icon_name">gtk-about</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -14361,7 +14361,7 @@ If you need more, just repeat the operation later.</property>
 			<widget class="GtkImage" id="image1970">
 			  <property name="visible">True</property>
 			  <property name="icon_size">4</property>
-			  <property name="icon_name">stock_volume</property>
+			  <property name="icon_name">gtk-about</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -16422,7 +16422,7 @@ Test&lt;/b&gt;</property>
 				    <widget class="GtkImage" id="image_jump_reactive_tf_good">
 				      <property name="visible">True</property>
 				      <property name="icon_size">1</property>
-				      <property name="icon_name">stock_calc-accept</property>
+				      <property name="icon_name">gtk-yes</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16439,7 +16439,7 @@ Test&lt;/b&gt;</property>
 				    <widget class="GtkImage" id="image_jump_reactive_tf_bad">
 				      <property name="visible">True</property>
 				      <property name="icon_size">1</property>
-				      <property name="icon_name">stock_calc-cancel</property>
+				      <property name="icon_name">gtk-no</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16512,7 +16512,7 @@ Test&lt;/b&gt;</property>
 				    <widget class="GtkImage" id="image_jump_reactive_tc_good">
 				      <property name="visible">True</property>
 				      <property name="icon_size">1</property>
-				      <property name="icon_name">stock_calc-accept</property>
+				      <property name="icon_name">gtk-yes</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16529,7 +16529,7 @@ Test&lt;/b&gt;</property>
 				    <widget class="GtkImage" id="image_jump_reactive_tc_bad">
 				      <property name="visible">True</property>
 				      <property name="icon_size">1</property>
-				      <property name="icon_name">stock_calc-cancel</property>
+				      <property name="icon_name">gtk-no</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16602,7 +16602,7 @@ Test&lt;/b&gt;</property>
 				    <widget class="GtkImage" id="image_jump_reactive_tf_tc_good">
 				      <property name="visible">True</property>
 				      <property name="icon_size">1</property>
-				      <property name="icon_name">stock_calc-accept</property>
+				      <property name="icon_name">gtk-yes</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16619,7 +16619,7 @@ Test&lt;/b&gt;</property>
 				    <widget class="GtkImage" id="image_jump_reactive_tf_tc_bad">
 				      <property name="visible">True</property>
 				      <property name="icon_size">1</property>
-				      <property name="icon_name">stock_calc-cancel</property>
+				      <property name="icon_name">gtk-no</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -17027,7 +17027,7 @@ Test&lt;/b&gt;</property>
 				    <widget class="GtkImage" id="image_run_interval_time_good">
 				      <property name="visible">True</property>
 				      <property name="icon_size">1</property>
-				      <property name="icon_name">stock_calc-accept</property>
+				      <property name="icon_name">gtk-yes</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -17044,7 +17044,7 @@ Test&lt;/b&gt;</property>
 				    <widget class="GtkImage" id="image_run_interval_time_bad">
 				      <property name="visible">True</property>
 				      <property name="icon_size">1</property>
-				      <property name="icon_name">stock_calc-cancel</property>
+				      <property name="icon_name">gtk-no</property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -19430,7 +19430,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2117">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_bell</property>
+				  <property name="icon_name">gtk-about</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19447,7 +19447,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2124">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_calc-accept</property>
+				  <property name="icon_name">gtk-yes</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19528,7 +19528,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2125">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_bell</property>
+				  <property name="icon_name">gtk-about</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19545,7 +19545,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2126">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_calc-cancel</property>
+				  <property name="icon_name">gtk-no</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19626,7 +19626,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2169">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_bell</property>
+				  <property name="icon_name">gtk-about</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19643,7 +19643,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2170">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_calc-accept</property>
+				  <property name="icon_name">gtk-yes</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19724,7 +19724,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2171">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_bell</property>
+				  <property name="icon_name">gtk-about</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19741,7 +19741,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2172">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_calc-cancel</property>
+				  <property name="icon_name">gtk-no</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -20001,7 +20001,7 @@ Test&lt;/b&gt;</property>
 						    <widget class="GtkImage" id="image2145">
 						      <property name="visible">True</property>
 						      <property name="icon_size">4</property>
-						      <property name="icon_name">stock_bell</property>
+						      <property name="icon_name">gtk-about</property>
 						      <property name="xalign">0.5</property>
 						      <property name="yalign">0.5</property>
 						      <property name="xpad">0</property>
@@ -20018,7 +20018,7 @@ Test&lt;/b&gt;</property>
 						    <widget class="GtkImage" id="image2146">
 						      <property name="visible">True</property>
 						      <property name="icon_size">4</property>
-						      <property name="icon_name">stock_calc-accept</property>
+						      <property name="icon_name">gtk-yes</property>
 						      <property name="xalign">0.5</property>
 						      <property name="yalign">0.5</property>
 						      <property name="xpad">0</property>
@@ -20085,7 +20085,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2147">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_bell</property>
+						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20102,7 +20102,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2148">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_calc-cancel</property>
+						  <property name="icon_name">gtk-no</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20162,7 +20162,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2149">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_bell</property>
+						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20179,7 +20179,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2150">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_calc-cancel</property>
+						  <property name="icon_name">gtk-no</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20239,7 +20239,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2151">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_bell</property>
+						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20256,7 +20256,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2152">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_calc-accept</property>
+						  <property name="icon_name">gtk-yes</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20316,7 +20316,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2153">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_bell</property>
+						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20333,7 +20333,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2154">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_calc-accept</property>
+						  <property name="icon_name">gtk-yes</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20393,7 +20393,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2155">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_bell</property>
+						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20410,7 +20410,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2156">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_calc-cancel</property>
+						  <property name="icon_name">gtk-no</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -21230,7 +21230,7 @@ Test&lt;/b&gt;</property>
 						    <widget class="GtkImage" id="image2157">
 						      <property name="visible">True</property>
 						      <property name="icon_size">4</property>
-						      <property name="icon_name">stock_bell</property>
+						      <property name="icon_name">gtk-about</property>
 						      <property name="xalign">0.5</property>
 						      <property name="yalign">0.5</property>
 						      <property name="xpad">0</property>
@@ -21247,7 +21247,7 @@ Test&lt;/b&gt;</property>
 						    <widget class="GtkImage" id="image2174">
 						      <property name="visible">True</property>
 						      <property name="icon_size">4</property>
-						      <property name="icon_name">stock_calc-accept</property>
+						      <property name="icon_name">gtk-yes</property>
 						      <property name="xalign">0.5</property>
 						      <property name="yalign">0.5</property>
 						      <property name="xpad">0</property>
@@ -21314,7 +21314,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2159">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_bell</property>
+						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -21331,7 +21331,7 @@ Test&lt;/b&gt;</property>
 						<widget class="GtkImage" id="image2160">
 						  <property name="visible">True</property>
 						  <property name="icon_size">4</property>
-						  <property name="icon_name">stock_calc-cancel</property>
+						  <property name="icon_name">gtk-no</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -21652,7 +21652,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2127">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_bell</property>
+				  <property name="icon_name">gtk-about</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -21669,7 +21669,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2128">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_calc-accept</property>
+				  <property name="icon_name">gtk-yes</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -21733,7 +21733,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2129">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_bell</property>
+				  <property name="icon_name">gtk-about</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -21750,7 +21750,7 @@ Test&lt;/b&gt;</property>
 				<widget class="GtkImage" id="image2130">
 				  <property name="visible">True</property>
 				  <property name="icon_size">4</property>
-				  <property name="icon_name">stock_calc-cancel</property>
+				  <property name="icon_name">gtk-no</property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>

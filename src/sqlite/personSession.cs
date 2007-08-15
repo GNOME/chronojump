@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqlitePersonSession : Sqlite
@@ -69,6 +71,7 @@ class SqlitePersonSession : Sqlite
 		}
 		Console.WriteLine("exists = {0}", exists.ToString());
 
+		dbcon.Close();
 		return exists;
 	}
 	
@@ -91,6 +94,7 @@ class SqlitePersonSession : Sqlite
 		}
 		//Console.WriteLine("exists = {0}", exists.ToString());
 
+		dbcon.Close();
 		return exists;
 	}
 	
@@ -114,6 +118,7 @@ class SqlitePersonSession : Sqlite
 		}
 		//Console.WriteLine("exists = {0}", exists.ToString());
 
+		dbcon.Close();
 		return exists;
 	}
 	
@@ -137,6 +142,7 @@ class SqlitePersonSession : Sqlite
 		}
 		//Console.WriteLine("exists = {0}", exists.ToString());
 
+		dbcon.Close();
 		return exists;
 	}
 	
@@ -164,6 +170,7 @@ class SqlitePersonSession : Sqlite
 		Person myPerson = new Person(Convert.ToInt32(myUniqueID), values[0], 
 			values[1], values[2], Convert.ToInt32(values[3]), Convert.ToInt32(values[4]), values[5]);
 		
+		dbcon.Close();
 		return myPerson;
 	}
 	

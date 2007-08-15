@@ -23,8 +23,10 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-using Mono.Data.SqliteClient;
-using System.Data.SqlClient;
+//using Mono.Data.SqliteClient;
+//using System.Data.SqlClient;
+using Mono.Data.Sqlite;
+//using System.Data.SQLite;
 
 
 class SqlitePulseType : Sqlite
@@ -186,6 +188,7 @@ class SqlitePulseType : Sqlite
 		}
 		Console.WriteLine("exists = {0}", exists.ToString());
 
+		dbcon.Close();
 		return exists;
 	}
 	*/

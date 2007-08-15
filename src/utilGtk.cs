@@ -20,12 +20,8 @@
  */
 
 using System;
-//using System.Data;
 using System.Text; //StringBuilder
 using Gtk;
-
-//using System.Diagnostics; 	//for detect OS
-//using System.IO; 		//for detect OS
 
 //this class tries to be a space for methods that are used in different classes
 //only Gtk related methods (not used bu the server) this is the differnece with Util

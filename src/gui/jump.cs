@@ -1021,12 +1021,16 @@ public class JumpsMoreWindow : EventMoreWindow
 				myStringFull[3] = Catalog.GetString("No");
 			}
 
+			JumpType tempType = new JumpType (myStringFull[1]);
+			string description  = getDescriptionLocalised(tempType, myStringFull[4]);
+
+
 			store.AppendValues (
 					//myStringFull[0], //don't display de uniqueID
 					myStringFull[1],	//name 
 					myStringFull[2], 	//startIn
 					myStringFull[3], 	//weight
-					myStringFull[4]		//description
+					description
 					);
 		}	
 	}
@@ -1208,6 +1212,9 @@ public class JumpsRjMoreWindow : EventMoreWindow
 				}
 			}
 
+			JumpType tempType = new JumpType (myStringFull[1]);
+			string description  = getDescriptionLocalised(tempType, myStringFull[6]);
+
 			store.AppendValues (
 					//myStringFull[0], //don't display de uniqueID
 					myStringFull[1],	//name 
@@ -1215,7 +1222,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 					myLimiterValue,		//? or exact value
 					myStringFull[2], 	//startIn
 					myStringFull[3], 	//weight
-					myStringFull[6]		//description
+					description
 					);
 		}	
 	}

@@ -27,9 +27,10 @@ using Glade;
 public class DialogImageTest
 {
 	[Widget] Gtk.Dialog dialog_image_test;
-	[Widget] Gtk.Label label_frame_test;
 	[Widget] Gtk.Image image_test;
-	[Widget] Gtk.Label label_test;
+	[Widget] Gtk.Label label_name_description;
+	[Widget] Gtk.Label label_long_description;
+	[Widget] Gtk.ScrolledWindow scrolledwindow28;
 
 	public DialogImageTest (EventType myEventType)
 	{
@@ -37,9 +38,16 @@ public class DialogImageTest
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_image_test", null);
 		gladeXML.Autoconnect(this);
 		
-		label_frame_test.Text = "<b>" + myEventType.Name + "</b>"; 
-		label_frame_test.UseMarkup = true; 
-		label_test.Text = myEventType.Description; 
+		label_name_description.Text = "<b>" + myEventType.Name + "</b>" + " - " + myEventType.Description; 
+		label_name_description.UseMarkup = true; 
+
+		if(myEventType.LongDescription.Length == 0)
+			scrolledwindow28.Hide();
+		else {
+			label_long_description.Text = myEventType.LongDescription; 
+			label_long_description.UseMarkup = true; 
+		}
+
                 Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + myEventType.ImageFileName);
                 image_test.Pixbuf = pixbuf;
 	}

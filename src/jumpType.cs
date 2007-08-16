@@ -59,16 +59,27 @@ public class JumpType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			if(name == "Free") {
-				description	= Catalog.GetString("Free Jump");
 				imageFileName = "jump_free.png";
-			} else if (name == "SJ") {
-				description	= Catalog.GetString("SJ Jump");
+				description	= Catalog.GetString("Free Jump");
+				longDescription	= Catalog.GetString("Simple jump with no special technique");
+			} 
+			else if (name == "SJ") {
 				imageFileName = "jump_sj.png";
-			} else if (name == "CMJ") {
-				description	= Catalog.GetString("CMJ Jump");
+				description	= Catalog.GetString("Squat Jump");
+				longDescription  = "A squat jump is where the jumper starts from a hips and knee flexion (90º), and he extends the knees and hips to jump vertically up off the ground. There is no countermovement to the floor.\n" +
+					"Hands are on the hips";
+			} 
+			else if (name == "CMJ") {
 				imageFileName = "jump_cmj.png";
-			} else if (name == "ABK") {
-				description	= Catalog.GetString("ABK Jump");
+				description	= Catalog.GetString("CounterMovement Jump");
+				longDescription	= 
+					"A countermovement jump is where the jumper starts from an upright standing position, makes a preliminary downward movement by flexing at the knees and hips, then immediately extends the knees and hips again to jump vertically up off the ground. Such a movement makes use of the ‘stretch-shorten cycle’, where the muscles are ‘pre-stretched’ before shortening in the desired direction." + "\n\n" +
+					"http://people.brunel.ac.uk/~spstnpl/" + "BiomechanicsAthletics/VerticalJumping.htm" + "\n" +
+					"Hands are on the hips";
+
+			} 
+			else if (name == "ABK") {
+				description	= Catalog.GetString("Abalakov Jump");
 				imageFileName = "jump_abk.png";
 			} else if (name == "Rocket") {
 				description	= Catalog.GetString("Rocket Jump");
@@ -82,13 +93,13 @@ public class JumpType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			if(name == "SJl") {
-				description	= Catalog.GetString("SJ Jump with weight");
+				description	= Catalog.GetString("Squat Jump with extra weight");
 				imageFileName = "jump_sj_l.png";
 			} else if(name == "CMJl") {
-				description	= Catalog.GetString("CMJ Jump with weight");
+				description	= Catalog.GetString("CounterMovement Jump with extra weight");
 				imageFileName = "jump_cmj_l.png";
 			} else if(name == "ABKl") {
-				description	= Catalog.GetString("ABK Jump with weight");
+				description	= Catalog.GetString("Abalakov Jump with extra weight");
 				imageFileName = "jump_abk_l.png";
 			}
 		} else if(name == "DJ") {
@@ -107,7 +118,7 @@ public class JumpType : EventType
 			jumpsLimited 	= true;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("RJ limited by jumps");
+			description	= Catalog.GetString("Reactive Jump limited by Jumps");
 			imageFileName = "jump_rj.png";
 		} else if(name == "RJ(t)") {
 			startIn 	= false;
@@ -116,7 +127,7 @@ public class JumpType : EventType
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("RJ limited by time");
+			description	= Catalog.GetString("Reactive Jump limited by Time");
 			imageFileName = "jump_rj.png";
 		} else if(name == "RJ(unlimited)") {
 			startIn 	= true;
@@ -126,7 +137,7 @@ public class JumpType : EventType
 			fixedValue 	= -1;	//don't ask for limit of jumps or seconds
 			isPredefined	= true;
 			unlimited 	= true;
-			description	= Catalog.GetString("Jump unlimited until finish is clicked");
+			description	= Catalog.GetString("Reactive Jump unlimited (until finish button is clicked)");
 			imageFileName = "jump_rj_in.png";
 		} else if(name == "triple jump") {
 			startIn 	= false;

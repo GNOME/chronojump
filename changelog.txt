@@ -1,5 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+17 aug 2007
+	added longDescription (localizable) of all agility tests
+	jumpsMore, jumpsRjMore, runs, runsInterval show description localised
+	fixed crash on edit jump and jumpRj
+	updated translations: ar, dz, en_GB, es, fi 
+
 16 aug 2007
 	0.53-svn Not yet ready to be used on windows mono
 	Working on Windows Mono version!!

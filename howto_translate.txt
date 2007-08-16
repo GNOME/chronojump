@@ -19,7 +19,9 @@ check for missing files
 chronojump/po $ intltool-update -m
 
 add missing files to POTFILES.in
+if all are needed:
 chronojump/po $ cat missing >> POTFILES.in
+if some not, add them to POTFILES.skip
 
 check creating a .pot (creates untitled.pot)
 chronojump/po $ intltool-update -p
@@ -27,6 +29,12 @@ chronojump/po $ intltool-update -p
 merge untitled.pot with old catalan translation
 mv ca.po ca_old.po
 msgmerge -o ca.po ca_old.po untitled.pot
+
+generate the locales
+cd ..
+./compile_po_files.sh
+
+remember to compile (make) for see results
 ---------
 ---------
 

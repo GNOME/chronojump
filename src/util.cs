@@ -546,7 +546,7 @@ public class Util
 	public static bool IsWindows() {
 		OperatingSystem os = Environment.OSVersion;
 
-		Console.WriteLine("platform: {0}, version: {1}", os.Platform, os.Version);
+		//Console.WriteLine("platform: {0}, version: {1}", os.Platform, os.Version);
 
 		if(os.Platform.ToString().ToUpper().StartsWith("WIN"))
 			return true;

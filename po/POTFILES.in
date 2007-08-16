@@ -1,11 +1,12 @@
 [encoding: UTF-8]
 glade/chronojump.glade
-src/chronojump_mini.cs
 src/chronojump.cs
+src/chronojump_mini.cs
 src/constants.cs
 src/execute/jump.cs
-src/execute/run.cs
 src/execute/pulse.cs
+src/execute/reactionTime.cs
+src/execute/run.cs
 src/exportSession.cs
 src/gui/event.cs
 src/gui/helpPorts.cs
@@ -14,11 +15,13 @@ src/gui/jumpType.cs
 src/gui/person.cs
 src/gui/preferences.cs
 src/gui/pulse.cs
+src/gui/repetitiveConditions.cs
 src/gui/report.cs
 src/gui/run.cs
 src/gui/runType.cs
 src/gui/session.cs
 src/gui/stats.cs
+src/jumpType.cs
 src/platform.cs
 src/report.cs
 src/runType.cs
@@ -51,7 +54,5 @@ src/treeViewEvent.cs
 src/treeViewJump.cs
 src/treeViewPerson.cs
 src/treeViewPulse.cs
-src/treeViewRun.cs
-src/execute/reactionTime.cs
 src/treeViewReactionTime.cs
-src/gui/repetitiveConditions.cs
+src/treeViewRun.cs

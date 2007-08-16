@@ -13,7 +13,7 @@ updated=0
 nothingDone=0
 
 echo "Available PO files:"
-for i in `ls $PO_DIR/*.po`; do 
+for i in `ls $PO_DIR/*.po | grep -v _old`; do 
 	export FILE_CUTTED=`echo $i | awk -F. '{print $1}' | awk -F/ '{print $2}'`
 	if test -f $LOCALE_DIR/$FILE_CUTTED/LC_MESSAGES/chronojump.mo; then
 		if test $i -nt $LOCALE_DIR/$FILE_CUTTED/LC_MESSAGES/chronojump.mo; then

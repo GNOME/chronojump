@@ -9844,7 +9844,7 @@ If you need more, just repeat the operation later.</property>
 		  <child>
 		    <widget class="GtkMenuItem" id="execute_simple_jumps1">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Execute simple jumps</property>
+		      <property name="label" translatable="yes">Simple jump with no special technique</property>
 		      <property name="use_underline">True</property>
 
 		      <child>
@@ -9853,7 +9853,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="menuitem_jump_free">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Free</property>
+			      <property name="label" translatable="yes">Free Jump</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sat, 17 Feb 2007 23:09:20 GMT"/>
 			    </widget>
@@ -9912,7 +9912,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="menuitem_jump_rocket">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Rocket jump</property>
+			      <property name="tooltip" translatable="yes">Rocket Jump</property>
 			      <property name="label" translatable="yes">Rocket</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_normal_jump_activate" last_modification_time="Sun, 29 Apr 2007 11:25:35 GMT"/>
@@ -10024,7 +10024,7 @@ If you need more, just repeat the operation later.</property>
 			  <child>
 			    <widget class="GtkMenuItem" id="rj_unlimited">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Reactive Jump unlimited (until &quot;finish&quot; button is clicked)</property>
+			      <property name="tooltip" translatable="yes">Reactive Jump unlimited (until finish button is clicked)</property>
 			      <property name="label" translatable="yes">RJ(unlimited)</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_rj_activate" last_modification_time="Sun, 14 Aug 2005 17:39:25 GMT"/>
@@ -11090,7 +11090,7 @@ If you need more, just repeat the operation later.</property>
 				      <property name="visible">True</property>
 				      <property name="tooltip" translatable="yes">Simple jump with no special technique</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">Free</property>
+				      <property name="label" translatable="yes">Free Jump</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
@@ -11164,7 +11164,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_abk">
 				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">Abalakov Jump (CounterMovement using arms)</property>
+				      <property name="tooltip" translatable="yes">Abalakov Jump</property>
 				      <property name="can_focus">True</property>
 				      <property name="label">ABK</property>
 				      <property name="use_underline">True</property>
@@ -11665,7 +11665,7 @@ If you need more, just repeat the operation later.</property>
 				  <child>
 				    <widget class="GtkButton" id="button_rj_unlimited">
 				      <property name="visible">True</property>
-				      <property name="tooltip" translatable="yes">Reactive Jump unlimited (until &quot;finish&quot; button is clicked)</property>
+				      <property name="tooltip" translatable="yes">Reactive Jump unlimited (until finish button is clicked)</property>
 				      <property name="can_focus">True</property>
 				      <property name="label" translatable="yes">Unlimited</property>
 				      <property name="use_underline">True</property>
@@ -12300,6 +12300,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_custom">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">Variable distance running</property>
 					      <property name="can_focus">True</property>
 					      <property name="label" translatable="yes">Custom</property>
 					      <property name="use_underline">True</property>
@@ -12318,6 +12319,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_20m">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">Run 20 meters</property>
 					      <property name="can_focus">True</property>
 					      <property name="label">20m</property>
 					      <property name="use_underline">True</property>
@@ -12336,6 +12338,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_100m">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">Run 100 meters</property>
 					      <property name="can_focus">True</property>
 					      <property name="label">100m</property>
 					      <property name="use_underline">True</property>
@@ -12354,6 +12357,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_200m">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">Run 200 meters</property>
 					      <property name="can_focus">True</property>
 					      <property name="label">200m</property>
 					      <property name="use_underline">True</property>
@@ -12372,6 +12376,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_400m">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">Run 400 meters</property>
 					      <property name="can_focus">True</property>
 					      <property name="label">400m</property>
 					      <property name="use_underline">True</property>
@@ -12405,6 +12410,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_20yard">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">20Yard Agility test</property>
 					      <property name="can_focus">True</property>
 					      <property name="label" translatable="yes">20 Yard</property>
 					      <property name="use_underline">True</property>
@@ -12423,6 +12429,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_505">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">505 Agility test</property>
 					      <property name="can_focus">True</property>
 					      <property name="label">505</property>
 					      <property name="use_underline">True</property>
@@ -12441,6 +12448,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_illinois">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">Illinois Agility test</property>
 					      <property name="can_focus">True</property>
 					      <property name="label">Illinois</property>
 					      <property name="use_underline">True</property>
@@ -12459,6 +12467,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_shuttle">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">Shuttle Run Agility test</property>
 					      <property name="can_focus">True</property>
 					      <property name="label">Shuttle</property>
 					      <property name="use_underline">True</property>
@@ -12477,6 +12486,7 @@ If you need more, just repeat the operation later.</property>
 					  <child>
 					    <widget class="GtkButton" id="button_run_zigzag">
 					      <property name="visible">True</property>
+					      <property name="tooltip" translatable="yes">ZigZag Agility test</property>
 					      <property name="can_focus">True</property>
 					      <property name="label">ZigZag</property>
 					      <property name="use_underline">True</property>
@@ -21888,7 +21898,7 @@ Test&lt;/b&gt;</property>
     <widget class="GtkVBox" id="vbox100">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">4</property>
+      <property name="spacing">8</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="hbuttonbox35">
@@ -21918,94 +21928,83 @@ Test&lt;/b&gt;</property>
       </child>
 
       <child>
-	<widget class="GtkFrame" id="frame30">
+	<widget class="GtkHBox" id="hbox237">
 	  <property name="visible">True</property>
-	  <property name="label_xalign">0</property>
-	  <property name="label_yalign">0.5</property>
-	  <property name="shadow_type">GTK_SHADOW_NONE</property>
+	  <property name="homogeneous">False</property>
+	  <property name="spacing">8</property>
 
 	  <child>
-	    <widget class="GtkAlignment" id="alignment106">
+	    <widget class="GtkImage" id="image_test">
 	      <property name="visible">True</property>
-	      <property name="xalign">0.5</property>
-	      <property name="yalign">0.5</property>
-	      <property name="xscale">1</property>
-	      <property name="yscale">1</property>
-	      <property name="top_padding">0</property>
-	      <property name="bottom_padding">0</property>
-	      <property name="left_padding">12</property>
-	      <property name="right_padding">0</property>
-
-	      <child>
-		<widget class="GtkVBox" id="vbox102">
-		  <property name="visible">True</property>
-		  <property name="homogeneous">False</property>
-		  <property name="spacing">8</property>
-
-		  <child>
-		    <widget class="GtkImage" id="image_test">
-		      <property name="visible">True</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">True</property>
-		      <property name="fill">True</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkLabel" id="label_test">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes"></property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">True</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-		      <property name="width_chars">-1</property>
-		      <property name="single_line_mode">False</property>
-		      <property name="angle">0</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
-	  </child>
-
-	  <child>
-	    <widget class="GtkLabel" id="label_frame_test">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">False</property>
-	      <property name="use_markup">True</property>
-	      <property name="justify">GTK_JUSTIFY_LEFT</property>
-	      <property name="wrap">False</property>
-	      <property name="selectable">False</property>
 	      <property name="xalign">0.5</property>
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
-	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-	      <property name="width_chars">-1</property>
-	      <property name="single_line_mode">False</property>
-	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
-	      <property name="type">label_item</property>
+	      <property name="padding">0</property>
+	      <property name="expand">True</property>
+	      <property name="fill">True</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkScrolledWindow" id="scrolledwindow28">
+	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="has_focus">True</property>
+	      <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+	      <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
+	      <property name="shadow_type">GTK_SHADOW_NONE</property>
+	      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
+	      <child>
+		<widget class="GtkViewport" id="viewport2">
+		  <property name="visible">True</property>
+		  <property name="shadow_type">GTK_SHADOW_IN</property>
+
+		  <child>
+		    <widget class="GtkVBox" id="vbox106">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">0</property>
+
+		      <child>
+			<widget class="GtkLabel" id="label_long_description">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes"></property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">True</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">True</property>
+			  <property name="selectable">True</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			  <property name="width_chars">50</property>
+			  <property name="single_line_mode">False</property>
+			  <property name="angle">0</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+		    </widget>
+		  </child>
+		</widget>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="padding">4</property>
+	      <property name="expand">True</property>
+	      <property name="fill">True</property>
 	    </packing>
 	  </child>
 	</widget>
@@ -22013,6 +22012,32 @@ Test&lt;/b&gt;</property>
 	  <property name="padding">0</property>
 	  <property name="expand">True</property>
 	  <property name="fill">True</property>
+	  <property name="pack_type">GTK_PACK_END</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkLabel" id="label_name_description">
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes"></property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">True</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">False</property>
 	  <property name="pack_type">GTK_PACK_END</property>
 	</packing>
       </child>

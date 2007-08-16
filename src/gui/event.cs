@@ -75,7 +75,18 @@ public class EventMoreWindow
 		 
 		treeview_more.Selection.Changed += OnSelectionEntry;
 	}
-	
+
+
+	//if eventType is predefined, it will have a translation on src/evenType or derivated class
+	//this is useful if user changed language
+	protected string getDescriptionLocalised(EventType myType, string descriptionFromDb) {
+	if(myType.IsPredefined)
+		return myType.Description;
+	else
+		return descriptionFromDb;
+	}
+
+
 	protected void OnSelectionEntry (object o, EventArgs args)
 	{
 		TreeModel model;

@@ -54,7 +54,7 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("variable distance running");
+			description	= Catalog.GetString("Variable distance running");
 			imageFileName = "run_simple.png";
 		} else if(name == "20m") {
 			hasIntervals 	= false; 
@@ -63,7 +63,7 @@ public class RunType : EventType
 			fixedValue 	= 0;
 			isPredefined	= true;
 			description	= "";
-			description	= Catalog.GetString("run 20 meters");
+			description	= Catalog.GetString("Run 20 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "100m") {
 			hasIntervals 	= false; 
@@ -71,7 +71,7 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("run 100 meters");
+			description	= Catalog.GetString("Run 100 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "200m") {
 			hasIntervals 	= false; 
@@ -79,7 +79,7 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("run 200 meters");
+			description	= Catalog.GetString("Run 200 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "400m") {
 			hasIntervals 	= false; 
@@ -87,7 +87,7 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("run 400 meters");
+			description	= Catalog.GetString("Run 400 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "1000m") {
 			hasIntervals 	= false; 
@@ -95,7 +95,7 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("run 1000 meters");
+			description	= Catalog.GetString("Run 1000 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "2000m") {
 			hasIntervals 	= false; 
@@ -103,7 +103,7 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("run 2000 meters");
+			description	= Catalog.GetString("Run 2000 meters");
 			imageFileName = "run_simple.png";
 		} //agility
 		else if(name == "Agility-20Yard") {
@@ -112,40 +112,126 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("20Yard Agility test");
 			imageFileName = "agility_20yard.png";
-		} else if(name == "Agility-505") {
+			description	= Catalog.GetString("20Yard Agility test");
+			longDescription	= 
+				Catalog.GetString("This test is part of a battery for the USA Women's Soccer Team. The NFL use a very similar test for the NFL Combine Testing, the 20 yard shuttle.") + "\n\n" +
+
+				"<b>" + Catalog.GetString("Purpose") + "</b>: " +
+			       Catalog.GetString("The 20 yard agility run is a simple measure of an athlete’s ability to accelerate, decelerate, change direction, and to accelerate again.") + "\n\n" +
+
+				"<b>" + Catalog.GetString("Description") + " / " + Catalog.GetString("Procedure") + "</b>: " +
+			       Catalog.GetString("Set up three marker cones in a straight line, exactly five yards apart - cones B, A(center) and C. At each cone place a line across using marking tape. The timer is positioned at the level of the center A cone, facing the athlete. The athlete straddles the center cone A with feet an equal distance apart and parallel to the line of cones. When ready, the athlete runs to cone B (touching the line with either foot), turns and accelerates to cone C (touching the line), and finishes by accelerating through the line at cone A. The stopwatch is started on the first movement of the athlete and stops the watch when the athlete’s torso crosses the center line.") + "\n\n" + 
+
+				"<b>" + Catalog.GetString("Scoring") + "</b>: " + 
+				Catalog.GetString("Record the best time of two trials.") + "\n\n" +
+				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
+				Catalog.GetString("Encourage athletes to accelerate through the finish line to maximize their result.") + "\n\n" +
+				"http://www.topendsports.com/testing/tests/20yard-agility.htm";	    
+		} 
+		else if(name == "Agility-505") {
 			hasIntervals 	= false; 
 			distance 	= 10;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("505 Agility test");
 			imageFileName = "agility_505.png";
-		} else if(name == "Agility-Illinois") {
+			description	= Catalog.GetString("505 Agility test");
+			longDescription	= 
+				"<b>" + Catalog.GetString("Procedure") + "</b>: " +
+				Catalog.GetString("Markers are set up 5 and 15 meters from a line marked on the ground. The athlete runs from the 15 meter marker towards the line (run in distance to build up speed) and through the 5 m markers, turns on the line and runs back through the 5 m markers. The time is recorded from when the athletes first runs through the 5 meter marker, and stopped when they return through these markers (that is, the time taken to cover the 5 m up and back distance - 10 m total). The best of two trails is recorded. The turning ability on each leg should be tested. The subject should be encouraged to not overstep the line by too much, as this will increase their time.") + "\n\n" +
+				
+				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
+				Catalog.GetString("This is a test of 180 degree turning ability. This ability may not be applicable to some sports.") + "\n\n" +
+				"http://www.topendsports.com/testing/tests/505.htm";
+		} 
+		else if(name == "Agility-Illinois") {
 			hasIntervals 	= false; 
 			distance 	= 60;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("Illinois Agility test");
 			imageFileName = "agility_illinois.png";
-		} else if(name == "Agility-Shuttle-Run") {
+			description	= Catalog.GetString("Illinois Agility test");
+			longDescription = 
+				"<b>" + Catalog.GetString("Description") + "</b>: " +
+				Catalog.GetString("The length of the course is 10 meters and the width (distance between the start and finish points) is 5 meters. Four cones are used to mark the start, finish and the two turning points. Another four cones are placed down the center an equal distance apart. Each cone in the center is spaced 3.3 meters apart.") + "\n\n" +
+				
+				"<b>" + Catalog.GetString("Procedure") + "</b>: " +
+				Catalog.GetString("Subjects should lie on their front (head to the start line) and hands by their shoulders. On the 'Go' command the stopwatch is started, and the athlete gets up as quickly as possible and runs around the course in the direction indicated, without knocking the cones over, to the finish line, at which the timing is stopped.") + "\n\n" +
+				
+				"<b>" + Catalog.GetString("Results") + "</b>: " +
+				Catalog.GetString("The table below gives some rating scores (in seconds) for the test") + "\n" +
+				"<b>" + Catalog.GetString("Rating") + "</b>\t<b>" + Catalog.GetString("Males") + "</b>\t<b>" + Catalog.GetString("Females") + "</b>\n" +
+				Catalog.GetString("Excellent") + "\t" + "&lt; 15.2" + "\t" + "&lt; 17.0" + "\n" +
+				Catalog.GetString("Good") + "    \t" + "16.1-15.2" + "\t" + "17.9-17.0" + "\n" +
+				Catalog.GetString("Average") + "\t" + "18.1-16.2" + "\t" + "21.7-18.0" + "\n" +
+				Catalog.GetString("Fair") + "    \t" + "18.3-18.2" + "\t" + "23.0-21.8" + "\n" +
+				Catalog.GetString("Poor") + "    \t" + "&gt; 18.3" + "\t" + "&gt; 23.0" + "\n" + "\n" +
+
+				"<b>" + Catalog.GetString("Advantages") + "</b>: " +
+				Catalog.GetString("This is a simple test to administer, requiring little equipment. Can test players ability to turn in different directions, and different angles.") + "\n\n" + 
+				
+				"<b>" + Catalog.GetString("Disadvantages") + "</b>: " +
+				Catalog.GetString("Choice of footwear and surface of area can effect times greatly. Results can be subject to timing inconsistencies, which may be overcome by using timing gates. Cannot distinguish between left and right turning ability.") + "\n\n" +
+				
+				"<b>" + Catalog.GetString("Variations") + "</b>: " +
+				Catalog.GetString("The starting and finishing sides can be swapped, so that turning direction is changed.") + "\n\n" +
+				"http://www.topendsports.com/testing/tests/illinois.htm";
+
+		} 
+		else if(name == "Agility-Shuttle-Run") {
 			hasIntervals 	= false; 
 			distance 	= 40;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("Shuttle Run Agility test");
 			imageFileName = "agility_shuttle.png";
-		} else if(name == "Agility-ZigZag") {
+			description	= Catalog.GetString("Shuttle Run Agility test");
+			longDescription = 
+				Catalog.GetString("This test describes the procedures as used in the President's Challenge Fitness Awards. The variations listed give other ways to also perform this test.") + "\n\n" +
+
+				"<b>" + Catalog.GetString("Purpose") + "</b>: " +
+				Catalog.GetString("This is a test of speed and agility, important in many sports.") + "\n\n" +
+
+				"<b>" + Catalog.GetString("Description") + " / " + Catalog.GetString("Procedure") + "</b>: " +
+				Catalog.GetString("This test requires the person to run back and forth between two parallel lines as fast as possible. Set up two lines of cones 30 feet apart or use line markings, and place two blocks of wood or a similar object behind one of the lines. Starting at the line opposite the blocks, on the signal 'Ready? Go!' the participant runs to the other line, picks up a block and returns to place it behind the starting line, then returns to pick up the second block, then runs with it back across the line.") + "\n\n" +
+
+
+				"<b>" + Catalog.GetString("Scoring") + "</b>: " + 
+				Catalog.GetString("Two or more trails may be performed, and the quickest time is recorded. Results are recorded to the nearest tenth of a second.") + "\n\n" +
+
+				"<b>" + Catalog.GetString("Variations") + " / " + Catalog.GetString("Modifications") + "</b>: " +
+				Catalog.GetString("The test procedure can be varied by changing the number of shuttles performed, the distance between turns (some use 10 meters rather than 30 feet) and by removing the need for the person pick up and return objects from the turning points.") + "\n\n" +
+
+
+				"<b>" + Catalog.GetString("Advantages") + "</b>: " +
+				Catalog.GetString("This test can be conducted on large groups relatively quickly with minimal equipment required.") + "\n\n" +
+				
+				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
+				Catalog.GetString("The blocks should be placed at the line, not thrown across them. Also make sure the participants run through the finish line to maximize their score.") + "\n\n" + 
+				"http://www.topendsports.com/testing/tests/shuttle.htm";
+
+		} 
+		else if(name == "Agility-ZigZag") {
 			hasIntervals 	= false; 
 			distance 	= 17.6;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("ZigZag Agility test");
 			imageFileName = "agility_zigzag.png";
+			description	= Catalog.GetString("ZigZag Agility test");
+			longDescription =
+				"<b>" + Catalog.GetString("Description") + " / " + Catalog.GetString("Procedure") + "</b>: " +
+				Catalog.GetString("Similar to the Shuttle Run test, this test requires the athlete to run a course in the shortest possible time. A standard zig zag course is with four cones placed on the corners of a rectangle 10 by 16 feet, with one more cone placed in the centre. If the cones are labelled 1 to 4 around the rectangle going along the longer side first, and the centre cone is C, the test begins at 1, then to C, 2, 3, C, 4, then back to 1.") + "\n\n" + 
+
+				"<b>" + Catalog.GetString("Modifications") + "</b>: " + 
+				Catalog.GetString("This test procedure can be modified by changing the distance between cones, and the number of circuits performed.") + "\n\n" + 
+
+				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
+				Catalog.GetString("The total distance run should not be too great so that fatigue does not become a factor.")  + "\n\n" + 
+
+				"http://www.topendsports.com/testing/tests/zigzag.htm";
 		} //interval
 		else if(name == "byLaps") {
 			hasIntervals 	= true; 

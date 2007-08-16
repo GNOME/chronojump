@@ -33,8 +33,14 @@ public class EventType
 	protected bool isPredefined;
 	protected string imageFileName;
 	protected string description;
+	protected string longDescription; //info for "test image and description" window
 
 	public EventType() {
+		longDescription = ""; //needed initalization because is not defined in lots of events
+	}
+
+	public EventType(string name) {
+		longDescription = ""; //needed initalization because is not defined in lots of events
 	}
 
 	public Types Type
@@ -48,6 +54,11 @@ public class EventType
 		set { name = value; }
 	}
 	
+	public bool IsPredefined
+	{
+		get { return isPredefined; }
+	}
+	
 	public string ImageFileName
 	{
 		get { return imageFileName; }
@@ -56,6 +67,11 @@ public class EventType
 	public string Description
 	{
 		get { return description; }
+	}
+	
+	public string LongDescription
+	{
+		get { return longDescription; }
 	}
 }
 

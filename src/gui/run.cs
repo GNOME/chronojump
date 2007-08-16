@@ -816,11 +816,14 @@ public class RunsMoreWindow : EventMoreWindow
 				myStringFull[2] = Catalog.GetString("Not defined");
 			}
 
+			RunType tempType = new RunType (myStringFull[1]);
+			string description  = getDescriptionLocalised(tempType, myStringFull[3]);
+
 			store.AppendValues (
 					//myStringFull[0], //don't display the uniqueID
 					myStringFull[1],	//name 
 					myStringFull[2], 	//distance
-					myStringFull[3]		//description
+					description
 					);
 		}	
 	}
@@ -974,13 +977,16 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 				}
 			}
 
+			RunType tempType = new RunType (myStringFull[1]);
+			string description  = getDescriptionLocalised(tempType, myStringFull[6]);
+
 			store.AppendValues (
 					//myStringFull[0], //don't display de uniqueID
 					myStringFull[1],	//name 
 					myStringFull[2],	//distance
 					myLimiter,		//tracks or seconds or "unlimited"
 					myLimiterValue,		//? or exact value (or '-' in unlimited)
-					myStringFull[6]		//description
+					description
 					);
 		}	
 	}

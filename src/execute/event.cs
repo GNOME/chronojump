@@ -110,7 +110,7 @@ public class EventExecute
 
 	//cancel doesn't finish until platform is touched (after pressing cancel button)
 	//this variable controls that platform has been touched
-	//if not, it wiil shown a popup from chronojump.cs (on_cancel_clicked)	
+	//if not, it will shown a popup from chronojump.cs (on_cancel_clicked)	
 	protected bool totallyCancelled;
 
 	//for finishing earlier from chronojump.cs
@@ -398,9 +398,10 @@ Console.Write("wwb ");
 	
 	//from confirm_window cancel button (thread has not started)
 	//this is NOT called when a event has started and user click on "Cancel"
-	protected void cancel_event(object o, EventArgs args)
+	protected void cancel_event_before_start(object o, EventArgs args)
 	{
 		cancel = true;
+		totallyCancelled = true;
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();

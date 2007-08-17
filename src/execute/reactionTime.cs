@@ -126,7 +126,7 @@ public class ReactionTimeExecute : EventExecute
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
 			
 			//if confirmWin.Button_cancel is pressed retuen
-			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event);
+			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		}
 	}
 

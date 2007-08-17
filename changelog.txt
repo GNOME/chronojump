@@ -1,10 +1,17 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+17 aug 2007 (2)
+	fixed bug 447160: Round instead of only TrimDecimals
+	http://bugzilla.gnome.org/show_bug.cgi?id=447160
+
+	fixed bug on Cancel event before started and having to touch platform (tests remaining)
+	http://mail.gnome.org/archives/chronojump-devel-list/2007-August/msg00000.html
+
 17 aug 2007
 	added longDescription (localizable) of all agility tests
 	jumpsMore, jumpsRjMore, runs, runsInterval show description localised
 	fixed crash on edit jump and jumpRj
-	updated translations: ar, dz, en_GB, es, fi 
+	updated translations: ar, ca, dz, en_GB, es, fi 
 
 16 aug 2007
 	0.53-svn Not yet ready to be used on windows mono

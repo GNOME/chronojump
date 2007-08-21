@@ -86,11 +86,6 @@ public class Run : Event
 		set { time = value; }
 	}
 
-	public string RunnerName
-	{
-		get { return SqlitePerson.SelectJumperName(personID); }
-	}
-
 	public bool MetersSecondsPreferred {
 		set { metersSecondsPreferred = value; }
 	}

@@ -21,6 +21,7 @@
 
 using System;
 using Gtk;
+using Gdk;
 using Glade;
 using GLib; //for Value
 using System.Collections; //ArrayList
@@ -44,6 +45,7 @@ public class ReportWindow {
 	[Widget] Gtk.CheckButton cb_runs_simple;
 	[Widget] Gtk.CheckButton cb_runs_interval;
 	[Widget] Gtk.CheckButton cb_runs_interval_with_subruns;
+	[Widget] Gtk.Image image_report_win_report;
 	
 	static ReportWindow ReportWindowBox;
 	
@@ -73,7 +75,11 @@ public class ReportWindow {
 		treeview1.Model = store;
 		
 		treeview1.Selection.Changed += onSelectionEntry;
+	
+		putNonStandardIcons();
 	}
+	
+	
 
 	//if it's created
 	static public ReportWindow Show (Gtk.Window parent, Report report)
@@ -102,6 +108,11 @@ public class ReportWindow {
 		}
 		
 		return ReportWindowBox;
+	}
+
+	private void putNonStandardIcons() {
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
+		image_report_win_report.Pixbuf = pixbuf;
 	}
 	
 	protected void createTreeView (Gtk.TreeView tv) {

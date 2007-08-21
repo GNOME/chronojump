@@ -73,5 +73,16 @@ public class EventType
 	{
 		get { return longDescription; }
 	}
+	
+	public bool HasLongDescription
+	{
+		get {
+			if(longDescription != "")
+				return true;
+			else
+				return false;
+		}
+	}
+
 }
 

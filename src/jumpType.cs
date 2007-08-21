@@ -118,8 +118,9 @@ public class JumpType : EventType
 			jumpsLimited 	= true;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= Catalog.GetString("Reactive Jump limited by Jumps");
 			imageFileName = "jump_rj.png";
+			description	= Catalog.GetString("Reactive Jump limited by Jumps");
+			longDescription	= "Testing long description here";
 		} else if(name == "RJ(t)") {
 			startIn 	= false;
 			hasWeight 	= false;

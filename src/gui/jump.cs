@@ -804,7 +804,7 @@ public class JumpExtraWindow
 	[Widget] Gtk.Label label_cm;
 
 	static string option = "Kg";
-	static double limited = 3;
+	static double limited = 10;
 	static bool jumpsLimited;
 	static int weight = 20;
 	static int fall = 20;
@@ -838,7 +838,8 @@ public class JumpExtraWindow
 			if(myJumpType.FixedValue > 0) {
 				JumpExtraWindowBox.spinbutton_limit.Sensitive = false;
 				JumpExtraWindowBox.spinbutton_limit.Value = myJumpType.FixedValue;
-			}
+			} else
+				JumpExtraWindowBox.spinbutton_limit.Value = limited;
 		} else {
 			hideRepetitiveData();	
 		}

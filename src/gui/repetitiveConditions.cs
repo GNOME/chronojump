@@ -21,6 +21,7 @@
 
 using System;
 using Gtk;
+using Gdk;
 using Glade;
 using Mono.Unix;
 
@@ -66,6 +67,23 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Button button_test;
 	[Widget] Gtk.Button button_close;
 
+	//bells good (green)
+	[Widget] Gtk.Image image_repetitive_best_tf_tc;
+	[Widget] Gtk.Image image_repetitive_best_time;
+	[Widget] Gtk.Image image_repetitive_tf_greater;
+	[Widget] Gtk.Image image_repetitive_tc_lower;
+	[Widget] Gtk.Image image_repetitive_tf_tc_greater;
+	[Widget] Gtk.Image image_repetitive_time_lower;
+	[Widget] Gtk.Image image_repetitive_test_good;
+	//bells bad (red)
+	[Widget] Gtk.Image image_repetitive_worst_tf_tc;
+	[Widget] Gtk.Image image_repetitive_worst_time;
+	[Widget] Gtk.Image image_repetitive_tf_lower;
+	[Widget] Gtk.Image image_repetitive_tc_greater;
+	[Widget] Gtk.Image image_repetitive_tf_tc_lower;
+	[Widget] Gtk.Image image_repetitive_time_greater;
+	[Widget] Gtk.Image image_repetitive_test_bad;
+
 	//static bool volumeOn;
 	bool volumeOn;
 	
@@ -75,6 +93,8 @@ public class RepetitiveConditionsWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repetitive_conditions", null);
 		gladeXML.Autoconnect(this);
+		
+		putNonStandardIcons();
 	}
 
 	static public RepetitiveConditionsWindow Create ()
@@ -120,6 +140,26 @@ public class RepetitiveConditionsWindow
 		}
 	}
 
+	private void putNonStandardIcons() {
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_green.png");
+		image_repetitive_best_tf_tc.Pixbuf = pixbuf;
+		image_repetitive_best_time.Pixbuf = pixbuf;
+		image_repetitive_tf_greater.Pixbuf = pixbuf;
+		image_repetitive_tc_lower.Pixbuf = pixbuf;
+		image_repetitive_tf_tc_greater.Pixbuf = pixbuf;
+		image_repetitive_time_lower.Pixbuf = pixbuf;
+		image_repetitive_test_good.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
+		image_repetitive_worst_tf_tc.Pixbuf = pixbuf;
+		image_repetitive_worst_time.Pixbuf = pixbuf;
+		image_repetitive_tf_lower.Pixbuf = pixbuf;
+		image_repetitive_tc_greater.Pixbuf = pixbuf;
+		image_repetitive_tf_tc_lower.Pixbuf = pixbuf;
+		image_repetitive_time_greater.Pixbuf = pixbuf;
+		image_repetitive_test_bad.Pixbuf = pixbuf;
+	}
 
 	void on_button_test_clicked (object o, EventArgs args)
 	{

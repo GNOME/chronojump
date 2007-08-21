@@ -5073,10 +5073,8 @@ bests</property>
 			  <property name="spacing">2</property>
 
 			  <child>
-			    <widget class="GtkImage" id="image336">
+			    <widget class="GtkImage" id="image_stats_win_graph">
 			      <property name="visible">True</property>
-			      <property name="stock">gtk-clear</property>
-			      <property name="icon_size">4</property>
 			      <property name="xalign">0.5</property>
 			      <property name="yalign">0.5</property>
 			      <property name="xpad">0</property>
@@ -5148,10 +5146,8 @@ bests</property>
 			  <property name="spacing">2</property>
 
 			  <child>
-			    <widget class="GtkImage" id="image1191">
+			    <widget class="GtkImage" id="image_stats_win_report">
 			      <property name="visible">True</property>
-			      <property name="stock">gtk-jump-to</property>
-			      <property name="icon_size">4</property>
 			      <property name="xalign">0.5</property>
 			      <property name="yalign">0.5</property>
 			      <property name="xpad">0</property>
@@ -8901,10 +8897,8 @@ If you need more, just repeat the operation later.</property>
 		      <property name="spacing">2</property>
 
 		      <child>
-			<widget class="GtkImage" id="image1192">
+			<widget class="GtkImage" id="image_report_win_report">
 			  <property name="visible">True</property>
-			  <property name="stock">gtk-jump-to</property>
-			  <property name="icon_size">4</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -9482,7 +9476,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_new_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2477">
+			<widget class="GtkImage" id="image2741">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -9503,7 +9497,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_open_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2478">
+			<widget class="GtkImage" id="image2742">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -9524,7 +9518,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_session_activate" last_modification_time="Tue, 26 Jul 2005 19:12:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2479">
+			<widget class="GtkImage" id="image2743">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -9546,7 +9540,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_session_activate" last_modification_time="Thu, 28 Jul 2005 13:37:42 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2480">
+			<widget class="GtkImage" id="image2744">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9574,7 +9568,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_export_session_activate" last_modification_time="Sat, 12 Feb 2005 21:57:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2481">
+			<widget class="GtkImage" id="image2745">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-convert</property>
 			  <property name="icon_size">1</property>
@@ -9610,7 +9604,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_preferences_activate" last_modification_time="Mon, 04 Oct 2004 19:19:19 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2482">
+			<widget class="GtkImage" id="image2746">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -9637,7 +9631,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_quit1_activate" last_modification_time="Wed, 22 Sep 2004 23:17:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2483">
+			<widget class="GtkImage" id="image2747">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-quit</property>
 			  <property name="icon_size">1</property>
@@ -9671,7 +9665,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_person_add_single_activate" last_modification_time="Thu, 18 Aug 2005 23:07:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2484">
+			<widget class="GtkImage" id="image2748">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -9692,7 +9686,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_person_add_multiple_activate" last_modification_time="Thu, 18 Aug 2005 23:01:23 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2485">
+			<widget class="GtkImage" id="image2749">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -9719,7 +9713,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_recuperate_person_activate" last_modification_time="Sun, 12 Dec 2004 00:40:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2486">
+			<widget class="GtkImage" id="image2750">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -9740,7 +9734,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_recuperate_persons_from_session_activate" last_modification_time="Tue, 26 Jul 2005 19:12:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2487">
+			<widget class="GtkImage" id="image2751">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -9767,7 +9761,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_current_person_clicked" last_modification_time="Sun, 17 Oct 2004 11:43:33 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2488">
+			<widget class="GtkImage" id="image2752">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -9788,7 +9782,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_show_all_person_events_activate" last_modification_time="Mon, 29 Aug 2005 09:51:24 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2489">
+			<widget class="GtkImage" id="image2753">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-index</property>
 			  <property name="icon_size">1</property>
@@ -9815,7 +9809,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_current_person_from_session_activate" last_modification_time="Thu, 28 Jul 2005 15:49:38 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2490">
+			<widget class="GtkImage" id="image2754">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9927,7 +9921,7 @@ If you need more, just repeat the operation later.</property>
 			      <signal name="activate" handler="on_button_more_clicked" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image2491">
+				<widget class="GtkImage" id="image2755">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -9952,7 +9946,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_selected_jump_clicked" last_modification_time="Sun, 17 Oct 2004 11:47:42 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2492">
+			<widget class="GtkImage" id="image2756">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -9973,7 +9967,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_selected_jump_clicked" last_modification_time="Tue, 19 Oct 2004 11:54:17 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2493">
+			<widget class="GtkImage" id="image2757">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -10039,7 +10033,7 @@ If you need more, just repeat the operation later.</property>
 			      <signal name="activate" handler="on_button_more_rj_clicked" last_modification_time="Fri, 11 Mar 2005 14:45:23 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image2494">
+				<widget class="GtkImage" id="image2758">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -10064,7 +10058,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2495">
+			<widget class="GtkImage" id="image2759">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -10085,7 +10079,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_repair_selected_reactive_jump_clicked" last_modification_time="Wed, 07 Dec 2005 01:14:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2496">
+			<widget class="GtkImage" id="image2760">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -10106,7 +10100,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2497">
+			<widget class="GtkImage" id="image2761">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -10133,7 +10127,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_jump_type_add_activate" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2498">
+			<widget class="GtkImage" id="image2762">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -10278,7 +10272,7 @@ If you need more, just repeat the operation later.</property>
 			      <signal name="activate" handler="on_button_run_more_clicked" last_modification_time="Fri, 22 Apr 2005 14:37:06 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image2499">
+				<widget class="GtkImage" id="image2763">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -10303,7 +10297,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_selected_run_clicked" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2500">
+			<widget class="GtkImage" id="image2764">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -10324,7 +10318,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_selected_run_clicked" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2501">
+			<widget class="GtkImage" id="image2765">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -10390,7 +10384,7 @@ If you need more, just repeat the operation later.</property>
 			      <signal name="activate" handler="on_button_run_interval_more_clicked" last_modification_time="Tue, 16 Aug 2005 01:18:41 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image2502">
+				<widget class="GtkImage" id="image2766">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -10415,7 +10409,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_edit_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2503">
+			<widget class="GtkImage" id="image2767">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -10429,14 +10423,14 @@ If you need more, just repeat the operation later.</property>
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="menuitem_repair_selected_interval_run">
+		    <widget class="GtkImageMenuItem" id="menuitem_repair_selected_run_interval">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Repair selected intervallic run</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_repair_selected_run_interval_clicked" last_modification_time="Wed, 03 May 2006 15:15:38 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2504">
+			<widget class="GtkImage" id="image2768">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -10457,7 +10451,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_delete_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2505">
+			<widget class="GtkImage" id="image2769">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -10484,7 +10478,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_run_type_add_activate" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2506">
+			<widget class="GtkImage" id="image2770">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -10551,7 +10545,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_button_pulse_more_clicked" last_modification_time="Sat, 28 Oct 2006 08:57:53 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2507">
+			<widget class="GtkImage" id="image2771">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-add</property>
 			  <property name="icon_size">1</property>
@@ -10585,9 +10579,9 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_menuitem_view_stats_activate" last_modification_time="Tue, 26 Jul 2005 23:54:29 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2508">
+			<widget class="GtkImage" id="image2772">
 			  <property name="visible">True</property>
-			  <property name="stock">gtk-select-color</property>
+			  <property name="stock">gtk-refresh</property>
 			  <property name="icon_size">1</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
@@ -10599,16 +10593,16 @@ If you need more, just repeat the operation later.</property>
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="report_window1">
+		    <widget class="GtkImageMenuItem" id="menuitem_report_window">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Report window</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="on_show_report_activate" last_modification_time="Tue, 06 Sep 2005 09:10:32 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2509">
+			<widget class="GtkImage" id="image2773">
 			  <property name="visible">True</property>
-			  <property name="stock">gtk-jump-to</property>
+			  <property name="stock">gtk-refresh</property>
 			  <property name="icon_size">1</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
@@ -10674,7 +10668,7 @@ If you need more, just repeat the operation later.</property>
 		      <signal name="activate" handler="on_about1_activate" last_modification_time="Wed, 22 Sep 2004 23:17:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image2510">
+			<widget class="GtkImage" id="image2774">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-about</property>
 			  <property name="icon_size">1</property>
@@ -10712,6 +10706,7 @@ If you need more, just repeat the operation later.</property>
 
 	      <child>
 		<widget class="GtkVBox" id="vbox65">
+		  <property name="width_request">190</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">0</property>
@@ -10934,23 +10929,121 @@ If you need more, just repeat the operation later.</property>
 		  </child>
 
 		  <child>
-		    <widget class="GtkFrame" id="frame_image_test">
+		    <widget class="GtkAlignment" id="alignment_image_test">
 		      <property name="visible">True</property>
-		      <property name="label_xalign">0</property>
-		      <property name="label_yalign">0.5</property>
-		      <property name="shadow_type">GTK_SHADOW_NONE</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">1</property>
+		      <property name="yscale">1</property>
+		      <property name="top_padding">6</property>
+		      <property name="bottom_padding">4</property>
+		      <property name="left_padding">0</property>
+		      <property name="right_padding">0</property>
 
 		      <child>
-			<widget class="GtkAlignment" id="alignment105">
+			<widget class="GtkVBox" id="vbox_image_test">
 			  <property name="visible">True</property>
-			  <property name="xalign">0.5</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xscale">1</property>
-			  <property name="yscale">1</property>
-			  <property name="top_padding">0</property>
-			  <property name="bottom_padding">0</property>
-			  <property name="left_padding">12</property>
-			  <property name="right_padding">0</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">0</property>
+
+			  <child>
+			    <widget class="GtkHBox" id="hbox230">
+			      <property name="visible">True</property>
+			      <property name="homogeneous">False</property>
+			      <property name="spacing">0</property>
+
+			      <child>
+				<widget class="GtkLabel" id="label_image_test">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes"></property>
+				  <property name="use_underline">False</property>
+				  <property name="use_markup">True</property>
+				  <property name="justify">GTK_JUSTIFY_LEFT</property>
+				  <property name="wrap">False</property>
+				  <property name="selectable">False</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				  <property name="ellipsize">PANGO_ELLIPSIZE_END</property>
+				  <property name="width_chars">15</property>
+				  <property name="single_line_mode">False</property>
+				  <property name="angle">0</property>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">False</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkAlignment" id="alignment106">
+				  <property name="visible">True</property>
+				  <property name="xalign">1</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xscale">1</property>
+				  <property name="yscale">1</property>
+				  <property name="top_padding">0</property>
+				  <property name="bottom_padding">0</property>
+				  <property name="left_padding">0</property>
+				  <property name="right_padding">0</property>
+
+				  <child>
+				    <widget class="GtkButton" id="button_image_test">
+				      <property name="visible">True</property>
+				      <property name="tooltip" translatable="yes">Expand image and show description</property>
+				      <property name="can_focus">True</property>
+				      <property name="relief">GTK_RELIEF_NORMAL</property>
+				      <property name="focus_on_click">True</property>
+				      <signal name="clicked" handler="on_button_image_test_clicked" last_modification_time="Mon, 23 Apr 2007 00:33:41 GMT"/>
+
+				      <child>
+					<widget class="GtkImage" id="image2211">
+					  <property name="visible">True</property>
+					  <property name="stock">gtk-help</property>
+					  <property name="icon_size">4</property>
+					  <property name="xalign">0.5</property>
+					  <property name="yalign">0.5</property>
+					  <property name="xpad">0</property>
+					  <property name="ypad">0</property>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">True</property>
+				  <property name="pack_type">GTK_PACK_END</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkImage" id="image_test_text_available">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-justify-fill</property>
+				  <property name="icon_size">4</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">True</property>
+				  <property name="fill">True</property>
+				  <property name="pack_type">GTK_PACK_END</property>
+				</packing>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">True</property>
+			    </packing>
+			  </child>
 
 			  <child>
 			    <widget class="GtkImage" id="image_test">
@@ -10960,79 +11053,19 @@ If you need more, just repeat the operation later.</property>
 			      <property name="xpad">0</property>
 			      <property name="ypad">0</property>
 			    </widget>
-			  </child>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkHBox" id="hbox230">
-			  <property name="visible">True</property>
-			  <property name="homogeneous">False</property>
-			  <property name="spacing">0</property>
-
-			  <child>
-			    <widget class="GtkLabel" id="label_image_test">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes"></property>
-			      <property name="use_underline">False</property>
-			      <property name="use_markup">True</property>
-			      <property name="justify">GTK_JUSTIFY_LEFT</property>
-			      <property name="wrap">False</property>
-			      <property name="selectable">False</property>
-			      <property name="xalign">0.5</property>
-			      <property name="yalign">0.5</property>
-			      <property name="xpad">0</property>
-			      <property name="ypad">0</property>
-			      <property name="ellipsize">PANGO_ELLIPSIZE_END</property>
-			      <property name="width_chars">15</property>
-			      <property name="single_line_mode">False</property>
-			      <property name="angle">0</property>
-			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
 			      <property name="expand">False</property>
-			      <property name="fill">False</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkButton" id="button_image_test">
-			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Expand image and show description</property>
-			      <property name="can_focus">True</property>
-			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
-			      <signal name="clicked" handler="on_button_image_test_clicked" last_modification_time="Mon, 23 Apr 2007 00:33:41 GMT"/>
-
-			      <child>
-				<widget class="GtkImage" id="image2211">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-info</property>
-				  <property name="icon_size">2</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="padding">8</property>
-			      <property name="expand">False</property>
-			      <property name="fill">False</property>
-			      <property name="pack_type">GTK_PACK_END</property>
+			      <property name="fill">True</property>
 			    </packing>
 			  </child>
 			</widget>
-			<packing>
-			  <property name="type">label_item</property>
-			</packing>
 		      </child>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
 		      <property name="expand">False</property>
-		      <property name="fill">False</property>
+		      <property name="fill">True</property>
 		    </packing>
 		  </child>
 		</widget>
@@ -11053,6 +11086,7 @@ If you need more, just repeat the operation later.</property>
 		  <property name="tab_pos">GTK_POS_TOP</property>
 		  <property name="scrollable">True</property>
 		  <property name="enable_popup">False</property>
+		  <signal name="switch_page" handler="on_notebook_change_by_user" last_modification_time="Mon, 20 Aug 2007 11:40:09 GMT"/>
 
 		  <child>
 		    <widget class="GtkVBox" id="vbox20">
@@ -11342,10 +11376,8 @@ If you need more, just repeat the operation later.</property>
 					  <signal name="clicked" handler="on_delete_selected_jump_clicked" last_modification_time="Sun, 07 Nov 2004 17:33:46 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image110">
+					    <widget class="GtkImage" id="image_jump_delete">
 					      <property name="visible">True</property>
-					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -11757,10 +11789,9 @@ If you need more, just repeat the operation later.</property>
 					      <property name="spacing">2</property>
 
 					      <child>
-						<widget class="GtkImage" id="image2132">
+						<widget class="GtkImage" id="image_jump_reactive_bell">
 						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-about</property>
+						  <property name="icon_name"></property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -11885,10 +11916,8 @@ If you need more, just repeat the operation later.</property>
 					  <signal name="clicked" handler="on_delete_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 19:19:22 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image111">
+					    <widget class="GtkImage" id="image_jump_reactive_delete">
 					      <property name="visible">True</property>
-					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -11914,10 +11943,8 @@ If you need more, just repeat the operation later.</property>
 					  <signal name="clicked" handler="on_repair_selected_reactive_jump_clicked" last_modification_time="Wed, 07 Dec 2005 01:01:09 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image1348">
+					    <widget class="GtkImage" id="image_jump_reactive_repair">
 					      <property name="visible">True</property>
-					      <property name="icon_size">1</property>
-					      <property name="icon_name">gtk-about</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -12657,10 +12684,8 @@ If you need more, just repeat the operation later.</property>
 					  <signal name="clicked" handler="on_delete_selected_run_clicked" last_modification_time="Thu, 21 Apr 2005 13:52:26 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image445">
+					    <widget class="GtkImage" id="image_run_delete">
 					      <property name="visible">True</property>
-					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13072,10 +13097,8 @@ If you need more, just repeat the operation later.</property>
 					      <property name="spacing">2</property>
 
 					      <child>
-						<widget class="GtkImage" id="image2173">
+						<widget class="GtkImage" id="image_run_interval_bell">
 						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-about</property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -13200,10 +13223,8 @@ If you need more, just repeat the operation later.</property>
 					  <signal name="clicked" handler="on_delete_selected_run_interval_clicked" last_modification_time="Wed, 03 May 2006 15:12:22 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image547">
+					    <widget class="GtkImage" id="image_run_interval_delete">
 					      <property name="visible">True</property>
-					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13220,7 +13241,7 @@ If you need more, just repeat the operation later.</property>
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button_repair_selected_interval_run">
+					<widget class="GtkButton" id="button_repair_selected_run_interval">
 					  <property name="visible">True</property>
 					  <property name="tooltip" translatable="yes">Repair selected intervallic run</property>
 					  <property name="can_focus">True</property>
@@ -13229,10 +13250,8 @@ If you need more, just repeat the operation later.</property>
 					  <signal name="clicked" handler="on_repair_selected_run_interval_clicked" last_modification_time="Wed, 03 May 2006 15:12:13 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image1406">
+					    <widget class="GtkImage" id="image_run_interval_repair">
 					      <property name="visible">True</property>
-					      <property name="icon_size">1</property>
-					      <property name="icon_name">gtk-about</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13547,19 +13566,17 @@ If you need more, just repeat the operation later.</property>
 				      <property name="spacing">0</property>
 
 				      <child>
-					<widget class="GtkButton" id="button9">
+					<widget class="GtkButton" id="button_delete_selected_reaction_time">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Delete selected jump</property>
+					  <property name="tooltip" translatable="yes">Delete selected reaction time</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
 					  <signal name="clicked" handler="on_delete_selected_reaction_time_clicked" last_modification_time="Sun, 04 Mar 2007 19:12:08 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image1964">
+					    <widget class="GtkImage" id="image_reaction_time_delete">
 					      <property name="visible">True</property>
-					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13576,9 +13593,9 @@ If you need more, just repeat the operation later.</property>
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button10">
+					<widget class="GtkButton" id="button_edit_selected_reaction_time">
 					  <property name="visible">True</property>
-					  <property name="tooltip" translatable="yes">Edit selected jump</property>
+					  <property name="tooltip" translatable="yes">Edit selected reacton time</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
@@ -13605,7 +13622,7 @@ If you need more, just repeat the operation later.</property>
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button11">
+					<widget class="GtkButton" id="button_reaction_time_expand">
 					  <property name="visible">True</property>
 					  <property name="tooltip" translatable="yes">Expand all</property>
 					  <property name="can_focus">True</property>
@@ -13634,7 +13651,7 @@ If you need more, just repeat the operation later.</property>
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button12">
+					<widget class="GtkButton" id="button_reaction_time_collapse">
 					  <property name="visible">True</property>
 					  <property name="tooltip" translatable="yes">Collapse all</property>
 					  <property name="can_focus">True</property>
@@ -13962,10 +13979,8 @@ If you need more, just repeat the operation later.</property>
 					  <signal name="clicked" handler="on_delete_selected_pulse_clicked" last_modification_time="Fri, 21 Apr 2006 16:58:49 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image1472">
+					    <widget class="GtkImage" id="image_pulse_delete">
 					      <property name="visible">True</property>
-					      <property name="stock">gtk-delete</property>
-					      <property name="icon_size">1</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -13991,10 +14006,8 @@ If you need more, just repeat the operation later.</property>
 					  <signal name="clicked" handler="on_repair_selected_pulse_clicked" last_modification_time="Fri, 21 Apr 2006 16:58:40 GMT"/>
 
 					  <child>
-					    <widget class="GtkImage" id="image1473">
+					    <widget class="GtkImage" id="image_pulse_repair">
 					      <property name="visible">True</property>
-					      <property name="icon_size">1</property>
-					      <property name="icon_name">gtk-about</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xpad">0</property>
@@ -14040,13 +14053,13 @@ If you need more, just repeat the operation later.</property>
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button_tv_pulse_expand">
+					<widget class="GtkButton" id="button_pulse_expand">
 					  <property name="visible">True</property>
 					  <property name="tooltip" translatable="yes">Expand all</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
-					  <signal name="clicked" handler="on_button_tv_pulse_expand_clicked" last_modification_time="Fri, 21 Apr 2006 16:59:24 GMT"/>
+					  <signal name="clicked" handler="on_button_pulse_expand_clicked" last_modification_time="Tue, 21 Aug 2007 07:55:14 GMT"/>
 
 					  <child>
 					    <widget class="GtkImage" id="image1475">
@@ -14069,13 +14082,13 @@ If you need more, just repeat the operation later.</property>
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button_tv_pulse_optimal">
+					<widget class="GtkButton" id="button_pulse_optimal">
 					  <property name="visible">True</property>
 					  <property name="tooltip" translatable="yes">Optimal expand</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
-					  <signal name="clicked" handler="on_button_tv_pulse_optimal_clicked" last_modification_time="Fri, 21 Apr 2006 16:59:14 GMT"/>
+					  <signal name="clicked" handler="on_button_pulse_optimal_clicked" last_modification_time="Tue, 21 Aug 2007 07:55:00 GMT"/>
 
 					  <child>
 					    <widget class="GtkImage" id="image1476">
@@ -14098,13 +14111,13 @@ If you need more, just repeat the operation later.</property>
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button_tv_pulse_collapse">
+					<widget class="GtkButton" id="button_pulse_collapse">
 					  <property name="visible">True</property>
 					  <property name="tooltip" translatable="yes">Collapse all</property>
 					  <property name="can_focus">True</property>
 					  <property name="relief">GTK_RELIEF_NORMAL</property>
 					  <property name="focus_on_click">True</property>
-					  <signal name="clicked" handler="on_button_tv_pulse_collapse_clicked" last_modification_time="Fri, 21 Apr 2006 16:59:03 GMT"/>
+					  <signal name="clicked" handler="on_button_pulse_collapse_clicked" last_modification_time="Tue, 21 Aug 2007 07:55:07 GMT"/>
 
 					  <child>
 					    <widget class="GtkImage" id="image1477">
@@ -14308,10 +14321,8 @@ If you need more, just repeat the operation later.</property>
 	      <signal name="clicked" handler="on_last_delete" last_modification_time="Thu, 21 Apr 2005 13:54:26 GMT"/>
 
 	      <child>
-		<widget class="GtkImage" id="image30">
+		<widget class="GtkImage" id="image_delete_last">
 		  <property name="visible">True</property>
-		  <property name="stock">gtk-delete</property>
-		  <property name="icon_size">4</property>
 		  <property name="xalign">0.5</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
@@ -14346,7 +14357,7 @@ If you need more, just repeat the operation later.</property>
 	      <property name="focus_on_click">True</property>
 	      <property name="active">True</property>
 	      <property name="inconsistent">False</property>
-	      <property name="draw_indicator">True</property>
+	      <property name="draw_indicator">False</property>
 	      <signal name="clicked" handler="on_checkbutton_volume_clicked" last_modification_time="Sun, 18 Mar 2007 23:42:31 GMT"/>
 
 	      <child>
@@ -14368,10 +14379,8 @@ If you need more, just repeat the operation later.</property>
 		      <property name="spacing">2</property>
 
 		      <child>
-			<widget class="GtkImage" id="image1970">
+			<widget class="GtkImage" id="image_volume">
 			  <property name="visible">True</property>
-			  <property name="icon_size">4</property>
-			  <property name="icon_name">gtk-about</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
@@ -16431,8 +16440,7 @@ Test&lt;/b&gt;</property>
 				  <child>
 				    <widget class="GtkImage" id="image_jump_reactive_tf_good">
 				      <property name="visible">True</property>
-				      <property name="icon_size">1</property>
-				      <property name="icon_name">gtk-yes</property>
+				      <property name="icon_name"></property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16448,8 +16456,7 @@ Test&lt;/b&gt;</property>
 				  <child>
 				    <widget class="GtkImage" id="image_jump_reactive_tf_bad">
 				      <property name="visible">True</property>
-				      <property name="icon_size">1</property>
-				      <property name="icon_name">gtk-no</property>
+				      <property name="icon_name"></property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16521,8 +16528,7 @@ Test&lt;/b&gt;</property>
 				  <child>
 				    <widget class="GtkImage" id="image_jump_reactive_tc_good">
 				      <property name="visible">True</property>
-				      <property name="icon_size">1</property>
-				      <property name="icon_name">gtk-yes</property>
+				      <property name="icon_name"></property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16538,8 +16544,7 @@ Test&lt;/b&gt;</property>
 				  <child>
 				    <widget class="GtkImage" id="image_jump_reactive_tc_bad">
 				      <property name="visible">True</property>
-				      <property name="icon_size">1</property>
-				      <property name="icon_name">gtk-no</property>
+				      <property name="icon_name"></property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16611,8 +16616,7 @@ Test&lt;/b&gt;</property>
 				  <child>
 				    <widget class="GtkImage" id="image_jump_reactive_tf_tc_good">
 				      <property name="visible">True</property>
-				      <property name="icon_size">1</property>
-				      <property name="icon_name">gtk-yes</property>
+				      <property name="icon_name"></property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -16628,8 +16632,7 @@ Test&lt;/b&gt;</property>
 				  <child>
 				    <widget class="GtkImage" id="image_jump_reactive_tf_tc_bad">
 				      <property name="visible">True</property>
-				      <property name="icon_size">1</property>
-				      <property name="icon_name">gtk-no</property>
+				      <property name="icon_name"></property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -17036,8 +17039,7 @@ Test&lt;/b&gt;</property>
 				  <child>
 				    <widget class="GtkImage" id="image_run_interval_time_good">
 				      <property name="visible">True</property>
-				      <property name="icon_size">1</property>
-				      <property name="icon_name">gtk-yes</property>
+				      <property name="icon_name"></property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -17053,8 +17055,7 @@ Test&lt;/b&gt;</property>
 				  <child>
 				    <widget class="GtkImage" id="image_run_interval_time_bad">
 				      <property name="visible">True</property>
-				      <property name="icon_size">1</property>
-				      <property name="icon_name">gtk-no</property>
+				      <property name="icon_name"></property>
 				      <property name="xalign">0.5</property>
 				      <property name="yalign">0.5</property>
 				      <property name="xpad">0</property>
@@ -19437,10 +19438,9 @@ Test&lt;/b&gt;</property>
 			      <property name="spacing">2</property>
 
 			      <child>
-				<widget class="GtkImage" id="image2117">
+				<widget class="GtkImage" id="image_repetitive_best_tf_tc">
 				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-about</property>
+				  <property name="icon_name"></property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19450,23 +19450,6 @@ Test&lt;/b&gt;</property>
 				  <property name="padding">0</property>
 				  <property name="expand">False</property>
 				  <property name="fill">False</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkImage" id="image2124">
-				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-yes</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">True</property>
-				  <property name="fill">True</property>
 				</packing>
 			      </child>
 
@@ -19535,10 +19518,9 @@ Test&lt;/b&gt;</property>
 			      <property name="spacing">2</property>
 
 			      <child>
-				<widget class="GtkImage" id="image2125">
+				<widget class="GtkImage" id="image_repetitive_worst_tf_tc">
 				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-about</property>
+				  <property name="icon_name"></property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19548,23 +19530,6 @@ Test&lt;/b&gt;</property>
 				  <property name="padding">0</property>
 				  <property name="expand">False</property>
 				  <property name="fill">False</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkImage" id="image2126">
-				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-no</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">True</property>
-				  <property name="fill">True</property>
 				</packing>
 			      </child>
 
@@ -19633,10 +19598,9 @@ Test&lt;/b&gt;</property>
 			      <property name="spacing">2</property>
 
 			      <child>
-				<widget class="GtkImage" id="image2169">
+				<widget class="GtkImage" id="image_repetitive_best_time">
 				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-about</property>
+				  <property name="icon_name"></property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19646,23 +19610,6 @@ Test&lt;/b&gt;</property>
 				  <property name="padding">0</property>
 				  <property name="expand">False</property>
 				  <property name="fill">False</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkImage" id="image2170">
-				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-yes</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">True</property>
-				  <property name="fill">True</property>
 				</packing>
 			      </child>
 
@@ -19731,10 +19678,9 @@ Test&lt;/b&gt;</property>
 			      <property name="spacing">2</property>
 
 			      <child>
-				<widget class="GtkImage" id="image2171">
+				<widget class="GtkImage" id="image_repetitive_worst_time">
 				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-about</property>
+				  <property name="icon_name"></property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -19744,23 +19690,6 @@ Test&lt;/b&gt;</property>
 				  <property name="padding">0</property>
 				  <property name="expand">False</property>
 				  <property name="fill">False</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkImage" id="image2172">
-				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-no</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">True</property>
-				  <property name="fill">True</property>
 				</packing>
 			      </child>
 
@@ -20008,10 +19937,9 @@ Test&lt;/b&gt;</property>
 						  <property name="spacing">2</property>
 
 						  <child>
-						    <widget class="GtkImage" id="image2145">
+						    <widget class="GtkImage" id="image_repetitive_tf_greater">
 						      <property name="visible">True</property>
-						      <property name="icon_size">4</property>
-						      <property name="icon_name">gtk-about</property>
+						      <property name="icon_name"></property>
 						      <property name="xalign">0.5</property>
 						      <property name="yalign">0.5</property>
 						      <property name="xpad">0</property>
@@ -20021,23 +19949,6 @@ Test&lt;/b&gt;</property>
 						      <property name="padding">0</property>
 						      <property name="expand">False</property>
 						      <property name="fill">False</property>
-						    </packing>
-						  </child>
-
-						  <child>
-						    <widget class="GtkImage" id="image2146">
-						      <property name="visible">True</property>
-						      <property name="icon_size">4</property>
-						      <property name="icon_name">gtk-yes</property>
-						      <property name="xalign">0.5</property>
-						      <property name="yalign">0.5</property>
-						      <property name="xpad">0</property>
-						      <property name="ypad">0</property>
-						    </widget>
-						    <packing>
-						      <property name="padding">0</property>
-						      <property name="expand">True</property>
-						      <property name="fill">True</property>
 						    </packing>
 						  </child>
 						</widget>
@@ -20092,27 +20003,9 @@ Test&lt;/b&gt;</property>
 					      <property name="spacing">2</property>
 
 					      <child>
-						<widget class="GtkImage" id="image2147">
+						<widget class="GtkImage" id="image_repetitive_tf_lower">
 						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-about</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
-
-					      <child>
-						<widget class="GtkImage" id="image2148">
-						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-no</property>
+						  <property name="icon_name"></property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20169,27 +20062,9 @@ Test&lt;/b&gt;</property>
 					      <property name="spacing">2</property>
 
 					      <child>
-						<widget class="GtkImage" id="image2149">
+						<widget class="GtkImage" id="image_repetitive_tc_greater">
 						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-about</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
-
-					      <child>
-						<widget class="GtkImage" id="image2150">
-						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-no</property>
+						  <property name="icon_name"></property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20246,27 +20121,9 @@ Test&lt;/b&gt;</property>
 					      <property name="spacing">2</property>
 
 					      <child>
-						<widget class="GtkImage" id="image2151">
+						<widget class="GtkImage" id="image_repetitive_tc_lower">
 						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-about</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
-
-					      <child>
-						<widget class="GtkImage" id="image2152">
-						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-yes</property>
+						  <property name="icon_name"></property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20323,27 +20180,9 @@ Test&lt;/b&gt;</property>
 					      <property name="spacing">2</property>
 
 					      <child>
-						<widget class="GtkImage" id="image2153">
+						<widget class="GtkImage" id="image_repetitive_tf_tc_greater">
 						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-about</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
-
-					      <child>
-						<widget class="GtkImage" id="image2154">
-						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-yes</property>
+						  <property name="icon_name"></property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -20400,27 +20239,9 @@ Test&lt;/b&gt;</property>
 					      <property name="spacing">2</property>
 
 					      <child>
-						<widget class="GtkImage" id="image2155">
+						<widget class="GtkImage" id="image_repetitive_tf_tc_lower">
 						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-about</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
-
-					      <child>
-						<widget class="GtkImage" id="image2156">
-						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-no</property>
+						  <property name="icon_name"></property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -21237,10 +21058,9 @@ Test&lt;/b&gt;</property>
 						  <property name="spacing">2</property>
 
 						  <child>
-						    <widget class="GtkImage" id="image2157">
+						    <widget class="GtkImage" id="image_repetitive_time_lower">
 						      <property name="visible">True</property>
-						      <property name="icon_size">4</property>
-						      <property name="icon_name">gtk-about</property>
+						      <property name="icon_name"></property>
 						      <property name="xalign">0.5</property>
 						      <property name="yalign">0.5</property>
 						      <property name="xpad">0</property>
@@ -21250,23 +21070,6 @@ Test&lt;/b&gt;</property>
 						      <property name="padding">0</property>
 						      <property name="expand">False</property>
 						      <property name="fill">False</property>
-						    </packing>
-						  </child>
-
-						  <child>
-						    <widget class="GtkImage" id="image2174">
-						      <property name="visible">True</property>
-						      <property name="icon_size">4</property>
-						      <property name="icon_name">gtk-yes</property>
-						      <property name="xalign">0.5</property>
-						      <property name="yalign">0.5</property>
-						      <property name="xpad">0</property>
-						      <property name="ypad">0</property>
-						    </widget>
-						    <packing>
-						      <property name="padding">0</property>
-						      <property name="expand">True</property>
-						      <property name="fill">True</property>
 						    </packing>
 						  </child>
 						</widget>
@@ -21321,27 +21124,9 @@ Test&lt;/b&gt;</property>
 					      <property name="spacing">2</property>
 
 					      <child>
-						<widget class="GtkImage" id="image2159">
+						<widget class="GtkImage" id="image_repetitive_time_greater">
 						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-about</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
-						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">False</property>
-						</packing>
-					      </child>
-
-					      <child>
-						<widget class="GtkImage" id="image2160">
-						  <property name="visible">True</property>
-						  <property name="icon_size">4</property>
-						  <property name="icon_name">gtk-no</property>
+						  <property name="icon_name"></property>
 						  <property name="xalign">0.5</property>
 						  <property name="yalign">0.5</property>
 						  <property name="xpad">0</property>
@@ -21659,27 +21444,9 @@ Test&lt;/b&gt;</property>
 			      <property name="spacing">0</property>
 
 			      <child>
-				<widget class="GtkImage" id="image2127">
+				<widget class="GtkImage" id="image_repetitive_test_good">
 				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-about</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">True</property>
-				  <property name="fill">True</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkImage" id="image2128">
-				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-yes</property>
+				  <property name="icon_name"></property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
@@ -21740,27 +21507,9 @@ Test&lt;/b&gt;</property>
 			      <property name="spacing">0</property>
 
 			      <child>
-				<widget class="GtkImage" id="image2129">
+				<widget class="GtkImage" id="image_repetitive_test_bad">
 				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-about</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">True</property>
-				  <property name="fill">True</property>
-				</packing>
-			      </child>
-
-			      <child>
-				<widget class="GtkImage" id="image2130">
-				  <property name="visible">True</property>
-				  <property name="icon_size">4</property>
-				  <property name="icon_name">gtk-no</property>
+				  <property name="icon_name"></property>
 				  <property name="xalign">0.5</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>

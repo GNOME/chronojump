@@ -129,7 +129,6 @@ public class JumpRj : Jump
 		this.limited = limited;
 	}
 	
-	
 	public string Limited
 	{
 		get { return limited; }

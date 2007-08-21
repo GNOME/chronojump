@@ -268,6 +268,23 @@ public class EventExecuteWindow
 
 		layout = new Pango.Layout (drawingarea.PangoContext);
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+
+		putNonStandardIcons();
+	}
+	
+	private void putNonStandardIcons() {
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_green.png");
+		image_jump_reactive_tf_good.Pixbuf = pixbuf;
+		image_jump_reactive_tc_good.Pixbuf = pixbuf;
+		image_jump_reactive_tf_tc_good.Pixbuf = pixbuf;
+		image_run_interval_time_good.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
+		image_jump_reactive_tf_bad.Pixbuf = pixbuf;
+		image_jump_reactive_tc_bad.Pixbuf = pixbuf;
+		image_jump_reactive_tf_tc_bad.Pixbuf = pixbuf;
+		image_run_interval_time_bad.Pixbuf = pixbuf;
 	}
 
 	private void hideImages() {

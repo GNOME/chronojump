@@ -1922,11 +1922,11 @@ msgstr "TC promig"
 
 #: ../src/execute/run.cs:112
 msgid "You are IN, RUN when prepared!!"
-msgstr "Sou DINS, quan estigueu preparat, SALTEU!"
+msgstr "Sou DINS, quan estigueu preparat, CORREU!"
 
 #: ../src/execute/run.cs:119
 msgid "You are OUT, RUN when prepared!!"
-msgstr "Sou FORA, quan estigueu preparat SALTEU!"
+msgstr "Sou FORA, quan estigueu preparat CORREU!"
 
 #: ../src/execute/run.cs:289 ../src/execute/run.cs:744
 msgid "Last run"

@@ -75,6 +75,8 @@ public class ChronoJump
 	[Widget] Gtk.MenuItem menuitem_delete_selected_run_interval;
 	[Widget] Gtk.Button button_edit_selected_run_interval;
 	[Widget] Gtk.Button button_delete_selected_run_interval;
+	[Widget] Gtk.Button button_repair_selected_run_interval;
+	[Widget] Gtk.MenuItem menuitem_repair_selected_run_interval;
 
 	[Widget] Gtk.Button button_edit_selected_reaction_time;
 	[Widget] Gtk.Button button_delete_selected_reaction_time;
@@ -83,6 +85,7 @@ public class ChronoJump
 	//[Widget] Gtk.MenuItem menuitem_delete_selected_pulse;
 	[Widget] Gtk.Button button_edit_selected_pulse;
 	[Widget] Gtk.Button button_delete_selected_pulse;
+	[Widget] Gtk.Button button_repair_selected_pulse;
 	
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
@@ -178,10 +181,26 @@ public class ChronoJump
 	
 	[Widget] Gtk.Notebook notebook;
 	
-	[Widget] Gtk.Frame frame_image_test;
+	[Widget] Gtk.Box vbox_image_test;
+	[Widget] Gtk.Image image_test_text_available;
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Button button_image_test;
 	[Widget] Gtk.Label label_image_test;
+
+	//non standard icons	
+	[Widget] Gtk.Image image_volume;
+	[Widget] Gtk.Image image_jump_reactive_bell;
+	[Widget] Gtk.Image image_run_interval_bell;
+	[Widget] Gtk.Image image_jump_reactive_repair;
+	[Widget] Gtk.Image image_run_interval_repair;
+	[Widget] Gtk.Image image_pulse_repair;
+	[Widget] Gtk.Image image_jump_delete;
+	[Widget] Gtk.Image image_jump_reactive_delete;
+	[Widget] Gtk.Image image_run_delete;
+	[Widget] Gtk.Image image_run_interval_delete;
+	[Widget] Gtk.Image image_reaction_time_delete;
+	[Widget] Gtk.Image image_pulse_delete;
+	[Widget] Gtk.Image image_delete_last;
 	
 	
 	private Random rand;
@@ -462,11 +481,8 @@ public class ChronoJump
 		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "app1", null);
 		gxml.Autoconnect(this);
 
-		//Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
-		image_test.Pixbuf = pixbuf;
-		button_image_test.Sensitive=false;
-		
+		//show chronojump logo on down-left area
+		changeTestImage("", "", "LOGO");
 
 		cpRunning = false;
 
@@ -510,7 +526,9 @@ public class ChronoJump
 
 		rand = new Random(40);
 		volumeOn = true;
-
+	
+		putNonStandardIcons();	
+		
 		if(simulated)
 			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
 	}
@@ -556,6 +574,41 @@ public class ChronoJump
 		return returnString;
 	}
 
+	//from SportsTracker code
+	[Glade.WidgetAttribute]
+		private ImageMenuItem
+			menuitem_view_stats = null, menuitem_report_window = null;
+
+	private void putNonStandardIcons() {
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
+		image_volume.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
+		image_jump_reactive_bell.Pixbuf = pixbuf;
+		image_run_interval_bell.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "preferences-system.png");
+		image_jump_reactive_repair.Pixbuf = pixbuf;
+		image_run_interval_repair.Pixbuf = pixbuf;
+		image_pulse_repair.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_jump_delete.Pixbuf = pixbuf;
+		image_jump_reactive_delete.Pixbuf = pixbuf;
+		image_run_delete.Pixbuf = pixbuf;
+		image_run_interval_delete.Pixbuf = pixbuf;
+		image_reaction_time_delete.Pixbuf = pixbuf;
+		image_pulse_delete.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "delete_last.png");
+		image_delete_last.Pixbuf = pixbuf;
+
+		//menuitems (done differently)
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
+		menuitem_view_stats.Image = new Gtk.Image(pixbuf);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
+		menuitem_report_window.Image = new Gtk.Image(pixbuf);
+	}
 
 	private void chronopicInit (string myPort)
 	{
@@ -828,8 +881,17 @@ public class ChronoJump
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumps.EventSelectedID == 0) {
-			Console.WriteLine("don't select");
 			myTreeViewJumps.Unselect();
+			//Unsensitive edit-delete-repair? buttons and menu entries
+			menuitem_edit_selected_jump.Sensitive = false;
+			menuitem_delete_selected_jump.Sensitive = false;
+			button_edit_selected_jump.Sensitive = false;
+			button_delete_selected_jump.Sensitive = false;
+		} else {
+			menuitem_edit_selected_jump.Sensitive = true;
+			menuitem_delete_selected_jump.Sensitive = true;
+			button_edit_selected_jump.Sensitive = true;
+			button_delete_selected_jump.Sensitive = true;
 		}
 	}
 
@@ -870,8 +932,21 @@ public class ChronoJump
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumpsRj.EventSelectedID == 0) {
-			Console.WriteLine("don't select");
 			myTreeViewJumpsRj.Unselect();
+			//Unsensitive edit-delete-repair? buttons and menu entries
+			menuitem_edit_selected_jump_rj.Sensitive = false;
+			menuitem_delete_selected_jump_rj.Sensitive = false;
+			button_edit_selected_jump_rj.Sensitive = false;
+			button_delete_selected_jump_rj.Sensitive = false;
+			button_repair_selected_reactive_jump.Sensitive = false;
+			menuitem_repair_selected_reactive_jump.Sensitive = false;
+		} else {
+			menuitem_edit_selected_jump_rj.Sensitive = true;
+			menuitem_delete_selected_jump_rj.Sensitive = true;
+			button_edit_selected_jump_rj.Sensitive = true;
+			button_delete_selected_jump_rj.Sensitive = true;
+			button_repair_selected_reactive_jump.Sensitive = true;
+			menuitem_repair_selected_reactive_jump.Sensitive = true;
 		}
 	}
 
@@ -907,8 +982,17 @@ public class ChronoJump
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
 		if (myTreeViewRuns.EventSelectedID == 0) {
-			Console.WriteLine("don't select");
 			myTreeViewRuns.Unselect();
+			//Unsensitive edit-delete-repair? buttons and menu entries
+			menuitem_edit_selected_run.Sensitive = false;
+			menuitem_delete_selected_run.Sensitive = false;
+			button_edit_selected_run.Sensitive = false;
+			button_delete_selected_run.Sensitive = false;
+		} else {
+			menuitem_edit_selected_run.Sensitive = true;
+			menuitem_delete_selected_run.Sensitive = true;
+			button_edit_selected_run.Sensitive = true;
+			button_delete_selected_run.Sensitive = true;
 		}
 	}
 
@@ -950,8 +1034,21 @@ public class ChronoJump
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who runs
 		if (myTreeViewRunsInterval.EventSelectedID == 0) {
-			Console.WriteLine("don't select");
 			myTreeViewRunsInterval.Unselect();
+			//Unsensitive edit-delete-repair? buttons and menu entries
+			menuitem_edit_selected_run_interval.Sensitive = false;
+			menuitem_delete_selected_run_interval.Sensitive = false;
+			button_edit_selected_run_interval.Sensitive = false;
+			button_delete_selected_run_interval.Sensitive = false;
+			button_repair_selected_run_interval.Sensitive = false;
+			menuitem_repair_selected_run_interval.Sensitive = false;
+		} else {
+			menuitem_edit_selected_run_interval.Sensitive = true;
+			menuitem_delete_selected_run_interval.Sensitive = true;
+			button_edit_selected_run_interval.Sensitive = true;
+			button_delete_selected_run_interval.Sensitive = true;
+			button_repair_selected_run_interval.Sensitive = true;
+			menuitem_repair_selected_run_interval.Sensitive = true;
 		}
 	}
 
@@ -988,8 +1085,13 @@ public class ChronoJump
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who is executing
 		if (myTreeViewReactionTimes.EventSelectedID == 0) {
-			Console.WriteLine("don't select");
 			myTreeViewReactionTimes.Unselect();
+			//Unsensitive edit-delete-repair? buttons and menu entries
+			button_edit_selected_reaction_time.Sensitive = false;
+			button_delete_selected_reaction_time.Sensitive = false;
+		} else {
+			button_edit_selected_reaction_time.Sensitive = true;
+			button_delete_selected_reaction_time.Sensitive = true;
 		}
 	}
 
@@ -1008,16 +1110,16 @@ public class ChronoJump
 		myTreeViewPulses.Fill(myPulses, filter);
 	}
 	
-	private void on_button_tv_pulse_collapse_clicked (object o, EventArgs args) {
+	private void on_button_pulse_collapse_clicked (object o, EventArgs args) {
 		treeview_pulses.CollapseAll();
 	}
 	
-	private void on_button_tv_pulse_optimal_clicked (object o, EventArgs args) {
+	private void on_button_pulse_optimal_clicked (object o, EventArgs args) {
 		treeview_pulses.CollapseAll();
 		myTreeViewPulses.ExpandOptimal();
 	}
 	
-	private void on_button_tv_pulse_expand_clicked (object o, EventArgs args) {
+	private void on_button_pulse_expand_clicked (object o, EventArgs args) {
 		treeview_pulses.ExpandAll();
 	}
 	
@@ -1030,8 +1132,15 @@ public class ChronoJump
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who is executing
 		if (myTreeViewPulses.EventSelectedID == 0) {
-			Console.WriteLine("don't select");
 			myTreeViewPulses.Unselect();
+			//Unsensitive edit-delete-repair? buttons and menu entries
+			button_edit_selected_pulse.Sensitive = false;
+			button_delete_selected_pulse.Sensitive = false; 
+			button_repair_selected_pulse.Sensitive = false;
+		} else {
+			button_edit_selected_pulse.Sensitive = true;
+			button_delete_selected_pulse.Sensitive = true;
+			button_repair_selected_pulse.Sensitive = true;
 		}
 	}
 
@@ -1107,12 +1216,6 @@ public class ChronoJump
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
 
-		//show the edit-delete selected jumps buttons:
-		menuitem_edit_selected_jump.Sensitive = true;
-		menuitem_delete_selected_jump.Sensitive = true;
-		button_edit_selected_jump.Sensitive = true;
-		button_delete_selected_jump.Sensitive = true;
-		
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(myText);
 		
@@ -1126,14 +1229,6 @@ public class ChronoJump
 		if (o == null)
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
-
-		//show the edit-delete selected jumps buttons:
-		menuitem_edit_selected_jump_rj.Sensitive = true;
-		menuitem_delete_selected_jump_rj.Sensitive = true;
-		button_edit_selected_jump_rj.Sensitive = true;
-		button_delete_selected_jump_rj.Sensitive = true;
-		button_repair_selected_reactive_jump.Sensitive = true;
-		menuitem_repair_selected_reactive_jump.Sensitive = true;
 
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(myText);
@@ -1149,12 +1244,6 @@ public class ChronoJump
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
 
-		//show the edit-delete selected runs buttons:
-		menuitem_edit_selected_run.Sensitive = true;
-		menuitem_delete_selected_run.Sensitive = true;
-		button_edit_selected_run.Sensitive = true;
-		button_delete_selected_run.Sensitive = true;
-
 		treeview_runs_storeReset();
 		fillTreeView_runs(myText);
 
@@ -1168,12 +1257,6 @@ public class ChronoJump
 		if (o == null)
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
-
-		//show the edit-delete selected runs buttons:
-		menuitem_edit_selected_run_interval.Sensitive = true;
-		menuitem_delete_selected_run_interval.Sensitive = true;
-		button_edit_selected_run_interval.Sensitive = true;
-		button_delete_selected_run_interval.Sensitive = true;
 
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(myText);
@@ -1190,12 +1273,6 @@ public class ChronoJump
 		if (o == null)
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
-
-		//show the edit-delete selected runs buttons:
-		//menuitem_edit_selected_run_interval.Sensitive = true;
-		//menuitem_delete_selected_run_interval.Sensitive = true;
-		button_edit_selected_pulse.Sensitive = true;
-		button_delete_selected_pulse.Sensitive = true;
 
 		treeview_pulses_storeReset();
 		fillTreeView_pulses(myText);
@@ -1889,8 +1966,10 @@ public class ChronoJump
 		} else 	if(o == (object) button_run_20m) {
 			currentEventType = new RunType("100m");
 		} else 	if(o == (object) button_run_100m) {
-			currentEventType = new RunType("200m");
+			currentEventType = new RunType("100m");
 		} else 	if(o == (object) button_run_200m) {
+			currentEventType = new RunType("200m");
+		} else 	if(o == (object) button_run_400m) {
 			currentEventType = new RunType("400m");
 		} else 	if(o == (object) button_run_20yard) {
 			currentEventType = new RunType("Agility-20Yard");
@@ -1915,22 +1994,53 @@ public class ChronoJump
 
 		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
 	}
-	
-	private void changeTestImage(string tableName, string eventName, string fileNameString) {
-		Pixbuf pixbuf;
-		if(fileNameString != "") {
-			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + fileNameString);
-			button_image_test.Sensitive=true;
-		} else {
-			pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
 
-			button_image_test.Sensitive=false;
+
+	//changes the image about the text on the bottom left of main screen	
+	private void changeTestImage(string eventTypeString, string eventName, string fileNameString) {
+		Pixbuf pixbuf;
+		switch (fileNameString) {
+			case "LOGO":
+				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
+				button_image_test.Sensitive=false;
+			break;
+			case "":
+				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
+				button_image_test.Sensitive=false;
+			break;
+			default:
+				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + fileNameString);
+				button_image_test.Sensitive=true;
+			break;
 		}
+
 		label_image_test.Text = "<b>" + eventName + "</b>"; 
 		label_image_test.UseMarkup = true; 
 		image_test.Pixbuf = pixbuf;
+		
+		//show or hide the icon "text available"
+		if(eventTypeString != "" && eventName != "" && eventTypeHasLongDescription (eventTypeString, eventName))
+			image_test_text_available.Show();
+		else 
+			image_test_text_available.Hide();
 	}
 
+	private bool eventTypeHasLongDescription (string eventTypeString, string eventName) {
+		if(eventTypeString != "" && eventName != "")
+		{
+			EventType myType = new EventType ();
+
+			if(eventTypeString == EventType.Types.JUMP.ToString()) 
+				myType = new JumpType(eventName);
+			else if (eventTypeString == EventType.Types.RUN.ToString()) 
+				myType = new RunType(eventName);
+			else Console.WriteLine("Error on eventTypeHasLongDescription");
+
+			if(myType.HasLongDescription)
+				return true;
+		}
+		return false;
+	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  JUMPS EXECUTION (no RJ) ----------------
@@ -2030,7 +2140,7 @@ public class ChronoJump
 		} else {
 		}
 		
-		changeTestImage("jump", currentJumpType.Name, currentJumpType.ImageFileName);
+		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
 			
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
@@ -2196,7 +2306,7 @@ public class ChronoJump
 	}
 	private void on_rj_accepted (object o, EventArgs args) 
 	{
-		changeTestImage("jumpRj", currentJumpType.Name, currentJumpType.ImageFileName);
+		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
 
 		double myLimit = 0;
 		
@@ -2412,7 +2522,7 @@ public class ChronoJump
 		} 
 		// add others...
 		
-		changeTestImage("run", currentRunType.Name, currentRunType.ImageFileName);
+		changeTestImage(EventType.Types.RUN.ToString(), currentRunType.Name, currentRunType.ImageFileName);
 
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
@@ -3614,13 +3724,18 @@ public class ChronoJump
 	 *  --------------------------------------------------------
 	 */
 	
+	//changed by chronojump when it's needed
 	private void notebook_change(int desiredPage) {
-		while(notebook.CurrentPage < desiredPage) {
+		while(notebook.CurrentPage < desiredPage) 
 			notebook.NextPage();
-		}
-		while(notebook.CurrentPage > desiredPage) {
+		while(notebook.CurrentPage > desiredPage) 
 			notebook.PrevPage();
-		}
+	}
+	
+	//changed by user clicking on notebook tabs
+	private void on_notebook_change_by_user (object o, SwitchPageArgs args) {
+		//show chronojump logo on down-left area
+		changeTestImage("", "", "LOGO");
 	}
 	
 	//help
@@ -3634,10 +3749,15 @@ public class ChronoJump
 	}
 
 	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
-		if(volumeOn)
+		Pixbuf pixbuf;
+		if(volumeOn) {
 			volumeOn = false;
-		else
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
+		} else {
 			volumeOn = true;
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
+		}
+		image_volume.Pixbuf = pixbuf;
 
 //		if(repetitiveConditionsWin != null)
 			repetitiveConditionsWin.VolumeOn = volumeOn;
@@ -3678,7 +3798,7 @@ public class ChronoJump
 		menu_other.Sensitive = false;
 		menu_view.Sensitive = false;
 
-		frame_image_test.Sensitive = false;
+		vbox_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
 		button_recup_per.Sensitive = false;
 		button_create_per.Sensitive = false;
@@ -3689,8 +3809,6 @@ public class ChronoJump
 		
 		//notebook
 		notebook.Sensitive = false;
-		//hbox_jumps.Sensitive = false;
-		//hbox_jumps_rj.Sensitive = false;
 		
 		button_last.Sensitive = false;
 		button_rj_last.Sensitive=false;
@@ -3702,7 +3820,7 @@ public class ChronoJump
 	}
 	
 	private void sensitiveGuiYesSession () {
-		frame_image_test.Sensitive = true;
+		vbox_image_test.Sensitive = true;
 		frame_persons.Sensitive = true;
 		button_recup_per.Sensitive = true;
 		button_create_per.Sensitive = true;
@@ -3751,7 +3869,36 @@ public class ChronoJump
 		menu_runs.Sensitive = true;
 		menu_other.Sensitive = true;
 		menu_view.Sensitive = true;
-		
+	
+		//unsensitive edit, delete, repair events because no event is initially selected
+		menuitem_edit_selected_jump.Sensitive = false;
+		menuitem_delete_selected_jump.Sensitive = false;
+		button_edit_selected_jump.Sensitive = false;
+		button_delete_selected_jump.Sensitive = false;
+		menuitem_edit_selected_jump_rj.Sensitive = false;
+		menuitem_delete_selected_jump_rj.Sensitive = false;
+		button_edit_selected_jump_rj.Sensitive = false;
+		button_delete_selected_jump_rj.Sensitive = false;
+		button_repair_selected_reactive_jump.Sensitive = false;
+		menuitem_repair_selected_reactive_jump.Sensitive = false;
+		menuitem_edit_selected_run.Sensitive = false;
+		menuitem_delete_selected_run.Sensitive = false;
+		button_edit_selected_run.Sensitive = false;
+		button_delete_selected_run.Sensitive = false;
+		menuitem_edit_selected_run_interval.Sensitive = false;
+		menuitem_delete_selected_run_interval.Sensitive = false;
+		button_edit_selected_run_interval.Sensitive = false;
+		button_delete_selected_run_interval.Sensitive = false;
+		button_repair_selected_run_interval.Sensitive = false;
+		menuitem_repair_selected_run_interval.Sensitive = false;
+		button_edit_selected_reaction_time.Sensitive = false;
+		button_delete_selected_reaction_time.Sensitive = false;
+		// menuitem_edit_selected_pulse.Sensitive = false;
+		// menuitem_delete_selected_pulse.Sensitive = false;
+		button_edit_selected_pulse.Sensitive = false;
+		button_delete_selected_pulse.Sensitive = false;
+		button_repair_selected_pulse.Sensitive = false;
+
 		combo_jumps.Sensitive = true;
 		combo_jumps_rj.Sensitive = true;
 		combo_runs.Sensitive = true;

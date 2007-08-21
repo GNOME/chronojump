@@ -54,6 +54,16 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/jump_rj_in.png,jump_rj_in.png 			-resource:images/mini/jump_rj_in.png,mini/jump_rj_in.png \
 		-resource:images/run_simple.png,run_simple.png 			-resource:images/mini/run_simple.png,mini/run_simple.png \
 		-resource:images/run_interval.png,run_interval.png 		-resource:images/mini/run_interval.png,mini/run_interval.png \
+		-resource:images/stock_bell.png,stock_bell.png \
+		-resource:images/stock_bell_green.png,stock_bell_green.png \
+		-resource:images/stock_bell_red.png,stock_bell_red.png \
+		-resource:images/audio-volume-high.png,audio-volume-high.png \
+		-resource:images/audio-volume-muted.png,audio-volume-muted.png \
+		-resource:images/gpm-statistics.png,gpm-statistics.png \
+		-resource:images/stock_task-assigned.png,stock_task-assigned.png \
+		-resource:images/preferences-system.png,preferences-system.png \
+		-resource:images/stock_delete.png,stock_delete.png \
+		-resource:images/delete_last.png,delete_last.png \
 
 RESOURCES_REPORT = -resource:images/chronojump_logo.png,chronojump_logo.png \
 		-resource:images/report_web_style.css,report_web_style.css \
@@ -77,7 +87,7 @@ all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
 # Regla para compilar CHRONOJUMP (C#)
 #-------------------------------
 
-$(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade
+$(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade Makefile
 	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
    
     

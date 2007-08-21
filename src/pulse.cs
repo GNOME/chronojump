@@ -42,7 +42,6 @@ public class Pulse : Event
 			int totalPulsesNum, string timesString, string description)
 	{
 		this.uniqueID = uniqueID;
-		this.personName = SqlitePerson.SelectJumperName(personID);
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.type = type;

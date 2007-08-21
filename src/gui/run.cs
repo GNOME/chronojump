@@ -122,7 +122,7 @@ public class EditRunWindow
 		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
 		combo_runners = ComboBox.NewText();
 		UtilGtk.ComboUpdate(combo_runners, runners);
-		combo_runners.Active = UtilGtk.ComboMakeActive(runners, myRun.PersonID + ":" + myRun.RunnerName);
+		combo_runners.Active = UtilGtk.ComboMakeActive(runners, myRun.PersonID + ":" + myRun.PersonName);
 		
 		hbox_combo_runner.PackStart(combo_runners, true, true, 0);
 		hbox_combo_runner.ShowAll();
@@ -286,7 +286,7 @@ public class EditRunIntervalWindow
 		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
 		combo_runners = ComboBox.NewText();
 		UtilGtk.ComboUpdate(combo_runners, runners);
-		combo_runners.Active = UtilGtk.ComboMakeActive(runners, myRun.PersonID + ":" + myRun.RunnerName);
+		combo_runners.Active = UtilGtk.ComboMakeActive(runners, myRun.PersonID + ":" + myRun.PersonName);
 		
 		hbox_combo_runner.PackStart(combo_runners, true, true, 0);
 		hbox_combo_runner.ShowAll();

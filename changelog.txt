@@ -1,5 +1,26 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+22 aug 2007
+	improved image_test: 
+	-show a image of text info when longDescription is available for selected test
+	-show chronojump_logo when change notebook
+	-fixed little bug in run values
+
+	-Added initially selected seconds as description on rj limited by time
+	-last value of RJ jumps or seconds limited, selected by default
+	-edit,selected,repair buttons and menuitem only shown when specific
+	event selected
+	-Added non standard (not in mono) icons: 3 bells, volume (high, muted),
+	statistics, report_window, graphs on stats win, repair events, delete
+	events, delete_last, repetitive conditions, eventExecute
+	-Now volume shows different icon if it's on or off
+	-Improved message on ending run interval
+
+	Bugs Fixed:
+	-Fixed bug on not showing correctly the personName on some parts of the code (like editing an event)
+	-Fixed crash on click repair pulse
+	-Fixed crash on expand a row on run_interval
+
 17 aug 2007 (2)
 	fixed bug 447160: Round instead of only TrimDecimals
 	http://bugzilla.gnome.org/show_bug.cgi?id=447160
@@ -19,7 +40,7 @@ CHRONOJUMP DETAILED CHANGELOG:
 	-language selector is also hidden on windows now (mono works with
 	locale)
 	-new method to connect with sqlite:
-	using Mono.Data.SqliteClient instead of using Mono.Data.Sqlite. Adding
+	using Mono.Data.Sqlite instead of using Mono.Data.SqliteClient. Adding
 	some dbcon.Close(); because now chrases if they are not present
 
 	PENDENT: connect fine with "data source"

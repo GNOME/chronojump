@@ -21,6 +21,7 @@
 
 using System;
 using Gtk;
+using Gdk;
 using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
@@ -68,6 +69,9 @@ public class StatsWindow {
 	
 	[Widget] Gtk.Box hbox_combo_select_checkboxes;
 	[Widget] Gtk.ComboBox combo_select_checkboxes;
+	
+	[Widget] Gtk.Image image_stats_win_graph;
+	[Widget] Gtk.Image image_stats_win_report;
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
@@ -154,6 +158,8 @@ public class StatsWindow {
 		//in all the combos that are going to be created
 		blockFillingTreeview = true;
 		
+		putNonStandardIcons();	
+
 		createComboSelectCheckboxes();
 
 		createComboStatsType();
@@ -185,6 +191,7 @@ public class StatsWindow {
 					prefsDigitsNumber, heightPreferred, 
 					report, reportWin);
 		}
+		
 		StatsWindowBox.stats_window.Show ();
 		
 		return StatsWindowBox;
@@ -193,6 +200,14 @@ public class StatsWindow {
 	public void Hide()
 	{
 		StatsWindowBox.stats_window.Hide ();
+	}
+	
+	private void putNonStandardIcons() {
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
+		image_stats_win_graph.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
+		image_stats_win_report.Pixbuf = pixbuf;
 	}
 	
 	public void InitializeSession(Session newCurrentSession) 

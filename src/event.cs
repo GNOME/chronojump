@@ -65,10 +65,11 @@ public class Event
 	{
 		get { return personID; }
 	}
-		
+	
 	public string PersonName
 	{
-		get { return personName; }
+		//get { return personName; }
+		get { return SqlitePerson.SelectJumperName(personID); }
 	}
 	
 	~Event() {}

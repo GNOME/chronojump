@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+22 aug 2007 (2)
+	fixed bug in cancelling reactive jumps when we jumper is on (and he should be off) or viceversa.
+
 22 aug 2007
 	improved image_test: 
 	-show a image of text info when longDescription is available for selected test

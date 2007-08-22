@@ -402,6 +402,7 @@ Console.Write("wwb ");
 	{
 		cancel = true;
 		totallyCancelled = true;
+		eventExecuteWin.EventEnded();
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();

@@ -195,7 +195,7 @@ public class JumpExecute : EventExecute
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManageFall);
 			
-			//if confirmWin.Button_cancel is pressed retuen
+			//if confirmWin.Button_cancel is pressed return
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		}
 	}
@@ -527,6 +527,8 @@ public class JumpRjExecute : JumpExecute
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
+			//if confirmWin.Button_cancel is pressed return
+			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		}
 
 		if(success) {

@@ -147,22 +147,17 @@ class SqlitePulse : Sqlite
 		return myPulse;
 	}
 
-	/*
-	public static void Update(int pulseID, string type, string distance, string time, int personID, string description)
+	public static void Update(int pulseID, int personID, string description)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE pulse " + 
 			" SET personID = " + personID + 
-			", type = '" + type +
-			"', distance = " + Util.ConvertToPoint(Convert.ToDouble(distance)) + 
-			", time = " + Util.ConvertToPoint(Convert.ToDouble(time)) + 
 			", description = '" + description +
-			"' WHERE uniqueID == " + runID ;
+			"' WHERE uniqueID == " + pulseID ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
-	*/
 
 	public static void Delete(string uniqueID)
 	{

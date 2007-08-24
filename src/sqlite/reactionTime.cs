@@ -115,6 +115,33 @@ class SqliteReactionTime : Sqlite
 		return myEvents;
 	}
 
+	public static ReactionTime SelectReactionTimeData(int uniqueID)
+	{
+		dbcon.Open();
+
+		dbcmd.CommandText = "SELECT * FROM reactionTime WHERE uniqueID == " + uniqueID;
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		reader.Read();
+		
+		ReactionTime myRT = new ReactionTime(
+				Convert.ToInt32(reader[0]),	//uniqueID
+				Convert.ToInt32(reader[1]),	//personID
+				Convert.ToInt32(reader[2]),	//sessionID
+				//reader[3].ToString(),		//type
+				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[4].ToString()) ),
+				reader[5].ToString() //description
+				);
+	
+		dbcon.Close();
+		return myRT;
+	}
+		
 	public static void Update(int eventID, string type, string time, int personID, string description)
 	{
 		dbcon.Open();

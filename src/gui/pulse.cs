@@ -29,6 +29,93 @@ using System.Threading;
 using Mono.Unix;
 
 
+
+//--------------------------------------------------------
+//---------------- EDIT PULSE WIDGET ---------------------
+//--------------------------------------------------------
+
+public class EditPulseWindow : EditEventWindow
+{
+	static EditPulseWindow EditPulseWindowBox;
+
+	EditPulseWindow (Gtk.Window parent) {
+		Glade.XML gladeXML;
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+	
+		eventBigTypeString = Catalog.GetString("pulse");
+	}
+
+	static new public EditPulseWindow Show (Gtk.Window parent, Event myEvent, int pDN)
+	{
+		if (EditPulseWindowBox == null) {
+			EditPulseWindowBox = new EditPulseWindow (parent);
+		}
+
+		EditPulseWindowBox.pDN = pDN;
+		
+		EditPulseWindowBox.initializeValues();
+
+		EditPulseWindowBox.fillDialog (myEvent);
+
+		EditPulseWindowBox.edit_event.Show ();
+
+		return EditPulseWindowBox;
+	}
+	
+	protected override void initializeValues () {
+		showTv = false;
+		showTc= false;
+		showFall = false;
+		showDistance = false;
+		showTime = false;
+		showSpeed = false;
+		showWeight = false;
+		showLimited = false;
+	}
+
+	protected override string [] findTypes(Event myEvent) {
+		string [] myTypes = SqlitePulseType.SelectPulseTypes("", true); //don't show allEventName row, only select name
+
+		//on pulses can not change type
+		combo_eventType.Sensitive = false;
+
+		return myTypes;
+	}
+	
+	/*
+	protected override void fillTime(Event myEvent) {
+		Pulse myPulse = (Pulse) myEvent;
+		entryTime = myPulse.Time.ToString();
+		entry_time_value.Text = Util.TrimDecimals(entryTime, pDN);
+	}
+	*/
+	
+	protected override void updateEvent(int eventID, int personID, string description) {
+		SqlitePulse.Update(eventID, personID, description);
+	}
+
+	protected override void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		EditPulseWindowBox.edit_event.Hide();
+		EditPulseWindowBox = null;
+	}
+	
+	protected override void on_delete_event (object o, DeleteEventArgs args)
+	{
+		EditPulseWindowBox.edit_event.Hide();
+		EditPulseWindowBox = null;
+	}
+	
+	protected override void hideWindow() {
+		EditPulseWindowBox.edit_event.Hide();
+		EditPulseWindowBox = null;
+	}
+
+}
+
+
 //--------------------------------------------------------
 //---------------- pulse extra WIDGET --------------------
 //--------------------------------------------------------

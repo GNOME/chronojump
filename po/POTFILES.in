@@ -16,6 +16,7 @@ src/gui/person.cs
 src/gui/preferences.cs
 src/gui/pulse.cs
 src/gui/repetitiveConditions.cs
+src/gui/reactionTime.cs
 src/gui/report.cs
 src/gui/run.cs
 src/gui/runType.cs

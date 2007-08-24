@@ -34,7 +34,6 @@ public class ReactionTime : Event
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
-		this.personName = SqlitePerson.SelectJumperName(personID);
 		this.sessionID = sessionID;
 		this.time = time;
 		this.description = description;

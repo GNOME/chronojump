@@ -145,14 +145,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 	protected override string [] getLineToStore(System.Object myObject)
 	{
 		RunInterval newRunI = (RunInterval)myObject;
-
-		//typeComplet
-		//do this for showing the Limited with selected decimals and without loosing the end letter: 'R' or 'T'
-		string myLimitedWithoutLetter = newRunI.Limited.Substring(0, newRunI.Limited.Length -1);
-		string myLimitedLetter = newRunI.Limited.Substring(newRunI.Limited.Length -1, 1);
-		string myTypeComplet = newRunI.Type + "(" + newRunI.DistanceInterval + "x" + 
-			//Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ") AVG: ";
-			Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ")";
+		
+		string myTypeComplet = newRunI.Type + "(" + newRunI.DistanceInterval + "x" + Util.GetLimitedRounded(newRunI.Limited, pDN) + ")";
 		
 		string [] myData = new String [getColsNum()];
 		int count = 0;

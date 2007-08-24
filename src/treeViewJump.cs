@@ -210,11 +210,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 	{
 		JumpRj newJumpRj = (JumpRj)myObject;
 
-		//typeComplet
-		//do this for showing the Limited with selected decimals and without loosing the end letter: 'J' or 'T'
-		string myLimitedWithoutLetter = newJumpRj.Limited.Substring(0, newJumpRj.Limited.Length -1);
-		string myLimitedLetter = newJumpRj.Limited.Substring(newJumpRj.Limited.Length -1, 1);
-		string myTypeComplet = newJumpRj.Type + "(" + Util.TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter + ")";
+		string myTypeComplet = newJumpRj.Type + "(" + Util.GetLimitedRounded(newJumpRj.Limited, pDN) + ")";
 		
 		string [] myData = new String [getColsNum()];
 		int count = 0;

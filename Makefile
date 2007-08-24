@@ -80,15 +80,18 @@ CHRONOJUMP_MINI = chronojump_mini
 
 CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs chronopic.cs src/util.cs src/constants.cs 
 
-all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
+#all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
+all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).exe
 
 
 #-------------------------------
 # Regla para compilar CHRONOJUMP (C#)
 #-------------------------------
 
-$(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade Makefile
-	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
+#$(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade Makefile
+#	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
+$(CHRONOJUMP).prg: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade Makefile
+	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).prg 
    
     
 #------------------------------------
@@ -105,4 +108,5 @@ $(CHRONOJUMP_MINI).exe: $(CHRONOJUMP_MINI_DEP)
 		$(CC) $(CFLAGS) -c $<
 
 clean::
-	  rm -f $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe  
+	  #rm -f $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe  
+	  rm -f $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).exe  

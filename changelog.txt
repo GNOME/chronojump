@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+25 aug (2)
+	Added occitan translation
+
 25 aug 2007
 	-guis EditJump, EditJumpRj, EditRun, EditRunInterval now inherit from the new gui/event.cs EditEvent
 	-added EditReactionTime and EditPulse (both inherit from EditEvent)

@@ -28,84 +28,71 @@ using System.Collections; //ArrayList
 using System.Threading;
 using Mono.Unix;
 
+
 //--------------------------------------------------------
 //---------------- EDIT JUMP WIDGET ----------------------
 //--------------------------------------------------------
 
-public class EditJumpWindow 
+public class EditJumpWindow : EditEventWindow
 {
-	[Widget] Gtk.Window edit_jump;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_jump_id_value;
-	[Widget] Gtk.Entry entry_tv_value;
-	[Widget] Gtk.Entry entry_tc_value;
-	[Widget] Gtk.Entry entry_fall_value;
-	[Widget] Gtk.Entry entry_weight_value;
-	[Widget] Gtk.Label label_limited_title;
-	[Widget] Gtk.Label label_limited_value;
-	
-	[Widget] Gtk.Box hbox_combo_jumpType;
-	[Widget] Gtk.ComboBox combo_jumpType;
-	[Widget] Gtk.Box hbox_combo_jumper;
-	[Widget] Gtk.ComboBox combo_jumpers;
-	
-	[Widget] Gtk.TextView textview_description;
-
 	static EditJumpWindow EditJumpWindowBox;
-	Gtk.Window parent;
-	int pDN;
-	string type;
-	string entryTv; //contains a entry that is a Number. If changed the entry as is not a number, recuperate this
-	string entryTc = "0";
-	string entryFall = "0"; 
-	
-	string entryWeight = "0"; //used to record the % for old person if we change it
 
-	int oldPersonID; //used to record the % for old person if we change it
+	//for inheritance
+	protected EditJumpWindow () {
+	}
 
 	EditJumpWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_jump", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
-		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
-		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a jump.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
-	}
 	
-	static public EditJumpWindow Show (Gtk.Window parent, Jump myJump, int pDN)
+		eventBigTypeString = Catalog.GetString("jump");
+	}
+
+	static new public EditJumpWindow Show (Gtk.Window parent, Event myEvent, int pDN)
 	{
 		if (EditJumpWindowBox == null) {
 			EditJumpWindowBox = new EditJumpWindow (parent);
 		}
-		
+
 		EditJumpWindowBox.pDN = pDN;
 		
-		EditJumpWindowBox.edit_jump.Show ();
+		EditJumpWindowBox.initializeValues();
 
-		EditJumpWindowBox.fillDialog (myJump);
+		EditJumpWindowBox.fillDialog (myEvent);
+
+		EditJumpWindowBox.edit_event.Show ();
 
 		return EditJumpWindowBox;
-}
+	}
 	
-	private void fillDialog (Jump myJump)
-	{
-		label_jump_id_value.Text = myJump.UniqueID.ToString();
+	protected override void initializeValues () {
+		showTv = true;
+		showTc= true;
+		showFall = true;
+		showDistance = false;
+		showTime = false;
+		showSpeed = false;
+		showWeight = true;
+		showLimited = false;
+	}
 
-		//inicialize entryTv and assign to the entry_tv_value (same for tc, fall, weight)
-		entryTv = myJump.Tv.ToString();
-		entry_tv_value.Text = Util.TrimDecimals(entryTv, pDN);
-	
-		if(myJump.TypeHasWeight) {
-			entryWeight = myJump.Weight.ToString();
-			entry_weight_value.Text = entryWeight;
-			entry_weight_value.Sensitive = true;
+	protected override string [] findTypes(Event myEvent) {
+		Jump myJump = (Jump) myEvent;
+		string [] myTypes;
+		if (myJump.TypeHasFall) {
+			myTypes = SqliteJumpType.SelectJumpTypes("", "TC", true); //don't show allJumpsName row, TC jumps, only select name
 		} else {
-			entry_weight_value.Sensitive = false;
+			myTypes = SqliteJumpType.SelectJumpTypes("", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
 		}
-		
+		return myTypes;
+	}
+
+	protected override void fillTc (Event myEvent) {
+		//on normal jumps fills Tc and Fall
+		Jump myJump = (Jump) myEvent;
+
 		if (myJump.TypeHasFall) {
 			entryTc = myJump.Tc.ToString();
 			entry_tc_value.Text = Util.TrimDecimals(entryTc, pDN);
@@ -117,94 +104,35 @@ public class EditJumpWindow
 			entry_tc_value.Sensitive = false;
 			entry_fall_value.Sensitive = false;
 		}
-	
-		//hide limited value (show in rj class)
-		label_limited_title.Hide();
-		label_limited_value.Hide();
+	}
 
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = myJump.Description;
-		textview_description.Buffer = tb;
-
-		combo_jumpType = ComboBox.NewText ();
-		string [] jumpTypes;
-		if (myJump.TypeHasFall) {
-			jumpTypes = SqliteJumpType.SelectJumpTypes("", "TC", true); //don't show allJumpsName row, TC jumps, only select name
-		} else {
-			jumpTypes = SqliteJumpType.SelectJumpTypes("", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
-		}
-		UtilGtk.ComboUpdate(combo_jumpType, jumpTypes);
-		combo_jumpType.Active = UtilGtk.ComboMakeActive(jumpTypes, myJump.Type);
-		
-		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID, false); //not reversed
-		combo_jumpers = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_jumpers, jumpers);
-		combo_jumpers.Active = UtilGtk.ComboMakeActive(jumpers, myJump.PersonID + ":" + myJump.PersonName);
-		
-		oldPersonID = myJump.PersonID;
-			
-		hbox_combo_jumpType.PackStart(combo_jumpType, true, true, 0);
-		hbox_combo_jumpType.ShowAll();
-		hbox_combo_jumper.PackStart(combo_jumpers, true, true, 0);
-		hbox_combo_jumper.ShowAll();
-	}
-	
-	private void on_entry_tv_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_tv_value.Text.ToString())){
-			entryTv = entry_tv_value.Text.ToString();
-		} else {
-			entry_tv_value.Text = "";
-			entry_tv_value.Text = entryTv;
-		}
-	}
-		
-	private void on_entry_tc_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_tc_value.Text.ToString())){
-			entryTc = entry_tc_value.Text.ToString();
-		} else {
-			entry_tc_value.Text = "";
-			entry_tc_value.Text = entryTc;
-		}
-	}
-		
-	private void on_entry_fall_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_fall_value.Text.ToString())){
-			entryFall = entry_fall_value.Text.ToString();
-		} else {
-			entry_fall_value.Text = "";
-			entry_fall_value.Text = entryFall;
-		}
-	}
-		
-	private void on_entry_weight_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_weight_value.Text.ToString())){
-			entryWeight = entry_weight_value.Text.ToString();
-		} else {
-			entry_weight_value.Text = "";
-			entry_weight_value.Text = entryWeight;
-		}
-	}
-		
-	void on_button_cancel_clicked (object o, EventArgs args)
+	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditJumpWindowBox.edit_jump.Hide();
+		EditJumpWindowBox.edit_event.Hide();
 		EditJumpWindowBox = null;
 	}
 	
-	void on_edit_jump_delete_event (object o, DeleteEventArgs args)
+	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditJumpWindowBox.edit_jump.Hide();
+		EditJumpWindowBox.edit_event.Hide();
 		EditJumpWindowBox = null;
 	}
 	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		int jumpID = Convert.ToInt32 ( label_jump_id_value.Text );
-		string myJumper = UtilGtk.ComboGetActive(combo_jumpers);
-		string [] myJumperFull = myJumper.Split(new char[] {':'});
+	protected override void hideWindow() {
+		EditJumpWindowBox.edit_event.Hide();
+		EditJumpWindowBox = null;
+	}
+	
+	protected override void updateEvent(int eventID, int personID, string description) {
+		//only for jump
+		double jumpPercentWeightForNewPerson = updateWeight(personID);
 		
-		string myDesc = textview_description.Buffer.Text;
-		
+		SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description);
+	}
+
+	
+	protected virtual double updateWeight(int personID) {
+		//only for jumps, jumpsRj
 		//update the weight percent of jump if needed
 		double jumpPercentWeightForNewPerson = 0;
 		if(entryWeight != "0") {
@@ -212,203 +140,109 @@ public class EditJumpWindow
 			double oldPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(oldPersonID)); 
 			double jumpWeightInKg = oldPersonWeight * Convert.ToDouble(entryWeight) / 100;
 			
-			double newPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myJumperFull[0])); 
+			double newPersonWeight = SqlitePerson.SelectJumperWeight(personID); 
 			jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
 			Console.WriteLine("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
 					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
 		}
+
+		return jumpPercentWeightForNewPerson;
+	}
 	
-		SqliteJump.Update(jumpID, UtilGtk.ComboGetActive(combo_jumpType), entryTv, entryTc, entryFall, Convert.ToInt32 (myJumperFull[0]), jumpPercentWeightForNewPerson, myDesc);
-
-		EditJumpWindowBox.edit_jump.Hide();
-		EditJumpWindowBox = null;
-	}
-
-	public Button Button_accept 
-	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
-	}
 
 }
 
 //--------------------------------------------------------
-//---------------- edit jumpRJ WIDGET --------------------
+//---------------- EDIT JUMP RJ WIDGET -------------------
 //--------------------------------------------------------
 
-public class EditJumpRjWindow 
+public class EditJumpRjWindow : EditJumpWindow
 {
-	[Widget] Gtk.Window edit_jump;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_jump_id_value;
-	[Widget] Gtk.Label label_tc_title;
-	[Widget] Gtk.Label label_tv_title;
-	[Widget] Gtk.Entry entry_tc_value;
-	[Widget] Gtk.Entry entry_tv_value;
-	[Widget] Gtk.Entry entry_fall_value;
-	[Widget] Gtk.Entry entry_weight_value;
-	[Widget] Gtk.Label label_limited_value;
-	[Widget] Gtk.Box hbox_combo_jumpType;
-	[Widget] Gtk.Box hbox_combo_jumper;
-	[Widget] Gtk.ComboBox combo_jumpers;
-	[Widget] Gtk.TextView textview_description;
-
 	static EditJumpRjWindow EditJumpRjWindowBox;
-	Gtk.Window parent;
-	int pDN;
-	string type;
-	string entryFall = "0"; 
-	string entryWeight = "0"; //used to record the % for old person if we change it
-	int oldPersonID; //used to record the % for old person if we change it
 
 	EditJumpRjWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_jump", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
-		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
-		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a reactive jump.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
-	}
 	
-	static public EditJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
+		eventBigTypeString = Catalog.GetString("reactive jump");
+	}
+
+	static new public EditJumpRjWindow Show (Gtk.Window parent, Event myEvent, int pDN)
 	{
-		Console.WriteLine(myJump);
 		if (EditJumpRjWindowBox == null) {
 			EditJumpRjWindowBox = new EditJumpRjWindow (parent);
 		}
-		
+
 		EditJumpRjWindowBox.pDN = pDN;
 		
-		EditJumpRjWindowBox.edit_jump.Show ();
+		EditJumpRjWindowBox.initializeValues();
 
-		EditJumpRjWindowBox.fillDialog (myJump);
+		EditJumpRjWindowBox.fillDialog (myEvent);
 
+		EditJumpRjWindowBox.edit_event.Show ();
 
 		return EditJumpRjWindowBox;
 	}
 	
-	private void fillDialog (JumpRj myJump)
-	{
-		label_jump_id_value.Text = myJump.UniqueID.ToString();
+	protected override void initializeValues () {
+		showTv = false;
+		showTc = false;
+		showFall = true;
+		showDistance = false;
+		showTime = false;
+		showSpeed = false;
+		showWeight = true;
+		showLimited = true;
+	}
 
-		//hide tc and tv data
-		label_tc_title.Hide();
-		label_tv_title.Hide();
-		entry_tc_value.Hide();
-		entry_tv_value.Hide();
-		
-		label_limited_value.Text = myJump.Limited.ToString();
-		
+	protected override string [] findTypes(Event myEvent) {
+		//type cannot change on jumpRj
+		combo_eventType.Sensitive=false;
+
+		string [] myTypes;
+		myTypes = SqliteJumpType.SelectJumpRjTypes("", true); //don't show allJumpsName row, only select name
+		return myTypes;
+	}
+
+	protected override void fillFall(Event myEvent) {
+		JumpRj myJump = (JumpRj) myEvent;
 		entryFall = myJump.Fall.ToString();
 		entry_fall_value.Text = entryFall;
-		
-		if (Util.HasWeight(SqliteJumpType.SelectJumpRjTypes("", false), myJump.Type)) {
-			entryWeight = myJump.Weight.ToString();
-			entry_weight_value.Text = entryWeight;
-			entry_weight_value.Sensitive = true;
-		} else {
-			entry_weight_value.Sensitive = false;
-		}
+	}
 
-		this.type = myJump.Type;
+	protected override void fillLimited(Event myEvent) {
+		JumpRj myJumpRj = (JumpRj) myEvent;
+		label_limited_value.Text = Util.GetLimitedRounded(myJumpRj.Limited, pDN);
+	}
 
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = myJump.Description;
-		textview_description.Buffer = tb;
 
-		string [] jumpers = SqlitePersonSession.SelectCurrentSession(myJump.SessionID, false); //not reversed
-		combo_jumpers = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_jumpers, jumpers);
-		combo_jumpers.Active = UtilGtk.ComboMakeActive(jumpers, myJump.PersonID + ":" + myJump.PersonName);
-		
-		hbox_combo_jumper.PackStart(combo_jumpers, true, true, 0);
-		hbox_combo_jumper.ShowAll();
-		
-		Gtk.Label label_jumpType = new Label();
-		label_jumpType.Text = myJump.Type;
-		hbox_combo_jumpType.PackStart(label_jumpType, false, false, 0);
-		hbox_combo_jumpType.ShowAll();
-		
-		oldPersonID = myJump.PersonID;
-	}
-	
-	//this is never called, created here for compatibility with editjump class
-	private void on_entry_tv_value_changed (object o, EventArgs args) {
-	}
-		
-	//this is never called, created here for compatibility with editjump class
-	private void on_entry_tc_value_changed (object o, EventArgs args) {
-	}
-		
-	private void on_entry_fall_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_fall_value.Text.ToString())){
-			entryFall = entry_fall_value.Text.ToString();
-		} else {
-			entry_fall_value.Text = "";
-			entry_fall_value.Text = entryFall;
-		}
-	}
-		
-	private void on_entry_weight_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_weight_value.Text.ToString())){
-			entryWeight = entry_weight_value.Text.ToString();
-		} else {
-			entry_weight_value.Text = "";
-			entry_weight_value.Text = entryWeight;
-		}
-	}
-		
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
+	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditJumpRjWindowBox.edit_jump.Hide();
+		EditJumpRjWindowBox.edit_event.Hide();
 		EditJumpRjWindowBox = null;
 	}
 	
-	void on_edit_jump_delete_event (object o, DeleteEventArgs args)
+	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditJumpRjWindowBox.edit_jump.Hide();
+		EditJumpRjWindowBox.edit_event.Hide();
 		EditJumpRjWindowBox = null;
 	}
 	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		int jumpID = Convert.ToInt32 ( label_jump_id_value.Text );
-		string myJumper = UtilGtk.ComboGetActive(combo_jumpers);
-		string [] myJumperFull = myJumper.Split(new char[] {':'});
+	protected override void hideWindow() {
+		EditJumpRjWindowBox.edit_event.Hide();
+		EditJumpRjWindowBox = null;
+	}
+	
+	protected override void updateEvent(int eventID, int personID, string description) {
+		//only for jumps
+		double jumpPercentWeightForNewPerson = updateWeight(personID);
 		
-		string myDesc = textview_description.Buffer.Text;
-
-		//update the weight percent of jump if needed
-		double jumpPercentWeightForNewPerson = 0;
-		if(entryWeight != "0") {
-			//obtain weight of old person
-			double oldPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(oldPersonID)); 
-			double jumpWeightInKg = oldPersonWeight * Convert.ToDouble(entryWeight) / 100;
-			
-			double newPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myJumperFull[0])); 
-			jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
-			Console.WriteLine("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
-					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
-		}
-	
-		SqliteJump.UpdateRj(jumpID, Convert.ToInt32 (myJumperFull[0]), entryFall, jumpPercentWeightForNewPerson, myDesc);
-
-
-		EditJumpRjWindowBox.edit_jump.Hide();
-		EditJumpRjWindowBox = null;
+		SqliteJump.UpdateRj(eventID, personID, entryFall, jumpPercentWeightForNewPerson, description);
 	}
-
-	public Button Button_accept 
-	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
-	}
-
 }
+
 
 //--------------------------------------------------------
 //---------------- Repair jumpRJ WIDGET ------------------

@@ -1,5 +1,13 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+25 aug 2007
+	-guis EditJump, EditJumpRj, EditRun, EditRunInterval now inherit from the new gui/event.cs EditEvent
+	-added EditReactionTime and EditPulse (both inherit from EditEvent)
+
+	-when an event is deleted edit, repair and delete buttons are hidden because nothing is selected (not done in delete last, because the selected can be another event)
+
+	-hidden pulse more, last (unimplemented)
+
 24 aug 2007
 	- Makefile now compiles chronojump.prg (not chronojump.exe)
 	- chronojump_linux.sh executable it's included (if needed

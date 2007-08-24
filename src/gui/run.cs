@@ -32,312 +32,230 @@ using Mono.Unix;
 //---------------- EDIT RUN WIDGET -----------------------
 //--------------------------------------------------------
 
-public class EditRunWindow 
+public class EditRunWindow : EditEventWindow
 {
-	[Widget] Gtk.Window edit_run;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_run_id_value;
-	[Widget] Gtk.Entry entry_distance;
-	[Widget] Gtk.Entry entry_time;
-	[Widget] Gtk.Label label_speed_value;
-	
-	[Widget] Gtk.Box hbox_combo_runType;
-	[Widget] Gtk.ComboBox combo_runType;
-	[Widget] Gtk.Box hbox_combo_runner;
-	[Widget] Gtk.ComboBox combo_runners;
-	
-	[Widget] Gtk.TextView textview_description;
-	
-	[Widget] Gtk.Label label_limited_name;
-	[Widget] Gtk.Label label_limited_value;
-
 	static EditRunWindow EditRunWindowBox;
-	Gtk.Window parent;
-	int pDN;
-	bool metersSecondsPreferred;
-	string entryDistance; //contains a entry that is a Number. If changed the entry as is not a number, recuperate this
-	string entryTime; 
 
-	string type;
+	//for inheritance
+	protected EditRunWindow () {
+	}
 
 	EditRunWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_run", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
-		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
-		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
-	}
 	
-	static public EditRunWindow Show (Gtk.Window parent, Run myRun, int pDN, bool metersSecondsPreferred)
+		eventBigTypeString = Catalog.GetString("run");
+	}
+
+	static new public EditRunWindow Show (Gtk.Window parent, Event myEvent, int pDN, bool metersSecondsPreferred)
 	{
 		if (EditRunWindowBox == null) {
 			EditRunWindowBox = new EditRunWindow (parent);
 		}
-		
+
 		EditRunWindowBox.pDN = pDN;
-		EditRunWindowBox.metersSecondsPreferred = metersSecondsPreferred;
 		
-		EditRunWindowBox.edit_run.Show ();
+		EditRunWindowBox.initializeValues();
 
-		EditRunWindowBox.fillDialog (myRun);
+		EditRunWindowBox.fillDialog (myEvent);
 
+		EditRunWindowBox.edit_event.Show ();
 
 		return EditRunWindowBox;
 	}
 	
-	private void fillDialog (Run myRun)
-	{
-		label_run_id_value.Text = myRun.UniqueID.ToString();
+	protected override void initializeValues () {
+		showTv = false;
+		showTc= false;
+		showFall = false;
+		showDistance = true;
+		showTime = true;
+		showSpeed = true;
+		showWeight = false;
+		showLimited = false;
+	}
 
+	protected override string [] findTypes(Event myEvent) {
+		string [] myTypes = SqliteRunType.SelectRunTypes("", true); //don't show allRunsName row, only select name
+		return myTypes;
+	}
+	
+	protected override void fillDistance(Event myEvent) {
+		Run myRun = (Run) myEvent;
 		entryDistance = myRun.Distance.ToString();
-		entry_distance.Text = Util.TrimDecimals(entryDistance, pDN);
-		//if the jumptype hasnot a predefined distance, make the widget sensitive
+		entry_distance_value.Text = Util.TrimDecimals(entryDistance, pDN);
+		//if the eventtype has not a predefined distance, make the widget sensitive
 		RunType myRunType = new RunType (myRun.Type);
 		if(myRunType.Distance == 0) {
-			entry_distance.Sensitive = true;
+			entry_distance_value.Sensitive = true;
 		} else {
-			entry_distance.Sensitive = false;
+			entry_distance_value.Sensitive = false;
 		}
-			
+	}
+	
+	protected override void fillTime(Event myEvent) {
+		Run myRun = (Run) myEvent;
 		entryTime = myRun.Time.ToString();
-		entry_time.Text = Util.TrimDecimals(entryTime, pDN);
+		entry_time_value.Text = Util.TrimDecimals(entryTime, pDN);
+	}
+	
+	protected override void fillSpeed(Event myEvent) {
+		Run myRun = (Run) myEvent;
 		label_speed_value.Text = Util.TrimDecimals(myRun.Speed.ToString(), pDN);
-
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = myRun.Description;
-		textview_description.Buffer = tb;
-
-		combo_runType = ComboBox.NewText ();
-		string [] runTypes = SqliteRunType.SelectRunTypes("", true); //don't show allRunsName row, only select name
-		UtilGtk.ComboUpdate(combo_runType, runTypes);
-		combo_runType.Active = UtilGtk.ComboMakeActive(runTypes, myRun.Type);
-		combo_runType.Changed += new EventHandler (on_combo_runType_changed);
-		hbox_combo_runType.PackStart(combo_runType, true, true, 0);
-		hbox_combo_runType.ShowAll();
-		
-		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
-		combo_runners = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_runners, runners);
-		combo_runners.Active = UtilGtk.ComboMakeActive(runners, myRun.PersonID + ":" + myRun.PersonName);
-		
-		hbox_combo_runner.PackStart(combo_runners, true, true, 0);
-		hbox_combo_runner.ShowAll();
-	
-		label_limited_name.Hide();
-		label_limited_value.Hide();
 	}
-		
-	private void on_entry_time_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_time.Text.ToString())){
-			entryTime = entry_time.Text.ToString();
-			label_speed_value.Text = Util.TrimDecimals(
-					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
-		} else {
-			entry_time.Text = "";
-			entry_time.Text = entryTime;
-		}
+
+	protected override void createSignal() {
+		//only for runs
+		combo_eventType.Changed += new EventHandler (on_combo_eventType_changed);
 	}
 	
-	private void on_entry_distance_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_distance.Text.ToString())){
-			entryDistance = entry_distance.Text.ToString();
-			label_speed_value.Text = Util.TrimDecimals(
-					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
-		} else {
-			entry_distance.Text = "";
-			entry_distance.Text = entryDistance;
-		}
-	}
-		
-		
-	private void on_combo_runType_changed (object o, EventArgs args) {
+	private void on_combo_eventType_changed (object o, EventArgs args) {
 		//if the distance of the new runType is fixed, put this distance
 		//if not conserve the old
-		RunType myRunType = new RunType (UtilGtk.ComboGetActive(combo_runType));
+		RunType myRunType = new RunType (UtilGtk.ComboGetActive(combo_eventType));
 		if(myRunType.Distance != 0) {
 			entryDistance = myRunType.Distance.ToString();
-			entry_distance.Text = "";
-			entry_distance.Text = Util.TrimDecimals(entryDistance, pDN);
-			entry_distance.Sensitive = false;
+			entry_distance_value.Text = "";
+			entry_distance_value.Text = Util.TrimDecimals(entryDistance, pDN);
+			entry_distance_value.Sensitive = false;
 		} else {
-			entry_distance.Sensitive = true;
+			entry_distance_value.Sensitive = true;
 		}
 		
 		label_speed_value.Text = Util.TrimDecimals(
 				Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
 	}
-		
-	void on_button_cancel_clicked (object o, EventArgs args)
+
+	protected override void updateEvent(int eventID, int personID, string description) {
+		SqliteRun.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryDistance, entryTime, personID, description);
+	}
+
+	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditRunWindowBox.edit_run.Hide();
+		EditRunWindowBox.edit_event.Hide();
 		EditRunWindowBox = null;
 	}
 	
-	void on_edit_run_delete_event (object o, DeleteEventArgs args)
+	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditRunWindowBox.edit_run.Hide();
+		EditRunWindowBox.edit_event.Hide();
 		EditRunWindowBox = null;
 	}
 	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		int runID = Convert.ToInt32 ( label_run_id_value.Text );
-		string myRunner = UtilGtk.ComboGetActive(combo_runners);
-		string [] myRunnerFull = myRunner.Split(new char[] {':'});
-		
-		string myDesc = textview_description.Buffer.Text;
-	
-		SqliteRun.Update(runID, UtilGtk.ComboGetActive(combo_runType), entryDistance, entryTime, Convert.ToInt32 (myRunnerFull[0]), myDesc);
-
-		EditRunWindowBox.edit_run.Hide();
+	protected override void hideWindow() {
+		EditRunWindowBox.edit_event.Hide();
 		EditRunWindowBox = null;
 	}
-
-	public Button Button_accept 
-	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
-	}
-
 }
+	
+//--------------------------------------------------------
+//---------------- EDIT RUN INTERVAL WIDGET --------------
+//--------------------------------------------------------
 
-public class EditRunIntervalWindow 
+public class EditRunIntervalWindow : EditRunWindow
 {
-	[Widget] Gtk.Window edit_run;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.Label label_header;
-	[Widget] Gtk.Label label_run_id_value;
-	[Widget] Gtk.Entry entry_distance;
-	[Widget] Gtk.Label label_time_name;
-	[Widget] Gtk.Entry entry_time;
-	[Widget] Gtk.Label label_speed_value;
-	[Widget] Gtk.Label label_limited_value;
-	[Widget] Gtk.Box hbox_combo_runType;
-	[Widget] Gtk.Box hbox_combo_runner;
-	[Widget] Gtk.ComboBox combo_runners;
-	[Widget] Gtk.TextView textview_description;
-
 	static EditRunIntervalWindow EditRunIntervalWindowBox;
-	Gtk.Window parent;
-	int pDN;
-	bool metersSecondsPreferred;
-	string type;
 
 	EditRunIntervalWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_run", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
-		
-		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
-		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a intervallic run.\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
-	}
 	
-	static public EditRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN, bool metersSecondsPreferred)
+		eventBigTypeString = Catalog.GetString("intervallic run");
+	}
+
+	static new public EditRunIntervalWindow Show (Gtk.Window parent, Event myEvent, int pDN, bool metersSecondsPreferred)
 	{
-		Console.WriteLine(myRun);
 		if (EditRunIntervalWindowBox == null) {
 			EditRunIntervalWindowBox = new EditRunIntervalWindow (parent);
 		}
-		
+
 		EditRunIntervalWindowBox.pDN = pDN;
-		EditRunIntervalWindowBox.metersSecondsPreferred = metersSecondsPreferred;
 		
-		EditRunIntervalWindowBox.edit_run.Show ();
+		EditRunIntervalWindowBox.initializeValues();
 
-		EditRunIntervalWindowBox.fillDialog (myRun);
+		EditRunIntervalWindowBox.fillDialog (myEvent);
 
+		EditRunIntervalWindowBox.edit_event.Show ();
 
 		return EditRunIntervalWindowBox;
 	}
 	
-	private void fillDialog (RunInterval myRun)
-	{
-		label_run_id_value.Text = myRun.UniqueID.ToString();
-		entry_distance.Text = myRun.DistanceInterval.ToString() + 
-			"x" + myRun.Limited;
-		entry_distance.Sensitive = false;
+	protected override void initializeValues () {
+		showTv = false;
+		showTc= false;
+		showFall = false;
+		showDistance = true;
+		showTime = true;
+		showSpeed = true;
+		showWeight = false;
+		showLimited = true;
+	}
 
-		label_time_name.Text = Catalog.GetString("Total Time");
-		entry_time.Text = myRun.TimeTotal.ToString();
+	protected override string [] findTypes(Event myEvent) {
+		//type cannot change on run interval
+		combo_eventType.Sensitive=false;
+
+		string [] myTypes;
+		myTypes = SqliteRunType.SelectRunIntervalTypes("", true); //don't show allRunsName row, only select name
+		return myTypes;
+	}
+	
+	protected override void fillDistance(Event myEvent) {
+		RunInterval myRun = (RunInterval) myEvent;
+		entry_distance_value.Text = myRun.DistanceInterval.ToString() +
+			"x" + myRun.Limited;
+		entry_distance_value.Sensitive = false;
+	}
+
+	protected override void fillTime(Event myEvent) {
+		RunInterval myRun = (RunInterval) myEvent;
+		label_time_title.Text = Catalog.GetString("Total Time");
+		entry_time_value.Text = Util.TrimDecimals(myRun.TimeTotal.ToString(), pDN);
 		//don't allow to change totaltime in rjedit
-		entry_time.Sensitive = false; 
-		
+		entry_time_value.Sensitive = false; 
+	}
+	
+	protected override void fillSpeed(Event myEvent) {
+		RunInterval myRun = (RunInterval) myEvent;
 		label_speed_value.Text = Util.TrimDecimals( 
 				Util.GetSpeed(
 					myRun.DistanceTotal.ToString(),
 					myRun.TimeTotal.ToString(), 
 					metersSecondsPreferred), pDN);
-
-		
-		label_limited_value.Text = myRun.Limited;
-
-		this.type = myRun.Type;
-
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = myRun.Description;
-		textview_description.Buffer = tb;
-
-		string [] runners = SqlitePersonSession.SelectCurrentSession(myRun.SessionID, false); //not reversed
-		combo_runners = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_runners, runners);
-		combo_runners.Active = UtilGtk.ComboMakeActive(runners, myRun.PersonID + ":" + myRun.PersonName);
-		
-		hbox_combo_runner.PackStart(combo_runners, true, true, 0);
-		hbox_combo_runner.ShowAll();
-		
-		Gtk.Label label_runType = new Label();
-		label_runType.Text = myRun.Type;
-		hbox_combo_runType.PackStart(label_runType, false, false, 0);
-		hbox_combo_runType.ShowAll();
 	}
 	
-	private void on_entry_time_changed (object o, EventArgs args) {
-		//do nothing, this is never called in reactive jumps
+	protected override void fillLimited(Event myEvent) {
+		RunInterval myRun = (RunInterval) myEvent;
+		label_limited_value.Text = Util.GetLimitedRounded(myRun.Limited, pDN);
 	}
-		
-	private void on_entry_distance_changed (object o, EventArgs args) {
-		//do nothing, this is never called in reactive jumps
+
+
+	protected override void updateEvent(int eventID, int personID, string description) {
+		SqliteRun.IntervalUpdate(eventID, personID, description);
 	}
-		
-	void on_button_cancel_clicked (object o, EventArgs args)
+
+	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditRunIntervalWindowBox.edit_run.Hide();
+		EditRunIntervalWindowBox.edit_event.Hide();
 		EditRunIntervalWindowBox = null;
 	}
 	
-	void on_edit_run_delete_event (object o, DeleteEventArgs args)
+	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditRunIntervalWindowBox.edit_run.Hide();
+		EditRunIntervalWindowBox.edit_event.Hide();
 		EditRunIntervalWindowBox = null;
 	}
 	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		int runID = Convert.ToInt32 ( label_run_id_value.Text );
-		string myRunner = UtilGtk.ComboGetActive(combo_runners);
-		string [] myRunnerFull = myRunner.Split(new char[] {':'});
-		
-		string myDesc = textview_description.Buffer.Text;
-	
-		SqliteRun.IntervalUpdate(runID, Convert.ToInt32 (myRunnerFull[0]), myDesc);
-
-		EditRunIntervalWindowBox.edit_run.Hide();
+	protected override void hideWindow() {
+		EditRunIntervalWindowBox.edit_event.Hide();
 		EditRunIntervalWindowBox = null;
 	}
-
-	public Button Button_accept 
-	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
-	}
-
 }
+
 
 //--------------------------------------------------------
 //---------------- Repair runInterval WIDGET -------------

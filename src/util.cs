@@ -679,4 +679,15 @@ public class Util
 		else
 			return Constants.GladeLinux;
 	}
+
+		
+	//do this for showing the Limited with selected decimals and without loosing the end letter: 'J' or 'T'
+	//called by treeview_jump, treeview_run and gui/jump_edit and gui/run_edit?
+	public static string GetLimitedRounded(string limitedString, int pDN) {
+		string myLimitedWithoutLetter = limitedString.Substring(0, limitedString.Length -1);
+		string myLimitedLetter = limitedString.Substring(limitedString.Length -1, 1);
+
+		return TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter;
+	}
+
 }

@@ -1,9 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+5 set 2006
+	Added create_release.sh, installChronojumpWindows.bat and regread.bat
+
 4 set 2007
 	0.6-pre-3; 06-pre2
 	-Fixed bug in countingTotalTime on util (for treeviews) (it counted "-1"and "-")
-	-Added create_release.sh and chronojump_execute.cs
 	-play system bell on windows instead of wavs
 	-autodetection of ports disabled on Linux and Windows
 	-fixed bug on Util.TrimDecimals when sql returns a "-" (detected on stats RjEvolution)

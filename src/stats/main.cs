@@ -443,6 +443,7 @@ public class Stat
 					sumValue[j] += Convert.ToDouble(rowFromSql[j]);
 					valuesList[j] += separator + rowFromSql[j];
 				}
+
 				rowFromSql[j] = Util.TrimDecimals(rowFromSql[j], pDN);
 			}
 			printData( rowFromSql );

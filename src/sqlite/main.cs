@@ -90,6 +90,9 @@ class Sqlite
 	
 	public static void ConvertToLastVersion() {
 
+		//if(checkIfIsSqlite2())
+		//	convertSqlite2To3();
+
 		addChronopicPortNameIfNotExists();
 
 		string myVersion = SqlitePreferences.Select("databaseVersion");
@@ -229,6 +232,50 @@ class Sqlite
 
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
+	}
+
+	private static bool checkIfIsSqlite2() {
+		//fileExists, but is sqlite 3 or 2
+		try {
+			//sample select
+			string myPort = SqlitePreferences.Select("chronopicPort");
+			Console.WriteLine("---------");
+		} catch {
+			Console.WriteLine("+++++++++");
+			return true ;
+		}
+
+			Console.WriteLine("999999999");
+		dbcon.Open();
+		dbcmd.CommandText = "dump;";
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		if(reader.Read()) 
+			Console.WriteLine(reader[0].ToString());
+		
+		reader.Close();
+		dbcon.Close();
+
+			Console.WriteLine("3333333333");
+		return false;
+	}
+	
+	private static void convertSqlite2To3() {
+		/*
+		SqliteConnection dbcon2 = new SqliteConnection();
+		dbcon2.ConnectionString = "version = 2; Data source = " + sqlFile;
+		dbcon2.Open();
+
+		if we don't know how to dump
+		don't do it here!
+		show user a window
+		that executes a batch file called
+		convert_database.bat
+		(this .bat will be created also by the install_bundle, and will use sqlite.exe and sqlite3.exe from the sqlite dir)
+		*/
+
 	}
 	
 	private static void addChronopicPortNameIfNotExists() {

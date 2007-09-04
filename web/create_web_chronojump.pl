@@ -35,6 +35,7 @@ my $windowsMailDownloadName = "Chronojump 0.52 for Windows (New!) Installation (
 my $maemoMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-April/msg00002.html";
 my $maemoMailDownloadName = "chronojump_mini for Maemo!! Chronojump_mini funcionando en Maemo!!";
 my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00002.html";
+my $manualLink = "http://www.xdeblas.com/chronojump_manual_es.pdf";
 
 
 
@@ -337,7 +338,8 @@ sub getSiteLinks {
 	$pageContent =~ s/:::articleLink:::/$siteURL\/articles/g;
 	$pageContent =~ s/:::webLink:::/$siteURL/g; #only used for 'accessible in' when pointing to bibliography web pages
 							#used also to access new images on root dir, because image dir is not refresed now on gnome pages
-	$pageContent =~ s/:::manualLink:::/$CVSURL\/manual/g;
+	#$pageContent =~ s/:::manualLink:::/$CVSURL\/manual/g;
+	$pageContent =~ s/:::manualLink:::/$manualLink/g;
 
 	return $pageContent;
 }

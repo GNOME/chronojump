@@ -66,7 +66,7 @@ public class Util
 
 
 	public static string TrimDecimals (string time, int prefsDigitsNumber) {
-		if(time == "-1") {
+		if(time == "-1" || time == "-") {
 			return "-";
 		} else {
 			return Math.Round(Convert.ToDouble(time), prefsDigitsNumber).ToString();
@@ -317,9 +317,9 @@ public class Util
 
 				double totalTime = 0;
 
-				foreach (string temp in time) {
-					totalTime = totalTime + Convert.ToDouble(temp);
-				}
+				foreach (string temp in time) 
+					if(temp != "-1") 
+						totalTime = totalTime + Convert.ToDouble(temp);
 
 				return totalTime ;
 			} else {
@@ -591,17 +591,21 @@ public class Util
 	//public static void PlaySound (System.Media.SystemSounds mySound, bool volumeOn) {
 	public static void PlaySound (Constants.SoundTypes mySound, bool volumeOn) {
 		if(volumeOn) {
-			//mySound.SystemSound.Play();
-			switch(mySound) {
-				case Constants.SoundTypes.CAN_START:
-					System.Media.SystemSounds.Question.Play();
-					break;
-				case Constants.SoundTypes.GOOD:
-					System.Media.SystemSounds.Asterisk.Play();
-					break;
-				case Constants.SoundTypes.BAD:
-					System.Media.SystemSounds.Beep.Play();
-					break;
+			//on mono windows, PlaySound is not implemented. Until find a solution let's play a system bell
+			if(IsWindows())
+				Console.WriteLine("\a");
+			else {
+				switch(mySound) {
+					case Constants.SoundTypes.CAN_START:
+						System.Media.SystemSounds.Question.Play();
+						break;
+					case Constants.SoundTypes.GOOD:
+						System.Media.SystemSounds.Asterisk.Play();
+						break;
+					case Constants.SoundTypes.BAD:
+						System.Media.SystemSounds.Beep.Play();
+						break;
+				}
 			}
 		}
 	}

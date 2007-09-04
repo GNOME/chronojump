@@ -418,12 +418,20 @@ public class RepairJumpRjWindow
 		TreeIter myIter;
 		double totalTime = 0;
 		bool iterOk = store.GetIterFirst (out myIter);
+		string stringTc = "";
+		string stringTv = "";
 		if(iterOk) {
 			do {
-				double myTc = Convert.ToDouble((string) treeview_subevents.Model.GetValue(myIter, 1));
-				double myTv = Convert.ToDouble((string) treeview_subevents.Model.GetValue(myIter, 2));
-				if(myTc != -1) totalTime += myTc;
-				if(myTv != -1) totalTime += myTv;
+				//be cautious because when there's no value (like first tc in a jump that starts in,
+				//it's stored as "-1", but it's shown as "-"
+				stringTc = (string) treeview_subevents.Model.GetValue(myIter, 1);
+				if(stringTc != "-" && stringTc != "-1") 
+					totalTime += Convert.ToDouble(stringTc);
+				
+				stringTv = (string) treeview_subevents.Model.GetValue(myIter, 2);
+				if(stringTv != "-" && stringTv != "-1") 
+					totalTime += Convert.ToDouble(stringTv);
+				
 			} while (store.IterNext (ref myIter));
 		}
 		return totalTime;

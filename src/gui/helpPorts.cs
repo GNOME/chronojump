@@ -40,18 +40,21 @@ public class HelpPorts
 		string messageInfo;
 		string messageDetected = "";
 		
+		messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled"));
+		
 		if(Util.IsWindows()) {
 			messageInfo = Constants.PortNamesWindows;
 
+			/*
+			 * autodetection disabled on Linux and windows because mono doesn't allow it
 			string jumpLine = "";
 			foreach (string s in SerialPort.GetPortNames()) {
 				messageDetected += jumpLine + s;
 				jumpLine = "\n";
 			}
+			*/
 		} else {
 			messageInfo = Constants.PortNamesLinux;
-				
-			messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled on GNU/Linux"));
 		}
 			
 		TextBuffer tb1 = new TextBuffer (new TextTagTable());

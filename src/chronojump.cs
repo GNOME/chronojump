@@ -207,7 +207,7 @@ public class ChronoJump
 	bool volumeOn;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.53-svn";
+	private static string progversion = "0.6-pre2";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -883,16 +883,17 @@ public class ChronoJump
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
+		Console.WriteLine("Cursor changed");
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumps.EventSelectedID == 0) {
 			myTreeViewJumps.Unselect();
-			hideActionEventButtons("Jump");
+			showHideActionEventButtons(false, "Jump"); //hide
 		} else {
-			showActionEventButtons("Jump");
+			showHideActionEventButtons(true, "Jump"); //show
 		}
 	}
-
+	
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW JUMPS RJ ---------------------
 	 *  --------------------------------------------------------
@@ -931,9 +932,9 @@ public class ChronoJump
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumpsRj.EventSelectedID == 0) {
 			myTreeViewJumpsRj.Unselect();
-			hideActionEventButtons("JumpRj");
+			showHideActionEventButtons(false, "JumpRj");
 		} else {
-			showActionEventButtons("JumpRj");
+			showHideActionEventButtons(true, "JumpRj");
 		}
 	}
 
@@ -970,9 +971,9 @@ public class ChronoJump
 		// is for not confusing with the person treeviews that controls who runs
 		if (myTreeViewRuns.EventSelectedID == 0) {
 			myTreeViewRuns.Unselect();
-			hideActionEventButtons("Run");
+			showHideActionEventButtons(false, "Run");
 		} else {
-			showActionEventButtons("Run");
+			showHideActionEventButtons(true, "Run");
 		}
 	}
 
@@ -1015,9 +1016,9 @@ public class ChronoJump
 		// is for not confusing with the person treeviews that controls who runs
 		if (myTreeViewRunsInterval.EventSelectedID == 0) {
 			myTreeViewRunsInterval.Unselect();
-			hideActionEventButtons("RunInterval");
+			showHideActionEventButtons(false, "RunInterval");
 		} else {
-			showActionEventButtons("RunInterval");
+			showHideActionEventButtons(true, "RunInterval");
 		}
 	}
 
@@ -1055,9 +1056,9 @@ public class ChronoJump
 		// is for not confusing with the person treeviews that controls who is executing
 		if (myTreeViewReactionTimes.EventSelectedID == 0) {
 			myTreeViewReactionTimes.Unselect();
-			hideActionEventButtons("ReactionTime");
+			showHideActionEventButtons(false, "ReactionTime");
 		} else {
-			showActionEventButtons("ReactionTime");
+			showHideActionEventButtons(true, "ReactionTime");
 		}
 	}
 
@@ -1099,9 +1100,9 @@ public class ChronoJump
 		// is for not confusing with the person treeviews that controls who is executing
 		if (myTreeViewPulses.EventSelectedID == 0) {
 			myTreeViewPulses.Unselect();
-			hideActionEventButtons("Pulse");
+			showHideActionEventButtons(false, "Pulse");
 		} else {
-			showActionEventButtons("Pulse");
+			showHideActionEventButtons(true, "Pulse");
 		}
 	}
 
@@ -3280,7 +3281,7 @@ public class ChronoJump
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted jump" ));
 		myTreeViewJumps.DelEvent(myTreeViewJumps.EventSelectedID);
-		hideActionEventButtons("Jump");
+		showHideActionEventButtons(false, "Jump");
 
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3294,7 +3295,7 @@ public class ChronoJump
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted reactive jump" ));
 		myTreeViewJumpsRj.DelEvent(myTreeViewJumpsRj.EventSelectedID);
-		hideActionEventButtons("JumpRj");
+		showHideActionEventButtons(false, "JumpRj");
 
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3346,7 +3347,7 @@ public class ChronoJump
 		appbar2.Push( 1, Catalog.GetString ( "Deleted selected run" ));
 	
 		myTreeViewRuns.DelEvent(myTreeViewRuns.EventSelectedID);
-		hideActionEventButtons("Run");
+		showHideActionEventButtons(false, "Run");
 
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3361,7 +3362,7 @@ public class ChronoJump
 		appbar2.Push( 1, Catalog.GetString ( "Deleted intervallic run" ));
 	
 		myTreeViewRunsInterval.DelEvent(myTreeViewRunsInterval.EventSelectedID);
-		hideActionEventButtons("RunInterval");
+		showHideActionEventButtons(false, "RunInterval");
 
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
@@ -3394,7 +3395,7 @@ public class ChronoJump
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted reaction time" ) );
 		myTreeViewReactionTimes.DelEvent(myTreeViewReactionTimes.EventSelectedID);
-		hideActionEventButtons("ReactionTime");
+		showHideActionEventButtons(false, "ReactionTime");
 
 		/*
 		if(createdStatsWin) {
@@ -3429,7 +3430,7 @@ public class ChronoJump
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted pulse" ) );
 		myTreeViewPulses.DelEvent(myTreeViewPulses.EventSelectedID);
-		hideActionEventButtons("Pulse");
+		showHideActionEventButtons(false, "Pulse");
 
 		/*
 		if(createdStatsWin) {
@@ -3868,7 +3869,7 @@ public class ChronoJump
 		menu_view.Sensitive = true;
 	
 		//unsensitive edit, delete, repair events because no event is initially selected
-		hideActionEventButtons("ALL");
+		showHideActionEventButtons(false, "ALL");
 
 		combo_jumps.Sensitive = true;
 		combo_jumps_rj.Sensitive = true;
@@ -3946,93 +3947,56 @@ public class ChronoJump
 		menu_other.Sensitive = true;
 	}
 
-	private void hideActionEventButtons(string type) {
+	private void showHideActionEventButtons(bool show, string type) {
+		Console.WriteLine("hide");
+		bool success = false;
 		if(type == "ALL" || type == "Jump") {
-			menuitem_edit_selected_jump.Sensitive = false;
-			menuitem_delete_selected_jump.Sensitive = false;
-			button_edit_selected_jump.Sensitive = false;
-			button_delete_selected_jump.Sensitive = false;
+			menuitem_edit_selected_jump.Sensitive = show;
+			menuitem_delete_selected_jump.Sensitive = show;
+			button_edit_selected_jump.Sensitive = show;
+			button_delete_selected_jump.Sensitive = show;
+			success = true;
 		} 
 		if (type == "ALL" || type == "JumpRj") {
-			menuitem_edit_selected_jump_rj.Sensitive = false;
-			menuitem_delete_selected_jump_rj.Sensitive = false;
-			button_edit_selected_jump_rj.Sensitive = false;
-			button_delete_selected_jump_rj.Sensitive = false;
-			button_repair_selected_reactive_jump.Sensitive = false;
-			menuitem_repair_selected_reactive_jump.Sensitive = false;
+			menuitem_edit_selected_jump_rj.Sensitive = show;
+			menuitem_delete_selected_jump_rj.Sensitive = show;
+			button_edit_selected_jump_rj.Sensitive = show;
+			button_delete_selected_jump_rj.Sensitive = show;
+			button_repair_selected_reactive_jump.Sensitive = show;
+			menuitem_repair_selected_reactive_jump.Sensitive = show;
+			success = true;
 		} 
 		if (type == "ALL" || type == "Run") {
-			menuitem_edit_selected_run.Sensitive = false;
-			menuitem_delete_selected_run.Sensitive = false;
-			button_edit_selected_run.Sensitive = false;
-			button_delete_selected_run.Sensitive = false;
+			menuitem_edit_selected_run.Sensitive = show;
+			menuitem_delete_selected_run.Sensitive = show;
+			button_edit_selected_run.Sensitive = show;
+			button_delete_selected_run.Sensitive = show;
+			success = true;
 		} 
 		if (type == "ALL" || type == "RunInterval") {
-			menuitem_edit_selected_run_interval.Sensitive = false;
-			menuitem_delete_selected_run_interval.Sensitive = false;
-			button_edit_selected_run_interval.Sensitive = false;
-			button_delete_selected_run_interval.Sensitive = false;
-			button_repair_selected_run_interval.Sensitive = false;
-			menuitem_repair_selected_run_interval.Sensitive = false;
+			menuitem_edit_selected_run_interval.Sensitive = show;
+			menuitem_delete_selected_run_interval.Sensitive = show;
+			button_edit_selected_run_interval.Sensitive = show;
+			button_delete_selected_run_interval.Sensitive = show;
+			button_repair_selected_run_interval.Sensitive = show;
+			menuitem_repair_selected_run_interval.Sensitive = show;
+			success = true;
 		} 
 		if (type == "ALL" || type == "ReactionTime") {
-			button_edit_selected_reaction_time.Sensitive = false;
-			button_delete_selected_reaction_time.Sensitive = false;
+			button_edit_selected_reaction_time.Sensitive = show;
+			button_delete_selected_reaction_time.Sensitive = show;
+			success = true;
 		} 
 		if (type == "ALL" || type == "Pulse") {
-			// menuitem_edit_selected_pulse.Sensitive = false;
-			// menuitem_delete_selected_pulse.Sensitive = false;
-			button_edit_selected_pulse.Sensitive = false;
-			button_delete_selected_pulse.Sensitive = false;
-			button_repair_selected_pulse.Sensitive = false;
+			// menuitem_edit_selected_pulse.Sensitive = show;
+			// menuitem_delete_selected_pulse.Sensitive = show;
+			button_edit_selected_pulse.Sensitive = show;
+			button_delete_selected_pulse.Sensitive = show;
+			button_repair_selected_pulse.Sensitive = show;
+			success = true;
 		} 
-		else {
-			Console.WriteLine("Error in hideActionEventButtons, type: {0}", type);
-		}
-	}
-	
-	private void showActionEventButtons(string type) {
-		if(type == "ALL" || type == "Jump") {
-			menuitem_edit_selected_jump.Sensitive = true;
-			menuitem_delete_selected_jump.Sensitive = true;
-			button_edit_selected_jump.Sensitive = true;
-			button_delete_selected_jump.Sensitive = true;
-		} 
-		if (type == "ALL" || type == "JumpRj") {
-			menuitem_edit_selected_jump_rj.Sensitive = true;
-			menuitem_delete_selected_jump_rj.Sensitive = true;
-			button_edit_selected_jump_rj.Sensitive = true;
-			button_delete_selected_jump_rj.Sensitive = true;
-			button_repair_selected_reactive_jump.Sensitive = true;
-			menuitem_repair_selected_reactive_jump.Sensitive = true;
-		} 
-		if (type == "ALL" || type == "Run") {
-			menuitem_edit_selected_run.Sensitive = true;
-			menuitem_delete_selected_run.Sensitive = true;
-			button_edit_selected_run.Sensitive = true;
-			button_delete_selected_run.Sensitive = true;
-		} 
-		if (type == "ALL" || type == "RunInterval") {
-			menuitem_edit_selected_run_interval.Sensitive = true;
-			menuitem_delete_selected_run_interval.Sensitive = true;
-			button_edit_selected_run_interval.Sensitive = true;
-			button_delete_selected_run_interval.Sensitive = true;
-			button_repair_selected_run_interval.Sensitive = true;
-			menuitem_repair_selected_run_interval.Sensitive = true;
-		} 
-		if (type == "ALL" || type == "ReactionTime") {
-			button_edit_selected_reaction_time.Sensitive = true;
-			button_delete_selected_reaction_time.Sensitive = true;
-		} 
-		if (type == "ALL" || type == "Pulse") {
-			// menuitem_edit_selected_pulse.Sensitive = true;
-			// menuitem_delete_selected_pulse.Sensitive = true;
-			button_edit_selected_pulse.Sensitive = true;
-			button_delete_selected_pulse.Sensitive = true;
-			button_repair_selected_pulse.Sensitive = true;
-		} 
-		else {
-			Console.WriteLine("Error in showActionEventButtons, type: {0}", type);
+		if (!success) {
+			Console.WriteLine("Error in showHideActionEventButtons, type: {0}", type);
 		}
 	}
 }

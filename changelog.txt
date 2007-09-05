@@ -1,5 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+5 set 2007 (3)
+	closed bug 470886
+	-chronojump.bat and chronojump_mini.bat finished
+	-create_release.sh improved
+
 5 set 2007 (2)
 	web export: 
 	-improved content-type (now unicode is detected on IExplorer) (bug 473543)

@@ -2,10 +2,6 @@
 
 #Xavier de Blas, www.xdeblas.com
 
-#provant de fer un bundle de chronojump amb mono static:
-#xavier@corall:~/informatica/progs_meus/chronojump/chronojump$ mkbundle --static --deps -o chronojump_bundled.exe chronojump.exe
-#(el exe del final és el chronojump compilat com a exe, no prg)
-
 args=$1
 echo $args
 
@@ -26,17 +22,12 @@ mkdir releases/$1/linux
 mkdir releases/$1/manual
 mkdir releases/$1/data
 
-#create the win executable (only for bundle it)
-mcs chronojump_execute_windows.cs
-#create the bundled executable
-mkbundle -o chronojump.exe --deps chronojump_execute_windows.exe
+#create the executable 
+make
 
 #copy files
-#cp chronojump.exe releases/$1/windows
-#cp chronojump_mini.exe releases/$1/windows
 cp chronojump.bat releases/$1/windows
 cp chronojump_mini.bat releases/$1/windows
-
 
 cp chronojump.sh releases/$1/linux
 cp chronojump_mini.sh releases/$1/linux
@@ -45,11 +36,12 @@ cp manual/chronojump_manual_es.pdf releases/$1/manual
 
 cp chronojump.prg releases/$1/data
 cp chronojump_mini.prg releases/$1/data
-#remain copy the sqlite dlls for win (sqlite3.dll and sqlite.dll)
 cp NPlot.dll releases/$1/data
 cp NPlot.dll.config releases/$1/data
 cp NPlot.Gtk.dll releases/$1/data
 cp NPlot.Gtk.dll.config releases/$1/data
 cp readreg.bat releases/$1/data
 cp -R locale releases/$1/data
+cp sqlite3.dll releases/$1/data
+#probably remain copy the sqlite sqlite.dll (2.1) for db conversion
 

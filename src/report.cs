@@ -202,16 +202,17 @@ public class Report : ExportSession
 	protected void printHtmlHeader()
 	{
 		writer.WriteLine("<HTML><HEAD><TITLE>Chronojump Report (" + DateTime.Now + ")</TITLE>\n");
-		writer.WriteLine("<meta HTTP-EQUIV=\" Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n");
+		writer.WriteLine("<meta HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n");
 		writer.WriteLine("<style type=\"text/css\">");
-		writer.WriteLine("	@import url(" + Util.GetReportDirectoryName(fileName) + 
-				"/report_web_style.css); ");
+		writer.WriteLine("	@import url(\"" + Util.GetLastPartOfPath(Util.GetReportDirectoryName(fileName)) + 
+				"/report_web_style.css\"); ");
 		writer.WriteLine("</style>");
 		writer.WriteLine("</HEAD>\n<BODY BGCOLOR=\"#ffffff\" TEXT=\"#444444\">\n");
 		
 		writer.WriteLine("<table width=\"100%\" class=\"empty\"><tr><td>\n");
 		writer.WriteLine("<img src=\"" +
-				Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo + "\">\n ");
+				Util.GetLastPartOfPath(Util.GetReportDirectoryName(fileName)) 
+				+ "/" + Constants.FileNameLogo + "\">\n ");
 		writer.WriteLine("</td><td width=\"80%\"><h1>Chronojump report</h1></td></tr>\n");
 		writer.WriteLine("</table>\n");
 			

@@ -81,7 +81,7 @@ CHRONOJUMP_MINI = chronojump_mini
 CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs chronopic.cs src/util.cs src/constants.cs 
 
 #all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
-all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).exe
+all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
 
 
 #-------------------------------
@@ -98,8 +98,10 @@ $(CHRONOJUMP).prg: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/
 # Regla para compilar CHRONOJUMP_MINI (C#)
 #------------------------------------
 
-$(CHRONOJUMP_MINI).exe: $(CHRONOJUMP_MINI_DEP)
-	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(CHRONOJUMP_MINI).exe 
+#$(CHRONOJUMP_MINI).exe: $(CHRONOJUMP_MINI_DEP)
+#	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(CHRONOJUMP_MINI).exe 
+$(CHRONOJUMP_MINI).prg: $(CHRONOJUMP_MINI_DEP)
+	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(CHRONOJUMP_MINI).prg 
     
 #--------------------------
 #  REGLAS GENERICAS
@@ -109,4 +111,4 @@ $(CHRONOJUMP_MINI).exe: $(CHRONOJUMP_MINI_DEP)
 
 clean::
 	  #rm -f $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe  
-	  rm -f $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).exe  
+	  rm -f $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg

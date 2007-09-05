@@ -34,8 +34,8 @@ mkbundle -o chronojump.exe --deps chronojump_execute_windows.exe
 #copy files
 #cp chronojump.exe releases/$1/windows
 #cp chronojump_mini.exe releases/$1/windows
-cp installChronojumpWindows.bat releases/$1/windows
-cp regread.bat releases/$1/windows #probably this file will be on data
+cp chronojump.bat releases/$1/windows
+cp chronojump_mini.bat releases/$1/windows
 
 
 cp chronojump.sh releases/$1/linux
@@ -44,10 +44,12 @@ cp chronojump_mini.sh releases/$1/linux
 cp manual/chronojump_manual_es.pdf releases/$1/manual
 
 cp chronojump.prg releases/$1/data
+cp chronojump_mini.prg releases/$1/data
 #remain copy the sqlite dlls for win (sqlite3.dll and sqlite.dll)
 cp NPlot.dll releases/$1/data
 cp NPlot.dll.config releases/$1/data
 cp NPlot.Gtk.dll releases/$1/data
 cp NPlot.Gtk.dll.config releases/$1/data
+cp readreg.bat releases/$1/data
 cp -R locale releases/$1/data
 

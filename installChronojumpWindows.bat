@@ -1,4 +1,6 @@
 ::Xavier de Blas, xaviblas@gmail.com
+::no longer used, because if mono version changes, chronojump.bat and chronojump_mini.bat will not find mono
+::now included in chronojump.bat and chronojump_mini.bat
 
 @echo off
 

@@ -1,6 +1,14 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
-5 set 2006
+5 set 2007 (2)
+	web export: 
+	-improved content-type (now unicode is detected on IExplorer) (bug 473543)
+	-web export: changing path to relative on linking to css and images
+
+	chronojump_mini now compiled as a prg (svn remove and svn add commands done)
+	regread.bat changed for readreg.bat
+ 
+5 set 2007
 	Added create_release.sh, installChronojumpWindows.bat and regread.bat
 
 4 set 2007

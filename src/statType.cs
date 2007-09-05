@@ -397,7 +397,7 @@ public class StatType {
 		string [] pngs = Directory.GetFiles(directoryName, "*.png");
 		//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
 		//there will be always a png with chronojump_logo
-		writer.WriteLine("<img src=\"" + directoryName + "/" + (pngs.Length -1).ToString() + ".png\">");
+		writer.WriteLine("<img src=\"" + Util.GetLastPartOfPath(directoryName) + "/" + (pngs.Length -1).ToString() + ".png\">");
 	}
 
 	public void MarkSelected(string selected) {

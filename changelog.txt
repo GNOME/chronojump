@@ -1,7 +1,12 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+6 set 2007 (2)
+	0.6-pre5
+	fixed bug 473540 of cursorchanged on windows, connecting signal also in the code.
+	Now in linux is called two times, but no problem.
+
 6 set 2007
-	0.6-pre-4
+	0.6-pre4
 	report html and export csv:
 	-implemented reactionTime and pulses, changed also glade
 	-Total, AVG and DE rows on jumpsRj, runsInterval and pulses (like on treeviews)

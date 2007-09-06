@@ -207,7 +207,7 @@ public class ChronoJump
 	bool volumeOn;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre4";
+	private static string progversion = "0.6-pre5";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -860,6 +860,9 @@ public class ChronoJump
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
 		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
+
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+		tv.CursorChanged += on_treeview_jumps_cursor_changed; 
 	}
 
 	private void fillTreeView_jumps (string filter) {
@@ -893,7 +896,7 @@ public class ChronoJump
 			showHideActionEventButtons(true, "Jump"); //show
 		}
 	}
-	
+
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW JUMPS RJ ---------------------
 	 *  --------------------------------------------------------
@@ -901,6 +904,9 @@ public class ChronoJump
 
 	private void createTreeView_jumps_rj (Gtk.TreeView tv) {
 		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
+
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+		tv.CursorChanged += on_treeview_jumps_rj_cursor_changed; 
 	}
 
 	private void fillTreeView_jumps_rj (string filter) {
@@ -946,6 +952,9 @@ public class ChronoJump
 	private void createTreeView_runs (Gtk.TreeView tv) {
 		//myTreeViewRuns is a TreeViewRuns instance
 		myTreeViewRuns = new TreeViewRuns( tv, prefsDigitsNumber, metersSecondsPreferred );
+
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+		tv.CursorChanged += on_treeview_runs_cursor_changed; 
 	}
 
 	private void fillTreeView_runs (string filter) {
@@ -985,6 +994,9 @@ public class ChronoJump
 	private void createTreeView_runs_interval (Gtk.TreeView tv) {
 		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
 		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, prefsDigitsNumber, metersSecondsPreferred );
+
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+		tv.CursorChanged += on_treeview_runs_interval_cursor_changed; 
 	}
 
 	private void fillTreeView_runs_interval (string filter) {
@@ -1030,6 +1042,9 @@ public class ChronoJump
 	private void createTreeView_reaction_times (Gtk.TreeView tv) {
 		//myTreeViewReactionTimes is a TreeViewReactionTimes instance
 		myTreeViewReactionTimes = new TreeViewReactionTimes( tv, prefsDigitsNumber );
+
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+		tv.CursorChanged += on_treeview_reaction_times_cursor_changed; 
 	}
 
 	//private void fillTreeView_reaction_times (string filter) {
@@ -1070,6 +1085,9 @@ public class ChronoJump
 	private void createTreeView_pulses (Gtk.TreeView tv) {
 		//myTreeViewPulses is a TreeViewPulses instance
 		myTreeViewPulses = new TreeViewPulses( tv, prefsDigitsNumber );
+
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+		tv.CursorChanged += on_treeview_pulses_cursor_changed; 
 	}
 
 	private void fillTreeView_pulses (string filter) {

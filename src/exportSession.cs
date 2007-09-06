@@ -34,7 +34,8 @@ public class ExportSession
 	protected string [] myJumpsRj;
 	protected string [] myRuns;
 	protected string [] myRunsInterval;
-	//protected string [] myPulses;
+	protected string [] myReactionTimes;
+	protected string [] myPulses;
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
@@ -149,18 +150,43 @@ public class ExportSession
 		myJumpsRj = SqliteJump.SelectAllRjJumps(mySession.UniqueID);
 		myRuns= SqliteRun.SelectAllNormalRuns(mySession.UniqueID);
 		myRunsInterval = SqliteRun.SelectAllIntervalRuns(mySession.UniqueID);
-		//myPulses = SqlitePulse.SelectAllPulses(mySession.UniqueID);
+		myReactionTimes = SqliteReactionTime.SelectAllReactionTimes(mySession.UniqueID);
+		myPulses = SqlitePulse.SelectAllPulses(mySession.UniqueID);
 	}
-	
+
+	protected virtual void printTitles(string title) {
+		writer.WriteLine("");
+		writer.WriteLine("**** " + title + " ****");
+	}
+
 	protected virtual void printData ()
 	{
+		printTitles(Catalog.GetString("Session"));
 		printSessionInfo();
+		
+		printTitles(Catalog.GetString("Persons"));
 		printJumpers();
+		
+		printTitles(Catalog.GetString("Simple jumps"));
 		printJumps();
+		
+		printTitles(Catalog.GetString("Reactive jumps") + 
+				" (" + Catalog.GetString("with subjumps") + ")");
 		printJumpsRj(true);
+
+		printTitles(Catalog.GetString("Simple runs"));
 		printRuns();
+
+		printTitles(Catalog.GetString("interval runs") + 
+				" (" + Catalog.GetString("with tracks") + ")");
 		printRunsInterval(true);
-		//printPulses(true);
+
+		printTitles(Catalog.GetString("Reaction times"));
+		printReactionTimes();
+		
+		printTitles(Catalog.GetString("Pulses"));
+		printPulses();
+
 		printFooter();
 	}
 
@@ -236,7 +262,6 @@ public class ExportSession
 		}
 	}
 
-	//protected void printJumpsRj()
 	protected void printJumpsRj(bool showSubjumps)
 	{
 		int dec=4; //decimals
@@ -272,9 +297,9 @@ public class ExportSession
 					  );
 				isFirstHeader = false;
 			}
-			
+		
 			string [] myStr = jump.Split(new char[] {':'});
-			myData.Add ( "\n" + 
+			myData.Add ( 
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jumpRj.uniqueID
 					//myStr[2] + ":" +  myStr[3] + ":" +  	//jumpRj.personID, jumpRj.sessionID
 					myStr[4] + ":" +  		//jumpRj.type 
@@ -288,19 +313,40 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetInitialSpeed(myStr[10], true), dec) + ":" +  	//Avg Initial speed (true:m/s)
 					myStr[7] + ":" + 	 	//jumpRj.Fall
 					myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
-					Util.TrimDecimals(myStr[15], dec) + ":" +  myStr[16] + ":" + 	//jumpRj.Time, jumpRj.Limited
+					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
 					myStr[9]		//jumpRj.Description
 					);
 			
 			if(showSubjumps) {
 				writeData(myData);
-				
+			
 				myData = new ArrayList(1);
 				//print tvString and tcString
 				string [] tvString = myStr[12].Split(new char[] {'='});
 				string [] tcString = myStr[13].Split(new char[] {'='});
 				int count = 0;
-				myData.Add( Catalog.GetString("Count") + ":TC:TF" );
+				myData.Add( " " + ":" + Catalog.GetString("TC") + 
+						":" + Catalog.GetString("TF"));
+
+				//print Total, AVG, SD
+				myData.Add(Catalog.GetString("Total") + ":" +
+						Util.TrimDecimals(Util.GetTotalTime(myStr[13]).ToString(), dec) + ":" +
+						Util.TrimDecimals(Util.GetTotalTime(myStr[12]).ToString(), dec));
+				myData.Add(Catalog.GetString("AVG") + ":" +
+						Util.TrimDecimals(Util.GetAverage(myStr[13]).ToString(), dec) + ":" +
+						Util.TrimDecimals(Util.GetAverage(myStr[12]).ToString(), dec));
+				myData.Add(Catalog.GetString("SD") + ":" + 
+						Util.TrimDecimals(Util.CalculateSD(
+								Util.ChangeEqualForColon(myStr[13]),
+								Util.GetTotalTime(myStr[13]),
+								Util.GetNumberOfJumps(myStr[13], false)).ToString(),
+							dec) + ":" + 
+						Util.TrimDecimals(Util.CalculateSD(
+								Util.ChangeEqualForColon(myStr[12]),
+								Util.GetTotalTime(myStr[12]),
+								Util.GetNumberOfJumps(myStr[12], false)).ToString(),
+							dec));
+				
 				foreach(string myTv in tvString) {
 					myData.Add((count+1).ToString() + ":" + 
 							Util.TrimDecimals(tcString[count], dec) + ":" + 
@@ -383,7 +429,7 @@ public class ExportSession
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//run.timetotal
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
-					myStr[9] + ":" +  myStr[11] + ":" + 	//tracks, limited
+					myStr[9] + ":" +  Util.GetLimitedRounded(myStr[11], dec) + ":" + 	//tracks, limited
 					myStr[10]		//description
 				   );
 			
@@ -393,9 +439,26 @@ public class ExportSession
 				myData = new ArrayList(1);
 				//print intervalTimesString
 				string [] timeString = myStr[8].Split(new char[] {'='});
-				myData.Add( Catalog.GetString ("Count") + ":" + 
+				myData.Add( " " + ":" + 
 						Catalog.GetString ("Interval speed") + ":" + 
 						Catalog.GetString("interval times") );
+				
+				//print Total, AVG, SD
+				myData.Add(Catalog.GetString("Total") + ":" +
+						" " + ":" +
+						Util.TrimDecimals(Util.GetTotalTime(myStr[8]).ToString(), dec));
+				myData.Add(Catalog.GetString("AVG") + ":" +
+						Util.TrimDecimals(Util.GetSpeed(
+								myStr[5], myStr[6], true), dec) + ":" +
+						Util.TrimDecimals(Util.GetAverage(myStr[8]).ToString(), dec));
+				myData.Add(Catalog.GetString("SD") + ":" + 
+						" " + ":" +
+						Util.TrimDecimals(Util.CalculateSD(
+								Util.ChangeEqualForColon(myStr[8]),
+								Util.GetTotalTime(myStr[8]),
+								Util.GetNumberOfJumps(myStr[8], false)).ToString(),
+							dec));
+				
 				int count = 1;
 				foreach(string myTime in timeString) {
 					myData.Add((count++).ToString() + ":" + 
@@ -413,9 +476,89 @@ public class ExportSession
 		}
 	}
 	
-	protected void printPulses(bool showSubpulses)
+	protected void printReactionTimes()
 	{
-		//continue...
+		int dec=4; //decimals
+		
+		if(myReactionTimes.Length > 0) {
+			ArrayList myData = new ArrayList(1);
+			myData.Add(  
+					Catalog.GetString("Person") + ":" +
+					Catalog.GetString("Reaction time ID") + ":" + 
+					Catalog.GetString("Time") + ":" + 
+					Catalog.GetString("Description") );
+
+			foreach (string rtString in myReactionTimes) {
+				string [] myStr = rtString.Split(new char[] {':'});
+
+				myData.Add (	
+						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, event.uniqueID
+						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
+						//myStr[4] + ":" +  //type
+						Util.TrimDecimals(myStr[5], dec) + ":" + 	//time
+						myStr[6]		//description
+					   );
+			}
+			writeData(myData);
+			writeData("VERTICAL-SPACE");
+		}
+	}
+
+	//protected void printPulses(bool showSubpulses) 
+	//no need of bool because all the info is in the sub values
+	protected void printPulses()
+	{
+		int dec=4; //decimals
+		ArrayList myData = new ArrayList(1);
+		bool isFirstHeader = true;
+		
+		foreach (string pulseString in myPulses) {
+
+			myData = new ArrayList(1);
+
+			myData.Add( "\n" + 
+					Catalog.GetString("Person") + ":" +
+					Catalog.GetString("Pulse ID") + ":" + 
+					Catalog.GetString("Type") + ":" + 
+					//Catalog.GetString("Time") + ":" +
+					Catalog.GetString("Description") );
+
+			string [] myStr = pulseString.Split(new char[] {':'});
+			myData.Add (
+					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, pulse.uniqueID
+					myStr[4] + ":" +  		 	//type
+					myStr[8]		//description
+				   );
+			
+			writeData(myData);
+
+			myData = new ArrayList(1);
+			//print intervalTimesString
+			string [] timeString = myStr[7].Split(new char[] {'='});
+			myData.Add( " " + ":" + 
+					Catalog.GetString ("Time") );
+
+			//print Total, AVG, SD
+			myData.Add(Catalog.GetString("Total") + ":" +
+					Util.TrimDecimals(Util.GetTotalTime(myStr[7]).ToString(), dec));
+			myData.Add(Catalog.GetString("AVG") + ":" +
+					Util.TrimDecimals(Util.GetAverage(myStr[7]).ToString(), dec));
+			myData.Add(Catalog.GetString("SD") + ":" + 
+					Util.TrimDecimals(Util.CalculateSD(
+							Util.ChangeEqualForColon(myStr[7]),
+							Util.GetTotalTime(myStr[7]),
+							Util.GetNumberOfJumps(myStr[7], false)).ToString(),
+						dec));
+				
+			int count = 1;
+			foreach(string myTime in timeString) {
+				myData.Add((count++).ToString() + ":" + 
+						Util.TrimDecimals(myTime, dec)
+					  );
+			}
+			writeData(myData);
+			writeData("VERTICAL-SPACE");
+		}
 	}
 	
 	protected virtual void printFooter()
@@ -459,6 +602,9 @@ public class ExportSessionCSV : ExportSession
 	
 	protected override void writeData (string exportData) {
 		//do nothing
+		//if(exportData == "VERTICAL-SPACE") {
+		//	writer.WriteLine( "--------------------" );
+		//}
 	}
 
 	protected override void printFooter()

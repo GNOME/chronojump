@@ -2084,7 +2084,7 @@ msgstr "Núm."
 
 #: ../src/exportSession.cs:327 ../src/exportSession.cs:366
 msgid "Runner name"
-msgstr "Saltador"
+msgstr "Corredor"
 
 #: ../src/exportSession.cs:328 ../src/exportSession.cs:367
 msgid "run ID"

@@ -40,6 +40,8 @@ public class Report : ExportSession
 	public bool ShowSimpleRuns;
 	public bool ShowIntervalRuns;
 	public bool ShowIntervalRunsWithSubruns;
+	public bool ShowReactionTimes;
+	public bool ShowPulses;
 		
 	private int prefsDigitsNumber;
 	private bool heightPreferred;
@@ -62,6 +64,8 @@ public class Report : ExportSession
 		ShowReactiveJumps = true;
 		ShowSimpleRuns = true;
 		ShowIntervalRuns = true;
+		ShowReactionTimes = true;
+		ShowPulses = true;
 
 		StatisticsData = new ArrayList(2);
 		
@@ -69,8 +73,8 @@ public class Report : ExportSession
 	}
 	
 	public Report(int sessionID, bool showCurrentSessionData, bool showCurrentSessionJumpers, 
-			bool showSimpleJumps, bool showReactiveJumps, bool showSimpleRuns, bool showIntervalRuns, 
-			ArrayList statisticsData) 
+			bool showSimpleJumps, bool showReactiveJumps, bool showSimpleRuns, bool showIntervalRuns,
+			bool showReactionTimes, bool showPulses, ArrayList statisticsData) 
 	{
 		this.sessionID = sessionID;
 		this.ShowCurrentSessionData = showCurrentSessionData;
@@ -79,6 +83,8 @@ public class Report : ExportSession
 		this.ShowReactiveJumps = showReactiveJumps;
 		this.ShowSimpleRuns = showSimpleRuns;
 		this.ShowIntervalRuns = showIntervalRuns;
+		this.ShowReactionTimes = showReactionTimes;
+		this.ShowPulses = showPulses;
 		this.StatisticsData = statisticsData;
 		
 		mySession = SqliteSession.Select(sessionID.ToString());
@@ -117,8 +123,17 @@ public class Report : ExportSession
 		if (ShowIntervalRuns) {
 			myRunsInterval = SqliteRun.SelectAllIntervalRuns(sessionID);
 		}
+		if(ShowReactionTimes) {
+			myReactionTimes= SqliteReactionTime.SelectAllReactionTimes(sessionID);
+		}
+		if(ShowPulses) {
+			myPulses= SqlitePulse.SelectAllPulses(sessionID);
+		}
 	}
 	
+	protected override void printTitles(string title) {
+		writer.WriteLine("<h2>" + title + "</h2>");
+	}
 	
 	protected override void printData ()
 	{
@@ -128,40 +143,54 @@ public class Report : ExportSession
 
 		writer.WriteLine("<table class=\"empty\" cellspacing=2 cellpadding=2><tr valign=\"top\"><td>\n");
 		if(ShowCurrentSessionData) {
-			writer.WriteLine("<h2>Session</h2>");
+			printTitles(Catalog.GetString("Session"));
 			printSessionInfo();
 		}
 		writer.WriteLine("</td><td>\n");
 		if(ShowCurrentSessionJumpers) {
-			writer.WriteLine("<h2>Persons</h2>");
+			printTitles(Catalog.GetString("Persons"));
 			printJumpers();
 		}
 		writer.WriteLine("</td></tr></table>\n");
 		if(ShowSimpleJumps) {
-			writer.WriteLine("<h2>Simple jumps</h2>");
+			printTitles(Catalog.GetString("Simple jumps"));
 			printJumps();
 		}
 		if(ShowReactiveJumps) {
 			if(ShowReactiveJumpsWithSubjumps) {
-				writer.WriteLine("<h2>Reactive jumps (with subjumps)</h2>");
+				printTitles(Catalog.GetString("Reactive jumps") + 
+						" (" + Catalog.GetString("with subjumps") + ")");
 			} else {
-				writer.WriteLine("<h2>Reactive jumps (without subjumps)</h2>");
+				printTitles(Catalog.GetString("Reactive jumps") + 
+						" (" + Catalog.GetString("without subjumps") + ")");
 			}
 			printJumpsRj(ShowReactiveJumpsWithSubjumps);
 		}
 		if(ShowSimpleRuns) {
-			writer.WriteLine("<h2>Simple runs</h2>");
+			printTitles(Catalog.GetString("Simple runs"));
 			printRuns();
 		}
 		if (ShowIntervalRuns) {
 			if(ShowIntervalRunsWithSubruns) {
-				writer.WriteLine("<h2>Interval runs (with subruns)</h2>");
+				printTitles(Catalog.GetString("interval runs") + 
+						" (" + Catalog.GetString("with tracks") + ")");
 			} else {
-				writer.WriteLine("<h2>Interval runs (without subruns)</h2>");
+				printTitles(Catalog.GetString("interval runs") + 
+						" (" + Catalog.GetString("without tracks") + ")");
 			}
 			printRunsInterval(ShowIntervalRunsWithSubruns);
 		}
 		
+		if(ShowReactionTimes) {
+			printTitles(Catalog.GetString("Reaction times"));
+			printReactionTimes();
+		}
+
+		if(ShowPulses) {
+			printTitles(Catalog.GetString("Pulses"));
+			printPulses();
+		}
+
 		printStats();
 		
 		printFooter();

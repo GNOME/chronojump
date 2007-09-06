@@ -207,7 +207,7 @@ public class ChronoJump
 	bool volumeOn;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre2";
+	private static string progversion = "0.6-pre4";
 	private static string progname = "Chronojump";
 	
 	//persons

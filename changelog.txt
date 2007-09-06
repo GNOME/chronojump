@@ -1,5 +1,13 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+6 set 2007
+	0.6-pre-4
+	report html and export csv:
+	-implemented reactionTime and pulses, changed also glade
+	-Total, AVG and DE rows on jumpsRj, runsInterval and pulses (like on treeviews)
+	-localised report titles and new export csv titles
+	-limited value rounded
+
 5 set 2007 (3)
 	closed bug 470886
 	-chronojump.bat and chronojump_mini.bat finished

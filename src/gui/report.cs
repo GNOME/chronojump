@@ -45,6 +45,8 @@ public class ReportWindow {
 	[Widget] Gtk.CheckButton cb_runs_simple;
 	[Widget] Gtk.CheckButton cb_runs_interval;
 	[Widget] Gtk.CheckButton cb_runs_interval_with_subruns;
+	[Widget] Gtk.CheckButton cb_reaction_times;
+	[Widget] Gtk.CheckButton cb_pulses;
 	[Widget] Gtk.Image image_report_win_report;
 	
 	static ReportWindow ReportWindowBox;
@@ -137,6 +139,8 @@ public class ReportWindow {
 		if(report.ShowSimpleRuns) { 		cb_runs_simple.Active = true; } 
 		if(report.ShowIntervalRuns) { 	cb_runs_interval.Active = true; } 
 		if(report.ShowIntervalRunsWithSubruns) { 	cb_runs_interval_with_subruns.Active = true; } 
+		if(report.ShowReactionTimes) { 		cb_reaction_times.Active = true; } 
+		if(report.ShowPulses) { 		cb_pulses.Active = true; } 
 	}
 	
 	void fillTreeView () 
@@ -304,6 +308,12 @@ public class ReportWindow {
 
 		if(cb_runs_interval_with_subruns.Active) { report.ShowIntervalRunsWithSubruns = true;  } 
 		else { report.ShowIntervalRunsWithSubruns = false; }
+
+		if(cb_reaction_times.Active) { report.ShowReactionTimes = true;  } 
+		else { report.ShowReactionTimes = false; }
+
+		if(cb_pulses.Active) { report.ShowPulses = true;  } 
+		else { report.ShowPulses = false; }
 
 		//treeview
 		TreeIter myIter = new TreeIter ();

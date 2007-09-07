@@ -26,7 +26,7 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
 
-using System.Threading;
+//using System.Threading;
 
 
 using Gdk; //for the EventMask

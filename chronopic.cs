@@ -49,7 +49,9 @@ public class Chronopic {
 		//-- Configurar timeout por defecto
 		//de momento no en windows (hasta que no encontremos por qué falla)
 		OperatingSystem os = Environment.OSVersion;
-		if( ! os.Platform.ToString().ToUpper().StartsWith("WIN"))
+		//not used, now there's no .NET this was .NET related
+		//on mono timeouts work on windows and linux
+		//if( ! os.Platform.ToString().ToUpper().StartsWith("WIN"))
 			sp.ReadTimeout = DefaultTimeout;
 
 		//-- Guardar el puerto serie

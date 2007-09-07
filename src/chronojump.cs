@@ -27,6 +27,7 @@ using Glade;
 using System.IO.Ports;
 using Mono.Unix;
 using System.IO; //"File" things
+using System.Threading;
 
 
 public class ChronoJump 
@@ -205,9 +206,16 @@ public class ChronoJump
 	
 	private Random rand;
 	bool volumeOn;
+
+	//chronopic connection thread
+	protected Thread thread;
+	bool needUpdateChronopicWin;
+	bool updateChronopicWinValuesState;
+	string updateChronopicWinValuesMessage;
+	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre5";
+	private static string progversion = "0.6-pre6";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -308,6 +316,7 @@ public class ChronoJump
 	StatsWindow statsWin;
 	ReportWindow reportWin;
 	RepetitiveConditionsWindow repetitiveConditionsWin;
+	ChronopicConnection chronopicWin;
 	
 	static EventExecuteWindow eventExecuteWin;
 
@@ -615,63 +624,103 @@ public class ChronoJump
 		menuitem_report_window.Image = new Gtk.Image(pixbuf);
 	}
 
-	private void chronopicInit (string myPort)
+	protected bool PulseGTK ()
+	{
+
+		if(needUpdateChronopicWin || ! thread.IsAlive) {
+			fakeChronopicButton.Click();
+			Console.Write("dying");
+			return false;
+		}
+		//need to do this, if not it crashes because chronopicWin gets died by thread ending
+		ChronopicConnection chronopicWin = ChronopicConnection.Show(app1);
+		chronopicWin.Pulse();
+		
+		Thread.Sleep (50);
+		Console.Write(thread.ThreadState);
+		return true;
+	}
+			
+	private void updateChronopicWin(bool state, string message) {
+		Console.WriteLine("-----------------");
+
+		//need to do this, if not it crashes because chronopicWin gets died by thread ending
+		chronopicWin = ChronopicConnection.Show(app1);
+
+		Console.WriteLine("+++++++++++++++++");
+		if(state)
+			chronopicWin.Connected(message);
+		else
+			chronopicWin.Disconnected(message);
+		
+		needUpdateChronopicWin = false;
+	}
+
+	//chronopic init should not touch  gtk, for the threads
+	private bool chronopicInit (string myPort, out string returnString)
 	{
 		Console.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
 		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xaviblas@gmail.com") );
 		Console.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a linux session, and you selected serial port), chronojump will crash.") );
-		//Console.WriteLine ( Catalog.GetString ("change variable using 'sqlite ~/.chronojump/chronojump.db' and") );
-		//Console.WriteLine ( Catalog.GetString ("'update preferences set value=\"True\" where name=\"simulated\";'") );
 
-	
 		bool success = true;
 		
 		try {
+Console.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
 			Console.WriteLine("chronopic port: {0}", myPort);
 			sp = new SerialPort(myPort);
 			sp.Open();
-		
+Console.WriteLine("+++++++++++++++++ 2 ++++++++++++++++");		
 			//-- Create chronopic object, for accessing chronopic
 			cp = new Chronopic(sp);
 
+Console.WriteLine("+++++++++++++++++ 3 ++++++++++++++++");		
 			//on windows, this check make a crash 
 			//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
 			//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
-			if ( ! Util.IsWindows()) {
+
+			//not used, now there's no .NET this was .NET related
+			//on mono timeouts work on windows and linux
+			//			if ( ! Util.IsWindows()) {
 				//-- Obtener el estado inicial de la plataforma
 				bool ok=false;
+Console.WriteLine("+++++++++++++++++ 4 ++++++++++++++++");		
 				do {
+Console.WriteLine("+++++++++++++++++ 5 ++++++++++++++++");		
 					ok=cp.Read_platform(out platformState);
+Console.WriteLine("+++++++++++++++++ 6 ++++++++++++++++");		
 				} while(!ok);
+Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");		
 				if (!ok) {
 					//-- Si hay error terminar
 					Console.WriteLine("Error: {0}",cp.Error);
 					success = false;
 				}
-			}
+			//}
 		} catch {
 			success = false;
 		}
 			
+		returnString = "";
 		if(success) {
 			cpRunning = true;
-			string myString = string.Format(Catalog.GetString("Connected to Chronopic on port: {0}"), myPort);
-			appbar2.Push( 1, myString);
+			returnString = string.Format(Catalog.GetString("Connected to Chronopic on port: {0}"), myPort);
+			//appbar2.Push( 1, returnString);
 		}
 		if(! success) {
-			string myString = Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'");
-			if(Util.IsWindows())
-				myString += Catalog.GetString("\n\nOn Windows we recommend to close/open Chronojump after every unsuccessful port test.");
-			new DialogMessage(myString);
+			returnString = Catalog.GetString("Problems communicating to chronopic, changed platform to 'Simulated'");
+			if(Util.IsWindows()) {
+				returnString += Catalog.GetString("\n\nOn Windows we recommend to remove and connect USB or serial cable from the computer after every unsuccessful port test.");
+				returnString += Catalog.GetString("\n... And after cancelling Chronopic detection.");
+				returnString += Catalog.GetString("\n\n... Later, when you close Chronojump it will probably get frozen. If this happens, let's press CTRL+C on the black screen.");
+			}
 
-			//Console.WriteLine("Problems communicating to chronopic, changed platform to 'Simulated'");
-			//TODO: raise a error window
-			
 			//this will raise on_radiobutton_simulated_ativate and 
 			//will put cpRunning to false, and simulated to true and cp.Close()
 			menuitem_simulated.Active = true;
 			cpRunning = false;
 		}
+		return success;
 	}
 	
 	private void loadPreferences () 
@@ -1577,16 +1626,7 @@ public class ChronoJump
 						rowToSelect);
 				sensitiveGuiYesPerson();
 			}
-/*
-			treeview_jumps_storeReset();
-			string myText = UtilGtk.ComboGetActive(combo_jumps);
-			fillTreeView_jumps(myText);
-			
-			//load the treeview_rj
-			treeview_jumps_rj_storeReset();
-			myText = combo_jumps_rj.Entry.Text;
-			fillTreeView_jumps_rj(myText);
-*/
+
 			on_combo_jumps_changed(combo_jumps, args);
 			on_combo_jumps_rj_changed(combo_jumps_rj, args);
 			on_combo_runs_changed(combo_runs, args);
@@ -1704,28 +1744,66 @@ public class ChronoJump
 		//done also in linux because mono-1.2.3 throws an exception when there's a timeout
 		//http://bugzilla.gnome.org/show_bug.cgi?id=420520
 
-		//ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **: generate a event with the platform or with chronopic.\nIf you don't do it, Chronojump will crash.\n"), Catalog.GetString("If it crashes, try to close it and open again, then Chronojump will be configured as simulated, and you can change the port in the preferences window"));
-		ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("** Attention **: Chronojump will wait until you generate a event with the platform or with chronopic."), "");
-		confirmWin.Button_accept.Clicked += new EventHandler(on_chronopic_accepted);
-		confirmWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
-	}
+		ChronopicConnection chronopicWin = ChronopicConnection.Show(app1);
+		chronopicWin.LabelFeedBackReset();
 
-	private void on_chronopic_accepted (object o, EventArgs args) {
+		chronopicWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
+		
+		fakeChronopicButton = new Gtk.Button();
+		fakeChronopicButton.Clicked += new EventHandler(on_chronopic_detection_ended);
+
+		thread = new Thread(new ThreadStart(waitChronopicStart));
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+		thread.Start(); 
+	}
+	
+	protected void waitChronopicStart () 
+	{
+		//TODO
+		//change also in preferences!!!!
 		simulated = false;
 		SqlitePreferences.Update("simulated", simulated.ToString());
 		
 		//init connecting with chronopic	
 		if(cpRunning == false) {
-			chronopicInit(chronopicPort);
-			//cpRunning = true;
+			string message = "";
+			bool success = chronopicInit(chronopicPort, out message);
+			Console.WriteLine("wait_chronopic_start {0}", message);
+			
+			if(success) {
+				updateChronopicWinValuesState= true; //connected
+				updateChronopicWinValuesMessage= message;
+			} else {
+				updateChronopicWinValuesState= false; //disconnected
+				updateChronopicWinValuesMessage= message;
+			}
+			needUpdateChronopicWin = true;
 		}
 	}
 
+	private void on_chronopic_detection_ended(object o, EventArgs args) {
+		updateChronopicWin(updateChronopicWinValuesState, updateChronopicWinValuesMessage);
+	}
+
+
 	private void on_chronopic_cancelled (object o, EventArgs args) {
+		Console.WriteLine("cancelled-----");
+		
+		//kill the chronopicInit function that is waiting event 
+		thread.Abort();
+		
 		menuitem_chronopic.Active = false;
 		menuitem_simulated.Active = true;
+				
+		updateChronopicWinValuesState= false; //disconnected
+		updateChronopicWinValuesMessage= Catalog.GetString("Cancelled by user");
+		needUpdateChronopicWin = true;
+			
 	}
 	
+	//private void on_chronopic_closed (object o, EventArgs args) {
+	//}
+
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
@@ -1741,9 +1819,15 @@ public class ChronoJump
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
 
 		string myPort = SqlitePreferences.Select("chronopicPort");
-		if(myPort != chronopicPort && cpRunning) {
-			chronopicInit (myPort);
-		}
+
+		//chronopicPort cannot change while chronopic is running.
+		//user change the port, and the clicks on radiobutton on platform menu
+
+		//if(myPort != chronopicPort && cpRunning) {
+		//	string message = "";
+		//	bool success = chronopicInit (myPort, out message);
+		//}
+
 		chronopicPort = myPort;
 	
 		

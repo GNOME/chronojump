@@ -1,5 +1,15 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+7 set 2007
+	0.6-pre6
+	fixed: 471520 Put some thread or wait 10s to chronopic connection.
+	New src/gui/chronopicConnection.cs and glade window
+	chronopic_connection, features a progressBar (pulse) and allows to
+	cancel. This will help lot of confused users.
+	On Linux all is ok, on Windows when there's a cancel or chronopic is
+	not detected, there's a need of removing usb cable for trying again,
+	and also chronojump will get frozen on exit. But user is warned
+
 6 set 2007 (2)
 	0.6-pre5
 	fixed bug 473540 of cursorchanged on windows, connecting signal also in the code.

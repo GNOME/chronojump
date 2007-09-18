@@ -122,7 +122,7 @@ Ritmos
 \end_layout
 
 \begin_layout Subsection
-Otros eventos
+Otros tests
 \end_layout
 
 \begin_layout Standard
@@ -446,6 +446,12 @@ El sistema operativo asigna nombres a los puertos, tal y como se indica
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Standard
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
@@ -515,7 +521,11 @@ Serie
 \begin_inset Text
 
 \begin_layout Standard
-COM1, COM2
+
+\series bold
+COM1
+\series default
+, COM2
 \end_layout
 
 \end_inset
@@ -553,7 +563,11 @@ USB
 \begin_inset Text
 
 \begin_layout Standard
-COM1, COM2, ...
+COM1, COM2, 
+\series bold
+COM3
+\series default
+, ...
  COM8 (o superior)
 \end_layout
 
@@ -592,7 +606,11 @@ Serie
 \begin_inset Text
 
 \begin_layout Standard
-/dev/ttyS0, /dev/ttyS1
+
+\series bold
+/dev/ttyS0
+\series default
+, /dev/ttyS1
 \end_layout
 
 \end_inset
@@ -630,7 +648,11 @@ USB
 \begin_inset Text
 
 \begin_layout Standard
-/dev/ttyUSB0, /dev/ttyUSB1
+
+\series bold
+/dev/ttyUSB0
+\series default
+, /dev/ttyUSB1
 \end_layout
 
 \end_inset
@@ -646,6 +668,16 @@ USB
 </cell>
 </row>
 </lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Caption
+Nombres de puerto en cada sistema operativo.
+ Los nombres más usuales se muestran en negrita.
+\end_layout
 
 \end_inset
 
@@ -957,6 +989,20 @@ sujeto que proporciona un rápido acceso a las operaciones de sujeto
 \end_layout
 
 \begin_layout Description
+Gráfico\InsetSpace ~
+de\InsetSpace ~
+test\InsetSpace ~
+seleccionado En el caso de que exista un dibujo del test selecciona
+do o apuntado por el ratón, lo muestra.
+ Además, si el programa dispone de información ampliada sobre dicho test,
+ muestra un icono indicativo.
+ Por último, dispone de un botón de ayuda que una vez pulsado muestra una
+ ventana de ayuda sobre dicho test, con el gráfico ampliado y la información
+ del test.
+ El gráfico se encuentra en la parte inferior-izquierda de la ventana principal.
+\end_layout
+
+\begin_layout Description
 Pestañas que permite cambiar el módulo de trabajo entre los posibles, actualmene
 : Salto, Salto simple, Carrera y Carrera con tramos.
 \end_layout
@@ -964,7 +1010,7 @@ Pestañas que permite cambiar el módulo de trabajo entre los posibles, actualmene
 \begin_layout Description
 Ejecución\InsetSpace ~
 de\InsetSpace ~
-eventos con la funcionalidad de ejecutar cada uno de los eventos
+tests con la funcionalidad de ejecutar cada uno de los tests
  de la pestaña o módulo de trabajo activa.
 \end_layout
 
@@ -973,15 +1019,15 @@ Visualización\InsetSpace ~
 y\InsetSpace ~
 edición\InsetSpace ~
 de\InsetSpace ~
-eventos que muestra distintos selectores para la
- visualización y edición de los saltos y carreras.
+tests que muestra distintos selectores para la visualizac
+ión y edición de los saltos y carreras.
 \end_layout
 
 \begin_layout Description
 Estado\InsetSpace ~
 de\InsetSpace ~
-eventos que contiene información en tiempo real sobre los últimos
- eventos y permite cancelarlos, borrarlos y pararlos.
+tests que contiene información en tiempo real sobre los últimos
+ tests y permite cancelarlos, borrarlos y pararlos.
 \end_layout
 
 \begin_layout Standard
@@ -994,7 +1040,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename chronojump_main_window_english-spanish.png
-	lyxscale 50
 	scale 50
 
 \end_inset
@@ -1016,7 +1061,7 @@ Ventana principal de Chronojump.
 \end_layout
 
 \begin_layout Section
-Base de datos: sesiones, sujetos y eventos
+Base de datos: sesiones, sujetos y tests
 \end_layout
 
 \begin_layout Standard
@@ -1035,11 +1080,11 @@ sujetos
 \end_layout
 
 \begin_layout Enumerate
-eventos (saltos, carreras, ritmos, ...)
+tests (saltos, carreras, tiempos de reacción, ritmos, ...)
 \end_layout
 
 \begin_layout Standard
-Todas las modificaciones de sesiones, sujetos y eventos, serán actualizadas
+Todas las modificaciones de sesiones, sujetos y tests, serán actualizadas
  en todo momento en la base de datos.
  Así no es necesario guardar la información periódicamente y se dificulta
  la pérdida de datos ante un error informático.
@@ -1056,8 +1101,7 @@ Las sesiones representan situaciones en que el entrenador o evaluador reune
  corto espacio de tiempo (normalmente un intervalo de hasta dos horas),
  es conveniente crear una nueva sesión.
  aunque los sujetos a evaluar sean los mismos que en otra sesión, es preferible
- crear una nueva que continuar añadiendo sujetos y eventos en una vieja
- sesión.
+ crear una nueva que continuar añadiendo sujetos y tests en una vieja sesión.
  De esta manera, podrá realizar comparaciones entre fechas.
 \end_layout
 
@@ -1081,13 +1125,13 @@ Carga (load)
 
 \begin_layout Standard
 Si desea cargar una sesión ya creada para su estudio o para añadir sujetos
- y/o eventos haga clic en el menú 
+ y/o tests haga clic en el menú 
 \emph on
 Archivo / Cargar sesión
 \emph default
 .
  Se le presentará un listado de las sesiones creadas e información de los
- sujetos inscritos en cada una de ellas y de los eventos realizados.
+ sujetos inscritos en cada una de ellas y de los tests realizados.
 \end_layout
 
 \begin_layout Subsection
@@ -1112,7 +1156,7 @@ Borrado
 \begin_layout Standard
 Si desea borrar una 
 \series bold
-sesión y todos los eventos
+sesión y todos los tests
 \series default
  que se realizaron en la misma, haga clic en el menú 
 \emph on
@@ -1127,8 +1171,8 @@ Sujetos
 \end_layout
 
 \begin_layout Standard
-Cada uno de los individuos que pueden realizan eventos (saltos o carreras)
- es conocido como sujeto.
+Cada uno de los individuos que pueden realizan tests (saltos, carreras,
+ tiempos de reacción o ritmos) es conocido como sujeto.
  Hay que notar que no se debe crear un mismo sujeto más de una vez, ya que
  para que pueda estudiarse su evolución en el tiempo (diferentes sesiones)
  se recomienda enérgicamente crear el sujeto sólo una vez, las otras veces
@@ -1146,7 +1190,7 @@ El sujeto seleccionado en la parte izquierda de la ventana principal de
 sujeto actual
 \emph default
 .
- Todos los eventos que se realicen serán vinculados a dicho sujeto.
+ Todos los tests que se realicen serán vinculados a dicho sujeto.
  El último sujeto creado o cargado será el designado como 
 \emph on
 sujeto actual
@@ -1155,7 +1199,7 @@ sujeto actual
 \end_layout
 
 \begin_layout Standard
-No se podrán ejecutar eventos hasta que no se haya sido asignado el 
+No se podrán ejecutar tests hasta que no se haya sido asignado el 
 \emph on
 sujeto actual
 \emph default
@@ -1206,8 +1250,8 @@ Si un sujeto participó en otra sesión, y desea que también sea evaluado
 cargar sujeto
 \emph default
 , para inscribir la misma persona a la nueva sesión.
- El programa distinguirá entre los eventos (saltos y carreras) realizados
- por la misma persona en dos o más sesiones.
+ El programa distinguirá entre los tests (saltos y carreras, tiempos de
+ reacción y ritmos) realizados por la misma persona en dos o más sesiones.
  
 \end_layout
 
@@ -1224,13 +1268,13 @@ Cargar sujetos de otra sesión
 \end_layout
 
 \begin_layout Subsection
-Visualización de eventos de sujeto
+Visualización de tests de sujeto
 \end_layout
 
 \begin_layout Standard
 Haga clic en 
 \emph on
-Mostrar todos los eventos del sujeto actual
+Mostrar todos los tests del sujeto actual
 \emph default
  para ver todos los saltos y carreras que ha realizado dicho sujeto en diferente
 s sesiones.
@@ -1261,10 +1305,10 @@ Haga clic en
 Borrar sujeto actual de la sesión actual
 \emph default
  para desuscribir el sujeto actual de la sesión en curso.
- Esta operación eliminará todos los eventos que haya realizado dicha persona
+ Esta operación eliminará todos los tests que haya realizado dicha persona
  en la sesión actual.
  Es importante saber que el sujeto no será eliminado de la base de datos
- y que sus eventos en otras sesiones permanecerán intactos.
+ y que sus tests en otras sesiones permanecerán intactos.
 \end_layout
 
 \begin_layout Standard
@@ -1276,18 +1320,19 @@ sujeto actual
 \emph on
 sujeto actual
 \emph default
- y por tanto no se podrán ejecutar eventos.
+ y por tanto no se podrán ejecutar tests.
 \end_layout
 
 \begin_layout Section
-Manejo de eventos
+Manejo de tests
 \end_layout
 
 \begin_layout Standard
-Hasta el momento Chronojump maneja dos tipos de eventos: saltos y carreras.
- Más adelante Chronojump podrá manejar ritmos y otros tipos de eventos.
- Estos eventos son detectados por las señales enviadas por la plataforma
- de contactos cuando el sujeto pisa o despega de la misma.
+Hasta el momento Chronojump maneja cuatro tipos de tests: saltos, carreras,
+ tiempos de reacción y ritmos.
+ Más adelante Chronojump podrá manejar otros tests.
+ Estos tests son detectados por las señales enviadas por la plataforma de
+ contactos cuando el sujeto pisa o despega de la misma.
 \end_layout
 
 \begin_layout Subsection
@@ -1360,9 +1405,9 @@ SJ
 \begin_layout Itemize
 
 \emph on
-SJ+
+SJ
 \emph default
-, Squat Jump con carga extra (peso adicional)
+l, Squat Jump con carga extra (peso adicional)
 \end_layout
 
 \begin_layout Itemize
@@ -1389,10 +1434,18 @@ DJ,
 Drop Jump o salto con caída
 \end_layout
 
+\begin_layout Itemize
+
+\emph on
+Rocket, 
+\emph default
+Salto tipo Squat pero partiendo de flexión completa
+\end_layout
+
 \begin_layout Standard
 para ejecutar un salto simple.
  En ocasiones se le pedirá que facilite información adicional como el peso
- extra del sujeto (SJ+) o la altura de caída (DJ).
+ extra del sujeto (SJl) o la altura de caída (DJ).
  Haga clic en 
 \emph on
 More
@@ -1429,11 +1482,11 @@ Plataforma
  mostrará la progresión del salto, que podrá ser detenido haciendo clic
  en el botón 
 \emph on
-Detener evento
+Detener
 \emph default
  o cancelado con 
 \emph on
-Cancelar evento
+Cancelar
 \emph default
 .
 \end_layout
@@ -1520,17 +1573,17 @@ Plataforma
  mostrará la progresión del salto, que podrá ser detenido haciendo clic
  en el botón 
 \emph on
-Detener evento
+Detener
 \emph default
  o cancelado con 
 \emph on
-Cancelar evento
+Cancelar
 \emph default
 .
  Los saltos repetitivos de tipo ilimitado sólo serán almacenados cuando
  se haga clic en 
 \emph on
-Detener evento
+Detener
 \emph default
 .
 \end_layout
@@ -1546,6 +1599,30 @@ Más
 Último
 \emph default
  para que otra persona pueda realizar el mismo salto.
+\end_layout
+
+\begin_layout Subsubsection
+Feedback auditivo y visual en los saltos repetitivos: campanas
+\end_layout
+
+\begin_layout Standard
+Con la finalidad de añadir un feedback visual y auditivo en la ejecución
+ de los saltos, es posible configurar valores de tiempo de vuelo, tiempo
+ de contacto, o la relación entra ambos, para los que se mostrará una campana
+ roja (mala ejecución) o verde (buena ejecución), acompañadas de un sonido
+ distintivo.
+\end_layout
+
+\begin_layout Standard
+Haciendo clic en el botón 
+\begin_inset Quotes eld
+\end_inset
+
+Campanas
+\begin_inset Quotes erd
+\end_inset
+
+, podrá configurar estas acciones.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1635,8 +1712,28 @@ Editar salto seleccionado
 En los saltos reactivos, ya que por definición están compuestos por un conjunto
  de subsaltos, esta modificación afectará a todos los subsaltos aunque uno
  sólo sea seleccionado.
- [PENDIENTE: Modificar esto en un futuro, hacer que se seleccione automáticament
-e todo el salto o carrera, y que no sea posible seleccionar un sujeto] 
+\end_layout
+
+\begin_layout Subsubsection
+Reparación de saltos reactivos
+\end_layout
+
+\begin_layout Standard
+Usando el botón de reparación de saltos reactivos, puede insertar un subsalto,
+ modificar un valor de tiempo de contacto o de vuelo, o borrar un subsalto.
+ Note que si un tipo de salto reactivo ha sido definido para que en ningún
+ caso pueda tener más de 
+\emph on
+n
+\emph default
+ subsaltos, o durar más de 
+\emph on
+n
+\emph default
+ segundos, estas condiciones se tendrán en cuenta en la ventana de reparación,
+ limitando sus funciones.
+ En estos casos, encontrará una indicación en la caja de texto de la parte
+ inferior de dicha ventana.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1650,7 +1747,7 @@ Borrar salto seleccionado
 \emph default
  o su equivalente en el menú.
  El borrado de saltos pedirá confirmación en caso de que la opción de confirmaci
-ón de borrado de eventos esté activada en el menú de 
+ón de borrado de tests esté activada en el menú de 
 \emph on
 Preferencias 
 \emph default
@@ -1666,15 +1763,13 @@ Preferencias
 En los saltos reactivos, ya que por definición están compuestos por un conjunto
  de subsaltos, esta modificación afectará a todos los subsaltos aunque uno
  sólo sea seleccionado.
- [PENDIENTE: Modificar esto en un futuro, hacer que se seleccione automáticament
-e todo el salto o carrera, y que no sea posible seleccionar un sujeto] 
 \end_layout
 
 \begin_layout Standard
-Si el salto que desea borrar es el último evento que se ha ejecutado, puede
+Si el salto que desea borrar es el último test que se ha ejecutado, puede
  hacer clic en el botón 
 \emph on
-Borrar último evento 
+Borrar último test 
 \emph default
 en la parte inferior izquierda de la página principal de Chronojump.
 \end_layout
@@ -2429,11 +2524,11 @@ Plataforma
  abandono, llegada a la segunda pltaforma), que podrá ser detenida haciendo
  clic en el botón 
 \emph on
-Detener evento
+Detener
 \emph default
  o cancelada con 
 \emph on
-Cancelar evento
+Cancelar
 \emph default
 .
 \end_layout
@@ -2528,17 +2623,17 @@ Plataforma
  mostrará la progresión de la carrera, que podrá ser detenida haciendo clic
  en el botón 
 \emph on
-Detener evento
+Detener
 \emph default
  o cancelada con 
 \emph on
-Cancelar evento
+Cancelar
 \emph default
 .
  Las carreras con tramos de tipo ilimitado sólo serán almacenadas cuando
  se haga clic en 
 \emph on
-Detener evento
+Detener
 \emph default
 .
 \end_layout
@@ -2555,6 +2650,29 @@ Más
 Último
 \emph default
  para que otra persona pueda realizar la misma carrera.
+\end_layout
+
+\begin_layout Subsubsection
+Feedback auditivo y visual en las carreras con tramos: campanas
+\end_layout
+
+\begin_layout Standard
+De la misma forma que en los saltos repetitivos, es posible configurar valores
+ mínimos y máximos de tiempo de tramo, para los que se mostrará una campana
+ roja (mala ejecución) o verde (buena ejecución), acompañadas de un sonido
+ distintivo.
+\end_layout
+
+\begin_layout Standard
+Haciendo clic en el botón 
+\begin_inset Quotes eld
+\end_inset
+
+Campanas
+\begin_inset Quotes erd
+\end_inset
+
+, podrá configurar estas acciones.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2644,8 +2762,28 @@ Editar carrera seleccionada
 En las carreras con tramos, ya que por definición están compuestas por un
  conjunto de tramos, esta modificación afectará a todos los tramos aunque
  uno sólo sea seleccionado.
- [PENDIENTE: Modificar esto en un futuro, hacer que se seleccione automáticament
-e todo el salto o carrera, y que no sea posible seleccionar un sujeto] 
+\end_layout
+
+\begin_layout Subsubsection
+Reparación de carreras con tramos
+\end_layout
+
+\begin_layout Standard
+Usando el botón de reparación de carreras con tramos, puede insertar un
+ tramo, modificar un valor de tiempo de tramo, o borrar un tramo.
+ Note que si un tipo de carrera con tramos ha sido definido para que en
+ ningún caso pueda tener más de 
+\emph on
+n
+\emph default
+ tramos, o durar más de 
+\emph on
+n
+\emph default
+ segundos, estas condiciones se tendrán en cuenta en la ventana de reparación,
+ limitando sus funciones.
+ En estos casos, encontrará una indicación en la caja de texto de la parte
+ inferior de dicha ventana.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2659,7 +2797,7 @@ Borrar carrera seleccionada
 \emph default
  o su equivalente en el menú.
  El borrado de carreras pedirá confirmación en caso de que la opción de
- confirmación de borrado de eventos esté activada en el menú de 
+ confirmación de borrado de tests esté activada en el menú de 
 \emph on
 Preferencias 
 \emph default
@@ -2675,15 +2813,14 @@ Preferencias
 En los saltos reactivos, ya que por definición están compuestos por un conjunto
  de subsaltos, esta modificación afectará a todos los subsaltos aunque uno
  sólo sea seleccionado.
- [PENDIENTE: Modificar esto en un futuro, hacer que se seleccione automáticament
-e todo el salto o carrera, y que no sea posible seleccionar un sujeto] 
+ 
 \end_layout
 
 \begin_layout Standard
-Si la carrera que desea borrar es el último evento que se ha ejecutado,
- puede hacer clic en el botón 
+Si la carrera que desea borrar es el último test que se ha ejecutado, puede
+ hacer clic en el botón 
 \emph on
-Borrar último evento 
+Borrar último test 
 \emph default
 en la parte inferior izquierda de la página principal de Chronojump.
 \end_layout
@@ -2730,7 +2867,7 @@ Carrera con tramos
 \begin_layout Standard
 En el proceso de creación se le pedirá que lo identifique con un nombre
  distintivo, que lo clasifique como simple o con tramos.
- En este último caso se le presentará la posibilidad de limitar el evento
+ En este último caso se le presentará la posibilidad de limitar el test
  por pistas, por tiempo o definirlo como ilimitado.
  
 \end_layout
@@ -3266,6 +3403,154 @@ Ejemplos de tipos de carreras creados por el usuario.
 \end_layout
 
 \begin_layout Subsection
+Tiempo de reacción
+\end_layout
+
+\begin_layout Standard
+El programa dispone de un botón que permite detectar el tiempo de reacción
+ del sujeto evaluado.
+ Para ello, se requiere la colaboración de un ayudante pues Chronojump y
+ Chronopic aún no son capaces de emitir señales auditivas aleatorias y en
+ un tiempo conocido y preciso.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Protocolo
+\end_layout
+
+\begin_layout Standard
+El ayudante estará pulsando algún tipo de pulsador o plataforma, y cuando
+ lo desee (y el ejecutante esté preparado), dejará de pulsar este, de manera
+ que la luz del Chronopic se encenderá.
+ En ese momento el ejecutante deberá pulsar algún pulsador o plataforma
+ y el tiempo entre que la luz se encendió y el ejecutante pulsó, será registrado
+ como tiempo de reacción.
+ Es importante que el ejecutante no vea ni oiga al ayudante pues podría
+ anticipar su acción.
+\end_layout
+
+\begin_layout Subsubsection
+Ejecución de tiempo de reacción
+\end_layout
+
+\begin_layout Standard
+Desde la pestaña de 
+\emph on
+tiempo de reacción
+\emph default
+ y con el ayudante pulsando el pulsador o plataforma, haga clic en el botón:
+ 
+\emph on
+Ejecutar tiempo de reacción
+\emph default
+ y siga el protocolo descrito anteriormente.
+\end_layout
+
+\begin_layout Standard
+En caso de que esté seleccionado el valor 
+\emph on
+Simulado 
+\emph default
+en el menú de 
+\emph on
+Plataforma
+\emph default
+, el programa simulará un tiempo de reacción.
+ La Barra de desplazamiento de la parte inferior izquierda de la pantalla
+ mostrará la progresión del salto, que podrá ser detenido haciendo clic
+ en el botón 
+\emph on
+Detener
+\emph default
+ o cancelado con 
+\emph on
+Cancelar
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Visualización de tiempo de reacción
+\end_layout
+
+\begin_layout Standard
+Desde la pestaña de 
+\emph on
+tiempo de reacción
+\emph default
+ podrá ver los test de tiempo de reacción que se han realizado en una sesión.
+ 
+\end_layout
+
+\begin_layout Standard
+Los tiempos de reacción se encuentran asociados a los ejecutantes.
+ El orden de aparición de los tiempos de reacción en cada ejecutante es
+ el cronológico de forma que el último realizado por un sujeto aparecerá
+ al final del listado de sus tests.
+\end_layout
+
+\begin_layout Standard
+Puede usar los botones de 
+\emph on
+lupa aumentar
+\emph default
+ y 
+\emph on
+lupa disminuir
+\emph default
+ para facilitar la visualización de los tests.
+\end_layout
+
+\begin_layout Subsubsection
+Edición de tiempos de reacción
+\end_layout
+
+\begin_layout Standard
+Puede añadir comentarios a un test o cambiar el ejecutante (si olvidó modificar
+ el sujeto actual previamente) seleccionando el test deseado y haciendo
+ clic en el botón de 
+\emph on
+Editar tiempo de reacción seleccionado
+\emph default
+ o en su equivalente en el menú.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Borrado de tiempos de reacción
+\end_layout
+
+\begin_layout Standard
+Para borrar un tiempo de reacción, selecciónelo y haga clic en el botón
+ 
+\emph on
+Borrar tiempo de reacción seleccionado
+\emph default
+ o su equivalente en el menú.
+ El borrado del test pedirá confirmación en caso de que la opción de confirmació
+n de borrado de tests esté activada en el menú de 
+\emph on
+Preferencias 
+\emph default
+(más información en la sección 
+\begin_inset LatexCommand \vref{sec:Preferencias}
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Si el salto que desea borrar es el último test que se ha ejecutado, puede
+ hacer clic en el botón 
+\emph on
+Borrar último test 
+\emph default
+en la parte inferior izquierda de la página principal de Chronojump.
+\end_layout
+
+\begin_layout Subsection
 Ritmos
 \end_layout
 
@@ -3278,7 +3563,7 @@ Estadísticas
 \end_layout
 
 \begin_layout Standard
-Chronojump dispone de múltiples índices para estudiar los eventos que son
+Chronojump dispone de múltiples índices para estudiar los tests que son
  captados.
  Contrariamente a las hojas de cálculo de propósito general, la disposición
  de los estadísticos y su graficación ha sido diseñada específicamente para
@@ -3865,7 +4150,7 @@ Ver / Ventana de Informes
 .
  En la misma se ofrece al usuario la posibilidad de crear un informe en
  formato web (HTML) en el que se pueden incluir los datos de la sesión,
- los saltadores que han participado y los eventos recogidos.
+ los saltadores que han participado y los tests recogidos.
  Además, mediante el botón 
 \emph on
 Añadir a Informe
@@ -3931,7 +4216,7 @@ Archivo / Exportar sesión a formato CSV
 \emph default
  para que se cree un archivo en formato CSV (Valores Separados por Comas)
  que podrá ser importado fácilmente en cualquier programa de hoja de cálculo.
- Dicho archivo contendrá el registro de todos los eventos producidos, pero
+ Dicho archivo contendrá el registro de todos los tests producidos, pero
  no incluirá los estadísticos ni los gráficos.
 \end_layout
 
@@ -3990,7 +4275,7 @@ COM1
 \begin_layout Standard
 Además esta ventana permite modificar el número de decimales mostrados,
  las unidades usadas, la visualización de columnas y la pertinencia de la
- pregunta de confirmación del borrado de eventos.
+ pregunta de confirmación del borrado de tests.
 \end_layout
 
 \begin_layout Standard

@@ -21,12 +21,13 @@
 
 using System;
 using System.Data;
-using System.IO; //"File" things
+using System.IO; //"File" things. TextWriter
 using System.Collections; //ArrayList
 //using System.Data.SqlClient;
 //using Mono.Data.SqliteClient;
 //using System.Data.SQLite;
 using Mono.Data.Sqlite;
+using System.Diagnostics; 	//for launching other process
 
 
 class Sqlite
@@ -36,20 +37,13 @@ class Sqlite
 	//protected static IDbConnection dbcon;
 	//protected static IDbCommand dbcmd;
 	
-	//public static string home = Environment.GetEnvironmentVariable("HOME")+"/.chronojump";
 	public static string home = Util.GetHomeDir();
 	public static string sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
+	//public static string sqlFile = home + Path.DirectorySeparatorChar + "chronojump_altre_copia.db";
 	
-	//static string connectionString = "URI=file:" + sqlFile ;
-	//static string connectionString = "URI=file:" + sqlFile + "; UseUTF16Encoding=True"; //for windows http://sqlite.phxsoftware.com/forums/thread/117.aspx
-	//static string connectionString = "Data source = " + sqlFile + "; UseUTF16Encoding=True"; //for windows http://sqlite.phxsoftware.com/forums/thread/117.aspx
-	//static string connectionString = "Data source = " + sqlFile + "; UseUTF8Encoding=True"; //for windows http://sqlite.phxsoftware.com/forums/thread/117.aspx
-
 	//http://www.mono-project.com/SQLite
 
 	static string connectionString = "version = 3; Data source = " + sqlFile;
-	//static string connectionString = "URI=file:" + sqlFile ;
-	//static string connectionString = "URI=file:" + sqlFile + "; UseUTF16Encoding=True"; //for windows http://sqlite.phxsoftware.com/forums/thread/117.aspx
 
 
 	/*
@@ -87,8 +81,163 @@ class Sqlite
 		return (File.Exists(sqlFile));
 
 	}
+
+	public static bool IsSqlite3() {
+		if(sqlite3SelectWorks()){
+			Console.WriteLine("SQLITE3");
+			dbcon.Close();
+			return true;
+		}
+		else if(sqlite2SelectWorks()) {
+			Console.WriteLine("SQLITE2");
+			dbcon.Close();
+			//write sqlFile path on data/databasePath.txt
+			//TODO
+			//
+
+			return false;
+		}
+		else {
+			Console.WriteLine("ERROR in sqlite detection");
+			dbcon.Close();
+			return false;
+		}
+	}
+	private static bool sqlite3SelectWorks() {
+		try {
+			SqlitePreferences.Select("chronopicPort");
+		} catch {
+			return false;
+		}
+		return true;
+	}
+	private static bool sqlite2SelectWorks() {
+		/*
+		 *it says:
+		 Unhandled Exception: System.NotSupportedException: Only Sqlite Version 3 is supported at this time
+		   at Mono.Data.Sqlite.SqliteConnection.Open () [0x00000]
+		 *
+		dbcon.Close();
+		connectionString = "version=2; URI=file:" + sqlFile;
+		dbcon.ConnectionString = connectionString;
+		dbcon.Open();
+		try {
+			SqlitePreferences.Select("chronopicPort");
+		} catch {
+			return false;
+		}
+		*/
+		return true;
+	}
+
+
+	public static bool ConvertFromSqlite2To3() {
+		/*
+		 * 1 write the sqlite2 dumped data to an archive
+		 * 2 copy db
+		 * 3 create sqlite3 file from archive
+		 */
+
+		string sqlite2File = Util.GetHomeDir() + Path.DirectorySeparatorChar + "chronojump-sqlite2.81.db";
+		string sqliteDB = Util.GetHomeDir() + Path.DirectorySeparatorChar + "chronojump.db";
+
+		if(File.Exists(sqlite2File))
+			File.Delete(sqlite2File);
 	
-	public static void ConvertToLastVersion() {
+		File.Move(sqliteDB, sqlite2File);
+
+		string myPath = "";
+		string sqliteStr = "";
+		string sqlite3Str = "";
+		string extension = "";
+		try {
+			if(Util.IsWindows()) {
+				myPath = Constants.UtilProgramsWindows;
+				extension = Constants.ExtensionProgramsWindows;
+				sqliteStr = "sqlite.exe";
+				sqlite3Str = "sqlite3.exe";
+			}
+			else {
+				myPath = Constants.UtilProgramsLinux;
+				extension = Constants.ExtensionProgramsLinux;
+				sqliteStr = "sqlite-2.8.17.bin";
+				sqlite3Str = "sqlite3-3.5.0.bin";
+			}
+
+			if(File.Exists(myPath + Path.DirectorySeparatorChar + sqliteStr)) 
+				Console.WriteLine("exists1");
+			if(File.Exists(sqlite2File)) 
+				Console.WriteLine("exists2");
+
+			Console.WriteLine("{0}-{1}", myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
+			ProcessStartInfo ps = new ProcessStartInfo(myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
+
+			ps.UseShellExecute = false;
+			//ps.UseShellExecute = true;
+			ps.RedirectStandardOutput = true;
+			string output = "";
+			Console.WriteLine("a");
+			using(Process p = Process.Start(ps)) {
+			Console.WriteLine("b");
+			//TODO: this doesn't work on windows (it gets hanged)
+				p.WaitForExit();
+			Console.WriteLine("c");
+				output = p.StandardOutput.ReadToEnd();
+			Console.WriteLine("d");
+			}
+/*
+			Process p = Process.Start(myPath + Path.DirectorySeparatorChar + sqliteStr, sqlite2File + " .dump");
+
+//			ps.UseShellExecute = false;
+			//ps.UseShellExecute = true;
+//			ps.RedirectStandardOutput = true;
+			string output = "";
+			Console.WriteLine("a");
+//			using(Process p = Process.Start(ps)) {
+			Console.WriteLine("b");
+				p.WaitForExit();
+			Console.WriteLine("c");
+				output = p.StandardOutput.ReadToEnd();
+			Console.WriteLine("d");
+//			}
+*/
+
+			Console.WriteLine(output);
+
+			TextWriter writer = File.CreateText(myPath + Path.DirectorySeparatorChar + "tmp.txt");
+			writer.WriteLine(output);
+			((IDisposable)writer).Dispose();
+			
+			Console.WriteLine("Written");
+			Console.ReadLine();
+
+
+			Process p2 = Process.Start(myPath + Path.DirectorySeparatorChar + "convert_database." + extension);
+			p2.WaitForExit();
+
+			Console.WriteLine("Written2");
+			Console.ReadLine();
+				
+			File.Copy(myPath + Path.DirectorySeparatorChar + "tmp.db", sqliteDB, true ); //overwrite
+
+			/*
+			else {
+				//Process p = Process.Start(myPath + Path.DirectorySeparatorChar + "sqlite-2.8.17.bin" + " " + sqlFile + " | " + "sqlite3-3.5.0.bin");
+				Process p = Process.Start(myPath + Path.DirectorySeparatorChar + "sqlite-2.8.17.bin" + " " + sqlFile + " | " + "sqlite3-3.5.0.bin");
+				p.WaitForExit();
+			}
+			*/
+		} catch {
+			Console.WriteLine("PROBLEMS");
+			return false;
+		}
+
+		Console.WriteLine("done");
+		return true;
+
+	}
+
+	public static void ConvertToLastChronojumpDBVersion() {
 
 		//if(checkIfIsSqlite2())
 		//	convertSqlite2To3();
@@ -234,6 +383,7 @@ class Sqlite
 		//remember to change also the databaseVersion below
 	}
 
+	/*
 	private static bool checkIfIsSqlite2() {
 		//fileExists, but is sqlite 3 or 2
 		try {
@@ -263,6 +413,7 @@ class Sqlite
 	}
 	
 	private static void convertSqlite2To3() {
+	*/
 		/*
 		SqliteConnection dbcon2 = new SqliteConnection();
 		dbcon2.ConnectionString = "version = 2; Data source = " + sqlFile;
@@ -275,9 +426,10 @@ class Sqlite
 		convert_database.bat
 		(this .bat will be created also by the install_bundle, and will use sqlite.exe and sqlite3.exe from the sqlite dir)
 		*/
-
+/*
 	}
-	
+	*/
+
 	private static void addChronopicPortNameIfNotExists() {
 		string myPort = SqlitePreferences.Select("chronopicPort");
 		if(myPort == "0") {
@@ -303,13 +455,9 @@ class Sqlite
 		SqliteEvent.createGraphLinkTable();
 	
 		//jumps
-Console.WriteLine("A");
 		SqliteJump.createTable();
-Console.WriteLine("B");
 		SqliteJump.rjCreateTable("jumpRj");
-Console.WriteLine("C");
 		SqliteJump.rjCreateTable("tempJumpRj");
-Console.WriteLine("D");
 
 		//jump Types
 		SqliteJumpType.createTableJumpType();

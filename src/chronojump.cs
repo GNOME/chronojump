@@ -204,18 +204,18 @@ public class ChronoJump
 	[Widget] Gtk.Image image_delete_last;
 	
 	
-	private Random rand;
+	Random rand;
 	bool volumeOn;
 
 	//chronopic connection thread
-	protected Thread thread;
+	Thread thread;
 	bool needUpdateChronopicWin;
 	bool updateChronopicWinValuesState;
 	string updateChronopicWinValuesMessage;
 	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre6";
+	private static string progversion = "0.6-pre7";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -385,25 +385,22 @@ public class ChronoJump
 
 			isFirstTime = true;
 		} else {
-			Sqlite.ConvertToLastVersion();
+			if(! Sqlite.IsSqlite3()) {
+				bool ok = Sqlite.ConvertFromSqlite2To3();
+				if (!ok) {
+					Console.WriteLine("******\n problem with sqlite \n******");
+					Console.ReadLine();
+					Environment.Exit(1);
+				}
+				Sqlite.Connect();
+			}
+
+			Sqlite.ConvertToLastChronojumpDBVersion();
 			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
 		}
 
-		//check if logo and css exists
-/*
- * currently not used, we copy the assemblies now
- *
-		if(! File.Exists(Util.GetHomeDir() + "/" + Constants.FileNameLogo)) {
-			Util.CopyArchivesOninstallation(Constants.FileNameLogo);
-			Console.WriteLine("Copied " + Constants.FileNameLogo);
-		}
-		if(! File.Exists(Util.GetHomeDir() + "/" + Constants.FileNameCSS)) {
-			Util.CopyArchivesOninstallation(Constants.FileNameCSS);
-			Console.WriteLine("Copied " + Constants.FileNameCSS);
-		}
-*/
 
 		string recuperatedString = recuperateBrokenEvents();
 

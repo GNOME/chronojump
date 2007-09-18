@@ -108,5 +108,11 @@ public class Constants
 	public static string GladeLinux = "";
 	public static string ImagesLinux = "";
 	public static string ImagesMiniLinux = "mini/";
+	
+	public static string UtilProgramsWindows = "utils\\windows";
+	public static string UtilProgramsLinux = "utils/linux";
+	
+	public static string ExtensionProgramsLinux = "sh";
+	public static string ExtensionProgramsWindows = "bat";
 
 }

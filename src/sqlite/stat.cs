@@ -1175,7 +1175,7 @@ class SqliteStat : Sqlite
 				//With the group by, 
 				//if there are no values, 
 				//it does not return any line
-				" GROUP by j1.sessionID, " +
+				" GROUP by j1.sessionID" +
 				" ORDER by j1.sessionID";
 		}
 

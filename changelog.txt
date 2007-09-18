@@ -1,5 +1,18 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+
+18 set 2007
+	0.6-pre7
+	-sqlite conversion from 2 to 3 works on linux (there's a hang on windows)
+	-added sqlite_utils (sqlite executables and conversors)
+	-improved create_release.sh and other sh and bats
+	-fixed sqlite bug in stats:
+	http://mail.gnome.org/archives/chronojump-devel-list/2007-September/msg00022.html
+	-textview in repair now is not editable
+	-updated manual: (added reaction time, added repair (jumps, runs),
+	added graph test, changed "eventos" for "tests", some minor adds and
+	corrections)
+
 7 set 2007
 	0.6-pre6
 	fixed: 471520 Put some thread or wait 10s to chronopic connection.

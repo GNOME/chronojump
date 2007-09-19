@@ -2204,7 +2204,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
 			
-		//double jumpWeight = 0.0000;
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			if(jumpExtraWin.Option == "%") {
@@ -2384,7 +2383,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			}
 		}
 
-		double jumpWeight = 0.0000;
+		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			//jumpWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
 			if(jumpExtraWin.Option == "%") {
@@ -2891,7 +2890,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			if(jumpExtraWin.Option == "%") {
 				jumpWeight = jumpExtraWin.Weight;
 			} else {
-				jumpWeight = jumpExtraWin.Weight *100 / currentPerson.Weight;
+				jumpWeight = jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
 			}
 		}
 		int myFall = 0;

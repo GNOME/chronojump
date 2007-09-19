@@ -194,7 +194,7 @@ Console.WriteLine("MANAGE(3)!!!!");
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						
-						time = timestamp / 1000;
+						time = timestamp / 1000.0;
 						write();
 
 						success = true;
@@ -430,7 +430,7 @@ public class RunIntervalExecute : RunExecute
 							if(simulated)
 								timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 							
-							double myRaceTime = lastTc + timestamp/1000;
+							double myRaceTime = lastTc + timestamp/1000.0;
 							
 							if(intervalTimesString.Length > 0) { equal = "="; }
 							intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
@@ -463,7 +463,7 @@ public class RunIntervalExecute : RunExecute
 								if(simulated)
 									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
-								double myRaceTime = lastTc + timestamp/1000;
+								double myRaceTime = lastTc + timestamp/1000.0;
 								if(intervalTimesString.Length > 0) { equal = "="; }
 								intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
 								updateTimerCountWithChronopicData(intervalTimesString);
@@ -508,7 +508,7 @@ public class RunIntervalExecute : RunExecute
 								if(simulated)
 									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 								
-								double myRaceTime = lastTc + timestamp/1000;
+								double myRaceTime = lastTc + timestamp/1000.0;
 								if(success) {
 									//write();
 									//write only if there's a run at minimum
@@ -563,7 +563,7 @@ public class RunIntervalExecute : RunExecute
 						initializeTimer();
 						lastTc = 0;
 					} else
-						lastTc = timestamp/1000;
+						lastTc = timestamp/1000.0;
 						
 					runPhase = runPhases.RUNNING;
 

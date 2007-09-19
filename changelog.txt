@@ -1,5 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+19 set 2007 (4)
+	more divisions with double in de denominator. Found doing:
+	...chronojump/src$ rgrep "\/" * |grep -v "//"|grep -v "/\*"|grep -v
+	"\*/"|grep -v "svn"|less
+
 19 set 2007 (3)
 	0.6-pre9
 	cmjPlusPotency weight calculations ok. fixes 478168

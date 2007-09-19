@@ -195,7 +195,7 @@ public class PulseExecute : EventExecute
 								if(simulated)
 									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 								if(timesString.Length > 0) { equal = "="; }
-								timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
+								timesString = timesString + equal + (contactTime/1000.0 + timestamp/1000.0).ToString();
 								tracks ++;	
 
 								//update event progressbar
@@ -209,8 +209,8 @@ public class PulseExecute : EventExecute
 								needUpdateEventProgressBar = true;
 
 								//update graph
-								//eventExecuteWin.PreparePulseGraph(timestamp/1000, timesString);
-								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000, timesString);
+								//eventExecuteWin.PreparePulseGraph(timestamp/1000.0, timesString);
+								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000.0, timesString);
 								needUpdateGraphType = eventType.PULSE;
 								needUpdateGraph = true;
 
@@ -225,7 +225,7 @@ public class PulseExecute : EventExecute
 								if(simulated)
 									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 								if(timesString.Length > 0) { equal = "="; }
-								timesString = timesString + equal + (contactTime/1000 + timestamp/1000).ToString();
+								timesString = timesString + equal + (contactTime/1000.0 + timestamp/1000.0).ToString();
 
 								if(tracks >= totalPulsesNum) 
 								{
@@ -245,8 +245,8 @@ public class PulseExecute : EventExecute
 								needUpdateEventProgressBar = true;
 
 								//update graph
-								//eventExecuteWin.PreparePulseGraph(timestamp/1000, timesString);
-								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000, timesString);
+								//eventExecuteWin.PreparePulseGraph(timestamp/1000.0, timesString);
+								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000.0, timesString);
 								needUpdateGraphType = eventType.PULSE;
 								needUpdateGraph = true;
 

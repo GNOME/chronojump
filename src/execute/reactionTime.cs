@@ -156,7 +156,7 @@ Console.Write("w1 ");
 
 					Console.Write("t1:{0}", timestamp);
 
-					time = timestamp / 1000;
+					time = timestamp / 1000.0;
 					write ();
 
 					success = true;

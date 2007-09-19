@@ -55,7 +55,7 @@ public class StatCmjPlusPotency : Stat
 		string [] columnsString = { Catalog.GetString("Jumper"), 
 			Catalog.GetString("Potency"), 
 			Catalog.GetString("Person's Weight"), 
-			Catalog.GetString("Extra Weight"), 
+			Catalog.GetString("Extra Weight") + " (Kg)", 
 			Catalog.GetString("Height") };
 		/*
 		if(! percent) {

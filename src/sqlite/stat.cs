@@ -252,9 +252,9 @@ class SqliteStat : Sqlite
 	{
 		string formula = "";
 		if(indexType == "djIndex") {
-			formula = "((tv-tc)*100/tc)";
+			formula = "((tv-tc)*100/(tc*1.0))"; //*1.0 for having double division
 		} else if (indexType == "indexQ") {
-			formula = "(tv/tc)";
+			formula = "(tv/(tc*1.0))"; //*1.0 for having double division
 		}
 		string ini = "";
 		string end = "";
@@ -368,7 +368,7 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "((tvavg-tcavg)*100/tcavg)" + end + " AS rj_index, tvavg, tcavg, fall";
+		moreSelect = ini + "((tvavg-tcavg)*100/(tcavg * 1.0))" + end + " AS rj_index, tvavg, tcavg, fall"; //*1.0 for having double division
 
 		//manage allJumps
 		string fromString = " FROM jumpRj, person ";
@@ -461,7 +461,7 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "9.81*9.81 * tvavg*jumps * time / ( 4 * jumps * (time - tvavg*jumps) )" + end + " AS potency, " +
+		moreSelect = ini + "9.81*9.81 * tvavg*jumps * time / ( 4.0 * jumps * (time - tvavg*jumps) )" + end + " AS potency, " + //*4.0 for having double division
 			 " tvavg, tcavg, jumps, time, fall";
 
 		//manage allJumps
@@ -614,7 +614,7 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "((tvavg-tcavg)*100/tcavg)" + end + " AS rj_index, tcString, tvString, fall";
+		moreSelect = ini + "((tvavg-tcavg)*100/(tcavg*1.0))" + end + " AS rj_index, tcString, tvString, fall"; //*1.0 for having double division
 
 		//manage allJumps
 		string fromString = " FROM jumpRj, person ";
@@ -709,13 +709,15 @@ class SqliteStat : Sqlite
 		*/
 			
 		string orderByString = "ORDER BY ";
-		string moreSelect = "";
+		string moreSelect = ""; 
+		
+		//*1.0 for having double division
 		if(ini == "MAX(") {
 			//search MAX of two jumps, not max index!!
-			moreSelect = " ( MAX(j1.tv) - MAX(j2.tv) )*100/MAX(j2.tv) AS myIndex, " +
+			moreSelect = " ( MAX(j1.tv) - MAX(j2.tv) )*100/(MAX(j2.tv)*1.0) AS myIndex, " +
 				"MAX(j1.tv), MAX(j2.tv) ";
 		} else if(ini == "AVG(") {
-			moreSelect = " ( AVG(j1.tv) - AVG(j2.tv) )*100/AVG(j2.tv) AS myIndex, " +
+			moreSelect = " ( AVG(j1.tv) - AVG(j2.tv) )*100/(AVG(j2.tv)*1.0) AS myIndex, " +
 				"AVG(j1.tv), AVG(j2.tv)";
 		}
 
@@ -779,17 +781,17 @@ class SqliteStat : Sqlite
 
 	public static ArrayList Fv (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
-		string heightJump1 = " 100*4.9* (j1.tv/2) * (j1.tv/2) ";	//jump1 tv converted to height
-		string heightJump2 = " 100*4.9* (j2.tv/2) * (j2.tv/2) ";	//jump2 tv converted to height
+		string heightJump1 = " 100*4.9* (j1.tv/2.0) * (j1.tv/2.0) ";	//jump1 tv converted to height
+		string heightJump2 = " 100*4.9* (j2.tv/2.0) * (j2.tv/2.0) ";	//jump2 tv converted to height
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
 		if(ini == "MAX(") {
 			//search MAX of two jumps, not max index!!
-			moreSelect = " ( MAX(" + heightJump1 + ") )*100/MAX(" + heightJump2 + ") AS myIndex, " +
+			moreSelect = " ( MAX(" + heightJump1 + ") )*100/(1.0*MAX(" + heightJump2 + ")) AS myIndex, " +
 				"MAX(" + heightJump1 + "), MAX(" + heightJump2 + ") ";
 		} else if(ini == "AVG(") {
-			moreSelect = " ( AVG(" + heightJump1 + ") )*100/AVG(" + heightJump2 + ") AS myIndex, " +
+			moreSelect = " ( AVG(" + heightJump1 + ") )*100/(1.0*AVG(" + heightJump2 + ")) AS myIndex, " +
 				"AVG(" + heightJump1 + "), AVG(" + heightJump2 + ")";
 		}
 
@@ -872,14 +874,12 @@ class SqliteStat : Sqlite
 		//jump weight in Kg = jump weight in % * person.weight / 100
 		//jump height in centimeters = 100*4.9* pow(jump.tv/2, 2)
 		
-		//moreSelect = ini + 
-		//	"(person.weight + jump.weight*person.weight/100) * 9.81 * 2 * 9.81 * 100*4.9* jump.tv/2 * jump.tv/2" + end + " AS potencyIndexWithoutSqrt, " +
 		moreSelect = 
-			ini + "(person.weight + jump.weight*person.weight/100) * 9.81" + end + " AS indexPart1, " + 
-			//ini + "2 * 9.81 * 100*4.9* jump.tv/2 * jump.tv/2" + end + " AS indexPart2WithoutSqrt, " + //cm
-			ini + "2 * 9.81 * 4.9 * jump.tv/2 * jump.tv/2" + end + " AS indexPart2WithoutSqrt, " +	//m
-			"person.weight, jump.weight*person.weight/100 AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2"; 
-			//TODO: check if ini,end is needed here
+			ini + "(person.weight + jump.weight*person.weight/100.0) * 9.81" + end + " AS indexPart1, " + 
+			ini + "2 * 9.81 * 4.9 * jump.tv/2.0 * jump.tv/2.0" + end + " AS indexPart2WithoutSqrt, " +	//m
+			"person.weight, jump.weight*person.weight/100.0 AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2.0"; 
+		//divisor has to be .0 if not, double is bad calculated. Bug 478168
+		//TODO: check if ini,end is needed here
 
 		string fromString = " FROM jump, person ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
@@ -1117,23 +1117,23 @@ class SqliteStat : Sqlite
 		string weightString = ""; //used by FV index
 		
 		if(statName == "FV") {
-			string heightJump1 = " 100*4.9* (j1.tv/2) * (j1.tv/2) ";	//jump1 tv converted to height
-			string heightJump2 = " 100*4.9* (j2.tv/2) * (j2.tv/2) ";	//jump2 tv converted to height
+			string heightJump1 = " 100*4.9* (j1.tv/2.0) * (j1.tv/2.0) ";	//jump1 tv converted to height
+			string heightJump2 = " 100*4.9* (j2.tv/2.0) * (j2.tv/2.0) ";	//jump2 tv converted to height
 			if(operation == "MAX") {
 				//search MAX of two jumps, not max index!!
-				moreSelect = " ( MAX(" + heightJump1 + ") )*100/MAX(" + heightJump2 + ") AS myIndex, " +
+				moreSelect = " ( MAX(" + heightJump1 + ") )*100/(1.0*MAX(" + heightJump2 + ")) AS myIndex, " +
 					"MAX(" + heightJump1 + "), MAX(" + heightJump2 + ") ";
 			} else if(operation == "AVG") {
-				moreSelect = " ( AVG(" + heightJump1 + ") )*100/AVG(" + heightJump2 + ") AS myIndex, " +
+				moreSelect = " ( AVG(" + heightJump1 + ") )*100/(1.0*AVG(" + heightJump2 + ")) AS myIndex, " +
 					"AVG(" + heightJump1 + "), AVG(" + heightJump2 + ")";
 			}
 			weightString = " AND (j1.weight == \"100%\" OR j1.weight == person.weight||'" + "Kg' ) ";
 		} else {	//IE, IUB
 			if(operation == "MAX") {
 				//search MAX of two jumps, not max index!!
-				moreSelect = "( ( MAX(j1.tv) - MAX(j2.tv) )*100/MAX(j2.tv) ) AS myIndex ";
+				moreSelect = "( ( MAX(j1.tv) - MAX(j2.tv) )*100/(MAX(j2.tv)*1.0) ) AS myIndex ";
 			} else if(operation == "AVG") {
-				moreSelect = "( ( AVG(j1.tv) - AVG(j2.tv) )*100/AVG(j2.tv) ) AS myIndex ";
+				moreSelect = "( ( AVG(j1.tv) - AVG(j2.tv) )*100/(AVG(j2.tv)*1.0) ) AS myIndex ";
 			}
 		}
 		

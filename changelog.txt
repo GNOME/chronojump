@@ -1,5 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+19 set 2007 (3)
+	0.6-pre9
+	cmjPlusPotency weight calculations ok. fixes 478168
+	all divisions on sqlite/stats are done now by a double. 
+	Eg: not 10/2, do 10/2.0 (this doesn't happen in sqlite terminal app)
+
 19 set 2007 (2)
 	create_release.sh creates main "releases" dir if needed
 

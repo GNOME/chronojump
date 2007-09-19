@@ -215,7 +215,7 @@ public class ChronoJump
 	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre8";
+	private static string progversion = "0.6-pre9";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -2204,12 +2204,13 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
 			
+		//double jumpWeight = 0.0000;
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			if(jumpExtraWin.Option == "%") {
 				jumpWeight = jumpExtraWin.Weight;
 			} else {
-				jumpWeight = jumpExtraWin.Weight *100 / currentPerson.Weight;
+				jumpWeight = (double) jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
 			}
 		}
 		int myFall = 0;
@@ -2383,13 +2384,13 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			}
 		}
 
-		double jumpWeight = 0;
+		double jumpWeight = 0.0000;
 		if(currentJumpType.HasWeight) {
 			//jumpWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
 			if(jumpExtraWin.Option == "%") {
 				jumpWeight = jumpExtraWin.Weight;
 			} else {
-				jumpWeight = jumpExtraWin.Weight *100 / currentPerson.Weight;
+				jumpWeight = (double) jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
 			}
 		}
 		int myFall = 0;
@@ -2885,7 +2886,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else {
 		}
 			
-		double jumpWeight = 0;
+		double jumpWeight = 0.0000;
 		if(currentJumpType.HasWeight) {
 			if(jumpExtraWin.Option == "%") {
 				jumpWeight = jumpExtraWin.Weight;

@@ -74,7 +74,7 @@ public class GraphCmjPlusPotency : StatCmjPlusPotency
 				
 			serieIndex.Title = Catalog.GetString("CmjPlusPotency");
 			seriePersonWeight.Title = Catalog.GetString("Person's Weight");
-			serieExtraWeight.Title = Catalog.GetString("Extra Weight");
+			serieExtraWeight.Title = Catalog.GetString("Extra Weight") + " (Kg)";
 			serieHeight.Title = Catalog.GetString("Height");
 			
 			serieIndex.IsLeftAxis = true;

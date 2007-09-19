@@ -63,6 +63,7 @@ public class Constants
 		"dz-BT:Dzongkha",
 		"fi-FI:Finnish", 
 		"fr-FR:French", 
+		"oc-OC:Occitan",
 		"pt-BR:Portuguese (Brazil)", 
 		"pt-PT:Portuguese (Portugal)", 
 		"es-ES:Spanish (Spain)", 

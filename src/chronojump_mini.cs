@@ -47,6 +47,7 @@ class Test {
 
 		if(Util.IsWindows()) {
 			messageInfo = Constants.PortNamesWindows;
+			/*
 			messageDetected = Catalog.GetString("Detected ports:") + "\n";
 
 			string jumpLine = "";
@@ -54,11 +55,16 @@ class Test {
 				messageDetected += jumpLine + s;
 				jumpLine = "\n";
 			}
+			*/
 		} else {
 			messageInfo = Constants.PortNamesLinux;
 
-			messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled on GNU/Linux"));
+			//messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled on GNU/Linux"));
 		}
+			
+		messageInfo += string.Format(Catalog.GetString("More information on Chronojump manual"));
+
+		messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled"));
 
 		Console.WriteLine("---------------------------");
 		Console.WriteLine(messageInfo);

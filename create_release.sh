@@ -10,48 +10,65 @@ if [ "$1" = "" ]; then
 	exit
 fi
 
-if test -e "releases/$1"; then 
+release_dir="releases/chronojump-$1"
+
+if test -e $release_dir; then 
 	echo "release exists"
 	exit
 fi
 
-#create dirs
-mkdir releases/$1
-mkdir releases/$1/windows
-mkdir releases/$1/linux
-mkdir releases/$1/manual
-mkdir releases/$1/data
-mkdir releases/$1/data/utils
-mkdir releases/$1/data/utils/windows
-mkdir releases/$1/data/utils/linux
-
+#compile po files (update translations)
+./compile_po_files.sh
 
 #create the executable 
 make
 
+#create dirs
+mkdir $release_dir
+mkdir $release_dir/windows
+mkdir $release_dir/linux
+mkdir $release_dir/manual
+mkdir $release_dir/data
+mkdir $release_dir/data/windows_dlls
+mkdir $release_dir/data/linux_dlls
+mkdir $release_dir/data/utils
+mkdir $release_dir/data/utils/windows
+mkdir $release_dir/data/utils/linux
+
 #copy files
-cp chronojump.bat releases/$1/windows
-cp chronojump_mini.bat releases/$1/windows
+cp windows_specific/chronojump.bat $release_dir/windows
+cp windows_specific/chronojump_mini.bat $release_dir/windows
+cp linux_specific/chronojump.sh $release_dir/linux
+cp linux_specific/chronojump_mini.sh $release_dir/linux
 
-cp chronojump.sh releases/$1/linux
-cp chronojump_mini.sh releases/$1/linux
+cp manual/chronojump_manual_es.pdf $release_dir/manual
 
-cp manual/chronojump_manual_es.pdf releases/$1/manual
+cp chronojump.prg $release_dir/data
+cp chronojump_mini.prg $release_dir/data
 
-cp chronojump.prg releases/$1/data
-cp chronojump_mini.prg releases/$1/data
-cp NPlot.dll releases/$1/data #TODO: there should be different versions of 4 nplots for win and linux
-cp NPlot.dll.config releases/$1/data
-cp NPlot.Gtk.dll releases/$1/data
-cp NPlot.Gtk.dll.config releases/$1/data
-cp readreg.bat releases/$1/data
-cp -R locale releases/$1/data
-cp sqlite3.dll releases/$1/data
+cp -R locale $release_dir/data
 
-cp sqlite_utils/sqlite.exe releases/$1/data/utils/windows
-cp sqlite_utils/sqlite3.exe releases/$1/data/utils/windows
-cp sqlite_utils/convert_database.bat releases/$1/data/utils/windows
-cp sqlite_utils/sqlite3-3.5.0.bin releases/$1/data/utils/linux
-cp sqlite_utils/sqlite-2.8.17.bin releases/$1/data/utils/linux
-cp sqlite_utils/convert_database.sh releases/$1/data/utils/linux
+cp windows_specific/sqlite3.dll $release_dir/data
+cp windows_specific/readreg.bat $release_dir/data
+
+#chronojump.bat & chronojump_mini.bat will copy this dlls to data dir
+cp windows_specific/NPlot.dll $release_dir/data/windows_dlls
+cp windows_specific/NPlot.dll.config $release_dir/data/windows_dlls
+cp windows_specific/NPlot.Gtk.dll $release_dir/data/windows_dlls
+cp windows_specific/NPlot.Gtk.dll.config $release_dir/data/windows_dlls
+cp windows_specific/sqlite3.dll $release_dir/data/windows_dlls
+
+#chronojump.sh & chronojump_mini.sh will copy this dlls to data dir
+cp linux_specific/NPlot.dll $release_dir/data/linux_dlls
+cp linux_specific/NPlot.dll.config $release_dir/data/linux_dlls
+cp linux_specific/NPlot.Gtk.dll $release_dir/data/linux_dlls
+cp linux_specific/NPlot.Gtk.dll.config $release_dir/data/linux_dlls
+
+#copy sqlite convert stuff
+cp windows_specific/sqlite/sqlite.exe $release_dir/data/utils/windows
+cp windows_specific/sqlite/sqlite3.exe $release_dir/data/utils/windows
+cp windows_specific/sqlite/convert_database.bat $release_dir/data/utils/windows
+cp linux_specific/sqlite/sqlite3-3.5.0.bin $release_dir/data/utils/linux
+cp linux_specific/sqlite/sqlite-2.8.17.bin $release_dir/data/utils/linux
+cp linux_specific/sqlite/convert_database.sh $release_dir/data/utils/linux
 

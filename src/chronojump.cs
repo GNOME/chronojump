@@ -215,7 +215,7 @@ public class ChronoJump
 	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre7";
+	private static string progversion = "0.6-pre8";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -385,6 +385,13 @@ public class ChronoJump
 
 			isFirstTime = true;
 		} else {
+			//backup the database
+			Util.BackupDirCreateIfNeeded();
+
+			Util.BackupDatabase();
+			Console.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
+			//System.IO.Compression.GZipStream are not in mono
+
 			if(! Sqlite.IsSqlite3()) {
 				bool ok = Sqlite.ConvertFromSqlite2To3();
 				if (!ok) {
@@ -404,12 +411,6 @@ public class ChronoJump
 
 		string recuperatedString = recuperateBrokenEvents();
 
-		//backup the database
-		Util.BackupDirCreateIfNeeded();
-
-		Util.BackupDatabase();
-		Console.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
-								//System.IO.Compression.GZipStream are not in mono
 		
 		
 		//start as "simulated" if we are on windows

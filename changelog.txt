@@ -1,5 +1,17 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+19 set 2007
+	0.6-pre8
+	-sqlite conversion from 2 to 3 (on linux and windows. Fixes: 470879
+	-changed dirs for create_release (added windows_specific and linux_specific)
+	-improved create_release.sh changed release dir structure. Fixes: 478135
+	-improved convert_database.sh and .bat (now more code there and less
+	on sqlite/main.cs (try that now work on win....)
+	-added chronojump_mini.sh
+	-chronojump_mini on windows now don't detect ports (mono issue)
+	-backup database before conversion
+	-Added occitan translation
+	-Added README_svn with info about using svn code
 
 18 set 2007
 	0.6-pre7

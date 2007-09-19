@@ -141,10 +141,7 @@ class Sqlite
 		string sqlite2File = Util.GetHomeDir() + Path.DirectorySeparatorChar + "chronojump-sqlite2.81.db";
 		string sqliteDB = Util.GetHomeDir() + Path.DirectorySeparatorChar + "chronojump.db";
 
-		if(File.Exists(sqlite2File))
-			File.Delete(sqlite2File);
-	
-		File.Move(sqliteDB, sqlite2File);
+		File.Copy(sqliteDB, sqlite2File, true);
 
 		string myPath = "";
 		string sqliteStr = "";
@@ -169,6 +166,7 @@ class Sqlite
 			if(File.Exists(sqlite2File)) 
 				Console.WriteLine("exists2");
 
+			/*
 			Console.WriteLine("{0}-{1}", myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
 			ProcessStartInfo ps = new ProcessStartInfo(myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
 
@@ -176,57 +174,26 @@ class Sqlite
 			//ps.UseShellExecute = true;
 			ps.RedirectStandardOutput = true;
 			string output = "";
-			Console.WriteLine("a");
 			using(Process p = Process.Start(ps)) {
-			Console.WriteLine("b");
-			//TODO: this doesn't work on windows (it gets hanged)
+				//TODO: this doesn't work on windows (it gets hanged)
 				p.WaitForExit();
-			Console.WriteLine("c");
 				output = p.StandardOutput.ReadToEnd();
-			Console.WriteLine("d");
 			}
-/*
-			Process p = Process.Start(myPath + Path.DirectorySeparatorChar + sqliteStr, sqlite2File + " .dump");
-
-//			ps.UseShellExecute = false;
-			//ps.UseShellExecute = true;
-//			ps.RedirectStandardOutput = true;
-			string output = "";
-			Console.WriteLine("a");
-//			using(Process p = Process.Start(ps)) {
-			Console.WriteLine("b");
-				p.WaitForExit();
-			Console.WriteLine("c");
-				output = p.StandardOutput.ReadToEnd();
-			Console.WriteLine("d");
-//			}
 */
-
-			Console.WriteLine(output);
-
-			TextWriter writer = File.CreateText(myPath + Path.DirectorySeparatorChar + "tmp.txt");
-			writer.WriteLine(output);
+			
+			//write the path to chronojumpdb in a txt file (for convert_database.bat and .sh)
+			TextWriter writer = File.CreateText(myPath + Path.DirectorySeparatorChar + "db_path.txt");
+			writer.WriteLine(Util.GetHomeDir());
 			((IDisposable)writer).Dispose();
 			
-			Console.WriteLine("Written");
-			Console.ReadLine();
-
+			Console.WriteLine("Path written");
 
 			Process p2 = Process.Start(myPath + Path.DirectorySeparatorChar + "convert_database." + extension);
 			p2.WaitForExit();
 
-			Console.WriteLine("Written2");
-			Console.ReadLine();
+			Console.WriteLine("sqlite3 db created");
 				
 			File.Copy(myPath + Path.DirectorySeparatorChar + "tmp.db", sqliteDB, true ); //overwrite
-
-			/*
-			else {
-				//Process p = Process.Start(myPath + Path.DirectorySeparatorChar + "sqlite-2.8.17.bin" + " " + sqlFile + " | " + "sqlite3-3.5.0.bin");
-				Process p = Process.Start(myPath + Path.DirectorySeparatorChar + "sqlite-2.8.17.bin" + " " + sqlFile + " | " + "sqlite3-3.5.0.bin");
-				p.WaitForExit();
-			}
-			*/
 		} catch {
 			Console.WriteLine("PROBLEMS");
 			return false;

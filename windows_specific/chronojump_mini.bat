@@ -2,6 +2,12 @@
 
 @echo off
 
+::copy nplot dlls
+copy ..\data\windows_dlls\NPlot.dll ..\data
+copy ..\data\windows_dlls\NPlot.dll.config ..\data
+copy ..\data\windows_dlls\NPlot.Gtk.dll ..\data
+copy ..\data\windows_dlls\NPlot.Gtk.dll.config ..\data
+
 ::find version
 
 call ..\data\readreg.bat "HKEY_LOCAL_MACHINE\Software\Novell\Mono" "DefaultCLR" > temp.txt
@@ -27,4 +33,4 @@ exit
 
 :ExecuteChronojump
 cd ..\data
-"%monoFullPath%" "chronojump.prg"
+"%monoFullPath%" "chronojump_mini.prg"

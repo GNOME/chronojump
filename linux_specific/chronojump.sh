@@ -4,8 +4,17 @@
 #this scripts allows to run chronojump from gui. It exports the LD_LIBRARY_PATH from ~/.bashrc if needed
 
 echo "---------------"
-echo "pre: chmod +x convert_database.sh (as precaution)"
+echo "pre1: chmod +x convert_database scripts (as precaution)"
 chmod +x ../data/utils/linux/convert_database.sh
+chmod +x ../data/utils/linux/sqlite3-3.5.0.bin
+chmod +x ../data/utils/linux/sqlite-2.8.17.bin
+
+echo "---------------"
+echo "pre2: copy nplot dlls to data dir"
+cp ../data/linux_dlls/NPlot.dll ../data
+cp ../data/linux_dlls/NPlot.dll.config ../data
+cp ../data/linux_dlls/NPlot.Gtk.dll ../data
+cp ../data/linux_dlls/NPlot.Gtk.dll.config ../data
 
 echo "---------------"
 echo "1st: Show Current config variables, compare them with ~/.bashrc"

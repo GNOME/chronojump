@@ -251,7 +251,7 @@ Console.Write("w4 ");
 						
 						Console.Write("t1:{0}", timestamp);
 
-						tv = timestamp / 1000;
+						tv = timestamp / 1000.0;
 						write ();
 
 						success = true;
@@ -288,7 +288,7 @@ Console.Write("w6 ");
 						Console.Write("t2:{0}", timestamp);
 						
 						//record the TC
-						tc = timestamp / 1000;
+						tc = timestamp / 1000.0;
 						
 						//update event progressbar
 Console.Write("w7 ");			
@@ -619,7 +619,7 @@ public class JumpRjExecute : JumpExecute
 						Console.WriteLine("tcCount: {0}, tvCount: {1}", tcCount, tvCount);
 						if ( tcCount == tvCount )
 						{
-							lastTc = timestamp/1000;
+							lastTc = timestamp/1000.0;
 							
 							if(tcCount > 0) { equal = "="; }
 							tcString = tcString + equal + lastTc.ToString();
@@ -629,7 +629,7 @@ public class JumpRjExecute : JumpExecute
 							tcCount = tcCount + 1;
 						} else {
 							//tcCount > tvCount 
-							lastTv = timestamp/1000;
+							lastTv = timestamp/1000.0;
 							
 							if(tvCount > 0) { equal = "="; }
 							tvString = tvString + equal + lastTv.ToString();

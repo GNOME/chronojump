@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+19 set 2007 (2)
+	create_release.sh creates main "releases" dir if needed
+
 19 set 2007
 	0.6-pre8
 	-sqlite conversion from 2 to 3 (on linux and windows. Fixes: 470879

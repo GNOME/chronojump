@@ -5,10 +5,19 @@
 args=$1
 echo $args
 
+#usage info
 if [ "$1" = "" ]; then
 	echo "Usage: $0 x.yy"
 	exit
 fi
+
+#create release root dir if needed
+if ! test -e "releases"; then
+	mkdir releases
+fi
+
+
+#create specific release dir
 
 release_dir="releases/chronojump-$1"
 

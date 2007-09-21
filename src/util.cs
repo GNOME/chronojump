@@ -710,4 +710,15 @@ public class Util
 		return TrimDecimals(myLimitedWithoutLetter, pDN) + myLimitedLetter;
 	}
 
+	public static string [] AddArrayString(string [] initialString, string [] addString) {
+		string [] returnString = new string[initialString.Length + addString.Length];
+		int i;
+		int j;
+		for (i=0 ; i < initialString.Length; i ++)
+			returnString[i] = initialString[i];
+		for (j=0 ; j < addString.Length; j ++)
+			returnString[i+j] = FetchName(addString[j]);
+
+		return returnString;
+	}
 }

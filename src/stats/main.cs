@@ -272,6 +272,34 @@ public class Stat
 						}
 					}
 				} while ( store.IterNext(ref iter) );
+			} else {
+				//a person is selected
+				do {
+					if(isNotAVGOrSD(iter)) {
+						string nameWithMoreData = (string) store.GetValue (iter, 1);
+						//probably name has a jumpType like:
+						//myName (CMJ), or myName.F (CMJ)
+						//int parenthesesPos = nameWithMoreData.LastIndexOf('(');
+						//it can have two parentheses, like:
+						//myName (Rj(j))
+						int parenthesesPos = nameWithMoreData.IndexOf('(');
+						string nameWithoutJumpType;
+						if(parenthesesPos == -1)
+							nameWithoutJumpType = nameWithMoreData;
+						else
+							nameWithoutJumpType = nameWithMoreData.Substring(0, parenthesesPos-1);
+						//probably name has sex like:
+						//myName.F, or myName.F (CMJ)
+						string [] onlyName = nameWithoutJumpType.Split(new char[] {'.'});
+						if(onlyName[0] == selected) {
+							store.SetValue (iter, 0, true);
+							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
+						} else {
+							store.SetValue (iter, 0, false);
+							deleteRowFromMarkedRows(treeview.Model.GetPath(iter).ToString());
+						}
+					}
+				} while ( store.IterNext(ref iter) );
 			}
 
 			//check rows selected and raise a signal if noone is selected

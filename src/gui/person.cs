@@ -729,7 +729,8 @@ public class PersonModifyWindow
 			radiobutton_woman.Active = true;
 		}
 
-		label_date.Text = myPerson.DateLong;
+		dateTime = Util.DateAsDateTime(myPerson.DateBorn);
+		label_date.Text = dateTime.ToLongDateString();
 		
 		spinbutton_height.Value = myPerson.Height;
 		spinbutton_weight.Value = myPerson.Weight;
@@ -1033,8 +1034,11 @@ public class PersonAddMultipleWindow {
 	{
 		string sex = "F";
 		if(male) { sex = "M"; }
-		
-		currentPerson = new Person ( name, sex, "0/0/1900", 
+
+		DateTime dateTime = DateTime.Today;
+		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString();
+
+		currentPerson = new Person ( name, sex, dateFull, 
 				0, weight, 		//height, weight	
 				"", sessionID		//description, sessionID
 				);

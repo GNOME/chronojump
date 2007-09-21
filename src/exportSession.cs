@@ -120,6 +120,9 @@ public class ExportSession
 		getData();
 		printData();
 		closeWriter();
+				
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
+		new DialogMessage(myString);
 	}
 		
 	private string addHtmlIfNeeded(string myFile)
@@ -145,7 +148,7 @@ public class ExportSession
 	
 	protected virtual void getData() 
 	{
-		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false); //not reversed
+		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
 		myJumps= SqliteJump.SelectAllNormalJumps(mySession.UniqueID);
 		myJumpsRj = SqliteJump.SelectAllRjJumps(mySession.UniqueID);
 		myRuns= SqliteRun.SelectAllNormalRuns(mySession.UniqueID);
@@ -215,11 +218,19 @@ public class ExportSession
 	protected virtual void printJumpers()
 	{
 		ArrayList myData = new ArrayList(1);
-		myData.Add ( "\n" + Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name"));
+		myData.Add ( "\n" + Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
+				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
+				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
+				Catalog.GetString ("Description"));
 		foreach (string jumperString in myPersons) {
 			string [] myStr = jumperString.Split(new char[] {':'});
 			
-			myData.Add(myStr[0] + ":" + myStr[1]); 	//person.id, person.name 
+			myData.Add(
+					myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
+					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
+					myStr[4] + ":" + myStr[5] + ":" + //height, weight
+					myStr[6]  //desc
+				  );
 		}
 		writeData(myData);
 		writeData("VERTICAL-SPACE");

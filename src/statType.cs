@@ -208,7 +208,7 @@ public class StatType {
 
 	public bool ChooseStat ()
 	{
-		if ( statisticType == Catalog.GetString("Global") ) {
+		if ( statisticType == Constants.TypeSessionSummary ) {
 			int jumperID = -1; //all jumpers
 			string jumperName = ""; //all jumpers
 			if(graph) {
@@ -217,7 +217,7 @@ public class StatType {
 				myStat = new StatGlobal(myStatTypeStruct, treeview_stats, jumperID, jumperName);
 			}
 		}
-		else if (statisticType == Catalog.GetString("Jumper"))
+		else if (statisticType == Constants.TypeJumperSummary)
 		{
 			if(statisticApplyTo.Length == 0) {
 				Console.WriteLine("Jumper-ret");
@@ -237,7 +237,7 @@ public class StatType {
 						jumperID, jumperName);
 			}
 		}
-		else if(statisticType == Catalog.GetString("Simple"))
+		else if(statisticType == Constants.TypeJumpsSimple)
 		{
 			if(statisticApplyTo.Length == 0) {
 				Console.WriteLine("Simple-ret");
@@ -299,7 +299,7 @@ public class StatType {
 				}
 			}
 		}
-		else if(statisticType == Catalog.GetString("With TC"))
+		else if(statisticType == Constants.TypeJumpsSimpleWithTC)
 		{
 			if(statisticApplyTo.Length == 0) {
 				Console.WriteLine("WithTC-ret");
@@ -326,7 +326,7 @@ public class StatType {
 				}
 			}
 		}
-		else if(statisticType == Catalog.GetString("Reactive")) {
+		else if(statisticType == Constants.TypeJumpsReactive) {
 			if(statisticSubType == Catalog.GetString("Average Index"))
 			{
 				if(graph) {

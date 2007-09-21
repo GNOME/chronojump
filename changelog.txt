@@ -1,5 +1,16 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+21 set 2007
+	0.6-pre10
+	chronojump cannot be executed two times. Fixes: 478176
+	done a person selector in stats comboCheckboxesOptions
+	better stats/type labels on gui/stats, and better code
+	cmjStatsPlus sorted 1st by person. Re-fixes: 478168
+	Fixed bug: 478171 more person info on csv export and html report
+	Fixed bug: when report overwrites then does not show which file is created
+	Fixed bug in person change date, now it changes ok
+	Fixed crash (bad date) when editing a person created using create multiple
+
 19 set 2007 (4)
 	more divisions with double in de denominator. Found doing:
 	...chronojump/src$ rgrep "\/" * |grep -v "//"|grep -v "/\*"|grep -v

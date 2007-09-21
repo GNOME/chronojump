@@ -109,7 +109,7 @@ public class Report : ExportSession
 		}
 
 		if(ShowCurrentSessionJumpers) {
-			myPersons = SqlitePersonSession.SelectCurrentSession(sessionID, false); //not reversed
+			myPersons = SqlitePersonSession.SelectCurrentSession(sessionID, false, false); //not onlyIDAndName, not reversed
 		}
 		if(ShowSimpleJumps) {
 			myJumps= SqliteJump.SelectAllNormalJumps(sessionID);
@@ -141,17 +141,17 @@ public class Report : ExportSession
 		
 		printHtmlHeader();
 
-		writer.WriteLine("<table class=\"empty\" cellspacing=2 cellpadding=2><tr valign=\"top\"><td>\n");
+		//writer.WriteLine("<table class=\"empty\" cellspacing=2 cellpadding=2><tr valign=\"top\"><td>\n");
 		if(ShowCurrentSessionData) {
 			printTitles(Catalog.GetString("Session"));
 			printSessionInfo();
 		}
-		writer.WriteLine("</td><td>\n");
+		//writer.WriteLine("</td><td>\n");
 		if(ShowCurrentSessionJumpers) {
 			printTitles(Catalog.GetString("Persons"));
 			printJumpers();
 		}
-		writer.WriteLine("</td></tr></table>\n");
+		//writer.WriteLine("</td></tr></table>\n");
 		if(ShowSimpleJumps) {
 			printTitles(Catalog.GetString("Simple jumps"));
 			printJumps();
@@ -251,15 +251,15 @@ public class Report : ExportSession
 	protected override void printSessionInfo()
 	{
 		ArrayList myData = new ArrayList(2);
-		myData.Add( "\n" + Catalog.GetString ("Name") + ":" + mySession.Name);
-		myData.Add(Catalog.GetString ("SessionID") + ":" + mySession.UniqueID);
-		myData.Add(Catalog.GetString ("Place") + ":" + mySession.Place);
-		myData.Add(Catalog.GetString ("Date") + ":" + mySession.DateShort);
-		myData.Add(Catalog.GetString ("Comments") + ":" + mySession.Comments);
-		/*
+		
+		myData.Add( "\n" + 
+				Catalog.GetString ("SessionID") + ":" + Catalog.GetString ("Name") + ":" + 
+				Catalog.GetString ("Place") + ":" + Catalog.GetString ("Date") + ":" + 
+				Catalog.GetString ("Comments")
+			  );
 		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
 					mySession.Place + ":" + mySession.Date + ":" + mySession.Comments );
-		*/
+
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}
@@ -267,38 +267,25 @@ public class Report : ExportSession
 	protected override void printJumpers()
 	{
 		ArrayList myData = new ArrayList(1);
-		
-		//put 6 jumpers x row, now write the headers, but if there are less than 6 persons,do less columns
-		string tempString = "\n";
-		for(int i=0; i < 6 && i < myPersons.Length ; i ++) {
-			if(i > 0) {
-				tempString += ":";
-			}
-			tempString += Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name");
-		}
-		myData.Add (tempString);
+	
+		myData.Add ("\n" + 
+				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
+				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
+				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
+				Catalog.GetString ("Description")
+			   );
 		
 		string myLine = "";
 		int count = 0;
 	
 		foreach (string jumperString in myPersons) {
 			string [] myStr = jumperString.Split(new char[] {':'});
-			if(count > 0) {
-				myLine += ":";
-			}
-			myLine += myStr[0] + ":" + myStr[1]; 	//person.id, person.name 
-			count ++;
-		
-			//in the sixth element, prepare the line for being printed, and put count to 0
-			if(count > 5) {
-				count = 0;
-				myData.Add(myLine);
-				myLine = "";
-			}
-		}
-		//if there's data, and the line is not just prepared for printing, prepare now
-		if(count > 0) {
-			myData.Add(myLine);
+
+			myData.Add(myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
+					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
+					myStr[4] + ":" + myStr[5] + ":" + //height, weight
+					myStr[6]);  //desc
+
 		}
 		
 		writeData(myData);
@@ -308,7 +295,7 @@ public class Report : ExportSession
 
 	protected override void writeData (ArrayList exportData) {
 		writer.WriteLine( "<table cellpadding=2 cellspacing=2>" );
-		string iniCell = "<th>";
+		string iniCell = "<th align=\"left\">";
 		string endCell = "</th>";
 		for(int i=0; i < exportData.Count ; i++) {
 			exportData[i] = exportData[i].ToString().Replace(":", endCell + iniCell);

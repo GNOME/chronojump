@@ -35,6 +35,13 @@ public class Constants
 	public static string CmjPlusPotencyFormula = Catalog.GetString("Potency") + 
 		" (Pc + Pb) * 9.81 * sqrt(2 * 9,81 * h)";
 	
+	//global stat types
+	public static string TypeSessionSummary = Catalog.GetString("Session summary");
+	public static string TypeJumperSummary = Catalog.GetString("Jumper summary");
+	public static string TypeJumpsSimple = Catalog.GetString("Jumps: Simple");
+	public static string TypeJumpsSimpleWithTC = Catalog.GetString("Jumps: Simple with TC");
+	public static string TypeJumpsReactive = Catalog.GetString("Jumps: Reactive");
+
 	//strings
 	public static string AllJumpsName = Catalog.GetString("All jumps");
 	public static string AllRunsName = Catalog.GetString("All runs");

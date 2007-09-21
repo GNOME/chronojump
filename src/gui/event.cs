@@ -199,7 +199,7 @@ public class EditEventWindow
 
 		createComboEventType(myEvent);
 
-		string [] persons = SqlitePersonSession.SelectCurrentSession(myEvent.SessionID, false); //not reversed
+		string [] persons = SqlitePersonSession.SelectCurrentSession(myEvent.SessionID, true, false); //onlyIDAndName, not reversed
 		combo_persons = ComboBox.NewText();
 		UtilGtk.ComboUpdate(combo_persons, persons);
 		combo_persons.Active = UtilGtk.ComboMakeActive(persons, myEvent.PersonID + ":" + myEvent.PersonName);

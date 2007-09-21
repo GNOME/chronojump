@@ -93,11 +93,11 @@ public class StatsWindow {
 	private bool blockFillingTreeview;
 
 	private static string [] comboStatsTypeOptions = {
-		Catalog.GetString("Global"), 
-		Catalog.GetString("Jumper"),
-		Catalog.GetString("Simple"),
-		Catalog.GetString("With TC"),
-		Catalog.GetString("Reactive"),
+		Constants.TypeSessionSummary,
+		Constants.TypeJumperSummary,
+		Constants.TypeJumpsSimple,
+		Constants.TypeJumpsSimpleWithTC,
+		Constants.TypeJumpsReactive,
 	};
 	
 	private static string [] comboStatsSubTypeWithTCOptions = {
@@ -119,6 +119,7 @@ public class StatsWindow {
 		Constants.CmjPlusPotencyFormula
 	};
 		
+
 	private static string [] comboCheckboxesOptions = {
 		Catalog.GetString("All"),
 		Catalog.GetString("None"),
@@ -127,6 +128,9 @@ public class StatsWindow {
 		Catalog.GetString("Male"),
 		Catalog.GetString("Female")
 	};
+	
+	//useful for removing users from the combo
+	private static string [] comboCheckboxesOptionsWithoutPersons = comboCheckboxesOptions;
 
 	ArrayList sendSelectedSessions;
 	
@@ -296,9 +300,27 @@ public class StatsWindow {
 		}
 	}
 	
+	private string [] addPersonsToComboCheckBoxesOptions() {
+		string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false); //onlyIDAndName, not reversed
+		return Util.AddArrayString(comboCheckboxesOptions, myPersons);
+	}
+
+	
 	private void updateComboStats() {
+		
+		//show/hide persons selector on comboCheckboxesOptions
+		if(UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeSessionSummary &&
+				UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeJumperSummary) 
+			comboCheckboxesOptions = addPersonsToComboCheckBoxesOptions();
+		else
+			comboCheckboxesOptions = comboCheckboxesOptionsWithoutPersons;
+
+		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions);
+
+
+
 		string [] nullOptions = { "-" };
-		if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Global") ) 
+		if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeSessionSummary ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions);
 			combo_stats_stat_subtype.Sensitive = false;
@@ -306,17 +328,17 @@ public class StatsWindow {
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, nullOptions);
 			combo_stats_stat_apply_to.Sensitive = false;
 		}
-		else if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Jumper") )
+		else if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumperSummary )
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions);
 			combo_stats_stat_subtype.Sensitive = false;
 			
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to,  
-				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, false)); //not reversed
+				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false)); //onlyIDAndName, not reversed
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
-		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Simple") ) 
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimple ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions);
 			combo_stats_stat_subtype.Sensitive = true;
@@ -329,7 +351,7 @@ public class StatsWindow {
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
-		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("With TC") ) 
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeWithTCOptions);
 			combo_stats_stat_subtype.Sensitive = true;
@@ -340,7 +362,7 @@ public class StatsWindow {
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
-		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Reactive") ) 
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsReactive ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeReactiveOptions);
 			combo_stats_stat_subtype.Sensitive = true;
@@ -356,7 +378,7 @@ public class StatsWindow {
 	}
 
 	private void updateComboStatsSubType() {
-		if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("Simple") ) 
+		if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimple ) 
 		{
 			if(UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("No indexes")) {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
@@ -382,7 +404,7 @@ public class StatsWindow {
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
-		}  else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Catalog.GetString("With TC") ) 
+		}  else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
 				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true)); //only select name
@@ -650,7 +672,7 @@ public class StatsWindow {
 			return;
 		} else {
 			//some stats should not be showed as limited jumps
-			if(statisticType == Catalog.GetString("Reactive") && 
+			if(statisticType == Constants.TypeJumpsReactive && 
 					statisticSubType == Catalog.GetString("Evolution") ) {
 				//don't allow Evolution be multisession
 				radiobutton_current_session.Active = true;
@@ -664,7 +686,7 @@ public class StatsWindow {
 				radiobutton_stats_jumps_person_average.Sensitive = false;
 			}
 			//in cmjPlusPotency show only "all jumps" radiobutton
-			else if(statisticType == Catalog.GetString("Simple") &&
+			else if(statisticType == Constants.TypeJumpsSimple &&
 					 statisticSubType == Constants.CmjPlusPotencyFormula) {
 				//change the radiobutton value
 				if(radiobutton_stats_jumps_limit.Active || radiobutton_stats_jumps_person_average.Active ||
@@ -677,9 +699,9 @@ public class StatsWindow {
 				radiobutton_stats_jumps_person_bests.Sensitive = false;
 				radiobutton_stats_jumps_person_average.Sensitive = false;
 			}
-			else if(statisticType == Catalog.GetString("Global") || 
-					statisticType == Catalog.GetString("Jumper") || 
-					( statisticType == Catalog.GetString("Simple") && 
+			else if(statisticType == Constants.TypeSessionSummary || 
+					statisticType == Constants.TypeJumperSummary || 
+					( statisticType == Constants.TypeJumpsSimple && 
 					 statisticSubType != Catalog.GetString("No indexes") ) ||
 					(selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
 			{

@@ -174,7 +174,7 @@ class SqlitePersonSession : Sqlite
 		return myPerson;
 	}
 	
-	public static string[] SelectCurrentSession(int sessionID, bool reverse) 
+	public static string[] SelectCurrentSession(int sessionID, bool onlyIDAndName, bool reverse) 
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.* " +
@@ -194,7 +194,15 @@ class SqlitePersonSession : Sqlite
 		count = 0;
 
 		while(reader.Read()) {
-			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
+			if(onlyIDAndName)
+				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
+			else
+				myArray.Add (
+						reader[0].ToString() + ":" + reader[1].ToString() + ":" + //id, name
+						reader[2].ToString() + ":" + reader[3].ToString() + ":" + //sex, dateborn
+						reader[4].ToString() + ":" + reader[5].ToString() + ":" + //height, weight
+						reader[6].ToString()  //desc
+					    );
 			count ++;
 		}
 

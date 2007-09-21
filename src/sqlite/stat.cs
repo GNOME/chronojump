@@ -868,7 +868,7 @@ class SqliteStat : Sqlite
 		//	end = ")";
 		}
 		
-		string orderByString = "ORDER BY ";
+		string orderByString = "ORDER BY person.name, ";
 		string moreSelect = "";
 		//moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", person.weight";
 		//jump weight in Kg = jump weight in % * person.weight / 100
@@ -894,7 +894,7 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, sessionID, ";
+			orderByString = orderByString + "sessionID, ";
 		}
 		
 		dbcon.Open();
@@ -938,7 +938,7 @@ class SqliteStat : Sqlite
 				bool showExtraWeightInName = true; //this is nice for graph
 				string extraWeightString = "";
 				if(showExtraWeightInName) {
-					extraWeightString = "(" + Util.ChangeDecimalSeparator(reader[6].ToString()) + ")";//extra weight
+					extraWeightString = " (" + Util.ChangeDecimalSeparator(reader[6].ToString()) + ")";//extra weight
 				}
 				myArray.Add (reader[0].ToString() + showSexString + extraWeightString +
 						":" + 

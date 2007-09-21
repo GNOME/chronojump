@@ -215,7 +215,7 @@ public class ChronoJump
 	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre9";
+	private static string progversion = "0.6-pre10";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -341,6 +341,8 @@ public class ChronoJump
 	
 	private bool preferencesLoaded;
 
+	private string runningFileName; //useful for knowing if there are two chronojump instances
+
 	//const int statusbarID = 1;
 
 	public static void Main(string [] args) 
@@ -369,6 +371,16 @@ public class ChronoJump
 		/* END OF SERVER COMMUNICATION TESTS */
 
 
+		runningFileName = Util.GetHomeDir() + Path.DirectorySeparatorChar + "chronojump_running";
+		if(File.Exists(runningFileName)) {
+			bool continueChronojump = askContinueChronojump();
+			if(!continueChronojump)
+				quitFromConsole();
+		} else {
+			if (Sqlite.CheckTables()) {
+				File.Create(runningFileName);
+			}
+		}
 
 		
 		Sqlite.Connect();
@@ -381,6 +393,7 @@ public class ChronoJump
 		if (!Sqlite.CheckTables()) {
 			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
 			Sqlite.CreateFile();
+			File.Create(runningFileName);
 			Sqlite.CreateTables();
 
 			isFirstTime = true;
@@ -397,7 +410,8 @@ public class ChronoJump
 				if (!ok) {
 					Console.WriteLine("******\n problem with sqlite \n******");
 					Console.ReadLine();
-					Environment.Exit(1);
+					//Environment.Exit(1);
+					quitFromConsole();
 				}
 				Sqlite.Connect();
 			}
@@ -446,6 +460,36 @@ public class ChronoJump
 			/*
 		}
 		*/
+	}
+
+	private bool askContinueChronojump() {
+		Console.Clear();
+		Console.WriteLine(Catalog.GetString("Chronojump is already running (program opened two times) or it crashed before"));
+
+		bool success = false;
+		bool launchChronojump = true;
+		ConsoleKeyInfo myKey;
+		do {
+			Console.WriteLine(Catalog.GetString("\nPlease press key:"));
+			Console.WriteLine("[ Q " + Catalog.GetString("or") + " q ] " + 
+					Catalog.GetString("to exit program if it's already opened"));
+			Console.WriteLine("[ Y " + Catalog.GetString("or") + " y ] " + 
+					Catalog.GetString("to launch Chronojump"));
+
+			myKey = Console.ReadKey(true);
+
+			if(myKey.KeyChar == 'Q' || myKey.KeyChar == 'q') {
+				Console.WriteLine("Quit");
+				launchChronojump = false;
+				success = true;
+			} else if(myKey.KeyChar == 'Y' || myKey.KeyChar == 'y') {
+				Console.WriteLine("Launch Chronojump");
+				launchChronojump = true;
+				success = true;
+			}
+		} while (!success);
+
+		return launchChronojump;
 	}
 
 	//only called the first time the software runs
@@ -847,7 +891,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void fillTreeView_persons () {
-		string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, false); //not reversed
+		string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false); //onlyIDAndName, not reversed
 
 		if(myPersons.Length > 0) {
 			//fill treeview
@@ -1322,6 +1366,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			sp.Close();
 		}
 		
+		File.Delete(runningFileName);
 		Application.Quit();
 	}
 
@@ -1332,9 +1377,15 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			sp.Close();
 		}
 		
+		File.Delete(runningFileName);
 		Application.Quit();
 	}
 	
+	private void quitFromConsole() {
+		File.Delete(runningFileName);
+		Environment.Exit(1);
+	}
+
 	/* ---------------------------------------------------------
 	 * ----------------  SESSION NEW, LOAD, EXPORT, DELETE -----
 	 *  --------------------------------------------------------

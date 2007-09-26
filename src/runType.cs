@@ -127,7 +127,8 @@ public class RunType : EventType
 				Catalog.GetString("Record the best time of two trials.") + "\n\n" +
 				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
 				Catalog.GetString("Encourage athletes to accelerate through the finish line to maximize their result.") + "\n\n" +
-				"http://www.topendsports.com/testing/tests/20yard-agility.htm";	    
+				"http://www.topendsports.com/testing/tests/20yard-agility.htm" + "\n" +
+	    			Catalog.GetString("Cited with permission.");
 		} 
 		else if(name == "Agility-505") {
 			hasIntervals 	= false; 
@@ -143,7 +144,8 @@ public class RunType : EventType
 				
 				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
 				Catalog.GetString("This is a test of 180 degree turning ability. This ability may not be applicable to some sports.") + "\n\n" +
-				"http://www.topendsports.com/testing/tests/505.htm";
+				"http://www.topendsports.com/testing/tests/505.htm" + "\n" +
+	    			Catalog.GetString("Cited with permission.");
 		} 
 		else if(name == "Agility-Illinois") {
 			hasIntervals 	= false; 
@@ -177,7 +179,8 @@ public class RunType : EventType
 				
 				"<b>" + Catalog.GetString("Variations") + "</b>: " +
 				Catalog.GetString("The starting and finishing sides can be swapped, so that turning direction is changed.") + "\n\n" +
-				"http://www.topendsports.com/testing/tests/illinois.htm";
+				"http://www.topendsports.com/testing/tests/illinois.htm" + "\n" +
+	    			Catalog.GetString("Cited with permission.");
 
 		} 
 		else if(name == "Agility-Shuttle-Run") {
@@ -210,7 +213,8 @@ public class RunType : EventType
 				
 				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
 				Catalog.GetString("The blocks should be placed at the line, not thrown across them. Also make sure the participants run through the finish line to maximize their score.") + "\n\n" + 
-				"http://www.topendsports.com/testing/tests/shuttle.htm";
+				"http://www.topendsports.com/testing/tests/shuttle.htm" + "\n" +
+	    			Catalog.GetString("Cited with permission.");
 
 		} 
 		else if(name == "Agility-ZigZag") {
@@ -231,7 +235,8 @@ public class RunType : EventType
 				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
 				Catalog.GetString("The total distance run should not be too great so that fatigue does not become a factor.")  + "\n\n" + 
 
-				"http://www.topendsports.com/testing/tests/zigzag.htm";
+				"http://www.topendsports.com/testing/tests/zigzag.htm" + "\n" +
+	    			Catalog.GetString("Cited with permission.");
 		} //interval
 		else if(name == "byLaps") {
 			hasIntervals 	= true; 

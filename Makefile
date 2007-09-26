@@ -7,11 +7,11 @@
 #***************************************************************************
 
 
-#---- Compilador de C
+#---- C Compilator
 CC = gcc
 CFLAGS = -Wall
 
-#-- Compilador de C#
+#-- C# Compilador
 MCS = gmcs
 
 #-------- Nombres y dependencias de los programas a construir
@@ -75,12 +75,14 @@ CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono
 #CHRONOJUMP_LIB =  -pkg:gtk-sharp -pkg:glade-sharp -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services 
 
 
+NPLOT_LIBS = build/data/linux_dlls
+BUILD_DIR = build/data
+
 #-- Construccion del chronojump_mini que funciona por consola
 CHRONOJUMP_MINI = chronojump_mini
 
 CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs chronopic.cs src/util.cs src/constants.cs 
 
-#all: $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe
 all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
 
 
@@ -88,20 +90,17 @@ all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
 # Regla para compilar CHRONOJUMP (C#)
 #-------------------------------
 
-#$(CHRONOJUMP).exe: NPlot.dll NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade Makefile
-#	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:NPlot.dll -r:NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).exe 
-$(CHRONOJUMP).prg: linux_specific/NPlot.dll linux_specific/NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade Makefile
-	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:linux_specific/NPlot.dll -r:linux_specific/NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(CHRONOJUMP).prg 
+$(CHRONOJUMP).prg: $(NPLOT_LIBS)/NPlot.dll $(NPLOT_LIBS)/NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade Makefile
+	./compile_po_files.sh #update translations
+	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:$(NPLOT_LIBS)/NPlot.dll -r:$(NPLOT_LIBS)/NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(BUILD_DIR)/$(CHRONOJUMP).prg 
    
     
 #------------------------------------
 # Regla para compilar CHRONOJUMP_MINI (C#)
 #------------------------------------
 
-#$(CHRONOJUMP_MINI).exe: $(CHRONOJUMP_MINI_DEP)
-#	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(CHRONOJUMP_MINI).exe 
 $(CHRONOJUMP_MINI).prg: $(CHRONOJUMP_MINI_DEP)
-	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(CHRONOJUMP_MINI).prg 
+	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(BUILD_DIR)/$(CHRONOJUMP_MINI).prg 
     
 #--------------------------
 #  REGLAS GENERICAS
@@ -110,5 +109,4 @@ $(CHRONOJUMP_MINI).prg: $(CHRONOJUMP_MINI_DEP)
 		$(CC) $(CFLAGS) -c $<
 
 clean::
-	  #rm -f $(CHRONOJUMP).exe $(CHRONOJUMP_MINI).exe  
-	  rm -f $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
+	  rm -f $(BUILD_DIR)/$(CHRONOJUMP).prg $(BUILD_DIR)/$(CHRONOJUMP_MINI).prg

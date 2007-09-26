@@ -526,6 +526,9 @@ public class PersonAddWindow {
 	
 	[Widget] Gtk.Button button_accept;
 	
+	[Widget] Gtk.Label label_weight_attention_title;
+	[Widget] Gtk.Label label_weight_attention_message;
+	
 	static PersonAddWindow PersonAddWindowBox;
 	Gtk.Window parent;
 	ErrorWindow errorWin;
@@ -576,6 +579,9 @@ public class PersonAddWindow {
 		if (PersonAddWindowBox == null) {
 			PersonAddWindowBox = new PersonAddWindow (parent, sessionID);
 		}
+		PersonAddWindowBox.label_weight_attention_title.Hide();
+		PersonAddWindowBox.label_weight_attention_message.Hide();
+		
 		PersonAddWindowBox.person_win.Show ();
 		
 		return PersonAddWindowBox;

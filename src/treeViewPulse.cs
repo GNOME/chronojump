@@ -32,10 +32,11 @@ public class TreeViewPulses : TreeViewEvent
 	{
 	}
 	
-	public TreeViewPulses (Gtk.TreeView treeview, int newPrefsDigitsNumber)
+	public TreeViewPulses (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		pDN = newPrefsDigitsNumber;
+		this.expandState = expandState;
 
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed

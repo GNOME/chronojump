@@ -36,7 +36,7 @@ public class StatTypeStruct
 	public int StatsJumpsType;
 	public int Limit;
 	public bool HeightPreferred;
-	//public bool WeightStatsPercent; 
+	public bool WeightStatsPercent; 
 	
 	public ArrayList MarkedRows;
 	
@@ -44,8 +44,8 @@ public class StatTypeStruct
 	
 	public StatTypeStruct (string statisticApplyTo, 
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			//int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			int statsJumpsType, int limit, bool heightPreferred, 
+			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows, 
 			bool toReport)
 	{
@@ -56,7 +56,7 @@ public class StatTypeStruct
 		this.StatsJumpsType = statsJumpsType;
 		this.Limit = limit;
 		this.HeightPreferred = heightPreferred;
-		//this.WeightStatsPercent = weightStatsPercent;
+		this.WeightStatsPercent = weightStatsPercent;
 		this.MarkedRows = markedRows;
 		this.ToReport = toReport;
 	}
@@ -74,10 +74,11 @@ public class StatType {
 	int statsJumpsType;
 	int limit;
 	bool heightPreferred;
-	//bool weightStatsPercent;
+	bool weightStatsPercent;
 	int rj_evolution_mark_consecutives;
 	
 	ArrayList markedRows;
+	ArrayList personsWithData;
 	
 	bool graph;
 	bool toReport;
@@ -109,8 +110,8 @@ public class StatType {
 	//comes from gui/stats.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo, Gtk.TreeView treeview_stats,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			//int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
-			int statsJumpsType, int limit, bool heightPreferred, 
+			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
+			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows,  
 			int rj_evolution_mark_consecutives, bool graph, bool toReport)
 	{
@@ -125,7 +126,7 @@ public class StatType {
 		this.statsJumpsType = statsJumpsType;
 		this.limit = limit;
 		this.heightPreferred = heightPreferred;
-		//this.weightStatsPercent = weightStatsPercent;
+		this.weightStatsPercent = weightStatsPercent;
 
 		this.markedRows = markedRows;
 		
@@ -136,8 +137,8 @@ public class StatType {
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
-				//statsJumpsType, limit, heightPreferred, weightStatsPercent, 
-				statsJumpsType, limit, heightPreferred,  
+				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
+				//statsJumpsType, limit, heightPreferred,  
 				markedRows, 
 				toReport);
 
@@ -169,8 +170,8 @@ public class StatType {
 	//comes from report.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			//int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			int statsJumpsType, int limit, bool heightPreferred, 
+			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
+			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows, 
 			int rj_evolution_mark_consecutives, 
 			bool graph, bool toReport, TextWriter writer, string fileName)
@@ -184,7 +185,7 @@ public class StatType {
 		this.statsJumpsType = statsJumpsType;
 		this.limit = limit;
 		this.heightPreferred = heightPreferred;
-		//this.weightStatsPercent = weightStatsPercent;
+		this.weightStatsPercent = weightStatsPercent;
 
 		this.markedRows = markedRows;
 		
@@ -197,8 +198,8 @@ public class StatType {
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
-				//statsJumpsType, limit, heightPreferred, weightStatsPercent, 
-				statsJumpsType, limit, heightPreferred, 
+				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
+				//statsJumpsType, limit, heightPreferred, 
 				markedRows, 
 				toReport);
 
@@ -412,6 +413,10 @@ public class StatType {
 
 	public ArrayList MarkedRows {
 		get { return myStat.MarkedRows; }
+	}
+
+	public ArrayList PersonsWithData {
+		get { return myStat.PersonsWithData; }
 	}
 
 	public Gtk.Button FakeButtonRowCheckedUnchecked {

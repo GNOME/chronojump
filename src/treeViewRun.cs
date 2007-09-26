@@ -34,11 +34,12 @@ public class TreeViewRuns : TreeViewEvent
 	{
 	}
 	
-	public TreeViewRuns (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred)
+	public TreeViewRuns (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred, ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		this.pDN = newPrefsDigitsNumber;
 		this.metersSecondsPreferred = metersSecondsPreferred;
+		this.expandState = expandState;
 
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed
@@ -99,11 +100,12 @@ public class TreeViewRuns : TreeViewEvent
 
 public class TreeViewRunsInterval : TreeViewRuns
 {
-	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred)
+	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred, ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		this.pDN = newPrefsDigitsNumber;
 		this.metersSecondsPreferred = metersSecondsPreferred;
+		this.expandState = expandState;
 
 		string runnerName = Catalog.GetString("Runner");
 		string speedName = Catalog.GetString("Speed");

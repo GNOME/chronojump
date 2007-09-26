@@ -215,7 +215,7 @@ public class ChronoJump
 	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre10";
+	private static string progversion = "0.6-pre11";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -249,7 +249,7 @@ public class ChronoJump
 	private static bool showDjIndex;
 	private static bool simulated;
 	private static bool askDeletion;
-	//private static bool weightStatsPercent;
+	private static bool weightPercentPreferred;
 	private static bool heightPreferred;
 	private static bool metersSecondsPreferred;
 	private static bool allowFinishRjAfterTime;
@@ -410,7 +410,6 @@ public class ChronoJump
 				if (!ok) {
 					Console.WriteLine("******\n problem with sqlite \n******");
 					Console.ReadLine();
-					//Environment.Exit(1);
 					quitFromConsole();
 				}
 				Sqlite.Connect();
@@ -425,13 +424,8 @@ public class ChronoJump
 
 		string recuperatedString = recuperateBrokenEvents();
 
-		
-		
-		//start as "simulated" if we are on windows
-		//(until we improve the Timeout on chronopic)
-		//changed: do also in Linux, because there are some problems in the initialization of chronopic (for the radiobutton in the gtk menu)
-		//if(Util.IsWindows()) 
-			SqlitePreferences.Update("simulated", "True");
+		//start as "simulated"
+		SqlitePreferences.Update("simulated", "True");
 
 			
 		//we need to connect sqlite to do the languageChange
@@ -465,6 +459,10 @@ public class ChronoJump
 	private bool askContinueChronojump() {
 		Console.Clear();
 		Console.WriteLine(Catalog.GetString("Chronojump is already running (program opened two times) or it crashed before"));
+		Console.WriteLine("\n" +
+				string.Format(Catalog.GetString("Please, if crashed, write an email to {0} including what you done when Chronojump crashed."), "xaviblas@gmail.com") + "\n" +
+				Catalog.GetString("Subject should be something like \"bug in Chronojump\". Your help is needed.")
+				);
 
 		bool success = false;
 		bool launchChronojump = true;
@@ -498,7 +496,6 @@ public class ChronoJump
 		//languageChange();
 		//createMainWindow("");
 	}
-
 
 	private void on_button_image_test_clicked(object o, EventArgs args) {
 		new DialogImageTest(currentEventType);
@@ -703,7 +700,8 @@ public class ChronoJump
 	{
 		Console.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
 		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xaviblas@gmail.com") );
-		Console.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a linux session, and you selected serial port), chronojump will crash.") );
+		if(!Util.IsWindows())
+			Console.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash.") );
 
 		bool success = true;
 		
@@ -825,13 +823,11 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			askDeletion = false;
 		
 
-		/*
 		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) 
-			weightStatsPercent = true;
+			weightPercentPreferred = true;
 		 else 
-			weightStatsPercent = false;
+			weightPercentPreferred = false;
 		
-		*/
 		
 		if ( SqlitePreferences.Select("heightPreferred") == "True" ) 
 			heightPreferred = true;
@@ -852,7 +848,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//pass to report
 		report.PrefsDigitsNumber = prefsDigitsNumber;
 		report.HeightPreferred = heightPreferred;
-		//report.WeightStatsPercent = weightStatsPercent;
+		report.WeightStatsPercent = weightPercentPreferred;
 		report.Progversion = progversion;
 		
 		
@@ -950,7 +946,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
-		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
+		//myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
+		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_jumps_cursor_changed; 
@@ -961,19 +958,26 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		myJumps = SqliteJump.SelectAllNormalJumps(currentSession.UniqueID);
 		myTreeViewJumps.Fill(myJumps, filter);
+
+		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
 	}
 
 	private void on_button_tv_collapse_clicked (object o, EventArgs args) {
+		myTreeViewJumps.ExpandState = 
+			TreeViewEvent.ExpandStates.MINIMIZED;
 		treeview_jumps.CollapseAll();
 	}
 	
 	private void on_button_tv_expand_clicked (object o, EventArgs args) {
+		myTreeViewJumps.ExpandState = 
+			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_jumps.ExpandAll();
 	}
 	
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
-		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
+		
+		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumps.ExpandState );
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
@@ -994,7 +998,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 */
 
 	private void createTreeView_jumps_rj (Gtk.TreeView tv) {
-		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
+		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_jumps_rj_cursor_changed; 
@@ -1004,24 +1008,33 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		string [] myJumps;
 		myJumps = SqliteJump.SelectAllRjJumps(currentSession.UniqueID);
 		myTreeViewJumpsRj.Fill(myJumps, filter);
+
+		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
+
 	}
 
 	private void on_button_tv_rj_collapse_clicked (object o, EventArgs args) {
+		myTreeViewJumpsRj.ExpandState = 
+			TreeViewEvent.ExpandStates.MINIMIZED;
 		treeview_jumps_rj.CollapseAll();
 	}
 	
 	private void on_button_tv_rj_optimal_clicked (object o, EventArgs args) {
+		myTreeViewJumpsRj.ExpandState = 
+			TreeViewEvent.ExpandStates.OPTIMAL;
 		treeview_jumps_rj.CollapseAll();
 		myTreeViewJumpsRj.ExpandOptimal();
 	}
 	
 	private void on_button_tv_rj_expand_clicked (object o, EventArgs args) {
+		myTreeViewJumpsRj.ExpandState = 
+			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_jumps_rj.ExpandAll();
 	}
 	
 	private void treeview_jumps_rj_storeReset() {
 		myTreeViewJumpsRj.RemoveColumns();
-		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
+		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumpsRj.ExpandState );
 	}
 
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args) {
@@ -1042,7 +1055,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void createTreeView_runs (Gtk.TreeView tv) {
 		//myTreeViewRuns is a TreeViewRuns instance
-		myTreeViewRuns = new TreeViewRuns( tv, prefsDigitsNumber, metersSecondsPreferred );
+		myTreeViewRuns = new TreeViewRuns( tv, prefsDigitsNumber, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_runs_cursor_changed; 
@@ -1051,19 +1064,26 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void fillTreeView_runs (string filter) {
 		string [] myRuns = SqliteRun.SelectAllNormalRuns(currentSession.UniqueID);
 		myTreeViewRuns.Fill(myRuns, filter);
+
+		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
+
 	}
 	
 	private void on_button_tv_run_collapse_clicked (object o, EventArgs args) {
+		myTreeViewRuns.ExpandState = 
+			TreeViewEvent.ExpandStates.MINIMIZED;
 		treeview_runs.CollapseAll();
 	}
 	
 	private void on_button_tv_run_expand_clicked (object o, EventArgs args) {
+		myTreeViewRuns.ExpandState = 
+			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_runs.ExpandAll();
 	}
 	
 	private void treeview_runs_storeReset() {
 		myTreeViewRuns.RemoveColumns();
-		myTreeViewRuns = new TreeViewRuns( treeview_runs, prefsDigitsNumber, metersSecondsPreferred );
+		myTreeViewRuns = new TreeViewRuns( treeview_runs, prefsDigitsNumber, metersSecondsPreferred, myTreeViewRuns.ExpandState );
 	}
 
 	private void on_treeview_runs_cursor_changed (object o, EventArgs args) {
@@ -1084,7 +1104,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void createTreeView_runs_interval (Gtk.TreeView tv) {
 		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
-		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, prefsDigitsNumber, metersSecondsPreferred );
+		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, prefsDigitsNumber, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_runs_interval_cursor_changed; 
@@ -1093,25 +1113,32 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void fillTreeView_runs_interval (string filter) {
 		string [] myRuns = SqliteRun.SelectAllIntervalRuns(currentSession.UniqueID);
 		myTreeViewRunsInterval.Fill(myRuns, filter);
+		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
 	
 	private void on_button_tv_run_interval_collapse_clicked (object o, EventArgs args) {
+		myTreeViewRunsInterval.ExpandState = 
+			TreeViewEvent.ExpandStates.MINIMIZED;
 		treeview_runs_interval.CollapseAll();
 	}
 	
 	private void on_button_tv_run_interval_optimal_clicked (object o, EventArgs args) {
+		myTreeViewRunsInterval.ExpandState = 
+			TreeViewEvent.ExpandStates.OPTIMAL;
 		treeview_runs_interval.CollapseAll();
 		myTreeViewRunsInterval.ExpandOptimal();
 	}
 	
 	private void on_button_tv_run_interval_expand_clicked (object o, EventArgs args) {
+		myTreeViewRunsInterval.ExpandState = 
+			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_runs_interval.ExpandAll();
 	}
 	
 	private void treeview_runs_interval_storeReset() {
 		myTreeViewRunsInterval.RemoveColumns();
 		myTreeViewRunsInterval = new TreeViewRunsInterval( treeview_runs_interval,  
-				prefsDigitsNumber, metersSecondsPreferred );
+				prefsDigitsNumber, metersSecondsPreferred, myTreeViewRunsInterval.ExpandState );
 	}
 
 	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args) {
@@ -1132,7 +1159,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void createTreeView_reaction_times (Gtk.TreeView tv) {
 		//myTreeViewReactionTimes is a TreeViewReactionTimes instance
-		myTreeViewReactionTimes = new TreeViewReactionTimes( tv, prefsDigitsNumber );
+		myTreeViewReactionTimes = new TreeViewReactionTimes( tv, prefsDigitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_reaction_times_cursor_changed; 
@@ -1142,19 +1169,24 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void fillTreeView_reaction_times () {
 		string [] myRTs = SqliteReactionTime.SelectAllReactionTimes(currentSession.UniqueID);
 		myTreeViewReactionTimes.Fill(myRTs, "");
+		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
 	
 	private void on_button_reaction_time_collapse_clicked (object o, EventArgs args) {
+		myTreeViewReactionTimes.ExpandState = 
+			TreeViewEvent.ExpandStates.MINIMIZED;
 		treeview_reaction_times.CollapseAll();
 	}
 	
 	private void on_button_reaction_time_expand_clicked (object o, EventArgs args) {
+		myTreeViewReactionTimes.ExpandState = 
+			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_reaction_times.ExpandAll();
 	}
 	
 	private void treeview_reaction_times_storeReset() {
 		myTreeViewReactionTimes.RemoveColumns();
-		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, prefsDigitsNumber );
+		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, prefsDigitsNumber, myTreeViewReactionTimes.ExpandState );
 	}
 
 	private void on_treeview_reaction_times_cursor_changed (object o, EventArgs args) {
@@ -1175,7 +1207,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void createTreeView_pulses (Gtk.TreeView tv) {
 		//myTreeViewPulses is a TreeViewPulses instance
-		myTreeViewPulses = new TreeViewPulses( tv, prefsDigitsNumber );
+		myTreeViewPulses = new TreeViewPulses( tv, prefsDigitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_pulses_cursor_changed; 
@@ -1184,24 +1216,31 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void fillTreeView_pulses (string filter) {
 		string [] myPulses = SqlitePulse.SelectAllPulses(currentSession.UniqueID);
 		myTreeViewPulses.Fill(myPulses, filter);
+		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
 	}
 	
 	private void on_button_pulse_collapse_clicked (object o, EventArgs args) {
+		myTreeViewPulses.ExpandState = 
+			TreeViewEvent.ExpandStates.MINIMIZED;
 		treeview_pulses.CollapseAll();
 	}
 	
 	private void on_button_pulse_optimal_clicked (object o, EventArgs args) {
+		myTreeViewPulses.ExpandState = 
+			TreeViewEvent.ExpandStates.OPTIMAL;
 		treeview_pulses.CollapseAll();
 		myTreeViewPulses.ExpandOptimal();
 	}
 	
 	private void on_button_pulse_expand_clicked (object o, EventArgs args) {
+		myTreeViewPulses.ExpandState = 
+			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_pulses.ExpandAll();
 	}
 	
 	private void treeview_pulses_storeReset() {
 		myTreeViewPulses.RemoveColumns();
-		myTreeViewPulses = new TreeViewPulses( treeview_pulses, prefsDigitsNumber );
+		myTreeViewPulses = new TreeViewPulses( treeview_pulses, prefsDigitsNumber, myTreeViewPulses.ExpandState );
 	}
 
 	private void on_treeview_pulses_cursor_changed (object o, EventArgs args) {
@@ -1214,6 +1253,25 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			showHideActionEventButtons(true, "Pulse");
 		}
 	}
+
+	/* ---------------------------------------------------------
+	 * ----------------  TREEVIEW (generic) --------------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void expandOrMinimizeTreeView(TreeViewEvent tvEvent, TreeView tv) {
+		if(tvEvent.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) 
+			tv.CollapseAll();
+		else if (tvEvent.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			tv.CollapseAll();
+			tvEvent.ExpandOptimal();
+		} else   //MAXIMIZED
+			tv.ExpandAll();
+
+		//Console.WriteLine("IS " + tvEvent.ExpandState);
+	}
+
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  CREATE AND UPDATE COMBOS ---------------
@@ -1289,10 +1347,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(myText);
-		
-		//expand all rows if a jump filter is selected:
-		if (myText != Constants.AllJumpsName)
-			treeview_jumps.ExpandAll();
 	}
 	
 	private void on_combo_jumps_rj_changed(object o, EventArgs args) {
@@ -1303,10 +1357,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(myText);
-
-		//expand all rows if a jump filter is selected:
-		if (myText != Constants.AllJumpsName) 
-			myTreeViewJumpsRj.ExpandOptimal();
 	}
 
 	private void on_combo_runs_changed(object o, EventArgs args) {
@@ -1317,10 +1367,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		treeview_runs_storeReset();
 		fillTreeView_runs(myText);
-
-		//expand all rows if a runfilter is selected:
-		if (myText != Constants.AllRunsName) 
-			treeview_runs.ExpandAll();
 	}
 
 	private void on_combo_runs_interval_changed(object o, EventArgs args) {
@@ -1331,10 +1377,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(myText);
-
-		//expand all rows if a runfilter is selected
-		if (myText != Constants.AllRunsName) 
-			myTreeViewRunsInterval.ExpandOptimal();
 	}
 
 	//no need of reationTimes
@@ -1347,10 +1389,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		treeview_pulses_storeReset();
 		fillTreeView_pulses(myText);
-
-		//expand all rows if a runfilter is selected
-		if (myText != Constants.AllPulsesName) 
-			myTreeViewPulses.ExpandOptimal();
 	}
 
 
@@ -1435,7 +1473,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			//load the reaction_times treeview
 			treeview_reaction_times_storeReset();
 			fillTreeView_reaction_times();
-
 
 			//show hidden widgets
 			sensitiveGuiNoSession();
@@ -1741,8 +1778,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
 		statsWin = StatsWindow.Show(app1, currentSession, 
-				//prefsDigitsNumber, weightStatsPercent, heightPreferred, 
-				prefsDigitsNumber, heightPreferred, 
+				prefsDigitsNumber, weightPercentPreferred, heightPreferred, 
+				//prefsDigitsNumber, heightPreferred, 
 				report, reportWin);
 		createdStatsWin = true;
 		statsWin.InitializeSession(currentSession);
@@ -1857,7 +1894,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
 				app1, chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, showQIndex, showDjIndex, 
-				askDeletion, heightPreferred, metersSecondsPreferred,
+				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
 				allowFinishRjAfterTime);
@@ -1886,15 +1923,12 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			askDeletion = false;
 		
 	
-		/*
 		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) 
-			weightStatsPercent = true;
+			weightPercentPreferred = true;
 		 else 
-			weightStatsPercent = false;
+			weightPercentPreferred = false;
 		
-		*/
 
-		//update showHeight
 		if ( SqlitePreferences.Select("showHeight") == "True" ) 
 			showHeight = true;
 		 else 
@@ -1946,8 +1980,21 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//	languageChange();
 	
 
-		//this will crash if currentSession is not created/loaded, then go to catch
 		try {
+			if(createdStatsWin) {
+				statsWin.PrefsDigitsNumber = prefsDigitsNumber;
+				statsWin.WeightStatsPercent = weightPercentPreferred;
+				statsWin.HeightPreferred = heightPreferred;
+
+				statsWin.FillTreeView_stats(false, true);
+			}
+
+			//pass to report
+			report.PrefsDigitsNumber = prefsDigitsNumber;
+			report.HeightPreferred = heightPreferred;
+			report.WeightStatsPercent = weightPercentPreferred;
+			
+			
 			createTreeView_jumps (treeview_jumps);
 			createTreeView_jumps_rj (treeview_jumps_rj);
 			createTreeView_runs (treeview_runs);
@@ -1967,18 +2014,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		catch 
 		{
-			if(createdStatsWin) {
-				statsWin.PrefsDigitsNumber = prefsDigitsNumber;
-				//statsWin.WeightStatsPercent = weightStatsPercent;
-				statsWin.HeightPreferred = heightPreferred;
-
-				statsWin.FillTreeView_stats(false, true);
-			}
-
-			//pass to report
-			report.PrefsDigitsNumber = prefsDigitsNumber;
-			report.HeightPreferred = heightPreferred;
-			//report.WeightStatsPercent = weightStatsPercent;
 		}
 	}
 	
@@ -1992,6 +2027,16 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		if(!simulated)
 			checkCancelTotally(o, args);
+
+		//let update stats
+		//nothing changed, but stats update button cannot be insensitive,
+		//because probably some jump type has changed it's jumper
+		//the unsensitive of button stats is for showing the user, that he has to update manually
+		//bacause it's not automatically updated
+		//because it crashes in some thread problem
+		//that will be fixed in other release
+		if(createdStatsWin)
+			statsWin.ShowUpdateStatsButton();
 	}
 
 	//if user doesn't touch the platform after pressing "cancel", sometimes it gets waiting a Read_event
@@ -2016,6 +2061,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		if(!simulated)
 			checkFinishTotally(o, args);
+		
+		//let update stats
+		if(createdStatsWin)
+			statsWin.ShowUpdateStatsButton();
 	}
 		
 	//if user doesn't touch the platform after pressing "finish", sometimes it gets waiting a Read_event
@@ -2260,7 +2309,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			if(jumpExtraWin.Option == "%") {
 				jumpWeight = jumpExtraWin.Weight;
 			} else {
-				jumpWeight = (double) jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
+				//(double) jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
+				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPerson.Weight);
 			}
 		}
 		int myFall = 0;
@@ -2283,6 +2333,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if( currentJumpType.StartIn )
 			myLimit = 2; //2 for normal jump
 			
+		//don't let update until test finishes
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
+
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Jump"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -2325,8 +2379,16 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			lastJumpIsReactive = false;
 
 			currentJump = (Jump) currentEventExecute.EventDone;
+
+			if(weightPercentPreferred)
+				myTreeViewJumps.Add(currentPerson.Name, currentJump);
+			else {
+				Jump myJump = new Jump();
+				myJump = currentJump;
+				myJump.Weight = Util.WeightFromPercentToKg(currentJump.Weight, currentPerson.Weight);
+				myTreeViewJumps.Add(currentPerson.Name, myJump);
+			}
 			
-			myTreeViewJumps.Add(currentPerson.Name, currentJump);
 		
 			if(createdStatsWin) {
 				statsWin.FillTreeView_stats(false, false);
@@ -2440,7 +2502,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			if(jumpExtraWin.Option == "%") {
 				jumpWeight = jumpExtraWin.Weight;
 			} else {
-				jumpWeight = (double) jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
+				//jumpWeight = (double) jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
+				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPerson.Weight);
 			}
 		}
 		int myFall = 0;
@@ -2458,6 +2521,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//change to page 1 of notebook if were in other
 		notebook_change(1);
 		
+		//don't let update until test finishes
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
+
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Reactive Jump"), //windowTitle
@@ -2514,7 +2581,17 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				}
 			}
 
-			myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
+			if(weightPercentPreferred)
+				myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
+			else {
+				JumpRj myJump = new JumpRj();
+				myJump = currentJumpRj;
+				myJump.Weight = Util.WeightFromPercentToKg(currentJumpRj.Weight, currentPerson.Weight);
+				myTreeViewJumpsRj.Add(currentPerson.Name, myJump);
+			}
+			
+
+			//currentEventExecute.StopThread();
 
 			if(createdStatsWin) {
 				statsWin.FillTreeView_stats(false, false);
@@ -2666,6 +2743,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		double myLimit = 3; //same for startingIn than out (before)
 		
+		//don't let update until test finishes
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
+
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Run"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -2841,6 +2922,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//change to page 3 of notebook if were in other
 		notebook_change(3);
 		
+		//don't let update until test finishes
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
+
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Intervallic Run"), //windowTitle
@@ -2871,6 +2956,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute.Manage();
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
 	}
+
 
 	private void on_run_interval_finished (object o, EventArgs args) 
 	{
@@ -2936,18 +3022,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else {
 		}
 			
-		double jumpWeight = 0.0000;
-		if(currentJumpType.HasWeight) {
-			if(jumpExtraWin.Option == "%") {
-				jumpWeight = jumpExtraWin.Weight;
-			} else {
-				jumpWeight = jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
-			}
-		}
-		int myFall = 0;
-		if( ! currentJumpType.StartIn ) {
-			myFall = jumpExtraWin.Fall;
-		}
 */			
 		//used by cancel and finish
 		currentEventType = new ReactionTimeType();
@@ -2962,6 +3036,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//show the event doing window
 		double myLimit = 2;
 			
+		//don't let update until test finishes
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
+
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Reaction Time"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -3107,6 +3185,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//change to page 5 of notebook if were in other
 		notebook_change(5);
 		
+		//don't let update until test finishes
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
+
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Pulse"), //windowTitle
@@ -3234,7 +3316,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.EventSelectedID );
 		
 			//4.- edit this jump
-			editJumpWin = EditJumpWindow.Show(app1, myJump, prefsDigitsNumber);
+			editJumpWin = EditJumpWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
 			editJumpWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_accepted);
 		}
 	}
@@ -3249,7 +3331,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
-			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
+			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
 			editJumpRjWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
 		}
 	}
@@ -4099,7 +4181,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void showHideActionEventButtons(bool show, string type) {
-		Console.WriteLine("hide");
 		bool success = false;
 		if(type == "ALL" || type == "Jump") {
 			menuitem_edit_selected_jump.Sensitive = show;

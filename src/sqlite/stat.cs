@@ -117,7 +117,7 @@ class SqliteStat : Sqlite
 	
 	//sj+, cmj+, abk+
 	//and "All jumps" (simple)
-	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
+	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred, bool weightPercentPreferred)
 	{
 		string ini = "";
 		string end = "";
@@ -205,8 +205,7 @@ class SqliteStat : Sqlite
 						+ ":" + Util.ChangeDecimalSeparator(reader[3].ToString())
 						+ ":" + convertWeight(
 							Util.ChangeDecimalSeparator(reader[4].ToString()), 
-							//Convert.ToInt32(reader[5].ToString()), weightPercent
-							Convert.ToInt32(reader[5].ToString()), true
+							Convert.ToInt32(reader[5].ToString()), weightPercentPreferred
 							)
 					    );
 			}
@@ -238,10 +237,12 @@ class SqliteStat : Sqlite
 			return jumpW.Substring(0,i);
 		} else if(percentFound && ! percentDesired) {
 			//found a percent, but we wanted Kg
-			return (Convert.ToDouble(jumpW.Substring(0,i))*personW/100).ToString();
+			//return (Convert.ToDouble(jumpW.Substring(0,i))*personW/100).ToString();
+			return Util.WeightFromPercentToKg(Convert.ToDouble(jumpW.Substring(0,i)), personW).ToString();
 		} else if( ! percentFound && percentDesired) {
 			//found Kg, but wanted percent
-			return (Convert.ToDouble(jumpW.Substring(0,i))*100/personW).ToString();
+			//return (Convert.ToDouble(jumpW.Substring(0,i))*100/personW).ToString();
+			return Util.WeightFromKgToPercent(Convert.ToDouble(jumpW.Substring(0,i)), personW).ToString();
 		} else {
 			return "ERROR";
 		}

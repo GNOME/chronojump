@@ -120,7 +120,7 @@ public class JumpType : EventType
 			isPredefined	= true;
 			imageFileName = "jump_rj.png";
 			description	= Catalog.GetString("Reactive Jump limited by Jumps");
-			longDescription	= "Testing long description here";
+			longDescription	= "";
 		} else if(name == "RJ(t)") {
 			startIn 	= false;
 			hasWeight 	= false;
@@ -183,7 +183,10 @@ public class JumpType : EventType
 			if(isPredefined) {
 				return hasWeight; 
 			} else {
-				return SqliteJumpType.HasWeight(name);
+				if(isRepetitive)
+					return SqliteJumpType.HasWeight("jumpType", name);
+				else
+					return SqliteJumpType.HasWeight("jumpRjType", name);
 			}
 		}
 		set { hasWeight = value; }

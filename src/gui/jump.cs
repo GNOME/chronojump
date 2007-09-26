@@ -36,6 +36,8 @@ using Mono.Unix;
 public class EditJumpWindow : EditEventWindow
 {
 	static EditJumpWindow EditJumpWindowBox;
+	protected bool weightPercentPreferred;
+	protected double personWeight;
 
 	//for inheritance
 	protected EditJumpWindow () {
@@ -50,11 +52,14 @@ public class EditJumpWindow : EditEventWindow
 		eventBigTypeString = Catalog.GetString("jump");
 	}
 
-	static new public EditJumpWindow Show (Gtk.Window parent, Event myEvent, int pDN)
+	static new public EditJumpWindow Show (Gtk.Window parent, Event myEvent, bool weightPercentPreferred, int pDN)
 	{
 		if (EditJumpWindowBox == null) {
 			EditJumpWindowBox = new EditJumpWindow (parent);
 		}
+
+		EditJumpWindowBox.weightPercentPreferred = weightPercentPreferred;
+		EditJumpWindowBox.personWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myEvent.PersonID)); 
 
 		EditJumpWindowBox.pDN = pDN;
 		
@@ -76,6 +81,13 @@ public class EditJumpWindow : EditEventWindow
 		showSpeed = false;
 		showWeight = true;
 		showLimited = false;
+		
+		if(weightPercentPreferred)
+			label_weight_title.Text = label_weight_title.Text.ToString() + " %";
+		else
+			label_weight_title.Text = label_weight_title.Text.ToString() + " Kg";
+
+		Console.WriteLine("-------------{0}", personWeight);
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -103,6 +115,21 @@ public class EditJumpWindow : EditEventWindow
 		} else {
 			entry_tc_value.Sensitive = false;
 			entry_fall_value.Sensitive = false;
+		}
+	}
+
+	protected override void fillWeight(Event myEvent) {
+		Jump myJump = (Jump) myEvent;
+		if(myJump.TypeHasWeight) {
+			if(weightPercentPreferred)
+				entryWeight = myJump.Weight.ToString();
+			else
+				entryWeight = Util.WeightFromPercentToKg(myJump.Weight, personWeight).ToString();
+
+			entry_weight_value.Text = entryWeight;
+			entry_weight_value.Sensitive = true;
+		} else {
+			entry_weight_value.Sensitive = false;
 		}
 	}
 
@@ -137,11 +164,19 @@ public class EditJumpWindow : EditEventWindow
 		double jumpPercentWeightForNewPerson = 0;
 		if(entryWeight != "0") {
 			//obtain weight of old person
-			double oldPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(oldPersonID)); 
-			double jumpWeightInKg = oldPersonWeight * Convert.ToDouble(entryWeight) / 100;
+			//double oldPersonWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(oldPersonID)); 
+			
+			double oldPersonWeight = personWeight;
+
+			double jumpWeightInKg = 0;
+			if(weightPercentPreferred)
+				jumpWeightInKg = Util.WeightFromPercentToKg(Convert.ToDouble(entryWeight), oldPersonWeight);
+			else
+				jumpWeightInKg = Convert.ToDouble(entryWeight);
 			
 			double newPersonWeight = SqlitePerson.SelectJumperWeight(personID); 
-			jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
+			//jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
+			jumpPercentWeightForNewPerson = Util.WeightFromKgToPercent(jumpWeightInKg, newPersonWeight); 
 			Console.WriteLine("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
 					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
 		}
@@ -169,11 +204,14 @@ public class EditJumpRjWindow : EditJumpWindow
 		eventBigTypeString = Catalog.GetString("reactive jump");
 	}
 
-	static new public EditJumpRjWindow Show (Gtk.Window parent, Event myEvent, int pDN)
+	static new public EditJumpRjWindow Show (Gtk.Window parent, Event myEvent, bool weightPercentPreferred, int pDN)
 	{
 		if (EditJumpRjWindowBox == null) {
 			EditJumpRjWindowBox = new EditJumpRjWindow (parent);
 		}
+
+		EditJumpRjWindowBox.weightPercentPreferred = weightPercentPreferred;
+		EditJumpRjWindowBox.personWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myEvent.PersonID)); 
 
 		EditJumpRjWindowBox.pDN = pDN;
 		
@@ -195,6 +233,11 @@ public class EditJumpRjWindow : EditJumpWindow
 		showSpeed = false;
 		showWeight = true;
 		showLimited = true;
+		
+		if(weightPercentPreferred)
+			label_weight_title.Text = label_weight_title.Text.ToString() + " %";
+		else
+			label_weight_title.Text = label_weight_title.Text.ToString() + " Kg";
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -204,6 +247,21 @@ public class EditJumpRjWindow : EditJumpWindow
 		string [] myTypes;
 		myTypes = SqliteJumpType.SelectJumpRjTypes("", true); //don't show allJumpsName row, only select name
 		return myTypes;
+	}
+
+	protected override void fillWeight(Event myEvent) {
+		JumpRj myJump = (JumpRj) myEvent;
+		if(myJump.TypeHasWeight) {
+			if(weightPercentPreferred)
+				entryWeight = myJump.Weight.ToString();
+			else
+				entryWeight = Util.WeightFromPercentToKg(myJump.Weight, personWeight).ToString();
+
+			entry_weight_value.Text = entryWeight;
+			entry_weight_value.Sensitive = true;
+		} else {
+			entry_weight_value.Sensitive = false;
+		}
 	}
 
 	protected override void fillFall(Event myEvent) {

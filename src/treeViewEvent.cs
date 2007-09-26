@@ -41,14 +41,21 @@ public class TreeViewEvent
 	
 	protected string [] columnsString;
 
+	public enum ExpandStates {
+		MINIMIZED, OPTIMAL, MAXIMIZED
+	}
+	
+	public ExpandStates expandState;
+
 	public TreeViewEvent ()
 	{
 	}
 	
-	public TreeViewEvent (Gtk.TreeView treeview, int newPrefsDigitsNumber)
+	public TreeViewEvent (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		this.pDN = newPrefsDigitsNumber;
+		this.expandState = expandState;
 
 		//orientative values, used for Run class
 		treeviewHasTwoLevels = false;
@@ -184,8 +191,7 @@ public class TreeViewEvent
 		}
 	}
 
-	//public virtual void Add (string personName, Run newRun)
-	public virtual void Add (string personName, System.Object newEvent)
+	public void Add (string personName, System.Object newEvent)
 	{
 		
 		TreeIter iter = new TreeIter();
@@ -289,4 +295,8 @@ public class TreeViewEvent
 		}
 	}
 	
+	public ExpandStates ExpandState {
+		get { return expandState; }
+		set { expandState = value; }
+	}
 }

@@ -34,7 +34,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected bool showDjIndex;
 	
 	protected string jumperName = Catalog.GetString("Jumper");
-	protected string weightName = Catalog.GetString("Weight") + "\n(%)";
+	protected string weightName = Catalog.GetString("Weight");
 	protected string fallName = Catalog.GetString("Fall") + "\n(cm)";
 	protected string heightName = Catalog.GetString("Height") + "\n(cm)";
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
@@ -43,6 +43,8 @@ public class TreeViewJumps : TreeViewEvent
 	protected string qIndexName = "Q Index" + "\n(%)";
 	protected string djIndexName = "Dj Index" + "\n(%)";
 	
+	protected bool weightPercentPreferred;
+	protected double personWeight;
 	protected bool metersSecondsPreferred;
 		
 	public TreeViewJumps ()
@@ -50,7 +52,9 @@ public class TreeViewJumps : TreeViewEvent
 	}
 	
 	public TreeViewJumps (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, 
-			bool showQIndex, bool showDjIndex, int newPrefsDigitsNumber, bool metersSecondsPreferred)
+			bool showQIndex, bool showDjIndex, int newPrefsDigitsNumber, 
+			bool weightPercentPreferred, bool metersSecondsPreferred, 
+			ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		this.showHeight = showHeight;
@@ -58,13 +62,21 @@ public class TreeViewJumps : TreeViewEvent
 		this.showQIndex = showQIndex;
 		this.showDjIndex = showDjIndex;
 		pDN = newPrefsDigitsNumber;
+		this.weightPercentPreferred = weightPercentPreferred;
 		this.metersSecondsPreferred = metersSecondsPreferred;
+		this.expandState = expandState;
+
 
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllJumpsName;
 		
+		if(weightPercentPreferred)
+			weightName += "\n(%)";
+		else
+			weightName += "\n(Kg)";
+
 		string [] columnsStringPre = { jumperName, "TC\n(s)", "TF\n(s)", weightName, fallName }; //Note: if this changes, check the '5's in obtainColumnsString
 
 		columnsString = obtainColumnsString(columnsStringPre);
@@ -74,6 +86,9 @@ public class TreeViewJumps : TreeViewEvent
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
+		
+		//on creation, treeview is minimized
+		expandState = ExpandStates.MINIMIZED;
 	}
 
 	protected override int getColsNum() {
@@ -102,7 +117,7 @@ public class TreeViewJumps : TreeViewEvent
 		string [] columnsString = new String[i];
 		Array.Copy(columnsStringPre, columnsString, 5);
 
-
+	
 		if(metersSecondsPreferred)
 			initialSpeedName += "\n(m/s)";
 		else
@@ -132,8 +147,14 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Tv = Convert.ToDouble(myStringOfData[5].ToString());
 		myJump.Tc = Convert.ToDouble(myStringOfData[6].ToString());
 		myJump.Fall = Convert.ToInt32(myStringOfData[7].ToString());
-		myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
 		myJump.Description = myStringOfData[9].ToString();
+
+		//we create the jump with a weight of percent or kk
+		if(weightPercentPreferred)
+			myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
+		else
+			myJump.Weight = Util.WeightFromPercentToKg(Convert.ToDouble(myStringOfData[8]), Convert.ToDouble(myStringOfData[10]));
+
 
 		return myJump;
 	}
@@ -147,7 +168,9 @@ public class TreeViewJumps : TreeViewEvent
 		myData[count++] = newJump.Type;
 		myData[count++] = Util.TrimDecimals(newJump.Tc.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(newJump.Tv.ToString(), pDN);
+		
 		myData[count++] = Util.TrimDecimals(newJump.Weight.ToString(), pDN);
+
 		myData[count++] = newJump.Fall.ToString();
 		if (showHeight)  
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
@@ -168,7 +191,7 @@ public class TreeViewJumps : TreeViewEvent
 
 public class TreeViewJumpsRj : TreeViewJumps
 {
-	public TreeViewJumpsRj (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, bool showQIndex, bool showDjIndex, int newPrefsDigitsNumber, bool metersSecondsPreferred)
+	public TreeViewJumpsRj (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, bool showQIndex, bool showDjIndex, int newPrefsDigitsNumber, bool weightPercentPreferred, bool metersSecondsPreferred, ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		this.showHeight = showHeight;
@@ -176,13 +199,20 @@ public class TreeViewJumpsRj : TreeViewJumps
 		this.showQIndex = showQIndex;
 		this.showDjIndex = showDjIndex;
 		pDN = newPrefsDigitsNumber;
+		this.weightPercentPreferred = weightPercentPreferred;
 		this.metersSecondsPreferred = metersSecondsPreferred;
+		this.expandState = expandState;
 
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllJumpsName;
 			
+		if(weightPercentPreferred)
+			weightName += "\n(%)";
+		else
+			weightName += "\n(Kg)";
+
 		string [] columnsStringPre = { jumperName, "TC\n(s)", "TF\n(s)", weightName, fallName };
 		columnsString = obtainColumnsString(columnsStringPre);
 
@@ -197,11 +227,16 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myJumpRj.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
 		myJumpRj.Type = myStringOfData[4].ToString();
 		myJumpRj.Fall = Convert.ToInt32(myStringOfData[7].ToString());
-		myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
 		myJumpRj.TvString = myStringOfData[12].ToString();
 		myJumpRj.TcString = myStringOfData[13].ToString();
 		myJumpRj.Limited = myStringOfData[16].ToString();
 		myJumpRj.Description = myStringOfData[9].ToString();
+		
+		//we create the jump with a weight of percent or kk
+		if(weightPercentPreferred)
+			myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
+		else
+			myJumpRj.Weight = Util.WeightFromPercentToKg(Convert.ToDouble(myStringOfData[8]), Convert.ToDouble(myStringOfData[17]));
 
 		return myJumpRj;
 	}
@@ -217,7 +252,9 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = myTypeComplet;
 		myData[count++] = "";
 		myData[count++] = "";
+		
 		myData[count++] = Util.TrimDecimals(newJumpRj.Weight.ToString(), pDN);
+
 		myData[count++] = newJumpRj.Fall.ToString();
 		if (showHeight)  
 			myData[count++] = "";

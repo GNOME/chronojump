@@ -392,9 +392,9 @@ Console.Write("wb ");
 		get { return jumpDone; }
 	}
 */
-	public bool TypeHasWeight
+	public virtual bool TypeHasWeight
 	{
-		get { return SqliteJumpType.HasWeight(type); }
+		get { return SqliteJumpType.HasWeight("jumpType", type); }
 	}
 	
 	public virtual bool TypeHasFall
@@ -569,7 +569,7 @@ public class JumpRjExecute : JumpExecute
 			thread.Start(); 
 		}
 	}
-		
+	
 	protected override void waitEvent ()
 	{
 		double timestamp = 0;
@@ -931,6 +931,7 @@ public class JumpRjExecute : JumpExecute
 				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
 				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
 			appbar.Push( 1,myStringPush );
+		
 
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
@@ -940,6 +941,11 @@ public class JumpRjExecute : JumpExecute
 		}
 	}
 
+	public override bool TypeHasWeight
+	{
+		get { return SqliteJumpType.HasWeight("jumpRjType", type); }
+	}
+	
 
 	public override bool TypeHasFall
 	{

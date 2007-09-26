@@ -77,7 +77,7 @@ public class PreferencesWindow {
 	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, 
 			bool showInitialSpeed, bool showQIndex, bool showDjIndex,
 			//bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture, bool allowFinishRjAfterTime)
-			bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string language, bool allowFinishRjAfterTime)
+			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, string language, bool allowFinishRjAfterTime)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (parent, entryChronopic);
@@ -135,14 +135,12 @@ public class PreferencesWindow {
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = false; 
 		
 
-		/*
 		if(weightStatsPercent)  
 			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = true; 
 		
 		else 
 			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = false; 
 		
-		*/
 
 		if(heightPreferred)  
 			PreferencesWindowBox.checkbutton_height_preferred.Active = true; 
@@ -233,7 +231,7 @@ public class PreferencesWindow {
 		
 		
 		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString());
-		//SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.checkbutton_percent_kg_preferred.Active.ToString());
+		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.checkbutton_percent_kg_preferred.Active.ToString());
 		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString());
 		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString());
 		

@@ -1,5 +1,24 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+26 set 2007
+	0.6-pre11
+	-new dir structure: 
+	  +every make creates stuff in "build" dir.
+	  +create_release copies from "build". Now there's no need of create_release for local compiling
+	  +create release also does a tar.gz and a zip (both with windows and linux executables)
+	-double-click/crash init also writes info about send an email. Improves: 478176
+	-weight Percent or Kg added to preferences (improved also gui). Works on treeviews, statsWindow, simple jumps with weight, report. Re-fixes (improves): 478168
+	-we generally use now Kg instead of % (weightStatsPercent by default as False)
+	-improved person selector in stats comboCheckboxesOptions (only shows persons in current stat) (works for simpleSession and multiSession). Imrpves 478168
+	-automatic stats updating deactivated until found the crash-deadlock.
+	Fixes bug: 478165
+	-treeviews are not minimized by default at any task (ir remembers last state) Fixes bug: 478170
+	-fixed bug when editing a rj jump weight converted to 0
+	-change on preferences(height, weigh, digits) auto changes stats
+	-added attention message on edit jump (when changing weight)
+	-updated translations: catalan, spanish
+	-added juanfer to AUTHORS file
+
 21 set 2007
 	0.6-pre10
 	chronojump cannot be executed two times. Fixes: 478176

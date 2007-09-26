@@ -64,11 +64,14 @@ public class Stat
 	protected TreeIter iter;
 	protected Gtk.TreeView treeview;
 
+	protected bool weightStatsPercent;
+
 	protected static int pDN; //prefsDigitsNumber;
 	//protected static string manName = "M";
 	//protected static string womanName = "F";
 
 	protected ArrayList markedRows;
+	private ArrayList personsWithData; //useful for selecting only people with data on comboCheckboxes
 
 	protected bool toReport = false;
 	protected string reportString;
@@ -103,6 +106,7 @@ public class Stat
 		this.showSex = myStatTypeStruct.Sex_active;
 		this.statsJumpsType = myStatTypeStruct.StatsJumpsType;
 		this.heightPreferred = myStatTypeStruct.HeightPreferred;
+		this.weightStatsPercent = myStatTypeStruct.WeightStatsPercent;
 		this.statsJumpsType = myStatTypeStruct.StatsJumpsType;
 		this.limit = myStatTypeStruct.Limit;
 		this.jumpType = myStatTypeStruct.StatisticApplyTo;
@@ -117,6 +121,8 @@ public class Stat
 		reportString = "";
 
 		iter = new TreeIter();
+
+		personsWithData = new ArrayList();
 	}
 	
 	void createCheckboxes(TreeView tv) 
@@ -277,6 +283,8 @@ public class Stat
 				do {
 					if(isNotAVGOrSD(iter)) {
 						string nameWithMoreData = (string) store.GetValue (iter, 1);
+						string onlyName = fetchNameOnStatsData(nameWithMoreData);
+						/*
 						//probably name has a jumpType like:
 						//myName (CMJ), or myName.F (CMJ)
 						//int parenthesesPos = nameWithMoreData.LastIndexOf('(');
@@ -291,7 +299,9 @@ public class Stat
 						//probably name has sex like:
 						//myName.F, or myName.F (CMJ)
 						string [] onlyName = nameWithoutJumpType.Split(new char[] {'.'});
-						if(onlyName[0] == selected) {
+						*/
+						//if(onlyName[0] == selected) {
+						if(onlyName == selected) {
 							store.SetValue (iter, 0, true);
 							addRowToMarkedRows(treeview.Model.GetPath(iter).ToString());
 						} else {
@@ -462,6 +472,9 @@ public class Stat
 		int i;
 		string separator;
 
+		//removes persons in personsWithData
+		personsWithData = new ArrayList();
+
 		//process all SQL results line x line
 		for (i=0, separator=""; i < arrayFromSql.Count ; i ++) {
 			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
@@ -476,6 +489,11 @@ public class Stat
 			}
 			printData( rowFromSql );
 			separator = ":";
+
+			//add people who are in this stat into personsWithData
+			//for being selected on comboCheckboxes
+			personsWithData = Util.AddToArrayListIfNotExist(
+					personsWithData, fetchNameOnStatsData(rowFromSql[0]));
 		}
 		//only show the row if sqlite returned values
 		if(i > 0)
@@ -522,6 +540,9 @@ public class Stat
 			valuesList[j] = "";
 			countRows[j] = 0;
 		}
+		//removes persons in personsWithData
+		personsWithData = new ArrayList();
+
 		string oldStat = "-1";
 	
 		//process all SQL results line x line
@@ -534,6 +555,12 @@ public class Stat
 					printData( calculateRowAVGSD(sendRow) );
 				}
 				
+				//add people who are in this stat into personsWithData
+				//for being selected on comboCheckboxes
+				personsWithData = Util.AddToArrayListIfNotExist(
+						personsWithData, fetchNameOnStatsData(rowFromSql[0]));
+
+
 				//process another stat
 				sendRow[0] = rowFromSql[0]; //first value to send (the name of stat)
 				for(int j=1; j< sessionsNum+1 ; j++) {
@@ -566,6 +593,7 @@ public class Stat
 		if(i > 0)
 		{
 			printData( calculateRowAVGSD(sendRow) );
+
 
 			if(makeAVGSD) {
 				//printData accepts two cols: name, values (values separated again by ':')
@@ -710,6 +738,25 @@ public class Stat
 		return false;
 	}
 	
+	private string fetchNameOnStatsData (string nameWithMoreData)
+	{
+		//probably name has a jumpType like:
+		//myName (CMJ), or myName.F (CMJ)
+		//int parenthesesPos = nameWithMoreData.LastIndexOf('(');
+		//it can have two parentheses, like:
+		//myName (Rj(j))
+		int parenthesesPos = nameWithMoreData.IndexOf('(');
+		string nameWithoutJumpType;
+		if(parenthesesPos == -1)
+			nameWithoutJumpType = nameWithMoreData;
+		else
+			nameWithoutJumpType = nameWithMoreData.Substring(0, parenthesesPos-1);
+		//probably name has sex like:
+		//myName.F, or myName.F (CMJ)
+		string [] onlyName = nameWithoutJumpType.Split(new char[] {'.'});
+		return onlyName[0];
+	}
+
 	public virtual void RemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview.Columns;
 		foreach (Gtk.TreeViewColumn column in myColumns) {
@@ -1040,6 +1087,10 @@ public class Stat
 		get { return markedRows; }
 		//assigned for operating when a graph is the last stat made
 		set { markedRows = value; } 
+	}
+
+	public ArrayList PersonsWithData {
+		get { return personsWithData; }
 	}
 
 	public Gtk.Button FakeButtonRowCheckedUnchecked {

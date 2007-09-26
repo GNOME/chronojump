@@ -588,7 +588,7 @@ Requiere driver si la Chronopic es serie y se ha usado un cable USB-serie
 \begin_inset Text
 
 \begin_layout Standard
-Linux
+GNU/Linux
 \end_layout
 
 \end_inset
@@ -630,7 +630,7 @@ Serie
 \begin_inset Text
 
 \begin_layout Standard
-Linux
+GNU/Linux
 \end_layout
 
 \end_inset
@@ -771,9 +771,9 @@ Tal y como se explica en el apartado
 \end_inset
 
 , a la conexión se le asignará un nombre.
- En el caso de Linux esto no suele ser problema, pues los nombres son claros
- y la opción /dev/ttyS0 (serie) o /dev/ttyUSB0 (USB-serie) suele ser la
- correcta.
+ En el caso de GNU/Linux esto no suele ser problema, pues los nombres son
+ claros y la opción /dev/ttyS0 (serie) o /dev/ttyUSB0 (USB-serie) suele
+ ser la correcta.
  De la misma forma, Windows por puerto serie suele asignar el puerto COM1.
 \end_layout
 

@@ -276,6 +276,7 @@ public class EditEventWindow
 	}
 
 	protected virtual void fillWeight(Event myEvent) {
+		/*
 		Jump myJump = (Jump) myEvent;
 		if(myJump.TypeHasWeight) {
 			entryWeight = myJump.Weight.ToString();
@@ -284,6 +285,7 @@ public class EditEventWindow
 		} else {
 			entry_weight_value.Sensitive = false;
 		}
+		*/
 	}
 
 	protected virtual void fillLimited(Event myEvent) {

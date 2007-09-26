@@ -1,24 +1,5 @@
-INSTALL CHRONOJUMP (Linux)
--------------------------
+INSTALL CHRONOJUMP
+------------------
 
-Just untar chronojump and execute:
-mono chronojump.exe
-
-It will create a chronojump.db file in ~/.chronojump 
-
-You need mono, gtk# and libsqlite0.
-
-By default it will simulate jumps and runs, if you have the chronopic and the contact platform, then you should change the Menu Platform from 'Simulated' to 'Chronopic'. Chronopic and contact platform info: (both in spanish)
-http://www.iearobotics.com/personal/juan/proyectos/chronopic/1.0/
-http://gnome.org/projects/chronojump/construction_contact_platform_es.html
-
-The firm Ifara (Spain) sell chronopic for 70euros for spain, if you want you can buy it there or ask any other company, it's free hardware.
-http://mail.gnome.org/archives/chronojump-list/2005-October/msg00002.html
-
-If you want to try with a live-cd, you can use this remake of mono-live-cd (oudated):
-http://memnon.ii.uam.es/descargas_web/chronojump/
-
-INSTALL CHRONOJUMP (Windows)
-----------------------------
 See install page:
 http://gnome.org/projects/chronojump/installation.html

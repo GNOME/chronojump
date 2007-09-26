@@ -199,12 +199,20 @@ public class EventExecute
 		//then thread is dead
 
 		if ( ! thread.IsAlive || cancel) {
-				Console.Write("dying");
-				return false;
-			}
-			Thread.Sleep (50);
-			Console.Write(thread.ThreadState);
-			return true;
+			Console.Write("dying");
+			return false;
+		}
+		Thread.Sleep (50);
+		Console.Write(thread.ThreadState);
+		return true;
+	}
+
+	public void StopThread() {
+		/*
+		Console.WriteLine("----------ABORTING----------");
+		thread.Abort();
+		Console.WriteLine("----------ABORTED-----------");
+		*/
 	}
 
 	protected void initializeTimer () {

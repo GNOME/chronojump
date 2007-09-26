@@ -53,7 +53,7 @@ class SqlitePreferences : Sqlite
 		Insert ("showQIndex", "False"); //for treeviewJumps
 		Insert ("showDjIndex", "False"); //for treeviewJumps
 		Insert ("simulated", "True");
-		Insert ("weightStatsPercent", "True"); //currently not used
+		Insert ("weightStatsPercent", "False");
 		Insert ("askDeletion", "True");
 		Insert ("heightPreferred", "False");
 		Insert ("metersSecondsPreferred", "True");

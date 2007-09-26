@@ -75,9 +75,10 @@ public class StatsWindow {
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
-	//bool weightStatsPercent;
+	bool weightStatsPercent;
 	
-	bool statsAutomatic = true;
+	//bool statsAutomatic = true;
+	bool statsAutomatic = false;
 	bool statsColumnsToRemove = false;
 	private Session currentSession;
 	bool changingCombos = false;
@@ -139,8 +140,7 @@ public class StatsWindow {
 
 	
 	StatsWindow (Gtk.Window parent, Session currentSession, 
-			//int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
-			int prefsDigitsNumber, bool heightPreferred, 
+			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
 			Report report, ReportWindow reportWin)
 	{
 		Glade.XML gladeXML;
@@ -149,7 +149,7 @@ public class StatsWindow {
 		this.parent = parent;
 		this.currentSession = currentSession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
-		//this.weightStatsPercent = weightStatsPercent;
+		this.weightStatsPercent = weightStatsPercent;
 		this.heightPreferred = heightPreferred;
 
 		this.report = report;
@@ -185,14 +185,14 @@ public class StatsWindow {
 	
 
 	static public StatsWindow Show (Gtk.Window parent, Session currentSession, 
-			//int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
-			int prefsDigitsNumber, bool heightPreferred, 
+			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
+			//int prefsDigitsNumber, bool heightPreferred, 
 			Report report, ReportWindow reportWin)
 	{
 		if (StatsWindowBox == null) {
 			StatsWindowBox = new StatsWindow (parent, currentSession, 
-					//prefsDigitsNumber, weightStatsPercent, heightPreferred, 
-					prefsDigitsNumber, heightPreferred, 
+					prefsDigitsNumber, weightStatsPercent, heightPreferred, 
+					//prefsDigitsNumber, heightPreferred, 
 					report, reportWin);
 		}
 		
@@ -301,24 +301,13 @@ public class StatsWindow {
 	}
 	
 	private string [] addPersonsToComboCheckBoxesOptions() {
-		string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false); //onlyIDAndName, not reversed
-		return Util.AddArrayString(comboCheckboxesOptions, myPersons);
+		//string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false); //onlyIDAndName, not reversed
+		//return Util.AddArrayString(comboCheckboxesOptions, myPersons);
+		return Util.AddArrayString(comboCheckboxesOptionsWithoutPersons, Util.ArrayListToString(myStatType.PersonsWithData));
 	}
 
 	
 	private void updateComboStats() {
-		
-		//show/hide persons selector on comboCheckboxesOptions
-		if(UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeSessionSummary &&
-				UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeJumperSummary) 
-			comboCheckboxesOptions = addPersonsToComboCheckBoxesOptions();
-		else
-			comboCheckboxesOptions = comboCheckboxesOptionsWithoutPersons;
-
-		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions);
-
-
-
 		string [] nullOptions = { "-" };
 		if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeSessionSummary ) 
 		{
@@ -426,9 +415,11 @@ public class StatsWindow {
 		if(statsAutomatic || force) {
 			fillTreeView_stats(graph);
 		}
+
+		//show update stats button
+		ShowUpdateStatsButton();
 	}
 
-	//private void fillTreeView_stats (bool graph) 
 	private bool fillTreeView_stats (bool graph) 
 	{
 		if(blockFillingTreeview) {
@@ -436,7 +427,7 @@ public class StatsWindow {
 		}
 		
 		Console.WriteLine("----------FILLING treeview stats---------------");
-		
+	
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		string statisticApplyTo = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
@@ -500,7 +491,7 @@ public class StatsWindow {
 				statsJumpsType,
 				limit, 
 				heightPreferred,
-				//weightStatsPercent, 
+				weightStatsPercent, 
 				markedRows,
 				rj_evolution_mark_consecutives,
 				graph,
@@ -546,17 +537,27 @@ public class StatsWindow {
 			Console.WriteLine("Do markedRows stuff later");
 		}
 
-		//every time a stat is created, all rows should be checked (except AVG & SD)
-		//but not if we clicked graph
-		if(! graph)
-			combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("All"));
-		
 		//show enunciate of the stat in textview_enunciate
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = myStatType.Enunciate;
 		textview_enunciate.Buffer = tb;
 		tb.Text = myStatType.Enunciate;
 		
+		//show/hide persons selector on comboCheckboxesOptions
+		if(UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeSessionSummary &&
+				UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeJumperSummary) 
+			comboCheckboxesOptions = addPersonsToComboCheckBoxesOptions();
+		else
+			comboCheckboxesOptions = comboCheckboxesOptionsWithoutPersons;
+
+		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions);
+
+		//every time a stat is created, all rows should be checked (except AVG & SD)
+		//but not if we clicked graph
+		if(! graph)
+			combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("All"));
+		
+
 		if(allFine) {
 			return true;
 		} else {
@@ -618,7 +619,7 @@ public class StatsWindow {
 	}
 
 	
-	
+	/* this is disabled now, see ShowUpdateStatsButton, HideUpdateStatsButton */
 	private void on_checkbutton_stats_always_clicked(object o, EventArgs args) 
 	{
 		if (statsAutomatic) { 
@@ -632,6 +633,18 @@ public class StatsWindow {
 		}
 	}
 	
+	//allows to click on updateStatsButton (from chronojump.cs)
+	//now checkbox of stats automatic is disabled
+	//and user has to do it always by hand
+	//workaround to bug ???????
+	public void HideUpdateStatsButton() {
+		button_stats.Sensitive = false;
+	}
+	public void ShowUpdateStatsButton() {
+		button_stats.Sensitive = true;
+	}
+
+
 	private void on_checkbutton_show_enunciate_clicked(object o, EventArgs args) {
 		if (checkbutton_show_enunciate.Active) {
 			textview_enunciate.Show();
@@ -897,7 +910,6 @@ public class StatsWindow {
 		
 	}
 
-	
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		StatsWindowBox.stats_window.Hide();
@@ -925,14 +937,12 @@ public class StatsWindow {
 		}
 	}
 
-	/*
 	public bool WeightStatsPercent
 	{
 		set {
 			weightStatsPercent = value;
 		}
 	}
-	*/
 
 }
 

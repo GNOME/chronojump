@@ -59,7 +59,7 @@ public class LanguageWindow
 		/*
 		if(! Util.IsWindows())
 			LanguageWindowBox.label_linux_restart.Text =
-				Catalog.GetString("On Linux you will need to restart Chronojump");
+				Catalog.GetString("On GNU/Linux you will need to restart Chronojump");
 		*/
 
 

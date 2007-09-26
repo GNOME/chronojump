@@ -53,9 +53,9 @@ public class Jump : Event
 	}
 
 
-	public bool TypeHasWeight
+	public virtual bool TypeHasWeight
 	{
-		get { return SqliteJumpType.HasWeight(type); }
+		get { return SqliteJumpType.HasWeight("jumpType", type); }
 	}
 	
 	public virtual bool TypeHasFall
@@ -133,6 +133,11 @@ public class JumpRj : Jump
 	{
 		get { return limited; }
 		set { limited = value; }
+	}
+	
+	public override bool TypeHasWeight
+	{
+		get { return SqliteJumpType.HasWeight("jumpRjType", type); }
 	}
 	
 	public override bool TypeHasFall

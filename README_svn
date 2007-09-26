@@ -1,1 +1,0 @@
-If you downloaded from svn, do a create_release.sh and it will do the make and create the directory structure into "releases" for executing Chronojump

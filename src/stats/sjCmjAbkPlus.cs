@@ -32,6 +32,9 @@ public class StatSjCmjAbkPlus : Stat
 	//protected bool percent = false; //show weight in simplesession as a percent of body weight or kg
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
+	
+	private bool weightPercentPreferred;
+
 	public StatSjCmjAbkPlus () 
 	{
 		this.showSex = false;
@@ -51,9 +54,15 @@ public class StatSjCmjAbkPlus : Stat
 			store = getStore(dataColumns +1); //jumper, height, TF, weight (this col has characters '%' and 'Kg') solved in sqlite
 		}
 		
+		weightPercentPreferred = myStatTypeStruct.WeightStatsPercent;
+		string weightName = Catalog.GetString("Weight");
+		if(weightPercentPreferred)
+			weightName += " %";
+		else
+			weightName += " Kg";
 
 		string [] columnsString = { Catalog.GetString("Jumper"), Catalog.GetString("Height"), 
-			Catalog.GetString("TF"), Catalog.GetString("Weight %") };
+			Catalog.GetString("TF"), weightName };
 		/*
 		if(! percent) {
 			columnsString[3] = Catalog.GetString("Weight Kg");
@@ -83,14 +92,14 @@ public class StatSjCmjAbkPlus : Stat
 				processDataMultiSession ( 
 						SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
 							//operation, jumpType, showSex, percent, heightPreferred), 
-							operation, jumpType, showSex, heightPreferred), 
+							operation, jumpType, showSex, heightPreferred, weightPercentPreferred), 
 						true, sessions.Count);
 			} else {
 				string operation = "AVG";
 				processDataSimpleSession ( cleanDontWanted (
 							SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
 								//operation, jumpType, showSex, percent, heightPreferred), 
-								operation, jumpType, showSex, heightPreferred), 
+								operation, jumpType, showSex, heightPreferred, weightPercentPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
@@ -100,7 +109,7 @@ public class StatSjCmjAbkPlus : Stat
 				string operation = "MAX";
 				processDataMultiSession ( SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
 							//operation, jumpType, showSex, percent, heightPreferred),  
-							operation, jumpType, showSex, heightPreferred),  
+							operation, jumpType, showSex, heightPreferred, weightPercentPreferred),  
 						true, sessions.Count);
 			} else {
 				string operation = ""; //no need of "MAX", there's an order by jump.tv desc
@@ -108,7 +117,7 @@ public class StatSjCmjAbkPlus : Stat
 				processDataSimpleSession ( cleanDontWanted (
 							SqliteStat.SjCmjAbkPlus(sessionString, multisession, 
 								//operation, jumpType, showSex, percent, heightPreferred), 
-								operation, jumpType, showSex, heightPreferred), 
+								operation, jumpType, showSex, heightPreferred, weightPercentPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}

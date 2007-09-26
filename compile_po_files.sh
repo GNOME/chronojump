@@ -6,7 +6,7 @@
 
 
 PO_DIR="po"
-LOCALE_DIR="locale"
+LOCALE_DIR="build/data/locale"
 
 created=0
 updated=0

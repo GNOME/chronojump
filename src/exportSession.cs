@@ -42,6 +42,10 @@ public class ExportSession
 	//protected static Gnome.AppBar myAppbar;
 	protected static Gtk.Statusbar myAppbar;
 	protected string fileName;
+	
+	protected int prefsDigitsNumber;
+	protected bool heightPreferred;
+	protected bool weightStatsPercent;
 
 	public ExportSession() {
 	}
@@ -240,6 +244,12 @@ public class ExportSession
 	{
 		int dec=4; //decimals
 		
+		string weightName = Catalog.GetString("Weight");
+		if(weightStatsPercent)
+			weightName += " %";
+		else
+			weightName += " Kg";
+
 		if(myJumps.Length > 0) {
 			ArrayList myData = new ArrayList(1);
 			myData.Add( "\n" + 
@@ -249,20 +259,30 @@ public class ExportSession
 					Catalog.GetString("TC") + ":" + 
 					Catalog.GetString("TF") + ":" + 
 					Catalog.GetString("Fall") + ":" + 
-					Catalog.GetString("Weight") + ":" + 
+					weightName + ":" + 
 					Catalog.GetString("Height") + ":" +
 					Catalog.GetString("Initial Speed") + ":" +
 					Catalog.GetString("Description") );
 
 			foreach (string jumpString in myJumps) {
 				string [] myStr = jumpString.Split(new char[] {':'});
+						
+				string myWeight = "";
+				if(weightStatsPercent)
+					myWeight = myStr[8];
+				else
+					myWeight = Util.WeightFromPercentToKg(
+							Convert.ToDouble(myStr[8]), 
+							SqlitePerson.SelectJumperWeight(Convert.ToInt32(myStr[2]))
+							).ToString();
 
 				myData.Add (	
 						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jump.uniqueID
 						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
 						myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
 						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
-						myStr[8] + ":" + 		//jump.weight,
+						//myStr[8] + ":" + 		//jump.weight,
+						myWeight + ":" +
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
 						myStr[9]		//jump.description
@@ -285,6 +305,12 @@ public class ExportSession
 				myData = new ArrayList(1);
 			}
 
+			string weightName = Catalog.GetString("Weight");
+			if(weightStatsPercent)
+				weightName += " %";
+			else
+				weightName += " Kg";
+
 			//if show subjumps show this every time, else show only one
 			if(isFirstHeader || showSubjumps) {
 				myData.Add( "\n" + 
@@ -300,7 +326,7 @@ public class ExportSession
 						Catalog.GetString("AVG Height") + ":" +
 						Catalog.GetString("AVG Initial Speed") + ":" +
 						Catalog.GetString("Fall") + ":" + 
-						Catalog.GetString("Weight") + ":" + 
+						weightName + ":" + 
 						Catalog.GetString("Jumps") + ":" + 
 						Catalog.GetString("Time") + ":" + 
 						Catalog.GetString("Limited") + ":" + 
@@ -310,6 +336,15 @@ public class ExportSession
 			}
 		
 			string [] myStr = jump.Split(new char[] {':'});
+			
+			string myWeight = "";
+			if(weightStatsPercent)
+				myWeight = myStr[8];
+			else
+				myWeight = Util.WeightFromPercentToKg(
+						Convert.ToDouble(myStr[8]), 
+						SqlitePerson.SelectJumperWeight(Convert.ToInt32(myStr[2]))
+						).ToString();
 			myData.Add ( 
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jumpRj.uniqueID
 					//myStr[2] + ":" +  myStr[3] + ":" +  	//jumpRj.personID, jumpRj.sessionID
@@ -323,7 +358,8 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[10]), dec) + ":" +  //Avg height
 					Util.TrimDecimals(Util.GetInitialSpeed(myStr[10], true), dec) + ":" +  	//Avg Initial speed (true:m/s)
 					myStr[7] + ":" + 	 	//jumpRj.Fall
-					myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
+					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
+					myWeight + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
 					myStr[9]		//jumpRj.Description
 					);
@@ -581,6 +617,18 @@ public class ExportSession
 		((IDisposable)writer).Dispose();
 	}
 	
+	public int PrefsDigitsNumber {
+		set { prefsDigitsNumber = value; }
+	}
+	
+	public bool HeightPreferred {
+		set { heightPreferred = value; }
+	}
+	
+	public bool WeightStatsPercent {
+		set { weightStatsPercent = value; }
+	}
+
 	~ExportSession() {}
 }
 

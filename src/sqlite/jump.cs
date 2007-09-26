@@ -130,7 +130,7 @@ class SqliteJump : Sqlite
 	public static string[] SelectAllNormalJumps(int sessionID) 
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, jump.* " +
+		dbcmd.CommandText = "SELECT person.name, jump.*, person.weight " +
 			" FROM person, jump " +
 			" WHERE person.uniqueID == jump.personID" + 
 			" AND jump.sessionID == " + sessionID + 
@@ -159,7 +159,8 @@ class SqliteJump : Sqlite
 					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + 	//jump.tc
 					reader[7].ToString() + ":" + 	//fall
 					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + 	//weight
-					reader[9].ToString() 		//description
+					reader[9].ToString() + ":" +	//description
+					reader[10].ToString() 		//person.weight
 					);
 			count ++;
 		}
@@ -179,7 +180,7 @@ class SqliteJump : Sqlite
 	public static string[] SelectAllRjJumps(int sessionID) 
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, jumpRj.* " +
+		dbcmd.CommandText = "SELECT person.name, jumpRj.*, person.weight " +
 			" FROM person, jumpRj " +
 			" WHERE person.uniqueID == jumpRj.personID" + 
 			" AND jumpRj.sessionID == " + sessionID + 
@@ -213,7 +214,8 @@ class SqliteJump : Sqlite
 					Util.ChangeDecimalSeparator(reader[13].ToString()) + ":" + 	//tcString,
 					reader[14].ToString() + ":" + 	//jumps,
 					reader[15].ToString() + ":" + 	//time,
-					reader[16].ToString() 	 	//limited
+					reader[16].ToString() + ":" + 	//limited
+					reader[17].ToString() 	 	//person.weight
 					);
 			count ++;
 		}

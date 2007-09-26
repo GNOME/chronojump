@@ -34,10 +34,11 @@ public class TreeViewReactionTimes : TreeViewEvent
 	{
 	}
 	
-	public TreeViewReactionTimes (Gtk.TreeView treeview, int newPrefsDigitsNumber)
+	public TreeViewReactionTimes (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		pDN = newPrefsDigitsNumber;
+		this.expandState = expandState;
 
 		treeviewHasTwoLevels = false;
 		dataLineNamePosition = 0; //position of name in the data to be printed

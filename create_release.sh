@@ -16,6 +16,8 @@ if ! test -e "releases"; then
 	mkdir releases
 fi
 
+#create the executable on "build" dir
+make
 
 #create specific release dir
 
@@ -26,58 +28,30 @@ if test -e $release_dir; then
 	exit
 fi
 
-#compile po files (update translations)
-./compile_po_files.sh
-
-#create the executable 
-make
-
-#create dirs
 mkdir $release_dir
-mkdir $release_dir/windows
-mkdir $release_dir/linux
-mkdir $release_dir/manual
-mkdir $release_dir/data
-mkdir $release_dir/data/windows_dlls
-mkdir $release_dir/data/linux_dlls
-mkdir $release_dir/data/utils
-mkdir $release_dir/data/utils/windows
-mkdir $release_dir/data/utils/linux
 
 #copy files
-cp windows_specific/chronojump.bat $release_dir/windows
-cp windows_specific/chronojump_mini.bat $release_dir/windows
-cp linux_specific/chronojump.sh $release_dir/linux
-cp linux_specific/chronojump_mini.sh $release_dir/linux
+cp -r build/* $release_dir/.
 
-cp manual/chronojump_manual_es.pdf $release_dir/manual
+#copy docs, license & other text stuff (these are not on "build" dir)
+mkdir $release_dir/docs
+cp manual/chronojump_manual_es.pdf $release_dir/docs/.
+cp glossary/chronojump_glossary_for_translators.html $release_dir/docs/.
+cp AUTHORS $release_dir/docs/.
+cp COPYING $release_dir/docs/.
+cp INSTALL $release_dir/docs/.
+cp changelog.txt $release_dir/docs/.
 
-cp chronojump.prg $release_dir/data
-cp chronojump_mini.prg $release_dir/data
 
-cp -R locale $release_dir/data
+#create compressed files
 
-cp windows_specific/sqlite3.dll $release_dir/data
-cp windows_specific/readreg.bat $release_dir/data
+release_subdir="chronojump-$1"
+cd releases
 
-#chronojump.bat & chronojump_mini.bat will copy this dlls to data dir
-cp windows_specific/NPlot.dll $release_dir/data/windows_dlls
-cp windows_specific/NPlot.dll.config $release_dir/data/windows_dlls
-cp windows_specific/NPlot.Gtk.dll $release_dir/data/windows_dlls
-cp windows_specific/NPlot.Gtk.dll.config $release_dir/data/windows_dlls
-cp windows_specific/sqlite3.dll $release_dir/data/windows_dlls
+#a) tar.gz
+tar --exclude=.svn -czvf $release_subdir.tar.gz $release_subdir
+mv $release_subdir.tar.gz $release_subdir
 
-#chronojump.sh & chronojump_mini.sh will copy this dlls to data dir
-cp linux_specific/NPlot.dll $release_dir/data/linux_dlls
-cp linux_specific/NPlot.dll.config $release_dir/data/linux_dlls
-cp linux_specific/NPlot.Gtk.dll $release_dir/data/linux_dlls
-cp linux_specific/NPlot.Gtk.dll.config $release_dir/data/linux_dlls
-
-#copy sqlite convert stuff
-cp windows_specific/sqlite/sqlite.exe $release_dir/data/utils/windows
-cp windows_specific/sqlite/sqlite3.exe $release_dir/data/utils/windows
-cp windows_specific/sqlite/convert_database.bat $release_dir/data/utils/windows
-cp linux_specific/sqlite/sqlite3-3.5.0.bin $release_dir/data/utils/linux
-cp linux_specific/sqlite/sqlite-2.8.17.bin $release_dir/data/utils/linux
-cp linux_specific/sqlite/convert_database.sh $release_dir/data/utils/linux
-
+#b) zip
+zip -r $release_subdir.zip $release_subdir -x \*.svn\* -x \*.tar.gz
+mv $release_subdir.zip $release_subdir

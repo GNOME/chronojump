@@ -22,7 +22,7 @@
 using System;
 //using System.Data;
 using System.Text; //StringBuilder
-
+using System.Collections; //ArrayList
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS
 
@@ -268,6 +268,14 @@ public class Util
 		return height.ToString();
 	}
 	
+	public static double WeightFromKgToPercent (double jumpKg, double personKg) {
+		return (double) jumpKg *100 / (double) personKg;
+	}
+
+	public static double WeightFromPercentToKg (double jumpPercent, double personKg) {
+		return (double) jumpPercent * personKg / (double) 100;
+	}
+
 	public static int GetNumberOfJumps(string myString, bool countMinus)
 	{
 		if(myString.Length > 0) {
@@ -717,8 +725,30 @@ public class Util
 		for (i=0 ; i < initialString.Length; i ++)
 			returnString[i] = initialString[i];
 		for (j=0 ; j < addString.Length; j ++)
-			returnString[i+j] = FetchName(addString[j]);
+			//returnString[i+j] = FetchName(addString[j]);
+			returnString[i+j] = addString[j];
 
 		return returnString;
+	}
+
+	public static string [] ArrayListToString (ArrayList myArrayList) {
+		string [] myString = new String[myArrayList.Count];
+		int i=0;
+		foreach (string str in myArrayList) 
+			myString[i++] = str;
+
+		return myString;
+	}
+			
+	public static ArrayList AddToArrayListIfNotExist(ArrayList myArrayList, string str) {
+	 	bool found = false;
+		foreach (string str2 in myArrayList)
+			if(str2 == str)
+				found = true;
+
+		if(!found)
+			myArrayList.Add(str);
+
+		return myArrayList;
 	}
 }

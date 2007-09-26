@@ -358,11 +358,12 @@ class SqliteJumpType : Sqlite
 		return exists;
 	}
 
-	public static bool HasWeight(string typeName) 
+	//tableName is jumpType or jumpRjType
+	public static bool HasWeight(string tableName, string typeName) 
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT weight " +
-			" FROM jumpType " +
+			" FROM " + tableName +
 			" WHERE name == '" + typeName + "'";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());

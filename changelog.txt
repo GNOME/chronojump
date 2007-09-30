@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+30 set 2007 (2)
+	0.6 release in "About" will show by mistake "0.6-pre11", now corrected: "0.6". No changes
+	between both 
+
 30 set 2007 (Major RELEASE 0.6 for Linux and windows)
 
 26 set 2007

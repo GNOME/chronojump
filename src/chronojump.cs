@@ -215,7 +215,7 @@ public class ChronoJump
 	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-pre11";
+	private static string progversion = "0.6";
 	private static string progname = "Chronojump";
 	
 	//persons

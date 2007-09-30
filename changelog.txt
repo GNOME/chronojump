@@ -1,5 +1,7 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+30 set 2007 (Major RELEASE 0.6 for Linux and windows)
+
 26 set 2007
 	0.6-pre11
 	-new dir structure: 

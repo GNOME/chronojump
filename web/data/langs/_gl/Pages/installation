@@ -7,13 +7,13 @@ Instalación
 
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
 	<tr bgcolor="#e6e6fa"><th>Sistemas operativos</th><th><center>Instrucións</center></th></tr>
-	<tr><td><b>GNU/Linux</b></td><td>Instalar Mono, libgdiplus e Gtk#. Consulte este correo (inglés, castelán): <a href=":::linuxMailDownloadLink:::">:::linuxMailDownloadName:::</a></td></tr>
+	<tr><td><b>GNU/Linux</b></td><td>Consulte este correo (inglés, castelán): <a href=":::linuxMailDownloadLink:::">:::linuxMailDownloadName:::</a></td></tr>
 	<tr><td><b>Windows</b></td><td>Consulte este correo: <a href=":::windowsMailDownloadLink:::">:::windowsMailDownloadName:::</a> (inglés, castelán)</td></tr>
 	<tr><td><b>Maemo N770</b></td><td>Consulte este correo: <a href=":::maemoMailDownloadLink:::">:::maemoMailDownloadName:::</a> (inglés, castelán)</td></tr>
 	</table>
 	
 	<p><br>
-	Se vostede se considera un <b>usuario&nbsp;avanzado</b>, pode probar o programa desde un sistema operativo GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, baixando as fontes do <a href="http://svn.gnome.org/viewcvs/chronojump/trunk/">SVN de ChronoJump en GNOME</a>, e executando <tt>mono chronojump.exe</tt> ou compilar a súa propia versión con <tt>make clean</tt>, <tt>make</tt>.
+	Se vostede se considera un <b>usuario&nbsp;avanzado</b>, pode probar o programa desde un sistema operativo GNU/Linux, instalando <a href="http://www.mono-project.com">Mono</a>, baixando as fontes do <a href="http://svn.gnome.org/viewcvs/chronojump/trunk/">SVN de ChronoJump en GNOME</a>.
 
 	<p>
 	Pode obter axuda consultando o <a href=":::manualLink:::">manual</a> (castelán), apuntándose ás <a href="contact_gl.html">listas de correo</a>. Recoméndase ler as <a href="faq_gl.html">preguntas&nbsp;frecuentes</a>. 

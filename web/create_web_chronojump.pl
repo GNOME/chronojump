@@ -24,17 +24,17 @@
 use strict;
 
 #CONSTANTS
-my $currentVersion = "0.52";
-my $currentVersionDay = "31";
-my $currentVersionMonth = 3; #if it's from 1 to 9, put only one digit
+my $currentVersion = "0.6";
+my $currentVersionDay = "30";
+my $currentVersionMonth = 9; #if it's from 1 to 9, put only one digit
 my $currentVersionYear = "2007";
-my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00004.html";
-my $linuxMailDownloadName = "Chronojump 0.52 for Linux (New!) Installation";
-my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-April/msg00012.html";
-my $windowsMailDownloadName = "Chronojump 0.52 for Windows (New!) Installation (updated)";
+my $linuxMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-September/msg00006.html";
+my $linuxMailDownloadName = "Chronojump 0.6 (new!) / Chronojump 0.6 (nuevo!)";
+my $windowsMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-September/msg00006.html";
+my $windowsMailDownloadName = "Chronojump 0.6 (new!) / Chronojump 0.6 (nuevo!)";
 my $maemoMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-April/msg00002.html";
 my $maemoMailDownloadName = "chronojump_mini for Maemo!! Chronojump_mini funcionando en Maemo!!";
-my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-March/msg00002.html";
+my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-September/msg00005.html";
 my $manualLink = "http://www.xdeblas.com/chronojump_manual_es.pdf";
 
 

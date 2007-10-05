@@ -1,5 +1,13 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+5 oct 2007
+	0.6-svn1
+	on start (if not first time) ask for chronopic connection. Fixes 482126
+	big improvements on gui of stats (made notebook, improved win,
+	update_stats button unsensitive until a test finished)
+	Added Chronojump Manual info on menu/help
+	DialogMessage shows warning or info icons
+
 30 set 2007 (2)
 	0.6 release in "About" will show by mistake "0.6-pre11", now corrected: "0.6". No changes
 	between both 

@@ -248,7 +248,7 @@ public class PreferencesWindow {
 					SqlitePreferences.Insert("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
 				}
 
-				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."));
+				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."), true);
 			}
 		}
 		*/

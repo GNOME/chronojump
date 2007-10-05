@@ -169,7 +169,7 @@ public class RepetitiveConditionsWindow
 			else
 				Util.PlaySound(Constants.SoundTypes.BAD, true);
 		} else
-			new DialogMessage(Catalog.GetString("You need to activate sounds in main window (bottom)"));
+			new DialogMessage(Catalog.GetString("You need to activate sounds in main window (bottom)"), false);
 
 	}
 

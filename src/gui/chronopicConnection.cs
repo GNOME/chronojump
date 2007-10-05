@@ -33,6 +33,7 @@ public class ChronopicConnection
 {
 	[Widget] Gtk.Window chronopic_connection;
 	[Widget] Gtk.ProgressBar progressbar1;
+	[Widget] Gtk.Label label_title;
 	[Widget] Gtk.Label label_feedback;
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_close;
@@ -64,6 +65,7 @@ public class ChronopicConnection
 	private void initialize() {
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
+		label_title.Sensitive = true;
 		LabelFeedBackReset();
 	}
 
@@ -77,6 +79,7 @@ public class ChronopicConnection
 
 	public void Connected(string message) {
 		Console.WriteLine("CONNECTED!!");
+		label_title.Sensitive = false;
 		label_feedback.Text = message;
 		button_cancel.Sensitive = false;
 		button_close.Sensitive = true;
@@ -84,6 +87,7 @@ public class ChronopicConnection
 
 	public void Disconnected(string message) {
 		Console.WriteLine("DISCONNECTED!!");
+		label_title.Sensitive = false;
 		label_feedback.Text = message;
 		button_cancel.Sensitive = false;
 		button_close.Sensitive = true;

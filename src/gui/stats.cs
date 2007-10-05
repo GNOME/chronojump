@@ -196,6 +196,9 @@ public class StatsWindow {
 					report, reportWin);
 		}
 		
+		//button update stats is unsensitive until a test finished
+		StatsWindowBox.button_stats.Sensitive = false;
+
 		StatsWindowBox.stats_window.Show ();
 		
 		return StatsWindowBox;
@@ -240,7 +243,7 @@ public class StatsWindow {
 		
 		combo_stats_stat_type.Changed += new EventHandler (on_combo_stats_stat_type_changed);
 
-		hbox_combo_stats_stat_type.PackStart(combo_stats_stat_type, false, false, 0);
+		hbox_combo_stats_stat_type.PackStart(combo_stats_stat_type, true, true, 0);
 		hbox_combo_stats_stat_type.ShowAll();
 		combo_stats_stat_type.Sensitive = true;
 	}
@@ -250,7 +253,7 @@ public class StatsWindow {
 		
 		combo_stats_stat_subtype.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
 
-		hbox_combo_stats_stat_subtype.PackStart(combo_stats_stat_subtype, false, false, 0);
+		hbox_combo_stats_stat_subtype.PackStart(combo_stats_stat_subtype, true, true, 0);
 		hbox_combo_stats_stat_subtype.ShowAll();
 		combo_stats_stat_subtype.Sensitive = true;
 	}
@@ -260,7 +263,7 @@ public class StatsWindow {
 		
 		combo_stats_stat_apply_to.Changed += new EventHandler (on_combo_stats_stat_apply_to_changed);
 
-		hbox_combo_stats_stat_apply_to.PackStart(combo_stats_stat_apply_to, false, false, 0);
+		hbox_combo_stats_stat_apply_to.PackStart(combo_stats_stat_apply_to, true, true, 0);
 		hbox_combo_stats_stat_apply_to.ShowAll();
 		combo_stats_stat_apply_to.Sensitive = true;
 	}
@@ -272,7 +275,7 @@ public class StatsWindow {
 		//combo_select_checkboxes.DisableActivate ();
 		combo_select_checkboxes.Changed += new EventHandler (on_combo_select_checkboxes_changed);
 
-		hbox_combo_select_checkboxes.PackStart(combo_select_checkboxes, false, false, 0);
+		hbox_combo_select_checkboxes.PackStart(combo_select_checkboxes, true, true, 0);
 		hbox_combo_select_checkboxes.ShowAll();
 		combo_select_checkboxes.Sensitive = true;
 	}
@@ -417,7 +420,7 @@ public class StatsWindow {
 		}
 
 		//show update stats button
-		ShowUpdateStatsButton();
+		//ShowUpdateStatsButton();
 	}
 
 	private bool fillTreeView_stats (bool graph) 
@@ -612,6 +615,9 @@ public class StatsWindow {
 
 	private void on_button_stats_clicked (object o, EventArgs args) {
 		fillTreeView_stats(false);
+
+		//after update stats it will be unsensitive until a new test is finished
+		button_stats.Sensitive = false;
 	}
 
 	private void on_button_graph_clicked (object o, EventArgs args) {
@@ -663,15 +669,15 @@ public class StatsWindow {
 			spinbutton_mark_consecutives.Sensitive = false;
 		}
 		
-		if (statsAutomatic) { 
+		//if (statsAutomatic) { 
 			fillTreeView_stats(false);
-		}
+		//}
 	}
 	
 	void on_spinbutton_mark_consecutives_changed (object o, EventArgs args) {
-		if (statsAutomatic) { 
+		//if (statsAutomatic) { 
 			fillTreeView_stats(false);
-		}
+		//}
 	}
 
 	
@@ -831,9 +837,9 @@ public class StatsWindow {
 	
 	void on_spinbutton_stats_jumps_changed (object o, EventArgs args)
 	{
-		if (statsAutomatic) { 
+		//if (statsAutomatic) { 
 			fillTreeView_stats(false);
-		}
+		//}
 	}
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {

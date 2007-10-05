@@ -108,7 +108,7 @@ public class ExportSession
 				closeWriter();
 			
 				string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
-				new DialogMessage(myString);
+				new DialogMessage(myString, false);
 			}
 		} 
 		catch {
@@ -126,7 +126,7 @@ public class ExportSession
 		closeWriter();
 				
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
-		new DialogMessage(myString);
+		new DialogMessage(myString, false);
 	}
 		
 	private string addHtmlIfNeeded(string myFile)

@@ -215,7 +215,7 @@ public class ChronoJump
 	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6";
+	private static string progversion = "0.6-svn1";
 	private static string progname = "Chronojump";
 	
 	//persons
@@ -449,7 +449,7 @@ public class ChronoJump
 			Application.Run();
 		} else {
 		*/
-			createMainWindow(recuperatedString);
+			createMainWindow(recuperatedString, isFirstTime);
 			Application.Run();
 			/*
 		}
@@ -528,7 +528,7 @@ public class ChronoJump
 	}
 */
 	
-	private void createMainWindow(string recuperatedString)
+	private void createMainWindow(string recuperatedString, bool isFirstTime)
 	{
 		Glade.XML gxml;
 		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "app1", null);
@@ -582,8 +582,17 @@ public class ChronoJump
 	
 		putNonStandardIcons();	
 		
-		if(simulated)
-			new DialogMessage(Catalog.GetString("Starting Chronojump in Simulated mode, change platform to 'Chronopic' for real detection of events"));
+		//if chronojump executed before, then ask on every start if user wants to connect with chronopic
+		if(! isFirstTime) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Do you want to connect to Chronopic now?"), "");
+			confirmWin.Button_accept.Clicked += new EventHandler(chronopicAtStart);
+		}
+	}
+
+	private void chronopicAtStart(object o, EventArgs args) {
+		//make active menuitem chronopic, and this
+		//will raise other things
+		menuitem_chronopic.Active = true;
 	}
 
 	//recuperate temp jumpRj or RunI if chronojump hangs
@@ -2035,8 +2044,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//bacause it's not automatically updated
 		//because it crashes in some thread problem
 		//that will be fixed in other release
-		if(createdStatsWin)
-			statsWin.ShowUpdateStatsButton();
+		//if(createdStatsWin)
+		//	statsWin.ShowUpdateStatsButton();
 	}
 
 	//if user doesn't touch the platform after pressing "cancel", sometimes it gets waiting a Read_event
@@ -2334,8 +2343,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			myLimit = 2; //2 for normal jump
 			
 		//don't let update until test finishes
-		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+		//if(createdStatsWin)
+		//	statsWin.HideUpdateStatsButton();
 
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Jump"), //windowTitle
@@ -2522,8 +2531,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		notebook_change(1);
 		
 		//don't let update until test finishes
-		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+		//if(createdStatsWin)
+		//	statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
@@ -2744,8 +2753,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		double myLimit = 3; //same for startingIn than out (before)
 		
 		//don't let update until test finishes
-		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+		//if(createdStatsWin)
+		//	statsWin.HideUpdateStatsButton();
 
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Run"), //windowTitle
@@ -2923,8 +2932,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		notebook_change(3);
 		
 		//don't let update until test finishes
-		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+		//if(createdStatsWin)
+		//	statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
@@ -3037,8 +3046,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		double myLimit = 2;
 			
 		//don't let update until test finishes
-		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+		//if(createdStatsWin)
+		//	statsWin.HideUpdateStatsButton();
 
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Reaction Time"), //windowTitle
@@ -3186,8 +3195,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		notebook_change(5);
 		
 		//don't let update until test finishes
-		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+		//if(createdStatsWin)
+		//	statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
@@ -3970,6 +3979,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	//help
+	private void on_menuitem_manual_activate (object o, EventArgs args) {
+		new DialogMessage(string.Format(Catalog.GetString("There's a copy of Chronojump Manual on \"docs\" directory.\n Newer versions will be on this site:\n{0}"), "http://gnome.org/projects/chronojump/documents.html"), false);
+	}
+
 	private void on_about1_activate (object o, EventArgs args) {
 		string translator_credits = Catalog.GetString ("translator-credits");
 		//only print if exist (don't print 'translator-credits' word

@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+9 oct (2)
+	fixed bug on 484758 on today svn up
+
 9 oct 2007
 	Working on: 484758: Added support for stats/potency/Sayers in SJl and CMJl. Working, but
 	remain testing and put string into "description".

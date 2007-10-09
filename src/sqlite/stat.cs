@@ -936,18 +936,25 @@ class SqliteStat : Sqlite
 				showSexString = "." + reader[1].ToString() ;
 			}
 			
-			if(multisession) {
-				string returnSessionString = ":" + reader[2].ToString();
-				string returnValueString = "";
-				returnValueString = ":" + 
+			string indexValueString = "";
+			if(indexType == "potencyLewisCMJl") {
+				indexValueString = 
 					(
 					 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))
 					 * 
 					 System.Math.Sqrt(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())))
 					).ToString();
+			}
+			else {
+				indexValueString = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString())).ToString();
+			}
+
+			if(multisession) {
+				string returnSessionString = ":" + reader[2].ToString();
+
 				myArray.Add (reader[0].ToString() + showSexString +
-						returnSessionString + 		//session
-						returnValueString		//index
+						returnSessionString + ":" +	//session
+						indexValueString		//index
 					    );
 			} else {
 				//in simple session return: name, sex, index, personweight, jumpweight, jumpheight
@@ -957,12 +964,7 @@ class SqliteStat : Sqlite
 					extraWeightString = " (" + Util.ChangeDecimalSeparator(reader[6].ToString()) + ")";//extra weight
 				}
 				myArray.Add (reader[0].ToString() + showSexString + extraWeightString +
-						":" + 
-						(
-						 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))
-						 * 
-						 System.Math.Sqrt(Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())))
-						).ToString()
+						":" + indexValueString
 						+ ":" + Util.ChangeDecimalSeparator(reader[5].ToString()) //person weight
 						+ ":" + Util.ChangeDecimalSeparator(reader[6].ToString()) //extra weight
 						+ ":" + Util.ChangeDecimalSeparator(reader[7].ToString()) //height

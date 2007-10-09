@@ -1,5 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+9 oct 2007
+	Working on: 484758: Added support for stats/potency/Sayers in SJl and CMJl. Working, but
+	remain testing and put string into "description".
+	Now old cmjPlusPotency is called PotencyLewisCMJl
+
 5 oct 2007
 	0.6-svn1
 	on start (if not first time) ask for chronopic connection. Fixes 482126

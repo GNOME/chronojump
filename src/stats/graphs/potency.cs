@@ -30,7 +30,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
 
-public class GraphCmjPlusPotency : StatCmjPlusPotency
+public class GraphPotency : StatPotency
 {
 	protected string operation;
 	private Random myRand = new Random();
@@ -42,7 +42,7 @@ public class GraphCmjPlusPotency : StatCmjPlusPotency
 	GraphSerie serieExtraWeight;
 	GraphSerie serieHeight;
 
-	public GraphCmjPlusPotency (StatTypeStruct myStatTypeStruct)
+	public GraphPotency (StatTypeStruct myStatTypeStruct, string indexType)
 	{
 		completeConstruction (myStatTypeStruct, treeview);
 		

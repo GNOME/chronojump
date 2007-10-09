@@ -857,7 +857,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	public static ArrayList CmjPlusPotency (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
+	public static ArrayList Potency (string indexType, string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
 		string ini = "";
 		string end = "";
@@ -874,11 +874,26 @@ class SqliteStat : Sqlite
 		//moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", person.weight";
 		//jump weight in Kg = jump weight in % * person.weight / 100
 		//jump height in centimeters = 100*4.9* pow(jump.tv/2, 2)
-		
-		moreSelect = 
-			ini + "(person.weight + jump.weight*person.weight/100.0) * 9.81" + end + " AS indexPart1, " + 
-			ini + "2 * 9.81 * 4.9 * jump.tv/2.0 * jump.tv/2.0" + end + " AS indexPart2WithoutSqrt, " +	//m
-			"person.weight, jump.weight*person.weight/100.0 AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2.0"; 
+
+		string jumpHeightInM = "4.9 * jump.tv/2.0 * jump.tv/2.0";
+
+		if(indexType == "potencyLewisCMJl") {
+			moreSelect = 
+				ini + "(person.weight + jump.weight*person.weight/100.0) * 9.81" + end + " AS indexPart1, " + 
+				ini + "2 * 9.81 * " + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
+		}
+		else if (indexType == "potencySayersSJl") {
+			moreSelect = 
+				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * person.weight) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+		}
+		//else if (indexType == "potencySayersCMJl") {
+		else {
+			moreSelect = 
+				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * person.weight) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+		}
+	      
+
+		moreSelect += "person.weight, jump.weight*person.weight/100.0 AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2.0"; 
 		//divisor has to be .0 if not, double is bad calculated. Bug 478168
 		//TODO: check if ini,end is needed here
 

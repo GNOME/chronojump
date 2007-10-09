@@ -32,8 +32,11 @@ public class Constants
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
-	public static string CmjPlusPotencyFormula = Catalog.GetString("Potency") + 
-		" (Pc + Pb) * 9.81 * sqrt(2 * 9,81 * h)";
+	//public static string CmjPlusPotencyFormula = Catalog.GetString("Potency") + 
+	//	" (Pc + Pb) * 9.81 * sqrt(2 * 9,81 * h)";
+	public static string PotencyLewisCMJlFormula = Catalog.GetString("Potency")+ " CMJl (Lewis)";
+	public static string PotencySayersSJlFormula = Catalog.GetString("Potency") + " SJl (Sayers)";
+	public static string PotencySayersCMJlFormula = Catalog.GetString("Potency") + " CMJl (Sayers)";
 	
 	//global stat types
 	public static string TypeSessionSummary = Catalog.GetString("Session summary");

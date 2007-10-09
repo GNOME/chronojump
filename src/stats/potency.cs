@@ -27,20 +27,25 @@ using Mono.Unix;
 
 
 //no sj+
-public class StatCmjPlusPotency : Stat
+public class StatPotency : Stat
 {
 	//protected bool percent = false; //show weight in simplesession as a percent of body weight or kg
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
-	public StatCmjPlusPotency () 
+	
+	protected string indexType;
+
+	public StatPotency () 
 	{
 		this.showSex = false;
 		this.statsJumpsType = 0;
 		this.limit = 0;
 	}
 
-	 public StatCmjPlusPotency (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview) 
+	 public StatPotency (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview, string indexType) 
 	{
+		this.indexType = indexType;
+
 		completeConstruction (myStatTypeStruct, treeview);
 		
 		this.dataColumns = 4;	//for simplesession (potency, personweightinkg, extraweightink, height)
@@ -101,14 +106,14 @@ public class StatCmjPlusPotency : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			if(multisession) {
 				string operation = "MAX";
-				processDataMultiSession ( SqliteStat.CmjPlusPotency(sessionString, multisession, 
+				processDataMultiSession ( SqliteStat.Potency(indexType, sessionString, multisession, 
 							operation, jumpType, showSex, heightPreferred),  
 						true, sessions.Count);
 			} else {
 				string operation = ""; //no need of "MAX", there's an order by jump.tv desc
 							//and cleanDontWanted will do his work
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.CmjPlusPotency(sessionString, multisession, 
+							SqliteStat.Potency(indexType, sessionString, multisession, 
 								operation, jumpType, showSex, heightPreferred), 
 							statsJumpsType, limit),
 						true, dataColumns);

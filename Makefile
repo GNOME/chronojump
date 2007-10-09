@@ -20,9 +20,9 @@ CHRONOJUMP = chronojump
 
 CHRONOJUMP_DEP_GUI = src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogHelp.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs
 
-CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/djQ.cs src/stats/rjIndex.cs src/stats/rjPotencyBosco.cs src/stats/rjEvolution.cs src/stats/ieIub.cs src/stats/fv.cs src/stats/cmjPlusPotency.cs
+CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/djQ.cs src/stats/rjIndex.cs src/stats/rjPotencyBosco.cs src/stats/rjEvolution.cs src/stats/ieIub.cs src/stats/fv.cs src/stats/potency.cs
 
-CHRONOJUMP_DEP_GRAPHS = src/stats/graphs/graphData.cs src/stats/graphs/graphSerie.cs src/stats/graphs/global.cs src/stats/graphs/sjCmjAbk.cs src/stats/graphs/sjCmjAbkPlus.cs src/stats/graphs/djIndex.cs src/stats/graphs/djQ.cs src/stats/graphs/rjIndex.cs src/stats/graphs/rjPotencyBosco.cs src/stats/graphs/rjEvolution.cs src/stats/graphs/ieIub.cs src/stats/graphs/fv.cs src/stats/graphs/cmjPlusPotency.cs
+CHRONOJUMP_DEP_GRAPHS = src/stats/graphs/graphData.cs src/stats/graphs/graphSerie.cs src/stats/graphs/global.cs src/stats/graphs/sjCmjAbk.cs src/stats/graphs/sjCmjAbkPlus.cs src/stats/graphs/djIndex.cs src/stats/graphs/djQ.cs src/stats/graphs/rjIndex.cs src/stats/graphs/rjPotencyBosco.cs src/stats/graphs/rjEvolution.cs src/stats/graphs/ieIub.cs src/stats/graphs/fv.cs src/stats/graphs/potency.cs
 
 CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpType.cs src/sqlite/run.cs src/sqlite/runType.cs src/sqlite/personSession.cs src/sqlite/stat.cs src/sqlite/pulse.cs src/sqlite/pulseType.cs src/sqlite/reactionTime.cs src/sqlite/event.cs
 

@@ -117,7 +117,10 @@ public class StatsWindow {
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
 		Constants.IubIndexFormula,
-		Constants.CmjPlusPotencyFormula
+		//Constants.CmjPlusPotencyFormula
+		Constants.PotencyLewisCMJlFormula,
+		Constants.PotencySayersSJlFormula,
+		Constants.PotencySayersCMJlFormula
 	};
 		
 
@@ -390,8 +393,16 @@ public class StatsWindow {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "SJl(100%), SJ");
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencyLewisCMJlFormula) {
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "CMJl");
+				combo_stats_stat_apply_to.Active = 0;
+				combo_stats_stat_apply_to.Sensitive = false;
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersSJlFormula) {
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "SJl");
+				combo_stats_stat_apply_to.Active = 0;
+				combo_stats_stat_apply_to.Sensitive = false;
+			//} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersCMJlFormula) {
 			} else {
-				//Constants.CmjPlusPotencyFormula
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "CMJl");
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
@@ -704,9 +715,12 @@ public class StatsWindow {
 				}
 				radiobutton_stats_jumps_person_average.Sensitive = false;
 			}
-			//in cmjPlusPotency show only "all jumps" radiobutton
-			else if(statisticType == Constants.TypeJumpsSimple &&
-					 statisticSubType == Constants.CmjPlusPotencyFormula) {
+			//in PotencyLewis and Sayers show only "all jumps" radiobutton
+			else if(statisticType == Constants.TypeJumpsSimple && ( 
+						statisticSubType == Constants.PotencyLewisCMJlFormula ||
+						statisticSubType == Constants.PotencySayersSJlFormula ||
+						statisticSubType == Constants.PotencySayersCMJlFormula
+						) ) {
 				//change the radiobutton value
 				if(radiobutton_stats_jumps_limit.Active || radiobutton_stats_jumps_person_average.Active ||
 						radiobutton_stats_jumps_person_bests.Active) {

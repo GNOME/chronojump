@@ -277,10 +277,8 @@ public class StatType {
 				} else {
 					//indexType = (Potency sayers or lewis);
 					if(graph) {
-						//myStat = new GraphCmjPlusPotency(myStatTypeStruct); 
 						myStat = new GraphPotency(myStatTypeStruct, indexType); 
 					} else {
-						//myStat = new StatCmjPlusPotency(myStatTypeStruct, treeview_stats); 
 						myStat = new StatPotency(myStatTypeStruct, treeview_stats, indexType); 
 					}
 				}

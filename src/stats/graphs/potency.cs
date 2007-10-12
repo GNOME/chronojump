@@ -44,6 +44,7 @@ public class GraphPotency : StatPotency
 
 	public GraphPotency (StatTypeStruct myStatTypeStruct, string indexType)
 	{
+		this.indexType = indexType;
 		completeConstruction (myStatTypeStruct, treeview);
 		
 		this.dataColumns = 4; //for Simplesession (index, personWeight, extraWeight, height)
@@ -62,7 +63,8 @@ public class GraphPotency : StatPotency
 		if(myStatTypeStruct.ToReport) {
 			CurrentGraphData.GraphTitle = "";
 		} else {
-			CurrentGraphData.GraphTitle = this.ToString();
+			//CurrentGraphData.GraphTitle = this.ToString();
+			CurrentGraphData.GraphTitle = "";
 		}
 		
 		if(sessions.Count == 1) {

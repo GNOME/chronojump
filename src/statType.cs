@@ -254,12 +254,12 @@ public class StatType {
 					indexType = "IUB";
 				} else if(statisticSubType == Constants.FvIndexFormula) {
 					indexType = "F/V";
-				} else if(statisticSubType == Constants.PotencyLewisCMJlFormula) {
-					indexType = "potencyLewisCMJl";
-				} else if(statisticSubType == Constants.PotencySayersSJlFormula) {
-					indexType = "potencySayersSJl";
-				} else if(statisticSubType == Constants.PotencySayersCMJlFormula) {
-					indexType = "potencySayersCMJl";
+				} else if(
+						statisticSubType == Constants.PotencyLewisCMJlFormula ||
+						statisticSubType == Constants.PotencySayersSJlFormula ||
+						statisticSubType == Constants.PotencySayersCMJlFormula
+						) {
+					indexType = statisticSubType;
 				}
 			
 				if(indexType == "IE" || indexType == "IUB") {

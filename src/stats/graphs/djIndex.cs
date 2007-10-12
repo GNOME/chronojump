@@ -60,7 +60,8 @@ public class GraphDjIndex : StatDjIndex
 		if(myStatTypeStruct.ToReport) {
 			CurrentGraphData.GraphTitle = "";
 		} else {
-			CurrentGraphData.GraphTitle = this.ToString();
+			//CurrentGraphData.GraphTitle = this.ToString();
+			CurrentGraphData.GraphTitle = "";
 		}
 		
 		if(sessions.Count == 1) {

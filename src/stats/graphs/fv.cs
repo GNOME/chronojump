@@ -66,7 +66,8 @@ public class GraphFv : StatFv
 		if(myStatTypeStruct.ToReport) {
 			CurrentGraphData.GraphTitle = "";
 		} else {
-			CurrentGraphData.GraphTitle = this.ToString();
+			//CurrentGraphData.GraphTitle = this.ToString();
+			CurrentGraphData.GraphTitle = "";
 		}
 		
 		if(sessions.Count == 1) {

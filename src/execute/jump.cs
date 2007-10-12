@@ -48,7 +48,7 @@ public class JumpExecute : EventExecute
 
 	//jump execution
 	public JumpExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, int fall, double weight,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
+			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -60,7 +60,6 @@ public class JumpExecute : EventExecute
 		
 		this.cp = cp;
 		this.appbar = appbar;
-		this.app = app;
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
@@ -140,7 +139,7 @@ public class JumpExecute : EventExecute
 		} 
 		else {
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(app, 
+			confirmWin = ConfirmWindow.Show( 
 					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "");
 
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
@@ -188,7 +187,7 @@ public class JumpExecute : EventExecute
 		} 
 		else {
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(app, 
+			confirmWin = ConfirmWindow.Show( 
 					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "");
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
@@ -444,7 +443,7 @@ public class JumpRjExecute : JumpExecute
 	public JumpRjExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, 
 			int sessionID, string type, int fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
+			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool allowFinishAfterTime, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		this.eventExecuteWin = eventExecuteWin;
@@ -465,7 +464,6 @@ public class JumpRjExecute : JumpExecute
 		
 		this.cp = cp;
 		this.appbar = appbar;
-		this.app = app;
 
 		this.pDN = pDN;
 		this.allowFinishAfterTime = allowFinishAfterTime;
@@ -522,7 +520,7 @@ public class JumpRjExecute : JumpExecute
 				myMessage = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press the 'accept' button");
 			}
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(app, myMessage, "");
+			confirmWin = ConfirmWindow.Show(myMessage, "");
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function

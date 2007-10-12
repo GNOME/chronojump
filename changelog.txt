@@ -1,5 +1,22 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+
+12 oct 2007
+	0.6-svn2
+	chronojump.cs (init of program) separated from gui/chronojump.cs.Fixes: 480399
+	server:
+	-server works now with Mono.Data.Sqlite (Sqlite3)
+	-MakeFile includes webservice and WSDL compilation, on english and lot cleaner
+	-chronojumpServer.cs renamed chronojumpServerCSharp.cs Fixes: 473721
+	-better code to test server on chronojump.cs
+	potencyLewis and Sayers now has a description in stat
+	not shown descriptions on graph window because normally they don't fit
+	fixed bug in session edit (date changed value)
+	chronopic.cs to src
+	fixed some warnings (unneded "parent" passed between windows) (working
+	on 486128)
+	updated POTFILES.in
+
 9 oct (2)
 	fixed bug on 484758 on today svn up
 

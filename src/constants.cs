@@ -27,16 +27,21 @@ public class Constants
 	//the strings created by Catalog cannot be const
 	
 	//formulas
-	public static string DjIndexFormula = "Dj Index ((tv-tc)/tc *100)";
+	public static string DjIndexFormula = "Dj Index (tv-tc)/tc *100)";
 	public static string QIndexFormula = "Q index (tv/tc)";
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
-	//public static string CmjPlusPotencyFormula = Catalog.GetString("Potency") + 
-	//	" (Pc + Pb) * 9.81 * sqrt(2 * 9,81 * h)";
-	public static string PotencyLewisCMJlFormula = Catalog.GetString("Potency")+ " CMJl (Lewis)";
-	public static string PotencySayersSJlFormula = Catalog.GetString("Potency") + " SJl (Sayers)";
-	public static string PotencySayersCMJlFormula = Catalog.GetString("Potency") + " CMJl (Sayers)";
+	
+	public static string PotencyLewisCMJlFormula = Catalog.GetString("Potency")+ " CMJl (Lewis) " +
+		"(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
+		"SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
+	
+	public static string PotencySayersSJlFormula = Catalog.GetString("Potency") + " SJl (Sayers) " +
+		"(60.7*" + Catalog.GetString("height") + "(cm)) + (45.3*" + Catalog.GetString("weight") + ") -2055";
+	
+	public static string PotencySayersCMJlFormula = Catalog.GetString("Potency") + " CMJl (Sayers) " +
+		"(51.9*" + Catalog.GetString("height") + "(cm)) + (48.9*" + Catalog.GetString("weight") + ") -2007";
 	
 	//global stat types
 	public static string TypeSessionSummary = Catalog.GetString("Session summary");

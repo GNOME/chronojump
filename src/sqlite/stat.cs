@@ -877,16 +877,17 @@ class SqliteStat : Sqlite
 
 		string jumpHeightInM = "4.9 * jump.tv/2.0 * jump.tv/2.0";
 
-		if(indexType == "potencyLewisCMJl") {
+		//if(indexType == "potencyLewisCMJl") {
+		if(indexType == Constants.PotencyLewisCMJlFormula) {
 			moreSelect = 
 				ini + "(person.weight + jump.weight*person.weight/100.0) * 9.81" + end + " AS indexPart1, " + 
 				ini + "2 * 9.81 * " + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
 		}
-		else if (indexType == "potencySayersSJl") {
+		else if (indexType == Constants.PotencySayersSJlFormula) {
 			moreSelect = 
 				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * person.weight) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
 		}
-		//else if (indexType == "potencySayersCMJl") {
+		//else if (indexType == Constants.PotencySayersCMJlFormula) {
 		else {
 			moreSelect = 
 				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * person.weight) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
@@ -937,7 +938,8 @@ class SqliteStat : Sqlite
 			}
 			
 			string indexValueString = "";
-			if(indexType == "potencyLewisCMJl") {
+			//if(indexType == "potencyLewisCMJl") {
+			if(indexType == Constants.PotencyLewisCMJlFormula) {
 				indexValueString = 
 					(
 					 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))

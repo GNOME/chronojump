@@ -73,7 +73,8 @@ public class GraphRjEvolution : StatRjEvolution
 		if(myStatTypeStruct.ToReport) {
 			CurrentGraphData.GraphTitle = "";
 		} else {
-			CurrentGraphData.GraphTitle = this.ToString();
+			//CurrentGraphData.GraphTitle = this.ToString();
+			CurrentGraphData.GraphTitle = "";
 		}
 		
 		

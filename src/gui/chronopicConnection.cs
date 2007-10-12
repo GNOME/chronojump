@@ -38,22 +38,19 @@ public class ChronopicConnection
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_close;
 
-	Gtk.Window parent;
-	
 	static ChronopicConnection ChronopicConnectionBox;
 	
-	public ChronopicConnection (Gtk.Window parent)
+	public ChronopicConnection ()
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "chronopic_connection", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	}
 
-	static public ChronopicConnection Show (Gtk.Window parent)
+	static public ChronopicConnection Show ()
 	{
 		if (ChronopicConnectionBox == null) {
-			ChronopicConnectionBox = new ChronopicConnection(parent);
+			ChronopicConnectionBox = new ChronopicConnection();
 		}
 		ChronopicConnectionBox.chronopic_connection.Show ();
 

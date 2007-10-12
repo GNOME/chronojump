@@ -54,18 +54,16 @@ public class PreferencesWindow {
 	[Widget] Gtk.Button button_accept;
 	
 	static PreferencesWindow PreferencesWindowBox;
-	Gtk.Window parent;
 
 	//language when window is called. If changes, then change data in sql and show 
 	//dialogMessage
 	private string languageIni;
 
 		
-	PreferencesWindow (Gtk.Window parent, string entryChronopic) {
+	PreferencesWindow (string entryChronopic) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		
 		if(entryChronopic.Length > 0) {
 			entry_chronopic.Text = entryChronopic;
@@ -73,14 +71,13 @@ public class PreferencesWindow {
 		
 	}
 	
-	//static public PreferencesWindow Show (Gtk.Window parent, int digitsNumber, bool showHeight, bool showInitialSpeed, bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred)
-	static public PreferencesWindow Show (Gtk.Window parent, string entryChronopic, int digitsNumber, bool showHeight, 
+	static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, 
 			bool showInitialSpeed, bool showQIndex, bool showDjIndex,
 			//bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture, bool allowFinishRjAfterTime)
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, string language, bool allowFinishRjAfterTime)
 	{
 		if (PreferencesWindowBox == null) {
-			PreferencesWindowBox = new PreferencesWindow (parent, entryChronopic);
+			PreferencesWindowBox = new PreferencesWindow (entryChronopic);
 		}
 
 

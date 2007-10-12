@@ -36,19 +36,18 @@ public class EditReactionTimeWindow : EditEventWindow
 {
 	static EditReactionTimeWindow EditReactionTimeWindowBox;
 
-	EditReactionTimeWindow (Gtk.Window parent) {
+	EditReactionTimeWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	
 		eventBigTypeString = Catalog.GetString("reaction time");
 	}
 
-	static new public EditReactionTimeWindow Show (Gtk.Window parent, Event myEvent, int pDN)
+	static new public EditReactionTimeWindow Show (Event myEvent, int pDN)
 	{
 		if (EditReactionTimeWindowBox == null) {
-			EditReactionTimeWindowBox = new EditReactionTimeWindow (parent);
+			EditReactionTimeWindowBox = new EditReactionTimeWindow ();
 		}
 
 		EditReactionTimeWindowBox.pDN = pDN;

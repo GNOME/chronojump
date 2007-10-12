@@ -52,20 +52,18 @@ public class RunTypeAddWindow
 	[Widget] Gtk.TextView textview_description;
 
 	static RunTypeAddWindow RunTypeAddWindowBox;
-	Gtk.Window parent;
 	ErrorWindow errorWin;
 
-	RunTypeAddWindow (Gtk.Window parent) {
+	RunTypeAddWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_type_add", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	}
 	
-	static public RunTypeAddWindow Show (Gtk.Window parent)
+	static public RunTypeAddWindow Show ()
 	{
 		if (RunTypeAddWindowBox == null) {
-			RunTypeAddWindowBox = new RunTypeAddWindow (parent);
+			RunTypeAddWindowBox = new RunTypeAddWindow ();
 		}
 		
 		RunTypeAddWindowBox.run_type_add.Show ();
@@ -110,7 +108,7 @@ public class RunTypeAddWindow
 			//	Catalog.GetString ("' exists. Please, use another name");
 			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);
-			errorWin = ErrorWindow.Show(run_type_add, myString);
+			errorWin = ErrorWindow.Show(myString);
 		} else {
 			string myRun = "";
 			myRun = Util.RemoveTildeAndColonAndDot(entry_name.Text);

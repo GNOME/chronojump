@@ -48,14 +48,12 @@ public class SessionAddWindow {
 	private Session currentSession;
 	
 	static SessionAddWindow SessionAddWindowBox;
-	Gtk.Window parent;
 	
 	
-	SessionAddWindow (Gtk.Window parent) {
+	SessionAddWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		button_accept.Sensitive = false;
 		
 		dateTime = DateTime.Today;
@@ -64,10 +62,10 @@ public class SessionAddWindow {
 		session_add_edit.Title = Catalog.GetString("New Session");
 	}
 	
-	static public SessionAddWindow Show (Gtk.Window parent)
+	static public SessionAddWindow Show ()
 	{
 		if (SessionAddWindowBox == null) {
-			SessionAddWindowBox = new SessionAddWindow (parent);
+			SessionAddWindowBox = new SessionAddWindow ();
 		}
 		SessionAddWindowBox.session_add_edit.Show ();
 
@@ -120,7 +118,7 @@ public class SessionAddWindow {
 		if(sessionExists) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);
-			errorWin = ErrorWindow.Show(session_add_edit, myString);
+			errorWin = ErrorWindow.Show(myString);
 
 		} else {
 			currentSession = new Session (entry_name.Text, entry_place.Text, nowDate, textview.Buffer.Text);
@@ -169,18 +167,18 @@ public class SessionEditWindow
 	private Session currentSession;
 	
 	static SessionEditWindow SessionEditWindowBox;
-	Gtk.Window parent;
 	
 	
-	SessionEditWindow (Gtk.Window parent, Session currentSession) {
+	SessionEditWindow (Session currentSession) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		this.currentSession = currentSession;
 		button_accept.Sensitive = false;
 		
 		session_add_edit.Title = Catalog.GetString("Session Edit");
+
+		dateTime = Util.DateAsDateTime(currentSession.Date);
 
 		entry_name.Text = currentSession.Name;
 		entry_place.Text = currentSession.Place;
@@ -192,10 +190,10 @@ public class SessionEditWindow
 		textview.Buffer = tb;
 	}
 	
-	static public SessionEditWindow Show (Gtk.Window parent, Session currentSession)
+	static public SessionEditWindow Show (Session currentSession)
 	{
 		if (SessionEditWindowBox == null) {
-			SessionEditWindowBox = new SessionEditWindow (parent, currentSession);
+			SessionEditWindowBox = new SessionEditWindow (currentSession);
 		}
 		SessionEditWindowBox.session_add_edit.Show ();
 
@@ -248,7 +246,7 @@ public class SessionEditWindow
 		if(sessionExists && Util.RemoveTilde(entry_name.Text) != currentSession.Name ) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);
-			errorWin = ErrorWindow.Show(session_add_edit, myString);
+			errorWin = ErrorWindow.Show(myString);
 
 		} else {
 			string nowDate = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
@@ -297,15 +295,13 @@ public class SessionLoadWindow {
 	[Widget] Gtk.Button button_accept;
 
 	static SessionLoadWindow SessionLoadWindowBox;
-	Gtk.Window parent;
 	
 	private Session currentSession;
 	
-	SessionLoadWindow (Gtk.Window parent) {
+	SessionLoadWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		
 		createTreeView(treeview_session_load);
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), 
@@ -319,10 +315,10 @@ public class SessionLoadWindow {
 		treeview_session_load.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public SessionLoadWindow Show (Gtk.Window parent)
+	static public SessionLoadWindow Show ()
 	{
 		if (SessionLoadWindowBox == null) {
-			SessionLoadWindowBox = new SessionLoadWindow (parent);
+			SessionLoadWindowBox = new SessionLoadWindow ();
 		}
 		SessionLoadWindowBox.session_load.Show ();
 		
@@ -450,15 +446,13 @@ public class SessionSelectStatsWindow {
 	[Widget] Gtk.Button button_accept;
 
 	static SessionSelectStatsWindow SessionSelectStatsWindowBox;
-	Gtk.Window parent;
 	
 	private ArrayList arrayOfSelectedSessions;
 	
-	SessionSelectStatsWindow (Gtk.Window parent, ArrayList oldSelectedSessions) {
+	SessionSelectStatsWindow (ArrayList oldSelectedSessions) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_select_sessions", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	
 		createTreeView(treeview1);
 		store1 = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
@@ -472,10 +466,10 @@ public class SessionSelectStatsWindow {
 		processOldSelectedSessions(treeview1, store1, store2, oldSelectedSessions);
 	}
 	
-	static public SessionSelectStatsWindow Show (Gtk.Window parent, ArrayList oldSelectedSessions)
+	static public SessionSelectStatsWindow Show (ArrayList oldSelectedSessions)
 	{
 		if (SessionSelectStatsWindowBox == null) {
-			SessionSelectStatsWindowBox = new SessionSelectStatsWindow (parent, oldSelectedSessions);
+			SessionSelectStatsWindowBox = new SessionSelectStatsWindow (oldSelectedSessions);
 		}
 		SessionSelectStatsWindowBox.stats_select_sessions.Show ();
 		

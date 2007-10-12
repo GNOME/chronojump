@@ -33,24 +33,18 @@ public class LanguageWindow
 	[Widget] Gtk.Label label_linux_restart;
 	
 
-	//Gtk.Window parent;
-	
 	static LanguageWindow LanguageWindowBox;
 	
-	//public LanguageWindow (Gtk.Window parent)
 	public LanguageWindow ()
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "language_window", null);
 		gladeXML.Autoconnect(this);
-		//this.parent = parent;
 	}
 
-	//static public LanguageWindow Show (Gtk.Window parent)
 	static public LanguageWindow Show ()
 	{
 		if (LanguageWindowBox == null) {
-			//LanguageWindowBox = new LanguageWindow(parent);
 			LanguageWindowBox = new LanguageWindow();
 		}
 		

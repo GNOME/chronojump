@@ -78,8 +78,8 @@ public class Stat
 
 
 	//for toString() in every stat
-	protected string allValuesString = "All values";
-	protected string avgValuesString = "Avg values of each jumper";
+	protected string allValuesString = Catalog.GetString("All values");
+	protected string avgValuesString = Catalog.GetString("Avg values of each jumper");
 	
 	protected int numContinuous; //for stats rj evolution
 	

@@ -53,20 +53,18 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.TextView textview_description;
 
 	static JumpTypeAddWindow JumpTypeAddWindowBox;
-	Gtk.Window parent;
 	ErrorWindow errorWin;
 
-	JumpTypeAddWindow (Gtk.Window parent) {
+	JumpTypeAddWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_type_add", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	}
 	
-	static public JumpTypeAddWindow Show (Gtk.Window parent)
+	static public JumpTypeAddWindow Show ()
 	{
 		if (JumpTypeAddWindowBox == null) {
-			JumpTypeAddWindowBox = new JumpTypeAddWindow (parent);
+			JumpTypeAddWindowBox = new JumpTypeAddWindow ();
 		}
 		
 		JumpTypeAddWindowBox.jump_type_add.Show ();
@@ -112,7 +110,7 @@ public class JumpTypeAddWindow
 			string myString = string.Format(Catalog.GetString("Jump type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			
 			Console.WriteLine (myString);
-			errorWin = ErrorWindow.Show(jump_type_add, myString);
+			errorWin = ErrorWindow.Show(myString);
 		} else {
 			string myJump = "";
 			myJump = Util.RemoveTildeAndColonAndDot(entry_name.Text);

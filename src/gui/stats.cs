@@ -33,7 +33,6 @@ public class StatsWindow {
 	
 	[Widget] Gtk.Window stats_window;
 	static StatsWindow StatsWindowBox;
-	Gtk.Window parent;
 	SessionSelectStatsWindow sessionSelectStatsWin;
 
 	[Widget] Gtk.TreeView treeview_stats;
@@ -117,7 +116,6 @@ public class StatsWindow {
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
 		Constants.IubIndexFormula,
-		//Constants.CmjPlusPotencyFormula
 		Constants.PotencyLewisCMJlFormula,
 		Constants.PotencySayersSJlFormula,
 		Constants.PotencySayersCMJlFormula
@@ -142,14 +140,13 @@ public class StatsWindow {
 	ReportWindow reportWin;
 
 	
-	StatsWindow (Gtk.Window parent, Session currentSession, 
+	StatsWindow (Session currentSession, 
 			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
 			Report report, ReportWindow reportWin)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_window", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		this.currentSession = currentSession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
 		this.weightStatsPercent = weightStatsPercent;
@@ -187,13 +184,13 @@ public class StatsWindow {
 	}
 	
 
-	static public StatsWindow Show (Gtk.Window parent, Session currentSession, 
+	static public StatsWindow Show (Session currentSession, 
 			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
 			//int prefsDigitsNumber, bool heightPreferred, 
 			Report report, ReportWindow reportWin)
 	{
 		if (StatsWindowBox == null) {
-			StatsWindowBox = new StatsWindow (parent, currentSession, 
+			StatsWindowBox = new StatsWindow (currentSession, 
 					prefsDigitsNumber, weightStatsPercent, heightPreferred, 
 					//prefsDigitsNumber, heightPreferred, 
 					report, reportWin);
@@ -858,7 +855,7 @@ public class StatsWindow {
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
 		Console.WriteLine("select sessions for stats");
-		sessionSelectStatsWin = SessionSelectStatsWindow.Show(stats_window, selectedSessions);
+		sessionSelectStatsWin = SessionSelectStatsWindow.Show(selectedSessions);
 		sessionSelectStatsWin.Button_accept.Clicked += new EventHandler(on_stats_select_sessions_accepted);
 	}
 	
@@ -919,7 +916,7 @@ public class StatsWindow {
 			}
 			
 			//create or show the report window
-			reportWin = ReportWindow.Show(parent, report);
+			reportWin = ReportWindow.Show(report);
 			//add current stat
 			reportWin.Add(statisticType, statisticSubType, statisticApplyTo, 
 					//sessionsAsAString, statsShowJumps, showSex.ToString());

@@ -38,19 +38,18 @@ public class EditPulseWindow : EditEventWindow
 {
 	static EditPulseWindow EditPulseWindowBox;
 
-	EditPulseWindow (Gtk.Window parent) {
+	EditPulseWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	
 		eventBigTypeString = Catalog.GetString("pulse");
 	}
 
-	static new public EditPulseWindow Show (Gtk.Window parent, Event myEvent, int pDN)
+	static new public EditPulseWindow Show (Event myEvent, int pDN)
 	{
 		if (EditPulseWindowBox == null) {
-			EditPulseWindowBox = new EditPulseWindow (parent);
+			EditPulseWindowBox = new EditPulseWindow ();
 		}
 
 		EditPulseWindowBox.pDN = pDN;
@@ -135,19 +134,17 @@ public class PulseExtraWindow
 	static int totalPulses = 10;
 	
 	static PulseExtraWindow PulseExtraWindowBox;
-	Gtk.Window parent;
 
-	PulseExtraWindow (Gtk.Window parent) {
+	PulseExtraWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "pulse_extra", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	}
 	
-	static public PulseExtraWindow Show (Gtk.Window parent, PulseType myPulseType) 
+	static public PulseExtraWindow Show (PulseType myPulseType) 
 	{
 		if (PulseExtraWindowBox == null) {
-			PulseExtraWindowBox = new PulseExtraWindow (parent);
+			PulseExtraWindowBox = new PulseExtraWindow ();
 		}
 		
 		//put default values or values from previous pulse
@@ -261,17 +258,15 @@ public class RepairPulseWindow
 	[Widget] Gtk.TextView textview1;
 
 	static RepairPulseWindow RepairPulseWindowBox;
-	Gtk.Window parent;
 
 	PulseType pulseType;
 	Pulse myPulse; //used on button_accept
 	
 
-	RepairPulseWindow (Gtk.Window parent, Pulse myPulse, int pDN) {
+	RepairPulseWindow (Pulse myPulse, int pDN) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		this.myPulse = myPulse;
 	
 		repair_sub_event.Title = Catalog.GetString("Repair pulse");
@@ -302,11 +297,11 @@ public class RepairPulseWindow
 		treeview_subevents.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public RepairPulseWindow Show (Gtk.Window parent, Pulse myPulse, int pDN)
+	static public RepairPulseWindow Show (Pulse myPulse, int pDN)
 	{
 		//Console.WriteLine(myRun);
 		if (RepairPulseWindowBox == null) {
-			RepairPulseWindowBox = new RepairPulseWindow (parent, myPulse, pDN);
+			RepairPulseWindowBox = new RepairPulseWindow (myPulse, pDN);
 		}
 		
 		RepairPulseWindowBox.repair_sub_event.Show ();

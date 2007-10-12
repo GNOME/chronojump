@@ -1,5 +1,5 @@
 # **************************************************************************
-# Fichero makefile.
+# Makefile.
 # --------------------------------------------------------------------------
 # Licencia GPL. Juan Gonzalez Gomez, Xavier de Blas Foix
 # --------------------------------------------------------------------------
@@ -11,14 +11,28 @@
 CC = gcc
 CFLAGS = -Wall
 
-#-- C# Compilador
+#-- C# Compilator
 MCS = gmcs
 
-#-------- Nombres y dependencias de los programas a construir
+BUILD_DIR = build/data
+
+#-- WSDL Client Compilator
+WSDL = chronojump_server/compile_wsdl.sh
+
+#-------- Names of programs to build
+
 
 CHRONOJUMP = chronojump
 
-CHRONOJUMP_DEP_GUI = src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogHelp.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs
+CHRONOJUMP_MINI = chronojump_mini
+
+CHRONOJUMP_SERVER = chronojump_server
+
+
+#--------Dependences of CHRONOJUMP
+
+
+CHRONOJUMP_DEP_GUI = src/gui/chronojump.cs src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogHelp.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs
 
 CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/djQ.cs src/stats/rjIndex.cs src/stats/rjPotencyBosco.cs src/stats/rjEvolution.cs src/stats/ieIub.cs src/stats/fv.cs src/stats/potency.cs
 
@@ -69,40 +83,56 @@ RESOURCES_REPORT = -resource:images/chronojump_logo.png,chronojump_logo.png \
 		-resource:images/report_web_style.css,report_web_style.css \
 
 
-#CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services
 CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.Sqlite -r:System.Web.Services
-#CHRONOJUMP_LIB =  -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:System.Data -r:Mono.Data.Sqlite -r:Mono.Data.SqliteClient -r:System.Web.Services
-
 
 NPLOT_LIBS = build/data/linux_dlls
-BUILD_DIR = build/data
 
-#-- Construccion del chronojump_mini que funciona por consola
-CHRONOJUMP_MINI = chronojump_mini
+#--------Dependences of CHRONOJUMP_MINI
 
-CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs chronopic.cs src/util.cs src/constants.cs 
+CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs src/chronopic.cs src/util.cs src/constants.cs 
 
+#--------Dependences of CHRONOJUMP_SERVER
+
+CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*.cs src/util.cs src/person.cs src/event.cs src/jump.cs src/run.cs src/pulse.cs src/reactionTime.cs src/session.cs src/eventType.cs src/jumpType.cs src/runType.cs src/pulseType.cs src/constants.cs
+
+
+#--------Makefiles
+
+#chronojump and chronojump_mini (default if used 'make')
 all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
 
+#chronojump, chronojump_mini and server (use 'make server')
+server: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_SERVER)
+
 
 #-------------------------------
-# Regla para compilar CHRONOJUMP (C#)
+# Compile CHRONOJUMP (C#)
 #-------------------------------
 
-$(CHRONOJUMP).prg: $(NPLOT_LIBS)/NPlot.dll $(NPLOT_LIBS)/NPlot.Gtk.dll $(CHRONOJUMP_DEP) chronopic.cs glade/chronojump.glade Makefile
+$(CHRONOJUMP).prg: $(NPLOT_LIBS)/NPlot.dll $(NPLOT_LIBS)/NPlot.Gtk.dll $(CHRONOJUMP_DEP) src/chronopic.cs glade/chronojump.glade
 	./compile_po_files.sh #update translations
-	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe chronopic.cs -r:$(NPLOT_LIBS)/NPlot.dll -r:$(NPLOT_LIBS)/NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(BUILD_DIR)/$(CHRONOJUMP).prg 
+	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe src/chronopic.cs -r:$(NPLOT_LIBS)/NPlot.dll -r:$(NPLOT_LIBS)/NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(BUILD_DIR)/$(CHRONOJUMP).prg 
    
     
 #------------------------------------
-# Regla para compilar CHRONOJUMP_MINI (C#)
+# Compile CHRONOJUMP_MINI (C#)
 #------------------------------------
 
 $(CHRONOJUMP_MINI).prg: $(CHRONOJUMP_MINI_DEP)
 	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(BUILD_DIR)/$(CHRONOJUMP_MINI).prg 
-    
+   
+
+#------------------------------------
+# Compile server webservice & WSDL
+#------------------------------------
+
+$(CHRONOJUMP_SERVER): $(CHRONOJUMP_SERVER_DEP) chronojump_server/chronojumpServer.asmx
+	$(MCS) -t:library -out:chronojump_server/bin/chronojumpServer.dll -r:System.Data -r:Mono.Data.Sqlite -r:System.Web.Services -r:Mono.Posix $(CHRONOJUMP_SERVER_DEP)
+	$(WSDL)
+
+
 #--------------------------
-#  REGLAS GENERICAS
+#  GENERIC rules
 #--------------------------
 .c.o:		
 		$(CC) $(CFLAGS) -c $<

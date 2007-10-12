@@ -34,25 +34,22 @@ public class ErrorWindow
 	[Widget] Gtk.Label label1;
 	[Widget] Gtk.Button button_accept;
 
-	Gtk.Window parent;
-	
 	string table;
 	static ErrorWindow ErrorWindowBox;
 	
-	public ErrorWindow (Gtk.Window parent, string text1)
+	public ErrorWindow (string text1)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "error_window", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		
 		label1.Text = text1;
 	}
 
-	static public ErrorWindow Show (Gtk.Window parent, string text1)
+	static public ErrorWindow Show (string text1)
 	{
 		if (ErrorWindowBox == null) {
-			ErrorWindowBox = new ErrorWindow(parent, text1);
+			ErrorWindowBox = new ErrorWindow(text1);
 		}
 		ErrorWindowBox.error_window.Show ();
 		

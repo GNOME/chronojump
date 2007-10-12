@@ -40,22 +40,23 @@ public class EditJumpWindow : EditEventWindow
 	protected double personWeight;
 
 	//for inheritance
+	/*
 	protected EditJumpWindow () {
 	}
+	*/
 
-	EditJumpWindow (Gtk.Window parent) {
+	public EditJumpWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	
 		eventBigTypeString = Catalog.GetString("jump");
 	}
 
-	static new public EditJumpWindow Show (Gtk.Window parent, Event myEvent, bool weightPercentPreferred, int pDN)
+	static new public EditJumpWindow Show (Event myEvent, bool weightPercentPreferred, int pDN)
 	{
 		if (EditJumpWindowBox == null) {
-			EditJumpWindowBox = new EditJumpWindow (parent);
+			EditJumpWindowBox = new EditJumpWindow ();
 		}
 
 		EditJumpWindowBox.weightPercentPreferred = weightPercentPreferred;
@@ -195,19 +196,18 @@ public class EditJumpRjWindow : EditJumpWindow
 {
 	static EditJumpRjWindow EditJumpRjWindowBox;
 
-	EditJumpRjWindow (Gtk.Window parent) {
+	EditJumpRjWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	
 		eventBigTypeString = Catalog.GetString("reactive jump");
 	}
 
-	static new public EditJumpRjWindow Show (Gtk.Window parent, Event myEvent, bool weightPercentPreferred, int pDN)
+	static new public EditJumpRjWindow Show (Event myEvent, bool weightPercentPreferred, int pDN)
 	{
 		if (EditJumpRjWindowBox == null) {
-			EditJumpRjWindowBox = new EditJumpRjWindow (parent);
+			EditJumpRjWindowBox = new EditJumpRjWindow ();
 		}
 
 		EditJumpRjWindowBox.weightPercentPreferred = weightPercentPreferred;
@@ -320,18 +320,16 @@ public class RepairJumpRjWindow
 	[Widget] Gtk.TextView textview1;
 
 	static RepairJumpRjWindow RepairJumpRjWindowBox;
-	Gtk.Window parent;
 	//int pDN;
 
 	JumpType jumpType;
 	JumpRj jumpRj; //used on button_accept
 	
 
-	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump, int pDN) {
+	RepairJumpRjWindow (JumpRj myJump, int pDN) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		this.jumpRj = myJump;
 
 		//this.pDN = pDN;
@@ -364,11 +362,11 @@ public class RepairJumpRjWindow
 		treeview_subevents.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public RepairJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
+	static public RepairJumpRjWindow Show (JumpRj myJump, int pDN)
 	{
 		//Console.WriteLine(myJump);
 		if (RepairJumpRjWindowBox == null) {
-			RepairJumpRjWindowBox = new RepairJumpRjWindow (parent, myJump, pDN);
+			RepairJumpRjWindowBox = new RepairJumpRjWindow (myJump, pDN);
 		}
 		
 		RepairJumpRjWindowBox.repair_sub_event.Show ();
@@ -710,19 +708,17 @@ public class JumpExtraWindow
 	static int fall = 20;
 	
 	static JumpExtraWindow JumpExtraWindowBox;
-	Gtk.Window parent;
 
-	JumpExtraWindow (Gtk.Window parent) {
+	JumpExtraWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_extra", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	}
 	
-	static public JumpExtraWindow Show (Gtk.Window parent, JumpType myJumpType) 
+	static public JumpExtraWindow Show (JumpType myJumpType) 
 	{
 		if (JumpExtraWindowBox == null) {
-			JumpExtraWindowBox = new JumpExtraWindow (parent);
+			JumpExtraWindowBox = new JumpExtraWindow ();
 		}
 		
 		if(myJumpType.IsRepetitive) {
@@ -871,11 +867,10 @@ public class JumpsMoreWindow : EventMoreWindow
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
 
-	public JumpsMoreWindow (Gtk.Window parent) {
+	public JumpsMoreWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		
 		selectedEventType = EventType.Types.JUMP.ToString();
 		
@@ -885,10 +880,10 @@ public class JumpsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsMoreWindow Show (Gtk.Window parent)
+	static public JumpsMoreWindow Show ()
 	{
 		if (JumpsMoreWindowBox == null) {
-			JumpsMoreWindowBox = new JumpsMoreWindow (parent);
+			JumpsMoreWindowBox = new JumpsMoreWindow ();
 		}
 		JumpsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1037,12 +1032,11 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
 	
-	public JumpsRjMoreWindow (Gtk.Window parent) {
+	public JumpsRjMoreWindow () {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 
 		//if jumps_runs_more is opened to showing Rj jumpTypes make it wider
 		jumps_runs_more.Resize(600,300);
@@ -1056,10 +1050,10 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsRjMoreWindow Show (Gtk.Window parent)
+	static public JumpsRjMoreWindow Show ()
 	{
 		if (JumpsRjMoreWindowBox == null) {
-			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent);
+			JumpsRjMoreWindowBox = new JumpsRjMoreWindow ();
 		}
 		JumpsRjMoreWindowBox.jumps_runs_more.Show ();
 		

@@ -36,23 +36,24 @@ public class EditRunWindow : EditEventWindow
 {
 	static EditRunWindow EditRunWindowBox;
 
+	/*
 	//for inheritance
 	protected EditRunWindow () {
 	}
+	*/
 
-	EditRunWindow (Gtk.Window parent) {
+	public EditRunWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	
 		eventBigTypeString = Catalog.GetString("run");
 	}
 
-	static new public EditRunWindow Show (Gtk.Window parent, Event myEvent, int pDN, bool metersSecondsPreferred)
+	static new public EditRunWindow Show (Event myEvent, int pDN, bool metersSecondsPreferred)
 	{
 		if (EditRunWindowBox == null) {
-			EditRunWindowBox = new EditRunWindow (parent);
+			EditRunWindowBox = new EditRunWindow ();
 		}
 
 		EditRunWindowBox.pDN = pDN;
@@ -158,19 +159,18 @@ public class EditRunIntervalWindow : EditRunWindow
 {
 	static EditRunIntervalWindow EditRunIntervalWindowBox;
 
-	EditRunIntervalWindow (Gtk.Window parent) {
+	EditRunIntervalWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	
 		eventBigTypeString = Catalog.GetString("intervallic run");
 	}
 
-	static new public EditRunIntervalWindow Show (Gtk.Window parent, Event myEvent, int pDN, bool metersSecondsPreferred)
+	static new public EditRunIntervalWindow Show (Event myEvent, int pDN, bool metersSecondsPreferred)
 	{
 		if (EditRunIntervalWindowBox == null) {
-			EditRunIntervalWindowBox = new EditRunIntervalWindow (parent);
+			EditRunIntervalWindowBox = new EditRunIntervalWindow ();
 		}
 
 		EditRunIntervalWindowBox.pDN = pDN;
@@ -275,17 +275,15 @@ public class RepairRunIntervalWindow
 	[Widget] Gtk.TextView textview1;
 
 	static RepairRunIntervalWindow RepairRunIntervalWindowBox;
-	Gtk.Window parent;
 
 	RunType runType;
 	RunInterval runInterval; //used on button_accept
 	
 
-	RepairRunIntervalWindow (Gtk.Window parent, RunInterval myRun, int pDN) {
+	RepairRunIntervalWindow (RunInterval myRun, int pDN) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		this.runInterval = myRun;
 	
 		repair_sub_event.Title = Catalog.GetString("Repair intervallic run");
@@ -316,11 +314,11 @@ public class RepairRunIntervalWindow
 		treeview_subevents.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public RepairRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
+	static public RepairRunIntervalWindow Show (RunInterval myRun, int pDN)
 	{
 		//Console.WriteLine(myRun);
 		if (RepairRunIntervalWindowBox == null) {
-			RepairRunIntervalWindowBox = new RepairRunIntervalWindow (parent, myRun, pDN);
+			RepairRunIntervalWindowBox = new RepairRunIntervalWindow (myRun, pDN);
 		}
 		
 		RepairRunIntervalWindowBox.repair_sub_event.Show ();
@@ -585,19 +583,17 @@ public class RunExtraWindow
 	static bool tracksLimited;
 	
 	static RunExtraWindow RunExtraWindowBox;
-	Gtk.Window parent;
 
-	RunExtraWindow (Gtk.Window parent) {
+	RunExtraWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_extra", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 	}
 	
-	static public RunExtraWindow Show (Gtk.Window parent, RunType myRunType) 
+	static public RunExtraWindow Show (RunType myRunType) 
 	{
 		if (RunExtraWindowBox == null) {
-			RunExtraWindowBox = new RunExtraWindow (parent);
+			RunExtraWindowBox = new RunExtraWindow ();
 		}
 		
 		if(myRunType.HasIntervals && ! myRunType.Unlimited) {
@@ -692,11 +688,10 @@ public class RunsMoreWindow : EventMoreWindow
 	
 	private double selectedDistance;
 	
-	RunsMoreWindow (Gtk.Window parent) {
+	RunsMoreWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 
 		selectedEventType = EventType.Types.RUN.ToString();
 		//name, distance, description
@@ -705,10 +700,10 @@ public class RunsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public RunsMoreWindow Show (Gtk.Window parent)
+	static public RunsMoreWindow Show ()
 	{
 		if (RunsMoreWindowBox == null) {
-			RunsMoreWindowBox = new RunsMoreWindow (parent);
+			RunsMoreWindowBox = new RunsMoreWindow ();
 		}
 		RunsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -833,12 +828,11 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	private int selectedLimitedValue;
 	private bool selectedUnlimited;
 	
-	RunsIntervalMoreWindow (Gtk.Window parent) {
+	RunsIntervalMoreWindow () {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		
 		selectedEventType = EventType.Types.RUN.ToString();
 		//name, distance, limited by tracks or seconds, limit value, description
@@ -848,10 +842,10 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public RunsIntervalMoreWindow Show (Gtk.Window parent)
+	static public RunsIntervalMoreWindow Show ()
 	{
 		if (RunsIntervalMoreWindowBox == null) {
-			RunsIntervalMoreWindowBox = new RunsIntervalMoreWindow (parent);
+			RunsIntervalMoreWindowBox = new RunsIntervalMoreWindow ();
 		}
 		RunsIntervalMoreWindowBox.jumps_runs_more.Show ();
 		

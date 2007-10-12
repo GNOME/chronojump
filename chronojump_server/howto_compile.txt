@@ -1,16 +1,19 @@
-COMPILE WEBSERVICE
+COMPILE WEBSERVICE (now automatically compiles from chronojump Makefile)
 
-gmcs -t:library -out:bin/chronojumpServer.dll -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services -r:Mono.Posix  chronojumpServer.cs ../src/sqlite/*.cs ../src/util.cs ../src/person.cs ../src/event.cs ../src/jump.cs ../src/run.cs ../src/session.cs ../src/jumpType.cs ../src/runType.cs 
+gmcs -t:library -out:bin/chronojumpServer.dll -r:System.Data -r:Mono.Data.Sqlite -r:System.Web.Services -r:Mono.Posix  chronojumpServerCSharp.cs ../src/sqlite/*.cs ../src/util.cs ../src/person.cs ../src/event.cs ../src/jump.cs ../src/run.cs ../src/pulse.cs ../src/reactionTime.cs ../src/session.cs ../src/eventType.cs ../src/jumpType.cs ../src/runType.cs ../src/pulseType.cs ../src/constants.cs
 
 
-COMPILE CLIENT WITH WSDL
+COMPILE CLIENT WITH WSDL (now auto done by makefile calling compile_wsdl.sh on this dir)
 
+(server has to be running for doing this compilation
+xavier@corall:/var/www/mono$ xsp2 --root /var/www/mono/
+)
 wsdl http://localhost:8080/chronojumpServer.asmx
 this compiles to file: ChronojumpServer.cs .this file now gets linked to chronojump client (see Makefile)
 
 
 
-OLD (compile webservice):
+*** OLD *** (compile webservice):
 
 gmcs -t:library -r:System.Data -r:Mono.Data.SqliteClient -r:System.Web.Services -out:bin/chronojumpServer.dll  chronojumpServer.cs ../src/sqlite/person.cs ../src/sqlite/main.cs ../src/util.cs ../src/person.cs ../src/sqlite/personSession.cs -r:Mono.Posix
 

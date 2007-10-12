@@ -55,7 +55,7 @@ public class PulseExecute : EventExecute
 
 	//execution
 	public PulseExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
+			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -68,7 +68,6 @@ public class PulseExecute : EventExecute
 	
 		this.cp = cp;
 		this.appbar = appbar;
-		this.app = app;
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
@@ -121,7 +120,7 @@ public class PulseExecute : EventExecute
 			string myMessage = Catalog.GetString("You are IN, please leave the platform, prepare for start, and press the 'accept' button!!");
 
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(app, myMessage, "");
+			confirmWin = ConfirmWindow.Show(myMessage, "");
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function

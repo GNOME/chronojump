@@ -66,7 +66,6 @@ public class EditEventWindow
 	[Widget] protected Gtk.TextView textview_description;
 
 	static EditEventWindow EditEventWindowBox;
-	protected Gtk.Window parent;
 	protected int pDN;
 	protected bool metersSecondsPreferred;
 	protected string type;
@@ -94,20 +93,20 @@ public class EditEventWindow
 	//for inheritance
 	protected EditEventWindow () {
 	}
-
-	EditEventWindow (Gtk.Window parent) {
+/*
+	EditEventWindow () {
 		//Glade.XML gladeXML;
 		//gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		//gladeXML.Autoconnect(this);
-		this.parent = parent;
 
 	}
-	
-	static public EditEventWindow Show (Gtk.Window parent, Event myEvent, int pDN)
+*/
+
+	static public EditEventWindow Show (Event myEvent, int pDN)
 		//run win have also metersSecondsPreferred
 	{
 		if (EditEventWindowBox == null) {
-			EditEventWindowBox = new EditEventWindow (parent);
+			EditEventWindowBox = new EditEventWindow ();
 		}
 		
 		EditEventWindowBox.pDN = pDN;
@@ -406,22 +405,17 @@ public class EventMoreWindow
 	protected TreeStore store;
 	[Widget] protected Gtk.TreeView treeview_more;
 	[Widget] protected Gtk.Button button_accept;
-	protected Gtk.Window parent;
 
 	protected string selectedEventType;
 	protected string selectedEventName;
 	protected string selectedDescription;
 	public Gtk.Button button_selected;
-	
-	public EventMoreWindow () {
-	}
 
-	public EventMoreWindow (Gtk.Window parent) {
+	public EventMoreWindow () {
 /*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 */
 
 		//name, startIn, weight, description

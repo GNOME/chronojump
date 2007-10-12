@@ -35,19 +35,16 @@ public class ConfirmWindowJumpRun
 	[Widget] Gtk.Label label2;
 	[Widget] Gtk.Button button_accept;
 
-	Gtk.Window parent;
-	
 	string table;
 	int uniqueID;
 	static ConfirmWindowJumpRun ConfirmWindowJumpRunBox;
 	
-	public ConfirmWindowJumpRun (Gtk.Window parent, string text1, string text2, string table, int uniqueID)
+	public ConfirmWindowJumpRun (string text1, string text2, string table, int uniqueID)
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		
 		label1.Text = text1;
 		label2.Text = text2;
@@ -55,10 +52,10 @@ public class ConfirmWindowJumpRun
 		this.uniqueID = uniqueID;
 	}
 
-	static public ConfirmWindowJumpRun Show (Gtk.Window parent, string text1, string text2, string table, int uniqueID)
+	static public ConfirmWindowJumpRun Show (string text1, string text2, string table, int uniqueID)
 	{
 		if (ConfirmWindowJumpRunBox == null) {
-			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(parent, text1, text2, table, uniqueID);
+			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, text2, table, uniqueID);
 		}
 		ConfirmWindowJumpRunBox.confirm_window.Show ();
 		
@@ -102,25 +99,22 @@ public class ConfirmWindow
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
 
-	Gtk.Window parent;
-	
 	static ConfirmWindow ConfirmWindowBox;
 	
-	public ConfirmWindow (Gtk.Window parent, string text1, string text2)
+	public ConfirmWindow (string text1, string text2)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		
 		label1.Text = text1;
 		label2.Text = text2;
 	}
 
-	static public ConfirmWindow Show (Gtk.Window parent, string text1, string text2)
+	static public ConfirmWindow Show (string text1, string text2)
 	{
 		if (ConfirmWindowBox == null) {
-			ConfirmWindowBox = new ConfirmWindow(parent, text1, text2);
+			ConfirmWindowBox = new ConfirmWindow(text1, text2);
 		}
 		ConfirmWindowBox.confirm_window.Show ();
 		

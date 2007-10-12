@@ -48,8 +48,6 @@ public class PersonRecuperateWindow {
 	
 	static PersonRecuperateWindow PersonRecuperateWindowBox;
 	
-	protected Gtk.Window parent;
-
 	protected int sessionID;
 	
 	protected Person currentPerson;
@@ -57,11 +55,10 @@ public class PersonRecuperateWindow {
 	protected PersonRecuperateWindow () {
 	}
 
-	PersonRecuperateWindow (Gtk.Window parent, int sessionID) {
+	PersonRecuperateWindow (int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 
 		this.sessionID = sessionID;
 	
@@ -79,10 +76,10 @@ public class PersonRecuperateWindow {
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public PersonRecuperateWindow Show (Gtk.Window parent, int sessionID)
+	static public PersonRecuperateWindow Show (int sessionID)
 	{
 		if (PersonRecuperateWindowBox == null) {
-			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, sessionID);
+			PersonRecuperateWindowBox = new PersonRecuperateWindow (sessionID);
 		}
 		PersonRecuperateWindowBox.person_recuperate.Show ();
 		
@@ -246,11 +243,10 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	[Widget] Gtk.Box hbox_combo_sessions;
 	[Widget] Gtk.ComboBox combo_sessions;
 	
-	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, int sessionID) {
+	PersonsRecuperateFromOtherSessionWindow (int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 
 	
 		//this class doesn't allow to search by name
@@ -279,11 +275,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 
-	static public new PersonsRecuperateFromOtherSessionWindow Show (Gtk.Window parent, int sessionID)
+	static public new PersonsRecuperateFromOtherSessionWindow Show (int sessionID)
 	{
 		if (PersonsRecuperateFromOtherSessionWindowBox == null) {
 			PersonsRecuperateFromOtherSessionWindowBox = 
-				new PersonsRecuperateFromOtherSessionWindow (parent, sessionID);
+				new PersonsRecuperateFromOtherSessionWindow (sessionID);
 		}
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Show ();
 		
@@ -530,7 +526,6 @@ public class PersonAddWindow {
 	[Widget] Gtk.Label label_weight_attention_message;
 	
 	static PersonAddWindow PersonAddWindowBox;
-	Gtk.Window parent;
 	ErrorWindow errorWin;
 
 	DialogCalendar myDialogCalendar;
@@ -540,11 +535,10 @@ public class PersonAddWindow {
 	private int sessionID;
 	private string sex = "M";
 	
-	PersonAddWindow (Gtk.Window parent, int sessionID) {
+	PersonAddWindow (int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		this.sessionID = sessionID;
 		button_accept.Sensitive = false; //only make sensitive when required values are inserted
 
@@ -574,10 +568,10 @@ public class PersonAddWindow {
 		sex = "F";
 	}
 	
-	static public PersonAddWindow Show (Gtk.Window parent, int sessionID)
+	static public PersonAddWindow Show (int sessionID)
 	{
 		if (PersonAddWindowBox == null) {
-			PersonAddWindowBox = new PersonAddWindow (parent, sessionID);
+			PersonAddWindowBox = new PersonAddWindow (sessionID);
 		}
 		PersonAddWindowBox.label_weight_attention_title.Hide();
 		PersonAddWindowBox.label_weight_attention_message.Hide();
@@ -622,7 +616,7 @@ public class PersonAddWindow {
 		if(personExists) {
 			//string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			string myString = string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
-			errorWin = ErrorWindow.Show(person_win, myString);
+			errorWin = ErrorWindow.Show(myString);
 		} else {
 			currentPerson = new Person (entry1.Text, sex, dateFull, (int) spinbutton_height.Value,
 						(int) spinbutton_weight.Value, textview2.Buffer.Text, sessionID);
@@ -669,7 +663,6 @@ public class PersonModifyWindow
 	[Widget] Gtk.Button button_accept;
 	
 	static PersonModifyWindow PersonModifyWindowBox;
-	Gtk.Window parent;
 	ErrorWindow errorWin;
 	
 	DialogCalendar myDialogCalendar;
@@ -681,11 +674,10 @@ public class PersonModifyWindow
 	private string sex = "M";
 	
 	
-	PersonModifyWindow (Gtk.Window parent, int sessionID) {
+	PersonModifyWindow (int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		this.sessionID = sessionID;
 
 		person_win.Title =  Catalog.GetString ("Edit jumper");
@@ -711,11 +703,10 @@ public class PersonModifyWindow
 		sex = "F";
 	}
 	
-	//static public PersonModifyWindow Show (Gtk.Window parent, int sessionID)
-	static public PersonModifyWindow Show (Gtk.Window parent, int sessionID, int personID)
+	static public PersonModifyWindow Show (int sessionID, int personID)
 	{
 		if (PersonModifyWindowBox == null) {
-			PersonModifyWindowBox = new PersonModifyWindow (parent, sessionID);
+			PersonModifyWindowBox = new PersonModifyWindow (sessionID);
 		}
 		PersonModifyWindowBox.person_win.Show ();
 		
@@ -782,7 +773,7 @@ public class PersonModifyWindow
 		if(personExists) {
 			//string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			string myString = string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
-			errorWin = ErrorWindow.Show(person_win, myString);
+			errorWin = ErrorWindow.Show(myString);
 		} else {
 			//separate by '/' for not confusing with the ':' separation between the other values
 			string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
@@ -868,7 +859,6 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.Button button_accept;
 	
 	static PersonAddMultipleWindow PersonAddMultipleWindowBox;
-	Gtk.Window parent;
 	ErrorWindow errorWin;
 
 	private Person currentPerson;
@@ -878,18 +868,17 @@ public class PersonAddMultipleWindow {
 	string errorWeightString;
 	string errorRepeatedEntryString;
 	
-	PersonAddMultipleWindow (Gtk.Window parent, int sessionID) {
+	PersonAddMultipleWindow (int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_add_multiple", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 		this.sessionID = sessionID;
 	}
 	
-	static public PersonAddMultipleWindow Show (Gtk.Window parent, int sessionID)
+	static public PersonAddMultipleWindow Show (int sessionID)
 	{
 		if (PersonAddMultipleWindowBox == null) {
-			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, sessionID);
+			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (sessionID);
 		}
 		PersonAddMultipleWindowBox.person_add_multiple.Show ();
 		
@@ -933,7 +922,7 @@ public class PersonAddMultipleWindow {
 		combinedErrorString = readErrorStrings();
 		
 		if (combinedErrorString.Length > 0) {
-			errorWin = ErrorWindow.Show(person_add_multiple, combinedErrorString);
+			errorWin = ErrorWindow.Show(combinedErrorString);
 		} else {
 			prepareAllNonBlankRows();
 		
@@ -1092,17 +1081,14 @@ public class PersonShowAllEventsWindow {
 	
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
 	
-	protected Gtk.Window parent;
-
 	protected int sessionID;
 	
 	protected Person currentPerson;
 	
-	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson) {
+	PersonShowAllEventsWindow (int sessionID, Person currentPerson) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_show_all_events", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 
 		this.sessionID = sessionID;
 		this.currentPerson = currentPerson;
@@ -1115,10 +1101,10 @@ public class PersonShowAllEventsWindow {
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
 	
-	static public PersonShowAllEventsWindow Show (Gtk.Window parent, int sessionID, Person currentPerson)
+	static public PersonShowAllEventsWindow Show (int sessionID, Person currentPerson)
 	{
 		if (PersonShowAllEventsWindowBox == null) {
-			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, sessionID, currentPerson);
+			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (sessionID, currentPerson);
 		}
 		PersonShowAllEventsWindowBox.person_show_all_events.Show ();
 		

@@ -51,8 +51,6 @@ public class ReportWindow {
 	
 	static ReportWindow ReportWindowBox;
 	
-	protected Gtk.Window parent;
-
 	//protected int sessionID;
 
 	Report report;
@@ -61,11 +59,10 @@ public class ReportWindow {
 	protected ReportWindow () {
 	}
 
-	ReportWindow (Gtk.Window parent, Report report ) {
+	ReportWindow (Report report ) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "report_window", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
 
 		this.report = report;
 	
@@ -84,10 +81,10 @@ public class ReportWindow {
 	
 
 	//if it's created
-	static public ReportWindow Show (Gtk.Window parent, Report report)
+	static public ReportWindow Show (Report report)
 	{
 		if (ReportWindowBox == null) {
-			ReportWindowBox = new ReportWindow (parent, report);
+			ReportWindowBox = new ReportWindow (report);
 			
 			//checkboxes
 			ReportWindowBox.loadCheckBoxes();

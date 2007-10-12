@@ -99,7 +99,7 @@ public class ExportSession
 				Console.WriteLine("File {0} exists with attributes {1}, created at {2}", 
 						fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName));
 				Console.WriteLine("Overwrite...");
-				ConfirmWindow confirmWin = ConfirmWindow.Show(app1, Catalog.GetString("Are you sure you want to overwrite file: "), fileName);
+				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), fileName);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 			} else {
 				writer = File.CreateText(fileName);

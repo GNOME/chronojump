@@ -8,6 +8,7 @@ src/execute/pulse.cs
 src/execute/reactionTime.cs
 src/execute/run.cs
 src/exportSession.cs
+src/gui/chronojump.cs
 src/gui/event.cs
 src/gui/helpPorts.cs
 src/gui/jump.cs
@@ -28,12 +29,12 @@ src/report.cs
 src/runType.cs
 src/sqlite/stat.cs
 src/statType.cs
-src/stats/cmjPlusPotency.cs
+src/stats/potency.cs
 src/stats/djIndex.cs
 src/stats/djQ.cs
 src/stats/fv.cs
 src/stats/global.cs
-src/stats/graphs/cmjPlusPotency.cs
+src/stats/graphs/potency.cs
 src/stats/graphs/djIndex.cs
 src/stats/graphs/djQ.cs
 src/stats/graphs/fv.cs

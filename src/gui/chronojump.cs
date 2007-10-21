@@ -397,6 +397,9 @@ public class ChronoJumpWindow
 		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "app1", null);
 		gxml.Autoconnect(this);
 
+		//put an icon to window
+		UtilGtk.IconWindow(app1);
+
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
 
@@ -770,6 +773,68 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);
 		}
 	}
+
+	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args) {
+		Gdk.EventButton e = args.Event;
+		Gtk.TreeView myTv = (Gtk.TreeView) o;
+		if (e.Button == 3) {
+			if(myTv == treeview_persons) {
+				Console.WriteLine("treeview_persons!!!!");
+				treeviewPersonsContextMenu(currentPerson);
+			}
+			else if(myTv == treeview_jumps) {
+				/*
+				Console.WriteLine("treeview_jumps!!!!");
+				TreeModel model;
+				TreeIter iter;
+				Jump myJump = new Jump();
+				if (((TreeSelection)o).GetSelected(out model, out iter)) {
+					myJump.UniqueID = myTreeViewJumps.EventSelectedID;
+				}
+				treeviewJumpsContextMenu(myJump);
+				*/
+			}
+			else
+				Console.WriteLine(myTv.ToString());
+		}
+	}
+
+	private void treeviewPersonsContextMenu(Person myPerson) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit") + " " + myPerson.Name);
+		myItem.Activated += on_edit_current_person_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+		myItem = new MenuItem ( Catalog.GetString("Show all tests of") + " " + myPerson.Name);
+		myItem.Activated += on_show_all_person_events_activate;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
+
+		myItem = new MenuItem ( string.Format(Catalog.GetString("Delete {0} from this session"),myPerson.Name));
+		myItem.Activated += on_delete_current_person_from_session_activate;
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
+	}
+	/*
+	private void treeviewJumpsContextMenu(Jump myJump) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		//myItem = new MenuItem ( Catalog.GetString("Edit") + " " + myJump.UniqueID + "(" + myJump.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Edit") + " " + myJump.UniqueID);
+		myItem.Activated += on_edit_selected_jump_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		myMenu.Popup();
+		myMenu.ShowAll();
+	}
+	*/
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW JUMPS ------------------------

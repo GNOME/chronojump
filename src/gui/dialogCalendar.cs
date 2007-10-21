@@ -39,6 +39,9 @@ public class DialogCalendar
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_calendar", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(dialog_calendar);
+		
 		dialog_calendar.Title = calendarTitle; 
 
 		fakeButtonDateChanged = new Button();

@@ -94,6 +94,9 @@ public class RepetitiveConditionsWindow
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repetitive_conditions", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(repetitive_conditions);
+		
 		putNonStandardIcons();
 	}
 

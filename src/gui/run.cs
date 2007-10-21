@@ -46,6 +46,9 @@ public class EditRunWindow : EditEventWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(edit_event);
 	
 		eventBigTypeString = Catalog.GetString("run");
 	}
@@ -163,6 +166,9 @@ public class EditRunIntervalWindow : EditRunWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(edit_event);
 	
 		eventBigTypeString = Catalog.GetString("intervallic run");
 	}
@@ -284,6 +290,10 @@ public class RepairRunIntervalWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(repair_sub_event);
+
 		this.runInterval = myRun;
 	
 		repair_sub_event.Title = Catalog.GetString("Repair intervallic run");
@@ -588,6 +598,9 @@ public class RunExtraWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_extra", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(run_extra);
 	}
 	
 	static public RunExtraWindow Show (RunType myRunType) 
@@ -692,6 +705,9 @@ public class RunsMoreWindow : EventMoreWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(jumps_runs_more);
 
 		selectedEventType = EventType.Types.RUN.ToString();
 		//name, distance, description
@@ -833,6 +849,9 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(jumps_runs_more);
 		
 		selectedEventType = EventType.Types.RUN.ToString();
 		//name, distance, limited by tracks or seconds, limit value, description

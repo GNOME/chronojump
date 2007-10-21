@@ -40,6 +40,9 @@ public class EditReactionTimeWindow : EditEventWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(edit_event);
 	
 		eventBigTypeString = Catalog.GetString("reaction time");
 	}

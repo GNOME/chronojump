@@ -59,6 +59,8 @@ public class Constants
 	public static string FileNameLogo = "chronojump_logo.png";
 	public static string FileNameCSS = "report_web_style.css";
 	
+	public static string FileNameIcon = "chronojump_icon.png";
+	
 	//30 colors defined
 	public static string [] Colors = {
 		"Blue", "Coral", "Cyan", "Gray", "Green", "Pink", "Salmon", "Yellow",

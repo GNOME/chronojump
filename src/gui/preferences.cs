@@ -65,6 +65,9 @@ public class PreferencesWindow {
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(preferences);
+		
 		if(entryChronopic.Length > 0) {
 			entry_chronopic.Text = entryChronopic;
 		}

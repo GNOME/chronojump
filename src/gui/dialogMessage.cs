@@ -37,6 +37,9 @@ public class DialogMessage
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_message", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(dialog_message);
 	
 		//with this, user doesn't see a moving/changing creation window
 		dialog_message.Hide();	

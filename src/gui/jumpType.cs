@@ -59,6 +59,9 @@ public class JumpTypeAddWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_type_add", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(jump_type_add);
 	}
 	
 	static public JumpTypeAddWindow Show ()

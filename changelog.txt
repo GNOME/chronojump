@@ -1,5 +1,12 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+21 oct 2007
+	0.6-svn3
+	treeview_persons has contextual menu
+	improved dialog_about
+	created an icon and shown in all windows (svn add done)
+	changed icon of "text available" on image_test
+	Fixed bug (created on 0.6-svn2) on click on any test "more" (check all diffs on src/gui for a similar bug)
 
 12 oct 2007
 	0.6-svn2

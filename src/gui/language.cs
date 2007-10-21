@@ -40,6 +40,9 @@ public class LanguageWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "language_window", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(language_window);
 	}
 
 	static public LanguageWindow Show ()

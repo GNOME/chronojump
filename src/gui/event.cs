@@ -412,16 +412,16 @@ public class EventMoreWindow
 	public Gtk.Button button_selected;
 
 	public EventMoreWindow () {
-/*
+		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
-*/
 
 		//name, startIn, weight, description
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string));
 
 		initializeThings();
+		*/
 	}
 
 	protected void initializeThings() 

@@ -38,6 +38,9 @@ public class DialogImageTest
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_image_test", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(dialog_image_test);
+
 		label_name_description.Text = "<b>" + myEventType.Name + "</b>" + " - " + myEventType.Description; 
 		label_name_description.UseMarkup = true; 
 

@@ -45,6 +45,9 @@ public class ChronopicConnection
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "chronopic_connection", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(chronopic_connection);
 	}
 
 	static public ChronopicConnection Show ()

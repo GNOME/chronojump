@@ -46,6 +46,9 @@ public class ConfirmWindowJumpRun
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(confirm_window);
+		
 		label1.Text = text1;
 		label2.Text = text2;
 		this.table = table;
@@ -106,6 +109,9 @@ public class ConfirmWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(confirm_window);
 		
 		label1.Text = text1;
 		label2.Text = text2;

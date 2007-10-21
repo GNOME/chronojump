@@ -43,6 +43,9 @@ public class ErrorWindow
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "error_window", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(error_window);
+		
 		label1.Text = text1;
 	}
 

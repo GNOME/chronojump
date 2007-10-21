@@ -78,6 +78,7 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/preferences-system.png,preferences-system.png \
 		-resource:images/stock_delete.png,stock_delete.png \
 		-resource:images/delete_last.png,delete_last.png \
+		-resource:images/chronojump_icon.png,chronojump_icon.png \
 
 RESOURCES_REPORT = -resource:images/chronojump_logo.png,chronojump_logo.png \
 		-resource:images/report_web_style.css,report_web_style.css \

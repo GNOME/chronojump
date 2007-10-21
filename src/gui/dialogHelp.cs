@@ -34,6 +34,9 @@ public class DialogHelp
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_help", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(dialog_help);
+
 		label_message.Text = message; 
 	}
 				

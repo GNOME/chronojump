@@ -42,6 +42,9 @@ public class EditPulseWindow : EditEventWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(edit_event);
 	
 		eventBigTypeString = Catalog.GetString("pulse");
 	}
@@ -139,6 +142,9 @@ public class PulseExtraWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "pulse_extra", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(pulse_extra);
 	}
 	
 	static public PulseExtraWindow Show (PulseType myPulseType) 
@@ -267,6 +273,10 @@ public class RepairPulseWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(repair_sub_event);
+
 		this.myPulse = myPulse;
 	
 		repair_sub_event.Title = Catalog.GetString("Repair pulse");

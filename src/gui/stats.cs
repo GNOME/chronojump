@@ -147,6 +147,10 @@ public class StatsWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_window", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(stats_window);
+
 		this.currentSession = currentSession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
 		this.weightStatsPercent = weightStatsPercent;

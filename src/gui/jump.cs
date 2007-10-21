@@ -49,6 +49,9 @@ public class EditJumpWindow : EditEventWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+
+		//put an icon to window
+		UtilGtk.IconWindow(edit_event);
 	
 		eventBigTypeString = Catalog.GetString("jump");
 	}
@@ -200,6 +203,9 @@ public class EditJumpRjWindow : EditJumpWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(edit_event);
 	
 		eventBigTypeString = Catalog.GetString("reactive jump");
 	}
@@ -330,6 +336,10 @@ public class RepairJumpRjWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
+	
+		//put an icon to window
+		UtilGtk.IconWindow(repair_sub_event);
+	
 		this.jumpRj = myJump;
 
 		//this.pDN = pDN;
@@ -713,6 +723,9 @@ public class JumpExtraWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_extra", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(jump_extra);
 	}
 	
 	static public JumpExtraWindow Show (JumpType myJumpType) 
@@ -872,6 +885,9 @@ public class JumpsMoreWindow : EventMoreWindow
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(jumps_runs_more);
+		
 		selectedEventType = EventType.Types.JUMP.ToString();
 		
 		//name, startIn, weight, description
@@ -891,13 +907,16 @@ public class JumpsMoreWindow : EventMoreWindow
 	}
 	
 	protected override void createTreeView (Gtk.TreeView tv) {
+		Console.WriteLine("AAAAAAAAA");
 		tv.HeadersVisible=true;
 		int count = 0;
+		Console.WriteLine("BBBBBBBBBB");
 		
 		tv.AppendColumn ( Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Start inside"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Extra weight"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
+		Console.WriteLine("CCCCCCCCCC");
 	}
 	
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
@@ -1037,6 +1056,9 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(jumps_runs_more);
 
 		//if jumps_runs_more is opened to showing Rj jumpTypes make it wider
 		jumps_runs_more.Resize(600,300);

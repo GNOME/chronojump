@@ -54,8 +54,11 @@ public class SessionAddWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
-		button_accept.Sensitive = false;
 		
+		//put an icon to window
+		UtilGtk.IconWindow(session_add_edit);
+	
+		button_accept.Sensitive = false;
 		dateTime = DateTime.Today;
 		label_date.Text = dateTime.ToLongDateString();
 			
@@ -173,6 +176,10 @@ public class SessionEditWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(session_add_edit);
+	
 		this.currentSession = currentSession;
 		button_accept.Sensitive = false;
 		
@@ -303,6 +310,9 @@ public class SessionLoadWindow {
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(session_load);
+		
 		createTreeView(treeview_session_load);
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), 
 				typeof (string), typeof (string), typeof (string), typeof (string), typeof(string), 
@@ -378,7 +388,7 @@ public class SessionLoadWindow {
 		}
 		Console.WriteLine (selected);
 	}
-
+	
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
 		TreeView tv = (TreeView) o;
@@ -453,6 +463,9 @@ public class SessionSelectStatsWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_select_sessions", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(stats_select_sessions);
 	
 		createTreeView(treeview1);
 		store1 = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );

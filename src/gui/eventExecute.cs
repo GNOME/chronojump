@@ -165,6 +165,9 @@ public class EventExecuteWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "event_execute", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(event_execute);
 
 		//this hides it when it's creating (hiding and showing tables stuff)
 		//then user doesn't see a moving/changing creation window

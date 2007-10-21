@@ -58,6 +58,9 @@ public class RunTypeAddWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_type_add", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(run_type_add);
 	}
 	
 	static public RunTypeAddWindow Show ()

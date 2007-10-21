@@ -21,11 +21,13 @@
 
 using System;
 using Gtk;
+using Gdk;
 using Glade;
 
 public class About
 {
 	[Widget] Gtk.Dialog dialog_about;
+	[Widget] Gtk.Image image_logo;
 	[Widget] Gtk.Label dialog_about_label_version;
 	[Widget] Gtk.Label dialog_about_label_developers;
 	[Widget] Gtk.Label dialog_about_label_translators;
@@ -36,6 +38,14 @@ public class About
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_about", null);
 		gladeXML.Autoconnect(this);
 		
+		//put an icon to window
+		UtilGtk.IconWindow(dialog_about);
+
+		//put logo image
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
+		image_logo.Pixbuf = pixbuf;
+
 		dialog_about_label_version.Text = version; 
 		dialog_about_label_translators.Text = translators; 
 		

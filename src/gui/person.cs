@@ -59,6 +59,9 @@ public class PersonRecuperateWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(person_recuperate);
 
 		this.sessionID = sessionID;
 	
@@ -247,6 +250,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(person_recuperate);
 
 	
 		//this class doesn't allow to search by name
@@ -539,6 +545,10 @@ public class PersonAddWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(person_win);
+
 		this.sessionID = sessionID;
 		button_accept.Sensitive = false; //only make sensitive when required values are inserted
 
@@ -678,8 +688,11 @@ public class PersonModifyWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(person_win);
+	
 		this.sessionID = sessionID;
-
 		person_win.Title =  Catalog.GetString ("Edit jumper");
 	}
 	
@@ -872,6 +885,10 @@ public class PersonAddMultipleWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_add_multiple", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(person_add_multiple);
+	
 		this.sessionID = sessionID;
 	}
 	
@@ -1089,6 +1106,9 @@ public class PersonShowAllEventsWindow {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_show_all_events", null);
 		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(person_show_all_events);
 
 		this.sessionID = sessionID;
 		this.currentPerson = currentPerson;

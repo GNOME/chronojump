@@ -28,6 +28,11 @@ using Gtk;
 public class UtilGtk
 {
 
+	public static void IconWindow(Gtk.Window myWindow) {
+		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIcon);
+            	myWindow.Icon = chronojumpIcon;
+	}
+
 	public static string ComboGetActive(ComboBox myCombo) {
 		TreeIter iter;
 		string myText = "";

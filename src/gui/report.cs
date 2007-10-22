@@ -50,6 +50,8 @@ public class ReportWindow {
 	[Widget] Gtk.Image image_report_win_report;
 	
 	static ReportWindow ReportWindowBox;
+
+	Gtk.Window parent;
 	
 	//protected int sessionID;
 
@@ -59,10 +61,11 @@ public class ReportWindow {
 	protected ReportWindow () {
 	}
 
-	ReportWindow (Report report ) {
+	ReportWindow (Gtk.Window parent, Report report ) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "report_window", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(report_window);
@@ -84,10 +87,10 @@ public class ReportWindow {
 	
 
 	//if it's created
-	static public ReportWindow Show (Report report)
+	static public ReportWindow Show (Gtk.Window parent, Report report)
 	{
 		if (ReportWindowBox == null) {
-			ReportWindowBox = new ReportWindow (report);
+			ReportWindowBox = new ReportWindow (parent, report);	
 			
 			//checkboxes
 			ReportWindowBox.loadCheckBoxes();

@@ -42,7 +42,7 @@ public class ReactionTimeExecute : EventExecute
 
 	//reactionTime execution
 	public ReactionTimeExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID,   
-			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool volumeOn)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -51,6 +51,7 @@ public class ReactionTimeExecute : EventExecute
 		
 		this.cp = cp;
 		this.appbar = appbar;
+		this.app = app;
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;

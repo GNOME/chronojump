@@ -31,7 +31,7 @@ public class ChronoJump
 	ChronoJumpWindow chronoJumpWin;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-svn3";
+	private static string progversion = "0.6-svn4";
 	private static string progname = "Chronojump";
 	
 	private string runningFileName; //useful for knowing if there are two chronojump instances

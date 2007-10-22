@@ -53,7 +53,7 @@ public class RunExecute : EventExecute
 
 	//run execution
 	public RunExecute(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool metersSecondsPreferred, bool volumeOn)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -63,6 +63,7 @@ public class RunExecute : EventExecute
 		
 		this.cp = cp;
 		this.appbar = appbar;
+		this.app = app;
 
 		this.pDN = pDN;
 		this.metersSecondsPreferred = metersSecondsPreferred;
@@ -337,7 +338,7 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool metersSecondsPreferred, 
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		this.eventExecuteWin = eventExecuteWin;
@@ -358,6 +359,7 @@ public class RunIntervalExecute : RunExecute
 		
 		this.cp = cp;
 		this.appbar = appbar;
+		this.app = app;
 
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.pDN = pDN;

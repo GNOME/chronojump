@@ -55,7 +55,7 @@ public class PulseExecute : EventExecute
 
 	//execution
 	public PulseExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool volumeOn)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -68,6 +68,7 @@ public class PulseExecute : EventExecute
 	
 		this.cp = cp;
 		this.appbar = appbar;
+		this.app = app;
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;

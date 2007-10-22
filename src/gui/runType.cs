@@ -52,21 +52,23 @@ public class RunTypeAddWindow
 	[Widget] Gtk.TextView textview_description;
 
 	static RunTypeAddWindow RunTypeAddWindowBox;
+	Gtk.Window parent;
 	ErrorWindow errorWin;
 
-	RunTypeAddWindow () {
+	RunTypeAddWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_type_add", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(run_type_add);
 	}
 	
-	static public RunTypeAddWindow Show ()
+	static public RunTypeAddWindow Show (Gtk.Window parent)
 	{
 		if (RunTypeAddWindowBox == null) {
-			RunTypeAddWindowBox = new RunTypeAddWindow ();
+			RunTypeAddWindowBox = new RunTypeAddWindow (parent);
 		}
 		
 		RunTypeAddWindowBox.run_type_add.Show ();

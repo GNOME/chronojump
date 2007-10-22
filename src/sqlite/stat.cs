@@ -877,7 +877,6 @@ class SqliteStat : Sqlite
 
 		string jumpHeightInM = "4.9 * jump.tv/2.0 * jump.tv/2.0";
 
-		//if(indexType == "potencyLewisCMJl") {
 		if(indexType == Constants.PotencyLewisCMJlFormula) {
 			moreSelect = 
 				ini + "(person.weight + jump.weight*person.weight/100.0) * 9.81" + end + " AS indexPart1, " + 
@@ -938,7 +937,6 @@ class SqliteStat : Sqlite
 			}
 			
 			string indexValueString = "";
-			//if(indexType == "potencyLewisCMJl") {
 			if(indexType == Constants.PotencyLewisCMJlFormula) {
 				indexValueString = 
 					(

@@ -48,7 +48,7 @@ public class JumpExecute : EventExecute
 
 	//jump execution
 	public JumpExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, int fall, double weight,  
-			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool volumeOn)
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
@@ -60,6 +60,7 @@ public class JumpExecute : EventExecute
 		
 		this.cp = cp;
 		this.appbar = appbar;
+		this.app = app;
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
@@ -443,7 +444,7 @@ public class JumpRjExecute : JumpExecute
 	public JumpRjExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, 
 			int sessionID, string type, int fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.Statusbar appbar, int pDN, bool allowFinishAfterTime, 
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
 	{
 		this.eventExecuteWin = eventExecuteWin;
@@ -464,6 +465,7 @@ public class JumpRjExecute : JumpExecute
 		
 		this.cp = cp;
 		this.appbar = appbar;
+		this.app = app;
 
 		this.pDN = pDN;
 		this.allowFinishAfterTime = allowFinishAfterTime;

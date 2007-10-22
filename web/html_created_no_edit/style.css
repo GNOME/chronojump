@@ -8,7 +8,8 @@ body {
 	font-family: verdana, trebuchet ms,luxi sans,sans-serif;
 	/*font-size: x-small;*/
 	/*font-size: small;*/
-	font-size: 75%;
+	/*font-size: 75%;*/
+	font-size: 100%; /*nice in Mozilla Firefox*/
 	text-align: center;
 }
 
@@ -92,6 +93,7 @@ hr.dotted {
 	clear: both;
 	text-align: center;
 	list-style-type: none;
+	font-size: 75%;
 }
 #nav-top li, #nav-bottom li {
 	display: inline;

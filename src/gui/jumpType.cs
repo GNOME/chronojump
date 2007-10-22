@@ -53,21 +53,23 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.TextView textview_description;
 
 	static JumpTypeAddWindow JumpTypeAddWindowBox;
+	Gtk.Window parent;
 	ErrorWindow errorWin;
 
-	JumpTypeAddWindow () {
+	JumpTypeAddWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_type_add", null);
 		gladeXML.Autoconnect(this);
+		this.parent =  parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jump_type_add);
 	}
 	
-	static public JumpTypeAddWindow Show ()
+	static public JumpTypeAddWindow Show (Gtk.Window parent)
 	{
 		if (JumpTypeAddWindowBox == null) {
-			JumpTypeAddWindowBox = new JumpTypeAddWindow ();
+			JumpTypeAddWindowBox = new JumpTypeAddWindow (parent);
 		}
 		
 		JumpTypeAddWindowBox.jump_type_add.Show ();

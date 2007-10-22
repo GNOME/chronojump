@@ -712,6 +712,71 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 */
 
 	/* ---------------------------------------------------------
+	 * ----------------  TREEVIEW (generic) --------------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void expandOrMinimizeTreeView(TreeViewEvent tvEvent, TreeView tv) {
+		if(tvEvent.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) 
+			tv.CollapseAll();
+		else if (tvEvent.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			tv.CollapseAll();
+			tvEvent.ExpandOptimal();
+		} else   //MAXIMIZED
+			tv.ExpandAll();
+
+		//Console.WriteLine("IS " + tvEvent.ExpandState);
+	}
+
+	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args) {
+		Gdk.EventButton e = args.Event;
+		Gtk.TreeView myTv = (Gtk.TreeView) o;
+		if (e.Button == 3) {
+			if(myTv == treeview_persons) {
+				Console.WriteLine("treeview_persons");
+				treeviewPersonsContextMenu(currentPerson);
+			} else if(myTv == treeview_jumps) {
+				Console.WriteLine("treeview_jumps");
+				if (myTreeViewJumps.EventSelectedID > 0) {
+					Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.EventSelectedID );
+					treeviewJumpsContextMenu(myJump);
+				}
+			} else if(myTv == treeview_jumps_rj) {
+				Console.WriteLine("treeview_jumps_rj");
+				if (myTreeViewJumpsRj.EventSelectedID > 0) {
+					JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+					treeviewJumpsRjContextMenu(myJump);
+				}
+			} else if(myTv == treeview_runs) {
+				Console.WriteLine("treeview_runs");
+				if (myTreeViewRuns.EventSelectedID > 0) {
+					Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.EventSelectedID );
+					treeviewRunsContextMenu(myRun);
+				}
+			} else if(myTv == treeview_runs_interval) {
+				Console.WriteLine("treeview_runs_interval");
+				if (myTreeViewRunsInterval.EventSelectedID > 0) {
+					RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+					treeviewRunsIntervalContextMenu(myRun);
+				}
+			} else if(myTv == treeview_reaction_times) {
+				Console.WriteLine("treeview_reaction_times");
+				if (myTreeViewReactionTimes.EventSelectedID > 0) {
+					ReactionTime myRt = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID );
+					treeviewReactionTimesContextMenu(myRt);
+				}
+			} else if(myTv == treeview_pulses) {
+				Console.WriteLine("treeview_pulses");
+				if (myTreeViewPulses.EventSelectedID > 0) {
+					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
+					treeviewPulsesContextMenu(myPulse);
+				}
+			} else
+				Console.WriteLine(myTv.ToString());
+		}
+	}
+
+	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW PERSONS ----------------------
 	 *  --------------------------------------------------------
 	 */
@@ -774,31 +839,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 	}
 
-	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args) {
-		Gdk.EventButton e = args.Event;
-		Gtk.TreeView myTv = (Gtk.TreeView) o;
-		if (e.Button == 3) {
-			if(myTv == treeview_persons) {
-				Console.WriteLine("treeview_persons!!!!");
-				treeviewPersonsContextMenu(currentPerson);
-			}
-			else if(myTv == treeview_jumps) {
-				/*
-				Console.WriteLine("treeview_jumps!!!!");
-				TreeModel model;
-				TreeIter iter;
-				Jump myJump = new Jump();
-				if (((TreeSelection)o).GetSelected(out model, out iter)) {
-					myJump.UniqueID = myTreeViewJumps.EventSelectedID;
-				}
-				treeviewJumpsContextMenu(myJump);
-				*/
-			}
-			else
-				Console.WriteLine(myTv.ToString());
-		}
-	}
-
 	private void treeviewPersonsContextMenu(Person myPerson) {
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
@@ -821,20 +861,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		myMenu.Popup();
 		myMenu.ShowAll();
 	}
-	/*
-	private void treeviewJumpsContextMenu(Jump myJump) {
-		Menu myMenu = new Menu ();
-		Gtk.MenuItem myItem;
-
-		//myItem = new MenuItem ( Catalog.GetString("Edit") + " " + myJump.UniqueID + "(" + myJump.PersonName + ")");
-		myItem = new MenuItem ( Catalog.GetString("Edit") + " " + myJump.UniqueID);
-		myItem.Activated += on_edit_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		myMenu.Popup();
-		myMenu.ShowAll();
-	}
-	*/
-
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW JUMPS ------------------------
@@ -887,6 +913,22 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else {
 			showHideActionEventButtons(true, "Jump"); //show
 		}
+	}
+
+	private void treeviewJumpsContextMenu(Jump myJump) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem.Activated += on_edit_selected_jump_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem.Activated += on_delete_selected_jump_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
 	}
 
 	/* ---------------------------------------------------------
@@ -945,6 +987,29 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 	}
 
+	private void treeviewJumpsRjContextMenu(JumpRj myJump) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem.Activated += on_edit_selected_jump_rj_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+		myItem = new MenuItem ( Catalog.GetString("Repair this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem.Activated += on_repair_selected_reactive_jump_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
+
+		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem.Activated += on_delete_selected_jump_rj_clicked;
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
+	}
+
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW RUNS -------------------------
 	 *  --------------------------------------------------------
@@ -992,6 +1057,22 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else {
 			showHideActionEventButtons(true, "Run");
 		}
+	}
+
+	private void treeviewRunsContextMenu(Run myRun) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem.Activated += on_edit_selected_run_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem.Activated += on_delete_selected_run_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
 	}
 
 	/* ---------------------------------------------------------
@@ -1049,6 +1130,29 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 	}
 
+	private void treeviewRunsIntervalContextMenu(RunInterval myRun) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem.Activated += on_edit_selected_run_interval_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+		myItem = new MenuItem ( Catalog.GetString("Repair this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem.Activated += on_repair_selected_run_interval_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
+
+		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem.Activated += on_delete_selected_run_interval_clicked;
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
+	}
+
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW REACTION TIMES ---------------
 	 *  --------------------------------------------------------
@@ -1095,6 +1199,22 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else {
 			showHideActionEventButtons(true, "ReactionTime");
 		}
+	}
+
+	private void treeviewReactionTimesContextMenu(ReactionTime myRt) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myRt.Type + " (" + myRt.PersonName + ")");
+		myItem.Activated += on_edit_selected_reaction_time_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myRt.Type + " (" + myRt.PersonName + ")");
+		myItem.Activated += on_delete_selected_reaction_time_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
 	}
 
 	/* ---------------------------------------------------------
@@ -1151,21 +1271,27 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 	}
 
-	/* ---------------------------------------------------------
-	 * ----------------  TREEVIEW (generic) --------------------
-	 *  --------------------------------------------------------
-	 */
+	private void treeviewPulsesContextMenu(Pulse myPulse) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
 
-	private void expandOrMinimizeTreeView(TreeViewEvent tvEvent, TreeView tv) {
-		if(tvEvent.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED) 
-			tv.CollapseAll();
-		else if (tvEvent.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
-			tv.CollapseAll();
-			tvEvent.ExpandOptimal();
-		} else   //MAXIMIZED
-			tv.ExpandAll();
+		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
+		myItem.Activated += on_edit_selected_pulse_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
-		//Console.WriteLine("IS " + tvEvent.ExpandState);
+		myItem = new MenuItem ( Catalog.GetString("Repair this") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
+		myItem.Activated += on_repair_selected_pulse_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
+
+		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
+		myItem.Activated += on_delete_selected_pulse_clicked;
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
 	}
 
 
@@ -1324,7 +1450,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_new_activate (object o, EventArgs args) {
 		Console.WriteLine("new session");
-		sessionAddWin = SessionAddWindow.Show();
+		sessionAddWin = SessionAddWindow.Show(app1);
 		sessionAddWin.Button_accept.Clicked += new EventHandler(on_new_session_accepted);
 	}
 	
@@ -1385,7 +1511,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_session_activate (object o, EventArgs args) {
 		Console.WriteLine("edit session");
-		sessionEditWin = SessionEditWindow.Show(currentSession);
+		sessionEditWin = SessionEditWindow.Show(app1, currentSession);
 		sessionEditWin.Button_accept.Clicked += new EventHandler(on_edit_session_accepted);
 	}
 	
@@ -1403,7 +1529,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_open_activate (object o, EventArgs args) {
 		Console.WriteLine("open session");
-		sessionLoadWin = SessionLoadWindow.Show();
+		sessionLoadWin = SessionLoadWindow.Show(app1);
 		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted);
 		//on_load_session_accepted(o, args);
 	}
@@ -1502,7 +1628,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_recuperate_person_activate (object o, EventArgs args) {
 		Console.WriteLine("recuperate person");
-		personRecuperateWin = PersonRecuperateWindow.Show(currentSession.UniqueID);
+		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession.UniqueID);
 		personRecuperateWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 
@@ -1522,7 +1648,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
 		Console.WriteLine("recuperate persons from other session");
-		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(currentSession.UniqueID);
+		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession.UniqueID);
 		personsRecuperateFromOtherSessionWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
 	
@@ -1540,7 +1666,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 		
 	private void on_person_add_single_activate (object o, EventArgs args) {
-		personAddWin = PersonAddWindow.Show(currentSession.UniqueID);
+		personAddWin = PersonAddWindow.Show(app1, currentSession.UniqueID);
 		personAddWin.Button_accept.Clicked += new EventHandler(on_person_add_single_accepted);
 	}
 	
@@ -1562,7 +1688,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_person_add_multiple_activate (object o, EventArgs args) {
-		personAddMultipleWin = PersonAddMultipleWindow.Show(currentSession.UniqueID);
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession.UniqueID);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}
 	
@@ -1587,7 +1713,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
 		Console.WriteLine("modify person");
-		personModifyWin = PersonModifyWindow.Show(currentSession.UniqueID, currentPerson.UniqueID);
+		personModifyWin = PersonModifyWindow.Show(app1, currentSession.UniqueID, currentPerson.UniqueID);
 		personModifyWin.Button_accept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	
@@ -1619,7 +1745,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	
 	private void on_show_all_person_events_activate (object o, EventArgs args) {
-		personShowAllEventsWin = PersonShowAllEventsWindow.Show(currentSession.UniqueID, currentPerson);
+		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson);
 	}
 	
 	
@@ -1669,7 +1795,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 */
 
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
-		statsWin = StatsWindow.Show(currentSession, 
+		statsWin = StatsWindow.Show(app1, currentSession, 
 				prefsDigitsNumber, weightPercentPreferred, heightPreferred, 
 				//prefsDigitsNumber, heightPreferred, 
 				report, reportWin);
@@ -1975,7 +2101,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_show_report_activate (object o, EventArgs args) {
 		Console.WriteLine("open report window");
-		reportWin = ReportWindow.Show(report);
+		reportWin = ReportWindow.Show(app1, report);
 	}
 
 	private void on_enter_notify (object o, Gtk.EnterNotifyEventArgs args) {
@@ -2103,7 +2229,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_button_more_clicked (object o, EventArgs args) 
 	{
-		jumpsMoreWin = JumpsMoreWindow.Show();
+		jumpsMoreWin = JumpsMoreWindow.Show(app1);
 		jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
 		jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_draw_image_test);
 	}
@@ -2169,7 +2295,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else {
 		}
 		
-		jumpExtraWin = JumpExtraWindow.Show(currentJumpType);
+		jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
 		if( currentJumpType.IsRepetitive ) {
 			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 		} else {
@@ -2248,7 +2374,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				cp, appbar2, prefsDigitsNumber, volumeOn);
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 
 		if (simulated) 
 			currentEventExecute.SimulateInitValues(rand);
@@ -2302,7 +2428,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_button_more_rj_clicked (object o, EventArgs args) 
 	{
-		jumpsRjMoreWin = JumpsRjMoreWindow.Show();
+		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1);
 		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
 		jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_draw_image_test);
 	}
@@ -2356,12 +2482,12 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if(o == (object) button_rj_j || o == (object) rj_j) 
 		{
 			currentJumpType = new JumpType("RJ(j)");
-			jumpExtraWin = JumpExtraWindow.Show(currentJumpType);
+			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
 			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 		} else if(o == (object) button_rj_t || o == (object) rj_t) 
 		{
 			currentJumpType = new JumpType("RJ(t)");
-			jumpExtraWin = JumpExtraWindow.Show(currentJumpType);
+			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
 			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 		} else if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) 
 		{
@@ -2438,7 +2564,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute = new JumpRjExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
-				cp, appbar2, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin);
+				cp, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin);
 		
 		
 		//suitable for limited by jump and time
@@ -2513,7 +2639,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_button_run_more_clicked (object o, EventArgs args) 
 	{
-		runsMoreWin = RunsMoreWindow.Show();
+		runsMoreWin = RunsMoreWindow.Show(app1);
 		runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
 		runsMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_draw_image_test);
 	}
@@ -2572,7 +2698,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		// add others...
 		
-		runExtraWin = RunExtraWindow.Show(currentRunType);
+		runExtraWin = RunExtraWindow.Show(app1, currentRunType);
 		if( currentRunType.HasIntervals ) {
 			runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
 		} else {
@@ -2661,7 +2787,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		currentEventExecute = new RunExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp, appbar2, prefsDigitsNumber, metersSecondsPreferred, volumeOn);
+				cp, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn);
 		
 		if (simulated) 
 			currentEventExecute.SimulateInitValues(rand);
@@ -2704,7 +2830,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_button_run_interval_more_clicked (object o, EventArgs args) 
 	{
-		runsIntervalMoreWin = RunsIntervalMoreWindow.Show();
+		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
 		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
 		runsIntervalMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_interval_draw_image_test);
 	}
@@ -2773,7 +2899,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		
 			
-		runExtraWin = RunExtraWindow.Show(currentRunType);
+		runExtraWin = RunExtraWindow.Show(app1, currentRunType);
 		runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
 	}
 	
@@ -2838,7 +2964,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 		currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
 				distanceInterval, myLimit, currentRunType.TracksLimited, 
-				cp, appbar2, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin);
+				cp, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin);
 		
 		
 		//suitable for limited by tracks and time
@@ -2953,7 +3079,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute = new ReactionTimeExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
 				//currentJumpType.Name, 
-				cp, appbar2, prefsDigitsNumber, volumeOn);
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 
 		if (simulated) 
 			currentEventExecute.SimulateInitValues(rand);
@@ -3048,7 +3174,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	{
 		currentPulseType = new PulseType("Custom");
 			
-		pulseExtraWin = PulseExtraWindow.Show(currentPulseType);
+		pulseExtraWin = PulseExtraWindow.Show(app1, currentPulseType);
 		pulseExtraWin.Button_accept.Clicked += new EventHandler(on_pulse_accepted);
 	}
 	
@@ -3101,7 +3227,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		currentEventExecute = new PulseExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp, appbar2, prefsDigitsNumber, volumeOn);
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 		
 		if(simulated)	
 			currentEventExecute.SimulateInitValues(rand);
@@ -3208,7 +3334,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.EventSelectedID );
 		
 			//4.- edit this jump
-			editJumpWin = EditJumpWindow.Show(myJump, weightPercentPreferred, prefsDigitsNumber);
+			editJumpWin = EditJumpWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
 			editJumpWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_accepted);
 		}
 	}
@@ -3223,7 +3349,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
-			editJumpRjWin = EditJumpRjWindow.Show(myJump, weightPercentPreferred, prefsDigitsNumber);
+			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
 			editJumpRjWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
 		}
 	}
@@ -3262,7 +3388,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
-			editRunWin = EditRunWindow.Show(myRun, prefsDigitsNumber, metersSecondsPreferred);
+			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
 			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
 		}
 	}
@@ -3278,7 +3404,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Console.WriteLine(myRun);
 		
 			//4.- edit this run
-			editRunIntervalWin = EditRunIntervalWindow.Show(myRun, prefsDigitsNumber, metersSecondsPreferred);
+			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
 			editRunIntervalWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_interval_accepted);
 		}
 	}
@@ -3315,7 +3441,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID );
 		
 			//4.- edit this event
-			editReactionTimeWin = EditReactionTimeWindow.Show(myRT, prefsDigitsNumber);
+			editReactionTimeWin = EditReactionTimeWindow.Show(app1, myRT, prefsDigitsNumber);
 			editReactionTimeWin.Button_accept.Clicked += new EventHandler(on_edit_selected_reaction_time_accepted);
 		}
 	}
@@ -3341,7 +3467,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
 		
 			//4.- edit this event
-			editPulseWin = EditPulseWindow.Show(myPulse, prefsDigitsNumber);
+			editPulseWin = EditPulseWindow.Show(app1, myPulse, prefsDigitsNumber);
 			editPulseWin.Button_accept.Clicked += new EventHandler(on_edit_selected_pulse_accepted);
 		}
 	}
@@ -3720,7 +3846,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_jump_type_add_activate (object o, EventArgs args) {
 		Console.WriteLine("Add new jump type");
 			
-		jumpTypeAddWin = JumpTypeAddWindow.Show();
+		jumpTypeAddWin = JumpTypeAddWindow.Show(app1);
 		jumpTypeAddWin.Button_accept.Clicked += new EventHandler(on_jump_type_add_accepted);
 	}
 	
@@ -3733,7 +3859,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_run_type_add_activate (object o, EventArgs args) {
 		Console.WriteLine("Add new run type");
 			
-		runTypeAddWin = RunTypeAddWindow.Show();
+		runTypeAddWin = RunTypeAddWindow.Show(app1);
 		runTypeAddWin.Button_accept.Clicked += new EventHandler(on_run_type_add_accepted);
 	}
 	
@@ -3768,7 +3894,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
-			repairJumpRjWin = RepairJumpRjWindow.Show(myJump, prefsDigitsNumber);
+			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
 			repairJumpRjWin.Button_accept.Clicked += new EventHandler(on_repair_selected_reactive_jump_accepted);
 		}
 	}
@@ -3795,7 +3921,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
 		
 			//4.- edit this run
-			repairRunIntervalWin = RepairRunIntervalWindow.Show(myRun, prefsDigitsNumber);
+			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber);
 			repairRunIntervalWin.Button_accept.Clicked += new EventHandler(on_repair_selected_run_interval_accepted);
 		}
 	}
@@ -3822,7 +3948,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
 		
 			//4.- edit this pulse
-			repairPulseWin = RepairPulseWindow.Show(myPulse, prefsDigitsNumber);
+			repairPulseWin = RepairPulseWindow.Show(app1, myPulse, prefsDigitsNumber);
 			repairPulseWin.Button_accept.Clicked += new EventHandler(on_repair_selected_pulse_accepted);
 		}
 	}

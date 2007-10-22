@@ -47,7 +47,8 @@ public class PersonRecuperateWindow {
 	[Widget] protected Gtk.Box hbox_search_filter_hide; //used in person recuperateWindow (hided in inherited class)
 	
 	static PersonRecuperateWindow PersonRecuperateWindowBox;
-	
+
+	protected Gtk.Window parent;
 	protected int sessionID;
 	
 	protected Person currentPerson;
@@ -55,10 +56,11 @@ public class PersonRecuperateWindow {
 	protected PersonRecuperateWindow () {
 	}
 
-	PersonRecuperateWindow (int sessionID) {
+	PersonRecuperateWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_recuperate);
@@ -79,10 +81,10 @@ public class PersonRecuperateWindow {
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public PersonRecuperateWindow Show (int sessionID)
+	static public PersonRecuperateWindow Show (Gtk.Window parent, int sessionID)
 	{
 		if (PersonRecuperateWindowBox == null) {
-			PersonRecuperateWindowBox = new PersonRecuperateWindow (sessionID);
+			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, sessionID);
 		}
 		PersonRecuperateWindowBox.person_recuperate.Show ();
 		
@@ -246,10 +248,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	[Widget] Gtk.Box hbox_combo_sessions;
 	[Widget] Gtk.ComboBox combo_sessions;
 	
-	PersonsRecuperateFromOtherSessionWindow (int sessionID) {
+	PersonsRecuperateFromOtherSessionWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_recuperate", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_recuperate);
@@ -281,11 +284,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 
-	static public new PersonsRecuperateFromOtherSessionWindow Show (int sessionID)
+	static public new PersonsRecuperateFromOtherSessionWindow Show (Gtk.Window parent, int sessionID)
 	{
 		if (PersonsRecuperateFromOtherSessionWindowBox == null) {
 			PersonsRecuperateFromOtherSessionWindowBox = 
-				new PersonsRecuperateFromOtherSessionWindow (sessionID);
+				new PersonsRecuperateFromOtherSessionWindow (parent, sessionID);
 		}
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Show ();
 		
@@ -532,6 +535,7 @@ public class PersonAddWindow {
 	[Widget] Gtk.Label label_weight_attention_message;
 	
 	static PersonAddWindow PersonAddWindowBox;
+	Gtk.Window parent;
 	ErrorWindow errorWin;
 
 	DialogCalendar myDialogCalendar;
@@ -541,10 +545,11 @@ public class PersonAddWindow {
 	private int sessionID;
 	private string sex = "M";
 	
-	PersonAddWindow (int sessionID) {
+	PersonAddWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_win);
@@ -578,10 +583,10 @@ public class PersonAddWindow {
 		sex = "F";
 	}
 	
-	static public PersonAddWindow Show (int sessionID)
+	static public PersonAddWindow Show (Gtk.Window parent, int sessionID)
 	{
 		if (PersonAddWindowBox == null) {
-			PersonAddWindowBox = new PersonAddWindow (sessionID);
+			PersonAddWindowBox = new PersonAddWindow (parent, sessionID);
 		}
 		PersonAddWindowBox.label_weight_attention_title.Hide();
 		PersonAddWindowBox.label_weight_attention_message.Hide();
@@ -673,6 +678,7 @@ public class PersonModifyWindow
 	[Widget] Gtk.Button button_accept;
 	
 	static PersonModifyWindow PersonModifyWindowBox;
+	Gtk.Window parent;
 	ErrorWindow errorWin;
 	
 	DialogCalendar myDialogCalendar;
@@ -684,7 +690,7 @@ public class PersonModifyWindow
 	private string sex = "M";
 	
 	
-	PersonModifyWindow (int sessionID) {
+	PersonModifyWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
@@ -692,6 +698,7 @@ public class PersonModifyWindow
 		//put an icon to window
 		UtilGtk.IconWindow(person_win);
 	
+		this.parent = parent;
 		this.sessionID = sessionID;
 		person_win.Title =  Catalog.GetString ("Edit jumper");
 	}
@@ -716,10 +723,10 @@ public class PersonModifyWindow
 		sex = "F";
 	}
 	
-	static public PersonModifyWindow Show (int sessionID, int personID)
+	static public PersonModifyWindow Show (Gtk.Window parent, int sessionID, int personID)
 	{
 		if (PersonModifyWindowBox == null) {
-			PersonModifyWindowBox = new PersonModifyWindow (sessionID);
+			PersonModifyWindowBox = new PersonModifyWindow (parent, sessionID);
 		}
 		PersonModifyWindowBox.person_win.Show ();
 		
@@ -872,6 +879,7 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.Button button_accept;
 	
 	static PersonAddMultipleWindow PersonAddMultipleWindowBox;
+	Gtk.Window parent;
 	ErrorWindow errorWin;
 
 	private Person currentPerson;
@@ -881,7 +889,7 @@ public class PersonAddMultipleWindow {
 	string errorWeightString;
 	string errorRepeatedEntryString;
 	
-	PersonAddMultipleWindow (int sessionID) {
+	PersonAddMultipleWindow (Gtk.Window parent, int sessionID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_add_multiple", null);
 		gladeXML.Autoconnect(this);
@@ -889,13 +897,14 @@ public class PersonAddMultipleWindow {
 		//put an icon to window
 		UtilGtk.IconWindow(person_add_multiple);
 	
+		this.parent = parent;
 		this.sessionID = sessionID;
 	}
 	
-	static public PersonAddMultipleWindow Show (int sessionID)
+	static public PersonAddMultipleWindow Show (Gtk.Window parent, int sessionID)
 	{
 		if (PersonAddMultipleWindowBox == null) {
-			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (sessionID);
+			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, sessionID);
 		}
 		PersonAddMultipleWindowBox.person_add_multiple.Show ();
 		
@@ -1097,12 +1106,13 @@ public class PersonShowAllEventsWindow {
 	[Widget] Gtk.ComboBox combo_persons;
 	
 	static PersonShowAllEventsWindow PersonShowAllEventsWindowBox;
-	
+
+	Gtk.Window parent;	
 	protected int sessionID;
 	
 	protected Person currentPerson;
 	
-	PersonShowAllEventsWindow (int sessionID, Person currentPerson) {
+	PersonShowAllEventsWindow (Gtk.Window parent, int sessionID, Person currentPerson) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_show_all_events", null);
 		gladeXML.Autoconnect(this);
@@ -1110,6 +1120,7 @@ public class PersonShowAllEventsWindow {
 		//put an icon to window
 		UtilGtk.IconWindow(person_show_all_events);
 
+		this.parent = parent;
 		this.sessionID = sessionID;
 		this.currentPerson = currentPerson;
 	
@@ -1121,10 +1132,10 @@ public class PersonShowAllEventsWindow {
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
 	
-	static public PersonShowAllEventsWindow Show (int sessionID, Person currentPerson)
+	static public PersonShowAllEventsWindow Show (Gtk.Window parent, int sessionID, Person currentPerson)
 	{
 		if (PersonShowAllEventsWindowBox == null) {
-			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (sessionID, currentPerson);
+			PersonShowAllEventsWindowBox = new PersonShowAllEventsWindow (parent, sessionID, currentPerson);
 		}
 		PersonShowAllEventsWindowBox.person_show_all_events.Show ();
 		

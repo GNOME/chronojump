@@ -40,15 +40,14 @@ public class EditJumpWindow : EditEventWindow
 	protected double personWeight;
 
 	//for inheritance
-	/*
 	protected EditJumpWindow () {
 	}
-	*/
 
-	public EditJumpWindow () {
+	public EditJumpWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		this.parent =  parent;
 
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
@@ -56,11 +55,11 @@ public class EditJumpWindow : EditEventWindow
 		eventBigTypeString = Catalog.GetString("jump");
 	}
 
-	static new public EditJumpWindow Show (Event myEvent, bool weightPercentPreferred, int pDN)
+	static new public EditJumpWindow Show (Gtk.Window parent, Event myEvent, bool weightPercentPreferred, int pDN)
 	{
 		if (EditJumpWindowBox == null) {
-			EditJumpWindowBox = new EditJumpWindow ();
-		}
+			EditJumpWindowBox = new EditJumpWindow (parent);
+		}	
 
 		EditJumpWindowBox.weightPercentPreferred = weightPercentPreferred;
 		EditJumpWindowBox.personWeight = SqlitePerson.SelectJumperWeight(Convert.ToInt32(myEvent.PersonID)); 
@@ -199,10 +198,11 @@ public class EditJumpRjWindow : EditJumpWindow
 {
 	static EditJumpRjWindow EditJumpRjWindowBox;
 
-	EditJumpRjWindow () {
+	EditJumpRjWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
@@ -210,10 +210,10 @@ public class EditJumpRjWindow : EditJumpWindow
 		eventBigTypeString = Catalog.GetString("reactive jump");
 	}
 
-	static new public EditJumpRjWindow Show (Event myEvent, bool weightPercentPreferred, int pDN)
+	static new public EditJumpRjWindow Show (Gtk.Window parent, Event myEvent, bool weightPercentPreferred, int pDN)
 	{
 		if (EditJumpRjWindowBox == null) {
-			EditJumpRjWindowBox = new EditJumpRjWindow ();
+			EditJumpRjWindowBox = new EditJumpRjWindow (parent);
 		}
 
 		EditJumpRjWindowBox.weightPercentPreferred = weightPercentPreferred;
@@ -326,13 +326,14 @@ public class RepairJumpRjWindow
 	[Widget] Gtk.TextView textview1;
 
 	static RepairJumpRjWindow RepairJumpRjWindowBox;
+	Gtk.Window parent;
 	//int pDN;
 
 	JumpType jumpType;
 	JumpRj jumpRj; //used on button_accept
 	
 
-	RepairJumpRjWindow (JumpRj myJump, int pDN) {
+	RepairJumpRjWindow (Gtk.Window parent, JumpRj myJump, int pDN) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repair_sub_event", null);
 		gladeXML.Autoconnect(this);
@@ -340,6 +341,7 @@ public class RepairJumpRjWindow
 		//put an icon to window
 		UtilGtk.IconWindow(repair_sub_event);
 	
+		this.parent = parent;
 		this.jumpRj = myJump;
 
 		//this.pDN = pDN;
@@ -372,11 +374,11 @@ public class RepairJumpRjWindow
 		treeview_subevents.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public RepairJumpRjWindow Show (JumpRj myJump, int pDN)
+	static public RepairJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
 	{
 		//Console.WriteLine(myJump);
 		if (RepairJumpRjWindowBox == null) {
-			RepairJumpRjWindowBox = new RepairJumpRjWindow (myJump, pDN);
+			RepairJumpRjWindowBox = new RepairJumpRjWindow (parent, myJump, pDN);
 		}
 		
 		RepairJumpRjWindowBox.repair_sub_event.Show ();
@@ -718,20 +720,22 @@ public class JumpExtraWindow
 	static int fall = 20;
 	
 	static JumpExtraWindow JumpExtraWindowBox;
+	Gtk.Window parent;
 
-	JumpExtraWindow () {
+	JumpExtraWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_extra", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jump_extra);
 	}
 	
-	static public JumpExtraWindow Show (JumpType myJumpType) 
+	static public JumpExtraWindow Show (Gtk.Window parent, JumpType myJumpType) 
 	{
 		if (JumpExtraWindowBox == null) {
-			JumpExtraWindowBox = new JumpExtraWindow ();
+			JumpExtraWindowBox = new JumpExtraWindow (parent);
 		}
 		
 		if(myJumpType.IsRepetitive) {
@@ -880,10 +884,11 @@ public class JumpsMoreWindow : EventMoreWindow
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
 
-	public JumpsMoreWindow () {
+	public JumpsMoreWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jumps_runs_more);
@@ -896,10 +901,10 @@ public class JumpsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsMoreWindow Show ()
+	static public JumpsMoreWindow Show (Gtk.Window parent)
 	{
 		if (JumpsMoreWindowBox == null) {
-			JumpsMoreWindowBox = new JumpsMoreWindow ();
+			JumpsMoreWindowBox = new JumpsMoreWindow (parent);
 		}
 		JumpsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -907,16 +912,13 @@ public class JumpsMoreWindow : EventMoreWindow
 	}
 	
 	protected override void createTreeView (Gtk.TreeView tv) {
-		Console.WriteLine("AAAAAAAAA");
 		tv.HeadersVisible=true;
 		int count = 0;
-		Console.WriteLine("BBBBBBBBBB");
 		
 		tv.AppendColumn ( Catalog.GetString ("Name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Start inside"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Extra weight"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
-		Console.WriteLine("CCCCCCCCCC");
 	}
 	
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
@@ -1051,11 +1053,12 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
 	
-	public JumpsRjMoreWindow () {
+	public JumpsRjMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jumps_runs_more);
@@ -1072,10 +1075,10 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsRjMoreWindow Show ()
+	static public JumpsRjMoreWindow Show (Gtk.Window parent)
 	{
 		if (JumpsRjMoreWindowBox == null) {
-			JumpsRjMoreWindowBox = new JumpsRjMoreWindow ();
+			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent);
 		}
 		JumpsRjMoreWindowBox.jumps_runs_more.Show ();
 		

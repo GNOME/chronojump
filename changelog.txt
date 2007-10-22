@@ -1,5 +1,17 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+22 oct 2007
+	0.6-svn4
+	-Contextual menu on: all treeview events (jumps, jumpsRj, runs, runsInterval, reactionTimes, pulses)
+	-Updated .es and .oc
+	-Improved gui confirm_window, repair_sub_event
+	-Fixed crash on edit jump rj (opened two times) (created on 0.6-svn2)
+	-Rollback in bug fix: 486128. There are problems with inheritance and
+	the constructors (like crash on edit_jump_rj and the click on "more"
+	fixed in last commit
+	-Web: improved style.css (higher font). Fixes: 488266
+	-Web: added infrared pdf (Juanfer)
+
 21 oct 2007
 	0.6-svn3
 	treeview_persons has contextual menu

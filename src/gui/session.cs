@@ -48,12 +48,14 @@ public class SessionAddWindow {
 	private Session currentSession;
 	
 	static SessionAddWindow SessionAddWindowBox;
+	Gtk.Window parent;
 	
 	
-	SessionAddWindow () {
+	SessionAddWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(session_add_edit);
@@ -65,10 +67,10 @@ public class SessionAddWindow {
 		session_add_edit.Title = Catalog.GetString("New Session");
 	}
 	
-	static public SessionAddWindow Show ()
+	static public SessionAddWindow Show (Gtk.Window parent)
 	{
 		if (SessionAddWindowBox == null) {
-			SessionAddWindowBox = new SessionAddWindow ();
+			SessionAddWindowBox = new SessionAddWindow (parent);
 		}
 		SessionAddWindowBox.session_add_edit.Show ();
 
@@ -170,12 +172,14 @@ public class SessionEditWindow
 	private Session currentSession;
 	
 	static SessionEditWindow SessionEditWindowBox;
+	Gtk.Window parent;
 	
 	
-	SessionEditWindow (Session currentSession) {
+	SessionEditWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(session_add_edit);
@@ -197,10 +201,10 @@ public class SessionEditWindow
 		textview.Buffer = tb;
 	}
 	
-	static public SessionEditWindow Show (Session currentSession)
+	static public SessionEditWindow Show (Gtk.Window parent, Session currentSession)
 	{
 		if (SessionEditWindowBox == null) {
-			SessionEditWindowBox = new SessionEditWindow (currentSession);
+			SessionEditWindowBox = new SessionEditWindow (parent, currentSession);
 		}
 		SessionEditWindowBox.session_add_edit.Show ();
 
@@ -302,13 +306,15 @@ public class SessionLoadWindow {
 	[Widget] Gtk.Button button_accept;
 
 	static SessionLoadWindow SessionLoadWindowBox;
+	Gtk.Window parent;
 	
 	private Session currentSession;
 	
-	SessionLoadWindow () {
+	SessionLoadWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_load", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(session_load);
@@ -325,10 +331,10 @@ public class SessionLoadWindow {
 		treeview_session_load.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public SessionLoadWindow Show ()
+	static public SessionLoadWindow Show (Gtk.Window parent)
 	{
 		if (SessionLoadWindowBox == null) {
-			SessionLoadWindowBox = new SessionLoadWindow ();
+			SessionLoadWindowBox = new SessionLoadWindow (parent);
 		}
 		SessionLoadWindowBox.session_load.Show ();
 		
@@ -456,13 +462,15 @@ public class SessionSelectStatsWindow {
 	[Widget] Gtk.Button button_accept;
 
 	static SessionSelectStatsWindow SessionSelectStatsWindowBox;
+	Gtk.Window parent;
 	
 	private ArrayList arrayOfSelectedSessions;
 	
-	SessionSelectStatsWindow (ArrayList oldSelectedSessions) {
+	SessionSelectStatsWindow (Gtk.Window parent, ArrayList oldSelectedSessions) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_select_sessions", null);
 		gladeXML.Autoconnect(this);
+		this.parent = parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(stats_select_sessions);
@@ -479,10 +487,10 @@ public class SessionSelectStatsWindow {
 		processOldSelectedSessions(treeview1, store1, store2, oldSelectedSessions);
 	}
 	
-	static public SessionSelectStatsWindow Show (ArrayList oldSelectedSessions)
+	static public SessionSelectStatsWindow Show (Gtk.Window parent, ArrayList oldSelectedSessions)
 	{
 		if (SessionSelectStatsWindowBox == null) {
-			SessionSelectStatsWindowBox = new SessionSelectStatsWindow (oldSelectedSessions);
+			SessionSelectStatsWindowBox = new SessionSelectStatsWindow (parent, oldSelectedSessions);
 		}
 		SessionSelectStatsWindowBox.stats_select_sessions.Show ();
 		

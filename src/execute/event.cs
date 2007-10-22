@@ -97,6 +97,7 @@ public class EventExecute
 	protected States loggedState;		//log of last state
 	//protected Gtk.ProgressBar progressBar;
 	protected Gtk.Statusbar appbar;
+	protected Gtk.Window app;
 	protected int pDN;
 	
 	protected int timesForSavingRepetitive; //number of times that this repetive event needs for being recorded in temporal table

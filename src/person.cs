@@ -73,7 +73,7 @@ public class Person {
 		Console.WriteLine(this.ToString());
 
 		//insert in the personSession table (fast way of knowing who was in each session)
-		SqlitePersonSession.Insert (uniqueID, sessionID);
+		SqlitePersonSession.Insert (uniqueID, sessionID, weight);
 	}
 	
 	public override string ToString()

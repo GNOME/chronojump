@@ -273,8 +273,10 @@ public class ExportSession
 				else
 					myWeight = Util.WeightFromPercentToKg(
 							Convert.ToDouble(myStr[8]), 
-							SqlitePerson.SelectJumperWeight(Convert.ToInt32(myStr[2]))
-							).ToString();
+							SqlitePersonSession.SelectPersonWeight(
+								Convert.ToInt32(myStr[2]),
+								Convert.ToInt32(myStr[3])
+							)).ToString();
 
 				myData.Add (	
 						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jump.uniqueID
@@ -343,7 +345,10 @@ public class ExportSession
 			else
 				myWeight = Util.WeightFromPercentToKg(
 						Convert.ToDouble(myStr[8]), 
-						SqlitePerson.SelectJumperWeight(Convert.ToInt32(myStr[2]))
+						SqlitePersonSession.SelectPersonWeight(
+							Convert.ToInt32(myStr[2]),
+							Convert.ToInt32(myStr[3])
+							)
 						).ToString();
 			myData.Add ( 
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jumpRj.uniqueID

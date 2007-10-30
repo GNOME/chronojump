@@ -70,14 +70,18 @@ class SqlitePreferences : Sqlite
 		//dbcon.Close();
 	}
 
-	public static void Update(string myName, string myValue)
+	public static void Update(string myName, string myValue, bool dbconOpened)
 	{
-		dbcon.Open();
+		if(! dbconOpened)
+			dbcon.Open();
+
 		dbcmd.CommandText = "UPDATE preferences " + 
 			" SET value = '" + myValue + 
 			"' WHERE name == '" + myName + "'" ;
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		
+		if(! dbconOpened)
+			dbcon.Close();
 	}
 
 	public static string Select (string myName) 

@@ -23,9 +23,6 @@ using System;
 using System.Data;
 using System.IO; //"File" things. TextWriter
 using System.Collections; //ArrayList
-//using System.Data.SqlClient;
-//using Mono.Data.SqliteClient;
-//using System.Data.SQLite;
 using Mono.Data.Sqlite;
 using System.Diagnostics; 	//for launching other process
 
@@ -34,7 +31,6 @@ class Sqlite
 {
 	protected static SqliteConnection dbcon;
 	protected static SqliteCommand dbcmd;
-	//protected static IDbConnection dbcon;
 	//protected static IDbCommand dbcmd;
 	
 	public static string home = Util.GetHomeDir();
@@ -49,16 +45,13 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastDatabaseVersion = "0.52";
+	static string lastDatabaseVersion = "0.53";
 
 
 	public static void Connect()
 	{
 		dbcon = new SqliteConnection();
 		dbcon.ConnectionString = connectionString;
-		//dbcon = (IDbConnection) new SqliteConnection(connectionString);
-		//dbcmd = new SqliteCommand();
-		//dbcmd.Connection = dbcon;
 		dbcmd = dbcon.CreateCommand();
 	}
 
@@ -71,7 +64,6 @@ class Sqlite
 			Directory.CreateDirectory (home);
 		}
 		
-
 		dbcon.Open();
 		dbcon.Close();
 	}
@@ -221,7 +213,7 @@ class Sqlite
 				SqlitePulseType.createTablePulseType();
 				SqlitePulseType.initializeTablePulseType();
 
-				SqlitePreferences.Update ("databaseVersion", "0.42"); 
+				SqlitePreferences.Update ("databaseVersion", "0.42", true); 
 				Console.WriteLine("Converted DB to 0.42 (added pulse and pulseType tables)");
 
 				dbcon.Close();
@@ -232,7 +224,7 @@ class Sqlite
 				dbcon.Open();
 				SqlitePulseType.Insert ("Free:-1:-1:free PulseStep mode", true); 
 				SqlitePreferences.Insert ("language", "es-ES"); 
-				SqlitePreferences.Update ("databaseVersion", "0.43"); 
+				SqlitePreferences.Update ("databaseVersion", "0.43", true); 
 				Console.WriteLine("Converted DB to 0.43 (added 'free' pulseType & language peference)");
 				dbcon.Close();
 				myVersion = "0.43";
@@ -242,7 +234,7 @@ class Sqlite
 				dbcon.Open();
 				SqlitePreferences.Insert ("showQIndex", "False"); 
 				SqlitePreferences.Insert ("showDjIndex", "False"); 
-				SqlitePreferences.Update ("databaseVersion", "0.44"); 
+				SqlitePreferences.Update ("databaseVersion", "0.44", true); 
 				Console.WriteLine("Converted DB to 0.44 (added showQIndex, showDjIndex)");
 				dbcon.Close();
 				myVersion = "0.44";
@@ -251,7 +243,7 @@ class Sqlite
 			if(myVersion == "0.44") {
 				dbcon.Open();
 				SqlitePreferences.Insert ("allowFinishRjAfterTime", "True"); 
-				SqlitePreferences.Update ("databaseVersion", "0.45"); 
+				SqlitePreferences.Update ("databaseVersion", "0.45", true); 
 				Console.WriteLine("Converted DB to 0.45 (added allowFinishRjAfterTime)");
 				dbcon.Close();
 				myVersion = "0.45";
@@ -260,7 +252,7 @@ class Sqlite
 			if(myVersion == "0.45") {
 				dbcon.Open();
 				SqliteJumpType.JumpTypeInsert ("Free:1:0:Free jump", true); 
-				SqlitePreferences.Update ("databaseVersion", "0.46"); 
+				SqlitePreferences.Update ("databaseVersion", "0.46", true); 
 				Console.WriteLine("Added Free jump type");
 				dbcon.Close();
 				myVersion = "0.46";
@@ -271,7 +263,7 @@ class Sqlite
 
 				SqliteReactionTime.createTable();
 
-				SqlitePreferences.Update ("databaseVersion", "0.47"); 
+				SqlitePreferences.Update ("databaseVersion", "0.47", true); 
 				Console.WriteLine("Added reaction time table");
 				dbcon.Close();
 				myVersion = "0.47";
@@ -283,7 +275,7 @@ class Sqlite
 				SqliteJump.rjCreateTable("tempJumpRj");
 				SqliteRun.intervalCreateTable("tempRunInterval");
 
-				SqlitePreferences.Update ("databaseVersion", "0.48"); 
+				SqlitePreferences.Update ("databaseVersion", "0.48", true); 
 				Console.WriteLine("created tempJumpReactive and tempRunInterval tables");
 				dbcon.Close();
 				myVersion = "0.48";
@@ -303,7 +295,7 @@ class Sqlite
 				SqliteEvent.createGraphLinkTable();
 				SqliteRunType.AddGraphLinksRunSimpleAgility();	
 
-				SqlitePreferences.Update ("databaseVersion", "0.49"); 
+				SqlitePreferences.Update ("databaseVersion", "0.49", true); 
 				Console.WriteLine("Added graphLinkTable, added Rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag. Added graphs pof the 5 agility tests)");
 
 				dbcon.Close();
@@ -318,7 +310,7 @@ class Sqlite
 				SqliteJump.ChangeWeightToL();
 				SqliteJumpType.AddGraphLinks();	
 				SqliteJumpType.AddGraphLinksRj();	
-				SqlitePreferences.Update ("databaseVersion", "0.50"); 
+				SqlitePreferences.Update ("databaseVersion", "0.50", true); 
 				Console.WriteLine("changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links");
 				dbcon.Close();
 				myVersion = "0.50";
@@ -328,7 +320,7 @@ class Sqlite
 				dbcon.Open();
 				SqliteRunType.AddGraphLinksRunSimple();	
 				SqliteRunType.AddGraphLinksRunInterval();	
-				SqlitePreferences.Update ("databaseVersion", "0.51"); 
+				SqlitePreferences.Update ("databaseVersion", "0.51", true); 
 				Console.WriteLine("added graphLinks for run simple and interval");
 				dbcon.Close();
 				myVersion = "0.51";
@@ -339,10 +331,26 @@ class Sqlite
 				SqliteJumpType.Update ("CJl", "CMJl"); 
 				SqliteEvent.GraphLinkInsert ("jump", "CMJl", "jump_cmj_l.png", true);
 				SqliteEvent.GraphLinkInsert ("jump", "ABKl", "jump_abk_l.png", true);
-				SqlitePreferences.Update ("databaseVersion", "0.52"); 
+				SqlitePreferences.Update ("databaseVersion", "0.52", true); 
 				Console.WriteLine("added graphLinks for cmj_l and abk_l, fixed CMJl name");
 				dbcon.Close();
 				myVersion = "0.52";
+			}
+			
+			if(myVersion == "0.52") {
+				dbcon.Open();
+				SqlitePersonSession.createTable (); 
+				dbcon.Close();
+				
+				//this needs the dbCon closed
+				SqlitePersonSession.moveOldTableToNewTable (); 
+				
+				dbcon.Open();
+				SqlitePreferences.Update ("databaseVersion", "0.53", true); 
+				dbcon.Close();
+				
+				Console.WriteLine("created weightSession table. Moved person weight data to weightSession table for each session that has performed");
+				myVersion = "0.53";
 			}
 		}
 
@@ -460,6 +468,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastDatabaseVersion);
 		
 		//changes [from - to - desc]
+		//0.52 - 0.53 added table weightSession, moved person weight data to weightSession table for each session that has performed
 		//0.51 - 0.52 added graphLinks for cmj_l and abk_l. Fixed CMJ_l name
 		//0.50 - 0.51 added graphLinks for run simple and interval
 		//0.49 - 0.50: changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links

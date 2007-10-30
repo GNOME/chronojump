@@ -215,25 +215,27 @@ public class PreferencesWindow {
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		SqlitePreferences.Update("chronopicPort", entry_chronopic.Text.ToString());
-		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString());
-		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString());
-		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString());
-		SqlitePreferences.Update("allowFinishRjAfterTime", PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active.ToString());
+		/* the falses are for the dbcon that is not opened */
+
+		SqlitePreferences.Update("chronopicPort", entry_chronopic.Text.ToString(), false);
+		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString(), false);
+		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
+		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);
+		SqlitePreferences.Update("allowFinishRjAfterTime", PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
 		
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
-			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString());
-			SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString());
+			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString(), false);
+			SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString(), false);
 		} else {
-			SqlitePreferences.Update("showQIndex", "False");
-			SqlitePreferences.Update("showDjIndex", "False");
+			SqlitePreferences.Update("showQIndex", "False", false);
+			SqlitePreferences.Update("showDjIndex", "False", false);
 		}
 		
 		
-		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString());
-		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.checkbutton_percent_kg_preferred.Active.ToString());
-		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString());
-		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString());
+		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), false);
+		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.checkbutton_percent_kg_preferred.Active.ToString(), false);
+		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString(), false);
+		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString(), false);
 		
 		/*
 		if(Util.IsWindows()) {

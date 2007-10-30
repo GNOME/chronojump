@@ -185,7 +185,7 @@ class SqliteSession : Sqlite
 		 * */
 		
 		//select persons of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM PERSONSESSION GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM personSessionWeight GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -433,7 +433,7 @@ class SqliteSession : Sqlite
 		dbcmd.ExecuteNonQuery();
 		
 		//delete relations (existance) within persons and sessions in this session
-		dbcmd.CommandText = "Delete FROM personSession WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM personSessionWeight WHERE sessionID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete normal jumps

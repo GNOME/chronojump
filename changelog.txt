@@ -1,5 +1,14 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+30 oct 2007
+	0.6-svn5
+	-Started allowing person weight to change between sessions (database
+	changed to 0,53) doing 480401. Now software is unstable for sure,
+	because this change affects to lot of parts. Tests remaining!
+	-DeletePersonFromSessionAndJumps (named "andTests" now) (deletes now also runs, pulses and
+	reaction times)	
+	-fixed bug on updating database versions and database opening
+
 22 oct 2007
 	0.6-svn4
 	-Contextual menu on: all treeview events (jumps, jumpsRj, runs, runsInterval, reactionTimes, pulses)
@@ -9,6 +18,7 @@ CHRONOJUMP DETAILED CHANGELOG:
 	-Rollback in bug fix: 486128. There are problems with inheritance and
 	the constructors (like crash on edit_jump_rj and the click on "more"
 	fixed in last commit
+	-minor gui improvements on: new/edit person, new/edit session
 	-Web: improved style.css (higher font). Fixes: 488266
 	-Web: added infrared pdf (Juanfer)
 

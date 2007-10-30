@@ -40,7 +40,7 @@ class SqlitePerson : Sqlite
 			"sex TEXT, " +
 			"dateborn TEXT, " +
 			"height TEXT, " +
-			"weight TEXT, " +
+			"weight TEXT, " + //now used personSession and person can change weight in every session. person.weight is not used
 			"description TEXT )";		
 		dbcmd.ExecuteNonQuery();
 	 }
@@ -51,12 +51,14 @@ class SqlitePerson : Sqlite
 
 		string myString = "INSERT INTO person (uniqueID, name, sex, dateBorn, height, weight, description) VALUES (NULL, '" +
 			name + "', '" + sex + "', '" + dateBorn + "', " + 
-			height + ", " + weight + ", '" + description + "')" ;
+			//height + ", " + weight + ", '" + description + "')" ;
+			height + ", " + "-1" + ", '" + description + "')" ;
 		
 		dbcmd.CommandText = myString;
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
 		dbcon.Close();
+
 		return myReturn;
 	}
 
@@ -80,26 +82,6 @@ class SqlitePerson : Sqlite
 		return myReturn;
 	}
 		
-	public static double SelectJumperWeight(int uniqueID)
-	{
-		dbcon.Open();
-
-		dbcmd.CommandText = "SELECT weight FROM person WHERE uniqueID == " + uniqueID;
-		
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		
-		double myReturn = 0;
-		if(reader.Read()) {
-			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
-		}
-		dbcon.Close();
-		return myReturn;
-	}
-		
 	public static string[] SelectAllPersonsRecuperable(string sortedBy, int except, int inSession, string searchFilterName) 
 	{
 		//sortedBy = name or uniqueID (= creation date)
@@ -115,9 +97,9 @@ class SqlitePerson : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.uniqueID " +
-			" FROM person, personSession " +
-			" WHERE personSession.sessionID == " + except + 
-			" AND person.uniqueID == personSession.personID "; 
+			" FROM person, personSessionWeight " +
+			" WHERE personSessionWeight.sessionID == " + except + 
+			" AND person.uniqueID == personSessionWeight.personID "; 
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -150,9 +132,9 @@ class SqlitePerson : Sqlite
 			else
 				dbcmd.CommandText = "SELECT * FROM person WHERE LOWER(name) LIKE LOWER ('%" + searchFilterName + "%') ORDER BY " + sortedBy;
 		} else {
-			dbcmd.CommandText = "SELECT person.* FROM person, personSession " +
-				" WHERE personSession.sessionID == " + inSession + 
-				" AND person.uniqueID == personSession.personID " + 
+			dbcmd.CommandText = "SELECT person.* FROM person, personSessionWeight " +
+				" WHERE personSessionWeight.sessionID == " + inSession + 
+				" AND person.uniqueID == personSessionWeight.personID " + 
 				"ORDER BY " + sortedBy;
 		}
 		
@@ -214,8 +196,8 @@ finishForeach:
 		
 		//session where this person is loaded
 		dbcmd.CommandText = "SELECT sessionID, session.Name, session.Place, session.Date " + 
-			" FROM personSession, session " + 
-			" WHERE personID = " + personID + " AND session.uniqueID == personSession.sessionID " +
+			" FROM personSessionWeight, session " + 
+			" WHERE personID = " + personID + " AND session.uniqueID == personSessionWeight.sessionID " +
 			" ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		
@@ -396,6 +378,7 @@ finishForeach:
 			"', dateborn = '" + myPerson.DateBorn +
 			"', height = " + myPerson.Height +
 			", weight = " + myPerson.Weight +
+			//", weight = " + "-1" +
 			", description = '" + myPerson.Description +
 			"' WHERE uniqueID == '" + myPerson.UniqueID + "'" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());

@@ -31,6 +31,7 @@ using Mono.Data.Sqlite;
 
 class SqlitePersonSession : Sqlite
 {
+	/* old (without weight)
 	protected internal static void createTable()
 	 {
 		dbcmd.CommandText = 
@@ -40,17 +41,88 @@ class SqlitePersonSession : Sqlite
 			"sessionID INT)";		
 		dbcmd.ExecuteNonQuery();
 	 }
+	 */
 
-	public static int Insert(int personID, int sessionID)
+	protected internal static void createTable()
+	 {
+		dbcmd.CommandText = 
+			"CREATE TABLE personSessionWeight ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"personID INT, " +
+			"sessionID INT, " +
+			"weight INT)";		
+		dbcmd.ExecuteNonQuery();
+	 }
+
+	public static int Insert(int personID, int sessionID, int weight)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO personSession(personID, sessionID) VALUES ("
-			+ personID + ", " + sessionID + ")" ;
+		dbcmd.CommandText = "INSERT INTO personSessionWeight(personID, sessionID, weight) VALUES ("
+			+ personID + ", " + sessionID + ", " + weight + ")" ;
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
 		dbcon.Close();
 		return myReturn;
 	}
+	
+	/* new in database 0.53 (weight can change in different sessions) */
+	public static double SelectPersonWeight(int personID, int sessionID)
+	{
+		dbcon.Open();
+
+		dbcmd.CommandText = "SELECT weight FROM personSessionWeight WHERE personID == " + personID + 
+			" AND sessionID == " + sessionID;
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		double myReturn = 0;
+		if(reader.Read()) {
+			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
+		}
+		dbcon.Close();
+		return myReturn;
+	}
+
+	/* when a session is not know, then select last weight */	
+	/* new in database 0.53 (weight can change in different sessions) */
+	public static double SelectPersonWeight(int personID)
+	{
+		dbcon.Open();
+
+		dbcmd.CommandText = "SELECT weight, sessionID FROM personSessionWeight WHERE personID == " + personID + 
+			"ORDER BY sessionID DESC LIMIT 1";
+		
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		double myReturn = 0;
+		if(reader.Read()) {
+			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
+		}
+		dbcon.Close();
+		return myReturn;
+	}
+	
+	public static void UpdateWeight(int personID, int sessionID, int weight)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "UPDATE personSessionWeight " + 
+			" SET weight = " + weight + 
+			" WHERE personID = " + personID +
+			" AND sessionID = " + sessionID
+			;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+
 
 	public static bool SessionExists(string sessionName)
 	{
@@ -125,7 +197,7 @@ class SqlitePersonSession : Sqlite
 	public static bool PersonSelectExistsInSession(string myPersonID, int mySessionID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM personSession " +
+		dbcmd.CommandText = "SELECT * FROM personSessionWeight " +
 			" WHERE personID == " + myPersonID + 
 			" AND sessionID == " + mySessionID ; 
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -178,9 +250,9 @@ class SqlitePersonSession : Sqlite
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.* " +
-			"FROM person, personSession " +
-			" WHERE personSession.sessionID == " + sessionID + 
-			" AND person.uniqueID == personSession.personID " + 
+			"FROM person, personSessionWeight " +
+			" WHERE personSessionWeight.sessionID == " + sessionID + 
+			" AND person.uniqueID == personSessionWeight.personID " + 
 			" ORDER BY upper(person.name)";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -228,12 +300,12 @@ class SqlitePersonSession : Sqlite
 		return myJumpers;
 	}
 	
-	public static void DeletePersonFromSessionAndJumps(string sessionID, string personID)
+	public static void DeletePersonFromSessionAndTests(string sessionID, string personID)
 	{
 		dbcon.Open();
 
 		//delete relations (existance) within persons and sessions in this session
-		dbcmd.CommandText = "Delete FROM personSession WHERE sessionID == " + sessionID +
+		dbcmd.CommandText = "Delete FROM personSessionWeight WHERE sessionID == " + sessionID +
 			" AND personID == " + personID;
 		dbcmd.ExecuteNonQuery();
 		
@@ -248,9 +320,77 @@ class SqlitePersonSession : Sqlite
 			" AND personID == " + personID;
 		dbcmd.ExecuteNonQuery();
 		
-		//runs PENDING
+		//delete normal runs
+		dbcmd.CommandText = "Delete FROM run WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+			
+		dbcmd.ExecuteNonQuery();
+		
+		//delete intervallic runs
+		dbcmd.CommandText = "Delete FROM runInterval WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+			
+		dbcmd.ExecuteNonQuery();
+		
+		//delete reaction times
+		dbcmd.CommandText = "Delete FROM reactionTime WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+			
+		dbcmd.ExecuteNonQuery();
+		
+		//delete pulses
+		dbcmd.CommandText = "Delete FROM pulse WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+			
+		dbcmd.ExecuteNonQuery();
+		
 		
 		dbcon.Close();
+	}
+
+	/* 
+	 * conversion from database 0.52 to 0.53 (add weight into personSession)
+	 * now weight of a person can change every session
+	*/
+	protected internal static void moveOldTableToNewTable() 
+	{
+		dbcon.Open();
+			
+		dbcmd.CommandText = "SELECT personSession.*, person.weight " + 
+			"FROM personSession, person " + 
+			"WHERE personSession.personID = person.UniqueID " + 
+			"ORDER BY sessionID, personID";
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		ArrayList myArray = new ArrayList(2);
+		while(reader.Read()) {
+			//reader[0] (uniqueID (of table)) is not used
+			myArray.Add (reader[1].ToString() + ":" + reader[2].ToString() + ":" + reader[3].ToString());
+		}
+		reader.Close();
+
+		dropOldTable();
+
+		dbcon.Close();
+			
+		foreach (string line in myArray) {
+			string [] stringFull = line.Split(new char[] {':'});
+			Insert(
+					Convert.ToInt32(stringFull[0]), //personID
+					Convert.ToInt32(stringFull[1]), //sessionID
+					Convert.ToInt32(stringFull[2]) //weight
+			      );
+		}
+	}
+	
+	/* 
+	 * conversion from database 0.52 to 0.53 (add weight into personSession)
+	 * now weight of a person can change every session
+	*/
+	private static void dropOldTable() {
+		dbcmd.CommandText = "DROP TABLE personSession";
+		dbcmd.ExecuteNonQuery();
 	}
 
 }

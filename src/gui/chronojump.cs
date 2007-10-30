@@ -733,40 +733,33 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Gtk.TreeView myTv = (Gtk.TreeView) o;
 		if (e.Button == 3) {
 			if(myTv == treeview_persons) {
-				Console.WriteLine("treeview_persons");
 				treeviewPersonsContextMenu(currentPerson);
 			} else if(myTv == treeview_jumps) {
-				Console.WriteLine("treeview_jumps");
 				if (myTreeViewJumps.EventSelectedID > 0) {
 					Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.EventSelectedID );
 					treeviewJumpsContextMenu(myJump);
 				}
 			} else if(myTv == treeview_jumps_rj) {
-				Console.WriteLine("treeview_jumps_rj");
 				if (myTreeViewJumpsRj.EventSelectedID > 0) {
 					JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 					treeviewJumpsRjContextMenu(myJump);
 				}
 			} else if(myTv == treeview_runs) {
-				Console.WriteLine("treeview_runs");
 				if (myTreeViewRuns.EventSelectedID > 0) {
 					Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.EventSelectedID );
 					treeviewRunsContextMenu(myRun);
 				}
 			} else if(myTv == treeview_runs_interval) {
-				Console.WriteLine("treeview_runs_interval");
 				if (myTreeViewRunsInterval.EventSelectedID > 0) {
 					RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
 					treeviewRunsIntervalContextMenu(myRun);
 				}
 			} else if(myTv == treeview_reaction_times) {
-				Console.WriteLine("treeview_reaction_times");
 				if (myTreeViewReactionTimes.EventSelectedID > 0) {
 					ReactionTime myRt = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID );
 					treeviewReactionTimesContextMenu(myRt);
 				}
 			} else if(myTv == treeview_pulses) {
-				Console.WriteLine("treeview_pulses");
 				if (myTreeViewPulses.EventSelectedID > 0) {
 					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
 					treeviewPulsesContextMenu(myPulse);
@@ -1761,7 +1754,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_delete_current_person_from_session_accepted (object o, EventArgs args) 
 	{
 		appbar2.Push( 1, Catalog.GetString("Deleted person and all his/her tests on this session") );
-		SqlitePersonSession.DeletePersonFromSessionAndJumps(
+		SqlitePersonSession.DeletePersonFromSessionAndTests(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
 		treeview_persons_storeReset();
@@ -1819,7 +1812,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if(menuitem_simulated.Active) {
 			Console.WriteLine("RadioSimulated - ACTIVE");
 			simulated = true;
-			SqlitePreferences.Update("simulated", simulated.ToString());
+			SqlitePreferences.Update("simulated", simulated.ToString(), false);
 
 			//close connection with chronopic if initialized
 			if(cpRunning) {
@@ -1866,7 +1859,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//TODO
 		//change also in preferences!!!!
 		simulated = false;
-		SqlitePreferences.Update("simulated", simulated.ToString());
+		SqlitePreferences.Update("simulated", simulated.ToString(), false);
 		
 		//init connecting with chronopic	
 		if(cpRunning == false) {

@@ -98,7 +98,7 @@ public class LanguageWindow
 
 	protected void on_button_accept_clicked (object o, EventArgs args)
 	{
-		SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(LanguageWindowBox.combo_language)));
+		SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(LanguageWindowBox.combo_language)), false);
 
 		LanguageWindowBox.language_window.Hide();
 		LanguageWindowBox = null;

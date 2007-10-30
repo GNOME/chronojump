@@ -38,6 +38,7 @@ public class PersonRecuperateWindow {
 	
 	protected TreeStore store;
 	protected string selected;
+	private string selectedWeight;
 	[Widget] protected Gtk.TreeView treeview_person_recuperate;
 	[Widget] protected Gtk.Button button_recuperate;
 	[Widget] protected Gtk.Statusbar statusbar1;
@@ -171,9 +172,10 @@ public class PersonRecuperateWindow {
 		if (((TreeSelection)o).GetSelected(out model, out iter))
 		{
 			selected = (string)model.GetValue (iter, 0);
+			selectedWeight = (string)model.GetValue (iter, 4);
 			button_recuperate.Sensitive = true;
 		}
-		Console.WriteLine (selected);
+		Console.WriteLine (selected + ":" + selectedWeight);
 	}
 
 	
@@ -197,6 +199,7 @@ public class PersonRecuperateWindow {
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			selected = (string) model.GetValue (iter, 0);
+			selectedWeight = (string) model.GetValue (iter, 4);
 			
 			//activate on_button_recuperate_clicked()
 			button_recuperate.Activate();
@@ -207,7 +210,7 @@ public class PersonRecuperateWindow {
 	{
 		if(selected != "-1")
 		{
-			SqlitePersonSession.Insert(Convert.ToInt32(selected), sessionID);
+			SqlitePersonSession.Insert(Convert.ToInt32(selected), sessionID, Convert.ToInt32(selectedWeight));
 			currentPerson = SqlitePersonSession.PersonSelect(selected);
 
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
@@ -479,8 +482,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 					personID = Convert.ToInt32( treeview_person_recuperate.Model.GetValue(iter, 1) );
 					//Console.WriteLine("Row {0}, value {1}, personID {2}", count++, val, personID);
 
+					//find weight
+					int weight = (int) store.GetValue (iter, 5);
+
 					//insert in DB
-					SqlitePersonSession.Insert(personID, sessionID);
+					SqlitePersonSession.Insert(personID, sessionID, weight);
 
 					//assign person to currentPerson (last will be really the currentPerson
 					currentPerson = SqlitePersonSession.PersonSelect(personID.ToString());
@@ -688,6 +694,7 @@ public class PersonModifyWindow
 	private int sessionID;
 	private int uniqueID;
 	private string sex = "M";
+	private int weightIni;
 	
 	
 	PersonModifyWindow (Gtk.Window parent, int sessionID) {
@@ -751,6 +758,7 @@ public class PersonModifyWindow
 		
 		spinbutton_height.Value = myPerson.Height;
 		spinbutton_weight.Value = myPerson.Weight;
+		weightIni = myPerson.Weight; //store for tracking if changes
 
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = myPerson.Description;
@@ -803,6 +811,10 @@ public class PersonModifyWindow
 						(int) spinbutton_weight.Value, textview2.Buffer.Text);
 
 			SqlitePerson.Update (currentPerson); 
+	
+			//change weight if needed
+			if((int) spinbutton_weight.Value != weightIni)
+				SqlitePersonSession.UpdateWeight (currentPerson.UniqueID, sessionID, (int) spinbutton_weight.Value); 
 		
 			PersonModifyWindowBox.person_win.Hide();
 			PersonModifyWindowBox = null;

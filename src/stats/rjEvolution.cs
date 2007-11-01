@@ -45,7 +45,7 @@ public class StatRjEvolution : Stat
 
 		this.numContinuous = numContinuous;
 		
-		string sessionString = obtainSessionSqlString(sessions);
+		string sessionString = obtainSessionSqlString(sessions, "jumpRj");
 
 		//we need to know the reactive with more jumps for prepare columns
 		maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
@@ -233,7 +233,7 @@ public class StatRjEvolution : Stat
 	
 	public override void PrepareData() 
 	{
-		string sessionString = obtainSessionSqlString(sessions);
+		string sessionString = obtainSessionSqlString(sessions, "jumpRj");
 		//only simplesession
 		bool multisession = false;
 

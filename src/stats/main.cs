@@ -413,12 +413,12 @@ public class Stat
 		return myStore;
 	}
 	
-	protected string obtainSessionSqlString(ArrayList sessions)
+	protected string obtainSessionSqlString(ArrayList sessions, string tableName)
 	{
 		string newStr = "WHERE (";
 		for (int i=0; i < sessions.Count; i++) {
 			string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
-			newStr = newStr + " sessionID == " + stringFullResults[0];
+			newStr = newStr + " " + tableName + ".sessionID == " + stringFullResults[0];
 			if (i+1 < sessions.Count) {
 				newStr = newStr + " OR ";
 			}

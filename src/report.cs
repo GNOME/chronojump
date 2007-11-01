@@ -114,10 +114,10 @@ public class Report : ExportSession
 			myPersons = SqlitePersonSession.SelectCurrentSession(sessionID, false, false); //not onlyIDAndName, not reversed
 		}
 		if(ShowSimpleJumps) {
-			myJumps= SqliteJump.SelectAllNormalJumps(sessionID);
+			myJumps= SqliteJump.SelectNormalJumps(sessionID, -1, "");
 		}
 		if(ShowReactiveJumps) {
-			myJumpsRj = SqliteJump.SelectAllRjJumps(sessionID);
+			myJumpsRj = SqliteJump.SelectRjJumps(sessionID, -1, "");
 		}
 		if(ShowSimpleRuns) {
 			myRuns= SqliteRun.SelectAllNormalRuns(sessionID);

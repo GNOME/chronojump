@@ -46,7 +46,7 @@ public class GraphRjEvolution : StatRjEvolution
 		completeConstruction (myStatTypeStruct, treeview);
 		this.numContinuous = numContinuous;
 		
-		string sessionString = obtainSessionSqlString(sessions);
+		string sessionString = obtainSessionSqlString(sessions, "jumpRj");
 		//we need to know the reactive with more jumps for prepare columns
 		//later this value can be changed in stats/main/plotgraphgraphseries because 
 		//there is possible to check the checked stats rows

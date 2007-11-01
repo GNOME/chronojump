@@ -79,7 +79,7 @@ public class StatPotency : Stat
 	
 	public override void PrepareData() 
 	{
-		string sessionString = obtainSessionSqlString(sessions);
+		string sessionString = obtainSessionSqlString(sessions, "jump");
 		bool multisession = false;
 		if(sessions.Count > 1) {
 			multisession = true;

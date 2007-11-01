@@ -218,11 +218,15 @@ class SqlitePersonSession : Sqlite
 		return exists;
 	}
 	
-	public static Person PersonSelect(string myUniqueID)
+	public static Person PersonSelect(int uniqueID, int sessionID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT name, sex, dateborn, height, weight, description " +
-			"FROM person WHERE uniqueID == " + myUniqueID ; 
+		//dbcmd.CommandText = "SELECT name, sex, dateborn, height, weight, description " +
+		dbcmd.CommandText = "SELECT person.name, person.sex, person.dateborn, person.height, " +
+			"personSessionWeight.weight, person.description " +
+			"FROM person, personSessionWeight WHERE person.uniqueID == " + uniqueID + 
+			" AND personSessionWeight.sessionID == " + sessionID +
+			" AND person.uniqueID == personSessionWeight.personID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
@@ -239,7 +243,7 @@ class SqlitePersonSession : Sqlite
 			values[5] = reader[5].ToString();
 		}
 
-		Person myPerson = new Person(Convert.ToInt32(myUniqueID), values[0], 
+		Person myPerson = new Person(uniqueID, values[0], 
 			values[1], values[2], Convert.ToInt32(values[3]), Convert.ToInt32(values[4]), values[5]);
 		
 		dbcon.Close();
@@ -249,7 +253,7 @@ class SqlitePersonSession : Sqlite
 	public static string[] SelectCurrentSession(int sessionID, bool onlyIDAndName, bool reverse) 
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.* " +
+		dbcmd.CommandText = "SELECT person.*, personSessionWeight.weight " +
 			"FROM person, personSessionWeight " +
 			" WHERE personSessionWeight.sessionID == " + sessionID + 
 			" AND person.uniqueID == personSessionWeight.personID " + 

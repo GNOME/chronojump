@@ -65,7 +65,7 @@ public class StatRjIndex : Stat
 	
 	public override void PrepareData() 
 	{
-		string sessionString = obtainSessionSqlString(sessions);
+		string sessionString = obtainSessionSqlString(sessions, "jumpRj");
 		bool multisession = false;
 		if(sessions.Count > 1) {
 			multisession = true;

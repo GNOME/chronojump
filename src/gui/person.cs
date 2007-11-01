@@ -211,7 +211,7 @@ public class PersonRecuperateWindow {
 		if(selected != "-1")
 		{
 			SqlitePersonSession.Insert(Convert.ToInt32(selected), sessionID, Convert.ToInt32(selectedWeight));
-			currentPerson = SqlitePersonSession.PersonSelect(selected);
+			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selected), sessionID);
 
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
 					typeof (string), typeof(string), typeof(string) );
@@ -483,13 +483,13 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 					//Console.WriteLine("Row {0}, value {1}, personID {2}", count++, val, personID);
 
 					//find weight
-					int weight = (int) store.GetValue (iter, 5);
+					string weightString = (string) store.GetValue (iter, 5);
 
 					//insert in DB
-					SqlitePersonSession.Insert(personID, sessionID, weight);
+					SqlitePersonSession.Insert(personID, sessionID, Convert.ToInt32(weightString));
 
 					//assign person to currentPerson (last will be really the currentPerson
-					currentPerson = SqlitePersonSession.PersonSelect(personID.ToString());
+					currentPerson = SqlitePersonSession.PersonSelect(personID, sessionID);
 
 					inserted ++;
 				}
@@ -536,9 +536,6 @@ public class PersonAddWindow {
 	[Widget] Gtk.SpinButton spinbutton_weight;
 	
 	[Widget] Gtk.Button button_accept;
-	
-	[Widget] Gtk.Label label_weight_attention_title;
-	[Widget] Gtk.Label label_weight_attention_message;
 	
 	static PersonAddWindow PersonAddWindowBox;
 	Gtk.Window parent;
@@ -594,8 +591,6 @@ public class PersonAddWindow {
 		if (PersonAddWindowBox == null) {
 			PersonAddWindowBox = new PersonAddWindow (parent, sessionID);
 		}
-		PersonAddWindowBox.label_weight_attention_title.Hide();
-		PersonAddWindowBox.label_weight_attention_message.Hide();
 		
 		PersonAddWindowBox.person_win.Show ();
 		
@@ -683,7 +678,13 @@ public class PersonModifyWindow
 	
 	[Widget] Gtk.Button button_accept;
 	
+	//used for connect ok gui/chronojump.cs, this class and gui/convertWeight.cs
+	public Gtk.Button fakeButtonAccept;
+	
+	static ConvertWeightWindow convertWeightWin;
+	
 	static PersonModifyWindow PersonModifyWindowBox;
+	
 	Gtk.Window parent;
 	ErrorWindow errorWin;
 	
@@ -692,12 +693,12 @@ public class PersonModifyWindow
 
 	private Person currentPerson;
 	private int sessionID;
-	private int uniqueID;
+	private int personID;
 	private string sex = "M";
 	private int weightIni;
 	
 	
-	PersonModifyWindow (Gtk.Window parent, int sessionID) {
+	PersonModifyWindow (Gtk.Window parent, int sessionID, int personID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
@@ -707,6 +708,10 @@ public class PersonModifyWindow
 	
 		this.parent = parent;
 		this.sessionID = sessionID;
+		this.personID = personID;
+
+		fakeButtonAccept = new Gtk.Button();
+
 		person_win.Title =  Catalog.GetString ("Edit jumper");
 	}
 	
@@ -733,18 +738,18 @@ public class PersonModifyWindow
 	static public PersonModifyWindow Show (Gtk.Window parent, int sessionID, int personID)
 	{
 		if (PersonModifyWindowBox == null) {
-			PersonModifyWindowBox = new PersonModifyWindow (parent, sessionID);
+			PersonModifyWindowBox = new PersonModifyWindow (parent, sessionID, personID);
 		}
 		PersonModifyWindowBox.person_win.Show ();
 		
-		PersonModifyWindowBox.fillDialog (personID);
+		PersonModifyWindowBox.fillDialog ();
 		
 		return PersonModifyWindowBox;
 	}
 
-	private void fillDialog (int personID)
+	private void fillDialog ()
 	{
-		Person myPerson = SqlitePersonSession.PersonSelect(personID.ToString()); 
+		Person myPerson = SqlitePersonSession.PersonSelect(personID, sessionID); 
 		
 		entry1.Text = myPerson.Name;
 		if (myPerson.Sex == "M") {
@@ -763,8 +768,6 @@ public class PersonModifyWindow
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = myPerson.Description;
 		textview2.Buffer = tb;
-			
-		uniqueID = personID;
 	}
 		
 	
@@ -797,40 +800,68 @@ public class PersonModifyWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		bool personExists = SqlitePersonSession.PersonExistsAndItsNotMe (uniqueID, Util.RemoveTilde(entry1.Text));
+		bool personExists = SqlitePersonSession.PersonExistsAndItsNotMe (personID, Util.RemoveTilde(entry1.Text));
 		if(personExists) {
-			//string myString =  Catalog.GetString ("Jumper: '") + Util.RemoveTilde(entry1.Text) +  Catalog.GetString ("' exists. Please, use another name");
 			string myString = string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
 			errorWin = ErrorWindow.Show(myString);
 		} else {
-			//separate by '/' for not confusing with the ':' separation between the other values
-			string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
-				dateTime.Year.ToString();
-			
-			currentPerson = new Person (uniqueID, entry1.Text, sex, dateFull, (int) spinbutton_height.Value,
-						(int) spinbutton_weight.Value, textview2.Buffer.Text);
+			//if weight has changed
+			if((int) spinbutton_weight.Value != weightIni) {
+				//see if this person has done jumps with weight
+				string [] myJumpsNormal = SqliteJump.SelectNormalJumps(sessionID, personID, "withWeight");
+				string [] myJumpsReactive = SqliteJump.SelectRjJumps(sessionID, personID, "withWeight");
 
-			SqlitePerson.Update (currentPerson); 
-	
-			//change weight if needed
-			if((int) spinbutton_weight.Value != weightIni)
-				SqlitePersonSession.UpdateWeight (currentPerson.UniqueID, sessionID, (int) spinbutton_weight.Value); 
-		
-			PersonModifyWindowBox.person_win.Hide();
-			PersonModifyWindowBox = null;
+				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
+					//create the convertWeight Window
+					convertWeightWin = ConvertWeightWindow.Show(
+							sessionID, personID, 
+							weightIni, (int) spinbutton_weight.Value, 
+							myJumpsNormal, myJumpsReactive);
+					convertWeightWin.Button_accept.Clicked += new EventHandler(on_convertWeightWin_accepted);
+					convertWeightWin.Button_cancel.Clicked += new EventHandler(on_convertWeightWin_cancelled);
+				} else {
+					recordChanges();
+				}
+			} else {
+				recordChanges();
+			}
 		}
 	}
-	
-	public Button Button_accept 
+
+	void on_convertWeightWin_accepted (object o, EventArgs args) {
+		recordChanges();
+	}
+
+	void on_convertWeightWin_cancelled (object o, EventArgs args) {
+		//do nothing (wait if user whants to cancel the personModify o change another thing)
+	}
+
+	private void recordChanges() {
+		//separate by '/' for not confusing with the ':' separation between the other values
+		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
+			dateTime.Year.ToString();
+
+		currentPerson = new Person (personID, entry1.Text, sex, dateFull, (int) spinbutton_height.Value,
+				(int) spinbutton_weight.Value, textview2.Buffer.Text);
+
+		SqlitePerson.Update (currentPerson); 
+
+		//change weight if needed
+		if((int) spinbutton_weight.Value != weightIni)
+			SqlitePersonSession.UpdateWeight (currentPerson.UniqueID, sessionID, (int) spinbutton_weight.Value); 
+
+		fakeButtonAccept.Click();
+
+		PersonModifyWindowBox.person_win.Hide();
+		PersonModifyWindowBox = null;
+	}
+
+	public Button FakeButtonAccept 
 	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+		set { fakeButtonAccept = value; }
+		get { return fakeButtonAccept; }
 	}
-	
+
 	public Person CurrentPerson 
 	{
 		get {

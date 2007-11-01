@@ -127,13 +127,26 @@ class SqliteJump : Sqlite
 		return myLast;
 	}
 
-	public static string[] SelectAllNormalJumps(int sessionID) 
+	//if all persons, put -1 in personID
+	public static string[] SelectNormalJumps(int sessionID, int personID, string filterWeight) 
 	{
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = " AND person.uniqueID == " + personID;
+
+		string filterWeightString = "";
+		if(filterWeight == "withWeight")
+			filterWeightString = " AND jump.weight != 0 ";
+
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, jump.*, person.weight " +
-			" FROM person, jump " +
-			" WHERE person.uniqueID == jump.personID" + 
+		dbcmd.CommandText = "SELECT person.name, jump.*, personSessionWeight.weight " +
+			" FROM person, jump, personSessionWeight " +
+			" WHERE person.uniqueID == jump.personID " + 
 			" AND jump.sessionID == " + sessionID + 
+			filterPersonString +
+			filterWeightString +
+			" AND personSessionWeight.personID == person.uniqueID " +
+			" AND personSessionWeight.sessionID == jump.sessionID " +
 			" ORDER BY person.uniqueID, jump.uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -177,13 +190,25 @@ class SqliteJump : Sqlite
 		return myJumps;
 	}
 
-	public static string[] SelectAllRjJumps(int sessionID) 
+	public static string[] SelectRjJumps(int sessionID, int personID, string filterWeight) 
 	{
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = " AND person.uniqueID == " + personID;
+
+		string filterWeightString = "";
+		if(filterWeight == "withWeight")
+			filterWeightString = " AND jumpRj.weight != 0 ";
+
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, jumpRj.*, person.weight " +
-			" FROM person, jumpRj " +
+		dbcmd.CommandText = "SELECT person.name, jumpRj.*, personSessionWeight.weight " +
+			" FROM person, jumpRj, personSessionWeight " +
 			" WHERE person.uniqueID == jumpRj.personID" + 
 			" AND jumpRj.sessionID == " + sessionID + 
+			filterPersonString +
+			filterWeightString +
+			" AND personSessionWeight.personID == person.uniqueID " +
+			" AND personSessionWeight.sessionID == jumpRj.sessionID " +
 			" ORDER BY person.uniqueID, jumpRj.uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -353,6 +378,16 @@ class SqliteJump : Sqlite
 			", weight = " + Util.ConvertToPoint(weight) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + jumpID ;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+
+	public static void UpdateWeight(string tableName, int uniqueID, int weight)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "UPDATE " + tableName + " SET weight = " + weight + 
+			" WHERE uniqueID == " + uniqueID ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();

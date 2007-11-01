@@ -804,7 +804,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		TreeIter iter;
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 1); //name, ID
-			currentPerson = SqlitePersonSession.PersonSelect(selectedID);
+			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);
 			return true;
 		} else {
@@ -826,8 +826,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 1); //name, ID
 		
-			Console.WriteLine (selectedID);
-			currentPerson = SqlitePersonSession.PersonSelect(selectedID);
+			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);
 		}
 	}
@@ -872,7 +871,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void fillTreeView_jumps (string filter) {
 		string [] myJumps;
 		
-		myJumps = SqliteJump.SelectAllNormalJumps(currentSession.UniqueID);
+		myJumps = SqliteJump.SelectNormalJumps(currentSession.UniqueID, -1, "");
 		myTreeViewJumps.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
@@ -916,9 +915,12 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		myItem.Activated += on_edit_selected_jump_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
+
 		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_delete_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -938,7 +940,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void fillTreeView_jumps_rj (string filter) {
 		string [] myJumps;
-		myJumps = SqliteJump.SelectAllRjJumps(currentSession.UniqueID);
+		myJumps = SqliteJump.SelectRjJumps(currentSession.UniqueID, -1, "");
 		myTreeViewJumpsRj.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
@@ -1060,9 +1062,12 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		myItem.Activated += on_edit_selected_run_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
+
 		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_delete_selected_run_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1202,9 +1207,12 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		myItem.Activated += on_edit_selected_reaction_time_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
+
 		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myRt.Type + " (" + myRt.PersonName + ")");
 		myItem.Activated += on_delete_selected_reaction_time_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1707,7 +1715,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
 		Console.WriteLine("modify person");
 		personModifyWin = PersonModifyWindow.Show(app1, currentSession.UniqueID, currentPerson.UniqueID);
-		personModifyWin.Button_accept.Clicked += new EventHandler(on_edit_current_person_accepted);
+		personModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	
 	private void on_edit_current_person_accepted (object o, EventArgs args) {
@@ -1716,6 +1724,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentPerson = personModifyWin.CurrentPerson;
 			treeview_persons_storeReset();
 			fillTreeView_persons();
+			
 			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
 			if(rowToSelect != -1) {
 				selectRowTreeView_persons(treeview_persons,
@@ -1778,7 +1787,6 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				statsWin.Hide();
 			}
 		}
-		
 	}
 
 
@@ -2043,7 +2051,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//nothing changed, but stats update button cannot be insensitive,
 		//because probably some jump type has changed it's jumper
 		//the unsensitive of button stats is for showing the user, that he has to update manually
-		//bacause it's not automatically updated
+		//because it's not automatically updated
 		//because it crashes in some thread problem
 		//that will be fixed in other release
 		//if(createdStatsWin)
@@ -2345,8 +2353,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			myLimit = 2; //2 for normal jump
 			
 		//don't let update until test finishes
-		//if(createdStatsWin)
-		//	statsWin.HideUpdateStatsButton();
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
 
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Jump"), //windowTitle
@@ -2402,7 +2410,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			
 		
 			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, false);
+				//statsWin.FillTreeView_stats(false, false);
+				statsWin.ShowUpdateStatsButton();
 			}
 		
 			//unhide buttons for delete last jump
@@ -2533,8 +2542,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		notebook_change(1);
 		
 		//don't let update until test finishes
-		//if(createdStatsWin)
-		//	statsWin.HideUpdateStatsButton();
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
@@ -2605,7 +2614,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			//currentEventExecute.StopThread();
 
 			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, false);
+				//statsWin.FillTreeView_stats(false, false);
+				statsWin.ShowUpdateStatsButton();
 			}
 
 			//unhide buttons for delete last jump
@@ -2755,8 +2765,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		double myLimit = 3; //same for startingIn than out (before)
 		
 		//don't let update until test finishes
-		//if(createdStatsWin)
-		//	statsWin.HideUpdateStatsButton();
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
 
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Run"), //windowTitle
@@ -2802,7 +2812,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			myTreeViewRuns.Add(currentPerson.Name, currentRun);
 		
 			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, false);
+				//statsWin.FillTreeView_stats(false, false);
+				statsWin.ShowUpdateStatsButton();
 			}
 		
 			//unhide buttons for delete last jump
@@ -2934,8 +2945,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		notebook_change(3);
 		
 		//don't let update until test finishes
-		//if(createdStatsWin)
-		//	statsWin.HideUpdateStatsButton();
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
@@ -2992,7 +3003,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			myTreeViewRunsInterval.Add(currentPerson.Name, currentRunInterval);
 
 			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, false);
+				//statsWin.FillTreeView_stats(false, false);
+				statsWin.ShowUpdateStatsButton();
 			}
 
 			//unhide buttons for delete last jump
@@ -3048,8 +3060,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		double myLimit = 2;
 			
 		//don't let update until test finishes
-		//if(createdStatsWin)
-		//	statsWin.HideUpdateStatsButton();
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
 
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Reaction Time"), //windowTitle
@@ -3096,7 +3108,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			myTreeViewReactionTimes.Add(currentPerson.Name, currentReactionTime);
 		
 			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, false);
+				//statsWin.FillTreeView_stats(false, false);
+				statsWin.ShowUpdateStatsButton();
 			}
 		
 			//unhide buttons for delete last reaction time
@@ -3197,8 +3210,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		notebook_change(5);
 		
 		//don't let update until test finishes
-		//if(createdStatsWin)
-		//	statsWin.HideUpdateStatsButton();
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
 		eventExecuteWin = EventExecuteWindow.Show(
@@ -3255,11 +3268,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
 			
-			/*
 			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, false);
+				//statsWin.FillTreeView_stats(false, false);
+				statsWin.ShowUpdateStatsButton();
 			}
-			*/
 			
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
@@ -3803,11 +3815,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		button_last_delete.Sensitive = false ;
 		appbar2.Push( 1, string.Format(Catalog.GetString("Last {0} deleted"), Catalog.GetString("reaction time")) );
-		/*
+		
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
 		}
-		*/
 	}
 
 	private void on_last_pulse_delete_accepted (object o, EventArgs args) {
@@ -3822,11 +3833,9 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		button_last_delete.Sensitive = false ;
 		appbar2.Push( 1, string.Format(Catalog.GetString("Last {0} deleted"), Catalog.GetString("pulse")) );
 
-		/*
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, false);
 		}
-		*/
 	}
 
 

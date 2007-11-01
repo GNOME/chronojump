@@ -66,10 +66,8 @@ class SqliteStat : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			//" FROM jump, person " +
 			fromString +
 			sessionString +
-			//" AND jump.type == '" + jumpType + "' " +
 			jumpTypeString +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
@@ -131,14 +129,14 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", person.weight";
+		moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", personSessionWeight.weight";
 
 		//manage allJumps
-		string fromString = " FROM jump, person ";
+		string fromString = " FROM jump, person, personSessionWeight ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
 		if(jumpType == Catalog.GetString("All jumps")) {
 			moreSelect = moreSelect + ", jump.type ";
-			fromString = " FROM jump, person, jumpType ";
+			fromString = " FROM jump, person, personSessionWeight, jumpType ";
 			jumpTypeString = " AND jumpType.startIn == 1 AND jump.Type == jumpType.name "; 
 		}
 
@@ -151,17 +149,19 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, sessionID, ";
+			orderByString = orderByString + "person.name, jump.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			//" FROM jump, person " +
+		dbcmd.CommandText = "SELECT person.name, person.sex, jump.sessionID, " + moreSelect +
 			fromString +
 			sessionString +
-			//" AND jump.type == '" + jumpType + "' " +
 			jumpTypeString +
 			" AND jump.personID == person.uniqueID " +
+			// personSessionWeight stuff
+			" AND person.uniqueID == personSessionWeight.personID " +
+			" AND jump.sessionID == personSessionWeight.sessionID " + //should work for simple and multi session
+
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
 
@@ -216,13 +216,19 @@ class SqliteStat : Sqlite
 	}
 
 	private static string convertWeight (string jumpW, int personW, bool percentDesired) {
-		//if it was a nono weight jump, return 0
+		//if it was a non weight jump, return 0
 		if(jumpW.Length == 0) {
 			return "0";
 		}
 
 		int i;
 		bool percentFound = true;
+		
+		/*
+		 * for sure all the percentFound should be true
+		 * because now jumps are always stored as % but without the % mark
+		 */
+
 		for (i=0 ; i< jumpW.Length ; i ++) {
 			if (jumpW[i] == '%') {
 				percentFound = true;
@@ -237,11 +243,9 @@ class SqliteStat : Sqlite
 			return jumpW.Substring(0,i);
 		} else if(percentFound && ! percentDesired) {
 			//found a percent, but we wanted Kg
-			//return (Convert.ToDouble(jumpW.Substring(0,i))*personW/100).ToString();
 			return Util.WeightFromPercentToKg(Convert.ToDouble(jumpW.Substring(0,i)), personW).ToString();
 		} else if( ! percentFound && percentDesired) {
 			//found Kg, but wanted percent
-			//return (Convert.ToDouble(jumpW.Substring(0,i))*100/personW).ToString();
 			return Util.WeightFromKgToPercent(Convert.ToDouble(jumpW.Substring(0,i)), personW).ToString();
 		} else {
 			return "ERROR";
@@ -269,7 +273,6 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		//moreSelect = ini + "((tv-tc)*100/tc)" + end + " AS dj_index, jump.tv, jump.tc, jump.fall";
 		moreSelect = ini + formula + end + " AS myIndex, jump.tv, jump.tc, jump.fall";
 		
 		//manage allJumps
@@ -295,10 +298,8 @@ class SqliteStat : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			//" FROM jump, person " +
 			fromString +
 			sessionString +
-			//" AND jump.type == '" + jumpType + "' " +
 			jumpTypeString +
 			" AND jump.personID == person.uniqueID " +
 			groupByString +
@@ -487,7 +488,6 @@ class SqliteStat : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			//" FROM jumpRj, person " +
 			fromString +
 			sessionString +
 			jumpTypeString +
@@ -639,7 +639,6 @@ class SqliteStat : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
-			//" FROM jumpRj, person " +
 			fromString +
 			sessionString +
 			jumpTypeString +
@@ -660,7 +659,6 @@ class SqliteStat : Sqlite
 		string returnFallString = "";
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
-			//Console.WriteLine(reader[3].ToString());
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}
@@ -816,7 +814,11 @@ class SqliteStat : Sqlite
 			//weight of SJ+ jump is 100% or equals de person weight
 			//the || is "the || concatenation operator which gives a string result." 
 			//http://sqlite.org/lang_expr.html
+				
+			/* now jump weight is not stores as % or kg and with the '%' or 'kg' after. Is always a %
 			" AND (j1.weight == \"100%\" OR j1.weight == person.weight||'" + "Kg' ) " +
+			*/
+			" AND j1.weight == \"100\" " +
 			" AND j1.personID == person.uniqueID " +
 			" AND j2.personID == person.uniqueID " +
 			groupByString +
@@ -864,40 +866,34 @@ class SqliteStat : Sqlite
 		if(operationString == "MAX") {
 			ini = "MAX(";
 			end = ")";
-		//} else if(operationString == "AVG") {
-		//	ini = "AVG(";
-		//	end = ")";
 		}
 		
 		string orderByString = "ORDER BY person.name, ";
 		string moreSelect = "";
-		//moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", person.weight";
-		//jump weight in Kg = jump weight in % * person.weight / 100
-		//jump height in centimeters = 100*4.9* pow(jump.tv/2, 2)
 
 		string jumpHeightInM = "4.9 * jump.tv/2.0 * jump.tv/2.0";
 
 		if(indexType == Constants.PotencyLewisCMJlFormula) {
 			moreSelect = 
-				ini + "(person.weight + jump.weight*person.weight/100.0) * 9.81" + end + " AS indexPart1, " + 
+				ini + "(personSessionWeight.weight + jump.weight*personSessionWeight.weight/100.0) * 9.81" + end + " AS indexPart1, " + 
 				ini + "2 * 9.81 * " + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
 		}
 		else if (indexType == Constants.PotencySayersSJlFormula) {
 			moreSelect = 
-				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * person.weight) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * personSessionWeight.weight) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
 		}
 		//else if (indexType == Constants.PotencySayersCMJlFormula) {
 		else {
 			moreSelect = 
-				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * person.weight) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * personSessionWeight.weight) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
 		}
 	      
 
-		moreSelect += "person.weight, jump.weight*person.weight/100.0 AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2.0"; 
+		moreSelect += "personSessionWeight.weight, jump.weight*personSessionWeight.weight/100.0 AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2.0"; 
 		//divisor has to be .0 if not, double is bad calculated. Bug 478168
 		//TODO: check if ini,end is needed here
 
-		string fromString = " FROM jump, person ";
+		string fromString = " FROM jump, person, personSessionWeight ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
 
 
@@ -910,15 +906,19 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "sessionID, ";
+			orderByString = orderByString + "jump.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT person.name, person.sex, jump.sessionID, " + moreSelect +
 			fromString +
 			sessionString +
 			jumpTypeString +
 			" AND jump.personID == person.uniqueID " +
+			// personSessionWeight stuff
+			" AND person.uniqueID == personSessionWeight.personID " +
+			" AND jump.sessionID == personSessionWeight.sessionID " + //should work for simple and multi session
+
 			groupByString +
 			//orderByString + ini + "indexPart1 * indexPart2WithoutSqrt" + end + " DESC ";
 			orderByString + "extraWeight";
@@ -1072,7 +1072,6 @@ class SqliteStat : Sqlite
 				" FROM " + jumpTable + ", person " +
 				sessionString +	
 				" AND personID == person.uniqueID" +
-				//" AND type == '" + jumpType + "'" + personString +
 				jumpTypeString +
 				personString +
 				" GROUP BY sessionID, type, person.sex " +
@@ -1083,7 +1082,6 @@ class SqliteStat : Sqlite
 			dbcmd.CommandText = "SELECT sessionID, type, " + operation + statFormulae +
 				" FROM " + jumpTable + " " +
 				sessionString +	
-				//" AND type == '" + jumpType + "'" + personString +
 				jumpTypeString +
 				personString +
 				//the following solves a problem
@@ -1133,6 +1131,7 @@ class SqliteStat : Sqlite
 
 		string moreSelect = "";
 		string weightString = ""; //used by FV index
+		int sexColumn = 0;
 		
 		if(statName == "FV") {
 			string heightJump1 = " 100*4.9* (j1.tv/2.0) * (j1.tv/2.0) ";	//jump1 tv converted to height
@@ -1145,7 +1144,13 @@ class SqliteStat : Sqlite
 				moreSelect = " ( AVG(" + heightJump1 + ") )*100/(1.0*AVG(" + heightJump2 + ")) AS myIndex, " +
 					"AVG(" + heightJump1 + "), AVG(" + heightJump2 + ")";
 			}
-			weightString = " AND (j1.weight == \"100%\" OR j1.weight == person.weight||'" + "Kg' ) ";
+			//weightString = " AND (j1.weight == \"100%\" OR j1.weight == person.weight||'" + "Kg' ) ";
+			weightString = 
+				/* now jump weight is not stores as % or kg and with the '%' or 'kg' after. Is always a %
+				" AND (j1.weight == \"100%\" OR j1.weight == personSessionWeight.weight||'" + "Kg' ) " +
+				*/
+				" AND j1.weight == \"100\" ";
+			sexColumn = 4;
 		} else {	//IE, IUB
 			if(operation == "MAX") {
 				//search MAX of two jumps, not max index!!
@@ -1153,6 +1158,7 @@ class SqliteStat : Sqlite
 			} else if(operation == "AVG") {
 				moreSelect = "( ( AVG(j1.tv) - AVG(j2.tv) )*100/(AVG(j2.tv)*1.0) ) AS myIndex ";
 			}
+			sexColumn = 2;
 		}
 		
 		string personString = "";
@@ -1164,7 +1170,7 @@ class SqliteStat : Sqlite
 			//select the MAX or AVG index grouped by sex
 			//returns 0-2 rows
 			dbcmd.CommandText = "SELECT j1.sessionID, " + moreSelect + ", person.sex " +
-				" FROM jump AS j1, jump AS j2, person " +
+				" FROM jump AS j1, jump AS j2, person, personSessionWeight " +
 				sessionString +	
 				weightString + 		//used by FV
 				" AND j1.personID == person.uniqueID" +
@@ -1178,8 +1184,9 @@ class SqliteStat : Sqlite
 			//select the MAX or AVG index. 
 			//returns 0-1 rows
 			dbcmd.CommandText = "SELECT j1.sessionID, " + moreSelect +
-				" FROM jump AS j1, jump AS j2, person " +
+				" FROM jump AS j1, jump AS j2, person, personSessionWeight " +
 				sessionString +	
+				weightString + 		//used by FV
 				" AND j1.personID == person.uniqueID" +
 				" AND j2.personID == person.uniqueID" +
 				" AND j1.type == '" + jump1 + "'" + 
@@ -1208,7 +1215,7 @@ class SqliteStat : Sqlite
 		//returns always two columns
 		while(reader.Read()) {
 			if (sexSeparated) {
-				myArray.Add (statName +"." + reader[2].ToString() + ":" + reader[0].ToString() 
+				myArray.Add (statName +"." + reader[sexColumn].ToString() + ":" + reader[0].ToString() 
 							+ ":" + Util.ChangeDecimalSeparator(reader[1].ToString()) );
 			} else {
 				myArray.Add (statName + ":" + reader[0].ToString() 

@@ -732,12 +732,19 @@ public class Util
 	}
 
 	public static string [] ArrayListToString (ArrayList myArrayList) {
-		string [] myString = new String[myArrayList.Count];
-		int i=0;
-		foreach (string str in myArrayList) 
-			myString[i++] = str;
-
-		return myString;
+		//if myArrayList is not defined, return with an empty string
+		try { 
+			string [] myString = new String[myArrayList.Count];
+			int i=0;
+			foreach (string str in myArrayList) 
+				myString[i++] = str;
+		
+			return myString;
+		}
+		catch {
+			string [] myString = new String[0];
+			return myString;
+		}
 	}
 			
 	public static ArrayList AddToArrayListIfNotExist(ArrayList myArrayList, string str) {

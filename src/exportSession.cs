@@ -153,8 +153,8 @@ public class ExportSession
 	protected virtual void getData() 
 	{
 		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
-		myJumps= SqliteJump.SelectAllNormalJumps(mySession.UniqueID);
-		myJumpsRj = SqliteJump.SelectAllRjJumps(mySession.UniqueID);
+		myJumps= SqliteJump.SelectNormalJumps(mySession.UniqueID, -1, "");
+		myJumpsRj = SqliteJump.SelectRjJumps(mySession.UniqueID, -1, "");
 		myRuns= SqliteRun.SelectAllNormalRuns(mySession.UniqueID);
 		myRunsInterval = SqliteRun.SelectAllIntervalRuns(mySession.UniqueID);
 		myReactionTimes = SqliteReactionTime.SelectAllReactionTimes(mySession.UniqueID);
@@ -232,7 +232,7 @@ public class ExportSession
 			myData.Add(
 					myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
 					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
-					myStr[4] + ":" + myStr[5] + ":" + //height, weight
+					myStr[4] + ":" + myStr[7] + ":" + //height, weight
 					myStr[6]  //desc
 				  );
 		}

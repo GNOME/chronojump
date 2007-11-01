@@ -84,7 +84,7 @@ public class StatGlobal : Stat
 
 	public override void PrepareData() 
 	{
-		string sessionString = obtainSessionSqlString(sessions);
+		string sessionString = obtainSessionSqlString(sessions, "jump");
 				
 		//it's better (nicer, cleaner, easier) to leave all the AVGSD as 'false'
 		processDataMultiSession ( SqliteStat.GlobalNormal(sessionString, operation, showSex, 
@@ -104,13 +104,15 @@ public class StatGlobal : Stat
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
 		
-		sessionString = obtainSessionSqlString(sessions);
+		sessionString = obtainSessionSqlString(sessions, "jump");
 		processDataMultiSession ( SqliteStat.GlobalOthers("DjIndex", "(100*((tv-tc)/tc))", "jump", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
 		processDataMultiSession ( SqliteStat.GlobalOthers("IndexQ", "(tv/tc)", "jump", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
+		
+		sessionString = obtainSessionSqlString(sessions, "jumpRj");
 		processDataMultiSession ( SqliteStat.GlobalOthers("RjIndex", "(100*((tvavg-tcavg)/tcavg))", "jumpRj", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );

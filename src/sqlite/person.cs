@@ -127,12 +127,21 @@ class SqlitePerson : Sqlite
 		
 		dbcon.Open();
 		if(inSession == -1) {
-			if(searchFilterName == "")
-				dbcmd.CommandText = "SELECT * FROM person ORDER BY " + sortedBy;
-			else
-				dbcmd.CommandText = "SELECT * FROM person WHERE LOWER(name) LIKE LOWER ('%" + searchFilterName + "%') ORDER BY " + sortedBy;
+			string nameLike = "";
+			if(searchFilterName != "")
+				nameLike = "LOWER(name) LIKE LOWER ('%" + searchFilterName + "%') AND ";
+
+			dbcmd.CommandText = 
+				"SELECT person.*, personSessionWeight.weight , personSessionWeight.SessionID, " +
+				" MAX(personSessionWeight.sessionID) " +
+				" FROM person, personSessionWeight " + 
+				" WHERE " + nameLike + " person.UniqueID == personSessionWeight.personID " +
+				" GROUP BY person.uniqueID" +
+				" ORDER BY " + sortedBy;
 		} else {
-			dbcmd.CommandText = "SELECT person.* FROM person, personSessionWeight " +
+			dbcmd.CommandText = 
+				"SELECT person.*, personSessionWeight.weight " +
+				" FROM person, personSessionWeight " +
 				" WHERE personSessionWeight.sessionID == " + inSession + 
 				" AND person.uniqueID == personSessionWeight.personID " + 
 				"ORDER BY " + sortedBy;
@@ -162,7 +171,9 @@ finishForeach:
 			if (!found) {
 				myArray2.Add (reader2[0].ToString() + ":" + reader2[1].ToString() + ":" +
 						reader2[2].ToString() + ":" + reader2[3].ToString() + ":" +
-						reader2[4].ToString() + ":" + reader2[5].ToString() + ":" +
+						reader2[4].ToString() + ":" + 
+						// reader2[5].ToString() + ":" + //weight (from person table)
+						reader2[7].ToString() + ":" + //weight (from personSessionWeight)
 						reader2[6].ToString()
 						);
 				count2 ++;

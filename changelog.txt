@@ -1,5 +1,28 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+
+1 nov 2007
+	0.6-svn6 (new release soon...)
+	fixed bugs: 480401 and 480403: 
+	-created window convert_weight for converting the weight of some
+	weighted jumps, when jumper changes weight in a session)... done (linked ok with PersonModify (svn added file, and included in POTFILES.in)
+	-treeview jumps, jumpsRj works
+	-now load a person/s comes with correct weight depending on session where it's loaded
+	-converted person.weight to personSessionWeight in sqlite/stat.cs.
+	-Works for SjCmjAbkPlus, Potency, GlobalIndexes, F/V
+	-report and export to csv works
+	-labels of attention in personModify deleted
+
+	improved stats gui:
+	-re-activate Hide/ShowUpdateStatsButton (when an event is done, it needs user interaction to update stats)
+	-some buttons moved, and hidden "show description" checkbox
+
+	Fixed crash on stats/simple and stats/simpleWithTC
+	Fixed crash on stats/global (when show sex is activated)
+	Added weightString to GlobalIndexed (F/v) when not sex separated
+	Fixed bug in GlobalIndexes weight (F/v), and in f/v stat
+	fixed bug in GlobalIndexes showing bad the sex in f/v sex separated
+
 30 oct 2007
 	0.6-svn5
 	-Started allowing person weight to change between sessions (database

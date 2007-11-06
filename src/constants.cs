@@ -38,10 +38,12 @@ public class Constants
 		"SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 	
 	public static string PotencySayersSJlFormula = Catalog.GetString("Potency") + " SJl (Sayers) " +
-		"(60.7*" + Catalog.GetString("height") + "(cm)) + (45.3*" + Catalog.GetString("weight") + ") -2055";
+		"(60.7*" + Catalog.GetString("height") + "(cm))" +
+	        "+ (45.3*" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") -2055";
 	
 	public static string PotencySayersCMJlFormula = Catalog.GetString("Potency") + " CMJl (Sayers) " +
-		"(51.9*" + Catalog.GetString("height") + "(cm)) + (48.9*" + Catalog.GetString("weight") + ") -2007";
+		"(51.9*" + Catalog.GetString("height") + "(cm))" +
+	        "+ (48.9*" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") -2007";
 	
 	//global stat types
 	public static string TypeSessionSummary = Catalog.GetString("Session summary");

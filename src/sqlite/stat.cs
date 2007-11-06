@@ -873,23 +873,27 @@ class SqliteStat : Sqlite
 
 		string jumpHeightInM = "4.9 * jump.tv/2.0 * jump.tv/2.0";
 
+		string personWeight = "personSessionWeight.weight"; 
+		string extraWeight = "jump.weight*personSessionWeight.weight/100.0"; 
+		string totalWeight = personWeight + " + " + extraWeight;
+
 		if(indexType == Constants.PotencyLewisCMJlFormula) {
 			moreSelect = 
-				ini + "(personSessionWeight.weight + jump.weight*personSessionWeight.weight/100.0) * 9.81" + end + " AS indexPart1, " + 
+				ini + "(" + totalWeight + ") * 9.81" + end + " AS indexPart1, " + 
 				ini + "2 * 9.81 * " + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
 		}
 		else if (indexType == Constants.PotencySayersSJlFormula) {
 			moreSelect = 
-				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * personSessionWeight.weight) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * " + totalWeight + ") - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
 		}
 		//else if (indexType == Constants.PotencySayersCMJlFormula) {
 		else {
 			moreSelect = 
-				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * personSessionWeight.weight) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * " + totalWeight + ") - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
 		}
 	      
 
-		moreSelect += "personSessionWeight.weight, jump.weight*personSessionWeight.weight/100.0 AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2.0"; 
+		moreSelect += personWeight + ", " + extraWeight + " AS extraWeight, 4.9 * 100 * jump.tv/2 * jump.tv/2.0"; 
 		//divisor has to be .0 if not, double is bad calculated. Bug 478168
 		//TODO: check if ini,end is needed here
 

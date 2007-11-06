@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+6 nov 2007
+	Potency sayers now is correct (adds extra weight)
+	Updated spanish translation
 
 1 nov 2007
 	0.6-svn6 (new release soon...)

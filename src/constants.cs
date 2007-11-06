@@ -39,11 +39,11 @@ public class Constants
 	
 	public static string PotencySayersSJlFormula = Catalog.GetString("Potency") + " SJl (Sayers) " +
 		"(60.7*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (45.3*" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") -2055";
+	        "+ (45.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2055";
 	
 	public static string PotencySayersCMJlFormula = Catalog.GetString("Potency") + " CMJl (Sayers) " +
 		"(51.9*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (48.9*" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") -2007";
+	        "+ (48.9*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2007";
 	
 	//global stat types
 	public static string TypeSessionSummary = Catalog.GetString("Session summary");
@@ -60,8 +60,8 @@ public class Constants
 	//fileNames
 	public static string FileNameLogo = "chronojump_logo.png";
 	public static string FileNameCSS = "report_web_style.css";
-	
 	public static string FileNameIcon = "chronojump_icon.png";
+	public static string FileNameVersion = "version.txt";
 	
 	//30 colors defined
 	public static string [] Colors = {

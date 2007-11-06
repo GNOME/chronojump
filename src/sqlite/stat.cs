@@ -884,12 +884,12 @@ class SqliteStat : Sqlite
 		}
 		else if (indexType == Constants.PotencySayersSJlFormula) {
 			moreSelect = 
-				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * " + totalWeight + ") - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * (" + totalWeight + ")) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
 		}
 		//else if (indexType == Constants.PotencySayersCMJlFormula) {
 		else {
 			moreSelect = 
-				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * " + totalWeight + ") - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * (" + totalWeight + ")) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
 		}
 	      
 

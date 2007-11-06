@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+6 nov 2007 (2)
+	Fixed sayers potency
+	version is now in version file
+
 6 nov 2007
 	Potency sayers now is correct (adds extra weight)
 	Updated spanish translation

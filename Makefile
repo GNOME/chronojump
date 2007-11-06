@@ -111,6 +111,7 @@ server: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_SERVER)
 #-------------------------------
 
 $(CHRONOJUMP).prg: $(NPLOT_LIBS)/NPlot.dll $(NPLOT_LIBS)/NPlot.Gtk.dll $(CHRONOJUMP_DEP) src/chronopic.cs glade/chronojump.glade
+	cp version.txt $(BUILD_DIR)
 	./compile_po_files.sh #update translations
 	$(MCS) -debug $(CHRONOJUMP_DEP) $(RESOURCES_GLADE) $(RESOURCES_IMAGES) $(RESOURCES_REPORT) -unsafe src/chronopic.cs -r:$(NPLOT_LIBS)/NPlot.dll -r:$(NPLOT_LIBS)/NPlot.Gtk.dll -r:System.Drawing -r:Mono.Posix $(CHRONOJUMP_LIB) -nowarn:169 -out:$(BUILD_DIR)/$(CHRONOJUMP).prg 
    

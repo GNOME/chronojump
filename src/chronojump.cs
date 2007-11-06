@@ -31,7 +31,7 @@ public class ChronoJump
 	ChronoJumpWindow chronoJumpWin;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
-	private static string progversion = "0.6-svn7";
+	private static string progversion = ""; //now in "version" file
 	private static string progname = "Chronojump";
 	
 	private string runningFileName; //useful for knowing if there are two chronojump instances
@@ -150,7 +150,7 @@ public class ChronoJump
 		} else {
 		*/
 			chronoJumpWin = new ChronoJumpWindow(recuperatedString, isFirstTime, 
-					authors, progversion, progname, runningFileName);
+					authors, readVersion(), progname, runningFileName);
 			Application.Run();
 			/*
 		}
@@ -236,5 +236,16 @@ public class ChronoJump
 		File.Delete(runningFileName);
 		Environment.Exit(1);
 	}
-	
+
+	private string readVersion() {
+		string version = "";
+		try  {
+			StreamReader reader = File.OpenText(Constants.FileNameVersion);
+			version = reader.ReadToEnd();
+			reader.Close();
+		} catch {
+			version = "not available";
+		}
+		return version;
+	}	
 }

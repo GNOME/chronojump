@@ -255,9 +255,9 @@ public class StatType {
 				} else if(statisticSubType == Constants.FvIndexFormula) {
 					indexType = "F/V";
 				} else if(
-						statisticSubType == Constants.PotencyLewisCMJlFormula ||
-						statisticSubType == Constants.PotencySayersSJlFormula ||
-						statisticSubType == Constants.PotencySayersCMJlFormula
+						statisticSubType == Constants.PotencyLewisCMJFormula ||
+						statisticSubType == Constants.PotencySayersSJFormula ||
+						statisticSubType == Constants.PotencySayersCMJFormula
 						) {
 					indexType = statisticSubType;
 				}

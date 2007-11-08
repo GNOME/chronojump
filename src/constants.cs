@@ -33,15 +33,15 @@ public class Constants
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
 	
-	public static string PotencyLewisCMJlFormula = Catalog.GetString("Potency")+ " CMJl (Lewis) " +
+	public static string PotencyLewisCMJFormula = Catalog.GetString("Potency")+ " CMJ (Lewis) " +
 		"(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
 		"SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 	
-	public static string PotencySayersSJlFormula = Catalog.GetString("Potency") + " SJl (Sayers) " +
+	public static string PotencySayersSJFormula = Catalog.GetString("Potency") + " SJ (Sayers) " +
 		"(60.7*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (45.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2055";
 	
-	public static string PotencySayersCMJlFormula = Catalog.GetString("Potency") + " CMJl (Sayers) " +
+	public static string PotencySayersCMJFormula = Catalog.GetString("Potency") + " CMJ (Sayers) " +
 		"(51.9*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (48.9*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2007";
 	
@@ -62,6 +62,11 @@ public class Constants
 	public static string FileNameCSS = "report_web_style.css";
 	public static string FileNameIcon = "chronojump_icon.png";
 	public static string FileNameVersion = "version.txt";
+
+	public static string FileNameZoomFitIcon = "gtk-zoom-fit.png";
+	public static string FileNameZoomOutIcon = "gtk-zoom-out.png";
+	public static string FileNameZoomInIcon = "gtk-zoom-in.png";
+	public static string FileNameZoomInWithTextIcon = "gtk-zoom-in-with-text.png";
 	
 	//30 colors defined
 	public static string [] Colors = {

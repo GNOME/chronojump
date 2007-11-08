@@ -146,7 +146,7 @@ public class StatPotency : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in {1} on {2}"), selectedValuesString, indexType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in {1} applied to {2} on {3}"), selectedValuesString, indexType, jumpType, mySessionString);
 	}
 
 }

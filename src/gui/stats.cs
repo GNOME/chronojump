@@ -117,9 +117,9 @@ public class StatsWindow {
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
 		Constants.IubIndexFormula,
-		Constants.PotencyLewisCMJlFormula,
-		Constants.PotencySayersSJlFormula,
-		Constants.PotencySayersCMJlFormula
+		Constants.PotencyLewisCMJFormula,
+		Constants.PotencySayersSJFormula,
+		Constants.PotencySayersCMJFormula
 	};
 		
 
@@ -244,7 +244,7 @@ public class StatsWindow {
 
 	private void createComboStatsType() {
 		combo_stats_stat_type = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions);
+		UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions, "");
 		combo_stats_stat_type.Active = 0;
 		
 		combo_stats_stat_type.Changed += new EventHandler (on_combo_stats_stat_type_changed);
@@ -276,7 +276,7 @@ public class StatsWindow {
 
 	private void createComboSelectCheckboxes() {
 		combo_select_checkboxes = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions);
+		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions, "");
 		
 		//combo_select_checkboxes.DisableActivate ();
 		combo_select_checkboxes.Changed += new EventHandler (on_combo_select_checkboxes_changed);
@@ -320,54 +320,54 @@ public class StatsWindow {
 		string [] nullOptions = { "-" };
 		if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeSessionSummary ) 
 		{
-			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions);
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions, "");
 			combo_stats_stat_subtype.Sensitive = false;
 			
-			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, nullOptions);
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, nullOptions, "");
 			combo_stats_stat_apply_to.Sensitive = false;
 		}
 		else if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumperSummary )
 		{
-			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions);
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions, "");
 			combo_stats_stat_subtype.Sensitive = false;
 			
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to,  
-				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false)); //onlyIDAndName, not reversed
+				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false), ""); //onlyIDAndName, not reversed
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimple ) 
 		{
-			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions);
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions, "");
 			combo_stats_stat_subtype.Sensitive = true;
 			combo_stats_stat_subtype.Active = 0;
 			
 			//by default show all simple nonTC jumps, but if combo_stats_subtype changed
 			//updateComboStatsSubType() will do the work
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true)); //only select name
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
 		{
-			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeWithTCOptions);
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeWithTCOptions, "");
 			combo_stats_stat_subtype.Sensitive = true;
 			combo_stats_stat_subtype.Active = 0;
 			
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true)); //only select name
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsReactive ) 
 		{
-			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeReactiveOptions);
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeReactiveOptions, "");
 			combo_stats_stat_subtype.Sensitive = true;
 			combo_stats_stat_subtype.Active = 0;
 			
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true)); //only select name
+				SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		}
@@ -380,7 +380,7 @@ public class StatsWindow {
 		{
 			if(UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("No indexes")) {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-					SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true)); //only select name
+					SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "nonTC", true), ""); //only select name
 				combo_stats_stat_apply_to.Sensitive = true;
 				combo_stats_stat_apply_to.Active = 0;
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.IeIndexFormula) {
@@ -396,24 +396,30 @@ public class StatsWindow {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "SJl(100%), SJ");
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
-			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencyLewisCMJlFormula) {
-				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "CMJl");
-				combo_stats_stat_apply_to.Active = 0;
-				combo_stats_stat_apply_to.Sensitive = false;
-			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersSJlFormula) {
-				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "SJl");
-				combo_stats_stat_apply_to.Active = 0;
-				combo_stats_stat_apply_to.Sensitive = false;
-			//} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersCMJlFormula) {
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencyLewisCMJFormula) {
+				combo_stats_stat_apply_to.Active = 
+					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+							SqliteJumpType.SelectJumpTypes("", "nonTC", true), //only select name
+							"CMJ"); //default value
+				combo_stats_stat_apply_to.Sensitive = true;
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersSJFormula) {
+				combo_stats_stat_apply_to.Active = 
+					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+							SqliteJumpType.SelectJumpTypes("", "nonTC", true), //only select name
+							"SJ"); //default value
+				combo_stats_stat_apply_to.Sensitive = true;
+			//} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersCMJFormula) {
 			} else {
-				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "CMJl");
-				combo_stats_stat_apply_to.Active = 0;
-				combo_stats_stat_apply_to.Sensitive = false;
+				combo_stats_stat_apply_to.Active = 
+					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+							SqliteJumpType.SelectJumpTypes("", "nonTC", true), //only select name
+							"CMJ"); //default value
+				combo_stats_stat_apply_to.Sensitive = true;
 			}
 		}  else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true)); //only select name
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "TC", true), ""); //only select name
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
@@ -567,7 +573,7 @@ public class StatsWindow {
 		else
 			comboCheckboxesOptions = comboCheckboxesOptionsWithoutPersons;
 
-		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions);
+		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions, "");
 
 		//every time a stat is created, all rows should be checked (except AVG & SD)
 		//but not if we clicked graph
@@ -720,9 +726,9 @@ public class StatsWindow {
 			}
 			//in PotencyLewis and Sayers show only "all jumps" radiobutton
 			else if(statisticType == Constants.TypeJumpsSimple && ( 
-						statisticSubType == Constants.PotencyLewisCMJlFormula ||
-						statisticSubType == Constants.PotencySayersSJlFormula ||
-						statisticSubType == Constants.PotencySayersCMJlFormula
+						statisticSubType == Constants.PotencyLewisCMJFormula ||
+						statisticSubType == Constants.PotencySayersSJFormula ||
+						statisticSubType == Constants.PotencySayersCMJFormula
 						) ) {
 				//change the radiobutton value
 				if(radiobutton_stats_jumps_limit.Active || radiobutton_stats_jumps_person_average.Active ||

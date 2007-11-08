@@ -62,16 +62,24 @@ public class UtilGtk
 		}
 	}
 
-	public static void ComboUpdate(ComboBox myCombo, string [] myData) {
+	//if there's no default value, simply pass a "" and there will be returned a 0, that's the first value of combo
+	public static int ComboUpdate(ComboBox myCombo, string [] myData, string strDefault) {
 		//1stdelete combo values
 		comboDel(myCombo);
 
 		//2nd put new values
-		foreach (string str in myData) 
+		int i=0;
+		int foundValue=0;
+		foreach (string str in myData) {
 			myCombo.AppendText (str);
+			if(str == strDefault)
+				foundValue = i;
+			i++;
+		}
+		return foundValue;
 	}
 
-	//when only one value have to be displayed
+	//when only one value has to be displayed
 	public static void ComboUpdate(ComboBox myCombo, string myData) {
 		//1stdelete combo values
 		comboDel(myCombo);

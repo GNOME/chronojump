@@ -1,10 +1,20 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+8 nov 2007
+	0.6-svn8
+	-Done 494250 Potency formulas can be applied to any simple jump without TC. By default
+	selected CMJ or SJ depending on formula
+	-Image test icon on bottom left now shows only a zoom icon (with or
+	without text). With text is a newly created icon. For this reason 4 zoom icons where added
+	to svn and Makefile
+	-Lewis formula is ok? found a 2nd Lewis formula
+
 6 nov 2007 (2)
 	Fixed sayers potency
 	version is now in version file
 
 6 nov 2007
+	0.6-svn7
 	Potency sayers now is correct (adds extra weight)
 	Updated spanish translation
 

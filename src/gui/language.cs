@@ -68,7 +68,7 @@ public class LanguageWindow
 	//private void createComboLanguage(string myLanguage) {
 	private void createComboLanguage() {
 		combo_language = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames());
+		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames(), "");
 		
 
 		hbox_combo_language.PackStart(combo_language, false, false, 0);

@@ -303,7 +303,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 
 		bool commentsDisable = true;
 		int sessionIdDisable = sessionID; //for not showing current session on the list
-		UtilGtk.ComboUpdate(combo_sessions, SqliteSession.SelectAllSessionsSimple(commentsDisable, sessionIdDisable));
+		UtilGtk.ComboUpdate(combo_sessions, SqliteSession.SelectAllSessionsSimple(commentsDisable, sessionIdDisable), "");
 
 		combo_sessions.Changed += new EventHandler (on_combo_sessions_changed);
 
@@ -1201,7 +1201,7 @@ public class PersonShowAllEventsWindow {
 			string [] myStr = person.Split(new char[] {':'});
 			myPersons2[count++] = myStr[0] + ":" + myStr[1];
 		}
-		UtilGtk.ComboUpdate(combo_persons, myPersons2);
+		UtilGtk.ComboUpdate(combo_persons, myPersons2, "");
 		combo_persons.Active = UtilGtk.ComboMakeActive(myPersons2, personID + ":" + personName);
 
 		combo_persons.Changed += new EventHandler (on_combo_persons_changed);

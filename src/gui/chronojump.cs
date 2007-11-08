@@ -183,9 +183,10 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook;
 	
 	[Widget] Gtk.Box vbox_image_test;
-	[Widget] Gtk.Image image_test_text_available;
+//	[Widget] Gtk.Image image_test_text_available;
 	[Widget] Gtk.Image image_test;
-	[Widget] Gtk.Button button_image_test;
+	[Widget] Gtk.Button button_image_test_zoom;
+	[Widget] Gtk.Image image_test_zoom;
 	[Widget] Gtk.Label label_image_test;
 
 	//non standard icons	
@@ -203,6 +204,21 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_pulse_delete;
 	[Widget] Gtk.Image image_delete_last;
 	
+	[Widget] Gtk.Image image_tv_collapse;
+	[Widget] Gtk.Image image_tv_rj_collapse;
+	[Widget] Gtk.Image image_tv_run_collapse;
+	[Widget] Gtk.Image image_tv_run_interval_collapse;
+	[Widget] Gtk.Image image_reaction_time_collapse;
+	[Widget] Gtk.Image image_pulse_collapse;
+	[Widget] Gtk.Image image_tv_expand;
+	[Widget] Gtk.Image image_tv_rj_expand;
+	[Widget] Gtk.Image image_tv_run_expand;
+	[Widget] Gtk.Image image_tv_run_interval_expand;
+	[Widget] Gtk.Image image_reaction_time_expand;
+	[Widget] Gtk.Image image_pulse_expand;
+	[Widget] Gtk.Image image_tv_rj_fit;
+	[Widget] Gtk.Image image_tv_run_interval_fit;
+	[Widget] Gtk.Image image_pulse_fit;
 	
 	Random rand;
 	bool volumeOn;
@@ -353,7 +369,7 @@ public class ChronoJumpWindow
 		//createMainWindow("");
 	}
 
-	private void on_button_image_test_clicked(object o, EventArgs args) {
+	private void on_button_image_test_zoom_clicked(object o, EventArgs args) {
 		new DialogImageTest(currentEventType);
 	}
 
@@ -490,6 +506,30 @@ public class ChronoJumpWindow
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "delete_last.png");
 		image_delete_last.Pixbuf = pixbuf;
+
+		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
+		//and is not nice that the other are different for an user theme change
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomOutIcon);
+		image_tv_collapse.Pixbuf = pixbuf;
+		image_tv_rj_collapse.Pixbuf = pixbuf;
+		image_tv_run_collapse.Pixbuf = pixbuf;
+		image_tv_run_interval_collapse.Pixbuf = pixbuf;
+		image_reaction_time_collapse.Pixbuf = pixbuf;
+		image_pulse_collapse.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+		image_tv_expand.Pixbuf = pixbuf;
+		image_tv_rj_expand.Pixbuf = pixbuf;
+		image_tv_run_expand.Pixbuf = pixbuf;
+		image_tv_run_interval_expand.Pixbuf = pixbuf;
+		image_reaction_time_expand.Pixbuf = pixbuf;
+		image_pulse_expand.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomFitIcon);
+		image_tv_rj_fit.Pixbuf = pixbuf;
+		image_tv_run_interval_fit.Pixbuf = pixbuf;
+		image_pulse_fit.Pixbuf = pixbuf;
 
 		//menuitems (done differently)
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
@@ -1303,7 +1343,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 */
 	private void createComboJumps() {
 		combo_jumps = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
 		
 		combo_jumps.Active = 0;
 		combo_jumps.Changed += new EventHandler (on_combo_jumps_changed);
@@ -1315,7 +1355,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void createComboJumpsRj() {
 		combo_jumps_rj = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true)); //only select name
+		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
 		
 		combo_jumps_rj.Active = 0;
 		combo_jumps_rj.Changed += new EventHandler (on_combo_jumps_rj_changed);
@@ -1327,7 +1367,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void createComboRuns() {
 		combo_runs = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true)); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 		
 		combo_runs.Active = 0;
 		combo_runs.Changed += new EventHandler (on_combo_runs_changed);
@@ -1339,7 +1379,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void createComboRunsInterval() {
 		combo_runs_interval = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true)); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 		
 		combo_runs_interval.Active = 0;
 		combo_runs_interval.Changed += new EventHandler (on_combo_runs_interval_changed);
@@ -1353,7 +1393,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void createComboPulses() {
 		combo_pulses = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_pulses, SqlitePulseType.SelectPulseTypes(Constants.AllPulsesName, true)); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_pulses, SqlitePulseType.SelectPulseTypes(Constants.AllPulsesName, true), ""); //without filter, only select name
 		
 		combo_pulses.Active = 0;
 		combo_pulses.Changed += new EventHandler (on_combo_pulses_changed);
@@ -2179,31 +2219,36 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	//changes the image about the text on the bottom left of main screen	
 	private void changeTestImage(string eventTypeString, string eventName, string fileNameString) {
-		Pixbuf pixbuf;
+		label_image_test.Text = "<b>" + eventName + "</b>"; 
+		label_image_test.UseMarkup = true; 
+
+		Pixbuf pixbuf; //main image
+		Pixbuf pixbufZoom; //icon of zoom image (if shown can have two different images)
+
 		switch (fileNameString) {
 			case "LOGO":
 				pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
-				button_image_test.Sensitive=false;
+				button_image_test_zoom.Hide();
 			break;
 			case "":
 				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + "no_image.png");
-				button_image_test.Sensitive=false;
+				button_image_test_zoom.Hide();
 			break;
 			default:
 				pixbuf = new Pixbuf (null, Util.GetImagePath(true) + fileNameString);
-				button_image_test.Sensitive=true;
+
+				//button image test zoom will have a different image depending on if there's text
+				//future: change tooltip also
+				if(eventTypeString != "" && eventName != "" && eventTypeHasLongDescription (eventTypeString, eventName))
+					pixbufZoom = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInWithTextIcon);
+				else 
+					pixbufZoom = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+
+				image_test_zoom.Pixbuf = pixbufZoom;
+				button_image_test_zoom.Show();
 			break;
 		}
-
-		label_image_test.Text = "<b>" + eventName + "</b>"; 
-		label_image_test.UseMarkup = true; 
 		image_test.Pixbuf = pixbuf;
-		
-		//show or hide the icon "text available"
-		if(eventTypeString != "" && eventName != "" && eventTypeHasLongDescription (eventTypeString, eventName))
-			image_test_text_available.Show();
-		else 
-			image_test_text_available.Hide();
 	}
 
 	private bool eventTypeHasLongDescription (string eventTypeString, string eventName) {
@@ -3854,8 +3899,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
 		Console.WriteLine("ACCEPTED Add new jump type");
-		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true)); //without filter, only select name
-		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true)); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
 	}
 
 	private void on_run_type_add_activate (object o, EventArgs args) {
@@ -3867,8 +3912,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_run_type_add_accepted (object o, EventArgs args) {
 		Console.WriteLine("ACCEPTED Add new run type");
-		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true)); //without filter, only select name
-		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true)); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 	}
 
 	//reactiontime has no types

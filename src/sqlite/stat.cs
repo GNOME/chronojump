@@ -877,19 +877,19 @@ class SqliteStat : Sqlite
 		string extraWeight = "jump.weight*personSessionWeight.weight/100.0"; 
 		string totalWeight = personWeight + " + " + extraWeight;
 
-		if(indexType == Constants.PotencyLewisCMJlFormula) {
+		if(indexType == Constants.PotencyLewisCMJFormula) {
 			moreSelect = 
 				ini + "(" + totalWeight + ") * 9.81" + end + " AS indexPart1, " + 
 				ini + "2 * 9.81 * " + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
 		}
-		else if (indexType == Constants.PotencySayersSJlFormula) {
+		else if (indexType == Constants.PotencySayersSJFormula) {
 			moreSelect = 
-				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * (" + totalWeight + ")) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * (" + totalWeight + ")) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJ that needs to select two things
 		}
-		//else if (indexType == Constants.PotencySayersCMJlFormula) {
+		//else if (indexType == Constants.PotencySayersCMJFormula) {
 		else {
 			moreSelect = 
-				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * (" + totalWeight + ")) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJl that needs to select two things
+				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * (" + totalWeight + ")) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJ that needs to select two things
 		}
 	      
 
@@ -941,7 +941,7 @@ class SqliteStat : Sqlite
 			}
 			
 			string indexValueString = "";
-			if(indexType == Constants.PotencyLewisCMJlFormula) {
+			if(indexType == Constants.PotencyLewisCMJFormula) {
 				indexValueString = 
 					(
 					 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))

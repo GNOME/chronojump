@@ -163,7 +163,7 @@ public class PreferencesWindow {
 	
 	private void createComboLanguage(string myLanguageCode) {
 		combo_language = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames());
+		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames(), "");
 		
 		//combo_language.Entry.Changed += new EventHandler (on_combo_language_changed);
 

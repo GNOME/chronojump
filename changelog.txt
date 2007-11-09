@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+9 nov 2007
+	create_release.sh now puts zip in windows_zip_releases and shows more
+	info
+
 8 nov 2007
 	0.6-svn8
 	-Done 494250 Potency formulas can be applied to any simple jump without TC. By default

@@ -35,8 +35,8 @@ my $windowsMailDownloadName = "Chronojump 0.6 (new!) / Chronojump 0.6 (nuevo!)";
 my $maemoMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-April/msg00002.html";
 my $maemoMailDownloadName = "chronojump_mini for Maemo!! Chronojump_mini funcionando en Maemo!!";
 my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-September/msg00005.html";
-my $manualLink = "http://www.xdeblas.com/chronojump_manual_es.pdf";
-my $glossaryLink = "http://www.xdeblas.com/chronojump_glossary_for_translators.html";
+my $manualLink = "http://svn.gnome.org/svn/chronojump/trunk/manual/chronojump_manual_es.pdf";
+my $glossaryLink = "http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html";
 
 
 

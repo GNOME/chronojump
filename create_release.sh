@@ -53,5 +53,11 @@ tar --exclude=.svn -czvf $release_subdir.tar.gz $release_subdir
 mv $release_subdir.tar.gz $release_subdir
 
 #b) zip
+windows_zip_dir="windows_zip_releases"
 zip -r $release_subdir.zip $release_subdir -x \*.svn\* -x \*.tar.gz
 mv $release_subdir.zip $release_subdir
+cp $release_subdir/$release_subdir.zip ../$windows_zip_dir
+
+echo "Release done!\n- data, docs, linux, windows are for local testing\n- $release_subdir.tar.gz has to be uploaded to gnome FTP\n- $release_subdir.zip has been copied to $windows_zip_dir , please 'svn add' from that dir" > $release_subdir/readme.txt
+cd ..
+echo "\nPlease read $releases/$release_subdir/readme.txt"

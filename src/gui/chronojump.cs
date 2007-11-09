@@ -183,7 +183,6 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook;
 	
 	[Widget] Gtk.Box vbox_image_test;
-//	[Widget] Gtk.Image image_test_text_available;
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;

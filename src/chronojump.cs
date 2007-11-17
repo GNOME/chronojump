@@ -115,8 +115,20 @@ public class ChronoJump
 				Sqlite.Connect();
 			}
 
-			Sqlite.ConvertToLastChronojumpDBVersion();
+			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
+			if(! softwareIsNew) {
+				Console.Clear();
+				Console.WriteLine ( 
+						string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), readVersion()) + "\n" +  
+						Catalog.GetString("Please update Chronojump") + ":\n" ); 
+				Console.WriteLine ( "http://www.gnome.org/projects/chronojump/installation"); 
+				Console.WriteLine( "\n\n" + Catalog.GetString("Press any key"));
+				Console.ReadKey(true);
+				quitFromConsole();
+			}
+
 			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
+
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
 		}
@@ -169,7 +181,7 @@ public class ChronoJump
 		bool launchChronojump = true;
 		ConsoleKeyInfo myKey;
 		do {
-			Console.WriteLine(Catalog.GetString("\nPlease press key:"));
+			Console.WriteLine("\n" + Catalog.GetString("Please press key") + ":");
 			Console.WriteLine("[ Q " + Catalog.GetString("or") + " q ] " + 
 					Catalog.GetString("to exit program if it's already opened"));
 			Console.WriteLine("[ Y " + Catalog.GetString("or") + " y ] " + 
@@ -243,6 +255,9 @@ public class ChronoJump
 			StreamReader reader = File.OpenText(Constants.FileNameVersion);
 			version = reader.ReadToEnd();
 			reader.Close();
+
+			//delete the '\n' that ReaderToEnd() has put
+			version = version.TrimEnd(new char[1] {'\n'});
 		} catch {
 			version = "not available";
 		}

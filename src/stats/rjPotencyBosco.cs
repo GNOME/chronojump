@@ -133,7 +133,7 @@ public class StatRjPotencyBosco : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in Rj Potency Bosco [(9.81^2 *tfavg * jumps * time) / (4 * jumps * (time - tfavg*jumps) ] applied to {1} on {2}"), selectedValuesString, jumpType, mySessionString);
+		return string.Format(Catalog.GetString("{0} in {1} applied to {2} on {3}"), selectedValuesString, Constants.RJPotencyBoscoFormula, jumpType, mySessionString);
 	}
 }
 

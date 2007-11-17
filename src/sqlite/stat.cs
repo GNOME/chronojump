@@ -877,19 +877,63 @@ class SqliteStat : Sqlite
 		string extraWeight = "jump.weight*personSessionWeight.weight/100.0"; 
 		string totalWeight = personWeight + " + " + extraWeight;
 
-		if(indexType == Constants.PotencyLewisCMJFormula) {
+		if(indexType == Constants.PotencyLewisFormula) {
 			moreSelect = 
-				ini + "(" + totalWeight + ") * 9.81" + end + " AS indexPart1, " + 
-				ini + "2 * 9.81 * " + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
+				ini + "2.21360 * 9.8 * (" + totalWeight + ") " + end + " AS indexPart1, " + 
+				ini + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
+		}
+		else if (indexType == Constants.PotencyHarmanFormula) {
+			moreSelect = 
+				ini + "((61.9 * 100 * " + jumpHeightInM + ") + (36 * (" + totalWeight + ")) - 1822)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
 		else if (indexType == Constants.PotencySayersSJFormula) {
 			moreSelect = 
-				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * (" + totalWeight + ")) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJ that needs to select two things
+				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * (" + totalWeight + ")) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		//else if (indexType == Constants.PotencySayersCMJFormula) {
-		else {
+		else if (indexType == Constants.PotencySayersCMJFormula) {
 			moreSelect = 
-				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * (" + totalWeight + ")) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewisCMJ that needs to select two things
+				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * (" + totalWeight + ")) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+		}
+		else if (indexType == Constants.PotencyShettyFormula) {
+			moreSelect = 
+				ini + "((1925.72 * 100 * " + jumpHeightInM + ") + (14.74 * (" + totalWeight + ")) - 66.3)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+		}
+		else if (indexType == Constants.PotencyCanavanFormula) {
+			moreSelect = 
+				ini + "((65.1 * 100 * " + jumpHeightInM + ") + (25.8 * (" + totalWeight + ")) - 1413.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+		}
+		/*
+		else if (indexType == Constants.PotencyBahamondeFormula) {
+		}
+		*/
+		else if (indexType == Constants.PotencyLaraMaleApplicantsSCFormula) {
+			moreSelect = 
+				ini + "((62.5 * 100 * " + jumpHeightInM + ") + (50.3 * (" + totalWeight + ")) - 2184.7)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+		}
+		else if (indexType == Constants.PotencyLaraFemaleEliteVoleiFormula) {
+			moreSelect = 
+				ini + "((83.1 * 100 * " + jumpHeightInM + ") + (42 * (" + totalWeight + ")) - 2488)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+		}
+		else if (indexType == Constants.PotencyLaraFemaleMediumVoleiFormula) {
+			moreSelect = 
+				ini + "((53.6 * 100 * " + jumpHeightInM + ") + (67.5 * (" + totalWeight + ")) - 2624.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+		}
+		else if (indexType == Constants.PotencyLaraFemaleSCStudentsFormula) {
+			moreSelect = 
+				ini + "((56.7 * 100 * " + jumpHeightInM + ") + (47.2 * (" + totalWeight + ")) - 1772.6)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+		}
+		else if (indexType == Constants.PotencyLaraFemaleSedentaryFormula) {
+			moreSelect = 
+				ini + "((68.2 * 100 * " + jumpHeightInM + ") + (40.8 * (" + totalWeight + ")) - 1731.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+		} 
+		else {
+			/* changing comboStats, can happen to call potency stat when shouldn't be
+			 * (remember to improve calls to stats on gui/stats when 1, 2 or 3 combo stats changed)
+			 * until this is fixed, if this is called, and no indexType is a potencyFormula, 
+			 * simply return a blank ArrayList
+			 */
+			ArrayList myArrayFix = new ArrayList(2);
+			return myArrayFix;
 		}
 	      
 
@@ -941,7 +985,7 @@ class SqliteStat : Sqlite
 			}
 			
 			string indexValueString = "";
-			if(indexType == Constants.PotencyLewisCMJFormula) {
+			if(indexType == Constants.PotencyLewisFormula) {
 				indexValueString = 
 					(
 					 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))
@@ -964,7 +1008,14 @@ class SqliteStat : Sqlite
 				//in simple session return: name, sex, index, personweight, jumpweight, jumpheight
 				bool showExtraWeightInName = true; //this is nice for graph
 				string extraWeightString = "";
-				if(showExtraWeightInName) {
+				/*
+				 * potency can be called in jumpTypes without extra weight
+				 * it's known because extraWeight is 0
+				 * then don't show extra weight in the name.
+				 * This also applies when a single jump is done with 0 weight and the others have weight,
+				 * then first weight will not show the (0), but the others will show (30) eg.
+				 */
+				if(showExtraWeightInName && reader[6].ToString() != "0" ) {
 					extraWeightString = " (" + Util.ChangeDecimalSeparator(reader[6].ToString()) + ")";//extra weight
 				}
 				myArray.Add (reader[0].ToString() + showSexString + extraWeightString +

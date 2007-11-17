@@ -1,5 +1,21 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+17 nov 2007
+	Fixed: 495280. Future sqlite compatibility: if someone changes computer and copies db, if db is newer
+	than chronojump, says to update chronojump
+
+	Stats peak power formulas:
+		-References to "potency" changed to "peak power"
+		-(Peak power) PotencyLewis formula fixed. Fixes: 495024
+		-Added Peak power formulas: Harman 1991, Shetty 2002, Canavan 2004, Lara
+		2006 for male applicants to sports sciencies, 4 Lara female voleibol
+		and university related formulas. Fixes: 495026
+		-Bahamonde will be included when original article is found.
+		-if there's no extra weight, don't show (0) at the right of the jumper
+
+	Started working on window for formulas help. Working on 494246
+	Fixed on stats correct shown of comboCheckBoxesOptions when graph
+
 9 nov 2007
 	create_release.sh now puts zip in windows_zip_releases and shows more
 	info

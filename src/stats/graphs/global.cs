@@ -157,7 +157,7 @@ public class GraphGlobal : StatGlobal
 					myValueBefore = stringFullResults[0];
 				} else { 
 					if(myValueBefore.StartsWith("DjIndex") ||  
-							myValueBefore.StartsWith("RjIndex") || myValueBefore.StartsWith("RjPotency") || 
+							myValueBefore.StartsWith("RjIndex") || myValueBefore.StartsWith(Constants.RJPotencyBoscoName) || 
 							myValueBefore == "IE" || myValueBefore == "IUB") {
 						serieIndex.SerieData.Add(myValue);
 						serieTv.SerieData.Add("-");
@@ -201,7 +201,7 @@ public class GraphGlobal : StatGlobal
 					string valueNoSex = stringFullResults[0];
 
 					if(valueNoSex.StartsWith("DjIndex") || valueNoSex.StartsWith("IndexQ") || 
-							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith("RjPotency") || 
+							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith(Constants.RJPotencyBoscoName) || 
 							valueNoSex == "IE" || valueNoSex == "IUB" || valueNoSex == "FV" ) {
 						mySerie.IsLeftAxis = false;
 						mySerie.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 

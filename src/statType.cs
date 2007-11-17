@@ -255,9 +255,18 @@ public class StatType {
 				} else if(statisticSubType == Constants.FvIndexFormula) {
 					indexType = "F/V";
 				} else if(
-						statisticSubType == Constants.PotencyLewisCMJFormula ||
+						statisticSubType == Constants.PotencyLewisFormula ||
+						statisticSubType == Constants.PotencyHarmanFormula ||
 						statisticSubType == Constants.PotencySayersSJFormula ||
-						statisticSubType == Constants.PotencySayersCMJFormula
+						statisticSubType == Constants.PotencySayersCMJFormula ||
+						statisticSubType == Constants.PotencyShettyFormula ||
+						statisticSubType == Constants.PotencyCanavanFormula ||
+						//statisticSubType == Constants.PotencyBahamondeFormula ||
+						statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormula ||
+						statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormula ||
+						statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormula ||
+						statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormula ||
+						statisticSubType == Constants.PotencyLaraFemaleSedentaryFormula
 						) {
 					indexType = statisticSubType;
 				}
@@ -340,7 +349,7 @@ public class StatType {
 					myStat = new StatRjIndex(myStatTypeStruct, treeview_stats);
 				}
 			}	
-			else if(statisticSubType == Catalog.GetString("POTENCY (Bosco)"))
+			else if(statisticSubType == Constants.RJPotencyBoscoFormula)
 			{
 				if(graph) {
 					myStat = new GraphRjPotencyBosco (myStatTypeStruct);

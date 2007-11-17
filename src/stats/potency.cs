@@ -58,7 +58,7 @@ public class StatPotency : Stat
 		
 
 		string [] columnsString = { Catalog.GetString("Jumper"), 
-			Catalog.GetString("Potency"), 
+			Catalog.GetString("Peak Power"), 
 			Catalog.GetString("Person's Weight"), 
 			Catalog.GetString("Extra Weight") + " (Kg)", 
 			Catalog.GetString("Height") };

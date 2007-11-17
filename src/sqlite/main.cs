@@ -44,8 +44,9 @@ class Sqlite
 
 	/*
 	 * Important, change this if there's any update to database
+	 * Important2: if database version get numbers higher than 1, check if the comparisons with myVersion works ok
 	 */
-	static string lastDatabaseVersion = "0.53";
+	static string lastChronojumpDatabaseVersion = "0.53";
 
 
 	public static void Connect()
@@ -196,7 +197,7 @@ class Sqlite
 
 	}
 
-	public static void ConvertToLastChronojumpDBVersion() {
+	public static bool ConvertToLastChronojumpDBVersion() {
 
 		//if(checkIfIsSqlite2())
 		//	convertSqlite2To3();
@@ -205,7 +206,17 @@ class Sqlite
 
 		string myVersion = SqlitePreferences.Select("databaseVersion");
 
-		if(lastDatabaseVersion != myVersion) {
+		//Console.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
+		//Console.WriteLine("myVersion: {0}", Convert.ToDouble(myVersion));
+
+		bool returnSoftwareIsNew = true; //-1 if there's software is too old for database (moved db to other computer)
+		if(Convert.ToDouble(lastChronojumpDatabaseVersion) == Convert.ToDouble(myVersion))
+			Console.WriteLine("Database is already latest version");
+		else if(Convert.ToDouble(lastChronojumpDatabaseVersion) < Convert.ToDouble(myVersion)) {
+			Console.WriteLine("User database newer than program, need to update software");
+			returnSoftwareIsNew = false;
+		} else {
+			Console.WriteLine("Old database, need to convert");
 			if(myVersion == "0.41") {
 				dbcon.Open();
 
@@ -356,6 +367,8 @@ class Sqlite
 
 		//if changes are made here, remember to change also in CreateTables()
 		//remember to change also the databaseVersion below
+		
+		return returnSoftwareIsNew;
 	}
 
 	/*
@@ -465,7 +478,7 @@ class Sqlite
 		SqlitePersonSession.createTable();
 		
 		SqlitePreferences.createTable();
-		SqlitePreferences.initializeTable(lastDatabaseVersion);
+		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion);
 		
 		//changes [from - to - desc]
 		//0.52 - 0.53 added table weightSession, moved person weight data to weightSession table for each session that has performed

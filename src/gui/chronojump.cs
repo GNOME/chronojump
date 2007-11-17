@@ -4038,6 +4038,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		new DialogMessage(string.Format(Catalog.GetString("There's a copy of Chronojump Manual on \"docs\" directory.\n Newer versions will be on this site:\n{0}"), "http://gnome.org/projects/chronojump/documents.html"), false);
 	}
 
+	private void on_menuitem_formulas_activate (object o, EventArgs args) {
+		new DialogMessage("Here there will be bibliographic information about formulas and some notes.\n\nProbably this will be a window and not a dialog\n\nNote text is selectable", false);
+	}
+
 	private void on_about1_activate (object o, EventArgs args) {
 		string translator_credits = Catalog.GetString ("translator-credits");
 		//only print if exist (don't print 'translator-credits' word

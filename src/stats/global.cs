@@ -116,7 +116,8 @@ public class StatGlobal : Stat
 		processDataMultiSession ( SqliteStat.GlobalOthers("RjIndex", "(100*((tvavg-tcavg)/tcavg))", "jumpRj", 
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
-		processDataMultiSession ( SqliteStat.GlobalOthers("RjPotency", 
+		//processDataMultiSession ( SqliteStat.GlobalOthers("RjPotency", 
+		processDataMultiSession ( SqliteStat.GlobalOthers(Constants.RJPotencyBoscoName, 
 					"(9.81*9.81 * tvavg*jumps * time / (4*jumps*(time - tvavg*jumps)) )", "jumpRj",
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );

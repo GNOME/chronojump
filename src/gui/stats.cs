@@ -108,7 +108,7 @@ public class StatsWindow {
 	
 	private static string [] comboStatsSubTypeReactiveOptions = {
 		Catalog.GetString("Average Index"), 
-		Catalog.GetString("POTENCY (Bosco)"), // 9.81^2*TF*TT / (4*jumps*(TT-TF))
+		Constants.RJPotencyBoscoFormula,
 		Catalog.GetString("Evolution") 
 	};
 	
@@ -117,9 +117,18 @@ public class StatsWindow {
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
 		Constants.IubIndexFormula,
-		Constants.PotencyLewisCMJFormula,
+		Constants.PotencyLewisFormula,
+		Constants.PotencyHarmanFormula,
 		Constants.PotencySayersSJFormula,
-		Constants.PotencySayersCMJFormula
+		Constants.PotencySayersCMJFormula,
+		Constants.PotencyShettyFormula,
+		Constants.PotencyCanavanFormula,
+		//Constants.PotencyBahamondeFormula,
+		Constants.PotencyLaraMaleApplicantsSCFormula,
+		Constants.PotencyLaraFemaleEliteVoleiFormula,
+		Constants.PotencyLaraFemaleMediumVoleiFormula,
+		Constants.PotencyLaraFemaleSCStudentsFormula,
+		Constants.PotencyLaraFemaleSedentaryFormula
 	};
 		
 
@@ -396,20 +405,26 @@ public class StatsWindow {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "SJl(100%), SJ");
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
-			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencyLewisCMJFormula) {
-				combo_stats_stat_apply_to.Active = 
-					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
-							SqliteJumpType.SelectJumpTypes("", "nonTC", true), //only select name
-							"CMJ"); //default value
-				combo_stats_stat_apply_to.Sensitive = true;
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersSJFormula) {
 				combo_stats_stat_apply_to.Active = 
 					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
 							SqliteJumpType.SelectJumpTypes("", "nonTC", true), //only select name
 							"SJ"); //default value
 				combo_stats_stat_apply_to.Sensitive = true;
-			//} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersCMJFormula) {
-			} else {
+			} else {/*
+				   this applies to all potency formulas (default is CMJ), except SayersSJ 
+				Constants.PotencyLewisFormula,
+				Constants.PotencyHarmanFormula,
+				Constants.PotencySayersCMJFormula,
+				Constants.PotencyShettyFormula,
+				Constants.PotencyCanavanFormula,
+				Constants.PotencyBahamondeFormula,
+				Constants.PotencyLaraMaleApplicantsSCFormula,
+				Constants.PotencyLaraFemaleEliteVoleiFormula,
+				Constants.PotencyLaraFemaleMediumVoleiFormula,
+				Constants.PotencyLaraFemaleSCStudentsFormula,
+				Constants.PotencyLaraFemaleSedentaryFormula
+				*/
 				combo_stats_stat_apply_to.Active = 
 					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
 							SqliteJumpType.SelectJumpTypes("", "nonTC", true), //only select name
@@ -567,13 +582,15 @@ public class StatsWindow {
 		tb.Text = myStatType.Enunciate;
 		
 		//show/hide persons selector on comboCheckboxesOptions
-		if(UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeSessionSummary &&
-				UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeJumperSummary) 
-			comboCheckboxesOptions = addPersonsToComboCheckBoxesOptions();
-		else
-			comboCheckboxesOptions = comboCheckboxesOptionsWithoutPersons;
+		if(! graph) {
+			if(UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeSessionSummary &&
+					UtilGtk.ComboGetActive(combo_stats_stat_type) != Constants.TypeJumperSummary) 
+				comboCheckboxesOptions = addPersonsToComboCheckBoxesOptions();
+			else
+				comboCheckboxesOptions = comboCheckboxesOptionsWithoutPersons;
 
-		UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions, "");
+			UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions, "");
+		}
 
 		//every time a stat is created, all rows should be checked (except AVG & SD)
 		//but not if we clicked graph
@@ -724,11 +741,20 @@ public class StatsWindow {
 				}
 				radiobutton_stats_jumps_person_average.Sensitive = false;
 			}
-			//in PotencyLewis and Sayers show only "all jumps" radiobutton
+			//in Potency formulas show only "all jumps" radiobutton
 			else if(statisticType == Constants.TypeJumpsSimple && ( 
-						statisticSubType == Constants.PotencyLewisCMJFormula ||
+						statisticSubType == Constants.PotencyLewisFormula ||
+						statisticSubType == Constants.PotencyHarmanFormula ||
 						statisticSubType == Constants.PotencySayersSJFormula ||
-						statisticSubType == Constants.PotencySayersCMJFormula
+						statisticSubType == Constants.PotencySayersCMJFormula ||
+						statisticSubType == Constants.PotencyShettyFormula ||
+						statisticSubType == Constants.PotencyCanavanFormula ||
+						//statisticSubType == Constants.PotencyBahamondeFormula ||
+						statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormula ||
+						statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormula ||
+						statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormula ||
+						statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormula ||
+						statisticSubType == Constants.PotencyLaraFemaleSedentaryFormula
 						) ) {
 				//change the radiobutton value
 				if(radiobutton_stats_jumps_limit.Active || radiobutton_stats_jumps_person_average.Active ||

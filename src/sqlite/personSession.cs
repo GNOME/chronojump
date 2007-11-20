@@ -276,7 +276,7 @@ class SqlitePersonSession : Sqlite
 				myArray.Add (
 						reader[0].ToString() + ":" + reader[1].ToString() + ":" + //id, name
 						reader[2].ToString() + ":" + reader[3].ToString() + ":" + //sex, dateborn
-						reader[4].ToString() + ":" + reader[5].ToString() + ":" + //height, weight
+						reader[4].ToString() + ":" + reader[7].ToString() + ":" + //height, weight (from personSessionWeight)
 						reader[6].ToString()  //desc
 					    );
 			count ++;

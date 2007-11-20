@@ -108,12 +108,12 @@ public class ExportSession
 				closeWriter();
 			
 				string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
-				new DialogMessage(myString, false);
+				new DialogMessage(myString, false); //false: is info
 			}
 		} 
 		catch {
-			Console.WriteLine("cannot export to file: {0}", fileName);
-			myAppbar.Push ( 1, Catalog.GetString ("Cannot export to file: ") + fileName );
+			string myString = string.Format(Catalog.GetString("Cannot export to file {0} "), fileName);
+			new DialogMessage(myString, true); //true: is warning
 		}
 		return;
 	}
@@ -232,7 +232,7 @@ public class ExportSession
 			myData.Add(
 					myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
 					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
-					myStr[4] + ":" + myStr[7] + ":" + //height, weight
+					myStr[4] + ":" + myStr[5] + ":" + //height, weight
 					myStr[6]  //desc
 				  );
 		}
@@ -642,7 +642,6 @@ public class ExportSessionCSV : ExportSession
 {
 	
 	public ExportSessionCSV(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar) 
-	//public ExportCSV(Session mySession, Gtk.Window app1) 
 	{
 		this.mySession = mySession;
 		myAppbar = mainAppbar;

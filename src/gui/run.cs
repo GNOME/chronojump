@@ -423,13 +423,10 @@ public class RepairRunIntervalWindow
 		}
 	}
 
-	//void on_treeview_cursor_changed (object o, EventArgs args) {
 	void onSelectionEntry (object o, EventArgs args) {
-		//TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		
-		//if (tv.Selection.GetSelected (out model, out iter)) {
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			button_add_before.Sensitive = true;
 			button_add_after.Sensitive = true;
@@ -762,18 +759,15 @@ public class RunsMoreWindow : EventMoreWindow
 		}	
 	}
 
-	//puts a value in private member selected
-	protected override void on_treeview_changed (object o, EventArgs args)
+	protected override void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		selectedEventName = "-1";
 		selectedDistance = 0;
 		selectedDescription = "";
 
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selectedEventName = (string) model.GetValue (iter, 0);
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Not defined") ) {
 				selectedDistance = 0;
@@ -781,7 +775,10 @@ public class RunsMoreWindow : EventMoreWindow
 				selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 			}
 			selectedDescription = (string) model.GetValue (iter, 2);
+			
 			button_accept.Sensitive = true;
+			//update graph image test on main window
+			button_selected.Click();
 		}
 	}
 	
@@ -929,9 +926,8 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	}
 
 	//puts a value in private member selected
-	protected override void on_treeview_changed (object o, EventArgs args)
+	protected override void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		selectedEventName = "-1";
@@ -941,8 +937,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		selectedUnlimited = false; //true if it's an unlimited run
 		selectedDescription = "";
 
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selectedEventName = (string) model.GetValue (iter, 0);
 			selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 
@@ -963,6 +958,8 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 			selectedDescription = (string) model.GetValue (iter, 4);
 
 			button_accept.Sensitive = true;
+			//update graph image test on main window
+			button_selected.Click();
 		}
 	}
 	

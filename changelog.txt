@@ -1,5 +1,13 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+20 nov 2007
+	0.6-svn9
+	Fixed: bug in export, it doesn't export because it wasn't updated to new personSessionWeight
+	Fixed: bug in report, it doesn't show ok weight because it wasn't
+	updated to personSessionWeight
+
+	Fixed: unsensitivity of button_accept on jumps_runs_more window row selection
+
 17 nov 2007
 	Fixed: 495280. Future sqlite compatibility: if someone changes computer and copies db, if db is newer
 	than chronojump, says to update chronojump

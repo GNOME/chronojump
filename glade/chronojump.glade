@@ -2802,7 +2802,6 @@ weight</property>
 	      <property name="fixed_height_mode">False</property>
 	      <property name="hover_selection">False</property>
 	      <property name="hover_expand">False</property>
-	      <signal name="cursor_changed" handler="on_treeview_changed" last_modification_time="Fri, 22 Apr 2005 20:28:10 GMT"/>
 	      <signal name="row_activated" handler="on_row_double_clicked" last_modification_time="Tue, 29 Mar 2005 18:58:09 GMT"/>
 	    </widget>
 	  </child>

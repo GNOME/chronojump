@@ -319,8 +319,6 @@ public class StatsWindow {
 	}
 	
 	private string [] addPersonsToComboCheckBoxesOptions() {
-		//string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false); //onlyIDAndName, not reversed
-		//return Util.AddArrayString(comboCheckboxesOptions, myPersons);
 		return Util.AddArrayString(comboCheckboxesOptionsWithoutPersons, Util.ArrayListToString(myStatType.PersonsWithData));
 	}
 

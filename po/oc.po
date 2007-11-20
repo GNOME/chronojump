@@ -1,21 +1,24 @@
+# translation of oc.po to Occitan
 # Occitan translation of chronojump.
-# Copyright (C) 2006 Free Software Foundation, Inc.
+# Copyright (C) 2006, 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the chronojump package.
 #
 # Yannig MARCHEGAY (yannig@marchegay.org) - 2006-2007
 #
+# Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: chronojump 0.48\n"
+"Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-13 03:36+0100\n"
-"PO-Revision-Date: 2007-10-14 12:28+0200\n"
+"PO-Revision-Date: 2007-11-20 14:29+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
-"Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
+"Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);"
+"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../glade/chronojump.glade.h:1
 msgid " "
@@ -98,7 +101,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:22
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>Autre</b>"
 
 #: ../glade/chronojump.glade.h:23
 msgid "<b>Sex</b>"
@@ -380,7 +383,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:87
 msgid "Custom"
-msgstr "Personalizat"
+msgstr "Personalisat"
 
 #: ../glade/chronojump.glade.h:88
 msgid "Custom pulse"
@@ -392,7 +395,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:90
 msgid "Data"
-msgstr ""
+msgstr "Donadas"
 
 #: ../glade/chronojump.glade.h:91 ../src/exportSession.cs:214
 #: ../src/gui/session.cs:335 ../src/gui/session.cs:486 ../src/report.cs:259
@@ -469,7 +472,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:106
 msgid "Edit"
-msgstr ""
+msgstr "Edicion"
 
 #: ../glade/chronojump.glade.h:107
 msgid "Edit selected RJ jump"
@@ -558,7 +561,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:128
 msgid "Finish"
-msgstr ""
+msgstr "Terminar"
 
 #: ../glade/chronojump.glade.h:129
 msgid "Finish jump (save jump until this moment)"
@@ -723,15 +726,15 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:167
 msgid "Maximum"
-msgstr ""
+msgstr "Maxim"
 
 #: ../glade/chronojump.glade.h:168
 msgid "Message"
-msgstr ""
+msgstr "Messatge"
 
 #: ../glade/chronojump.glade.h:169
 msgid "Minimum"
-msgstr ""
+msgstr "Minim"
 
 #: ../glade/chronojump.glade.h:170
 msgid "More"
@@ -856,7 +859,7 @@ msgstr "Preferéncias"
 
 #: ../glade/chronojump.glade.h:200
 msgid "Properties"
-msgstr ""
+msgstr "Propietats"
 
 #: ../glade/chronojump.glade.h:201
 msgid "Pulse"
@@ -980,7 +983,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:230
 msgid "Select"
-msgstr ""
+msgstr "Seleccionar"
 
 #: ../glade/chronojump.glade.h:231
 msgid "Select conditions for beep signals"
@@ -1012,7 +1015,7 @@ msgstr ""
 #: ../glade/chronojump.glade.h:238 ../src/exportSession.cs:171
 #: ../src/report.cs:148
 msgid "Session"
-msgstr ""
+msgstr "Sesilha"
 
 #: ../glade/chronojump.glade.h:239
 msgid "Session AVG"
@@ -1147,8 +1150,7 @@ msgid "Test image and description"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:267
-msgid ""
-"This dialog explains wich ports are suitable to be connected with chronopic"
+msgid "This dialog explains wich ports are suitable to be connected with chronopic"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:268 ../src/execute/reactionTime.cs:234
@@ -1191,7 +1193,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:275
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #: ../glade/chronojump.glade.h:276
 msgid "Update stats"
@@ -1204,8 +1206,7 @@ msgid ""
 msgstr ""
 
 #: ../glade/chronojump.glade.h:279
-msgid ""
-"Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
+msgid "Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:280 ../src/runType.cs:57
@@ -1266,7 +1267,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:294
 msgid "_Manual"
-msgstr ""
+msgstr "_Manual"
 
 #: ../glade/chronojump.glade.h:295
 msgid "_New person"
@@ -1294,7 +1295,7 @@ msgstr "_Sortir"
 
 #: ../glade/chronojump.glade.h:301
 msgid "_Run"
-msgstr "E_xécuter"
+msgstr "_Executar"
 
 #: ../glade/chronojump.glade.h:302
 msgid "_Show all tests of current person"
@@ -1302,7 +1303,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:303
 msgid "_View"
-msgstr "_Mostrar"
+msgstr "_Visualizacion"
 
 #: ../glade/chronojump.glade.h:304
 msgid "action"
@@ -1334,7 +1335,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:311
 msgid "auto"
-msgstr ""
+msgstr "auto"
 
 #: ../glade/chronojump.glade.h:312
 msgid "change"
@@ -1420,7 +1421,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:335
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: ../glade/chronojump.glade.h:336
 msgid "no"
@@ -1461,7 +1462,7 @@ msgstr ""
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:93
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:107
 msgid "seconds"
-msgstr "segondas"
+msgstr "milisegondas"
 
 #: ../glade/chronojump.glade.h:343
 msgid "select"
@@ -1568,8 +1569,7 @@ msgid "tables already created"
 msgstr ""
 
 #: ../src/chronojump.cs:162
-msgid ""
-"Chronojump is already running (program opened two times) or it crashed before"
+msgid "Chronojump is already running (program opened two times) or it crashed before"
 msgstr ""
 
 #: ../src/chronojump.cs:164
@@ -1580,8 +1580,7 @@ msgid ""
 msgstr ""
 
 #: ../src/chronojump.cs:165
-msgid ""
-"Subject should be something like \"bug in Chronojump\". Your help is needed."
+msgid "Subject should be something like \"bug in Chronojump\". Your help is needed."
 msgstr ""
 
 #: ../src/chronojump.cs:172
@@ -1592,7 +1591,7 @@ msgstr ""
 
 #: ../src/chronojump.cs:173 ../src/chronojump.cs:175
 msgid "or"
-msgstr ""
+msgstr "o"
 
 #: ../src/chronojump.cs:174
 msgid "to exit program if it's already opened"
@@ -1615,8 +1614,7 @@ msgid "Print the port name where chronopic is connected:"
 msgstr ""
 
 #: ../src/chronojump_mini.cs:78
-msgid ""
-"Opening port... if get hanged, generate events with chronopic or the platform"
+msgid "Opening port... if get hanged, generate events with chronopic or the platform"
 msgstr ""
 
 #: ../src/chronojump_mini.cs:88
@@ -1963,7 +1961,7 @@ msgstr ""
 #: ../src/exportSession.cs:589 ../src/treeViewJump.cs:315
 #: ../src/treeViewPulse.cs:137 ../src/treeViewRun.cs:215
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #: ../src/exportSession.cs:385 ../src/exportSession.cs:501
 #: ../src/exportSession.cs:593 ../src/stats/graphs/potency.cs:123
@@ -2385,7 +2383,7 @@ msgstr ""
 
 #: ../src/gui/person.cs:214 ../src/gui/person.cs:498
 msgid "Loaded"
-msgstr ""
+msgstr "Cargat"
 
 #: ../src/gui/person.cs:402
 msgid "MARK ALL/NONE"
@@ -3103,46 +3101,3 @@ msgstr "Diferéncia"
 msgid "Runner"
 msgstr ""
 
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "4"
-#~ msgstr "4"
-
-#~ msgid "TV"
-#~ msgstr "TV"
-
-#~ msgid "<b>GNU/Linux</b> users"
-#~ msgstr "utilisateurs <b>GNU/Linux</b>"
-
-#~ msgid "<b>Name</b> "
-#~ msgstr "<b>Nom</b>"
-
-#, fuzzy
-#~ msgid "<b>Windows</b> users"
-#~ msgstr ""
-#~ "\n"
-#~ "# usager=%lu\n"
-
-#, fuzzy
-#~ msgid "Cancel jump or run"
-#~ msgstr "Annuler ou opération de quitter"
-
-#, fuzzy
-#~ msgid "ChronoJump - error"
-#~ msgstr "Erreur numérique"
-
-#, fuzzy
-#~ msgid "Description "
-#~ msgstr "Description"
-
-#, fuzzy
-#~ msgid "and all it's jumps?"
-#~ msgstr "et toutes les cartes en dessous"
-
-#, fuzzy
-#~ msgid " format"
-#~ msgstr "Format"

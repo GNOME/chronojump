@@ -439,7 +439,7 @@ public class EventMoreWindow
 
 		button_accept.Sensitive = false;
 		 
-		treeview_more.Selection.Changed += OnSelectionEntry;
+		treeview_more.Selection.Changed += onSelectionEntry;
 	}
 
 
@@ -453,18 +453,6 @@ public class EventMoreWindow
 	}
 
 
-	protected void OnSelectionEntry (object o, EventArgs args)
-	{
-		TreeModel model;
-		TreeIter iter;
-
-		if (((TreeSelection)o).GetSelected(out model, out iter))
-		{
-			selectedEventName = (string) model.GetValue (iter, 0);
-			button_selected.Click();
-		}
-	}
-	
 	protected virtual void createTreeView (Gtk.TreeView tv) {
 	}
 	
@@ -472,9 +460,25 @@ public class EventMoreWindow
 	{
 	}
 
-	//puts a value in private member selected
-	protected virtual void on_treeview_changed (object o, EventArgs args)
+	/*
+	 * when a row is selected...
+	 * -put selected value in selected* variables
+	 * -update graph image test on main window
+	 */
+	protected virtual void onSelectionEntry (object o, EventArgs args)
 	{
+		/*
+		TreeModel model;
+		TreeIter iter;
+
+		if (((TreeSelection)o).GetSelected(out model, out iter))
+		{
+			selectedEventName = (string) model.GetValue (iter, 0);
+	
+			//update graph image test on main window
+			button_selected.Click();
+		}
+		*/
 	}
 	
 	protected virtual void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)

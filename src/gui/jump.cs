@@ -956,10 +956,7 @@ public class JumpsMoreWindow : EventMoreWindow
 		}	
 	}
 
-	//puts a value in private member selected
-	protected override void on_treeview_changed (object o, EventArgs args)
-	{
-		TreeView tv = (TreeView) o;
+	protected override void onSelectionEntry (object o, EventArgs args) {
 		TreeModel model;
 		TreeIter iter;
 		selectedEventName = "-1";
@@ -967,8 +964,7 @@ public class JumpsMoreWindow : EventMoreWindow
 		selectedExtraWeight = false;
 		selectedDescription = "";
 
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selectedEventName = (string) model.GetValue (iter, 0);
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Yes") ) {
 				selectedStartIn = true;
@@ -977,12 +973,17 @@ public class JumpsMoreWindow : EventMoreWindow
 				selectedExtraWeight = true;
 			}
 			selectedDescription = (string) model.GetValue (iter, 3);
+
 			button_accept.Sensitive = true;
+			
+			//update graph image test on main window
+			button_selected.Click();
 		}
 	}
 	
 	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
+Console.WriteLine("on_row_double_clicked on gui/jump.cs!!");
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
@@ -1151,11 +1152,8 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		}	
 	}
 
-	//puts a value in private member selected
-	//private void on_treeview_jumps_more_changed (object o, EventArgs args)
-	protected override void on_treeview_changed (object o, EventArgs args)
+	protected override void onSelectionEntry (object o, EventArgs args)
 	{
-		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		selectedEventName = "-1";
@@ -1166,8 +1164,7 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		selectedUnlimited = false; //true if it's an unlimited reactive jump
 		selectedDescription = "";
 
-		// you get the iter and the model if something is selected
-		if (tv.Selection.GetSelected (out model, out iter)) {
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selectedEventName = (string) model.GetValue (iter, 0);
 			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Unlimited") ) {
@@ -1194,7 +1191,10 @@ public class JumpsRjMoreWindow : EventMoreWindow
 				selectedExtraWeight = true;
 			}
 			selectedDescription = (string) model.GetValue (iter, 5);
+
 			button_accept.Sensitive = true;
+			//update graph image test on main window
+			button_selected.Click();
 		}
 	}
 	

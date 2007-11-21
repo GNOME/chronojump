@@ -11,14 +11,13 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-13 03:36+0100\n"
-"PO-Revision-Date: 2007-11-20 14:29+0100\n"
+"PO-Revision-Date: 2007-11-21 18:35+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4"
 
 #: ../glade/chronojump.glade.h:1
 msgid " "
@@ -391,7 +390,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:89
 msgid "DJ"
-msgstr ""
+msgstr "DJ"
 
 #: ../glade/chronojump.glade.h:90
 msgid "Data"
@@ -405,7 +404,7 @@ msgstr "Data"
 #: ../glade/chronojump.glade.h:92 ../src/exportSession.cs:226
 #: ../src/gui/person.cs:96 ../src/report.cs:275
 msgid "Date of Birth"
-msgstr ""
+msgstr "Data de naissença"
 
 #: ../glade/chronojump.glade.h:93
 msgid "Decimal number"
@@ -1243,7 +1242,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:288
 msgid "_Edit session"
-msgstr ""
+msgstr "_Modificar la sesilha"
 
 #: ../glade/chronojump.glade.h:289
 msgid "_File"
@@ -1372,7 +1371,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:323
 msgid "female"
-msgstr ""
+msgstr "femna"
 
 #: ../glade/chronojump.glade.h:324
 msgid "fixed: "
@@ -1397,7 +1396,7 @@ msgstr "darrièr"
 
 #: ../glade/chronojump.glade.h:329
 msgid "male"
-msgstr ""
+msgstr "òme"
 
 #: ../glade/chronojump.glade.h:330
 msgid "man"
@@ -1550,7 +1549,7 @@ msgstr "valor"
 
 #: ../glade/chronojump.glade.h:364
 msgid "version"
-msgstr ""
+msgstr "version"
 
 #: ../glade/chronojump.glade.h:365
 msgid "woman"
@@ -2414,7 +2413,7 @@ msgstr "Nom de la session"
 
 #: ../src/gui/person.cs:1169
 msgid "Date\n"
-msgstr ""
+msgstr "Data\n"
 
 #: ../src/gui/person.cs:1170
 msgid ""
@@ -2728,7 +2727,7 @@ msgstr ""
 
 #: ../src/runType.cs:165
 msgid "Results"
-msgstr ""
+msgstr "Resultas"
 
 #: ../src/runType.cs:166
 msgid "The table below gives some rating scores (in seconds) for the test"
@@ -2925,7 +2924,7 @@ msgstr ""
 #: ../src/stats/rjIndex.cs:130 ../src/stats/rjPotencyBosco.cs:132
 #: ../src/stats/sjCmjAbk.cs:126 ../src/stats/sjCmjAbkPlus.cs:145
 msgid " session "
-msgstr ""
+msgstr " sesilha "
 
 #: ../src/stats/potency.cs:149 ../src/stats/sjCmjAbkPlus.cs:149
 #, csharp-format

@@ -5,4 +5,5 @@ Español:_es
 Français:_fr
 Galego:_gl
 Italiano:_it
+Occitan:_oc
 Português:_pt

@@ -38,6 +38,7 @@ my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/20
 my $manualLink = "http://svn.gnome.org/svn/chronojump/trunk/manual/chronojump_manual_es.pdf";
 my $glossaryLink = "http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html";
 
+my $awards .= "http://tropheesdulibre.org";
 
 
 my $siteURL = "http://www.gnome.org/projects/chronojump";
@@ -175,14 +176,14 @@ for (sort keys %languages)
 		#save files
 		my $outputFile = "";
 		my $outputPrintFile = "";
-		if($langSuffix eq "_en") {
-			#don't print "_en" in english 
-			$outputFile = "html_created_no_edit/$currentPage" . ".html";
-			$outputPrintFile = "html_created_no_edit/print/$currentPage" . ".html";
-		} else {
+		#if($langSuffix eq "_en") {
+		#	#don't print "_en" in english 
+		#	$outputFile = "html_created_no_edit/$currentPage" . ".html";
+		#	$outputPrintFile = "html_created_no_edit/print/$currentPage" . ".html";
+		#} else {
 			$outputFile = "html_created_no_edit/$currentPage$langSuffix" . ".html";
 			$outputPrintFile = "html_created_no_edit/print/$currentPage$langSuffix" . ".html";
-		}
+		#}
 		
 		open OUT, ">$outputFile";
 		print OUT $returnPage;
@@ -215,7 +216,7 @@ sub getHeadersWithTitle {
 sub getMainTable {
 	my $return = "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
 		<tr><td align=\"left\">
-		<div align=\"left\"><img src=\"images/chronojump33.png\" alt=\"logo\" width=\"591\" height=\"177\" border=\"0\">
+		<div align=\"left\"><a href=\"index.html\" border=\"0\"><img src=\"images/chronojump33.png\" alt=\"logo\" width=\"591\" height=\"177\" border=\"0\"></a><br>
 		</div>
 		</td><td valign=\"bottom\" align=\"right\">
 		";
@@ -245,12 +246,12 @@ sub getLanguageLinks {
 			
 		#if found this document in other language show link
 		if(-e "data/langs/$_/Pages/$currentPage") {
-			#if it's english, don't print the "_en"
-			if($_ eq "_en") {
-				$link = "<a href=\"$currentPage.html\">";
-			} else {
+			##if it's english, don't print the "_en"
+			#if($_ eq "_en") {
+			#	$link = "<a href=\"$currentPage.html\">";
+			#} else {
 				$link = "<a href=\"$currentPage$_.html\">";
-			}
+			#}
 
 			if($printLink eq "true") {
 				$return .= "$link$languages{$_}</a>";
@@ -285,12 +286,12 @@ sub getLanguageLinksOld {
 		if($langSuffix ne $_) {
 			#if found this document in other language show link
 			if(-e "data/langs/$_/Pages/$currentPage") {
-				#if it's english, don't print the "_en"
-				if($_ eq "_en") {
-					$return .= "<li><a href=\"$currentPage.html\">$languages{$_}</a>\n";
-				} else {
+				##if it's english, don't print the "_en"
+				#if($_ eq "_en") {
+				#	$return .= "<li><a href=\"$currentPage.html\">$languages{$_}</a>\n";
+				#} else {
 					$return .= "<li><a href=\"$currentPage$_.html\">$languages{$_}</a>\n";
-				}
+				#}
 			} else {
 					$return .= "<li>$languages{$_} (pending)\n";
 			}
@@ -325,6 +326,7 @@ sub getLicense {
 	close INFILE;
 
 	#change code ":::authors:::" for $authors, and also for colaborations and contributions
+	$return =~ s/:::awards:::/$awards/;
 	$return =~ s/:::authors:::/$authors/;
 	$return =~ s/:::colaborations:::/$colaborations/;
 	$return =~ s/:::contributors:::/$contributors/;
@@ -356,6 +358,7 @@ sub getConstants {
 	$pageContent =~ s/:::maemoMailDownloadLink:::/$maemoMailDownloadLink/g;
 	$pageContent =~ s/:::maemoMailDownloadName:::/$maemoMailDownloadName/g;
 	$pageContent =~ s/:::changesMailDownloadLink:::/$changesMailDownloadLink/g;
+	$pageContent =~ s/:::awards:::/$awards/g;
 
 	my $newDate = getLocalisedDate($langSuffix, $currentVersionDay, $currentVersionMonth, $currentVersionYear);
 	$pageContent =~ s/:::currentVersionDate:::/$newDate/g;
@@ -388,11 +391,11 @@ sub getPrintLinkName {
 	}
 	close INFILE;
 
-	if($langSuffix eq "_en") {
-		return "<a href=\"print/$currentPage.html\"><font size=\"2\"><tt>$printName</tt></font></a>";
-	} else {
+	#if($langSuffix eq "_en") {
+	#	return "<a href=\"print/$currentPage.html\"><font size=\"2\"><tt>$printName</tt></font></a>";
+	#} else {
 		return "<a href=\"print/$currentPage$langSuffix.html\"><font size=\"2\"><tt>$printName</tt></font></a>";
-	}
+	#}
 }
 
 sub getFooter {

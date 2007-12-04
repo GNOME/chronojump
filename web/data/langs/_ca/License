@@ -1,6 +1,11 @@
 </div></div>
 </td><td>
 <div id="sidebar">
+				<h3>Premi</h3>
+				<p><img src="images/tropheesdulibre.jpg"><br>
+				Chronojump guanya <a href=":::awards:::">premi de programari lliure al 2007</a> en la categoria d'educació.
+				</p>
+
 				<h3>Llicència</h3>
 				<p>
 					ChronoJump és <a href="http://ca.wikipedia.org/wiki/Programari_Lliure">programari&nbsp;lliure</a> distribuït sota la Llicència <a href="http://ca.wikipedia.org/wiki/GPL">GPL</a>. El <em>codi font</em> <a href="http://svn.gnome.org/viewcvs/chronojump/trunk/">del&nbsp;programa i del&nbsp;cronòmetre</a> pot ser consultat, així com, modificat i redistribuït.

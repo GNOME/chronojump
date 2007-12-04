@@ -424,13 +424,10 @@ public class RepairPulseWindow
 		}
 	}
 
-	//void on_treeview_cursor_changed (object o, EventArgs args) {
 	void onSelectionEntry (object o, EventArgs args) {
-		//TreeView time = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		
-		//if (time.Selection.GetSelected (out model, out iter)) {
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			button_add_before.Sensitive = true;
 			button_add_after.Sensitive = true;

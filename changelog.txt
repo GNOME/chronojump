@@ -1,5 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+4 dec 2007
+	updated fr, oc, ca
+	removed cursor_changed references on glade
+	lots of changes on website
+
 20 nov 2007
 	0.6-svn9
 	Fixed: bug in export, it doesn't export because it wasn't updated to new personSessionWeight

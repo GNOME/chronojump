@@ -15,22 +15,24 @@ Changed also the mail of es translator, and: "Project-Id-Version: es\n"
 
 for ** UPDATE ** , i do:
 
-check for missing files
+1.- check for missing files
 chronojump/po $ intltool-update -m
 
-add missing files to POTFILES.in
+2.- add missing files to POTFILES.in
 if all are needed:
 chronojump/po $ cat missing >> POTFILES.in
 if some not, add them to POTFILES.skip
 
-check creating a .pot (creates untitled.pot)
+3.- check creating a .pot (creates untitled.pot)
 chronojump/po $ intltool-update -p
 
-merge untitled.pot with old catalan translation
+4.- merge untitled.pot with old catalan translation
 mv ca.po ca_old.po
 msgmerge -o ca.po ca_old.po untitled.pot
 
-generate the locales
+5.- edit the ca.po with a multiporpose editor like vim, or a po editor like poedit
+
+6.- generate the locales
 cd ..
 ./compile_po_files.sh
 

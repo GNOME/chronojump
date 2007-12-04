@@ -1,6 +1,10 @@
 </div></div>
 </td><td>
 <div id="sidebar">
+				<h3>Premio</h3>
+				<p><img src="images/tropheesdulibre.jpg"><br>
+				Chronojump gana <a href=":::awards:::">premio de software libre 2007</a> en la categoría de educación.
+				</p>
 				<h3>Licencia</h3>
 				<p>
 					ChronoJump es <a href="http://es.wikipedia.org/wiki/Software_Libre">software&nbsp;libre</a> distribuido bajo la Licencia <a href="http://es.wikipedia.org/wiki/GPL">GPL</a>. El <em>código fuente</em> <a href="http://svn.gnome.org/viewcvs/chronojump/trunk/">del&nbsp;programa y del&nbsp;cronómetro</a> puede ser consultado, así como modificado y redistribuido.<br><br>

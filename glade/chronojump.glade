@@ -10652,7 +10652,6 @@ If you need more, just repeat the operation later.</property>
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
-					  <signal name="cursor_changed" handler="on_treeview_jumps_cursor_changed" last_modification_time="Sat, 28 Jan 2006 17:41:08 GMT"/>
 					  <signal name="button_release_event" handler="on_treeview_button_release_event" last_modification_time="Sun, 21 Oct 2007 00:33:23 GMT"/>
 					</widget>
 				      </child>
@@ -11244,7 +11243,6 @@ If you need more, just repeat the operation later.</property>
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
-					  <signal name="cursor_changed" handler="on_treeview_jumps_rj_cursor_changed" last_modification_time="Sat, 28 Jan 2006 18:02:08 GMT"/>
 					  <signal name="button_release_event" handler="on_treeview_button_release_event" last_modification_time="Sun, 21 Oct 2007 23:28:01 GMT"/>
 					</widget>
 				      </child>
@@ -11952,7 +11950,6 @@ If you need more, just repeat the operation later.</property>
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
-					  <signal name="cursor_changed" handler="on_treeview_runs_cursor_changed" last_modification_time="Sat, 28 Jan 2006 18:04:24 GMT"/>
 					  <signal name="button_release_event" handler="on_treeview_button_release_event" last_modification_time="Sun, 21 Oct 2007 23:48:39 GMT"/>
 					</widget>
 				      </child>
@@ -12542,7 +12539,6 @@ If you need more, just repeat the operation later.</property>
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
-					  <signal name="cursor_changed" handler="on_treeview_runs_interval_cursor_changed" last_modification_time="Sat, 28 Jan 2006 18:04:31 GMT"/>
 					  <signal name="button_release_event" handler="on_treeview_button_release_event" last_modification_time="Sun, 21 Oct 2007 23:48:58 GMT"/>
 					</widget>
 				      </child>
@@ -12822,7 +12818,6 @@ If you need more, just repeat the operation later.</property>
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
-					  <signal name="cursor_changed" handler="on_treeview_reaction_times_cursor_changed" last_modification_time="Sun, 04 Mar 2007 19:12:51 GMT"/>
 					  <signal name="button_release_event" handler="on_treeview_button_release_event" last_modification_time="Sun, 21 Oct 2007 23:49:19 GMT"/>
 					</widget>
 				      </child>
@@ -13288,7 +13283,6 @@ If you need more, just repeat the operation later.</property>
 					  <property name="fixed_height_mode">False</property>
 					  <property name="hover_selection">False</property>
 					  <property name="hover_expand">False</property>
-					  <signal name="cursor_changed" handler="on_treeview_pulses_cursor_changed" last_modification_time="Fri, 21 Apr 2006 16:43:09 GMT"/>
 					  <signal name="button_release_event" handler="on_treeview_button_release_event" last_modification_time="Sun, 21 Oct 2007 23:49:35 GMT"/>
 					</widget>
 				      </child>

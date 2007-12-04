@@ -467,18 +467,6 @@ public class EventMoreWindow
 	 */
 	protected virtual void onSelectionEntry (object o, EventArgs args)
 	{
-		/*
-		TreeModel model;
-		TreeIter iter;
-
-		if (((TreeSelection)o).GetSelected(out model, out iter))
-		{
-			selectedEventName = (string) model.GetValue (iter, 0);
-	
-			//update graph image test on main window
-			button_selected.Click();
-		}
-		*/
 	}
 	
 	protected virtual void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)

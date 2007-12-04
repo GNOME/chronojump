@@ -529,13 +529,10 @@ public class RepairJumpRjWindow
 		}
 	}
 
-	//void on_treeview_cursor_changed (object o, EventArgs args) {
 	void onSelectionEntry (object o, EventArgs args) {
-		//TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
 		
-		//if (tv.Selection.GetSelected (out model, out iter)) {
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			button_add_before.Sensitive = true;
 			button_add_after.Sensitive = true;
@@ -983,7 +980,6 @@ public class JumpsMoreWindow : EventMoreWindow
 	
 	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
-Console.WriteLine("on_row_double_clicked on gui/jump.cs!!");
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;

@@ -1,6 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
 4 dec 2007
+	updated es
+
+4 dec 2007
 	updated fr, oc, ca
 	removed cursor_changed references on glade
 	lots of changes on website

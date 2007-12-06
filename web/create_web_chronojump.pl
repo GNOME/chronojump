@@ -176,14 +176,15 @@ for (sort keys %languages)
 		#save files
 		my $outputFile = "";
 		my $outputPrintFile = "";
-		#if($langSuffix eq "_en") {
-		#	#don't print "_en" in english 
-		#	$outputFile = "html_created_no_edit/$currentPage" . ".html";
-		#	$outputPrintFile = "html_created_no_edit/print/$currentPage" . ".html";
-		#} else {
+		if($langSuffix eq "_en" and $currentPage ne "index") {
+			#don't print "_en" in english except for index page 
+			#(for distinguish with the new index.html (menu) page)
+			$outputFile = "html_created_no_edit/$currentPage" . ".html";
+			$outputPrintFile = "html_created_no_edit/print/$currentPage" . ".html";
+		} else {
 			$outputFile = "html_created_no_edit/$currentPage$langSuffix" . ".html";
 			$outputPrintFile = "html_created_no_edit/print/$currentPage$langSuffix" . ".html";
-		#}
+		}
 		
 		open OUT, ">$outputFile";
 		print OUT $returnPage;
@@ -246,12 +247,13 @@ sub getLanguageLinks {
 			
 		#if found this document in other language show link
 		if(-e "data/langs/$_/Pages/$currentPage") {
-			##if it's english, don't print the "_en"
-			#if($_ eq "_en") {
-			#	$link = "<a href=\"$currentPage.html\">";
-			#} else {
+			#if it's english, don't print the "_en"
+			#except for index page (see above)
+			if($_ eq "_en" and $currentPage ne "index") {
+				$link = "<a href=\"$currentPage.html\">";
+			} else {
 				$link = "<a href=\"$currentPage$_.html\">";
-			#}
+			}
 
 			if($printLink eq "true") {
 				$return .= "$link$languages{$_}</a>";
@@ -265,39 +267,6 @@ sub getLanguageLinks {
 		$return .= "</li>\n";
 	}
 	$return .= "</ul><br>\n";
-	$return .= "</div></td></tr></table>\n";
-	return $return;
-}
-
-sub getLanguageLinksOld {
-	my ($langSuffix, $langName, $currentPage, %languages) = @_;
-
-	my $return = "<div id=\"sidebar\">\n";
-
-	#print current Language in a h2
-	$return .= "<h2>$langName</h2>\n";
-	$return .= "<font color=\"#cccccc\">----------------</font>\n";
-	$return .= "<ul>\n";
-
-	#print other languages if available
-	for (sort keys %languages) 
-	{
-		#except current language
-		if($langSuffix ne $_) {
-			#if found this document in other language show link
-			if(-e "data/langs/$_/Pages/$currentPage") {
-				##if it's english, don't print the "_en"
-				#if($_ eq "_en") {
-				#	$return .= "<li><a href=\"$currentPage.html\">$languages{$_}</a>\n";
-				#} else {
-					$return .= "<li><a href=\"$currentPage$_.html\">$languages{$_}</a>\n";
-				#}
-			} else {
-					$return .= "<li>$languages{$_} (pending)\n";
-			}
-		}
-	}
-	$return .= "</ul><br><br>\n";
 	$return .= "</div></td></tr></table>\n";
 	return $return;
 }
@@ -391,11 +360,11 @@ sub getPrintLinkName {
 	}
 	close INFILE;
 
-	#if($langSuffix eq "_en") {
-	#	return "<a href=\"print/$currentPage.html\"><font size=\"2\"><tt>$printName</tt></font></a>";
-	#} else {
+	if($langSuffix eq "_en" and $currentPage ne "index") {
+		return "<a href=\"print/$currentPage.html\"><font size=\"2\"><tt>$printName</tt></font></a>";
+	} else {
 		return "<a href=\"print/$currentPage$langSuffix.html\"><font size=\"2\"><tt>$printName</tt></font></a>";
-	#}
+	}
 }
 
 sub getFooter {

@@ -210,9 +210,9 @@ public class Stat
 		}
 		
 		foreach(string myString in markedRows) {
-			Console.Write(":" + myString);
+			//Console.Write(":" + myString);
 		}
-		Console.WriteLine();
+		//Console.WriteLine();
 	}
 			
 	private bool isNotAVGOrSD (Gtk.TreeIter iter) {
@@ -433,6 +433,16 @@ public class Stat
 	}
 
 
+	private bool isThisRowMarked(int rowNum) {
+		for(int k=0; k < markedRows.Count; k++) {
+			//Console.WriteLine("{0}-{1}", Convert.ToInt32(markedRows[k]), rowNum);
+			if(Convert.ToInt32(markedRows[k]) == rowNum) {
+			//	Console.WriteLine("YES");
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	//called before processDataSimpleSession, 
 	//used for deleting rows dont wanted by the statsJumpsType 0 and 1 values
@@ -501,103 +511,6 @@ public class Stat
 			Console.WriteLine("no rows Clicking in stats/main.cs simple session");
 			fakeButtonNoRowsSelected.Click();
 		}
-	}
-
-	public void CreateOrUpdateAVGAndSD() {
-		if( ! makeAVGSD) 
-			return;
-		
-		//if multisession number of dataCols will be sessions
-		//else it will be dataColumns
-		int myDataColumns = 0;
-		if(sessions.Count > 1)
-			myDataColumns = sessions.Count;
-		else
-			myDataColumns = dataColumns;
-
-
-		//if called from a graph will not work because 
-		//nothing is in store
-		try {
-			Gtk.TreeIter iter;
-			bool okIter = store.GetIterFirst(out iter);
-			if(okIter) {
-				double [] sumValue = new double [myDataColumns];
-				string [] valuesList = new string [myDataColumns];
-				int [] valuesOk = new int [myDataColumns]; //values in a checked row and that contain data (not "-")
-				//initialize values
-				for(int j=1; j< myDataColumns ; j++) {
-					//sendRow[j] = "-";
-					sumValue[j] = 0;
-					valuesList[j] = "";
-					valuesOk[j] = 0;
-					//countRows[j] = 0;
-				}
-				int rowsFound = 0;
-				int rowsProcessed = 0;
-				do {
-					if(isNotAVGOrSD(iter)) {
-						if(isThisRowMarked(rowsFound)) {
-							for(int column = 0; column < myDataColumns; column ++) {
-								//Console.WriteLine("value: {0}", store.GetValue(iter, column+2));
-								string myValue = store.GetValue(iter, column+2).ToString();
-								if(myValue != "-") {
-									if(valuesOk[column] == 0)
-										valuesList[column] = myValue;
-									else
-										valuesList[column] += ":" + myValue;
-									sumValue[column] += Convert.ToDouble(myValue);
-									valuesOk[column] ++;
-								}
-							}
-							rowsProcessed ++;
-						}
-					} else {
-						//delete AVG and SD rows
-						okIter = store.Remove(ref iter);
-						okIter = store.Remove(ref iter);
-						//okIter is because iter is invalidated when deleted last row
-					}
-					rowsFound ++;
-				} while (okIter && store.IterNext(ref iter));
-
-				if(rowsProcessed > 0) {			
-					string [] sendAVG = new string [myDataColumns +1];
-					string [] sendSD = new string [myDataColumns +1];
-
-					sendAVG[0] = Catalog.GetString("AVG");
-					sendSD[0] =  Catalog.GetString("SD");
-
-					for (int j=0; j < myDataColumns; j++) {
-						sendAVG[j+1] = Util.TrimDecimals( (sumValue[j] / valuesOk[j]).ToString(), pDN );
-						//Console.WriteLine("j({0}), SendAVG[j]({1}), valuesList[j]({2})", j, sendAVG[j+1], valuesList[j]);
-						sendSD[j+1] = Util.TrimDecimals( Util.CalculateSD(valuesList[j], sumValue[j], valuesOk[j]).ToString(), pDN );
-						//Console.WriteLine("j({0}), SendSD[j]({1})", j, sendSD[j+1]);
-					}
-					printData( sendAVG );
-					printData( sendSD );
-				}
-			}
-		} catch {
-			//write a row of AVG because graphs of stats with AVG and SD
-			//are waiting the AVG row for ending and painting graph
-			Console.WriteLine("catched!");
-			string [] sendAVG = new string [myDataColumns +1];
-			sendAVG[0] = Catalog.GetString("AVG");
-			printData(sendAVG);
-			Console.WriteLine("Graph should work!");
-		}
-	}
-
-	private bool isThisRowMarked(int rowNum) {
-		for(int k=0; k < markedRows.Count; k++) {
-			//Console.WriteLine("{0}-{1}", Convert.ToInt32(markedRows[k]), rowNum);
-			if(Convert.ToInt32(markedRows[k]) == rowNum) {
-			//	Console.WriteLine("YES");
-				return true;
-			}
-		}
-		return false;
 	}
 
 	//one column by each session returned by SQL
@@ -669,6 +582,95 @@ public class Stat
 			
 	}
 
+	public void CreateOrUpdateAVGAndSD() {
+		if( ! makeAVGSD) 
+			return;
+	
+		//if multisession number of dataCols will be sessions
+		//else it will be dataColumns
+		int myDataColumns = 0;
+		if(sessions.Count > 1)
+			myDataColumns = sessions.Count;
+		else
+			myDataColumns = dataColumns;
+
+
+		//if called from a graph will not work because 
+		//nothing is in store
+		try {
+			Gtk.TreeIter iter;
+			bool okIter = store.GetIterFirst(out iter);
+			if(okIter) {
+				double [] sumValue = new double [myDataColumns];
+				string [] valuesList = new string [myDataColumns];
+				int [] valuesOk = new int [myDataColumns]; //values in a checked row and that contain data (not "-")
+				//initialize values
+				for(int j=1; j< myDataColumns ; j++) {
+					//sendRow[j] = "-";
+					sumValue[j] = 0;
+					valuesList[j] = "";
+					valuesOk[j] = 0;
+					//countRows[j] = 0;
+				}
+				int rowsFound = 0;
+				int rowsProcessed = 0;
+				do {
+					if(isNotAVGOrSD(iter)) {
+						if(isThisRowMarked(rowsFound)) {
+							for(int column = 0; column < myDataColumns; column ++) {
+								//Console.WriteLine("value: {0}", store.GetValue(iter, column+2));
+								string myValue = store.GetValue(iter, column+2).ToString();
+								if(myValue != "-") {
+									if(valuesOk[column] == 0)
+										valuesList[column] = myValue;
+									else
+										valuesList[column] += ":" + myValue;
+									sumValue[column] += Convert.ToDouble(myValue);
+									valuesOk[column] ++;
+								}
+							}
+							rowsProcessed ++;
+						}
+					} else {
+						//delete AVG and SD rows
+						okIter = store.Remove(ref iter);
+						okIter = store.Remove(ref iter);
+						//okIter is because iter is invalidated when deleted last row
+					}
+					rowsFound ++;
+				} while (okIter && store.IterNext(ref iter));
+
+				if(rowsProcessed > 0) {			
+					string [] sendAVG = new string [myDataColumns +1];
+					string [] sendSD = new string [myDataColumns +1];
+
+					sendAVG[0] = Catalog.GetString("AVG");
+					sendSD[0] =  Catalog.GetString("SD");
+
+					for (int j=0; j < myDataColumns; j++) {
+						if(valuesOk[j] > 0)
+							sendAVG[j+1] = Util.TrimDecimals( (sumValue[j] / valuesOk[j]).ToString(), pDN );
+						else
+							sendAVG[j+1] = "-";
+						//Console.WriteLine("j({0}), SendAVG[j]({1}), valuesList[j]({2})", j, sendAVG[j+1], valuesList[j]);
+						sendSD[j+1] = Util.TrimDecimals( Util.CalculateSD(valuesList[j], sumValue[j], valuesOk[j]).ToString(), pDN );
+						//Console.WriteLine("j({0}), SendSD[j]({1})", j, sendSD[j+1]);
+					}
+					printData( sendAVG );
+					printData( sendSD );
+				}
+			}
+		} catch {
+			//write a row of AVG because graphs of stats with AVG and SD
+			//are waiting the AVG row for ending and painting graph
+			Console.WriteLine("catched!");
+			string [] sendAVG = new string [myDataColumns +1];
+			sendAVG[0] = Catalog.GetString("AVG");
+			printData(sendAVG);
+			Console.WriteLine("Graph should work!");
+		}
+	}
+
 	//returns a row with it's AVG and SD in last two columns
 	protected string [] calculateRowAVGSD(string [] rowData) 
 	{
@@ -710,23 +712,19 @@ public class Stat
 	//for stripping off unchecked rows in report
 	//private int rowsPassedToReport = 1;
 	private int rowsPassedToReport = 0;
+	private string [] lastStatValues;
 	
 	protected virtual void printData (string [] statValues) 
 	{
-		foreach(string myStr in statValues)
-			Console.WriteLine(myStr);
-
 		if(toReport) {
+			lastStatValues = statValues;
+
+			//Console.WriteLine("REPORT: {0}", statValues[0]);
+			//print marked rows and AVG, SD rows
 			bool allowedRow = isThisRowMarked(rowsPassedToReport);
-			/*
-			for(int i=0; i < markedRows.Count; i++) {
-				if(Convert.ToInt32(markedRows[i]) == rowsPassedToReport) {
-					allowedRow = true;
-					break;
-				}
-			}
-			*/
-			if(allowedRow) {
+			if(allowedRow || 
+					statValues[0] == Catalog.GetString("AVG") || 
+					statValues[0] == Catalog.GetString("SD")) {
 				reportString += "<TR>";
 				for (int i=0; i < statValues.Length ; i++) {
 					reportString += "<TD>" + statValues[i] + "</TD>";
@@ -754,7 +752,6 @@ public class Stat
 			for(int i=0; i < statValues.Length; i++) {
 				store.SetValue(iter, i+1, statValues[i]);
 			}
-
 		}
 	}
 
@@ -841,12 +838,6 @@ public class Stat
 			return;
 		}
 		
-		int x = 500;
-		int y= 400;
-
-		Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
-
-		w.SetDefaultSize (x, y);
 		NPlot.Gtk.PlotSurface2D plot = new NPlot.Gtk.PlotSurface2D ();
 
 		//create plot (same as below)
@@ -867,6 +858,12 @@ public class Stat
 		onlyUsefulForNotBeingGarbageCollected.Add(plot);
 
 		plot.Show ();
+		
+		Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
+		int x = getSizeX();
+		int y = getSizeY(x);
+		w.SetDefaultSize (x,y);
+
 		w.Add (plot);
 		w.ShowAll ();
 	}
@@ -879,14 +876,7 @@ public class Stat
 			return false;
 		}
 		
-		int x = 500;
-		int y= 400;
-
 		NPlot.PlotSurface2D plot = new NPlot.PlotSurface2D ();
-		Bitmap b = new Bitmap (x, y);
-		Graphics g = Graphics.FromImage (b);
-		g.FillRectangle  (Brushes.White, 0, 0, x, y);
-		Rectangle bounds = new Rectangle (0, 0, x, y);
 
 		//create plot (same as above)
 		plot.Clear();
@@ -901,6 +891,13 @@ public class Stat
 		writeLegend(plot);
 		plot.Add( new Grid() );
 
+		int x = getSizeX();
+		int y = getSizeY(x);
+		Bitmap b = new Bitmap (x, y);
+		Graphics g = Graphics.FromImage (b);
+		g.FillRectangle  (Brushes.White, 0, 0, x, y);
+		Rectangle bounds = new Rectangle (0, 0, x, y);
+
 		//save to file
 		plot.Draw (g, bounds);
 		string directoryName = Util.GetReportDirectoryName(fileName);
@@ -913,6 +910,29 @@ public class Stat
 		return true;
 	}
 			
+	private int getSizeX() {
+		int x;
+		int multiplier = 40;
+		int minimum = 250;
+		int maximum = 800;
+		
+		if(isRjEvolution)
+			x = rjEvolutionMaxJumps * multiplier;
+		else
+			x = markedRows.Count * multiplier;
+
+		if(x < minimum)
+			x = minimum;
+		else if(x > maximum)
+			x = maximum;
+		
+		return x;
+	}
+
+	private int getSizeY(int x) {
+		return (int) x * 3/4;
+	}
+
 
 	/*
 	 * SAVED COMMENTED FOR HAVING A SAMPLE OF HISTOGRAMS
@@ -1000,7 +1020,7 @@ public class Stat
 			
 			//xtics value is all rows +2 (left & right space)
 			//lineData should contain xtics but without the rows thar are not in markedRows
-			Console.WriteLine("{0}:{1}:{2}", xtics, markedRows.Count, xtics-( (xtics-2)-(markedRows.Count) ) );
+			//Console.WriteLine("{0}:{1}:{2}", xtics, markedRows.Count, xtics-( (xtics-2)-(markedRows.Count) ) );
 			double[] lineData;
 			if(sessions.Count == 1 && !isRjEvolution) {
 				//in single session lineData should contain all rows from stats except unchecked

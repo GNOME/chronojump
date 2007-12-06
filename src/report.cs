@@ -404,9 +404,9 @@ public class Report : ExportSession
 			//allFine = myStatType.ChooseStat();
 			myStatType.ChooseStat();
 			
-			string myEnunciate ="<tr><td colspan=\"2\">" + myStatType.Enunciate + "</td></tr>";
+			string myEnunciate ="<tr><td>" + myStatType.Enunciate + "</td></tr>";
 
-			writer.WriteLine("</td><td>");
+			writer.WriteLine("<br>");
 
 			//report of graph
 			myStatType = new StatType(

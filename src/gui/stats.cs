@@ -72,6 +72,7 @@ public class StatsWindow {
 	
 	[Widget] Gtk.Image image_stats_win_graph;
 	[Widget] Gtk.Image image_stats_win_report;
+	[Widget] Gtk.Statusbar statusbar_stats;
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
@@ -474,7 +475,7 @@ public class StatsWindow {
 		}
 		statsColumnsToRemove = true;
 
-		bool toReport = false; //all graphs are down for showing in window (not to file like report.cs)
+		bool toReport = false; //all graphs are done for be shown on window (not to file like report.cs)
 		
 		int statsJumpsType = 0;
 		int limit = -1;
@@ -718,6 +719,9 @@ public class StatsWindow {
 
 	
 	private void update_stats_widgets_sensitiveness() {
+		//blank statusbar
+		statusbar_stats.Push( 1, "");
+
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		if(statisticType == "" || statisticSubType == "") {
@@ -960,6 +964,8 @@ public class StatsWindow {
 					sendSelectedSessions, statsShowJumps, showSex.ToString(), 
 					myStatType.MarkedRows);
 					
+			
+			statusbar_stats.Push( 1, Catalog.GetString("Successfully added") + " " + statisticType + "-" + statisticSubType + "-" + statisticApplyTo);
 		}
 		
 	}

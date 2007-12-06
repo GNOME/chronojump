@@ -3588,7 +3588,7 @@ options</property>
 
 <widget class="GtkWindow" id="stats_window">
   <property name="border_width">10</property>
-  <property name="height_request">575</property>
+  <property name="height_request">600</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Chronojump Statistics window</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -4687,6 +4687,18 @@ options</property>
 	      <property name="fill">True</property>
 	    </packing>
 	  </child>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">False</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkStatusbar" id="statusbar_stats">
+	  <property name="visible">True</property>
+	  <property name="has_resize_grip">True</property>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>

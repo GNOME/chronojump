@@ -91,6 +91,7 @@ public class Stat
 	
 	//private bool selectedMakeAVGSD;
 
+	bool makeAVGSD;
 
 	public Stat () 
 	{
@@ -195,6 +196,7 @@ public class Stat
 				} else {
 					addRowToMarkedRows(args.Path);
 				}
+				CreateOrUpdateAVGAndSD();
 			}
 			
 			if (isThereAnyRowSelected(store)) {
@@ -466,29 +468,22 @@ public class Stat
 	//one column by each dataColumn returned by SQL
 	protected void processDataSimpleSession (ArrayList arrayFromSql, bool makeAVGSD, int dataColumns) 
 	{
+		this.makeAVGSD = makeAVGSD;
+
 		string [] rowFromSql = new string [dataColumns +1];
-		double [] sumValue = new double [dataColumns +1];
-		string [] valuesList = new string [dataColumns +1];
 		int i;
-		string separator;
 
 		//removes persons in personsWithData
 		personsWithData = new ArrayList();
 
 		//process all SQL results line x line
-		for (i=0, separator=""; i < arrayFromSql.Count ; i ++) {
+		for (i=0; i < arrayFromSql.Count ; i ++) {
 			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
-			
+		
 			for (int j=1; j <= dataColumns ; j++) {
-				if(makeAVGSD) {
-					sumValue[j] += Convert.ToDouble(rowFromSql[j]);
-					valuesList[j] += separator + rowFromSql[j];
-				}
-
 				rowFromSql[j] = Util.TrimDecimals(rowFromSql[j], pDN);
 			}
 			printData( rowFromSql );
-			separator = ":";
 
 			//add people who are in this stat into personsWithData
 			//for being selected on comboCheckboxes
@@ -496,23 +491,11 @@ public class Stat
 					personsWithData, fetchNameOnStatsData(rowFromSql[0]));
 		}
 		//only show the row if sqlite returned values
-		if(i > 0)
+		if(i >0)
 		{
-			if(makeAVGSD) {
-				//printData accepts two cols: name, values (values separated again by ':')
-				string [] sendAVG = new string [dataColumns +1];
-				string [] sendSD = new string [dataColumns +1];
-
-				sendAVG[0] = Catalog.GetString("AVG");
-				sendSD[0] =  Catalog.GetString("SD");
-
-				for (int j=1; j <= dataColumns; j++) {
-					sendAVG[j] = Util.TrimDecimals( (sumValue[j] /i).ToString(), pDN );
-					sendSD[j] = Util.TrimDecimals( Util.CalculateSD(valuesList[j], sumValue[j], i).ToString(), pDN );
-				}
-				printData( sendAVG );
-				printData( sendSD );
-			}
+			if(makeAVGSD) 
+		//	don't do it here because we can come from graph and then there's no treeview
+				CreateOrUpdateAVGAndSD();
 		} else {
 			//if we cannot access the treeview, also don't allow to graph or report
 			Console.WriteLine("no rows Clicking in stats/main.cs simple session");
@@ -520,26 +503,118 @@ public class Stat
 		}
 	}
 
+	public void CreateOrUpdateAVGAndSD() {
+		if( ! makeAVGSD) 
+			return;
+		
+		//if multisession number of dataCols will be sessions
+		//else it will be dataColumns
+		int myDataColumns = 0;
+		if(sessions.Count > 1)
+			myDataColumns = sessions.Count;
+		else
+			myDataColumns = dataColumns;
+
+
+		//if called from a graph will not work because 
+		//nothing is in store
+		try {
+			Gtk.TreeIter iter;
+			bool okIter = store.GetIterFirst(out iter);
+			if(okIter) {
+				double [] sumValue = new double [myDataColumns];
+				string [] valuesList = new string [myDataColumns];
+				int [] valuesOk = new int [myDataColumns]; //values in a checked row and that contain data (not "-")
+				//initialize values
+				for(int j=1; j< myDataColumns ; j++) {
+					//sendRow[j] = "-";
+					sumValue[j] = 0;
+					valuesList[j] = "";
+					valuesOk[j] = 0;
+					//countRows[j] = 0;
+				}
+				int rowsFound = 0;
+				int rowsProcessed = 0;
+				do {
+					if(isNotAVGOrSD(iter)) {
+						if(isThisRowMarked(rowsFound)) {
+							for(int column = 0; column < myDataColumns; column ++) {
+								//Console.WriteLine("value: {0}", store.GetValue(iter, column+2));
+								string myValue = store.GetValue(iter, column+2).ToString();
+								if(myValue != "-") {
+									if(valuesOk[column] == 0)
+										valuesList[column] = myValue;
+									else
+										valuesList[column] += ":" + myValue;
+									sumValue[column] += Convert.ToDouble(myValue);
+									valuesOk[column] ++;
+								}
+							}
+							rowsProcessed ++;
+						}
+					} else {
+						//delete AVG and SD rows
+						okIter = store.Remove(ref iter);
+						okIter = store.Remove(ref iter);
+						//okIter is because iter is invalidated when deleted last row
+					}
+					rowsFound ++;
+				} while (okIter && store.IterNext(ref iter));
+
+				if(rowsProcessed > 0) {			
+					string [] sendAVG = new string [myDataColumns +1];
+					string [] sendSD = new string [myDataColumns +1];
+
+					sendAVG[0] = Catalog.GetString("AVG");
+					sendSD[0] =  Catalog.GetString("SD");
+
+					for (int j=0; j < myDataColumns; j++) {
+						sendAVG[j+1] = Util.TrimDecimals( (sumValue[j] / valuesOk[j]).ToString(), pDN );
+						//Console.WriteLine("j({0}), SendAVG[j]({1}), valuesList[j]({2})", j, sendAVG[j+1], valuesList[j]);
+						sendSD[j+1] = Util.TrimDecimals( Util.CalculateSD(valuesList[j], sumValue[j], valuesOk[j]).ToString(), pDN );
+						//Console.WriteLine("j({0}), SendSD[j]({1})", j, sendSD[j+1]);
+					}
+					printData( sendAVG );
+					printData( sendSD );
+				}
+			}
+		} catch {
+			//write a row of AVG because graphs of stats with AVG and SD
+			//are waiting the AVG row for ending and painting graph
+			Console.WriteLine("catched!");
+			string [] sendAVG = new string [myDataColumns +1];
+			sendAVG[0] = Catalog.GetString("AVG");
+			printData(sendAVG);
+			Console.WriteLine("Graph should work!");
+		}
+	}
+
+	private bool isThisRowMarked(int rowNum) {
+		for(int k=0; k < markedRows.Count; k++) {
+			//Console.WriteLine("{0}-{1}", Convert.ToInt32(markedRows[k]), rowNum);
+			if(Convert.ToInt32(markedRows[k]) == rowNum) {
+			//	Console.WriteLine("YES");
+				return true;
+			}
+		}
+		return false;
+	}
+
 	//one column by each session returned by SQL
 	protected void processDataMultiSession (ArrayList arrayFromSql, bool makeAVGSD, int sessionsNum) 
 	{
-		//record makeavgsd for using in checkboxes for not being selected
-		//selectedMakeAVGSD = makeAVGSD;
+		this.makeAVGSD = makeAVGSD;
+
 		
 		string [] rowFromSql = new string [sessionsNum +1];
-		double [] sumValue = new double [sessionsNum +1];
-		string [] valuesList = new string [sessionsNum +1];
 		string [] sendRow = new string [sessionsNum +1];
-		int [] countRows = new int [sessionsNum +1]; //count the number of valid cells (rows) for make the AVG
 		int i;
-		
+
 		//initialize values
 		for(int j=1; j< sessionsNum+1 ; j++) {
 			sendRow[j] = "-";
-			sumValue[j] = 0;
-			valuesList[j] = "";
-			countRows[j] = 0;
 		}
+
 		//removes persons in personsWithData
 		personsWithData = new ArrayList();
 
@@ -572,18 +647,6 @@ public class Stat
 				string [] str = sessions[j].ToString().Split(new char[] {':'});
 				if(rowFromSql[1] == str[0]) { //if matches the session num
 					sendRow[j+1] = Util.TrimDecimals(rowFromSql[2], pDN); //put value from sql in the desired pos of sendRow
-
-					if(makeAVGSD) {
-						sumValue[j+1] += Convert.ToDouble(rowFromSql[2]);
-
-						if(valuesList[j+1] == "")
-							valuesList[j+1] = rowFromSql[2];
-						else
-							valuesList[j+1] += ":" + rowFromSql[2];
-
-
-						countRows[j+1] ++;
-					}
 				}
 			}
 			oldStat = sendRow[0];
@@ -596,30 +659,7 @@ public class Stat
 
 
 			if(makeAVGSD) {
-				//printData accepts two cols: name, values (values separated again by ':')
-				string [] sendAVG = new string [sessions.Count +1];
-				string [] sendSD = new string [sessions.Count +1];
-
-				sendAVG[0] = Catalog.GetString("AVG");
-				sendSD[0] =  Catalog.GetString("SD");
-
-				for (int j=1; j <= sessions.Count; j++) {
-					if(countRows[j] > 0) {
-						sendAVG[j] = Util.TrimDecimals( (sumValue[j] /countRows[j]).ToString(), pDN );
-						if(countRows[j] > 1) {
-							sendSD[j] = Util.TrimDecimals( Util.CalculateSD(valuesList[j], sumValue[j], countRows[j]).ToString(), pDN );
-						} else {
-							sendSD[j] = "-";
-						}
-						//Console.WriteLine("sumValue: {0}, sumSquaredValue: {1}, countRows[j]: {2}, j: {3}", 
-						//		sumValue[j], sumSquaredValue[j], countRows[j], j);
-					} else {
-						sendAVG[j] = "-";
-						sendSD[j] = "-";
-					}
-				}
-				printData( calculateRowAVGSD(sendAVG) );
-				printData( calculateRowAVGSD(sendSD) );
+				CreateOrUpdateAVGAndSD();
 			}
 		} else {
 			//if we cannot access the treeview, also don't allow to graph or report
@@ -673,14 +713,19 @@ public class Stat
 	
 	protected virtual void printData (string [] statValues) 
 	{
+		foreach(string myStr in statValues)
+			Console.WriteLine(myStr);
+
 		if(toReport) {
-			bool allowedRow = false;
+			bool allowedRow = isThisRowMarked(rowsPassedToReport);
+			/*
 			for(int i=0; i < markedRows.Count; i++) {
 				if(Convert.ToInt32(markedRows[i]) == rowsPassedToReport) {
 					allowedRow = true;
 					break;
 				}
 			}
+			*/
 			if(allowedRow) {
 				reportString += "<TR>";
 				for (int i=0; i < statValues.Length ; i++) {

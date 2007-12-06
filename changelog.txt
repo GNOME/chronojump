@@ -1,5 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+6 dec 2007
+	0.6-svn10
+	stats show AVG and SD depending on selected rows. Works for simple and
+	multisession. Fixed: 499755
+
 4 dec 2007
 	updated es
 

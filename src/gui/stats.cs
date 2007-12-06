@@ -312,6 +312,7 @@ public class StatsWindow {
 				}
 				
 				myStatType.MarkSelected(myText);
+				myStatType.CreateOrUpdateAVGAndSD();
 			} catch {
 				Console.WriteLine("Do later!!");
 			}

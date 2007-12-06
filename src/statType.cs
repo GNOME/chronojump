@@ -390,6 +390,9 @@ public class StatType {
 			}
 		}
 	
+//		if(!graph)	
+//			myStat.CreateOrUpdateAVGAndSD();
+	
 		//if we just made a graph, store is not made, 
 		//and we cannot change the Male/female visualizations in the combo
 		//with this we can assign a store to the graph (we assign the store of the last stat (not graph)
@@ -416,6 +419,10 @@ public class StatType {
 
 	public void MarkSelected(string selected) {
 		myStat.MarkSelected(selected);
+	}
+
+	public void CreateOrUpdateAVGAndSD() {
+		myStat.CreateOrUpdateAVGAndSD();
 	}
 
 	

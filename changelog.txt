@@ -1,5 +1,15 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+7 dec 2007
+	0.6-svn11
+	-graph size depends on number of rows. With a min and a max. (for
+	-window and report). Fixes: 501035
+	on report, graph shown now under stat (easily printing now)
+	-stats has an statusbar where displays when a stat is added to report
+	-stats changed to height 600 (was 575)
+	-fixed: on stats multisession, if a session has no values on that stat, now
+	avg works ok
+
 6 dec 2007
 	0.6-svn10
 	stats show AVG and SD depending on selected rows. Works for simple and

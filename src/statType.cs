@@ -390,8 +390,6 @@ public class StatType {
 			}
 		}
 	
-//		if(!graph)	
-//			myStat.CreateOrUpdateAVGAndSD();
 	
 		//if we just made a graph, store is not made, 
 		//and we cannot change the Male/female visualizations in the combo

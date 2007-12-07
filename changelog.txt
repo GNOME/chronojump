@@ -1,6 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
 7 dec 2007
+	report shows AVG and SD (and bolded), simple and multisession. Fixed 499969
+	graphs show AVG (now only in sjcmjabkplus and only simplesession)
+
+7 dec 2007
 	0.6-svn11
 	-graph size depends on number of rows. With a min and a max. (for
 	-window and report). Fixes: 501035

@@ -758,4 +758,30 @@ public class Util
 
 		return myArrayList;
 	}
+
+	/*
+	//delete a row of and arraylist of string[] if the string[0] is the value coming from startsWith
+	public static ArrayList DeleteFromArrayList(ArrayList firstArrayList, string startsWith, char delimited) {
+		ArrayList secondArrayList = new ArrayList();
+		foreach (string str2 in firstArrayList) {
+			string [] strFull = str2.Split(new char[] {delimited});
+			if(strFull[0] != startsWith)
+				secondArrayList.Add(str2);
+		}
+
+		return secondArrayList;
+	}
+*/
+	public static string StringArrayToString (string [] myFullString, string separator) {
+		string uniqueString = "";
+		bool firstValue = true;
+		foreach (string myStr in myFullString) {
+			if(firstValue)
+				uniqueString += myStr;
+			else
+				uniqueString += separator + myStr;
+			firstValue = false;
+		}
+		return uniqueString;
+	}
 }

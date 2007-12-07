@@ -208,11 +208,13 @@ public class Stat
 			//if we cannot access the treeview, also don't allow to graph or report
 			fakeButtonNoRowsSelected.Click();
 		}
-		
+	
+		/*	
 		foreach(string myString in markedRows) {
-			//Console.Write(":" + myString);
+			Console.Write(":" + myString);
 		}
-		//Console.WriteLine();
+		Console.WriteLine();
+		*/
 	}
 			
 	private bool isNotAVGOrSD (Gtk.TreeIter iter) {
@@ -480,6 +482,8 @@ public class Stat
 	{
 		this.makeAVGSD = makeAVGSD;
 
+		statPrintedData = new ArrayList();
+
 		string [] rowFromSql = new string [dataColumns +1];
 		int i;
 
@@ -518,7 +522,8 @@ public class Stat
 	{
 		this.makeAVGSD = makeAVGSD;
 
-		
+		statPrintedData = new ArrayList();
+
 		string [] rowFromSql = new string [sessionsNum +1];
 		string [] sendRow = new string [sessionsNum +1];
 		int i;
@@ -582,10 +587,31 @@ public class Stat
 			
 	}
 
+	//now using statPrintedData arraylist
+	//works for treeview, report, and graph (in report or not)
 	public void CreateOrUpdateAVGAndSD() {
 		if( ! makeAVGSD) 
 			return;
-	
+
+		//delete the AVG, SD rows of store if we are not in report
+		try {
+			Gtk.TreeIter iter;
+			bool okIter = store.GetIterFirst(out iter);
+			if(okIter) {
+				do {
+					if(! isNotAVGOrSD(iter)) {
+						//delete AVG and SD rows
+						okIter = store.Remove(ref iter);
+						okIter = store.Remove(ref iter);
+						//okIter is because iter is invalidated when deleted last row
+					}
+				} while (okIter && store.IterNext(ref iter));
+			}
+		} catch {
+			Console.WriteLine("On graph or report (or graph, report)");
+		}
+
+
 		//if multisession number of dataCols will be sessions
 		//else it will be dataColumns
 		int myDataColumns = 0;
@@ -598,28 +624,29 @@ public class Stat
 		//if called from a graph will not work because 
 		//nothing is in store
 		try {
-			Gtk.TreeIter iter;
-			bool okIter = store.GetIterFirst(out iter);
-			if(okIter) {
+			if(statPrintedData.Count > 0) {
+				Console.Write("a");
 				double [] sumValue = new double [myDataColumns];
 				string [] valuesList = new string [myDataColumns];
 				int [] valuesOk = new int [myDataColumns]; //values in a checked row and that contain data (not "-")
 				//initialize values
 				for(int j=1; j< myDataColumns ; j++) {
-					//sendRow[j] = "-";
 					sumValue[j] = 0;
 					valuesList[j] = "";
 					valuesOk[j] = 0;
-					//countRows[j] = 0;
 				}
 				int rowsFound = 0;
 				int rowsProcessed = 0;
-				do {
-					if(isNotAVGOrSD(iter)) {
+				foreach(string myStatData in statPrintedData) {
+					Console.WriteLine("myStatData {0}", myStatData);
+					string [] myStrFull = myStatData.Split(new char[] {':'});
+
 						if(isThisRowMarked(rowsFound)) {
+							Console.Write("-{0}-YES-", rowsFound);
 							for(int column = 0; column < myDataColumns; column ++) {
 								//Console.WriteLine("value: {0}", store.GetValue(iter, column+2));
-								string myValue = store.GetValue(iter, column+2).ToString();
+								//string myValue = store.GetValue(iter, column+2).ToString();
+								string myValue = myStrFull[column+1];
 								if(myValue != "-") {
 									if(valuesOk[column] == 0)
 										valuesList[column] = myValue;
@@ -631,14 +658,8 @@ public class Stat
 							}
 							rowsProcessed ++;
 						}
-					} else {
-						//delete AVG and SD rows
-						okIter = store.Remove(ref iter);
-						okIter = store.Remove(ref iter);
-						//okIter is because iter is invalidated when deleted last row
-					}
 					rowsFound ++;
-				} while (okIter && store.IterNext(ref iter));
+				}
 
 				if(rowsProcessed > 0) {			
 					string [] sendAVG = new string [myDataColumns +1];
@@ -661,6 +682,7 @@ public class Stat
 				}
 			}
 		} catch {
+			/* check this if it's needed now*/
 			//write a row of AVG because graphs of stats with AVG and SD
 			//are waiting the AVG row for ending and painting graph
 			Console.WriteLine("catched!");
@@ -710,24 +732,45 @@ public class Stat
 	}
 	
 	//for stripping off unchecked rows in report
-	//private int rowsPassedToReport = 1;
 	private int rowsPassedToReport = 0;
-	private string [] lastStatValues;
+	private ArrayList statPrintedData;
 	
+	protected void recordStatValues (string [] statValues) {
+		if(statValues[0] != Catalog.GetString("AVG") &&
+				statValues[0] != Catalog.GetString("SD")) {
+			string completeRowAsOneString = Util.StringArrayToString(statValues, ":");
+			statPrintedData.Add(completeRowAsOneString);
+		}
+	}
+
 	protected virtual void printData (string [] statValues) 
 	{
-		if(toReport) {
-			lastStatValues = statValues;
+		//record all data in an ArrayList except AVG and stat
+		//then gui stat and report can read this ArrayList
+		//(before CreateOrUpdateAVGAndSD only read in treeview, and this doesn't work for report
+		recordStatValues(statValues);
 
+		if(toReport) {
 			//Console.WriteLine("REPORT: {0}", statValues[0]);
 			//print marked rows and AVG, SD rows
 			bool allowedRow = isThisRowMarked(rowsPassedToReport);
-			if(allowedRow || 
-					statValues[0] == Catalog.GetString("AVG") || 
-					statValues[0] == Catalog.GetString("SD")) {
+
+			bool isAVGOrSD;
+			string boldIni = "";
+			string boldEnd = "";
+
+			if(statValues[0] == Catalog.GetString("AVG") || statValues[0] == Catalog.GetString("SD")) {
+				isAVGOrSD = true;
+				boldIni = "<b>";
+				boldEnd = "</b";
+			}
+			else 
+				isAVGOrSD = false;
+
+			if(allowedRow || isAVGOrSD) {
 				reportString += "<TR>";
 				for (int i=0; i < statValues.Length ; i++) {
-					reportString += "<TD>" + statValues[i] + "</TD>";
+					reportString += "<TD>" + boldIni + statValues[i] + boldEnd + "</TD>";
 				}
 				reportString += "</TR>\n";
 			}
@@ -1040,7 +1083,7 @@ public class Stat
 			lp = new LinePlot();
 			lp.Label = mySerie.Title; 
 			lp.Color = mySerie.SerieColor;
-	
+
 			//left margin
 			lineData[0] = double.NaN;
 	
@@ -1090,6 +1133,20 @@ public class Stat
 				plot.Add( pp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
 			}
 				
+			/* plot AVG */
+			if(mySerie.Avg != 0) {
+				HorizontalLine hl1 = new HorizontalLine(mySerie.Avg, mySerie.SerieColor);
+				Console.WriteLine("serie.AVG: {0}", mySerie.Avg);
+				hl1.ShowInLegend = false;
+				hl1.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+				if(mySerie.IsLeftAxis) {
+					plot.Add( hl1 );
+				} else {
+					plot.Add( hl1, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
+				}
+
+			}
+
 			acceptedSerie ++;
 			countSerie ++;
 		}

@@ -112,31 +112,60 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 
 	protected override void printData (string [] statValues) 
 	{
+		recordStatValues(statValues);
+
 		if(sessions.Count == 1) {
 			int i=0;
+			bool foundAVG = false;
 			//we need to save this transposed
 			foreach (string myValue in statValues) {
 				if(i == 0) {
 					//don't plot AVG and SD rows
-					if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
+					//if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
+					if( myValue == Catalog.GetString("AVG")) {
+						foundAVG = true;
+						/*
 						//good moment for adding created series to GraphSeries ArrayList
 						//check don't do it two times
 						if(GraphSeries.Count == 0) {
+							serieHeight.Avg = 
 							GraphSeries.Add(serieHeight);
 							GraphSeries.Add(serieTv);
 							GraphSeries.Add(serieWeight);
 						}
 
 						return;
+						*/
 					}
 					CurrentGraphData.XAxisNames.Add(myValue);
 				} else if(i == 1) {
-					serieHeight.SerieData.Add(myValue);
+					if(foundAVG)
+						serieHeight.Avg = Convert.ToDouble(myValue);
+					else
+						serieHeight.SerieData.Add(myValue);
 				} else if(i == 2) {
-					serieTv.SerieData.Add(myValue);
+					if(foundAVG)
+						serieTv.Avg = Convert.ToDouble(myValue);
+					else
+						serieTv.SerieData.Add(myValue);
 				} else if(i == 3) {
-					serieWeight.SerieData.Add(myValue);
+					if(foundAVG)
+						serieWeight.Avg = Convert.ToDouble(myValue);
+					else
+						serieWeight.SerieData.Add(myValue);
 				} 
+
+				if(foundAVG && i == 3) {
+					//good moment for adding created series to GraphSeries ArrayList
+					//check don't do it two times
+					if(GraphSeries.Count == 0) {
+						GraphSeries.Add(serieHeight);
+						GraphSeries.Add(serieTv);
+						GraphSeries.Add(serieWeight);
+					}
+					return;
+				}
+
 				i++;
 			}
 		} else {

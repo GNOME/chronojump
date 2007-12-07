@@ -35,17 +35,20 @@ public class GraphSerie
 	public Marker SerieMarker;
 	public Color SerieColor;
 	public ArrayList SerieData;
+	public double Avg; //height of avg line
 
 	public GraphSerie() {
 		SerieData = new ArrayList();
+		Avg = 0;
 	}
 
 	public GraphSerie(string Title, bool IsLeftAxis, Marker SerieMarker, Color SerieColor, ArrayList SerieData) 
 	{
-	this.Title = 		Title;
-	this.IsLeftAxis = 	IsLeftAxis;
-	this.SerieColor =	SerieColor;
-	this.SerieMarker =	SerieMarker;
-	this.SerieData =	SerieData;
+		this.Title = 		Title;
+		this.IsLeftAxis = 	IsLeftAxis;
+		this.SerieColor =	SerieColor;
+		this.SerieMarker =	SerieMarker;
+		this.SerieData =	SerieData;
+		Avg = 0;
 	}
 }	

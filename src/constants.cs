@@ -109,6 +109,7 @@ public class Constants
 	public static string FileNameLogo = "chronojump_logo.png";
 	public static string FileNameCSS = "report_web_style.css";
 	public static string FileNameIcon = "chronojump_icon.png";
+	public static string FileNameIconGraph = "chronojump_icon_graph.png";
 	public static string FileNameVersion = "version.txt";
 
 	public static string FileNameZoomFitIcon = "gtk-zoom-fit.png";

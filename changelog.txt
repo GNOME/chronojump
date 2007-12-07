@@ -1,5 +1,12 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+7 dec 2007 (Major RELEASE 0.62 for Linux and windows)
+	avg works on all graphs simple session & multisession (obvioulsy if they have
+	avg and sd statistics (global and rjEvolution, not)
+
+	height of graphs is more clever now
+	graphs have now it's own icon
+
 7 dec 2007
 	report shows AVG and SD (and bolded), simple and multisession. Fixed 499969
 	graphs show AVG (now only in sjcmjabkplus and only simplesession)

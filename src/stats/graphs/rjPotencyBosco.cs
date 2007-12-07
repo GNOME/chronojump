@@ -132,43 +132,69 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 
 	protected override void printData (string [] statValues) 
 	{
+		//values are recorded for calculating later AVG and SD
+		recordStatValues(statValues);
+
 		if(sessions.Count == 1) {
 			int i = 0;
+			bool foundAVG = false;
 			//we need to save this transposed
 			foreach (string myValue in statValues) 
 			{
 				if(i == 0) {
 					//don't plot AVG and SD rows
-					if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
-						//good moment for adding created series to GraphSeries ArrayList
-						//check don't do it two times
-						if(GraphSeries.Count == 0) {
-							GraphSeries.Add(serieIndex);
-							GraphSeries.Add(serieTc);
-							GraphSeries.Add(serieTv);
-							GraphSeries.Add(serieJumps);
-							GraphSeries.Add(serieTime);
-							GraphSeries.Add(serieFall);
-						}
-						
-						return;
-					}
-					CurrentGraphData.XAxisNames.Add(myValue);
+					if( myValue == Catalog.GetString("AVG")) 
+						foundAVG = true;
+					else
+						CurrentGraphData.XAxisNames.Add(myValue);
 				} else if(i == 1) {
-					serieIndex.SerieData.Add(myValue);
+					if(foundAVG)
+						serieIndex.Avg = Convert.ToDouble(myValue);
+					else
+						serieIndex.SerieData.Add(myValue);
 				} else if(i == 2) {
-					serieTv.SerieData.Add(myValue);
+					if(foundAVG)
+						serieTv.Avg = Convert.ToDouble(myValue);
+					else
+						serieTv.SerieData.Add(myValue);
 				} else if(i == 3) {
-					serieTc.SerieData.Add(myValue);
+					if(foundAVG)
+						serieTc.Avg = Convert.ToDouble(myValue);
+					else
+						serieTc.SerieData.Add(myValue);
 				} else if(i == 4) {
 					//correct jumps and time for being displayed
-					serieJumps.SerieData.Add( (Convert.ToDouble(myValue) *10).ToString() );
+					if(foundAVG)
+						serieJumps.Avg = Convert.ToDouble(myValue) *10;
+					else
+						serieJumps.SerieData.Add( (Convert.ToDouble(myValue) *10).ToString() );
 				} else if(i == 5) {
 					//correct jumps and time for being displayed
-					serieTime.SerieData.Add( (Convert.ToDouble(myValue) *10).ToString() );
+					if(foundAVG)
+						serieTime.Avg = Convert.ToDouble(myValue) * 10;
+					else
+						serieTime.SerieData.Add( (Convert.ToDouble(myValue) *10).ToString() );
 				} else if(i == 6) {
-					serieFall.SerieData.Add(myValue);
+					if(foundAVG)
+						serieFall.Avg = Convert.ToDouble(myValue);
+					else
+						serieFall.SerieData.Add(myValue);
 				}
+
+				if(foundAVG && i == dataColumns) {
+					//add created series to GraphSeries ArrayList
+					//check don't do it two times
+					if(GraphSeries.Count == 0) {
+						GraphSeries.Add(serieIndex);
+						GraphSeries.Add(serieTc);
+						GraphSeries.Add(serieTv);
+						GraphSeries.Add(serieJumps);
+						GraphSeries.Add(serieTime);
+						GraphSeries.Add(serieFall);
+					}
+					return;
+				}
+
 				i++;
 			}
 		} else {
@@ -194,14 +220,17 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			
 			int i=0;
 			foreach (string myValue in statValues) {
-				if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
+				if( myValue == Catalog.GetString("SD") ) 
 					return;
-				}
-				if(i == 0) {
+				
+				if(i == 0) 
 					mySerie.Title = myValue;
-				} else {
+				else if( i == sessions.Count + 1 ) { //eg, for 2 sessions: [(0)person name, (1)sess1, (2)sess2, (3)AVG]
+					if(myValue != "-")
+						mySerie.Avg = Convert.ToDouble(myValue);
+				} else 
 					mySerie.SerieData.Add(myValue);
-				}
+				
 				i++;
 			}
 			GraphSeries.Add(mySerie);

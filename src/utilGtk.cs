@@ -33,6 +33,11 @@ public class UtilGtk
             	myWindow.Icon = chronojumpIcon;
 	}
 
+	public static void IconWindowGraph(Gtk.Window myWindow) {
+		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIconGraph);
+            	myWindow.Icon = chronojumpIcon;
+	}
+
 	public static string ComboGetActive(ComboBox myCombo) {
 		TreeIter iter;
 		string myText = "";

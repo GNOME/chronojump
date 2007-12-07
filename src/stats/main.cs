@@ -181,7 +181,7 @@ public class Stat
 		if (store.GetIter (out iter, new TreePath(args.Path)))
 		{
 			bool val = (bool) store.GetValue (iter, column);
-			Console.WriteLine ("toggled {0} with value {1}", args.Path, !val);
+			//Console.WriteLine ("toggled {0} with value {1}", args.Path, !val);
 
 			//if this row is not AVG or SD
 			string avgOrSD = (string) store.GetValue (iter, 1);
@@ -575,7 +575,6 @@ public class Stat
 		{
 			printData( calculateRowAVGSD(sendRow) );
 
-
 			if(makeAVGSD) {
 				CreateOrUpdateAVGAndSD();
 			}
@@ -584,7 +583,6 @@ public class Stat
 			Console.WriteLine("no rows Clicking in stats/main.cs multi session");
 			fakeButtonNoRowsSelected.Click();
 		}
-			
 	}
 
 	//now using statPrintedData arraylist
@@ -625,7 +623,6 @@ public class Stat
 		//nothing is in store
 		try {
 			if(statPrintedData.Count > 0) {
-				Console.Write("a");
 				double [] sumValue = new double [myDataColumns];
 				string [] valuesList = new string [myDataColumns];
 				int [] valuesOk = new int [myDataColumns]; //values in a checked row and that contain data (not "-")
@@ -638,11 +635,9 @@ public class Stat
 				int rowsFound = 0;
 				int rowsProcessed = 0;
 				foreach(string myStatData in statPrintedData) {
-					Console.WriteLine("myStatData {0}", myStatData);
 					string [] myStrFull = myStatData.Split(new char[] {':'});
 
 						if(isThisRowMarked(rowsFound)) {
-							Console.Write("-{0}-YES-", rowsFound);
 							for(int column = 0; column < myDataColumns; column ++) {
 								//Console.WriteLine("value: {0}", store.GetValue(iter, column+2));
 								//string myValue = store.GetValue(iter, column+2).ToString();
@@ -903,8 +898,11 @@ public class Stat
 		plot.Show ();
 		
 		Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
+		//put an icon to window
+		UtilGtk.IconWindowGraph(w);
+	
 		int x = getSizeX();
-		int y = getSizeY(x);
+		int y = getSizeY(x, acceptedSeries);
 		w.SetDefaultSize (x,y);
 
 		w.Add (plot);
@@ -935,7 +933,7 @@ public class Stat
 		plot.Add( new Grid() );
 
 		int x = getSizeX();
-		int y = getSizeY(x);
+		int y = getSizeY(x, acceptedSeries);
 		Bitmap b = new Bitmap (x, y);
 		Graphics g = Graphics.FromImage (b);
 		g.FillRectangle  (Brushes.White, 0, 0, x, y);
@@ -955,14 +953,14 @@ public class Stat
 			
 	private int getSizeX() {
 		int x;
-		int multiplier = 40;
-		int minimum = 250;
+		int xMultiplier = 50;
+		int minimum = 300;
 		int maximum = 800;
 		
 		if(isRjEvolution)
-			x = rjEvolutionMaxJumps * multiplier;
+			x = rjEvolutionMaxJumps * xMultiplier;
 		else
-			x = markedRows.Count * multiplier;
+			x = markedRows.Count * xMultiplier;
 
 		if(x < minimum)
 			x = minimum;
@@ -972,8 +970,25 @@ public class Stat
 		return x;
 	}
 
-	private int getSizeY(int x) {
-		return (int) x * 3/4;
+	//calculated using series number.
+	//Also if x is big, then lots of data has to be plotted
+	//is better to have a taller graph, for this reason
+	//x value is used
+	private int getSizeY(int x, int series) {
+		//return (int) x * 3/4;
+		int y;
+		int yMultiplier = 150;
+		int minimum = 300;
+		int maximum = 600;
+		y = series * yMultiplier;
+		if(y < minimum)
+			y = minimum;
+		if(y < x*3/4)
+			y = x*3/4;
+		if(y > maximum)
+			y = maximum;
+		
+		return y;
 	}
 
 
@@ -1136,7 +1151,7 @@ public class Stat
 			/* plot AVG */
 			if(mySerie.Avg != 0) {
 				HorizontalLine hl1 = new HorizontalLine(mySerie.Avg, mySerie.SerieColor);
-				Console.WriteLine("serie.AVG: {0}", mySerie.Avg);
+				//Console.WriteLine("serie.AVG: {0}", mySerie.Avg);
 				hl1.ShowInLegend = false;
 				hl1.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
 				if(mySerie.IsLeftAxis) {

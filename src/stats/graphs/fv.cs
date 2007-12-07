@@ -113,32 +113,49 @@ public class GraphFv : StatFv
 
 	protected override void printData (string [] statValues) 
 	{
+		//values are recorded for calculating later AVG and SD
+		recordStatValues(statValues);
+
 		if(sessions.Count == 1) {
 			int i = 0;
+			bool foundAVG = false;
 			//we need to save this transposed
 			foreach (string myValue in statValues) 
 			{
 				if(i == 0) {
 					//don't plot AVG and SD rows
-					if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
-						//good moment for adding created series to GraphSeries ArrayList
-						//check don't do it two times
-						if(GraphSeries.Count == 0) {
-							GraphSeries.Add(serieIndex);
-							GraphSeries.Add(serieJump1);
-							GraphSeries.Add(serieJump2);
-						}
-						
-						return;
-					}
-					CurrentGraphData.XAxisNames.Add(myValue);
+					if( myValue == Catalog.GetString("AVG")) 
+						foundAVG =  true;
+					else 
+						CurrentGraphData.XAxisNames.Add(myValue);
 				} else if(i == 1) {
-					serieIndex.SerieData.Add(myValue);
+					if(foundAVG)
+						serieIndex.Avg = Convert.ToDouble(myValue);
+					else
+						serieIndex.SerieData.Add(myValue);
 				} else if(i == 2) {
-					serieJump1.SerieData.Add(myValue);
+					if(foundAVG)
+						serieJump1.Avg = Convert.ToDouble(myValue);
+					else
+						serieJump1.SerieData.Add(myValue);
 				} else if(i == 3) {
-					serieJump2.SerieData.Add(myValue);
+					if(foundAVG)
+						serieJump2.Avg = Convert.ToDouble(myValue);
+					else
+						serieJump2.SerieData.Add(myValue);
 				}
+
+				if(foundAVG && i == dataColumns) {
+					//add created series to GraphSeries ArrayList
+					//check don't do it two times
+					if(GraphSeries.Count == 0) {
+						GraphSeries.Add(serieIndex);
+						GraphSeries.Add(serieJump1);
+						GraphSeries.Add(serieJump2);
+					}
+					return;
+				}
+
 				i++;
 			}
 		} else {

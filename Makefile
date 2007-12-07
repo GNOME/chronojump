@@ -79,6 +79,7 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/stock_delete.png,stock_delete.png \
 		-resource:images/delete_last.png,delete_last.png \
 		-resource:images/chronojump_icon.png,chronojump_icon.png \
+		-resource:images/chronojump_icon_graph.png,chronojump_icon_graph.png \
 		-resource:images/gtk-zoom-fit.png,gtk-zoom-fit.png \
 		-resource:images/gtk-zoom-out.png,gtk-zoom-out.png \
 		-resource:images/gtk-zoom-in.png,gtk-zoom-in.png \

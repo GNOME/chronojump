@@ -112,6 +112,7 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 
 	protected override void printData (string [] statValues) 
 	{
+		//values are recorded for calculating later AVG and SD
 		recordStatValues(statValues);
 
 		if(sessions.Count == 1) {
@@ -121,23 +122,10 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			foreach (string myValue in statValues) {
 				if(i == 0) {
 					//don't plot AVG and SD rows
-					//if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
-					if( myValue == Catalog.GetString("AVG")) {
+					if( myValue == Catalog.GetString("AVG")) 
 						foundAVG = true;
-						/*
-						//good moment for adding created series to GraphSeries ArrayList
-						//check don't do it two times
-						if(GraphSeries.Count == 0) {
-							serieHeight.Avg = 
-							GraphSeries.Add(serieHeight);
-							GraphSeries.Add(serieTv);
-							GraphSeries.Add(serieWeight);
-						}
-
-						return;
-						*/
-					}
-					CurrentGraphData.XAxisNames.Add(myValue);
+					else
+						CurrentGraphData.XAxisNames.Add(myValue);
 				} else if(i == 1) {
 					if(foundAVG)
 						serieHeight.Avg = Convert.ToDouble(myValue);
@@ -155,8 +143,8 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 						serieWeight.SerieData.Add(myValue);
 				} 
 
-				if(foundAVG && i == 3) {
-					//good moment for adding created series to GraphSeries ArrayList
+				if(foundAVG && i == dataColumns) {
+					//add created series to GraphSeries ArrayList
 					//check don't do it two times
 					if(GraphSeries.Count == 0) {
 						GraphSeries.Add(serieHeight);
@@ -192,14 +180,18 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 
 			int i=0;
 			foreach (string myValue in statValues) {
-				if( myValue == Catalog.GetString("AVG") || myValue == Catalog.GetString("SD") ) {
+				if( myValue == Catalog.GetString("SD") ) 
 					return;
-				}
-				if(i == 0) {
+
+				
+				if(i == 0) 
 					mySerie.Title = myValue;
-				} else {
+				else if( i == sessions.Count + 1 ) { //eg, for 2 sessions: [(0)person name, (1)sess1, (2)sess2, (3)AVG]
+					if(myValue != "-")
+						mySerie.Avg = Convert.ToDouble(myValue);
+				} else 
 					mySerie.SerieData.Add(myValue);
-				}
+				
 				i++;
 			}
 			GraphSeries.Add(mySerie);

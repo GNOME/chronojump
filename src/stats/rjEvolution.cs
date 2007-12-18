@@ -267,14 +267,9 @@ public class StatRjEvolution : Stat
 		}  
 		*/
 
-		string mySessionString = "";
-		if(sessions.Count > 1) {
-			mySessionString =  Catalog.GetString (" various sessions "); 
-		} else {
-			string [] strFull = sessions[0].ToString().Split(new char[] {':'});
-			mySessionString =  Catalog.GetString (" session ") + 
-				strFull[0] + "(" + strFull[2] + ")";
-		}
+		string [] strFull = sessions[0].ToString().Split(new char[] {':'});
+		string mySessionString =  Catalog.GetString (" session ") + 
+			strFull[0] + "(" + strFull[2] + ")";
 		
 		string bestResalted = "";
 		if(numContinuous != -1) {

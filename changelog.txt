@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+18 dec 2007
+	fixed: 504069 "Create two new RJ evo with AVG and SD stats and
+	graph". Done stats & graphs
+
 7 dec 2007 (Major RELEASE 0.62 for Linux and windows)
 	avg works on all graphs simple session & multisession (obvioulsy if they have
 	avg and sd statistics (global and rjEvolution, not)

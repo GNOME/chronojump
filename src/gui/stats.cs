@@ -110,7 +110,9 @@ public class StatsWindow {
 	private static string [] comboStatsSubTypeReactiveOptions = {
 		Catalog.GetString("Average Index"), 
 		Constants.RJPotencyBoscoFormula,
-		Catalog.GetString("Evolution") 
+		Catalog.GetString("Evolution"),
+		Constants.RJAVGSDRjIndexName,
+		Constants.RJAVGSDQIndexName
 	};
 	
 	private static string [] comboStatsSubTypeSimpleOptions = {
@@ -732,7 +734,10 @@ public class StatsWindow {
 		} else {
 			//some stats should not be showed as limited jumps
 			if(statisticType == Constants.TypeJumpsReactive && 
-					statisticSubType == Catalog.GetString("Evolution") ) {
+				       ( statisticSubType == Catalog.GetString("Evolution") ||
+					 statisticSubType == Constants.RJAVGSDRjIndexName ||
+					 statisticSubType == Constants.RJAVGSDQIndexName)
+					 ) {
 				//don't allow Evolution be multisession
 				radiobutton_current_session.Active = true;
 				radiobutton_selected_sessions.Sensitive = false;

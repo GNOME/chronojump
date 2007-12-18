@@ -1032,7 +1032,7 @@ public class Stat
 	}
 */
 
-	bool acceptCheckedData(int myData) {
+	protected bool acceptCheckedData(int myData) {
 		foreach(string marked in markedRows) {
 			if(Convert.ToInt32(marked) == myData) {
 				return true;
@@ -1054,15 +1054,15 @@ public class Stat
 		}
 	}
 	
-	protected int plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
+	protected virtual int plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
 	{
 		rjEvolutionMaxJumps = -1;
 		
 		int acceptedSerie = 0;
 		int countSerie = 0;
+		
 		foreach(GraphSerie mySerie in allSeries) 
 		{
-			
 			//in isRjEvolution then check it this serie will be shown (each jumper has a TC and a TF serie)
 			if( isRjEvolution && ! acceptCheckedData( divideAndRoundDown(countSerie)) ) {
 				countSerie ++;

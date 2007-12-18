@@ -89,8 +89,14 @@ public class Constants
 	        "+ (40.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1731.1";
 	
 	public static string RJPotencyBoscoFormula = Catalog.GetString("Peak Power") + " (Bosco)" + "\n 9.81^2*TF*TT / (4*jumps*(TT-TF))";
-	
 	public static string RJPotencyBoscoName = Catalog.GetString("Peak Power") + " (Bosco)";
+
+	public static string RjIndexName = "Rj Index";
+	public static string QIndexName = "Q Index";
+	public static string RjIndexOnlyFormula = "(tf-tc)/tc *100)";
+	public static string QIndexOnlyFormula = "(tf/tc)";
+	public static string RJAVGSDRjIndexName = Catalog.GetString("Reactive AVG SD") + " (" + RjIndexName + ")";
+	public static string RJAVGSDQIndexName = Catalog.GetString("Reactive AVG SD") + " (" + QIndexName + ")";
 
 
 	//global stat types

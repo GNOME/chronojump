@@ -601,6 +601,8 @@ class SqliteStat : Sqlite
 	}
 
 	//maxJumps for make all the results of same length (fill it with '-'s)
+	//rjAVGSD also calls this method
+	//but both of them are simple session
 	public static ArrayList RjEvolution (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, int maxJumps)
 	{
 		string ini = "";
@@ -667,22 +669,30 @@ class SqliteStat : Sqlite
 			if(jumpType == Catalog.GetString("All jumps") && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[7].ToString() + ")";
 			}
-			
+	
+			/*		
 			if(multisession) {
 				returnSessionString = ":" + reader[2].ToString();
-			} else {
-				//in multisession we show only one column x session
-				//in simplesession we show all
-				
-				//convert the strings of TFs and TCs separated by '=' in
-				//one string mixed and separated by ':'
-				allTCsTFsCombined = combineTCsTFs(
-						Util.ChangeDecimalSeparator(reader[4].ToString()), 
-						Util.ChangeDecimalSeparator(reader[5].ToString()), 
-						maxJumps);
-				
-				returnFallString = ":" + reader[6].ToString();
 			}
+			*/
+
+			/*
+			 * RjEvolution does not work in multisession, 
+			 * but other stats like rjAVGSD who call this rjEvolution stats method
+			 * work for simple and multisession
+			 */
+
+			//convert the strings of TFs and TCs separated by '=' in
+			//one string mixed and separated by ':'
+			allTCsTFsCombined = combineTCsTFs(
+					Util.ChangeDecimalSeparator(reader[4].ToString()), 
+					Util.ChangeDecimalSeparator(reader[5].ToString()), 
+					maxJumps);
+
+			returnFallString = ":" + reader[6].ToString();
+
+
+
 			myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
 					returnSessionString + ":" + 		//session
 					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index

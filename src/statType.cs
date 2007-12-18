@@ -360,10 +360,25 @@ public class StatType {
 			else if(statisticSubType == Catalog.GetString("Evolution"))
 			{
 				if(graph) {
-					//myStat = new GraphRjEvolution (myStatTypeStruct, rj_evolution_mark_consecutives);
 					myStat = new GraphRjEvolution (myStatTypeStruct, rj_evolution_mark_consecutives);
 				} else {
 					myStat = new StatRjEvolution(myStatTypeStruct, rj_evolution_mark_consecutives, treeview_stats);
+				}
+			}
+			else if(statisticSubType == Constants.RJAVGSDRjIndexName)
+			{
+				if(graph) {
+					myStat = new GraphRjAVGSD(myStatTypeStruct, Constants.RjIndexName);
+				} else {
+					myStat = new StatRjAVGSD(myStatTypeStruct, treeview_stats, Constants.RjIndexName);
+				}
+			}
+			else if(statisticSubType == Constants.RJAVGSDQIndexName)
+			{
+				if(graph) {
+					myStat = new GraphRjAVGSD(myStatTypeStruct, Constants.QIndexName);
+				} else {
+					myStat = new StatRjAVGSD(myStatTypeStruct, treeview_stats, Constants.QIndexName);
 				}
 			}
 		}

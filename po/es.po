@@ -1,16 +1,16 @@
 # translation of chronojump to spanish
-# Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-#
+# Copyright (C) 2005 THE chronojump.HEAD.es'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the chronojump.HEAD.es package.
+
 # Xavier de Blas <xaviblas@gmail.com>, 2005.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007.
-# Eduardo Retamales <eretamales@gmail.com>, 2007.
+# Eduardo Retamales <eretamales@gnome.cl>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-26 03:45+0000\n"
+"POT-Creation-Date: 2007-12-19 03:54+0000\n"
 "PO-Revision-Date: 2007-11-26 13:34-0300\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -181,20 +181,16 @@ msgstr "ABK"
 #. if multisession, add AVG and SD cols
 #: ../glade/chronojump.glade.h:41 ../src/exportSession.cs:387
 #: ../src/exportSession.cs:502 ../src/exportSession.cs:596
-#: ../src/stats/graphs/potency.cs:123 ../src/stats/graphs/potency.cs:172
-#: ../src/stats/graphs/djIndex.cs:128 ../src/stats/graphs/djIndex.cs:179
-#: ../src/stats/graphs/djQ.cs:128 ../src/stats/graphs/djQ.cs:180
-#: ../src/stats/graphs/fv.cs:123 ../src/stats/graphs/fv.cs:169
-#: ../src/stats/graphs/global.cs:124 ../src/stats/graphs/global.cs:195
-#: ../src/stats/graphs/ieIub.cs:130 ../src/stats/graphs/ieIub.cs:174
-#: ../src/stats/graphs/rjIndex.cs:125 ../src/stats/graphs/rjIndex.cs:172
-#: ../src/stats/graphs/rjPotencyBosco.cs:142
-#: ../src/stats/graphs/rjPotencyBosco.cs:197
-#: ../src/stats/graphs/sjCmjAbk.cs:110 ../src/stats/graphs/sjCmjAbk.cs:152
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:121
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:166 ../src/stats/main.cs:187
-#: ../src/stats/main.cs:219 ../src/stats/main.cs:361 ../src/stats/main.cs:388
-#: ../src/stats/main.cs:506 ../src/stats/main.cs:603 ../src/stats/main.cs:703
+#: ../src/stats/graphs/potency.cs:127 ../src/stats/graphs/djIndex.cs:132
+#: ../src/stats/graphs/djQ.cs:132 ../src/stats/graphs/fv.cs:127
+#: ../src/stats/graphs/fv.cs:186 ../src/stats/graphs/global.cs:124
+#: ../src/stats/graphs/global.cs:195 ../src/stats/graphs/ieIub.cs:133
+#: ../src/stats/graphs/rjIndex.cs:129
+#: ../src/stats/graphs/rjPotencyBosco.cs:146
+#: ../src/stats/graphs/sjCmjAbk.cs:114 ../src/stats/graphs/sjCmjAbkPlus.cs:125
+#: ../src/stats/main.cs:188 ../src/stats/main.cs:223 ../src/stats/main.cs:365
+#: ../src/stats/main.cs:392 ../src/stats/main.cs:663 ../src/stats/main.cs:685
+#: ../src/stats/main.cs:734 ../src/stats/main.cs:757 ../src/stats/main.cs:784
 #: ../src/stats/rjEvolution.cs:220 ../src/treeViewJump.cs:342
 #: ../src/treeViewPulse.cs:152 ../src/treeViewRun.cs:229
 msgid "AVG"
@@ -248,9 +244,9 @@ msgstr "Úselo después de una prueba para actualizar las estadísticas"
 msgid "Agility"
 msgstr "Agilidad"
 
-#: ../glade/chronojump.glade.h:54 ../src/gui/stats.cs:136
-#: ../src/gui/stats.cs:596 ../src/gui/stats.cs:938 ../src/report.cs:356
-#: ../src/stats/main.cs:230
+#: ../glade/chronojump.glade.h:54 ../src/gui/stats.cs:139
+#: ../src/gui/stats.cs:600 ../src/gui/stats.cs:948 ../src/report.cs:356
+#: ../src/stats/main.cs:234
 msgid "All"
 msgstr "Todos"
 
@@ -456,7 +452,7 @@ msgstr "Borrar carrera seleccionada"
 #: ../src/exportSession.cs:265 ../src/exportSession.cs:335
 #: ../src/exportSession.cs:431 ../src/exportSession.cs:473
 #: ../src/exportSession.cs:541 ../src/exportSession.cs:576
-#: ../src/gui/jump.cs:925 ../src/gui/jump.cs:1102 ../src/gui/person.cs:103
+#: ../src/gui/jump.cs:922 ../src/gui/jump.cs:1098 ../src/gui/person.cs:103
 #: ../src/gui/run.cs:737 ../src/gui/run.cs:885 ../src/report.cs:277
 #: ../src/runType.cs:123 ../src/runType.cs:159 ../src/runType.cs:200
 #: ../src/runType.cs:229 ../src/treeViewEvent.cs:40
@@ -564,8 +560,8 @@ msgstr "Datos extra para este pulso"
 msgid "Extra data for this run"
 msgstr "Datos extra para esta carrera"
 
-#: ../glade/chronojump.glade.h:128 ../src/gui/jump.cs:924
-#: ../src/gui/jump.cs:1101
+#: ../glade/chronojump.glade.h:128 ../src/gui/jump.cs:921
+#: ../src/gui/jump.cs:1097
 msgid "Extra weight"
 msgstr "Peso extra"
 
@@ -675,7 +671,7 @@ msgstr "Salto"
 msgid "Jump Reactive"
 msgstr "Salto reactivo"
 
-#: ../glade/chronojump.glade.h:154 ../src/gui/stats.cs:946
+#: ../glade/chronojump.glade.h:154 ../src/gui/stats.cs:956
 #: ../src/report.cs:364
 msgid "Jumper's average"
 msgstr "Media/s del saltador"
@@ -686,8 +682,8 @@ msgstr "Máximo/s del saltador"
 
 #. windowTitle
 #: ../glade/chronojump.glade.h:156 ../src/exportSession.cs:332
-#: ../src/gui/chronojump.cs:2595 ../src/gui/jump.cs:1130
-#: ../src/gui/jump.cs:1177 ../src/gui/jump.cs:1217
+#: ../src/gui/chronojump.cs:2595 ../src/gui/jump.cs:1126
+#: ../src/gui/jump.cs:1173 ../src/gui/jump.cs:1213
 #: ../src/stats/graphs/rjPotencyBosco.cs:83 ../src/stats/rjPotencyBosco.cs:36
 msgid "Jumps"
 msgstr "Saltos"
@@ -696,12 +692,12 @@ msgstr "Saltos"
 msgid "Language"
 msgstr "Idioma"
 
-#: ../glade/chronojump.glade.h:158 ../src/gui/stats.cs:940
+#: ../glade/chronojump.glade.h:158 ../src/gui/stats.cs:950
 #: ../src/report.cs:358
 msgid "Limit"
 msgstr "Límite"
 
-#: ../glade/chronojump.glade.h:159 ../src/gui/jump.cs:1098
+#: ../glade/chronojump.glade.h:159 ../src/gui/jump.cs:1094
 #: ../src/gui/run.cs:883
 msgid "Limited by"
 msgstr "Limitado por"
@@ -1027,8 +1023,8 @@ msgstr ""
 msgid "Select sessions for statistics"
 msgstr "Seleccionar sesiones para las estadísticas"
 
-#: ../glade/chronojump.glade.h:238 ../src/gui/stats.cs:139
-#: ../src/gui/stats.cs:301 ../src/gui/stats.cs:610
+#: ../glade/chronojump.glade.h:238 ../src/gui/stats.cs:142
+#: ../src/gui/stats.cs:304 ../src/gui/stats.cs:614
 msgid "Selected"
 msgstr "Seleccionado"
 
@@ -1127,8 +1123,8 @@ msgstr "Salto Squat"
 msgid "Squat Jump with extra weight"
 msgstr "Salto Squat con peso extra"
 
-#: ../glade/chronojump.glade.h:262 ../src/gui/jump.cs:923
-#: ../src/gui/jump.cs:1100
+#: ../glade/chronojump.glade.h:262 ../src/gui/jump.cs:920
+#: ../src/gui/jump.cs:1096
 msgid "Start inside"
 msgstr "Comienza dentro"
 
@@ -1216,8 +1212,8 @@ msgstr "Tipo"
 
 #. check if it's unlimited
 #. unlimited mark
-#: ../glade/chronojump.glade.h:276 ../src/gui/jump.cs:1127
-#: ../src/gui/jump.cs:1170 ../src/gui/jump.cs:1210 ../src/gui/run.cs:901
+#: ../glade/chronojump.glade.h:276 ../src/gui/jump.cs:1123
+#: ../src/gui/jump.cs:1166 ../src/gui/jump.cs:1206 ../src/gui/run.cs:901
 #: ../src/gui/run.cs:944 ../src/gui/run.cs:976
 msgid "Unlimited"
 msgstr "Ilimitado"
@@ -1426,7 +1422,7 @@ msgstr "con tramos"
 msgid "jump extra data"
 msgstr "Datos extra del salto"
 
-#: ../glade/chronojump.glade.h:327 ../src/gui/jump.cs:746
+#: ../glade/chronojump.glade.h:327 ../src/gui/jump.cs:743
 #: ../src/stats/graphs/rjPotencyBosco.cs:120
 msgid "jumps"
 msgstr "saltos"
@@ -1489,9 +1485,9 @@ msgstr "Datos extra de la carrera"
 
 #. update the totaltime label
 #: ../glade/chronojump.glade.h:342 ../src/gui/jump.cs:376
-#: ../src/gui/jump.cs:459 ../src/gui/jump.cs:483 ../src/gui/jump.cs:619
-#: ../src/gui/jump.cs:747 ../src/gui/pulse.cs:310 ../src/gui/pulse.cs:392
-#: ../src/gui/pulse.cs:501 ../src/gui/run.cs:324 ../src/gui/run.cs:393
+#: ../src/gui/jump.cs:459 ../src/gui/jump.cs:483 ../src/gui/jump.cs:616
+#: ../src/gui/jump.cs:744 ../src/gui/pulse.cs:310 ../src/gui/pulse.cs:392
+#: ../src/gui/pulse.cs:498 ../src/gui/run.cs:324 ../src/gui/run.cs:393
 #: ../src/gui/run.cs:492 ../src/gui/run.cs:615
 #: ../src/stats/graphs/djIndex.cs:107 ../src/stats/graphs/djQ.cs:107
 #: ../src/stats/graphs/global.cs:96 ../src/stats/graphs/global.cs:107
@@ -1607,7 +1603,9 @@ msgstr "no se ha encontrado base de datos, creando tablas ..."
 #: ../src/chronojump.cs:122
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
-msgstr "Lo siento, esta versión de Chronojump ({0}) esta demasiada antigua para su base de datos."
+msgstr ""
+"Lo siento, esta versión de Chronojump ({0}) esta demasiada antigua para su "
+"base de datos."
 
 #: ../src/chronojump.cs:123
 msgid "Please update Chronojump"
@@ -1769,65 +1767,69 @@ msgstr "Estudiantes femeninas de ciencias deportivas"
 msgid "Female university students"
 msgstr "Estudiantes universitarias femeninas"
 
-#: ../src/constants.cs:91 ../src/constants.cs:93 ../src/stats/potency.cs:61
+#: ../src/constants.cs:91 ../src/constants.cs:92 ../src/stats/potency.cs:61
 #: ../src/stats/graphs/potency.cs:77
 msgid "Peak Power"
 msgstr "Pico de potencia"
 
+#: ../src/constants.cs:98 ../src/constants.cs:99
+msgid "Reactive AVG SD"
+msgstr "DE reactivo (promedio)"
+
 #. global stat types
-#: ../src/constants.cs:97
+#: ../src/constants.cs:103
 msgid "Session summary"
 msgstr "Sumario de Sesión"
 
-#: ../src/constants.cs:98
+#: ../src/constants.cs:104
 msgid "Jumper summary"
 msgstr "Sumario de Saltador"
 
-#: ../src/constants.cs:99
+#: ../src/constants.cs:105
 msgid "Jumps: Simple"
 msgstr "Saltos: Simple"
 
-#: ../src/constants.cs:100
+#: ../src/constants.cs:106
 msgid "Jumps: Simple with TC"
 msgstr "Saltos: Simple con TC"
 
-#: ../src/constants.cs:101
+#: ../src/constants.cs:107
 msgid "Jumps: Reactive"
 msgstr "Salto: Reactivo"
 
 #. strings
 #. manage allJumps (show jumpType beside name (and sex))
 #. but only if it's not an AVG of different jumps
-#: ../src/constants.cs:104 ../src/gui/jumpType.cs:106
+#: ../src/constants.cs:110 ../src/gui/jumpType.cs:106
 #: ../src/sqlite/stat.cs:137 ../src/sqlite/stat.cs:183
 #: ../src/sqlite/stat.cs:281 ../src/sqlite/stat.cs:328
 #: ../src/sqlite/stat.cs:378 ../src/sqlite/stat.cs:424
 #: ../src/sqlite/stat.cs:472 ../src/sqlite/stat.cs:519
-#: ../src/sqlite/stat.cs:623 ../src/sqlite/stat.cs:667
+#: ../src/sqlite/stat.cs:625 ../src/sqlite/stat.cs:669
 msgid "All jumps"
 msgstr "Todos los saltos"
 
-#: ../src/constants.cs:105 ../src/gui/runType.cs:106
+#: ../src/constants.cs:111 ../src/gui/runType.cs:106
 msgid "All runs"
 msgstr "Todas las carreras"
 
-#: ../src/constants.cs:106
+#: ../src/constants.cs:112
 msgid "All pulses"
 msgstr "Todos los pulsos"
 
-#: ../src/constants.cs:156
+#: ../src/constants.cs:163
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "Típicos puertos serie y USB en Windows:"
 
-#: ../src/constants.cs:158
+#: ../src/constants.cs:165
 msgid "Also, these are possible:"
 msgstr "Además, estos son posibles:"
 
-#: ../src/constants.cs:162
+#: ../src/constants.cs:169
 msgid "Typical serial serial ports on GNU/Linux:"
 msgstr "Puertos serie típicos en GNU/Linux:"
 
-#: ../src/constants.cs:164
+#: ../src/constants.cs:171
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "Puertos serie USB típicos en GNU/Linux:"
 
@@ -1977,7 +1979,7 @@ msgid "SessionID"
 msgstr "ID de sesión"
 
 #: ../src/exportSession.cs:212 ../src/exportSession.cs:225
-#: ../src/gui/jump.cs:922 ../src/gui/jump.cs:1097 ../src/gui/person.cs:98
+#: ../src/gui/jump.cs:919 ../src/gui/jump.cs:1093 ../src/gui/person.cs:98
 #: ../src/gui/run.cs:735 ../src/gui/run.cs:881 ../src/gui/session.cs:349
 #: ../src/gui/session.cs:505 ../src/report.cs:258 ../src/report.cs:274
 msgid "Name"
@@ -2078,21 +2080,16 @@ msgid "Total"
 msgstr "Total"
 
 #: ../src/exportSession.cs:390 ../src/exportSession.cs:506
-#: ../src/exportSession.cs:598 ../src/stats/graphs/potency.cs:123
-#: ../src/stats/graphs/potency.cs:172 ../src/stats/graphs/djIndex.cs:128
-#: ../src/stats/graphs/djIndex.cs:179 ../src/stats/graphs/djQ.cs:128
-#: ../src/stats/graphs/djQ.cs:180 ../src/stats/graphs/fv.cs:123
-#: ../src/stats/graphs/fv.cs:169 ../src/stats/graphs/global.cs:124
-#: ../src/stats/graphs/global.cs:195 ../src/stats/graphs/ieIub.cs:130
-#: ../src/stats/graphs/ieIub.cs:174 ../src/stats/graphs/rjIndex.cs:125
-#: ../src/stats/graphs/rjIndex.cs:172
-#: ../src/stats/graphs/rjPotencyBosco.cs:142
-#: ../src/stats/graphs/rjPotencyBosco.cs:197
-#: ../src/stats/graphs/sjCmjAbk.cs:110 ../src/stats/graphs/sjCmjAbk.cs:152
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:121
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:166 ../src/stats/main.cs:187
-#: ../src/stats/main.cs:219 ../src/stats/main.cs:362 ../src/stats/main.cs:389
-#: ../src/stats/main.cs:507 ../src/stats/main.cs:604 ../src/stats/main.cs:703
+#: ../src/exportSession.cs:598 ../src/stats/graphs/potency.cs:191
+#: ../src/stats/graphs/djIndex.cs:202 ../src/stats/graphs/djQ.cs:203
+#: ../src/stats/graphs/fv.cs:186 ../src/stats/graphs/global.cs:124
+#: ../src/stats/graphs/global.cs:195 ../src/stats/graphs/ieIub.cs:190
+#: ../src/stats/graphs/rjIndex.cs:192
+#: ../src/stats/graphs/rjPotencyBosco.cs:223
+#: ../src/stats/graphs/sjCmjAbk.cs:166 ../src/stats/graphs/sjCmjAbkPlus.cs:183
+#: ../src/stats/main.cs:188 ../src/stats/main.cs:223 ../src/stats/main.cs:366
+#: ../src/stats/main.cs:393 ../src/stats/main.cs:664 ../src/stats/main.cs:735
+#: ../src/stats/main.cs:757 ../src/stats/main.cs:784
 #: ../src/stats/rjEvolution.cs:220 ../src/treeViewJump.cs:378
 #: ../src/treeViewPulse.cs:167 ../src/treeViewRun.cs:249
 msgid "SD"
@@ -2256,7 +2253,7 @@ msgstr "y todas las pruebas de la sesión?"
 msgid "Deleted session and all its tests"
 msgstr "Se ha borrado la sesión y todas sus pruebas"
 
-#: ../src/gui/chronojump.cs:1725
+#: ../src/gui/chronojump.cs:1725 ../src/gui/stats.cs:973
 msgid "Successfully added"
 msgstr "Añadido satisfactoriamente"
 
@@ -2449,7 +2446,7 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2007.\n"
-"Eduardo Retamales <eretamales@gmail.com>, 2007.\n"
+"Eduardo Retamales <eretamales@gnome.cl>, 2007.\n"
 "Xavier de Blas <xaviblas@gmail.com>, 2005\n"
 "QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006"
 
@@ -2546,23 +2543,23 @@ msgstr ""
 msgid "Count"
 msgstr "Conteo"
 
-#: ../src/gui/jump.cs:935 ../src/gui/jump.cs:940 ../src/gui/jump.cs:969
-#: ../src/gui/jump.cs:972 ../src/gui/jump.cs:994 ../src/gui/jump.cs:997
-#: ../src/gui/jump.cs:1112 ../src/gui/jump.cs:1117 ../src/gui/jump.cs:1187
-#: ../src/gui/jump.cs:1190 ../src/gui/jump.cs:1227 ../src/gui/jump.cs:1230
+#: ../src/gui/jump.cs:932 ../src/gui/jump.cs:937 ../src/gui/jump.cs:966
+#: ../src/gui/jump.cs:969 ../src/gui/jump.cs:990 ../src/gui/jump.cs:993
+#: ../src/gui/jump.cs:1108 ../src/gui/jump.cs:1113 ../src/gui/jump.cs:1183
+#: ../src/gui/jump.cs:1186 ../src/gui/jump.cs:1223 ../src/gui/jump.cs:1226
 msgid "Yes"
 msgstr "Sí"
 
-#: ../src/gui/jump.cs:937 ../src/gui/jump.cs:942 ../src/gui/jump.cs:1114
-#: ../src/gui/jump.cs:1119
+#: ../src/gui/jump.cs:934 ../src/gui/jump.cs:939 ../src/gui/jump.cs:1110
+#: ../src/gui/jump.cs:1115
 msgid "No"
 msgstr "No"
 
-#: ../src/gui/jump.cs:1099 ../src/gui/run.cs:884
+#: ../src/gui/jump.cs:1095 ../src/gui/run.cs:884
 msgid "Limited value"
 msgstr "Valor limitante"
 
-#: ../src/gui/jump.cs:1132 ../src/gui/run.cs:906
+#: ../src/gui/jump.cs:1128 ../src/gui/run.cs:906
 msgid "Seconds"
 msgstr "Segundos"
 
@@ -2766,39 +2763,39 @@ msgstr "Carreras simples"
 msgid "Runs interval"
 msgstr "Carreras con tramos"
 
-#: ../src/gui/stats.cs:110 ../src/statType.cs:344
+#: ../src/gui/stats.cs:111 ../src/statType.cs:344
 msgid "Average Index"
 msgstr "Índice medio"
 
-#: ../src/gui/stats.cs:112 ../src/gui/stats.cs:440 ../src/gui/stats.cs:504
-#: ../src/gui/stats.cs:730 ../src/gui/stats.cs:926 ../src/statType.cs:360
+#: ../src/gui/stats.cs:113 ../src/gui/stats.cs:444 ../src/gui/stats.cs:508
+#: ../src/gui/stats.cs:737 ../src/gui/stats.cs:936 ../src/statType.cs:360
 msgid "Evolution"
 msgstr "Evolución"
 
-#: ../src/gui/stats.cs:116 ../src/gui/stats.cs:388 ../src/gui/stats.cs:771
+#: ../src/gui/stats.cs:119 ../src/gui/stats.cs:392 ../src/gui/stats.cs:781
 #: ../src/statType.cs:248
 msgid "No indexes"
 msgstr "Sin índices"
 
 #. put none in combo
-#: ../src/gui/stats.cs:137 ../src/gui/stats.cs:625 ../src/stats/main.cs:237
+#: ../src/gui/stats.cs:140 ../src/gui/stats.cs:629 ../src/stats/main.cs:241
 msgid "None"
 msgstr "Ninguno"
 
-#: ../src/gui/stats.cs:138 ../src/stats/main.cs:242
+#: ../src/gui/stats.cs:141 ../src/stats/main.cs:246
 msgid "Invert"
 msgstr "Invertir"
 
 #. if selected 'male' or 'female', showSex and redo the treeview if needed
-#: ../src/gui/stats.cs:140 ../src/gui/stats.cs:304 ../src/stats/main.cs:253
+#: ../src/gui/stats.cs:143 ../src/gui/stats.cs:307 ../src/stats/main.cs:257
 msgid "Male"
 msgstr "Hombre"
 
-#: ../src/gui/stats.cs:141 ../src/gui/stats.cs:305 ../src/stats/main.cs:267
+#: ../src/gui/stats.cs:144 ../src/gui/stats.cs:308 ../src/stats/main.cs:271
 msgid "Female"
 msgstr "Mujer"
 
-#: ../src/gui/stats.cs:943 ../src/report.cs:361
+#: ../src/gui/stats.cs:953 ../src/report.cs:361
 msgid "Jumper's best"
 msgstr "Máximo/s del saltador"
 
@@ -3213,15 +3210,15 @@ msgstr "Peso extra"
 
 #: ../src/stats/potency.cs:142 ../src/stats/djIndex.cs:125
 #: ../src/stats/djQ.cs:125 ../src/stats/fv.cs:118 ../src/stats/global.cs:147
-#: ../src/stats/ieIub.cs:141 ../src/stats/rjEvolution.cs:272
-#: ../src/stats/rjIndex.cs:127 ../src/stats/rjPotencyBosco.cs:129
-#: ../src/stats/sjCmjAbk.cs:123 ../src/stats/sjCmjAbkPlus.cs:142
+#: ../src/stats/ieIub.cs:141 ../src/stats/rjIndex.cs:127
+#: ../src/stats/rjPotencyBosco.cs:129 ../src/stats/sjCmjAbk.cs:123
+#: ../src/stats/sjCmjAbkPlus.cs:142
 msgid " various sessions "
 msgstr "varias sesiones"
 
 #: ../src/stats/potency.cs:145 ../src/stats/djIndex.cs:128
 #: ../src/stats/djQ.cs:128 ../src/stats/fv.cs:121 ../src/stats/global.cs:150
-#: ../src/stats/ieIub.cs:144 ../src/stats/rjEvolution.cs:275
+#: ../src/stats/ieIub.cs:144 ../src/stats/rjEvolution.cs:271
 #: ../src/stats/rjIndex.cs:130 ../src/stats/rjPotencyBosco.cs:132
 #: ../src/stats/sjCmjAbk.cs:126 ../src/stats/sjCmjAbkPlus.cs:145
 msgid " session "
@@ -3349,13 +3346,13 @@ msgstr "Todos los valores"
 msgid "Avg values of each jumper"
 msgstr "Valores medios de cada saltador"
 
-#: ../src/stats/rjEvolution.cs:281
+#: ../src/stats/rjEvolution.cs:276
 #, csharp-format
 msgid " (best {0} consecutive jumps marked using [tf/tc *100])"
 msgstr ""
 " (se han resaltado los mejores {0} saltos consecutivos usando [tf/tc *100])"
 
-#: ../src/stats/rjEvolution.cs:284
+#: ../src/stats/rjEvolution.cs:279
 #, csharp-format
 msgid "{0} in Rj Evolution applied to {1} on {2}{3}"
 msgstr "{0} en Rj Evolution aplicado a {1} en {2}{3}"

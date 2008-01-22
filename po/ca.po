@@ -3010,7 +3010,7 @@ msgstr "Bo"
 
 #: ../src/runType.cs:170
 msgid "Average"
-msgstr "Mitjà"
+msgstr "Mitja"
 
 #: ../src/runType.cs:171
 msgid "Fair"

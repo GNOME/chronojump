@@ -78,8 +78,9 @@ public class GraphRjEvolution : StatRjEvolution
 		}
 		
 		
-		CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+		CurrentGraphData.LabelLeft = Catalog.GetString("Time") + "(s)";
 		CurrentGraphData.LabelRight = "";
+		CurrentGraphData.LabelBottom = Catalog.GetString("Jumps");
 	}
 
 	protected override void printData (string [] statValues) 

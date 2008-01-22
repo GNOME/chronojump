@@ -39,6 +39,7 @@ public class GraphRjAVGSD : StatRjAVGSD
 	//for simplesession
 	GraphSerie serieAVG;
 	GraphSerie serieSD;
+	GraphSerie serieJumps;
 
 	public GraphRjAVGSD (StatTypeStruct myStatTypeStruct, string indexType) 
 	{
@@ -46,7 +47,7 @@ public class GraphRjAVGSD : StatRjAVGSD
 
 		completeConstruction (myStatTypeStruct, treeview);
 
-		this.dataColumns = 2; //for Simplesession (avg, sd)
+		this.dataColumns = 3; //for Simplesession (avg, sd, jumps)
 
 		//no average for this stat
 		//if (statsJumpsType == 2) {
@@ -69,24 +70,34 @@ public class GraphRjAVGSD : StatRjAVGSD
 
 		serieAVG = new GraphSerie();
 		serieSD = new GraphSerie();
+		serieJumps = new GraphSerie();
 
-		serieAVG.Title = Catalog.GetString("Average");
-		serieSD.Title = Catalog.GetString("SD");
+		serieAVG.Title = Catalog.GetString("Index") + " " + Catalog.GetString("Average");
+		serieSD.Title = Catalog.GetString("Index") + " " + Catalog.GetString("SD");
+		serieJumps.Title = Catalog.GetString("Jumps");
 
 		serieAVG.IsLeftAxis = true;
 		serieSD.IsLeftAxis = true;
+		serieJumps.IsLeftAxis = false;
 
 		serieAVG.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
 				6, new Pen (Color.FromName("Red"), 2.0F));
 		serieSD.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 				6, new Pen (Color.FromName("Black"), 2.0F));
+		serieJumps.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
+				8, new Pen (Color.FromName("Blue"), 2.0F));
 
 		//for the line between markers
 		serieAVG.SerieColor = Color.FromName("Red");
 		serieSD.SerieColor = Color.FromName("Black");
+		//serieJumps.SerieColor = Color.FromName("Blue");
 
-		CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-		CurrentGraphData.LabelRight = "";
+		CurrentGraphData.LabelLeft = 
+			Catalog.GetString("Average") + ", " +
+			Catalog.GetString("SD");
+		CurrentGraphData.LabelRight = Catalog.GetString("Jumps");
+
+		CurrentGraphData.IsRightAxisInteger = true;
 	}
 
 	protected override void printData (string [] statValues) 
@@ -106,8 +117,10 @@ public class GraphRjAVGSD : StatRjAVGSD
 				serieAVG.SerieData.Add(myValue);
 			else if(i == 2)
 				serieSD.SerieData.Add(myValue);
+			else if(i == 3)
+				serieJumps.SerieData.Add(myValue);
 
-			if (i == 2)
+			if (i == 3)
 				i = 0;
 			else
 				i++;
@@ -118,23 +131,29 @@ public class GraphRjAVGSD : StatRjAVGSD
 		if(GraphSeries.Count == 0) {
 			GraphSeries.Add(serieAVG);
 			GraphSeries.Add(serieSD);
+			GraphSeries.Add(serieJumps);
 		}
 	}
-	
+
+	//overrided because SD have to be plot different (just in the top and down of AVG)	
 	protected override int plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
 	{
-		double[] lineData = new double[ xtics ];
+		double[] lineData = new double[ xtics-( (xtics-2)-(markedRows.Count) ) ];
+		double[] lineDataJumps = new double[ xtics-( (xtics-2)-(markedRows.Count) ) ];
 
 		Marker m = serieAVG.SerieMarker;
 		Marker mSDUp = new Marker (Marker.MarkerType.TriangleUp, 
 				6, new Pen (Color.FromName("Black"), 1.0F));
 		Marker mSDDown = new Marker (Marker.MarkerType.TriangleDown, 
 				6, new Pen (Color.FromName("Black"), 1.0F));
+		Marker mJumps = serieJumps.SerieMarker;
 
 		PointPlot pp;
 		LinePlot lp;
 		PointPlot ppSDUp;
 		PointPlot ppSDDown;
+		PointPlot ppJumps;
+		//LinePlot lpJumps;
 
 		pp = new PointPlot( m );
 		pp.Label = serieAVG.Title; 
@@ -144,9 +163,15 @@ public class GraphRjAVGSD : StatRjAVGSD
 		ppSDUp = new PointPlot( mSDUp );
 		ppSDDown = new PointPlot( mSDDown );
 		ppSDUp.Label = serieSD.Title; 
+		ppJumps = new PointPlot( mJumps );
+		ppJumps.Label = serieJumps.Title; 
+		//lpJumps = new LinePlot();
+		//lpJumps.Label = serieJumps.Title; 
+		//lpJumps.Color = serieJumps.SerieColor;
 
 		//left margin
 		lineData[0] = double.NaN;
+		lineDataJumps[0] = double.NaN;
 
 		int added=1;
 		int counter=0;
@@ -158,26 +183,37 @@ public class GraphRjAVGSD : StatRjAVGSD
 				continue;
 			}
 
-			if(myValue == "-") 
-				lineData[added++] = double.NaN;
-			else 
-				lineData[added++] = Convert.ToDouble(myValue);
+			if(myValue == "-") {
+				lineData[added] = double.NaN;
+				lineDataJumps[added] = double.NaN;
+			} else {
+				lineData[added] = Convert.ToDouble(myValue);
+				lineDataJumps[added] = Convert.ToDouble(serieJumps.SerieData[counter]);
+			}
 
+			added++;
 			counter++;
 		}
 
 		//right margin
 		lineData[added] = double.NaN;
+		lineDataJumps[added] = double.NaN;
+
 
 		lp.DataSource = lineData;
 		pp.OrdinateData = lineData;
 		ppSDUp.OrdinateData = convertLineDataToSDData(lineData, serieSD.SerieData, true);
 		ppSDDown.OrdinateData = convertLineDataToSDData(lineData, serieSD.SerieData, false);
+		//lpJumps.DataSource = lineDataJumps;
+		ppJumps.OrdinateData = lineDataJumps;
 
-		pp.AbscissaData = new StartStep( 0, 1 ); //ini 0, step 1 (ini 0 because in lineData we start with blank value)
+	       	//ini 0, step 1 (ini 0 because in lineData we start with blank value)
+		pp.AbscissaData = new StartStep( 0, 1 );
+		ppJumps.AbscissaData = new StartStep( 0, 1 );
 		ppSDUp.AbscissaData = new StartStep( 0, 1 );
 		ppSDDown.AbscissaData = new StartStep( 0, 1 );
 		pp.ShowInLegend = false;
+		ppJumps.ShowInLegend = true;
 		ppSDUp.ShowInLegend = true; //only need to show it one time
 		ppSDDown.ShowInLegend = false;
 
@@ -185,8 +221,10 @@ public class GraphRjAVGSD : StatRjAVGSD
 		plot.Add( pp );
 		plot.Add( ppSDUp );
 		plot.Add( ppSDDown );
+		//plot.Add( lpJumps, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
+		plot.Add( ppJumps, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
 
-		int acceptedSerie = 1;
+		int acceptedSerie = 2;
 
 		return acceptedSerie; //for knowing if a serie was accepted, and then createAxisGraphSeries
 	}

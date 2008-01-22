@@ -30,8 +30,14 @@ public class GraphData
 	public ArrayList XAxisNames;
 	public string LabelLeft;
 	public string LabelRight;
+	public string LabelBottom;
+	public bool IsLeftAxisInteger;
+	public bool IsRightAxisInteger;
 	
 	public GraphData() {
 		XAxisNames = new ArrayList();
+		IsLeftAxisInteger = false;
+		IsRightAxisInteger = false;
+		LabelBottom = "";
 	}
 }	

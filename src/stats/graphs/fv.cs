@@ -99,14 +99,16 @@ public class GraphFv : StatFv
 			serieJump2.SerieColor = Color.FromName("Blue");
 		
 			//this index is measured in height of CdG (not in tv)
-			CurrentGraphData.LabelLeft = "cm";
-			CurrentGraphData.LabelRight = "%";
+			CurrentGraphData.LabelLeft = 
+				jump1 + " " + Catalog.GetString("Height") + "(cm), " + 
+				jump2 + " " + Catalog.GetString("Height") + "(cm)";
+			CurrentGraphData.LabelRight = Catalog.GetString("Index") + "(%)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = "%";
+			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
 	}
@@ -149,9 +151,9 @@ public class GraphFv : StatFv
 					//add created series to GraphSeries ArrayList
 					//check don't do it two times
 					if(GraphSeries.Count == 0) {
-						GraphSeries.Add(serieIndex);
 						GraphSeries.Add(serieJump1);
 						GraphSeries.Add(serieJump2);
+						GraphSeries.Add(serieIndex);
 					}
 					return;
 				}

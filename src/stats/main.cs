@@ -867,6 +867,16 @@ public class Stat
 	//has to be static
 	protected static ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
 	
+	private Grid addGrid() 
+	{
+		Grid myGrid = new Grid();
+		myGrid.VerticalGridType = Grid.GridType.Coarse;
+		Pen majorGridPen = new Pen( Color.LightGray );
+		float[] pattern = {1.0f,2.0f};
+		majorGridPen.DashPattern = pattern;
+		myGrid.MajorGridPen = majorGridPen;
+		return myGrid;
+	}
 
 	public void CreateGraph () 
 	{
@@ -880,6 +890,9 @@ public class Stat
 
 		//create plot (same as below)
 		plot.Clear();
+		
+		plot.Add(addGrid());
+
 		plot.Title = CurrentGraphData.GraphTitle;
 		int acceptedSeries = plotGraphGraphSeries (plot, 
 				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
@@ -889,7 +902,6 @@ public class Stat
 		createAxisGraphSeries (plot, CurrentGraphData);
 
 		writeLegend(plot);
-		plot.Add( new Grid() );
 
 		//put in window
 		//fixes a gtk# garbage collecting bug
@@ -921,7 +933,11 @@ public class Stat
 
 		//create plot (same as above)
 		plot.Clear();
+		
+		plot.Add(addGrid());
+
 		plot.Title = CurrentGraphData.GraphTitle;
+
 		int acceptedSeries = plotGraphGraphSeries (plot, 
 				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
 				GraphSeries);
@@ -930,7 +946,6 @@ public class Stat
 		createAxisGraphSeries (plot, CurrentGraphData);
 
 		writeLegend(plot);
-		plot.Add( new Grid() );
 
 		int x = getSizeX();
 		int y = getSizeY(x, acceptedSeries);
@@ -1154,6 +1169,7 @@ public class Stat
 				//Console.WriteLine("serie.AVG: {0}", mySerie.Avg);
 				hl1.ShowInLegend = false;
 				hl1.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+				//hl1.Pen.Width = 2F;
 				if(mySerie.IsLeftAxis) {
 					plot.Add( hl1 );
 				} else {
@@ -1197,16 +1213,26 @@ public class Stat
 		plot.XAxis1 = la;
 		//plot.XAxis1.LargeTickSize = 0.0f;
 		plot.XAxis1.TicksLabelAngle = 35.0f;
+		if(graphData.LabelBottom != "")
+			la.Label = graphData.LabelBottom;
 	
-		if(graphData.LabelLeft != "") {
-			LinearAxis ly1 = (LinearAxis)plot.YAxis1;
-			ly1.Label = graphData.LabelLeft;
-		}
+		LinearAxis ly1 = new LinearAxis();
+		if(graphData.LabelLeft != "")
+			ly1 = createLinearAxis(graphData.LabelLeft, plot.YAxis1, graphData.IsLeftAxisInteger);
 		
-		if(graphData.LabelRight != "") {
-			LinearAxis ly2 = (LinearAxis)plot.YAxis2;
-			ly2.Label = graphData.LabelRight;
+		LinearAxis ly2 = new LinearAxis();
+		if(graphData.LabelRight != "")
+			ly2 = createLinearAxis(graphData.LabelRight, plot.YAxis2, graphData.IsRightAxisInteger);
+	}
+
+	private LinearAxis createLinearAxis(string label, Axis myAxis, bool isInt) {
+		LinearAxis ly = (LinearAxis) myAxis;
+		ly.Label = label;
+		if(isInt) {
+			ly.LargeTickStep = 1;
+			ly.NumberOfSmallTicks = 0;
 		}
+		return ly;
 	}
 	
 	protected void writeLegend(IPlotSurface2D plot)

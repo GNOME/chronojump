@@ -43,12 +43,6 @@ public class Report : ExportSession
 	public bool ShowReactionTimes;
 	public bool ShowPulses;
 	
-/*	
-	private int prefsDigitsNumber;
-	private bool heightPreferred;
-	private bool weightStatsPercent;
-*/
-
 	bool toReport = true;
 
 	public ArrayList StatisticsData;
@@ -454,19 +448,6 @@ public class Report : ExportSession
 		}
 	}
 
-/*	
-	public int PrefsDigitsNumber {
-		set { prefsDigitsNumber = value; }
-	}
-	
-	public bool HeightPreferred {
-		set { heightPreferred = value; }
-	}
-	
-	public bool WeightStatsPercent {
-		set { weightStatsPercent = value; }
-	}
-*/	
 	public string Progversion {
 		set { progversion = value; }
 	}

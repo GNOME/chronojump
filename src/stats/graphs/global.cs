@@ -91,20 +91,20 @@ public class GraphGlobal : StatGlobal
 			serieTv.SerieColor = Color.FromName("Blue");
 		
 			if(heightPreferred) {
-				CurrentGraphData.LabelLeft = Catalog.GetString("centimeters");
+				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
 			} else {
-				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
 			}
-			CurrentGraphData.LabelRight = "%";
+			CurrentGraphData.LabelRight = Catalog.GetString("Index") + "(%)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
 			if(heightPreferred) {
-				CurrentGraphData.LabelLeft = Catalog.GetString("centimeters");
+				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
 			} else {
-				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
 			}
 			CurrentGraphData.LabelRight = "";
 		}
@@ -127,8 +127,8 @@ public class GraphGlobal : StatGlobal
 
 					//global is nicer and cleaner  without the AVG and SD
 					if(GraphSeries.Count == 0) {
-						GraphSeries.Add(serieIndex);
 						GraphSeries.Add(serieTv);
+						GraphSeries.Add(serieIndex);
 					}
 					
 					/*

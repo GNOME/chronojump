@@ -33,7 +33,8 @@ public class StatRjAVGSD : Stat
 	protected string [] columnsString = { 
 		Catalog.GetString("Jumper"), 
 		Catalog.GetString("AVG"), 
-		Catalog.GetString("SD") };
+		Catalog.GetString("SD"),
+		Catalog.GetString("Jumps") };
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatRjAVGSD () 
@@ -49,7 +50,7 @@ public class StatRjAVGSD : Stat
 
 		this.indexType = indexType;
 		
-		this.dataColumns = 2;	//for simplesession (index, height, tv, tc, fall)
+		this.dataColumns = 3;
 	
 		/*
 		 * only simplesession, because it has to plot two values: AVG, and SD	
@@ -57,7 +58,7 @@ public class StatRjAVGSD : Stat
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
 		*/
-			store = getStore(dataColumns +1); //jumper, AVG, SD 
+			store = getStore(dataColumns +1); //jumper, AVG, SD, jumps
 		//}
 		
 		if(toReport) {
@@ -131,6 +132,7 @@ public class StatRjAVGSD : Stat
 			 * if both values are different than "-"
 			 * and prepare data for AVG and SD of index
 			 */
+			int numberOfJumps = 0;
 			for (int i=firstTCPos; i+1 < strFull.Length; i+=2) {
 				if(strFull[i] != "-" && strFull[i+1] != "-") {
 					double myIndex = getIndex(
@@ -144,13 +146,18 @@ public class StatRjAVGSD : Stat
 
 					sepAVG = "=";
 					sepSD = ":";
+
+					numberOfJumps ++;
 				}
 			}
 
 			double avg = Util.GetAverage(valuesListForAVG);
 			double sd = Util.CalculateSD(valuesListForSD, sumValues, count);
 
-			string rowConverted = strFull[0] + ":" + avg.ToString() + ":" + sd.ToString(); 
+			string rowConverted = 
+				strFull[0] + ":" + 
+				avg.ToString() + ":" + sd.ToString() + ":" + 
+				numberOfJumps.ToString(); 
 
 			arrayConverted.Add(rowConverted); 
 		}

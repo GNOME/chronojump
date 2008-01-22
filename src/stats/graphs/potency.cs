@@ -99,14 +99,18 @@ public class GraphPotency : StatPotency
 			serieExtraWeight.SerieColor = Color.FromName("Blue");
 			serieHeight.SerieColor = Color.FromName("Black");
 		
-			CurrentGraphData.LabelLeft = Catalog.GetString("watts");
-			CurrentGraphData.LabelRight = "kg, cm";
+			CurrentGraphData.LabelLeft = Catalog.GetString("Peak Power") + 
+				"(" + Catalog.GetString("watts") + ")";
+			CurrentGraphData.LabelRight = 
+				Catalog.GetString("Weight") + "(kg), " + 
+				Catalog.GetString("Height") + "(cm)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("watts");
+			CurrentGraphData.LabelLeft = Catalog.GetString("Peak Power") + 
+				"(" + Catalog.GetString("watts") + ")";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

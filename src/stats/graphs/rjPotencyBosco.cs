@@ -78,10 +78,10 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			serieFall = new GraphSerie();
 				
 			serieIndex.Title = Catalog.GetString("Index");
-			serieTc.Title = Catalog.GetString("TC");
-			serieTv.Title = Catalog.GetString("TF");
-			serieJumps.Title = Catalog.GetString("Jumps") + "*10";
-			serieTime.Title = Catalog.GetString("Time") + "*10";
+			serieTc.Title = Catalog.GetString("TC") + " (" + Catalog.GetString("AVG") + ")";
+			serieTv.Title = Catalog.GetString("TF") + " (" + Catalog.GetString("AVG") + ")";
+			serieJumps.Title = Catalog.GetString("Jumps") + " *10";
+			serieTime.Title = Catalog.GetString("Time") + " *10";
 			serieFall.Title = Catalog.GetString("Fall");
 			
 			serieIndex.IsLeftAxis = false;
@@ -114,18 +114,20 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			serieTime.SerieColor = Color.FromName("Black");
 			serieFall.SerieColor = Color.FromName("Chocolate");
 		
-			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+			CurrentGraphData.LabelLeft = 
+				Catalog.GetString("TC") + "(s), " +
+				Catalog.GetString("TF") + "(s)";
 			CurrentGraphData.LabelRight = 
-				"%, " +
-				Catalog.GetString("jumps") + ", " + 
-				"seconds" + ", " + 
-				"cm";
+				Catalog.GetString("Index") + "(%), " +
+				Catalog.GetString("Jumps") + ", " + 
+				Catalog.GetString("Time") + "(s), " + 
+				Catalog.GetString("Fall") + "(cm)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = "%";
+			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
 	}
@@ -185,9 +187,9 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 					//add created series to GraphSeries ArrayList
 					//check don't do it two times
 					if(GraphSeries.Count == 0) {
-						GraphSeries.Add(serieIndex);
 						GraphSeries.Add(serieTc);
 						GraphSeries.Add(serieTv);
+						GraphSeries.Add(serieIndex);
 						GraphSeries.Add(serieJumps);
 						GraphSeries.Add(serieTime);
 						GraphSeries.Add(serieFall);

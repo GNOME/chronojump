@@ -70,8 +70,8 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			serieWeight = new GraphSerie();
 				
 			serieTv.Title = Catalog.GetString("TF");
-			serieHeight.Title = "Height";
-			serieWeight.Title = "Weight";
+			serieHeight.Title = Catalog.GetString("Height");
+			serieWeight.Title = Catalog.GetString("Weight");
 			
 			serieTv.IsLeftAxis = true;
 			serieHeight.IsLeftAxis = false;
@@ -90,21 +90,19 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			serieHeight.SerieColor = Color.FromName("Green");
 			serieWeight.SerieColor = Color.FromName("Chocolate");
 		
-			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			//if(percent) {
-				CurrentGraphData.LabelRight = "%, cm";
-			//} else {
-			//	CurrentGraphData.LabelRight = "Kg, cm";
-			//}
+			CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
+			CurrentGraphData.LabelRight = 
+				Catalog.GetString("Height") + "(cm), " +
+				Catalog.GetString("Weight") + "(Kg)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
 			if(heightPreferred) {
-				CurrentGraphData.LabelLeft = Catalog.GetString("centimeters");
+				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
 			} else {
-				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
 			}
 			CurrentGraphData.LabelRight = "";
 		}
@@ -147,8 +145,8 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 					//add created series to GraphSeries ArrayList
 					//check don't do it two times
 					if(GraphSeries.Count == 0) {
-						GraphSeries.Add(serieHeight);
 						GraphSeries.Add(serieTv);
+						GraphSeries.Add(serieHeight);
 						GraphSeries.Add(serieWeight);
 					}
 					return;

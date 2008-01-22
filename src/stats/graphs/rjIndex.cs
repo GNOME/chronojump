@@ -100,14 +100,18 @@ public class GraphRjIndex : StatRjIndex
 			serieTv.SerieColor = Color.FromName("Blue");
 			serieFall.SerieColor = Color.FromName("Chocolate");
 		
-			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			CurrentGraphData.LabelRight = "%, cm";
+			CurrentGraphData.LabelLeft = 
+				Catalog.GetString("TC") + "(s), " +
+				Catalog.GetString("TF") + "(s)";
+			CurrentGraphData.LabelRight = 
+				Catalog.GetString("Index") + "(%), " +
+				Catalog.GetString("Fall") + "(cm)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = "%";
+			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
 
@@ -156,9 +160,9 @@ public class GraphRjIndex : StatRjIndex
 					//add created series to GraphSeries ArrayList
 					//check don't do it two times
 					if(GraphSeries.Count == 0) {
-						GraphSeries.Add(serieIndex);
 						GraphSeries.Add(serieTc);
 						GraphSeries.Add(serieTv);
+						GraphSeries.Add(serieIndex);
 						GraphSeries.Add(serieFall);
 					}
 					return;

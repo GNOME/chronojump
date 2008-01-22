@@ -242,7 +242,7 @@ public class ExportSession
 
 	protected void printJumps()
 	{
-		int dec=4; //decimals
+		int dec=prefsDigitsNumber; //decimals
 		
 		string weightName = Catalog.GetString("Weight");
 		if(weightStatsPercent)
@@ -284,7 +284,7 @@ public class ExportSession
 						myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
 						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
 						//myStr[8] + ":" + 		//jump.weight,
-						myWeight + ":" +
+						Util.TrimDecimals(myWeight, dec) + ":" +
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
 						myStr[9]		//jump.description
@@ -297,7 +297,8 @@ public class ExportSession
 
 	protected void printJumpsRj(bool showSubjumps)
 	{
-		int dec=4; //decimals
+		int dec=prefsDigitsNumber; //decimals
+
 		ArrayList myData = new ArrayList(1);
 		bool isFirstHeader = true;
 		
@@ -364,7 +365,7 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetInitialSpeed(myStr[10], true), dec) + ":" +  	//Avg Initial speed (true:m/s)
 					myStr[7] + ":" + 	 	//jumpRj.Fall
 					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
-					myWeight + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
+					Util.TrimDecimals(myWeight,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
 					myStr[9]		//jumpRj.Description
 					);
@@ -417,7 +418,7 @@ public class ExportSession
 	
 	protected void printRuns()
 	{
-		int dec=4; //decimals
+		int dec=prefsDigitsNumber; //decimals
 		
 		if(myRuns.Length > 0) {
 			ArrayList myData = new ArrayList(1);
@@ -448,7 +449,8 @@ public class ExportSession
 	
 	protected void printRunsInterval(bool showSubruns)
 	{
-		int dec=4; //decimals
+		int dec=prefsDigitsNumber; //decimals
+
 		ArrayList myData = new ArrayList(1);
 		bool isFirstHeader = true;
 		
@@ -530,7 +532,7 @@ public class ExportSession
 	
 	protected void printReactionTimes()
 	{
-		int dec=4; //decimals
+		int dec=prefsDigitsNumber; //decimals
 		
 		if(myReactionTimes.Length > 0) {
 			ArrayList myData = new ArrayList(1);
@@ -560,7 +562,8 @@ public class ExportSession
 	//no need of bool because all the info is in the sub values
 	protected void printPulses()
 	{
-		int dec=4; //decimals
+		int dec=prefsDigitsNumber; //decimals
+		
 		ArrayList myData = new ArrayList(1);
 		bool isFirstHeader = true;
 		

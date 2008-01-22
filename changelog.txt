@@ -1,8 +1,23 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+22 jan 2007
+	0.62-svn2
+	graphs:
+	-All graphs have now clearer labels (with units) on left and right axis
+	-Graphs now have a soft grid
+	-Grid never overrides now a graph avg
+	-currentGraphData can record integer axis (done for Reactive AVG SD)
+	-Improvements on graphs: rjPotencyBosco, rjEvolution (bottom label)
+	-Reactive AVG SD indexes, now plot jumps.
+
+	export session and report now with decimals selected in preferences
+
+	updated translations: ca, es, oc
+
 18 dec 2007
 	fixed: 504069 "Create two new RJ evo with AVG and SD stats and
-	graph". Done stats & graphs
+	graph". Done stats & graphs. Called "Reactive AVG SD (RJ Index)" and
+	"Reactive AVG SD (Q Index)"
 
 7 dec 2007 (Major RELEASE 0.62 for Linux and windows)
 	avg works on all graphs simple session & multisession (obvioulsy if they have

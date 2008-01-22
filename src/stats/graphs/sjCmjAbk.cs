@@ -83,17 +83,17 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			serieTv.SerieColor = Color.FromName("Blue");
 			serieHeight.SerieColor = Color.FromName("Red");
 		
-			CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
-			CurrentGraphData.LabelRight = Catalog.GetString("centimeters");
+			CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
+			CurrentGraphData.LabelRight = Catalog.GetString("Height") + "(cm)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
 			if(heightPreferred) {
-				CurrentGraphData.LabelLeft = Catalog.GetString("centimeters");
+				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
 			} else {
-				CurrentGraphData.LabelLeft = Catalog.GetString("seconds");
+				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
 			}
 			CurrentGraphData.LabelRight = "";
 		}
@@ -131,8 +131,8 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 					//add created series to GraphSeries ArrayList
 					//check don't do it two times
 					if(GraphSeries.Count == 0) {
-						GraphSeries.Add(serieHeight);
 						GraphSeries.Add(serieTv);
+						GraphSeries.Add(serieHeight);
 					}
 					return;
 				}

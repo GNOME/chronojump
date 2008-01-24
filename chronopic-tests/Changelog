@@ -1,0 +1,43 @@
+2004-10-10  Juan Gonzalez <juan@iearobotics.com>
+            -Comenzado test-gsalta-hw. Se lee de la entrada estandar,
+             detectando las tramas que viene del hw de gsalta.
+            -Probado con gsalta2.asm. Funciona correctamente.
+            -Para probar hay que hacer:
+               $ cat /dev/ttyS0 | ./test-gsalta-hw
+               Al apretar el pulsador, aparecera su estado y el tiempo
+               transcurrido desde el ultimo cambio.
+2004-10-11  Juan Gonzalez <juan@iearobotics.com>
+            -Se tiene en cuenta el tiempo maximo. Se imprime "> 65.280 ms"
+             cuando ha llegado al maximo.
+            -Anadidos colores en la impresion (usando el modulo termansi.c)
+2004-10-12  Juan Gonzalez <juan@iearobotics.com>
+            -Cambiada la precision. La version gsalta5 envia el tiempo
+             en decimas de ms (0.1ms).
+            -Ahora se imprime "> 6.538 ms" cuando llega al maximo
+2004-10-16  Juan Gonzalez <juan@iearobotics.com>
+            -(Cambios hechos con Xavi)
+            
+2005-02-04  Juan Gonzalez <juan@iearobotics.com>
+            -Programa chronopic-serial-conf.c, para configurar el pueto
+             serie para trabajar con ChronoPic
+            -Metido en el CVS de Software-libre.org
+            -Programa test-tramas, para visualizar las tramas enviadas
+             por ChronoPic
+2005-02-05  Juan Gonzalez <juan@iearobotics.com>
+            -Chronopic-serial-conf:
+              -Anadido parametro -h para obtener ayuda
+            -test-tramas:
+              -La fuente de datos puede ser la entrada estandar o el 
+               puerto serie.
+              -Anadido parametro -h para la ayuda
+            -chronopic.c: Funciones de procesado de las tramas 
+               para chronopic. Para ser usado por cualquier programa que
+               quiera acceder a chronopic.
+            -test-precision:
+              -Validacion de Chronopic
+              -Anadido parametro -h para la ayuda
+            -test-saltos: Medir el tiempo de vuelo de los saltos
+            -Creada libchronopic.so
+2005-02-06  Juan Gonzalez <juan@iearobotics.com>
+            -Creado modulo chronopic.cs, para Mono (c#)
+            -test-saltos.mono, medir el tiempo de vuelo en Mono

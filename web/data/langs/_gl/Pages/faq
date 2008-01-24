@@ -37,30 +37,31 @@ Escribe un correo á lista <a href="contact_gl.html">chronojump-list</a> e verem
 <h5 id="chronopic">Cronómetro Chronopic</h5>
 
 <ol>
+
+<p><li>Onde podo mercar o Chronopic?<p>
+<p>
+Lea la <a href="construction_gl.html">páxina de Construción</a>.
+
+<p><li>Podo construír o fabricar de forma industrial o Chronopic?<p>
+<p>
+Si, coa información que se atopa na <a href="construction_gl.html">páxina de Construción</a> pode fabricalo de forma manual ou industrial en calquera país.
+
+<p><li># ¿Podo vender o Chronopic?</p>
+<p>
+Si, ao prezo que consideres oportuno. Cabo considerar a licenza do hardware: <a href="http://creativecommons.org/licenses/by-sa/2.5/es/deed.gl">Recoñecemento-Compartir baixo a mesma licenza. 2.5 España</a>. 
+
+<p><li>¿É posible anunciarse en voso web como distribuidor de Chronojump e/ou Chronopic?<p>
+<p>
+Escribe un correo á:
+
+<img align="top" src=":::imageLink:::/xaviblas-correo.png" width="215" height="32">
+
+
 <li>Por que é necesario un cronómetro se calquera ordenador pode facer esa función?
 <p>Os sistemas operativos modernos son multitarefa, o que significa que o ordenador asigna pequenas cantidades de tempo para a realización de cada unha das tarefas de maneira que parece que executa todas a un tempo. Se o ordenador se encarga de captar os estímulos que proceden da plataforma de contactos, en ocasións será tardío en advertir estes eventos porque estará ocupado noutros <i>asuntos</i>, o que se vén traducir en problemas de fiabilidade debido a que dous saltos da mesma duración poderían obter medicións distintas por circunstancias aleatorias.<br>
 O cronómetro externo que construímos está especializado na captación de eventos na plataforma de contactos polo que non aparecerán erros de fiabilidade nos seus rexistros.<br>
 Chronopic permitirá ademais que se poida usar ChronoJump ou a súa versión reducida ChronoJump-mini en case calquera dispositivo electrónico, e asegura unha boa compatibilidade cara ao futuro.<br>
 Para máis información consulte este artigo: <a href=":::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf">"Proxecto ChronoJump: Sistema de Medida da Capacidade do Salto usando Software e Hardware Libres" (en castelán)</a>.
-
-
-<p><li>Lin que o cronómetro actual é un prototipo, cando estará dispoñible a versión final?
-<p>
-Para a construción de Chronopic empregouse a tarxeta adestradora de robots Skypic debido a que é hardware libre, a súa construción está documentada, é posible a súa compra directa e está convenientemente validada. 
-<br>Polo de agora disponse dunha tarxeta de expansión que permite conectar Skypic coa plataforma de contactos e un software (firmware) que permite que Skypic sexa completamente funcional para a detección de estados e eventos na plataforma de contactos. <br>
-Máis adiante crearase a tarxeta Chronopic, con menos instrumentacións que Skypic, de reducidas dimensións e que poderá ser fabricada facilmente ou adquirida por un prezo baixo (15-30 euros en España).<br>
-Para máis información lea esta páxina web: <a href="http://www.iearobotics.com/personal/juan/proyectos/chronopic/1.0/">Documentación de Chronopic 1.0 e o Prototipo 1 (en castelán)</a>.
-
-<br><b>Actualización (Set 2007)</b>: La documentación de la Chronopic 2.0 ya está en la red 
-Lea la <a href="construction_gl.html">páxina de Construción</a>.
-
-<p><li>Como podo construír o cronómetro?<p>
-<p>
-Lea la <a href="construction_gl.html">páxina de Construción</a>.
-
-<p><li>Onde podo mercar o cronómetro?
-
-Lea la <a href="construction_gl.html">páxina de Construción</a>.
 
 </ol>
 <p align="right"><a href="#top">Subir</a></p>

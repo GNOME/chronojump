@@ -30,8 +30,8 @@ fi
 
 mkdir $release_dir
 
-#copy files
-cp -r build/* $release_dir/.
+#copy files ('L' for copying de symbolic link of chronopic-tests)
+cp -rL build/* $release_dir/.
 
 #copy docs, license & other text stuff (these are not on "build" dir)
 mkdir $release_dir/docs

@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+24 jan 2007
+	Added windows driver to the releases on windows executing data
+	Added chronopic-tests (fixes: 511819) (added also on create_release)
+
 22 jan 2007
 	0.62-svn2
 	graphs:

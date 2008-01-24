@@ -39,14 +39,14 @@ void help(void)
   "Si no se especifica dispositivo serie, se toma la entrada estandar\n");
   printf ("\n");
   printf ("Dispositivo serie: \n");
-  printf ("   -Dispositivo donde esta conectado ChronoPic. Ej. /dev/ttyS0\n");
+  printf ("   -Dispositivo donde esta conectado ChronoPic. Ej. /dev/ttyUSB0\n");
   printf ("\n");
   printf ("Opciones:\n");
   printf ("    -h : Mostrar esta ayuda\n");
   printf ("\n");
-  printf ("Ejemplo1: test-tramas /dev/ttyS0\n");
+  printf ("Ejemplo1: test-tramas /dev/ttyUSB0\n");
   printf (
-  "   -Analizar las tramas de Chronopic, conectado al puerto serie /dev/ttyS0\n");
+  "   -Analizar las tramas de Chronopic, conectado al puerto serie /dev/ttyUSB0\n");
   printf ("\n");
   printf ("Ejemplo2: test-tramas < prueba\n");
   printf (

@@ -9,7 +9,7 @@
 /*     cronometro (chronopic). La velocidad se establece a 9600 baudios y  */
 /*     se usa la configuracion N81. Al dejarlo asi configurado, es posible */
 /*     leer las tramas de cronojump directamente abriendo el dispositivo   */
-/*     /dev/ttyS0. Resulta muy util para acceder a chronopic desde otro    */
+/*     /dev/ttyUSB0. Resulta muy util para acceder a chronopic desde otro    */
 /*     lenguaje de programacion distinto de C, como por ejemplo C#, Python */
 /*     Java, etc...                                                        */
 /*                                                                         */
@@ -46,7 +46,7 @@ void help(void)
     "Forma de uso:   chronopic-serial-conf dispositivo_serie [opciones]\n");
   printf ("Opciones:\n");
   printf ("    -h : Mostrar esta ayuda\n\n");
-  printf ("Ejemplo: chronopic-serial-conf /dev/ttyS0\n");
+  printf ("Ejemplo: chronopic-serial-conf /dev/ttyUSB0\n");
   printf ("\n");
 }
 

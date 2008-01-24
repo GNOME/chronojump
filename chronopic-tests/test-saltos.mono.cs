@@ -32,7 +32,7 @@ class Test {
     double toff;
     
     //-- Crear objeto chronopic, para acceder al chronopic
-    Chronopic cp = new Chronopic("/dev/ttyS0");
+    Chronopic cp = new Chronopic("/dev/ttyUSB0");
     
     //-- Obtener el estado inicial de la plataforma
     respuesta=cp.Read_platform(out estado_plataforma);

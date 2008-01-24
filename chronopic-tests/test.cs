@@ -34,7 +34,7 @@ public class Test
     w.ShowAll();
     
     //-- Inicializar chronopic
-    cp = new Chronopic("/dev/ttyS0");
+    cp = new Chronopic("/dev/ttyUSB0");
     
     //-- Inicializar otras cosas
     Cola = new Queue();

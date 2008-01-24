@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+24 jan 2007 (2)
+	chronopic-tests all with /dev/ttyUSB0 default values
+
 24 jan 2007
 	Added windows driver to the releases on windows executing data
 	Added chronopic-tests (fixes: 511819) (added also on create_release)

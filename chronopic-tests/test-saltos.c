@@ -31,12 +31,12 @@ void help(void)
     "Forma de uso:   test-saltos dispositivo_serie [opciones]\n");
   printf ("\n");
   printf ("Dispositivo serie: \n");
-  printf ("   -Dispositivo donde esta conectado ChronoPic. Ej. /dev/ttyS0\n");
+  printf ("   -Dispositivo donde esta conectado ChronoPic. Ej. /dev/ttyUSB0\n");
   printf ("\n");
   printf ("Opciones:\n");
   printf ("    -h : Mostrar esta ayuda\n");
   printf ("\n");
-  printf ("Ejemplo: test-saltos /dev/ttyS0\n");
+  printf ("Ejemplo: test-saltos /dev/ttyUSB0\n");
   printf ("\n");
 }
 

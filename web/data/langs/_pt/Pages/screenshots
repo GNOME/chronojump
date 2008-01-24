@@ -2,9 +2,22 @@
 Capturas de telas
 :::endTitle:::
 
-<tt>Clique nas imagens para ampliar</tt>
+<tt>Novas imagens primeiro. Clique nas imagens para ampliar</tt>
 
 <table border="0" cellpadding="4" cellspacing="8">
+
+<tr valign="top">
+	<td width="250">
+		<a href=":::imageLink:::/Chronopic_v3.0.jpg"><img src=":::imageLink:::/Chronopic_v3.0_small.jpg" width="250" height="188"></a>
+		<br>
+		Chronopic 3.0. Desenho Industrial.
+	</td>
+	<td width="250">
+		<a href=":::imageLink:::/Chronopic_v3.0_PCB.jpg"><img src=":::imageLink:::/Chronopic_v3.0_PCB_small.jpg" width="250" height="238"></a>
+		<br>
+		Chronopic 3.0 (PCB). Desenho industrial. 
+	</td>
+</tr>
 
 <tr valign="top">
 	<td width="250">

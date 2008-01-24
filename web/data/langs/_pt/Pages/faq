@@ -37,31 +37,32 @@ Escreva um e-mail à lista <a href="contact_es.html">chronojump-list</a> e verem
 <h5 id="chronopic">Cronómetro Chronopic</h5>
 
 <ol>
-<li>Porque é necessário um cronômetro se qualquer computador pode realizar essa função?
+
+<p><li>Onde posso comprar o Chronopic?
+<p>
+Leia la <a href="construction_pt.html">páxina de Construção</a>.
+
+<p><li>Como posso construir o fabricar industrialmente o chronopic?<p>
+<p>
+Sim, a página web: <a href="construction_pt.html">páxina de Construção</a> você encontrará a construir-lo manualmente ou industrial em cada país.
+
+<p><li>¿Posso vender o Chronopic?</p>
+<p>
+Sim, ao preço que quiser. Você precisa seguir o hardware licença: <a href="http://creativecommons.org/licenses/by-sa/2.5/es/deed.pt">Creative Commons. Atribuição-Compartilhamento pela mesma Licença 2.5 Espanha</a>.
+
+<p><li>¿Posso colocar um anúncio em seu site como um Chronojump e/ou Chronopic distribuidor?</p>
+<p>
+Sim, por favor escreva um e-mail para o endereço indicado nesta imagem:
+
+<img align="top" src=":::imageLink:::/xaviblas-correo.png" width="215" height="32">
+
+<li>Porque é necessário um cronômetro se qualquer computador pode realizar essa função?<p>
 <p>
 Os sistemas operacionais  modernos são multitarefa, o que significa que o computador determina pequenas quantidades de tempo para a realização de cada uma das tarefas de maneira que parece que executa todas ao mesmo tempo. Se o computador se encarrega de captar os estímulos que provem da plataforma de contatos, em ocasiões será tarde em avisar destes eventos porque estará ocupado em outros <i>assuntos</i>, o que se traduz em problemas de confiabilidade devido a que os saltos da mesma duração podreriam obter medições distintas por circunstâncias aleatórias.<br>
 O cronômetro externo que construimos está especializado na captação de eventos na plataforma de contatos pelo que não aparecerão erros de confiabilidade nos seus registros.<br>
 Chronopic permitirá ademáis que se possa usar Chronojump ou sua versão reduzida Chronojump-mini em quase qualquer dispositivo electrônico, e garante uma boa compatibilidade visando o futuro.<br>
 Para mais informação leia este artigo: <a href=":::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf">"Projeto Chronojump: Sistema de Medida da Capacidade de Salto usando Software e Hardware Livres"</a>.
  
-<p><li>Lí que o cronômetro atual é um prototipo: Quando estará pronto a versão final disponível?
-<p>
-Para a construção de chronopic se usou a placa treinadora de robots Skypic debido a que é hardware livre, está documentada sua construção, é possível sua compra direta e está convenientemente validada. 
-<br>Até esta data se dispõe de uma placa de expansão que permite conectar Skypic com a plataforma de contatos e um software (firmware) que permite que Skypic seja completamente funcional para a deteção de estados e eventos na plataforma de contatos. <br>
-Muito em breve se criará a placa Chronopic, com menos instrumentações que Skypic, de reduzidas dimensões e que poderá ser fabricada facilmente ou adquirida por baixo preço (15-30 euros em Espanha).<br>
-Para informação mais detalhada leia esta página web: <a href="http://www.iearobotics.com/personal/juan/proyectos/chronopic/1.0/">documentação de Chronopic 1.0 e o protótipo 1</a>.
-
-<br><b>Actualización (Set 2007)</b>: La documentación de la Chronopic 2.0 ya está en la red 
-Leia la <a href="construction_pt.html">páxina de Construção</a>.
- 
-<p><li>Como posso construir o cronômetro?<p>
-<p>
-Leia la <a href="construction_pt.html">páxina de Construção</a>.
- 
-<p><li>Onde posso comprar o cronômetro?
-<p>
-Leia la <a href="construction_pt.html">páxina de Construção</a>.
-
 </ol>
 <p align="right"><a href="#top">Subir</a></p>
 
@@ -78,7 +79,7 @@ Na web sempre haverá uma versão de Chronojump gratuita, mais você comercializ
  
 <p><li>E quais sistemas operacionais e equipamentos informáticos funciona?
 <p>
-Chronojump está escrito para a plataforma de programação <a href="http://www.mono-project.com">MONO</a>, que foi concebida para facilitar que os programas informáticos funcionem em muitos sistemas operacionais e equipamentos informáticos. Até o momento funciona em sistemas GNU/Linux é Windows.<br>
+Chronojump está escrito para a plataforma de programação <a href="http://www.mono-project.com">MONO</a>, que foi concebida para facilitar que os programas informáticos funcionem em muitos sistemas operacionais e equipamentos informáticos. Até o momento funciona em sistemas GNU/Linux é Windows.
  
 <p><li>Como posso descarregar (download) o programa?
 <p>

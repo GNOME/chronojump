@@ -7,7 +7,7 @@ s-6;<a href=":::imageLink:::/chronojump_new_run_type_spanish.png"><img src=":::i
 s-7;<a href=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish.png"><img src=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish_small.png" width="250" height="188"></a>
 s-8;<a href=":::imageLink:::/chronojump_graphs.jpg"><img src=":::imageLink:::/chronojump_graphs_small.png" width="250" height="188"></a>
 s-9;<a href=":::imageLink:::/chronojump_graphs_reactive.png"><img src=":::imageLink:::/chronojump_graphs_reactive_small.png" width="250" height="188"></a>
-h-1;<a href=":::imageLink:::/chronopic3_metacril.jpg"><img src=":::imageLink:::/chronopic3_metacril_small.jpg" width="250" height="188"></a>
+h-1;<a href=":::imageLink:::/chronopic3-metacrilato.jpg"><img src=":::imageLink:::/chronopic3-metacrilato_small.jpg" width="250" height="188"></a>
 h-2;<a href=":::imageLink:::/Chronopic_v3.0.jpg"><img src=":::imageLink:::/Chronopic_v3.0_small.jpg" width="250" height="188"></a>
 h-3;<a href=":::imageLink:::/Chronopic_v3.0_PCB.jpg"><img src=":::imageLink:::/Chronopic_v3.0_PCB_small.jpg" width="250" height="238"></a>
 h-4;<a href=":::webLink:::/chronopic_2_0_usb_front.jpg"><img src="chronopic_2_0_usb_front_mini.jpg"></a>

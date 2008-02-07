@@ -1,7 +1,8 @@
 <ul>
-<li><a href="mailto:marchesedavid@yahoo.com.ar">David Marchese</a>
 <li><a href="http://www.bortoleto.com/malu.htm">Maria Luisa Belloto</a>
 <li>Bernat Buscà
-<li>Josep Ma Padullés
 <li>Alberto García-Fogeda
+<li><a href="mailto:marchesedavid@yahoo.com.ar">David Marchese</a>
+<li>Josep Ma Padullés
+<li><a href="mailto:carles.romagosa@uvic.cat">Carles Romagosa</a>
 </ul>

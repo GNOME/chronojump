@@ -1,101 +1,80 @@
 :::startTitle:::
-Capturas de pantalla
+Fotos
 :::endTitle:::
 			
 <tt>Ordenadas de novas a antigas. Prema nas imaxes para amplialas.</tt>
 
-<table border="0" cellpadding="4" cellspacing="8">
+<table border="0" cellpadding="4" cellspacing="20">
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/Chronopic_v3.0.jpg"><img src=":::imageLink:::/Chronopic_v3.0_small.jpg" width="250" height="188"></a>
-		<br>
-		Chronopic 3.0. Deseño Industrial.
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/Chronopic_v3.0_PCB.jpg"><img src=":::imageLink:::/Chronopic_v3.0_PCB_small.jpg" width="250" height="238"></a>
-		<br>
-		Chronopic 3.0 (PCB). Diseño industrial. 
-	</td>
+<tr bgcolor="#e6e6fa" valign="top">
+	<th width="250">Software Chronojump</th>
+	<th width="250">Hardware</th>
 </tr>
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::webLink:::/chronojump_main_06.png"><img src=":::webLink:::/chronojump_main_06_small.png" width="250" height="188"></a>
-		<br>
+:::softPhoto-1::: 
 		v.0.6 (castelán)
-	</td>
-	<td width="250">
-		<a href=":::webLink:::/chronopic_2_0_usb_front.jpg"><img src="chronopic_2_0_usb_front_mini.jpg"></a>
-		<br>
-		Chronopic 2.0 USB
-	</td>
-</tr>
+:::endSoftwarePhoto:::
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_main_047.png"><img src=":::imageLink:::/chronojump_main_047_small.png" width="250" height="188"></a>
-		<br>
+:::hardPhoto-1::: 
+	Chronopic 3.0 con metacrilato. 
+:::endHardwarePhoto:::
+
+:::softPhoto-2::: 
 		v.0.47 (inglés)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_windows.png"><img src=":::imageLink:::/chronojump_windows_small.png" width="250" height="188"></a>
-		<br>
+:::endSoftwarePhoto:::
+
+:::hardPhoto-2::: 
+		Chronopic 3.0. Deseño Industrial.
+:::endHardwarePhoto:::
+
+:::softPhoto-3::: 
 		v.0.47 Windows XP (inglés)
-	</td>
-</tr>
+:::endSoftwarePhoto:::
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronojump-04.png"><img src=":::imageLink:::/chronojump-04_small.png" width="250" height="188"></a>
-		<br>
+:::hardPhoto-3::: 
+		Chronopic 3.0 (PCB). Deseño industrial. 
+:::endHardwarePhoto:::
+
+:::softPhoto-4::: 
 		v.0.4 Informe HTML (inglés)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_graphs_volei.png"><img src=":::imageLink:::/chronojump_graphs_volei_small.png" width="250" height="188"></a>
-		<br>
+:::endSoftwarePhoto:::
+
+:::hardPhoto-4::: 
+		Chronopic 2.0 USB
+:::endHardwarePhoto:::
+
+:::softPhoto-5::: 
 		v.0.3 Estatísticas e gráfica DjIndex (inglés)
-	</td>
-</tr>
+:::endSoftwarePhoto:::
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_new_run_type_spanish.png"><img src=":::imageLink:::/chronojump_new_run_type_spanish_small.png" width="250" height="188"></a>
-		<br>
-		v.0.3 Engadir novo tipo de carreira (castelán)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish.png"><img src=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish_small.png" width="250" height="188"></a>
-		<br>
-		v.0.3 Engadir múltiples suxeitos e preferencias (castelán)
-	</td>
-</tr>
-
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_graphs.jpg"><img src=":::imageLink:::/chronojump_graphs_small.png" width="250" height="188"></a>
-		<br>
-		v.0.1 Gráficas (inglés)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_graphs_reactive.png"><img src=":::imageLink:::/chronojump_graphs_reactive_small.png" width="250" height="188"></a>
-		<br>
-		v.0.1 Gráficas de saltos reactivos (inglés)
-	</td>
-</tr>
-
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronopic_foto.jpg"><img src=":::imageLink:::/chronopic_foto_small.png" width="250" height="188"></a>
-		<br>
+:::hardPhoto-5:::
 		Prototipo de ChronoPic (Skypic + tarxeta de expansión)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/plataforma_contactos_final.jpg"><img src=":::imageLink:::/plataforma_contactos_final_small.png" width="250" height="188"></a>
-		<br>
+:::endHardwarePhoto:::
+
+:::softPhoto-6::: 
+		v.0.3 Engadir novo tipo de carreira (castelán)
+:::endSoftwarePhoto:::
+
+:::hardPhoto-6::: 
 		Plataforma de contactos construída seguindo estas <a href="construction_contact_platform_gl.html">instrucións</a>
-	</td>
-</tr>
+:::endHardwarePhoto:::
+
+:::softPhoto-7::: 
+		v.0.3 Engadir múltiples suxeitos e preferencias (castelán)
+:::endSoftwarePhoto:::
+
+:::hardPhotoNull:::
+
+:::softPhoto-8::: 
+		v.0.1 Gráficas (inglés)
+:::endSoftwarePhoto:::
+
+:::hardPhotoNull:::
+
+:::softPhoto-9::: 
+		v.0.1 Gráficas de saltos reactivos (inglés)
+:::endSoftwarePhoto:::
+
+:::hardPhotoNull:::
 
 </table>
-

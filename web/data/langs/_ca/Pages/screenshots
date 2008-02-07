@@ -1,100 +1,81 @@
 :::startTitle:::
-Captures de pantalla
+Fotos
 :::endTitle:::
 
 <tt>Imatges ordenades de recents a antigues. Cliqueu per a ampliar-les.</tt>
 
-<table border="0" cellpadding="4" cellspacing="8">
+<table border="0" cellpadding="4" cellspacing="20">
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/Chronopic_v3.0.jpg"><img src=":::imageLink:::/Chronopic_v3.0_small.jpg" width="250" height="188"></a>
-		<br>
-		Chronopic 3.0. Disseny Industrial.
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/Chronopic_v3.0_PCB.jpg"><img src=":::imageLink:::/Chronopic_v3.0_PCB_small.jpg" width="250" height="238"></a>
-		<br>
-		Chronopic 3.0 (PCB). Disseny industrial. 
-	</td>
+<tr bgcolor="#e6e6fa" valign="top">
+	<th width="250">Software Chronojump</th>
+	<th width="250">Hardware</th>
 </tr>
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::webLink:::/chronojump_main_06.png"><img src=":::webLink:::/chronojump_main_06_small.png" width="250" height="188"></a>
-		<br>
-		v.0.6 (espanyol)
-	</td>
-	<td width="250">
-		<a href=":::webLink:::/chronopic_2_0_usb_front.jpg"><img src="chronopic_2_0_usb_front_mini.jpg"></a>
-		<br>
-		Chronopic 2.0 USB
-	</td>
-</tr>
+:::softPhoto-1::: 
+v.0.6 (espanyol) 
+:::endSoftwarePhoto:::
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_main_047.png"><img src=":::imageLink:::/chronojump_main_047_small.png" width="250" height="188"></a>
-		<br>
-		v.0.47 (anglès)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_windows.png"><img src=":::imageLink:::/chronojump_windows_small.png" width="250" height="188"></a>
-		<br>
-		v.0.47 Windows XP (anglès)
-	</td>
-</tr>
+:::hardPhoto-1::: 
+Chronopic 3.0 amb metacrilat. 
+:::endHardwarePhoto:::
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronojump-04.png"><img src=":::imageLink:::/chronojump-04_small.png" width="250" height="188"></a>
-		<br>
-		v.0.4 informe HTML (anglès)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_graphs_volei.png"><img src=":::imageLink:::/chronojump_graphs_volei_small.png" width="250" height="188"></a>
-		<br>
-		v.0.3 estadístiques i gràfiques DjIndex (anglès)
-	</td>
-</tr>
+:::softPhoto-2::: 
+v.0.47 (anglès) 
+:::endSoftwarePhoto:::
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_new_run_type_spanish.png"><img src=":::imageLink:::/chronojump_new_run_type_spanish_small.png" width="250" height="188"></a>
-		<br>
-		v.0.3 afegir nou tipus de cursa (espanyol)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish.png"><img src=":::imageLink:::/chronojump_add_persons_multiple_preferences_spanish_small.png" width="250" height="188"></a>
-		<br>
-		v.0.3 afegir múltiples individuus i preferències (espanyol)
-	</td>
-</tr>
+:::hardPhoto-2::: 
+Chronopic 3.0. Disseny Industrial.  
+:::endHardwarePhoto:::
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_graphs.jpg"><img src=":::imageLink:::/chronojump_graphs_small.png" width="250" height="188"></a>
-		<br>
-		v.0.1 gràfiques (anglès)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/chronojump_graphs_reactive.png"><img src=":::imageLink:::/chronojump_graphs_reactive_small.png" width="250" height="188"></a>
-		<br>
-		v.0.1 gràficas de salts reactius (anglès)
-	</td>
-</tr>
+:::softPhoto-3::: 
+v.0.47 Windows XP (anglès) 
+:::endSoftwarePhoto:::
 
-<tr valign="top">
-	<td width="250">
-		<a href=":::imageLink:::/chronopic_foto.jpg"><img src=":::imageLink:::/chronopic_foto_small.png" width="250" height="188"></a>
-		<br>
-		propotipus de Chronopic (Skypic + targeta d'expansió)
-	</td>
-	<td width="250">
-		<a href=":::imageLink:::/plataforma_contactos_final.jpg"><img src=":::imageLink:::/plataforma_contactos_final_small.png" width="250" height="188"></a>
-		<br>
-		Platforma de contactes construida seguint aquestes <a href="construction_contact_platform_ca.html">instruccions</a>
-	</td>
-</tr>
+:::hardPhoto-3::: 
+Chronopic 3.0 (PCB). Disseny industrial.  
+:::endHardwarePhoto:::
+
+:::softPhoto-4::: 
+v.0.4 informe HTML (anglès) 
+:::endSoftwarePhoto:::
+
+:::hardPhoto-4::: 
+Chronopic 2.0 USB 
+:::endHardwarePhoto:::
+
+:::softPhoto-5::: 
+v.0.3 estadístiques i gràfiques DjIndex (anglès) 
+:::endSoftwarePhoto:::
+
+:::hardPhoto-5:::
+propotipus de Chronopic (Skypic + targeta d'expansió) 
+:::endHardwarePhoto:::
+
+:::softPhoto-6::: 
+v.0.3 afegir nou tipus de cursa (espanyol) 
+:::endSoftwarePhoto:::
+
+:::hardPhoto-6::: 
+Platforma de contactes construida seguint aquestes <a href="construction_contact_platform_ca.html">instruccions</a> 
+:::endHardwarePhoto:::
+
+:::softPhoto-7::: 
+v.0.3 afegir múltiples individuus i preferències (espanyol) 
+:::endSoftwarePhoto:::
+
+:::hardPhotoNull:::
+
+:::softPhoto-8::: 
+v.0.1 gràfiques (anglès) 
+:::endSoftwarePhoto:::
+
+:::hardPhotoNull:::
+
+:::softPhoto-9::: 
+v.0.1 gràficas de salts reactius (anglès) 
+:::endSoftwarePhoto:::
+
+:::hardPhotoNull:::
 
 </table>
+

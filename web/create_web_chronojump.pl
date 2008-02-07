@@ -46,8 +46,11 @@ my $siteURL = "http://www.gnome.org/projects/chronojump";
 my $CVSURL = "http://cvs.gnome.org/viewcvs/chronojump";
 
 my %languages=();
+my %photos_software=();
+my %photos_hardware=();
 
 my $languagesFile = "languages.txt";
+my $photosFile = "photos.txt";
 my $authorsFile = "authors.txt";
 my $colaborationsFile = "colaborations.txt";
 my $contributorsFile = "contributors.txt",
@@ -66,6 +69,20 @@ while (<LANGUAGESFILE>) {
 	$languages{$langSuffix}=$langName;
 }
 close LANGUAGESFILE;
+
+#read photosFile, contains s-n;photoLink and h-n;photoLink rows
+open (PHOTOSFILE, "data/$photosFile");
+while (<PHOTOSFILE>) {
+	chomp $_;
+	my ($photoTypeNumber, $photoLink)=split(/;/,$_);
+	my ($photoType, $photoNumber)=split(/-/,$photoTypeNumber);
+	if($photoType eq 's') {
+		$photos_software{$photoNumber}=$photoLink;
+	} else {
+		$photos_hardware{$photoNumber}=$photoLink;
+	}
+}
+close PHOTOSFILE;
 
 
 #foreach language
@@ -160,6 +177,10 @@ for (sort keys %languages)
 		$returnPage .= &getFooter($langSuffix);
 		$returnPrintPage .= "</body></html>";
 
+		#getPhotoLinks (for screenshots pages)
+		$returnPage  = getPhotos($returnPage, $langSuffix);
+		$returnPrintPage  = getPhotos($returnPrintPage, $langSuffix);
+	
 		#convert links to images
 		$returnPage  = getSiteLinks($returnPage);
 		$returnPrintPage  = getSiteLinks($returnPrintPage);
@@ -312,6 +333,19 @@ sub getSiteLinks {
 							#used also to access new images on root dir, because image dir is not refresed now on gnome pages
 	$pageContent =~ s/:::manualLink:::/$manualLink/g;
 	$pageContent =~ s/:::glossaryLink:::/$glossaryLink/g;
+
+	return $pageContent;
+}
+		
+sub getPhotos {
+	my ($pageContent)= @_;
+
+	$pageContent =~ s/:::softPhoto-(\d):::/<tr valign="top"><td width="250">$photos_software{$1}/g;
+	$pageContent =~ s/:::hardPhoto-(\d):::/<td width="250">$photos_hardware{$1}/g;
+	$pageContent =~ s/:::softPhotoNull:::/<tr valign="top"><td width="250">&nbsp;<\/td>/g;
+	$pageContent =~ s/:::hardPhotoNull:::/<td width="250">&nbsp;<\/td><\/tr>\n/g;
+	$pageContent =~ s/:::endSoftwarePhoto:::/<\/td>/g;
+	$pageContent =~ s/:::endHardwarePhoto:::/<\/td><\/tr>\n/g;
 
 	return $pageContent;
 }

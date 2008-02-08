@@ -4,29 +4,27 @@ Contacto
 
 Está convidado a participar no desenvolvemento de ChronoJump achegando ideas, solicitando novas funcionalidades, ou tamén traducindo, corrixindo erros, programando...
 <p>
-<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<table width="100%" border="0" cellspacing="2" cellpadding="4">
 	<tr bgcolor="#e6e6fa"><th>Listas de correo</th><th>Descrición</th><th>Lingua</th><th>Ligazóns</th></tr>
 	<tr>
-		<td>chronojump-list</td>
+		<th>chronojump-list</th>
 		<td>discusión sobre ChronoJump</td>
 
-		<td>inglés, castelán</td>
+		<td>inglés,&nbsp;castelán</td>
 		<td>
 			<a href="http://mail.gnome.org/mailman/listinfo/chronojump-list">suscribirse</a>
-			<!--</td><td>--> 
-			/  
+			<br>
 			<a href="http://mail.gnome.org/archives/chronojump-list/">ver&nbsp;arquivos</a>
 		</td>
 	</tr>
 
 	<tr>
-		<td>chronojump-devel-list</td>
-		<td>para colaborar no desenvolvemento de ChronoJump</td>
-		<td>inglés, castelán</td>
+		<th>chronojump-devel-list</th>
+		<td>lista técnica para colaborar no desenvolvemento de ChronoJump</td>
+		<td>inglés,&nbsp;castelán</td>
 		<td>
 			<a href="http://mail.gnome.org/mailman/listinfo/chronojump-devel-list">suscribirse</a>
-			<!--</td><td>--> 
-			/  
+			<br>  
 			<a href="http://mail.gnome.org/archives/chronojump-devel-list/">ver&nbsp;arquivos</a>
 
 		</td>

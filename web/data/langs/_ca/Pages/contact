@@ -5,27 +5,25 @@ Contacti
 Esteu convidat a participar en el desenvolupament del ChronoJump aportant idees, fent peticions de 
 funcionalitats, així com traduint, corregint errades, programant, etc.
 <p>
-<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<table width="100%" border="0" cellspacing="2" cellpadding="4">
 	<tr bgcolor="#e6e6fa"><th>Llistes de correu</th><th>descripció</th><th>idioma</th><th>enllaços</th></tr>
 	<tr>
-		<td>chronojump-list</td>
+		<th>chronojump-list</th>
 		<td>discussió sobre ChronoJump</td>
-		<td>anglès i espanyol</td>
+		<td>anglès,&nbsp;espanyol</td>
 		<td>
 			<a href="http://mail.gnome.org/mailman/listinfo/chronojump-list">subscriure's</a>
-			<!--</td><td>--> 
-			/  
+			<br>
 			<a href="http://mail.gnome.org/archives/chronojump-list/">veure&nbsp;arxius</a>
 		</td>
 	</tr>
 	<tr>
-		<td>chronojump-devel-list</td>
-		<td>per col·laborar en el desenvolupament de ChronoJump</td>
-		<td>anglès i espanyol</td>
+		<th>chronojump-devel-list</th>
+		<td>lista tècnica per col·laborar en el desenvolupament de ChronoJump</td>
+		<td>anglès,&nbsp;espanyol</td>
 		<td>
 			<a href="http://mail.gnome.org/mailman/listinfo/chronojump-devel-list">subscriure's</a>
-			<!--</td><td>--> 
-			/  
+			<br>
 			<a href="http://mail.gnome.org/archives/chronojump-devel-list/">veure&nbsp;arxius</a>
 		</td>
 	</tr>

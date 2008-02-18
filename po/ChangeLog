@@ -1,3 +1,9 @@
+2008-02-19  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* LINGUAS: Add nb
+	* POTFILES.in: Add missing files.
+	* nb.po: Added norwegian bokmål translation.
+
 2008-01-17  Gil Forcada  <gforcada@gnome.org>
 
 	* ca.po: Updated Catalan translation.

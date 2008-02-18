@@ -41,6 +41,7 @@ src/stats/graphs/djQ.cs
 src/stats/graphs/fv.cs
 src/stats/graphs/global.cs
 src/stats/graphs/ieIub.cs
+src/stats/graphs/rjAVGSD.cs
 src/stats/graphs/rjEvolution.cs
 src/stats/graphs/rjIndex.cs
 src/stats/graphs/rjPotencyBosco.cs
@@ -48,6 +49,7 @@ src/stats/graphs/sjCmjAbk.cs
 src/stats/graphs/sjCmjAbkPlus.cs
 src/stats/ieIub.cs
 src/stats/main.cs
+src/stats/rjAVGSD.cs
 src/stats/rjEvolution.cs
 src/stats/rjIndex.cs
 src/stats/rjPotencyBosco.cs

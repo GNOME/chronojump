@@ -2,7 +2,9 @@
 <li><a href="http://www.bortoleto.com/malu.htm">Maria Luisa Belloto</a>
 <li>Bernat Buscà
 <li>Alberto García-Fogeda
+<li><a href="http://tirania.org/blog/">Miguel de Icaza</a>
 <li><a href="mailto:marchesedavid@yahoo.com.ar">David Marchese</a>
 <li>Josep Ma Padullés
+<li><a href="http://pintant.cat/author/carles/">Carles Pina</a>
 <li><a href="mailto:carles.romagosa@uvic.cat">Carles Romagosa</a>
 </ul>

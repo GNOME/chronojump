@@ -83,8 +83,18 @@ public class ExportSession
 			return ;
 		}
 
+
 		fileName = fs.Filename;
 		fs.Hide ();
+
+		//TODO: improve this, because in /home/user/Desktop (with no filename)
+		//it uses /home/user/Desktop as fileame (and later adds csv or html
+		//if we use (Util.GetLastPartOfPath(fileName)
+		//it uses Desktop
+		if(fileName.Length == 0) {
+			new DialogMessage(Catalog.GetString("Please write export filename"), true); //true is warning
+			checkFile(formatFile);
+		}
 
 		if(formatFile == "report") {
 			//add ".html" if needed, remember that on windows should be .htm
@@ -93,6 +103,9 @@ public class ExportSession
 			//add ".csv" if needed
 			fileName = addCsvIfNeeded(fileName);
 		}
+		//fileName = addDefaultNameIfNeeded(fileName);
+
+		//TODO: ensure fileName is valid
 
 		try {
 			if (File.Exists(fileName)) {
@@ -149,7 +162,28 @@ public class ExportSession
 		
 		return myFile;
 	}
-	
+/*	
+	private string addDefaultNameIfNeeded(string originalURL)
+	{
+	*/
+		/*
+		 * /home/user/Desktop/test.cs  will return test.cs and posOfDot will be 4
+		 * /home/user/Desktop/.cs  will return .cs and posOfDot will be 0
+		 */
+	/*
+		string myLast = Util.GetLastPartOfPath(originalURL);
+		string returnURL = originalURL;
+		int posOfDot = myLast.LastIndexOf('.');
+		if (posOfDot == 0) 
+			returnURL = originalURL.Substring(0, originalURL.Length - myLast.Length) 
+				+ Catalog.GetString("export") + myLast;
+
+		Console.WriteLine(originalURL);
+		Console.WriteLine(returnURL);
+
+		return returnURL;
+	}
+	*/
 	protected virtual void getData() 
 	{
 		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
@@ -233,7 +267,8 @@ public class ExportSession
 					myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
 					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
 					myStr[4] + ":" + myStr[5] + ":" + //height, weight
-					myStr[6]  //desc
+					myStr[6] + ":" + myStr[7] + ":" + //sportName, practiceLevel
+					myStr[8]  //desc
 				  );
 		}
 		writeData(myData);

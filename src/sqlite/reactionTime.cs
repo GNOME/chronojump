@@ -38,7 +38,7 @@ class SqliteReactionTime : Sqlite
 	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE reactionTime ( " +
+			"CREATE TABLE " + Constants.ReactionTimeTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -56,8 +56,8 @@ class SqliteReactionTime : Sqlite
 	public static int Insert(int personID, int sessionID, string type, double time, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO reactionTime" + 
-				"(uniqueID, personID, sessionID, type, time, description)" +
+		dbcmd.CommandText = "INSERT INTO " + Constants.ReactionTimeTable +  
+				" (uniqueID, personID, sessionID, type, time, description)" +
 				" VALUES (NULL, "
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(time) + ", '" + description + "')" ;
@@ -119,7 +119,7 @@ class SqliteReactionTime : Sqlite
 	{
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT * FROM reactionTime WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 
@@ -145,7 +145,7 @@ class SqliteReactionTime : Sqlite
 	public static void Update(int eventID, string type, string time, int personID, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE reactionTime SET personID = " + personID + 
+		dbcmd.CommandText = "UPDATE " + Constants.ReactionTimeTable + " SET personID = " + personID + 
 			", type = '" + type +
 			"', time = " + Util.ConvertToPoint(time) +
 			", description = '" + description +
@@ -158,7 +158,7 @@ class SqliteReactionTime : Sqlite
 	public static void Delete(string uniqueID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM reactionTime WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();

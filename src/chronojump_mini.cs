@@ -128,6 +128,7 @@ class Test {
 		Console.WriteLine(Catalog.GetString("Press CTRL-c for ending session"));
 		Console.WriteLine("-----------------------------------------");
 
+		int count = 1;
 		while(true) {
 
 			//-- Esperar a que llegue una trama
@@ -151,7 +152,7 @@ class Test {
 						toff = timestamp;
 
 						//-- Imprimir informacion
-						Console.WriteLine("TF: {0:f1} ms",toff);
+						Console.WriteLine(count + " TF: {0:f1} ms",toff);
 					}
 					break;
 
@@ -167,10 +168,11 @@ class Test {
 						ton = timestamp;
 
 						//-- Imprimir informacion
-						Console.WriteLine("TC: {0:f1} ms",ton);
+						Console.WriteLine(count + " TC: {0:f1} ms",ton);
 					}
 					break;
 			}
+			count ++;
 
 		}
 

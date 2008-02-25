@@ -31,7 +31,9 @@ public class Person {
 	private string dateBorn;
 	private int height;
 	private int weight;
-	//int level; // 0,1 o 2
+	private int sportID;	//1 undefined, 2 none, 3...n other sports (check table sportType)
+	private int speciallityID;
+	private int practice;	//-1 undefined, sedentary, 1 regular practice, 2 competition, 3 (alto rendimiento)
 	private string sex; // "M" (male) , "F" (female)
 	private string description;
 
@@ -41,7 +43,8 @@ public class Person {
 	}
 
 	//suitable when we load a person from the database for being the current Person
-	public Person(int uniqueID, string name, string sex, string dateBorn, int height, int weight, string description) 
+	public Person(int uniqueID, string name, string sex, string dateBorn, 
+			int height, int weight, int sportID, int speciallityID, int practice, string description) 
 	{
 		this.uniqueID = uniqueID;
 		this.sex = sex;
@@ -49,18 +52,25 @@ public class Person {
 		this.dateBorn = dateBorn;
 		this.height = height;
 		this.weight = weight;
+		this.sportID = sportID;
+		this.speciallityID = speciallityID;
+		this.practice = practice;
 		this.description = description;
 	}
 	
 	//typical constructor
-	//public Person(string name, string sex, string dateBorn, string description, int sessionID) 
-	public Person(string name, string sex, string dateBorn, int height, int weight, string description, int sessionID) 
+	public Person(string name, string sex, string dateBorn, 
+			int height, int weight, int sportID, int speciallityID, int practice, string description, 
+			int sessionID) 
 	{
 		this.name = name;
 		this.sex = sex;
 		this.dateBorn = dateBorn;
 		this.height = height;
 		this.weight = weight;
+		this.sportID = sportID;
+		this.speciallityID = speciallityID;
+		this.practice = practice;
 		this.description = description;
 		this.sessionID = sessionID;
 
@@ -68,7 +78,9 @@ public class Person {
 		description = Util.RemoveTildeAndColon(description);
 		
 		//insert in the person table
-		uniqueID = SqlitePerson.Insert (name, sex, dateBorn, height, weight, description);
+		uniqueID = SqlitePerson.Insert (false, //dbconOpened
+				Constants.PersonTable, name, sex, dateBorn, height, weight, 
+				sportID, speciallityID, practice, description);
 
 		Console.WriteLine(this.ToString());
 
@@ -93,26 +105,14 @@ public class Person {
 	
 	public string Name
 	{
-		get
-		{
-			return name;
-		}
-		set
-		{
-			name = value;
-		}
+		get { return name; }
+		set { name = value; }
 	}
 	
 	public string Sex
 	{
-		get
-		{
-			return sex;
-		}
-		set
-		{
-			sex = value;
-		}
+		get { return sex; } 
+		set { sex = value; }
 	}
 	
 	public string DateBorn
@@ -128,48 +128,45 @@ public class Person {
 	}
 	
 	public string DateShort {
-		get {
-			return Util.DateAsDateTime(dateBorn).ToShortDateString();
-		}
+		get { return Util.DateAsDateTime(dateBorn).ToShortDateString(); }
 	}
 	
 	
 	public int Height
 	{
-		get {
-			return height;
-		}
+		get { return height; }
 	}
 	
 	public int Weight
 	{
-		get {
-			return weight;
-		}
+		get { return weight; }
+	}
+	
+	public int SportID
+	{
+		get { return sportID; }
+	}
+
+	public int SpeciallityID
+	{
+		get { return speciallityID; }
+	}
+
+	public int Practice
+	{
+		get { return practice; }
 	}
 	
 	public string Description
 	{
-		get
-		{
-			return description;
-		}
-		set 
-		{
-			description = value;
-		}
+		get { return description; }
+		set { description = value; }
 	}
 	
 	public int UniqueID
 	{
-		get
-		{
-			return uniqueID;
-		}
-		set 
-		{
-			uniqueID = value;
-		}
+		get { return uniqueID; }
+		set { uniqueID = value; }
 	}
 	
 	~Person() {}

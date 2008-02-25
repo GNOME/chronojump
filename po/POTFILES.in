@@ -28,6 +28,8 @@ src/jumpType.cs
 src/platform.cs
 src/report.cs
 src/runType.cs
+src/sqlite/speciallity.cs
+src/sqlite/sport.cs
 src/sqlite/stat.cs
 src/statType.cs
 src/stats/potency.cs

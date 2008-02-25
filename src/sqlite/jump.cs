@@ -38,7 +38,7 @@ class SqliteJump : Sqlite
 	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE jump ( " +
+			"CREATE TABLE " + Constants.JumpTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -84,8 +84,8 @@ class SqliteJump : Sqlite
 	public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string limited, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO jump" + 
-				"(uniqueID, personID, sessionID, type, tv, tc, fall, weight, description)" +
+		dbcmd.CommandText = "INSERT INTO " + Constants.JumpTable +  
+				" (uniqueID, personID, sessionID, type, tv, tc, fall, weight, description)" +
 				" VALUES (NULL, "
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + fall + ", '" 

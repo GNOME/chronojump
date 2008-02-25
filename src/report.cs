@@ -280,7 +280,9 @@ public class Report : ExportSession
 			myData.Add(myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
 					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
 					myStr[4] + ":" + myStr[5] + ":" + //height, weight
-					myStr[6]);  //desc
+					myStr[6] + ":" + myStr[7] + ":" + //sportName, practiceLevel
+					myStr[8]  //desc
+				  );
 
 		}
 		

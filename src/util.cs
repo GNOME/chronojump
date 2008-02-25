@@ -784,4 +784,34 @@ public class Util
 		}
 		return uniqueString;
 	}
+
+	public static bool IntToBool (int myInt) {
+		if(myInt == 1)
+			return true;
+		else
+			return false;
+	}
+
+	public static bool StringToBool (string myString) {
+		if(myString.ToUpper() == "TRUE")
+			return true;
+		else
+			return false;
+	}
+
+	public static int BoolToInt (bool myBool) {
+		if(myBool)
+			return 1;
+		else
+			return 0;
+	}
+
+	public static string FindLevelName(int levelInt) {
+		string foundLevelName = "";
+		foreach(string level in Constants.Levels)
+			if(Convert.ToInt32(FetchID(level)) == levelInt)
+				foundLevelName = FetchName(level);
+
+		return foundLevelName;
+	}
 }

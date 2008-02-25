@@ -119,7 +119,7 @@ public class SessionAddWindow {
 		string nowDate = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
 			dateTime.Year.ToString();
 		
-		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
+		bool sessionExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTilde(entry_name.Text));
 		if(sessionExists) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);
@@ -253,7 +253,7 @@ public class SessionEditWindow
 	{
 		//check if new name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name
-		bool sessionExists = SqlitePersonSession.SessionExists (Util.RemoveTilde(entry_name.Text));
+		bool sessionExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTilde(entry_name.Text));
 		if(sessionExists && Util.RemoveTilde(entry_name.Text) != currentSession.Name ) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Console.WriteLine (myString);

@@ -40,7 +40,7 @@ class SqliteJumpType : Sqlite
 	protected internal static void createTableJumpType()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE jumpType ( " +
+			"CREATE TABLE " + Constants.JumpTypeTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"startIn INT, " + //if it starts inside or outside the platform
@@ -75,15 +75,15 @@ class SqliteJumpType : Sqlite
 	//don't put the full description because if the user changes language, description will be in old lang
 	//description will be on src/jumpType
 	public static void AddGraphLinks() {
-		SqliteEvent.GraphLinkInsert ("jump", "Free", "jump_free.png", true);
-		SqliteEvent.GraphLinkInsert ("jump", "SJ", "jump_sj.png", true);
-		SqliteEvent.GraphLinkInsert ("jump", "SJl", "jump_sj_l.png", true);
-		SqliteEvent.GraphLinkInsert ("jump", "CMJ", "jump_cmj.png", true);
-		SqliteEvent.GraphLinkInsert ("jump", "CMJl", "jump_cmj_l.png", true);
-		SqliteEvent.GraphLinkInsert ("jump", "ABK", "jump_abk.png", true);
-		SqliteEvent.GraphLinkInsert ("jump", "ABKl", "jump_abk_l.png", true);
-		SqliteEvent.GraphLinkInsert ("jump", "Rocket", "jump_rocket.png", true);
-		SqliteEvent.GraphLinkInsert ("jump", "DJ", "jump_dj.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Free", "jump_free.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJ", "jump_sj.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJl", "jump_sj_l.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJ", "jump_cmj.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABK", "jump_abk.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Rocket", "jump_rocket.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJ", "jump_dj.png", true);
 	}
 
 	//creates table containing the types of repetitive Jumps
@@ -91,7 +91,7 @@ class SqliteJumpType : Sqlite
 	protected internal static void createTableJumpRjType()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE jumpRjType ( " +
+			"CREATE TABLE " + Constants.JumpRjTypeTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"startIn INT, " + //if it starts inside or outside the platform
@@ -129,10 +129,10 @@ class SqliteJumpType : Sqlite
 	}
 
 	public static void AddGraphLinksRj() {
-		SqliteEvent.GraphLinkInsert ("jumpRj", "RJ(j)", "jump_rj.png", true);
-		SqliteEvent.GraphLinkInsert ("jumpRj", "RJ(t)", "jump_rj.png", true);
-		SqliteEvent.GraphLinkInsert ("jumpRj", "RJ(unlimited)", "jump_rj_in.png", true);
-		SqliteEvent.GraphLinkInsert ("jumpRj", "triple jump", "jump_rj.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(j)", "jump_rj.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(t)", "jump_rj.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(unlimited)", "jump_rj_in.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "triple jump", "jump_rj.png", true);
 	}
 
 	/*
@@ -145,8 +145,8 @@ class SqliteJumpType : Sqlite
 		if(! dbconOpened) {
 			dbcon.Open();
 		}
-		dbcmd.CommandText = "INSERT INTO jumpType" + 
-				"(uniqueID, name, startIn, weight, description)" +
+		dbcmd.CommandText = "INSERT INTO " + Constants.JumpTypeTable +  
+				" (uniqueID, name, startIn, weight, description)" +
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", '" + myStr[3] + "')" ;	//weight, description
@@ -163,8 +163,8 @@ class SqliteJumpType : Sqlite
 		if(! dbconOpened) {
 			dbcon.Open();
 		}
-		dbcmd.CommandText = "INSERT INTO jumpRjType" + 
-				"(uniqueID, name, startIn, weight, jumpsLimited, fixedValue, description)" +
+		dbcmd.CommandText = "INSERT INTO " + Constants.JumpRjTypeTable + 
+				" (uniqueID, name, startIn, weight, jumpsLimited, fixedValue, description)" +
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", " + myStr[3] + ", " +	//weight, jumpsLimited
@@ -192,7 +192,7 @@ class SqliteJumpType : Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
-			" FROM jumpType " +
+			" FROM " + Constants.JumpTypeTable + " " +
 			whereString +
 			" ORDER BY uniqueID";
 		
@@ -247,7 +247,7 @@ class SqliteJumpType : Sqlite
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
-			" FROM jumpRjType " +
+			" FROM " + Constants.JumpRjTypeTable + " " +
 			" ORDER BY uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -301,7 +301,7 @@ class SqliteJumpType : Sqlite
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
-			" FROM jumpRjType " +
+			" FROM " + Constants.JumpRjTypeTable + " " +
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
@@ -334,28 +334,6 @@ class SqliteJumpType : Sqlite
 		dbcon.Close();
 
 		return myJumpType;
-	}
-	
-	public static bool Exists(string typeName)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT uniqueID FROM jumpType " +
-			" WHERE LOWER(name) == LOWER('" + typeName + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-	
-		bool exists = new bool();
-		exists = false;
-		
-		if (reader.Read()) {
-			exists = true;
-		}
-		dbcon.Close();
-		Console.WriteLine("exists = {0}", exists.ToString());
-
-		return exists;
 	}
 
 	//tableName is jumpType or jumpRjType

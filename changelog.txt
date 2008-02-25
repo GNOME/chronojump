@@ -1,13 +1,38 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
-24 jan 2007 (2)
+25 feb 2008
+	0.62-svn3
+	chronopic.cs now has a public method to flush called Flush
+	
+	sport and level of practice. Fixed 514857
+	-new class Sport and SqliteSport (returns safer ArrayList of Sport
+	objects instead of strings separated by ":" like other sqlite return
+	objects).
+	-new class SqliteSpeciallity (sport speciallity)
+	-SqlitePerson now has sport (from sport db), speciallity (from
+	speciallity db) and practice level
+	-Users can add sports
+	-Added sport tables, converted person table. Database version is now 0.54
+
+	'n' persons can be added simulateneously in a session. fixes: 478167
+	new gui/GenericWindow
+
+	improving code:
+	-tableNames defined in contants (if there's a mispell will crash compiler, not app)
+	-sqlite personSesson/personExists /sessionExists, jumpType Exists, runType Exists and pulseType Exists now inherit from Exits on Sqlite class
+	-PersonAddWindow mixed with PersonModifyWindow in gui/PersonAddModifyWindow
+
+	new translation: Norwegian
+	pending: show sports in report and csv
+
+24 jan 2008 (2)
 	chronopic-tests all with /dev/ttyUSB0 default values
 
-24 jan 2007
+24 jan 2008
 	Added windows driver to the releases on windows executing data
 	Added chronopic-tests (fixes: 511819) (added also on create_release)
 
-22 jan 2007
+22 jan 2008
 	0.62-svn2
 	graphs:
 	-All graphs have now clearer labels (with units) on left and right axis

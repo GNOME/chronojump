@@ -38,7 +38,7 @@ class SqliteRun : Sqlite
 	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE run ( " +
+			"CREATE TABLE " + Constants.RunTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -77,8 +77,8 @@ class SqliteRun : Sqlite
 	public static int Insert(int personID, int sessionID, string type, double distance, double time, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO run" + 
-				"(uniqueID, personID, sessionID, type, distance, time, description)" +
+		dbcmd.CommandText = "INSERT INTO " + Constants.RunTable + 
+				" (uniqueID, personID, sessionID, type, distance, time, description)" +
 				" VALUES (NULL, "
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", '" + 
@@ -213,7 +213,7 @@ class SqliteRun : Sqlite
 	{
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT * FROM run WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.RunTable + " WHERE uniqueID == " + uniqueID;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 
@@ -273,7 +273,7 @@ class SqliteRun : Sqlite
 	public static void Update(int runID, string type, string distance, string time, int personID, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE run " + 
+		dbcmd.CommandText = "UPDATE " + Constants.RunTable + 
 			" SET personID = " + personID + 
 			", type = '" + type +
 			"', distance = " + Util.ConvertToPoint(Convert.ToDouble(distance)) + 
@@ -288,7 +288,7 @@ class SqliteRun : Sqlite
 	public static void IntervalUpdate(int runID, int personID, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE runInterval " + 
+		dbcmd.CommandText = "UPDATE " + Constants.RunIntervalTable +
 			" SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + runID ;

@@ -294,9 +294,10 @@ public class ChronoJumpWindow
 	SessionLoadWindow sessionLoadWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
-	PersonAddWindow personAddWin; 
+	//PersonAddWindow personAddWin; 
+	PersonAddModifyWindow personAddModifyWin; 
 	PersonAddMultipleWindow personAddMultipleWin; 
-	PersonModifyWindow personModifyWin; 
+	//PersonModifyWindow personModifyWin; 
 	PersonShowAllEventsWindow personShowAllEventsWin;
 	JumpsMoreWindow jumpsMoreWin;
 	JumpsRjMoreWindow jumpsRjMoreWin;
@@ -328,6 +329,7 @@ public class ChronoJumpWindow
 	ReportWindow reportWin;
 	RepetitiveConditionsWindow repetitiveConditionsWin;
 	ChronopicConnection chronopicWin;
+	GenericWindow genericWin;
 	
 	static EventExecuteWindow eventExecuteWin;
 
@@ -1706,14 +1708,17 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 		
 	private void on_person_add_single_activate (object o, EventArgs args) {
-		personAddWin = PersonAddWindow.Show(app1, currentSession.UniqueID);
-		personAddWin.Button_accept.Clicked += new EventHandler(on_person_add_single_accepted);
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession.UniqueID, -1); 
+		//-1 means we are adding a new person
+		//if we were modifying it will be it's uniqueID
+		
+		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_person_add_single_accepted);
 	}
 	
 	private void on_person_add_single_accepted (object o, EventArgs args) {
-		if (personAddWin.CurrentPerson != null)
+		if (personAddModifyWin.CurrentPerson != null)
 		{
-			currentPerson = personAddWin.CurrentPerson;
+			currentPerson = personAddModifyWin.CurrentPerson;
 			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 			
 			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
@@ -1726,9 +1731,15 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			}
 		}
 	}
-	
+
+	//show spinbutton window asking for how many people to create	
 	private void on_person_add_multiple_activate (object o, EventArgs args) {
-		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession.UniqueID);
+		genericWin = GenericWindow.Show(Catalog.GetString("Select number of persons to add"), false, true);
+		genericWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_prepared);
+	}
+	
+	private void on_person_add_multiple_prepared (object o, EventArgs args) {
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession.UniqueID, genericWin.SpinSelected);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}
 	
@@ -1753,14 +1764,14 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
 		Console.WriteLine("modify person");
-		personModifyWin = PersonModifyWindow.Show(app1, currentSession.UniqueID, currentPerson.UniqueID);
-		personModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession.UniqueID, currentPerson.UniqueID);
+		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	
 	private void on_edit_current_person_accepted (object o, EventArgs args) {
-		if (personModifyWin.CurrentPerson != null)
+		if (personAddModifyWin.CurrentPerson != null)
 		{
-			currentPerson = personModifyWin.CurrentPerson;
+			currentPerson = personAddModifyWin.CurrentPerson;
 			treeview_persons_storeReset();
 			fillTreeView_persons();
 			

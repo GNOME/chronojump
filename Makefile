@@ -25,7 +25,7 @@ WSDL = chronojump_server/compile_wsdl.sh
 CHRONOJUMP = chronojump
 
 CHRONOJUMP_MINI = chronojump_mini
-CHRONOJUMP_MINI_VALIDATE = chronojump_mini_validate
+#CHRONOJUMP_MINI_VALIDATE = chronojump_mini_validate
 
 CHRONOJUMP_SERVER = chronojump_server
 
@@ -97,7 +97,7 @@ NPLOT_LIBS = build/data/linux_dlls
 #--------Dependences of CHRONOJUMP_MINI
 
 CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs src/chronopic.cs src/util.cs src/constants.cs 
-CHRONOJUMP_MINI_VALIDATE_DEP = src/chronojump_mini_validate.cs src/chronopic.cs src/util.cs src/constants.cs 
+#CHRONOJUMP_MINI_VALIDATE_DEP = src/chronojump_mini_validate.cs src/chronopic.cs src/util.cs src/constants.cs 
 
 #--------Dependences of CHRONOJUMP_SERVER
 
@@ -107,8 +107,8 @@ CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*
 #--------Makefiles
 
 #chronojump and chronojump_mini (default if used 'make')
-#all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
-all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_MINI_VALIDATE).prg
+all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
+#all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_MINI_VALIDATE).prg
 
 #chronojump, chronojump_mini and server (use 'make server')
 server: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_SERVER)
@@ -131,8 +131,8 @@ $(CHRONOJUMP).prg: $(NPLOT_LIBS)/NPlot.dll $(NPLOT_LIBS)/NPlot.Gtk.dll $(CHRONOJ
 $(CHRONOJUMP_MINI).prg: $(CHRONOJUMP_MINI_DEP)
 	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(BUILD_DIR)/$(CHRONOJUMP_MINI).prg 
 
-$(CHRONOJUMP_MINI_VALIDATE).prg: $(CHRONOJUMP_MINI_VALIDATE_DEP)
-	 $(MCS) $(CHRONOJUMP_MINI_VALIDATE_DEP) -r:Mono.Posix -out:$(BUILD_DIR)/$(CHRONOJUMP_MINI_VALIDATE).prg 
+#$(CHRONOJUMP_MINI_VALIDATE).prg: $(CHRONOJUMP_MINI_VALIDATE_DEP)
+#	 $(MCS) $(CHRONOJUMP_MINI_VALIDATE_DEP) -r:Mono.Posix -out:$(BUILD_DIR)/$(CHRONOJUMP_MINI_VALIDATE).prg 
    
 
 #------------------------------------

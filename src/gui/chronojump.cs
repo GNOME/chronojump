@@ -294,10 +294,8 @@ public class ChronoJumpWindow
 	SessionLoadWindow sessionLoadWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
-	//PersonAddWindow personAddWin; 
 	PersonAddModifyWindow personAddModifyWin; 
 	PersonAddMultipleWindow personAddMultipleWin; 
-	//PersonModifyWindow personModifyWin; 
 	PersonShowAllEventsWindow personShowAllEventsWin;
 	JumpsMoreWindow jumpsMoreWin;
 	JumpsRjMoreWindow jumpsRjMoreWin;

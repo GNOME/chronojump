@@ -1,7 +1,6 @@
 # translation of chronojump to spanish
 # Copyright (C) 2005 THE chronojump.HEAD.es'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the chronojump.HEAD.es package.
-
 # Xavier de Blas <xaviblas@gmail.com>, 2005.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007.
@@ -10,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-19 03:54+0000\n"
-"PO-Revision-Date: 2007-11-26 13:34-0300\n"
+"POT-Creation-Date: 2008-02-19 03:55+0000\n"
+"PO-Revision-Date: 2008-02-21 10:36-0300\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -179,20 +178,22 @@ msgstr "ABK"
 
 #. don't plot AVG and SD rows
 #. if multisession, add AVG and SD cols
-#: ../glade/chronojump.glade.h:41 ../src/exportSession.cs:387
-#: ../src/exportSession.cs:502 ../src/exportSession.cs:596
-#: ../src/stats/graphs/potency.cs:127 ../src/stats/graphs/djIndex.cs:132
-#: ../src/stats/graphs/djQ.cs:132 ../src/stats/graphs/fv.cs:127
-#: ../src/stats/graphs/fv.cs:186 ../src/stats/graphs/global.cs:124
-#: ../src/stats/graphs/global.cs:195 ../src/stats/graphs/ieIub.cs:133
-#: ../src/stats/graphs/rjIndex.cs:129
-#: ../src/stats/graphs/rjPotencyBosco.cs:146
-#: ../src/stats/graphs/sjCmjAbk.cs:114 ../src/stats/graphs/sjCmjAbkPlus.cs:125
+#: ../glade/chronojump.glade.h:41 ../src/exportSession.cs:388
+#: ../src/exportSession.cs:504 ../src/exportSession.cs:599
+#: ../src/stats/graphs/potency.cs:131 ../src/stats/graphs/djIndex.cs:137
+#: ../src/stats/graphs/djQ.cs:137 ../src/stats/graphs/fv.cs:129
+#: ../src/stats/graphs/fv.cs:188 ../src/stats/graphs/global.cs:124
+#: ../src/stats/graphs/global.cs:195 ../src/stats/graphs/ieIub.cs:135
+#: ../src/stats/graphs/rjIndex.cs:133 ../src/stats/graphs/rjPotencyBosco.cs:81
+#: ../src/stats/graphs/rjPotencyBosco.cs:82
+#: ../src/stats/graphs/rjPotencyBosco.cs:148
+#: ../src/stats/graphs/sjCmjAbk.cs:114 ../src/stats/graphs/sjCmjAbkPlus.cs:123
 #: ../src/stats/main.cs:188 ../src/stats/main.cs:223 ../src/stats/main.cs:365
 #: ../src/stats/main.cs:392 ../src/stats/main.cs:663 ../src/stats/main.cs:685
 #: ../src/stats/main.cs:734 ../src/stats/main.cs:757 ../src/stats/main.cs:784
-#: ../src/stats/rjEvolution.cs:220 ../src/treeViewJump.cs:342
-#: ../src/treeViewPulse.cs:152 ../src/treeViewRun.cs:229
+#: ../src/stats/rjAVGSD.cs:35 ../src/stats/rjEvolution.cs:220
+#: ../src/treeViewJump.cs:342 ../src/treeViewPulse.cs:152
+#: ../src/treeViewRun.cs:229
 msgid "AVG"
 msgstr "Promedio"
 
@@ -245,7 +246,7 @@ msgid "Agility"
 msgstr "Agilidad"
 
 #: ../glade/chronojump.glade.h:54 ../src/gui/stats.cs:139
-#: ../src/gui/stats.cs:600 ../src/gui/stats.cs:948 ../src/report.cs:356
+#: ../src/gui/stats.cs:600 ../src/gui/stats.cs:948 ../src/report.cs:350
 #: ../src/stats/main.cs:234
 msgid "All"
 msgstr "Todos"
@@ -335,7 +336,7 @@ msgid "Collapse all"
 msgstr "Contraer todo"
 
 #: ../glade/chronojump.glade.h:76 ../src/exportSession.cs:215
-#: ../src/gui/session.cs:359 ../src/gui/session.cs:508 ../src/report.cs:260
+#: ../src/gui/session.cs:359 ../src/gui/session.cs:508 ../src/report.cs:254
 #: ../src/runType.cs:128 ../src/runType.cs:145 ../src/runType.cs:214
 #: ../src/runType.cs:235
 msgid "Comments"
@@ -406,12 +407,12 @@ msgid "Data"
 msgstr "Datos"
 
 #: ../glade/chronojump.glade.h:93 ../src/exportSession.cs:214
-#: ../src/gui/session.cs:351 ../src/gui/session.cs:507 ../src/report.cs:259
+#: ../src/gui/session.cs:351 ../src/gui/session.cs:507 ../src/report.cs:253
 msgid "Date"
 msgstr "Fecha"
 
 #: ../glade/chronojump.glade.h:94 ../src/exportSession.cs:226
-#: ../src/gui/person.cs:102 ../src/report.cs:275
+#: ../src/gui/person.cs:102 ../src/report.cs:269
 msgid "Date of Birth"
 msgstr "Fecha nacimiento"
 
@@ -449,11 +450,11 @@ msgstr "Borrar carrera seleccionada"
 #. Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 #. column where the uniqueID of event will be (and will be hidded)
 #: ../glade/chronojump.glade.h:102 ../src/exportSession.cs:228
-#: ../src/exportSession.cs:265 ../src/exportSession.cs:335
-#: ../src/exportSession.cs:431 ../src/exportSession.cs:473
-#: ../src/exportSession.cs:541 ../src/exportSession.cs:576
+#: ../src/exportSession.cs:265 ../src/exportSession.cs:336
+#: ../src/exportSession.cs:432 ../src/exportSession.cs:475
+#: ../src/exportSession.cs:543 ../src/exportSession.cs:579
 #: ../src/gui/jump.cs:922 ../src/gui/jump.cs:1098 ../src/gui/person.cs:103
-#: ../src/gui/run.cs:737 ../src/gui/run.cs:885 ../src/report.cs:277
+#: ../src/gui/run.cs:737 ../src/gui/run.cs:885 ../src/report.cs:271
 #: ../src/runType.cs:123 ../src/runType.cs:159 ../src/runType.cs:200
 #: ../src/runType.cs:229 ../src/treeViewEvent.cs:40
 msgid "Description"
@@ -471,7 +472,7 @@ msgstr ""
 msgid "Description:"
 msgstr "Descripción:"
 
-#: ../glade/chronojump.glade.h:106 ../src/exportSession.cs:428
+#: ../glade/chronojump.glade.h:106 ../src/exportSession.cs:429
 #: ../src/gui/run.cs:736 ../src/gui/run.cs:882 ../src/treeViewRun.cs:57
 msgid "Distance"
 msgstr "Distancia"
@@ -672,7 +673,7 @@ msgid "Jump Reactive"
 msgstr "Salto reactivo"
 
 #: ../glade/chronojump.glade.h:154 ../src/gui/stats.cs:956
-#: ../src/report.cs:364
+#: ../src/report.cs:358
 msgid "Jumper's average"
 msgstr "Media/s del saltador"
 
@@ -681,10 +682,14 @@ msgid "Jumper's bests"
 msgstr "Máximo/s del saltador"
 
 #. windowTitle
-#: ../glade/chronojump.glade.h:156 ../src/exportSession.cs:332
+#: ../glade/chronojump.glade.h:156 ../src/exportSession.cs:333
 #: ../src/gui/chronojump.cs:2595 ../src/gui/jump.cs:1126
 #: ../src/gui/jump.cs:1173 ../src/gui/jump.cs:1213
-#: ../src/stats/graphs/rjPotencyBosco.cs:83 ../src/stats/rjPotencyBosco.cs:36
+#: ../src/stats/graphs/rjAVGSD.cs:77 ../src/stats/graphs/rjAVGSD.cs:98
+#: ../src/stats/graphs/rjEvolution.cs:83
+#: ../src/stats/graphs/rjPotencyBosco.cs:83
+#: ../src/stats/graphs/rjPotencyBosco.cs:122 ../src/stats/rjAVGSD.cs:37
+#: ../src/stats/rjPotencyBosco.cs:36
 msgid "Jumps"
 msgstr "Saltos"
 
@@ -693,7 +698,7 @@ msgid "Language"
 msgstr "Idioma"
 
 #: ../glade/chronojump.glade.h:158 ../src/gui/stats.cs:950
-#: ../src/report.cs:358
+#: ../src/report.cs:352
 msgid "Limit"
 msgstr "Límite"
 
@@ -819,8 +824,8 @@ msgid "Paint a circle at end"
 msgstr "Pintar un círculo al final"
 
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:189 ../src/exportSession.cs:538
-#: ../src/exportSession.cs:572 ../src/treeViewPulse.cs:47
+#: ../glade/chronojump.glade.h:189 ../src/exportSession.cs:540
+#: ../src/exportSession.cs:575 ../src/treeViewPulse.cs:47
 #: ../src/treeViewReactionTime.cs:31
 msgid "Person"
 msgstr "Persona"
@@ -830,7 +835,7 @@ msgid "Person AVG"
 msgstr "Media personal"
 
 #: ../glade/chronojump.glade.h:191 ../src/exportSession.cs:174
-#: ../src/gui/session.cs:352 ../src/report.cs:153
+#: ../src/gui/session.cs:352 ../src/report.cs:147
 msgid "Persons"
 msgstr "Personas"
 
@@ -840,7 +845,7 @@ msgstr "_Plataforma"
 
 #: ../glade/chronojump.glade.h:193 ../src/exportSession.cs:213
 #: ../src/gui/person.cs:1242 ../src/gui/session.cs:350
-#: ../src/gui/session.cs:506 ../src/report.cs:259
+#: ../src/gui/session.cs:506 ../src/report.cs:253
 msgid "Place"
 msgstr "Lugar"
 
@@ -888,7 +893,7 @@ msgstr "Pulso"
 #. windowTitle
 #: ../glade/chronojump.glade.h:205 ../src/exportSession.cs:194
 #: ../src/gui/chronojump.cs:3263 ../src/gui/person.cs:1249
-#: ../src/gui/session.cs:358 ../src/report.cs:192
+#: ../src/gui/session.cs:358 ../src/report.cs:186
 msgid "Pulses"
 msgstr "Pulsos"
 
@@ -913,7 +918,7 @@ msgid "Reaction time"
 msgstr "Tiempo de reacción"
 
 #: ../glade/chronojump.glade.h:211 ../src/exportSession.cs:191
-#: ../src/report.cs:187
+#: ../src/report.cs:181
 msgid "Reaction times"
 msgstr "Tiempos de reacción"
 
@@ -1033,7 +1038,7 @@ msgid "Serial ports help"
 msgstr "Ayuda del puerto serie"
 
 #: ../glade/chronojump.glade.h:240 ../src/exportSession.cs:171
-#: ../src/report.cs:148
+#: ../src/report.cs:142
 msgid "Session"
 msgstr "Sesión"
 
@@ -1110,7 +1115,7 @@ msgstr "Salto simple sin ninguna técnica concreta"
 msgid "Simulated"
 msgstr "Simulado"
 
-#: ../glade/chronojump.glade.h:259 ../src/exportSession.cs:430
+#: ../glade/chronojump.glade.h:259 ../src/exportSession.cs:431
 #: ../src/treeViewRun.cs:51 ../src/treeViewRun.cs:111
 msgid "Speed"
 msgstr "Velocidad"
@@ -1138,12 +1143,14 @@ msgstr "Subtipo"
 
 #. Console.WriteLine("TC: {0}", tc.ToString());
 #: ../glade/chronojump.glade.h:265 ../src/execute/jump.cs:357
-#: ../src/exportSession.cs:259 ../src/exportSession.cs:380
+#: ../src/exportSession.cs:259 ../src/exportSession.cs:381
 #: ../src/gui/convertWeight.cs:128 ../src/gui/jump.cs:424
 #: ../src/stats/djIndex.cs:36 ../src/stats/djQ.cs:36
-#: ../src/stats/graphs/djIndex.cs:77 ../src/stats/graphs/djQ.cs:77
-#: ../src/stats/graphs/rjEvolution.cs:132 ../src/stats/graphs/rjIndex.cs:77
-#: ../src/stats/graphs/rjPotencyBosco.cs:81 ../src/stats/rjEvolution.cs:73
+#: ../src/stats/graphs/djIndex.cs:77 ../src/stats/graphs/djIndex.cs:108
+#: ../src/stats/graphs/djQ.cs:77 ../src/stats/graphs/djQ.cs:108
+#: ../src/stats/graphs/rjEvolution.cs:133 ../src/stats/graphs/rjIndex.cs:77
+#: ../src/stats/graphs/rjIndex.cs:104 ../src/stats/graphs/rjPotencyBosco.cs:81
+#: ../src/stats/graphs/rjPotencyBosco.cs:118 ../src/stats/rjEvolution.cs:73
 #: ../src/stats/rjEvolution.cs:78
 msgid "TC"
 msgstr "TC"
@@ -1151,15 +1158,23 @@ msgstr "TC"
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
 #: ../glade/chronojump.glade.h:266 ../src/execute/jump.cs:365
-#: ../src/exportSession.cs:260 ../src/exportSession.cs:381
+#: ../src/exportSession.cs:260 ../src/exportSession.cs:382
 #: ../src/gui/convertWeight.cs:120 ../src/gui/jump.cs:433
 #: ../src/gui/run.cs:367 ../src/stats/djIndex.cs:35 ../src/stats/djQ.cs:35
-#: ../src/stats/graphs/djIndex.cs:78 ../src/stats/graphs/djQ.cs:78
-#: ../src/stats/graphs/global.cs:77 ../src/stats/graphs/rjEvolution.cs:133
-#: ../src/stats/graphs/rjIndex.cs:78 ../src/stats/graphs/rjPotencyBosco.cs:82
-#: ../src/stats/graphs/sjCmjAbk.cs:70 ../src/stats/graphs/sjCmjAbkPlus.cs:72
-#: ../src/stats/rjEvolution.cs:74 ../src/stats/rjEvolution.cs:79
-#: ../src/stats/sjCmjAbk.cs:54 ../src/stats/sjCmjAbkPlus.cs:65
+#: ../src/stats/graphs/djIndex.cs:78 ../src/stats/graphs/djIndex.cs:109
+#: ../src/stats/graphs/djQ.cs:78 ../src/stats/graphs/djQ.cs:109
+#: ../src/stats/graphs/global.cs:77 ../src/stats/graphs/global.cs:96
+#: ../src/stats/graphs/global.cs:107 ../src/stats/graphs/ieIub.cs:110
+#: ../src/stats/graphs/ieIub.cs:111 ../src/stats/graphs/rjEvolution.cs:134
+#: ../src/stats/graphs/rjIndex.cs:78 ../src/stats/graphs/rjIndex.cs:105
+#: ../src/stats/graphs/rjPotencyBosco.cs:82
+#: ../src/stats/graphs/rjPotencyBosco.cs:119
+#: ../src/stats/graphs/sjCmjAbk.cs:70 ../src/stats/graphs/sjCmjAbk.cs:86
+#: ../src/stats/graphs/sjCmjAbk.cs:96 ../src/stats/graphs/sjCmjAbkPlus.cs:72
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:93
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:105 ../src/stats/rjEvolution.cs:74
+#: ../src/stats/rjEvolution.cs:79 ../src/stats/sjCmjAbk.cs:54
+#: ../src/stats/sjCmjAbkPlus.cs:65
 msgid "TF"
 msgstr "TV"
 
@@ -1178,10 +1193,12 @@ msgstr ""
 "Este diálogo explica qué puertos son apropiados para conectar con chronopic"
 
 #: ../glade/chronojump.glade.h:270 ../src/execute/reactionTime.cs:235
-#: ../src/execute/run.cs:746 ../src/exportSession.cs:333
-#: ../src/exportSession.cs:429 ../src/exportSession.cs:540
-#: ../src/exportSession.cs:591 ../src/gui/pulse.cs:360
-#: ../src/stats/graphs/rjPotencyBosco.cs:84 ../src/stats/rjPotencyBosco.cs:37
+#: ../src/execute/run.cs:746 ../src/exportSession.cs:334
+#: ../src/exportSession.cs:430 ../src/exportSession.cs:542
+#: ../src/exportSession.cs:594 ../src/gui/pulse.cs:360
+#: ../src/stats/graphs/rjEvolution.cs:81
+#: ../src/stats/graphs/rjPotencyBosco.cs:84
+#: ../src/stats/graphs/rjPotencyBosco.cs:123 ../src/stats/rjPotencyBosco.cs:37
 #: ../src/treeViewPulse.cs:48 ../src/treeViewReactionTime.cs:52
 #: ../src/treeViewRun.cs:58 ../src/treeViewRun.cs:117
 msgid "Time"
@@ -1204,8 +1221,8 @@ msgstr ""
 "(entre plataformas)"
 
 #: ../glade/chronojump.glade.h:275 ../src/exportSession.cs:258
-#: ../src/exportSession.cs:427 ../src/exportSession.cs:466
-#: ../src/exportSession.cs:574 ../src/gui/convertWeight.cs:118
+#: ../src/exportSession.cs:428 ../src/exportSession.cs:468
+#: ../src/exportSession.cs:577 ../src/gui/convertWeight.cs:118
 #: ../src/gui/report.cs:126
 msgid "Type"
 msgstr "Tipo"
@@ -1423,7 +1440,6 @@ msgid "jump extra data"
 msgstr "Datos extra del salto"
 
 #: ../glade/chronojump.glade.h:327 ../src/gui/jump.cs:743
-#: ../src/stats/graphs/rjPotencyBosco.cs:120
 msgid "jumps"
 msgstr "saltos"
 
@@ -1489,14 +1505,6 @@ msgstr "Datos extra de la carrera"
 #: ../src/gui/jump.cs:744 ../src/gui/pulse.cs:310 ../src/gui/pulse.cs:392
 #: ../src/gui/pulse.cs:498 ../src/gui/run.cs:324 ../src/gui/run.cs:393
 #: ../src/gui/run.cs:492 ../src/gui/run.cs:615
-#: ../src/stats/graphs/djIndex.cs:107 ../src/stats/graphs/djQ.cs:107
-#: ../src/stats/graphs/global.cs:96 ../src/stats/graphs/global.cs:107
-#: ../src/stats/graphs/ieIub.cs:109 ../src/stats/graphs/rjEvolution.cs:81
-#: ../src/stats/graphs/rjIndex.cs:103
-#: ../src/stats/graphs/rjPotencyBosco.cs:117
-#: ../src/stats/graphs/sjCmjAbk.cs:86 ../src/stats/graphs/sjCmjAbk.cs:96
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:93
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:107
 msgid "seconds"
 msgstr "segundos"
 
@@ -1768,7 +1776,8 @@ msgid "Female university students"
 msgstr "Estudiantes universitarias femeninas"
 
 #: ../src/constants.cs:91 ../src/constants.cs:92 ../src/stats/potency.cs:61
-#: ../src/stats/graphs/potency.cs:77
+#: ../src/stats/graphs/potency.cs:77 ../src/stats/graphs/potency.cs:102
+#: ../src/stats/graphs/potency.cs:112
 msgid "Peak Power"
 msgstr "Pico de potencia"
 
@@ -1914,7 +1923,7 @@ msgid "Run will not be recorded, 1st track is out of time"
 msgstr "La carrera no se grabará, la primera pista está fuera de tiempo"
 
 #. windowTitle
-#: ../src/execute/run.cs:748 ../src/exportSession.cs:471
+#: ../src/execute/run.cs:748 ../src/exportSession.cs:473
 #: ../src/gui/chronojump.cs:2998 ../src/gui/run.cs:904 ../src/gui/run.cs:948
 #: ../src/gui/run.cs:980
 msgid "Tracks"
@@ -1950,81 +1959,93 @@ msgstr "Guardado en {0}"
 msgid "Cannot export to file {0} "
 msgstr "No se puede exportar al archivo {0} "
 
-#: ../src/exportSession.cs:177 ../src/report.cs:158
+#: ../src/exportSession.cs:177 ../src/report.cs:152
 msgid "Simple jumps"
 msgstr "Saltos simples"
 
-#: ../src/exportSession.cs:180 ../src/report.cs:163 ../src/report.cs:166
+#: ../src/exportSession.cs:180 ../src/report.cs:157 ../src/report.cs:160
 msgid "Reactive jumps"
 msgstr "Saltos reactivos"
 
-#: ../src/exportSession.cs:181 ../src/report.cs:164
+#: ../src/exportSession.cs:181 ../src/report.cs:158
 msgid "with subjumps"
 msgstr "incluir subsaltos"
 
-#: ../src/exportSession.cs:184 ../src/report.cs:172
+#: ../src/exportSession.cs:184 ../src/report.cs:166
 msgid "Simple runs"
 msgstr "Carreras simples"
 
-#: ../src/exportSession.cs:187 ../src/report.cs:177 ../src/report.cs:180
+#: ../src/exportSession.cs:187 ../src/report.cs:171 ../src/report.cs:174
 msgid "interval runs"
 msgstr "carreras con tramos"
 
-#: ../src/exportSession.cs:188 ../src/report.cs:178
+#: ../src/exportSession.cs:188 ../src/report.cs:172
 msgid "with tracks"
 msgstr "con tramos"
 
-#: ../src/exportSession.cs:211 ../src/report.cs:258
+#: ../src/exportSession.cs:211 ../src/report.cs:252
 msgid "SessionID"
 msgstr "ID de sesión"
 
 #: ../src/exportSession.cs:212 ../src/exportSession.cs:225
 #: ../src/gui/jump.cs:919 ../src/gui/jump.cs:1093 ../src/gui/person.cs:98
 #: ../src/gui/run.cs:735 ../src/gui/run.cs:881 ../src/gui/session.cs:349
-#: ../src/gui/session.cs:505 ../src/report.cs:258 ../src/report.cs:274
+#: ../src/gui/session.cs:505 ../src/report.cs:252 ../src/report.cs:268
 msgid "Name"
 msgstr "Nombre"
 
 #: ../src/exportSession.cs:225 ../src/gui/convertWeight.cs:112
-#: ../src/gui/person.cs:97 ../src/report.cs:274
+#: ../src/gui/person.cs:97 ../src/report.cs:268
 msgid "ID"
 msgstr "ID"
 
-#: ../src/exportSession.cs:226 ../src/gui/person.cs:99 ../src/report.cs:275
+#: ../src/exportSession.cs:226 ../src/gui/person.cs:99 ../src/report.cs:269
 msgid "Sex"
 msgstr "Sexo"
 
 #: ../src/exportSession.cs:227 ../src/exportSession.cs:263
-#: ../src/gui/person.cs:100 ../src/report.cs:276 ../src/stats/potency.cs:64
+#: ../src/gui/person.cs:100 ../src/report.cs:270 ../src/stats/potency.cs:64
 #: ../src/stats/djIndex.cs:34 ../src/stats/djQ.cs:34
-#: ../src/stats/graphs/potency.cs:80 ../src/stats/graphs/djIndex.cs:76
-#: ../src/stats/graphs/djQ.cs:76 ../src/stats/graphs/global.cs:75
-#: ../src/stats/graphs/sjCmjAbk.cs:71 ../src/stats/sjCmjAbk.cs:54
+#: ../src/stats/graphs/potency.cs:80 ../src/stats/graphs/potency.cs:106
+#: ../src/stats/graphs/djIndex.cs:76 ../src/stats/graphs/djIndex.cs:112
+#: ../src/stats/graphs/djQ.cs:76 ../src/stats/graphs/djQ.cs:112
+#: ../src/stats/graphs/fv.cs:103 ../src/stats/graphs/fv.cs:104
+#: ../src/stats/graphs/global.cs:75 ../src/stats/graphs/global.cs:94
+#: ../src/stats/graphs/global.cs:105 ../src/stats/graphs/sjCmjAbk.cs:71
+#: ../src/stats/graphs/sjCmjAbk.cs:87 ../src/stats/graphs/sjCmjAbk.cs:94
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:73
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:95
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:103 ../src/stats/sjCmjAbk.cs:54
 #: ../src/stats/sjCmjAbkPlus.cs:64 ../src/treeViewJump.cs:39
 msgid "Height"
 msgstr "Altura"
 
 #. decimals
 #: ../src/exportSession.cs:227 ../src/exportSession.cs:247
-#: ../src/exportSession.cs:310 ../src/gui/person.cs:101 ../src/report.cs:276
-#: ../src/stats/sjCmjAbkPlus.cs:58 ../src/treeViewJump.cs:37
+#: ../src/exportSession.cs:311 ../src/gui/person.cs:101 ../src/report.cs:270
+#: ../src/stats/graphs/potency.cs:105 ../src/stats/graphs/sjCmjAbkPlus.cs:74
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:96 ../src/stats/sjCmjAbkPlus.cs:58
+#: ../src/treeViewJump.cs:37
 msgid "Weight"
 msgstr "Peso"
 
-#: ../src/exportSession.cs:256 ../src/exportSession.cs:319
+#: ../src/exportSession.cs:256 ../src/exportSession.cs:320
 msgid "Jumper name"
 msgstr "Saltador"
 
-#: ../src/exportSession.cs:257 ../src/exportSession.cs:320
+#: ../src/exportSession.cs:257 ../src/exportSession.cs:321
 msgid "jump ID"
 msgstr "ID de salto"
 
-#: ../src/exportSession.cs:261 ../src/exportSession.cs:330
+#: ../src/exportSession.cs:261 ../src/exportSession.cs:331
 #: ../src/stats/djIndex.cs:37 ../src/stats/djQ.cs:37
-#: ../src/stats/graphs/djIndex.cs:79 ../src/stats/graphs/djQ.cs:79
-#: ../src/stats/graphs/rjIndex.cs:79 ../src/stats/graphs/rjPotencyBosco.cs:85
-#: ../src/stats/rjEvolution.cs:68 ../src/stats/rjIndex.cs:36
-#: ../src/stats/rjPotencyBosco.cs:38 ../src/treeViewJump.cs:38
+#: ../src/stats/graphs/djIndex.cs:79 ../src/stats/graphs/djIndex.cs:113
+#: ../src/stats/graphs/djQ.cs:79 ../src/stats/graphs/djQ.cs:113
+#: ../src/stats/graphs/rjIndex.cs:79 ../src/stats/graphs/rjIndex.cs:108
+#: ../src/stats/graphs/rjPotencyBosco.cs:85
+#: ../src/stats/graphs/rjPotencyBosco.cs:124 ../src/stats/rjEvolution.cs:68
+#: ../src/stats/rjIndex.cs:36 ../src/stats/rjPotencyBosco.cs:38
+#: ../src/treeViewJump.cs:38
 msgid "Fall"
 msgstr "Caída"
 
@@ -2032,110 +2053,112 @@ msgstr "Caída"
 msgid "Initial Speed"
 msgstr "Velocidad inicial"
 
-#: ../src/exportSession.cs:321
+#: ../src/exportSession.cs:322
 msgid "jump Type"
 msgstr "Tipo de salto"
 
-#: ../src/exportSession.cs:322
+#: ../src/exportSession.cs:323
 msgid "TC Max"
 msgstr "TC Max"
 
-#: ../src/exportSession.cs:323
+#: ../src/exportSession.cs:324
 msgid "TF Max"
 msgstr "TV Max"
 
-#: ../src/exportSession.cs:324
+#: ../src/exportSession.cs:325
 msgid "Max Height"
 msgstr "Altura Max"
 
-#: ../src/exportSession.cs:325
+#: ../src/exportSession.cs:326
 msgid "Max Initial Speed"
 msgstr "Max Velocidad inicial"
 
-#: ../src/exportSession.cs:326
+#: ../src/exportSession.cs:327
 msgid "TC AVG"
 msgstr "TC (promedio)"
 
-#: ../src/exportSession.cs:327
+#: ../src/exportSession.cs:328
 msgid "TF AVG"
 msgstr "TV (promedio)"
 
-#: ../src/exportSession.cs:328
+#: ../src/exportSession.cs:329
 msgid "AVG Height"
 msgstr "Altura (promedio)"
 
-#: ../src/exportSession.cs:329
+#: ../src/exportSession.cs:330
 msgid "AVG Initial Speed"
 msgstr "Velocidad inicial (promedio)"
 
-#: ../src/exportSession.cs:334 ../src/exportSession.cs:472
+#: ../src/exportSession.cs:335 ../src/exportSession.cs:474
 msgid "Limited"
 msgstr "Limitado"
 
 #. print Total, AVG, SD
-#: ../src/exportSession.cs:384 ../src/exportSession.cs:499
-#: ../src/exportSession.cs:594 ../src/treeViewJump.cs:315
+#: ../src/exportSession.cs:385 ../src/exportSession.cs:501
+#: ../src/exportSession.cs:597 ../src/treeViewJump.cs:315
 #: ../src/treeViewPulse.cs:137 ../src/treeViewRun.cs:215
 msgid "Total"
 msgstr "Total"
 
-#: ../src/exportSession.cs:390 ../src/exportSession.cs:506
-#: ../src/exportSession.cs:598 ../src/stats/graphs/potency.cs:191
-#: ../src/stats/graphs/djIndex.cs:202 ../src/stats/graphs/djQ.cs:203
-#: ../src/stats/graphs/fv.cs:186 ../src/stats/graphs/global.cs:124
-#: ../src/stats/graphs/global.cs:195 ../src/stats/graphs/ieIub.cs:190
-#: ../src/stats/graphs/rjIndex.cs:192
-#: ../src/stats/graphs/rjPotencyBosco.cs:223
-#: ../src/stats/graphs/sjCmjAbk.cs:166 ../src/stats/graphs/sjCmjAbkPlus.cs:183
+#: ../src/exportSession.cs:391 ../src/exportSession.cs:508
+#: ../src/exportSession.cs:601 ../src/stats/graphs/potency.cs:195
+#: ../src/stats/graphs/djIndex.cs:207 ../src/stats/graphs/djQ.cs:208
+#: ../src/stats/graphs/fv.cs:188 ../src/stats/graphs/global.cs:124
+#: ../src/stats/graphs/global.cs:195 ../src/stats/graphs/ieIub.cs:192
+#: ../src/stats/graphs/rjAVGSD.cs:76 ../src/stats/graphs/rjAVGSD.cs:97
+#: ../src/stats/graphs/rjIndex.cs:196
+#: ../src/stats/graphs/rjPotencyBosco.cs:225
+#: ../src/stats/graphs/sjCmjAbk.cs:166 ../src/stats/graphs/sjCmjAbkPlus.cs:181
 #: ../src/stats/main.cs:188 ../src/stats/main.cs:223 ../src/stats/main.cs:366
 #: ../src/stats/main.cs:393 ../src/stats/main.cs:664 ../src/stats/main.cs:735
 #: ../src/stats/main.cs:757 ../src/stats/main.cs:784
-#: ../src/stats/rjEvolution.cs:220 ../src/treeViewJump.cs:378
-#: ../src/treeViewPulse.cs:167 ../src/treeViewRun.cs:249
+#: ../src/stats/rjAVGSD.cs:36 ../src/stats/rjEvolution.cs:220
+#: ../src/treeViewJump.cs:378 ../src/treeViewPulse.cs:167
+#: ../src/treeViewRun.cs:249
 msgid "SD"
 msgstr "DE"
 
-#: ../src/exportSession.cs:425 ../src/exportSession.cs:464
+#: ../src/exportSession.cs:426 ../src/exportSession.cs:466
 msgid "Runner name"
 msgstr "Nombre del corredor"
 
-#: ../src/exportSession.cs:426 ../src/exportSession.cs:465
+#: ../src/exportSession.cs:427 ../src/exportSession.cs:467
 msgid "run ID"
 msgstr "ID"
 
-#: ../src/exportSession.cs:467
+#: ../src/exportSession.cs:469
 msgid "Distance total"
 msgstr "Distancia total"
 
-#: ../src/exportSession.cs:468
+#: ../src/exportSession.cs:470
 msgid "Time total"
 msgstr "Tiempo total"
 
-#: ../src/exportSession.cs:469
+#: ../src/exportSession.cs:471
 msgid "Average speed"
 msgstr "Velocidad media"
 
-#: ../src/exportSession.cs:470
+#: ../src/exportSession.cs:472
 msgid "Distance interval"
 msgstr "Distancia de tramo"
 
-#: ../src/exportSession.cs:495
+#: ../src/exportSession.cs:497
 msgid "Interval speed"
 msgstr "Velocidad en tramo"
 
-#: ../src/exportSession.cs:496
+#: ../src/exportSession.cs:498
 msgid "interval times"
 msgstr "tiempo de tramos"
 
-#: ../src/exportSession.cs:539
+#: ../src/exportSession.cs:541
 msgid "Reaction time ID"
 msgstr "Id del tiempo de reacción"
 
-#: ../src/exportSession.cs:573
+#: ../src/exportSession.cs:576
 msgid "Pulse ID"
 msgstr "Id del pulso"
 
-#: ../src/exportSession.cs:676
+#: ../src/exportSession.cs:679
 msgid "Exported to file: "
 msgstr "Exportado al archivo: "
 
@@ -2795,7 +2818,7 @@ msgstr "Hombre"
 msgid "Female"
 msgstr "Mujer"
 
-#: ../src/gui/stats.cs:953 ../src/report.cs:361
+#: ../src/gui/stats.cs:953 ../src/report.cs:355
 msgid "Jumper's best"
 msgstr "Máximo/s del saltador"
 
@@ -2825,15 +2848,15 @@ msgstr "Error, el estado '{0}' no es válido"
 msgid "State: {0}, lastChange {1}"
 msgstr "Estado: {0}, último cambio {1}"
 
-#: ../src/report.cs:167
+#: ../src/report.cs:161
 msgid "without subjumps"
 msgstr "sin subsaltos"
 
-#: ../src/report.cs:181
+#: ../src/report.cs:175
 msgid "without tracks"
 msgstr "sin tramos"
 
-#: ../src/report.cs:370
+#: ../src/report.cs:364
 msgid "Evolution."
 msgstr "Evolución."
 
@@ -3006,7 +3029,8 @@ msgstr "Excelente"
 msgid "Good"
 msgstr "Bueno"
 
-#: ../src/runType.cs:170
+#: ../src/runType.cs:170 ../src/stats/graphs/rjAVGSD.cs:75
+#: ../src/stats/graphs/rjAVGSD.cs:96
 msgid "Average"
 msgstr "Medio"
 
@@ -3194,9 +3218,9 @@ msgstr "Continuar corriendo una distancia de 20m"
 
 #: ../src/stats/potency.cs:60 ../src/stats/djIndex.cs:32
 #: ../src/stats/djQ.cs:32 ../src/stats/fv.cs:50 ../src/stats/ieIub.cs:65
-#: ../src/stats/rjEvolution.cs:66 ../src/stats/rjIndex.cs:32
-#: ../src/stats/rjPotencyBosco.cs:32 ../src/stats/sjCmjAbkPlus.cs:64
-#: ../src/treeViewJump.cs:36
+#: ../src/stats/rjAVGSD.cs:34 ../src/stats/rjEvolution.cs:66
+#: ../src/stats/rjIndex.cs:32 ../src/stats/rjPotencyBosco.cs:32
+#: ../src/stats/sjCmjAbkPlus.cs:64 ../src/treeViewJump.cs:36
 msgid "Jumper"
 msgstr "Saltador"
 
@@ -3218,9 +3242,10 @@ msgstr "varias sesiones"
 
 #: ../src/stats/potency.cs:145 ../src/stats/djIndex.cs:128
 #: ../src/stats/djQ.cs:128 ../src/stats/fv.cs:121 ../src/stats/global.cs:150
-#: ../src/stats/ieIub.cs:144 ../src/stats/rjEvolution.cs:271
-#: ../src/stats/rjIndex.cs:130 ../src/stats/rjPotencyBosco.cs:132
-#: ../src/stats/sjCmjAbk.cs:126 ../src/stats/sjCmjAbkPlus.cs:145
+#: ../src/stats/ieIub.cs:144 ../src/stats/rjAVGSD.cs:193
+#: ../src/stats/rjEvolution.cs:271 ../src/stats/rjIndex.cs:130
+#: ../src/stats/rjPotencyBosco.cs:132 ../src/stats/sjCmjAbk.cs:126
+#: ../src/stats/sjCmjAbkPlus.cs:145
 msgid " session "
 msgstr " sesión "
 
@@ -3235,9 +3260,10 @@ msgstr "Índice Dj"
 
 #. limit
 #: ../src/stats/djIndex.cs:116 ../src/stats/djQ.cs:116
-#: ../src/stats/ieIub.cs:132 ../src/stats/rjEvolution.cs:259
-#: ../src/stats/rjIndex.cs:118 ../src/stats/rjPotencyBosco.cs:120
-#: ../src/stats/sjCmjAbk.cs:114 ../src/stats/sjCmjAbkPlus.cs:133
+#: ../src/stats/ieIub.cs:132 ../src/stats/rjAVGSD.cs:181
+#: ../src/stats/rjEvolution.cs:259 ../src/stats/rjIndex.cs:118
+#: ../src/stats/rjPotencyBosco.cs:120 ../src/stats/sjCmjAbk.cs:114
+#: ../src/stats/sjCmjAbkPlus.cs:133
 #, csharp-format
 msgid "First {0} values"
 msgstr "Primeros {0} valores"
@@ -3261,9 +3287,9 @@ msgstr "Primeros {0} valores"
 #. best of each jumper
 #: ../src/stats/djIndex.cs:118 ../src/stats/djQ.cs:118 ../src/stats/fv.cs:111
 #: ../src/stats/global.cs:140 ../src/stats/ieIub.cs:134
-#: ../src/stats/rjEvolution.cs:261 ../src/stats/rjIndex.cs:120
-#: ../src/stats/rjPotencyBosco.cs:122 ../src/stats/sjCmjAbk.cs:116
-#: ../src/stats/sjCmjAbkPlus.cs:135
+#: ../src/stats/rjAVGSD.cs:183 ../src/stats/rjEvolution.cs:261
+#: ../src/stats/rjIndex.cs:120 ../src/stats/rjPotencyBosco.cs:122
+#: ../src/stats/sjCmjAbk.cs:116 ../src/stats/sjCmjAbkPlus.cs:135
 #, csharp-format
 msgid "Max {0} values of each jumper"
 msgstr "Máximos {0} valores de cada saltador"
@@ -3301,36 +3327,43 @@ msgstr " para atleta {0}({1})"
 msgid "{0} in some jumps and statistics on {1}{2}"
 msgstr "{0} en algunos saltos y estadisticos en {1}{2}"
 
+#.
+#. } else {
+#. this.operation = "AVG";
+#. }
+#.
 #: ../src/stats/graphs/potency.cs:61 ../src/stats/graphs/djIndex.cs:58
 #: ../src/stats/graphs/djQ.cs:58 ../src/stats/graphs/fv.cs:64
 #: ../src/stats/graphs/global.cs:58 ../src/stats/graphs/ieIub.cs:71
-#: ../src/stats/graphs/rjEvolution.cs:71 ../src/stats/graphs/rjIndex.cs:59
-#: ../src/stats/graphs/rjPotencyBosco.cs:61 ../src/stats/graphs/sjCmjAbk.cs:56
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:57
+#: ../src/stats/graphs/rjAVGSD.cs:61 ../src/stats/graphs/rjEvolution.cs:71
+#: ../src/stats/graphs/rjIndex.cs:59 ../src/stats/graphs/rjPotencyBosco.cs:61
+#: ../src/stats/graphs/sjCmjAbk.cs:56 ../src/stats/graphs/sjCmjAbkPlus.cs:57
 msgid "ChronoJump graph"
 msgstr "ChronoJump - gráfico"
 
-#: ../src/stats/graphs/potency.cs:102 ../src/stats/graphs/potency.cs:109
+#: ../src/stats/graphs/potency.cs:103 ../src/stats/graphs/potency.cs:113
 msgid "watts"
 msgstr "vatios"
 
-#: ../src/stats/graphs/djIndex.cs:75 ../src/stats/graphs/fv.cs:79
-#: ../src/stats/graphs/global.cs:73 ../src/stats/graphs/ieIub.cs:87
-#: ../src/stats/graphs/rjIndex.cs:76 ../src/stats/graphs/rjPotencyBosco.cs:80
-#: ../src/stats/rjEvolution.cs:67 ../src/stats/rjIndex.cs:33
-#: ../src/stats/rjPotencyBosco.cs:33
+#: ../src/stats/graphs/djIndex.cs:75 ../src/stats/graphs/djIndex.cs:111
+#: ../src/stats/graphs/djIndex.cs:119 ../src/stats/graphs/djQ.cs:111
+#: ../src/stats/graphs/djQ.cs:119 ../src/stats/graphs/fv.cs:79
+#: ../src/stats/graphs/fv.cs:105 ../src/stats/graphs/fv.cs:111
+#: ../src/stats/graphs/global.cs:73 ../src/stats/graphs/global.cs:98
+#: ../src/stats/graphs/ieIub.cs:87 ../src/stats/graphs/ieIub.cs:112
+#: ../src/stats/graphs/ieIub.cs:118 ../src/stats/graphs/rjAVGSD.cs:75
+#: ../src/stats/graphs/rjAVGSD.cs:76 ../src/stats/graphs/rjIndex.cs:76
+#: ../src/stats/graphs/rjIndex.cs:107 ../src/stats/graphs/rjIndex.cs:114
+#: ../src/stats/graphs/rjPotencyBosco.cs:80
+#: ../src/stats/graphs/rjPotencyBosco.cs:121
+#: ../src/stats/graphs/rjPotencyBosco.cs:130 ../src/stats/rjEvolution.cs:67
+#: ../src/stats/rjIndex.cs:33 ../src/stats/rjPotencyBosco.cs:33
 msgid "Index"
 msgstr "Índice"
 
 #: ../src/stats/graphs/djQ.cs:75
 msgid "Index *100"
 msgstr "Indice *100"
-
-#: ../src/stats/graphs/global.cs:94 ../src/stats/graphs/global.cs:105
-#: ../src/stats/graphs/sjCmjAbk.cs:87 ../src/stats/graphs/sjCmjAbk.cs:94
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:105
-msgid "centimeters"
-msgstr "centímetros"
 
 #: ../src/stats/ieIub.cs:152
 #, csharp-format
@@ -3345,6 +3378,11 @@ msgstr "Todos los valores"
 #: ../src/stats/main.cs:82
 msgid "Avg values of each jumper"
 msgstr "Valores medios de cada saltador"
+
+#: ../src/stats/rjAVGSD.cs:202
+#, csharp-format
+msgid "{0} at average of jumps using {1} applied to {2} on {3}"
+msgstr "{0} de promedio de saltos usando {1} aplicado a {2} en {3}"
 
 #: ../src/stats/rjEvolution.cs:276
 #, csharp-format
@@ -3392,6 +3430,9 @@ msgstr "Diferencia"
 #: ../src/treeViewRun.cs:50 ../src/treeViewRun.cs:110
 msgid "Runner"
 msgstr "Corredor"
+
+#~ msgid "centimeters"
+#~ msgstr "centímetros"
 
 #~ msgid "Potency"
 #~ msgstr "Potencia"

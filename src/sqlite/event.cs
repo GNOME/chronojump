@@ -36,7 +36,11 @@ class SqliteEvent : Sqlite
 	/*
 	 * create and initialize tables
 	 */
-	
+
+	/* 
+	 * in the future this will not exist, and graphs will be in jumpType, runType, ... tables
+	 */
+
 	protected internal static void createGraphLinkTable()
 	{
 		dbcmd.CommandText = 
@@ -52,26 +56,17 @@ class SqliteEvent : Sqlite
 	
 	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened)
 	{
-		Console.WriteLine("1");
 		if(! dbconOpened) {
-		Console.WriteLine("2");
 			dbcon.Open();
 		}
-		Console.WriteLine("3");
 		dbcmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
 				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
-		Console.WriteLine("4");
 		Console.WriteLine(dbcmd.CommandText.ToString());
-		Console.WriteLine("5");
 		dbcmd.ExecuteNonQuery();
-		Console.WriteLine("6");
 		int myLast = dbcon.LastInsertRowId;
-		Console.WriteLine("7");
 		if(! dbconOpened) {
-		Console.WriteLine("8");
 			dbcon.Close();
-		Console.WriteLine("9");
 		}
 
 		return myLast;

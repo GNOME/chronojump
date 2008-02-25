@@ -33,7 +33,7 @@ class SqlitePreferences : Sqlite
 	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE preferences ( " +
+			"CREATE TABLE " + Constants.PreferencesTable + " ( " +
 			"name TEXT, " +
 			"value TEXT) ";
 		dbcmd.ExecuteNonQuery();
@@ -64,7 +64,8 @@ class SqlitePreferences : Sqlite
 	public static void Insert(string myName, string myValue)
 	{
 		//dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO preferences (name, value) VALUES ('" + 
+		dbcmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
+			" (name, value) VALUES ('" + 
 			myName + "', '" + myValue + "')" ;
 		dbcmd.ExecuteNonQuery();
 		//dbcon.Close();
@@ -75,7 +76,7 @@ class SqlitePreferences : Sqlite
 		if(! dbconOpened)
 			dbcon.Open();
 
-		dbcmd.CommandText = "UPDATE preferences " + 
+		dbcmd.CommandText = "UPDATE " + Constants.PreferencesTable +
 			" SET value = '" + myValue + 
 			"' WHERE name == '" + myName + "'" ;
 		dbcmd.ExecuteNonQuery();
@@ -87,7 +88,7 @@ class SqlitePreferences : Sqlite
 	public static string Select (string myName) 
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT value FROM preferences " + 
+		dbcmd.CommandText = "SELECT value FROM " + Constants.PreferencesTable + 
 			" WHERE name == '" + myName + "'" ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

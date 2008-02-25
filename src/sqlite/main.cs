@@ -46,7 +46,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with myVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.53";
+	static string lastChronojumpDatabaseVersion = "0.54";
 
 
 	public static void Connect()
@@ -283,8 +283,8 @@ class Sqlite
 			if(myVersion == "0.47") {
 				dbcon.Open();
 
-				SqliteJump.rjCreateTable("tempJumpRj");
-				SqliteRun.intervalCreateTable("tempRunInterval");
+				SqliteJump.rjCreateTable(Constants.TempJumpRjTable);
+				SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
 
 				SqlitePreferences.Update ("databaseVersion", "0.48", true); 
 				Console.WriteLine("created tempJumpReactive and tempRunInterval tables");
@@ -340,8 +340,8 @@ class Sqlite
 			if(myVersion == "0.51") {
 				dbcon.Open();
 				SqliteJumpType.Update ("CJl", "CMJl"); 
-				SqliteEvent.GraphLinkInsert ("jump", "CMJl", "jump_cmj_l.png", true);
-				SqliteEvent.GraphLinkInsert ("jump", "ABKl", "jump_abk_l.png", true);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
 				SqlitePreferences.Update ("databaseVersion", "0.52", true); 
 				Console.WriteLine("added graphLinks for cmj_l and abk_l, fixed CMJl name");
 				dbcon.Close();
@@ -362,6 +362,23 @@ class Sqlite
 				
 				Console.WriteLine("created weightSession table. Moved person weight data to weightSession table for each session that has performed");
 				myVersion = "0.53";
+			}
+			
+			if(myVersion == "0.53") {
+				dbcon.Open();
+
+				SqliteSport.createTable();
+				SqliteSport.initialize();
+				SqliteSpeciallity.createTable();
+				SqliteSpeciallity.initialize();
+
+				SqlitePerson.convertTableToSportRelated (); 
+				
+				SqlitePreferences.Update ("databaseVersion", "0.54", true); 
+				dbcon.Close();
+				
+				Console.WriteLine("Created sport tables. Added sport data, speciallity and level of practice to person table");
+				myVersion = "0.54";
 			}
 		}
 
@@ -437,15 +454,15 @@ class Sqlite
 	{
 		dbcon.Open();
 
-		SqlitePerson.createTable();
+		SqlitePerson.createTable(Constants.PersonTable);
 
 		//graphLinkTable
 		SqliteEvent.createGraphLinkTable();
 	
 		//jumps
 		SqliteJump.createTable();
-		SqliteJump.rjCreateTable("jumpRj");
-		SqliteJump.rjCreateTable("tempJumpRj");
+		SqliteJump.rjCreateTable(Constants.JumpRjTable);
+		SqliteJump.rjCreateTable(Constants.TempJumpRjTable);
 
 		//jump Types
 		SqliteJumpType.createTableJumpType();
@@ -455,8 +472,8 @@ class Sqlite
 		
 		//runs
 		SqliteRun.createTable();
-		SqliteRun.intervalCreateTable("runInterval");
-		SqliteRun.intervalCreateTable("tempRunInterval");
+		SqliteRun.intervalCreateTable(Constants.RunIntervalTable);
+		SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
 		
 		//run Types
 		SqliteRunType.createTableRunType();
@@ -472,6 +489,11 @@ class Sqlite
 		SqlitePulseType.createTablePulseType();
 		SqlitePulseType.initializeTablePulseType();
 	
+		//sports
+		SqliteSport.createTable();
+		SqliteSport.initialize();
+		SqliteSpeciallity.createTable();
+		SqliteSpeciallity.initialize();
 
 		SqliteSession.createTable();
 		
@@ -481,6 +503,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion);
 		
 		//changes [from - to - desc]
+		//0.53 - 0.54 created sport tables. Added sport data, speciallity and level of practice to person table
 		//0.52 - 0.53 added table weightSession, moved person weight data to weightSession table for each session that has performed
 		//0.51 - 0.52 added graphLinks for cmj_l and abk_l. Fixed CMJ_l name
 		//0.50 - 0.51 added graphLinks for run simple and interval
@@ -499,6 +522,28 @@ class Sqlite
 		dbcon.Close();
 	}
 
+	public static bool Exists(string tableName, string findName)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT uniqueID FROM " + tableName + 
+			" WHERE LOWER(name) == LOWER('" + findName + "')" ;
+		Console.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		bool exists = new bool();
+		exists = false;
+		
+		if (reader.Read()) {
+			exists = true;
+		}
+		Console.WriteLine("exists = {0}", exists.ToString());
+
+		dbcon.Close();
+		return exists;
+	}
+	
 	/* 
 	 * temp data stuff
 	 */

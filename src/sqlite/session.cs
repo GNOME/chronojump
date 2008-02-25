@@ -34,7 +34,7 @@ class SqliteSession : Sqlite
 	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE session ( " +
+			"CREATE TABLE " + Constants.SessionTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"place TEXT, " +
@@ -46,7 +46,7 @@ class SqliteSession : Sqlite
 	public static int Insert(string name, string place, string date, string comments)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO session (uniqueID, name, place, date, comments)" +
+		dbcmd.CommandText = "INSERT INTO " + Constants.SessionTable + " (uniqueID, name, place, date, comments)" +
 			" VALUES (NULL, '"
 			+ name + "', '" + place + "', '" + date + "', '" + comments + "')" ;
 		dbcmd.ExecuteNonQuery();
@@ -58,7 +58,7 @@ class SqliteSession : Sqlite
 	public static void Edit(int uniqueID, string name, string place, string date, string comments)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE session " +
+		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " " +
 			" SET name = '" + name +
 			"' , date = '" + date +
 			"' , place = '" + place +
@@ -71,7 +71,7 @@ class SqliteSession : Sqlite
 	public static Session Select(string myUniqueID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM session WHERE uniqueID == " + myUniqueID ; 
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
@@ -105,7 +105,7 @@ class SqliteSession : Sqlite
 		
 		dbcon.Open();
 		//dbcmd.CommandText = "SELECT * FROM session ORDER BY uniqueID";
-		dbcmd.CommandText = "SELECT " + selectString + " FROM session " + 
+		dbcmd.CommandText = "SELECT " + selectString + " FROM " + Constants.SessionTable + " " + 
 			" WHERE uniqueID != " + sessionIdDisable + " ORDER BY uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -148,7 +148,7 @@ class SqliteSession : Sqlite
 	public static string[] SelectAllSessions() 
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM session ORDER BY uniqueID";
+		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " ORDER BY uniqueID";
 		/*dbcmd.CommandText = "SELECT session.*, count(*) " +
 			"FROM session, jump " +
 			" WHERE session.uniqueID == jump.sessionID " +
@@ -185,7 +185,8 @@ class SqliteSession : Sqlite
 		 * */
 		
 		//select persons of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM personSessionWeight GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PersonSessionWeightTable + 
+			" GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -199,7 +200,8 @@ class SqliteSession : Sqlite
 		reader_persons.Close();
 		
 		//select jumps of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM JUMP GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpTable + 
+			" GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -213,7 +215,8 @@ class SqliteSession : Sqlite
 		reader_jumps.Close();
 		
 		//select jumpsRj of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM JUMPRJ GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpRjTable + 
+			" GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -227,7 +230,8 @@ class SqliteSession : Sqlite
 		reader_jumpsRj.Close();
 		
 		//select runs of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM RUN GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunTable + 
+			" GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -241,7 +245,8 @@ class SqliteSession : Sqlite
 		reader_runs.Close();
 		
 		//select runsInterval of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM RUNINTERVAL GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunIntervalTable + 
+			" GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -255,7 +260,8 @@ class SqliteSession : Sqlite
 		reader_runs_interval.Close();
 	
 		//select reaction time of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM REACTIONTIME GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ReactionTimeTable + 
+			" GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -269,7 +275,8 @@ class SqliteSession : Sqlite
 		reader_rt.Close();
 	
 		//select pulses of each session
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM PULSE GROUP BY sessionID ORDER BY sessionID";
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PulseTable + 
+			" GROUP BY sessionID ORDER BY sessionID";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -429,19 +436,19 @@ class SqliteSession : Sqlite
 		dbcon.Open();
 
 		//delete the session
-		dbcmd.CommandText = "Delete FROM session WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.SessionTable + " WHERE uniqueID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete relations (existance) within persons and sessions in this session
-		dbcmd.CommandText = "Delete FROM personSessionWeight WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionWeightTable + " WHERE sessionID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete normal jumps
-		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		
 		//delete repetitive jumps
-		dbcmd.CommandText = "Delete FROM jumpRj WHERE sessionID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		
 		//runs PENDING

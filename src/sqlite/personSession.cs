@@ -31,22 +31,10 @@ using Mono.Data.Sqlite;
 
 class SqlitePersonSession : Sqlite
 {
-	/* old (without weight)
 	protected internal static void createTable()
 	 {
 		dbcmd.CommandText = 
-			"CREATE TABLE personSession ( " +
-			"uniqueID INTEGER PRIMARY KEY, " +
-			"personID INT, " +
-			"sessionID INT)";		
-		dbcmd.ExecuteNonQuery();
-	 }
-	 */
-
-	protected internal static void createTable()
-	 {
-		dbcmd.CommandText = 
-			"CREATE TABLE personSessionWeight ( " +
+			"CREATE TABLE " + Constants.PersonSessionWeightTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -57,7 +45,8 @@ class SqlitePersonSession : Sqlite
 	public static int Insert(int personID, int sessionID, int weight)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO personSessionWeight(personID, sessionID, weight) VALUES ("
+		dbcmd.CommandText = "INSERT INTO " + Constants.PersonSessionWeightTable + 
+			"(personID, sessionID, weight) VALUES ("
 			+ personID + ", " + sessionID + ", " + weight + ")" ;
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
@@ -70,7 +59,8 @@ class SqlitePersonSession : Sqlite
 	{
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT weight FROM personSessionWeight WHERE personID == " + personID + 
+		dbcmd.CommandText = "SELECT weight FROM " + Constants.PersonSessionWeightTable +
+		       	" WHERE personID == " + personID + 
 			" AND sessionID == " + sessionID;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -93,7 +83,8 @@ class SqlitePersonSession : Sqlite
 	{
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT weight, sessionID FROM personSessionWeight WHERE personID == " + personID + 
+		dbcmd.CommandText = "SELECT weight, sessionID FROM " + Constants.PersonSessionWeightTable + 
+			" WHERE personID == " + personID + 
 			"ORDER BY sessionID DESC LIMIT 1";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -113,7 +104,7 @@ class SqlitePersonSession : Sqlite
 	public static void UpdateWeight(int personID, int sessionID, int weight)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE personSessionWeight " + 
+		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionWeightTable + 
 			" SET weight = " + weight + 
 			" WHERE personID = " + personID +
 			" AND sessionID = " + sessionID
@@ -123,57 +114,10 @@ class SqlitePersonSession : Sqlite
 		dbcon.Close();
 	}
 
-
-	public static bool SessionExists(string sessionName)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT uniqueID FROM session " +
-			" WHERE LOWER(session.name) == LOWER('" + sessionName + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-	
-		bool exists = new bool();
-		exists = false;
-		
-		if (reader.Read()) {
-			exists = true;
-			//Console.WriteLine("valor {0}", reader[0].ToString());
-		}
-		Console.WriteLine("exists = {0}", exists.ToString());
-
-		dbcon.Close();
-		return exists;
-	}
-	
-	public static bool PersonExists(string personName)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT uniqueID FROM person " +
-			" WHERE LOWER(person.name) == LOWER('" + personName + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-	
-		bool exists = new bool();
-		exists = false;
-		
-		if (reader.Read()) {
-			exists = true;
-			//Console.WriteLine("valor {0}", reader[0].ToString());
-		}
-		//Console.WriteLine("exists = {0}", exists.ToString());
-
-		dbcon.Close();
-		return exists;
-	}
-	
 	public static bool PersonExistsAndItsNotMe(int uniqueID, string personName)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT uniqueID FROM person " +
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable +
 			" WHERE LOWER(person.name) == LOWER('" + personName + "')" +
 			" AND uniqueID != " + uniqueID ;
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -197,7 +141,7 @@ class SqlitePersonSession : Sqlite
 	public static bool PersonSelectExistsInSession(string myPersonID, int mySessionID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM personSessionWeight " +
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionWeightTable +
 			" WHERE personID == " + myPersonID + 
 			" AND sessionID == " + mySessionID ; 
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -223,7 +167,7 @@ class SqlitePersonSession : Sqlite
 		dbcon.Open();
 		//dbcmd.CommandText = "SELECT name, sex, dateborn, height, weight, description " +
 		dbcmd.CommandText = "SELECT person.name, person.sex, person.dateborn, person.height, " +
-			"personSessionWeight.weight, person.description " +
+			"personSessionWeight.weight, person.sportID, person.speciallityID, person.practice, person.description " +
 			"FROM person, personSessionWeight WHERE person.uniqueID == " + uniqueID + 
 			" AND personSessionWeight.sessionID == " + sessionID +
 			" AND person.uniqueID == personSessionWeight.personID";
@@ -232,8 +176,8 @@ class SqlitePersonSession : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
-		string [] values = new string[6];
-		
+		string [] values = new string[9];
+
 		while(reader.Read()) {
 			values[0] = reader[0].ToString(); 
 			values[1] = reader[1].ToString(); 
@@ -241,10 +185,15 @@ class SqlitePersonSession : Sqlite
 			values[3] = reader[3].ToString();
 			values[4] = reader[4].ToString();
 			values[5] = reader[5].ToString();
+			values[6] = reader[6].ToString();
+			values[7] = reader[7].ToString();
+			values[8] = reader[8].ToString();
 		}
 
 		Person myPerson = new Person(uniqueID, values[0], 
-			values[1], values[2], Convert.ToInt32(values[3]), Convert.ToInt32(values[4]), values[5]);
+			values[1], values[2], Convert.ToInt32(values[3]), Convert.ToInt32(values[4]), 
+			Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), Convert.ToInt32(values[7]),
+			values[8]); //desc
 		
 		dbcon.Close();
 		return myPerson;
@@ -253,10 +202,11 @@ class SqlitePersonSession : Sqlite
 	public static string[] SelectCurrentSession(int sessionID, bool onlyIDAndName, bool reverse) 
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.*, personSessionWeight.weight " +
-			"FROM person, personSessionWeight " +
+		dbcmd.CommandText = "SELECT person.*, personSessionWeight.weight, sport.name " +
+			"FROM person, personSessionWeight, sport " +
 			" WHERE personSessionWeight.sessionID == " + sessionID + 
 			" AND person.uniqueID == personSessionWeight.personID " + 
+			" AND person.sportID == sport.uniqueID " + 
 			" ORDER BY upper(person.name)";
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -272,13 +222,18 @@ class SqlitePersonSession : Sqlite
 		while(reader.Read()) {
 			if(onlyIDAndName)
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
-			else
+			else {
+				string levelName = Util.FindLevelName(Convert.ToInt32(reader[8]));
+
 				myArray.Add (
 						reader[0].ToString() + ":" + reader[1].ToString() + ":" + //id, name
 						reader[2].ToString() + ":" + reader[3].ToString() + ":" + //sex, dateborn
-						reader[4].ToString() + ":" + reader[7].ToString() + ":" + //height, weight (from personSessionWeight)
-						reader[6].ToString()  //desc
+						reader[4].ToString() + ":" + reader[10].ToString() + ":" + //height, weight (from personSessionWeight)
+						reader[11].ToString() + ":" + 		//sportName
+						Util.FindLevelName(Convert.ToInt32(reader[8])) + ":" + //practiceLevel
+						reader[9].ToString()  //desc
 					    );
+			}
 			count ++;
 		}
 
@@ -393,7 +348,7 @@ class SqlitePersonSession : Sqlite
 	 * now weight of a person can change every session
 	*/
 	private static void dropOldTable() {
-		dbcmd.CommandText = "DROP TABLE personSession";
+		dbcmd.CommandText = "DROP TABLE " + Constants.PersonSessionTable;
 		dbcmd.ExecuteNonQuery();
 	}
 

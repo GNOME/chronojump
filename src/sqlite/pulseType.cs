@@ -40,7 +40,7 @@ class SqlitePulseType : Sqlite
 	protected internal static void createTablePulseType()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE pulseType ( " +
+			"CREATE TABLE " + Constants.PulseTypeTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"fixedPulse FLOAT, " + //-1: not fixed, 0,344: 0,344 seconds between pulses
@@ -72,8 +72,8 @@ class SqlitePulseType : Sqlite
 		if(! dbconOpened) {
 			dbcon.Open();
 		}
-		dbcmd.CommandText = "INSERT INTO pulseType" + 
-				"(uniqueID, name, fixedPulse, totalPulsesNum, description)" +
+		dbcmd.CommandText = "INSERT INTO " + Constants.PulseTypeTable +  
+				" (uniqueID, name, fixedPulse, totalPulsesNum, description)" +
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, fixedPulse
 				myStr[2] + ", '" + myStr[3] + "')" ;	//totalPulsesNum, description
@@ -91,7 +91,7 @@ class SqlitePulseType : Sqlite
 	
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
-			" FROM pulseType " +
+			" FROM " + Constants.PulseTypeTable + 
 			" ORDER BY uniqueID";
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
@@ -145,7 +145,7 @@ class SqlitePulseType : Sqlite
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
-			" FROM pulseType " +
+			" FROM " + Constants.PulseTypeTable +
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
@@ -168,29 +168,4 @@ class SqlitePulseType : Sqlite
 
 		return myPulseType;
 	}
-	
-	/*
-	public static bool Exists(string typeName)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT uniqueID FROM pulseType " +
-			" WHERE LOWER(name) == LOWER('" + typeName + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-	
-		bool exists = new bool();
-		exists = false;
-		
-		if (reader.Read()) {
-			exists = true;
-		}
-		Console.WriteLine("exists = {0}", exists.ToString());
-
-		dbcon.Close();
-		return exists;
-	}
-	*/
-
 }	

@@ -25,6 +25,7 @@ WSDL = chronojump_server/compile_wsdl.sh
 CHRONOJUMP = chronojump
 
 CHRONOJUMP_MINI = chronojump_mini
+CHRONOJUMP_MINI_VALIDATE = chronojump_mini_validate
 
 CHRONOJUMP_SERVER = chronojump_server
 
@@ -32,19 +33,19 @@ CHRONOJUMP_SERVER = chronojump_server
 #--------Dependences of CHRONOJUMP
 
 
-CHRONOJUMP_DEP_GUI = src/gui/chronojump.cs src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogHelp.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs src/gui/convertWeight.cs
+CHRONOJUMP_DEP_GUI = src/gui/chronojump.cs src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogHelp.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs src/gui/convertWeight.cs src/gui/genericWindow.cs
 
 CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/djQ.cs src/stats/rjIndex.cs src/stats/rjPotencyBosco.cs src/stats/rjEvolution.cs src/stats/ieIub.cs src/stats/fv.cs src/stats/potency.cs src/stats/rjAVGSD.cs
 
 CHRONOJUMP_DEP_GRAPHS = src/stats/graphs/graphData.cs src/stats/graphs/graphSerie.cs src/stats/graphs/global.cs src/stats/graphs/sjCmjAbk.cs src/stats/graphs/sjCmjAbkPlus.cs src/stats/graphs/djIndex.cs src/stats/graphs/djQ.cs src/stats/graphs/rjIndex.cs src/stats/graphs/rjPotencyBosco.cs src/stats/graphs/rjEvolution.cs src/stats/graphs/ieIub.cs src/stats/graphs/fv.cs src/stats/graphs/potency.cs src/stats/graphs/rjAVGSD.cs
 
-CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpType.cs src/sqlite/run.cs src/sqlite/runType.cs src/sqlite/personSession.cs src/sqlite/stat.cs src/sqlite/pulse.cs src/sqlite/pulseType.cs src/sqlite/reactionTime.cs src/sqlite/event.cs
+CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpType.cs src/sqlite/run.cs src/sqlite/runType.cs src/sqlite/personSession.cs src/sqlite/stat.cs src/sqlite/pulse.cs src/sqlite/pulseType.cs src/sqlite/reactionTime.cs src/sqlite/event.cs src/sqlite/sport.cs src/sqlite/speciallity.cs
 
 CHRONOJUMP_DEP_EXECUTE = src/execute/event.cs src/execute/jump.cs src/execute/run.cs src/execute/pulse.cs src/execute/reactionTime.cs
 
 CHRONOJUMP_DEP_SERVER = chronojump_server/ChronojumpServer.cs
 
-CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/eventType.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/reactionTimeType.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/utilGtk.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
+CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/eventType.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/reactionTimeType.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/utilGtk.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs src/sport.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
 
 RESOURCES_GLADE = -resource:glade/chronojump.glade,chronojump.glade
 
@@ -96,6 +97,7 @@ NPLOT_LIBS = build/data/linux_dlls
 #--------Dependences of CHRONOJUMP_MINI
 
 CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs src/chronopic.cs src/util.cs src/constants.cs 
+CHRONOJUMP_MINI_VALIDATE_DEP = src/chronojump_mini_validate.cs src/chronopic.cs src/util.cs src/constants.cs 
 
 #--------Dependences of CHRONOJUMP_SERVER
 
@@ -105,7 +107,8 @@ CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*
 #--------Makefiles
 
 #chronojump and chronojump_mini (default if used 'make')
-all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
+#all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
+all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_MINI_VALIDATE).prg
 
 #chronojump, chronojump_mini and server (use 'make server')
 server: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_SERVER)
@@ -127,6 +130,9 @@ $(CHRONOJUMP).prg: $(NPLOT_LIBS)/NPlot.dll $(NPLOT_LIBS)/NPlot.Gtk.dll $(CHRONOJ
 
 $(CHRONOJUMP_MINI).prg: $(CHRONOJUMP_MINI_DEP)
 	 $(MCS) $(CHRONOJUMP_MINI_DEP) -r:Mono.Posix -out:$(BUILD_DIR)/$(CHRONOJUMP_MINI).prg 
+
+$(CHRONOJUMP_MINI_VALIDATE).prg: $(CHRONOJUMP_MINI_VALIDATE_DEP)
+	 $(MCS) $(CHRONOJUMP_MINI_VALIDATE_DEP) -r:Mono.Posix -out:$(BUILD_DIR)/$(CHRONOJUMP_MINI_VALIDATE).prg 
    
 
 #------------------------------------

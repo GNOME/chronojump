@@ -33,6 +33,34 @@ public class Constants
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
 
+	//sqlite tables
+	//instead of typing the tableName directly (that can crash if it's bad written and it's not detected by compiler)
+	//use the following consts, and if it's misspelled, compiler will know
+	public const string PersonTable = "person";
+	public const string TempPersonTable = "tempPerson";
+	public const string SessionTable = "session";
+	public const string PersonSessionTable = "personSession";
+	public const string PersonSessionWeightTable = "personSessionWeight";
+	public const string SportTable = "sport";
+	public const string SpeciallityTable = "speciallity";
+	public const string PreferencesTable = "preferences";
+	//tests
+	public const string JumpTable = "jump";
+	public const string JumpRjTable = "jumpRj";
+	public const string TempJumpRjTable = "tempJumpRj";
+	public const string RunTable = "run";
+	public const string RunIntervalTable = "runInterval";
+	public const string TempRunIntervalTable = "tempRunInterval";
+	public const string PulseTable = "pulse";
+	public const string ReactionTimeTable = "reactionTime";
+	//tests types
+	public const string JumpTypeTable = "jumpType";
+	public const string JumpRjTypeTable = "jumpRjType";
+	public const string RunTypeTable = "runType";
+	public const string RunIntervalTypeTable = "runIntervalType";
+	public const string PulseTypeTable = "pulseType";
+	public const string ReactionTimeTypeTable = "reactionTimeType";
+
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
 		"(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
@@ -194,5 +222,23 @@ public class Constants
 	
 	public static string ExtensionProgramsLinux = "sh";
 	public static string ExtensionProgramsWindows = "bat";
+
+	public static string SportUndefined = "--Undefined";
+	public static string SportNone = "-None";
+
+	public static string SpeciallityUndefined = "Undefined"; 
+	
+	//levels of sport practice
+	//int will go into person database
+	//string will be shown in user language
+	public static string LevelUndefined = "Undefined"; 
+	public static string LevelSedentary = "Sedentary"; 
+	public static string [] Levels = {
+		"-1:" + Catalog.GetString(LevelUndefined), 
+		"0:" + Catalog.GetString(LevelSedentary), 
+		"1:" + Catalog.GetString("Regular practice"), 
+		"2:" + Catalog.GetString("Competition"), 
+		"3:" + Catalog.GetString("Elite"), 
+	};
 
 }

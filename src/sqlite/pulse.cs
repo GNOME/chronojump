@@ -38,7 +38,7 @@ class SqlitePulse : Sqlite
 	protected internal static void createTable()
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE pulse ( " +
+			"CREATE TABLE " + Constants.PulseTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -58,8 +58,8 @@ class SqlitePulse : Sqlite
 	public static int Insert(string uniqueID, int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO pulse" + 
-				"(uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timeString, description)" +
+		dbcmd.CommandText = "INSERT INTO " + Constants.PulseTable + 
+				" (uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timeString, description)" +
 				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", '"
 				+ timeString + "', '" + description + "')" ;
@@ -123,7 +123,7 @@ class SqlitePulse : Sqlite
 	{
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT * FROM pulse WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
 		
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -150,7 +150,7 @@ class SqlitePulse : Sqlite
 	public static void Update(int pulseID, int personID, string description)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE pulse " + 
+		dbcmd.CommandText = "UPDATE " + Constants.PulseTable + 
 			" SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + pulseID ;
@@ -162,7 +162,7 @@ class SqlitePulse : Sqlite
 	public static void Delete(string uniqueID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM pulse WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
 		Console.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();

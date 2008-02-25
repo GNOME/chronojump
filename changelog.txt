@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+25 feb 2008 (2)
+	restored Makefile
+	added missing src/gui/generic.cs
+
 25 feb 2008
 	0.62-svn3
 	chronopic.cs now has a public method to flush called Flush

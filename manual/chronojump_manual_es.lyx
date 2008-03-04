@@ -1,5 +1,5 @@
-#LyX 1.4.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 245
+#LyX 1.5.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 276
 \begin_document
 \begin_header
 \textclass article
@@ -8,7 +8,14 @@
 \end_preamble
 \language spanish
 \inputencoding auto
-\fontscheme times
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
 \graphics default
 \float_placement !h
 \paperfontsize default
@@ -16,6 +23,7 @@
 \papersize default
 \use_geometry false
 \use_amsmath 1
+\use_esint 0
 \cite_engine basic
 \use_bibtopic false
 \paperorientation portrait
@@ -28,13 +36,15 @@
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
-\output_changes true
+\output_changes false
+\author "" 
+\author "" 
 \end_header
 
 \begin_body
 
 \begin_layout Title
-Manual de Chronojump en espaÒol
+Manual de Chronojump en espa√±ol
 \end_layout
 
 \begin_layout Author
@@ -49,7 +59,7 @@ Xavier de Blas Foix
 
 \newpage
 
-\begin_inset LatexCommand \tableofcontents{}
+\begin_inset LatexCommand tableofcontents
 
 \end_inset
 
@@ -59,7 +69,7 @@ Xavier de Blas Foix
 \end_layout
 
 \begin_layout Section
-IntroducciÛn: Chronojump un proyecto colaborativo de software libre en las
+Introducci√≥n: Chronojump un proyecto colaborativo de software libre en las
  ciencias del deporte
 \end_layout
 
@@ -70,7 +80,7 @@ IntroducciÛn: Chronojump un proyecto colaborativo de software libre en las
 \end_layout
 
 \begin_layout Section
-ContextualizaciÛn
+Contextualizaci√≥n
 \end_layout
 
 \begin_layout Subsection
@@ -94,7 +104,7 @@ Test de Bosco
 \end_layout
 
 \begin_layout Subsubsection
-Saltos especÌficos
+Saltos espec√≠ficos
 \end_layout
 
 \begin_layout Subsection
@@ -114,7 +124,7 @@ Circuitos de agilidad
 \end_layout
 
 \begin_layout Subsection
-Tiempo de reacciÛn
+Tiempo de reacci√≥n
 \end_layout
 
 \begin_layout Subsection
@@ -132,27 +142,29 @@ Otros tests
 \end_layout
 
 \begin_layout Part
-ObtenciÛn y configuraciÛn del software y el hardware
+Obtenci√≥n y configuraci√≥n del software y el hardware
 \end_layout
 
 \begin_layout Section
-ObtenciÛn del software y el hardware
+Obtenci√≥n del software y el hardware
 \end_layout
 
 \begin_layout Standard
-Para poder usar la metodologÌa Chronojump es necesario construir la plataforma
- de contactos, obtener o construir el cronÛmetro Chronopic e instalar el
+Para poder usar la metodolog√≠a Chronojump es necesario construir la plataforma
+ de contactos, obtener o construir el cron√≥metro Chronopic e instalar el
  software Chronojump.
- A continuaciÛn se explica cada uno de estos apartados
+ A continuaci√≥n se explica cada uno de estos apartados
 \end_layout
 
 \begin_layout Subsection
-InstalaciÛn del software Chronojump
+Instalaci√≥n del software Chronojump
 \end_layout
 
 \begin_layout Standard
-Consultar esta p·gina: 
-\begin_inset LatexCommand \url[InstalaciÛn de Chronojump]{http://www.gnome.org/projects/chronojump/installation_es.html}
+Consultar esta p√°gina: 
+\begin_inset LatexCommand url
+name "Instalaci√≥n de Chronojump"
+target "http://www.gnome.org/projects/chronojump/installation_es.html"
 
 \end_inset
 
@@ -160,42 +172,50 @@ Consultar esta p·gina:
 \end_layout
 
 \begin_layout Standard
-Para m·s informaciÛn consulte las preguntas usualmente formuladas 
-\begin_inset LatexCommand \url[FAQ]{http://www.gnome.org/projects/chronojump/faq_es.html}
+Para m√°s informaci√≥n consulte las preguntas usualmente formuladas 
+\begin_inset LatexCommand url
+name "FAQ"
+target "http://www.gnome.org/projects/chronojump/faq_es.html"
 
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Subsection
-ConstrucciÛn de plataforma de contactos
+Construcci√≥n de plataforma de contactos
 \end_layout
 
 \begin_layout Standard
-Consultar este artÌculo: 
-\begin_inset LatexCommand \url["Instrucciones para la construcciÛn de una plataforma de contactos para la mediciÛn de la capacidad de salto/s"]{http://www.gnome.org/projects/chronojump/construction_contact_platform_es.html}
+Consultar este art√≠culo: 
+\begin_inset LatexCommand url
+name "\"Instrucciones para la construcci√≥n de una plataforma de contactos para la medici√≥n de la capacidad de salto/s\""
+target "http://www.gnome.org/projects/chronojump/construction_contact_platform_es.html"
 
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Subsection
-\begin_inset LatexCommand \label{sub:ConstrucciÛn-y-obtenciÛn-chronopic}
+\begin_inset LatexCommand label
+name "sub:Construcci√≥n-y-obtenci√≥n-chronopic"
 
 \end_inset
 
-ConstrucciÛn y obtenciÛn del cronÛmetro Chronopic
+Construcci√≥n y obtenci√≥n del cron√≥metro Chronopic
 \end_layout
 
 \begin_layout Standard
-Consultar esta p·gina: 
-\begin_inset LatexCommand \url[ConstrucciÛn de Chronojump]{http://www.gnome.org/projects/chronojump/construction_es.html}
+La infomaci√≥n m√°s actualizada sobre la construcci√≥n o compra de Chronopic,
+ se encuentra en esta p√°gina: 
+\begin_inset LatexCommand url
+name "Construcci√≥n de Chronojump"
+target "http://www.gnome.org/projects/chronojump/construction_es.html"
 
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Standard
@@ -206,25 +226,20 @@ Consultar esta p·gina:
 \end_layout
 
 \begin_layout Section
-\begin_inset LatexCommand \label{par:Chronopic:-concepto-y-configuracion}
+\begin_inset LatexCommand label
+name "par:Chronopic:-concepto-y-configuracion"
 
 \end_inset
 
- ConfiguraciÛn de Chronopic
+ Configuraci√≥n de Chronopic
 \end_layout
 
 \begin_layout Standard
 Chronopic es el circuito integrado usado para que Chronojump pueda detectar
  los tests realizados en la plataforma de contactos.
- La obtenciÛn de Chronopic se describe en el apartado 
-\begin_inset LatexCommand \ref{sub:ConstrucciÛn-y-obtenciÛn-chronopic}
-
-\end_inset
-
-.
- Para m·s informaciÛn sobre Chronopic y sobre la tarjeta previa: Skypic,
- consulte el siguiente artÌculo: 
-\begin_inset LatexCommand \url["Proyecto Chronojump: Sistema de Medida de la Capacidad de Salto usando Software y Hardware Libres"]{http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_medida_congreso_gpul.pdf}
+ La obtenci√≥n de Chronopic se describe en el apartado 
+\begin_inset LatexCommand ref
+reference "sub:Construcci√≥n-y-obtenci√≥n-chronopic"
 
 \end_inset
 
@@ -232,10 +247,457 @@ Chronopic es el circuito integrado usado para que Chronojump pueda detectar
 \end_layout
 
 \begin_layout Standard
-En septiembre de 2007, existe el Chronopic 1.0 y se est· desarrollando Chronopic
- 2.0, este ˙ltimo en dos versiones: Serial y USB.
- Adem·s de la posibilidad de uso del puerto USB, el Chronopic 2.0 es m·s
- pequeÒo y barato que el 1.0.
+Para m√°s informaci√≥n sobre Chronopic y sobre la tarjeta previa: Skypic,
+ consulte el siguiente art√≠culo: 
+\begin_inset LatexCommand url
+name "\"Proyecto Chronojump: Sistema de Medida de la Capacidad de Salto usando Software y Hardware Libres\""
+target "http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_medida_congreso_gpul.pdf"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features>
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" width="0">
+<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Versi√≥n
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Fecha de lanzamiento
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Conexi√≥n a ordenador
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Disponible en
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Precio
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Chronopic3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+25 marzo 2008
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Espa√±a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+30 ‚Ç¨ aprox.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Chronopic2-USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+septiembre 2007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Argentina
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+150$ argentinos
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Chronopic2-Serie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+septiembre 2007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Serie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Argentina
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+150$ argentinos
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Chronopic1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+2005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Serie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Espa√±a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+70 ‚Ç¨
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "tab:Versiones-de-Chronopic"
+
+\end_inset
+
+Versiones de Chronopic
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename chronopic3-metacrilato_small.jpg
+	width 250pt
+	height 188pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+Chronopic3
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename chronopic_2_0_usb_front_mini.jpg
+	width 250pt
+	height 159pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+Chronopic2-USB
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename chronopic_2_0_serial_front_mini.jpg
+	width 250pt
+	height 213pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+Chronopic2-Serie
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\noindent
+\begin_inset Graphics
+	filename chronopic_foto.jpg
+	width 250pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:chronopic1"
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Standard
+Chronopic1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Standard
+En septiembre de 2007, existe el Chronopic 1.0 y se est√° desarrollando Chronopic
+ 2.0, este √∫ltimo en dos versiones: Serial y USB.
+ Adem√°s de la posibilidad de uso del puerto USB, el Chronopic 2.0 es m√°s
+ peque√±o y barato que el 1.0.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -243,22 +705,53 @@ Conexiones de Chronopic
 \end_layout
 
 \begin_layout Standard
-Este apartado es valido sÛlo para la Chronopic 1.0.
- 
+Las Chronopics USB, como Chronopic3, disponen de una entrada USB que gracias
+ a un cable del mismo tipo se conectar√°n al ordenador.
+ Por ese cable la Chronopic recibir√° la alimentaci√≥n (toma de corriente)
+ y se comunicar√° con el ordenador.
 \end_layout
 
 \begin_layout Standard
-Las conexiones deben realizarse como se explica en la siguiente ilustraciÛn.
-\end_layout
-
-\begin_layout Standard
-\align center
-\begin_inset Graphics
-	filename chronopic_foto.jpg
+Las Chronopics serie necesitan alimentaci√≥n externa, por tanto deber√°n conectars
+e a un alimentador.
+ Para m√°s informaci√≥n, consultar 
+\begin_inset LatexCommand ref
+reference "sub:Alimentaci√≥n-de-Chronopic"
 
 \end_inset
 
+.
+ Adem√°s, estas Chronopics requerir√°n de conectarse al ordenador por un cable.
+ Si el ordenador tiene puerto serie, bastar√° con un cable telef√≥nico-serie.
+ Si el ordenador no tiene puerto USB, deber√° convertirse a USB, para ello
+ a parte del cable mencionado, ser√° necesario un cable USB-serie o una pcmcia
+ o adaptador con la misma funcionalidad.
+ Puede consultar la figura 
+\begin_inset LatexCommand ref
+reference "fig:chronopic1"
 
+\end_inset
+
+ para un ejemplo de conexi√≥n de la Chronopic1.
+\end_layout
+
+\begin_layout Standard
+Las Chonopics se conectar√°n a la plataforma de contactos usando la clema
+ de la que disponen.
+ Dicha clema recibir√° cada uno de los dos cables de la plataforma de contactos
+ en cada una de sus dos contactos.
+ Chronopic3 a√±ade una toma RCA, de esta manera se puede usar la clema, la
+ RCA o ambas.
+\end_layout
+
+\begin_layout Standard
+Es posible conectar 'n' plataformas de contactos a cualquier Chronopic usando
+ la clema.
+ Este modelo sirve para cronometrar en situaciones en que un deportista
+ no deber√≠a poder estar en m√°s de una plataforma a la vez.
+ Se deben conectar los dos cables de todas las plataformas a la clema, siempre
+ de manera que los dos cables de cada una est√©n en un contacto de la clema
+ distinto.
 \end_layout
 
 \begin_layout Subsection
@@ -266,9 +759,9 @@ Funcionamiento de Chronopic
 \end_layout
 
 \begin_layout Standard
-Chronopic detecta los cambios de la plataforma de contactos y los envÌa
- al ordenador por el cable serie o por el cable USB-serie.
- TambiÈn es posible usar el pulsador de prueba para simular los cambios
+Chronopic detecta los cambios de la plataforma de contactos y los env√≠a
+ al ordenador por el cable USB, USB-serie o serie.
+ Tambi√©n es posible usar el pulsador de prueba para simular los cambios
  de la plataforma.
 \end_layout
 
@@ -285,34 +778,32 @@ botones
 \end_layout
 
 \begin_layout Standard
-Chronopic dispone de una luz que cuando est· encendida indica que el sujeto
- est· en la plataforma y cuando est· apagada indica que est· fuera de la
+Chronopic dispone de una luz que cuando est√° encendida indica que el sujeto
+ est√° en la plataforma y cuando est√° apagada indica que est√° fuera de la
  misma.
 \end_layout
 
-\begin_layout Standard
-NÛtese que es posible conectar varias plataformas a un sÛlo Chronopic para
- el cronometrado de carreras.
- Los dos cables de cada plataforma no deber·n conectarse juntos en la misma
- entrada.
-\end_layout
-
 \begin_layout Subsection
-AlimentaciÛn de Chronopic
+\begin_inset LatexCommand label
+name "sub:Alimentaci√≥n-de-Chronopic"
+
+\end_inset
+
+Alimentaci√≥n de Chronopic
 \end_layout
 
 \begin_layout Standard
-Chronopic 2.0-USB se alimenta por el propio cable USB, el resto de chronopics
- se alimentan usando un alimentador de 4,5 a 6 voltios.
+Chronopic3 y Chronopic2.0-USB se alimentan por el propio cable USB, el resto
+ de chronopics se alimentan usando un alimentador de 4,5 a 6 voltios.
  Pudiendo adquirirse un alimentador convencional (que se enchufa a la corriente
- elÈctrica) o crearse un alimentador casero con 3 pilas de 1,5 voltios.
- Esta opciÛn facilita los tests de campo.
+ el√©ctrica) o crearse un alimentador casero con 3 pilas de 1,5 voltios.
+ Esta opci√≥n facilita los tests de campo en las chronopics serie.
 \end_layout
 
 \begin_layout Standard
-La conexiÛn de la baterÌa deberÌa encender autom·ticamente la luz del Chronopic,
- aunque chronopic no estÈ conectado a ning˙n ordenador.
- Esta es una buena prueba ara saber si la alimentaciÛn es la correcta.
+La conexi√≥n de la bater√≠a deber√≠a encender autom√°ticamente la luz del Chronopic,
+ aunque chronopic no est√© conectado a ning√∫n ordenador.
+ Esta es una buena prueba para saber si la alimentaci√≥n es la correcta.
 \end_layout
 
 \begin_layout Standard
@@ -322,7 +813,8 @@ La conexiÛn de la baterÌa deberÌa encender autom·ticamente la luz del Chronopic,
 \end_layout
 
 \begin_layout Subsection
-\begin_inset LatexCommand \label{sub:Chronopic-puertos-serie-usb}
+\begin_inset LatexCommand label
+name "sub:Chronopic-puertos-serie-usb"
 
 \end_inset
 
@@ -331,113 +823,25 @@ Puertos serie y USB
 
 \begin_layout Standard
 Chronopic se conecta a la plataforma de contactos y al ordenador.
- La conexiÛn al ordenador se realiza mediante un puerto tal y como se describe
- en la siguiente tabla:
-\end_layout
-
-\begin_layout Standard
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="4" columns="2">
-<features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-VersiÛn de Chronopic
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Puerto
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row topline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Chronopic 1.0
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Puerto serie
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row topline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Chronopic 2.0-Serial
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Puerto serie
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Chronopic 2.0-USB
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Standard
-Puerto USB
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
+ La conexi√≥n al ordenador se realiza mediante un puerto tal y como se describe
+ en la tabla 
+\begin_inset LatexCommand ref
+reference "tab:Versiones-de-Chronopic"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
-Hoy en dÌa, la mayorÌa de los ordenadores port·tiles no disponen de puerto
- serie, asÌ que el puerto USB es el requerido por la mayorÌa de usuarios.
+Hoy en d√≠a, la mayor√≠a de los ordenadores port√°tiles no disponen de puerto
+ serie, as√≠ que el puerto USB es el requerido por la mayor√≠a de usuarios.
  Los usuarios sin puerto serie, pero con un Chronopic que se conecta por
- este puerto, deber·n conseguir una tarjeta de tipo pcmcia o similar que
+ este puerto, deber√°n conseguir una tarjeta de tipo pcmcia o similar que
  le agregue un puerto serie a su ordenador, o conseguir un cable USB-serie,
- siendo esta ˙ltima opciÛn la favorita.
- En muchas ciudades es difÌcil encontrar estos cables en stock si no se
- han pedido previamente, otra opciÛn es la compra por Internet.
+ siendo esta √∫ltima opci√≥n la favorita.
+ En muchas ciudades es dif√≠cil encontrar estos cables en stock si no se
+ han pedido previamente, otra opci√≥n es la compra por Internet.
 \end_layout
 
 \begin_layout Standard
@@ -525,7 +929,7 @@ Serie
 \series bold
 COM1
 \series default
-, COM2
+ o COM2
 \end_layout
 
 \end_inset
@@ -563,12 +967,8 @@ USB
 \begin_inset Text
 
 \begin_layout Standard
-COM1, COM2, 
-\series bold
-COM3
-\series default
-, ...
- COM8 (o superior)
+COM1, COM2, COM3, ...
+ (visto hasta COM27)
 \end_layout
 
 \end_inset
@@ -577,7 +977,9 @@ COM3
 \begin_inset Text
 
 \begin_layout Standard
-Requiere driver si la Chronopic es serie y se ha usado un cable USB-serie
+En algunas ocasiones requiere un 
+\series bold
+driver
 \end_layout
 
 \end_inset
@@ -610,7 +1012,7 @@ Serie
 \series bold
 /dev/ttyS0
 \series default
-, /dev/ttyS1
+ o /dev/ttyS1
 \end_layout
 
 \end_inset
@@ -674,9 +1076,17 @@ USB
 
 \end_layout
 
-\begin_layout Caption
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
 Nombres de puerto en cada sistema operativo.
- Los nombres m·s usuales se muestran en negrita.
+ Los nombres m√°s usuales se muestran en negrita.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -688,22 +1098,45 @@ Nombres de puerto en cada sistema operativo.
 El uso del driver se explica en el siguiente apartado.
 \end_layout
 
-\begin_layout Subsection
-Driver para Windows sin puerto serie y con Chronopic serie
+\begin_layout Subsubsection
+Driver USB para Windows
 \end_layout
 
 \begin_layout Standard
-En el caso de MS Windows con una Chronopic serie y conectada al ordenador
- con un cable USB-serie, en la mayorÌa de los casos es necesario un driver.
- Un driver es un programa que aÒade una funcionalidad al hardware de un
- sistema.
- Windows deberÌa asignar autom·ticamente un nombre (COM1...
- COM8) a la conexiÛn por puerto USB mediante el cable USB-serie, pero en
- muchos equipos o instalaciones de Windows no lo hace, y por eso es necesario
- el driver (aunque los fabricantes de los cables digan que no es necesario
- pues seg˙n ellos es detectado de forma autom·tica).
+Un driver es un peque√±o programa que le indica al ordenador c√≥mo debe funcionar
+ un nuevo dispositivo.
+\end_layout
+
+\begin_layout Standard
+La placa Chronopic3 requiere del siguiente driver para funcionar en Windows
+ 
+\begin_inset LatexCommand url
+target "http://www.ftdichip.com/Drivers/VCP.htm"
+
+\end_inset
+
+ (se recomienda hacer click en el 
+\begin_inset Quotes eld
+\end_inset
+
+Setup executable
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Para otras placas que se conecten al ordenador por USB pueden requerir un
+ driver si Windows no es capaz de detectarlos.
+ Windows deber√≠a asignar autom√°ticamente un nombre (COM1...
+ COM8) a la conexi√≥n por puerto USB pero en muchos equipos o instalaciones
+ de Windows no lo hace, y por eso es necesario el driver (aunque los fabricantes
+ de los cables digan que no es necesario pues seg√∫n ellos es detectado de
+ forma autom√°tica).
  Por ello se recomienda bajarse un driver USB-serie como este: 
-\begin_inset LatexCommand \url{http://www.serialgear.com/wd_pl2303h-hx-x_v20019v2021.zip}
+\begin_inset LatexCommand url
+target "http://www.serialgear.com/wd_pl2303h-hx-x_v20019v2021.zip"
 
 \end_inset
 
@@ -720,7 +1153,7 @@ USB-serial driver
 \end_layout
 
 \begin_layout Standard
-Si al conectar la Chronopic encendida al ordenador, Èste indica 
+Si al conectar la Chronopic encendida al ordenador, √©ste indica 
 \begin_inset Quotes eld
 \end_inset
 
@@ -728,8 +1161,8 @@ Nuevo hardware encontrado
 \begin_inset Quotes erd
 \end_inset
 
- y no da ning˙n problema en la detecciÛn del mismo, entonces el driver no
- es necesario, en el resto de los casos ser· necesario ejecutar el driver.
+ y no da ning√∫n problema en la detecci√≥n del mismo, entonces el driver no
+ es necesario, en el resto de los casos ser√° necesario ejecutar el driver.
 \end_layout
 
 \begin_layout Subsubsection
@@ -737,11 +1170,11 @@ Uso del driver
 \end_layout
 
 \begin_layout Standard
-El driver normalmente ser· un archivo comprimido (tipo .zip) que deber· ser
- descomprimido y contendr· un archivo ejecutable tipo .exe en el que hay
+El driver normalmente ser√° un archivo comprimido (tipo .zip) que deber√° ser
+ descomprimido y contendr√° un archivo ejecutable tipo .exe en el que hay
  que realizar doble-click.
- Normalmente Èste se instalar· sin problemas, y permitir· que cuando sea
- conectada la Chronopic a posteriori, aparezca el di·logo de 
+ Normalmente √©ste se instalar√° sin problemas, y permitir√° que cuando sea
+ conectada la Chronopic a posteriori, aparezca el di√°logo de 
 \begin_inset Quotes eld
 \end_inset
 
@@ -756,176 +1189,339 @@ Nuevo hardware encontrado
  para futuras reinstalaciones del sistema operativo.
 \end_layout
 
-\begin_layout Subsection
-\begin_inset LatexCommand \label{sub:DetecciÛn-del-puerto}
+\begin_layout Subsubsection
+Chronopic3 en GNU/Linux
+\end_layout
+
+\begin_layout Standard
+Por un error de Mono que 
+\begin_inset LatexCommand url
+name "ha sido documentado"
+target "http://mail.gnome.org/archives/chronojump-devel-list/2008-January/msg00048.html"
 
 \end_inset
 
-DetecciÛn del puerto
+ y 
+\begin_inset LatexCommand url
+name "solucionado"
+target "http://mail.gnome.org/archives/chronojump-devel-list/2008-January/msg00050.html"
+
+\end_inset
+
+, la Chronopic3 no puede conectarse a Chronojump en los Kernels 2.6.20-2.6.23.
+ La soluci√≥n es actualizar el Kernel a 2.6.24, para ello se recomienda en
+ el caso de Ubuntu 
+\begin_inset LatexCommand url
+name "este enlace"
+target "http://msdark.atwebpages.com/actualizar-kernel-a-la-version-2624-de-ubuntu-hardy-para-ubuntu-gutsy"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset LatexCommand label
+name "sub:Detecci√≥n-del-puerto"
+
+\end_inset
+
+Detecci√≥n del puerto
 \end_layout
 
 \begin_layout Standard
 Tal y como se explica en el apartado 
-\begin_inset LatexCommand \ref{sub:Chronopic-puertos-serie-usb}
+\begin_inset LatexCommand ref
+reference "sub:Chronopic-puertos-serie-usb"
 
 \end_inset
 
-, a la conexiÛn se le asignar· un nombre.
+, a la conexi√≥n se le asignar√° un nombre.
  En el caso de GNU/Linux esto no suele ser problema, pues los nombres son
- claros y la opciÛn /dev/ttyS0 (serie) o /dev/ttyUSB0 (USB-serie) suele
+ claros y la opci√≥n /dev/ttyS0 (serie) o /dev/ttyUSB0 (USB-serie) suele
  ser la correcta.
  De la misma forma, Windows por puerto serie suele asignar el puerto COM1.
 \end_layout
 
 \begin_layout Standard
-En el caso de MS Windows con una Chronopic serie y conectada al ordenador
- con un cable USB-serie (uso de driver), como el driver asigna unos nombres
- con mayor variabilidad: COM1...
- COM8 (incluso a veces n˙meros mayores), se recomienda usar el asistente
- del panel de control para determinar quÈ puerto se ha asignado.
+En el caso de MS Windows en que se conecte Chronopic al puerto USB, debido
+ a que el driver asigna unos nombres con mayor variabilidad: COM1...
+ COM27 o superior.
  En versiones anteriores de Chronojump para Windows, el puerto se auto detectaba
-, pero a partir de la versiÛn 0.6, y por un cambio de los programas usados,
+, pero a partir de la versi√≥n 0.6, y por un cambio de los programas usados,
  esto no es posible.
 \end_layout
 
 \begin_layout Standard
-AsÌ, en Windows, para detectar el puerto usado, se recomienda (una vez se
- haya conectado la Chronopic encendida mediante el cable USB-serie al puerto
- USB del ordenador), acceder al 
+As√≠, en Windows, para detectar el puerto usado, se recomienda (una vez se
+ haya conectado la Chronopic encendida al puerto USB del ordenador), seguir
+ este proceso:
+\end_layout
+
+\begin_layout Enumerate
+En el escritorio o en el men√∫ Inicio, hacer clic en el icono de 
 \begin_inset Quotes eld
 \end_inset
 
-Panel de control
+Mi PC
 \begin_inset Quotes erd
 \end_inset
 
- de allÌ acceder a 
+ con el bot√≥n derecho
+\end_layout
+
+\begin_layout Enumerate
+En el men√∫ que aparece, seleccionar 
 \begin_inset Quotes eld
 \end_inset
 
-Agregar hardware
+Hardware
 \begin_inset Quotes erd
 \end_inset
 
- (quiz·s haya que hacer click primero en 
+
+\end_layout
+
+\begin_layout Enumerate
+Seleccionar 
 \begin_inset Quotes eld
 \end_inset
 
-Impresoras y otro hardware
+Administrador de dispositivos
 \begin_inset Quotes erd
 \end_inset
 
-).
- En este momento habr· entrado en el 
+
+\end_layout
+
+\begin_layout Enumerate
+Clic en el '+' que hay a la izquierda de 
 \begin_inset Quotes eld
 \end_inset
 
-Asistente de hardware
+Puertos COM-LPT
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Clic con el bot√≥n derecho en la l√≠nea que dice USB-serial.
+ En el caso de la Chronopic3 despu√©s de haber instalado el driver, la l√≠nea
+ dice 
+\begin_inset Quotes eld
+\end_inset
+
+Prolific USB-serial
 \begin_inset Quotes erd
 \end_inset
 
 .
- Haga click en 
+\end_layout
+
+\begin_layout Enumerate
+Seleccionar Propiedades y entonces podremos ver el puerto COM asignado
+\end_layout
+
+\begin_layout Enumerate
+El valor de COM, por ejemplo 
 \begin_inset Quotes eld
 \end_inset
 
-siguiente
+COM3
 \begin_inset Quotes erd
 \end_inset
 
-, indique que 
-\begin_inset Quotes eld
-\end_inset
-
-sÌ, ya he conectado el hardware
-\begin_inset Quotes erd
-\end_inset
-
-, y busque en la lista desplegable cualquier dispositivo que contenga COM1...
- COM8.
- Quiz·s haya un par de ellos.
- Cuando haya encontrado los nombres que busca, pulse 
-\begin_inset Quotes eld
-\end_inset
-
-cancelar
-\begin_inset Quotes erd
-\end_inset
-
- para salir del asistente.
+ es el que deberemos introducir en las preferencias de Chronojump.
 \end_layout
 
 \begin_layout Standard
-Raramente el nombre del puerto cambiar·, asÌ que esta operaciÛn debe realizarse
- sÛlo una vez, ya que cuando haya introducido el nombre del puerto en las
- preferencias de Chronojump (tal y como se explica en la secciÛn 
-\begin_inset LatexCommand \ref{sec:Preferencias}
+Raramente el nombre del puerto cambiar√°, as√≠ que esta operaci√≥n debe realizarse
+ s√≥lo una vez, ya que cuando haya introducido el nombre del puerto en las
+ preferencias de Chronojump (tal y como se explica en la secci√≥n 
+\begin_inset LatexCommand ref
+reference "sec:Preferencias"
 
 \end_inset
 
-), este nombre quedar· guardado en la base de datos.
+), este nombre quedar√° guardado en la base de datos.
+\end_layout
+
+\begin_layout Standard
+Se ha detectado que el antivirus spy-doctor interfiere en la asignaci√≥n
+ de puertos 
+\begin_inset LatexCommand url
+target "http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.html"
+
+\end_inset
+
+.
+ Se recomienda desactivar √©ste.
 \end_layout
 
 \begin_layout Subsection
-SoluciÛn de problemas con Chronopic
+\begin_inset LatexCommand label
+name "sub:Modificaci√≥n-del-puerto"
+
+\end_inset
+
+Modificaci√≥n del puerto asignado en Windows
+\end_layout
+
+\begin_layout Standard
+Si el puerto asignado es superior a COM4, puede dar problemas de detecci√≥n
+ en algunos ordenadores.
+ Si no consiguiese conectarse con Chronopic, se recomienda que asigne un
+ puerto inferior a COM4, preferentemente COM1 o COM2.
+\end_layout
+
+\begin_layout Standard
+Para asignar manualmente un puerto, repita los pasos descritos en 
+\begin_inset LatexCommand ref
+reference "sub:Detecci√≥n-del-puerto"
+
+\end_inset
+
+ hasta ver qu√© puerto se ha asignado, entonces haga lo siguiente:
+\end_layout
+
+\begin_layout Enumerate
+Clic en 
+\begin_inset Quotes eld
+\end_inset
+
+Configuraci√≥n de puerto
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Clic en 
+\begin_inset Quotes eld
+\end_inset
+
+Opciones avazandas
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Seleccionar uno de los puertos COM1-4 (preferentemente COM1 o COM2)
+\end_layout
+
+\begin_layout Enumerate
+Aceptar y cerrar el asistente.
+\end_layout
+
+\begin_layout Enumerate
+Desconectar el cable USB y volverlo a conectar al cabo de pocos segundos
+\end_layout
+
+\begin_layout Standard
+En este momento ya deber√≠a tener el puerto COM asignado para siempre a dicho
+ dispositivo.
+ Opcionalmente, si quiere puede comprobar que el cambio se ha realizado
+ directamente puede volver a realizar los pasos descritos en 
+\begin_inset LatexCommand ref
+reference "sub:Detecci√≥n-del-puerto"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Soluci√≥n de problemas con Chronopic
 \end_layout
 
 \begin_layout Standard
 En caso de no detectar los cambios de estado de plataforma desde Chronojump,
- se propone la siguiente baterÌa de pruebas.
- Si despuÈs de realizar estas pruebas no consigue que su Chronopic funcione,
+ se propone la siguiente bater√≠a de pruebas.
+ Si despu√©s de realizar estas pruebas no consigue que su Chronopic funcione,
  escriba a la 
-\begin_inset LatexCommand \url[Lista de correo Chronojump-list]{http://www.gnome.org/projects/chronojump/contact_es.html}
+\begin_inset LatexCommand url
+name "Lista de correo Chronojump-list"
+target "http://www.gnome.org/projects/chronojump/contact_es.html"
 
 \end_inset
 
- (subscrÌbase a ella primero).
+ (subscr√≠base a ella primero).
 \end_layout
 
 \begin_layout Standard
-Realice cada una de las pruebas hasta que encuentre cu·l es el fallo.
- En todo momento revise que los cables est·n correctamente conectados.
+Realice cada una de las pruebas hasta que encuentre cu√°l es el fallo.
+ En todo momento revise que los cables est√°n correctamente conectados.
 \end_layout
 
 \begin_layout Enumerate
-Conecte la alimentaciÛn al Chronopic y verifique que la luz se enciende
- (no es necesario ordenador).
+Problema de alimentaci√≥n: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+En Chronopics USB (Como Chronopic3), la luz del mismo debe encenderse al
+ conectar el cable USB (siempre que el ordenador est√© encendido, no haya
+ una plataforma conectada y alguien pis√°ndola, o se est√© pulsando el pulsador
+ de prueba).
+ 
+\end_layout
+
+\begin_layout Enumerate
+En Chronopics serie se recomienda conectar la alimentaci√≥n al Chronopic
+ y verificar que la luz se enciende (no es necesario ordenador).
  Si no se enciende falla el Chronopic o el alimentador, pruebe si es posible
- con otro alimentador o Chronopic para determinar cu·l es el que falla.
+ con otro alimentador o Chronopic para determinar cu√°l es el que falla.
  El alimentador debe estar entre 4.5 y 6 voltios.
  Algunos alimentadores tienen dos polaridades, pregunte al vendedor y conecte
  con la polaridad correcta.
 \end_layout
 
+\end_deeper
 \begin_layout Enumerate
-Conecte la plataforma de contactos (sin necesidad de ordenador) al Chronopic
- y verifique que pulsando en la plataforma, la luz se enciende y se apaga.
- Si no se enciende y apaga, pero sÌ lo hacÌa en el paso anterior, entonces
- los cables de la plataforma de contacto se est·n tocando al ser conectados
- al Chronopic (aÌslelos), o est·n mal conectados, o la plataforma de contacto
- tiene alguna mal contacto (desmÛntela y rep·rela).
+Problema de plataforma de contactos: Conecte la plataforma de contactos
+ (sin necesidad de ordenador) al Chronopic y verifique que pulsando en la
+ plataforma, la luz se enciende y se apaga.
+ Si no se enciende y apaga, pero s√≠ lo hac√≠a en el paso anterior, entonces
+ los cables de la plataforma de contacto se est√°n tocando al ser conectados
+ al Chronopic (a√≠slelos), o est√°n mal conectados, o la plataforma de contacto
+ tiene alguna mal contacto (desm√≥ntela y rep√°rela).
 \end_layout
 
 \begin_layout Enumerate
-Si la plataforma de contactos no da problemas, desench˙fela y contin˙e las
- pruebas sÛlo con el Chronopic.
- A continuaciÛn compruebe si el puerto es detectado: conecte los cables
+Problema de puertos en Windows: Si la plataforma de contactos no da problemas,
+ desench√∫fela y contin√∫e las pruebas s√≥lo con el Chronopic.
+ A continuaci√≥n compruebe si el puerto es detectado: conecte los cables
  al ordenador y con el Chronopic encendido detecte el puerto tal y como
  se indica en el apartado 
-\begin_inset LatexCommand \ref{sub:DetecciÛn-del-puerto}
+\begin_inset LatexCommand ref
+reference "sub:Detecci√≥n-del-puerto"
 
 \end_inset
 
 .
- Puede que en Windows detecte m·s de un puerto de tipo COM, haga la siguiente
+ Puede que en Windows detecte m√°s de un puerto de tipo COM, haga la siguiente
  prueba con ambos.
+ Si el puerto asignado es superior al COM4, se recomienda que modifique
+ el puerto a uno de los 4 primeros, preferentemente COM1 o COM2 tal y como
+ se indica en el apartado 
+\begin_inset LatexCommand ref
+reference "sub:Modificaci√≥n-del-puerto"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Enumerate
 Ejecute el programa Chronojump_mini e introduzca el nombre del puerto cuando
  se le pida.
- Acto seguido el puerto deberÌa ser reconocido y las pulsaciones en el chronopic
- ser· cronometradas por chronojump_mini.
+ Acto seguido el puerto deber√≠a ser reconocido y las pulsaciones en el chronopic
+ ser√° cronometradas por chronojump_mini.
 \end_layout
 
 \begin_layout Enumerate
@@ -938,8 +1534,8 @@ Chronopic
 \begin_inset Quotes erd
 \end_inset
 
- en el men˙ plataforma.
- A continuaciÛn le aparecer· un di·logo que le pedir· que haga click en
+ en el men√∫ plataforma.
+ A continuaci√≥n le aparecer√° un di√°logo que le pedir√° que haga click en
  
 \begin_inset Quotes eld
 \end_inset
@@ -948,8 +1544,8 @@ aceptar
 \begin_inset Quotes erd
 \end_inset
 
- y a continuaciÛn haga click en el pulsador de Chronopic, en breve Chronopic
- deberÌa ser detectado correctamente y est· listo para ser usado con la
+ y a continuaci√≥n haga click en el pulsador de Chronopic, en breve Chronopic
+ deber√≠a ser detectado correctamente y est√° listo para ser usado con la
  plataforma conectada si lo desea.
 \end_layout
 
@@ -969,7 +1565,8 @@ Ventana principal de Chronojump
 
 \begin_layout Standard
 En la figura 
-\begin_inset LatexCommand \ref{fig:Ventana-principal-de}
+\begin_inset LatexCommand ref
+reference "fig:Ventana-principal-de"
 
 \end_inset
 
@@ -978,55 +1575,55 @@ En la figura
 \end_layout
 
 \begin_layout Description
-Men˙ donde podr· acceder de forma organizada a la mayorÌa de las funcionalidades.
+Men√∫ donde podr√° acceder de forma organizada a la mayor√≠a de las funcionalidades.
 \end_layout
 
 \begin_layout Description
 Marco\InsetSpace ~
 de\InsetSpace ~
-sujeto que proporciona un r·pido acceso a las operaciones de sujeto
+sujeto que proporciona un r√°pido acceso a las operaciones de sujeto
  (parte izquierda de la ventana principal).
 \end_layout
 
 \begin_layout Description
-Gr·fico\InsetSpace ~
+Gr√°fico\InsetSpace ~
 de\InsetSpace ~
 test\InsetSpace ~
 seleccionado En el caso de que exista un dibujo del test selecciona
-do o apuntado por el ratÛn, lo muestra.
- Adem·s, si el programa dispone de informaciÛn ampliada sobre dicho test,
+do o apuntado por el rat√≥n, lo muestra.
+ Adem√°s, si el programa dispone de informaci√≥n ampliada sobre dicho test,
  muestra un icono indicativo.
- Por ˙ltimo, dispone de un botÛn de ayuda que una vez pulsado muestra una
- ventana de ayuda sobre dicho test, con el gr·fico ampliado y la informaciÛn
+ Por √∫ltimo, dispone de un bot√≥n de ayuda que una vez pulsado muestra una
+ ventana de ayuda sobre dicho test, con el gr√°fico ampliado y la informaci√≥n
  del test.
- El gr·fico se encuentra en la parte inferior-izquierda de la ventana principal.
+ El gr√°fico se encuentra en la parte inferior-izquierda de la ventana principal.
 \end_layout
 
 \begin_layout Description
-PestaÒas que permite cambiar el mÛdulo de trabajo entre los posibles, actualmene
+Pesta√±as que permite cambiar el m√≥dulo de trabajo entre los posibles, actualmene
 : Salto, Salto simple, Carrera y Carrera con tramos.
 \end_layout
 
 \begin_layout Description
-EjecuciÛn\InsetSpace ~
+Ejecuci√≥n\InsetSpace ~
 de\InsetSpace ~
 tests con la funcionalidad de ejecutar cada uno de los tests
- de la pestaÒa o mÛdulo de trabajo activa.
+ de la pesta√±a o m√≥dulo de trabajo activa.
 \end_layout
 
 \begin_layout Description
-VisualizaciÛn\InsetSpace ~
+Visualizaci√≥n\InsetSpace ~
 y\InsetSpace ~
-ediciÛn\InsetSpace ~
+edici√≥n\InsetSpace ~
 de\InsetSpace ~
 tests que muestra distintos selectores para la visualizac
-iÛn y ediciÛn de los saltos y carreras.
+i√≥n y edici√≥n de los saltos y carreras.
 \end_layout
 
 \begin_layout Description
 Estado\InsetSpace ~
 de\InsetSpace ~
-tests que contiene informaciÛn en tiempo real sobre los ˙ltimos
+tests que contiene informaci√≥n en tiempo real sobre los √∫ltimos
  tests y permite cancelarlos, borrarlos y pararlos.
 \end_layout
 
@@ -1047,12 +1644,21 @@ status open
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{fig:Ventana-principal-de}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Ventana-principal-de"
 
 \end_inset
 
 Ventana principal de Chronojump.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1066,8 +1672,8 @@ Base de datos: sesiones, sujetos y tests
 
 \begin_layout Standard
 Chronojump guarda todos los datos en un fichero de base de datos.
- De esta manera, en lugar de recoger la informaciÛn en archivos individuales
- para cada una de las sesiones, toda la informaciÛn se organiza en un ˙nico
+ De esta manera, en lugar de recoger la informaci√≥n en archivos individuales
+ para cada una de las sesiones, toda la informaci√≥n se organiza en un √∫nico
  fichero para facilitar el estudio de las relaciones entre:
 \end_layout
 
@@ -1080,14 +1686,14 @@ sujetos
 \end_layout
 
 \begin_layout Enumerate
-tests (saltos, carreras, tiempos de reacciÛn, ritmos, ...)
+tests (saltos, carreras, tiempos de reacci√≥n, ritmos, ...)
 \end_layout
 
 \begin_layout Standard
-Todas las modificaciones de sesiones, sujetos y tests, ser·n actualizadas
+Todas las modificaciones de sesiones, sujetos y tests, ser√°n actualizadas
  en todo momento en la base de datos.
- AsÌ no es necesario guardar la informaciÛn periÛdicamente y se dificulta
- la pÈrdida de datos ante un error inform·tico.
+ As√≠ no es necesario guardar la informaci√≥n peri√≥dicamente y se dificulta
+ la p√©rdida de datos ante un error inform√°tico.
 \end_layout
 
 \begin_layout Section
@@ -1099,24 +1705,24 @@ Las sesiones representan situaciones en que el entrenador o evaluador reune
  a diversos deportistas (sujetos) para realizar una serie de saltos o carreras.
  Cada vez que reuna a un conjunto de deportistas para ser evaluados en un
  corto espacio de tiempo (normalmente un intervalo de hasta dos horas),
- es conveniente crear una nueva sesiÛn.
- aunque los sujetos a evaluar sean los mismos que en otra sesiÛn, es preferible
- crear una nueva que continuar aÒadiendo sujetos y tests en una vieja sesiÛn.
- De esta manera, podr· realizar comparaciones entre fechas.
+ es conveniente crear una nueva sesi√≥n.
+ aunque los sujetos a evaluar sean los mismos que en otra sesi√≥n, es preferible
+ crear una nueva que continuar a√±adiendo sujetos y tests en una vieja sesi√≥n.
+ De esta manera, podr√° realizar comparaciones entre fechas.
 \end_layout
 
 \begin_layout Subsection
-CreaciÛn
+Creaci√≥n
 \end_layout
 
 \begin_layout Standard
-Haga clic en el men˙ 
+Haga clic en el men√∫ 
 \emph on
-Archivo / Crear sesiÛn 
+Archivo / Crear sesi√≥n
 \emph default
-y se abrir· una ventana en la que deber· introducir obligatoriamente el
- nombre de la sesiÛn, y la fecha, opcionalmente puede adem·s indicar el
- lugar donde se realiza e incluso aÒadir comentarios.
+ y se abrir√° una ventana en la que deber√° introducir obligatoriamente el
+ nombre de la sesi√≥n, y la fecha, opcionalmente puede adem√°s indicar el
+ lugar donde se realiza e incluso a√±adir comentarios.
 \end_layout
 
 \begin_layout Subsection
@@ -1124,29 +1730,29 @@ Carga (load)
 \end_layout
 
 \begin_layout Standard
-Si desea cargar una sesiÛn ya creada para su estudio o para aÒadir sujetos
- y/o tests haga clic en el men˙ 
+Si desea cargar una sesi√≥n ya creada para su estudio o para a√±adir sujetos
+ y/o tests haga clic en el men√∫ 
 \emph on
-Archivo / Cargar sesiÛn
+Archivo / Cargar sesi√≥n
 \emph default
 .
- Se le presentar· un listado de las sesiones creadas e informaciÛn de los
+ Se le presentar√° un listado de las sesiones creadas e informaci√≥n de los
  sujetos inscritos en cada una de ellas y de los tests realizados.
 \end_layout
 
 \begin_layout Subsection
-EdiciÛn
+Edici√≥n
 \end_layout
 
 \begin_layout Standard
-Haga clic en el men˙ 
+Haga clic en el men√∫ 
 \emph on
-Archivo / Editar sesiÛn
+Archivo / Editar sesi√≥n
 \emph default
- para modificar los par·metros nombre, lugar, fecha y comentarios que habÌa
+ para modificar los par√°metros nombre, lugar, fecha y comentarios que hab√≠a
  insertado anteriormente.
- Normalmente se usa la ediciÛn de sesiones para aÒadir comentarios sobre
- la evoluciÛn de la misma.
+ Normalmente se usa la edici√≥n de sesiones para a√±adir comentarios sobre
+ la evoluci√≥n de la misma.
 \end_layout
 
 \begin_layout Subsection
@@ -1156,14 +1762,14 @@ Borrado
 \begin_layout Standard
 Si desea borrar una 
 \series bold
-sesiÛn y todos los tests
+sesi√≥n y todos los tests
 \series default
- que se realizaron en la misma, haga clic en el men˙ 
+ que se realizaron en la misma, haga clic en el men√∫ 
 \emph on
-Archivo / Borrar sesiÛn
+Archivo / Borrar sesi√≥n
 \emph default
 .
- Le aparecer· una ventana de confirmaciÛn.
+ Le aparecer√° una ventana de confirmaci√≥n.
 \end_layout
 
 \begin_layout Section
@@ -1172,11 +1778,11 @@ Sujetos
 
 \begin_layout Standard
 Cada uno de los individuos que pueden realizan tests (saltos, carreras,
- tiempos de reacciÛn o ritmos) es conocido como sujeto.
- Hay que notar que no se debe crear un mismo sujeto m·s de una vez, ya que
- para que pueda estudiarse su evoluciÛn en el tiempo (diferentes sesiones)
- se recomienda enÈrgicamente crear el sujeto sÛlo una vez, las otras veces
- (en las siguientes sesiones) se deber· cargar el sujeto.
+ tiempos de reacci√≥n o ritmos) es conocido como sujeto.
+ Hay que notar que no se debe crear un mismo sujeto m√°s de una vez, ya que
+ para que pueda estudiarse su evoluci√≥n en el tiempo (diferentes sesiones)
+ se recomienda en√©rgicamente crear el sujeto s√≥lo una vez, las otras veces
+ (en las siguientes sesiones) se deber√° cargar el sujeto.
 \end_layout
 
 \begin_layout Subsection
@@ -1190,8 +1796,8 @@ El sujeto seleccionado en la parte izquierda de la ventana principal de
 sujeto actual
 \emph default
 .
- Todos los tests que se realicen ser·n vinculados a dicho sujeto.
- El ˙ltimo sujeto creado o cargado ser· el designado como 
+ Todos los tests que se realicen ser√°n vinculados a dicho sujeto.
+ El √∫ltimo sujeto creado o cargado ser√° el designado como 
 \emph on
 sujeto actual
 \emph default
@@ -1199,7 +1805,7 @@ sujeto actual
 \end_layout
 
 \begin_layout Standard
-No se podr·n ejecutar tests hasta que no se haya sido asignado el 
+No se podr√°n ejecutar tests hasta que no se haya sido asignado el 
 \emph on
 sujeto actual
 \emph default
@@ -1207,36 +1813,36 @@ sujeto actual
 \end_layout
 
 \begin_layout Subsection
-CreaciÛn
+Creaci√≥n
 \end_layout
 
 \begin_layout Standard
-Haga clic en el men˙ 
+Haga clic en el men√∫ 
 \emph on
 Sujeto / Crear sujeto
 \emph default
- o usando el botÛn 
+ o usando el bot√≥n 
 \emph on
 Crear sujeto
 \emph default
  para crear un sujeto.
- Podr· indicar el nombre completo, sexo, fecha de nacimiento, altura, peso
+ Podr√° indicar el nombre completo, sexo, fecha de nacimiento, altura, peso
  y comentarios, los campos nombre y peso son obligatorios.
- Es importante que el nombre sea lo m·s completo posible para que no se
- produzcan conflictos m·s adelante con otros sujetos distintos.
+ Es importante que el nombre sea lo m√°s completo posible para que no se
+ produzcan conflictos m√°s adelante con otros sujetos distintos.
  
 \end_layout
 
 \begin_layout Standard
-Con el objetivo de acelerar la creaciÛn de m˙ltiples sujetos, haga clic
- en el men˙ 
+Con el objetivo de acelerar la creaci√≥n de m√∫ltiples sujetos, haga clic
+ en el men√∫ 
 \emph on
 Sujeto / Crear sujetos [multiple]
 \emph default
- y se le presentar· una ventana en la que podr· crear hasta 10 sujetos a
+ y se le presentar√° una ventana en la que podr√° crear hasta 10 sujetos a
  la vez.
- Una vez creados podr· volver a hacer clic en el mismo elemento de men˙
- para crear m·s sujetos.
+ Una vez creados podr√° volver a hacer clic en el mismo elemento de men√∫
+ para crear m√°s sujetos.
 \end_layout
 
 \begin_layout Subsection
@@ -1244,31 +1850,31 @@ Carga (load)
 \end_layout
 
 \begin_layout Standard
-Si un sujeto participÛ en otra sesiÛn, y desea que tambiÈn sea evaluado
- en la sesiÛn actual, haga clic en 
+Si un sujeto particip√≥ en otra sesi√≥n, y desea que tambi√©n sea evaluado
+ en la sesi√≥n actual, haga clic en 
 \emph on
 cargar sujeto
 \emph default
-, para inscribir la misma persona a la nueva sesiÛn.
- El programa distinguir· entre los tests (saltos y carreras, tiempos de
- reacciÛn y ritmos) realizados por la misma persona en dos o m·s sesiones.
+, para inscribir la misma persona a la nueva sesi√≥n.
+ El programa distinguir√° entre los tests (saltos y carreras, tiempos de
+ reacci√≥n y ritmos) realizados por la misma persona en dos o m√°s sesiones.
  
 \end_layout
 
 \begin_layout Standard
-Si ha creado una sesiÛn en la que desea continuar con los mismos sujetos
- que en otra sesiÛn.
+Si ha creado una sesi√≥n en la que desea continuar con los mismos sujetos
+ que en otra sesi√≥n.
  haga clic en 
 \emph on
-Cargar sujetos de otra sesiÛn
+Cargar sujetos de otra sesi√≥n
 \emph default
- y podr· inscribir a todos los sujetos que participaron en otra sesiÛn o
+ y podr√° inscribir a todos los sujetos que participaron en otra sesi√≥n o
  en varias sesiones.
- En todo momento podr· descartar alg˙n sujeto si lo desea.
+ En todo momento podr√° descartar alg√∫n sujeto si lo desea.
 \end_layout
 
 \begin_layout Subsection
-VisualizaciÛn de tests de sujeto
+Visualizaci√≥n de tests de sujeto
 \end_layout
 
 \begin_layout Standard
@@ -1278,11 +1884,11 @@ Mostrar todos los tests del sujeto actual
 \emph default
  para ver todos los saltos y carreras que ha realizado dicho sujeto en diferente
 s sesiones.
- TambiÈn puede seleccionar otros sujetos de la sesiÛn actual o de otras.
+ Tambi√©n puede seleccionar otros sujetos de la sesi√≥n actual o de otras.
 \end_layout
 
 \begin_layout Subsection
-EdiciÛn
+Edici√≥n
 \end_layout
 
 \begin_layout Standard
@@ -1290,9 +1896,9 @@ Haga clic en
 \emph on
 Editar sujeto
 \emph default
- para modificar los datos que fueron introducidos en el momento de creaciÛn
+ para modificar los datos que fueron introducidos en el momento de creaci√≥n
  del mismo.
- Puede aprovechar tambiÈn para aÒadir comentarios.
+ Puede aprovechar tambi√©n para a√±adir comentarios.
 \end_layout
 
 \begin_layout Subsection
@@ -1302,25 +1908,25 @@ Borrado
 \begin_layout Standard
 Haga clic en 
 \emph on
-Borrar sujeto actual de la sesiÛn actual
+Borrar sujeto actual de la sesi√≥n actual
 \emph default
- para desuscribir el sujeto actual de la sesiÛn en curso.
- Esta operaciÛn eliminar· todos los tests que haya realizado dicha persona
- en la sesiÛn actual.
- Es importante saber que el sujeto no ser· eliminado de la base de datos
- y que sus tests en otras sesiones permanecer·n intactos.
+ para desuscribir el sujeto actual de la sesi√≥n en curso.
+ Esta operaci√≥n eliminar√° todos los tests que haya realizado dicha persona
+ en la sesi√≥n actual.
+ Es importante saber que el sujeto no ser√° eliminado de la base de datos
+ y que sus tests en otras sesiones permanecer√°n intactos.
 \end_layout
 
 \begin_layout Standard
-DespuÈs de borrar este sujeto, otra persona ser· denominada 
+Despu√©s de borrar este sujeto, otra persona ser√° denominada 
 \emph on
 sujeto actual
 \emph default
-, o, en el caso de que no haya m·s sujetos, no habr· 
+, o, en el caso de que no haya m√°s sujetos, no habr√° 
 \emph on
 sujeto actual
 \emph default
- y por tanto no se podr·n ejecutar tests.
+ y por tanto no se podr√°n ejecutar tests.
 \end_layout
 
 \begin_layout Section
@@ -1329,9 +1935,9 @@ Manejo de tests
 
 \begin_layout Standard
 Hasta el momento Chronojump maneja cuatro tipos de tests: saltos, carreras,
- tiempos de reacciÛn y ritmos.
- M·s adelante Chronojump podr· manejar otros tests.
- Estos tests son detectados por las seÒales enviadas por la plataforma de
+ tiempos de reacci√≥n y ritmos.
+ M√°s adelante Chronojump podr√° manejar otros tests.
+ Estos tests son detectados por las se√±ales enviadas por la plataforma de
  contactos cuando el sujeto pisa o despega de la misma.
 \end_layout
 
@@ -1340,29 +1946,29 @@ Saltos
 \end_layout
 
 \begin_layout Standard
-Los saltos pueden ser b·sicamente de dos tipos: simples y repetitivos.
+Los saltos pueden ser b√°sicamente de dos tipos: simples y repetitivos.
  Para Chronojump un 
 \series bold
 salto simple
 \series default
- es que el que sÛlo contempla una fase de vuelo.
- AsÌ existen dos tipos de saltos simples:
+ es que el que s√≥lo contempla una fase de vuelo.
+ As√≠ existen dos tipos de saltos simples:
 \end_layout
 
 \begin_layout Enumerate
 Los que se inician dentro de la plataforma y terminan dentro de la plataforma
- (un ˙nico salto).
+ (un √∫nico salto).
  Se obtiene la variable: Tiempo de vuelo (TV)
 \end_layout
 
 \begin_layout Enumerate
-Los que se inician fuera de la plataforma (dej·ndose caer desde una altura
- de caÌda determinada o con un antesalto) para caer en la plataforma y seguidame
+Los que se inician fuera de la plataforma (dej√°ndose caer desde una altura
+ de ca√≠da determinada o con un antesalto) para caer en la plataforma y seguidame
 nte realizar el salto.
- Se obtienen las variables: Tiempo de contacto (TC) (momento entre la recepciÛn
- de caÌda o antesalto y el siguiente despegue) y Tiempo de vuelo (TV).
- Normalmente se pretender· conseguir saltos con mÌnimo tiempo de contacto
- y m·ximo tiempo de vuelo como indicador de potencia.
+ Se obtienen las variables: Tiempo de contacto (TC) (momento entre la recepci√≥n
+ de ca√≠da o antesalto y el siguiente despegue) y Tiempo de vuelo (TV).
+ Normalmente se pretender√° conseguir saltos con m√≠nimo tiempo de contacto
+ y m√°ximo tiempo de vuelo como indicador de potencia.
 \end_layout
 
 \begin_layout Standard
@@ -1370,24 +1976,24 @@ Un
 \series bold
 salto repetitivo
 \series default
- ser· cualquier salto en que se obtenga m·s de un tiempo de vuelo, por ejemplo,
+ ser√° cualquier salto en que se obtenga m√°s de un tiempo de vuelo, por ejemplo,
  realizar dos saltos seguidos iniciados desde dentro de la plataforma en
- una sucesiÛn TV, TC, TV; o partiendo desde fuera de la plataforma inici·ndose
- con una caÌda o antesalto para continuar con TC, TV, TC, TV.
+ una sucesi√≥n TV, TC, TV; o partiendo desde fuera de la plataforma inici√°ndose
+ con una ca√≠da o antesalto para continuar con TC, TV, TC, TV.
 \end_layout
 
 \begin_layout Standard
-Suponiendo que la posiciÛn de despegue del cuerpo sea la misma que en el
- aterrizaje, el tiempo de vuelo es indicador de la altura de elevaciÛn del
+Suponiendo que la posici√≥n de despegue del cuerpo sea la misma que en el
+ aterrizaje, el tiempo de vuelo es indicador de la altura de elevaci√≥n del
  centro de gravedad del deportista.
 \end_layout
 
 \begin_layout Subsubsection
-EjecuciÛn de saltos simples
+Ejecuci√≥n de saltos simples
 \end_layout
 
 \begin_layout Standard
-Desde la pestaÒa de 
+Desde la pesta√±a de 
 \emph on
 salto
 \emph default
@@ -1429,58 +2035,58 @@ ABK,
 \begin_layout Itemize
 
 \emph on
-DJ, 
+DJ,
 \emph default
-Drop Jump o salto con caÌda
+ Drop Jump o salto con ca√≠da
 \end_layout
 
 \begin_layout Itemize
 
 \emph on
-Rocket, 
+Rocket,
 \emph default
-Salto tipo Squat pero partiendo de flexiÛn completa
+ Salto tipo Squat pero partiendo de flexi√≥n completa
 \end_layout
 
 \begin_layout Standard
 para ejecutar un salto simple.
- En ocasiones se le pedir· que facilite informaciÛn adicional como el peso
- extra del sujeto (SJl) o la altura de caÌda (DJ).
+ En ocasiones se le pedir√° que facilite informaci√≥n adicional como el peso
+ extra del sujeto (SJl) o la altura de ca√≠da (DJ).
  Haga clic en 
 \emph on
 More
 \emph default
- para obtener una relaciÛn de todos los saltos simples disponibles y ejec˙telos
- seleccion·ndolos y haciendo clic en 
+ para obtener una relaci√≥n de todos los saltos simples disponibles y ejec√∫telos
+ seleccion√°ndolos y haciendo clic en 
 \emph on
 Aceptar
 \emph default
 .
- El men˙ 
+ El men√∫ 
 \emph on
 salto
 \emph default
- le proporciona tambiÈn acceso a estas acciones.
+ le proporciona tambi√©n acceso a estas acciones.
 \end_layout
 
 \begin_layout Standard
-En caso de que estÈ seleccionado el valor 
+En caso de que est√© seleccionado el valor 
 \emph on
-Simulado 
+Simulado
 \emph default
-en el men˙ de 
+ en el men√∫ de 
 \emph on
 Plataforma
 \emph default
-, el programa simular· un salto.
- En caso contrario el salto deber· ser ejecutado.
- Tenga en cuenta que para algunos de los saltos el deportista deber· situarse
- encima de la plataforma, mientras que para otros ser· imprescindible que
+, el programa simular√° un salto.
+ En caso contrario el salto deber√° ser ejecutado.
+ Tenga en cuenta que para algunos de los saltos el deportista deber√° situarse
+ encima de la plataforma, mientras que para otros ser√° imprescindible que
  se ubique fuera de ella.
- Ser· avisado si la situaciÛn del deportista no es la correcta.
+ Ser√° avisado si la situaci√≥n del deportista no es la correcta.
  La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrar· la progresiÛn del salto, que podr· ser detenido haciendo clic
- en el botÛn 
+ mostrar√° la progresi√≥n del salto, que podr√° ser detenido haciendo clic
+ en el bot√≥n 
 \emph on
 Detener
 \emph default
@@ -1493,23 +2099,23 @@ Cancelar
 
 \begin_layout Standard
 En caso de que desee ejecutar un mismo salto a diversos deportistas y que
- dicho salto no disponga de botÛn (sÛlo estÈ disponible en la ventana 
+ dicho salto no disponga de bot√≥n (s√≥lo est√© disponible en la ventana 
 \emph on
 M
 \emph default
-·s), podr· cambiar de sujeto y hacer uso del botÛn 
+√°s), podr√° cambiar de sujeto y hacer uso del bot√≥n 
 \emph on
-⁄ltimo
+√öltimo
 \emph default
  para que otra persona pueda realizar el mismo salto.
 \end_layout
 
 \begin_layout Subsubsection
-EjecuciÛn de saltos repetitivos
+Ejecuci√≥n de saltos repetitivos
 \end_layout
 
 \begin_layout Standard
-Desde la pestaÒa de 
+Desde la pesta√±a de 
 \emph on
 salto Repetitivo
 \emph default
@@ -1521,15 +2127,15 @@ salto Repetitivo
 \emph on
 RJ
 \emph default
-(j), Repetitive Jump (jumps) o salto repetitivo limitado por n˙mero de saltos
+(j), Repetitive Jump (jumps) o salto repetitivo limitado por n√∫mero de saltos
 \end_layout
 
 \begin_layout Itemize
 
 \emph on
-RJ(t), 
+RJ(t),
 \emph default
-Repetitive Jump (time) o salto repetitivo limitado por tiempo
+ Repetitive Jump (time) o salto repetitivo limitado por tiempo
 \end_layout
 
 \begin_layout Itemize
@@ -1538,40 +2144,40 @@ Ilimitado: salto repetitivo ilimitado
 
 \begin_layout Standard
 para ejecutar un salto repetitivo.
- En ocasiones se le pedir· que facilite informaciÛn adicional como la altura
- de caÌda (DJ), el peso adicional o el valor del factor limitante (saltos
+ En ocasiones se le pedir√° que facilite informaci√≥n adicional como la altura
+ de ca√≠da (DJ), el peso adicional o el valor del factor limitante (saltos
  o segundos).
  Haga clic en 
 \emph on
-M·s
+M√°s
 \emph default
- para obtener una relaciÛn de todos los saltos reactivos disponibles y ejec˙telo
-s seleccion·ndolos y haciendo clic en 
+ para obtener una relaci√≥n de todos los saltos reactivos disponibles y ejec√∫telo
+s seleccion√°ndolos y haciendo clic en 
 \emph on
 Aceptar
 \emph default
 .
- El men˙ de saltos le proporciona tambiÈn acceso a estas acciones.
+ El men√∫ de saltos le proporciona tambi√©n acceso a estas acciones.
 \end_layout
 
 \begin_layout Standard
-En caso de que estÈ seleccionado el valor 
+En caso de que est√© seleccionado el valor 
 \emph on
-Simulado 
+Simulado
 \emph default
-en el men˙ de 
+ en el men√∫ de 
 \emph on
 Plataforma
 \emph default
-, el programa simular· un salto.
- En caso contrario el salto deber· ser ejecutado.
- Tenga en cuenta que para algunos de los saltos el deportista deber· situarse
- encima de la plataforma, mientras que para otros ser· imprescindible que
+, el programa simular√° un salto.
+ En caso contrario el salto deber√° ser ejecutado.
+ Tenga en cuenta que para algunos de los saltos el deportista deber√° situarse
+ encima de la plataforma, mientras que para otros ser√° imprescindible que
  se ubique fuera de ella.
- Ser· avisado si la situaciÛn del deportista no es la correcta.
+ Ser√° avisado si la situaci√≥n del deportista no es la correcta.
  La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrar· la progresiÛn del salto, que podr· ser detenido haciendo clic
- en el botÛn 
+ mostrar√° la progresi√≥n del salto, que podr√° ser detenido haciendo clic
+ en el bot√≥n 
 \emph on
 Detener
 \emph default
@@ -1580,7 +2186,7 @@ Detener
 Cancelar
 \emph default
 .
- Los saltos repetitivos de tipo ilimitado sÛlo ser·n almacenados cuando
+ Los saltos repetitivos de tipo ilimitado s√≥lo ser√°n almacenados cuando
  se haga clic en 
 \emph on
 Detener
@@ -1590,13 +2196,13 @@ Detener
 
 \begin_layout Standard
 En caso de que desee ejecutar un mismo salto a diversos deportistas y que
- dicho salto no disponga de botÛn (sÛlo estÈ disponible en la ventana 
+ dicho salto no disponga de bot√≥n (s√≥lo est√© disponible en la ventana 
 \emph on
-M·s
+M√°s
 \emph default
-), podr· cambiar de sujeto y hacer uso del botÛn 
+), podr√° cambiar de sujeto y hacer uso del bot√≥n 
 \emph on
-⁄ltimo
+√öltimo
 \emph default
  para que otra persona pueda realizar el mismo salto.
 \end_layout
@@ -1606,15 +2212,15 @@ Feedback auditivo y visual en los saltos repetitivos: campanas
 \end_layout
 
 \begin_layout Standard
-Con la finalidad de aÒadir un feedback visual y auditivo en la ejecuciÛn
+Con la finalidad de a√±adir un feedback visual y auditivo en la ejecuci√≥n
  de los saltos, es posible configurar valores de tiempo de vuelo, tiempo
- de contacto, o la relaciÛn entra ambos, para los que se mostrar· una campana
- roja (mala ejecuciÛn) o verde (buena ejecuciÛn), acompaÒadas de un sonido
+ de contacto, o la relaci√≥n entra ambos, para los que se mostrar√° una campana
+ roja (mala ejecuci√≥n) o verde (buena ejecuci√≥n), acompa√±adas de un sonido
  distintivo.
 \end_layout
 
 \begin_layout Standard
-Haciendo clic en el botÛn 
+Haciendo clic en el bot√≥n 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1622,54 +2228,55 @@ Campanas
 \begin_inset Quotes erd
 \end_inset
 
-, podr· configurar estas acciones.
+, podr√° configurar estas acciones.
 \end_layout
 
 \begin_layout Subsubsection
-VisualizaciÛn de saltos
+Visualizaci√≥n de saltos
 \end_layout
 
 \begin_layout Standard
-Desde la pestaÒa de 
+Desde la pesta√±a de 
 \emph on
 salto
 \emph default
- podr· ver los saltos simples que se han realizado en una sesiÛn, mientras
- que desde la pestaÒa de 
+ podr√° ver los saltos simples que se han realizado en una sesi√≥n, mientras
+ que desde la pesta√±a de 
 \emph on
 salto Repetitivo
 \emph default
- podr· hacer lo propio con los saltos repetitivos.
+ podr√° hacer lo propio con los saltos repetitivos.
  En ambos casos se incluye un filtro para ver todos los saltos posibles
- o sÛlo los de un tipo determinado.
+ o s√≥lo los de un tipo determinado.
  
 \end_layout
 
 \begin_layout Standard
 Los saltos se encuentran asociados a los saltadores.
- El orden de apariciÛn de los saltos en cada saltador es el cronolÛgico
- de forma que el ˙ltimo salto realizado por un sujeto aparecer· al final
+ El orden de aparici√≥n de los saltos en cada saltador es el cronol√≥gico
+ de forma que el √∫ltimo salto realizado por un sujeto aparecer√° al final
  del listado de sus saltos.
- Se incluye un botÛn de selecciÛn titulado 
+ Se incluye un bot√≥n de selecci√≥n titulado 
 \emph on
 por tipo
 \emph default
-, que permite ordenar los saltos por el tipo de salto y no por orden cronolÛgico.
- Esta opciÛn sÛlo est· disponible como es obvio cuando el valor 
+, que permite ordenar los saltos por el tipo de salto y no por orden cronol√≥gico.
+ Esta opci√≥n s√≥lo est√° disponible como es obvio cuando el valor 
 \emph on
 Todos los saltos
 \emph default
- es el seleccionado en el filtro de visualizaciÛn.
+ es el seleccionado en el filtro de visualizaci√≥n.
 \end_layout
 
 \begin_layout Standard
 En cada salto se muestran una serie de valores, puede cambiar las opciones
- de visualizaciÛn accediendo a las 
+ de visualizaci√≥n accediendo a las 
 \emph on
 Preferencias
 \emph default
- (m·s informaciÛn en la secciÛn 
-\begin_inset LatexCommand \vref{sec:Preferencias}
+ (m√°s informaci√≥n en la secci√≥n 
+\begin_inset LatexCommand vref
+reference "sec:Preferencias"
 
 \end_inset
 
@@ -1685,54 +2292,54 @@ lupa aumentar
 \emph on
 lupa disminuir
 \emph default
- para facilitar la visualizaciÛn de los saltos.
- En los saltos repetitivos se muestra adem·s el botÛn de 
+ para facilitar la visualizaci√≥n de los saltos.
+ En los saltos repetitivos se muestra adem√°s el bot√≥n de 
 \emph on
-lupa expandir Ûptimo
+lupa expandir √≥ptimo
 \emph default
 .
 \end_layout
 
 \begin_layout Subsubsection
-EdiciÛn de saltos
+Edici√≥n de saltos
 \end_layout
 
 \begin_layout Standard
-Puede aÒadir comentarios a un salto o cambiar el saltador que lo realizÛ
- (si olvidÛ modificar el sujeto actual previamente) seleccionando el salto
- deseado y haciendo clic en el botÛn de 
+Puede a√±adir comentarios a un salto o cambiar el saltador que lo realiz√≥
+ (si olvid√≥ modificar el sujeto actual previamente) seleccionando el salto
+ deseado y haciendo clic en el bot√≥n de 
 \emph on
 Editar salto seleccionado
 \emph default
- o en su equivalente en el men˙.
+ o en su equivalente en el men√∫.
  
 \end_layout
 
 \begin_layout Standard
-En los saltos reactivos, ya que por definiciÛn est·n compuestos por un conjunto
- de subsaltos, esta modificaciÛn afectar· a todos los subsaltos aunque uno
- sÛlo sea seleccionado.
+En los saltos reactivos, ya que por definici√≥n est√°n compuestos por un conjunto
+ de subsaltos, esta modificaci√≥n afectar√° a todos los subsaltos aunque uno
+ s√≥lo sea seleccionado.
 \end_layout
 
 \begin_layout Subsubsection
-ReparaciÛn de saltos reactivos
+Reparaci√≥n de saltos reactivos
 \end_layout
 
 \begin_layout Standard
-Usando el botÛn de reparaciÛn de saltos reactivos, puede insertar un subsalto,
+Usando el bot√≥n de reparaci√≥n de saltos reactivos, puede insertar un subsalto,
  modificar un valor de tiempo de contacto o de vuelo, o borrar un subsalto.
- Note que si un tipo de salto reactivo ha sido definido para que en ning˙n
- caso pueda tener m·s de 
+ Note que si un tipo de salto reactivo ha sido definido para que en ning√∫n
+ caso pueda tener m√°s de 
 \emph on
 n
 \emph default
- subsaltos, o durar m·s de 
+ subsaltos, o durar m√°s de 
 \emph on
 n
 \emph default
- segundos, estas condiciones se tendr·n en cuenta en la ventana de reparaciÛn,
+ segundos, estas condiciones se tendr√°n en cuenta en la ventana de reparaci√≥n,
  limitando sus funciones.
- En estos casos, encontrar· una indicaciÛn en la caja de texto de la parte
+ En estos casos, encontrar√° una indicaci√≥n en la caja de texto de la parte
  inferior de dicha ventana.
 \end_layout
 
@@ -1741,18 +2348,19 @@ Borrado de saltos
 \end_layout
 
 \begin_layout Standard
-Para borrar un salto selecciÛnelo y haga clic en el botÛn 
+Para borrar un salto selecci√≥nelo y haga clic en el bot√≥n 
 \emph on
 Borrar salto seleccionado
 \emph default
- o su equivalente en el men˙.
- El borrado de saltos pedir· confirmaciÛn en caso de que la opciÛn de confirmaci
-Ûn de borrado de tests estÈ activada en el men˙ de 
+ o su equivalente en el men√∫.
+ El borrado de saltos pedir√° confirmaci√≥n en caso de que la opci√≥n de confirmaci
+√≥n de borrado de tests est√© activada en el men√∫ de 
 \emph on
-Preferencias 
+Preferencias
 \emph default
-(m·s informaciÛn en la secciÛn 
-\begin_inset LatexCommand \vref{sec:Preferencias}
+ (m√°s informaci√≥n en la secci√≥n 
+\begin_inset LatexCommand vref
+reference "sec:Preferencias"
 
 \end_inset
 
@@ -1760,31 +2368,31 @@ Preferencias
 \end_layout
 
 \begin_layout Standard
-En los saltos reactivos, ya que por definiciÛn est·n compuestos por un conjunto
- de subsaltos, esta modificaciÛn afectar· a todos los subsaltos aunque uno
- sÛlo sea seleccionado.
+En los saltos reactivos, ya que por definici√≥n est√°n compuestos por un conjunto
+ de subsaltos, esta modificaci√≥n afectar√° a todos los subsaltos aunque uno
+ s√≥lo sea seleccionado.
 \end_layout
 
 \begin_layout Standard
-Si el salto que desea borrar es el ˙ltimo test que se ha ejecutado, puede
- hacer clic en el botÛn 
+Si el salto que desea borrar es el √∫ltimo test que se ha ejecutado, puede
+ hacer clic en el bot√≥n 
 \emph on
-Borrar ˙ltimo test 
+Borrar √∫ltimo test
 \emph default
-en la parte inferior izquierda de la p·gina principal de Chronojump.
+ en la parte inferior izquierda de la p√°gina principal de Chronojump.
 \end_layout
 
 \begin_layout Subsubsection
-CreaciÛn de nuevos tipos de saltos
+Creaci√≥n de nuevos tipos de saltos
 \end_layout
 
 \begin_layout Standard
 Con el objetivo de que el programa se adapte a las necesidades de cada usuario,
- se facilita la opciÛn de 
+ se facilita la opci√≥n de 
 \emph on
-CreaciÛn de nuevo tipo de salto
+Creaci√≥n de nuevo tipo de salto
 \emph default
- (ubicada en el men˙ 
+ (ubicada en el men√∫ 
 \emph on
 Saltos
 \emph default
@@ -1794,52 +2402,53 @@ Saltos
 \end_layout
 
 \begin_layout Standard
-El tipo de salto creado estar· disponible en la base de datos para que sea
- usado en cualquier sesiÛn y ser· autom·ticamente accesible a travÈs del
- botÛn 
+El tipo de salto creado estar√° disponible en la base de datos para que sea
+ usado en cualquier sesi√≥n y ser√° autom√°ticamente accesible a trav√©s del
+ bot√≥n 
 \emph on
-More 
+More
 \emph default
-en las pestaÒas de 
+ en las pesta√±as de 
 \emph on
-Salto 
+Salto
 \emph default
-o 
+ o 
 \emph on
 Salto Reactivo
 \emph default
- en funciÛn del tipo de salto que se cree.
- Por ˙ltimo, el nuevo tipo de salto ser· tambiÈn distinguido en el restos
- de partes del programa: estadÌsticas, gr·ficas e informes.
+ en funci√≥n del tipo de salto que se cree.
+ Por √∫ltimo, el nuevo tipo de salto ser√° tambi√©n distinguido en el restos
+ de partes del programa: estad√≠sticas, gr√°ficas e informes.
 \end_layout
 
 \begin_layout Standard
-En el proceso de creaciÛn se le pedir· que lo identifique con un nombre
+En el proceso de creaci√≥n se le pedir√° que lo identifique con un nombre
  distintivo, que lo clasifique como simple o repetitivo.
- En este ˙ltimo caso se le presentar· la posibilidad de limitarlo por saltos,
+ En este √∫ltimo caso se le presentar√° la posibilidad de limitarlo por saltos,
  por tiempo o definirlo como ilimitado.
  
 \end_layout
 
 \begin_layout Standard
-Las opciones de lÌmite por tiempo o por saltos podr·n ser ajustadas con
+Las opciones de l√≠mite por tiempo o por saltos podr√°n ser ajustadas con
  un valor fijo predefinido o dejarlas indefinidas.
  En caso de que se ajusten a un valor fijo, el nuevo tipo de salto en todos
- los casos se encontrar· limitado por dicho valor; en caso contrario, se
- preguntar· al usuario a cada salto quÈ valor debe tomar el factor limitante.
+ los casos se encontrar√° limitado por dicho valor; en caso contrario, se
+ preguntar√° al usuario a cada salto qu√© valor debe tomar el factor limitante.
 \end_layout
 
 \begin_layout Standard
-Por ˙ltimo se presentan las opciones de iniciar el salto encima de la plataforma
+Por √∫ltimo se presentan las opciones de iniciar el salto encima de la plataforma
  o fuera de ella, contemplar un peso extra adicional.
- La ventana de creaciÛn de nuevo tipo de salto concluye con la posibilidad
- de aÒadir una descripciÛn textual al mismo.
+ La ventana de creaci√≥n de nuevo tipo de salto concluye con la posibilidad
+ de a√±adir una descripci√≥n textual al mismo.
  En la figura 
-\begin_inset LatexCommand \ref{fig:CreaciÛn-de-nuevo-tipo-salto}
+\begin_inset LatexCommand ref
+reference "fig:Creaci√≥n-de-nuevo-tipo-salto"
 
 \end_inset
 
- puede observar la ventana de creaciÛn de nuevos tipos de saltos.
+ puede observar la ventana de creaci√≥n de nuevos tipos de saltos.
 \end_layout
 
 \begin_layout Standard
@@ -1860,12 +2469,21 @@ status open
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{fig:CreaciÛn-de-nuevo-tipo-salto}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Creaci√≥n-de-nuevo-tipo-salto"
 
 \end_inset
 
-CreaciÛn de nuevo tipo de salto.
+Creaci√≥n de nuevo tipo de salto.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1874,19 +2492,20 @@ CreaciÛn de nuevo tipo de salto.
 \end_layout
 
 \begin_layout Paragraph
-Ejemplos de creaciÛn de tipos de saltos
+Ejemplos de creaci√≥n de tipos de saltos
 \end_layout
 
 \begin_layout Standard
-Se incluye a continuaciÛn una relaciÛn de ejemplos y consejos sobre la creaciÛn
+Se incluye a continuaci√≥n una relaci√≥n de ejemplos y consejos sobre la creaci√≥n
  de tipos de saltos.
- Los nombres usados se han inventado para la elaboraciÛn de este manual.
+ Los nombres usados se han inventado para la elaboraci√≥n de este manual.
  El cuadro 
-\begin_inset LatexCommand \ref{tab:Ejemplos-de-tipos-saltos-creados}
+\begin_inset LatexCommand ref
+reference "tab:Ejemplos-de-tipos-saltos-creados"
 
 \end_inset
 
- le servir· para entender la relaciÛn entre los distintas variables.
+ le servir√° para entender la relaci√≥n entre los distintas variables.
 \end_layout
 
 \begin_layout Itemize
@@ -1901,7 +2520,7 @@ SJ-N
 
 
 \emph default
- Salto parecido al Squat Jump pero en el que los brazos se sit˙an en la
+ Salto parecido al Squat Jump pero en el que los brazos se sit√∫an en la
  nuca en lugar de en las caderas.
 \end_layout
 
@@ -1917,7 +2536,7 @@ DJ-Comba2
 
 
 \emph default
- Salto similar al Drop Jump pero en el que despuÈs de realizar un antesalto,
+ Salto similar al Drop Jump pero en el que despu√©s de realizar un antesalto,
  recepcionar y saltar, se debe dar dos vueltas con la comba antes de recepcionar
  nuevamente.
 \end_layout
@@ -2087,7 +2706,7 @@ Simple
 \begin_inset Text
 
 \begin_layout Standard
-SÌ
+S√≠
 \end_layout
 
 \end_inset
@@ -2190,7 +2809,7 @@ Saltos
 \begin_inset Text
 
 \begin_layout Standard
-SÌ (3)
+S√≠ (3)
 \end_layout
 
 \end_inset
@@ -2255,7 +2874,7 @@ No
 \begin_inset Text
 
 \begin_layout Standard
-SÌ
+S√≠
 \end_layout
 
 \end_inset
@@ -2311,7 +2930,7 @@ Ilimitado
 \begin_inset Text
 
 \begin_layout Standard
-SÌ
+S√≠
 \end_layout
 
 \end_inset
@@ -2320,7 +2939,7 @@ SÌ
 \begin_inset Text
 
 \begin_layout Standard
-SÌ
+S√≠
 \end_layout
 
 \end_inset
@@ -2333,12 +2952,21 @@ SÌ
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{tab:Ejemplos-de-tipos-saltos-creados}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "tab:Ejemplos-de-tipos-saltos-creados"
 
 \end_inset
 
 Ejemplos de tipos de saltos creados por el usuario.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2351,20 +2979,21 @@ Carreras
 \end_layout
 
 \begin_layout Standard
-Para el registro de una carrera se puede usar una ˙nica plataforma en un
- circuito circular o m·s de una plataforma, entendiendo siempre que el deportist
-a no estar· nunca en dos plataformas a la vez.
- Chronojump no diferencia el n˙mero de plataformas, sÛlo tiene en cuenta
- si el deportista est· encima de alguna o no.
- Debido a que el uso m·s corriente ser· con dos plataformas, se describir·n
- las carreras como paso de una plataforma a otra, siendo v·lido tambiÈn
- que el deportista podrÌa volver a la misma.
+Para el registro de una carrera se puede usar una √∫nica plataforma en un
+ circuito circular o m√°s de una plataforma, entendiendo siempre que el deportist
+a no estar√° nunca en dos plataformas a la vez.
+ Chronojump no diferencia el n√∫mero de plataformas, s√≥lo tiene en cuenta
+ si el deportista est√° encima de alguna o no.
+ Debido a que el uso m√°s corriente ser√° con dos plataformas, se describir√°n
+ las carreras como paso de una plataforma a otra, siendo v√°lido tambi√©n
+ que el deportista podr√≠a volver a la misma.
  En la figura 
-\begin_inset LatexCommand \ref{fig:Esquema-dos-plat}
+\begin_inset LatexCommand ref
+reference "fig:Esquema-dos-plat"
 
 \end_inset
 
- se muestra un esquema de la disposiciÛn de dos plataformas para el cronometrado
+ se muestra un esquema de la disposici√≥n de dos plataformas para el cronometrado
  de carreras.
 \end_layout
 
@@ -2384,12 +3013,21 @@ status open
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{fig:Esquema-dos-plat}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Esquema-dos-plat"
 
 \end_inset
 
-Esquema de la disposiciÛn de dos plataformas para el cronometrado de carreras.
+Esquema de la disposici√≥n de dos plataformas para el cronometrado de carreras.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2398,19 +3036,19 @@ Esquema de la disposiciÛn de dos plataformas para el cronometrado de carreras.
 \end_layout
 
 \begin_layout Standard
-En todos los casos se pedir· al usuario que indique la distancia entre plataform
+En todos los casos se pedir√° al usuario que indique la distancia entre plataform
 as con el objetivo de calcular la velocidad media en el tramo.
 \end_layout
 
 \begin_layout Standard
-Los carreras pueden ser b·sicamente de dos tipos: simples y con tramos.
+Los carreras pueden ser b√°sicamente de dos tipos: simples y con tramos.
  Para Chronojump una 
 \series bold
 carrera simple
 \series default
- es la que se registra en un ˙nico tramo, que va desde una plataforma de
+ es la que se registra en un √∫nico tramo, que va desde una plataforma de
  contactos a otra plataforma de contactos.
- AsÌ existen dos tipos de carreras simples:
+ As√≠ existen dos tipos de carreras simples:
 \end_layout
 
 \begin_layout Enumerate
@@ -2419,16 +3057,16 @@ Las que se inician pisando una plataforma y terminan pisando otra plataforma.
 \end_layout
 
 \begin_layout Enumerate
-Las que se inician fuera de la plataforma, seguidamente en alg˙n momento
- se pisa la plataforma (inici·ndose el cronÛmetro) para despuÈs de una fase
- de carrera que ser· registrada, volver a pisar la plataforma.
+Las que se inician fuera de la plataforma, seguidamente en alg√∫n momento
+ se pisa la plataforma (inici√°ndose el cron√≥metro) para despu√©s de una fase
+ de carrera que ser√° registrada, volver a pisar la plataforma.
  El objetivo de esta modalidad suele ser registrar al deportista que ya
  lleva una velocidad determinada.
 \end_layout
 
 \begin_layout Standard
 En ambos casos se registra el tiempo que transcurre entre una y otra plataforma,
- que ser· expresado tambiÈn como velocidad.
+ que ser√° expresado tambi√©n como velocidad.
 \end_layout
 
 \begin_layout Standard
@@ -2436,12 +3074,12 @@ Una
 \series bold
 carrera con tramos
 \series default
- ser· cualquier carrera en que exista m·s de un tramo, y ser· expresada
+ ser√° cualquier carrera en que exista m√°s de un tramo, y ser√° expresada
  normalmente como 
 \begin_inset Quotes eld
 \end_inset
 
-Ir y volver en dos o m·s tramos delimitados por plataformas situadas a 
+Ir y volver en dos o m√°s tramos delimitados por plataformas situadas a 
 \shape italic
 n
 \shape default
@@ -2453,15 +3091,15 @@ n
 \end_layout
 
 \begin_layout Subsubsection
-EjecuciÛn de carreras simples
+Ejecuci√≥n de carreras simples
 \end_layout
 
 \begin_layout Standard
-Desde la pestaÒa de 
+Desde la pesta√±a de 
 \emph on
 Carrera
 \emph default
-s, o desde el men˙ 
+s, o desde el men√∫ 
 \emph on
 Carreras / Ejecutar carreras simples
 \emph default
@@ -2486,43 +3124,43 @@ Personalizado
 
 \begin_layout Standard
 para ejecutar una carrera simple.
- En ocasiones se le pedir· que facilite la distancia entre tramos.
+ En ocasiones se le pedir√° que facilite la distancia entre tramos.
  Haga clic en 
 \emph on
-M·s
+M√°s
 \emph default
- para obtener una relaciÛn de todas las carreras simples disponibles y ejec˙tela
-s seleccion·ndolas y haciendo clic en 
+ para obtener una relaci√≥n de todas las carreras simples disponibles y ejec√∫tela
+s seleccion√°ndolas y haciendo clic en 
 \emph on
 Aceptar
 \emph default
 .
- El men˙ 
+ El men√∫ 
 \emph on
 Carrera
 \emph default
- le proporciona tambiÈn acceso a estas acciones.
+ le proporciona tambi√©n acceso a estas acciones.
 \end_layout
 
 \begin_layout Standard
-En caso de que estÈ seleccionado el valor 
+En caso de que est√© seleccionado el valor 
 \emph on
-Simulado 
+Simulado
 \emph default
-en el men˙ de 
+ en el men√∫ de 
 \emph on
 Plataforma
 \emph default
-, el programa simular· una carrera.
- En caso contrario la carrera deber· ser ejecutada.
+, el programa simular√° una carrera.
+ En caso contrario la carrera deber√° ser ejecutada.
  El programa permite iniciar la carrera desde dentro de la plataforma o
- desde fuera de ella (el deportista se sit˙a antes) en el segundo caso,
+ desde fuera de ella (el deportista se sit√∫a antes) en el segundo caso,
  el tiempo transcurrido entre que el deportista inicia la carrera y pisa
- la primera plataforma de contactos ser· despreciado.
+ la primera plataforma de contactos ser√° despreciado.
  La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrar· la progresiÛn de la carrera (entrada en la primera plataforma,
- abandono, llegada a la segunda pltaforma), que podr· ser detenida haciendo
- clic en el botÛn 
+ mostrar√° la progresi√≥n de la carrera (entrada en la primera plataforma,
+ abandono, llegada a la segunda pltaforma), que podr√° ser detenida haciendo
+ clic en el bot√≥n 
 \emph on
 Detener
 \emph default
@@ -2535,24 +3173,24 @@ Cancelar
 
 \begin_layout Standard
 En caso de que desee ejecutar una misma carrera a diversos deportistas y
- que dicha carrrera no disponga de botÛn (sÛlo estÈ disponible en la ventana
+ que dicha carrrera no disponga de bot√≥n (s√≥lo est√© disponible en la ventana
  
 \emph on
-M·s
+M√°s
 \emph default
-), podr· cambiar de sujeto y hacer uso del botÛn 
+), podr√° cambiar de sujeto y hacer uso del bot√≥n 
 \emph on
-⁄ltimo
+√öltimo
 \emph default
  para que otra persona pueda realizar la misma carrera.
 \end_layout
 
 \begin_layout Subsubsection
-EjecuciÛn de carreras con tramos
+Ejecuci√≥n de carreras con tramos
 \end_layout
 
 \begin_layout Standard
-Desde la pestaÒa de 
+Desde la pesta√±a de 
 \emph on
 Carrera con tramo
 \emph default
@@ -2564,7 +3202,7 @@ Carrera con tramo
 \emph on
 Por pistas
 \emph default
-: carrera con tramos limitada por el n˙mero de tramos
+: carrera con tramos limitada por el n√∫mero de tramos
 \end_layout
 
 \begin_layout Standard
@@ -2585,43 +3223,43 @@ Ilimitado
 
 \begin_layout Standard
 para ejecutar una carrera con tramos.
- En ocasiones se le pedir· que facilite informaciÛn adicional como la distancia
+ En ocasiones se le pedir√° que facilite informaci√≥n adicional como la distancia
  entre tramos o el valor del factor limitante (saltos o segundos).
  Haga clic en 
 \emph on
-M·s
+M√°s
 \emph default
- para obtener una relaciÛn de todas las carreras con tramos disponibles
- y ejec˙telas seleccion·ndolas y haciendo clic en 
+ para obtener una relaci√≥n de todas las carreras con tramos disponibles
+ y ejec√∫telas seleccion√°ndolas y haciendo clic en 
 \emph on
 Aceptar
 \emph default
 .
- El men˙ de 
+ El men√∫ de 
 \emph on
 Carrera
 \emph default
- le proporciona tambiÈn acceso a estas acciones.
+ le proporciona tambi√©n acceso a estas acciones.
 \end_layout
 
 \begin_layout Standard
-En caso de que estÈ seleccionado el valor 
+En caso de que est√© seleccionado el valor 
 \emph on
-Simulado 
+Simulado
 \emph default
-en el men˙ de 
+ en el men√∫ de 
 \emph on
 Plataforma
 \emph default
-, el programa simular· la carrera.
- En caso contrario la carrera deber· ser ejecutada.
+, el programa simular√° la carrera.
+ En caso contrario la carrera deber√° ser ejecutada.
  El programa permite iniciar la carrera desde dentro de la plataforma o
- desde fuera de ella (el deportista se sit˙a antes) en el segundo caso,
+ desde fuera de ella (el deportista se sit√∫a antes) en el segundo caso,
  el tiempo transcurrido entre que el deportista inicia la carrera y pisa
- la primera plataforma de contactos ser· despreciado.
+ la primera plataforma de contactos ser√° despreciado.
  La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrar· la progresiÛn de la carrera, que podr· ser detenida haciendo clic
- en el botÛn 
+ mostrar√° la progresi√≥n de la carrera, que podr√° ser detenida haciendo clic
+ en el bot√≥n 
 \emph on
 Detener
 \emph default
@@ -2630,7 +3268,7 @@ Detener
 Cancelar
 \emph default
 .
- Las carreras con tramos de tipo ilimitado sÛlo ser·n almacenadas cuando
+ Las carreras con tramos de tipo ilimitado s√≥lo ser√°n almacenadas cuando
  se haga clic en 
 \emph on
 Detener
@@ -2640,14 +3278,14 @@ Detener
 
 \begin_layout Standard
 En caso de que desee ejecutar una misma carrera a diversos deportistas y
- que dicho carrera no disponga de botÛn (sÛlo estÈ disponible en la ventana
+ que dicho carrera no disponga de bot√≥n (s√≥lo est√© disponible en la ventana
  
 \emph on
-M·s
+M√°s
 \emph default
-), podr· cambiar de sujeto y hacer uso del botÛn 
+), podr√° cambiar de sujeto y hacer uso del bot√≥n 
 \emph on
-⁄ltimo
+√öltimo
 \emph default
  para que otra persona pueda realizar la misma carrera.
 \end_layout
@@ -2658,13 +3296,13 @@ Feedback auditivo y visual en las carreras con tramos: campanas
 
 \begin_layout Standard
 De la misma forma que en los saltos repetitivos, es posible configurar valores
- mÌnimos y m·ximos de tiempo de tramo, para los que se mostrar· una campana
- roja (mala ejecuciÛn) o verde (buena ejecuciÛn), acompaÒadas de un sonido
+ m√≠nimos y m√°ximos de tiempo de tramo, para los que se mostrar√° una campana
+ roja (mala ejecuci√≥n) o verde (buena ejecuci√≥n), acompa√±adas de un sonido
  distintivo.
 \end_layout
 
 \begin_layout Standard
-Haciendo clic en el botÛn 
+Haciendo clic en el bot√≥n 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2672,54 +3310,55 @@ Campanas
 \begin_inset Quotes erd
 \end_inset
 
-, podr· configurar estas acciones.
+, podr√° configurar estas acciones.
 \end_layout
 
 \begin_layout Subsubsection
-VisualizaciÛn de carreras
+Visualizaci√≥n de carreras
 \end_layout
 
 \begin_layout Standard
-Desde la pestaÒa de 
+Desde la pesta√±a de 
 \emph on
 Carrera
 \emph default
- podr· ver las carreras simples que se han realizado en una sesiÛn, mientras
- que desde la pestaÒa de 
+ podr√° ver las carreras simples que se han realizado en una sesi√≥n, mientras
+ que desde la pesta√±a de 
 \emph on
 Carrera con tramos
 \emph default
- podr· hacer lo propio con las carreras interv·licas.
+ podr√° hacer lo propio con las carreras interv√°licas.
  En ambos casos se incluye un filtro para ver todas las carreras posibles
- o sÛlo las de un tipo determinado.
+ o s√≥lo las de un tipo determinado.
  
 \end_layout
 
 \begin_layout Standard
 Las carreras se encuentran asociadas a los corredores.
- El orden de apariciÛn de las carrerass en cada saltador es el cronolÛgico
- de forma que la ˙ltima carrera realizada por un sujeto aparecer· al final
+ El orden de aparici√≥n de las carrerass en cada saltador es el cronol√≥gico
+ de forma que la √∫ltima carrera realizada por un sujeto aparecer√° al final
  del listado de sus carreras.
- Se incluye un botÛn de selecciÛn titulado 
+ Se incluye un bot√≥n de selecci√≥n titulado 
 \emph on
 por tipo
 \emph default
-, que permite ordenar las carreras por su tipo y no por orden cronolÛgico.
- Esta opciÛn sÛlo est· disponible como es obvio cuando el valor 
+, que permite ordenar las carreras por su tipo y no por orden cronol√≥gico.
+ Esta opci√≥n s√≥lo est√° disponible como es obvio cuando el valor 
 \emph on
 Todas las carreras
 \emph default
- es el seleccionado en el filtro de visualizaciÛn.
+ es el seleccionado en el filtro de visualizaci√≥n.
 \end_layout
 
 \begin_layout Standard
 En cada carrera se muestran una serie de valores, puede cambiar las opciones
- de visualizaciÛn accediendo a las 
+ de visualizaci√≥n accediendo a las 
 \emph on
 Preferencias
 \emph default
- (m·s informaciÛn en la secciÛn 
-\begin_inset LatexCommand \vref{sec:Preferencias}
+ (m√°s informaci√≥n en la secci√≥n 
+\begin_inset LatexCommand vref
+reference "sec:Preferencias"
 
 \end_inset
 
@@ -2735,54 +3374,54 @@ lupa aumentar
 \emph on
 lupa disminuir
 \emph default
- para facilitar la visualizaciÛn de los carreras.
- En las carreras con tramos se muestra adem·s el botÛn de 
+ para facilitar la visualizaci√≥n de los carreras.
+ En las carreras con tramos se muestra adem√°s el bot√≥n de 
 \emph on
-lupa expandir Ûptimo
+lupa expandir √≥ptimo
 \emph default
 .
 \end_layout
 
 \begin_layout Subsubsection
-EdiciÛn de carreras
+Edici√≥n de carreras
 \end_layout
 
 \begin_layout Standard
-Puede aÒadir comentarios a una carrera o cambiar el corredor que la realizÛ
- (si olvidÛ modificar el sujeto actual previamente) seleccionando la carrera
- deseada y haciendo clic en el botÛn de 
+Puede a√±adir comentarios a una carrera o cambiar el corredor que la realiz√≥
+ (si olvid√≥ modificar el sujeto actual previamente) seleccionando la carrera
+ deseada y haciendo clic en el bot√≥n de 
 \emph on
 Editar carrera seleccionada
 \emph default
- o en su equivalente en el men˙.
+ o en su equivalente en el men√∫.
  
 \end_layout
 
 \begin_layout Standard
-En las carreras con tramos, ya que por definiciÛn est·n compuestas por un
- conjunto de tramos, esta modificaciÛn afectar· a todos los tramos aunque
- uno sÛlo sea seleccionado.
+En las carreras con tramos, ya que por definici√≥n est√°n compuestas por un
+ conjunto de tramos, esta modificaci√≥n afectar√° a todos los tramos aunque
+ uno s√≥lo sea seleccionado.
 \end_layout
 
 \begin_layout Subsubsection
-ReparaciÛn de carreras con tramos
+Reparaci√≥n de carreras con tramos
 \end_layout
 
 \begin_layout Standard
-Usando el botÛn de reparaciÛn de carreras con tramos, puede insertar un
+Usando el bot√≥n de reparaci√≥n de carreras con tramos, puede insertar un
  tramo, modificar un valor de tiempo de tramo, o borrar un tramo.
  Note que si un tipo de carrera con tramos ha sido definido para que en
- ning˙n caso pueda tener m·s de 
+ ning√∫n caso pueda tener m√°s de 
 \emph on
 n
 \emph default
- tramos, o durar m·s de 
+ tramos, o durar m√°s de 
 \emph on
 n
 \emph default
- segundos, estas condiciones se tendr·n en cuenta en la ventana de reparaciÛn,
+ segundos, estas condiciones se tendr√°n en cuenta en la ventana de reparaci√≥n,
  limitando sus funciones.
- En estos casos, encontrar· una indicaciÛn en la caja de texto de la parte
+ En estos casos, encontrar√° una indicaci√≥n en la caja de texto de la parte
  inferior de dicha ventana.
 \end_layout
 
@@ -2791,18 +3430,19 @@ Borrado de carreras
 \end_layout
 
 \begin_layout Standard
-Para borrar una carrera selecciÛnela y haga clic en el botÛn 
+Para borrar una carrera selecci√≥nela y haga clic en el bot√≥n 
 \emph on
 Borrar carrera seleccionada
 \emph default
- o su equivalente en el men˙.
- El borrado de carreras pedir· confirmaciÛn en caso de que la opciÛn de
- confirmaciÛn de borrado de tests estÈ activada en el men˙ de 
+ o su equivalente en el men√∫.
+ El borrado de carreras pedir√° confirmaci√≥n en caso de que la opci√≥n de
+ confirmaci√≥n de borrado de tests est√© activada en el men√∫ de 
 \emph on
-Preferencias 
+Preferencias
 \emph default
-(m·s informaciÛn en la secciÛn 
-\begin_inset LatexCommand \vref{sec:Preferencias}
+ (m√°s informaci√≥n en la secci√≥n 
+\begin_inset LatexCommand vref
+reference "sec:Preferencias"
 
 \end_inset
 
@@ -2810,32 +3450,32 @@ Preferencias
 \end_layout
 
 \begin_layout Standard
-En los saltos reactivos, ya que por definiciÛn est·n compuestos por un conjunto
- de subsaltos, esta modificaciÛn afectar· a todos los subsaltos aunque uno
- sÛlo sea seleccionado.
+En los saltos reactivos, ya que por definici√≥n est√°n compuestos por un conjunto
+ de subsaltos, esta modificaci√≥n afectar√° a todos los subsaltos aunque uno
+ s√≥lo sea seleccionado.
  
 \end_layout
 
 \begin_layout Standard
-Si la carrera que desea borrar es el ˙ltimo test que se ha ejecutado, puede
- hacer clic en el botÛn 
+Si la carrera que desea borrar es el √∫ltimo test que se ha ejecutado, puede
+ hacer clic en el bot√≥n 
 \emph on
-Borrar ˙ltimo test 
+Borrar √∫ltimo test
 \emph default
-en la parte inferior izquierda de la p·gina principal de Chronojump.
+ en la parte inferior izquierda de la p√°gina principal de Chronojump.
 \end_layout
 
 \begin_layout Subsubsection
-CreaciÛn de nuevos tipos de carreras
+Creaci√≥n de nuevos tipos de carreras
 \end_layout
 
 \begin_layout Standard
 Con el objetivo de que el programa se adapte a las necesidades de cada usuario,
- se facilita la opciÛn de 
+ se facilita la opci√≥n de 
 \emph on
-CreaciÛn de nuevo tipo de carrera
+Creaci√≥n de nuevo tipo de carrera
 \emph default
- (ubicada en el men˙ 
+ (ubicada en el men√∫ 
 \emph on
 Carrera
 \emph default
@@ -2845,53 +3485,54 @@ Carrera
 \end_layout
 
 \begin_layout Standard
-El tipo de carrera creado estar· disponible en la base de datos para que
- sea usado en cualquier sesiÛn y ser· autom·ticamente accesible a travÈs
- del botÛn 
+El tipo de carrera creado estar√° disponible en la base de datos para que
+ sea usado en cualquier sesi√≥n y ser√° autom√°ticamente accesible a trav√©s
+ del bot√≥n 
 \emph on
-More 
+More
 \emph default
-en las pestaÒas de 
+ en las pesta√±as de 
 \emph on
-Carrera 
+Carrera
 \emph default
-o 
+ o 
 \emph on
 Carrera con tramos
 \emph default
- en funciÛn del tipo de carrera que se cree.
- Por ˙ltimo, el nuevo tipo de carrera ser· tambiÈn distinguido en el restos
- de partes del programa: estadÌsticas, gr·ficas e informes.
+ en funci√≥n del tipo de carrera que se cree.
+ Por √∫ltimo, el nuevo tipo de carrera ser√° tambi√©n distinguido en el restos
+ de partes del programa: estad√≠sticas, gr√°ficas e informes.
 \end_layout
 
 \begin_layout Standard
-En el proceso de creaciÛn se le pedir· que lo identifique con un nombre
+En el proceso de creaci√≥n se le pedir√° que lo identifique con un nombre
  distintivo, que lo clasifique como simple o con tramos.
- En este ˙ltimo caso se le presentar· la posibilidad de limitar el test
+ En este √∫ltimo caso se le presentar√° la posibilidad de limitar el test
  por pistas, por tiempo o definirlo como ilimitado.
  
 \end_layout
 
 \begin_layout Standard
-Las opciones de lÌmite por tiempo o por pistas podr·n ser ajustadas con
+Las opciones de l√≠mite por tiempo o por pistas podr√°n ser ajustadas con
  un valor fijo predefinido o dejarlas indefinidas.
  En caso de que se ajusten a un valor fijo, el nuevo tipo de carrera en
- todos los casos se encontrar· limitado por dicho valor; en caso contrario,
- se preguntar· al usuario a cada carrera quÈ valor debe tomar el factor
+ todos los casos se encontrar√° limitado por dicho valor; en caso contrario,
+ se preguntar√° al usuario a cada carrera qu√© valor debe tomar el factor
  limitante.
 \end_layout
 
 \begin_layout Standard
-Por ˙ltimo se ofrece la posibilidad de fijar la distancia de los tramos
+Por √∫ltimo se ofrece la posibilidad de fijar la distancia de los tramos
  para el nuevo tipo de carrera.
- La ventana de creaciÛn de nuevo tipo de carrera concluye con la posibilidad
- de aÒadir una descripciÛn textual.
+ La ventana de creaci√≥n de nuevo tipo de carrera concluye con la posibilidad
+ de a√±adir una descripci√≥n textual.
  En la figura 
-\begin_inset LatexCommand \ref{fig:CreaciÛn-de-nuevo-tipo-carrera}
+\begin_inset LatexCommand ref
+reference "fig:Creaci√≥n-de-nuevo-tipo-carrera"
 
 \end_inset
 
- puede observar la ventana de creaciÛn de nuevos tipos de carreras.
+ puede observar la ventana de creaci√≥n de nuevos tipos de carreras.
 \end_layout
 
 \begin_layout Standard
@@ -2911,12 +3552,21 @@ status open
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{fig:CreaciÛn-de-nuevo-tipo-carrera}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Creaci√≥n-de-nuevo-tipo-carrera"
 
 \end_inset
 
-CreaciÛn de nuevo tipo de carrera.
+Creaci√≥n de nuevo tipo de carrera.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -2925,19 +3575,20 @@ CreaciÛn de nuevo tipo de carrera.
 \end_layout
 
 \begin_layout Paragraph
-Ejemplos de creaciÛn de tipos de carreras
+Ejemplos de creaci√≥n de tipos de carreras
 \end_layout
 
 \begin_layout Standard
-Se incluye a continuaciÛn una relaciÛn de ejemplos y consejos sobre la creaciÛn
+Se incluye a continuaci√≥n una relaci√≥n de ejemplos y consejos sobre la creaci√≥n
  de tipos de carreras.
- Los nombres usados se han inventado para la elaboraciÛn de este manual.
+ Los nombres usados se han inventado para la elaboraci√≥n de este manual.
  El cuadro 
-\begin_inset LatexCommand \ref{tab:Ejemplos-de-tipos-carreras-creados}
+\begin_inset LatexCommand ref
+reference "tab:Ejemplos-de-tipos-carreras-creados"
 
 \end_inset
 
- le servir· para entender la relaciÛn entre los distintas variables.
+ le servir√° para entender la relaci√≥n entre los distintas variables.
 \end_layout
 
 \begin_layout Itemize
@@ -2967,8 +3618,8 @@ SprintCortoVariable
 
 
 \emph default
- Carrera de menos de 20 metros, cada deportista correr· una distancia diferente
- que ser· determinada previamente por el entrenador.
+ Carrera de menos de 20 metros, cada deportista correr√° una distancia diferente
+ que ser√° determinada previamente por el entrenador.
 \end_layout
 
 \begin_layout Itemize
@@ -3226,7 +3877,7 @@ Pistas
 \begin_inset Text
 
 \begin_layout Standard
-SÌ (5)
+S√≠ (5)
 \end_layout
 
 \end_inset
@@ -3389,8 +4040,12 @@ Fijo(100)
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{tab:Ejemplos-de-tipos-carreras-creados}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "tab:Ejemplos-de-tipos-carreras-creados"
 
 \end_inset
 
@@ -3402,15 +4057,20 @@ Ejemplos de tipos de carreras creados por el usuario.
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
-Tiempo de reacciÛn
+Tiempo de reacci√≥n
 \end_layout
 
 \begin_layout Standard
-El programa dispone de un botÛn que permite detectar el tiempo de reacciÛn
+El programa dispone de un bot√≥n que permite detectar el tiempo de reacci√≥n
  del sujeto evaluado.
- Para ello, se requiere la colaboraciÛn de un ayudante pues Chronojump y
- Chronopic a˙n no son capaces de emitir seÒales auditivas aleatorias y en
+ Para ello, se requiere la colaboraci√≥n de un ayudante pues Chronojump y
+ Chronopic a√∫n no son capaces de emitir se√±ales auditivas aleatorias y en
  un tiempo conocido y preciso.
  
 \end_layout
@@ -3420,46 +4080,46 @@ Protocolo
 \end_layout
 
 \begin_layout Standard
-El ayudante estar· pulsando alg˙n tipo de pulsador o plataforma, y cuando
- lo desee (y el ejecutante estÈ preparado), dejar· de pulsar este, de manera
- que la luz del Chronopic se encender·.
- En ese momento el ejecutante deber· pulsar alg˙n pulsador o plataforma
- y el tiempo entre que la luz se encendiÛ y el ejecutante pulsÛ, ser· registrado
- como tiempo de reacciÛn.
- Es importante que el ejecutante no vea ni oiga al ayudante pues podrÌa
- anticipar su acciÛn.
+El ayudante estar√° pulsando alg√∫n tipo de pulsador o plataforma, y cuando
+ lo desee (y el ejecutante est√© preparado), dejar√° de pulsar este, de manera
+ que la luz del Chronopic se encender√°.
+ En ese momento el ejecutante deber√° pulsar alg√∫n pulsador o plataforma
+ y el tiempo entre que la luz se encendi√≥ y el ejecutante puls√≥, ser√° registrado
+ como tiempo de reacci√≥n.
+ Es importante que el ejecutante no vea ni oiga al ayudante pues podr√≠a
+ anticipar su acci√≥n.
 \end_layout
 
 \begin_layout Subsubsection
-EjecuciÛn de tiempo de reacciÛn
+Ejecuci√≥n de tiempo de reacci√≥n
 \end_layout
 
 \begin_layout Standard
-Desde la pestaÒa de 
+Desde la pesta√±a de 
 \emph on
-tiempo de reacciÛn
+tiempo de reacci√≥n
 \emph default
- y con el ayudante pulsando el pulsador o plataforma, haga clic en el botÛn:
+ y con el ayudante pulsando el pulsador o plataforma, haga clic en el bot√≥n:
  
 \emph on
-Ejecutar tiempo de reacciÛn
+Ejecutar tiempo de reacci√≥n
 \emph default
  y siga el protocolo descrito anteriormente.
 \end_layout
 
 \begin_layout Standard
-En caso de que estÈ seleccionado el valor 
+En caso de que est√© seleccionado el valor 
 \emph on
-Simulado 
+Simulado
 \emph default
-en el men˙ de 
+ en el men√∫ de 
 \emph on
 Plataforma
 \emph default
-, el programa simular· un tiempo de reacciÛn.
+, el programa simular√° un tiempo de reacci√≥n.
  La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrar· la progresiÛn del salto, que podr· ser detenido haciendo clic
- en el botÛn 
+ mostrar√° la progresi√≥n del salto, que podr√° ser detenido haciendo clic
+ en el bot√≥n 
 \emph on
 Detener
 \emph default
@@ -3471,22 +4131,22 @@ Cancelar
 \end_layout
 
 \begin_layout Subsubsection
-VisualizaciÛn de tiempo de reacciÛn
+Visualizaci√≥n de tiempo de reacci√≥n
 \end_layout
 
 \begin_layout Standard
-Desde la pestaÒa de 
+Desde la pesta√±a de 
 \emph on
-tiempo de reacciÛn
+tiempo de reacci√≥n
 \emph default
- podr· ver los test de tiempo de reacciÛn que se han realizado en una sesiÛn.
+ podr√° ver los test de tiempo de reacci√≥n que se han realizado en una sesi√≥n.
  
 \end_layout
 
 \begin_layout Standard
-Los tiempos de reacciÛn se encuentran asociados a los ejecutantes.
- El orden de apariciÛn de los tiempos de reacciÛn en cada ejecutante es
- el cronolÛgico de forma que el ˙ltimo realizado por un sujeto aparecer·
+Los tiempos de reacci√≥n se encuentran asociados a los ejecutantes.
+ El orden de aparici√≥n de los tiempos de reacci√≥n en cada ejecutante es
+ el cronol√≥gico de forma que el √∫ltimo realizado por un sujeto aparecer√°
  al final del listado de sus tests.
 \end_layout
 
@@ -3499,42 +4159,43 @@ lupa aumentar
 \emph on
 lupa disminuir
 \emph default
- para facilitar la visualizaciÛn de los tests.
+ para facilitar la visualizaci√≥n de los tests.
 \end_layout
 
 \begin_layout Subsubsection
-EdiciÛn de tiempos de reacciÛn
+Edici√≥n de tiempos de reacci√≥n
 \end_layout
 
 \begin_layout Standard
-Puede aÒadir comentarios a un test o cambiar el ejecutante (si olvidÛ modificar
+Puede a√±adir comentarios a un test o cambiar el ejecutante (si olvid√≥ modificar
  el sujeto actual previamente) seleccionando el test deseado y haciendo
- clic en el botÛn de 
+ clic en el bot√≥n de 
 \emph on
-Editar tiempo de reacciÛn seleccionado
+Editar tiempo de reacci√≥n seleccionado
 \emph default
- o en su equivalente en el men˙.
+ o en su equivalente en el men√∫.
  
 \end_layout
 
 \begin_layout Subsubsection
-Borrado de tiempos de reacciÛn
+Borrado de tiempos de reacci√≥n
 \end_layout
 
 \begin_layout Standard
-Para borrar un tiempo de reacciÛn, selecciÛnelo y haga clic en el botÛn
+Para borrar un tiempo de reacci√≥n, selecci√≥nelo y haga clic en el bot√≥n
  
 \emph on
-Borrar tiempo de reacciÛn seleccionado
+Borrar tiempo de reacci√≥n seleccionado
 \emph default
- o su equivalente en el men˙.
- El borrado del test pedir· confirmaciÛn en caso de que la opciÛn de confirmaciÛ
-n de borrado de tests estÈ activada en el men˙ de 
+ o su equivalente en el men√∫.
+ El borrado del test pedir√° confirmaci√≥n en caso de que la opci√≥n de confirmaci√≥
+n de borrado de tests est√© activada en el men√∫ de 
 \emph on
-Preferencias 
+Preferencias
 \emph default
-(m·s informaciÛn en la secciÛn 
-\begin_inset LatexCommand \vref{sec:Preferencias}
+ (m√°s informaci√≥n en la secci√≥n 
+\begin_inset LatexCommand vref
+reference "sec:Preferencias"
 
 \end_inset
 
@@ -3542,12 +4203,12 @@ Preferencias
 \end_layout
 
 \begin_layout Standard
-Si el salto que desea borrar es el ˙ltimo test que se ha ejecutado, puede
- hacer clic en el botÛn 
+Si el salto que desea borrar es el √∫ltimo test que se ha ejecutado, puede
+ hacer clic en el bot√≥n 
 \emph on
-Borrar ˙ltimo test 
+Borrar √∫ltimo test
 \emph default
-en la parte inferior izquierda de la p·gina principal de Chronojump.
+ en la parte inferior izquierda de la p√°gina principal de Chronojump.
 \end_layout
 
 \begin_layout Subsection
@@ -3559,21 +4220,22 @@ Ritmos
 \end_layout
 
 \begin_layout Section
-EstadÌsticas
+Estad√≠sticas
 \end_layout
 
 \begin_layout Standard
-Chronojump dispone de m˙ltiples Ìndices para estudiar los tests que son
+Chronojump dispone de m√∫ltiples √≠ndices para estudiar los tests que son
  captados.
- Contrariamente a las hojas de c·lculo de propÛsito general, la disposiciÛn
- de los estadÌsticos y su graficaciÛn ha sido diseÒada especÌficamente para
- la mediciÛn de saltos y carreras.
+ Contrariamente a las hojas de c√°lculo de prop√≥sito general, la disposici√≥n
+ de los estad√≠sticos y su graficaci√≥n ha sido dise√±ada espec√≠ficamente para
+ la medici√≥n de saltos y carreras.
  En la figura 
-\begin_inset LatexCommand \ref{fig:Ventana-de-estadÌsiticas}
+\begin_inset LatexCommand ref
+reference "fig:Ventana-de-estad√≠siticas"
 
 \end_inset
 
- se aprecia la ventana de estadÌsticas.
+ se aprecia la ventana de estad√≠sticas.
 \end_layout
 
 \begin_layout Standard
@@ -3594,12 +4256,21 @@ status open
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{fig:Ventana-de-estadÌsiticas}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Ventana-de-estad√≠siticas"
 
 \end_inset
 
-Ventana de estadÌsticas de Chronojump.
+Ventana de estad√≠sticas de Chronojump.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3608,27 +4279,27 @@ Ventana de estadÌsticas de Chronojump.
 \end_layout
 
 \begin_layout Standard
-La versiÛn 0.4 de Chronojump sÛlo contempla estadÌsticos referentes a saltos.
- En futuras versiones se incluir·n tambiÈn estadÌsticos de carreras.
+La versi√≥n 0.4 de Chronojump s√≥lo contempla estad√≠sticos referentes a saltos.
+ En futuras versiones se incluir√°n tambi√©n estad√≠sticos de carreras.
 \end_layout
 
 \begin_layout Subsection
-Tipos, subtipos y aplicaciÛn de estadÌsticas
+Tipos, subtipos y aplicaci√≥n de estad√≠sticas
 \end_layout
 
 \begin_layout Standard
-Cada estadÌstico puede ser clasificado por su tipo, entre los que se presentan:
+Cada estad√≠stico puede ser clasificado por su tipo, entre los que se presentan:
 \end_layout
 
 \begin_layout Description
-Global que muestra las medias o los valores m·ximos de un conjunto de estadÌstic
+Global que muestra las medias o los valores m√°ximos de un conjunto de estad√≠stic
 os.
 \end_layout
 
 \begin_layout Description
 Por\InsetSpace ~
-saltador que muestra las medias o los valores m·ximos de un conjunto
- de estadÌsticos de un sujeto concreto.
+saltador que muestra las medias o los valores m√°ximos de un conjunto
+ de estad√≠sticos de un sujeto concreto.
 \end_layout
 
 \begin_layout Description
@@ -3656,9 +4327,9 @@ Global
 \end_layout
 
 \begin_layout Standard
-Ofrece un listado de las medias o valores m·ximos de varios estadÌsticos.
- Este tipo de estadÌsticos no puede ser clasificado en subtipos ni tampoco
- puede configurarse la aplicaciÛn a diferentes sujetos o saltos.
+Ofrece un listado de las medias o valores m√°ximos de varios estad√≠sticos.
+ Este tipo de estad√≠sticos no puede ser clasificado en subtipos ni tampoco
+ puede configurarse la aplicaci√≥n a diferentes sujetos o saltos.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3666,14 +4337,14 @@ Por saltador
 \end_layout
 
 \begin_layout Standard
-Ofrece un listado de las medias o valores m·ximos de varios estadÌsticos
+Ofrece un listado de las medias o valores m√°ximos de varios estad√≠sticos
  en un sujeto concreto.
- Este tipo de estadÌsticos no puede ser clasificado en subtipos.
+ Este tipo de estad√≠sticos no puede ser clasificado en subtipos.
  El campo 
 \emph on
-aplicaciÛn
+aplicaci√≥n
 \emph default
-, se refiere al sujeto al que es aplicado el estadÌstico.
+, se refiere al sujeto al que es aplicado el estad√≠stico.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3681,12 +4352,12 @@ Saltos simples
 \end_layout
 
 \begin_layout Standard
-Los estadÌsticos de saltos simples muestran varias formas de analizar saltos
+Los estad√≠sticos de saltos simples muestran varias formas de analizar saltos
  simples sin tiempo de contacto, que pueden ser clasificados en varios subtipos:
 \end_layout
 
 \begin_layout Itemize
-Sin Ìndices
+Sin √≠ndices
 \end_layout
 
 \begin_layout Itemize
@@ -3694,22 +4365,22 @@ Fuerza-velocidad
 \end_layout
 
 \begin_layout Itemize
-Õndice de elasticidad
+√çndice de elasticidad
 \end_layout
 
 \begin_layout Itemize
-Õndice de utilizaciÛn de brazos
+√çndice de utilizaci√≥n de brazos
 \end_layout
 
 \begin_layout Paragraph
-Sin Ìndices
+Sin √≠ndices
 \end_layout
 
 \begin_layout Standard
-EstadÌsitico de salto simple en que se muestran todos los saltos o los de
- alg˙n tipo en concreto seg˙n la selecciÛn del campo 
+Estad√≠sitico de salto simple en que se muestran todos los saltos o los de
+ alg√∫n tipo en concreto seg√∫n la selecci√≥n del campo 
 \emph on
-aplicaciÛn
+aplicaci√≥n
 \emph default
 .
 \end_layout
@@ -3719,8 +4390,8 @@ Fuerza-velocidad
 \end_layout
 
 \begin_layout Standard
-EstadÌsitico de salto simple en que se muestra la relaciÛn de fuerza-velocidad
- seg˙n la fÛrmula 
+Estad√≠sitico de salto simple en que se muestra la relaci√≥n de fuerza-velocidad
+ seg√∫n la f√≥rmula 
 \begin_inset Formula $FV=\frac{SJ+(100\%%)
 }{SJ}*100$
 \end_inset
@@ -3730,12 +4401,12 @@ EstadÌsitico de salto simple en que se muestra la relaciÛn de fuerza-velocidad
 \end_layout
 
 \begin_layout Paragraph
-Õndice de elasticidad
+√çndice de elasticidad
 \end_layout
 
 \begin_layout Standard
-EstadÌsitico de salto simple en que se muestra el Ìndice de elasticidad
- a partir de la fÛrmula 
+Estad√≠sitico de salto simple en que se muestra el √≠ndice de elasticidad
+ a partir de la f√≥rmula 
 \begin_inset Formula $IE=\frac{(CMJ-SJ)}{SJ}*100$
 \end_inset
 
@@ -3743,12 +4414,12 @@ entre los saltos SJ y CMJ.
 \end_layout
 
 \begin_layout Paragraph
-Õndice de utilizaciÛn de brazos
+√çndice de utilizaci√≥n de brazos
 \end_layout
 
 \begin_layout Standard
-EstadÌsitico de salto simple en que se muestra el Ìndice de utilizaciÛn
- de brazos a partir de la fÛrmula 
+Estad√≠sitico de salto simple en que se muestra el √≠ndice de utilizaci√≥n
+ de brazos a partir de la f√≥rmula 
 \begin_inset Formula $IUB=\frac{(ABK-CMJ)}{CMJ}*100$
 \end_inset
 
@@ -3760,50 +4431,50 @@ Saltos con tiempo de contacto
 \end_layout
 
 \begin_layout Standard
-La informaciÛn m·s relevante en este tipo de saltos es la relaciÛn existente
+La informaci√≥n m√°s relevante en este tipo de saltos es la relaci√≥n existente
  entre el tiempo de vuelo y el tiempo de contacto.
  En muchos deportes es necesario generar una elevada fuerza (reflejada en
  el tiempo de vuelo) en poco tiempo (representada por el tiempo de contacto).
- Se presentan dos Ìndices para estudiar dicha relaciÛn;
+ Se presentan dos √≠ndices para estudiar dicha relaci√≥n;
 \end_layout
 
 \begin_layout Itemize
-Õndice Dj
+√çndice Dj
 \end_layout
 
 \begin_layout Itemize
-Õndice Q
+√çndice Q
 \end_layout
 
 \begin_layout Standard
 El ambos casos el campo 
 \emph on
-aplicaciÛn
+aplicaci√≥n
 \emph default
-, se refiere al tipo de salto al que es aplicado el estadÌstico.
+, se refiere al tipo de salto al que es aplicado el estad√≠stico.
 \end_layout
 
 \begin_layout Paragraph
-Õndice Dj
+√çndice Dj
 \end_layout
 
 \begin_layout Standard
-Estudio de la relaciÛn tiempo de vuelo / tiempo de contacto en un salto
- simple a partir de la fÛrmula 
-\begin_inset Formula $ÕndiceDj=\frac{TV-TC}{TC}*100$
+Estudio de la relaci√≥n tiempo de vuelo / tiempo de contacto en un salto
+ simple a partir de la f√≥rmula 
+\begin_inset Formula $√çndiceDj=\frac{TV-TC}{TC}*100$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Paragraph
-Õndice Q
+√çndice Q
 \end_layout
 
 \begin_layout Standard
-Estudio de la relaciÛn tiempo de vuelo / tiempo de contacto en un salto
- simple a partir de la fÛrmula 
-\begin_inset Formula $ÕndiceQ=\frac{TV}{TC}$
+Estudio de la relaci√≥n tiempo de vuelo / tiempo de contacto en un salto
+ simple a partir de la f√≥rmula 
+\begin_inset Formula $√çndiceQ=\frac{TV}{TC}$
 \end_inset
 
 .
@@ -3815,15 +4486,15 @@ Saltos reactivos
 \end_layout
 
 \begin_layout Standard
-En la repeticiÛn de un tipo de salto delimitado por n˙mero de saltos, tiempo,
+En la repetici√≥n de un tipo de salto delimitado por n√∫mero de saltos, tiempo,
  o ilimitado (termina cuando el entrenador o el deportista lo decide), es
- representativa la evoluciÛn del tiempo de vuelo respecto al tiempo de contacto
+ representativa la evoluci√≥n del tiempo de vuelo respecto al tiempo de contacto
  en los distintos saltos.
- Con este objetivo se presentan los siguientes estadÌsticos:
+ Con este objetivo se presentan los siguientes estad√≠sticos:
 \end_layout
 
 \begin_layout Itemize
-Õndice de promedios
+√çndice de promedios
 \end_layout
 
 \begin_layout Itemize
@@ -3831,25 +4502,25 @@ Potencia (Bosco)
 \end_layout
 
 \begin_layout Itemize
-EvoluciÛn
+Evoluci√≥n
 \end_layout
 
 \begin_layout Standard
 El los tres casos el campo 
 \emph on
-aplicaciÛn
+aplicaci√≥n
 \emph default
-, se refiere al tipo de salto al que es aplicado el estadÌstico.
+, se refiere al tipo de salto al que es aplicado el estad√≠stico.
 \end_layout
 
 \begin_layout Paragraph
-Õndice de promedios
+√çndice de promedios
 \end_layout
 
 \begin_layout Standard
-Estudio de la relaciÛn tiempo de vuelo / tiempo de contacto en un salto
- reactivo seg˙n la fÛrmula 
-\begin_inset Formula $ÕndiceDePromedios=\frac{TVpromedio-TCpromedio}{TCpromedio}*100$
+Estudio de la relaci√≥n tiempo de vuelo / tiempo de contacto en un salto
+ reactivo seg√∫n la f√≥rmula 
+\begin_inset Formula $√çndiceDePromedios=\frac{TVpromedio-TCpromedio}{TCpromedio}*100$
 \end_inset
 
 .
@@ -3860,21 +4531,21 @@ Potencia (Bosco)
 \end_layout
 
 \begin_layout Standard
-Estudio de la relaciÛn tiempo de vuelo / tiempo de contacto en un salto
- reactivo seg˙n la fÛrmula 
-\begin_inset Formula $ÕndiceDePotencia=\frac{9.81^{2}*TVpromedio*saltos*tiempoTotal}{4*saltos*(tiempoTotal-TVpromedio*saltos)}$
+Estudio de la relaci√≥n tiempo de vuelo / tiempo de contacto en un salto
+ reactivo seg√∫n la f√≥rmula 
+\begin_inset Formula $√çndiceDePotencia=\frac{9.81^{2}*TVpromedio*saltos*tiempoTotal}{4*saltos*(tiempoTotal-TVpromedio*saltos)}$
 \end_inset
 
  .
 \end_layout
 
 \begin_layout Paragraph
-EvoluciÛn
+Evoluci√≥n
 \end_layout
 
 \begin_layout Standard
-Estudio de la relaciÛn tiempo de vuelo / tiempo de contacto a lo largo de
- un salto reactivo seg˙n la evoluciÛn de la fÛrmula 
+Estudio de la relaci√≥n tiempo de vuelo / tiempo de contacto a lo largo de
+ un salto reactivo seg√∫n la evoluci√≥n de la f√≥rmula 
 \begin_inset Formula $Evolucion=\frac{TV}{TC}*100$
 \end_inset
 
@@ -3882,63 +4553,63 @@ Estudio de la relaciÛn tiempo de vuelo / tiempo de contacto a lo largo de
 \end_layout
 
 \begin_layout Standard
-En ocasiones algunos deportistas realizan un salto con una muy buena relaciÛn
- tv/tc a costa de ir acompaÒado de un salto previo o posterior de pocas
+En ocasiones algunos deportistas realizan un salto con una muy buena relaci√≥n
+ tv/tc a costa de ir acompa√±ado de un salto previo o posterior de pocas
  prestaciones.
- Por este motivo se ha dispuesto la la opciÛn de 
+ Por este motivo se ha dispuesto la la opci√≥n de 
 \emph on
 marcar los mejores 'n' consecutivos
 \emph default
- para obtener una selecciÛn de los mejores subsaltos seguidos respecto a
- este Ìndice.
- A la derecha de esta opciÛn encontrar· la cantidad de subsaltos seguidos
+ para obtener una selecci√≥n de los mejores subsaltos seguidos respecto a
+ este √≠ndice.
+ A la derecha de esta opci√≥n encontrar√° la cantidad de subsaltos seguidos
  que quiere estudiar.
- Si selecciona el valor 1 entonces el mejor subsalto ser· resaltado.
+ Si selecciona el valor 1 entonces el mejor subsalto ser√° resaltado.
 \end_layout
 
 \begin_layout Subsection
-EstadÌsticas multisesiÛn
+Estad√≠sticas multisesi√≥n
 \end_layout
 
 \begin_layout Standard
-Todos los estadÌticos presentados a excepciÛn de la EvoluciÛn en saltos
- reactivos pueden ser usados para la comparaciÛn de deferentes saltos o
+Todos los estad√≠ticos presentados a excepci√≥n de la Evoluci√≥n en saltos
+ reactivos pueden ser usados para la comparaci√≥n de deferentes saltos o
  saltadores en varias sesiones.
- De esta manera se presentar· una columna por cada sesiÛn seleccionada y
- se facilita la comparaciÛn entre los diferentes valores mostrados.
+ De esta manera se presentar√° una columna por cada sesi√≥n seleccionada y
+ se facilita la comparaci√≥n entre los diferentes valores mostrados.
 \end_layout
 
 \begin_layout Standard
-Adem·s se incluye el promedio y la desviaciÛn est·ndard de cada fila mostrada.
+Adem√°s se incluye el promedio y la desviaci√≥n est√°ndard de cada fila mostrada.
 \end_layout
 
 \begin_layout Standard
-Para acceder a estadÌsticos multisesiÛn haga clic en sesiÛn / seleccionadas
+Para acceder a estad√≠sticos multisesi√≥n haga clic en sesi√≥n / seleccionadas
  y seleccione las sesiones que desee usando la ventana que aparece al hacer
  clic en 
 \emph on
 Seleccionar
 \emph default
 .
- Puede seleccionar tantas sesiones como desee y no est· obligado a que aparezca
- la sesiÛn actual entre las mismas.
+ Puede seleccionar tantas sesiones como desee y no est√° obligado a que aparezca
+ la sesi√≥n actual entre las mismas.
 \end_layout
 
 \begin_layout Subsection
-SelecciÛn de saltos a mostrar
+Selecci√≥n de saltos a mostrar
 \end_layout
 
 \begin_layout Standard
-Existen cuatro modos de selecciÛn de saltos mostrados que condicionan la
- generaciÛn del estadÌstico deseado:
+Existen cuatro modos de selecci√≥n de saltos mostrados que condicionan la
+ generaci√≥n del estad√≠stico deseado:
 \end_layout
 
 \begin_layout Description
-Todos muestra todos los resultados del estadÌstico seleccionado.
+Todos muestra todos los resultados del estad√≠stico seleccionado.
 \end_layout
 
 \begin_layout Description
-LÌmite\InsetSpace ~
+L√≠mite\InsetSpace ~
 
 \emph on
 n
@@ -3947,29 +4618,29 @@ n
 \emph on
 n
 \emph default
- resultados del estadÌstico seleccionado.
+ resultados del estad√≠stico seleccionado.
 \end_layout
 
 \begin_layout Description
 Media\InsetSpace ~
 del\InsetSpace ~
-saltador muestra el promedio de cada saltador en el estadÌstico
+saltador muestra el promedio de cada saltador en el estad√≠stico
  seleccionado.
 \end_layout
 
 \begin_layout Description
-M·ximo/s\InsetSpace ~
+M√°ximo/s\InsetSpace ~
 del\InsetSpace ~
 saltador muestra los 
 \emph on
 n
 \emph default
- valores m·ximos de cada saltador en el estadÌstico seleccionado.
+ valores m√°ximos de cada saltador en el estad√≠stico seleccionado.
 \end_layout
 
 \begin_layout Standard
-La mayorÌa de los estadÌsticos ofrecen las cuatro opciones, en los que se
- omita alguno de estos modos es porque se cree que no tendrÌa sentido generarlo.
+La mayor√≠a de los estad√≠sticos ofrecen las cuatro opciones, en los que se
+ omita alguno de estos modos es porque se cree que no tendr√≠a sentido generarlo.
 \end_layout
 
 \begin_layout Subsection
@@ -3977,66 +4648,66 @@ Otras configuraciones
 \end_layout
 
 \begin_layout Standard
-Se presentan a continuaciÛn otros botones de acciÛn vinculados al estadÌstico
+Se presentan a continuaci√≥n otros botones de acci√≥n vinculados al estad√≠stico
  mostrado.
 \end_layout
 
 \begin_layout Subsubsection
-Enunciado de los estadÌsticos
+Enunciado de los estad√≠sticos
 \end_layout
 
 \begin_layout Standard
-Todo estadÌstico dispone de un enunciado que se crea autom·ticamente en
- funciÛn de las selecciones que ha realizado el usuario en la ventana de
- estadÌsticas.
- El enunciado puede ayudarle a entender el estadÌstico.
+Todo estad√≠stico dispone de un enunciado que se crea autom√°ticamente en
+ funci√≥n de las selecciones que ha realizado el usuario en la ventana de
+ estad√≠sticas.
+ El enunciado puede ayudarle a entender el estad√≠stico.
 \end_layout
 
 \begin_layout Subsubsection
-DistinciÛn de sexo
+Distinci√≥n de sexo
 \end_layout
 
 \begin_layout Standard
-Se presenta la opciÛn de distinguir entre sexos para la presentaciÛn de
+Se presenta la opci√≥n de distinguir entre sexos para la presentaci√≥n de
  resultados.
- La selecciÛn de esta opciÛn puede tener un doble comportamiento:
+ La selecci√≥n de esta opci√≥n puede tener un doble comportamiento:
 \end_layout
 
 \begin_layout Itemize
-Cuando las filas de resultado de los estadÌsticos correspondan con Ìndices
- o tipos de salto, la selecciÛn de sexos provocar· que se cree autom·ticamente
+Cuando las filas de resultado de los estad√≠sticos correspondan con √≠ndices
+ o tipos de salto, la selecci√≥n de sexos provocar√° que se cree autom√°ticamente
  una fila para cada uno de los sexos.
 \end_layout
 
 \begin_layout Itemize
-Cuando las filas de resultado de los estadÌsticos correspondan con saltadores,
- la selecciÛn de sexos provocar· que se aÒada una letra despuÈs de cada
+Cuando las filas de resultado de los estad√≠sticos correspondan con saltadores,
+ la selecci√≥n de sexos provocar√° que se a√±ada una letra despu√©s de cada
  saltador indicando su sexo.
 \end_layout
 
 \begin_layout Standard
-Este botÛn podr· ayudarle a realizar comparaciones intra e intersexos.
+Este bot√≥n podr√° ayudarle a realizar comparaciones intra e intersexos.
 \end_layout
 
 \begin_layout Subsubsection
-ActualizaciÛn autom·tica
+Actualizaci√≥n autom√°tica
 \end_layout
 
 \begin_layout Standard
-La ventana de estadÌsticas de Chronojump est· diseÒada para que cada cambio
+La ventana de estad√≠sticas de Chronojump est√° dise√±ada para que cada cambio
  en la base de datos (nuevo salto, cambio de nombre de saltador, borrado
  de salto, cambio de saltador que ha realizado un salto...) sea actualizado
  directamente.
- Si su sistema inform·tico responde con lentitud a los diferentes cambios,
- se recomienda que desactive el botÛn 
+ Si su sistema inform√°tico responde con lentitud a los diferentes cambios,
+ se recomienda que desactive el bot√≥n 
 \emph on
 siempre
 \emph default
 , y que haga clic en 
 \emph on
-Actualizar estadÌsticas
+Actualizar estad√≠sticas
 \emph default
- siempre que desee que los datos de estadÌticos sea regenerados.
+ siempre que desee que los datos de estad√≠ticos sea regenerados.
 \end_layout
 
 \begin_layout Subsection
@@ -4044,21 +4715,23 @@ Marcado de filas
 \end_layout
 
 \begin_layout Standard
-En la primera columna de cada fila encontrar· una pequeÒa caja de selecciÛn
- que le permitir· seleccionar si desea o no que esa fila sea tenida en cuenta
- para los gr·ficos y los informes que Chronojump genera.
- La primera fila contiene una caja de selecciÛn que le permite seleccionar
- y deseleccionar r·pidamente todos los valores.
- Adem·s, se muestra un cuadro de selecciÛn en la parte inferior izquierda
- que le permite agilizar la selecciÛn de filas en base a distintos criterios.
- Encontrar· m·s informaciÛn sobre gr·ficos y los informes en los apartados
+En la primera columna de cada fila encontrar√° una peque√±a caja de selecci√≥n
+ que le permitir√° seleccionar si desea o no que esa fila sea tenida en cuenta
+ para los gr√°ficos y los informes que Chronojump genera.
+ La primera fila contiene una caja de selecci√≥n que le permite seleccionar
+ y deseleccionar r√°pidamente todos los valores.
+ Adem√°s, se muestra un cuadro de selecci√≥n en la parte inferior izquierda
+ que le permite agilizar la selecci√≥n de filas en base a distintos criterios.
+ Encontrar√° m√°s informaci√≥n sobre gr√°ficos y los informes en los apartados
  
-\begin_inset LatexCommand \ref{sub:CreaciÛn-de-graficos}
+\begin_inset LatexCommand ref
+reference "sub:Creaci√≥n-de-graficos"
 
 \end_inset
 
  y 
-\begin_inset LatexCommand \ref{sec:GeneraciÛn-de-Informes}
+\begin_inset LatexCommand ref
+reference "sec:Generaci√≥n-de-Informes"
 
 \end_inset
 
@@ -4066,8 +4739,9 @@ En la primera columna de cada fila encontrar· una pequeÒa caja de selecciÛn
 \end_layout
 
 \begin_layout Section
-CreaciÛn de gr·ficos
-\begin_inset LatexCommand \label{sub:CreaciÛn-de-graficos}
+Creaci√≥n de gr√°ficos
+\begin_inset LatexCommand label
+name "sub:Creaci√≥n-de-graficos"
 
 \end_inset
 
@@ -4075,19 +4749,20 @@ CreaciÛn de gr·ficos
 \end_layout
 
 \begin_layout Standard
-Chronojump puede crear gr·ficos de todo cuanto se muestra en la ventana
- de estadÌsticos.
- Para ello simplemente haga clic en el botÛn 
+Chronojump puede crear gr√°ficos de todo cuanto se muestra en la ventana
+ de estad√≠sticos.
+ Para ello simplemente haga clic en el bot√≥n 
 \emph on
-Graficar 
+Graficar
 \emph default
-que aparece en la ventana de estadÌsticos.
+ que aparece en la ventana de estad√≠sticos.
  En la figura 
-\begin_inset LatexCommand \ref{fig:Gr·fico-de-Ìndice-DJ}
+\begin_inset LatexCommand ref
+reference "fig:Gr√°fico-de-√≠ndice-DJ"
 
 \end_inset
 
- se muestra uno de los gr·ficos generados.
+ se muestra uno de los gr√°ficos generados.
 \end_layout
 
 \begin_layout Standard
@@ -4108,12 +4783,21 @@ status open
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{fig:Gr·fico-de-Ìndice-DJ}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Gr√°fico-de-√≠ndice-DJ"
 
 \end_inset
 
-Ejemplo de gr·fico de Õndice DJ (los nombres de los saltadores se han ocultado).
+Ejemplo de gr√°fico de √çndice DJ (los nombres de los saltadores se han ocultado).
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -4122,8 +4806,9 @@ Ejemplo de gr·fico de Õndice DJ (los nombres de los saltadores se han ocultado).
 \end_layout
 
 \begin_layout Section
-GeneraciÛn de informes
-\begin_inset LatexCommand \label{sec:GeneraciÛn-de-Informes}
+Generaci√≥n de informes
+\begin_inset LatexCommand label
+name "sec:Generaci√≥n-de-Informes"
 
 \end_inset
 
@@ -4131,10 +4816,10 @@ GeneraciÛn de informes
 \end_layout
 
 \begin_layout Standard
-La generaciÛn de informes en el programa Chronojump se concreta como la
- mejor forma de recoger la informaciÛn captada en una sesiÛn, asÌ como las
- estadÌsticas y gr·ficas elegidas para el estudio de la misma e incluso
- la comparaciÛn con otras.
+La generaci√≥n de informes en el programa Chronojump se concreta como la
+ mejor forma de recoger la informaci√≥n captada en una sesi√≥n, as√≠ como las
+ estad√≠sticas y gr√°ficas elegidas para el estudio de la misma e incluso
+ la comparaci√≥n con otras.
 \end_layout
 
 \begin_layout Standard
@@ -4143,23 +4828,24 @@ Haciendo clic en
 Ver / Ventana de Informes
 \emph default
 , aparece la figura que se muestra en la figura 
-\begin_inset LatexCommand \ref{sec:GeneraciÛn-de-Informes}
+\begin_inset LatexCommand ref
+reference "sec:Generaci√≥n-de-Informes"
 
 \end_inset
 
 .
  En la misma se ofrece al usuario la posibilidad de crear un informe en
- formato web (HTML) en el que se pueden incluir los datos de la sesiÛn,
+ formato web (HTML) en el que se pueden incluir los datos de la sesi√≥n,
  los saltadores que han participado y los tests recogidos.
- Adem·s, mediante el botÛn 
+ Adem√°s, mediante el bot√≥n 
 \emph on
-AÒadir a Informe
+A√±adir a Informe
 \emph default
- que aparece en la ventana de estadÌsticas, se permite preparar cada uno
- de los estadÌsticos visualizados para que estos aparezcan en el informe
- generado, y que lo hagan con la personalizaciÛn que habÌa sido elegida
- por el usuario en la ventana de estadÌtiscos.
- El usuario puede adem·s ordenar cada uno de los estadÌsticos para el informe
+ que aparece en la ventana de estad√≠sticas, se permite preparar cada uno
+ de los estad√≠sticos visualizados para que estos aparezcan en el informe
+ generado, y que lo hagan con la personalizaci√≥n que hab√≠a sido elegida
+ por el usuario en la ventana de estad√≠tiscos.
+ El usuario puede adem√°s ordenar cada uno de los estad√≠sticos para el informe
  final.
 \end_layout
 
@@ -4168,10 +4854,10 @@ Haciendo clic en
 \emph on
 Crear informe
 \emph default
-, se presentar· una ventana que permitir· elegir el nombre de fichero con
- el que ser· guardado el documento HTML, adem·s se generar· una carpeta
- en la que se incluir·n todas las im·genes y estilos necesarios para que
- se visualice la p·gina correctamente.
+, se presentar√° una ventana que permitir√° elegir el nombre de fichero con
+ el que ser√° guardado el documento HTML, adem√°s se generar√° una carpeta
+ en la que se incluir√°n todas las im√°genes y estilos necesarios para que
+ se visualice la p√°gina correctamente.
 \end_layout
 
 \begin_layout Standard
@@ -4192,8 +4878,12 @@ status open
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{fig:Ejemplo-de-informe}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Ejemplo-de-informe"
 
 \end_inset
 
@@ -4205,40 +4895,46 @@ Ejemplo de informe
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
-ExportaciÛn a hoja de c·lculo
+Exportaci√≥n a hoja de c√°lculo
 \end_layout
 
 \begin_layout Standard
 Haga clic en 
 \emph on
-Archivo / Exportar sesiÛn a formato CSV
+Archivo / Exportar sesi√≥n a formato CSV
 \emph default
  para que se cree un archivo en formato CSV (Valores Separados por Comas)
- que podr· ser importado f·cilmente en cualquier programa de hoja de c·lculo.
- Dicho archivo contendr· el registro de todos los tests producidos, pero
- no incluir· los estadÌsticos ni los gr·ficos.
+ que podr√° ser importado f√°cilmente en cualquier programa de hoja de c√°lculo.
+ Dicho archivo contendr√° el registro de todos los tests producidos, pero
+ no incluir√° los estad√≠sticos ni los gr√°ficos.
 \end_layout
 
 \begin_layout Standard
-En caso de que tenga problemas en la importaciÛn de los datos, seguramente
+En caso de que tenga problemas en la importaci√≥n de los datos, seguramente
  causados por un problema de 
 \emph on
-localizaciÛn
+localizaci√≥n
 \emph default
- en que se confunde el car·cter coma ',' en los decimales con el mismo caracter
- usado para la separaciÛn entre valores o n˙meros -problema que se ha detectado
+ en que se confunde el car√°cter coma ',' en los decimales con el mismo caracter
+ usado para la separaci√≥n entre valores o n√∫meros -problema que se ha detectado
  en algunas versiones de Microsft Excel-, se recomienda abrir el fichero
- con OpenOffice o con alg˙n editor de texto que permita reemplazar de forma
- automatizada los car·cteres conflictivos y despuÈs guardar el archivo de
+ con OpenOffice o con alg√∫n editor de texto que permita reemplazar de forma
+ automatizada los car√°cteres conflictivos y despu√©s guardar el archivo de
  forma que MS Excel pueda abrirlo.
- En un futuro breve se estudiar· quÈ car·cter da menos problemas en los
- distintos programas de hoja de c·lculo.
+ En un futuro breve se estudiar√° qu√© car√°cter da menos problemas en los
+ distintos programas de hoja de c√°lculo.
 \end_layout
 
 \begin_layout Section
 Preferencias
-\begin_inset LatexCommand \label{sec:Preferencias}
+\begin_inset LatexCommand label
+name "sec:Preferencias"
 
 \end_inset
 
@@ -4250,22 +4946,14 @@ Se ha previsto una ventana de preferencias en
 \emph on
 Archivos / Preferencias
 \emph default
- con la finalidad de cambiar el puerto en el que est· conectado Chronopic
- (normalmente ser· el 
-\emph on
-COM1
-\emph default
- en Windows y el 
-\emph on
-/dev/ttyS0
-\emph default
- en GNU/Linux).
+ con la finalidad de cambiar el puerto en el que est√° conectado Chronopic.
  Se muestra una ventana de ayuda sobre puertos haciendo clic en el icono
  situado en la parte superior derecha de la ventana (en la imagen se muestra
  como un flotador).
- La conexiÛn con el cronÛmetro Chronopic se trata especÌficamente en el
+ La conexi√≥n con el cron√≥metro Chronopic se trata espec√≠ficamente en el
  apartado 
-\begin_inset LatexCommand \ref{par:Chronopic:-concepto-y-configuracion}
+\begin_inset LatexCommand ref
+reference "par:Chronopic:-concepto-y-configuracion"
 
 \end_inset
 
@@ -4273,9 +4961,9 @@ COM1
 \end_layout
 
 \begin_layout Standard
-Adem·s esta ventana permite modificar el n˙mero de decimales mostrados,
- las unidades usadas, la visualizaciÛn de columnas y la pertinencia de la
- pregunta de confirmaciÛn del borrado de tests.
+Adem√°s esta ventana permite modificar el n√∫mero de decimales mostrados,
+ las unidades usadas, la visualizaci√≥n de columnas y la pertinencia de la
+ pregunta de confirmaci√≥n del borrado de tests.
 \end_layout
 
 \begin_layout Standard
@@ -4295,12 +4983,21 @@ status open
 
 \end_layout
 
-\begin_layout Caption
-\begin_inset LatexCommand \label{fig:Preferencias}
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Preferencias"
 
 \end_inset
 
 Preferencias
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset

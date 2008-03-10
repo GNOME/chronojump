@@ -40,7 +40,7 @@ public class TreeViewPersons
 		this.treeview = treeview;
 
 		store = getStore(2); 
-		string [] columnsString = { Catalog.GetString("person"), "ID" };
+		string [] columnsString = { "ID", Catalog.GetString("person")};
 		treeview.Model = store;
 		prepareHeaders(columnsString);
 	}
@@ -61,10 +61,22 @@ public class TreeViewPersons
 		treeview.HeadersVisible=true;
 		int i=0;
 		foreach(string myCol in columnsString) {
-			treeview.AppendColumn (Catalog.GetString(myCol), new CellRendererText(), "text", i++);
+			//treeview.AppendColumn (Catalog.GetString(myCol), new CellRendererText(), "text", i++);
+			UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++);
+			if(i == 1)
+				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
 		}
 	}
 	
+	public int idColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
+		int val1 = 0;
+		int val2 = 0;
+		val1 = Convert.ToInt32(model.GetValue(iter1, 0));
+		val2 = Convert.ToInt32(model.GetValue(iter2, 0));
+		
+		return (val1-val2);
+	}
+
 	public void RemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview.Columns;
 		foreach (Gtk.TreeViewColumn column in myColumns) {
@@ -77,9 +89,9 @@ public class TreeViewPersons
 		foreach (string person in myPersons) {
 			string [] myStringFull = person.Split(new char[] {':'});
 			string [] myData = new String [2];
-			//first name, then ID
-			myData[1] = myStringFull[0].ToString();
-			myData[0] = myStringFull[1].ToString();
+			//first ID, then Name
+			myData[0] = myStringFull[0].ToString();
+			myData[1] = myStringFull[1].ToString();
 			store.AppendValues (myData);
 		}	
 			
@@ -108,7 +120,7 @@ public class TreeViewPersons
 		if(iterOk) {
 			int count = 0;
 			do {
-				if(Convert.ToInt32 ((string) treeview.Model.GetValue (iter, 1)) == uniqueID) {
+				if(Convert.ToInt32 ((string) treeview.Model.GetValue (iter, 0)) == uniqueID) {
 					found = count;
 				}
 				count ++;
@@ -129,7 +141,7 @@ public class TreeViewPersons
 			do {
 				//search until find when jumperName is lexicographically > than current row
 				if(String.Compare(jumperName.ToUpper(), 
-							((string) treeview.Model.GetValue (iter, 0)).ToUpper()) < 0 ) {
+							((string) treeview.Model.GetValue (iter, 1)).ToUpper()) < 0 ) {
 					found = count;
 					break;
 				}
@@ -142,12 +154,12 @@ public class TreeViewPersons
 		if(found != -1) {
 			//store.Insert (out iter2, found);
 			iter2 = store.InsertNode (found);
-			//first name, then ID
-			store.SetValue (iter2, 0, jumperName);
-			store.SetValue (iter2, 1, jumperID);
+			//first ID, then Name
+			store.SetValue (iter2, 0, jumperID);
+			store.SetValue (iter2, 1, jumperName);
 		} else {
-			//first name, then ID
-			iter2 = store.AppendValues (jumperName, jumperID);
+			//first ID, then Name
+			iter2 = store.AppendValues (jumperID, jumperName);
 		}
 			
 		//scroll treeview if needed

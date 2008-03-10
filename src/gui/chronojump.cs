@@ -842,7 +842,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		TreeModel model;
 		TreeIter iter;
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			string selectedID = (string) model.GetValue (iter, 1); //name, ID
+			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);
 			return true;
@@ -863,7 +863,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		// you get the iter and the model if something is selected
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
-			string selectedID = (string) model.GetValue (iter, 1); //name, ID
+			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 		
 			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);

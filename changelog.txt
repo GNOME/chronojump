@@ -1,5 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+10 mar 2008
+	0.62-svn4
+	sort in treeviewperson
+	sort in load person, and load person from other session (all columns)
+	load person from other session now has a combo outside (all, none)
+
 25 feb 2008 (2)
 	restored Makefile
 	added missing src/gui/generic.cs

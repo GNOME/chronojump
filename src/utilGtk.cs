@@ -93,4 +93,20 @@ public class UtilGtk
 		myCombo.AppendText (myData);
 	}
 
+	public static void CreateCols (Gtk.TreeView tv, Gtk.TreeStore store, string name, int verticalPos) {
+		Gtk.TreeViewColumn myCol = new Gtk.TreeViewColumn (name, new CellRendererText(), "text", verticalPos);
+		myCol.SortColumnId = verticalPos;
+		myCol.SortIndicator = true;
+		tv.AppendColumn ( myCol );
+	}
+
+	public static int IdColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
+		int val1 = 0;
+		int val2 = 0;
+		val1 = Convert.ToInt32(model.GetValue(iter1, 0));
+		val2 = Convert.ToInt32(model.GetValue(iter2, 0));
+		
+		return (val1-val2);
+	}
+
 }

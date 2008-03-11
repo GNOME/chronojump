@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+11 mar 2008
+	added info about install libsqlite3-0 if Convertdatabase fails
+
 10 mar 2008
 	0.62-svn4
 	sort in treeviewperson

@@ -45,7 +45,7 @@ class SqlitePerson : Sqlite
 			"weight TEXT, " + //now used personSession and person can change weight in every session. person.weight is not used
 			"sportID INT, " + 
 			"speciallityID INT, " + 
-			"practice INT, " +
+			"practice INT, " + //also called "level"
 			"description TEXT )";		
 		dbcmd.ExecuteNonQuery();
 	 }
@@ -142,23 +142,25 @@ class SqlitePerson : Sqlite
 		if(inSession == -1) {
 			string nameLike = "";
 			if(searchFilterName != "")
-				nameLike = "LOWER(name) LIKE LOWER ('%" + searchFilterName + "%') AND ";
+				nameLike = "LOWER(person.name) LIKE LOWER ('%" + searchFilterName + "%') AND ";
 
 			dbcmd.CommandText = 
-				"SELECT person.*, personSessionWeight.weight , personSessionWeight.SessionID, " +
-				" MAX(personSessionWeight.sessionID) " +
-				" FROM person, personSessionWeight " + 
+				"SELECT person.*, personSessionWeight.weight, sport.Name, speciallity.Name  " +
+				" FROM person, personSessionWeight, sport, speciallity " + 
 				" WHERE " + nameLike + " person.UniqueID == personSessionWeight.personID " +
+				" AND person.sportID == sport.UniqueID AND person.speciallityID == speciallity.UniqueID " +
 				" GROUP BY person.uniqueID" +
 				" ORDER BY " + sortedBy;
 		} else {
 			dbcmd.CommandText = 
-				"SELECT person.*, personSessionWeight.weight " +
-				" FROM person, personSessionWeight " +
+				"SELECT person.*, personSessionWeight.weight, sport.Name, speciallity.Name " +
+				" FROM person, personSessionWeight, sport, speciallity " + 
 				" WHERE personSessionWeight.sessionID == " + inSession + 
 				" AND person.uniqueID == personSessionWeight.personID " + 
-				"ORDER BY " + sortedBy;
+				" AND person.sportID == sport.UniqueID AND person.speciallityID == speciallity.UniqueID " +
+				" ORDER BY " + sortedBy;
 		}
+		Console.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader2;
 		reader2 = dbcmd.ExecuteReader();
@@ -186,9 +188,11 @@ finishForeach:
 						reader2[2].ToString() + ":" + reader2[3].ToString() + ":" +
 						reader2[4].ToString() + ":" + 
 						reader2[10].ToString() + ":" + //weight (from personSessionWeight)
+						reader2[11].ToString() + ":" + //sportName
+						reader2[12].ToString() + ":" + //speciallityName
+						Util.FindLevelName(Convert.ToInt32(reader2[8])) + ":" + //levelName
 						reader2[9].ToString() //description
 						);
-						//not selected sport and practice now
 				count2 ++;
 			}
 		}

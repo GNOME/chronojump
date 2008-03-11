@@ -196,4 +196,19 @@ class SqliteSpeciallity : Sqlite
 		"Wrestling:" + "Greco-Roman" + ":" + Catalog.GetString("Greco-Roman"), 
 	};
 
+	//convert from DB 0.54 to 0.55
+	public static void InsertUndefined(bool dbconOpened)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
+			" (uniqueID, sportID, name) VALUES (-1, -1, \"\")"; 
+		
+		dbcmd.CommandText = myString;
+		dbcmd.ExecuteNonQuery();
+		
+		if(! dbconOpened)
+			dbcon.Close();
+	}
 }

@@ -93,7 +93,10 @@ public class TreeViewPersons
 			myData[0] = myStringFull[0].ToString();
 			myData[1] = myStringFull[1].ToString();
 			store.AppendValues (myData);
-		}	
+		}
+		//show sorted by column name	
+		store.SetSortColumnId(1, Gtk.SortType.Ascending);
+		store.ChangeSortColumn();
 			
 	}
 	

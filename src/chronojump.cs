@@ -109,6 +109,9 @@ public class ChronoJump
 				bool ok = Sqlite.ConvertFromSqlite2To3();
 				if (!ok) {
 					Console.WriteLine("******\n problem with sqlite \n******");
+					//check (spanish)
+					//http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
+					new DialogMessage(Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed. \nIf problems persist ask in chronojump-list"), true);
 					Console.ReadLine();
 					quitFromConsole();
 				}

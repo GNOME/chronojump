@@ -371,7 +371,7 @@ public class ChronoJumpWindow
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args) {
 		new DialogImageTest(currentEventType);
 	}
-
+	
 /*
 	private void on_so_asterisk_clicked(object o, EventArgs args) {
 		Console.WriteLine("Asterisk");

@@ -46,7 +46,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with myVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.54";
+	static string lastChronojumpDatabaseVersion = "0.55";
 
 
 	public static void Connect()
@@ -380,6 +380,17 @@ class Sqlite
 				Console.WriteLine("Created sport tables. Added sport data, speciallity and level of practice to person table");
 				myVersion = "0.54";
 			}
+			if(myVersion == "0.54") {
+				dbcon.Open();
+
+				SqliteSpeciallity.InsertUndefined(true);
+
+				SqlitePreferences.Update ("databaseVersion", "0.55", true); 
+				dbcon.Close();
+				
+				Console.WriteLine("Added undefined to speciallity table");
+				myVersion = "0.55";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -387,53 +398,6 @@ class Sqlite
 		
 		return returnSoftwareIsNew;
 	}
-
-	/*
-	private static bool checkIfIsSqlite2() {
-		//fileExists, but is sqlite 3 or 2
-		try {
-			//sample select
-			string myPort = SqlitePreferences.Select("chronopicPort");
-			Console.WriteLine("---------");
-		} catch {
-			Console.WriteLine("+++++++++");
-			return true ;
-		}
-
-			Console.WriteLine("999999999");
-		dbcon.Open();
-		dbcmd.CommandText = "dump;";
-		dbcmd.ExecuteNonQuery();
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		if(reader.Read()) 
-			Console.WriteLine(reader[0].ToString());
-		
-		reader.Close();
-		dbcon.Close();
-
-			Console.WriteLine("3333333333");
-		return false;
-	}
-	
-	private static void convertSqlite2To3() {
-	*/
-		/*
-		SqliteConnection dbcon2 = new SqliteConnection();
-		dbcon2.ConnectionString = "version = 2; Data source = " + sqlFile;
-		dbcon2.Open();
-
-		if we don't know how to dump
-		don't do it here!
-		show user a window
-		that executes a batch file called
-		convert_database.bat
-		(this .bat will be created also by the install_bundle, and will use sqlite.exe and sqlite3.exe from the sqlite dir)
-		*/
-/*
-	}
-	*/
 
 	private static void addChronopicPortNameIfNotExists() {
 		string myPort = SqlitePreferences.Select("chronopicPort");
@@ -494,6 +458,7 @@ class Sqlite
 		SqliteSport.initialize();
 		SqliteSpeciallity.createTable();
 		SqliteSpeciallity.initialize();
+		SqliteSpeciallity.InsertUndefined(true);
 
 		SqliteSession.createTable();
 		
@@ -503,6 +468,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion);
 		
 		//changes [from - to - desc]
+		//0.54 - 0.55 Added undefined to speciallity table
 		//0.53 - 0.54 created sport tables. Added sport data, speciallity and level of practice to person table
 		//0.52 - 0.53 added table weightSession, moved person weight data to weightSession table for each session that has performed
 		//0.51 - 0.52 added graphLinks for cmj_l and abk_l. Fixed CMJ_l name

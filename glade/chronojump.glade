@@ -1149,7 +1149,7 @@ comments</property>
 
 <widget class="GtkWindow" id="person_recuperate">
   <property name="border_width">10</property>
-  <property name="width_request">400</property>
+  <property name="width_request">500</property>
   <property name="height_request">420</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Load persons</property>

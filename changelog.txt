@@ -1,5 +1,18 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+12 mar 2008 (2)
+	0.62-svn5
+	persons recuperate shows sport, speciallity, level, 
+	sort in treeviewperson shows a sort icon at start
+	sort in loadperson and loadperson from orher session shows a sort icon at start
+	persons recuperate 500 width
+	changed db to 0.55
+	
+	bug fixed: loadperson now shows people if searched filter is blank
+	bug fixed: loadpersons from other window manages recuperate button
+	sensitity ok now
+	bug fixed: when speciallity is hidden, it's always undefined
+
 11 mar 2008
 	added info about install libsqlite3-0 if Convertdatabase fails
 
@@ -7,7 +20,7 @@ CHRONOJUMP DETAILED CHANGELOG:
 	0.62-svn4
 	sort in treeviewperson
 	sort in load person, and load person from other session (all columns)
-	load person from other session now has a combo outside (all, none)
+	load person from other session now has a combo outside (all, none, selected)
 
 25 feb 2008 (2)
 	restored Makefile

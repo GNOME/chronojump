@@ -34,7 +34,6 @@ public class PersonRecuperateWindow {
 	[Widget] protected Gtk.Window person_recuperate;
 	
 	[Widget] protected Gtk.CheckButton checkbutton_sorted_by_creation_date;
-//	protected bool sortByCreationDate = false;
 	
 	protected TreeStore store;
 	protected string selected;
@@ -79,6 +78,7 @@ public class PersonRecuperateWindow {
 		hbox_combo_select_checkboxes_hide.Hide(); //used in person recuperate multiple (hided in current class)
 		
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof(string), typeof(string), 
 				typeof (string), typeof(string), typeof(string) );
 		createTreeView(treeview_person_recuperate, 0);
 		treeview_person_recuperate.Model = store;
@@ -108,6 +108,9 @@ public class PersonRecuperateWindow {
 		UtilGtk.CreateCols(tv, store, Catalog.GetString("Height"), count++);
 		UtilGtk.CreateCols(tv, store, Catalog.GetString("Weight"), count++);
 		UtilGtk.CreateCols(tv, store, Catalog.GetString("Date of Birth"), count++);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("Sport"), count++);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("Speciallity"), count++);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("Level"), count++);
 		UtilGtk.CreateCols(tv, store, Catalog.GetString("Description"), count++);
 
 		//sort non textual cols	
@@ -149,7 +152,7 @@ public class PersonRecuperateWindow {
 		
 		int except = sessionID;
 		int inSession = -1;	//search persons for recuperating in all sessions
-		myPersons = SqlitePerson.SelectAllPersonsRecuperable("uniqueID", except, inSession, searchFilterName); 
+		myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", except, inSession, searchFilterName); 
 		
 		
 		foreach (string session in myPersons) {
@@ -157,10 +160,17 @@ public class PersonRecuperateWindow {
 
 			store.AppendValues (myStringFull[0], myStringFull[1], 
 					getCorrectSex(myStringFull[2]), myStringFull[4], myStringFull[5],
-					myStringFull[3], myStringFull[6]
+					myStringFull[3], 
+					myStringFull[6], //sport
+					myStringFull[7], //speciallity
+					myStringFull[8], //level (practice)
+					myStringFull[9] //desc
 					);
 		}	
-
+		
+		//show sorted by column Name	
+		store.SetSortColumnId(1, Gtk.SortType.Ascending);
+		store.ChangeSortColumn();
 	}
 
 	protected string getCorrectSex (string sex) 
@@ -174,17 +184,20 @@ public class PersonRecuperateWindow {
 	}
 	
 	protected virtual void on_entry_search_filter_changed (object o, EventArgs args) {
-		if(entry_search_filter.Text.ToString().Length > 0) {
-			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-					typeof (string), typeof(string), typeof(string) );
-			treeview_person_recuperate.Model = store;
+		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof(string), typeof(string),
+				typeof (string), typeof(string), typeof(string) );
+		treeview_person_recuperate.Model = store;
 
-			fillTreeView(treeview_person_recuperate,store, entry_search_filter.Text.ToString());
-			
-			//unselect all and make button_recuperate unsensitive
-			treeview_person_recuperate.Selection.UnselectAll();
-			button_recuperate.Sensitive = false;
-		}
+		string myFilter = "";
+		if(entry_search_filter.Text.ToString().Length > 0) 
+			myFilter = entry_search_filter.Text.ToString();
+
+		fillTreeView(treeview_person_recuperate,store, myFilter);
+
+		//unselect all and make button_recuperate unsensitive
+		treeview_person_recuperate.Selection.UnselectAll();
+		button_recuperate.Sensitive = false;
 	}
 
 	protected virtual void onSelectionEntry (object o, EventArgs args)
@@ -238,6 +251,7 @@ public class PersonRecuperateWindow {
 			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selected), sessionID);
 
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof(string), typeof(string),
 					typeof (string), typeof(string), typeof(string) );
 			treeview_person_recuperate.Model = store;
 		
@@ -309,6 +323,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		createCheckboxes(treeview_person_recuperate);
 		
 		store = new TreeStore( typeof (bool), typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof(string), typeof(string),
 				typeof (string), typeof(string), typeof(string) );
 		createTreeView(treeview_person_recuperate, 1);
 		treeview_person_recuperate.Model = store;
@@ -319,9 +334,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			fillTreeView( treeview_person_recuperate, store, Convert.ToInt32(myStringFull[0]) );
 		}
 
-		//check if there are rows checked for having sensitive or not in recuperate button
-		buttonRecuperateChangeSensitiveness();
-		
+		//no posible to recuperate until one person is selected
+		button_recuperate.Sensitive = false;
+	
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 
@@ -354,6 +369,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		string myText = UtilGtk.ComboGetActive(combo_sessions);
 		if(myText != "") {
 			store = new TreeStore( typeof (bool), typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof(string), typeof(string),
 				typeof (string), typeof(string), typeof(string) );
 			treeview_person_recuperate.Model = store;
 			
@@ -362,6 +378,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			//fill the treeview passing the uniqueID of selected session as the reference for loading persons
 			fillTreeView( treeview_person_recuperate, store, Convert.ToInt32(myStringFull[0]) );
 		}
+	
+		//check if there are rows checked for having sensitive or not in recuperate button
+		buttonRecuperateChangeSensitiveness();
 	}
 	
 	private void createComboSelectCheckboxes() {
@@ -450,7 +469,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		string [] myPersons;
 		
 		int except = sessionID;
-		myPersons = SqlitePerson.SelectAllPersonsRecuperable("uniqueID", except, inSession, ""); //"" is searchFilterName (not implemented on recuperate multiple)
+		myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", except, inSession, ""); //"" is searchFilterName (not implemented on recuperate multiple)
 
 		 
 		foreach (string session in myPersons) {
@@ -458,9 +477,16 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 
 			store.AppendValues (true, myStringFull[0], myStringFull[1], 
 					getCorrectSex(myStringFull[2]), myStringFull[4], myStringFull[5],
-					myStringFull[3], myStringFull[6]
+					myStringFull[3], 
+					myStringFull[6], //sport
+					myStringFull[7], //speciallity
+					myStringFull[8], //level (practice)
+					myStringFull[9] //desc
 					);
 		}
+		
+		//show sorted by column Name	
+		store.SetSortColumnId(2, Gtk.SortType.Ascending);
 	}
 
 	//protected override void on_treeview_person_recuperate_cursor_changed (object o, EventArgs args)
@@ -487,16 +513,14 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		bool rowChecked = false;
 		Gtk.TreeIter iter;
 		if (store.GetIterFirst(out iter)) {
-			rowChecked = (bool) store.GetValue (iter, 0);
-			if(!rowChecked)
-				while ( store.IterNext(ref iter) && !rowChecked) {
-					rowChecked = (bool) store.GetValue (iter, 0);
-				}
+			do 
+				rowChecked = (bool) store.GetValue (iter, 0);
+			while ( !rowChecked && store.IterNext(ref iter));
+		}
 		if(rowChecked)
 			button_recuperate.Sensitive = true;
 		else
 			button_recuperate.Sensitive = false;
-		}
 	}
 
 	
@@ -545,6 +569,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 				string myText = UtilGtk.ComboGetActive(combo_sessions);
 				if(myText != "") {
 					store = new TreeStore( typeof (bool), typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof(string), typeof(string),
 							typeof (string), typeof(string), typeof(string) );
 					treeview_person_recuperate.Model = store;
 
@@ -813,6 +838,7 @@ public class PersonAddModifyWindow
 				try { 
 					combo_levels.Active = UtilGtk.ComboMakeActive(levels, "-1:" + Catalog.GetString(Constants.LevelUndefined));
 					combo_levels.Sensitive = false;
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, "-1:" + Catalog.GetString(Constants.SpeciallityUndefined));
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
@@ -822,6 +848,9 @@ public class PersonAddModifyWindow
 				try { 
 					combo_levels.Active = UtilGtk.ComboMakeActive(levels, "0:" + Catalog.GetString(Constants.LevelSedentary));
 					combo_levels.Sensitive = false;
+
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, "-1:" + Catalog.GetString(Constants.SpeciallityUndefined));
+
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
@@ -842,6 +871,7 @@ public class PersonAddModifyWindow
 					combo_speciallities.Show();
 				} else {
 					Console.Write("hide");
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, "-1:" + Catalog.GetString(Constants.SpeciallityUndefined));
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
@@ -909,8 +939,9 @@ public class PersonAddModifyWindow
 
 		if(personExists) 
 			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
-		else if (sport.Name == Catalog.GetString(Constants.SportUndefined)) 
-			errorMessage += Catalog.GetString("Please select an sport");
+		//else if (sport.Name == Catalog.GetString(Constants.SportUndefined)) 
+		//	errorMessage += Catalog.GetString("Please select an sport");
+
 		//here sport shouldn't be undefined, then check 
 		//if it has speciallities and if they are selected
 		else if (sport.HasSpeciallities && 

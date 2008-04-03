@@ -570,12 +570,21 @@ public class Util
 		return dateTime;
 	}
 
-	public static string GetHomeDir() {
+	public static string GetOldDatabaseDir() {
 		return Environment.GetEnvironmentVariable("HOME")+ Path.DirectorySeparatorChar + ".chronojump";
 	}
 	
+	public static string GetDatabaseDir() {
+		//we are on:
+		//Chronojump/chronojump-x.y/data/
+		//we have to go to
+		//Chronojump/database/
+		return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
+	}
+	
+	
 	public static void BackupDirCreateIfNeeded () {
-		string backupDir = GetHomeDir() + "/backup";
+		string backupDir = GetDatabaseDir() + "/backup";
 		if( ! Directory.Exists(backupDir)) {
 			Directory.CreateDirectory (backupDir);
 			Console.WriteLine ("created backup dir");
@@ -583,7 +592,7 @@ public class Util
 	}
 	
 	public static void BackupDatabase () {
-		string homeDir = GetHomeDir();
+		string homeDir = GetDatabaseDir();
 		string backupDir = homeDir + "/backup";
 		
 		StringBuilder myStringBuilder = new StringBuilder(DateTime.Now.ToString());
@@ -604,7 +613,7 @@ public class Util
  * currently not used, we copy the assemblies now
  *
 	public static void CopyArchivesOninstallation(string fileName) {
-		string homeDir = GetHomeDir();
+		string homeDir = GetDatabaseDir();
 		//copy files, and continue if already exists or if origin file doesn't exist
 		try {
 			File.Copy(fileName , homeDir + "/" + fileName );

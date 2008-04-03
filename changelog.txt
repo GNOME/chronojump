@@ -1,4 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
+3 apr 2008
+	0.6.2.6
+	adding install with installJammer
+	database moved to installed dir
+	installer progress: http://bugzilla.gnome.org/show_bug.cgi?id=514593#c3
 
 12 mar 2008 (2)
 	0.62-svn5

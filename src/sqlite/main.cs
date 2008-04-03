@@ -32,10 +32,16 @@ class Sqlite
 	protected static SqliteConnection dbcon;
 	protected static SqliteCommand dbcmd;
 	//protected static IDbCommand dbcmd;
-	
-	public static string home = Util.GetHomeDir();
+
+	//since we use installJammer (chronojump 0.7)	
+	//database was on c:\.chronojump\ or in ~/.chronojump
+	//now it's on installed dir, eg linux: ~/Chronojump/database
+	public static string home = Util.GetDatabaseDir();
 	public static string sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
-	//public static string sqlFile = home + Path.DirectorySeparatorChar + "chronojump_altre_copia.db";
+
+	//before installJammer
+	public static string homeOld = Util.GetOldDatabaseDir();
+	public static string sqlFileOld = homeOld + Path.DirectorySeparatorChar + "chronojump.db";
 	
 	//http://www.mono-project.com/SQLite
 
@@ -74,6 +80,7 @@ class Sqlite
 		return (File.Exists(sqlFile));
 
 	}
+
 
 	public static bool IsSqlite3() {
 		if(sqlite3SelectWorks()){
@@ -131,8 +138,8 @@ class Sqlite
 		 * 3 create sqlite3 file from archive
 		 */
 
-		string sqlite2File = Util.GetHomeDir() + Path.DirectorySeparatorChar + "chronojump-sqlite2.81.db";
-		string sqliteDB = Util.GetHomeDir() + Path.DirectorySeparatorChar + "chronojump.db";
+		string sqlite2File = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump-sqlite2.81.db";
+		string sqliteDB = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db";
 
 		File.Copy(sqliteDB, sqlite2File, true);
 
@@ -176,7 +183,7 @@ class Sqlite
 			
 			//write the path to chronojumpdb in a txt file (for convert_database.bat and .sh)
 			TextWriter writer = File.CreateText(myPath + Path.DirectorySeparatorChar + "db_path.txt");
-			writer.WriteLine(Util.GetHomeDir());
+			writer.WriteLine(Util.GetDatabaseDir());
 			((IDisposable)writer).Dispose();
 			
 			Console.WriteLine("Path written");

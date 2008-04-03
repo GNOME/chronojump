@@ -70,18 +70,10 @@ public class ChronoJump
 		*/
 		/* END OF SERVER COMMUNICATION TESTS */
 
+		//move database to new location if chronojump version is before 0.7
+		moveDatabaseToInstallJammerLocationIfNeeded();
 
-		runningFileName = Util.GetHomeDir() + Path.DirectorySeparatorChar + "chronojump_running";
-		if(File.Exists(runningFileName)) {
-			bool continueChronojump = askContinueChronojump();
-			if(!continueChronojump)
-				quitFromConsole();
-		} else {
-			if (Sqlite.CheckTables()) {
-				File.Create(runningFileName);
-			}
-		}
-
+		checkIfChronojumpExitAbnormally();
 		
 		Sqlite.Connect();
 
@@ -111,7 +103,7 @@ public class ChronoJump
 					Console.WriteLine("******\n problem with sqlite \n******");
 					//check (spanish)
 					//http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-					new DialogMessage(Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed. \nIf problems persist ask in chronojump-list"), true);
+					Console.WriteLine(Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed. \nIf problems persist ask in chronojump-list"));
 					Console.ReadLine();
 					quitFromConsole();
 				}
@@ -248,7 +240,11 @@ public class ChronoJump
 	}
 
 	private void quitFromConsole() {
-		File.Delete(runningFileName);
+		try {
+			File.Delete(runningFileName);
+		} catch {
+			//done because if database dir is moved in a chronojump conversion (eg from before installer to installjammer) maybe it will not find this runningFileName
+		}
 		Environment.Exit(1);
 	}
 
@@ -266,4 +262,52 @@ public class ChronoJump
 		}
 		return version;
 	}	
+		
+	private void checkIfChronojumpExitAbnormally() {
+		runningFileName = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump_running";
+		if(File.Exists(runningFileName)) {
+			bool continueChronojump = askContinueChronojump();
+			if(!continueChronojump)
+				quitFromConsole();
+		} else {
+			if (Sqlite.CheckTables()) {
+				File.Create(runningFileName);
+			}
+		}
+	}
+
+	//move database to new location if chronojump version is before 0.7
+	private void moveDatabaseToInstallJammerLocationIfNeeded() {
+		string oldDB = Util.GetOldDatabaseDir();
+		string newDB = Util.GetDatabaseDir();
+		string problemsMoving = string.Format(Catalog.GetString("Problems moving database from {0} to {1}\n Please, do it manually and the execute Chronojump.\n\n Chronojump will exit."), oldDB, newDB);
+	
+		if(Directory.Exists(oldDB)) {
+			//check if there's anything on newDB, and if there's anything move it to a newly created "old" dir
+			//this doesn't work because there's no Directory.Copy. maybe it's done by File.Copy, ?
+			//with a move has no sense because it's the same problem (newDB is already created)
+			/*
+			if(Directory.Exists(newDB)) {
+				try {
+					Directory.Copy(newDB, newDB + "-old-" + DateTime.Now.ToString()); 
+				}
+				catch {
+					Console.WriteLine(problemsMoving);
+					quitFromConsole();
+				}
+			}
+			*/
+			
+			//move db from oldDB to newDB
+			try {
+				Directory.Move(oldDB, newDB); 
+			}
+			catch {
+				Console.WriteLine(problemsMoving);
+				quitFromConsole();
+			}
+			Console.WriteLine(string.Format(Catalog.GetString("Database moved from {0} to {1}"), oldDB, newDB));
+		}
+	}
+
 }

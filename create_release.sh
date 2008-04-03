@@ -7,7 +7,8 @@ echo $args
 
 #usage info
 if [ "$1" = "" ]; then
-	echo "Usage: $0 x.yy"
+	echo "Usage:\n $0 x.yy\n $0 x.yy.zz.ww\n NOT things like 'svn-...'"
+	echo "Recommended!!!: $0 `cat version.txt`"
 	exit
 fi
 
@@ -24,7 +25,7 @@ make
 release_dir="releases/chronojump-$1"
 
 if test -e $release_dir; then 
-	echo "release exists"
+	echo "release exists. EXITING! NOTHING COPIED TO releases!!!"
 	exit
 fi
 

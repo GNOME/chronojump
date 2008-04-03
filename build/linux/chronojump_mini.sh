@@ -3,6 +3,11 @@
 #Xavier de Blas, www.xdeblas.com
 #this scripts allows to run chronojump from gui. It exports the LD_LIBRARY_PATH from ~/.bashrc if needed
 
+#cd to this sh dir
+CHRONOJUMP_SH_HOME=`dirname $0`
+cd $CHRONOJUMP_SH_HOME
+echo $CHRONOJUMP_SH_HOME
+
 echo "---------------"
 echo "pre1: chmod +x convert_database scripts (as precaution)"
 chmod +x ../data/utils/linux/convert_database.sh

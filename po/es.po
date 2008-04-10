@@ -1,7 +1,6 @@
 # translation of chronojump to spanish
 # Copyright (C) 2005 THE chronojump.HEAD.es'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the chronojump.HEAD.es package.
-
 # Xavier de Blas <xaviblas@gmail.com>, 2005.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
@@ -10,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-12 04:05+0000\n"
-"PO-Revision-Date: 2008-03-14 23:09-0300\n"
+"POT-Creation-Date: 2008-04-04 04:08+0100\n"
+"PO-Revision-Date: 2008-04-08 04:48-0400\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -486,7 +485,7 @@ msgstr "Índice Dj"
 msgid "Drop Jump"
 msgstr "Salto en caída"
 
-#: ../glade/chronojump.glade.h:109 ../src/gui/chronojump.cs:877
+#: ../glade/chronojump.glade.h:109 ../src/gui/chronojump.cs:882
 msgid "Edit"
 msgstr "Editar"
 
@@ -680,7 +679,7 @@ msgstr "Máximo/s del saltador"
 
 #. windowTitle
 #: ../glade/chronojump.glade.h:155 ../src/exportSession.cs:368
-#: ../src/gui/chronojump.cs:2604 ../src/gui/jump.cs:1126
+#: ../src/gui/chronojump.cs:2609 ../src/gui/jump.cs:1126
 #: ../src/gui/jump.cs:1173 ../src/gui/jump.cs:1213
 #: ../src/sqlite/speciallity.cs:158 ../src/stats/graphs/rjAVGSD.cs:77
 #: ../src/stats/graphs/rjAVGSD.cs:98 ../src/stats/graphs/rjEvolution.cs:83
@@ -889,7 +888,7 @@ msgstr "Pulso"
 
 #. windowTitle
 #: ../glade/chronojump.glade.h:204 ../src/exportSession.cs:228
-#: ../src/gui/chronojump.cs:3272 ../src/gui/person.cs:1403
+#: ../src/gui/chronojump.cs:3277 ../src/gui/person.cs:1403
 #: ../src/gui/session.cs:358 ../src/report.cs:186
 msgid "Pulses"
 msgstr "Pulsos"
@@ -1594,47 +1593,48 @@ msgstr "mujer"
 msgid "yes"
 msgstr "sí"
 
-#: ../src/chronojump.cs:94
+#: ../src/chronojump.cs:86
 msgid "no tables, creating ..."
 msgstr "no se ha encontrado base de datos, creando tablas ..."
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:114
+#: ../src/chronojump.cs:106
 msgid ""
 "Failed database conversion, ensure you have libsqlite3-0 installed. \n"
 "If problems persist ask in chronojump-list"
 msgstr ""
-"Ha fallado la conversión a la base de datos, asegúrese de que tiene instalado libsqlite3-0. \n"
+"Ha fallado la conversión a la base de datos, asegúrese de que tiene "
+"instalado libsqlite3-0. \n"
 "Si el problema persiste, pregunte en la lista de chronojump."
 
-#: ../src/chronojump.cs:125
+#: ../src/chronojump.cs:117
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Lo siento, esta versión de Chronojump ({0}) esta demasiada antigua para su "
 "base de datos."
 
-#: ../src/chronojump.cs:126
+#: ../src/chronojump.cs:118
 msgid "Please update Chronojump"
 msgstr "Por favor, actualice Chronojump"
 
-#: ../src/chronojump.cs:128
+#: ../src/chronojump.cs:120
 msgid "Press any key"
 msgstr "Pulse cualquier tecla"
 
-#: ../src/chronojump.cs:133
+#: ../src/chronojump.cs:125
 msgid "tables already created"
 msgstr "tablas creadas"
 
-#: ../src/chronojump.cs:177
+#: ../src/chronojump.cs:169
 msgid ""
 "Chronojump is already running (program opened two times) or it crashed before"
 msgstr ""
 "Chronojump ja està funcionando (programa abierto dos veces) o se ha "
 "bloqueado anteriormente"
 
-#: ../src/chronojump.cs:179
+#: ../src/chronojump.cs:171
 #, csharp-format
 msgid ""
 "Please, if crashed, write an email to {0} including what you done when "
@@ -1643,29 +1643,47 @@ msgstr ""
 "Por favor, si se ha bloqueado, escriba un correo a {0} incluyendo qué estaba "
 "usted haciendo cuando se bloqueó."
 
-#: ../src/chronojump.cs:180
+#: ../src/chronojump.cs:172
 msgid ""
 "Subject should be something like \"bug in Chronojump\". Your help is needed."
 msgstr ""
 "El título o asunto debe ser algo parecido a \"error en Chronojump\". Su "
 "ayuda es muy valiosa."
 
-#: ../src/chronojump.cs:187
+#: ../src/chronojump.cs:179
 msgid "Please press key"
 msgstr "Por favor, pulse la tecla"
 
-#: ../src/chronojump.cs:188 ../src/chronojump.cs:190
+#: ../src/chronojump.cs:180 ../src/chronojump.cs:182
 #: ../src/gui/convertWeight.cs:115
 msgid "or"
 msgstr "o"
 
-#: ../src/chronojump.cs:189
+#: ../src/chronojump.cs:181
 msgid "to exit program if it's already opened"
 msgstr "para salir del programa si ya está abierto"
 
-#: ../src/chronojump.cs:191
+#: ../src/chronojump.cs:183
 msgid "to launch Chronojump"
 msgstr "para iniciar Chronojump"
+
+#: ../src/chronojump.cs:283
+#, csharp-format
+msgid ""
+"Problems moving database from {0} to {1}\n"
+" Please, do it manually and the execute Chronojump.\n"
+"\n"
+" Chronojump will exit."
+msgstr ""
+"Problemas al mover la base de datos desde {0} al {1}\n"
+" Hágalo manualmente y después ejecute Chronojump.\n"
+"\n"
+" Chronojump finalizará."
+
+#: ../src/chronojump.cs:309
+#, csharp-format
+msgid "Database moved from {0} to {1}"
+msgstr "Se movió la base de datos de {0} a {1}"
 
 #: ../src/chronojump_mini.cs:65
 msgid "More information on Chronojump manual"
@@ -1936,7 +1954,7 @@ msgstr "La carrera no se grabará, la primera pista está fuera de tiempo"
 
 #. windowTitle
 #: ../src/execute/run.cs:748 ../src/exportSession.cs:508
-#: ../src/gui/chronojump.cs:3007 ../src/gui/run.cs:904 ../src/gui/run.cs:948
+#: ../src/gui/chronojump.cs:3012 ../src/gui/run.cs:904 ../src/gui/run.cs:948
 #: ../src/gui/run.cs:980
 msgid "Tracks"
 msgstr "Tramos"
@@ -2180,23 +2198,23 @@ msgstr "Id del pulso"
 msgid "Exported to file: "
 msgstr "Exportado al archivo: "
 
-#: ../src/gui/chronojump.cs:457
+#: ../src/gui/chronojump.cs:462
 msgid "Ready."
 msgstr "Preparado."
 
-#: ../src/gui/chronojump.cs:468
+#: ../src/gui/chronojump.cs:473
 msgid "Do you want to connect to Chronopic now?"
 msgstr "¿Desea conectarse con Chronopic ahora?"
 
-#: ../src/gui/chronojump.cs:575
+#: ../src/gui/chronojump.cs:580
 msgid "starting connection with chronopic"
 msgstr "comenzando conexion con chronopic"
 
-#: ../src/gui/chronojump.cs:576
+#: ../src/gui/chronojump.cs:581
 msgid "if program crashes, write to xaviblas@gmail.com"
 msgstr "si el programa se bloquea, escribir a xaviblas@gmail.com"
 
-#: ../src/gui/chronojump.cs:578
+#: ../src/gui/chronojump.cs:583
 msgid ""
 "If you have previously used the modem via a serial port (in a GNU/Linux "
 "session, and you selected serial port), Chronojump will crash."
@@ -2204,18 +2222,18 @@ msgstr ""
 "Si ha usado el módem por el puerto serie antes (en la misma sesión de GNU/"
 "Linux) Chronojump se bloqueará."
 
-#: ../src/gui/chronojump.cs:621
+#: ../src/gui/chronojump.cs:626
 #, csharp-format
 msgid "Connected to Chronopic on port: {0}"
 msgstr "Conectado a Chronopic en el puerto: {0}"
 
-#: ../src/gui/chronojump.cs:625
+#: ../src/gui/chronojump.cs:630
 msgid "Problems communicating to chronopic, changed platform to 'Simulated'"
 msgstr ""
 "Se produjeron problemas comunicándose con chronopic, plataforma cambiada a "
 "'Simulada'"
 
-#: ../src/gui/chronojump.cs:627
+#: ../src/gui/chronojump.cs:632
 msgid ""
 "\n"
 "\n"
@@ -2227,7 +2245,7 @@ msgstr ""
 "En Windows se recomienda quitar y conectar un cable USB o serie del equipo "
 "después de cada prueba de puerto fallida."
 
-#: ../src/gui/chronojump.cs:628
+#: ../src/gui/chronojump.cs:633
 msgid ""
 "\n"
 "... And after cancelling Chronopic detection."
@@ -2235,7 +2253,7 @@ msgstr ""
 "\n"
 "... y después cancelar la detección de Chronopic."
 
-#: ../src/gui/chronojump.cs:629
+#: ../src/gui/chronojump.cs:634
 msgid ""
 "\n"
 "\n"
@@ -2247,68 +2265,68 @@ msgstr ""
 "... Después, cuando cierre Chronojump, probablemente se quedará colgado. Si "
 "esto sucede, pulse CTRL+C en la pantalla negra."
 
-#: ../src/gui/chronojump.cs:642
+#: ../src/gui/chronojump.cs:647
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Versión de la base de datos de Chronojump: {0}"
 
-#: ../src/gui/chronojump.cs:729
+#: ../src/gui/chronojump.cs:734
 msgid "Preferences loaded"
 msgstr "Preferencias cargadas"
 
-#: ../src/gui/chronojump.cs:881
+#: ../src/gui/chronojump.cs:886
 msgid "Show all tests of"
 msgstr "Mostrar todas las pruebas"
 
-#: ../src/gui/chronojump.cs:888
+#: ../src/gui/chronojump.cs:893
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "Borrar {0} de esta sesión"
 
-#: ../src/gui/chronojump.cs:953 ../src/gui/chronojump.cs:1028
-#: ../src/gui/chronojump.cs:1100 ../src/gui/chronojump.cs:1174
-#: ../src/gui/chronojump.cs:1245 ../src/gui/chronojump.cs:1318
+#: ../src/gui/chronojump.cs:958 ../src/gui/chronojump.cs:1033
+#: ../src/gui/chronojump.cs:1105 ../src/gui/chronojump.cs:1179
+#: ../src/gui/chronojump.cs:1250 ../src/gui/chronojump.cs:1323
 msgid "Edit this"
 msgstr "Editar esto"
 
-#: ../src/gui/chronojump.cs:960 ../src/gui/chronojump.cs:1039
-#: ../src/gui/chronojump.cs:1107 ../src/gui/chronojump.cs:1185
-#: ../src/gui/chronojump.cs:1252 ../src/gui/chronojump.cs:1329
+#: ../src/gui/chronojump.cs:965 ../src/gui/chronojump.cs:1044
+#: ../src/gui/chronojump.cs:1112 ../src/gui/chronojump.cs:1190
+#: ../src/gui/chronojump.cs:1257 ../src/gui/chronojump.cs:1334
 msgid "Delete this"
 msgstr "Borrar esto"
 
-#: ../src/gui/chronojump.cs:1032 ../src/gui/chronojump.cs:1178
-#: ../src/gui/chronojump.cs:1322
+#: ../src/gui/chronojump.cs:1037 ../src/gui/chronojump.cs:1183
+#: ../src/gui/chronojump.cs:1327
 msgid "Repair this"
 msgstr "Reparar esto"
 
-#: ../src/gui/chronojump.cs:1639
+#: ../src/gui/chronojump.cs:1644
 msgid "Are you sure you want to delete the current session"
 msgstr "¿Seguro que desea borrar la sesión actual"
 
-#: ../src/gui/chronojump.cs:1639
+#: ../src/gui/chronojump.cs:1644
 msgid "and all the session tests?"
 msgstr "y todas las pruebas de la sesión?"
 
-#: ../src/gui/chronojump.cs:1645
+#: ../src/gui/chronojump.cs:1650
 msgid "Deleted session and all its tests"
 msgstr "Se ha borrado la sesión y todas sus pruebas"
 
-#: ../src/gui/chronojump.cs:1728 ../src/gui/stats.cs:973
+#: ../src/gui/chronojump.cs:1733 ../src/gui/stats.cs:973
 msgid "Successfully added"
 msgstr "Añadido satisfactoriamente"
 
-#: ../src/gui/chronojump.cs:1735
+#: ../src/gui/chronojump.cs:1740
 msgid "Select number of persons to add"
 msgstr "Seleccionar el numero de personas que añadir"
 
 #. more inserted
-#: ../src/gui/chronojump.cs:1757 ../src/gui/person.cs:584
+#: ../src/gui/chronojump.cs:1762 ../src/gui/person.cs:584
 #, csharp-format
 msgid "Successfully added {0} persons"
 msgstr "Añadidos satisfactoriamente {0} atletas"
 
-#: ../src/gui/chronojump.cs:1805
+#: ../src/gui/chronojump.cs:1810
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests "
 "(jumps, runs, pulses, ...) from this session?\n"
@@ -2318,24 +2336,24 @@ msgstr ""
 "borrar todas sus pruebas de esta sesión\n"
 "(Sus datos personales y pruebas de otras sesiones no serán alterados)"
 
-#: ../src/gui/chronojump.cs:1806
+#: ../src/gui/chronojump.cs:1811
 msgid "Current Person: "
 msgstr "atleta actual: "
 
-#: ../src/gui/chronojump.cs:1813
+#: ../src/gui/chronojump.cs:1818
 msgid "Deleted person and all his/her tests on this session"
 msgstr "Borrar atleta actual y todas sus pruebas de esta sesión"
 
-#: ../src/gui/chronojump.cs:1890
+#: ../src/gui/chronojump.cs:1895
 msgid "Changed to simulated mode"
 msgstr "Cambiado a modo simulado"
 
 #. disconnected
-#: ../src/gui/chronojump.cs:1952
+#: ../src/gui/chronojump.cs:1957
 msgid "Cancelled by user"
 msgstr "Cancelado por el usuario"
 
-#: ../src/gui/chronojump.cs:2117
+#: ../src/gui/chronojump.cs:2122
 msgid ""
 "Please, touch the contact platform for full cancelling.\n"
 "Then press button\n"
@@ -2343,7 +2361,7 @@ msgstr ""
 "Por favor, toque la plataforma para cancelar completamente.\n"
 " Después pulse el botón\n"
 
-#: ../src/gui/chronojump.cs:2145
+#: ../src/gui/chronojump.cs:2150
 msgid ""
 "Please, touch the contact platform for full finishing.\n"
 "Then press button\n"
@@ -2351,132 +2369,132 @@ msgstr ""
 "Por favor, toque la plataforma para terminar completamente.\n"
 " Después pulse el botón\n"
 
-#: ../src/gui/chronojump.cs:2413
+#: ../src/gui/chronojump.cs:2418
 msgid "Execute Jump"
 msgstr "Ejecutar salto"
 
 #. windowTitle
-#: ../src/gui/chronojump.cs:2414 ../src/gui/chronojump.cs:2826
-#: ../src/gui/chronojump.cs:3121
+#: ../src/gui/chronojump.cs:2419 ../src/gui/chronojump.cs:2831
+#: ../src/gui/chronojump.cs:3126
 msgid "Phases"
 msgstr "Fases"
 
-#: ../src/gui/chronojump.cs:2603
+#: ../src/gui/chronojump.cs:2608
 msgid "Execute Reactive Jump"
 msgstr "Ejecutar salto reactivo"
 
-#: ../src/gui/chronojump.cs:2825
+#: ../src/gui/chronojump.cs:2830
 msgid "Execute Run"
 msgstr "Ejecutar prueba"
 
-#: ../src/gui/chronojump.cs:3006
+#: ../src/gui/chronojump.cs:3011
 msgid "Execute Intervallic Run"
 msgstr "Ejecutar carreras con tramos"
 
-#: ../src/gui/chronojump.cs:3120
+#: ../src/gui/chronojump.cs:3125
 msgid "Execute Reaction Time"
 msgstr "Ejecutar tiempo de reacción"
 
-#: ../src/gui/chronojump.cs:3271
+#: ../src/gui/chronojump.cs:3276
 msgid "Execute Pulse"
 msgstr "Ejecutar pulso"
 
-#: ../src/gui/chronojump.cs:3373
+#: ../src/gui/chronojump.cs:3378
 msgid "Cannot update. Probably this test was deleted."
 msgstr "No se puede actualizar. Probablemente esta prueba se borró."
 
-#: ../src/gui/chronojump.cs:3576
+#: ../src/gui/chronojump.cs:3581
 msgid "Do you want to delete selected jump?"
 msgstr "¿Desea borrar el salto seleccionado?"
 
-#: ../src/gui/chronojump.cs:3577 ../src/gui/chronojump.cs:3762
+#: ../src/gui/chronojump.cs:3582 ../src/gui/chronojump.cs:3767
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Atención: Borrar un subsalto reactivo borrará todo el salto completo"
 
-#: ../src/gui/chronojump.cs:3591
+#: ../src/gui/chronojump.cs:3596
 msgid "Deleted jump"
 msgstr "Borrar salto"
 
-#: ../src/gui/chronojump.cs:3605
+#: ../src/gui/chronojump.cs:3610
 msgid "Deleted reactive jump"
 msgstr "Borrado salto reactivo"
 
-#: ../src/gui/chronojump.cs:3641
+#: ../src/gui/chronojump.cs:3646
 msgid "Do you want to delete selected run?"
 msgstr "Desea borrar el salto seleccionado?"
 
-#: ../src/gui/chronojump.cs:3642
+#: ../src/gui/chronojump.cs:3647
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "Atención: Borrar un tramo de la carrera borrará toda la carrera"
 
-#: ../src/gui/chronojump.cs:3656
+#: ../src/gui/chronojump.cs:3661
 msgid "Deleted selected run"
 msgstr "Borrar carrera con tramos"
 
-#: ../src/gui/chronojump.cs:3671
+#: ../src/gui/chronojump.cs:3676
 msgid "Deleted intervallic run"
 msgstr "Borrada carrera con tramos "
 
-#: ../src/gui/chronojump.cs:3705
+#: ../src/gui/chronojump.cs:3710
 msgid "Deleted reaction time"
 msgstr "Borrado tiempo de reacción"
 
-#: ../src/gui/chronojump.cs:3740
+#: ../src/gui/chronojump.cs:3745
 msgid "Deleted pulse"
 msgstr "Borrar pulso"
 
-#: ../src/gui/chronojump.cs:3769
+#: ../src/gui/chronojump.cs:3774
 msgid "Do you want to delete last jump?"
 msgstr "¿Desea borrar el último salto?"
 
-#: ../src/gui/chronojump.cs:3781
+#: ../src/gui/chronojump.cs:3786
 msgid "Attention: Deleting a intervalic sub-run will delete the whole run"
 msgstr "Atención: Borrar un tramo de la carrera borrará toda la carrera"
 
-#: ../src/gui/chronojump.cs:3788
+#: ../src/gui/chronojump.cs:3793
 msgid "Do you want to delete last run?"
 msgstr "¿Desea borrar la última carrera?"
 
-#: ../src/gui/chronojump.cs:3800
+#: ../src/gui/chronojump.cs:3805
 msgid "Do you want to delete last reaction time?"
 msgstr "¿Desea borrar el último tiempo de reacción?"
 
-#: ../src/gui/chronojump.cs:3812
+#: ../src/gui/chronojump.cs:3817
 msgid "Do you want to delete last pulse?"
 msgstr "¿Desea borrar el ´ultimo pulso?"
 
 # csharp-format
-#: ../src/gui/chronojump.cs:3836 ../src/gui/chronojump.cs:3853
-#: ../src/gui/chronojump.cs:3870 ../src/gui/chronojump.cs:3887
+#: ../src/gui/chronojump.cs:3841 ../src/gui/chronojump.cs:3858
+#: ../src/gui/chronojump.cs:3875 ../src/gui/chronojump.cs:3892
 #, csharp-format
 msgid "Last {0} deleted"
 msgstr "Borrado último/a {0}"
 
-#: ../src/gui/chronojump.cs:3836 ../src/gui/jump.cs:56
+#: ../src/gui/chronojump.cs:3841 ../src/gui/jump.cs:56
 msgid "jump"
 msgstr "salto"
 
-#: ../src/gui/chronojump.cs:3853 ../src/gui/run.cs:52
+#: ../src/gui/chronojump.cs:3858 ../src/gui/run.cs:52
 msgid "run"
 msgstr "Carrera"
 
-#: ../src/gui/chronojump.cs:3864
+#: ../src/gui/chronojump.cs:3869
 msgid "Last reaction time deleted"
 msgstr "Borrado último tiempo de reacción"
 
-#: ../src/gui/chronojump.cs:3870 ../src/gui/reactionTime.cs:48
+#: ../src/gui/chronojump.cs:3875 ../src/gui/reactionTime.cs:48
 msgid "reaction time"
 msgstr "tiempo de reacción"
 
-#: ../src/gui/chronojump.cs:3882
+#: ../src/gui/chronojump.cs:3887
 msgid "Last pulse deleted"
 msgstr "Último pulso borrado"
 
-#: ../src/gui/chronojump.cs:3887 ../src/gui/pulse.cs:50
+#: ../src/gui/chronojump.cs:3892 ../src/gui/pulse.cs:50
 msgid "pulse"
 msgstr "pulso"
 
-#: ../src/gui/chronojump.cs:4047
+#: ../src/gui/chronojump.cs:4052
 #, csharp-format
 msgid ""
 "There's a copy of Chronojump Manual on \"docs\" directory.\n"
@@ -2487,7 +2505,7 @@ msgstr ""
 "Las versiones nuevas estarán en el sitio web:\n"
 "{0}"
 
-#: ../src/gui/chronojump.cs:4055
+#: ../src/gui/chronojump.cs:4060
 msgid "translator-credits"
 msgstr ""
 "Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2007.\n"

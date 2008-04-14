@@ -1,4 +1,13 @@
 CHRONOJUMP DETAILED CHANGELOG:
+
+14 apr 2008
+	installer improvements:
+	-packs mono on windows, and executes it (in a new "mono" component)
+	-if mono not found on linux, displays a message
+	-correctly links to .bat on start menu and on desktop shortcut
+	-correctly autostart on windows
+	-spanish strings used (but now well localized)
+
 3 apr 2008
 	0.6.2.6
 	adding install with installJammer

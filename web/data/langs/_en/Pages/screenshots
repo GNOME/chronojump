@@ -11,68 +11,80 @@ Photos
 	<th width="250">Hardware</th>
 </tr>
 
+:::softPhoto-10::: 
+Chronojump installer at v.0.7 (spanish)
+:::endSoftwarePhoto:::
+
+:::hardPhoto-9::: 
+Chronopic3 in 4 colors.
+:::endHardwarePhoto:::
+
 :::softPhoto-1::: 
 		v.0.6 (spanish)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-1::: 
-	Chronopic 3.0 with methacrylate. 
+:::hardPhoto-8::: 
+180 Chronopics 3.0.
 :::endHardwarePhoto:::
 
 :::softPhoto-2::: 
-		v.0.47 (english)
+v.0.47 (english)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-2::: 
-		Chronopic 3.0. Industrial Design.
+:::hardPhoto-7::: 
+180 Chronopics 3.0 with reef aquarium.
 :::endHardwarePhoto:::
 
 :::softPhoto-3::: 
-		v.0.47 Windows XP (english)
+v.0.47 Windows XP (english)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-3::: 
-		Chronopic 3.0 (PCB). Industrial Design. 
+:::hardPhoto-1::: 
+Chronopic 3.0 with methacrylate. 
 :::endHardwarePhoto:::
 
 :::softPhoto-4::: 
-		v.0.4 Report in HTML (english)
+v.0.4 Report in HTML (english)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-4::: 
-		Chronopic 2.0 USB
+:::hardPhoto-2::: 
+Chronopic 3.0. Industrial Design.
 :::endHardwarePhoto:::
 
 :::softPhoto-5::: 
-		v.0.3 stats and graph DjIndex (english)
+v.0.3 stats and graph DjIndex (english)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-5:::
-		Chronopic 1.0 (Skypic + expansion card)
+:::hardPhoto-3::: 
+Chronopic 3.0 (PCB). Industrial Design. 
 :::endHardwarePhoto:::
 
 :::softPhoto-6::: 
-		v.0.3 add new run type (spanish)
+v.0.3 add new run type (spanish)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-6::: 
-		contact platform build following these <a href="construction_contact_platform.html">instructions</a>
+:::hardPhoto-4::: 
+Chronopic 2.0 USB
 :::endHardwarePhoto:::
 
 :::softPhoto-7::: 
-		v.0.3 add multiple persons and preferences (spanish)
+v.0.3 add multiple persons and preferences (spanish)
 :::endSoftwarePhoto:::
 
-:::hardPhotoNull:::
+:::hardPhoto-5:::
+Chronopic 1.0 (Skypic + expansion card)
+:::endHardwarePhoto:::
 
 :::softPhoto-8::: 
-		v.0.1 graphs (english)
+v.0.1 graphs (english)
 :::endSoftwarePhoto:::
 
-:::hardPhotoNull:::
+:::hardPhoto-6::: 
+contact platform build following these <a href="construction_contact_platform.html">instructions</a>
+:::endHardwarePhoto:::
 
 :::softPhoto-9::: 
-		v.0.1 graphs reactive jumps (english)
+v.0.1 graphs reactive jumps (english)
 :::endSoftwarePhoto:::
 
 :::hardPhotoNull:::

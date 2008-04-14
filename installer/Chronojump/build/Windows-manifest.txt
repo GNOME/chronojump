@@ -1,3 +1,4 @@
+/home/xavier/informatica/progs_meus/chronojump/chronojump/installer/Chronojump/mono_windows/mono-1.9-gtksharp-2.10.4-win32-4.exe FB83CFB5-53B6-C34F-A75C-7ED4AC33029F zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/chronojump.prg EE0A8EBF-A025-6ED1-FD8F-8F52BF4D20CF zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/chronojump.prg.mdb 9FF93A40-3107-0F44-C71C-8149A569951C zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/chronojump_mini.prg 277B2C35-3932-1D72-494A-495B4416D1E6 zlib

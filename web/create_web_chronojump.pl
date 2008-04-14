@@ -340,8 +340,8 @@ sub getSiteLinks {
 sub getPhotos {
 	my ($pageContent)= @_;
 
-	$pageContent =~ s/:::softPhoto-(\d):::/<tr valign="top"><td width="250">$photos_software{$1}/g;
-	$pageContent =~ s/:::hardPhoto-(\d):::/<td width="250">$photos_hardware{$1}/g;
+	$pageContent =~ s/:::softPhoto-(\d+):::/<tr valign="top"><td width="250">$photos_software{$1}/g;
+	$pageContent =~ s/:::hardPhoto-(\d+):::/<td width="250">$photos_hardware{$1}/g;
 	$pageContent =~ s/:::softPhotoNull:::/<tr valign="top"><td width="250">&nbsp;<\/td>/g;
 	$pageContent =~ s/:::hardPhotoNull:::/<td width="250">&nbsp;<\/td><\/tr>\n/g;
 	$pageContent =~ s/:::endSoftwarePhoto:::/<\/td>/g;

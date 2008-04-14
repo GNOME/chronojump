@@ -11,68 +11,80 @@ Fotos
 	<th width="250">Hardware</th>
 </tr>
 
-:::softPhoto-1::: 
-		v.0.6
+:::softPhoto-10::: 
+Instalador de Chronojump en v.0.7
 :::endSoftwarePhoto:::
 
-:::hardPhoto-1::: 
-	Chronopic 3.0 con metacrilato. 
+:::hardPhoto-9::: 
+Chronopics3 en 4 colores.
+:::endHardwarePhoto:::
+
+:::softPhoto-1::: 
+v.0.6
+:::endSoftwarePhoto:::
+
+:::hardPhoto-8::: 
+180 Chronopics 3.0.
 :::endHardwarePhoto:::
 
 :::softPhoto-2::: 
-		v.0.47 (inglés)
+v.0.47 (inglés)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-2::: 
-		Chronopic 3.0. Diseño Industrial.
+:::hardPhoto-7::: 
+180 Chronopics 3.0 con acuario de arrecife.
 :::endHardwarePhoto:::
 
 :::softPhoto-3::: 
-		v.0.47 Windows XP (inglés)
+v.0.47 Windows XP (inglés)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-3::: 
-		Chronopic 3.0 (PCB). Diseño industrial. 
+:::hardPhoto-1::: 
+Chronopic 3.0 con metacrilato. 
 :::endHardwarePhoto:::
 
 :::softPhoto-4::: 
-		v.0.4 informe HTML (inglés)
+v.0.4 informe HTML (inglés)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-4::: 
-		Chronopic 2.0 USB
+:::hardPhoto-2::: 
+Chronopic 3.0. Diseño Industrial.
 :::endHardwarePhoto:::
 
 :::softPhoto-5::: 
-		v.0.3 estadísticas y gráfica DjIndex (inglés)
+v.0.3 estadísticas y gráfica DjIndex (inglés)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-5:::
-		Chronopic 1.0 (Skypic + tarjeta de expansión)
+:::hardPhoto-3::: 
+Chronopic 3.0 (PCB). Diseño industrial. 
 :::endHardwarePhoto:::
 
 :::softPhoto-6::: 
-		v.0.3 añadir nuevo tipo de carrera (español)
+v.0.3 añadir nuevo tipo de carrera (español)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-6::: 
-		Platforma de contactos construida siguiendo estas <a href="construction_contact_platform_es.html">instrucciones</a>
+:::hardPhoto-4::: 
+Chronopic 2.0 USB
 :::endHardwarePhoto:::
 
 :::softPhoto-7::: 
-		v.0.3 añadir múltiples sujetos y preferencias (español)
+v.0.3 añadir múltiples sujetos y preferencias (español)
 :::endSoftwarePhoto:::
 
-:::hardPhotoNull:::
+:::hardPhoto-5:::
+Chronopic 1.0 (Skypic + tarjeta de expansión)
+:::endHardwarePhoto:::
 
 :::softPhoto-8::: 
-		v.0.1 gráficas (inglés)
+v.0.1 gráficas (inglés)
 :::endSoftwarePhoto:::
 
-:::hardPhotoNull:::
+:::hardPhoto-6::: 
+Platforma de contactos construida siguiendo estas <a href="construction_contact_platform_es.html">instrucciones</a>
+:::endHardwarePhoto:::
 
 :::softPhoto-9::: 
-		v.0.1 gráficas de saltos reactivos (inglés)
+v.0.1 gráficas de saltos reactivos (inglés)
 :::endSoftwarePhoto:::
 
 :::hardPhotoNull:::

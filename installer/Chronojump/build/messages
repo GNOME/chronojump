@@ -2,6 +2,12 @@
 0AE57E9D-B4AD-5CA6-42A6-67C96B5650F1,Message
 <%InstallingApplicationText%>
 
+10254803-9C89-39D8-7879-B04E8250B6B5,Caption
+<%MonoInstall%>
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Message
+<%MonoUpdated%>
+
 1687E6E5-216D-5339-704A-1DBC27773B79,Caption
 {}
 
@@ -38,6 +44,21 @@
 1C39E905-AF2C-210E-1A01-E720041F721E,Title
 <%MonoInstall%>
 
+20C00248-3AE3-CB93-995E-00DE937D87F2,Caption
+{<%MonoOutdated%>
+
+Mono minimum version: <%MonoLinuxMinimumVersion%>
+Installed version: <%ExternalProgramResult%>}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Message
+<%MonoInstallLinuxText%>
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Subtitle
+{}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Title
+<%MonoInstall%>
+
 25175547-8EFB-FFC2-4CD1-5848355ECEA8,Text
 <%CreateDesktopShortcutText%>
 
@@ -50,6 +71,21 @@
 360FDD97-C0CF-BE1B-9279-01C4DB2FA808,Title
 <%MonoSearching%>
 
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Caption
+{<%MonoOutdated%>
+
+Mono minimum version: <%MonoWindowsMinimumVersion%>
+Installed version: <%YourRegValue%>}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message
+<%MonoInstalling%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Subtitle
+{}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Title
+<%MonoInstall%>
+
 48B4932D-8D72-1214-5078-F33A9BD89960,Text
 <%CreateDesktopShortcutText%>
 
@@ -58,6 +94,11 @@
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Caption
 <%MonoInstall%>
+
+58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Message
+{<%MonoNoExists%>
+
+<%MonoInstalling%>}
 
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Caption
 <%MonoNoExists%>
@@ -70,6 +111,12 @@
 
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Title
 <%MonoInstall%>
+
+70364F59-3542-E36E-FC43-18B295772C15,Caption
+{Welcome to the <%AppName%> installer}
+
+87ED237F-CE72-8397-BA3A-E302EDC71336,Message
+{script condition, version: <%Version%> - <%ScriptResult%>}
 
 8938D967-84AB-9BC6-DFEC-AA60B8C1390A,Message
 <%InstallStartupText%>
@@ -405,7 +452,10 @@ MonoInstall
 {Mono Installation}
 
 MonoInstallLinuxText
-{Install Mono package from your distribution sources or from http://www.mono-project.com}
+{Please install/upgrade Mono package from your distribution sources or from http://www.mono-project.com}
+
+MonoInstalling
+{Mono will be installed now, please wait a few seconds...}
 
 MonoNoExists
 {Mono program was not found. Mono is needed by Chronojump}
@@ -415,6 +465,9 @@ MonoOutdated
 
 MonoSearching
 {Searching Mono program}
+
+MonoUpdated
+{Mono is updated}
 
 Next
 Next
@@ -770,6 +823,12 @@ Yes
 0AE57E9D-B4AD-5CA6-42A6-67C96B5650F1,Message
 <%InstallingApplicationText%>
 
+10254803-9C89-39D8-7879-B04E8250B6B5,Caption
+<%MonoInstall%>
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Message
+<%MonoUpdated%>
+
 1687E6E5-216D-5339-704A-1DBC27773B79,Caption
 {}
 
@@ -794,8 +853,43 @@ Yes
 1C39E905-AF2C-210E-1A01-E720041F721E,Title
 <%MonoInstall%>
 
+20C00248-3AE3-CB93-995E-00DE937D87F2,Caption
+{<%MonoOutdated%>
+
+Version minima de Mono: <%MonoLinuxMinimumVersion%>
+Version instalada: <%ExternalProgramResult%>}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Message
+<%MonoInstallLinuxText%>
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Subtitle
+{}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Title
+<%MonoInstall%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Caption
+{<%MonoOutdated%>
+
+Version minimia de Mono: <%MonoWindowsMinimumVersion%>
+Version instalada: <%YourRegValue%>}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message
+<%MonoInstalling%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Subtitle
+{}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Title
+<%MonoInstall%>
+
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Caption
 <%MonoInstall%>
+
+58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Message
+{<%MonoNoExists%>
+
+<%MonoInstalling%>}
 
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Caption
 <%MonoNoExists%>
@@ -809,14 +903,37 @@ Yes
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Title
 <%MonoInstall%>
 
+70364F59-3542-E36E-FC43-18B295772C15,Caption
+{Bienvenido al instalador de <%AppName%>}
+
+70364F59-3542-E36E-FC43-18B295772C15,Message
+{Este programa instalara <%AppName%> version <%Version%> en su equipo. 
+
+Se recomienda cerrar las demas aplicaciones antes de continuar.  
+
+Pulse siguiente para continuar o Cancelar para salir de la instalacion.}
+
+8CD31907-2778-AC4C-A178-FB58C43712DF,Caption
+{Se ha recopilado la informacion necesaria para comenzar a copiar los  archivos del programa. Si desea revisar o cambiar la configuracion,  pulse Atras. Si esta conforme con la configuracion, pulse Siguiente para  comenzar a copiar los archivos.}
+
+8CD31907-2778-AC4C-A178-FB58C43712DF,Subtitle
+{Revise la configuracion antes de copiar los archivos}
+
+8CD31907-2778-AC4C-A178-FB58C43712DF,Text
+{Directorio de Instalacion:
+            <%InstallDir%>
+
+Tipo de Instalacion:
+            <%InstallType%>}
+
 8D3722F8-BA23-F5B9-73B0-B18088989F1E,Message
 <%UninstallingApplicationText%>
 
 ApplicationReadmeText
-{<%AppName%> Léeme}
+{<%AppName%> Leeme}
 
 Back
-Atrás
+Atras
 
 Browse
 Examinar...
@@ -855,7 +972,7 @@ ChooseComponents,Title
 {Seleccionar Componentes}
 
 CleanupInstallText
-{Limpiando instalación...}
+{Limpiando instalacion...}
 
 Close
 Cerrar
@@ -930,7 +1047,7 @@ CustomBlankPane2,Title
 Título
 
 CustomInstallDescription
-{Seleccione los componentes de la instalación.}
+{Seleccione los componentes de la instalacion.}
 
 CustomTextPane1,BackButton
 {< <%Back%>}
@@ -957,7 +1074,7 @@ CustomTextPane1,Title
 Título
 
 DatabaseMove
-{La base de datos se ubicará aquí.}
+{La base de datos se ubicara aqui.}
 
 DatabaseOldLinux
 /home/user/.chronojump
@@ -968,8 +1085,19 @@ DatabaseOldWindows
 DirectoryPermissionText
 {No tiene permisos para escribir en <%Dir%>.}
 
+E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Caption
+{Se instalara <%AppName%> en la siguiente carpeta.
+
+Para instalar  en esa carpeta, pulse Siguiente. Para instalar en una carpeta diferente,  pulse Examinar y seleccione otra.}
+
+E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Message
+<%DatabaseMove%>
+
+EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,Message
+{El Wizard InstallJammer ha instalado <%AppName%> con exito.   Pulse Finalizar para salir de este wizard.}
+
 ExitText
-{¿Seguro que desea salir de la instalación?}
+{¿Seguro que desea salir de la instalacion?}
 
 F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message
 <%UninstallCompleteText%>
@@ -1008,10 +1136,10 @@ InstallApplicationText
 {Instalar <%AppName%>}
 
 InstallCompleteText
-{Instalación completa...}
+{Instalacion completa...}
 
 InstallPrepareText
-{Preparando instalación...}
+{Preparando instalacion...}
 
 InstallStartupText
 {Se va a instalar <%AppName%> en su equipo.  ¿Continuar?}
@@ -1050,19 +1178,25 @@ MonoDownloading
 {Descargando Mono (download) por favor, espere.}
 
 MonoInstall
-{Instalación de Mono}
+{Instalacion de Mono}
 
 MonoInstallLinuxText
-{Instale Mono desde los paquetes de esta distribución de Linux o desde http://www.mono-project.com}
+{Por favor instale/actualice Mono desde los paquetes de esta distribucion de Linux o desde http://www.mono-project.com}
+
+MonoInstalling
+{Mono sera instalado ahora, por favor, espere unos segundos...}
 
 MonoNoExists
 {No se ha encontrado el programa: Mono. Mono es indispensable para que funcione Chronojump}
 
 MonoOutdated
-{La versión de Mono está desfasada.}
+{La version de Mono esta desactualizada.}
 
 MonoSearching
 {Buscando el programa: Mono}
+
+MonoUpdated
+{Mono se encuentra actualizado}
 
 Next
 Siguiente
@@ -1248,7 +1382,7 @@ TextWindow,Title
 {Título de la Ventana}
 
 TypicalInstallDescription
-{Una instalación típica.}
+{Una instalación tipica.}
 
 Uninstall,BackButton
 {< <%Back%>}
@@ -1326,7 +1460,7 @@ UninstallPrepareText
 {Preparando desinstalación...}
 
 UninstallStartupText
-{Esto borrará <%AppName%> de su sistema. ¿Está seguro de que desea hacerlo? Nota: la base de datos no será borrada}
+{Esto borrara <%AppName%> de su sistema. ¿Esta seguro de que desea hacerlo? Nota: la base de datos no sera borrada}
 
 UnzipFile,StatusText
 <%FileBeingInstalledText%>
@@ -1362,7 +1496,7 @@ UserInformation,UserNameLabel
 {Nombre de Usuario:}
 
 ViewReadmeText
-{Ver Léeme}
+{Ver Leeme}
 
 Welcome,BackButton
 {< <%Back%>}

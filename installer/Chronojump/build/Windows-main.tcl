@@ -69,7 +69,7 @@ namespace eval ::InstallAPI {}
 namespace eval ::InstallJammer {}
 set conf(version)     1.2.5
 set info(Platform)    Windows
-set info(InstallerID) BF589BD9-10A2-C19F-BF89-937B00D8B20C
+set info(InstallerID) 3DBBE759-7766-18FE-E8D7-70A7280C51DB
 array set ::InstallJammer::languagecodes {en English es Spanish}
 array set info {
 AllowLanguageSelection
@@ -140,6 +140,12 @@ MajorVersion
 
 MinorVersion
 6
+
+MonoLinuxMinimumVersion
+1.2.4
+
+MonoWindowsMinimumVersion
+1.2.9
 
 PackageDescription
 {}
@@ -316,6 +322,45 @@ disabled
 099A6D97-6A29-C866-5C8E-E131E2D8715E,Widget
 {Back Button;Next Button}
 
+10254803-9C89-39D8-7879-B04E8250B6B5,Active
+Yes
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Alias
+{Mono updated}
+
+10254803-9C89-39D8-7879-B04E8250B6B5,BackButton,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Buttons
+Back/Next/Cancel
+
+10254803-9C89-39D8-7879-B04E8250B6B5,CancelButton,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Caption,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Component
+{}
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Conditions
+{3 conditions}
+
+10254803-9C89-39D8-7879-B04E8250B6B5,ID
+{}
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Image
+<%Image%>
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Message,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,NextButton,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,WizardOptions
+{-bg white -separator 0}
+
 12BBAD85-A1BB-2F0E-874F-2638E1CE6B6F,Active
 Yes
 
@@ -363,6 +408,48 @@ true
 
 19F2DF18-82AF-7F49-64C2-061CFB249FD3,String
 <%LaunchApplication%>
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Active
+Yes
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Alias
+{Mono Linux outdated}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,BackButton,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Buttons
+Back/Cancel
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,CancelButton,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Caption,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Component
+{}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Conditions
+{3 conditions}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,ID
+{}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Icon
+<%Icon%>
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Message,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,NextButton,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Subtitle,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Title,subst
+1
 
 21617B35-8D01-5A86-DB35-86E5F090902A,Active
 Yes
@@ -448,6 +535,33 @@ No
 294C1998-2566-C983-7BE0-ECB818A339C6,UpdateFileText
 No
 
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,Action
+installMonoWindowsActions
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,Active
+Yes
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,Alias
+InstallMonoWindowsActions2
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,Component
+{}
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,Conditions
+{1 condition}
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,EvaluateConditions
+Yes
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,ExecuteAction
+{After Pane is Displayed}
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,ID
+{}
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,IgnoreErrors
+No
+
 385B710C-AC92-98CC-0B32-9E9DBAF28646,Active
 Yes
 
@@ -459,6 +573,33 @@ installMonoWindowsActions
 
 385B710C-AC92-98CC-0B32-9E9DBAF28646,ID
 {}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,Active
+Yes
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,CheckCondition
+{Before Pane is Displayed}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,Component
+{}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,FailureFocus
+{}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,FailureMessage
+{}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,ID
+{}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,Operator
+exists
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,RegistryKey
+{HKEY_LOCAL_MACHINE\Software\Novell\Mono}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,RegistryValue
+DefaultCLR
 
 3ED374ED-8769-C2E1-A5B4-2611FF0E8792,Active
 Yes
@@ -483,6 +624,48 @@ false
 
 3ED374ED-8769-C2E1-A5B4-2611FF0E8792,String
 <%UpgradeInstall%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Active
+Yes
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Alias
+{Mono Windows outdated}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,BackButton,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Buttons
+Back/Cancel
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,CancelButton,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Caption,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Component
+{}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Conditions
+{2 conditions}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,ID
+{}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Icon
+<%Icon%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,NextButton,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Subtitle,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Title,subst
+1
 
 43A515B8-D335-D77D-4CF0-025B35D62CFD,Active
 Yes
@@ -595,6 +778,63 @@ Yes
 45FA42A3-FF18-AAEE-71C4-EA26E9E01DAF,Size
 {}
 
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,Active
+Yes
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,Component
+{}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,Conditions
+{0 conditions}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ConsoleTitle
+{<%AppName%> Setup}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ExecuteAction
+{Before Pane is Displayed}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ExecuteAsRoot
+No
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ExecuteInConsole
+No
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ID
+{}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,IgnoreErrors
+No
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,IncludeStderr
+Yes
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ProgramCommandLine
+<%Temp%>/findMonoVersionLinux.sh
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ProgressiveOutputWidget
+{}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ResultVirtualText
+ExternalProgramResult
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ShowProgressiveOutput
+No
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,StatusVirtualText
+ExternalProgramStatus
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,WaitForProgram
+Yes
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,WatchProgressiveOutput
+No
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,WatchRegularExpression
+{^:([^ ]+) (.*):$}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,WorkingDirectory
+{}
+
 48B4932D-8D72-1214-5078-F33A9BD89960,Action
 {}
 
@@ -666,6 +906,27 @@ CreateDesktopShortcut
 
 48B4932D-8D72-1214-5078-F33A9BD89960,Y
 180
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,Active
+Yes
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,Component
+{}
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,Conditions
+{0 conditions}
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,ExecuteAction
+{After Pane is Displayed}
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,ID
+{}
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,IgnoreErrors
+No
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,Pane
+10254803-9C89-39D8-7879-B04E8250B6B5
 
 4C240F7C-5F6E-02EC-206D-F0D9BA5BEA68,Active
 Yes
@@ -763,6 +1024,36 @@ LaunchApplication
 4C465E6F-9D44-F4D7-8064-5ECE64239B91,Y
 160
 
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,Active
+Yes
+
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,CheckCondition
+{Before Pane is Displayed}
+
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,Component
+{}
+
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,FailureFocus
+{}
+
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,FailureMessage
+{}
+
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,ID
+{}
+
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,ResultVirtualText
+ScriptResult
+
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,Script
+{set installedVersion [::registry get HKEY_LOCAL_MACHINE\\Software\\Novell\\Mono DefaultCLR]
+set minimumVersion <%MonoWindowsMinimumVersion%>
+
+if {[package vcompare $minimumVersion $installedVersion] > 0} {
+    return 1
+}
+return 0}
+
 53A63017-8385-B8EE-142A-65136147FA12,Active
 Yes
 
@@ -793,6 +1084,30 @@ Yes
 54A3E55E-DDE6-CD53-6011-02D33DF5BFDE,ID
 {}
 
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,Active
+Yes
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,CheckCondition
+{Before Action is Executed}
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,Component
+{}
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,FailureFocus
+{}
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,FailureMessage
+{}
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,ID
+{}
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,Operator
+is
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,Platform
+Windows
+
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Active
 Yes
 
@@ -803,7 +1118,7 @@ Yes
 1
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Buttons
-Back/Next/Cancel
+Back/Cancel
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,CancelButton,subst
 1
@@ -815,7 +1130,7 @@ Back/Next/Cancel
 {}
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Conditions
-{1 condition}
+{2 conditions}
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,ID
 {}
@@ -922,6 +1237,42 @@ false
 5D86A438-171D-8286-765B-F1A104123527,String
 <%InstallStopped%>
 
+61FE1D29-2076-0530-AB92-3E0902C94937,Active
+Yes
+
+61FE1D29-2076-0530-AB92-3E0902C94937,Alias
+getMonoVersion
+
+61FE1D29-2076-0530-AB92-3E0902C94937,AutoUpdate
+{}
+
+61FE1D29-2076-0530-AB92-3E0902C94937,Component
+{}
+
+61FE1D29-2076-0530-AB92-3E0902C94937,Conditions
+{1 condition}
+
+61FE1D29-2076-0530-AB92-3E0902C94937,ExecuteAction
+{Before Pane is Displayed}
+
+61FE1D29-2076-0530-AB92-3E0902C94937,ID
+{}
+
+61FE1D29-2076-0530-AB92-3E0902C94937,IgnoreErrors
+No
+
+61FE1D29-2076-0530-AB92-3E0902C94937,Language
+None
+
+61FE1D29-2076-0530-AB92-3E0902C94937,SubstituteValue
+Yes
+
+61FE1D29-2076-0530-AB92-3E0902C94937,Value
+{<%RegValue HKEY_LOCAL_MACHINE\Software\Novell\Mono DefaultCLR%>}
+
+61FE1D29-2076-0530-AB92-3E0902C94937,VirtualText
+YourRegValue
+
 629F9BF2-5725-73EA-6F47-EA9E75ABFDE7,Action
 {Install Actions}
 
@@ -946,11 +1297,62 @@ Yes
 629F9BF2-5725-73EA-6F47-EA9E75ABFDE7,IgnoreErrors
 No
 
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,Active
+Yes
+
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,CheckCondition
+{Before Pane is Displayed}
+
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,Component
+{}
+
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,FailureFocus
+{}
+
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,FailureMessage
+{}
+
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,ID
+{}
+
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,Operator
+is
+
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,Platform
+Windows
+
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,Active
+Yes
+
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,CheckCondition
+{Before Pane is Displayed}
+
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,Component
+{}
+
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,FailureFocus
+{}
+
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,FailureMessage
+{}
+
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,ID
+{}
+
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,Operator
+is
+
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,Platform
+Linux-x86
+
 6B7975BC-0F80-AACD-DE3D-C40A372B33B4,Action
 installMonoWindowsActions
 
 6B7975BC-0F80-AACD-DE3D-C40A372B33B4,Active
 Yes
+
+6B7975BC-0F80-AACD-DE3D-C40A372B33B4,Alias
+InstallMonoWindowsActions
 
 6B7975BC-0F80-AACD-DE3D-C40A372B33B4,Component
 {}
@@ -986,7 +1388,7 @@ Yes
 {}
 
 6FAE09A2-F5C2-3A66-E1F7-F8637923414A,Filename
-/usr/bin/monoguarro
+/usr/bin/mono
 
 6FAE09A2-F5C2-3A66-E1F7-F8637923414A,ID
 {}
@@ -1029,6 +1431,63 @@ Next/Cancel
 
 70364F59-3542-E36E-FC43-18B295772C15,WizardOptions
 {-bg white -separator 0}
+
+724C50CE-B8B5-D202-605A-0C0D4784E504,Active
+Yes
+
+724C50CE-B8B5-D202-605A-0C0D4784E504,CheckCondition
+{Before Action is Executed}
+
+724C50CE-B8B5-D202-605A-0C0D4784E504,Component
+{}
+
+724C50CE-B8B5-D202-605A-0C0D4784E504,FailureFocus
+{}
+
+724C50CE-B8B5-D202-605A-0C0D4784E504,FailureMessage
+{}
+
+724C50CE-B8B5-D202-605A-0C0D4784E504,ID
+{}
+
+724C50CE-B8B5-D202-605A-0C0D4784E504,Operator
+is
+
+724C50CE-B8B5-D202-605A-0C0D4784E504,Platform
+Windows
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,Active
+Yes
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,AddToUninstall
+No
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,Alias
+uncompressFindMonoLinux
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,Component
+{}
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,Conditions
+{0 conditions}
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,ExecuteAction
+{Before Pane is Displayed}
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,FileID
+findMonoVersionLinux
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,ID
+{}
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,IgnoreErrors
+No
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,TargetDirectory
+<%Temp%>
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,TargetFilename
+findMonoVersionLinux.sh
 
 7BB33D54-49D1-24FA-27C9-D8C442EF0711,Active
 Yes
@@ -1324,6 +1783,66 @@ false
 9A10D654-6137-2828-5047-AFF307DE53B8,String
 <%InstallStopped%>
 
+A545C725-682C-47F2-C75F-8DAF3561DD7A,Active
+Yes
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,CheckCondition
+{Before Pane is Displayed}
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,Component
+{}
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,FailureFocus
+{}
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,FailureMessage
+{}
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,ID
+{}
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,MatchCase
+Yes
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,Operator
+matches
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,Pattern
+{*\.*\.*}
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,String
+<%ExternalProgramResult%>
+
+AAE60ACA-914E-ED46-E817-E8405D899055,Active
+Yes
+
+AAE60ACA-914E-ED46-E817-E8405D899055,CheckCondition
+{Before Pane is Displayed}
+
+AAE60ACA-914E-ED46-E817-E8405D899055,Component
+{}
+
+AAE60ACA-914E-ED46-E817-E8405D899055,FailureFocus
+{}
+
+AAE60ACA-914E-ED46-E817-E8405D899055,FailureMessage
+{}
+
+AAE60ACA-914E-ED46-E817-E8405D899055,ID
+{}
+
+AAE60ACA-914E-ED46-E817-E8405D899055,ResultVirtualText
+ScriptResult
+
+AAE60ACA-914E-ED46-E817-E8405D899055,Script
+{set installedVersion <%ExternalProgramResult%>
+set minimumVersion <%MonoLinuxMinimumVersion%>
+
+if {[package vcompare $minimumVersion $installedVersion] > 0} {
+    return 1
+}
+return 0}
+
 ACE850F7-7260-0918-ED4D-A043B59676BD,Active
 Yes
 
@@ -1350,6 +1869,36 @@ ACE850F7-7260-0918-ED4D-A043B59676BD,UninstallDirectory
 
 ACE850F7-7260-0918-ED4D-A043B59676BD,UninstallFilename
 uninstall<%Ext%>
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,Active
+Yes
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,CheckCondition
+{Before Pane is Displayed}
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,Component
+{}
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,FailureFocus
+{}
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,FailureMessage
+{}
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,ID
+{}
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,ResultVirtualText
+ScriptResult
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,Script
+{set installedVersion [::registry get HKEY_LOCAL_MACHINE\\Software\\Novell\\Mono DefaultCLR]
+set minimumVersion <%MonoWindowsMinimumVersion%>
+
+if {[package vcompare $minimumVersion $installedVersion] <= 0} {
+    return 1
+}
+return 0}
 
 AIX-ppc,Active
 No
@@ -1415,7 +1964,7 @@ B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,Destination
 <%InstallDir%>
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,FileSize
-12720127
+12720185
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,FileUpdateMethod
 {Update files with more recent dates}
@@ -1581,6 +2130,51 @@ C01D7E5D-42C8-06E3-AA57-861C46733A59,TargetDirectory
 
 C01D7E5D-42C8-06E3-AA57-861C46733A59,TargetFilename
 monoInstallerWindows.exe
+
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,Active
+Yes
+
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,Component
+{}
+
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,Conditions
+{0 conditions}
+
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,ExecuteAction
+{After Pane is Displayed}
+
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,ID
+{}
+
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,IgnoreErrors
+No
+
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,Pane
+10254803-9C89-39D8-7879-B04E8250B6B5
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,Active
+Yes
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,CheckCondition
+{Before Pane is Displayed}
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,Component
+{}
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,FailureFocus
+{}
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,FailureMessage
+{}
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,ID
+{}
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,Operator
+is
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,Platform
+Windows
 
 C603314B-D0E6-64D1-4F05-0E8226B3B689,Active
 Yes
@@ -1851,6 +2445,33 @@ EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,NextButton,subst
 
 EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,WizardOptions
 {-bg white -separator 0}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,Active
+Yes
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,CheckCondition
+{Before Pane is Displayed}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,Component
+{}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,FailureFocus
+{}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,FailureMessage
+{}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,ID
+{}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,Operator
+{does not exist}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,RegistryKey
+{HKEY_LOCAL_MACHINE\Software\Novell\Mono}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,RegistryValue
+DefaultCLR
 
 F6416306-44AC-E54D-969B-11D71563C442,Active
 Yes
@@ -2435,7 +3056,7 @@ Windows,ProgramReadme
 <%InstallDir%>/README.txt
 
 Windows,WindowsIcon
-{Setup Blue Screen.ico}
+/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon.ico
 
 ZipArchive,Active
 No
@@ -2575,6 +3196,69 @@ proc CreateWindow.StartCopyingFiles {wizard id} {
     $text configure -bg [style configure . -background]
 }
 
+proc CreateWindow.CustomBlankPane1 {wizard id} {
+    set base [$wizard widget get $id]
+
+    grid rowconfigure    $base 1 -weight 1
+    grid columnconfigure $base 1 -weight 1
+
+    label $base.image -borderwidth 0
+    grid  $base.image -row 0 -column 0 -rowspan 2 -sticky nw
+    $id widget set Image -type image -widget $base.image
+
+    Label $base.title -height 3 -bg white -font TkCaptionFont  -autowrap 1 -anchor nw -justify left
+    grid $base.title -row 0 -column 1 -sticky ew -padx 20 -pady [list 20 10]
+    $id widget set Caption -type text -widget $base.title
+
+    Label $base.message -bg white -autowrap 1 -anchor nw -justify left
+    grid  $base.message -row 1 -column 1 -sticky news -padx 20
+    $id widget set Message -type text -widget $base.message
+
+    Separator $base.sep -orient horizontal
+    grid $base.sep -row 2 -column 0 -columnspan 2 -sticky ew
+}
+
+proc CreateWindow.CustomBlankPane2 {wizard id} {
+    set base  [$wizard widget get $id]
+    set frame $base.titleframe
+
+    grid rowconfigure    $base 3 -weight 1
+    grid columnconfigure $base 0 -weight 1
+
+    frame $frame -bd 0 -relief flat -background white
+    grid  $frame -row 0 -column 0 -sticky nsew
+
+    grid rowconfigure    $frame 1 -weight 1
+    grid columnconfigure $frame 0 -weight 1
+
+    Label $frame.title -background white -anchor nw -justify left -autowrap 1  -font TkCaptionFont -textvariable [$wizard variable $id -text1]
+    grid $frame.title -row 0 -column 0 -sticky new -padx 5 -pady 5
+    $id widget set Title -widget $frame.title
+
+    Label $frame.subtitle -background white -anchor nw -autowrap 1  -justify left -textvariable [$wizard variable $id -text2]
+    grid $frame.subtitle -row 1 -column 0 -sticky new -padx [list 20 5]
+    $id widget set Subtitle -widget $frame.subtitle
+
+    label $frame.icon -borderwidth 0 -background white -anchor c
+    grid  $frame.icon -row 0 -column 1 -rowspan 2
+    $id widget set Icon -widget $frame.icon -type image
+
+    Separator $base.separator -relief groove -orient horizontal
+    grid $base.separator -row 1 -column 0 -sticky ew 
+
+    Label $base.caption -anchor nw -justify left -autowrap 1  -textvariable [$wizard variable $id -text3]
+    grid $base.caption -row 2 -sticky nsew -padx 8 -pady [list 8 4]
+    $id widget set Caption -widget $base.caption
+
+    frame $base.clientarea
+    grid  $base.clientarea -row 3 -sticky nsew -padx 8 -pady 4
+    $id widget set ClientArea -widget $base.clientarea -type frame
+
+    Label $base.message -anchor nw -justify left -autowrap 1  -textvariable [$wizard variable $id -text4]
+    grid $base.message -row 4 -sticky nsew -padx 8 -pady [list 4 8]
+    $id widget set Message -widget $base.message
+}
+
 proc CreateWindow.CopyFiles {wizard id} {
     CreateWindow.CustomBlankPane2 $wizard $id
 
@@ -2623,6 +3307,47 @@ proc CreateWindow.SelectDestination {wizard id} {
     Button $base.frame.browse -command  [list ::InstallAPI::PromptForDirectory -virtualtext $varName]
     grid $base.frame.browse -row 0 -column 1 -sticky nw -padx 5 -pady [list 0 5]
     $id widget set BrowseButton -widget $base.frame.browse
+}
+
+proc CreateWindow.CustomBlankPane2 {wizard id} {
+    set base  [$wizard widget get $id]
+    set frame $base.titleframe
+
+    grid rowconfigure    $base 3 -weight 1
+    grid columnconfigure $base 0 -weight 1
+
+    frame $frame -bd 0 -relief flat -background white
+    grid  $frame -row 0 -column 0 -sticky nsew
+
+    grid rowconfigure    $frame 1 -weight 1
+    grid columnconfigure $frame 0 -weight 1
+
+    Label $frame.title -background white -anchor nw -justify left -autowrap 1  -font TkCaptionFont -textvariable [$wizard variable $id -text1]
+    grid $frame.title -row 0 -column 0 -sticky new -padx 5 -pady 5
+    $id widget set Title -widget $frame.title
+
+    Label $frame.subtitle -background white -anchor nw -autowrap 1  -justify left -textvariable [$wizard variable $id -text2]
+    grid $frame.subtitle -row 1 -column 0 -sticky new -padx [list 20 5]
+    $id widget set Subtitle -widget $frame.subtitle
+
+    label $frame.icon -borderwidth 0 -background white -anchor c
+    grid  $frame.icon -row 0 -column 1 -rowspan 2
+    $id widget set Icon -widget $frame.icon -type image
+
+    Separator $base.separator -relief groove -orient horizontal
+    grid $base.separator -row 1 -column 0 -sticky ew 
+
+    Label $base.caption -anchor nw -justify left -autowrap 1  -textvariable [$wizard variable $id -text3]
+    grid $base.caption -row 2 -sticky nsew -padx 8 -pady [list 8 4]
+    $id widget set Caption -widget $base.caption
+
+    frame $base.clientarea
+    grid  $base.clientarea -row 3 -sticky nsew -padx 8 -pady 4
+    $id widget set ClientArea -widget $base.clientarea -type frame
+
+    Label $base.message -anchor nw -justify left -autowrap 1  -textvariable [$wizard variable $id -text4]
+    grid $base.message -row 4 -sticky nsew -padx 8 -pady [list 4 8]
+    $id widget set Message -widget $base.message
 }
 
 proc CreateWindow.SetupComplete {wizard id} {
@@ -3153,7 +3878,7 @@ File ::4BFE8A96-D949-5EC4-84B4-3AB5C49A859D -name chronojump_glossary_for_transl
 File ::F53057AC-BD65-06F0-7944-553DDC81849C -name chronojump_manual_es.pdf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.6.2.6/docs -size 480837 -mtime 1207239663 -filemethod "Update files with more recent dates"
 File ::85AC4398-331B-8375-E4CE-EF1D6158BB24 -name COPYING -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.6.2.6/docs -size 17992 -mtime 1207239663 -filemethod "Update files with more recent dates"
 File ::5971DDFD-4299-BB49-5635-82E8C940958B -name INSTALL -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.6.2.6/docs -size 112 -mtime 1207239663 -filemethod "Update files with more recent dates"
-File ::C5BA1B99-62CC-67B6-08EC-C736D2133517 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.6.2.6/linux -size 4096 -mtime 1207239663 -filemethod "Update files with more recent dates"
+File ::C5BA1B99-62CC-67B6-08EC-C736D2133517 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.6.2.6/linux -size 4096 -mtime 1208214834 -filemethod "Update files with more recent dates"
 File ::6B410F78-8372-CDDA-73B4-8DC3E9A7B80F -name chronojump.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.6.2.6/linux -size 1628 -mtime 1207239663 -filemethod "Update files with more recent dates"
 File ::D7A5E44C-6E95-A2A5-A101-A5D4C60CABE2 -name chronojump_mini.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.6.2.6/linux -size 1633 -mtime 1207239663 -filemethod "Update files with more recent dates"
 File ::0EAFDEEB-6FF6-2F24-4AD3-A0108939845C -name chronopic-tests -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.6.2.6/linux/chronopic-tests -size 4096 -mtime 1207239663 -filemethod "Update files with more recent dates"
@@ -3211,6 +3936,7 @@ File ::C93AF4FC-4CE5-25CB-E5A3-BB76B98CE8AA -name tmp -parent B183954F-56CA-1FEB
 File ::EE832603-C2F4-D446-DD8D-A6BB688A1D56 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.6.2.6/linux/chronopic-tests/.svn/tmp/prop-base -size 4096 -mtime 1207239663 -filemethod "Update files with more recent dates"
 File ::58A3C2E2-95E0-FD15-96A8-B0A347AAA7F8 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.6.2.6/linux/chronopic-tests/.svn/tmp/props -size 4096 -mtime 1207239663 -filemethod "Update files with more recent dates"
 File ::A7F4B395-A022-2AF9-E9CD-12060F4BB24B -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.6.2.6/linux/chronopic-tests/.svn/tmp/text-base -size 4096 -mtime 1207239663 -filemethod "Update files with more recent dates"
+File ::BD281B18-1E44-7DB2-459B-AFA2C629079A -name findMonoVersion.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -alias findMonoVersionLinux -directory <%InstallDir%>/chronojump-0.6.2.6/linux -size 58 -mtime 1208214779 -filemethod "Update files with more recent dates"
 File ::B6DBE000-C6D7-E5DC-8F29-77054ED501A2 -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.6.2.6/windows -size 4096 -mtime 1207239663 -filemethod "Update files with more recent dates"
 File ::D039B703-ABF9-A8DE-FB94-9A589ED7C95E -name chronojump.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.6.2.6/windows -size 936 -mtime 1207239663 -filemethod "Update files with more recent dates"
 File ::1D256F4D-03E0-F822-3C21-5AB1B48DE5AB -name chronojump_mini.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.6.2.6/windows -size 941 -mtime 1207239663 -filemethod "Update files with more recent dates"
@@ -3274,7 +4000,7 @@ package require tkpng
 if {$::conf(x11)} {
 tile::setTheme jammer
 }
-array set ::images {70364F59-3542-E36E-FC43-18B295772C15,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif 073E3F8C-ADC8-8230-15C8-2F8108592782,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif E3A9B2B7-66C3-77C4-5DB2-F25E797E1697,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif B74F7D6B-E488-489F-9A42-BEB18C73F13F,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif C9CE9239-3C5E-97E6-0F98-4619F52759BB,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif 8CD31907-2778-AC4C-A178-FB58C43712DF,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif}
+array set ::images {E3A9B2B7-66C3-77C4-5DB2-F25E797E1697,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif B74F7D6B-E488-489F-9A42-BEB18C73F13F,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif 8CD31907-2778-AC4C-A178-FB58C43712DF,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif 073E3F8C-ADC8-8230-15C8-2F8108592782,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif 10254803-9C89-39D8-7879-B04E8250B6B5,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif 70364F59-3542-E36E-FC43-18B295772C15,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif C9CE9239-3C5E-97E6-0F98-4619F52759BB,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif 20C00248-3AE3-CB93-995E-00DE937D87F2,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Icon /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,Image /home/xavier/installjammer/Images/Modern/SetupModern01.gif}
 image create photo /home/xavier/installjammer/Images/Modern/Small/SetupModernSmall01.gif -data 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
 image create photo /home/xavier/installjammer/Images/Modern/SetupModern01.gif -data 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
 
@@ -20328,7 +21054,7 @@ Windows,ProgramReadme
 <%InstallDir%>/README.txt
 
 Windows,WindowsIcon
-{Setup Blue Screen.ico}
+/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon.ico
 
 ZipArchive,Active
 No
@@ -22127,6 +22853,20 @@ set $statusVar [lindex $::errorCode 2]
 if {[info exists pwd]} { cd $pwd }
 }
 
+proc ::InstallJammer::conditions::ExecuteScriptCondition {obj} {
+$obj properties props -subst {ResultVirtualText}
+
+set script  [::InstallJammer::SubstForEval $props(Script)]
+set varName ::info($props(ResultVirtualText))
+set result [uplevel #0 [list catch $script $varName]]
+
+if {$result != 0 && $result != 2} {
+return -code error $result:[set $varName]
+}
+
+return [string is true -strict [set $varName]]
+}
+
 proc ::InstallJammer::actions::Exit {obj} {
 global info
 
@@ -22704,6 +23444,17 @@ after 0 [list $info(Wizard) next 1]
 }
 }
 
+proc ::InstallJammer::actions::MoveToPane {obj} {
+global info
+
+set id [$obj get Pane]
+set id [::InstallJammer::ID $id]
+
+after 0 [list ::InstallJammer::Wizard raise $id]
+
+$info(Wizard) order [concat [$info(Wizard) order] $id]
+}
+
 proc ::InstallJammer::conditions::PlatformCondition {obj} {
 global info
 
@@ -22722,8 +23473,49 @@ return [expr {$info(Platform) ne $props(Platform)}]
 }
 }
 
+proc ::InstallJammer::conditions::RegistryTestCondition {obj} {
+$obj properties props -subst 1
+
+set key $props(RegistryKey)
+set val $props(RegistryValue)
+
+if {![string length $val]} {
+debug "Checking to see if registry key $key $props(Operator)"
+set exists [expr {[catch { registry values $key }] == 0}]
+} else {
+debug "Checking to see if registry value $key:$val $props(Operator)"
+set exists [expr {[catch { registry get $key $val }] == 0}]
+}
+
+if {$props(Operator) eq "exists"} {
+return $exists
+} else {
+return [expr {!$exists}]
+}
+}
+
 proc ::InstallJammer::conditions::ScriptCondition {obj} {
 return [::InstallJammer::EvalCondition [$obj get Script]]
+}
+
+proc ::InstallJammer::actions::SetVirtualText {obj} {
+$obj properties props -subst {SubstituteValue VirtualText}
+
+set value $props(Value)
+if {$props(SubstituteValue)} {
+set value [::InstallJammer::SubstText $value]
+}
+
+set args [list -subst 0]
+lappend args -language $props(Language)
+lappend args -virtualtext $props(VirtualText)
+lappend args -value $value
+
+if {$props(AutoUpdate) ne ""} {
+lappend args -autoupdate $props(AutoUpdate)
+}
+
+eval ::InstallAPI::SetVirtualText $args
 }
 
 proc ::InstallJammer::conditions::StringIsCondition {obj} {
@@ -22739,6 +23531,25 @@ return [expr {[string trim $string] eq ""}]
 return [expr {[string trim $string] ne ""}]
 } else {
 return [string is $props(Operator) -strict $string]
+}
+}
+
+proc ::InstallJammer::conditions::StringMatchCondition {obj} {
+$obj properties props
+
+debug "Checking to see if $props(String) $props(Operator) $props(Pattern)"
+
+set string  [::InstallJammer::SubstText $props(String)]
+set pattern [::InstallJammer::SubstText $props(Pattern)]
+
+set cmd [list string match]
+if {!$props(MatchCase)} { lappend cmd -nocase }
+lappend cmd $pattern $string
+
+if {$props(Operator) eq "matches"} {
+return [eval $cmd]
+} else {
+return [expr {![eval $cmd]}]
 }
 }
 
@@ -24003,13 +24814,33 @@ thread::send -async $::tid ::installkit::base
 InstallType ::Common
 InstallType ::Standard
 InstallComponent 70364F59-3542-E36E-FC43-18B295772C15 -setup Install -type pane -title {Welcome Screen} -component Welcome -active Yes -parent Standard
-InstallComponent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -setup Install -type pane -conditions 5A102ED2-6522-7E2D-6206-6241C1C5B4D4 -title {Mono Windows install} -component CustomBlankPane1 -command reorder -alias {Mono Windows install} -active Yes -parent Standard
+InstallComponent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -setup Install -type pane -conditions {5A102ED2-6522-7E2D-6206-6241C1C5B4D4 F3ADE40C-1315-8E0A-906B-103FAE94CF0E} -title {Mono Windows install} -component CustomBlankPane1 -command reorder -alias {Mono Windows install} -active Yes -parent Standard
 Condition 5A102ED2-6522-7E2D-6206-6241C1C5B4D4 -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -title {Platform Condition} -component PlatformCondition
-InstallComponent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -setup Install -type action -conditions FFAF0F01-244A-26B7-A100-C1713A1CFE2F -title {Execute Action} -component ExecuteAction -operator OR -command reorder -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
+Condition F3ADE40C-1315-8E0A-906B-103FAE94CF0E -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -title {Registry Test Condition} -component RegistryTestCondition
+InstallComponent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -setup Install -type action -conditions FFAF0F01-244A-26B7-A100-C1713A1CFE2F -title InstallMonoWindowsActions -component ExecuteAction -operator OR -command reorder -alias InstallMonoWindowsActions -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
 Condition FFAF0F01-244A-26B7-A100-C1713A1CFE2F -active Yes -parent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -title {Platform Condition} -component PlatformCondition
-InstallComponent 5885E39B-93A5-C6CA-87FF-D7EB541987DC -setup Install -type pane -conditions {06439964-2080-5441-6DFC-BE7A414FE24B 6FAE09A2-F5C2-3A66-E1F7-F8637923414A} -title {Mono Linux No Exists} -component CustomBlankPane2 -command reorder -alias {Mono Linux No Exists} -active Yes -parent Standard
+InstallComponent C1D1F678-E415-9B9E-1A79-05D862F4EB8A -setup Install -type action -title {Move to Pane} -component MoveToPane -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
+InstallComponent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC -setup Install -type pane -conditions {68A5D7DF-5635-A07F-831D-C0E3B6F569CD 4DBD4C4B-2EBE-1500-7BD7-26BA0100E091} -title {Mono Windows outdated} -component CustomBlankPane2 -command reorder -alias {Mono Windows outdated} -active Yes -parent Standard
+Condition 68A5D7DF-5635-A07F-831D-C0E3B6F569CD -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC -title {Platform Condition} -component PlatformCondition
+Condition 4DBD4C4B-2EBE-1500-7BD7-26BA0100E091 -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC -title {Execute Script Condition} -component ExecuteScriptCondition
+InstallComponent 61FE1D29-2076-0530-AB92-3E0902C94937 -setup Install -type action -conditions 724C50CE-B8B5-D202-605A-0C0D4784E504 -title getMonoVersion -component SetVirtualText -operator OR -command insert -alias getMonoVersion -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
+Condition 724C50CE-B8B5-D202-605A-0C0D4784E504 -active Yes -parent 61FE1D29-2076-0530-AB92-3E0902C94937 -title {Platform Condition} -component PlatformCondition
+InstallComponent 30093C0D-05D6-3393-B564-D7E08CEDFAC3 -setup Install -type action -conditions 555ABE88-A754-9EC6-63AA-AE54E5C868E2 -title InstallMonoWindowsActions2 -component ExecuteAction -command reorder -alias InstallMonoWindowsActions2 -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
+Condition 555ABE88-A754-9EC6-63AA-AE54E5C868E2 -active Yes -parent 30093C0D-05D6-3393-B564-D7E08CEDFAC3 -title {Platform Condition} -component PlatformCondition
+InstallComponent 49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3 -setup Install -type action -title {Move to Pane} -component MoveToPane -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
+InstallComponent 10254803-9C89-39D8-7879-B04E8250B6B5 -setup Install -type pane -conditions {C298C2E9-3B69-82BE-556E-671E30277A8A 39F46615-DB3E-E7E8-463A-531CB0B37B46 AE8E9951-5FA8-E483-6D2C-E5E48F75D332} -title {Mono updated} -component CustomBlankPane1 -command reorder -alias {Mono updated} -active Yes -parent Standard
+Condition C298C2E9-3B69-82BE-556E-671E30277A8A -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Platform Condition} -component PlatformCondition
+Condition 39F46615-DB3E-E7E8-463A-531CB0B37B46 -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Registry Test Condition} -component RegistryTestCondition
+Condition AE8E9951-5FA8-E483-6D2C-E5E48F75D332 -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Execute Script Condition} -component ExecuteScriptCondition
+InstallComponent 5885E39B-93A5-C6CA-87FF-D7EB541987DC -setup Install -type pane -conditions {06439964-2080-5441-6DFC-BE7A414FE24B 6FAE09A2-F5C2-3A66-E1F7-F8637923414A} -title {Mono Linux No Exists} -component CustomBlankPane2 -command insert -alias {Mono Linux No Exists} -active Yes -parent Standard
 Condition 06439964-2080-5441-6DFC-BE7A414FE24B -active Yes -parent 5885E39B-93A5-C6CA-87FF-D7EB541987DC -title {Platform Condition} -component PlatformCondition
 Condition 6FAE09A2-F5C2-3A66-E1F7-F8637923414A -active Yes -parent 5885E39B-93A5-C6CA-87FF-D7EB541987DC -title {File Exists Condition} -component FileExistsCondition
+InstallComponent 20C00248-3AE3-CB93-995E-00DE937D87F2 -setup Install -type pane -conditions {696B86A1-D42F-CBF8-83F5-3D1A7797C4FA A545C725-682C-47F2-C75F-8DAF3561DD7A AAE60ACA-914E-ED46-E817-E8405D899055} -title {Mono Linux outdated} -component CustomBlankPane2 -command insert -alias {Mono Linux outdated} -active Yes -parent Standard
+Condition 696B86A1-D42F-CBF8-83F5-3D1A7797C4FA -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2 -title {Platform Condition} -component PlatformCondition
+Condition A545C725-682C-47F2-C75F-8DAF3561DD7A -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2 -title {String Match Condition} -component StringMatchCondition
+Condition AAE60ACA-914E-ED46-E817-E8405D899055 -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2 -title {Execute Script Condition} -component ExecuteScriptCondition
+InstallComponent 7712A4D7-4666-C9A2-B274-8EF5024FC5C2 -setup Install -type action -title uncompressFindMonoLinux -component UnpackStoredFile -alias uncompressFindMonoLinux -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2
+InstallComponent 468697B3-57DC-BA29-2D10-4D0BCB1271DA -setup Install -type action -title {Execute External Program} -component ExecuteExternalProgram -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2
 InstallComponent E55EF3C7-ED39-DCC2-538F-81A46E080F8A -setup Install -type pane -conditions {21617B35-8D01-5A86-DB35-86E5F090902A C7ED3A19-3E0D-1162-F05C-367D3ABE881F} -title {Select Destination} -component SelectDestination -command insert -active Yes -parent Standard
 Condition 21617B35-8D01-5A86-DB35-86E5F090902A -active Yes -parent E55EF3C7-ED39-DCC2-538F-81A46E080F8A -title {Script Condition} -component ScriptCondition
 Condition C7ED3A19-3E0D-1162-F05C-367D3ABE881F -active Yes -parent E55EF3C7-ED39-DCC2-538F-81A46E080F8A -title {File Permission Condition} -component FilePermissionCondition
@@ -24055,7 +24886,7 @@ Condition 19F2DF18-82AF-7F49-64C2-061CFB249FD3 -active Yes -parent F8EBB3C0-597D
 Condition 2204086F-F5B9-392D-E5E1-8C0EDFB4D38B -active Yes -parent F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23 -title {File Exists Condition} -component FileExistsCondition
 InstallComponent 25BB083B-B2C6-F7C4-1452-A26D799DA353 -setup Install -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroups
 InstallComponent 385B710C-AC92-98CC-0B32-9E9DBAF28646 -setup Install -type actiongroup -title installMonoWindowsActions -alias installMonoWindowsActions -active Yes -parent ActionGroups
-InstallComponent C01D7E5D-42C8-06E3-AA57-861C46733A59 -setup Install -type action -title uncompressMonoWindows -component UnpackStoredFile -alias uncompressMonoWindows -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
+InstallComponent C01D7E5D-42C8-06E3-AA57-861C46733A59 -setup Install -type action -title uncompressMonoWindows -component UnpackStoredFile -command reorder -alias uncompressMonoWindows -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
 InstallComponent 96C99CFD-D1AB-A304-994B-F325CB5126D2 -setup Install -type action -title {install mono from windows executable} -component ExecuteExternalProgram -alias {install mono from windows executable} -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
 
 

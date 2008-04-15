@@ -27,7 +27,7 @@ echo Path of Mono: "%monoFullPath%"
 
 if exist "%monoFullPath%" goto ExecuteChronojump
 
-echo "Mono not installed. Download from mono-project.com"
+echo "Mono not installed. Please, reinstall Chronojump."
 pause
 exit
 

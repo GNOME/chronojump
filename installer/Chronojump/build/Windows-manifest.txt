@@ -191,6 +191,7 @@
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/linux/chronopic-tests/.svn/text-base/test-tramas.c.svn-base 3DF4C8A3-2697-1511-E635-144093AA7C0D zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/linux/chronopic-tests/.svn/text-base/test.cs.svn-base 3A552329-CDC3-0484-9F5B-61CB6EDB3A39 zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/linux/chronopic-tests/.svn/text-base/test.prj.svn-base D5C72AD6-3299-0A7B-DEE1-AC9C86CB7533 zlib
+/home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/linux/findMonoVersion.sh BD281B18-1E44-7DB2-459B-AFA2C629079A zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/windows/chronojump.bat D039B703-ABF9-A8DE-FB94-9A589ED7C95E zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/windows/chronojump_mini.bat 1D256F4D-03E0-F822-3C21-5AB1B48DE5AB zlib
 {/home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/windows/driver/CDM 2.02.04.exe} DD63F9E9-2A1A-5E3B-863B-B3F5510A4D96 zlib

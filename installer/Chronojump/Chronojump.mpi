@@ -98,6 +98,12 @@ No
 LaunchApplication
 Yes
 
+MonoLinuxMinimumVersion
+1.2.4
+
+MonoWindowsMinimumVersion
+1.2.9
+
 PackageDescription
 {}
 
@@ -750,6 +756,7 @@ File ::C93AF4FC-4CE5-25CB-E5A3-BB76B98CE8AA -type dir -name tmp -parent 8D877670
 File ::EE832603-C2F4-D446-DD8D-A6BB688A1D56 -type dir -name prop-base -parent C93AF4FC-4CE5-25CB-E5A3-BB76B98CE8AA
 File ::58A3C2E2-95E0-FD15-96A8-B0A347AAA7F8 -type dir -name props -parent C93AF4FC-4CE5-25CB-E5A3-BB76B98CE8AA
 File ::A7F4B395-A022-2AF9-E9CD-12060F4BB24B -type dir -name text-base -parent C93AF4FC-4CE5-25CB-E5A3-BB76B98CE8AA
+File ::BD281B18-1E44-7DB2-459B-AFA2C629079A -name findMonoVersion.sh -alias findMonoVersionLinux -parent C5BA1B99-62CC-67B6-08EC-C736D2133517
 File ::B6DBE000-C6D7-E5DC-8F29-77054ED501A2 -type dir -name windows -parent E8F5A846-2BA2-E453-2411-41458B874846
 File ::D039B703-ABF9-A8DE-FB94-9A589ED7C95E -name chronojump.bat -parent B6DBE000-C6D7-E5DC-8F29-77054ED501A2
 File ::1D256F4D-03E0-F822-3C21-5AB1B48DE5AB -name chronojump_mini.bat -parent B6DBE000-C6D7-E5DC-8F29-77054ED501A2
@@ -789,23 +796,33 @@ SetupType ::C603314B-D0E6-64D1-4F05-0E8226B3B689 -setup Install -active Yes -pla
 SetupType ::E99F83E5-0807-6800-4DA6-CF3A4A12E5BF -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows} -name Custom -parent SetupTypes
 
 InstallComponent 70364F59-3542-E36E-FC43-18B295772C15 -setup Install -type pane -title {Welcome Screen} -component Welcome -active Yes -parent StandardInstall
-InstallComponent 1687E6E5-216D-5339-704A-1DBC27773B79 -setup Install -type pane -conditions {DFF20855-5B3B-5C2C-A677-17BD05AFED78 75450875-4CDC-1F2C-D4FA-7AD4AFA6A339} -title {Mono Windows No exists} -component CustomTextPane1 -command reorder -alias {Mono Windows No exists} -active No -parent StandardInstall
-Condition DFF20855-5B3B-5C2C-A677-17BD05AFED78 -active Yes -parent 1687E6E5-216D-5339-704A-1DBC27773B79 -title {Platform Condition} -component PlatformCondition
-Condition 75450875-4CDC-1F2C-D4FA-7AD4AFA6A339 -active Yes -parent 1687E6E5-216D-5339-704A-1DBC27773B79 -title {Registry Test Condition} -component RegistryTestCondition
-InstallComponent 1C39E905-AF2C-210E-1A01-E720041F721E -setup Install -type pane -conditions {5A96BB13-76E6-59F6-B856-AA0A25C549E7 3666541F-9F84-1653-3EA2-D471D841EF86} -title {Mono Windows outdated} -component CustomTextPane1 -command reorder -alias {Mono Windows outdated} -active No -parent StandardInstall
-Condition 5A96BB13-76E6-59F6-B856-AA0A25C549E7 -active Yes -parent 1C39E905-AF2C-210E-1A01-E720041F721E -title {Platform Condition} -component PlatformCondition
-Condition 3666541F-9F84-1653-3EA2-D471D841EF86 -active Yes -parent 1C39E905-AF2C-210E-1A01-E720041F721E -title {Registry Test Condition} -component RegistryTestCondition
-InstallComponent 61FE1D29-2076-0530-AB92-3E0902C94937 -setup Install -type action -conditions 724C50CE-B8B5-D202-605A-0C0D4784E504 -title {Set Virtual Text} -component SetVirtualText -operator OR -command reorder -active No -parent 1C39E905-AF2C-210E-1A01-E720041F721E
-Condition 724C50CE-B8B5-D202-605A-0C0D4784E504 -active Yes -parent 61FE1D29-2076-0530-AB92-3E0902C94937 -title {Platform Condition} -component PlatformCondition
-InstallComponent 6643DB35-B5EF-B765-B9B0-C80B82CE15D3 -setup Install -type action -conditions 0577BB53-7B77-50A2-D647-8CF6FC981FE3 -title {Execute Action} -component ExecuteAction -operator OR -command reorder -active No -parent 1C39E905-AF2C-210E-1A01-E720041F721E
-Condition 0577BB53-7B77-50A2-D647-8CF6FC981FE3 -active Yes -parent 6643DB35-B5EF-B765-B9B0-C80B82CE15D3 -title {Platform Condition} -component PlatformCondition
-InstallComponent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -setup Install -type pane -conditions 5A102ED2-6522-7E2D-6206-6241C1C5B4D4 -title {Mono Windows install} -component CustomBlankPane1 -command reorder -alias {Mono Windows install} -active Yes -parent StandardInstall
+InstallComponent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -setup Install -type pane -conditions {5A102ED2-6522-7E2D-6206-6241C1C5B4D4 F3ADE40C-1315-8E0A-906B-103FAE94CF0E} -title {Mono Windows install} -component CustomBlankPane1 -command reorder -alias {Mono Windows install} -active Yes -parent StandardInstall
 Condition 5A102ED2-6522-7E2D-6206-6241C1C5B4D4 -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -title {Platform Condition} -component PlatformCondition
-InstallComponent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -setup Install -type action -conditions FFAF0F01-244A-26B7-A100-C1713A1CFE2F -title {Execute Action} -component ExecuteAction -operator OR -command reorder -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
+Condition F3ADE40C-1315-8E0A-906B-103FAE94CF0E -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -title {Registry Test Condition} -component RegistryTestCondition
+InstallComponent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -setup Install -type action -conditions FFAF0F01-244A-26B7-A100-C1713A1CFE2F -title InstallMonoWindowsActions -component ExecuteAction -operator OR -command reorder -alias InstallMonoWindowsActions -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
 Condition FFAF0F01-244A-26B7-A100-C1713A1CFE2F -active Yes -parent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -title {Platform Condition} -component PlatformCondition
-InstallComponent 5885E39B-93A5-C6CA-87FF-D7EB541987DC -setup Install -type pane -conditions {06439964-2080-5441-6DFC-BE7A414FE24B 6FAE09A2-F5C2-3A66-E1F7-F8637923414A} -title {Mono Linux No Exists} -component CustomBlankPane2 -command reorder -alias {Mono Linux No Exists} -active Yes -parent StandardInstall
+InstallComponent C1D1F678-E415-9B9E-1A79-05D862F4EB8A -setup Install -type action -title {Move to Pane} -component MoveToPane -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
+InstallComponent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC -setup Install -type pane -conditions {68A5D7DF-5635-A07F-831D-C0E3B6F569CD 4DBD4C4B-2EBE-1500-7BD7-26BA0100E091} -title {Mono Windows outdated} -component CustomBlankPane2 -command reorder -alias {Mono Windows outdated} -active Yes -parent StandardInstall
+Condition 68A5D7DF-5635-A07F-831D-C0E3B6F569CD -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC -title {Platform Condition} -component PlatformCondition
+Condition 4DBD4C4B-2EBE-1500-7BD7-26BA0100E091 -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC -title {Execute Script Condition} -component ExecuteScriptCondition
+InstallComponent 61FE1D29-2076-0530-AB92-3E0902C94937 -setup Install -type action -conditions 724C50CE-B8B5-D202-605A-0C0D4784E504 -title getMonoVersion -component SetVirtualText -operator OR -command insert -alias getMonoVersion -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
+Condition 724C50CE-B8B5-D202-605A-0C0D4784E504 -active Yes -parent 61FE1D29-2076-0530-AB92-3E0902C94937 -title {Platform Condition} -component PlatformCondition
+InstallComponent 30093C0D-05D6-3393-B564-D7E08CEDFAC3 -setup Install -type action -conditions 555ABE88-A754-9EC6-63AA-AE54E5C868E2 -title InstallMonoWindowsActions2 -component ExecuteAction -command reorder -alias InstallMonoWindowsActions2 -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
+Condition 555ABE88-A754-9EC6-63AA-AE54E5C868E2 -active Yes -parent 30093C0D-05D6-3393-B564-D7E08CEDFAC3 -title {Platform Condition} -component PlatformCondition
+InstallComponent 49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3 -setup Install -type action -title {Move to Pane} -component MoveToPane -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
+InstallComponent 10254803-9C89-39D8-7879-B04E8250B6B5 -setup Install -type pane -conditions {C298C2E9-3B69-82BE-556E-671E30277A8A 39F46615-DB3E-E7E8-463A-531CB0B37B46 AE8E9951-5FA8-E483-6D2C-E5E48F75D332} -title {Mono updated} -component CustomBlankPane1 -command reorder -alias {Mono updated} -active Yes -parent StandardInstall
+Condition C298C2E9-3B69-82BE-556E-671E30277A8A -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Platform Condition} -component PlatformCondition
+Condition 39F46615-DB3E-E7E8-463A-531CB0B37B46 -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Registry Test Condition} -component RegistryTestCondition
+Condition AE8E9951-5FA8-E483-6D2C-E5E48F75D332 -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Execute Script Condition} -component ExecuteScriptCondition
+InstallComponent 5885E39B-93A5-C6CA-87FF-D7EB541987DC -setup Install -type pane -conditions {06439964-2080-5441-6DFC-BE7A414FE24B 6FAE09A2-F5C2-3A66-E1F7-F8637923414A} -title {Mono Linux No Exists} -component CustomBlankPane2 -command insert -alias {Mono Linux No Exists} -active Yes -parent StandardInstall
 Condition 06439964-2080-5441-6DFC-BE7A414FE24B -active Yes -parent 5885E39B-93A5-C6CA-87FF-D7EB541987DC -title {Platform Condition} -component PlatformCondition
 Condition 6FAE09A2-F5C2-3A66-E1F7-F8637923414A -active Yes -parent 5885E39B-93A5-C6CA-87FF-D7EB541987DC -title {File Exists Condition} -component FileExistsCondition
+InstallComponent 20C00248-3AE3-CB93-995E-00DE937D87F2 -setup Install -type pane -conditions {696B86A1-D42F-CBF8-83F5-3D1A7797C4FA A545C725-682C-47F2-C75F-8DAF3561DD7A AAE60ACA-914E-ED46-E817-E8405D899055} -title {Mono Linux outdated} -component CustomBlankPane2 -command insert -alias {Mono Linux outdated} -active Yes -parent StandardInstall
+Condition 696B86A1-D42F-CBF8-83F5-3D1A7797C4FA -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2 -title {Platform Condition} -component PlatformCondition
+Condition A545C725-682C-47F2-C75F-8DAF3561DD7A -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2 -title {String Match Condition} -component StringMatchCondition
+Condition AAE60ACA-914E-ED46-E817-E8405D899055 -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2 -title {Execute Script Condition} -component ExecuteScriptCondition
+InstallComponent 7712A4D7-4666-C9A2-B274-8EF5024FC5C2 -setup Install -type action -title uncompressFindMonoLinux -component UnpackStoredFile -alias uncompressFindMonoLinux -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2
+InstallComponent 468697B3-57DC-BA29-2D10-4D0BCB1271DA -setup Install -type action -title {Execute External Program} -component ExecuteExternalProgram -active Yes -parent 20C00248-3AE3-CB93-995E-00DE937D87F2
 InstallComponent E55EF3C7-ED39-DCC2-538F-81A46E080F8A -setup Install -type pane -conditions {21617B35-8D01-5A86-DB35-86E5F090902A C7ED3A19-3E0D-1162-F05C-367D3ABE881F} -title {Select Destination} -component SelectDestination -command insert -active Yes -parent StandardInstall
 Condition 21617B35-8D01-5A86-DB35-86E5F090902A -active Yes -parent E55EF3C7-ED39-DCC2-538F-81A46E080F8A -title {Script Condition} -component ScriptCondition
 Condition C7ED3A19-3E0D-1162-F05C-367D3ABE881F -active Yes -parent E55EF3C7-ED39-DCC2-538F-81A46E080F8A -title {File Permission Condition} -component FilePermissionCondition
@@ -847,7 +864,7 @@ Condition 19F2DF18-82AF-7F49-64C2-061CFB249FD3 -active Yes -parent F8EBB3C0-597D
 Condition 2204086F-F5B9-392D-E5E1-8C0EDFB4D38B -active Yes -parent F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23 -title {File Exists Condition} -component FileExistsCondition
 InstallComponent 25BB083B-B2C6-F7C4-1452-A26D799DA353 -setup Install -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroupsInstall
 InstallComponent 385B710C-AC92-98CC-0B32-9E9DBAF28646 -setup Install -type actiongroup -title installMonoWindowsActions -alias installMonoWindowsActions -active Yes -parent ActionGroupsInstall
-InstallComponent C01D7E5D-42C8-06E3-AA57-861C46733A59 -setup Install -type action -title uncompressMonoWindows -component UnpackStoredFile -alias uncompressMonoWindows -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
+InstallComponent C01D7E5D-42C8-06E3-AA57-861C46733A59 -setup Install -type action -title uncompressMonoWindows -component UnpackStoredFile -command reorder -alias uncompressMonoWindows -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
 InstallComponent 96C99CFD-D1AB-A304-994B-F325CB5126D2 -setup Install -type action -title {install mono from windows executable} -component ExecuteExternalProgram -alias {install mono from windows executable} -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
 InstallComponent E3A9B2B7-66C3-77C4-5DB2-F25E797E1697 -setup Uninstall -type pane -title Uninstall -component Uninstall -active Yes -parent StandardUninstall
 InstallComponent F4E22616-C4CF-BBE4-B946-A66B8CBAA6AE -setup Uninstall -type action -title {Modify Widget} -component ModifyWidget -active Yes -parent E3A9B2B7-66C3-77C4-5DB2-F25E797E1697
@@ -876,12 +893,6 @@ InstallComponent 976A3095-B0AF-DD3D-9D9D-B9E618FF49B8 -setup Uninstall -type act
 InstallComponent AB7687C5-C2D4-ACBD-F7C6-EB90D67A2B14 -setup Uninstall -type actiongroup -title {Cancel Actions} -alias {Cancel Actions} -active Yes -parent ActionGroupsUninstall
 
 array set Properties {
-0577BB53-7B77-50A2-D647-8CF6FC981FE3,CheckCondition
-{Before Action is Executed}
-
-0577BB53-7B77-50A2-D647-8CF6FC981FE3,Platform
-Windows
-
 06439964-2080-5441-6DFC-BE7A414FE24B,Platform
 Linux-x86
 
@@ -924,41 +935,35 @@ disabled
 099A6D97-6A29-C866-5C8E-E131E2D8715E,Widget
 {Back Button;Next Button}
 
+10254803-9C89-39D8-7879-B04E8250B6B5,Active
+Yes
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Alias
+{Mono updated}
+
+10254803-9C89-39D8-7879-B04E8250B6B5,BackButton,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,CancelButton,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Caption,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Conditions
+{3 conditions}
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Message,subst
+1
+
+10254803-9C89-39D8-7879-B04E8250B6B5,NextButton,subst
+1
+
 12BBAD85-A1BB-2F0E-874F-2638E1CE6B6F,CheckCondition
 {Before Action is Executed}
 
 12BBAD85-A1BB-2F0E-874F-2638E1CE6B6F,Filename
 <%ProgramExecutable%>
-
-1687E6E5-216D-5339-704A-1DBC27773B79,Alias
-{Mono Windows No exists}
-
-1687E6E5-216D-5339-704A-1DBC27773B79,BackButton,subst
-1
-
-1687E6E5-216D-5339-704A-1DBC27773B79,CancelButton,subst
-1
-
-1687E6E5-216D-5339-704A-1DBC27773B79,Caption,subst
-1
-
-1687E6E5-216D-5339-704A-1DBC27773B79,Conditions
-{2 conditions}
-
-1687E6E5-216D-5339-704A-1DBC27773B79,Message,subst
-1
-
-1687E6E5-216D-5339-704A-1DBC27773B79,NextButton,subst
-1
-
-1687E6E5-216D-5339-704A-1DBC27773B79,Subtitle,subst
-1
-
-1687E6E5-216D-5339-704A-1DBC27773B79,Text,subst
-1
-
-1687E6E5-216D-5339-704A-1DBC27773B79,Title,subst
-1
 
 19575E4F-426E-D67A-A2B5-F4FF3D3C2E48,Alias
 {Startup Actions}
@@ -972,38 +977,41 @@ disabled
 19F2DF18-82AF-7F49-64C2-061CFB249FD3,String
 <%LaunchApplication%>
 
-1C39E905-AF2C-210E-1A01-E720041F721E,Alias
-{Mono Windows outdated}
-
-1C39E905-AF2C-210E-1A01-E720041F721E,BackButton,subst
-1
-
-1C39E905-AF2C-210E-1A01-E720041F721E,CancelButton,subst
-1
-
-1C39E905-AF2C-210E-1A01-E720041F721E,Caption,subst
-1
-
-1C39E905-AF2C-210E-1A01-E720041F721E,Conditions
-{2 conditions}
-
-1C39E905-AF2C-210E-1A01-E720041F721E,Message,subst
-1
-
-1C39E905-AF2C-210E-1A01-E720041F721E,NextButton,subst
-1
-
-1C39E905-AF2C-210E-1A01-E720041F721E,Subtitle,subst
-1
-
-1C39E905-AF2C-210E-1A01-E720041F721E,Text,subst
-1
-
-1C39E905-AF2C-210E-1A01-E720041F721E,Title,subst
-1
-
 1DB48011-D41C-AA1E-206F-D6AD5EC08E98,Action
 {Uninstall Actions}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Active
+Yes
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Alias
+{Mono Linux outdated}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,BackButton,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Buttons
+Back/Cancel
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,CancelButton,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Caption,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Conditions
+{3 conditions}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Message,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,NextButton,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Subtitle,subst
+1
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Title,subst
+1
 
 21617B35-8D01-5A86-DB35-86E5F090902A,Comment
 {Do not display this pane if this is an upgrade install unless there is more than one installation present}
@@ -1026,17 +1034,26 @@ disabled
 294C1998-2566-C983-7BE0-ECB818A339C6,Conditions
 {0 conditions}
 
-3666541F-9F84-1653-3EA2-D471D841EF86,RegistryKey
-{HKEY_LOCAL_MACHINE\Software\Novell\Mono}
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,Action
+installMonoWindowsActions
 
-3666541F-9F84-1653-3EA2-D471D841EF86,RegistryValue
-DefaultCLR
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,Alias
+InstallMonoWindowsActions2
+
+30093C0D-05D6-3393-B564-D7E08CEDFAC3,Conditions
+{1 condition}
 
 385B710C-AC92-98CC-0B32-9E9DBAF28646,Alias
 installMonoWindowsActions
 
 385B710C-AC92-98CC-0B32-9E9DBAF28646,Conditions
 {0 conditions}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,RegistryKey
+{HKEY_LOCAL_MACHINE\Software\Novell\Mono}
+
+39F46615-DB3E-E7E8-463A-531CB0B37B46,RegistryValue
+DefaultCLR
 
 3ED374ED-8769-C2E1-A5B4-2611FF0E8792,CheckCondition
 {Before Action is Executed}
@@ -1046,6 +1063,39 @@ false
 
 3ED374ED-8769-C2E1-A5B4-2611FF0E8792,String
 <%UpgradeInstall%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Active
+Yes
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Alias
+{Mono Windows outdated}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,BackButton,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Buttons
+Back/Cancel
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,CancelButton,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Caption,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Conditions
+{2 conditions}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,NextButton,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Subtitle,subst
+1
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Title,subst
+1
 
 43A515B8-D335-D77D-4CF0-025B35D62CFD,CheckCondition
 {Before Action is Executed}
@@ -1080,6 +1130,18 @@ false
 45FA42A3-FF18-AAEE-71C4-EA26E9E01DAF,Name
 {Mono for Windows}
 
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,Conditions
+{0 conditions}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ExecuteAction
+{Before Pane is Displayed}
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,IncludeStderr
+Yes
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ProgramCommandLine
+<%Temp%>/findMonoVersionLinux.sh
+
 48B4932D-8D72-1214-5078-F33A9BD89960,Background
 white
 
@@ -1100,6 +1162,12 @@ CreateDesktopShortcut
 
 48B4932D-8D72-1214-5078-F33A9BD89960,Y
 180
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,Conditions
+{0 conditions}
+
+49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3,Pane
+10254803-9C89-39D8-7879-B04E8250B6B5
 
 4C240F7C-5F6E-02EC-206D-F0D9BA5BEA68,CheckCondition
 {Before Action is Executed}
@@ -1128,6 +1196,15 @@ LaunchApplication
 4C465E6F-9D44-F4D7-8064-5ECE64239B91,Y
 160
 
+4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,Script
+{set installedVersion [::registry get HKEY_LOCAL_MACHINE\\Software\\Novell\\Mono DefaultCLR]
+set minimumVersion <%MonoWindowsMinimumVersion%>
+
+if {[package vcompare $minimumVersion $installedVersion] > 0} {
+    return 1
+}
+return 0}
+
 53A63017-8385-B8EE-142A-65136147FA12,Conditions
 {0 conditions}
 
@@ -1136,6 +1213,12 @@ LaunchApplication
 
 54A3E55E-DDE6-CD53-6011-02D33DF5BFDE,Conditions
 {0 conditions}
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,CheckCondition
+{Before Action is Executed}
+
+555ABE88-A754-9EC6-63AA-AE54E5C868E2,Platform
+Windows
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Active
 Yes
@@ -1146,6 +1229,9 @@ Yes
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,BackButton,subst
 1
 
+58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Buttons
+Back/Cancel
+
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,CancelButton,subst
 1
 
@@ -1153,7 +1239,7 @@ Yes
 1
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Conditions
-{1 condition}
+{2 conditions}
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Message,subst
 1
@@ -1197,9 +1283,6 @@ Back/Cancel
 5A102ED2-6522-7E2D-6206-6241C1C5B4D4,Platform
 Windows
 
-5A96BB13-76E6-59F6-B856-AA0A25C549E7,Platform
-Windows
-
 5C7C0690-2F4B-9108-1252-7B7CB96F9BBF,Comment
 {Ask the user if they want to proceed with the uninstall.}
 
@@ -1215,11 +1298,14 @@ false
 5D86A438-171D-8286-765B-F1A104123527,String
 <%InstallStopped%>
 
-61FE1D29-2076-0530-AB92-3E0902C94937,Active
-No
+61FE1D29-2076-0530-AB92-3E0902C94937,Alias
+getMonoVersion
 
 61FE1D29-2076-0530-AB92-3E0902C94937,Conditions
 {1 condition}
+
+61FE1D29-2076-0530-AB92-3E0902C94937,ExecuteAction
+{Before Pane is Displayed}
 
 61FE1D29-2076-0530-AB92-3E0902C94937,SubstituteValue
 Yes
@@ -1242,14 +1328,11 @@ YourRegValue
 63831127-5A65-DA44-4ED2-ED24BB923572,Conditions
 {0 conditions}
 
-6643DB35-B5EF-B765-B9B0-C80B82CE15D3,Action
-installMonoWindowsActions
+68A5D7DF-5635-A07F-831D-C0E3B6F569CD,Platform
+Windows
 
-6643DB35-B5EF-B765-B9B0-C80B82CE15D3,Active
-No
-
-6643DB35-B5EF-B765-B9B0-C80B82CE15D3,Conditions
-{1 condition}
+696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,Platform
+Linux-x86
 
 69A2A177-FC12-F18C-FB99-67C3AC5C9E7D,ExitType
 Finish
@@ -1257,11 +1340,14 @@ Finish
 6B7975BC-0F80-AACD-DE3D-C40A372B33B4,Action
 installMonoWindowsActions
 
+6B7975BC-0F80-AACD-DE3D-C40A372B33B4,Alias
+InstallMonoWindowsActions
+
 6B7975BC-0F80-AACD-DE3D-C40A372B33B4,Conditions
 {1 condition}
 
 6FAE09A2-F5C2-3A66-E1F7-F8637923414A,Filename
-/usr/bin/monoguarro
+/usr/bin/mono
 
 6FAE09A2-F5C2-3A66-E1F7-F8637923414A,Operator
 {does not exist}
@@ -1296,14 +1382,23 @@ Windows
 72A1FC56-A3AC-2105-DA7D-B11AEC75993E,String
 <%GuiMode%>
 
-75450875-4CDC-1F2C-D4FA-7AD4AFA6A339,Operator
-{does not exist}
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,AddToUninstall
+No
 
-75450875-4CDC-1F2C-D4FA-7AD4AFA6A339,RegistryKey
-{HKEY_LOCAL_MACHINE\Software\Novell\Mono}
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,Alias
+uncompressFindMonoLinux
 
-75450875-4CDC-1F2C-D4FA-7AD4AFA6A339,RegistryValue
-DefaultCLR
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,Conditions
+{0 conditions}
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,ExecuteAction
+{Before Pane is Displayed}
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,FileID
+findMonoVersionLinux
+
+7712A4D7-4666-C9A2-B274-8EF5024FC5C2,TargetFilename
+findMonoVersionLinux.sh
 
 7BB33D54-49D1-24FA-27C9-D8C442EF0711,CheckCondition
 {Before Action is Executed}
@@ -1431,6 +1526,21 @@ Yes
 9F8AFA18-08BD-4746-1CF7-6A889DDE0671,Prompt
 <%UninstallStartupText%>
 
+A545C725-682C-47F2-C75F-8DAF3561DD7A,Pattern
+{*\.*\.*}
+
+A545C725-682C-47F2-C75F-8DAF3561DD7A,String
+<%ExternalProgramResult%>
+
+AAE60ACA-914E-ED46-E817-E8405D899055,Script
+{set installedVersion <%ExternalProgramResult%>
+set minimumVersion <%MonoLinuxMinimumVersion%>
+
+if {[package vcompare $minimumVersion $installedVersion] > 0} {
+    return 1
+}
+return 0}
+
 AB7687C5-C2D4-ACBD-F7C6-EB90D67A2B14,Alias
 {Cancel Actions}
 
@@ -1439,6 +1549,15 @@ AB7687C5-C2D4-ACBD-F7C6-EB90D67A2B14,Conditions
 
 ACE850F7-7260-0918-ED4D-A043B59676BD,Conditions
 {1 condition}
+
+AE8E9951-5FA8-E483-6D2C-E5E48F75D332,Script
+{set installedVersion [::registry get HKEY_LOCAL_MACHINE\\Software\\Novell\\Mono DefaultCLR]
+set minimumVersion <%MonoWindowsMinimumVersion%>
+
+if {[package vcompare $minimumVersion $installedVersion] <= 0} {
+    return 1
+}
+return 0}
 
 AIX-ppc,Active
 No
@@ -1495,7 +1614,7 @@ B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,Destination
 <%InstallDir%>
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,FileSize
-12720127
+12720185
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,Name
 {Program Files}
@@ -1584,6 +1703,15 @@ monoInstallerWindows
 C01D7E5D-42C8-06E3-AA57-861C46733A59,TargetFilename
 monoInstallerWindows.exe
 
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,Conditions
+{0 conditions}
+
+C1D1F678-E415-9B9E-1A79-05D862F4EB8A,Pane
+10254803-9C89-39D8-7879-B04E8250B6B5
+
+C298C2E9-3B69-82BE-556E-671E30277A8A,Platform
+Windows
+
 C603314B-D0E6-64D1-4F05-0E8226B3B689,Components
 CB2F63A8-BB7B-D37D-3B41-BEF87CD243A3
 
@@ -1658,9 +1786,6 @@ DF44E112-7C44-054E-DDC6-7B8E119C230E,Alias
 
 DF44E112-7C44-054E-DDC6-7B8E119C230E,Conditions
 {0 conditions}
-
-DFF20855-5B3B-5C2C-A677-17BD05AFED78,Platform
-Windows
 
 E082CAC8-715F-5B82-42E3-7B2FD48577E9,CheckCondition
 {Before Action is Executed}
@@ -1775,6 +1900,15 @@ EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,Message,subst
 
 EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,NextButton,subst
 1
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,Operator
+{does not exist}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,RegistryKey
+{HKEY_LOCAL_MACHINE\Software\Novell\Mono}
+
+F3ADE40C-1315-8E0A-906B-103FAE94CF0E,RegistryValue
+DefaultCLR
 
 F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message,subst
 1
@@ -2230,7 +2364,7 @@ Windows,ProgramReadme
 <%InstallDir%>/README.txt
 
 Windows,WindowsIcon
-{Setup Blue Screen.ico}
+/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon.ico
 
 ZipArchive,Active
 No
@@ -2312,6 +2446,12 @@ F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message
 0AE57E9D-B4AD-5CA6-42A6-67C96B5650F1,Message
 <%InstallingApplicationText%>
 
+10254803-9C89-39D8-7879-B04E8250B6B5,Caption
+<%MonoInstall%>
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Message
+<%MonoUpdated%>
+
 1687E6E5-216D-5339-704A-1DBC27773B79,Caption
 {}
 
@@ -2348,6 +2488,21 @@ F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message
 1C39E905-AF2C-210E-1A01-E720041F721E,Title
 <%MonoInstall%>
 
+20C00248-3AE3-CB93-995E-00DE937D87F2,Caption
+{<%MonoOutdated%>
+
+Mono minimum version: <%MonoLinuxMinimumVersion%>
+Installed version: <%ExternalProgramResult%>}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Message
+<%MonoInstallLinuxText%>
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Subtitle
+{}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Title
+<%MonoInstall%>
+
 25175547-8EFB-FFC2-4CD1-5848355ECEA8,Text
 <%CreateDesktopShortcutText%>
 
@@ -2360,6 +2515,21 @@ F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message
 360FDD97-C0CF-BE1B-9279-01C4DB2FA808,Title
 <%MonoSearching%>
 
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Caption
+{<%MonoOutdated%>
+
+Mono minimum version: <%MonoWindowsMinimumVersion%>
+Installed version: <%YourRegValue%>}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message
+<%MonoInstalling%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Subtitle
+{}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Title
+<%MonoInstall%>
+
 48B4932D-8D72-1214-5078-F33A9BD89960,Text
 <%CreateDesktopShortcutText%>
 
@@ -2368,6 +2538,11 @@ F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message
 
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Caption
 <%MonoInstall%>
+
+58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Message
+{<%MonoNoExists%>
+
+<%MonoInstalling%>}
 
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Caption
 <%MonoNoExists%>
@@ -2380,6 +2555,12 @@ F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message
 
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Title
 <%MonoInstall%>
+
+70364F59-3542-E36E-FC43-18B295772C15,Caption
+{Welcome to the <%AppName%> installer}
+
+87ED237F-CE72-8397-BA3A-E302EDC71336,Message
+{script condition, version: <%Version%> - <%ScriptResult%>}
 
 8938D967-84AB-9BC6-DFEC-AA60B8C1390A,Message
 <%InstallStartupText%>
@@ -2451,7 +2632,10 @@ MonoInstall
 {Mono Installation}
 
 MonoInstallLinuxText
-{Install Mono package from your distribution sources or from http://www.mono-project.com}
+{Please install/upgrade Mono package from your distribution sources or from http://www.mono-project.com}
+
+MonoInstalling
+{Mono will be installed now, please wait a few seconds...}
 
 MonoNoExists
 {Mono program was not found. Mono is needed by Chronojump}
@@ -2462,10 +2646,19 @@ MonoOutdated
 MonoSearching
 {Searching Mono program}
 
+MonoUpdated
+{Mono is updated}
+
 }
 ::msgcat::mcmset es {
 0AE57E9D-B4AD-5CA6-42A6-67C96B5650F1,Message
 <%InstallingApplicationText%>
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Caption
+<%MonoInstall%>
+
+10254803-9C89-39D8-7879-B04E8250B6B5,Message
+<%MonoUpdated%>
 
 1687E6E5-216D-5339-704A-1DBC27773B79,Caption
 {}
@@ -2491,8 +2684,43 @@ MonoSearching
 1C39E905-AF2C-210E-1A01-E720041F721E,Title
 <%MonoInstall%>
 
+20C00248-3AE3-CB93-995E-00DE937D87F2,Caption
+{<%MonoOutdated%>
+
+Version minima de Mono: <%MonoLinuxMinimumVersion%>
+Version instalada: <%ExternalProgramResult%>}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Message
+<%MonoInstallLinuxText%>
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Subtitle
+{}
+
+20C00248-3AE3-CB93-995E-00DE937D87F2,Title
+<%MonoInstall%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Caption
+{<%MonoOutdated%>
+
+Version minimia de Mono: <%MonoWindowsMinimumVersion%>
+Version instalada: <%YourRegValue%>}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message
+<%MonoInstalling%>
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Subtitle
+{}
+
+3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Title
+<%MonoInstall%>
+
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Caption
 <%MonoInstall%>
+
+58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Message
+{<%MonoNoExists%>
+
+<%MonoInstalling%>}
 
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Caption
 <%MonoNoExists%>
@@ -2506,17 +2734,66 @@ MonoSearching
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Title
 <%MonoInstall%>
 
+70364F59-3542-E36E-FC43-18B295772C15,Caption
+{Bienvenido al instalador de <%AppName%>}
+
+70364F59-3542-E36E-FC43-18B295772C15,Message
+{Este programa instalara <%AppName%> version <%Version%> en su equipo. 
+
+Se recomienda cerrar las demas aplicaciones antes de continuar.  
+
+Pulse siguiente para continuar o Cancelar para salir de la instalacion.}
+
+8CD31907-2778-AC4C-A178-FB58C43712DF,Caption
+{Se ha recopilado la informacion necesaria para comenzar a copiar los  archivos del programa. Si desea revisar o cambiar la configuracion,  pulse Atras. Si esta conforme con la configuracion, pulse Siguiente para  comenzar a copiar los archivos.}
+
+8CD31907-2778-AC4C-A178-FB58C43712DF,Subtitle
+{Revise la configuracion antes de copiar los archivos}
+
+8CD31907-2778-AC4C-A178-FB58C43712DF,Text
+{Directorio de Instalacion:
+            <%InstallDir%>
+
+Tipo de Instalacion:
+            <%InstallType%>}
+
 8D3722F8-BA23-F5B9-73B0-B18088989F1E,Message
 <%UninstallingApplicationText%>
 
+ApplicationReadmeText
+{<%AppName%> Leeme}
+
+Back
+Atras
+
+CleanupInstallText
+{Limpiando instalacion...}
+
+CustomInstallDescription
+{Seleccione los componentes de la instalacion.}
+
 DatabaseMove
-{La base de datos se ubicará aquí.}
+{La base de datos se ubicara aqui.}
 
 DatabaseOldLinux
 /home/user/.chronojump
 
 DatabaseOldWindows
 {c:\.chronojump}
+
+E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Caption
+{Se instalara <%AppName%> en la siguiente carpeta.
+
+Para instalar  en esa carpeta, pulse Siguiente. Para instalar en una carpeta diferente,  pulse Examinar y seleccione otra.}
+
+E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Message
+<%DatabaseMove%>
+
+EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,Message
+{El Wizard InstallJammer ha instalado <%AppName%> con exito.   Pulse Finalizar para salir de este wizard.}
+
+ExitText
+{¿Seguro que desea salir de la instalacion?}
 
 F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message
 <%UninstallCompleteText%>
@@ -2533,26 +2810,44 @@ FE8DC2B2-DB01-2933-B570-C75AB6828798,Text
 FE8DC2B2-DB01-2933-B570-C75AB6828798,Title
 <%MonoInstall%>
 
+InstallCompleteText
+{Instalacion completa...}
+
+InstallPrepareText
+{Preparando instalacion...}
+
 MonoDownloading
 {Descargando Mono (download) por favor, espere.}
 
 MonoInstall
-{Instalación de Mono}
+{Instalacion de Mono}
 
 MonoInstallLinuxText
-{Instale Mono desde los paquetes de esta distribución de Linux o desde http://www.mono-project.com}
+{Por favor instale/actualice Mono desde los paquetes de esta distribucion de Linux o desde http://www.mono-project.com}
+
+MonoInstalling
+{Mono sera instalado ahora, por favor, espere unos segundos...}
 
 MonoNoExists
 {No se ha encontrado el programa: Mono. Mono es indispensable para que funcione Chronojump}
 
 MonoOutdated
-{La versión de Mono está desfasada.}
+{La version de Mono esta desactualizada.}
 
 MonoSearching
 {Buscando el programa: Mono}
 
+MonoUpdated
+{Mono se encuentra actualizado}
+
+TypicalInstallDescription
+{Una instalación tipica.}
+
 UninstallStartupText
-{Esto borrará <%AppName%> de su sistema. ¿Está seguro de que desea hacerlo? Nota: la base de datos no será borrada}
+{Esto borrara <%AppName%> de su sistema. ¿Esta seguro de que desea hacerlo? Nota: la base de datos no sera borrada}
+
+ViewReadmeText
+{Ver Leeme}
 
 }
 ::msgcat::mcmset fr {

@@ -1,5 +1,21 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+15 apr 2008
+	installer finished (only some tests remain):
+	-knows if mono linux is outdated (added findMonoVersion.sh)
+	-mono windows outdated detection improved
+	-when windows mono installer ends it goes to "mono installed pane"
+	-spanish strings without accents, because it's unsupported in
+	installjammer
+	-windows icon added
+	-manages ok upgrades in windows
+
+	if chronojump is installed on windows and mono gets uninstalled, when
+	Chronojump executes it says we need to reinstall chronojump. If done
+	it works.
+
+	updated spanish translation
+
 14 apr 2008
 	installer improvements:
 	-packs mono on windows, and executes it (in a new "mono" component)

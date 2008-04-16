@@ -3285,7 +3285,7 @@ msgstr "Continuar corriendo una distancia de 20m"
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
 #: ../src/sqlite/speciallity.cs:150
 msgid "Diving"
-msgstr "Buceo"
+msgstr "Clavados (saltos)"
 
 #: ../src/sqlite/speciallity.cs:151
 msgid "Swimming"
@@ -3325,7 +3325,7 @@ msgstr "Bobsleigh"
 
 #: ../src/sqlite/speciallity.cs:163
 msgid "Skeleton"
-msgstr "Esqueleto"
+msgstr "Esqueleton"
 
 #: ../src/sqlite/speciallity.cs:165
 msgid "Flatwater"
@@ -3357,7 +3357,7 @@ msgstr "Doma"
 
 #: ../src/sqlite/speciallity.cs:174
 msgid "Eventing"
-msgstr "Eventos"
+msgstr "Eventing"
 
 #: ../src/sqlite/speciallity.cs:175
 msgid "jumping"
@@ -3365,11 +3365,11 @@ msgstr "salto"
 
 #: ../src/sqlite/speciallity.cs:177
 msgid "Artistic"
-msgstr "Artístico"
+msgstr "Artística"
 
 #: ../src/sqlite/speciallity.cs:178
 msgid "Rhythmic"
-msgstr "Rítmico"
+msgstr "Rítmica"
 
 #: ../src/sqlite/speciallity.cs:179
 msgid "Trampoline"
@@ -3425,14 +3425,14 @@ msgstr "Estilo libre"
 
 #: ../src/sqlite/speciallity.cs:196
 msgid "Greco-Roman"
-msgstr "Greco-romano"
+msgstr "Greco-romana"
 
 #. true or false means if it has speciallities
 #. will be 1
 #. will be 2
 #: ../src/sqlite/sport.cs:176
 msgid "Aquatics"
-msgstr "Acuático"
+msgstr "Deported acuáticos"
 
 #: ../src/sqlite/sport.cs:177
 msgid "Archery"
@@ -3476,7 +3476,7 @@ msgstr "Ciclismo"
 
 #: ../src/sqlite/sport.cs:188
 msgid "Equestrian"
-msgstr "Ecuestre"
+msgstr "Hípica"
 
 #: ../src/sqlite/sport.cs:189
 msgid "Fencing"
@@ -3540,7 +3540,7 @@ msgstr "Softball"
 
 #: ../src/sqlite/sport.cs:204
 msgid "Table Tennis"
-msgstr "Tenis de mesa (ping-pong)"
+msgstr "Tenis de mesa"
 
 #: ../src/sqlite/sport.cs:205
 msgid "Taekwondo"

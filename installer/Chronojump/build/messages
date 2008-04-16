@@ -1,4 +1,10 @@
 ::msgcat::mcmset en {
+0AE11E2D-F492-3791-416D-377D44CD1986,Caption
+{}
+
+0AE11E2D-F492-3791-416D-377D44CD1986,Message
+{}
+
 0AE57E9D-B4AD-5CA6-42A6-67C96B5650F1,Message
 <%InstallingApplicationText%>
 
@@ -7,6 +13,12 @@
 
 10254803-9C89-39D8-7879-B04E8250B6B5,Message
 <%MonoUpdated%>
+
+12C7B081-AB4C-1176-7B09-DC035633E046,Caption
+<%ChronopicDriverInstall%>
+
+12C7B081-AB4C-1176-7B09-DC035633E046,Message
+<%ChronopicDriverInstallTextDone%>
 
 1687E6E5-216D-5339-704A-1DBC27773B79,Caption
 {}
@@ -23,8 +35,14 @@
 1687E6E5-216D-5339-704A-1DBC27773B79,Title
 <%MonoInstall%>
 
+185B7D70-7C90-35BF-2125-184B9390CD78,Title
+b
+
 1A18D171-B320-746D-BA57-14B6F6DB8B31,Message
 <%InstallationCompleteText%>
+
+1BE0CECD-1381-F152-4055-825DEEAB0E74,Title
+a
 
 1C200065-5747-9440-69CB-EBF2F570AAF4,Text
 <%LaunchApplicationText%>
@@ -112,8 +130,23 @@ Installed version: <%YourRegValue%>}
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Title
 <%MonoInstall%>
 
+62008144-9BEC-EA43-C500-C40D669E497D,Text
+<%ChronopicDriverInstallTextDone%>
+
+6B7F07E0-B020-EA7D-AF7D-C98450DAEE78,Title
+c
+
 70364F59-3542-E36E-FC43-18B295772C15,Caption
 {Welcome to the <%AppName%> installer}
+
+7EACFD07-D349-A66C-36E7-0AFA70E879CB,Caption
+<%ChronopicDriverInstall%>
+
+7EACFD07-D349-A66C-36E7-0AFA70E879CB,Message
+<%ChronopicDriverInstallText%>
+
+82B4C476-C41B-3339-0100-E7B46A8A1E6D,Title
+c
 
 87ED237F-CE72-8397-BA3A-E302EDC71336,Message
 {script condition, version: <%Version%> - <%ScriptResult%>}
@@ -138,6 +171,9 @@ Installed version: <%YourRegValue%>}
 
 9ED74213-30B3-C655-22F8-C1797E4D215E,Message
 <%ExternalProgramResult%>
+
+A26E2EC4-FDB8-9C38-D22E-0F3A9AA16FF8,Caption
+<%ChronopicDriverInstall%>
 
 ApplicationReadmeText
 {<%AppName%> Readme}
@@ -186,6 +222,15 @@ ChooseComponents,Subtitle
 
 ChooseComponents,Title
 {Select Components}
+
+ChronopicDriverInstall
+{Install Chronopic driver}
+
+ChronopicDriverInstallText
+{Chronopic driver is going to be installed now. Please wait a few seconds...}
+
+ChronopicDriverInstallTextDone
+{Installed Chronopic driver. Please press "Next" }
 
 CleanupInstallText
 {Cleaning up install...}
@@ -331,6 +376,12 @@ ExitText
 F3B2BC0E-685C-2E69-AC75-2C946771EC85,Message
 <%UninstallCompleteText%>
 
+F628A387-3A9F-02FD-D357-74143CD81542,Title
+b
+
+FB6EF1B1-3F8D-111D-C6C8-056ACEE75A72,Title
+a
+
 FE8DC2B2-DB01-2933-B570-C75AB6828798,Caption
 {}
 
@@ -455,7 +506,7 @@ MonoInstallLinuxText
 {Please install/upgrade Mono package from your distribution sources or from http://www.mono-project.com}
 
 MonoInstalling
-{Mono will be installed now, please wait a few seconds...}
+{Mono will be installed now. Please wait a few seconds...}
 
 MonoNoExists
 {Mono program was not found. Mono is needed by Chronojump}
@@ -820,6 +871,12 @@ Yes
 
 }
 ::msgcat::mcmset es {
+0AE11E2D-F492-3791-416D-377D44CD1986,Caption
+{}
+
+0AE11E2D-F492-3791-416D-377D44CD1986,Message
+{}
+
 0AE57E9D-B4AD-5CA6-42A6-67C96B5650F1,Message
 <%InstallingApplicationText%>
 
@@ -828,6 +885,12 @@ Yes
 
 10254803-9C89-39D8-7879-B04E8250B6B5,Message
 <%MonoUpdated%>
+
+12C7B081-AB4C-1176-7B09-DC035633E046,Caption
+<%ChronopicDriverInstall%>
+
+12C7B081-AB4C-1176-7B09-DC035633E046,Message
+<%ChronopicDriverInstallTextDone%>
 
 1687E6E5-216D-5339-704A-1DBC27773B79,Caption
 {}
@@ -913,6 +976,12 @@ Se recomienda cerrar las demas aplicaciones antes de continuar.
 
 Pulse siguiente para continuar o Cancelar para salir de la instalacion.}
 
+7EACFD07-D349-A66C-36E7-0AFA70E879CB,Caption
+<%ChronopicDriverInstall%>
+
+7EACFD07-D349-A66C-36E7-0AFA70E879CB,Message
+<%ChronopicDriverInstallText%>
+
 8CD31907-2778-AC4C-A178-FB58C43712DF,Caption
 {Se ha recopilado la informacion necesaria para comenzar a copiar los  archivos del programa. Si desea revisar o cambiar la configuracion,  pulse Atras. Si esta conforme con la configuracion, pulse Siguiente para  comenzar a copiar los archivos.}
 
@@ -970,6 +1039,15 @@ ChooseComponents,Subtitle
 
 ChooseComponents,Title
 {Seleccionar Componentes}
+
+ChronopicDriverInstall
+{Instalación del driver de Chronopic}
+
+ChronopicDriverInstallText
+{El driver de la placa Chronopic va a ser instalado. Por favor, espere unos segundos...}
+
+ChronopicDriverInstallTextDone
+{instalado el driver de la Chronopic. Por favor, pulse "Siguiente"}
 
 CleanupInstallText
 {Limpiando instalacion...}
@@ -1142,7 +1220,7 @@ InstallPrepareText
 {Preparando instalacion...}
 
 InstallStartupText
-{Se va a instalar <%AppName%> en su equipo.  ¿Continuar?}
+{Se va a instalar <%AppName%> en su equipo. ¿Continuar?}
 
 LaunchApplicationText
 {Ejecutar <%AppName%>}
@@ -1184,7 +1262,7 @@ MonoInstallLinuxText
 {Por favor instale/actualice Mono desde los paquetes de esta distribucion de Linux o desde http://www.mono-project.com}
 
 MonoInstalling
-{Mono sera instalado ahora, por favor, espere unos segundos...}
+{Mono sera instalado ahora. Por favor, espere unos segundos...}
 
 MonoNoExists
 {No se ha encontrado el programa: Mono. Mono es indispensable para que funcione Chronojump}
@@ -1518,7 +1596,7 @@ Welcome,NextButton
 {<%Next%> >}
 
 Yes
-Sí
+Si
 
 }
 

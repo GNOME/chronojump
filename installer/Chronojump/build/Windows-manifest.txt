@@ -1,4 +1,5 @@
 /home/xavier/informatica/progs_meus/chronojump/chronojump/installer/Chronojump/mono_windows/mono-1.9-gtksharp-2.10.4-win32-4.exe FB83CFB5-53B6-C34F-A75C-7ED4AC33029F zlib
+/home/xavier/informatica/progs_meus/chronojump/chronojump/installer/Chronojump/ftdi_driver/CDM_2.02.04.exe D4AA336A-962E-E597-3596-7CB3A1360387 zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/chronojump.prg EE0A8EBF-A025-6ED1-FD8F-8F52BF4D20CF zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/chronojump.prg.mdb 9FF93A40-3107-0F44-C71C-8149A569951C zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/chronojump_mini.prg 277B2C35-3932-1D72-494A-495B4416D1E6 zlib
@@ -137,6 +138,7 @@
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/windows_dlls/NPlot.dll.config BAC38E8D-5A07-BBE1-C7A4-9B32C6B5D855 zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/windows_dlls/NPlot.Gtk.dll FCABE1AD-F18B-10A6-C1DA-BA9A440FA5B9 zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/windows_dlls/NPlot.Gtk.dll.config D81EBD7B-1EBE-EC17-8F55-B1A867CC6268 zlib
+/home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/data/chronojump_icon.ico 2068F88F-3A04-7BFC-0B0C-AC0EB6E0B26F zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/docs/AUTHORS 7E690672-32B0-837B-089B-B21BF2B69B2B zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/docs/changelog.txt 008FA06B-C057-E0CD-50D4-3F3F2724EC3A zlib
 /home/xavier/informatica/progs_meus/chronojump/chronojump/releases/chronojump-0.6.2.6/docs/chronojump_glossary_for_translators.html 4BFE8A96-D949-5EC4-84B4-3AB5C49A859D zlib

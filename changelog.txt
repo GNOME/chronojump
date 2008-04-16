@@ -1,5 +1,18 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+16 apr 2008
+	installer done. Fixed bug: 514593
+	-mono on linux now checked with "which mono"
+	-added install of Chronopic3 driver on windows
+	-mono minimum components installed, and done silent install (only show
+	progressbar): <%Temp%>/monoInstallerWindows.exe
+	/COMPONENTS=mono,gtk,gtk\\gtkSharp /SILENT
+	-fixed bug in linux about virtual text and reading from windows
+	registry (now it jumps (moves-to) windows panels)
+
+	updated catalan translation
+	revised spanish translation
+
 15 apr 2008
 	installer finished (only some tests remain):
 	-knows if mono linux is outdated (added findMonoVersion.sh)

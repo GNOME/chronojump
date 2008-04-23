@@ -34,23 +34,3 @@ Possibilitat d'exportar les dades dels salts a fulls de càlcul (format CSV).
 <p>
 Creació d'informes personalitzats de totes les dades obtingudes i els estadístics (format HTML). 
 
-<h5>Característiques del cronòmetre</h5>
-
-L'aparell Cronometrador: Chronopic, està basat en la targeta Entrenadora Skypic (consulteu la documentació), i ofereix una precisió d'una mil·lèsima de segon, segons s'ha pogut comprovar. 
-<p>
-Alguns sistemes de cronometratge del salt fan servir, únicament, un ordinador personal connectat a la plataforma. Els ordinadors actuals són multifuncions, característica que els impedeix garantir un mesurament fiable,  pel fet que poden estar realitzant qualsevol altra tasca en aquell mateix moment. Més informació a l'apartat <a href="hardware_ca.html">Maquinari</a>.
-
- <p>
- 
- <h5>Característiques de la plataforma</h5>
-
- La plataforma de contactes es pot fabricar tal i com s'explica a l'apartat <a href="hardware_ca.html">Maquinari</a>.
-
- <h5>Característiques futures</h5>
-
-Breument s'hi volen implementar les següents funcions: 
-<ul>
-<li>Es preveu la possibilitat de substituir les plataformes de contactes per cèl·lules fotoelèctriques. El mètode de fabricació de cèl·lules fotoelèctriques encara no està descrit, si teniu informació referent a aquest tema, preguem la seva col·laboració. 
-<li>Possibilitat de modificar la sensibilitat del cronòmetre a cada salt. 
-<li>Si desitgeu altres característiques, no dubteu en demanar-les a les llistes de correu.
-</ul>

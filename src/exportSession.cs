@@ -51,9 +51,10 @@ public class ExportSession
 	}
 
 	//public ExportSession(Session mySession, Gtk.Window app1, Gnome.AppBar mainAppbar) 
-	public ExportSession(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar) 
+	public ExportSession(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar, int prefsDigitsNumber) 
 	{
 		this.mySession = mySession;
+		this.prefsDigitsNumber = prefsDigitsNumber;
 		myAppbar = mainAppbar;
 		
 		checkFile("none");
@@ -679,9 +680,10 @@ public class ExportSession
 public class ExportSessionCSV : ExportSession 
 {
 	
-	public ExportSessionCSV(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar) 
+	public ExportSessionCSV(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar, int prefsDigitsNumber) 
 	{
 		this.mySession = mySession;
+		this.prefsDigitsNumber = prefsDigitsNumber;
 		myAppbar = mainAppbar;
 		checkFile("CSV");
 	}
@@ -721,10 +723,11 @@ public class ExportSessionXML : ExportSession
 {
 	private XmlTextWriter xr;
 		
-	public ExportSessionXML(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar) 
+	public ExportSessionXML(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar, int prefsDigitsNumber) 
 	//public ExportXML(Session mySession, Gtk.Window app1) 
 	{
 		this.mySession = mySession;
+		this.prefsDigitsNumber = prefsDigitsNumber;
 		//this.app1 = app1;
 		myAppbar = mainAppbar;
 		

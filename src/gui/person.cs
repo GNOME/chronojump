@@ -1206,7 +1206,7 @@ public class PersonAddMultipleWindow {
 			bool repeated = false;
 			if(Util.RemoveTilde(newNames[i].ToString()).Length > 0) {
 				int j;
-				for(j=i+1; j<10 && !repeated; j++) {
+				for(j=i+1; j < newNames.Count && !repeated; j++) {
 					if( Util.RemoveTilde(newNames[i].ToString()) == Util.RemoveTilde(newNames[j].ToString()) ) {
 						repeated = true;
 					}

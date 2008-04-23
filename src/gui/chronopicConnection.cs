@@ -35,6 +35,7 @@ public class ChronopicConnection
 	[Widget] Gtk.ProgressBar progressbar1;
 	[Widget] Gtk.Label label_title;
 	[Widget] Gtk.Label label_feedback;
+	[Widget] Gtk.Label label_manual;
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_close;
 
@@ -63,6 +64,7 @@ public class ChronopicConnection
 	}
 
 	private void initialize() {
+		label_manual.Hide();
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
 		label_title.Sensitive = true;
@@ -91,6 +93,9 @@ public class ChronopicConnection
 		label_feedback.Text = message;
 		button_cancel.Sensitive = false;
 		button_close.Sensitive = true;
+
+		//show info about Chronojump Manual
+		label_manual.Show();
 	}
 
 	private void on_button_cancel_clicked (object o, EventArgs args)

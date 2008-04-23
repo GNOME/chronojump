@@ -1657,9 +1657,9 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_export_session_activate(object o, EventArgs args) {
 		if (o == (object) menuitem_export_csv) {
-			new ExportSessionCSV(currentSession, app1, appbar2);
+			new ExportSessionCSV(currentSession, app1, appbar2, prefsDigitsNumber);
 		} else if (o == (object) menuitem_export_xml) {
-			new ExportSessionXML(currentSession, app1, appbar2);
+			new ExportSessionXML(currentSession, app1, appbar2, prefsDigitsNumber);
 		} else {
 			Console.WriteLine("Error exporting");
 		}

@@ -1,5 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+23 apr 2008
+	Fixed bug in personAddMultiple when it's different than 10
+	Fixed bug in export to CSV (decimals were 0)
+	Info about Chronojump Manual when Chronopic connection fails and at
+	helpPorts
+
 16 apr 2008
 	installer done. Fixed bug: 514593
 	-mono on linux now checked with "which mono"

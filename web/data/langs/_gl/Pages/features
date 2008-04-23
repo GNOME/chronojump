@@ -37,20 +37,3 @@ Exportación de saltos a follas de cálculo (formato CSV).
 <p>
 Creación de informes personalizados de todos os datos obtidos e das estatísticas (formato HTML). 
 
-<h5>Características do cronómetro</h5>
- O Cronómetro: Chronopic, está baseado na tarxeta Adestradora Skypic (consulte documentación), e ofrece unha precisión de 1 milésima de segundo tal e como se comprobou. <tt>[Pendente de explicitarse esta comprobación]</tt>.
- <p> Algúns sistemas de cronometraxe do salto empregan unicamente un ordenador persoal conectado á plataforma. Os ordenadores modernos son multitarefa, característica que impide garantir unha medición fiable debido a que poden estar realizando calquera outra tarefa nese momento. Máis información no apartado de <a href="hardware_gl.html">Hardware</a>.
- <p>
- <h5>Características da plataforma</h5>
-
- A plataforma de contactos pode ser fabricada como se explica no apartado de <a href="hardware_gl.html">Hardware</a>.
-
- <h5>Características futuras</h5>
-
- En breve, espérase engadir tamén as seguintes funcións:
- <ul> 
- <li>Apúntase a posibilidade de substituír as plataformas de contactos por células fotoeléctricas. O método de fabricación de células fotoeléctricas aínda non está descrito, se ten información ao respecto, pregamos a súa colaboración. 
- <li>Posibilidade de modificar a sensibilidade do cronómetro en cada salto.
- <li>Se desexa outras aplicacións, non dubide en solicitalo mediante as listas de correo.
- </ul>
-

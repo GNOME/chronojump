@@ -91,10 +91,8 @@ Sí, s'ha creat una forma simulada, on s'executen salts, curses de durada aleat�
 <p><li>Quan sortirà la versió 1.0 i quines prestacions tindrà? 
 <p>
 A data d'avui (versió :::currentVersion:::), el Chronojump ja té més prestacions que la resta de solucions comercials i no-comercials de què tenim coneixement. Però encara queden molts aspectes per incorporar i millorar. 
-<!-- Aquests aspectes es descriuen a l'arxiu de <a href="http://cvs.gnome.org/viewcvs/chronojump/roadmap.txt"><i>roadmap</i> o full de ruta</a> (anglès).
--->
 <br>
-Si desitgeu fer peticions de característiques no dubteu a escriure un correu a la llista de correu <a href="contact_ca.html">chronojump-list</a>.
+Si desitgeu fer peticions de característiques no dubteu a escriure un correu a la llista de correu <a href="contact_ca.html">chronojump-list</a>. Accediu a <a href="features_ca.html">més informació de les característiques</a>.
 
 <p><li> Com puc conèixer les darreres novetats del projecte? 
 <p>

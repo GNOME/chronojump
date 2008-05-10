@@ -90,7 +90,7 @@ class SqliteJump : Sqlite
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + fall + ", '" 
 				+  Util.ConvertToPoint(weight) + "', '" + description + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 		dbcon.Close();
@@ -115,7 +115,7 @@ class SqliteJump : Sqlite
 				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", '" + 
 				Util.ConvertToPoint(tvString) + "', '" + Util.ConvertToPoint(tcString) + "', " +
 				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 
@@ -149,7 +149,7 @@ class SqliteJump : Sqlite
 			" AND personSessionWeight.sessionID == jump.sessionID " +
 			" ORDER BY person.uniqueID, jump.uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -211,7 +211,7 @@ class SqliteJump : Sqlite
 			" AND personSessionWeight.sessionID == jumpRj.sessionID " +
 			" ORDER BY person.uniqueID, jumpRj.uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -263,7 +263,7 @@ class SqliteJump : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM jump WHERE uniqueID == " + uniqueID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -294,7 +294,7 @@ class SqliteJump : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -335,7 +335,7 @@ class SqliteJump : Sqlite
 
 		dbcmd.CommandText = "SELECT uniqueID, tcstring, tvstring, jumps, limited FROM jumpRj";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -344,11 +344,11 @@ class SqliteJump : Sqlite
 
 		while(reader.Read()) {
 			if(Util.GetNumberOfJumps(reader[1].ToString(), true) != Util.GetNumberOfJumps(reader[2].ToString(), true)) {
-				Console.WriteLine("Problem with jumpRj: {0}, tcstring{1}, tvstring{2}, jumps{3}, limited{4}", 
+				Log.WriteLine(string.Format("Problem with jumpRj: {0}, tcstring{1}, tvstring{2}, jumps{3}, limited{4}", 
 						reader[0].ToString(), 
 						Util.GetNumberOfJumps(reader[1].ToString(), true).ToString(), 
 						Util.GetNumberOfJumps(reader[2].ToString(), true).ToString(), 
-						reader[3].ToString(), reader[4].ToString());
+						reader[3].ToString(), reader[4].ToString()));
 			}
 		}
 		dbcon.Close();
@@ -365,7 +365,7 @@ class SqliteJump : Sqlite
 			", weight = " + Util.ConvertToPoint(weight) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + jumpID ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -378,7 +378,7 @@ class SqliteJump : Sqlite
 			", weight = " + Util.ConvertToPoint(weight) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + jumpID ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -388,7 +388,7 @@ class SqliteJump : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE " + tableName + " SET weight = " + weight + 
 			" WHERE uniqueID == " + uniqueID ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -398,7 +398,7 @@ class SqliteJump : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "Delete FROM " + jumpTable +
 			" WHERE uniqueID == " + uniqueID;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -409,15 +409,15 @@ class SqliteJump : Sqlite
 		//dbcon.Open();
 		
 		dbcmd.CommandText = "UPDATE jump SET type = 'SJl' WHERE type == 'SJ+'";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		dbcmd.CommandText = "UPDATE jump SET type = 'CMJl' WHERE type == 'CMJ+'";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		dbcmd.CommandText = "UPDATE jump SET type = 'ABKl' WHERE type == 'ABK+'";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		//dbcon.Close();

@@ -90,7 +90,7 @@ class SqlitePreferences : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT value FROM " + Constants.PreferencesTable + 
 			" WHERE name == '" + myName + "'" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		//SqliteDataReader reader;

@@ -112,12 +112,17 @@ int chronopic_get_trama_cambio(int fd, double *t, int *estado)
   //-- Timeout o algun error en recepcion
   if (n!=1) return n;
   
+  //printf("%c-%c-%c-%c-%c",trama[0], trama[1], trama[2], trama[3], trama[4]);
+  //printf("%d-%d-%d-%d-%d",trama[0], trama[1], trama[2], trama[3], trama[4]);
+  printf("%c-%d-%d-%d-%d",trama[0], trama[1], trama[2], trama[3], trama[4]);
+  printf("%f", (trama[2]*65536 + trama[3]*256 + trama[4])*8)/1000);
+  
   //-- Analizar si es una trama de cambio
   if (trama[0]!='X') {
     printf ("Error. Trama desconocida\n");
     return -1;
   }
-  
+
   //-- Obtener el estado
   if (trama[1]!=0 && trama[1]!=1) {
     printf ("Error. Estado no valido\n");
@@ -132,6 +137,8 @@ int chronopic_get_trama_cambio(int fd, double *t, int *estado)
   //-- por 8 para obtenerlo en microseungos. Finalmente hay que dividirlo
   //-- entre 1000 para obtenerlo en milisegundos.
   *t = (double)((trama[2]*65536 + trama[3]*256 + trama[4])*8)/1000;
+
+  printf ("%f", t);
  
   return 1;
 }

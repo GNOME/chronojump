@@ -80,7 +80,7 @@ public class ChronopicConnection
 	}
 
 	public void Connected(string message) {
-		Console.WriteLine("CONNECTED!!");
+		Log.WriteLine("CONNECTED!!");
 		label_title.Sensitive = false;
 		label_feedback.Text = message;
 		button_cancel.Sensitive = false;
@@ -88,7 +88,7 @@ public class ChronopicConnection
 	}
 
 	public void Disconnected(string message) {
-		Console.WriteLine("DISCONNECTED!!");
+		Log.WriteLine("DISCONNECTED!!");
 		label_title.Sensitive = false;
 		label_feedback.Text = message;
 		button_cancel.Sensitive = false;

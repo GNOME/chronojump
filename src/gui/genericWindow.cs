@@ -72,6 +72,11 @@ public class GenericWindow
 		else
 			spinbutton_value.Hide();
 	}
+	
+	public void SetSpinRange(double min, double max) {
+		spinbutton_value.SetRange(min, max);
+	}
+
 
 	protected void on_button_cancel_clicked (object o, EventArgs args)
 	{
@@ -103,6 +108,7 @@ public class GenericWindow
 	public int SpinSelected {
 		get { return (int) spinbutton_value.Value; }
 	}
+	
 
 	~GenericWindow() {}
 	

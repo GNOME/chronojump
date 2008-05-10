@@ -95,7 +95,7 @@ public class EditJumpWindow : EditEventWindow
 		else
 			label_weight_title.Text = label_weight_title.Text.ToString() + " Kg";
 
-		Console.WriteLine("-------------{0}", personWeight);
+		Log.WriteLine(string.Format("-------------{0}", personWeight));
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -182,8 +182,8 @@ public class EditJumpWindow : EditEventWindow
 			double newPersonWeight = SqlitePersonSession.SelectPersonWeight(personID, mySessionID); 
 			//jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
 			jumpPercentWeightForNewPerson = Util.WeightFromKgToPercent(jumpWeightInKg, newPersonWeight); 
-			Console.WriteLine("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
-					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson);
+			Log.WriteLine(string.Format("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
+					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson));
 		}
 
 		return jumpPercentWeightForNewPerson;
@@ -380,7 +380,7 @@ public class RepairJumpRjWindow
 	
 	static public RepairJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
 	{
-		//Console.WriteLine(myJump);
+		//Log.WriteLine(myJump);
 		if (RepairJumpRjWindowBox == null) {
 			RepairJumpRjWindowBox = new RepairJumpRjWindow (parent, myJump, pDN);
 		}
@@ -821,13 +821,13 @@ public class JumpExtraWindow
 	void on_radiobutton_kg_toggled (object o, EventArgs args)
 	{
 		option = "Kg";
-		Console.WriteLine("option: {0}", option);
+		Log.WriteLine(string.Format("option: {0}", option));
 	}
 	
 	void on_radiobutton_weight_toggled (object o, EventArgs args)
 	{
 		option = "%";
-		Console.WriteLine("option: {0}", option);
+		Log.WriteLine(string.Format("option: {0}", option));
 	}
 
 	public Button Button_accept 

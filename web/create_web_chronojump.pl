@@ -48,6 +48,7 @@ my $CVSURL = "http://cvs.gnome.org/viewcvs/chronojump";
 my %languages=();
 my %photos_software=();
 my %photos_hardware=();
+my %photos_community=();
 
 my $languagesFile = "languages.txt";
 my $photosFile = "photos.txt";
@@ -78,8 +79,10 @@ while (<PHOTOSFILE>) {
 	my ($photoType, $photoNumber)=split(/-/,$photoTypeNumber);
 	if($photoType eq 's') {
 		$photos_software{$photoNumber}=$photoLink;
-	} else {
+	} elsif($photoType eq 'h') {
 		$photos_hardware{$photoNumber}=$photoLink;
+	} else {
+		$photos_community{$photoNumber}=$photoLink;
 	}
 }
 close PHOTOSFILE;
@@ -346,6 +349,7 @@ sub getPhotos {
 	$pageContent =~ s/:::hardPhotoNull:::/<td width="250">&nbsp;<\/td><\/tr>\n/g;
 	$pageContent =~ s/:::endSoftwarePhoto:::/<\/td>/g;
 	$pageContent =~ s/:::endHardwarePhoto:::/<\/td><\/tr>\n/g;
+	$pageContent =~ s/:::communityPhoto-(\d+):::/$photos_community{$1}/g;
 
 	return $pageContent;
 }

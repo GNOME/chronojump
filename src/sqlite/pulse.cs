@@ -63,7 +63,7 @@ class SqlitePulse : Sqlite
 				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", '"
 				+ timeString + "', '" + description + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 		dbcon.Close();
@@ -82,7 +82,7 @@ class SqlitePulse : Sqlite
 			" AND pulse.sessionID == " + sessionID + 
 			" ORDER BY person.uniqueID, pulse.uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -125,7 +125,7 @@ class SqlitePulse : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -154,7 +154,7 @@ class SqlitePulse : Sqlite
 			" SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + pulseID ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -163,7 +163,7 @@ class SqlitePulse : Sqlite
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}

@@ -81,7 +81,7 @@ class SqlitePerson : Sqlite
 
 		dbcmd.CommandText = "SELECT name FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -160,7 +160,7 @@ class SqlitePerson : Sqlite
 				" AND person.sportID == sport.UniqueID AND person.speciallityID == speciallity.UniqueID " +
 				" ORDER BY " + sortedBy;
 		}
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader2;
 		reader2 = dbcmd.ExecuteReader();
@@ -227,7 +227,7 @@ finishForeach:
 			" FROM personSessionWeight, session " + 
 			" WHERE personID = " + personID + " AND session.uniqueID == personSessionWeight.sessionID " +
 			" ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -240,7 +240,7 @@ finishForeach:
 		//jumps
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM jump WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -251,7 +251,7 @@ finishForeach:
 		//jumpsRj
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM jumpRj WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -262,7 +262,7 @@ finishForeach:
 		//runs
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM run WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -273,7 +273,7 @@ finishForeach:
 		//runsInterval
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM runInterval WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -284,7 +284,7 @@ finishForeach:
 		//reaction time
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM reactiontime WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -295,7 +295,7 @@ finishForeach:
 		//pulses
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM pulse WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -411,7 +411,7 @@ finishForeach:
 			", practice = " + myPerson.Practice +
 			", description = '" + myPerson.Description +
 			"' WHERE uniqueID == '" + myPerson.UniqueID + "'" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -451,7 +451,7 @@ finishForeach:
 				myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SpeciallityID, myPerson.Practice, myPerson.Description);
 
 		//3rd drop table persons
-		dropTable(Constants.PersonTable);
+		Sqlite.dropTable(Constants.PersonTable);
 
 		//4d create table persons (now with sport related stuff
 		createTable(Constants.PersonTable);
@@ -465,13 +465,15 @@ finishForeach:
 
 
 		//6th drop temp table
-		dropTable(Constants.TempPersonTable);
+		Sqlite.dropTable(Constants.TempPersonTable);
 			
 	}
 	
+	/*
 	private static void dropTable(string tableName) {
 		dbcmd.CommandText = "DROP TABLE " + tableName;
 		dbcmd.ExecuteNonQuery();
 	}
+	*/
 
 }

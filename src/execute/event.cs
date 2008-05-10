@@ -131,7 +131,7 @@ public class EventExecute
 	//public virtual void Simulate(Random randSent)
 	public virtual void SimulateInitValues(Random randSent)
 	{
-		Console.WriteLine("From event.cs");
+		Log.WriteLine("From event.cs");
 
 		//look at the override on jump.cs for a sample
 		
@@ -151,16 +151,13 @@ public class EventExecute
 	{
 		Chronopic.Plataforma myPlatformState  = Chronopic.Plataforma.UNKNOW; //on (in platform), off (jumping), or unknow
 		bool ok = false;
-		Console.WriteLine("A1");
 
 		do {
-			Console.WriteLine("B");
 			try {
 				ok = cp.Read_platform(out myPlatformState);
 			} catch {
-				Console.WriteLine("Manage called after finishing constructor, do later");
+				Log.WriteLine("Manage called after finishing constructor, do later");
 			}
-			Console.WriteLine("C");
 		} while (! ok);
 
 		return myPlatformState;
@@ -199,19 +196,19 @@ public class EventExecute
 		//then thread is dead
 
 		if ( ! thread.IsAlive || cancel) {
-			Console.Write("dying");
+			Log.Write("dying");
 			return false;
 		}
 		Thread.Sleep (50);
-		Console.Write(thread.ThreadState);
+		Log.Write(thread.ThreadState.ToString());
 		return true;
 	}
 
 	public void StopThread() {
 		/*
-		Console.WriteLine("----------ABORTING----------");
+		Log.WriteLine("----------ABORTING----------");
 		thread.Abort();
-		Console.WriteLine("----------ABORTED-----------");
+		Log.WriteLine("----------ABORTED-----------");
 		*/
 	}
 
@@ -246,7 +243,6 @@ public class EventExecute
 		}
 
 		if(needUpdateEventProgressBar) {
-Console.Write("wwa ");				
 			//update event progressbar
 			eventExecuteWin.ProgressBarEventOrTimePreExecution(
 					updateProgressBar.IsEvent,
@@ -255,7 +251,6 @@ Console.Write("wwa ");
 					);  
 
 			needUpdateEventProgressBar = false;
-Console.Write("wwb ");				
 		}
 		
 	
@@ -293,7 +288,7 @@ Console.Write("wwb ");
 		
 		//if the time is too much, finish
 		if(timerCount - simulatedTimeAccumulatedBefore > timeMax) {
-				Console.WriteLine("EXCEEDES MAX!");
+				Log.WriteLine("EXCEEDES MAX!");
 				simulateChangePlatform();
 		}
 		
@@ -307,7 +302,7 @@ Console.Write("wwb ");
 			//double dice = 0;
 			double myRand = rand.NextDouble();
 			double dice = myRand * (simulatedRange *10 +1);
-			Console.WriteLine("rand: {0}, dice: {1}", myRand, dice);
+			Log.WriteLine(string.Format("rand: {0}, dice: {1}", myRand, dice));
 			if (dice < 1)
 			{
 				simulateChangePlatform();
@@ -316,13 +311,13 @@ Console.Write("wwb ");
 	}
 
 	protected void simulateChangePlatform() {
-		Console.Write("Changing!");
-		Console.WriteLine("PRE timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore);
+		Log.Write("Changing!");
+		Log.WriteLine(string.Format("PRE timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore));
 
 		simulatedTimeLast = timerCount - simulatedTimeAccumulatedBefore;
 		//simulatedTimeAccumulatedBefore = timerCount;
 		simulatedTimeAccumulatedBefore = Math.Round(timerCount,2);
-		Console.WriteLine("POST: timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore);
+		Log.WriteLine(string.Format("POST: timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore));
 
 		//change the boolean who points to 'which are the MINs and the MAXs
 		simulatedCurrentTimeIntervalsAreContact = ! simulatedCurrentTimeIntervalsAreContact;
@@ -332,19 +327,19 @@ Console.Write("wwb ");
 		else
 			platformState = Chronopic.Plataforma.ON;
 
-		Console.WriteLine("Changed!");
+		Log.WriteLine("Changed!");
 	}
 			
 	private void updateGraph() {
 		switch(needUpdateGraphType) {
 			case eventType.JUMP:
-				Console.Write("update graph: JUMP");
+				Log.Write("update graph: JUMP");
 				eventExecuteWin.PrepareJumpSimpleGraph(
 						prepareEventGraphJumpSimple.tv, 
 						prepareEventGraphJumpSimple.tc);
 				break;
 			case eventType.JUMPREACTIVE:
-				Console.Write("update graph: JUMPREACTIVE");
+				Log.Write("update graph: JUMPREACTIVE");
 				eventExecuteWin.PrepareJumpReactiveGraph(
 						prepareEventGraphJumpReactive.lastTv, 
 						prepareEventGraphJumpReactive.lastTc,
@@ -353,13 +348,13 @@ Console.Write("wwb ");
 						volumeOn, repetitiveConditionsWin);
 				break;
 			case eventType.RUN:
-				Console.Write("update graph: RUN");
+				Log.Write("update graph: RUN");
 				eventExecuteWin.PrepareRunSimpleGraph(
 						prepareEventGraphRunSimple.time, 
 						prepareEventGraphRunSimple.speed);
 				break;
 			case eventType.RUNINTERVAL:
-				Console.Write("update graph: RUNINTERVAL");
+				Log.Write("update graph: RUNINTERVAL");
 				eventExecuteWin.PrepareRunIntervalGraph(
 						prepareEventGraphRunInterval.distance, 
 						prepareEventGraphRunInterval.lastTime,
@@ -367,13 +362,13 @@ Console.Write("wwb ");
 						volumeOn, repetitiveConditionsWin);
 				break;
 			case eventType.PULSE:
-				Console.Write("update graph: PULSE");
+				Log.Write("update graph: PULSE");
 				eventExecuteWin.PreparePulseGraph(
 						prepareEventGraphPulse.lastTime, 
 						prepareEventGraphPulse.timesString);
 				break;
 			case eventType.REACTIONTIME:
-				Console.Write("update graph: REACTIONTIME");
+				Log.Write("update graph: REACTIONTIME");
 				eventExecuteWin.PrepareReactionTimeGraph(
 						prepareEventGraphReactionTime.time); 
 				break;

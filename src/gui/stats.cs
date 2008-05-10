@@ -317,7 +317,7 @@ public class StatsWindow {
 				myStatType.MarkSelected(myText);
 				myStatType.CreateOrUpdateAVGAndSD();
 			} catch {
-				Console.WriteLine("Do later!!");
+				Log.WriteLine("Do later!!");
 			}
 		}
 	}
@@ -466,7 +466,7 @@ public class StatsWindow {
 			return false;
 		}
 		
-		Console.WriteLine("----------FILLING treeview stats---------------");
+		Log.WriteLine("----------FILLING treeview stats---------------");
 	
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
@@ -574,7 +574,7 @@ public class StatsWindow {
 				button_add_to_report.Sensitive = false;
 			}
 		} catch {
-			Console.WriteLine("Do markedRows stuff later");
+			Log.WriteLine("Do markedRows stuff later");
 		}
 
 		//show enunciate of the stat in textview_enunciate
@@ -609,19 +609,19 @@ public class StatsWindow {
 
 	//changes the combo_select_checkboxes to "Selected" if any row in the treeview is checked or unchecked
 	private void on_fake_button_row_checked_clicked (object o, EventArgs args) {
-		Console.WriteLine("fakeButtonRowCheckedUnchecked in gui/stats.cs !!");
+		Log.WriteLine("fakeButtonRowCheckedUnchecked in gui/stats.cs !!");
 
 		combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("Selected"));
 	}
 	
 	private void on_fake_button_rows_selected_clicked (object o, EventArgs args) {
-		Console.WriteLine("fakeButtonRowsSelected in gui/stats.cs !!");
+		Log.WriteLine("fakeButtonRowsSelected in gui/stats.cs !!");
 		button_graph.Sensitive = true;
 		button_add_to_report.Sensitive = true;
 	}
 	
 	private void on_fake_button_no_rows_selected_clicked (object o, EventArgs args) {
-		Console.WriteLine("fakeButtonNoRowsSelected in gui/stats.cs !!");
+		Log.WriteLine("fakeButtonNoRowsSelected in gui/stats.cs !!");
 		button_graph.Sensitive = false;
 		button_add_to_report.Sensitive = false;
 
@@ -851,12 +851,12 @@ public class StatsWindow {
 	{
 		if(o == (object) radiobutton_current_session) 
 		{
-			Console.WriteLine("current");
+			Log.WriteLine("current");
 			button_stats_select_sessions.Sensitive = false;
 		} 
 		else if (o == (object) radiobutton_selected_sessions ) 
 		{
-			Console.WriteLine("selected");
+			Log.WriteLine("selected");
 			button_stats_select_sessions.Sensitive = true;
 		}
 		update_stats_widgets_sensitiveness();
@@ -900,13 +900,13 @@ public class StatsWindow {
 	}
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
-		Console.WriteLine("select sessions for stats");
+		Log.WriteLine("select sessions for stats");
 		sessionSelectStatsWin = SessionSelectStatsWindow.Show(stats_window, selectedSessions);
 		sessionSelectStatsWin.Button_accept.Clicked += new EventHandler(on_stats_select_sessions_accepted);
 	}
 	
 	private void on_stats_select_sessions_accepted (object o, EventArgs args) {
-		Console.WriteLine("select sessions for stats accepted");
+		Log.WriteLine("select sessions for stats accepted");
 		
 		if ((sessionSelectStatsWin.ArrayOfSelectedSessions[0]).ToString() != "-1") { 
 			//there are sessionsSelected, put them in selectedSessions ArrayList
@@ -923,7 +923,7 @@ public class StatsWindow {
 	}
 	
 	private void on_button_add_to_report_clicked (object o, EventArgs args) {
-		Console.WriteLine("add to report window");
+		Log.WriteLine("add to report window");
 
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);

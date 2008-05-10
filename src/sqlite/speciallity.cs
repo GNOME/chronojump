@@ -86,7 +86,7 @@ class SqliteSpeciallity : Sqlite
 		
 		dbcmd.CommandText = "SELECT name FROM " + Constants.SpeciallityTable + " WHERE uniqueID == " + uniqueID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -97,7 +97,7 @@ class SqliteSpeciallity : Sqlite
 	
 		reader.Close();
 		dbcon.Close();
-		return uniqueID + ":" + speciallityName;
+		return uniqueID + ":" + Catalog.GetString(speciallityName);
 	}
 	
 	public static string [] SelectAll(bool showUndefined, int sportFilter) 
@@ -116,7 +116,7 @@ class SqliteSpeciallity : Sqlite
 			whereString +
 			" ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		reader = dbcmd.ExecuteReader();
 
@@ -125,7 +125,7 @@ class SqliteSpeciallity : Sqlite
 			count ++;
 		}
 		while(reader.Read()) {
-			myArray.Add(reader[0].ToString() + ":" + reader[1].ToString());
+			myArray.Add(reader[0].ToString() + ":" + Catalog.GetString(reader[1].ToString()));
 			count ++;
 		}
 		reader.Close();

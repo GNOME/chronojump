@@ -82,7 +82,7 @@ public class Sport
 		string myString = "";
 		if(this.userDefined)
 			myString = "(" + Catalog.GetString(userDefinedString) + ")";
-		return uniqueID + myString + ":" + name;
+		return uniqueID + myString + ":" + Catalog.GetString(name);
 	}
 
 	public int UniqueID {

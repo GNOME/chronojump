@@ -27,6 +27,7 @@ using System.Collections; //ArrayList
 //using System.Data.SqlClient;
 using Mono.Data.Sqlite;
 //using System.Data.SQLite;
+using Mono.Unix;
 
 
 class SqlitePersonSession : Sqlite
@@ -63,7 +64,7 @@ class SqlitePersonSession : Sqlite
 		       	" WHERE personID == " + personID + 
 			" AND sessionID == " + sessionID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -87,7 +88,7 @@ class SqlitePersonSession : Sqlite
 			" WHERE personID == " + personID + 
 			"ORDER BY sessionID DESC LIMIT 1";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -109,7 +110,7 @@ class SqlitePersonSession : Sqlite
 			" WHERE personID = " + personID +
 			" AND sessionID = " + sessionID
 			;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -120,7 +121,7 @@ class SqlitePersonSession : Sqlite
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable +
 			" WHERE LOWER(person.name) == LOWER('" + personName + "')" +
 			" AND uniqueID != " + uniqueID ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -130,9 +131,9 @@ class SqlitePersonSession : Sqlite
 		
 		if (reader.Read()) {
 			exists = true;
-			//Console.WriteLine("valor {0}", reader[0].ToString());
+			//Log.WriteLine("valor {0}", reader[0].ToString());
 		}
-		//Console.WriteLine("exists = {0}", exists.ToString());
+		//Log.WriteLine("exists = {0}", exists.ToString());
 
 		dbcon.Close();
 		return exists;
@@ -144,7 +145,7 @@ class SqlitePersonSession : Sqlite
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionWeightTable +
 			" WHERE personID == " + myPersonID + 
 			" AND sessionID == " + mySessionID ; 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -154,9 +155,9 @@ class SqlitePersonSession : Sqlite
 		
 		while(reader.Read()) {
 			exists = true;
-			//Console.WriteLine("valor {0}", reader[0].ToString());
+			//Log.WriteLine("valor {0}", reader[0].ToString());
 		}
-		//Console.WriteLine("exists = {0}", exists.ToString());
+		//Log.WriteLine("exists = {0}", exists.ToString());
 
 		dbcon.Close();
 		return exists;
@@ -171,7 +172,7 @@ class SqlitePersonSession : Sqlite
 			"FROM person, personSessionWeight WHERE person.uniqueID == " + uniqueID + 
 			" AND personSessionWeight.sessionID == " + sessionID +
 			" AND person.uniqueID == personSessionWeight.personID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -202,13 +203,14 @@ class SqlitePersonSession : Sqlite
 	public static string[] SelectCurrentSession(int sessionID, bool onlyIDAndName, bool reverse) 
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.*, personSessionWeight.weight, sport.name " +
-			"FROM person, personSessionWeight, sport " +
+		dbcmd.CommandText = "SELECT person.*, personSessionWeight.weight, sport.name, speciallity.name " +
+			"FROM person, personSessionWeight, sport, speciallity " +
 			" WHERE personSessionWeight.sessionID == " + sessionID + 
 			" AND person.uniqueID == personSessionWeight.personID " + 
 			" AND person.sportID == sport.uniqueID " + 
+			" AND person.speciallityID == speciallity.uniqueID " + 
 			" ORDER BY upper(person.name)";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -223,14 +225,18 @@ class SqlitePersonSession : Sqlite
 			if(onlyIDAndName)
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
 			else {
-				string levelName = Util.FindLevelName(Convert.ToInt32(reader[8]));
+				string sportName = Catalog.GetString(reader[11].ToString());
+
+				string speciallityName = ""; //to solve a gettext bug (probably because speciallity undefined name is "")
+				if(reader[12].ToString() != "")
+					speciallityName = Catalog.GetString(reader[12].ToString());
+				string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[8])));
 
 				myArray.Add (
 						reader[0].ToString() + ":" + reader[1].ToString() + ":" + //id, name
 						reader[2].ToString() + ":" + reader[3].ToString() + ":" + //sex, dateborn
 						reader[4].ToString() + ":" + reader[10].ToString() + ":" + //height, weight (from personSessionWeight)
-						reader[11].ToString() + ":" + 		//sportName
-						Util.FindLevelName(Convert.ToInt32(reader[8])) + ":" + //practiceLevel
+						sportName + ":" + speciallityName + ":" + levelName + ":" +
 						reader[9].ToString()  //desc
 					    );
 			}

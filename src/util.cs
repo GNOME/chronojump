@@ -188,10 +188,10 @@ public class Util
 			double stdSample = System.Math.Sqrt( count/(Double)(count-1) ) * std;
 
 			/*
-			Console.WriteLine(valuesList);
-			Console.WriteLine(sumValues.ToString());
-			Console.WriteLine(count.ToString());
-			Console.WriteLine("std: {0}, stdSample: {1}", std, stdSample);
+			Log.WriteLine(valuesList);
+			Log.WriteLine(sumValues.ToString());
+			Log.WriteLine(count.ToString());
+			Log.WriteLine("std: {0}, stdSample: {1}", std, stdSample);
 			*/
 
 			return stdSample;
@@ -210,7 +210,7 @@ public class Util
 				}
 			}
 		}
-		Console.WriteLine("Error, myType: {0} not found", myType);
+		Log.WriteLine(string.Format("Error, myType: {0} not found", myType));
 		return false;
 	}
 	
@@ -224,7 +224,7 @@ public class Util
 				}
 			}
 		}
-		Console.WriteLine("Error, myType: {0} not found", myType);
+		Log.WriteLine(string.Format("Error, myType: {0} not found", myType));
 		return false;
 	}
 
@@ -394,7 +394,7 @@ public class Util
 	{
 		int lastEqualPos = myString.LastIndexOf('=');
 		if(lastEqualPos > 0) {
-			Console.WriteLine(myString.Substring(0, lastEqualPos));
+			Log.WriteLine(myString.Substring(0, lastEqualPos));
 			return myString.Substring(0, lastEqualPos);
 		}
 		else
@@ -418,20 +418,20 @@ public class Util
 	}
 					
 	
-	public static string FetchID (string text)
+	public static int FetchID (string text)
 	{
 		if (text.Length == 0) {
-			return "-1";
+			return -1;
 		}
 		string [] myStringFull = text.Split(new char[] {':'});
 
 		for (int i=0; i < myStringFull[0].Length; i++)
 			    {
 				    if( ! Char.IsNumber(myStringFull[0], i)) {
-					    return "-1";
+					    return -1;
 				    }
 			    }
-		return myStringFull[0];
+		return Convert.ToInt32(myStringFull[0]);
 	}
 	
 	public static string FetchName (string text)
@@ -540,7 +540,7 @@ public class Util
 	public static bool IsWindows() {
 		OperatingSystem os = Environment.OSVersion;
 
-		//Console.WriteLine("platform: {0}, version: {1}", os.Platform, os.Version);
+		Log.WriteLine(string.Format("platform: {0}, version: {1}", os.Platform, os.Version));
 
 		if(os.Platform.ToString().ToUpper().StartsWith("WIN"))
 			return true;
@@ -551,6 +551,12 @@ public class Util
 	public static DateTime DateAsDateTime (string dateString) {
 		string [] dateFull = dateString.Split(new char[] {'/'});
 		DateTime dateTime;
+
+		//fixes bug with really old chronojump versions where default date was 0/0/1900
+		if(dateFull[0] == "0")
+			dateFull[0] = "1";
+		if(dateFull[1] == "0")
+			dateFull[1] = "1";
 
 		try {
 			//Datetime (year, month, day) constructor
@@ -581,31 +587,36 @@ public class Util
 		//Chronojump/database/
 		return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
 	}
-	
+
 	
 	public static void BackupDirCreateIfNeeded () {
-		string backupDir = GetDatabaseDir() + "/backup";
+		string backupDir = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
 		if( ! Directory.Exists(backupDir)) {
 			Directory.CreateDirectory (backupDir);
-			Console.WriteLine ("created backup dir");
+			Log.WriteLine ("created backup dir");
 		}
 	}
-	
-	public static void BackupDatabase () {
-		string homeDir = GetDatabaseDir();
-		string backupDir = homeDir + "/backup";
-		
-		StringBuilder myStringBuilder = new StringBuilder(DateTime.Now.ToString());
+
+	public static string DateParse(string myDate) {
+		StringBuilder myStringBuilder = new StringBuilder(myDate);
 		//for not having problems with the directories:
 		myStringBuilder.Replace(" ", "_"); //replace the ' ' (date-hour separator) for '_' 
 		myStringBuilder.Replace("/", "-"); //replace the '/' (date separator) for '-' 
 		myStringBuilder.Replace(":", "-"); //replace the ':' (hour separator) for '-'
+		return myStringBuilder.ToString();
+	}
+
+	public static void BackupDatabase () {
+		string homeDir = GetDatabaseDir();
+		string backupDir = homeDir + "/backup";
+		
+		string dateParsed = DateParse(DateTime.Now.ToString());
 
 		if(File.Exists(System.IO.Path.Combine(homeDir, "chronojump.db")))
 			File.Copy(System.IO.Path.Combine(homeDir, "chronojump.db"), 
-				System.IO.Path.Combine(backupDir, "chronojump_" + myStringBuilder + ".db"));
+				System.IO.Path.Combine(backupDir, "chronojump_" + dateParsed + ".db"));
 		else {
-			Console.WriteLine("Error, chronojump.db file doesn't exist!");
+			Log.WriteLine("Error, chronojump.db file doesn't exist!");
 		}
 	}
 
@@ -626,7 +637,7 @@ public class Util
 		if(volumeOn) {
 			//on mono windows, PlaySound is not implemented. Until find a solution let's play a system bell
 			if(IsWindows())
-				Console.WriteLine("\a");
+				Log.WriteLine("\a");
 			else {
 				switch(mySound) {
 					case Constants.SoundTypes.CAN_START:
@@ -818,10 +829,9 @@ public class Util
 	public static string FindLevelName(int levelInt) {
 		string foundLevelName = "";
 		foreach(string level in Constants.Levels)
-			if(Convert.ToInt32(FetchID(level)) == levelInt)
+			if(FetchID(level) == levelInt)
 				foundLevelName = FetchName(level);
 
 		return foundLevelName;
 	}
-	
 }

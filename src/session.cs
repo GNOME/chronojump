@@ -33,23 +33,43 @@ public class Session {
 	string date;
 	string comments;
 	
+	private int personsSportID;	//1 undefined, 2 none, 3...n other sports (check table sportType). On session, undefined means that there's no default sport because persons have different sports
+	private int personsSpeciallityID;
+	private int personsPractice;	//-1 undefined, sedentary, 1 regular practice, 2 competition, 3 (alto rendimiento)
+	
+	//on gui SessionAddEditWindow, when we add a session, we call that class from gui/chronojump.cs with a session with -1 as uniqueID
+	public Session() {
+		uniqueID = -1;
+		name = "";
+	}
 
-	//suitable when we load a session from the database for being the current session
-	public Session(string newUniqueID, string newName, string newPlace, string newDate, string newComments) 
+	//suitable when we load a session from the database for being the current session. 
+	//With person sport stuff
+	public Session(string newUniqueID, string newName, string newPlace, string newDate, 
+			int personsSportID, int personsSpeciallityID, int personsPractice,
+			string newComments) 
 	{
 		uniqueID = Convert.ToInt32(newUniqueID);
 		name = newName;
 		place = newPlace;
 		date = newDate;
+		this.personsSportID = personsSportID;
+		this.personsSpeciallityID = personsSpeciallityID;
+		this.personsPractice = personsPractice;
 		comments = newComments;
 	}
 
-	//typical constructor
-	public Session(string newName, string newPlace, string newDate, string newComments) 
+	//typical constructor with personsSport stuff
+	public Session(string newName, string newPlace, string newDate, 
+			int personsSportID, int personsSpeciallityID, int personsPractice,
+			string newComments) 
 	{
 		name = newName;
 		place = newPlace;
 		date = newDate;
+		this.personsSportID = personsSportID;
+		this.personsSpeciallityID = personsSpeciallityID;
+		this.personsPractice = personsPractice;
 		comments = newComments;
 
 		name = Util.RemoveTildeAndColon(name);
@@ -57,10 +77,12 @@ public class Session {
 		comments = Util.RemoveTildeAndColon(comments);
 
 		
-		uniqueID = SqliteSession.Insert (name, place, date, comments);
+		uniqueID = SqliteSession.Insert (false, //dbconOpened,
+				Constants.SessionTable, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments);
 
-		Console.WriteLine(this.ToString());
+		Log.WriteLine(this.ToString());
 	}
+
 	
 	public override string ToString()
 	{
@@ -77,70 +99,55 @@ public class Session {
 		return this.ToString().GetHashCode();
 	}
 	
-	public string Name
-	{
-		get
-		{
-			return name;
-		}
-		set
-		{
-			name = value;
-		}
+	public string Name { 
+		get { return name; } 
+		set { name = value; } 
 	}
 	
-	public string Place
-	{
-		get
-		{
-			return place;
-		}
-		set
-		{
-			place = value;
-		}
+	public string Place { 
+		get { return place; } 
+		set { place = value; } 
 	}
 
-	public string Date
-	{
+	public string Date {
 		get { return date; }
 		set { date = value; }
 	}
 
 	public string DateLong {
-		get {
-			return Util.DateAsDateTime(date).ToLongDateString();
-		}
+		get { return Util.DateAsDateTime(date).ToLongDateString(); }
 	}
 	
 	public string DateShort {
-		get {
-			return Util.DateAsDateTime(date).ToShortDateString();
-		}
+		get { return Util.DateAsDateTime(date).ToShortDateString(); }
 	}
 	
-	public string Comments
-	{
-		get
-		{
-			return comments;
-		}
-		set 
-		{
-			comments = value;
-		}
+	public string Comments { 
+		get { return comments; } 
+		set { comments = value; }
 	}
 	
-	public int UniqueID
+	public int UniqueID {
+		get { return uniqueID; } 
+		set { uniqueID = value; }
+	}
+	
+	public int PersonsSportID
 	{
-		get
-		{
-			return uniqueID;
-		}
-		set 
-		{
-			uniqueID = value;
-		}
+		get { return personsSportID; }
+		set { personsSportID = value; }
+	}
+
+	public int PersonsSpeciallityID
+	{
+		get { return personsSpeciallityID; }
+		set { personsSpeciallityID = value; }
+	}
+
+	public int PersonsPractice
+	{
+		get { return personsPractice; }
+		set { personsPractice = value; }
 	}
 	
 	~Session() {}

@@ -172,7 +172,7 @@ public class ConvertWeightWindow
 		if (store.GetIter (out iter, new TreePath(args.Path))) 
 		{
 			bool val = (bool) store.GetValue (iter, columnThis);
-			Console.WriteLine ("toggled {0} with value {1}", args.Path, !val);
+			Log.WriteLine (string.Format("toggled {0} with value {1}", args.Path, !val));
 
 			if(args.Path == "0") {
 				if (store.GetIterFirst(out iter)) {

@@ -48,7 +48,7 @@ public class Platform {
 		if(stream[1] == "0") { state = false; }
 		else if (stream[1] == "1") { state = true; }
 		else { 
-			Console.WriteLine(Catalog.GetString("Error, state '{0}' non valid"), stream[1]);
+			Log.WriteLine(Catalog.GetString("Error, state '{0}' non valid"), stream[1]);
 		}
 	}
 

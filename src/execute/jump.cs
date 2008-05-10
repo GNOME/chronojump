@@ -87,7 +87,7 @@ public class JumpExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		Console.WriteLine("From execute/jump.cs");
+		Log.WriteLine("From execute/jump.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;
@@ -133,7 +133,7 @@ public class JumpExecute : EventExecute
 				platformState = Chronopic.Plataforma.OFF;
 			
 			//start thread
-			//Console.Write("Start thread");
+			//Log.Write("Start thread");
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
@@ -226,14 +226,14 @@ public class JumpExecute : EventExecute
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
 					//has landed
-Console.Write("w1 ");				
+Log.Write("w1 ");				
 
 					if(hasFall && tc == 0) {
-Console.Write("w2 ");				
+Log.Write("w2 ");				
 						//jump with fall, landed first time
 						initializeTimer();
 
-Console.Write("w3 ");				
+Log.Write("w3 ");				
 						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
@@ -242,14 +242,14 @@ Console.Write("w3 ");
 								1 //it's a drop: phase 1/3
 								);
 						needUpdateEventProgressBar = true;
-Console.Write("w4 ");				
+Log.Write("w4 ");				
 					} else {
 						//jump with fall: second landed; or without fall first landing
 					
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						
-						Console.Write("t1:{0}", timestamp);
+						Log.Write(string.Format("t1:{0}", timestamp));
 
 						tv = timestamp / 1000.0;
 						write ();
@@ -261,7 +261,7 @@ Console.Write("w4 ");
 						if(hasFall)
 							percentageToPass = 3; //drop jump has three phases
 							
-Console.Write("w5 ");			
+Log.Write("w5 ");			
 						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
@@ -270,7 +270,7 @@ Console.Write("w5 ");
 								percentageToPass
 								);
 						needUpdateEventProgressBar = true;
-Console.Write("w6 ");				
+Log.Write("w6 ");				
 					}
 					
 					loggedState = States.ON;
@@ -285,13 +285,13 @@ Console.Write("w6 ");
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						
-						Console.Write("t2:{0}", timestamp);
+						Log.Write(string.Format("t2:{0}", timestamp));
 						
 						//record the TC
 						tc = timestamp / 1000.0;
 						
 						//update event progressbar
-Console.Write("w7 ");			
+Log.Write("w7 ");			
 						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
@@ -300,12 +300,12 @@ Console.Write("w7 ");
 								2 //it's a drop jump: phase 2/3
 								);
 						needUpdateEventProgressBar = true;
-Console.Write("w8 ");				
+Log.Write("w8 ");				
 					} else {
-Console.Write("w9 ");				
+Log.Write("w9 ");				
 						initializeTimer();
 						
-Console.Write("wa ");				
+Log.Write("wa ");				
 						
 						//update event progressbar
 						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
@@ -316,7 +316,7 @@ Console.Write("wa ");
 								1 //normal jump, phase 1/2
 								);
 						needUpdateEventProgressBar = true;
-Console.Write("wb ");				
+Log.Write("wb ");				
 					}
 
 					//change the automata state
@@ -324,9 +324,9 @@ Console.Write("wb ");
 
 				}
 			}
-//Console.WriteLine("PREEXIT");
+//Log.WriteLine("PREEXIT");
 		} while ( ! success && ! cancel );
-//Console.WriteLine("EXIT");
+//Log.WriteLine("EXIT");
 		
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
@@ -353,7 +353,7 @@ Console.Write("wb ");
 	{
 		string tcString = "";
 		if(hasFall) {
-			//Console.WriteLine("TC: {0}", tc.ToString());
+			//Log.WriteLine("TC: {0}", tc.ToString());
 			tcString = " " + Catalog.GetString("TC") + ": " + Util.TrimDecimals( tc.ToString(), pDN ) ;
 		} else {
 			tc = 0;
@@ -599,7 +599,7 @@ public class JumpRjExecute : JumpExecute
 				if(simulated)
 					timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
-				Console.Write(Util.GetTotalTime(tcString, tvString));
+				Log.Write(Util.GetTotalTime(tcString, tvString).ToString());
 
 
 					
@@ -616,7 +616,7 @@ public class JumpRjExecute : JumpExecute
 						initializeTimer();
 					} else {
 						//reactive jump has not finished... record the next jump
-						Console.WriteLine("tcCount: {0}, tvCount: {1}", tcCount, tvCount);
+						Log.WriteLine(string.Format("tcCount: {0}, tvCount: {1}", tcCount, tvCount));
 						if ( tcCount == tvCount )
 						{
 							lastTc = timestamp/1000.0;
@@ -760,7 +760,7 @@ public class JumpRjExecute : JumpExecute
 			} else {
 				//we are on air
 				if(allowFinishAfterTime) {
-					Console.Write("ALLOW!!");
+					Log.Write("ALLOW!!");
 					//allow to finish later, return false, and waitEvent (looking at shouldFinishAtNextFall)
 					//will finishJump when he falls 
 					shouldFinishAtNextFall = true;
@@ -808,7 +808,7 @@ public class JumpRjExecute : JumpExecute
 	private void updateTimerCountWithChronopicData(string tcString, string tvString) {
 		//update timerCount, with the chronopic data
 		//but in the first jump probably one is zero and then GetTotalTime returns a 0
-		Console.WriteLine("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString));
+		Log.WriteLine(string.Format("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString)));
 		if(tvString.Length == 0) 
 			timerCount =  Util.GetTotalTime(tcString);
 		else if (tcString.Length == 0) 
@@ -820,7 +820,7 @@ public class JumpRjExecute : JumpExecute
 				
 	protected void writeRj(bool tempTable)
 	{
-		Console.WriteLine("----------WRITING----------");
+		Log.WriteLine("----------WRITING----------");
 		int jumps;
 		string limitString = "";
 		string description = "";
@@ -841,7 +841,7 @@ public class JumpRjExecute : JumpExecute
 				while(eventPassed) {
 					tcString = Util.DeleteLastSubEvent(tcString);
 					tvString = Util.DeleteLastSubEvent(tvString);
-					Console.WriteLine("Deleted one event out of time");
+					Log.WriteLine("Deleted one event out of time");
 					eventPassed = Util.EventPassedFromMaxTime(tcString, tvString, limitAsDouble, allowFinishAfterTime);
 					deletedEvent = true;
 				}

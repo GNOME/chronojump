@@ -72,7 +72,7 @@ public class ReactionTimeExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		Console.WriteLine("From execute/reactionTime.cs");
+		Log.WriteLine("From execute/reactionTime.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;
@@ -111,7 +111,7 @@ public class ReactionTimeExecute : EventExecute
 				platformState = Chronopic.Plataforma.OFF;
 			
 			//start thread
-			//Console.Write("Start thread");
+			//Log.Write("Start thread");
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
@@ -149,12 +149,12 @@ public class ReactionTimeExecute : EventExecute
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
 					//has landed
-Console.Write("w1 ");				
+Log.Write("w1 ");				
 
 					if(simulated)
 						timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
-					Console.Write("t1:{0}", timestamp);
+					Log.Write(string.Format("t1:{0}", timestamp));
 
 					time = timestamp / 1000.0;
 					write ();
@@ -164,7 +164,7 @@ Console.Write("w1 ");
 					//update event progressbar
 					double percentageToPass = 2; //has two phases
 
-Console.Write("w5 ");			
+Log.Write("w5 ");			
 					//eventExecuteWin.ProgressBarEventOrTimePreExecution(
 					//don't do it, put a boolean value and let the PulseGTK do it
 					updateProgressBar = new UpdateProgressBar (
@@ -173,7 +173,7 @@ Console.Write("w5 ");
 							percentageToPass
 							);
 					needUpdateEventProgressBar = true;
-Console.Write("w6 ");				
+Log.Write("w6 ");				
 
 					loggedState = States.ON;
 				}
@@ -182,10 +182,10 @@ Console.Write("w6 ");
 			
 					//it's out, was inside (= has released)
 					
-Console.Write("w9 ");				
+Log.Write("w9 ");				
 					initializeTimer();
 						
-Console.Write("wa ");				
+Log.Write("wa ");				
 						
 					//update event progressbar
 					//eventExecuteWin.ProgressBarEventOrTimePreExecution(
@@ -196,16 +196,16 @@ Console.Write("wa ");
 							1 //normal jump, phase 1/2
 							);
 					needUpdateEventProgressBar = true;
-Console.Write("wb ");				
+Log.Write("wb ");				
 
 					//change the automata state
 					loggedState = States.OFF;
 
 				}
 			}
-//Console.WriteLine("PREEXIT");
+//Log.WriteLine("PREEXIT");
 		} while ( ! success && ! cancel );
-//Console.WriteLine("EXIT");
+//Log.WriteLine("EXIT");
 		
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs

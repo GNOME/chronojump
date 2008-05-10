@@ -115,12 +115,12 @@ public class StatRjEvolution : Stat
 				myCount += (tv * 100) / tc;
 			}
 			
-			//Console.WriteLine("i{0}, myCount{1}, bestCount{2}", i, myCount, bestCount);
+			//Log.WriteLine("i{0}, myCount{1}, bestCount{2}", i, myCount, bestCount);
 			//if found a max, record it
 			if(myCount > bestCount && !jumpFinished) {
 				bestCount = myCount;
 				bestPos = i;
-				//Console.WriteLine("best i{0}", i);
+				//Log.WriteLine("best i{0}", i);
 			}
 		}
 		return bestPos;
@@ -131,7 +131,7 @@ public class StatRjEvolution : Stat
 			for ( int i=0; i < statValues.Length ; i=i+2 ) {
 
 				if(i >= bestPos && i < bestPos+numContinuous*2) {
-					//Console.WriteLine("i{0}, bp{1}, svi{2}, svi+1{3}", i, bestPos, statValues[i], statValues[i+1]);
+					//Log.WriteLine("i{0}, bp{1}, svi{2}, svi+1{3}", i, bestPos, statValues[i], statValues[i+1]);
 					statValues[i] = "<font color=\"red\">" + statValues[i] + "</font>";
 					statValues[i+1] = "<font color=\"red\">" + statValues[i+1] + "</font>";
 				}
@@ -220,7 +220,7 @@ public class StatRjEvolution : Stat
 			if(statValues[0] != Catalog.GetString("AVG") && statValues[0] != Catalog.GetString("SD")) {
 				store.SetValue(iter, 0, true);	//first col is true if it's not AVG or SD
 				markedRows.Add(myPath.ToString());
-				//Console.WriteLine("FROM PRINTDATA (EVOLUTION) Added to markedRows row:{0}", myPath.ToString());
+				//Log.WriteLine("FROM PRINTDATA (EVOLUTION) Added to markedRows row:{0}", myPath.ToString());
 			}
 			
 			for(int i=0; i < statValues.Length; i++) {

@@ -52,7 +52,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with myVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.55";
+	static string lastChronojumpDatabaseVersion = "0.56";
 
 
 	public static void Connect()
@@ -64,8 +64,8 @@ class Sqlite
 
 	public static void CreateFile()
 	{
-		Console.WriteLine("creating file...");
-		Console.WriteLine(connectionString);
+		Log.WriteLine("creating file...");
+		Log.WriteLine(connectionString);
 		
 		if(!Directory.Exists(home)) {
 			Directory.CreateDirectory (home);
@@ -84,12 +84,12 @@ class Sqlite
 
 	public static bool IsSqlite3() {
 		if(sqlite3SelectWorks()){
-			Console.WriteLine("SQLITE3");
+			Log.WriteLine("SQLITE3");
 			dbcon.Close();
 			return true;
 		}
 		else if(sqlite2SelectWorks()) {
-			Console.WriteLine("SQLITE2");
+			Log.WriteLine("SQLITE2");
 			dbcon.Close();
 			//write sqlFile path on data/databasePath.txt
 			//TODO
@@ -98,7 +98,7 @@ class Sqlite
 			return false;
 		}
 		else {
-			Console.WriteLine("ERROR in sqlite detection");
+			Log.WriteLine("ERROR in sqlite detection");
 			dbcon.Close();
 			return false;
 		}
@@ -162,12 +162,12 @@ class Sqlite
 			}
 
 			if(File.Exists(myPath + Path.DirectorySeparatorChar + sqliteStr)) 
-				Console.WriteLine("exists1");
+				Log.WriteLine("exists1");
 			if(File.Exists(sqlite2File)) 
-				Console.WriteLine("exists2");
+				Log.WriteLine("exists2");
 
 			/*
-			Console.WriteLine("{0}-{1}", myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
+			Log.WriteLine("{0}-{1}", myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
 			ProcessStartInfo ps = new ProcessStartInfo(myPath + Path.DirectorySeparatorChar + sqliteStr , sqlite2File + " .dump");
 
 			ps.UseShellExecute = false;
@@ -183,23 +183,24 @@ class Sqlite
 			
 			//write the path to chronojumpdb in a txt file (for convert_database.bat and .sh)
 			TextWriter writer = File.CreateText(myPath + Path.DirectorySeparatorChar + "db_path.txt");
-			writer.WriteLine(Util.GetDatabaseDir());
+			string scriptsAreTwoDirsAhead = ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar;
+			writer.WriteLine(scriptsAreTwoDirsAhead + Util.GetDatabaseDir());
 			((IDisposable)writer).Dispose();
 			
-			Console.WriteLine("Path written");
+			Log.WriteLine("Path written");
 
 			Process p2 = Process.Start(myPath + Path.DirectorySeparatorChar + "convert_database." + extension);
 			p2.WaitForExit();
 
-			Console.WriteLine("sqlite3 db created");
+			Log.WriteLine("sqlite3 db created");
 				
 			File.Copy(myPath + Path.DirectorySeparatorChar + "tmp.db", sqliteDB, true ); //overwrite
 		} catch {
-			Console.WriteLine("PROBLEMS");
+			Log.WriteLine("PROBLEMS");
 			return false;
 		}
 
-		Console.WriteLine("done");
+		Log.WriteLine("done");
 		return true;
 
 	}
@@ -213,17 +214,17 @@ class Sqlite
 
 		string myVersion = SqlitePreferences.Select("databaseVersion");
 
-		//Console.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
-		//Console.WriteLine("myVersion: {0}", Convert.ToDouble(myVersion));
+		//Log.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
+		//Log.WriteLine("myVersion: {0}", Convert.ToDouble(myVersion));
 
 		bool returnSoftwareIsNew = true; //-1 if there's software is too old for database (moved db to other computer)
 		if(Convert.ToDouble(lastChronojumpDatabaseVersion) == Convert.ToDouble(myVersion))
-			Console.WriteLine("Database is already latest version");
+			Log.WriteLine("Database is already latest version");
 		else if(Convert.ToDouble(lastChronojumpDatabaseVersion) < Convert.ToDouble(myVersion)) {
-			Console.WriteLine("User database newer than program, need to update software");
+			Log.WriteLine("User database newer than program, need to update software");
 			returnSoftwareIsNew = false;
 		} else {
-			Console.WriteLine("Old database, need to convert");
+			Log.WriteLine("Old database, need to convert");
 			if(myVersion == "0.41") {
 				dbcon.Open();
 
@@ -232,7 +233,7 @@ class Sqlite
 				SqlitePulseType.initializeTablePulseType();
 
 				SqlitePreferences.Update ("databaseVersion", "0.42", true); 
-				Console.WriteLine("Converted DB to 0.42 (added pulse and pulseType tables)");
+				Log.WriteLine("Converted DB to 0.42 (added pulse and pulseType tables)");
 
 				dbcon.Close();
 				myVersion = "0.42";
@@ -243,7 +244,7 @@ class Sqlite
 				SqlitePulseType.Insert ("Free:-1:-1:free PulseStep mode", true); 
 				SqlitePreferences.Insert ("language", "es-ES"); 
 				SqlitePreferences.Update ("databaseVersion", "0.43", true); 
-				Console.WriteLine("Converted DB to 0.43 (added 'free' pulseType & language peference)");
+				Log.WriteLine("Converted DB to 0.43 (added 'free' pulseType & language peference)");
 				dbcon.Close();
 				myVersion = "0.43";
 			}
@@ -253,7 +254,7 @@ class Sqlite
 				SqlitePreferences.Insert ("showQIndex", "False"); 
 				SqlitePreferences.Insert ("showDjIndex", "False"); 
 				SqlitePreferences.Update ("databaseVersion", "0.44", true); 
-				Console.WriteLine("Converted DB to 0.44 (added showQIndex, showDjIndex)");
+				Log.WriteLine("Converted DB to 0.44 (added showQIndex, showDjIndex)");
 				dbcon.Close();
 				myVersion = "0.44";
 			}
@@ -262,7 +263,7 @@ class Sqlite
 				dbcon.Open();
 				SqlitePreferences.Insert ("allowFinishRjAfterTime", "True"); 
 				SqlitePreferences.Update ("databaseVersion", "0.45", true); 
-				Console.WriteLine("Converted DB to 0.45 (added allowFinishRjAfterTime)");
+				Log.WriteLine("Converted DB to 0.45 (added allowFinishRjAfterTime)");
 				dbcon.Close();
 				myVersion = "0.45";
 			}
@@ -271,7 +272,7 @@ class Sqlite
 				dbcon.Open();
 				SqliteJumpType.JumpTypeInsert ("Free:1:0:Free jump", true); 
 				SqlitePreferences.Update ("databaseVersion", "0.46", true); 
-				Console.WriteLine("Added Free jump type");
+				Log.WriteLine("Added Free jump type");
 				dbcon.Close();
 				myVersion = "0.46";
 			}
@@ -282,7 +283,7 @@ class Sqlite
 				SqliteReactionTime.createTable();
 
 				SqlitePreferences.Update ("databaseVersion", "0.47", true); 
-				Console.WriteLine("Added reaction time table");
+				Log.WriteLine("Added reaction time table");
 				dbcon.Close();
 				myVersion = "0.47";
 			}
@@ -294,7 +295,7 @@ class Sqlite
 				SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
 
 				SqlitePreferences.Update ("databaseVersion", "0.48", true); 
-				Console.WriteLine("created tempJumpReactive and tempRunInterval tables");
+				Log.WriteLine("created tempJumpReactive and tempRunInterval tables");
 				dbcon.Close();
 				myVersion = "0.48";
 			}
@@ -314,7 +315,7 @@ class Sqlite
 				SqliteRunType.AddGraphLinksRunSimpleAgility();	
 
 				SqlitePreferences.Update ("databaseVersion", "0.49", true); 
-				Console.WriteLine("Added graphLinkTable, added Rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag. Added graphs pof the 5 agility tests)");
+				Log.WriteLine("Added graphLinkTable, added Rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag. Added graphs pof the 5 agility tests)");
 
 				dbcon.Close();
 				myVersion = "0.49";
@@ -329,7 +330,7 @@ class Sqlite
 				SqliteJumpType.AddGraphLinks();	
 				SqliteJumpType.AddGraphLinksRj();	
 				SqlitePreferences.Update ("databaseVersion", "0.50", true); 
-				Console.WriteLine("changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links");
+				Log.WriteLine("changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links");
 				dbcon.Close();
 				myVersion = "0.50";
 			}
@@ -339,7 +340,7 @@ class Sqlite
 				SqliteRunType.AddGraphLinksRunSimple();	
 				SqliteRunType.AddGraphLinksRunInterval();	
 				SqlitePreferences.Update ("databaseVersion", "0.51", true); 
-				Console.WriteLine("added graphLinks for run simple and interval");
+				Log.WriteLine("added graphLinks for run simple and interval");
 				dbcon.Close();
 				myVersion = "0.51";
 			}
@@ -350,7 +351,7 @@ class Sqlite
 				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
 				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
 				SqlitePreferences.Update ("databaseVersion", "0.52", true); 
-				Console.WriteLine("added graphLinks for cmj_l and abk_l, fixed CMJl name");
+				Log.WriteLine("added graphLinks for cmj_l and abk_l, fixed CMJl name");
 				dbcon.Close();
 				myVersion = "0.52";
 			}
@@ -367,7 +368,7 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", "0.53", true); 
 				dbcon.Close();
 				
-				Console.WriteLine("created weightSession table. Moved person weight data to weightSession table for each session that has performed");
+				Log.WriteLine("created weightSession table. Moved person weight data to weightSession table for each session that has performed");
 				myVersion = "0.53";
 			}
 			
@@ -384,7 +385,7 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", "0.54", true); 
 				dbcon.Close();
 				
-				Console.WriteLine("Created sport tables. Added sport data, speciallity and level of practice to person table");
+				Log.WriteLine("Created sport tables. Added sport data, speciallity and level of practice to person table");
 				myVersion = "0.54";
 			}
 			if(myVersion == "0.54") {
@@ -395,8 +396,19 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", "0.55", true); 
 				dbcon.Close();
 				
-				Console.WriteLine("Added undefined to speciallity table");
+				Log.WriteLine("Added undefined to speciallity table");
 				myVersion = "0.55";
+			}
+			if(myVersion == "0.55") {
+				dbcon.Open();
+
+				SqliteSession.convertTableAddingSportStuff();
+
+				SqlitePreferences.Update ("databaseVersion", "0.56", true); 
+				dbcon.Close();
+				
+				Log.WriteLine("Added session default sport stuff into session table");
+				myVersion = "0.56";
 			}
 		}
 
@@ -417,7 +429,7 @@ class Sqlite
 				SqlitePreferences.Insert ("chronopicPort", "/dev/ttyS0");
 			dbcon.Close();
 			
-			Console.WriteLine("Added Chronopic port");
+			Log.WriteLine("Added Chronopic port");
 		}
 	}
 	
@@ -467,7 +479,7 @@ class Sqlite
 		SqliteSpeciallity.initialize();
 		SqliteSpeciallity.InsertUndefined(true);
 
-		SqliteSession.createTable();
+		SqliteSession.createTable(Constants.SessionTable);
 		
 		SqlitePersonSession.createTable();
 		
@@ -475,6 +487,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion);
 		
 		//changes [from - to - desc]
+		//0.55 - 0.56 Added session default sport stuff into session table
 		//0.54 - 0.55 Added undefined to speciallity table
 		//0.53 - 0.54 created sport tables. Added sport data, speciallity and level of practice to person table
 		//0.52 - 0.53 added table weightSession, moved person weight data to weightSession table for each session that has performed
@@ -500,7 +513,7 @@ class Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT uniqueID FROM " + tableName + 
 			" WHERE LOWER(name) == LOWER('" + findName + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -511,7 +524,7 @@ class Sqlite
 		if (reader.Read()) {
 			exists = true;
 		}
-		Console.WriteLine("exists = {0}", exists.ToString());
+		Log.WriteLine(string.Format("exists = {0}", exists.ToString()));
 
 		dbcon.Close();
 		return exists;
@@ -526,7 +539,7 @@ class Sqlite
 		
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT MAX(uniqueID) FROM " + tableName;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		//SqliteDataReader reader;
 		SqliteDataReader reader;
@@ -540,7 +553,7 @@ class Sqlite
 				exists = Convert.ToInt32(reader[0]);
 			} catch { exists = 0; }
 		}
-		Console.WriteLine("exists = {0}", exists.ToString());
+		Log.WriteLine(string.Format("exists = {0}", exists.ToString()));
 		dbcon.Close();
 
 		return exists;
@@ -553,8 +566,15 @@ class Sqlite
 		dbcon.Open();
 		//dbcmd.CommandText = "Delete FROM tempJumpRj";
 		dbcmd.CommandText = "Delete FROM " + tableName;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
+
+	protected static void dropTable(string tableName) {
+		dbcmd.CommandText = "DROP TABLE " + tableName;
+		dbcmd.ExecuteNonQuery();
+	}
+
+
 }

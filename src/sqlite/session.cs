@@ -27,42 +27,56 @@ using System.Collections; //ArrayList
 //using System.Data.SqlClient;
 using Mono.Data.Sqlite;
 //using System.Data.SQLite;
+using Mono.Unix;
 
 
 class SqliteSession : Sqlite
 {
-	protected internal static void createTable()
+	//can be "Constants.SessionTable" or "Constants.TempSessionTable"
+	//temp is used to modify table between different database versions if needed
+	protected internal static void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE " + Constants.SessionTable + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"place TEXT, " +
 			"date TEXT, " +		
+			"personsSportID INT, " + 
+			"personsSpeciallityID INT, " + 
+			"personsPractice INT, " + //also called "level"
 			"comments TEXT )";		
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert(string name, string place, string date, string comments)
+	public static int Insert(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments)
 	{
-		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO " + Constants.SessionTable + " (uniqueID, name, place, date, comments)" +
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments)" +
 			" VALUES (NULL, '"
-			+ name + "', '" + place + "', '" + date + "', '" + comments + "')" ;
+			+ name + "', '" + place + "', '" + date + "', " + personsSportID + ", " + personsSpeciallityID + ", " + personsPractice + ", '" + comments + "')" ;
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
-		dbcon.Close();
+		
+		if(! dbconOpened)
+			dbcon.Close();
+
 		return myReturn;
 	}
 	
-	public static void Edit(int uniqueID, string name, string place, string date, string comments)
+	public static void Edit(int uniqueID, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " " +
 			" SET name = '" + name +
 			"' , date = '" + date +
 			"' , place = '" + place +
-			"' , comments = '" + comments +
+			"' , personsSportID = " + personsSportID +
+			", personsSpeciallityID = " + personsSpeciallityID +
+			", personsPractice = " + personsPractice +
+			", comments = '" + comments +
 			"' WHERE uniqueID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
@@ -72,12 +86,12 @@ class SqliteSession : Sqlite
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
-		string [] values = new string[5];
+		string [] values = new string[8];
 		
 		while(reader.Read()) {
 			values[0] = reader[0].ToString(); 
@@ -85,10 +99,15 @@ class SqliteSession : Sqlite
 			values[2] = reader[2].ToString();
 			values[3] = reader[3].ToString();
 			values[4] = reader[4].ToString();
+			values[5] = reader[5].ToString();
+			values[6] = reader[6].ToString();
+			values[7] = reader[7].ToString();
 		}
 
 		Session mySession = new Session(values[0], 
-			values[1], values[2], values[3], values[4]);
+			values[1], values[2], values[3], 
+			Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), 
+			values[7] );
 		
 		dbcon.Close();
 		return mySession;
@@ -98,7 +117,7 @@ class SqliteSession : Sqlite
 	//also by PersonsRecuperateFromOtherSessionWindowBox (src/gui/person.cs)
 	public static string[] SelectAllSessionsSimple(bool commentsDisable, int sessionIdDisable) 
 	{
-		string selectString = "*";
+		string selectString = " uniqueID, name, place, date, comments ";
 		if(commentsDisable) {
 			selectString = " uniqueID, name, place, date ";
 		}
@@ -108,7 +127,7 @@ class SqliteSession : Sqlite
 		dbcmd.CommandText = "SELECT " + selectString + " FROM " + Constants.SessionTable + " " + 
 			" WHERE uniqueID != " + sessionIdDisable + " ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -148,14 +167,13 @@ class SqliteSession : Sqlite
 	public static string[] SelectAllSessions() 
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " ORDER BY uniqueID";
-		/*dbcmd.CommandText = "SELECT session.*, count(*) " +
-			"FROM session, jump " +
-			" WHERE session.uniqueID == jump.sessionID " +
-			" GROUP BY sessionID" + 
+		dbcmd.CommandText = 
+			"SELECT session.*, sport.name, speciallity.name" +
+			" FROM session, sport, speciallity " +
+			" WHERE session.personsSportID == sport.uniqueID " + 
+			" AND session.personsSpeciallityID == speciallity.UniqueID " +
 			" ORDER BY session.uniqueID";
-			*/
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -166,9 +184,16 @@ class SqliteSession : Sqlite
 		count = 0;
 
 		while(reader.Read()) {
+			string sportName = Catalog.GetString(reader[8].ToString());
+			string speciallityName = ""; //to solve a gettext bug (probably because speciallity undefined name is "")			
+			if(reader[9].ToString() != "")
+				speciallityName = Catalog.GetString(reader[9].ToString());
+			string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[6])));
+
 			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
 					reader[2].ToString() + ":" + reader[3].ToString() + ":" +
-					reader[4].ToString() );
+					sportName + ":" + speciallityName + ":" +
+					levelName + ":" + reader[7].ToString() ); //desc
 			count ++;
 		}
 
@@ -187,7 +212,7 @@ class SqliteSession : Sqlite
 		//select persons of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PersonSessionWeightTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_persons;
@@ -202,7 +227,7 @@ class SqliteSession : Sqlite
 		//select jumps of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_jumps;
@@ -217,7 +242,7 @@ class SqliteSession : Sqlite
 		//select jumpsRj of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpRjTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_jumpsRj;
@@ -232,7 +257,7 @@ class SqliteSession : Sqlite
 		//select runs of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_runs;
@@ -247,7 +272,7 @@ class SqliteSession : Sqlite
 		//select runsInterval of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunIntervalTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_runs_interval;
@@ -262,7 +287,7 @@ class SqliteSession : Sqlite
 		//select reaction time of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ReactionTimeTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_rt;
@@ -277,7 +302,7 @@ class SqliteSession : Sqlite
 		//select pulses of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PulseTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_pulses;
@@ -407,7 +432,7 @@ class SqliteSession : Sqlite
 			" AND type == '" + type + "' " +
 			personIDString; 
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -429,6 +454,52 @@ class SqliteSession : Sqlite
 		}
 	}
 
+	//change DB from 0.55 to 0.56
+	protected internal static void convertTableAddingSportStuff() 
+	{
+		ArrayList myArray = new ArrayList(2);
+
+		//1st create a temp table
+		createTable(Constants.TempSessionTable);
+			
+		//2nd copy all data from session table to temp table
+		dbcmd.CommandText = "SELECT * " + 
+			"FROM " + Constants.SessionTable + " ORDER BY uniqueID"; 
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			Session mySession = new Session(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), 
+					1, //sport undefined
+					-1, //speciallity undefined
+					-1, //practice level undefined
+					reader[4].ToString()); //comments
+			myArray.Add(mySession);
+
+		}
+		reader.Close();
+
+		foreach (Session mySession in myArray)
+			Insert(true, Constants.TempSessionTable,
+				mySession.Name, mySession.Place, mySession.Date, 
+				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
+
+		//3rd drop table sessions
+		Sqlite.dropTable(Constants.SessionTable);
+
+		//4d create table persons (now with sport related stuff
+		createTable(Constants.SessionTable);
+
+		//5th insert data in sessions (with sport related stuff)
+		foreach (Session mySession in myArray) 
+			Insert(true, Constants.SessionTable,
+				mySession.Name, mySession.Place, mySession.Date, 
+				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
+
+
+		//6th drop temp table
+		Sqlite.dropTable(Constants.TempSessionTable);
+	}
+	
 
 	
 	public static void DeleteWithJumps(string uniqueID)

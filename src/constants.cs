@@ -226,19 +226,25 @@ public class Constants
 
 	public static int SportUndefinedID = 1;
 	public static string SportUndefined = "--Undefined";
+	private static string dumbVariableForTranslatingSportUndefined = Catalog.GetString("--Undefined");
 	public static int SportNoneID = 2;
 	public static string SportNone = "-None";
+	private static string dumbVariableForTranslatingSportNone = Catalog.GetString("-None");
 
 	public static int SpeciallityUndefinedID = -1;
 	public static string SpeciallityUndefined = "Undefined"; 
+	private static string dumbVariableForTranslatingSpeciallityUndefined = Catalog.GetString("Undefined");
+	
 	
 	//levels of sport practice
 	//int will go into person database
 	//string will be shown in user language
 	public static int LevelUndefinedID = -1;
 	public static string LevelUndefined = "Undefined"; 
+	private static string dumbVariableForTranslatingLevelUndefined = Catalog.GetString("Undefined");
 	public static int LevelSedentaryID = 0; 
 	public static string LevelSedentary = "Sedentary/Ocasional practice"; 
+	private static string dumbVariableForTranslatingLevelSedentary = Catalog.GetString("Sedentary/Ocasional practice");
 	public static string [] Levels = {
 		LevelUndefinedID.ToString() + ":" + Catalog.GetString(LevelUndefined), 
 		LevelSedentaryID.ToString() + ":" + Catalog.GetString(LevelSedentary), 

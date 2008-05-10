@@ -114,7 +114,7 @@ public class JumpTypeAddWindow
 			
 			string myString = string.Format(Catalog.GetString("Jump type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			
-			Console.WriteLine (myString);
+			Log.WriteLine (myString);
 			errorWin = ErrorWindow.Show(myString);
 		} else {
 			string myJump = "";
@@ -161,7 +161,7 @@ public class JumpTypeAddWindow
 				SqliteJumpType.JumpRjTypeInsert(myJump, false); //false, because dbcon is not opened
 			}
 			
-			Console.WriteLine("Inserted: {0}", myJump);
+			Log.WriteLine(string.Format("Inserted: {0}", myJump));
 		}
 
 		JumpTypeAddWindowBox.jump_type_add.Hide();

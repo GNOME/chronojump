@@ -83,7 +83,7 @@ public class RunExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		Console.WriteLine("From execute/run.cs");
+		Log.WriteLine("From execute/run.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;
@@ -98,13 +98,13 @@ public class RunExecute : EventExecute
 	
 	public override void Manage()
 	{
-Console.WriteLine("MANAGE!!!!");
+Log.WriteLine("MANAGE!!!!");
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
 		else
 			platformState = chronopicInitialValue(cp);
 
-Console.WriteLine("MANAGE(b)!!!!");
+Log.WriteLine("MANAGE(b)!!!!");
 		
 		//you can start ON or OFF the platform, 
 		//we record always de TF (or time between we abandonate the platform since we arrive)
@@ -150,12 +150,12 @@ Console.WriteLine("MANAGE(b)!!!!");
 		cancel = false;
 		totallyCancelled = false;
 
-Console.WriteLine("MANAGE(2)!!!!");
+Log.WriteLine("MANAGE(2)!!!!");
 		//start thread
 		thread = new Thread(new ThreadStart(waitEvent));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
-Console.WriteLine("MANAGE(3)!!!!");
+Log.WriteLine("MANAGE(3)!!!!");
 	}
 	
 	protected override void waitEvent ()
@@ -284,7 +284,7 @@ Console.WriteLine("MANAGE(3)!!!!");
 
 	protected override void write()
 	{
-		Console.WriteLine("TIME: {0}", time.ToString());
+		Log.WriteLine(string.Format("TIME: {0}", time.ToString()));
 		
 		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
 			type + " " + Catalog.GetString("time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) + 
@@ -659,7 +659,7 @@ public class RunIntervalExecute : RunExecute
 
 	private void updateTimerCountWithChronopicData(string timesString) {
 		//update timerCount, with the chronopic data
-		//Console.WriteLine("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString));
+		//Log.WriteLine("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString));
 		timerCount =  Util.GetTotalTime(timesString);
 	}
 				
@@ -695,7 +695,7 @@ public class RunIntervalExecute : RunExecute
 							//end this piece of code
 							return;
 						} else {
-							Console.WriteLine("Deleted one event out of time");
+							Log.WriteLine("Deleted one event out of time");
 							eventPassed = Util.EventPassedFromMaxTime(intervalTimesString, limitAsDouble);
 						}
 					}

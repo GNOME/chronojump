@@ -51,7 +51,7 @@ public class DialogCalendar
 	{
 		Calendar activatedCalendar = (Calendar) obj;
 
-		//Console.WriteLine ( activatedCalendar.GetDate().ToLongDateString());
+		//Log.WriteLine ( activatedCalendar.GetDate().ToLongDateString());
 		myDateTime = activatedCalendar.Date;
 
 		//raise a signal

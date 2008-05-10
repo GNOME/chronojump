@@ -328,7 +328,7 @@ public class RepairRunIntervalWindow
 	
 	static public RepairRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
 	{
-		//Console.WriteLine(myRun);
+		//Log.WriteLine(myRun);
 		if (RepairRunIntervalWindowBox == null) {
 			RepairRunIntervalWindowBox = new RepairRunIntervalWindow (parent, myRun, pDN);
 		}

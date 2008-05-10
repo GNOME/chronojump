@@ -187,7 +187,7 @@ public class PulseExtraWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		pulseStep = (double) PulseExtraWindowBox.spinbutton_pulse_step.Value;
-		Console.WriteLine("pulsestep: {0}", pulseStep);
+		Log.WriteLine(string.Format("pulsestep: {0}", pulseStep));
 		if(checkbutton_unlimited.Active) {
 			totalPulses = -1;
 			unlimited = true;

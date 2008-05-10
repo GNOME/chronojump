@@ -39,6 +39,7 @@ public class Constants
 	public const string PersonTable = "person";
 	public const string TempPersonTable = "tempPerson";
 	public const string SessionTable = "session";
+	public const string TempSessionTable = "tempSession";
 	public const string PersonSessionTable = "personSession";
 	public const string PersonSessionWeightTable = "personSessionWeight";
 	public const string SportTable = "sport";
@@ -223,19 +224,24 @@ public class Constants
 	public static string ExtensionProgramsLinux = "sh";
 	public static string ExtensionProgramsWindows = "bat";
 
+	public static int SportUndefinedID = 1;
 	public static string SportUndefined = "--Undefined";
+	public static int SportNoneID = 2;
 	public static string SportNone = "-None";
 
+	public static int SpeciallityUndefinedID = -1;
 	public static string SpeciallityUndefined = "Undefined"; 
 	
 	//levels of sport practice
 	//int will go into person database
 	//string will be shown in user language
+	public static int LevelUndefinedID = -1;
 	public static string LevelUndefined = "Undefined"; 
-	public static string LevelSedentary = "Sedentary"; 
+	public static int LevelSedentaryID = 0; 
+	public static string LevelSedentary = "Sedentary/Ocasional practice"; 
 	public static string [] Levels = {
-		"-1:" + Catalog.GetString(LevelUndefined), 
-		"0:" + Catalog.GetString(LevelSedentary), 
+		LevelUndefinedID.ToString() + ":" + Catalog.GetString(LevelUndefined), 
+		LevelSedentaryID.ToString() + ":" + Catalog.GetString(LevelSedentary), 
 		"1:" + Catalog.GetString("Regular practice"), 
 		"2:" + Catalog.GetString("Competition"), 
 		"3:" + Catalog.GetString("Elite"), 

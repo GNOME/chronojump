@@ -35,6 +35,13 @@ public class ChronoJump
 	private static string progname = "Chronojump";
 	
 	private string runningFileName; //useful for knowing if there are two chronojump instances
+	private string messageToShowOnBoot = "";
+	private bool chronojumpHasToExit = false;
+		
+	//isFirstTime we run chronojump in this machine? 
+	//(or is there a DB file?)
+	private bool isFirstTime = false;
+
 
 
 	public static void Main(string [] args) 
@@ -45,10 +52,10 @@ public class ChronoJump
 
 	public ChronoJump (string [] args) 
 	{
-		//works on Linux
-		//Console.WriteLine("lang: {0}", System.Environment.GetEnvironmentVariable("LANG"));
-		//Console.WriteLine("language: {0}", System.Environment.GetEnvironmentVariable("LANGUAGE"));
-	
+		bool timeLogPassedOk = Log.Start(args);
+		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
+		
+		checkIfChronojumpExitAbnormally();
 
 		/* SERVER COMMUNICATION TESTS */
 		/*
@@ -58,32 +65,29 @@ public class ChronoJump
 			//example of list a dir in server
 			string [] myListDir = myServer.ListDirectory("/home");
 			foreach (string myResult in myListDir) 
-				Console.WriteLine(myResult);
+				Log.WriteLine(myResult);
 
-			Console.WriteLine(myServer.ConnectDatabase());
+			Log.WriteLine(myServer.ConnectDatabase());
 			//select name of person with uniqueid 1
-			Console.WriteLine(myServer.SelectPersonName(1));
+			Log.WriteLine(myServer.SelectPersonName(1));
 		}
 		catch {
-			Console.WriteLine("Unable to call server");
+			Log.WriteLine("Unable to call server");
 		}
 		*/
 		/* END OF SERVER COMMUNICATION TESTS */
 
+		//print version of chronojump
+		Log.WriteLine(string.Format("Chronojump version: {0}", readVersion()));
+
 		//move database to new location if chronojump version is before 0.7
 		moveDatabaseToInstallJammerLocationIfNeeded();
 
-		checkIfChronojumpExitAbnormally();
-		
 		Sqlite.Connect();
-
-		//isFirstTime we run chronojump in this machine? 
-		//(or is there a DB file?)
-		bool isFirstTime = false;
 
 		//Chech if the DB file exists
 		if (!Sqlite.CheckTables()) {
-			Console.WriteLine ( Catalog.GetString ("no tables, creating ...") );
+			Log.WriteLine ( Catalog.GetString ("no tables, creating ...") );
 			Sqlite.CreateFile();
 			File.Create(runningFileName);
 			Sqlite.CreateTables();
@@ -94,108 +98,105 @@ public class ChronoJump
 			Util.BackupDirCreateIfNeeded();
 
 			Util.BackupDatabase();
-			Console.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
+			Log.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
 			//System.IO.Compression.GZipStream are not in mono
+
 
 			if(! Sqlite.IsSqlite3()) {
 				bool ok = Sqlite.ConvertFromSqlite2To3();
 				if (!ok) {
-					Console.WriteLine("******\n problem with sqlite \n******");
+					Log.WriteLine("******\n problem with sqlite \n******");
 					//check (spanish)
 					//http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-					Console.WriteLine(Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed. \nIf problems persist ask in chronojump-list"));
-					Console.ReadLine();
-					quitFromConsole();
+					string errorMessage = Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed. \nIf problems persist ask in chronojump-list");
+					Log.WriteLine(errorMessage);
+					messageToShowOnBoot += errorMessage;
+					chronojumpHasToExit = true;
 				}
 				Sqlite.Connect();
 			}
 
 			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
 			if(! softwareIsNew) {
-				Console.Clear();
-				Console.WriteLine ( 
-						string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), readVersion()) + "\n" +  
-						Catalog.GetString("Please update Chronojump") + ":\n" ); 
-				Console.WriteLine ( "http://www.gnome.org/projects/chronojump/installation"); 
-				Console.WriteLine( "\n\n" + Catalog.GetString("Press any key"));
-				Console.ReadKey(true);
-				quitFromConsole();
+				//Console.Clear();
+				string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), readVersion()) + "\n" +  
+						Catalog.GetString("Please update Chronojump") + ":\n"; 
+				errorMessage += "http://www.gnome.org/projects/chronojump/installation"; 
+				errorMessage += "\n\n" + Catalog.GetString("Press any key");
+				Log.WriteLine(errorMessage);
+				messageToShowOnBoot += errorMessage;
+				chronojumpHasToExit = true;
 			}
 
-			Console.WriteLine ( Catalog.GetString ("tables already created") ); 
+			Log.WriteLine ( Catalog.GetString ("tables already created") ); 
 
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
 		}
 
 
-		string recuperatedString = recuperateBrokenEvents();
+		messageToShowOnBoot += recuperateBrokenEvents();
 
 		//start as "simulated"
 		SqlitePreferences.Update("simulated", "True", false); //false (dbcon not opened)
 
-			
-		//we need to connect sqlite to do the languageChange
-		//change language works on windows. On Linux let's change the locale
-		//if(Util.IsWindows()) 
-		//	languageChange();
-
+		Util.IsWindows();	//only as additional info here
 		
 		Application.Init();
 
-		Util.IsWindows();	//only as additional info here
-
-
-		/*
-		//if firstTime on windows, then ask for the language
-		if(Util.IsWindows() && isFirstTime) {
-			//show language dialog (only first time)
-			LanguageWindow languageWin = LanguageWindow.Show();
-
-			languageWin.ButtonAccept.Clicked += new EventHandler(on_language_clicked);
-			Application.Run();
+		if(messageToShowOnBoot.Length > 0) {
+			ErrorWindow errorWin;
+			if(chronojumpHasToExit) {
+				messageToShowOnBoot += "\n<b>" + string.Format(Catalog.GetString("Chronojump will exit now.")) + "</b>\n";
+				errorWin = ErrorWindow.Show(messageToShowOnBoot);
+				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit);
+				Application.Run();
+			} else { 
+				errorWin = ErrorWindow.Show(messageToShowOnBoot);
+				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
+				Application.Run();
+			}
 		} else {
-		*/
-			chronoJumpWin = new ChronoJumpWindow(recuperatedString, isFirstTime, 
-					authors, readVersion(), progname, runningFileName);
+			startChronojump();
 			Application.Run();
-			/*
 		}
-		*/
+			
+	}
+		
+	private void on_message_boot_accepted_continue (object o, EventArgs args) {
+		startChronojump();
 	}
 
-	private bool askContinueChronojump() {
+	private void on_message_boot_accepted_quit (object o, EventArgs args) {
+		try {
+			File.Delete(runningFileName);
+		} catch {
+			//done because if database dir is moved in a chronojump conversion (eg from before installer to installjammer) maybe it will not find this runningFileName
+		}
+		Log.End();
+		Log.Delete();
+		Application.Quit();
+	}
+
+	private void startChronojump() {	
+		chronoJumpWin = new ChronoJumpWindow(isFirstTime, authors, readVersion(), progname, runningFileName);
+	}
+
+	private void chronojumpCrashedBeforeMessage() {
 		Console.Clear();
-		Console.WriteLine(Catalog.GetString("Chronojump is already running (program opened two times) or it crashed before"));
-		Console.WriteLine("\n" +
-				string.Format(Catalog.GetString("Please, if crashed, write an email to {0} including what you done when Chronojump crashed."), "xaviblas@gmail.com") + "\n" +
-				Catalog.GetString("Subject should be something like \"bug in Chronojump\". Your help is needed.")
-				);
+		string errorMessage = "\n" +
+				string.Format(Catalog.GetString("Chronojump crashed before. Please, <b>write an email</b> to {0} including this file:"), "xaviblas@gmail.com") + "\n\n" +
+					Log.GetLast() + "\n\n" +
+				Catalog.GetString("Subject should be something like \"bug in Chronojump\". Your help is needed.") + "\n";
 
-		bool success = false;
-		bool launchChronojump = true;
-		ConsoleKeyInfo myKey;
-		do {
-			Console.WriteLine("\n" + Catalog.GetString("Please press key") + ":");
-			Console.WriteLine("[ Q " + Catalog.GetString("or") + " q ] " + 
-					Catalog.GetString("to exit program if it's already opened"));
-			Console.WriteLine("[ Y " + Catalog.GetString("or") + " y ] " + 
-					Catalog.GetString("to launch Chronojump"));
-
-			myKey = Console.ReadKey(true);
-
-			if(myKey.KeyChar == 'Q' || myKey.KeyChar == 'q') {
-				Console.WriteLine("Quit");
-				launchChronojump = false;
-				success = true;
-			} else if(myKey.KeyChar == 'Y' || myKey.KeyChar == 'y') {
-				Console.WriteLine("Launch Chronojump");
-				launchChronojump = true;
-				success = true;
-			}
-		} while (!success);
-
-		return launchChronojump;
+		/*
+		 * This are the only outputs to Console. Other's use Log that prints to console and to log file
+		 * this doesn't go to log because it talks about log
+		 */
+		Console.WriteLine(errorMessage);
+		
+		messageToShowOnBoot += errorMessage;	
+		return;
 	}
 
 	//recuperate temp jumpRj or RunI if chronojump hangs
@@ -239,15 +240,6 @@ public class ChronoJump
 		return returnString;
 	}
 
-	private void quitFromConsole() {
-		try {
-			File.Delete(runningFileName);
-		} catch {
-			//done because if database dir is moved in a chronojump conversion (eg from before installer to installjammer) maybe it will not find this runningFileName
-		}
-		Environment.Exit(1);
-	}
-
 	private string readVersion() {
 		string version = "";
 		try  {
@@ -265,14 +257,11 @@ public class ChronoJump
 		
 	private void checkIfChronojumpExitAbnormally() {
 		runningFileName = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump_running";
-		if(File.Exists(runningFileName)) {
-			bool continueChronojump = askContinueChronojump();
-			if(!continueChronojump)
-				quitFromConsole();
-		} else {
-			if (Sqlite.CheckTables()) {
+		if(File.Exists(runningFileName)) 
+			chronojumpCrashedBeforeMessage();
+		else {
+			if (Sqlite.CheckTables()) 
 				File.Create(runningFileName);
-			}
 		}
 	}
 
@@ -280,34 +269,84 @@ public class ChronoJump
 	private void moveDatabaseToInstallJammerLocationIfNeeded() {
 		string oldDB = Util.GetOldDatabaseDir();
 		string newDB = Util.GetDatabaseDir();
-		string problemsMoving = string.Format(Catalog.GetString("Problems moving database from {0} to {1}\n Please, do it manually and the execute Chronojump.\n\n Chronojump will exit."), oldDB, newDB);
-	
-		if(Directory.Exists(oldDB)) {
-			//check if there's anything on newDB, and if there's anything move it to a newly created "old" dir
-			//this doesn't work because there's no Directory.Copy. maybe it's done by File.Copy, ?
-			//with a move has no sense because it's the same problem (newDB is already created)
-			/*
-			if(Directory.Exists(newDB)) {
-				try {
-					Directory.Copy(newDB, newDB + "-old-" + DateTime.Now.ToString()); 
-				}
-				catch {
-					Console.WriteLine(problemsMoving);
-					quitFromConsole();
-				}
-			}
-			*/
-			
-			//move db from oldDB to newDB
+
+
+		if(! Directory.Exists(newDB) && Directory.Exists(oldDB)) {
 			try {
-				Directory.Move(oldDB, newDB); 
+				Directory.Move(oldDB, newDB);
 			}
 			catch {
-				Console.WriteLine(problemsMoving);
-				quitFromConsole();
+				string feedback = "";
+				feedback += string.Format(Catalog.GetString("Cannot move database directory from {0} to {1}"), 
+						oldDB, Path.GetFullPath(newDB)) + "\n";
+				feedback += string.Format(Catalog.GetString("Trying to move/copy each file now")) + "\n";
+
+				int fileMoveProblems = 0;
+				int fileCopyProblems = 0;
+
+				try {
+					Directory.CreateDirectory(newDB);
+					Directory.CreateDirectory(newDB + Path.DirectorySeparatorChar + "backup");
+
+					string [] filesToMove = Directory.GetFiles(oldDB);
+					foreach (string oldFile in filesToMove) {
+						string newFile = newDB + Path.DirectorySeparatorChar + oldFile.Substring(oldDB.Length);
+						try {
+							File.Move(oldFile, newFile);
+						}
+						catch {
+							fileMoveProblems ++;
+							try {
+								Log.WriteLine(string.Format("{0}-{1}", oldFile, newFile));
+								File.Copy(oldFile, newFile);
+							}
+							catch {
+								fileCopyProblems ++;
+							}
+						}
+					}
+
+				}
+				catch {
+					feedback += string.Format(Catalog.GetString("Cannot create directory {0}"), Path.GetFullPath(newDB)) + "\n";
+					feedback += string.Format(Catalog.GetString("Please, do it manually.")) + "\n"; 
+					feedback += string.Format(Catalog.GetString("Chronojump will exit now.")) + "\n";
+					messageToShowOnBoot += feedback;	
+					Log.WriteLine(feedback);
+					chronojumpHasToExit = true;
+				}
+				if(fileCopyProblems > 0) {
+					feedback += string.Format(Catalog.GetString("Cannot copy {0} files from {1} to {2}"), fileCopyProblems, oldDB, Path.GetFullPath(newDB)) + "\n";
+					feedback += string.Format(Catalog.GetString("Please, do it manually.")) + "\n"; 
+					feedback += string.Format(Catalog.GetString("Chronojump will exit now.")) + "\n";
+					messageToShowOnBoot += feedback;	
+					Log.WriteLine(feedback);
+					chronojumpHasToExit = true;
+				}
+				if(fileMoveProblems > 0) {
+					feedback += string.Format(Catalog.GetString("Cannot move {0} files from {1} to {2}"), fileMoveProblems, oldDB, Path.GetFullPath(newDB)) + "\n";
+					feedback += string.Format(Catalog.GetString("Please, do it manually")) + "\n";
+					messageToShowOnBoot += feedback;	
+					Log.WriteLine(feedback);
+				}
 			}
-			Console.WriteLine(string.Format(Catalog.GetString("Database moved from {0} to {1}"), oldDB, newDB));
+					
+			string dbMove = string.Format(Catalog.GetString("Database is now here: {0}"), Path.GetFullPath(newDB));
+			messageToShowOnBoot += dbMove;	
+			Log.WriteLine(dbMove);
 		}
 	}
+
+	/*
+	private void quitFromConsole() {
+		try {
+			File.Delete(runningFileName);
+		} catch {
+			//done because if database dir is moved in a chronojump conversion (eg from before installer to installjammer) maybe it will not find this runningFileName
+		}
+		Log.End();
+		Environment.Exit(1);
+	}
+	*/
 
 }

@@ -195,32 +195,13 @@ public class Report : ExportSession
 	void copyCssAndLogo() {
 		//copy files, and continue if already exists
 		try {
-			//File.Copy(home + "/" + Constants.FileNameCSS , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameCSS );
-			//File.Copy(Constants.FileNameCSS , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameCSS );
-			
-			Stream s = this.GetType().Assembly.GetManifestResourceStream(
-					Util.GetImagePath(false) + Constants.FileNameCSS);
-			FileStream myFile = File.Create(Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameCSS);
-			byte[] buffer = new byte[32768];
-			int n = s.Read (buffer, 0, buffer.Length);
-			while (n > 0) {
-				myFile.Write (buffer, 0, n);
-				n = s.Read (buffer, 0, buffer.Length);
-			}
+			File.Copy(Constants.FileNameCSS, 
+					Util.GetReportDirectoryName(fileName) + Path.DirectorySeparatorChar + Constants.FileNameCSS );
 		} catch {}
 		try {
-			//File.Copy(home + "/" + Constants.FileNameLogo , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo);
-			//File.Copy(Constants.FileNameLogo , Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo);
-			
-			Stream s = this.GetType().Assembly.GetManifestResourceStream(
-					Util.GetImagePath(false) + Constants.FileNameLogo);
-			FileStream myFile = File.Create(Util.GetReportDirectoryName(fileName) + "/" + Constants.FileNameLogo);
-			byte[] buffer = new byte[32768];
-			int n = s.Read (buffer, 0, buffer.Length);
-			while (n > 0) {
-				myFile.Write (buffer, 0, n);
-				n = s.Read (buffer, 0, buffer.Length);
-			}
+
+			File.Copy(Constants.FileNameLogo, 
+					Util.GetReportDirectoryName(fileName) + Path.DirectorySeparatorChar + Constants.FileNameLogo );
 		} catch {}
 	}
 	
@@ -268,7 +249,8 @@ public class Report : ExportSession
 				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
 				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
 				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
-				Catalog.GetString ("Description")
+				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
+				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Description")
 			   );
 		
 		string myLine = "";
@@ -280,8 +262,8 @@ public class Report : ExportSession
 			myData.Add(myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
 					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
 					myStr[4] + ":" + myStr[5] + ":" + //height, weight
-					myStr[6] + ":" + myStr[7] + ":" + //sportName, practiceLevel
-					myStr[8]  //desc
+					myStr[6] + ":" + myStr[7] + ":" + //sportName, speciallityName
+					myStr[8] + ":" + myStr[9] //practiceLevel, desc
 				  );
 
 		}

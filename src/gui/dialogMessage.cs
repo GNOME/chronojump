@@ -64,9 +64,11 @@ public class DialogMessage
 
 	public void on_close_button_clicked (object obj, EventArgs args) {
 		dialog_message.Destroy ();
+		Application.Quit();
 	}
 
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		dialog_message.Destroy ();
+		Application.Quit();
 	}
 }

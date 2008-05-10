@@ -150,7 +150,7 @@ class SqliteJumpType : Sqlite
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", '" + myStr[3] + "')" ;	//weight, description
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			dbcon.Close();
@@ -169,7 +169,7 @@ class SqliteJumpType : Sqlite
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", " + myStr[3] + ", " +	//weight, jumpsLimited
 				myStr[4] + ", '" + myStr[5] + "')" ;	//fixedValue, description
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			dbcon.Close();
@@ -196,7 +196,7 @@ class SqliteJumpType : Sqlite
 			whereString +
 			" ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -233,11 +233,11 @@ class SqliteJumpType : Sqlite
 		count =0;
 		if(allJumpsName != "") {
 			myTypes [count++] = allJumpsName;
-			//Console.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
 		}
 		foreach (string line in myArray) {
 			myTypes [count++] = line;
-			//Console.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
 		}
 
 		return myTypes;
@@ -250,7 +250,7 @@ class SqliteJumpType : Sqlite
 			" FROM " + Constants.JumpRjTypeTable + " " +
 			" ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -305,7 +305,7 @@ class SqliteJumpType : Sqlite
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -344,7 +344,7 @@ class SqliteJumpType : Sqlite
 			" FROM " + tableName +
 			" WHERE name == '" + typeName + "'";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -354,9 +354,9 @@ class SqliteJumpType : Sqlite
 		while(reader.Read()) {
 			if(reader[0].ToString() == "1") {
 				hasWeight = true;
-				Console.WriteLine("found type: hasWeight");
+				Log.WriteLine("found type: hasWeight");
 			} else {
-				Console.WriteLine("found type: NO hasWeight");
+				Log.WriteLine("found type: NO hasWeight");
 			}
 		}
 		dbcon.Close();
@@ -371,7 +371,7 @@ class SqliteJumpType : Sqlite
 			" FROM " + tableName +
 			" WHERE name == '" + typeName + "'";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -392,7 +392,7 @@ class SqliteJumpType : Sqlite
 		//dbcon.Open();
 		dbcmd.CommandText = "UPDATE jumpType SET name = '" + nameNew + 
 			"' WHERE name == '" + nameOld + "'";
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		//dbcon.Close();
 	}

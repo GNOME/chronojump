@@ -62,7 +62,7 @@ class SqliteEvent : Sqlite
 		dbcmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
 				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 		if(! dbconOpened) {
@@ -78,7 +78,7 @@ class SqliteEvent : Sqlite
 
 		dbcmd.CommandText = "SELECT graphFileName FROM graphLinkTable WHERE tableName == '" + tableName + "' AND eventName =='" + eventName + "'";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;

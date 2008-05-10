@@ -87,7 +87,7 @@ class SqliteSport : Sqlite
 		
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SportTable + " WHERE uniqueID == " + uniqueID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -113,7 +113,7 @@ class SqliteSport : Sqlite
 		
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.SportTable + " WHERE name == '" + name + "'";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -171,8 +171,8 @@ class SqliteSport : Sqlite
 	 */
 	private static string [] SportsChronojump = {
 		//true or false means if it has speciallities
-		Constants.SportUndefined + ":" + Catalog.GetString(Constants.SportUndefined) + ":" + false + ":" + "", //will be 1
-		Constants.SportNone + ":" + Catalog.GetString(Constants.SportNone) + ":" + false + ":" + "", 	 //will be 2
+		Constants.SportUndefined + ":" + Catalog.GetString(Constants.SportUndefined) + ":" + false + ":" + "", //will be 1 (it's also written in Constants.SportUndefinedID
+		Constants.SportNone + ":" + Catalog.GetString(Constants.SportNone) + ":" + false + ":" + "", 	 //will be 2 (it's also written in Constants.SportNoneID
 		"Aquatics:" + Catalog.GetString("Aquatics") + ":" + true + ":" + "",
 		"Archery:" + Catalog.GetString("Archery") + ":" + false + ":" + "", 
 		"Athletics:" + Catalog.GetString("Athletics") + ":" + true + ":" + "",

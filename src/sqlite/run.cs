@@ -83,7 +83,7 @@ class SqliteRun : Sqlite
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", '" + 
 				description + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 		dbcon.Close();
@@ -104,7 +104,7 @@ class SqliteRun : Sqlite
 				Util.ConvertToPoint(intervalTimesString) + "', " +
 				Util.ConvertToPoint(tracks) + ", '" + 
 				description + "', '" + limited + "')" ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
 
@@ -122,7 +122,7 @@ class SqliteRun : Sqlite
 			" AND run.sessionID == " + sessionID + 
 			" ORDER BY person.uniqueID, run.uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -169,7 +169,7 @@ class SqliteRun : Sqlite
 			" AND runInterval.sessionID == " + sessionID + 
 			" ORDER BY person.uniqueID, runInterval.uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -215,7 +215,7 @@ class SqliteRun : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.RunTable + " WHERE uniqueID == " + uniqueID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 
 		dbcmd.ExecuteNonQuery();
 
@@ -245,7 +245,7 @@ class SqliteRun : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -280,7 +280,7 @@ class SqliteRun : Sqlite
 			", time = " + Util.ConvertToPoint(Convert.ToDouble(time)) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + runID ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -292,7 +292,7 @@ class SqliteRun : Sqlite
 			" SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + runID ;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
@@ -302,7 +302,7 @@ class SqliteRun : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "Delete FROM " + runTable + 
 			" WHERE uniqueID == " + uniqueID;
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}

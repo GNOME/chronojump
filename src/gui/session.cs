@@ -28,7 +28,7 @@ using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public class SessionAddWindow {
+public class SessionAddEditWindow {
 	
 	[Widget] Gtk.Window session_add_edit;
 	[Widget] Gtk.Entry entry_name;
@@ -40,142 +40,48 @@ public class SessionAddWindow {
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Button button_accept;
 	
+	[Widget] Gtk.RadioButton radiobutton_diff_sports;
+	[Widget] Gtk.RadioButton radiobutton_same_sport;
+	[Widget] Gtk.RadioButton radiobutton_diff_speciallities;
+	[Widget] Gtk.RadioButton radiobutton_same_speciallity;
+	[Widget] Gtk.RadioButton radiobutton_diff_levels;
+	[Widget] Gtk.RadioButton radiobutton_same_level;
+	[Widget] Gtk.Box hbox_sports;
+	[Widget] Gtk.Box hbox_combo_sports;
+	[Widget] Gtk.ComboBox combo_sports;
+	[Widget] Gtk.Box vbox_speciallity;
+	[Widget] Gtk.Label label_speciallity;
+	[Widget] Gtk.Box hbox_combo_speciallities;
+	[Widget] Gtk.ComboBox combo_speciallities;
+	[Widget] Gtk.Box vbox_level;
+	[Widget] Gtk.Label label_level;
+	[Widget] Gtk.Box hbox_combo_levels;
+	[Widget] Gtk.ComboBox combo_levels;
+	
+	[Widget] Gtk.Label label_persons_data;
+
 	ErrorWindow errorWin;
 
 	DialogCalendar myDialogCalendar;
 	DateTime dateTime;
+
+	Sport sport;
+	string [] sports;
+	int speciallityID;
+	string [] speciallities;
+	String level;
+	string [] levels;
+
+	bool addSession;
 	
 	private Session currentSession;
 	
-	static SessionAddWindow SessionAddWindowBox;
+	GenericWindow genericWin;
+	static SessionAddEditWindow SessionAddEditWindowBox;
 	Gtk.Window parent;
 	
 	
-	SessionAddWindow (Gtk.Window parent) {
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
-		gladeXML.Autoconnect(this);
-		this.parent = parent;
-		
-		//put an icon to window
-		UtilGtk.IconWindow(session_add_edit);
-	
-		button_accept.Sensitive = false;
-		dateTime = DateTime.Today;
-		label_date.Text = dateTime.ToLongDateString();
-			
-		session_add_edit.Title = Catalog.GetString("New Session");
-	}
-	
-	static public SessionAddWindow Show (Gtk.Window parent)
-	{
-		if (SessionAddWindowBox == null) {
-			SessionAddWindowBox = new SessionAddWindow (parent);
-		}
-		SessionAddWindowBox.session_add_edit.Show ();
-
-		return SessionAddWindowBox;
-	}
-	
-	void on_entries_required_changed (object o, EventArgs args)
-	{
-		if(entry_name.Text.ToString().Length > 0) {
-			button_accept.Sensitive = true;
-		}
-		else {
-			button_accept.Sensitive = false;
-		}
-	}
-		
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		SessionAddWindowBox.session_add_edit.Hide();
-		SessionAddWindowBox = null;
-	}
-	
-	void on_session_add_edit_delete_event (object o, DeleteEventArgs args)
-	{
-		SessionAddWindowBox.session_add_edit.Hide();
-		SessionAddWindowBox = null;
-	}
-
-	
-	void on_button_change_date_clicked (object o, EventArgs args)
-	{
-		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"));
-		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
-	}
-
-	void on_calendar_changed (object obj, EventArgs args)
-	{
-		dateTime = myDialogCalendar.MyDateTime;
-		label_date.Text = dateTime.ToLongDateString();
-	}
-
-	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		string nowDate = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
-			dateTime.Year.ToString();
-		
-		bool sessionExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTilde(entry_name.Text));
-		if(sessionExists) {
-			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
-			Console.WriteLine (myString);
-			errorWin = ErrorWindow.Show(myString);
-
-		} else {
-			currentSession = new Session (entry_name.Text, entry_place.Text, nowDate, textview.Buffer.Text);
-			SessionAddWindowBox.session_add_edit.Hide();
-			SessionAddWindowBox = null;
-		}
-	}
-
-	public Button Button_accept 
-	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
-	}
-
-	public Session CurrentSession 
-	{
-		get {
-			return currentSession;
-		}
-	}
-
-}
-
-public class SessionEditWindow
-{
-
-	[Widget] Gtk.Window session_add_edit; 
-	[Widget] Gtk.Entry entry_name;
-	[Widget] Gtk.Entry entry_place;
-	
-	[Widget] Gtk.Label label_date;
-	[Widget] Gtk.Button button_change_date;
-
-	[Widget] Gtk.TextView textview;
-	[Widget] Gtk.Button button_accept;
-	
-	ErrorWindow errorWin;
-
-	DialogCalendar myDialogCalendar;
-	DateTime dateTime;
-	
-	private Session currentSession;
-	
-	static SessionEditWindow SessionEditWindowBox;
-	Gtk.Window parent;
-	
-	
-	SessionEditWindow (Gtk.Window parent, Session currentSession) {
+	SessionAddEditWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_add_edit", null);
 		gladeXML.Autoconnect(this);
@@ -186,35 +92,125 @@ public class SessionEditWindow
 	
 		this.currentSession = currentSession;
 		button_accept.Sensitive = false;
-		
-		session_add_edit.Title = Catalog.GetString("Session Edit");
 
-		dateTime = Util.DateAsDateTime(currentSession.Date);
+		createComboSports();
+		createComboSpeciallities(-1);
+		createComboLevels();
+		labelUpdate();
+			
+		if(currentSession.UniqueID == -1)
+			addSession = true;
+		else 
+			addSession = false;
+		
+		if(addSession) {
+			session_add_edit.Title = Catalog.GetString("New Session");
+			dateTime = DateTime.Today;
+			label_date.Text = dateTime.ToLongDateString();
+		} else {
+			session_add_edit.Title = Catalog.GetString("Session Edit");
 
-		entry_name.Text = currentSession.Name;
-		entry_place.Text = currentSession.Place;
-		
-		label_date.Text = currentSession.DateLong;
-		
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = currentSession.Comments;
-		textview.Buffer = tb;
-	}
-	
-	static public SessionEditWindow Show (Gtk.Window parent, Session currentSession)
-	{
-		if (SessionEditWindowBox == null) {
-			SessionEditWindowBox = new SessionEditWindow (parent, currentSession);
+			dateTime = Util.DateAsDateTime(currentSession.Date);
+
+			entry_name.Text = currentSession.Name;
+			entry_place.Text = currentSession.Place;
+
+			label_date.Text = currentSession.DateLong;
+
+			TextBuffer tb = new TextBuffer (new TextTagTable());
+			tb.Text = currentSession.Comments;
+			textview.Buffer = tb;
+
+			//showSportStuffWithLoadedData();
 		}
-		SessionEditWindowBox.session_add_edit.Show ();
+			
+	}
+	
+	static public SessionAddEditWindow Show (Gtk.Window parent, Session currentSession)
+	{
+		if (SessionAddEditWindowBox == null) {
+			SessionAddEditWindowBox = new SessionAddEditWindow (parent, currentSession);
+		}
+		SessionAddEditWindowBox.session_add_edit.Show ();
 
-		return SessionEditWindowBox;
+		SessionAddEditWindowBox.fillDialog ();
+		
+		return SessionAddEditWindowBox;
+	}
+	
+	void showSportStuffWithLoadedData() {
+		Log.Write(string.Format("{0}-{1}-{2}", currentSession.PersonsSportID, currentSession.PersonsSpeciallityID, currentSession.PersonsPractice));
+
+		if(currentSession.PersonsSportID != Constants.SportUndefinedID) { 
+			radiobutton_same_sport.Active = true;
+			Sport mySport = SqliteSport.Select(currentSession.PersonsSportID);
+			combo_sports.Active = UtilGtk.ComboMakeActive(sports, mySport.ToString());
+
+			if(sport.HasSpeciallities) {
+				combo_speciallities.Destroy();
+				createComboSpeciallities(mySport.UniqueID);
+				speciallity_row_show(true);
+
+				if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID) { 
+					radiobutton_same_speciallity.Active = true;
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities,
+						       SqliteSpeciallity.Select(currentSession.PersonsSpeciallityID));
+						       
+				} else 
+					combo_speciallities.Active = 
+						UtilGtk.ComboMakeActive(speciallities, 
+								Constants.SpeciallityUndefinedID.ToString()  + ":" + 
+								Catalog.GetString(Constants.SpeciallityUndefined));
+				
+			}
+
+			if(currentSession.PersonsSportID != Constants.SportNoneID) { 
+				combo_levels.Destroy();
+				createComboLevels();
+				level_row_show(true);
+
+				if(currentSession.PersonsPractice != Constants.LevelUndefinedID) { 
+					radiobutton_same_level.Active = true;
+					combo_levels.Active = UtilGtk.ComboMakeActive(levels,
+						       currentSession.PersonsPractice + ":" + 
+						       Util.FindLevelName(currentSession.PersonsPractice));
+						       
+				} else 
+					combo_levels.Active = 
+						UtilGtk.ComboMakeActive(levels, 
+								Constants.LevelUndefinedID.ToString() + ":" + 
+								Catalog.GetString(Constants.LevelUndefined));
+				
+			}
+
+		}
 	}
 
+	void fillDialog() {
+		if(!addSession)
+			showSportStuffWithLoadedData();
+
+	}
+
+	void on_entries_required_changed (object o, EventArgs args) {
+		showHideButtonAccept();
+	}
 	
-	void on_entries_required_changed (object o, EventArgs args)
-	{
-		if(entry_name.Text.ToString().Length > 0) {
+	void showHideButtonAccept() {
+		if(entry_name.Text.ToString().Length > 0 &&
+			( ! (!radiobutton_diff_sports.Active && 
+			     /*
+			  Util.FetchName(UtilGtk.ComboGetActive(combo_sports)) == Constants.SportUndefined) ) &&
+			( ! (label_speciallity.Visible && !radiobutton_diff_speciallities.Active && 
+			  Util.FetchName(UtilGtk.ComboGetActive(combo_speciallities)) == Constants.SpeciallityUndefined) ) &&
+			( ! (label_level.Visible && !radiobutton_diff_levels.Active && 
+			  Util.FetchName(UtilGtk.ComboGetActive(combo_levels)) == Constants.LevelUndefined) ) ) {
+			  */
+			  Util.FetchID(UtilGtk.ComboGetActive(combo_sports)) == Constants.SportUndefinedID) ) &&
+			( ! (label_speciallity.Visible && !radiobutton_diff_speciallities.Active && 
+			  Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)) == Constants.SpeciallityUndefinedID) ) &&
+			( ! (label_level.Visible && !radiobutton_diff_levels.Active && 
+			  Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) == Constants.LevelUndefinedID) ) ) {
 			button_accept.Sensitive = true;
 		}
 		else {
@@ -222,17 +218,278 @@ public class SessionEditWindow
 		}
 	}
 		
+	void on_radiobutton_sports_toggled (object o, EventArgs args) {
+		if(radiobutton_diff_sports.Active) {
+			hbox_sports.Hide();
+			speciallity_row_show(false);
+			level_row_show(false);
+		}
+		else {
+			hbox_sports.Show();
+			on_combo_sports_changed(o, args);
+		}
+		labelUpdate();
+		showHideButtonAccept();
+	}
+
+	void on_radiobutton_speciallities_toggled (object o, EventArgs args) {
+		if(radiobutton_diff_speciallities.Active)
+			hbox_combo_speciallities.Hide();
+		else
+			hbox_combo_speciallities.Show();
+		labelUpdate();
+		showHideButtonAccept();
+	}
+					
+	void speciallity_row_show(bool show) {
+		if(show) {
+			if(radiobutton_diff_speciallities.Active)
+				hbox_combo_speciallities.Hide();
+			else
+				hbox_combo_speciallities.Show();
+			label_speciallity.Show();
+			vbox_speciallity.Show();
+		} else {
+			label_speciallity.Hide();
+			vbox_speciallity.Hide();
+			radiobutton_diff_speciallities.Active = true;
+		}
+		labelUpdate();
+		showHideButtonAccept();
+	}
+
+	void on_radiobutton_levels_toggled (object o, EventArgs args) {
+		if(radiobutton_diff_levels.Active)
+			hbox_combo_levels.Hide();
+		else
+			hbox_combo_levels.Show();
+		labelUpdate();
+		showHideButtonAccept();
+	}
+
+	void level_row_show(bool show) {
+		if(show) {
+			if(radiobutton_diff_levels.Active)
+				hbox_combo_levels.Hide();
+			else
+				hbox_combo_levels.Show();
+			label_level.Show();
+			vbox_level.Show();
+		} else {
+			label_level.Hide();
+			vbox_level.Hide();
+			radiobutton_diff_levels.Active = true;
+		}
+		labelUpdate();
+		showHideButtonAccept();
+	}
+
+	private void createComboSports() {
+		combo_sports = ComboBox.NewText ();
+		sports = SqliteSport.SelectAll();
+		
+		UtilGtk.ComboUpdate(combo_sports, sports, "");
+		combo_sports.Active = UtilGtk.ComboMakeActive(sports, 
+				Constants.SportUndefinedID.ToString() + ":" + Catalog.GetString(Constants.SportUndefined));
 	
+		combo_sports.Changed += new EventHandler (on_combo_sports_changed);
+
+		hbox_combo_sports.PackStart(combo_sports, true, true, 0);
+		hbox_combo_sports.ShowAll();
+		combo_sports.Sensitive = true;
+		
+		hbox_sports.Hide();
+	}
+	
+	private void createComboSpeciallities(int sportID) {
+		combo_speciallities = ComboBox.NewText ();
+		speciallities = SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
+
+		UtilGtk.ComboUpdate(combo_speciallities, speciallities, "");
+		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
+				Constants.SpeciallityUndefinedID.ToString() + ":" + 
+				Catalog.GetString(Constants.SpeciallityUndefined));
+
+		combo_speciallities.Changed += new EventHandler (on_combo_speciallities_changed);
+
+		hbox_combo_speciallities.PackStart(combo_speciallities, true, true, 0);
+		hbox_combo_speciallities.ShowAll();
+		combo_speciallities.Sensitive = true;
+
+		speciallity_row_show(false);
+	}
+	
+	private void createComboLevels() {
+		combo_levels = ComboBox.NewText ();
+		levels = Constants.Levels;
+		
+		UtilGtk.ComboUpdate(combo_levels, levels, "");
+		combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
+				Constants.LevelUndefinedID.ToString() + ":" + 
+				Catalog.GetString(Constants.LevelUndefined));
+
+		combo_levels.Changed += new EventHandler (on_combo_levels_changed);
+
+		hbox_combo_levels.PackStart(combo_levels, true, true, 0);
+		hbox_combo_levels.ShowAll();
+		//combo_levels.Sensitive = false; //level is shown when sport is not "undefined" and not "none"
+		combo_levels.Sensitive = true; //level is shown when sport is not "undefined" and not "none"
+		
+		level_row_show(false);
+	}
+	
+	private void on_combo_sports_changed(object o, EventArgs args) {
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+
+		//Log.WriteLine("changed");
+		try {
+			sport = new Sport(UtilGtk.ComboGetActive(combo_sports));
+
+			if(sport.Name == Catalog.GetString(Constants.SportUndefined)) {
+				//if sport is undefined, level should be undefined, and unsensitive
+				try { 
+					combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
+							Constants.LevelUndefinedID.ToString() + ":" + 
+							Catalog.GetString(Constants.LevelUndefined));
+					level_row_show(false);
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
+							Constants.SpeciallityUndefinedID.ToString() + ":" + Catalog.GetString(Constants.SpeciallityUndefined));
+					speciallity_row_show(false);
+				}
+				catch { Log.WriteLine("do later"); }
+			} else if(sport.Name == Catalog.GetString(Constants.SportNone)) {
+				//if sport is none, level should be sedentary and unsensitive
+				try { 
+					combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
+							Constants.LevelSedentaryID.ToString() + ":" + 
+							Catalog.GetString(Constants.LevelSedentary));
+					level_row_show(false);
+
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
+							Constants.SpeciallityUndefinedID.ToString() + ":" + 
+							Catalog.GetString(Constants.SpeciallityUndefined));
+
+					speciallity_row_show(false);
+				}
+				catch { Log.WriteLine("do later"); }
+			} else {
+				//sport is not undefined and not none
+
+				//if level is "sedentary", then change level to "undefined"
+				if(UtilGtk.ComboGetActive(combo_levels) == 
+						Constants.LevelSedentaryID.ToString() + ":" + 
+						Catalog.GetString(Constants.LevelSedentary))
+					combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
+							Constants.SpeciallityUndefinedID.ToString() + ":" + 
+							Catalog.GetString(Constants.LevelUndefined));
+
+				//show level
+				combo_levels.Sensitive = true;
+				level_row_show(true);
+		
+				if(sport.HasSpeciallities) {
+					combo_speciallities.Destroy();
+					createComboSpeciallities(sport.UniqueID);
+					speciallity_row_show(true);
+				} else {
+					Log.Write("hide");
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
+							Constants.SpeciallityUndefinedID.ToString() + ":" + Catalog.GetString(Constants.SpeciallityUndefined));
+					speciallity_row_show(false);
+				}
+			}
+		} catch { 
+			//Log.WriteLine("do later");
+		}
+
+		Log.WriteLine("at on_combo_sports_changed " + sport.ToString());
+		//labelUpdate();
+	}
+
+	private void on_combo_speciallities_changed(object o, EventArgs args) {
+		Log.WriteLine("changed speciallities");
+		labelUpdate();
+		showHideButtonAccept();
+	}
+
+	private void on_combo_levels_changed(object o, EventArgs args) {
+		//string myText = UtilGtk.ComboGetActive(combo_sports);
+		Log.WriteLine("changed levels");
+		//level = UtilGtk.ComboGetActive(combo_levels);
+				
+		//if it's sedentary, put sport to none
+		/*
+		 * Now undone because sedentary has renamed to "sedentary/Ocasional practice"
+		if(UtilGtk.ComboGetActive(combo_levels) == "0:" + Catalog.GetString(Constants.LevelSedentary))
+			combo_sports.Active = UtilGtk.ComboMakeActive(sports, "2:" + Catalog.GetString(Constants.SportNone));
+		*/
+		labelUpdate();
+		showHideButtonAccept();
+	}
+	
+	private void labelUpdate() {
+		string sportString = "";
+		string speciallityString = "";
+		string levelString = "";
+		string pleaseDefineItString = " [" + Catalog.GetString("Please, define it") + "].";
+
+		try {
+			if(radiobutton_diff_sports.Active)
+				sportString = Catalog.GetString("People in session practice different sports.");
+			else {
+				sportString = Catalog.GetString("All people in session practice the same sport:");
+				int sportID =  Util.FetchID(UtilGtk.ComboGetActive(combo_sports));
+				if(sportID == Constants.SportUndefinedID)
+					sportString += "<tt>" + pleaseDefineItString + "</tt>";
+				else if(sportID == Constants.SportNoneID)
+					sportString = Catalog.GetString("Nobody in this session practice sport.");
+				else
+					sportString += " <i>" + Util.FetchName(UtilGtk.ComboGetActive(combo_sports)) + "</i>.";
+
+				if(label_speciallity.Visible) {
+					if(radiobutton_diff_speciallities.Active)
+						speciallityString = "\n" + Catalog.GetString("Different speciallities.");
+					else {
+						speciallityString = "\n" + Catalog.GetString("This speciallity:");
+						int speciallityID =  Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities));
+						if(speciallityID == Constants.SpeciallityUndefinedID)
+							speciallityString += "<tt>" + pleaseDefineItString + "</tt>";
+						else
+							speciallityString += " <i>" + Util.FetchName(UtilGtk.ComboGetActive(combo_speciallities)) + "</i>.";
+					}
+				}
+				if(label_level.Visible) {
+					if(radiobutton_diff_levels.Active)
+						levelString = "\n" + Catalog.GetString("Different levels.");
+					else {
+						levelString = "\n" + Catalog.GetString("This level:");
+						int levelID =  Util.FetchID(UtilGtk.ComboGetActive(combo_levels));
+						if(levelID == Constants.LevelUndefinedID)
+							levelString += "<tt>" + pleaseDefineItString + "</tt>";
+						else
+							levelString += " <i>" + Util.FetchName(UtilGtk.ComboGetActive(combo_levels)) + "</i>.";
+					}
+				}
+			}
+			label_persons_data.Text= sportString + speciallityString + levelString;
+			label_persons_data.UseMarkup = true;
+		} catch {
+			Log.WriteLine("Do later");
+		}
+	}
+
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		SessionEditWindowBox.session_add_edit.Hide();
-		SessionEditWindowBox = null;
+		SessionAddEditWindowBox.session_add_edit.Hide();
+		SessionAddEditWindowBox = null;
 	}
 	
 	void on_session_add_edit_delete_event (object o, DeleteEventArgs args)
 	{
-		SessionEditWindowBox.session_add_edit.Hide();
-		SessionEditWindowBox = null;
+		SessionAddEditWindowBox.session_add_edit.Hide();
+		SessionAddEditWindowBox = null;
 	}
 
 	
@@ -248,31 +505,88 @@ public class SessionEditWindow
 		label_date.Text = dateTime.ToLongDateString();
 	}
 
+	void on_button_sport_add_clicked (object o, EventArgs args)
+	{
+		Log.WriteLine("sport add clicked");
+		genericWin = GenericWindow.Show(Catalog.GetString("Add new sport to database"), true, false);
+		genericWin.Button_accept.Clicked += new EventHandler(on_sport_add_accepted);
+	}
 
+	private void on_sport_add_accepted (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(on_sport_add_accepted);
+		string newSportName = genericWin.EntrySelected;
+		if(Sqlite.Exists(Constants.SportTable, newSportName) ||
+				newSportName == Catalog.GetString(Constants.SportUndefined) || //let's save problems
+				newSportName == Catalog.GetString(Constants.SportNone)		//let's save problems
+				)
+				new DialogMessage(string.Format(
+							Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
+							newSportName), true);
+		else {
+			int myID = SqliteSport.Insert(false, newSportName, true, //dbconOpened, , userDefined
+					false, "");	//hasSpeciallities, graphLink 
+
+			Sport mySport = new Sport(myID, newSportName, true, 
+					false, "");	//hasSpeciallities, graphLink 
+			string [] sports = SqliteSport.SelectAll();
+			UtilGtk.ComboUpdate(combo_sports, sports, mySport.ToString());
+			combo_sports.Active = UtilGtk.ComboMakeActive(sports, mySport.ToString());
+		}
+	}
+	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		//check if new name of session exists (is owned by other session),
-		//but all is ok if the name is the same as the old name
-		bool sessionExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTilde(entry_name.Text));
-		if(sessionExists && Util.RemoveTilde(entry_name.Text) != currentSession.Name ) {
+		string myDate = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
+			dateTime.Year.ToString();
+		
+		//check if name of session exists (is owned by other session),
+		//but all is ok if the name is the same as the old name (editing)
+		bool sessionNameExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTilde(entry_name.Text));
+		if(sessionNameExists && Util.RemoveTilde(entry_name.Text) != currentSession.Name ) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
-			Console.WriteLine (myString);
 			errorWin = ErrorWindow.Show(myString);
-
 		} else {
-			string nowDate = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
-				dateTime.Year.ToString();
-			
-			currentSession.Name = entry_name.Text.ToString();
-			currentSession.Place = entry_place.Text.ToString(); 
-			currentSession.Date = nowDate;
-			currentSession.Comments = textview.Buffer.Text;
-			
-			SqliteSession.Edit(currentSession.UniqueID, currentSession.Name, 
-					currentSession.Place, currentSession.Date, currentSession.Comments);
+			int sportID;
+			if(radiobutton_diff_sports.Active)
+				sportID = Constants.SportUndefinedID;
+			else {
+				Sport mySport = new Sport(UtilGtk.ComboGetActive(combo_sports));
+				sportID = mySport.UniqueID;
+			}
 
-			SessionEditWindowBox.session_add_edit.Hide();
-			SessionEditWindowBox = null;
+			int speciallityID;
+			if(!label_speciallity.Visible || radiobutton_diff_speciallities.Active)
+				speciallityID = Constants.SpeciallityUndefinedID; 
+			else
+				speciallityID = Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities));
+
+			int levelID;
+			if(!label_level.Visible || radiobutton_diff_levels.Active)
+				levelID = Constants.LevelUndefinedID;
+			else
+				levelID = Util.FetchID(UtilGtk.ComboGetActive(combo_levels));
+
+			if(addSession)
+				currentSession = new Session (entry_name.Text, entry_place.Text, myDate, 
+						sportID, speciallityID, levelID,
+						textview.Buffer.Text);
+			else {
+				currentSession.Name = entry_name.Text.ToString();
+				currentSession.Place = entry_place.Text.ToString(); 
+				currentSession.Date = myDate;
+				currentSession.PersonsSportID = sportID;
+				currentSession.PersonsSpeciallityID = speciallityID;
+				currentSession.PersonsPractice = levelID;
+				currentSession.Comments = textview.Buffer.Text;
+
+				SqliteSession.Edit(currentSession.UniqueID, currentSession.Name, 
+						currentSession.Place, currentSession.Date, 
+						sportID, speciallityID, levelID,
+						currentSession.Comments);
+			}
+
+			SessionAddEditWindowBox.session_add_edit.Hide();
+			SessionAddEditWindowBox = null;
 		}
 	}
 
@@ -322,6 +636,7 @@ public class SessionLoadWindow {
 		createTreeView(treeview_session_load);
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), 
 				typeof (string), typeof (string), typeof (string), typeof (string), typeof(string), 
+				typeof (string), typeof (string), typeof (string),
 				typeof (string), typeof (string), typeof (string) );
 		treeview_session_load.Model = store;
 		fillTreeView(treeview_session_load,store);
@@ -350,6 +665,9 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Date"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Persons"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Sport"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Speciallity"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Level"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Runs simple"), new CellRendererText(), "text", count++);
@@ -364,19 +682,25 @@ public class SessionLoadWindow {
 		string [] mySessions = SqliteSession.SelectAllSessions(); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
-
-			
+				
+			string mySpeciallity = ""; //done because Undefined has "" as name and crashes with gettext
+			if (myStringFull[6] != "") 
+				mySpeciallity = Catalog.GetString(myStringFull[6])
+					;
 			store.AppendValues (myStringFull[0], myStringFull[1], 
 					myStringFull[2], 
 					Util.DateAsDateTime(myStringFull[3]).ToShortDateString(),
-					myStringFull[5],	//number of jumpers x session
-					myStringFull[6],	//number of jumps x session
-					myStringFull[7],	//number of jumpsRj x session
-					myStringFull[8], 	//number of runs x session
-					myStringFull[9], 	//number of runsInterval x session
-					myStringFull[10], 	//number of reaction times x session
-					myStringFull[11], 	//number of pulses x session
-					myStringFull[4]		//description of session
+					myStringFull[8],	//number of jumpers x session
+					myStringFull[4],	//personsSport
+					myStringFull[5],	//personsSpeciallity
+					myStringFull[6],	//personsLevel
+					myStringFull[9],	//number of jumps x session
+					myStringFull[10],	//number of jumpsRj x session
+					myStringFull[11], 	//number of runs x session
+					myStringFull[12], 	//number of runsInterval x session
+					myStringFull[13], 	//number of reaction times x session
+					myStringFull[14], 	//number of pulses x session
+					myStringFull[7]		//description of session
 					);
 		}	
 
@@ -392,7 +716,7 @@ public class SessionLoadWindow {
 			selected = (string)model.GetValue (iter, 0);
 			button_accept.Sensitive = true;
 		}
-		Console.WriteLine (selected);
+		Log.WriteLine (selected);
 	}
 	
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
@@ -409,6 +733,7 @@ public class SessionLoadWindow {
 			button_accept.Activate();
 		}
 	}
+
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		if(selected != "-1")
@@ -418,7 +743,6 @@ public class SessionLoadWindow {
 			SessionLoadWindowBox = null;
 		}
 	}
-	
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
@@ -679,7 +1003,7 @@ public class SessionSelectStatsWindow {
 					(string) myTreeview.Model.GetValue (myIter, 1) + ":" +	//name
 					(string) myTreeview.Model.GetValue (myIter, 3) 		//date (forget place)
 					);
-				Console.WriteLine(arrayOfSelectedSessions[count]);
+				Log.WriteLine(arrayOfSelectedSessions[count].ToString());
 			}
 		} 
 	}

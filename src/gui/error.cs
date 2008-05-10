@@ -47,6 +47,7 @@ public class ErrorWindow
 		UtilGtk.IconWindow(error_window);
 		
 		label1.Text = text1;
+		label1.UseMarkup = true;
 	}
 
 	static public ErrorWindow Show (string text1)
@@ -61,8 +62,13 @@ public class ErrorWindow
 	
 	void on_delete_window_event (object o, DeleteEventArgs args)
 	{
+		/*
 		ErrorWindowBox.error_window.Hide();
 		ErrorWindowBox = null;
+		*/
+		
+		//need this for continue execution on chronojump startup. See src/chronojump.cs
+		button_accept.Click();
 	}
 	
 

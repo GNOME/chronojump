@@ -77,7 +77,7 @@ class SqlitePulseType : Sqlite
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, fixedPulse
 				myStr[2] + ", '" + myStr[3] + "')" ;	//totalPulsesNum, description
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			dbcon.Close();
@@ -94,7 +94,7 @@ class SqlitePulseType : Sqlite
 			" FROM " + Constants.PulseTypeTable + 
 			" ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -131,11 +131,11 @@ class SqlitePulseType : Sqlite
 		count =0;
 		if(allPulsesName != "") {
 			myTypes [count++] = allPulsesName;
-			//Console.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
 		}
 		foreach (string line in myArray) {
 			myTypes [count++] = line;
-			//Console.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
 		}
 
 		return myTypes;
@@ -149,7 +149,7 @@ class SqlitePulseType : Sqlite
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;

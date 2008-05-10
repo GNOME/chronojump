@@ -150,17 +150,17 @@ public class StatType {
 	}
 
 	private void on_fake_button_row_checked_clicked (object o, EventArgs args) {
-		Console.WriteLine("fakeButtonRowCheckedUnchecked in statType.cs");
+		Log.WriteLine("fakeButtonRowCheckedUnchecked in statType.cs");
 		fakeButtonRowCheckedUnchecked.Click();
 	}
 	
 	private void on_fake_button_rows_selected_clicked (object o, EventArgs args) {
-		Console.WriteLine("fakeButtonRowsSelected in statType.cs");
+		Log.WriteLine("fakeButtonRowsSelected in statType.cs");
 		fakeButtonRowsSelected.Click();
 	}
 	
 	private void on_fake_button_no_rows_selected_clicked (object o, EventArgs args) {
-		Console.WriteLine("fakeButtonNoRowsSelected in statType.cs");
+		Log.WriteLine("fakeButtonNoRowsSelected in statType.cs");
 		//only raise another click if this is not a report. This new click will update things in gui/stats.cs
 		//this fakeButtons are not initialized in the coming-from-report-statType-constructor
 		if(! toReport)
@@ -221,10 +221,10 @@ public class StatType {
 		else if (statisticType == Constants.TypeJumperSummary)
 		{
 			if(statisticApplyTo.Length == 0) {
-				Console.WriteLine("Jumper-ret");
+				Log.WriteLine("Jumper-ret");
 				return false;
 			}
-			int jumperID = Convert.ToInt32(Util.FetchID(statisticApplyTo));
+			int jumperID = Util.FetchID(statisticApplyTo);
 			if(jumperID == -1) {
 				return false;
 			}
@@ -241,7 +241,7 @@ public class StatType {
 		else if(statisticType == Constants.TypeJumpsSimple)
 		{
 			if(statisticApplyTo.Length == 0) {
-				Console.WriteLine("Simple-ret");
+				Log.WriteLine("Simple-ret");
 				return false;
 			}
 			
@@ -316,7 +316,7 @@ public class StatType {
 		else if(statisticType == Constants.TypeJumpsSimpleWithTC)
 		{
 			if(statisticApplyTo.Length == 0) {
-				Console.WriteLine("WithTC-ret");
+				Log.WriteLine("WithTC-ret");
 				return false;
 			}
 			

@@ -82,7 +82,7 @@ public class Person {
 				Constants.PersonTable, name, sex, dateBorn, height, weight, 
 				sportID, speciallityID, practice, description);
 
-		Console.WriteLine(this.ToString());
+		Log.WriteLine(this.ToString());
 
 		//insert in the personSession table (fast way of knowing who was in each session)
 		SqlitePersonSession.Insert (uniqueID, sessionID, weight);

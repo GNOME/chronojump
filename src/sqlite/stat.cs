@@ -73,7 +73,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -165,7 +165,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -305,7 +305,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " myIndex DESC, " + ini + "jump.tv" + end + " DESC ";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -402,7 +402,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " rj_index DESC, tvavg DESC ";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -495,7 +495,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " potency DESC, tvavg DESC ";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -557,7 +557,7 @@ class SqliteStat : Sqlite
 			"group by jumps order by jumps DESC limit 1";
 			//this is done because if no jumps, and we don't write last line, it returns a blank line
 			//and this crashes when converted to string
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -648,7 +648,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " rj_index DESC, tvavg DESC ";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -752,7 +752,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " myIndex DESC ";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -834,7 +834,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " myIndex DESC ";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -981,7 +981,7 @@ class SqliteStat : Sqlite
 			//orderByString + ini + "indexPart1 * indexPart2WithoutSqrt" + end + " DESC ";
 			orderByString + "extraWeight";
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -1067,7 +1067,7 @@ class SqliteStat : Sqlite
 				" ORDER BY type, sessionID " ; 
 		}
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -1161,7 +1161,7 @@ class SqliteStat : Sqlite
 				" ORDER by type, sessionID";
 		}
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -1269,7 +1269,7 @@ class SqliteStat : Sqlite
 				" ORDER by j1.sessionID";
 		}
 
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;

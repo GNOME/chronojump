@@ -75,7 +75,7 @@ public class ExportSession
 
 		//from: http://www.gnomebangalore.org/?q=node/view/467
 		if ( (Gtk.ResponseType) fs.Run () != Gtk.ResponseType.Ok) {
-			Console.WriteLine("cancelled");
+			Log.WriteLine("cancelled");
 			//report does not currently send the appBar reference
 			if(formatFile != "report") {
 				myAppbar.Push ( 1, Catalog.GetString ("Cancelled") );
@@ -110,9 +110,9 @@ public class ExportSession
 
 		try {
 			if (File.Exists(fileName)) {
-				Console.WriteLine("File {0} exists with attributes {1}, created at {2}", 
-						fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName));
-				Console.WriteLine("Overwrite...");
+				Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
+						fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
+				Log.WriteLine("Overwrite...");
 				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), fileName);
 				confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 			} else {
@@ -179,8 +179,8 @@ public class ExportSession
 			returnURL = originalURL.Substring(0, originalURL.Length - myLast.Length) 
 				+ Catalog.GetString("export") + myLast;
 
-		Console.WriteLine(originalURL);
-		Console.WriteLine(returnURL);
+		Log.WriteLine(originalURL);
+		Log.WriteLine(returnURL);
 
 		return returnURL;
 	}
@@ -260,7 +260,10 @@ public class ExportSession
 		myData.Add ( "\n" + Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
 				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
 				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
-				Catalog.GetString ("Description"));
+				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
+				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Description")
+			   );
+		
 		foreach (string jumperString in myPersons) {
 			string [] myStr = jumperString.Split(new char[] {':'});
 			
@@ -268,8 +271,8 @@ public class ExportSession
 					myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
 					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
 					myStr[4] + ":" + myStr[5] + ":" + //height, weight
-					myStr[6] + ":" + myStr[7] + ":" + //sportName, practiceLevel
-					myStr[8]  //desc
+					myStr[6] + ":" + myStr[7] + ":" + //sportName, speciallityName
+					myStr[8] + ":" + myStr[9] //practiceLevel, desc
 				  );
 		}
 		writeData(myData);
@@ -712,7 +715,7 @@ public class ExportSessionCSV : ExportSession
 
 	protected override void printFooter()
 	{
-		Console.WriteLine( "Correctly exported" );
+		Log.WriteLine( "Correctly exported" );
 		myAppbar.Push ( 1, Catalog.GetString ("Exported to file: ") + fileName );
 	}
 	
@@ -741,7 +744,7 @@ public class ExportSessionXML : ExportSession
 
 	//public void printData(string [] myJumps)
 	//{
-	//	Console.WriteLine("print data export XML");
+	//	Log.WriteLine("print data export XML");
 		/*
 
 		xr.WriteStartDocument();
@@ -764,7 +767,7 @@ public class ExportSessionXML : ExportSession
 			xr.WriteEndElement();
 		}
 
-		Console.WriteLine("Saved as: {0}", FilePersons);
+		Log.WriteLine("Saved as: {0}", FilePersons);
 		*/
 	//}
 

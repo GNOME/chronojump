@@ -112,7 +112,7 @@ public class RunTypeAddWindow
 			//	Util.RemoveTildeAndColonAndDot(entry_name.Text) + 
 			//	Catalog.GetString ("' exists. Please, use another name");
 			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
-			Console.WriteLine (myString);
+			Log.WriteLine (myString);
 			errorWin = ErrorWindow.Show(myString);
 		} else {
 			string myRun = "";
@@ -157,7 +157,7 @@ public class RunTypeAddWindow
 				SqliteRunType.RunIntervalTypeInsert(myRun, false); //false, because dbcon is not opened
 			}
 			
-			Console.WriteLine("Inserted: {0}", myRun);
+			Log.WriteLine(string.Format("Inserted: {0}", myRun));
 		}
 
 		RunTypeAddWindowBox.run_type_add.Hide();

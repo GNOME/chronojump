@@ -51,4 +51,10 @@ fi
 echo "---------------"
 echo "3d: call Chronojump"
 cd ../data
-mono chronojump.prg 
+
+#pass LOG_FILE (same format as in src/log.cs)
+LOG_DATE=`date +%d-%m-%Y_%H-%M-%S`
+LOG_FILE="../../logs/chronojump_log-$LOG_DATE.txt"
+
+#call program redirecting to a file the standard output and the error aoutput at end
+mono chronojump.prg $LOG_DATE 2>>$LOG_FILE

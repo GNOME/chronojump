@@ -212,7 +212,7 @@ public class PersonRecuperateWindow {
 			selectedWeight = (string)model.GetValue (iter, 4);
 			button_recuperate.Sensitive = true;
 		}
-		Console.WriteLine (selected + ":" + selectedWeight);
+		Log.WriteLine (selected + ":" + selectedWeight);
 	}
 
 	
@@ -402,7 +402,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			try {
 				markSelected(myText);
 			} catch {
-				Console.WriteLine("Do later!!");
+				Log.WriteLine("Do later!!");
 			}
 		}
 	}
@@ -445,14 +445,14 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 
 	void ItemToggled(object o, ToggledArgs args) {
-		Console.WriteLine("Toggled");
+		Log.WriteLine("Toggled");
 
 		int column = 0;
 		TreeIter iter;
 		if (store.GetIter (out iter, new TreePath(args.Path))) 
 		{
 			bool val = (bool) store.GetValue (iter, column);
-			Console.WriteLine ("toggled {0} with value {1}", args.Path, !val);
+			Log.WriteLine (string.Format("toggled {0} with value {1}", args.Path, !val));
 
 			store.SetValue (iter, column, !val);
 		
@@ -539,7 +539,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		if (store.GetIterFirst(out iter)) {
 			//don't catch 0 value
 			//val = (bool) store.GetValue (iter, 0);
-			//Console.WriteLine("Row {0}, value {1}", count++, val);
+			//Log.WriteLine("Row {0}, value {1}", count++, val);
 			count ++;
 			do {
 				val = (bool) store.GetValue (iter, 0);
@@ -548,7 +548,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 				if(val) {
 					//find the uniqueID of selected
 					personID = Convert.ToInt32( treeview_person_recuperate.Model.GetValue(iter, 1) );
-					//Console.WriteLine("Row {0}, value {1}, personID {2}", count++, val, personID);
+					//Log.WriteLine("Row {0}, value {1}, personID {2}", count++, val, personID);
 
 					//find weight
 					string weightString = (string) store.GetValue (iter, 5);
@@ -641,7 +641,7 @@ public class PersonAddModifyWindow
 	bool adding;
 
 	private Person currentPerson;
-	private int sessionID;
+	private Session currentSession;
 	private int personID;
 	private string sex = "M";
 	private int weightIni;
@@ -649,8 +649,8 @@ public class PersonAddModifyWindow
 	
 	//
 	//if we are adding a person, personID it's -1
-	//if we are modifying a person, personID is bviously it's ID
-	PersonAddModifyWindow (Gtk.Window parent, int sessionID, int personID) {
+	//if we are modifying a person, personID is obviously it's ID
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, int personID) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
@@ -659,7 +659,7 @@ public class PersonAddModifyWindow
 		UtilGtk.IconWindow(person_win);
 	
 		this.parent = parent;
-		this.sessionID = sessionID;
+		this.currentSession = currentSession;
 		this.personID = personID;
 
 		if(personID == -1)
@@ -675,15 +675,21 @@ public class PersonAddModifyWindow
 			
 		fakeButtonAccept = new Gtk.Button();
 
-		if(adding) 
+		if(adding) {
 			person_win.Title = Catalog.GetString ("New jumper");
-		else 
+			button_accept.Sensitive = false;
+		} else 
 			person_win.Title = Catalog.GetString ("Edit jumper");
 	}
 	
 	void on_entries_required_changed (object o, EventArgs args)
 	{
-		if(entry1.Text.ToString().Length > 0 && (int) spinbutton_weight.Value > 0) {
+		if(entry1.Text.ToString().Length > 0 && (int) spinbutton_weight.Value > 0 &&
+				dateTime != DateTime.MinValue &&
+				Util.FetchID(UtilGtk.ComboGetActive(combo_sports)) != Constants.SportUndefinedID &&
+				(! label_speciallity.Visible || Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)) != Constants.SpeciallityUndefinedID) &&
+				Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) != Constants.LevelUndefinedID) 
+		{
 			button_accept.Sensitive = true;
 		}
 		else {
@@ -701,10 +707,10 @@ public class PersonAddModifyWindow
 		sex = "F";
 	}
 	
-	static public PersonAddModifyWindow Show (Gtk.Window parent, int sessionID, int personID)
+	static public PersonAddModifyWindow Show (Gtk.Window parent, Session mySession, int personID)
 	{
 		if (PersonAddModifyWindowBox == null) {
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, sessionID, personID);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, personID);
 		}
 		PersonAddModifyWindowBox.person_win.Show ();
 		
@@ -718,7 +724,9 @@ public class PersonAddModifyWindow
 		sports = SqliteSport.SelectAll();
 		
 		UtilGtk.ComboUpdate(combo_sports, sports, "");
-		combo_sports.Active = UtilGtk.ComboMakeActive(sports, "1:" + Catalog.GetString(Constants.SportUndefined));
+		combo_sports.Active = UtilGtk.ComboMakeActive(sports, 
+				Constants.SportUndefinedID.ToString() + ":" + 
+				Catalog.GetString(Constants.SportUndefined));
 	
 		combo_sports.Changed += new EventHandler (on_combo_sports_changed);
 
@@ -732,7 +740,9 @@ public class PersonAddModifyWindow
 		speciallities = SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
 
 		UtilGtk.ComboUpdate(combo_speciallities, speciallities, "");
-		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, "-1:" + Catalog.GetString(Constants.SpeciallityUndefined));
+		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
+				Constants.SpeciallityUndefinedID.ToString() + ":" + 
+				Catalog.GetString(Constants.SpeciallityUndefined));
 
 		combo_speciallities.Changed += new EventHandler (on_combo_speciallities_changed);
 
@@ -746,7 +756,9 @@ public class PersonAddModifyWindow
 		levels = Constants.Levels;
 		
 		UtilGtk.ComboUpdate(combo_levels, levels, "");
-		combo_levels.Active = UtilGtk.ComboMakeActive(levels, "-1:" + Catalog.GetString(Constants.LevelUndefined));
+		combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
+				Constants.LevelUndefinedID.ToString() + ":" + 
+				Catalog.GetString(Constants.LevelUndefined));
 
 		combo_levels.Changed += new EventHandler (on_combo_levels_changed);
 
@@ -757,16 +769,20 @@ public class PersonAddModifyWindow
 	
 	private void fillDialog ()
 	{
+		int mySportID;
+		int mySpeciallityID;
+		int myLevelID;
 		if(adding) {
-			dateTime = DateTime.Today;
-			//put as default sport the undefined		
-			sport = new Sport("1:" + Catalog.GetString(Constants.SportUndefined));
+			//dateTime = DateTime.Today;
+			//now dateTime is undefined until user changes it
+			dateTime = DateTime.MinValue;
+			label_date.Text = Catalog.GetString("Undefined");
 
-			speciallityID = -1;
-			level = "-1:" + Catalog.GetString(Constants.LevelUndefined);
-			button_accept.Sensitive = false; //only make sensitive when required values are inserted
+			mySportID = currentSession.PersonsSportID;
+			mySpeciallityID = currentSession.PersonsSpeciallityID;
+			myLevelID = currentSession.PersonsPractice;
 		} else {
-			Person myPerson = SqlitePersonSession.PersonSelect(personID, sessionID); 
+			Person myPerson = SqlitePersonSession.PersonSelect(personID, currentSession.UniqueID); 
 		
 			entry1.Text = myPerson.Name;
 			if (myPerson.Sex == "M") {
@@ -776,25 +792,32 @@ public class PersonAddModifyWindow
 			}
 
 			dateTime = Util.DateAsDateTime(myPerson.DateBorn);
+			if(dateTime == DateTime.MinValue)
+				label_date.Text = Catalog.GetString("Undefined");
+			else
+				label_date.Text = dateTime.ToLongDateString();
+
 			spinbutton_height.Value = myPerson.Height;
 			spinbutton_weight.Value = myPerson.Weight;
 			weightIni = myPerson.Weight; //store for tracking if changes
 		
-			sport = SqliteSport.Select(myPerson.SportID);
-			combo_sports.Active = UtilGtk.ComboMakeActive(sports, sport.ToString());
-			
-			combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, SqliteSpeciallity.Select(myPerson.SpeciallityID));
-		
-			foreach (string myLevel in Constants.Levels) 
-				if(Convert.ToInt32(Util.FetchID(myLevel)) == myPerson.Practice)
-					combo_levels.Active = UtilGtk.ComboMakeActive(levels, myLevel);
-			
+			mySportID = myPerson.SportID;
+			mySpeciallityID = myPerson.SpeciallityID;
+			myLevelID = myPerson.Practice;
+
 
 			TextBuffer tb = new TextBuffer (new TextTagTable());
 			tb.Text = myPerson.Description;
 			textview2.Buffer = tb;
 		}
-		label_date.Text = dateTime.ToLongDateString();
+			
+		sport = SqliteSport.Select(mySportID);
+		combo_sports.Active = UtilGtk.ComboMakeActive(sports, sport.ToString());
+			
+		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, SqliteSpeciallity.Select(mySpeciallityID));
+		
+		combo_levels.Active = UtilGtk.ComboMakeActive(levels, myLevelID + ":" + Util.FindLevelName(myLevelID));
+		
 	}
 		
 	
@@ -822,6 +845,7 @@ public class PersonAddModifyWindow
 	{
 		dateTime = myDialogCalendar.MyDateTime;
 		label_date.Text = dateTime.ToLongDateString();
+		on_entries_required_changed(new object(), new EventArgs());
 	}
 
 	private void on_combo_sports_changed(object o, EventArgs args) {
@@ -829,37 +853,51 @@ public class PersonAddModifyWindow
 		if (o == null)
 			return;
 
-		//Console.WriteLine("changed");
+		//Log.WriteLine("changed");
 		try {
 			sport = new Sport(UtilGtk.ComboGetActive(combo_sports));
 
 			if(sport.Name == Catalog.GetString(Constants.SportUndefined)) {
 				//if sport is undefined, level should be undefined, and unsensitive
 				try { 
-					combo_levels.Active = UtilGtk.ComboMakeActive(levels, "-1:" + Catalog.GetString(Constants.LevelUndefined));
+					combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
+							Constants.LevelUndefinedID.ToString() + ":" + 
+							Catalog.GetString(Constants.LevelUndefined));
 					combo_levels.Sensitive = false;
-					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, "-1:" + Catalog.GetString(Constants.SpeciallityUndefined));
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
+							Constants.SpeciallityUndefinedID.ToString() + ":" + 
+							Catalog.GetString(Constants.SpeciallityUndefined));
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
-				catch { Console.WriteLine("do later"); }
+				catch { Log.WriteLine("do later"); }
 			} else if(sport.Name == Catalog.GetString(Constants.SportNone)) {
 				//if sport is none, level should be sedentary and unsensitive
 				try { 
-					combo_levels.Active = UtilGtk.ComboMakeActive(levels, "0:" + Catalog.GetString(Constants.LevelSedentary));
+					combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
+							Constants.LevelSedentaryID.ToString() + ":" + 
+							Catalog.GetString(Constants.LevelSedentary));
 					combo_levels.Sensitive = false;
 
-					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, "-1:" + Catalog.GetString(Constants.SpeciallityUndefined));
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
+							Constants.SpeciallityUndefinedID.ToString() + ":" + 
+							Catalog.GetString(Constants.SpeciallityUndefined));
 
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
-				catch { Console.WriteLine("do later"); }
+				catch { Log.WriteLine("do later"); }
 			} else {
 				//sport is not undefined and not none
+
 				//if level is "sedentary", then change level to "undefined"
-				if(UtilGtk.ComboGetActive(combo_levels) == "0:" + Catalog.GetString(Constants.LevelSedentary))
-					combo_levels.Active = UtilGtk.ComboMakeActive(levels, "-1:" + Catalog.GetString(Constants.LevelUndefined));
+				if(UtilGtk.ComboGetActive(combo_levels) ==
+						Constants.LevelSedentaryID.ToString() + ":" + 
+					       	Catalog.GetString(Constants.LevelSedentary)) {
+					combo_levels.Active = UtilGtk.ComboMakeActive(levels,
+							Constants.LevelUndefinedID.ToString() + ":" + 
+						       	Catalog.GetString(Constants.LevelUndefined));
+				}
 
 				//show level
 				combo_levels.Sensitive = true;
@@ -870,36 +908,44 @@ public class PersonAddModifyWindow
 					label_speciallity.Show();
 					combo_speciallities.Show();
 				} else {
-					Console.Write("hide");
-					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, "-1:" + Catalog.GetString(Constants.SpeciallityUndefined));
+					Log.Write("hide");
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities,
+							Constants.SpeciallityUndefinedID.ToString() + ":" + 
+						       	Catalog.GetString(Constants.SpeciallityUndefined));
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
 			}
 		} catch { 
-			//Console.WriteLine("do later");
+			//Log.WriteLine("do later");
 		}
 
-		Console.WriteLine(sport.ToString());
+		on_entries_required_changed(new object(), new EventArgs());
+		Log.WriteLine(sport.ToString());
 	}
 	
 	private void on_combo_speciallities_changed(object o, EventArgs args) {
-		Console.WriteLine("changed speciallities");
+		Log.WriteLine("changed speciallities");
+		on_entries_required_changed(new object(), new EventArgs());
 	}
 
 	private void on_combo_levels_changed(object o, EventArgs args) {
 		//string myText = UtilGtk.ComboGetActive(combo_sports);
-		Console.WriteLine("changed levels");
+		Log.WriteLine("changed levels");
+		on_entries_required_changed(new object(), new EventArgs());
 		//level = UtilGtk.ComboGetActive(combo_levels);
 				
 		//if it's sedentary, put sport to none
+		/*
+		 * Now undone because sedentary has renamed to "sedentary/Ocasional practice"
 		if(UtilGtk.ComboGetActive(combo_levels) == "0:" + Catalog.GetString(Constants.LevelSedentary))
 			combo_sports.Active = UtilGtk.ComboMakeActive(sports, "2:" + Catalog.GetString(Constants.SportNone));
+		*/
 	}
 	
 	void on_button_sport_add_clicked (object o, EventArgs args)
 	{
-		Console.WriteLine("sport add clicked");
+		Log.WriteLine("sport add clicked");
 		genericWin = GenericWindow.Show(Catalog.GetString("Add new sport to database"), true, false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_sport_add_accepted);
 	}
@@ -939,27 +985,29 @@ public class PersonAddModifyWindow
 
 		if(personExists) 
 			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
-		//else if (sport.Name == Catalog.GetString(Constants.SportUndefined)) 
-		//	errorMessage += Catalog.GetString("Please select an sport");
+		else if (sport.Name == Catalog.GetString(Constants.SportUndefined)) 
+			errorMessage += Catalog.GetString("Please select an sport");
 
 		//here sport shouldn't be undefined, then check 
 		//if it has speciallities and if they are selected
 		else if (sport.HasSpeciallities && 
-				Convert.ToInt32(Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities))) == -1)
+				Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)) == Constants.SpeciallityUndefinedID)
 			errorMessage += Catalog.GetString("Please select an speciallity");
-		else if (UtilGtk.ComboGetActive(combo_levels) == "-1:" + Catalog.GetString(Constants.LevelUndefined))
+		else if (UtilGtk.ComboGetActive(combo_levels) ==
+				Constants.LevelUndefinedID.ToString() + ":" + 
+			       	Catalog.GetString(Constants.LevelUndefined))
 			errorMessage += Catalog.GetString("Please select a level");
 		else {
 			//if weight has changed
 			if(adding && (int) spinbutton_weight.Value != weightIni) {
 				//see if this person has done jumps with weight
-				string [] myJumpsNormal = SqliteJump.SelectNormalJumps(sessionID, personID, "withWeight");
-				string [] myJumpsReactive = SqliteJump.SelectRjJumps(sessionID, personID, "withWeight");
+				string [] myJumpsNormal = SqliteJump.SelectNormalJumps(currentSession.UniqueID, personID, "withWeight");
+				string [] myJumpsReactive = SqliteJump.SelectRjJumps(currentSession.UniqueID, personID, "withWeight");
 
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
 					//create the convertWeight Window
 					convertWeightWin = ConvertWeightWindow.Show(
-							sessionID, personID, 
+							currentSession.UniqueID, personID, 
 							weightIni, (int) spinbutton_weight.Value, 
 							myJumpsNormal, myJumpsReactive);
 					convertWeightWin.Button_accept.Clicked += new EventHandler(on_convertWeightWin_accepted);
@@ -993,23 +1041,23 @@ public class PersonAddModifyWindow
 			currentPerson = new Person (entry1.Text, sex, dateFull, 
 					(int) spinbutton_height.Value, (int) spinbutton_weight.Value, 
 					sport.UniqueID, 
-				       	Convert.ToInt32(Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities))),
-					Convert.ToInt32(Util.FetchID(UtilGtk.ComboGetActive(combo_levels))),
-					textview2.Buffer.Text, sessionID);
+				       	Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
+					textview2.Buffer.Text, currentSession.UniqueID);
 		} else {
 			currentPerson = new Person (personID, entry1.Text, sex, dateFull, 
 					(int) spinbutton_height.Value, (int) spinbutton_weight.Value, 
 
 					sport.UniqueID, 
-					Convert.ToInt32(Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities))),
-					Convert.ToInt32(Util.FetchID(UtilGtk.ComboGetActive(combo_levels))),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
 					textview2.Buffer.Text);
 
 			SqlitePerson.Update (currentPerson); 
 		
 			//change weight if needed
 			if((int) spinbutton_weight.Value != weightIni)
-				SqlitePersonSession.UpdateWeight (currentPerson.UniqueID, sessionID, (int) spinbutton_weight.Value); 
+				SqlitePersonSession.UpdateWeight (currentPerson.UniqueID, currentSession.UniqueID, (int) spinbutton_weight.Value); 
 		}
 
 		fakeButtonAccept.Click();
@@ -1045,6 +1093,7 @@ public class PersonAddMultipleWindow {
 	int rows;
 	
 	[Widget] Gtk.Table table_main;
+	[Widget] Gtk.Label label_sport_stuff;
 	
 	[Widget] Gtk.Button button_accept;
 	
@@ -1053,13 +1102,13 @@ public class PersonAddMultipleWindow {
 	ErrorWindow errorWin;
 
 	private Person currentPerson;
-	int sessionID;
+	Session currentSession;
 	int personsCreatedCount;
 	string errorExistsString;
 	string errorWeightString;
 	string errorRepeatedEntryString;
 	
-	PersonAddMultipleWindow (Gtk.Window parent, int sessionID) {
+	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_multiple_infinite", null);
 		gladeXML.Autoconnect(this);
@@ -1068,13 +1117,13 @@ public class PersonAddMultipleWindow {
 		UtilGtk.IconWindow(person_multiple_infinite);
 	
 		this.parent = parent;
-		this.sessionID = sessionID;
+		this.currentSession = currentSession;
 	}
 	
-	static public PersonAddMultipleWindow Show (Gtk.Window parent, int sessionID, int rows)
+	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, int rows)
 	{
 		if (PersonAddMultipleWindowBox == null) {
-			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, sessionID);
+			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession);
 		}
 		PersonAddMultipleWindowBox.rows = rows;
 		PersonAddMultipleWindowBox.create ();
@@ -1156,6 +1205,20 @@ public class PersonAddMultipleWindow {
 			mySpin.Show();
 			spins.Add(mySpin);
 		}
+
+		string sportStuffString = "";
+		if(currentSession.PersonsSportID != Constants.SportUndefinedID)
+			sportStuffString += Catalog.GetString("Sport") + ":<i>" + Catalog.GetString(SqliteSport.Select(currentSession.PersonsSportID).Name) + "</i>.";
+		if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID)
+			sportStuffString += " " + Catalog.GetString("Speciallity") + ":<i>" + Util.FetchName(SqliteSpeciallity.Select(currentSession.PersonsSpeciallityID)) + "</i>.";
+		if(currentSession.PersonsPractice != Constants.LevelUndefinedID)
+			sportStuffString += " " + Catalog.GetString("Level") + ":<i>" + Util.FindLevelName(currentSession.PersonsPractice) + "</i>.";
+
+		if(sportStuffString.Length > 0)
+			sportStuffString = Catalog.GetString("Persons will be created with default session values") + 
+				":\n" + sportStuffString;
+		label_sport_stuff.Text = sportStuffString;
+		label_sport_stuff.UseMarkup = true;
 
 		table_main.Show();
 	}
@@ -1251,20 +1314,21 @@ public class PersonAddMultipleWindow {
 		string sex = "F";
 		if(male) { sex = "M"; }
 
-		DateTime dateTime = DateTime.Today;
+		//DateTime dateTime = DateTime.Today;
+		//now dateTime is undefined until user changes it
+		DateTime dateTime = DateTime.MinValue;
 		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString();
 
 		currentPerson = new Person ( name, sex, dateFull, 
 				0, weight, 		//height, weight	
-				1, //sport undefined
-				-1, //speciallity
-				-1, //practive level undefined
-				"", sessionID		//description, sessionID
+				currentSession.PersonsSportID,
+				currentSession.PersonsSpeciallityID,
+				currentSession.PersonsPractice,
+				"", currentSession.UniqueID		//description, sessionID
 				);
 
 		personsCreatedCount ++;
 	}
-	
 	
 	public Button Button_accept 
 	{

@@ -153,7 +153,7 @@ class SqliteRunType : Sqlite
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", '" +	//name, distance
 				myStr[2] + "')" ;	//description
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			dbcon.Close();
@@ -172,7 +172,7 @@ class SqliteRunType : Sqlite
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, distance
 				myStr[2] + ", " + myStr[3] + ", " +	//tracksLimited, fixedValue
 				myStr[4] + ", '" + myStr[5] +"')" ;	//unlimited, description
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			dbcon.Close();
@@ -192,7 +192,7 @@ class SqliteRunType : Sqlite
 			whereString +
 			" ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -228,11 +228,11 @@ class SqliteRunType : Sqlite
 		count =0;
 		if(allRunsName != "") {
 			myTypes [count++] = allRunsName;
-			//Console.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
 		}
 		foreach (string line in myArray) {
 			myTypes [count++] = line;
-			//Console.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
 		}
 
 		return myTypes;
@@ -245,7 +245,7 @@ class SqliteRunType : Sqlite
 			" FROM " + Constants.RunIntervalTypeTable +
 			" ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -300,7 +300,7 @@ class SqliteRunType : Sqlite
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -336,7 +336,7 @@ class SqliteRunType : Sqlite
 			" FROM " + Constants.RunTypeTable +
 			" WHERE name == '" + typeName + "'";
 		
-		Console.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;

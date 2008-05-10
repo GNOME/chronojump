@@ -289,8 +289,8 @@ public class ChronoJumpWindow
 
 	//windows needed
 	//LanguageWindow languageWin;
-	SessionAddWindow sessionAddWin;
-	SessionEditWindow sessionEditWin;
+	SessionAddEditWindow sessionAddEditWin;
+	//SessionEditWindow sessionEditWin;
 	SessionLoadWindow sessionLoadWin;
 	PersonRecuperateWindow personRecuperateWin; 
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
@@ -379,32 +379,32 @@ public class ChronoJumpWindow
 	
 /*
 	private void on_so_asterisk_clicked(object o, EventArgs args) {
-		Console.WriteLine("Asterisk");
+		Log.WriteLine("Asterisk");
 		System.Media.SystemSounds.Asterisk.Play();
 	}
 	
 	private void on_so_beep_clicked(object o, EventArgs args) {
-		Console.WriteLine("Beep");
+		Log.WriteLine("Beep");
 		System.Media.SystemSounds.Beep.Play();
 	}
 	
 	private void on_so_exclamation_clicked(object o, EventArgs args) {
-		Console.WriteLine("Exclamation");
+		Log.WriteLine("Exclamation");
 		System.Media.SystemSounds.Exclamation.Play();
 	}
 	
 	private void on_so_hand_clicked(object o, EventArgs args) {
-		Console.WriteLine("Hand");
+		Log.WriteLine("Hand");
 		System.Media.SystemSounds.Hand.Play();
 	}
 	
 	private void on_so_question_clicked(object o, EventArgs args) {
-		Console.WriteLine("Question");
+		Log.WriteLine("Question");
 		System.Media.SystemSounds.Question.Play();
 	}
 */
 	
-	public ChronoJumpWindow(string recuperatedString, bool isFirstTime, 
+	public ChronoJumpWindow(bool isFirstTime, 
 			string [] authors, string progversion, string progname,
 			string runningFileName)
 	{
@@ -458,10 +458,10 @@ public class ChronoJumpWindow
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 
-		if(recuperatedString == "")
+		//if(recuperatedString == "")
 			appbar2.Push ( 1, Catalog.GetString ("Ready.") );
-		else
-			appbar2.Push ( 1, recuperatedString );
+		//else
+		//	appbar2.Push ( 1, recuperatedString );
 
 		rand = new Random(40);
 		volumeOn = true;
@@ -547,7 +547,7 @@ public class ChronoJumpWindow
 
 		if(needUpdateChronopicWin || ! thread.IsAlive) {
 			fakeChronopicButton.Click();
-			Console.Write("dying");
+			Log.Write("dying");
 			return false;
 		}
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending
@@ -555,17 +555,17 @@ public class ChronoJumpWindow
 		chronopicWin.Pulse();
 		
 		Thread.Sleep (50);
-		Console.Write(thread.ThreadState);
+		Log.Write(thread.ThreadState.ToString());
 		return true;
 	}
 			
 	private void updateChronopicWin(bool state, string message) {
-		Console.WriteLine("-----------------");
+		Log.WriteLine("-----------------");
 
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending
 		chronopicWin = ChronopicConnection.Show();
 
-		Console.WriteLine("+++++++++++++++++");
+		Log.WriteLine("+++++++++++++++++");
 		if(state)
 			chronopicWin.Connected(message);
 		else
@@ -577,23 +577,23 @@ public class ChronoJumpWindow
 	//chronopic init should not touch  gtk, for the threads
 	private bool chronopicInit (string myPort, out string returnString)
 	{
-		Console.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
-		Console.WriteLine ( Catalog.GetString ("if program crashes, write to xaviblas@gmail.com") );
+		Log.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
+		Log.WriteLine ( Catalog.GetString ("if program crashes, write to xaviblas@gmail.com") );
 		if(!Util.IsWindows())
-			Console.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash.") );
+			Log.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash.") );
 
 		bool success = true;
 		
 		try {
-Console.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
-			Console.WriteLine("chronopic port: {0}", myPort);
+Log.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
+			Log.WriteLine(string.Format("chronopic port: {0}", myPort));
 			sp = new SerialPort(myPort);
 			sp.Open();
-Console.WriteLine("+++++++++++++++++ 2 ++++++++++++++++");		
+Log.WriteLine("+++++++++++++++++ 2 ++++++++++++++++");		
 			//-- Create chronopic object, for accessing chronopic
 			cp = new Chronopic(sp);
 
-Console.WriteLine("+++++++++++++++++ 3 ++++++++++++++++");		
+Log.WriteLine("+++++++++++++++++ 3 ++++++++++++++++");		
 			//on windows, this check make a crash 
 			//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
 			//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
@@ -603,16 +603,16 @@ Console.WriteLine("+++++++++++++++++ 3 ++++++++++++++++");
 			//			if ( ! Util.IsWindows()) {
 				//-- Obtener el estado inicial de la plataforma
 				bool ok=false;
-Console.WriteLine("+++++++++++++++++ 4 ++++++++++++++++");		
+Log.WriteLine("+++++++++++++++++ 4 ++++++++++++++++");		
 				do {
-Console.WriteLine("+++++++++++++++++ 5 ++++++++++++++++");		
+Log.WriteLine("+++++++++++++++++ 5 ++++++++++++++++");		
 					ok=cp.Read_platform(out platformState);
-Console.WriteLine("+++++++++++++++++ 6 ++++++++++++++++");		
+Log.WriteLine("+++++++++++++++++ 6 ++++++++++++++++");		
 				} while(!ok);
-Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");		
+Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");		
 				if (!ok) {
 					//-- Si hay error terminar
-					Console.WriteLine("Error: {0}",cp.Error);
+					Log.WriteLine(string.Format("Error: {0}",cp.Error));
 					success = false;
 				}
 			//}
@@ -644,8 +644,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void loadPreferences () 
 	{
-		Console.WriteLine (Catalog.GetString("Chronojump database version file: {0}"), 
-				SqlitePreferences.Select("databaseVersion") );
+		Log.WriteLine (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
+				SqlitePreferences.Select("databaseVersion") ));
 		
 		chronopicPort = SqlitePreferences.Select("chronopicPort");
 		
@@ -731,7 +731,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		report.Progversion = progversion;
 		
 		
-		Console.WriteLine ( Catalog.GetString ("Preferences loaded") );
+		Log.WriteLine ( Catalog.GetString ("Preferences loaded") );
 	}
 
 	/*
@@ -743,11 +743,11 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		string myLanguage = SqlitePreferences.Select("language");
 		if ( myLanguage != "0") {
 			try {
-				Console.WriteLine("myLanguage: {0}", myLanguage);
+				Log.WriteLine("myLanguage: {0}", myLanguage);
 				System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(myLanguage);
 				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(myLanguage);
 				//probably only works on newly created windows, if change, then say user has to restart
-				Console.WriteLine ("Changed language to {0}", myLanguage );
+				Log.WriteLine ("Changed language to {0}", myLanguage );
 			} catch {
 				new DialogMessage(Catalog.GetString("There's a problem with this language on this computer. Please, choose another language."));
 			}
@@ -769,7 +769,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else   //MAXIMIZED
 			tv.ExpandAll();
 
-		//Console.WriteLine("IS " + tvEvent.ExpandState);
+		//Log.WriteLine("IS " + tvEvent.ExpandState);
 	}
 
 	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args) {
@@ -809,7 +809,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 					treeviewPulsesContextMenu(myPulse);
 				}
 			} else
-				Console.WriteLine(myTv.ToString());
+				Log.WriteLine(myTv.ToString());
 		}
 	}
 
@@ -849,7 +849,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selectedID), currentSession.UniqueID);
-			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);
+			Log.WriteLine(string.Format("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name));
 			return true;
 		} else {
 			return false;
@@ -871,7 +871,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 		
 			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selectedID), currentSession.UniqueID);
-			Console.WriteLine("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name);
+			Log.WriteLine(string.Format("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name));
 		}
 	}
 
@@ -940,7 +940,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
-		Console.WriteLine("Cursor changed");
+		Log.WriteLine("Cursor changed");
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumps.EventSelectedID == 0) {
@@ -1466,24 +1466,28 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 */
 	
 	private void on_delete_event (object o, DeleteEventArgs args) {
-		Console.WriteLine("Bye!");
+		Log.WriteLine("Bye!");
     
 		if(simulated == false) {
 			sp.Close();
 		}
 		
 		File.Delete(runningFileName);
+		Log.End();
+		Log.Delete();
 		Application.Quit();
 	}
 
 	private void on_quit1_activate (object o, EventArgs args) {
-		Console.WriteLine("Bye!");
+		Log.WriteLine("Bye!");
     
 		if(simulated == false) {
 			sp.Close();
 		}
 		
 		File.Delete(runningFileName);
+		Log.End();
+		Log.Delete();
 		Application.Quit();
 	}
 	
@@ -1494,15 +1498,15 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 
 	private void on_new_activate (object o, EventArgs args) {
-		Console.WriteLine("new session");
-		sessionAddWin = SessionAddWindow.Show(app1);
-		sessionAddWin.Button_accept.Clicked += new EventHandler(on_new_session_accepted);
+		Log.WriteLine("new session");
+		sessionAddEditWin = SessionAddEditWindow.Show(app1, new Session());
+		sessionAddEditWin.Button_accept.Clicked += new EventHandler(on_new_session_accepted);
 	}
 	
 	private void on_new_session_accepted (object o, EventArgs args) {
-		if(sessionAddWin.CurrentSession != null) 
+		if(sessionAddEditWin.CurrentSession != null) 
 		{
-			currentSession = sessionAddWin.CurrentSession;
+			currentSession = sessionAddEditWin.CurrentSession;
 			app1.Title = progname + " - " + currentSession.Name;
 
 			if(createdStatsWin) {
@@ -1555,15 +1559,15 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_edit_session_activate (object o, EventArgs args) {
-		Console.WriteLine("edit session");
-		sessionEditWin = SessionEditWindow.Show(app1, currentSession);
-		sessionEditWin.Button_accept.Clicked += new EventHandler(on_edit_session_accepted);
+		Log.WriteLine("edit session");
+		sessionAddEditWin = SessionAddEditWindow.Show(app1, currentSession);
+		sessionAddEditWin.Button_accept.Clicked += new EventHandler(on_edit_session_accepted);
 	}
 	
 	private void on_edit_session_accepted (object o, EventArgs args) {
-		if(sessionEditWin.CurrentSession != null) 
+		if(sessionAddEditWin.CurrentSession != null) 
 		{
-			currentSession = sessionEditWin.CurrentSession;
+			currentSession = sessionAddEditWin.CurrentSession;
 			app1.Title = progname + " - " + currentSession.Name;
 
 			if(createdStatsWin) {
@@ -1573,7 +1577,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_open_activate (object o, EventArgs args) {
-		Console.WriteLine("open session");
+		Log.WriteLine("open session");
 		sessionLoadWin = SessionLoadWindow.Show(app1);
 		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted);
 		//on_load_session_accepted(o, args);
@@ -1640,7 +1644,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	
 	private void on_delete_session_activate (object o, EventArgs args) {
-		Console.WriteLine("delete session");
+		Log.WriteLine("delete session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), Catalog.GetString("and all the session tests?"));
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
 	}
@@ -1661,7 +1665,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else if (o == (object) menuitem_export_xml) {
 			new ExportSessionXML(currentSession, app1, appbar2, prefsDigitsNumber);
 		} else {
-			Console.WriteLine("Error exporting");
+			Log.WriteLine("Error exporting");
 		}
 	}
 
@@ -1672,7 +1676,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 */
 	
 	private void on_recuperate_person_activate (object o, EventArgs args) {
-		Console.WriteLine("recuperate person");
+		Log.WriteLine("recuperate person");
 		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession.UniqueID);
 		personRecuperateWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
@@ -1692,7 +1696,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 		
 	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
-		Console.WriteLine("recuperate persons from other session");
+		Log.WriteLine("recuperate persons from other session");
 		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession.UniqueID);
 		personsRecuperateFromOtherSessionWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
@@ -1711,7 +1715,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 		
 	private void on_person_add_single_activate (object o, EventArgs args) {
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession.UniqueID, -1); 
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, -1); 
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
 		
@@ -1738,11 +1742,12 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	//show spinbutton window asking for how many people to create	
 	private void on_person_add_multiple_activate (object o, EventArgs args) {
 		genericWin = GenericWindow.Show(Catalog.GetString("Select number of persons to add"), false, true);
+		genericWin.SetSpinRange(1.0, 40.0);
 		genericWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_prepared);
 	}
 	
 	private void on_person_add_multiple_prepared (object o, EventArgs args) {
-		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession.UniqueID, genericWin.SpinSelected);
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, genericWin.SpinSelected);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}
 	
@@ -1766,8 +1771,8 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
-		Console.WriteLine("modify person");
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession.UniqueID, currentPerson.UniqueID);
+		Log.WriteLine("modify person");
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID);
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	
@@ -1805,7 +1810,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	
 	private void on_delete_current_person_from_session_activate (object o, EventArgs args) {
-		Console.WriteLine("delete current person from this session");
+		Log.WriteLine("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
 				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact)"), 
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
@@ -1869,9 +1874,9 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	void on_radiobutton_simulated (object o, EventArgs args)
 	{
-		Console.WriteLine("RAD - simul. cpRunning: {0}", cpRunning);
+		Log.WriteLine(string.Format("RAD - simul. cpRunning: {0}", cpRunning));
 		if(menuitem_simulated.Active) {
-			Console.WriteLine("RadioSimulated - ACTIVE");
+			Log.WriteLine("RadioSimulated - ACTIVE");
 			simulated = true;
 			SqlitePreferences.Update("simulated", simulated.ToString(), false);
 
@@ -1882,22 +1887,22 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			cpRunning = false;
 		}
 		else
-			Console.WriteLine("RadioSimulated - INACTIVE");
+			Log.WriteLine("RadioSimulated - INACTIVE");
 	}
 	
 	void on_radiobutton_chronopic (object o, EventArgs args)
 	{
-		Console.WriteLine("RAD - chrono. cpRunning: {0}", cpRunning);
+		Log.WriteLine(string.Format("RAD - chrono. cpRunning: {0}", cpRunning));
 		if(! preferencesLoaded)
 			return;
 
 		if(! menuitem_chronopic.Active) {
 			appbar2.Push( 1, Catalog.GetString("Changed to simulated mode"));
-			Console.WriteLine("RadioChronopic - INACTIVE");
+			Log.WriteLine("RadioChronopic - INACTIVE");
 			return;
 		}
 
-		Console.WriteLine("RadioChronopic - ACTIVE");
+		Log.WriteLine("RadioChronopic - ACTIVE");
 	
 		//done also in linux because mono-1.2.3 throws an exception when there's a timeout
 		//http://bugzilla.gnome.org/show_bug.cgi?id=420520
@@ -1926,7 +1931,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if(cpRunning == false) {
 			string message = "";
 			bool success = chronopicInit(chronopicPort, out message);
-			Console.WriteLine("wait_chronopic_start {0}", message);
+			Log.WriteLine(string.Format("wait_chronopic_start {0}", message));
 			
 			if(success) {
 				updateChronopicWinValuesState= true; //connected
@@ -1945,7 +1950,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 
 	private void on_chronopic_cancelled (object o, EventArgs args) {
-		Console.WriteLine("cancelled-----");
+		Log.WriteLine("cancelled-----");
 		
 		//kill the chronopicInit function that is waiting event 
 		thread.Abort();
@@ -2116,9 +2121,9 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void checkCancelTotally (object o, EventArgs args) 
 	{
 		if(currentEventExecute.TotallyCancelled) 
-			Console.WriteLine("totallyCancelled");
+			Log.WriteLine("totallyCancelled");
 		else {
-			Console.Write("NOT-totallyCancelled ");
+			Log.Write("NOT-totallyCancelled ");
 			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full cancelling.\nThen press button\n"));
 			errorWin.Button_accept.Clicked += new EventHandler(checkCancelTotally);
 		}
@@ -2144,9 +2149,9 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void checkFinishTotally (object o, EventArgs args) 
 	{
 		if(currentEventExecute.TotallyFinished) 
-			Console.WriteLine("totallyFinished");
+			Log.WriteLine("totallyFinished");
 		else {
-			Console.Write("NOT-totallyFinished ");
+			Log.Write("NOT-totallyFinished ");
 			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full finishing.\nThen press button\n"));
 			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
 		}
@@ -2154,12 +2159,12 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 	
 	private void on_show_report_activate (object o, EventArgs args) {
-		Console.WriteLine("open report window");
+		Log.WriteLine("open report window");
 		reportWin = ReportWindow.Show(app1, report);
 	}
 
 	private void on_enter_notify (object o, Gtk.EnterNotifyEventArgs args) {
-		Console.WriteLine("enter notify");
+		Log.WriteLine("enter notify");
 	}
 
 
@@ -2273,7 +2278,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				myType = new JumpType(eventName);
 			else if (eventTypeString == EventType.Types.RUN.ToString()) 
 				myType = new RunType(eventName);
-			else Console.WriteLine("Error on eventTypeHasLongDescription");
+			else Log.WriteLine("Error on eventTypeHasLongDescription");
 
 			if(myType.HasLongDescription)
 				return true;
@@ -2341,7 +2346,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	//here comes the SJl, DJ and every jump that has weight or fall or both. Also the reactive jumps (for defining is limited value or weight or fall)
 	private void on_jump_extra_activate (object o, EventArgs args) 
 	{
-		Console.WriteLine("jump extra");
+		Log.WriteLine("jump extra");
 		if(o == (object) button_sj_l || o == (object) sj_l) {
 			currentJumpType = new JumpType("SJl");
 		} else if(o == (object) button_dj || o == (object) dj) {
@@ -2638,7 +2643,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 	private void on_jump_rj_finished (object o, EventArgs args) 
 	{
-		Console.WriteLine("ON JUMP RJ FINISHED");
+		Log.WriteLine("ON JUMP RJ FINISHED");
 		
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
@@ -2713,7 +2718,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_button_run_last_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("button run last");
+		Log.WriteLine("button run last");
 		//currentRunType contains the last run type
 		if(currentRunType.Distance == 0) {
 			on_run_extra_activate(o, args);
@@ -2752,7 +2757,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	//here comes the unlimited runs (and every run with distance = 0 (undefined)
 	private void on_run_extra_activate (object o, EventArgs args) 
 	{
-		Console.WriteLine("run extra");
+		Log.WriteLine("run extra");
 	
 		if(o == (object) button_run_custom || o == (object) menuitem_run_custom) {
 			currentRunType = new RunType("Custom");
@@ -2967,7 +2972,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_run_interval_accepted (object o, EventArgs args)
 	{
-		Console.WriteLine("run interval accepted");
+		Log.WriteLine("run interval accepted");
 		
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
@@ -3244,7 +3249,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_pulse_accepted (object o, EventArgs args)
 	{
-		Console.WriteLine("pulse accepted");
+		Log.WriteLine("pulse accepted");
 	
 		double pulseStep = 0;
 		int totalPulses = 0;
@@ -3302,7 +3307,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_pulse_finished (object o, EventArgs args) 
 	{
-		Console.WriteLine("pulse finished");
+		Log.WriteLine("pulse finished");
 		
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
 		
@@ -3348,7 +3353,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 */
 	
 	private void on_update_clicked (object o, EventArgs args) {
-		Console.WriteLine("--On_update_clicked--");
+		Log.WriteLine("--On_update_clicked--");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
@@ -3389,7 +3394,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
 		notebook_change(0);
-		Console.WriteLine("Edit selected jump (normal)");
+		Log.WriteLine("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumps.EventSelectedID > 0) {
@@ -3404,7 +3409,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args) {
 		notebook_change(1);
-		Console.WriteLine("Edit selected jump (RJ)");
+		Log.WriteLine("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
@@ -3418,7 +3423,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_edit_selected_jump_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected jump accepted");
+		Log.WriteLine("edit selected jump accepted");
 		
 		treeview_jumps_storeReset();
 		fillTreeView_jumps(UtilGtk.ComboGetActive(combo_jumps));
@@ -3429,7 +3434,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected jump RJ accepted");
+		Log.WriteLine("edit selected jump RJ accepted");
 		
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
@@ -3441,14 +3446,14 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
 		notebook_change(2);
-		Console.WriteLine("Edit selected run (normal)");
+		Log.WriteLine("Edit selected run (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
 			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.EventSelectedID );
 			myRun.MetersSecondsPreferred = metersSecondsPreferred;
-			Console.WriteLine(myRun);
+			Log.WriteLine(myRun.ToString());
 		
 			//4.- edit this run
 			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
@@ -3458,13 +3463,13 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
 		notebook_change(3);
-		Console.WriteLine("Edit selected run interval");
+		Log.WriteLine("Edit selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
 			RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
-			Console.WriteLine(myRun);
+			Log.WriteLine(myRun.ToString());
 		
 			//4.- edit this run
 			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
@@ -3473,7 +3478,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_edit_selected_run_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected run accepted");
+		Log.WriteLine("edit selected run accepted");
 		
 		treeview_runs_storeReset();
 		fillTreeView_runs(UtilGtk.ComboGetActive(combo_runs));
@@ -3484,7 +3489,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected run interval accepted");
+		Log.WriteLine("edit selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_runs_interval));
@@ -3496,7 +3501,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_edit_selected_reaction_time_clicked (object o, EventArgs args) {
 		notebook_change(4);
-		Console.WriteLine("Edit selected reaction time");
+		Log.WriteLine("Edit selected reaction time");
 		//1.- check that there's a line selected
 		//2.- check that this line is a event and not a person
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
@@ -3510,7 +3515,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_edit_selected_reaction_time_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected reaction time accepted");
+		Log.WriteLine("edit selected reaction time accepted");
 		
 		treeview_reaction_times_storeReset();
 		fillTreeView_reaction_times();
@@ -3522,7 +3527,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
 		notebook_change(5);
-		Console.WriteLine("Edit selected pulse");
+		Log.WriteLine("Edit selected pulse");
 		//1.- check that there's a line selected
 		//2.- check that this line is a event and not a person
 		if (myTreeViewPulses.EventSelectedID > 0) {
@@ -3536,7 +3541,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
-		Console.WriteLine("edit selected pulse accepted");
+		Log.WriteLine("edit selected pulse accepted");
 		
 		treeview_pulses_storeReset();
 		fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
@@ -3554,10 +3559,10 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
 		notebook_change(0);
-		Console.WriteLine("delete selected jump (normal)");
+		Log.WriteLine("delete selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		Console.WriteLine(myTreeViewJumps.EventSelectedID.ToString());
+		Log.WriteLine(myTreeViewJumps.EventSelectedID.ToString());
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
@@ -3572,7 +3577,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
 		notebook_change(1);
-		Console.WriteLine("delete selected reactive jump");
+		Log.WriteLine("delete selected reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
@@ -3589,7 +3594,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected jump");
+		Log.WriteLine("accept delete selected jump");
 		
 		SqliteJump.Delete( "jump", (myTreeViewJumps.EventSelectedID).ToString() );
 		
@@ -3603,7 +3608,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected jump");
+		Log.WriteLine("accept delete selected jump");
 		
 		SqliteJump.Delete("jumpRj", myTreeViewJumpsRj.EventSelectedID.ToString());
 		
@@ -3618,7 +3623,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
 		notebook_change(2);
-		Console.WriteLine("delete selected run (normal)");
+		Log.WriteLine("delete selected run (normal)");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
@@ -3637,7 +3642,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
 		notebook_change(3);
-		Console.WriteLine("delete selected run interval");
+		Log.WriteLine("delete selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
@@ -3654,7 +3659,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_delete_selected_run_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected run");
+		Log.WriteLine("accept delete selected run");
 		
 		SqliteRun.Delete( "run", (myTreeViewRuns.EventSelectedID).ToString() );
 		
@@ -3669,7 +3674,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected run");
+		Log.WriteLine("accept delete selected run");
 		
 		SqliteRun.Delete( "runInterval", (myTreeViewRunsInterval.EventSelectedID).ToString() );
 		
@@ -3685,11 +3690,11 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
 		notebook_change(4);
-		Console.WriteLine("delete selected reaction time");
+		Log.WriteLine("delete selected reaction time");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		Console.WriteLine(myTreeViewReactionTimes.EventSelectedID.ToString());
+		Log.WriteLine(myTreeViewReactionTimes.EventSelectedID.ToString());
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
@@ -3703,7 +3708,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 		
 	private void on_delete_selected_reaction_time_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected reaction time");
+		Log.WriteLine("accept delete selected reaction time");
 		
 		SqliteJump.Delete( "reactiontime", (myTreeViewReactionTimes.EventSelectedID).ToString() );
 		
@@ -3720,11 +3725,11 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
 		notebook_change(5);
-		Console.WriteLine("delete selected pulse");
+		Log.WriteLine("delete selected pulse");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		Console.WriteLine(myTreeViewPulses.EventSelectedID.ToString());
+		Log.WriteLine(myTreeViewPulses.EventSelectedID.ToString());
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
@@ -3738,7 +3743,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 		
 	private void on_delete_selected_pulse_accepted (object o, EventArgs args) {
-		Console.WriteLine("accept delete selected pulse");
+		Log.WriteLine("accept delete selected pulse");
 		
 		SqliteJump.Delete( "pulse", (myTreeViewPulses.EventSelectedID).ToString() );
 		
@@ -3755,7 +3760,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 
 	private void on_last_delete (object o, EventArgs args) {
-		Console.WriteLine("delete last event");
+		Log.WriteLine("delete last event");
 		
 		string warningString = "";
 		switch (lastEventType.Type) {
@@ -3822,7 +3827,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				}
 				break;
 			default:
-				Console.WriteLine("on_last_delete default"); 
+				Log.WriteLine("on_last_delete default"); 
 				break;
 
 		}
@@ -3904,27 +3909,27 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	
 	private void on_jump_type_add_activate (object o, EventArgs args) {
-		Console.WriteLine("Add new jump type");
+		Log.WriteLine("Add new jump type");
 			
 		jumpTypeAddWin = JumpTypeAddWindow.Show(app1);
 		jumpTypeAddWin.Button_accept.Clicked += new EventHandler(on_jump_type_add_accepted);
 	}
 	
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
-		Console.WriteLine("ACCEPTED Add new jump type");
+		Log.WriteLine("ACCEPTED Add new jump type");
 		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
 		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
 	}
 
 	private void on_run_type_add_activate (object o, EventArgs args) {
-		Console.WriteLine("Add new run type");
+		Log.WriteLine("Add new run type");
 			
 		runTypeAddWin = RunTypeAddWindow.Show(app1);
 		runTypeAddWin.Button_accept.Clicked += new EventHandler(on_run_type_add_accepted);
 	}
 	
 	private void on_run_type_add_accepted (object o, EventArgs args) {
-		Console.WriteLine("ACCEPTED Add new run type");
+		Log.WriteLine("ACCEPTED Add new run type");
 		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 	}
@@ -3932,11 +3937,11 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	//reactiontime has no types
 
 	private void on_pulse_type_add_activate (object o, EventArgs args) {
-		Console.WriteLine("Add new pulse type");
+		Log.WriteLine("Add new pulse type");
 	}
 	
 	private void on_pulse_type_add_accepted (object o, EventArgs args) {
-		Console.WriteLine("ACCEPTED Add new pulse type");
+		Log.WriteLine("ACCEPTED Add new pulse type");
 	}
 
 	/* ---------------------------------------------------------
@@ -3946,7 +3951,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_repair_selected_reactive_jump_clicked (object o, EventArgs args) {
 		notebook_change(1);
-		Console.WriteLine("Repair selected subjump");
+		Log.WriteLine("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
@@ -3960,7 +3965,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_repair_selected_reactive_jump_accepted (object o, EventArgs args) {
-		Console.WriteLine("Repair selected reactive jump accepted");
+		Log.WriteLine("Repair selected reactive jump accepted");
 		
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
@@ -3972,7 +3977,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_repair_selected_run_interval_clicked (object o, EventArgs args) {
 		notebook_change(3);
-		Console.WriteLine("Repair selected subrun");
+		Log.WriteLine("Repair selected subrun");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person 
 		//(check also if it's not a individual run interval, then pass the parent run interval)
@@ -3987,7 +3992,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_repair_selected_run_interval_accepted (object o, EventArgs args) {
-		Console.WriteLine("repair selected run interval accepted");
+		Log.WriteLine("repair selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_runs_interval));
@@ -3999,7 +4004,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_repair_selected_pulse_clicked (object o, EventArgs args) {
 		notebook_change(5);
-		Console.WriteLine("Repair selected pulse");
+		Log.WriteLine("Repair selected pulse");
 		//1.- check that there's a line selected
 		//2.- check that this line is a pulse and not a person 
 		//(check also if it's not a individual pulse, then pass the parent pulse)
@@ -4014,7 +4019,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_repair_selected_pulse_accepted (object o, EventArgs args) {
-		Console.WriteLine("repair selected pulse accepted");
+		Log.WriteLine("repair selected pulse accepted");
 		
 		treeview_pulses_storeReset();
 		fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
@@ -4079,7 +4084,7 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 //		if(repetitiveConditionsWin != null)
 			repetitiveConditionsWin.VolumeOn = volumeOn;
 
-		//Console.WriteLine("VolumeOn: {0}", volumeOn.ToString());
+		//Log.WriteLine("VolumeOn: {0}", volumeOn.ToString());
 	}
 
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
@@ -4248,14 +4253,14 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 					}
 					break;
 				case EventType.Types.REACTIONTIME:
-					Console.WriteLine("sensitiveGuiEventDone reaction time");
+					Log.WriteLine("sensitiveGuiEventDone reaction time");
 					break;
 				case EventType.Types.PULSE:
-					Console.WriteLine("sensitiveGuiEventDone pulse");
+					Log.WriteLine("sensitiveGuiEventDone pulse");
 					button_pulse_last.Sensitive = true;
 					break;
 				default:
-					Console.WriteLine("sensitiveGuiEventDone default");
+					Log.WriteLine("sensitiveGuiEventDone default");
 					break;
 			}
 		}
@@ -4314,7 +4319,21 @@ Console.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			success = true;
 		} 
 		if (!success) {
-			Console.WriteLine("Error in showHideActionEventButtons, type: {0}", type);
+			Log.WriteLine(string.Format("Error in showHideActionEventButtons, type: {0}", type));
 		}
 	}
+	
+	/*
+	 * voluntary crash for testing purposes 
+	 */
+
+	private void on_menuitem_debug_crash_activate (object o, EventArgs args) {
+		errorWin = ErrorWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will crash now"));
+		errorWin.Button_accept.Clicked += new EventHandler(crashing);
+	}
+	private void crashing (object o, EventArgs args) {
+		string [] myString = new String [3];
+		Console.WriteLine(myString[5]);
+	}
+
 }

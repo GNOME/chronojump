@@ -31,6 +31,7 @@ mv ca.po ca_old.po
 msgmerge -o ca.po ca_old.po untitled.pot
 
 5.- edit the ca.po with a multiporpose editor like vim, or a po editor like poedit
+poedit it's better because it fast finds what needs to be translated
 
 6.- generate the locales
 cd ..

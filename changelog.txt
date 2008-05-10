@@ -1,5 +1,10 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+10 May 2008 (2)
+	improved translating of sport stuff at load session
+	updated catalan translation
+	updated spanish translation
+
 10 May 2008
 	0.6.2.9 (0.7 pre-release)
 	db changed to 0.56

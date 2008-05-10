@@ -682,18 +682,27 @@ public class SessionLoadWindow {
 		string [] mySessions = SqliteSession.SelectAllSessions(); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
 			string [] myStringFull = session.Split(new char[] {':'});
-				
-			string mySpeciallity = ""; //done because Undefined has "" as name and crashes with gettext
-			if (myStringFull[6] != "") 
-				mySpeciallity = Catalog.GetString(myStringFull[6])
-					;
+		
+			//don't show any text at sport, speciallity and level if it's undefined	
+			string mySport = "";
+			if (myStringFull[4] != Catalog.GetString(Constants.SportUndefined)) 
+				mySport = Catalog.GetString(myStringFull[4]);
+
+			string mySpeciallity = ""; //done also because Undefined has "" as name and crashes with gettext
+			if (myStringFull[5] != "") 
+				mySpeciallity = Catalog.GetString(myStringFull[5]);
+			
+			string myLevel = "";
+			if (myStringFull[6] != Catalog.GetString(Constants.LevelUndefined)) 
+				myLevel = Catalog.GetString(myStringFull[6]);
+
 			store.AppendValues (myStringFull[0], myStringFull[1], 
 					myStringFull[2], 
 					Util.DateAsDateTime(myStringFull[3]).ToShortDateString(),
 					myStringFull[8],	//number of jumpers x session
-					myStringFull[4],	//personsSport
-					myStringFull[5],	//personsSpeciallity
-					myStringFull[6],	//personsLevel
+					mySport,		//personsSport
+					mySpeciallity,		//personsSpeciallity
+					myLevel,		//personsLevel
 					myStringFull[9],	//number of jumps x session
 					myStringFull[10],	//number of jumpsRj x session
 					myStringFull[11], 	//number of runs x session

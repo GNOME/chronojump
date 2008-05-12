@@ -1041,7 +1041,7 @@ ChooseComponents,Title
 {Seleccionar Componentes}
 
 ChronopicDriverInstall
-{Instalación del driver de Chronopic}
+{Instalacion del driver de Chronopic}
 
 ChronopicDriverInstallText
 {El driver de la placa Chronopic va a ser instalado. Por favor, espere unos segundos...}

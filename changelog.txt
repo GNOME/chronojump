@@ -1,5 +1,16 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+11 May 2008  (Major RELEASE 0.7 for Linux and windows)
+	-releases now on svn at windows_releases and linux_releases
+	-Fixed chronojump.bat for log and redirection 
+	-Improved help with ports and linking to manual
+	-Improved manual in ports detection on windows
+	-changed log filename
+	Fixed DialogMessage close and delete event that quit the app. I
+	suppose it's something that left there for accident after some tests
+	-compiling for windows (on linux) with mono-project mono for using old
+	gtk-sharp compatible with installed on mono-project on windows
+
 10 May 2008 (2)
 	improved translating of sport stuff at load session
 	updated catalan translation
@@ -10,9 +21,10 @@ CHRONOJUMP DETAILED CHANGELOG:
 	db changed to 0.56
 	Main window to 800x600
 
-	No more use of terminal:
+	No more use of terminal on Linux:
 	-installjammer creates the executables for not being run on terminal (
-	it seems can do the other way, but it's better to forget terminal now)
+	it seems can do the other way, but it's better to forget terminal
+	now). But on windows it continues showing it??
 	Logs (new class):
 	-Every Console.Write* now writes also to a file using Log.Write*
 	-If chronojump crashes, at next start it points to the log of standard

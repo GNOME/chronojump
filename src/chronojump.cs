@@ -184,9 +184,15 @@ public class ChronoJump
 
 	private void chronojumpCrashedBeforeMessage() {
 		Console.Clear();
+		string windowsTextLog = "";
+		if(Util.IsWindows())
+			windowsTextLog = "\n" + Log.GetLast().Replace(".txt", "-crash.txt");
+
 		string errorMessage = "\n" +
 				string.Format(Catalog.GetString("Chronojump crashed before. Please, <b>write an email</b> to {0} including this file:"), "xaviblas@gmail.com") + "\n\n" +
-					Log.GetLast() + "\n\n" +
+					Log.GetLast() +
+					windowsTextLog +
+				       "\n\n" +	
 				Catalog.GetString("Subject should be something like \"bug in Chronojump\". Your help is needed.") + "\n";
 
 		/*

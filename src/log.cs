@@ -60,7 +60,7 @@ public class Log
 	}
 	
 	public static string GetFile() {
-		return Path.GetFullPath(GetDir() + Path.DirectorySeparatorChar + "chronojump_log-" + timeLog + ".txt");
+		return Path.GetFullPath(GetDir() + Path.DirectorySeparatorChar + "" + timeLog + ".txt");
 	}
 	
 	public static bool Start(string [] args) {
@@ -72,7 +72,7 @@ public class Log
 	       /* a solution is to put on chronojump.sh
 		* 
 		* LOG_DATE=`date +%d-%m-%Y_%H-%M-%S`
-		* LOG_FILE="../../logs/chronojump_log-$LOG_DATE.txt"
+		* LOG_FILE="../../logs/$LOG_DATE.txt"
 		* mono chronojump.prg $LOG_FILE 2>>$LOG_FILE
 		*
 		* if chronojump it's called from .sh (that's the normal thing), then all will work:
@@ -138,18 +138,22 @@ public class Log
 		string lastLogFile = ""; 
 
 		foreach (string file in files) {
-			myTime = File.GetCreationTime(file);
+			//check only the files that doesn't end with a "-crash".
+			//This comes from windows were we need to separate both logs
+			if(!file.EndsWith("crash.txt")) {
+				myTime = File.GetCreationTime(file);
 
-			//if time it's newer
-			if(DateTime.Compare(myTime, secondNewestTime) > 0 && DateTime.Compare(myTime, newestTime) > 0) {
-				secondNewestTime = newestTime;
-				newestTime = myTime;
+				//if time it's newer
+				if(DateTime.Compare(myTime, secondNewestTime) > 0 && DateTime.Compare(myTime, newestTime) > 0) {
+					secondNewestTime = newestTime;
+					newestTime = myTime;
 
-				lastLogFile = newEmptyFile;
-				newEmptyFile = file;
-			} else if(DateTime.Compare(myTime, secondNewestTime) > 0) {
-				secondNewestTime = myTime;
-				lastLogFile = file;
+					lastLogFile = newEmptyFile;
+					newEmptyFile = file;
+				} else if(DateTime.Compare(myTime, secondNewestTime) > 0) {
+					secondNewestTime = myTime;
+					lastLogFile = file;
+				}
 			}
 		}
 		//Console.WriteLine("new empty: {0}\n, the log: {1}", newEmptyFile, lastLogFile);

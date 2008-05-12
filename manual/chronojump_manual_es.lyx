@@ -1,4 +1,4 @@
-#LyX 1.5.1 created this file. For more info see http://www.lyx.org/
+#LyX 1.5.3 created this file. For more info see http://www.lyx.org/
 \lyxformat 276
 \begin_document
 \begin_header
@@ -1267,11 +1267,25 @@ Mi PC
 \begin_inset Quotes erd
 \end_inset
 
- con el botón derecho
+ con el botón 
+\series bold
+derecho
 \end_layout
 
 \begin_layout Enumerate
 En el menú que aparece, seleccionar 
+\begin_inset Quotes eld
+\end_inset
+
+Propiedades
+\begin_inset Quotes erd
+\end_inset
+
+ (última opción)
+\end_layout
+
+\begin_layout Enumerate
+Ir a la pestaña de 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1299,7 +1313,9 @@ Clic en el '+' que hay a la izquierda de
 \begin_inset Quotes eld
 \end_inset
 
-Puertos COM-LPT
+Puertos COM\InsetSpace ~
+&\InsetSpace ~
+LPT
 \begin_inset Quotes erd
 \end_inset
 
@@ -1307,21 +1323,18 @@ Puertos COM-LPT
 \end_layout
 
 \begin_layout Enumerate
-Clic con el botón derecho en la línea que dice USB-serial.
- En el caso de la Chronopic3 después de haber instalado el driver, la línea
- dice 
+El puerto será el que se indique como COM? a la derecha de la línea que
+ dice USB-serial.
+ Si esa línea no lo dice, hacer clic en la misma con el botón derecho y
+ seleccionar 
 \begin_inset Quotes eld
 \end_inset
 
-Prolific USB-serial
+Propiedades
 \begin_inset Quotes erd
 \end_inset
 
-.
-\end_layout
-
-\begin_layout Enumerate
-Seleccionar Propiedades y entonces podremos ver el puerto COM asignado
+ y entonces podremos ver el puerto COM asignado
 \end_layout
 
 \begin_layout Enumerate

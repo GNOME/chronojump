@@ -368,11 +368,6 @@ public class ChronoJumpWindow
 		//createMainWindow("");
 	}
 
-	private void on_saludo_clicked(object o, EventArgs args) {
-		new DialogMessage("Hola qupe tal!!!!", false);
-
-	}
-
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args) {
 		new DialogImageTest(currentEventType);
 	}

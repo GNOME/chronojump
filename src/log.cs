@@ -87,7 +87,7 @@ public class Log
 		bool timeLogPassedOk = initializeTime(args);
 		
 		try {
-			Console.WriteLine(GetFile());
+			//Console.WriteLine(GetFile());
 			writer = File.CreateText(GetFile());
 		} catch {}
 		
@@ -95,7 +95,7 @@ public class Log
 	}
 
 	public static void Write(string text) {
-		Console.Write(text);
+		//Console.Write(text);
 		try {
 			writer.Write(text);
 			writer.Flush();
@@ -104,7 +104,7 @@ public class Log
 	
 	public static void WriteLine(string text) {
 		try {
-			Console.WriteLine(text);
+			//Console.WriteLine(text);
 			writer.WriteLine(text);
 			writer.Flush();
 		} catch {}

@@ -22,13 +22,16 @@
 
 using System;
 using Gtk;
+using Glade;
 using Mono.Unix;
 using System.IO; //"File" things
+using System.Threading;
 
 
 public class ChronoJump 
 {
 	ChronoJumpWindow chronoJumpWin;
+	SplashWindow splashWin;
 	
 	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
 	private static string progversion = ""; //now in "version" file
@@ -38,10 +41,11 @@ public class ChronoJump
 	private string messageToShowOnBoot = "";
 	private bool chronojumpHasToExit = false;
 		
-	//isFirstTime we run chronojump in this machine? 
-	//(or is there a DB file?)
-	private bool isFirstTime = false;
-
+	[Widget] Gtk.Button fakeSplashButton; //raised when splash win ended
+	Thread thread;
+	bool needEndSplashWin = false;
+	bool needUpdateSplashMessage = false;
+	string splashMessage = "";
 
 
 	public static void Main(string [] args) 
@@ -55,7 +59,24 @@ public class ChronoJump
 		bool timeLogPassedOk = Log.Start(args);
 		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
 		
+		Application.Init();
+
+		//start threading to show splash window
+		SplashWindow splashWin = SplashWindow.Show();
+		
+		fakeSplashButton = new Gtk.Button();
+		fakeSplashButton.Clicked += new EventHandler(on_splash_ended);
+
+		thread = new Thread(new ThreadStart(sqliteThings));
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+		thread.Start(); 
+		
+		Application.Run();
+	}
+
+	protected void sqliteThings () {
 		checkIfChronojumpExitAbnormally();
+		
 
 		/* SERVER COMMUNICATION TESTS */
 		/*
@@ -83,19 +104,24 @@ public class ChronoJump
 		//move database to new location if chronojump version is before 0.7
 		moveDatabaseToInstallJammerLocationIfNeeded();
 
+		splashMessageChange(1);  //checking database
+
 		Sqlite.Connect();
 
 		//Chech if the DB file exists
 		if (!Sqlite.CheckTables()) {
 			Log.WriteLine ( Catalog.GetString ("no tables, creating ...") );
+
+			splashMessageChange(2);  //creating database
+
 			Sqlite.CreateFile();
 			File.Create(runningFileName);
 			Sqlite.CreateTables();
-
-			isFirstTime = true;
 		} else {
 			//backup the database
 			Util.BackupDirCreateIfNeeded();
+
+			splashMessageChange(3);  //making db backup
 
 			Util.BackupDatabase();
 			Log.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
@@ -116,13 +142,15 @@ public class ChronoJump
 				Sqlite.Connect();
 			}
 
+			splashMessageChange(4);  //updating DB
+
 			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
 			if(! softwareIsNew) {
 				//Console.Clear();
 				string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), readVersion()) + "\n" +  
 						Catalog.GetString("Please update Chronojump") + ":\n"; 
 				errorMessage += "http://www.gnome.org/projects/chronojump/installation"; 
-				errorMessage += "\n\n" + Catalog.GetString("Press any key");
+				//errorMessage += "\n\n" + Catalog.GetString("Press any key");
 				Log.WriteLine(errorMessage);
 				messageToShowOnBoot += errorMessage;
 				chronojumpHasToExit = true;
@@ -134,6 +162,7 @@ public class ChronoJump
 			//SqliteJump.FindBadRjs();
 		}
 
+		splashMessageChange(5);  //preparing main window
 
 		messageToShowOnBoot += recuperateBrokenEvents();
 
@@ -142,27 +171,31 @@ public class ChronoJump
 
 		Util.IsWindows();	//only as additional info here
 		
-		Application.Init();
+		//Application.Init();
+		
+		needEndSplashWin = true;
 
+	}
+
+	protected void readMessageToStart() {
 		if(messageToShowOnBoot.Length > 0) {
 			ErrorWindow errorWin;
 			if(chronojumpHasToExit) {
 				messageToShowOnBoot += "\n<b>" + string.Format(Catalog.GetString("Chronojump will exit now.")) + "</b>\n";
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit);
-				Application.Run();
+//				Application.Run();
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
-				Application.Run();
+//				Application.Run();
 			}
 		} else {
 			startChronojump();
-			Application.Run();
+//			Application.Run();
 		}
-			
 	}
-		
+
 	private void on_message_boot_accepted_continue (object o, EventArgs args) {
 		startChronojump();
 	}
@@ -179,11 +212,53 @@ public class ChronoJump
 	}
 
 	private void startChronojump() {	
-		chronoJumpWin = new ChronoJumpWindow(isFirstTime, authors, readVersion(), progname, runningFileName);
+		chronoJumpWin = new ChronoJumpWindow(authors, readVersion(), progname, runningFileName);
 	}
 
-	private void chronojumpCrashedBeforeMessage() {
-		Console.Clear();
+	/* --------------------
+	/* splash window things 
+	 * --------------------*/
+
+	private void splashMessageChange(int messageInt) {
+	       splashMessage = Catalog.GetString(Constants.SplashMessages[messageInt]);
+		needUpdateSplashMessage = true;
+	}
+	
+	protected bool PulseGTK ()
+	{
+		if(needEndSplashWin || ! thread.IsAlive) {
+			fakeSplashButton.Click();
+			Log.Write("splash window dying here");
+			return false;
+		}
+		//need to do this, if not it crashes because chronopicWin gets died by thread ending
+		splashWin = SplashWindow.Show();
+		splashWin.Pulse();
+		//Log.WriteLine("splash");
+
+		if(needUpdateSplashMessage) {
+			splashWin.UpdateLabel(splashMessage);
+			needUpdateSplashMessage = false;
+		}
+
+		Thread.Sleep (50);
+		Log.Write(thread.ThreadState.ToString());
+		return true;
+	}
+	
+	private void on_splash_ended(object o, EventArgs args) {
+		splashWin.Destroy();
+		Log.WriteLine("splash screen ENDED!");
+		readMessageToStart();
+	}
+
+		
+	/* ---------------------
+	 * other support methods 
+	 * ---------------------*/
+		
+	private void chronojumpCrashedBefore() {
+		//Console.Clear();
 		string windowsTextLog = "";
 		if(Util.IsWindows())
 			windowsTextLog = "\n" + Log.GetLast().Replace(".txt", "-crash.txt");
@@ -199,7 +274,7 @@ public class ChronoJump
 		 * This are the only outputs to Console. Other's use Log that prints to console and to log file
 		 * this doesn't go to log because it talks about log
 		 */
-		Console.WriteLine(errorMessage);
+		Log.WriteLine(errorMessage);
 		
 		messageToShowOnBoot += errorMessage;	
 		return;
@@ -264,7 +339,7 @@ public class ChronoJump
 	private void checkIfChronojumpExitAbnormally() {
 		runningFileName = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump_running";
 		if(File.Exists(runningFileName)) 
-			chronojumpCrashedBeforeMessage();
+			chronojumpCrashedBefore();
 		else {
 			if (Sqlite.CheckTables()) 
 				File.Create(runningFileName);
@@ -342,17 +417,5 @@ public class ChronoJump
 			Log.WriteLine(dbMove);
 		}
 	}
-
-	/*
-	private void quitFromConsole() {
-		try {
-			File.Delete(runningFileName);
-		} catch {
-			//done because if database dir is moved in a chronojump conversion (eg from before installer to installjammer) maybe it will not find this runningFileName
-		}
-		Log.End();
-		Environment.Exit(1);
-	}
-	*/
 
 }

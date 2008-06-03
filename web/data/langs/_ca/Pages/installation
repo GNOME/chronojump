@@ -6,9 +6,9 @@ Instal·lació
 	<p>
 	
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
-	<tr bgcolor="#e6e6fa"><th>Sistemes operatius</th><th><center>Instruccions per a instal·lar</center></th></tr>
-	<tr><td><b>GNU/Linux</b></td><td>Consultar aquest correu (en anglès i castellà): <a href=":::linuxMailDownloadLink:::">:::linuxMailDownloadName:::</a></td></tr>
-	<tr><td><b>Windows</b></td><td>Consultar aquest correu (en anglès i castellà): <a href=":::windowsMailDownloadLink:::">:::windowsMailDownloadName:::</a></td></tr>
+	<tr bgcolor="#e6e6fa"><th>Sistemes operatius</th><th><center><!--Instruccions per a -->Instal·lar</center></th></tr>
+	<tr><td><b>GNU/Linux</b></td><td><!--Consultar aquest correu (en anglès i castellà):--> <a href=":::linuxMailDownloadLink:::">:::linuxMailDownloadName:::</a></td></tr>
+	<tr><td><b>Windows</b></td><td><!--Consultar aquest correu (en anglès i castellà):--> <a href=":::windowsMailDownloadLink:::">:::windowsMailDownloadName:::</a></td></tr>
 	<tr><td><b>Maemo N770</b></td><td>Consultar aquest correu (en anglès i castellà): <a href=":::maemoMailDownloadLink:::">:::maemoMailDownloadName:::</a></td></tr>
 	</table>
 	

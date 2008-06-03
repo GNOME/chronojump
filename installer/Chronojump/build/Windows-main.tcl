@@ -69,7 +69,7 @@ namespace eval ::InstallAPI {}
 namespace eval ::InstallJammer {}
 set conf(version)     1.2.5
 set info(Platform)    Windows
-set info(InstallerID) 953660CE-961C-C7A9-AC1A-DD7C7F73F9C0
+set info(InstallerID) F942E955-C085-DAE5-1312-FA68C8950383
 array set ::InstallJammer::languagecodes {en English es Spanish}
 array set info {
 AllowLanguageSelection
@@ -130,7 +130,7 @@ InstallType
 Typical
 
 InstallVersion
-0.7.0.0
+0.7.1.0
 
 LaunchApplication
 Yes
@@ -172,7 +172,7 @@ PackageVersion
 <%MajorVersion%>.<%MinorVersion%>
 
 PatchVersion
-0
+1
 
 ProgramExecutable
 <%InstallDir%>/chronojump-<%Version%>/windows/chronojump.bat
@@ -199,7 +199,7 @@ UpgradeApplicationID
 {}
 
 Version
-0.7
+0.7.1
 
 WizardHeight
 365
@@ -779,7 +779,7 @@ installMonoWindowsActions
 Yes
 
 30093C0D-05D6-3393-B564-D7E08CEDFAC3,Alias
-InstallMonoWindowsActions2
+{call InstallMonoWindowsActions}
 
 30093C0D-05D6-3393-B564-D7E08CEDFAC3,Component
 {}
@@ -823,6 +823,33 @@ No
 3262B6E8-9344-64B2-D579-70C857581418,Pane
 7EACFD07-D349-A66C-36E7-0AFA70E879CB
 
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,Active
+Yes
+
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,Alias
+{copy Nplot3}
+
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,Component
+{}
+
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,Conditions
+{0 conditions}
+
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,Destination
+<%InstallDir%>/chronojump-<%Version%>/data/
+
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,ExecuteAction
+{Before Pane is Finished}
+
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,ID
+{}
+
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,IgnoreErrors
+No
+
+354C4C7B-0103-627D-F8D4-F5FDF5682CFE,Source
+<%InstallDir%>/chronojump-<%Version%>/data/windows_dlls/Nplot.Gtk.dll
+
 385B710C-AC92-98CC-0B32-9E9DBAF28646,Active
 Yes
 
@@ -834,6 +861,30 @@ installMonoWindowsActions
 
 385B710C-AC92-98CC-0B32-9E9DBAF28646,ID
 {}
+
+38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6,Active
+Yes
+
+38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6,CheckCondition
+{Before Action is Executed}
+
+38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6,Component
+{}
+
+38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6,FailureFocus
+{}
+
+38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6,FailureMessage
+{}
+
+38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6,ID
+{}
+
+38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6,Operator
+is
+
+38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6,Platform
+Windows
 
 39F46615-DB3E-E7E8-463A-531CB0B37B46,Active
 Yes
@@ -951,6 +1002,33 @@ true
 
 43A515B8-D335-D77D-4CF0-025B35D62CFD,String
 <%GuiMode%>
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,Active
+Yes
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,Alias
+{copy Nplot1}
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,Component
+{}
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,Conditions
+{0 conditions}
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,Destination
+<%InstallDir%>/chronojump-<%Version%>/data/
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,ExecuteAction
+{Before Pane is Finished}
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,ID
+{}
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,IgnoreErrors
+No
+
+4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A,Source
+<%InstallDir%>/chronojump-<%Version%>/data/windows_dlls/Nplot.dll
 
 446BFF70-66AA-8729-5EB1-E5DFB83FCCA9,Active
 Yes
@@ -1285,6 +1363,30 @@ LaunchApplication
 4C465E6F-9D44-F4D7-8064-5ECE64239B91,Y
 160
 
+4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B,Active
+Yes
+
+4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B,CheckCondition
+{Before Action is Executed}
+
+4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B,Component
+{}
+
+4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B,FailureFocus
+{}
+
+4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B,FailureMessage
+{}
+
+4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B,ID
+{}
+
+4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B,Operator
+is
+
+4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B,Platform
+Windows
+
 4DBD4C4B-2EBE-1500-7BD7-26BA0100E091,Active
 Yes
 
@@ -1314,6 +1416,30 @@ if {[package vcompare $minimumVersion $installedVersion] > 0} {
     return 1
 }
 return 0}
+
+52AAFFD2-F636-A589-4B1C-A2E5215DD479,Active
+Yes
+
+52AAFFD2-F636-A589-4B1C-A2E5215DD479,CheckCondition
+{Before Action is Executed}
+
+52AAFFD2-F636-A589-4B1C-A2E5215DD479,Component
+{}
+
+52AAFFD2-F636-A589-4B1C-A2E5215DD479,FailureFocus
+{}
+
+52AAFFD2-F636-A589-4B1C-A2E5215DD479,FailureMessage
+{}
+
+52AAFFD2-F636-A589-4B1C-A2E5215DD479,ID
+{}
+
+52AAFFD2-F636-A589-4B1C-A2E5215DD479,Operator
+is
+
+52AAFFD2-F636-A589-4B1C-A2E5215DD479,Platform
+Windows
 
 53A63017-8385-B8EE-142A-65136147FA12,Active
 Yes
@@ -1371,6 +1497,33 @@ exists
 
 54A56E5F-C3C7-087A-F024-C7BC97283251,RegistryValue
 DefaultCLR
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,Active
+Yes
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,Alias
+{copy Nplot4}
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,Component
+{}
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,Conditions
+{0 conditions}
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,Destination
+<%InstallDir%>/chronojump-<%Version%>/data/
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,ExecuteAction
+{Before Pane is Finished}
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,ID
+{}
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,IgnoreErrors
+No
+
+55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A,Source
+<%InstallDir%>/chronojump-<%Version%>/data/windows_dlls/Nplot.Gtk.dll.config
 
 555ABE88-A754-9EC6-63AA-AE54E5C868E2,Active
 Yes
@@ -1559,7 +1712,7 @@ Yes
 {<%RegValue HKEY_LOCAL_MACHINE\Software\Novell\Mono DefaultCLR%>}
 
 61FE1D29-2076-0530-AB92-3E0902C94937,VirtualText
-YourRegValue
+monoVersionRegValue
 
 624512F3-C4CF-D0E7-C864-B587C21B9742,Active
 Yes
@@ -1639,6 +1792,45 @@ is
 658A10BC-6046-11E0-60F1-BFCFE5B3989D,Platform
 Linux-x86
 
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,Active
+Yes
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,AddToUninstall
+Yes
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,Alias
+writeMonoPath
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,AppendNewline
+No
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,Component
+{}
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,Conditions
+{1 condition}
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,ExecuteAction
+{Before Pane is Finished}
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,FileOpenAction
+{Overwrite existing file}
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,Files
+<%InstallDir%>/chronojump-<%Version%>/data/mono_path.txt
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,ID
+{}
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,IgnoreErrors
+No
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,LineFeed
+Auto
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,TextToWrite,subst
+1
+
 68A5D7DF-5635-A07F-831D-C0E3B6F569CD,Active
 Yes
 
@@ -1662,6 +1854,33 @@ is
 
 68A5D7DF-5635-A07F-831D-C0E3B6F569CD,Platform
 Windows
+
+68BF38BB-BFD1-CE11-36C1-706981646027,Active
+Yes
+
+68BF38BB-BFD1-CE11-36C1-706981646027,Alias
+{copy Nplot2}
+
+68BF38BB-BFD1-CE11-36C1-706981646027,Component
+{}
+
+68BF38BB-BFD1-CE11-36C1-706981646027,Conditions
+{0 conditions}
+
+68BF38BB-BFD1-CE11-36C1-706981646027,Destination
+<%InstallDir%>/chronojump-<%Version%>/data/
+
+68BF38BB-BFD1-CE11-36C1-706981646027,ExecuteAction
+{Before Pane is Finished}
+
+68BF38BB-BFD1-CE11-36C1-706981646027,ID
+{}
+
+68BF38BB-BFD1-CE11-36C1-706981646027,IgnoreErrors
+No
+
+68BF38BB-BFD1-CE11-36C1-706981646027,Source
+<%InstallDir%>/chronojump-<%Version%>/data/windows_dlls/Nplot.dll.config
 
 696B86A1-D42F-CBF8-83F5-3D1A7797C4FA,Active
 Yes
@@ -1831,6 +2050,42 @@ No
 7712A4D7-4666-C9A2-B274-8EF5024FC5C2,TargetFilename
 findMonoVersionLinux.sh
 
+7950D6BF-C085-89EC-C719-C22E8445FDDE,Active
+Yes
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,Alias
+getMonoVersion2
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,AutoUpdate
+Yes
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,Component
+{}
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,Conditions
+{1 condition}
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,ExecuteAction
+{Before Pane is Finished}
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,ID
+{}
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,IgnoreErrors
+No
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,Language
+None
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,SubstituteValue
+Yes
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,Value
+{<%RegValue HKEY_LOCAL_MACHINE\Software\Novell\Mono DefaultCLR%>}
+
+7950D6BF-C085-89EC-C719-C22E8445FDDE,VirtualText
+MonoVersionRegValue2
+
 7BB33D54-49D1-24FA-27C9-D8C442EF0711,Active
 Yes
 
@@ -1926,6 +2181,33 @@ Back/Cancel
 
 7EACFD07-D349-A66C-36E7-0AFA70E879CB,WizardOptions
 {-bg white -separator 0}
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,Action
+putMonoPathAndCopyNplot
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,Active
+Yes
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,Alias
+{call putMonoPathAndCopyNplot}
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,Component
+{}
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,Conditions
+{1 condition}
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,EvaluateConditions
+Yes
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,ExecuteAction
+{After Pane is Displayed}
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,ID
+{}
+
+7EB41496-B2E3-30E1-7867-DBFEC151EB2B,IgnoreErrors
+No
 
 825C4E25-8E47-57C1-78F8-DC5493358F77,Active
 Yes
@@ -2169,6 +2451,30 @@ No
 
 96C99CFD-D1AB-A304-994B-F325CB5126D2,WorkingDirectory
 {}
+
+96F98447-4F33-D8FD-4DB7-197ED90FBC77,Active
+Yes
+
+96F98447-4F33-D8FD-4DB7-197ED90FBC77,CheckCondition
+{Before Action is Executed}
+
+96F98447-4F33-D8FD-4DB7-197ED90FBC77,Component
+{}
+
+96F98447-4F33-D8FD-4DB7-197ED90FBC77,FailureFocus
+{}
+
+96F98447-4F33-D8FD-4DB7-197ED90FBC77,FailureMessage
+{}
+
+96F98447-4F33-D8FD-4DB7-197ED90FBC77,ID
+{}
+
+96F98447-4F33-D8FD-4DB7-197ED90FBC77,Operator
+is
+
+96F98447-4F33-D8FD-4DB7-197ED90FBC77,Platform
+Windows
 
 97C38F94-90CA-6717-CC51-78D0D43EE48A,Active
 Yes
@@ -2433,7 +2739,7 @@ B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,Destination
 <%InstallDir%>
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,FileSize
-13239337
+9363007
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,FileUpdateMethod
 {Update files with more recent dates}
@@ -2591,6 +2897,30 @@ normal
 BBFC8BB2-978A-6A82-64A5-956543B03628,WorkingDirectory
 <%InstallDir%>/chronojump-<%Version%>/windows/
 
+BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,Active
+Yes
+
+BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,CheckCondition
+{Before Action is Executed}
+
+BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,Component
+{}
+
+BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,FailureFocus
+{}
+
+BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,FailureMessage
+{}
+
+BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,ID
+{}
+
+BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,Operator
+is
+
+BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,Platform
+Windows
+
 C01D7E5D-42C8-06E3-AA57-861C46733A59,Active
 Yes
 
@@ -2747,6 +3077,42 @@ Yes
 CB2F63A8-BB7B-D37D-3B41-BEF87CD243A3,Size
 {}
 
+CB749156-87EF-BA07-7E39-CB2F781C564B,Active
+Yes
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,Alias
+getMonoPath
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,AutoUpdate
+Yes
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,Component
+{}
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,Conditions
+{1 condition}
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,ExecuteAction
+{Before Pane is Finished}
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,ID
+{}
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,IgnoreErrors
+No
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,Language
+None
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,SubstituteValue
+Yes
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,Value
+{<%RegValue "HKEY_LOCAL_MACHINE\Software\Novell\Mono\<%MonoVersionRegValue2%>" SdkInstallRoot%>}
+
+CB749156-87EF-BA07-7E39-CB2F781C564B,VirtualText
+MonoPathRegValue
+
 D0B71563-7ED3-023B-1894-8AC3CA3C1269,Active
 Yes
 
@@ -2778,6 +3144,18 @@ D0B71563-7ED3-023B-1894-8AC3CA3C1269,Size
 {}
 
 D0B71563-7ED3-023B-1894-8AC3CA3C1269,Version
+{}
+
+D6173D47-F333-4546-80F7-E35B4EA32469,Active
+Yes
+
+D6173D47-F333-4546-80F7-E35B4EA32469,Alias
+putMonoPathAndCopyNplot
+
+D6173D47-F333-4546-80F7-E35B4EA32469,Conditions
+{1 condition}
+
+D6173D47-F333-4546-80F7-E35B4EA32469,ID
 {}
 
 D8492003-5C19-FCC6-D2C2-BC6E7D29FD09,Active
@@ -4126,567 +4504,446 @@ proc CreateWindow.CustomBlankPane1 {wizard id} {
 array set ::InstallJammer::files {files.tcl {proc ::InstallJammer::InitFiles {} {
 File ::FB83CFB5-53B6-C34F-A75C-7ED4AC33029F -name mono-1.9-gtksharp-2.10.4-win32-4.exe -parent 89953BC0-2297-D1FA-0767-B80520DA0F72 -alias monoInstallerWindows -directory <%InstallDir%> -size 73002709 -mtime 1207948052 -filemethod "Update files with more recent dates"
 File ::D4AA336A-962E-E597-3596-7CB3A1360387 -name CDM_2.02.04.exe -parent 89953BC0-2297-D1FA-0767-B80520DA0F72 -alias driverFTDIWindows -directory <%InstallDir%> -size 2119568 -mtime 1201199763 -filemethod "Update files with more recent dates"
-File ::68EB3492-FA98-4AF7-8C61-18F3C8E6274B -name chronojump-0.7 -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7 -size 4096 -mtime 1210593059 -filemethod "Update files with more recent dates"
-File ::37411E7A-2E55-8B10-7038-19110AD2DE36 -name data -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::63B3ACAB-DE48-C6F8-8D9E-7F24606CD5F8 -name chronojump.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 1881088 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::432312BC-CD67-56C5-15CB-D57FE89E7E61 -name chronojump.prg.mdb -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 352804 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::5E3296DB-7471-8123-C311-19C4B769BC43 -name chronojump_icon.ico -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 3774 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::917EA7A8-8A1F-BF00-53EE-156ACDA48AE5 -name chronojump_logo.png -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 9899 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::8679A55C-B9A0-7EC0-91F4-D8214FF246FC -name chronojump_mini.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 28672 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::FE263AAB-E9FB-B905-8515-4DBA7440AB83 -name chronojump_mini_validate.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 27136 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::50C288F6-B4DA-D824-E981-9F92D89A4646 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 147968 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::12602FBB-AFCA-CFA8-1D1A-2CC2D700D28A -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 307 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::BA737F9A-9818-3310-EC9C-510E18BA5104 -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 8704 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::EA2B4A02-925D-86A4-C535-710DD3B995DA -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 307 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::FB7DD4AD-7493-6831-4F18-429DDF81B923 -name readreg.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 3731 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::0A18AF09-CDA3-805F-5100-F9287F3232A9 -name report_web_style.css -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 739 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::A8E934F5-4EF0-5728-6FEF-F22A61F74297 -name sqlite3.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 362029 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D78BA4DA-9E66-D2C0-54CD-E005CD603CC5 -name version.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data -size 4 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::256F0E16-C0A5-121D-F9F7-A9C7804DC28F -name linux_dlls -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::1E98665B-5B5B-F580-DDF5-16AF1854ED50 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls -size 147968 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::821CA0EE-C205-BDC2-CED0-6317534D1AE8 -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls -size 307 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::07E38D40-BDE3-AD7D-ECC0-1F12F42329D9 -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls -size 8704 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::76413F1A-3E96-BF4C-D6FA-462D333947D6 -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls -size 307 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::C35B3AEE-5376-3CF9-96BC-2CB1187608C7 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::05EE4097-33DC-88DF-1A28-355648BD1648 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn -size 758 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::18035A8A-BF49-BFEF-44E8-E7C0ACC1AFAE -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn -size 2 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::AA95C6B0-A104-1D0E-F27A-A9EF5C9C1594 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::3485E3A8-3C20-65CC-5BDC-9032D0A67160 -name NPlot.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/prop-base -size 82 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::FF9643D2-EF93-7631-764A-C5C98D054170 -name NPlot.Gtk.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/prop-base -size 82 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::CEA94909-C8FC-A71C-79C2-ADA66B6E05B8 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/props -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::CEA96638-8F82-7CF8-D8BF-A687530C2050 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/text-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::D1517FAC-7DFD-0CC9-1517-2BE7D32267AB -name NPlot.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/text-base -size 307 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::885C6387-6398-929C-6126-D1D2DA97AE29 -name NPlot.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/text-base -size 147968 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::A2DA7D31-AC1D-D45B-7FDD-1687968E30A9 -name NPlot.Gtk.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/text-base -size 307 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::ECB92FD0-29BC-0A57-9566-BD23A888E81E -name NPlot.Gtk.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/text-base -size 8704 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::63A418CC-4D57-4442-CEF1-7F7BE5BE4B4C -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/tmp -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::A6CA0AE8-4CF7-61C6-0175-4305B7728D3B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/tmp/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::A36D35C5-39FB-B621-DDCB-6E1EC865DBA0 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/tmp/props -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::79A085B5-2811-3C70-A2BF-8F57A2B6B9DA -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn/tmp/text-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::21C30F15-6A28-ED21-B445-FCA0E6ACB78D -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/linux_dlls/.svn -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::2061C74E-B2B1-6867-51B5-B9DDE592CC51 -name locale -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::91FF6B51-2378-AD74-05D9-07F216CA70B9 -name ar -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A84BEBA4-E00D-EC1E-8835-E461FDA5A2FD -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B5D41642-2073-E282-0238-33016E7E10C9 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn -size 241 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C996FB4D-D5FA-1028-0E1B-C725A89BAB1F -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::407C4D68-38E5-E8C1-1E21-1DCCFA0008C7 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1A52AFCB-8363-9C8F-256B-3CE7F9731A3D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::2B51B0CD-4F64-589B-9C45-757CB24CBFC4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::2D0A3014-D11A-0D41-8C8E-562880DF4CEE -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4D28C051-EEF4-D55C-5FE3-79D01BB223B0 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::44A8D9CE-A654-9408-CD3D-7AFC0FE468BD -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::55726ADD-984C-17D9-D152-2186A17AFEC0 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::12E394D8-F533-651E-BF1A-3E8E19BD1C10 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::73B03527-6BAE-5E5D-23A8-F7BA6A23CF57 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::CD88E36D-9544-B7A0-0AB0-4E3460386929 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES -size 2067 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::89FCCD7F-9E7B-2DD5-7077-B9F47CAE1DF5 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9D425AF5-44A4-C88A-13CC-DE84E5644F01 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn -size 372 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::17B13590-8472-38D5-2458-2CE6E34DF9AD -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D17F8F71-43A5-3BCC-D7FC-68BBDA4415BF -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8F128B33-25E9-E9A5-6512-D914E7FF0E1E -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D157A271-05EE-0025-0765-74D50AD23D04 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::40A2E6DB-6721-E651-C698-896825A9D0D2 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9E0649DF-C450-6F3A-02BF-2090B584794D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/text-base -size 2067 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::20A76C76-F29B-51BA-4C3B-65D8C6DC4C93 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::37764AC7-2B2B-EBEF-4D61-C58153B58D52 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::606F7CEF-FCA5-6C4C-ECFF-303FFADD5FE6 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C42AF0B9-BC48-1F57-3D19-FAB9740E41CA -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::17D1FE29-DFA5-0BF8-B09B-384A1AC92FAF -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ar/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5FA61E80-3632-A62E-D227-DDFA5480E514 -name ca -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8596F161-E938-C1CA-2870-82B47A9B705D -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D1A229B4-B678-B601-E953-8AA68E4B254B -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn -size 241 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::16BBB556-3515-0AC6-7ED7-6DF6B5EBC65B -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::368E5D88-3319-465C-6C40-012734A40A85 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::60EA4CF0-81E7-2D6B-C02C-16341293E004 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6AD380C7-91DB-5548-20CA-EF07F1A350BC -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5C70C52E-C7D5-47E8-2682-35F40FED011E -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7A402918-7DB7-90D8-EB68-EC2E76115F9A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6CBB29D3-F5A1-BD3E-FD12-3E148526C33D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7E65F688-2767-B956-67EC-55718D905F2E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::3ACBDE46-2791-6B1C-3204-CF602C9F74BE -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::15AB4129-0022-52A2-166D-32AB45B92B49 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::37CC41FB-8B1A-7EC1-9B06-6D122AB80458 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES -size 61223 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::50438B15-E656-A178-CF38-E30604EDC21A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C30DF839-F3E3-0ACC-F889-EAE69038F2E2 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn -size 375 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E647F12C-9F86-F48D-1CDC-60EB1FF1E2D3 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B4C69D2D-D84C-83CD-6410-815CAFF6CE8A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6B4F9359-9059-30A3-815E-F5FC7A182D30 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4F265AA5-6FFF-3371-704C-B9CC1DB8551D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5C17AE4D-F25D-A75D-D912-476F54E40C1B -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1CF8CB23-99EF-7F4F-E3F7-361D58DA5597 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/text-base -size 61000 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D7303117-F60A-4B13-8B15-6A793F6D0A5F -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::CAA25BF0-C4D0-0FE9-66AB-67C95537C94E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A500593D-3F98-7473-CEDE-96B294D3E8F1 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8750B02D-DC5A-9EEC-7DA9-10CEE0E8E67F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::31A22FFA-A728-0A43-FA08-2427FD54F427 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/ca/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::688B0001-6B3D-B842-AF9A-13F57D65081B -name dz -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E53FB3BC-3002-4CBC-AEE1-386D56A25356 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::93461C90-21CA-7FD3-EC3E-0706EEC43FD6 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn -size 241 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5ECAF534-1A62-75BC-00B2-1005403074FE -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::501BE6DF-9485-D176-1F7D-CE52E4FDD5E2 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0EDAF75F-1277-B8D4-78F4-E75FFFC0D295 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E2DAC01B-C3A0-36F2-CB2F-D7409F158C68 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D1B24514-0A1A-BBDA-71B5-EA27024B295C -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::20561177-90BC-57AC-CBA0-B3E15A4F270A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B0914D70-95C3-15B0-002A-3E5925844355 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1CB0E95D-3C8B-6E79-8A4A-A716DEAC627F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7041B7D2-F39A-33C2-C083-57B453CC9F85 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::885CA7CD-29A9-2AAA-CD89-F1C9BF5FB89E -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D7E82796-021C-910F-1687-0FC5C5392E03 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES -size 71911 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::80C3730E-EFD6-D2A8-2446-DB1787AF80BB -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::CC3EF0FA-237F-7A9E-DA7D-D04B260C701C -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn -size 372 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A609A9AA-1F25-3D99-A227-1164597328FB -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::EBF00AEE-8229-4BF9-D975-86BBF380BC0A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8F8EC2BE-0156-6521-7AED-F56B12355FE8 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A6794FCA-2E0F-C362-68CD-AEEE40C18C4D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5EBD6945-38C8-BE1F-DD4A-873F36F1AD3E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::AD0F7373-8B22-3B76-E5E0-EB8E34969A78 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/text-base -size 71911 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::BE58FB67-0331-641E-9B29-0FBA5F28D55B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B2CDBCE6-D17B-ABFC-5AA2-747EBEFC6EFD -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::79B10386-C336-3664-D981-446F80CE152D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0DA97BF6-CAB6-F3D2-E0E0-853A818D2F19 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1FD966CB-CC8B-BB69-D0B9-09BA8757865E -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/dz/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F7F5AACF-91F4-C3FC-07B5-1D921F014582 -name en_GB -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::FDD7AFD4-5794-2D29-AE96-F08A429D8ABD -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E9FF538E-0C40-0C41-CC11-88A881A5CF65 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn -size 292 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::75CDF739-1845-781F-4542-BE6593D474BC -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E235BBEE-5204-5552-F69E-D1D3FF965948 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::626EB3F1-F3A6-8776-B970-7F243166757E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::06EF1AB6-AC57-C815-E6C0-5A67D5BD3199 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7FE21F38-83CA-2873-8639-99F28BE76C16 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7D998D88-B8A8-B2DE-E05B-380ADE2858DA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B90B70B7-2A1D-2989-FB54-7F5D7EA0921F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DE249F75-EFE9-E73E-2D12-C73CCE425919 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8C72DA08-673A-FF6F-0221-203772ED23E2 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::294B2851-F8E4-5893-93E9-16EF5DB7F653 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E628107B-87D4-116C-FE3A-BC50EA1E7CEF -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES -size 36798 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E350F378-104E-7F8C-EC9D-D18B8A38A76E -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::96859968-A62C-8E82-1EAC-01A4BAD0509A -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn -size 423 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F652F5AC-231E-9C93-7532-29A916FAC8C8 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::AB563E16-7BB5-D194-5593-92D8503C562B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::32AC512C-6D47-9D96-F8FC-A11C2E9C6E7D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::ADE17A4D-8B58-3FC3-3381-084EDDFD124E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::82A8961B-31C5-C99A-E5E5-2A35E16B5849 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D61347B9-EC19-C7A4-41E3-EC7F6F4EEC8D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/text-base -size 36798 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D2B9D54B-6169-F4A4-8FBF-06A71280B8A4 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::57F0447F-FDDF-100D-3032-AF64E8A337BD -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B9616921-BE84-3284-C504-0268BBC38B18 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7867D928-1B38-18DF-1ECC-D030BEF92FA5 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::77F3CFCB-02E6-BD0F-011B-70CBAEC0D004 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/en_GB/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::AB73FE81-3CBB-0889-15A0-C4BBA790E274 -name es -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4EF86353-CE94-84BE-FDE8-7E05411F79B3 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::791A4764-DC2B-4E51-DFEA-EAD2C6BE6EF4 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn -size 289 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F46DA094-87B6-75D3-D9B0-AB88EABCA439 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6B771858-4796-4814-EC80-2CA4493B6238 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::132B6C9F-562E-42DF-C5CC-CC5B1ADE48F7 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::ADA49816-A861-627E-A785-DA28DD52AD7A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5884B9F8-10DF-3130-86A3-D199B2B9A763 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D0A74622-ED26-EE4B-FC92-027B4B94D8FA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::138686F9-DBE8-A6A3-C0CC-CC56838FBD77 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::64D56033-88FD-85B4-01A7-5409C3F78006 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::579F9ADC-8AD8-2665-16E0-C0D9D60A48F1 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::EF05C3D4-698C-D8CE-1E4E-127204EFE6B7 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9136B62B-495C-8AA1-DCD6-A732082C86E6 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES -size 62064 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::FCEC5AE4-4A46-F562-EA40-BDADB871AD28 -name es.po -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES -size 56514 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::483A8E64-BD8C-C49A-1EF2-3ABE4578CAD8 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9F602FF5-3A57-3EB1-4EFB-DF91F6231686 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn -size 542 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::14855FBD-1B35-A321-593E-41B7F8841E9C -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7846D969-D916-1E29-3DE4-CE9F345A6E79 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::61365C4E-3E54-F76B-A541-86BBFCC35EBB -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::23EABAD4-0640-37BA-248D-545DDC46B0B5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4320524B-C1E6-0015-3901-C23113E43410 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DE0B6911-17A5-6185-61BC-0BBF86D5FAAB -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/text-base -size 61856 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::04CDD15F-855E-6109-F891-BB2EE89523C8 -name es.po.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/text-base -size 56514 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0181492E-943B-540E-C2CA-30DE6578402D -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0D37AF71-4F56-40BA-31A5-DA4ADD4BB64A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7A98DF49-21B6-8604-57CE-6B3518AED6BC -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::188215F1-5D5E-D895-4292-D03B9D93E5B4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F49429D7-BBE4-EAD5-0DFA-E684AF7B6628 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/es/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8924C63A-0A8F-99BD-E751-1438DFEDE213 -name fi -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4EECACE1-631E-3DBD-A9A7-61BC880021FB -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::18286441-6B63-E4D5-CD90-6E9410A20274 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn -size 289 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::FF4690F0-7367-00E2-83B7-A19416771976 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::48CF49E5-87F0-89A9-1703-6FF66CAB2D0C -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E87FDA60-06BB-9BE1-74EC-00912673B38E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::BC255CF9-BBD6-BFD9-DA57-37B85B67DC6E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::804B21A1-D7C4-C394-775D-46EEB5FE8BD7 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::84379013-8B2E-C27E-50C9-FD1748E281FD -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8ECCD3C1-0143-D54B-E38C-7F69410A7310 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0ED2F9BB-A2F9-4254-05EF-C4E57954C261 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5BE678A8-9A14-E694-F2F1-A09D6C4667C1 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1347DAB6-41A8-3B14-BCE1-4AFD2BD686D0 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7D7EDA5F-13DF-074A-1E19-B3B4C356AE08 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES -size 33608 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::89E2E478-A054-4BD1-1BA3-64B27EA52AE6 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::48924962-21AD-78AA-9DFE-DC9A14EAE7F4 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn -size 420 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7F4D5841-84E1-E668-EDA9-C0400466BEDC -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A12EE735-CDAB-10C5-A1A0-CD4550CF12B6 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::611D2DCD-98B5-E07F-1EE6-4014E5E17A88 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5AFF49D6-25CD-C590-831F-5840A132A780 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::AC6F0384-0A81-2D17-87CF-5CD3E3952C82 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::AFEB4D51-048F-432F-A299-D86764041FD7 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/text-base -size 33608 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8812C65A-EA23-78C7-8838-CE8B2FA7DC8A -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6EE37DA0-70F2-1420-3CDD-23FFC3E6CE8F -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B9B3791D-D0FF-D8DF-F801-10F2F411C6DF -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8CB7C570-8EBC-259F-919C-B8EF8A188F45 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E7162742-E24C-9286-6B79-D3CFF7231D1E -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fi/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C4A173AB-B095-8094-77EC-C35E2A7A85F0 -name fr -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DE63DF8D-D7D3-1C03-8BEE-D279D63BF9C5 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B9BE2413-40EE-B6BA-3C33-3A8EA8B912BB -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn -size 289 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::04DB941A-BD73-75B1-3194-7E04BE3EAF4F -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::30B508A2-8C5B-EEE1-C0AD-4ED3044F6EAC -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::3D09C6F5-20D1-8EC2-33D5-9D940583C637 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::99658416-8B93-4876-ACCE-A3BD4FA51048 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8898C98D-609D-00BA-9C5E-773356402BB0 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::171C42E0-64AE-B1B9-978F-10C1444B7C40 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B5145952-4434-376A-B2F8-6E5C0A7D8590 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0D6358FD-F371-E17C-AF70-C3D1FBB8BD4A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::073FE71C-3713-C6B1-C700-70FBE46D23E9 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E570F4F8-D7DD-3673-CDBF-658A7761F561 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::96BA5B66-67A4-0831-931B-2EBD8591310D -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES -size 56213 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::82204FA1-34AD-CA90-EBAA-89B069D8D23C -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::97D67935-2C70-3AE8-4B84-8666178D0EBC -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn -size 423 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8A633F6C-DD93-8612-1BA7-E13F4E16A4B9 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::304B5C9E-36E3-7FCD-A7D6-900CECA03DE0 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::38DD07E5-8362-39ED-5442-F46A34BFB025 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6130E336-9016-1A0D-D836-8A818D56B986 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DB1F7D2E-5E69-2050-90EF-D397D179A26E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8D68D214-6751-34BE-97F9-2B0F74ABDE90 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/text-base -size 56213 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7059EDFE-C6EE-59EF-34BB-D1355AFB60FB -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::77653F82-D889-0A53-BCCE-BC4203A39091 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F0937530-AB66-D85B-978C-3E154B493ABE -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::69EC3685-75D9-5A46-4723-6E43C0230EB3 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::3DC7CD98-D412-DCCF-D0A2-DFE0712A1B35 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/fr/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A0B2BA09-D374-7628-486C-A54A23562505 -name nb -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/nb -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B524F95E-1CFE-29BB-ED32-426EF523E111 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/nb/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4A7B8CA1-22E0-35CF-4471-09F15E2DA4E3 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/nb/LC_MESSAGES -size 1836 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::BA7B9A3F-6F0A-F33A-90BD-0B267CA6637B -name oc -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D7E074FB-FA21-D534-EB3A-E61921283AED -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::15CB3D30-905C-C086-FF92-A1986B01BEED -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn -size 241 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6A3E19B5-CE5D-7765-7429-F50B6479B903 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::AB7DF503-6796-82B9-BBF1-4BFE3C590D2B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::87AF61D6-B1F0-E20A-434A-2482015415C3 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::3D687E54-D8D6-DB70-6FC6-FF65AAE85829 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C95A8B23-C90D-5D7E-DE03-D99A221EE123 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::108A619F-588E-6FDF-AC2D-75982AD8B262 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4608BC33-2120-0D11-5356-1426495DCDBD -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::ADB716D8-8942-1417-FC4E-43D4AB43B593 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::889F2D8F-D93B-8C57-AC22-22B82335D4D1 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D0A5E248-96A2-CF8D-21D0-8C088308D0DB -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::72A2A8D5-A36B-3234-C4E4-76514238AA19 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES -size 4142 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7F8D9229-D35E-8AA6-0DC8-46425B4B26E7 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::74BEC0C3-08A4-376A-D9B3-329895E267E9 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn -size 375 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1B76E08C-90BF-7170-2A5D-AF3000A3295A -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5B77638A-7B17-EEC5-C5E8-3297E89EDDE3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::10D37DDC-F86E-CA1D-E7EB-67B81330E689 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9254C948-DF6F-E983-EDDD-CBF9BFEF3BF3 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4E394F05-0FB3-0216-775C-D09667A3B8AA -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::AFD1D7C5-03FD-5DBE-3B8F-F53000AAAC30 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/text-base -size 4142 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4FD8FE7E-3159-7052-5E75-01B6E04C840E -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8DE135C6-35C8-4388-4C6A-69E8B5B71F96 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::779D099A-40E1-75F5-F397-5ABC96992AD1 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::2A5B2E9B-D9CF-9E16-7DC2-8F0264FF182A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::527AE8C1-F856-4D4A-F02A-86F5DE957286 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/oc/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::463074E2-59AD-BE6B-765F-259FE53A9749 -name pt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8D782B6B-5E61-E205-7DA4-C4D69B097751 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::184FCD00-1546-BD49-13AA-EC1BB53A3B63 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn -size 241 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::CF551F71-F6D6-CFCB-59BA-8DF14576F30A -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::741271C7-BC87-86FD-9816-5A172E9DE6A3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9990D877-835C-A876-1E7F-24BB6F2B440F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::CB56B946-5FED-3778-F378-7F18DC97D609 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5D7A946D-9D87-4ED6-419D-642027B6CBE6 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C30E86F9-B70F-E8CD-3EDD-BB7240855093 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::FDA8CB9B-359A-9CC7-30B0-6098FD753F0C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::46974D91-77DA-5AFE-192F-A616EE207B4F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6CC4F8E2-4694-8467-B9C8-159C0179FF9A -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::878ED62A-30BE-359C-96A5-01B4745D7D9B -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::3493746E-10D9-2AEC-F29F-754562FB12B8 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES -size 37538 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::ABAF744E-667B-638B-D12C-C6A52DAFA28A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A01E0F8D-4CCC-A9EA-EB0A-CC08B01D58BF -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn -size 372 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::AD2D5FD8-E1FA-C0AD-3D7D-3CCDB6C8F64B -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7E453DA1-5AB6-EF6A-7853-8D19758359A3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::834915E1-CF50-0C5F-7F1E-D8E3AA20BDC3 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B79F9EFE-9B36-D62F-5F16-E1E563C61526 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::CF06725C-8ABA-1040-45BC-A333689D0427 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DF2189F0-D91E-6353-B5D9-E7E1B20AA54B -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/text-base -size 37538 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B82E94A9-3F04-6139-E1A1-6AE8914271D7 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::EC3EB372-C1C7-423A-96CE-5F60871DDE48 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A51AFAB2-60CA-D347-95DE-80A3C04C3CA4 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::220CAA99-9D73-ED89-F50E-BEE25CC54039 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::2F197AA0-7497-11D8-10F8-AC94973FBB32 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6BBCA202-7F1D-F505-3403-1043D2A5CA79 -name pt_BR -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::633A34FE-160C-B3A0-0A75-8BCDB0818DAE -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B588CC4F-B1B6-C88B-0EEA-895CC1491AE8 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn -size 292 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9FC17C43-FDC8-DA8C-E0B5-D5F0217D450B -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::18B618C3-DC5F-05FB-8674-2340596811A7 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::34C465C0-2F0C-DB9F-6514-D33949E60E73 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::16E488ED-A15F-0BC4-38BE-6C67358B427E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DCC19755-A40B-2549-A898-F5531812A6F5 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B55B5B46-7953-1C9F-7900-1BF91E6D4C8B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DF3CD15E-D993-E3D0-E43F-C5A4797BB267 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::692B8795-FE4A-34FC-8586-F3B8571A42D8 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::EAF607E0-92E5-4EC6-5B88-6793E0F2EF41 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F7686FDF-0C2B-8349-2642-AA035447B76F -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::06C8809F-AB56-4B18-9890-56C85C26838B -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES -size 4855 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D28C8892-DEEF-5227-76D5-CED885F0A8F4 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F08E37A6-6BDE-749D-476A-D07E7A3B7030 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn -size 423 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::221FB849-ADC8-06EF-6678-0E000D054F45 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::3F78CAF4-3F49-A6C2-06E7-B7428A4E21A6 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5341A621-4CA5-A597-5D7A-5D9376A9E7CE -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F01DAF7B-B27A-1AAF-4FAC-F9DA506CB871 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::59A2C586-521C-1A71-353D-D7A15979FBEF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D51DE753-3FAF-B76A-35C1-D76A624F8603 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/text-base -size 4855 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DA347E54-5436-7A7C-E74C-1B5213B153EB -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8B7144DB-F814-6949-95F7-4601DBC5CCEE -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C829B99B-73C2-FA6D-DAC7-E96B1E2AE2B6 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::41DD4DF7-925E-3D80-E6BD-70E6C28F6857 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E342BA5E-4C4C-FDCD-3B4C-48BF5594467E -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/pt_BR/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::94E74251-16CB-1250-B231-DA2A0F8C75E4 -name sv -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::079B0F12-F527-6A0E-A7F5-5284E80DB6CB -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9A87511B-FB79-835C-28D4-3ADE66220D80 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn -size 289 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8167F313-A3A0-7844-CBD4-EB71ACF0A8A0 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B5E3B103-A244-483D-0804-F98DFF9DCFE3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5952ABCA-1D42-C52D-2696-B9864A4E9080 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::FB22A004-657D-743D-F60B-56FF26D5D2AB -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6A50B798-D77D-418B-DA80-FEF2E3E297CA -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::038C8B2C-2AB6-CA75-A76A-85C9141B5D44 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F5FD0CBB-913F-9052-D713-AD75B9B928D5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::348361A7-D1EF-2412-9E9F-D0DA58A1C628 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DF0D9A38-5FF3-C023-6870-94BB9F6AC736 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::EADDAD1D-631E-6BA6-71F2-753908FB9583 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0D429D5A-E7CB-4A62-8432-37A3FD596641 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES -size 15332 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::63ADB153-6341-2E3D-D162-C0527C7C7B23 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5F2684EF-117D-E315-293D-445119BAC6B1 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn -size 420 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::81B2EA98-280A-C9BC-3BA6-9F7E69FC53DF -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::60C6E652-6B67-242C-4C2D-3C20C59DE696 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9A30EBCF-5228-8463-42DA-036EADE10384 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::116C6A74-45ED-ADC8-4C52-C0BA7D4955D6 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::99428187-D32B-4DF4-04DE-EB253BDE6EC7 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C95EC9E0-7AA1-F69D-24A8-6C6EBEAF3421 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/text-base -size 15332 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C92C8837-746A-94EE-C125-53860DA8FE84 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1A3D8C00-CBD0-9013-A120-BDE1AA86EF18 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::068A26D4-A9E3-CA7E-C196-71E84CBF954D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E5CBD424-C325-96A4-6DFD-848467CAA92E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1DAE6DFA-DC62-AEDE-6EB7-16205866E938 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/sv/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::BCD90763-7548-4168-DA08-E85DD24CD811 -name vi -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A0E4E3B8-CF69-6AD7-E753-E6D12A0FE6FB -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4199C91A-CF90-C1A5-9048-E2ACD190115F -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn -size 289 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::F43CA68B-D541-8660-5BD4-7F6910468641 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1BC00A31-0C32-D68F-0418-33EDA5714F03 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8C61B692-434B-B388-BC8B-08D69E352F90 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::CA5BC301-BC1F-A872-E992-820BBBDB3B95 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::33539B0E-08A4-E970-3D7A-C8749804E26B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D36C7D9F-58C7-48C9-723B-437BABE5A257 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::BA1F9C75-13F6-4F70-DD58-C7DCBB4BC7BA -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::15AA394A-4101-1A26-6A86-06747F95C176 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::3EC62CF2-09CE-6FAD-93D8-76572FB033DD -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4A6F958C-B282-0E3E-4173-1C9E56374D28 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E3975AAA-4919-A563-7C9B-1C269BC7E6D3 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES -size 38193 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::82032FB7-821C-CC24-C415-A8C6EE770741 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::56234CD6-6702-1848-88EA-2163C23B0B12 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn -size 420 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::099B01CD-A858-F3E4-21F3-38E5E57678B1 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::68A15154-11AA-FD02-50B4-618B00F38C68 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4715BE68-69AF-1760-9B82-A9CB223EA5F8 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6BF09638-2FAD-3FC1-90B9-C22AE7F3DDE1 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::91591B3E-16B1-96A9-087B-CD2877E79757 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::7AE25D00-E8BB-698C-D661-5D39F8166AA6 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/text-base -size 38193 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::705B9CEA-F196-4CC6-374D-34C571A08A05 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::6ED31B7E-6AB0-3D4D-1A41-B21147364DA9 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8BDFA0BC-7B59-087D-DD37-2625C57552AE -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::2F1FAA14-6A25-639E-69F3-9CDF1CC578E5 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::94A4A78E-2335-CD4E-7F83-15D6D94BBCFA -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/vi/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D7A91ECF-2326-18BF-1DDE-17E4BBBA14DC -name zh_CN -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::D0434A29-FBFD-F80D-DF77-8B1D334FDAC2 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1192FFF6-4576-F3E1-43F8-67F4CE737AF4 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn -size 292 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::32E48BD4-F559-5343-40E1-F9FE087B101D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::1A018B6C-1390-433F-9D5A-CE6BD9F1FF01 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0B2D5E8D-3A71-33B1-30A4-9EB3213E47CF -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::C93A2110-D008-E4E8-AFD7-DBBBE24351DE -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::EE097811-3631-847E-7FCB-818C4B703DC5 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::2EBEBDBD-F7C8-6694-174A-686A3370921D -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E50EED29-0759-F712-DABB-F49AB7DDFFF1 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4DDE94A4-066C-04F7-6E3B-04092252E411 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::13E150C8-67E7-1E00-65ED-9E81835C44A6 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::43B162E8-22C5-4851-12A8-4AB604631878 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::DC97A49F-7182-7627-8D9E-39F89977148A -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES -size 1612 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::5028BEA3-F34C-FACF-39B3-89124082A3C0 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::4D611AF6-493A-22C1-542A-B5FD55922005 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn -size 423 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E3600592-A3C4-A941-A492-38C381C3D962 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn -size 2 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::9A9FF3C2-9CC4-3304-B662-F114377F6EA0 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::A9A78BB4-D059-5CF8-3EEE-8B737CA60225 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::15F471E3-31C6-9215-EDA1-E28303432424 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::15591590-606C-41BC-C2C8-E9C3515A6A65 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::EF6B57EE-AB88-013E-2D28-6C429E622906 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/text-base -size 1612 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::0A91EFC5-AB61-CE5F-7A7E-C2F925BB3E23 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::B5CFC167-784B-5A0A-88F1-23A85B602CDE -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::45B1D396-C43E-FE30-4004-3060E3F16F14 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8BA293D4-45DD-9C2F-2DC5-805FE2B16B4F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::8D9FAC7A-02EA-D6D6-0651-8C6820BBBF21 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/locale/zh_CN/LC_MESSAGES/.svn -mtime 1210593053 -filemethod "Update files with more recent dates"
-File ::E378E7E6-D1C9-D8C9-AEA5-20D5A971AAD5 -name utils -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::1AA51B99-7A3F-AED9-F854-35BB55B910CD -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::4D9A3111-5167-CE2B-F292-7C3C11C89EFF -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn -size 245 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::7BE0CC9D-214A-3801-217F-D1454A3BA044 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn -size 2 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::0D15357C-9268-80E2-498C-016F08C5003A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::E708379E-F211-FCE7-3D84-E756D8B0F0F0 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn/props -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::1CD14C26-D985-C03C-6154-51A36A4C839A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn/text-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::FDABD521-FC83-17BF-D82F-9C55BB73399A -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn/tmp -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::514043F5-C3AD-3B9A-4721-05E3B9E0B372 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn/tmp/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::16CA30F3-EB11-A03B-F165-33C8CA6CFB3E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn/tmp/props -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::E1A1A512-5945-AD1D-2BDE-5A6D7056ACB4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn/tmp/text-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::1E55979F-A4D1-2668-E860-AE9D1BEEDD59 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/.svn -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::C2622BAB-EE96-3D15-6FF2-03284B678125 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::8AD03F2C-6784-A82E-8A9B-72A209C57993 -name convert_database.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux -size 308 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::6C2A9937-207F-FD52-F72C-671596A76244 -name db_path.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux -size 25 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::EAA7EA8E-E020-EB05-3EC9-C6918E9853C3 -name sqlite-2.8.17.bin -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux -size 312364 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::74B3739A-7F6F-5F88-1077-EF091023CC22 -name sqlite3-3.5.0.bin -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux -size 278820 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::C4F5DA43-1A4E-3F7A-0FB4-54ACB234BD0A -name tmp.db -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux -size 18432 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::037B11DD-A1F7-FF66-7D57-34040AAE01BD -name tmp.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux -size 4604 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::A5E3E789-0EFC-B29B-2CAB-A3BFF58E81E0 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::1C364A98-6D08-518F-0DFA-75D978286D2D -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn -size 650 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::314B3ACB-89E4-F135-2191-C080BDAF2596 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn -size 2 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::8A860F2B-EA28-CF3D-CAED-D78E47340960 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::A045724D-586B-3A72-EDAA-266C9FEC7F4E -name convert_database.sh.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/prop-base -size 30 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::4C6BB4B0-7D54-41CC-C255-D071672B9399 -name sqlite-2.8.17.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/prop-base -size 53 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::AD03C79C-3286-D3DE-CF1C-8CECD27EF0A5 -name sqlite3-3.5.0.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/prop-base -size 53 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::609D0ABD-AD79-25D5-587C-B16C1C431C6F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/props -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::2ED95AAA-96FE-3500-2B75-7BFA9EFE7A99 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/text-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::1AB11583-0236-315C-3252-4FBBFA4D5D59 -name convert_database.sh.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/text-base -size 308 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::24AC64D0-E4A4-3B99-1E4E-4D65DA1DDC2D -name sqlite-2.8.17.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/text-base -size 312364 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::8A56954C-B726-1322-C0AB-8640787B96C0 -name sqlite3-3.5.0.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/text-base -size 278820 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::8A49AFBA-8F20-6290-2083-B2601A4E7BC0 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/tmp -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::953D28B1-9863-4099-D090-52DE9EA24CF0 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/tmp/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::DB6D9CF7-DA80-00FB-420C-2CA517A15803 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/tmp/props -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::90E0E7EF-01B1-A449-D45F-7A3C69C9AC30 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn/tmp/text-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::2AAC1C9E-DA49-3073-1BC7-4D7609D3BB34 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/linux/.svn -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::1B152DFF-B776-56AE-C4DA-EC307C6524C6 -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::406CDCE7-FDF2-F698-C94D-0C125C91A637 -name convert_database.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows -size 299 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::0CEEF2B3-DB7E-9B37-389A-E4E034C08E6D -name sqlite.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows -size 277098 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::8D4A63C2-9420-7062-DC5B-F0FC3BDD3032 -name sqlite3.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows -size 391500 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::3E730694-52F2-4130-A2CA-3F0384CF6E1E -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::13A56605-3F39-7F9C-426F-8186A98C133F -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn -size 640 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::9633911E-E5E1-08DD-FBC0-81CFD2582C08 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn -size 2 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::A1012577-1189-93F0-FFF7-D196CF4A0B1A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::0D95B515-9580-D09F-52A6-604467040B3B -name convert_database.bat.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/prop-base -size 30 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::CBFD5CAB-4F59-9A5A-A1BB-8C87119D2F09 -name sqlite.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/prop-base -size 79 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::82428212-791B-561D-DAEA-AC787F794CA3 -name sqlite3.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/prop-base -size 79 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::C9DB0D5E-3CC6-C2C9-4B3C-689BDD6AD88C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/props -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::C9B70948-9C53-F125-9E4F-C4EB3906196F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/text-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::F2D5285A-923A-9D9C-6DFA-9D24ECB838BB -name convert_database.bat.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/text-base -size 299 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::FD56A5A3-E6E7-F770-C334-454A96281AE5 -name sqlite.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/text-base -size 277098 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::011C04BE-6636-4136-DE22-93262DECE5CA -name sqlite3.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/text-base -size 391500 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::DF3A2891-B24D-9A51-8F5E-5DA0CDA0E6A8 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/tmp -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::D3E53618-B65C-05D5-30AC-93F56D3917B3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/tmp/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::0DD13089-29CE-9AD7-A647-AA4B48B2EC8A -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/tmp/props -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::F3F42A32-AF97-4B2F-D1D4-4785413F65A7 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn/tmp/text-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::54B2C406-FB5E-EBA5-04C1-3A1B3A9EC7C9 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/utils/windows/.svn -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::E1C2F518-6D53-A8ED-B57A-23669F8AFED0 -name windows_dlls -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::E980C695-DC1B-E1A0-E65E-8F392AAD48D2 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls -size 128512 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::F89C9E08-D776-FF1F-02EE-F729F85850EB -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls -size 317 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::FD87E81F-89BA-B666-E300-C146856B8280 -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls -size 8704 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::6D7F4C39-C5C3-AFE3-56D0-18C1CBC8A3BE -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls -size 313 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::F45C5014-5B2A-5CF9-0B19-0DB1A819510E -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn -size 4096 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::4AC51F6C-9C2C-01B8-D0DD-E1ABC289E6F2 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn -size 780 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::9BC59395-3EDF-77FC-AB16-D4C35366977B -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn -size 2 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::49BDAE43-52BC-A904-74BB-764DAAC2B9C1 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/prop-base -size 4096 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::33BD8F7C-FA3A-8AEF-A3BF-36AF46812494 -name NPlot.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/prop-base -size 30 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::3294E5DA-779B-4EAE-C4D4-A63C13719BCF -name NPlot.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/prop-base -size 82 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::888E280B-DB2B-F530-B465-64BA1C4DCC4D -name NPlot.Gtk.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/prop-base -size 30 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::52323198-CF2B-63AF-F055-9B323255CFD9 -name NPlot.Gtk.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/prop-base -size 82 -mtime 1210593052 -filemethod "Update files with more recent dates"
-File ::04F6A5D9-988B-6BF9-83EB-D43DA86E2323 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/props -size 4096 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::6C28FFDD-9E13-94C1-B4D0-2A4F6E258EF6 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/text-base -size 4096 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::90754323-F99F-79DA-5AB0-33698ED9A9C4 -name NPlot.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/text-base -size 317 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::C107D924-C47A-7C7B-9EA0-FFCD375D2987 -name NPlot.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/text-base -size 128512 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::B4306564-A041-20D1-A41F-B018FB8FA185 -name NPlot.Gtk.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/text-base -size 313 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::5B361748-9B98-7302-06D4-59200F351D6B -name NPlot.Gtk.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/text-base -size 8704 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::CEFEF4EC-AD99-D59D-A05F-BC720105BF31 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/tmp -size 4096 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::C2F5DC95-2E81-7DA0-C132-891A299ECF9D -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/tmp/prop-base -size 4096 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::F01BB238-16BB-0400-B2DD-448AEB5C446E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/tmp/props -size 4096 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::B7FA19D3-6E82-9403-2504-B967886A23A5 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn/tmp/text-base -size 4096 -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::A0AB9E9A-C7DE-10DE-AC9C-36F480BE6767 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/data/windows_dlls/.svn -mtime 1210593051 -filemethod "Update files with more recent dates"
-File ::C7A9B016-ACA3-C608-77C2-748A38CD4C31 -name docs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/docs -size 4096 -mtime 1210593057 -filemethod "Update files with more recent dates"
-File ::EDBBDE76-A94E-36DA-BA1D-3B62C7119EB0 -name AUTHORS -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/docs -size 123 -mtime 1210593056 -filemethod "Update files with more recent dates"
-File ::99E51E7A-E3B3-41A6-E760-8F19559F890F -name changelog.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/docs -size 77211 -mtime 1210593057 -filemethod "Update files with more recent dates"
-File ::D2EB92A1-E41B-92BC-5D6D-C24F0D1A7689 -name chronojump_glossary_for_translators.html -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/docs -size 16010 -mtime 1210593056 -filemethod "Update files with more recent dates"
-File ::7F187134-F15A-7522-5ACF-7307BA8E3889 -name chronojump_manual_es.pdf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/docs -size 481209 -mtime 1210593056 -filemethod "Update files with more recent dates"
-File ::67878A65-6BB1-918D-906C-32A161A135C5 -name COPYING -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/docs -size 17992 -mtime 1210593056 -filemethod "Update files with more recent dates"
-File ::A920DB19-7C74-11FD-0806-95029D3FEAA2 -name INSTALL -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/docs -size 112 -mtime 1210593057 -filemethod "Update files with more recent dates"
-File ::A75F342A-44DD-3266-9314-4E40434A5899 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::82888B4B-E60E-76C8-E687-4E098B2276C4 -name chronojump.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux -size 1854 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::EB94D454-84FD-003D-E5C2-F033AF678484 -name chronojump_mini.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux -size 1633 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::3BD53644-30B0-F02A-E3B7-F14663FE651B -name findMonoVersion.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -alias findMonoVersionLinux -directory <%InstallDir%>/chronojump-0.7/linux -size 58 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::207D9C01-4F81-0B4F-61ED-4ABE20433CF5 -name chronopic-tests -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::5F48EC82-B1B0-7FD7-E073-E6F1F0188B1C -name Changelog -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 2227 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::169780BA-CEF8-66E0-0C6D-3E3F9E7A0D52 -name chronopic-serial-conf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 11246 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::17159D25-AF7E-DA16-2700-DE8995D12CAF -name chronopic-serial-conf.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 4592 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::E56A602E-F677-A39F-3BB2-0E8A4E544BAD -name chronopic-serial-conf.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 2520 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::77C37708-4D72-8DCB-497B-1C9CF6588BFE -name chronopic.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 10239 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::93FF9F9B-779E-7C1A-2A32-F9C75B445F25 -name chronopic.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 5160 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::395EA7A6-27DF-2329-082E-5F86B19A270F -name chronopic.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 4608 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::27135029-B608-D844-66FB-132A63AF5A34 -name chronopic.h -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 4508 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::2D829F60-FE06-4D26-43DD-CA51429D9377 -name chronopic.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 3336 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::B3192099-021A-BF01-95D7-0DADD33518CF -name libchronopic.so -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 8654 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::CB872D89-196E-A1B6-6466-AAEF6056B178 -name Makefile -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 2790 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::D864C30C-4DF3-3F39-E152-9DDE085037C8 -name README.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 689 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::90620994-3207-7ADC-2625-19E0693FE420 -name termansi.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 3003 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::A1C19852-18E5-CACA-6C1B-6C12D07FDE3D -name termansi.h -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 375 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::5AA86989-5C50-91E3-C327-0CC078D24232 -name termansi.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 2164 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::93790E6E-34A9-A7EC-671B-3336A2D3D093 -name test-precision -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 12296 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::98D43CEA-AEB9-155C-E381-09915C32885C -name test-precision.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 5030 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::77C2F09A-0988-DCC4-2DD6-4421C9CDC3DE -name test-precision.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 3548 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::CDC779F5-8EFB-5931-3B86-77F00FA1B11E -name test-saltos -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 11959 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::631D760E-AC55-34F8-8AC8-1C46B0D39449 -name test-saltos.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 5600 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::1C51B313-2F86-975B-85C5-90634532DDD1 -name test-saltos.mono.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 3547 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::7FCF663D-3C61-FA8A-F779-0ADEC5A3F58B -name test-saltos.mono.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::BB374280-72DF-C2FB-581C-C7C4895624FD -name test-saltos.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 3448 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::DFA1B94C-8A6F-6392-5479-CD207B1D3CBC -name test-tramas -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 13587 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::646043B4-98DD-81BD-D722-E187A2E4A048 -name test-tramas.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 5507 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::D943B2E0-1C7D-5C4E-00E2-3BDAC637A0F7 -name test-tramas.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 4076 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::2FC28CB3-0097-2E25-A8C2-42F51E5454F4 -name test.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 3155 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::57F146A7-88DE-E03E-A776-112D2790DAC9 -name test.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 5120 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::CB838D1C-F97B-A148-D833-C37D3220A4D7 -name test.prj -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests -size 2770 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::DB6653DD-A081-C16A-8481-C650999551E9 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::625509DD-B107-9F48-22ED-3BF23B689C64 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn -size 2132 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::FC7C038C-64F7-3D37-F7F8-565A585406DD -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn -size 2 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::99DE46F0-D73B-EF94-C495-DAFE954F589E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/prop-base -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::43C3A05E-5F37-8A58-2F38-3FAEFAD76D36 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/props -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::121FF4E5-6FCC-6EF4-A413-FFDE8B97DE40 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::10BACE15-AAA9-6F54-9DE8-65A6D66E3D20 -name Changelog.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 2227 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::318DC6F7-C460-5439-7F20-0F12BC48F452 -name chronopic-serial-conf.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 4592 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::D4096B66-74F9-7256-FC89-584F62C356CA -name chronopic.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 10239 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::4F038025-7835-524B-9508-2F48DA99EF6D -name chronopic.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 5160 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::E0599A9B-54C2-BBB6-71D8-659729F73B61 -name chronopic.h.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 4508 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::2274EB9C-21F3-D2D4-13C0-72879DB552E8 -name Makefile.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 2790 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::14426823-60A3-8645-570B-3E4C89053BCA -name README.txt.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 689 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::652EF508-8046-B841-2421-04D511E9770C -name termansi.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 3003 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::1314568B-972B-2FF5-9977-7CF77B3B5423 -name termansi.h.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 375 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::E547A532-A57A-2D20-CE50-29D8968E32D9 -name test-precision.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 5030 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::50141C0B-7DA8-ECDB-8DEE-09AD0D0306FD -name test-saltos.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 5600 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::BF27BC4F-8E47-4DC1-1C54-1044031352CF -name test-saltos.mono.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 3547 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::796C14A3-604E-6BC0-8C8D-DF95D7D6B6F2 -name test-tramas.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 5507 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::C2C4F84C-B42F-127D-4CCB-81FE2D2180F3 -name test.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 3155 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::046EF2EA-0BD8-1B7C-826E-ACA0E8820FA0 -name test.prj.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/text-base -size 2770 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::B1DCB112-A2E7-D820-4A94-F03CC50A3642 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/tmp -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::2C3EFDC1-0F3F-F08A-E9B2-E51E2E337156 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/tmp/prop-base -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::36BF3FB7-A01B-B51D-39A7-C424F932DD71 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/tmp/props -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::2CBA1FB3-463F-43A4-EF2F-7D830E4A0BDA -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn/tmp/text-base -size 4096 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::F2ED7736-EAB0-BF15-CBF5-1312E8E21B99 -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/linux/chronopic-tests/.svn -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::13155053-7CAD-1D79-04F3-9A5C57207584 -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::893CD8F9-DD99-C289-42C3-D1EFA11A40BA -name chronojump.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/windows -size 1954 -mtime 1210593054 -filemethod "Update files with more recent dates"
-File ::7B13E64C-4F08-095F-33FB-B6EBD3A3511C -name chronojump_mini.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/windows -size 940 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::A4F7EC68-FA78-5928-7011-DB16E442CDBA -name driver -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::A433A054-1E74-4E08-348E-C62C6FB0B020 -name {CDM 2.02.04.exe} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/windows/driver -size 2119568 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::671B61C9-AAEA-F644-9A1D-BA12719DDF31 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::87686B08-16C3-E31A-7F82-8B161CABD6D1 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn -size 362 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::471C2F77-3534-37A2-2074-7C6FB583ED0D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn -size 2 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::FDA57D49-C869-1553-8618-B558350D4DF6 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/prop-base -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::383B4565-2543-F107-82D5-4A2A0C220C5C -name {CDM 2.02.04.exe.svn-base} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/prop-base -size 53 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::12E0DDC4-2C6D-2F23-DB3D-5DD7E7AEDDD9 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/props -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::E4C6560D-CBCE-56D0-E9DE-A74A4D978387 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/text-base -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::92D5D843-26D4-D2D1-8E1F-A0E310A74637 -name {CDM 2.02.04.exe.svn-base} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/text-base -size 2119568 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::FC9DD226-70CA-24B1-EE97-F49DE80D35EF -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/tmp -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::1732DDFA-55C6-901A-26AB-BB88CBBE208F -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/tmp/prop-base -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::1E27BE0E-2AA4-C58C-DD7B-D45DBB6A3259 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/tmp/props -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::E77024A4-AD55-D6DE-092B-AAB92A105249 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn/tmp/text-base -size 4096 -mtime 1210593055 -filemethod "Update files with more recent dates"
-File ::43627DFA-E38D-E05C-B994-EE12CEACDA8C -name lock -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7/windows/driver/.svn -mtime 1210593055 -filemethod "Update files with more recent dates"
+File ::78CFFFD2-8ED9-6615-6BF0-CEAC7E0ADA2A -name chronojump-0.7.1 -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1 -size 4096 -mtime 1211572918 -filemethod "Update files with more recent dates"
+File ::6BC6BCC9-2229-9090-0C08-B967CC96D24A -name data -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E154FB66-4B91-5F1F-FB8A-CA4767317BC7 -name chronojump.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 1881088 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::E29F2379-D552-CFE8-0D15-CA0B0027B75D -name chronojump.prg.mdb -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 352708 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::F3893FC8-F6D7-5EBE-9314-2D658E07BC4D -name chronojump_icon.ico -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 3774 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3129F648-0898-87B2-28BE-38E58CE208E6 -name chronojump_logo.png -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 9899 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::41AD1486-1663-363B-5BED-6665EAEEF428 -name chronojump_mini.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 28672 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::6933E970-D101-4119-3BD5-34E990B6279D -name chronojump_mini_validate.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 27136 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::ACEC9964-FF61-7F76-3C6C-C0316E6BABC6 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 147968 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::AF53CFD5-FFCA-543E-D18F-2093B1C22F03 -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 307 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::FC60D4C9-5FDE-F261-561C-9C8FB9EB91B3 -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 8704 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::CAF2AA8B-E8CC-5DDF-C15A-3C42BC2E15D3 -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 307 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E8383177-88E3-07CE-099A-1AD42B9F4D9B -name readreg.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 3731 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::05D2ED18-0C21-DE80-4B68-E53BD6C4D9A6 -name report_web_style.css -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 739 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::11725CB8-CE18-8B1B-E3CF-D07B2F2ADBCA -name sqlite3.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 362029 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::79C75B14-A3C9-F92F-137F-C75B73FC1CFC -name version.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data -size 6 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::BD80DEB2-27C2-25DB-458A-095B7DC133A6 -name linux_dlls -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/linux_dlls -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::8C516C2F-60E7-F5B4-24E2-530F9DD5F1B3 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/linux_dlls -size 147968 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::1E58C0F6-14CD-9D5B-71AF-6A75688FFB3B -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/linux_dlls -size 307 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E3AEFBC0-2438-46C1-99EE-F80CABB72EEA -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/linux_dlls -size 8704 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::511B9197-6080-2D8F-607C-5C4E6240EF16 -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/linux_dlls -size 307 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::87B4E8B1-885B-E8DF-146C-18FC3877F680 -name locale -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::1A43AF89-6827-8253-146D-DE1B6ABB5669 -name ar -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::62E80E18-44BD-6650-D6CF-BF5C39B45D42 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::74DD44CA-61FF-B1CD-A4C7-943543346E55 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn -size 241 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::527EEAF1-731C-5312-A61F-9C73C6FFF25C -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3A77DABC-FE88-1EE0-D760-833B1315E3BE -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::0C394058-FE4A-79BB-F32B-2AA23D399A29 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::DF18D4E3-5B93-4FB3-C3D2-3B2673252849 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::FCA51DFE-1414-6388-A4DB-4A39BF43B1DD -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::C13F7B53-7992-F68D-9009-31152AD826D3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3930A7AF-37DB-A315-39EE-4436068FB55F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::6FC5402C-AF9E-E1C5-63E8-6A7014664247 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::B1AE50ED-5900-1D98-7388-D8CB5A110E80 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::40996B7D-D307-5DDE-C5F9-A885DAB974E6 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES -size 2067 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::7EFE9B2D-FFAD-DA90-7F85-37F36988E778 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::546B47B8-5845-5FDD-EBFB-86546339FFE5 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn -size 372 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3228487E-0BAC-CC12-69C2-27C1EEE2E8B5 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::FBE3C586-0B60-12D5-8041-740A448E4702 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::662306CD-F6B9-5AA4-1A6E-E5F00486A315 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C77C3E0E-9410-9201-661A-B8F818A8175B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3F2E48A7-17B0-941B-308A-C7003331F836 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::5A0669E5-95F2-8405-E346-411FC3AA9140 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/text-base -size 2067 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::BA7F9979-ADE9-01D4-D867-F117D72AAE84 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::05EC700C-C54D-C4E9-8350-77EBB3B4D2D4 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B6E8C9AF-8B14-0A37-BE47-A6687CF22CAE -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9324D886-92AF-01AB-CD68-5ADE131422EE -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ar/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::DE2A4822-E529-6A29-01E6-C295F38D29E5 -name ca -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::75F7790C-1837-78F2-6205-A7A9E9D45CE0 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::370E0560-8B98-C9AD-9113-181B9F97B972 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn -size 241 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::6448A0FF-E785-1CF3-972C-17F9A5FA4341 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9809F279-7EF2-D3D3-3C39-0112A049E9B5 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::17A69AFB-351D-60F1-EB5F-BA7C43C4DCC2 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::5090DA85-55F0-17E2-069E-3F9331538954 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::6DC32634-14E0-D070-76D8-1796D51E7BBA -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::0063C664-D607-EE89-DC90-70007291AFB3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::03579327-02F0-BC88-B426-6D4382FADF73 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::1CCDCBC0-BD9A-F4CE-A4FC-A1BA8E967341 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E8CF236D-D861-5AB7-B6B4-857D2C928749 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9D9584E4-316A-890F-69FB-CD6CF999579A -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES -size 61223 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9ECCA430-73EA-D846-6467-C2289B511E7B -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::A3DA6172-A502-D07B-F22E-0AA8E5499E76 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn -size 375 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::D104BE4F-CDB3-B5FD-548A-0EE171D0181D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E024703C-026E-3388-8EF0-568D91959885 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::D9E2944F-50BD-F188-B4F6-CF0DA3A38851 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::08DA9B7D-7391-2748-57B3-4FCEFEC0E03B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::691F02AD-A4CD-49CD-DC43-A1CAFAE81417 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::19265BC5-B35F-B900-364B-1C3C13C4691A -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/text-base -size 61223 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::7248F690-1326-3C08-E387-1E48DE0F659D -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3412450A-607E-D23B-F04B-C34275291BBA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::84F85CBD-440B-3E97-94E1-FBE5F7B66D28 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9F49C3F6-F1BE-3F88-D7DE-58D1EFF28AF7 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/ca/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::23919867-5900-88EB-3EB5-B83CB69E5124 -name dz -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::6D3FF11A-95AA-4B5B-405C-B40F07A618BA -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9FC16DDC-C313-3DF6-51EF-C2AA447F24FB -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn -size 241 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::A92644D2-0912-B466-DD58-DB2DDB499320 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::904F4B12-5659-BDDF-AD0C-2C4E528830AE -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::A9837C0F-C2EF-3FD0-DE34-B6CE2CCFE2CF -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::182B8C5B-D349-68AD-A557-9DCCD8C023BB -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::F804DD28-AB1C-7A2C-0CB7-1E0A90140BF7 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::B4BB3E47-B470-4001-A5F0-45F63FB31757 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::2D86DCD0-C73E-B008-D285-BAD83C3FB46C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::2BA397B7-6869-C2B6-6D30-C7E311EA5C93 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::09D91410-0614-133C-FF47-4B2339D7CEEF -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::4A1640D5-3DF1-8A67-D4D2-46AFA4446D95 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES -size 71911 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::A0449429-199A-26E1-D6FB-FEFDE6F71EE6 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::74C87E99-702F-3FB9-10D7-FABCCF74C0E9 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn -size 372 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::19FC9A1C-8F12-0359-FF0A-23D430E5AE80 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::EE3557CC-5429-2EC2-3977-FE1FC3A00EC9 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::79DBC62B-0443-BC06-4CAA-E4FCBEF13984 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::BD114A7E-40FE-B0A9-F3D9-F45798CA5A7F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::CE137CB4-0472-D135-72D3-21E3F903D9C4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::5E9F7199-B920-19C5-6C42-58D0CEF1931A -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/text-base -size 71911 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::42400AC3-4256-DBBB-9A7D-1F4207B0C6ED -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::FDFF9DC5-C60D-9380-985A-CED1E4F90CFF -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::8AE34BB3-B760-2DFA-44B5-71DB51BD725D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3CB83F98-8E00-1215-23B9-3D9D30D83EB3 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/dz/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::32ACE268-49FA-FAD7-6C62-0B607C7827FA -name en_GB -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::031EEA7C-2461-E66C-F49C-1BB9B3CA8DEF -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::464F1ACB-A814-CC91-A734-5F5091E743E6 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn -size 292 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::72A3AA98-C991-3859-CA39-75A0C85BBF9D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::8C3804ED-8B8F-E8DA-7904-1C34E9044784 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::7CFAEA0B-4153-8524-5978-810CF5B91F7E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::0C084B21-A394-4494-777E-6028B771251E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::BE0E3639-C77D-21F3-3A23-E73762BD02C3 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::7E97865F-3665-80BC-54C3-CF796CDBDE31 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::4CF4E5BE-DDAF-DFD7-9AFD-586E83AB2A8C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::AB909C1D-B4DF-637E-2325-22D944CC777A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::BA509DA3-935F-BF18-87A1-18AEFF535B90 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::C00CA8D2-5089-1F67-F7F0-D91FF8B55273 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES -size 36798 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::A3F11E07-7BBE-618C-78F4-A1AD404D8D89 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9300CEB5-150B-64FE-2A78-6A9188062491 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn -size 423 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::F5846230-B9B2-44EE-1997-D2027FE73D11 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::2C761BC2-D65B-8F58-3C11-4087F05E7F45 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3DFC47E6-3F58-4F7C-7C5B-3E4C11EAFD27 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::5DB8D251-9BDF-0430-3A57-FBBBA7F3AC6E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::2AB696A8-A264-90C8-A2E8-40C357D8F8AC -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9F6D1074-0CD4-3158-E735-DADC2566A446 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/text-base -size 36798 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3AE25900-5D9B-3778-A790-D13530F2C095 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::2E622884-DB71-037E-ED46-6A4A6FC6AF1E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::75F6AD84-E9BC-F596-4323-203D29C3B8F5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E8716732-FEB5-FF6D-FC63-149CD23B4C9A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/en_GB/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::4CBB0FD4-FDF3-7B51-AF12-15E0C1540940 -name es -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::223B2666-FB7B-1ADE-87DD-770ACD8F5BEF -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::157B8DB8-7029-4BF1-7F3C-E60A18B13892 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn -size 289 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::B9B8B388-43E9-70F9-DA19-3AF7F972BBA5 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::14810C78-649E-8F5B-4BB9-5DCA887EA82E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::CB641776-6CE4-EDBD-4BD0-9CA34FF255D5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::2D4F937C-FAE5-5F8E-486F-F6D10459AE56 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::DCA2BA63-B20C-8EE6-F4D7-DB2138ED3EB8 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::2EA95260-F6C7-F974-C4D2-118DBBBD7F41 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3D92E2DC-3114-2BA5-3B3E-8820CA6D213F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::14F7A5BF-33F8-1026-E13B-C1940AD89578 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::BE04EC53-11D6-2CE3-F32D-A42252BF8545 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::676ECD1C-A143-CA1A-959A-73131E7E74F2 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES -size 62064 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::5B59CD21-6F13-C4F9-6039-6013DDC5AE49 -name es.po -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES -size 56514 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::C6C08267-4C50-2C0D-96B5-2911D46CD376 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::A06B80AC-6BAD-7AEC-569C-449A7BF0E068 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn -size 542 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::181877DB-4187-C3FC-D488-1B3B3B538CEE -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::F1B25918-4B60-306A-31CD-348F5ABE22E4 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::1456079A-9FBB-F682-498F-F5C267F44907 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::1BAAF632-93B6-76BB-2988-FB017871322B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::3842F7CC-B2D2-BD50-4377-A1F56FC7A98A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::1A147085-BE9F-D37E-A316-60C8667FEFF1 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/text-base -size 62064 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::DA1203E5-0EC3-FDFF-B1D3-25D90E09273D -name es.po.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/text-base -size 56514 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::59D2866A-F20A-F30B-2555-703DD5A9B9D3 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::C2B02FFD-0E6D-6F62-6850-7213323D928E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::1B337ADF-E7D1-3A2A-5BEA-309E27739F53 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::ED3009F0-2935-0D43-1517-05E8469FF522 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/es/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9DDEBA2B-5B2F-8018-E87B-0D24788066B4 -name fi -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::938D4A66-B89C-04BA-5BF7-38D9CE9B218A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E6219A13-E521-E182-3B99-21CD7106079E -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn -size 289 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::44B9BE71-6E9D-5FF3-7FFF-6F3135644384 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::34040428-B33A-5300-7B47-1FFFA33ACA14 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::A689ADA5-CAAE-19D8-ED0B-B938B191D5B6 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::12F9ED93-75EA-B8D7-8D7B-31CE013F4423 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::FAF5C2FF-755F-D993-5EE4-BFDE4B087D5E -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::B03E46D4-8269-C1A6-B3C2-1CA7A63B3CFA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::04BEBF5E-1E5B-F104-C41B-C6BABFDF3BE3 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::FEB97E08-903A-E7A4-A26D-185FF56902EC -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::13E25C2A-A360-124E-1A5D-CC7177C3850B -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E6CAFC77-F602-111A-A0C5-ED012E6AEC65 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES -size 33608 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E39673C3-5D71-6614-AF27-E33AE6051824 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::46EC551A-77BC-BBC7-CA09-25AA16C52CC2 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn -size 420 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::5A07C342-4B4A-6497-7799-21E4F0E84AF2 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::77397BCB-00A2-B76E-976A-619E3FDE13D4 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::BC5CDD78-C538-C4DB-5BC4-8D10A5527D32 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::46C6FB76-9F9D-C1CB-DC45-664A973DBD76 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E201A155-15E1-F8E1-1E1F-D4A44B7C1E72 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::080815F1-5B1A-76D7-4603-470E418B6E52 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/text-base -size 33608 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::99E9B292-0A8A-7DF9-5B59-A345AA9F48D6 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::8B184FE1-C7F8-1E05-FE6F-6B98322C882F -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::B2E17229-AD98-2094-8AB1-A26857F6C86A -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::364C38E2-DFBF-CA3C-A502-CA0A670BD74C -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fi/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::147664B5-807B-F628-C987-081B49BE05E2 -name fr -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::AF82F424-341F-93F2-AA90-3BF8E93E742A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3A765E36-5C30-1EC8-FBD1-C31C32A92E5E -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn -size 289 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::6F499785-D983-8E90-312F-46758BD8C6B5 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::32266AEA-E360-AB6A-7A87-D132667E876B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::412DC1B3-909A-B58A-7E76-CFBA0BBFFF28 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::9D178DB0-4B51-575B-98AC-1F8FADC04CA6 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::20F13EB3-6B2E-AE3E-8456-D7EA5FD2CCF5 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::5E2A4A52-4FFA-5610-11CE-D666C074E6C5 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::8B8011A9-8588-8BF7-4326-94EFE86B4E02 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::07E4FDB2-0139-D50B-5AE4-1C6E9269E80B -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::2CCF1C38-2986-20AD-3688-E26C3BB47207 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::324C3722-1590-EBB1-AFFE-F2D97C1283C4 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES -size 56213 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D7EB26A3-4756-8F0F-DEF7-2B2010BF9969 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E1F7851E-5DED-CD58-6B8B-D8CD291FF53B -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn -size 423 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::32165CB6-EF53-6CB7-6B8F-50393FCE9D4F -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A4061F43-A0A9-D343-2AF3-6ABC2437F037 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::EED6655E-3D7E-F64D-CF6B-69341DA9EBA5 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D5270B6A-6A5A-2AE5-8969-BB5FC13D5A09 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::60EEE28E-AADE-2BE4-674A-C759B723F275 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::FE7A3EA3-19CA-0D8D-C2BE-C504AFD5D020 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/text-base -size 56213 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::8914258C-8690-F8FA-0E5E-4F9594A548F2 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::73A13CFB-64E0-8FC9-72EE-83047B21B637 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A1A985FE-8DB6-047F-84E2-D7DDE1D7E228 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::89FDA97C-16FE-DFFB-6651-41C366C5BEAB -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/fr/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::474211C7-A749-C86A-B10E-31F82E39B09F -name nb -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/nb -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D2BAA4A4-72B7-E123-0EC6-C2B3A49CA016 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/nb/LC_MESSAGES -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::2A4B8C45-1B31-A885-C866-9E21A20EA75E -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/nb/LC_MESSAGES -size 1836 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A71ED971-7284-6E81-7405-5FC31FEC6177 -name oc -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::AFC155F0-6EA4-C51E-2231-1E1FD1BBA35A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::8E9A1367-61A9-C6EB-2D58-00695134A684 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn -size 241 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::59383C48-A8BE-FC4E-6FD5-48F8F832B3C8 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::F96C33DB-E4F1-C2A1-80EA-C0E794AD494B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::2394835A-5D7B-33F8-A414-C7FBE7DE5FB5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::4BA1BD85-A907-532D-3828-916F8691F7A0 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::F6D90DCE-4306-7F2D-0164-D7B4F3BE6E99 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::B7ADB9BF-66E2-4B1E-2FA3-476166DDE20A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::65C1409D-CAB9-5E52-BCFA-95302CD05CF7 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::5508AF87-4044-F889-DA0F-1CA06E768DF3 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9CB33681-3DA2-E27C-7706-1CC52FDB013A -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::0941C828-98E1-50EA-14C1-FD46D99927E7 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES -size 4142 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::0204B2B9-19A7-BE74-D35F-86D11CAD0C9A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::56B2950D-E50D-B325-FE4E-61960A40A1BE -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn -size 375 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::47AAC40C-ADD2-2C5D-C8E4-AEC2ABB47178 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn -size 2 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::A1B4BE84-A5A0-DCAC-98A8-D2ED3A3858EA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::AEBD2221-8A67-278D-319B-D3DADD1A9A66 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::F9D312E2-55C5-3F6D-B84F-BEF1D0C7B94C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::CC3CE7DC-E7F4-78BD-5B6E-D8899F4EEADB -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9294E339-0A8F-2377-1EEF-C97F3B83CD1C -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/text-base -size 4142 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::653399B8-E510-0BDA-B6A0-AB993B227902 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::AAE6DAE3-8A6F-DB1D-04D9-EE971F909C27 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::E6AEAECD-6A62-9539-D299-52DDC54CA77A -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::843634B1-8962-4466-BEBD-28D8EEFFFBB2 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/oc/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::4521BE0E-E4EB-B2BB-98AD-F27876F6CE1D -name pt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::7D68C253-7DCA-6C14-A67D-A0EB61E4815A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B85A3773-DAC5-5D19-0A5E-C2226A2FCB2A -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn -size 241 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E26F63E7-82E8-87D3-18DD-F3B6F308285E -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::F42E504A-1422-6268-3A97-F56C403BDF6D -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::19DE59AA-E857-6C79-1974-E1F8D0080C64 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::1E230D3E-2F1C-1EFE-392F-E2245774B0A7 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E35B7377-672B-E093-51D8-247ED48EB91B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::09231AC0-680E-D598-559E-358E8FBF6DA7 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C5BD786D-BC37-1C0A-179C-CE7C6E10B22A -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::DBFA88DA-80DF-F2D9-6BAE-EC6BBF93F698 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::170877D4-5E1D-B98B-20BE-1D6B717FC1EF -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::315E63C3-84C6-03D6-7F85-1521F310B7E5 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES -size 37538 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D9E54BA4-FB3F-CF6B-64E8-4CA916F65AFC -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::175AFE24-AA38-4344-178A-0BFD1A3AA51B -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn -size 372 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C0D9F43F-895C-18A5-E4F6-8C79D148C725 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::EB186875-347D-F237-36ED-0E127EC5B0DA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::35572B60-88B1-B59B-6B14-28F33C1CD52C -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B04B521B-9E5D-D424-40B8-96551B56A97C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::932AC2EC-A0D1-B28E-35AA-44A94CECD69D -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::AABC3ADD-D6CC-C2DC-6AD0-CC67AF0F9B53 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/text-base -size 37538 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D1946410-C40B-DAC5-78FF-8DB69013317D -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::89916FC3-2D6F-547D-3A97-5C16252357CF -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::6BFD9837-A98F-6C45-938C-15285376A6E6 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B3B7D824-213F-C969-170C-78235C10D88A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::10EFD732-3481-23AD-8CFE-3BF7C28354B9 -name pt_BR -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D613F38B-3DED-D04B-36DB-6E025655A866 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::5A779470-6E01-B57A-B111-97653632A0BD -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn -size 292 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::7E58EA12-7F10-0D2E-2C79-9A9FD5B3C5DF -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::826DBA58-554A-FB7C-C4D0-C9E3A52C8DDC -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A8EBB1B0-1E5E-3AB0-E0BB-CF83E3E4BE88 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::18F8A63D-2BCE-CACC-6872-1D14EA661CAF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::EC0DE64A-1982-EE46-A4DA-8503836AFBA2 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3E42CF1E-7942-1933-CE4D-907A3A5F15FB -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::12D1DF9C-B830-94D0-11FF-093688F875CC -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::232D5BAA-E371-B7B1-EEB5-2E85FEF80C4C -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::25976E44-8CFC-75D4-D154-DC1CA7FB62CC -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3BEDD811-3F4E-41EC-C291-3B5ADECE78D3 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES -size 4855 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B8A34AF5-0FF2-C392-DAB0-40DA845A0ECF -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C6CEF354-5FB9-8AE2-6728-9BF4AB257A60 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn -size 423 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E3679ECE-19BA-277F-65D3-6D0946F7FD91 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::F077C298-DBE0-318D-F25A-EC9B90D66453 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::1B10504E-B30C-E4E6-AA4D-0D6FE5EA3230 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::308A6B3B-AADD-DFDC-4C67-9E08A9A21548 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::752C0A20-5EF6-1DC4-30E7-ABC42B3D5AB4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::DB200610-615B-F445-64F4-FAAAE2CD931F -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/text-base -size 4855 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::CD6B45CD-97C2-7AC1-54C8-695E1C44B14A -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::802ABFCC-53E9-697A-139E-B721DA03538A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::053BE59C-3F36-53DD-D0D8-BE1040D9994C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::2B8E0650-F9BF-5E5F-C451-6ADA1AABC7F9 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A0300BCB-527E-6869-038F-7FE7B50F04FC -name sv -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A130A361-2576-6F4E-A37F-30CB0F79FF6C -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::CF2EA314-6FF2-412A-567C-9659261E94AC -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn -size 289 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D21DDE54-088E-8F0D-A176-4AE756481418 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::1CC03350-9D84-8374-7386-F7E5C342516A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0B462ED8-9460-664D-C540-8967BB638D87 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A8739920-B89F-3FD8-D3EC-A1199F98A780 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A467C7B9-25A4-AB4E-C60D-DCCC5FE78EBF -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C9FE689A-EE71-FAFC-5EBE-4F9D2411E2C0 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::5B0BA78C-8CDF-39EE-B176-C314A6FFE760 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::03AE00B1-FD6E-0266-2EAD-C55D6169376E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::101050E7-7FE1-44B5-2081-3A73C42BD745 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::8E0F5E71-5760-9618-568F-530D77CA8042 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES -size 15332 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0FA5336F-9601-4A0F-7DD9-0EA743B01A1E -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::764269BD-2268-0431-B5D0-0F164C8D0006 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn -size 420 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::96BF7CD6-49DC-2AF0-527F-110322C27C6F -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B6E16B24-2CC0-C5D6-5C0B-F1AE53E4DF87 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::81266E5D-84E1-F577-58C7-86369458116D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B9900828-5656-6446-37BF-9BA7FFC8DB6B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::864F3F79-1EFB-C05D-6176-19C847F8BC42 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E417F0EA-C5CF-7907-111F-A1B24A4D0D95 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/text-base -size 15332 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::00A05B22-348F-7360-8898-9BDD9101227D -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E469D713-BDC3-A8CD-675B-CC42D197F996 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::1A7CCE7D-4B9C-2768-CB9A-B785E79B39BC -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3AC5700D-B5EC-CA92-C08D-1143FE97CFA9 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/sv/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3999A70B-A7C0-F5C3-D124-AE721B01B3DC -name vi -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::ABE0D838-D882-C86E-1F9C-33A04F94CEFA -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::21F6A5A6-8A35-A251-D516-D7CD62BDB78C -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn -size 289 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::6C5A1241-1F5A-E787-AB98-0766649B5FE1 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::38ADBC5F-83FF-BA7E-1EBC-23507D53528F -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E8A83C93-0815-DA38-2A3D-981193BB27A9 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0AB941E8-561A-CF74-59B2-73764A1EBA7E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0FC3804F-6D00-6B1A-1EAC-DD2668BECD97 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::EE7C331B-E000-DBB5-AEB1-711FBCB3A7AD -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::15C5CC61-B0CB-4E0B-4A23-1F418377CCF1 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::6D81C372-1311-8C80-8673-76DBF4BAA50D -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C39FF89E-E816-741C-DD3B-8C4AFF096AD6 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::17A810D6-F059-FBE3-1574-D057ED55C1A9 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES -size 38193 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0B8150A5-5D85-33F8-BE81-4FCD4CC06342 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::7FF9C186-4446-BCA2-C1BB-DC2B8FA9322F -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn -size 420 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::23FD24C4-E9BE-82F5-A86E-2689AF715A07 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::53AD0ACC-A2F6-3C9F-3342-46D26A781714 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::104B6FC0-3864-8655-E586-3D0B39DF2807 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::89479BC2-C8EC-2616-5D53-1082E900B17F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E96C94CF-5536-9F62-D65F-37491A1B0C55 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::5FEA27A1-AC4C-470A-A187-46403A826E1C -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/text-base -size 38193 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3044C2E3-1D6C-E3C1-BF55-41B9B2622193 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::04C3BACF-7D67-F2FD-49BD-83FFECE63CFD -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::6ADA8FB4-F697-7714-CFB6-C345F647A75D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A7720BD7-DACA-FC19-D642-D4757CF92716 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/vi/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::10210629-5E20-FBE6-CFAC-BFAD319752B7 -name zh_CN -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E2BAC707-E5F7-D719-B8BF-9EDA674E39CC -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::1EF5CB69-EB72-91FF-9740-24EBB321EDC3 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn -size 292 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C48C6CF6-00CB-C95C-A548-C4DBDC528FE6 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::06A8BA32-20DB-EA6D-C9ED-8E1B1B4C38E8 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::7E8A46D0-69D8-DD03-46FB-FBCAE2CD7931 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::9E1372E1-1035-81AE-88A0-DE115846B365 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::8C840004-2BFB-A9A0-0FF9-F2C5527DB5D4 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::00D043E3-08EE-96E1-3B8F-495D20967612 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::26AAA4A7-91DA-2B67-D367-8371D3C9C166 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D09E83CE-6327-9B62-2576-2C5171FC42AC -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::ED0AA4B9-21A1-660A-19AF-5BD2757486EE -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E9B093A8-FD0D-A2DE-DEE0-B7A98670D58B -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES -size 1612 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::5ED70F8E-71FD-4EE7-4F11-98307A8677A0 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::6115BFF2-61DE-4F0B-196D-546E51ACB545 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn -size 423 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::DD8D1FB9-64EC-69A7-D4F1-A26C75B218F7 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::8A8777F8-4CC6-28A4-3231-167E36652520 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::03DE5865-7D77-59EA-86DB-E49DFC1E4E7E -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::ACE407AE-39C8-46ED-9022-FC888407B68E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::FBE4F791-3C78-8917-0BBD-9C204F23988F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::CE6AC2D5-5991-7093-0EB8-F784FF6E6079 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/text-base -size 1612 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::983CA6CA-2AB4-CD0B-ABAC-D782A2E33117 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::28B33DE2-CCBC-6647-C073-C97F5D2F3430 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0151A6BC-A5EF-8DD7-4CE5-90E9C11E76E1 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A61A09C2-5762-5273-E794-FF5D00E5291A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::FB14A54D-ED9A-3854-F3E2-EAD86C81A8B4 -name utils -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/utils -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::BB42AF58-CA5D-8558-C6B1-5C22C2CC4AD0 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/utils/linux -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::F975B3A4-A1E1-D9C5-6BBA-7075FABE528B -name convert_database.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/linux -size 308 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::0E36434F-364E-187A-C321-5C037396E572 -name db_path.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/linux -size 25 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::7F179F86-2BFE-CC91-39D2-890671F62110 -name sqlite-2.8.17.bin -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/linux -size 312364 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::9F24FC99-10F1-C3AF-2EC3-9331EABBC8CA -name sqlite3-3.5.0.bin -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/linux -size 278820 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::66B9DAE2-09C6-A4C5-B166-AAAEEA8C5528 -name tmp.db -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/linux -size 18432 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::285C266A-49BB-3514-9E43-1A7FA5821995 -name tmp.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/linux -size 4604 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::B5939C01-6D54-6136-30D0-5098A1B76C18 -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/utils/windows -size 4096 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::7DB11D99-1AE6-A5F8-D2E2-81F9131C0726 -name convert_database.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/windows -size 299 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::FD374D4A-3583-BC48-27E5-FBB96F1E8D29 -name sqlite.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/windows -size 277098 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::F70629D7-29BF-C4AF-94A3-C16CAA31CF61 -name sqlite3.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/utils/windows -size 391500 -mtime 1211572912 -filemethod "Update files with more recent dates"
+File ::7E48A7C7-D39A-C213-7D2F-DCAC8B84B643 -name windows_dlls -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/data/windows_dlls -size 4096 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::060EA26F-4814-DCAC-B30C-4A8289A679CC -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/windows_dlls -size 128512 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::562D0960-B688-DC77-790E-841E7734D773 -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/windows_dlls -size 317 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::78A6F5B9-09E4-8079-EC87-D09EECDD1CB3 -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/windows_dlls -size 8704 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::21D95DFB-855D-924C-B99E-2761B612290F -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/data/windows_dlls -size 313 -mtime 1211572911 -filemethod "Update files with more recent dates"
+File ::B9381D4B-3B6D-6838-5177-D8734C284F5E -name docs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/docs -size 4096 -mtime 1211572916 -filemethod "Update files with more recent dates"
+File ::A2D5AA55-08A4-5FDE-B5BB-C1F9717464C2 -name AUTHORS -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/docs -size 123 -mtime 1211572915 -filemethod "Update files with more recent dates"
+File ::713C9405-4DEA-4342-3F15-B1B57EFA34D5 -name changelog.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/docs -size 77508 -mtime 1211572916 -filemethod "Update files with more recent dates"
+File ::02A6F92E-3B18-F789-AC9F-8D7A02014923 -name chronojump_glossary_for_translators.html -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/docs -size 16010 -mtime 1211572915 -filemethod "Update files with more recent dates"
+File ::7C7AA180-469E-E45F-A8B0-45BB18827CF2 -name chronojump_manual_es.pdf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/docs -size 481209 -mtime 1211572915 -filemethod "Update files with more recent dates"
+File ::654CB5C1-27D6-F3BB-06C0-20035A4830FA -name COPYING -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/docs -size 17992 -mtime 1211572916 -filemethod "Update files with more recent dates"
+File ::8135A973-6583-FE1B-7FFD-92AB42210EA3 -name INSTALL -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/docs -size 112 -mtime 1211572916 -filemethod "Update files with more recent dates"
+File ::5B69BE63-1081-056E-A05C-21569BCE6EB1 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::D9471DDB-F34B-E3F8-A264-6CCC63742F10 -name chronojump.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux -size 1854 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::4FCACE8F-FC1A-B9C5-C19F-3C02CF45CABC -name chronojump_mini.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux -size 1633 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::783762DA-342F-23F4-F475-E4369E6AD7CF -name findMonoVersion.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -alias findMonoVersionLinux -directory <%InstallDir%>/chronojump-0.7.1/linux -size 58 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::5ACBA355-82F6-1E69-B18D-6E19613B33E5 -name chronopic-tests -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::DDC836C1-2A1D-F840-3622-854CF34DA208 -name Changelog -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 2227 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::F3772E48-A2CB-45C5-8776-F7DB5D20A3DF -name chronopic-serial-conf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 11246 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::429907F7-5BC1-A32F-7BBF-A1AE0A7E5E6C -name chronopic-serial-conf.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 4592 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B4489F5C-8C87-8B67-6BA6-5336007827BF -name chronopic-serial-conf.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 2520 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::59E6059C-D099-B8E3-8146-B3F79AB60878 -name chronopic.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 10239 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::97E0B501-5DAA-0595-2F07-276B81916EA1 -name chronopic.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 5160 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0157DB4A-1E53-12C4-3082-F68CC32EAEEB -name chronopic.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 4608 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A4B4745A-C2A5-0F57-E3EC-1E461ECD7D94 -name chronopic.h -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 4508 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::314E9DA5-74C9-F9AE-412A-C2E79AFF9760 -name chronopic.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 3336 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::4F3205BE-7114-7E88-A474-B462A3491B76 -name libchronopic.so -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 8654 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::68114873-7840-5A03-1A40-D62B6176B7E8 -name Makefile -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 2790 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0253DAC4-AF30-7990-ECD8-F6F36FFCDAB4 -name README.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 689 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3DC6A3D1-74DA-B837-DCC7-79E567752C60 -name termansi.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 3003 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::865AAB36-887C-E299-C7A7-41D747F223FC -name termansi.h -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 375 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::DE15433C-DF20-1A88-2727-8B9C4A7061AB -name termansi.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 2164 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::84CE74C8-44D9-5E00-6047-2D922E4F3025 -name test-precision -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 12296 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::EEFB4B31-8914-345F-5629-E3407C4F45A9 -name test-precision.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 5030 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::E5E2FB65-CF8E-5E2A-917A-AE82428D0BFC -name test-precision.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 3548 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B1F89AEF-C15D-E96C-87F0-5EA1EAB06E0F -name test-saltos -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 11959 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::7372B20A-8FFF-7F0D-F315-DCCF5A572D86 -name test-saltos.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 5600 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::34970684-21B6-35CA-4B00-A034B57D86C0 -name test-saltos.mono.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 3547 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C133602A-46EE-7337-C00D-B9C7D06B95BB -name test-saltos.mono.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::FED8A8B6-8713-A888-36BF-AF20B79C9150 -name test-saltos.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 3448 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::52582272-D017-DD5B-E880-DA182C5AF9D5 -name test-tramas -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 13587 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::14B396B9-34B4-842C-BFAC-01FFFA333AD4 -name test-tramas.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 5507 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::2347A18E-64BC-3619-F5EB-3A071180A101 -name test-tramas.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 4076 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C80DE348-7DAF-AEE5-ED08-C8C1ED25F32C -name test.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 3155 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::469EAA6F-E3C8-B170-B1DE-1008710BCB37 -name test.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 5120 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::41296302-2FDA-8547-6801-188678BF8C2B -name test.prj -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests -size 2770 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::87C98F56-3395-3A4C-2A02-53743D70B6F2 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::C7911E29-50C7-3683-68BC-CF2D320F41B7 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn -size 2132 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::EB12A456-9BAF-0975-1799-A2F859955E58 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn -size 2 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::9325A62B-4582-B7EA-587C-68CBDE0B382B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::124ABD22-4880-5003-30D8-16450A68C91B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::7755EA01-EBEB-757E-BC58-7F9CB2038CDD -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::84C99B5A-2AA0-7496-7C5E-123A5E44076A -name Changelog.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 2227 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::734EA81F-B9C1-D1C5-206E-0F7BA360A79F -name chronopic-serial-conf.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 4592 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A9F5C308-9CFF-3483-E547-CDAD587FD922 -name chronopic.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 10239 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::DBB665BF-5417-C2A2-7268-C04BB9359546 -name chronopic.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 5160 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::9615C624-199B-0D4E-57F5-B13F46C5A180 -name chronopic.h.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 4508 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::0A2C6181-AF2D-5F5A-40FF-2F2E6C2B1988 -name Makefile.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 2790 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::3CDF3807-4D91-9250-DDAE-18CA81585918 -name README.txt.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 689 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::578F6A54-FCF1-D403-3CA2-01FB5F7D631A -name termansi.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 3003 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::BF20BBEF-8E4D-193D-448F-E2648C69D609 -name termansi.h.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 375 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::2B554099-B3C4-2DB9-BB0A-E2C958E26351 -name test-precision.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 5030 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::289B56FB-33E1-B483-A981-4F737174C596 -name test-saltos.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 5600 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::08EA293E-5DAE-B8EF-D2F9-F8A98A632765 -name test-saltos.mono.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 3547 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::FB21AC36-EBAE-976D-2D82-1AC0B2AF6042 -name test-tramas.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 5507 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::50248EB1-E767-0223-9F0B-52512DE3B00A -name test.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 3155 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::354BD924-66DD-D4B6-8149-7F2215437DE0 -name test.prj.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/text-base -size 2770 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::CFA4763D-BDEA-FAC4-F517-12F38E1C8333 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/tmp -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::94DCC03E-382A-5DEB-B48A-19E0880978EC -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/tmp/prop-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::A1EEA5B5-65E1-3FAF-91A9-B7B97B56F389 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/tmp/props -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::F9FAE618-4C2D-304F-6F0E-15E101BD64FF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/linux/chronopic-tests/.svn/tmp/text-base -size 4096 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::4FABDF34-7643-C792-2428-01287FFF06CC -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/windows -size 4096 -mtime 1211572915 -filemethod "Update files with more recent dates"
+File ::CA07BC2A-3997-7161-922D-B7EEC8458FB0 -name chronojump.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/windows -size 1414 -mtime 1211572913 -filemethod "Update files with more recent dates"
+File ::B4B36ACA-FBFD-2028-9E76-C2FA73EE4471 -name chronojump_mini.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/windows -size 425 -mtime 1211572915 -filemethod "Update files with more recent dates"
+File ::02A23307-80BE-DAD5-9683-3D7353608346 -name driver -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.7.1/windows/driver -size 4096 -mtime 1211572914 -filemethod "Update files with more recent dates"
+File ::395B317A-D0CA-E597-8E48-CC514B68230F -name {CDM 2.02.04.exe} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.7.1/windows/driver -size 2119568 -mtime 1211572914 -filemethod "Update files with more recent dates"
 
 }
 } gui.tcl {proc ::InitGui {} {
@@ -23285,6 +23542,16 @@ set ::info($props(VirtualText)) $ans
 return $ans
 }
 
+proc ::InstallJammer::actions::CopyFile {obj} {
+$obj properties props -subst 1
+
+set dst [::InstallJammer::RelativeFile $props(Destination)]
+
+foreach src [::InstallJammer::GetFilesForPattern $props(Source)] {
+file copy -force $src $dst
+}
+}
+
 proc ::InstallJammer::actions::CreateInstallPanes {obj} {
 global conf
 global info
@@ -24308,6 +24575,42 @@ set dir [file dirname $file]
 if {![file exists $dir]} { ::InstallJammer::CreateDir $dir }
 
 $id installfile $file 0 $props(AddToUninstall)
+}
+
+proc ::InstallJammer::actions::WriteTextToFile {obj} {
+$obj properties props
+
+set mode w
+if {$props(FileOpenAction) eq "Append to file"} { set mode a }
+
+set translation auto
+if {$props(LineFeed) eq "Unix"} {
+set translation lf
+} elseif {$props(LineFeed) eq "Windows"} {
+set translation crlf
+}
+
+foreach file [split $props(Files) \;] {
+set file [::InstallJammer::SubstText $file]
+
+set dir [file dirname $file]
+if {![file exists $dir]} { ::InstallJammer::CreateDir $dir }
+
+set data [::InstallJammer::GetText [$obj id] TextToWrite]
+
+set fp [open $file $mode]
+fconfigure $fp -translation $translation
+
+if {$props(AppendNewline)} {
+puts $fp $data
+} else {
+puts -nonewline $fp $data
+}
+
+close $fp
+
+if {$props(AddToUninstall)} { ::InstallJammer::LogFile $file }
+}
 }
 } unpack.tcl {
 if {[info exists ::InstallJammer]} { return }
@@ -25572,7 +25875,7 @@ Condition 68A5D7DF-5635-A07F-831D-C0E3B6F569CD -active Yes -parent 3FC5BC33-DA5B
 Condition 4DBD4C4B-2EBE-1500-7BD7-26BA0100E091 -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC -title {Execute Script Condition} -component ExecuteScriptCondition
 InstallComponent 61FE1D29-2076-0530-AB92-3E0902C94937 -setup Install -type action -conditions 724C50CE-B8B5-D202-605A-0C0D4784E504 -title getMonoVersion -component SetVirtualText -operator OR -command insert -alias getMonoVersion -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
 Condition 724C50CE-B8B5-D202-605A-0C0D4784E504 -active Yes -parent 61FE1D29-2076-0530-AB92-3E0902C94937 -title {Platform Condition} -component PlatformCondition
-InstallComponent 30093C0D-05D6-3393-B564-D7E08CEDFAC3 -setup Install -type action -conditions 555ABE88-A754-9EC6-63AA-AE54E5C868E2 -title InstallMonoWindowsActions2 -component ExecuteAction -command insert -alias InstallMonoWindowsActions2 -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
+InstallComponent 30093C0D-05D6-3393-B564-D7E08CEDFAC3 -setup Install -type action -conditions 555ABE88-A754-9EC6-63AA-AE54E5C868E2 -title {call InstallMonoWindowsActions} -component ExecuteAction -command insert -alias {call InstallMonoWindowsActions} -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
 Condition 555ABE88-A754-9EC6-63AA-AE54E5C868E2 -active Yes -parent 30093C0D-05D6-3393-B564-D7E08CEDFAC3 -title {Platform Condition} -component PlatformCondition
 InstallComponent 49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3 -setup Install -type action -conditions {B50D3D19-418C-BD12-9A5C-119A7B072695 624512F3-C4CF-D0E7-C864-B587C21B9742} -title {Move to Pane} -component MoveToPane -command insert -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
 Condition B50D3D19-418C-BD12-9A5C-119A7B072695 -active Yes -parent 49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3 -title {Platform Condition} -component PlatformCondition
@@ -25598,6 +25901,8 @@ InstallComponent 8CD31907-2778-AC4C-A178-FB58C43712DF -setup Install -type pane 
 InstallComponent 073E3F8C-ADC8-8230-15C8-2F8108592782 -setup Install -type pane -title {Copying Files} -component CopyFiles -active Yes -parent Standard
 InstallComponent 099A6D97-6A29-C866-5C8E-E131E2D8715E -setup Install -type action -title {Disable Buttons} -component ModifyWidget -active Yes -parent 073E3F8C-ADC8-8230-15C8-2F8108592782
 InstallComponent 629F9BF2-5725-73EA-6F47-EA9E75ABFDE7 -setup Install -type action -title {Execute Action} -component ExecuteAction -active Yes -parent 073E3F8C-ADC8-8230-15C8-2F8108592782
+InstallComponent 7EB41496-B2E3-30E1-7867-DBFEC151EB2B -setup Install -type action -conditions 96F98447-4F33-D8FD-4DB7-197ED90FBC77 -title {call putMonoPathAndCopyNplot} -component ExecuteAction -command insert -alias {call putMonoPathAndCopyNplot} -active Yes -parent 073E3F8C-ADC8-8230-15C8-2F8108592782
+Condition 96F98447-4F33-D8FD-4DB7-197ED90FBC77 -active Yes -parent 7EB41496-B2E3-30E1-7867-DBFEC151EB2B -title {Platform Condition} -component PlatformCondition
 InstallComponent 53A63017-8385-B8EE-142A-65136147FA12 -setup Install -type action -title {Move Forward} -component MoveForward -active Yes -parent 073E3F8C-ADC8-8230-15C8-2F8108592782
 InstallComponent EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF -setup Install -type pane -title {Setup Complete} -component SetupComplete -active Yes -parent Standard
 InstallComponent 4C465E6F-9D44-F4D7-8064-5ECE64239B91 -setup Install -type action -conditions {4C240F7C-5F6E-02EC-206D-F0D9BA5BEA68 9A10D654-6137-2828-5047-AFF307DE53B8} -title {Launch Application Checkbutton} -component AddWidget -command insert -active Yes -parent EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF
@@ -25638,6 +25943,18 @@ InstallComponent 25BB083B-B2C6-F7C4-1452-A26D799DA353 -setup Install -type actio
 InstallComponent 385B710C-AC92-98CC-0B32-9E9DBAF28646 -setup Install -type actiongroup -title installMonoWindowsActions -alias installMonoWindowsActions -active Yes -parent ActionGroups
 InstallComponent C01D7E5D-42C8-06E3-AA57-861C46733A59 -setup Install -type action -title uncompressMonoWindows -component UnpackStoredFile -command reorder -alias uncompressMonoWindows -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
 InstallComponent 96C99CFD-D1AB-A304-994B-F325CB5126D2 -setup Install -type action -title {install mono from windows executable} -component ExecuteExternalProgram -alias {install mono from windows executable} -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
+InstallComponent D6173D47-F333-4546-80F7-E35B4EA32469 -setup Install -type actiongroup -conditions 38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6 -title putMonoPathAndCopyNplot -command insert -alias putMonoPathAndCopyNplot -active Yes -parent ActionGroups
+Condition 38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6 -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469 -title {Platform Condition} -component PlatformCondition
+InstallComponent 7950D6BF-C085-89EC-C719-C22E8445FDDE -setup Install -type action -conditions BD034D0C-F1CD-7C43-5CB2-CF52B553BF71 -title getMonoVersion2 -component SetVirtualText -command reorder -alias getMonoVersion2 -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+Condition BD034D0C-F1CD-7C43-5CB2-CF52B553BF71 -active Yes -parent 7950D6BF-C085-89EC-C719-C22E8445FDDE -title {Platform Condition} -component PlatformCondition
+InstallComponent CB749156-87EF-BA07-7E39-CB2F781C564B -setup Install -type action -conditions 52AAFFD2-F636-A589-4B1C-A2E5215DD479 -title getMonoPath -component SetVirtualText -command reorder -alias getMonoPath -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+Condition 52AAFFD2-F636-A589-4B1C-A2E5215DD479 -active Yes -parent CB749156-87EF-BA07-7E39-CB2F781C564B -title {Platform Condition} -component PlatformCondition
+InstallComponent 66EDCFB0-45FF-6224-A486-A5660D7BFDC1 -setup Install -type action -conditions 4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B -title writeMonoPath -component WriteTextToFile -command reorder -alias writeMonoPath -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+Condition 4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B -active Yes -parent 66EDCFB0-45FF-6224-A486-A5660D7BFDC1 -title {Platform Condition} -component PlatformCondition
+InstallComponent 4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A -setup Install -type action -title {copy Nplot1} -component CopyFile -alias {copy Nplot1} -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+InstallComponent 68BF38BB-BFD1-CE11-36C1-706981646027 -setup Install -type action -title {copy Nplot2} -component CopyFile -alias {copy Nplot2} -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+InstallComponent 354C4C7B-0103-627D-F8D4-F5FDF5682CFE -setup Install -type action -title {copy Nplot3} -component CopyFile -alias {copy Nplot3} -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+InstallComponent 55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A -setup Install -type action -title {copy Nplot4} -component CopyFile -alias {copy Nplot4} -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
 
 
 proc ::ThemeMain {} {

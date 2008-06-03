@@ -1,5 +1,20 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+3 Jun 2008
+	0.7.2 
+	splash window that tells start progress
+	chronopicPort is COM? or /dev/ttyS? by default. It doesn't show the
+	connect to chronopic if this is the port. Also it doesn't allow to
+	change radiobutton to chronopic, showing message.
+	Added tooltip to help button at preferences/chronopic
+	-added gui/splash.cs and images/chronojump_320.png
+
+23 May 2008 (Minor RELEASE 0.7.1 for Windows)
+	Fix release for Windows Vista (problems reading registry in a .bat,
+	copying files, and doing the error redirection 2>>)
+	now on Windows, at install: monoPath it's written (no need to read
+	registry), Nplot files are copied, redirection is removed.
+
 11 May 2008  (Major RELEASE 0.7 for Linux and windows)
 	-releases now on svn at windows_releases and linux_releases
 	-Fixed chronojump.bat for log and redirection 

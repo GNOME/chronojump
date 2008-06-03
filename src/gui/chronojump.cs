@@ -399,9 +399,7 @@ public class ChronoJumpWindow
 	}
 */
 	
-	public ChronoJumpWindow(bool isFirstTime, 
-			string [] authors, string progversion, string progname,
-			string runningFileName)
+	public ChronoJumpWindow(string [] authors, string progversion, string progname, string runningFileName)
 	{
 		this.authors = authors;
 		this.progversion = progversion;
@@ -463,8 +461,8 @@ public class ChronoJumpWindow
 	
 		putNonStandardIcons();	
 		
-		//if chronojump executed before, then ask on every start if user wants to connect with chronopic
-		if(! isFirstTime) {
+		if(chronopicPort != Constants.ChronopicDefaultPortWindows &&
+			chronopicPort != Constants.ChronopicDefaultPortLinux) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to connect to Chronopic now?"), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(chronopicAtStart);
 		}
@@ -1896,6 +1894,14 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Log.WriteLine("RadioChronopic - INACTIVE");
 			return;
 		}
+
+		if(chronopicPort == Constants.ChronopicDefaultPortWindows ||
+				chronopicPort == Constants.ChronopicDefaultPortLinux) {
+			new DialogMessage(Catalog.GetString("You need to configurate the Chronopic port at preferences."), true);
+			menuitem_simulated.Active = true;
+			return;
+		}
+
 
 		Log.WriteLine("RadioChronopic - ACTIVE");
 	

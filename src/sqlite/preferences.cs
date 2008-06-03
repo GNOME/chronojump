@@ -43,9 +43,9 @@ class SqlitePreferences : Sqlite
 	{
 		Insert ("databaseVersion", databaseVersion); 
 		if(Util.IsWindows()) 
-			Insert ("chronopicPort", "COM1");
+			Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
 		else
-			Insert ("chronopicPort", "/dev/ttyS0");
+			Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);
 		
 		Insert ("digitsNumber", "3");
 		Insert ("showHeight", "True");

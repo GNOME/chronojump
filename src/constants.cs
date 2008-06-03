@@ -142,6 +142,7 @@ public class Constants
 
 	//fileNames
 	public static string FileNameLogo = "chronojump_logo.png";
+	public static string FileNameLogo320 = "chronojump_320.png";
 	public static string FileNameCSS = "report_web_style.css";
 	public static string FileNameIcon = "chronojump_icon.png";
 	public static string FileNameIconGraph = "chronojump_icon_graph.png";
@@ -253,4 +254,15 @@ public class Constants
 		"3:" + Catalog.GetString("Elite"), 
 	};
 
+	public static string [] SplashMessages = {
+		"Initializing",
+		"Checking database",
+		"Creating database",
+		"Making database backup",
+		"Updating database",
+		"Preparing main Window",
+	};
+
+	public static string ChronopicDefaultPortWindows = "COM?";
+	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";
 }

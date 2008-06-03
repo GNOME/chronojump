@@ -23,6 +23,12 @@ c-3;<a href=":::imageLink:::/adria3.jpg"><img src=":::imageLink:::/adria3_small.
 c-4;<a href=":::imageLink:::/adria4.jpg"><img src=":::imageLink:::/adria4_small.jpg" width="125" height="94"></a>
 c-5;<a href=":::imageLink:::/carles_romagosa.jpg"><img src=":::imageLink:::/carles_romagosa_small.jpg" width="125" height="94"></a>
 c-6;<a href=":::imageLink:::/josep_ma_padulles.jpg"><img src=":::imageLink:::/josep_ma_padulles.jpg" width="125" height="94"></a>
-c-7;<a href=":::imageLink:::/learning.jpg"><img src=":::imageLink:::/learning.jpg" width="125" height="94"></a>
-c-8;<a href=":::imageLink:::/raul_bescos.jpg"><img src=":::imageLink:::/raul_bescos.jpg" width="125" height="94"></a>
-c-9;<a href=":::imageLink:::/xavi_de_blas.jpg"><img src=":::imageLink:::/xavi_de_blas.jpg" width="125" height="94"></a>
+c-7;<a href=":::imageLink:::/learning.jpg"><img src=":::imageLink:::/learning_small.jpg" width="125" height="94"></a>
+c-8;<a href=":::imageLink:::/chronopics.jpg"><img src=":::imageLink:::/chronopics_small.jpg" width="125" height="188"></a>
+c-9;<a href=":::imageLink:::/xavi_de_blas.jpg"><img src=":::imageLink:::/xavi_de_blas_small.jpg" width="125" height="94"></a>
+c-10;<a href=":::imageLink:::/bernat_busca1.jpg"><img src=":::imageLink:::/bernat_busca1_small.jpg" width="125" height="94"></a>
+c-11;<a href=":::imageLink:::/bernat_busca2.jpg"><img src=":::imageLink:::/bernat_busca2_small.jpg" width="125" height="94"></a>
+c-12;<a href=":::imageLink:::/raul_bescos.jpg"><img src=":::imageLink:::/raul_bescos_small.jpg" width="125" height="94"></a>
+c-13;<a href=":::imageLink:::/bernat_busca-xavi_p.jpg"><img src=":::imageLink:::/bernat_busca-xavi_p_small.jpg" width="125" height="94"></a>
+c-14;<a href=":::imageLink:::/drop.jpg"><img src=":::imageLink:::/drop_small.jpg" width="125" height="94"></a>
+c-15;<a href=":::imageLink:::/audience.jpg"><img src=":::imageLink:::/audience_small.jpg" width="125" height="94"></a>

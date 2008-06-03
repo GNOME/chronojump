@@ -424,9 +424,9 @@ class Sqlite
 			//if doesn't exist (for any reason, like old database)
 			dbcon.Open();
 			if(Util.IsWindows()) 
-				SqlitePreferences.Insert ("chronopicPort", "COM1");
+				SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
 			else
-				SqlitePreferences.Insert ("chronopicPort", "/dev/ttyS0");
+				SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);
 			dbcon.Close();
 			
 			Log.WriteLine("Added Chronopic port");

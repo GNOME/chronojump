@@ -1,0 +1,78 @@
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Xavier de Blas: 
+ * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
+ */
+
+using System;
+using Gtk;
+using Gdk;
+using Glade;
+
+public class SplashWindow
+{
+	[Widget] Gtk.Window splash_window;
+	[Widget] Gtk.Image image_logo;
+	[Widget] Gtk.ProgressBar progressbar1;
+	[Widget] Gtk.Label myLabel;
+
+	static SplashWindow SplashWindowBox;
+
+	public SplashWindow ()
+	{
+		Glade.XML gladeXML;
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "splash_window", null);
+		gladeXML.Autoconnect(this);
+		
+		//put an icon to window
+		UtilGtk.IconWindow(splash_window);
+
+		//put logo image
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo320);
+		image_logo.Pixbuf = pixbuf;
+	}
+	
+	static public SplashWindow Show ()
+	{
+		if (SplashWindowBox == null) {
+			SplashWindowBox = new SplashWindow();
+		}
+		SplashWindowBox.splash_window.Show ();
+
+		return SplashWindowBox;
+	}
+
+			
+	public void UpdateLabel (string text) {
+		myLabel.Text = text;
+	}
+	
+	public void Pulse() {
+		progressbar1.Pulse();
+	}
+
+	public void Destroy () {
+		SplashWindowBox.splash_window.Destroy ();
+	}
+
+	private void on_delete_event (object o, DeleteEventArgs args) {
+		splash_window.Destroy ();
+	}
+}
+

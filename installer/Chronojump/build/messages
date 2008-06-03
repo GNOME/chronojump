@@ -104,6 +104,9 @@ Installed version: <%YourRegValue%>}
 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Title
 <%MonoInstall%>
 
+4413E32A-3273-202E-97C5-B9109FFDA3D4,Message
+{}
+
 48B4932D-8D72-1214-5078-F33A9BD89960,Text
 <%CreateDesktopShortcutText%>
 
@@ -132,6 +135,9 @@ Installed version: <%YourRegValue%>}
 
 62008144-9BEC-EA43-C500-C40D669E497D,Text
 <%ChronopicDriverInstallTextDone%>
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,TextToWrite
+<%MonoPathRegValue%>
 
 6B7F07E0-B020-EA7D-AF7D-C98450DAEE78,Title
 c
@@ -195,6 +201,9 @@ C603314B-D0E6-64D1-4F05-0E8226B3B689,Description
 
 CB2F63A8-BB7B-D37D-3B41-BEF87CD243A3,Description
 <%ProgramFilesDescription%>
+
+CBF8EF88-806D-438D-8A83-CAB7B916F03C,Message
+{<%MonoVersionRegValue2%> <%MonoPathRegValue%>}
 
 Cancel
 Cancel
@@ -363,6 +372,14 @@ DisplayName
 
 DownloadingFilesText
 {Downloading files...}
+
+E511A51D-40B9-46C3-692B-D7BCE33C13DA,Caption
+{}
+
+E511A51D-40B9-46C3-692B-D7BCE33C13DA,Message
+{Written mono path: <%MonoVersionRegValue2%> <%MonoPathRegValue%>. 
+
+Press Next}
 
 E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Message
 <%DatabaseMove%>
@@ -946,6 +963,9 @@ Version instalada: <%YourRegValue%>}
 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Title
 <%MonoInstall%>
 
+4413E32A-3273-202E-97C5-B9109FFDA3D4,Message
+{}
+
 58560ED4-175E-55FA-E8BD-438ABE6EFEA0,Caption
 <%MonoInstall%>
 
@@ -965,6 +985,9 @@ Version instalada: <%YourRegValue%>}
 
 5885E39B-93A5-C6CA-87FF-D7EB541987DC,Title
 <%MonoInstall%>
+
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,TextToWrite
+<%MonoPathRegValue%>
 
 70364F59-3542-E36E-FC43-18B295772C15,Caption
 {Bienvenido al instalador de <%AppName%>}
@@ -1012,6 +1035,9 @@ BuildFileText
 
 BuildUninstallText
 {Generando desinstalador...}
+
+CBF8EF88-806D-438D-8A83-CAB7B916F03C,Message
+{<%MonoVersionRegValue2%> <%MonoPathRegValue%>}
 
 Cancel
 Cancelar
@@ -1162,6 +1188,14 @@ DatabaseOldWindows
 
 DirectoryPermissionText
 {No tiene permisos para escribir en <%Dir%>.}
+
+E511A51D-40B9-46C3-692B-D7BCE33C13DA,Caption
+{}
+
+E511A51D-40B9-46C3-692B-D7BCE33C13DA,Message
+{Escrito path de mono: <%MonoPathRegValue%>. 
+
+Pulse Siguiente}
 
 E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Caption
 {Se instalara <%AppName%> en la siguiente carpeta.

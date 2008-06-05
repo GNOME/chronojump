@@ -31,7 +31,7 @@ using Mono.Data.Sqlite;
 
 class SqlitePerson : Sqlite
 {
-	//can be "Constants.PersonTable" or "Constants.TempPersonTable"
+	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
 	protected internal static void createTable(string tableName)
 	 {
@@ -50,7 +50,7 @@ class SqlitePerson : Sqlite
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	//can be "Constants.PersonTable" or "Constants.TempPersonTable"
+	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
 	//public static int Insert(bool dbconOpened, string tableName, string name, string sex, string dateBorn, int height, int weight, int sportID, bool sportUserDefined, int practice, string description)
 	public static int Insert(bool dbconOpened, string tableName, string name, string sex, string dateBorn, int height, int weight, int sportID, int speciallityID, int practice, string description)
@@ -421,13 +421,16 @@ finishForeach:
 	{
 	}
 
+	/* 
+	 * don't do more like this, use Sqlite.convertTables()
+	 */
 	//change DB from 0.53 to 0.54	
 	protected internal static void convertTableToSportRelated() 
 	{
 		ArrayList myArray = new ArrayList(2);
 
 		//1st create a temp table
-		createTable(Constants.TempPersonTable);
+		createTable(Constants.ConvertTempTable);
 			
 		//2nd copy all data from person table to temp table
 		dbcmd.CommandText = "SELECT * " + 
@@ -446,7 +449,7 @@ finishForeach:
 		reader.Close();
 
 		foreach (Person myPerson in myArray)
-			Insert(true, Constants.TempPersonTable,
+			Insert(true, Constants.ConvertTempTable,
 				myPerson.Name, myPerson.Sex, myPerson.DateBorn, 
 				myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SpeciallityID, myPerson.Practice, myPerson.Description);
 
@@ -465,8 +468,7 @@ finishForeach:
 
 
 		//6th drop temp table
-		Sqlite.dropTable(Constants.TempPersonTable);
-			
+		Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 	
 	/*

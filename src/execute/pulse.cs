@@ -322,13 +322,13 @@ public class PulseExecute : EventExecute
 
 		totalPulsesNum = Util.GetNumberOfJumps(timesString, false);
 
-		uniqueID = SqlitePulse.Insert("NULL", personID, sessionID, type, 
+		uniqueID = SqlitePulse.Insert(false, Constants.PulseTable, "NULL", personID, sessionID, type, 
 				fixedPulse, totalPulsesNum, timesString, 
-				"" 					//description
+				"", Util.BoolToInt(simulated) //description
 				);
 
 		//define the created object
-		eventDone = new Pulse(uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timesString, ""); 
+		eventDone = new Pulse(uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timesString, "", Util.BoolToInt(simulated)); 
 		
 		string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
 		appbar.Push( 1, myStringPush );

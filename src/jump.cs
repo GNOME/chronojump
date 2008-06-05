@@ -34,12 +34,13 @@ public class Jump : Event
 
 	//for not checking always in database
 	protected bool hasFall;
+	private int angle;
 
 	public Jump() {
 	}
 
 	//after inserting database (SQL)
-	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description)
+	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, int angle, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -50,39 +51,63 @@ public class Jump : Event
 		this.fall = fall;
 		this.weight = weight;
 		this.description = description;
+		this.angle = angle;
+		this.simulated = simulated;
 	}
 
-
-	public virtual bool TypeHasWeight
+	//used to select a jump at SqliteJump.SelectNormalJumpData and at Sqlite.addSimulatedInEventTables
+	public Jump(string [] eventString)
 	{
+		this.uniqueID = Convert.ToInt32(eventString[0]);
+		this.personID = Convert.ToInt32(eventString[1]);
+		this.sessionID = Convert.ToInt32(eventString[2]);
+		this.type = eventString[3].ToString();
+		this.tv = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[4]));
+		this.tc = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[5]));
+		this.fall = Convert.ToInt32(eventString[6]);
+		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
+		this.description = eventString[8].ToString();
+		this.angle = Convert.ToInt32(eventString[9]);
+		this.simulated = Convert.ToInt32(eventString[10]);
+	}
+
+	public override void InsertAtDB (bool dbconOpened, string tableName) {
+		SqliteJump.Insert(dbconOpened, tableName, 
+				uniqueID.ToString(), 
+				personID, sessionID, 
+				type, tv, tc, fall, 
+				weight, description, 
+				angle, simulated);
+	}
+
+	public override string ToString() {
+		return uniqueID + ":" + personID + ":" + sessionID + ":" + type + ":" + tv + ":" + tc; //...
+	}
+
+	public virtual bool TypeHasWeight {
 		get { return SqliteJumpType.HasWeight("jumpType", type); }
 	}
 	
-	public virtual bool TypeHasFall
-	{
+	public virtual bool TypeHasFall {
 		get { return SqliteJumpType.HasFall("jumpType", type); } //jumpType is the table name
 	}
 	
-	public double Tv
-	{
+	public double Tv {
 		get { return tv; }
 		set { tv = value; }
 	}
 	
-	public double Tc
-	{
+	public double Tc {
 		get { return tc; }
 		set { tc = value; }
 	}
 	
-	public int Fall
-	{
+	public int Fall {
 		get { return fall; }
 		set { fall = value; }
 	}
 	
-	public double Weight
-	{
+	public double Weight {
 		get { return weight; }
 		set { weight = value; }
 	}
@@ -106,6 +131,7 @@ public class JumpRj : Jump
 	private double tvCount;
 	private double lastTc;
 	private double lastTv;
+	private string angleString;
 	
 	public JumpRj() {
 	}
@@ -113,7 +139,7 @@ public class JumpRj : Jump
 	//after inserting database (SQL)
 	public JumpRj(int uniqueID, int personID, int sessionID, string type, 
 			string tvString, string tcString, int fall, double weight, 
-			string description, int jumps, double time, string limited)
+			string description, int jumps, double time, string limited, string angleString, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -127,8 +153,42 @@ public class JumpRj : Jump
 		this.jumps = jumps;
 		this.time = time;
 		this.limited = limited;
+		this.angleString = angleString;
+		this.simulated = simulated;
 	}
 	
+	//used to select a jump at SqliteJump.SelectRjJumpData and at Sqlite.addSimulatedInEventTables
+	public JumpRj(string [] eventString)
+	{
+		//foreach(string myStr in eventString)
+		//	Log.WriteLine(myStr);
+
+		this.uniqueID = Convert.ToInt32(eventString[0]);
+		this.personID = Convert.ToInt32(eventString[1]);
+		this.sessionID = Convert.ToInt32(eventString[2]);
+		this.type = eventString[3].ToString();
+		this.tvString = Util.ChangeDecimalSeparator(eventString[11].ToString());
+		this.tcString = Util.ChangeDecimalSeparator(eventString[12].ToString());
+		this.fall = Convert.ToInt32(eventString[6]);
+		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
+		this.description = eventString[8].ToString();
+		this.jumps = Convert.ToInt32(eventString[13]);
+		this.time = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[14]));
+		this.limited = eventString[15];
+		this.angleString = eventString[16];
+		this.simulated = Convert.ToInt32(eventString[17]);
+	}
+
+	public override void InsertAtDB (bool dbconOpened, string tableName) {
+		SqliteJumpRj.Insert(dbconOpened, tableName, 
+				uniqueID.ToString(),
+				personID, sessionID, 
+				type, TvMax, TcMax, fall, weight,
+				description, TvAvg, TcAvg, tvString, tcString,
+				jumps, time, limited, 
+				angleString, simulated);
+	}
+
 	public string Limited
 	{
 		get { return limited; }
@@ -181,6 +241,11 @@ public class JumpRj : Jump
 	{
 		get { return jumps; }
 		set { jumps = value; }
+	}
+	
+	public double Time
+	{
+		set { time = value; }
 	}
 	
 	public bool JumpsLimited

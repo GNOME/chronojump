@@ -71,6 +71,7 @@ public class TreeViewRuns : TreeViewEvent
 		myRun.Distance = Convert.ToDouble(myStringOfData[5].ToString());
 		myRun.Time = Convert.ToDouble(myStringOfData[6].ToString());
 		myRun.Description = myStringOfData[7].ToString();
+		myRun.Simulated = Convert.ToInt32(myStringOfData[8].ToString());
 		//speed is not needed to define
 
 		return myRun;
@@ -80,9 +81,13 @@ public class TreeViewRuns : TreeViewEvent
 	{
 		Run newRun = (Run)myObject;
 
+		string title = newRun.Type;
+		if(newRun.Simulated == 1)
+			title += " (s)";
+
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		myData[count++] = newRun.Type;
+		myData[count++] = title;
 		//myData[count++] = Util.TrimDecimals(newRun.Speed.ToString(), pDN); this doesn't know the metersSecondsPreferred
 		myData[count++] = Util.TrimDecimals(Util.GetSpeed(
 					newRun.Distance.ToString(),
@@ -139,6 +144,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myRunI.IntervalTimesString = myStringOfData[8].ToString();
 		myRunI.Limited = myStringOfData[11].ToString();
 		myRunI.Description = myStringOfData[10].ToString();
+		myRunI.Simulated = Convert.ToInt32(myStringOfData[12].ToString());
 		//speed is not needed to define
 		
 		return myRunI;
@@ -148,7 +154,11 @@ public class TreeViewRunsInterval : TreeViewRuns
 	{
 		RunInterval newRunI = (RunInterval)myObject;
 		
-		string myTypeComplet = newRunI.Type + "(" + newRunI.DistanceInterval + "x" + Util.GetLimitedRounded(newRunI.Limited, pDN) + ")";
+		string title = newRunI.Type;
+		if(newRunI.Simulated == 1)
+			title += " (s) ";
+
+		string myTypeComplet = title + "(" + newRunI.DistanceInterval + "x" + Util.GetLimitedRounded(newRunI.Limited, pDN) + ")";
 		
 		string [] myData = new String [getColsNum()];
 		int count = 0;

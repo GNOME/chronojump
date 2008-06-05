@@ -1,5 +1,23 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+5 Jun 2008
+	0.7.3
+	at splash screen it's shown conversion rate on update DB
+	new db: 0.57: 
+	-jump and jumpRj have angle
+	-events have simulated column. Also jumpRj and runInterval temp tables.
+	-simulated shown on treeviews and edit events
+	Upgraded Gtk.FileSelection (deprecated) to Gtk.FileChooserDialog (hope
+	this improves windows usability)
+	Code cleaning, improving:
+	-new code event.InsertAtDB
+	-start using sqlite classes as non static (done for createTable at all events)
+	-created SqliteJumpRj, SqliteRunInterval
+	-created method SliteMain.convertTable
+
+	removed crash test on menu
+	Added "Help" text to help button at preferences/chronopic
+
 3 Jun 2008
 	0.7.2 
 	splash window that tells start progress

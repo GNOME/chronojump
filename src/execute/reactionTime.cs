@@ -236,10 +236,13 @@ Log.Write("wb ");
 		
 		appbar.Push( 1,myStringPush );
 
-		uniqueID = SqliteReactionTime.Insert(personID, sessionID, "", time, ""); //type, time, description
+		uniqueID = SqliteReactionTime.Insert(
+				false, Constants.ReactionTimeTable, 
+				"NULL", personID, sessionID, "", //type
+				time, "", Util.BoolToInt(simulated)); //time, description, simulated
 
 		//define the created object
-		eventDone = new ReactionTime(uniqueID, personID, sessionID, time, ""); 
+		eventDone = new ReactionTime(uniqueID, personID, sessionID, time, "", Util.BoolToInt(simulated)); 
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();

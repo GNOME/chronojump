@@ -133,8 +133,13 @@ public class EditEventWindow
 
 	protected void fillDialog (Event myEvent)
 	{
-		fillWindowTitleAndLabelHeader();	
-		label_event_id_value.Text = myEvent.UniqueID.ToString();
+		fillWindowTitleAndLabelHeader();
+
+		string id = myEvent.UniqueID.ToString();
+		if(myEvent.Simulated == 1) 
+			id += " <b>" + Catalog.GetString("Simulated") + "</b>";
+		label_event_id_value.Text = id;
+		label_event_id_value.UseMarkup = true;
 
 		if(showTv)
 			fillTv(myEvent);

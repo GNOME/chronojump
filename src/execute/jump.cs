@@ -42,6 +42,8 @@ public class JumpExecute : EventExecute
 	private Chronopic cp;
 
 	private Jump jumpDone;
+
+	private int angle = -1;
 	
 	public JumpExecute() {
 	}
@@ -368,12 +370,14 @@ Log.Write("wb ");
 		}
 		appbar.Push( 1,myStringPush );
 
-		uniqueID = SqliteJump.Insert(personID, sessionID, 
+		uniqueID = SqliteJump.Insert(false, Constants.JumpTable, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
-				weight, "", ""); //weight, limited, description
+				//weight, "", "", Util.BoolToInt(simulated)); //weight, limited, description
+				weight, "", angle, Util.BoolToInt(simulated)); //weight, description, simulated
 
 		//define the created object
-		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, weight, ""); 
+		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, 
+				weight, "", angle, Util.BoolToInt(simulated)); 
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
@@ -436,6 +440,7 @@ public class JumpRjExecute : JumpExecute
 	//this will be a flag for finishing if allowFinishAfterTime is true
 	private bool shouldFinishAtNextFall = true;
 
+	private string angleString = "-1";
 	
 	public JumpRjExecute() {
 	}
@@ -903,24 +908,24 @@ public class JumpRjExecute : JumpExecute
 		}
 
 		if(tempTable) 
-			SqliteJump.InsertRj("tempJumpRj", "NULL", personID, sessionID, 
+			SqliteJumpRj.Insert(false, Constants.TempJumpRjTable, "NULL", personID, sessionID, 
 					type, Util.GetMax(tvString), Util.GetMax(tcString), 
 					fall, weight, description,
 					Util.GetAverage(tvString), Util.GetAverage(tcString),
 					tvString, tcString,
-					jumps, Util.GetTotalTime(tcString, tvString), limitString
+					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToInt(simulated)
 					);
 		else {
-			uniqueID = SqliteJump.InsertRj("jumpRj", "NULL", personID, sessionID, 
+			uniqueID = SqliteJumpRj.Insert(false, Constants.JumpRjTable, "NULL", personID, sessionID, 
 					type, Util.GetMax(tvString), Util.GetMax(tcString), 
 					fall, weight, description,
 					Util.GetAverage(tvString), Util.GetAverage(tcString),
 					tvString, tcString,
-					jumps, Util.GetTotalTime(tcString, tvString), limitString
+					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToInt(simulated)
 					);
 
 			//define the created object
-			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, description, jumps, Util.GetTotalTime(tcString, tvString), limitString); 
+			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, description, jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToInt(simulated)); 
 
 
 			//event will be raised, and managed in chronojump.cs

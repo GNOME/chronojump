@@ -39,7 +39,7 @@ CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src
 
 CHRONOJUMP_DEP_GRAPHS = src/stats/graphs/graphData.cs src/stats/graphs/graphSerie.cs src/stats/graphs/global.cs src/stats/graphs/sjCmjAbk.cs src/stats/graphs/sjCmjAbkPlus.cs src/stats/graphs/djIndex.cs src/stats/graphs/djQ.cs src/stats/graphs/rjIndex.cs src/stats/graphs/rjPotencyBosco.cs src/stats/graphs/rjEvolution.cs src/stats/graphs/ieIub.cs src/stats/graphs/fv.cs src/stats/graphs/potency.cs src/stats/graphs/rjAVGSD.cs
 
-CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpType.cs src/sqlite/run.cs src/sqlite/runType.cs src/sqlite/personSession.cs src/sqlite/stat.cs src/sqlite/pulse.cs src/sqlite/pulseType.cs src/sqlite/reactionTime.cs src/sqlite/event.cs src/sqlite/sport.cs src/sqlite/speciallity.cs
+CHRONOJUMP_DEP_SQLITE = src/sqlite/main.cs src/sqlite/preferences.cs src/sqlite/person.cs src/sqlite/session.cs src/sqlite/jump.cs src/sqlite/jumpRj.cs src/sqlite/jumpType.cs src/sqlite/run.cs src/sqlite/runInterval.cs src/sqlite/runType.cs src/sqlite/personSession.cs src/sqlite/stat.cs src/sqlite/pulse.cs src/sqlite/pulseType.cs src/sqlite/reactionTime.cs src/sqlite/event.cs src/sqlite/sport.cs src/sqlite/speciallity.cs
 
 CHRONOJUMP_DEP_EXECUTE = src/execute/event.cs src/execute/jump.cs src/execute/run.cs src/execute/pulse.cs src/execute/reactionTime.cs
 

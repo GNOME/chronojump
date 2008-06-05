@@ -39,7 +39,7 @@ public class Pulse : Event
 
 	//after inserting database (SQL)
 	public Pulse(int uniqueID, int personID, int sessionID, string type, double fixedPulse, 
-			int totalPulsesNum, string timesString, string description)
+			int totalPulsesNum, string timesString, string description, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -49,6 +49,28 @@ public class Pulse : Event
 		this.totalPulsesNum = totalPulsesNum;
 		this.timesString = timesString;
 		this.description = description;
+		this.simulated = simulated;
+	}
+
+	//used to select a event at SqlitePulse.SelectPulseData and at Sqlite.addSimulatedInEventTables
+	public Pulse(string [] eventString) {
+		this.uniqueID = Convert.ToInt32(eventString[0]);
+		this.personID = Convert.ToInt32(eventString[1]);
+		this.sessionID = Convert.ToInt32(eventString[2]);
+		this.type = eventString[3].ToString();
+		this.fixedPulse = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[4]));
+		this.totalPulsesNum = Convert.ToInt32(eventString[5]);
+		this.timesString = eventString[6].ToString();
+		this.description = eventString[7].ToString();
+		this.simulated = Convert.ToInt32(eventString[8]);
+	}
+
+	public override void InsertAtDB (bool dbconOpened, string tableName) {
+		SqlitePulse.Insert(dbconOpened, tableName, 
+				uniqueID.ToString(), 
+				personID, sessionID, 
+				type, fixedPulse, totalPulsesNum, timesString,
+				description, simulated);
 	}
 
 	
@@ -77,16 +99,18 @@ public class Pulse : Event
 		return Util.GetAverage(myErrors);
 	}
 	
-	public string TimesString
-	{
-		get { return timesString; }
-		set { timesString = value; }
-	}
-	
-	public double FixedPulse
-	{
+	public double FixedPulse {
 		get { return fixedPulse; }
 		set { fixedPulse = value; }
+	}
+	
+	public int TotalPulsesNum {
+		set { totalPulsesNum = value; }
+	}
+	
+	public string TimesString {
+		get { return timesString; }
+		set { timesString = value; }
 	}
 	
 		

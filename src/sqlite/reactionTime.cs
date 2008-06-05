@@ -31,20 +31,26 @@ using Mono.Data.Sqlite;
 
 class SqliteReactionTime : Sqlite
 {
+	public SqliteReactionTime() {
+	}
+	
+	~SqliteReactionTime() {}
+
 	/*
 	 * create and initialize tables
 	 */
 	
-	protected internal static void createTable()
+	protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE " + Constants.ReactionTimeTable + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
 			"type TEXT, " + //now all as "default", but in the future...
 			"time FLOAT, " +
-			"description TEXT )";		
+			"description TEXT, " +
+			"simulated INT )";		
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -53,18 +59,22 @@ class SqliteReactionTime : Sqlite
 	 * ReactionTime class methods
 	 */
 	
-	public static int Insert(int personID, int sessionID, string type, double time, string description)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double time, string description, int simulated)
 	{
-		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO " + Constants.ReactionTimeTable +  
-				" (uniqueID, personID, sessionID, type, time, description)" +
-				" VALUES (NULL, "
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + tableName +  
+				" (uniqueID, personID, sessionID, type, time, description, simulated)" +
+				" VALUES (" + uniqueID + ", "
 				+ personID + ", " + sessionID + ", '" + type + "', "
-				+ Util.ConvertToPoint(time) + ", '" + description + "')" ;
+				+ Util.ConvertToPoint(time) + ", '" + description + "', " + simulated + ")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
-		dbcon.Close();
+		
+		if(! dbconOpened)
+			dbcon.Close();
 
 		return myLast;
 	}
@@ -98,7 +108,8 @@ class SqliteReactionTime : Sqlite
 					reader[3].ToString() + ":" + 	//jump.sessionID
 					reader[4].ToString() + ":" + 	//jump.type
 					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//jump.time
-					reader[6].ToString() 		//description
+					reader[6].ToString() + ":" + 	//description
+					reader[7].ToString()		//simulated
 					);
 			count ++;
 		}
@@ -129,14 +140,18 @@ class SqliteReactionTime : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 		
+		ReactionTime myRT = new ReactionTime(DataReaderToStringArray(reader, 7));
+		/*
 		ReactionTime myRT = new ReactionTime(
 				Convert.ToInt32(reader[0]),	//uniqueID
 				Convert.ToInt32(reader[1]),	//personID
 				Convert.ToInt32(reader[2]),	//sessionID
 				//reader[3].ToString(),		//type
 				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[4].ToString()) ),
-				reader[5].ToString() //description
+				reader[5].ToString(),  //description
+				Convert.ToInt32(reader[6]) //simulated
 				);
+				*/
 	
 		dbcon.Close();
 		return myRT;

@@ -148,6 +148,7 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Tc = Convert.ToDouble(myStringOfData[6].ToString());
 		myJump.Fall = Convert.ToInt32(myStringOfData[7].ToString());
 		myJump.Description = myStringOfData[9].ToString();
+		myJump.Simulated = Convert.ToInt32(myStringOfData[10].ToString());
 
 		//we create the jump with a weight of percent or kk
 		if(weightPercentPreferred)
@@ -163,9 +164,14 @@ public class TreeViewJumps : TreeViewEvent
 	{
 		Jump newJump = (Jump)myObject;
 
+		string title = newJump.Type;
+		if(newJump.Simulated == 1)
+			title += " (s)";
+
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		myData[count++] = newJump.Type;
+		//myData[count++] = newJump.Type;
+		myData[count++] = title;
 		myData[count++] = Util.TrimDecimals(newJump.Tc.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(newJump.Tv.ToString(), pDN);
 		
@@ -231,6 +237,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myJumpRj.TcString = myStringOfData[13].ToString();
 		myJumpRj.Limited = myStringOfData[16].ToString();
 		myJumpRj.Description = myStringOfData[9].ToString();
+		myJumpRj.Simulated = Convert.ToInt32(myStringOfData[17].ToString());
 		
 		//we create the jump with a weight of percent or kk
 		if(weightPercentPreferred)
@@ -245,7 +252,11 @@ public class TreeViewJumpsRj : TreeViewJumps
 	{
 		JumpRj newJumpRj = (JumpRj)myObject;
 
-		string myTypeComplet = newJumpRj.Type + "(" + Util.GetLimitedRounded(newJumpRj.Limited, pDN) + ")";
+		string title = newJumpRj.Type;
+		if(newJumpRj.Simulated == 1)
+			title += " (s) ";
+
+		string myTypeComplet = title + "(" + Util.GetLimitedRounded(newJumpRj.Limited, pDN) + ")";
 		
 		string [] myData = new String [getColsNum()];
 		int count = 0;

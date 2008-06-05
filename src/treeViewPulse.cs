@@ -62,6 +62,7 @@ public class TreeViewPulses : TreeViewEvent
 		myPulse.FixedPulse = Convert.ToDouble(myStringOfData[5].ToString());
 		myPulse.TimesString = myStringOfData[7].ToString();
 		myPulse.Description = myStringOfData[8].ToString();
+		myPulse.Simulated = Convert.ToInt32(myStringOfData[9].ToString());
 
 		return myPulse;
 	}
@@ -71,11 +72,13 @@ public class TreeViewPulses : TreeViewEvent
 		Pulse newPulse = (Pulse)myObject;
 		
 		//if fixedPulse is not defined, comparate each pulse with the averave
-		string myTypeComplet ="";
-		if(newPulse.FixedPulse == -1) 
-			myTypeComplet = newPulse.Type;
-		else
-			myTypeComplet = newPulse.Type + "(" + Util.TrimDecimals(newPulse.FixedPulse.ToString(), 3) + ")";
+		string myTypeComplet = newPulse.Type;
+		
+		if(newPulse.Simulated == 1)
+			myTypeComplet += " (s) ";
+		
+		if(newPulse.FixedPulse != -1) 
+			myTypeComplet += "(" + Util.TrimDecimals(newPulse.FixedPulse.ToString(), 3) + ")";
 		
 		
 		string [] myData = new String [getColsNum()];

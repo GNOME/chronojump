@@ -30,14 +30,35 @@ public class ReactionTime : Event
 	}
 
 	//after inserting database (SQL)
-	public ReactionTime(int uniqueID, int personID, int sessionID, double time, string description)
+	public ReactionTime(int uniqueID, int personID, int sessionID, double time, string description, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.time = time;
 		this.description = description;
+		this.simulated = simulated;
 	}
+
+	//used to select a event at SqliteReactionTime.SelectReactionTimeData and at Sqlite.addSimulatedInEventTables
+	public ReactionTime(string [] eventString) {
+		this.uniqueID = Convert.ToInt32(eventString[0]);
+		this.personID = Convert.ToInt32(eventString[1]);
+		this.sessionID = Convert.ToInt32(eventString[2]);
+		//this.type = eventString[3].ToString();
+		this.time = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[4]));
+		this.description = eventString[5].ToString();
+		this.simulated = Convert.ToInt32(eventString[6]);
+	}
+
+	public override void InsertAtDB (bool dbconOpened, string tableName) {
+		SqliteReactionTime.Insert(dbconOpened, tableName, 
+				uniqueID.ToString(), 
+				personID, sessionID, 
+				"", time, //type, time
+				description, simulated);
+	}
+
 
 	public double Time
 	{

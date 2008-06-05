@@ -520,36 +520,20 @@ public class RepairPulseWindow
 			
 		//calculate other variables needed for pulse creation
 		
-		int totalPulsesNum = Util.GetNumberOfJumps(timeString, false); //don't need a GetNumberOfRuns, this works
-
-/*
-		string limitString = "";
-	
-		
-		if(runType.FixedValue > 0) {
-			//if this runType has a fixed value of runs or time, limitstring has not changed
-			if(runType.TracksLimited) {
-				limitString = runType.FixedValue.ToString() + "R";
-			} else {
-				limitString = runType.FixedValue.ToString() + "T";
-			}
-		} else {
-			//else limitstring should be calculated
-			if(runType.TracksLimited) {
-				limitString = runs.ToString() + "R";
-			} else {
-				limitString = Util.GetTotalTime(timeString) + "T";
-			}
-		}
-*/
+		myPulse.TotalPulsesNum = Util.GetNumberOfJumps(timeString, false); //don't need a GetNumberOfRuns, this works
+		myPulse.TimesString = timeString;
 
 		//save it deleting the old first for having the same uniqueID
 		SqlitePulse.Delete(myPulse.UniqueID.ToString());
+
+		myPulse.InsertAtDB(false, Constants.PulseTable);
+		/*
 		SqlitePulse.Insert(myPulse.UniqueID.ToString(), 
 				myPulse.PersonID, myPulse.SessionID, 
 				myPulse.Type, myPulse.FixedPulse, totalPulsesNum, 
 				timeString, myPulse.Description
 				);
+				*/
 
 		//close the window
 		RepairPulseWindowBox.repair_sub_event.Hide();

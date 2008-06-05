@@ -31,89 +31,56 @@ using Mono.Data.Sqlite;
 
 class SqliteRun : Sqlite
 {
+	public SqliteRun() {
+	}
+	
+	~SqliteRun() {}
+
 	/*
 	 * create and initialize tables
 	 */
 	
-	protected internal static void createTable()
+	protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE " + Constants.RunTable + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
 			"type TEXT, " +
 			"distance FLOAT, " +
 			"time FLOAT, " +
-			"description TEXT )";		
+			"description TEXT, " +
+			"simulated INT )";
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected internal static void intervalCreateTable(string tableName)
-	{
-		//values: 'runInterval' and 'tempRunInterval'
-
-		dbcmd.CommandText = 
-			"CREATE TABLE " + tableName  +
-			" (uniqueID INTEGER PRIMARY KEY, " +
-			"personID INT, " +
-			"sessionID INT, " +
-			"type TEXT, " +
-			"distanceTotal FLOAT, " +
-			"timeTotal FLOAT, " +
-			"distanceInterval FLOAT, " +
-			"intervalTimesString TEXT, " +
-			"tracks FLOAT, " +	//float because if we limit by time (runType tracksLimited false), we do n.nn tracks
-			"description TEXT, " +
-			"limited TEXT) ";
-		dbcmd.ExecuteNonQuery();
-	}
-
 	
 	/*
 	 * Run class methods
 	 */
 	
-	public static int Insert(int personID, int sessionID, string type, double distance, double time, string description)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated)
 	{
-		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO " + Constants.RunTable + 
-				" (uniqueID, personID, sessionID, type, distance, time, description)" +
-				" VALUES (NULL, "
+		if(! dbconOpened)
+			dbcon.Open();
+		dbcmd.CommandText = "INSERT INTO " + tableName + 
+				" (uniqueID, personID, sessionID, type, distance, time, description, simulated)" +
+				" VALUES (" + uniqueID + ", " +
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", '" + 
-				description + "')" ;
+				description + "', " + simulated + ")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
-		dbcon.Close();
+
+		if(! dbconOpened)
+			dbcon.Close();
 
 		return myLast;
 	}
 	
-	public static int InsertInterval(string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited )
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO "+ tableName + 
-				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited )" +
-				"VALUES (" + uniqueID + ", " +
-				personID + ", " + sessionID + ", '" + type + "', " +
-				Util.ConvertToPoint(distanceTotal) + ", " + 
-				Util.ConvertToPoint(timeTotal) + ", " + 
-				Util.ConvertToPoint(distanceInterval) + ", '" + 
-				Util.ConvertToPoint(intervalTimesString) + "', " +
-				Util.ConvertToPoint(tracks) + ", '" + 
-				description + "', '" + limited + "')" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		int myLast = dbcon.LastInsertRowId;
-
-		dbcon.Close();
-
-		return myLast;
-	}
-
-	public static string[] SelectAllNormalRuns(int sessionID) 
+	public static string[] SelectAllRuns(int sessionID) 
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, run.* " +
@@ -143,7 +110,8 @@ class SqliteRun : Sqlite
 					reader[4].ToString() + ":" + 	//run.type
 					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + //run.distance
 					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + //run.time
-					reader[7].ToString() 		//description
+					reader[7].ToString() + ":" + 	//description
+					reader[8].ToString() 		//simulated
 					);
 			count ++;
 		}
@@ -160,56 +128,7 @@ class SqliteRun : Sqlite
 		return myRuns;
 	}
 
-	public static string[] SelectAllIntervalRuns(int sessionID) 
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, runInterval.* " +
-			" FROM person, runInterval " +
-			" WHERE person.uniqueID == runInterval.personID" + 
-			" AND runInterval.sessionID == " + sessionID + 
-			" ORDER BY person.uniqueID, runInterval.uniqueID";
-		
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		ArrayList myArray = new ArrayList(2);
-
-		int count = new int();
-		count = 0;
-
-		while(reader.Read()) {
-			myArray.Add (reader[0].ToString() + ":" +	//person.name
-					reader[1].ToString() + ":" +	//runInterval.uniqueID
-					reader[2].ToString() + ":" + 	//runInterval.personID
-					reader[3].ToString() + ":" + 	//runInterval.sessionID
-					reader[4].ToString() + ":" + 	//runInterval.type
-					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + //distanceTotal
-					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + //timeTotal
-					Util.ChangeDecimalSeparator(reader[7].ToString()) + ":" + //distanceInterval
-					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + //intervalTimesString
-					Util.ChangeDecimalSeparator(reader[9].ToString()) + ":" + //tracks
-					reader[10].ToString() + ":" + 	//description
-					reader[11].ToString() 	 	//limited
-					);
-			count ++;
-		}
-
-		reader.Close();
-		dbcon.Close();
-
-		string [] myRuns = new string[count];
-		count =0;
-		foreach (string line in myArray) {
-			myRuns [count++] = line;
-		}
-
-		return myRuns;
-	}
-
-	public static Run SelectNormalRunData(int uniqueID)
+	public static Run SelectRunData(int uniqueID)
 	{
 		dbcon.Open();
 
@@ -222,54 +141,13 @@ class SqliteRun : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
-		
-		Run myRun = new Run(
-				Convert.ToInt32(reader[0]),	//uniqueID
-				Convert.ToInt32(reader[1]),	//personID
-				Convert.ToInt32(reader[2]),	//sessionID
-				reader[3].ToString(),		//type
-				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[4].ToString()) ),
-				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[5].ToString()) ),
-				reader[6].ToString() //description
-				);
+	
+		Run myRun = new Run(DataReaderToStringArray(reader, 8));
 	
 		dbcon.Close();
 		return myRun;
 	}
 		
-	public static RunInterval SelectIntervalRunData(string tableName, int uniqueID)
-	{
-		//tableName can be runInterval or tempRunInterval
-
-		dbcon.Open();
-
-		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
-		
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		reader.Read();
-
-		RunInterval myRun = new RunInterval(
-				Convert.ToInt32(reader[0]),	//uniqueID
-				Convert.ToInt32(reader[1]),	//personID
-				Convert.ToInt32(reader[2]),	//sessionID
-				reader[3].ToString(),		//type
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //distanceTotal
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), //timeTotal
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[6].ToString())), //distanceInterval
-				Util.ChangeDecimalSeparator(reader[7].ToString()),	//intervalTimesString
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[8].ToString())), //tracks
-				reader[9].ToString(), 		//description
-				reader[10].ToString() 		//limited
-				);
-
-		dbcon.Close();
-		return myRun;
-	}
-
 	public static void Update(int runID, string type, string distance, string time, int personID, string description)
 	{
 		dbcon.Open();
@@ -278,18 +156,6 @@ class SqliteRun : Sqlite
 			", type = '" + type +
 			"', distance = " + Util.ConvertToPoint(Convert.ToDouble(distance)) + 
 			", time = " + Util.ConvertToPoint(Convert.ToDouble(time)) + 
-			", description = '" + description +
-			"' WHERE uniqueID == " + runID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
-
-	public static void IntervalUpdate(int runID, int personID, string description)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "UPDATE " + Constants.RunIntervalTable +
-			" SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + runID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -307,3 +173,4 @@ class SqliteRun : Sqlite
 		dbcon.Close();
 	}
 }
+

@@ -32,11 +32,18 @@ public class Event
 	protected int uniqueID;
 	protected string type;
 	protected string description;
+	protected int simulated;
 
 	public Event() {
 		//simulated = false;
 	}
-	
+
+	//used to select an event at Sqlite.addSimulatedInEventTables
+	public Event(string [] eventString) {
+	}
+
+	public virtual void InsertAtDB (bool dbconOpened, string tableName) {
+	}	
 
 	public string Type
 	{
@@ -71,6 +78,12 @@ public class Event
 		//get { return personName; }
 		get { return SqlitePerson.SelectJumperName(personID); }
 	}
+	
+	public int Simulated {
+		get { return simulated; }
+		set { simulated = value; }
+	}
+	
 	
 	~Event() {}
 	   

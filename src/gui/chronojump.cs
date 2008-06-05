@@ -773,22 +773,22 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				treeviewPersonsContextMenu(currentPerson);
 			} else if(myTv == treeview_jumps) {
 				if (myTreeViewJumps.EventSelectedID > 0) {
-					Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.EventSelectedID );
+					Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID );
 					treeviewJumpsContextMenu(myJump);
 				}
 			} else if(myTv == treeview_jumps_rj) {
 				if (myTreeViewJumpsRj.EventSelectedID > 0) {
-					JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+					JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 					treeviewJumpsRjContextMenu(myJump);
 				}
 			} else if(myTv == treeview_runs) {
 				if (myTreeViewRuns.EventSelectedID > 0) {
-					Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.EventSelectedID );
+					Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID );
 					treeviewRunsContextMenu(myRun);
 				}
 			} else if(myTv == treeview_runs_interval) {
 				if (myTreeViewRunsInterval.EventSelectedID > 0) {
-					RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+					RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
 					treeviewRunsIntervalContextMenu(myRun);
 				}
 			} else if(myTv == treeview_reaction_times) {
@@ -908,7 +908,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void fillTreeView_jumps (string filter) {
 		string [] myJumps;
 		
-		myJumps = SqliteJump.SelectNormalJumps(currentSession.UniqueID, -1, "");
+		myJumps = SqliteJump.SelectJumps(currentSession.UniqueID, -1, "");
 		myTreeViewJumps.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
@@ -977,7 +977,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void fillTreeView_jumps_rj (string filter) {
 		string [] myJumps;
-		myJumps = SqliteJump.SelectRjJumps(currentSession.UniqueID, -1, "");
+		myJumps = SqliteJumpRj.SelectJumps(currentSession.UniqueID, -1, "");
 		myTreeViewJumpsRj.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
@@ -1056,7 +1056,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void fillTreeView_runs (string filter) {
-		string [] myRuns = SqliteRun.SelectAllNormalRuns(currentSession.UniqueID);
+		string [] myRuns = SqliteRun.SelectAllRuns(currentSession.UniqueID);
 		myTreeViewRuns.Fill(myRuns, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
@@ -1124,7 +1124,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void fillTreeView_runs_interval (string filter) {
-		string [] myRuns = SqliteRun.SelectAllIntervalRuns(currentSession.UniqueID);
+		string [] myRuns = SqliteRunInterval.SelectAllRuns(currentSession.UniqueID);
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
@@ -3400,7 +3400,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			Jump myJump = SqliteJump.SelectNormalJumpData( myTreeViewJumps.EventSelectedID );
+			Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID );
 		
 			//4.- edit this jump
 			editJumpWin = EditJumpWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
@@ -3415,7 +3415,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
 			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
@@ -3452,7 +3452,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			Run myRun = SqliteRun.SelectNormalRunData( myTreeViewRuns.EventSelectedID );
+			Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID );
 			myRun.MetersSecondsPreferred = metersSecondsPreferred;
 			Log.WriteLine(myRun.ToString());
 		
@@ -3469,7 +3469,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
 			Log.WriteLine(myRun.ToString());
 		
 			//4.- edit this run
@@ -3957,7 +3957,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJump.SelectRjJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
 			//4.- edit this jump
 			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
@@ -3984,7 +3984,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//(check also if it's not a individual run interval, then pass the parent run interval)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRun.SelectIntervalRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
 		
 			//4.- edit this run
 			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber);

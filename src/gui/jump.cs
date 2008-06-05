@@ -307,7 +307,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		//only for jumps
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		
-		SqliteJump.UpdateRj(eventID, personID, entryFall, jumpPercentWeightForNewPerson, description);
+		SqliteJumpRj.Update(eventID, personID, entryFall, jumpPercentWeightForNewPerson, description);
 	}
 }
 
@@ -637,31 +637,34 @@ public class RepairJumpRjWindow
 				equal = "=";
 			} while (store.IterNext (ref myIter));
 		}
-			
+		
+		jumpRj.TvString = tvString;	
+		jumpRj.TcString = tcString;	
+		jumpRj.Jumps = Util.GetNumberOfJumps(tvString, false);
+		jumpRj.Time = Util.GetTotalTime(tcString, tvString);
+
 		//calculate other variables needed for jumpRj creation
 		
-		int jumps = Util.GetNumberOfJumps(tvString, false);
-		string limitString = "";
-	
 		if(jumpType.FixedValue > 0) {
 			//if this jumpType has a fixed value of jumps or time, limitstring has not changed
 			if(jumpType.JumpsLimited) {
-				limitString = jumpType.FixedValue.ToString() + "J";
+				jumpRj.Limited = jumpType.FixedValue.ToString() + "J";
 			} else {
-				limitString = jumpType.FixedValue.ToString() + "T";
+				jumpRj.Limited = jumpType.FixedValue.ToString() + "T";
 			}
 		} else {
 			//else limitstring should be calculated
 			if(jumpType.JumpsLimited) {
-				limitString = jumps.ToString() + "J";
+				jumpRj.Limited = jumpRj.Jumps.ToString() + "J";
 			} else {
-				limitString = Util.GetTotalTime(tcString, tvString) + "T";
+				jumpRj.Limited = Util.GetTotalTime(tcString, tvString) + "T";
 			}
 		}
 
 		//save it deleting the old first for having the same uniqueID
 		SqliteJump.Delete("jumpRj", jumpRj.UniqueID.ToString());
-		//int uniqueID = SqliteJump.InsertRj(jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
+		jumpRj.InsertAtDB(false, Constants.JumpRjTable); 
+		/*
 		SqliteJump.InsertRj("jumpRj", jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 
 				jumpRj.Type, Util.GetMax(tvString), Util.GetMax(tcString), 
 				jumpRj.Fall, jumpRj.Weight, jumpRj.Description,
@@ -669,6 +672,7 @@ public class RepairJumpRjWindow
 				tvString, tcString,
 				jumps, Util.GetTotalTime(tcString, tvString), limitString
 				);
+				*/
 
 		//close the window
 		RepairJumpRjWindowBox.repair_sub_event.Hide();

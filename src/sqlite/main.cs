@@ -47,12 +47,32 @@ class Sqlite
 
 	static string connectionString = "version = 3; Data source = " + sqlFile;
 
+	//for conversion
+	static string currentVersion = "";
+	static int conversionRate;
+	static int conversionRateTotal;
+	static int conversionSubRate;
+	static int conversionSubRateTotal;
+
 
 	/*
 	 * Important, change this if there's any update to database
-	 * Important2: if database version get numbers higher than 1, check if the comparisons with myVersion works ok
+	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.56";
+	static string lastChronojumpDatabaseVersion = "0.57";
+
+	public Sqlite() {
+	}
+
+	/*
+	public void CreateTable(string tableName) {
+		createTable(tableName);
+	}
+	*/
+	protected virtual void createTable(string tableName) {
+	}
+	
+	~Sqlite() {}
 
 
 	public static void Connect()
@@ -145,20 +165,20 @@ class Sqlite
 
 		string myPath = "";
 		string sqliteStr = "";
-		string sqlite3Str = "";
+		//string sqlite3Str = "";
 		string extension = "";
 		try {
 			if(Util.IsWindows()) {
 				myPath = Constants.UtilProgramsWindows;
 				extension = Constants.ExtensionProgramsWindows;
 				sqliteStr = "sqlite.exe";
-				sqlite3Str = "sqlite3.exe";
+				//sqlite3Str = "sqlite3.exe";
 			}
 			else {
 				myPath = Constants.UtilProgramsLinux;
 				extension = Constants.ExtensionProgramsLinux;
 				sqliteStr = "sqlite-2.8.17.bin";
-				sqlite3Str = "sqlite3-3.5.0.bin";
+				//sqlite3Str = "sqlite3-3.5.0.bin";
 			}
 
 			if(File.Exists(myPath + Path.DirectorySeparatorChar + sqliteStr)) 
@@ -205,6 +225,13 @@ class Sqlite
 
 	}
 
+	public static string PrintConversionRate() {
+		double toReach = Convert.ToDouble(lastChronojumpDatabaseVersion);
+		return currentVersion + "/" + toReach.ToString() + " " +
+			conversionRate.ToString() + "/" + conversionRateTotal.ToString() + " " +
+			conversionSubRate.ToString() + "/" + conversionSubRateTotal.ToString() + " ";
+	}
+
 	public static bool ConvertToLastChronojumpDBVersion() {
 
 		//if(checkIfIsSqlite2())
@@ -212,23 +239,31 @@ class Sqlite
 
 		addChronopicPortNameIfNotExists();
 
-		string myVersion = SqlitePreferences.Select("databaseVersion");
+		//string currentVersion = SqlitePreferences.Select("databaseVersion");
+		currentVersion = SqlitePreferences.Select("databaseVersion");
 
 		//Log.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
-		//Log.WriteLine("myVersion: {0}", Convert.ToDouble(myVersion));
+		//Log.WriteLine("currentVersion: {0}", Convert.ToDouble(currentVersion));
 
 		bool returnSoftwareIsNew = true; //-1 if there's software is too old for database (moved db to other computer)
-		if(Convert.ToDouble(lastChronojumpDatabaseVersion) == Convert.ToDouble(myVersion))
+		if(Convert.ToDouble(lastChronojumpDatabaseVersion) == Convert.ToDouble(currentVersion))
 			Log.WriteLine("Database is already latest version");
-		else if(Convert.ToDouble(lastChronojumpDatabaseVersion) < Convert.ToDouble(myVersion)) {
+		else if(Convert.ToDouble(lastChronojumpDatabaseVersion) < Convert.ToDouble(currentVersion)) {
 			Log.WriteLine("User database newer than program, need to update software");
 			returnSoftwareIsNew = false;
 		} else {
 			Log.WriteLine("Old database, need to convert");
-			if(myVersion == "0.41") {
+
+			SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
+			SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
+			SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime();
+			SqlitePulse sqlitePulseObject = new SqlitePulse();
+
+			if(currentVersion == "0.41") {
 				dbcon.Open();
 
-				SqlitePulse.createTable();
+				//SqlitePulse.createTable(Constants.PulseTable);
+				sqlitePulseObject.createTable(Constants.PulseTable);
 				SqlitePulseType.createTablePulseType();
 				SqlitePulseType.initializeTablePulseType();
 
@@ -236,71 +271,74 @@ class Sqlite
 				Log.WriteLine("Converted DB to 0.42 (added pulse and pulseType tables)");
 
 				dbcon.Close();
-				myVersion = "0.42";
+				currentVersion = "0.42";
 			}
 
-			if(myVersion == "0.42") {
+			if(currentVersion == "0.42") {
 				dbcon.Open();
 				SqlitePulseType.Insert ("Free:-1:-1:free PulseStep mode", true); 
 				SqlitePreferences.Insert ("language", "es-ES"); 
 				SqlitePreferences.Update ("databaseVersion", "0.43", true); 
 				Log.WriteLine("Converted DB to 0.43 (added 'free' pulseType & language peference)");
 				dbcon.Close();
-				myVersion = "0.43";
+				currentVersion = "0.43";
 			}
 
-			if(myVersion == "0.43") {
+			if(currentVersion == "0.43") {
 				dbcon.Open();
 				SqlitePreferences.Insert ("showQIndex", "False"); 
 				SqlitePreferences.Insert ("showDjIndex", "False"); 
 				SqlitePreferences.Update ("databaseVersion", "0.44", true); 
 				Log.WriteLine("Converted DB to 0.44 (added showQIndex, showDjIndex)");
 				dbcon.Close();
-				myVersion = "0.44";
+				currentVersion = "0.44";
 			}
 
-			if(myVersion == "0.44") {
+			if(currentVersion == "0.44") {
 				dbcon.Open();
 				SqlitePreferences.Insert ("allowFinishRjAfterTime", "True"); 
 				SqlitePreferences.Update ("databaseVersion", "0.45", true); 
 				Log.WriteLine("Converted DB to 0.45 (added allowFinishRjAfterTime)");
 				dbcon.Close();
-				myVersion = "0.45";
+				currentVersion = "0.45";
 			}
 
-			if(myVersion == "0.45") {
+			if(currentVersion == "0.45") {
 				dbcon.Open();
 				SqliteJumpType.JumpTypeInsert ("Free:1:0:Free jump", true); 
 				SqlitePreferences.Update ("databaseVersion", "0.46", true); 
 				Log.WriteLine("Added Free jump type");
 				dbcon.Close();
-				myVersion = "0.46";
+				currentVersion = "0.46";
 			}
 
-			if(myVersion == "0.46") {
+			if(currentVersion == "0.46") {
 				dbcon.Open();
 
-				SqliteReactionTime.createTable();
+				//SqliteReactionTime.createTable(Constants.ReactionTimeTable);
+				sqliteReactionTimeObject.createTable(Constants.ReactionTimeTable);
 
 				SqlitePreferences.Update ("databaseVersion", "0.47", true); 
 				Log.WriteLine("Added reaction time table");
 				dbcon.Close();
-				myVersion = "0.47";
+				currentVersion = "0.47";
 			}
 
-			if(myVersion == "0.47") {
+			if(currentVersion == "0.47") {
 				dbcon.Open();
 
-				SqliteJump.rjCreateTable(Constants.TempJumpRjTable);
-				SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
+				//SqliteJumpRj.createTable(Constants.TempJumpRjTable);
+				sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
+				//SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
+				sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 
 				SqlitePreferences.Update ("databaseVersion", "0.48", true); 
 				Log.WriteLine("created tempJumpReactive and tempRunInterval tables");
 				dbcon.Close();
-				myVersion = "0.48";
+				currentVersion = "0.48";
 			}
 
-			if(myVersion == "0.48") {
+			if(currentVersion == "0.48") {
 				dbcon.Open();
 
 				SqliteJumpType.JumpTypeInsert ("Rocket:1:0:Rocket jump", true); 
@@ -318,10 +356,10 @@ class Sqlite
 				Log.WriteLine("Added graphLinkTable, added Rocket jump and 5 agility tests: (20Yard, 505, Illinois, Shuttle-Run & ZigZag. Added graphs pof the 5 agility tests)");
 
 				dbcon.Close();
-				myVersion = "0.49";
+				currentVersion = "0.49";
 			}
 
-			if(myVersion == "0.49") {
+			if(currentVersion == "0.49") {
 				dbcon.Open();
 				SqliteJumpType.Update ("SJ+", "SJl"); 
 				SqliteJumpType.Update ("CMJ+", "CJl"); 
@@ -332,20 +370,20 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", "0.50", true); 
 				Log.WriteLine("changed SJ+ to SJl, same for CMJ+ and ABK+, added jump and jumpRj graph links");
 				dbcon.Close();
-				myVersion = "0.50";
+				currentVersion = "0.50";
 			}
 
-			if(myVersion == "0.50") {
+			if(currentVersion == "0.50") {
 				dbcon.Open();
 				SqliteRunType.AddGraphLinksRunSimple();	
 				SqliteRunType.AddGraphLinksRunInterval();	
 				SqlitePreferences.Update ("databaseVersion", "0.51", true); 
 				Log.WriteLine("added graphLinks for run simple and interval");
 				dbcon.Close();
-				myVersion = "0.51";
+				currentVersion = "0.51";
 			}
 
-			if(myVersion == "0.51") {
+			if(currentVersion == "0.51") {
 				dbcon.Open();
 				SqliteJumpType.Update ("CJl", "CMJl"); 
 				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
@@ -353,10 +391,10 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", "0.52", true); 
 				Log.WriteLine("added graphLinks for cmj_l and abk_l, fixed CMJl name");
 				dbcon.Close();
-				myVersion = "0.52";
+				currentVersion = "0.52";
 			}
 			
-			if(myVersion == "0.52") {
+			if(currentVersion == "0.52") {
 				dbcon.Open();
 				SqlitePersonSession.createTable (); 
 				dbcon.Close();
@@ -369,10 +407,10 @@ class Sqlite
 				dbcon.Close();
 				
 				Log.WriteLine("created weightSession table. Moved person weight data to weightSession table for each session that has performed");
-				myVersion = "0.53";
+				currentVersion = "0.53";
 			}
 			
-			if(myVersion == "0.53") {
+			if(currentVersion == "0.53") {
 				dbcon.Open();
 
 				SqliteSport.createTable();
@@ -386,9 +424,9 @@ class Sqlite
 				dbcon.Close();
 				
 				Log.WriteLine("Created sport tables. Added sport data, speciallity and level of practice to person table");
-				myVersion = "0.54";
+				currentVersion = "0.54";
 			}
-			if(myVersion == "0.54") {
+			if(currentVersion == "0.54") {
 				dbcon.Open();
 
 				SqliteSpeciallity.InsertUndefined(true);
@@ -397,9 +435,9 @@ class Sqlite
 				dbcon.Close();
 				
 				Log.WriteLine("Added undefined to speciallity table");
-				myVersion = "0.55";
+				currentVersion = "0.55";
 			}
-			if(myVersion == "0.55") {
+			if(currentVersion == "0.55") {
 				dbcon.Open();
 
 				SqliteSession.convertTableAddingSportStuff();
@@ -408,7 +446,46 @@ class Sqlite
 				dbcon.Close();
 				
 				Log.WriteLine("Added session default sport stuff into session table");
-				myVersion = "0.56";
+				currentVersion = "0.56";
+			}
+			if(currentVersion == "0.56") {
+				dbcon.Open();
+
+				ArrayList arraySimulated = new ArrayList(1);
+				arraySimulated.Add("-1");
+				
+				ArrayList arrayAngleAndSimulated = new ArrayList(1);
+				arrayAngleAndSimulated.Add("-1"); //angle
+				arrayAngleAndSimulated.Add("-1"); //simulated
+
+				conversionRateTotal = 7;
+				conversionRate = 1;
+				convertTables(new SqliteJump(), Constants.JumpTable, 9, arrayAngleAndSimulated);
+				conversionRate ++;
+				convertTables(new SqliteJumpRj(), Constants.JumpRjTable, 16, arrayAngleAndSimulated);
+				conversionRate ++;
+				convertTables(new SqliteRun(), Constants.RunTable, 7, arraySimulated);
+				conversionRate ++;
+				convertTables(new SqliteRunInterval(), Constants.RunIntervalTable, 11, arraySimulated);
+				conversionRate ++;
+				convertTables(new SqliteReactionTime(), Constants.ReactionTimeTable, 6, arraySimulated);
+				conversionRate ++;
+				convertTables(new SqlitePulse(), Constants.PulseTable, 8, arraySimulated);
+
+				//reacreate temp tables for have also the simulated column
+				conversionRate ++;
+				Sqlite.dropTable(Constants.TempJumpRjTable);
+				//SqliteJumpRj.createTable(Constants.TempJumpRjTable);
+				sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
+				Sqlite.dropTable(Constants.TempRunIntervalTable);
+				//SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
+				sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
+
+				SqlitePreferences.Update ("databaseVersion", "0.57", true); 
+				dbcon.Close();
+				
+				Log.WriteLine("Added simulated column to each event table on client");
+				currentVersion = "0.57";
 			}
 		}
 
@@ -443,9 +520,14 @@ class Sqlite
 		SqliteEvent.createGraphLinkTable();
 	
 		//jumps
-		SqliteJump.createTable();
-		SqliteJump.rjCreateTable(Constants.JumpRjTable);
-		SqliteJump.rjCreateTable(Constants.TempJumpRjTable);
+		SqliteJump sqliteJumpObject = new SqliteJump();
+		SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
+		//SqliteJump.createTable(Constants.JumpTable);
+		//SqliteJumpRj.createTable(Constants.JumpRjTable);
+		//SqliteJumpRj.createTable(Constants.TempJumpRjTable);
+		sqliteJumpObject.createTable(Constants.JumpTable);
+		sqliteJumpRjObject.createTable(Constants.JumpRjTable);
+		sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
 
 		//jump Types
 		SqliteJumpType.createTableJumpType();
@@ -454,9 +536,14 @@ class Sqlite
 		SqliteJumpType.initializeTableJumpRjType();
 		
 		//runs
-		SqliteRun.createTable();
-		SqliteRun.intervalCreateTable(Constants.RunIntervalTable);
-		SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
+		SqliteRun sqliteRunObject = new SqliteRun();
+		SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
+		//SqliteRun.createTable(Constants.RunTable);
+		//SqliteRun.intervalCreateTable(Constants.RunIntervalTable);
+		//SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
+		sqliteRunObject.createTable(Constants.RunTable);
+		sqliteRunIntervalObject.createTable(Constants.RunIntervalTable);
+		sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 		
 		//run Types
 		SqliteRunType.createTableRunType();
@@ -465,10 +552,12 @@ class Sqlite
 		SqliteRunType.initializeTableRunIntervalType();
 		
 		//reactionTimes
-		SqliteReactionTime.createTable();
+		SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime();
+		sqliteReactionTimeObject.createTable(Constants.ReactionTimeTable);
 		
 		//pulses and pulseTypes
-		SqlitePulse.createTable();
+		SqlitePulse sqlitePulseObject = new SqlitePulse();
+		sqlitePulseObject.createTable(Constants.PulseTable);
 		SqlitePulseType.createTablePulseType();
 		SqlitePulseType.initializeTablePulseType();
 	
@@ -487,6 +576,7 @@ class Sqlite
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion);
 		
 		//changes [from - to - desc]
+		//0.56 - 0.57 Added simulated column to each event table on client
 		//0.55 - 0.56 Added session default sport stuff into session table
 		//0.54 - 0.55 Added undefined to speciallity table
 		//0.53 - 0.54 created sport tables. Added sport data, speciallity and level of practice to person table
@@ -576,5 +666,84 @@ class Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 
+	protected internal static void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd) 
+	{
+		conversionSubRate = 1;
+		conversionSubRateTotal = -1; //unknown yet
 
+		//2st create convert temp table
+		sqliteObject.createTable(Constants.ConvertTempTable);
+
+		//2nd copy all data from event table to temp table adding the simulated column
+		ArrayList myArray = new ArrayList(2);
+		dbcmd.CommandText = "SELECT * " + 
+			"FROM " + tableName + " ORDER BY uniqueID"; 
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		while(reader.Read()) {
+			string [] myReaderStr = new String[columnsBefore + columnsToAdd.Count];
+			int i;
+			for (i=0; i < columnsBefore; i ++)
+				myReaderStr[i] = reader[i].ToString();
+		
+			//myReaderStr[i] = "-1";
+			foreach (string myStr in columnsToAdd) {
+				myReaderStr[i++] = myStr;
+			}
+	
+			Event myEvent =  new Event();	
+			switch (tableName) {
+				case Constants.JumpTable:
+					myEvent = new Jump(myReaderStr);
+					break;
+				case Constants.JumpRjTable:
+					myEvent = new JumpRj(myReaderStr);
+					break;
+				case Constants.RunTable:
+					myEvent = new Run(myReaderStr);
+					break;
+				case Constants.RunIntervalTable:
+					myEvent = new RunInterval(myReaderStr);
+					break;
+				case Constants.ReactionTimeTable:
+					myEvent = new ReactionTime(myReaderStr);
+					break;
+				case Constants.PulseTable:
+					myEvent = new Pulse(myReaderStr);
+					break;
+			}
+			myArray.Add(myEvent);
+		}
+		reader.Close();
+
+		conversionSubRateTotal = myArray.Count * 2;
+
+		foreach (Event myEvent in myArray) {
+			myEvent.InsertAtDB(true, Constants.ConvertTempTable);
+			conversionSubRate ++;
+		}
+
+		//3rd drop table of event
+		Sqlite.dropTable(tableName);
+
+		//4d create table event (now with simulated column)
+		sqliteObject.createTable(tableName);
+
+		//5th insert data in event table
+		foreach (Event myEvent in myArray) {
+			myEvent.InsertAtDB(true, tableName);
+			conversionSubRate ++;
+		}
+
+		//6th drop temp table
+		Sqlite.dropTable(Constants.ConvertTempTable);
+	}
+	
+	protected static string [] DataReaderToStringArray (SqliteDataReader reader, int columns) {
+		string [] myReaderStr = new String[columns];
+		for (int i=0; i < columns; i ++)
+			myReaderStr[i] = reader[i].ToString();
+		return myReaderStr;
+	}
 }

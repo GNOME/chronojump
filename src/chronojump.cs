@@ -46,6 +46,7 @@ public class ChronoJump
 	bool needEndSplashWin = false;
 	bool needUpdateSplashMessage = false;
 	string splashMessage = "";
+	bool updatingDB = false;
 
 
 	public static void Main(string [] args) 
@@ -143,8 +144,11 @@ public class ChronoJump
 			}
 
 			splashMessageChange(4);  //updating DB
+			updatingDB = true;
 
 			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
+			updatingDB = false;
+
 			if(! softwareIsNew) {
 				//Console.Clear();
 				string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), readVersion()) + "\n" +  
@@ -236,7 +240,9 @@ public class ChronoJump
 		splashWin.Pulse();
 		//Log.WriteLine("splash");
 
-		if(needUpdateSplashMessage) {
+		if(updatingDB) 
+			splashWin.UpdateLabel(splashMessage + " " + Sqlite.PrintConversionRate());
+		else if(needUpdateSplashMessage) {
 			splashWin.UpdateLabel(splashMessage);
 			needUpdateSplashMessage = false;
 		}
@@ -289,14 +295,8 @@ public class ChronoJump
 		int existsTempData = Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			JumpRj myJump = SqliteJump.SelectRjJumpData("tempJumpRj", existsTempData);
-			SqliteJump.InsertRj("jumpRj", "NULL", myJump.PersonID, myJump.SessionID,
-					myJump.Type, myJump.TvMax, myJump.TcMax, 
-					myJump.Fall, myJump.Weight, "", //fall, weight, description
-					myJump.TvAvg, myJump.TcAvg,
-					myJump.TvString, myJump.TcString,
-					myJump.Jumps, Util.GetTotalTime(myJump.TcString, myJump.TvString), myJump.Limited
-					);
+			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData);
+			myJumpRj.InsertAtDB (false, Constants.JumpRjTable);
 
 			Sqlite.DeleteTempEvents(tableName);
 			returnString = "Recuperated last Reactive Jump";
@@ -306,13 +306,8 @@ public class ChronoJump
 		existsTempData = Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			RunInterval myRun = SqliteRun.SelectIntervalRunData("tempRunInterval", existsTempData);
-			SqliteRun.InsertInterval("runInterval", "NULL", myRun.PersonID, myRun.SessionID,
-					myRun.Type, myRun.DistanceTotal, myRun.TimeTotal, 
-					myRun.DistanceInterval, myRun.IntervalTimesString,  
-					myRun.Tracks, "", //description
-					myRun.Limited
-					);
+			RunInterval myRun = SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData);
+			myRun.InsertAtDB (false, Constants.RunIntervalTable);
 
 			Sqlite.DeleteTempEvents(tableName);
 			returnString = "Recuperated last Intervallic Run";

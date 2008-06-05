@@ -32,6 +32,7 @@ public class Log
 	
 	private static TextWriter writer;
 	private static string timeLog = "";
+	private static bool useConsole = false;
 				
 	private static bool initializeTime(string [] args) {
 		if(! Directory.Exists(GetDir())) {
@@ -86,8 +87,9 @@ public class Log
 		
 		bool timeLogPassedOk = initializeTime(args);
 		
+		if(useConsole)
+			Console.WriteLine(GetFile());
 		try {
-			//Console.WriteLine(GetFile());
 			writer = File.CreateText(GetFile());
 		} catch {}
 		
@@ -95,7 +97,8 @@ public class Log
 	}
 
 	public static void Write(string text) {
-		//Console.Write(text);
+		if(useConsole)
+			Console.Write(text);
 		try {
 			writer.Write(text);
 			writer.Flush();
@@ -103,8 +106,9 @@ public class Log
 	}
 	
 	public static void WriteLine(string text) {
+		if(useConsole)
+			Console.WriteLine(text);
 		try {
-			//Console.WriteLine(text);
 			writer.WriteLine(text);
 			writer.Flush();
 		} catch {}

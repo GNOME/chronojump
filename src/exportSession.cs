@@ -39,7 +39,6 @@ public class ExportSession
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
-	//protected static Gnome.AppBar myAppbar;
 	protected static Gtk.Statusbar myAppbar;
 	protected string fileName;
 	
@@ -69,66 +68,60 @@ public class ExportSession
 			exportString = Catalog.GetString ("Export session in format " + formatFile);
 		}
 
-			
-		FileSelection fs = new FileSelection (exportString);
-		fs.SelectMultiple = false;
+		
+		Gtk.FileChooserDialog fc=
+			new Gtk.FileChooserDialog(exportString,
+					app1,
+					FileChooserAction.Save,
+					Catalog.GetString("Cancel"),ResponseType.Cancel,
+					Catalog.GetString("Export"),ResponseType.Accept
+					);
 
-		//from: http://www.gnomebangalore.org/?q=node/view/467
-		if ( (Gtk.ResponseType) fs.Run () != Gtk.ResponseType.Ok) {
+		if (fc.Run() == (int)ResponseType.Accept) 
+		{
+			fileName = fc.Filename;
+			if(formatFile == "report") {
+				//add ".html" if needed, remember that on windows should be .htm
+				fileName = addHtmlIfNeeded(fileName);
+			} else {
+				//add ".csv" if needed
+				fileName = addCsvIfNeeded(fileName);
+			}
+			try {
+				if (File.Exists(fileName)) {
+					Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
+								fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
+					Log.WriteLine("Overwrite...");
+					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), fileName);
+					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
+				} else {
+					writer = File.CreateText(fileName);
+					getData();
+					printData();
+					closeWriter();
+
+					string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
+					new DialogMessage(myString, false); //false: is info
+				}
+			} 
+			catch {
+				string myString = string.Format(Catalog.GetString("Cannot export to file {0} "), fileName);
+				new DialogMessage(myString, true); //true: is warning
+			}
+		}
+		else {
 			Log.WriteLine("cancelled");
 			//report does not currently send the appBar reference
 			if(formatFile != "report") {
 				myAppbar.Push ( 1, Catalog.GetString ("Cancelled") );
 			}
-			fs.Hide ();
+			fc.Hide ();
 			return ;
 		}
-
-
-		fileName = fs.Filename;
-		fs.Hide ();
-
-		//TODO: improve this, because in /home/user/Desktop (with no filename)
-		//it uses /home/user/Desktop as fileame (and later adds csv or html
-		//if we use (Util.GetLastPartOfPath(fileName)
-		//it uses Desktop
-		if(fileName.Length == 0) {
-			new DialogMessage(Catalog.GetString("Please write export filename"), true); //true is warning
-			checkFile(formatFile);
-		}
-
-		if(formatFile == "report") {
-			//add ".html" if needed, remember that on windows should be .htm
-			fileName = addHtmlIfNeeded(fileName);
-		} else {
-			//add ".csv" if needed
-			fileName = addCsvIfNeeded(fileName);
-		}
-		//fileName = addDefaultNameIfNeeded(fileName);
-
-		//TODO: ensure fileName is valid
-
-		try {
-			if (File.Exists(fileName)) {
-				Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
-						fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
-				Log.WriteLine("Overwrite...");
-				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), fileName);
-				confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
-			} else {
-				writer = File.CreateText(fileName);
-				getData();
-				printData();
-				closeWriter();
-			
-				string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
-				new DialogMessage(myString, false); //false: is info
-			}
-		} 
-		catch {
-			string myString = string.Format(Catalog.GetString("Cannot export to file {0} "), fileName);
-			new DialogMessage(myString, true); //true: is warning
-		}
+		
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
+		
 		return;
 	}
 
@@ -163,35 +156,14 @@ public class ExportSession
 		
 		return myFile;
 	}
-/*	
-	private string addDefaultNameIfNeeded(string originalURL)
-	{
-	*/
-		/*
-		 * /home/user/Desktop/test.cs  will return test.cs and posOfDot will be 4
-		 * /home/user/Desktop/.cs  will return .cs and posOfDot will be 0
-		 */
-	/*
-		string myLast = Util.GetLastPartOfPath(originalURL);
-		string returnURL = originalURL;
-		int posOfDot = myLast.LastIndexOf('.');
-		if (posOfDot == 0) 
-			returnURL = originalURL.Substring(0, originalURL.Length - myLast.Length) 
-				+ Catalog.GetString("export") + myLast;
-
-		Log.WriteLine(originalURL);
-		Log.WriteLine(returnURL);
-
-		return returnURL;
-	}
-	*/
+	
 	protected virtual void getData() 
 	{
 		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
-		myJumps= SqliteJump.SelectNormalJumps(mySession.UniqueID, -1, "");
-		myJumpsRj = SqliteJump.SelectRjJumps(mySession.UniqueID, -1, "");
-		myRuns= SqliteRun.SelectAllNormalRuns(mySession.UniqueID);
-		myRunsInterval = SqliteRun.SelectAllIntervalRuns(mySession.UniqueID);
+		myJumps= SqliteJump.SelectJumps(mySession.UniqueID, -1, "");
+		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "");
+		myRuns= SqliteRun.SelectAllRuns(mySession.UniqueID);
+		myRunsInterval = SqliteRunInterval.SelectAllRuns(mySession.UniqueID);
 		myReactionTimes = SqliteReactionTime.SelectAllReactionTimes(mySession.UniqueID);
 		myPulses = SqlitePulse.SelectAllPulses(mySession.UniqueID);
 	}
@@ -301,7 +273,10 @@ public class ExportSession
 					weightName + ":" + 
 					Catalog.GetString("Height") + ":" +
 					Catalog.GetString("Initial Speed") + ":" +
-					Catalog.GetString("Description") );
+					Catalog.GetString("Description") + ":" +
+					//Catalog.GetString("Angle") + ":" +
+					Catalog.GetString("Simulated") 
+				  );
 
 			foreach (string jumpString in myJumps) {
 				string [] myStr = jumpString.Split(new char[] {':'});
@@ -319,14 +294,14 @@ public class ExportSession
 
 				myData.Add (	
 						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jump.uniqueID
-						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
 						myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
 						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
-						//myStr[8] + ":" + 		//jump.weight,
 						Util.TrimDecimals(myWeight, dec) + ":" +
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
-						myStr[9]		//jump.description
+						myStr[9] + ":" +	//jump.description
+						//myStr[10] + ":" +	//jump.angle
+						myStr[11]		//jump.simulated
 					   );
 			}
 			writeData(myData);
@@ -372,7 +347,9 @@ public class ExportSession
 						Catalog.GetString("Jumps") + ":" + 
 						Catalog.GetString("Time") + ":" + 
 						Catalog.GetString("Limited") + ":" + 
-						Catalog.GetString("Description" )
+						Catalog.GetString("Description") + ":" +
+						//Catalog.GetString("Angles") + ":" +
+						Catalog.GetString("Simulated") 
 					  );
 				isFirstHeader = false;
 			}
@@ -406,7 +383,9 @@ public class ExportSession
 					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myWeight,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
-					myStr[9]		//jumpRj.Description
+					myStr[9] + ":" + 	//jumpRj.Description
+					//myStr[17] + ":" + 	//jumpRj.Angle
+					myStr[18] //simulated
 					);
 			
 			if(showSubjumps) {
@@ -468,7 +447,8 @@ public class ExportSession
 					Catalog.GetString("Distance") + ":" + 
 					Catalog.GetString("Time") + ":" + 
 					Catalog.GetString("Speed") + ":" + 
-					Catalog.GetString("Description") );
+					Catalog.GetString("Description") + ":" +
+					Catalog.GetString("Simulated") );
 
 			foreach (string runString in myRuns) {
 				string [] myStr = runString.Split(new char[] {':'});
@@ -478,7 +458,7 @@ public class ExportSession
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
 						Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + //speed in m/s (true)
-						myStr[7]		//run.description
+						myStr[7] + ":" + myStr[8] //description, simulated
 					   );
 			}
 			writeData(myData);
@@ -511,7 +491,8 @@ public class ExportSession
 						Catalog.GetString("Distance interval") + ":" + 
 						Catalog.GetString("Tracks") + ":" + 
 						Catalog.GetString("Limited") + ":" +
-						Catalog.GetString("Description") );
+						Catalog.GetString("Description") + ":" +
+						Catalog.GetString("Simulated") );
 				isFirstHeader = false;
 			}
 
@@ -523,7 +504,7 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
 					myStr[9] + ":" +  Util.GetLimitedRounded(myStr[11], dec) + ":" + 	//tracks, limited
-					myStr[10]		//description
+					myStr[10] + ":" + myStr[11]	//description, simulated
 				   );
 			
 			if(showSubruns) {
@@ -579,7 +560,8 @@ public class ExportSession
 					Catalog.GetString("Person") + ":" +
 					Catalog.GetString("Reaction time ID") + ":" + 
 					Catalog.GetString("Time") + ":" + 
-					Catalog.GetString("Description") );
+					Catalog.GetString("Description") + ":" +
+					Catalog.GetString("Simulated") );
 
 			foreach (string rtString in myReactionTimes) {
 				string [] myStr = rtString.Split(new char[] {':'});
@@ -589,7 +571,7 @@ public class ExportSession
 						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
 						//myStr[4] + ":" +  //type
 						Util.TrimDecimals(myStr[5], dec) + ":" + 	//time
-						myStr[6]		//description
+						myStr[6] + ":" + myStr[7]	//description, simulated
 					   );
 			}
 			writeData(myData);
@@ -615,13 +597,14 @@ public class ExportSession
 					Catalog.GetString("Pulse ID") + ":" + 
 					Catalog.GetString("Type") + ":" + 
 					//Catalog.GetString("Time") + ":" +
-					Catalog.GetString("Description") );
+					Catalog.GetString("Description") + ":" +
+					Catalog.GetString("Simulated") );
 
 			string [] myStr = pulseString.Split(new char[] {':'});
 			myData.Add (
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, pulse.uniqueID
 					myStr[4] + ":" +  		 	//type
-					myStr[8]		//description
+					myStr[8] + ":" + myStr[9]		//description, simulated
 				   );
 			
 			writeData(myData);

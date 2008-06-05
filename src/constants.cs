@@ -37,14 +37,13 @@ public class Constants
 	//instead of typing the tableName directly (that can crash if it's bad written and it's not detected by compiler)
 	//use the following consts, and if it's misspelled, compiler will know
 	public const string PersonTable = "person";
-	public const string TempPersonTable = "tempPerson";
 	public const string SessionTable = "session";
-	public const string TempSessionTable = "tempSession";
 	public const string PersonSessionTable = "personSession";
 	public const string PersonSessionWeightTable = "personSessionWeight";
 	public const string SportTable = "sport";
 	public const string SpeciallityTable = "speciallity";
 	public const string PreferencesTable = "preferences";
+	public const string ConvertTempTable = "convertTemp"; //for conversions
 	//tests
 	public const string JumpTable = "jump";
 	public const string JumpRjTable = "jumpRj";
@@ -54,6 +53,7 @@ public class Constants
 	public const string TempRunIntervalTable = "tempRunInterval";
 	public const string PulseTable = "pulse";
 	public const string ReactionTimeTable = "reactionTime";
+
 	//tests types
 	public const string JumpTypeTable = "jumpType";
 	public const string JumpRjTypeTable = "jumpRjType";

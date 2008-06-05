@@ -241,7 +241,7 @@ public class EditRunIntervalWindow : EditRunWindow
 
 
 	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteRun.IntervalUpdate(eventID, personID, description);
+		SqliteRunInterval.Update(eventID, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
@@ -514,28 +514,31 @@ public class RepairRunIntervalWindow
 			
 		//calculate other variables needed for runInterval creation
 		
-		int runs = Util.GetNumberOfJumps(timeString, false); //don't need a GetNumberOfRuns, this works
-		string limitString = "";
+		runInterval.Tracks = Util.GetNumberOfJumps(timeString, false); //don't need a GetNumberOfRuns, this works
+		runInterval.TimeTotal = Util.GetTotalTime(timeString);
+		runInterval.DistanceTotal = runInterval.TimeTotal * runInterval.DistanceInterval;
 	
 		if(runType.FixedValue > 0) {
 			//if this runType has a fixed value of runs or time, limitstring has not changed
 			if(runType.TracksLimited) {
-				limitString = runType.FixedValue.ToString() + "R";
+				runInterval.Limited = runType.FixedValue.ToString() + "R";
 			} else {
-				limitString = runType.FixedValue.ToString() + "T";
+				runInterval.Limited = runType.FixedValue.ToString() + "T";
 			}
 		} else {
 			//else limitstring should be calculated
 			if(runType.TracksLimited) {
-				limitString = runs.ToString() + "R";
+				runInterval.Limited = runInterval.Tracks.ToString() + "R";
 			} else {
-				limitString = Util.GetTotalTime(timeString) + "T";
+				runInterval.Limited = runInterval.TimeTotal + "T";
 			}
 		}
 
 		//save it deleting the old first for having the same uniqueID
-		SqliteRun.Delete("runInterval", runInterval.UniqueID.ToString());
-		SqliteRun.InsertInterval("runInterval", runInterval.UniqueID.ToString(), 
+		SqliteRun.Delete(Constants.RunIntervalTable, runInterval.UniqueID.ToString());
+		runInterval.InsertAtDB(false, Constants.RunIntervalTable); 
+		/*
+		SqliteRun.InsertInterval(false, Constants.RunIntervalTable, runInterval.UniqueID.ToString(), 
 				runInterval.PersonID, runInterval.SessionID, 
 				runInterval.Type, 
 				runs * runInterval.DistanceInterval,	//distanceTotal
@@ -545,6 +548,7 @@ public class RepairRunIntervalWindow
 				runInterval.Description,
 				limitString
 				);
+				*/
 
 		//close the window
 		RepairRunIntervalWindowBox.repair_sub_event.Hide();

@@ -31,14 +31,19 @@ using Mono.Data.Sqlite;
 
 class SqlitePulse : Sqlite
 {
+	public SqlitePulse() {
+	}
+	
+	~SqlitePulse() {}
+
 	/*
 	 * create and initialize tables
 	 */
 	
-	protected internal static void createTable()
+	protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE " + Constants.PulseTable + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
@@ -46,7 +51,8 @@ class SqlitePulse : Sqlite
 			"fixedPulse FLOAT, " +
 			"totalPulsesNum INT, " +
 			"timeString TEXT, " +
-			"description TEXT )";		
+			"description TEXT, " +
+			"simulated INT )";		
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -55,18 +61,22 @@ class SqlitePulse : Sqlite
 	 * Pulse class methods
 	 */
 	
-	public static int Insert(string uniqueID, int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description, int simulated)
 	{
-		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO " + Constants.PulseTable + 
-				" (uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timeString, description)" +
+		if(! dbconOpened)
+			dbcon.Open();
+	
+		dbcmd.CommandText = "INSERT INTO " + tableName + 
+				" (uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timeString, description, simulated)" +
 				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", '"
-				+ timeString + "', '" + description + "')" ;
+				+ timeString + "', '" + description + "', " + simulated + ")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
-		dbcon.Close();
+
+		if(! dbconOpened)
+			dbcon.Close();
 
 		return myLast;
 	}
@@ -102,7 +112,8 @@ class SqlitePulse : Sqlite
 					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + //fixedPulse
 					reader[6].ToString() + ":" + //totalPulsesNum
 					Util.ChangeDecimalSeparator(reader[7].ToString()) + ":" + //timesString
-					reader[8].ToString() + ":"  	//description
+					reader[8].ToString() + ":" +  	//description
+					reader[9].ToString()	  	//simulated
 					);
 			count ++;
 		}
@@ -132,6 +143,8 @@ class SqlitePulse : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
+		Pulse myPulse = new Pulse(DataReaderToStringArray(reader, 9));
+		/*
 		Pulse myPulse = new Pulse(
 				Convert.ToInt32(reader[0]),	//uniqueID
 				Convert.ToInt32(reader[1]),	//personID
@@ -140,8 +153,10 @@ class SqlitePulse : Sqlite
 				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //fixedPulsel
 				Convert.ToInt32(reader[5]),	//totalPulsesNum
 				reader[6].ToString(),		//timesString
-				reader[7].ToString()		//description
+				reader[7].ToString(),		//description
+				reader[8].ToString()		//simulated
 				);
+				*/
 
 		dbcon.Close();
 		return myPulse;

@@ -291,11 +291,12 @@ Log.WriteLine("MANAGE(3)!!!!");
 			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
 		appbar.Push( 1,myStringPush );
 
-		uniqueID = SqliteRun.Insert(personID, sessionID, 
-				type, distance, time, ""); //type, distance, time, description
+		uniqueID = SqliteRun.Insert(false, Constants.RunTable, "NULL", personID, sessionID, 
+				type, distance, time, "", //description
+				Util.BoolToInt(simulated)); 
 		
 		//define the created object
-		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, ""); 
+		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, "", Util.BoolToInt(simulated)); 
 		
 		
 		//event will be raised, and managed in chronojump.cs
@@ -721,24 +722,26 @@ public class RunIntervalExecute : RunExecute
 	
 		if(tempTable)
 			{
-			SqliteRun.InsertInterval("tempRunInterval", "NULL", personID, sessionID, type, 
+			SqliteRunInterval.Insert(false, Constants.TempRunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
 					distanceInterval, intervalTimesString, tracks, 
 					"", 					//description
-					limitString
+					limitString,
+					Util.BoolToInt(simulated) 
 					);
 			}
 
 		else {
-			uniqueID = SqliteRun.InsertInterval("runInterval", "NULL", personID, sessionID, type, 
+			uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
 					distanceInterval, intervalTimesString, tracks, 
 					"", 					//description
-					limitString
+					limitString,
+					Util.BoolToInt(simulated) 
 					);
 
 			//define the created object
-			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, "", limitString); 
+			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, "", limitString, Util.BoolToInt(simulated)); 
 
 
 			string tempValuesString = "";

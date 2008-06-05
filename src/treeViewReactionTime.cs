@@ -63,6 +63,7 @@ public class TreeViewReactionTimes : TreeViewEvent
 		myReactionTime.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
 		myReactionTime.Time = Convert.ToDouble(myStringOfData[5].ToString());
 		myReactionTime.Description = myStringOfData[6].ToString();
+		myReactionTime.Simulated = Convert.ToInt32(myStringOfData[7].ToString());
 
 		return myReactionTime;
 	}
@@ -71,10 +72,14 @@ public class TreeViewReactionTimes : TreeViewEvent
 	{
 		ReactionTime newReactionTime = (ReactionTime)myObject;
 
+		string title = "";
+		if(newReactionTime.Simulated == 1)
+			title += " (s) ";
+
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 		//myData[count++] = newReactionTime.Type;
-		myData[count++] = "";
+		myData[count++] = title;
 		myData[count++] = Util.TrimDecimals(newReactionTime.Time.ToString(), pDN);
 		
 		myData[count++] = newReactionTime.Description;

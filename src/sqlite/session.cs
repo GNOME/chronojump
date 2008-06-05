@@ -32,7 +32,7 @@ using Mono.Unix;
 
 class SqliteSession : Sqlite
 {
-	//can be "Constants.SessionTable" or "Constants.TempSessionTable"
+	//can be "Constants.SessionTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
 	protected internal static void createTable(string tableName)
 	{
@@ -454,13 +454,16 @@ class SqliteSession : Sqlite
 		}
 	}
 
+	/* 
+	 * don't do more like this, use Sqlite.convertTables()
+	 */
 	//change DB from 0.55 to 0.56
 	protected internal static void convertTableAddingSportStuff() 
 	{
 		ArrayList myArray = new ArrayList(2);
 
 		//1st create a temp table
-		createTable(Constants.TempSessionTable);
+		createTable(Constants.ConvertTempTable);
 			
 		//2nd copy all data from session table to temp table
 		dbcmd.CommandText = "SELECT * " + 
@@ -479,7 +482,7 @@ class SqliteSession : Sqlite
 		reader.Close();
 
 		foreach (Session mySession in myArray)
-			Insert(true, Constants.TempSessionTable,
+			Insert(true, Constants.ConvertTempTable,
 				mySession.Name, mySession.Place, mySession.Date, 
 				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
 
@@ -497,7 +500,7 @@ class SqliteSession : Sqlite
 
 
 		//6th drop temp table
-		Sqlite.dropTable(Constants.TempSessionTable);
+		Sqlite.dropTable(Constants.ConvertTempTable);
 	}
 	
 

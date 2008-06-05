@@ -51,7 +51,7 @@ public class Run : Event
 	}
 
 	//after inserting database (SQL)
-	public Run(int uniqueID, int personID, int sessionID, string type, double distance, double time, string description)
+	public Run(int uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -60,6 +60,28 @@ public class Run : Event
 		this.distance = distance;
 		this.time = time;
 		this.description = description;
+		this.simulated = simulated;
+	}
+
+	//used to select a run at SqliteRun.SelectNormalRunData and at Sqlite.addSimulatedInEventTables
+	public Run(string [] eventString)
+	{
+		this.uniqueID = Convert.ToInt32(eventString[0]);
+		this.personID = Convert.ToInt32(eventString[1]);
+		this.sessionID = Convert.ToInt32(eventString[2]);
+		this.type = eventString[3].ToString();
+		this.distance = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[4]));
+		this.time = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[5]));
+		this.description = eventString[6].ToString();
+		this.simulated = Convert.ToInt32(eventString[7]);
+	}
+
+	public override void InsertAtDB (bool dbconOpened, string tableName) {
+		SqliteRun.Insert(dbconOpened, tableName, 
+				uniqueID.ToString(), 
+				personID, sessionID, 
+				type, distance, time, 
+				description, simulated);
 	}
 
 	
@@ -90,6 +112,7 @@ public class Run : Event
 		set { metersSecondsPreferred = value; }
 	}
 
+	
 	~Run() {}
 	   
 }
@@ -110,7 +133,7 @@ public class RunInterval : Run
 	}
 	
 	//after inserting database (SQL)
-	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited)
+	public RunInterval(int uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -123,6 +146,34 @@ public class RunInterval : Run
 		this.tracks = tracks;
 		this.description = description;
 		this.limited = limited;
+		this.simulated = simulated;
+	}
+
+	//used to select a run at SqliteRun.SelectIntervalRunData and at Sqlite.addSimulatedInEventTables
+	public RunInterval(string [] eventString)
+	{
+		this.uniqueID = Convert.ToInt32(eventString[0]);
+		this.personID = Convert.ToInt32(eventString[1]);
+		this.sessionID = Convert.ToInt32(eventString[2]);
+		this.type = eventString[3].ToString();
+		this.distanceTotal = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[4]));
+		this.timeTotal = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[5]));
+		this.distanceInterval = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[6]));
+		this.intervalTimesString = Util.ChangeDecimalSeparator(eventString[7]);
+		this.tracks = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[8]));
+		this.description = eventString[9].ToString();
+		this.limited = eventString[10].ToString();
+		this.simulated = Convert.ToInt32(eventString[11]);
+	}
+
+	public override void InsertAtDB (bool dbconOpened, string tableName) {
+		SqliteRunInterval.Insert(dbconOpened, tableName, 
+				uniqueID.ToString(), 
+				personID, sessionID, 
+				type, distanceTotal, timeTotal, 
+				distanceInterval, intervalTimesString,
+				tracks, description, 
+				limited, simulated);
 	}
 
 	public string IntervalTimesString
@@ -154,7 +205,7 @@ public class RunInterval : Run
 		get { return tracks; }
 		set { tracks = value; }
 	}
-		
+	
 	public string Limited
 	{
 		get { return limited; }

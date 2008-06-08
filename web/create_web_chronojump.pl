@@ -40,6 +40,14 @@ my $glossaryLink = "http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojum
 
 my $awards .= "http://tropheesdulibre.org";
 
+my $construccio_dispositius_mesuraLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/construccio_dispositius_mesura.avi";
+my $fonaments_teorics_bescos_velezLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/fonaments_teorics-bescos-velez.avi";
+my $fonaments_teorics_padullesLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/fonaments_teorics-padulles.avi";
+my $homenatge_carmelo_boscoLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/homenatge_carmelo_bosco.avi";
+my $instalacio_construccio_adquisicioLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/instalacio_construccio_adquisicio.avi";
+my $projecte_chronojumpLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/projecte_chronojump.avi";
+my $us_chronojump_bescos_padullesLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/us_chronojump-bescos-padulles.avi";
+
 
 my $siteURL = "http://www.gnome.org/projects/chronojump";
 #my $siteURL = ".";
@@ -366,6 +374,15 @@ sub getConstants {
 	$pageContent =~ s/:::maemoMailDownloadName:::/$maemoMailDownloadName/g;
 	$pageContent =~ s/:::changesMailDownloadLink:::/$changesMailDownloadLink/g;
 	$pageContent =~ s/:::awards:::/$awards/g;
+
+	#Vic conferences
+	$pageContent =~ s/:::construccio_dispositius_mesuraLink:::/$construccio_dispositius_mesuraLink/g;
+	$pageContent =~ s/:::fonaments_teorics_bescos_velezLink:::/$fonaments_teorics_bescos_velezLink/g;
+	$pageContent =~ s/:::fonaments_teorics_padullesLink:::/$fonaments_teorics_padullesLink/g;
+	$pageContent =~ s/:::homenatge_carmelo_boscoLink:::/$homenatge_carmelo_boscoLink/g;
+	$pageContent =~ s/:::instalacio_construccio_adquisicioLink:::/$instalacio_construccio_adquisicioLink/g;
+	$pageContent =~ s/:::projecte_chronojumpLink:::/$projecte_chronojumpLink/g;
+	$pageContent =~ s/:::us_chronojump_bescos_padullesLink:::/$us_chronojump_bescos_padullesLink/g;
 
 	my $newDate = getLocalisedDate($langSuffix, $currentVersionDay, $currentVersionMonth, $currentVersionYear);
 	$pageContent =~ s/:::currentVersionDate:::/$newDate/g;

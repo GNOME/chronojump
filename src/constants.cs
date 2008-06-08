@@ -43,6 +43,7 @@ public class Constants
 	public const string SportTable = "sport";
 	public const string SpeciallityTable = "speciallity";
 	public const string PreferencesTable = "preferences";
+	public const string CountryTable = "country";
 	public const string ConvertTempTable = "convertTemp"; //for conversions
 	//tests
 	public const string JumpTable = "jump";
@@ -236,6 +237,8 @@ public class Constants
 	public static string SpeciallityUndefined = "Undefined"; 
 	private static string dumbVariableForTranslatingSpeciallityUndefined = Catalog.GetString("Undefined");
 	
+	public static int CountryUndefinedID = 1;
+	public static string CountryUndefined = "Undefined"; 
 	
 	//levels of sport practice
 	//int will go into person database

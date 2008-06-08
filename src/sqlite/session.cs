@@ -34,7 +34,8 @@ class SqliteSession : Sqlite
 {
 	//can be "Constants.SessionTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
-	protected internal static void createTable(string tableName)
+	protected new internal static void createTable(string tableName)
+	//protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + tableName + " ( " +

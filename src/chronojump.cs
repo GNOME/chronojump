@@ -46,6 +46,7 @@ public class ChronoJump
 	bool needEndSplashWin = false;
 	bool needUpdateSplashMessage = false;
 	string splashMessage = "";
+	bool creatingDB = false; //on creation and on update always refresh labels
 	bool updatingDB = false;
 
 
@@ -113,11 +114,13 @@ public class ChronoJump
 		if (!Sqlite.CheckTables()) {
 			Log.WriteLine ( Catalog.GetString ("no tables, creating ...") );
 
+			creatingDB = true;
 			splashMessageChange(2);  //creating database
 
 			Sqlite.CreateFile();
 			File.Create(runningFileName);
 			Sqlite.CreateTables();
+			creatingDB = false;
 		} else {
 			//backup the database
 			Util.BackupDirCreateIfNeeded();
@@ -136,6 +139,9 @@ public class ChronoJump
 					//check (spanish)
 					//http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
 					string errorMessage = Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed. \nIf problems persist ask in chronojump-list");
+					errorMessage += "\n\n" + string.Format(Catalog.GetString("If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"), 
+							Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db") + 
+						"\n" + Catalog.GetString("And starting Chronojump again.");
 					Log.WriteLine(errorMessage);
 					messageToShowOnBoot += errorMessage;
 					chronojumpHasToExit = true;
@@ -237,15 +243,25 @@ public class ChronoJump
 		}
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending
 		splashWin = SplashWindow.Show();
-		splashWin.Pulse();
 		//Log.WriteLine("splash");
 
-		if(updatingDB) 
-			splashWin.UpdateLabel(splashMessage + " " + Sqlite.PrintConversionRate());
-		else if(needUpdateSplashMessage) {
+		if(updatingDB) {
+			splashWin.ShowProgressbar("updating");
+			splashWin.UpdateLabel(splashMessage + " " + Sqlite.PrintConversionText());
+		
+			splashWin.UpdateProgressbar("version", Sqlite.PrintConversionVersion());
+			splashWin.UpdateProgressbar("rate", Sqlite.PrintConversionRate());
+			splashWin.UpdateProgressbar("subrate", Sqlite.PrintConversionSubRate());
+		} else if(creatingDB) {
+			splashWin.ShowProgressbar("creating");
+			splashWin.UpdateProgressbar("version", Sqlite.PrintCreation());
+		}
+
+		if(needUpdateSplashMessage) {
 			splashWin.UpdateLabel(splashMessage);
 			needUpdateSplashMessage = false;
 		}
+			
 
 		Thread.Sleep (50);
 		Log.Write(thread.ThreadState.ToString());

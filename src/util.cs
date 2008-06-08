@@ -834,4 +834,14 @@ public class Util
 
 		return foundLevelName;
 	}
+
+	//avoids fivide by zero
+	public static double DivideSafe (double val1, double val2) {
+		double result = val1 / val2;
+		if(result > 1)
+			result = 1;
+		else if(result < 0)
+			result = 0;
+		return result;
+	}
 }

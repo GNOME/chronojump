@@ -28,6 +28,7 @@ src/jumpType.cs
 src/platform.cs
 src/report.cs
 src/runType.cs
+src/sqlite/country.cs
 src/sqlite/personSession.cs
 src/sqlite/speciallity.cs
 src/sqlite/sport.cs

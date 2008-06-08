@@ -28,7 +28,9 @@ public class SplashWindow
 {
 	[Widget] Gtk.Window splash_window;
 	[Widget] Gtk.Image image_logo;
-	[Widget] Gtk.ProgressBar progressbar1;
+	[Widget] Gtk.ProgressBar progressbarVersion;
+	[Widget] Gtk.ProgressBar progressbarRate;
+	[Widget] Gtk.ProgressBar progressbarSubRate;
 	[Widget] Gtk.Label myLabel;
 
 	static SplashWindow SplashWindowBox;
@@ -41,6 +43,8 @@ public class SplashWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(splash_window);
+
+		hideAllProgressbars();
 
 		//put logo image
 		Pixbuf pixbuf;
@@ -58,13 +62,35 @@ public class SplashWindow
 		return SplashWindowBox;
 	}
 
+	private void hideAllProgressbars() 
+	{
+		progressbarVersion.Hide();
+		progressbarRate.Hide();
+		progressbarSubRate.Hide();
+	}
+
+	public void ShowProgressbar(string option) {
+		if(option == "creating")
+			progressbarVersion.Show();
+		else if (option == "updating") {
+			progressbarVersion.Show();
+			progressbarRate.Show();
+			progressbarSubRate.Show();
+		}
+	}
+
+	public void UpdateProgressbar (string pbString, double fraction) {
+		if(pbString == "version")
+			progressbarVersion.Fraction = fraction;
+		else if(pbString == "rate")
+			progressbarRate.Fraction = fraction;
+		else 
+			progressbarSubRate.Fraction = fraction;
+	}
+		
 			
 	public void UpdateLabel (string text) {
 		myLabel.Text = text;
-	}
-	
-	public void Pulse() {
-		progressbar1.Pulse();
 	}
 
 	public void Destroy () {

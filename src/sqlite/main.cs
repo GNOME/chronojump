@@ -47,8 +47,12 @@ class Sqlite
 
 	static string connectionString = "version = 3; Data source = " + sqlFile;
 
-	//for conversion
-	static string currentVersion = "";
+	//for db creation
+	static int creationRate;
+	static int creationTotal;
+
+	//for db conversion
+	static string currentVersion = "0";
 	static int conversionRate;
 	static int conversionRateTotal;
 	static int conversionSubRate;
@@ -225,11 +229,26 @@ class Sqlite
 
 	}
 
-	public static string PrintConversionRate() {
+	//for splashWin text
+	public static string PrintConversionText() {
 		double toReach = Convert.ToDouble(lastChronojumpDatabaseVersion);
 		return currentVersion + "/" + toReach.ToString() + " " +
 			conversionRate.ToString() + "/" + conversionRateTotal.ToString() + " " +
 			conversionSubRate.ToString() + "/" + conversionSubRateTotal.ToString() + " ";
+	}
+
+	//for splashWin progressbars
+	public static double PrintCreation() {
+		return Util.DivideSafe(creationRate, creationTotal);
+	}
+	public static double PrintConversionVersion() {
+		return Util.DivideSafe(Convert.ToDouble(currentVersion), Convert.ToDouble(lastChronojumpDatabaseVersion));
+	}
+	public static double PrintConversionRate() {
+		return Util.DivideSafe(conversionRate, conversionRateTotal);
+	}
+	public static double PrintConversionSubRate() {
+		return Util.DivideSafe(conversionSubRate, conversionSubRateTotal);
 	}
 
 	public static bool ConvertToLastChronojumpDBVersion() {
@@ -458,7 +477,7 @@ class Sqlite
 				arrayAngleAndSimulated.Add("-1"); //angle
 				arrayAngleAndSimulated.Add("-1"); //simulated
 
-				conversionRateTotal = 7;
+				conversionRateTotal = 8;
 				conversionRate = 1;
 				convertTables(new SqliteJump(), Constants.JumpTable, 9, arrayAngleAndSimulated);
 				conversionRate ++;
@@ -481,10 +500,14 @@ class Sqlite
 				//SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
 				sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 
+				conversionRate ++;
+				SqliteCountry.createTable();
+				SqliteCountry.initialize();
+
 				SqlitePreferences.Update ("databaseVersion", "0.57", true); 
 				dbcon.Close();
 				
-				Log.WriteLine("Added simulated column to each event table on client");
+				Log.WriteLine("Added simulated column to each event table on client. Added country");
 				currentVersion = "0.57";
 			}
 		}
@@ -514,11 +537,14 @@ class Sqlite
 	{
 		dbcon.Open();
 
+		creationTotal = 12;
+		creationRate = 1;
 		SqlitePerson.createTable(Constants.PersonTable);
 
 		//graphLinkTable
 		SqliteEvent.createGraphLinkTable();
-	
+		creationRate ++;
+		
 		//jumps
 		SqliteJump sqliteJumpObject = new SqliteJump();
 		SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
@@ -530,12 +556,14 @@ class Sqlite
 		sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
 
 		//jump Types
+		creationRate ++;
 		SqliteJumpType.createTableJumpType();
 		SqliteJumpType.createTableJumpRjType();
 		SqliteJumpType.initializeTableJumpType();
 		SqliteJumpType.initializeTableJumpRjType();
 		
 		//runs
+		creationRate ++;
 		SqliteRun sqliteRunObject = new SqliteRun();
 		SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
 		//SqliteRun.createTable(Constants.RunTable);
@@ -546,37 +574,48 @@ class Sqlite
 		sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 		
 		//run Types
+		creationRate ++;
 		SqliteRunType.createTableRunType();
 		SqliteRunType.createTableRunIntervalType();
 		SqliteRunType.initializeTableRunType();
 		SqliteRunType.initializeTableRunIntervalType();
 		
 		//reactionTimes
+		creationRate ++;
 		SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime();
 		sqliteReactionTimeObject.createTable(Constants.ReactionTimeTable);
 		
 		//pulses and pulseTypes
+		creationRate ++;
 		SqlitePulse sqlitePulseObject = new SqlitePulse();
 		sqlitePulseObject.createTable(Constants.PulseTable);
 		SqlitePulseType.createTablePulseType();
 		SqlitePulseType.initializeTablePulseType();
 	
 		//sports
+		creationRate ++;
 		SqliteSport.createTable();
 		SqliteSport.initialize();
 		SqliteSpeciallity.createTable();
 		SqliteSpeciallity.initialize();
 		SqliteSpeciallity.InsertUndefined(true);
 
+		creationRate ++;
 		SqliteSession.createTable(Constants.SessionTable);
 		
+		creationRate ++;
 		SqlitePersonSession.createTable();
 		
+		creationRate ++;
 		SqlitePreferences.createTable();
 		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion);
 		
+		creationRate ++;
+		SqliteCountry.createTable();
+		SqliteCountry.initialize();
+		
 		//changes [from - to - desc]
-		//0.56 - 0.57 Added simulated column to each event table on client
+		//0.56 - 0.57 Added simulated column to each event table on client. Added country
 		//0.55 - 0.56 Added session default sport stuff into session table
 		//0.54 - 0.55 Added undefined to speciallity table
 		//0.53 - 0.54 created sport tables. Added sport data, speciallity and level of practice to person table
@@ -596,6 +635,7 @@ class Sqlite
 		
 
 		dbcon.Close();
+		creationRate ++;
 	}
 
 	public static bool Exists(string tableName, string findName)

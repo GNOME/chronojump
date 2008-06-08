@@ -820,7 +820,7 @@ InstallComponent 12C7B081-AB4C-1176-7B09-DC035633E046 -setup Install -type pane 
 InstallComponent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -setup Install -type pane -conditions {5A102ED2-6522-7E2D-6206-6241C1C5B4D4 F3ADE40C-1315-8E0A-906B-103FAE94CF0E} -title {Mono Windows install} -component CustomBlankPane1 -command insert -alias {Mono Windows install} -active Yes -parent StandardInstall
 Condition 5A102ED2-6522-7E2D-6206-6241C1C5B4D4 -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -title {Platform Condition} -component PlatformCondition
 Condition F3ADE40C-1315-8E0A-906B-103FAE94CF0E -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0 -title {Registry Test Condition} -component RegistryTestCondition
-InstallComponent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -setup Install -type action -conditions FFAF0F01-244A-26B7-A100-C1713A1CFE2F -title InstallMonoWindowsActions -component ExecuteAction -operator OR -command insert -alias InstallMonoWindowsActions -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
+InstallComponent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -setup Install -type action -conditions FFAF0F01-244A-26B7-A100-C1713A1CFE2F -title InstallMonoWindowsActions -component ExecuteAction -operator OR -command reorder -alias InstallMonoWindowsActions -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
 Condition FFAF0F01-244A-26B7-A100-C1713A1CFE2F -active Yes -parent 6B7975BC-0F80-AACD-DE3D-C40A372B33B4 -title {Platform Condition} -component PlatformCondition
 InstallComponent C1D1F678-E415-9B9E-1A79-05D862F4EB8A -setup Install -type action -conditions {142351D4-8889-E7D6-F79B-B4B940887D02 54A56E5F-C3C7-087A-F024-C7BC97283251} -title {Move to Pane} -component MoveToPane -command insert -active Yes -parent 58560ED4-175E-55FA-E8BD-438ABE6EFEA0
 Condition 142351D4-8889-E7D6-F79B-B4B940887D02 -active Yes -parent C1D1F678-E415-9B9E-1A79-05D862F4EB8A -title {Platform Condition} -component PlatformCondition
@@ -835,7 +835,7 @@ Condition 555ABE88-A754-9EC6-63AA-AE54E5C868E2 -active Yes -parent 30093C0D-05D6
 InstallComponent 49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3 -setup Install -type action -conditions {B50D3D19-418C-BD12-9A5C-119A7B072695 624512F3-C4CF-D0E7-C864-B587C21B9742} -title {Move to Pane} -component MoveToPane -command insert -active Yes -parent 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC
 Condition B50D3D19-418C-BD12-9A5C-119A7B072695 -active Yes -parent 49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3 -title {Platform Condition} -component PlatformCondition
 Condition 624512F3-C4CF-D0E7-C864-B587C21B9742 -active Yes -parent 49F37AD8-E86B-78D7-2DC9-05FFCF1BEDC3 -title {Execute Script Condition} -component ExecuteScriptCondition
-InstallComponent 10254803-9C89-39D8-7879-B04E8250B6B5 -setup Install -type pane -conditions {C298C2E9-3B69-82BE-556E-671E30277A8A 39F46615-DB3E-E7E8-463A-531CB0B37B46 AE8E9951-5FA8-E483-6D2C-E5E48F75D332} -title {Mono windows updated} -component CustomBlankPane1 -command insert -alias {Mono windows updated} -active Yes -parent StandardInstall
+InstallComponent 10254803-9C89-39D8-7879-B04E8250B6B5 -setup Install -type pane -conditions {C298C2E9-3B69-82BE-556E-671E30277A8A 39F46615-DB3E-E7E8-463A-531CB0B37B46 AE8E9951-5FA8-E483-6D2C-E5E48F75D332} -title {Mono windows updated} -component CustomBlankPane1 -command reorder -alias {Mono windows updated} -active Yes -parent StandardInstall
 Condition C298C2E9-3B69-82BE-556E-671E30277A8A -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Platform Condition} -component PlatformCondition
 Condition 39F46615-DB3E-E7E8-463A-531CB0B37B46 -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Registry Test Condition} -component RegistryTestCondition
 Condition AE8E9951-5FA8-E483-6D2C-E5E48F75D332 -active Yes -parent 10254803-9C89-39D8-7879-B04E8250B6B5 -title {Execute Script Condition} -component ExecuteScriptCondition
@@ -861,7 +861,7 @@ InstallComponent 7EB41496-B2E3-30E1-7867-DBFEC151EB2B -setup Install -type actio
 Condition 96F98447-4F33-D8FD-4DB7-197ED90FBC77 -active Yes -parent 7EB41496-B2E3-30E1-7867-DBFEC151EB2B -title {Platform Condition} -component PlatformCondition
 InstallComponent 53A63017-8385-B8EE-142A-65136147FA12 -setup Install -type action -title {Move Forward} -component MoveForward -active Yes -parent 073E3F8C-ADC8-8230-15C8-2F8108592782
 InstallComponent EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF -setup Install -type pane -title {Setup Complete} -component SetupComplete -active Yes -parent StandardInstall
-InstallComponent 4C465E6F-9D44-F4D7-8064-5ECE64239B91 -setup Install -type action -conditions {4C240F7C-5F6E-02EC-206D-F0D9BA5BEA68 9A10D654-6137-2828-5047-AFF307DE53B8} -title {Launch Application Checkbutton} -component AddWidget -command insert -active Yes -parent EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF
+InstallComponent 4C465E6F-9D44-F4D7-8064-5ECE64239B91 -setup Install -type action -conditions {4C240F7C-5F6E-02EC-206D-F0D9BA5BEA68 9A10D654-6137-2828-5047-AFF307DE53B8} -title {Launch Application Checkbutton} -component AddWidget -command reorder -active Yes -parent EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF
 Condition 4C240F7C-5F6E-02EC-206D-F0D9BA5BEA68 -active Yes -parent 4C465E6F-9D44-F4D7-8064-5ECE64239B91 -title {File Exists Condition} -component FileExistsCondition
 Condition 9A10D654-6137-2828-5047-AFF307DE53B8 -active Yes -parent 4C465E6F-9D44-F4D7-8064-5ECE64239B91 -title {String Is Condition} -component StringIsCondition
 InstallComponent 48B4932D-8D72-1214-5078-F33A9BD89960 -setup Install -type action -conditions {E791CEF9-CCAA-8936-1114-79C5BF368152 5D86A438-171D-8286-765B-F1A104123527} -title {Desktop Shortcut Checkbutton} -component AddWidget -command insert -active Yes -parent EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF
@@ -879,15 +879,17 @@ InstallComponent ACE850F7-7260-0918-ED4D-A043B59676BD -setup Install -type actio
 Condition 3ED374ED-8769-C2E1-A5B4-2611FF0E8792 -active Yes -parent ACE850F7-7260-0918-ED4D-A043B59676BD -title {String Is Condition} -component StringIsCondition
 InstallComponent F68AA157-4B17-FABA-4523-B0D105E7260F -setup Install -type action -conditions E082CAC8-715F-5B82-42E3-7B2FD48577E9 -title {Windows Uninstall Registry} -component AddWindowsUninstallEntry -command insert -active Yes -parent DF44E112-7C44-054E-DDC6-7B8E119C230E
 Condition E082CAC8-715F-5B82-42E3-7B2FD48577E9 -active Yes -parent F68AA157-4B17-FABA-4523-B0D105E7260F -title {String Is Condition} -component StringIsCondition
-InstallComponent BBFC8BB2-978A-6A82-64A5-956543B03628 -setup Install -type action -conditions B68C718A-7D67-2AE8-FDD8-525A5B934E19 -title {Program Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent DF44E112-7C44-054E-DDC6-7B8E119C230E
+InstallComponent BBFC8BB2-978A-6A82-64A5-956543B03628 -setup Install -type action -conditions B68C718A-7D67-2AE8-FDD8-525A5B934E19 -title chronojump_shortcut -component InstallProgramFolderShortcut -command reorder -alias chronojump_shortcut -active Yes -parent DF44E112-7C44-054E-DDC6-7B8E119C230E
 Condition B68C718A-7D67-2AE8-FDD8-525A5B934E19 -active Yes -parent BBFC8BB2-978A-6A82-64A5-956543B03628 -title {String Is Condition} -component StringIsCondition
+InstallComponent 0772E47E-FC55-13C6-57FA-B9E06677B816 -setup Install -type action -conditions E4939328-D7E4-1EC3-CCCD-4EEA083B5BBD -title {chronojump_mini shortcut} -component InstallProgramFolderShortcut -command reorder -alias {chronojump_mini shortcut} -active Yes -parent DF44E112-7C44-054E-DDC6-7B8E119C230E
+Condition E4939328-D7E4-1EC3-CCCD-4EEA083B5BBD -active Yes -parent 0772E47E-FC55-13C6-57FA-B9E06677B816 -title {String Is Condition} -component StringIsCondition
 InstallComponent 446BFF70-66AA-8729-5EB1-E5DFB83FCCA9 -setup Install -type action -conditions D8492003-5C19-FCC6-D2C2-BC6E7D29FD09 -title {Uninstall Shortcut} -component InstallProgramFolderShortcut -command insert -active Yes -parent DF44E112-7C44-054E-DDC6-7B8E119C230E
 Condition D8492003-5C19-FCC6-D2C2-BC6E7D29FD09 -active Yes -parent 446BFF70-66AA-8729-5EB1-E5DFB83FCCA9 -title {String Is Condition} -component StringIsCondition
 InstallComponent FC32BEF7-192F-A3D5-C190-6F5BDF2B783E -setup Install -type actiongroup -title {Finish Actions} -alias {Finish Actions} -active Yes -parent ActionGroupsInstall
-InstallComponent 97C38F94-90CA-6717-CC51-78D0D43EE48A -setup Install -type action -conditions {B9C43883-A007-209B-5187-6894BC5C7C65 12BBAD85-A1BB-2F0E-874F-2638E1CE6B6F} -title {Install Desktop Shortcut} -component InstallDesktopShortcut -command insert -active Yes -parent FC32BEF7-192F-A3D5-C190-6F5BDF2B783E
+InstallComponent 97C38F94-90CA-6717-CC51-78D0D43EE48A -setup Install -type action -conditions {B9C43883-A007-209B-5187-6894BC5C7C65 12BBAD85-A1BB-2F0E-874F-2638E1CE6B6F} -title {Install Desktop Shortcut} -component InstallDesktopShortcut -command reorder -active Yes -parent FC32BEF7-192F-A3D5-C190-6F5BDF2B783E
 Condition B9C43883-A007-209B-5187-6894BC5C7C65 -active Yes -parent 97C38F94-90CA-6717-CC51-78D0D43EE48A -title {String Is Condition} -component StringIsCondition
 Condition 12BBAD85-A1BB-2F0E-874F-2638E1CE6B6F -active Yes -parent 97C38F94-90CA-6717-CC51-78D0D43EE48A -title {File Exists Condition} -component FileExistsCondition
-InstallComponent F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23 -setup Install -type action -conditions {43A515B8-D335-D77D-4CF0-025B35D62CFD 19F2DF18-82AF-7F49-64C2-061CFB249FD3 2204086F-F5B9-392D-E5E1-8C0EDFB4D38B} -title {Launch Application} -component ExecuteExternalProgram -command insert -active Yes -parent FC32BEF7-192F-A3D5-C190-6F5BDF2B783E
+InstallComponent F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23 -setup Install -type action -conditions {43A515B8-D335-D77D-4CF0-025B35D62CFD 19F2DF18-82AF-7F49-64C2-061CFB249FD3 2204086F-F5B9-392D-E5E1-8C0EDFB4D38B} -title {Launch Application} -component ExecuteExternalProgram -command reorder -active Yes -parent FC32BEF7-192F-A3D5-C190-6F5BDF2B783E
 Condition 43A515B8-D335-D77D-4CF0-025B35D62CFD -active Yes -parent F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23 -title {String Is Condition} -component StringIsCondition
 Condition 19F2DF18-82AF-7F49-64C2-061CFB249FD3 -active Yes -parent F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23 -title {String Is Condition} -component StringIsCondition
 Condition 2204086F-F5B9-392D-E5E1-8C0EDFB4D38B -active Yes -parent F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23 -title {File Exists Condition} -component FileExistsCondition
@@ -895,13 +897,13 @@ InstallComponent 25BB083B-B2C6-F7C4-1452-A26D799DA353 -setup Install -type actio
 InstallComponent 385B710C-AC92-98CC-0B32-9E9DBAF28646 -setup Install -type actiongroup -title installMonoWindowsActions -alias installMonoWindowsActions -active Yes -parent ActionGroupsInstall
 InstallComponent C01D7E5D-42C8-06E3-AA57-861C46733A59 -setup Install -type action -title uncompressMonoWindows -component UnpackStoredFile -command reorder -alias uncompressMonoWindows -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
 InstallComponent 96C99CFD-D1AB-A304-994B-F325CB5126D2 -setup Install -type action -title {install mono from windows executable} -component ExecuteExternalProgram -alias {install mono from windows executable} -active Yes -parent 385B710C-AC92-98CC-0B32-9E9DBAF28646
-InstallComponent D6173D47-F333-4546-80F7-E35B4EA32469 -setup Install -type actiongroup -conditions 38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6 -title putMonoPathAndCopyNplot -command insert -alias putMonoPathAndCopyNplot -active Yes -parent ActionGroupsInstall
+InstallComponent D6173D47-F333-4546-80F7-E35B4EA32469 -setup Install -type actiongroup -conditions 38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6 -title putMonoPathAndCopyNplot -command reorder -alias putMonoPathAndCopyNplot -active Yes -parent ActionGroupsInstall
 Condition 38F4EEB1-DC2B-CCF8-60DB-D9FA88F13EF6 -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469 -title {Platform Condition} -component PlatformCondition
-InstallComponent 7950D6BF-C085-89EC-C719-C22E8445FDDE -setup Install -type action -conditions BD034D0C-F1CD-7C43-5CB2-CF52B553BF71 -title getMonoVersion2 -component SetVirtualText -command reorder -alias getMonoVersion2 -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+InstallComponent 7950D6BF-C085-89EC-C719-C22E8445FDDE -setup Install -type action -conditions BD034D0C-F1CD-7C43-5CB2-CF52B553BF71 -title getMonoVersion2 -component SetVirtualText -command insert -alias getMonoVersion2 -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
 Condition BD034D0C-F1CD-7C43-5CB2-CF52B553BF71 -active Yes -parent 7950D6BF-C085-89EC-C719-C22E8445FDDE -title {Platform Condition} -component PlatformCondition
-InstallComponent CB749156-87EF-BA07-7E39-CB2F781C564B -setup Install -type action -conditions 52AAFFD2-F636-A589-4B1C-A2E5215DD479 -title getMonoPath -component SetVirtualText -command reorder -alias getMonoPath -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+InstallComponent CB749156-87EF-BA07-7E39-CB2F781C564B -setup Install -type action -conditions 52AAFFD2-F636-A589-4B1C-A2E5215DD479 -title getMonoPath -component SetVirtualText -command insert -alias getMonoPath -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
 Condition 52AAFFD2-F636-A589-4B1C-A2E5215DD479 -active Yes -parent CB749156-87EF-BA07-7E39-CB2F781C564B -title {Platform Condition} -component PlatformCondition
-InstallComponent 66EDCFB0-45FF-6224-A486-A5660D7BFDC1 -setup Install -type action -conditions 4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B -title writeMonoPath -component WriteTextToFile -command reorder -alias writeMonoPath -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
+InstallComponent 66EDCFB0-45FF-6224-A486-A5660D7BFDC1 -setup Install -type action -conditions 4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B -title writeMonoPath -component WriteTextToFile -command insert -alias writeMonoPath -active No -parent D6173D47-F333-4546-80F7-E35B4EA32469
 Condition 4D38DA3A-6B5C-D5C3-9B45-EBE35888DA7B -active Yes -parent 66EDCFB0-45FF-6224-A486-A5660D7BFDC1 -title {Platform Condition} -component PlatformCondition
 InstallComponent 4426C95F-7D9C-F29A-FBAE-0C23ACF6D42A -setup Install -type action -title {copy Nplot1} -component CopyFile -alias {copy Nplot1} -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
 InstallComponent 68BF38BB-BFD1-CE11-36C1-706981646027 -setup Install -type action -title {copy Nplot2} -component CopyFile -alias {copy Nplot2} -active Yes -parent D6173D47-F333-4546-80F7-E35B4EA32469
@@ -966,6 +968,24 @@ Linux-x86
 
 073E3F8C-ADC8-8230-15C8-2F8108592782,Title,subst
 1
+
+0772E47E-FC55-13C6-57FA-B9E06677B816,Alias
+{chronojump_mini shortcut}
+
+0772E47E-FC55-13C6-57FA-B9E06677B816,Conditions
+{1 condition}
+
+0772E47E-FC55-13C6-57FA-B9E06677B816,IconPath
+<%InstallDir%>/chronojump-<%Version%>/data/chronojump_icon.ico
+
+0772E47E-FC55-13C6-57FA-B9E06677B816,ShortcutName
+chronojump_mini
+
+0772E47E-FC55-13C6-57FA-B9E06677B816,TargetFileName
+chronojump_mini.bat
+
+0772E47E-FC55-13C6-57FA-B9E06677B816,WorkingDirectory
+<%InstallDir%>/chronojump-<%Version%>/windows
 
 0974AC80-C9EA-B238-282F-80C50AF1981F,Alias
 {is mono installed?}
@@ -1561,6 +1581,9 @@ return 0}
 658A10BC-6046-11E0-60F1-BFCFE5B3989D,Platform
 Linux-x86
 
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,Active
+No
+
 66EDCFB0-45FF-6224-A486-A5660D7BFDC1,AddToUninstall
 Yes
 
@@ -1862,10 +1885,10 @@ Windows
 <%AppName%>
 
 97C38F94-90CA-6717-CC51-78D0D43EE48A,TargetFileName
-<%ProgramExecutable%>
+{<%MonoPathRegValue%>/bin/monow.exe <%ProgramExecutable%>}
 
 97C38F94-90CA-6717-CC51-78D0D43EE48A,WorkingDirectory
-<%InstallDir%>/chronojump-<%Version%>/windows/
+<%InstallDir%>/chronojump-<%Version%>/data
 
 9A10D654-6137-2828-5047-AFF307DE53B8,CheckCondition
 {Before Action is Executed}
@@ -2057,6 +2080,9 @@ B9C43883-A007-209B-5187-6894BC5C7C65,CheckCondition
 B9C43883-A007-209B-5187-6894BC5C7C65,String
 <%CreateDesktopShortcut%>
 
+BBFC8BB2-978A-6A82-64A5-956543B03628,Alias
+chronojump_shortcut
+
 BBFC8BB2-978A-6A82-64A5-956543B03628,Conditions
 {1 condition}
 
@@ -2067,10 +2093,10 @@ BBFC8BB2-978A-6A82-64A5-956543B03628,ShortcutName
 <%AppName%>
 
 BBFC8BB2-978A-6A82-64A5-956543B03628,TargetFileName
-<%ProgramExecutable%>
+{<%MonoPathRegValue%>/bin/monow.exe <%ProgramExecutable%>}
 
 BBFC8BB2-978A-6A82-64A5-956543B03628,WorkingDirectory
-<%InstallDir%>/chronojump-<%Version%>/windows/
+<%InstallDir%>/chronojump-<%Version%>/data/
 
 BD034D0C-F1CD-7C43-5CB2-CF52B553BF71,CheckCondition
 {Before Action is Executed}
@@ -2248,6 +2274,15 @@ E3A9B2B7-66C3-77C4-5DB2-F25E797E1697,Subtitle,subst
 
 E3A9B2B7-66C3-77C4-5DB2-F25E797E1697,Title,subst
 1
+
+E4939328-D7E4-1EC3-CCCD-4EEA083B5BBD,CheckCondition
+{Before Action is Executed}
+
+E4939328-D7E4-1EC3-CCCD-4EEA083B5BBD,Operator
+false
+
+E4939328-D7E4-1EC3-CCCD-4EEA083B5BBD,String
+<%UpgradeInstall%>
 
 E51C1501-7EA8-0F27-F3BE-C7B1954C361F,ExitType
 Finish
@@ -2778,7 +2813,7 @@ Windows,InstallType
 Typical
 
 Windows,ProgramExecutable
-<%InstallDir%>/chronojump-<%Version%>/windows/chronojump.bat
+chronojump.prg
 
 Windows,ProgramFolderAllUsers
 No

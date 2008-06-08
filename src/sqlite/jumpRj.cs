@@ -87,7 +87,7 @@ class SqliteJumpRj : SqliteJump
 		return myLast;
 	}
 
-	public static string[] SelectJumps(int sessionID, int personID, string filterWeight) 
+	public new static string[] SelectJumps(int sessionID, int personID, string filterWeight) 
 	{
 		string filterPersonString = "";
 		if(personID != -1)

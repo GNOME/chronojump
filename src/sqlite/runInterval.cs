@@ -82,7 +82,7 @@ class SqliteRunInterval : SqliteRun
 		return myLast;
 	}
 
-	public static string[] SelectAllRuns(int sessionID) 
+	public new static string[] SelectAllRuns(int sessionID) 
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, runInterval.* " +

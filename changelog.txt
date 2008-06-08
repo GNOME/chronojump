@@ -1,5 +1,15 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+8 jun 2008
+	0.7.3.1
+	splashWin with progressBars
+	Added chronojump_mini to start menu o install (untested)
+	install chronojump shortcurts point to mono and the prg (deleted
+	chronojump.bat) (untested)
+	Adding country to DB
+	fixed: 537246 better check db on start (now tell user that maybe
+	delete db is the best)
+
 5 Jun 2008
 	0.7.3
 	at splash screen it's shown conversion rate on update DB

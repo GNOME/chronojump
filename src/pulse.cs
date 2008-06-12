@@ -52,7 +52,7 @@ public class Pulse : Event
 		this.simulated = simulated;
 	}
 
-	//used to select a event at SqlitePulse.SelectPulseData and at Sqlite.addSimulatedInEventTables
+	//used to select a event at SqlitePulse.SelectPulseData and at Sqlite.convertTables
 	public Pulse(string [] eventString) {
 		this.uniqueID = Convert.ToInt32(eventString[0]);
 		this.personID = Convert.ToInt32(eventString[1]);

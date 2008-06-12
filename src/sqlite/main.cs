@@ -272,6 +272,7 @@ class Sqlite
 			returnSoftwareIsNew = false;
 		} else {
 			Log.WriteLine("Old database, need to convert");
+			bool needToConvertPersonToSport = false;
 
 			SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
 			SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
@@ -437,7 +438,8 @@ class Sqlite
 				SqliteSpeciallity.createTable();
 				SqliteSpeciallity.initialize();
 
-				SqlitePerson.convertTableToSportRelated (); 
+				//SqlitePerson.convertTableToSportRelated (); 
+				needToConvertPersonToSport = true;
 				
 				SqlitePreferences.Update ("databaseVersion", "0.54", true); 
 				dbcon.Close();
@@ -477,37 +479,51 @@ class Sqlite
 				arrayAngleAndSimulated.Add("-1"); //angle
 				arrayAngleAndSimulated.Add("-1"); //simulated
 
-				conversionRateTotal = 8;
+				conversionRateTotal = 9;
 				conversionRate = 1;
-				convertTables(new SqliteJump(), Constants.JumpTable, 9, arrayAngleAndSimulated);
+				convertTables(new SqliteJump(), Constants.JumpTable, 9, arrayAngleAndSimulated, false);
 				conversionRate ++;
-				convertTables(new SqliteJumpRj(), Constants.JumpRjTable, 16, arrayAngleAndSimulated);
+				convertTables(new SqliteJumpRj(), Constants.JumpRjTable, 16, arrayAngleAndSimulated, false);
 				conversionRate ++;
-				convertTables(new SqliteRun(), Constants.RunTable, 7, arraySimulated);
+				convertTables(new SqliteRun(), Constants.RunTable, 7, arraySimulated, false);
 				conversionRate ++;
-				convertTables(new SqliteRunInterval(), Constants.RunIntervalTable, 11, arraySimulated);
+				convertTables(new SqliteRunInterval(), Constants.RunIntervalTable, 11, arraySimulated, false);
 				conversionRate ++;
-				convertTables(new SqliteReactionTime(), Constants.ReactionTimeTable, 6, arraySimulated);
+				convertTables(new SqliteReactionTime(), Constants.ReactionTimeTable, 6, arraySimulated, false);
 				conversionRate ++;
-				convertTables(new SqlitePulse(), Constants.PulseTable, 8, arraySimulated);
+				convertTables(new SqlitePulse(), Constants.PulseTable, 8, arraySimulated, false);
 
 				//reacreate temp tables for have also the simulated column
 				conversionRate ++;
 				Sqlite.dropTable(Constants.TempJumpRjTable);
-				//SqliteJumpRj.createTable(Constants.TempJumpRjTable);
 				sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
 				Sqlite.dropTable(Constants.TempRunIntervalTable);
-				//SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
 				sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
 
 				conversionRate ++;
 				SqliteCountry.createTable();
 				SqliteCountry.initialize();
+				
+				conversionRate ++;
+				int columnsBefore = 10;
+				bool putDescriptionInMiddle = false;
+				ArrayList arrayPersonRaceCountryServerID = new ArrayList(1);
+				if(needToConvertPersonToSport) {
+					columnsBefore = 7;
+					arrayPersonRaceCountryServerID.Add(Constants.SportUndefinedID.ToString());
+					arrayPersonRaceCountryServerID.Add(Constants.SpeciallityUndefinedID.ToString());
+					arrayPersonRaceCountryServerID.Add(Constants.LevelUndefinedID.ToString());
+					putDescriptionInMiddle = true;
+				}
+				arrayPersonRaceCountryServerID.Add(Constants.RaceUndefinedID.ToString());
+				arrayPersonRaceCountryServerID.Add(Constants.CountryUndefinedID.ToString());
+				arrayPersonRaceCountryServerID.Add(Constants.ServerUndefinedID.ToString());
+				convertTables(new SqlitePerson(), Constants.PersonTable, columnsBefore, arrayPersonRaceCountryServerID, putDescriptionInMiddle);
 
 				SqlitePreferences.Update ("databaseVersion", "0.57", true); 
 				dbcon.Close();
 				
-				Log.WriteLine("Added simulated column to each event table on client. Added country");
+				Log.WriteLine("Added simulated column to each event table on client. Added race, country, serverUniqueID. Convert to sport related done here if needed");
 				currentVersion = "0.57";
 			}
 		}
@@ -539,7 +555,8 @@ class Sqlite
 
 		creationTotal = 12;
 		creationRate = 1;
-		SqlitePerson.createTable(Constants.PersonTable);
+		SqlitePerson sqlitePersonObject = new SqlitePerson();
+		sqlitePersonObject.createTable(Constants.PersonTable);
 
 		//graphLinkTable
 		SqliteEvent.createGraphLinkTable();
@@ -615,7 +632,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
-		//0.56 - 0.57 Added simulated column to each event table on client. Added country
+		//0.56 - 0.57 Added simulated column to each event table on client. person: race, country, serverID. Convert to sport related done here if needed");
 		//0.55 - 0.56 Added session default sport stuff into session table
 		//0.54 - 0.55 Added undefined to speciallity table
 		//0.53 - 0.54 created sport tables. Added sport data, speciallity and level of practice to person table
@@ -706,7 +723,7 @@ class Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 
-	protected internal static void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd) 
+	protected internal static void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd, bool putDescriptionInMiddle) 
 	{
 		conversionSubRate = 1;
 		conversionSubRateTotal = -1; //unknown yet
@@ -714,66 +731,95 @@ class Sqlite
 		//2st create convert temp table
 		sqliteObject.createTable(Constants.ConvertTempTable);
 
-		//2nd copy all data from event table to temp table adding the simulated column
+		//2nd copy all data from desired table to temp table adding the simulated column
 		ArrayList myArray = new ArrayList(2);
 		dbcmd.CommandText = "SELECT * " + 
 			"FROM " + tableName + " ORDER BY uniqueID"; 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
+		Log.WriteLine(dbcmd.CommandText.ToString());
 
 		while(reader.Read()) {
 			string [] myReaderStr = new String[columnsBefore + columnsToAdd.Count];
 			int i;
-			for (i=0; i < columnsBefore; i ++)
+			for (i=0; i < columnsBefore; i ++) 
 				myReaderStr[i] = reader[i].ToString();
 		
-			//myReaderStr[i] = "-1";
-			foreach (string myStr in columnsToAdd) {
+			foreach (string myStr in columnsToAdd) 
 				myReaderStr[i++] = myStr;
+
+			if (putDescriptionInMiddle) {
+				//string [] strFull = changePos.Split(new char[] {':'});
+				//int row1 = Convert.ToInt32(strFull[0]);
+				//int row2 = Convert.ToInt32(strFull[1]);
+				string desc = myReaderStr[6];
+				myReaderStr[6] = myReaderStr[7];
+				myReaderStr[7] = myReaderStr[8];
+				myReaderStr[8] = myReaderStr[9];
+				myReaderStr[9] = desc;
 			}
-	
-			Event myEvent =  new Event();	
-			switch (tableName) {
-				case Constants.JumpTable:
-					myEvent = new Jump(myReaderStr);
-					break;
-				case Constants.JumpRjTable:
-					myEvent = new JumpRj(myReaderStr);
-					break;
-				case Constants.RunTable:
-					myEvent = new Run(myReaderStr);
-					break;
-				case Constants.RunIntervalTable:
-					myEvent = new RunInterval(myReaderStr);
-					break;
-				case Constants.ReactionTimeTable:
-					myEvent = new ReactionTime(myReaderStr);
-					break;
-				case Constants.PulseTable:
-					myEvent = new Pulse(myReaderStr);
-					break;
+
+			if(tableName == Constants.PersonTable) {	
+				Person myPerson =  new Person(myReaderStr);
+				myArray.Add(myPerson);
+			} else {
+				Event myEvent =  new Event();	
+				switch (tableName) {
+					case Constants.JumpTable:
+						myEvent = new Jump(myReaderStr);
+						break;
+					case Constants.JumpRjTable:
+						myEvent = new JumpRj(myReaderStr);
+						break;
+					case Constants.RunTable:
+						myEvent = new Run(myReaderStr);
+						break;
+					case Constants.RunIntervalTable:
+						myEvent = new RunInterval(myReaderStr);
+						break;
+					case Constants.ReactionTimeTable:
+						myEvent = new ReactionTime(myReaderStr);
+						break;
+					case Constants.PulseTable:
+						myEvent = new Pulse(myReaderStr);
+						break;
+				}
+				myArray.Add(myEvent);
 			}
-			myArray.Add(myEvent);
 		}
 		reader.Close();
 
 		conversionSubRateTotal = myArray.Count * 2;
 
-		foreach (Event myEvent in myArray) {
-			myEvent.InsertAtDB(true, Constants.ConvertTempTable);
-			conversionSubRate ++;
+		if(tableName == Constants.PersonTable) {	
+			foreach (Person myPerson in myArray) {
+				myPerson.InsertAtDB(true, Constants.ConvertTempTable);
+				conversionSubRate ++;
+			}
+		} else {
+			foreach (Event myEvent in myArray) {
+				myEvent.InsertAtDB(true, Constants.ConvertTempTable);
+				conversionSubRate ++;
+			}
 		}
 
-		//3rd drop table of event
+		//3rd drop desired table
 		Sqlite.dropTable(tableName);
 
-		//4d create table event (now with simulated column)
+		//4d create desired table (now with new columns)
 		sqliteObject.createTable(tableName);
 
-		//5th insert data in event table
-		foreach (Event myEvent in myArray) {
-			myEvent.InsertAtDB(true, tableName);
-			conversionSubRate ++;
+		//5th insert data in desired table
+		if(tableName == Constants.PersonTable) {	
+			foreach (Person myPerson in myArray) {
+				myPerson.InsertAtDB(true, tableName);
+				conversionSubRate ++;
+			}
+		} else {
+			foreach (Event myEvent in myArray) {
+				myEvent.InsertAtDB(true, tableName);
+				conversionSubRate ++;
+			}
 		}
 
 		//6th drop temp table

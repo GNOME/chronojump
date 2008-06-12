@@ -614,6 +614,11 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.ComboBox combo_speciallities;
 	[Widget] Gtk.Box hbox_combo_levels;
 	[Widget] Gtk.ComboBox combo_levels;
+	
+	[Widget] Gtk.Box hbox_combo_continents;
+	[Widget] Gtk.Box hbox_combo_countries;
+	[Widget] Gtk.ComboBox combo_continents;
+	[Widget] Gtk.ComboBox combo_countries;
 
 	[Widget] Gtk.Button button_accept;
 	
@@ -635,6 +640,10 @@ public class PersonAddModifyWindow
 	string [] speciallities;
 	String level;
 	string [] levels;
+	string [] continents;
+	string [] continentsTranslated;
+	string [] countries;
+	string [] countriesTranslated;
 
 	GenericWindow genericWin;
 
@@ -672,6 +681,8 @@ public class PersonAddModifyWindow
 		label_speciallity.Hide();
 		combo_speciallities.Hide();
 		createComboLevels();
+		createComboContinents();
+		createComboCountries();
 			
 		fakeButtonAccept = new Gtk.Button();
 
@@ -688,7 +699,12 @@ public class PersonAddModifyWindow
 				dateTime != DateTime.MinValue &&
 				Util.FetchID(UtilGtk.ComboGetActive(combo_sports)) != Constants.SportUndefinedID &&
 				(! label_speciallity.Visible || Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)) != Constants.SpeciallityUndefinedID) &&
-				Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) != Constants.LevelUndefinedID) 
+				Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) != Constants.LevelUndefinedID 
+				//countries is not required
+				//&& 
+				//UtilGtk.ComboGetActive(combo_continents) != Catalog.GetString(Constants.ContinentUndefined) &&
+				//UtilGtk.ComboGetActive(combo_countries) != Catalog.GetString(Constants.CountryUndefined)
+				) 
 		{
 			button_accept.Sensitive = true;
 		}
@@ -766,7 +782,50 @@ public class PersonAddModifyWindow
 		hbox_combo_levels.ShowAll();
 		combo_levels.Sensitive = false; //level is shown when sport is not "undefined" and not "none"
 	}
-	
+		
+	private void createComboContinents() {
+		combo_continents = ComboBox.NewText ();
+		continents = Constants.Continents;
+
+		//create continentsTranslated, only with translated stuff
+		continentsTranslated = new String[Constants.Continents.Length];
+		int i = 0;
+		foreach(string continent in continents) 
+			continentsTranslated[i++] = Util.FetchName(continent);
+
+		UtilGtk.ComboUpdate(combo_continents, continentsTranslated, "");
+		combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
+				Catalog.GetString(Constants.ContinentUndefined));
+
+		combo_continents.Changed += new EventHandler (on_combo_continents_changed);
+
+		hbox_combo_continents.PackStart(combo_continents, true, true, 0);
+		hbox_combo_continents.ShowAll();
+		combo_continents.Sensitive = true;
+	}
+
+	private void createComboCountries() {
+		combo_countries = ComboBox.NewText ();
+
+		countries = new String[1];
+		//record countries with id:english name:translatedName
+		countries [0] = Constants.CountryUndefinedID + ":" + Constants.CountryUndefined + ":" + Catalog.GetString(Constants.CountryUndefined);
+
+		string [] myCountries = new String[1];
+		myCountries [0] = Catalog.GetString(Constants.CountryUndefined);
+		UtilGtk.ComboUpdate(combo_countries, myCountries, "");
+		combo_countries.Active = UtilGtk.ComboMakeActive(myCountries, 
+				Catalog.GetString(Constants.CountryUndefined));
+
+		
+		combo_countries.Changed += new EventHandler (on_combo_countries_changed);
+
+		hbox_combo_countries.PackStart(combo_countries, true, true, 0);
+		hbox_combo_countries.ShowAll();
+		combo_countries.Sensitive = false;
+	}
+
+
 	private void fillDialog ()
 	{
 		int mySportID;
@@ -809,6 +868,13 @@ public class PersonAddModifyWindow
 			TextBuffer tb = new TextBuffer (new TextTagTable());
 			tb.Text = myPerson.Description;
 			textview2.Buffer = tb;
+
+			//country stuff
+			string [] countryString = SqliteCountry.Select(myPerson.CountryID);
+			combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
+					Catalog.GetString(countryString[3]));
+			combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
+					Catalog.GetString(countryString[1]));
 		}
 			
 		sport = SqliteSport.Select(mySportID);
@@ -943,6 +1009,43 @@ public class PersonAddModifyWindow
 		*/
 	}
 	
+	private void on_combo_continents_changed(object o, EventArgs args) {
+		//Console.WriteLine("Changed");
+		
+		if(UtilGtk.ComboGetActive(combo_continents) == Catalog.GetString(Constants.ContinentUndefined)) {
+			countries [0] = Constants.CountryUndefinedID + ":" + Constants.CountryUndefined + ":" + Catalog.GetString(Constants.CountryUndefined);
+			countriesTranslated = new String[1];
+			countriesTranslated [0] = Catalog.GetString(Constants.CountryUndefined);
+			combo_countries.Sensitive = false;
+		}
+		else {
+			//get the active continent
+			string continentEnglish = Util.FindOnArray(':', 1, 0, UtilGtk.ComboGetActive(combo_continents), continents); 
+			countries = SqliteCountry.SelectCountriesOfAContinent(continentEnglish, true); //put undefined first
+
+			//create countries translated, only with translated stuff
+			countriesTranslated = new String[countries.Length];
+			int i = 0;
+			foreach(string row in countries) {
+				string [] myStrFull = row.Split(new char[] {':'});
+				countriesTranslated[i++] = myStrFull[2];
+			}
+		}
+
+		UtilGtk.ComboUpdate(combo_countries, countriesTranslated, "");
+		combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
+				Catalog.GetString(Constants.CountryUndefined));
+
+		combo_countries.Sensitive = true;
+
+		on_entries_required_changed(new object(), new EventArgs());
+	}
+	
+	private void on_combo_countries_changed(object o, EventArgs args) {
+		//define country is not needed to accept person
+		//on_entries_required_changed(new object(), new EventArgs());
+	}
+	
 	void on_button_sport_add_clicked (object o, EventArgs args)
 	{
 		Log.WriteLine("sport add clicked");
@@ -1043,15 +1146,21 @@ public class PersonAddModifyWindow
 					sport.UniqueID, 
 				       	Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview2.Buffer.Text, currentSession.UniqueID);
+					textview2.Buffer.Text,
+					Constants.RaceUndefinedID,
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
+					Constants.ServerUndefinedID,
+					currentSession.UniqueID);
 		} else {
 			currentPerson = new Person (personID, entry1.Text, sex, dateFull, 
 					(int) spinbutton_height.Value, (int) spinbutton_weight.Value, 
-
 					sport.UniqueID, 
 					Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview2.Buffer.Text);
+					textview2.Buffer.Text,
+					Constants.RaceUndefinedID,
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
+					Constants.ServerUndefinedID);
 
 			SqlitePerson.Update (currentPerson); 
 		
@@ -1324,7 +1433,11 @@ public class PersonAddMultipleWindow {
 				currentSession.PersonsSportID,
 				currentSession.PersonsSpeciallityID,
 				currentSession.PersonsPractice,
-				"", currentSession.UniqueID		//description, sessionID
+				"", 			//description
+				Constants.RaceUndefinedID,
+				Constants.CountryUndefinedID,
+				Constants.ServerUndefinedID,
+				currentSession.UniqueID		
 				);
 
 		personsCreatedCount ++;

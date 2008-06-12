@@ -63,7 +63,7 @@ public class Run : Event
 		this.simulated = simulated;
 	}
 
-	//used to select a run at SqliteRun.SelectNormalRunData and at Sqlite.addSimulatedInEventTables
+	//used to select a run at SqliteRun.SelectNormalRunData and at Sqlite.convertTables
 	public Run(string [] eventString)
 	{
 		this.uniqueID = Convert.ToInt32(eventString[0]);
@@ -149,7 +149,7 @@ public class RunInterval : Run
 		this.simulated = simulated;
 	}
 
-	//used to select a run at SqliteRun.SelectIntervalRunData and at Sqlite.addSimulatedInEventTables
+	//used to select a run at SqliteRun.SelectIntervalRunData and at Sqlite.convertTables
 	public RunInterval(string [] eventString)
 	{
 		this.uniqueID = Convert.ToInt32(eventString[0]);

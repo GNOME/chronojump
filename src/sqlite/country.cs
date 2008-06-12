@@ -86,8 +86,42 @@ class SqliteCountry : Sqlite
 		return myReturn;
 	}
 
-	/*
-	public static string Select(int uniqueID)
+	public static string [] SelectCountriesOfAContinent(string continent, bool insertUndefined)
+	{
+		dbcon.Open();
+		
+		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent == '" + continent + "'";
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		ArrayList myArray = new ArrayList(1);
+		while(reader.Read()) 
+			myArray.Add(reader[0].ToString() + ":" + 
+					reader[1].ToString() + ":" + 
+					Catalog.GetString(reader[1].ToString()));
+		reader.Close();
+		dbcon.Close();
+
+		int count = 0;
+		string [] myReturn;
+		if(insertUndefined) {
+			myReturn = new string[myArray.Count +1];
+			myReturn[count ++] = Constants.CountryUndefinedID + ":" +
+				Constants.CountryUndefined + ":" +
+				Catalog.GetString(Constants.CountryUndefined);
+		} else
+			myReturn = new string[myArray.Count];
+
+		foreach (string line in myArray) 
+			myReturn [count++] = line;
+		
+		return myReturn;
+	}
+	
+	public static string [] Select(int uniqueID)
 	{
 		dbcon.Open();
 		
@@ -99,21 +133,17 @@ class SqliteCountry : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
-/*
-		Sport mySport = new Sport(
-				uniqueID,
-				reader[1].ToString(), //name
-				Util.IntToBool(Convert.ToInt32(reader[2])), //userDefined
-				Util.IntToBool(Convert.ToInt32(reader[3])), //hasSpeciallities
-				reader[4].ToString() //graphLink
-				);
-*/
-	/*	
+		
+		string [] myReturn = new String [4];	
+		myReturn[0] = reader[0].ToString(); //uniqueID
+		myReturn[1] = reader[1].ToString(); //name
+		myReturn[2] = reader[2].ToString(); //code
+		myReturn[3] = reader[3].ToString(); //continent
+		
 		reader.Close();
 		dbcon.Close();
-		return mySport;
+		return myReturn;
 	}
-	*/
 
 	/*
 	public static int SelectID(string name)
@@ -431,6 +461,7 @@ class SqliteCountry : Sqlite
 		//add ALWAYS below
 	};
 
+	/*
 	//dumb variables to translate countries
 	private static string ctr1 = Catalog.GetString("Africa");
 	private static string ctr2 = Catalog.GetString("Antarctica");
@@ -439,6 +470,7 @@ class SqliteCountry : Sqlite
 	private static string ctr5 = Catalog.GetString("North America");
 	private static string ctr6 = Catalog.GetString("Oceania");
 	private static string ctr7 = Catalog.GetString("South America");
+	*/
 	/* howto countryList 
 
 	   used this list:

@@ -168,8 +168,9 @@ class SqlitePersonSession : Sqlite
 		dbcon.Open();
 		//dbcmd.CommandText = "SELECT name, sex, dateborn, height, weight, description " +
 		dbcmd.CommandText = "SELECT person.name, person.sex, person.dateborn, person.height, " +
-			"personSessionWeight.weight, person.sportID, person.speciallityID, person.practice, person.description " +
-			"FROM person, personSessionWeight WHERE person.uniqueID == " + uniqueID + 
+			"personSessionWeight.weight, person.sportID, person.speciallityID, person.practice, person.description, " +
+			"person.race, person.countryID, person.serverUniqueID " +
+			" FROM person, personSessionWeight WHERE person.uniqueID == " + uniqueID + 
 			" AND personSessionWeight.sessionID == " + sessionID +
 			" AND person.uniqueID == personSessionWeight.personID";
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -177,7 +178,7 @@ class SqlitePersonSession : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
-		string [] values = new string[9];
+		string [] values = new string[12];
 
 		while(reader.Read()) {
 			values[0] = reader[0].ToString(); 
@@ -189,12 +190,17 @@ class SqlitePersonSession : Sqlite
 			values[6] = reader[6].ToString();
 			values[7] = reader[7].ToString();
 			values[8] = reader[8].ToString();
+			values[9] = reader[9].ToString();
+			values[10] = reader[10].ToString();
+			values[11] = reader[11].ToString();
 		}
 
 		Person myPerson = new Person(uniqueID, values[0], 
 			values[1], values[2], Convert.ToInt32(values[3]), Convert.ToInt32(values[4]), 
 			Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), Convert.ToInt32(values[7]),
-			values[8]); //desc
+			values[8], //desc
+			Convert.ToInt32(values[9]), Convert.ToInt32(values[10]), Convert.ToInt32(values[11])
+			); 
 		
 		dbcon.Close();
 		return myPerson;

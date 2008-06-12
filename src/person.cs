@@ -36,6 +36,9 @@ public class Person {
 	private int practice;	//-1 undefined, sedentary, 1 regular practice, 2 competition, 3 (alto rendimiento)
 	private string sex; // "M" (male) , "F" (female)
 	private string description;
+	private int race;
+	private int countryID;
+	private int serverUniqueID; //not on server
 
 	private int sessionID;
 	
@@ -44,7 +47,9 @@ public class Person {
 
 	//suitable when we load a person from the database for being the current Person
 	public Person(int uniqueID, string name, string sex, string dateBorn, 
-			int height, int weight, int sportID, int speciallityID, int practice, string description) 
+			int height, int weight, int sportID, int speciallityID, int practice, string description,
+		       int race, int countryID, int serverUniqueID	
+			) 
 	{
 		this.uniqueID = uniqueID;
 		this.sex = sex;
@@ -56,11 +61,15 @@ public class Person {
 		this.speciallityID = speciallityID;
 		this.practice = practice;
 		this.description = description;
+		this.race = race;
+		this.countryID = countryID;
+		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 	}
 	
 	//typical constructor
 	public Person(string name, string sex, string dateBorn, 
-			int height, int weight, int sportID, int speciallityID, int practice, string description, 
+			int height, int weight, int sportID, int speciallityID, int practice, string description,
+		       int race, int countryID, int serverUniqueID,	
 			int sessionID) 
 	{
 		this.name = name;
@@ -72,15 +81,22 @@ public class Person {
 		this.speciallityID = speciallityID;
 		this.practice = practice;
 		this.description = description;
+		this.race = race;
+		this.countryID = countryID;
+		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 		this.sessionID = sessionID;
 
 		name = Util.RemoveTildeAndColon(name);
 		description = Util.RemoveTildeAndColon(description);
 		
 		//insert in the person table
+		/*
 		uniqueID = SqlitePerson.Insert (false, //dbconOpened
-				Constants.PersonTable, name, sex, dateBorn, height, weight, 
-				sportID, speciallityID, practice, description);
+				Constants.PersonTable, null, name, sex, dateBorn, height, weight, 
+				sportID, speciallityID, practice, description, race, countryID, serverUniqueID);
+		*/
+		uniqueID = -1;
+		this.InsertAtDB(false, Constants.PersonTable);
 
 		Log.WriteLine(this.ToString());
 
@@ -88,6 +104,34 @@ public class Person {
 		SqlitePersonSession.Insert (uniqueID, sessionID, weight);
 	}
 	
+	//used to select a person at Sqlite.convertTables
+	public Person(string [] myString)
+	{
+		this.uniqueID = Convert.ToInt32(myString[0]);
+		this.name = myString[1];
+		this.sex = myString[2];
+		this.dateBorn = myString[3];
+		this.height = Convert.ToInt32(myString[4]);
+		this.weight = Convert.ToInt32(myString[5]);
+		this.sportID = Convert.ToInt32(myString[6]);
+		this.speciallityID = Convert.ToInt32(myString[7]);
+		this.practice = Convert.ToInt32(myString[8]);
+		this.description = myString[9];
+		this.race = Convert.ToInt32(myString[10]);
+		this.countryID = Convert.ToInt32(myString[11]);
+		this.serverUniqueID = Convert.ToInt32(myString[12]); //remember don't do this on server
+	}
+
+	public void InsertAtDB (bool dbconOpened, string tableName) {
+		SqlitePerson.Insert(dbconOpened, tableName, 
+				uniqueID.ToString(), name,
+				sex, dateBorn, height, -1, //person weight is '-1', weight is in personSessionWeight table
+				sportID, speciallityID, practice,
+				description, race, countryID,
+				serverUniqueID);
+	}
+	
+
 	public override string ToString()
 	{
 		return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn + ", " + description;
@@ -103,28 +147,23 @@ public class Person {
 		return this.ToString().GetHashCode();
 	}
 	
-	public string Name
-	{
+	public string Name {
 		get { return name; }
 		set { name = value; }
 	}
 	
-	public string Sex
-	{
+	public string Sex {
 		get { return sex; } 
 		set { sex = value; }
 	}
 	
-	public string DateBorn
-	{
+	public string DateBorn {
 		get { return dateBorn; }
 		set { dateBorn = value; }
 	}
 	
 	public string DateLong {
-		get {
-			return Util.DateAsDateTime(dateBorn).ToLongDateString();
-		}
+		get { return Util.DateAsDateTime(dateBorn).ToLongDateString(); }
 	}
 	
 	public string DateShort {
@@ -132,39 +171,44 @@ public class Person {
 	}
 	
 	
-	public int Height
-	{
+	public int Height {
 		get { return height; }
 	}
 	
-	public int Weight
-	{
+	public int Weight {
 		get { return weight; }
 	}
 	
-	public int SportID
-	{
+	public int SportID {
 		get { return sportID; }
 	}
 
-	public int SpeciallityID
-	{
+	public int SpeciallityID {
 		get { return speciallityID; }
 	}
 
-	public int Practice
-	{
+	public int Practice {
 		get { return practice; }
 	}
 	
-	public string Description
-	{
+	public string Description {
 		get { return description; }
 		set { description = value; }
 	}
 	
-	public int UniqueID
-	{
+	public int Race {
+		get { return race; }
+	}
+
+	public int CountryID {
+		get { return countryID; }
+	}
+
+	public int ServerUniqueID {
+		get { return serverUniqueID; }
+	}
+
+	public int UniqueID {
 		get { return uniqueID; }
 		set { uniqueID = value; }
 	}

@@ -1,4 +1,7 @@
 ::msgcat::mcmset en {
+073E3F8C-ADC8-8230-15C8-2F8108592782,Message
+{}
+
 0AE11E2D-F492-3791-416D-377D44CD1986,Caption
 {}
 
@@ -364,6 +367,10 @@ DatabaseOldLinux
 DatabaseOldWindows
 {C:\.chronojump}
 
+DirectoryNameErrorText
+{A directory name cannot contain any of the following characters:
+        \ / : * ? " < > |}
+
 DirectoryPermissionText
 {You do not have permission to write to <%Dir%>.}
 
@@ -386,6 +393,9 @@ E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Message
 
 E99F83E5-0807-6800-4DA6-CF3A4A12E5BF,Description
 <%CustomInstallDescription%>
+
+EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,Caption
+{InstallJammer Wizard Complete}
 
 ExitText
 {Are you sure you want to exit this setup?}
@@ -554,6 +564,9 @@ ProgramFilesDescription
 
 PromptForDirectoryMessage
 {Please choose a directory, then select OK.}
+
+PromptForDirectoryNewFolderText
+{Make New Folder}
 
 PromptForDirectoryTitle
 {Browse for Folder}
@@ -888,6 +901,9 @@ Yes
 
 }
 ::msgcat::mcmset es {
+073E3F8C-ADC8-8230-15C8-2F8108592782,Message
+{}
+
 0AE11E2D-F492-3791-416D-377D44CD1986,Caption
 {}
 
@@ -936,8 +952,8 @@ Yes
 20C00248-3AE3-CB93-995E-00DE937D87F2,Caption
 {<%MonoOutdated%>
 
-Version minima de Mono: <%MonoLinuxMinimumVersion%>
-Version instalada: <%ExternalProgramResult%>}
+Versión mínima de Mono: <%MonoLinuxMinimumVersion%>
+Versión instalada: <%ExternalProgramResult%>}
 
 20C00248-3AE3-CB93-995E-00DE937D87F2,Message
 <%MonoInstallLinuxText%>
@@ -951,8 +967,8 @@ Version instalada: <%ExternalProgramResult%>}
 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Caption
 {<%MonoOutdated%>
 
-Version minimia de Mono: <%MonoWindowsMinimumVersion%>
-Version instalada: <%YourRegValue%>}
+Versión mínimia de Mono: <%MonoWindowsMinimumVersion%>
+Versión instalada: <%YourRegValue%>}
 
 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message
 <%MonoInstalling%>
@@ -993,11 +1009,11 @@ Version instalada: <%YourRegValue%>}
 {Bienvenido al instalador de <%AppName%>}
 
 70364F59-3542-E36E-FC43-18B295772C15,Message
-{Este programa instalara <%AppName%> version <%Version%> en su equipo. 
+{Este programa instalará <%AppName%> versión <%Version%> en su equipo. 
 
-Se recomienda cerrar las demas aplicaciones antes de continuar.  
+Se recomienda cerrar las demás aplicaciones antes de continuar.  
 
-Pulse siguiente para continuar o Cancelar para salir de la instalacion.}
+Pulse Siguiente para continuar o Cancelar para salir de la instalación.}
 
 7EACFD07-D349-A66C-36E7-0AFA70E879CB,Caption
 <%ChronopicDriverInstall%>
@@ -1006,16 +1022,16 @@ Pulse siguiente para continuar o Cancelar para salir de la instalacion.}
 <%ChronopicDriverInstallText%>
 
 8CD31907-2778-AC4C-A178-FB58C43712DF,Caption
-{Se ha recopilado la informacion necesaria para comenzar a copiar los  archivos del programa. Si desea revisar o cambiar la configuracion,  pulse Atras. Si esta conforme con la configuracion, pulse Siguiente para  comenzar a copiar los archivos.}
+{Se ha recopilado la información necesaria para comenzar a copiar los  archivos del programa. Si desea revisar o cambiar la configuración,  pulse Atrás. Si está conforme con la configuración, pulse Siguiente para  comenzar a copiar los archivos.}
 
 8CD31907-2778-AC4C-A178-FB58C43712DF,Subtitle
-{Revise la configuracion antes de copiar los archivos}
+{Revise la configuración antes de copiar los archivos}
 
 8CD31907-2778-AC4C-A178-FB58C43712DF,Text
-{Directorio de Instalacion:
+{Directorio de Instalación:
             <%InstallDir%>
 
-Tipo de Instalacion:
+Tipo de Instalación:
             <%InstallType%>}
 
 8D3722F8-BA23-F5B9-73B0-B18088989F1E,Message
@@ -1025,7 +1041,7 @@ ApplicationReadmeText
 {<%AppName%> Leeme}
 
 Back
-Atras
+Atrás
 
 Browse
 Examinar...
@@ -1067,7 +1083,7 @@ ChooseComponents,Title
 {Seleccionar Componentes}
 
 ChronopicDriverInstall
-{Instalacion del driver de Chronopic}
+{Instalación del driver de Chronopic}
 
 ChronopicDriverInstallText
 {El driver de la placa Chronopic va a ser instalado. Por favor, espere unos segundos...}
@@ -1076,7 +1092,7 @@ ChronopicDriverInstallTextDone
 {instalado el driver de la Chronopic. Por favor, pulse "Siguiente"}
 
 CleanupInstallText
-{Limpiando instalacion...}
+{Limpiando instalación...}
 
 Close
 Cerrar
@@ -1178,7 +1194,7 @@ CustomTextPane1,Title
 Título
 
 DatabaseMove
-{La base de datos se ubicara aqui.}
+{La base de datos se ubicará aquí.}
 
 DatabaseOldLinux
 /home/user/.chronojump
@@ -1198,15 +1214,21 @@ E511A51D-40B9-46C3-692B-D7BCE33C13DA,Message
 Pulse Siguiente}
 
 E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Caption
-{Se instalara <%AppName%> en la siguiente carpeta.
+{Se instalará <%AppName%> en la siguiente carpeta.
 
-Para instalar  en esa carpeta, pulse Siguiente. Para instalar en una carpeta diferente,  pulse Examinar y seleccione otra.}
+Para instalar en esa carpeta, pulse Siguiente. Para instalar en una carpeta diferente,  pulse Examinar y seleccione otra.}
 
 E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Message
 <%DatabaseMove%>
 
+E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Subtitle
+{¿Dónde desea instalar <%AppName%>?}
+
+EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,Caption
+{InstallJammer Wizard Completo}
+
 EF2847CB-E3D7-A3D0-70D3-3E87EA61D5CF,Message
-{El Wizard InstallJammer ha instalado <%AppName%> con exito.   Pulse Finalizar para salir de este wizard.}
+{El Wizard InstallJammer ha instalado <%AppName%> con éxito.   Pulse Finalizar para salir de este wizard.}
 
 ExitText
 {¿Seguro que desea salir de la instalacion?}
@@ -1248,10 +1270,10 @@ InstallApplicationText
 {Instalar <%AppName%>}
 
 InstallCompleteText
-{Instalacion completa...}
+{Instalación completa...}
 
 InstallPrepareText
-{Preparando instalacion...}
+{Preparando instalación...}
 
 InstallStartupText
 {Se va a instalar <%AppName%> en su equipo. ¿Continuar?}
@@ -1290,7 +1312,7 @@ MonoDownloading
 {Descargando Mono (download) por favor, espere.}
 
 MonoInstall
-{Instalacion de Mono}
+{Instalación de Mono}
 
 MonoInstallLinuxText
 {Por favor instale/actualice Mono desde los paquetes de esta distribucion de Linux o desde http://www.mono-project.com}
@@ -1302,7 +1324,7 @@ MonoNoExists
 {No se ha encontrado el programa: Mono. Mono es indispensable para que funcione Chronojump}
 
 MonoOutdated
-{La version de Mono esta desactualizada.}
+{La versión de Mono esta desactualizada.}
 
 MonoSearching
 {Buscando el programa: Mono}
@@ -1341,7 +1363,7 @@ Readme,Subtitle
 {Información sobre <%AppName%>}
 
 Readme,Text
-{Ponga su Léame aquí.}
+{}
 
 Readme,Title
 Léame
@@ -1494,7 +1516,7 @@ TextWindow,Title
 {Título de la Ventana}
 
 TypicalInstallDescription
-{Una instalación tipica.}
+{Una instalación típica.}
 
 Uninstall,BackButton
 {< <%Back%>}
@@ -1572,7 +1594,7 @@ UninstallPrepareText
 {Preparando desinstalación...}
 
 UninstallStartupText
-{Esto borrara <%AppName%> de su sistema. ¿Esta seguro de que desea hacerlo? Nota: la base de datos no sera borrada}
+{Esto borrará <%AppName%> de su sistema. ¿Está seguro de que desea hacerlo? Nota: la base de datos no será borrada}
 
 UnzipFile,StatusText
 <%FileBeingInstalledText%>
@@ -1630,7 +1652,7 @@ Welcome,NextButton
 {<%Next%> >}
 
 Yes
-Si
+Sí
 
 }
 

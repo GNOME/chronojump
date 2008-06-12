@@ -745,7 +745,6 @@ public class Util
 		for (i=0 ; i < initialString.Length; i ++)
 			returnString[i] = initialString[i];
 		for (j=0 ; j < addString.Length; j ++)
-			//returnString[i+j] = FetchName(addString[j]);
 			returnString[i+j] = addString[j];
 
 		return returnString;
@@ -834,6 +833,23 @@ public class Util
 
 		return foundLevelName;
 	}
+
+	/* eg we have an stringArray containing in a row "Letonia, Republica de" and we want to find ID
+	 * 2:Latvia, Republic of:Letonia, Republica de
+	 * we do string myString = Util.FindOnArray(':', 2, 0, "Letonoa, Republica de", stringArray);
+	 */
+	public static string FindOnArray(char separator, int partPassed, int partToReturn, string stringPassed, string [] stringArray) 
+	{
+		string foundString = "";
+		foreach(string myString in stringArray) {
+			string [] myStrFull = myString.Split(new char[] {separator});
+			if(myStrFull[partPassed] == stringPassed)
+				foundString = myStrFull[partToReturn];
+
+		}
+		return foundString;
+	}
+
 
 	//avoids fivide by zero
 	public static double DivideSafe (double val1, double val2) {

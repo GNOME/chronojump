@@ -31,10 +31,15 @@ using Mono.Data.Sqlite;
 
 class SqlitePerson : Sqlite
 {
+	public SqlitePerson() {
+	}
+	
+	~SqlitePerson() {}
+
 	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
-	protected new internal static void createTable(string tableName)
-	//protected override void createTable(string tableName)
+	//protected new internal static void createTable(string tableName)
+	protected override void createTable(string tableName)
 	 {
 		dbcmd.CommandText = 
 			"CREATE TABLE " + tableName + " ( " +
@@ -42,29 +47,36 @@ class SqlitePerson : Sqlite
 			"name TEXT, " +
 			"sex TEXT, " +
 			"dateborn TEXT, " +
-			"height TEXT, " +
-			"weight TEXT, " + //now used personSession and person can change weight in every session. person.weight is not used
+			"height INT, " +
+			"weight INT, " + //now used personSession and person can change weight in every session. person.weight is not used
 			"sportID INT, " + 
 			"speciallityID INT, " + 
 			"practice INT, " + //also called "level"
-			"description TEXT )";		
+			"description TEXT, " +	
+			"race INT, " + 
+			"countryID INT, " + 
+			"serverUniqueID INT ) ";
 		dbcmd.ExecuteNonQuery();
 	 }
 
 	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
 	//public static int Insert(bool dbconOpened, string tableName, string name, string sex, string dateBorn, int height, int weight, int sportID, bool sportUserDefined, int practice, string description)
-	public static int Insert(bool dbconOpened, string tableName, string name, string sex, string dateBorn, int height, int weight, int sportID, int speciallityID, int practice, string description)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string sex, string dateBorn, int height, int weight, int sportID, int speciallityID, int practice, string description, int race, int countryID, int serverUniqueID)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
 		string myString = "INSERT INTO " + tableName + 
-			//" (uniqueID, name, sex, dateBorn, height, weight,  sportID, sportUserDefined, practice, description) VALUES (NULL, '" +
-			" (uniqueID, name, sex, dateBorn, height, weight,  sportID, speciallityID, practice, description) VALUES (NULL, '" +
+			//" (uniqueID, name, sex, dateBorn, height, weight,  sportID, speciallityID, practice, description) VALUES (NULL, '" +
+			" (uniqueID, name, sex, dateBorn, height, weight,  sportID, speciallityID, practice, description, race, countryID, serverUniqueID) VALUES (" + uniqueID + ", '" +
 			name + "', '" + sex + "', '" + dateBorn + "', " + 
 			height + ", " + "-1" + ", " + //"-1" is weight because it's defined in personSesionWeight for allow change between sessions
-			sportID + ", " + speciallityID + ", " + practice + ", '" + description + "')" ;
+			sportID + ", " + speciallityID + ", " + practice + ", '" + description + "', " + 
+			race + ", " + countryID + ", " + serverUniqueID + ")" ;
 		
 		dbcmd.CommandText = myString;
 		dbcmd.ExecuteNonQuery();
@@ -188,12 +200,13 @@ finishForeach:
 				myArray2.Add (reader2[0].ToString() + ":" + reader2[1].ToString() + ":" +
 						reader2[2].ToString() + ":" + reader2[3].ToString() + ":" +
 						reader2[4].ToString() + ":" + 
-						reader2[10].ToString() + ":" + //weight (from personSessionWeight)
-						reader2[11].ToString() + ":" + //sportName
-						reader2[12].ToString() + ":" + //speciallityName
+						reader2[13].ToString() + ":" + //weight (from personSessionWeight)
+						reader2[14].ToString() + ":" + //sportName
+						reader2[15].ToString() + ":" + //speciallityName
 						Util.FindLevelName(Convert.ToInt32(reader2[8])) + ":" + //levelName
 						reader2[9].ToString() //description
 						);
+					//add race, countryID, serverUniqueID
 				count2 ++;
 			}
 		}
@@ -411,7 +424,10 @@ finishForeach:
 			", speciallityID = " + myPerson.SpeciallityID +
 			", practice = " + myPerson.Practice +
 			", description = '" + myPerson.Description +
-			"' WHERE uniqueID == '" + myPerson.UniqueID + "'" ;
+			"', race = " + myPerson.Race +
+			", countryID = " + myPerson.CountryID +
+			", serverUniqueID = " + myPerson.ServerUniqueID +
+			" WHERE uniqueID == '" + myPerson.UniqueID + "'" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
@@ -425,13 +441,15 @@ finishForeach:
 	/* 
 	 * don't do more like this, use Sqlite.convertTables()
 	 */
-	//change DB from 0.53 to 0.54	
+	//change DB from 0.53 to 0.54
+	/*	
 	protected internal static void convertTableToSportRelated() 
 	{
 		ArrayList myArray = new ArrayList(2);
 
 		//1st create a temp table
-		createTable(Constants.ConvertTempTable);
+		SqlitePerson sqlitePersonObject = new SqlitePerson();
+		sqlitePersonObject.createTable(Constants.ConvertTempTable);
 			
 		//2nd copy all data from person table to temp table
 		dbcmd.CommandText = "SELECT * " + 
@@ -443,7 +461,11 @@ finishForeach:
 					1, //sport undefined
 					-1, //speciallity undefined
 					-1, //practice level undefined
-					reader[6].ToString()); //desc
+					reader[6].ToString(), //desc
+					Constants.RaceUndefinedID,
+					Constants.CountryUndefinedID,
+					Constants.ServerUndefinedID
+					);
 			myArray.Add(myPerson);
 
 		}
@@ -452,25 +474,33 @@ finishForeach:
 		foreach (Person myPerson in myArray)
 			Insert(true, Constants.ConvertTempTable,
 				myPerson.Name, myPerson.Sex, myPerson.DateBorn, 
-				myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SpeciallityID, myPerson.Practice, myPerson.Description);
+				myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SpeciallityID, myPerson.Practice, myPerson.Description,
+				Constants.RaceUndefinedID,
+				Constants.CountryUndefinedID,
+				Constants.ServerUndefinedID
+				);
 
 		//3rd drop table persons
 		Sqlite.dropTable(Constants.PersonTable);
 
 		//4d create table persons (now with sport related stuff
-		createTable(Constants.PersonTable);
+		sqlitePersonObject.createTable(Constants.PersonTable);
 
 		//5th insert data in persons (with sport related stuff)
 		foreach (Person myPerson in myArray) 
 			Insert(true, Constants.PersonTable,
 				myPerson.Name, myPerson.Sex, myPerson.DateBorn, 
-				//myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SportUserDefined, myPerson.Practice, myPerson.Description);
-				myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SpeciallityID, myPerson.Practice, myPerson.Description);
+				myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SpeciallityID, myPerson.Practice, myPerson.Description,
+				Constants.RaceUndefinedID,
+				Constants.CountryUndefinedID,
+				Constants.ServerUndefinedID
+				);
 
 
 		//6th drop temp table
 		Sqlite.dropTable(Constants.ConvertTempTable);
 	}
+	*/
 	
 	/*
 	private static void dropTable(string tableName) {

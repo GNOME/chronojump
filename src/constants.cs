@@ -237,8 +237,28 @@ public class Constants
 	public static string SpeciallityUndefined = "Undefined"; 
 	private static string dumbVariableForTranslatingSpeciallityUndefined = Catalog.GetString("Undefined");
 	
+	public static int RaceUndefinedID = -1;
+
 	public static int CountryUndefinedID = 1;
 	public static string CountryUndefined = "Undefined"; 
+	public static string ContinentUndefined = "Undefined"; 
+	private static string ctr1 = "Africa";
+	private static string ctr2 = "Antarctica";
+	private static string ctr3 = "Asia";
+	private static string ctr4 = "Europe";
+	private static string ctr5 = "North America";
+	private static string ctr6 = "Oceania";
+	private static string ctr7 = "South America";
+	public static string [] Continents = {
+		ContinentUndefined + ":" + Catalog.GetString(ContinentUndefined), 
+		ctr1 + ":" + Catalog.GetString(ctr1),
+		ctr2 + ":" + Catalog.GetString(ctr2),
+		ctr3 + ":" + Catalog.GetString(ctr3),
+		ctr4 + ":" + Catalog.GetString(ctr4),
+		ctr5 + ":" + Catalog.GetString(ctr5),
+		ctr6 + ":" + Catalog.GetString(ctr6),
+		ctr7 + ":" + Catalog.GetString(ctr7),
+	};
 	
 	//levels of sport practice
 	//int will go into person database
@@ -268,4 +288,7 @@ public class Constants
 
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";
+	
+	public static int ServerUndefinedID = -1;
+
 }

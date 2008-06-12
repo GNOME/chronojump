@@ -55,7 +55,7 @@ public class Jump : Event
 		this.simulated = simulated;
 	}
 
-	//used to select a jump at SqliteJump.SelectNormalJumpData and at Sqlite.addSimulatedInEventTables
+	//used to select a jump at SqliteJump.SelectNormalJumpData and at Sqlite.converTables
 	public Jump(string [] eventString)
 	{
 		this.uniqueID = Convert.ToInt32(eventString[0]);
@@ -157,7 +157,7 @@ public class JumpRj : Jump
 		this.simulated = simulated;
 	}
 	
-	//used to select a jump at SqliteJump.SelectRjJumpData and at Sqlite.addSimulatedInEventTables
+	//used to select a jump at SqliteJump.SelectRjJumpData and at Sqlite.convertTables
 	public JumpRj(string [] eventString)
 	{
 		//foreach(string myStr in eventString)

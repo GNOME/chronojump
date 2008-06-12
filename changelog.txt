@@ -1,5 +1,18 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+12 jun 2008
+	0.7.3.2
+	improved installer:
+	-desktop icons and shortcut icons work nice on windows now, calling monow 
+	-chronojump_mini start menu now works
+	-chronojump,mini.bat has a pause at end that helps if chronojump_mini.prg don't find port
+	-launch (directly) disabled (it didn't work)
+	-installjammer 1.2.6b2 (now latin chars)
+
+	country-continent code done!
+	person height and weight from string to int
+	changed person table (conversion works since sqlite2.81, and later (it's supposed to work always))
+
 8 jun 2008
 	0.7.3.1
 	splashWin with progressBars

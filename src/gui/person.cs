@@ -870,11 +870,13 @@ public class PersonAddModifyWindow
 			textview2.Buffer = tb;
 
 			//country stuff
-			string [] countryString = SqliteCountry.Select(myPerson.CountryID);
-			combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
-					Catalog.GetString(countryString[3]));
-			combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
-					Catalog.GetString(countryString[1]));
+			if(myPerson.CountryID != Constants.CountryUndefinedID) {
+				string [] countryString = SqliteCountry.Select(myPerson.CountryID);
+				combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
+						Catalog.GetString(countryString[3]));
+				combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
+						Catalog.GetString(countryString[1]));
+			}
 		}
 			
 		sport = SqliteSport.Select(mySportID);

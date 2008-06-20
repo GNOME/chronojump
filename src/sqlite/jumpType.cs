@@ -64,8 +64,11 @@ class SqliteJumpType : Sqlite
 			"DJ:0:0:DJ jump",
 			"Rocket:1:0:Rocket jump"
 		};
+		conversionSubRateTotal = iniJumpTypes.Length;
+		conversionSubRate = 0;
 		foreach(string myJumpType in iniJumpTypes) {
 			JumpTypeInsert(myJumpType, true);
+			conversionSubRate ++;
 		}
 
 		AddGraphLinks();	

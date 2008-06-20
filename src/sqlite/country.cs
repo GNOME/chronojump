@@ -53,6 +53,8 @@ class SqliteCountry : Sqlite
 	// intialize table
 	protected internal static void initialize()
 	{
+		conversionSubRateTotal = countries.Length;
+		conversionSubRate = 0;
 		foreach(string myString in countries) {
 			//put in db only english name
 			string [] strFull = myString.Split(new char[] {':'});
@@ -62,6 +64,7 @@ class SqliteCountry : Sqlite
 					strFull[1], 		//name (english)
 					strFull[0]		//continent
 			      );
+			conversionSubRate ++;
 		}
 	}
 	public static int Insert(bool dbconOpened, string code, string nameEnglish, string continent)

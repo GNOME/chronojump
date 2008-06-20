@@ -1,5 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+20 jun 2008
+	0.7.3.3
+	splash on windows (XP) works
+	better use of splash bars on create and update
+	fixed bug on edit a person with undefined country
+
 12 jun 2008
 	0.7.3.2
 	improved installer:

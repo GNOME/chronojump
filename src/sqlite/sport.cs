@@ -54,12 +54,15 @@ class SqliteSport : Sqlite
 	// intialize sport table
 	protected internal static void initialize()
 	{
+		conversionSubRateTotal = SportsChronojump.Length;
+		conversionSubRate = 0;
 		foreach(string sportString in SportsChronojump) {
 			//put in db only english name
 			string [] sportFull = sportString.Split(new char[] {':'});
 			//Sport sport = new Sport(sportFull[0]);
 			Insert(true, sportFull[0], false,  		//dbconOpened, not user defined 
 					Util.StringToBool(sportFull[2]), sportFull[3]);	//hasSpeciallities, graphLink
+			conversionSubRate ++;
 		}
 	}
 	public static int Insert(bool dbconOpened, string name, bool userDefined, bool hasSpeciallities, string graphLink)

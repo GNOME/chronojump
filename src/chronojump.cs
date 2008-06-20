@@ -252,9 +252,13 @@ public class ChronoJump
 			splashWin.UpdateProgressbar("version", Sqlite.PrintConversionVersion());
 			splashWin.UpdateProgressbar("rate", Sqlite.PrintConversionRate());
 			splashWin.UpdateProgressbar("subrate", Sqlite.PrintConversionSubRate());
+
 		} else if(creatingDB) {
 			splashWin.ShowProgressbar("creating");
 			splashWin.UpdateProgressbar("version", Sqlite.PrintCreation());
+			
+			//splashWin.UpdateProgressbar("rate", Sqlite.PrintConversionRate());
+			splashWin.UpdateProgressbar("subrate", Sqlite.PrintConversionSubRate());
 		}
 
 		if(needUpdateSplashMessage) {

@@ -55,8 +55,8 @@ class Sqlite
 	static string currentVersion = "0";
 	static int conversionRate;
 	static int conversionRateTotal;
-	static int conversionSubRate;
-	static int conversionSubRateTotal;
+	protected static int conversionSubRate;
+	protected static int conversionSubRateTotal;
 
 
 	/*
@@ -565,9 +565,6 @@ class Sqlite
 		//jumps
 		SqliteJump sqliteJumpObject = new SqliteJump();
 		SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
-		//SqliteJump.createTable(Constants.JumpTable);
-		//SqliteJumpRj.createTable(Constants.JumpRjTable);
-		//SqliteJumpRj.createTable(Constants.TempJumpRjTable);
 		sqliteJumpObject.createTable(Constants.JumpTable);
 		sqliteJumpRjObject.createTable(Constants.JumpRjTable);
 		sqliteJumpRjObject.createTable(Constants.TempJumpRjTable);
@@ -583,9 +580,6 @@ class Sqlite
 		creationRate ++;
 		SqliteRun sqliteRunObject = new SqliteRun();
 		SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
-		//SqliteRun.createTable(Constants.RunTable);
-		//SqliteRun.intervalCreateTable(Constants.RunIntervalTable);
-		//SqliteRun.intervalCreateTable(Constants.TempRunIntervalTable);
 		sqliteRunObject.createTable(Constants.RunTable);
 		sqliteRunIntervalObject.createTable(Constants.RunIntervalTable);
 		sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);

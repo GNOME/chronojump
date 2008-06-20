@@ -53,12 +53,15 @@ class SqliteSpeciallity : Sqlite
 	// intialize sport table
 	protected internal static void initialize()
 	{
+		conversionSubRateTotal = Speciallities.Length;
+		conversionSubRate = 0;
 		foreach(string myString in Speciallities) {
 			string [] strFull = myString.Split(new char[] {':'});
 			string sportName = strFull[0];
 			string speciallityEnglishName = strFull[1];
 			int sportID = SqliteSport.SelectID(sportName);
 			Insert(true, sportID, speciallityEnglishName);
+			conversionSubRate ++;
 		}
 	}
 

@@ -68,8 +68,11 @@ class SqliteRunType : Sqlite
 			"Agility-Shuttle-Run:40:Shuttle Run Agility test",
 			"Agility-ZigZag:17.6:ZigZag Agility test"
 		};
+		conversionSubRateTotal = iniRunTypes.Length;
+		conversionSubRate = 0;
 		foreach(string myRunType in iniRunTypes) {
 			RunTypeInsert(myRunType, true);
+			conversionSubRate ++;
 		}
 	
 		AddGraphLinksRunSimple();	

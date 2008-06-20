@@ -70,9 +70,10 @@ public class SplashWindow
 	}
 
 	public void ShowProgressbar(string option) {
-		if(option == "creating")
+		if(option == "creating") {
 			progressbarVersion.Show();
-		else if (option == "updating") {
+			progressbarSubRate.Show();
+		} else if (option == "updating") {
 			progressbarVersion.Show();
 			progressbarRate.Show();
 			progressbarSubRate.Show();

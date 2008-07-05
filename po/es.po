@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-13 03:55+0000\n"
-"PO-Revision-Date: 2008-06-28 00:24+0200\n"
+"POT-Creation-Date: 2008-06-28 03:56+0000\n"
+"PO-Revision-Date: 2008-07-04 17:10+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -717,7 +717,7 @@ msgstr "Máximo/s del saltador"
 #: ../glade/chronojump.glade.h:164 ../src/exportSession.cs:347
 #: ../src/gui/chronojump.cs:2615 ../src/gui/jump.cs:1130
 #: ../src/gui/jump.cs:1177 ../src/gui/jump.cs:1217
-#: ../src/sqlite/speciallity.cs:158 ../src/stats/graphs/rjAVGSD.cs:77
+#: ../src/sqlite/speciallity.cs:161 ../src/stats/graphs/rjAVGSD.cs:77
 #: ../src/stats/graphs/rjAVGSD.cs:98 ../src/stats/graphs/rjEvolution.cs:83
 #: ../src/stats/graphs/rjPotencyBosco.cs:83
 #: ../src/stats/graphs/rjPotencyBosco.cs:122 ../src/stats/rjAVGSD.cs:37
@@ -730,7 +730,7 @@ msgid "Language"
 msgstr "Idioma"
 
 #: ../glade/chronojump.glade.h:166 ../src/exportSession.cs:236
-#: ../src/gui/person.cs:113 ../src/gui/person.cs:1324
+#: ../src/gui/person.cs:113 ../src/gui/person.cs:1326
 #: ../src/gui/session.cs:670 ../src/report.cs:253
 msgid "Level"
 msgstr "Nivel"
@@ -891,7 +891,7 @@ msgid "Pla_tform"
 msgstr "_Plataforma"
 
 #: ../glade/chronojump.glade.h:204 ../src/exportSession.cs:220
-#: ../src/gui/person.cs:1573 ../src/gui/session.cs:665
+#: ../src/gui/person.cs:1575 ../src/gui/session.cs:665
 #: ../src/gui/session.cs:839 ../src/report.cs:234
 msgid "Place"
 msgstr "Lugar"
@@ -939,7 +939,7 @@ msgstr "Pulso"
 
 #. windowTitle
 #: ../glade/chronojump.glade.h:216 ../src/exportSession.cs:201
-#: ../src/gui/chronojump.cs:3283 ../src/gui/person.cs:1580
+#: ../src/gui/chronojump.cs:3283 ../src/gui/person.cs:1582
 #: ../src/gui/session.cs:676 ../src/report.cs:186
 msgid "Pulses"
 msgstr "Pulsos"
@@ -1172,7 +1172,7 @@ msgid "Simulated"
 msgstr "Simulado"
 
 #: ../glade/chronojump.glade.h:271 ../src/exportSession.cs:235
-#: ../src/gui/person.cs:112 ../src/gui/person.cs:1322
+#: ../src/gui/person.cs:112 ../src/gui/person.cs:1324
 #: ../src/gui/session.cs:669 ../src/report.cs:252
 msgid "Speciallity"
 msgstr "Especialidad"
@@ -1183,7 +1183,7 @@ msgid "Speed"
 msgstr "Velocidad"
 
 #: ../glade/chronojump.glade.h:273 ../src/exportSession.cs:235
-#: ../src/gui/person.cs:111 ../src/gui/person.cs:1320
+#: ../src/gui/person.cs:111 ../src/gui/person.cs:1322
 #: ../src/gui/session.cs:668 ../src/report.cs:252
 msgid "Sport"
 msgstr "Deporte"
@@ -1670,6 +1670,8 @@ msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
 "can fix this problem deleting this file: {0}"
 msgstr ""
+"Si no tiene ningún dato en su base de datos (acaba de instalara Chronojump), puede "
+"arreglar este problema borrando este archivo: {0}"
 
 #: ../src/chronojump.cs:144
 msgid "And starting Chronojump again."
@@ -1691,11 +1693,11 @@ msgstr "Por favor, actualice Chronojump"
 msgid "tables already created"
 msgstr "tablas creadas"
 
-#: ../src/chronojump.cs:194 ../src/chronojump.cs:405 ../src/chronojump.cs:413
+#: ../src/chronojump.cs:194 ../src/chronojump.cs:409 ../src/chronojump.cs:417
 msgid "Chronojump will exit now."
 msgstr "Chronojump finalizará ahora."
 
-#: ../src/chronojump.cs:289
+#: ../src/chronojump.cs:293
 #, csharp-format
 msgid ""
 "Chronojump crashed before. Please, <b>write an email</b> to {0} including "
@@ -1704,45 +1706,45 @@ msgstr ""
 "Chronojump falló anteriormente. Por favor, <b>escriba un correo</b> a {0} "
 "incluyendo este archivo:"
 
-#: ../src/chronojump.cs:293
+#: ../src/chronojump.cs:297
 msgid "Subject should be something like \"bug in Chronojump\". Your help is needed."
 msgstr ""
 "El título o asunto debe ser algo parecido a \"error en Chronojump\". Su "
 "ayuda es muy valiosa."
 
-#: ../src/chronojump.cs:372
+#: ../src/chronojump.cs:376
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "No se puede mover la carpeta de la base de datos de {0} a {1}"
 
-#: ../src/chronojump.cs:374
+#: ../src/chronojump.cs:378
 msgid "Trying to move/copy each file now"
 msgstr "Tratando ahora de mover/copiar archivo a archivo"
 
-#: ../src/chronojump.cs:403
+#: ../src/chronojump.cs:407
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "No se puede exportar la carpeta {0} "
 
-#: ../src/chronojump.cs:404 ../src/chronojump.cs:412
+#: ../src/chronojump.cs:408 ../src/chronojump.cs:416
 msgid "Please, do it manually."
 msgstr "Por favor, hágalo manualmente"
 
-#: ../src/chronojump.cs:411
+#: ../src/chronojump.cs:415
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "No se puede copiar {0} archivos desde {1} hacia {2}"
 
-#: ../src/chronojump.cs:419
+#: ../src/chronojump.cs:423
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "No se puede mover {0} archivos de {1} a {2}"
 
-#: ../src/chronojump.cs:420
+#: ../src/chronojump.cs:424
 msgid "Please, do it manually"
 msgstr "Por favor, hágalo manualmente"
 
-#: ../src/chronojump.cs:426
+#: ../src/chronojump.cs:430
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "La base de datos se encuentra ahora aquí: {0}"
@@ -2115,7 +2117,7 @@ msgid "ID"
 msgstr "ID"
 
 #: ../src/exportSession.cs:233 ../src/gui/person.cs:107
-#: ../src/gui/person.cs:1264 ../src/report.cs:250
+#: ../src/gui/person.cs:1266 ../src/report.cs:250
 msgid "Sex"
 msgstr "Sexo"
 
@@ -2143,7 +2145,7 @@ msgstr "Altura"
 #. decimals
 #: ../src/exportSession.cs:234 ../src/exportSession.cs:258
 #: ../src/exportSession.cs:325 ../src/gui/person.cs:109
-#: ../src/gui/person.cs:1265 ../src/report.cs:251
+#: ../src/gui/person.cs:1267 ../src/report.cs:251
 #: ../src/stats/graphs/potency.cs:105 ../src/stats/graphs/sjCmjAbkPlus.cs:74
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:96 ../src/stats/sjCmjAbkPlus.cs:58
 #: ../src/treeViewJump.cs:37
@@ -2755,65 +2757,65 @@ msgstr "Ninguno"
 msgid "Edit jumper"
 msgstr "Editar saltador"
 
-#: ../src/gui/person.cs:906 ../src/gui/session.cs:498
+#: ../src/gui/person.cs:908 ../src/gui/session.cs:498
 msgid "Select session date"
 msgstr "Seleccionar fecha de la sesión"
 
-#: ../src/gui/person.cs:1052 ../src/gui/session.cs:511
+#: ../src/gui/person.cs:1054 ../src/gui/session.cs:511
 msgid "Add new sport to database"
 msgstr "Añadir el nuevo deporte en la base de datos"
 
-#: ../src/gui/person.cs:1064 ../src/gui/session.cs:523
+#: ../src/gui/person.cs:1066 ../src/gui/session.cs:523
 #, csharp-format
 msgid "Sorry, this sport '{0}' already exists in database"
 msgstr "Este deporte '{0}' ya existe en la base de datos"
 
-#: ../src/gui/person.cs:1090
+#: ../src/gui/person.cs:1092
 #, csharp-format
 msgid "Person: '{0}' exists. Please, use another name"
 msgstr "El atleta: '{0} ya existe. Por favor use otro nombre"
 
-#: ../src/gui/person.cs:1092
+#: ../src/gui/person.cs:1094
 msgid "Please select an sport"
 msgstr "Seleccione un deporte"
 
-#: ../src/gui/person.cs:1098
+#: ../src/gui/person.cs:1100
 msgid "Please select an speciallity"
 msgstr "Seleccione una especialidad"
 
-#: ../src/gui/person.cs:1102
+#: ../src/gui/person.cs:1104
 msgid "Please select a level"
 msgstr "Seleccione un nivel"
 
-#: ../src/gui/person.cs:1263
+#: ../src/gui/person.cs:1265
 msgid "Full name"
 msgstr "Nombre completo"
 
-#: ../src/gui/person.cs:1266
+#: ../src/gui/person.cs:1268
 msgid "Kg"
 msgstr "Kg"
 
-#: ../src/gui/person.cs:1297
+#: ../src/gui/person.cs:1299
 msgid "M"
 msgstr "H"
 
-#: ../src/gui/person.cs:1301
+#: ../src/gui/person.cs:1303
 msgid "F"
 msgstr "M"
 
-#: ../src/gui/person.cs:1327
+#: ../src/gui/person.cs:1329
 msgid "Persons will be created with default session values"
 msgstr "Los atletas serán creados con los valores predeterminados de la sesión"
 
-#: ../src/gui/person.cs:1572
+#: ../src/gui/person.cs:1574
 msgid "Session name"
 msgstr "Nombre de Sesión"
 
-#: ../src/gui/person.cs:1574
+#: ../src/gui/person.cs:1576
 msgid "Date\n"
 msgstr "Fecha\n"
 
-#: ../src/gui/person.cs:1575
+#: ../src/gui/person.cs:1577
 msgid ""
 "Jumps\n"
 "simple"
@@ -2821,7 +2823,7 @@ msgstr ""
 "Saltos\n"
 "simples"
 
-#: ../src/gui/person.cs:1576
+#: ../src/gui/person.cs:1578
 msgid ""
 "Jumps\n"
 "reactive"
@@ -2829,7 +2831,7 @@ msgstr ""
 "Saltos\n"
 "reactivos"
 
-#: ../src/gui/person.cs:1577
+#: ../src/gui/person.cs:1579
 msgid ""
 "Runs\n"
 "simple"
@@ -2837,7 +2839,7 @@ msgstr ""
 "Carreras\n"
 "simples"
 
-#: ../src/gui/person.cs:1578
+#: ../src/gui/person.cs:1580
 msgid ""
 "Runs\n"
 "interval"
@@ -2845,7 +2847,7 @@ msgstr ""
 "Carreras con\n"
 "tramos"
 
-#: ../src/gui/person.cs:1579
+#: ../src/gui/person.cs:1581
 msgid ""
 "Reaction\n"
 "time"
@@ -3419,1267 +3421,1267 @@ msgstr "Continuar corriendo una distancia de 20m"
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.CountryUndefinedID
-#: ../src/sqlite/country.cs:215
+#: ../src/sqlite/country.cs:218
 msgid "Algeria, People's Democratic Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:216
+#: ../src/sqlite/country.cs:219
 msgid "Angola, Republic of"
 msgstr "Angola, República de"
 
-#: ../src/sqlite/country.cs:217
+#: ../src/sqlite/country.cs:220
 msgid "Benin, Republic of"
 msgstr "Benin, República de"
 
-#: ../src/sqlite/country.cs:218
+#: ../src/sqlite/country.cs:221
 msgid "Botswana, Republic of"
 msgstr "Bostwana, República de"
 
-#: ../src/sqlite/country.cs:219
+#: ../src/sqlite/country.cs:222
 msgid "Burkina Faso"
 msgstr "Burkina Faso"
 
-#: ../src/sqlite/country.cs:220
+#: ../src/sqlite/country.cs:223
 msgid "Burundi, Republic of"
 msgstr "Burundi, República de"
 
-#: ../src/sqlite/country.cs:221
-msgid "Cameroon, Republic of"
-msgstr ""
-
-#: ../src/sqlite/country.cs:222
-msgid "Cape Verde, Republic of"
-msgstr ""
-
-#: ../src/sqlite/country.cs:223
-msgid "Central African Republic"
-msgstr ""
-
 #: ../src/sqlite/country.cs:224
-msgid "Chad, Republic of"
-msgstr ""
+msgid "Cameroon, Republic of"
+msgstr "Camerún, República de"
 
 #: ../src/sqlite/country.cs:225
+msgid "Cape Verde, Republic of"
+msgstr "Cabo Verde, República de"
+
+#: ../src/sqlite/country.cs:226
+msgid "Central African Republic"
+msgstr "República Centro Africana"
+
+#: ../src/sqlite/country.cs:227
+msgid "Chad, Republic of"
+msgstr "Chad, República de"
+
+#: ../src/sqlite/country.cs:228
 msgid "Comoros, Union of the"
 msgstr ""
 
-#: ../src/sqlite/country.cs:226
+#: ../src/sqlite/country.cs:229
 msgid "Congo, Democratic Republic of the"
-msgstr ""
+msgstr "Congo, República Democrática del"
 
-#: ../src/sqlite/country.cs:227
+#: ../src/sqlite/country.cs:230
 msgid "Congo, Republic of the"
-msgstr ""
+msgstr "Congo, República del"
 
-#: ../src/sqlite/country.cs:228
+#: ../src/sqlite/country.cs:231
 msgid "Cote d'Ivoire, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:229
+#: ../src/sqlite/country.cs:232
 msgid "Djibouti, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:230
-msgid "Egypt, Arab Republic of"
-msgstr ""
-
-#: ../src/sqlite/country.cs:231
-msgid "Equatorial Guinea, Republic of"
-msgstr ""
-
-#: ../src/sqlite/country.cs:232
-msgid "Eritrea, State of"
-msgstr ""
-
 #: ../src/sqlite/country.cs:233
-msgid "Ethiopia, Federal Democratic Republic of"
-msgstr ""
+msgid "Egypt, Arab Republic of"
+msgstr "Egipto, República Árabe de"
 
 #: ../src/sqlite/country.cs:234
+msgid "Equatorial Guinea, Republic of"
+msgstr "Guinea Ecuatorial, República de"
+
+#: ../src/sqlite/country.cs:235
+msgid "Eritrea, State of"
+msgstr "Eritrea, Estado de"
+
+#: ../src/sqlite/country.cs:236
+msgid "Ethiopia, Federal Democratic Republic of"
+msgstr "Etiopía, República Democrática Federal de"
+
+#: ../src/sqlite/country.cs:237
 msgid "Gabon, Gabonese Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:235
+#: ../src/sqlite/country.cs:238
 msgid "Gambia, Republic of the"
 msgstr ""
 
-#: ../src/sqlite/country.cs:236
-msgid "Ghana, Republic of"
-msgstr ""
-
-#: ../src/sqlite/country.cs:237
-msgid "Guinea-Bissau, Republic of"
-msgstr ""
-
-#: ../src/sqlite/country.cs:238
-msgid "Guinea, Republic of"
-msgstr ""
-
 #: ../src/sqlite/country.cs:239
-msgid "Kenya, Republic of"
-msgstr ""
+msgid "Ghana, Republic of"
+msgstr "Ghana, República de"
 
 #: ../src/sqlite/country.cs:240
+msgid "Guinea-Bissau, Republic of"
+msgstr "Guinea-Bissau, República de"
+
+#: ../src/sqlite/country.cs:241
+msgid "Guinea, Republic of"
+msgstr "Guinea, República de"
+
+#: ../src/sqlite/country.cs:242
+msgid "Kenya, Republic of"
+msgstr "Kenia, República de"
+
+#: ../src/sqlite/country.cs:243
 msgid "Lesotho, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:241
+#: ../src/sqlite/country.cs:244
 msgid "Liberia, Republic of"
-msgstr ""
+msgstr "Liberia, República de"
 
-#: ../src/sqlite/country.cs:242
+#: ../src/sqlite/country.cs:245
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
-#: ../src/sqlite/country.cs:243
+#: ../src/sqlite/country.cs:246
 msgid "Madagascar, Republic of"
-msgstr ""
+msgstr "Madagascar, República de"
 
-#: ../src/sqlite/country.cs:244
+#: ../src/sqlite/country.cs:247
 msgid "Malawi, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:245
+#: ../src/sqlite/country.cs:248
 msgid "Mali, Republic of"
-msgstr ""
+msgstr "Mali, República de"
 
-#: ../src/sqlite/country.cs:246
+#: ../src/sqlite/country.cs:249
 msgid "Mauritania, Islamic Republic of"
-msgstr ""
+msgstr "Mauritania, República Islámica de"
 
-#: ../src/sqlite/country.cs:247
+#: ../src/sqlite/country.cs:250
 msgid "Mauritius, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:248
+#: ../src/sqlite/country.cs:251
 msgid "Mayotte"
 msgstr ""
 
-#: ../src/sqlite/country.cs:249
+#: ../src/sqlite/country.cs:252
 msgid "Morocco, Kingdom of"
-msgstr ""
+msgstr "Marruecos, Reino de"
 
-#: ../src/sqlite/country.cs:250
+#: ../src/sqlite/country.cs:253
 msgid "Mozambique, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:251
+#: ../src/sqlite/country.cs:254
 msgid "Namibia, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:252
+#: ../src/sqlite/country.cs:255
 msgid "Nigeria, Federal Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:253
+#: ../src/sqlite/country.cs:256
 msgid "Niger, Republic of"
 msgstr "Níger, República de"
 
-#: ../src/sqlite/country.cs:254
+#: ../src/sqlite/country.cs:257
 msgid "Reunion"
 msgstr "Reunión"
 
-#: ../src/sqlite/country.cs:255
+#: ../src/sqlite/country.cs:258
 msgid "Rwanda, Republic of"
 msgstr "Ruanda, República de"
 
-#: ../src/sqlite/country.cs:256
+#: ../src/sqlite/country.cs:259
 msgid "Saint Helena"
 msgstr "Santa Helena"
 
-#: ../src/sqlite/country.cs:257
+#: ../src/sqlite/country.cs:260
 msgid "Sao Tome and Principe, Democratic Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:258
+#: ../src/sqlite/country.cs:261
 msgid "Senegal, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:259
+#: ../src/sqlite/country.cs:262
 msgid "Seychelles, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:260
+#: ../src/sqlite/country.cs:263
 msgid "Sierra Leone, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:261
+#: ../src/sqlite/country.cs:264
 msgid "Somalia, Somali Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:262
+#: ../src/sqlite/country.cs:265
 msgid "South Africa, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:263
+#: ../src/sqlite/country.cs:266
 msgid "Sudan, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:264
+#: ../src/sqlite/country.cs:267
 msgid "Suriname, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:265
+#: ../src/sqlite/country.cs:268
 msgid "Swaziland, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:266
+#: ../src/sqlite/country.cs:269
 msgid "Tanzania, United Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:267
+#: ../src/sqlite/country.cs:270
 msgid "Togo, Togolese Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:268
+#: ../src/sqlite/country.cs:271
 msgid "Tunisia, Tunisian Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:269
+#: ../src/sqlite/country.cs:272
 msgid "Uganda, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:270
+#: ../src/sqlite/country.cs:273
 msgid "Western Sahara"
 msgstr ""
 
-#: ../src/sqlite/country.cs:271
+#: ../src/sqlite/country.cs:274
 msgid "Zambia, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:272
+#: ../src/sqlite/country.cs:275
 msgid "Zimbabwe, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:273
+#: ../src/sqlite/country.cs:276
 msgid "Antarctica (the territory South of 60 deg S)"
 msgstr ""
 
-#: ../src/sqlite/country.cs:274
+#: ../src/sqlite/country.cs:277
 msgid "Bouvet Island (Bouvetoya)"
 msgstr ""
 
-#: ../src/sqlite/country.cs:275
+#: ../src/sqlite/country.cs:278
 msgid "French Southern Territories"
 msgstr ""
 
-#: ../src/sqlite/country.cs:276
+#: ../src/sqlite/country.cs:279
 msgid "Heard Island and McDonald Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:277
+#: ../src/sqlite/country.cs:280
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:278
+#: ../src/sqlite/country.cs:281
 msgid "Afghanistan, Islamic Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:279
+#: ../src/sqlite/country.cs:282
 msgid "Armenia, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:280
+#: ../src/sqlite/country.cs:283
 msgid "Azerbaijan, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:281
+#: ../src/sqlite/country.cs:284
 msgid "Bahrain, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:282
+#: ../src/sqlite/country.cs:285
 msgid "Bangladesh, People's Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:283
+#: ../src/sqlite/country.cs:286
 msgid "Bhutan, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:284
+#: ../src/sqlite/country.cs:287
 msgid "British Indian Ocean Territory (Chagos Archipelago)"
 msgstr ""
 
-#: ../src/sqlite/country.cs:285
+#: ../src/sqlite/country.cs:288
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: ../src/sqlite/country.cs:286
+#: ../src/sqlite/country.cs:289
 msgid "Cambodia, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:287
+#: ../src/sqlite/country.cs:290
 msgid "China, People's Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:288
+#: ../src/sqlite/country.cs:291
 msgid "Christmas Island"
 msgstr ""
 
-#: ../src/sqlite/country.cs:289
+#: ../src/sqlite/country.cs:292
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:290
+#: ../src/sqlite/country.cs:293
 msgid "Cyprus, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:291
+#: ../src/sqlite/country.cs:294
 msgid "Georgia"
 msgstr ""
 
-#: ../src/sqlite/country.cs:292
+#: ../src/sqlite/country.cs:295
 msgid "Hong Kong, Special Administrative Region of China"
 msgstr ""
 
-#: ../src/sqlite/country.cs:293
+#: ../src/sqlite/country.cs:296
 msgid "India, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:294
+#: ../src/sqlite/country.cs:297
 msgid "Indonesia, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:295
+#: ../src/sqlite/country.cs:298
 msgid "Iran, Islamic Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:296
+#: ../src/sqlite/country.cs:299
 msgid "Iraq, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:297
+#: ../src/sqlite/country.cs:300
 msgid "Israel, State of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:298
+#: ../src/sqlite/country.cs:301
 msgid "Japan"
 msgstr ""
 
-#: ../src/sqlite/country.cs:299
+#: ../src/sqlite/country.cs:302
 msgid "Jordan, Hashemite Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:300
+#: ../src/sqlite/country.cs:303
 msgid "Kazakhstan, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:301
+#: ../src/sqlite/country.cs:304
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:302
+#: ../src/sqlite/country.cs:305
 msgid "Korea, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:303
+#: ../src/sqlite/country.cs:306
 msgid "Kuwait, State of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:304
+#: ../src/sqlite/country.cs:307
 msgid "Kyrgyz Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:305
+#: ../src/sqlite/country.cs:308
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:306
+#: ../src/sqlite/country.cs:309
 msgid "Lebanon, Lebanese Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:307
+#: ../src/sqlite/country.cs:310
 msgid "Macao, Special Administrative Region of China"
 msgstr ""
 
-#: ../src/sqlite/country.cs:308
+#: ../src/sqlite/country.cs:311
 msgid "Malaysia"
 msgstr "Malasia"
 
-#: ../src/sqlite/country.cs:309
+#: ../src/sqlite/country.cs:312
 msgid "Maldives, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:310
+#: ../src/sqlite/country.cs:313
 msgid "Mongolia"
 msgstr "Mongolia"
 
-#: ../src/sqlite/country.cs:311
+#: ../src/sqlite/country.cs:314
 msgid "Myanmar, Union of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:312
+#: ../src/sqlite/country.cs:315
 msgid "Nepal, State of"
 msgstr "Nepal, Estado de"
 
-#: ../src/sqlite/country.cs:313
+#: ../src/sqlite/country.cs:316
 msgid "Oman, Sultanate of"
 msgstr "Omán, Sultanato de"
 
-#: ../src/sqlite/country.cs:314
+#: ../src/sqlite/country.cs:317
 msgid "Pakistan, Islamic Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:315
+#: ../src/sqlite/country.cs:318
 msgid "Palestinian Territory, Occupied"
 msgstr ""
 
-#: ../src/sqlite/country.cs:316
+#: ../src/sqlite/country.cs:319
 msgid "Philippines, Republic of the"
 msgstr ""
 
-#: ../src/sqlite/country.cs:317
+#: ../src/sqlite/country.cs:320
 msgid "Qatar, State of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:318
+#: ../src/sqlite/country.cs:321
 msgid "Saudi Arabia, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:319
+#: ../src/sqlite/country.cs:322
 msgid "Singapore, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:320
+#: ../src/sqlite/country.cs:323
 msgid "Sri Lanka, Democratic Socialist Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:321
+#: ../src/sqlite/country.cs:324
 msgid "Syrian Arab Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:322
+#: ../src/sqlite/country.cs:325
 msgid "Taiwan"
 msgstr "Taiwán"
 
-#: ../src/sqlite/country.cs:323
+#: ../src/sqlite/country.cs:326
 msgid "Tajikistan, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:324
+#: ../src/sqlite/country.cs:327
 msgid "Thailand, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:325
+#: ../src/sqlite/country.cs:328
 msgid "Timor-Leste, Democratic Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:326
+#: ../src/sqlite/country.cs:329
 msgid "Turkey, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:327
+#: ../src/sqlite/country.cs:330
 msgid "Turkmenistan"
 msgstr "Turkmenistán"
 
-#: ../src/sqlite/country.cs:328
+#: ../src/sqlite/country.cs:331
 msgid "United Arab Emirates"
 msgstr ""
 
-#: ../src/sqlite/country.cs:329
+#: ../src/sqlite/country.cs:332
 msgid "Uzbekistan, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:330
+#: ../src/sqlite/country.cs:333
 msgid "Vietnam, Socialist Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:331
+#: ../src/sqlite/country.cs:334
 msgid "Yemen"
 msgstr "Yemen"
 
-#: ../src/sqlite/country.cs:332
+#: ../src/sqlite/country.cs:335
 msgid "Åland Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:333
+#: ../src/sqlite/country.cs:336
 msgid "Albania, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:334
+#: ../src/sqlite/country.cs:337
 msgid "Andorra, Principality of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:335
+#: ../src/sqlite/country.cs:338
 msgid "Austria, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:336
+#: ../src/sqlite/country.cs:339
 msgid "Belarus, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:337
+#: ../src/sqlite/country.cs:340
 msgid "Belgium, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:338
+#: ../src/sqlite/country.cs:341
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: ../src/sqlite/country.cs:339
+#: ../src/sqlite/country.cs:342
 msgid "Bulgaria, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:340
+#: ../src/sqlite/country.cs:343
 msgid "Croatia, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:341
+#: ../src/sqlite/country.cs:344
 msgid "Czech Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:342
+#: ../src/sqlite/country.cs:345
 msgid "Denmark, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:343
+#: ../src/sqlite/country.cs:346
 msgid "Estonia, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:344
+#: ../src/sqlite/country.cs:347
 msgid "Faroe Islands"
 msgstr "Islas Feroe"
 
-#: ../src/sqlite/country.cs:345
+#: ../src/sqlite/country.cs:348
 msgid "Finland, Republic of"
 msgstr "Finlandia, República de"
 
-#: ../src/sqlite/country.cs:346
+#: ../src/sqlite/country.cs:349
 msgid "France, French Republic"
 msgstr "Francia, República de"
 
-#: ../src/sqlite/country.cs:347
+#: ../src/sqlite/country.cs:350
 msgid "Germany, Federal Republic of"
 msgstr "Alemania, República Federal de"
 
-#: ../src/sqlite/country.cs:348
+#: ../src/sqlite/country.cs:351
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: ../src/sqlite/country.cs:349
+#: ../src/sqlite/country.cs:352
 msgid "Greece, Hellenic Republic"
 msgstr "Grecia, República Helénica"
 
-#: ../src/sqlite/country.cs:350
+#: ../src/sqlite/country.cs:353
 msgid "Guernsey, Bailiwick of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:351
+#: ../src/sqlite/country.cs:354
 msgid "Holy See (Vatican City State)"
 msgstr ""
 
-#: ../src/sqlite/country.cs:352
+#: ../src/sqlite/country.cs:355
 msgid "Hungary, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:353
+#: ../src/sqlite/country.cs:356
 msgid "Iceland, Republic of"
 msgstr "Islandia, República de"
 
-#: ../src/sqlite/country.cs:354
+#: ../src/sqlite/country.cs:357
 msgid "Ireland"
 msgstr "Irlanda"
 
-#: ../src/sqlite/country.cs:355
+#: ../src/sqlite/country.cs:358
 msgid "Isle of Man"
 msgstr "Isla de Man"
 
-#: ../src/sqlite/country.cs:356
+#: ../src/sqlite/country.cs:359
 msgid "Italy, Italian Republic"
 msgstr "Italia, República Italiana"
 
-#: ../src/sqlite/country.cs:357
+#: ../src/sqlite/country.cs:360
 msgid "Jersey, Bailiwick of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:358
+#: ../src/sqlite/country.cs:361
 msgid "Latvia, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:359
+#: ../src/sqlite/country.cs:362
 msgid "Liechtenstein, Principality of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:360
+#: ../src/sqlite/country.cs:363
 msgid "Lithuania, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:361
+#: ../src/sqlite/country.cs:364
 msgid "Luxembourg, Grand Duchy of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:362
+#: ../src/sqlite/country.cs:365
 msgid "Macedonia, the former Yugoslav Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:363
+#: ../src/sqlite/country.cs:366
 msgid "Malta, Republic of"
 msgstr "Malta, República de"
 
-#: ../src/sqlite/country.cs:364
+#: ../src/sqlite/country.cs:367
 msgid "Moldova, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:365
+#: ../src/sqlite/country.cs:368
 msgid "Monaco, Principality of"
 msgstr "Mónaco, Principado de"
 
-#: ../src/sqlite/country.cs:366
+#: ../src/sqlite/country.cs:369
 msgid "Montenegro, Republic of"
 msgstr "Montenegro, República de"
 
-#: ../src/sqlite/country.cs:367
+#: ../src/sqlite/country.cs:370
 msgid "Netherlands, Kingdom of the"
 msgstr ""
 
-#: ../src/sqlite/country.cs:368
+#: ../src/sqlite/country.cs:371
 msgid "Norway, Kingdom of"
 msgstr "Noruega, Reino de"
 
-#: ../src/sqlite/country.cs:369
+#: ../src/sqlite/country.cs:372
 msgid "Poland, Republic of"
 msgstr "Polonia, República de"
 
-#: ../src/sqlite/country.cs:370
+#: ../src/sqlite/country.cs:373
 msgid "Portugal, Portuguese Republic"
 msgstr "Portugal, República Portuguesa"
 
-#: ../src/sqlite/country.cs:371
+#: ../src/sqlite/country.cs:374
 msgid "Romania"
 msgstr "Rumanía"
 
-#: ../src/sqlite/country.cs:372
+#: ../src/sqlite/country.cs:375
 msgid "Russian Federation"
 msgstr "Federación Rusa"
 
-#: ../src/sqlite/country.cs:373
+#: ../src/sqlite/country.cs:376
 msgid "San Marino, Republic of"
 msgstr "San Marino, República de"
 
-#: ../src/sqlite/country.cs:374
+#: ../src/sqlite/country.cs:377
 msgid "Serbia, Republic of"
 msgstr "Serbia, República de"
 
-#: ../src/sqlite/country.cs:375
+#: ../src/sqlite/country.cs:378
 msgid "Slovakia (Slovak Republic)"
 msgstr "Eslovaquia, República Eslovaca"
 
-#: ../src/sqlite/country.cs:376
+#: ../src/sqlite/country.cs:379
 msgid "Slovenia, Republic of"
 msgstr "Eslovenia, República de"
 
-#: ../src/sqlite/country.cs:377
+#: ../src/sqlite/country.cs:380
 msgid "Spain, Kingdom of"
 msgstr "España, Reino de"
 
-#: ../src/sqlite/country.cs:378
+#: ../src/sqlite/country.cs:381
 msgid "Svalbard & Jan Mayen Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:379
+#: ../src/sqlite/country.cs:382
 msgid "Sweden, Kingdom of"
 msgstr "Suecia, Reino de"
 
-#: ../src/sqlite/country.cs:380
+#: ../src/sqlite/country.cs:383
 msgid "Switzerland, Swiss Confederation"
 msgstr "Suiza, Confederación Suiza"
 
-#: ../src/sqlite/country.cs:381
+#: ../src/sqlite/country.cs:384
 msgid "Ukraine"
 msgstr ""
 
-#: ../src/sqlite/country.cs:382
+#: ../src/sqlite/country.cs:385
 msgid "United Kingdom of Great Britain & Northern Ireland"
 msgstr ""
 
-#: ../src/sqlite/country.cs:383
+#: ../src/sqlite/country.cs:386
 msgid "Anguilla"
 msgstr ""
 
-#: ../src/sqlite/country.cs:384
+#: ../src/sqlite/country.cs:387
 msgid "Antigua and Barbuda"
 msgstr ""
 
-#: ../src/sqlite/country.cs:385
+#: ../src/sqlite/country.cs:388
 msgid "Aruba"
 msgstr ""
 
-#: ../src/sqlite/country.cs:386
+#: ../src/sqlite/country.cs:389
 msgid "Bahamas, Commonwealth of the"
 msgstr ""
 
-#: ../src/sqlite/country.cs:387
+#: ../src/sqlite/country.cs:390
 msgid "Barbados"
 msgstr ""
 
-#: ../src/sqlite/country.cs:388
+#: ../src/sqlite/country.cs:391
 msgid "Belize"
 msgstr ""
 
-#: ../src/sqlite/country.cs:389
+#: ../src/sqlite/country.cs:392
 msgid "Bermuda"
 msgstr ""
 
-#: ../src/sqlite/country.cs:390
+#: ../src/sqlite/country.cs:393
 msgid "British Virgin Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:391
+#: ../src/sqlite/country.cs:394
 msgid "Canada"
 msgstr ""
 
-#: ../src/sqlite/country.cs:392
+#: ../src/sqlite/country.cs:395
 msgid "Cayman Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:393
+#: ../src/sqlite/country.cs:396
 msgid "Costa Rica, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:394
+#: ../src/sqlite/country.cs:397
 msgid "Cuba, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:395
+#: ../src/sqlite/country.cs:398
 msgid "Dominica, Commonwealth of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:396
+#: ../src/sqlite/country.cs:399
 msgid "Dominican Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:397
+#: ../src/sqlite/country.cs:400
 msgid "El Salvador, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:398
+#: ../src/sqlite/country.cs:401
 msgid "Greenland"
 msgstr ""
 
-#: ../src/sqlite/country.cs:399
+#: ../src/sqlite/country.cs:402
 msgid "Grenada"
 msgstr ""
 
-#: ../src/sqlite/country.cs:400
+#: ../src/sqlite/country.cs:403
 msgid "Guadeloupe"
 msgstr "Guadalupe"
 
-#: ../src/sqlite/country.cs:401
+#: ../src/sqlite/country.cs:404
 msgid "Guatemala, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:402
+#: ../src/sqlite/country.cs:405
 msgid "Haiti, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:403
+#: ../src/sqlite/country.cs:406
 msgid "Honduras, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:404
+#: ../src/sqlite/country.cs:407
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: ../src/sqlite/country.cs:405
+#: ../src/sqlite/country.cs:408
 msgid "Martinique"
 msgstr ""
 
-#: ../src/sqlite/country.cs:406
+#: ../src/sqlite/country.cs:409
 msgid "Mexico, United Mexican States"
 msgstr ""
 
-#: ../src/sqlite/country.cs:407
+#: ../src/sqlite/country.cs:410
 msgid "Montserrat"
 msgstr ""
 
-#: ../src/sqlite/country.cs:408
+#: ../src/sqlite/country.cs:411
 msgid "Netherlands Antilles"
 msgstr ""
 
-#: ../src/sqlite/country.cs:409
+#: ../src/sqlite/country.cs:412
 msgid "Nicaragua, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:410
+#: ../src/sqlite/country.cs:413
 msgid "Panama, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:411
+#: ../src/sqlite/country.cs:414
 msgid "Puerto Rico, Commonwealth of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:412
+#: ../src/sqlite/country.cs:415
 msgid "Saint Barthelemy"
 msgstr ""
 
-#: ../src/sqlite/country.cs:413
+#: ../src/sqlite/country.cs:416
 msgid "Saint Kitts and Nevis, Federation of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:414
+#: ../src/sqlite/country.cs:417
 msgid "Saint Lucia"
 msgstr ""
 
-#: ../src/sqlite/country.cs:415
+#: ../src/sqlite/country.cs:418
 msgid "Saint Martin"
 msgstr ""
 
-#: ../src/sqlite/country.cs:416
+#: ../src/sqlite/country.cs:419
 msgid "Saint Pierre and Miquelon"
 msgstr ""
 
-#: ../src/sqlite/country.cs:417
+#: ../src/sqlite/country.cs:420
 msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
-#: ../src/sqlite/country.cs:418
+#: ../src/sqlite/country.cs:421
 msgid "Trinidad and Tobago, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:419
+#: ../src/sqlite/country.cs:422
 msgid "Turks and Caicos Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:420
+#: ../src/sqlite/country.cs:423
 msgid "United States of America"
 msgstr ""
 
-#: ../src/sqlite/country.cs:421
+#: ../src/sqlite/country.cs:424
 msgid "United States Virgin Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:422
+#: ../src/sqlite/country.cs:425
 msgid "American Samoa"
 msgstr ""
 
-#: ../src/sqlite/country.cs:423
+#: ../src/sqlite/country.cs:426
 msgid "Australia, Commonwealth of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:424
+#: ../src/sqlite/country.cs:427
 msgid "Cook Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:425
+#: ../src/sqlite/country.cs:428
 msgid "Fiji, Republic of the Fiji Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:426
+#: ../src/sqlite/country.cs:429
 msgid "French Polynesia"
 msgstr ""
 
-#: ../src/sqlite/country.cs:427
+#: ../src/sqlite/country.cs:430
 msgid "Guam"
 msgstr ""
 
-#: ../src/sqlite/country.cs:428
+#: ../src/sqlite/country.cs:431
 msgid "Kiribati, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:429
+#: ../src/sqlite/country.cs:432
 msgid "Marshall Islands, Republic of the"
 msgstr ""
 
-#: ../src/sqlite/country.cs:430
+#: ../src/sqlite/country.cs:433
 msgid "Micronesia, Federated States of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:431
+#: ../src/sqlite/country.cs:434
 msgid "Nauru, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:432
+#: ../src/sqlite/country.cs:435
 msgid "New Caledonia"
 msgstr "Nueva Caledonia"
 
-#: ../src/sqlite/country.cs:433
+#: ../src/sqlite/country.cs:436
 msgid "New Zealand"
 msgstr ""
 
-#: ../src/sqlite/country.cs:434
+#: ../src/sqlite/country.cs:437
 msgid "Niue"
 msgstr ""
 
-#: ../src/sqlite/country.cs:435
+#: ../src/sqlite/country.cs:438
 msgid "Norfolk Island"
 msgstr "Isla de Norfolk"
 
-#: ../src/sqlite/country.cs:436
+#: ../src/sqlite/country.cs:439
 msgid "Northern Mariana Islands, Commonwealth of the"
 msgstr ""
 
-#: ../src/sqlite/country.cs:437
+#: ../src/sqlite/country.cs:440
 msgid "Palau, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:438
+#: ../src/sqlite/country.cs:441
 msgid "Papua New Guinea, Independent State of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:439
+#: ../src/sqlite/country.cs:442
 msgid "Pitcairn Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:440
+#: ../src/sqlite/country.cs:443
 msgid "Samoa, Independent State of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:441
+#: ../src/sqlite/country.cs:444
 msgid "Solomon Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:442
+#: ../src/sqlite/country.cs:445
 msgid "Tokelau"
 msgstr ""
 
-#: ../src/sqlite/country.cs:443
+#: ../src/sqlite/country.cs:446
 msgid "Tonga, Kingdom of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:444
+#: ../src/sqlite/country.cs:447
 msgid "Tuvalu"
 msgstr ""
 
-#: ../src/sqlite/country.cs:445
+#: ../src/sqlite/country.cs:448
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
-#: ../src/sqlite/country.cs:446
+#: ../src/sqlite/country.cs:449
 msgid "Vanuatu, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:447
+#: ../src/sqlite/country.cs:450
 msgid "Wallis and Futuna"
 msgstr ""
 
-#: ../src/sqlite/country.cs:448
+#: ../src/sqlite/country.cs:451
 msgid "Argentina, Argentine Republic"
 msgstr ""
 
-#: ../src/sqlite/country.cs:449
+#: ../src/sqlite/country.cs:452
 msgid "Bolivia, Republic of"
 msgstr "Bolivia, República de"
 
-#: ../src/sqlite/country.cs:450
+#: ../src/sqlite/country.cs:453
 msgid "Brazil, Federative Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:451
+#: ../src/sqlite/country.cs:454
 msgid "Chile, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:452
+#: ../src/sqlite/country.cs:455
 msgid "Colombia, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:453
+#: ../src/sqlite/country.cs:456
 msgid "Ecuador, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:454
+#: ../src/sqlite/country.cs:457
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
-#: ../src/sqlite/country.cs:455
+#: ../src/sqlite/country.cs:458
 msgid "French Guiana"
 msgstr "Guayana Francesa"
 
-#: ../src/sqlite/country.cs:456
+#: ../src/sqlite/country.cs:459
 msgid "Guyana, Co-operative Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:457
+#: ../src/sqlite/country.cs:460
 msgid "Paraguay, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:458
+#: ../src/sqlite/country.cs:461
 msgid "Peru, Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:459
+#: ../src/sqlite/country.cs:462
 msgid "Uruguay, Eastern Republic of"
 msgstr ""
 
-#: ../src/sqlite/country.cs:460
+#: ../src/sqlite/country.cs:463
 msgid "Venezuela, Bolivarian Republic of"
 msgstr ""
 
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
-#: ../src/sqlite/speciallity.cs:150
+#: ../src/sqlite/speciallity.cs:153
 msgid "Diving"
 msgstr "Clavados (saltos)"
 
-#: ../src/sqlite/speciallity.cs:151
+#: ../src/sqlite/speciallity.cs:154
 msgid "Swimming"
 msgstr "Natación"
 
-#: ../src/sqlite/speciallity.cs:152
+#: ../src/sqlite/speciallity.cs:155
 msgid "Synchronized Swimming"
 msgstr "Natación sincronizada"
 
-#: ../src/sqlite/speciallity.cs:153
+#: ../src/sqlite/speciallity.cs:156
 msgid "Waterpolo"
 msgstr "Waterpolo"
 
-#: ../src/sqlite/speciallity.cs:155
+#: ../src/sqlite/speciallity.cs:158
 msgid "Runs, Sprints"
 msgstr "Carreras con tramos"
 
-#: ../src/sqlite/speciallity.cs:156
+#: ../src/sqlite/speciallity.cs:159
 msgid "Runs, Middle-distance"
 msgstr "Correr, distancias medias"
 
-#: ../src/sqlite/speciallity.cs:157
+#: ../src/sqlite/speciallity.cs:160
 msgid "Runs, Long-distance"
 msgstr "Correr, distancias largas"
 
-#: ../src/sqlite/speciallity.cs:159
+#: ../src/sqlite/speciallity.cs:162
 msgid "Throws"
 msgstr "Lanzamientos"
 
-#: ../src/sqlite/speciallity.cs:160
+#: ../src/sqlite/speciallity.cs:163
 msgid "Combined"
 msgstr "Combinación"
 
-#: ../src/sqlite/speciallity.cs:162 ../src/sqlite/sport.cs:183
+#: ../src/sqlite/speciallity.cs:165 ../src/sqlite/sport.cs:186
 msgid "Bobsleigh"
 msgstr "Bobsleigh"
 
-#: ../src/sqlite/speciallity.cs:163
+#: ../src/sqlite/speciallity.cs:166
 msgid "Skeleton"
 msgstr "Esqueleton"
 
-#: ../src/sqlite/speciallity.cs:165
+#: ../src/sqlite/speciallity.cs:168
 msgid "Flatwater"
 msgstr "Flatwater"
 
-#: ../src/sqlite/speciallity.cs:166
+#: ../src/sqlite/speciallity.cs:169
 msgid "Slalom"
 msgstr "Eslálon"
 
-#: ../src/sqlite/speciallity.cs:168
+#: ../src/sqlite/speciallity.cs:171
 msgid "Cycling BMX"
 msgstr "Ciclismo BMX"
 
-#: ../src/sqlite/speciallity.cs:169
+#: ../src/sqlite/speciallity.cs:172
 msgid "Cycling Road"
 msgstr "Ciclismo en carretera"
 
-#: ../src/sqlite/speciallity.cs:170
+#: ../src/sqlite/speciallity.cs:173
 msgid "Cycling Track"
 msgstr "Ciclismo en pista"
 
-#: ../src/sqlite/speciallity.cs:171
+#: ../src/sqlite/speciallity.cs:174
 msgid "Mountain Bike"
 msgstr "Bici de montaña"
 
-#: ../src/sqlite/speciallity.cs:173
+#: ../src/sqlite/speciallity.cs:176
 msgid "Dressage"
 msgstr "Doma"
 
-#: ../src/sqlite/speciallity.cs:174
+#: ../src/sqlite/speciallity.cs:177
 msgid "Eventing"
 msgstr "Eventing"
 
-#: ../src/sqlite/speciallity.cs:175
+#: ../src/sqlite/speciallity.cs:178
 msgid "jumping"
 msgstr "salto"
 
-#: ../src/sqlite/speciallity.cs:177
+#: ../src/sqlite/speciallity.cs:180
 msgid "Artistic"
 msgstr "Artística"
 
-#: ../src/sqlite/speciallity.cs:178
+#: ../src/sqlite/speciallity.cs:181
 msgid "Rhythmic"
 msgstr "Rítmica"
 
-#: ../src/sqlite/speciallity.cs:179
+#: ../src/sqlite/speciallity.cs:182
 msgid "Trampoline"
 msgstr "Trampolín"
 
-#: ../src/sqlite/speciallity.cs:181
+#: ../src/sqlite/speciallity.cs:184
 msgid "Figure skating"
 msgstr "Patinaje artístico"
 
-#: ../src/sqlite/speciallity.cs:182
+#: ../src/sqlite/speciallity.cs:185
 msgid "Short Track Speed Skating"
 msgstr "Patinaje de velocidad en pista corta"
 
-#: ../src/sqlite/speciallity.cs:183
+#: ../src/sqlite/speciallity.cs:186
 msgid "Speed skating"
 msgstr "Patinaje de velocidad"
 
-#: ../src/sqlite/speciallity.cs:185
+#: ../src/sqlite/speciallity.cs:188
 msgid "Alpine Skiing"
 msgstr "Esquí alpino"
 
-#: ../src/sqlite/speciallity.cs:186
+#: ../src/sqlite/speciallity.cs:189
 msgid "Cross Country Skiing"
 msgstr "Esquí de fondo"
 
-#: ../src/sqlite/speciallity.cs:187
+#: ../src/sqlite/speciallity.cs:190
 msgid "Freestyle Skiing"
 msgstr "Esquí de estilo libre"
 
-#: ../src/sqlite/speciallity.cs:188
+#: ../src/sqlite/speciallity.cs:191
 msgid "Nordic Combined"
 msgstr "Combinada nórdica"
 
-#: ../src/sqlite/speciallity.cs:189
+#: ../src/sqlite/speciallity.cs:192
 msgid "Ski Jumping"
 msgstr "Saltos en esquí"
 
-#: ../src/sqlite/speciallity.cs:190
+#: ../src/sqlite/speciallity.cs:193
 msgid "Snowboard"
 msgstr "Snowboard"
 
-#: ../src/sqlite/speciallity.cs:192
+#: ../src/sqlite/speciallity.cs:195
 msgid "Beach volleyball"
 msgstr "Voleibol de playa"
 
-#: ../src/sqlite/speciallity.cs:193 ../src/sqlite/sport.cs:208
+#: ../src/sqlite/speciallity.cs:196 ../src/sqlite/sport.cs:211
 msgid "Volleyball"
 msgstr "Voleibol"
 
-#: ../src/sqlite/speciallity.cs:195
+#: ../src/sqlite/speciallity.cs:198
 msgid "Freestyle"
 msgstr "Estilo libre"
 
-#: ../src/sqlite/speciallity.cs:196
+#: ../src/sqlite/speciallity.cs:199
 msgid "Greco-Roman"
 msgstr "Greco-romana"
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.SportUndefinedID
 #. will be 2 (it's also written in Constants.SportNoneID
-#: ../src/sqlite/sport.cs:176
+#: ../src/sqlite/sport.cs:179
 msgid "Aquatics"
 msgstr "Deported acuáticos"
 
-#: ../src/sqlite/sport.cs:177
+#: ../src/sqlite/sport.cs:180
 msgid "Archery"
 msgstr "Tiro con arco"
 
-#: ../src/sqlite/sport.cs:178
+#: ../src/sqlite/sport.cs:181
 msgid "Athletics"
 msgstr "Atletico"
 
-#: ../src/sqlite/sport.cs:179
+#: ../src/sqlite/sport.cs:182
 msgid "Badminton"
 msgstr "Bádminton"
 
-#: ../src/sqlite/sport.cs:180
+#: ../src/sqlite/sport.cs:183
 msgid "Baseball"
 msgstr "Béisbol"
 
-#: ../src/sqlite/sport.cs:181
+#: ../src/sqlite/sport.cs:184
 msgid "Basketball"
 msgstr "Baloncesto"
 
-#: ../src/sqlite/sport.cs:182
+#: ../src/sqlite/sport.cs:185
 msgid "Biathlon"
 msgstr "Biatlón"
 
-#: ../src/sqlite/sport.cs:184
+#: ../src/sqlite/sport.cs:187
 msgid "Boxing"
 msgstr "Boxeo"
 
-#: ../src/sqlite/sport.cs:185
+#: ../src/sqlite/sport.cs:188
 msgid "Canoe-Cayak"
 msgstr "Canoa-cayak"
 
-#: ../src/sqlite/sport.cs:186
+#: ../src/sqlite/sport.cs:189
 msgid "Curling"
 msgstr "Curling"
 
-#: ../src/sqlite/sport.cs:187
+#: ../src/sqlite/sport.cs:190
 msgid "Cycling"
 msgstr "Ciclismo"
 
-#: ../src/sqlite/sport.cs:188
+#: ../src/sqlite/sport.cs:191
 msgid "Equestrian"
 msgstr "Hípica"
 
-#: ../src/sqlite/sport.cs:189
+#: ../src/sqlite/sport.cs:192
 msgid "Fencing"
 msgstr "Esgrima"
 
-#: ../src/sqlite/sport.cs:190
+#: ../src/sqlite/sport.cs:193
 msgid "Football"
 msgstr "Fútbol"
 
-#: ../src/sqlite/sport.cs:191
+#: ../src/sqlite/sport.cs:194
 msgid "Gymnastics"
 msgstr "Gimnasia"
 
-#: ../src/sqlite/sport.cs:192
+#: ../src/sqlite/sport.cs:195
 msgid "Handball"
 msgstr "Handball"
 
-#: ../src/sqlite/sport.cs:193
+#: ../src/sqlite/sport.cs:196
 msgid "Hockey"
 msgstr "Hockey"
 
-#: ../src/sqlite/sport.cs:194
+#: ../src/sqlite/sport.cs:197
 msgid "Ice Hockey"
 msgstr "Hockey sobre hielo"
 
-#: ../src/sqlite/sport.cs:195
+#: ../src/sqlite/sport.cs:198
 msgid "Judo"
 msgstr "Judo"
 
-#: ../src/sqlite/sport.cs:196
+#: ../src/sqlite/sport.cs:199
 msgid "Luge"
 msgstr "Luge"
 
-#: ../src/sqlite/sport.cs:197
+#: ../src/sqlite/sport.cs:200
 msgid "Modern Pentathlon"
 msgstr "Pentatlón moderno"
 
-#: ../src/sqlite/sport.cs:198
+#: ../src/sqlite/sport.cs:201
 msgid "Rowing"
 msgstr "Remo"
 
-#: ../src/sqlite/sport.cs:199
+#: ../src/sqlite/sport.cs:202
 msgid "Sailing"
 msgstr "Vela"
 
-#: ../src/sqlite/sport.cs:200
+#: ../src/sqlite/sport.cs:203
 msgid "Shooting"
 msgstr "Tiro"
 
-#: ../src/sqlite/sport.cs:201
+#: ../src/sqlite/sport.cs:204
 msgid "Skating"
 msgstr "Patinaje"
 
-#: ../src/sqlite/sport.cs:202
+#: ../src/sqlite/sport.cs:205
 msgid "Skiing"
 msgstr "Esquí"
 
-#: ../src/sqlite/sport.cs:203
+#: ../src/sqlite/sport.cs:206
 msgid "Softball"
 msgstr "Softball"
 
-#: ../src/sqlite/sport.cs:204
+#: ../src/sqlite/sport.cs:207
 msgid "Table Tennis"
 msgstr "Tenis de mesa"
 
-#: ../src/sqlite/sport.cs:205
+#: ../src/sqlite/sport.cs:208
 msgid "Taekwondo"
 msgstr "Taekwondo"
 
-#: ../src/sqlite/sport.cs:206
+#: ../src/sqlite/sport.cs:209
 msgid "Tennis"
 msgstr "Tenis"
 
-#: ../src/sqlite/sport.cs:207
+#: ../src/sqlite/sport.cs:210
 msgid "Triathlon"
 msgstr "Triatlón"
 
-#: ../src/sqlite/sport.cs:209
+#: ../src/sqlite/sport.cs:212
 msgid "Weightlifting"
 msgstr "Halterofilia"
 
-#: ../src/sqlite/sport.cs:210
+#: ../src/sqlite/sport.cs:213
 msgid "Wrestling"
 msgstr "Lucha"
 

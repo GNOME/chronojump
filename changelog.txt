@@ -1,5 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+22 jul 2008
+	0.7.3.4
+	fixed "-1" as person in personSessionWeight since 0.7.3.2
+	doing: 543783 chronojump_mini output file and params (pending to pass parameters to .bat to .prg)
+
+
 20 jun 2008
 	0.7.3.3
 	splash on windows (XP) works

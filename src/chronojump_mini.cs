@@ -13,6 +13,7 @@
 
 using System;
 using System.IO.Ports;
+using System.IO; 	//File && TextWriter
 
 using Mono.Unix;
 
@@ -27,7 +28,7 @@ class Test {
 	/**********************/
 	/* PROGRAMA PRINCIPAL */
 	/**********************/
-	public static void Main()
+	public static void Main(string[] args)
 	{
 		Chronopic.Plataforma estado_plataforma;
 		Automata estado_automata;
@@ -35,6 +36,11 @@ class Test {
 		double toff;
 		double ton;
 		bool ok;
+		string portName = "";
+		string fileName = "";
+		TextWriter writer;
+		string defaultFileName = "output.txt"; //always output to a file, but if not specified, output here and rewrite it every chronojump_mini execution
+	       
 
 		System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-ES");
 		System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("es-ES");
@@ -42,6 +48,25 @@ class Test {
 		//connect with catalog.cs for using gettext translation
 		Catalog.Init ("chronojump", "./locale");
 
+		//parameters passing
+		if(args.Length > 2) 
+			printSyntaxAndQuit();
+
+		for( int i = 0; i != args.Length; ++i ) {
+			Console.WriteLine("param[{0}]: {1}", i, args[i]);
+			if(args[i].StartsWith("PORT="))
+				portName = args[i].Substring(5);
+			else if (args[i].StartsWith("FILE="))
+				fileName = args[i].Substring(5);
+			else
+				printSyntaxAndQuit();
+		}
+		
+		//output file stuff
+		fileName = manageFileName(fileName, defaultFileName);
+		writer = File.CreateText(fileName);
+
+		//detection of ports
 		string messageInfo;
 		string messageDetected ="";
 
@@ -71,9 +96,11 @@ class Test {
 		Console.WriteLine("---------------------------");
 		Console.WriteLine(messageDetected);
 		Console.WriteLine("---------------------------\n");
-		Console.WriteLine(Catalog.GetString("Print the port name where chronopic is connected:"));
 
-		string portName=Console.ReadLine();
+		if(portName == "") {
+			Console.WriteLine(Catalog.GetString("Print the port name where chronopic is connected:"));
+			portName=Console.ReadLine();
+		}
 
 		Console.WriteLine(Catalog.GetString("Opening port... if get hanged, generate events with chronopic or the platform"));
 		//-- Crear puerto serie		
@@ -153,6 +180,7 @@ class Test {
 
 						//-- Imprimir informacion
 						Console.WriteLine(count + " TF: {0:f1} ms",toff);
+						writer.WriteLine(count + " TF: {0:f1} ms",toff);
 					}
 					break;
 
@@ -169,13 +197,91 @@ class Test {
 
 						//-- Imprimir informacion
 						Console.WriteLine(count + " TC: {0:f1} ms",ton);
+						writer.WriteLine(count + " TC: {0:f1} ms",ton);
 					}
 					break;
 			}
-			count ++;
+				
+			writer.Flush();
 
+			count ++;
 		}
 
+	}
+
+	static void printSyntaxAndQuit() {
+		Console.WriteLine(Catalog.GetString("Invalid args. Use:"));
+
+		if(Util.IsWindows()) {
+			Console.WriteLine("chronojump_mini.bat [PORT=portName>] [FILE=outputFile]");
+			Console.WriteLine(Catalog.GetString("Examples:"));
+			Console.WriteLine("chronojump_mini.bat");
+			Console.WriteLine("chronojump_mini.bat PORT=COM1");
+			Console.WriteLine("chronojump_mini.bat FILE=myFile.csv]");
+			Console.WriteLine("chronojump_mini.bat PORT=COM1 FILE=myFile.csv]");
+		} else {
+			Console.WriteLine("./chronojump_mini.sh [PORT=portName>] [-FILE=outputFile]");
+			Console.WriteLine(Catalog.GetString("Examples:"));
+			Console.WriteLine("./chronojump_mini.sh");
+			Console.WriteLine("./chronojump_mini.sh PORT=/dev/ttyS0");
+			Console.WriteLine("./chronojump_mini.sh FILE=myFile.csv]");
+			Console.WriteLine("./chronojump_mini.sh PORT=/dev/ttyUSB0 FILE=myFile.csv]");
+		}
+			
+		Environment.Exit(1);
+	}
+
+	static string manageFileName(string fileName, string defaultFileName) {
+		bool fileOk = false;
+		do {
+			if(fileName == "") 
+				fileName = getFileName();
+
+			//user don't want to print to a file
+			if(fileName == "")
+				fileOk = true;
+			else {
+				if (File.Exists(fileName)) {
+					bool overwrite = askOverwrite(fileName);
+					if(overwrite) 
+						fileOk = true; //overwrite file, is ok
+					else {
+						fileOk = false; //no overwrite, ! ok
+						fileName = ""; //to be asked for fileName again
+					}
+				} else
+					fileOk = true; //file don't exist, is ok
+			}
+		} while(! fileOk);
+
+		if(fileName == "") 
+			fileName = defaultFileName;
+
+		return fileName;
+	}
+
+	static string getFileName() {
+		string fileName = "";
+		Console.WriteLine(Catalog.GetString("Do you want to output data to a file?") + " [y/n]");
+		string option=Console.ReadLine();
+		if(option == "Y" || option == "y") {
+			Console.WriteLine(Catalog.GetString("Please, write filename:"));
+			fileName=Console.ReadLine();
+		}
+		//if 'n' then "" will be returned
+
+		return fileName;
+	}
+
+	static bool askOverwrite(string fileName) {
+		Console.WriteLine(string.Format(Catalog.GetString("File {0} exists with attributes {1}, created at {2}"), 
+					fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
+		Console.WriteLine(string.Format(Catalog.GetString("Are you sure you want to overwrite file: {0}"), fileName) + " [y/n]");
+		string option=Console.ReadLine();
+		if(option == "Y" || option == "y") 
+			return true;
+		else 
+			return false;
 	}
 
 }

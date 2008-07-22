@@ -110,7 +110,7 @@ public class EventExecute
 
 	//cancel doesn't finish until platform is touched (after pressing cancel button)
 	//this variable controls that platform has been touched
-	//if not, it will shown a popup from chronojump.cs (on_cancel_clicked)	
+	//if not, it will shown a popup from gui/chronojump.cs (on_cancel_clicked)	
 	protected bool totallyCancelled;
 
 	//for finishing earlier from chronojump.cs

@@ -40,12 +40,12 @@ my $glossaryLink = "http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojum
 
 my $awards .= "http://tropheesdulibre.org";
 
-my $construccio_dispositius_mesuraLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/construccio_dispositius_mesura.avi";
+my $construccio_dispositius_mesuraLink = "http://www.vimeo.com/1205809";
 my $fonaments_teorics_bescos_velezLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/fonaments_teorics-bescos-velez.avi";
 my $fonaments_teorics_padullesLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/fonaments_teorics-padulles.avi";
 my $homenatge_carmelo_boscoLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/homenatge_carmelo_bosco.avi";
 my $instalacio_construccio_adquisicioLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/instalacio_construccio_adquisicio.avi";
-my $projecte_chronojumpLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/projecte_chronojump.avi";
+my $projecte_chronojumpLink = "http://www.vimeo.com/1198489";
 my $us_chronojump_bescos_padullesLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/us_chronojump-bescos-padulles.avi";
 
 

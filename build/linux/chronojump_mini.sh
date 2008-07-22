@@ -51,4 +51,5 @@ fi
 echo "---------------"
 echo "3d: call Chronojump"
 cd ../data
-mono chronojump_mini.prg 
+mono chronojump_mini.prg $@
+

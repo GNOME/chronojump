@@ -95,8 +95,13 @@ public class Person {
 				Constants.PersonTable, null, name, sex, dateBorn, height, weight, 
 				sportID, speciallityID, practice, description, race, countryID, serverUniqueID);
 		*/
+
+		//when insert as person we don't know uniqueID
 		uniqueID = -1;
-		this.InsertAtDB(false, Constants.PersonTable);
+		int insertedID = this.InsertAtDB(false, Constants.PersonTable);
+
+		//we need uniqueID for personSession
+		uniqueID = insertedID;
 
 		Log.WriteLine(this.ToString());
 
@@ -122,13 +127,14 @@ public class Person {
 		this.serverUniqueID = Convert.ToInt32(myString[12]); //remember don't do this on server
 	}
 
-	public void InsertAtDB (bool dbconOpened, string tableName) {
-		SqlitePerson.Insert(dbconOpened, tableName, 
+	public int InsertAtDB (bool dbconOpened, string tableName) {
+		int myID = SqlitePerson.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), name,
 				sex, dateBorn, height, -1, //person weight is '-1', weight is in personSessionWeight table
 				sportID, speciallityID, practice,
 				description, race, countryID,
 				serverUniqueID);
+		return myID;
 	}
 	
 

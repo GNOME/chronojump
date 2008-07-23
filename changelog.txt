@@ -1,5 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+23 jul 2008
+	0.7.3.5
+	done: 543783 chronojump_mini output file and params
+	done: 543785 Check two chronopics in a computer
+	chronojump_mini showns on linux available usb-serial and serial ports (on windows disabled batch params)
+
 22 jul 2008
 	0.7.3.4
 	fixed "-1" as person in personSessionWeight since 0.7.3.2

@@ -48,18 +48,20 @@ class Test {
 		//connect with catalog.cs for using gettext translation
 		Catalog.Init ("chronojump", "./locale");
 
-		//parameters passing
-		if(args.Length > 2) 
-			printSyntaxAndQuit();
-
-		for( int i = 0; i != args.Length; ++i ) {
-			Console.WriteLine("param[{0}]: {1}", i, args[i]);
-			if(args[i].StartsWith("PORT="))
-				portName = args[i].Substring(5);
-			else if (args[i].StartsWith("FILE="))
-				fileName = args[i].Substring(5);
-			else
+		//parameters passing only on linux
+		if(! Util.IsWindows()) {
+			if(args.Length > 2) 
 				printSyntaxAndQuit();
+
+			for( int i = 0; i != args.Length; ++i ) {
+				Console.WriteLine("param[{0}]: {1}", i, args[i]);
+				if(args[i].StartsWith("PORT="))
+					portName = args[i].Substring(5);
+				else if (args[i].StartsWith("FILE="))
+					fileName = args[i].Substring(5);
+				else
+					printSyntaxAndQuit();
+			}
 		}
 		
 		//output file stuff
@@ -68,7 +70,7 @@ class Test {
 
 		//detection of ports
 		string messageInfo;
-		string messageDetected ="";
+		//string messageDetected ="";
 
 		if(Util.IsWindows()) {
 			messageInfo = Constants.PortNamesWindows;
@@ -87,17 +89,20 @@ class Test {
 			//messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled on GNU/Linux"));
 		}
 			
-		messageInfo += string.Format(Catalog.GetString("More information on Chronojump manual"));
+		messageInfo += string.Format("\n" + Catalog.GetString("More information on Chronojump manual"));
 
-		messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled"));
+		//messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled"));
 
 		Console.WriteLine("---------------------------");
 		Console.WriteLine(messageInfo);
 		Console.WriteLine("---------------------------");
-		Console.WriteLine(messageDetected);
+		//Console.WriteLine(messageDetected);
 		Console.WriteLine("---------------------------\n");
 
 		if(portName == "") {
+			if( ! Util.IsWindows()) {
+				printPortsLinux();
+			}
 			Console.WriteLine(Catalog.GetString("Print the port name where chronopic is connected:"));
 			portName=Console.ReadLine();
 		}
@@ -217,15 +222,15 @@ class Test {
 			Console.WriteLine(Catalog.GetString("Examples:"));
 			Console.WriteLine("chronojump_mini.bat");
 			Console.WriteLine("chronojump_mini.bat PORT=COM1");
-			Console.WriteLine("chronojump_mini.bat FILE=myFile.csv]");
-			Console.WriteLine("chronojump_mini.bat PORT=COM1 FILE=myFile.csv]");
+			Console.WriteLine("chronojump_mini.bat FILE=myFile.csv");
+			Console.WriteLine("chronojump_mini.bat PORT=COM1 FILE=myFile.csv");
 		} else {
 			Console.WriteLine("./chronojump_mini.sh [PORT=portName>] [-FILE=outputFile]");
 			Console.WriteLine(Catalog.GetString("Examples:"));
 			Console.WriteLine("./chronojump_mini.sh");
 			Console.WriteLine("./chronojump_mini.sh PORT=/dev/ttyS0");
-			Console.WriteLine("./chronojump_mini.sh FILE=myFile.csv]");
-			Console.WriteLine("./chronojump_mini.sh PORT=/dev/ttyUSB0 FILE=myFile.csv]");
+			Console.WriteLine("./chronojump_mini.sh FILE=myFile.csv");
+			Console.WriteLine("./chronojump_mini.sh PORT=/dev/ttyUSB0 FILE=myFile.csv");
 		}
 			
 		Environment.Exit(1);
@@ -282,6 +287,21 @@ class Test {
 			return true;
 		else 
 			return false;
+	}
+
+	static void printPortsLinux() {
+		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
+		if(usbSerial.Length > 0) {
+			Console.WriteLine(string.Format("\n" + Catalog.GetString("Found {0} USB-serial ports."), usbSerial.Length));
+			foreach(string myPort in usbSerial)
+				Console.WriteLine(myPort);
+		} else {
+			Console.WriteLine(Catalog.GetString("Not found any USB-serial ports. Is Chronopic connected?"));
+			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
+			Console.WriteLine(string.Format(Catalog.GetString("Found {0} Serial ports."), serial.Length));
+			foreach(string myPort in serial)
+				Console.WriteLine(myPort);
+		}
 	}
 
 }

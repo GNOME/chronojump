@@ -39,17 +39,17 @@ public class Chronopic {
 	//-- Constructor
 	public Chronopic(SerialPort sp)
 	{
-Console.Write("0");
+//Console.Write("0");
 		//-- Comprobar si puerto serie ya estaba abierto
 		if (sp != null)
 			if (sp.IsOpen)
 				sp.Close();
 
-Console.Write("1");
+//Console.Write("1");
 		//-- Abrir puerto serie
 		sp.Open();
 
-Console.Write("2");
+//Console.Write("2");
 		//-- Configurar timeout por defecto
 		//de momento no en windows (hasta que no encontremos por qué falla)
 		//OperatingSystem os = Environment.OSVersion;
@@ -58,14 +58,14 @@ Console.Write("2");
 		//if( ! os.Platform.ToString().ToUpper().StartsWith("WIN"))
 			sp.ReadTimeout = DefaultTimeout;
 
-Console.Write("3");
+//Console.Write("3");
 		//-- Guardar el puerto serie
 		this.sp = sp;
 
-Console.Write("4");
+//Console.Write("4");
 		//-- Vaciar buffer
 		this.flush();
-Console.Write("5");
+//Console.Write("5");
 	}
 
 	//-- Destructor
@@ -143,10 +143,10 @@ Console.Write("5");
 		int count;
 		bool status;
 
-Console.Write("h");
+//Console.Write("h");
 		//-- Enviar la trama por el puerto serie
 		sp.Write(trama,0,1);
-Console.Write("i");
+//Console.Write("i");
 
 		//-- Esperar a que llegue la respuesta
 		//-- Se espera hasta que en el buffer se tengan el numero de bytes
@@ -154,12 +154,12 @@ Console.Write("i");
 		//-- timeout se aborta
 		count=0;
 		do {
-Console.Write("j");
+//Console.Write("j");
 			n = sp.Read(respuesta,count,2-count);
 			count+=n;
 		} while (count<2 && n!=-1);
 
-Console.Write("k");
+//Console.Write("k");
 		//-- Comprobar la respuesta recibida
 		switch(count) {
 			case 2 : //-- Datos listos
@@ -199,7 +199,7 @@ Console.Write("k");
 				break;
 		}
 
-Console.Write("l");
+//Console.Write("l");
 		return status;
 	}
 

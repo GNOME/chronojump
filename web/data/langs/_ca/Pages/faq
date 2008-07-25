@@ -55,6 +55,16 @@ Sí, escrigui a l'adreça que es veu en aquesta imatge:
 
 <img align="absmiddle" src=":::imageLink:::/xaviblas-correo.png">
 
+<li>Puc connectar més d'un Chronopic a un ordinador?
+<p>
+Sí.
+<ul>
+<li>Un sol Chronopic és suficient per a captar estímuls d'un o més dispositius de mesura (com plataformes de contacte) sempre que no es produeixi contacte en diversos dispositius al mateix temps. Si vol mesurar el temps de contacte i temps de vol en la marxa, no podrà diferenciar entre un peu i l'altre amb un sol Chronopic encara que tingui una plataforma de contacte per a cada peu.
+<li>
+Amb dos o més Chronopics podrà captar canals diferents. En l'exemple de l'anàlisi de la marxa, podrà posar un dispositiu de mesura per a cada peu, connectar cada dispositiu a un Chronopic i connectar ambdós Chronopics a un ordinador. Executant dos cops el programa Chronojump_mini podrà detectar la fase de contacte i la fase de vol de cada peu, així com exportar les dades a un full de càlcul per a analitzar-les. Més informació a: <a href="http://mail.gnome.org/archives/chronojump-list/2008-July/msg00015.html">important: connecting n chronopics to a computer / importante: conectando n chronopics a un ordenador</a> (anglès i castellà).
+</ul>
+
+
 <li>Per què és necessari un cronòmetre si qualsevol ordinador pot fer aquesta funció ? 
 <p>
 Els sistemes operatius moderns són multifuncions, això significa que l'ordinador assigna petites quantitats de temps per la realizació de cada una de las tasques, de manera que, sembli executar-les totes al mateix temps. L'ordinador s'encarrega de captar els estímuls procedents de la plataforma de contactes, per les seves característiques, de vegades, l'ordinador trigarà en adonar-se d'aquests events perquè estarà ocupat amb altres <i>assumptes</i>, això es tradueix en problemes de fiabilitat causats pel fet que dos salts de la mateixa durada podrien registrar-se amb medicions diferents per circumstàncies aleatories.<br>

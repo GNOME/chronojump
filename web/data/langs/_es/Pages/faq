@@ -56,6 +56,15 @@ Sí, escriba a la dirección que se ve en esta imagen:
 
 <img align="absmiddle" src=":::imageLink:::/xaviblas-correo.png">
 
+<li>Puedo conectar más de un Chronopic a un ordenador?
+<p>
+Sí.
+<ul>
+<li>Un Chronopic es suficiente para captar estímulos de uno o más dispositivos de medida (como plataformas de contacto) siempre que no se produzca contacto en diversos dispositivos al mismo tiempo. Si desea medir el tiempo de contacto y el tiempo de vuelo en la marcha, no podrá diferenciar entre un pie y el otro con sólo un Chronopic aunque tenga una plataforma de contacto para cada pie.
+<li>
+Con dos o más Chronopics podrá captar canales diferentes. En el ejemplo del análisis de la marcha, podrá ubicar un dispositivo de medida para cada pie, conectando cada dispositivo a un Chronopic y conectando ambos Chronopics a un ordenador. Ejecutando dos veces el programa Chronojump_mini podrá detectar la fase de contacto y la de vuelo de cada pie, así como exportar los datos a una hoja de cálculo para analizarlas. Más información en: <a href="http://mail.gnome.org/archives/chronojump-list/2008-July/msg00015.html">important: connecting n chronopics to a computer / importante: conectando n chronopics a un ordenador</a>.
+</ul>
+
 
 
 <li>¿Por qué es necesario un cronómetro si cualquier ordenador puede hacer esa función?

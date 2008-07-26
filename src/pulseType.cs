@@ -21,6 +21,7 @@
 
 using System;
 using System.Data;
+using Mono.Unix;
 
 public class PulseType : EventType
 {
@@ -38,9 +39,22 @@ public class PulseType : EventType
 		this.name = name;
 		
 		//if this changes, sqlite/pulseType.cs initialize table should change
-		if(name == "Free" || name == "Custom") {
+		if(name == "Free") {
 			fixedPulse = -1;
 			totalPulsesNum = -1;
+			imageFileName = "pulse_free.png";
+			description = Catalog.GetString("Pulse free");
+			longDescription = 
+				Catalog.GetString("User executes a pulse without a predefined tempo. <i>Difference</i> will show the difference between a pulse and it's preceeding pulse.");
+
+		} else if(name == "Custom") {
+			fixedPulse = -1;
+			totalPulsesNum = -1;
+			imageFileName = "pulse_custom.png";
+			description = Catalog.GetString("Pulse custom");
+			longDescription = 
+				Catalog.GetString("User executes a pulse trying to follow a predefined tempo and optionally with a fixed number of pulsations. <i>Difference</i> will show the difference between a a pulse and the predefined pulse.");
+
 		}
 	}
 	

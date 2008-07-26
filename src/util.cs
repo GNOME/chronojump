@@ -861,4 +861,12 @@ public class Util
 		return result;
 	}
 
+	/*
+	//converts all values to positive
+	public static string StringValuesAbsolute (string myString) {
+		return myString.Trim('-');
+	}
+*/
+
+
 }

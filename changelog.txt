@@ -1,5 +1,13 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+27 jul 2008
+	0.7.4
+	chronojump_mini prints data suitable to be on a csv (separated by ';')
+	chronojump_mini small text improvements
+	chronojump sorts ok countries translated
+	done: 543782 Pulses optimization. AVGs at difference. And
+	explanation on what "difference" does on every pulse type
+
 23 jul 2008
 	0.7.3.5
 	done: 543783 chronojump_mini output file and params

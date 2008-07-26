@@ -1033,6 +1033,8 @@ public class PersonAddModifyWindow
 				countriesTranslated[i++] = myStrFull[2];
 			}
 		}
+		//sort array (except first row)
+		System.Array.Sort(countriesTranslated, 1, countriesTranslated.Length-1);
 
 		UtilGtk.ComboUpdate(combo_countries, countriesTranslated, "");
 		combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 

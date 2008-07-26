@@ -16,5 +16,5 @@ exit
 
 :ExecuteChronojump
 cd ..\data
-"%monoFullPath%" "chronojump_mini.prg %*"
+"%monoFullPath%" "chronojump_mini.prg"
 pause

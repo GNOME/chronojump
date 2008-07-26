@@ -12265,6 +12265,7 @@ options</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_button_pulse_free_activate" last_modification_time="Mon, 01 May 2006 17:43:47 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Sat, 26 Jul 2008 22:08:49 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -12283,6 +12284,7 @@ options</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				      <signal name="clicked" handler="on_button_pulse_custom_activate" last_modification_time="Mon, 01 May 2006 17:44:15 GMT"/>
+				      <signal name="enter" handler="on_button_enter" last_modification_time="Sat, 26 Jul 2008 22:09:00 GMT"/>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>

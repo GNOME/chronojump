@@ -67,6 +67,7 @@ class Test {
 		//output file stuff
 		fileName = manageFileName(fileName, defaultFileName);
 		writer = File.CreateText(fileName);
+				
 
 		//detection of ports
 		string messageInfo;
@@ -160,7 +161,10 @@ class Test {
 		Console.WriteLine(Catalog.GetString("Press CTRL-c for ending session"));
 		Console.WriteLine("-----------------------------------------");
 
-		int count = 1;
+		double count = 1.0;
+						
+		Console.WriteLine("\tcount\tTC(ms)\tTF(ms)");
+		writer.WriteLine("count;TC(ms);TF(ms)");
 		while(true) {
 
 			//-- Esperar a que llegue una trama
@@ -184,8 +188,8 @@ class Test {
 						toff = timestamp;
 
 						//-- Imprimir informacion
-						Console.WriteLine(count + " TF: {0:f1} ms",toff);
-						writer.WriteLine(count + " TF: {0:f1} ms",toff);
+						Console.WriteLine("{0:f1}",toff);
+						writer.WriteLine("{0:f1}",toff);
 					}
 					break;
 
@@ -201,15 +205,15 @@ class Test {
 						ton = timestamp;
 
 						//-- Imprimir informacion
-						Console.WriteLine(count + " TC: {0:f1} ms",ton);
-						writer.WriteLine(count + " TC: {0:f1} ms",ton);
+						Console.Write(count + "\t{0:f1}\t",ton);
+						writer.Write(count + ";{0:f1};",ton);
 					}
 					break;
 			}
 				
 			writer.Flush();
 
-			count ++;
+			count += .5;
 		}
 
 	}
@@ -270,6 +274,8 @@ class Test {
 		Console.WriteLine(Catalog.GetString("Do you want to output data to a file?") + " [y/n]");
 		string option=Console.ReadLine();
 		if(option == "Y" || option == "y") {
+			Console.WriteLine(Catalog.GetString("If you want to open it with an Spreadsheet like Gnumeric, OpenOffice or MS Office, we recomend to use .csv extension.\neg: 'test.csv'"));
+			Console.WriteLine(string.Format(Catalog.GetString("File will be available at directory: {0}"), Path.GetFullPath(".." + Path.DirectorySeparatorChar + "data")));
 			Console.WriteLine(Catalog.GetString("Please, write filename:"));
 			fileName=Console.ReadLine();
 		}

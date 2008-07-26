@@ -102,19 +102,8 @@ public class TreeViewPulses : TreeViewEvent
 	{
 		Pulse newPulse = (Pulse)myObject;
 
-		//check the time
-		string [] myStringFull = newPulse.TimesString.Split(new char[] {'='});
-		string timeInterval = myStringFull[lineCount];
-
-
-		//if fixedPulse is not defined, comparate each pulse with the averave
-		double pulseToComparate = 0;
-		if(newPulse.FixedPulse == -1) 
-			pulseToComparate = Util.GetAverage(newPulse.TimesString);
-		else
-			pulseToComparate = newPulse.FixedPulse;
-
-		
+		string timeInterval = getTimeInterval(newPulse, lineCount);
+		double pulseToComparate = getPulseToComparate(newPulse);	
 		double absoluteError = Convert.ToDouble(timeInterval) - pulseToComparate;
 		double relativeError = absoluteError * 100 / pulseToComparate;
 		
@@ -154,8 +143,8 @@ public class TreeViewPulses : TreeViewEvent
 		int count = 0;
 		myData[count++] = Catalog.GetString("AVG");
 		myData[count++] = Util.TrimDecimals( Util.GetAverage(newPulse.TimesString).ToString(), pDN );
-		myData[count++] = "";
-		myData[count++] = ""; 
+		myData[count++] = "|" + Util.TrimDecimals( getAVGDifference(newPulse, false).ToString(), pDN ) + "|";
+		myData[count++] = "|" + Util.TrimDecimals( getAVGDifference(newPulse, true).ToString(), pDN ) + "|";
 		myData[count++] = "";
 		myData[count++] = newPulse.UniqueID.ToString(); 
 		
@@ -190,5 +179,42 @@ public class TreeViewPulses : TreeViewEvent
 
 		return myStringFull.Length; 
 	}
+	
+	private string getTimeInterval(Pulse newPulse, int lineCount) {
+		//check the time
+		string [] myStringFull = newPulse.TimesString.Split(new char[] {'='});
+		return myStringFull[lineCount];
+	}
+
+		
+	private double getPulseToComparate(Pulse newPulse) {
+		//if fixedPulse is not defined, comparate each pulse with the averave
+		double pulseToComparate = 0;
+		if(newPulse.FixedPulse == -1) 
+			pulseToComparate = Util.GetAverage(newPulse.TimesString);
+		else
+			pulseToComparate = newPulse.FixedPulse;
+
+		return pulseToComparate;
+	}
+
+	//gets the absolute (positive) value of differences and makes avg
+	private double getAVGDifference(Pulse newPulse, bool percent) {
+		double pulseToComparate = getPulseToComparate(newPulse);	
+
+		double error = 0;
+		double errorCount = 0;
+		string [] times = newPulse.TimesString.Split(new char[] {'='});
+		foreach(string myTime in times) {
+			error = Math.Abs(Convert.ToDouble(myTime) - pulseToComparate);
+			if(percent)
+				error = error * 100 / pulseToComparate;
+
+			errorCount += error;
+		}
+
+		return errorCount / (double) times.Length;
+	}
+
 	
 }

@@ -120,6 +120,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_interval_by_time;
 	[Widget] Gtk.Button button_run_interval_unlimited;
 	[Widget] Gtk.Button button_reaction_time_execute;
+	[Widget] Gtk.Button button_pulse_free;
 	[Widget] Gtk.Button button_pulse_custom;
 	[Widget] Gtk.Button button_pulse_more;
 	
@@ -2228,9 +2229,13 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentEventType = new RunType("byTime");
 		} else 	if(o == (object) button_run_interval_unlimited) {
 			currentEventType = new RunType("unlimited");
-		}
 		//reactionTime
 		//pulse
+		} else 	if(o == (object) button_pulse_free) {
+			currentEventType = new PulseType("Free");
+		} else 	if(o == (object) button_pulse_custom) {
+			currentEventType = new PulseType("Custom");
+		}
 
 		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
 	}

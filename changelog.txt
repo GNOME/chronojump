@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+27 jul 2008 (2)
+	chronojump_mini exports now to windows or linux folder (not data)
+
 27 jul 2008
 	0.7.4
 	chronojump_mini prints data suitable to be on a csv (separated by ';')

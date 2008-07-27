@@ -57,8 +57,11 @@ class Test {
 				Console.WriteLine("param[{0}]: {1}", i, args[i]);
 				if(args[i].StartsWith("PORT="))
 					portName = args[i].Substring(5);
-				else if (args[i].StartsWith("FILE="))
+				else if (args[i].StartsWith("FILE=")) {
 					fileName = args[i].Substring(5);
+					//put file in windows or linux folder (instead of data folder)
+					fileName=".." + Path.DirectorySeparatorChar + getOutputDir() + Path.DirectorySeparatorChar + fileName;
+				}
 				else
 					printSyntaxAndQuit();
 			}
@@ -229,7 +232,7 @@ class Test {
 			Console.WriteLine("chronojump_mini.bat FILE=myFile.csv");
 			Console.WriteLine("chronojump_mini.bat PORT=COM1 FILE=myFile.csv");
 		} else {
-			Console.WriteLine("./chronojump_mini.sh [PORT=portName>] [-FILE=outputFile]");
+			Console.WriteLine("./chronojump_mini.sh [PORT=portName>] [FILE=outputFile]");
 			Console.WriteLine(Catalog.GetString("Examples:"));
 			Console.WriteLine("./chronojump_mini.sh");
 			Console.WriteLine("./chronojump_mini.sh PORT=/dev/ttyS0");
@@ -269,15 +272,26 @@ class Test {
 		return fileName;
 	}
 
+	static string getOutputDir() {
+		string dir = "linux";
+		if(Util.IsWindows())
+			dir = "windows";
+		return dir;
+	}
+
 	static string getFileName() {
 		string fileName = "";
 		Console.WriteLine(Catalog.GetString("Do you want to output data to a file?") + " [y/n]");
 		string option=Console.ReadLine();
+
 		if(option == "Y" || option == "y") {
 			Console.WriteLine(Catalog.GetString("If you want to open it with an Spreadsheet like Gnumeric, OpenOffice or MS Office, we recomend to use .csv extension.\neg: 'test.csv'"));
-			Console.WriteLine(string.Format(Catalog.GetString("File will be available at directory: {0}"), Path.GetFullPath(".." + Path.DirectorySeparatorChar + "data")));
+			Console.WriteLine(string.Format(Catalog.GetString("File will be available at directory: {0}"), Path.GetFullPath(".." + Path.DirectorySeparatorChar + getOutputDir())));
 			Console.WriteLine(Catalog.GetString("Please, write filename:"));
 			fileName=Console.ReadLine();
+
+			//put file in windows or linux folder (instead of data folder)
+			fileName=".." + Path.DirectorySeparatorChar + getOutputDir() + Path.DirectorySeparatorChar + fileName;
 		}
 		//if 'n' then "" will be returned
 

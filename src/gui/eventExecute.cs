@@ -1459,7 +1459,7 @@ public class EventExecuteWindow
 	void on_button_help_clicked (object o, EventArgs args)
 	{
 /*		
-		new DialogHelp(Catalog.GetString("This window shows the execution of a test. In the graph, you may see:\n\nSIMPLE TESTS:\n-\"Now\": shows the data of the current test.\n-\"Person AVG\": shows the average of the current person executing this type of test on this session.\n-\"Session AVG\": shows the Average of all persons executing this type of test on this session.\n\nREPETITIVE TESTS:\n-\"Now\": shows the data of the current test.\n-\"AVG\": shows the average of the current test.\n\n(For more statistics data, you may use the statistics window).\n\nYou may change the graph options using buttons on the left.\n\nAt the bottom you may see the evolution of the test, and you may finish it (depending on the type of test), or even cancel it."));
+		new DialogMessage(Constants.MessageTypes.HELP, Catalog.GetString("This window shows the execution of a test. In the graph, you may see:\n\nSIMPLE TESTS:\n-\"Now\": shows the data of the current test.\n-\"Person AVG\": shows the average of the current person executing this type of test on this session.\n-\"Session AVG\": shows the Average of all persons executing this type of test on this session.\n\nREPETITIVE TESTS:\n-\"Now\": shows the data of the current test.\n-\"AVG\": shows the average of the current test.\n\n(For more statistics data, you may use the statistics window).\n\nYou may change the graph options using buttons on the left.\n\nAt the bottom you may see the evolution of the test, and you may finish it (depending on the type of test), or even cancel it."));
 */
 	}
 	

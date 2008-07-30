@@ -129,7 +129,6 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_last;
 	[Widget] Gtk.Button button_run_interval_last;
 	[Widget] Gtk.Button button_pulse_last;
-	[Widget] Gtk.Button button_last_delete;
 	[Widget] Gtk.MenuItem menuitem_preferences;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_export_xml;
@@ -202,7 +201,6 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_interval_delete;
 	[Widget] Gtk.Image image_reaction_time_delete;
 	[Widget] Gtk.Image image_pulse_delete;
-	[Widget] Gtk.Image image_delete_last;
 	
 	[Widget] Gtk.Image image_tv_collapse;
 	[Widget] Gtk.Image image_tv_rj_collapse;
@@ -279,10 +277,7 @@ public class ChronoJumpWindow
 
 	//Used by Cancel and Finish
 	private static EventType currentEventType;
-	private static EventType lastEventType;
 
-	private static bool lastJumpIsReactive; //if last Jump is reactive or not
-	private static bool lastRunIsInterval; //if last run is interval or not (obvious) 
 	private static JumpType currentJumpType;
 	private static RunType currentRunType;
 	private static PulseType currentPulseType;
@@ -502,9 +497,6 @@ public class ChronoJumpWindow
 		image_reaction_time_delete.Pixbuf = pixbuf;
 		image_pulse_delete.Pixbuf = pixbuf;
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "delete_last.png");
-		image_delete_last.Pixbuf = pixbuf;
-
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change
 
@@ -617,7 +609,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		returnString = "";
 		if(success) {
 			cpRunning = true;
-			returnString = string.Format(Catalog.GetString("Connected to Chronopic on port: {0}"), myPort);
+			returnString = string.Format(Catalog.GetString("<b>Connected</b> to Chronopic on port: {0}"), myPort);
 			//appbar2.Push( 1, returnString);
 		}
 		if(! success) {
@@ -1898,7 +1890,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		if(chronopicPort == Constants.ChronopicDefaultPortWindows ||
 				chronopicPort == Constants.ChronopicDefaultPortLinux) {
-			new DialogMessage(Catalog.GetString("You need to configurate the Chronopic port at preferences."), true);
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("You need to configurate the Chronopic port at preferences."));
 			menuitem_simulated.Active = true;
 			return;
 		}
@@ -2154,7 +2146,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Log.WriteLine("totallyFinished");
 		else {
 			Log.Write("NOT-totallyFinished ");
-			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full finishing.\nThen press button\n"));
+			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full finishing.\nThen press this button:\n"));
 			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
 		}
 	}
@@ -2463,9 +2455,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventType = new JumpType();
-			lastJumpIsReactive = false;
-
 			currentJump = (Jump) currentEventExecute.EventDone;
 
 			if(weightPercentPreferred)
@@ -2477,6 +2466,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				myTreeViewJumps.Add(currentPerson.Name, myJump);
 			}
 			
+			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
+			showHideActionEventButtons(true, "Jump"); //show
 		
 			if(createdStatsWin) {
 				//statsWin.FillTreeView_stats(false, false);
@@ -2654,9 +2645,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventType = new JumpType();
-			lastJumpIsReactive = true;
-
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
 
 			//if user clicked in finish earlier
@@ -2679,6 +2667,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				myTreeViewJumpsRj.Add(currentPerson.Name, myJump);
 			}
 			
+			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
+			showHideActionEventButtons(true, "JumpRj"); //show
 
 			//currentEventExecute.StopThread();
 
@@ -2873,12 +2863,12 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventType = new RunType();
-			lastRunIsInterval = false;
-			
 			currentRun = (Run) currentEventExecute.EventDone;
 
 			myTreeViewRuns.Add(currentPerson.Name, currentRun);
+			
+			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
+			showHideActionEventButtons(true, "Run"); //show
 		
 			if(createdStatsWin) {
 				//statsWin.FillTreeView_stats(false, false);
@@ -3054,9 +3044,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventType = new RunType();
-			lastRunIsInterval = true;
-
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
 
 			//if user clicked in finish earlier
@@ -3070,6 +3057,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				}
 			}
 			myTreeViewRunsInterval.Add(currentPerson.Name, currentRunInterval);
+			
+			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
+			showHideActionEventButtons(true, "RunInterval"); //show
 
 			if(createdStatsWin) {
 				//statsWin.FillTreeView_stats(false, false);
@@ -3170,11 +3160,13 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_reaction_time_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventType = new ReactionTimeType();
 
 			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
 			
 			myTreeViewReactionTimes.Add(currentPerson.Name, currentReactionTime);
+			
+			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
+			showHideActionEventButtons(true, "ReactionTime"); //show
 		
 			if(createdStatsWin) {
 				//statsWin.FillTreeView_stats(false, false);
@@ -3318,7 +3310,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-			lastEventType = new PulseType();
 			/*
 			 * CURRENTLY NOT NEEDED... check
 			//if user clicked in finish earlier
@@ -3336,6 +3327,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentPulse = (Pulse) currentEventExecute.EventDone;
 
 			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
+			
+			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
+			showHideActionEventButtons(true, "Pulse"); //show
 			
 			if(createdStatsWin) {
 				//statsWin.FillTreeView_stats(false, false);
@@ -3765,6 +3759,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 
+	/*
 	private void on_last_delete (object o, EventArgs args) {
 		Log.WriteLine("delete last event");
 		
@@ -3906,6 +3901,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			statsWin.FillTreeView_stats(false, false);
 		}
 	}
+	*/
 
 
 	/* ---------------------------------------------------------
@@ -4060,11 +4056,15 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	//help
 	private void on_menuitem_manual_activate (object o, EventArgs args) {
-		new DialogMessage(string.Format(Catalog.GetString("There's a copy of Chronojump Manual on \"docs\" directory.\n Newer versions will be on this site:\n{0}"), "http://gnome.org/projects/chronojump/documents.html"), false);
+		new DialogMessage(Constants.MessageTypes.HELP, 
+				Catalog.GetString("There's a copy of Chronojump Manual at:") + "\n" + 
+				"<i>" + Path.GetFullPath(Util.GetManualDir()) + "</i>\n" + 
+				Catalog.GetString("Newer versions will be on this site:") +"\n" + 
+				"<i>http://gnome.org/projects/chronojump/documents.html</i>");
 	}
 
 	private void on_menuitem_formulas_activate (object o, EventArgs args) {
-		new DialogMessage("Here there will be bibliographic information about formulas and some notes.\n\nProbably this will be a window and not a dialog\n\nNote text is selectable", false);
+		new DialogMessage(Constants.MessageTypes.INFO, "Here there will be bibliographic information about formulas and some notes.\n\nProbably this will be a window and not a dialog\n\nNote text is selectable");
 	}
 
 	private void on_about1_activate (object o, EventArgs args) {
@@ -4144,7 +4144,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		button_run_interval_last.Sensitive=false;
 		button_pulse_last.Sensitive=false;
 		
-		button_last_delete.Sensitive = false;
+//		button_last_delete.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesSession () {
@@ -4181,7 +4181,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		menu_view.Sensitive = false;
 		
 		//menuitem_jump_type_add.Sensitive = false;
-		button_last_delete.Sensitive = false;
+//		button_last_delete.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -4209,7 +4209,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void sensitiveGuiYesEvent () {
-		button_last_delete.Sensitive = true;
+//		button_last_delete.Sensitive = true;
 	}
 	
 	private void sensitiveGuiEventDoing () {
@@ -4226,7 +4226,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		menu_other.Sensitive = false;
 		
 		//cancel, delete last, finish
-		button_last_delete.Sensitive = false;
+//		button_last_delete.Sensitive = false;
 	}
    
 	private void sensitiveGuiEventDone () {

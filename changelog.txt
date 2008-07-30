@@ -1,5 +1,39 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+30 jul 2008 (2)
+	0.7.4.2 
+	fixed crash in convertWeight (it was doing it in new user)
+
+30 jul 2008
+	0.7.4.1
+	treeview test improvements:
+	-event done is auto selected
+	-if last event of a person is deleted, person is deleted from treeviewEvents
+	-no more delete last button, because now last test is selected
+	and it can be easily deleted with delete test button. (also deleted
+	from manual)
+
+	improved helpPorts
+		fixed bug: 536569 helPorts integrated in Chronojump, also improved chronopicConnection and helpPorts
+		fixed bug: 539362  better info on connecting.
+		deleted dialogHelp (dialogMessage does all now)
+		improved message touch contact platform
+
+	doing bug: 538198 "supply created database" calling: "chronojump.prg createBlankDB" creates blank database
+
+	new db: 0.58: 
+		countries without "kingdom, republic, ...". converted es.po
+	
+	location of "manual" shown on execution
+	prettier preferences
+
+	done sort sport and speciallity translated. Stripped of the number.
+	Work also for session add. work in both cases for sport add.
+
+	fixed bug in sport userDefined on ToString
+
+	updating manual
+
 27 jul 2008 (2)
 	chronojump_mini exports now to windows or linux folder (not data)
 

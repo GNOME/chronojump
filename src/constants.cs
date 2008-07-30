@@ -192,15 +192,21 @@ public class Constants
 
 	public static string PortNamesWindows = 
 		string.Format(Catalog.GetString("Typical serial and USB-serial ports on Windows:") + 
-				"\n\tCOM1\n\tCOM2\n\n" + 
+				"\n\t<i>COM1\tCOM2</i>\n\n" + 
 				Catalog.GetString("Also, these are possible:") + 
-				"\n\tCOM3 ... COM8");
+				"\t<i>COM3 ... COM27</i>");
 	
 	public static string PortNamesLinux = 
 		string.Format(Catalog.GetString("Typical serial serial ports on GNU/Linux:") + 
-				"\n\t/dev/ttyS0\n\t/dev/ttyS1\n\n" +
+				"\t<i>/dev/ttyS0\t/dev/ttyS1</i>\n" +
 				Catalog.GetString("Typical USB-serial ports on GNU/Linux:") +
-				"\n\t/dev/ttyUSB0\n\t/dev/ttyUSB1");
+				"\t<i>/dev/ttyUSB0\t/dev/ttyUSB1</i>" + "\n" + 
+				Catalog.GetString("If you use Chronopic3, you will have an USB-serial port.")
+				);
+
+	public static string FoundSerialPortsString = Catalog.GetString("Serial ports found:"); 
+	public static string FoundUSBSerialPortsString = Catalog.GetString("USB-serial ports found:"); 
+	public static string NotFoundUSBSerialPortsString = Catalog.GetString("Not found any USB-serial ports.") + " " + Catalog.GetString("Is Chronopic connected?"); 
 
 //	public static System.Media.SystemSound SoundCanStart = System.Media.SystemSounds.Question; 
 //	public static System.Media.SystemSounds SoundGood = System.Media.SystemSounds.Exclamation; 
@@ -291,4 +297,8 @@ public class Constants
 	
 	public static int ServerUndefinedID = -1;
 
+	//for dialog windows
+	public enum MessageTypes {
+		WARNING, INFO, HELP
+	}
 }

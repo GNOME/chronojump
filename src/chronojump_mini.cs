@@ -105,7 +105,7 @@ class Test {
 
 		if(portName == "") {
 			if( ! Util.IsWindows()) {
-				printPortsLinux();
+				Console.WriteLine(Util.DetectPortsLinux());
 			}
 			Console.WriteLine(Catalog.GetString("Print the port name where chronopic is connected:"));
 			portName=Console.ReadLine();
@@ -307,21 +307,6 @@ class Test {
 			return true;
 		else 
 			return false;
-	}
-
-	static void printPortsLinux() {
-		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
-		if(usbSerial.Length > 0) {
-			Console.WriteLine(string.Format("\n" + Catalog.GetString("Found {0} USB-serial ports."), usbSerial.Length));
-			foreach(string myPort in usbSerial)
-				Console.WriteLine(myPort);
-		} else {
-			Console.WriteLine(Catalog.GetString("Not found any USB-serial ports. Is Chronopic connected?"));
-			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
-			Console.WriteLine(string.Format(Catalog.GetString("Found {0} Serial ports."), serial.Length));
-			foreach(string myPort in serial)
-				Console.WriteLine(myPort);
-		}
 	}
 
 }

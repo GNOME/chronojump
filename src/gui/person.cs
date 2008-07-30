@@ -636,8 +636,10 @@ public class PersonAddModifyWindow
 	DateTime dateTime;
 	Sport sport;
 	string [] sports;
+	string [] sportsTranslated;
 	int speciallityID;
 	string [] speciallities;
+	string [] speciallitiesTranslated;
 	String level;
 	string [] levels;
 	string [] continents;
@@ -697,8 +699,8 @@ public class PersonAddModifyWindow
 	{
 		if(entry1.Text.ToString().Length > 0 && (int) spinbutton_weight.Value > 0 &&
 				dateTime != DateTime.MinValue &&
-				Util.FetchID(UtilGtk.ComboGetActive(combo_sports)) != Constants.SportUndefinedID &&
-				(! label_speciallity.Visible || Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)) != Constants.SpeciallityUndefinedID) &&
+				UtilGtk.ComboGetActive(combo_sports) != Catalog.GetString(Constants.SportUndefined) &&
+				(! label_speciallity.Visible || UtilGtk.ComboGetActive(combo_speciallities) != Catalog.GetString(Constants.SpeciallityUndefined)) &&
 				Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) != Constants.LevelUndefinedID 
 				//countries is not required
 				//&& 
@@ -738,10 +740,20 @@ public class PersonAddModifyWindow
 	private void createComboSports() {
 		combo_sports = ComboBox.NewText ();
 		sports = SqliteSport.SelectAll();
+			
+		//create sports translated, only with translated stuff
+		sportsTranslated = new String[sports.Length];
+		int i = 0;
+		foreach(string row in sports) {
+			string [] myStrFull = row.Split(new char[] {':'});
+			sportsTranslated[i++] = myStrFull[2];
+			}
 		
-		UtilGtk.ComboUpdate(combo_sports, sports, "");
-		combo_sports.Active = UtilGtk.ComboMakeActive(sports, 
-				Constants.SportUndefinedID.ToString() + ":" + 
+		//sort array (except second row)
+		System.Array.Sort(sportsTranslated, 2, sportsTranslated.Length-2);
+		
+		UtilGtk.ComboUpdate(combo_sports, sportsTranslated, "");
+		combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, 
 				Catalog.GetString(Constants.SportUndefined));
 	
 		combo_sports.Changed += new EventHandler (on_combo_sports_changed);
@@ -754,10 +766,20 @@ public class PersonAddModifyWindow
 	private void createComboSpeciallities(int sportID) {
 		combo_speciallities = ComboBox.NewText ();
 		speciallities = SqliteSpeciallity.SelectAll(true, sportID); //show undefined, filter by sport
+		
+		//create speciallities translated, only with translated stuff
+		speciallitiesTranslated = new String[speciallities.Length];
+		int i = 0;
+		foreach(string row in speciallities) {
+			string [] myStrFull = row.Split(new char[] {':'});
+			speciallitiesTranslated[i++] = myStrFull[2];
+			}
+		
+		//sort array (except first row)
+		System.Array.Sort(speciallities, 1, speciallities.Length-1);
 
-		UtilGtk.ComboUpdate(combo_speciallities, speciallities, "");
-		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
-				Constants.SpeciallityUndefinedID.ToString() + ":" + 
+		UtilGtk.ComboUpdate(combo_speciallities, speciallitiesTranslated, "");
+		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, 
 				Catalog.GetString(Constants.SpeciallityUndefined));
 
 		combo_speciallities.Changed += new EventHandler (on_combo_speciallities_changed);
@@ -880,10 +902,10 @@ public class PersonAddModifyWindow
 		}
 			
 		sport = SqliteSport.Select(mySportID);
-		combo_sports.Active = UtilGtk.ComboMakeActive(sports, sport.ToString());
-			
-		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, SqliteSpeciallity.Select(mySpeciallityID));
-		
+		combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, sport.ToString());
+
+		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, SqliteSpeciallity.Select(mySpeciallityID));
+
 		combo_levels.Active = UtilGtk.ComboMakeActive(levels, myLevelID + ":" + Util.FindLevelName(myLevelID));
 		
 	}
@@ -923,23 +945,23 @@ public class PersonAddModifyWindow
 
 		//Log.WriteLine("changed");
 		try {
-			sport = new Sport(UtilGtk.ComboGetActive(combo_sports));
+			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
+			sport = SqliteSport.Select(sportID);
 
-			if(sport.Name == Catalog.GetString(Constants.SportUndefined)) {
+			if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportUndefined)) {
 				//if sport is undefined, level should be undefined, and unsensitive
 				try { 
 					combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
 							Constants.LevelUndefinedID.ToString() + ":" + 
 							Catalog.GetString(Constants.LevelUndefined));
 					combo_levels.Sensitive = false;
-					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
-							Constants.SpeciallityUndefinedID.ToString() + ":" + 
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, 
 							Catalog.GetString(Constants.SpeciallityUndefined));
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
 				catch { Log.WriteLine("do later"); }
-			} else if(sport.Name == Catalog.GetString(Constants.SportNone)) {
+			} else if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportNone)) {
 				//if sport is none, level should be sedentary and unsensitive
 				try { 
 					combo_levels.Active = UtilGtk.ComboMakeActive(levels, 
@@ -947,8 +969,7 @@ public class PersonAddModifyWindow
 							Catalog.GetString(Constants.LevelSedentary));
 					combo_levels.Sensitive = false;
 
-					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities, 
-							Constants.SpeciallityUndefinedID.ToString() + ":" + 
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, 
 							Catalog.GetString(Constants.SpeciallityUndefined));
 
 					label_speciallity.Hide();
@@ -977,8 +998,7 @@ public class PersonAddModifyWindow
 					combo_speciallities.Show();
 				} else {
 					Log.Write("hide");
-					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallities,
-							Constants.SpeciallityUndefinedID.ToString() + ":" + 
+					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated,
 						       	Catalog.GetString(Constants.SpeciallityUndefined));
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
@@ -1064,21 +1084,33 @@ public class PersonAddModifyWindow
 				newSportName == Catalog.GetString(Constants.SportUndefined) || //let's save problems
 				newSportName == Catalog.GetString(Constants.SportNone)		//let's save problems
 				)
-				new DialogMessage(string.Format(
+				new DialogMessage(Constants.MessageTypes.WARNING, string.Format(
 							Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
-							newSportName), true);
+							newSportName));
 		else {
 			int myID = SqliteSport.Insert(false, newSportName, true, //dbconOpened, , userDefined
 					false, "");	//hasSpeciallities, graphLink 
 
 			Sport mySport = new Sport(myID, newSportName, true, 
 					false, "");	//hasSpeciallities, graphLink 
-			string [] sports = SqliteSport.SelectAll();
-			UtilGtk.ComboUpdate(combo_sports, sports, mySport.ToString());
-			combo_sports.Active = UtilGtk.ComboMakeActive(sports, mySport.ToString());
+			sports = SqliteSport.SelectAll();
+			//create sports translated, only with translated stuff
+			sportsTranslated = new String[sports.Length];
+			int i = 0;
+			foreach(string row in sports) {
+				string [] myStrFull = row.Split(new char[] {':'});
+				sportsTranslated[i++] = myStrFull[2];
+				}
+		
+			//sort array (except second row)
+			System.Array.Sort(sportsTranslated, 2, sportsTranslated.Length-2);
+
+			UtilGtk.ComboUpdate(combo_sports, sportsTranslated, mySport.ToString());
+			combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, mySport.ToString());
+			//on_combo_sports_changed(combo_sports, new EventArgs());
 		}
 	}
-			 
+		
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
@@ -1098,7 +1130,7 @@ public class PersonAddModifyWindow
 		//here sport shouldn't be undefined, then check 
 		//if it has speciallities and if they are selected
 		else if (sport.HasSpeciallities && 
-				Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)) == Constants.SpeciallityUndefinedID)
+				UtilGtk.ComboGetActive(combo_speciallities) == Catalog.GetString(Constants.SpeciallityUndefined))
 			errorMessage += Catalog.GetString("Please select an speciallity");
 		else if (UtilGtk.ComboGetActive(combo_levels) ==
 				Constants.LevelUndefinedID.ToString() + ":" + 
@@ -1106,7 +1138,7 @@ public class PersonAddModifyWindow
 			errorMessage += Catalog.GetString("Please select a level");
 		else {
 			//if weight has changed
-			if(adding && (int) spinbutton_weight.Value != weightIni) {
+			if(!adding && (int) spinbutton_weight.Value != weightIni) {
 				//see if this person has done jumps with weight
 				string [] myJumpsNormal = SqliteJump.SelectJumps(currentSession.UniqueID, personID, "withWeight");
 				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(currentSession.UniqueID, personID, "withWeight");
@@ -1148,7 +1180,7 @@ public class PersonAddModifyWindow
 			currentPerson = new Person (entry1.Text, sex, dateFull, 
 					(int) spinbutton_height.Value, (int) spinbutton_weight.Value, 
 					sport.UniqueID, 
-				       	Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)),
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
 					textview2.Buffer.Text,
 					Constants.RaceUndefinedID,
@@ -1159,7 +1191,7 @@ public class PersonAddModifyWindow
 			currentPerson = new Person (personID, entry1.Text, sex, dateFull, 
 					(int) spinbutton_height.Value, (int) spinbutton_weight.Value, 
 					sport.UniqueID, 
-					Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities)),
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
 					textview2.Buffer.Text,
 					Constants.RaceUndefinedID,

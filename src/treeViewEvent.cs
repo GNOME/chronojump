@@ -211,6 +211,9 @@ public class TreeViewEvent
 
 					//getLineToStore is overriden in two level treeviews
 					iterDeep = store.AppendValues (iter, getLineToStore(newEvent));
+
+					//select the test			
+					treeview.Selection.SelectIter(iterDeep);
 					
 					TreePath path = store.GetPath (iterDeep);
 					treeview.ScrollToCell (path, null, true, 0, 0);
@@ -229,6 +232,7 @@ public class TreeViewEvent
 		//create the name, and write the event
 		if(! found) {
 			iter = store.AppendValues (personName);
+			
 			iterDeep = store.AppendValues (iter, getLineToStore(newEvent));
 			
 			//scroll treeview if needed
@@ -241,12 +245,16 @@ public class TreeViewEvent
 					store.AppendValues(iterDeep, getSubLineToStore(newEvent, i));
 				}
 			}
+			
 			//expand the person
 			treeview.ExpandToPath( treeview.Model.GetPath(iter) );
+			
+			//select the test			
+			treeview.Selection.SelectIter(iterDeep);
 		}
 	}
 		
-	public virtual void DelEvent (int eventID)
+	public void DelEvent (int eventID)
 	{
 		TreeIter iter = new TreeIter();
 		treeview.Model.GetIterFirst ( out iter ) ;
@@ -257,13 +265,28 @@ public class TreeViewEvent
 				do {
 					int iterEventID =  Convert.ToInt32 ( treeview.Model.GetValue (iter, eventIDColumn) );
 					if(iterEventID == eventID) {
+						//get parent (to delete if empty)
+						TreeIter iterParent;
+					       	bool parentOk = treeview.Model.IterParent(out iterParent, iter);
+
+						//delete iter (test)
 						store.Remove(ref iter);
+
+						//delete parent (person on eventTreeview) if has no more child
+						if(parentOk)
+							deleteParentIfEmpty(iterParent);
+
 						return;
 					}
 				} while (treeview.Model.IterNext (ref iter));
 				treeview.Model.IterParent (out iter, iter);
 			}
 		} while (treeview.Model.IterNext (ref iter));
+	}
+
+	private void deleteParentIfEmpty(TreeIter iter) {
+		if( ! treeview.Model.IterHasChild(iter) ) 
+			store.Remove(ref iter);
 	}
 
 	public void Unselect () {

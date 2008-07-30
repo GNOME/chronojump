@@ -52,6 +52,15 @@ public class ChronoJump
 
 	public static void Main(string [] args) 
 	{
+		//this call has to be done to chronojump.prg
+		//chronojump.prg createBlankDB
+		//this creates a blank database and exists.
+		//Then new user will have an updated database without the need of creating in
+		if(args.Length > 0 && args[0] == "createBlankDB") {
+			createBlankDB();
+			Environment.Exit(1);
+		}
+
 		Catalog.Init ("chronojump", "./locale");
 		new ChronoJump(args);
 	}
@@ -223,6 +232,14 @@ public class ChronoJump
 
 	private void startChronojump() {	
 		chronoJumpWin = new ChronoJumpWindow(authors, readVersion(), progname, runningFileName);
+	}
+
+	private static void createBlankDB() {
+		Console.WriteLine("Creating blank database");
+		Sqlite.ConnectBlank();
+		Sqlite.CreateFile();
+		Sqlite.CreateTables();
+		Console.WriteLine("Done! Exiting");
 	}
 
 	/* --------------------

@@ -56,33 +56,11 @@ public class Sport
 		this.graphLink = graphLink;
 	}
 
-	//used when displayed on combobox, as written below in ToString()
-	//Global is... uniqueID:name
-	//User is... uniqueID(user):name 
-	//(user) is changed Catalog
-	public Sport(string myString) {
-		string [] sportFull = myString.Split(new char[] {':'});
-		if(Util.IsNumber(sportFull[0])) {
-			this.uniqueID = Convert.ToInt32(sportFull[0]);
-			this.userDefined = false;
-		} else {
-			string [] myStr2 = sportFull[0].Split(new char[] {'('});
-			this.uniqueID = Convert.ToInt32(myStr2[0]);
-			this.userDefined = false;
-		}
-			
-		Sport myTempSport = SqliteSport.Select(uniqueID);
-		//this.name = sportFull[1];
-		this.name = myTempSport.Name; //get sport name in english
-		this.hasSpeciallities = myTempSport.HasSpeciallities;
-		this.graphLink = myTempSport.GraphLink;
-	}
-
-	public override string ToString() {
+	public string ToString() {
 		string myString = "";
 		if(this.userDefined)
 			myString = "(" + Catalog.GetString(userDefinedString) + ")";
-		return uniqueID + myString + ":" + Catalog.GetString(name);
+		return myString + Catalog.GetString(name);
 	}
 
 	public int UniqueID {

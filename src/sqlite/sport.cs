@@ -54,9 +54,9 @@ class SqliteSport : Sqlite
 	// intialize sport table
 	protected internal static void initialize()
 	{
-		conversionSubRateTotal = SportsChronojump.Length;
+		conversionSubRateTotal = sportsChronojump.Length;
 		conversionSubRate = 0;
-		foreach(string sportString in SportsChronojump) {
+		foreach(string sportString in sportsChronojump) {
 			//put in db only english name
 			string [] sportFull = sportString.Split(new char[] {':'});
 			//Sport sport = new Sport(sportFull[0]);
@@ -129,7 +129,7 @@ class SqliteSport : Sqlite
 		
 		return myID;
 	}
-		
+
 	public static string [] SelectAll() 
 	{
 		dbcon.Open();
@@ -137,21 +137,22 @@ class SqliteSport : Sqlite
 		ArrayList myArray = new ArrayList(2);
 		int count = 0;
 
-		dbcmd.CommandText = "SELECT * " +
+		dbcmd.CommandText = "SELECT uniqueID, name, userDefined " +
 			" FROM " + Constants.SportTable + " " +
 			" ORDER BY name";
 		
 		dbcmd.ExecuteNonQuery();
 		reader = dbcmd.ExecuteReader();
+		string userDefinedString;
 		while(reader.Read()) {
-			Sport sport = new Sport(
-					Convert.ToInt32(reader[0]), 
-					Catalog.GetString(reader[1].ToString()), 
-					Util.IntToBool(Convert.ToInt32(reader[2])),
-					Util.IntToBool(Convert.ToInt32(reader[3])),
-					reader[4].ToString() //graphLink
+			userDefinedString = "";
+			if(reader[2].ToString() == "1")
+				userDefinedString = "(" + Catalog.GetString("user") + ")";
+
+			myArray.Add(reader[0].ToString() + ":" + 
+					reader[1].ToString() + ":" + 
+					userDefinedString + Catalog.GetString(reader[1].ToString())
 					);
-			myArray.Add(sport.ToString());
 			count ++;
 		}
 		reader.Close();
@@ -172,7 +173,7 @@ class SqliteSport : Sqlite
 	 * all this are obviously NOT user defined
 	 * last string is for graphLink
 	 */
-	private static string [] SportsChronojump = {
+	private static string [] sportsChronojump = {
 		//true or false means if it has speciallities
 		Constants.SportUndefined + ":" + Catalog.GetString(Constants.SportUndefined) + ":" + false + ":" + "", //will be 1 (it's also written in Constants.SportUndefinedID
 		Constants.SportNone + ":" + Catalog.GetString(Constants.SportNone) + ":" + false + ":" + "", 	 //will be 2 (it's also written in Constants.SportNoneID

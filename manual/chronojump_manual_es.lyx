@@ -210,7 +210,7 @@ Construcción y obtención del cronómetro Chronopic
 La infomación más actualizada sobre la construcción o compra de Chronopic,
  se encuentra en esta página: 
 \begin_inset LatexCommand url
-name "Construcción de Chronojump"
+name "Hardware de Chronojump"
 target "http://www.gnome.org/projects/chronojump/hardware_es.html"
 
 \end_inset
@@ -305,7 +305,7 @@ Conexión a ordenador
 \begin_inset Text
 
 \begin_layout Standard
-Disponible en
+Disponible en*
 \end_layout
 
 \end_inset
@@ -314,7 +314,7 @@ Disponible en
 \begin_inset Text
 
 \begin_layout Standard
-Precio
+Precio*
 \end_layout
 
 \end_inset
@@ -361,7 +361,7 @@ España
 \begin_inset Text
 
 \begin_layout Standard
-30 € aprox.
+33-37 €
 \end_layout
 
 \end_inset
@@ -516,6 +516,20 @@ España
 \end_layout
 
 \begin_layout Standard
+
+\size small
+* Actualmente sólo se comercializa la Chronopic3.
+ Para conseguirla, consulte la páina web: 
+\begin_inset LatexCommand url
+name "Hardware de Chronojump"
+target "http://www.gnome.org/projects/chronojump/hardware_es.html"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Caption
 
 \begin_layout Standard
@@ -545,6 +559,8 @@ sideways false
 status open
 
 \begin_layout Standard
+\noindent
+\align center
 \begin_inset Graphics
 	filename chronopic3-metacrilato_small.jpg
 	width 250pt
@@ -580,6 +596,8 @@ sideways false
 status open
 
 \begin_layout Standard
+\noindent
+\align center
 \begin_inset Graphics
 	filename chronopic_2_0_usb_front_mini.jpg
 	width 250pt
@@ -615,6 +633,8 @@ sideways false
 status open
 
 \begin_layout Standard
+\noindent
+\align center
 \begin_inset Graphics
 	filename chronopic_2_0_serial_front_mini.jpg
 	width 250pt
@@ -652,6 +672,7 @@ status open
 
 \begin_layout Standard
 \noindent
+\align center
 \begin_inset Graphics
 	filename chronopic_foto.jpg
 	width 250pt
@@ -701,6 +722,64 @@ En septiembre de 2007, existe el Chronopic 1.0 y se está desarrollando Chronopi
 \end_layout
 
 \begin_layout Subsection
+Montaje de Chronopic3
+\end_layout
+
+\begin_layout Standard
+Chronopic3 se distribuye con el circuito por un lado y los elementos que
+ conforman la caja: metacrilatos, tornillos y arandelas por otro.
+ La figura 
+\begin_inset LatexCommand ref
+reference "fig:Montaje-del-Chronopic3."
+
+\end_inset
+
+ muestra el montaje del mismo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_box_mount.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Montaje-del-Chronopic3."
+
+\end_inset
+
+Montaje del Chronopic3.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Conexiones de Chronopic
 \end_layout
 
@@ -712,9 +791,9 @@ Las Chronopics USB, como Chronopic3, disponen de una entrada USB que gracias
 \end_layout
 
 \begin_layout Standard
-Las Chronopics serie necesitan alimentación externa, por tanto deberán conectars
-e a un alimentador.
- Para más información, consultar 
+Por otr lado, las Chronopics serie necesitan alimentación externa, por tanto
+ deberán conectarse a un alimentador.
+ Para más información, consultar el apartado 
 \begin_inset LatexCommand ref
 reference "sub:Alimentación-de-Chronopic"
 
@@ -736,8 +815,8 @@ reference "fig:chronopic1"
 \end_layout
 
 \begin_layout Standard
-Las Chonopics se conectarán a la plataforma de contactos usando la clema
- de la que disponen.
+Todas las Chonopics se conectarán a la plataforma de contactos usando la
+ clema de la que disponen.
  Dicha clema recibirá cada uno de los dos cables de la plataforma de contactos
  en cada una de sus dos contactos.
  Chronopic3 añade una toma RCA, de esta manera se puede usar la clema, la
@@ -752,6 +831,26 @@ Es posible conectar 'n' plataformas de contactos a cualquier Chronopic usando
  Se deben conectar los dos cables de todas las plataformas a la clema, siempre
  de manera que los dos cables de cada una estén en un contacto de la clema
  distinto.
+\end_layout
+
+\begin_layout Standard
+Se está adaptando el software para que se puedan conectar 
+\emph on
+n
+\emph default
+ Chronopics distintas, conectadas cada una a su vez a una o más plataformas
+ de contactos.
+ De esta manera se pueden cronometrar independientemente a varios sujetos,
+ cronometrar ritmos complejos u otras aplicaciones.
+ Actualmente ya es funcional gracias al programa Chronojump_mini.
+ Más información en este correo: 
+\begin_inset LatexCommand url
+name "CORREO LISTA N CHRONOPICS!!!!"
+target "http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_medida_congreso_gpul.pdf"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -794,22 +893,17 @@ Alimentación de Chronopic
 
 \begin_layout Standard
 Chronopic3 y Chronopic2.0-USB se alimentan por el propio cable USB, el resto
- de chronopics se alimentan usando un alimentador de 4,5 a 6 voltios.
- Pudiendo adquirirse un alimentador convencional (que se enchufa a la corriente
- eléctrica) o crearse un alimentador casero con 3 pilas de 1,5 voltios.
+ de chronopics se alimentan usando un alimentador de 4,5 a 6 voltios, pudiendo
+ adquirirse un alimentador convencional (que se enchufa a la corriente eléctrica
+) o crearse un alimentador casero con 3 pilas de 1,5 voltios.
  Esta opción facilita los tests de campo en las chronopics serie.
 \end_layout
 
 \begin_layout Standard
-La conexión de la batería debería encender automáticamente la luz del Chronopic,
- aunque chronopic no esté conectado a ningún ordenador.
+Continuando con lsa Chronopics serie, la conexión de la batería debería
+ encender automáticamente la luz del Chronopic, aunque chronopic no esté
+ conectado a ningún ordenador.
  Esta es una buena prueba para saber si la alimentación es la correcta.
-\end_layout
-
-\begin_layout Standard
-
-\newpage
-
 \end_layout
 
 \begin_layout Subsection
@@ -823,8 +917,8 @@ Puertos serie y USB
 
 \begin_layout Standard
 Chronopic se conecta a la plataforma de contactos y al ordenador.
- La conexión al ordenador se realiza mediante un puerto tal y como se describe
- en la tabla 
+ La conexión al ordenador se realiza mediante un puerto tal y como se indica
+ en el cuadro 
 \begin_inset LatexCommand ref
 reference "tab:Versiones-de-Chronopic"
 
@@ -846,7 +940,7 @@ Hoy en día, la mayoría de los ordenadores portátiles no disponen de puerto
 
 \begin_layout Standard
 El sistema operativo asigna nombres a los puertos, tal y como se indica
- en la siguiente tabla:
+ en el siguiente cuadro:
 \end_layout
 
 \begin_layout Standard
@@ -977,9 +1071,7 @@ COM1, COM2, COM3, ...
 \begin_inset Text
 
 \begin_layout Standard
-En algunas ocasiones requiere un 
-\series bold
-driver
+Requiere un driver
 \end_layout
 
 \end_inset
@@ -1108,27 +1200,14 @@ Un driver es un pequeño programa que le indica al ordenador cómo debe funciona
 \end_layout
 
 \begin_layout Standard
-La placa Chronopic3 requiere del siguiente driver para funcionar en Windows
- 
-\begin_inset LatexCommand url
-target "http://www.ftdichip.com/Drivers/VCP.htm"
-
-\end_inset
-
- (se recomienda hacer click en el 
-\begin_inset Quotes eld
-\end_inset
-
-Setup executable
-\begin_inset Quotes erd
-\end_inset
-
-).
+La placa Chronopic3 requiere del siguiente driver para funcionar en Windows.
+ Este driver se instala automáticamente al instalar cualquier versión de
+ Chronojump a partir de la 0,7.
 \end_layout
 
 \begin_layout Standard
-Para otras placas que se conecten al ordenador por USB pueden requerir un
- driver si Windows no es capaz de detectarlos.
+La placa Chronopic2-USB puede requerir un driver si Windows no es capaz
+ de detectarla.
  Windows debería asignar automáticamente un nombre (COM1...
  COM8) a la conexión por puerto USB pero en muchos equipos o instalaciones
  de Windows no lo hace, y por eso es necesario el driver (aunque los fabricantes
@@ -1194,23 +1273,29 @@ Chronopic3 en GNU/Linux
 \end_layout
 
 \begin_layout Standard
+Chronopic3 se detecta automáticamente en GNU/Linux en los kernels de la
+ serie 2.6.24 (y suponemos que para valores superiores no habrá problemas).
+\end_layout
+
+\begin_layout Standard
 Por un error de Mono que 
 \begin_inset LatexCommand url
-name "ha sido documentado"
+name "hemos documentado"
 target "http://mail.gnome.org/archives/chronojump-devel-list/2008-January/msg00048.html"
 
 \end_inset
 
  y 
 \begin_inset LatexCommand url
-name "solucionado"
+name "encontrado su origen"
 target "http://mail.gnome.org/archives/chronojump-devel-list/2008-January/msg00050.html"
 
 \end_inset
 
 , la Chronopic3 no puede conectarse a Chronojump en los Kernels 2.6.20-2.6.23.
- La solución es actualizar el Kernel a 2.6.24, para ello se recomienda en
- el caso de Ubuntu 
+ La solución es actualizar el Kernel a 2.6.24 o superior.
+ Si no desea actualizar su distribución, puede seguir este ejemplo para
+ Ubuntu Hardy 
 \begin_inset LatexCommand url
 name "este enlace"
 target "http://msdark.atwebpages.com/actualizar-kernel-a-la-version-2624-de-ubuntu-hardy-para-ubuntu-gutsy"
@@ -1244,8 +1329,8 @@ reference "sub:Chronopic-puertos-serie-usb"
 \end_layout
 
 \begin_layout Standard
-En el caso de MS Windows en que se conecte Chronopic al puerto USB, debido
- a que el driver asigna unos nombres con mayor variabilidad: COM1...
+En el caso de MS Windows en que se conecte Chronopic3 al puerto USB, el
+ driver asigna unos nombres con mayor variabilidad: COM1...
  COM27 o superior.
  En versiones anteriores de Chronojump para Windows, el puerto se auto detectaba
 , pero a partir de la versión 0.6, y por un cambio de los programas usados,
@@ -1352,7 +1437,7 @@ COM3
 \begin_layout Standard
 Raramente el nombre del puerto cambiará, así que esta operación debe realizarse
  sólo una vez, ya que cuando haya introducido el nombre del puerto en las
- preferencias de Chronojump (tal y como se explica en la sección 
+ preferencias de Chronojump (tal y como se explica en el apartado 
 \begin_inset LatexCommand ref
 reference "sec:Preferencias"
 
@@ -1371,6 +1456,17 @@ target "http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.htm
 
 .
  Se recomienda desactivar éste.
+\end_layout
+
+\begin_layout Standard
+Dispone de más información en la página web: 
+\begin_inset LatexCommand url
+name "Solución de problemas (inglés)"
+target "http://www.gnome.org/projects/chronojump/problems.html"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1446,6 +1542,17 @@ reference "sub:Detección-del-puerto"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+Dispone de más información en la página web: 
+\begin_inset LatexCommand url
+name "Solución de problemas (inglés)"
+target "http://www.gnome.org/projects/chronojump/problems.html"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1592,10 +1699,16 @@ Menú donde podrá acceder de forma organizada a la mayoría de las funcionalida
 \end_layout
 
 \begin_layout Description
-Marco\InsetSpace ~
+Edición\InsetSpace ~
 de\InsetSpace ~
-sujeto que proporciona un rápido acceso a las operaciones de sujeto
- (parte izquierda de la ventana principal).
+sujeto proporciona un rápido acceso a las operaciones de sujeto.
+\end_layout
+
+\begin_layout Description
+Selección\InsetSpace ~
+de\InsetSpace ~
+sujeto permite seleccionar el sujeto y editarlo con el menú que
+ aparecerá al hacer click con el botón derecho.
 \end_layout
 
 \begin_layout Description
@@ -1606,15 +1719,14 @@ seleccionado En el caso de que exista un dibujo del test selecciona
 do o apuntado por el ratón, lo muestra.
  Además, si el programa dispone de información ampliada sobre dicho test,
  muestra un icono indicativo.
- Por último, dispone de un botón de ayuda que una vez pulsado muestra una
- ventana de ayuda sobre dicho test, con el gráfico ampliado y la información
- del test.
- El gráfico se encuentra en la parte inferior-izquierda de la ventana principal.
+ Pulsando dicho botónse mostrará una ventana de ayuda sobre dicho test contenien
+do el gráfico ampliado y la información del test.
 \end_layout
 
 \begin_layout Description
 Pestañas que permite cambiar el módulo de trabajo entre los posibles, actualmene
-: Salto, Salto simple, Carrera y Carrera con tramos.
+: Salto, Salto simple, Carrera, Carrera con tramos, tiempo de reacción y
+ pulso.
 \end_layout
 
 \begin_layout Description
@@ -1634,14 +1746,18 @@ ión y edición de los saltos y carreras.
 \end_layout
 
 \begin_layout Description
-Estado\InsetSpace ~
-de\InsetSpace ~
-tests que contiene información en tiempo real sobre los últimos
- tests y permite cancelarlos, borrarlos y pararlos.
+Notificación\InsetSpace ~
+al\InsetSpace ~
+usuario muestra información sobre la última acción realizada.
+\end_layout
+
+\begin_layout Description
+(Des)activar_sonido permite activar-desactivar los sonidos.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
+placement p
 wide false
 sideways false
 status open
@@ -1649,7 +1765,8 @@ status open
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename chronojump_main_window_english-spanish.png
+	filename chronojump_main_window_spanish.png
+	lyxscale 50
 	scale 50
 
 \end_inset
@@ -1715,13 +1832,115 @@ Sesiones
 
 \begin_layout Standard
 Las sesiones representan situaciones en que el entrenador o evaluador reune
- a diversos deportistas (sujetos) para realizar una serie de saltos o carreras.
+ a diversos deportistas (sujetos) para realizar una serie de tests.
  Cada vez que reuna a un conjunto de deportistas para ser evaluados en un
- corto espacio de tiempo (normalmente un intervalo de hasta dos horas),
- es conveniente crear una nueva sesión.
+ corto espacio de tiempo (normalmente una jornada), es conveniente crear
+ una nueva sesión.
  aunque los sujetos a evaluar sean los mismos que en otra sesión, es preferible
  crear una nueva que continuar añadiendo sujetos y tests en una vieja sesión.
  De esta manera, podrá realizar comparaciones entre fechas.
+\end_layout
+
+\begin_layout Standard
+Las figuras 
+\begin_inset LatexCommand ref
+reference "fig:Nueva-sesión.-Alumnos"
+
+\end_inset
+
+ y 
+\begin_inset LatexCommand ref
+reference "fig:Nueva-sesión.-Deportistas"
+
+\end_inset
+
+ muestran la creación de una sesión.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename nueva_sesion_colegio.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Nueva-sesión.-Alumnos"
+
+\end_inset
+
+Nueva sesión.
+ Alumnos del colegio.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename nueva_sesion_artistica_competicion.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Nueva-sesión.-Deportistas"
+
+\end_inset
+
+Nueva sesión.
+ Deportistas rítmica competición.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1734,8 +1953,9 @@ Haga clic en el menú
 Archivo / Crear sesión
 \emph default
  y se abrirá una ventana en la que deberá introducir obligatoriamente el
- nombre de la sesión, y la fecha, opcionalmente puede además indicar el
- lugar donde se realiza e incluso añadir comentarios.
+ nombre de la sesión, la fecha y el deporte practicado.
+ Opcionalmente puede además indicar el lugar donde se realiza e incluso
+ añadir comentarios.
 \end_layout
 
 \begin_layout Subsection
@@ -1762,8 +1982,7 @@ Haga clic en el menú
 \emph on
 Archivo / Editar sesión
 \emph default
- para modificar los parámetros nombre, lugar, fecha y comentarios que había
- insertado anteriormente.
+ para modificar los parámetros que había insertado anteriormente.
  Normalmente se usa la edición de sesiones para añadir comentarios sobre
  la evolución de la misma.
 \end_layout
@@ -2384,15 +2603,6 @@ reference "sec:Preferencias"
 En los saltos reactivos, ya que por definición están compuestos por un conjunto
  de subsaltos, esta modificación afectará a todos los subsaltos aunque uno
  sólo sea seleccionado.
-\end_layout
-
-\begin_layout Standard
-Si el salto que desea borrar es el último test que se ha ejecutado, puede
- hacer clic en el botón 
-\emph on
-Borrar último test
-\emph default
- en la parte inferior izquierda de la página principal de Chronojump.
 \end_layout
 
 \begin_layout Subsubsection
@@ -3469,15 +3679,6 @@ En los saltos reactivos, ya que por definición están compuestos por un conjunt
  
 \end_layout
 
-\begin_layout Standard
-Si la carrera que desea borrar es el último test que se ha ejecutado, puede
- hacer clic en el botón 
-\emph on
-Borrar último test
-\emph default
- en la parte inferior izquierda de la página principal de Chronojump.
-\end_layout
-
 \begin_layout Subsubsection
 Creación de nuevos tipos de carreras
 \end_layout
@@ -4213,15 +4414,6 @@ reference "sec:Preferencias"
 \end_inset
 
 ).
-\end_layout
-
-\begin_layout Standard
-Si el salto que desea borrar es el último test que se ha ejecutado, puede
- hacer clic en el botón 
-\emph on
-Borrar último test
-\emph default
- en la parte inferior izquierda de la página principal de Chronojump.
 \end_layout
 
 \begin_layout Subsection

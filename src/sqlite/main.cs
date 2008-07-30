@@ -46,6 +46,11 @@ class Sqlite
 	//http://www.mono-project.com/SQLite
 
 	static string connectionString = "version = 3; Data source = " + sqlFile;
+	
+	//create blank database
+	public static string sqlFileBlank = home + Path.DirectorySeparatorChar + "chronojump_blank.db";
+	static string connectionStringBlank = "version = 3; Data source = " + sqlFileBlank;
+
 
 	//for db creation
 	static int creationRate;
@@ -58,12 +63,11 @@ class Sqlite
 	protected static int conversionSubRate;
 	protected static int conversionSubRateTotal;
 
-
 	/*
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.57";
+	static string lastChronojumpDatabaseVersion = "0.58";
 
 	public Sqlite() {
 	}
@@ -83,6 +87,20 @@ class Sqlite
 	{
 		dbcon = new SqliteConnection();
 		dbcon.ConnectionString = connectionString;
+		dbcmd = dbcon.CreateCommand();
+	}
+
+	//only create blank DB
+	public static void ConnectBlank()
+	{
+		//delete blank file if exists
+		if (File.Exists(sqlFileBlank)) {
+			Console.WriteLine("File blank exists, deleting...");
+			File.Delete(sqlFileBlank);
+		}
+
+		dbcon = new SqliteConnection();
+		dbcon.ConnectionString = connectionStringBlank;
 		dbcmd = dbcon.CreateCommand();
 	}
 
@@ -526,6 +544,29 @@ class Sqlite
 				Log.WriteLine("Added simulated column to each event table on client. Added race, country, serverUniqueID. Convert to sport related done here if needed");
 				currentVersion = "0.57";
 			}
+			if(currentVersion == "0.57") {
+				dbcon.Open();
+		
+				//check if "republic" is in country table
+				if(SqliteCountry.TableHasOldRepublicStuff()){
+					conversionRateTotal = 4;
+					conversionRate = 1;
+					Sqlite.dropTable(Constants.CountryTable);
+					conversionRate ++;
+					SqliteCountry.createTable();
+					conversionRate ++;
+					SqliteCountry.initialize();
+					conversionRate ++;
+					Log.WriteLine("Countries without kingdom or republic (except when needed)");
+				}
+				
+				//SqlitePreferences.Update ("databaseVersion", "0.58", true); 
+				dbcon.Close();
+				
+				currentVersion = "0.58";
+			}
+
+
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -626,6 +667,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.57 - 0.58 Countries without kingdom or republic (except when needed)
 		//0.56 - 0.57 Added simulated column to each event table on client. person: race, country, serverID. Convert to sport related done here if needed");
 		//0.55 - 0.56 Added session default sport stuff into session table
 		//0.54 - 0.55 Added undefined to speciallity table

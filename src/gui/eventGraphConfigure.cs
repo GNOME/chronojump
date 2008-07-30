@@ -132,7 +132,7 @@ public class EventGraphConfigureWindow
 	{
 		Log.WriteLine("help Clicked");
 	
-		new DialogHelp(Catalog.GetString("This window allows to change the graph options. \nFirst, you can adjust the Y parameters\nSecond, put guides\n"));
+		new DialogMessage(Constants.MessageTypes.HELP, Catalog.GetString("This window allows to change the graph options. \nFirst, you can adjust the Y parameters\nSecond, put guides\n"));
 	}
 	*/
 

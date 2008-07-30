@@ -101,12 +101,12 @@ public class ExportSession
 					closeWriter();
 
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
-					new DialogMessage(myString, false); //false: is info
+					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
 			} 
 			catch {
 				string myString = string.Format(Catalog.GetString("Cannot export to file {0} "), fileName);
-				new DialogMessage(myString, true); //true: is warning
+				new DialogMessage(Constants.MessageTypes.WARNING, myString);
 			}
 		}
 		else {
@@ -133,7 +133,7 @@ public class ExportSession
 		closeWriter();
 				
 		string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
-		new DialogMessage(myString, false);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 		
 	private string addHtmlIfNeeded(string myFile)

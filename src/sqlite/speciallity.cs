@@ -100,7 +100,8 @@ class SqliteSpeciallity : Sqlite
 	
 		reader.Close();
 		dbcon.Close();
-		return uniqueID + ":" + Catalog.GetString(speciallityName);
+		//return uniqueID + ":" + Catalog.GetString(speciallityName);
+		return Catalog.GetString(speciallityName);
 	}
 	
 	public static string [] SelectAll(bool showUndefined, int sportFilter) 
@@ -124,11 +125,11 @@ class SqliteSpeciallity : Sqlite
 		reader = dbcmd.ExecuteReader();
 
 		if(showUndefined) {
-			myArray.Add("-1:" + Catalog.GetString(Constants.SpeciallityUndefined)); 
+			myArray.Add("-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined)); 
 			count ++;
 		}
 		while(reader.Read()) {
-			myArray.Add(reader[0].ToString() + ":" + Catalog.GetString(reader[1].ToString()));
+			myArray.Add(reader[0].ToString() + ":" + reader[1].ToString() + ":" + Catalog.GetString(reader[1].ToString()));
 			count ++;
 		}
 		reader.Close();

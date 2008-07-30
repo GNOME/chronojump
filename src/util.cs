@@ -588,6 +588,16 @@ public class Util
 		return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
 	}
 
+	public static string GetManualDir() {
+		//we are on:
+		//Chronojump/chronojump-x.y/data/
+		//we have to go to
+		//Chronojump/chronojump-x.y/docs/
+		return ".." + Path.DirectorySeparatorChar + "docs";
+	}
+
+
+
 	
 	public static void BackupDirCreateIfNeeded () {
 		string backupDir = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
@@ -867,6 +877,25 @@ public class Util
 		return myString.Trim('-');
 	}
 */
+	
+	public static string DetectPortsLinux() {
+		string detected = "";
+		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
+		if(usbSerial.Length > 0) {
+			detected += "\n" + Constants.FoundUSBSerialPortsString + " " + usbSerial.Length + "\n<i>";
+			foreach(string myPort in usbSerial)
+				detected += "\t" + myPort;
+			detected += "</i>";
+		} else {
+			detected += Constants.NotFoundUSBSerialPortsString + "\n";
+			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
+			detected += Constants.FoundSerialPortsString + " " + serial.Length + "\n<i>";
+			foreach(string myPort in serial)
+				detected += "\t" + myPort;
+			detected += "</i>";
+		}
+		return detected;
+	}
 
 
 }

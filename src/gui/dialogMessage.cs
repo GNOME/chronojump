@@ -30,9 +30,10 @@ public class DialogMessage
 
 	[Widget] Gtk.Image image_warning;
 	[Widget] Gtk.Image image_info;
+	[Widget] Gtk.Image image_help;
 
 	//if ! isWarning, then it's an info
-	public DialogMessage (string message, bool isWarning)
+	public DialogMessage (Constants.MessageTypes type, string message)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_message", null);
@@ -44,10 +45,8 @@ public class DialogMessage
 		//with this, user doesn't see a moving/changing creation window
 		dialog_message.Hide();	
 
-		//pixbuf = new Pixbuf (null, Util.GetImagePath(true) + fileNameString);
-//		pixbuf = new Pixbuf (null, Constants.ImageWarning);
-//		image_dialog.Pixbuf = pixbuf;
-	
+
+	/*	
 		if(isWarning) {
 			image_warning.Show();
 			image_info.Hide();
@@ -55,8 +54,27 @@ public class DialogMessage
 			image_warning.Hide();
 			image_info.Show();
 		}
+		*/
+		switch (type) {
+			case Constants.MessageTypes.WARNING:
+				image_warning.Show();
+				image_info.Hide();
+				image_help.Hide();
+			break;
+			case Constants.MessageTypes.INFO:
+				image_warning.Hide();
+				image_info.Show();
+				image_help.Hide();
+			break;
+			case Constants.MessageTypes.HELP:
+				image_warning.Hide();
+				image_info.Hide();
+				image_help.Show();
+			break;
+		}
 
 		label_message.Text = message; 
+		label_message.UseMarkup = true; 
 
 		dialog_message.Show();	
 	}

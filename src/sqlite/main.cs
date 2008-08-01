@@ -48,8 +48,10 @@ class Sqlite
 	static string connectionString = "version = 3; Data source = " + sqlFile;
 	
 	//create blank database
-	public static string sqlFileBlank = home + Path.DirectorySeparatorChar + "chronojump_blank.db";
+	//public static string sqlFileBlank = home + Path.DirectorySeparatorChar + "chronojump_blank.db";
+	public static string sqlFileBlank = "chronojump_blank.db"; //copied on /chronojump-x.y/data installjammer will copy it to database
 	static string connectionStringBlank = "version = 3; Data source = " + sqlFileBlank;
+	static bool creatingBlankDatabase = false;
 
 
 	//for db creation
@@ -102,6 +104,14 @@ class Sqlite
 		dbcon = new SqliteConnection();
 		dbcon.ConnectionString = connectionStringBlank;
 		dbcmd = dbcon.CreateCommand();
+
+		/*
+		 * blankDB is created on Linux (create_release.sh) but
+		 * it will work on windows.
+		 * this bool allows to put COM? as default port
+		 */
+
+		creatingBlankDatabase = true; 
 	}
 
 	public static void CreateFile()
@@ -580,7 +590,7 @@ class Sqlite
 		if(myPort == "0") {
 			//if doesn't exist (for any reason, like old database)
 			dbcon.Open();
-			if(Util.IsWindows()) 
+			if(Util.IsWindows() || creatingBlankDatabase)
 				SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
 			else
 				SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);
@@ -660,7 +670,7 @@ class Sqlite
 		
 		creationRate ++;
 		SqlitePreferences.createTable();
-		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion);
+		SqlitePreferences.initializeTable(lastChronojumpDatabaseVersion, creatingBlankDatabase);
 		
 		creationRate ++;
 		SqliteCountry.createTable();

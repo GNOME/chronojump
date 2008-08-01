@@ -86,7 +86,7 @@ public class RunTypeAddWindow
 		hbox_fixed.Sensitive = false;	
 		button_accept.Sensitive = false;
 		spin_fixed_num.Sensitive = false;
-		label_distance.Text = "Distance";
+		label_distance.Text = Catalog.GetString("Distance");
 		spin_distance.Sensitive = false;
 	}
 		

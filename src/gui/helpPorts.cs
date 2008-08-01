@@ -74,18 +74,6 @@ public class HelpPorts
 		label_info.UseMarkup = true;
 		label_detected.Text = messageDetected;
 		label_detected.UseMarkup = true;
-	/*	
-	 *	textviews doesn't allow pango (UseMarkup)
-		TextBuffer tb1 = new TextBuffer (new TextTagTable());
-		tb1.Text = messageInfo;
-		textview_info.Buffer = tb1;
-		textview_info.UseMarkup = true;
-		
-		TextBuffer tb2 = new TextBuffer (new TextTagTable());
-		tb2.Text = messageDetected;
-		textview_detected.Buffer = tb2;
-		textview_detected.UseMarkup = true;
-		*/
 		
 		label_manual.Text = 
 			Catalog.GetString("More information on <b>Chronojump Manual</b> at section:") + " <b>4.6</b>\n" +

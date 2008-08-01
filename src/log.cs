@@ -30,9 +30,9 @@ public class Log
 	 * log is deleted if all ends ok
 	 */
 	
-	private static TextWriter writer;
+	//private static TextWriter writer; //writer is not used now, all is thone in the Main (on chronojump.cs).we only need to print to console now (0.7.5)
 	private static string timeLog = "";
-	private static bool useConsole = false;
+	private static bool useConsole = true; //for the new method on chronojump.cs for redirecting output and error to same file also on windows (0.7.5)
 				
 	private static bool initializeTime(string [] args) {
 		if(! Directory.Exists(GetDir())) {
@@ -89,9 +89,9 @@ public class Log
 		
 		if(useConsole)
 			Console.WriteLine(GetFile());
-		try {
-			writer = File.CreateText(GetFile());
-		} catch {}
+//		try {
+//			writer = File.CreateText(GetFile());
+//		} catch {}
 		
 		return timeLogPassedOk;
 	}
@@ -99,25 +99,31 @@ public class Log
 	public static void Write(string text) {
 		if(useConsole)
 			Console.Write(text);
+		/*
 		try {
 			writer.Write(text);
 			writer.Flush();
 		} catch {}
+		*/
 	}
 	
 	public static void WriteLine(string text) {
 		if(useConsole)
 			Console.WriteLine(text);
+		/*
 		try {
 			writer.WriteLine(text);
 			writer.Flush();
 		} catch {}
+		*/
 	}
 	
 	public static void End() {
+		/*
 		try {
 			((IDisposable)writer).Dispose();
 		} catch {}
+		*/
 	}
 	
 	//if exit normally, then delete file
@@ -137,14 +143,20 @@ public class Log
 		DateTime newestTime = new DateTime(1900,1,1); 
 		string newEmptyFile = ""; 
 		
-	       	//file created just before above (in previous chronojupm execution)
+	       	//file created just before above (in previous chronojump execution)
 		DateTime secondNewestTime = new DateTime(1900,1,1);
 		string lastLogFile = ""; 
 
 		foreach (string file in files) {
 			//check only the files that doesn't end with a "-crash".
 			//This comes from windows were we need to separate both logs
-			if(!file.EndsWith("crash.txt")) {
+
+			//some windows doesn't allow to .bat to create the crash file as a redirection
+			//it seems is because is in another folder
+			//do it in same folder (data)
+			//then crash file has not to be searched here
+
+//			if(!file.EndsWith("crash.txt")) {
 				myTime = File.GetCreationTime(file);
 
 				//if time it's newer
@@ -158,7 +170,7 @@ public class Log
 					secondNewestTime = myTime;
 					lastLogFile = file;
 				}
-			}
+//			}
 		}
 		//Console.WriteLine("new empty: {0}\n, the log: {1}", newEmptyFile, lastLogFile);
 

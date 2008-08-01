@@ -37,7 +37,18 @@ public class About
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_about", null);
 		gladeXML.Autoconnect(this);
+	
 		
+		/*	
+		//crash for test purposes
+		string [] myCrash = {
+			"hello" };
+		Console.WriteLine("going to crash now intentionally");
+		Console.WriteLine(myCrash[1]);
+		*/
+
+
+
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_about);
 

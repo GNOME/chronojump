@@ -1,5 +1,26 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+1 ago 2008 (Major RELEASE 0.7.5 for Linux and windows)
+	0.7.5
+	created new method to redirect standard output and standard error from
+	chronojump.cs (without the needing of .sh or .bat params).
+	Allows to have on linux and windows a single file with the output and
+	error. Also on Vista
+	fixes: 539345 fix found crash file on last execution
+	File is closed if all works ok
+
+	fixed: 538198 supply created database
+	-same blank db created on linux works on windows
+	-sqlite main, create release and installjammer support it on windows
+	-blankDB is copied (installjammer) if there's no chronojump.db on a windows system
+	-blankdb is created on linux with COM? as default port
+
+	updated es translation of all the port help related (all is translated
+	to spanish except non european countries)
+
+	on menu changed "Platform" for "Chronopic"
+	updated manual
+
 1 ago 2008
 	0.7.4.3
 	fixed: 545524 When created session, say "create/load athletes"

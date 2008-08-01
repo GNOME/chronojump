@@ -36,6 +36,7 @@ public class RunTypeAddWindow
 {
 	[Widget] Gtk.Window run_type_add;
 	[Widget] Gtk.Button button_accept;
+	public Gtk.Button fakeButtonAccept;
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.RadioButton radiobutton_simple;
 	[Widget] Gtk.RadioButton radiobutton_interval;
@@ -61,6 +62,8 @@ public class RunTypeAddWindow
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
+		fakeButtonAccept = new Gtk.Button();
+
 		//put an icon to window
 		UtilGtk.IconWindow(run_type_add);
 	}
@@ -158,10 +161,13 @@ public class RunTypeAddWindow
 			}
 			
 			Log.WriteLine(string.Format("Inserted: {0}", myRun));
+			
+			fakeButtonAccept.Click();
+		
+			RunTypeAddWindowBox.run_type_add.Hide();
+			RunTypeAddWindowBox = null;
 		}
 
-		RunTypeAddWindowBox.run_type_add.Hide();
-		RunTypeAddWindowBox = null;
 	}
 
 	void on_radiobutton_simple_toggled (object o, EventArgs args)
@@ -217,12 +223,12 @@ public class RunTypeAddWindow
 			button_accept.Sensitive = false;
 		}
 	}
-		
 
-	public Button Button_accept 
+
+	public Button FakeButtonAccept 
 	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
+		set { fakeButtonAccept = value; }
+		get { return fakeButtonAccept; }
 	}
 
 }

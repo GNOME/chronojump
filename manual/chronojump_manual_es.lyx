@@ -5,6 +5,7 @@
 \textclass article
 \begin_preamble
 \usepackage{a4wide}
+\usepackage{url}
 \end_preamble
 \language spanish
 \inputencoding auto
@@ -17,7 +18,7 @@
 \font_sf_scale 100
 \font_tt_scale 100
 \graphics default
-\float_placement !h
+\float_placement p
 \paperfontsize default
 \spacing single
 \papersize default
@@ -260,6 +261,7 @@ target "http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -553,7 +555,6 @@ Versiones de Chronopic
 
 \begin_layout Standard
 \begin_inset Float figure
-placement p
 wide false
 sideways false
 status open
@@ -590,7 +591,6 @@ Chronopic3
 
 \begin_layout Standard
 \begin_inset Float figure
-placement p
 wide false
 sideways false
 status open
@@ -627,7 +627,6 @@ Chronopic2-USB
 
 \begin_layout Standard
 \begin_inset Float figure
-placement p
 wide false
 sideways false
 status open
@@ -665,7 +664,6 @@ Chronopic2-Serie
 \begin_layout Standard
 \noindent
 \begin_inset Float figure
-placement p
 wide false
 sideways false
 status open
@@ -739,7 +737,6 @@ reference "fig:Montaje-del-Chronopic3."
 
 \begin_layout Standard
 \begin_inset Float figure
-placement h
 wide false
 sideways false
 status open
@@ -940,11 +937,18 @@ Hoy en día, la mayoría de los ordenadores portátiles no disponen de puerto
 
 \begin_layout Standard
 El sistema operativo asigna nombres a los puertos, tal y como se indica
- en el siguiente cuadro:
+ en el cuadro 
+\begin_inset LatexCommand ref
+reference "tab:Nombres-de-puerto"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -1172,6 +1176,11 @@ USB
 \begin_inset Caption
 
 \begin_layout Standard
+\begin_inset LatexCommand label
+name "tab:Nombres-de-puerto"
+
+\end_inset
+
 Nombres de puerto en cada sistema operativo.
  Los nombres más usuales se muestran en negrita.
 \end_layout
@@ -1278,27 +1287,79 @@ Chronopic3 se detecta automáticamente en GNU/Linux en los kernels de la
 \end_layout
 
 \begin_layout Standard
-Por un error de Mono que 
-\begin_inset LatexCommand url
-name "hemos documentado"
-target "http://mail.gnome.org/archives/chronojump-devel-list/2008-January/msg00048.html"
+Por un error de Mono que hemos documentado
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Standard
+
+ 
+\backslash
+url{http://mail.
+ gnome.
+ org/ archives/ chronojump- devel- list/ 2008-January/ msg00048.html}
+\end_layout
 
 \end_inset
 
- y 
-\begin_inset LatexCommand url
-name "encontrado su origen"
-target "http://mail.gnome.org/archives/chronojump-devel-list/2008-January/msg00050.html"
+
+\end_layout
 
 \end_inset
 
-, la Chronopic3 no puede conectarse a Chronojump en los Kernels 2.6.20-2.6.23.
- La solución es actualizar el Kernel a 2.6.24 o superior.
- Si no desea actualizar su distribución, puede seguir este ejemplo para
- Ubuntu Hardy 
-\begin_inset LatexCommand url
-name "este enlace"
-target "http://msdark.atwebpages.com/actualizar-kernel-a-la-version-2624-de-ubuntu-hardy-para-ubuntu-gutsy"
+ y encontrado su origen 
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Standard
+
+
+\backslash
+url{http://mail.
+ gnome.
+ org/ archives/ chronojump- devel- list/ 2008-January/ msg00050.html}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, la placa Chronopic3 no puede conectarse a Chronojump en los Kernels 2.6.20-2.6.23.
+ La solución es actualizar el Kernel a 2.6.24 o superior 
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+Si no desea actualizar su distribución, puede seguir este ejemplo para Ubuntu
+ Hardy seguir este enlace: 
+\begin_inset ERT
+status open
+
+\begin_layout Standard
+
+
+\backslash
+url{http://msdark.
+ atwebpages.
+ com/ actualizar-kernel -a-la-version-2624- de-ubuntu-hardy- para-ubuntu-
+ gutsy}
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -1859,7 +1920,6 @@ reference "fig:Nueva-sesión.-Deportistas"
 
 \begin_layout Standard
 \begin_inset Float figure
-placement p
 wide false
 sideways false
 status open
@@ -1902,7 +1962,6 @@ Nueva sesión.
 
 \begin_layout Standard
 \begin_inset Float figure
-placement p
 wide false
 sideways false
 status open
@@ -2014,7 +2073,62 @@ Cada uno de los individuos que pueden realizan tests (saltos, carreras,
  Hay que notar que no se debe crear un mismo sujeto más de una vez, ya que
  para que pueda estudiarse su evolución en el tiempo (diferentes sesiones)
  se recomienda enérgicamente crear el sujeto sólo una vez, las otras veces
- (en las siguientes sesiones) se deberá cargar el sujeto.
+ (en las siguientes sesiones) se deberá 
+\emph on
+cargar
+\emph default
+ el sujeto en la sesión actual.
+\end_layout
+
+\begin_layout Standard
+La figura 
+\begin_inset LatexCommand ref
+reference "fig:Creación-de-un-sujeto"
+
+\end_inset
+
+ muestra la creación de un sujeto.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename Captura-Nuevo saltador.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Creación-de-un-sujeto"
+
+\end_inset
+
+Creación de un sujeto.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -2058,8 +2172,10 @@ Sujeto / Crear sujeto
 Crear sujeto
 \emph default
  para crear un sujeto.
- Podrá indicar el nombre completo, sexo, fecha de nacimiento, altura, peso
- y comentarios, los campos nombre y peso son obligatorios.
+ Podrá indicar el nombre completo, sexo, fecha de nacimiento, altura, peso,
+ país, deporte, modalidad, nivel y comentarios.
+ Los campos obligatorios son: nombre, fecha de nacimiento, peso, deporte,
+ modalidad (si se aplica) y nivel.
  Es importante que el nombre sea lo más completo posible para que no se
  produzcan conflictos más adelante con otros sujetos distintos.
  
@@ -2071,10 +2187,58 @@ Con el objetivo de acelerar la creación de múltiples sujetos, haga clic
 \emph on
 Sujeto / Crear sujetos [multiple]
 \emph default
- y se le presentará una ventana en la que podrá crear hasta 10 sujetos a
- la vez.
- Una vez creados podrá volver a hacer clic en el mismo elemento de menú
- para crear más sujetos.
+ y se le presentará una ventana en la que podrá crear multiples sujetos
+ a la vez.
+ Una vez creados, si aún desea crear más sujetos, podrá volver a hacer clic
+ en el mismo elemento de menú.
+ La figura 
+\begin_inset LatexCommand ref
+reference "fig:Creación-de-diversos"
+
+\end_inset
+
+ muestra la creación de 11 sujetos a la vez.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename Captura-Añadir-Editar múltiples personas.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Creación-de-diversos"
+
+\end_inset
+
+Creación de diversos sujeto de forma simultánea.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -2105,6 +2269,108 @@ Cargar sujetos de otra sesión
  En todo momento podrá descartar algún sujeto si lo desea.
 \end_layout
 
+\begin_layout Standard
+Las figuras 
+\begin_inset LatexCommand ref
+reference "fig:Cargar-atletas"
+
+\end_inset
+
+ y 
+\begin_inset LatexCommand ref
+reference "fig:Cargar-atletas-otra_sesion"
+
+\end_inset
+
+ muestran la carga de sujetos.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename Captura-Cargar atletas.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Cargar-atletas"
+
+\end_inset
+
+Cargar atletas
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename Captura-Cargar_atletas_otra_sesion.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Cargar-atletas-otra_sesion"
+
+\end_inset
+
+Cargar atletas de otra sesión
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Visualización de tests de sujeto
 \end_layout
@@ -2114,8 +2380,7 @@ Haga clic en
 \emph on
 Mostrar todos los tests del sujeto actual
 \emph default
- para ver todos los saltos y carreras que ha realizado dicho sujeto en diferente
-s sesiones.
+ para ver todos los tests que ha realizado dicho sujeto en diferentes sesiones.
  También puede seleccionar otros sujetos de la sesión actual o de otras.
 \end_layout
 
@@ -2142,7 +2407,7 @@ Haga clic en
 \emph on
 Borrar sujeto actual de la sesión actual
 \emph default
- para desuscribir el sujeto actual de la sesión en curso.
+ para eliminar el sujeto actual de la sesión en curso.
  Esta operación eliminará todos los tests que haya realizado dicha persona
  en la sesión actual.
  Es importante saber que el sujeto no será eliminado de la base de datos
@@ -2158,7 +2423,8 @@ sujeto actual
 \emph on
 sujeto actual
 \emph default
- y por tanto no se podrán ejecutar tests.
+ y por tanto no se podrán ejecutar tests en la sesión actual hasta que no
+ se cree o cargue un sujeto.
 \end_layout
 
 \begin_layout Section
@@ -2198,7 +2464,7 @@ Los que se inician fuera de la plataforma (dejándose caer desde una altura
  de caída determinada o con un antesalto) para caer en la plataforma y seguidame
 nte realizar el salto.
  Se obtienen las variables: Tiempo de contacto (TC) (momento entre la recepción
- de caída o antesalto y el siguiente despegue) y Tiempo de vuelo (TV).
+ de caída o antesalto y el despegue) y Tiempo de vuelo (TV).
  Normalmente se pretenderá conseguir saltos con mínimo tiempo de contacto
  y máximo tiempo de vuelo como indicador de potencia.
 \end_layout
@@ -2460,7 +2726,54 @@ Campanas
 \begin_inset Quotes erd
 \end_inset
 
-, podrá configurar estas acciones.
+, podrá configurar estas acciones tal y como se observa en la figura 
+\begin_inset LatexCommand ref
+reference "fig:Campanas---feedback"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename campanas.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Caption
+
+\begin_layout Standard
+\begin_inset LatexCommand label
+name "fig:Campanas---feedback"
+
+\end_inset
+
+Campanas - feedback auditivo y visual.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -2590,7 +2903,7 @@ Borrar salto seleccionado
 \emph on
 Preferencias
 \emph default
- (más información en la sección 
+ (más información en el apartado 
 \begin_inset LatexCommand vref
 reference "sec:Preferencias"
 
@@ -2629,7 +2942,7 @@ El tipo de salto creado estará disponible en la base de datos para que sea
  usado en cualquier sesión y será automáticamente accesible a través del
  botón 
 \emph on
-More
+Más
 \emph default
  en las pestañas de 
 \emph on
@@ -2640,8 +2953,8 @@ Salto
 Salto Reactivo
 \emph default
  en función del tipo de salto que se cree.
- Por último, el nuevo tipo de salto será también distinguido en el restos
- de partes del programa: estadísticas, gráficas e informes.
+ Por último, el nuevo tipo de salto será también distinguido en las estadísticas
+, gráficas e informes.
 \end_layout
 
 \begin_layout Standard
@@ -2656,15 +2969,14 @@ En el proceso de creación se le pedirá que lo identifique con un nombre
 Las opciones de límite por tiempo o por saltos podrán ser ajustadas con
  un valor fijo predefinido o dejarlas indefinidas.
  En caso de que se ajusten a un valor fijo, el nuevo tipo de salto en todos
- los casos se encontrará limitado por dicho valor; en caso contrario, se
- preguntará al usuario a cada salto qué valor debe tomar el factor limitante.
+ los casos se encontrará limitado por dicho valor; en caso contrario, en
+ cada salto se preguntará al usuario qué valor debe tomar el factor limitante.
 \end_layout
 
 \begin_layout Standard
 Por último se presentan las opciones de iniciar el salto encima de la plataforma
  o fuera de ella, contemplar un peso extra adicional.
- La ventana de creación de nuevo tipo de salto concluye con la posibilidad
- de añadir una descripción textual al mismo.
+ Se concluye con la posibilidad de añadir una descripción textual al mismo.
  En la figura 
 \begin_inset LatexCommand ref
 reference "fig:Creación-de-nuevo-tipo-salto"
@@ -2683,7 +2995,7 @@ status open
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename chronojump_new_jump_type_spanish.png
+	filename Captura-Crear un tipo de salto nuevo.png
 	lyxscale 50
 	scale 50
 
@@ -2817,6 +3129,7 @@ CombaIlimitado
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -3904,6 +4217,7 @@ SprintCortoVariable
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -4425,7 +4739,7 @@ Ritmos
 \end_layout
 
 \begin_layout Section
-Estadísticas
+Estadísticas y gráficas
 \end_layout
 
 \begin_layout Standard
@@ -4943,7 +5257,7 @@ reference "sec:Generación-de-Informes"
  respectivamente.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Creación de gráficos
 \begin_inset LatexCommand label
 name "sub:Creación-de-graficos"
@@ -5011,6 +5325,27 @@ Ejemplo de gráfico de Índice DJ (los nombres de los saltadores se han ocultado
 \end_layout
 
 \begin_layout Section
+Informes y exportaciones
+\end_layout
+
+\begin_layout Standard
+Se proponen dos formas de continuar trabajando con sus datos sin usar ya
+ el programa Chronojump.
+ En el primer caso: 
+\emph on
+Generación de informes
+\emph default
+, con la utilidad de crear una página web con el contenido de la sesión
+ así como las estadísticas y gráficas seleccionadas; En el segundo caso:
+ 
+\emph on
+Exportación a hoja de cálculo
+\emph default
+, se exportan los datos de los tests para su analisis con programas de cálculo
+ de propósito general (hojas de cálculo).
+\end_layout
+
+\begin_layout Subsection
 Generación de informes
 \begin_inset LatexCommand label
 name "sec:Generación-de-Informes"
@@ -5066,6 +5401,12 @@ Crear informe
 \end_layout
 
 \begin_layout Standard
+Para la impresión de dicho informe -así como de cualquier página web- se
+ recomienda encarecidamente el navegador libre Mozilla Firefox, pues la
+ impresión en Internet Explorer es poco respetuosa con el original.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -5105,7 +5446,7 @@ Ejemplo de informe
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Exportación a hoja de cálculo
 \end_layout
 

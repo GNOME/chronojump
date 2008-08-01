@@ -36,6 +36,7 @@ public class JumpTypeAddWindow
 {
 	[Widget] Gtk.Window jump_type_add;
 	[Widget] Gtk.Button button_accept;
+	public Gtk.Button fakeButtonAccept;
 	[Widget] Gtk.Entry entry_name;
 	[Widget] Gtk.RadioButton radiobutton_simple;
 	[Widget] Gtk.RadioButton radiobutton_repetitive;
@@ -62,6 +63,8 @@ public class JumpTypeAddWindow
 		gladeXML.Autoconnect(this);
 		this.parent =  parent;
 		
+		fakeButtonAccept = new Gtk.Button();
+
 		//put an icon to window
 		UtilGtk.IconWindow(jump_type_add);
 	}
@@ -162,10 +165,12 @@ public class JumpTypeAddWindow
 			}
 			
 			Log.WriteLine(string.Format("Inserted: {0}", myJump));
-		}
+		
+			fakeButtonAccept.Click();
 
-		JumpTypeAddWindowBox.jump_type_add.Hide();
-		JumpTypeAddWindowBox = null;
+			JumpTypeAddWindowBox.jump_type_add.Hide();
+			JumpTypeAddWindowBox = null;
+		}
 	}
 
 	void on_radiobutton_simple_toggled (object o, EventArgs args)
@@ -211,12 +216,12 @@ public class JumpTypeAddWindow
 		}
 	}
 		
-
-	public Button Button_accept 
+	public Button FakeButtonAccept 
 	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
+		set { fakeButtonAccept = value; }
+		get { return fakeButtonAccept; }
 	}
+
 
 }
 

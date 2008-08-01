@@ -248,22 +248,15 @@ public class Constants
 	public static int CountryUndefinedID = 1;
 	public static string CountryUndefined = "Undefined"; 
 	public static string ContinentUndefined = "Undefined"; 
-	private static string ctr1 = "Africa";
-	private static string ctr2 = "Antarctica";
-	private static string ctr3 = "Asia";
-	private static string ctr4 = "Europe";
-	private static string ctr5 = "North America";
-	private static string ctr6 = "Oceania";
-	private static string ctr7 = "South America";
 	public static string [] Continents = {
 		ContinentUndefined + ":" + Catalog.GetString(ContinentUndefined), 
-		ctr1 + ":" + Catalog.GetString(ctr1),
-		ctr2 + ":" + Catalog.GetString(ctr2),
-		ctr3 + ":" + Catalog.GetString(ctr3),
-		ctr4 + ":" + Catalog.GetString(ctr4),
-		ctr5 + ":" + Catalog.GetString(ctr5),
-		ctr6 + ":" + Catalog.GetString(ctr6),
-		ctr7 + ":" + Catalog.GetString(ctr7),
+		"Africa" + ":" + Catalog.GetString("Africa"),
+		"Antarctica" + ":" + Catalog.GetString("Antarctica"),
+		"Asia" + ":" + Catalog.GetString("Asia"),
+		"Europe" + ":" + Catalog.GetString("Europe"),
+		"North America" + ":" + Catalog.GetString("North America"),
+		"Oceania" + ":" + Catalog.GetString("Oceania"),
+		"South America" + ":" + Catalog.GetString("South America"),
 	};
 	
 	//levels of sport practice

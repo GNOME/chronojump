@@ -39,10 +39,11 @@ class SqlitePreferences : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	protected internal static void initializeTable(string databaseVersion)
+	protected internal static void initializeTable(string databaseVersion, bool creatingBlankDatabase)
 	{
 		Insert ("databaseVersion", databaseVersion); 
-		if(Util.IsWindows()) 
+			
+		if(Util.IsWindows() || creatingBlankDatabase)
 			Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
 		else
 			Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);

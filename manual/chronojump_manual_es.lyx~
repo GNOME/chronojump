@@ -841,9 +841,16 @@ n
  cronometrar ritmos complejos u otras aplicaciones.
  Actualmente ya es funcional gracias al programa Chronojump_mini.
  Más información en este correo: 
-\begin_inset LatexCommand url
-name "CORREO LISTA N CHRONOPICS!!!!"
-target "http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_medida_congreso_gpul.pdf"
+\begin_inset ERT
+status open
+
+\begin_layout Standard
+
+
+\backslash
+url{http://mail .gnome .org/ archives/ chronojump- list/ 2008-July/ msg00015
+ .html}
+\end_layout
 
 \end_inset
 
@@ -4824,7 +4831,7 @@ status open
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename chronojump_main_window_spanish.png
+	filename chronojump_stats_window.png
 	lyxscale 50
 	scale 50
 
@@ -5686,7 +5693,7 @@ status open
 \begin_layout Standard
 \align center
 \begin_inset Graphics
-	filename chronojump_preferences.png
+	filename Captura-Preferencias.png
 	scale 50
 
 \end_inset

@@ -20,6 +20,13 @@ fi
 #create the executable on "build" dir
 make
 
+#create the blank db
+cd build/data
+mono chronojump.prg createBlankDB
+echo "Blank DB created!"
+
+cd ../..
+
 #create specific release dir
 
 release_dir="releases/chronojump-$1"

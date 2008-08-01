@@ -26,6 +26,7 @@ using Glade;
 using Mono.Unix;
 using System.IO; //"File" things
 using System.Threading;
+using System.Diagnostics; //Process
 
 
 public class ChronoJump 
@@ -52,6 +53,15 @@ public class ChronoJump
 
 	public static void Main(string [] args) 
 	{
+		bool timeLogPassedOk = Log.Start(args);
+		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
+		string errorFile = Log.GetFile();
+
+		StreamWriter sw = new StreamWriter(new BufferedStream(new FileStream(errorFile, FileMode.Create)));
+		System.Console.SetOut(sw);
+		System.Console.SetError(sw);
+		sw.AutoFlush = true;
+
 		//this call has to be done to chronojump.prg
 		//chronojump.prg createBlankDB
 		//this creates a blank database and exists.
@@ -62,13 +72,12 @@ public class ChronoJump
 		}
 
 		Catalog.Init ("chronojump", "./locale");
+			
 		new ChronoJump(args);
 	}
 
 	public ChronoJump (string [] args) 
 	{
-		bool timeLogPassedOk = Log.Start(args);
-		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
 		
 		Application.Init();
 
@@ -225,6 +234,7 @@ public class ChronoJump
 		} catch {
 			//done because if database dir is moved in a chronojump conversion (eg from before installer to installjammer) maybe it will not find this runningFileName
 		}
+		System.Console.Out.Close();
 		Log.End();
 		Log.Delete();
 		Application.Quit();
@@ -301,15 +311,20 @@ public class ChronoJump
 	 * ---------------------*/
 		
 	private void chronojumpCrashedBefore() {
-		//Console.Clear();
+
+		/*
 		string windowsTextLog = "";
-		if(Util.IsWindows())
-			windowsTextLog = "\n" + Log.GetLast().Replace(".txt", "-crash.txt");
+			
+		string crashLogFile = Log.GetLast().Replace(".txt", "-crash.txt");
+		//on vista there's no crash file because redirection is forbidden
+		if(Util.IsWindows() && File.Exists(crashLogFile)) 
+			windowsTextLog = "\n" + crashLogFile;
+			*/
 
 		string errorMessage = "\n" +
 				string.Format(Catalog.GetString("Chronojump crashed before. Please, <b>write an email</b> to {0} including this file:"), "xaviblas@gmail.com") + "\n\n" +
 					Log.GetLast() +
-					windowsTextLog +
+		//			windowsTextLog +
 				       "\n\n" +	
 				Catalog.GetString("Subject should be something like \"bug in Chronojump\". Your help is needed.") + "\n";
 

@@ -53,8 +53,12 @@ echo "3d: call Chronojump"
 cd ../data
 
 #pass LOG_FILE (same format as in src/log.cs)
-LOG_DATE=`date +%d-%m-%Y_%H-%M-%S`
-LOG_FILE="../../logs/$LOG_DATE.txt"
+#LOG_DATE=`date +%d-%m-%Y_%H-%M-%S`
+#LOG_FILE="../../logs/$LOG_DATE.txt"
 
 #call program redirecting to a file the standard output and the error aoutput at end
-mono chronojump.prg $LOG_DATE 2>>$LOG_FILE
+#mono chronojump.prg $LOG_DATE 2>>$LOG_FILE
+
+#since 0.7.5 program mixes standard output and standard error in the same file
+#see Main on src/chronojump.cs
+mono chronojump.prg 

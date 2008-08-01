@@ -1469,6 +1469,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		
 		File.Delete(runningFileName);
+		System.Console.Out.Close();
 		Log.End();
 		Log.Delete();
 		Application.Quit();
@@ -1482,6 +1483,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		
 		File.Delete(runningFileName);
+		System.Console.Out.Close();
 		Log.End();
 		Log.Delete();
 		Application.Quit();

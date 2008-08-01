@@ -24,17 +24,17 @@
 use strict;
 
 #CONSTANTS
-my $currentVersion = "0.71";
-my $currentVersionDay = "27";
-my $currentVersionMonth = 5; #if it's from 1 to 9, put only one digit
+my $currentVersion = "0.7.5";
+my $currentVersionDay = "1";
+my $currentVersionMonth = 8; #if it's from 1 to 9, put only one digit
 my $currentVersionYear = "2008";
-my $linuxMailDownloadLink = "http://ftp.gnome.org/pub/GNOME/sources/chronojump/0.7/chronojump-0.7-Linux-x86-Install.tar.gz";
-my $linuxMailDownloadName = "Chronojump 0.7 Linux";
-my $windowsMailDownloadLink = "http://ftp.gnome.org/pub/GNOME/binaries/win32/chronojump/Chronojump-0.7.1-Windows-Install.exe";
-my $windowsMailDownloadName = "Chronojump 0.7.1 Windows";
+my $linuxMailDownloadLink = "http://ftp.gnome.org/pub/GNOME/binaries/linux/chronojump/Chronojump-0.7.5-Linux-x86-Install";
+my $linuxMailDownloadName = "Chronojump 0.7.5 Linux";
+my $windowsMailDownloadLink = "http://ftp.gnome.org/pub/GNOME/binaries/win32/chronojump/Chronojump-0.7.5-Windows-Install.exe";
+my $windowsMailDownloadName = "Chronojump 0.7.5 Windows";
 my $maemoMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2007-April/msg00002.html";
 my $maemoMailDownloadName = "chronojump_mini for Maemo!! Chronojump_mini funcionando en Maemo!!";
-my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2008-May/msg00013.html";
+my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/2008-August/msg00001.html";
 my $manualLink = "http://svn.gnome.org/svn/chronojump/trunk/manual/chronojump_manual_es.pdf";
 my $glossaryLink = "http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html";
 

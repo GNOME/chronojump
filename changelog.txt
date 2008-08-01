@@ -1,5 +1,24 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+1 ago 2008
+	0.7.4.3
+	fixed: 545524 When created session, say "create/load athletes"
+	fixed: 545522 Convert weight doesn't work ok. It worked ok, bad bug.
+	improved also on window for unselecting "all" checkboxes when an unique
+	checkbox is toggled
+	fixed: 545521 when configured port, combo on treeview event is blank.
+	Unable to reproduce. Is when created jump or run type. Fixed.
+
+	fixed: 545520 created a jump type, doesn't appear at stats (also for
+	runType)
+
+	Fixed: if a new jump was created, and it's name exist, showed a message, but add jump type window is closed.
+
+	event combos now they are not re-called multiple times:
+	combo_jumps.Changed -= new EventHandler (on_combo_jumps_changed);
+
+	improved manual
+
 30 jul 2008 (2)
 	0.7.4.2 
 	fixed crash in convertWeight (it was doing it in new user)

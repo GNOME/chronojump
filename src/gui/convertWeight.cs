@@ -187,6 +187,10 @@ public class ConvertWeightWindow
 			} else {
 				store.SetValue (iter, columnThis, !val);
 				store.SetValue (iter, columnOther, val);
+				//usnelect "all" checkboxes
+				store.GetIterFirst(out iter);
+				store.SetValue (iter, columnThis, false);
+				store.SetValue (iter, columnOther, false);
 			}
 		}
 	}

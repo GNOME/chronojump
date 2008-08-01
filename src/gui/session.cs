@@ -596,7 +596,7 @@ public class SessionAddEditWindow {
 			else
 				levelID = Util.FetchID(UtilGtk.ComboGetActive(combo_levels));
 
-			if(addSession)
+			if(addSession) 
 				currentSession = new Session (entry_name.Text, entry_place.Text, myDate, 
 						sportID, speciallityID, levelID,
 						textview.Buffer.Text);

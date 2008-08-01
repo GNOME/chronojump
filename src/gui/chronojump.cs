@@ -900,7 +900,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void fillTreeView_jumps (string filter) {
 		string [] myJumps;
-		
+	
 		myJumps = SqliteJump.SelectJumps(currentSession.UniqueID, -1, "");
 		myTreeViewJumps.Fill(myJumps, filter);
 
@@ -1394,6 +1394,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_combo_jumps_changed(object o, EventArgs args) {
+		combo_jumps.Changed -= new EventHandler (on_combo_jumps_changed);
+
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
@@ -1404,6 +1406,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_combo_jumps_rj_changed(object o, EventArgs args) {
+		combo_jumps_rj.Changed -= new EventHandler (on_combo_jumps_rj_changed);
+
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
@@ -1414,6 +1418,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_combo_runs_changed(object o, EventArgs args) {
+		combo_runs.Changed -= new EventHandler (on_combo_runs_changed);
+
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
@@ -1424,6 +1430,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_combo_runs_interval_changed(object o, EventArgs args) {
+		combo_runs_interval.Changed -= new EventHandler (on_combo_runs_interval_changed);
+
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
@@ -1436,6 +1444,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	//no need of reationTimes
 	
 	private void on_combo_pulses_changed(object o, EventArgs args) {
+		combo_pulses.Changed -= new EventHandler (on_combo_pulses_changed);
+
 		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
@@ -1541,6 +1551,13 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 			//update report
 			report.SessionID = currentSession.UniqueID;
+
+			//feedback (more in 1st session created)
+			string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
+			if(currentSession.UniqueID == 1)
+				new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
+			else
+				appbar2.Push ( 1, feedbackLoadUsers);
 		}
 	}
 	
@@ -3914,26 +3931,30 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Log.WriteLine("Add new jump type");
 			
 		jumpTypeAddWin = JumpTypeAddWindow.Show(app1);
-		jumpTypeAddWin.Button_accept.Clicked += new EventHandler(on_jump_type_add_accepted);
+		jumpTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_jump_type_add_accepted);
 	}
 	
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
 		Log.WriteLine("ACCEPTED Add new jump type");
 		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
 		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+		combo_jumps.Active = 0;
+		combo_jumps_rj.Active = 0;
 	}
 
 	private void on_run_type_add_activate (object o, EventArgs args) {
 		Log.WriteLine("Add new run type");
 			
 		runTypeAddWin = RunTypeAddWindow.Show(app1);
-		runTypeAddWin.Button_accept.Clicked += new EventHandler(on_run_type_add_accepted);
+		runTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_run_type_add_accepted);
 	}
 	
 	private void on_run_type_add_accepted (object o, EventArgs args) {
 		Log.WriteLine("ACCEPTED Add new run type");
 		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		combo_runs.Active = 0;
+		combo_runs_interval.Active = 0;
 	}
 
 	//reactiontime has no types

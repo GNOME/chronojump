@@ -111,7 +111,8 @@ class Test {
 			portName=Console.ReadLine();
 		}
 
-		Console.WriteLine(Catalog.GetString("Opening port... if get hanged, generate events with chronopic or the platform"));
+		Console.WriteLine(Catalog.GetString("Opening port...") + " " +
+			       Catalog.GetString("Please touch the platform or click Chronopic TEST button"));
 		//-- Crear puerto serie		
 		SerialPort sp;
 		sp = new SerialPort(portName);
@@ -166,7 +167,7 @@ class Test {
 
 		double count = 1.0;
 						
-		Console.WriteLine("\tcount\tTC(ms)\tTF(ms)");
+		Console.WriteLine("  TC(ms) TF(ms)");
 		writer.WriteLine("count;TC(ms);TF(ms)");
 		while(true) {
 
@@ -208,7 +209,7 @@ class Test {
 						ton = timestamp;
 
 						//-- Imprimir informacion
-						Console.Write(count + "\t{0:f1}\t",ton);
+						Console.Write(count + " {0:f1} ",ton);
 						writer.Write(count + ";{0:f1};",ton);
 					}
 					break;

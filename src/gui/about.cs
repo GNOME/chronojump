@@ -32,7 +32,7 @@ public class About
 	[Widget] Gtk.Label dialog_about_label_developers;
 	[Widget] Gtk.Label dialog_about_label_translators;
 
-	public About (string version, string [] authors, string translators)
+	public About (string version, string translators)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_about", null);
@@ -62,11 +62,11 @@ public class About
 		
 		//put authos separated by commas
 		string authorsString = "";
-		string comma = "";
-		foreach (string singleAuthor in authors) {
-			authorsString += comma;
+		string paragraph = "";
+		foreach (string singleAuthor in Constants.Authors) {
+			authorsString += paragraph;
 			authorsString += singleAuthor;
-			comma = ", ";
+			paragraph = "\n\n";
 		}
 		dialog_about_label_developers.Text = authorsString;
 	}

@@ -26,6 +26,15 @@ public class Constants
 {
 	//the strings created by Catalog cannot be const
 	
+	public static string [] Authors = {
+		"Xavier de Blas (xaviblas@gmail.com)\n" + Catalog.GetString("Project leader and main developer."), 
+		"Juan Gonzalez (http://www.iearobotics.com)\n" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software."), 
+		"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n" + Catalog.GetString("Chronopic2 creation, Chronojump tester."), 
+		"Ricardo Gómez (http://www.iearobotics.com)\n" + Catalog.GetString("Chronopic3 industrial prototype."),
+		"Sharad Shankar (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle"), 
+		"Onkar Nath Mishra (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle") 
+	};
+	
 	//formulas
 	public static string DjIndexFormula = "Dj Index (tv-tc)/tc *100)";
 	public static string QIndexFormula = "Q index (tv/tc)";

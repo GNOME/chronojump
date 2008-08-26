@@ -1,5 +1,11 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+26 ago 2008
+	added src/angle/kneeAngle.cpp (minimum angle detection by sharad
+	shankar using openCV). Not compiled or integrated with chronojump yet
+
+	chronojump_mini: better printing data
+
 1 ago 2008 (Major RELEASE 0.7.5 for Linux and windows)
 	0.7.5
 	created new method to redirect standard output and standard error from

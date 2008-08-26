@@ -348,7 +348,6 @@ public class ChronoJumpWindow
 	
 	private bool preferencesLoaded;
 
-	private string [] authors;
 	private string progversion;
 	private string progname;
 
@@ -395,9 +394,8 @@ public class ChronoJumpWindow
 	}
 */
 	
-	public ChronoJumpWindow(string [] authors, string progversion, string progname, string runningFileName)
+	public ChronoJumpWindow(string progversion, string progname, string runningFileName)
 	{
-		this.authors = authors;
 		this.progversion = progversion;
 		this.progname = progname;
 		this.runningFileName = runningFileName;
@@ -4096,7 +4094,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if(translator_credits == "translator-credits") 
 			translator_credits = "";
 
-		new About(progversion, authors, translator_credits);
+		new About(progversion, translator_credits);
 	}
 
 	private void on_checkbutton_volume_clicked(object o, EventArgs args) {

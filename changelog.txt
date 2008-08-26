@@ -1,5 +1,9 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+26 ago 2008 (2)
+	0.7.5.1
+	added Logibrick people to authors. Improved about dialog.
+
 26 ago 2008
 	added src/angle/kneeAngle.cpp (minimum angle detection by sharad
 	shankar using openCV). Not compiled or integrated with chronojump yet

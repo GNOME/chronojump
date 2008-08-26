@@ -34,7 +34,6 @@ public class ChronoJump
 	ChronoJumpWindow chronoJumpWin;
 	SplashWindow splashWin;
 	
-	private static string [] authors = {"Xavier de Blas", "Juan Gonzalez", "Juan Fernando Pardo"};
 	private static string progversion = ""; //now in "version" file
 	private static string progname = "Chronojump";
 	
@@ -241,7 +240,7 @@ public class ChronoJump
 	}
 
 	private void startChronojump() {	
-		chronoJumpWin = new ChronoJumpWindow(authors, readVersion(), progname, runningFileName);
+		chronoJumpWin = new ChronoJumpWindow(readVersion(), progname, runningFileName);
 	}
 
 	private static void createBlankDB() {

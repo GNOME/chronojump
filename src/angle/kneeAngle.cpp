@@ -15,14 +15,38 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Sharad Shankar 
+ * Coded by:
+ * Sharad Shankar & Onkar Nath Mishra
  * http://www.logicbrick.com/
  * 
+ * further informations by:
+ * Xavier de Blas 
+ * xaviblas@gmail.com
+ */
+
+/*
+ * This is suitable to detect minimum angle on the flexion previous to a CMJ jump
+ * samples working:
+ * http://mail.gnome.org/archives/chronojump-list/2008-July/jpgHJAmzYjAYc.jpg
+ * http://mail.gnome.org/archives/chronojump-list/2008-July/jpgs187Y8WoDS.jpg
+ * http://mail.gnome.org/archives/chronojump-list/2008-July/jpgHjtofoGHLo.jpg
+ * more info here:
+ * http://mail.gnome.org/archives/chronojump-list/2008-July/msg00005.html
+ */
+
+/*
+ * CONSTRAINTS:
+ * 
+ * -Person have to be "looking" to the right of the camera
+ * -Camera have to be fixed and the legs of the person will be most of the image
+ * -Black trousers should be use
+ * -Initially user should stand straight for 1-2 frames so that some values can be set. 
+ *
  */
 
 
 /*
- * Explanation:
+ * EXPLANATION:
  *
  * The incoming image is converted into Gray form of image and a fixed low level threshold 
  * is applied to  the grayscale image.
@@ -53,7 +77,7 @@
  */
 
 /*
- * compilation:
+ * COMPILATION:
  *
  * g++ -lcv -lcxcore -lhighgui -L(path to opencv library) kneeAngle.cpp -o kneeAngle
  *

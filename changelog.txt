@@ -1,5 +1,8 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+28 ago 2008
+	kneeAngle: lots of optimizations (v1.1)
+
 26 ago 2008 (2)
 	0.7.5.1
 	added Logibrick people to authors. Improved about dialog.

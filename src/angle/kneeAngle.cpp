@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Coded by (v.1.0):
+ * Initally coded by (v.1.0):
  * Sharad Shankar & Onkar Nath Mishra
  * http://www.logicbrick.com/
  * 
@@ -23,7 +23,7 @@
  * Xavier de Blas 
  * xaviblas@gmail.com
  *
- * version: 1.1
+ * version: 1.2 (Set, 3, 2008)
  *
  */
 
@@ -123,6 +123,20 @@ int playDelay = 5; //milliseconds between photogrammes wen playing. Used as a wa
 int playDelayFoundAngle = 150; //as above, but used when angle is found. 
 				//Useful to see better the detected angle when something is detected
 				//recommended values: 50 - 200
+
+/* recommended: 
+   showAtLinesPoints = true
+   ...DiffPoints = true
+   ...SamePoints = true
+   ...OnlyStartMinEnd = true;
+   */
+
+bool showStickThePoints = true;
+bool showStickTheLinesBetweenSamePoints = true;
+bool showStickTheLinesBetweenDifferentPoints = true;
+bool showStickOnlyStartMinEnd = true;
+
+bool mixStickWithMinAngleWindow = true;
 
 
 /*
@@ -442,6 +456,100 @@ bool upperSimilarThanLower(CvPoint hipPoint, CvPoint kneePoint, CvPoint footPoin
 		return false;
 }
 
+bool pointIsNull(CvPoint pt) {
+	CvPoint notFoundPoint;
+	notFoundPoint.x = 0; notFoundPoint.y = 0;
+	if(pt.x == notFoundPoint.x && pt.y == notFoundPoint.y) 
+		return true;
+	else 
+		return false;
+}
+
+/* paints stick figure at end */
+void paintStick(IplImage *img, int lowestAngleFrame, CvSeq *hipSeq, CvSeq* kneeSeq, CvSeq *footSeq, 
+		bool showPoints, bool showLinesDiff, bool showLinesSame, bool onlyStartMinEnd) {
+	
+	//colors for start, end points, and up, down lines
+	CvScalar startColor = CV_RGB(0,0,255); //start blue
+	CvScalar minAngleColor = CV_RGB(255,0,0); //min angle red
+	CvScalar endColor = CV_RGB(0,255,0); //end green
+	CvScalar connectedWithPreviousColor = CV_RGB(255,255,0); //yellow
+	CvScalar unConnectedWithPreviousColor = CV_RGB(128,128,128); //grey
+	CvScalar currentColor;
+	int size = 0;
+	
+	bool lastFound = false;
+	bool neverFound = true;
+
+	for( int i = 0; i < hipSeq->total; i++ )
+	{
+		CvPoint hip = *CV_GET_SEQ_ELEM( CvPoint, hipSeq, i );
+		CvPoint knee = *CV_GET_SEQ_ELEM( CvPoint, kneeSeq, i );
+		CvPoint foot = *CV_GET_SEQ_ELEM( CvPoint, footSeq, i );
+
+		//if this point was found
+		if(!pointIsNull(hip)) {
+
+			//colors are different depending on phase
+			if(i < lowestAngleFrame)
+				currentColor = startColor;
+			else if(i > lowestAngleFrame)
+				currentColor = endColor;
+			else
+				currentColor = minAngleColor;
+
+			//size of some points is bigger, also decide if paint angle lines
+			bool paintAngleLines = true;
+			if(neverFound || i == lowestAngleFrame || i == hipSeq->total -1 )
+				size = 3;
+			else {
+				size = 1;
+				if(onlyStartMinEnd)
+					paintAngleLines = false;
+			}
+
+			if(showPoints) {
+				cvCircle(img,knee,size, currentColor,1,8,0);
+				cvCircle(img,hip,size, currentColor,1,8,0);
+				cvCircle(img,foot,size, currentColor,1,8,0);
+			}
+			if(showLinesDiff && paintAngleLines) {
+				cvLine(img,knee,hip,currentColor,1,1);
+				cvLine(img,knee,foot,currentColor,1,1);
+			}
+			if(showLinesSame) {
+				if(i>0) {
+					CvPoint hipOld = *CV_GET_SEQ_ELEM( CvPoint, hipSeq, i-1);
+					CvPoint kneeOld = *CV_GET_SEQ_ELEM( CvPoint, kneeSeq, i-1);
+					CvPoint footOld = *CV_GET_SEQ_ELEM( CvPoint, footSeq, i-1);
+
+					//only paint line if previous point was found
+					if(!pointIsNull(hipOld)) {
+						cvLine(img, hip, hipOld, connectedWithPreviousColor,1,1);
+						cvLine(img, knee, kneeOld, connectedWithPreviousColor,1,1);
+						cvLine(img, foot, footOld, connectedWithPreviousColor,1,1);
+					}
+				}
+			}
+			lastFound = true;
+			neverFound = false;
+		} else 
+			lastFound = false;
+	}
+	
+	//print text	
+	CvFont font;
+	int fontLineType = CV_AA; // change it to 8 to see non-antialiased graphics
+	cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, .7, .7, 0.0, 1, fontLineType);
+	char *label = new char[10];
+	sprintf(label,"1st");
+	cvPutText(img, label,cvPoint(20, 20),&font,startColor);
+	sprintf(label,"Min");
+	cvPutText(img, label,cvPoint(20, 40),&font,minAngleColor);
+	sprintf(label,"Last");
+	cvPutText(img, label,cvPoint(20, 60),&font,endColor);
+}
+
 int main(int argc,char **argv)
 {
 	//TODO:
@@ -459,11 +567,17 @@ int main(int argc,char **argv)
 	{
 		exit(0);
 	}
+
+	double framesNumber = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
+	printf("--%f--", framesNumber);
+
 	IplImage *frame=0,*frame_copy=0,*gray=0,*segmented=0,*edge=0,*temp=0,*output=0;
 	IplImage *result=0;
+	IplImage *resultStick=0;
 	int minwidth = 0;
 	
 	bool foundAngle = false; //found angle on current frame
+	//bool foundLast = false; //on previous frame
 	bool foundAngleOneTime = false; //found angle at least one time on the video
 
 	double knee2Hip,knee2Foot,hip2Foot,theta;
@@ -474,6 +588,12 @@ int main(int argc,char **argv)
 
 	int kneePointWidth = -1;
 	int footPointWidth;
+		
+	//to make lines at resultPointsLines
+	CvPoint notFoundPoint;
+	notFoundPoint.x = 0; notFoundPoint.y = 0;
+	int lowestAngleFrame = 0;
+
 
 	char *label = new char[30];
 	CvFont font;
@@ -482,6 +602,13 @@ int main(int argc,char **argv)
 	
 	char key;
 	bool shouldEnd = false;
+
+	//stick storage
+	CvMemStorage* stickStorage = cvCreateMemStorage(0);
+	CvSeq* hipSeq = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), stickStorage );
+	CvSeq* kneeSeq = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), stickStorage );
+	CvSeq* footSeq = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), stickStorage );
+
 
 	//for(;;)
 	while(!shouldEnd) 
@@ -505,6 +632,7 @@ int main(int argc,char **argv)
 			temp = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
 			output = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
 			result = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,3);
+			resultStick = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,3);
 		}
 
 		cvSmooth(frame_copy,frame_copy,2,5,5);
@@ -514,6 +642,7 @@ int main(int argc,char **argv)
 		CvPoint hipPoint = FindHipPoint(output,maxrect);
 		CvPoint kneePoint = FindKneePoint(output,maxrect,hipPoint.y);
 		CvPoint footPoint = FindToePoint(output,maxrect,kneePoint.x,kneePoint.y);
+
 		foundAngle = false;
 		if(minwidth == 0)
 		{
@@ -536,6 +665,11 @@ int main(int argc,char **argv)
 		{
 			cvCircle(frame_copy,kneePoint,2, CV_RGB(255,0,255),1,8,0);
 			
+			//find width of knee, only one time and will be used for all the prhotogrammes
+			if(kneePointWidth == -1) {
+				kneePointWidth = FindWidth(output, kneePoint);
+			}
+
 			//fix kneepoint.x at the right 1/3 of the knee width
 			kneePoint.x -= kneePointWidth /3;
 			cvCircle(frame_copy,kneePoint,3, CV_RGB(255,0,0),1,8,0);
@@ -553,11 +687,6 @@ int main(int argc,char **argv)
 			hipPoint = FixHipPoint2(output, hipPointFirstY, kneePoint, hipPoint);
 			cvCircle(frame_copy,hipPoint,3, CV_RGB(255,0,0),1,8,0);
 			
-			//find width of knee, only one time and will be used for all the prhotogrammes
-			if(kneePointWidth == -1) {
-				kneePointWidth = FindWidth(output, kneePoint);
-			}
-
 			//find width of foot for each photogramme
 			footPointWidth = FindWidth(output, footPoint);
 			cvCircle(frame_copy,footPoint,2, CV_RGB(255,0,255),1,8,0);
@@ -573,12 +702,21 @@ int main(int argc,char **argv)
 			theta = (180.0/M_PI)*acos(((knee2Foot*knee2Foot+knee2Hip*knee2Hip)-hip2Foot*hip2Foot)/(2*knee2Foot*knee2Hip));
 			cvLine(frame_copy,kneePoint,hipPoint,CV_RGB(0,0,255),1,1);
 			cvLine(frame_copy,kneePoint,footPoint,CV_RGB(0,0,255),1,1);
+			
+			
+			cvSeqPush( hipSeq, &hipPoint );
+			cvSeqPush( kneeSeq, &kneePoint );
+			cvSeqPush( footSeq, &footPoint );
+
+
 			//Finds the minimum angle between Hip to Knee line and Knee to Toe line
 			if(theta < mintheta)
 			{
 				mintheta = theta;
 				cvCopy(frame_copy,result);
+				lowestAngleFrame = hipSeq->total -1;
 			}
+
 
 			cvRectangle(frame_copy,
 					cvPoint(maxrect.x,maxrect.y),
@@ -590,9 +728,12 @@ int main(int argc,char **argv)
 			cvPutText(frame_copy, label, cvPoint(5,frame->height /2),&font,cvScalar(0,0,255));
 			sprintf(label,     "min:     %.1f", mintheta);
 			cvPutText(frame_copy, label, cvPoint(5,frame->height /2 +30),&font,cvScalar(0,0,255));
+		} else{
+			cvSeqPush( hipSeq, &notFoundPoint );
+			cvSeqPush( kneeSeq, &notFoundPoint );
+			cvSeqPush( footSeq, &notFoundPoint );
 		}
-
-
+			
 		cvShowImage("frame",frame_copy);
 
 		/* wait key for pause
@@ -621,12 +762,41 @@ int main(int argc,char **argv)
 	}
 
 	if(foundAngleOneTime) {
+		if(showStickThePoints || 
+				showStickTheLinesBetweenDifferentPoints ||
+				showStickTheLinesBetweenSamePoints) {
+			
+			//remove unfound points at end (useful to paint end point)
+			CvPoint hipLast = *CV_GET_SEQ_ELEM( CvPoint, hipSeq, hipSeq->total-1);
+			do {
+				if(pointIsNull(hipLast)) {
+					cvSeqPop( hipSeq );
+					cvSeqPop( kneeSeq );
+					cvSeqPop( footSeq );
+				}
+			
+				hipLast = *CV_GET_SEQ_ELEM( CvPoint, hipSeq, hipSeq->total-1);
+			} while(pointIsNull(hipLast) );
+
+			if(mixStickWithMinAngleWindow)
+				paintStick(result, lowestAngleFrame, hipSeq, kneeSeq, footSeq, 
+						showStickThePoints, showStickTheLinesBetweenDifferentPoints,
+						showStickTheLinesBetweenSamePoints, showStickOnlyStartMinEnd);
+			else {
+				paintStick(resultStick, lowestAngleFrame, hipSeq, kneeSeq, footSeq, 
+						showStickThePoints, showStickTheLinesBetweenDifferentPoints,
+						showStickTheLinesBetweenSamePoints, showStickOnlyStartMinEnd);
+				cvNamedWindow("Stick Figure",1);
+				cvShowImage("Stick Figure", resultStick);
+			}
+		}
+		
 		cvNamedWindow("Minimum Frame",1);
-
-		sprintf(label,"Minimum Angle= %.3f",mintheta);
-		cvPutText(result, label,cvPoint(25,25),&font,cvScalar(0,0,255));
-
+		sprintf(label,"%.3f",mintheta);
+		cvPutText(result, label,cvPoint(65,40),&font,cvScalar(0,0,255));
 		cvShowImage("Minimum Frame", result);
+		
+		
 		cvWaitKey(0);
 	}
 
@@ -648,7 +818,8 @@ int main(int argc,char **argv)
 	cvNamedWindow("output",1);
 	cvShowImage("output", output);
 	*/
-
+	
+	cvClearMemStorage( stickStorage );
 
 	cvDestroyAllWindows();
 	cvReleaseImage(&frame_copy);
@@ -658,6 +829,8 @@ int main(int argc,char **argv)
 	cvReleaseImage(&temp);
 	cvReleaseImage(&output);
 	cvReleaseImage(&result);
+	if(!mixStickWithMinAngleWindow)
+		cvReleaseImage(&resultStick);
 }
 
 

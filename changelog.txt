@@ -1,5 +1,13 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+4 set 2008
+	0.7.5.2 (test release with installjammer 1.2.9, trying to fix problem:
+	no shortcuts and no start menu entries on install in greek xp)
+	kneeAngle (1.2)
+		show stick figure with all points at end
+		now knee width detected previous to first knee-hip line. Fixes
+		bad lines in first detected photogram
+
 28 ago 2008
 	kneeAngle: lots of optimizations (v1.1)
 

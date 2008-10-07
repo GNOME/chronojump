@@ -39,6 +39,26 @@
 #include <string>
 
 
+int findTotalArea(IplImage* img,CvRect roirect)
+{
+	int starty = roirect.y;
+	int endy = starty + roirect.height;
+	CvMat *srcmat,src_stub;
+	srcmat = cvGetMat(img,&src_stub);
+	uchar *srcdata = srcmat->data.ptr;
+	int width = img->width;
+
+	int count = 0;
+	for(int y=starty;y<endy;y++)
+	{
+		uchar *srcdataptr = srcdata + y*width;
+		for(int x=0; x < width; x++)
+			if(srcdataptr[x] > 0)
+				count ++;
+	}
+	
+	return count;
+}
 
 /*
  * takes as input arguement the bounding rectangle of the largest contour and the image containing the bounding rectangle
@@ -104,7 +124,7 @@ CvPoint FindHipPoint(IplImage* img,CvRect roirect)
  * Knee point is a white pixel below the hip point and having maximum x coordinate in the bounding box
  * Returns the coordinate of the knee point
  */
-CvPoint FindKneePoint(IplImage *img,CvRect roirect,int starty)
+CvPoint FindKneePointFront(IplImage *img,CvRect roirect,int starty)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
@@ -582,7 +602,7 @@ int fixToePointX(int toeX, int toeWidth, double kneeAngle)
 	return toeX;
 }
 
-CvPoint FixHipPoint1(IplImage* img, CvPoint hip, CvPoint knee, double kneeAngle)
+CvPoint FixHipPoint1(IplImage* img, int hipY, CvPoint knee, double kneeAngle)
 {
 	CvPoint ptHK;
 	ptHK.x =0;ptHK.y=0;
@@ -592,12 +612,13 @@ CvPoint FixHipPoint1(IplImage* img, CvPoint hip, CvPoint knee, double kneeAngle)
 	int width = img->width;
 
 	//find at 3/2 of hip (surely under the hand)
-	int y=hip.y*.66 + knee.y*.33;
+	int y=hipY*.66 + knee.y*.33;
 
 	uchar *srcdataptr = srcdata + y*img->width;
 	int startX = 0;
 	int endX = 0;
 	bool found = false;
+
 	for(int x=0;x<width;x++)
 	{
 		if(srcdataptr[x] > 0)
@@ -635,7 +656,7 @@ CvPoint FixHipPoint1(IplImage* img, CvPoint hip, CvPoint knee, double kneeAngle)
 	return ptHK;
 }
 
-CvPoint FixHipPoint2(IplImage* img, int hipFirstY, CvPoint knee, CvPoint ptHK)
+CvPoint FixHipPoint2(IplImage* img, int hipY, CvPoint knee, CvPoint ptHK)
 {
 			
 	/* this was hippoint in 1/3 of the leg (close to the hip but just below the hand)
@@ -661,13 +682,13 @@ CvPoint FixHipPoint2(IplImage* img, int hipFirstY, CvPoint knee, CvPoint ptHK)
 	 
 	CvPoint HCenter;
 	HCenter.x =0; 
-	HCenter.y = hipFirstY;
+	HCenter.y = hipY;
 
 	HCenter.x = ( (kneePrima.x / (double)kneePrima.y) * HCenter.y ) - d;
 
 	/*
 	if(debug) {
-		printf("hipy(%d) ",hipFirstY);
+		printf("hipy(%d) ",hipY);
 		printf("knee(%d,%d) ",knee.x, knee.y);
 		printf("ptHK(%d,%d) ",ptHK.x, ptHK.y);
 		printf("kneePrima(%d,%d) ",kneePrima.x, kneePrima.y);

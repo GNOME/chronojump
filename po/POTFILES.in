@@ -26,6 +26,7 @@ src/gui/session.cs
 src/gui/stats.cs
 src/jumpType.cs
 src/platform.cs
+src/pulseType.cs
 src/report.cs
 src/runType.cs
 src/sqlite/country.cs

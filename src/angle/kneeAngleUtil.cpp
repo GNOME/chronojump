@@ -160,6 +160,13 @@ int FindWidth(IplImage* img, CvPoint kneeOrFoot)
 	return countX;;
 }
 
+double abs(double val)
+{
+	if(val<0)
+		val *= -1;
+	return val;
+}
+
 double getDistance(CvPoint p1, CvPoint p2)
 {
 	return sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y));
@@ -220,7 +227,7 @@ double relError(double val1, double val2)
 	if(val2-val1 == 0 || val2 == 0)
 		return -1;
 	else
-		return (val2-val1)/val2 *100;
+		return (double) (val2-val1)/val2 *100;
 }
 
 int getMaxValue(CvSeq* seqGroups)

@@ -141,23 +141,26 @@ CvPoint findCorner(CvSeq* seq, bool first)
  * at knee is called only done one time (because in max flexion, the back is line with the knee and there will be problems knowing knee width
  * at foot is called all the time
  */
-int FindWidth(IplImage* img, CvPoint kneeOrFoot)
+int FindWidth(IplImage* img, CvPoint point, bool goRight)
 {
 	CvMat *srcmat,src_stub;
 	srcmat = cvGetMat(img,&src_stub);
 	uchar *srcdata = srcmat->data.ptr;
 	int width = img->width;
 
-	int y=kneeOrFoot.y;
+	int y=point.y;
 
 	uchar *srcdataptr = srcdata + y*img->width;
 	int countX = 0;
-	for(int x=kneeOrFoot.x-1;srcdataptr[x];x--)
-	{
-		countX ++;
-	}
 
-	return countX;;
+	if(goRight)
+		for(int x=point.x+1; srcdataptr[x]; x++)
+			countX ++;
+	else
+		for(int x=point.x-1; srcdataptr[x]; x--)
+			countX ++;
+
+	return countX;
 }
 
 double abs(double val)
@@ -170,6 +173,15 @@ double abs(double val)
 double getDistance(CvPoint p1, CvPoint p2)
 {
 	return sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y));
+}
+
+int checkItsOk(int val, int min, int max)
+{
+	if(val < min)
+		return min;
+	else if(val > max)
+		return max;
+	return val;
 }
 
 

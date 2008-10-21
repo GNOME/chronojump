@@ -1750,6 +1750,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_person_add_multiple_prepared (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_prepared);
 		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, genericWin.SpinSelected);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}
@@ -2107,6 +2108,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{
+		Console.WriteLine("clicked one");
+
 		//this will cancel jumps or runs
 		currentEventExecute.Cancel = true;
 

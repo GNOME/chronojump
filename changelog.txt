@@ -1,5 +1,19 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+21 oct 2008
+	0.7.5.4
+	fixed bug in add multiple, sex cannot be changed (in first calling to that
+	window it can, but in subsequent calls... not). It was caused to prepare
+	signal that was not "-=" and then add multiple was called more than one time:
+
+	genericWin.Button_accept.Clicked -= new
+	EventHandler(on_person_add_multiple_prepared);
+
+	0.7.5.3
+	bug fixed: when people destroyed execute window, and event has ended,
+	it tryes to cancel, there was nothing to cancel, and we entered
+	endless loop. Fixed.
+
 4 set 2008
 	0.7.5.2 (test release with installjammer 1.2.9, trying to fix problem:
 	no shortcuts and no start menu entries on install in greek xp)

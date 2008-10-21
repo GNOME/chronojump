@@ -192,6 +192,20 @@ cp es.po locale/es/LC_MESSAGES/.
 If they are installed, the best is to change in gdm (in ubuntu only use the UTF-8 locales) for example:
 export LANGUAGE="es_ES.UTF-8"
 
+for dzongkha:
+export LANGUAGE="dz_BT.UTF-8"
+with:
+dpkg -l|grep dzongkha
+ii  ttf-dzongkha                               0.3-1                                                TrueType fonts for Dzongkha language
+
+vietnamese:
+export LANGUAGE="vi_VI.UTF-8"
+ohers:
+export LANGUAGE="pt.UTF-8"
+export LANGUAGE="fr_FR.UTF-8"
+...
+
+
 if not: sudo dpkg-reconfigure locales
 
 if the code or the glade has changed, remember do 'make'

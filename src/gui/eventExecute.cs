@@ -155,6 +155,16 @@ public class EventExecuteWindow
 	int radio = 8; 		//radious of the circles
 	int arcSystemCorrection = 0; //on Windows circles are paint just one pixel left, fix it
 	int rightMargin = 30; 	//at the right we write text (on windows we change later)
+
+	/*
+	 * when click on destroy window, delete event is raised
+	 * if event has ended, then it should normally close the window
+	 * if has not ended, then it should cancel it before.
+	 * on 0.7.5.2 and before, we always cancel, 
+	 * and this produces and endless loop when event has ended, because there's nothing to cancel
+	 */
+	bool eventHasEnded;
+
 	
 	//for writing text
 	Pango.Layout layout;
@@ -198,7 +208,7 @@ public class EventExecuteWindow
 		
 		EventExecuteWindowBox.hideAllTables();
 		EventExecuteWindowBox.hideImages();
-
+	
 		EventExecuteWindowBox.initializeVariables (
 				windowTitle, phasesName, personID, personName, sessionID, 
 				tableName, eventType, pDN, limit, simulated);
@@ -281,6 +291,8 @@ public class EventExecuteWindow
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
 
 		putNonStandardIcons();
+		
+		eventHasEnded = false;
 	}
 	
 	private void putNonStandardIcons() {
@@ -1434,6 +1446,7 @@ public class EventExecuteWindow
 
 	public void EventEnded() {
 		hideButtons();
+		eventHasEnded = true;
 	}
 	
 	
@@ -1599,8 +1612,9 @@ public class EventExecuteWindow
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		//if there's an event doing, simulate a cancel
-		//if there's not, simulate also
-		button_cancel.Click();
+		//see eventHasEnded comments at beginning of this file
+		if(!eventHasEnded)
+			button_cancel.Click();
 		
 		EventExecuteWindowBox.event_execute.Hide();
 		EventExecuteWindowBox = null;

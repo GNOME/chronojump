@@ -265,10 +265,12 @@ int main(int argc,char **argv)
 		cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 
 		//created image like the contour but with holes and more (stores on segmentedValidationHoles)
-		cvThreshold(gray,segmentedValidationHoles,30,255,CV_THRESH_BINARY_INV);
+		//recommended 30,255
+		cvThreshold(gray,segmentedValidationHoles,0,255,CV_THRESH_BINARY_INV);
 
 		//create the largest contour image (stored on temp)
-		cvThreshold(gray,segmented,30,255,CV_THRESH_BINARY_INV);
+		//recommended 30,255
+		cvThreshold(gray,segmented,0,255,CV_THRESH_BINARY_INV);
 		CvRect maxrect = findLargestContour(segmented, output, showContour);
 
 		//search in output all the black places (pants) and 
@@ -354,6 +356,8 @@ int main(int argc,char **argv)
 			cvCircle(frame_copy,kneePoint,3, CV_RGB(255,255,0),1,8,0);
 
 
+cvLine(frame_copy,cvPoint(0,hipPoint.y),cvPoint(frame_copy->width, hipPoint.y),CV_RGB(255,255,0),1,1);
+cvLine(frame_copy,cvPoint(0,kneePoint.y),cvPoint(frame_copy->width, kneePoint.y),CV_RGB(255,255,0),1,1);
 
 			//find width of toe for each photogramme
 			toePointWidth = FindWidth(output, toePoint, false);

@@ -11,15 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-08 04:16+0000\n"
-"PO-Revision-Date: 2008-10-18 16:02+0200\n"
+"POT-Creation-Date: 2008-10-19 04:07+0000\n"
+"PO-Revision-Date: 2008-10-22 16:57-0300\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);"
 
 #: ../glade/chronojump.glade.h:1
 msgid " "
@@ -1857,19 +1856,19 @@ msgstr "Líder del proyecto y desarrollador principal."
 
 #: ../src/constants.cs:31
 msgid "Skypic, Chronopic, connection between hardware and software."
-msgstr ""
+msgstr "Skypic, Chronopic, conexión entre hardware y software."
 
 #: ../src/constants.cs:32
 msgid "Chronopic2 creation, Chronojump tester."
-msgstr ""
+msgstr "Creación de Chronopic2, probador de Chronojump."
 
 #: ../src/constants.cs:33
 msgid "Chronopic3 industrial prototype."
-msgstr ""
+msgstr "Prototipo industrial Chronopic3."
 
 #: ../src/constants.cs:34 ../src/constants.cs:35
 msgid "OpenCV Detection of knee angle"
-msgstr ""
+msgstr "OpenCV, detección del ángulo de la rodilla"
 
 #. OLD, check this
 #. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
@@ -3248,20 +3247,20 @@ msgid "State: {0}, lastChange {1}"
 msgstr "Estado: {0}, último cambio {1}"
 
 #: ../src/pulseType.cs:46
-#, fuzzy
 msgid "Pulse free"
-msgstr "Pulso"
+msgstr "Pulso libre"
 
 #: ../src/pulseType.cs:48
 msgid ""
 "User executes a pulse without a predefined tempo. <i>Difference</i> will "
 "show the difference between a pulse and it's preceeding pulse."
 msgstr ""
+"El usuario ejecuta un pulso sin un tiempo predefinido. <i>Diferencia</i> mostrará "
+"la diferencia entre el pulso y el pulso anterior."
 
 #: ../src/pulseType.cs:54
-#, fuzzy
 msgid "Pulse custom"
-msgstr "Pulsos"
+msgstr "Configurar pulso"
 
 #: ../src/pulseType.cs:56
 msgid ""
@@ -3269,6 +3268,9 @@ msgid ""
 "with a fixed number of pulsations. <i>Difference</i> will show the "
 "difference between a a pulse and the predefined pulse."
 msgstr ""
+"El usuario ejecuta un pulso tratando de seguir un tiempo predefinido y, opcionalmente,"
+"con un número fijo de pulsaciones. <i> Diferencia</i> mostrará la"
+"la diferencia entre el pulso y el pulso predefinido."
 
 #: ../src/report.cs:161
 msgid "without subjumps"

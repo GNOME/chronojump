@@ -69,7 +69,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.58";
+	static string lastChronojumpDatabaseVersion = "0.59";
 
 	public Sqlite() {
 	}
@@ -570,10 +570,24 @@ class Sqlite
 					Log.WriteLine("Countries without kingdom or republic (except when needed)");
 				}
 				
-				//SqlitePreferences.Update ("databaseVersion", "0.58", true); 
+				SqlitePreferences.Update ("databaseVersion", "0.58", true); 
 				dbcon.Close();
 				
 				currentVersion = "0.58";
+			}
+
+			if(currentVersion == "0.58") {
+				dbcon.Open();
+				conversionRateTotal = 2;
+				conversionRate = 1;
+				SqlitePreferences.Insert ("showAngle", "False"); 
+				alterTableColumn(new SqliteJump(), Constants.JumpTable, 11);
+
+				SqlitePreferences.Update ("databaseVersion", "0.59", true); 
+				Log.WriteLine("Converted DB to 0.59 (added 'showAngle' to preferences, changed angle on jump to double)"); 
+				conversionRate = 2;
+				dbcon.Close();
+				currentVersion = "0.59";
 			}
 
 
@@ -677,6 +691,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.58 - 0.59 Added 'showAngle' to preferences, changed angle on jump to double
 		//0.57 - 0.58 Countries without kingdom or republic (except when needed)
 		//0.56 - 0.57 Added simulated column to each event table on client. person: race, country, serverID. Convert to sport related done here if needed");
 		//0.55 - 0.56 Added session default sport stuff into session table
@@ -866,6 +881,89 @@ class Sqlite
 				myEvent.InsertAtDB(true, tableName);
 				conversionSubRate ++;
 			}
+		}
+
+		//6th drop temp table
+		Sqlite.dropTable(Constants.ConvertTempTable);
+	}
+	
+	/*
+	 * useful to do a conversion from an int to a double
+	 * used on jump.angle
+	 * we done on sqlite/jump.cs:
+	 * on createTable change "angle INT" to "angle FLOAT"
+	 * then call this alterTableColumn
+	 *
+	 * but CAUTION: doing this, all the float data is converted to .0
+	 * eg: 27.35 will be 27.0
+	 *     -1 will be -1.0
+	 *
+	 * if we don't use this, and we have created a column as int, and introduce floats or doubles, 
+	 * we can insert ok the float or doubles, but on select we will have ints
+	 */
+	protected internal static void alterTableColumn(Sqlite sqliteObject, string tableName, int columns) 
+	{
+		conversionSubRate = 1;
+		conversionSubRateTotal = -1; //unknown yet
+
+		//2st create convert temp table
+		sqliteObject.createTable(Constants.ConvertTempTable);
+
+		//2nd copy all data from desired table to temp table adding the simulated column
+		ArrayList myArray = new ArrayList(2);
+		dbcmd.CommandText = "SELECT * " + 
+			"FROM " + tableName + " ORDER BY uniqueID"; 
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		Log.WriteLine(dbcmd.CommandText.ToString());
+
+		while(reader.Read()) {
+			string [] myReaderStr = new String[columns];
+			for (int i=0; i < columns; i ++) 
+				myReaderStr[i] = reader[i].ToString();
+		
+			Event myEvent =  new Event();	
+			switch (tableName) {
+				case Constants.JumpTable:
+					myEvent = new Jump(myReaderStr);
+					break;
+				case Constants.JumpRjTable:
+					myEvent = new JumpRj(myReaderStr);
+					break;
+				case Constants.RunTable:
+					myEvent = new Run(myReaderStr);
+					break;
+				case Constants.RunIntervalTable:
+					myEvent = new RunInterval(myReaderStr);
+					break;
+				case Constants.ReactionTimeTable:
+					myEvent = new ReactionTime(myReaderStr);
+					break;
+				case Constants.PulseTable:
+					myEvent = new Pulse(myReaderStr);
+					break;
+			}
+			myArray.Add(myEvent);
+		}
+		reader.Close();
+
+		conversionSubRateTotal = myArray.Count * 2;
+
+		foreach (Event myEvent in myArray) {
+			myEvent.InsertAtDB(true, Constants.ConvertTempTable);
+			conversionSubRate ++;
+		}
+
+		//3rd drop desired table
+		Sqlite.dropTable(tableName);
+
+		//4d create desired table (now with new columns)
+		sqliteObject.createTable(tableName);
+
+		//5th insert data in desired table
+		foreach (Event myEvent in myArray) {
+			myEvent.InsertAtDB(true, tableName);
+			conversionSubRate ++;
 		}
 
 		//6th drop temp table

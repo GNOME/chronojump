@@ -101,7 +101,11 @@ public class EditRunWindow : EditEventWindow
 	protected override void fillTime(Event myEvent) {
 		Run myRun = (Run) myEvent;
 		entryTime = myRun.Time.ToString();
-		entry_time_value.Text = Util.TrimDecimals(entryTime, pDN);
+		
+		//show all the decimals for not triming there in edit window using
+		//(and having different values in formulae like GetHeightInCm ...)
+		//entry_time_value.Text = Util.TrimDecimals(entryTime, pDN);
+		entry_time_value.Text = entryTime;
 	}
 	
 	protected override void fillSpeed(Event myEvent) {
@@ -110,7 +114,7 @@ public class EditRunWindow : EditEventWindow
 	}
 
 	protected override void createSignal() {
-		//only for runs
+		//only for jumps & runs
 		combo_eventType.Changed += new EventHandler (on_combo_eventType_changed);
 	}
 	
@@ -220,7 +224,12 @@ public class EditRunIntervalWindow : EditRunWindow
 	protected override void fillTime(Event myEvent) {
 		RunInterval myRun = (RunInterval) myEvent;
 		label_time_title.Text = Catalog.GetString("Total Time");
-		entry_time_value.Text = Util.TrimDecimals(myRun.TimeTotal.ToString(), pDN);
+		
+		//show all the decimals for not triming there in edit window using
+		//(and having different values in formulae like GetHeightInCm ...)
+		//entry_time_value.Text = Util.TrimDecimals(myRun.TimeTotal.ToString(), pDN);
+		entry_time_value.Text = myRun.TimeTotal.ToString();
+		
 		//don't allow to change totaltime in rjedit
 		entry_time_value.Sensitive = false; 
 	}

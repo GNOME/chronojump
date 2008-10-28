@@ -87,7 +87,7 @@ class SqliteRun : Sqlite
 			" FROM person, run " +
 			" WHERE person.uniqueID == run.personID" + 
 			" AND run.sessionID == " + sessionID + 
-			" ORDER BY person.uniqueID, run.uniqueID";
+			" ORDER BY upper(person.name), run.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

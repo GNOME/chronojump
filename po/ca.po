@@ -2525,7 +2525,7 @@ msgstr "Esborra el salt reactiu"
 
 #: ../src/gui/chronojump.cs:3652
 msgid "Do you want to delete selected run?"
-msgstr "Desitgeu esborrar el salt seleccionat?"
+msgstr "Desitgeu esborrar la cursa seleccionada?"
 
 #: ../src/gui/chronojump.cs:3653
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
@@ -2617,7 +2617,7 @@ msgstr ""
 #: ../src/gui/chronojump.cs:4332
 msgid "Done for testing purposes. Chronojump will crash now"
 msgstr ""
-"Fet per a realitzar proves de deenvolupament. Chronojump es tancarà ara."
+"Fet per a realitzar proves de desenvolupament. Chronojump es tancarà ara."
 
 #: ../src/gui/convertWeight.cs:115
 msgid "or"

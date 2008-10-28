@@ -106,7 +106,7 @@ class SqliteJumpRj : SqliteJump
 			filterWeightString +
 			" AND personSessionWeight.personID == person.uniqueID " +
 			" AND personSessionWeight.sessionID == jumpRj.sessionID " +
-			" ORDER BY person.uniqueID, jumpRj.uniqueID";
+			" ORDER BY upper(person.name), jumpRj.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

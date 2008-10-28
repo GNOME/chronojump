@@ -231,17 +231,17 @@ class SqlitePersonSession : Sqlite
 			if(onlyIDAndName)
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
 			else {
-				string sportName = Catalog.GetString(reader[11].ToString());
+				string sportName = Catalog.GetString(reader[14].ToString());
 
 				string speciallityName = ""; //to solve a gettext bug (probably because speciallity undefined name is "")
-				if(reader[12].ToString() != "")
-					speciallityName = Catalog.GetString(reader[12].ToString());
+				if(reader[15].ToString() != "")
+					speciallityName = Catalog.GetString(reader[15].ToString());
 				string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[8])));
 
 				myArray.Add (
 						reader[0].ToString() + ":" + reader[1].ToString() + ":" + //id, name
 						reader[2].ToString() + ":" + reader[3].ToString() + ":" + //sex, dateborn
-						reader[4].ToString() + ":" + reader[10].ToString() + ":" + //height, weight (from personSessionWeight)
+						reader[4].ToString() + ":" + reader[13].ToString() + ":" + //height, weight (from personSessionWeight)
 						sportName + ":" + speciallityName + ":" + levelName + ":" +
 						reader[9].ToString()  //desc
 					    );

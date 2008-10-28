@@ -1,5 +1,69 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+28 oct 2008
+	0.7.5.8
+	preferences:
+	-db: 0.59 (added angle to show angle to preferences database and
+	jump.angle is now double)
+	previous db version has commented the line:
+	"SqlitePreferences.Update ("databaseVersion", "0.58", true);" check if
+	there are problems on new conversion
+	-now is a notebook with three pages
+	-added show angle
+
+	gui changes in main window:
+	-treeview events are more compact now. zoom, edit, repair, delete icons are little now
+	and are at right.
+	-there is only one zoom button now (press z) that rolls in two or
+	three states
+	-added accelerators to right icons
+	-on treeview events, sorted by name of person instead of uniqueID
+	-create new type (jump or run) is now a button on treeviews
+	
+	Improvements on treeviews and edit event:
+	-edit event shows time, tc, tf with all decimals for not triming and
+	do different calculations on eg. jump height, after accept
+	-Fast addition to descriptions: edit event default focus is in description now an entry (not
+	textview)(to allow a fast writing), and enter does "accept"
+	-edit events updates only it's line (if owner is the same). Now it's
+	easy to add comments
+	-selection of treeviews: jumpsRj, runsI, pulses, now only selects the
+	first line. "edit this", and "delete this".. changed to "selected"
+	-fixed bug treeviewjump, and rj shows now weight in kg if wanted
+	-fixed bug on simulated and person weight on jump, jumpRj treeviews
+	-edit jump manages better the sensitiveness on jump type (weight) changing
+	-treeviewshows angle
+	-on edit event, hiden accept if values are not correct instead not allow writing
+
+	-fixed bug in edit simulated events, they crash on reading "xxx
+	simulated" as int
+	-session add/edit now removes tilde and colon on entries and textview
+
+	export and report:
+	-fixed bug: now person weight and sport is ok
+	-now titles like "runs" only appear if there are runs
+	-simulated is printed as "No" or "Yes" with Util.NoYes
+	-newline is removed on descriptions (if not, creates new line in spreadsheet)
+	-added angle on jumps
+
+
+	more/last button on treeview runs now at side of tests (like other treeviews)
+	added again crash button to flush data on log
+
+	-fixed bug in treeviews events, the select-show-combo didn't worked
+	-changed "All jumps", runs, pulses to Constants...
+
+	kneeAngle: 1.4 lots of changes:
+	-adaptative threshold (solves problems with holes close to the
+	clothes) initial minimum threshold depends on brightness
+	-only validation points mode
+	-allow forward, fastForward, 
+	-auto end before jump
+	-paint at different color, other holes
+	-toePointWidth better (done only at first)
+	-detection on skin started with small white markers surrounded by
+	black rectangle (see onlyValidationSkin)
+
 21 oct 2008
 	0.7.5.4
 	fixed bug in add multiple, sex cannot be changed (in first calling to that

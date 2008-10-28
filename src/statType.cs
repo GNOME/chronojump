@@ -295,7 +295,7 @@ public class StatType {
 			else {
 				JumpType myType = new JumpType(statisticApplyTo);
 
-				//manage all weight jumps and the "All jumps" (simple)
+				//manage all weight jumps and the AllJumpsName (simple)
 				if(myType.HasWeight || 
 						statisticApplyTo == Constants.AllJumpsName) 
 				{

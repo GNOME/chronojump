@@ -35,6 +35,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.SpinButton spinbutton_decimals;
 	[Widget] Gtk.CheckButton checkbutton_height;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
+	[Widget] Gtk.CheckButton checkbutton_angle;
 	
 	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
@@ -46,10 +47,9 @@ public class PreferencesWindow {
 	[Widget] Gtk.CheckButton checkbutton_height_preferred;
 	[Widget] Gtk.CheckButton checkbutton_meters_seconds_preferred;
 	[Widget] Gtk.CheckButton checkbutton_percent_kg_preferred;
-	[Widget] Gtk.Box hbox_language_row;
-	[Widget] Gtk.Box hbox_combo_language;
-	[Widget] Gtk.ComboBox combo_language;
-	[Widget] Gtk.Separator hseparator_language;
+//	[Widget] Gtk.Box hbox_language_row;
+//	[Widget] Gtk.Box hbox_combo_language;
+//	[Widget] Gtk.ComboBox combo_language;
 
 	[Widget] Gtk.Button button_accept;
 	
@@ -75,7 +75,7 @@ public class PreferencesWindow {
 	}
 	
 	static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, 
-			bool showInitialSpeed, bool showQIndex, bool showDjIndex,
+			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			//bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture, bool allowFinishRjAfterTime)
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, string language, bool allowFinishRjAfterTime)
 	{
@@ -111,6 +111,12 @@ public class PreferencesWindow {
 		
 		else 
 			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
+		
+		if(showAngle)  
+			PreferencesWindowBox.checkbutton_angle.Active = true; 
+		
+		else 
+			PreferencesWindowBox.checkbutton_angle.Active = false; 
 		
 
 		if(showQIndex || showDjIndex) { 
@@ -162,6 +168,7 @@ public class PreferencesWindow {
 	}
 	
 	private void createComboLanguage(string myLanguageCode) {
+		/*
 		combo_language = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_language, Util.GetLanguagesNames(), "");
 		
@@ -186,11 +193,11 @@ public class PreferencesWindow {
 		//	combo_language.Sensitive = true;
 		//else 
 			combo_language.Sensitive = false;
+			*/
 	}
 			
 	private void hideLanguageStuff() {
-		hbox_language_row.Hide();
-		hseparator_language.Hide();
+		//hbox_language_row.Hide();
 	}
 	
 	private void on_checkbutton_show_tv_tc_index_clicked (object o, EventArgs args) {
@@ -221,6 +228,7 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString(), false);
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);
+		SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);
 		SqlitePreferences.Update("allowFinishRjAfterTime", PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
 		
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {

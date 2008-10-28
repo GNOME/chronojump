@@ -39,6 +39,8 @@ public class TreeViewEvent
 	protected int eventIDColumn; //column where the uniqueID of event will be (and will be hidded)
 	protected string descriptionName = Catalog.GetString("Description");
 	
+	protected bool weightPercentPreferred;
+
 	protected string [] columnsString;
 
 	public enum ExpandStates {
@@ -189,6 +191,37 @@ public class TreeViewEvent
 				}
 			}
 		}
+	}
+
+	public void SelectHeaderLine() {
+		TreeIter iter = new TreeIter();
+		TreeModel myModel = treeview.Model;
+		if (treeview.Selection.GetSelected (out myModel, out iter)) {
+			string pathString = store.GetPath(iter).ToString();
+			string [] myStrFull = pathString.Split(new char[] {':'});
+			string pathStringZero = myStrFull[0] + ":" + myStrFull[1];
+			TreeIter iter2;
+			store.GetIterFromString(out iter2, pathStringZero);
+			treeview.Selection.SelectIter(iter2);
+
+			//Log.WriteLine("iter" + store.GetPath(iter).ToString());
+			//Log.WriteLine("iter2" + store.GetPath(iter2).ToString());
+		}
+	}
+
+	public void Update (Event myEvent) {
+		TreeIter iter = new TreeIter();
+		TreeModel myModel = treeview.Model;
+		if (treeview.Selection.GetSelected (out myModel, out iter)) {
+			store.SetValues (iter, getLineToStore(myEvent));
+		}
+	}
+
+	public virtual ExpandStates ZoomChange(ExpandStates myExpand) {
+		if(myExpand == ExpandStates.MINIMIZED)
+			return ExpandStates.MAXIMIZED;
+		else
+			return ExpandStates.MINIMIZED;
 	}
 
 	public void Add (string personName, System.Object newEvent)

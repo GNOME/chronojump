@@ -253,6 +253,13 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 	
+	public static string RemoveNewLine(string myString) 
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace("\n", " ");
+		return myStringBuilder.ToString();
+	}
+	
 	public static string ChangeEqualForColon(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
@@ -510,6 +517,9 @@ public class Util
 	//gets a string and returns if all the chars are numbers or the decimal point in current localization
 	//there should be also only one decimal point
 	//method made because i didn't find it in mono
+	//ATTENTTION ONLY WORKS FOR POSITIVES
+	//before changing this method, better create another method for all numbers, 
+	//and call that method on possible negative numbers
 	public static bool IsNumber(string myString) {
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
@@ -895,6 +905,13 @@ public class Util
 			detected += "</i>";
 		}
 		return detected;
+	}
+
+	public static string NoYes(string numberStr) {
+		if(numberStr == "0")
+			return Constants.No;
+		else
+			return Constants.Yes;
 	}
 
 

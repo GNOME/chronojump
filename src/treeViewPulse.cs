@@ -117,7 +117,9 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++] = Util.TrimDecimals( relativeError.ToString(), pDN );
 		myData[count++] = ""; 
 
-		myData[count++] = newPulse.UniqueID.ToString(); 
+		//myData[count++] = newPulse.UniqueID.ToString(); 
+		myData[count++] = "-1"; //mark to non select here, select first line 
+		
 		return myData;
 	}
 	
@@ -131,7 +133,9 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++] = ""; 
 		myData[count++] = "";
 		myData[count++] = ""; 
-		myData[count++] = newPulse.UniqueID.ToString(); 
+		
+		//myData[count++] = newPulse.UniqueID.ToString(); 
+		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
 	}
@@ -146,7 +150,9 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++] = "|" + Util.TrimDecimals( getAVGDifference(newPulse, false).ToString(), pDN ) + "|";
 		myData[count++] = "|" + Util.TrimDecimals( getAVGDifference(newPulse, true).ToString(), pDN ) + "|";
 		myData[count++] = "";
-		myData[count++] = newPulse.UniqueID.ToString(); 
+		
+		//myData[count++] = newPulse.UniqueID.ToString(); 
+		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
 	}
@@ -165,7 +171,9 @@ public class TreeViewPulses : TreeViewEvent
 		myData[count++] = "";
 		myData[count++] = "";
 		myData[count++] = ""; 
-		myData[count++] = newPulse.UniqueID.ToString(); 
+		
+		//myData[count++] = newPulse.UniqueID.ToString(); 
+		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
 	}
@@ -214,6 +222,15 @@ public class TreeViewPulses : TreeViewEvent
 		}
 
 		return errorCount / (double) times.Length;
+	}
+
+	public override ExpandStates ZoomChange(ExpandStates myExpand) {
+		if(myExpand == ExpandStates.MINIMIZED)
+			return ExpandStates.OPTIMAL;
+		else if(myExpand == ExpandStates.OPTIMAL)
+			return ExpandStates.MAXIMIZED;
+		else
+			return ExpandStates.MINIMIZED;
 	}
 
 	

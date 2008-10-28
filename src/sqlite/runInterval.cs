@@ -89,7 +89,7 @@ class SqliteRunInterval : SqliteRun
 			" FROM person, runInterval " +
 			" WHERE person.uniqueID == runInterval.personID" + 
 			" AND runInterval.sessionID == " + sessionID + 
-			" ORDER BY person.uniqueID, runInterval.uniqueID";
+			" ORDER BY upper(person.name), runInterval.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

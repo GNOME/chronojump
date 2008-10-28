@@ -34,13 +34,13 @@ public class Jump : Event
 
 	//for not checking always in database
 	protected bool hasFall;
-	private int angle;
+	private double angle;
 
 	public Jump() {
 	}
 
 	//after inserting database (SQL)
-	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, int angle, int simulated)
+	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, double angle, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -67,7 +67,7 @@ public class Jump : Event
 		this.fall = Convert.ToInt32(eventString[6]);
 		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
 		this.description = eventString[8].ToString();
-		this.angle = Convert.ToInt32(eventString[9]);
+		this.angle = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[9]));
 		this.simulated = Convert.ToInt32(eventString[10]);
 	}
 
@@ -112,6 +112,10 @@ public class Jump : Event
 		set { weight = value; }
 	}
 
+	public double Angle {
+		get { return angle; }
+		set { angle = value; }
+	}
 	
 	~Jump() {}
 	   

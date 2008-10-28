@@ -137,55 +137,51 @@ public class Report : ExportSession
 		
 		printHtmlHeader();
 
-		//writer.WriteLine("<table class=\"empty\" cellspacing=2 cellpadding=2><tr valign=\"top\"><td>\n");
 		if(ShowCurrentSessionData) {
 			printTitles(Catalog.GetString("Session"));
 			printSessionInfo();
 		}
-		//writer.WriteLine("</td><td>\n");
+
 		if(ShowCurrentSessionJumpers) {
 			printTitles(Catalog.GetString("Persons"));
 			printJumpers();
 		}
-		//writer.WriteLine("</td></tr></table>\n");
-		if(ShowSimpleJumps) {
-			printTitles(Catalog.GetString("Simple jumps"));
-			printJumps();
-		}
+
+		if(ShowSimpleJumps) 
+			printJumps(Catalog.GetString("Simple jumps"));
+
 		if(ShowReactiveJumps) {
+			string myTitle = "";
 			if(ShowReactiveJumpsWithSubjumps) {
-				printTitles(Catalog.GetString("Reactive jumps") + 
-						" (" + Catalog.GetString("with subjumps") + ")");
+				myTitle = Catalog.GetString("Reactive jumps") + 
+						" (" + Catalog.GetString("with subjumps") + ")";
 			} else {
-				printTitles(Catalog.GetString("Reactive jumps") + 
-						" (" + Catalog.GetString("without subjumps") + ")");
+				myTitle = Catalog.GetString("Reactive jumps") + 
+						" (" + Catalog.GetString("without subjumps") + ")";
 			}
-			printJumpsRj(ShowReactiveJumpsWithSubjumps);
-		}
-		if(ShowSimpleRuns) {
-			printTitles(Catalog.GetString("Simple runs"));
-			printRuns();
-		}
-		if (ShowIntervalRuns) {
-			if(ShowIntervalRunsWithSubruns) {
-				printTitles(Catalog.GetString("interval runs") + 
-						" (" + Catalog.GetString("with tracks") + ")");
-			} else {
-				printTitles(Catalog.GetString("interval runs") + 
-						" (" + Catalog.GetString("without tracks") + ")");
-			}
-			printRunsInterval(ShowIntervalRunsWithSubruns);
+			printJumpsRj(ShowReactiveJumpsWithSubjumps, myTitle);
 		}
 		
-		if(ShowReactionTimes) {
-			printTitles(Catalog.GetString("Reaction times"));
-			printReactionTimes();
+		if(ShowSimpleRuns) 
+			printRuns(Catalog.GetString("Simple runs"));
+		
+		if (ShowIntervalRuns) {
+			string myTitle = "";
+			if(ShowIntervalRunsWithSubruns) {
+				myTitle = Catalog.GetString("interval runs") + 
+						" (" + Catalog.GetString("with tracks") + ")";
+			} else {
+				myTitle = Catalog.GetString("interval runs") + 
+						" (" + Catalog.GetString("without tracks") + ")";
+			}
+			printRunsInterval(ShowIntervalRunsWithSubruns, myTitle);
 		}
+		
+		if(ShowReactionTimes) 
+			printReactionTimes(Catalog.GetString("Reaction times"));
 
-		if(ShowPulses) {
-			printTitles(Catalog.GetString("Pulses"));
-			printPulses();
-		}
+		if(ShowPulses) 
+			printPulses(Catalog.GetString("Pulses"));
 
 		printStats();
 		
@@ -296,7 +292,8 @@ public class Report : ExportSession
 	
 	protected void printStats()
 	{
-		writer.WriteLine("<h2>Statitistics</h2>");
+		if(StatisticsData.Count > 0)
+			writer.WriteLine("<h2>Statitistics</h2>");
 		
 		//obtain every report stats one by one
 		for(int i=0; i < StatisticsData.Count ; i++) {

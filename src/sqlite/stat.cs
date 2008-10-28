@@ -33,7 +33,7 @@ using Mono.Data.Sqlite;
 class SqliteStat : Sqlite
 {
 	//sj, cmj, abk (no sj+)
-	//"All jumps" (simple) is not managed here, is done in SjCmjAbkPlus
+	//AllJumpsName (simple) is not managed here, is done in SjCmjAbkPlus
 	public static ArrayList SjCmjAbk (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
 		string ini = "";
@@ -114,7 +114,7 @@ class SqliteStat : Sqlite
 	}
 	
 	//sj+, cmj+, abk+
-	//and "All jumps" (simple)
+	//and AllJumpsName (simple)
 	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred, bool weightPercentPreferred)
 	{
 		string ini = "";
@@ -134,7 +134,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jump, person, personSessionWeight ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
-		if(jumpType == Catalog.GetString("All jumps")) {
+		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jump.type ";
 			fromString = " FROM jump, person, personSessionWeight, jumpType ";
 			jumpTypeString = " AND jumpType.startIn == 1 AND jump.Type == jumpType.name "; 
@@ -180,7 +180,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Catalog.GetString("All jumps") && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[6].ToString() + ")";
 			}
 			
@@ -278,7 +278,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jump, person ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
-		if(jumpType == Catalog.GetString("All jumps")) {
+		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jump.type ";
 			fromString = " FROM jump, person, jumpType ";
 			jumpTypeString = " AND jumpType.startIn == 0 AND jump.Type == jumpType.name "; 
@@ -325,7 +325,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Catalog.GetString("All jumps") && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[7].ToString() + ")";
 			}
 			
@@ -375,7 +375,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jumpRj, person ";
 		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
-		if(jumpType == Catalog.GetString("All jumps")) {
+		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, person, jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
@@ -421,7 +421,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Catalog.GetString("All jumps") && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[7].ToString() + ")";
 			}
 			
@@ -469,7 +469,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jumpRj, person ";
 		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
-		if(jumpType == Catalog.GetString("All jumps")) {
+		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, person, jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
@@ -516,7 +516,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Catalog.GetString("All jumps") && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[9].ToString() + ")";
 			}
 			
@@ -622,7 +622,7 @@ class SqliteStat : Sqlite
 		//manage allJumps
 		string fromString = " FROM jumpRj, person ";
 		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
-		if(jumpType == Catalog.GetString("All jumps")) {
+		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
 			fromString = " FROM jumpRj, person, jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
@@ -666,7 +666,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
-			if(jumpType == Catalog.GetString("All jumps") && operationString != "AVG") {
+			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[7].ToString() + ")";
 			}
 	

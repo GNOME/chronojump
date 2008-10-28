@@ -181,25 +181,19 @@ public class ExportSession
 		printTitles(Catalog.GetString("Persons"));
 		printJumpers();
 		
-		printTitles(Catalog.GetString("Simple jumps"));
-		printJumps();
+		printJumps(Catalog.GetString("Simple jumps"));
 		
-		printTitles(Catalog.GetString("Reactive jumps") + 
+		printJumpsRj(true, Catalog.GetString("Reactive jumps") + 
 				" (" + Catalog.GetString("with subjumps") + ")");
-		printJumpsRj(true);
 
-		printTitles(Catalog.GetString("Simple runs"));
-		printRuns();
+		printRuns(Catalog.GetString("Simple runs"));
 
-		printTitles(Catalog.GetString("interval runs") + 
+		printRunsInterval(true, Catalog.GetString("interval runs") + 
 				" (" + Catalog.GetString("with tracks") + ")");
-		printRunsInterval(true);
 
-		printTitles(Catalog.GetString("Reaction times"));
-		printReactionTimes();
+		printReactionTimes(Catalog.GetString("Reaction times"));
 		
-		printTitles(Catalog.GetString("Pulses"));
-		printPulses();
+		printPulses(Catalog.GetString("Pulses"));
 
 		printFooter();
 	}
@@ -221,7 +215,7 @@ public class ExportSession
 				Catalog.GetString ("Date") + ":" + 
 				Catalog.GetString ("Comments") );
 		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
-					mySession.Place + ":" + mySession.DateShort + ":" + mySession.Comments );
+					mySession.Place + ":" + mySession.DateShort + ":" + Util.RemoveNewLine(mySession.Comments) );
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}
@@ -244,14 +238,14 @@ public class ExportSession
 					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
 					myStr[4] + ":" + myStr[5] + ":" + //height, weight
 					myStr[6] + ":" + myStr[7] + ":" + //sportName, speciallityName
-					myStr[8] + ":" + myStr[9] //practiceLevel, desc
+					myStr[8] + ":" + Util.RemoveNewLine(myStr[9]) //practiceLevel, desc
 				  );
 		}
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}
 
-	protected void printJumps()
+	protected void printJumps(string title)
 	{
 		int dec=prefsDigitsNumber; //decimals
 		
@@ -262,6 +256,8 @@ public class ExportSession
 			weightName += " Kg";
 
 		if(myJumps.Length > 0) {
+			printTitles(title); 
+
 			ArrayList myData = new ArrayList(1);
 			myData.Add( "\n" + 
 					Catalog.GetString("Jumper name") + ":" +
@@ -274,7 +270,7 @@ public class ExportSession
 					Catalog.GetString("Height") + ":" +
 					Catalog.GetString("Initial Speed") + ":" +
 					Catalog.GetString("Description") + ":" +
-					//Catalog.GetString("Angle") + ":" +
+					Catalog.GetString("Angle") + ":" +
 					Catalog.GetString("Simulated") 
 				  );
 
@@ -299,9 +295,10 @@ public class ExportSession
 						Util.TrimDecimals(myWeight, dec) + ":" +
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
-						myStr[9] + ":" +	//jump.description
-						//myStr[10] + ":" +	//jump.angle
-						myStr[11]		//jump.simulated
+						Util.RemoveNewLine(myStr[9]) + ":" +	//jump.description
+						Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
+						Util.NoYes(myStr[11])		//jump.simulated
+						
 					   );
 			}
 			writeData(myData);
@@ -309,13 +306,16 @@ public class ExportSession
 		}
 	}
 
-	protected void printJumpsRj(bool showSubjumps)
+	protected void printJumpsRj(bool showSubjumps, string title)
 	{
 		int dec=prefsDigitsNumber; //decimals
 
 		ArrayList myData = new ArrayList(1);
 		bool isFirstHeader = true;
 		
+		if(myJumpsRj.Length > 0) 
+			printTitles(title); 
+
 		foreach (string jump in myJumpsRj) {
 			
 			if(showSubjumps) {
@@ -383,9 +383,9 @@ public class ExportSession
 					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myWeight,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
-					myStr[9] + ":" + 	//jumpRj.Description
+					Util.RemoveNewLine(myStr[9]) + ":" + 	//jumpRj.Description
 					//myStr[17] + ":" + 	//jumpRj.Angle
-					myStr[18] //simulated
+					Util.NoYes(myStr[18])		//simulated
 					);
 			
 			if(showSubjumps) {
@@ -434,11 +434,13 @@ public class ExportSession
 		}
 	}
 	
-	protected void printRuns()
+	protected void printRuns(string title)
 	{
 		int dec=prefsDigitsNumber; //decimals
 		
 		if(myRuns.Length > 0) {
+			printTitles(title); 
+
 			ArrayList myData = new ArrayList(1);
 			myData.Add( "\n" + 
 					Catalog.GetString("Runner name") + ":" +
@@ -458,7 +460,7 @@ public class ExportSession
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
 						Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + //speed in m/s (true)
-						myStr[7] + ":" + myStr[8] //description, simulated
+						Util.RemoveNewLine(myStr[7]) + ":" + Util.NoYes(myStr[8]) //description, simulated
 					   );
 			}
 			writeData(myData);
@@ -466,13 +468,16 @@ public class ExportSession
 		}
 	}
 	
-	protected void printRunsInterval(bool showSubruns)
+	protected void printRunsInterval(bool showSubruns, string title)
 	{
 		int dec=prefsDigitsNumber; //decimals
 
 		ArrayList myData = new ArrayList(1);
 		bool isFirstHeader = true;
 		
+		if(myRunsInterval.Length > 0)
+			printTitles(title); 
+
 		foreach (string runString in myRunsInterval) {
 
 			if(showSubruns) {
@@ -504,7 +509,7 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
 					myStr[9] + ":" +  Util.GetLimitedRounded(myStr[11], dec) + ":" + 	//tracks, limited
-					myStr[10] + ":" + myStr[11]	//description, simulated
+					Util.RemoveNewLine(myStr[10]) + ":" + Util.NoYes(myStr[11])	//description, simulated
 				   );
 			
 			if(showSubruns) {
@@ -550,11 +555,13 @@ public class ExportSession
 		}
 	}
 	
-	protected void printReactionTimes()
+	protected void printReactionTimes(string title)
 	{
 		int dec=prefsDigitsNumber; //decimals
 		
 		if(myReactionTimes.Length > 0) {
+			printTitles(title); 
+
 			ArrayList myData = new ArrayList(1);
 			myData.Add(  
 					Catalog.GetString("Person") + ":" +
@@ -571,7 +578,7 @@ public class ExportSession
 						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
 						//myStr[4] + ":" +  //type
 						Util.TrimDecimals(myStr[5], dec) + ":" + 	//time
-						myStr[6] + ":" + myStr[7]	//description, simulated
+						Util.RemoveNewLine(myStr[6]) + ":" + Util.NoYes(myStr[7])	//description, simulated
 					   );
 			}
 			writeData(myData);
@@ -581,12 +588,15 @@ public class ExportSession
 
 	//protected void printPulses(bool showSubpulses) 
 	//no need of bool because all the info is in the sub values
-	protected void printPulses()
+	protected void printPulses(string title)
 	{
 		int dec=prefsDigitsNumber; //decimals
 		
 		ArrayList myData = new ArrayList(1);
 		bool isFirstHeader = true;
+		
+		if(myPulses.Length > 0) 
+			printTitles(title); 
 		
 		foreach (string pulseString in myPulses) {
 
@@ -604,7 +614,7 @@ public class ExportSession
 			myData.Add (
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, pulse.uniqueID
 					myStr[4] + ":" +  		 	//type
-					myStr[8] + ":" + myStr[9]		//description, simulated
+					Util.RemoveNewLine(myStr[8]) + ":" + Util.NoYes(myStr[9])		//description, simulated
 				   );
 			
 			writeData(myData);

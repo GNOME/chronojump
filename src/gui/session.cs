@@ -569,8 +569,8 @@ public class SessionAddEditWindow {
 		
 		//check if name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name (editing)
-		bool sessionNameExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTilde(entry_name.Text));
-		if(sessionNameExists && Util.RemoveTilde(entry_name.Text) != currentSession.Name ) {
+		bool sessionNameExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTildeAndColon(entry_name.Text));
+		if(sessionNameExists && Util.RemoveTildeAndColon(entry_name.Text) != currentSession.Name ) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			errorWin = ErrorWindow.Show(myString);
 		} else {
@@ -597,17 +597,17 @@ public class SessionAddEditWindow {
 				levelID = Util.FetchID(UtilGtk.ComboGetActive(combo_levels));
 
 			if(addSession) 
-				currentSession = new Session (entry_name.Text, entry_place.Text, myDate, 
+				currentSession = new Session (Util.RemoveTildeAndColon(entry_name.Text), Util.RemoveTildeAndColon(entry_place.Text), myDate, 
 						sportID, speciallityID, levelID,
-						textview.Buffer.Text);
+						Util.RemoveTildeAndColon(textview.Buffer.Text));
 			else {
-				currentSession.Name = entry_name.Text.ToString();
-				currentSession.Place = entry_place.Text.ToString(); 
+				currentSession.Name = Util.RemoveTildeAndColon(entry_name.Text.ToString());
+				currentSession.Place = Util.RemoveTildeAndColon(entry_place.Text.ToString()); 
 				currentSession.Date = myDate;
 				currentSession.PersonsSportID = sportID;
 				currentSession.PersonsSpeciallityID = speciallityID;
 				currentSession.PersonsPractice = levelID;
-				currentSession.Comments = textview.Buffer.Text;
+				currentSession.Comments = Util.RemoveTildeAndColon(textview.Buffer.Text);
 
 				SqliteSession.Edit(currentSession.UniqueID, currentSession.Name, 
 						currentSession.Place, currentSession.Date, 

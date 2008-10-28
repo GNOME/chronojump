@@ -66,7 +66,7 @@ int findTotalArea(IplImage* img,CvRect roirect)
  * Hip point is the x coordinate of the white pixel having minimum x coordinate in the above bounding rectangle
  * Returns the coordinate of the hip point
  */
-CvPoint FindHipPoint(IplImage* img,CvRect roirect)
+CvPoint findHipPoint(IplImage* img,CvRect roirect)
 {
 	CvPoint pt;
 	pt.x =0;pt.y=0;
@@ -124,7 +124,7 @@ CvPoint FindHipPoint(IplImage* img,CvRect roirect)
  * Knee point is a white pixel below the hip point and having maximum x coordinate in the bounding box
  * Returns the coordinate of the knee point
  */
-CvPoint FindKneePointFront(IplImage *img,CvRect roirect,int starty)
+CvPoint findKneePointFront(IplImage *img,CvRect roirect,int starty)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
@@ -178,7 +178,7 @@ CvPoint FindKneePointFront(IplImage *img,CvRect roirect,int starty)
 }
 
 //hueco popliteo
-CvPoint FindKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePointFrontX)
+CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePointFrontX)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
@@ -234,13 +234,40 @@ CvPoint FindKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 	return pt;
 }
 
+
+CvPoint kneePointInNearMiddleOfFrontAndBack(CvPoint kneePointBack, CvPoint kneePointFront, 
+		int kneePointWidth, IplImage * frame_copy)
+{
+	CvPoint kneePointBackPrima;
+	kneePointBackPrima.x = kneePointBack.x - kneePointFront.x;
+	kneePointBackPrima.y = kneePointBack.y - kneePointFront.y;
+
+	//don't use horizontal knee distance on each photogramme
+	//kneePointBackPrima.x += getDistance(kneePoint, kneePointBack) * .6;
+	//use it on first photogramme: kneePointWidth
+
+	double kneeXConvertedRatio = (double) abs(kneePointBackPrima.x) / (kneePointWidth *.4);
+	kneePointBackPrima.x /= kneeXConvertedRatio;
+	kneePointBackPrima.y /= kneeXConvertedRatio;
+
+	CvPoint kneePoint;
+	kneePoint.x = kneePointBackPrima.x + kneePointFront.x;
+	kneePoint.y = kneePointBackPrima.y + kneePointFront.y;
+
+	kneePoint.x = checkItsOk(kneePoint.x, 0, frame_copy->width);
+	kneePoint.y = checkItsOk(kneePoint.y, 0, frame_copy->height);
+
+	return kneePoint;
+}
+
+
 /*
  * takes as input arguement the bounding rectangle of the largest contour,the image containing the bounding rectangle and the x and y coordinate of the knee point
  * Calculates the toe point
  * Toe point is a white pixel below the knee point and having minimum x coordinate
  * Returns the coordinate of the hip point
  */
-CvPoint FindToePoint(IplImage *img,CvRect roirect,int startx,int starty)
+CvPoint findToePoint(IplImage *img,CvRect roirect,int startx,int starty)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
@@ -289,7 +316,8 @@ CvPoint FindToePoint(IplImage *img,CvRect roirect,int startx,int starty)
  * imgC (image Contour)
  * imgH (image Holes)
  */
-CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, CvRect roirect, IplImage *imgMain)
+CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage *imgMain, 
+	CvRect roirect, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld)
 {
 	CvPoint pt;
 	pt.x =0;pt.y=0;
@@ -397,7 +425,7 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, CvRect ro
 	}
 
 
-	CvSeq* seqIsValid = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage ); //'1' if is valid
+	CvSeq* seqIsValidSize = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage ); //'1' if is valid
 
 	int minSide = 6;
 	int maxSize = 10000;
@@ -413,9 +441,9 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, CvRect ro
 				sp2.x-sp1.x > minSide && sp2.y-sp1.y > minSide && //every side is bigger or equal to minSide
 				! (sp2.x-sp1.x > 3*(sp2.y-sp1.y)) && ! (3*(sp2.x-sp1.x) < (sp2.y-sp1.y)) //a side is not 3 times bigger than other (helps to delete shoes if appear)
 		  ) {
-			cvSeqPush( seqIsValid, &validValue);
+			cvSeqPush( seqIsValidSize, &validValue);
 		} else {
-			cvSeqPush( seqIsValid, &nonValidValue );
+			cvSeqPush( seqIsValidSize, &nonValidValue );
 		}
 	}
 
@@ -423,9 +451,9 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, CvRect ro
 	int sizeBig2 = 0;
 	int sizeBig3 = 0;
 	for( int i = 0; i < seqHolesSize->total; i++ ) {
-		int valid = *CV_GET_SEQ_ELEM( int, seqIsValid, i ); 
+		int validSize = *CV_GET_SEQ_ELEM( int, seqIsValidSize, i ); 
 		int size = *CV_GET_SEQ_ELEM( int, seqHolesSize, i ); 
-		if (valid==1) {
+		if (validSize == 1) {
 			if(size > sizeBig1) {
 				sizeBig3 = sizeBig2;
 				sizeBig2 = sizeBig1;
@@ -443,12 +471,29 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, CvRect ro
 	CvPoint kneePoint;
 	CvPoint toePoint;
 	hipPoint.x=0; kneePoint.x=0; toePoint.x=0;
-	for( int i = 0; i < seqHolesSize->total; i++ ) {
-		int valid = *CV_GET_SEQ_ELEM( int, seqIsValid, i ); 
+	for( int i = 0; i < seqHolesSize->total; i++ ) 
+	{
+		int validSize = *CV_GET_SEQ_ELEM( int, seqIsValidSize, i ); 
 		int size = *CV_GET_SEQ_ELEM( int, seqHolesSize, i ); 
-		if (valid && (size == sizeBig1 || size == sizeBig2 || size == sizeBig3)) {
-			CvPoint sp1 = *CV_GET_SEQ_ELEM( CvPoint, seqHolesUpLeft, i ); 
-			CvPoint sp2 = *CV_GET_SEQ_ELEM( CvPoint, seqHolesDownRight, i ); 
+		CvPoint sp1 = *CV_GET_SEQ_ELEM( CvPoint, seqHolesUpLeft, i ); 
+		CvPoint sp2 = *CV_GET_SEQ_ELEM( CvPoint, seqHolesDownRight, i ); 
+	
+		bool validSure = false;
+
+		//if size is valid
+		if (validSize) {
+			//if never found a point before, and this are the biggest points found
+			if(pointIsNull(hipOld) && pointIsNull(kneeOld) && pointIsNull(toeOld)) {
+				if(size == sizeBig1 || size == sizeBig2 || size == sizeBig3)
+					validSure = true;
+			} 
+			//if found a point before, and this point is inside before point (ok at 300 fps)
+			//a point is also ok, if we come from a user forward (then, there's not need to be inside old point)
+			else if (pointInside(hipOld, sp1, sp2) || pointInside(kneeOld, sp1,sp2) || pointInside(toeOld, sp1,sp2))
+				validSure = true;
+		}
+
+		if(validSure) {
 			CvPoint center = *CV_GET_SEQ_ELEM( CvPoint, seqHolesCenter, i ); 
 			if(hipPoint.x == 0) {
 				cvRectangle(imgMain, 
@@ -456,22 +501,25 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, CvRect ro
 						cvPoint(sp2.x+1, sp2.y+1),
 						CV_RGB(0,255,0),1,1);
 				hipPoint.x = center.x; hipPoint.y = center.y;
-//				cvCircle(imgMain,center,1, CV_RGB(0,255,0),CV_FILLED,8,0);
 			} else if(kneePoint.x == 0) {
 				cvRectangle(imgMain, 
 						cvPoint(sp1.x-1,sp1.y-1),
 						cvPoint(sp2.x+1, sp2.y+1),
 						CV_RGB(0,255,0),1,1);
 				kneePoint.x = center.x; kneePoint.y = center.y;
-//				cvCircle(imgMain,center,1, CV_RGB(0,255,0),CV_FILLED,8,0);
 			} else {
 				cvRectangle(imgMain, 
 						cvPoint(sp1.x-1,sp1.y-1),
 						cvPoint(sp2.x+1, sp2.y+1),
 						CV_RGB(0,255,0),1,1);
 				toePoint.x = center.x; toePoint.y = center.y;
-//				cvCircle(imgMain,center,1, CV_RGB(0,255,0),CV_FILLED,8,0);
 			}
+		} else {
+			 //paint rectangles in not-valid (or not big) holes.
+			cvRectangle(imgMain, 
+					cvPoint(sp1.x-1,sp1.y-1),
+					cvPoint(sp2.x+1, sp2.y+1),
+					CV_RGB(0,255,255),1,1);
 		}
 	}
 
@@ -482,20 +530,6 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, CvRect ro
 			cvLine(imgMain,toePoint,kneePoint,CV_RGB(0,255,0),1,1);
 	}
 	
-	/* Test:
-	 * paint rectangles in all detected holes.
-	 */
-/*
-	for( int i = 0; i < seqHolesSize->total; i++ ) {
-			CvPoint sp1 = *CV_GET_SEQ_ELEM( CvPoint, seqHolesUpLeft, i ); 
-			CvPoint sp2 = *CV_GET_SEQ_ELEM( CvPoint, seqHolesDownRight, i ); 
-			int radious = (sp2.y - sp1.y) /2;
-			if(radious < 1)
-				radious = 1;
-			cvRectangle(imgMain, sp1,sp2, CV_RGB(0,255,255),1,8,0);
-	}
-	*/
-	//end of test
 
 	CvPoint notFoundPoint;
 	notFoundPoint.x = 0; notFoundPoint.y = 0;
@@ -535,6 +569,15 @@ CvRect findLargestContour(IplImage* img,IplImage* temp, bool showContour)
 	cvCopy(img,tempcopy);
 	CvMemStorage* storage = cvCreateMemStorage(0);
 	scanner = cvStartFindContours(img,storage,sizeof(CvContour),CV_RETR_EXTERNAL,CV_CHAIN_APPROX_SIMPLE);
+	//scanner = cvStartFindContours(img,storage,sizeof(CvContour),CV_RETR_EXTERNAL,CV_CHAIN_APPROX_TC89_L1); //nothing
+	//scanner = cvStartFindContours(img,storage,sizeof(CvContour),CV_RETR_LIST,CV_CHAIN_APPROX_TC89_L1); //nothing
+	//scanner = cvStartFindContours(img,storage,sizeof(CvContour),CV_RETR_EXTERNAL,CV_CHAIN_CODE); //nothing
+	//scanner = cvStartFindContours(img,storage,sizeof(CvChain),CV_RETR_EXTERNAL,CV_CHAIN_CODE); //segmentation fault
+	//scanner = cvStartFindContours(img,storage,sizeof(CvChain),CV_RETR_LIST,CV_CHAIN_CODE); //segmentation fault
+	//scanner = cvStartFindContours(img,storage,sizeof(CvContour),CV_RETR_LIST,CV_CHAIN_CODE); //nothing
+	//scanner = cvStartFindContours(img,storage,sizeof(CvContour),CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE); //== simple
+	//scanner = cvStartFindContours(img,storage,sizeof(CvContour),CV_RETR_EXTERNAL,CV_CHAIN_APPROX_TC89_KCOS); //== simple
+	//scanner = cvStartFindContours(img,storage,sizeof(CvContour),CV_RETR_LIST,CV_LINK_RUNS);
 	cvZero(temp);
 	CvRect maxrect;
 	maxrect.x=0;maxrect.y=0;maxrect.width=0;maxrect.height=0;
@@ -559,6 +602,7 @@ CvRect findLargestContour(IplImage* img,IplImage* temp, bool showContour)
 		cvResize(temp, temp, CV_INTER_LINEAR);
 
 		double scale = 4;
+		//double scale = 1;
 		IplImage* tempSmall = cvCreateImage( cvSize( cvRound (img->width/scale), cvRound (img->height/scale)), 8, 1 );
 		cvResize( temp, tempSmall, CV_INTER_LINEAR );
 
@@ -602,7 +646,7 @@ int fixToePointX(int toeX, int toeWidth, double kneeAngle)
 	return toeX;
 }
 
-CvPoint FixHipPoint1(IplImage* img, int hipY, CvPoint knee, double kneeAngle)
+CvPoint fixHipPoint1(IplImage* img, int hipY, CvPoint knee, double kneeAngle)
 {
 	CvPoint ptHK;
 	ptHK.x =0;ptHK.y=0;
@@ -656,7 +700,7 @@ CvPoint FixHipPoint1(IplImage* img, int hipY, CvPoint knee, double kneeAngle)
 	return ptHK;
 }
 
-CvPoint FixHipPoint2(IplImage* img, int hipY, CvPoint knee, CvPoint ptHK)
+CvPoint fixHipPoint2(IplImage* img, int hipY, CvPoint knee, CvPoint ptHK)
 {
 			
 	/* this was hippoint in 1/3 of the leg (close to the hip but just below the hand)
@@ -783,3 +827,63 @@ void paintStick(IplImage *img, int lowestAngleFrame, CvSeq *hipSeq, CvSeq* kneeS
 	sprintf(label,"Last");
 	cvPutText(img, label,cvPoint(20, 60),&font,endColor);
 }
+
+int calculateBrightness(IplImage* img)
+{
+	int starty = 0;
+	int endy = img->height;
+	int width = img->width;
+	
+	IplImage * detectBrightness = cvCreateImage(cvGetSize(img),IPL_DEPTH_8U,1);
+	cvThreshold(img, detectBrightness, 67, 255, CV_THRESH_BINARY_INV);
+	
+	CvMat *srcmat,src_stub;
+	srcmat = cvGetMat(detectBrightness,&src_stub);
+	uchar *srcdata = srcmat->data.ptr;
+
+	int countBlack = 0;
+	int countWhite = 0;
+	for(int y=starty;y<endy;y++)
+	{
+		uchar *srcdataptr = srcdata + y*width;
+		for(int x=0; x < width; x++)
+			if(srcdataptr[x] == 0)
+				countBlack ++;
+			else
+				countWhite ++;
+	}
+	
+	//cvNamedWindow("detectBrightness");
+	//cvShowImage("detectBrightness", detectBrightness);
+
+	if(countBlack == 0)
+		return 0;
+	else if(countWhite == 0)
+		return 100;
+	else 
+		return (int) 100 * countBlack/(countWhite + countBlack);
+}
+
+CvPoint hipSkin;
+CvPoint kneeSkin;
+CvPoint toeSkin;
+
+void on_mouse( int event, int x, int y, int flags, void* param )
+{
+	switch( event )
+	{
+		case CV_EVENT_LBUTTONDOWN:
+			{
+				if(hipSkin.x == 0)
+					hipSkin = cvPoint(x,y);
+				else if(kneeSkin.x == 0)
+					kneeSkin = cvPoint(x,y);
+				else 
+					toeSkin = cvPoint(x,y);
+				//printf("x:%d, y:%d\n", x, y);
+				//
+			}
+			break;
+	}
+}
+

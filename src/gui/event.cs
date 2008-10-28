@@ -36,6 +36,7 @@ using Mono.Unix;
 public class EditEventWindow 
 {
 	[Widget] protected Gtk.Window edit_event;
+	protected bool weightPercentPreferred;
 	[Widget] protected Gtk.Button button_accept;
 	[Widget] protected Gtk.Label label_header;
 	[Widget] protected Gtk.Label label_type_title;
@@ -57,13 +58,17 @@ public class EditEventWindow
 	[Widget] protected Gtk.Entry entry_weight_value;
 	[Widget] protected Gtk.Label label_limited_title;
 	[Widget] protected Gtk.Label label_limited_value;
+	[Widget] protected Gtk.Label label_angle_title;
+	[Widget] protected Gtk.Entry entry_angle_value;
+	[Widget] protected Gtk.Label label_simulated;
 	
 	[Widget] protected Gtk.Box hbox_combo_eventType;
 	[Widget] protected Gtk.ComboBox combo_eventType;
 	[Widget] protected Gtk.Box hbox_combo_person;
 	[Widget] protected Gtk.ComboBox combo_persons;
 	
-	[Widget] protected Gtk.TextView textview_description;
+	[Widget] protected Gtk.Entry entry_description;
+	//[Widget] protected Gtk.TextView textview_description;
 
 	static EditEventWindow EditEventWindowBox;
 	protected Gtk.Window parent;
@@ -77,6 +82,7 @@ public class EditEventWindow
 	protected string entryTime = "0";
 	protected string entrySpeed = "0";
 	protected string entryWeight = "0"; //used to record the % for old person if we change it
+	protected string entryAngle = "0";
 
 	protected bool showTv;
 	protected bool showTc;
@@ -86,6 +92,7 @@ public class EditEventWindow
 	protected bool showSpeed;
 	protected bool showWeight;
 	protected bool showLimited;
+	protected bool showAngle;
 
 	protected string eventBigTypeString = "a test";
 
@@ -129,6 +136,9 @@ public class EditEventWindow
 		showSpeed = true;
 		showWeight = true;
 		showLimited = true;
+		showAngle = true;
+
+		label_simulated.Hide();
 	}
 
 	protected void fillDialog (Event myEvent)
@@ -137,7 +147,8 @@ public class EditEventWindow
 
 		string id = myEvent.UniqueID.ToString();
 		if(myEvent.Simulated == 1) 
-			id += " <b>" + Catalog.GetString("Simulated") + "</b>";
+			label_simulated.Show();
+		
 		label_event_id_value.Text = id;
 		label_event_id_value.UseMarkup = true;
 
@@ -197,9 +208,16 @@ public class EditEventWindow
 			label_limited_value.Hide();
 		}
 
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = myEvent.Description;
-		textview_description.Buffer = tb;
+		if(showAngle)
+			fillAngle(myEvent);
+		else { 
+			label_angle_title.Hide();
+			entry_angle_value.Hide();
+		}
+
+		//also remove new line for old descriptions that used a textview
+		string temp = Util.RemoveTildeAndColonAndDot(myEvent.Description);
+		entry_description.Text = Util.RemoveNewLine(temp);
 
 		createComboEventType(myEvent);
 
@@ -241,13 +259,20 @@ public class EditEventWindow
 	}
 
 	protected virtual void createSignal() {
-		//only for runs
+		/*
+		 * for jumps to show or hide the kg
+		 * for runs to put distance depending on it it's fixed or not
+		 */
 	}
 
 	protected void fillTv(Event myEvent) {
 		Jump myJump = (Jump) myEvent;
 		entryTv = myJump.Tv.ToString();
-		entry_tv_value.Text = Util.TrimDecimals(entryTv, pDN);
+
+		//show all the decimals for not triming there in edit window using
+		//(and having different values in formulae like GetHeightInCm ...)
+		//entry_tv_value.Text = Util.TrimDecimals(entryTv, pDN);
+		entry_tv_value.Text = entryTv;
 	}
 
 	protected virtual void fillTc (Event myEvent) {
@@ -299,31 +324,39 @@ public class EditEventWindow
 		*/
 	}
 
+	protected virtual void fillAngle(Event myEvent) {
+	}
 		
 	private void on_entry_tv_value_changed (object o, EventArgs args) {
 		if(Util.IsNumber(entry_tv_value.Text.ToString())){
 			entryTv = entry_tv_value.Text.ToString();
+			button_accept.Sensitive = true;
 		} else {
-			entry_tv_value.Text = "";
-			entry_tv_value.Text = entryTv;
+			button_accept.Sensitive = false;
+			//entry_tv_value.Text = "";
+			//entry_tv_value.Text = entryTv;
 		}
 	}
 		
 	private void on_entry_tc_value_changed (object o, EventArgs args) {
 		if(Util.IsNumber(entry_tc_value.Text.ToString())){
 			entryTc = entry_tc_value.Text.ToString();
+			button_accept.Sensitive = true;
 		} else {
-			entry_tc_value.Text = "";
-			entry_tc_value.Text = entryTc;
+			button_accept.Sensitive = false;
+			//entry_tc_value.Text = "";
+			//entry_tc_value.Text = entryTc;
 		}
 	}
 		
 	private void on_entry_fall_value_changed (object o, EventArgs args) {
 		if(Util.IsNumber(entry_fall_value.Text.ToString())){
 			entryFall = entry_fall_value.Text.ToString();
+			button_accept.Sensitive = true;
 		} else {
-			entry_fall_value.Text = "";
-			entry_fall_value.Text = entryFall;
+			button_accept.Sensitive = false;
+			//entry_fall_value.Text = "";
+			//entry_fall_value.Text = entryFall;
 		}
 	}
 		
@@ -332,9 +365,11 @@ public class EditEventWindow
 			entryTime = entry_time_value.Text.ToString();
 			label_speed_value.Text = Util.TrimDecimals(
 					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
+			button_accept.Sensitive = true;
 		} else {
-			entry_time_value.Text = "";
-			entry_time_value.Text = entryTime;
+			button_accept.Sensitive = false;
+			//entry_time_value.Text = "";
+			//entry_time_value.Text = entryTime;
 		}
 	}
 	
@@ -343,21 +378,41 @@ public class EditEventWindow
 			entryDistance = entry_distance_value.Text.ToString();
 			label_speed_value.Text = Util.TrimDecimals(
 					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
+			button_accept.Sensitive = true;
 		} else {
-			entry_distance_value.Text = "";
-			entry_distance_value.Text = entryDistance;
+			button_accept.Sensitive = false;
+			//entry_distance_value.Text = "";
+			//entry_distance_value.Text = entryDistance;
 		}
 	}
 		
 	private void on_entry_weight_value_changed (object o, EventArgs args) {
 		if(Util.IsNumber(entry_weight_value.Text.ToString())){
 			entryWeight = entry_weight_value.Text.ToString();
+			button_accept.Sensitive = true;
 		} else {
-			entry_weight_value.Text = "";
-			entry_weight_value.Text = entryWeight;
+			button_accept.Sensitive = false;
+			//entry_weight_value.Text = "";
+			//entry_weight_value.Text = entryWeight;
 		}
 	}
 		
+	private void on_entry_angle_changed (object o, EventArgs args) {
+		string angleString = entry_angle_value.Text.ToString();
+		if(Util.IsNumber(angleString)) {
+			entryAngle = angleString;
+			button_accept.Sensitive = true;
+		} else if(angleString == "-") {
+			entryAngle = "-1,0";
+			button_accept.Sensitive = true;
+		} else 
+			button_accept.Sensitive = false;
+	}
+		
+	private void on_entry_description_changed (object o, EventArgs args) {
+		entry_description.Text = Util.RemoveTildeAndColonAndDot(entry_description.Text.ToString());
+	}
+
 	protected virtual void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		EditEventWindowBox.edit_event.Hide();
@@ -377,14 +432,18 @@ public class EditEventWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
+		Log.WriteLine("a");
 		int eventID = Convert.ToInt32 ( label_event_id_value.Text );
+		Log.WriteLine("a2");
 		string myPerson = UtilGtk.ComboGetActive(combo_persons);
 		string [] myPersonFull = myPerson.Split(new char[] {':'});
 		
-		string myDesc = textview_description.Buffer.Text;
+		string myDesc = entry_description.Text;
 		
 
+		Log.WriteLine("b");
 		updateEvent(eventID, Convert.ToInt32(myPersonFull[0]), myDesc);
+		Log.WriteLine("c");
 
 		hideWindow();
 	}

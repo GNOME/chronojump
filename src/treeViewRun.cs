@@ -203,7 +203,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 
 		myData[count++] = Util.TrimDecimals( timeInterval, pDN );
 		myData[count++] = "";
-		myData[count++] = newRunI.UniqueID.ToString(); 
+		
+		//myData[count++] = newRunI.UniqueID.ToString(); 
+		myData[count++] = "-1"; //mark to non select here, select first line 
 
 		return myData;
 	}
@@ -226,7 +228,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = "";
 		myData[count++] = Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN );
 		myData[count++] = "";
-		myData[count++] = newRunI.UniqueID.ToString(); 
+		
+		//myData[count++] = newRunI.UniqueID.ToString(); 
+		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
 	}
@@ -246,7 +250,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
 							, pDN );
 		myData[count++] = "";
-		myData[count++] = newRunI.UniqueID.ToString(); 
+
+		//myData[count++] = newRunI.UniqueID.ToString(); 
+		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
 	}
@@ -264,8 +270,20 @@ public class TreeViewRunsInterval : TreeViewRuns
 					Util.GetNumberOfJumps(newRunI.IntervalTimesString, false)).ToString(),
 				pDN);
 		myData[count++] = "";
-		myData[count++] = newRunI.UniqueID.ToString(); 
+		
+		//myData[count++] = newRunI.UniqueID.ToString(); 
+		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
 	}
+	
+	public override ExpandStates ZoomChange(ExpandStates myExpand) {
+		if(myExpand == ExpandStates.MINIMIZED)
+			return ExpandStates.OPTIMAL;
+		else if(myExpand == ExpandStates.OPTIMAL)
+			return ExpandStates.MAXIMIZED;
+		else
+			return ExpandStates.MINIMIZED;
+	}
+
 }

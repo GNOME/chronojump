@@ -36,7 +36,7 @@ using Mono.Unix;
 public class EditJumpWindow : EditEventWindow
 {
 	static EditJumpWindow EditJumpWindowBox;
-	protected bool weightPercentPreferred;
+//	protected bool weightPercentPreferred;
 	protected double personWeight;
 	protected int sessionID; //for know weight specific to this session
 
@@ -89,6 +89,7 @@ public class EditJumpWindow : EditEventWindow
 		showSpeed = false;
 		showWeight = true;
 		showLimited = false;
+		showAngle = true;
 		
 		if(weightPercentPreferred)
 			label_weight_title.Text = label_weight_title.Text.ToString() + " %";
@@ -115,7 +116,12 @@ public class EditJumpWindow : EditEventWindow
 
 		if (myJump.TypeHasFall) {
 			entryTc = myJump.Tc.ToString();
-			entry_tc_value.Text = Util.TrimDecimals(entryTc, pDN);
+			
+			//show all the decimals for not triming there in edit window using
+			//(and having different values in formulae like GetHeightInCm ...)
+			//entry_tc_value.Text = Util.TrimDecimals(entryTc, pDN);
+			entry_tc_value.Text = entryTc;
+			
 			entryFall = myJump.Fall.ToString();
 			entry_fall_value.Text = entryFall;
 			entry_tc_value.Sensitive = true;
@@ -140,6 +146,46 @@ public class EditJumpWindow : EditEventWindow
 			entry_weight_value.Sensitive = false;
 		}
 	}
+	
+	protected override void fillAngle(Event myEvent) {
+		Jump myJump = (Jump) myEvent;
+		
+		//default values are -1.0 or -1 (old int)
+		if(myJump.Angle < 0) { 
+			entryAngle = "-1,0";
+			entry_angle_value.Text = "-";
+		} else {
+			entryAngle = myJump.Angle.ToString();
+			entry_angle_value.Text = entryAngle;
+		}
+	}
+
+	
+	protected override void createSignal() {
+		//only for jumps & runs
+		combo_eventType.Changed += new EventHandler (on_combo_eventType_changed);
+	}
+
+	string weightOldStore = "0";
+	private void on_combo_eventType_changed (object o, EventArgs args) {
+		//if the distance of the new runType is fixed, put this distance
+		//if not conserve the old
+		JumpType myJumpType = new JumpType (UtilGtk.ComboGetActive(combo_eventType));
+		if(myJumpType.HasWeight) {
+			if(weightOldStore != "0")
+				entry_weight_value.Text = weightOldStore;
+
+			entry_weight_value.Sensitive = true;
+		} else {
+			//store weight in a variable if needed
+			if(entry_weight_value.Text != "0")
+				weightOldStore = entry_weight_value.Text;
+
+			entry_weight_value.Text = "0";
+			entry_weight_value.Sensitive = false;
+		}
+	}
+
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
@@ -162,7 +208,7 @@ public class EditJumpWindow : EditEventWindow
 		//only for jump
 		double jumpPercentWeightForNewPerson = updateWeight(personID, sessionID);
 		
-		SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description);
+		SqliteJump.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryTv, entryTc, entryFall, personID, jumpPercentWeightForNewPerson, description, Convert.ToDouble(entryAngle));
 	}
 
 	

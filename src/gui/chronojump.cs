@@ -122,13 +122,12 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_reaction_time_execute;
 	[Widget] Gtk.Button button_pulse_free;
 	[Widget] Gtk.Button button_pulse_custom;
-	[Widget] Gtk.Button button_pulse_more;
+	//[Widget] Gtk.Button button_pulse_more;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
 	[Widget] Gtk.Button button_run_last;
 	[Widget] Gtk.Button button_run_interval_last;
-	[Widget] Gtk.Button button_pulse_last;
 	[Widget] Gtk.MenuItem menuitem_preferences;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_export_xml;
@@ -201,7 +200,8 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_interval_delete;
 	[Widget] Gtk.Image image_reaction_time_delete;
 	[Widget] Gtk.Image image_pulse_delete;
-	
+
+	/*	
 	[Widget] Gtk.Image image_tv_collapse;
 	[Widget] Gtk.Image image_tv_rj_collapse;
 	[Widget] Gtk.Image image_tv_run_collapse;
@@ -217,7 +217,15 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_tv_rj_fit;
 	[Widget] Gtk.Image image_tv_run_interval_fit;
 	[Widget] Gtk.Image image_pulse_fit;
+	*/
 	
+	[Widget] Gtk.Image image_jumps_zoom;
+	[Widget] Gtk.Image image_jumps_rj_zoom;
+	[Widget] Gtk.Image image_runs_zoom;
+	[Widget] Gtk.Image image_runs_interval_zoom;
+	[Widget] Gtk.Image image_reaction_times_zoom;
+	[Widget] Gtk.Image image_pulses_zoom;
+
 	Random rand;
 	bool volumeOn;
 
@@ -255,6 +263,7 @@ public class ChronoJumpWindow
 	private static int prefsDigitsNumber;
 	private static bool showHeight;
 	private static bool showInitialSpeed;
+	private static bool showAngle;
 	private static bool showQIndex;
 	private static bool showDjIndex;
 	private static bool simulated;
@@ -498,6 +507,7 @@ public class ChronoJumpWindow
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change
 
+		/*
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomOutIcon);
 		image_tv_collapse.Pixbuf = pixbuf;
 		image_tv_rj_collapse.Pixbuf = pixbuf;
@@ -518,6 +528,15 @@ public class ChronoJumpWindow
 		image_tv_rj_fit.Pixbuf = pixbuf;
 		image_tv_run_interval_fit.Pixbuf = pixbuf;
 		image_pulse_fit.Pixbuf = pixbuf;
+		*/
+	
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomFitIcon);
+		image_jumps_zoom.Pixbuf = pixbuf;
+		image_jumps_rj_zoom.Pixbuf = pixbuf;
+		image_runs_zoom.Pixbuf = pixbuf;
+		image_runs_interval_zoom.Pixbuf = pixbuf;
+		image_reaction_times_zoom.Pixbuf = pixbuf;
+		image_pulses_zoom.Pixbuf = pixbuf;
 
 		//menuitems (done differently)
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
@@ -528,7 +547,6 @@ public class ChronoJumpWindow
 
 	protected bool PulseGTK ()
 	{
-
 		if(needUpdateChronopicWin || ! thread.IsAlive) {
 			fakeChronopicButton.Click();
 			Log.Write("dying");
@@ -652,6 +670,11 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			showInitialSpeed = true;
 		 else 
 			showInitialSpeed = false;
+		
+		if ( SqlitePreferences.Select("showAngle") == "True" ) 
+			showAngle = true;
+		 else 
+			showAngle = false;
 		
 		
 		//only one of showQIndex or showDjIndex can be true. Also none of them
@@ -890,7 +913,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
 		//myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
-		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
+		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showAngle, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_jumps_cursor_changed; 
@@ -905,6 +928,15 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
 	}
 
+	private void on_button_jumps_zoom_clicked (object o, EventArgs args) {
+		myTreeViewJumps.ExpandState = myTreeViewJumps.ZoomChange(myTreeViewJumps.ExpandState);
+		if(myTreeViewJumps.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+			treeview_jumps.CollapseAll();
+		else
+			treeview_jumps.ExpandAll();
+	}
+	
+	/*
 	private void on_button_tv_collapse_clicked (object o, EventArgs args) {
 		myTreeViewJumps.ExpandState = 
 			TreeViewEvent.ExpandStates.MINIMIZED;
@@ -916,11 +948,12 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_jumps.ExpandAll();
 	}
-	
+	*/
+
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
 		
-		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumps.ExpandState );
+		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, showAngle, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumps.ExpandState );
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
@@ -939,14 +972,14 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_edit_selected_jump_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
 		myMenu.Attach( mySep, 0, 1, 1, 2 );
 
-		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_delete_selected_jump_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
@@ -975,6 +1008,18 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	}
 
+	private void on_button_jumps_rj_zoom_clicked (object o, EventArgs args) {
+		myTreeViewJumpsRj.ExpandState = myTreeViewJumpsRj.ZoomChange(myTreeViewJumpsRj.ExpandState);
+		if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+			treeview_jumps_rj.CollapseAll();
+		else if(myTreeViewJumpsRj.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			treeview_jumps_rj.CollapseAll();
+			myTreeViewJumpsRj.ExpandOptimal();
+		} else
+			treeview_jumps_rj.ExpandAll();
+	}
+
+	/*	
 	private void on_button_tv_rj_collapse_clicked (object o, EventArgs args) {
 		myTreeViewJumpsRj.ExpandState = 
 			TreeViewEvent.ExpandStates.MINIMIZED;
@@ -993,7 +1038,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_jumps_rj.ExpandAll();
 	}
-	
+	*/
+
 	private void treeview_jumps_rj_storeReset() {
 		myTreeViewJumpsRj.RemoveColumns();
 		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumpsRj.ExpandState );
@@ -1005,6 +1051,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewJumpsRj.EventSelectedID == 0) {
 			myTreeViewJumpsRj.Unselect();
 			showHideActionEventButtons(false, "JumpRj");
+		} else if (myTreeViewJumpsRj.EventSelectedID == -1) {
+			myTreeViewJumpsRj.SelectHeaderLine();
+			showHideActionEventButtons(true, "JumpRj");
 		} else {
 			showHideActionEventButtons(true, "JumpRj");
 		}
@@ -1014,18 +1063,18 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_edit_selected_jump_rj_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
-		myItem = new MenuItem ( Catalog.GetString("Repair this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_repair_selected_reactive_jump_clicked;
 		myMenu.Attach( myItem, 0, 1, 1, 2 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
 		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
-		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_delete_selected_jump_rj_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
@@ -1054,6 +1103,15 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	}
 	
+	private void on_button_runs_zoom_clicked (object o, EventArgs args) {
+		myTreeViewRuns.ExpandState = myTreeViewRuns.ZoomChange(myTreeViewRuns.ExpandState);
+		if(myTreeViewRuns.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+			treeview_runs.CollapseAll();
+		else
+			treeview_runs.ExpandAll();
+	}
+	
+	/*
 	private void on_button_tv_run_collapse_clicked (object o, EventArgs args) {
 		myTreeViewRuns.ExpandState = 
 			TreeViewEvent.ExpandStates.MINIMIZED;
@@ -1065,6 +1123,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_runs.ExpandAll();
 	}
+	*/
 	
 	private void treeview_runs_storeReset() {
 		myTreeViewRuns.RemoveColumns();
@@ -1086,14 +1145,14 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_edit_selected_run_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
 		myMenu.Attach( mySep, 0, 1, 1, 2 );
 
-		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_delete_selected_run_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
@@ -1120,6 +1179,18 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
 	
+	private void on_button_runs_interval_zoom_clicked (object o, EventArgs args) {
+		myTreeViewRunsInterval.ExpandState = myTreeViewRunsInterval.ZoomChange(myTreeViewRunsInterval.ExpandState);
+		if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+			treeview_runs_interval.CollapseAll();
+		else if(myTreeViewRunsInterval.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			treeview_runs_interval.CollapseAll();
+			myTreeViewRunsInterval.ExpandOptimal();
+		} else
+			treeview_runs_interval.ExpandAll();
+	}
+
+	/*
 	private void on_button_tv_run_interval_collapse_clicked (object o, EventArgs args) {
 		myTreeViewRunsInterval.ExpandState = 
 			TreeViewEvent.ExpandStates.MINIMIZED;
@@ -1138,7 +1209,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_runs_interval.ExpandAll();
 	}
-	
+	*/
+
 	private void treeview_runs_interval_storeReset() {
 		myTreeViewRunsInterval.RemoveColumns();
 		myTreeViewRunsInterval = new TreeViewRunsInterval( treeview_runs_interval,  
@@ -1151,6 +1223,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewRunsInterval.EventSelectedID == 0) {
 			myTreeViewRunsInterval.Unselect();
 			showHideActionEventButtons(false, "RunInterval");
+		} else if (myTreeViewRunsInterval.EventSelectedID == -1) {
+			myTreeViewRunsInterval.SelectHeaderLine();
+			showHideActionEventButtons(true, "RunInterval");
 		} else {
 			showHideActionEventButtons(true, "RunInterval");
 		}
@@ -1160,18 +1235,18 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_edit_selected_run_interval_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
-		myItem = new MenuItem ( Catalog.GetString("Repair this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_repair_selected_run_interval_clicked;
 		myMenu.Attach( myItem, 0, 1, 1, 2 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
 		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
-		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_delete_selected_run_interval_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
@@ -1199,6 +1274,16 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
 	
+	private void on_button_reaction_times_zoom_clicked (object o, EventArgs args) {
+		myTreeViewReactionTimes.ExpandState = myTreeViewReactionTimes.ZoomChange(
+				myTreeViewReactionTimes.ExpandState);
+		if(myTreeViewReactionTimes.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+			treeview_reaction_times.CollapseAll();
+		else
+			treeview_reaction_times.ExpandAll();
+	}
+	
+	/*
 	private void on_button_reaction_time_collapse_clicked (object o, EventArgs args) {
 		myTreeViewReactionTimes.ExpandState = 
 			TreeViewEvent.ExpandStates.MINIMIZED;
@@ -1210,7 +1295,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_reaction_times.ExpandAll();
 	}
-	
+	*/
+
 	private void treeview_reaction_times_storeReset() {
 		myTreeViewReactionTimes.RemoveColumns();
 		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, prefsDigitsNumber, myTreeViewReactionTimes.ExpandState );
@@ -1231,14 +1317,14 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myRt.Type + " (" + myRt.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
 		myItem.Activated += on_edit_selected_reaction_time_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
 		myMenu.Attach( mySep, 0, 1, 1, 2 );
 
-		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myRt.Type + " (" + myRt.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
 		myItem.Activated += on_delete_selected_reaction_time_clicked;
 		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
@@ -1265,6 +1351,18 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
 	}
 	
+	private void on_button_pulses_zoom_clicked (object o, EventArgs args) {
+		myTreeViewPulses.ExpandState = myTreeViewPulses.ZoomChange(myTreeViewPulses.ExpandState);
+		if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+			treeview_pulses.CollapseAll();
+		else if(myTreeViewPulses.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			treeview_pulses.CollapseAll();
+			myTreeViewPulses.ExpandOptimal();
+		} else
+			treeview_pulses.ExpandAll();
+	}
+
+	/*
 	private void on_button_pulse_collapse_clicked (object o, EventArgs args) {
 		myTreeViewPulses.ExpandState = 
 			TreeViewEvent.ExpandStates.MINIMIZED;
@@ -1283,7 +1381,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			TreeViewEvent.ExpandStates.MAXIMIZED;
 		treeview_pulses.ExpandAll();
 	}
-	
+	*/
+
 	private void treeview_pulses_storeReset() {
 		myTreeViewPulses.RemoveColumns();
 		myTreeViewPulses = new TreeViewPulses( treeview_pulses, prefsDigitsNumber, myTreeViewPulses.ExpandState );
@@ -1295,6 +1394,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewPulses.EventSelectedID == 0) {
 			myTreeViewPulses.Unselect();
 			showHideActionEventButtons(false, "Pulse");
+		} else if (myTreeViewPulses.EventSelectedID == -1) {
+			myTreeViewPulses.SelectHeaderLine();
+			showHideActionEventButtons(true, "Pulse");
 		} else {
 			showHideActionEventButtons(true, "Pulse");
 		}
@@ -1304,18 +1406,18 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit this") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_edit_selected_pulse_clicked;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
-		myItem = new MenuItem ( Catalog.GetString("Repair this") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_repair_selected_pulse_clicked;
 		myMenu.Attach( myItem, 0, 1, 1, 2 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
 		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
-		myItem = new MenuItem ( Catalog.GetString("Delete this") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_delete_selected_pulse_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
@@ -1392,7 +1494,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_combo_jumps_changed(object o, EventArgs args) {
-		combo_jumps.Changed -= new EventHandler (on_combo_jumps_changed);
+		//combo_jumps.Changed -= new EventHandler (on_combo_jumps_changed);
 
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -1404,7 +1506,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_combo_jumps_rj_changed(object o, EventArgs args) {
-		combo_jumps_rj.Changed -= new EventHandler (on_combo_jumps_rj_changed);
+		//combo_jumps_rj.Changed -= new EventHandler (on_combo_jumps_rj_changed);
 
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -1416,7 +1518,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_combo_runs_changed(object o, EventArgs args) {
-		combo_runs.Changed -= new EventHandler (on_combo_runs_changed);
+		//combo_runs.Changed -= new EventHandler (on_combo_runs_changed);
 
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -1428,7 +1530,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_combo_runs_interval_changed(object o, EventArgs args) {
-		combo_runs_interval.Changed -= new EventHandler (on_combo_runs_interval_changed);
+		//combo_runs_interval.Changed -= new EventHandler (on_combo_runs_interval_changed);
 
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -1442,7 +1544,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	//no need of reationTimes
 	
 	private void on_combo_pulses_changed(object o, EventArgs args) {
-		combo_pulses.Changed -= new EventHandler (on_combo_pulses_changed);
+		//combo_pulses.Changed -= new EventHandler (on_combo_pulses_changed);
 
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -1982,7 +2084,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
-				chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, showQIndex, showDjIndex, 
+				chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
@@ -2024,11 +2126,15 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			showHeight = false;
 		
 
-		//update showInitialSpeed
 		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) 
 			showInitialSpeed = true;
 		 else 
 			showInitialSpeed = false;
+		
+		if ( SqlitePreferences.Select("showAngle") == "True" ) 
+			showAngle = true;
+		 else 
+			showAngle = false;
 		
 
 		//update showQIndex or showDjIndex
@@ -3208,14 +3314,11 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 *  --------------------------------------------------------
 	 */
 
+	/*
 	private void on_button_pulse_more_clicked (object o, EventArgs args) 
 	{
-		appbar2.Push ( 1, "pulse more (NOT IMPLEMENTED YET)");
-		/*
-		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
-		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
-		*/
 	}
+	*/
 	
 	private void on_more_pulse_accepted (object o, EventArgs args) 
 	{
@@ -3240,14 +3343,12 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		*/
 	}
-	
+
+	/*	
 	private void on_button_pulse_last_clicked (object o, EventArgs args) 
 	{
-		appbar2.Push ( 1, "pulse last (NOT IMPLEMENTED YET)");
-		/*
-		on_run_interval_activate(o, args);
-		*/
 	}
+	*/
 	
 	private void on_button_pulse_free_activate (object o, EventArgs args) 
 	{
@@ -3411,7 +3512,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 * ----------------  EVENTS EDIT ---------------------------
 	 *  --------------------------------------------------------
 	 */
-	
+
+	int eventOldPerson;
+
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
 		notebook_change(0);
 		Log.WriteLine("Edit selected jump (normal)");
@@ -3420,6 +3523,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
 			Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID );
+			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
 			editJumpWin = EditJumpWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
@@ -3435,6 +3539,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
 			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
 			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
@@ -3444,24 +3549,46 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_edit_selected_jump_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected jump accepted");
-		
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(UtilGtk.ComboGetActive(combo_jumps));
 	
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+		Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID );
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if(eventOldPerson == myJump.PersonID) {
+			if(! weightPercentPreferred) {
+				double personWeight = SqlitePersonSession.SelectPersonWeight(myJump.PersonID, currentSession.UniqueID);
+				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
+			}
+			myTreeViewJumps.Update(myJump);
 		}
+		else {
+			treeview_jumps_storeReset();
+			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_jumps));
+		}
+
+		if(createdStatsWin) 
+			statsWin.FillTreeView_stats(false, false);
 	}
 	
 	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected jump RJ accepted");
+	
+		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
 		
-		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
-		
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+		//if person changed, fill treeview again, if not, only update it's line
+		if(eventOldPerson == myJump.PersonID) {
+			if(! weightPercentPreferred) {
+				double personWeight = SqlitePersonSession.SelectPersonWeight(myJump.PersonID, currentSession.UniqueID);
+				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
+			}
+			myTreeViewJumpsRj.Update(myJump);
 		}
+		else {
+			treeview_jumps_rj_storeReset();
+			fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
+		}
+
+		if(createdStatsWin) 
+			statsWin.FillTreeView_stats(false, false);
 	}
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
@@ -3473,7 +3600,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			//3.- obtain the data of the selected run
 			Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID );
 			myRun.MetersSecondsPreferred = metersSecondsPreferred;
-			Log.WriteLine(myRun.ToString());
+			eventOldPerson = myRun.PersonID;
 		
 			//4.- edit this run
 			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
@@ -3489,7 +3616,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
 			RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
-			Log.WriteLine(myRun.ToString());
+			eventOldPerson = myRun.PersonID;
 		
 			//4.- edit this run
 			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
@@ -3500,23 +3627,35 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_edit_selected_run_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected run accepted");
 		
-		treeview_runs_storeReset();
-		fillTreeView_runs(UtilGtk.ComboGetActive(combo_runs));
+		Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID );
 		
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+		//if person changed, fill treeview again, if not, only update it's line
+		if(eventOldPerson == myRun.PersonID)
+			myTreeViewRuns.Update(myRun);
+		else {
+			treeview_runs_storeReset();
+			fillTreeView_runs(UtilGtk.ComboGetActive(combo_runs));
 		}
+		
+		if(createdStatsWin) 
+			statsWin.FillTreeView_stats(false, false);
 	}
 	
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected run interval accepted");
 		
-		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_runs_interval));
-		
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+		RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if(eventOldPerson == myRun.PersonID)
+			myTreeViewRunsInterval.Update(myRun);
+		else {
+			treeview_runs_interval_storeReset();
+			fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_runs_interval));
 		}
+		
+		if(createdStatsWin)
+			statsWin.FillTreeView_stats(false, false);
 	}
 
 	private void on_edit_selected_reaction_time_clicked (object o, EventArgs args) {
@@ -3527,6 +3666,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- obtain the data of the selected event
 			ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID );
+			eventOldPerson = myRT.PersonID;
 		
 			//4.- edit this event
 			editReactionTimeWin = EditReactionTimeWindow.Show(app1, myRT, prefsDigitsNumber);
@@ -3537,8 +3677,15 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_edit_selected_reaction_time_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected reaction time accepted");
 		
-		treeview_reaction_times_storeReset();
-		fillTreeView_reaction_times();
+		ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID );
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if(eventOldPerson == myRT.PersonID)
+			myTreeViewReactionTimes.Update(myRT);
+		else {
+			treeview_reaction_times_storeReset();
+			fillTreeView_reaction_times();
+		}
 	
 		//if(createdStatsWin) {
 		//	statsWin.FillTreeView_stats(false, false);
@@ -3553,6 +3700,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- obtain the data of the selected event
 			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
+			eventOldPerson = myPulse.PersonID;
 		
 			//4.- edit this event
 			editPulseWin = EditPulseWindow.Show(app1, myPulse, prefsDigitsNumber);
@@ -3563,8 +3711,15 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected pulse accepted");
 		
-		treeview_pulses_storeReset();
-		fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
+		Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
+
+		//if person changed, fill treeview again, if not, only update it's line
+		if(eventOldPerson == myPulse.PersonID)
+			myTreeViewPulses.Update(myPulse);
+		else {
+			treeview_pulses_storeReset();
+			fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
+		}
 	
 		//if(createdStatsWin) {
 		//	statsWin.FillTreeView_stats(false, false);
@@ -3718,7 +3873,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected event?", 
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected test?", 
 						"", "reactiontime", myTreeViewReactionTimes.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_reaction_time_accepted);
 			} else {
@@ -3753,7 +3908,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected event?", 
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected test?", 
 						"", "pulses", myTreeViewPulses.EventSelectedID);
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_pulse_accepted);
 			} else {
@@ -3778,150 +3933,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		*/
 	}
 
-
-	/*
-	private void on_last_delete (object o, EventArgs args) {
-		Log.WriteLine("delete last event");
-		
-		string warningString = "";
-		switch (lastEventType.Type) {
-			case EventType.Types.JUMP:
-				if (askDeletion) {
-					int myID = myTreeViewJumps.EventSelectedID;
-					if(lastJumpIsReactive) {
-						notebook_change(1);
-						warningString = Catalog.GetString("Attention: Deleting a Reactive subjump will delete the whole jump"); 
-						myID = myTreeViewJumpsRj.EventSelectedID;
-					} else {
-						notebook_change(0);
-					}
-
-					confirmWinJumpRun = ConfirmWindowJumpRun.Show(
-							Catalog.GetString("Do you want to delete last jump?"), 
-							warningString, "jump", myID);
-					confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_jump_delete_accepted);
-				} else {
-					on_last_jump_delete_accepted(o, args);
-				}
-				break;
-			case EventType.Types.RUN:
-				if (askDeletion) {
-					int myID = myTreeViewRuns.EventSelectedID;
-					if (lastRunIsInterval) {
-						notebook_change(3);
-						warningString = Catalog.GetString("Attention: Deleting a intervalic sub-run will delete the whole run"); 
-						myID = myTreeViewRunsInterval.EventSelectedID;
-					} else {
-						notebook_change(2);
-					}
-
-					confirmWinJumpRun = ConfirmWindowJumpRun.Show(
-							Catalog.GetString("Do you want to delete last run?"), 
-							warningString, "run", myID);
-					confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_run_delete_accepted);
-				} else {
-					on_last_run_delete_accepted(o, args);
-				}
-				break;
-			case EventType.Types.REACTIONTIME:
-				if (askDeletion) {
-					int myID = myTreeViewReactionTimes.EventSelectedID;
-					notebook_change(4);
-					confirmWinJumpRun = ConfirmWindowJumpRun.Show(
-							Catalog.GetString("Do you want to delete last reaction time?"), 
-							warningString, "reaction time", myID);
-					confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_reaction_time_delete_accepted);
-				} else {
-					on_last_reaction_time_delete_accepted(o, args);
-				}
-				break;
-			case EventType.Types.PULSE:
-				if (askDeletion) {
-					int myID = myTreeViewPulses.EventSelectedID;
-					notebook_change(5);
-					confirmWinJumpRun = ConfirmWindowJumpRun.Show(
-							Catalog.GetString("Do you want to delete last pulse?"), 
-							warningString, "pulse", myID);
-					confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_last_pulse_delete_accepted);
-				} else {
-					on_last_pulse_delete_accepted(o, args);
-				}
-				break;
-			default:
-				Log.WriteLine("on_last_delete default"); 
-				break;
-
-		}
-	}
-
-	private void on_last_jump_delete_accepted (object o, EventArgs args) {
-		if(lastJumpIsReactive) {
-			SqliteJump.Delete("jumpRj", currentJumpRj.UniqueID.ToString());
-			myTreeViewJumpsRj.DelEvent(currentJumpRj.UniqueID);
-		} else  {
-			SqliteJump.Delete("jump", currentJump.UniqueID.ToString());
-			myTreeViewJumps.DelEvent(currentJump.UniqueID);
-		}
-		
-		button_last_delete.Sensitive = false ;
-		appbar2.Push( 1, string.Format(Catalog.GetString("Last {0} deleted"), Catalog.GetString("jump")) );
-
-
-		if(createdStatsWin) 
-			statsWin.FillTreeView_stats(false, false);
-	}
-
-	private void on_last_run_delete_accepted (object o, EventArgs args) {
-		if (lastRunIsInterval) {
-			SqliteRun.Delete("runInterval", currentRunInterval.UniqueID.ToString());
-			myTreeViewRunsInterval.DelEvent(currentRunInterval.UniqueID);
-		} else {
-			SqliteRun.Delete("run", currentRun.UniqueID.ToString());
-			myTreeViewRuns.DelEvent(currentRun.UniqueID);
-		}
-		
-		button_last_delete.Sensitive = false ;
-		appbar2.Push( 1, string.Format(Catalog.GetString("Last {0} deleted"), Catalog.GetString("run")) );
-
-		if(createdStatsWin) 
-			statsWin.FillTreeView_stats(false, false);
-	}
-
-	private void on_last_reaction_time_delete_accepted (object o, EventArgs args) {
-		SqliteReactionTime.Delete(currentReactionTime.UniqueID.ToString());
-		
-		button_last_delete.Sensitive = false ;
-
-		appbar2.Push( 1, Catalog.GetString("Last reaction time deleted") );
-
-		myTreeViewReactionTimes.DelEvent(currentReactionTime.UniqueID);
-
-		
-		button_last_delete.Sensitive = false ;
-		appbar2.Push( 1, string.Format(Catalog.GetString("Last {0} deleted"), Catalog.GetString("reaction time")) );
-		
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
-		}
-	}
-
-	private void on_last_pulse_delete_accepted (object o, EventArgs args) {
-		SqlitePulse.Delete(currentPulse.UniqueID.ToString());
-		
-		button_last_delete.Sensitive = false ;
-
-		appbar2.Push( 1, Catalog.GetString("Last pulse deleted") );
-
-		myTreeViewPulses.DelEvent(currentPulse.UniqueID);
-		
-		button_last_delete.Sensitive = false ;
-		appbar2.Push( 1, string.Format(Catalog.GetString("Last {0} deleted"), Catalog.GetString("pulse")) );
-
-		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
-		}
-	}
-	*/
 
 
 	/* ---------------------------------------------------------
@@ -4082,7 +4093,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_menuitem_manual_activate (object o, EventArgs args) {
 		new DialogMessage(Constants.MessageTypes.HELP, 
 				Catalog.GetString("There's a copy of Chronojump Manual at:") + "\n" + 
-				"<i>" + Path.GetFullPath(Util.GetManualDir()) + "</i>\n" + 
+				"<i>" + Path.GetFullPath(Util.GetManualDir()) + "</i>\n\n" + 
 				Catalog.GetString("Newer versions will be on this site:") +"\n" + 
 				"<i>http://gnome.org/projects/chronojump/documents.html</i>");
 	}
@@ -4166,7 +4177,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		button_rj_last.Sensitive=false;
 		button_run_last.Sensitive=false;
 		button_run_interval_last.Sensitive=false;
-		button_pulse_last.Sensitive=false;
+		//button_pulse_last.Sensitive=false;
 		
 //		button_last_delete.Sensitive = false;
 	}
@@ -4287,7 +4298,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 					break;
 				case EventType.Types.PULSE:
 					Log.WriteLine("sensitiveGuiEventDone pulse");
-					button_pulse_last.Sensitive = true;
+					//button_pulse_last.Sensitive = true;
 					break;
 				default:
 					Log.WriteLine("sensitiveGuiEventDone default");
@@ -4357,10 +4368,14 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 * voluntary crash for testing purposes 
 	 */
 
-	private void on_menuitem_debug_crash_activate (object o, EventArgs args) {
-		errorWin = ErrorWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will crash now"));
-		errorWin.Button_accept.Clicked += new EventHandler(crashing);
+	private void on_debug_crash_activate (object o, EventArgs args) {
+		//errorWin = ErrorWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will crash now"));
+		//errorWin.Button_accept.Clicked += new EventHandler(crashing);
+			
+		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"), "Are you sure you want to crash application?");
+		confirmWin.Button_accept.Clicked += new EventHandler(crashing);
 	}
+
 	private void crashing (object o, EventArgs args) {
 		string [] myString = new String [3];
 		Console.WriteLine(myString[5]);

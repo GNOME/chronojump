@@ -54,7 +54,7 @@ class SqliteJump : Sqlite
 			"fall INT, " +  
 			"weight TEXT, " + //string because can contain "33%" or "50Kg"
 			"description TEXT, " +
-			"angle INT, " + //-1 if undef
+			"angle FLOAT, " + //-1.0 if undef
 			"simulated INT )";
 		dbcmd.ExecuteNonQuery();
 	}
@@ -65,7 +65,7 @@ class SqliteJump : Sqlite
 	 */
 	
 	//public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string limited, string description, int simulated)
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, int angle, int simulated)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, double angle, int simulated)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -75,7 +75,8 @@ class SqliteJump : Sqlite
 				" VALUES (" + uniqueID + ", "
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + fall + ", '" 
-				+  Util.ConvertToPoint(weight) + "', '" + description + "', " + angle + ", " + simulated +")" ;
+				+ Util.ConvertToPoint(weight) + "', '" + description + "', "
+				+ Util.ConvertToPoint(angle) + ", " + simulated +")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
@@ -105,7 +106,7 @@ class SqliteJump : Sqlite
 			filterWeightString +
 			" AND personSessionWeight.personID == person.uniqueID " +
 			" AND personSessionWeight.sessionID == jump.sessionID " +
-			" ORDER BY person.uniqueID, jump.uniqueID";
+			" ORDER BY upper(person.name), jump.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -131,7 +132,7 @@ class SqliteJump : Sqlite
 					reader[7].ToString() + ":" + 	//fall
 					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + 	//weight
 					reader[9].ToString() + ":" +	//description
-					reader[10].ToString() + ":" +	//angle
+					Util.ChangeDecimalSeparator(reader[10].ToString()) + ":" +	//angle
 					reader[11].ToString() + ":" +	//simulated
 					reader[12].ToString() 		//person.weight
 					);
@@ -170,7 +171,7 @@ class SqliteJump : Sqlite
 	}
 		
 
-	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description)
+	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE jump SET personID = " + personID + 
@@ -180,7 +181,8 @@ class SqliteJump : Sqlite
 			", fall = " + Util.ConvertToPoint(fall) +
 			", weight = " + Util.ConvertToPoint(weight) + 
 			", description = '" + description +
-			"' WHERE uniqueID == " + jumpID ;
+			"', angle = " + Util.ConvertToPoint(angle) +
+			" WHERE uniqueID == " + jumpID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();

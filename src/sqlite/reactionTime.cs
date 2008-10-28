@@ -86,7 +86,7 @@ class SqliteReactionTime : Sqlite
 			" FROM person, reactionTime " +
 			" WHERE person.uniqueID == reactionTime.personID" + 
 			" AND reactionTime.sessionID == " + sessionID + 
-			" ORDER BY person.uniqueID, reactionTime.uniqueID";
+			" ORDER BY upper(person.name), reactionTime.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

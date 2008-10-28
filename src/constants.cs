@@ -146,9 +146,9 @@ public class Constants
 	public static string TypeJumpsReactive = Catalog.GetString("Jumps: Reactive");
 
 	//strings
-	public static string AllJumpsName = Catalog.GetString("All jumps");
-	public static string AllRunsName = Catalog.GetString("All runs");
-	public static string AllPulsesName = Catalog.GetString("All pulses");
+	public static string AllJumpsName = Catalog.GetString("See all jumps");
+	public static string AllRunsName = Catalog.GetString("See all runs");
+	public static string AllPulsesName = Catalog.GetString("See all pulses");
 
 	//fileNames
 	public static string FileNameLogo = "chronojump_logo.png";
@@ -159,7 +159,7 @@ public class Constants
 	public static string FileNameVersion = "version.txt";
 
 	public static string FileNameZoomFitIcon = "gtk-zoom-fit.png";
-	public static string FileNameZoomOutIcon = "gtk-zoom-out.png";
+	//public static string FileNameZoomOutIcon = "gtk-zoom-out.png";
 	public static string FileNameZoomInIcon = "gtk-zoom-in.png";
 	public static string FileNameZoomInWithTextIcon = "gtk-zoom-in-with-text.png";
 	
@@ -303,4 +303,7 @@ public class Constants
 	public enum MessageTypes {
 		WARNING, INFO, HELP
 	}
+
+	public static string No = Catalog.GetString("No");
+	public static string Yes = Catalog.GetString("Yes");
 }

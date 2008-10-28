@@ -87,14 +87,6 @@ public class EditPulseWindow : EditEventWindow
 		return myTypes;
 	}
 	
-	/*
-	protected override void fillTime(Event myEvent) {
-		Pulse myPulse = (Pulse) myEvent;
-		entryTime = myPulse.Time.ToString();
-		entry_time_value.Text = Util.TrimDecimals(entryTime, pDN);
-	}
-	*/
-	
 	protected override void updateEvent(int eventID, int personID, string description) {
 		SqlitePulse.Update(eventID, personID, description);
 	}

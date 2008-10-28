@@ -90,7 +90,7 @@ class SqlitePulse : Sqlite
 			" FROM person, pulse " +
 			" WHERE person.uniqueID == pulse.personID" + 
 			" AND pulse.sessionID == " + sessionID + 
-			" ORDER BY person.uniqueID, pulse.uniqueID";
+			" ORDER BY upper(person.name), pulse.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

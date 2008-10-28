@@ -89,7 +89,11 @@ public class EditReactionTimeWindow : EditEventWindow
 	protected override void fillTime(Event myEvent) {
 		ReactionTime myRT = (ReactionTime) myEvent;
 		entryTime = myRT.Time.ToString();
-		entry_time_value.Text = Util.TrimDecimals(entryTime, pDN);
+		
+		//show all the decimals for not triming there in edit window using
+		//(and having different values in formulae like GetHeightInCm ...)
+		//entry_time_value.Text = Util.TrimDecimals(entryTime, pDN);
+		entry_time_value.Text = entryTime;
 	}
 	
 	protected override void updateEvent(int eventID, int personID, string description) {

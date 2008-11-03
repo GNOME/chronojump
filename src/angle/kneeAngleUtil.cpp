@@ -172,7 +172,12 @@ double abs(double val)
 
 double getDistance(CvPoint p1, CvPoint p2)
 {
-	return sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y));
+	return sqrt( pow(p1.x-p2.x, 2) + pow(p1.y-p2.y, 2) );
+}
+
+double getDistance3D(CvPoint p1, CvPoint p2, int p1z, int p2z)
+{
+	return sqrt( pow(p1.x-p2.x, 2) + pow(p1.y-p2.y, 2) + pow(p1z-p2z, 2) );
 }
 
 int checkItsOk(int val, int min, int max)
@@ -230,16 +235,30 @@ bool pointInside(CvPoint pt, CvPoint upLeft, CvPoint downRight ) {
 	return false;
 }
 
-double findAngle(CvPoint p1, CvPoint p2, CvPoint pc) //pc is center point
+double findAngle2D(CvPoint p1, CvPoint p2, CvPoint pa) //pa is the point at the angle
 {
 	CvPoint d1, d2;
-	d1.x = p1.x - pc.x;
-	d1.y = p1.y - pc.y;
-	d2.x = p2.x - pc.x;
-	d2.y = p2.y - pc.y;
-	double dist1 = getDistance(p1, pc);
-	double dist2 = getDistance(p2, pc);
+	d1.x = p1.x - pa.x;
+	d1.y = p1.y - pa.y;
+	d2.x = p2.x - pa.x;
+	d2.y = p2.y - pa.y;
+	double dist1 = getDistance(p1, pa);
+	double dist2 = getDistance(p2, pa);
 	return (180.0/M_PI)*acos(((d1.x*d2.x + d1.y*d2.y))/(double)(dist1*dist2));
+}
+
+double findAngle3D(CvPoint p1, CvPoint p2, CvPoint pa, int p1z, int p2z, int paz) //pa is the point at the angle
+{
+	CvPoint d1, d2;
+	d1.x = p1.x - pa.x;
+	d1.y = p1.y - pa.y;
+	int d1z = p1z - paz;
+	d2.x = p2.x - pa.x;
+	d2.y = p2.y - pa.y;
+	int d2z = p2z - paz;
+	double dist1 = getDistance3D(p1, pa, p1z, paz);
+	double dist2 = getDistance3D(p2, pa, p2z, paz);
+	return (180.0/M_PI)*acos(((d1.x*d2.x + d1.y*d2.y + d1z*d2z))/(double)(dist1*dist2));
 }
 
 double relError(double val1, double val2)

@@ -150,12 +150,6 @@ public class TreeViewJumps : TreeViewEvent
 	
 	protected override System.Object getObjectFromString(string [] myStringOfData) {
 		Jump myJump = new Jump();
-		string temp = string.Format("a, {0}, {1}, {2}\n", 
-				myStringOfData[1].ToString(),
-				myStringOfData[7].ToString(),
-				myStringOfData[11].ToString()
-				);
-		Log.WriteLine(temp);
 		myJump.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
 		myJump.Type = myStringOfData[4].ToString();
 		myJump.Tv = Convert.ToDouble(myStringOfData[5].ToString());
@@ -169,7 +163,9 @@ public class TreeViewJumps : TreeViewEvent
 		if(weightPercentPreferred)
 			myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
 		else
-			myJump.Weight = Util.WeightFromPercentToKg(Convert.ToDouble(myStringOfData[8]), Convert.ToDouble(myStringOfData[12]));
+			myJump.Weight = Util.WeightFromPercentToKg(
+					Convert.ToDouble(myStringOfData[8]), 
+					Convert.ToDouble(myStringOfData[12]));
 
 
 		return myJump;
@@ -331,7 +327,6 @@ public class TreeViewJumpsRj : TreeViewJumps
 		
 		myData[count++] = ""; 
 	
-		//myData[count++] = newJumprRj.UniqueID.ToString(); 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 
 		return myData;
@@ -356,7 +351,6 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		myData[count++] = ""; 
 
-		//myData[count++] = newJumpRj.UniqueID.ToString(); 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
@@ -398,7 +392,6 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		myData[count++] = ""; 
 		
-		//myData[count++] = newJumpRj.UniqueID.ToString(); 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
@@ -434,7 +427,6 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		myData[count++] = ""; 
 		
-		//myData[count++] = newJumpRj.UniqueID.ToString(); 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;

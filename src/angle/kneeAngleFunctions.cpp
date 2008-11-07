@@ -124,13 +124,24 @@ CvPoint findHipPoint(IplImage* img,CvRect roirect)
  * Knee point is a white pixel below the hip point and having maximum x coordinate in the bounding box
  * Returns the coordinate of the knee point
  */
-CvPoint findKneePointFront(IplImage *img,CvRect roirect,int starty)
+CvPoint findKneePointFront(IplImage *img,CvRect roirect,int starty, bool foundAngleOneTime)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
 	
 	//int endy = roirect.y+roirect.height*9/10; //this is ok if shoes or platform is shown in standup image
 	int endy = roirect.y+roirect.height;
+	
+	/*
+	 * if we never found and angle before, knee must be more or less at the middle. 
+	 * Is important to find it at start of flexion, to try to get the kneeCenter at (close to extension)
+	 * and use it's X for hipPoint and backLength.
+	 * For this reason, now we only search in the middle of the image
+	 */
+	if(! foundAngleOneTime) {
+		starty = roirect.y + roirect.height*1/3;
+		endy = roirect.y + roirect.height*2/3;
+	}
 
 	CvMat *srcmat,src_stub;
 	srcmat = cvGetMat(img,&src_stub);
@@ -178,7 +189,7 @@ CvPoint findKneePointFront(IplImage *img,CvRect roirect,int starty)
 }
 
 //hueco popliteo
-CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePointFrontX)
+CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePointFrontX, bool foundAngleOneTime)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
@@ -188,6 +199,11 @@ CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 	 * if not, on jump, the bottom of the pants can be taken as kneeBack
 	 */
 	int endy = roirect.y+roirect.height*8/10; 
+	/*
+	 * same as finddKneePointFront
+	 */
+	if(! foundAngleOneTime)
+		endy = roirect.y + roirect.height*2/3;
 
 	CvMat *srcmat,src_stub;
 	srcmat = cvGetMat(img,&src_stub);
@@ -1233,56 +1249,138 @@ void updateHolesWin(IplImage *segmentedValidationHoles) {
 	cvShowImage("holes",tempSmall);
 }
 
-void printOnScreen(IplImage * img, CvFont font, CvScalar color, int legMarkedDist, double legError, int framesCount, 
-		int threshold, double thetaMarked, double minThetaMarked)
+void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLeft, 
+		int framesCount, int threshold, double upLegMarkedDistPercent, double downLegMarkedDistPercent,
+		double thetaMarked, double minThetaMarked, 
+		double thetaABD, double thetaRealFlex, double minThetaRealFlex)
 {
 	char *label = new char[150];
 	int width = img->width;
 	int height = img->height;
-				
-	sprintf(label, "legSize: %d(%.1f%%)", legMarkedDist, legError);
-	cvPutText(img, label, cvPoint(10, height-100),&font,color);
 
-	sprintf(label, "M angle obs: %.2fº", thetaMarked);
-	cvPutText(img, label, cvPoint(10,height-80),&font,color);
-	
-	sprintf(label, "min M angle obs: %.2fº", minThetaMarked);
-	cvPutText(img, label, cvPoint(10,height-60),&font,color);
-	
+	int x;
+	if(labelsAtLeft)
+		x=10;
+	else
+		x=width-200;
+				
 	sprintf(label, "frame: %d", framesCount);
-	cvPutText(img, label, cvPoint(10,height-40),&font,color);
+	cvPutText(img, label, cvPoint(x,height-140),&font,color);
 
 	sprintf(label, "threshold: %d", threshold);
-	cvPutText(img, label, cvPoint(10,height-20),&font,color);
+	cvPutText(img, label, cvPoint(x,height-120),&font,color);
+	
+	sprintf(label, "legs u/d %%Max: %.1f/%.1f", upLegMarkedDistPercent, downLegMarkedDistPercent);
+	cvPutText(img, label, cvPoint(x,height-100),&font,color);
+	
+	sprintf(label, "angles (min)");
+	cvPutText(img, label, cvPoint(x,height-80),&font,color);
+	
+	sprintf(label, "-Flex seen: %.2f (%.2f)", thetaMarked, minThetaMarked);
+	cvPutText(img, label, cvPoint(x,height-60),&font,color);
+	
+	sprintf(label, "-Flex real: %.2f (%.2f)", thetaRealFlex, minThetaRealFlex);
+	cvPutText(img, label, cvPoint(x, height-40),&font,color);
+	
+	sprintf(label, "-ABD+RE: %.2f", thetaABD);
+	cvPutText(img, label, cvPoint(x, height-20),&font,color);
+
+}
+		
+/*
+CvSeq * GetRowsCenter(IplImage * img, CvRect maxrect, int starty, int endy)
+{
+	CvMat *srcmat,src_stub;
+	srcmat = cvGetMat(img,&src_stub);
+	uchar *srcdata = srcmat->data.ptr;
+	
+	CvMemStorage* storage = cvCreateMemStorage(0);
+	CvSeq* kneeSeq = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage );
+
+	int startx = maxrect.x;
+	int endx = startx + maxrect.width;
+	//int starty = maxrect.y + maxrect.height*1/3; //start at 1/3 of the y rect
+	//int endy = maxrect.y + maxrect.height*2/3; //end at 2/3 of the rect
+	
+	for(int y=starty; y < endy; y++)
+	{
+		//uchar *srcdataptr = srcdata + y*maxrect.width;
+		uchar *srcdataptr = srcdata + y*img->width;
+		bool foundBlack = false; //if not found black pants
+		int blackStart = -1;
+		int blackCenter = -1;
+		int blackEnd = -1;
+		for(int x=startx; x < endx; x++)
+		{
+			if(srcdataptr[x] > 0 && ! foundBlack) {
+				blackStart = x;
+				foundBlack = true;
+			} else if(srcdataptr[x] == 0 && foundBlack) {
+				blackCenter = (blackStart + x) /2;
+				blackEnd = x;
+				break;
+			}
+		}
+//		printf("[%d,%d] ", y, blackCenter);
+		cvSeqPush( kneeSeq, &blackCenter);
+		//cvSeqPush( kneeSeq, &blackEnd);
+	}
+	return kneeSeq;
 	
 }
-			
-void printOnScreenRight(IplImage * img, CvFont font, CvScalar color, 
-					double upLegMarkedDist, double downLegMarkedDist,  
-					double upLegMarkedDistMax, double downLegMarkedDistMax,  
-					double kneeZetaSide, double htKneeMarked, 
-					double thetaABD, double thetaRealFlex)
-{
-	char *label = new char[150];
-	int width = img->width;
-	int height = img->height;
 				
-	sprintf(label, "legUp/Down: %.1f/%.1f", upLegMarkedDist, downLegMarkedDist);
-	cvPutText(img, label, cvPoint(width-200, height-120),&font,color);
+void findKneeSeqDifferences(CvSeq * beforeSeq, CvSeq * nowSeq, IplImage * img, int starty) {
+	int count = 0;
+	for( int i = 0; i < beforeSeq->total; i++ ) {
+		int before = *CV_GET_SEQ_ELEM( int, beforeSeq, i );
+		int now = *CV_GET_SEQ_ELEM( int, nowSeq, i );
+		printf("%d: %d - %d = %d\t", i, now, before, now-before);
+		if(now-before >= 10 && before != -1) {
+			cvLine(img, cvPoint(0,starty + i), cvPoint(img->width, starty + i), 
+					CV_RGB(255,255,255),1,1);
+		}
+		count ++;
+		if(count == 3) {
+			printf("\n");
+			count = 0;
+		}
+	}
+	printf("\n");
+}
+*/
 
-	sprintf(label, "legMaxUp/Down: %.1f/%.1f", upLegMarkedDistMax, downLegMarkedDistMax);
-	cvPutText(img, label, cvPoint(width-200, height-100),&font,color);
+//returns a square rectangle from start of knee (popliteo) to end (kneepointfront)
+//useful to later know differences between markedKnee as percentage
+CvRect findKneeCenterAtExtension(IplImage* img, int y)
+{
+	CvMat *srcmat,src_stub;
+	srcmat = cvGetMat(img,&src_stub);
+	uchar *srcdata = srcmat->data.ptr;
+	
+	int width = img->width;
+	uchar *srcdataptr = srcdata + y*img->width;
 
-	sprintf(label, "kneeZetaSide: %.1f", kneeZetaSide);
-	cvPutText(img, label, cvPoint(width-200, height-80),&font,color);
+	bool foundBlack = false; //if not found black pants
+	int blackStart = -1;
+	int blackCenter = -1;
+	int blackEnd = -1;
+	for(int x=0; x < width; x++) {
+		if(srcdataptr[x] > 0 && ! foundBlack) {
+			blackStart = x;
+			foundBlack = true;
+		} else if(srcdataptr[x] == 0 && foundBlack) {
+			blackCenter = (blackStart + x) /2;
+			blackEnd = x-1;
+			break;
+		}
+	}
 
-	sprintf(label, "htKneeMarked: %.2f", htKneeMarked);
-	cvPutText(img, label, cvPoint(width-200, height-40),&font,color);
+	printf("\nfound at ext: s,c,e %d,%d,%d\n", blackStart, blackCenter, blackEnd);
 
-	sprintf(label, "sideMove: %.2fº", thetaABD);
-	cvPutText(img, label, cvPoint(width-200, height-60),&font,color);
+	CvRect kneeRect;
+	kneeRect.x = blackStart;
+	kneeRect.width = blackEnd - blackStart;
 
-	sprintf(label, "real Flex: %.2fº", thetaRealFlex);
-	cvPutText(img, label, cvPoint(width-200, height-20),&font,color);
+	return kneeRect;
 }
 

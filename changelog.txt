@@ -1,5 +1,26 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+7 nov 2008
+	on export show person uniqueID at first col of every test (before
+	name). Valid to study/present data without using the name
+
+	kneeAngle 1.5.1
+	-working on opencv1.1 and ubuntu 8.10 (Intrepid)
+	-zoom done
+	-threshold can be modified manually always
+	-can jump forward and backward
+	-on skin, at start or after forward or jump, ask if points are ok
+	-forward, jump is possible also when a skin marker failed
+	-code lot cleaner
+	-gui
+	-confirm kneePointFront found
+	-at extension;
+	 +confirm extension frame found
+	 +knee point found (%)
+	 +hip x found (%)
+	 +hip back x dist found (%)
+	-allow to select a photogram for length max (if there are perspective problems before)
+
 28 oct 2008
 	0.7.5.8
 	preferences:

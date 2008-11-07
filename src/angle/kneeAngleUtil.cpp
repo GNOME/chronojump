@@ -40,6 +40,20 @@
 #include <string>
 using namespace std;
 
+
+CvScalar WHITE = 	CV_RGB(255,255,255);
+CvScalar BLACK = 	CV_RGB(0  ,0  ,  0);
+CvScalar RED =		CV_RGB(255,  0,  0);
+CvScalar GREEN = 	CV_RGB(0  ,255,  0);
+CvScalar BLUE = 	CV_RGB(0  ,0  ,255);
+CvScalar GREY = 	CV_RGB(128,128,128);
+CvScalar YELLOW = 	CV_RGB(255,255,  0);
+CvScalar MAGENTA = 	CV_RGB(255,  0,255);
+CvScalar CYAN = 	CV_RGB(  0,255,255); //check
+
+enum { SMALL = 1, MID = 2, BIG = 3 };
+
+
 CvPoint findMiddle(CvPoint pt1, CvPoint pt2)
 {
 	return cvPoint((pt1.x+pt2.x)/2, (pt1.y+pt2.y)/2);
@@ -320,4 +334,66 @@ CvPoint pointToZero() {
 	CvPoint point;
 	point.x=0; point.y=0; 
 	return point;
+}
+
+enum { NO = 0, YES = 1, FORWARD = 2, SUPERFORWARD = 3, QUIT = 4 };
+
+int optionAccept() {
+	int key;
+	do {
+		key = (char) cvWaitKey(0);
+	} while(key != 'n' && key != 'y' && key != 'f' && key != 'F' && key != 'q');
+
+	if(key == 'n') 
+		return NO;
+	else if(key == 'y') 
+		return YES;
+	else if(key == 'f') 
+		return FORWARD;
+	else if(key == 'F') 
+		return SUPERFORWARD;
+	else if(key == 'q') 
+		return QUIT;
+}
+
+void imagePrint(IplImage *img, const char * imgName, CvPoint point, const char *label, CvFont font, CvScalar color) {
+	cvPutText(img, label, point, &font, color);
+}
+
+void imageGuiAsk(IplImage *gui, const char *labelQuestion, const char * labelOptions, CvFont font) {
+	imagePrint(gui, "gui", cvPoint(25, gui->height-40), labelQuestion, font, WHITE);
+	imagePrint(gui, "gui", cvPoint(25, gui->height-20), labelOptions, font, WHITE);
+	
+	cvShowImage("gui", gui);
+}
+
+void eraseGuiAsk(IplImage * gui) {
+	cvRectangle(gui, cvPoint(0, gui->height-50), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
+	cvShowImage("gui", gui);
+}
+
+void eraseGuiWindow(IplImage * gui) {
+	cvRectangle(gui, cvPoint(0, 0), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
+	cvShowImage("gui", gui);
+}
+
+
+
+void crossPoint(IplImage * img, CvPoint point, CvScalar color, int sizeEnum) {
+	int size;
+	if(sizeEnum == SMALL)
+		size = 6;
+	else if(sizeEnum == MID)
+		size = 10;
+	else // if(sizeEnum == BIG)
+		size = 14;
+
+	cvLine(img,
+			cvPoint(point.x - size/2, point.y),
+			cvPoint(point.x + size/2, point.y),
+			color,1,1);
+	cvLine(img,
+			cvPoint(point.x, point.y - size/2),
+			cvPoint(point.x, point.y + size/2),
+			color,1,1);
 }

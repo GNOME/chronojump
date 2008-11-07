@@ -49,7 +49,7 @@ my $projecte_chronojumpLink = "http://www.vimeo.com/1198489";
 my $us_chronojump_bescos_padullesLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/us_chronojump-bescos-padulles.avi";
 
 
-my $siteURL = "http://www.gnome.org/projects/chronojump";
+my $siteURL = "http://projects.gnome.org/chronojump";
 #my $siteURL = ".";
 my $CVSURL = "http://cvs.gnome.org/viewcvs/chronojump";
 

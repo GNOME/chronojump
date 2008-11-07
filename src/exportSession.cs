@@ -260,7 +260,8 @@ public class ExportSession
 
 			ArrayList myData = new ArrayList(1);
 			myData.Add( "\n" + 
-					Catalog.GetString("Jumper name") + ":" +
+					Catalog.GetString("Person ID") + ":" +
+					Catalog.GetString("Person name") + ":" +
 					Catalog.GetString("jump ID") + ":" + 
 					Catalog.GetString("Type") + ":" + 
 					Catalog.GetString("TC") + ":" + 
@@ -289,7 +290,8 @@ public class ExportSession
 							)).ToString();
 
 				myData.Add (	
-						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jump.uniqueID
+						myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
+						myStr[1] + ":" +  			//jump.uniqueID
 						myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
 						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
 						Util.TrimDecimals(myWeight, dec) + ":" +
@@ -331,7 +333,8 @@ public class ExportSession
 			//if show subjumps show this every time, else show only one
 			if(isFirstHeader || showSubjumps) {
 				myData.Add( "\n" + 
-						Catalog.GetString("Jumper name") + ":" + 
+						Catalog.GetString("Person ID") + ":" +
+						Catalog.GetString("Person name") + ":" + 
 						Catalog.GetString("jump ID") + ":" + 
 						Catalog.GetString("jump Type") + ":" + 
 						Catalog.GetString("TC Max") + ":" + 
@@ -368,6 +371,7 @@ public class ExportSession
 							)
 						).ToString();
 			myData.Add ( 
+					myStr[2] + ":" +    			//jumpRj.personID
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jumpRj.uniqueID
 					//myStr[2] + ":" +  myStr[3] + ":" +  	//jumpRj.personID, jumpRj.sessionID
 					myStr[4] + ":" +  		//jumpRj.type 
@@ -443,7 +447,8 @@ public class ExportSession
 
 			ArrayList myData = new ArrayList(1);
 			myData.Add( "\n" + 
-					Catalog.GetString("Runner name") + ":" +
+					Catalog.GetString("Person ID") + ":" +
+					Catalog.GetString("Person name") + ":" +
 					Catalog.GetString("run ID") + ":" + 
 					Catalog.GetString("Type") + ":" + 
 					Catalog.GetString("Distance") + ":" + 
@@ -456,6 +461,7 @@ public class ExportSession
 				string [] myStr = runString.Split(new char[] {':'});
 
 				myData.Add (
+						myStr[2] + ":" +    			//personID
 						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
@@ -487,7 +493,8 @@ public class ExportSession
 			//if show subruns show this every time, else show only one
 			if(isFirstHeader || showSubruns) {
 				myData.Add( "\n" + 
-						Catalog.GetString("Runner name") + ":" +
+						Catalog.GetString("Person ID") + ":" +
+						Catalog.GetString("Person name") + ":" +
 						Catalog.GetString("run ID") + ":" + 
 						Catalog.GetString("Type") + ":" + 
 						Catalog.GetString("Distance total") + ":" + 
@@ -503,6 +510,7 @@ public class ExportSession
 
 			string [] myStr = runString.Split(new char[] {':'});
 			myData.Add (
+					myStr[2] + ":" +    			//personID
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
 					myStr[4] + ":" +  Util.TrimDecimals(myStr[5], dec) + ":" + 	//run.type, run.distancetotal
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//run.timetotal
@@ -564,7 +572,8 @@ public class ExportSession
 
 			ArrayList myData = new ArrayList(1);
 			myData.Add(  
-					Catalog.GetString("Person") + ":" +
+					Catalog.GetString("Person ID") + ":" +
+					Catalog.GetString("Person name") + ":" +
 					Catalog.GetString("Reaction time ID") + ":" + 
 					Catalog.GetString("Time") + ":" + 
 					Catalog.GetString("Description") + ":" +
@@ -574,6 +583,7 @@ public class ExportSession
 				string [] myStr = rtString.Split(new char[] {':'});
 
 				myData.Add (	
+						myStr[2] + ":" +    			//personID
 						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, event.uniqueID
 						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
 						//myStr[4] + ":" +  //type
@@ -603,7 +613,8 @@ public class ExportSession
 			myData = new ArrayList(1);
 
 			myData.Add( "\n" + 
-					Catalog.GetString("Person") + ":" +
+					Catalog.GetString("Person ID") + ":" +
+					Catalog.GetString("Person name") + ":" +
 					Catalog.GetString("Pulse ID") + ":" + 
 					Catalog.GetString("Type") + ":" + 
 					//Catalog.GetString("Time") + ":" +
@@ -612,6 +623,7 @@ public class ExportSession
 
 			string [] myStr = pulseString.Split(new char[] {':'});
 			myData.Add (
+					myStr[2] + ":" +    			//personID
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, pulse.uniqueID
 					myStr[4] + ":" +  		 	//type
 					Util.RemoveNewLine(myStr[8]) + ":" + Util.NoYes(myStr[9])		//description, simulated

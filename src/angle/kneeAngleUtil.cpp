@@ -41,19 +41,6 @@
 using namespace std;
 
 
-CvScalar WHITE = 	CV_RGB(255,255,255);
-CvScalar BLACK = 	CV_RGB(0  ,0  ,  0);
-CvScalar RED =		CV_RGB(255,  0,  0);
-CvScalar GREEN = 	CV_RGB(0  ,255,  0);
-CvScalar BLUE = 	CV_RGB(0  ,0  ,255);
-CvScalar GREY = 	CV_RGB(128,128,128);
-CvScalar YELLOW = 	CV_RGB(255,255,  0);
-CvScalar MAGENTA = 	CV_RGB(255,  0,255);
-CvScalar CYAN = 	CV_RGB(  0,255,255); //check
-
-enum { SMALL = 1, MID = 2, BIG = 3 };
-
-
 CvPoint findMiddle(CvPoint pt1, CvPoint pt2)
 {
 	return cvPoint((pt1.x+pt2.x)/2, (pt1.y+pt2.y)/2);
@@ -249,6 +236,14 @@ bool pointInside(CvPoint pt, CvPoint upLeft, CvPoint downRight ) {
 	return false;
 }
 
+bool pointIsEqual(CvPoint pt1, CvPoint pt2 ) {
+	if(pt1.x == pt2.x && pt1.y == pt2.y)
+		return true;
+	else
+		return false;
+}
+
+
 double findAngle2D(CvPoint p1, CvPoint p2, CvPoint pa) //pa is the point at the angle
 {
 	CvPoint d1, d2;
@@ -336,13 +331,17 @@ CvPoint pointToZero() {
 	return point;
 }
 
-enum { NO = 0, YES = 1, FORWARD = 2, SUPERFORWARD = 3, QUIT = 4 };
-
-int optionAccept() {
+int optionAccept(bool onlyYesNo) {
 	int key;
-	do {
-		key = (char) cvWaitKey(0);
-	} while(key != 'n' && key != 'y' && key != 'f' && key != 'F' && key != 'q');
+	if(onlyYesNo) {
+		do {
+			key = (char) cvWaitKey(0);
+		} while(key != 'n' && key != 'y');
+	} else {
+		do {
+			key = (char) cvWaitKey(0);
+		} while(key != 'n' && key != 'y' && key != 'f' && key != 'F' && key != 'b' && key != 'q');
+	}
 
 	if(key == 'n') 
 		return NO;
@@ -352,23 +351,35 @@ int optionAccept() {
 		return FORWARD;
 	else if(key == 'F') 
 		return SUPERFORWARD;
+	else if(key == 'b') 
+		return BACKWARD;
 	else if(key == 'q') 
 		return QUIT;
 }
 
-void imagePrint(IplImage *img, const char * imgName, CvPoint point, const char *label, CvFont font, CvScalar color) {
+void imagePrint(IplImage *img, CvPoint point, const char *label, CvFont font, CvScalar color) {
 	cvPutText(img, label, point, &font, color);
 }
 
 void imageGuiAsk(IplImage *gui, const char *labelQuestion, const char * labelOptions, CvFont font) {
-	imagePrint(gui, "gui", cvPoint(25, gui->height-40), labelQuestion, font, WHITE);
-	imagePrint(gui, "gui", cvPoint(25, gui->height-20), labelOptions, font, WHITE);
-	
+	imagePrint(gui, cvPoint(25, gui->height-60), labelQuestion, font, WHITE);
+	imagePrint(gui, cvPoint(25, gui->height-40), labelOptions, font, WHITE);
+	cvShowImage("gui", gui);
+}
+
+void imageGuiResult(IplImage *gui, const char *label, CvFont font) {
+	imagePrint(gui, cvPoint((gui->width)/2 +10, gui->height-20), label, font, MAGENTA);
+	cvShowImage("gui", gui);
+}
+
+
+void eraseGuiResult(IplImage * gui) {
+	cvRectangle(gui, cvPoint((gui->width)/2, gui->height-30), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
 	cvShowImage("gui", gui);
 }
 
 void eraseGuiAsk(IplImage * gui) {
-	cvRectangle(gui, cvPoint(0, gui->height-50), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
+	cvRectangle(gui, cvPoint(0, gui->height-70), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
 	cvShowImage("gui", gui);
 }
 

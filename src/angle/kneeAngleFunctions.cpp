@@ -212,13 +212,13 @@ CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 	int maxx = 0;
 	int maxy = 0;
 	
-	//use to fount the lowest consecutive point (under the maxx, maxy)
+	//use to found the lowest consecutive point (under the maxx, maxy)
 	//then we will found the 1/2 height between  both
 	int maxx2 = 0;
 	int maxy2 = -1;
 	
 	bool foundNow = false;
-	for(int y=starty;y<endy;y++)
+	for(int y=starty; y<endy; y++)
 	{
 		uchar *srcdataptr = srcdata + y*img->width;
 		for(int x=0; x < kneePointFrontX; x++)
@@ -230,6 +230,30 @@ CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 					maxx = x;
 					maxy = y;
 					foundNow = true;
+					/*
+					 * TODO: improve this, 
+					 * check as a sample:
+					 * ~/Desktop/opencv_validacio_blanquerna/tarda/38_xxx_salt5_m.MOV 
+					 * or apply also in above:
+					 * else if(foundNow && x==maxx) 
+
+					//search for a hidden upperRight popliteo (flexion of 50º aprox)
+					//going up
+					int xSearch = x;
+					int ySearch = y-1;
+					uchar *srcdataptr2 = srcdata + ySearch*img->width;
+					while (srcdataptr2[xSearch] == 0) { //while there's white space up
+						//found air, at right there must be pants
+						while(srcdataptr2[xSearch ++] == 0) {
+							if(xSearch > x) {
+								maxx = xSearch;
+								maxy = ySearch;
+							}
+						}
+						ySearch --;
+						srcdataptr2 = srcdata + ySearch*img->width;
+					}
+					*/
 				}
 				else if(foundNow && x==maxx) {
 					maxx2 = x;
@@ -241,6 +265,8 @@ CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 			}
 		}
 	}
+
+
 	pt.x = maxx;
 	if(maxy2 != -1 && maxx == maxx2)
 		pt.y = (maxy2+maxy)/2;
@@ -575,7 +601,7 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
  * this function is realy similiar to findHoles
  * try to do only a function
  */
-CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld)
+CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, CvFont font)
 {
 	CvPoint pt;
 	pt.x =0;pt.y=0;
@@ -594,7 +620,6 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	CvSeq* seqPoints = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), storage );
 	CvSeq* seqGroups = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage );
 
-//exit(0); //desp
 	//put all hole points on seqAllHoles
 	for(int y=0;y<endy;y++)
 	{
@@ -665,7 +690,7 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	
 	CvSeq* seqIsValidSize = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage ); //'1' if is valid
 
-	int minSide = 6;
+	int minSide = 2;
 	int maxSize = 200;
 	int validValue = 1;
 	int nonValidValue = 0;
@@ -678,7 +703,7 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 				size >= minSide && //size is higher than minSide (obvious)
 				size <= maxSize	&& //size is lowerr than maxSize (obvious)
 		//		sp2.x-sp1.x > minSide && sp2.y-sp1.y > minSide && //every side is bigger or equal to minSide
-				! (sp2.x-sp1.x > 3*(sp2.y-sp1.y)) && ! (3*(sp2.x-sp1.x) < (sp2.y-sp1.y)) //a side is not 3 times bigger than other (helps to delete shoes if appear)
+				! (sp2.x-sp1.x > 4*(sp2.y-sp1.y)) && ! (4*(sp2.x-sp1.x) < (sp2.y-sp1.y)) //a side is not 4 times bigger than other (helps to delete shoes if appear)
 		  ) {
 			cvSeqPush( seqIsValidSize, &validValue);
 		} else {
@@ -710,6 +735,8 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	CvPoint kneePoint;
 	CvPoint toePoint;
 	hipPoint.x=0; kneePoint.x=0; toePoint.x=0;
+	
+	char *labelShort = new char[2];
 
 	for( int i = 0; i < seqHolesSize->total; i++ ) 
 	{
@@ -734,18 +761,20 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 					if(hipPoint.x == 0) {
 						hipPoint.x = center.x; 
 						hipPoint.y = center.y;
-					color = CV_RGB(255, 0, 0 );
-
-					} else if(kneePoint.x == 0) {
+						color = CV_RGB(255, 0, 0 );
+						sprintf(labelShort,"H");
+					} 
+					else if(kneePoint.x == 0) {
 						kneePoint.x = center.x; 
 						kneePoint.y = center.y;
 						color = CV_RGB(0, 255, 0 );
-
-					} else {
+						sprintf(labelShort,"K");
+					} 
+					else {
 						toePoint.x = center.x; 
 						toePoint.y = center.y;
 						color = CV_RGB(0, 0, 255 );
-
+						sprintf(labelShort,"T");
 					}
 				}
 			}
@@ -757,18 +786,20 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 					hipPoint.x = center.x; 
 					hipPoint.y = center.y;
 					color = CV_RGB(255, 0, 0 );
-
-				} else if(pointInside(kneeOld, sp1,sp2)) {
+					sprintf(labelShort,"H");
+				} 
+				else if(pointInside(kneeOld, sp1,sp2)) {
 					kneePoint.x = center.x; 
 					kneePoint.y = center.y;
 					color = CV_RGB(0, 255, 0 );
-
-				} else if(pointInside(toeOld, sp1,sp2)) {
+					sprintf(labelShort,"K");
+				} 
+				else if(pointInside(toeOld, sp1,sp2)) {
 					toePoint.x = center.x; 
 					toePoint.y = center.y;
 					color = CV_RGB(0, 0, 255);
-
-				}else 
+					sprintf(labelShort,"T");
+				} else 
 					validSure = false;
 			}
 		}
@@ -781,7 +812,26 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 				cvPoint(sp1.x-1,sp1.y-1),
 				cvPoint(sp2.x+1, sp2.y+1),
 				color,1,1);
+		if(validSure)
+			imagePrint(imgColor, cvPoint(center.x + 20, center.y), labelShort, font, color);
 	}
+
+
+	/* maybe a point is missing, then this can happen:
+	 * (this happens when above:
+	 * 	(pointIsNull(hipOld) && pointIsNull(kneeOld) && pointIsNull(toeOld)) is not true
+	 * 	(er arenot jumping, or forwarding)
+	 * if real hip is missing , then hipPoint is assigned to real knee, and kneePoint is assigned to realToe
+	 * if real knee is missing , then hip is ok, and kneePoint is assigned to realToe
+	 * if real toe is missing, all is ok
+	 * if real hip and real knee are missing, hipPoint is assigned to real toe
+	 */
+	/*
+	if(hipPoint.x == 0 || kneePoint.x == 0 || toePoint.x == 0) {
+		if(
+	}
+	*/
+
 
 	if(kneePoint.x > 0) {
 		if(hipPoint.x > 0) {
@@ -879,9 +929,6 @@ CvRect findLargestContour(IplImage* img,IplImage* temp, bool showContour)
 //point will be more at right if there's more flexion
 int fixToePointX(int toeX, int toeWidth, double kneeAngle)
 {
-			
-//	toePoint.x -= toePointWidth /2;
-
 	//point will be more at right if there's more flexion
 	double mult;
 	double maxRight = .7; //maximum right
@@ -894,16 +941,11 @@ int fixToePointX(int toeX, int toeWidth, double kneeAngle)
 		double temp = maxRight - valueAtExtension;
 		double sum = ((180/kneeAngle) -1) *temp;
 		mult = valueAtExtension + sum;
-//		printf("%f-%f-%f  ", kneeAngle, sum, mult);
 	}
 	
-	//ptHK.x = (startX + countX) /2;
 	int startX = toeX - toeWidth; 
 	int endX = toeX; 
 	toeX = startX + (endX-startX)*mult;
-//	printf("%d-%d-%d\n", startX, endX, ptHK.x);
-
-//	ptHK.y = y;
 	
 	return toeX;
 }
@@ -1169,26 +1211,12 @@ int calculateThresholdStart(IplImage * gray)
 	return thresholdStart;
 }
 
-double zoomScale = 2;
-
 IplImage * zoomImage(IplImage *img) {
 	IplImage* imgZoom = cvCreateImage( cvSize( cvRound (img->width*zoomScale), 
 				cvRound (img->height*zoomScale)), 8, 3 );
 	cvResize( img, imgZoom, CV_INTER_LINEAR );
 	return imgZoom;
 }
-
-CvPoint hipMouse;
-CvPoint kneeMouse;
-CvPoint toeMouse;
-
-bool forceMouseHip = false;
-bool forceMouseKnee = false;
-bool forceMouseToe = false;
-
-bool zoomed = false;
-
-bool mouseCanMark = false;
 
 void on_mouse( int event, int x, int y, int flags, void* param )
 {
@@ -1207,35 +1235,17 @@ void on_mouse( int event, int x, int y, int flags, void* param )
 				{
 					hipMouse = cvPoint(x,y);
 					forceMouseHip = false;
-					printf("H x:%d, y:%d\n", x, y);
 				} 
 				else if(forceMouseKnee) 
 				{
 					kneeMouse = cvPoint(x,y);
 					forceMouseKnee = false;
-					printf("K x:%d, y:%d\n", x, y);
 				} 
 				else if(forceMouseToe) 
 				{
 					toeMouse = cvPoint(x,y);
 					forceMouseToe = false;
-					printf("T x:%d, y:%d\n", x, y);
 				} 
-				else if(hipMouse.x == 0)
-				{
-					hipMouse = cvPoint(x,y);
-					printf("H x:%d, y:%d\n", x, y);
-				}
-				else if(kneeMouse.x == 0)
-				{
-					kneeMouse = cvPoint(x,y);
-					printf("K x:%d, y:%d\n", x, y);
-				}
-				else 
-				{
-					toeMouse = cvPoint(x,y);
-					printf("T x:%d, y:%d\n", x, y);
-				}
 			}
 			break;
 	}

@@ -236,6 +236,17 @@ bool pointInside(CvPoint pt, CvPoint upLeft, CvPoint downRight ) {
 	return false;
 }
 
+bool pointInsideRect(CvPoint pt, CvRect rect) {
+	CvPoint upLeft; 
+	upLeft.x = rect.x;
+	upLeft.y = rect.y;
+	CvPoint downRight; 
+	downRight.x = rect.x + rect.width;
+	downRight.y = rect.y + rect.height;
+
+	return pointInside(pt, upLeft, downRight);
+}
+
 bool pointIsEqual(CvPoint pt1, CvPoint pt2 ) {
 	if(pt1.x == pt2.x && pt1.y == pt2.y)
 		return true;
@@ -336,59 +347,28 @@ int optionAccept(bool onlyYesNo) {
 	if(onlyYesNo) {
 		do {
 			key = (char) cvWaitKey(0);
-		} while(key != 'n' && key != 'y');
+		} while(key != 'y' && key != 'n' && key != 'N');
 	} else {
 		do {
 			key = (char) cvWaitKey(0);
 		} while(key != 'n' && key != 'y' && key != 'f' && key != 'F' && key != 'b' && key != 'q');
 	}
 
-	if(key == 'n') 
-		return NO;
-	else if(key == 'y') 
+	if(key == 'y') 
 		return YES;
+	else if(key == 'n') 
+		return NO;
+	else if(key == 'N') 
+		return NEVER;
 	else if(key == 'f') 
 		return FORWARD;
 	else if(key == 'F') 
-		return SUPERFORWARD;
+		return FASTFORWARD;
 	else if(key == 'b') 
 		return BACKWARD;
 	else if(key == 'q') 
 		return QUIT;
 }
-
-void imagePrint(IplImage *img, CvPoint point, const char *label, CvFont font, CvScalar color) {
-	cvPutText(img, label, point, &font, color);
-}
-
-void imageGuiAsk(IplImage *gui, const char *labelQuestion, const char * labelOptions, CvFont font) {
-	imagePrint(gui, cvPoint(25, gui->height-60), labelQuestion, font, WHITE);
-	imagePrint(gui, cvPoint(25, gui->height-40), labelOptions, font, WHITE);
-	cvShowImage("gui", gui);
-}
-
-void imageGuiResult(IplImage *gui, const char *label, CvFont font) {
-	imagePrint(gui, cvPoint((gui->width)/2 +10, gui->height-20), label, font, MAGENTA);
-	cvShowImage("gui", gui);
-}
-
-
-void eraseGuiResult(IplImage * gui) {
-	cvRectangle(gui, cvPoint((gui->width)/2, gui->height-30), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
-	cvShowImage("gui", gui);
-}
-
-void eraseGuiAsk(IplImage * gui) {
-	cvRectangle(gui, cvPoint(0, gui->height-70), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
-	cvShowImage("gui", gui);
-}
-
-void eraseGuiWindow(IplImage * gui) {
-	cvRectangle(gui, cvPoint(0, 0), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
-	cvShowImage("gui", gui);
-}
-
-
 
 void crossPoint(IplImage * img, CvPoint point, CvScalar color, int sizeEnum) {
 	int size;
@@ -408,3 +388,67 @@ void crossPoint(IplImage * img, CvPoint point, CvScalar color, int sizeEnum) {
 			cvPoint(point.x, point.y + size/2),
 			color,1,1);
 }
+
+void imagePrint(IplImage *img, CvPoint point, const char *label, CvFont font, CvScalar color) {
+	cvPutText(img, label, point, &font, color);
+}
+
+void imageGuiAsk(IplImage *gui, const char *labelQuestion, const char * labelOptions, CvFont font) {
+	/*
+	imagePrint(gui, cvPoint(25, gui->height-60), labelQuestion, font, WHITE);
+	imagePrint(gui, cvPoint(25, gui->height-40), labelOptions, font, WHITE);
+	cvShowImage("gui", gui);
+	*/
+}
+
+void eraseGuiAsk(IplImage * gui) {
+	/*
+	cvRectangle(gui, cvPoint(0, gui->height-70), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
+	cvShowImage("gui", gui);
+	*/
+}
+
+void eraseGuiResult(IplImage * gui, bool updateImage) {
+	cvRectangle(gui, cvPoint(158, 239), cvPoint(448,264), LIGHT,CV_FILLED,8,0);
+	if(updateImage)
+		cvShowImage("gui", gui);
+}
+
+void imageGuiResult(IplImage *gui, const char *label, CvFont font) {
+	eraseGuiResult(gui, false);
+	imagePrint(gui, cvPoint(160, 252), label, font, BLACK);
+	cvShowImage("gui", gui);
+}
+
+
+void toggleGuiMark(IplImage *gui, int togglePoint) {
+	if(togglePoint == TOGGLEHIP) 
+		crossPoint(gui, cvPoint(165+(25/2), 130+(24/2)), MAGENTA, BIG);
+	else if(togglePoint == TOGGLEKNEE) 
+		crossPoint(gui, cvPoint(235+(25/2), 130+(24/2)), MAGENTA, BIG);
+	else if(togglePoint == TOGGLETOE) 
+		crossPoint(gui, cvPoint(308+(25/2), 130+(24/2)), MAGENTA, BIG);
+	else //if(togglePoint == ZOOM) 
+		crossPoint(gui, cvPoint(447+(25/2), 130+(24/2)), MAGENTA, BIG);
+	cvShowImage("gui", gui);
+}
+
+void eraseGuiMark(IplImage *gui, int togglePoint) {
+	if(togglePoint == TOGGLEHIP) 
+		cvRectangle(gui, cvPoint(165+1, 130+1), cvPoint(165+1 + 25-1, 130+1 + 24-1), WHITE,CV_FILLED,8,0);
+	else if(togglePoint == TOGGLEKNEE) 
+		cvRectangle(gui, cvPoint(235+1, 130+1), cvPoint(235+1 + 25-1, 130+1 + 24-1), WHITE,CV_FILLED,8,0);
+	else if(togglePoint == TOGGLETOE) 
+		cvRectangle(gui, cvPoint(308+1, 130+1), cvPoint(308+1 + 25-1, 130+1 + 24-1), WHITE,CV_FILLED,8,0);
+	else //if(togglePoint == ZOOM) 
+		cvRectangle(gui, cvPoint(447+1, 130+1), cvPoint(447+1 + 25-1, 130+1 + 24-1), WHITE,CV_FILLED,8,0);
+	cvShowImage("gui", gui);
+}
+
+void eraseGuiWindow(IplImage * gui) {
+	cvRectangle(gui, cvPoint(0, 0), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
+	cvShowImage("gui", gui);
+}
+
+
+

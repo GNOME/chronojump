@@ -63,24 +63,49 @@ CvScalar BLUE = CV_RGB(0 ,0 ,255);
 CvScalar GREY = CV_RGB(128,128,128);
 CvScalar YELLOW = CV_RGB(255,255, 0);
 CvScalar MAGENTA = CV_RGB(255, 0,255);
-CvScalar CYAN = CV_RGB( 0,255,255); //check
+CvScalar CYAN = CV_RGB( 0,255,255); 
+CvScalar LIGHT = CV_RGB( 247,247,247); 
 
-enum { blackAndMarkers = 0, blackOnlyMarkers = 1, skinOnlyMarkers = 2 }; 
 enum { SMALL = 1, MID = 2, BIG = 3 }; 
-enum { NO = 0, YES = 1, FORWARD = 2, SUPERFORWARD = 3, BACKWARD = 4, QUIT = 5 }; 
+
+//used on menu gui
+//currently validation and blackAndMarkers are synonymous (until statistical anylisys is not done)
+enum { quit = -2, undefined = -1, validation = 0, blackAndMarkers = 1, blackOnlyMarkers = 2, skinOnlyMarkers = 3}; 
+
+//used on gui
+enum { 
+	QUIT = -2,
+	UNDEFINED = -1, 
+	YES = 0, NO = 1, NEVER = 2, 
+	PLAYPAUSE = 3, FORWARD = 4, FASTFORWARD = 5, BACKWARD = 6,
+	HIPMARK = 7, KNEEMARK = 8, TOEMARK = 9, ZOOM = 10,
+	THIPMORE = 11, THIPLESS = 12, 
+	TKNEEMORE = 13, TKNEELESS = 14, 
+	TTOEMORE = 15, TTOELESS = 16, 
+	TGLOBALMORE = 17, TGLOBALLESS = 18
+}; 
+
+enum { TOGGLENOTHING = -1, TOGGLEHIP = 0, TOGGLEKNEE = 1, TOGGLETOE = 2};
 
 double zoomScale = 2; 
 
-CvPoint hipMouse;
-CvPoint kneeMouse;
-CvPoint toeMouse;
+//CvPoint hipMouse;
+//CvPoint kneeMouse;
+//CvPoint toeMouse;
+CvPoint markedMouse;
 
+int forceMouseMark;
+/*
 bool forceMouseHip = false;
 bool forceMouseKnee = false;
 bool forceMouseToe = false;
+*/
 
 bool zoomed = false;
 
-bool mouseCanMark = false; 
+//bool mouseCanMark = true; 
+
+int mouseClicked = undefined;
+bool mouseMultiplier = false; //using shift key
 
 

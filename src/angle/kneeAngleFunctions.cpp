@@ -230,6 +230,10 @@ CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 					maxx = x;
 					maxy = y;
 					foundNow = true;
+	
+					/* DO THIS BY CONVEXITY DEFECTS. See opencv book, page 259
+					 */
+
 					/*
 					 * TODO: improve this, 
 					 * check as a sample:
@@ -1218,34 +1222,150 @@ IplImage * zoomImage(IplImage *img) {
 	return imgZoom;
 }
 
-void on_mouse( int event, int x, int y, int flags, void* param )
+void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 {
-	if(! mouseCanMark)
-		return;
+	CvPoint clicked; 
+	clicked.x=x; clicked.y=y;
 
-	if(zoomed) {
-		x = x / zoomScale;
-		y = y / zoomScale;
+	CvRect rval; rval.x=30;  rval.width=60;  rval.y=60; rval.height=210;
+	CvRect rbam; rbam.x=130; rbam.width=100; rbam.y=60; rbam.height=210;
+	CvRect rbom; rbom.x=260; rbom.width=90;  rbom.y=60; rbom.height=210;
+	CvRect rsom; rsom.x=380; rsom.width=90;  rsom.y=60; rsom.height=210;
+	CvRect rquit; rquit.x=450; rquit.width=40;  rquit.y=10; rquit.height=45;
+	switch( event ) {
+		case CV_EVENT_LBUTTONDOWN:
+			{
+				if(pointInsideRect(clicked, rval))
+					mouseClicked = validation;
+				else if(pointInsideRect(clicked, rbam))
+					mouseClicked = blackAndMarkers;
+				else if(pointInsideRect(clicked, rbom))
+					mouseClicked = blackOnlyMarkers;
+				else if(pointInsideRect(clicked, rsom))
+					mouseClicked = skinOnlyMarkers;
+				else if(pointInsideRect(clicked, rquit))
+					mouseClicked = quit;
+			}
+			break;
 	}
+}
+
+void on_mouse_gui( int event, int x, int y, int flags, void* param )
+{
+	CvPoint clicked; 
+	clicked.x=x; clicked.y=y;
+
+	CvRect rplaypause; rplaypause.x=220; rplaypause.width=60;  rplaypause.y=38; rplaypause.height=42;
+	CvRect rforward; rforward.x=290; rforward.width=60;  rforward.y=38; rforward.height=42;
+	CvRect rfastforward; rfastforward.x=360; rfastforward.width=60;  rfastforward.y=38; rfastforward.height=42;
+	CvRect rbackward; rbackward.x=430; rbackward.width=60;  rbackward.y=38; rbackward.height=42;
+	
+	CvRect rhip; rhip.x=165; rhip.width=25;  rhip.y=130; rhip.height=24;
+	CvRect rknee; rknee.x=235; rknee.width=25;  rknee.y=130; rknee.height=24;
+	CvRect rtoe; rtoe.x=308; rtoe.width=25;  rtoe.y=130; rtoe.height=24;
+	CvRect rzoom; rzoom.x=447; rzoom.width=25;  rzoom.y=130; rzoom.height=24;
+	
+	CvRect rthipmore; rthipmore.x=149; rthipmore.width=24;  rthipmore.y=169; rthipmore.height=24;
+	CvRect rthipless; rthipless.x=181; rthipless.width=27;  rthipless.y=169; rthipless.height=24;
+	CvRect rtkneemore; rtkneemore.x=219; rtkneemore.width=24;  rtkneemore.y=169; rtkneemore.height=24;
+	CvRect rtkneeless; rtkneeless.x=251; rtkneeless.width=27;  rtkneeless.y=169; rtkneeless.height=24;
+	CvRect rttoemore; rttoemore.x=293; rttoemore.width=24;  rttoemore.y=169; rttoemore.height=24;
+	CvRect rttoeless; rttoeless.x=324; rttoeless.width=27;  rttoeless.y=169; rttoeless.height=24;
+	CvRect rtglobalmore; rtglobalmore.x=433; rtglobalmore.width=24;  rtglobalmore.y=169; rtglobalmore.height=24;
+	CvRect rtgloballess; rtgloballess.x=464; rtgloballess.width=27;  rtgloballess.y=169; rtgloballess.height=24;
+	
+	CvRect rquit; rquit.x=450; rquit.width=40;  rquit.y=230; rquit.height=45;
+				
+	if(flags & CV_EVENT_FLAG_SHIFTKEY)
+		mouseMultiplier = true;
+	else 
+		mouseMultiplier = false;
+
 
 	switch( event ) {
 		case CV_EVENT_LBUTTONDOWN:
 			{
-				if(forceMouseHip) 
+				if(pointInsideRect(clicked, rplaypause))
+					mouseClicked = PLAYPAUSE;
+				else if(pointInsideRect(clicked, rforward))
+					mouseClicked = FORWARD;
+				else if(pointInsideRect(clicked, rfastforward))
+					mouseClicked = FASTFORWARD;
+				if(pointInsideRect(clicked, rbackward))
+					mouseClicked = BACKWARD;
+
+				else if(pointInsideRect(clicked, rhip))
+					mouseClicked = HIPMARK;
+				else if(pointInsideRect(clicked, rknee))
+					mouseClicked = KNEEMARK;
+				else if(pointInsideRect(clicked, rtoe))
+					mouseClicked = TOEMARK;
+				else if(pointInsideRect(clicked, rzoom))
+					mouseClicked = ZOOM;
+
+				else if(pointInsideRect(clicked, rthipmore))
+					mouseClicked = THIPMORE;
+				else if(pointInsideRect(clicked, rthipless))
+					mouseClicked = THIPLESS;
+				else if(pointInsideRect(clicked, rtkneemore))
+					mouseClicked = TKNEEMORE;
+				else if(pointInsideRect(clicked, rtkneeless))
+					mouseClicked = TKNEELESS;
+				else if(pointInsideRect(clicked, rttoemore))
+					mouseClicked = TTOEMORE;
+				else if(pointInsideRect(clicked, rttoeless))
+					mouseClicked = TTOELESS;
+				else if(pointInsideRect(clicked, rtglobalmore))
+					mouseClicked = TGLOBALMORE;
+				else if(pointInsideRect(clicked, rtgloballess))
+					mouseClicked = TGLOBALLESS;
+
+				if(pointInsideRect(clicked, rquit))
+					mouseClicked = QUIT;
+			}
+			break;
+	}
+}
+
+void on_mouse_mark_point( int event, int x, int y, int flags, void* param )
+{
+	if(zoomed) {
+		x = x / zoomScale;
+		y = y / zoomScale;
+	}
+	
+	CvPoint clicked; 
+	clicked.x=x; clicked.y=y;
+
+	switch( event ) {
+		case CV_EVENT_LBUTTONDOWN:
+			{
+				/*
+				if(forceMouseMark == TOGGLEHIP) 
 				{
-					hipMouse = cvPoint(x,y);
+					//hipMouse = clicked;
+					markedMouse = clicked;
 					forceMouseHip = false;
 				} 
-				else if(forceMouseKnee) 
+				else if(forceMouseMark == TOGGLEKNEE) 
 				{
-					kneeMouse = cvPoint(x,y);
+					//kneeMouse = clicked;
+					markedMouse = clicked;
 					forceMouseKnee = false;
 				} 
-				else if(forceMouseToe) 
+				else if(forceMouseMark == TOGGLETOE) 
 				{
-					toeMouse = cvPoint(x,y);
+					//toeMouse = clicked;
+					markedMouse = clicked;
 					forceMouseToe = false;
 				} 
+				*/
+				
+				if(forceMouseMark == TOGGLEHIP || forceMouseMark == TOGGLEKNEE || 
+						forceMouseMark == TOGGLETOE) {
+					markedMouse = clicked;
+					forceMouseMark = TOGGLENOTHING;
+				}
 			}
 			break;
 	}

@@ -23,7 +23,7 @@
  * Xavier de Blas 
  * xaviblas@gmail.com
  *
- * version: 1.5.1 (Nov, 3, 2008)
+ * version: 1.6 (Nov, 12, 2008)
  *
  */
 
@@ -110,11 +110,14 @@
 /*
  * TODO:
  * -imprimeixi en arxiu xy de cada punt (6 columnes)
- *  -implement adaptative threshold on skin only markers, to allow hip (pant bended) to be detected without having a threshold too low or too large on knee and toe
+ *  -implement adaptative threshold on skin only markers, to allow hip (pant bended) to be detected without having a threshold too low or too large on knee and toe. This doesn't work, because what we need is more threshold in one point and less sin other (allowing to select point coordinates). this can be done maybe, making a copy of part of the image and applying threshold there, then copying again that part into the original image. Better, do it with cvSetImageROI and cvResetImageROI
+ *  -implement convexity defects (opencv book p.259) at findKneePointBack
  *  solve the problem with the cvCopy(frame_copy,result);
  *  	on blackAndMarkers, minimumFrame is the marked or the expected?
  * -on skin, when a point is lost, re-assign the other points depending on distance with previous frame marked points
- *  -study kalman on openCV book (not interesting)
+ *  -study kalman on openCV book (not interesting)... si, aplicar kalman enlloc de pointInside(previous)
+ *
+ *  calibration:
  *  -calibration and undistortion (distorsions: radial, and tangential)
  *     radial doesn't exist on image, because the line dividing floor and wall is straight from left to right (radial will make distort on places far from the center)
  *     tangential (p376,377) seems also to not exist on used camera, but best to record a cheesboard or square object to check
@@ -175,9 +178,15 @@ int main(int argc,char **argv)
 	double fontSize = .4;
 	cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, fontSize, fontSize, 0.0, 1, fontLineType);
 	
-	gui = cvCreateImage(cvSize(500, 300), IPL_DEPTH_8U,3);
 	cvNamedWindow("gui",1);
+	gui = cvLoadImage("kneeAngle_intro.png");
+	cvShowImage("gui", gui);
 	int programMode = menu(gui, font);
+	printf("programMode: %d\n", programMode);
+	
+	if(programMode == skinOnlyMarkers)
+		gui = cvLoadImage("kneeAngle_skin.png");
+	cvShowImage("gui", gui);
 
 	
 	int minwidth = 0;
@@ -192,9 +201,11 @@ int main(int argc,char **argv)
 	double minThetaMarked = 360;
 	double minThetaRealFlex = 360;
 	char buffer[15];
+					
+	bool askForMaxFlexion = false; //of false, no ask, and no auto end before jump
 
 	if(programMode == skinOnlyMarkers)
-		cvNamedWindow("skinOutput",1);
+		cvNamedWindow("threshold",1);
 	else {
 		cvNamedWindow("holes",1);
 		cvNamedWindow("result",1);
@@ -221,13 +232,6 @@ int main(int argc,char **argv)
 	CvSeq* kneeSeq = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), stickStorage );
 	CvSeq* toeSeq = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), stickStorage );
   
-	/*
-	if(programMode == blackAndMarkers) {
-		sprintf(label, "    fps a_black a_holes [   diff diff(%%)] kneeDif  a_supD  a_infD");
-		printf("%s\n" ,label);
-	}
-	*/
-
 	double avgThetaDiff = 0;
 	double avgThetaDiffPercent = 0;
 	double avgKneeDistance = 0;
@@ -238,8 +242,8 @@ int main(int argc,char **argv)
 	//to advance fast and really fast
 	bool forward = false;
 	int forwardSpeed = 50;
-	bool forwardSuper = false; 
-	int forwardSuperSpeed = 200;
+	bool fastForward= false; 
+	int fastForwardSpeed = 200;
 	int forwardCount = 1;
 	bool backward = false;
 	int backwardSpeed = 50;
@@ -265,17 +269,65 @@ int main(int argc,char **argv)
 	int threshold;
 	int thresholdMax = 255;
 	int thresholdInc = 1;
+				
+	IplImage* imgZoom;
+	
+	//threshold for the three specific points
+	int thresholdROIH = -1;
+	int thresholdROIK = -1;
+	int thresholdROIT = -1;
 
 	int key;
 
 
-	//programMode == blackAndMarkers
+	//programMode == validation || programMode == blackAndMarkers
+	bool extensionDoIt = false; //currently we are not doing the extension thing
 	bool extensionCopyDone = false;
 	CvPoint kneeMarkedAtExtension = pointToZero();
 	CvPoint hipMarkedAtExtension = pointToZero();
 	CvPoint hipPointBackAtExtension = pointToZero();
+
+	mouseClicked = undefined;	
+	cvSetMouseCallback( "gui", on_mouse_gui, 0 );
+		
+	bool reloadFrame = false;
+	int forcePause = false;
 	
-			
+
+/* kalman */
+	//CvKalman* kalman = cvCreateKalman(2,1,0);
+	CvKalman* kalman = cvCreateKalman(2,2,0);
+	CvMat* state = cvCreateMat(2,1,CV_32FC1);
+	CvMat* process_noise = cvCreateMat(2,1,CV_32FC1);
+	//CvMat* measurement = cvCreateMat(1,1,CV_32FC1);
+	CvMat* measurement = cvCreateMat(2,1,CV_32FC1);
+	CvPoint measurement_pt;
+	cvZero( measurement );
+	const float F[] = { 1, 1, 0, 1};
+	memcpy(kalman->transition_matrix->data.fl, F, sizeof(F));
+
+			CvRandState rng;
+			cvRandInit(&rng,0,1,-1,CV_RAND_UNI);
+			cvRandSetRange(&rng,0,0.1,0);
+			rng.disttype = CV_RAND_NORMAL;
+			cvRand(&rng, process_noise);			
+
+
+
+
+
+
+	cvSetIdentity(kalman->measurement_matrix, 	cvRealScalar(1));
+	cvSetIdentity(kalman->process_noise_cov, 	cvRealScalar(1e-5));
+	cvSetIdentity(kalman->measurement_noise_cov, 	cvRealScalar(1e-1));
+	cvSetIdentity(kalman->error_cov_post, 		cvRealScalar(1));
+
+	CvPoint k0; k0.x=0; k0.y=0;
+//	kalman->state_post = k0;
+//	kalman->state_post.data.fl[0] = &k0;
+/* /kalman */
+
+
 	while(!shouldEnd) 
 	{
 		/*
@@ -283,7 +335,9 @@ int main(int argc,char **argv)
 		 * GET FRAME AND FLOW CONTROL
 		 */
 
-		frame = cvQueryFrame(capture);
+		if( !reloadFrame)
+			frame = cvQueryFrame(capture);
+		reloadFrame = false;
 		
 		//when we go back, we doesn't always land where we want, this is safe:
 		double capturedFrame = cvGetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES);
@@ -294,31 +348,33 @@ int main(int argc,char **argv)
 		if(startAt > framesCount) {
 			continue;
 		}
-		if(forward || forwardSuper) {
+		if(forward || fastForward) {
 			if(
 					forward && (forwardCount < forwardSpeed) ||
-					forwardSuper && (forwardCount < forwardSuperSpeed)) {
+					fastForward && (forwardCount < fastForwardSpeed)) {
 				forwardCount ++;
 				continue;
 			} else {
 				//end of forwarding
 				forwardCount = 1;
 				forward = false;
-				forwardSuper = false;
+				fastForward = false;
+				eraseGuiResult(gui, true);
 
 				//mark that we are forwarding to the holesdetection
 				//then it will not need to match a point with previous point
-				hipOld = pointToZero();
-				kneeOld = pointToZero();
-				toeOld = pointToZero();
+				//hipOld = pointToZero();
+				//kneeOld = pointToZero();
+				//toeOld = pointToZero();
 			}
 		}
 		if(jumping || backward) {
-				hipOld = pointToZero();
-				kneeOld = pointToZero();
-				toeOld = pointToZero();
+				//hipOld = pointToZero();
+				//kneeOld = pointToZero();
+				//toeOld = pointToZero();
 				jumping = false;
 				backward = false;
+				eraseGuiResult(gui, true);
 		}
 
 
@@ -373,200 +429,134 @@ int main(int argc,char **argv)
 
 		if(programMode == skinOnlyMarkers) 
 		{
+
+/* kalman */
+			const CvMat* prediction = cvKalmanPredict(kalman, 0);
+			CvPoint prediction_pt = cvPoint(
+					cvRound(prediction->data.fl[0]), 
+					cvRound(prediction->data.fl[1]));
+/* /kalman */
+	
+
+
 			cvCvtColor(frame_copy,output,CV_BGR2GRAY);
 			cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-		
-			/*
-			hipOld = hipMarked;
-			kneeOld = kneeMarked;
-			toeOld = toeMarked;
-			*/
-				
+
+
+
+			if(thresholdROIH != -1 || thresholdROIK != -1 || thresholdROIT != -1)  {
+				int pointSize = 30;
+				CvRect rect;
+				rect.width=pointSize; rect.height=pointSize;
+				int myThresh;
+				CvPoint myPoint;
+				if(thresholdROIH != -1) {
+					myPoint = hipMarked;
+					myThresh = thresholdROIH;
+					rect.x=hipMarked.x - pointSize/2; rect.y=hipMarked.y - pointSize/2;
+
+					cvSetImageROI(gray, rect);
+					cvSetImageROI(output, rect);
+					cvThreshold(gray, output, myThresh, thresholdMax,CV_THRESH_BINARY_INV);
+					cvResetImageROI(gray);
+					cvResetImageROI(output);
+				} else if(thresholdROIK != -1) {
+					myPoint = kneeMarked;
+					myThresh = thresholdROIK;
+					rect.x=kneeMarked.x - pointSize/2; rect.y=kneeMarked.y - pointSize/2;
+
+					cvSetImageROI(gray, rect);
+					cvSetImageROI(output, rect);
+					cvThreshold(gray, output, myThresh, thresholdMax,CV_THRESH_BINARY_INV);
+					cvResetImageROI(gray);
+					cvResetImageROI(output);
+				} else { 
+					myPoint = toeMarked;
+					myThresh = thresholdROIT;
+					rect.x=toeMarked.x - pointSize/2; rect.y=toeMarked.y - pointSize/2;
+
+					cvSetImageROI(gray, rect);
+					cvSetImageROI(output, rect);
+					cvThreshold(gray, output, myThresh, thresholdMax,CV_THRESH_BINARY_INV);
+					cvResetImageROI(gray);
+					cvResetImageROI(output);
+				}
+
+
+				//					sprintf(label, "frame: %d", framesCount);
+				//					imagePrint(output, cvPoint(10, frame->height-40), label, font, BLACK);
+
+				cvRectangle(output, cvPoint(frame->width -200, frame->height-30), cvPoint(frame->width, frame->height), WHITE,CV_FILLED,8,0);
+				sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
+				imagePrint(output, cvPoint(frame->width -200, frame->height-20), label, font, BLACK);
+
+				cvShowImage("threshold", output);
+			}
+
+
+
+
+
+
+
 			CvSeq* seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
 
 			hipMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
 			kneeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 1 ); 
 			toeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
+			
+			
+
+/* kalman */
+			measurement_pt = kneeMarked;
+
+			//cvMatMulAdd(kalman->measurement_matrix, x_k,z_k,z_k);
+
+//			crossPoint(frame_copy, cvPoint(measurement_pt.x -20, measurement_pt.y), YELLOW, BIG); //works
+//			crossPoint(frame_copy, cvPoint(prediction_pt.x +20, prediction_pt.y), WHITE, BIG); //0,0
+/* /kalman */
+
+
+
+
+
+
 
 			crossPoint(frame_copy, hipMarked, GREY, MID);
 			crossPoint(frame_copy, kneeMarked, GREY, MID);
 			crossPoint(frame_copy, toeMarked, GREY, MID);
 			
+				
+			cvNamedWindow( "toClick", 1 );
+			cvShowImage("toClick", frame_copy);
+
+
+
+/* kalman */
+			cvKalmanCorrect(kalman, measurement);
+
+			cvRandSetRange(&rng,0,sqrt(kalman->process_noise_cov->data.fl[0]),0);
+			cvRand(&rng, process_noise);			
+			cvMatMulAdd(kalman->transition_matrix, measurement, process_noise, measurement);
+/* /kalman */
+
+
+
+
+
 			//if frame before nothing was detected (maybe first frame or after a forward or jump
 			//OR a point in this frame was not detected
 			if(
 					(pointIsNull(hipOld) && pointIsNull(kneeOld) && pointIsNull(toeOld)) ||
 					(pointIsNull(hipMarked) || pointIsNull(kneeMarked) || pointIsNull(toeMarked)) ) 
 			{
-				hipMouse = hipMarked;
-				kneeMouse = kneeMarked;
-				toeMouse = toeMarked;
-
-				cvNamedWindow( "toClick", 1 );
-				cvShowImage("toClick", frame_copy);
-				mouseCanMark = true;
-				cvSetMouseCallback( "toClick", on_mouse, 0 );
-				
-				cvCvtColor(frame_copy,output,CV_BGR2GRAY);
-				cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-				cvShowImage("skinOutput", output);
-					
-				//printf("\nFrame: %d H(%d,%d), K(%d,%d), T(%d,%d)\n", framesCount, hipMarked.x, hipMarked.y, 
-				//		kneeMarked.x, kneeMarked.y, toeMarked.x, toeMarked.y);
-
-
-				/*
-				if(pointIsNull(hipMarked) || pointIsNull(kneeMarked) || pointIsNull(toeMarked)) {
-					sprintf(label, "Please mark");
-					printf("** Please mark:");
-					if(pointIsNull(hipMarked))
-						printf(" HIP ");
-					if(pointIsNull(kneeMarked))
-						printf(" KNEE ");
-					if(pointIsNull(toeMarked))
-						printf(" TOE ");
-					printf("on 'toClick' window **\n");
-				}
-				*/
-			
-				/*	
-				printf("Mark: hip 'h', knee 'k', toe 't' on 'toClick' window if needed\n"); 
-				printf("Change threshold: %d ('+' increase, '-' decrease)\n", threshold); 
-				printf("Others: Zoom 'z', forward 'f', Forward 'F', jump 'j', quit program 'q'\n\n"); 
-				printf("\tPress 'p' when done.\n");
-				*/
-				int row = 1;
-				int step = 16;
-				imagePrint(gui, cvPoint(10, step*row++), "Mark: hip 'h', knee 'k', toe 't' on 'toClick' window if needed", font, WHITE);
-				imagePrint(gui, cvPoint(10, step*row++), "Change threshold: %d ('+' increase, '-' decrease)", font, WHITE);
-				imagePrint(gui, cvPoint(10, step*row++), "Zoom 'z'", font, WHITE);
-				imagePrint(gui, cvPoint(10, step*row++), "forward 'f', Forward 'F', jump 'j'", font, WHITE);
-				imagePrint(gui, cvPoint(10, step*row++), "Quit program 'q'", font, WHITE);
-				row ++;
-				imagePrint(gui, cvPoint(10, step*row++), "Press 'p' when done.", font, WHITE);
-				cvShowImage("gui", gui);
-
-				bool done = false;
-				IplImage* imgZoom;
-					
-				cvCvtColor(frame_copy,output,CV_BGR2GRAY);
-				cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-						
-				bool thresholdChanged = false;
-				do {
-					key = (char) cvWaitKey(50);
-					if(key == 'p' )
-						done  = true;
-					else if(key == 'q') {
-						done = true;
-						shouldEnd = true;
-					} else if(key == 'z') {
-						if(zoomed) {
-							cvDestroyWindow("zoomed");
-							cvReleaseImage(&imgZoom);
-							zoomed = false;
-							cvSetMouseCallback( "toClick", on_mouse, 0 );
-						} else {
-							imgZoom = zoomImage(frame_copy);
-							cvNamedWindow( "zoomed", 1 );
-							cvShowImage("zoomed", imgZoom);
-							zoomed = true;
-							cvSetMouseCallback( "zoomed", on_mouse, 0 );
-						}
-					}
-					else if(key == 'h') {
-						forceMouseHip = true;
-						printf("Remark Hip: ");
-					} else if(key == 'k') {
-						forceMouseKnee = true;
-						printf("Remark Knee: ");
-					} else if(key == 't') {
-						forceMouseToe = true;
-						printf("Remark Toe: ");
-					} else if(key == '+') {
-						threshold ++;
-						thresholdChanged = true;
-					} else if(key == '-') {
-						threshold --;
-						if(threshold < 0)
-							threshold = 0;
-						thresholdChanged = true;
-					} else if (key == 'f') {// 'FORWARD'
-						forward = true;
-						printf("forwarding ...\n");
-						done  = true;
-					} else if (key == 'F') { // 'FORWARD SUPER'
-						forwardSuper = true;
-						done  = true;
-						printf("super forwarding ...\n");
-					}
-					else if (key == 'j' || key == 'J') {
-						//jump frames
-						printf("current frame: %d. Jump to: ", framesCount);
-						int jump;
-						scanf("%d", &jump);
-
-						//works with opencv1.1!!
-						//now we can go back and forth
-						cvSetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES, jump-1 );
-
-						framesCount = jump;
-						hipOld = pointToZero();
-						kneeOld = pointToZero();
-						toeOld = pointToZero();
-
-						printf("jumping ...\n");
-						done = true;
-					}
-					
-					if(thresholdChanged)  {
-						cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-
-						sprintf(label, "frame: %d", framesCount);
-						imagePrint(output, cvPoint(10, frame->height-40), label, font, WHITE);
-
-						sprintf(label, "threshold: %d", threshold);
-						imagePrint(output, cvPoint(10, frame->height-20), label, font, WHITE);
-				
-						cvShowImage("skinOutput", output);
-						thresholdChanged = false;
-					}
-				
-					if(!pointIsEqual(hipMarked,hipMouse)) {
-						crossPoint(frame_copy, hipMouse, MAGENTA, BIG);
-						imagePrint(frame_copy, cvPoint(hipMouse.x -20, hipMouse.y), "H", font, MAGENTA);
-						hipMarked = hipMouse;
-						cvShowImage("toClick", frame_copy);
-					}
-					if(!pointIsEqual(kneeMarked,kneeMouse)) {
-						crossPoint(frame_copy, kneeMouse, MAGENTA, BIG);
-						imagePrint(frame_copy, cvPoint(kneeMouse.x -20, kneeMouse.y), "K", font, MAGENTA);
-						kneeMarked = kneeMouse;
-						cvShowImage("toClick", frame_copy);
-					}
-					if(!pointIsEqual(toeMarked,toeMouse)) {
-						crossPoint(frame_copy, toeMouse, MAGENTA, BIG);
-						imagePrint(frame_copy, cvPoint(toeMouse.x -20, toeMouse.y), "T", font, MAGENTA);
-						toeMarked = toeMouse;
-						cvShowImage("toClick", frame_copy);
-					}
-				} while(! done);
-				
-				hipMarked = hipMouse;
-				kneeMarked = kneeMouse;
-				toeMarked = toeMouse;
-						
-				if(zoomed) {
-					cvDestroyWindow("zoomed");
-					cvReleaseImage(&imgZoom);
-					zoomed = false;
-				}
-				mouseCanMark = false;
-				eraseGuiWindow(gui);
+				// force a playPause and reload frame after
+				// then all the code of key mouse interaction will be together at end of loop
+				mouseClicked = PLAYPAUSE;
+				reloadFrame = true;
 			}
-			
 		} 
-		else {
+		else { //not skinOnlyMarkers
 			do {
 				cvThreshold(gray,segmentedValidationHoles, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 
@@ -606,11 +596,12 @@ int main(int argc,char **argv)
 			thetaMarked = -1;
 		else {
 			thetaMarked = findAngle2D(hipMarked, toeMarked, kneeMarked);
-			if(thetaMarked < minThetaMarked) 
+			//store minThetaMarked if not marked to reload (bad detection, or first frame)
+			if(!reloadFrame && thetaMarked < minThetaMarked) 
 				minThetaMarked = thetaMarked;
 
 
-			if(programMode == blackAndMarkers)
+			if(programMode == validation || programMode == blackAndMarkers)
 				cvRectangle(frame_copy,
 						cvPoint(maxrect.x,maxrect.y),
 						cvPoint(maxrect.x + maxrect.width, maxrect.y + maxrect.height),
@@ -647,7 +638,7 @@ int main(int argc,char **argv)
 						thetaABD, thetaRealFlex, minThetaRealFlex
 						);
 				cvShowImage("toClick", frame_copy);
-				cvShowImage("skinOutput",output);
+				cvShowImage("threshold",output);
 			}
 
 			printOnScreen(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
@@ -658,7 +649,8 @@ int main(int argc,char **argv)
 					thetaABD, thetaRealFlex, minThetaRealFlex
 					);
 
-			if(programMode == blackAndMarkers && foundAngle) {
+			if( (programMode == validation || programMode == blackAndMarkers)
+					&& foundAngle) {
 				/*
 				//print data
 				double thetaSup = findAngle2D(hipExpected, cvPoint(0,kneeExpected.y), kneeExpected);
@@ -684,7 +676,7 @@ int main(int argc,char **argv)
 			}
 
 
-			if(programMode == blackAndMarkers || programMode == blackOnlyMarkers)
+			if(programMode == validation || programMode == blackAndMarkers || programMode == blackOnlyMarkers)
 				cvShowImage("result",frame_copy);
 
 
@@ -698,15 +690,17 @@ int main(int argc,char **argv)
 			//toe will be lost
 			//detected if minThetaMarked is littler than thetaMarked, when thetaMarked is big
 			if(thetaMarked > 140 && 
-					minThetaMarked +10 < thetaMarked)
+					minThetaMarked +10 < thetaMarked &&
+					askForMaxFlexion)
 			{
-				imageGuiAsk(gui, "Minimal flexion reached before. Ending. Accept?", "'n'o, 'y'es", font);
+				imageGuiAsk(gui, "Minimal flexion reached before. Ending. Accept?", "'y'es, 'n'o, 'N'o and no ask again", font);
 				int option = optionAccept(true);	
 				eraseGuiAsk(gui);
 				if(option==YES) {
 					printf("\ntm: %f, mtm: %f, frame: %d\n", thetaMarked, minThetaMarked, framesCount);
 					shouldEnd = true;
-				}
+				} else if(option==NEVER)
+					askForMaxFlexion = false;
 			}
 		}
 
@@ -721,7 +715,7 @@ int main(int argc,char **argv)
 		 * FIND POINTS
 		 */
 
-		if(programMode == blackAndMarkers) 
+		if(programMode == validation || programMode == blackAndMarkers) 
 		{
 			CvPoint hipPointBack;
 			CvPoint kneePointBack;
@@ -756,7 +750,7 @@ int main(int argc,char **argv)
 					if(foundAngleOneTime) {
 						foundAngle = true;
 					} 
-					else if(extensionCopyDone) 
+					else if(extensionDoIt && extensionCopyDone) 
 					{
 						/* 
 						 * first time, confirm we found knee ok (and angle)
@@ -766,7 +760,7 @@ int main(int argc,char **argv)
 						crossPoint(frame_copy, kneePointBack, GREY, MID);
 
 						cvShowImage("result",frame_copy);
-						imageGuiAsk(gui, "knee found. Accept?", "'n'o, 'y'es, 'f'orward, super'F'orward, 'b'ackward, 'q'uit", font);
+						imageGuiAsk(gui, "knee found. Accept?", "'n'o, 'y'es, 'f'orward, 'F'astForward, 'b'ackward, 'q'uit", font);
 					
 						int option = optionAccept(false);	
 						eraseGuiAsk(gui);
@@ -865,9 +859,9 @@ int main(int argc,char **argv)
 							if(option==FORWARD) {
 								forward = true;
 								printf("forwarding ...\n");
-							} else if(option==SUPERFORWARD) {
-								forwardSuper = true;
-								printf("super forwarding ...\n");
+							} else if(option==FASTFORWARD) {
+								fastForward = true;
+								printf("fastforwarding ...\n");
 							} else if(option==BACKWARD) {
 								backward = true;
 
@@ -882,6 +876,8 @@ int main(int argc,char **argv)
 								printf("exiting ...\n");
 							}
 						}
+
+						//if extensionDoIt == false, nothing of above is done
 					}
 				}
 			}
@@ -997,9 +993,9 @@ int main(int argc,char **argv)
 				 * and this maxrect is wider than previous maxrect (flexion started)
 				 * then capture previous image to process knee at extension search
 				 */
-				if(! foundAngleOneTime && ! extensionCopyDone) {
+				if(extensionDoIt && ! foundAngleOneTime && ! extensionCopyDone) {
 					cvShowImage("result",frame_copy);
-					imageGuiAsk(gui, "Extension copy. Accept?", "'n'o, 'y'es, 'f'orward, super'F'orward, 'b'ackward, 'q'uit", font);
+					imageGuiAsk(gui, "Extension copy. Accept?", "'n'o, 'y'es, 'f'orward, 'F'astForward, 'b'ackward, 'q'uit", font);
 					int option = optionAccept(false);
 					eraseGuiAsk(gui);
 
@@ -1023,9 +1019,9 @@ int main(int argc,char **argv)
 						if(option==FORWARD) {
 							forward = true;
 							printf("forwarding ...\n");
-						} else if(option==SUPERFORWARD) {
-							forwardSuper = true;
-							printf("super forwarding ...\n");
+						} else if(option==FASTFORWARD) {
+							fastForward = true;
+							printf("fastforwarding ...\n");
 						} else if(option==BACKWARD) {
 							backward = true;
 							
@@ -1050,73 +1046,132 @@ int main(int argc,char **argv)
 
 		/* 
 		 * 6
-		 * WAIT FOR KEYS
+		 * WAIT FOR KEYS OR MANAGE MOUSE INTERACTION
 		 */
 
 		int myDelay = playDelay;
-		//if(programMode != blackAndMarkers || foundAngle)
 		if(foundAngle)
 			myDelay = playDelayFoundAngle;
 
 		key = (char) cvWaitKey(myDelay);
-		if(key == 27 || key == 'q') // 'ESC'
+
+//		printf("mc: %d ", mouseClicked);  
+
+		if(mouseClicked == quit || key == 27 || key == 'q') // 'ESC'
 			shouldEnd = true;
-		else if (key == '+')  
+
+		/*
+		else if (mouseClicked == TGLOBALMORE)  
 			threshold += thresholdInc;
-		else if (key == '-') { 
+		else if (mouseClicked == TGLOBALLESS) {
 			threshold -= thresholdInc;
 			if(threshold < 0)
 				threshold = 0;
-		} else if (key == 'l') 
+				*/
+			/*
+		else if (key == 'l') 
 			labelsAtLeft = ! labelsAtLeft;
 		else if (key == 'r') { //reset legs length
 			upLegMarkedDistMax = 0;
 			downLegMarkedDistMax = 0;
 		}
-		else if (key == 'f') { 
+		*/
+		
+		if (mouseClicked == FORWARD) { 
 			forward = true;
-			printf("forwarding ...\n");
-		} else if (key == 'F') { 
-			forwardSuper = true;
-			printf("super forwarding ...\n");
+			imageGuiResult(gui, "Forwarding...", font);
+			cvWaitKey(50); //to print above message
+		} else if (mouseClicked == FASTFORWARD) { 
+			fastForward = true;
+			imageGuiResult(gui, "FastForwarding...", font);
+			cvWaitKey(50); //to print above message
 		} else if (key == 'j' || key == 'J') {
+			/*
 			//jump frames
 			printf("current frame: %d. Jump to: ", framesCount);
 			int jump;
 			scanf("%d", &jump);
-		
+
 			//works with opencv1.1!!
 			//now we can go back and forth
 			cvSetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES, jump-1 );
-			
+
 			framesCount = jump;
 
 			//hlps to know when we jumped and we have to initialize hipOld, kneeOld, toOld
 			jumping = true;
 			printf("jumping ...\n");
+			imageGuiResult(gui, "Jumping...", font);
+			*/
 		}
-		else if (key == 'p')
+		else if(mouseClicked == TGLOBALMORE || mouseClicked == TGLOBALLESS ||
+			mouseClicked == THIPMORE || mouseClicked == THIPLESS ||
+			mouseClicked == TKNEEMORE || mouseClicked == TKNEELESS ||
+			mouseClicked == TTOEMORE || mouseClicked == TTOELESS)
 		{
-			imageGuiAsk(gui, "Pause", "'p', '+', '-'", font);
+			//if a threshold button is pushed, force a pause
+			forcePause = true;
+		}
+		
+		//pause is also forced on skin if a marker is not ok
+		if (mouseClicked == PLAYPAUSE || key == 'p' || forcePause) 
+		{
+			if(!forcePause)
+				mouseClicked = UNDEFINED;  
+
+			forcePause = false;
+
+			imageGuiResult(gui, "Paused.", font);
+			int thresholdROIChanged = TOGGLENOTHING;
+					
+			int mult;
+
 			bool done = false;
-			do{
-				key = (char) cvWaitKey(0);
-				if(key == 27 || key == 'q') {
+			do {
+				cvWaitKey(50);
+			
+				if(mouseMultiplier)
+					mult = 10;
+				else
+					mult = 1;
+
+				if (mouseClicked == PLAYPAUSE) 
+					done = true;
+		
+				else if(mouseClicked == quit || key == 27 || key == 'q') {
+					done = true;
 					shouldEnd = true;
-					done = true;
 				}
-				else if(key =='p') { 
-					threshold -= thresholdInc;
-					done = true;
+				
+
+				else if(mouseClicked == ZOOM || key == 'z') {
+					if(zoomed) {
+						eraseGuiMark(gui, ZOOM);
+						cvDestroyWindow("zoomed");
+						cvReleaseImage(&imgZoom);
+						zoomed = false;
+						cvSetMouseCallback( "toClick", on_mouse_mark_point, 0 );
+					} else {
+						toggleGuiMark(gui, ZOOM);
+						imgZoom = zoomImage(frame_copy);
+						cvNamedWindow( "zoomed", 1 );
+						cvShowImage("zoomed", imgZoom);
+						zoomed = true;
+						cvSetMouseCallback( "zoomed", on_mouse_mark_point, 0 );
+					}
+					mouseClicked = UNDEFINED;  
 				}
-				else if(key =='+' || key == '-') {  
-					if(key =='+')  
-						threshold += thresholdInc;
-					else if(key =='-') {
-						threshold -= thresholdInc;
+
+				else if (mouseClicked == TGLOBALMORE || mouseClicked == TGLOBALLESS) {
+					if (mouseClicked == TGLOBALMORE)  
+						threshold += thresholdInc * mult;
+					else { // if (mouseClicked == TGLOBALLESS)  
+						threshold -= thresholdInc * mult;
 						if(threshold < 0)
 							threshold = 0;
 					}
+					mouseClicked = UNDEFINED;  
+					mouseMultiplier = false;
 		
 					if(programMode == skinOnlyMarkers) {
 						cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
@@ -1126,10 +1181,9 @@ int main(int argc,char **argv)
 						cvPutText(output, label, cvPoint(10,frame->height-40),&font,CV_RGB(0,0,0));
 						sprintf(label, "threshold: %d", threshold);
 						cvPutText(output, label, cvPoint(10,frame->height-20),&font,CV_RGB(0,0,0));
-						cvShowImage("skinOutput", output);
+						cvShowImage("threshold", output);
 					}
 					else {		
-						eraseGuiResult(gui);
 						cvThreshold(gray,segmentedValidationHoles, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 						//create the largest contour image (stored on temp)
 						cvThreshold(gray,segmented,threshold,thresholdMax,CV_THRESH_BINARY_INV);
@@ -1141,24 +1195,224 @@ int main(int argc,char **argv)
 						imageGuiResult(gui, label, font);
 					}
 				}
+					
+				else if(mouseClicked == THIPMORE || mouseClicked == THIPLESS) {
+					if(pointIsNull(hipMarked)) {
+						//force mark first
+						mouseClicked = HIPMARK;
+					} else {
+						if(thresholdROIH == -1) //undefined
+							thresholdROIH = threshold;
+
+						if(mouseClicked == THIPMORE) 
+							thresholdROIH += thresholdInc * mult;
+						else {
+							thresholdROIH -= thresholdInc * mult;
+							if(thresholdROIH < 0)
+								thresholdROIH = 0;
+						}
+						thresholdROIChanged = TOGGLEHIP;
+					}
+				}
+
+				else if(mouseClicked == TKNEEMORE || mouseClicked == TKNEELESS) {
+					if(pointIsNull(kneeMarked)) {
+						//force mark first
+						mouseClicked = KNEEMARK;
+					} else {
+						if(thresholdROIK == -1) //undefined
+							thresholdROIK = threshold;
+
+						if(mouseClicked == TKNEEMORE) 
+							thresholdROIK += thresholdInc * mult;
+						else {
+							thresholdROIK -= thresholdInc * mult;
+							if(thresholdROIK < 0)
+								thresholdROIK = 0;
+						}
+						thresholdROIChanged = TOGGLEKNEE;
+					}
+				}
+
+				else if(mouseClicked == TTOEMORE || mouseClicked == TTOELESS) {
+					if(pointIsNull(toeMarked)) {
+						//force mark first
+						mouseClicked = TOEMARK;
+					} else {
+						if(thresholdROIT == -1) //undefined
+							thresholdROIT = threshold;
+
+						if(mouseClicked == TTOEMORE) 
+							thresholdROIT += thresholdInc * mult;
+						else {
+							thresholdROIT -= thresholdInc * mult;
+							if(thresholdROIT < 0)
+								thresholdROIT = 0;
+						}
+						thresholdROIChanged = TOGGLETOE;
+					}
+				}
+
+					
+				if(thresholdROIChanged != TOGGLENOTHING)  {
+					CvRect rect;
+					int myThresh;
+					int pointSize = 30;
+					CvPoint myPoint;
+					if(thresholdROIChanged == TOGGLEHIP) {
+						myPoint = hipMarked;
+						myThresh = thresholdROIH;
+					} else if(thresholdROIChanged == TOGGLEKNEE) {
+						myPoint = kneeMarked;
+						myThresh = thresholdROIK;
+					} else { //if(thresholdROIChanged == TOGGLETOE) 
+						myPoint = toeMarked;
+						myThresh = thresholdROIT;
+					}
+
+					rect.x=myPoint.x - pointSize/2; rect.y=myPoint.y - pointSize/2;
+					rect.width=pointSize; rect.height=pointSize;
+					
+					cvSetImageROI(gray, rect);
+					cvSetImageROI(output, rect);
+					cvThreshold(gray, output, myThresh, thresholdMax,CV_THRESH_BINARY_INV);
+					cvResetImageROI(gray);
+					cvResetImageROI(output);
+
+//					sprintf(label, "frame: %d", framesCount);
+//					imagePrint(output, cvPoint(10, frame->height-40), label, font, BLACK);
+
+					cvRectangle(output, cvPoint(frame->width -200, frame->height-30), cvPoint(frame->width, frame->height), WHITE,CV_FILLED,8,0);
+					sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
+					imagePrint(output, cvPoint(frame->width -200, frame->height-20), label, font, BLACK);
+
+					cvShowImage("threshold", output);
+
+					thresholdROIChanged = TOGGLENOTHING;
+					mouseClicked = UNDEFINED;  
+				}
+				
+				//remark bad found or unfound markers	
+				if(
+						mouseClicked == HIPMARK ||
+						mouseClicked == KNEEMARK ||
+						mouseClicked == TOEMARK) {
+						
+					int myMark = TOGGLENOTHING ;
+					const char * Id = "";
+					CvPoint markedBefore;
+					
+					if(mouseClicked == HIPMARK) {
+						myMark = TOGGLEHIP;
+						markedBefore = hipMarked;
+						markedMouse = hipMarked;
+						Id = "H";
+						imageGuiResult(gui, "Mark Hip on toClick window.", font);
+					} else if(mouseClicked == KNEEMARK) {
+						myMark = TOGGLEKNEE;
+						markedBefore = kneeMarked;
+						markedMouse = kneeMarked;
+						Id = "K";
+						imageGuiResult(gui, "Mark Knee on toClick window.", font);
+					} else {
+						myMark = TOGGLETOE;
+						markedBefore = toeMarked;
+						markedMouse = toeMarked;
+						Id = "T";
+						imageGuiResult(gui, "Mark Toe on toClick window.", font);
+					}
+						
+					toggleGuiMark(gui, myMark);
+					forceMouseMark = myMark;
+			
+					cvSetMouseCallback( "toClick", on_mouse_mark_point, 0 );
+					bool doneMarking = false;
+					do {
+						key = (char) cvWaitKey(playDelay);
+						if(!pointIsEqual(markedBefore, markedMouse)) {
+							crossPoint(frame_copy, markedMouse, MAGENTA, BIG);
+							imagePrint(frame_copy, cvPoint(markedMouse.x -20, markedMouse.y), Id, font, MAGENTA);
+							cvShowImage("toClick", frame_copy);
+							if(zoomed) {
+								crossPoint(imgZoom, cvPoint(zoomScale * markedMouse.x, zoomScale * markedMouse.y), MAGENTA, BIG);
+								imagePrint(imgZoom, cvPoint(zoomScale * (markedMouse.x -20), zoomScale * markedMouse.y), Id, font, MAGENTA);
+								cvShowImage("zoomed", imgZoom);
+							}
+							doneMarking = true;
+						}
+				
+						else if(mouseClicked == ZOOM || key == 'z') {
+							if(zoomed) {
+								eraseGuiMark(gui, ZOOM);
+								cvDestroyWindow("zoomed");
+								cvReleaseImage(&imgZoom);
+								zoomed = false;
+								cvSetMouseCallback( "toClick", on_mouse_mark_point, 0 );
+							} else {
+								toggleGuiMark(gui, ZOOM);
+								imgZoom = zoomImage(frame_copy);
+								cvNamedWindow( "zoomed", 1 );
+								cvShowImage("zoomed", imgZoom);
+								zoomed = true;
+								cvSetMouseCallback( "zoomed", on_mouse_mark_point, 0 );
+							}
+							mouseClicked = UNDEFINED;  
+						}
+					} while(!doneMarking);
+					
+					eraseGuiMark(gui, myMark);
+					
+					bool unZoomAfterClick = true;
+					if(unZoomAfterClick && zoomed) {
+						eraseGuiMark(gui, ZOOM);
+						cvDestroyWindow("zoomed");
+						cvReleaseImage(&imgZoom);
+						zoomed = false;
+						cvSetMouseCallback( "toClick", on_mouse_mark_point, 0 );
+					}
+					
+					if(mouseClicked == HIPMARK) {
+						hipMarked = markedMouse;
+						hipOld = markedMouse;
+					} else if(mouseClicked == KNEEMARK) {
+						kneeMarked = markedMouse;
+						kneeOld = markedMouse;
+					} else { 
+						toeMarked = markedMouse;
+						toeOld = markedMouse;
+					}
+
+
+					eraseGuiResult(gui, true);
+					forceMouseMark = TOGGLENOTHING;
+					mouseClicked = UNDEFINED;  
+				}
+
+				
+					
 
 			} while (! done);
 					
-			eraseGuiAsk(gui);
+			eraseGuiResult(gui, true);
+				
 		}
 
-		if(programMode == blackAndMarkers || programMode == blackOnlyMarkers) {
+		if(programMode != skinOnlyMarkers) {
 			updateHolesWin(segmentedValidationHoles);
 		}
+		
+		mouseClicked = UNDEFINED;  
 
 	}
 
 	/*
 	 * END OF MAIN LOOP
 	 */
+		
+	imageGuiResult(gui, "Press any key to exit.", font);
 
-	if(programMode == blackAndMarkers && foundAngleOneTime) {
-
+	if( (programMode == validation || programMode == blackAndMarkers) && foundAngleOneTime) 
+	{
 		avgThetaDiff = (double) avgThetaDiff / framesDetected;
 		avgThetaDiffPercent = (double) avgThetaDiffPercent / framesDetected;
 		avgKneeDistance = (double) avgKneeDistance / framesDetected;
@@ -1173,7 +1427,7 @@ int main(int argc,char **argv)
 				minThetaMarked-minThetaExpected, relError(minThetaExpected, minThetaMarked));
 		printf("%s\n" ,label);
 		*/
-
+			
 		cvWaitKey(0);
 	}
 	else {
@@ -1205,78 +1459,18 @@ int menu(IplImage * gui, CvFont font)
 
 	int row = 1;
 	int step = 16;
-	char *label = new char[150];
-	imagePrint(gui, cvPoint(10, step*row++), "Use:", font, WHITE);
-	imagePrint(gui, cvPoint(20, step*row++), "b - change mode to black long pants and marker validation", font, WHITE);
-	imagePrint(gui, cvPoint(20, step*row++), "B - change mode to Black long pants (only markers)", font, WHITE);
-	imagePrint(gui, cvPoint(20, step*row++), "s - change mode to Skin (short pants) (only markers)", font, WHITE);
-	//imagePrint(gui, cvPoint(20, step*row++), "j - Jump at selected frame", font, WHITE);
-	imagePrint(gui, cvPoint(20, step*row++), "i - Init the program", font, WHITE);
-	imagePrint(gui, cvPoint(20, step*row++), "q - quit program", font, WHITE);
-		
-	row ++;
-	imagePrint(gui, cvPoint(10, step*row++), "Current option:", font, WHITE);
-	row ++;
 
-	int key;
-	int programMode = blackAndMarkers;
-	int startAt = 1;
-	char option;
+	cvSetMouseCallback( "gui", on_mouse_gui_menu, 0 );
 
-	bool menuDone = false;
-	do{
-		//delete
-		cvRectangle(gui, cvPoint(10, step*(row-1)), cvPoint(gui->width, gui->height), CV_RGB(0,0,0),CV_FILLED,8,0);
+	do {
+		cvWaitKey(100);
+	} while (mouseClicked == undefined);
 
-		if(programMode == blackAndMarkers)
-			imagePrint(gui, cvPoint(20, step*row++), "Black long pants and marker validation", font, WHITE);
-		else if(programMode == blackOnlyMarkers)
-			imagePrint(gui, cvPoint(20, step*row++), "Black long pants (only markers)", font, WHITE);
-		else
-			imagePrint(gui, cvPoint(20, step*row++), "Skin (short pants) (only markers)", font, WHITE);
+	if(mouseClicked == quit)
+		exit(0);
 
-		//sprintf(label, "start at frame: %d", startAt);
-		//imagePrint(gui, cvPoint(20, step*row++), label, font);
-				
-		// create a toolbar 
-		//cvCreateTrackbar("start at", "gui", &startAt, 100, on_trackbar);
-
-		cvShowImage("gui", gui);
-
-		key = (char) cvWaitKey(0);
-		switch( key ) {
-			case 'q':
-				printf("Exiting ...\n");
-				exit(0);
-			case 'b':
-				programMode = blackAndMarkers;
-				break;
-			case 'B':
-				programMode = blackOnlyMarkers;
-				break;
-			case 's':
-				programMode = skinOnlyMarkers;
-				break;
-				/*
-			case 'j':
-				row -= 2;
-				sprintf(label, "Jump at frame: %d", startAt);
-				imagePrint(gui, cvPoint(20, step*row++), label, font);
-				imagePrint(gui, cvPoint(20, step*row++), "press '+', '-', '*', Skin (short pants) (only markers)", font);
-				//scanf("%d", &startAt);
-				// create a toolbar 
-				cvCreateTrackbar(gui, "start at", &startAt, 100, on_trackbar);
-				break;
-				*/
-			case 'i':
-				printf("Starting...\n");
-				menuDone = true;
-				break;
-		}
-		row --;
-	} while (! menuDone);
 	eraseGuiWindow(gui);
-
-	return programMode;
+	
+	return mouseClicked;
 }
 				

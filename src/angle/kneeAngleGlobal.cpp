@@ -87,25 +87,12 @@ enum {
 
 enum { TOGGLENOTHING = -1, TOGGLEHIP = 0, TOGGLEKNEE = 1, TOGGLETOE = 2};
 
-double zoomScale = 2; 
-
-//CvPoint hipMouse;
-//CvPoint kneeMouse;
-//CvPoint toeMouse;
 CvPoint markedMouse;
-
 int forceMouseMark;
-/*
-bool forceMouseHip = false;
-bool forceMouseKnee = false;
-bool forceMouseToe = false;
-*/
-
-bool zoomed = false;
-
-//bool mouseCanMark = true; 
-
 int mouseClicked = undefined;
 bool mouseMultiplier = false; //using shift key
+
+bool zoomed = false;
+double zoomScale = 2; 
 
 

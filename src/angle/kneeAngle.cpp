@@ -110,7 +110,6 @@
 /*
  * TODO:
  * -imprimeixi en arxiu xy de cada punt (6 columnes)
- *  -implement adaptative threshold on skin only markers, to allow hip (pant bended) to be detected without having a threshold too low or too large on knee and toe. This doesn't work, because what we need is more threshold in one point and less sin other (allowing to select point coordinates). this can be done maybe, making a copy of part of the image and applying threshold there, then copying again that part into the original image. Better, do it with cvSetImageROI and cvResetImageROI
  *  -implement convexity defects (opencv book p.259) at findKneePointBack
  *  solve the problem with the cvCopy(frame_copy,result);
  *  	on blackAndMarkers, minimumFrame is the marked or the expected?
@@ -158,10 +157,17 @@ int main(int argc,char **argv)
 	{
 		exit(0);
 	}
+	
+	if(argc == 3) {
+		startAt = atoi(argv[2]);
+	}
+
 	/*
 	int framesNumber = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
 	printf("--%d--\n", framesNumber);
 	*/
+
+	printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle seen;angle side;angle real\n");
 
 	
 	/* initialization variables */
@@ -182,7 +188,7 @@ int main(int argc,char **argv)
 	gui = cvLoadImage("kneeAngle_intro.png");
 	cvShowImage("gui", gui);
 	int programMode = menu(gui, font);
-	printf("programMode: %d\n", programMode);
+	//printf("programMode: %d\n", programMode);
 	
 	if(programMode == skinOnlyMarkers)
 		gui = cvLoadImage("kneeAngle_skin.png");
@@ -494,11 +500,6 @@ int main(int argc,char **argv)
 			}
 
 
-
-
-
-
-
 			CvSeq* seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
 
 			hipMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
@@ -552,7 +553,7 @@ int main(int argc,char **argv)
 			{
 				// force a playPause and reload frame after
 				// then all the code of key mouse interaction will be together at end of loop
-				mouseClicked = PLAYPAUSE;
+				forcePause = true;
 				reloadFrame = true;
 			}
 		} 
@@ -639,6 +640,13 @@ int main(int argc,char **argv)
 						);
 				cvShowImage("toClick", frame_copy);
 				cvShowImage("threshold",output);
+			
+				printf("%d;%d;%d;%d;%d;%d;%d;%.2f;%.2f;%.2f\n", 
+						framesCount, 
+						hipMarked.x, frame->height - hipMarked.y,
+						kneeMarked.x, frame-> height - kneeMarked.y,
+						toeMarked.x, frame->height - toeMarked.y,
+						thetaMarked, thetaABD, thetaRealFlex);
 			}
 
 			printOnScreen(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
@@ -1326,7 +1334,9 @@ int main(int argc,char **argv)
 					forceMouseMark = myMark;
 			
 					cvSetMouseCallback( "toClick", on_mouse_mark_point, 0 );
+					mouseClicked = UNDEFINED;  
 					bool doneMarking = false;
+					bool cancelled = false;
 					do {
 						key = (char) cvWaitKey(playDelay);
 						if(!pointIsEqual(markedBefore, markedMouse)) {
@@ -1358,7 +1368,12 @@ int main(int argc,char **argv)
 							}
 							mouseClicked = UNDEFINED;  
 						}
-					} while(!doneMarking);
+					
+						else if(mouseClicked == HIPMARK || mouseClicked == KNEEMARK || 
+								mouseClicked == TOEMARK) {
+							cancelled = true;
+						}
+					} while(!doneMarking && !cancelled);
 					
 					eraseGuiMark(gui, myMark);
 					
@@ -1371,25 +1386,23 @@ int main(int argc,char **argv)
 						cvSetMouseCallback( "toClick", on_mouse_mark_point, 0 );
 					}
 					
-					if(mouseClicked == HIPMARK) {
-						hipMarked = markedMouse;
-						hipOld = markedMouse;
-					} else if(mouseClicked == KNEEMARK) {
-						kneeMarked = markedMouse;
-						kneeOld = markedMouse;
-					} else { 
-						toeMarked = markedMouse;
-						toeOld = markedMouse;
+					if(!cancelled) {
+						if(myMark == TOGGLEHIP) {
+							hipMarked = markedMouse;
+							hipOld = markedMouse;
+						} else if(myMark == TOGGLEKNEE) {
+							kneeMarked = markedMouse;
+							kneeOld = markedMouse;
+						} else { 
+							toeMarked = markedMouse;
+							toeOld = markedMouse;
+						}
 					}
-
 
 					eraseGuiResult(gui, true);
 					forceMouseMark = TOGGLENOTHING;
 					mouseClicked = UNDEFINED;  
 				}
-
-				
-					
 
 			} while (! done);
 					
@@ -1431,7 +1444,7 @@ int main(int argc,char **argv)
 		cvWaitKey(0);
 	}
 	else {
-		printf("*** Result ***\nMin angle: %.2f, lowest angle frame: %d\n", minThetaMarked, lowestAngleFrame);
+		//printf("*** Result ***\nMin angle: %.2f, lowest angle frame: %d\n", minThetaMarked, lowestAngleFrame);
 		cvNamedWindow("Minimum Frame",1);
 		cvShowImage("Minimum Frame", result);
 		cvWaitKey(0);

@@ -624,6 +624,7 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	CvSeq* seqPoints = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), storage );
 	CvSeq* seqGroups = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage );
 
+	
 	//put all hole points on seqAllHoles
 	for(int y=0;y<endy;y++)
 	{
@@ -695,7 +696,7 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	CvSeq* seqIsValidSize = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage ); //'1' if is valid
 
 	int minSide = 2;
-	int maxSize = 200;
+	int maxSize = 400;
 	int validValue = 1;
 	int nonValidValue = 0;
 	for( int i = 0; i < seqHolesUpLeft->total; i++ ) {
@@ -765,19 +766,19 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 					if(hipPoint.x == 0) {
 						hipPoint.x = center.x; 
 						hipPoint.y = center.y;
-						color = CV_RGB(255, 0, 0 );
+						color = RED;
 						sprintf(labelShort,"H");
 					} 
 					else if(kneePoint.x == 0) {
 						kneePoint.x = center.x; 
 						kneePoint.y = center.y;
-						color = CV_RGB(0, 255, 0 );
+						color = GREEN;
 						sprintf(labelShort,"K");
 					} 
 					else {
 						toePoint.x = center.x; 
 						toePoint.y = center.y;
-						color = CV_RGB(0, 0, 255 );
+						color = BLUE;
 						sprintf(labelShort,"T");
 					}
 				}
@@ -789,19 +790,19 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 				if(pointInside(hipOld, sp1, sp2)) {
 					hipPoint.x = center.x; 
 					hipPoint.y = center.y;
-					color = CV_RGB(255, 0, 0 );
+					color = RED;
 					sprintf(labelShort,"H");
 				} 
 				else if(pointInside(kneeOld, sp1,sp2)) {
 					kneePoint.x = center.x; 
 					kneePoint.y = center.y;
-					color = CV_RGB(0, 255, 0 );
+					color = GREEN;
 					sprintf(labelShort,"K");
 				} 
 				else if(pointInside(toeOld, sp1,sp2)) {
 					toePoint.x = center.x; 
 					toePoint.y = center.y;
-					color = CV_RGB(0, 0, 255);
+					color = BLUE;
 					sprintf(labelShort,"T");
 				} else 
 					validSure = false;

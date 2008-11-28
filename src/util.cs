@@ -595,7 +595,19 @@ public class Util
 		//Chronojump/chronojump-x.y/data/
 		//we have to go to
 		//Chronojump/database/
-		return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
+		
+		//return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
+		
+		//fixing:
+		//http://lists.ximian.com/pipermail/mono-list/2008-November/040480.html
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump/database");
+	}
+	
+	//if database dir has illegal characters, use this temp dir and remember to copy db at end, or to restore if chrashed
+	public static string GetDatabaseTempDir() {
+		return Path.Combine(Path.GetTempPath(), "Chronojump");
 	}
 
 	public static string GetManualDir() {
@@ -656,9 +668,9 @@ public class Util
 	public static void PlaySound (Constants.SoundTypes mySound, bool volumeOn) {
 		if(volumeOn) {
 			//on mono windows, PlaySound is not implemented. Until find a solution let's play a system bell
-			if(IsWindows())
-				Log.WriteLine("\a");
-			else {
+			//if(IsWindows())
+			//	Log.WriteLine("\a");
+			//else {
 				switch(mySound) {
 					case Constants.SoundTypes.CAN_START:
 						System.Media.SystemSounds.Question.Play();
@@ -670,7 +682,7 @@ public class Util
 						System.Media.SystemSounds.Beep.Play();
 						break;
 				}
-			}
+			//}
 		}
 	}
 

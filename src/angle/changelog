@@ -1,0 +1,4 @@
+nov 14
+	starting changelog here insted of being on Chronojump trunk
+	three modes only: blackOnlyMarkes and skinOnlyMarkers are the same
+	skin window loads instantly and a "please wait message is shown"

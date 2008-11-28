@@ -1569,6 +1569,11 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		
 		File.Delete(runningFileName);
+
+		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
+			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
+				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+
 		System.Console.Out.Close();
 		Log.End();
 		Log.Delete();
@@ -1583,6 +1588,11 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		
 		File.Delete(runningFileName);
+		
+		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
+			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
+				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+		
 		System.Console.Out.Close();
 		Log.End();
 		Log.Delete();
@@ -4369,11 +4379,13 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 */
 
 	private void on_debug_crash_activate (object o, EventArgs args) {
-		//errorWin = ErrorWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will crash now"));
-		//errorWin.Button_accept.Clicked += new EventHandler(crashing);
-			
-		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"), "Are you sure you want to crash application?");
-		confirmWin.Button_accept.Clicked += new EventHandler(crashing);
+		bool voluntaryCrashAllowed = false;
+		if(voluntaryCrashAllowed) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"), "Are you sure you want to crash application?");
+			confirmWin.Button_accept.Clicked += new EventHandler(crashing);
+		} else {
+			new DialogMessage(Constants.MessageTypes.INFO, "Currently disabled.");
+		}
 	}
 
 	private void crashing (object o, EventArgs args) {

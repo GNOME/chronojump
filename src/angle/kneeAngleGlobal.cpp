@@ -70,7 +70,7 @@ enum { SMALL = 1, MID = 2, BIG = 3 };
 
 //used on menu gui
 //currently validation and blackAndMarkers are synonymous (until statistical anylisys is not done)
-enum { quit = -2, undefined = -1, validation = 0, blackAndMarkers = 1, blackOnlyMarkers = 2, skinOnlyMarkers = 3}; 
+enum { quit = -2, undefined = -1, validation = 0, blackAndMarkers = 1, skinOnlyMarkers = 2}; 
 
 //used on gui
 enum { 

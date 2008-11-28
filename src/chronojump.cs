@@ -320,6 +320,11 @@ public class ChronoJump
 			windowsTextLog = "\n" + crashLogFile;
 			*/
 
+		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
+			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
+				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+
+
 		string errorMessage = "\n" +
 				string.Format(Catalog.GetString("Chronojump crashed before. Please, <b>write an email</b> to {0} including this file:"), "xaviblas@gmail.com") + "\n\n" +
 					Log.GetLast() +

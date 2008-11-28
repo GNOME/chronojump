@@ -100,7 +100,7 @@ public class ExportSession
 					printData();
 					closeWriter();
 
-					string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
+					string myString = string.Format(Catalog.GetString("Saved to {0}\n\nWhen import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon: <b>;</b>"), fileName);
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
 			} 
@@ -132,7 +132,7 @@ public class ExportSession
 		printData();
 		closeWriter();
 				
-		string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName);
+		string myString = string.Format(Catalog.GetString("Saved to {0}\n\nWhen import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon: <b>;</b>"), fileName);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 		

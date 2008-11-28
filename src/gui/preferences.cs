@@ -31,7 +31,12 @@ using Mono.Unix;
 public class PreferencesWindow {
 	
 	[Widget] Gtk.Window preferences;
+
 	[Widget] Gtk.Entry entry_chronopic;
+	[Widget] Gtk.Label label_database;
+	[Widget] Gtk.Label label_database_temp;
+	[Widget] Gtk.Label label_logs;
+
 	[Widget] Gtk.SpinButton spinbutton_decimals;
 	[Widget] Gtk.CheckButton checkbutton_height;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
@@ -71,6 +76,10 @@ public class PreferencesWindow {
 		if(entryChronopic.Length > 0) {
 			entry_chronopic.Text = entryChronopic;
 		}
+		
+		label_database.Text = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		label_database_temp.Text = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		label_logs.Text = Log.GetDir();
 		
 	}
 	

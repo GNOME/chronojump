@@ -1,5 +1,25 @@
 CHRONOJUMP DETAILED CHANGELOG:
 
+
+doing .ca translation
+
+28 nov 2008 0.7.9.7
+
+	compiled with gtk-sharp-2.10 (windows)...
+
+	using user location On installations with accent (latin) problems on
+	windows and sqlite, a temp location is used
+
+	important: database and logs changed to an user location
+		added info about database dir and log dir on preferences
+
+	TreeStore/SetValue instead of SetValues (only for gtk-sharp2.12)
+
+	added help message on export to CSV
+	now wounds available for windows
+	new: kneeAngleGlobal.cpp (nicer code)
+	disabled voluntary crash
+
 7 nov 2008
 	on export show person uniqueID at first col of every test (before
 	name). Valid to study/present data without using the name
@@ -54,7 +74,7 @@ CHRONOJUMP DETAILED CHANGELOG:
 	-fixed bug on simulated and person weight on jump, jumpRj treeviews
 	-edit jump manages better the sensitiveness on jump type (weight) changing
 	-treeviewshows angle
-	-on edit event, hiden accept if values are not correct instead not allow writing
+	-on edit event, hidden accept if values are not correct instead not allow writing
 
 	-fixed bug in edit simulated events, they crash on reading "xxx
 	simulated" as int
@@ -64,7 +84,7 @@ CHRONOJUMP DETAILED CHANGELOG:
 	-fixed bug: now person weight and sport is ok
 	-now titles like "runs" only appear if there are runs
 	-simulated is printed as "No" or "Yes" with Util.NoYes
-	-newline is removed on descriptions (if not, creates new line in spreadsheet)
+	-newline is removed on descriptions (to avoid creation of new row in spreadsheet)
 	-added angle on jumps
 
 

@@ -57,7 +57,13 @@ public class Log
 		//Chronojump/chronojump-x.y/data/
 		//we have to go to
 		//Chronojump/logs
-		return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "logs";
+		//return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "logs";
+		
+		//fixing:
+		//http://lists.ximian.com/pipermail/mono-list/2008-November/040480.html
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump/logs");
 	}
 	
 	public static string GetFile() {

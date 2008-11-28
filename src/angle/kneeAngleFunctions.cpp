@@ -1228,10 +1228,9 @@ void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 	CvPoint clicked; 
 	clicked.x=x; clicked.y=y;
 
-	CvRect rval; rval.x=30;  rval.width=60;  rval.y=60; rval.height=210;
-	CvRect rbam; rbam.x=130; rbam.width=100; rbam.y=60; rbam.height=210;
-	CvRect rbom; rbom.x=260; rbom.width=90;  rbom.y=60; rbom.height=210;
-	CvRect rsom; rsom.x=380; rsom.width=90;  rsom.y=60; rsom.height=210;
+	CvRect rval; rval.x=60;  rval.width=60;  rval.y=60; rval.height=210;
+	CvRect rbam; rbam.x=188; rbam.width=100; rbam.y=60; rbam.height=210;
+	CvRect rsom; rsom.x=340; rsom.width=90;  rsom.y=60; rsom.height=210;
 	CvRect rquit; rquit.x=450; rquit.width=40;  rquit.y=10; rquit.height=45;
 	switch( event ) {
 		case CV_EVENT_LBUTTONDOWN:
@@ -1240,8 +1239,6 @@ void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 					mouseClicked = validation;
 				else if(pointInsideRect(clicked, rbam))
 					mouseClicked = blackAndMarkers;
-				else if(pointInsideRect(clicked, rbom))
-					mouseClicked = blackOnlyMarkers;
 				else if(pointInsideRect(clicked, rsom))
 					mouseClicked = skinOnlyMarkers;
 				else if(pointInsideRect(clicked, rquit))

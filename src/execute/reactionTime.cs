@@ -120,7 +120,8 @@ public class ReactionTimeExecute : EventExecute
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
 					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "");
-			System.Media.SystemSounds.Beep.Play();
+			//System.Media.SystemSounds.Beep.Play();
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);

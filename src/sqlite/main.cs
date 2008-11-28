@@ -38,6 +38,9 @@ class Sqlite
 	//now it's on installed dir, eg linux: ~/Chronojump/database
 	public static string home = Util.GetDatabaseDir();
 	public static string sqlFile = home + Path.DirectorySeparatorChar + "chronojump.db";
+	
+	public static string temp = Util.GetDatabaseTempDir();
+	public static string sqlFileTemp = temp + Path.DirectorySeparatorChar + "chronojump.db";
 
 	//before installJammer
 	public static string homeOld = Util.GetOldDatabaseDir();
@@ -46,6 +49,10 @@ class Sqlite
 	//http://www.mono-project.com/SQLite
 
 	static string connectionString = "version = 3; Data source = " + sqlFile;
+	static string connectionStringTemp = "version = 3; Data source = " + sqlFileTemp;
+
+	//test to try to open db in a dir with accents (latin)
+	//static string connectionString = "globalization requestEncoding=\"iso-8859-1\"; responseEncoding=\"iso-8859-1\"; fileEncoding=\"iso-8859-1\"; culture=\"es-ES\";version = 3; Data source = " + sqlFile;
 	
 	//create blank database
 	//public static string sqlFileBlank = home + Path.DirectorySeparatorChar + "chronojump_blank.db";
@@ -87,9 +94,16 @@ class Sqlite
 
 	public static void Connect()
 	{
-		dbcon = new SqliteConnection();
-		dbcon.ConnectionString = connectionString;
-		dbcmd = dbcon.CreateCommand();
+		Console.WriteLine("Trying database in ... " + Util.GetDatabaseDir());
+
+		try{
+			dbcon = new SqliteConnection();
+			dbcon.ConnectionString = connectionString;
+			dbcmd = dbcon.CreateCommand();
+		} catch {
+			dbcon.ConnectionString = connectionStringTemp;
+			dbcmd = dbcon.CreateCommand();
+		}
 	}
 
 	//only create blank DB

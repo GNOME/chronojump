@@ -116,6 +116,20 @@
  * -on skin, when a point is lost, re-assign the other points depending on distance with previous frame marked points
  *  -study kalman on openCV book (not interesting)... si, aplicar kalman enlloc de pointInside(previous)
  *
+ *  need to do subpixel calculations for: thetaABD and thetaRealFlex, because the pixel unit is too big for this calculations
+ *  eg: upLegMarkedDist: 170; upLegMarkedDistMax: 171.... 
+ *  	produces kneeZetaSide of 18,46 and maybe with a htKneeMarked of only 3px (peson is almos full extended) 
+ *  	resulting ABD is 80.
+ *  	with subpixel, maybe the upLegMarkedDist is 170.4 and the Max is 170.6 this has kneeZetaSide of 8.25, and with htkneeMarked: 3px, ABD is: 70
+ *  	as seen, maybe the problem is in the 3px. maybe this is not ABD, is ROT EXT, and is normal at this extension
+ *  	
+ *  	---------
+ *  	maybe, getting closer to the camera (z axis) affects too much and space need to be calibrated before. 
+ *  	Maybe this means that we only can use this uncalibrated data for seen angle
+ *  	---------
+ *
+ *  	 
+ *
  *  calibration:
  *  -calibration and undistortion (distorsions: radial, and tangential)
  *     radial doesn't exist on image, because the line dividing floor and wall is straight from left to right (radial will make distort on places far from the center)
@@ -192,8 +206,12 @@ int main(int argc,char **argv)
 	
 	if(programMode == skinOnlyMarkers)
 		gui = cvLoadImage("kneeAngle_skin.png");
+
+			
+	imageGuiResult(gui, "Starting... please wait.", font);
 	cvShowImage("gui", gui);
 
+	cvWaitKey(100); //to allow gui image be shown
 	
 	int minwidth = 0;
 	
@@ -623,7 +641,7 @@ int main(int argc,char **argv)
 			double kneeZetaSide = sqrt( pow(upLegMarkedDistMax,2) - pow(upLegMarkedDist,2) );
 			double htKneeMarked = getDistance (HT, kneeMarked);
 
-			double thetaABD = (180.0/M_PI)*atan( kneeZetaSide / (double) htKneeMarked );
+			double thetaABD = (180.0/M_PI)*atan( (double) kneeZetaSide / htKneeMarked );
 
 			double thetaRealFlex = findAngle3D(hipMarked, toeMarked, kneeMarked, 0, 0, -kneeZetaSide);
 			if(thetaRealFlex < minThetaRealFlex) 
@@ -641,12 +659,14 @@ int main(int argc,char **argv)
 				cvShowImage("toClick", frame_copy);
 				cvShowImage("threshold",output);
 			
-				printf("%d;%d;%d;%d;%d;%d;%d;%.2f;%.2f;%.2f\n", 
+				printf("%d;%d;%d;%d;%d;%d;%d;%.2f;%.2f;%.2f %d;%d %.2f;%.2f\n", 
 						framesCount, 
 						hipMarked.x, frame->height - hipMarked.y,
 						kneeMarked.x, frame-> height - kneeMarked.y,
 						toeMarked.x, frame->height - toeMarked.y,
-						thetaMarked, thetaABD, thetaRealFlex);
+						thetaMarked, thetaABD, thetaRealFlex,
+						upLegMarkedDist, upLegMarkedDistMax, 
+						kneeZetaSide, htKneeMarked);
 			}
 
 			printOnScreen(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
@@ -684,7 +704,7 @@ int main(int argc,char **argv)
 			}
 
 
-			if(programMode == validation || programMode == blackAndMarkers || programMode == blackOnlyMarkers)
+			if(programMode == validation || programMode == blackAndMarkers)
 				cvShowImage("result",frame_copy);
 
 

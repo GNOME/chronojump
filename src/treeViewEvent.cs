@@ -213,7 +213,11 @@ public class TreeViewEvent
 		TreeIter iter = new TreeIter();
 		TreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter)) {
-			store.SetValues (iter, getLineToStore(myEvent));
+			//this doesn't work on windows gtk-sharp 2.10 (works on 2.12)
+			//store.SetValues (iter, getLineToStore(myEvent));
+			string [] myRow = getLineToStore(myEvent);
+			for(int i=0; i < myRow.Length; i++)
+				store.SetValue (iter, i, myRow[i]);
 		}
 	}
 

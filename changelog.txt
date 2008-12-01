@@ -1,7 +1,22 @@
-CHRONOJUMP DETAILED CHANGELOG:
+
+1 dec 2008 0.7.9.8
+
+pending:
+YourRegValue on update mono is shown
+it cannot be seen the message: vista wait chronopic port (installation)
+put 0.8 in chronojump logo at start (or anywhere)
+on windows compiled for new mono 2.0.1
 
 
-doing .ca translation
+IMPORTANT: move ok the old database to new dirs
+delete the database and log usual dir
+
+	important: management of database location and temp database location (to solve
+	problems with bad dirs and sqlite
+
+	updated ca and es
+	splashwin fraction now doesn't complain about < 0 or > 1
+
 
 28 nov 2008 0.7.9.7
 
@@ -16,7 +31,7 @@ doing .ca translation
 	TreeStore/SetValue instead of SetValues (only for gtk-sharp2.12)
 
 	added help message on export to CSV
-	now wounds available for windows
+	now sounds available for windows
 	new: kneeAngleGlobal.cpp (nicer code)
 	disabled voluntary crash
 

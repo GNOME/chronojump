@@ -81,6 +81,11 @@ public class SplashWindow
 	}
 
 	public void UpdateProgressbar (string pbString, double fraction) {
+		if(fraction < 0)
+			fraction = 0;
+		else if(fraction > 1)
+			fraction = 1;
+
 		if(pbString == "version")
 			progressbarVersion.Fraction = fraction;
 		else if(pbString == "rate")

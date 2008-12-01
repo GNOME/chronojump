@@ -600,9 +600,13 @@ public class Util
 		
 		//fixing:
 		//http://lists.ximian.com/pipermail/mono-list/2008-November/040480.html
+	
+	
+	
 		return Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump/database");
+				"Chronojump" + Path.DirectorySeparatorChar + "database");
+		//return GetDatabaseTempDir();
 	}
 	
 	//if database dir has illegal characters, use this temp dir and remember to copy db at end, or to restore if chrashed

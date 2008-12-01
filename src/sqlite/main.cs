@@ -31,7 +31,6 @@ class Sqlite
 {
 	protected static SqliteConnection dbcon;
 	protected static SqliteCommand dbcmd;
-	//protected static IDbCommand dbcmd;
 
 	//since we use installJammer (chronojump 0.7)	
 	//database was on c:\.chronojump\ or in ~/.chronojump
@@ -55,11 +54,9 @@ class Sqlite
 	//static string connectionString = "globalization requestEncoding=\"iso-8859-1\"; responseEncoding=\"iso-8859-1\"; fileEncoding=\"iso-8859-1\"; culture=\"es-ES\";version = 3; Data source = " + sqlFile;
 	
 	//create blank database
-	//public static string sqlFileBlank = home + Path.DirectorySeparatorChar + "chronojump_blank.db";
-	public static string sqlFileBlank = "chronojump_blank.db"; //copied on /chronojump-x.y/data installjammer will copy it to database
-	static string connectionStringBlank = "version = 3; Data source = " + sqlFileBlank;
 	static bool creatingBlankDatabase = false;
 
+	
 
 	//for db creation
 	static int creationRate;
@@ -92,23 +89,104 @@ class Sqlite
 	~Sqlite() {}
 
 
-	public static void Connect()
+	public static bool Connect()
 	{
-		Console.WriteLine("Trying database in ... " + Util.GetDatabaseDir());
+		/*
+	       splashMessage = "pre";
+		needUpdateSplashMessage = true;
+		Console.ReadLine();		
+		*/
 
-		try{
-			dbcon = new SqliteConnection();
+		bool defaultDBLocation = true;
+
+		dbcon = new SqliteConnection();
+
+		/*
+		 * the Open() helps to know it threre are problems with path and sqlite
+		 * passing utf-8 or looking for invalid chars is not enough
+		 * but, as Open creates a file (if it doesn't exist)
+		 * we prefer to create a test file (test.db) instead of chronojump.db
+		 */
+		string sqlFileTest = home + Path.DirectorySeparatorChar + "test.db";
+		string sqlFileTestTemp = temp + Path.DirectorySeparatorChar + "test.db";
+		string connectionStringTest = "version = 3; Data source = " + sqlFileTest;
+		string connectionStringTestTemp = "version = 3; Data source = " + sqlFileTestTemp;
+
+
+		dbcon.ConnectionString = connectionStringTest;
+		dbcmd = dbcon.CreateCommand();
+
+		try {
+			dbcon.Open();
+		} catch {
+			dbcon.Close();
+			dbcon.ConnectionString = connectionStringTestTemp;
+			dbcmd = dbcon.CreateCommand();
+			dbcon.Open();
+			defaultDBLocation = false;
+		}
+		dbcon.Close();
+		
+		
+		if(defaultDBLocation) {
 			dbcon.ConnectionString = connectionString;
+			if (File.Exists(sqlFileTest)){
+				File.Delete(sqlFileTest);
+			}
+		} else {
+			dbcon.ConnectionString = connectionStringTemp;
+			if (File.Exists(sqlFileTestTemp)){
+				File.Delete(sqlFileTestTemp);
+			}
+		}
+		dbcmd = dbcon.CreateCommand();
+
+		/*
+		Log.WriteLine(string.Format("press3"));
+	       	splashMessage = "post1";
+		needUpdateSplashMessage = true;
+		Console.ReadLine();		
+		*/
+
+		/*
+		try{
+			Log.WriteLine(string.Format("Trying database in ... " + connectionString));
+
+//			dbcon = new SqliteConnection();
+			*/
+		/*
+			dbcon.ConnectionString = connectionString;
+			//dbcon.ConnectionString = connectionStringTemp;
 			dbcmd = dbcon.CreateCommand();
 		} catch {
-			dbcon.ConnectionString = connectionStringTemp;
-			dbcmd = dbcon.CreateCommand();
+			try {
+				Log.WriteLine(string.Format("Trying database in ... " + connectionStringTemp));
+
+//				dbcon = new SqliteConnection();
+				dbcon.ConnectionString = connectionStringTemp;
+				dbcmd = dbcon.CreateCommand();
+			} catch { 
+				Console.WriteLine("Problems, exiting...\n");
+				System.Console.Out.Close();
+				Log.End();
+				Log.Delete();
+				Environment.Exit(1);
+			}
+
 		}
+
+		*/
+			
+		return defaultDBLocation;
+		
 	}
 
 	//only create blank DB
 	public static void ConnectBlank()
 	{
+		string sqlFileBlank = "chronojump_blank.db"; //copied on /chronojump-x.y/data installjammer will copy it to database
+		string connectionStringBlank = "version = 3; Data source = " + sqlFileBlank;
+
 		//delete blank file if exists
 		if (File.Exists(sqlFileBlank)) {
 			Console.WriteLine("File blank exists, deleting...");
@@ -136,15 +214,40 @@ class Sqlite
 		if(!Directory.Exists(home)) {
 			Directory.CreateDirectory (home);
 		}
-		
-		dbcon.Open();
+
+//		try {	
+			dbcon.Open();
+			/*
+		} catch {
+			dbcon.Close();
+			dbcon.ConnectionString = connectionStringTemp;
+			dbcmd = dbcon.CreateCommand();
+			dbcon.Open();
+		}
+		*/
 		dbcon.Close();
 	}
 
-	public static bool CheckTables()
+	public static bool CheckTables(bool defaultDBLocation)
 	{
-		return (File.Exists(sqlFile));
+		if(defaultDBLocation) {
+			if (File.Exists(sqlFile)){
+				return true;
+			}
+		} else {
+			if (File.Exists(sqlFile)){
+				//backup the database
+				Util.BackupDirCreateIfNeeded();
+				Util.BackupDatabase();
+				Log.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
+				//System.IO.Compression.GZipStream are not in mono
 
+				File.Move(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db",
+					Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db");
+				return true;
+			}
+		}
+		return false;
 	}
 
 
@@ -173,7 +276,26 @@ class Sqlite
 		try {
 			SqlitePreferences.Select("chronopicPort");
 		} catch {
-			return false;
+			/*
+			try {
+				dbcon.Close();
+				if(File.Exists(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db"))
+					File.Move(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db",
+							Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db");
+
+				dbcon.ConnectionString = connectionStringTemp;
+				dbcmd = dbcon.CreateCommand();
+				dbcon.Open();
+				SqlitePreferences.Select("chronopicPort");
+			} catch {
+				dbcon.Close();
+				if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
+					File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
+							Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+
+			*/
+				return false;
+			//}
 		}
 		return true;
 	}

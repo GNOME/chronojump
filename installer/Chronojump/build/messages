@@ -239,7 +239,7 @@ ChronopicDriverInstall
 {Install Chronopic driver}
 
 ChronopicDriverInstallText
-{Chronopic driver is going to be installed now. Please wait a few seconds...}
+{Chronopic driver is going to be installed now. Please wait a few seconds... (On Windows Vista can be a 1 or 2 minutes process, pleas wait until ends)}
 
 ChronopicDriverInstallTextDone
 {Installed Chronopic driver. Please press "Next" }
@@ -1086,7 +1086,7 @@ ChronopicDriverInstall
 {Instalación del driver de Chronopic}
 
 ChronopicDriverInstallText
-{El driver de la placa Chronopic va a ser instalado. Por favor, espere unos segundos...}
+{El driver de la placa Chronopic va a ser instalado. Por favor, espere unos segundos... (en Windows Vista puede dirar uno o dos minutos, por favor, espere a que termine).}
 
 ChronopicDriverInstallTextDone
 {instalado el driver de la Chronopic. Por favor, pulse "Siguiente"}

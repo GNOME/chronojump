@@ -54,6 +54,8 @@ public class ChronoJump
 	{
 		bool timeLogPassedOk = Log.Start(args);
 		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
+		Log.WriteLine(string.Format("Trying database in ... " + Util.GetDatabaseDir()));
+		Log.WriteLine(string.Format("Trying database in ... " + Util.GetDatabaseTempDir()));
 		string errorFile = Log.GetFile();
 
 		StreamWriter sw = new StreamWriter(new BufferedStream(new FileStream(errorFile, FileMode.Create)));
@@ -125,20 +127,54 @@ public class ChronoJump
 
 		splashMessageChange(1);  //checking database
 
-		Sqlite.Connect();
+		/*
+		splashMessage = "pre-connect";
+		needUpdateSplashMessage = true;
+		Console.ReadLine();		
+		*/
+		
+		bool defaultDBLocation = Sqlite.Connect();
 
+		/*	
+		splashMessage = "post-connect" + defaultDBLocation.ToString();
+		needUpdateSplashMessage = true;
+		Console.ReadLine();		
+		*/
+		
 		//Chech if the DB file exists
-		if (!Sqlite.CheckTables()) {
+		if (!Sqlite.CheckTables(defaultDBLocation)) {
 			Log.WriteLine ( Catalog.GetString ("no tables, creating ...") );
 
 			creatingDB = true;
 			splashMessageChange(2);  //creating database
 
+
+
+			/*
+			splashMessage = "pre-create";
+			needUpdateSplashMessage = true;
+			Console.ReadLine();		
+			*/
+
+
+
 			Sqlite.CreateFile();
+			//Sqlite.CreateFile(defaultDBLocation);
+
+
+
+			/*
+			splashMessage = "post-create";
+			needUpdateSplashMessage = true;
+			Console.ReadLine();		
+			*/
+
+
+
 			File.Create(runningFileName);
 			Sqlite.CreateTables();
 			creatingDB = false;
-		} else {
+		} else {/*
 			//backup the database
 			Util.BackupDirCreateIfNeeded();
 
@@ -147,6 +183,7 @@ public class ChronoJump
 			Util.BackupDatabase();
 			Log.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
 			//System.IO.Compression.GZipStream are not in mono
+			*/
 
 
 			if(! Sqlite.IsSqlite3()) {
@@ -188,6 +225,10 @@ public class ChronoJump
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
 		}
+		
+		
+		File.Create(runningFileName);
+
 
 		splashMessageChange(5);  //preparing main window
 
@@ -320,9 +361,19 @@ public class ChronoJump
 			windowsTextLog = "\n" + crashLogFile;
 			*/
 
-		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
+		//if there's a copy on temp...
+		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db")) {
+
+			// if exist also a file in default db location (improbable but done for solve eventual problems
+			if(File.Exists(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db")) {
+				Util.BackupDatabase();//copy it to backup
+				File.Delete(Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db"); //delete it
+			}
+
+			//move temp dir to default db location dir
 			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
 				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+		}
 
 
 		string errorMessage = "\n" +
@@ -391,10 +442,12 @@ public class ChronoJump
 		runningFileName = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump_running";
 		if(File.Exists(runningFileName)) 
 			chronojumpCrashedBefore();
+		/*
 		else {
 			if (Sqlite.CheckTables()) 
 				File.Create(runningFileName);
 		}
+		*/
 	}
 
 	//move database to new location if chronojump version is before 0.7

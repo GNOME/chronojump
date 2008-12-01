@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-28 14:02+0100\n"
-"PO-Revision-Date: 2008-11-28 14:20+0100\n"
+"POT-Creation-Date: 2008-12-01 17:30+0100\n"
+"PO-Revision-Date: 2008-12-01 17:56+0100\n"
 "Last-Translator: Xavier de Blas <xaviblas@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -77,23 +77,20 @@ msgid "<b>Chronojump</b>"
 msgstr "<b>Chronojump</b>"
 
 #: ../glade/chronojump.glade.h:16
-#, fuzzy
 msgid "<b>Chronopic in</b>"
-msgstr "<b>Chronojump</b>"
+msgstr "<b>Chronopic a</b>"
 
 #: ../glade/chronojump.glade.h:17
-#, fuzzy
 msgid "<b>Database directory</b>"
-msgstr "<b>Data de naixement</b>"
+msgstr "<b>Carpeta de la base de dades</b>"
 
 #: ../glade/chronojump.glade.h:18
 msgid "<b>Date of Birth</b>"
 msgstr "<b>Data de naixement</b>"
 
 #: ../glade/chronojump.glade.h:19
-#, fuzzy
 msgid "<b>Detection</b>"
-msgstr "<b>Detectat</b>"
+msgstr "<b>Detecció</b>"
 
 #: ../glade/chronojump.glade.h:20
 msgid "<b>Full name</b>"
@@ -104,23 +101,20 @@ msgid "<b>Guides</b>"
 msgstr "<b>Guies</b>"
 
 #: ../glade/chronojump.glade.h:22
-#, fuzzy
 msgid "<b>Help</b>"
-msgstr "<b>Nivell</b>"
+msgstr "<b>Ajuda</b>"
 
 #: ../glade/chronojump.glade.h:23
-#, fuzzy
 msgid "<b>Info</b>"
-msgstr "<b>TC</b>"
+msgstr "<b>Informació</b>"
 
 #: ../glade/chronojump.glade.h:24
 msgid "<b>Level</b>"
 msgstr "<b>Nivell</b>"
 
 #: ../glade/chronojump.glade.h:25
-#, fuzzy
 msgid "<b>Logs directory</b>"
-msgstr "<b>Esport</b>"
+msgstr "<b>Directori del registre (log)</b>"
 
 #: ../glade/chronojump.glade.h:26
 msgid "<b>Name</b>"
@@ -155,11 +149,8 @@ msgstr ""
 "simulat</b>"
 
 #: ../glade/chronojump.glade.h:34
-#, fuzzy
 msgid "<b>Simulated</b>"
-msgstr ""
-"<b>Test\n"
-"simulat</b>"
+msgstr "<b>Simulat</b>"
 
 #: ../glade/chronojump.glade.h:35
 msgid "<b>Speciallity</b>"
@@ -190,9 +181,8 @@ msgid "<b>Weight</b> (Kg)"
 msgstr "<b>Pes</b> (Kg)"
 
 #: ../glade/chronojump.glade.h:42
-#, fuzzy
 msgid "<b>developers</b>"
-msgstr "<b>Nivell</b>"
+msgstr "<b>Desenvolupadors</b>"
 
 #: ../glade/chronojump.glade.h:43
 msgid "<b>general data</b>"
@@ -215,9 +205,8 @@ msgid "<b>test bells</b>"
 msgstr "<b>prova campanes</b>"
 
 #: ../glade/chronojump.glade.h:48
-#, fuzzy
 msgid "<b>translators</b>"
-msgstr "traductors"
+msgstr "<b>traductors</b>"
 
 #: ../glade/chronojump.glade.h:49
 msgid "ABK"
@@ -385,16 +374,14 @@ msgstr "Canviar Zoom (z)"
 
 #: ../glade/chronojump.glade.h:79
 #: ../src/gui/helpPorts.cs:90
-#, fuzzy
 msgid "Check Chronopic port"
-msgstr "Connectant amb el Chronopic"
+msgstr "Comprovar port de la Chronopic"
 
 #: ../glade/chronojump.glade.h:80
 msgid "Chonojump"
 msgstr "Chronojump"
 
 #: ../glade/chronojump.glade.h:81
-#, fuzzy
 msgid "ChronoJump"
 msgstr "Chronojump"
 
@@ -431,14 +418,12 @@ msgid "Chronopic in"
 msgstr "Chronopic in"
 
 #: ../glade/chronojump.glade.h:90
-#, fuzzy
 msgid "Chronopic port"
-msgstr "Chronopic"
+msgstr "Port de Chronopic"
 
 #: ../glade/chronojump.glade.h:91
-#, fuzzy
 msgid "Chronopic port help"
-msgstr "Ajuda del port serie"
+msgstr "Ajuda del port de Chronopic"
 
 #: ../glade/chronojump.glade.h:92
 #: ../src/exportSession.cs:216
@@ -482,9 +467,8 @@ msgid "CounterMovement Jump"
 msgstr "Salt contramoviment"
 
 #: ../glade/chronojump.glade.h:100
-#, fuzzy
 msgid "Country"
-msgstr "Núm."
+msgstr "País"
 
 #: ../glade/chronojump.glade.h:101
 msgid "Crash application (debug purpose)"
@@ -527,9 +511,8 @@ msgid "Data"
 msgstr "Dades"
 
 #: ../glade/chronojump.glade.h:111
-#, fuzzy
 msgid "Database"
-msgstr "Dades"
+msgstr "Base de dades"
 
 #: ../glade/chronojump.glade.h:112
 #: ../src/exportSession.cs:215
@@ -544,9 +527,8 @@ msgid "Decimal number"
 msgstr "Número de decimals"
 
 #: ../glade/chronojump.glade.h:114
-#, fuzzy
 msgid "Delete selected (d)"
-msgstr "Esborreu la cursa seleccionada"
+msgstr "Esborreu el seleccionat (d)"
 
 #: ../glade/chronojump.glade.h:115
 msgid "Delete selected RJ jump"
@@ -630,9 +612,8 @@ msgid "Edit"
 msgstr "Editar"
 
 #: ../glade/chronojump.glade.h:128
-#, fuzzy
 msgid "Edit selected (e)"
-msgstr "Editeu pols seleccionat"
+msgstr "Editeu el seleccionat (e)"
 
 #: ../glade/chronojump.glade.h:129
 msgid "Edit selected RJ jump"
@@ -751,9 +732,8 @@ msgid "Height (cm)"
 msgstr "Alçada (cm)"
 
 #: ../glade/chronojump.glade.h:157
-#, fuzzy
 msgid "Help with Chronopic port"
-msgstr "Connectant amb el Chronopic"
+msgstr "Ajuda amb el port de Chronopic"
 
 #: ../glade/chronojump.glade.h:158
 msgid "Identifier"
@@ -1013,9 +993,8 @@ msgid "Please touch the platform or click Chronopic <i>TEST</i> button"
 msgstr "Si us plau, toqueu la plataforma de contactes o premeu el botó <i>TEST</i> del Chronopic"
 
 #: ../glade/chronojump.glade.h:211
-#, fuzzy
 msgid "Port Help"
-msgstr "Ajuda"
+msgstr "Ajuda amb el port"
 
 #: ../glade/chronojump.glade.h:212
 msgid "Prefer height over TF"
@@ -1101,9 +1080,8 @@ msgid "Reactive Jump unlimited (until finish button is clicked)"
 msgstr "Salt reactiu fins prémer el botó <<Finalizar»"
 
 #: ../glade/chronojump.glade.h:230
-#, fuzzy
 msgid "Repair selected (r)"
-msgstr "Repareu el pols seleccionat"
+msgstr "Repareu el seleccionat(r)"
 
 #: ../glade/chronojump.glade.h:231
 msgid "Repair selected RJ jump"
@@ -1114,9 +1092,8 @@ msgid "Repair selected intervallic run"
 msgstr "Repareu la cursa d'intervals seleccionada"
 
 #: ../glade/chronojump.glade.h:233
-#, fuzzy
 msgid "Repeat last"
-msgstr "Repareu el pols seleccionat"
+msgstr "Repetiu anterior"
 
 #: ../glade/chronojump.glade.h:234
 msgid "Report window"
@@ -1227,18 +1204,16 @@ msgstr ""
 "de la sessió"
 
 #: ../glade/chronojump.glade.h:257
-#, fuzzy
 msgid "Show"
-msgstr "Mostrar el sexe"
+msgstr "Mostrar"
 
 #: ../glade/chronojump.glade.h:258
 msgid "Show all tests of a person"
 msgstr "Mostra tots els tests d'un atleta"
 
 #: ../glade/chronojump.glade.h:259
-#, fuzzy
 msgid "Show angle"
-msgstr "Mostrar el sexe"
+msgstr "Mostrar l'angle"
 
 #: ../glade/chronojump.glade.h:260
 msgid "Show black guide"
@@ -1436,7 +1411,6 @@ msgid "Test image and description"
 msgstr "Imatge i descripció del test"
 
 #: ../glade/chronojump.glade.h:288
-#, fuzzy
 msgid "This dialog explains wich ports are suitable to be connected with Chronopic"
 msgstr "Aquest diàleg explica quins ports són els adequats per a connectar amb el chronopic"
 
@@ -1533,9 +1507,8 @@ msgid "_About"
 msgstr "Sobre..."
 
 #: ../glade/chronojump.glade.h:305
-#, fuzzy
 msgid "_Chronopic"
-msgstr "Chronopic"
+msgstr "_Chronopic"
 
 #: ../glade/chronojump.glade.h:306
 msgid "_Custom"
@@ -1838,13 +1811,13 @@ msgstr "dona"
 msgid "yes"
 msgstr "si"
 
-#: ../src/chronojump.cs:132
+#: ../src/chronojump.cs:146
 msgid "no tables, creating ..."
 msgstr "no s'hi han trobat bases de dades, creant taules..."
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:158
+#: ../src/chronojump.cs:195
 msgid ""
 "Failed database conversion, ensure you have libsqlite3-0 installed. \n"
 "If problems persist ask in chronojump-list"
@@ -1852,79 +1825,78 @@ msgstr ""
 "Ha fallat la conversió a la base de dades, asseguri's de que té instal·lat libsqlite3-0. \n"
 "Si el problema persisteix, pregunti a la llista de chronojump."
 
-#: ../src/chronojump.cs:159
+#: ../src/chronojump.cs:196
 #, csharp-format
 msgid "If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"
 msgstr "Si no te dades a la base de dades (acaba d'instal·lar el programa), pot arreglar aquest problema esborrant l'arxiu: {0}"
 
-#: ../src/chronojump.cs:161
-#, fuzzy
+#: ../src/chronojump.cs:198
 msgid "And starting Chronojump again."
-msgstr "Carregant Chronojump..."
+msgstr "Finalment inicii Chronojump altre cop."
 
 #. Console.Clear();
-#: ../src/chronojump.cs:177
+#: ../src/chronojump.cs:214
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr "Ho sentim, aquesta versió de Chronojump ({0}) és massa antiga per la vostra base de dades."
 
-#: ../src/chronojump.cs:178
+#: ../src/chronojump.cs:215
 msgid "Please update Chronojump"
 msgstr "Sisplau actualitzeu Chronojump"
 
-#: ../src/chronojump.cs:186
+#: ../src/chronojump.cs:223
 msgid "tables already created"
 msgstr "taules creades"
 
-#: ../src/chronojump.cs:211
-#: ../src/chronojump.cs:445
-#: ../src/chronojump.cs:453
+#: ../src/chronojump.cs:252
+#: ../src/chronojump.cs:498
+#: ../src/chronojump.cs:506
 msgid "Chronojump will exit now."
 msgstr "Chronojump sortirà ara."
 
-#: ../src/chronojump.cs:329
+#: ../src/chronojump.cs:380
 #, csharp-format
 msgid "Chronojump crashed before. Please, <b>write an email</b> to {0} including this file:"
 msgstr "Chronojump ha fallat anteriorment. Si us plau, <b>escriu un correu</b> a {0} adjuntant aquest arxiu:"
 
-#: ../src/chronojump.cs:333
+#: ../src/chronojump.cs:384
 msgid "Subject should be something like \"bug in Chronojump\". Your help is needed."
 msgstr "El títol ha de ser quelcom com \"Errada al Chronojump\". Necessitem la teva ajuda."
 
-#: ../src/chronojump.cs:412
+#: ../src/chronojump.cs:465
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "No es pot moure la carpeta de la base de dades des de {0} fins a {1}"
 
-#: ../src/chronojump.cs:414
+#: ../src/chronojump.cs:467
 msgid "Trying to move/copy each file now"
 msgstr "Provant ara de moure/copiar arxiu a arxiu"
 
-#: ../src/chronojump.cs:443
+#: ../src/chronojump.cs:496
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "No es pot crear la carpeta {0} "
 
-#: ../src/chronojump.cs:444
-#: ../src/chronojump.cs:452
+#: ../src/chronojump.cs:497
+#: ../src/chronojump.cs:505
 msgid "Please, do it manually."
 msgstr "Si us plau, fes-ho manualment."
 
-#: ../src/chronojump.cs:451
+#: ../src/chronojump.cs:504
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "No es pot copiar {0} arxius des de {1} a {2}"
 
-#: ../src/chronojump.cs:459
+#: ../src/chronojump.cs:512
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "No es podeu moure {0} arxius des de {1} fins a {2}"
 
-#: ../src/chronojump.cs:460
+#: ../src/chronojump.cs:513
 msgid "Please, do it manually"
 msgstr "Si us plau, fes-ho manualment"
 
-#: ../src/chronojump.cs:466
+#: ../src/chronojump.cs:519
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "La base de dades es troba ara aquí: {0}"
@@ -1942,9 +1914,8 @@ msgid "Opening port..."
 msgstr "Obrint port..."
 
 #: ../src/chronojump_mini.cs:115
-#, fuzzy
 msgid "Please touch the platform or click Chronopic TEST button"
-msgstr "Si us plau, toqueu la plataforma de contactes o premeu el botó <i>TEST</i> del Chronopic"
+msgstr "Si us plau, toqueu la plataforma de contactes o premeu el botó TEST del Chronopic"
 
 #: ../src/chronojump_mini.cs:125
 msgid "Error opening serial port"
@@ -1983,9 +1954,8 @@ msgid "Examples:"
 msgstr "Exemples:"
 
 #: ../src/chronojump_mini.cs:285
-#, fuzzy
 msgid "Do you want to output data to a file?"
-msgstr "Desitgeu esborrar el darrer temps de reacció?"
+msgstr "Voleu redireccionar la sortida a un arxiu?"
 
 #: ../src/chronojump_mini.cs:289
 msgid ""
@@ -2001,9 +1971,8 @@ msgid "File will be available at directory: {0}"
 msgstr "L'arxiu es trobarà a la carpeta: {0}"
 
 #: ../src/chronojump_mini.cs:291
-#, fuzzy
 msgid "Please, write filename:"
-msgstr "si us plau escriu el nom de l'arxiu a exportar"
+msgstr "si us plau escriu el nom de l'arxiu:"
 
 #: ../src/chronojump_mini.cs:303
 #, csharp-format
@@ -2011,9 +1980,9 @@ msgid "File {0} exists with attributes {1}, created at {2}"
 msgstr "L'arxiu {0} existeix amb els atributs {1}, creat el {2}"
 
 #: ../src/chronojump_mini.cs:305
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Are you sure you want to overwrite file: {0}"
-msgstr "Esteu segurs que voleu sobreesciure l'arxiu?"
+msgstr "Esteu segurs de que voleu sobreescriure l'arxiu: {0}"
 
 #: ../src/constants.cs:30
 msgid "Project leader and main developer."
@@ -2165,19 +2134,16 @@ msgstr "Salts: Reactiu"
 
 #. strings
 #: ../src/constants.cs:149
-#, fuzzy
 msgid "See all jumps"
-msgstr "Tots els salts"
+msgstr "Mostrar tots els salts"
 
 #: ../src/constants.cs:150
-#, fuzzy
 msgid "See all runs"
-msgstr "Totes les curses"
+msgstr "Mostrar totes les curses"
 
 #: ../src/constants.cs:151
-#, fuzzy
 msgid "See all pulses"
-msgstr "Tots els polsos"
+msgstr "Mostrar tots els polsos"
 
 #: ../src/constants.cs:203
 msgid "Typical serial and USB-serial ports on Windows:"
@@ -2200,24 +2166,20 @@ msgid "If you use Chronopic3, you will have an USB-serial port."
 msgstr "Si usa Chronopic3, tindrà un port USB-sèrie."
 
 #: ../src/constants.cs:216
-#, fuzzy
 msgid "Serial ports found:"
-msgstr "Ajuda del port serie"
+msgstr "Ports sèrie trobats:"
 
 #: ../src/constants.cs:217
-#, fuzzy
 msgid "USB-serial ports found:"
-msgstr "Ports serie USB típics a GNU/Linux:"
+msgstr "Ports USB-sèrie trobats:"
 
 #: ../src/constants.cs:218
-#, fuzzy
 msgid "Not found any USB-serial ports."
-msgstr "Error en obrir el port serie"
+msgstr "No s'ha trobat cap port USB-sèrie."
 
 #: ../src/constants.cs:218
-#, fuzzy
 msgid "Is Chronopic connected?"
-msgstr "Chronopic in"
+msgstr "Segur que Chronopic es troba connectat?"
 
 #: ../src/constants.cs:246
 msgid "--Undefined"
@@ -2236,32 +2198,31 @@ msgstr "Indefinit"
 
 #: ../src/constants.cs:262
 msgid "Africa"
-msgstr ""
+msgstr "Àfrica"
 
 #: ../src/constants.cs:263
 msgid "Antarctica"
-msgstr ""
+msgstr "Antàrtida"
 
 #: ../src/constants.cs:264
 msgid "Asia"
-msgstr ""
+msgstr "Àsia"
 
 #: ../src/constants.cs:265
-#, fuzzy
 msgid "Europe"
-msgstr "Objectiu"
+msgstr "Europa"
 
 #: ../src/constants.cs:266
 msgid "North America"
-msgstr ""
+msgstr "Amèrica del Nord"
 
 #: ../src/constants.cs:267
 msgid "Oceania"
-msgstr ""
+msgstr "Oceania"
 
 #: ../src/constants.cs:268
 msgid "South America"
-msgstr ""
+msgstr "Amèrica del Sud"
 
 #: ../src/constants.cs:279
 msgid "Sedentary/Ocasional practice"
@@ -2403,14 +2364,12 @@ msgid "Export session in format "
 msgstr "Exporta la sessió en format"
 
 #: ../src/exportSession.cs:76
-#, fuzzy
 msgid "Cancel"
-msgstr "Cancel·lat"
+msgstr "Cancel·lar"
 
 #: ../src/exportSession.cs:77
-#, fuzzy
 msgid "Export"
-msgstr "Esport"
+msgstr "Exportar"
 
 #: ../src/exportSession.cs:95
 msgid "Are you sure you want to overwrite file: "
@@ -2561,9 +2520,8 @@ msgstr "Pes"
 #: ../src/exportSession.cs:496
 #: ../src/exportSession.cs:575
 #: ../src/exportSession.cs:616
-#, fuzzy
 msgid "Person ID"
-msgstr "atleta"
+msgstr "ID de subjecte"
 
 #: ../src/exportSession.cs:264
 #: ../src/exportSession.cs:337
@@ -2571,9 +2529,8 @@ msgstr "atleta"
 #: ../src/exportSession.cs:497
 #: ../src/exportSession.cs:576
 #: ../src/exportSession.cs:617
-#, fuzzy
 msgid "Person name"
-msgstr "Nom de la Sessió"
+msgstr "Nom de subjecte"
 
 #: ../src/exportSession.cs:265
 #: ../src/exportSession.cs:338
@@ -2750,9 +2707,9 @@ msgid "If you have previously used the modem via a serial port (in a GNU/Linux s
 msgstr "Si heu fet servir el módem pel port serie abans (a la mateixa sessió de GNU/Linux) chronojump es bloquejarà."
 
 #: ../src/gui/chronojump.cs:628
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "<b>Connected</b> to Chronopic on port: {0}"
-msgstr "Connectat al Chronopic pel port: {0}"
+msgstr "<BConnectat</b> al Chronopic pel port: {0}"
 
 #: ../src/gui/chronojump.cs:632
 msgid "Problems communicating to chronopic, changed platform to 'Simulated'"
@@ -2810,9 +2767,8 @@ msgstr "Esborreu a {0} d'aquesta sessió"
 #: ../src/gui/chronojump.cs:1238
 #: ../src/gui/chronojump.cs:1320
 #: ../src/gui/chronojump.cs:1409
-#, fuzzy
 msgid "Edit selected"
-msgstr "Editeu la cursa seleccionada"
+msgstr "Editeu seleccionat"
 
 #: ../src/gui/chronojump.cs:982
 #: ../src/gui/chronojump.cs:1077
@@ -2820,21 +2776,19 @@ msgstr "Editeu la cursa seleccionada"
 #: ../src/gui/chronojump.cs:1249
 #: ../src/gui/chronojump.cs:1327
 #: ../src/gui/chronojump.cs:1420
-#, fuzzy
 msgid "Delete selected"
-msgstr "Esborreu la cursa seleccionada"
+msgstr "Esborreu seleccionat"
 
 #: ../src/gui/chronojump.cs:1070
 #: ../src/gui/chronojump.cs:1242
 #: ../src/gui/chronojump.cs:1413
-#, fuzzy
 msgid "Repair selected"
-msgstr "Repareu el pols seleccionat"
+msgstr "Repareu seleccionat"
 
 #. feedback (more in 1st session created)
 #: ../src/gui/chronojump.cs:1668
 msgid "Session created, now add or load persons."
-msgstr ""
+msgstr "Sessió creada, ara cal afegir o carregar les persones."
 
 #: ../src/gui/chronojump.cs:1763
 msgid "Are you sure you want to delete the current session"
@@ -2887,7 +2841,7 @@ msgstr "Canviat a mode simulat"
 
 #: ../src/gui/chronojump.cs:2023
 msgid "You need to configurate the Chronopic port at preferences."
-msgstr ""
+msgstr "Cal que configuri el port de Chronopic a les preferències."
 
 #. disconnected
 #: ../src/gui/chronojump.cs:2086
@@ -2903,11 +2857,12 @@ msgstr ""
 "Després premeu el botó\n"
 
 #: ../src/gui/chronojump.cs:2285
-#, fuzzy
 msgid ""
 "Please, touch the contact platform for full finishing.\n"
 "Then press this button:\n"
-msgstr "Si us plau, toqueu la plataforma de contacte per finalitzar. Després premeu el botó\n"
+msgstr ""
+"Si us plau, toqueu la plataforma de contacte per finalitzar.\n"
+"Després premeu el botó:\n"
 
 #: ../src/gui/chronojump.cs:2557
 msgid "Execute Jump"
@@ -2985,14 +2940,13 @@ msgid "Deleted pulse"
 msgstr "Esborreu el pols seleccionat"
 
 #: ../src/gui/chronojump.cs:4105
-#, fuzzy
 msgid "There's a copy of Chronojump Manual at:"
-msgstr "Més informació al Manual de Chronojump"
+msgstr "Hi ha una còpia del Manual de Chronojump a:"
 
 #: ../src/gui/chronojump.cs:4107
 #: ../src/gui/helpPorts.cs:81
 msgid "Newer versions will be on this site:"
-msgstr ""
+msgstr "Les versions més noves es podran troba al la pàgina:"
 
 #: ../src/gui/chronojump.cs:4116
 msgid "translator-credits"
@@ -3001,7 +2955,6 @@ msgstr ""
 "Xavier de Blas <xaviblas@gmail.com>, 2007"
 
 #: ../src/gui/chronojump.cs:4384
-#, fuzzy
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Fet per a realitzar proves de desenvolupament. Chronojump es tancarà ara."
 
@@ -3052,69 +3005,68 @@ msgid "Auto-Detection currently disabled"
 msgstr "Auto-detecció actualment desactivada"
 
 #: ../src/gui/helpPorts.cs:79
-#, fuzzy
 msgid "More information on <b>Chronojump Manual</b> at section:"
-msgstr "Més informació al Manual de Chronojump"
+msgstr "Més informació al <B>Manual de Chronojump</b>"
 
 #: ../src/gui/helpPorts.cs:91
 msgid "Click with the right button on <i>MyPC</i> icon at desktop or Start Menu."
-msgstr ""
+msgstr "Cliqui amb el botó dret a la icona <i>Ordinador</i> a l'escriptori o al menú d'inici."
 
 #: ../src/gui/helpPorts.cs:92
 msgid "Select <i>properties</i> (last option)."
-msgstr ""
+msgstr "Seleccioni <i>propietats</i> (darrera opció)."
 
 #: ../src/gui/helpPorts.cs:93
 msgid "Go to <i>hardware</i>."
-msgstr ""
+msgstr "Vagi a <i>maquinari</i> (o hardware)."
 
 #: ../src/gui/helpPorts.cs:94
 msgid "Select <i>administrate dispositives</i>. It's first button."
-msgstr ""
+msgstr "Seleccioni <i>administrar dispositius</i>. És el primer botó."
 
 #: ../src/gui/helpPorts.cs:95
 msgid "Click on the '+' at left of COM and LPT ports."
-msgstr ""
+msgstr "Clicqui al '+' que hi ha a l'esquerra de ports COM i LPT."
 
 #: ../src/gui/helpPorts.cs:96
 msgid "The port name will be what it's written like COM? on the USB-serial line."
-msgstr ""
+msgstr "El nom del port és on posa COM? a la línia que fa referència a USB-serial."
 
 #: ../src/gui/helpPorts.cs:96
 msgid "Eg: if it's written COM7, then you should write COM7 at Chronojump preferences."
-msgstr ""
+msgstr "Per exemple: si posa COM7, caldrà que escrigui COM7 a les preferències de Chronojump."
 
 #: ../src/gui/helpPorts.cs:97
 msgid "If it doesn't work, try to force to COM1 or COM2, as it's explained on parent window."
-msgstr ""
+msgstr "Si no funciona per a vostè, provi de forçar a COM1 o COM2, tal i com s'explica a la finestra anterior."
 
 #: ../src/gui/helpPorts.cs:105
 msgid "Find the port as explained at <i>Check Chronopic port</i>."
-msgstr ""
+msgstr "Trobi el port tal i com s'explica a <i>Comprovi el port de Chronopic</i>."
 
 #: ../src/gui/helpPorts.cs:106
 msgid "At the line where port is shown right click and select <i>properties</i> (last option)."
-msgstr ""
+msgstr "A la línia on s'indica el port, faci clic amb el botó dret i seleccioni <i>propietats</i> (darrera opció)."
 
 #: ../src/gui/helpPorts.cs:107
 msgid "Go to <i>Port configurations</i>."
-msgstr ""
+msgstr "Vagi a <i>Configuració del port</i>."
 
 #: ../src/gui/helpPorts.cs:108
 msgid "Go to <i>Advanced options</i>."
-msgstr ""
+msgstr "Vagi a <i>Opcions avançades</i>."
 
 #: ../src/gui/helpPorts.cs:109
 msgid "Select COM1 or COM2 on the list shown on that window."
-msgstr ""
+msgstr "Seleccioni COM1 o COM2 a la llista que es mostra en aquella finestra."
 
 #: ../src/gui/helpPorts.cs:110
 msgid "If COM1 and COM2 are <i>used</i>, then select unused ports below 10."
-msgstr ""
+msgstr "Si el COM1 i el COM2 es troben <i>usats</i>, llavors seleccioni altres ports menors que el 10."
 
 #: ../src/gui/helpPorts.cs:110
 msgid "If doesn't work, try to select the COM1 or COM2 (normally they are not really <i>used</i>)."
-msgstr ""
+msgstr "Si no funciona, provi de seleccionar el COM1 o el COM2 (normalment no es troben realment <i>usats</i>)."
 
 #: ../src/gui/jump.cs:56
 msgid "jump"
@@ -3551,22 +3503,20 @@ msgid "State: {0}, lastChange {1}"
 msgstr "Estat: {0}, darrer canvi {1}"
 
 #: ../src/pulseType.cs:46
-#, fuzzy
 msgid "Pulse free"
-msgstr "Pols"
+msgstr "Pols lliure"
 
 #: ../src/pulseType.cs:48
 msgid "User executes a pulse without a predefined tempo. <i>Difference</i> will show the difference between a pulse and it's preceeding pulse."
-msgstr ""
+msgstr "L'usuari executa un pols a un tempo predeterminat. El camp <i>Diferència</i> mostrarà la diferència entre un pols i l'anterior."
 
 #: ../src/pulseType.cs:54
-#, fuzzy
 msgid "Pulse custom"
-msgstr "Polsos"
+msgstr "Pols personalitzat"
 
 #: ../src/pulseType.cs:56
 msgid "User executes a pulse trying to follow a predefined tempo and optionally with a fixed number of pulsations. <i>Difference</i> will show the difference between a a pulse and the predefined pulse."
-msgstr ""
+msgstr "L'usuari executa un pols tractant de segui un temps predeterminat i de forma opcional amb un nombre fix de pulsacions. El camp <i>Diferència</i> mostra la diferència entre un pols i el pols predeterminat."
 
 #: ../src/report.cs:160
 msgid "without subjumps"
@@ -4972,9 +4922,8 @@ msgid "Greco-Roman"
 msgstr "Greco-Romana"
 
 #: ../src/sqlite/sport.cs:150
-#, fuzzy
 msgid "user"
-msgstr "Pols"
+msgstr "usuari"
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.SportUndefinedID

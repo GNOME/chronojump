@@ -586,27 +586,25 @@ public class Util
 		return dateTime;
 	}
 
-	public static string GetOldDatabaseDir() {
+	public static string GetReallyOldDatabaseDir() {
 		return Environment.GetEnvironmentVariable("HOME")+ Path.DirectorySeparatorChar + ".chronojump";
 	}
 	
-	public static string GetDatabaseDir() {
+	public static string GetOldDatabaseDir() {
 		//we are on:
 		//Chronojump/chronojump-x.y/data/
 		//we have to go to
 		//Chronojump/database/
 		
-		//return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
-		
+		return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
+	}
+	
+	public static string GetDatabaseDir() {
 		//fixing:
 		//http://lists.ximian.com/pipermail/mono-list/2008-November/040480.html
-	
-	
-	
 		return Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"Chronojump" + Path.DirectorySeparatorChar + "database");
-		//return GetDatabaseTempDir();
 	}
 	
 	//if database dir has illegal characters, use this temp dir and remember to copy db at end, or to restore if chrashed

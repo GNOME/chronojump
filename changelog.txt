@@ -1,16 +1,15 @@
 
+
+2 dec 2008 (Major RELEASE 0.8 for Linux and windows)
+	installation:
+	updating mono on windows: YourRegValue is shown now monoVersionRegValue
+	on install, bettere message for wait to ftdi install
+	on windows compiled for new mono 2.0.1
+
+	moved ok the old database to new dirs
+	0.8 in chronojump logo at start
+
 1 dec 2008 0.7.9.8
-
-pending:
-YourRegValue on update mono is shown
-it cannot be seen the message: vista wait chronopic port (installation)
-put 0.8 in chronojump logo at start (or anywhere)
-on windows compiled for new mono 2.0.1
-
-
-IMPORTANT: move ok the old database to new dirs
-delete the database and log usual dir
-
 	important: management of database location and temp database location (to solve
 	problems with bad dirs and sqlite
 
@@ -78,11 +77,11 @@ delete the database and log usual dir
 	
 	Improvements on treeviews and edit event:
 	-edit event shows time, tc, tf with all decimals for not triming and
-	do different calculations on eg. jump height, after accept
+	do different calculations on eg. jump height, after accept. Fixes: 355306
 	-Fast addition to descriptions: edit event default focus is in description now an entry (not
 	textview)(to allow a fast writing), and enter does "accept"
 	-edit events updates only it's line (if owner is the same). Now it's
-	easy to add comments
+	easy to add comments. Fixes: 557222
 	-selection of treeviews: jumpsRj, runsI, pulses, now only selects the
 	first line. "edit this", and "delete this".. changed to "selected"
 	-fixed bug treeviewjump, and rj shows now weight in kg if wanted

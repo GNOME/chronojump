@@ -123,7 +123,7 @@ public class ChronoJump
 		Log.WriteLine(string.Format("Chronojump version: {0}", readVersion()));
 
 		//move database to new location if chronojump version is before 0.7
-		moveDatabaseToInstallJammerLocationIfNeeded();
+		moveDatabaseToNewLocationIfNeeded();
 
 		splashMessageChange(1);  //checking database
 
@@ -451,19 +451,32 @@ public class ChronoJump
 	}
 
 	//move database to new location if chronojump version is before 0.7
-	private void moveDatabaseToInstallJammerLocationIfNeeded() {
+	private void moveDatabaseToNewLocationIfNeeded() 
+	{
+		string reallyOldDB = Util.GetReallyOldDatabaseDir();
 		string oldDB = Util.GetOldDatabaseDir();
 		string newDB = Util.GetDatabaseDir();
+		string previous = "";
+		bool moveNeeded = false;
 
+		if(! Directory.Exists(newDB)) {
+			if(Directory.Exists(oldDB)) {
+				previous = oldDB;
+				moveNeeded = true;
+			} else {
+				previous = reallyOldDB;
+				moveNeeded = true;
+			}
+		}
 
-		if(! Directory.Exists(newDB) && Directory.Exists(oldDB)) {
+		if(moveNeeded) {
 			try {
-				Directory.Move(oldDB, newDB);
+				Directory.Move(previous, newDB);
 			}
 			catch {
 				string feedback = "";
 				feedback += string.Format(Catalog.GetString("Cannot move database directory from {0} to {1}"), 
-						oldDB, Path.GetFullPath(newDB)) + "\n";
+						previous, Path.GetFullPath(newDB)) + "\n";
 				feedback += string.Format(Catalog.GetString("Trying to move/copy each file now")) + "\n";
 
 				int fileMoveProblems = 0;
@@ -473,7 +486,7 @@ public class ChronoJump
 					Directory.CreateDirectory(newDB);
 					Directory.CreateDirectory(newDB + Path.DirectorySeparatorChar + "backup");
 
-					string [] filesToMove = Directory.GetFiles(oldDB);
+					string [] filesToMove = Directory.GetFiles(previous);
 					foreach (string oldFile in filesToMove) {
 						string newFile = newDB + Path.DirectorySeparatorChar + oldFile.Substring(oldDB.Length);
 						try {
@@ -501,7 +514,7 @@ public class ChronoJump
 					chronojumpHasToExit = true;
 				}
 				if(fileCopyProblems > 0) {
-					feedback += string.Format(Catalog.GetString("Cannot copy {0} files from {1} to {2}"), fileCopyProblems, oldDB, Path.GetFullPath(newDB)) + "\n";
+					feedback += string.Format(Catalog.GetString("Cannot copy {0} files from {1} to {2}"), fileCopyProblems, previous, Path.GetFullPath(newDB)) + "\n";
 					feedback += string.Format(Catalog.GetString("Please, do it manually.")) + "\n"; 
 					feedback += string.Format(Catalog.GetString("Chronojump will exit now.")) + "\n";
 					messageToShowOnBoot += feedback;	
@@ -509,7 +522,7 @@ public class ChronoJump
 					chronojumpHasToExit = true;
 				}
 				if(fileMoveProblems > 0) {
-					feedback += string.Format(Catalog.GetString("Cannot move {0} files from {1} to {2}"), fileMoveProblems, oldDB, Path.GetFullPath(newDB)) + "\n";
+					feedback += string.Format(Catalog.GetString("Cannot move {0} files from {1} to {2}"), fileMoveProblems, previous, Path.GetFullPath(newDB)) + "\n";
 					feedback += string.Format(Catalog.GetString("Please, do it manually")) + "\n";
 					messageToShowOnBoot += feedback;	
 					Log.WriteLine(feedback);

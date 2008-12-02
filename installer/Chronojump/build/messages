@@ -96,7 +96,7 @@ Installed version: <%ExternalProgramResult%>}
 {<%MonoOutdated%>
 
 Mono minimum version: <%MonoWindowsMinimumVersion%>
-Installed version: <%YourRegValue%>}
+Installed version: <%monoVersionRegValue%>}
 
 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message
 <%MonoInstalling%>
@@ -239,7 +239,11 @@ ChronopicDriverInstall
 {Install Chronopic driver}
 
 ChronopicDriverInstallText
-{Chronopic driver is going to be installed now. Please wait a few seconds... (On Windows Vista can be a 1 or 2 minutes process, pleas wait until ends)}
+{Chronopic driver is going to be installed. Please, wait a few seconds...
+
+On Windows Vista it can stand for one or two minutes, please wait until ends.
+
+When you see "Installation process completed", close that window pressing enter, and click "Next" button.}
 
 ChronopicDriverInstallTextDone
 {Installed Chronopic driver. Please press "Next" }
@@ -968,7 +972,7 @@ Versión instalada: <%ExternalProgramResult%>}
 {<%MonoOutdated%>
 
 Versión mínimia de Mono: <%MonoWindowsMinimumVersion%>
-Versión instalada: <%YourRegValue%>}
+Versión instalada: <%monoVersionRegValue%>}
 
 3FC5BC33-DA5B-9E6B-B025-AA62B582BFEC,Message
 <%MonoInstalling%>
@@ -1086,7 +1090,11 @@ ChronopicDriverInstall
 {Instalación del driver de Chronopic}
 
 ChronopicDriverInstallText
-{El driver de la placa Chronopic va a ser instalado. Por favor, espere unos segundos... (en Windows Vista puede dirar uno o dos minutos, por favor, espere a que termine).}
+{El driver de la placa Chronopic va a ser instalado. Por favor, espere unos segundos...
+
+En Windows Vista puede durar uno o dos minutos, por favor, espere a que termine.
+
+Cuando en la ventana negra aparezca "Installation process completed", cierre la misma pulsando enter, y pulse el botón "Siguiente".}
 
 ChronopicDriverInstallTextDone
 {instalado el driver de la Chronopic. Por favor, pulse "Siguiente"}

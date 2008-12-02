@@ -32,3 +32,11 @@ c-12;<a href=":::imageLink:::/raul_bescos.jpg"><img src=":::imageLink:::/raul_be
 c-13;<a href=":::imageLink:::/bernat_busca-xavi_p.jpg"><img src=":::imageLink:::/bernat_busca-xavi_p_small.jpg" width="125" height="94"></a>
 c-14;<a href=":::imageLink:::/drop.jpg"><img src=":::imageLink:::/drop_small.jpg" width="125" height="94"></a>
 c-15;<a href=":::imageLink:::/audience.jpg"><img src=":::imageLink:::/audience_small.jpg" width="125" height="94"></a>
+c-16;<a href=":::imageLink:::/vic_nov_08_cp_1.jpg"><img src=":::imageLink:::/vic_nov_08_cp_1_small.jpg" width="125" height="83"></a>
+c-17;<a href=":::imageLink:::/vic_nov_08_cp_2.jpg"><img src=":::imageLink:::/vic_nov_08_cp_2_small.jpg" width="125" height="83"></a>
+c-18;<a href=":::imageLink:::/vic_nov_08_plat_1.jpg"><img src=":::imageLink:::/vic_nov_08_plat_1_small.jpg" width="125" height="83"></a>
+c-19;<a href=":::imageLink:::/vic_nov_08_plat_2.jpg"><img src=":::imageLink:::/vic_nov_08_plat_2_small.jpg" width="125" height="83"></a>
+c-20;<a href=":::imageLink:::/vic_nov_08_plat_3.jpg"><img src=":::imageLink:::/vic_nov_08_plat_3_small.jpg" width="125" height="83"></a>
+c-21;<a href=":::imageLink:::/vic_nov_08_plat_4.jpg"><img src=":::imageLink:::/vic_nov_08_plat_4_small.jpg" width="125" height="83"></a>
+c-22;<a href=":::imageLink:::/vic_nov_08_plat_5.jpg"><img src=":::imageLink:::/vic_nov_08_plat_5_small.jpg" width="125" height="83"></a>
+c-23;<a href=":::imageLink:::/vic_nov_08_portatils.jpg"><img src=":::imageLink:::/vic_nov_08_portatils_small.jpg" width="125" height="83"></a>

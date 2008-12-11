@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the chronojump package.
 #
 # Elisabet Bermejo <elibermejo@gmail.com>, 2007.
+# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008 (fixes typos)
+#
+
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
@@ -36,7 +39,7 @@ msgstr "100m"
 
 #: ../glade/chronojump.glade.h:6
 msgid "20 Yard"
-msgstr "20 Yardes"
+msgstr "20 iardes"
 
 #: ../glade/chronojump.glade.h:7
 msgid "200m"
@@ -45,7 +48,7 @@ msgstr "200m"
 #: ../glade/chronojump.glade.h:8
 #: ../src/runType.cs:116
 msgid "20Yard Agility test"
-msgstr "Test d'agilitat de 20 Yardes"
+msgstr "Test d'agilitat de 20 iardes"
 
 #: ../glade/chronojump.glade.h:9
 msgid "20m"
@@ -66,7 +69,7 @@ msgstr "Test d'agilitat 505"
 
 #: ../glade/chronojump.glade.h:13
 msgid "<- unselect"
-msgstr "<- de-seleccioneu"
+msgstr "<- desseleccioneu"
 
 #: ../glade/chronojump.glade.h:14
 msgid "<b>Best and worst values</b>"
@@ -94,7 +97,7 @@ msgstr "<b>Detecció</b>"
 
 #: ../glade/chronojump.glade.h:20
 msgid "<b>Full name</b>"
-msgstr "<b>Nom complert</b>"
+msgstr "<b>Nom complet</b>"
 
 #: ../glade/chronojump.glade.h:21
 msgid "<b>Guides</b>"
@@ -982,7 +985,7 @@ msgid ""
 "(bold titles are required)"
 msgstr ""
 "Si us plau, introduïu les dades\n"
-"(els paràmetres en negreta són obligatòris)"
+"(els paràmetres en negreta són obligatoris)"
 
 #: ../glade/chronojump.glade.h:209
 msgid "Please select <b>Chronojump</b> language"
@@ -1077,7 +1080,7 @@ msgstr "Salt reactiu limitat per temps"
 #: ../glade/chronojump.glade.h:229
 #: ../src/jumpType.cs:141
 msgid "Reactive Jump unlimited (until finish button is clicked)"
-msgstr "Salt reactiu fins prémer el botó <<Finalizar»"
+msgstr "Salt reactiu fins prémer el botó <<Finalitzar»"
 
 #: ../glade/chronojump.glade.h:230
 msgid "Repair selected (r)"
@@ -1412,7 +1415,7 @@ msgstr "Imatge i descripció del test"
 
 #: ../glade/chronojump.glade.h:288
 msgid "This dialog explains wich ports are suitable to be connected with Chronopic"
-msgstr "Aquest diàleg explica quins ports són els adequats per a connectar amb el chronopic"
+msgstr "Aquest diàleg explica quins ports són els adequats per a connectar amb el Chronopic"
 
 #: ../glade/chronojump.glade.h:289
 #: ../src/execute/reactionTime.cs:236
@@ -1477,7 +1480,7 @@ msgstr "Actualiza"
 
 #: ../glade/chronojump.glade.h:297
 msgid "Update stats"
-msgstr "Actualiza les estadístiques"
+msgstr "Actualitza les estadístiques"
 
 #: ../glade/chronojump.glade.h:298
 msgid "Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
@@ -1560,7 +1563,7 @@ msgstr "_Manual"
 
 #: ../glade/chronojump.glade.h:318
 msgid "_New person"
-msgstr "atleta nou"
+msgstr "A_tleta nou"
 
 #: ../glade/chronojump.glade.h:319
 msgid "_New session"
@@ -2373,7 +2376,7 @@ msgstr "Exportar"
 
 #: ../src/exportSession.cs:95
 msgid "Are you sure you want to overwrite file: "
-msgstr "Esteu segurs que voleu sobreesciure l'arxiu?"
+msgstr "Esteu segurs que voleu sobreescriure l'arxiu?"
 
 #: ../src/exportSession.cs:103
 #: ../src/exportSession.cs:135
@@ -2567,15 +2570,15 @@ msgstr "Tipus de salt"
 
 #: ../src/exportSession.cs:340
 msgid "TC Max"
-msgstr "TC Max"
+msgstr "TC Màx"
 
 #: ../src/exportSession.cs:341
 msgid "TF Max"
-msgstr "TV Max"
+msgstr "TV Màx"
 
 #: ../src/exportSession.cs:342
 msgid "Max Height"
-msgstr "Alçada Max"
+msgstr "Alçada Màx"
 
 #: ../src/exportSession.cs:343
 msgid "Max Initial Speed"
@@ -2704,7 +2707,7 @@ msgstr "si el programa es bloqueja, escriu a xaviblas@gmail.com"
 
 #: ../src/gui/chronojump.cs:585
 msgid "If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash."
-msgstr "Si heu fet servir el módem pel port serie abans (a la mateixa sessió de GNU/Linux) chronojump es bloquejarà."
+msgstr "Si heu fet servir el mòdem pel port serie abans (a la mateixa sessió de GNU/Linux) chronojump es bloquejarà."
 
 #: ../src/gui/chronojump.cs:628
 #, csharp-format
@@ -2731,7 +2734,7 @@ msgid ""
 "... And after cancelling Chronopic detection."
 msgstr ""
 "\n"
-"... Així com després de cancelar la detecció del Chronopic."
+"... Així com després de cancel·lar la detecció del Chronopic."
 
 #: ../src/gui/chronojump.cs:636
 msgid ""
@@ -2805,7 +2808,7 @@ msgstr "S'ha esborrat la sessió i tots els seus tests"
 #: ../src/gui/chronojump.cs:1852
 #: ../src/gui/stats.cs:973
 msgid "Successfully added"
-msgstr "Afegit satisfactoriament"
+msgstr "Afegit satisfactòriament"
 
 #: ../src/gui/chronojump.cs:1859
 msgid "Select number of persons to add"
@@ -3191,7 +3194,7 @@ msgstr "Afegiu nou esport a la base de dades"
 #: ../src/gui/session.cs:540
 #, csharp-format
 msgid "Sorry, this sport '{0}' already exists in database"
-msgstr "Diculpi, aquest esport '{0}' ja existeix a la base de dades"
+msgstr "Disculpi, aquest esport '{0}' ja existeix a la base de dades"
 
 #: ../src/gui/person.cs:1126
 #, csharp-format
@@ -3586,7 +3589,7 @@ msgstr "Citat amb permís."
 
 #: ../src/runType.cs:143
 msgid "Markers are set up 5 and 15 meters from a line marked on the ground. The athlete runs from the 15 meter marker towards the line (run in distance to build up speed) and through the 5 m markers, turns on the line and runs back through the 5 m markers. The time is recorded from when the athletes first runs through the 5 meter marker, and stopped when they return through these markers (that is, the time taken to cover the 5 m up and back distance - 10 m total). The best of two trails is recorded. The turning ability on each leg should be tested. The subject should be encouraged to not overstep the line by too much, as this will increase their time."
-msgstr "Les marques es disposen a 5 i 15 metros de una línia marcada al terra. L'atleta corre des de la marca de 15 metres cap a la línía (distància de cursa inicial per a aconseguir velocitat)  i entre les dues marques de 5m, gira a la línia i corre de volta fins a les marques de 5m. El temps que es registra és des de que l'atleta arriba per primer cop a la marca de 5m, fins que torna a trepitjar la mateixa marca  (o sigui, el temps que ha necessitat per a recórrer els 5m d'anada i tornada - 10m  en total). Es registra el millor de dos intents. S'ha de registrar la capacitat de gir amb cada cama. S'anima al subjecte a no \"trepitjat massa\" la línia, doncs això augmentaria el tiemps."
+msgstr "Les marques es disposen a 5 i 15 metres de una línia marcada al terra. L'atleta corre des de la marca de 15 metres cap a la línia (distància de cursa inicial per a aconseguir velocitat)  i entre les dues marques de 5m, gira a la línia i corre de volta fins a les marques de 5m. El temps que es registra és des de que l'atleta arriba per primer cop a la marca de 5m, fins que torna a trepitjar la mateixa marca  (o sigui, el temps que ha necessitat per a recórrer els 5m d'anada i tornada - 10m  en total). Es registra el millor de dos intents. S'ha de registrar la capacitat de gir amb cada cama. S'anima al subjecte a no \"trepitjat massa\" la línia, doncs això augmentaria el temps."
 
 #: ../src/runType.cs:146
 msgid "This is a test of 180 degree turning ability. This ability may not be applicable to some sports."
@@ -3594,7 +3597,7 @@ msgstr "Aquest test és òptim per a registrar la capacitat en el gir de 180 gra
 
 #: ../src/runType.cs:160
 msgid "The length of the course is 10 meters and the width (distance between the start and finish points) is 5 meters. Four cones are used to mark the start, finish and the two turning points. Another four cones are placed down the center an equal distance apart. Each cone in the center is spaced 3.3 meters apart."
-msgstr "La longitut de la cursa és de 10 metres i l'amplada (distància entre els punts d'inici i final) és de 5 metres. S'usen quatre cons per a marcar la sortida, final i els dos puntss de gir. Uns altres quatre cons es posen al centre i separats a igual distància. Cada con central està 3,3 metres separat de la resta."
+msgstr "La longitud de la cursa és de 10 metres i l'amplada (distància entre els punts d'inici i final) és de 5 metres. S'usen quatre cons per a marcar la sortida, final i els dos punts de gir. Uns altres quatre cons es posen al centre i separats a igual distància. Cada con central està 3,3 metres separat de la resta."
 
 #: ../src/runType.cs:163
 msgid "Subjects should lie on their front (head to the start line) and hands by their shoulders. On the 'Go' command the stopwatch is started, and the athlete gets up as quickly as possible and runs around the course in the direction indicated, without knocking the cones over, to the finish line, at which the timing is stopped."
@@ -3649,7 +3652,7 @@ msgstr "Aventatges"
 
 #: ../src/runType.cs:175
 msgid "This is a simple test to administer, requiring little equipment. Can test players ability to turn in different directions, and different angles."
-msgstr "Aquest test és fàcil de realitzar, es requereis poc equipamient. Pot mostrar la capacitat dels esportistes de girar en diferents direccions i en diferents àngles."
+msgstr "Aquest test és fàcil de realitzar, es requereix poc equipament. Pot mostrar la capacitat dels esportistes de girar en diferents direccions i en diferents angles."
 
 #: ../src/runType.cs:177
 msgid "Disadvantages"
@@ -3657,7 +3660,7 @@ msgstr "Desaventatges"
 
 #: ../src/runType.cs:178
 msgid "Choice of footwear and surface of area can effect times greatly. Results can be subject to timing inconsistencies, which may be overcome by using timing gates. Cannot distinguish between left and right turning ability."
-msgstr "L'elecció del calçat i la superfície on es realitza poden afectar considerablement en el resultat. Els resultats poden estar sotmesos a problemes de mesura, que poden ser solventats amb cèl·lules infrarroges. No pot diferenciar entre la capacirtat de gir cap a l'esquerra i la dreta."
+msgstr "L'elecció del calçat i la superfície on es realitza poden afectar considerablement en el resultat. Els resultats poden estar sotmesos a problemes de mesura, que poden ser solventats amb cèl·lules infraroges. No pot diferenciar entre la capacitat de gir cap a l'esquerra i la dreta."
 
 #: ../src/runType.cs:180
 #: ../src/runType.cs:207
@@ -3678,7 +3681,7 @@ msgstr "Aquest és un test de velocitat i agilitat, important en molts esports."
 
 #: ../src/runType.cs:201
 msgid "This test requires the person to run back and forth between two parallel lines as fast as possible. Set up two lines of cones 30 feet apart or use line markings, and place two blocks of wood or a similar object behind one of the lines. Starting at the line opposite the blocks, on the signal 'Ready? Go!' the participant runs to the other line, picks up a block and returns to place it behind the starting line, then returns to pick up the second block, then runs with it back across the line."
-msgstr "Aquest test requereis que el subjecte corri endavant i enrere entre dues línies paral·leles tan ràpid como sigui possible. Ubiqui dues línias de cons separades 30 metres o marqui les línies, i posi dos blocs de fusta o un objecte similar damunt d'una de elles. Iniciant a la línia oposada a la dels blocs, a la senyal de 'Preparat? Sortida!' el participant corre cap a l'altre línia, recull un bloc y torna per a posar-lo damunt de la línia inicial, llavors retorna per a recollir el segon bloc, i corre de tornada amb aquest fins creuar la línia."
+msgstr "Aquest test requereix que el subjecte corri endavant i enrere entre dues línies paral·leles tan ràpid como sigui possible. Ubiqui dues línies de cons separades 30 metres o marqui les línies, i posi dos blocs de fusta o un objecte similar damunt d'una de elles. Iniciant a la línia oposada a la dels blocs, a la senyal de 'Preparat? Sortida!' el participant corre cap a l'altre línia, recull un bloc i torna per a posar-lo damunt de la línia inicial, llavors retorna per a recollir el segon bloc, i corre de tornada amb aquest fins creuar la línia."
 
 #: ../src/runType.cs:205
 msgid "Two or more trails may be performed, and the quickest time is recorded. Results are recorded to the nearest tenth of a second."

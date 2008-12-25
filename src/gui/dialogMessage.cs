@@ -32,7 +32,6 @@ public class DialogMessage
 	[Widget] Gtk.Image image_info;
 	[Widget] Gtk.Image image_help;
 
-	//if ! isWarning, then it's an info
 	public DialogMessage (Constants.MessageTypes type, string message)
 	{
 		Glade.XML gladeXML;
@@ -45,16 +44,6 @@ public class DialogMessage
 		//with this, user doesn't see a moving/changing creation window
 		dialog_message.Hide();	
 
-
-	/*	
-		if(isWarning) {
-			image_warning.Show();
-			image_info.Hide();
-		} else {
-			image_warning.Hide();
-			image_info.Show();
-		}
-		*/
 		switch (type) {
 			case Constants.MessageTypes.WARNING:
 				image_warning.Show();

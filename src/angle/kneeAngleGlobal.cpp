@@ -68,9 +68,15 @@ CvScalar LIGHT = CV_RGB( 247,247,247);
 
 enum { SMALL = 1, MID = 2, BIG = 3 }; 
 
-//used on menu gui
-//currently validation and blackAndMarkers are synonymous (until statistical anylisys is not done)
-enum { quit = -2, undefined = -1, validation = 0, blackAndMarkers = 1, skinOnlyMarkers = 2}; 
+//used on menu gui and programMode
+//currently validation and blackWithoutMarkers are synonymous (until statistical anylisys is not done)
+/*
+ * validation uses markers and black pants to try to find relationship between both
+ * blackWithoutMarkers uses only black pants and finds the place where the markers should be
+ *    (when validation study for lots of people isdone)
+ * skinOnlyMarkers uses markers to find three points and angle (easiest)
+ */
+enum { quit = -2, undefined = -1, validation = 0, blackWithoutMarkers = 1, skinOnlyMarkers = 2}; 
 
 //used on gui
 enum { 

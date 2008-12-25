@@ -162,6 +162,8 @@ public class StatsWindow {
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		
+		UtilGtk.ResizeIfNeeded(stats_window);
+
 		//put an icon to window
 		UtilGtk.IconWindow(stats_window);
 

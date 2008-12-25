@@ -218,10 +218,26 @@ CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 	int maxy2 = -1;
 	
 	bool foundNow = false;
-	for(int y=starty; y<endy; y++)
+
+	int startx;
+	int lastx = -1;
+
+	/*
+	changed kneePointBack to be found from down to up, and x starts at position
+	in last row (this will help to find kneePointBack ok when there's lot of
+	flexion and biceps femoral is lower than kneePointBack
+	*/
+
+	for(int y=endy; y>starty; y--)
 	{
 		uchar *srcdataptr = srcdata + y*img->width;
-		for(int x=0; x < kneePointFrontX; x++)
+
+		if(lastx != -1 && srcdataptr[lastx] > 0)
+			startx = lastx;
+		else
+			startx = 0;
+
+		for(int x=startx; x < kneePointFrontX; x++)
 		{
 			if(srcdataptr[x] > 0)
 			{
@@ -230,34 +246,6 @@ CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 					maxx = x;
 					maxy = y;
 					foundNow = true;
-	
-					/* DO THIS BY CONVEXITY DEFECTS. See opencv book, page 259
-					 */
-
-					/*
-					 * TODO: improve this, 
-					 * check as a sample:
-					 * ~/Desktop/opencv_validacio_blanquerna/tarda/38_xxx_salt5_m.MOV 
-					 * or apply also in above:
-					 * else if(foundNow && x==maxx) 
-
-					//search for a hidden upperRight popliteo (flexion of 50º aprox)
-					//going up
-					int xSearch = x;
-					int ySearch = y-1;
-					uchar *srcdataptr2 = srcdata + ySearch*img->width;
-					while (srcdataptr2[xSearch] == 0) { //while there's white space up
-						//found air, at right there must be pants
-						while(srcdataptr2[xSearch ++] == 0) {
-							if(xSearch > x) {
-								maxx = xSearch;
-								maxy = ySearch;
-							}
-						}
-						ySearch --;
-						srcdataptr2 = srcdata + ySearch*img->width;
-					}
-					*/
 				}
 				else if(foundNow && x==maxx) {
 					maxx2 = x;
@@ -313,11 +301,10 @@ CvPoint kneePointInNearMiddleOfFrontAndBack(CvPoint kneePointBack, CvPoint kneeP
  * Toe point is a white pixel below the knee point and having minimum x coordinate
  * Returns the coordinate of the hip point
  */
-CvPoint findToePoint(IplImage *img,CvRect roirect,int startx,int starty)
+CvPoint findToePoint(IplImage *img,CvRect roirect,int startx,int starty, int toeMinWidth)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
-	
 	
 	/* if toe is in the image, is better to try to avoid it capturing above, if not then capture all
 	 * maybe force user to capture without toe, or ask and put a boolean
@@ -342,7 +329,8 @@ CvPoint findToePoint(IplImage *img,CvRect roirect,int startx,int starty)
 			{
 				if(x>startx)
 					break;
-				if(x<minx)
+				//if found a leftier pointm and the with of this toe is bigger than 1/2 of knee width at extension
+				if(x<minx && findWidth(img, cvPoint(x,y), false) >= toeMinWidth )
 				{
 					minx = x;
 					miny = y;
@@ -914,17 +902,8 @@ CvRect findLargestContour(IplImage* img,IplImage* temp, bool showContour)
 	}
 
 	//show temp image (contour) little
-	if(showContour) {
-		cvNamedWindow("contour",1);
-		cvResize(temp, temp, CV_INTER_LINEAR);
-
-		double scale = 4;
-		//double scale = 1;
-		IplImage* tempSmall = cvCreateImage( cvSize( cvRound (img->width/scale), cvRound (img->height/scale)), 8, 1 );
-		cvResize( temp, tempSmall, CV_INTER_LINEAR );
-
-		cvShowImage("contour", tempSmall);
-	}
+	if(showContour) 
+		showScaledImage(temp, "contour");
 	
 	cvReleaseMemStorage(&storage);
 	cvReleaseImage(&tempcopy);
@@ -1238,7 +1217,7 @@ void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 				if(pointInsideRect(clicked, rval))
 					mouseClicked = validation;
 				else if(pointInsideRect(clicked, rbam))
-					mouseClicked = blackAndMarkers;
+					mouseClicked = blackWithoutMarkers;
 				else if(pointInsideRect(clicked, rsom))
 					mouseClicked = skinOnlyMarkers;
 				else if(pointInsideRect(clicked, rquit))
@@ -1289,8 +1268,9 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 					mouseClicked = FORWARD;
 				else if(pointInsideRect(clicked, rfastforward))
 					mouseClicked = FASTFORWARD;
-				if(pointInsideRect(clicked, rbackward))
+				else if(pointInsideRect(clicked, rbackward))
 					mouseClicked = BACKWARD;
+
 
 				else if(pointInsideRect(clicked, rhip))
 					mouseClicked = HIPMARK;
@@ -1318,7 +1298,7 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 				else if(pointInsideRect(clicked, rtgloballess))
 					mouseClicked = TGLOBALLESS;
 
-				if(pointInsideRect(clicked, rquit))
+				else if(pointInsideRect(clicked, rquit))
 					mouseClicked = QUIT;
 			}
 			break;
@@ -1370,11 +1350,7 @@ void on_mouse_mark_point( int event, int x, int y, int flags, void* param )
 }
 
 void updateHolesWin(IplImage *segmentedValidationHoles) {
-	double scale = 4;
-	IplImage* tempSmall = cvCreateImage( cvSize( cvRound (segmentedValidationHoles->width/scale), 
-				cvRound (segmentedValidationHoles->height/scale)), 8, 1 );
-	cvResize( segmentedValidationHoles, tempSmall, CV_INTER_LINEAR );
-	cvShowImage("holes",tempSmall);
+	showScaledImage(segmentedValidationHoles, "holes");
 }
 
 void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLeft, 

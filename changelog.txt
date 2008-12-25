@@ -1,4 +1,12 @@
+25 dec 2008
+	screen height to adapt to ultralaptops:
+	-app1 gets maximized
+	-stats use UtilGtk.ResizeIfNeeded(stats_window);
 
+	-on windows chronopic port is a spinbutton now
+	-export to csv, now separates with ';' and not with '; '
+	-export to spreadsheet help message not appears in report
+	-dialogMessage now centered on parent
 
 2 dec 2008 (Major RELEASE 0.8 for Linux and windows)
 	installation:

@@ -1,3 +1,24 @@
+do that validation does the skin method and the black method, instead of
+having a black method full of validation things
+at end, validation should add compare code
+
+des 18
+
+	changee toe to not allow to be one pixel width (really bottom of the
+	pants), lowest width accepted is similar than initial  width
+
+	changed kneePointBack to be found from down to up, and x starts at position
+	in last row (this will help to find kneePointBack ok when there's lot of
+	flexion and biceps femoral is lower than kneePointBack
+
+	extension ask true again
+
+	working on three programModes integration
+	blackWithoutMarkers working
+	added kneeAngle_black_without.svg and kneeAngle_black_without.png
+	fixed backward
+
+
 nov 14
 	starting changelog here insted of being on Chronojump trunk
 	three modes only: blackOnlyMarkes and skinOnlyMarkers are the same

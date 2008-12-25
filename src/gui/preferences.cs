@@ -33,6 +33,9 @@ public class PreferencesWindow {
 	[Widget] Gtk.Window preferences;
 
 	[Widget] Gtk.Entry entry_chronopic;
+	[Widget] Gtk.Box hbox_port_windows;
+	[Widget] Gtk.SpinButton spin_com_windows;
+
 	[Widget] Gtk.Label label_database;
 	[Widget] Gtk.Label label_database_temp;
 	[Widget] Gtk.Label label_logs;
@@ -73,8 +76,16 @@ public class PreferencesWindow {
 		//put an icon to window
 		UtilGtk.IconWindow(preferences);
 		
-		if(entryChronopic.Length > 0) {
-			entry_chronopic.Text = entryChronopic;
+		if(Util.IsWindows()) {
+			if(entryChronopic.Length > 0 && entryChronopic != Constants.ChronopicDefaultPortWindows) //default port windows is COM? (show a COM1)
+				spin_com_windows.Value =  Convert.ToInt32(entryChronopic.Substring(
+							3, entryChronopic.Length -3)); //eg: 'COM21', character 3 to end will be '21'
+			else
+				spin_com_windows.Value =  1;
+		} else {
+			if(entryChronopic.Length > 0) {
+				entry_chronopic.Text = entryChronopic;
+			}
 		}
 		
 		label_database.Text = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
@@ -85,13 +96,19 @@ public class PreferencesWindow {
 	
 	static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, 
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
-			//bool askDeletion, bool heightPreferred, bool metersSecondsPreferred, string culture, bool allowFinishRjAfterTime)
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, string language, bool allowFinishRjAfterTime)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (entryChronopic);
 		}
 
+		if(Util.IsWindows()) {
+			PreferencesWindowBox.hbox_port_windows.Show();
+			PreferencesWindowBox.entry_chronopic.Hide();
+		} else {
+			PreferencesWindowBox.hbox_port_windows.Hide();
+			PreferencesWindowBox.entry_chronopic.Show();
+		}
 
 		PreferencesWindowBox.languageIni = language;
 		//if(Util.IsWindows())
@@ -233,7 +250,11 @@ public class PreferencesWindow {
 	{
 		/* the falses are for the dbcon that is not opened */
 
-		SqlitePreferences.Update("chronopicPort", entry_chronopic.Text.ToString(), false);
+		if(Util.IsWindows()) 
+			SqlitePreferences.Update("chronopicPort", "COM" + spin_com_windows.Text.ToString(), false);
+		else
+			SqlitePreferences.Update("chronopicPort", entry_chronopic.Text.ToString(), false);
+		
 		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString(), false);
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);

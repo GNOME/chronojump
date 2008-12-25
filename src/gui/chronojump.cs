@@ -418,6 +418,15 @@ public class ChronoJumpWindow
 
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
+				
+		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
+
+		/*
+		int app1X, app1Y;
+		app1.GetSize(out app1X, out app1Y);
+		app1.Resize(app1X, UtilGtk.ScreenHeightFitted(true));
+		*/
+		app1.Maximize();
 
 		cpRunning = false;
 
@@ -448,6 +457,8 @@ public class ChronoJumpWindow
 		//reaction_times has no combo
 		createComboPulses();
 		createdStatsWin = false;
+
+
 
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
 

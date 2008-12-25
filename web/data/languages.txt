@@ -1,5 +1,4 @@
 Català:_ca
-Deutsch:_de
 English:_en
 Español:_es
 Français:_fr

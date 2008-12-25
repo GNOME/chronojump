@@ -450,5 +450,14 @@ void eraseGuiWindow(IplImage * gui) {
 	cvShowImage("gui", gui);
 }
 
+void showScaledImage(IplImage * img, const char *title) {
+	cvNamedWindow(title, 1);
+	//double scale = 4;
+	double scale = 2;
+	IplImage* small = cvCreateImage( cvSize( cvRound (img->width/scale), cvRound (img->height/scale)), 8, img->nChannels );
+	cvResize( img, small, CV_INTER_LINEAR );
+	cvShowImage(title, small);
+}
+
 
 

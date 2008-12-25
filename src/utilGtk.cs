@@ -22,11 +22,32 @@
 using System;
 using System.Text; //StringBuilder
 using Gtk;
+using Gdk;
 
 //this class tries to be a space for methods that are used in different classes
 //only Gtk related methods (not used bu the server) this is the differnece with Util
 public class UtilGtk
 {
+	public static void ResizeIfNeeded(Gtk.Window win) {
+		int winX, winY;
+		win.GetSize(out winX, out winY);
+		int maxY = ScreenHeightFitted(true);
+		if(winY > maxY)
+			win.Resize(winX, maxY);
+	}
+
+	//(takes care)? of menu bar
+	public static int ScreenHeightFitted(bool fit) {
+		if(fit)
+			return ScreenHeight() -25;
+		else
+			return ScreenHeight();
+	}
+	
+	private static int ScreenHeight() {
+		//libmono-cairo2.0-cil
+		return Gdk.Display.Default.GetScreen(0).Height;
+	}
 
 	public static void IconWindow(Gtk.Window myWindow) {
 		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIcon);

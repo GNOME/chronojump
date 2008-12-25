@@ -51,6 +51,8 @@ public class Report : ExportSession
 
 	private string progversion;
 	
+	
+	
 	public Report(int sessionID)
 	{
 		this.SessionID = sessionID;
@@ -62,6 +64,8 @@ public class Report : ExportSession
 		ShowIntervalRuns = true;
 		ShowReactionTimes = true;
 		ShowPulses = true;
+	
+		spreadsheetString = "";
 
 		StatisticsData = new ArrayList(2);
 		
@@ -83,6 +87,8 @@ public class Report : ExportSession
 		this.ShowPulses = showPulses;
 		this.StatisticsData = statisticsData;
 		
+		spreadsheetString = "";
+
 		mySession = SqliteSession.Select(sessionID.ToString());
 	}
 

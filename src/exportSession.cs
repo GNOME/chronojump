@@ -45,6 +45,8 @@ public class ExportSession
 	protected int prefsDigitsNumber;
 	protected bool heightPreferred;
 	protected bool weightStatsPercent;
+					
+	protected string spreadsheetString;
 
 	public ExportSession() {
 	}
@@ -56,6 +58,8 @@ public class ExportSession
 		this.prefsDigitsNumber = prefsDigitsNumber;
 		myAppbar = mainAppbar;
 		
+		spreadsheetString = "";
+
 		checkFile("none");
 	}
 
@@ -100,7 +104,7 @@ public class ExportSession
 					printData();
 					closeWriter();
 
-					string myString = string.Format(Catalog.GetString("Saved to {0}\n\nWhen import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon: <b>;</b>"), fileName);
+					string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName) + spreadsheetString;
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
 			} 
@@ -132,7 +136,7 @@ public class ExportSession
 		printData();
 		closeWriter();
 				
-		string myString = string.Format(Catalog.GetString("Saved to {0}\n\nWhen import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon: <b>;</b>"), fileName);
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName) + spreadsheetString;
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 		
@@ -687,12 +691,15 @@ public class ExportSession
 
 public class ExportSessionCSV : ExportSession 
 {
-	
+
 	public ExportSessionCSV(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar, int prefsDigitsNumber) 
 	{
 		this.mySession = mySession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
 		myAppbar = mainAppbar;
+	
+		spreadsheetString = "\n\n" + Catalog.GetString("When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon: <b>;</b>");
+
 		checkFile("CSV");
 	}
 
@@ -704,8 +711,12 @@ public class ExportSessionCSV : ExportSession
 			//correctly separate the rows with no problems with decimals
 			//1 delete the ';'
 			exportData[i] = exportData[i].ToString().Replace(";", " ");
+			/*
 			//2 put '; ' as separator
 			exportData[i] = exportData[i].ToString().Replace(":", "; ");
+			*/
+			//2 put ';' as separator
+			exportData[i] = exportData[i].ToString().Replace(":", ";");
 
 			writer.WriteLine( exportData[i] );
 		}

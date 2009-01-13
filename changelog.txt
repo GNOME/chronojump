@@ -1,3 +1,12 @@
+13 jan 2008
+	0.8.1.1
+	on gui preferences, port windows and linux with combobox
+
+	0.8.1
+	splash now ends better
+	managing a.m., p.m. time formats
+	server can compile again
+
 25 dec 2008
 	screen height to adapt to ultralaptops:
 	-app1 gets maximized

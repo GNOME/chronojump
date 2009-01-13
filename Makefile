@@ -106,7 +106,7 @@ CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs src/chronopic.cs src/util.cs src/lo
 
 #--------Dependences of CHRONOJUMP_SERVER
 
-CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*.cs src/util.cs src/person.cs src/event.cs src/jump.cs src/run.cs src/pulse.cs src/reactionTime.cs src/session.cs src/eventType.cs src/jumpType.cs src/runType.cs src/pulseType.cs src/constants.cs
+CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*.cs src/util.cs src/person.cs src/event.cs src/jump.cs src/run.cs src/pulse.cs src/reactionTime.cs src/session.cs src/eventType.cs src/jumpType.cs src/runType.cs src/pulseType.cs src/sport.cs src/constants.cs src/log.cs 
 
 
 #--------Makefiles
@@ -116,7 +116,8 @@ all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg
 #all: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_MINI_VALIDATE).prg
 
 #chronojump, chronojump_mini and server (use 'make server')
-server: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_SERVER)
+#server: $(CHRONOJUMP).prg $(CHRONOJUMP_MINI).prg $(CHRONOJUMP_SERVER)
+server: $(CHRONOJUMP_SERVER)
 
 
 #-------------------------------

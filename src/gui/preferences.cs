@@ -32,9 +32,8 @@ public class PreferencesWindow {
 	
 	[Widget] Gtk.Window preferences;
 
-	[Widget] Gtk.Entry entry_chronopic;
-	[Widget] Gtk.Box hbox_port_windows;
-	[Widget] Gtk.SpinButton spin_com_windows;
+	[Widget] Gtk.ComboBox combo_port_linux;
+	[Widget] Gtk.ComboBox combo_port_windows;
 
 	[Widget] Gtk.Label label_database;
 	[Widget] Gtk.Label label_database_temp;
@@ -67,7 +66,21 @@ public class PreferencesWindow {
 	//dialogMessage
 	private string languageIni;
 
+	string [] comboLinuxOptions = {
+		"/dev/ttyUSB?", 
+		"/dev/ttyUSB0", 
+		"/dev/ttyUSB1", 
+		"/dev/ttyUSB2", 
+		"/dev/ttyUSB3", 
+		"/dev/ttyS0", 
+		"/dev/ttyS1", 
+		"/dev/ttyS2", 
+		"/dev/ttyS3", 
+	};
 		
+	string [] comboWindowsOptions;
+	
+
 	PreferencesWindow (string entryChronopic) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", null);
@@ -75,23 +88,34 @@ public class PreferencesWindow {
 		
 		//put an icon to window
 		UtilGtk.IconWindow(preferences);
+
+		//combo port stuff
+		comboWindowsOptions = new string[257];
+		int count = 0;
+		for (int i=1; i <= 257; i ++)
+			comboWindowsOptions[i-1] = "COM" + i;
+
+		UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
+		UtilGtk.ComboUpdate(combo_port_linux, comboLinuxOptions, comboLinuxOptions[0]);
 		
+
 		if(Util.IsWindows()) {
-			if(entryChronopic.Length > 0 && entryChronopic != Constants.ChronopicDefaultPortWindows) //default port windows is COM? (show a COM1)
-				spin_com_windows.Value =  Convert.ToInt32(entryChronopic.Substring(
-							3, entryChronopic.Length -3)); //eg: 'COM21', character 3 to end will be '21'
+			if(entryChronopic.Length > 0)
+				combo_port_windows.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, entryChronopic);
 			else
-				spin_com_windows.Value =  1;
+				combo_port_windows.Active = 0; //first option
 		} else {
-			if(entryChronopic.Length > 0) {
-				entry_chronopic.Text = entryChronopic;
-			}
+			if(entryChronopic.Length > 0)
+
+				combo_port_linux.Active = UtilGtk.ComboMakeActive(comboLinuxOptions, entryChronopic);
+			else 
+				combo_port_linux.Active = 0; //first option
 		}
 		
+		//database and log files stuff
 		label_database.Text = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		label_database_temp.Text = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		label_logs.Text = Log.GetDir();
-		
 	}
 	
 	static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, 
@@ -103,11 +127,11 @@ public class PreferencesWindow {
 		}
 
 		if(Util.IsWindows()) {
-			PreferencesWindowBox.hbox_port_windows.Show();
-			PreferencesWindowBox.entry_chronopic.Hide();
+			PreferencesWindowBox.combo_port_linux.Hide();
+			PreferencesWindowBox.combo_port_windows.Show();
 		} else {
-			PreferencesWindowBox.hbox_port_windows.Hide();
-			PreferencesWindowBox.entry_chronopic.Show();
+			PreferencesWindowBox.combo_port_windows.Hide();
+			PreferencesWindowBox.combo_port_linux.Show();
 		}
 
 		PreferencesWindowBox.languageIni = language;
@@ -250,10 +274,12 @@ public class PreferencesWindow {
 	{
 		/* the falses are for the dbcon that is not opened */
 
+		
 		if(Util.IsWindows()) 
-			SqlitePreferences.Update("chronopicPort", "COM" + spin_com_windows.Text.ToString(), false);
+			SqlitePreferences.Update("chronopicPort", UtilGtk.ComboGetActive(combo_port_windows), false);
 		else
-			SqlitePreferences.Update("chronopicPort", entry_chronopic.Text.ToString(), false);
+			SqlitePreferences.Update("chronopicPort", UtilGtk.ComboGetActive(combo_port_linux), false);
+		//SqlitePreferences.Update("chronopicPort", label_port.Text.ToString(), false);
 		
 		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString(), false);
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
@@ -296,6 +322,7 @@ public class PreferencesWindow {
 		PreferencesWindowBox.preferences.Hide();
 		PreferencesWindowBox = null;
 	}
+
 
 	private void on_button_help_clicked (object o, EventArgs args) {
 		new HelpPorts();

@@ -637,6 +637,8 @@ public class Util
 		myStringBuilder.Replace(" ", "_"); //replace the ' ' (date-hour separator) for '_' 
 		myStringBuilder.Replace("/", "-"); //replace the '/' (date separator) for '-' 
 		myStringBuilder.Replace(":", "-"); //replace the ':' (hour separator) for '-'
+		myStringBuilder.Replace(".", ""); //delete the '.' in a.m.: 13-01-2009_02-05-43_a.m.
+
 		return myStringBuilder.ToString();
 	}
 

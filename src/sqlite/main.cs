@@ -205,6 +205,15 @@ class Sqlite
 
 		creatingBlankDatabase = true; 
 	}
+	
+	public static bool DisConnect() {
+		try {
+			dbcon.Close();
+		} catch {
+			return false;
+		}
+		return true;
+	}
 
 	public static void CreateFile()
 	{

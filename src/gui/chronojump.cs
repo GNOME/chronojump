@@ -420,12 +420,7 @@ public class ChronoJumpWindow
 		changeTestImage("", "", "LOGO");
 				
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
-
-		/*
-		int app1X, app1Y;
-		app1.GetSize(out app1X, out app1Y);
-		app1.Resize(app1X, UtilGtk.ScreenHeightFitted(true));
-		*/
+		//UtilGtk.ResizeIfNeeded(stats_window);
 		app1.Maximize();
 
 		cpRunning = false;
@@ -4390,7 +4385,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 */
 
 	private void on_debug_crash_activate (object o, EventArgs args) {
-		bool voluntaryCrashAllowed = false;
+		bool voluntaryCrashAllowed = true;
 		if(voluntaryCrashAllowed) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"), "Are you sure you want to crash application?");
 			confirmWin.Button_accept.Clicked += new EventHandler(crashing);

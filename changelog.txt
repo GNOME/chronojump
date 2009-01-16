@@ -1,3 +1,27 @@
+Finishing the SPing code
+
+16 jan 2008
+	Now we are able to connect from client gtk (corall) to server on pinux and do a ping, or insert a
+	person!!!!!!
+	But the webservice from the navigator still doesn't work
+
+	fixed that a repeated person cannot get inside server: with the new serveruniqueid
+	in person table.
+
+	created server tables Sping and SEvaluator
+	added src/sqlite/server.cs, remember to svn add
+	added src/serverPing.cs, remember to svn add
+
+	fixed makefile to allow 'make server' work ok, but check wsdl
+	compilation
+
+	server experimental:
+	-now a person can be experimentally uploaded from client to server,
+	also personSesisonWeight table
+	-list of persons on server can be retrieved
+
+	backup database active again
+
 13 jan 2008
 	0.8.1.1
 	on gui preferences, port windows and linux with combobox

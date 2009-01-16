@@ -802,6 +802,14 @@ public class Util
 		}
 	}
 			
+	public static string ArrayListToSingleString (ArrayList myArrayList) {
+		string myString = "";
+		foreach (string str in myArrayList) 
+			myString += str + "\n";
+
+		return myString;
+	}
+			
 	public static ArrayList AddToArrayListIfNotExist(ArrayList myArrayList, string str) {
 	 	bool found = false;
 		foreach (string str2 in myArrayList)

@@ -206,15 +206,6 @@ class Sqlite
 		creatingBlankDatabase = true; 
 	}
 	
-	public static bool DisConnect() {
-		try {
-			dbcon.Close();
-		} catch {
-			return false;
-		}
-		return true;
-	}
-
 	public static void CreateFile()
 	{
 		Log.WriteLine("creating file...");
@@ -236,6 +227,7 @@ class Sqlite
 		*/
 		dbcon.Close();
 	}
+	
 
 	public static bool CheckTables(bool defaultDBLocation)
 	{
@@ -759,9 +751,15 @@ class Sqlite
 		}
 	}
 	
-	public static void CreateTables()
+	public static void CreateTables(bool server)
 	{
 		dbcon.Open();
+
+		if(server) {
+			SqliteServer sqliteServerObject = new SqliteServer();
+			sqliteServerObject.CreatePingTable();
+			sqliteServerObject.CreateEvaluatorTable();
+		}
 
 		creationTotal = 12;
 		creationRate = 1;
@@ -877,11 +875,35 @@ class Sqlite
 		if (reader.Read()) {
 			exists = true;
 		}
-		Log.WriteLine(string.Format("exists = {0}", exists.ToString()));
+		Log.WriteLine(string.Format("name exists = {0}", exists.ToString()));
 
 		dbcon.Close();
 		return exists;
 	}
+
+	/*	
+	public static bool Exists(string tableName, int findID)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * FROM " + tableName + 
+			" WHERE uniqueID == '" + findID + "'" ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		bool exists = new bool();
+		exists = false;
+		
+		if (reader.Read()) {
+			exists = true;
+		}
+		Log.WriteLine(string.Format("id exists = {0}", exists.ToString()));
+
+		dbcon.Close();
+		return exists;
+	}
+	*/
 	
 	/* 
 	 * temp data stuff
@@ -1121,4 +1143,36 @@ class Sqlite
 			myReaderStr[i] = reader[i].ToString();
 		return myReaderStr;
 	}
+	
+	/* 
+	 * SERVER STUFF
+	 */
+	
+	public static string sqlFileServer = home + Path.DirectorySeparatorChar + "chronojump_server.db";
+	static string connectionStringServer = "version = 3; Data source = " + sqlFileServer;
+	
+	public static bool CheckFileServer(){
+		if (File.Exists(sqlFileServer))
+			return true;
+		else
+			return false;
+	}
+	
+	public static void ConnectServer()
+	{
+		dbcon = new SqliteConnection();
+		dbcon.ConnectionString = connectionStringServer;
+		dbcmd = dbcon.CreateCommand();
+	}
+	
+	public static bool DisConnect() {
+		try {
+			dbcon.Close();
+		} catch {
+			return false;
+		}
+		return true;
+	}
+
+
 }

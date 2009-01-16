@@ -72,6 +72,13 @@ public class Constants
 	public const string PulseTypeTable = "pulseType";
 	public const string ReactionTimeTypeTable = "reactionTimeType";
 
+	//server	
+	public const string ServerPingTable = "SPing"; 
+	public const string ServerEvaluatorTable = "SEvaluator"; 
+	public const string IPUnknown = "Unknown"; 
+	public static int ServerUndefinedID = -1;
+	public static string ServerOffline = Catalog.GetString("Server is currently offline.");
+
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
 		"(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
@@ -297,7 +304,6 @@ public class Constants
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";
 	
-	public static int ServerUndefinedID = -1;
 
 	//for dialog windows
 	public enum MessageTypes {

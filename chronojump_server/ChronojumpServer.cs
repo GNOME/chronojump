@@ -13,23 +13,25 @@
 //
 
 
+using System.Collections; //ArrayList
+
 /// <remarks/>
 /// <remarks>
 ///ChronojumpServer
 ///</remarks>
-[System.Web.Services.WebServiceBinding(Name="ChronojumpServerSoap", Namespace="http://www.sampleFakeWeb.org/")]
+[System.Web.Services.WebServiceBinding(Name="ChronojumpServerSoap", Namespace="http://80.32.81.197:8080/")]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProtocol {
     
     public ChronojumpServer() {
-        this.Url = "http://localhost:8080/chronojumpServer.asmx";
+        this.Url = "http://80.32.81.197:8080/chronojumpServer.asmx";
     }
     
     /// <remarks>
 ///Conecta BBDD
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sampleFakeWeb.org/ConnectDatabase", RequestNamespace="http://www.sampleFakeWeb.org/", ResponseNamespace="http://www.sampleFakeWeb.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/ConnectDatabase", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string ConnectDatabase() {
         object[] results = this.Invoke("ConnectDatabase", new object[0]);
         return ((string)(results[0]));
@@ -45,9 +47,27 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     /// <remarks>
+///DisConecta BBDD
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/DisConnectDatabase", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public string DisConnectDatabase() {
+        object[] results = this.Invoke("DisConnectDatabase", new object[0]);
+        return ((string)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginDisConnectDatabase(System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("DisConnectDatabase", new object[0], callback, asyncState);
+    }
+    
+    public string EndDisConnectDatabase(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((string)(results[0]));
+    }
+    
+    /// <remarks>
 ///Select person name
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sampleFakeWeb.org/SelectPersonName", RequestNamespace="http://www.sampleFakeWeb.org/", ResponseNamespace="http://www.sampleFakeWeb.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/SelectPersonName", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string SelectPersonName(int personID) {
         object[] results = this.Invoke("SelectPersonName", new object[] {
             personID});
@@ -67,10 +87,10 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///See all persons
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sampleFakeWeb.org/SelectAllPersons", RequestNamespace="http://www.sampleFakeWeb.org/", ResponseNamespace="http://www.sampleFakeWeb.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public string[] SelectAllPersons() {
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/SelectAllPersons", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public ArrayList SelectAllPersons() {
         object[] results = this.Invoke("SelectAllPersons", new object[0]);
-        return ((string[])(results[0]));
+        return ((ArrayList)(results[0]));
     }
     
     public System.IAsyncResult BeginSelectAllPersons(System.AsyncCallback callback, object asyncState) {
@@ -85,7 +105,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Select events from all persons
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sampleFakeWeb.org/SelectAllPersonEvents", RequestNamespace="http://www.sampleFakeWeb.org/", ResponseNamespace="http://www.sampleFakeWeb.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/SelectAllPersonEvents", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public object[] SelectAllPersonEvents(int personID) {
         object[] results = this.Invoke("SelectAllPersonEvents", new object[] {
             personID});
@@ -103,9 +123,49 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     /// <remarks>
+///Insert person
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/InsertPerson", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int InsertPerson(Person myPerson, int sessionID) {
+        object[] results = this.Invoke("InsertPerson", new object[] {
+            myPerson, sessionID});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginInsertPerson(Person myPerson, int sessionID, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("InsertPerson", new object[] {
+            myPerson, sessionID}, callback, asyncState);
+    }
+    
+    public int EndInsertPerson(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+
+    /// <remarks>
+///Insert ping
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/InsertPing", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public object[] InsertPing(ServerPing myPing) {
+        object[] results = this.Invoke("InsertPing", new object[] {
+            myPing});
+        return ((object[])(results[0]));
+    }
+    
+    public System.IAsyncResult BeginInsertPing(ServerPing myPing, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("InsertPing", new object[] {
+            myPing}, callback, asyncState);
+    }
+    
+    public object[] EndInsertPing(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((object[])(results[0]));
+    }
+
+    /// <remarks>
 ///List directory files (only as a sample)
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sampleFakeWeb.org/ListDirectory", RequestNamespace="http://www.sampleFakeWeb.org/", ResponseNamespace="http://www.sampleFakeWeb.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/ListDirectory", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string[] ListDirectory(string path) {
         object[] results = this.Invoke("ListDirectory", new object[] {
             path});

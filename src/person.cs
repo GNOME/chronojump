@@ -179,22 +179,27 @@ public class Person {
 	
 	public int Height {
 		get { return height; }
+		set { height = value; }
 	}
 	
 	public int Weight {
 		get { return weight; }
+		set { weight = value; }
 	}
 	
 	public int SportID {
 		get { return sportID; }
+		set { sportID = value; }
 	}
 
 	public int SpeciallityID {
 		get { return speciallityID; }
+		set { speciallityID = value; }
 	}
 
 	public int Practice {
 		get { return practice; }
+		set { practice = value; }
 	}
 	
 	public string Description {
@@ -204,14 +209,17 @@ public class Person {
 	
 	public int Race {
 		get { return race; }
+		set { race = value; }
 	}
 
 	public int CountryID {
 		get { return countryID; }
+		set { countryID = value; }
 	}
 
 	public int ServerUniqueID {
 		get { return serverUniqueID; }
+		set { serverUniqueID = value; }
 	}
 
 	public int UniqueID {

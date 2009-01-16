@@ -1196,7 +1196,7 @@ public class PersonAddModifyWindow
 					textview2.Buffer.Text,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
-					Constants.ServerUndefinedID);
+					currentPerson.ServerUniqueID);
 
 			SqlitePerson.Update (currentPerson); 
 		

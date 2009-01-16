@@ -54,10 +54,10 @@ public class ChronoJump
 	{
 		bool timeLogPassedOk = Log.Start(args);
 		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
-		Log.WriteLine(string.Format("Trying database in ... " + Util.GetDatabaseDir()));
-		Log.WriteLine(string.Format("Trying database in ... " + Util.GetDatabaseTempDir()));
+		Log.WriteLine(string.Format("Client database option 1 in ... " + Util.GetDatabaseDir()));
+		Log.WriteLine(string.Format("Client database option 2 in ... " + Util.GetDatabaseTempDir()));
 		string errorFile = Log.GetFile();
-
+		
 		StreamWriter sw = new StreamWriter(new BufferedStream(new FileStream(errorFile, FileMode.Create)));
 		System.Console.SetOut(sw);
 		System.Console.SetError(sw);
@@ -72,6 +72,11 @@ public class ChronoJump
 			Environment.Exit(1);
 		}
 
+		if(args.Length > 0 && args[0] == "createBlankDBServer") {
+			createBlankDBServer();
+			Environment.Exit(1);
+		}
+		
 		Catalog.Init ("chronojump", "./locale");
 			
 		new ChronoJump(args);
@@ -100,7 +105,6 @@ public class ChronoJump
 		
 
 		/* SERVER COMMUNICATION TESTS */
-		/*
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
 
@@ -112,11 +116,11 @@ public class ChronoJump
 			Log.WriteLine(myServer.ConnectDatabase());
 			//select name of person with uniqueid 1
 			Log.WriteLine(myServer.SelectPersonName(1));
+			Log.WriteLine(myServer.DisConnectDatabase());
 		}
 		catch {
 			Log.WriteLine("Unable to call server");
 		}
-		*/
 		/* END OF SERVER COMMUNICATION TESTS */
 
 		//print version of chronojump
@@ -172,9 +176,9 @@ public class ChronoJump
 
 
 			File.Create(runningFileName);
-			Sqlite.CreateTables();
+			Sqlite.CreateTables(false); //not server
 			creatingDB = false;
-		} else {/*
+		} else {
 			//backup the database
 			Util.BackupDirCreateIfNeeded();
 
@@ -183,7 +187,6 @@ public class ChronoJump
 			Util.BackupDatabase();
 			Log.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
 			//System.IO.Compression.GZipStream are not in mono
-			*/
 
 
 			if(! Sqlite.IsSqlite3()) {
@@ -285,12 +288,26 @@ public class ChronoJump
 	}
 
 	private static void createBlankDB() {
-		Console.WriteLine("Creating blank database");
+		Log.WriteLine("Creating blank database");
 		Sqlite.ConnectBlank();
 		Sqlite.CreateFile();
-		Sqlite.CreateTables();
+		Sqlite.CreateTables(false); //not server
 		Console.WriteLine("Done! Exiting");
 	}
+	
+	private static void createBlankDBServer() {
+		Log.WriteLine("Creating blank database for server");
+		Log.WriteLine("Creating blank database for server2");
+		if(Sqlite.CheckFileServer())
+			Console.WriteLine("File already exists. Cannot create.");
+		else {
+			Sqlite.ConnectServer();
+			Sqlite.CreateFile();
+			Sqlite.CreateTables(true); //server
+			Console.WriteLine("Done! Exiting");
+		}
+	}
+
 
 	/* --------------------
 	/* splash window things 

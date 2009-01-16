@@ -28,6 +28,7 @@ using System.IO.Ports;
 using Mono.Unix;
 using System.IO; //"File" things
 using System.Threading;
+using System.Collections; //ArrayList
 
 
 public class ChronoJumpWindow 
@@ -56,6 +57,8 @@ public class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_runs;
 	[Widget] Gtk.ComboBox combo_runs_interval;
 	[Widget] Gtk.ComboBox combo_pulses;
+
+	[Widget] Gtk.MenuItem menuitem_server_insert_person;
 
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump;
@@ -907,9 +910,85 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		myItem.Activated += on_delete_current_person_from_session_activate;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
+		/*
+		Gtk.SeparatorMenuItem mySep2 = new SeparatorMenuItem();
+		myMenu.Attach( mySep2, 0, 1, 4, 5 );
+
+		myItem = new MenuItem ( "Upload to server (experimental)");
+		myItem.Activated += on_person_upload_to_server_activate;
+		myMenu.Attach( myItem, 0, 1, 5, 6 );
+		*/
+
 		myMenu.Popup();
 		myMenu.ShowAll();
 	}
+		
+	//menu server calls
+	private void on_menuitem_server_ping (object o, EventArgs args) {
+		try {
+			ChronojumpServer myServer = new ChronojumpServer();
+			Log.WriteLine(myServer.ConnectDatabase());
+
+			ServerPing myPing = new ServerPing(-1, Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
+			myServer.InsertPing(myPing);
+			
+			Log.WriteLine(myServer.DisConnectDatabase());
+
+			new DialogMessage(Constants.MessageTypes.INFO, "Inserted" + myPing.ToString());
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+		}
+	}
+
+	private void on_menuitem_server_insert_person (object o, EventArgs args) {
+		try {
+			on_person_upload_to_server_activate(o, args);
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+		}
+	}
+
+	private void on_menuitem_server_see_all (object o, EventArgs args) {
+		try {
+			ChronojumpServer myServer = new ChronojumpServer();
+			Log.WriteLine(myServer.ConnectDatabase());
+			ArrayList persons = myServer.SelectAllPersons();
+			Log.WriteLine(myServer.DisConnectDatabase());
+
+			new DialogMessage(Constants.MessageTypes.INFO, "Persons in server:\n" + Util.ArrayListToSingleString(persons));
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+		}
+	}
+	
+	private void on_person_upload_to_server_activate (object o, EventArgs args) {
+		if(currentPerson.ServerUniqueID == Constants.ServerUndefinedID) {
+
+			ChronojumpServer myServer = new ChronojumpServer();
+
+			Log.WriteLine(myServer.ConnectDatabase());
+			Log.WriteLine(myServer.SelectPersonName(1));
+
+			//this inserts also in personSession using client session
+			//this maybe have to be changed in future to server session
+
+			int idAtServer = myServer.InsertPerson(currentPerson, currentSession.UniqueID);
+
+			Log.WriteLine(myServer.DisConnectDatabase());
+
+			//update person (serverUniqueID) on client database
+			currentPerson.ServerUniqueID = idAtServer;
+			SqlitePerson.Update(currentPerson);
+
+			new DialogMessage(Constants.MessageTypes.INFO, "Inserted (" + currentPerson.UniqueID + ") " + 
+					currentPerson.Name + " into server BD as ID: " + idAtServer);
+		} else {
+			new DialogMessage(Constants.MessageTypes.WARNING, "(" + currentPerson.UniqueID + ") " + 
+					currentPerson.Name + " already exists in the BD as ID: " + currentPerson.ServerUniqueID + ".\n Nothing done!.");
+		}
+
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW JUMPS ------------------------
@@ -4196,6 +4275,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//button_pulse_last.Sensitive=false;
 		
 //		button_last_delete.Sensitive = false;
+		
+		menuitem_server_insert_person.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesSession () {
@@ -4233,6 +4314,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		//menuitem_jump_type_add.Sensitive = false;
 //		button_last_delete.Sensitive = false;
+		
+		menuitem_server_insert_person.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -4257,6 +4340,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		combo_runs.Sensitive = true;
 		combo_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;
+
+		menuitem_server_insert_person.Sensitive = true;
 	}
 	
 	private void sensitiveGuiYesEvent () {

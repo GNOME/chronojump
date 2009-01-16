@@ -29,35 +29,66 @@ using Mono.Data.Sqlite;
 //using System.Data.SQLite;
 
 
-class SqlitePerson : Sqlite
+class SqliteServer : Sqlite
 {
-	public SqlitePerson() {
+	public SqliteServer() {
 	}
 	
-	~SqlitePerson() {}
+	~SqliteServer() {}
 
-	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
-	//temp is used to modify table between different database versions if needed
-	//protected new internal static void createTable(string tableName)
-	protected override void createTable(string tableName)
+	public void CreatePingTable()
 	 {
 		dbcmd.CommandText = 
-			"CREATE TABLE " + tableName + " ( " +
+			"CREATE TABLE " + Constants.ServerPingTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
-			"name TEXT, " +
-			"sex TEXT, " +
-			"dateborn TEXT, " +
-			"height INT, " +
-			"weight INT, " + //now used personSession and person can change weight in every session. person.weight is not used
-			"sportID INT, " + 
-			"speciallityID INT, " + 
-			"practice INT, " + //also called "level"
-			"description TEXT, " +	
-			"race INT, " + 
-			"countryID INT, " + 
-			"serverUniqueID INT ) ";
+			"evaluatorID INT, " + //foreign key
+			"IP TEXT, " +
+			"date TEXT ) ";
 		dbcmd.ExecuteNonQuery();
 	 }
+
+	public void CreateEvaluatorTable()
+	 {
+		dbcmd.CommandText = 
+			"CREATE TABLE " + Constants.ServerEvaluatorTable + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"code TEXT, " +
+			"name TEXT, " +
+			"email TEXT, " +
+			"dateborn TEXT, " +
+			"countryID INT, " + //foreign key
+			"confiable INT ) "; //bool
+		dbcmd.ExecuteNonQuery();
+	 }
+
+	//public static int InsertPing(ServerPing ping)
+	public static int InsertPing(bool dbconOpened, int evaluatorID, string ip, string date)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		string uniqueID = "NULL";
+
+		string myString = "INSERT INTO " + Constants.ServerPingTable + 
+			" (uniqueID, evaluatorID, IP, date) VALUES (" + 
+			//uniqueID + ", " + ping.EvaluatorID + ", '" + ping.IP + "', '" + ping.Date + "')" ;
+			uniqueID + ", " + evaluatorID + ", '" + ip + "', '" + date + "')" ;
+		
+		dbcmd.CommandText = myString;
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		dbcmd.ExecuteNonQuery();
+		int myReturn = dbcon.LastInsertRowId;
+
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return myReturn;
+	}
+
+
+	/*
 
 	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
@@ -458,75 +489,5 @@ finishForeach:
 	{
 	}
 
-	/* 
-	 * don't do more like this, use Sqlite.convertTables()
-	 */
-	//change DB from 0.53 to 0.54
-	/*	
-	protected internal static void convertTableToSportRelated() 
-	{
-		ArrayList myArray = new ArrayList(2);
-
-		//1st create a temp table
-		SqlitePerson sqlitePersonObject = new SqlitePerson();
-		sqlitePersonObject.createTable(Constants.ConvertTempTable);
-			
-		//2nd copy all data from person table to temp table
-		dbcmd.CommandText = "SELECT * " + 
-			"FROM " + Constants.PersonTable + " ORDER BY uniqueID"; 
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			Person myPerson = new Person(Convert.ToInt32(reader[0]), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), Convert.ToInt32(reader[4]), Convert.ToInt32(reader[5]),
-					1, //sport undefined
-					-1, //speciallity undefined
-					-1, //practice level undefined
-					reader[6].ToString(), //desc
-					Constants.RaceUndefinedID,
-					Constants.CountryUndefinedID,
-					Constants.ServerUndefinedID
-					);
-			myArray.Add(myPerson);
-
-		}
-		reader.Close();
-
-		foreach (Person myPerson in myArray)
-			Insert(true, Constants.ConvertTempTable,
-				myPerson.Name, myPerson.Sex, myPerson.DateBorn, 
-				myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SpeciallityID, myPerson.Practice, myPerson.Description,
-				Constants.RaceUndefinedID,
-				Constants.CountryUndefinedID,
-				Constants.ServerUndefinedID
-				);
-
-		//3rd drop table persons
-		Sqlite.dropTable(Constants.PersonTable);
-
-		//4d create table persons (now with sport related stuff
-		sqlitePersonObject.createTable(Constants.PersonTable);
-
-		//5th insert data in persons (with sport related stuff)
-		foreach (Person myPerson in myArray) 
-			Insert(true, Constants.PersonTable,
-				myPerson.Name, myPerson.Sex, myPerson.DateBorn, 
-				myPerson.Height, myPerson.Weight, myPerson.SportID, myPerson.SpeciallityID, myPerson.Practice, myPerson.Description,
-				Constants.RaceUndefinedID,
-				Constants.CountryUndefinedID,
-				Constants.ServerUndefinedID
-				);
-
-
-		//6th drop temp table
-		Sqlite.dropTable(Constants.ConvertTempTable);
-	}
 	*/
-	
-	/*
-	private static void dropTable(string tableName) {
-		dbcmd.CommandText = "DROP TABLE " + tableName;
-		dbcmd.ExecuteNonQuery();
-	}
-	*/
-
 }

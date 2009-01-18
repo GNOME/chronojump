@@ -1,5 +1,4 @@
 # translation of chronojump.HEAD.po to Español
-# Xavier de Blas <xaviblas@gmail.com>, 2005.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
 # Eduardo Retamales <eretamales@gnome.cl>, 2007.
@@ -7,15 +6,15 @@
 # Copyright (C) 2005 THE chronojump.HEAD.es'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the chronojump.HEAD.es package.
 # Jorge González <jorgegonz@svn.gnome.org>, 2008.
-# Jorge González <jorgegonz@svn.gnome.org>, 2009.
+# Xavier de Blas <xaviblas@gmail.com>, 2005, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&amp;component=general\n"
 "POT-Creation-Date: 2008-12-25 11:50+0000\n"
-"PO-Revision-Date: 2009-01-02 11:32+0100\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"PO-Revision-Date: 2009-01-18 18:37+0100\n"
+"Last-Translator: Xavier de Blas <xaviblas@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2664,11 +2663,11 @@ msgstr "Las versiones actualizadas se podrán encontrar aquí:"
 #: ../src/gui/chronojump.cs:4127
 msgid "translator-credits"
 msgstr ""
-"Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2007-2009\n"
-"Eduardo Retamales <eretamales@gnome.cl>, 2007-2008\n"
+"Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2007-2008.\n"
+"Eduardo Retamales <eretamales@gnome.cl>, 2007-2008.\n"
 "Xavier de Blas <xaviblas@gmail.com>, 2005\n"
-"QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006\n"
-"QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
+"QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006 \n"
+"QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2008."
 
 #: ../src/gui/chronojump.cs:4395
 msgid "Done for testing purposes. Chronojump will exit badly"

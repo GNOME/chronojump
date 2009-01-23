@@ -58,6 +58,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_runs_interval;
 	[Widget] Gtk.ComboBox combo_pulses;
 
+	[Widget] Gtk.MenuItem menuitem_server_insert_session;
 	[Widget] Gtk.MenuItem menuitem_server_insert_person;
 
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
@@ -469,7 +470,7 @@ public class ChronoJumpWindow
 		//	appbar2.Push ( 1, recuperatedString );
 
 		rand = new Random(40);
-		volumeOn = true;
+		//volumeOn = true;
 	
 		putNonStandardIcons();	
 		
@@ -494,8 +495,9 @@ public class ChronoJumpWindow
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
-		image_volume.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
+		//image_volume.Pixbuf = pixbuf;
+		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
 		image_jump_reactive_bell.Pixbuf = pixbuf;
 		image_run_interval_bell.Pixbuf = pixbuf;
@@ -735,6 +737,12 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		 else 
 			metersSecondsPreferred = false;
 		
+		if ( SqlitePreferences.Select("volumeOn") == "True" ) 
+			volumeOn = true;
+		 else 
+			volumeOn = false;
+		changeVolumeButton(volumeOn);
+		
 	
 		//change language works on windows. On Linux let's change the locale
 		//if(Util.IsWindows())
@@ -923,30 +931,121 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		myMenu.ShowAll();
 	}
 		
-	//menu server calls
-	private void on_menuitem_server_ping (object o, EventArgs args) {
+	/* ---------------------------------------------------------
+	 * ----------------  SERVER CALLS --------------------------
+	 *  --------------------------------------------------------
+	 */
+
+	// upload session and it's persons (callback)
+	private void on_menuitem_server_insert_session (object o, EventArgs args) 
+	{
+		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+		if(evalSID == Constants.ServerUndefinedID) {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Evaluator not in server.\n Nothing done!.");
+			return;
+		}
+	
+		try {	
+			if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) {
+				ChronojumpServer myServer = new ChronojumpServer();
+
+				Log.WriteLine(myServer.ConnectDatabase());
+
+				ServerSession serverSession = new ServerSession(currentSession, evalSID, progversion, 
+						Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), Constants.ServerSessionStates.UPLOADINGSESSION); 
+
+				int idAtServer = myServer.InsertSession(serverSession);
+
+				Log.WriteLine(myServer.DisConnectDatabase());
+
+				//update session (serverUniqueID) on client database
+				currentSession.ServerUniqueID = idAtServer;
+				SqliteSession.UpdateServerUniqueID(currentSession.UniqueID, currentSession.ServerUniqueID);
+
+				new DialogMessage(Constants.MessageTypes.INFO, "Inserted (" + currentSession.UniqueID + ") " + 
+						" into server BD as ID: " + currentSession.ServerUniqueID);
+
+				myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.UPLOADINGPERSONS); 
+
+				//adding the persons
+				string [] myPersons = SqlitePersonSession.SelectCurrentSession(serverSession.UniqueID, true, false); //onlyIDAndName, not reversed
+				foreach(string personStr in myPersons) {
+					Person person = SqlitePersonSession.PersonSelect(Util.FetchID(personStr), serverSession.UniqueID); 
+					serverUploadPerson(person, false);
+				}
+
+				myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.UPLOADINGTESTS); 
+				
+			} else {
+				new DialogMessage(Constants.MessageTypes.WARNING, "(" + currentSession.UniqueID + ") " + 
+						" already exists in the BD as ID: " + currentSession.ServerUniqueID + ".\n Nothing done!.");
+			}
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+		}
+
+	}
+
+	//upload selected person (callback)
+	private void on_menuitem_server_insert_person (object o, EventArgs args) {
+		try {
+			//on_person_upload_to_server_activate(o, args);
+			serverUploadPerson(currentPerson, true);
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+		}
+	}
+	
+	//upload a person
+	private void serverUploadPerson(Person person, bool showDialogIfOk) {
+		if(person.ServerUniqueID == Constants.ServerUndefinedID) {
+
+			ChronojumpServer myServer = new ChronojumpServer();
+
+			Log.WriteLine(myServer.ConnectDatabase());
+			Log.WriteLine(myServer.SelectPersonName(1));
+
+			//this inserts also in personSession using client session
+			//this maybe have to be changed in future to server session
+
+			int idAtServer = myServer.InsertPerson(person, currentSession.UniqueID);
+
+			Log.WriteLine(myServer.DisConnectDatabase());
+
+			//update person (serverUniqueID) on client database
+			person.ServerUniqueID = idAtServer;
+			SqlitePerson.Update(person);
+
+			if(showDialogIfOk)
+				new DialogMessage(Constants.MessageTypes.INFO, "Inserted (" + person.UniqueID + ") " + 
+						person.Name + " into server BD as ID: " + idAtServer);
+		} else {
+			new DialogMessage(Constants.MessageTypes.WARNING, "(" + person.UniqueID + ") " + 
+					person.Name + " already exists in the BD as ID: " + person.ServerUniqueID + ".\n Nothing done!.");
+		}
+	}
+
+	/*
+	private void on_person_upload_to_server_activate (object o, EventArgs args) 
+	{
+		serverUploadPerson(currentPerson);
+	}
+	*/
+
+	private void on_menuitem_server_stats (object o, EventArgs args) {
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
-
-			ServerPing myPing = new ServerPing(-1, Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
-			myServer.InsertPing(myPing);
-			
+			ArrayList stats = myServer.Stats();
 			Log.WriteLine(myServer.DisConnectDatabase());
 
-			new DialogMessage(Constants.MessageTypes.INFO, "Inserted" + myPing.ToString());
+			new DialogMessage(Constants.MessageTypes.INFO, "Stats in server:\n" + 
+					Util.ArrayListToSingleString(stats) + "\n" + Util.DateParse(DateTime.Now.ToString()));
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
 	}
-
-	private void on_menuitem_server_insert_person (object o, EventArgs args) {
-		try {
-			on_person_upload_to_server_activate(o, args);
-		} catch {
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
-		}
-	}
+	
 
 	private void on_menuitem_server_see_all (object o, EventArgs args) {
 		try {
@@ -961,34 +1060,54 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 	}
 	
-	private void on_person_upload_to_server_activate (object o, EventArgs args) {
-		if(currentPerson.ServerUniqueID == Constants.ServerUndefinedID) {
-
+	private void on_menuitem_server_ping (object o, EventArgs args) {
+		try {
 			ChronojumpServer myServer = new ChronojumpServer();
-
 			Log.WriteLine(myServer.ConnectDatabase());
-			Log.WriteLine(myServer.SelectPersonName(1));
+		
+			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 
-			//this inserts also in personSession using client session
-			//this maybe have to be changed in future to server session
-
-			int idAtServer = myServer.InsertPerson(currentPerson, currentSession.UniqueID);
-
+			ServerPing myPing = new ServerPing(evalSID, progversion, Util.GetOS(), Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
+			myPing.UniqueID = myServer.InsertPing(myPing);
+			
 			Log.WriteLine(myServer.DisConnectDatabase());
 
-			//update person (serverUniqueID) on client database
-			currentPerson.ServerUniqueID = idAtServer;
-			SqlitePerson.Update(currentPerson);
-
-			new DialogMessage(Constants.MessageTypes.INFO, "Inserted (" + currentPerson.UniqueID + ") " + 
-					currentPerson.Name + " into server BD as ID: " + idAtServer);
-		} else {
-			new DialogMessage(Constants.MessageTypes.WARNING, "(" + currentPerson.UniqueID + ") " + 
-					currentPerson.Name + " already exists in the BD as ID: " + currentPerson.ServerUniqueID + ".\n Nothing done!.");
+			new DialogMessage(Constants.MessageTypes.INFO, "Inserted" + myPing.ToString());
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
-
 	}
 
+	private void on_menuitem_server_insert_evaluator (object o, EventArgs args) {
+		try {
+			ChronojumpServer myServer = new ChronojumpServer();
+			Log.WriteLine(myServer.ConnectDatabase());
+			
+			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+			if(evalSID != Constants.ServerUndefinedID) {
+				//exists, nothing done
+				//new DialogMessage(Constants.MessageTypes.WARNING, "(" + currentPerson.UniqueID + ") " + 
+				//		currentPerson.Name + " already exists in the BD as ID: " + currentPerson.ServerUniqueID + ".\n Nothing done!.");
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						"Already exists in the BD as ID: " + evalSID + ".\n Nothing done!.");
+			} else {
+				//get Data, TODO: do it in a gui/window
+				ServerEvaluator myEval = new ServerEvaluator("myName", "myEmail", "myDateBorn", Constants.CountryUndefinedID, false);
+				//insert
+				myEval.UniqueID = myServer.InsertEvaluator(myEval);
+				//update evaluatorServerID locally
+				SqlitePreferences.Update("evaluatorServerID", myEval.UniqueID.ToString(), false);
+
+				new DialogMessage(Constants.MessageTypes.INFO, "Inserted with ID: " + myEval.UniqueID);
+			}
+			
+			Log.WriteLine(myServer.DisConnectDatabase());
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+		}
+	}
+
+	
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW JUMPS ------------------------
@@ -1700,6 +1819,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if(sessionAddEditWin.CurrentSession != null) 
 		{
 			currentSession = sessionAddEditWin.CurrentSession;
+			//serverUniqueID is undefined until session is updated
+			currentSession.ServerUniqueID = Constants.ServerUndefinedID;
+
 			app1.Title = progname + " - " + currentSession.Name;
 
 			if(createdStatsWin) {
@@ -4207,20 +4329,28 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
-		Pixbuf pixbuf;
 		if(volumeOn) {
 			volumeOn = false;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
+			SqlitePreferences.Update("volumeOn", "False", false);
 		} else {
 			volumeOn = true;
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
+			SqlitePreferences.Update("volumeOn", "True", false);
 		}
-		image_volume.Pixbuf = pixbuf;
+		changeVolumeButton(volumeOn);
 
 //		if(repetitiveConditionsWin != null)
 			repetitiveConditionsWin.VolumeOn = volumeOn;
 
 		//Log.WriteLine("VolumeOn: {0}", volumeOn.ToString());
+	}
+		
+	private void changeVolumeButton(bool myVolume) {
+		Pixbuf pixbuf;
+		if(myVolume) 
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
+		else 
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
+		image_volume.Pixbuf = pixbuf;
 	}
 
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
@@ -4276,6 +4406,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 //		button_last_delete.Sensitive = false;
 		
+		menuitem_server_insert_session.Sensitive = false;
 		menuitem_server_insert_person.Sensitive = false;
 	}
 	
@@ -4294,6 +4425,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		menuitem_edit_session.Sensitive = true;
 		menuitem_delete_session.Sensitive = true;
 		menu_persons.Sensitive = true;
+		
+		menuitem_server_insert_session.Sensitive = true;
 	}
 
 	//only called by delete person functions (if we run out of persons)

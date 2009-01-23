@@ -166,7 +166,6 @@ class SqlitePersonSession : Sqlite
 	public static Person PersonSelect(int uniqueID, int sessionID)
 	{
 		dbcon.Open();
-		//dbcmd.CommandText = "SELECT name, sex, dateborn, height, weight, description " +
 		dbcmd.CommandText = "SELECT person.name, person.sex, person.dateborn, person.height, " +
 			"personSessionWeight.weight, person.sportID, person.speciallityID, person.practice, person.description, " +
 			"person.race, person.countryID, person.serverUniqueID " +

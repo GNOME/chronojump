@@ -372,12 +372,11 @@ Log.Write("wb ");
 
 		uniqueID = SqliteJump.Insert(false, Constants.JumpTable, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
-				//weight, "", "", Util.BoolToInt(simulated)); //weight, limited, description
-				weight, "", angle, Util.BoolToInt(simulated)); //weight, description, simulated
+				weight, "", angle, Util.BoolToNegativeInt(simulated)); //weight, description, simulated
 
 		//define the created object
 		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, 
-				weight, "", angle, Util.BoolToInt(simulated)); 
+				weight, "", angle, Util.BoolToNegativeInt(simulated)); 
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
@@ -913,7 +912,7 @@ public class JumpRjExecute : JumpExecute
 					fall, weight, description,
 					Util.GetAverage(tvString), Util.GetAverage(tcString),
 					tvString, tcString,
-					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToInt(simulated)
+					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated)
 					);
 		else {
 			uniqueID = SqliteJumpRj.Insert(false, Constants.JumpRjTable, "NULL", personID, sessionID, 
@@ -921,11 +920,11 @@ public class JumpRjExecute : JumpExecute
 					fall, weight, description,
 					Util.GetAverage(tvString), Util.GetAverage(tcString),
 					tvString, tcString,
-					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToInt(simulated)
+					jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated)
 					);
 
 			//define the created object
-			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, description, jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToInt(simulated)); 
+			eventDone = new JumpRj(uniqueID, personID, sessionID, type, tvString, tcString, fall, weight, description, jumps, Util.GetTotalTime(tcString, tvString), limitString, angleString, Util.BoolToNegativeInt(simulated)); 
 
 
 			//event will be raised, and managed in chronojump.cs

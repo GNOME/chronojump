@@ -74,7 +74,7 @@ public class TreeViewPulses : TreeViewEvent
 		//if fixedPulse is not defined, comparate each pulse with the averave
 		string myTypeComplet = newPulse.Type;
 		
-		if(newPulse.Simulated == 1)
+		if(newPulse.Simulated == Constants.Simulated)
 			myTypeComplet += " (s) ";
 		
 		if(newPulse.FixedPulse != -1) 

@@ -32,10 +32,15 @@ using Mono.Unix;
 
 class SqliteSession : Sqlite
 {
+	public SqliteSession() {
+	}
+	
+	~SqliteSession() {}
+
 	//can be "Constants.SessionTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
-	protected new internal static void createTable(string tableName)
-	//protected override void createTable(string tableName)
+	//protected new internal static void createTable(string tableName)
+	protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + tableName + " ( " +
@@ -46,18 +51,27 @@ class SqliteSession : Sqlite
 			"personsSportID INT, " + 
 			"personsSpeciallityID INT, " + 
 			"personsPractice INT, " + //also called "level"
-			"comments TEXT )";		
+			"comments TEXT, " +
+			"serverUniqueID INT " +
+			" ) ";
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
-		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments)" +
-			" VALUES (NULL, '"
-			+ name + "', '" + place + "', '" + date + "', " + personsSportID + ", " + personsSpeciallityID + ", " + personsPractice + ", '" + comments + "')" ;
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
+		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID)" +
+			" VALUES (" + uniqueID + ", '"
+			+ name + "', '" + place + "', '" + date + "', " + 
+			personsSportID + ", " + personsSpeciallityID + ", " + 
+			personsPractice + ", '" + comments + "', " +
+			serverUniqueID + ")" ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
 		
@@ -66,9 +80,10 @@ class SqliteSession : Sqlite
 
 		return myReturn;
 	}
-	
-	public static void Edit(int uniqueID, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments)
+
+	public static void Update(int uniqueID, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments) 
 	{
+		//TODO: serverUniqueID (but cannot be changed in gui/edit, then not need now)
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " " +
 			" SET name = '" + name +
@@ -83,6 +98,22 @@ class SqliteSession : Sqlite
 		dbcon.Close();
 	}
 	
+	//updating local session when it gets uploaded
+	public static void UpdateServerUniqueID(int uniqueID, int serverID)
+	{
+		//if(!dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "UPDATE " +Constants.SessionTable + " SET serverUniqueID = " + serverID + 
+			" WHERE uniqueID == " + uniqueID ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		//if(!dbconOpened)
+			dbcon.Close();
+	}
+
+	
 	public static Session Select(string myUniqueID)
 	{
 		dbcon.Open();
@@ -92,7 +123,7 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
-		string [] values = new string[8];
+		string [] values = new string[9];
 		
 		while(reader.Read()) {
 			values[0] = reader[0].ToString(); 
@@ -103,12 +134,13 @@ class SqliteSession : Sqlite
 			values[5] = reader[5].ToString();
 			values[6] = reader[6].ToString();
 			values[7] = reader[7].ToString();
+			values[8] = reader[8].ToString();
 		}
 
 		Session mySession = new Session(values[0], 
 			values[1], values[2], values[3], 
 			Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), 
-			values[7] );
+			values[7], Convert.ToInt32(values[8]) );
 		
 		dbcon.Close();
 		return mySession;
@@ -185,10 +217,10 @@ class SqliteSession : Sqlite
 		count = 0;
 
 		while(reader.Read()) {
-			string sportName = Catalog.GetString(reader[8].ToString());
+			string sportName = Catalog.GetString(reader[9].ToString());
 			string speciallityName = ""; //to solve a gettext bug (probably because speciallity undefined name is "")			
-			if(reader[9].ToString() != "")
-				speciallityName = Catalog.GetString(reader[9].ToString());
+			if(reader[10].ToString() != "")
+				speciallityName = Catalog.GetString(reader[10].ToString());
 			string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[6])));
 
 			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
@@ -455,56 +487,6 @@ class SqliteSession : Sqlite
 		}
 	}
 
-	/* 
-	 * don't do more like this, use Sqlite.convertTables()
-	 */
-	//change DB from 0.55 to 0.56
-	protected internal static void convertTableAddingSportStuff() 
-	{
-		ArrayList myArray = new ArrayList(2);
-
-		//1st create a temp table
-		createTable(Constants.ConvertTempTable);
-			
-		//2nd copy all data from session table to temp table
-		dbcmd.CommandText = "SELECT * " + 
-			"FROM " + Constants.SessionTable + " ORDER BY uniqueID"; 
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			Session mySession = new Session(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), 
-					1, //sport undefined
-					-1, //speciallity undefined
-					-1, //practice level undefined
-					reader[4].ToString()); //comments
-			myArray.Add(mySession);
-
-		}
-		reader.Close();
-
-		foreach (Session mySession in myArray)
-			Insert(true, Constants.ConvertTempTable,
-				mySession.Name, mySession.Place, mySession.Date, 
-				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
-
-		//3rd drop table sessions
-		Sqlite.dropTable(Constants.SessionTable);
-
-		//4d create table persons (now with sport related stuff
-		createTable(Constants.SessionTable);
-
-		//5th insert data in sessions (with sport related stuff)
-		foreach (Session mySession in myArray) 
-			Insert(true, Constants.SessionTable,
-				mySession.Name, mySession.Place, mySession.Date, 
-				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
-
-
-		//6th drop temp table
-		Sqlite.dropTable(Constants.ConvertTempTable);
-	}
-	
-
 	
 	public static void DeleteWithJumps(string uniqueID)
 	{
@@ -531,4 +513,158 @@ class SqliteSession : Sqlite
 		dbcon.Close();
 	}
 
+
+	/* OLD STUFF */
+
+	/* 
+	 * don't do more like this, use Sqlite.convertTables()
+	 */
+	//change DB from 0.55 to 0.56
+	protected internal static void convertTableAddingSportStuff() 
+	{
+		ArrayList myArray = new ArrayList(2);
+
+		//1st create a temp table
+		//createTable(Constants.ConvertTempTable);
+		SqliteSession sqliteSessionObject = new SqliteSession();
+		sqliteSessionObject.createTable(Constants.ConvertTempTable);
+			
+		//2nd copy all data from session table to temp table
+		dbcmd.CommandText = "SELECT * " + 
+			"FROM " + Constants.SessionTable + " ORDER BY uniqueID"; 
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			Session mySession = new Session(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), 
+					1, //sport undefined
+					-1, //speciallity undefined
+					-1, //practice level undefined
+					reader[4].ToString(), //comments
+					Constants.ServerUndefinedID
+					); 
+			myArray.Add(mySession);
+		}
+		reader.Close();
+
+		foreach (Session mySession in myArray)
+			InsertOld(true, Constants.ConvertTempTable,
+				mySession.Name, mySession.Place, mySession.Date, 
+				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
+
+		//3rd drop table sessions
+		Sqlite.dropTable(Constants.SessionTable);
+
+		//4d create table persons (now with sport related stuff
+		//createTable(Constants.SessionTable);
+		sqliteSessionObject.createTable(Constants.SessionTable);
+
+		//5th insert data in sessions (with sport related stuff)
+		foreach (Session mySession in myArray) 
+			InsertOld(true, Constants.SessionTable,
+				mySession.Name, mySession.Place, mySession.Date, 
+				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
+
+
+		//6th drop temp table
+		Sqlite.dropTable(Constants.ConvertTempTable);
+	}
+	
+	/* used only on conversion from 0.55 to 0.56 */
+	public static int InsertOld(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments)" +
+			" VALUES (NULL, '"
+			+ name + "', '" + place + "', '" + date + "', " + 
+			personsSportID + ", " + personsSpeciallityID + ", " + 
+			personsPractice + ", '" + comments + "')" ;
+		dbcmd.ExecuteNonQuery();
+		int myReturn = dbcon.LastInsertRowId;
+		
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return myReturn;
+	}
+}
+
+class SqliteServerSession : SqliteSession
+{
+	public SqliteServerSession() {
+	}
+	
+	protected override void createTable(string tableName)
+	{
+		string serverSpecificString = 
+			", evaluatorID INT " +
+			", evaluatorCJVersion TEXT " + 
+			", evaluatorOS TEXT " +
+			", uploadedDate TEXT " +
+			", uploadingState INT ";
+
+		dbcmd.CommandText = 
+			"CREATE TABLE " + tableName + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"place TEXT, " +
+			"date TEXT, " +		
+			"personsSportID INT, " + 
+			"personsSpeciallityID INT, " + 
+			"personsPractice INT, " + //also called "level"
+			"comments TEXT, " +
+			"serverUniqueID INT " +
+			serverSpecificString + 
+			" ) ";
+		dbcmd.ExecuteNonQuery();
+	}
+	
+	//public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
+	public static int Insert(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		//(uniqueID == "-1")
+		//	uniqueID = "NULL";
+		string uniqueID = "NULL";
+
+		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID, evaluatorID, evaluatorCJVersion, evaluatorOS, uploadedDate, uploadingState)" +
+			" VALUES (" + uniqueID + ", '"
+			+ name + "', '" + place + "', '" + date + "', " + 
+			personsSportID + ", " + personsSpeciallityID + ", " + 
+			personsPractice + ", '" + comments + "', " +
+			serverUniqueID + ", " + evaluatorID + ", '" +
+			evaluatorCJVersion + "', '" + evaluatorOS + "', '" +
+			uploadedDate + "', " + Convert.ToInt32(uploadingState) +
+			//uploadedDate + "', " + uploadingState +
+			")" ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		int myReturn = dbcon.LastInsertRowId;
+		
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return myReturn;
+	}
+	
+	//updating local session when it gets uploaded
+	public static void UpdateUploadingState(int uniqueID, Constants.ServerSessionStates state)
+	{
+		//if(!dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " SET uploadingState = " + Convert.ToInt32(state) + 
+			" WHERE uniqueID == " + uniqueID ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		//if(!dbconOpened)
+			dbcon.Close();
+	}
+
+	
+	~SqliteServerSession() {}
 }

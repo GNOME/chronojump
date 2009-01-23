@@ -56,7 +56,7 @@ public class Sport
 		this.graphLink = graphLink;
 	}
 
-	public string ToString() {
+	public override string ToString() {
 		string myString = "";
 		if(this.userDefined)
 			myString = "(" + Catalog.GetString(userDefinedString) + ")";

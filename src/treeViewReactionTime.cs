@@ -73,7 +73,7 @@ public class TreeViewReactionTimes : TreeViewEvent
 		ReactionTime newReactionTime = (ReactionTime)myObject;
 
 		string title = "";
-		if(newReactionTime.Simulated == 1)
+		if(newReactionTime.Simulated == Constants.Simulated)
 			title += " (s) ";
 
 		string [] myData = new String [getColsNum()];

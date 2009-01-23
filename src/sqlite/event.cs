@@ -93,4 +93,42 @@ class SqliteEvent : Sqlite
 		return returnString;
 	}
 		
+	//useful for passing serverUniqueID as simulated int
+	//updating local test when it gets uploaded
+	public static void UpdateSimulate(bool dbconOpened, string tableName, int uniqueID, int simulated)
+	{
+		if(!dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = " + simulated + 
+			" WHERE uniqueID == " + uniqueID ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(!dbconOpened)
+			dbcon.Close();
+	}
+
+	//convertSimulate and simulateConvertToNegative as a part of db conversion to 0.60
+	//0.59 - 0.60 (...) Simulated now are -1, because 0 is real and positive is serverUniqueID
+	private static void convertSimulate(string tableName)
+	{
+		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = -1" + 
+			" WHERE simulated == 1";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
+	public static void SimulatedConvertToNegative() 
+	{
+		convertSimulate(Constants.JumpTable);
+		convertSimulate(Constants.JumpRjTable);
+		convertSimulate(Constants.RunTable);
+		convertSimulate(Constants.RunIntervalTable);
+		convertSimulate(Constants.PulseTable);
+		convertSimulate(Constants.ReactionTimeTable);
+
+		//also as caution:
+		convertSimulate(Constants.TempJumpRjTable);
+		convertSimulate(Constants.TempRunIntervalTable);
+	}
 }

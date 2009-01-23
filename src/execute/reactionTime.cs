@@ -240,10 +240,10 @@ Log.Write("wb ");
 		uniqueID = SqliteReactionTime.Insert(
 				false, Constants.ReactionTimeTable, 
 				"NULL", personID, sessionID, "", //type
-				time, "", Util.BoolToInt(simulated)); //time, description, simulated
+				time, "", Util.BoolToNegativeInt(simulated)); //time, description, simulated
 
 		//define the created object
-		eventDone = new ReactionTime(uniqueID, personID, sessionID, time, "", Util.BoolToInt(simulated)); 
+		eventDone = new ReactionTime(uniqueID, personID, sessionID, time, "", Util.BoolToNegativeInt(simulated)); 
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();

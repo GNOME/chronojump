@@ -427,6 +427,9 @@ int main(int argc,char **argv)
 			cvFlip( frame, frame_copy, 0 );
 
 
+imageGuiResult(gui, "a", font);
+//cvWaitKey(50); //to print above message
+
 		if(!gray)
 		{
 			gray = 		cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
@@ -454,7 +457,9 @@ int main(int argc,char **argv)
 		cvSmooth(frame_copy,frame_copy,2,5,5);
 		cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 		CvRect maxrect;
-			
+
+imageGuiResult(gui, "b", font);
+//cvWaitKey(50); //to print above message
 
 		/*
 		 * 3 
@@ -477,9 +482,13 @@ int main(int argc,char **argv)
 			cvCvtColor(frame_copy,output,CV_BGR2GRAY);
 			cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 
+imageGuiResult(gui, "b1", font);
+//cvWaitKey(50); //to print above message
 
 
 			if(thresholdROIH != -1 || thresholdROIK != -1 || thresholdROIT != -1)  {
+imageGuiResult(gui, "b2", font);
+//cvWaitKey(50); //to print above message
 				int pointSize = 30;
 				CvRect rect;
 				rect.width=pointSize; rect.height=pointSize;
@@ -516,6 +525,8 @@ int main(int argc,char **argv)
 					cvResetImageROI(gray);
 					cvResetImageROI(output);
 				}
+imageGuiResult(gui, "b3", font);
+//cvWaitKey(50); //to print above message
 
 
 				//					sprintf(label, "frame: %d", framesCount);
@@ -526,25 +537,33 @@ int main(int argc,char **argv)
 				imagePrint(output, cvPoint(frame->width -200, frame->height-20), label, font, BLACK);
 
 				cvShowImage("threshold", output);
+imageGuiResult(gui, "b4", font);
+//cvWaitKey(50); //to print above message
 			}
 
+			if(framesCount >1) {
 
+imageGuiResult(gui, "b41", font);
+//cvWaitKey(50); //to print above message
 			CvSeq* seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
+imageGuiResult(gui, "b42", font);
+//cvWaitKey(50); //to print above message
 
 			hipMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
 			kneeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 1 ); 
 			toeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
+			}
 			
 			
 
-/* kalman */
+// kalman 
 			measurement_pt = kneeMarked;
 
 			//cvMatMulAdd(kalman->measurement_matrix, x_k,z_k,z_k);
 
 //			crossPoint(frame_copy, cvPoint(measurement_pt.x -20, measurement_pt.y), YELLOW, BIG); //works
 //			crossPoint(frame_copy, cvPoint(prediction_pt.x +20, prediction_pt.y), WHITE, BIG); //0,0
-/* /kalman */
+// /kalman 
 
 
 
@@ -560,15 +579,17 @@ int main(int argc,char **argv)
 			cvNamedWindow( "toClick", 1 );
 			cvShowImage("toClick", frame_copy);
 
+imageGuiResult(gui, "b5", font);
+//cvWaitKey(50); //to print above message
 
 
-/* kalman */
+// kalman 
 			cvKalmanCorrect(kalman, measurement);
 
 			cvRandSetRange(&rng,0,sqrt(kalman->process_noise_cov->data.fl[0]),0);
 			cvRand(&rng, process_noise);			
 			cvMatMulAdd(kalman->transition_matrix, measurement, process_noise, measurement);
-/* /kalman */
+// /kalman 
 
 
 
@@ -585,7 +606,12 @@ int main(int argc,char **argv)
 				forcePause = true;
 				reloadFrame = true;
 			}
+imageGuiResult(gui, "b6", font);
+//cvWaitKey(50); //to print above message
+
 		} 
+imageGuiResult(gui, "b7", font);
+//cvWaitKey(50); //to print above message
 		
 	//	cvWaitKey(0); ok
 		
@@ -622,6 +648,9 @@ int main(int argc,char **argv)
 		hipOld = hipMarked;
 		kneeOld = kneeMarked;
 		toeOld = toeMarked;
+
+imageGuiResult(gui, "c", font);
+//cvWaitKey(50); //to print above message
 
 		/*
 		 * 4

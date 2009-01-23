@@ -28,6 +28,7 @@ using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 //using System.Data.SQLite;
 
+using Mono.Unix; //Catalog
 
 class SqliteServer : Sqlite
 {
@@ -42,6 +43,8 @@ class SqliteServer : Sqlite
 			"CREATE TABLE " + Constants.ServerPingTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"evaluatorID INT, " + //foreign key
+			"cjVersion TEXT, " +
+			"osVersion TEXT, " +
 			"IP TEXT, " +
 			"date TEXT ) ";
 		dbcmd.ExecuteNonQuery();
@@ -52,7 +55,6 @@ class SqliteServer : Sqlite
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.ServerEvaluatorTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
-			"code TEXT, " +
 			"name TEXT, " +
 			"email TEXT, " +
 			"dateborn TEXT, " +
@@ -62,7 +64,7 @@ class SqliteServer : Sqlite
 	 }
 
 	//public static int InsertPing(ServerPing ping)
-	public static int InsertPing(bool dbconOpened, int evaluatorID, string ip, string date)
+	public static int InsertPing(bool dbconOpened, int evaluatorID, string cjVersion, string osVersion, string ip, string date)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -70,9 +72,10 @@ class SqliteServer : Sqlite
 		string uniqueID = "NULL";
 
 		string myString = "INSERT INTO " + Constants.ServerPingTable + 
-			" (uniqueID, evaluatorID, IP, date) VALUES (" + 
-			//uniqueID + ", " + ping.EvaluatorID + ", '" + ping.IP + "', '" + ping.Date + "')" ;
-			uniqueID + ", " + evaluatorID + ", '" + ip + "', '" + date + "')" ;
+			" (uniqueID, evaluatorID, cjVersion, osVersion, IP, date) VALUES (" + 
+			uniqueID + ", " + evaluatorID + ", '" + 
+			cjVersion + "', '" + osVersion + "', '" +
+			ip + "', '" + date + "')" ;
 		
 		dbcmd.CommandText = myString;
 		
@@ -87,29 +90,23 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 
-
-	/*
-
-	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
-	//temp is used to modify table between different database versions if needed
-	//public static int Insert(bool dbconOpened, string tableName, string name, string sex, string dateBorn, int height, int weight, int sportID, bool sportUserDefined, int practice, string description)
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string sex, string dateBorn, int height, int weight, int sportID, int speciallityID, int practice, string description, int race, int countryID, int serverUniqueID)
+	public static int InsertEvaluator(bool dbconOpened, string name, string email, string dateBorn, int countryID, bool confiable)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
-		if(uniqueID == "-1")
-			uniqueID = "NULL";
+		string uniqueID = "NULL";
 
-		string myString = "INSERT INTO " + tableName + 
-			//" (uniqueID, name, sex, dateBorn, height, weight,  sportID, speciallityID, practice, description) VALUES (NULL, '" +
-			" (uniqueID, name, sex, dateBorn, height, weight,  sportID, speciallityID, practice, description, race, countryID, serverUniqueID) VALUES (" + uniqueID + ", '" +
-			name + "', '" + sex + "', '" + dateBorn + "', " + 
-			height + ", " + "-1" + ", " + //"-1" is weight because it's defined in personSesionWeight for allow change between sessions
-			sportID + ", " + speciallityID + ", " + practice + ", '" + description + "', " + 
-			race + ", " + countryID + ", " + serverUniqueID + ")" ;
+		string myString = "INSERT INTO " + Constants.ServerEvaluatorTable + 
+			" (uniqueID, name, email, dateBorn, countryID, confiable) VALUES (" + 
+			uniqueID + ", '" + name + "', '" + 
+			email + "', '" + dateBorn + "', " +
+			countryID + ", " + Util.BoolToInt(confiable) + ")" ;
 		
 		dbcmd.CommandText = myString;
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
 
@@ -119,375 +116,42 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 
-	public static string SelectJumperName(int uniqueID)
+	public static ArrayList Stats() 
 	{
 		dbcon.Open();
-
-		dbcmd.CommandText = "SELECT name FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
-		
+		dbcmd.CommandText = "SELECT " +
+			" MAX(SPing.uniqueID), MAX(SEvaluator.uniqueID), MAX(session.uniqueID), MAX(person.uniqueID) " +
+			//", " + 
+			//" MAX(jump.uniqueID), MAX(jumpRj.uniqueID), MAX(run.uniqueID), MAX(runInterval.uniqueID), "+
+			//" MAX(reactionTime.uniqueID), MAX(pulse.uniqueID)" +
+			" FROM SPing, SEvaluator, session, person";
+			//, jump, jumpRj, run, runInterval, reactionTime, pulse";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		
-		string myReturn = "";
-		if(reader.Read()) {
-			myReturn = reader[0].ToString();
-		}
-		dbcon.Close();
-		return myReturn;
-	}
-		
-	//currently only used on server
-	public static ArrayList SelectAllPersons() 
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM person"; 
+		//TODO: problema quan no hi ha registres d'alguna tabla, com per exemple: reactionTime, llavors dona sempre: |||||||||
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
-
 		ArrayList myArray = new ArrayList(1);
-
-		while(reader.Read()) 
-			myArray.Add ("(" + reader[0].ToString() + ") " + reader[1].ToString());
-
-		reader.Close();
+		
+		while(reader.Read()) {
+			myArray.Add(Catalog.GetString("Pings")  	+ ": " + reader[0].ToString()); //ping
+			myArray.Add(Catalog.GetString("Evaluators") 	+ ": " + reader[1].ToString()); //eval
+			myArray.Add(Catalog.GetString("Sessions")   	+ ": " + reader[2].ToString()); //sess
+			myArray.Add(Catalog.GetString("Persons")  	+ ": " + reader[3].ToString()); //pers
+			/*
+			myArray.Add(reader[4].ToString()); //jump
+			myArray.Add(reader[5].ToString()); //jumpRj
+			myArray.Add(reader[6].ToString()); //run
+			myArray.Add(reader[7].ToString()); //runI
+			myArray.Add(reader[8].ToString()); //rt
+			myArray.Add(reader[9].ToString()); //pulse
+			*/
+		}
+		
 		dbcon.Close();
-
 		return myArray;
 	}
-		
-	public static string[] SelectAllPersonsRecuperable(string sortedBy, int except, int inSession, string searchFilterName) 
-	{
-		//sortedBy = name or uniqueID (= creation date)
-	
 
-		//1st select all the person.uniqueID of people who are in CurrentSession (or none if except == -1)
-		//2n select all names in database (or in one session if inSession != -1)
-		//3d filter all names (save all found in 2 that is not in 1)
-		//
-		//probably this can be made in only one time... future
-		//
-		//1
-		
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.uniqueID " +
-			" FROM person, personSessionWeight " +
-			" WHERE personSessionWeight.sessionID == " + except + 
-			" AND person.uniqueID == personSessionWeight.personID "; 
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		ArrayList myArray = new ArrayList(2);
-
-		int count = new int();
-		count = 0;
-
-		while(reader.Read()) {
-			myArray.Add (reader[0].ToString());
-			count ++;
-		}
-
-		reader.Close();
-		dbcon.Close();
-		
-		//2
-		//sort no case sensitive when we sort by name
-		if(sortedBy == "name") { 
-			sortedBy = "lower(person.name)" ; 
-		} else { 
-			sortedBy = "person.uniqueID" ; 
-		}
-		
-		dbcon.Open();
-		if(inSession == -1) {
-			string nameLike = "";
-			if(searchFilterName != "")
-				nameLike = "LOWER(person.name) LIKE LOWER ('%" + searchFilterName + "%') AND ";
-
-			dbcmd.CommandText = 
-				"SELECT person.*, personSessionWeight.weight, sport.Name, speciallity.Name  " +
-				" FROM person, personSessionWeight, sport, speciallity " + 
-				" WHERE " + nameLike + " person.UniqueID == personSessionWeight.personID " +
-				" AND person.sportID == sport.UniqueID AND person.speciallityID == speciallity.UniqueID " +
-				" GROUP BY person.uniqueID" +
-				" ORDER BY " + sortedBy;
-		} else {
-			dbcmd.CommandText = 
-				"SELECT person.*, personSessionWeight.weight, sport.Name, speciallity.Name " +
-				" FROM person, personSessionWeight, sport, speciallity " + 
-				" WHERE personSessionWeight.sessionID == " + inSession + 
-				" AND person.uniqueID == personSessionWeight.personID " + 
-				" AND person.sportID == sport.UniqueID AND person.speciallityID == speciallity.UniqueID " +
-				" ORDER BY " + sortedBy;
-		}
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		SqliteDataReader reader2;
-		reader2 = dbcmd.ExecuteReader();
-
-		ArrayList myArray2 = new ArrayList(2);
-
-		int count2 = new int();
-		count2 = 0;
-		bool found;
-
-		//3
-		while(reader2.Read()) {
-			found = false;
-			foreach (string line in myArray) {
-				if(line == reader2[0].ToString()) {
-					found = true;
-					goto finishForeach;
-				}
-			}
-			
-finishForeach:
-			
-			if (!found) {
-				myArray2.Add (reader2[0].ToString() + ":" + reader2[1].ToString() + ":" +
-						reader2[2].ToString() + ":" + reader2[3].ToString() + ":" +
-						reader2[4].ToString() + ":" + 
-						reader2[13].ToString() + ":" + //weight (from personSessionWeight)
-						reader2[14].ToString() + ":" + //sportName
-						reader2[15].ToString() + ":" + //speciallityName
-						Util.FindLevelName(Convert.ToInt32(reader2[8])) + ":" + //levelName
-						reader2[9].ToString() //description
-						);
-					//add race, countryID, serverUniqueID
-				count2 ++;
-			}
-		}
-
-		reader2.Close();
-		dbcon.Close();
-
-		string [] myPersons = new string[count2];
-		count2 = 0;
-		foreach (string line in myArray2) {
-			myPersons [count2++] = line;
-		}
-
-		return myPersons;
-	}
-
-	public static ArrayList SelectAllPersonEvents(int personID) 
-	{
-		SqliteDataReader reader;
-		ArrayList arraySessions = new ArrayList(2);
-		ArrayList arrayJumps = new ArrayList(2);
-		ArrayList arrayJumpsRj = new ArrayList(2);
-		ArrayList arrayRuns = new ArrayList(2);
-		ArrayList arrayRunsInterval = new ArrayList(2);
-		ArrayList arrayRTs = new ArrayList(2);
-		ArrayList arrayPulses = new ArrayList(2);
-	
-		dbcon.Open();
-		
-		//session where this person is loaded
-		dbcmd.CommandText = "SELECT sessionID, session.Name, session.Place, session.Date " + 
-			" FROM personSessionWeight, session " + 
-			" WHERE personID = " + personID + " AND session.uniqueID == personSessionWeight.sessionID " +
-			" ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			arraySessions.Add ( reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-					reader[2].ToString() + ":" + reader[3].ToString() );
-		}
-		reader.Close();
-
-		
-		//jumps
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM jump WHERE personID = " + personID +
-			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			arrayJumps.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
-		}
-		reader.Close();
-		
-		//jumpsRj
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM jumpRj WHERE personID = " + personID +
-			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			arrayJumpsRj.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
-		}
-		reader.Close();
-		
-		//runs
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM run WHERE personID = " + personID +
-			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			arrayRuns.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
-		}
-		reader.Close();
-		
-		//runsInterval
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM runInterval WHERE personID = " + personID +
-			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			arrayRunsInterval.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
-		}
-		reader.Close();
-		
-		//reaction time
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM reactiontime WHERE personID = " + personID +
-			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			arrayRTs.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
-		}
-		reader.Close();
-	
-		//pulses
-		dbcmd.CommandText = "SELECT sessionID, count(*) FROM pulse WHERE personID = " + personID +
-			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		reader = dbcmd.ExecuteReader();
-		while(reader.Read()) {
-			arrayPulses.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
-		}
-		reader.Close();
-	
-	
-		dbcon.Close();
-		
-	
-		ArrayList arrayAll = new ArrayList(2);
-		string tempJumps;
-		string tempJumpsRj;
-		string tempRuns;
-		string tempRunsInterval;
-		string tempRTs;
-		string tempPulses;
-		bool found; 	//using found because a person can be loaded in a session 
-				//but whithout having done any event yet
-
-		//foreach session where this jumper it's loaded, check which events has
-		foreach (string mySession in arraySessions) {
-			string [] myStrSession = mySession.Split(new char[] {':'});
-			tempJumps = "";
-			tempJumpsRj = "";
-			tempRuns = "";
-			tempRunsInterval = "";
-			tempRTs = "";
-			tempPulses = "";
-			found = false;
-			
-			foreach (string myJumps in arrayJumps) {
-				string [] myStr = myJumps.Split(new char[] {':'});
-				if(myStrSession[0] == myStr[0]) {
-					tempJumps = myStr[1];
-					found = true;
-					break;
-				}
-			}
-		
-			foreach (string myJumpsRj in arrayJumpsRj) {
-				string [] myStr = myJumpsRj.Split(new char[] {':'});
-				if(myStrSession[0] == myStr[0]) {
-					tempJumpsRj = myStr[1];
-					found = true;
-					break;
-				}
-			}
-			
-			foreach (string myRuns in arrayRuns) {
-				string [] myStr = myRuns.Split(new char[] {':'});
-				if(myStrSession[0] == myStr[0]) {
-					tempRuns = myStr[1];
-					found = true;
-					break;
-				}
-			}
-			
-			foreach (string myRunsInterval in arrayRunsInterval) {
-				string [] myStr = myRunsInterval.Split(new char[] {':'});
-				if(myStrSession[0] == myStr[0]) {
-					tempRunsInterval = myStr[1];
-					found = true;
-					break;
-				}
-			}
-			
-			foreach (string myRTs in arrayRTs) {
-				string [] myStr = myRTs.Split(new char[] {':'});
-				if(myStrSession[0] == myStr[0]) {
-					tempRTs = myStr[1];
-					found = true;
-					break;
-				}
-			}
-			
-			foreach (string myPulses in arrayPulses) {
-				string [] myStr = myPulses.Split(new char[] {':'});
-				if(myStrSession[0] == myStr[0]) {
-					tempPulses = myStr[1];
-					found = true;
-					break;
-				}
-			}
-			
-
-
-			//if has events, write it's data
-			if (found) {
-				arrayAll.Add (myStrSession[1] + ":" + myStrSession[2] + ":" + 	//session name, place
-						myStrSession[3] + ":" + tempJumps + ":" + 	//sessionDate, jumps
-						tempJumpsRj + ":" + tempRuns + ":" + 		//jumpsRj, Runs
-						tempRunsInterval + ":" + tempRTs + ":" + 	//runsInterval, Reaction times
-						tempPulses);					//pulses
-			}
-		}
-
-		return arrayAll;
-	}
-	
-	public static void Update(Person myPerson)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "UPDATE " + Constants.PersonTable + 
-			" SET name = '" + myPerson.Name + 
-			"', sex = '" + myPerson.Sex +
-			"', dateborn = '" + myPerson.DateBorn +
-			"', height = " + myPerson.Height +
-			", weight = " + myPerson.Weight +
-			", sportID = " + myPerson.SportID +
-			", speciallityID = " + myPerson.SpeciallityID +
-			", practice = " + myPerson.Practice +
-			", description = '" + myPerson.Description +
-			"', race = " + myPerson.Race +
-			", countryID = " + myPerson.CountryID +
-			", serverUniqueID = " + myPerson.ServerUniqueID +
-			" WHERE uniqueID == '" + myPerson.UniqueID + "'" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
-
-	
-	public static void Delete()
-	{
-	}
-
-	*/
 }

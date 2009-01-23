@@ -27,16 +27,18 @@ using Mono.Unix;
 
 public class Session {
 
-	int uniqueID;
-	string name;
-	string place;
-	string date;
-	string comments;
+	protected int uniqueID;
+	protected string name;
+	protected string place;
+	protected string date;
+	protected string comments;
+	protected int serverUniqueID; //not on server
 	
-	private int personsSportID;	//1 undefined, 2 none, 3...n other sports (check table sportType). On session, undefined means that there's no default sport because persons have different sports
-	private int personsSpeciallityID;
-	private int personsPractice;	//-1 undefined, sedentary, 1 regular practice, 2 competition, 3 (alto rendimiento)
-	
+	protected int personsSportID;	//1 undefined, 2 none, 3...n other sports (check table sportType). On session, undefined means that there's no default sport because persons have different sports
+	protected int personsSpeciallityID;
+	protected int personsPractice;	//-1 undefined, sedentary, 1 regular practice, 2 competition, 3 (alto rendimiento)
+
+
 	//on gui SessionAddEditWindow, when we add a session, we call that class from gui/chronojump.cs with a session with -1 as uniqueID
 	public Session() {
 		uniqueID = -1;
@@ -47,7 +49,7 @@ public class Session {
 	//With person sport stuff
 	public Session(string newUniqueID, string newName, string newPlace, string newDate, 
 			int personsSportID, int personsSpeciallityID, int personsPractice,
-			string newComments) 
+			string newComments, int serverUniqueID) 
 	{
 		uniqueID = Convert.ToInt32(newUniqueID);
 		name = newName;
@@ -57,12 +59,13 @@ public class Session {
 		this.personsSpeciallityID = personsSpeciallityID;
 		this.personsPractice = personsPractice;
 		comments = newComments;
+		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 	}
 
 	//typical constructor with personsSport stuff
 	public Session(string newName, string newPlace, string newDate, 
 			int personsSportID, int personsSpeciallityID, int personsPractice,
-			string newComments) 
+			string newComments, int serverUniqueID) 
 	{
 		name = newName;
 		place = newPlace;
@@ -75,14 +78,47 @@ public class Session {
 		name = Util.RemoveTildeAndColon(name);
 		place = Util.RemoveTildeAndColon(place);
 		comments = Util.RemoveTildeAndColon(comments);
+		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 
-		
+		/*
 		uniqueID = SqliteSession.Insert (false, //dbconOpened,
-				Constants.SessionTable, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments);
+				Constants.SessionTable, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID);
+		*/
+		uniqueID = -1;
+		int insertedID = this.InsertAtDB(false, Constants.SessionTable);
+
+		//we need uniqueID for personSession
+		uniqueID = insertedID;
+
 
 		Log.WriteLine(this.ToString());
 	}
 
+	//used to select a session at Sqlite.convertTables
+	public Session(string [] myString)
+	{
+		this.uniqueID = Convert.ToInt32(myString[0]);
+		this.name = myString[1];
+		this.place = myString[2];
+		this.date = myString[3];
+		this.personsSportID = Convert.ToInt32(myString[4]);
+		this.personsSpeciallityID = Convert.ToInt32(myString[5]);
+		this.personsPractice = Convert.ToInt32(myString[6]);
+		this.comments = myString[7];
+		this.serverUniqueID = Convert.ToInt32(myString[8]);
+	}
+
+	public virtual int InsertAtDB (bool dbconOpened, string tableName) {
+		int myID = SqliteSession.Insert(dbconOpened, tableName, 
+				uniqueID.ToString(), name,
+				place, date, 
+				personsSportID, 
+				personsSpeciallityID, 
+				personsPractice, 
+				comments,
+				serverUniqueID);
+		return myID;
+	}
 	
 	public override string ToString()
 	{
@@ -127,6 +163,11 @@ public class Session {
 		set { comments = value; }
 	}
 	
+	public int ServerUniqueID {
+		get { return serverUniqueID; }
+		set { serverUniqueID = value; }
+	}
+
 	public int UniqueID {
 		get { return uniqueID; } 
 		set { uniqueID = value; }
@@ -152,5 +193,92 @@ public class Session {
 	
 	~Session() {}
 	   
+}
+
+public class ServerSession : Session
+{
+	//server stuff
+	int evaluatorID;
+	string evaluatorCJVersion;
+	string evaluatorOS;
+	string uploadedDate;
+	Constants.ServerSessionStates uploadingState;
+	//int uploadingState;
+
+	public ServerSession() {
+	}
+	
+	public ServerSession(Session mySession, int evaluatorID, string evaluatorCJVersion, 
+			string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
+			//string evaluatorOS, string uploadedDate, int uploadingState)
+	{
+		uniqueID = mySession.UniqueID;
+		name = mySession.Name;
+		place = mySession.Place;
+		date = mySession.Date;
+		personsSportID = mySession.PersonsSportID;
+		personsSpeciallityID = mySession.PersonsSpeciallityID;
+		personsPractice = mySession.PersonsPractice;
+		comments = mySession.Comments;
+		this.evaluatorID = evaluatorID;
+		this.evaluatorCJVersion = evaluatorCJVersion;
+		this.evaluatorOS = evaluatorOS;
+		this.uploadedDate = uploadedDate;
+		this.uploadingState = uploadingState;
+	}
+
+	public override int InsertAtDB (bool dbconOpened, string tableName) {
+		int myID = SqliteServerSession.Insert(dbconOpened, tableName, 
+				//uniqueID.ToString(),
+				name,
+				place, date, 
+				personsSportID, 
+				personsSpeciallityID, 
+				personsPractice, 
+				comments,
+				serverUniqueID,
+				evaluatorID,
+				evaluatorCJVersion,
+				evaluatorOS,
+				uploadedDate,
+				uploadingState
+				);
+		return myID;
+	}
+	
+	public override string ToString()
+	{
+		return "[" + uniqueID + "]" + name + ", " + place + ", " + date + ", " + 
+			comments + ",(" + serverUniqueID + "), /" + evaluatorID + "/, " + 
+			evaluatorCJVersion + ", " + evaluatorOS + ", " + uploadedDate + ", " + uploadingState;
+	}
+	
+	public int EvaluatorID {
+		get { return evaluatorID; }
+		set { evaluatorID = value; }
+	}
+
+	public string EvaluatorCJVersion {
+		get { return evaluatorCJVersion; }
+		set { evaluatorCJVersion = value; }
+	}
+
+	public string EvaluatorOS {
+		get { return evaluatorOS; }
+		set { evaluatorOS = value; }
+	}
+
+	public string UploadedDate {
+		get { return uploadedDate; }
+		set { uploadedDate = value; }
+	}
+
+	public Constants.ServerSessionStates UploadingState {
+	//public int UploadingState {
+		get { return uploadingState; }
+		set { uploadingState = value; }
+	}
+
+
 }
 

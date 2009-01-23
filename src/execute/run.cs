@@ -293,10 +293,10 @@ Log.WriteLine("MANAGE(3)!!!!");
 
 		uniqueID = SqliteRun.Insert(false, Constants.RunTable, "NULL", personID, sessionID, 
 				type, distance, time, "", //description
-				Util.BoolToInt(simulated)); 
+				Util.BoolToNegativeInt(simulated)); 
 		
 		//define the created object
-		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, "", Util.BoolToInt(simulated)); 
+		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, "", Util.BoolToNegativeInt(simulated)); 
 		
 		
 		//event will be raised, and managed in chronojump.cs
@@ -727,7 +727,7 @@ public class RunIntervalExecute : RunExecute
 					distanceInterval, intervalTimesString, tracks, 
 					"", 					//description
 					limitString,
-					Util.BoolToInt(simulated) 
+					Util.BoolToNegativeInt(simulated) 
 					);
 			}
 
@@ -737,11 +737,11 @@ public class RunIntervalExecute : RunExecute
 					distanceInterval, intervalTimesString, tracks, 
 					"", 					//description
 					limitString,
-					Util.BoolToInt(simulated) 
+					Util.BoolToNegativeInt(simulated) 
 					);
 
 			//define the created object
-			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, "", limitString, Util.BoolToInt(simulated)); 
+			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, "", limitString, Util.BoolToNegativeInt(simulated)); 
 
 
 			string tempValuesString = "";

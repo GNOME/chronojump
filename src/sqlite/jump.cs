@@ -55,7 +55,10 @@ class SqliteJump : Sqlite
 			"weight TEXT, " + //string because can contain "33%" or "50Kg"
 			"description TEXT, " +
 			"angle FLOAT, " + //-1.0 if undef
-			"simulated INT )";
+			"simulated INT )"; 	//since db: 0.60 (cj 0.8.1.2) simulated = -1, real test (not uploaded to server) = 0, 
+						//positive numbers represent the serverUniqueID
+						//the simulated has two purposes, but it's logical because 
+						//only real tests can be uploaded
 		dbcmd.ExecuteNonQuery();
 	}
 	

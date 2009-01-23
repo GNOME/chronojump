@@ -78,6 +78,9 @@ public class Constants
 	public const string IPUnknown = "Unknown"; 
 	public static int ServerUndefinedID = -1;
 	public static string ServerOffline = Catalog.GetString("Server is currently offline.");
+	public enum ServerSessionStates {
+		NOTHING, UPLOADINGSESSION, UPLOADINGPERSONS, UPLOADINGTESTS, DONE
+	}
 
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
@@ -274,6 +277,8 @@ public class Constants
 		"Oceania" + ":" + Catalog.GetString("Oceania"),
 		"South America" + ":" + Catalog.GetString("South America"),
 	};
+	
+	public static int Simulated = -1; 
 	
 	//levels of sport practice
 	//int will go into person database

@@ -2,6 +2,16 @@ do that validation does the skin method and the black method, instead of
 having a black method full of validation things
 at end, validation should add compare code
 
+findHoles should work only on ROIs (Region Of Interest). 
+The best is to ask first user for the points and play with the threshold in
+ROI (don't with the hole image). ROI is always in the middle of
+point (in future, ROI is detected by kalvan)
+If the point gets lost on that ROI, ask user again
+Ability to record thresold for next person and load
+
+max size of point should be marked vy software, and also size of ROI
+(maybe in future, ROI of toe could be little than other ROIs (that move fast)
+
 des 18
 
 	changee toe to not allow to be one pixel width (really bottom of the

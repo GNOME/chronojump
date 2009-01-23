@@ -599,7 +599,8 @@ public class SessionAddEditWindow {
 			if(addSession) 
 				currentSession = new Session (Util.RemoveTildeAndColon(entry_name.Text), Util.RemoveTildeAndColon(entry_place.Text), myDate, 
 						sportID, speciallityID, levelID,
-						Util.RemoveTildeAndColon(textview.Buffer.Text));
+						Util.RemoveTildeAndColon(textview.Buffer.Text),
+						Constants.ServerUndefinedID);
 			else {
 				currentSession.Name = Util.RemoveTildeAndColon(entry_name.Text.ToString());
 				currentSession.Place = Util.RemoveTildeAndColon(entry_place.Text.ToString()); 
@@ -609,7 +610,7 @@ public class SessionAddEditWindow {
 				currentSession.PersonsPractice = levelID;
 				currentSession.Comments = Util.RemoveTildeAndColon(textview.Buffer.Text);
 
-				SqliteSession.Edit(currentSession.UniqueID, currentSession.Name, 
+				SqliteSession.Update(currentSession.UniqueID, currentSession.Name, 
 						currentSession.Place, currentSession.Date, 
 						sportID, speciallityID, levelID,
 						currentSession.Comments);

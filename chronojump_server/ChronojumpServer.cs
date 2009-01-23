@@ -66,6 +66,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     /// <remarks>
 ///Select person name
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/SelectPersonName", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string SelectPersonName(int personID) {
@@ -86,6 +87,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     /// <remarks>
 ///See all persons
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/SelectAllPersons", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public ArrayList SelectAllPersons() {
@@ -97,13 +99,35 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return this.BeginInvoke("SelectAllPersons", new object[0], callback, asyncState);
     }
     
-    public string[] EndSelectAllPersons(System.IAsyncResult asyncResult) {
+//public string[] EndSelectAllPersons(System.IAsyncResult asyncResult) {
+    public ArrayList EndSelectAllPersons(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
-        return ((string[])(results[0]));
+//return ((string[])(results[0]));
+        return ((ArrayList)(results[0]));
+    }
+    
+    /// <remarks>
+///Stats
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/Stats", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public ArrayList Stats() {
+        object[] results = this.Invoke("Stats", new object[0]);
+        return ((ArrayList)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginStats(System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("Stats", new object[0], callback, asyncState);
+    }
+    
+    public ArrayList EndStats(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((ArrayList)(results[0]));
     }
     
     /// <remarks>
 ///Select events from all persons
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/SelectAllPersonEvents", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public object[] SelectAllPersonEvents(int personID) {
@@ -123,7 +147,29 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     /// <remarks>
+///Insert session
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/InsertSession", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int InsertSession(ServerSession mySession) {
+        object[] results = this.Invoke("InsertSession", new object[] {
+            mySession});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginInsertSession(ServerSession mySession, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("InsertSession", new object[] {
+            mySession}, callback, asyncState);
+    }
+    
+    public int EndInsertSession(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+
+    /// <remarks>
 ///Insert person
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/InsertPerson", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int InsertPerson(Person myPerson, int sessionID) {
@@ -144,12 +190,13 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
 
     /// <remarks>
 ///Insert ping
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/InsertPing", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public object[] InsertPing(ServerPing myPing) {
+    public int InsertPing(ServerPing myPing) {
         object[] results = this.Invoke("InsertPing", new object[] {
             myPing});
-        return ((object[])(results[0]));
+        return ((int)(results[0]));
     }
     
     public System.IAsyncResult BeginInsertPing(ServerPing myPing, System.AsyncCallback callback, object asyncState) {
@@ -157,13 +204,56 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
             myPing}, callback, asyncState);
     }
     
-    public object[] EndInsertPing(System.IAsyncResult asyncResult) {
+    public int EndInsertPing(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
-        return ((object[])(results[0]));
+        return ((int)(results[0]));
+    }
+
+    /// <remarks>
+///Insert evaluator
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/InsertEvaluator", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int InsertEvaluator(ServerEvaluator myEval) {
+        object[] results = this.Invoke("InsertEvaluator", new object[] {
+            myEval});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginInsertEvaluator(ServerEvaluator myEval, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("InsertEvaluator", new object[] {
+            myEval}, callback, asyncState);
+    }
+    
+    public int EndInsertEvaluator(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+
+    /// <remarks>
+///Update session
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/UpdateSession", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int UpdateSession(int sessionID, Constants.ServerSessionStates state) {
+        object[] results = this.Invoke("UpdateSession", new object[] {
+            sessionID, state});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginUpdateSession(int sessionID, Constants.ServerSessionStates state, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("UpdateSession", new object[] {
+            sessionID, state}, callback, asyncState);
+    }
+    
+    public int EndUpdateSession(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
     }
 
     /// <remarks>
 ///List directory files (only as a sample)
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://80.32.81.197:8080/ListDirectory", RequestNamespace="http://80.32.81.197:8080/", ResponseNamespace="http://80.32.81.197:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string[] ListDirectory(string path) {

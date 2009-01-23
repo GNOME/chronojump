@@ -61,6 +61,8 @@ class SqlitePreferences : Sqlite
 		Insert ("metersSecondsPreferred", "True");
 		Insert ("language", "es-ES"); 
 		Insert ("allowFinishRjAfterTime", "True"); 
+		Insert ("volumeOn", "True"); 
+		Insert ("evaluatorServerID", "-1");
 	}
 
 	public static void Insert(string myName, string myValue)

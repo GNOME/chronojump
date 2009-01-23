@@ -548,14 +548,18 @@ public class Util
 	//in chronojump we compile now for Linux with Mono and for Windows with .NET
 	//it should be something like IsDotNet()
 	public static bool IsWindows() {
-		OperatingSystem os = Environment.OSVersion;
-
-		Log.WriteLine(string.Format("platform: {0}, version: {1}", os.Platform, os.Version));
-
-		if(os.Platform.ToString().ToUpper().StartsWith("WIN"))
+		string os = GetOS();
+		if(os.ToUpper().StartsWith("WIN"))
 			return true;
 		else 
 			return false;
+	}
+	
+	public static string GetOS() {
+		OperatingSystem os = Environment.OSVersion;
+		string osString =  string.Format("{0}, {1}", os.Platform, os.Version);
+		Log.WriteLine(osString);
+		return osString;
 	}
 	
 	public static DateTime DateAsDateTime (string dateString) {
@@ -671,10 +675,8 @@ public class Util
 	//public static void PlaySound (System.Media.SystemSounds mySound, bool volumeOn) {
 	public static void PlaySound (Constants.SoundTypes mySound, bool volumeOn) {
 		if(volumeOn) {
-			//on mono windows, PlaySound is not implemented. Until find a solution let's play a system bell
-			//if(IsWindows())
-			//	Log.WriteLine("\a");
-			//else {
+			//TODO: this try/catch still doesn't work in my laptop with sound problems
+			try {
 				switch(mySound) {
 					case Constants.SoundTypes.CAN_START:
 						System.Media.SystemSounds.Question.Play();
@@ -686,7 +688,7 @@ public class Util
 						System.Media.SystemSounds.Beep.Play();
 						break;
 				}
-			//}
+			} catch {}
 		}
 	}
 
@@ -865,6 +867,17 @@ public class Util
 	public static int BoolToInt (bool myBool) {
 		if(myBool)
 			return 1;
+		else
+			return 0;
+	}
+
+	//used by simulated, since cj 0.8.1.2, db: 0.60
+	//-1 simulated test
+	//0 real test not uploaded
+	//>0 serverUniqueID of uploaded test
+	public static int BoolToNegativeInt (bool myBool) {
+		if(myBool)
+			return -1;
 		else
 			return 0;
 	}

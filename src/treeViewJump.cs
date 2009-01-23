@@ -176,7 +176,7 @@ public class TreeViewJumps : TreeViewEvent
 		Jump newJump = (Jump)myObject;
 
 		string title = newJump.Type;
-		if(newJump.Simulated == 1)
+		if(newJump.Simulated == Constants.Simulated)
 			title += " (s)";
 
 		string [] myData = new String [getColsNum()];
@@ -266,7 +266,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		JumpRj newJumpRj = (JumpRj)myObject;
 
 		string title = newJumpRj.Type;
-		if(newJumpRj.Simulated == 1)
+		if(newJumpRj.Simulated == Constants.Simulated)
 			title += " (s) ";
 
 		string myTypeComplet = title + "(" + Util.GetLimitedRounded(newJumpRj.Limited, pDN) + ")";

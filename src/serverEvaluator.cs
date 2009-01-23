@@ -25,37 +25,38 @@ using System.Text; //StringBuilder
 
 using Mono.Unix;
 
-public class ServerPing
+public class ServerEvaluator
 {
 	private int uniqueID;
-	private int evaluatorID;
-	private string cjVersion;
-	private string osVersion;
-	private string ip;
-	private string date;
+	private string name;
+	private string email;
+	private string dateBorn;
+	private int countryID;
+	private bool confiable;
 
 	//only initializing
 	//needed by the webservice
-	public ServerPing() {
+	public ServerEvaluator() {
 	}
 
-	public ServerPing(int evaluatorID, string cjVersion, string osVersion, string ip, string date) {
-		this.evaluatorID = evaluatorID;
-		this.cjVersion = cjVersion;
-		this.osVersion = osVersion;
-		this.ip = ip;
-		this.date = date;
+	public ServerEvaluator(string name, string email, string dateBorn, int countryID, bool confiable) {
+		this.name = name;
+		this.email = email;
+		this.dateBorn = dateBorn;
+		this.countryID = countryID;
+		this.confiable = confiable;
 	}
 
 	public int InsertAtDB(bool dbconOpened){
-		int myID = SqliteServer.InsertPing(dbconOpened, evaluatorID, cjVersion, osVersion, ip, date);
+		Console.WriteLine("here" + this.ToString());
+		int myID = SqliteServer.InsertEvaluator(dbconOpened, name, email, dateBorn, countryID, confiable);
 		return myID;
 	}	
 
 	public override string ToString() {
-		return "ID: " + uniqueID + "; EvaluatorID: " + evaluatorID + 
-			"; cjVersion: " + cjVersion + "; osVersion: " + osVersion +
-			"; IP: " + ip + "; Date: " + date;
+		return "ID: " + uniqueID + "; Name: " + name + 
+			"; Email: " + email + "; DateBorn: " + dateBorn +
+			"; CountryID: " + countryID + "; Confiable: " + confiable;
 	}
 	
 	public int UniqueID {
@@ -67,29 +68,29 @@ public class ServerPing
 	//"Private, internal, and protected members do not get serialized.  
 	//If the accessor is not specific, it is private by default (and will not get serialized)."
 	
-	public int EvaluatorID {
-		get { return evaluatorID; }
-		set { evaluatorID = value; }
+	public string Name {
+		get { return name; }
+		set { name = value; }
 	}
 
-	public string CJVersion {
-		get { return cjVersion; }
-		set { cjVersion = value; }
+	public string Email {
+		get { return email; }
+		set { email = value; }
 	}
 
-	public string OSVersion {
-		get { return osVersion; }
-		set { osVersion = value; }
+	public string DateBorn {
+		get { return dateBorn; }
+		set { dateBorn = value; }
 	}
 
-	public string IP {
-		get { return ip; }
-		set { ip = value; }
+	public int CountryID {
+		get { return countryID; }
+		set { countryID = value; }
 	}
 
-	public string Date {
-		get { return date; }
-		set { date = value; }
+	public bool Confiable {
+		get { return confiable; }
+		set { confiable = value; }
 	}
 
 }

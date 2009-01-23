@@ -324,11 +324,11 @@ public class PulseExecute : EventExecute
 
 		uniqueID = SqlitePulse.Insert(false, Constants.PulseTable, "NULL", personID, sessionID, type, 
 				fixedPulse, totalPulsesNum, timesString, 
-				"", Util.BoolToInt(simulated) //description
+				"", Util.BoolToNegativeInt(simulated) //description
 				);
 
 		//define the created object
-		eventDone = new Pulse(uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timesString, "", Util.BoolToInt(simulated)); 
+		eventDone = new Pulse(uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timesString, "", Util.BoolToNegativeInt(simulated)); 
 		
 		string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
 		appbar.Push( 1, myStringPush );

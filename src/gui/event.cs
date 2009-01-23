@@ -146,7 +146,7 @@ public class EditEventWindow
 		fillWindowTitleAndLabelHeader();
 
 		string id = myEvent.UniqueID.ToString();
-		if(myEvent.Simulated == 1) 
+		if(myEvent.Simulated == Constants.Simulated) 
 			label_simulated.Show();
 		
 		label_event_id_value.Text = id;

@@ -73,7 +73,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.59";
+	static string lastChronojumpDatabaseVersion = "0.60";
 
 	public Sqlite() {
 	}
@@ -688,7 +688,7 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", "0.57", true); 
 				dbcon.Close();
 				
-				Log.WriteLine("Added simulated column to each event table on client. Added race, country, serverUniqueID. Convert to sport related done here if needed");
+				Log.WriteLine("Added simulated column to each event table on client. Added to person: race, country, serverUniqueID. Convert to sport related done here if needed");
 				currentVersion = "0.57";
 			}
 			if(currentVersion == "0.57") {
@@ -727,6 +727,32 @@ class Sqlite
 				currentVersion = "0.59";
 			}
 
+			if(currentVersion == "0.59") {
+				dbcon.Open();
+				conversionRateTotal = 4;
+
+				conversionRate = 1;
+				SqlitePreferences.Insert ("volumeOn", "True"); 
+				SqlitePreferences.Insert ("evaluatorServerID", "-1");
+
+				conversionRate = 2;
+			
+				int columnsBefore = 8;
+				ArrayList arrayServerID = new ArrayList(1);
+				arrayServerID.Add(Constants.ServerUndefinedID.ToString());
+				convertTables(new SqliteSession(), Constants.SessionTable, columnsBefore, arrayServerID, false);
+				
+				conversionRate = 3;
+				SqliteEvent.SimulatedConvertToNegative();
+
+				SqlitePreferences.Update ("databaseVersion", "0.60", true); 
+				Log.WriteLine("Converted DB to 0.60 (added volumeOn and evaluatorServerID to preferences. session has now serverUniqueID. Simulated now are -1, because 0 is real and positive is serverUniqueID)"); 
+				
+				conversionRate = 4;
+				dbcon.Close();
+				currentVersion = "0.60";
+			}
+
 
 		}
 
@@ -755,14 +781,23 @@ class Sqlite
 	{
 		dbcon.Open();
 
+		creationTotal = 12;
+		creationRate = 1;
+
 		if(server) {
 			SqliteServer sqliteServerObject = new SqliteServer();
 			sqliteServerObject.CreatePingTable();
 			sqliteServerObject.CreateEvaluatorTable();
+			
+			SqliteServerSession sqliteSessionObject = new SqliteServerSession();
+			sqliteSessionObject.createTable(Constants.SessionTable);
+		} else {
+			SqliteSession sqliteSessionObject = new SqliteSession();
+			sqliteSessionObject.createTable(Constants.SessionTable);
+			creationRate ++;
 		}
+		
 
-		creationTotal = 12;
-		creationRate = 1;
 		SqlitePerson sqlitePersonObject = new SqlitePerson();
 		sqlitePersonObject.createTable(Constants.PersonTable);
 
@@ -820,9 +855,6 @@ class Sqlite
 		SqliteSpeciallity.InsertUndefined(true);
 
 		creationRate ++;
-		SqliteSession.createTable(Constants.SessionTable);
-		
-		creationRate ++;
 		SqlitePersonSession.createTable();
 		
 		creationRate ++;
@@ -834,6 +866,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.59 - 0.60 added volumeOn and evaluatorServerID to preferences. Session has now serverUniqueID. Simulated now are -1, because 0 is real and positive is serverUniqueID
 		//0.58 - 0.59 Added 'showAngle' to preferences, changed angle on jump to double
 		//0.57 - 0.58 Countries without kingdom or republic (except when needed)
 		//0.56 - 0.57 Added simulated column to each event table on client. person: race, country, serverID. Convert to sport related done here if needed");
@@ -956,6 +989,7 @@ class Sqlite
 		conversionSubRate = 1;
 		conversionSubRateTotal = -1; //unknown yet
 
+
 		//2st create convert temp table
 		sqliteObject.createTable(Constants.ConvertTempTable);
 
@@ -963,9 +997,9 @@ class Sqlite
 		ArrayList myArray = new ArrayList(2);
 		dbcmd.CommandText = "SELECT * " + 
 			"FROM " + tableName + " ORDER BY uniqueID"; 
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
-		Log.WriteLine(dbcmd.CommandText.ToString());
 
 		while(reader.Read()) {
 			string [] myReaderStr = new String[columnsBefore + columnsToAdd.Count];
@@ -990,6 +1024,9 @@ class Sqlite
 			if(tableName == Constants.PersonTable) {	
 				Person myPerson =  new Person(myReaderStr);
 				myArray.Add(myPerson);
+			} else if(tableName == Constants.SessionTable) {	
+				Session mySession = new Session(myReaderStr);
+				myArray.Add(mySession);
 			} else {
 				Event myEvent =  new Event();	
 				switch (tableName) {
@@ -1024,6 +1061,11 @@ class Sqlite
 				myPerson.InsertAtDB(true, Constants.ConvertTempTable);
 				conversionSubRate ++;
 			}
+		} else if(tableName == Constants.SessionTable) {	
+			foreach (Session mySession in myArray) {
+				mySession.InsertAtDB(true, Constants.ConvertTempTable);
+				conversionSubRate ++;
+			}
 		} else {
 			foreach (Event myEvent in myArray) {
 				myEvent.InsertAtDB(true, Constants.ConvertTempTable);
@@ -1041,6 +1083,11 @@ class Sqlite
 		if(tableName == Constants.PersonTable) {	
 			foreach (Person myPerson in myArray) {
 				myPerson.InsertAtDB(true, tableName);
+				conversionSubRate ++;
+			}
+		} else if(tableName == Constants.SessionTable) {	
+			foreach (Session mySession in myArray) {
+				mySession.InsertAtDB(true, tableName);
 				conversionSubRate ++;
 			}
 		} else {

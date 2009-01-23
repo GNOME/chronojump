@@ -51,17 +51,20 @@ public class ChronoJump
 
 
 	public static void Main(string [] args) 
-	{
+	{/*
 		bool timeLogPassedOk = Log.Start(args);
 		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
 		Log.WriteLine(string.Format("Client database option 1 in ... " + Util.GetDatabaseDir()));
 		Log.WriteLine(string.Format("Client database option 2 in ... " + Util.GetDatabaseTempDir()));
 		string errorFile = Log.GetFile();
-		
+	
+		//comment this 4 lines to deactivated log, and use console.
+		//works better on a sudden crash
 		StreamWriter sw = new StreamWriter(new BufferedStream(new FileStream(errorFile, FileMode.Create)));
 		System.Console.SetOut(sw);
 		System.Console.SetError(sw);
 		sw.AutoFlush = true;
+*/
 
 		//this call has to be done to chronojump.prg
 		//chronojump.prg createBlankDB
@@ -105,6 +108,7 @@ public class ChronoJump
 		
 
 		/* SERVER COMMUNICATION TESTS */
+/*
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
 
@@ -121,6 +125,7 @@ public class ChronoJump
 		catch {
 			Log.WriteLine("Unable to call server");
 		}
+		*/
 		/* END OF SERVER COMMUNICATION TESTS */
 
 		//print version of chronojump

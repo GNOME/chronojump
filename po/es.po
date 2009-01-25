@@ -13,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&component=general\n"
 "POT-Creation-Date: 2009-01-19 18:49+0000\n"
-"PO-Revision-Date: 2009-01-20 16:49+0100\n"
+"PO-Revision-Date: 2009-01-25 11:12+0100\n"
 "Last-Translator: Xavier de Blas <xaviblas@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1062,7 +1062,7 @@ msgstr "Filtro de búsqueda"
 #: ../glade/chronojump.glade.h:244
 #| msgid "See all runs"
 msgid "See all persons"
-msgstr "Ver todas las personas"
+msgstr "Mostrar todas las personas"
 
 #: ../glade/chronojump.glade.h:245
 msgid "See also:"
@@ -1856,7 +1856,7 @@ msgstr "OpenCV, detección del ángulo de la rodilla"
 
 #: ../src/constants.cs:80
 msgid "Server is currently offline."
-msgstr "Actualmente el servidor está apagado."
+msgstr "Actualmente el servidor está desconectado."
 
 #. OLD, check this
 #. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
@@ -2686,7 +2686,7 @@ msgstr ""
 "Eduardo Retamales <eretamales@gnome.cl>, 2007-2008\n"
 "Xavier de Blas <xaviblas@gmail.com>, 2005\n"
 "QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006\n"
-"QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2009"
+"QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
 
 #: ../src/gui/chronojump.cs:4475
 msgid "Done for testing purposes. Chronojump will exit badly"

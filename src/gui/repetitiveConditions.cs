@@ -94,6 +94,9 @@ public class RepetitiveConditionsWindow
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "repetitive_conditions", null);
 		gladeXML.Autoconnect(this);
 		
+		//don't show until View is called
+		repetitive_conditions.Hide ();
+
 		//put an icon to window
 		UtilGtk.IconWindow(repetitive_conditions);
 		
@@ -107,7 +110,7 @@ public class RepetitiveConditionsWindow
 		}
 	
 		//don't show until View is called
-		RepetitiveConditionsWindowBox.repetitive_conditions.Hide ();
+		//RepetitiveConditionsWindowBox.repetitive_conditions.Hide ();
 		
 		return RepetitiveConditionsWindowBox;
 	}

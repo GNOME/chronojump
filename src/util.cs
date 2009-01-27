@@ -231,15 +231,15 @@ public class Util
 	public static string RemoveTilde(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("'", "");
+		myStringBuilder.Replace("'", " ");
 		return myStringBuilder.ToString();
 	}
 	
 	public static string RemoveTildeAndColon(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("'", "");
-		myStringBuilder.Replace(":", "");
+		myStringBuilder.Replace("'", " ");
+		myStringBuilder.Replace(":", " ");
 		return myStringBuilder.ToString();
 	}
 	
@@ -247,9 +247,9 @@ public class Util
 	public static string RemoveTildeAndColonAndDot(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("'", "");
-		myStringBuilder.Replace(":", "");
-		myStringBuilder.Replace(".", "");
+		myStringBuilder.Replace("'", " ");
+		myStringBuilder.Replace(":", " ");
+		myStringBuilder.Replace(".", " ");
 		return myStringBuilder.ToString();
 	}
 	

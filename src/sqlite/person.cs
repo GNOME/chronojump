@@ -79,6 +79,7 @@ class SqlitePerson : Sqlite
 			race + ", " + countryID + ", " + serverUniqueID + ")" ;
 		
 		dbcmd.CommandText = myString;
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
 

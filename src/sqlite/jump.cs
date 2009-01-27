@@ -73,6 +73,9 @@ class SqliteJump : Sqlite
 		if(! dbconOpened)
 			dbcon.Open();
 
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
 				" (uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated)" +
 				" VALUES (" + uniqueID + ", "

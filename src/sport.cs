@@ -56,6 +56,14 @@ public class Sport
 		this.graphLink = graphLink;
 	}
 
+	//currently only used from server at uploadSport
+	//if used in other places, the "-1" maybe should be another value
+	public int InsertAtDB (bool dbconOpened) {
+		int myID = SqliteSport.Insert(dbconOpened, "-1", name,
+				userDefined, hasSpeciallities, graphLink);
+		return myID;
+	}
+	
 	public override string ToString() {
 		string myString = "";
 		if(this.userDefined)
@@ -65,22 +73,27 @@ public class Sport
 
 	public int UniqueID {
 		get { return uniqueID; } 
+		set { uniqueID = value; } 
 	}
 	
 	public string Name {
 		get { return name; } 
+		set { name = value; } 
 	}
 
 	public bool UserDefined {
 		get { return userDefined; } 
+		set { userDefined = value; } 
 	}
 	
 	public string GraphLink {
 		get { return graphLink; } 
+		set { graphLink = value; } 
 	}
 	
 	public bool HasSpeciallities {
 		get { return hasSpeciallities; } 
+		set { hasSpeciallities = value; } 
 	}
 
 }

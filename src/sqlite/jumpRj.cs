@@ -67,6 +67,10 @@ class SqliteJumpRj : SqliteJump
 	{
 		if(! dbconOpened)
 			dbcon.Open();
+		
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, tvMax, tcMax, fall, weight, description, " +
 				"tvAvg, tcAvg, tvString, tcString, jumps, time, limited, angleString, simulated )" +

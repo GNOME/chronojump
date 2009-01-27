@@ -66,6 +66,9 @@ class SqlitePulse : Sqlite
 		if(! dbconOpened)
 			dbcon.Open();
 	
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timeString, description, simulated)" +
 				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", '" + type + "', "
@@ -82,14 +85,19 @@ class SqlitePulse : Sqlite
 	}
 	
 
-
-	public static string[] SelectAllPulses(int sessionID) 
+	//if all persons, put -1 in personID
+	public static string[] SelectAllPulses(int sessionID, int personID) 
 	{
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = " AND person.uniqueID == " + personID;
+
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, pulse.* " +
 			" FROM person, pulse " +
 			" WHERE person.uniqueID == pulse.personID" + 
 			" AND pulse.sessionID == " + sessionID + 
+			filterPersonString +
 			" ORDER BY upper(person.name), pulse.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());

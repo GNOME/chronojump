@@ -62,6 +62,9 @@ class SqliteRunInterval : SqliteRun
 		if(! dbconOpened)
 			dbcon.Open();
 
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
 		dbcmd.CommandText = "INSERT INTO "+ tableName + 
 				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated )" +
 				"VALUES (" + uniqueID + ", " +
@@ -82,13 +85,18 @@ class SqliteRunInterval : SqliteRun
 		return myLast;
 	}
 
-	public new static string[] SelectAllRuns(int sessionID) 
+	public new static string[] SelectAllRuns(int sessionID, int personID) 
 	{
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = " AND person.uniqueID == " + personID;
+
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, runInterval.* " +
 			" FROM person, runInterval " +
 			" WHERE person.uniqueID == runInterval.personID" + 
 			" AND runInterval.sessionID == " + sessionID + 
+			filterPersonString +
 			" ORDER BY upper(person.name), runInterval.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());

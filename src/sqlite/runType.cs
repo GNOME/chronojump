@@ -31,6 +31,11 @@ using Mono.Data.Sqlite;
 
 class SqliteRunType : Sqlite
 {
+	public SqliteRunType() {
+	}
+	
+	~SqliteRunType() {}
+
 	/*
 	 * create and initialize tables
 	 */

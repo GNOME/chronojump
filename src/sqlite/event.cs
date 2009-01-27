@@ -95,7 +95,7 @@ class SqliteEvent : Sqlite
 		
 	//useful for passing serverUniqueID as simulated int
 	//updating local test when it gets uploaded
-	public static void UpdateSimulate(bool dbconOpened, string tableName, int uniqueID, int simulated)
+	public static void UpdateSimulated(bool dbconOpened, string tableName, int uniqueID, int simulated)
 	{
 		if(!dbconOpened)
 			dbcon.Open();

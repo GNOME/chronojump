@@ -184,9 +184,9 @@ public class JumpType : EventType
 				return hasWeight; 
 			} else {
 				if(isRepetitive)
-					return SqliteJumpType.HasWeight("jumpType", name);
-				else
 					return SqliteJumpType.HasWeight("jumpRjType", name);
+				else
+					return SqliteJumpType.HasWeight("jumpType", name);
 			}
 		}
 		set { hasWeight = value; }

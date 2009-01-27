@@ -1,22 +1,69 @@
-write a version compatibility thing for each server method, and if not
+TODO (sorted)
+
+0.- doing the intervalDistancesString change !!!!!!!!!!!
+
+1.- upload SEvaluator and edit it and re-upload
+2.- on stats show data updated by user
+3.- write a version compatibility thing for each server method, and if not
 compatible, tell user to update it's chronojump version
+4.- Add the Maria Giné test
 
-check if server is online in a separate place on gui/chronojump.cs
+"questionnaire acabar
+cercar abstract google
+fer distancies diferents
+pending insert type in sql
 
 
-Add the Maria Giné test
-todo: record ip in SPing
-todo: upload a test (will upload it's person if not done before)
+5.- do something with user created:
+-sports DONE!
+-testsTypes
++jumpType done
++...
 
-todo: upload a session (except already uploaded tests, also check don't upload
-already uploaded persons)
-created server/session table (need to test)
+Add hexagon test
 
-user can upload a session:
--session will be uploaded
--person and personSession will be uploaded
--tests will be uploaded
--uploadingState will change all the time
+Add Cabedo's tests
+
+record ip in SPing
+
+add "chronopic3" to ping. maybe need to ask to user
+
+add a link to the server page
+
+develop web stats and survey on web site
+
+maybe server URL can be selected by client on preferences
+
+all this will be release as 0.8.2 or 0.9
+
+
+27 jan 2008
+	0.8.1.4
+	new src/gui/server.cs with gui of session upload.
+	
+	thread on server session update
+
+	when user upload a session:
+	-session is uploaded
+	-person and personSession is uploaded
+	-tests are uploaded
+	-uploadingState change all the time
+	session can be uploaded more times (with new data)
+	-checks are done in (if no ok, user should edit): 
+	-sports, speciallity, level, weight
+
+	person uploads sport if user defined and not found in server database
+
+	a silent ping is done at start
+	added "chronojump" to version on ping
+	repetitive conditions not shown at start
+
+	started maria giné test
+
+	fixed bugs:
+	-gui/person (edit) crash on accept because serverUniqueID was unassigned
+	-fixed HasWeight bug in jumpType
+	-fixed crash on person add/edit when a ' is found
 
 23 jan 2008
 	0.8.1.3

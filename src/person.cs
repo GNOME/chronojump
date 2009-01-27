@@ -51,6 +51,10 @@ public class Person {
 		       int race, int countryID, int serverUniqueID	
 			) 
 	{
+		//needed by the return of gui/personAddModifyWindow
+		name = Util.RemoveTildeAndColon(name);
+		description = Util.RemoveTildeAndColon(description);
+
 		this.uniqueID = uniqueID;
 		this.sex = sex;
 		this.name = name;
@@ -72,6 +76,9 @@ public class Person {
 		       int race, int countryID, int serverUniqueID,	
 			int sessionID) 
 	{
+		name = Util.RemoveTildeAndColon(name);
+		description = Util.RemoveTildeAndColon(description);
+		
 		this.name = name;
 		this.sex = sex;
 		this.dateBorn = dateBorn;
@@ -86,9 +93,6 @@ public class Person {
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 		this.sessionID = sessionID;
 
-		name = Util.RemoveTildeAndColon(name);
-		description = Util.RemoveTildeAndColon(description);
-		
 		//insert in the person table
 		/*
 		uniqueID = SqlitePerson.Insert (false, //dbconOpened

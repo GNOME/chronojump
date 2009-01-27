@@ -42,6 +42,9 @@ public class Constants
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
 
+	//tests types
+	public enum TestTypes { JUMP, JUMP_RJ, RUN, RUN_I, RT, PULSE }
+
 	//sqlite tables
 	//instead of typing the tableName directly (that can crash if it's bad written and it's not detected by compiler)
 	//use the following consts, and if it's misspelled, compiler will know
@@ -77,10 +80,14 @@ public class Constants
 	public const string ServerEvaluatorTable = "SEvaluator"; 
 	public const string IPUnknown = "Unknown"; 
 	public static int ServerUndefinedID = -1;
-	public static string ServerOffline = Catalog.GetString("Server is currently offline.");
+	public static string ServerOffline = Catalog.GetString("Sorry, server is currently offline.");
 	public enum ServerSessionStates {
-		NOTHING, UPLOADINGSESSION, UPLOADINGPERSONS, UPLOADINGTESTS, DONE
+		NOTHING, UPLOADINGSESSION, UPLOADINGDATA, DONE
 	}
+	public enum UploadCodes {
+		EXISTS, SIMULATED, OK
+	}
+
 
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +

@@ -60,18 +60,22 @@ class SqliteSport : Sqlite
 			//put in db only english name
 			string [] sportFull = sportString.Split(new char[] {':'});
 			//Sport sport = new Sport(sportFull[0]);
-			Insert(true, sportFull[0], false,  		//dbconOpened, not user defined 
+			Insert(true, "-1", sportFull[0], false,  		//dbconOpened, not user defined 
 					Util.StringToBool(sportFull[2]), sportFull[3]);	//hasSpeciallities, graphLink
 			conversionSubRate ++;
 		}
 	}
-	public static int Insert(bool dbconOpened, string name, bool userDefined, bool hasSpeciallities, string graphLink)
+
+	public static int Insert(bool dbconOpened, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
 		string myString = "INSERT INTO " + Constants.SportTable + 
-			" (uniqueID, name, userDefined, hasSpeciallities, graphLink) VALUES (NULL, '" + name + "', " + 
+			" (uniqueID, name, userDefined, hasSpeciallities, graphLink) VALUES (" + uniqueID + ", '" + name + "', " + 
 			Util.BoolToInt(userDefined) + ", " + Util.BoolToInt(hasSpeciallities) + ", '" + graphLink + "')";
 		
 		dbcmd.CommandText = myString;

@@ -64,6 +64,10 @@ class SqliteRun : Sqlite
 	{
 		if(! dbconOpened)
 			dbcon.Open();
+		
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, personID, sessionID, type, distance, time, description, simulated)" +
 				" VALUES (" + uniqueID + ", " +
@@ -80,13 +84,19 @@ class SqliteRun : Sqlite
 		return myLast;
 	}
 	
-	public static string[] SelectAllRuns(int sessionID) 
+	//if all persons, put -1 in personID
+	public static string[] SelectAllRuns(int sessionID, int personID) 
 	{
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = " AND person.uniqueID == " + personID;
+
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, run.* " +
 			" FROM person, run " +
 			" WHERE person.uniqueID == run.personID" + 
 			" AND run.sessionID == " + sessionID + 
+			filterPersonString +
 			" ORDER BY upper(person.name), run.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());

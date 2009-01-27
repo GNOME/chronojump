@@ -53,9 +53,9 @@ public class ServerPing
 	}	
 
 	public override string ToString() {
-		return "ID: " + uniqueID + "; EvaluatorID: " + evaluatorID + 
-			"; cjVersion: " + cjVersion + "; osVersion: " + osVersion +
-			"; IP: " + ip + "; Date: " + date;
+		return "ID: " + uniqueID + "\nEvaluatorID: " + evaluatorID + 
+			"\nChronojump Version: " + cjVersion + "\nOS Version: " + osVersion +
+			"\nIP: " + ip + "\nDate: " + date;
 	}
 	
 	public int UniqueID {

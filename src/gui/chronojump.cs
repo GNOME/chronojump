@@ -58,8 +58,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_runs_interval;
 	[Widget] Gtk.ComboBox combo_pulses;
 
-	[Widget] Gtk.MenuItem menuitem_server_insert_session;
-	[Widget] Gtk.MenuItem menuitem_server_insert_person;
+	[Widget] Gtk.MenuItem menuitem_server_upload_session;
 
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump;
@@ -123,6 +122,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_interval_by_laps;
 	[Widget] Gtk.Button button_run_interval_by_time;
 	[Widget] Gtk.Button button_run_interval_unlimited;
+	[Widget] Gtk.Button button_run_interval_mtgug;
 	[Widget] Gtk.Button button_reaction_time_execute;
 	[Widget] Gtk.Button button_pulse_free;
 	[Widget] Gtk.Button button_pulse_custom;
@@ -173,6 +173,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_laps;
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
 	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
+	[Widget] Gtk.MenuItem menuitem_run_interval_mtgug;
 
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
@@ -205,24 +206,6 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_reaction_time_delete;
 	[Widget] Gtk.Image image_pulse_delete;
 
-	/*	
-	[Widget] Gtk.Image image_tv_collapse;
-	[Widget] Gtk.Image image_tv_rj_collapse;
-	[Widget] Gtk.Image image_tv_run_collapse;
-	[Widget] Gtk.Image image_tv_run_interval_collapse;
-	[Widget] Gtk.Image image_reaction_time_collapse;
-	[Widget] Gtk.Image image_pulse_collapse;
-	[Widget] Gtk.Image image_tv_expand;
-	[Widget] Gtk.Image image_tv_rj_expand;
-	[Widget] Gtk.Image image_tv_run_expand;
-	[Widget] Gtk.Image image_tv_run_interval_expand;
-	[Widget] Gtk.Image image_reaction_time_expand;
-	[Widget] Gtk.Image image_pulse_expand;
-	[Widget] Gtk.Image image_tv_rj_fit;
-	[Widget] Gtk.Image image_tv_run_interval_fit;
-	[Widget] Gtk.Image image_pulse_fit;
-	*/
-	
 	[Widget] Gtk.Image image_jumps_zoom;
 	[Widget] Gtk.Image image_jumps_rj_zoom;
 	[Widget] Gtk.Image image_runs_zoom;
@@ -338,6 +321,8 @@ public class ChronoJumpWindow
 	ChronopicConnection chronopicWin;
 	GenericWindow genericWin;
 	
+	SessionUploadWindow sessionUploadWin;
+
 	static EventExecuteWindow eventExecuteWin;
 
 	//platform state variables
@@ -361,8 +346,8 @@ public class ChronoJumpWindow
 	
 	private bool preferencesLoaded;
 
-	private string progversion;
-	private string progname;
+	private string progVersion;
+	private string progName;
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
@@ -407,10 +392,10 @@ public class ChronoJumpWindow
 	}
 */
 	
-	public ChronoJumpWindow(string progversion, string progname, string runningFileName)
+	public ChronoJumpWindow(string progVersion, string progName, string runningFileName)
 	{
-		this.progversion = progversion;
-		this.progname = progname;
+		this.progVersion = progVersion;
+		this.progName = progName;
 		this.runningFileName = runningFileName;
 
 		Glade.XML gxml;
@@ -457,13 +442,13 @@ public class ChronoJumpWindow
 		createComboPulses();
 		createdStatsWin = false;
 
-
-
+		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
+
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
-
+		
 		//if(recuperatedString == "")
 			appbar2.Push ( 1, Catalog.GetString ("Ready.") );
 		//else
@@ -473,6 +458,9 @@ public class ChronoJumpWindow
 		//volumeOn = true;
 	
 		putNonStandardIcons();	
+	
+		//connect to server to Ping
+		serverPing(true, false); //do insertion, don't display message to user
 		
 		if(chronopicPort != Constants.ChronopicDefaultPortWindows &&
 			chronopicPort != Constants.ChronopicDefaultPortLinux) {
@@ -495,8 +483,6 @@ public class ChronoJumpWindow
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
-		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
-		//image_volume.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
 		image_jump_reactive_bell.Pixbuf = pixbuf;
@@ -517,29 +503,6 @@ public class ChronoJumpWindow
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change
-
-		/*
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomOutIcon);
-		image_tv_collapse.Pixbuf = pixbuf;
-		image_tv_rj_collapse.Pixbuf = pixbuf;
-		image_tv_run_collapse.Pixbuf = pixbuf;
-		image_tv_run_interval_collapse.Pixbuf = pixbuf;
-		image_reaction_time_collapse.Pixbuf = pixbuf;
-		image_pulse_collapse.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
-		image_tv_expand.Pixbuf = pixbuf;
-		image_tv_rj_expand.Pixbuf = pixbuf;
-		image_tv_run_expand.Pixbuf = pixbuf;
-		image_tv_run_interval_expand.Pixbuf = pixbuf;
-		image_reaction_time_expand.Pixbuf = pixbuf;
-		image_pulse_expand.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomFitIcon);
-		image_tv_rj_fit.Pixbuf = pixbuf;
-		image_tv_run_interval_fit.Pixbuf = pixbuf;
-		image_pulse_fit.Pixbuf = pixbuf;
-		*/
 	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomFitIcon);
 		image_jumps_zoom.Pixbuf = pixbuf;
@@ -752,7 +715,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		report.PrefsDigitsNumber = prefsDigitsNumber;
 		report.HeightPreferred = heightPreferred;
 		report.WeightStatsPercent = weightPercentPreferred;
-		report.Progversion = progversion;
+		report.Progversion = progVersion;
 		
 		
 		Log.WriteLine ( Catalog.GetString ("Preferences loaded") );
@@ -819,7 +782,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				}
 			} else if(myTv == treeview_runs_interval) {
 				if (myTreeViewRunsInterval.EventSelectedID > 0) {
-					RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID );
 					treeviewRunsIntervalContextMenu(myRun);
 				}
 			} else if(myTv == treeview_reaction_times) {
@@ -918,15 +881,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		myItem.Activated += on_delete_current_person_from_session_activate;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
-		/*
-		Gtk.SeparatorMenuItem mySep2 = new SeparatorMenuItem();
-		myMenu.Attach( mySep2, 0, 1, 4, 5 );
-
-		myItem = new MenuItem ( "Upload to server (experimental)");
-		myItem.Activated += on_person_upload_to_server_activate;
-		myMenu.Attach( myItem, 0, 1, 5, 6 );
-		*/
-
 		myMenu.Popup();
 		myMenu.ShowAll();
 	}
@@ -935,102 +889,40 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 * ----------------  SERVER CALLS --------------------------
 	 *  --------------------------------------------------------
 	 */
+	
+	bool serverSessionError;
+	bool needUpdateServerSession;
+	bool updatingServerSession;
+	SessionUploadPersonData sessionUploadPersonData;
+
+	/* 
+	 * SERVER CALLBACKS
+	 */
 
 	// upload session and it's persons (callback)
-	private void on_menuitem_server_insert_session (object o, EventArgs args) 
+	private void on_menuitem_server_upload_session (object o, EventArgs args) 
 	{
 		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
-		if(evalSID == Constants.ServerUndefinedID) {
-			new DialogMessage(Constants.MessageTypes.WARNING, "Evaluator not in server.\n Nothing done!.");
-			return;
-		}
-	
-		try {	
-			if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) {
-				ChronojumpServer myServer = new ChronojumpServer();
+		if(evalSID == Constants.ServerUndefinedID) 
+			serverUploadEvaluator();
 
-				Log.WriteLine(myServer.ConnectDatabase());
+		if(!checkPersonsMissingData()) {
+			string message1 = ""; 
+			if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
+				message1 =  
+						Catalog.GetString("Session will be uploaded to server.") + "\n" +  
+						Catalog.GetString("All names of persons in session will be hidden.") + "\n" + 
+						Catalog.GetString("You can upload again this session if you add more data or persons.");
+			else
+				message1 =  
+						Catalog.GetString("Session has been uploaded to server before.") + "\n" +  
+						Catalog.GetString("Uploading new data.");
 
-				ServerSession serverSession = new ServerSession(currentSession, evalSID, progversion, 
-						Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), Constants.ServerSessionStates.UPLOADINGSESSION); 
-
-				int idAtServer = myServer.InsertSession(serverSession);
-
-				Log.WriteLine(myServer.DisConnectDatabase());
-
-				//update session (serverUniqueID) on client database
-				currentSession.ServerUniqueID = idAtServer;
-				SqliteSession.UpdateServerUniqueID(currentSession.UniqueID, currentSession.ServerUniqueID);
-
-				new DialogMessage(Constants.MessageTypes.INFO, "Inserted (" + currentSession.UniqueID + ") " + 
-						" into server BD as ID: " + currentSession.ServerUniqueID);
-
-				myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.UPLOADINGPERSONS); 
-
-				//adding the persons
-				string [] myPersons = SqlitePersonSession.SelectCurrentSession(serverSession.UniqueID, true, false); //onlyIDAndName, not reversed
-				foreach(string personStr in myPersons) {
-					Person person = SqlitePersonSession.PersonSelect(Util.FetchID(personStr), serverSession.UniqueID); 
-					serverUploadPerson(person, false);
-				}
-
-				myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.UPLOADINGTESTS); 
-				
-			} else {
-				new DialogMessage(Constants.MessageTypes.WARNING, "(" + currentSession.UniqueID + ") " + 
-						" already exists in the BD as ID: " + currentSession.ServerUniqueID + ".\n Nothing done!.");
-			}
-		} catch {
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
-		}
-
-	}
-
-	//upload selected person (callback)
-	private void on_menuitem_server_insert_person (object o, EventArgs args) {
-		try {
-			//on_person_upload_to_server_activate(o, args);
-			serverUploadPerson(currentPerson, true);
-		} catch {
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+			ConfirmWindow confirmWin = ConfirmWindow.Show(message1, 
+						Catalog.GetString("Are you sure you want to upload this session to server?"));
+			confirmWin.Button_accept.Clicked += new EventHandler(on_server_upload_session_accepted);
 		}
 	}
-	
-	//upload a person
-	private void serverUploadPerson(Person person, bool showDialogIfOk) {
-		if(person.ServerUniqueID == Constants.ServerUndefinedID) {
-
-			ChronojumpServer myServer = new ChronojumpServer();
-
-			Log.WriteLine(myServer.ConnectDatabase());
-			Log.WriteLine(myServer.SelectPersonName(1));
-
-			//this inserts also in personSession using client session
-			//this maybe have to be changed in future to server session
-
-			int idAtServer = myServer.InsertPerson(person, currentSession.UniqueID);
-
-			Log.WriteLine(myServer.DisConnectDatabase());
-
-			//update person (serverUniqueID) on client database
-			person.ServerUniqueID = idAtServer;
-			SqlitePerson.Update(person);
-
-			if(showDialogIfOk)
-				new DialogMessage(Constants.MessageTypes.INFO, "Inserted (" + person.UniqueID + ") " + 
-						person.Name + " into server BD as ID: " + idAtServer);
-		} else {
-			new DialogMessage(Constants.MessageTypes.WARNING, "(" + person.UniqueID + ") " + 
-					person.Name + " already exists in the BD as ID: " + person.ServerUniqueID + ".\n Nothing done!.");
-		}
-	}
-
-	/*
-	private void on_person_upload_to_server_activate (object o, EventArgs args) 
-	{
-		serverUploadPerson(currentPerson);
-	}
-	*/
 
 	private void on_menuitem_server_stats (object o, EventArgs args) {
 		try {
@@ -1046,43 +938,510 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 	}
 	
+	private void on_menuitem_server_ping (object o, EventArgs args) {
+		serverPing(true, true); //do insertion, display message to user
+	}
 
-	private void on_menuitem_server_see_all (object o, EventArgs args) {
-		try {
-			ChronojumpServer myServer = new ChronojumpServer();
-			Log.WriteLine(myServer.ConnectDatabase());
-			ArrayList persons = myServer.SelectAllPersons();
-			Log.WriteLine(myServer.DisConnectDatabase());
+	/* 
+	 * SERVER THREAD GTK
+	 */
+	
+	private bool PulseGTKServer ()
+	{
+		if(! thread.IsAlive) {
+			sessionUploadWin.UploadFinished();
+			Log.Write("dying");
+			return false;
+		}
 
-			new DialogMessage(Constants.MessageTypes.INFO, "Persons in server:\n" + Util.ArrayListToSingleString(persons));
-		} catch {
+		if (serverSessionError) {
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error uploading session to server"));
+			return false;
+		}
+
+		//need to do this, if not it crashes because chronopicWin gets died by thread ending
+		sessionUploadWin = SessionUploadWindow.Show(app1);
+
+		if(needUpdateServerSession && !updatingServerSession) {
+			//prevent that FillData is called again with same data
+			updatingServerSession = true;
+
+			//fill data
+			sessionUploadWin.FillData(sessionUploadPersonData);
+
+			//not need to update until there'm more data coming from the other thread
+			updatingServerSession = false;
+			needUpdateServerSession = false;
+		}
+		
+		Thread.Sleep (50);
+		Log.Write(thread.ThreadState.ToString());
+		return true;
+	}
+			
+	/* 
+	 * SERVER CODE
+	 */
+
+	private bool checkPersonsMissingData() 
+	{
+		ArrayList impossibleWeight = new ArrayList(1);
+		ArrayList undefinedCountry = new ArrayList(1); //country is required for server
+		ArrayList undefinedSport = new ArrayList(1);
+		
+		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+		foreach (Person person in persons) 
+		{
+			if(person.Weight <= 10 || person.Weight >= 300)
+				impossibleWeight.Add(person);
+			if(person.CountryID == Constants.CountryUndefinedID)
+				undefinedCountry.Add(person);
+			if(person.SportID == Constants.SportUndefinedID)
+				undefinedSport.Add(person);
+			//speciallity and level not required, because person gui obligates to select them when sport is selected
+		}
+
+		string weightString = "";
+		string countryString = "";
+		string sportString = "";
+
+		if(impossibleWeight.Count > 0) {
+			weightString += "\n\n" + Catalog.GetString("<b>Weight</b> of the following persons is not ok:") + "\n";
+			string separator = "";
+			foreach(Person person in impossibleWeight)
+				weightString += separator + person.Name + " (" + person.Weight + "Kg.)";
+				separator = ", ";
+		}
+
+		if(undefinedCountry.Count > 0) {
+			countryString += "\n\n" + Catalog.GetString("<b>Country</b> of the following persons is undefined:") + "\n";
+			string separator = "";
+			foreach(Person person in undefinedCountry) {
+				countryString += separator + person.Name;
+				separator = ", ";
+			}
+		}
+
+		if(undefinedSport.Count > 0) {
+			sportString += "\n\n" + Catalog.GetString("<b>Sport</b> of the following persons is undefined:") + "\n";
+			string separator = "";
+			foreach(Person person in undefinedSport) {
+				sportString += separator + person.Name;
+				separator = ", ";
+			}
+		}
+
+		if(weightString.Length > 0 || countryString.Length > 0 || sportString.Length > 0) {
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Please, fix this before uploading:") +
+						weightString + countryString + sportString);
+			return true; //data is missing
+		}
+		else
+			return false; //data is ok
+
+	}
+
+
+	private void on_server_upload_session_accepted (object o, EventArgs args) 
+	{
+		if(serverPing(false, false)) { //don't do insertion, don't display message to user
+			serverSessionError = false;
+			needUpdateServerSession = false;
+			updatingServerSession = false;
+			sessionUploadPersonData = new SessionUploadPersonData();
+
+			thread = new Thread(new ThreadStart(on_server_upload_session_started));
+			GLib.Idle.Add (new GLib.IdleHandler (PulseGTKServer));
+			thread.Start(); 
+		} else {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
 	}
 	
-	private void on_menuitem_server_ping (object o, EventArgs args) {
+	//private void on_server_upload_session_started (object o, EventArgs args) 
+	private void on_server_upload_session_started () 
+	{
+		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+
+		try {	
+			ChronojumpServer myServer = new ChronojumpServer();
+			Log.WriteLine(myServer.ConnectDatabase());
+		
+			//create ServerSession based on Session currentSession
+			ServerSession serverSession = new ServerSession(currentSession, evalSID, progName + " " + progVersion, 
+					Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), Constants.ServerSessionStates.UPLOADINGSESSION); 
+
+			//if uploading session for first time
+			if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
+			{
+				//upload ServerSession
+				int idAtServer = myServer.UploadSession(serverSession);
+
+				//update session currentSession (serverUniqueID) on client database
+				currentSession.ServerUniqueID = idAtServer;
+				SqliteSession.UpdateServerUniqueID(currentSession.UniqueID, currentSession.ServerUniqueID);
+			}
+
+			myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.UPLOADINGDATA); 
+
+			//upload persons (updating also person.serverUniqueID locally)
+			string [] myPersons = SqlitePersonSession.SelectCurrentSession(serverSession.UniqueID, true, false); //onlyIDAndName, not reversed
+			Constants.UploadCodes uCode;
+			foreach(string personStr in myPersons) {
+				Person person = SqlitePersonSession.PersonSelect(Util.FetchID(personStr), serverSession.UniqueID); 
+				//check person if exists
+				if(person.ServerUniqueID != Constants.ServerUndefinedID) 
+					uCode = Constants.UploadCodes.EXISTS;
+				else {
+					uCode = Constants.UploadCodes.OK;
+
+					//if sport is user defined, upload it
+					//and when upload the person, do it with new sportID
+					Sport sport = SqliteSport.Select(person.SportID);
+					if(sport.UserDefined) 
+						person.SportID = myServer.UploadSport(sport);
+
+					person = serverUploadPerson(myServer, person, serverSession.UniqueID);
+				}
+
+				//a person can be in the database for one session, 
+				//but maybe now we add jumps from another session and we should add an entry at personsessionweight
+				serverUploadPersonSessionIfNeeded(myServer, person.ServerUniqueID, currentSession.ServerUniqueID, person.Weight);
+
+				//other thread updates the gui:
+				sessionUploadPersonData.person = person;
+				sessionUploadPersonData.personCode = uCode;
+
+				//upload jumps
+				int countU = 0;					
+				int countE = 0;					
+				int countS = 0;					
+
+				string [] jumps = SqliteJump.SelectJumps(currentSession.UniqueID, person.UniqueID, "");
+				foreach(string myJump in jumps) {
+					string [] js = myJump.Split(new char[] {':'});
+					//select jump
+					Jump test = SqliteJump.SelectJumpData(Convert.ToInt32(js[1])); //uniqueID
+					//fix it to server person, session keys
+					test.PersonID = person.ServerUniqueID;
+					test.SessionID = currentSession.ServerUniqueID;
+
+					//if test is not simulated and has not been uploaded,
+					//see if it's type is not predefined and is not in the database
+					//then upload it first
+					if(test.Simulated == 0) {
+						//upload jumpType if is user defined and doesn't exists in server database
+						//JumpType type = new JumpType(test.Type);
+						JumpType type = SqliteJumpType.SelectAndReturnJumpType(test.Type);
+						if( ! type.IsPredefined) {
+							//Console.WriteLine("USER DEFINED TEST: " + test.Type);
+							//
+							//this uploads the new type, as it's user created, it will be like this
+							//eg: for user defined jumpType: "supra" of evaluatorServerID: 9
+							//at server will be "supra-9"
+							//then two problems get solved:
+							//1.- every evaluator that uploads a type will have a different name 
+							//than other evaluator uploading a type that is named the same but could be different 
+							//(one can think that "supra" is another thing
+							//2- when the same evaluator upload some supra's, only a new type is created
+					
+							test.Type = myServer.UploadJumpType(type, evalSID);
+					
+							//test.Type in the server will have the correct name "supra-9" 
+						}
+					}
+
+					//upload... (if not because of simulated or uploaded before, report also the user)
+					uCode = serverUploadTest(myServer, Constants.TestTypes.JUMP, Constants.JumpTable, test);
+
+					if(uCode == Constants.UploadCodes.OK)
+						countU ++;
+					else if(uCode == Constants.UploadCodes.EXISTS)
+						countE ++;
+					else //SIMULATED
+						countS ++;
+				}
+
+				//other thread updates the gui:
+				sessionUploadPersonData.jumpsU = countU;
+				sessionUploadPersonData.jumpsE = countE;
+				sessionUploadPersonData.jumpsS = countS;
+
+				//upload jumpsRj
+				countU = 0;					
+				countE = 0;					
+				countS = 0;					
+
+				string [] jumpsRj = SqliteJumpRj.SelectJumps(currentSession.UniqueID, person.UniqueID, "");
+				foreach(string myJump in jumpsRj) {
+					string [] js = myJump.Split(new char[] {':'});
+					//select jump
+					JumpRj test = SqliteJumpRj.SelectJumpData(Constants.JumpRjTable, Convert.ToInt32(js[1])); //uniqueID
+					//fix it to server person, session keys
+					test.PersonID = person.ServerUniqueID;
+					test.SessionID = currentSession.ServerUniqueID;
+					//upload...
+					uCode = serverUploadTest(myServer, Constants.TestTypes.JUMP_RJ, Constants.JumpRjTable, test);
+
+					if(uCode == Constants.UploadCodes.OK)
+						countU ++;
+					else if(uCode == Constants.UploadCodes.EXISTS)
+						countE ++;
+					else //SIMULATED
+						countS ++;
+				}
+
+				//other thread updates the gui:
+				sessionUploadPersonData.jumpsRjU = countU;
+				sessionUploadPersonData.jumpsRjE = countE;
+				sessionUploadPersonData.jumpsRjS = countS;
+
+				//upload runs
+				countU = 0;					
+				countE = 0;					
+				countS = 0;					
+
+				string [] runs = SqliteRun.SelectAllRuns(currentSession.UniqueID, person.UniqueID);
+				foreach(string myRun in runs) {
+					string [] js = myRun.Split(new char[] {':'});
+					//select run
+					Run test = SqliteRun.SelectRunData(Convert.ToInt32(js[1])); //uniqueID
+					//fix it to server person, session keys
+					test.PersonID = person.ServerUniqueID;
+					test.SessionID = currentSession.ServerUniqueID;
+					//upload...
+					uCode = serverUploadTest(myServer, Constants.TestTypes.RUN, Constants.RunTable, test);
+
+					if(uCode == Constants.UploadCodes.OK)
+						countU ++;
+					else if(uCode == Constants.UploadCodes.EXISTS)
+						countE ++;
+					else //SIMULATED
+						countS ++;
+				}
+
+				//other thread updates the gui:
+				sessionUploadPersonData.runsU = countU;
+				sessionUploadPersonData.runsE = countE;
+				sessionUploadPersonData.runsS = countS;
+
+				//upload runs intervallic
+				countU = 0;					
+				countE = 0;					
+				countS = 0;					
+
+				string [] runsI = SqliteRunInterval.SelectAllRuns(currentSession.UniqueID, person.UniqueID);
+				foreach(string myRun in runsI) {
+					string [] js = myRun.Split(new char[] {':'});
+					//select run
+					RunInterval test = SqliteRunInterval.SelectRunData(Constants.RunIntervalTable, Convert.ToInt32(js[1])); //uniqueID
+					//fix it to server person, session keys
+					test.PersonID = person.ServerUniqueID;
+					test.SessionID = currentSession.ServerUniqueID;
+					//upload...
+					uCode = serverUploadTest(myServer, Constants.TestTypes.RUN_I, Constants.RunIntervalTable, test);
+
+					if(uCode == Constants.UploadCodes.OK)
+						countU ++;
+					else if(uCode == Constants.UploadCodes.EXISTS)
+						countE ++;
+					else //SIMULATED
+						countS ++;
+				}
+
+				//other thread updates the gui:
+				sessionUploadPersonData.runsIU = countU;
+				sessionUploadPersonData.runsIE = countE;
+				sessionUploadPersonData.runsIS = countS;
+
+				//upload reaction times
+				countU = 0;					
+				countE = 0;					
+				countS = 0;					
+
+				string [] rts = SqliteReactionTime.SelectAllReactionTimes(currentSession.UniqueID, person.UniqueID);
+				foreach(string myRt in rts) {
+					string [] js = myRt.Split(new char[] {':'});
+					//select rt
+					ReactionTime test = SqliteReactionTime.SelectReactionTimeData(Convert.ToInt32(js[1])); //uniqueID
+					//fix it to server person, session keys
+					test.PersonID = person.ServerUniqueID;
+					test.SessionID = currentSession.ServerUniqueID;
+					//upload...
+					uCode = serverUploadTest(myServer, Constants.TestTypes.RT, Constants.ReactionTimeTable, test);
+
+					if(uCode == Constants.UploadCodes.OK)
+						countU ++;
+					else if(uCode == Constants.UploadCodes.EXISTS)
+						countE ++;
+					else //SIMULATED
+						countS ++;
+				}
+
+				//other thread updates the gui:
+				sessionUploadPersonData.rtsU = countU;
+				sessionUploadPersonData.rtsE = countE;
+				sessionUploadPersonData.rtsS = countS;
+
+				//upload pulses
+				countU = 0;					
+				countE = 0;					
+				countS = 0;					
+
+				string [] pulses = SqlitePulse.SelectAllPulses(currentSession.UniqueID, person.UniqueID);
+				foreach(string myPulse in pulses) {
+					string [] js = myPulse.Split(new char[] {':'});
+					//select pulse
+					Pulse test = SqlitePulse.SelectPulseData(Convert.ToInt32(js[1])); //uniqueID
+					//fix it to server person, session keys
+					test.PersonID = person.ServerUniqueID;
+					test.SessionID = currentSession.ServerUniqueID;
+					//upload...
+					uCode = serverUploadTest(myServer, Constants.TestTypes.PULSE, Constants.PulseTable, test);
+
+					if(uCode == Constants.UploadCodes.OK)
+						countU ++;
+					else if(uCode == Constants.UploadCodes.EXISTS)
+						countE ++;
+					else //SIMULATED
+						countS ++;
+				}
+
+				//other thread updates the gui:
+				sessionUploadPersonData.pulsesU = countU;
+				sessionUploadPersonData.pulsesE = countE;
+				sessionUploadPersonData.pulsesS = countS;
+
+				needUpdateServerSession = true;
+				while(needUpdateServerSession) {
+					//wait until data is printed on the other thread
+				}
+
+			}
+
+			myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.DONE); 
+
+			Log.WriteLine(myServer.DisConnectDatabase());
+		} catch {
+			//other thread updates the gui:
+			serverSessionError = true;
+		}
+	}
+	
+	//upload a person
+	private Person serverUploadPerson(ChronojumpServer myServer, Person person, int serverSessionID) 
+	{
+		int idAtServer = myServer.UploadPerson(person, serverSessionID);
+
+		//update person (serverUniqueID) on client database
+		person.ServerUniqueID = idAtServer;
+		SqlitePerson.Update(person);
+
+		return person;
+	}
+	
+	private void serverUploadPersonSessionIfNeeded(ChronojumpServer myServer, int personServerID, int sessionServerID, int weight)
+	{
+		myServer.UploadPersonSessionIfNeeded(personServerID, sessionServerID, weight);
+	}
+
+	//upload a test
+	private Constants.UploadCodes serverUploadTest(ChronojumpServer myServer, Constants.TestTypes type, string tableName, Event myTest) 
+	{
+		Constants.UploadCodes uCode;
+
+		if(myTest.Simulated == Constants.Simulated) {
+			//Test is simulated, don't upload
+			uCode = Constants.UploadCodes.SIMULATED;
+		} else if(myTest.Simulated > 0) {
+			//Test is already uploaded, don't upload
+			uCode = Constants.UploadCodes.EXISTS;
+		} else {
+			int idAtServer = -1;
+			
+			switch (type) {
+				case Constants.TestTypes.JUMP:
+					idAtServer = myServer.UploadJump((Jump) myTest);
+					break;
+				case Constants.TestTypes.JUMP_RJ:
+					idAtServer = myServer.UploadJumpRj((JumpRj) myTest);
+					break;
+				case Constants.TestTypes.RUN:
+					idAtServer = myServer.UploadRun((Run) myTest);
+					break;
+				case Constants.TestTypes.RUN_I:
+					idAtServer = myServer.UploadRunI((RunInterval) myTest);
+					break;
+				case Constants.TestTypes.RT:
+					idAtServer = myServer.UploadRT((ReactionTime) myTest);
+					break;
+				case Constants.TestTypes.PULSE:
+					idAtServer = myServer.UploadPulse((Pulse) myTest);
+					break;
+			}
+
+			//update test (simulated) on client database
+			myTest.Simulated = idAtServer;
+			SqliteEvent.UpdateSimulated(false, tableName, myTest.UniqueID, idAtServer);
+			
+			uCode = Constants.UploadCodes.OK;
+		}
+		return uCode;
+	}
+
+	private bool serverPing(bool doInsertion, bool showMessage) {
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
 		
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 
-			ServerPing myPing = new ServerPing(evalSID, progversion, Util.GetOS(), Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
-			myPing.UniqueID = myServer.InsertPing(myPing);
+			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, Util.GetOS(), Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
+			//if !doIsertion nothing will be uploaded,
+			//is ok for uploadPerson to know if server is online
+			myPing.UniqueID = myServer.UploadPing(myPing, doInsertion);
 			
 			Log.WriteLine(myServer.DisConnectDatabase());
 
-			new DialogMessage(Constants.MessageTypes.INFO, "Inserted" + myPing.ToString());
+			if(showMessage)
+				new DialogMessage(Constants.MessageTypes.INFO, "Uploaded" + myPing.ToString());
+
+			return true; //connected
+		} catch {
+			if(showMessage)
+				new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+			
+			return false;
+		}
+	}	
+
+	private void serverUploadEvaluator () {
+		try {
+			ChronojumpServer myServer = new ChronojumpServer();
+			Log.WriteLine(myServer.ConnectDatabase());
+			
+			//get Data, TODO: do it in a gui/window
+			ServerEvaluator myEval = new ServerEvaluator("myName", "myEmail", "myDateBorn", Constants.CountryUndefinedID, false);
+			//upload
+			myEval.UniqueID = myServer.UploadEvaluator(myEval);
+			//update evaluatorServerID locally
+			SqlitePreferences.Update("evaluatorServerID", myEval.UniqueID.ToString(), false);
+
+			new DialogMessage(Constants.MessageTypes.INFO, "Uploaded with ID: " + myEval.UniqueID);
+			
+			Log.WriteLine(myServer.DisConnectDatabase());
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
 	}
 
-	private void on_menuitem_server_insert_evaluator (object o, EventArgs args) {
+	/*
+	private void on_menuitem_server_upload_evaluator (object o, EventArgs args) {
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
 			
+
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 			if(evalSID != Constants.ServerUndefinedID) {
 				//exists, nothing done
@@ -1093,12 +1452,12 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			} else {
 				//get Data, TODO: do it in a gui/window
 				ServerEvaluator myEval = new ServerEvaluator("myName", "myEmail", "myDateBorn", Constants.CountryUndefinedID, false);
-				//insert
-				myEval.UniqueID = myServer.InsertEvaluator(myEval);
+				//upload
+				myEval.UniqueID = myServer.UploadEvaluator(myEval);
 				//update evaluatorServerID locally
 				SqlitePreferences.Update("evaluatorServerID", myEval.UniqueID.ToString(), false);
 
-				new DialogMessage(Constants.MessageTypes.INFO, "Inserted with ID: " + myEval.UniqueID);
+				new DialogMessage(Constants.MessageTypes.INFO, "Uploaded with ID: " + myEval.UniqueID);
 			}
 			
 			Log.WriteLine(myServer.DisConnectDatabase());
@@ -1106,7 +1465,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
 	}
-
+	*/
 	
 
 	/* ---------------------------------------------------------
@@ -1140,20 +1499,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			treeview_jumps.ExpandAll();
 	}
 	
-	/*
-	private void on_button_tv_collapse_clicked (object o, EventArgs args) {
-		myTreeViewJumps.ExpandState = 
-			TreeViewEvent.ExpandStates.MINIMIZED;
-		treeview_jumps.CollapseAll();
-	}
-	
-	private void on_button_tv_expand_clicked (object o, EventArgs args) {
-		myTreeViewJumps.ExpandState = 
-			TreeViewEvent.ExpandStates.MAXIMIZED;
-		treeview_jumps.ExpandAll();
-	}
-	*/
-
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
 		
@@ -1223,27 +1568,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			treeview_jumps_rj.ExpandAll();
 	}
 
-	/*	
-	private void on_button_tv_rj_collapse_clicked (object o, EventArgs args) {
-		myTreeViewJumpsRj.ExpandState = 
-			TreeViewEvent.ExpandStates.MINIMIZED;
-		treeview_jumps_rj.CollapseAll();
-	}
-	
-	private void on_button_tv_rj_optimal_clicked (object o, EventArgs args) {
-		myTreeViewJumpsRj.ExpandState = 
-			TreeViewEvent.ExpandStates.OPTIMAL;
-		treeview_jumps_rj.CollapseAll();
-		myTreeViewJumpsRj.ExpandOptimal();
-	}
-	
-	private void on_button_tv_rj_expand_clicked (object o, EventArgs args) {
-		myTreeViewJumpsRj.ExpandState = 
-			TreeViewEvent.ExpandStates.MAXIMIZED;
-		treeview_jumps_rj.ExpandAll();
-	}
-	*/
-
 	private void treeview_jumps_rj_storeReset() {
 		myTreeViewJumpsRj.RemoveColumns();
 		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumpsRj.ExpandState );
@@ -1300,7 +1624,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void fillTreeView_runs (string filter) {
-		string [] myRuns = SqliteRun.SelectAllRuns(currentSession.UniqueID);
+		string [] myRuns = SqliteRun.SelectAllRuns(currentSession.UniqueID, -1);
 		myTreeViewRuns.Fill(myRuns, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
@@ -1314,20 +1638,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		else
 			treeview_runs.ExpandAll();
 	}
-	
-	/*
-	private void on_button_tv_run_collapse_clicked (object o, EventArgs args) {
-		myTreeViewRuns.ExpandState = 
-			TreeViewEvent.ExpandStates.MINIMIZED;
-		treeview_runs.CollapseAll();
-	}
-	
-	private void on_button_tv_run_expand_clicked (object o, EventArgs args) {
-		myTreeViewRuns.ExpandState = 
-			TreeViewEvent.ExpandStates.MAXIMIZED;
-		treeview_runs.ExpandAll();
-	}
-	*/
 	
 	private void treeview_runs_storeReset() {
 		myTreeViewRuns.RemoveColumns();
@@ -1378,7 +1688,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void fillTreeView_runs_interval (string filter) {
-		string [] myRuns = SqliteRunInterval.SelectAllRuns(currentSession.UniqueID);
+		string [] myRuns = SqliteRunInterval.SelectAllRuns(currentSession.UniqueID, -1);
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
@@ -1393,27 +1703,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else
 			treeview_runs_interval.ExpandAll();
 	}
-
-	/*
-	private void on_button_tv_run_interval_collapse_clicked (object o, EventArgs args) {
-		myTreeViewRunsInterval.ExpandState = 
-			TreeViewEvent.ExpandStates.MINIMIZED;
-		treeview_runs_interval.CollapseAll();
-	}
-	
-	private void on_button_tv_run_interval_optimal_clicked (object o, EventArgs args) {
-		myTreeViewRunsInterval.ExpandState = 
-			TreeViewEvent.ExpandStates.OPTIMAL;
-		treeview_runs_interval.CollapseAll();
-		myTreeViewRunsInterval.ExpandOptimal();
-	}
-	
-	private void on_button_tv_run_interval_expand_clicked (object o, EventArgs args) {
-		myTreeViewRunsInterval.ExpandState = 
-			TreeViewEvent.ExpandStates.MAXIMIZED;
-		treeview_runs_interval.ExpandAll();
-	}
-	*/
 
 	private void treeview_runs_interval_storeReset() {
 		myTreeViewRunsInterval.RemoveColumns();
@@ -1473,7 +1762,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	//private void fillTreeView_reaction_times (string filter) {
 	private void fillTreeView_reaction_times () {
-		string [] myRTs = SqliteReactionTime.SelectAllReactionTimes(currentSession.UniqueID);
+		string [] myRTs = SqliteReactionTime.SelectAllReactionTimes(currentSession.UniqueID, -1);
 		myTreeViewReactionTimes.Fill(myRTs, "");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
@@ -1487,20 +1776,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			treeview_reaction_times.ExpandAll();
 	}
 	
-	/*
-	private void on_button_reaction_time_collapse_clicked (object o, EventArgs args) {
-		myTreeViewReactionTimes.ExpandState = 
-			TreeViewEvent.ExpandStates.MINIMIZED;
-		treeview_reaction_times.CollapseAll();
-	}
-	
-	private void on_button_reaction_time_expand_clicked (object o, EventArgs args) {
-		myTreeViewReactionTimes.ExpandState = 
-			TreeViewEvent.ExpandStates.MAXIMIZED;
-		treeview_reaction_times.ExpandAll();
-	}
-	*/
-
 	private void treeview_reaction_times_storeReset() {
 		myTreeViewReactionTimes.RemoveColumns();
 		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, prefsDigitsNumber, myTreeViewReactionTimes.ExpandState );
@@ -1550,7 +1825,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void fillTreeView_pulses (string filter) {
-		string [] myPulses = SqlitePulse.SelectAllPulses(currentSession.UniqueID);
+		string [] myPulses = SqlitePulse.SelectAllPulses(currentSession.UniqueID, -1);
 		myTreeViewPulses.Fill(myPulses, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
 	}
@@ -1565,27 +1840,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else
 			treeview_pulses.ExpandAll();
 	}
-
-	/*
-	private void on_button_pulse_collapse_clicked (object o, EventArgs args) {
-		myTreeViewPulses.ExpandState = 
-			TreeViewEvent.ExpandStates.MINIMIZED;
-		treeview_pulses.CollapseAll();
-	}
-	
-	private void on_button_pulse_optimal_clicked (object o, EventArgs args) {
-		myTreeViewPulses.ExpandState = 
-			TreeViewEvent.ExpandStates.OPTIMAL;
-		treeview_pulses.CollapseAll();
-		myTreeViewPulses.ExpandOptimal();
-	}
-	
-	private void on_button_pulse_expand_clicked (object o, EventArgs args) {
-		myTreeViewPulses.ExpandState = 
-			TreeViewEvent.ExpandStates.MAXIMIZED;
-		treeview_pulses.ExpandAll();
-	}
-	*/
 
 	private void treeview_pulses_storeReset() {
 		myTreeViewPulses.RemoveColumns();
@@ -1822,7 +2076,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			//serverUniqueID is undefined until session is updated
 			currentSession.ServerUniqueID = Constants.ServerUndefinedID;
 
-			app1.Title = progname + " - " + currentSession.Name;
+			app1.Title = progName + " - " + currentSession.Name;
 
 			if(createdStatsWin) {
 				statsWin.InitializeSession(currentSession);
@@ -1890,7 +2144,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if(sessionAddEditWin.CurrentSession != null) 
 		{
 			currentSession = sessionAddEditWin.CurrentSession;
-			app1.Title = progname + " - " + currentSession.Name;
+			app1.Title = progName + " - " + currentSession.Name;
 
 			if(createdStatsWin) {
 				statsWin.InitializeSession(currentSession);
@@ -1908,7 +2162,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_load_session_accepted (object o, EventArgs args) {
 		currentSession = sessionLoadWin.CurrentSession;
 		//currentSession = SqliteSession.Select("1");
-		app1.Title = progname + " - " + currentSession.Name;
+		app1.Title = progName + " - " + currentSession.Name;
 		
 		if(createdStatsWin) {
 			statsWin.InitializeSession(currentSession);
@@ -1977,7 +2231,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		SqliteSession.DeleteWithJumps(currentSession.UniqueID.ToString());
 		
 		sensitiveGuiNoSession();
-		app1.Title = progname + "";
+		app1.Title = progName + "";
 	}
 
 	
@@ -2564,6 +2818,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentEventType = new RunType("byTime");
 		} else 	if(o == (object) button_run_interval_unlimited) {
 			currentEventType = new RunType("unlimited");
+		} else 	if(o == (object) button_run_interval_mtgug) {
+			currentEventType = new RunType("MTGUG");
 		//reactionTime
 		//pulse
 		} else 	if(o == (object) button_pulse_free) {
@@ -3258,7 +3514,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				runsIntervalMoreWin.SelectedLimitedValue,
 				runsIntervalMoreWin.SelectedUnlimited,
 				runsIntervalMoreWin.SelectedDescription,
-				SqliteEvent.GraphLinkSelectFileName("runInterval", runsMoreWin.SelectedEventName)
+				SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, runsMoreWin.SelectedEventName)
 				);
 
 		bool unlimited = false;
@@ -3302,6 +3558,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else if(o == (object) button_run_interval_unlimited || o == (object) menuitem_run_interval_unlimited) 
 		{
 			currentRunType = new RunType("unlimited");
+		} else if(o == (object) button_run_interval_mtgug || o == (object) menuitem_run_interval_mtgug) 
+		{
+			currentRunType = new RunType("MTGUG");
 		}
 		
 			
@@ -3356,7 +3615,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			Catalog.GetString("Tracks"),  	  //name of the different moments
 			currentPerson.UniqueID, currentPerson.Name, 
 			currentSession.UniqueID, 
-			"runInterval", //tableName
+			Constants.RunIntervalTable, //tableName
 			currentRunType.Name, 
 			prefsDigitsNumber, myLimit, simulated);
 
@@ -3832,7 +4091,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID );
 			eventOldPerson = myRun.PersonID;
 		
 			//4.- edit this run
@@ -3861,7 +4120,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected run interval accepted");
 		
-		RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID );
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRun.PersonID)
@@ -4068,7 +4327,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
 		Log.WriteLine("accept delete selected run");
 		
-		SqliteRun.Delete( "runInterval", (myTreeViewRunsInterval.EventSelectedID).ToString() );
+		SqliteRun.Delete( Constants.RunIntervalTable, (myTreeViewRunsInterval.EventSelectedID).ToString() );
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted intervallic run" ));
 	
@@ -4237,7 +4496,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//(check also if it's not a individual run interval, then pass the parent run interval)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( "runInterval", myTreeViewRunsInterval.EventSelectedID );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID );
 		
 			//4.- edit this run
 			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber);
@@ -4325,7 +4584,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		if(translator_credits == "translator-credits") 
 			translator_credits = "";
 
-		new About(progversion, translator_credits);
+		new About(progVersion, translator_credits);
 	}
 
 	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
@@ -4406,8 +4665,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 //		button_last_delete.Sensitive = false;
 		
-		menuitem_server_insert_session.Sensitive = false;
-		menuitem_server_insert_person.Sensitive = false;
+		menuitem_server_upload_session.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesSession () {
@@ -4426,7 +4684,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		menuitem_delete_session.Sensitive = true;
 		menu_persons.Sensitive = true;
 		
-		menuitem_server_insert_session.Sensitive = true;
+		menuitem_server_upload_session.Sensitive = true;
 	}
 
 	//only called by delete person functions (if we run out of persons)
@@ -4447,8 +4705,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		//menuitem_jump_type_add.Sensitive = false;
 //		button_last_delete.Sensitive = false;
-		
-		menuitem_server_insert_person.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -4473,8 +4729,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		combo_runs.Sensitive = true;
 		combo_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;
-
-		menuitem_server_insert_person.Sensitive = true;
 	}
 	
 	private void sensitiveGuiYesEvent () {

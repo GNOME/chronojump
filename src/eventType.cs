@@ -43,6 +43,10 @@ public class EventType
 		longDescription = ""; //needed initalization because is not defined in lots of events
 	}
 
+	public override string ToString() {
+		return type + ", " + name + ", " + isPredefined + ", " + description;
+	}
+
 	public Types Type
 	{
 		get { return type; }
@@ -67,6 +71,7 @@ public class EventType
 	public string Description
 	{
 		get { return description; }
+		set { description = value; }
 	}
 	
 	public string LongDescription

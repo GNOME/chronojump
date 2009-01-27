@@ -64,6 +64,9 @@ class SqliteReactionTime : Sqlite
 		if(! dbconOpened)
 			dbcon.Open();
 
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
 				" (uniqueID, personID, sessionID, type, time, description, simulated)" +
 				" VALUES (" + uniqueID + ", "
@@ -79,13 +82,19 @@ class SqliteReactionTime : Sqlite
 		return myLast;
 	}
 
-	public static string[] SelectAllReactionTimes(int sessionID) 
+	//if all persons, put -1 in personID
+	public static string[] SelectAllReactionTimes(int sessionID, int personID) 
 	{
+		string filterPersonString = "";
+		if(personID != -1)
+			filterPersonString = " AND person.uniqueID == " + personID;
+
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, reactionTime.* " +
 			" FROM person, reactionTime " +
 			" WHERE person.uniqueID == reactionTime.personID" + 
 			" AND reactionTime.sessionID == " + sessionID + 
+			filterPersonString +
 			" ORDER BY upper(person.name), reactionTime.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());

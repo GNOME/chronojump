@@ -71,8 +71,8 @@ public class Jump : Event
 		this.simulated = Convert.ToInt32(eventString[10]);
 	}
 
-	public override void InsertAtDB (bool dbconOpened, string tableName) {
-		SqliteJump.Insert(dbconOpened, tableName, 
+	public override int InsertAtDB (bool dbconOpened, string tableName) {
+		return SqliteJump.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, tv, tc, fall, 
@@ -183,8 +183,8 @@ public class JumpRj : Jump
 		this.simulated = Convert.ToInt32(eventString[17]);
 	}
 
-	public override void InsertAtDB (bool dbconOpened, string tableName) {
-		SqliteJumpRj.Insert(dbconOpened, tableName, 
+	public override int InsertAtDB (bool dbconOpened, string tableName) {
+		return SqliteJumpRj.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(),
 				personID, sessionID, 
 				type, TvMax, TcMax, fall, weight,

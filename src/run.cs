@@ -76,8 +76,8 @@ public class Run : Event
 		this.simulated = Convert.ToInt32(eventString[7]);
 	}
 
-	public override void InsertAtDB (bool dbconOpened, string tableName) {
-		SqliteRun.Insert(dbconOpened, tableName, 
+	public override int InsertAtDB (bool dbconOpened, string tableName) {
+		return SqliteRun.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, distance, time, 
@@ -166,8 +166,8 @@ public class RunInterval : Run
 		this.simulated = Convert.ToInt32(eventString[11]);
 	}
 
-	public override void InsertAtDB (bool dbconOpened, string tableName) {
-		SqliteRunInterval.Insert(dbconOpened, tableName, 
+	public override int InsertAtDB (bool dbconOpened, string tableName) {
+		return SqliteRunInterval.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, distanceTotal, timeTotal, 

@@ -657,6 +657,7 @@ public class PersonAddModifyWindow
 	private string sex = "M";
 	private int weightIni;
 	
+	private int serverUniqueID;
 	
 	//
 	//if we are adding a person, personID it's -1
@@ -702,7 +703,7 @@ public class PersonAddModifyWindow
 				UtilGtk.ComboGetActive(combo_sports) != Catalog.GetString(Constants.SportUndefined) &&
 				(! label_speciallity.Visible || UtilGtk.ComboGetActive(combo_speciallities) != Catalog.GetString(Constants.SpeciallityUndefined)) &&
 				Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) != Constants.LevelUndefinedID 
-				//countries is not required
+				//countries is not required to create a person here, but will be required for server
 				//&& 
 				//UtilGtk.ComboGetActive(combo_continents) != Catalog.GetString(Constants.ContinentUndefined) &&
 				//UtilGtk.ComboGetActive(combo_countries) != Catalog.GetString(Constants.CountryUndefined)
@@ -899,6 +900,8 @@ public class PersonAddModifyWindow
 				combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
 						Catalog.GetString(countryString[1]));
 			}
+
+			serverUniqueID = myPerson.ServerUniqueID;
 		}
 			
 		sport = SqliteSport.Select(mySportID);
@@ -1088,7 +1091,7 @@ public class PersonAddModifyWindow
 							Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
 							newSportName));
 		else {
-			int myID = SqliteSport.Insert(false, newSportName, true, //dbconOpened, , userDefined
+			int myID = SqliteSport.Insert(false, "-1", newSportName, true, //dbconOpened, , userDefined
 					false, "");	//hasSpeciallities, graphLink 
 
 			Sport mySport = new Sport(myID, newSportName, true, 
@@ -1196,8 +1199,8 @@ public class PersonAddModifyWindow
 					textview2.Buffer.Text,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
-					currentPerson.ServerUniqueID);
-
+					serverUniqueID);
+			
 			SqlitePerson.Update (currentPerson); 
 		
 			//change weight if needed

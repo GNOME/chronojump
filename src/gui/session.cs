@@ -540,7 +540,7 @@ public class SessionAddEditWindow {
 							Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
 							newSportName));
 		else {
-			int myID = SqliteSport.Insert(false, newSportName, true, //dbconOpened, , userDefined
+			int myID = SqliteSport.Insert(false, "-1", newSportName, true, //dbconOpened, , userDefined
 					false, "");	//hasSpeciallities, graphLink 
 
 			Sport mySport = new Sport(myID, newSportName, true, 

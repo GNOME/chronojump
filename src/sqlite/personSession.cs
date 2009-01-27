@@ -139,7 +139,7 @@ class SqlitePersonSession : Sqlite
 		return exists;
 	}
 	
-	public static bool PersonSelectExistsInSession(string myPersonID, int mySessionID)
+	public static bool PersonSelectExistsInSession(int myPersonID, int mySessionID)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionWeightTable +
@@ -203,6 +203,46 @@ class SqlitePersonSession : Sqlite
 		
 		dbcon.Close();
 		return myPerson;
+	}
+	
+	//the difference between this select and others, is that this returns and ArrayList of Persons
+	//this is better than return the strings that can produce bugs in the future
+	//use this in the future:
+	public static ArrayList SelectCurrentSessionPersons(int sessionID) 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT person.*, personSessionWeight.weight " +
+			" FROM person, personSessionWeight " +
+			" WHERE personSessionWeight.sessionID == " + sessionID + 
+			" AND person.uniqueID == personSessionWeight.personID " + 
+			" ORDER BY upper(person.name)";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList myArray = new ArrayList(1);
+		while(reader.Read()) {
+			Person person = new Person(
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					reader[1].ToString(),			//name
+					reader[2].ToString(),			//sex
+					reader[3].ToString(),			//dateBorn
+					Convert.ToInt32(reader[4].ToString()),	//height
+					Convert.ToInt32(reader[13].ToString()),	//weight (personSessionWeight)
+					Convert.ToInt32(reader[6].ToString()),	//sportID
+					Convert.ToInt32(reader[7].ToString()),	//speciallityID
+					Convert.ToInt32(reader[8].ToString()),	//practice
+					reader[9].ToString(),			//description
+					Convert.ToInt32(reader[10].ToString()),	//race
+					Convert.ToInt32(reader[11].ToString()),	//countryID
+					Convert.ToInt32(reader[12].ToString())	//serverUniqueID
+					);
+			myArray.Add (person);
+		}
+		reader.Close();
+		dbcon.Close();
+		return myArray;
 	}
 	
 	public static string[] SelectCurrentSession(int sessionID, bool onlyIDAndName, bool reverse) 

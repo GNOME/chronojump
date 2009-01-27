@@ -159,7 +159,7 @@ class SqliteJumpType : Sqlite
 			dbcon.Close();
 		}
 	}
-	
+
 	public static void JumpRjTypeInsert(string myJump, bool dbconOpened)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
@@ -300,6 +300,34 @@ class SqliteJumpType : Sqlite
 		return myTypes;
 	}
 	
+	public static JumpType SelectAndReturnJumpType(string typeName) 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM " + Constants.JumpTypeTable + " " +
+			" WHERE name  = '" + typeName +
+			"' ORDER BY uniqueID";
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		JumpType myJumpType = new JumpType();
+		
+		while(reader.Read()) {
+			myJumpType.Name = reader[1].ToString();
+			myJumpType.StartIn = Util.IntToBool(Convert.ToInt32(reader[2].ToString()));
+			myJumpType.HasWeight = Util.IntToBool(Convert.ToInt32(reader[3].ToString()));
+			myJumpType.Description = reader[4].ToString();
+		}
+
+		reader.Close();
+		dbcon.Close();
+
+		return myJumpType;
+	}
+
 	public static JumpType SelectAndReturnJumpRjType(string typeName) 
 	{
 		dbcon.Open();

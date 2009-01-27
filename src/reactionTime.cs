@@ -51,8 +51,8 @@ public class ReactionTime : Event
 		this.simulated = Convert.ToInt32(eventString[6]);
 	}
 
-	public override void InsertAtDB (bool dbconOpened, string tableName) {
-		SqliteReactionTime.Insert(dbconOpened, tableName, 
+	public override int InsertAtDB (bool dbconOpened, string tableName) {
+		return SqliteReactionTime.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				"", time, //type, time

@@ -65,8 +65,8 @@ public class Pulse : Event
 		this.simulated = Convert.ToInt32(eventString[8]);
 	}
 
-	public override void InsertAtDB (bool dbconOpened, string tableName) {
-		SqlitePulse.Insert(dbconOpened, tableName, 
+	public override int InsertAtDB (bool dbconOpened, string tableName) {
+		return SqlitePulse.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
 				type, fixedPulse, totalPulsesNum, timesString,

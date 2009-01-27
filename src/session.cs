@@ -210,7 +210,6 @@ public class ServerSession : Session
 	
 	public ServerSession(Session mySession, int evaluatorID, string evaluatorCJVersion, 
 			string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
-			//string evaluatorOS, string uploadedDate, int uploadingState)
 	{
 		uniqueID = mySession.UniqueID;
 		name = mySession.Name;

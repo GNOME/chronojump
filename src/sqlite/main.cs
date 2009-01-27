@@ -74,6 +74,7 @@ class Sqlite
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
 	static string lastChronojumpDatabaseVersion = "0.60";
+	//static string lastChronojumpDatabaseVersion = "0.61";
 
 	public Sqlite() {
 	}
@@ -637,12 +638,15 @@ class Sqlite
 			if(currentVersion == "0.56") {
 				dbcon.Open();
 
-				ArrayList arraySimulated = new ArrayList(1);
-				arraySimulated.Add("-1");
-				
+				//jump and jumpRj
 				ArrayList arrayAngleAndSimulated = new ArrayList(1);
 				arrayAngleAndSimulated.Add("-1"); //angle
 				arrayAngleAndSimulated.Add("-1"); //simulated
+				
+				//others
+				ArrayList arraySimulated = new ArrayList(1);
+				arraySimulated.Add("-1"); //simulated
+
 
 				conversionRateTotal = 9;
 				conversionRate = 1;
@@ -657,6 +661,7 @@ class Sqlite
 				convertTables(new SqliteReactionTime(), Constants.ReactionTimeTable, 6, arraySimulated, false);
 				conversionRate ++;
 				convertTables(new SqlitePulse(), Constants.PulseTable, 8, arraySimulated, false);
+
 
 				//reacreate temp tables for have also the simulated column
 				conversionRate ++;
@@ -752,6 +757,28 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.60";
 			}
+
+//			if(currentVersion == "0.60") {
+				/*
+				 * think carefully on the intervalDistancesString
+				 * should it go to runInterval or to runIntervalType 
+				dbcon.Open();
+				conversionRateTotal = 2;
+
+				ArrayList arrayIDS = new ArrayList(1);
+				arrayIDS.Add("-1"); //intervalDistancesString
+				convertTables(new SqliteRunType(), Constants.RunIntervalTypeTable, 7, arrayIDS, false);
+				
+				conversionRate = 1;
+
+				RUNINTERVAL or RUNINTERVALTYPE?
+				SqliteRunType.RunIntervalTypeInsert ("MTGUG:-1:true:3:false:Modified time Getup and Go test:7=3=2", true);
+				
+				conversionRate = 2;
+				dbcon.Close();
+				currentVersion = "0.61";
+				*/
+//			}
 
 
 		}

@@ -166,10 +166,10 @@ public class ExportSession
 		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
 		myJumps= SqliteJump.SelectJumps(mySession.UniqueID, -1, "");
 		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "");
-		myRuns= SqliteRun.SelectAllRuns(mySession.UniqueID);
-		myRunsInterval = SqliteRunInterval.SelectAllRuns(mySession.UniqueID);
-		myReactionTimes = SqliteReactionTime.SelectAllReactionTimes(mySession.UniqueID);
-		myPulses = SqlitePulse.SelectAllPulses(mySession.UniqueID);
+		myRuns= SqliteRun.SelectAllRuns(mySession.UniqueID, -1);
+		myRunsInterval = SqliteRunInterval.SelectAllRuns(mySession.UniqueID, -1);
+		myReactionTimes = SqliteReactionTime.SelectAllReactionTimes(mySession.UniqueID, -1);
+		myPulses = SqlitePulse.SelectAllPulses(mySession.UniqueID, -1);
 	}
 
 	protected virtual void printTitles(string title) {

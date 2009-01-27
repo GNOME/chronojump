@@ -1,0 +1,243 @@
+/*
+ * This file is part of ChronoJump
+ *
+ * ChronoJump is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or   
+ *    (at your option) any later version.
+ *    
+ * ChronoJump is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ *    GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Xavier de Blas: 
+ * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
+ */
+
+using System;
+using Gtk;
+using Glade;
+using GLib; //for Value
+using System.Text; //StringBuilder
+using Mono.Unix;
+
+
+//object that will be uploaded to SessionUploadWindow
+public class SessionUploadPersonData {
+	public Person person;
+	public Constants.UploadCodes personCode;
+	public int jumpsU;
+	public int jumpsE;
+	public int jumpsS;
+	public int jumpsRjU;
+	public int jumpsRjE;
+	public int jumpsRjS;
+	public int runsU;
+	public int runsE;
+	public int runsS;
+	public int runsIU;
+	public int runsIE;
+	public int runsIS;
+	public int rtsU;
+	public int rtsE;
+	public int rtsS;
+	public int pulsesU;
+	public int pulsesE;
+	public int pulsesS;
+
+	public SessionUploadPersonData () {
+	}
+
+	public SessionUploadPersonData (Person person, Constants.UploadCodes personCode, 
+			int jumpsU, int jumpsE, int jumpsS, 
+			int jumpsRjU, int jumpsRjE, int jumpsRjS, 
+			int runsU, int runsE, int runsS, 
+			int runsIU, int runsIE, int runsIS, 
+			int rtsU, int rtsE, int rtsS, 
+			int pulsesU, int pulsesE, int pulsesS) {
+	}
+}
+
+public class SessionUploadWindow {
+	
+	[Widget] Gtk.Window session_upload;
+	
+	private TreeStore store_persons;
+	private TreeStore store_j;
+	private TreeStore store_jr;
+	private TreeStore store_r;
+	private TreeStore store_ri;
+	private TreeStore store_rts;
+	private TreeStore store_pulses;
+
+	[Widget] Gtk.TreeView treeview_persons;
+	[Widget] Gtk.TreeView treeview_jumps;
+	[Widget] Gtk.TreeView treeview_jumps_rj;
+	[Widget] Gtk.TreeView treeview_runs;
+	[Widget] Gtk.TreeView treeview_runs_i;
+	[Widget] Gtk.TreeView treeview_rts;
+	[Widget] Gtk.TreeView treeview_pulses;
+	
+	[Widget] Gtk.Label label_thanks;
+
+	[Widget] Gtk.Button button_close;
+
+	static SessionUploadWindow SessionUploadWindowBox;
+	Gtk.Window parent;
+	
+	SessionUploadWindow (Gtk.Window parent) {
+		Glade.XML gladeXML;
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_upload", null);
+		gladeXML.Autoconnect(this);
+		this.parent = parent;
+		
+		//put an icon to window
+		UtilGtk.IconWindow(session_upload);
+		
+		createTreeViews(
+				treeview_persons,
+				treeview_jumps,
+				treeview_jumps_rj,
+				treeview_runs,
+				treeview_runs_i,
+				treeview_rts,
+				treeview_pulses
+				);
+
+		store_persons 	= new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string) );
+		store_j  	= new TreeStore(typeof (string), typeof (string), typeof (string) );
+		store_jr 	= new TreeStore(typeof (string), typeof (string), typeof (string) );
+		store_r  	= new TreeStore(typeof (string), typeof (string), typeof (string) );
+		store_ri	= new TreeStore(typeof (string), typeof (string), typeof (string) );
+		store_rts	= new TreeStore(typeof (string), typeof (string), typeof (string) );
+		store_pulses	 = new TreeStore(typeof (string), typeof (string), typeof (string) );
+
+		treeview_persons.Model = 	store_persons;
+		treeview_jumps.Model = 		store_j;
+		treeview_jumps_rj.Model = 	store_jr;
+		treeview_runs.Model = 		store_r;
+		treeview_runs_i.Model = 	store_ri;
+		treeview_rts.Model = 		store_rts;
+		treeview_pulses.Model = 	store_pulses;
+
+		label_thanks.Hide();
+		button_close.Sensitive = false;
+
+	}
+	
+	static public SessionUploadWindow Show (Gtk.Window parent)
+	{
+		if (SessionUploadWindowBox == null) {
+			SessionUploadWindowBox = new SessionUploadWindow (parent);
+		}
+		SessionUploadWindowBox.session_upload.Show ();
+		
+		return SessionUploadWindowBox;
+	}
+	
+	private void createTreeViews (Gtk.TreeView treeview_persons, Gtk.TreeView treeview_jumps, Gtk.TreeView treeview_jumps_rj, 
+			Gtk.TreeView treeview_runs, Gtk.TreeView treeview_runs_i, Gtk.TreeView treeview_rts, Gtk.TreeView treeview_pulses) 
+	{
+		String [] personCols = {"ID", Catalog.GetString("Name"), "U", "E"};
+		String [] testCols = {"U", "E", "S"};
+		createTreeView(treeview_persons, personCols, 3);
+		createTreeView(treeview_jumps, testCols, 1);
+		createTreeView(treeview_jumps_rj, testCols, 1);
+		createTreeView(treeview_runs, testCols, 1);
+		createTreeView(treeview_runs_i, testCols, 1);
+		createTreeView(treeview_rts, testCols, 1);
+		createTreeView(treeview_pulses, testCols, 1);
+	}
+
+	private void createTreeView (Gtk.TreeView tv, String [] cols, int existsPos) {
+		int count = 0;
+		foreach(string col in cols) {
+			//paint in red the non uploaded cols
+			if(count >= existsPos) {
+				CellRendererText crt1 = new CellRendererText();
+				crt1.Foreground = "red";
+				//crt1.Background = "blue";
+				tv.AppendColumn ( col, crt1, "text", count++);
+			} else 
+				tv.AppendColumn ( col, new CellRendererText(), "text", count++);
+		}
+	}
+
+	public void FillData (SessionUploadPersonData p) {
+		fillPerson (p.person, p.personCode);
+		fillTest (Constants.TestTypes.JUMP, 	p.jumpsU, p.jumpsE, p.jumpsS);
+		fillTest (Constants.TestTypes.JUMP_RJ,	p.jumpsRjU, p.jumpsRjE, p.jumpsRjS);
+		fillTest (Constants.TestTypes.RUN,	p.runsU, p.runsE, p.runsS);
+		fillTest (Constants.TestTypes.RUN_I,	p.runsIU, p.runsIE, p.runsIS);
+		fillTest (Constants.TestTypes.RT,	p.rtsU, p.rtsE, p.rtsS);
+		fillTest (Constants.TestTypes.PULSE,	p.pulsesU, p.pulsesE, p.pulsesS);
+	}
+
+	private void fillPerson (Person person, Constants.UploadCodes uCode) {
+		string okCol = "";
+		string existCol = "";
+		if(uCode == Constants.UploadCodes.OK) 
+			okCol = "*";
+		else
+			existCol = "*";
+
+		store_persons.AppendValues (person.UniqueID.ToString(), person.Name, okCol, existCol);
+	}
+
+	private void fillTest (Constants.TestTypes type, int countU, int countE, int countS) {
+		string u = countU.ToString();
+		string e = countE.ToString();
+		string s = countS.ToString();
+		if(u=="0")
+			u = "";
+		if(e=="0")
+			e = "";
+		if(s=="0")
+			s = "";
+
+		switch (type) {
+			case Constants.TestTypes.JUMP:
+				store_j.AppendValues (u, e, s);
+				break;
+			case Constants.TestTypes.JUMP_RJ:
+				store_jr.AppendValues (u, e, s);
+				break;
+			case Constants.TestTypes.RUN:
+				store_r.AppendValues (u, e, s);
+				break;
+			case Constants.TestTypes.RUN_I:
+				store_ri.AppendValues (u, e, s);
+				break;
+			case Constants.TestTypes.RT:
+				store_rts.AppendValues (u, e, s);
+				break;
+			case Constants.TestTypes.PULSE:
+				store_pulses.AppendValues (u, e, s);
+				break;
+		}
+	}
+
+	public void UploadFinished() {
+		label_thanks.Show();
+		button_close.Sensitive = true;
+	}
+
+
+	void on_button_close_clicked (object o, EventArgs args)
+	{
+		SessionUploadWindowBox.session_upload.Hide();
+		SessionUploadWindowBox = null;
+	}
+	
+	void on_session_upload_delete_event (object o, DeleteEventArgs args)
+	{
+		SessionUploadWindowBox.session_upload.Hide();
+		SessionUploadWindowBox = null;
+	}
+	
+}

@@ -35,14 +35,15 @@ public class Event
 	protected int simulated;
 
 	public Event() {
-		//simulated = false;
 	}
-
+	
 	//used to select an event at Sqlite.addSimulatedInEventTables
 	public Event(string [] eventString) {
 	}
-
-	public virtual void InsertAtDB (bool dbconOpened, string tableName) {
+	
+	public virtual int InsertAtDB (bool dbconOpened, string tableName) {
+		Console.WriteLine("++++++++");
+		return -1;
 	}	
 
 	public string Type
@@ -66,11 +67,13 @@ public class Event
 	public int SessionID
 	{
 		get { return sessionID; }
+		set { sessionID = value; }
 	}
 
 	public int PersonID
 	{
 		get { return personID; }
+		set { personID = value; }
 	}
 	
 	public string PersonName

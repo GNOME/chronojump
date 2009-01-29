@@ -30,6 +30,11 @@ public class RunType : EventType
 	protected bool tracksLimited;
 	protected int fixedValue;
 	protected bool unlimited;
+	private string distancesString; //new at 0.8.1.5:
+		       			//when distance is 0 or >0, distancesString it's ""
+					//when distance is -1, distancesString is distance of each track, 
+					//	eg: "7-5-9" for a runInterval with three tracks of 7, 5 and 9 meters each
+					//	this is nice for agility tests
 
 	public RunType() {
 		type = Types.RUN;
@@ -44,6 +49,7 @@ public class RunType : EventType
 
 		unlimited = false;	//default value
 		imageFileName = "";
+		distancesString = "";
 		
 		//if this changes, sqlite/runType.cs initialize tables should change
 		//
@@ -62,7 +68,6 @@ public class RunType : EventType
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
-			description	= "";
 			description	= Catalog.GetString("Run 20 meters");
 			imageFileName = "run_simple.png";
 		} else if(name == "100m") {
@@ -297,6 +302,7 @@ public class RunType : EventType
 			isPredefined	= true;
 			description	= Catalog.GetString("Modified time Getup and Go test");
 			imageFileName = "mtgug.png";
+			distancesString = "1-7-19";	//this intervallic run has different distance for each track
 			longDescription = "The instructions given to perform the test were as follows: <<Sit down with your back resting on the back of the chair and with your two arms resting on your legs. When you hear the word <<go>>, stand up without using your arms, kick the ball in front of you as hard as you possibly can, using the instep of the foot you feel the safest. Then walk at your normal pace while counting backwards from 15 to 0 out loud. Turn around back the cone, without touching it, and go back to your seat, stepping into the circles, trying not to touch any of them. Finally, sit down again, trying not to use your arms>>.\n\n" +
 				"The stopwatches were activated on the word <<go>> and the button that saved the time intervals was pressed also after the following stages: when the subject stood up and kicked the ball; when the ball passed the 8 m line; and when the subject returned to the seated position in the same chair (42 cm height from the seat to the ground). The total time needed to perform the test provided a quantitative evaluation of performance. A qualitative evaluation was performed by the completion of an AQ. This AQ assesses 6 items with a Likert scale from 0 to 3, where 0 is the equivalent to needing help in order to perform the task, and 3 is equivalent to performing the task unaided with no mistakes. The maximum points that can be attained are 18. The items assessed were: (1) standing up from the chair, (2) kicking the ball, (3) walking whilst counting backwards from 15 to 0, (4) walking around the cone, (5) walking whilst stepping into the circles, and (6) sitting back down again (See assessment questionnaire).\n\n" + 
 				"<b>Assessment questionnaire</b>\n"+
@@ -309,17 +315,11 @@ public class RunType : EventType
 
 		}
 
-
-
-
-
-
-
 	}
 	
 	
 	public RunType(string name, bool hasIntervals, double distance, 
-			bool tracksLimited, int fixedValue, bool unlimited, string description, string imageFileName)
+			bool tracksLimited, int fixedValue, bool unlimited, string description, string distancesString, string imageFileName)
 	{
 		type = Types.RUN;
 		this.name 	= name;
@@ -329,45 +329,89 @@ public class RunType : EventType
 		this.fixedValue = fixedValue;
 		this.unlimited = unlimited;
 		this.description = description;
+		this.distancesString = description;
 		this.imageFileName = imageFileName;
 		
 		this.isPredefined	= true;
 	}
+	
+	//used to select a runType at Sqlite.convertTables
+	public RunType(string [] str, bool interval)
+	{
+		if(interval) {
+			this.uniqueID = Convert.ToInt32(str[0]);
+			this.name = str[1];
+			this.distance = Convert.ToDouble(Util.ChangeDecimalSeparator(str[2]));
+			this.tracksLimited = Util.IntToBool(Convert.ToInt32(str[3]));
+			this.fixedValue = Convert.ToInt32(str[4]);
+			this.unlimited = Util.IntToBool(Convert.ToInt32(str[5]));
+			this.description = str[6].ToString();
+		} else {
+			this.uniqueID = Convert.ToInt32(str[0]);
+			this.name = str[1];
+			this.distance = Convert.ToDouble(Util.ChangeDecimalSeparator(str[2]));
+			this.description = str[3].ToString();
+		}
+	}
+
+
+	//used by Sqlite.convertTables
+	//public override int InsertAtDB (bool dbconOpened, string tableName, bool interval) {
+	public int InsertAtDB (bool dbconOpened, string tableName, bool interval) {
+		if(interval)
+			/*
+			return SqliteRunIntervalType.Insert(dbconOpened, tableName,
+					name, distance, tracksLimited, fixedValue,
+					unlimited, description);
+					*/
+			return SqliteRunIntervalType.Insert(this, tableName, dbconOpened);
+		else
+			/*
+			return SqliteRunType.Insert(dbconOpened, tableName, 
+					name, distance, description);
+					*/
+			return SqliteRunType.Insert(this, tableName, dbconOpened);
+	}
+
 
 	public double Distance
 	{
-		get { 
+		get {
+			/*
 			if(isPredefined) {
 				return distance; 
 			} else {
 				return SqliteRunType.Distance(name);
 			}
+			*/
+				return distance; 
 		}
 		set { distance = value; }
 	}
 	
-	public bool HasIntervals
-	{
+	public bool HasIntervals {
 		get { return hasIntervals; }
 		set { hasIntervals = value; }
 	}
 	
-	public bool TracksLimited
-	{
+	public bool TracksLimited {
 		get { return tracksLimited; }
 		set { tracksLimited = value; }
 	}
 	
-	public int FixedValue
-	{
+	public int FixedValue {
 		get { return fixedValue; }
 		set { fixedValue = value; }
 	}
 	
-	public bool Unlimited
-	{
+	public bool Unlimited {
 		get { return unlimited; }
 		set { unlimited = value; }
+	}
+
+	public string DistancesString {
+		get { return distancesString; }
+		set { distancesString = value; }
 	}
 }
 

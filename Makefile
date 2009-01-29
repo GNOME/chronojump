@@ -45,7 +45,7 @@ CHRONOJUMP_DEP_EXECUTE = src/execute/event.cs src/execute/jump.cs src/execute/ru
 
 CHRONOJUMP_DEP_SERVER = chronojump_server/ChronojumpServer.cs
 
-CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/eventType.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/reactionTimeType.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/utilGtk.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs src/sport.cs src/log.cs src/serverPing.cs src/serverEvaluator.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
+CHRONOJUMP_DEP = src/chronojump.cs src/person.cs src/event.cs src/eventType.cs src/jump.cs src/jumpType.cs src/run.cs src/runType.cs src/pulse.cs src/pulseType.cs src/reactionTime.cs src/reactionTimeType.cs src/session.cs src/exportSession.cs src/treeViewEvent.cs src/treeViewPerson.cs src/treeViewJump.cs src/treeViewRun.cs src/treeViewPulse.cs src/treeViewReactionTime.cs src/util.cs src/utilGtk.cs src/constants.cs src/report.cs src/updateProgressBar.cs src/prepareEventGraphObjects.cs src/sport.cs src/log.cs src/serverPing.cs src/serverEvaluator.cs src/server.cs $(CHRONOJUMP_DEP_GUI) $(CHRONOJUMP_DEP_STATS) $(CHRONOJUMP_DEP_GRAPHS) $(CHRONOJUMP_DEP_SQLITE) $(CHRONOJUMP_DEP_REPORT) $(CHRONOJUMP_DEP_EXECUTE) $(CHRONOJUMP_DEP_SERVER)
 
 RESOURCES_GLADE = -resource:glade/chronojump.glade,chronojump.glade
 
@@ -148,7 +148,7 @@ $(CHRONOJUMP_MINI).prg: $(CHRONOJUMP_MINI_DEP)
 
 $(CHRONOJUMP_SERVER).dll: $(CHRONOJUMP_SERVER_DEP) chronojump_server/chronojumpServer.asmx
 	$(MCS) -t:library -out:chronojump_server/bin/chronojumpServer.dll -r:System.Data -r:Mono.Data.Sqlite -r:System.Web.Services -r:Mono.Posix $(CHRONOJUMP_SERVER_DEP)
-#currently deactivated WSDL compilation: (seems it doesn't work because when there's no network, there's no localhost)
+#currently deactivated WSDL compilation: (seems it doesn't work because when there's no network, there's no localhost) (not, it doesn't work by other reasons)
 #$(WSDL)
 
 

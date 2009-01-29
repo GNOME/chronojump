@@ -28,14 +28,15 @@ using System.IO; //"File" things
 using System.Threading;
 using System.Diagnostics; //Process
 
+using System.Collections; //ArrayList
 
 public class ChronoJump 
 {
 	ChronoJumpWindow chronoJumpWin;
 	SplashWindow splashWin;
 	
-	private static string progversion = ""; //now in "version" file
-	private static string progname = "Chronojump";
+	private static string progVersion = ""; //now in "version" file
+	private static string progName = "Chronojump";
 	
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 	private string messageToShowOnBoot = "";
@@ -89,7 +90,7 @@ public class ChronoJump
 	{
 		
 		Application.Init();
-
+			
 		//start threading to show splash window
 		SplashWindow splashWin = SplashWindow.Show();
 		
@@ -108,26 +109,33 @@ public class ChronoJump
 		
 
 		/* SERVER COMMUNICATION TESTS */
-/*
-		try {
+		//try {
+
 			ChronojumpServer myServer = new ChronojumpServer();
 
-			//example of list a dir in server
-			string [] myListDir = myServer.ListDirectory("/home");
-			foreach (string myResult in myListDir) 
-				Log.WriteLine(myResult);
-
-			Log.WriteLine(myServer.ConnectDatabase());
-			//select name of person with uniqueid 1
-			Log.WriteLine(myServer.SelectPersonName(1));
-			Log.WriteLine(myServer.DisConnectDatabase());
+			Jump jump = new Jump();
+			jump.UniqueID=777;
+			jump.Description="bon dia";
+			jump.Tv=919;
+			jump.HolaServer(myServer);
+			
+			JumpRj jumpRj = new JumpRj();
+			jumpRj.UniqueID=777;
+			jumpRj.Description="bon dia";
+			jumpRj.TvString="el meu tvString";
+			jumpRj.HolaServer(myServer);
+	
+	
+//			Application.Quit();
+			/*
 		}
 		catch {
 			Log.WriteLine("Unable to call server");
+			Application.Quit();
 		}
 		*/
 		/* END OF SERVER COMMUNICATION TESTS */
-
+		
 		//print version of chronojump
 		Log.WriteLine(string.Format("Chronojump version: {0}", readVersion()));
 
@@ -242,6 +250,9 @@ public class ChronoJump
 
 		messageToShowOnBoot += recuperateBrokenEvents();
 
+		//connect to server to Ping
+		Log.WriteLine(Server.Ping(true, progName, readVersion())); //doInsertion
+
 		//start as "simulated"
 		SqlitePreferences.Update("simulated", "True", false); //false (dbcon not opened)
 
@@ -289,7 +300,7 @@ public class ChronoJump
 	}
 
 	private void startChronojump() {	
-		chronoJumpWin = new ChronoJumpWindow(readVersion(), progname, runningFileName);
+		chronoJumpWin = new ChronoJumpWindow(readVersion(), progName, runningFileName);
 	}
 
 	private static void createBlankDB() {

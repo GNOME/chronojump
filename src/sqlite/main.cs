@@ -73,8 +73,8 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.60";
-	//static string lastChronojumpDatabaseVersion = "0.61";
+	//static string lastChronojumpDatabaseVersion = "0.60";
+	static string lastChronojumpDatabaseVersion = "0.61";
 
 	public Sqlite() {
 	}
@@ -529,11 +529,29 @@ class Sqlite
 
 				SqliteJumpType.JumpTypeInsert ("Rocket:1:0:Rocket jump", true); 
 
+				/*
 				SqliteRunType.RunTypeInsert ("Agility-20Yard:18.28:20Yard Agility test", true);
 				SqliteRunType.RunTypeInsert ("Agility-505:10:505 Agility test", true);
 				SqliteRunType.RunTypeInsert ("Agility-Illinois:60:Illinois Agility test", true);
 				SqliteRunType.RunTypeInsert ("Agility-Shuttle-Run:40:Shuttle Run Agility test", true);
 				SqliteRunType.RunTypeInsert ("Agility-ZigZag:17.6:ZigZag Agility test", true);
+				*/
+				string [] iniRunTypes = {
+					"Agility-20Yard:18.28:20Yard Agility test",
+					"Agility-505:10:505 Agility test",
+					"Agility-Illinois:60:Illinois Agility test",
+					"Agility-Shuttle-Run:40:Shuttle Run Agility test",
+					"Agility-ZigZag:17.6:ZigZag Agility test"
+				};
+				foreach(string myString in iniRunTypes) {
+					string [] s = myString.Split(new char[] {':'});
+					RunType type = new RunType();
+					type.Name = s[0];
+					type.Distance = Convert.ToDouble(s[1]);
+					type.Description = s[2];
+					SqliteRunType.Insert(type, Constants.RunTypeTable, true);
+				}
+	
 
 				SqliteEvent.createGraphLinkTable();
 				SqliteRunType.AddGraphLinksRunSimpleAgility();	
@@ -562,7 +580,7 @@ class Sqlite
 			if(currentVersion == "0.50") {
 				dbcon.Open();
 				SqliteRunType.AddGraphLinksRunSimple();	
-				SqliteRunType.AddGraphLinksRunInterval();	
+				SqliteRunIntervalType.AddGraphLinksRunInterval();	
 				SqlitePreferences.Update ("databaseVersion", "0.51", true); 
 				Log.WriteLine("added graphLinks for run simple and interval");
 				dbcon.Close();
@@ -758,28 +776,35 @@ class Sqlite
 				currentVersion = "0.60";
 			}
 
-//			if(currentVersion == "0.60") {
-				/*
-				 * think carefully on the intervalDistancesString
-				 * should it go to runInterval or to runIntervalType 
+			if(currentVersion == "0.60") {
 				dbcon.Open();
-				conversionRateTotal = 2;
-
-				ArrayList arrayIDS = new ArrayList(1);
-				arrayIDS.Add("-1"); //intervalDistancesString
-				convertTables(new SqliteRunType(), Constants.RunIntervalTypeTable, 7, arrayIDS, false);
-				
+				conversionRateTotal = 3;
 				conversionRate = 1;
 
-				RUNINTERVAL or RUNINTERVALTYPE?
-				SqliteRunType.RunIntervalTypeInsert ("MTGUG:-1:true:3:false:Modified time Getup and Go test:7=3=2", true);
+				ArrayList arrayDS = new ArrayList(1);
+				arrayDS.Add("-1"); //distancesString
+				convertTables(new SqliteRunIntervalType(), Constants.RunIntervalTypeTable, 7, arrayDS, false);
 				
 				conversionRate = 2;
+
+				//SqliteRunType.RunIntervalTypeInsert ("MTGUG:-1:true:3:false:Modified time Getup and Go test:1-7-19", true);
+				RunType type = new RunType();
+				type.Name = "MTGUG";
+				type.Distance = -1;
+				type.TracksLimited = true;
+				type.FixedValue = 3;
+				type.Unlimited = false;
+				type.Description = "Modified time Getup and Go test";
+				type.DistancesString = "1-7-19";
+				SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, true);
+				
+				SqlitePreferences.Update ("databaseVersion", "0.61", true); 
+				Log.WriteLine("Converted DB to 0.61 added RunIntervalType distancesString (now we van have interval tests with different distances of tracks). Added MTGUG");
+				
+				conversionRate = 3;
 				dbcon.Close();
 				currentVersion = "0.61";
-				*/
-//			}
-
+			}
 
 		}
 
@@ -856,10 +881,13 @@ class Sqlite
 		
 		//run Types
 		creationRate ++;
-		SqliteRunType.createTableRunType();
-		SqliteRunType.createTableRunIntervalType();
-		SqliteRunType.initializeTableRunType();
-		SqliteRunType.initializeTableRunIntervalType();
+		SqliteRunType sqliteRunTypeObject = new SqliteRunType();
+		sqliteRunTypeObject.createTable(Constants.RunTypeTable);
+		SqliteRunType.initializeTable();
+
+		SqliteRunIntervalType sqliteRunIntervalTypeObject = new SqliteRunIntervalType();
+		sqliteRunIntervalTypeObject.createTable(Constants.RunIntervalTypeTable);
+		SqliteRunIntervalType.initializeTable();
 		
 		//reactionTimes
 		creationRate ++;
@@ -893,6 +921,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.60 - 0.61 added RunIntervalType distancesString (now we van have interval tests with different distances of tracks). Added MTGUG
 		//0.59 - 0.60 added volumeOn and evaluatorServerID to preferences. Session has now serverUniqueID. Simulated now are -1, because 0 is real and positive is serverUniqueID
 		//0.58 - 0.59 Added 'showAngle' to preferences, changed angle on jump to double
 		//0.57 - 0.58 Countries without kingdom or republic (except when needed)
@@ -1054,6 +1083,9 @@ class Sqlite
 			} else if(tableName == Constants.SessionTable) {	
 				Session mySession = new Session(myReaderStr);
 				myArray.Add(mySession);
+			} else if(tableName == Constants.RunIntervalTypeTable) {	
+				RunType myType = new RunType(myReaderStr, true); //interval
+				myArray.Add(myType);
 			} else {
 				Event myEvent =  new Event();	
 				switch (tableName) {
@@ -1081,6 +1113,7 @@ class Sqlite
 		}
 		reader.Close();
 
+Console.WriteLine("1" + tableName);
 		conversionSubRateTotal = myArray.Count * 2;
 
 		if(tableName == Constants.PersonTable) {	
@@ -1093,18 +1126,25 @@ class Sqlite
 				mySession.InsertAtDB(true, Constants.ConvertTempTable);
 				conversionSubRate ++;
 			}
+		} else if(tableName == Constants.RunIntervalTypeTable) {	
+			foreach (RunType type in myArray) {
+				type.InsertAtDB(true, Constants.ConvertTempTable, true); //last true is for interval
+				conversionSubRate ++;
+			}
 		} else {
 			foreach (Event myEvent in myArray) {
 				myEvent.InsertAtDB(true, Constants.ConvertTempTable);
 				conversionSubRate ++;
 			}
 		}
-
+Console.WriteLine("2" + tableName);
 		//3rd drop desired table
 		Sqlite.dropTable(tableName);
 
+Console.WriteLine("3" + tableName);
 		//4d create desired table (now with new columns)
 		sqliteObject.createTable(tableName);
+Console.WriteLine("4" + tableName);
 
 		//5th insert data in desired table
 		if(tableName == Constants.PersonTable) {	
@@ -1117,6 +1157,11 @@ class Sqlite
 				mySession.InsertAtDB(true, tableName);
 				conversionSubRate ++;
 			}
+		} else if(tableName == Constants.RunIntervalTypeTable) {	
+			foreach (RunType type in myArray) {
+				type.InsertAtDB(true, tableName, true); //last true is for interval
+				conversionSubRate ++;
+			}
 		} else {
 			foreach (Event myEvent in myArray) {
 				myEvent.InsertAtDB(true, tableName);
@@ -1124,6 +1169,7 @@ class Sqlite
 			}
 		}
 
+Console.WriteLine("5" + tableName);
 		//6th drop temp table
 		Sqlite.dropTable(Constants.ConvertTempTable);
 	}

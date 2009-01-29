@@ -328,18 +328,16 @@ public class EditEventWindow
 	}
 		
 	private void on_entry_tv_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_tv_value.Text.ToString())){
+		if(Util.IsNumber(entry_tv_value.Text.ToString(), true)){
 			entryTv = entry_tv_value.Text.ToString();
 			button_accept.Sensitive = true;
 		} else {
 			button_accept.Sensitive = false;
-			//entry_tv_value.Text = "";
-			//entry_tv_value.Text = entryTv;
 		}
 	}
 		
 	private void on_entry_tc_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_tc_value.Text.ToString())){
+		if(Util.IsNumber(entry_tc_value.Text.ToString(), true)){
 			entryTc = entry_tc_value.Text.ToString();
 			button_accept.Sensitive = true;
 		} else {
@@ -350,7 +348,7 @@ public class EditEventWindow
 	}
 		
 	private void on_entry_fall_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_fall_value.Text.ToString())){
+		if(Util.IsNumber(entry_fall_value.Text.ToString(), true)){
 			entryFall = entry_fall_value.Text.ToString();
 			button_accept.Sensitive = true;
 		} else {
@@ -361,7 +359,7 @@ public class EditEventWindow
 	}
 		
 	private void on_entry_time_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_time_value.Text.ToString())){
+		if(Util.IsNumber(entry_time_value.Text.ToString(), true)){
 			entryTime = entry_time_value.Text.ToString();
 			label_speed_value.Text = Util.TrimDecimals(
 					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
@@ -374,7 +372,7 @@ public class EditEventWindow
 	}
 	
 	private void on_entry_distance_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_distance_value.Text.ToString())){
+		if(Util.IsNumber(entry_distance_value.Text.ToString(), true)){
 			entryDistance = entry_distance_value.Text.ToString();
 			label_speed_value.Text = Util.TrimDecimals(
 					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
@@ -387,7 +385,7 @@ public class EditEventWindow
 	}
 		
 	private void on_entry_weight_value_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_weight_value.Text.ToString())){
+		if(Util.IsNumber(entry_weight_value.Text.ToString(), true)){
 			entryWeight = entry_weight_value.Text.ToString();
 			button_accept.Sensitive = true;
 		} else {
@@ -399,7 +397,7 @@ public class EditEventWindow
 		
 	private void on_entry_angle_changed (object o, EventArgs args) {
 		string angleString = entry_angle_value.Text.ToString();
-		if(Util.IsNumber(angleString)) {
+		if(Util.IsNumber(angleString, true)) {
 			entryAngle = angleString;
 			button_accept.Sensitive = true;
 		} else if(angleString == "-") {

@@ -210,7 +210,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		combo_eventType.Sensitive=false;
 
 		string [] myTypes;
-		myTypes = SqliteRunType.SelectRunIntervalTypes("", true); //don't show allRunsName row, only select name
+		myTypes = SqliteRunIntervalType.SelectRunIntervalTypes("", true); //don't show allRunsName row, only select name
 		return myTypes;
 	}
 	
@@ -292,7 +292,7 @@ public class RepairRunIntervalWindow
 	static RepairRunIntervalWindow RepairRunIntervalWindowBox;
 	Gtk.Window parent;
 
-	RunType runType;
+	RunType type;
 	RunInterval runInterval; //used on button_accept
 	
 
@@ -314,10 +314,10 @@ public class RepairRunIntervalWindow
 		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
-		runType = SqliteRunType.SelectAndReturnRunIntervalType(myRun.Type);
+		type = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRun.Type);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = createTextForTextView(runType);
+		tb.Text = createTextForTextView(type);
 		textview1.Buffer = tb;
 		
 		createTreeView(treeview_subevents);
@@ -386,14 +386,14 @@ public class RepairRunIntervalWindow
 	{
 		Gtk.TreeIter iter;
 		store.GetIter (out iter, new Gtk.TreePath (args.Path));
-		if(Util.IsNumber(args.NewText)) {
+		if(Util.IsNumber(args.NewText, true)) {
 			//if it's limited by fixed value of seconds
 			//and new seconds are bigger than allowed, return
-			if(runType.FixedValue > 0 && ! runType.TracksLimited &&
+			if(type.FixedValue > 0 && ! type.TracksLimited &&
 					getTotalTime() //current total time in treeview
 					- Convert.ToDouble((string) treeview_subevents.Model.GetValue(iter,1)) //-old cell
 					+ Convert.ToDouble(args.NewText) //+new cell
-					> runType.FixedValue) {	//bigger than allowed
+					> type.FixedValue) {	//bigger than allowed
 				return;
 			} else {
 				store.SetValue(iter, 1, args.NewText);
@@ -443,14 +443,14 @@ public class RepairRunIntervalWindow
 
 			//don't allow to add a row before or after 
 			//if the runtype is fixed to n runs and we reached n
-			if(runType.FixedValue > 0 && runType.TracksLimited) {
+			if(type.FixedValue > 0 && type.TracksLimited) {
 				int lastRow = 0;
 				do {
 					lastRow = Convert.ToInt32 ((string) model.GetValue (iter, 0));
 				} while (store.IterNext (ref iter));
 
 				//don't allow if max rows reached
-				if(lastRow == runType.FixedValue) {
+				if(lastRow == type.FixedValue) {
 					button_add_before.Sensitive = false;
 					button_add_after.Sensitive = false;
 				}
@@ -527,16 +527,16 @@ public class RepairRunIntervalWindow
 		runInterval.TimeTotal = Util.GetTotalTime(timeString);
 		runInterval.DistanceTotal = runInterval.TimeTotal * runInterval.DistanceInterval;
 	
-		if(runType.FixedValue > 0) {
-			//if this runType has a fixed value of runs or time, limitstring has not changed
-			if(runType.TracksLimited) {
-				runInterval.Limited = runType.FixedValue.ToString() + "R";
+		if(type.FixedValue > 0) {
+			//if this t'Type has a fixed value of runs or time, limitstring has not changed
+			if(type.TracksLimited) {
+				runInterval.Limited = type.FixedValue.ToString() + "R";
 			} else {
-				runInterval.Limited = runType.FixedValue.ToString() + "T";
+				runInterval.Limited = type.FixedValue.ToString() + "T";
 			}
 		} else {
 			//else limitstring should be calculated
-			if(runType.TracksLimited) {
+			if(type.TracksLimited) {
 				runInterval.Limited = runInterval.Tracks.ToString() + "R";
 			} else {
 				runInterval.Limited = runInterval.TimeTotal + "T";
@@ -901,7 +901,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
-		string [] myTypes = SqliteRunType.SelectRunIntervalTypes("", false);
+		string [] myTypes = SqliteRunIntervalType.SelectRunIntervalTypes("", false);
 		foreach (string myType in myTypes) {
 			string [] myStringFull = myType.Split(new char[] {':'});
 			

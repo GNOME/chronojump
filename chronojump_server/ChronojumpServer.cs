@@ -252,6 +252,27 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return ((int)(results[0]));
     }
 
+    /// <remarks>
+///Upload a test
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///also don't pass a Event expecting that server can use polymorphism like if it's jump
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadTest", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int UploadTest(Event myTest, Constants.TestTypes type, string tableName) {
+        object[] results = this.Invoke("UploadTest", new object[] {
+            myTest, type, tableName});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginUploadTest(Event myTest, Constants.TestTypes type, string tableName, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("UploadTest", new object[] {
+            myTest, type, tableName}, callback, asyncState);
+    }
+    
+    public int EndUploadTest(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
 
     /// <remarks>
 ///Upload a jump
@@ -404,6 +425,115 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     public string[] EndListDirectory(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
         return ((string[])(results[0]));
+    }
+   
+
+    /// <remarks>
+///hola
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/Hola", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int Hola(string text, int id) {
+        object[] results = this.Invoke("Hola", new object[] {
+            text, id});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginHola(string text, int id, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("Hola", new object[] {
+            text, id}, callback, asyncState);
+    }
+    
+    public int EndHola(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+   
+    /*
+    /// <remarks>
+///hola2
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/Hola2", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int Hola2(string text, Jump jump) {
+        object[] results = this.Invoke("Hola2", new object[] {
+            text, jump});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginHola2(string text, Jump jump, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("Hola2", new object[] {
+            text, jump}, callback, asyncState);
+    }
+    
+    public int EndHola2(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+  */ 
+    /// <remarks>
+///hola3
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/Hola3", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int Hola3(string text, Event jumpi) {
+        object[] results = this.Invoke("Hola3", new object[] {
+            text, jumpi});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginHola3(string text, Event jumpi, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("Hola3", new object[] {
+            text, jumpi}, callback, asyncState);
+    }
+    
+    public int EndHola3(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+   /*
+    /// <remarks>
+///hola4
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/Hola4", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int Hola4(string text, Event jump) {
+        object[] results = this.Invoke("Hola4", new object[] {
+            text, jump});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginHola4(string text, Event jump, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("Hola4", new object[] {
+            text, jump}, callback, asyncState);
+    }
+    
+    public int EndHola4(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+    */
+
+   
+    /// <remarks>
+///hola5
+///important: variable names here have to be the same than in ChronojumpServerCSharp.cs
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/Hola5", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int Hola5(string text, Event jump, bool reactive) {
+        object[] results = this.Invoke("Hola5", new object[] {
+            text, jump, reactive});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginHola5(string text, Event jump, bool reactive, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("Hola5", new object[] {
+            text, jump, reactive}, callback, asyncState);
+    }
+    
+    public int EndHola5(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
     }
    
     /* 

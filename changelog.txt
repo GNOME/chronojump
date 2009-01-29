@@ -1,17 +1,12 @@
 TODO (sorted)
 
-0.- doing the intervalDistancesString change !!!!!!!!!!!
-
 1.- upload SEvaluator and edit it and re-upload
 2.- on stats show data updated by user
 3.- write a version compatibility thing for each server method, and if not
 compatible, tell user to update it's chronojump version
-4.- Add the Maria Giné test
 
 "questionnaire acabar
 cercar abstract google
-fer distancies diferents
-pending insert type in sql
 
 
 5.- do something with user created:
@@ -19,6 +14,7 @@ pending insert type in sql
 -testsTypes
 +jumpType done
 +...
+
 
 Add hexagon test
 
@@ -36,8 +32,28 @@ maybe server URL can be selected by client on preferences
 
 all this will be release as 0.8.2 or 0.9
 
+29 jan 2009
+	0.8.1.5
+	db 0.61 
+	done the distancesString change
+		check convert
+		creation of runTypes works!!!
+	TODO: test doing different runs, editing, repairing!!!!
 
-27 jan 2008
+	Added the Maria Giné test
+
+	Ping is done while splash is running
+	added src/server.cs
+
+	at webserver happens strange things, if i comment or delete the
+	methods from UploadJump to UploadPulse (in both server files), then
+	there are problems of serialization and primitives.
+	but if i uncomment those methods (that are never called) then all
+	works.... ?
+
+	serverUpload code not really cleaned
+
+27 jan 2009
 	0.8.1.4
 	new src/gui/server.cs with gui of session upload.
 	
@@ -65,7 +81,7 @@ all this will be release as 0.8.2 or 0.9
 	-fixed HasWeight bug in jumpType
 	-fixed crash on person add/edit when a ' is found
 
-23 jan 2008
+23 jan 2009
 	0.8.1.3
 	insert session now insert all it's persons
 
@@ -90,7 +106,7 @@ all this will be release as 0.8.2 or 0.9
 
 	try-catch on sound playing
 
-16 jan 2008
+16 jan 2009
 	Now we are able to connect from client gtk (corall) to server on pinux and do a ping, or insert a
 	person!!!!!!
 	But the webservice from the navigator still doesn't work
@@ -112,7 +128,7 @@ all this will be release as 0.8.2 or 0.9
 
 	backup database active again
 
-13 jan 2008
+13 jan 2009
 	0.8.1.1
 	on gui preferences, port windows and linux with combobox
 

@@ -42,10 +42,13 @@ class SqliteRunType : Sqlite
 	
 	//creates table containing the types of simple Runs
 	//following INT values are booleans
-	protected internal static void createTableRunType()
+	//protected internal static void createTableRunType()
+	//protected internal static void createTable(string tableName)
+	protected override void createTable(string tableName)
 	{
 		dbcmd.CommandText = 
-			"CREATE TABLE " + Constants.RunTypeTable + " ( " +
+			//"CREATE TABLE " + Constants.RunTypeTable + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"distance FLOAT, " + //>0 variable distance, ==0 fixed distance
@@ -54,7 +57,8 @@ class SqliteRunType : Sqlite
 	}
 	
 	//if this changes, runType.cs constructor should change 
-	protected internal static void initializeTableRunType()
+	//protected internal static void initializeTableRunType()
+	protected internal static void initializeTable()
 	{
 		string [] iniRunTypes = {
 			//name:distance:description
@@ -75,118 +79,49 @@ class SqliteRunType : Sqlite
 		};
 		conversionSubRateTotal = iniRunTypes.Length;
 		conversionSubRate = 0;
-		foreach(string myRunType in iniRunTypes) {
-			RunTypeInsert(myRunType, true);
+		foreach(string myString in iniRunTypes) {
+			//RunTypeInsert(myString, true);
 			conversionSubRate ++;
+			string [] s = myString.Split(new char[] {':'});
+			RunType type = new RunType();
+			type.Name = s[0];
+			type.Distance = Convert.ToDouble(s[1]);
+			type.Description = s[2];
+			Insert(type, Constants.RunTypeTable, true);
 		}
 	
 		AddGraphLinksRunSimple();	
 		AddGraphLinksRunSimpleAgility();	
-		AddGraphLinksRunInterval();	
 	}
 	
-	public static void AddGraphLinksRunSimple() {
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "20m", "run_simple.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "100m", "run_simple.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "200m", "run_simple.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "400m", "run_simple.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "1000m", "run_simple.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "2000m", "run_simple.png", true);
-	}
-
-	public static void AddGraphLinksRunSimpleAgility() {
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-20Yard", "agility_20yard.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-505", "agility_505.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Illinois", "agility_illinois.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Shuttle-Run", "agility_shuttle.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-ZigZag", "agility_zigzag.png", true);
-	}
-
-	public static void AddGraphLinksRunInterval() {
-		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "byLaps", "run_interval.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "byTime", "run_interval.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "unlimited", "run_interval.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m10times", "run_interval.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "7m30seconds", "run_interval.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m endurance", "run_interval.png", true);
-	}
-
-
-	//creates table containing the types of Interval Runs 
-	//following INT values are booleans
-	protected internal static void createTableRunIntervalType()
-	{
-		dbcmd.CommandText = 
-			"CREATE TABLE " + Constants.RunIntervalTypeTable + " ( " +
-			"uniqueID INTEGER PRIMARY KEY, " +
-			"name TEXT, " +
-			"distance FLOAT, " + //>0 variable distance, ==0 fixed distance
-					//this distance will be the same in all tracks
-			"tracksLimited INT, " +  //1 limited by tracks (intervals); 0 limited by time
-			"fixedValue INT, " +   //0: no fixed value; 3: 3 intervals or seconds 
-			"unlimited INT, " +		
-			"description TEXT )";		
-		dbcmd.ExecuteNonQuery();
-	}
-	
-	//if this changes, runType.cs constructor should change 
-	protected internal static void initializeTableRunIntervalType()
-	{
-		string [] iniRunTypes = {
-			//name:distance:tracksLimited:fixedValue:unlimited:description
-			"byLaps:0:1:0:0:Run n laps x distance",
-			"byTime:0:0:0:0:Make max laps in n seconds",
-			"unlimited:0:0:0:1:Continue running in n distance",	//suppose limited by time
-			"20m10times:20:1:10:0:Run 10 times a 20m distance",	//only in more runs
-			"7m30seconds:7:0:30:0:Make max laps in 30 seconds",	//only in more runs
-			"20m endurance:20:0:0:1:Continue running in 20m distance"	//only in more runs
-		};
-		foreach(string myRunType in iniRunTypes) {
-			RunIntervalTypeInsert(myRunType, true);
-		}
-	}
-
 	/*
 	 * RunType class methods
 	 */
 
-	public static void RunTypeInsert(string myRun, bool dbconOpened)
+	//public static void RunTypeInsert(string myRun, bool dbconOpened)
+	public static int Insert(RunType t, string tableName, bool dbconOpened)
 	{
-		string [] myStr = myRun.Split(new char[] {':'});
+		//string [] myStr = myRun.Split(new char[] {':'});
 		if(! dbconOpened) {
 			dbcon.Open();
 		}
-		dbcmd.CommandText = "INSERT INTO " + Constants.RunTypeTable + 
+		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, name, distance, description)" +
-				" VALUES (NULL, '"
-				+ myStr[0] + "', " + myStr[1] + ", '" +	//name, distance
+				" VALUES (NULL, '" +
+				/*
+				myStr[0] + "', " + myStr[1] + ", '" +	//name, distance
 				myStr[2] + "')" ;	//description
+				*/
+				t.Name + "', " + t.Distance + ", '" + t.Description +	"')" ;	
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
+		int myLast = dbcon.LastInsertRowId;
 		if(! dbconOpened) {
 			dbcon.Close();
 		}
+		return myLast;
 	}
 	
-	public static void RunIntervalTypeInsert(string myRun, bool dbconOpened)
-	{
-		string [] myStr = myRun.Split(new char[] {':'});
-		if(! dbconOpened) {
-			dbcon.Open();
-		}
-		dbcmd.CommandText = "INSERT INTO " + Constants.RunIntervalTypeTable + 
-				" (uniqueID, name, distance, tracksLimited, fixedValue, unlimited, description)" +
-				" VALUES (NULL, '"
-				+ myStr[0] + "', " + myStr[1] + ", " +	//name, distance
-				myStr[2] + ", " + myStr[3] + ", " +	//tracksLimited, fixedValue
-				myStr[4] + ", '" + myStr[5] +"')" ;	//unlimited, description
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		if(! dbconOpened) {
-			dbcon.Close();
-		}
-	}
-
 	public static string[] SelectRunTypes(string allRunsName, bool onlyName) 
 	{
 		//allRunsName: add and "allRunsName" value
@@ -246,6 +181,142 @@ class SqliteRunType : Sqlite
 		return myTypes;
 	}
 
+	public static double Distance (string typeName) 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT distance " +
+			" FROM " + Constants.RunTypeTable +
+			" WHERE name == '" + typeName + "'";
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		double distance = 0;
+		while(reader.Read()) {
+			distance = Convert.ToDouble(reader[0].ToString());
+		}
+		dbcon.Close();
+		return distance;
+	}
+	
+	public static void AddGraphLinksRunSimple() {
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "20m", "run_simple.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "100m", "run_simple.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "200m", "run_simple.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "400m", "run_simple.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "1000m", "run_simple.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "2000m", "run_simple.png", true);
+	}
+
+	public static void AddGraphLinksRunSimpleAgility() {
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-20Yard", "agility_20yard.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-505", "agility_505.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Illinois", "agility_illinois.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Shuttle-Run", "agility_shuttle.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-ZigZag", "agility_zigzag.png", true);
+	}
+
+
+}	
+
+class SqliteRunIntervalType : SqliteRunType
+{
+	public SqliteRunIntervalType() {
+	}
+	
+	~SqliteRunIntervalType() {}
+	
+	//creates table containing the types of Interval Runs 
+	//following INT values are booleans
+	//protected internal static void createTableRunIntervalType()
+	//protected internal static void createTable(string tableName)
+	protected override void createTable(string tableName)
+	{
+		dbcmd.CommandText = 
+			//"CREATE TABLE " + Constants.RunIntervalTypeTable + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"distance FLOAT, " + //>0 variable distance, ==0 fixed distance
+					//this distance will be the same in all tracks.
+					//-1 each track can have a different distance (started at 0.8.1.5, see distancesString)
+			"tracksLimited INT, " +  //1 limited by tracks (intervals); 0 limited by time
+			"fixedValue INT, " +   //0: no fixed value; 3: 3 tracks or seconds 
+			"unlimited INT, " +		
+			"description TEXT, " +	
+			"distancesString TEXT )"; 	//new at 0.8.1.5:
+		       					//when distance is 0 or >0, distancesString it's ""
+							//when distance is -1, distancesString is distance of each track, 
+							//	eg: "7-5-9" for a runInterval with three tracks of 7, 5 and 9 meters each
+							//	this is nice for agility tests
+		dbcmd.ExecuteNonQuery();
+	}
+	
+	//if this changes, runType.cs constructor should change 
+	//protected internal static void initializeTableRunIntervalType()
+	protected internal static new void initializeTable()
+	{
+		string [] iniRunTypes = {
+			//name:distance:tracksLimited:fixedValue:unlimited:description
+			"byLaps:0:1:0:0:Run n laps x distance:",
+			"byTime:0:0:0:0:Make max laps in n seconds:",
+			"unlimited:0:0:0:1:Continue running in n distance:",	//suppose limited by time
+			"20m10times:20:1:10:0:Run 10 times a 20m distance:",	//only in more runs
+			"7m30seconds:7:0:30:0:Make max laps in 30 seconds:",	//only in more runs
+			"20m endurance:20:0:0:1:Continue running in 20m distance:",	//only in more runs
+			"MTGUG:-1:1:3:0:Modified time Getup and Go test:1-7-19"
+		};
+		foreach(string myString in iniRunTypes) {
+			//RunIntervalTypeInsert(myString, true);
+			string [] s = myString.Split(new char[] {':'});
+			RunType type = new RunType();
+			type.Name = s[0];
+			type.Distance = Convert.ToDouble(s[1]);
+			type.TracksLimited = Util.IntToBool(Convert.ToInt32(s[2]));
+			type.FixedValue = Convert.ToInt32(s[3]);
+			type.Unlimited = Util.IntToBool(Convert.ToInt32(s[4]));
+			type.Description = s[5];
+			type.DistancesString = s[6];
+			Insert(type, Constants.RunIntervalTypeTable, true);
+		}
+		
+		AddGraphLinksRunInterval();	
+	}
+
+	//public static void RunIntervalTypeInsert(string myRun, bool dbconOpened)
+	public static new int Insert(RunType t, string tableName, bool dbconOpened)
+	{
+		//done here for not having twho dbconsOpened
+		//double distance = t.Distance;
+
+		//string [] myStr = myRun.Split(new char[] {':'});
+		if(! dbconOpened) {
+			dbcon.Open();
+		}
+		dbcmd.CommandText = "INSERT INTO " + tableName + 
+				" (uniqueID, name, distance, tracksLimited, fixedValue, unlimited, description, distancesString)" +
+				" VALUES (NULL, '" +
+				/*
+				myStr[0] + "', " + myStr[1] + ", " +	//name, distance
+				myStr[2] + ", " + myStr[3] + ", " +	//tracksLimited, fixedValue
+				myStr[4] + ", '" + myStr[5] + ", " +	//unlimited, description
+				myStr[6] + "')" ;			//distancesString
+				*/
+				//t.Name + 	"', " + distance + ", " + t.TracksLimited + 	", " + t.FixedValue + ", " +
+				t.Name + 	"', " + t.Distance + ", " + Util.BoolToInt(t.TracksLimited) + 	", " + t.FixedValue + ", " +
+				Util.BoolToInt(t.Unlimited) + 	", '" + t.Description +	"', '" + t.DistancesString + 	"')" ;	
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		int myLast = dbcon.LastInsertRowId;
+		if(! dbconOpened) {
+			dbcon.Close();
+		}
+		return myLast;
+	}
+
 	public static string[] SelectRunIntervalTypes(string allRunsName, bool onlyName) 
 	{
 		dbcon.Open();
@@ -273,7 +344,8 @@ class SqliteRunType : Sqlite
 						reader[3].ToString() + ":" + 	//tracksLimited
 						reader[4].ToString() + ":" + 	//fixedValue
 						reader[5].ToString() + ":" + 	//unlimited
-						reader[6].ToString() 		//description
+						reader[6].ToString() + ":" +	//description
+						reader[7].ToString() 		//distancesString
 					    );
 			}
 			count ++;
@@ -318,17 +390,13 @@ class SqliteRunType : Sqlite
 		
 		while(reader.Read()) {
 			myRunType.Name = reader[1].ToString();
-			
-			myRunType.Distance = Convert.ToInt32( reader[2].ToString() );
-			
+			myRunType.Distance = Convert.ToDouble( reader[2].ToString() );
 			myRunType.HasIntervals = true;
-			
-			if(reader[3].ToString() == "1") { myRunType.TracksLimited = true; }
-			else { myRunType.TracksLimited = false; }
-			
+			myRunType.TracksLimited = Util.IntToBool(Convert.ToInt32(reader[3].ToString()));
 			myRunType.FixedValue = Convert.ToInt32( reader[4].ToString() );
-			if(reader[5].ToString() == "1") { myRunType.Unlimited = true; }
-			else { myRunType.Unlimited = false; }
+			myRunType.Unlimited = Util.IntToBool(Convert.ToInt32(reader[5].ToString()));
+			myRunType.Description = reader[6].ToString();
+			myRunType.DistancesString = reader[7].ToString();
 		}
 
 		reader.Close();
@@ -337,25 +405,14 @@ class SqliteRunType : Sqlite
 		return myRunType;
 	}
 
-	public static double Distance (string typeName) 
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT distance " +
-			" FROM " + Constants.RunTypeTable +
-			" WHERE name == '" + typeName + "'";
-		
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		double distance = 0;
-		while(reader.Read()) {
-			distance = Convert.ToDouble(reader[0].ToString());
-		}
-		dbcon.Close();
-		return distance;
+	public static void AddGraphLinksRunInterval() {
+		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "byLaps", "run_interval.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "byTime", "run_interval.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "unlimited", "run_interval.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m10times", "run_interval.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "7m30seconds", "run_interval.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m endurance", "run_interval.png", true);
 	}
 
-}	
+
+}

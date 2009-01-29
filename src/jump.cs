@@ -38,6 +38,22 @@ public class Jump : Event
 
 	public Jump() {
 	}
+	
+	public override string Prova () {
+		return "estic a jump";
+	}
+	
+	public string Prova2 () {
+		return "estic a jump2";
+	}
+
+//funciona	
+	public virtual void HolaServer (ChronojumpServer myServer) {
+		myServer.Hola("from jump1", uniqueID);
+		//myServer.Hola2("from jump2", this);
+		myServer.Hola3("from jump3", (Event)this);
+		myServer.Hola5("from jump 5", (Event)this, false);
+	}
 
 	//after inserting database (SQL)
 	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, double angle, int simulated)
@@ -139,6 +155,13 @@ public class JumpRj : Jump
 	
 	public JumpRj() {
 	}
+	
+	public override void HolaServer (ChronojumpServer myServer) {
+		myServer.Hola("from jumpRj1", uniqueID);
+		//myServer.Hola2("from jumpRj2", this);
+		myServer.Hola5("from jumpRj 5", (Event)this, true);
+	}
+
 
 	//after inserting database (SQL)
 	public JumpRj(int uniqueID, int personID, int sessionID, string type, 

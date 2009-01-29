@@ -321,7 +321,7 @@ public class ChronoJumpWindow
 	ChronopicConnection chronopicWin;
 	GenericWindow genericWin;
 	
-	SessionUploadWindow sessionUploadWin;
+	//SessionUploadWindow sessionUploadWin;
 
 	static EventExecuteWindow eventExecuteWin;
 
@@ -459,9 +459,6 @@ public class ChronoJumpWindow
 	
 		putNonStandardIcons();	
 	
-		//connect to server to Ping
-		serverPing(true, false); //do insertion, don't display message to user
-		
 		if(chronopicPort != Constants.ChronopicDefaultPortWindows &&
 			chronopicPort != Constants.ChronopicDefaultPortLinux) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to connect to Chronopic now?"), "");
@@ -889,12 +886,13 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 * ----------------  SERVER CALLS --------------------------
 	 *  --------------------------------------------------------
 	 */
-	
+
+/*	
 	bool serverSessionError;
 	bool needUpdateServerSession;
 	bool updatingServerSession;
 	SessionUploadPersonData sessionUploadPersonData;
-
+*/
 	/* 
 	 * SERVER CALLBACKS
 	 */
@@ -904,7 +902,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	{
 		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 		if(evalSID == Constants.ServerUndefinedID) 
-			serverUploadEvaluator();
+			//serverUploadEvaluator();
+			Server.ServerUploadEvaluator();
 
 		if(!checkPersonsMissingData()) {
 			string message1 = ""; 
@@ -939,13 +938,14 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_menuitem_server_ping (object o, EventArgs args) {
-		serverPing(true, true); //do insertion, display message to user
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				Server.Ping(true, progName, progVersion)); //do insertion
 	}
 
 	/* 
 	 * SERVER THREAD GTK
 	 */
-	
+/*	
 	private bool PulseGTKServer ()
 	{
 		if(! thread.IsAlive) {
@@ -978,7 +978,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		Log.Write(thread.ThreadState.ToString());
 		return true;
 	}
-			
+*/			
 	/* 
 	 * SERVER CODE
 	 */
@@ -1044,21 +1044,33 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_server_upload_session_accepted (object o, EventArgs args) 
 	{
-		if(serverPing(false, false)) { //don't do insertion, don't display message to user
+		if(Server.Ping(false, "", "") != Constants.ServerOffline) { //false: don't do insertion
+			Server.InitializeSessionVariables();
+			/*
 			serverSessionError = false;
 			needUpdateServerSession = false;
 			updatingServerSession = false;
 			sessionUploadPersonData = new SessionUploadPersonData();
+			*/
+			Server.app1 = app1;
+			Server.currentSession = currentSession; //check that changes come to main currentSession again!!! TODO
+			Server.progName = progName;
+			Server.progVersion = progVersion;
 
-			thread = new Thread(new ThreadStart(on_server_upload_session_started));
-			GLib.Idle.Add (new GLib.IdleHandler (PulseGTKServer));
+			/*
+			//thread = new Thread(new ThreadStart(on_server_upload_session_started));
+			thread = new Thread(new ThreadStart(Server.On_server_upload_session_started));
+			//GLib.Idle.Add (new GLib.IdleHandler (PulseGTKServer));
+			GLib.Idle.Add (new GLib.IdleHandler (Server.PulseGTKServer));
 			thread.Start(); 
+			*/
+			Server.ThreadStart();
 		} else {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
 	}
-	
-	//private void on_server_upload_session_started (object o, EventArgs args) 
+
+/*	
 	private void on_server_upload_session_started () 
 	{
 		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
@@ -1327,7 +1339,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			serverSessionError = true;
 		}
 	}
-	
+*/
+/*	
 	//upload a person
 	private Person serverUploadPerson(ChronojumpServer myServer, Person person, int serverSessionID) 
 	{
@@ -1339,7 +1352,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 		return person;
 	}
-	
+
 	private void serverUploadPersonSessionIfNeeded(ChronojumpServer myServer, int personServerID, int sessionServerID, int weight)
 	{
 		myServer.UploadPersonSessionIfNeeded(personServerID, sessionServerID, weight);
@@ -1358,28 +1371,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			uCode = Constants.UploadCodes.EXISTS;
 		} else {
 			int idAtServer = -1;
+			idAtServer = myServer.UploadTest((Event) myTest, type, tableName);
 			
-			switch (type) {
-				case Constants.TestTypes.JUMP:
-					idAtServer = myServer.UploadJump((Jump) myTest);
-					break;
-				case Constants.TestTypes.JUMP_RJ:
-					idAtServer = myServer.UploadJumpRj((JumpRj) myTest);
-					break;
-				case Constants.TestTypes.RUN:
-					idAtServer = myServer.UploadRun((Run) myTest);
-					break;
-				case Constants.TestTypes.RUN_I:
-					idAtServer = myServer.UploadRunI((RunInterval) myTest);
-					break;
-				case Constants.TestTypes.RT:
-					idAtServer = myServer.UploadRT((ReactionTime) myTest);
-					break;
-				case Constants.TestTypes.PULSE:
-					idAtServer = myServer.UploadPulse((Pulse) myTest);
-					break;
-			}
-
 			//update test (simulated) on client database
 			myTest.Simulated = idAtServer;
 			SqliteEvent.UpdateSimulated(false, tableName, myTest.UniqueID, idAtServer);
@@ -1388,32 +1381,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		}
 		return uCode;
 	}
-
-	private bool serverPing(bool doInsertion, bool showMessage) {
-		try {
-			ChronojumpServer myServer = new ChronojumpServer();
-			Log.WriteLine(myServer.ConnectDatabase());
-		
-			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
-
-			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, Util.GetOS(), Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
-			//if !doIsertion nothing will be uploaded,
-			//is ok for uploadPerson to know if server is online
-			myPing.UniqueID = myServer.UploadPing(myPing, doInsertion);
-			
-			Log.WriteLine(myServer.DisConnectDatabase());
-
-			if(showMessage)
-				new DialogMessage(Constants.MessageTypes.INFO, "Uploaded" + myPing.ToString());
-
-			return true; //connected
-		} catch {
-			if(showMessage)
-				new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
-			
-			return false;
-		}
-	}	
 
 	private void serverUploadEvaluator () {
 		try {
@@ -1434,6 +1401,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
 	}
+*/
 
 	/*
 	private void on_menuitem_server_upload_evaluator (object o, EventArgs args) {
@@ -1927,7 +1895,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void createComboRunsInterval() {
 		combo_runs_interval = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 		
 		combo_runs_interval.Active = 0;
 		combo_runs_interval.Changed += new EventHandler (on_combo_runs_interval_changed);
@@ -3335,6 +3303,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				0,				//fixedValue (0, because has not intervals)
 				false,				//unlimited (false, because has not intervals)
 				runsMoreWin.SelectedDescription,
+				"", // distancesstring (deactivated now, TODO: activate)
 				SqliteEvent.GraphLinkSelectFileName("run", runsMoreWin.SelectedEventName)
 				);
 		
@@ -3514,6 +3483,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				runsIntervalMoreWin.SelectedLimitedValue,
 				runsIntervalMoreWin.SelectedUnlimited,
 				runsIntervalMoreWin.SelectedDescription,
+				"", // distancesstring (deactivated now, TODO: activate)
 				SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, runsMoreWin.SelectedEventName)
 				);
 
@@ -4442,7 +4412,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_run_type_add_accepted (object o, EventArgs args) {
 		Log.WriteLine("ACCEPTED Add new run type");
 		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
-		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 		combo_runs.Active = 0;
 		combo_runs_interval.Active = 0;
 	}

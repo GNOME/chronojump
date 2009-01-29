@@ -45,12 +45,34 @@ public class RunTypeAddWindow
 	[Widget] Gtk.HBox hbox_fixed;
 	[Widget] Gtk.RadioButton radiobutton_limited_tracks;
 	[Widget] Gtk.CheckButton checkbutton_limited_fixed;
-	[Widget] Gtk.CheckButton checkbutton_distance_fixed;
-	[Widget] Gtk.SpinButton spin_fixed_num;
+	[Widget] Gtk.SpinButton spin_fixed_tracks_or_time;
+
 	[Widget] Gtk.Label label_distance;
-	[Widget] Gtk.SpinButton spin_distance;
+	[Widget] Gtk.RadioButton radiobutton_dist_variable;
+	[Widget] Gtk.RadioButton radiobutton_dist_fixed;
+	[Widget] Gtk.RadioButton radiobutton_dist_different;
+
+	[Widget] Gtk.HBox hbox_distance_fixed;
+	[Widget] Gtk.SpinButton spin_distance_fixed;
+
+	[Widget] Gtk.VBox vbox_distance_variable;
+	[Widget] Gtk.SpinButton spin_distance_different_tracks_number;
+	[Widget] Gtk.HBox hbox_distance_variable;
+
 
 	[Widget] Gtk.TextView textview_description;
+	
+	//10 entries for distance different test definition
+	[Widget] Gtk.Entry dd0;
+	[Widget] Gtk.Entry dd1;
+	[Widget] Gtk.Entry dd2;
+	[Widget] Gtk.Entry dd3;
+	[Widget] Gtk.Entry dd4;
+	[Widget] Gtk.Entry dd5;
+	[Widget] Gtk.Entry dd6;
+	[Widget] Gtk.Entry dd7;
+	[Widget] Gtk.Entry dd8;
+	[Widget] Gtk.Entry dd9;
 
 	static RunTypeAddWindow RunTypeAddWindowBox;
 	Gtk.Window parent;
@@ -85,9 +107,25 @@ public class RunTypeAddWindow
 		vbox_limited.Sensitive = false;	
 		hbox_fixed.Sensitive = false;	
 		button_accept.Sensitive = false;
-		spin_fixed_num.Sensitive = false;
+		spin_fixed_tracks_or_time.Sensitive = false;
 		label_distance.Text = Catalog.GetString("Distance");
-		spin_distance.Sensitive = false;
+		
+		radiobutton_dist_different.Sensitive = false;
+		hbox_distance_fixed.Hide();	
+		vbox_distance_variable.Hide();	
+					
+		dd0 = new Gtk.Entry(); 	dd0.Changed += new EventHandler(on_entries_required_changed);
+		dd1 = new Gtk.Entry(); 	dd1.Changed += new EventHandler(on_entries_required_changed);
+		dd2 = new Gtk.Entry(); 	dd2.Changed += new EventHandler(on_entries_required_changed);
+		dd3 = new Gtk.Entry(); 	dd3.Changed += new EventHandler(on_entries_required_changed);
+		dd4 = new Gtk.Entry(); 	dd4.Changed += new EventHandler(on_entries_required_changed);
+		dd5 = new Gtk.Entry(); 	dd5.Changed += new EventHandler(on_entries_required_changed);
+		dd6 = new Gtk.Entry(); 	dd6.Changed += new EventHandler(on_entries_required_changed);
+		dd7 = new Gtk.Entry(); 	dd7.Changed += new EventHandler(on_entries_required_changed);
+		dd8 = new Gtk.Entry(); 	dd8.Changed += new EventHandler(on_entries_required_changed);
+		dd9 = new Gtk.Entry(); 	dd9.Changed += new EventHandler(on_entries_required_changed);
+	
+		reset_hbox_distance_variable (2);
 	}
 		
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -104,6 +142,8 @@ public class RunTypeAddWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
+		//Console.WriteLine(getEntriesString());
+
 		//check if this run type exists, and check it's name is not AllRunsName
 		bool runTypeExists = Sqlite.Exists (Constants.RunTypeTable, Util.RemoveTildeAndColonAndDot(entry_name.Text));
 		if(Util.RemoveTildeAndColonAndDot(entry_name.Text) == Constants.AllRunsName) {
@@ -111,79 +151,87 @@ public class RunTypeAddWindow
 		}
 		
 		if(runTypeExists) {
-			//string myString =  Catalog.GetString ("Run type: '") + 
-			//	Util.RemoveTildeAndColonAndDot(entry_name.Text) + 
-			//	Catalog.GetString ("' exists. Please, use another name");
-			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
+			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), 
+					Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Log.WriteLine (myString);
 			errorWin = ErrorWindow.Show(myString);
 		} else {
-			string myRun = "";
-			myRun = Util.RemoveTildeAndColonAndDot(entry_name.Text);
+			RunType type = new RunType();
+			type.Name = Util.RemoveTildeAndColonAndDot(entry_name.Text);
+			type.Description = Util.RemoveTildeAndColon(textview_description.Buffer.Text);
 						
-			if(checkbutton_distance_fixed.Active) {
-				myRun = myRun + ":" + spin_distance.Value.ToString();
-			} else {
-				myRun = myRun + ":0";
+			if(radiobutton_dist_variable.Active)
+				type.Distance = 0;
+			else if(radiobutton_dist_fixed.Active) 
+				type.Distance = spin_distance_fixed.Value;
+			else {
+				//dist_different (only on intervallic)
+				type.Distance = -1;
+				type.DistancesString = getEntriesString();
 			}
 			
-			if(radiobutton_simple.Active) {
-				myRun = myRun + ":" + 
-					Util.RemoveTildeAndColon(textview_description.Buffer.Text);
-			
-				SqliteRunType.RunTypeInsert(myRun, false); //false, because dbcon is not opened
-			} else {
+			if(radiobutton_simple.Active) 
+				SqliteRunType.Insert(type, Constants.RunTypeTable, false); //false, because dbcon is not opened
+			else {
 				if(radiobutton_unlimited.Active) {
-					//unlimited (but in runs do like if it's limited by seconds
+					//unlimited (but in runs do like if it's limited by seconds: TracksLimited = false
 					//(explanation in sqlite/jumpType.cs)
-					myRun = myRun + ":0:0:1"; 
+					type.TracksLimited = false; 
+					type.FixedValue = 0; 
+					type.Unlimited = true; 
 				} else {
-					if(radiobutton_limited_tracks.Active) {
-						myRun = myRun + ":1"; 
-					} else {
-						myRun = myRun + ":0";
-					}
+					type.TracksLimited = radiobutton_limited_tracks.Active;
 				
-					if(checkbutton_limited_fixed.Active) {
-						myRun = myRun + ":" + spin_fixed_num.Value; 
-					} else {
-						myRun = myRun + ":0"; 
-					}
+					if(checkbutton_limited_fixed.Active) 
+						type.FixedValue = Convert.ToInt32(spin_fixed_tracks_or_time.Value); 
+					else 
+						type.FixedValue = 0; 
+					
 						
-					//not unlimited run
-					myRun = myRun + ":0"; 
+					type.Unlimited = false; 
 				}
 			
-				myRun = myRun + ":" + 
-					Util.RemoveTildeAndColon(textview_description.Buffer.Text);
-				
-				SqliteRunType.RunIntervalTypeInsert(myRun, false); //false, because dbcon is not opened
+				SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, false); //false, because dbcon is not opened
 			}
 			
-			Log.WriteLine(string.Format("Inserted: {0}", myRun));
+			//Log.WriteLine(string.Format("Inserted: {0}", type));
 			
 			fakeButtonAccept.Click();
 		
 			RunTypeAddWindowBox.run_type_add.Hide();
 			RunTypeAddWindowBox = null;
 		}
-
 	}
+
+	/* 
+	 * when radiobutton is simple
+	 * vboxLimited non sensitive
+	 * hboxFixed non sensitive
+	 * and distance different non sensitive
+	 */
+
 
 	void on_radiobutton_simple_toggled (object o, EventArgs args)
 	{
+		label_distance.Text = "Distance";
 		vbox_limited.Sensitive = false;	
 		hbox_fixed.Sensitive = false;	
-		label_distance.Text = "Distance";
+
+		if(radiobutton_dist_different.Active)
+			radiobutton_dist_variable.Active = true;
+		radiobutton_dist_different.Sensitive = false;
+		
 	}
 	
 	void on_radiobutton_interval_toggled (object o, EventArgs args)
 	{
+		label_distance.Text = "Distance\nof each track";
 		vbox_limited.Sensitive = true;	
 		if( ! radiobutton_unlimited.Active) {
 			hbox_fixed.Sensitive = true;	
 		}
-		label_distance.Text = "Distance\nof a track";
+		
+		radiobutton_dist_different.Sensitive = true;
 	}
 	
 	void on_radiobutton_limited_tracks_or_time_toggled (object o, EventArgs args)
@@ -198,30 +246,124 @@ public class RunTypeAddWindow
 	
 	void on_checkbutton_limited_fixed_clicked (object o, EventArgs args)
 	{
-		if(checkbutton_limited_fixed.Active) {
-			spin_fixed_num.Sensitive = true;
-		} else {
-			spin_fixed_num.Sensitive = false;
-		}
+		if(checkbutton_limited_fixed.Active) 
+			spin_fixed_tracks_or_time.Sensitive = true;
+		else 
+			spin_fixed_tracks_or_time.Sensitive = false;
+
 	}
 	
-	void on_checkbutton_distance_fixed_clicked (object o, EventArgs args)
+	void on_radiobutton_dist_variable_toggled (object o, EventArgs args)
 	{
-		if(checkbutton_distance_fixed.Active) {
-			spin_distance.Sensitive = true;
-		} else {
-			spin_distance.Sensitive = false;
+		hbox_distance_fixed.Hide();	
+		vbox_distance_variable.Hide();	
+	}
+	
+	void on_radiobutton_dist_fixed_toggled (object o, EventArgs args)
+	{
+		hbox_distance_fixed.Show();	
+		vbox_distance_variable.Hide();	
+	}
+	
+	void on_radiobutton_dist_different_toggled (object o, EventArgs args)
+	{
+		hbox_distance_fixed.Hide();	
+		vbox_distance_variable.Show();	
+		spin_distance_different_tracks_number.Sensitive = true;
+	}
+	
+	void on_spin_distance_different_tracks_number_changed (object o, EventArgs args)
+	{
+		reset_hbox_distance_variable((int)spin_distance_different_tracks_number.Value);
+	}
+	
+	void reset_hbox_distance_variable (int colsNum) 
+	{
+		foreach(Gtk.Entry entry in hbox_distance_variable.Children)
+			hbox_distance_variable.Remove(entry);
+
+		int wc = 3; //widthChars (width of the entry)
+		int ml = 3; //maxLength (max chars to entry)
+		for (int i = 0; i < colsNum; i ++) {
+			switch(i) {
+				case 0: 
+					dd0.WidthChars = wc; dd0.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd0, false, false, 0);
+					break;
+				case 1: 
+					dd1.WidthChars = wc; dd1.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd1, false, false, 0);
+					break;
+				case 2: 
+					dd2.WidthChars = wc; dd2.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd2, false, false, 0);
+					break;
+				case 3: 
+					dd3.WidthChars = wc; dd3.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd3, false, false, 0);
+					break;
+				case 4: 
+					dd4.WidthChars = wc; dd4.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd4, false, false, 0);
+					break;
+				case 5: 
+					dd5.WidthChars = wc; dd5.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd5, false, false, 0);
+					break;
+				case 6: 
+					dd6.WidthChars = wc; dd6.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd6, false, false, 0);
+					break;
+				case 7: 
+					dd7.WidthChars = wc; dd7.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd7, false, false, 0);
+					break;
+				case 8: 
+					dd8.WidthChars = wc; dd8.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd8, false, false, 0);
+					break;
+				case 9: 
+					dd9.WidthChars = wc; dd9.MaxLength = ml;
+					hbox_distance_variable.PackStart(dd9, false, false, 0);
+					break;
+			}
 		}
+		hbox_distance_variable.ShowAll();
+	}
+
+	private string getEntriesString () {
+		string str = "";
+		string separator = "";
+		
+		string ddString = dd0.Text + "-" + dd1.Text + "-" + dd2.Text + "-" + dd3.Text + "-" + dd4.Text + "-" + 
+			dd5.Text + "-" + dd6.Text + "-" + dd7.Text + "-" + dd8.Text + "-" + dd9.Text; 
+		string [] s = ddString.Split(new char[] {'-'});
+
+		for(int i=0; i < (int)spin_distance_different_tracks_number.Value; i ++) {
+			str += separator + s[i];
+			separator = "-";
+		}
+		return str;
 	}
 	
 	void on_entries_required_changed (object o, EventArgs args)
 	{
-		if(entry_name.Text.ToString().Length > 0) {
-			button_accept.Sensitive = true;
-		}
-		else {
+		if(entry_name.Text.ToString().Length == 0) {
 			button_accept.Sensitive = false;
+			return;
 		}
+
+		if(radiobutton_dist_different.Active) {
+			string ddString = getEntriesString();
+			string [] s = ddString.Split(new char[] {'-'});
+			foreach (string myS in s)
+				if( ! Util.IsNumber(myS, true)) {
+					button_accept.Sensitive = false;
+					return;
+				}
+		}
+			
+		button_accept.Sensitive = true;
 	}
 
 

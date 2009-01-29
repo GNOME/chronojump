@@ -326,7 +326,6 @@ public class Util
 	public static double GetTotalTime (string timeString)
 	{
 		try{
-
 			if(timeString.Length > 0) {
 				string [] time= timeString.Split(new char[] {'='});
 
@@ -520,7 +519,7 @@ public class Util
 	//ATTENTTION ONLY WORKS FOR POSITIVES
 	//before changing this method, better create another method for all numbers, 
 	//and call that method on possible negative numbers
-	public static bool IsNumber(string myString) {
+	public static bool IsNumber(string myString, bool canBeDecimal) {
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 		
@@ -533,6 +532,7 @@ public class Util
 				countDecimals ++;
 			}
 		}
+		if(countDecimals > 0 && !canBeDecimal) { return false; }
 		if(countDecimals > 1) { return false; }
 
 		//false if it's blank, or it's only a decimal "."

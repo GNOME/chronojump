@@ -45,6 +45,10 @@ public class Event
 		Console.WriteLine("++++++++");
 		return -1;
 	}	
+	
+	public virtual string Prova () {
+		return "estic a event";
+	}
 
 	public string Type
 	{

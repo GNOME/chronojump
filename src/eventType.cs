@@ -29,6 +29,7 @@ public class EventType
 
 	protected Types type; //jump, run, reactionTime, pulse
 	
+	protected int uniqueID;
 	protected string name;
 	protected bool isPredefined;
 	protected string imageFileName;

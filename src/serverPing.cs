@@ -53,7 +53,7 @@ public class ServerPing
 	}	
 
 	public override string ToString() {
-		return "ID: " + uniqueID + "\nEvaluatorID: " + evaluatorID + 
+		return Catalog.GetString("Uploaded") + "\nID: " + uniqueID + "\nEvaluatorID: " + evaluatorID + 
 			"\nChronojump Version: " + cjVersion + "\nOS Version: " + osVersion +
 			"\nIP: " + ip + "\nDate: " + date;
 	}

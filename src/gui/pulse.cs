@@ -362,7 +362,7 @@ public class RepairPulseWindow
 	{
 		Gtk.TreeIter iter;
 		store.GetIter (out iter, new Gtk.TreePath (args.Path));
-		if(Util.IsNumber(args.NewText)) {
+		if(Util.IsNumber(args.NewText, true)) {
 			/* 
 			 * currently all pulseTypes are non fixed, and it's not possible to create more types (by user), then there are no limitations
 			 */

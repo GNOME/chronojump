@@ -489,7 +489,7 @@ public class RepairJumpRjWindow
 	{
 		Gtk.TreeIter iter;
 		store.GetIter (out iter, new Gtk.TreePath (args.Path));
-		if(Util.IsNumber(args.NewText) && (string) treeview_subevents.Model.GetValue(iter,1) != "-1") {
+		if(Util.IsNumber(args.NewText, true) && (string) treeview_subevents.Model.GetValue(iter,1) != "-1") {
 			//if it's limited by fixed value of seconds
 			//and new seconds are bigger than allowed, return
 			if(jumpType.FixedValue > 0 && ! jumpType.JumpsLimited &&
@@ -513,7 +513,7 @@ public class RepairJumpRjWindow
 	{
 		Gtk.TreeIter iter;
 		store.GetIter (out iter, new Gtk.TreePath (args.Path));
-		if(Util.IsNumber(args.NewText) && (string) treeview_subevents.Model.GetValue(iter,2) != "-1") {
+		if(Util.IsNumber(args.NewText, true) && (string) treeview_subevents.Model.GetValue(iter,2) != "-1") {
 			//if it's limited by fixed value of seconds
 			//and new seconds are bigger than allowed, return
 			if(jumpType.FixedValue > 0 && ! jumpType.JumpsLimited &&

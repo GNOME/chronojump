@@ -32,6 +32,9 @@ maybe server URL can be selected by client on preferences
 
 all this will be release as 0.8.2 or 0.9
 
+29 jan 2009 (2)
+	as below but cleaning server code in src/gui/chronojump.cs
+
 29 jan 2009
 	0.8.1.5
 	db 0.61 

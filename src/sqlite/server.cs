@@ -16,17 +16,13 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-//using Mono.Data.SqliteClient;
-//using System.Data.SqlClient;
 using Mono.Data.Sqlite;
-//using System.Data.SQLite;
 
 using Mono.Unix; //Catalog
 
@@ -116,42 +112,26 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 
-	public static ArrayList Stats() 
-	{
+	public static ArrayList Stats() {
+		ArrayList stats = new ArrayList();
+			
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT " +
-			" MAX(SPing.uniqueID), MAX(SEvaluator.uniqueID), MAX(session.uniqueID), MAX(person.uniqueID) " +
-			//", " + 
-			//" MAX(jump.uniqueID), MAX(jumpRj.uniqueID), MAX(run.uniqueID), MAX(runInterval.uniqueID), "+
-			//" MAX(reactionTime.uniqueID), MAX(pulse.uniqueID)" +
-			" FROM SPing, SEvaluator, session, person";
-			//, jump, jumpRj, run, runInterval, reactionTime, pulse";
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
 
-		//TODO: problema quan no hi ha registres d'alguna tabla, com per exemple: reactionTime, llavors dona sempre: |||||||||
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-		ArrayList myArray = new ArrayList(1);
-		
-		while(reader.Read()) {
-			myArray.Add(Catalog.GetString("Pings")  	+ ": " + reader[0].ToString()); //ping
-			myArray.Add(Catalog.GetString("Evaluators") 	+ ": " + reader[1].ToString()); //eval
-			myArray.Add(Catalog.GetString("Sessions")   	+ ": " + reader[2].ToString()); //sess
-			myArray.Add(Catalog.GetString("Persons")  	+ ": " + reader[3].ToString()); //pers
-			/*
-			myArray.Add(reader[4].ToString()); //jump
-			myArray.Add(reader[5].ToString()); //jumpRj
-			myArray.Add(reader[6].ToString()); //run
-			myArray.Add(reader[7].ToString()); //runI
-			myArray.Add(reader[8].ToString()); //rt
-			myArray.Add(reader[9].ToString()); //pulse
-			*/
-		}
+		stats.Add("Pings\t" + Sqlite.Count(Constants.ServerPingTable, true).ToString());
+		stats.Add("Evaluators\t" + Sqlite.Count(Constants.ServerEvaluatorTable, true).ToString());
+		stats.Add("Persons\t" + Sqlite.Count(Constants.PersonTable, true).ToString());
+		stats.Add("Sessions\t" + Sqlite.Count(Constants.SessionTable, true).ToString());
+		stats.Add("Jumps\t" + Sqlite.Count(Constants.JumpTable, true).ToString());
+		stats.Add("JumpsRj\t" + Sqlite.Count(Constants.JumpRjTable, true).ToString());
+		stats.Add("Runs\t" + Sqlite.Count(Constants.RunTable, true).ToString());
+		stats.Add("RunsInterval\t" + Sqlite.Count(Constants.RunIntervalTable, true).ToString());
+		stats.Add("Reaction times\t" + Sqlite.Count(Constants.ReactionTimeTable, true).ToString());
+		stats.Add("Pulses\t" + Sqlite.Count(Constants.PulseTable, true).ToString());
 		
 		dbcon.Close();
-		return myArray;
+
+		return stats;
 	}
+	
 
 }

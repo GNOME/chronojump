@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
@@ -39,22 +38,6 @@ public class Jump : Event
 	public Jump() {
 	}
 	
-	public override string Prova () {
-		return "estic a jump";
-	}
-	
-	public string Prova2 () {
-		return "estic a jump2";
-	}
-
-//funciona	
-	public virtual void HolaServer (ChronojumpServer myServer) {
-		myServer.Hola("from jump1", uniqueID);
-		//myServer.Hola2("from jump2", this);
-		myServer.Hola3("from jump3", (Event)this);
-		myServer.Hola5("from jump 5", (Event)this, false);
-	}
-
 	//after inserting database (SQL)
 	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, double angle, int simulated)
 	{
@@ -86,6 +69,22 @@ public class Jump : Event
 		this.angle = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[9]));
 		this.simulated = Convert.ToInt32(eventString[10]);
 	}
+
+	public override string Prova () {
+		return "estic a jump";
+	}
+	
+	public string Prova2 () {
+		return "estic a jump2";
+	}
+
+	//funciona	
+	public override void HolaServer (ChronojumpServer myServer) {
+		myServer.Hola("from jump1", uniqueID);
+		//myServer.Hola3("from jump3", (Event)this);
+		myServer.Hola5("from jump 5", (Event)this, Constants.TestTypes.JUMP);
+	}
+
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteJump.Insert(dbconOpened, tableName, 
@@ -156,13 +155,6 @@ public class JumpRj : Jump
 	public JumpRj() {
 	}
 	
-	public override void HolaServer (ChronojumpServer myServer) {
-		myServer.Hola("from jumpRj1", uniqueID);
-		//myServer.Hola2("from jumpRj2", this);
-		myServer.Hola5("from jumpRj 5", (Event)this, true);
-	}
-
-
 	//after inserting database (SQL)
 	public JumpRj(int uniqueID, int personID, int sessionID, string type, 
 			string tvString, string tcString, int fall, double weight, 
@@ -205,6 +197,14 @@ public class JumpRj : Jump
 		this.angleString = eventString[16];
 		this.simulated = Convert.ToInt32(eventString[17]);
 	}
+	
+
+	public override void HolaServer (ChronojumpServer myServer) {
+		myServer.Hola("from jumpRj1", uniqueID);
+		myServer.Hola5("from jumpRj 5", (Event)this, Constants.TestTypes.JUMP_RJ);
+	}
+
+
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteJumpRj.Insert(dbconOpened, tableName, 

@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
@@ -75,6 +74,13 @@ public class Run : Event
 		this.description = eventString[6].ToString();
 		this.simulated = Convert.ToInt32(eventString[7]);
 	}
+	
+	public override void HolaServer (ChronojumpServer myServer) {
+		myServer.Hola("from run1", uniqueID);
+		//myServer.Hola3("from run3", (Event)this);
+		myServer.Hola5("from run 5", (Event)this, Constants.TestTypes.RUN );
+	}
+
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteRun.Insert(dbconOpened, tableName, 
@@ -165,6 +171,12 @@ public class RunInterval : Run
 		this.limited = eventString[10].ToString();
 		this.simulated = Convert.ToInt32(eventString[11]);
 	}
+	
+	public override void HolaServer (ChronojumpServer myServer) {
+		myServer.Hola("from runI 1", uniqueID);
+		myServer.Hola5("from runI 5", (Event)this, Constants.TestTypes.RUN_I);
+	}
+
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteRunInterval.Insert(dbconOpened, tableName, 

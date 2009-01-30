@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
@@ -140,6 +139,16 @@ public class JumpType : EventType
 			unlimited 	= true;
 			description	= Catalog.GetString("Reactive Jump unlimited (until finish button is clicked)");
 			imageFileName = "jump_rj_in.png";
+		} else if(name == "RJ(hexagon)") {
+			startIn 	= true;
+			hasWeight 	= false;
+			isRepetitive 	= true;
+			jumpsLimited 	= true;	//will finish in a concrete jump, not in a concrete second
+			fixedValue 	= 18;	//don't ask for limit of jumps or seconds
+			isPredefined	= true;
+			unlimited 	= false;
+			description	= Catalog.GetString("Reactive Jump on a hexagon until three full revolutions are done");
+			imageFileName = "jump_rj_hexagon.png";
 		} else if(name == "triple jump") {
 			startIn 	= false;
 			hasWeight 	= false;

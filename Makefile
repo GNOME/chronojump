@@ -52,7 +52,6 @@ RESOURCES_GLADE = -resource:glade/chronojump.glade,chronojump.glade
 RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/agility_505.png,agility_505.png 		-resource:images/mini/agility_505.png,mini/agility_505.png \
 		-resource:images/agility_20yard.png,agility_20yard.png		-resource:images/mini/agility_20yard.png,mini/agility_20yard.png \
-		-resource:images/agility_hexagon.png,agility_hexagon.png 	-resource:images/mini/agility_hexagon.png,mini/agility_hexagon.png \
 		-resource:images/agility_illinois.png,agility_illinois.png 	-resource:images/mini/agility_illinois.png,mini/agility_illinois.png \
 		-resource:images/agility_shuttle.png,agility_shuttle.png 	-resource:images/mini/agility_shuttle.png,mini/agility_shuttle.png \
 		-resource:images/agility_zigzag.png,agility_zigzag.png 		-resource:images/mini/agility_zigzag.png,mini/agility_zigzag.png \
@@ -67,6 +66,7 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/jump_rocket.png,jump_rocket.png 		-resource:images/mini/jump_rocket.png,mini/jump_rocket.png \
 		-resource:images/jump_rj.png,jump_rj.png 			-resource:images/mini/jump_rj.png,mini/jump_rj.png \
 		-resource:images/jump_rj_in.png,jump_rj_in.png 			-resource:images/mini/jump_rj_in.png,mini/jump_rj_in.png \
+		-resource:images/jump_rj_hexagon.png,jump_rj_hexagon.png 	-resource:images/mini/jump_rj_hexagon.png,mini/jump_rj_hexagon.png \
 		-resource:images/run_simple.png,run_simple.png 			-resource:images/mini/run_simple.png,mini/run_simple.png \
 		-resource:images/run_interval.png,run_interval.png 		-resource:images/mini/run_interval.png,mini/run_interval.png \
 		-resource:images/pulse_free.png,pulse_free.png 			-resource:images/mini/pulse_free.png,mini/pulse_free.png \

@@ -11,16 +11,10 @@ cercar abstract google
 
 5.- do something with user created:
 -sports DONE!
--testsTypes
-+jumpType done
+-testsTypes DONE but not tested... not working yet!
 +...
 
-
-Add hexagon test
-
 Add Cabedo's tests
-
-record ip in SPing
 
 add "chronopic3" to ping. maybe need to ask to user
 
@@ -31,6 +25,19 @@ develop web stats and survey on web site
 maybe server URL can be selected by client on preferences
 
 all this will be release as 0.8.2 or 0.9
+
+
+30 jan 2009
+	0.8.1.6
+	user created testsTypes DONE but not working yet!
+	db 0.62
+	Added rj hexagon test
+
+	stats now select also all tests
+	recorded ip in SPing
+
+	Added missing: chronojump_server/chronojumpServerCSharp.cs
+	deleted xdeblas.com and deporteyciencia.com on all files
 
 29 jan 2009 (2)
 	as below but cleaning server code in src/gui/chronojump.cs

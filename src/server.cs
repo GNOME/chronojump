@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
@@ -27,9 +26,19 @@ using Mono.Unix;
 using Gtk;
 using Gdk;
 using Glade;
+using System.Net;
+using System.Collections;
 
 public class Server
 {
+	private static string getIP() {
+		string strHostName = "";
+		strHostName = System.Net.Dns.GetHostName();
+		IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(strHostName);
+		IPAddress[] addr = ipEntry.AddressList;
+		return addr[addr.Length-1].ToString();
+	}
+
 	public static string Ping(bool doInsertion, string progName, string progVersion) {
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
@@ -38,7 +47,8 @@ public class Server
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 
 			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, Util.GetOS(), 
-					Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
+					//Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
+					getIP(), Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
 			//if !doIsertion nothing will be uploaded,
 			//is ok for uploadPerson to know if server is online
 			myPing.UniqueID = myServer.UploadPing(myPing, doInsertion);
@@ -51,23 +61,30 @@ public class Server
 		}
 	}
 	
-	/* server session update */
+	/* 
+	 * server session update 
+	 */
 
 	static Thread thread;
 
 	public static SessionUploadWindow sessionUploadWin;
-	[Widget] public static Gtk.Window app1;
+	[Widget] static Gtk.Window app1;
 	
-	public static Session currentSession;
-	public static string progName;
-	public static string progVersion;
+	static Session currentSession;
+	static string progName;
+	static string progVersion;
 
-	public static bool serverSessionError;
-	public static bool needUpdateServerSession;
-	public static bool updatingServerSession;
-	public static SessionUploadPersonData sessionUploadPersonData;
+	static bool serverSessionError;
+	static bool needUpdateServerSession;
+	static bool updatingServerSession;
+	static SessionUploadPersonData sessionUploadPersonData;
 			
-	public static void InitializeSessionVariables() {
+	public static void InitializeSessionVariables(Gtk.Window mainApp, Session session, string programName, string programVersion) {
+		app1 = mainApp;
+		currentSession = session;
+		progName = programName;
+		progVersion = programVersion;
+
 		serverSessionError = false;
 		needUpdateServerSession = false;
 		updatingServerSession = false;
@@ -95,7 +112,6 @@ public class Server
 
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending
 		sessionUploadWin = SessionUploadWindow.Show(app1);
-		//sessionUploadWin = SessionUploadWindow.Show();
 
 		if(needUpdateServerSession && !updatingServerSession) {
 			//prevent that FillData is called again with same data
@@ -118,7 +134,7 @@ public class Server
 	{
 		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 
-		try {	
+//		try {	
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
 		
@@ -138,6 +154,9 @@ public class Server
 			}
 
 			myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.UPLOADINGDATA); 
+
+			sessionUploadPersonData.testTypes = "";
+			string testTypesSeparator = "";
 
 			//upload persons (updating also person.serverUniqueID locally)
 			string [] myPersons = SqlitePersonSession.SelectCurrentSession(serverSession.UniqueID, true, false); //onlyIDAndName, not reversed
@@ -200,7 +219,13 @@ public class Server
 							//(one can think that "supra" is another thing
 							//2- when the same evaluator upload some supra's, only a new type is created
 					
-							test.Type = myServer.UploadJumpType(type, evalSID);
+							//test.Type = myServer.UploadJumpType(type, evalSID);
+							string insertedType = myServer.UploadTestType(Constants.TestTypes.JUMP, type, evalSID);
+							if(insertedType != "-1") {
+								test.Type = insertedType;
+								sessionUploadPersonData.testTypes += testTypesSeparator + insertedType;
+								testTypesSeparator = ", ";
+							}
 					
 							//test.Type in the server will have the correct name "supra-9" 
 						}
@@ -235,6 +260,19 @@ public class Server
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
+					
+					if(test.Simulated == 0) {
+						JumpType type = SqliteJumpType.SelectAndReturnJumpRjType(test.Type);
+						if( ! type.IsPredefined) {
+							string insertedType = myServer.UploadTestType(Constants.TestTypes.JUMP_RJ, type, evalSID);
+							if(insertedType != "-1") {
+								test.Type = insertedType;
+								sessionUploadPersonData.testTypes += testTypesSeparator + insertedType;
+								testTypesSeparator = ", ";
+							}
+						}
+					}
+					
 					//upload...
 					uCode = serverUploadTest(myServer, Constants.TestTypes.JUMP_RJ, Constants.JumpRjTable, test);
 
@@ -373,14 +411,16 @@ public class Server
 				}
 
 			}
-
+								
 			myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.DONE); 
 
 			Log.WriteLine(myServer.DisConnectDatabase());
+			/*
 		} catch {
 			//other thread updates the gui:
 			serverSessionError = true;
 		}
+		*/
 	}
 	
 	//upload a person

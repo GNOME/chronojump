@@ -16,17 +16,13 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-//using Mono.Data.SqliteClient;
-//using System.Data.SqlClient;
 using Mono.Data.Sqlite;
-//using System.Data.SQLite;
 
 
 class SqliteReactionTime : Sqlite

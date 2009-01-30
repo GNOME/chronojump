@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 
@@ -109,6 +108,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_rj_j;
 	[Widget] Gtk.Button button_rj_t;
 	[Widget] Gtk.Button button_rj_unlimited;
+	[Widget] Gtk.Button button_rj_hexagon;
 	[Widget] Gtk.Button button_run_custom;
 	[Widget] Gtk.Button button_run_20m;
 	[Widget] Gtk.Button button_run_100m;
@@ -160,6 +160,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem rj_j;
 	[Widget] Gtk.MenuItem rj_t;
 	[Widget] Gtk.MenuItem rj_unlimited;
+	[Widget] Gtk.MenuItem rj_hexagon;
 	[Widget] Gtk.MenuItem menuitem_run_custom;
 	[Widget] Gtk.MenuItem menuitem_20m;
 	[Widget] Gtk.MenuItem menuitem_100m;
@@ -1002,12 +1003,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	private void on_server_upload_session_accepted (object o, EventArgs args) 
 	{
 		if(Server.Ping(false, "", "") != Constants.ServerOffline) { //false: don't do insertion
-			Server.InitializeSessionVariables();
-			Server.app1 = app1;
-			Server.currentSession = currentSession; //check that changes come to main currentSession again!!! TODO
-			Server.progName = progName;
-			Server.progVersion = progVersion;
-
+			Server.InitializeSessionVariables(app1, currentSession, progName, progVersion);
 			Server.ThreadStart();
 		} else {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
@@ -2335,6 +2331,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentEventType = new JumpType("RJ(t)");
 		} else 	if(o == (object) button_rj_unlimited) {
 			currentEventType = new JumpType("RJ(unlimited)");
+		} else 	if(o == (object) button_rj_hexagon) {
+			currentEventType = new JumpType("RJ(hexagon)");
 		//run
 		} else 	if(o == (object) button_run_custom) {
 			currentEventType = new RunType("Custom");
@@ -2700,6 +2698,12 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		} else if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) 
 		{
 			currentJumpType = new JumpType("RJ(unlimited)");
+
+			//in this jump type, don't ask for limit of jumps or seconds
+			on_rj_accepted(o, args);
+		} else if(o == (object) button_rj_hexagon || o == (object) rj_hexagon) 
+		{
+			currentJumpType = new JumpType("RJ(hexagon)");
 
 			//in this jump type, don't ask for limit of jumps or seconds
 			on_rj_accepted(o, args);

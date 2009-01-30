@@ -16,17 +16,13 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
-//using Mono.Data.SqliteClient;
-//using System.Data.SqlClient;
 using Mono.Data.Sqlite;
-//using System.Data.SQLite;
 
 
 class SqliteJumpType : Sqlite
@@ -118,10 +114,11 @@ class SqliteJumpType : Sqlite
 	protected internal static void initializeTableJumpRjType()
 	{
 		string [] iniJumpTypes = {
-			//name:startIn:weight:jumpsLimited:limitValue:unlimited:description
+			//name:startIn:weight:jumpsLimited:limitValue:description
 			"RJ(j):0:0:1:0:RJ limited by jumps",
 			"RJ(t):0:0:0:0:RJ limited by time",
 			"RJ(unlimited):1:0:1:-1:Jump unlimited until finish is clicked",
+			"RJ(hexagon):1:0:1:18:Reactive Jump on a hexagon until three full revolutions are done",
 			"triple jump:0:0:1:3:Triple jump"
 		};
 		foreach(string myJumpType in iniJumpTypes) {

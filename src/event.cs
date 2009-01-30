@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
@@ -40,6 +39,10 @@ public class Event
 	//used to select an event at Sqlite.addSimulatedInEventTables
 	public Event(string [] eventString) {
 	}
+	
+	public virtual void HolaServer (ChronojumpServer myServer) {
+	}
+
 	
 	public virtual int InsertAtDB (bool dbconOpened, string tableName) {
 		Console.WriteLine("++++++++");

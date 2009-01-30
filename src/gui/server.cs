@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
@@ -49,6 +48,7 @@ public class SessionUploadPersonData {
 	public int pulsesU;
 	public int pulsesE;
 	public int pulsesS;
+	public string testTypes;
 
 	public SessionUploadPersonData () {
 	}
@@ -59,7 +59,8 @@ public class SessionUploadPersonData {
 			int runsU, int runsE, int runsS, 
 			int runsIU, int runsIE, int runsIS, 
 			int rtsU, int rtsE, int rtsS, 
-			int pulsesU, int pulsesE, int pulsesS) {
+			int pulsesU, int pulsesE, int pulsesS,
+			string testTypes) {
 	}
 }
 
@@ -83,6 +84,8 @@ public class SessionUploadWindow {
 	[Widget] Gtk.TreeView treeview_rts;
 	[Widget] Gtk.TreeView treeview_pulses;
 	
+	[Widget] Gtk.Label label_uploaded_test_types;
+	[Widget] Gtk.Label label_uploaded_sports;
 	[Widget] Gtk.Label label_thanks;
 
 	[Widget] Gtk.Button button_close;
@@ -132,11 +135,9 @@ public class SessionUploadWindow {
 	}
 	
 	static public SessionUploadWindow Show (Gtk.Window parent)
-	//static public SessionUploadWindow Show ()
 	{
 		if (SessionUploadWindowBox == null) {
 			SessionUploadWindowBox = new SessionUploadWindow (parent);
-			//SessionUploadWindowBox = new SessionUploadWindow ();
 		}
 		SessionUploadWindowBox.session_upload.Show ();
 		
@@ -179,6 +180,9 @@ public class SessionUploadWindow {
 		fillTest (Constants.TestTypes.RUN_I,	p.runsIU, p.runsIE, p.runsIS);
 		fillTest (Constants.TestTypes.RT,	p.rtsU, p.rtsE, p.rtsS);
 		fillTest (Constants.TestTypes.PULSE,	p.pulsesU, p.pulsesE, p.pulsesS);
+
+		if(p.testTypes.Length > 0)
+			label_uploaded_test_types.Text = Catalog.GetString("Uploaded") + ": " + p.testTypes;
 	}
 
 	private void fillPerson (Person person, Constants.UploadCodes uCode) {

@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 using System;
@@ -74,7 +73,7 @@ class Sqlite
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
 	//static string lastChronojumpDatabaseVersion = "0.60";
-	static string lastChronojumpDatabaseVersion = "0.61";
+	static string lastChronojumpDatabaseVersion = "0.62";
 
 	public Sqlite() {
 	}
@@ -529,13 +528,6 @@ class Sqlite
 
 				SqliteJumpType.JumpTypeInsert ("Rocket:1:0:Rocket jump", true); 
 
-				/*
-				SqliteRunType.RunTypeInsert ("Agility-20Yard:18.28:20Yard Agility test", true);
-				SqliteRunType.RunTypeInsert ("Agility-505:10:505 Agility test", true);
-				SqliteRunType.RunTypeInsert ("Agility-Illinois:60:Illinois Agility test", true);
-				SqliteRunType.RunTypeInsert ("Agility-Shuttle-Run:40:Shuttle Run Agility test", true);
-				SqliteRunType.RunTypeInsert ("Agility-ZigZag:17.6:ZigZag Agility test", true);
-				*/
 				string [] iniRunTypes = {
 					"Agility-20Yard:18.28:20Yard Agility test",
 					"Agility-505:10:505 Agility test",
@@ -805,6 +797,14 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.61";
 			}
+			if(currentVersion == "0.61") {
+				dbcon.Open();
+				SqliteJumpType.JumpRjTypeInsert ("RJ(hexagon):1:0:1:18:Reactive Jump on a hexagon until three full revolutions are done", true);
+				SqlitePreferences.Update ("databaseVersion", "0.62", true); 
+				Log.WriteLine("Converted DB to 0.62 added hexagon");
+				dbcon.Close();
+				currentVersion = "0.62";
+			}
 
 		}
 
@@ -921,6 +921,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.61 - 0.62 added hexagon (jumpRj test)
 		//0.60 - 0.61 added RunIntervalType distancesString (now we van have interval tests with different distances of tracks). Added MTGUG
 		//0.59 - 0.60 added volumeOn and evaluatorServerID to preferences. Session has now serverUniqueID. Simulated now are -1, because 0 is real and positive is serverUniqueID
 		//0.58 - 0.59 Added 'showAngle' to preferences, changed angle on jump to double
@@ -1263,6 +1264,29 @@ Console.WriteLine("5" + tableName);
 			myReaderStr[i] = reader[i].ToString();
 		return myReaderStr;
 	}
+
+	public static int Count (string tableName, bool dbconOpened)
+	{
+		if(!dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "SELECT COUNT(*) FROM " + tableName ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		int myReturn = 0;
+		if(reader.Read()) 
+			myReturn = Convert.ToInt32(reader[0].ToString());
+		reader.Close();
+
+		if(!dbconOpened)
+			dbcon.Close();
+		return myReturn;
+	}
+
+
 	
 	/* 
 	 * SERVER STUFF

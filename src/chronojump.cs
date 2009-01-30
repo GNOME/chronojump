@@ -16,7 +16,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Xavier de Blas: 
- * http://www.xdeblas.com, http://www.deporteyciencia.com (parleblas)
  */
 
 
@@ -114,16 +113,28 @@ public class ChronoJump
 			ChronojumpServer myServer = new ChronojumpServer();
 
 			Jump jump = new Jump();
-			jump.UniqueID=777;
+			jump.UniqueID=111;
 			jump.Description="bon dia";
 			jump.Tv=919;
 			jump.HolaServer(myServer);
 			
 			JumpRj jumpRj = new JumpRj();
-			jumpRj.UniqueID=777;
-			jumpRj.Description="bon dia";
+			jumpRj.UniqueID=222;
+			jumpRj.Description="bon dia jump";
 			jumpRj.TvString="el meu tvString";
 			jumpRj.HolaServer(myServer);
+	
+			Run run = new Run();
+			run.UniqueID=333;
+			run.Description="bon dia";
+			run.Time=919;
+			run.HolaServer(myServer);
+			
+			RunInterval runInterval = new RunInterval();
+			runInterval.UniqueID=444;
+			runInterval.Description="bon dia run";
+			runInterval.TimeTotal=1234;
+			runInterval.HolaServer(myServer);
 	
 	
 //			Application.Quit();

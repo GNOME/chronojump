@@ -29,6 +29,7 @@ using System.Diagnostics; //Process
 
 using System.Collections; //ArrayList
 
+
 public class ChronoJump 
 {
 	ChronoJumpWindow chronoJumpWin;
@@ -110,32 +111,8 @@ public class ChronoJump
 		/* SERVER COMMUNICATION TESTS */
 		//try {
 
-			ChronojumpServer myServer = new ChronojumpServer();
-
-			Jump jump = new Jump();
-			jump.UniqueID=111;
-			jump.Description="bon dia";
-			jump.Tv=919;
-			jump.HolaServer(myServer);
+//			ChronojumpServer myServer = new ChronojumpServer();
 			
-			JumpRj jumpRj = new JumpRj();
-			jumpRj.UniqueID=222;
-			jumpRj.Description="bon dia jump";
-			jumpRj.TvString="el meu tvString";
-			jumpRj.HolaServer(myServer);
-	
-			Run run = new Run();
-			run.UniqueID=333;
-			run.Description="bon dia";
-			run.Time=919;
-			run.HolaServer(myServer);
-			
-			RunInterval runInterval = new RunInterval();
-			runInterval.UniqueID=444;
-			runInterval.Description="bon dia run";
-			runInterval.TimeTotal=1234;
-			runInterval.HolaServer(myServer);
-	
 	
 //			Application.Quit();
 			/*

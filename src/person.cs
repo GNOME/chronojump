@@ -23,7 +23,7 @@ using System.Data;
 using System.Text; //StringBuilder
 using Mono.Unix;
 
-public class Person {
+public partial class Person {
 
 	private int uniqueID;
 	private string name;
@@ -156,6 +156,9 @@ public class Person {
 		return this.ToString().GetHashCode();
 	}
 	
+	/*
+	 * defined on webservice
+	 */
 	public string Name {
 		get { return name; }
 		set { name = value; }
@@ -169,14 +172,6 @@ public class Person {
 	public string DateBorn {
 		get { return dateBorn; }
 		set { dateBorn = value; }
-	}
-	
-	public string DateLong {
-		get { return Util.DateAsDateTime(dateBorn).ToLongDateString(); }
-	}
-	
-	public string DateShort {
-		get { return Util.DateAsDateTime(dateBorn).ToShortDateString(); }
 	}
 	
 	
@@ -229,6 +224,15 @@ public class Person {
 		get { return uniqueID; }
 		set { uniqueID = value; }
 	}
+	
+	public string DateLong {
+		get { return Util.DateAsDateTime(dateBorn).ToLongDateString(); }
+	}
+	
+	public string DateShort {
+		get { return Util.DateAsDateTime(dateBorn).ToShortDateString(); }
+	}
+	
 	
 	~Person() {}
 	   

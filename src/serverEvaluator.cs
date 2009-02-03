@@ -24,7 +24,7 @@ using System.Text; //StringBuilder
 
 using Mono.Unix;
 
-public class ServerEvaluator
+public partial class ServerEvaluator
 {
 	private int uniqueID;
 	private string name;
@@ -58,6 +58,10 @@ public class ServerEvaluator
 			"; CountryID: " + countryID + "; Confiable: " + confiable;
 	}
 	
+	/*
+	 * defined on webservice
+	 *
+	 */
 	public int UniqueID {
 		get { return uniqueID; }
 		set { uniqueID = value; }

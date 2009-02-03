@@ -179,6 +179,11 @@ public class TreeViewRunsInterval : TreeViewRuns
 		return myData;
 	}
 	
+	private string getDistancesStringRow(string distancesString, int row) {
+		string [] str = distancesString.Split(new char[] {'-'});
+		row = row % str.Length;
+		return str[row];
+	}
 
 	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
 	{
@@ -192,13 +197,28 @@ public class TreeViewRunsInterval : TreeViewRuns
 		//write line for treeview
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		myData[count++] = (lineCount +1).ToString();
-		myData[count++] =  Util.TrimDecimals( 
-				Util.GetSpeed(
-					newRunI.DistanceInterval.ToString(), //distanceInterval (same for all subevents)
-					timeInterval,
-					metersSecondsPreferred )
-				, pDN );
+		
+		if(newRunI.DistanceInterval == -1) {
+			RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(newRunI.Type);
+			myData[count++] = (lineCount + 1).ToString() +  
+				" (" + getDistancesStringRow(runType.DistancesString, lineCount) + "m)";
+			
+			myData[count++] =  Util.TrimDecimals( 
+					Util.GetSpeed(
+						getDistancesStringRow(runType.DistancesString, lineCount), //distancesString (variable)
+						timeInterval,
+						metersSecondsPreferred )
+					, pDN );
+		} else {
+			myData[count++] = (lineCount +1).ToString();
+
+			myData[count++] =  Util.TrimDecimals( 
+					Util.GetSpeed(
+						newRunI.DistanceInterval.ToString(), //distanceInterval (same for all subevents)
+						timeInterval,
+						metersSecondsPreferred )
+					, pDN );
+		}
 
 		myData[count++] = Util.TrimDecimals( timeInterval, pDN );
 		myData[count++] = "";

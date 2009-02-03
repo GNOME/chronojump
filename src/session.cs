@@ -23,10 +23,10 @@ using System.Data;
 using System.Text; //StringBuilder
 using Mono.Unix;
 
-
-public class Session {
+public partial class Session {
 
 	protected int uniqueID;
+	
 	protected string name;
 	protected string place;
 	protected string date;
@@ -134,6 +134,10 @@ public class Session {
 		return this.ToString().GetHashCode();
 	}
 	
+	/*
+	 * defined on webservice
+	 *
+	 * */
 	public string Name { 
 		get { return name; } 
 		set { name = value; } 
@@ -149,14 +153,6 @@ public class Session {
 		set { date = value; }
 	}
 
-	public string DateLong {
-		get { return Util.DateAsDateTime(date).ToLongDateString(); }
-	}
-	
-	public string DateShort {
-		get { return Util.DateAsDateTime(date).ToShortDateString(); }
-	}
-	
 	public string Comments { 
 		get { return comments; } 
 		set { comments = value; }
@@ -190,25 +186,35 @@ public class Session {
 		set { personsPractice = value; }
 	}
 	
+	public string DateLong {
+		get { return Util.DateAsDateTime(date).ToLongDateString(); }
+	}
+	
+	public string DateShort {
+		get { return Util.DateAsDateTime(date).ToShortDateString(); }
+	}
+	
+	
 	~Session() {}
 	   
 }
 
-public class ServerSession : Session
+public partial class ServerSession : Session
 {
 	//server stuff
 	int evaluatorID;
 	string evaluatorCJVersion;
 	string evaluatorOS;
 	string uploadedDate;
-	Constants.ServerSessionStates uploadingState;
-	//int uploadingState;
+	//Constants.ServerSessionStates uploadingState;
+	int uploadingState;
 
 	public ServerSession() {
 	}
 	
 	public ServerSession(Session mySession, int evaluatorID, string evaluatorCJVersion, 
-			string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
+			//string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
+			string evaluatorOS, string uploadedDate, int uploadingState)
 	{
 		uniqueID = mySession.UniqueID;
 		name = mySession.Name;
@@ -251,6 +257,9 @@ public class ServerSession : Session
 			evaluatorCJVersion + ", " + evaluatorOS + ", " + uploadedDate + ", " + uploadingState;
 	}
 	
+	/*
+	 * defined on webservice
+	 */
 	public int EvaluatorID {
 		get { return evaluatorID; }
 		set { evaluatorID = value; }
@@ -271,8 +280,8 @@ public class ServerSession : Session
 		set { uploadedDate = value; }
 	}
 
-	public Constants.ServerSessionStates UploadingState {
-	//public int UploadingState {
+	//public Constants.ServerSessionStates UploadingState {
+	public int UploadingState {
 		get { return uploadingState; }
 		set { uploadingState = value; }
 	}

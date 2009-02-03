@@ -39,6 +39,24 @@ public class RunType : EventType
 		type = Types.RUN;
 	}
 	
+	public override bool FindIfIsPredefined() {
+		string [] predefinedTests = {
+			"Custom", "20m", "100m", "200m", "400m",
+			"1000m", "2000m",
+			"Agility-20Yard", "Agility-505",
+			"Agility-Illinois", "Agility-Shuttle-Run" , "Agility-ZigZag",
+			"byLaps", "byTime", "unlimited", 
+			"20m10times", "7m30seconds", "20m endurance", 
+			"MTGUG" 
+		};
+
+		foreach(string search in predefinedTests)
+			if(this.name == search)
+				return true;
+
+		return false;
+	}
+	
 	//predefined values
 	public RunType(string name) {
 		type = Types.RUN;

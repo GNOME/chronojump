@@ -112,7 +112,7 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 
-	public static ArrayList Stats() {
+	public static string Stats() {
 		ArrayList stats = new ArrayList();
 			
 		dbcon.Open();
@@ -130,7 +130,9 @@ class SqliteServer : Sqlite
 		
 		dbcon.Close();
 
-		return stats;
+		string statsString = Util.ArrayListToSingleString(stats);
+
+		return statsString;
 	}
 	
 

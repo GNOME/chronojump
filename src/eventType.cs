@@ -20,7 +20,7 @@
 
 using System;
 
-public class EventType 
+public partial class EventType 
 {
 	public enum Types {
 		JUMP, RUN, PULSE, REACTIONTIME
@@ -52,26 +52,41 @@ public class EventType
 		get { return type; }
 	}
 	
+	public virtual bool FindIfIsPredefined() {
+		string [] predefinedTests = {
+		};
+
+		foreach(string search in predefinedTests)
+			if(this.name == search)
+				return true;
+
+		return false;
+	}
+	
+	/*
+	 * defined on webservice
+	 */
 	public string Name
 	{
 		get { return name; }
 		set { name = value; }
 	}
 	
+	public string Description
+	{
+		get { return description; }
+		set { description = value; }
+	}
+
 	public bool IsPredefined
 	{
 		get { return isPredefined; }
+		set { isPredefined = value; }
 	}
 	
 	public string ImageFileName
 	{
 		get { return imageFileName; }
-	}
-	
-	public string Description
-	{
-		get { return description; }
-		set { description = value; }
 	}
 	
 	public string LongDescription

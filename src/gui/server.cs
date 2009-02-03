@@ -49,6 +49,7 @@ public class SessionUploadPersonData {
 	public int pulsesE;
 	public int pulsesS;
 	public string testTypes;
+	public string sports;
 
 	public SessionUploadPersonData () {
 	}
@@ -60,7 +61,7 @@ public class SessionUploadPersonData {
 			int runsIU, int runsIE, int runsIS, 
 			int rtsU, int rtsE, int rtsS, 
 			int pulsesU, int pulsesE, int pulsesS,
-			string testTypes) {
+			string testTypes, string sports) {
 	}
 }
 
@@ -94,7 +95,6 @@ public class SessionUploadWindow {
 	Gtk.Window parent;
 	
 	SessionUploadWindow (Gtk.Window parent) {
-	//SessionUploadWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "session_upload", null);
 		gladeXML.Autoconnect(this);
@@ -181,8 +181,15 @@ public class SessionUploadWindow {
 		fillTest (Constants.TestTypes.RT,	p.rtsU, p.rtsE, p.rtsS);
 		fillTest (Constants.TestTypes.PULSE,	p.pulsesU, p.pulsesE, p.pulsesS);
 
-		if(p.testTypes.Length > 0)
-			label_uploaded_test_types.Text = Catalog.GetString("Uploaded") + ": " + p.testTypes;
+		if(p.testTypes.Length > 0) {
+			label_uploaded_test_types.Text = "<b>" + Catalog.GetString("Uploaded test type") + "</b>: " + p.testTypes;
+			label_uploaded_test_types.UseMarkup = true; 
+		}
+		
+		if(p.sports.Length > 0) {
+			label_uploaded_sports.Text = "<b>" + Catalog.GetString("Uploaded sport") + "</b>: " + p.sports;
+			label_uploaded_sports.UseMarkup = true; 
+		}
 	}
 
 	private void fillPerson (Person person, Constants.UploadCodes uCode) {

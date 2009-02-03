@@ -1,0 +1,27 @@
+
+1.- compile bin/*.dll file
+
+compiling with 'make server' creates the bin/chronojumpServer.dll
+
+2.- start server
+
+xsp2 --root /var/www/mono/ --verbose
+
+3.- navigate to the page
+
+firefox http://localhost:8080/chronojumpServer.asmx
+
+4.- generate wsdl proxy file
+
+from console it doesnt' work, then do:
+a) go to client proxy
+b) generate in C
+c) download
+d) open in gedit
+e) save as ChronojumpServer.cs
+
+5.- need to comment all the partial classes in ChronojumpServer.cs
+
+6.- compile client
+
+make

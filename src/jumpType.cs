@@ -29,22 +29,37 @@ public class JumpType : EventType
 	protected bool isRepetitive;
 	protected bool jumpsLimited;
 	protected double fixedValue;	//0 no fixed value
-	//protected string description;
-	//protected bool isPredefined;
 	protected bool unlimited;
 
 
 	public JumpType() {
 		type = Types.JUMP;
 	}
+
 	
+	public override bool FindIfIsPredefined() {
+		string [] predefinedTests = {
+			"Free", "SJ", "CMJ", "ABK", "Rocket",
+			"SJl", "CMJl", "ABKl", "DJ",
+			"RJ(j)", "RJ(t)", "RJ(unlimited)",
+			"RJ(hexagon)", "triple jump"
+		};
+
+		foreach(string search in predefinedTests)
+			if(this.name == search)
+				return true;
+
+		return false;
+	}
+	
+
 	//predefined values
 	public JumpType(string name) {
 		type = Types.JUMP;
 		this.name = name;
 		
 		//we cannot obtain values like has Weight
-		this.isPredefined = false;
+//		this.isPredefined = false;
 		
 		unlimited = false;	//default value
 		imageFileName = "";
@@ -56,7 +71,7 @@ public class JumpType : EventType
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
+//			isPredefined	= true;
 			if(name == "Free") {
 				imageFileName = "jump_free.png";
 				description	= Catalog.GetString("Free Jump");
@@ -90,7 +105,7 @@ public class JumpType : EventType
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
+//			isPredefined	= true;
 			if(name == "SJl") {
 				description	= Catalog.GetString("Squat Jump with extra weight");
 				imageFileName = "jump_sj_l.png";
@@ -107,7 +122,7 @@ public class JumpType : EventType
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
+//			isPredefined	= true;
 			description	= Catalog.GetString("DJ Jump");
 			imageFileName = "jump_dj.png";
 		} else if(name == "RJ(j)") {
@@ -116,7 +131,7 @@ public class JumpType : EventType
 			isRepetitive 	= true;
 			jumpsLimited 	= true;
 			fixedValue 	= 0;
-			isPredefined	= true;
+//			isPredefined	= true;
 			imageFileName = "jump_rj.png";
 			description	= Catalog.GetString("Reactive Jump limited by Jumps");
 			longDescription	= "";
@@ -126,7 +141,7 @@ public class JumpType : EventType
 			isRepetitive 	= true;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
-			isPredefined	= true;
+//			isPredefined	= true;
 			description	= Catalog.GetString("Reactive Jump limited by Time");
 			imageFileName = "jump_rj.png";
 		} else if(name == "RJ(unlimited)") {
@@ -135,7 +150,7 @@ public class JumpType : EventType
 			isRepetitive 	= true;
 			jumpsLimited 	= true;	//will finish in a concrete jump, not in a concrete second
 			fixedValue 	= -1;	//don't ask for limit of jumps or seconds
-			isPredefined	= true;
+//			isPredefined	= true;
 			unlimited 	= true;
 			description	= Catalog.GetString("Reactive Jump unlimited (until finish button is clicked)");
 			imageFileName = "jump_rj_in.png";
@@ -145,7 +160,7 @@ public class JumpType : EventType
 			isRepetitive 	= true;
 			jumpsLimited 	= true;	//will finish in a concrete jump, not in a concrete second
 			fixedValue 	= 18;	//don't ask for limit of jumps or seconds
-			isPredefined	= true;
+//			isPredefined	= true;
 			unlimited 	= false;
 			description	= Catalog.GetString("Reactive Jump on a hexagon until three full revolutions are done");
 			imageFileName = "jump_rj_hexagon.png";
@@ -155,10 +170,12 @@ public class JumpType : EventType
 			isRepetitive 	= true;
 			jumpsLimited 	= true;
 			fixedValue 	= 3;
-			isPredefined	= true;
+//			isPredefined	= true;
 			description	= Catalog.GetString("Triple jump");
 			imageFileName = "jump_rj.png";
 		}
+
+		isPredefined = FindIfIsPredefined();
 	}
 	
 	
@@ -177,7 +194,8 @@ public class JumpType : EventType
 		this.imageFileName = imageFileName;
 
 		//we can obtain values like has Weight
-		this.isPredefined	= true;
+//		this.isPredefined	= true;
+		isPredefined = FindIfIsPredefined();
 	}
 
 	public bool StartIn

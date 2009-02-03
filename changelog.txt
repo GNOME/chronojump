@@ -8,24 +8,38 @@ compatible, tell user to update it's chronojump version
 "questionnaire acabar
 cercar abstract google
 
-
-5.- do something with user created:
--sports DONE!
--testsTypes DONE but not tested... not working yet!
-+...
-
 Add Cabedo's tests
+Add Margaria
 
-add "chronopic3" to ping. maybe need to ask to user
+add "chronopic3" to ping. maybe need to ask user
 
 add a link to the server page
 
 develop web stats and survey on web site
 
-maybe server URL can be selected by client on preferences
-
 all this will be release as 0.8.2 or 0.9
 
+distancesString:
+-eventExecute speed
+-stats (graphs)
+
+
+3 feb 2009
+	0.8.1.7
+	Web service compiles again: see new howto_server_2009.txt
+	
+	At web service now we dont pass objects like Event expecting it will
+	be serialized (inherited) to jump. Noew we pass Jump directly.
+
+	uploadTests done!
+	uploadTestTypes done!
+	uploaded sports done!
+
+	distancesString at runInterval
+	-gui more now shows distancesString
+	-treeview shows correct length of track and calculates speed ok
+
+	fixed IsPredefined at jumpType, now works better
 
 30 jan 2009
 	0.8.1.6

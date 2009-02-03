@@ -58,10 +58,6 @@ public partial class ServerEvaluator
 			"; CountryID: " + countryID + "; Confiable: " + confiable;
 	}
 	
-	/*
-	 * defined on webservice
-	 *
-	 */
 	public int UniqueID {
 		get { return uniqueID; }
 		set { uniqueID = value; }

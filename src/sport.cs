@@ -70,9 +70,6 @@ public partial class Sport
 		return myString + Catalog.GetString(name);
 	}
 
-	/*
-	 * defined on webservice
-	 */
 	public int UniqueID {
 		get { return uniqueID; } 
 		set { uniqueID = value; } 

@@ -134,10 +134,7 @@ public partial class Session {
 		return this.ToString().GetHashCode();
 	}
 	
-	/*
-	 * defined on webservice
-	 *
-	 * */
+	
 	public string Name { 
 		get { return name; } 
 		set { name = value; } 
@@ -257,9 +254,6 @@ public partial class ServerSession : Session
 			evaluatorCJVersion + ", " + evaluatorOS + ", " + uploadedDate + ", " + uploadingState;
 	}
 	
-	/*
-	 * defined on webservice
-	 */
 	public int EvaluatorID {
 		get { return evaluatorID; }
 		set { evaluatorID = value; }

@@ -616,8 +616,6 @@ class SqliteServerSession : SqliteSession
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	//public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
-	//public static int Insert(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
 	public static int Insert(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, string uploadedDate, int uploadingState)
 	{
 		if(! dbconOpened)
@@ -634,7 +632,6 @@ class SqliteServerSession : SqliteSession
 			personsPractice + ", '" + comments + "', " +
 			serverUniqueID + ", " + evaluatorID + ", '" +
 			evaluatorCJVersion + "', '" + evaluatorOS + "', '" +
-			//uploadedDate + "', " + Convert.ToInt32(uploadingState) +
 			uploadedDate + "', " + uploadingState +
 			")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -648,13 +645,11 @@ class SqliteServerSession : SqliteSession
 	}
 	
 	//updating local session when it gets uploaded
-	//public static void UpdateUploadingState(int uniqueID, Constants.ServerSessionStates state)
 	public static void UpdateUploadingState(int uniqueID, int state)
 	{
 		//if(!dbconOpened)
 			dbcon.Open();
 
-		//dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " SET uploadingState = " + Convert.ToInt32(state) + 
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " SET uploadingState = " + state + 
 			" WHERE uniqueID == " + uniqueID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());

@@ -57,10 +57,6 @@ public partial class ServerPing
 			"\nIP: " + ip + "\nDate: " + date;
 	}
 	
-	/*
-	 * defined on webservice
-	 *
-	 */
 	public int UniqueID {
 		get { return uniqueID; }
 		set { uniqueID = value; }

@@ -24,6 +24,9 @@ distancesString:
 -stats (graphs)
 
 
+3 feb 2009 (2)
+	small code cleaning
+
 3 feb 2009
 	0.8.1.7
 	Web service compiles again: see new howto_server_2009.txt

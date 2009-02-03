@@ -922,12 +922,10 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
-//			ArrayList stats = (ArrayList) myServer.Stats();
 			string stats = myServer.Stats();
 			Log.WriteLine(myServer.DisConnectDatabase());
 
 			new DialogMessage(Constants.MessageTypes.INFO, "Stats in server:\n" + 
-//					Util.ArrayListToSingleString(stats) + "\n" + Util.DateParse(DateTime.Now.ToString()));
 					stats + "\n" + Util.DateParse(DateTime.Now.ToString()));
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);

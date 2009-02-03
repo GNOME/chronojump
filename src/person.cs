@@ -156,9 +156,7 @@ public partial class Person {
 		return this.ToString().GetHashCode();
 	}
 	
-	/*
-	 * defined on webservice
-	 */
+	
 	public string Name {
 		get { return name; }
 		set { name = value; }

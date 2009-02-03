@@ -48,10 +48,6 @@ public partial class Event
 		return -1;
 	}	
 	
-	/*
-	 * defined on webservice
-	 *
-	 */
 	public string Type
 	{
 		get { return type; }

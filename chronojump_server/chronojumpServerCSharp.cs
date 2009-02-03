@@ -5,11 +5,11 @@ using System.IO;
 using System.Web.Services;
 //using System.Web;
 
-using System.Collections; //ArrayList
 
 //[WebService(Namespace="http://80.32.81.197:8080/", //works to connect with pinux xen from client (from browser don't works)
 [WebService(Namespace="http://localhost:8080/", //work to connect to corall development from client (from browser works only when online)
 	Description="ChronojumpServer")]
+[Serializable]
 public class ChronojumpServer {
 	
 	[WebMethod(Description="Conecta BBDD")]
@@ -35,9 +35,9 @@ public class ChronojumpServer {
 	}
 
 	[WebMethod(Description="Stats")]
-	public ArrayList Stats()
+	public string Stats()
 	{
-		ArrayList stats = SqliteServer.Stats();
+		string stats = SqliteServer.Stats();
 
 		return stats;	
 	}
@@ -53,7 +53,7 @@ public class ChronojumpServer {
 	}
 	
 	[WebMethod(Description="Update session uploadingState")]
-	public int UpdateSession(int sessionID, Constants.ServerSessionStates state)
+	public int UpdateSession(int sessionID, int  state)
 	{
 		SqliteServerSession.UpdateUploadingState(sessionID, state);
 		
@@ -70,27 +70,18 @@ public class ChronojumpServer {
 		
 		return id; //uniqueID of sport at server
 	}
-	
+
+/*	
 	[WebMethod(Description="Upload a test type (user defined)")]
-	public string UploadTestType(Constants.TestTypes testType, EventType type, int evalSID)
+	//public string UploadTestType(Constants.TestTypes testType, EventType type, int evalSID)
+	public string UploadTestType(int testType, EventType type, int evalSID)
 	{
 		string typeServer = type.Name + "-" + evalSID.ToString();
 
-		/*
-		//upload if doesn't exists (uploaded before by this evaluator)
-		//Console.WriteLine(typeServer + ":" + type.StartIn + ":" + type.HasWeight + ":" + type.Description);
-		if(! Sqlite.Exists(Constants.JumpTypeTable, typeServer)) {
-			//Console.WriteLine("Jump type doesn't exists");
-			SqliteJumpType.JumpTypeInsert(
-					typeServer + ":" + Util.BoolToInt(type.StartIn).ToString() + ":" + 
-					Util.BoolToInt(type.HasWeight).ToString() + ":" + type.Description,
-					false);
-		}
-		*/
 		Console.WriteLine("XXXXXXXXXXXXXXXX");
 		bool inserted = false;
 		switch (testType) {
-			case Constants.TestTypes.JUMP :
+			case (int) Constants.TestTypes.JUMP :
 				JumpType jumpType = (JumpType)type;
 				Console.WriteLine("JUMP" + typeServer + ":" + jumpType.StartIn + ":" + jumpType.HasWeight + ":" + jumpType.Description);
 				if(! Sqlite.Exists(Constants.JumpTypeTable, typeServer)) {
@@ -103,7 +94,7 @@ public class ChronojumpServer {
 					inserted = true;
 				}
 				break;
-			case Constants.TestTypes.JUMP_RJ :
+			case (int) Constants.TestTypes.JUMP_RJ :
 				JumpType jumpTypeRj = (JumpType)type;
 				Console.WriteLine("JUMP_RJ" + typeServer + ":" + jumpTypeRj.Description);
 				if(! Sqlite.Exists(Constants.JumpRjTypeTable, typeServer)) {
@@ -126,6 +117,70 @@ public class ChronojumpServer {
 			return typeServer;
 		else
 			return "-1";
+	}
+	*/
+
+	[WebMethod(Description="Upload a jump type (user defined)")]
+	public string UploadJumpType(JumpType type, int evalSID)
+	{
+		string typeServer = type.Name + "-" + evalSID.ToString();
+				
+		Console.WriteLine("JUMP" + typeServer + ":" + type.StartIn + ":" + type.HasWeight + ":" + type.Description);
+		if(! Sqlite.Exists(Constants.JumpTypeTable, typeServer)) {
+			SqliteJumpType.JumpTypeInsert(
+					typeServer + ":" + Util.BoolToInt(type.StartIn).ToString() + ":" + 
+					Util.BoolToInt(type.HasWeight).ToString() + ":" + type.Description,
+					false);
+			return typeServer;
+		}
+		return "-1";
+	}
+
+	[WebMethod(Description="Upload a jumpRj type (user defined)")]
+	public string UploadJumpRjType(JumpType type, int evalSID)
+	{
+		string typeServer = type.Name + "-" + evalSID.ToString();
+				
+		Console.WriteLine("JUMP_RJ" + typeServer + ":" + type.Description);
+		if(! Sqlite.Exists(Constants.JumpRjTypeTable, typeServer)) {
+			SqliteJumpType.JumpRjTypeInsert(
+					typeServer + ":" + Util.BoolToInt(type.StartIn).ToString() + ":" + 
+					Util.BoolToInt(type.HasWeight).ToString() + ":" + 
+					Util.BoolToInt(type.JumpsLimited).ToString() + ":" + 
+					type.FixedValue.ToString() + ":" + 
+					type.Description,
+					false);
+			return typeServer;
+		}
+		return "-1";
+	}
+
+	[WebMethod(Description="Upload a run type (user defined)")]
+	public string UploadRunType(RunType type, int evalSID)
+	{
+		string typeServer = type.Name + "-" + evalSID.ToString();
+				
+		Console.WriteLine("RUN" + typeServer + ":" + type.Distance + ":" + type.Description);
+		if(! Sqlite.Exists(Constants.RunTypeTable, typeServer)) {
+			type.Name = typeServer;
+			SqliteRunType.Insert(type, Constants.RunTypeTable, false);
+			return typeServer;
+		}
+		return "-1";
+	}
+
+	[WebMethod(Description="Upload a run interval type (user defined)")]
+	public string UploadRunIntervalType(RunType type, int evalSID)
+	{
+		string typeServer = type.Name + "-" + evalSID.ToString();
+				
+		Console.WriteLine("RUN_I" + typeServer + ":" + type.Distance + ":" + type.Description);
+		if(! Sqlite.Exists(Constants.RunIntervalTypeTable, typeServer)) {
+			type.Name = typeServer;
+			SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, false);
+			return typeServer;
+		}
+		return "-1";
 	}
 
 	
@@ -193,30 +248,12 @@ public class ChronojumpServer {
 		
 		return id;
 	}
-	
-	[WebMethod(Description="Upload an array")]
-	public int UploadArray (ArrayList array)
-	{
-		//funciona
-		//foreach(int num in array)
-		//	Console.Write(num.ToString() + "\t");
-		/*
-		//funciona
-		foreach(string str in array)
-			Console.Write(str + "\t");
-			*/
-		//funciona
-		foreach(Event myEvent in array)
-			Console.WriteLine(myEvent.Prova() + "\t");
-		//no funciona
-		//foreach(Jump jump in array)
-		//	Console.WriteLine(jump.Prova() + "\t");
-		
-		return 1;
-	}
 
+
+/*
 	[WebMethod(Description="Upload a test")]
-	public int UploadTest (Event myTest, Constants.TestTypes type, string tableName)
+	//public int UploadTest (Event myTest, Constants.TestTypes type, string tableName)
+	public int UploadTest (Event myTest, int type, string tableName)
 	{
 		//store event uniqueID
 		int temp = myTest.UniqueID;
@@ -227,27 +264,27 @@ public class ChronojumpServer {
 		//insert
 		int id = 0;
 		switch (type) {
-			case Constants.TestTypes.JUMP :
+			case (int) Constants.TestTypes.JUMP :
 				Jump jump = (Jump)myTest;
 				id = jump.InsertAtDB(false, tableName);
 				break;
-			case Constants.TestTypes.JUMP_RJ :
+			case (int) Constants.TestTypes.JUMP_RJ :
 				JumpRj jumpRj = (JumpRj)myTest;
 				id = jumpRj.InsertAtDB(false, tableName);
 				break;
-			case Constants.TestTypes.RUN :
+			case (int) Constants.TestTypes.RUN :
 				Run run = (Run)myTest;
 				id = run.InsertAtDB(false, tableName);
 				break;
-			case Constants.TestTypes.RUN_I :
+			case (int) Constants.TestTypes.RUN_I :
 				RunInterval runI = (RunInterval)myTest;
 				id = runI.InsertAtDB(false, tableName);
 				break;
-			case Constants.TestTypes.RT :
+			case (int) Constants.TestTypes.RT :
 				ReactionTime rt = (ReactionTime)myTest;
 				id = rt.InsertAtDB(false, tableName);
 				break;
-			case Constants.TestTypes.PULSE :
+			case (int) Constants.TestTypes.PULSE :
 				Pulse pulse = (Pulse)myTest;
 				id = pulse.InsertAtDB(false, tableName);
 				break;
@@ -258,8 +295,8 @@ public class ChronojumpServer {
 
 		return id;
 	}
+	*/
 
-	/*
 	[WebMethod(Description="Upload a jump")]
 	public int UploadJump (Jump myTest)
 	{
@@ -277,194 +314,62 @@ public class ChronojumpServer {
 
 		return id; //uniqueID of person at server
 	}
-	*/
 
 	[WebMethod(Description="Upload a jumpRj")]
 	public int UploadJumpRj (JumpRj myTest)
 	{
-		/*
-		//store event uniqueID
 		int temp = myTest.UniqueID;
-
-		//change value for being inserted with new numeration in server
 		myTest.UniqueID = -1;
-
-		//insert
 		int id = myTest.InsertAtDB(false, Constants.JumpRjTable);
-		
-		//roll back person unique id value
 		myTest.UniqueID = temp;
-
 		return id; //uniqueID of person at server
-		*/
-		return 1;
 	}
 
 	[WebMethod(Description="Upload a run")]
 	public int UploadRun (Run myTest)
 	{
-		/*
-		//store event uniqueID
 		int temp = myTest.UniqueID;
-
-		//change value for being inserted with new numeration in server
 		myTest.UniqueID = -1;
-
-		//insert
 		int id = myTest.InsertAtDB(false, Constants.RunTable);
-		
-		//roll back person unique id value
 		myTest.UniqueID = temp;
-		
 		return id; //uniqueID of person at server
-		*/
-
-		return 1;
 	}
-	
 	
 	[WebMethod(Description="Upload a run interval")]
 	public int UploadRunI (RunInterval myTest)
 	{
-		/*
-		//store event uniqueID
 		int temp = myTest.UniqueID;
-
-		//change value for being inserted with new numeration in server
 		myTest.UniqueID = -1;
-
-		//insert
 		int id = myTest.InsertAtDB(false, Constants.RunIntervalTable);
-		
-		//roll back person unique id value
 		myTest.UniqueID = temp;
-
 		return id; //uniqueID of person at server
-		*/
-		return 1;
 	}
 	
-	/*
 	[WebMethod(Description="Upload a reaction time")]
 	public int UploadRT (ReactionTime myTest)
 	{
-		//store event uniqueID
 		int temp = myTest.UniqueID;
-
-		//change value for being inserted with new numeration in server
 		myTest.UniqueID = -1;
-
-		//insert
 		int id = myTest.InsertAtDB(false, Constants.ReactionTimeTable);
-		
-		//roll back person unique id value
 		myTest.UniqueID = temp;
-
 		return id; //uniqueID of person at server
 	}
 	
 	[WebMethod(Description="Upload a pulse")]
 	public int UploadPulse (Pulse myTest)
 	{
-		//store event uniqueID
 		int temp = myTest.UniqueID;
-
-		//change value for being inserted with new numeration in server
 		myTest.UniqueID = -1;
-
-		//insert
 		int id = myTest.InsertAtDB(false, Constants.PulseTable);
-		
-		//roll back person unique id value
 		myTest.UniqueID = temp;
-
 		return id; //uniqueID of person at server
 	}
-	*/	
 
-	[WebMethod(Description="hola")]
-	public int Hola(string text, int id) {
-		Console.WriteLine(text + " hola " + id.ToString());
-		return 1;
-	}
-	
-	/*	
-	[WebMethod(Description="hola2")]
-	public int Hola2(string text, Jump jump) {
-		Console.WriteLine(text + " hola2" + jump.UniqueID.ToString() + " " + jump.Description + "/" + jump.Tv.ToString() );
-		return 1;
-	}
-	*/
-
-/*	
-	[WebMethod(Description="hola3")]
-	public int Hola3(string text, Event jumpi) {
-		Jump jump2 = (Jump)jumpi;
-		Console.WriteLine(text + " hola3" + jump2.UniqueID.ToString() + " " + jump2.Description + "/" + jump2.Tv.ToString() );
-		return 1;
-	}
-	*/
-
-	[WebMethod(Description="hola5")]
-	public int Hola5(string text, Event myTest, Constants.TestTypes type) {
-		switch (type) {
-			case Constants.TestTypes.JUMP :
-				Jump jump = (Jump)myTest;
-				Console.WriteLine(text + " hola5 jump" + jump.UniqueID.ToString() + " " + jump.Description + "/" + jump.Tv.ToString() );
-				break;
-			case Constants.TestTypes.JUMP_RJ :
-				JumpRj jumpRj = (JumpRj)myTest;
-				Console.WriteLine(text + " hola5 jumpRj" + jumpRj.UniqueID.ToString() + " " + jumpRj.Description + "/" + jumpRj.TvString );
-				break;
-			case Constants.TestTypes.RUN :
-				Run run = (Run)myTest;
-				Console.WriteLine(text + " hola5 run" + run.UniqueID.ToString() + " " + run.Description + "/" + run.Time.ToString() );
-				break;
-			case Constants.TestTypes.RUN_I :
-				RunInterval runI = (RunInterval)myTest;
-				Console.WriteLine(text + " hola5 runI" + runI.UniqueID.ToString() + " " + runI.Description + "/" + runI.TimeTotal.ToString() );
-				break;
-				/*
-			case Constants.TestTypes.RT :
-				ReactionTime rt = (ReactionTime)myTest;
-				id = rt.InsertAtDB(false, tableName);
-				break;
-			case Constants.TestTypes.PULSE :
-				Pulse pulse = (Pulse)myTest;
-				id = pulse.InsertAtDB(false, tableName);
-				break;
-				*/
-		}
-
-		return 1;
-	}
-	
-	
 	
 	[WebMethod(Description="List directory files (only as a sample)")]
 	public string [] ListDirectory(string path) {
 		return Directory.GetFileSystemEntries(path);
 	}
 
-	/*
-	[WebMethod(Description="Select person name")]
-	public string SelectPersonName(int personID)
-	{
-		return SqlitePerson.SelectJumperName(personID);	
-	}
-	*/	
-
-	/*
-	[WebMethod(Description="See all persons")]
-	public ArrayList SelectAllPersons()
-	{
-		return SqlitePerson.SelectAllPersons();	
-	}
-
-	[WebMethod(Description="Select events from all persons")]
-	public ArrayList SelectAllPersonEvents(int personID) {
-		return SqlitePerson.SelectAllPersonEvents(personID);	
-	}
-	*/
 	
 }

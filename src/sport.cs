@@ -24,7 +24,7 @@ using System.Text; //StringBuilder
 
 using Mono.Unix;
 
-public class Sport
+public partial class Sport
 {
 	private int uniqueID;
 	private string name;
@@ -70,6 +70,9 @@ public class Sport
 		return myString + Catalog.GetString(name);
 	}
 
+	/*
+	 * defined on webservice
+	 */
 	public int UniqueID {
 		get { return uniqueID; } 
 		set { uniqueID = value; } 

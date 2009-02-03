@@ -24,7 +24,7 @@ using System.Text; //StringBuilder
 
 using Mono.Unix;
 
-public class ServerPing
+public partial class ServerPing
 {
 	private int uniqueID;
 	private int evaluatorID;
@@ -57,6 +57,10 @@ public class ServerPing
 			"\nIP: " + ip + "\nDate: " + date;
 	}
 	
+	/*
+	 * defined on webservice
+	 *
+	 */
 	public int UniqueID {
 		get { return uniqueID; }
 		set { uniqueID = value; }

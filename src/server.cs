@@ -138,9 +138,11 @@ public class Server
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
 		
+			int state = (int) Constants.ServerSessionStates.UPLOADINGSESSION;
 			//create ServerSession based on Session currentSession
 			ServerSession serverSession = new ServerSession(currentSession, evalSID, progName + " " + progVersion, 
-					Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), Constants.ServerSessionStates.UPLOADINGSESSION); 
+					//Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), Constants.ServerSessionStates.UPLOADINGSESSION); 
+					Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), state); 
 
 			//if uploading session for first time
 			if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
@@ -153,10 +155,14 @@ public class Server
 				SqliteSession.UpdateServerUniqueID(currentSession.UniqueID, currentSession.ServerUniqueID);
 			}
 
-			myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.UPLOADINGDATA); 
+			state = (int) Constants.ServerSessionStates.UPLOADINGDATA;
+			//myServer.UpdateSession(currentSession.ServerUniqueID, (ServerSessionStates) Constants.ServerSessionStates.UPLOADINGDATA); 
+			myServer.UpdateSession(currentSession.ServerUniqueID, state); 
 
 			sessionUploadPersonData.testTypes = "";
 			string testTypesSeparator = "";
+			sessionUploadPersonData.sports = "";
+			string sportsSeparator = "";
 
 			//upload persons (updating also person.serverUniqueID locally)
 			string [] myPersons = SqlitePersonSession.SelectCurrentSession(serverSession.UniqueID, true, false); //onlyIDAndName, not reversed
@@ -172,8 +178,14 @@ public class Server
 					//if sport is user defined, upload it
 					//and when upload the person, do it with new sportID
 					Sport sport = SqliteSport.Select(person.SportID);
-					if(sport.UserDefined) 
-						person.SportID = myServer.UploadSport(sport);
+					if(sport.UserDefined) {
+						int newSport = myServer.UploadSport(sport);
+						if(newSport != -1) {
+							person.SportID = newSport;
+							sessionUploadPersonData.sports += sportsSeparator + sport.Name;
+							sportsSeparator = ", ";
+						}
+					}
 
 					person = serverUploadPerson(myServer, person, serverSession.UniqueID);
 				}
@@ -220,15 +232,21 @@ public class Server
 							//2- when the same evaluator upload some supra's, only a new type is created
 					
 							//test.Type = myServer.UploadJumpType(type, evalSID);
-							string insertedType = myServer.UploadTestType(Constants.TestTypes.JUMP, type, evalSID);
+							//int testType = (int) Constants.TestTypes.JUMP;
+							//string insertedType = myServer.UploadTestType(Constants.TestTypes.JUMP, type, evalSID);
+							//string insertedType = myServer.UploadTestType(testType, type, evalSID);
+							string insertedType = myServer.UploadJumpType(type, evalSID);
 							if(insertedType != "-1") {
+								//record type in test (with the "-7" if it's done by evaluator 7)
 								test.Type = insertedType;
-								sessionUploadPersonData.testTypes += testTypesSeparator + insertedType;
+
+								//show user uploaded type (without the "-7")
+								sessionUploadPersonData.testTypes += testTypesSeparator + type.Name;
 								testTypesSeparator = ", ";
 							}
 					
 							//test.Type in the server will have the correct name "supra-9" 
-						}
+						} 
 					}
 
 					//upload... (if not because of simulated or uploaded before, report also the user)
@@ -264,13 +282,13 @@ public class Server
 					if(test.Simulated == 0) {
 						JumpType type = SqliteJumpType.SelectAndReturnJumpRjType(test.Type);
 						if( ! type.IsPredefined) {
-							string insertedType = myServer.UploadTestType(Constants.TestTypes.JUMP_RJ, type, evalSID);
+							string insertedType = myServer.UploadJumpRjType(type, evalSID);
 							if(insertedType != "-1") {
 								test.Type = insertedType;
-								sessionUploadPersonData.testTypes += testTypesSeparator + insertedType;
+								sessionUploadPersonData.testTypes += testTypesSeparator + type.Name;
 								testTypesSeparator = ", ";
 							}
-						}
+						} 
 					}
 					
 					//upload...
@@ -302,6 +320,19 @@ public class Server
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
+
+					if(test.Simulated == 0) {
+						RunType type = SqliteRunType.SelectAndReturnRunType(test.Type);
+						if( ! type.IsPredefined) {
+							string insertedType = myServer.UploadRunType(type, evalSID);
+							if(insertedType != "-1") {
+								test.Type = insertedType;
+								sessionUploadPersonData.testTypes += testTypesSeparator + type.Name;
+								testTypesSeparator = ", ";
+							}
+						}
+					}
+
 					//upload...
 					uCode = serverUploadTest(myServer, Constants.TestTypes.RUN, Constants.RunTable, test);
 
@@ -331,6 +362,18 @@ public class Server
 					//fix it to server person, session keys
 					test.PersonID = person.ServerUniqueID;
 					test.SessionID = currentSession.ServerUniqueID;
+					
+					if(test.Simulated == 0) {
+						RunType type = SqliteRunIntervalType.SelectAndReturnRunIntervalType(test.Type);
+						if( ! type.IsPredefined) {
+							string insertedType = myServer.UploadRunIntervalType(type, evalSID);
+							if(insertedType != "-1") {
+								test.Type = insertedType;
+								sessionUploadPersonData.testTypes += testTypesSeparator + type.Name;
+								testTypesSeparator = ", ";
+							}
+						} 
+					}
 					//upload...
 					uCode = serverUploadTest(myServer, Constants.TestTypes.RUN_I, Constants.RunIntervalTable, test);
 
@@ -412,7 +455,9 @@ public class Server
 
 			}
 								
-			myServer.UpdateSession(currentSession.ServerUniqueID, Constants.ServerSessionStates.DONE); 
+			state = (int) Constants.ServerSessionStates.DONE;
+			//myServer.UpdateSession(currentSession.ServerUniqueID, (ServerSessionStates)  Constants.ServerSessionStates.DONE); 
+			myServer.UpdateSession(currentSession.ServerUniqueID, state); 
 
 			Log.WriteLine(myServer.DisConnectDatabase());
 			/*
@@ -453,7 +498,37 @@ public class Server
 			uCode = Constants.UploadCodes.EXISTS;
 		} else {
 			int idAtServer = -1;
-			idAtServer = myServer.UploadTest((Event) myTest, type, tableName);
+			//idAtServer = myServer.UploadTest((Event) myTest, (TestTypes) type, tableName);
+			//int testType = (int) type;
+			//idAtServer = myServer.UploadTest((Event) myTest, testType, tableName);
+
+			switch (type) {
+				case Constants.TestTypes.JUMP :
+					Jump jump = (Jump)myTest;
+					idAtServer = myServer.UploadJump(jump);
+					break;
+				case Constants.TestTypes.JUMP_RJ :
+					JumpRj jumpRj = (JumpRj)myTest;
+					idAtServer = myServer.UploadJumpRj(jumpRj);
+					break;
+				case Constants.TestTypes.RUN :
+					Run run = (Run)myTest;
+					idAtServer = myServer.UploadRun(run);
+					break;
+				case Constants.TestTypes.RUN_I :
+					RunInterval runI = (RunInterval)myTest;
+					idAtServer = myServer.UploadRunI(runI);
+					break;
+				case Constants.TestTypes.RT :
+					ReactionTime rt = (ReactionTime)myTest;
+					idAtServer = myServer.UploadRT(rt);
+					break;
+				case Constants.TestTypes.PULSE :
+					Pulse pulse = (Pulse)myTest;
+					idAtServer = myServer.UploadPulse(pulse);
+					break;
+			}
+
 			
 			//update test (simulated) on client database
 			myTest.Simulated = idAtServer;

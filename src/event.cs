@@ -22,8 +22,7 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 
-
-public class Event 
+public partial class Event 
 {
 	protected int personID;
 	protected string personName;
@@ -49,10 +48,10 @@ public class Event
 		return -1;
 	}	
 	
-	public virtual string Prova () {
-		return "estic a event";
-	}
-
+	/*
+	 * defined on webservice
+	 *
+	 */
 	public string Type
 	{
 		get { return type; }
@@ -83,15 +82,15 @@ public class Event
 		set { personID = value; }
 	}
 	
+	public int Simulated {
+		get { return simulated; }
+		set { simulated = value; }
+	}
+	
 	public string PersonName
 	{
 		//get { return personName; }
 		get { return SqlitePerson.SelectJumperName(personID); }
-	}
-	
-	public int Simulated {
-		get { return simulated; }
-		set { simulated = value; }
 	}
 	
 	

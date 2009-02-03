@@ -70,21 +70,6 @@ public class Jump : Event
 		this.simulated = Convert.ToInt32(eventString[10]);
 	}
 
-	public override string Prova () {
-		return "estic a jump";
-	}
-	
-	public string Prova2 () {
-		return "estic a jump2";
-	}
-
-	//funciona	
-	public override void HolaServer (ChronojumpServer myServer) {
-		myServer.Hola("from jump1", uniqueID);
-		//myServer.Hola3("from jump3", (Event)this);
-		myServer.Hola5("from jump 5", (Event)this, Constants.TestTypes.JUMP);
-	}
-
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteJump.Insert(dbconOpened, tableName, 
@@ -198,12 +183,6 @@ public class JumpRj : Jump
 		this.simulated = Convert.ToInt32(eventString[17]);
 	}
 	
-
-	public override void HolaServer (ChronojumpServer myServer) {
-		myServer.Hola("from jumpRj1", uniqueID);
-		myServer.Hola5("from jumpRj 5", (Event)this, Constants.TestTypes.JUMP_RJ);
-	}
-
 
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {

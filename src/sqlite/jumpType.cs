@@ -319,6 +319,8 @@ class SqliteJumpType : Sqlite
 			myJumpType.Description = reader[4].ToString();
 		}
 
+		myJumpType.IsPredefined = myJumpType.FindIfIsPredefined();
+
 		reader.Close();
 		dbcon.Close();
 
@@ -357,6 +359,8 @@ class SqliteJumpType : Sqlite
 			
 			myJumpType.FixedValue = Convert.ToInt32( reader[5].ToString() );
 		}
+		
+		myJumpType.IsPredefined = myJumpType.FindIfIsPredefined();
 
 		reader.Close();
 		dbcon.Close();

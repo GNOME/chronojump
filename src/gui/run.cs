@@ -904,6 +904,13 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		foreach (string myType in myTypes) {
 			string [] myStringFull = myType.Split(new char[] {':'});
 			
+			string distance = myStringFull[2];
+			if(distance == "0") 
+				distance = Catalog.GetString("Not defined");
+			else if(distance == "-1") 
+				distance = myStringFull[7]; //distancesString
+
+			
 			//limited
 			string myLimiter = "";
 			string myLimiterValue = "";
@@ -929,7 +936,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 			store.AppendValues (
 					//myStringFull[0], //don't display de uniqueID
 					myStringFull[1],	//name 
-					myStringFull[2],	//distance
+					distance,		
 					myLimiter,		//tracks or seconds or "unlimited"
 					myLimiterValue,		//? or exact value (or '-' in unlimited)
 					description
@@ -951,7 +958,20 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selectedEventName = (string) model.GetValue (iter, 0);
-			selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
+
+			//selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
+			/*
+			 * manage distances from testtypes that have different distance for each track
+			 * they are expressed as: (eg for MTGUG: "1-7-19")
+			 * if a '-' exists then distances are variable, else, distance is defined
+			 */
+			string distance = (string) model.GetValue (iter, 1);
+			if(distance == Catalog.GetString("Not defined"))
+				selectedDistance = 0;
+			else if(distance.Contains("-"))
+				selectedDistance = -1;
+			else 
+				selectedDistance = Convert.ToDouble(distance);
 
 			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Unlimited") ) {
 				selectedUnlimited = true;

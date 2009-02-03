@@ -118,6 +118,36 @@ class SqliteRunType : Sqlite
 		return myLast;
 	}
 	
+	public static RunType SelectAndReturnRunType(string typeName) 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * " +
+			" FROM " + Constants.RunTypeTable +
+			" WHERE name  = '" + typeName +
+			"' ORDER BY uniqueID";
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		RunType myRunType = new RunType();
+		
+		while(reader.Read()) {
+			myRunType.Name = reader[1].ToString();
+			myRunType.Distance = Convert.ToDouble( reader[2].ToString() );
+			myRunType.Description = reader[3].ToString();
+		}
+		
+		myRunType.IsPredefined = myRunType.FindIfIsPredefined();
+
+		reader.Close();
+		dbcon.Close();
+
+		return myRunType;
+	}
+
 	public static string[] SelectRunTypes(string allRunsName, bool onlyName) 
 	{
 		//allRunsName: add and "allRunsName" value
@@ -394,6 +424,8 @@ class SqliteRunIntervalType : SqliteRunType
 			myRunType.Description = reader[6].ToString();
 			myRunType.DistancesString = reader[7].ToString();
 		}
+
+		myRunType.IsPredefined = myRunType.FindIfIsPredefined();
 
 		reader.Close();
 		dbcon.Close();

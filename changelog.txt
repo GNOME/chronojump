@@ -1,7 +1,8 @@
 TODO (sorted)
 
 1.- upload SEvaluator and edit it and re-upload
-2.- on stats show data updated by user
+2.- on stats show data updated by user on a window with columns:
+"in server", "uploaded by you"
 3.- write a version compatibility thing for each server method, and if not
 compatible, tell user to update it's chronojump version
 
@@ -20,9 +21,23 @@ develop web stats and survey on web site
 all this will be release as 0.8.2 or 0.9
 
 distancesString:
--eventExecute speed
 -stats (graphs)
 
+4 feb 2009
+	0.8.1.8
+	distancesString:
+	-working on eventExecute speed on runInterval variable distance
+	allowing to select a runInterval distance variable test
+	-fixed runIntervalMore distancesString selection
+	-fixed on gui/chronojump.cs get the image from runIntervalMore
+	-done treviewRunInterval speed avg ok
+	-fixed runInterval execute speedNow when finish is clicked
+	-eventExecuteWin works ok with distancesString except, 
+	TODO: top margin when showing speed
+	
+	-fixed crash bug on recuperate jumpRj or runI (on a crash) that cannot
+	recuperate because connection is open
+	-fixed MTGUG from button doesn't ask now for speed
 
 3 feb 2009 (2)
 	small code cleaning

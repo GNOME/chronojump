@@ -77,14 +77,18 @@ public class PrepareEventGraphRunInterval {
 	public double distance;
 	public double lastTime;
 	public string timesString;
+	public double distanceTotal; //we pass this because it's dificult to calculate in runs with variable distances
+	public string distancesString; //we pass this because it's dificult to calculate in runs with variable distances
 
 	public PrepareEventGraphRunInterval() {
 	}
 
-	public PrepareEventGraphRunInterval(double distance, double lastTime, string timesString) {
+	public PrepareEventGraphRunInterval(double distance, double lastTime, string timesString, double distanceTotal, string distancesString) {
 		this.distance = distance;
 		this.lastTime = lastTime;
 		this.timesString = timesString;
+		this.distanceTotal = distanceTotal;
+		this.distancesString = distancesString;
 	}
 
 	~PrepareEventGraphRunInterval() {}

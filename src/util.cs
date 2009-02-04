@@ -951,4 +951,55 @@ public class Util
 	}
 
 
+	/* 
+	 * when distances are variable on run interval 
+	 */
+	//thought for values starting by 0
+	public static double GetRunIVariableDistancesStringRow(string distancesString, int row) {
+		string [] str = distancesString.Split(new char[] {'-'});
+		row = row % str.Length;
+		return Convert.ToDouble(str[row]);
+	}
+	
+	public static double GetRunIVariableDistancesDistanceDone(string distancesString, int tracks) {
+		double distanceTotal = 0;
+		for(int i=0; i < tracks; i++) 
+			distanceTotal += GetRunIVariableDistancesStringRow(distancesString, i);
+		return distanceTotal;
+	}
+
+	//decides if it's variable or not
+	public static double GetRunITotalDistance(double distanceInterval, string distancesString, double tracks) {
+		if(distanceInterval == -1) 
+			return GetRunIVariableDistancesDistanceDone(distancesString, (int) tracks);
+		else
+			return tracks * distanceInterval;
+	}
+
+	public static double GetRunIVariableDistancesSpeeds(string distancesString, string timesString, bool max) {
+		double  searchedValue = -1; //to find max values (higher than this)
+		if(! max)
+			searchedValue = 1000; //to find min values (lower than this)
+
+		string [] times = timesString.Split(new char[] {'='});
+		string [] distances = distancesString.Split(new char[] {'-'});
+		for(int i=0; i < times.Length; i++) {
+			double time = Convert.ToDouble(times[i]);
+		
+			int distPos = i % times.Length;
+			double distance = Convert.ToDouble(distances[distPos]);
+
+			double speed = DivideSafe(distance, time);
+			if(max) {
+				if(speed > searchedValue)
+					searchedValue = speed;
+			} else {
+				if(speed < searchedValue)
+					searchedValue = speed;
+			}
+		}
+		return searchedValue;
+	}
+
+
 }

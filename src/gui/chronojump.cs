@@ -3058,6 +3058,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	{
 		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
 		
+		Console.WriteLine(runsIntervalMoreWin.SelectedEventName);
+		Console.WriteLine(runsIntervalMoreWin.SelectedDistance.ToString());
+		Console.WriteLine(runsIntervalMoreWin.SelectedDistancesString);
 		currentRunType = new RunType(
 				runsIntervalMoreWin.SelectedEventName,	//name
 				true,					//hasIntervals
@@ -3066,8 +3069,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				runsIntervalMoreWin.SelectedLimitedValue,
 				runsIntervalMoreWin.SelectedUnlimited,
 				runsIntervalMoreWin.SelectedDescription,
-				"", // distancesstring (deactivated now, TODO: activate)
-				SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, runsMoreWin.SelectedEventName)
+				runsIntervalMoreWin.SelectedDistancesString,
+				SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, runsIntervalMoreWin.SelectedEventName)
 				);
 
 		bool unlimited = false;
@@ -3116,9 +3119,14 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentRunType = new RunType("MTGUG");
 		}
 		
+		if( currentRunType.Distance == 0 || 
+				(currentRunType.FixedValue == 0 && ! currentRunType.Unlimited) ) {
+			runExtraWin = RunExtraWindow.Show(app1, currentRunType);
+			runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
+		} else {
+			on_run_interval_accepted(o, args);
+		}
 			
-		runExtraWin = RunExtraWindow.Show(app1, currentRunType);
-		runExtraWin.Button_accept.Clicked += new EventHandler(on_run_interval_accepted);
 	}
 	
 	private void on_run_interval_accepted (object o, EventArgs args)
@@ -3515,10 +3523,23 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 						eventExecuteWin.PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
 					break;
 				case EventType.Types.RUN:
-					if(currentRunType.HasIntervals) 
-						eventExecuteWin.PrepareRunIntervalGraph(currentRunInterval.DistanceInterval, 
-								Util.GetLast(currentRunInterval.IntervalTimesString), currentRunInterval.IntervalTimesString, volumeOn, repetitiveConditionsWin);
-					else
+					if(currentRunType.HasIntervals) {
+							RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type);
+							double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
+									runType.DistancesString, currentRunInterval.Tracks);
+
+							double distanceInterval = currentRunInterval.DistanceInterval;
+							if(distanceInterval == -1) //variable distances
+								distanceInterval = Util.GetRunIVariableDistancesStringRow(
+										runType.DistancesString, (int) currentRunInterval.Tracks -1);
+
+							eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, 
+								Util.GetLast(currentRunInterval.IntervalTimesString), 
+								currentRunInterval.IntervalTimesString, 
+								distanceTotal,
+								runType.DistancesString,
+								volumeOn, repetitiveConditionsWin);
+					} else
 						eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
 					break;
 				case EventType.Types.PULSE:

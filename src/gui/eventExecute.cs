@@ -754,7 +754,8 @@ public class EventExecuteWindow
 	}
 	
 	// run interval
-	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString,
+	// distanceTotal is passed because it can change in variable distances test
+	public void PrepareRunIntervalGraph(double distance, double lastTime, string timesString, double distanceTotal, string distancesString,
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin) {
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -774,8 +775,12 @@ public class EventExecuteWindow
 		if(eventGraphConfigureWin.Max == -1) {
 			if(paintTime)
 				maxValue = Util.GetMax(timesString);
-			else
-				maxValue = distance / Util.GetMin(timesString); //getMin because is on the "denominador"
+			else {
+				if(distancesString == "")
+					maxValue = distance / Util.GetMin(timesString); //getMin because is on the "denominador"
+				else
+					maxValue = Util.GetRunIVariableDistancesSpeeds(distancesString, timesString, true);
+			}
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;
@@ -785,12 +790,16 @@ public class EventExecuteWindow
 		double minValue = 1000;
 		int bottomMargin = 10; 
 		//if min value of graph is automatic
-		if(eventGraphConfigureWin.Min == -1) 
+		if(eventGraphConfigureWin.Min == -1) { 
 			if(paintTime)
 				minValue = Util.GetMin(timesString);
-			else
-				minValue = distance / Util.GetMax(timesString); //getMax because is in the "denominador"
-		else {
+			else {
+				if(distancesString == "")
+					minValue = distance / Util.GetMax(timesString); //getMax because is in the "denominador"
+				else
+					minValue = Util.GetRunIVariableDistancesSpeeds(distancesString, timesString, false);
+			}
+		} else {
 			minValue = eventGraphConfigureWin.Min;
 			bottomMargin = 10; 
 		}		
@@ -798,7 +807,9 @@ public class EventExecuteWindow
 		int tracks = Util.GetNumberOfJumps(timesString, true); 
 
 		//paint graph
-		paintRunInterval (drawingarea, paintTime, distance, lastTime, timesString, Util.GetAverage(timesString), maxValue, minValue, tracks, topMargin, bottomMargin,
+		paintRunInterval (drawingarea, paintTime, distance, distanceTotal, distancesString,
+				lastTime, timesString, Util.GetAverage(timesString), 
+				maxValue, minValue, tracks, topMargin, bottomMargin,
 				Util.GetPosMax(timesString), Util.GetPosMin(timesString),
 				volumeOn, repetitiveConditionsWin);
 		
@@ -1204,7 +1215,7 @@ public class EventExecuteWindow
 		graphProgress = phasesGraph.DONE; 
 	}
 
-	private void paintRunInterval (Gtk.DrawingArea drawingarea, bool paintTime, double distance, double lastTime, 
+	private void paintRunInterval (Gtk.DrawingArea drawingarea, bool paintTime, double distance, double distanceTotal, string distancesString, double lastTime, 
 			string timesString, double avgTime, double maxValue, double minValue, int tracks, int topMargin, int bottomMargin, 
 			int hightValuePosition, int lowValuePosition,
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
@@ -1257,7 +1268,12 @@ public class EventExecuteWindow
 				} else {
 					//blue speed evolution	
 					myPen = pen_azul;
-					myValue = distance / myTimeDouble;
+
+					//if distances are variable
+					if(distancesString == "") 
+						myValue = distance / myTimeDouble;
+					else
+						myValue = Util.GetRunIVariableDistancesStringRow(distancesString, count) / myTimeDouble;
 				}
 
 				if (count > 0) {
@@ -1311,7 +1327,7 @@ public class EventExecuteWindow
 		label_run_interval_time_now.Text = Util.TrimDecimals(lastTime.ToString(), pDN);
 		label_run_interval_time_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
 		label_run_interval_speed_now.Text = Util.TrimDecimals((distance / lastTime).ToString(), pDN);
-		label_run_interval_speed_avg.Text = Util.TrimDecimals((distance / avgTime).ToString(), pDN);
+		label_run_interval_speed_avg.Text = Util.TrimDecimals((distanceTotal / Util.GetTotalTime(timesString)).ToString(), pDN);
 		
 		graphProgress = phasesGraph.DONE; 
 	}

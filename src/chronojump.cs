@@ -426,7 +426,9 @@ public class ChronoJump
 		if(existsTempData > 0)
 		{
 			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData);
-			myJumpRj.InsertAtDB (false, Constants.JumpRjTable);
+			try {
+				myJumpRj.InsertAtDB (true, Constants.JumpRjTable);
+			} catch {} //pitty, cannot insert
 
 			Sqlite.DeleteTempEvents(tableName);
 			returnString = "Recuperated last Reactive Jump";
@@ -437,7 +439,9 @@ public class ChronoJump
 		if(existsTempData > 0)
 		{
 			RunInterval myRun = SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData);
-			myRun.InsertAtDB (false, Constants.RunIntervalTable);
+			try {
+				myRun.InsertAtDB (true, Constants.RunIntervalTable);
+			} catch {} //pitty, cannot insert
 
 			Sqlite.DeleteTempEvents(tableName);
 			returnString = "Recuperated last Intervallic Run";

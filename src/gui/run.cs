@@ -857,6 +857,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	private bool selectedTracksLimited;
 	private int selectedLimitedValue;
 	private bool selectedUnlimited;
+	private string selectedDistancesString;
 	
 	RunsIntervalMoreWindow (Gtk.Window parent) {
 		//the glade window is the same as jumps_more
@@ -955,6 +956,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		selectedLimitedValue = 0;
 		selectedUnlimited = false; //true if it's an unlimited run
 		selectedDescription = "";
+		selectedDistancesString = "";
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selectedEventName = (string) model.GetValue (iter, 0);
@@ -966,12 +968,14 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 			 * if a '-' exists then distances are variable, else, distance is defined
 			 */
 			string distance = (string) model.GetValue (iter, 1);
-			if(distance == Catalog.GetString("Not defined"))
+			if(distance == Catalog.GetString("Not defined")) 
 				selectedDistance = 0;
-			else if(distance.Contains("-"))
+			else if(distance.Contains("-")) {
 				selectedDistance = -1;
-			else 
+				selectedDistancesString = distance;
+			} else 
 				selectedDistance = Convert.ToDouble(distance);
+
 
 			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Unlimited") ) {
 				selectedUnlimited = true;
@@ -1003,7 +1007,18 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			selectedEventName = (string) model.GetValue (iter, 0);
-			selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
+			
+			//selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
+			
+			string distance = (string) model.GetValue (iter, 1);
+			if(distance == Catalog.GetString("Not defined")) 
+				selectedDistance = 0;
+			else if(distance.Contains("-")) {
+				selectedDistance = -1;
+				selectedDistancesString = distance;
+			} else 
+				selectedDistance = Convert.ToDouble(distance);
+
 
 			if( (string) model.GetValue (iter, 2) == Catalog.GetString("Unlimited") ) {
 				selectedUnlimited = true;
@@ -1051,23 +1066,23 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		RunsIntervalMoreWindowBox = null;
 	}
 	
-	public double SelectedDistance 
-	{
+	public double SelectedDistance {
 		get { return selectedDistance; }
 	}
 	
-	public bool SelectedTracksLimited 
-	{
+	public string SelectedDistancesString {
+		get { return selectedDistancesString; }
+	}
+	
+	public bool SelectedTracksLimited {
 		get { return selectedTracksLimited; }
 	}
 	
-	public int SelectedLimitedValue 
-	{ 
+	public int SelectedLimitedValue { 
 		get { return selectedLimitedValue; }
 	}
 	
-	public bool SelectedUnlimited 
-	{
+	public bool SelectedUnlimited {
 		get { return selectedUnlimited; }
 	}
 }

@@ -330,7 +330,11 @@ public class RunIntervalExecute : RunExecute
 	string limited; //the teorically values, eleven runs: "11=R" (time recorded in "time"), 10 seconds: "10=T" (tracks recorded in tracks)
 	double limitAsDouble;	//-1 for non limited (unlimited repetitive run until "finish" is clicked)
 	bool tracksLimited;
-	
+
+
+	string distancesString; //if distances are variable (distanceInterval == -1), this is used
+	double distanceIntervalFixed; //if distanceInterval i -1, then Fixed is the corresponding base on distancesString
+
 	//private Chronopic cp;
 
 	public RunIntervalExecute() {
@@ -348,6 +352,13 @@ public class RunIntervalExecute : RunExecute
 		this.distanceInterval = distanceInterval;
 		this.limitAsDouble = limitAsDouble;
 		this.tracksLimited = tracksLimited;
+
+		//if distances are variable
+		distancesString = "";
+		if(distanceInterval == -1) {
+			RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(type);
+			distancesString = runType.DistancesString;
+		}
 
 		if(tracksLimited) {
 			this.limited = limitAsDouble.ToString() + "R"; //'R'uns (don't put 'T'racks for not confusing with 'T'ime)
@@ -399,6 +410,8 @@ public class RunIntervalExecute : RunExecute
 		int countForSavingTempTable = 0;
 	
 		double lastTc = 0;
+					
+		distanceIntervalFixed = distanceInterval;
 		
 		do {
 
@@ -409,6 +422,9 @@ public class RunIntervalExecute : RunExecute
 		
 	
 			if (ok && !cancel && !finish) {
+				if(distanceInterval == -1)
+					distanceIntervalFixed = Util.GetRunIVariableDistancesStringRow(distancesString, (int) tracks);
+
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -444,8 +460,12 @@ public class RunIntervalExecute : RunExecute
 									);  
 							needUpdateEventProgressBar = true;
 							
+							distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
+
 							//update graph
-							prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
+							prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(
+									distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
+
 							needUpdateGraphType = eventType.RUNINTERVAL;
 							needUpdateGraph = true;
 							
@@ -493,8 +513,12 @@ public class RunIntervalExecute : RunExecute
 										);  
 								needUpdateEventProgressBar = true;
 							
+								distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
+							
 								//update graph
-								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
+								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(
+										distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
+
 								needUpdateGraphType = eventType.RUNINTERVAL;
 								needUpdateGraph = true;
 
@@ -542,9 +566,13 @@ public class RunIntervalExecute : RunExecute
 										tracks
 										);  
 								needUpdateEventProgressBar = true;
+								
+								distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
 							
 								//update graph
-								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, myRaceTime, intervalTimesString);
+								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(
+										distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
+
 								needUpdateGraphType = eventType.RUNINTERVAL;
 								needUpdateGraph = true;
 
@@ -663,7 +691,6 @@ public class RunIntervalExecute : RunExecute
 		timerCount =  Util.GetTotalTime(timesString);
 	}
 				
-
 	protected void writeRunInterval(bool tempTable)
 	{
 		int tracks = 0;
@@ -715,12 +742,11 @@ public class RunIntervalExecute : RunExecute
 			}
 		}
 
-		distanceTotal = tracks * distanceInterval;
+		distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
 		timeTotal = Util.GetTotalTime(intervalTimesString); 
 		
 	
 		if(tempTable)
-			{
 			SqliteRunInterval.Insert(false, Constants.TempRunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
 					distanceInterval, intervalTimesString, tracks, 
@@ -728,8 +754,6 @@ public class RunIntervalExecute : RunExecute
 					limitString,
 					Util.BoolToNegativeInt(simulated) 
 					);
-			}
-
 		else {
 			uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
@@ -745,9 +769,9 @@ public class RunIntervalExecute : RunExecute
 
 			string tempValuesString = "";
 			if(tracksLimited) 
-				tempValuesString = " (" + distanceInterval + "x" + tracks + "R), " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( timeTotal.ToString(), pDN);
+				tempValuesString = " (" + distanceIntervalFixed + "x" + tracks + "R), " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( timeTotal.ToString(), pDN);
 			else
-				tempValuesString = " (" + distanceInterval + "x" + Util.TrimDecimals( timeTotal.ToString(), pDN) + "T), " + Catalog.GetString("Tracks") + ": " + tracks;
+				tempValuesString = " (" + distanceIntervalFixed + "x" + Util.TrimDecimals( timeTotal.ToString(), pDN) + "T), " + Catalog.GetString("Tracks") + ": " + tracks;
 
 			string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + ", " + 
 				type + tempValuesString + ", " +
@@ -761,8 +785,8 @@ public class RunIntervalExecute : RunExecute
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
 
-			//eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
-			prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(distanceInterval, Util.GetLast(intervalTimesString), intervalTimesString);
+			prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(
+					distanceIntervalFixed, Util.GetLast(intervalTimesString), intervalTimesString, distanceTotal, distancesString);
 			needUpdateGraphType = eventType.RUNINTERVAL;
 			needUpdateGraph = true;
 

@@ -358,6 +358,8 @@ public class EventExecute
 						prepareEventGraphRunInterval.distance, 
 						prepareEventGraphRunInterval.lastTime,
 						prepareEventGraphRunInterval.timesString,
+						prepareEventGraphRunInterval.distanceTotal,
+						prepareEventGraphRunInterval.distancesString,
 						volumeOn, repetitiveConditionsWin);
 				break;
 			case eventType.PULSE:

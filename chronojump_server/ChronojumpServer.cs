@@ -14,7 +14,7 @@
 /// <remarks>
 ///ChronojumpServer
 ///</remarks>
-[System.Web.Services.WebServiceBinding(Name="ChronojumpServerSoap", Namespace="http://localhost:8080/")]
+[System.Web.Services.WebServiceBinding(Name="ChronojumpServerSoap", Namespace="http://server.chronojump.org/")]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(Session))]
@@ -25,6 +25,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     private System.Threading.SendOrPostCallback ConnectDatabaseOperationCompleted;
     
     private System.Threading.SendOrPostCallback DisConnectDatabaseOperationCompleted;
+    
+    private System.Threading.SendOrPostCallback CanIOperationCompleted;
     
     private System.Threading.SendOrPostCallback StatsOperationCompleted;
     
@@ -65,12 +67,14 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     private System.Threading.SendOrPostCallback ListDirectoryOperationCompleted;
     
     public ChronojumpServer() {
-        this.Url = "http://localhost:8080/chronojumpServer.asmx";
+        this.Url = "http://server.chronojump.org:8080/chronojumpServer.asmx";
     }
     
     private event ConnectDatabaseCompletedEventHandler ConnectDatabaseCompleted;
     
     private event DisConnectDatabaseCompletedEventHandler DisConnectDatabaseCompleted;
+    
+    private event CanICompletedEventHandler CanICompleted;
     
     private event StatsCompletedEventHandler StatsCompleted;
     
@@ -113,7 +117,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Conecta BBDD
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/ConnectDatabase", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/ConnectDatabase", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string ConnectDatabase() {
         object[] results = this.Invoke("ConnectDatabase", new object[0]);
         return ((string)(results[0]));
@@ -149,7 +153,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Desconecta BBDD
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/DisConnectDatabase", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/DisConnectDatabase", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string DisConnectDatabase() {
         object[] results = this.Invoke("DisConnectDatabase", new object[0]);
         return ((string)(results[0]));
@@ -183,9 +187,51 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     /// <remarks>
+///Check actions that client can do depending on it's version)
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/CanI", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public bool CanI(string action, double clientVersion) {
+        object[] results = this.Invoke("CanI", new object[] {
+                    action,
+                    clientVersion});
+        return ((bool)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginCanI(string action, double clientVersion, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("CanI", new object[] {
+                    action,
+                    clientVersion}, callback, asyncState);
+    }
+    
+    public bool EndCanI(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((bool)(results[0]));
+    }
+    
+    public void CanIAsync(string action, double clientVersion) {
+        this.CanIAsync(action, clientVersion, null);
+    }
+    
+    public void CanIAsync(string action, double clientVersion, object userState) {
+        if ((this.CanIOperationCompleted == null)) {
+            this.CanIOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCanICompleted);
+        }
+        this.InvokeAsync("CanI", new object[] {
+                    action,
+                    clientVersion}, this.CanIOperationCompleted, userState);
+    }
+    
+    private void OnCanICompleted(object arg) {
+        if ((this.CanICompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.CanICompleted(this, new CanICompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
 ///Stats
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/Stats", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/Stats", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string Stats() {
         object[] results = this.Invoke("Stats", new object[0]);
         return ((string)(results[0]));
@@ -221,7 +267,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a session
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadSession", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadSession", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadSession(ServerSession mySession) {
         object[] results = this.Invoke("UploadSession", new object[] {
                     mySession});
@@ -260,7 +306,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Update session uploadingState
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UpdateSession", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UpdateSession", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UpdateSession(int sessionID, int state) {
         object[] results = this.Invoke("UpdateSession", new object[] {
                     sessionID,
@@ -302,7 +348,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload an sport (user defined)
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadSport", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadSport", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadSport(Sport mySport) {
         object[] results = this.Invoke("UploadSport", new object[] {
                     mySport});
@@ -341,7 +387,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a jump type (user defined)
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadJumpType", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadJumpType", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string UploadJumpType(JumpType type, int evalSID) {
         object[] results = this.Invoke("UploadJumpType", new object[] {
                     type,
@@ -383,7 +429,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a jumpRj type (user defined)
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadJumpRjType", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadJumpRjType", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string UploadJumpRjType(JumpType type, int evalSID) {
         object[] results = this.Invoke("UploadJumpRjType", new object[] {
                     type,
@@ -425,7 +471,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a run type (user defined)
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadRunType", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadRunType", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string UploadRunType(RunType type, int evalSID) {
         object[] results = this.Invoke("UploadRunType", new object[] {
                     type,
@@ -467,7 +513,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a run interval type (user defined)
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadRunIntervalType", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadRunIntervalType", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string UploadRunIntervalType(RunType type, int evalSID) {
         object[] results = this.Invoke("UploadRunIntervalType", new object[] {
                     type,
@@ -509,7 +555,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a person
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadPerson", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadPerson", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadPerson(Person myPerson, int sessionID) {
         object[] results = this.Invoke("UploadPerson", new object[] {
                     myPerson,
@@ -551,7 +597,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload person session if needed
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadPersonSessionIfNeeded", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadPersonSessionIfNeeded", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadPersonSessionIfNeeded(int personServerID, int sessionServerID, int weight) {
         object[] results = this.Invoke("UploadPersonSessionIfNeeded", new object[] {
                     personServerID,
@@ -596,12 +642,12 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a ping
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadPing", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public int UploadPing(ServerPing myPing, bool doInsertion) {
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadPing", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public string UploadPing(ServerPing myPing, bool doInsertion) {
         object[] results = this.Invoke("UploadPing", new object[] {
                     myPing,
                     doInsertion});
-        return ((int)(results[0]));
+        return ((string)(results[0]));
     }
     
     public System.IAsyncResult BeginUploadPing(ServerPing myPing, bool doInsertion, System.AsyncCallback callback, object asyncState) {
@@ -610,9 +656,9 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
                     doInsertion}, callback, asyncState);
     }
     
-    public int EndUploadPing(System.IAsyncResult asyncResult) {
+    public string EndUploadPing(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
-        return ((int)(results[0]));
+        return ((string)(results[0]));
     }
     
     public void UploadPingAsync(ServerPing myPing, bool doInsertion) {
@@ -638,7 +684,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a evaluator
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadEvaluator", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadEvaluator", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadEvaluator(ServerEvaluator myEval) {
         object[] results = this.Invoke("UploadEvaluator", new object[] {
                     myEval});
@@ -677,7 +723,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a jump
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadJump", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadJump", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadJump(Jump myTest) {
         object[] results = this.Invoke("UploadJump", new object[] {
                     myTest});
@@ -716,7 +762,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a jumpRj
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadJumpRj", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadJumpRj", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadJumpRj(JumpRj myTest) {
         object[] results = this.Invoke("UploadJumpRj", new object[] {
                     myTest});
@@ -755,7 +801,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a run
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadRun", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadRun", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadRun(Run myTest) {
         object[] results = this.Invoke("UploadRun", new object[] {
                     myTest});
@@ -794,7 +840,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a run interval
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadRunI", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadRunI", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadRunI(RunInterval myTest) {
         object[] results = this.Invoke("UploadRunI", new object[] {
                     myTest});
@@ -833,7 +879,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a reaction time
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadRT", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadRT", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadRT(ReactionTime myTest) {
         object[] results = this.Invoke("UploadRT", new object[] {
                     myTest});
@@ -872,7 +918,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///Upload a pulse
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/UploadPulse", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadPulse", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public int UploadPulse(Pulse myTest) {
         object[] results = this.Invoke("UploadPulse", new object[] {
                     myTest});
@@ -911,7 +957,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     /// <remarks>
 ///List directory files (only as a sample)
 ///</remarks>
-    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://localhost:8080/ListDirectory", RequestNamespace="http://localhost:8080/", ResponseNamespace="http://localhost:8080/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/ListDirectory", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
     public string[] ListDirectory(string path) {
         object[] results = this.Invoke("ListDirectory", new object[] {
                     path});
@@ -954,7 +1000,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class ServerSession : Session {
     
     /// <remarks/>
@@ -978,7 +1024,7 @@ public partial class ServerSession : Session {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(ServerSession))]
 public partial class Session {
     
@@ -1015,7 +1061,7 @@ public partial class Session {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class Sport {
     
     /// <remarks/>
@@ -1039,7 +1085,7 @@ public partial class Sport {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class JumpType : EventType {
     
     /// <remarks/>
@@ -1063,7 +1109,7 @@ public partial class JumpType : EventType {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(JumpType))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunType))]
 public partial class EventType {
@@ -1083,7 +1129,7 @@ public partial class EventType {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class RunType : EventType {
     
     /// <remarks/>
@@ -1110,7 +1156,7 @@ public partial class RunType : EventType {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class Person {
     
     /// <remarks/>
@@ -1158,7 +1204,7 @@ public partial class Person {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class ServerPing {
     
     /// <remarks/>
@@ -1185,7 +1231,7 @@ public partial class ServerPing {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class ServerEvaluator {
     
     /// <remarks/>
@@ -1212,7 +1258,7 @@ public partial class ServerEvaluator {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(JumpRj))]
 public partial class Jump : Event {
     
@@ -1237,7 +1283,7 @@ public partial class Jump : Event {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(Jump))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(JumpRj))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(Run))]
@@ -1270,7 +1316,7 @@ public partial class Event {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class JumpRj : Jump {
     
     /// <remarks/>
@@ -1291,7 +1337,7 @@ public partial class JumpRj : Jump {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunInterval))]
 public partial class Run : Event {
     
@@ -1307,7 +1353,7 @@ public partial class Run : Event {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class RunInterval : Run {
     
     /// <remarks/>
@@ -1334,7 +1380,7 @@ public partial class RunInterval : Run {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class ReactionTime : Event {
     
     /// <remarks/>
@@ -1346,7 +1392,7 @@ public partial class ReactionTime : Event {
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://localhost:8080/")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
 public partial class Pulse : Event {
     
     /// <remarks/>
@@ -1394,6 +1440,25 @@ public class DisConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncC
 }
 
 public delegate void DisConnectDatabaseCompletedEventHandler(object sender, DisConnectDatabaseCompletedEventArgs args);
+
+public class CanICompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal CanICompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public bool Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((bool)(this.results[0]));
+        }
+    }
+}
+
+public delegate void CanICompletedEventHandler(object sender, CanICompletedEventArgs args);
 
 public class StatsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
@@ -1594,10 +1659,10 @@ public class UploadPingCompletedEventArgs : System.ComponentModel.AsyncCompleted
         this.results = results;
     }
     
-    public int Result {
+    public string Result {
         get {
             this.RaiseExceptionIfNecessary();
-            return ((int)(this.results[0]));
+            return ((string)(this.results[0]));
         }
     }
 }

@@ -3,8 +3,6 @@ TODO (sorted)
 1.- upload SEvaluator and edit it and re-upload
 2.- on stats show data updated by user on a window with columns:
 "in server", "uploaded by you"
-3.- write a version compatibility thing for each server method, and if not
-compatible, tell user to update it's chronojump version
 
 "questionnaire acabar
 cercar abstract google
@@ -22,6 +20,22 @@ all this will be release as 0.8.2 or 0.9
 
 distancesString:
 -stats (graphs)
+
+do the ping gets real IP
+
+
+6 feb 2009
+	0.8.1.9
+	db 0.63
+	versionAvailable code is working (if something new is detected, a
+	popup is shown):
+	doing the ping returns new version
+	After chrash tells to update to new version if available, or (if not) shows
+	message and tells to go to forums (no longer write an email to me)
+
+	CanI code is done to know if a method can be done with client version
+
+	Added progresbar in sessionUpload
 
 4 feb 2009
 	0.8.1.8

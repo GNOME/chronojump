@@ -1,18 +1,7 @@
 :::startTitle:::
-News
+Introduction
 :::endTitle:::
-<ul>
-  <li>Last&nbsp;Chronojump&nbsp;Version:&nbsp; <a href="installation.html"><b>:::currentVersion:::</b>&nbsp;(:::currentVersionDate:::)</a> 
-  <li><a href="http://mail.gnome.org/archives/chronojump-list/2008-July/msg00015.html">Connect more than one Chronopic to measure different channels</a>. (Jul 2008)
-  <li>Vic conferences (catalan) on the net <a href="courses_ca.html">catalan</a>, <a href="courses_ca.html">spanish</a> (Jun 2008)
-  <li><a href="hardware.html">Chronopic 3.0 on sale</a> (April 2008)
-  <li><a href="hardware.html">chronopic 3.0 validated</a> (Feb 2008)
-  <li>Chronojump wons <a href=":::awards:::">free software awards</a> on education category. (Nov, 29, 2007)
-  <li>Chronojump&nbsp;nowadays <a href="http://mail.gnome.org/archives/chronojump-list/2007-November/msg00004.html">english</a>, <a href="http://mail.gnome.org/archives/chronojump-list/2007-November/msg00003.html">spanish</a> (Nov, 8, 2007)
-</ul>
 
-<h4>Introduction</h4>
-	
 <h5><b>ChronoJump</b> is a complete multiplatform system for measurement, management and statistics of jump time events (contact time, flight time), and other actions. </h5>
 	<center>
 	<table border="0" cellspacing="4" cellpadding="4">

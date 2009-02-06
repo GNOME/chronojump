@@ -249,7 +249,7 @@ sub getHeadersWithTitle {
 sub getMainTable {
 	my $return = "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
 		<tr><td align=\"left\">
-		<div align=\"left\"><a href=\"index.html\" border=\"0\"><img src=\"images/chronojump33.png\" alt=\"logo\" width=\"591\" height=\"177\" border=\"0\"></a><br>
+		<div align=\"left\"><a href=\"http://chronojump.org\" border=\"0\"><img src=\"images/chronojump33.png\" alt=\"logo\" width=\"591\" height=\"177\" border=\"0\"></a><br>
 		</div>
 		</td><td valign=\"bottom\" align=\"right\">
 		";

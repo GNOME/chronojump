@@ -40,6 +40,7 @@ public class ChronoJump
 	
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 	private string messageToShowOnBoot = "";
+	private string messageChrashedBefore = "";
 	private bool chronojumpHasToExit = false;
 		
 	[Widget] Gtk.Button fakeSplashButton; //raised when splash win ended
@@ -105,7 +106,7 @@ public class ChronoJump
 	}
 
 	protected void sqliteThings () {
-		checkIfChronojumpExitAbnormally();
+		bool crashedBefore = checkIfChronojumpExitAbnormally();
 		
 
 		/* SERVER COMMUNICATION TESTS */
@@ -125,7 +126,9 @@ public class ChronoJump
 		/* END OF SERVER COMMUNICATION TESTS */
 		
 		//print version of chronojump
-		Log.WriteLine(string.Format("Chronojump version: {0}", readVersion()));
+		progVersion = readVersion();
+
+		Log.WriteLine(string.Format("Chronojump version: {0}", progVersion));
 
 		//move database to new location if chronojump version is before 0.7
 		moveDatabaseToNewLocationIfNeeded();
@@ -215,7 +218,7 @@ public class ChronoJump
 
 			if(! softwareIsNew) {
 				//Console.Clear();
-				string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), readVersion()) + "\n" +  
+				string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), progVersion) + "\n" +  
 						Catalog.GetString("Please update Chronojump") + ":\n"; 
 				errorMessage += "http://www.gnome.org/projects/chronojump/installation"; 
 				//errorMessage += "\n\n" + Catalog.GetString("Press any key");
@@ -234,12 +237,39 @@ public class ChronoJump
 		File.Create(runningFileName);
 
 
-		splashMessageChange(5);  //preparing main window
+		splashMessageChange(5);  //check for new version
 
 		messageToShowOnBoot += recuperateBrokenEvents();
 
 		//connect to server to Ping
-		Log.WriteLine(Server.Ping(true, progName, readVersion())); //doInsertion
+		string versionAvailable = Server.Ping(true, progName, readVersion()); //doInsertion
+		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
+		if( versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
+			//versionAvailable is higher than client version
+			if(versionAvailable != versionAvailableKnown) {
+				//is the first time we know about this new version
+				//just write on db and show message to user
+				SqlitePreferences.Update(Constants.PrefVersionAvailable, versionAvailable, false);
+				versionAvailableKnown = versionAvailable;
+				messageToShowOnBoot += string.Format(Catalog.GetString(
+							"\nNew Chronojump version available: {0}\nYour Chronojump version is: {1}"), 
+						versionAvailable, progVersion) + "\n\n" + 
+					Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n";
+			}
+		}
+
+		//if chronojump chrashed before
+		if(crashedBefore) {
+			if( versionAvailableKnown != progVersion ) 
+				messageToShowOnBoot += "\n" + Catalog.GetString("Chronojump crashed before.") + "\n" +
+				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
+			else
+				messageToShowOnBoot += messageChrashedBefore;
+		}
+		
+		
+		splashMessageChange(6);  //preparing main window
+		
 
 		//start as "simulated"
 		SqlitePreferences.Update("simulated", "True", false); //false (dbcon not opened)
@@ -288,7 +318,7 @@ public class ChronoJump
 	}
 
 	private void startChronojump() {	
-		chronoJumpWin = new ChronoJumpWindow(readVersion(), progName, runningFileName);
+		chronoJumpWin = new ChronoJumpWindow(progVersion, progName, runningFileName);
 	}
 
 	private static void createBlankDB() {
@@ -399,20 +429,20 @@ public class ChronoJump
 		}
 
 
-		string errorMessage = "\n" +
-				string.Format(Catalog.GetString("Chronojump crashed before. Please, <b>write an email</b> to {0} including this file:"), "xaviblas@gmail.com") + "\n\n" +
-					Log.GetLast() +
-		//			windowsTextLog +
-				       "\n\n" +	
-				Catalog.GetString("Subject should be something like \"bug in Chronojump\". Your help is needed.") + "\n";
+		messageChrashedBefore = "\n" +
+			string.Format(Catalog.GetString("Chronojump {0} crashed before. Please, report it at forums:"), progVersion) + 
+			"\nhttp://chronojump.org\n\n" + Catalog.GetString("Include also this file:") + "\n\n" +
+			Log.GetLast() +
+			//windowsTextLog +
+			"\n\n" +	
+			Catalog.GetString("Your help is needed.") + "\n";
 
 		/*
 		 * This are the only outputs to Console. Other's use Log that prints to console and to log file
 		 * this doesn't go to log because it talks about log
 		 */
-		Log.WriteLine(errorMessage);
+		Log.WriteLine(messageChrashedBefore);
 		
-		messageToShowOnBoot += errorMessage;	
 		return;
 	}
 
@@ -465,16 +495,13 @@ public class ChronoJump
 		return version;
 	}	
 		
-	private void checkIfChronojumpExitAbnormally() {
+	private bool checkIfChronojumpExitAbnormally() {
 		runningFileName = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump_running";
-		if(File.Exists(runningFileName)) 
+		if(File.Exists(runningFileName)) {
 			chronojumpCrashedBefore();
-		/*
-		else {
-			if (Sqlite.CheckTables()) 
-				File.Create(runningFileName);
+			return true;
 		}
-		*/
+		return false;
 	}
 
 	//move database to new location if chronojump version is before 0.7

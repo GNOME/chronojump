@@ -4,10 +4,13 @@ using System; //for environment
 using System.IO;
 using System.Web.Services;
 //using System.Web;
+using System.Web;
 
 
-//[WebService(Namespace="http://80.32.81.197:8080/", //works to connect with pinux xen from client (from browser don't works)
-[WebService(Namespace="http://localhost:8080/", //work to connect to corall development from client (from browser works only when online)
+//[WebService(Namespace="http://localhost:8080/", //work to connect to corall development from client (from browser works only when online)
+//[WebService(Namespace="http://80.32.81.197:8080/", //works to connect with pinux xen from client (from browser don't works) WORKS FROM CLIENT
+//[WebService(Namespace="http://server.chronojump.org:8080/", //works to connect with pinux xen from client (from browser don't works) WORKS FROM CLIENT (important: needed the last '/')
+[WebService(Namespace="http://server.chronojump.org/", //works to connect with pinux xen from client (from browser don't works) WORKS FROM CLIENT (important: needed the last '/')
 	Description="ChronojumpServer")]
 [Serializable]
 public class ChronojumpServer {
@@ -33,6 +36,16 @@ public class ChronojumpServer {
 			return "Unnable to disconnect";
 		}
 	}
+	
+	[WebMethod(Description="Check actions that client can do depending on it's version)")]
+	public bool CanI(string action, double clientVersion)
+	{
+		if(action == Constants.ServerActionUploadSession && clientVersion >= 0.8)
+			return true;
+
+		return false;
+	}
+
 
 	[WebMethod(Description="Stats")]
 	public string Stats()
@@ -218,7 +231,7 @@ public class ChronojumpServer {
 	}
 	
 	[WebMethod(Description="Upload a ping")]
-	public int UploadPing(ServerPing myPing, bool doInsertion)
+	public string UploadPing(ServerPing myPing, bool doInsertion)
 	{
 		//problemes getting user ip:
 		//when it works it should be assigned to myPing.IP
@@ -231,11 +244,13 @@ public class ChronojumpServer {
 		//but without inserting nothing
 		//is ok before uploading a session
 
-		if(doInsertion) {
-			int id = myPing.InsertAtDB(false);
-			return id;
-		} else
-			return -1;
+		//Console.WriteLine("IP: " + System.Web.HttpRequest.UserHostAddress.ToString());
+
+
+		if(doInsertion)
+			myPing.InsertAtDB(false);
+			
+		return SqlitePreferences.Select("versionAvailable");
 	}
 
 	[WebMethod(Description="Upload a evaluator")]

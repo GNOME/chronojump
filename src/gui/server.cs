@@ -90,6 +90,9 @@ public class SessionUploadWindow {
 	[Widget] Gtk.Label label_thanks;
 
 	[Widget] Gtk.Button button_close;
+	
+	[Widget] Gtk.ProgressBar progressbar;
+
 
 	static SessionUploadWindow SessionUploadWindowBox;
 	Gtk.Window parent;
@@ -236,6 +239,19 @@ public class SessionUploadWindow {
 		}
 	}
 
+	public void PulseProgressbar () {
+		progressbar.Pulse();
+	}
+
+	public void UpdateProgressbar (double fraction) {
+		if(fraction < 0)
+			fraction = 0;
+		else if(fraction > 1)
+			fraction = 1;
+
+		progressbar.Fraction = fraction;
+	}
+		
 	public void UploadFinished() {
 		label_thanks.Show();
 		button_close.Sensitive = true;

@@ -2,6 +2,7 @@
 1.- compile bin/*.dll file
 
 compiling with 'make server' creates the bin/chronojumpServer.dll
+upload to server
 
 2.- start server
 
@@ -25,3 +26,11 @@ e) save as ChronojumpServer.cs
 6.- compile client
 
 make
+
+-----
+instead of 80.32.81.197:8080
+do
+server.chronojump.org/   (work!)
+but if doesn't work, do:
+server.chronojump.org:8080/ (work too!, in both cases needed the end '/')
+

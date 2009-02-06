@@ -86,6 +86,7 @@ public class Constants
 	public enum UploadCodes {
 		EXISTS, SIMULATED, OK
 	}
+	public const string ServerActionUploadSession = "uploadSession"; 
 
 
 /*	OLD, check this
@@ -304,12 +305,13 @@ public class Constants
 	};
 
 	public static string [] SplashMessages = {
-		"Initializing",
-		"Checking database",
-		"Creating database",
-		"Making database backup",
-		"Updating database",
-		"Preparing main Window",
+		Catalog.GetString("Initializing"),		//0
+		Catalog.GetString("Checking database"),		//1
+		Catalog.GetString("Creating database"),		//2
+		Catalog.GetString("Making database backup"),	//3
+		Catalog.GetString("Updating database"),		//4
+		Catalog.GetString("Check for new version"),	//5
+		Catalog.GetString("Preparing main Window"),	//6
 	};
 
 	public static string ChronopicDefaultPortWindows = "COM?";
@@ -323,4 +325,6 @@ public class Constants
 
 	public static string No = Catalog.GetString("No");
 	public static string Yes = Catalog.GetString("Yes");
+	
+	public const string PrefVersionAvailable = "versionAvailable";
 }

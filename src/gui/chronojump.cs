@@ -934,7 +934,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_menuitem_server_ping (object o, EventArgs args) {
 		new DialogMessage(Constants.MessageTypes.INFO, 
-				Server.Ping(true, progName, progVersion)); //do insertion
+				Server.Ping(true, progName, progVersion)); //do insertion (will show versionAvailable)
 	}
 
 	/* 
@@ -1002,9 +1002,16 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 	private void on_server_upload_session_accepted (object o, EventArgs args) 
 	{
-		if(Server.Ping(false, "", "") != Constants.ServerOffline) { //false: don't do insertion
-			Server.InitializeSessionVariables(app1, currentSession, progName, progVersion);
-			Server.ThreadStart();
+		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
+		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
+			if(Server.CanI(Constants.ServerActionUploadSession, Util.VersionToDouble(progVersion))) {
+				Server.InitializeSessionVariables(app1, currentSession, progName, progVersion);
+				Server.ThreadStart();
+			} else {
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Your version of Chronojump is too old for this.") + "\n\n" + 
+						Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n");
+			}
 		} else {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}

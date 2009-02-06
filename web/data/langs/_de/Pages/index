@@ -1,30 +1,3 @@
 :::startTitle:::
 News
 :::endTitle:::
-<ul>
-  <li>Last&nbsp;Chronojump&nbsp;Version:&nbsp; <a href="installation.html"><b>:::currentVersion:::</b>&nbsp;(:::currentVersionDate:::)</a> 
-  <li><a href="http://mail.gnome.org/archives/chronojump-list/2008-July/msg00015.html">Connect more than one Chronopic to measure different channels</a>. (Jul 2008) (english)
-  <li>Vic conferences (catalan) on the net <a href="courses_ca.html">catalan</a>, <a href="courses_ca.html">spanish</a> (Jun 2008)
-  <li><a href="hardware.html">Chronopic 3.0 on sale</a> (April 2008) (english)
-  <li><a href="hardware.html">chronopic 3.0 validated</a> (Feb 2008) (english)
-  <li>Chronojump wons <a href=":::awards:::">free software awards</a> on education category. (Nov, 29, 2007)
-  <li>Chronojump&nbsp;nowadays <a href="http://mail.gnome.org/archives/chronojump-list/2007-November/msg00004.html">english</a>, <a href="http://mail.gnome.org/archives/chronojump-list/2007-November/msg00003.html">spanish</a> (Nov, 8, 2007)
-</ul>
-
-<h4>Einleitung</h4>
-	
-	<h5><b>ChronoJump</b> ist ein komplettes Systemmultiplatform für das Maß, das Management und die Statistik der temporären Phasen des Sprunges.
-	</h5>
-
-<h2>Attention! English page is more updated than this: <a href="index.html">go to english page</a></h2>
-
-ChronoJump gebrauch eine Kontakte Plattform mit zwei Fällen (In-plattform, Aus-plattform) und ein gedruckter Stromkreis timekeeperAnzeige-sichel entwarf, um die exakten und vertrauenswürdigen Maße zu erhalten
-<p>
-Die Flugzeit eines Sprunges ist Anzeige des Aufzugs des Schwerpunktes (wie lang, da die Position des Ausganges und der Ankunft die gleiche ist).
-	<p>
-	<img src=":::imageLink:::/chronojump_esquema.png" width="477" height="205" hspace="6" vspace="8">
-	<br><tt>Entwurf von Software des Managements (ChronoJump) + Chronometer (Chronopic) + Plattform der Kontakte.</tt>
-	<p>
-	ChronoJump könnte auch für das  Maß der Zeit eines Rennen verwendet mit Intervallen [and rhythms, pending to translate].
-	<p>
-	<img src=":::imageLink:::/chronojump_esquema_two_platforms.png" width="478" height="218" hspace="6" vspace="8">

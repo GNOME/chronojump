@@ -59,6 +59,7 @@ class SqlitePreferences : Sqlite
 		Insert ("allowFinishRjAfterTime", "True"); 
 		Insert ("volumeOn", "True"); 
 		Insert ("evaluatorServerID", "-1");
+		Insert ("versionAvailable", "");
 	}
 
 	public static void Insert(string myName, string myValue)

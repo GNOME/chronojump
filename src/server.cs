@@ -31,6 +31,15 @@ using System.Collections;
 
 public class Server
 {
+	public static bool CanI(string action, double clientVersion) {
+		try {
+			ChronojumpServer myServer = new ChronojumpServer();
+			return myServer.CanI(action, clientVersion);
+		} catch {
+			return false;
+		}
+	}
+
 	private static string getIP() {
 		string strHostName = "";
 		strHostName = System.Net.Dns.GetHostName();
@@ -51,11 +60,11 @@ public class Server
 					getIP(), Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
 			//if !doIsertion nothing will be uploaded,
 			//is ok for uploadPerson to know if server is online
-			myPing.UniqueID = myServer.UploadPing(myPing, doInsertion);
+			string versionAvailable = myServer.UploadPing(myPing, doInsertion);
 			
 			Log.WriteLine(myServer.DisConnectDatabase());
 
-			return myPing.ToString();
+			return versionAvailable;
 		} catch {
 			return Constants.ServerOffline;
 		}
@@ -78,6 +87,8 @@ public class Server
 	static bool needUpdateServerSession;
 	static bool updatingServerSession;
 	static SessionUploadPersonData sessionUploadPersonData;
+	static int progressBarPersonsNum;
+	static int countPersons;
 			
 	public static void InitializeSessionVariables(Gtk.Window mainApp, Session session, string programName, string programVersion) {
 		app1 = mainApp;
@@ -89,6 +100,8 @@ public class Server
 		needUpdateServerSession = false;
 		updatingServerSession = false;
 		sessionUploadPersonData = new SessionUploadPersonData();
+		countPersons = 0;
+		progressBarPersonsNum = 0;
 	}
 			
 	public static void ThreadStart() {
@@ -112,10 +125,17 @@ public class Server
 
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending
 		sessionUploadWin = SessionUploadWindow.Show(app1);
+			
+		if(countPersons == 0)
+			sessionUploadWin.PulseProgressbar();
 
 		if(needUpdateServerSession && !updatingServerSession) {
 			//prevent that FillData is called again with same data
 			updatingServerSession = true;
+
+			//update progressBar
+			sessionUploadWin.UpdateProgressbar(
+					Util.DivideSafe(++countPersons, progressBarPersonsNum));
 
 			//fill data
 			sessionUploadWin.FillData(sessionUploadPersonData);
@@ -166,6 +186,10 @@ public class Server
 
 			//upload persons (updating also person.serverUniqueID locally)
 			string [] myPersons = SqlitePersonSession.SelectCurrentSession(serverSession.UniqueID, true, false); //onlyIDAndName, not reversed
+			
+			//store in variable for updating progressBar from other thread
+			progressBarPersonsNum = myPersons.Length;
+
 			Constants.UploadCodes uCode;
 			foreach(string personStr in myPersons) {
 				Person person = SqlitePersonSession.PersonSelect(Util.FetchID(personStr), serverSession.UniqueID); 
@@ -467,6 +491,7 @@ public class Server
 		}
 		*/
 	}
+	
 	
 	//upload a person
 	private static Person serverUploadPerson(ChronojumpServer myServer, Person person, int serverSessionID) 

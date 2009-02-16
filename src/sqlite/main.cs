@@ -403,16 +403,16 @@ class Sqlite
 
 	//for splashWin progressbars
 	public static double PrintCreation() {
-		return Util.DivideSafe(creationRate, creationTotal);
+		return Util.DivideSafeFraction(creationRate, creationTotal);
 	}
 	public static double PrintConversionVersion() {
-		return Util.DivideSafe(Convert.ToDouble(currentVersion), Convert.ToDouble(lastChronojumpDatabaseVersion));
+		return Util.DivideSafeFraction(Convert.ToDouble(currentVersion), Convert.ToDouble(lastChronojumpDatabaseVersion));
 	}
 	public static double PrintConversionRate() {
-		return Util.DivideSafe(conversionRate, conversionRateTotal);
+		return Util.DivideSafeFraction(conversionRate, conversionRateTotal);
 	}
 	public static double PrintConversionSubRate() {
-		return Util.DivideSafe(conversionSubRate, conversionSubRateTotal);
+		return Util.DivideSafeFraction(conversionSubRate, conversionSubRateTotal);
 	}
 
 	public static bool ConvertToLastChronojumpDBVersion() {
@@ -1295,6 +1295,26 @@ Console.WriteLine("5" + tableName);
 		return myReturn;
 	}
 
+	public static int CountCondition (string tableName, bool dbconOpened, string condition, string operand, string myValue) {
+		if(!dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "SELECT COUNT(*) FROM " + tableName +
+			" WHERE " + condition + " " + operand + " " + myValue;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		int myReturn = 0;
+		if(reader.Read()) 
+			myReturn = Convert.ToInt32(reader[0].ToString());
+		reader.Close();
+
+		if(!dbconOpened)
+			dbcon.Close();
+		return myReturn;
+	}
 
 	
 	/* 

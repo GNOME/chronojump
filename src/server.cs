@@ -135,7 +135,7 @@ public class Server
 
 			//update progressBar
 			sessionUploadWin.UpdateProgressbar(
-					Util.DivideSafe(++countPersons, progressBarPersonsNum));
+					Util.DivideSafeFraction(++countPersons, progressBarPersonsNum));
 
 			//fill data
 			sessionUploadWin.FillData(sessionUploadPersonData);

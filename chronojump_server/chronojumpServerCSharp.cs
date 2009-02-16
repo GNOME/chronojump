@@ -48,9 +48,9 @@ public class ChronojumpServer {
 
 
 	[WebMethod(Description="Stats")]
-	public string Stats()
+	public string [] Stats()
 	{
-		string stats = SqliteServer.Stats();
+		string [] stats = SqliteServer.Stats();
 
 		return stats;	
 	}

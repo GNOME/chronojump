@@ -1,8 +1,6 @@
 TODO (sorted)
 
 1.- upload SEvaluator and edit it and re-upload
-2.- on stats show data updated by user on a window with columns:
-"in server", "uploaded by you"
 
 "questionnaire acabar
 cercar abstract google
@@ -14,15 +12,25 @@ add "chronopic3" to ping. maybe need to ask user
 
 add a link to the server page
 
-develop web stats and survey on web site
+develop web stats and survey on web site. Maybe done by R script and calling
+to database
 
-all this will be release as 0.8.2 or 0.9
+all this will be release 0.9
 
 distancesString:
 -stats (graphs)
 
 do the ping gets real IP
+fer que el CanI també pregunti per les stats
 
+16 feb 2009
+	0.8.2.0
+	fixed speed show on run and runInterval at gui/eventExecute after an
+	update. Fixed speed shown on distanceVariable at execute/gui
+
+	done new server stats gui
+	"in server", "uploaded by you"
+	new src/gui/dialogServerStats.cs
 
 6 feb 2009
 	0.8.1.9
@@ -47,7 +55,7 @@ do the ping gets real IP
 	-done treviewRunInterval speed avg ok
 	-fixed runInterval execute speedNow when finish is clicked
 	-eventExecuteWin works ok with distancesString except, 
-	TODO: top margin when showing speed
+	TODO: top margin when showing speed (done in 0.8.2.0)
 	
 	-fixed crash bug on recuperate jumpRj or runI (on a crash) that cannot
 	recuperate because connection is open

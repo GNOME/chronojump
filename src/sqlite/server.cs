@@ -112,26 +112,60 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 
-	public static string Stats() {
+	public static string [] Stats() {
 		ArrayList stats = new ArrayList();
 			
 		dbcon.Open();
 
-		stats.Add("Pings\t" + Sqlite.Count(Constants.ServerPingTable, true).ToString());
-		stats.Add("Evaluators\t" + Sqlite.Count(Constants.ServerEvaluatorTable, true).ToString());
-		stats.Add("Persons\t" + Sqlite.Count(Constants.PersonTable, true).ToString());
-		stats.Add("Sessions\t" + Sqlite.Count(Constants.SessionTable, true).ToString());
-		stats.Add("Jumps\t" + Sqlite.Count(Constants.JumpTable, true).ToString());
-		stats.Add("JumpsRj\t" + Sqlite.Count(Constants.JumpRjTable, true).ToString());
-		stats.Add("Runs\t" + Sqlite.Count(Constants.RunTable, true).ToString());
-		stats.Add("RunsInterval\t" + Sqlite.Count(Constants.RunIntervalTable, true).ToString());
-		stats.Add("Reaction times\t" + Sqlite.Count(Constants.ReactionTimeTable, true).ToString());
-		stats.Add("Pulses\t" + Sqlite.Count(Constants.PulseTable, true).ToString());
+		/*
+		 * is good to add the string stuff like "Pings" 
+		 * because then client will show this data or not 
+		 * depending if it matches what want to show.
+		 * Maintain the ':' as separator
+		*/
+		stats.Add("Pings:" + Sqlite.Count(Constants.ServerPingTable, true).ToString());
+		stats.Add("Evaluators:" + Sqlite.Count(Constants.ServerEvaluatorTable, true).ToString());
+		stats.Add("Sessions:" + Sqlite.Count(Constants.SessionTable, true).ToString());
+		stats.Add("Persons:" + Sqlite.Count(Constants.PersonTable, true).ToString());
+		stats.Add("Jumps:" + Sqlite.Count(Constants.JumpTable, true).ToString());
+		stats.Add("JumpsRj:" + Sqlite.Count(Constants.JumpRjTable, true).ToString());
+		stats.Add("Runs:" + Sqlite.Count(Constants.RunTable, true).ToString());
+		stats.Add("RunsInterval:" + Sqlite.Count(Constants.RunIntervalTable, true).ToString());
+		stats.Add("ReactionTimes:" + Sqlite.Count(Constants.ReactionTimeTable, true).ToString());
+		stats.Add("Pulses:" + Sqlite.Count(Constants.PulseTable, true).ToString());
 		
 		dbcon.Close();
 
-		string statsString = Util.ArrayListToSingleString(stats);
+		string [] statsString = Util.ArrayListToString(stats);
+		return statsString;
+	}
+	
+	/*
+	 * this is only called on client
+	 */
+	public static string [] StatsMine() {
+		ArrayList stats = new ArrayList();
+			
+		dbcon.Open();
 
+		/*
+		 * is good to add the string stuff like "Pings" 
+		 * because then client will show this data or not 
+		 * depending if it matches what want to show.
+		 * Maintain the ':' as separator
+		*/
+		stats.Add("Sessions:" + Sqlite.CountCondition(Constants.SessionTable, true, "serverUniqueID", ">", "0").ToString());
+		stats.Add("Persons:" + Sqlite.CountCondition(Constants.PersonTable, true, "serverUniqueID", ">", "0").ToString());
+		stats.Add("Jumps:" + Sqlite.CountCondition(Constants.JumpTable, true, "simulated", ">", "0").ToString());
+		stats.Add("JumpsRj:" + Sqlite.CountCondition(Constants.JumpRjTable, true, "simulated", ">", "0").ToString());
+		stats.Add("Runs:" + Sqlite.CountCondition(Constants.RunTable, true, "simulated", ">", "0").ToString());
+		stats.Add("RunsInterval:" + Sqlite.CountCondition(Constants.RunIntervalTable, true, "simulated", ">", "0").ToString());
+		stats.Add("ReactionTimes:" + Sqlite.CountCondition(Constants.ReactionTimeTable, true, "simulated", ">", "0").ToString());
+		stats.Add("Pulses:" + Sqlite.CountCondition(Constants.PulseTable, true, "simulated", ">", "0").ToString());
+		
+		dbcon.Close();
+
+		string [] statsString = Util.ArrayListToString(stats);
 		return statsString;
 	}
 	

@@ -2,11 +2,17 @@
 1.- compile bin/*.dll file
 
 compiling with 'make server' creates the bin/chronojumpServer.dll
+
 upload to server
 
 2.- start server
 
 xsp2 --root /var/www/mono/ --verbose
+
+if(chronojumpServerCSharp.cs don't changed) {
+	go to (6.- compile client)
+}
+
 
 3.- navigate to the page
 
@@ -22,6 +28,7 @@ d) open in gedit
 e) save as ChronojumpServer.cs
 
 5.- need to comment all the partial classes in ChronojumpServer.cs
+(search 'partial')
 
 6.- compile client
 

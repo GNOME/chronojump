@@ -232,18 +232,18 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
 ///Stats
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/Stats", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public string Stats() {
+    public string[] Stats() {
         object[] results = this.Invoke("Stats", new object[0]);
-        return ((string)(results[0]));
+        return ((string[])(results[0]));
     }
     
     public System.IAsyncResult BeginStats(System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("Stats", new object[0], callback, asyncState);
     }
     
-    public string EndStats(System.IAsyncResult asyncResult) {
+    public string[] EndStats(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
-        return ((string)(results[0]));
+        return ((string[])(results[0]));
     }
     
     public void StatsAsync() {
@@ -1469,10 +1469,10 @@ public class StatsCompletedEventArgs : System.ComponentModel.AsyncCompletedEvent
         this.results = results;
     }
     
-    public string Result {
+    public string[] Result {
         get {
             this.RaiseExceptionIfNecessary();
-            return ((string)(this.results[0]));
+            return ((string[])(this.results[0]));
         }
     }
 }

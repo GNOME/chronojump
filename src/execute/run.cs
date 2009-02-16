@@ -687,7 +687,6 @@ public class RunIntervalExecute : RunExecute
 
 	private void updateTimerCountWithChronopicData(string timesString) {
 		//update timerCount, with the chronopic data
-		//Log.WriteLine("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString));
 		timerCount =  Util.GetTotalTime(timesString);
 	}
 				

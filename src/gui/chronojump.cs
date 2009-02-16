@@ -922,11 +922,14 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
-			string stats = myServer.Stats();
+			
+			string [] statsServer = myServer.Stats();
+			
 			Log.WriteLine(myServer.DisConnectDatabase());
 
-			new DialogMessage(Constants.MessageTypes.INFO, "Stats in server:\n" + 
-					stats + "\n" + Util.DateParse(DateTime.Now.ToString()));
+			string [] statsMine = SqliteServer.StatsMine();
+
+			new DialogServerStats(statsServer, statsMine);
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
@@ -3022,6 +3025,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		if ( ! currentEventExecute.Cancel ) {
 			currentRun = (Run) currentEventExecute.EventDone;
+			currentRun.MetersSecondsPreferred = metersSecondsPreferred;
 
 			myTreeViewRuns.Add(currentPerson.Name, currentRun);
 			
@@ -3215,6 +3219,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		if ( ! currentEventExecute.Cancel ) {
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
+			currentRunInterval.MetersSecondsPreferred = metersSecondsPreferred;
 
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {

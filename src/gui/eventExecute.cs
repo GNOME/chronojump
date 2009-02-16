@@ -458,21 +458,14 @@ public class EventExecuteWindow
 
 	public void on_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
-		Log.Write("A");
 		Gdk.EventConfigure ev = args.Event;
 		Gdk.Window window = ev.Window;
 	
 
-		Log.Write("B1");
-		
 		Gdk.Rectangle allocation = drawingarea.Allocation;
 		
-		Log.Write("B2");
-	
 		if(pixmap == null) {
 			pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
-		
-			Log.Write("B3");
 		
 			erasePaint(drawingarea);
 			
@@ -486,40 +479,27 @@ public class EventExecuteWindow
 		 * Do here the initialization
 		 */
 		
-		Log.Write("C");
-		
 		if(pixmap == null) {
-			Log.Write("T1");
-			
 			Gdk.Rectangle allocation = drawingarea.Allocation;
 			pixmap = new Gdk.Pixmap (drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			erasePaint(drawingarea);
 
-			Log.Write("T2");
-		
 			graphProgress = phasesGraph.DOING; 
 		}
 
 			
-		Log.Write("D");
-		
 		Gdk.Rectangle area = args.Event.Area;
-
-		Log.Write("E1");
 
 		//sometimes this is called when pait is finished
 		//don't let this erase win
 		//if(graphProgress != phasesGraph.DONE) {
 		if(pixmap != null) {
-			Log.Write("E2");
-
 			args.Event.Window.DrawDrawable(drawingarea.Style.WhiteGC, pixmap,
 				area.X, area.Y,
 				area.X, area.Y,
 				area.Width, area.Height);
 		}
 		
-		Log.Write("E3");
 	}
 
 
@@ -540,8 +520,6 @@ public class EventExecuteWindow
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
-		
-		Log.Write("k1");
 		
 		//obtain data
 		double tvPersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TV");
@@ -586,12 +564,8 @@ public class EventExecuteWindow
 		//printLabels
 		printLabelsJumpSimple (tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
 		
-		Log.Write("k2");
-	
 		// -- refresh
 		drawingarea.QueueDraw();
-	
-		Log.Write("k3");
 		
 	}
 	
@@ -602,8 +576,6 @@ public class EventExecuteWindow
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
-
-		Log.Write("l1");
 
 		//search MAX
 		double maxValue = 0;
@@ -635,12 +607,8 @@ public class EventExecuteWindow
 				bestOrWorstTvTcIndex(true, tvString, tcString), bestOrWorstTvTcIndex(false, tvString, tcString), 
 				volumeOn, repetitiveConditionsWin);
 		
-		Log.Write("l2");
-	
 		// -- refresh
 		drawingarea.QueueDraw();
-		
-		Log.Write("l3");
 	}
 	
 	//identify which subjump is the best or the worst in tv/tc index	
@@ -688,8 +656,6 @@ public class EventExecuteWindow
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
 		
-		Log.Write("k1");
-			
 		bool paintTime = false; //paint speed
 		if(eventGraphConfigureWin.RunsTimeActive) 
 			paintTime = true;
@@ -745,12 +711,8 @@ public class EventExecuteWindow
 		//printLabels
 		printLabelsRunSimple (time, timePersonAVG, timeSessionAVG, speed, speedPersonAVG, speedSessionAVG);
 		
-		Log.Write("k2");
-		
 		// -- refresh
 		drawingarea.QueueDraw();
-		
-		Log.Write("k3");
 	}
 	
 	// run interval
@@ -762,8 +724,6 @@ public class EventExecuteWindow
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
-		Log.Write("l1");
-			
 		bool paintTime = false; //paint speed
 		if(eventGraphConfigureWin.RunsTimeActive) 
 			paintTime = true;
@@ -813,12 +773,8 @@ public class EventExecuteWindow
 				Util.GetPosMax(timesString), Util.GetPosMin(timesString),
 				volumeOn, repetitiveConditionsWin);
 		
-		Log.Write("l2");
-		
 		// -- refresh
 		drawingarea.QueueDraw();
-		
-		Log.Write("l3");
 	}
 
 
@@ -828,8 +784,6 @@ public class EventExecuteWindow
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
-
-		Log.Write("l1");
 
 		//search MAX 
 		double maxValue = 0;
@@ -858,12 +812,8 @@ public class EventExecuteWindow
 		//paint graph
 		paintPulse (drawingarea, lastTime, timesString, Util.GetAverage(timesString), pulses, maxValue, minValue, topMargin, bottomMargin);
 		
-		Log.Write("l2");
-		
 		// -- refresh
 		drawingarea.QueueDraw();
-		
-		Log.Write("l3");
 	}
 	
 	public void PrepareReactionTimeGraph(double time) 
@@ -873,8 +823,6 @@ public class EventExecuteWindow
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
-		
-		Log.Write("k1");
 		
 		//obtain data
 		double timePersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "time");
@@ -908,12 +856,8 @@ public class EventExecuteWindow
 
 		printLabelsReactionTime (time, timePersonAVG, timeSessionAVG);
 		
-		Log.Write("k2");
-	
 		// -- refresh
 		drawingarea.QueueDraw();
-	
-		Log.Write("k3");
 	}
 	
 
@@ -959,16 +903,10 @@ public class EventExecuteWindow
 		int alto=drawingarea.Allocation.Height;
 		
 		
-		Log.Write(" paint1 ");
-		
 		erasePaint(drawingarea);
 		
-		Log.Write(" paint2 ");
-	
 		writeMarginsText(maxValue, minValue, alto);
 		
-		Log.Write(" paint7 ");
-	
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) {
 			//red for TC
@@ -1003,8 +941,6 @@ public class EventExecuteWindow
 		
 	
 		
-		Log.Write(" paint2 ");
-
 		graphProgress = phasesGraph.DONE; 
 	}
 
@@ -1015,14 +951,10 @@ public class EventExecuteWindow
 		int alto=drawingarea.Allocation.Height;
 		
 		
-		Log.Write(" paint1 ");
-		
 		erasePaint(drawingarea);
 		
 		writeMarginsText(maxValue, minValue, alto);
 		
-		Log.Write(" paint7 ");
-	
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) {
 			pixmap.DrawLine(myPen, ancho*1/6 , alto, ancho*1/6 , calculatePaintHeight(now, alto, maxValue, minValue, topMargin, bottomMargin));
@@ -1044,8 +976,6 @@ public class EventExecuteWindow
 		
 	
 		
-		Log.Write(" paint2 ");
-
 		graphProgress = phasesGraph.DONE; 
 	}
 
@@ -1058,9 +988,7 @@ public class EventExecuteWindow
 		//int topMargin = 10; 
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
-		
-		
-		Log.Write(" paint1 reactive 1");
+
 		
 		erasePaint(drawingarea);
 		
@@ -1197,8 +1125,6 @@ public class EventExecuteWindow
 				image_jump_reactive_tf_tc_bad.Show();
 		}
 
-		Log.Write(" paint reactive 2 ");
-
 		label_jump_reactive_tc_now.Text = Util.TrimDecimals(lastTc.ToString(), pDN);
 		label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), pDN);
 		label_jump_reactive_tf_now.Text = Util.TrimDecimals(lastTv.ToString(), pDN);
@@ -1224,8 +1150,6 @@ public class EventExecuteWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
-		
-		Log.Write(" paint1 run interval 1");
 		
 		erasePaint(drawingarea);
 		
@@ -1322,8 +1246,6 @@ public class EventExecuteWindow
 			}
 		}
 		
-		Log.Write(" paint interval 2 ");
-
 		label_run_interval_time_now.Text = Util.TrimDecimals(lastTime.ToString(), pDN);
 		label_run_interval_time_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
 		label_run_interval_speed_now.Text = Util.TrimDecimals((distance / lastTime).ToString(), pDN);
@@ -1338,8 +1260,6 @@ public class EventExecuteWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
-		
-		Log.Write(" paint1 pulse 1");
 		
 		erasePaint(drawingarea);
 		
@@ -1385,8 +1305,6 @@ public class EventExecuteWindow
 
 		}
 		
-		Log.Write(" paint pulse 2 ");
-
 		label_pulse_now.Text = Util.TrimDecimals(lastTime.ToString(), pDN);
 		label_pulse_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
 		
@@ -1429,26 +1347,13 @@ public class EventExecuteWindow
 	}
 
 	private void writeMarginsText(double maxValue, double minValue, int alto) {
-		
-		Log.WriteLine(string.Format("(ini) PIXMAP: {0}, LAYOUT: {1}", pixmap, layout));
-		Log.Write(" margin0 ");
 		//write margins textual data
 		layout.SetMarkup((Math.Round(maxValue, 3)).ToString());
 		pixmap.DrawLayout (pen_gris, 0, 0, layout);
 		//pixmap.DrawLayout (pen_gris, 0, 3, layout); //y to 3 (not 0) probably this solves rando Pango problems where this is not written and interface gets "clumsy"
-		Log.Write(" margin1 ");
 		layout.SetMarkup((Math.Round(minValue, 3)).ToString());
 		pixmap.DrawLayout (pen_gris, 0, alto -10, layout); //don't search Y using alto - bottomMargin, because bottomMargin can be 0, 
 									//and text goes down from the baseline, and will not be seen
-		Log.Write(" margin2 ");
-		
-		/*
-		//see if refresh helps in the hanging observed
-		// -- refresh
-		drawingarea.QueueDraw();
-		*/
-		Log.Write(" margin3 ");
-		Log.WriteLine(string.Format("(end) PIXMAP: {0}, LAYOUT: {1}", pixmap, layout));
 	}
 		
 			
@@ -1515,7 +1420,6 @@ public class EventExecuteWindow
 				else if(myFraction < 0)
 					myFraction = 0;
 
-				//Log.Write("{0}-{1}", limit, myFraction);
 				progressbar.Fraction = myFraction;
 				//progressbar.Text = Util.TrimDecimals(events.ToString(), 1) + " / " + limit.ToString();
 				if(events == -1) //we don't want to display nothing

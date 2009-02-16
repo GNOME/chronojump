@@ -29,6 +29,8 @@ using System.IO; 		//for detect OS
 public class Util
 {
 
+	//TODO: this still doesn't work for knowing that:
+	//0.8.1.10 is bigger than 0.8.1.9
 	public static double VersionToDouble (string version)
 	{
 		//find first dec
@@ -205,13 +207,6 @@ public class Util
 			
 			double std = System.Math.Sqrt(summatory / (Double)count);
 			double stdSample = System.Math.Sqrt( count/(Double)(count-1) ) * std;
-
-			/*
-			Log.WriteLine(valuesList);
-			Log.WriteLine(sumValues.ToString());
-			Log.WriteLine(count.ToString());
-			Log.WriteLine("std: {0}, stdSample: {1}", std, stdSample);
-			*/
 
 			return stdSample;
 		} else {
@@ -419,7 +414,6 @@ public class Util
 	{
 		int lastEqualPos = myString.LastIndexOf('=');
 		if(lastEqualPos > 0) {
-			Log.WriteLine(myString.Substring(0, lastEqualPos));
 			return myString.Substring(0, lastEqualPos);
 		}
 		else
@@ -577,7 +571,6 @@ public class Util
 	public static string GetOS() {
 		OperatingSystem os = Environment.OSVersion;
 		string osString =  string.Format("{0}, {1}", os.Platform, os.Version);
-		Log.WriteLine(osString);
 		return osString;
 	}
 	
@@ -927,8 +920,10 @@ public class Util
 	}
 
 
-	//avoids fivide by zero
-	public static double DivideSafe (double val1, double val2) {
+	//avoids divide by zero
+	//thought for being between 0, 1
+	//ideal for progressBars
+	public static double DivideSafeFraction (double val1, double val2) {
 		double result = val1 / val2;
 		if(result > 1)
 			result = 1;
@@ -1009,9 +1004,9 @@ public class Util
 			int distPos = i % times.Length;
 			double distance = Convert.ToDouble(distances[distPos]);
 
-			double speed = DivideSafe(distance, time);
+			double speed = distance / time;
 			if(max) {
-				if(speed > searchedValue)
+				if(speed > searchedValue) 
 					searchedValue = speed;
 			} else {
 				if(speed < searchedValue)

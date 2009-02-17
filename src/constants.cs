@@ -87,6 +87,7 @@ public class Constants
 		EXISTS, SIMULATED, OK
 	}
 	public const string ServerActionUploadSession = "uploadSession"; 
+	public const string ServerActionStats = "stats"; 
 
 
 /*	OLD, check this

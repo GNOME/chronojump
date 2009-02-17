@@ -2,9 +2,6 @@ TODO (sorted)
 
 1.- upload SEvaluator and edit it and re-upload
 
-"questionnaire acabar
-cercar abstract google
-
 Add Cabedo's tests
 Add Margaria
 
@@ -17,11 +14,16 @@ to database
 
 all this will be release 0.9
 
-distancesString:
--stats (graphs)
-
 do the ping gets real IP
-fer que el CanI també pregunti per les stats
+
+
+17 feb 2009
+	0.8.2.1
+	MTGUG test
+	-mtug questionnaire in event edit done
+	-improved description
+
+	CanI ask also for stats
 
 16 feb 2009
 	0.8.2.0

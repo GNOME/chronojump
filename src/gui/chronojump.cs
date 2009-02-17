@@ -919,18 +919,25 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 	private void on_menuitem_server_stats (object o, EventArgs args) {
-		try {
-			ChronojumpServer myServer = new ChronojumpServer();
-			Log.WriteLine(myServer.ConnectDatabase());
+		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
+		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
+			if(Server.CanI(Constants.ServerActionStats, Util.VersionToDouble(progVersion))) {
+				ChronojumpServer myServer = new ChronojumpServer();
+				Log.WriteLine(myServer.ConnectDatabase());
 			
-			string [] statsServer = myServer.Stats();
+				string [] statsServer = myServer.Stats();
 			
-			Log.WriteLine(myServer.DisConnectDatabase());
+				Log.WriteLine(myServer.DisConnectDatabase());
 
-			string [] statsMine = SqliteServer.StatsMine();
+				string [] statsMine = SqliteServer.StatsMine();
 
-			new DialogServerStats(statsServer, statsMine);
-		} catch {
+				new DialogServerStats(statsServer, statsMine);
+			} else {
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Your version of Chronojump is too old for this.") + "\n\n" + 
+						Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n");
+			}
+		} else {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
 	}

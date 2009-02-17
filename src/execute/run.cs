@@ -744,12 +744,17 @@ public class RunIntervalExecute : RunExecute
 		distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
 		timeTotal = Util.GetTotalTime(intervalTimesString); 
 		
-	
+
+		string description = "";
+		if(type == "MTGUG")
+			description = "u u u u u u"; //undefined 6 items of questionnaire
+
+
 		if(tempTable)
 			SqliteRunInterval.Insert(false, Constants.TempRunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
 					distanceInterval, intervalTimesString, tracks, 
-					"", 					//description
+					description,
 					limitString,
 					Util.BoolToNegativeInt(simulated) 
 					);
@@ -757,13 +762,13 @@ public class RunIntervalExecute : RunExecute
 			uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
 					distanceInterval, intervalTimesString, tracks, 
-					"", 					//description
+					description,
 					limitString,
 					Util.BoolToNegativeInt(simulated) 
 					);
 
 			//define the created object
-			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, "", limitString, Util.BoolToNegativeInt(simulated)); 
+			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limitString, Util.BoolToNegativeInt(simulated)); 
 
 
 			string tempValuesString = "";

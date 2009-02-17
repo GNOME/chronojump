@@ -42,6 +42,8 @@ public class ChronojumpServer {
 	{
 		if(action == Constants.ServerActionUploadSession && clientVersion >= 0.8)
 			return true;
+		else if(action == Constants.ServerActionStats && clientVersion >= 0.8)
+			return true;
 
 		return false;
 	}

@@ -8,7 +8,10 @@ Instalación
 	<table width="100%" border="0" cellspacing="2" cellpadding="2">
 	<tr bgcolor="#e6e6fa"><th>Sistemas operativos</th><th><center><--Instrucións-->Instalación</center></th></tr>
 	<tr><td><b>GNU/Linux</b></td><td><!--Consulte este correo (inglés, castelán):--> <a href=":::linuxMailDownloadLink:::">:::linuxMailDownloadName:::</a></td></tr>
-	<tr><td><b>Windows</b></td><td><!--Consulte este correo:--> <a href=":::windowsMailDownloadLink:::">:::windowsMailDownloadName:::</a> <!--(inglés, castelán)--></td></tr>
+	<tr><td><b>Windows</b></td><td><!--Consulte este correo:--> <a href=":::windowsMailDownloadLink:::">:::windowsMailDownloadName:::</a>
+<br>
+Atención, si después de la instalación Chronojump no se abre a la primera, volver a intentarlo hasta tres veces y os funcionará. Esto ocurre por un error que estamos tratando de corregir y sólo se da en algunos equipos. (TRADUCIR)
+</td></tr>
 	<tr><td><b>Maemo N770</b></td><td>Consulte este correo: <a href=":::maemoMailDownloadLink:::">:::maemoMailDownloadName:::</a> (inglés, castelán)</td></tr>
 	</table>
 	

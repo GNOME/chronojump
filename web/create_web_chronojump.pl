@@ -38,7 +38,7 @@ my $changesMailDownloadLink = "http://mail.gnome.org/archives/chronojump-list/20
 my $manualLink = "http://svn.gnome.org/svn/chronojump/trunk/manual/chronojump_manual_es.pdf";
 my $glossaryLink = "http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html";
 
-my $awards .= "http://tropheesdulibre.org";
+my $awards .= "http://tropheesdulibre.com";
 
 my $construccio_dispositius_mesuraLink = "http://www.vimeo.com/1205809";
 my $fonaments_teorics_bescos_velezLink = "http://ftp.gnome.org/pub/GNOME/teams/chronojump/fonaments_teorics-bescos-velez.avi";

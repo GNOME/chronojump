@@ -162,6 +162,44 @@ public class EditRunWindow : EditEventWindow
 
 public class EditRunIntervalWindow : EditRunWindow
 {
+	[Widget] private Gtk.Notebook notebook_mtgug;
+
+	[Widget] private Gtk.RadioButton radio_mtgug_1_undef;
+	[Widget] private Gtk.RadioButton radio_mtgug_1_3;
+	[Widget] private Gtk.RadioButton radio_mtgug_1_2;
+	[Widget] private Gtk.RadioButton radio_mtgug_1_1;
+	[Widget] private Gtk.RadioButton radio_mtgug_1_0;
+
+	[Widget] private Gtk.RadioButton radio_mtgug_2_undef;
+	[Widget] private Gtk.RadioButton radio_mtgug_2_3;
+	[Widget] private Gtk.RadioButton radio_mtgug_2_2;
+	[Widget] private Gtk.RadioButton radio_mtgug_2_1;
+	[Widget] private Gtk.RadioButton radio_mtgug_2_0;
+
+	[Widget] private Gtk.RadioButton radio_mtgug_3_undef;
+	[Widget] private Gtk.RadioButton radio_mtgug_3_3;
+	[Widget] private Gtk.RadioButton radio_mtgug_3_2;
+	[Widget] private Gtk.RadioButton radio_mtgug_3_1;
+	[Widget] private Gtk.RadioButton radio_mtgug_3_0;
+
+	[Widget] private Gtk.RadioButton radio_mtgug_4_undef;
+	[Widget] private Gtk.RadioButton radio_mtgug_4_3;
+	[Widget] private Gtk.RadioButton radio_mtgug_4_2;
+	[Widget] private Gtk.RadioButton radio_mtgug_4_1;
+	[Widget] private Gtk.RadioButton radio_mtgug_4_0;
+
+	[Widget] private Gtk.RadioButton radio_mtgug_5_undef;
+	[Widget] private Gtk.RadioButton radio_mtgug_5_3;
+	[Widget] private Gtk.RadioButton radio_mtgug_5_2;
+	[Widget] private Gtk.RadioButton radio_mtgug_5_1;
+	[Widget] private Gtk.RadioButton radio_mtgug_5_0;
+
+	[Widget] private Gtk.RadioButton radio_mtgug_6_undef;
+	[Widget] private Gtk.RadioButton radio_mtgug_6_3;
+	[Widget] private Gtk.RadioButton radio_mtgug_6_2;
+	[Widget] private Gtk.RadioButton radio_mtgug_6_1;
+	[Widget] private Gtk.RadioButton radio_mtgug_6_0;
+
 	static EditRunIntervalWindow EditRunIntervalWindowBox;
 
 	EditRunIntervalWindow (Gtk.Window parent) {
@@ -186,6 +224,15 @@ public class EditRunIntervalWindow : EditRunWindow
 		
 		EditRunIntervalWindowBox.initializeValues();
 
+		if(myEvent.Type == "MTGUG") {
+			EditRunIntervalWindowBox.notebook_mtgug.Show();
+			EditRunIntervalWindowBox.entry_description.Sensitive = false;
+			EditRunIntervalWindowBox.fill_mtgug(myEvent.Description);
+		} else {
+			EditRunIntervalWindowBox.notebook_mtgug.Hide();
+			EditRunIntervalWindowBox.entry_description.Sensitive = true;
+		}
+
 		EditRunIntervalWindowBox.fillDialog (myEvent);
 
 		EditRunIntervalWindowBox.edit_event.Show ();
@@ -203,6 +250,177 @@ public class EditRunIntervalWindow : EditRunWindow
 		showWeight = false;
 		showLimited = true;
 	}
+
+	//this disallows loops on radio actions	
+	private bool toggleRaisesSignal = true;
+
+	private void fill_mtgug (string description) {
+		string [] d = description.Split(new char[] {' '});
+	
+		toggleRaisesSignal = false;
+
+		switch(d[0]) {
+			case "u": radio_mtgug_1_undef.Active = true; break;
+			case "3": radio_mtgug_1_3.Active = true; break;
+			case "2": radio_mtgug_1_2.Active = true; break;
+			case "1": radio_mtgug_1_1.Active = true; break;
+			case "0": radio_mtgug_1_0.Active = true; break;
+		}
+		switch(d[1]) {
+			case "u": radio_mtgug_2_undef.Active = true; break;
+			case "3": radio_mtgug_2_3.Active = true; break;
+			case "2": radio_mtgug_2_2.Active = true; break;
+			case "1": radio_mtgug_2_1.Active = true; break;
+			case "0": radio_mtgug_2_0.Active = true; break;
+		}
+		switch(d[2]) {
+			case "u": radio_mtgug_3_undef.Active = true; break;
+			case "3": radio_mtgug_3_3.Active = true; break;
+			case "2": radio_mtgug_3_2.Active = true; break;
+			case "1": radio_mtgug_3_1.Active = true; break;
+			case "0": radio_mtgug_3_0.Active = true; break;
+		}
+		switch(d[3]) {
+			case "u": radio_mtgug_4_undef.Active = true; break;
+			case "3": radio_mtgug_4_3.Active = true; break;
+			case "2": radio_mtgug_4_2.Active = true; break;
+			case "1": radio_mtgug_4_1.Active = true; break;
+			case "0": radio_mtgug_4_0.Active = true; break;
+		}
+		switch(d[4]) {
+			case "u": radio_mtgug_5_undef.Active = true; break;
+			case "3": radio_mtgug_5_3.Active = true; break;
+			case "2": radio_mtgug_5_2.Active = true; break;
+			case "1": radio_mtgug_5_1.Active = true; break;
+			case "0": radio_mtgug_5_0.Active = true; break;
+		}
+		switch(d[5]) {
+			case "u": radio_mtgug_6_undef.Active = true; break;
+			case "3": radio_mtgug_6_3.Active = true; break;
+			case "2": radio_mtgug_6_2.Active = true; break;
+			case "1": radio_mtgug_6_1.Active = true; break;
+			case "0": radio_mtgug_6_0.Active = true; break;
+		}
+		
+		toggleRaisesSignal = true;
+	}
+
+	private void on_radio_mtgug_1_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(radio_mtgug_1_undef.Active)
+				d[0] = "u";	
+			else if(radio_mtgug_1_3.Active)
+				d[0] = "3";	
+			else if(radio_mtgug_1_2.Active)
+				d[0] = "2";	
+			else if(radio_mtgug_1_1.Active)
+				d[0] = "1";	
+			else if(radio_mtgug_1_0.Active)
+				d[0] = "0";	
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+			fill_mtgug(entry_description.Text);
+		}
+	}
+
+	private void on_radio_mtgug_2_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(radio_mtgug_2_undef.Active)
+				d[1] = "u";	
+			else if(radio_mtgug_2_3.Active)
+				d[1] = "3";	
+			else if(radio_mtgug_2_2.Active)
+				d[1] = "2";	
+			else if(radio_mtgug_2_1.Active)
+				d[1] = "1";	
+			else if(radio_mtgug_2_0.Active)
+				d[1] = "0";	
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+			fill_mtgug(entry_description.Text);
+		}
+	}
+
+	private void on_radio_mtgug_3_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(radio_mtgug_3_undef.Active)
+				d[2] = "u";	
+			else if(radio_mtgug_3_3.Active)
+				d[2] = "3";	
+			else if(radio_mtgug_3_2.Active)
+				d[2] = "2";	
+			else if(radio_mtgug_3_1.Active)
+				d[2] = "1";	
+			else if(radio_mtgug_3_0.Active)
+				d[2] = "0";	
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+			fill_mtgug(entry_description.Text);
+		}
+	}
+
+	private void on_radio_mtgug_4_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(radio_mtgug_4_undef.Active)
+				d[3] = "u";	
+			else if(radio_mtgug_4_3.Active)
+				d[3] = "3";	
+			else if(radio_mtgug_4_2.Active)
+				d[3] = "2";	
+			else if(radio_mtgug_4_1.Active)
+				d[3] = "1";	
+			else if(radio_mtgug_4_0.Active)
+				d[3] = "0";	
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+			fill_mtgug(entry_description.Text);
+		}
+	}
+
+	private void on_radio_mtgug_5_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(radio_mtgug_5_undef.Active)
+				d[4] = "u";	
+			else if(radio_mtgug_5_3.Active)
+				d[4] = "3";	
+			else if(radio_mtgug_5_2.Active)
+				d[4] = "2";	
+			else if(radio_mtgug_5_1.Active)
+				d[4] = "1";	
+			else if(radio_mtgug_5_0.Active)
+				d[4] = "0";	
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+			fill_mtgug(entry_description.Text);
+		}
+	}
+
+	private void on_radio_mtgug_6_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(radio_mtgug_6_undef.Active)
+				d[5] = "u";	
+			else if(radio_mtgug_6_3.Active)
+				d[5] = "3";	
+			else if(radio_mtgug_6_2.Active)
+				d[5] = "2";	
+			else if(radio_mtgug_6_1.Active)
+				d[5] = "1";	
+			else if(radio_mtgug_6_0.Active)
+				d[5] = "0";	
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+			fill_mtgug(entry_description.Text);
+		}
+	}
+
+
+
 
 	protected override string [] findTypes(Event myEvent) {
 		//type cannot change on run interval

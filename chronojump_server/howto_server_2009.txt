@@ -9,7 +9,7 @@ upload to server
 
 xsp2 --root /var/www/mono/ --verbose
 
-if(chronojumpServerCSharp.cs don't changed) {
+if(chronojumpServerCSharp.cs methods or callings don't changed) {
 	go to (6.- compile client)
 }
 
@@ -40,4 +40,6 @@ do
 server.chronojump.org/   (work!)
 but if doesn't work, do:
 server.chronojump.org:8080/ (work too!, in both cases needed the end '/')
-
+------
+seems to be better to execute without the non-stop:
+http://lists.ximian.com/pipermail/mono-list/2007-June/035501.html

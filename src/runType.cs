@@ -320,15 +320,16 @@ public class RunType : EventType
 			description	= Catalog.GetString("Modified time Getup and Go test");
 			imageFileName = "mtgug.png";
 			distancesString = "1-7-19";	//this intervallic run has different distance for each track
-			longDescription = "The instructions given to perform the test were as follows: <<Sit down with your back resting on the back of the chair and with your two arms resting on your legs. When you hear the word <<go>>, stand up without using your arms, kick the ball in front of you as hard as you possibly can, using the instep of the foot you feel the safest. Then walk at your normal pace while counting backwards from 15 to 0 out loud. Turn around back the cone, without touching it, and go back to your seat, stepping into the circles, trying not to touch any of them. Finally, sit down again, trying not to use your arms>>.\n\n" +
-				"The stopwatches were activated on the word <<go>> and the button that saved the time intervals was pressed also after the following stages: when the subject stood up and kicked the ball; when the ball passed the 8 m line; and when the subject returned to the seated position in the same chair (42 cm height from the seat to the ground). The total time needed to perform the test provided a quantitative evaluation of performance. A qualitative evaluation was performed by the completion of an AQ. This AQ assesses 6 items with a Likert scale from 0 to 3, where 0 is the equivalent to needing help in order to perform the task, and 3 is equivalent to performing the task unaided with no mistakes. The maximum points that can be attained are 18. The items assessed were: (1) standing up from the chair, (2) kicking the ball, (3) walking whilst counting backwards from 15 to 0, (4) walking around the cone, (5) walking whilst stepping into the circles, and (6) sitting back down again (See assessment questionnaire).\n\n" + 
-				"<b>Assessment questionnaire</b>\n"+
-				"Sit to stand\n" +
-				"3 able to stand up without using hands in a steady and controlled action.\n2 able to stand up using hands in a steady and controlled action.\n1 able to stand up using hands after multiple attempts.\n 0 needs or asks for help.\n" +
-				"......\n\n" +
-				"BIBLIO: Giné-Garriga, M., Guerra, M., Marí-Dell’Olmo, M., Martin, C., & Unnithan, V.B. (2008). Sensitivity of a modified version of the ‘Timed Get Up and Go’ Test to predict fall risk in the elderly: a pilot study. Archives of Gerontology and Geriatrics, doi:10.1016/j.archger.2008.08.014. \n" +
-				"Abstract: "
-				;
+			longDescription = Catalog.GetString("The instructions given to perform the test were as follows: \"Sit down with your back resting on the back of the chair and with your two arms resting on your legs. When you hear the word 'go', stand up without using your arms, kick the ball in front of you as hard as you possibly can, using the instep of the foot you feel the safest. Then walk at your normal pace while counting backwards from 15 to 0 out loud. Turn around back the cone, without touching it, and go back to your seat, stepping into the circles, trying not to touch any of them. Finally, sit down again, trying not to use your arms\".") +
+				"\n\n" +
+				Catalog.GetString("The stopwatches were activated on the word 'go' and the button that saved the time intervals was pressed also after the following stages: when the subject stood up and kicked the ball; when the ball passed the 8 m line; and when the subject returned to the seated position in the same chair (42 cm height from the seat to the ground). The total time needed to perform the test provided a quantitative evaluation of performance. A qualitative evaluation was performed by the completion of an AQ. This AQ assesses 6 items with a Likert scale from 0 to 3, where 0 is the equivalent to needing help in order to perform the task, and 3 is equivalent to performing the task unaided with no mistakes. The maximum points that can be attained are 18. The items assessed were: (1) standing up from the chair, (2) kicking the ball, (3) walking whilst counting backwards from 15 to 0, (4) walking around the cone, (5) walking whilst stepping into the circles, and (6) sitting back down again.") + "\n\n" + 
+				"<b>" + Catalog.GetString("Assessment questionnaire") + "</b>\n" +
+				Catalog.GetString("Once the test finishes proceed to edit and you will be able to complete the assesment questionnaire.") +
+				"\n\n" +
+				"<b>" + Catalog.GetString("Reference:") + "</b>\n" + 
+				"\nGiné-Garriga, M., Guerra, M., Marí-Dell’Olmo, M., Martin, C., & Unnithan, V.B. (2008). Sensitivity of a modified version of the ‘Timed Get Up and Go’ Test to predict fall risk in the elderly: a pilot study. Archives of Gerontology and Geriatrics, doi:10.1016/j.archger.2008.08.014. \n" +
+				"<b>" + Catalog.GetString("Abstract:") + "</b>\n" +
+				"http://linkinghub.elsevier.com/retrieve/pii/S0167494308001763";
 
 		}
 

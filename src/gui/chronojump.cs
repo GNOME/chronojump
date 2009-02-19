@@ -946,6 +946,11 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		new DialogMessage(Constants.MessageTypes.INFO, 
 				Server.Ping(true, progName, progVersion)); //do insertion (will show versionAvailable)
 	}
+	
+	private void on_menuitem_server_evaluator_data (object o, EventArgs args) {
+		ServerEvaluator myEval = new ServerEvaluator();
+		EvaluatorWindow evalWindow = new EvaluatorWindow(myEval);
+	}
 
 	/* 
 	 * SERVER CODE

@@ -16,6 +16,13 @@ all this will be release 0.9
 
 do the ping gets real IP
 
+open explorer window with database dir and log dir
+
+
+19 feb 2009
+	doing evaluator code
+	added src/gui/evaluator.cs
+	added chronopic1.jpg, 2,3 and minis
 
 17 feb 2009
 	0.8.2.1

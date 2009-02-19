@@ -53,8 +53,26 @@ public class DialogImageTest
                 Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + myEventType.ImageFileName);
                 image_test.Pixbuf = pixbuf;
 	}
-				
 
+	//useful to show only an image	
+	//in a future do a DialogImage class (with this). And the inherit to DialogImageTest
+	public DialogImageTest (string title, string imagePath)
+	{
+		Glade.XML gladeXML;
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_image_test", null);
+		gladeXML.Autoconnect(this);
+		
+		dialog_image_test.Title = title;
+
+		//put an icon to window
+		UtilGtk.IconWindow(dialog_image_test);
+
+		scrolledwindow28.Hide();
+
+                Pixbuf pixbuf = new Pixbuf (null, imagePath);
+                image_test.Pixbuf = pixbuf;
+	}
+				
 	public void on_close_button_clicked (object obj, EventArgs args) {
 		dialog_image_test.Destroy ();
 	}

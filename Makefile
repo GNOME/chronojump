@@ -33,7 +33,7 @@ CHRONOJUMP_SERVER = chronojump_server
 #--------Dependences of CHRONOJUMP
 
 
-CHRONOJUMP_DEP_GUI = src/gui/chronojump.cs src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs src/gui/convertWeight.cs src/gui/genericWindow.cs src/gui/splash.cs src/gui/server.cs src/gui/dialogServerStats.cs
+CHRONOJUMP_DEP_GUI = src/gui/chronojump.cs src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs src/gui/convertWeight.cs src/gui/genericWindow.cs src/gui/splash.cs src/gui/server.cs src/gui/dialogServerStats.cs src/gui/evaluator.cs
 
 CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/djQ.cs src/stats/rjIndex.cs src/stats/rjPotencyBosco.cs src/stats/rjEvolution.cs src/stats/ieIub.cs src/stats/fv.cs src/stats/potency.cs src/stats/rjAVGSD.cs
 
@@ -72,6 +72,9 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/pulse_free.png,pulse_free.png 			-resource:images/mini/pulse_free.png,mini/pulse_free.png \
 		-resource:images/pulse_custom.png,pulse_custom.png		-resource:images/mini/pulse_custom.png,mini/pulse_custom.png \
 		-resource:images/mtgug.png,mtgug.png				-resource:images/mini/mtgug.png,mini/mtgug.png \
+		-resource:images/chronopic1.jpg,chronopic1.jpg			-resource:images/mini/chronopic1.jpg,mini/chronopic1.jpg \
+		-resource:images/chronopic2.jpg,chronopic2.jpg			-resource:images/mini/chronopic2.jpg,mini/chronopic2.jpg \
+		-resource:images/chronopic3.jpg,chronopic3.jpg			-resource:images/mini/chronopic3.jpg,mini/chronopic3.jpg \
 		-resource:images/stock_bell.png,stock_bell.png \
 		-resource:images/stock_bell_green.png,stock_bell_green.png \
 		-resource:images/stock_bell_red.png,stock_bell_red.png \

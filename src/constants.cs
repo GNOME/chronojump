@@ -74,6 +74,9 @@ public class Constants
 	public const string PulseTypeTable = "pulseType";
 	public const string ReactionTimeTypeTable = "reactionTimeType";
 
+
+	public const string UndefinedDefault = "Undefined";
+
 	//server	
 	public const string ServerPingTable = "SPing"; 
 	public const string ServerEvaluatorTable = "SEvaluator"; 
@@ -88,6 +91,22 @@ public class Constants
 	}
 	public const string ServerActionUploadSession = "uploadSession"; 
 	public const string ServerActionStats = "stats"; 
+	
+	public static string [] Chronometers = {
+		UndefinedDefault, 
+		"Chronopic1",
+		"Chronopic2",
+		"Chronopic3",
+	};
+	public static string [] Devices = {
+		UndefinedDefault + ":" + Catalog.GetString(UndefinedDefault), 
+		"Contact platform (tempered steel)" + ":" + Catalog.GetString("Contact platform (tempered steel)"),
+		"Contact platform (circuit board)" + ":" + Catalog.GetString("Contact platform (circuit board)"),
+		"Infrared" + ":" + Catalog.GetString("Infrared"),
+		"Other" + ":" + Catalog.GetString("Other"),
+	};
+	
+	
 
 
 /*	OLD, check this
@@ -180,6 +199,10 @@ public class Constants
 	//public static string FileNameZoomOutIcon = "gtk-zoom-out.png";
 	public static string FileNameZoomInIcon = "gtk-zoom-in.png";
 	public static string FileNameZoomInWithTextIcon = "gtk-zoom-in-with-text.png";
+	
+	public static string FileNameChronopic1 = "chronopic1.jpg";
+	public static string FileNameChronopic2 = "chronopic2.jpg";
+	public static string FileNameChronopic3 = "chronopic3.jpg";
 	
 	//30 colors defined
 	public static string [] Colors = {
@@ -328,4 +351,5 @@ public class Constants
 	public static string Yes = Catalog.GetString("Yes");
 	
 	public const string PrefVersionAvailable = "versionAvailable";
+
 }

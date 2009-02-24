@@ -1,6 +1,4 @@
-TODO (sorted)
-
-1.- upload SEvaluator and edit it and re-upload
+TODO:
 
 Add Cabedo's tests
 Add Margaria
@@ -16,8 +14,19 @@ all this will be release 0.9
 
 do the ping gets real IP
 
-open explorer window with database dir and log dir
+if a ping to server gets more than 5s, then abort, specially on start. Can be
+a network problem
 
+
+
+upload SEvaluator and edit it and re-upload
+add chronopic and device code th SEvaluator and update the diagram
+Add device images
+
+
+24 feb 2009
+	Copy database available from preferences window
+	evaluator code added device
 
 19 feb 2009
 	doing evaluator code

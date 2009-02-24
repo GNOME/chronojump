@@ -40,12 +40,12 @@ public class EvaluatorWindow
 	[Widget] Gtk.Label label_confiable;
 	[Widget] Gtk.TextView textview_comments;
 
+	//chronometer tab
 	[Widget] Gtk.RadioButton radio_cp_undef;
 	[Widget] Gtk.RadioButton radio_cp1;
 	[Widget] Gtk.RadioButton radio_cp2;
 	[Widget] Gtk.RadioButton radio_cp3;
 	[Widget] Gtk.RadioButton radio_cp_other;
-
 	[Widget] Gtk.Image image_cp1;
 	[Widget] Gtk.Image image_cp2;
 	[Widget] Gtk.Image image_cp3;
@@ -56,6 +56,23 @@ public class EvaluatorWindow
 	[Widget] Gtk.Button button_zoom_cp1;
 	[Widget] Gtk.Button button_zoom_cp2;
 	[Widget] Gtk.Button button_zoom_cp3;
+	
+	//devices tab
+	[Widget] Gtk.RadioButton radio_contact_steel;
+	[Widget] Gtk.RadioButton radio_contact_circuit;
+	[Widget] Gtk.RadioButton radio_infrared;
+	[Widget] Gtk.RadioButton radio_device_other;
+	[Widget] Gtk.Entry entry_device_other;
+	[Widget] Gtk.Image image_contact_steel;
+	[Widget] Gtk.Image image_contact_circuit;
+	[Widget] Gtk.Image image_infrared;
+	[Widget] Gtk.Image image_zoom_contact_steel;
+	[Widget] Gtk.Image image_zoom_contact_circuit;
+	[Widget] Gtk.Image image_zoom_infrared;
+	[Widget] Gtk.Button button_zoom_contact_steel;
+	[Widget] Gtk.Button button_zoom_contact_circuit;
+	[Widget] Gtk.Button button_zoom_infrared;
+
 
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
@@ -121,8 +138,12 @@ public class EvaluatorWindow
 		image_zoom_cp1.Pixbuf = pixbuf;
 		image_zoom_cp2.Pixbuf = pixbuf;
 		image_zoom_cp3.Pixbuf = pixbuf;
+		image_zoom_contact_steel.Pixbuf = pixbuf;
+		image_zoom_contact_circuit.Pixbuf = pixbuf;
+		image_zoom_infrared.Pixbuf = pixbuf;
 		
 		cp_zoom_buttons_unsensitive();
+		device_zoom_buttons_unsensitive();
 	}
 	
 	private void createComboContinents() {
@@ -228,6 +249,28 @@ public class EvaluatorWindow
 		}
 	}
 	
+	private void device_zoom_buttons_unsensitive() {
+		button_zoom_contact_steel.Sensitive = false;
+		button_zoom_contact_circuit.Sensitive = false;
+		button_zoom_infrared.Sensitive = false;
+	}
+
+	private void on_radio_device_toggled(object o, EventArgs args) {
+		device_zoom_buttons_unsensitive();
+		
+		if(radio_device_other.Active)
+			entry_device_other.Sensitive = true;
+		else {
+			entry_device_other.Sensitive = false;
+			if(radio_contact_steel.Active) 
+				button_zoom_contact_steel.Sensitive = true;
+			else if(radio_contact_circuit.Active) 
+				button_zoom_contact_circuit.Sensitive = true;
+			else if(radio_infrared.Active) 
+				button_zoom_infrared.Sensitive = true;
+		}
+	}
+	
 	
 	private void on_entries_required_changed(object o, EventArgs args) {
 	}
@@ -243,6 +286,15 @@ public class EvaluatorWindow
 	}
 	private void on_button_cp3_zoom_clicked(object o, EventArgs args) {
 		new DialogImageTest("Chronopic 3", Util.GetImagePath(false) + Constants.FileNameChronopic3);
+	}
+	private void on_button_contact_steel_zoom_clicked(object o, EventArgs args) {
+		//new DialogImageTest("Contact platform (tempered steel)", Util.GetImagePath(false) + Constants.FileNameChronopic1);
+	}
+	private void on_button_contact_circuit_zoom_clicked(object o, EventArgs args) {
+		//new DialogImageTest("Contact platform (circuit board)", Util.GetImagePath(false) + Constants.FileNameChronopic1);
+	}
+	private void on_button_infrared_zoom_clicked(object o, EventArgs args) {
+		//new DialogImageTest("Infrared", Util.GetImagePath(false) + Constants.FileNameChronopic1);
 	}
 
 	void on_button_change_date_clicked (object o, EventArgs args)

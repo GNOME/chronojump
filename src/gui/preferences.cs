@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO;
 using Gtk;
 using Glade;
 //using Gnome;
@@ -269,6 +270,83 @@ public class PreferencesWindow {
 		PreferencesWindowBox = null;
 	}
 	
+	string fileDB;
+	string fileCopy;
+	Gtk.FileChooserDialog fc;
+	void on_button_db_backup_clicked (object o, EventArgs args)
+	{
+		System.IO.FileInfo file1 = new System.IO.FileInfo(label_database.Text); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file2 = new System.IO.FileInfo(label_database_temp.Text); //potser cal una arrobar abans (a windows)
+		fileDB = "";
+
+		long length1 = 0;
+		if(file1.Exists)
+			length1 = file1.Length;
+		long length2 = 0;
+		if(file2.Exists)
+			length2 = file2.Length;
+		
+		if(length1 == 0 && length2 == 0) 
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error. Cannot find database."));
+		else if(length1 > length2)
+			fileDB = label_database.Text;
+		else
+			fileDB = label_database_temp.Text;
+
+		fc = new Gtk.FileChooserDialog(Catalog.GetString("Copy database to:"),
+				preferences,
+				FileChooserAction.SelectFolder,
+				Catalog.GetString("Cancel"),ResponseType.Cancel,
+				Catalog.GetString("Copy"),ResponseType.Accept
+				);
+
+		if (fc.Run() == (int)ResponseType.Accept) 
+		{
+			fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump_copy.db";
+			try {
+				fc.Hide ();
+				if (File.Exists(fileCopy)) {
+					Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
+								fileCopy, File.GetAttributes(fileCopy), File.GetCreationTime(fileCopy)));
+					Log.WriteLine("Overwrite...");
+					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), fileCopy);
+					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
+				} else {
+					File.Copy(fileDB, fileCopy);
+					string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
+					new DialogMessage(Constants.MessageTypes.INFO, myString);
+				}
+			} 
+			catch {
+				string myString = string.Format(Catalog.GetString("Cannot copy to file {0} "), fileCopy);
+				new DialogMessage(Constants.MessageTypes.WARNING, myString);
+			}
+		}
+		else {
+			fc.Hide ();
+			return ;
+		}
+		
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
+		
+	}
+	
+	private void on_overwrite_file_accepted(object o, EventArgs args)
+	{
+		try {
+			File.Delete(fileCopy);
+			File.Copy(fileDB, fileCopy);
+			fc.Hide ();
+			string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
+			new DialogMessage(Constants.MessageTypes.INFO, myString);
+		} catch {
+			string myString = string.Format(Catalog.GetString("Cannot copy to file {0} "), fileCopy);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
+		
+
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		/* the falses are for the dbcon that is not opened */

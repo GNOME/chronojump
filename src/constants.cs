@@ -100,7 +100,7 @@ public class Constants
 	};
 	public static string [] Devices = {
 		UndefinedDefault + ":" + Catalog.GetString(UndefinedDefault), 
-		"Contact platform (tempered steel)" + ":" + Catalog.GetString("Contact platform (tempered steel)"),
+		"Contact platform (steel)" + ":" + Catalog.GetString("Contact platform (steel)"),
 		"Contact platform (circuit board)" + ":" + Catalog.GetString("Contact platform (circuit board)"),
 		"Infrared" + ":" + Catalog.GetString("Infrared"),
 		"Other" + ":" + Catalog.GetString("Other"),

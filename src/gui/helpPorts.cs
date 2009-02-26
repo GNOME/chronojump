@@ -88,6 +88,8 @@ public class HelpPorts
 		new DialogMessage(Constants.MessageTypes.HELP,
 				Catalog.GetString("Check Chronopic port") + "\n\n" +
 				"1 " + Catalog.GetString("Click with the right button on <i>MyPC</i> icon at desktop or Start Menu.") + "\n" +
+				"  " + Catalog.GetString("Note <i>MyPC</i> can be called <i>System</i> in Windows Vista.") + "\n" +
+				"  " + Catalog.GetString("Note also, you maybe have a <i>MyPC</i> icon that has no <i>properties</i> because can be a link to the real <i>MyPC</i> icon, if you cannot see <i>Properties</i>, please use another MyPC icon.") + "\n" +
 				"2 " + Catalog.GetString("Select <i>properties</i> (last option).") +  "\n" +
 				"3 " + Catalog.GetString("Go to <i>hardware</i>.") +  "\n" +
 				"4 " + Catalog.GetString("Select <i>administrate dispositives</i>. It's first button.") +  "\n" +

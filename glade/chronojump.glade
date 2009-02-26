@@ -13480,7 +13480,7 @@ suitable for agility tests)</property>
   <property name="title" translatable="yes">Chronopic port help</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
-  <property name="modal">True</property>
+  <property name="modal">False</property>
   <property name="resizable">False</property>
   <property name="destroy_with_parent">False</property>
   <property name="decorated">True</property>
@@ -13907,8 +13907,8 @@ suitable for agility tests)</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Message</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
-  <property name="modal">True</property>
+  <property name="window_position">GTK_WIN_POS_CENTER_ALWAYS</property>
+  <property name="modal">False</property>
   <property name="resizable">False</property>
   <property name="destroy_with_parent">False</property>
   <property name="decorated">True</property>
@@ -26875,7 +26875,7 @@ by you</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
-		      <property name="active">False</property>
+		      <property name="active">True</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
 		      <signal name="toggled" handler="on_radio_cp_toggled" last_modification_time="Thu, 19 Feb 2009 15:47:11 GMT"/>
@@ -27248,7 +27248,7 @@ by you</property>
 		      </child>
 
 		      <child>
-			<widget class="GtkImage" id="image_contact_circuit">
+			<widget class="GtkImage" id="image_contact_modular">
 			  <property name="visible">True</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
@@ -27313,16 +27313,16 @@ by you</property>
 		      </child>
 
 		      <child>
-			<widget class="GtkButton" id="button_zoom_contact_circuit">
+			<widget class="GtkButton" id="button_zoom_contact_modular">
 			  <property name="visible">True</property>
 			  <property name="tooltip" translatable="yes">Expand image and show description</property>
 			  <property name="can_focus">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
-			  <signal name="clicked" handler="on_button_contact_circuit_zoom_clicked" last_modification_time="Tue, 24 Feb 2009 16:11:56 GMT"/>
+			  <signal name="clicked" handler="on_button_contact_modular_zoom_clicked" last_modification_time="Thu, 26 Feb 2009 15:40:59 GMT"/>
 
 			  <child>
-			    <widget class="GtkImage" id="image_zoom_contact_circuit">
+			    <widget class="GtkImage" id="image_zoom_contact_modular">
 			      <property name="visible">True</property>
 			      <property name="xalign">0.5</property>
 			      <property name="yalign">0.5</property>
@@ -27422,7 +27422,7 @@ by you</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
-			  <property name="active">False</property>
+			  <property name="active">True</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
 			  <property name="group">radio_device_other</property>
@@ -27464,11 +27464,11 @@ by you</property>
 		      </child>
 
 		      <child>
-			<widget class="GtkRadioButton" id="radio_contact_circuit">
+			<widget class="GtkRadioButton" id="radio_contact_modular">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">Contact platform
-(circuit board)</property>
+(modular circuit board)</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>

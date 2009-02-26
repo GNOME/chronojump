@@ -1216,12 +1216,22 @@ public class Stat
 			la.Label = graphData.LabelBottom;
 	
 		LinearAxis ly1 = new LinearAxis();
-		if(graphData.LabelLeft != "")
-			ly1 = createLinearAxis(graphData.LabelLeft, plot.YAxis1, graphData.IsLeftAxisInteger);
+		if(graphData.LabelLeft != "") {
+			try {
+				ly1 = createLinearAxis(graphData.LabelLeft, plot.YAxis1, graphData.IsLeftAxisInteger);
+			} catch {
+				//on stats global inter-session maybe cannot create axis because maybe there's no data in seconds like sj, cmj, abk
+			}
+		}
 		
 		LinearAxis ly2 = new LinearAxis();
-		if(graphData.LabelRight != "")
-			ly2 = createLinearAxis(graphData.LabelRight, plot.YAxis2, graphData.IsRightAxisInteger);
+		if(graphData.LabelRight != "") {
+			try {
+				ly2 = createLinearAxis(graphData.LabelRight, plot.YAxis2, graphData.IsRightAxisInteger);
+			} catch {
+				//on stats global inter-session maybe cannot create axis because maybe there's no data in % like dj indexes, ...
+			}
+		}
 	}
 
 	private LinearAxis createLinearAxis(string label, Axis myAxis, bool isInt) {

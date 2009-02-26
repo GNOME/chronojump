@@ -59,18 +59,18 @@ public class EvaluatorWindow
 	
 	//devices tab
 	[Widget] Gtk.RadioButton radio_contact_steel;
-	[Widget] Gtk.RadioButton radio_contact_circuit;
+	[Widget] Gtk.RadioButton radio_contact_modular;
 	[Widget] Gtk.RadioButton radio_infrared;
 	[Widget] Gtk.RadioButton radio_device_other;
 	[Widget] Gtk.Entry entry_device_other;
 	[Widget] Gtk.Image image_contact_steel;
-	[Widget] Gtk.Image image_contact_circuit;
+	[Widget] Gtk.Image image_contact_modular;
 	[Widget] Gtk.Image image_infrared;
 	[Widget] Gtk.Image image_zoom_contact_steel;
-	[Widget] Gtk.Image image_zoom_contact_circuit;
+	[Widget] Gtk.Image image_zoom_contact_modular;
 	[Widget] Gtk.Image image_zoom_infrared;
 	[Widget] Gtk.Button button_zoom_contact_steel;
-	[Widget] Gtk.Button button_zoom_contact_circuit;
+	[Widget] Gtk.Button button_zoom_contact_modular;
 	[Widget] Gtk.Button button_zoom_infrared;
 
 
@@ -134,12 +134,19 @@ public class EvaluatorWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameChronopic3);
 		image_cp3.Pixbuf = pixbuf;
 					
+		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameContactPlatformSteel);
+		image_contact_steel.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameContactPlatformModular);
+		image_contact_modular.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameInfrared);
+		image_infrared.Pixbuf = pixbuf;
+					
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
 		image_zoom_cp1.Pixbuf = pixbuf;
 		image_zoom_cp2.Pixbuf = pixbuf;
 		image_zoom_cp3.Pixbuf = pixbuf;
 		image_zoom_contact_steel.Pixbuf = pixbuf;
-		image_zoom_contact_circuit.Pixbuf = pixbuf;
+		image_zoom_contact_modular.Pixbuf = pixbuf;
 		image_zoom_infrared.Pixbuf = pixbuf;
 		
 		cp_zoom_buttons_unsensitive();
@@ -189,8 +196,6 @@ public class EvaluatorWindow
 	}
 
 	private void on_combo_continents_changed(object o, EventArgs args) {
-		//Console.WriteLine("Changed");
-		
 		if(UtilGtk.ComboGetActive(combo_continents) == Catalog.GetString(Constants.ContinentUndefined)) {
 			countries [0] = Constants.CountryUndefinedID + ":" + Constants.CountryUndefined + ":" + Catalog.GetString(Constants.CountryUndefined);
 			countriesTranslated = new String[1];
@@ -251,7 +256,7 @@ public class EvaluatorWindow
 	
 	private void device_zoom_buttons_unsensitive() {
 		button_zoom_contact_steel.Sensitive = false;
-		button_zoom_contact_circuit.Sensitive = false;
+		button_zoom_contact_modular.Sensitive = false;
 		button_zoom_infrared.Sensitive = false;
 	}
 
@@ -264,8 +269,8 @@ public class EvaluatorWindow
 			entry_device_other.Sensitive = false;
 			if(radio_contact_steel.Active) 
 				button_zoom_contact_steel.Sensitive = true;
-			else if(radio_contact_circuit.Active) 
-				button_zoom_contact_circuit.Sensitive = true;
+			else if(radio_contact_modular.Active) 
+				button_zoom_contact_modular.Sensitive = true;
 			else if(radio_infrared.Active) 
 				button_zoom_infrared.Sensitive = true;
 		}
@@ -288,13 +293,13 @@ public class EvaluatorWindow
 		new DialogImageTest("Chronopic 3", Util.GetImagePath(false) + Constants.FileNameChronopic3);
 	}
 	private void on_button_contact_steel_zoom_clicked(object o, EventArgs args) {
-		//new DialogImageTest("Contact platform (tempered steel)", Util.GetImagePath(false) + Constants.FileNameChronopic1);
+		new DialogImageTest("Contact platform (tempered steel)", Util.GetImagePath(false) + Constants.FileNameContactPlatformSteel);
 	}
-	private void on_button_contact_circuit_zoom_clicked(object o, EventArgs args) {
-		//new DialogImageTest("Contact platform (circuit board)", Util.GetImagePath(false) + Constants.FileNameChronopic1);
+	private void on_button_contact_modular_zoom_clicked(object o, EventArgs args) {
+		new DialogImageTest("Contact platform (modular circuit board)", Util.GetImagePath(false) + Constants.FileNameContactPlatformModular);
 	}
 	private void on_button_infrared_zoom_clicked(object o, EventArgs args) {
-		//new DialogImageTest("Infrared", Util.GetImagePath(false) + Constants.FileNameChronopic1);
+		new DialogImageTest("Infrared", Util.GetImagePath(false) + Constants.FileNameInfrared);
 	}
 
 	void on_button_change_date_clicked (object o, EventArgs args)

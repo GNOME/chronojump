@@ -17,12 +17,25 @@ do the ping gets real IP
 if a ping to server gets more than 5s, then abort, specially on start. Can be
 a network problem
 
-
-
 upload SEvaluator and edit it and re-upload
 add chronopic and device code th SEvaluator and update the diagram
-Add device images
 
+
+26 feb 2009
+	Fixed bug in axis of intersession global graphs (axis creation bug
+	when there are no sj, cmj or abk (left axis data))
+
+	Added info on gui help ports: MyPC can be system (equipo), also MyPC
+	can be a link to real MyPC and have no properties
+
+	not modal windows to allow lusers (on all platforms) unsensitive app
+	perception:
+	-DialogMessage: not modal, center always
+	-DialogHelpPorts: not modal
+
+	added evaluator device images
+
+	uploadSession with try/catch again
 
 24 feb 2009
 	Copy database available from preferences window

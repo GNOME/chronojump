@@ -105,7 +105,8 @@ public class GraphGlobal : StatGlobal
 			} else {
 				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
 			}
-			CurrentGraphData.LabelRight = "";
+			//CurrentGraphData.LabelRight = "";
+			CurrentGraphData.LabelRight = Catalog.GetString("Index") + "(%)";
 		}
 	}
 

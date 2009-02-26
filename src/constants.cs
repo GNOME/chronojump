@@ -203,6 +203,9 @@ public class Constants
 	public static string FileNameChronopic1 = "chronopic1.jpg";
 	public static string FileNameChronopic2 = "chronopic2.jpg";
 	public static string FileNameChronopic3 = "chronopic3.jpg";
+	public static string FileNameContactPlatformSteel = "plataforma_contactos.jpg";
+	public static string FileNameContactPlatformModular = "modular_platform_with_chronopic.jpg";
+	public static string FileNameInfrared = "infrared.png";
 	
 	//30 colors defined
 	public static string [] Colors = {

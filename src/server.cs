@@ -154,7 +154,7 @@ public class Server
 	{
 		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 
-//		try {	
+		try {	
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
 		
@@ -484,12 +484,10 @@ public class Server
 			myServer.UpdateSession(currentSession.ServerUniqueID, state); 
 
 			Log.WriteLine(myServer.DisConnectDatabase());
-			/*
 		} catch {
 			//other thread updates the gui:
 			serverSessionError = true;
 		}
-		*/
 	}
 	
 	

@@ -79,14 +79,16 @@ Chronopic 1.0 (Skypic + tarxeta de expansión)
 v.0.1 Gráficas (inglés)
 :::endSoftwarePhoto:::
 
-:::hardPhoto-6::: 
-Plataforma de contactos construída seguindo estas <a href="construction_contact_platform_gl.html">instrucións</a>
+:::hardPhoto-10::: 
+Modular platform build following these <a href="construction_modular_circuit_platform_es.html">instructions</a> (spanish) (TRANSLATE)
 :::endHardwarePhoto:::
 
 :::softPhoto-9::: 
 v.0.1 Gráficas de saltos reactivos (inglés)
 :::endSoftwarePhoto:::
 
-:::hardPhotoNull:::
+:::hardPhoto-6::: 
+Plataforma de contactos construída seguindo estas <a href="construction_contact_platform_gl.html">instrucións</a>
+:::endHardwarePhoto:::
 
 </table>

@@ -20,6 +20,17 @@ a network problem
 upload SEvaluator and edit it and re-upload
 add chronopic and device code th SEvaluator and update the diagram
 
+27 feb 2009
+	0.8.2.2
+	Fixed but untested crash at 1st and 2nd execution on some systems:
+	-fixed bug in moveDatabaseToNewLocationIfNeeded(), now if no database
+	exists yet, don't try to move from c:\.chronojump folder
+	This will solve the crashing after 1st database creation
+	-Log.GetLast() returns "" if there are no files. 
+	This maybe solves the silent crash at 2nd execution
+
+
+	Link to hardware page for constructing the devices (on evaluator)
 
 26 feb 2009
 	Fixed bug in axis of intersession global graphs (axis creation bug

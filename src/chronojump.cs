@@ -517,7 +517,7 @@ public class ChronoJump
 			if(Directory.Exists(oldDB)) {
 				previous = oldDB;
 				moveNeeded = true;
-			} else {
+			} else if(Directory.Exists(reallyOldDB)){
 				previous = reallyOldDB;
 				moveNeeded = true;
 			}

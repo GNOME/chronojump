@@ -179,6 +179,9 @@ public class Log
 		}
 		//Console.WriteLine("new empty: {0}\n, the log: {1}", newEmptyFile, lastLogFile);
 
-		return Path.GetFullPath(lastLogFile);
+		if(lastLogFile == "")
+			return "";
+		else
+			return Path.GetFullPath(lastLogFile);
 	}
 }

@@ -154,7 +154,7 @@ public class RunType : EventType
 		} 
 		else if(name == "Agility-505") {
 			hasIntervals 	= false; 
-			distance 	= -1;
+			distance 	= 10;
 			tracksLimited 	= false;
 			fixedValue 	= 0;
 			isPredefined	= true;
@@ -269,15 +269,6 @@ public class RunType : EventType
 			imageFileName = "margaria.png";
 			description	= Catalog.GetString("Margaria-Kalamen");
 			longDescription	= "";
-			/*
-				"<b>" + Catalog.GetString("Procedure") + "</b>: " +
-				Catalog.GetString("Markers are set up 5 and 15 meters from a line marked on the ground. The athlete runs from the 15 meter marker towards the line (run in distance to build up speed) and through the 5 m markers, turns on the line and runs back through the 5 m markers. The time is recorded from when the athletes first runs through the 5 meter marker, and stopped when they return through these markers (that is, the time taken to cover the 5 m up and back distance - 10 m total). The best of two trails is recorded. The turning ability on each leg should be tested. The subject should be encouraged to not overstep the line by too much, as this will increase their time.") + "\n\n" +
-				
-				"<b>" + Catalog.GetString("Comments") + "</b>: " + 
-				Catalog.GetString("This is a test of 180 degree turning ability. This ability may not be applicable to some sports.") + "\n\n" +
-				"http://www.topendsports.com/testing/tests/505.htm" + "\n" +
-	    			Catalog.GetString("Cited with permission.");
-				*/
 		} //interval
 		else if(name == "byLaps") {
 			hasIntervals 	= true; 

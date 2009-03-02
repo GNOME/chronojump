@@ -25,6 +25,8 @@ add chronopic and device code th SEvaluator and update the diagram
 
 hide name in persons of server: replace it with uniqueID on insertion
 
+2 mar 2009 (3)
+	Fixed 505 is distance 10
 
 2 mar 2009 (2)
 	0.8.2.4

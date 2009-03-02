@@ -14,11 +14,13 @@ all this will be release 0.9
 
 do the ping gets real IP
 
-if a ping to server gets more than 5s, then abort, specially on start. Can be
-a network problem
-
 upload SEvaluator and edit it and re-upload
 add chronopic and device code th SEvaluator and update the diagram
+
+2 mar 2009
+	0.8.2.3
+	Added a cancel to splash window to allow cancel ping on start (good
+	for net problems where packets are lost)
 
 27 feb 2009
 	0.8.2.2

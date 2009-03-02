@@ -31,7 +31,11 @@ public class SplashWindow
 	[Widget] Gtk.ProgressBar progressbarRate;
 	[Widget] Gtk.ProgressBar progressbarSubRate;
 	[Widget] Gtk.Label myLabel;
+	[Widget] Gtk.Button button_cancel;
 
+	
+	public Gtk.Button fakeButtonCancel;
+	
 	static SplashWindow SplashWindowBox;
 
 	public SplashWindow ()
@@ -43,6 +47,8 @@ public class SplashWindow
 		//put an icon to window
 		UtilGtk.IconWindow(splash_window);
 
+		fakeButtonCancel = new Gtk.Button();
+		CancelButtonShow(false);
 		hideAllProgressbars();
 
 		//put logo image
@@ -92,11 +98,34 @@ public class SplashWindow
 		else 
 			progressbarSubRate.Fraction = fraction;
 	}
-		
-			
+	
 	public void UpdateLabel (string text) {
 		myLabel.Text = text;
 	}
+	
+	/* 
+	 * cancel	
+	 * for SPing
+	 */
+	public void CancelButtonShow(bool show) {
+		if(show)
+			button_cancel.Show();
+		else
+			button_cancel.Hide();
+	}
+	
+	protected void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		fakeButtonCancel.Click();
+	}
+	
+	public Button FakeButtonCancel 
+	{
+		set { fakeButtonCancel = value; }
+		get { return fakeButtonCancel; }
+	}
+
+			
 
 	public void Destroy () {
 		SplashWindowBox.splash_window.Destroy ();

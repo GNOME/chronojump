@@ -29,7 +29,6 @@ using System.Diagnostics; //Process
 
 using System.Collections; //ArrayList
 
-
 public class ChronoJump 
 {
 	ChronoJumpWindow chronoJumpWin;
@@ -104,6 +103,10 @@ public class ChronoJump
 		
 		Application.Run();
 	}
+
+	string versionAvailable;
+	bool pinging;
+	bool pulseGTKPingShouldEnd;
 
 	protected void sqliteThings () {
 		bool crashedBefore = checkIfChronojumpExitAbnormally();
@@ -242,7 +245,16 @@ public class ChronoJump
 		messageToShowOnBoot += recuperateBrokenEvents();
 
 		//connect to server to Ping
-		string versionAvailable = Server.Ping(true, progName, readVersion()); //doInsertion
+		versionAvailable = "";
+		pinging = false;
+			
+		thread = new Thread(new ThreadStart(findVersion));
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTKPing));
+		thread.Start(); 
+
+		while(pinging) {
+		}
+
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
 		if( versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
 			//versionAvailable is higher than client version
@@ -282,6 +294,31 @@ public class ChronoJump
 
 	}
 
+	private void findVersion() {
+		pinging = true;
+	Console.Write(" 1 ");
+		pulseGTKPingShouldEnd = false;
+	Console.Write(" 2 ");
+		splashShowButton = true;
+	Console.Write(" 3 ");
+		splashWin.FakeButtonCancel.Clicked += new EventHandler(on_find_version_cancelled);
+	Console.Write(" 4 ");
+		versionAvailable = Server.Ping(true, progName, readVersion()); //doInsertion
+	Console.Write(" 5 ");
+		splashShowButton = false;
+	Console.Write(" 6 ");
+	Console.Write(" version:  " + versionAvailable);
+
+	pinging = false;
+	}
+		
+	private void on_find_version_cancelled(object o, EventArgs args) {
+		splashShowButton = false;
+		pulseGTKPingShouldEnd = true;
+		versionAvailable = Constants.ServerOffline;
+		pinging = false;
+	}
+
 	protected void readMessageToStart() {
 		if(messageToShowOnBoot.Length > 0) {
 			ErrorWindow errorWin;
@@ -289,15 +326,12 @@ public class ChronoJump
 				messageToShowOnBoot += "\n<b>" + string.Format(Catalog.GetString("Chronojump will exit now.")) + "</b>\n";
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit);
-//				Application.Run();
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
-//				Application.Run();
 			}
 		} else {
 			startChronojump();
-//			Application.Run();
 		}
 	}
 
@@ -347,6 +381,8 @@ public class ChronoJump
 	/* splash window things 
 	 * --------------------*/
 
+	private bool splashShowButton = false;
+
 	private void splashMessageChange(int messageInt) {
 	       splashMessage = Catalog.GetString(Constants.SplashMessages[messageInt]);
 		needUpdateSplashMessage = true;
@@ -354,7 +390,8 @@ public class ChronoJump
 	
 	protected bool PulseGTK ()
 	{
-		if(needEndSplashWin || ! thread.IsAlive) {
+		if( ( needEndSplashWin && ! pinging) 
+				|| ! thread.IsAlive) {
 			fakeSplashButton.Click();
 			Log.Write("splash window dying here");
 			return false;
@@ -362,7 +399,7 @@ public class ChronoJump
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending
 		splashWin = SplashWindow.Show();
 		//Log.WriteLine("splash");
-
+	
 		if(updatingDB) {
 			splashWin.ShowProgressbar("updating");
 			splashWin.UpdateLabel(splashMessage + " " + Sqlite.PrintConversionText());
@@ -398,6 +435,23 @@ public class ChronoJump
 		readMessageToStart();
 	}
 
+	protected bool PulseGTKPing ()
+	{
+		if(pulseGTKPingShouldEnd) {
+			splashWin.CancelButtonShow(false);
+			return false;
+		}
+
+		if(splashShowButton)
+			splashWin.CancelButtonShow(true); //show cancel button on splash win
+		else
+			splashWin.CancelButtonShow(false);
+
+
+		Thread.Sleep (50);
+		return true;
+	}
+	
 		
 	/* ---------------------
 	 * other support methods 

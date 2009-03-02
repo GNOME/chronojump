@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.63";
+	static string lastChronojumpDatabaseVersion = "0.64";
 
 	public Sqlite() {
 	}
@@ -812,6 +812,22 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.63";
 			}
+			if(currentVersion == "0.63") {
+				dbcon.Open();
+				
+				RunType type = new RunType();
+				type.Name = "Margaria";
+				type.Distance = 0;
+				type.Description = "Margaria-Kalamen test";
+				SqliteRunType.Insert(type, Constants.RunTypeTable, true);
+
+				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Margaria", "margaria.png", true);
+				SqlitePreferences.Update ("databaseVersion", "0.64", true); 
+				
+				Log.WriteLine("Converted DB to 0.64 (added margaria test)"); 
+				dbcon.Close();
+				currentVersion = "0.64";
+			}
 
 
 		}
@@ -929,7 +945,8 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
-		//0.62 - 0.63 Converted DB to 0.63 (added 'versionAvailable' to preferences)
+		//0.63 - 0.64 added margaria test
+		//0.62 - 0.63 added 'versionAvailable' to preferences
 		//0.61 - 0.62 added hexagon (jumpRj test)
 		//0.60 - 0.61 added RunIntervalType distancesString (now we van have interval tests with different distances of tracks). Added MTGUG
 		//0.59 - 0.60 added volumeOn and evaluatorServerID to preferences. Session has now serverUniqueID. Simulated now are -1, because 0 is real and positive is serverUniqueID

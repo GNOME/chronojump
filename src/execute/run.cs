@@ -290,12 +290,23 @@ Log.WriteLine("MANAGE(3)!!!!");
 			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
 		appbar.Push( 1,myStringPush );
 
+
+		string description = "";
+		if(type == "Margaria") {
+			// P = W * 9.8 * D / t   
+			// W: person weight
+			// D: distance between 3d and 9th stair
+			double weight = SqlitePersonSession.SelectPersonWeight(personID, sessionID);
+			double distanceMM = distance / 1000;
+			description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMM / time).ToString(), pDN) + " (Watts)";
+		}
+
 		uniqueID = SqliteRun.Insert(false, Constants.RunTable, "NULL", personID, sessionID, 
-				type, distance, time, "", //description
+				type, distance, time, description, 
 				Util.BoolToNegativeInt(simulated)); 
 		
 		//define the created object
-		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, "", Util.BoolToNegativeInt(simulated)); 
+		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, description, Util.BoolToNegativeInt(simulated)); 
 		
 		
 		//event will be raised, and managed in chronojump.cs

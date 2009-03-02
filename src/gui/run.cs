@@ -812,12 +812,12 @@ public class RunExtraWindow
 	[Widget] Gtk.Label label_limit_units;
 	[Widget] Gtk.Label label_distance;
 	[Widget] Gtk.SpinButton distance_limit;
-	[Widget] Gtk.Label label_meters;
+	[Widget] Gtk.Label label_distance_units;
 	[Widget] Gtk.Window run_extra;
 	[Widget] Gtk.SpinButton spinbutton_distance;
 	[Widget] Gtk.Button button_accept;
 
-	static int distance = 100;
+	static int distance;
 	static int limited = 10;
 	static bool tracksLimited;
 	
@@ -862,6 +862,13 @@ public class RunExtraWindow
 			hideDistanceData();	
 		}
 		
+		if(myRunType.Name == "Margaria") {
+			RunExtraWindowBox.label_distance.Text = Catalog.GetString("Vertical distance between\nstairs third and nine.");
+			RunExtraWindowBox.label_distance_units.Text = Catalog.GetString("Millimeters.");
+			distance = 1050;
+		} else
+			distance = 100;
+		
 		RunExtraWindowBox.spinbutton_distance.Value = distance;
 		RunExtraWindowBox.spinbutton_limit.Value = limited;
 		
@@ -879,7 +886,7 @@ public class RunExtraWindow
 	static void hideDistanceData () {
 		RunExtraWindowBox.label_distance.Sensitive = false;
 		RunExtraWindowBox.spinbutton_distance.Sensitive = false;
-		RunExtraWindowBox.label_meters.Sensitive = false;
+		RunExtraWindowBox.label_distance_units.Sensitive = false;
 	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)

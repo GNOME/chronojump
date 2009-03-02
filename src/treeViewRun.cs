@@ -88,11 +88,20 @@ public class TreeViewRuns : TreeViewEvent
 		int count = 0;
 		myData[count++] = title;
 		//myData[count++] = Util.TrimDecimals(newRun.Speed.ToString(), pDN); this doesn't know the metersSecondsPreferred
-		myData[count++] = Util.TrimDecimals(Util.GetSpeed(
-					newRun.Distance.ToString(),
-					newRun.Time.ToString(),
-					metersSecondsPreferred ), pDN);
-		myData[count++]	= Util.TrimDecimals(newRun.Distance.ToString(), pDN);
+		if(newRun.Type == "Margaria") 
+			myData[count++] = ""; //don't show speed, because has no sense on Margaria
+		else {
+			myData[count++] = Util.TrimDecimals(Util.GetSpeed(
+						newRun.Distance.ToString(),
+						newRun.Time.ToString(),
+						metersSecondsPreferred ), pDN);
+		}
+		
+		string distanceUnits = "";
+		if(newRun.Type == "Margaria") 
+			distanceUnits = " mm";
+		myData[count++]	= Util.TrimDecimals(newRun.Distance.ToString(), pDN) + distanceUnits;
+
 		myData[count++] = Util.TrimDecimals(newRun.Time.ToString(), pDN);
 		myData[count++] = newRun.Description;
 		myData[count++] = newRun.UniqueID.ToString();

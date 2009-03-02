@@ -117,6 +117,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_20yard;
 	[Widget] Gtk.Button button_run_505;
 	[Widget] Gtk.Button button_run_illinois;
+	[Widget] Gtk.Button button_run_margaria;
 	[Widget] Gtk.Button button_run_shuttle;
 	[Widget] Gtk.Button button_run_zigzag;
 	[Widget] Gtk.Button button_run_interval_by_laps;
@@ -169,6 +170,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_20yard;
 	[Widget] Gtk.MenuItem menuitem_run_505;
 	[Widget] Gtk.MenuItem menuitem_run_illinois;
+	[Widget] Gtk.MenuItem menuitem_run_margaria;
 	[Widget] Gtk.MenuItem menuitem_run_shuttle;
 	[Widget] Gtk.MenuItem menuitem_run_zigzag;
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_laps;
@@ -2374,6 +2376,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentEventType = new RunType("Agility-505");
 		} else 	if(o == (object) button_run_illinois) {
 			currentEventType = new RunType("Agility-Illinois");
+		} else 	if(o == (object) button_run_margaria) {
+			currentEventType = new RunType("Margaria");
 		} else 	if(o == (object) button_run_shuttle) {
 			currentEventType = new RunType("Agility-Shuttle-Run");
 		} else 	if(o == (object) button_run_zigzag) {
@@ -2930,6 +2934,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 		if(o == (object) button_run_custom || o == (object) menuitem_run_custom) {
 			currentRunType = new RunType("Custom");
+		} else if (o == (object) button_run_margaria || o == (object) menuitem_run_margaria) {
+			currentRunType = new RunType("Margaria");
 		}
 		// add others...
 		

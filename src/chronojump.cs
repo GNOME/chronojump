@@ -104,6 +104,7 @@ public class ChronoJump
 		Application.Run();
 	}
 
+	//variables to manage the ping thread
 	string versionAvailable;
 	bool pinging;
 	bool pulseGTKPingShouldEnd;
@@ -446,7 +447,6 @@ public class ChronoJump
 			splashWin.CancelButtonShow(true); //show cancel button on splash win
 		else
 			splashWin.CancelButtonShow(false);
-
 
 		Thread.Sleep (50);
 		return true;

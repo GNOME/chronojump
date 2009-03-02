@@ -462,13 +462,16 @@ public class ExportSession
 
 			foreach (string runString in myRuns) {
 				string [] myStr = runString.Split(new char[] {':'});
+				string speed = "";
+				if(myStr[4] != "Margaria")
+					speed = Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec);//speed in m/s (true)
 
 				myData.Add (
 						myStr[2] + ":" +    			//personID
 						myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
-						Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + //speed in m/s (true)
+						speed + ":" + 				//speed in m/s (true)
 						Util.RemoveNewLine(myStr[7]) + ":" + Util.NoYes(myStr[8]) //description, simulated
 					   );
 			}

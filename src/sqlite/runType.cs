@@ -65,6 +65,7 @@ class SqliteRunType : Sqlite
 			"400m:400:run 400 meters",
 			"1000m:1000:run 1000 meters",
 			"2000m:2000:run 2000 meters",
+			"Margaria:0:Margaria-Kalamen test",
 
 			//also simple agility tests
 			"Agility-20Yard:18.28:20Yard Agility test",
@@ -243,6 +244,7 @@ class SqliteRunType : Sqlite
 		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Illinois", "agility_illinois.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Shuttle-Run", "agility_shuttle.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-ZigZag", "agility_zigzag.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Margaria", "margaria.png", true);
 	}
 
 

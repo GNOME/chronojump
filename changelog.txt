@@ -1,7 +1,6 @@
 TODO:
 
 Add Cabedo's tests
-Add Margaria
 
 add "chronopic3" to ping. maybe need to ask user
 
@@ -14,8 +13,24 @@ all this will be release 0.9
 
 do the ping gets real IP
 
+SEvaluator must be also local, and when edit, upload it. On the other hand, if
+it's only on server, we need to call server to know our values And it will be
+easy that users can know the evaluator data of others.
+mybe the best is have an SEvaluator local table iwht only one register.
+There's a need of a bool telling if it has been updated since last change or
+not.
+Then there's no need of evaluatorUniqueID in preferences.
 upload SEvaluator and edit it and re-upload
 add chronopic and device code th SEvaluator and update the diagram
+
+hide name in persons of server: replace it with uniqueID on insertion
+
+
+2 mar 2009 (2)
+	0.8.2.4
+	db 0.64
+	Added Margaria test: calculates power (only pending to add the
+	longDescription in program)
 
 2 mar 2009
 	0.8.2.3

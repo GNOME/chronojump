@@ -685,15 +685,17 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
 ///Upload a evaluator
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadEvaluator", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public int UploadEvaluator(ServerEvaluator myEval) {
+    public int UploadEvaluator(ServerEvaluator myEval, int evalSID) {
         object[] results = this.Invoke("UploadEvaluator", new object[] {
-                    myEval});
+                    myEval,
+                    evalSID});
         return ((int)(results[0]));
     }
     
-    public System.IAsyncResult BeginUploadEvaluator(ServerEvaluator myEval, System.AsyncCallback callback, object asyncState) {
+    public System.IAsyncResult BeginUploadEvaluator(ServerEvaluator myEval, int evalSID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("UploadEvaluator", new object[] {
-                    myEval}, callback, asyncState);
+                    myEval,
+                    evalSID}, callback, asyncState);
     }
     
     public int EndUploadEvaluator(System.IAsyncResult asyncResult) {
@@ -701,16 +703,17 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return ((int)(results[0]));
     }
     
-    public void UploadEvaluatorAsync(ServerEvaluator myEval) {
-        this.UploadEvaluatorAsync(myEval, null);
+    public void UploadEvaluatorAsync(ServerEvaluator myEval, int evalSID) {
+        this.UploadEvaluatorAsync(myEval, evalSID, null);
     }
     
-    public void UploadEvaluatorAsync(ServerEvaluator myEval, object userState) {
+    public void UploadEvaluatorAsync(ServerEvaluator myEval, int evalSID, object userState) {
         if ((this.UploadEvaluatorOperationCompleted == null)) {
             this.UploadEvaluatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUploadEvaluatorCompleted);
         }
         this.InvokeAsync("UploadEvaluator", new object[] {
-                    myEval}, this.UploadEvaluatorOperationCompleted, userState);
+                    myEval,
+                    evalSID}, this.UploadEvaluatorOperationCompleted, userState);
     }
     
     private void OnUploadEvaluatorCompleted(object arg) {
@@ -1248,6 +1251,15 @@ public partial class ServerEvaluator {
     
     /// <remarks/>
     public int CountryID;
+    
+    /// <remarks/>
+    public string Chronometer;
+    
+    /// <remarks/>
+    public string Device;
+    
+    /// <remarks/>
+    public string Comments;
     
     /// <remarks/>
     public bool Confiable;

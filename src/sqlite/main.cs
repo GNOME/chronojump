@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.64";
+	static string lastChronojumpDatabaseVersion = "0.65";
 
 	public Sqlite() {
 	}
@@ -828,7 +828,19 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.64";
 			}
+			if(currentVersion == "0.64") {
+				dbcon.Open();
+				
+				SqliteServer sqliteServerObject = new SqliteServer();
+				//user has also an evaluator table with a row (it's row)	
+				sqliteServerObject.CreateEvaluatorTable();
 
+				SqlitePreferences.Update ("databaseVersion", "0.65", true); 
+				
+				Log.WriteLine("Converted DB to 0.65 (added Sevaluator on client)"); 
+				dbcon.Close();
+				currentVersion = "0.65";
+			}
 
 		}
 
@@ -860,10 +872,12 @@ class Sqlite
 		creationTotal = 12;
 		creationRate = 1;
 
+		SqliteServer sqliteServerObject = new SqliteServer();
+		//user has also an evaluator table with a row (it's row)	
+		sqliteServerObject.CreateEvaluatorTable();
+		
 		if(server) {
-			SqliteServer sqliteServerObject = new SqliteServer();
 			sqliteServerObject.CreatePingTable();
-			sqliteServerObject.CreateEvaluatorTable();
 			
 			SqliteServerSession sqliteSessionObject = new SqliteServerSession();
 			sqliteSessionObject.createTable(Constants.SessionTable);
@@ -945,6 +959,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.64 - 0.65 added Sevaluator on client
 		//0.63 - 0.64 added margaria test
 		//0.62 - 0.63 added 'versionAvailable' to preferences
 		//0.61 - 0.62 added hexagon (jumpRj test)

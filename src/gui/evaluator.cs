@@ -22,7 +22,6 @@ using System;
 using Gtk;
 using Gdk;
 using Glade;
-//using Gnome;
 using GLib; //for Value
 using Mono.Unix;
 
@@ -58,6 +57,7 @@ public class EvaluatorWindow
 	[Widget] Gtk.Button button_zoom_cp3;
 	
 	//devices tab
+	[Widget] Gtk.RadioButton radio_device_undef;
 	[Widget] Gtk.RadioButton radio_contact_steel;
 	[Widget] Gtk.RadioButton radio_contact_modular;
 	[Widget] Gtk.RadioButton radio_infrared;
@@ -89,6 +89,9 @@ public class EvaluatorWindow
 	DateTime dateTime;
 
 	ServerEvaluator eval;
+
+	bool creating; //true if no record found before. False if updating
+
 	static EvaluatorWindow EvaluatorWindowBox;
 	
 	public EvaluatorWindow (ServerEvaluator eval)
@@ -102,6 +105,8 @@ public class EvaluatorWindow
 		UtilGtk.IconWindow(evaluator_window);
 		
 		this.eval = eval;
+		if(eval.Name == "")
+			creating = true;
 		
 		createComboContinents();
 		createComboCountries();
@@ -228,8 +233,7 @@ public class EvaluatorWindow
 	}
 
 	private void on_combo_countries_changed(object o, EventArgs args) {
-		//define country is not needed to accept person
-		//on_entries_required_changed(new object(), new EventArgs());
+		on_entries_required_changed(new object(), new EventArgs());
 	}
 
 	private void cp_zoom_buttons_unsensitive() {
@@ -252,6 +256,7 @@ public class EvaluatorWindow
 			else if(radio_cp3.Active) 
 				button_zoom_cp3.Sensitive = true;
 		}
+		on_entries_required_changed(new object(), new EventArgs());
 	}
 	
 	private void device_zoom_buttons_unsensitive() {
@@ -274,11 +279,27 @@ public class EvaluatorWindow
 			else if(radio_infrared.Active) 
 				button_zoom_infrared.Sensitive = true;
 		}
+		on_entries_required_changed(new object(), new EventArgs());
 	}
 	
 	
 	private void on_entries_required_changed(object o, EventArgs args) {
+		if(
+				entry_name.Text.Length > 0 &&
+				entry_email.Text.Length > 0 &&
+				label_date.Text != Constants.UndefinedDefault &&
+				UtilGtk.ComboGetActive(combo_countries) != Catalog.GetString(Constants.CountryUndefined) &&
+				! radio_cp_undef.Active &&
+				! (radio_cp_other.Active && entry_cp_other.Text.Length == 0) &&
+				! radio_device_undef.Active &&
+				! (radio_device_other.Active && entry_device_other.Text.Length == 0)
+		  )
+			button_accept.Sensitive = true;
+		else
+			button_accept.Sensitive = false;
+
 	}
+
 	private void on_button_confiable_clicked(object o, EventArgs args) {
 		Console.WriteLine("Confiable info");
 	}
@@ -317,91 +338,138 @@ public class EvaluatorWindow
 
 	private void fillDialog ()
 	{
-		int myChronometerID;
-//		if(adding) {
-			//dateTime = DateTime.Today;
-			//now dateTime is undefined until user changes it
-			dateTime = DateTime.MinValue;
-			label_date.Text = Catalog.GetString("Undefined");
-			label_confiable.Text = "Not confiable (default, nothing checked)";
+		entry_name.Text = eval.Name;
+		entry_email.Text = eval.Email;
 
-//			myChronometerID = currentEvaluator.ChronometerID;
-//		} else {
-			/*
-			Person myPerson = SqlitePersonSession.PersonSelect(personID, currentSession.UniqueID); 
+		DateTime dateTime = Util.DateAsDateTime(eval.DateBorn);
+		if(dateTime == DateTime.MinValue)
+			label_date.Text = Catalog.GetString(Constants.UndefinedDefault);
+		else
+			label_date.Text = dateTime.ToLongDateString();
+
+		//country stuff
+		if(eval.CountryID != Constants.CountryUndefinedID) {
+			string [] countryString = SqliteCountry.Select(eval.CountryID);
+			combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
+					Catalog.GetString(countryString[3]));
+			combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
+					Catalog.GetString(countryString[1]));
+		}
+
+		label_confiable.Text = eval.Confiable.ToString();
+
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = eval.Comments;
+		textview_comments.Buffer = tb;
+
+		switch(eval.Chronometer) {
+			case "": 
+			case Constants.UndefinedDefault: 
+				radio_cp_undef.Active = true;
+			break;
+			case Constants.ChronometerCp1: 
+				radio_cp1.Active = true;
+			break;
+			case Constants.ChronometerCp2: 
+				radio_cp2.Active = true;
+			break;
+			case Constants.ChronometerCp3: 
+				radio_cp3.Active = true;
+			break;
+			default:
+				radio_cp_other.Active = true;
+				entry_cp_other.Text = eval.Chronometer;
+			break;
+		}
+
+		switch(eval.Device) {
+			case "": 
+			case Constants.UndefinedDefault: 
+				radio_device_undef.Active = true;
+			break;
+			case Constants.DeviceContactSteel: 
+				radio_contact_steel.Active = true;
+			break;
+			case Constants.DeviceContactCircuit: 
+				radio_contact_modular.Active = true;
+			break;
+			case Constants.DeviceInfrared: 
+				radio_infrared.Active = true;
+			break;
+			default:
+				radio_device_other.Active = true;
+				entry_device_other.Text = eval.Device;
+			break;
+		}
 		
-			entry1.Text = myPerson.Name;
-			if (myPerson.Sex == "M") {
-				radiobutton_man.Active = true;
-			} else {
-				radiobutton_woman.Active = true;
-			}
-
-			dateTime = Util.DateAsDateTime(myPerson.DateBorn);
-			if(dateTime == DateTime.MinValue)
-				label_date.Text = Catalog.GetString("Undefined");
-			else
-				label_date.Text = dateTime.ToLongDateString();
-
-			spinbutton_height.Value = myPerson.Height;
-			spinbutton_weight.Value = myPerson.Weight;
-			weightIni = myPerson.Weight; //store for tracking if changes
-		
-			mySportID = myPerson.SportID;
-			mySpeciallityID = myPerson.SpeciallityID;
-			myLevelID = myPerson.Practice;
-
-
-			TextBuffer tb = new TextBuffer (new TextTagTable());
-			tb.Text = myPerson.Description;
-			textview2.Buffer = tb;
-
-			//country stuff
-			if(myPerson.CountryID != Constants.CountryUndefinedID) {
-				string [] countryString = SqliteCountry.Select(myPerson.CountryID);
-				combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
-						Catalog.GetString(countryString[3]));
-				combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
-						Catalog.GetString(countryString[1]));
-			}
-
-			serverUniqueID = myPerson.ServerUniqueID;
-			*/
-
-
-//	}
-//
-			
-	//	sport = SqliteSport.Select(mySportID);
-	//	combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, sport.ToString());
-
-		
+		//show or hide button_accept
+		on_entries_required_changed(new object(), new EventArgs());
 	}
 		
 	
 	protected void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		EvaluatorWindowBox.evaluator_window.Hide();
-		EvaluatorWindowBox = null;
+		//EvaluatorWindowBox = null;
 	}
 	
 	protected void on_delete_event (object o, DeleteEventArgs args)
 	{
 		EvaluatorWindowBox.evaluator_window.Hide();
-		EvaluatorWindowBox = null;
+		//EvaluatorWindowBox = null;
 	}
 
 	protected void on_button_accept_clicked (object o, EventArgs args)
 	{
+		//eval.UniqueID = 1;
+		eval.Name = entry_name.Text.ToString();
+		eval.Email = entry_email.Text.ToString();
+		eval.DateBorn = label_date.Text.ToString();
+
+		eval.CountryID = Convert.ToInt32(
+				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries));
+
+
+		if(radio_cp_undef.Active)
+			eval.Chronometer = Constants.UndefinedDefault;
+		else if(radio_cp1.Active)
+			eval.Chronometer = Constants.ChronometerCp1;
+		else if(radio_cp2.Active)
+			eval.Chronometer = Constants.ChronometerCp2;
+		else if(radio_cp3.Active)
+			eval.Chronometer = Constants.ChronometerCp3;
+		else
+			eval.Chronometer = entry_cp_other.Text.ToString();
+
+
+		if(radio_device_undef.Active)
+			eval.Device = Constants.UndefinedDefault;
+		else if(radio_contact_steel.Active)
+			eval.Device = Constants.DeviceContactSteel;
+		else if(radio_contact_modular.Active)
+			eval.Device = Constants.DeviceContactCircuit;
+		else if(radio_infrared.Active)
+			eval.Device = Constants.DeviceInfrared;
+		else
+			eval.Device = entry_device_other.Text.ToString();
+
+
+		if(creating) 
+			eval.InsertAtDB(false);
+		else
+			eval.Update(false);
+
 		EvaluatorWindowBox.evaluator_window.Hide();
-		EvaluatorWindowBox = null;
+		//EvaluatorWindowBox = null;
 	}
-	
+
+/*	
 	public Button Button_accept 
 	{
 		set { button_accept = value; }
 		get { return button_accept; }
 	}
+*/
 
 	~EvaluatorWindow() {}
 	

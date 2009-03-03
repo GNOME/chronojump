@@ -26527,6 +26527,7 @@ by you</property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char">*</property>
 		      <property name="activates_default">False</property>
+		      <signal name="changed" handler="on_entries_required_changed" last_modification_time="Tue, 03 Mar 2009 16:27:32 GMT"/>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -27199,6 +27200,7 @@ by you</property>
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char">●</property>
 		      <property name="activates_default">False</property>
+		      <signal name="changed" handler="on_entries_required_changed" last_modification_time="Tue, 03 Mar 2009 16:28:03 GMT"/>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -27506,35 +27508,13 @@ by you</property>
 			  <property name="has_frame">True</property>
 			  <property name="invisible_char">●</property>
 			  <property name="activates_default">False</property>
+			  <signal name="changed" handler="on_entries_required_changed" last_modification_time="Tue, 03 Mar 2009 16:28:16 GMT"/>
 			</widget>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
 			  <property name="top_attach">4</property>
 			  <property name="bottom_attach">5</property>
-			  <property name="y_options"></property>
-			</packing>
-		      </child>
-
-		      <child>
-			<widget class="GtkRadioButton" id="radio_device_other">
-			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Other. Specify:</property>
-			  <property name="use_underline">True</property>
-			  <property name="relief">GTK_RELIEF_NORMAL</property>
-			  <property name="focus_on_click">True</property>
-			  <property name="active">False</property>
-			  <property name="inconsistent">False</property>
-			  <property name="draw_indicator">True</property>
-			  <signal name="toggled" handler="on_radio_device_toggled" last_modification_time="Tue, 24 Feb 2009 16:22:47 GMT"/>
-			</widget>
-			<packing>
-			  <property name="left_attach">0</property>
-			  <property name="right_attach">1</property>
-			  <property name="top_attach">4</property>
-			  <property name="bottom_attach">5</property>
-			  <property name="x_options">fill</property>
 			  <property name="y_options"></property>
 			</packing>
 		      </child>
@@ -27550,7 +27530,6 @@ by you</property>
 			  <property name="active">True</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
-			  <property name="group">radio_device_other</property>
 			  <signal name="toggled" handler="on_radio_device_toggled" last_modification_time="Tue, 24 Feb 2009 16:22:38 GMT"/>
 			</widget>
 			<packing>
@@ -27575,7 +27554,7 @@ by you</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
-			  <property name="group">radio_device_other</property>
+			  <property name="group">radio_device_undef</property>
 			  <signal name="toggled" handler="on_radio_device_toggled" last_modification_time="Tue, 24 Feb 2009 16:22:38 GMT"/>
 			</widget>
 			<packing>
@@ -27600,7 +27579,7 @@ by you</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
-			  <property name="group">radio_device_other</property>
+			  <property name="group">radio_device_undef</property>
 			  <signal name="toggled" handler="on_radio_device_toggled" last_modification_time="Tue, 24 Feb 2009 16:22:38 GMT"/>
 			</widget>
 			<packing>
@@ -27624,7 +27603,7 @@ by you</property>
 			  <property name="active">False</property>
 			  <property name="inconsistent">False</property>
 			  <property name="draw_indicator">True</property>
-			  <property name="group">radio_device_other</property>
+			  <property name="group">radio_device_undef</property>
 			  <signal name="toggled" handler="on_radio_device_toggled" last_modification_time="Tue, 24 Feb 2009 16:22:38 GMT"/>
 			</widget>
 			<packing>
@@ -27632,6 +27611,30 @@ by you</property>
 			  <property name="right_attach">1</property>
 			  <property name="top_attach">3</property>
 			  <property name="bottom_attach">4</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkRadioButton" id="radio_device_other">
+			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes">Other. Specify:</property>
+			  <property name="use_underline">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="focus_on_click">True</property>
+			  <property name="active">False</property>
+			  <property name="inconsistent">False</property>
+			  <property name="draw_indicator">True</property>
+			  <property name="group">radio_device_undef</property>
+			  <signal name="toggled" handler="on_radio_device_toggled" last_modification_time="Tue, 24 Feb 2009 16:22:38 GMT"/>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">1</property>
+			  <property name="top_attach">4</property>
+			  <property name="bottom_attach">5</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options"></property>
 			</packing>

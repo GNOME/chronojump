@@ -92,17 +92,23 @@ public class Constants
 	public const string ServerActionUploadSession = "uploadSession"; 
 	public const string ServerActionStats = "stats"; 
 	
+	public const string ChronometerCp1 = "Chronopic1";
+	public const string ChronometerCp2 = "Chronopic2";
+	public const string ChronometerCp3 = "Chronopic3";
 	public static string [] Chronometers = {
 		UndefinedDefault, 
-		"Chronopic1",
-		"Chronopic2",
-		"Chronopic3",
+		ChronometerCp1,
+		ChronometerCp2,
+		ChronometerCp3,
 	};
+	public const string DeviceContactSteel = "Contact platform (steel)";
+	public const string DeviceContactCircuit = "Contact platform (circuit board)";
+	public const string DeviceInfrared = "Infrared";
 	public static string [] Devices = {
 		UndefinedDefault + ":" + Catalog.GetString(UndefinedDefault), 
-		"Contact platform (steel)" + ":" + Catalog.GetString("Contact platform (steel)"),
-		"Contact platform (circuit board)" + ":" + Catalog.GetString("Contact platform (circuit board)"),
-		"Infrared" + ":" + Catalog.GetString("Infrared"),
+		DeviceContactSteel + ":" + Catalog.GetString(DeviceContactSteel),
+		DeviceContactCircuit + ":" + Catalog.GetString(DeviceContactCircuit),
+		DeviceInfrared + ":" + Catalog.GetString(DeviceInfrared),
 		"Other" + ":" + Catalog.GetString("Other"),
 	};
 	

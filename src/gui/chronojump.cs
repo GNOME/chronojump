@@ -323,6 +323,8 @@ public class ChronoJumpWindow
 	RepetitiveConditionsWindow repetitiveConditionsWin;
 	ChronopicConnection chronopicWin;
 	GenericWindow genericWin;
+		
+	EvaluatorWindow evalWin;
 	
 	//SessionUploadWindow sessionUploadWin;
 
@@ -899,7 +901,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	{
 		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 		if(evalSID == Constants.ServerUndefinedID) 
-			//serverUploadEvaluator();
 			Server.ServerUploadEvaluator();
 
 		if(!checkPersonsMissingData()) {
@@ -950,8 +951,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 	
 	private void on_menuitem_server_evaluator_data (object o, EventArgs args) {
-		ServerEvaluator myEval = new ServerEvaluator();
-		EvaluatorWindow evalWindow = new EvaluatorWindow(myEval);
+		ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
+		evalWin = new EvaluatorWindow(myEval);
 	}
 
 	/* 

@@ -31,6 +31,9 @@ public partial class ServerEvaluator
 	private string email;
 	private string dateBorn;
 	private int countryID;
+	private string chronometer;
+	private string device;
+	private string comments;
 	private bool confiable;
 
 	//only initializing
@@ -38,18 +41,25 @@ public partial class ServerEvaluator
 	public ServerEvaluator() {
 	}
 
-	public ServerEvaluator(string name, string email, string dateBorn, int countryID, bool confiable) {
+	public ServerEvaluator(string name, string email, string dateBorn, int countryID, string chronometer, string device, string comments, bool confiable) {
 		this.name = name;
 		this.email = email;
 		this.dateBorn = dateBorn;
 		this.countryID = countryID;
+		this.chronometer = chronometer;
+		this.device = device;
+		this.comments = comments;
 		this.confiable = confiable;
 	}
 
 	public int InsertAtDB(bool dbconOpened){
-		Console.WriteLine("here" + this.ToString());
-		int myID = SqliteServer.InsertEvaluator(dbconOpened, name, email, dateBorn, countryID, confiable);
+		int myID = SqliteServer.InsertEvaluator(dbconOpened, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
 		return myID;
+	}	
+
+	public int Update (bool dbconOpened){
+		SqliteServer.UpdateEvaluator(dbconOpened, uniqueID, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
+		return uniqueID;
 	}	
 
 	public override string ToString() {
@@ -85,6 +95,21 @@ public partial class ServerEvaluator
 	public int CountryID {
 		get { return countryID; }
 		set { countryID = value; }
+	}
+	
+	public string Chronometer {
+		get { return chronometer; }
+		set { chronometer = value; }
+	}
+
+	public string Device {
+		get { return device; }
+		set { device = value; }
+	}
+
+	public string Comments {
+		get { return comments; }
+		set { comments = value; }
 	}
 
 	public bool Confiable {

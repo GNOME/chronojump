@@ -208,6 +208,9 @@ public class ChronojumpServer {
 		//change value for being inserted with new numeration in server
 		myPerson.UniqueID = -1;
 		
+		//hidden person.Name
+		myPerson.Name = "";
+		
 		//do insertion
 		int id = myPerson.InsertAtDB(false, Constants.PersonTable);
 		
@@ -256,12 +259,15 @@ public class ChronojumpServer {
 	}
 
 	[WebMethod(Description="Upload a evaluator")]
-	public int UploadEvaluator(ServerEvaluator myEval)
+	public int UploadEvaluator(ServerEvaluator myEval, int evalSID)
 	{
 		Console.WriteLine("eval string: " + myEval.ToString());
+		int id = 0;
 
-		//do insertion
-		int id = myEval.InsertAtDB(false);
+		if(evalSID == Constants.ServerUndefinedID) 
+			id = myEval.InsertAtDB(false); //do insertion
+		else
+			id = myEval.Update(false); //do update
 		
 		return id;
 	}

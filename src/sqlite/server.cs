@@ -55,6 +55,9 @@ class SqliteServer : Sqlite
 			"email TEXT, " +
 			"dateborn TEXT, " +
 			"countryID INT, " + //foreign key
+			"chronometer TEXT, " +
+			"device TEXT, " +
+			"comments TEXT, " +
 			"confiable INT ) "; //bool
 		dbcmd.ExecuteNonQuery();
 	 }
@@ -86,7 +89,8 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 
-	public static int InsertEvaluator(bool dbconOpened, string name, string email, string dateBorn, int countryID, bool confiable)
+	public static int InsertEvaluator(bool dbconOpened, string name, string email, string dateBorn, 
+			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -94,10 +98,14 @@ class SqliteServer : Sqlite
 		string uniqueID = "NULL";
 
 		string myString = "INSERT INTO " + Constants.ServerEvaluatorTable + 
-			" (uniqueID, name, email, dateBorn, countryID, confiable) VALUES (" + 
+			" (uniqueID, name, email, dateBorn, countryID, chronometer, device, comments, confiable) VALUES (" + 
 			uniqueID + ", '" + name + "', '" + 
 			email + "', '" + dateBorn + "', " +
-			countryID + ", " + Util.BoolToInt(confiable) + ")" ;
+			countryID + ", '" + chronometer + "', '" + 
+			device + "', '" + comments + "', " +
+			//Util.BoolToInt(confiable) + 
+			Util.BoolToInt(false) + //security: cannot directly insert a confiable person
+			")" ;
 		
 		dbcmd.CommandText = myString;
 		
@@ -111,6 +119,58 @@ class SqliteServer : Sqlite
 
 		return myReturn;
 	}
+	
+	public static void UpdateEvaluator(bool dbconOpened, int uniqueID, string name, string email, string dateBorn, 
+			int countryID, string chronometer, string device, string comments, bool confiable)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+		dbcmd.CommandText = "UPDATE " + Constants.ServerEvaluatorTable + " " +
+			" SET name = '" + name +
+			"' , email = '" + email +
+			"' , dateBorn = '" + dateBorn +
+			"' , countryID = " + countryID +
+			", chronometer = '" + chronometer +
+			"', device = '" + device +
+			"', comments = '" + comments +
+			//"', confiable = " + Util.BoolToInt(confiable) + //security: update cannot change confiable
+			" WHERE uniqueID == " + uniqueID;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			dbcon.Close();
+	}
+	
+	
+	//when client selects in it's DB, there's only a row with uniqueID: 1
+	//if confiable is read on client, it will be also checked on server
+	public static ServerEvaluator SelectEvaluator(int myUniqueID)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * FROM " + Constants.ServerEvaluatorTable + " WHERE uniqueID == " + myUniqueID ; 
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		ServerEvaluator myEval = new ServerEvaluator();
+		while(reader.Read()) {
+			myEval.UniqueID = Convert.ToInt32(reader[0].ToString()); 
+			myEval.Name = reader[1].ToString(); 
+			myEval.Email = reader[2].ToString(); 
+			myEval.DateBorn = reader[3].ToString();
+			myEval.CountryID = Convert.ToInt32(reader[4].ToString());
+			myEval.Chronometer = reader[5].ToString();
+			myEval.Device = reader[6].ToString();
+			myEval.Comments = reader[7].ToString();
+			myEval.Confiable = Util.IntToBool(Convert.ToInt32(reader[8].ToString())); 
+		}
+
+		dbcon.Close();
+		return myEval;
+	}
+	
 
 	public static string [] Stats() {
 		ArrayList stats = new ArrayList();

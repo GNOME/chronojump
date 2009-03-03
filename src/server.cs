@@ -568,11 +568,21 @@ public class Server
 			Log.WriteLine(myServer.ConnectDatabase());
 			
 			//get Data, TODO: do it in a gui/window
-			ServerEvaluator myEval = new ServerEvaluator("myName", "myEmail", "myDateBorn", Constants.CountryUndefinedID, false);
-			//upload
-			myEval.UniqueID = myServer.UploadEvaluator(myEval);
+			//ServerEvaluator myEval = new ServerEvaluator("myName", "myEmail", "myDateBorn", 
+			//		Constants.CountryUndefinedID, "myChronometer", "myDevice", false);
+			ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
+
+			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+			/*
+			 * upload to server, will insert if:
+			 * if(evalSID == Constants.ServerUndefinedID) 
+			 * otherwise will update
+			 */
+			myEval.UniqueID = myServer.UploadEvaluator(myEval, evalSID);
+
 			//update evaluatorServerID locally
-			SqlitePreferences.Update("evaluatorServerID", myEval.UniqueID.ToString(), false);
+			if(evalSID == Constants.ServerUndefinedID) 
+				SqlitePreferences.Update("evaluatorServerID", myEval.UniqueID.ToString(), false);
 
 			new DialogMessage(Constants.MessageTypes.INFO, "Uploaded with ID: " + myEval.UniqueID);
 			

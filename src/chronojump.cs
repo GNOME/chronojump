@@ -112,7 +112,6 @@ public class ChronoJump
 	protected void sqliteThings () {
 		bool crashedBefore = checkIfChronojumpExitAbnormally();
 		
-
 		/* SERVER COMMUNICATION TESTS */
 		//try {
 
@@ -257,7 +256,7 @@ public class ChronoJump
 		}
 
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
-		if( versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
+		if( versionAvailableKnown.Length > 0 && versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
 			//versionAvailable is higher than client version
 			if(versionAvailable != versionAvailableKnown) {
 				//is the first time we know about this new version
@@ -273,7 +272,7 @@ public class ChronoJump
 
 		//if chronojump chrashed before
 		if(crashedBefore) {
-			if( versionAvailableKnown != progVersion ) 
+			if( versionAvailableKnown.Length > 0 && versionAvailableKnown != progVersion ) 
 				messageToShowOnBoot += "\n" + Catalog.GetString("Chronojump crashed before.") + "\n" +
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
 			else
@@ -484,8 +483,9 @@ public class ChronoJump
 
 
 		messageChrashedBefore = "\n" +
-			string.Format(Catalog.GetString("Chronojump {0} crashed before. Please, report it at forums:"), progVersion) + 
-			"\nhttp://chronojump.org\n\n" + Catalog.GetString("Include also this file:") + "\n\n" +
+			string.Format(Catalog.GetString("Chronojump {0} crashed before. If this problem persist, please, report it at forums:"), progVersion) + 
+			"\nhttp://chronojump.org\n\n" + Catalog.GetString("Remember to describe on Chronojump software forum how crash happened.") +
+		       "\n" + Catalog.GetString("Optionally, you can include this file:") + "\n\n" +
 			Log.GetLast() +
 			//windowsTextLog +
 			"\n\n" +	

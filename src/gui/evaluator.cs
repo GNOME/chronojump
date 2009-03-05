@@ -91,6 +91,9 @@ public class EvaluatorWindow
 	ServerEvaluator eval;
 
 	bool creating; //true if no record found before. False if updating
+	
+	//allows to upload data (from gui/chronojump.cs) after has been inserted in sql
+	public Gtk.Button fakeButtonAccept;
 
 	static EvaluatorWindow EvaluatorWindowBox;
 	
@@ -104,14 +107,17 @@ public class EvaluatorWindow
 		//put an icon to window
 		UtilGtk.IconWindow(evaluator_window);
 		
+		fakeButtonAccept = new Gtk.Button();
+
 		this.eval = eval;
-		if(eval.Name == "")
+		if(eval.UniqueID == -1)
 			creating = true;
 		
 		createComboContinents();
 		createComboCountries();
 		
 		putNonStandardIcons();	
+		
 
 		entry_cp_other.Sensitive = false;
 	}
@@ -287,7 +293,8 @@ public class EvaluatorWindow
 		if(
 				entry_name.Text.Length > 0 &&
 				entry_email.Text.Length > 0 &&
-				label_date.Text != Constants.UndefinedDefault &&
+				label_date.Text.Length >0  && 
+				label_date.Text != Catalog.GetString(Constants.UndefinedDefault) &&
 				UtilGtk.ComboGetActive(combo_countries) != Catalog.GetString(Constants.CountryUndefined) &&
 				! radio_cp_undef.Active &&
 				! (radio_cp_other.Active && entry_cp_other.Text.Length == 0) &&
@@ -301,7 +308,9 @@ public class EvaluatorWindow
 	}
 
 	private void on_button_confiable_clicked(object o, EventArgs args) {
-		Console.WriteLine("Confiable info");
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				"Currently we are creating confiable parameters.\n" + 
+				"In nearly future maybe your data can be confiable");
 	}
 	
 	private void on_button_cp1_zoom_clicked(object o, EventArgs args) {
@@ -341,67 +350,74 @@ public class EvaluatorWindow
 		entry_name.Text = eval.Name;
 		entry_email.Text = eval.Email;
 
-		DateTime dateTime = Util.DateAsDateTime(eval.DateBorn);
-		if(dateTime == DateTime.MinValue)
+		Console.Write(creating.ToString());
+		if(creating)
 			label_date.Text = Catalog.GetString(Constants.UndefinedDefault);
-		else
-			label_date.Text = dateTime.ToLongDateString();
-
-		//country stuff
-		if(eval.CountryID != Constants.CountryUndefinedID) {
-			string [] countryString = SqliteCountry.Select(eval.CountryID);
-			combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
-					Catalog.GetString(countryString[3]));
-			combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
-					Catalog.GetString(countryString[1]));
+		else {
+			dateTime = Util.DateAsDateTime(eval.DateBorn);
+			if(dateTime == DateTime.MinValue)
+				label_date.Text = Catalog.GetString(Constants.UndefinedDefault);
+			else
+				label_date.Text = dateTime.ToLongDateString();
 		}
 
-		label_confiable.Text = eval.Confiable.ToString();
+		if(! creating) {		
+			//country stuff
+			if(eval.CountryID != Constants.CountryUndefinedID) {
+				string [] countryString = SqliteCountry.Select(eval.CountryID);
+				combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
+						Catalog.GetString(countryString[3]));
+				combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
+						Catalog.GetString(countryString[1]));
+			}
 
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = eval.Comments;
-		textview_comments.Buffer = tb;
+			label_confiable.Text = eval.Confiable.ToString();
 
-		switch(eval.Chronometer) {
-			case "": 
-			case Constants.UndefinedDefault: 
-				radio_cp_undef.Active = true;
-			break;
-			case Constants.ChronometerCp1: 
-				radio_cp1.Active = true;
-			break;
-			case Constants.ChronometerCp2: 
-				radio_cp2.Active = true;
-			break;
-			case Constants.ChronometerCp3: 
-				radio_cp3.Active = true;
-			break;
-			default:
-				radio_cp_other.Active = true;
-				entry_cp_other.Text = eval.Chronometer;
-			break;
+			TextBuffer tb = new TextBuffer (new TextTagTable());
+			tb.Text = eval.Comments;
+			textview_comments.Buffer = tb;
+
+			switch(eval.Chronometer) {
+				case "": 
+				case Constants.UndefinedDefault: 
+					radio_cp_undef.Active = true;
+					break;
+				case Constants.ChronometerCp1: 
+					radio_cp1.Active = true;
+					break;
+				case Constants.ChronometerCp2: 
+					radio_cp2.Active = true;
+					break;
+				case Constants.ChronometerCp3: 
+					radio_cp3.Active = true;
+					break;
+				default:
+					radio_cp_other.Active = true;
+					entry_cp_other.Text = eval.Chronometer;
+					break;
+			}
+
+			switch(eval.Device) {
+				case "": 
+				case Constants.UndefinedDefault: 
+					radio_device_undef.Active = true;
+					break;
+				case Constants.DeviceContactSteel: 
+					radio_contact_steel.Active = true;
+					break;
+				case Constants.DeviceContactCircuit: 
+					radio_contact_modular.Active = true;
+					break;
+				case Constants.DeviceInfrared: 
+					radio_infrared.Active = true;
+					break;
+				default:
+					radio_device_other.Active = true;
+					entry_device_other.Text = eval.Device;
+					break;
+			}
 		}
 
-		switch(eval.Device) {
-			case "": 
-			case Constants.UndefinedDefault: 
-				radio_device_undef.Active = true;
-			break;
-			case Constants.DeviceContactSteel: 
-				radio_contact_steel.Active = true;
-			break;
-			case Constants.DeviceContactCircuit: 
-				radio_contact_modular.Active = true;
-			break;
-			case Constants.DeviceInfrared: 
-				radio_infrared.Active = true;
-			break;
-			default:
-				radio_device_other.Active = true;
-				entry_device_other.Text = eval.Device;
-			break;
-		}
-		
 		//show or hide button_accept
 		on_entries_required_changed(new object(), new EventArgs());
 	}
@@ -410,25 +426,28 @@ public class EvaluatorWindow
 	protected void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		EvaluatorWindowBox.evaluator_window.Hide();
-		//EvaluatorWindowBox = null;
+		EvaluatorWindowBox = null;
 	}
 	
 	protected void on_delete_event (object o, DeleteEventArgs args)
 	{
 		EvaluatorWindowBox.evaluator_window.Hide();
-		//EvaluatorWindowBox = null;
+		EvaluatorWindowBox = null;
 	}
 
 	protected void on_button_accept_clicked (object o, EventArgs args)
 	{
-		//eval.UniqueID = 1;
 		eval.Name = entry_name.Text.ToString();
 		eval.Email = entry_email.Text.ToString();
-		eval.DateBorn = label_date.Text.ToString();
+		
+		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
+			dateTime.Year.ToString();
+		eval.DateBorn = dateFull;
 
 		eval.CountryID = Convert.ToInt32(
 				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries));
 
+		eval.Comments = textview_comments.Buffer.Text;
 
 		if(radio_cp_undef.Active)
 			eval.Chronometer = Constants.UndefinedDefault;
@@ -459,17 +478,18 @@ public class EvaluatorWindow
 		else
 			eval.Update(false);
 
+		fakeButtonAccept.Click();
+
 		EvaluatorWindowBox.evaluator_window.Hide();
-		//EvaluatorWindowBox = null;
+		EvaluatorWindowBox = null;
 	}
 
-/*	
-	public Button Button_accept 
+	public Button FakeButtonAccept 
 	{
-		set { button_accept = value; }
-		get { return button_accept; }
+		set { fakeButtonAccept = value; }
+		get { return fakeButtonAccept; }
 	}
-*/
+
 
 	~EvaluatorWindow() {}
 	

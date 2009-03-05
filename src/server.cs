@@ -567,24 +567,28 @@ public class Server
 			ChronojumpServer myServer = new ChronojumpServer();
 			Log.WriteLine(myServer.ConnectDatabase());
 			
-			//get Data, TODO: do it in a gui/window
-			//ServerEvaluator myEval = new ServerEvaluator("myName", "myEmail", "myDateBorn", 
-			//		Constants.CountryUndefinedID, "myChronometer", "myDevice", false);
 			ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
 
+			bool success = false;
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
-			/*
-			 * upload to server, will insert if:
-			 * if(evalSID == Constants.ServerUndefinedID) 
-			 * otherwise will update
-			 */
-			myEval.UniqueID = myServer.UploadEvaluator(myEval, evalSID);
+			if(evalSID == Constants.ServerUndefinedID) {
+				string idCode = myServer.UploadEvaluator(myEval);
+				myEval.Code = Util.FetchName(idCode);
 
-			//update evaluatorServerID locally
-			if(evalSID == Constants.ServerUndefinedID) 
-				SqlitePreferences.Update("evaluatorServerID", myEval.UniqueID.ToString(), false);
+				myEval.Update(false);
 
-			new DialogMessage(Constants.MessageTypes.INFO, "Uploaded with ID: " + myEval.UniqueID);
+				evalSID = Util.FetchID(idCode);
+				SqlitePreferences.Update("evaluatorServerID", evalSID.ToString(), false);
+				success = true;
+			} else 
+				success = myServer.EditEvaluator(myEval, evalSID);
+				
+			if(success)
+				new DialogMessage(Constants.MessageTypes.INFO, 
+						string.Format(Catalog.GetString("Successfully Uploaded evaluator with ID: {0}"), evalSID));
+			else
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						string.Format(Catalog.GetString("Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."), evalSID));
 			
 			Log.WriteLine(myServer.DisConnectDatabase());
 		} catch {

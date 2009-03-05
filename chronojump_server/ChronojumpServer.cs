@@ -52,6 +52,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     private System.Threading.SendOrPostCallback UploadEvaluatorOperationCompleted;
     
+    private System.Threading.SendOrPostCallback EditEvaluatorOperationCompleted;
+    
     private System.Threading.SendOrPostCallback UploadJumpOperationCompleted;
     
     private System.Threading.SendOrPostCallback UploadJumpRjOperationCompleted;
@@ -99,6 +101,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     private event UploadPingCompletedEventHandler UploadPingCompleted;
     
     private event UploadEvaluatorCompletedEventHandler UploadEvaluatorCompleted;
+    
+    private event EditEvaluatorCompletedEventHandler EditEvaluatorCompleted;
     
     private event UploadJumpCompletedEventHandler UploadJumpCompleted;
     
@@ -682,44 +686,83 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     /// <remarks>
-///Upload a evaluator
+///Upload an evaluator
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadEvaluator", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public int UploadEvaluator(ServerEvaluator myEval, int evalSID) {
+    public string UploadEvaluator(ServerEvaluator myEval) {
         object[] results = this.Invoke("UploadEvaluator", new object[] {
-                    myEval,
-                    evalSID});
-        return ((int)(results[0]));
+                    myEval});
+        return ((string)(results[0]));
     }
     
-    public System.IAsyncResult BeginUploadEvaluator(ServerEvaluator myEval, int evalSID, System.AsyncCallback callback, object asyncState) {
+    public System.IAsyncResult BeginUploadEvaluator(ServerEvaluator myEval, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("UploadEvaluator", new object[] {
-                    myEval,
-                    evalSID}, callback, asyncState);
+                    myEval}, callback, asyncState);
     }
     
-    public int EndUploadEvaluator(System.IAsyncResult asyncResult) {
+    public string EndUploadEvaluator(System.IAsyncResult asyncResult) {
         object[] results = this.EndInvoke(asyncResult);
-        return ((int)(results[0]));
+        return ((string)(results[0]));
     }
     
-    public void UploadEvaluatorAsync(ServerEvaluator myEval, int evalSID) {
-        this.UploadEvaluatorAsync(myEval, evalSID, null);
+    public void UploadEvaluatorAsync(ServerEvaluator myEval) {
+        this.UploadEvaluatorAsync(myEval, null);
     }
     
-    public void UploadEvaluatorAsync(ServerEvaluator myEval, int evalSID, object userState) {
+    public void UploadEvaluatorAsync(ServerEvaluator myEval, object userState) {
         if ((this.UploadEvaluatorOperationCompleted == null)) {
             this.UploadEvaluatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUploadEvaluatorCompleted);
         }
         this.InvokeAsync("UploadEvaluator", new object[] {
-                    myEval,
-                    evalSID}, this.UploadEvaluatorOperationCompleted, userState);
+                    myEval}, this.UploadEvaluatorOperationCompleted, userState);
     }
     
     private void OnUploadEvaluatorCompleted(object arg) {
         if ((this.UploadEvaluatorCompleted != null)) {
             System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
             this.UploadEvaluatorCompleted(this, new UploadEvaluatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
+///Edit an evaluator
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/EditEvaluator", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public bool EditEvaluator(ServerEvaluator clientEval, int evalSID) {
+        object[] results = this.Invoke("EditEvaluator", new object[] {
+                    clientEval,
+                    evalSID});
+        return ((bool)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginEditEvaluator(ServerEvaluator clientEval, int evalSID, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("EditEvaluator", new object[] {
+                    clientEval,
+                    evalSID}, callback, asyncState);
+    }
+    
+    public bool EndEditEvaluator(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((bool)(results[0]));
+    }
+    
+    public void EditEvaluatorAsync(ServerEvaluator clientEval, int evalSID) {
+        this.EditEvaluatorAsync(clientEval, evalSID, null);
+    }
+    
+    public void EditEvaluatorAsync(ServerEvaluator clientEval, int evalSID, object userState) {
+        if ((this.EditEvaluatorOperationCompleted == null)) {
+            this.EditEvaluatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnEditEvaluatorCompleted);
+        }
+        this.InvokeAsync("EditEvaluator", new object[] {
+                    clientEval,
+                    evalSID}, this.EditEvaluatorOperationCompleted, userState);
+    }
+    
+    private void OnEditEvaluatorCompleted(object arg) {
+        if ((this.EditEvaluatorCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.EditEvaluatorCompleted(this, new EditEvaluatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
         }
     }
     
@@ -996,7 +1039,6 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         }
     }
 }
-
 /*
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
@@ -1241,6 +1283,9 @@ public partial class ServerEvaluator {
     public int UniqueID;
     
     /// <remarks/>
+    public string Code;
+    
+    /// <remarks/>
     public string Name;
     
     /// <remarks/>
@@ -1414,7 +1459,6 @@ public partial class Pulse : Event {
     public string TimesString;
 }
 */
-
 public class ConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
@@ -1690,15 +1734,34 @@ public class UploadEvaluatorCompletedEventArgs : System.ComponentModel.AsyncComp
         this.results = results;
     }
     
-    public int Result {
+    public string Result {
         get {
             this.RaiseExceptionIfNecessary();
-            return ((int)(this.results[0]));
+            return ((string)(this.results[0]));
         }
     }
 }
 
 public delegate void UploadEvaluatorCompletedEventHandler(object sender, UploadEvaluatorCompletedEventArgs args);
+
+public class EditEvaluatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal EditEvaluatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public bool Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((bool)(this.results[0]));
+        }
+    }
+}
+
+public delegate void EditEvaluatorCompletedEventHandler(object sender, EditEvaluatorCompletedEventArgs args);
 
 public class UploadJumpCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     

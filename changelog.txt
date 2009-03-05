@@ -11,11 +11,24 @@ all this will be release 0.9
 
 do the ping gets real IP
 
-evaluator win TODO:
--unchecked button_accept if needed on start
--fix crash on cancel, or delete, or accept (on closing window)
--fix crash on accept (bad sql)
--accept is shown while no date of birth
+5 mar 2009
+	0.8.2.6
+	evaluator code ended with encryption. Only pending the confiable flag:
+	-added BCryp.cs to allow encryption of evaluatorServerUniqueID
+	-added code to Sevaluator table;
+	-done upload or insert evaluator data
+
+	finished evaluator win:
+	-ended fillDialog
+	-fixed crash on accept (bad sql)
+	-fixed crash on cancel, or delete, or accept (on closing window)
+	-accept is shown while no date of birth (done?)
+	-unchecked button_accept if needed on start
+
+	dialogMessage again as modal because there where problems (unclickable) 
+	when is called from evaluator window until evaluator win is closed
+
+	improved chrash message on start
 
 3 mar 2009
 	0.8.2.5

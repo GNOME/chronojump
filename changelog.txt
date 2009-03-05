@@ -2,14 +2,15 @@ TODO:
 
 Add Cabedo's tests
 
-add a link to the server page
-
-develop web stats and survey on web site. Maybe done by R script and calling
+add a link to the server page. Develop web stats and survey on web site. Maybe done by R script and calling
 to database
 
 all this will be release 0.9
 
 do the ping gets real IP
+
+5 mar 2009 (2)
+	Fixed versionAvailable insertion on preferences
 
 5 mar 2009
 	0.8.2.6

@@ -256,7 +256,7 @@ public class ChronoJump
 		}
 
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
-		if( versionAvailableKnown.Length > 0 && versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
+		if( versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
 			//versionAvailable is higher than client version
 			if(versionAvailable != versionAvailableKnown) {
 				//is the first time we know about this new version
@@ -296,20 +296,16 @@ public class ChronoJump
 
 	private void findVersion() {
 		pinging = true;
-	Console.Write(" 1 ");
 		pulseGTKPingShouldEnd = false;
-	Console.Write(" 2 ");
 		splashShowButton = true;
-	Console.Write(" 3 ");
+		
 		splashWin.FakeButtonCancel.Clicked += new EventHandler(on_find_version_cancelled);
-	Console.Write(" 4 ");
+		
 		versionAvailable = Server.Ping(true, progName, readVersion()); //doInsertion
-	Console.Write(" 5 ");
+		
 		splashShowButton = false;
-	Console.Write(" 6 ");
-	Console.Write(" version:  " + versionAvailable);
-
-	pinging = false;
+		Console.Write(" version:  " + versionAvailable);
+		pinging = false;
 	}
 		
 	private void on_find_version_cancelled(object o, EventArgs args) {

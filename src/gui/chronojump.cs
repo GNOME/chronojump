@@ -952,7 +952,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_menuitem_server_evaluator_data (object o, EventArgs args) {
 		ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
-		//evalWin = new EvaluatorWindow(myEval);
 		evalWin = EvaluatorWindow.Show(myEval);
 		evalWin.FakeButtonAccept.Clicked += new EventHandler(on_evaluator_done);
 	}

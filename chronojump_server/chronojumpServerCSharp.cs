@@ -258,18 +258,46 @@ public class ChronojumpServer {
 		return SqlitePreferences.Select("versionAvailable");
 	}
 
-	[WebMethod(Description="Upload a evaluator")]
-	public int UploadEvaluator(ServerEvaluator myEval, int evalSID)
+	[WebMethod(Description="Upload an evaluator")]
+	public string UploadEvaluator(ServerEvaluator myEval)
 	{
-		Console.WriteLine("eval string: " + myEval.ToString());
-		int id = 0;
+		Console.WriteLine("upload. eval string: " + myEval.ToString());
 
-		if(evalSID == Constants.ServerUndefinedID) 
-			id = myEval.InsertAtDB(false); //do insertion
-		else
-			id = myEval.Update(false); //do update
-		
-		return id;
+		string idCode;
+		Random rnd = new Random();  
+		string password = myEval.Name + rnd.Next().ToString();
+		string hashed = BCrypt.HashPassword(password, BCrypt.GenerateSalt(10));
+
+		//insert the password in the server and the hash in the client
+		myEval.Code = password;
+
+		int id = myEval.InsertAtDB(false); //do insertion
+
+		return id.ToString() + ":" + hashed;
+	}
+
+	[WebMethod(Description="Edit an evaluator")]
+	public bool EditEvaluator(ServerEvaluator clientEval, int evalSID)
+	{
+		Console.WriteLine("edit. eval string: " + clientEval.ToString());
+
+		ServerEvaluator serverEval = SqliteServer.SelectEvaluator(evalSID);
+
+		//serveEval.Code is password
+		//clientEval.Code is hash
+		bool matches = BCrypt.CheckPassword(serverEval.Code, clientEval.Code);
+		if(matches) {
+			//put the uniqueID that corresponds in server
+			clientEval.UniqueID = evalSID;
+
+			//put the pass code instead of the client password hash
+			clientEval.Code = serverEval.Code;
+
+			clientEval.Update(false); //do update
+			return true;
+		}
+			
+		return false;
 	}
 
 

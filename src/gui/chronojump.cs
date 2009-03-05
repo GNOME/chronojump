@@ -952,7 +952,21 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void on_menuitem_server_evaluator_data (object o, EventArgs args) {
 		ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
-		evalWin = new EvaluatorWindow(myEval);
+		//evalWin = new EvaluatorWindow(myEval);
+		evalWin = EvaluatorWindow.Show(myEval);
+		evalWin.FakeButtonAccept.Clicked += new EventHandler(on_evaluator_done);
+	}
+
+	private void on_evaluator_done (object o, EventArgs args) {
+		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
+		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to upload evaluator data now?"), "");
+			confirmWin.Button_accept.Clicked += new EventHandler(on_evaluator_upload_accepted);
+		}
+	}
+
+	private void on_evaluator_upload_accepted (object o, EventArgs args) {
+		Server.ServerUploadEvaluator();
 	}
 
 	/* 

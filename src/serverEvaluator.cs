@@ -27,6 +27,7 @@ using Mono.Unix;
 public partial class ServerEvaluator
 {
 	private int uniqueID;
+	private string code;
 	private string name;
 	private string email;
 	private string dateBorn;
@@ -41,7 +42,8 @@ public partial class ServerEvaluator
 	public ServerEvaluator() {
 	}
 
-	public ServerEvaluator(string name, string email, string dateBorn, int countryID, string chronometer, string device, string comments, bool confiable) {
+	public ServerEvaluator(string code, string name, string email, string dateBorn, int countryID, string chronometer, string device, string comments, bool confiable) {
+		this.code = code;
 		this.name = name;
 		this.email = email;
 		this.dateBorn = dateBorn;
@@ -53,12 +55,13 @@ public partial class ServerEvaluator
 	}
 
 	public int InsertAtDB(bool dbconOpened){
-		int myID = SqliteServer.InsertEvaluator(dbconOpened, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
+		int myID = SqliteServer.InsertEvaluator(dbconOpened, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
 		return myID;
 	}	
 
 	public int Update (bool dbconOpened){
-		SqliteServer.UpdateEvaluator(dbconOpened, uniqueID, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
+		//confiable will not get updated
+		SqliteServer.UpdateEvaluator(dbconOpened, uniqueID, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
 		return uniqueID;
 	}	
 
@@ -77,6 +80,11 @@ public partial class ServerEvaluator
 	//"Private, internal, and protected members do not get serialized.  
 	//If the accessor is not specific, it is private by default (and will not get serialized)."
 	
+	public string Code {
+		get { return code; }
+		set { code = value; }
+	}
+
 	public string Name {
 		get { return name; }
 		set { name = value; }

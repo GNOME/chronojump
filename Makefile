@@ -114,7 +114,7 @@ CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs src/chronopic.cs src/util.cs src/lo
 
 #--------Dependences of CHRONOJUMP_SERVER
 
-CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*.cs src/util.cs src/person.cs src/event.cs src/jump.cs src/run.cs src/pulse.cs src/reactionTime.cs src/session.cs src/eventType.cs src/jumpType.cs src/runType.cs src/pulseType.cs src/sport.cs src/constants.cs src/log.cs src/serverPing.cs src/serverEvaluator.cs
+CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*.cs src/util.cs src/person.cs src/event.cs src/jump.cs src/run.cs src/pulse.cs src/reactionTime.cs src/session.cs src/eventType.cs src/jumpType.cs src/runType.cs src/pulseType.cs src/sport.cs src/constants.cs src/log.cs src/serverPing.cs src/serverEvaluator.cs chronojump_server/BCrypt.cs 
 
 
 #--------Makefiles

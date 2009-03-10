@@ -89,7 +89,8 @@ public class EvaluatorWindow
 	DateTime dateTime;
 
 	ServerEvaluator eval;
-
+	ServerEvaluator evalBefore;
+	bool changed;
 	bool creating; //true if no record found before. False if updating
 	
 	//allows to upload data (from gui/chronojump.cs) after has been inserted in sql
@@ -110,8 +111,13 @@ public class EvaluatorWindow
 		fakeButtonAccept = new Gtk.Button();
 
 		this.eval = eval;
+
 		if(eval.UniqueID == -1)
 			creating = true;
+		
+		//copy to see if there are changes
+		//evalBefore = eval;
+		evalBefore = new ServerEvaluator(eval);
 		
 		createComboContinents();
 		createComboCountries();
@@ -473,10 +479,22 @@ public class EvaluatorWindow
 			eval.Device = entry_device_other.Text.ToString();
 
 
-		if(creating) 
+		changed = false;
+		if(creating) {
 			eval.InsertAtDB(false);
-		else
-			eval.Update(false);
+			changed = true;
+		} else {
+			//1st see if there are changes
+			if(eval.Equals(evalBefore)) {
+				//nothing changed
+				//
+				//new DialogMessage(Constants.MessageTypes.INFO, "nothing changed.\n"); 
+			} else {
+				//changed
+				eval.Update(false);
+				changed = true;
+			}
+		}
 
 		fakeButtonAccept.Click();
 
@@ -488,6 +506,12 @@ public class EvaluatorWindow
 	{
 		set { fakeButtonAccept = value; }
 		get { return fakeButtonAccept; }
+	}
+
+	public bool Changed 
+	{
+		set { changed = value; }
+		get { return changed; }
 	}
 
 

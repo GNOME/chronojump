@@ -54,6 +54,36 @@ public partial class ServerEvaluator
 		this.confiable = confiable;
 	}
 
+	//allows to do a copy on gui/evaluator.cs	
+	public ServerEvaluator(ServerEvaluator oldEval) {
+		this.code = oldEval.Code;
+		this.name = oldEval.Name;
+		this.email = oldEval.Email;
+		this.dateBorn = oldEval.DateBorn;
+		this.countryID = oldEval.CountryID;
+		this.chronometer = oldEval.Chronometer;
+		this.device = oldEval.Device;
+		this.comments = oldEval.Comments;
+		this.confiable = oldEval.Confiable;
+	}
+
+	public bool Equals(ServerEvaluator oldEval) {
+		if(
+				this.code == oldEval.Code &&
+				this.name == oldEval.Name &&
+				this.email == oldEval.Email &&
+				this.dateBorn == oldEval.DateBorn &&
+				this.countryID == oldEval.CountryID &&
+				this.chronometer == oldEval.Chronometer &&
+				this.device == oldEval.Device &&
+				this.comments == oldEval.Comments &&
+				this.confiable == oldEval.Confiable
+		  )
+			return true;
+		else
+			return false;
+	}
+
 	public int InsertAtDB(bool dbconOpened){
 		int myID = SqliteServer.InsertEvaluator(dbconOpened, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable);
 		return myID;

@@ -6,6 +6,7 @@ using System.Web.Services;
 //using System.Web;
 using System.Web;
 
+using System.Net; //getIP stuff
 
 //[WebService(Namespace="http://localhost:8080/", //work to connect to corall development from client (from browser works only when online)
 //[WebService(Namespace="http://80.32.81.197:8080/", //works to connect with pinux xen from client (from browser don't works) WORKS FROM CLIENT
@@ -244,12 +245,61 @@ public class ChronojumpServer {
 		//Console.WriteLine(System.Web.HttpRequest.UserHostAdress);
 
 		Console.WriteLine("ping string: " + myPing.ToString());
+	
+
+		string strHostName = "";
+		strHostName = System.Net.Dns.GetHostName();
+		IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(strHostName);
+		IPAddress[] addr = ipEntry.AddressList;
+		string ip = addr[addr.Length-1].ToString();
+		
+		Console.WriteLine("ip: " + ip);
+
+
+
 
 		//!doInsertion is a way to know if server is connected
 		//but without inserting nothing
 		//is ok before uploading a session
 
 		//Console.WriteLine("IP: " + System.Web.HttpRequest.UserHostAddress.ToString());
+		//Console.WriteLine("IP: " + System.Net.HttpRequest.UserHostAddress.ToString());
+		//Console.WriteLine("IP: " + System.Net.Request.UserHostAddress.ToString());
+		//Console.WriteLine("IP: " + HttpContext.Current.Request.UserHostAddress);
+		//Console.WriteLine("IP context : " + this.Context.Request.UserHostAddress);
+		//Console.WriteLine("IP : " + this.Request.UserHostAddress);
+		
+		//Console.WriteLine("IP : " + System.Net.HttpListenerRequest.UserHostAddress.ToString());
+		//System.Net.HttpListenerRequest req = new System.Net.HttpListenerRequest();
+		//Console.WriteLine("IP : " + req.UserHostAddress.ToString());
+
+//		System.Net.HttpListenerRequest req;
+		//string a = System.Net.HttpListenerRequest.UserHostAddress;
+//		string a = req.UserHostAddress;
+			
+		//string a = this.System.Net.HttpListenerRequest.UserHostAddress;
+
+//		System.Net.HttpListenerRequest request = new HttpListenerRequest (String.Empty, "http://localhost/", String.Empty);
+//		string a = request.UserHostAddress;
+
+		//http://lists.ximian.com/pipermail/mono-list/2007-January/033998.html
+
+		/*
+		HttpListener listener = new HttpListener();
+
+		listener.AuthenticationSchemeSelectorDelegate += delegate{
+			Console.WriteLine("Asking for authentication scheme");
+			return AuthenticationSchemes.Basic;
+		};
+
+
+
+		listener.Start();
+		HttpListenerContext context = listener.GetContext();
+		HttpListenerRequest request = context.Request;
+		Console.WriteLine("IP req: " + request.UserHostAddress);
+		*/
+
 
 
 		if(doInsertion)

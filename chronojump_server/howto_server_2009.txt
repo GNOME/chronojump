@@ -9,6 +9,19 @@ upload to server
 
 xsp2 --root /var/www/mono/ --verbose
 
+seems to be better to execute without the non-stop:
+http://lists.ximian.com/pipermail/mono-list/2007-June/035501.html
+
+new: 10 mar 2009:
+use screen to call server:
+
+screen
+xsp2 --verbose --root /var/www/mono/
+ctrl + a + d
+exit
+
+
+then we can exit without problems with the enter, and without process getting hanged, and without using the non-stop
 if(chronojumpServerCSharp.cs methods or callings don't changed) {
 	go to (6.- compile client)
 }
@@ -41,5 +54,3 @@ server.chronojump.org/   (work!)
 but if doesn't work, do:
 server.chronojump.org:8080/ (work too!, in both cases needed the end '/')
 ------
-seems to be better to execute without the non-stop:
-http://lists.ximian.com/pipermail/mono-list/2007-June/035501.html

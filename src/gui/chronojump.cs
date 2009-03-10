@@ -896,29 +896,21 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	 * SERVER CALLBACKS
 	 */
 
+	bool serverEvaluatorDoing;
 	// upload session and it's persons (callback)
-	private void on_menuitem_server_upload_session (object o, EventArgs args) 
-	{
+	private void on_menuitem_server_upload_session_pre (object o, EventArgs args) {
+		//evaluator stuff
+		//Server.ServerUploadEvaluator();
+		string evalMessage = "";
 		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 		if(evalSID == Constants.ServerUndefinedID) 
-			Server.ServerUploadEvaluator();
-
-		if(!checkPersonsMissingData()) {
-			string message1 = ""; 
-			if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
-				message1 =  
-						Catalog.GetString("Session will be uploaded to server.") + "\n" +  
-						Catalog.GetString("All names of persons in session will be hidden.") + "\n" + 
-						Catalog.GetString("You can upload again this session if you add more data or persons.");
-			else
-				message1 =  
-						Catalog.GetString("Session has been uploaded to server before.") + "\n" +  
-						Catalog.GetString("Uploading new data.");
-
-			ConfirmWindow confirmWin = ConfirmWindow.Show(message1, 
-						Catalog.GetString("Are you sure you want to upload this session to server?"));
-			confirmWin.Button_accept.Clicked += new EventHandler(on_server_upload_session_accepted);
-		}
+			evalMessage = Catalog.GetString("Please, first fill evaluator data.");
+		else 
+			evalMessage = Catalog.GetString("Please, first check evaluator data is ok.");
+		
+		appbar2.Push ( 1, evalMessage );
+		
+		server_evaluator_data_and_after_upload_session();
 	}
 
 	private void on_menuitem_server_stats (object o, EventArgs args) {
@@ -950,22 +942,45 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				Server.Ping(true, progName, progVersion)); //do insertion (will show versionAvailable)
 	}
 	
-	private void on_menuitem_server_evaluator_data (object o, EventArgs args) {
-		ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
+	bool uploadSessionAfter;
+
+	//called when after that has to continue with upload session
+	private void server_evaluator_data_and_after_upload_session() {
+		uploadSessionAfter = true;
+		server_evaluator_data (); 
+	}
+	
+	//called when only has to be created/updated the evaluator (not update session)
+	private void on_menuitem_server_evaluator_data_only (object o, EventArgs args) {
+		uploadSessionAfter = false;
+		server_evaluator_data (); 
+	}
+	
+	private void server_evaluator_data () {
+		ServerEvaluator myEval = SqliteServer.SelectEvaluator(1); 
 		evalWin = EvaluatorWindow.Show(myEval);
 		evalWin.FakeButtonAccept.Clicked += new EventHandler(on_evaluator_done);
 	}
 
 	private void on_evaluator_done (object o, EventArgs args) {
-		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
-		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to upload evaluator data now?"), "");
-			confirmWin.Button_accept.Clicked += new EventHandler(on_evaluator_upload_accepted);
+		if(evalWin.Changed) {
+			string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
+			if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
+				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to upload evaluator data now?"), "");
+				confirmWin.Button_accept.Clicked += new EventHandler(on_evaluator_upload_accepted);
+			} else 
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Currently cannot upload.") + "\n\n" + Constants.ServerOffline);
 		}
+		else
+			if(uploadSessionAfter)
+				server_upload_session ();
+
 	}
 
 	private void on_evaluator_upload_accepted (object o, EventArgs args) {
 		Server.ServerUploadEvaluator();
+		if(uploadSessionAfter)
+			server_upload_session ();
 	}
 
 	/* 
@@ -1028,6 +1043,29 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		else
 			return false; //data is ok
 
+	}
+
+	private void server_upload_session () 
+	{
+		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+		if(evalSID != Constants.ServerUndefinedID) {
+			if(!checkPersonsMissingData()) {
+				string message1 = ""; 
+				if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
+					message1 =  
+							Catalog.GetString("Session will be uploaded to server.") + "\n" +  
+							Catalog.GetString("All names of persons in session will be hidden.") + "\n" + 
+							Catalog.GetString("You can upload again this session if you add more data or persons.");
+				else
+					message1 =  
+							Catalog.GetString("Session has been uploaded to server before.") + "\n" +  
+							Catalog.GetString("Uploading new data.");
+
+				ConfirmWindow confirmWin = ConfirmWindow.Show(message1, 
+							Catalog.GetString("Are you sure you want to upload this session to server?"));
+				confirmWin.Button_accept.Clicked += new EventHandler(on_server_upload_session_accepted);
+			}
+		}
 	}
 
 

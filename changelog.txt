@@ -4,10 +4,22 @@ Add Cabedo's tests
 
 add a link to the server page. Develop web stats and survey on web site. Maybe done by R script and calling
 to database
+http://cran.r-project.org/web/packages/RSQLite/index.html
+http://cran.r-project.org/web/packages/RSQLite/INSTALL
+http://cran.r-project.org/web/packages/DBI/index.html
 
 all this will be release 0.9
 
 do the ping gets real IP
+
+
+10 mar 2009
+	0.8.2.7
+	sessionUpload calls always evaluator data (to create or to check).
+	Pending do tests.
+	evaluator data is uploaded only if changed. Pending do tests
+
+	Now server is called with screen and don't gets hanged
 
 5 mar 2009 (2)
 	Fixed versionAvailable insertion on preferences

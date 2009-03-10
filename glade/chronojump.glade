@@ -8487,7 +8487,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_new_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image3996">
+			<widget class="GtkImage" id="image4031">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -8508,7 +8508,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_open_activate" last_modification_time="Wed, 22 Sep 2004 23:55:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image3997">
+			<widget class="GtkImage" id="image4032">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -8529,7 +8529,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_edit_session_activate" last_modification_time="Tue, 26 Jul 2005 19:12:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image3998">
+			<widget class="GtkImage" id="image4033">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -8551,7 +8551,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_delete_session_activate" last_modification_time="Thu, 28 Jul 2005 13:37:42 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image3999">
+			<widget class="GtkImage" id="image4034">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -8579,7 +8579,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_export_session_activate" last_modification_time="Sat, 12 Feb 2005 21:57:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4000">
+			<widget class="GtkImage" id="image4035">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-convert</property>
 			  <property name="icon_size">1</property>
@@ -8614,7 +8614,7 @@ suitable for agility tests)</property>
 		      <property name="use_underline">True</property>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4001">
+			<widget class="GtkImage" id="image4036">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-connect</property>
 			  <property name="icon_size">1</property>
@@ -8642,7 +8642,7 @@ suitable for agility tests)</property>
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">Evaluator data</property>
 			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_menuitem_server_evaluator_data" last_modification_time="Thu, 19 Feb 2009 13:31:29 GMT"/>
+			      <signal name="activate" handler="on_menuitem_server_evaluator_data_only" last_modification_time="Tue, 10 Mar 2009 16:28:27 GMT"/>
 			    </widget>
 			  </child>
 
@@ -8651,7 +8651,7 @@ suitable for agility tests)</property>
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">Upload (or update) session to server</property>
 			      <property name="use_underline">True</property>
-			      <signal name="activate" handler="on_menuitem_server_upload_session" last_modification_time="Mon, 26 Jan 2009 09:16:30 GMT"/>
+			      <signal name="activate" handler="on_menuitem_server_upload_session_pre" last_modification_time="Tue, 10 Mar 2009 16:28:27 GMT"/>
 			    </widget>
 			  </child>
 
@@ -8682,7 +8682,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_preferences_activate" last_modification_time="Mon, 04 Oct 2004 19:19:19 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4002">
+			<widget class="GtkImage" id="image4037">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -8709,7 +8709,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_quit1_activate" last_modification_time="Wed, 22 Sep 2004 23:17:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4003">
+			<widget class="GtkImage" id="image4038">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-quit</property>
 			  <property name="icon_size">1</property>
@@ -8743,7 +8743,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_person_add_single_activate" last_modification_time="Thu, 18 Aug 2005 23:07:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4004">
+			<widget class="GtkImage" id="image4039">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -8764,7 +8764,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_person_add_multiple_activate" last_modification_time="Thu, 18 Aug 2005 23:01:23 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4005">
+			<widget class="GtkImage" id="image4040">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -8791,7 +8791,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_recuperate_person_activate" last_modification_time="Sun, 12 Dec 2004 00:40:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4006">
+			<widget class="GtkImage" id="image4041">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -8812,7 +8812,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_recuperate_persons_from_session_activate" last_modification_time="Tue, 26 Jul 2005 19:12:07 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4007">
+			<widget class="GtkImage" id="image4042">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-open</property>
 			  <property name="icon_size">1</property>
@@ -8839,7 +8839,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_edit_current_person_clicked" last_modification_time="Sun, 17 Oct 2004 11:43:33 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4008">
+			<widget class="GtkImage" id="image4043">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -8860,7 +8860,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_show_all_person_events_activate" last_modification_time="Mon, 29 Aug 2005 09:51:24 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4009">
+			<widget class="GtkImage" id="image4044">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-index</property>
 			  <property name="icon_size">1</property>
@@ -8887,7 +8887,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_delete_current_person_from_session_activate" last_modification_time="Thu, 28 Jul 2005 15:49:38 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4010">
+			<widget class="GtkImage" id="image4045">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -8999,7 +8999,7 @@ suitable for agility tests)</property>
 			      <signal name="activate" handler="on_button_more_clicked" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image4011">
+				<widget class="GtkImage" id="image4046">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -9024,7 +9024,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_edit_selected_jump_clicked" last_modification_time="Sun, 17 Oct 2004 11:47:42 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4012">
+			<widget class="GtkImage" id="image4047">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -9045,7 +9045,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_delete_selected_jump_clicked" last_modification_time="Tue, 19 Oct 2004 11:54:17 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4013">
+			<widget class="GtkImage" id="image4048">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9111,7 +9111,7 @@ suitable for agility tests)</property>
 			      <signal name="activate" handler="on_button_more_rj_clicked" last_modification_time="Fri, 11 Mar 2005 14:45:23 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image4014">
+				<widget class="GtkImage" id="image4049">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -9136,7 +9136,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_edit_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4015">
+			<widget class="GtkImage" id="image4050">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -9157,7 +9157,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_repair_selected_reactive_jump_clicked" last_modification_time="Wed, 07 Dec 2005 01:14:11 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4016">
+			<widget class="GtkImage" id="image4051">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -9178,7 +9178,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_delete_selected_jump_rj_clicked" last_modification_time="Sun, 07 Nov 2004 17:37:37 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4017">
+			<widget class="GtkImage" id="image4052">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9205,7 +9205,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_jump_type_add_activate" last_modification_time="Thu, 10 Mar 2005 18:52:25 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4018">
+			<widget class="GtkImage" id="image4053">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -9359,7 +9359,7 @@ suitable for agility tests)</property>
 			      <signal name="activate" handler="on_button_run_more_clicked" last_modification_time="Fri, 22 Apr 2005 14:37:06 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image4019">
+				<widget class="GtkImage" id="image4054">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -9384,7 +9384,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_edit_selected_run_clicked" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4020">
+			<widget class="GtkImage" id="image4055">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -9405,7 +9405,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_delete_selected_run_clicked" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4021">
+			<widget class="GtkImage" id="image4056">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9480,7 +9480,7 @@ suitable for agility tests)</property>
 			      <signal name="activate" handler="on_button_run_interval_more_clicked" last_modification_time="Tue, 16 Aug 2005 01:18:41 GMT"/>
 
 			      <child internal-child="image">
-				<widget class="GtkImage" id="image4022">
+				<widget class="GtkImage" id="image4057">
 				  <property name="visible">True</property>
 				  <property name="stock">gtk-add</property>
 				  <property name="icon_size">1</property>
@@ -9505,7 +9505,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_edit_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4023">
+			<widget class="GtkImage" id="image4058">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-edit</property>
 			  <property name="icon_size">1</property>
@@ -9526,7 +9526,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_repair_selected_run_interval_clicked" last_modification_time="Wed, 03 May 2006 15:15:38 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4024">
+			<widget class="GtkImage" id="image4059">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-preferences</property>
 			  <property name="icon_size">1</property>
@@ -9547,7 +9547,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_delete_selected_run_interval_clicked" last_modification_time="Tue, 16 Aug 2005 12:33:39 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4025">
+			<widget class="GtkImage" id="image4060">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-remove</property>
 			  <property name="icon_size">1</property>
@@ -9574,7 +9574,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_run_type_add_activate" last_modification_time="Fri, 22 Apr 2005 14:34:58 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4026">
+			<widget class="GtkImage" id="image4061">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-new</property>
 			  <property name="icon_size">1</property>
@@ -9654,7 +9654,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_menuitem_view_stats_activate" last_modification_time="Tue, 26 Jul 2005 23:54:29 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4027">
+			<widget class="GtkImage" id="image4062">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-refresh</property>
 			  <property name="icon_size">1</property>
@@ -9675,7 +9675,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_show_report_activate" last_modification_time="Tue, 06 Sep 2005 09:10:32 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4028">
+			<widget class="GtkImage" id="image4063">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-refresh</property>
 			  <property name="icon_size">1</property>
@@ -9743,7 +9743,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_menuitem_manual_activate" last_modification_time="Wed, 03 Oct 2007 23:31:41 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4029">
+			<widget class="GtkImage" id="image4064">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-info</property>
 			  <property name="icon_size">1</property>
@@ -9779,7 +9779,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_about1_activate" last_modification_time="Wed, 22 Sep 2004 23:17:31 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4030">
+			<widget class="GtkImage" id="image4065">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-about</property>
 			  <property name="icon_size">1</property>
@@ -9806,7 +9806,7 @@ suitable for agility tests)</property>
 		      <signal name="activate" handler="on_debug_crash_activate" last_modification_time="Thu, 23 Oct 2008 22:57:02 GMT"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image4031">
+			<widget class="GtkImage" id="image4066">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-dialog-error</property>
 			  <property name="icon_size">1</property>

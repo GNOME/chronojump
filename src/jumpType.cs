@@ -29,6 +29,7 @@ public class JumpType : EventType
 	protected bool isRepetitive;
 	protected bool jumpsLimited;
 	protected double fixedValue;	//0 no fixed value
+					//0.5 if we want only to registry a TC
 	protected bool unlimited;
 
 
@@ -113,6 +114,22 @@ public class JumpType : EventType
 				description	= Catalog.GetString("Abalakov Jump with extra weight");
 				imageFileName = "jump_abk_l.png";
 			}
+		} else if(name == Constants.TakeOffName) { //special case, will record only TC
+			startIn 	= false;
+			hasWeight 	= false;
+			isRepetitive 	= false; //for repetitive
+			jumpsLimited 	= false; //for repetitive
+			fixedValue 	= 0; //for repetitive
+			description	= Catalog.GetString("Take off");
+			imageFileName = "take_off.png"; 
+		} else if(name == Constants.TakeOffWeightName) { //special case, will record only TC
+			startIn 	= false;
+			hasWeight 	= true;
+			isRepetitive 	= false; //for repetitive
+			jumpsLimited 	= false; //for repetitive
+			fixedValue 	= 0; //for repetitive
+			description	= Catalog.GetString("Take off with weight");
+			imageFileName = "";
 		} else if(name == "DJ") {
 			startIn 	= false;
 			hasWeight 	= false;
@@ -146,6 +163,17 @@ public class JumpType : EventType
 			fixedValue 	= -1;	//don't ask for limit of jumps or seconds
 			unlimited 	= true;
 			description	= Catalog.GetString("Reactive Jump unlimited (until finish button is clicked)");
+			imageFileName = "jump_rj_in.png";
+		} else if(name == Constants.RunAnalysisName) { //like a Rj(unlimited). but starting out
+			//Josep Ma Padullés test
+			startIn 	= false;
+			hasWeight 	= false;
+			isRepetitive 	= true;
+			jumpsLimited 	= true;	//will finish in a concrete jump, not in a concrete second
+			fixedValue 	= -1;	//don't ask for limit of jumps or seconds
+			unlimited 	= true;
+			description	= Catalog.GetString("Run between two photocells recording contact and flight times in contact platform/s.") + 
+				" " + Catalog.GetString("Until finish button is clicked.");
 			imageFileName = "jump_rj_in.png";
 		} else if(name == "RJ(hexagon)") {
 			startIn 	= true;

@@ -104,6 +104,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_abk;
 	[Widget] Gtk.Button button_dj;
 	[Widget] Gtk.Button button_rocket;
+	[Widget] Gtk.Button button_take_off;
 	[Widget] Gtk.Button button_more;
 	[Widget] Gtk.Button button_rj_j;
 	[Widget] Gtk.Button button_rj_t;
@@ -123,6 +124,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_interval_by_laps;
 	[Widget] Gtk.Button button_run_interval_by_time;
 	[Widget] Gtk.Button button_run_interval_unlimited;
+	[Widget] Gtk.Button button_run_analysis;
 	[Widget] Gtk.Button button_run_interval_mtgug;
 	[Widget] Gtk.Button button_reaction_time_execute;
 	[Widget] Gtk.Button button_pulse_free;
@@ -155,6 +157,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem abk;
 	[Widget] Gtk.MenuItem dj;
 	[Widget] Gtk.MenuItem menuitem_jump_rocket;
+	[Widget] Gtk.MenuItem menuitem_take_off;
 	[Widget] Gtk.MenuItem more_simple_jumps;
 	[Widget] Gtk.MenuItem more_rj;
 	[Widget] Gtk.MenuItem menuitem_jump_type_add;
@@ -177,6 +180,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
 	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
 	[Widget] Gtk.MenuItem menuitem_run_interval_mtgug;
+	[Widget] Gtk.MenuItem menuitem_run_analysis;
 
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
@@ -2400,6 +2404,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentEventType = new JumpType("DJ");
 		} else 	if(o == (object) button_rocket) {
 			currentEventType = new JumpType("Rocket");
+		} else 	if(o == (object) button_take_off) {
+			currentEventType = new JumpType(Constants.TakeOffName);
 		//jumpRJ
 		} else 	if(o == (object) button_rj_j) {
 			currentEventType = new JumpType("RJ(j)");
@@ -2441,6 +2447,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentEventType = new RunType("byTime");
 		} else 	if(o == (object) button_run_interval_unlimited) {
 			currentEventType = new RunType("unlimited");
+//TODO: RunAnalysis
 		} else 	if(o == (object) button_run_interval_mtgug) {
 			currentEventType = new RunType("MTGUG");
 		//reactionTime
@@ -2601,9 +2608,11 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			currentJumpType = new JumpType("ABK");
 		} else if (o == (object) button_rocket || o == (object) menuitem_jump_rocket) {
 			currentJumpType = new JumpType("Rocket");
+		} else if (o == (object) button_take_off || o == (object) menuitem_take_off) {
+			currentJumpType = new JumpType(Constants.TakeOffName);
 		} else {
 		}
-		
+	
 		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
 			
 		double jumpWeight = 0;
@@ -2616,7 +2625,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			}
 		}
 		int myFall = 0;
-		if( ! currentJumpType.StartIn ) {
+		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
+			myFall = 0;
+		else if( ! currentJumpType.StartIn) {
 			myFall = jumpExtraWin.Fall;
 		}
 			
@@ -2632,8 +2643,10 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		
 		//show the event doing window
 		double myLimit = 3; //3 phases for show the Dj
-		if( currentJumpType.StartIn )
-			myLimit = 2; //2 for normal jump
+		if( currentJumpType.StartIn || 
+				currentJumpType.Name == Constants.TakeOffName || 
+				currentJumpType.Name == Constants.TakeOffWeightName)
+			myLimit = 2; //2 for normal jump (or take off)
 			
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -2785,6 +2798,16 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 			//in this jump type, don't ask for limit of jumps or seconds
 			on_rj_accepted(o, args);
+		} else if(o == (object) button_run_analysis || o == (object) menuitem_run_analysis) 
+		{
+			//ATTENTION: run analysis is considered a reactive jump
+			//because all tc and tf's have to be recorded
+			currentJumpType = new JumpType(Constants.RunAnalysisName);
+
+			//on_rj_accepted(o, args);
+			//need to ask for horizontal distance between photocells
+			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
+			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 		}
 	}
 	private void on_rj_accepted (object o, EventArgs args) 
@@ -2815,10 +2838,9 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			}
 		}
 		int myFall = 0;
-		if( ! currentJumpType.StartIn ) {
+		if( ! currentJumpType.StartIn || currentJumpType.Name	== Constants.RunAnalysisName)
 			myFall = jumpExtraWin.Fall;
-		}
-
+			
 		//used by cancel and finish
 		//currentEventType = new JumpType();
 		currentEventType = currentJumpType;

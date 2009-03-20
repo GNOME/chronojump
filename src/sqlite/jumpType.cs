@@ -38,7 +38,7 @@ class SqliteJumpType : Sqlite
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.JumpTypeTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
-			"name TEXT, " +
+			"name TEXT, " + //if name it's Constants.TakeOffName or Constants.TakeOffWeightName it's an exception and will record only one tc
 			"startIn INT, " + //if it starts inside or outside the platform
 			"weight INT, " + 
 			"description TEXT )";		
@@ -58,7 +58,9 @@ class SqliteJumpType : Sqlite
 			"ABK:1:0:ABK jump", 
 			"ABKl:1:1:ABK jump with weight", 
 			"DJ:0:0:DJ jump",
-			"Rocket:1:0:Rocket jump"
+			"Rocket:1:0:Rocket jump",
+			"TakeOff:0:0:Take off",
+			"TakeOffWeight:0:1:Take off with weight"
 		};
 		conversionSubRateTotal = iniJumpTypes.Length;
 		conversionSubRate = 0;
@@ -119,7 +121,8 @@ class SqliteJumpType : Sqlite
 			"RJ(t):0:0:0:0:RJ limited by time",
 			"RJ(unlimited):1:0:1:-1:Jump unlimited until finish is clicked",
 			"RJ(hexagon):1:0:1:18:Reactive Jump on a hexagon until three full revolutions are done",
-			"triple jump:0:0:1:3:Triple jump"
+			"triple jump:0:0:1:3:Triple jump",
+			"RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked."
 		};
 		foreach(string myJumpType in iniJumpTypes) {
 			JumpRjTypeInsert(myJumpType, true);

@@ -410,6 +410,16 @@ public class Util
 			return false;	//eventsTime are lower than timeLimit: no problem
 	}
 	
+	public static string DeleteFirstSubEvent (string myString)
+	{
+		int firstEqualPos = myString.IndexOf('=');
+		if(firstEqualPos > 0) {
+			return myString.Substring(firstEqualPos +1);
+		} else
+			return myString;
+	}
+
+	
 	public static string DeleteLastSubEvent (string myString)
 	{
 		int lastEqualPos = myString.LastIndexOf('=');

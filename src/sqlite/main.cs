@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.65";
+	static string lastChronojumpDatabaseVersion = "0.67";
 
 	public Sqlite() {
 	}
@@ -841,6 +841,27 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.65";
 			}
+			if(currentVersion == "0.65") {
+				dbcon.Open();
+				SqliteJumpType.JumpRjTypeInsert ("RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked.", true);
+
+				SqlitePreferences.Update ("databaseVersion", "0.66", true); 
+				
+				Log.WriteLine("Converted DB to 0.66 (added RunAnalysis Reactive jump)"); 
+				dbcon.Close();
+				currentVersion = "0.66";
+			}
+			if(currentVersion == "0.66") {
+				dbcon.Open();
+				SqliteJumpType.JumpTypeInsert ("TakeOff:0:0:Take off", true);
+				SqliteJumpType.JumpTypeInsert ("TakeOffWeight:0:0:Take off with weight", true);
+
+				SqlitePreferences.Update ("databaseVersion", "0.67", true); 
+				
+				Log.WriteLine("Converted DB to 0.67 (added TakeOff jumps)"); 
+				dbcon.Close();
+				currentVersion = "0.67";
+			}
 
 		}
 
@@ -959,6 +980,8 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.66 - 0.67 added TakeOff jumps 
+		//0.65 - 0.66 added run analysis (JumpRj test (masked as run interval))
 		//0.64 - 0.65 added Sevaluator on client
 		//0.63 - 0.64 added margaria test
 		//0.62 - 0.63 added 'versionAvailable' to preferences

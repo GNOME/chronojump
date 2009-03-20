@@ -264,7 +264,7 @@ public class EditEventWindow
 		 */
 	}
 
-	protected void fillTv(Event myEvent) {
+	protected virtual void fillTv(Event myEvent) {
 		Jump myJump = (Jump) myEvent;
 		entryTv = myJump.Tv.ToString();
 
@@ -409,6 +409,13 @@ public class EditEventWindow
 	private void on_entry_description_changed (object o, EventArgs args) {
 		entry_description.Text = Util.RemoveTildeAndColonAndDot(entry_description.Text.ToString());
 	}
+	
+	protected virtual void on_radio_mtgug_1_toggled(object o, EventArgs args) { }
+	protected virtual void on_radio_mtgug_2_toggled(object o, EventArgs args) { }
+	protected virtual void on_radio_mtgug_3_toggled(object o, EventArgs args) { }
+	protected virtual void on_radio_mtgug_4_toggled(object o, EventArgs args) { }
+	protected virtual void on_radio_mtgug_5_toggled(object o, EventArgs args) { }
+	protected virtual void on_radio_mtgug_6_toggled(object o, EventArgs args) { }
 
 	protected virtual void on_button_cancel_clicked (object o, EventArgs args)
 	{

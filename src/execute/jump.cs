@@ -291,6 +291,14 @@ Log.Write("w6 ");
 						//record the TC
 						tc = timestamp / 1000.0;
 						
+						//takeOff jump (only one TC)
+						//if(fixedValue == 0.5) {
+						if(type == Constants.TakeOffName || type == Constants.TakeOffWeightName) {
+							tv = 0;
+							write ();
+							success = true;
+						}
+
 						//update event progressbar
 Log.Write("w7 ");			
 						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
@@ -380,7 +388,6 @@ Log.Write("wb ");
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//eventExecuteWin.PrepareJumpSimpleGraph(tv, tc);
 		prepareEventGraphJumpSimple = new PrepareEventGraphJumpSimple(tv, tc);
 		needUpdateGraphType = eventType.JUMP;
 		needUpdateGraph = true;
@@ -904,6 +911,28 @@ public class JumpRjExecute : JumpExecute
 				jumps = myStringFull.Length;
 			}
 		}
+
+		if(type == Constants.RunAnalysisName) {
+			double speed = (fall /10) / Util.GetTotalTime(tcString, tvString);
+	
+	/*		
+			string tcStringWithoutFirst = Util.DeleteFirstSubEvent(tcString);
+			string tvStringWithoutFirst = Util.DeleteFirstSubEvent(tvString);
+		
+			double averagePlatformTimes = ( Util.GetAverage(tcStringWithoutFirst) + Util.GetAverage(tvStringWithoutFirst) ) / 2;
+			double freq = 1 / averagePlatformTimes;
+
+			//amplitud
+			double range = speed / freq;
+			
+			//don't put "=" because can appear problems in different parts of the code
+			description = 
+				Catalog.GetString ("AVG speed") + "->" + Util.TrimDecimals(speed.ToString(), pDN) + "m/s, " +
+				Catalog.GetString ("AVG frequencies") + "->" + Util.TrimDecimals(freq.ToString(), pDN) + "Hz, " +
+				Catalog.GetString ("AVG range") + "->" + Util.TrimDecimals(range.ToString(), pDN) + "m.";
+				*/
+		}
+
 
 		if(tempTable) 
 			SqliteJumpRj.Insert(false, Constants.TempJumpRjTable, "NULL", personID, sessionID, 

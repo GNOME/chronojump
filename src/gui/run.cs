@@ -305,7 +305,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		toggleRaisesSignal = true;
 	}
 
-	private void on_radio_mtgug_1_toggled(object o, EventArgs args) {
+	protected override void on_radio_mtgug_1_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string [] d = entry_description.Text.Split(new char[] {' '});
 			if(radio_mtgug_1_undef.Active)
@@ -324,7 +324,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		}
 	}
 
-	private void on_radio_mtgug_2_toggled(object o, EventArgs args) {
+	protected override void on_radio_mtgug_2_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string [] d = entry_description.Text.Split(new char[] {' '});
 			if(radio_mtgug_2_undef.Active)
@@ -343,7 +343,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		}
 	}
 
-	private void on_radio_mtgug_3_toggled(object o, EventArgs args) {
+	protected override void on_radio_mtgug_3_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string [] d = entry_description.Text.Split(new char[] {' '});
 			if(radio_mtgug_3_undef.Active)
@@ -362,7 +362,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		}
 	}
 
-	private void on_radio_mtgug_4_toggled(object o, EventArgs args) {
+	protected override void on_radio_mtgug_4_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string [] d = entry_description.Text.Split(new char[] {' '});
 			if(radio_mtgug_4_undef.Active)
@@ -381,7 +381,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		}
 	}
 
-	private void on_radio_mtgug_5_toggled(object o, EventArgs args) {
+	protected override void on_radio_mtgug_5_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string [] d = entry_description.Text.Split(new char[] {' '});
 			if(radio_mtgug_5_undef.Active)
@@ -400,7 +400,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		}
 	}
 
-	private void on_radio_mtgug_6_toggled(object o, EventArgs args) {
+	protected override void on_radio_mtgug_6_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string [] d = entry_description.Text.Split(new char[] {' '});
 			if(radio_mtgug_6_undef.Active)

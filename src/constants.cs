@@ -94,7 +94,7 @@ public class Constants
 	
 	public const string ChronometerCp1 = "Chronopic1";
 	public const string ChronometerCp2 = "Chronopic2";
-	public const string ChronometerCp3 = "Chronopic3";
+	public const string ChronometerCp3 = "Chronopic32";
 	public static string [] Chronometers = {
 		UndefinedDefault, 
 		ChronometerCp1,
@@ -113,6 +113,10 @@ public class Constants
 	};
 	
 	
+	public static string RunAnalysisName = "RunAnalysis"; //Josep Ma Padullés test
+	public static string TakeOffName = "TakeOff"; //translate (take off?)
+	public static string TakeOffWeightName = "TakeOffWeight"; //translate (take off?)
+
 
 
 /*	OLD, check this

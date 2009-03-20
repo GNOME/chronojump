@@ -129,6 +129,9 @@ public class Server
 		if(countPersons == 0)
 			sessionUploadWin.PulseProgressbar();
 
+		//activity on pulsebar
+		sessionUploadWin.UpdatePulsebar();
+
 		if(needUpdateServerSession && !updatingServerSession) {
 			//prevent that FillData is called again with same data
 			updatingServerSession = true;

@@ -268,7 +268,11 @@ public class TreeViewJumpsRj : TreeViewJumps
 		if(newJumpRj.Simulated == Constants.Simulated)
 			title += " (s) ";
 
-		string myTypeComplet = title + "(" + Util.GetLimitedRounded(newJumpRj.Limited, pDN) + ")";
+		string myTypeComplet = "";
+		if(newJumpRj.Type == Constants.RunAnalysisName) 
+			myTypeComplet = title + "(" + newJumpRj.Fall + " cm)"; //distance is recorded as fall in RunAnalysis
+		else
+			myTypeComplet = title + "(" + Util.GetLimitedRounded(newJumpRj.Limited, pDN) + ")";
 		
 		string [] myData = new String [getColsNum()];
 		int count = 0;
@@ -295,17 +299,26 @@ public class TreeViewJumpsRj : TreeViewJumps
 	
 	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
 	{
-		JumpRj newJumprRj = (JumpRj)myObject;
+		JumpRj newJumpRj = (JumpRj)myObject;
 
 		//find tv and tc of this lineCount
-		string [] myStringTv = newJumprRj.TvString.Split(new char[] {'='});
+		string [] myStringTv = newJumpRj.TvString.Split(new char[] {'='});
 		string thisTv = myStringTv[lineCount];
-		string [] myStringTc = newJumprRj.TcString.Split(new char[] {'='});
+		string [] myStringTc = newJumpRj.TcString.Split(new char[] {'='});
 		string thisTc = myStringTc[lineCount];
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		myData[count++] = (lineCount +1).ToString();
+
+		if(newJumpRj.Type == Constants.RunAnalysisName) {
+			if(lineCount == 0)
+				myData[count++] = Catalog.GetString("First photocell");
+			else
+				myData[count++] = (lineCount).ToString();
+		}
+		else
+			myData[count++] = (lineCount +1).ToString();
+
 		myData[count++] = Util.TrimDecimals( thisTc, pDN );
 		myData[count++] = Util.TrimDecimals( thisTv, pDN );
 		myData[count++] = ""; 
@@ -358,13 +371,24 @@ public class TreeViewJumpsRj : TreeViewJumps
 	protected override string [] printAVG(System.Object myObject, int cols) {
 		JumpRj newJumpRj = (JumpRj)myObject;
 
-		//littleOptimization
-		double tcAVGDouble = Util.GetAverage(newJumpRj.TcString);
-		double tvAVGDouble = Util.GetAverage(newJumpRj.TvString);
+		string tcString = newJumpRj.TcString;
+		string tvString = newJumpRj.TvString;
+
+		if(newJumpRj.Type == Constants.RunAnalysisName) {
+			tcString = Util.DeleteFirstSubEvent(tcString);
+			tvString = Util.DeleteFirstSubEvent(tvString);
+		}
+
+		double tcAVGDouble = Util.GetAverage(tcString);
+		double tvAVGDouble = Util.GetAverage(tvString);
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		myData[count++] = Catalog.GetString("AVG");
+		if(newJumpRj.Type == Constants.RunAnalysisName) 
+			myData[count++] = Catalog.GetString("AVG") + " (" + Catalog.GetString("photocells not included") + ")";
+		else
+			myData[count++] = Catalog.GetString("AVG");
+
 		myData[count++] = Util.TrimDecimals(tcAVGDouble.ToString(), pDN);
 		myData[count++] = Util.TrimDecimals(tvAVGDouble.ToString(), pDN);
 		myData[count++] = ""; //weight
@@ -398,19 +422,31 @@ public class TreeViewJumpsRj : TreeViewJumps
 	
 	protected override string [] printSD(System.Object myObject, int cols) {
 		JumpRj newJumpRj = (JumpRj)myObject;
+		
+		string tcString = newJumpRj.TcString;
+		string tvString = newJumpRj.TvString;
+
+		if(newJumpRj.Type == Constants.RunAnalysisName) {
+			tcString = Util.DeleteFirstSubEvent(tcString);
+			tvString = Util.DeleteFirstSubEvent(tvString);
+		}
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		myData[count++] = Catalog.GetString("SD");
+		if(newJumpRj.Type == Constants.RunAnalysisName) 
+			myData[count++] = Catalog.GetString("SD") + " (" + Catalog.GetString("photocells not included") + ")";
+		else
+			myData[count++] = Catalog.GetString("SD");
+
 		myData[count++] = Util.TrimDecimals(Util.CalculateSD(
-			Util.ChangeEqualForColon(newJumpRj.TcString),
-			Util.GetTotalTime(newJumpRj.TcString),
-			Util.GetNumberOfJumps(newJumpRj.TcString, false)).ToString(),
+			Util.ChangeEqualForColon(tcString),
+			Util.GetTotalTime(tcString),
+			Util.GetNumberOfJumps(tcString, false)).ToString(),
 				pDN);
 		myData[count++] = Util.TrimDecimals(Util.CalculateSD(
-			Util.ChangeEqualForColon(newJumpRj.TvString),
-			Util.GetTotalTime(newJumpRj.TvString),
-			Util.GetNumberOfJumps(newJumpRj.TvString, false)).ToString(),
+			Util.ChangeEqualForColon(tvString),
+			Util.GetTotalTime(tvString),
+			Util.GetNumberOfJumps(tvString, false)).ToString(),
 				pDN);
 		
 		

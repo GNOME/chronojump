@@ -91,6 +91,7 @@ public class SessionUploadWindow {
 
 	[Widget] Gtk.Button button_close;
 	
+	[Widget] Gtk.ProgressBar pulsebar;
 	[Widget] Gtk.ProgressBar progressbar;
 
 
@@ -243,6 +244,10 @@ public class SessionUploadWindow {
 		progressbar.Pulse();
 	}
 
+	public void UpdatePulsebar () {
+		pulsebar.Pulse();
+	}
+
 	public void UpdateProgressbar (double fraction) {
 		if(fraction < 0)
 			fraction = 0;
@@ -253,6 +258,7 @@ public class SessionUploadWindow {
 	}
 		
 	public void UploadFinished() {
+		pulsebar.Fraction =1;
 		label_thanks.Show();
 		button_close.Sensitive = true;
 	}

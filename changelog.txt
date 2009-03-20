@@ -2,8 +2,8 @@ TODO:
 
 Add Cabedo's tests
 
-add a link to the server page. Develop web stats and survey on web site. Maybe done by R script and calling
-to database
+add a link to the server page. Develop web stats and survey on web site. Maybe
+done by R script and calling to database
 http://cran.r-project.org/web/packages/RSQLite/index.html
 http://cran.r-project.org/web/packages/RSQLite/INSTALL
 http://cran.r-project.org/web/packages/DBI/index.html
@@ -12,6 +12,56 @@ all this will be release 0.9
 
 do the ping gets real IP
 
+put thread in other server situations:
+-upload evaluator
+-upload session
+
+do the graph of last jump plot values of jumps before
+(maybe show last jumps of this kind on different people, and the avg of this
+user and all users (this two in different color))
+
+http://en.csharp-online.net/ASP.NET_Security_Hacks¿Avoiding_SQL_Injection
+http://ferruh.mavituna.com/sql-injection-cheatsheet-oku/
+every string that gets on server or complex object, sanitize it: see on sql or
+c# books. Or look for ; and after alter, insert, delete, drop, update, ...
+(low and hight case)
+i think there will be no problems because all is parametrized
+
+Fix bug on thread sqlite at start (see png at Desktop)
+
+Put pictures and description of runAnalysis. Do svn add, Makefile, ...
+
+
+intersession stats only have to show one max or avg, not n max or all jumps
+
+stats all and limit is not updating the treeview stats. 
+
+
+two chronopics in chronojump
+
+when person weight is updated, description of eg. margaria (with power)
+doesn't change. Should change or use another thing. Recreate all time in
+session.... also same when edit jump.
+Maybe is better to don't have it (the power) recorded at any place but generate when it's
+required
+
+in execution graph put avgs as horizontal lines
+and plot all tests of same type of same person
+
+
+19 mar 2009
+        0.8.2.8
+        db 0.67
+	done takeoff, added in db, created images
+
+        RunAnalysis done (only remains to export, report ok)
+        db 0.66
+
+	Added a pulsebar (activity) on upload session
+ 	
+	improved running at graphs. Improved margaria graph
+	
+	Better thread on pinging at start
 
 10 mar 2009
 	0.8.2.7

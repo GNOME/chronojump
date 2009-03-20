@@ -917,9 +917,12 @@ public class EventExecuteWindow
 			}
 		
 			//blue for TF
-			pixmap.DrawLine(pen_azul, ancho*1/6 +10, alto, ancho*1/6 +10, calculatePaintHeight(tvNow, alto, maxValue, minValue, topMargin, bottomMargin));
-			pixmap.DrawLine(pen_azul, ancho*3/6 +10, alto, ancho*3/6 +10, calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin));
-			pixmap.DrawLine(pen_azul, ancho*5/6 +10, alto, ancho*5/6 +10, calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin));
+			//check it's not a take off
+			if(tvNow > 0) {
+				pixmap.DrawLine(pen_azul, ancho*1/6 +10, alto, ancho*1/6 +10, calculatePaintHeight(tvNow, alto, maxValue, minValue, topMargin, bottomMargin));
+				pixmap.DrawLine(pen_azul, ancho*3/6 +10, alto, ancho*3/6 +10, calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin));
+				pixmap.DrawLine(pen_azul, ancho*5/6 +10, alto, ancho*5/6 +10, calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin));
+			}
 			
 			//circles
 			if(eventGraphConfigureWin.PaintCircle) {
@@ -928,9 +931,12 @@ public class EventExecuteWindow
 					pixmap.DrawArc(pen_rojo, true, ancho*3/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(tcPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
 					pixmap.DrawArc(pen_rojo, true, ancho*5/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(tcSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
 				}
-				pixmap.DrawArc(pen_azul, true, ancho*1/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvNow, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				pixmap.DrawArc(pen_azul, true, ancho*3/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				pixmap.DrawArc(pen_azul, true, ancho*5/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+				//check it's not a take off
+				if(tvNow > 0) {
+					pixmap.DrawArc(pen_azul, true, ancho*1/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvNow, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+					pixmap.DrawArc(pen_azul, true, ancho*3/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+					pixmap.DrawArc(pen_azul, true, ancho*5/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
+				}
 			}	
 			
 	
@@ -1426,7 +1432,6 @@ public class EventExecuteWindow
 					//progressbar.Text = "";
 					label_value.Text = "";
 				else 
-					//progressbar.Text = Math.Round(events,3).ToString() + " / " + limit.ToString();
 					label_value.Text = Math.Round(events,3).ToString();
 			} else {
 				//activity mode

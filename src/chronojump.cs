@@ -106,7 +106,8 @@ public class ChronoJump
 
 	//variables to manage the ping thread
 	string versionAvailable;
-	bool pinging;
+	bool pingStart;
+	bool pingEnd;
 	bool pulseGTKPingShouldEnd;
 
 	protected void sqliteThings () {
@@ -246,13 +247,19 @@ public class ChronoJump
 
 		//connect to server to Ping
 		versionAvailable = "";
-		pinging = false;
+		pingStart = false;
+		pingEnd = false;
 			
 		thread = new Thread(new ThreadStart(findVersion));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTKPing));
 		thread.Start(); 
 
-		while(pinging) {
+		//wait until pinging process start
+		while(! pingStart) {
+		}
+
+		//wait until pinging ends (or it's cancelled)
+		while(! pingEnd) {
 		}
 
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
@@ -295,7 +302,7 @@ public class ChronoJump
 	}
 
 	private void findVersion() {
-		pinging = true;
+		pingStart = true;
 		pulseGTKPingShouldEnd = false;
 		splashShowButton = true;
 		
@@ -305,14 +312,14 @@ public class ChronoJump
 		
 		splashShowButton = false;
 		Console.Write(" version:  " + versionAvailable);
-		pinging = false;
+		pingEnd = true;
 	}
 		
 	private void on_find_version_cancelled(object o, EventArgs args) {
 		splashShowButton = false;
 		pulseGTKPingShouldEnd = true;
 		versionAvailable = Constants.ServerOffline;
-		pinging = false;
+		pingEnd = true;
 	}
 
 	protected void readMessageToStart() {
@@ -386,10 +393,10 @@ public class ChronoJump
 	
 	protected bool PulseGTK ()
 	{
-		if( ( needEndSplashWin && ! pinging) 
+		if( ( needEndSplashWin && pingEnd ) 
 				|| ! thread.IsAlive) {
 			fakeSplashButton.Click();
-			Log.Write("splash window dying here");
+			Log.Write("splash window ending here");
 			return false;
 		}
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending

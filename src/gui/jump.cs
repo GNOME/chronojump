@@ -109,6 +109,20 @@ public class EditJumpWindow : EditEventWindow
 		return myTypes;
 	}
 
+	protected override void fillTv(Event myEvent) {
+		Jump myJump = (Jump) myEvent;
+		entryTv = myJump.Tv.ToString();
+
+		//show all the decimals for not triming there in edit window using
+		//(and having different values in formulae like GetHeightInCm ...)
+		//entry_tv_value.Text = Util.TrimDecimals(entryTv, pDN);
+		entry_tv_value.Text = entryTv;
+	
+		//hide tv if it's only a takeoff	
+		if(myEvent.Type == Constants.TakeOffName || myEvent.Type == Constants.TakeOffWeightName) 
+			entry_tv_value.Sensitive = false;
+	}
+
 	protected override void fillTc (Event myEvent) {
 		//on normal jumps fills Tc and Fall
 		Jump myJump = (Jump) myEvent;
@@ -170,6 +184,14 @@ public class EditJumpWindow : EditEventWindow
 		//if the distance of the new runType is fixed, put this distance
 		//if not conserve the old
 		JumpType myJumpType = new JumpType (UtilGtk.ComboGetActive(combo_eventType));
+
+		if(myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName) {
+			entry_tv_value.Text = "0";
+			entry_tv_value.Sensitive = false;
+		} else 
+			entry_tv_value.Sensitive = true;
+
+
 		if(myJumpType.HasWeight) {
 			if(weightOldStore != "0")
 				entry_weight_value.Text = weightOldStore;
@@ -762,6 +784,10 @@ public class JumpExtraWindow
 	[Widget] Gtk.Label label_weight;
 	[Widget] Gtk.Label label_fall;
 	[Widget] Gtk.Label label_cm;
+	
+	//for RunAnalysis
+	//but will be used and recorded with "fall"
+	static int distance;
 
 	static string option = "Kg";
 	static double limited = 10;
@@ -788,6 +814,23 @@ public class JumpExtraWindow
 			JumpExtraWindowBox = new JumpExtraWindow (parent);
 		}
 		
+		if(myJumpType.Name == Constants.RunAnalysisName) {
+			hideRepetitiveData();	
+			hideWeightData();	
+			distance = 100; //100cm
+			
+			JumpExtraWindowBox.spinbutton_fall.Value = distance;
+			JumpExtraWindowBox.label_fall.Text = Catalog.GetString("Distance between photocells");
+
+			JumpExtraWindowBox.spinbutton_fall.Sensitive = true;
+			JumpExtraWindowBox.label_fall.Sensitive = true;
+			JumpExtraWindowBox.label_cm.Sensitive = true;
+		
+			JumpExtraWindowBox.jump_extra.Show ();
+
+			return JumpExtraWindowBox;
+		}
+		
 		if(myJumpType.IsRepetitive) {
 			string jumpsName = Catalog.GetString("jumps");
 			string secondsName = Catalog.GetString("seconds");
@@ -809,7 +852,7 @@ public class JumpExtraWindow
 		if(! myJumpType.HasWeight) {
 			hideWeightData();	
 		}
-		if(myJumpType.StartIn) {
+		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName) {
 			hideFallData();	
 		}
 		
@@ -862,6 +905,7 @@ public class JumpExtraWindow
 		limited = (double) spinbutton_limit.Value;
 		weight = (int) spinbutton_weight.Value;
 		fall = (int) spinbutton_fall.Value;
+		distance = (int) spinbutton_fall.Value;
 		
 		JumpExtraWindowBox.jump_extra.Hide();
 		JumpExtraWindowBox = null;
@@ -899,6 +943,7 @@ public class JumpExtraWindow
 	{
 		get { return limited;	}
 	}
+	
 	
 	public string LimitString
 	{

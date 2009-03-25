@@ -65,6 +65,7 @@ public class Constants
 	public const string TempRunIntervalTable = "tempRunInterval";
 	public const string PulseTable = "pulse";
 	public const string ReactionTimeTable = "reactionTime";
+	public const string MultiChronopicTable = "multiChronopic";
 
 	//tests types
 	public const string JumpTypeTable = "jumpType";
@@ -94,7 +95,7 @@ public class Constants
 	
 	public const string ChronometerCp1 = "Chronopic1";
 	public const string ChronometerCp2 = "Chronopic2";
-	public const string ChronometerCp3 = "Chronopic32";
+	public const string ChronometerCp3 = "Chronopic3";
 	public static string [] Chronometers = {
 		UndefinedDefault, 
 		ChronometerCp1,

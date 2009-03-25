@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.67";
+	static string lastChronojumpDatabaseVersion = "0.68";
 
 	public Sqlite() {
 	}
@@ -442,6 +442,7 @@ class Sqlite
 			SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
 			SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime();
 			SqlitePulse sqlitePulseObject = new SqlitePulse();
+			SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic();
 
 			if(currentVersion == "0.41") {
 				dbcon.Open();
@@ -862,6 +863,17 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.67";
 			}
+			if(currentVersion == "0.67") {
+				dbcon.Open();
+				sqliteMultiChronopicObject.createTable(Constants.MultiChronopicTable);
+
+				SqlitePreferences.Update ("databaseVersion", "0.68", true); 
+				
+				Log.WriteLine("Converted DB to 0.68 (added multiChronopic tests table)"); 
+				dbcon.Close();
+				currentVersion = "0.68";
+			}
+
 
 		}
 
@@ -890,7 +902,7 @@ class Sqlite
 	{
 		dbcon.Open();
 
-		creationTotal = 12;
+		creationTotal = 13;
 		creationRate = 1;
 
 		SqliteServer sqliteServerObject = new SqliteServer();
@@ -959,6 +971,11 @@ class Sqlite
 		sqlitePulseObject.createTable(Constants.PulseTable);
 		SqlitePulseType.createTablePulseType();
 		SqlitePulseType.initializeTablePulseType();
+		
+		//multiChronopic tests		
+		creationRate ++;
+		SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic();
+		sqliteMultiChronopicObject.createTable(Constants.MultiChronopicTable);
 	
 		//sports
 		creationRate ++;
@@ -980,6 +997,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.67 - 0.68 added multiChronopic tests table
 		//0.66 - 0.67 added TakeOff jumps 
 		//0.65 - 0.66 added run analysis (JumpRj test (masked as run interval))
 		//0.64 - 0.65 added Sevaluator on client

@@ -601,7 +601,6 @@ public class JumpRjExecute : JumpExecute
 			//if chronopic signal is Ok and state has changed
 			if (ok && (
 					(platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) ||
-					//(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) ) {
 					(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) 
 						&& !cancel && !finish) {
 				
@@ -916,6 +915,8 @@ public class JumpRjExecute : JumpExecute
 			double speed = (fall /10) / Util.GetTotalTime(tcString, tvString);
 	
 	/*		
+	 *		Josep Ma Padullés test
+	 *
 			string tcStringWithoutFirst = Util.DeleteFirstSubEvent(tcString);
 			string tvStringWithoutFirst = Util.DeleteFirstSubEvent(tvString);
 		

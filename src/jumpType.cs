@@ -29,7 +29,6 @@ public class JumpType : EventType
 	protected bool isRepetitive;
 	protected bool jumpsLimited;
 	protected double fixedValue;	//0 no fixed value
-					//0.5 if we want only to registry a TC
 	protected bool unlimited;
 
 

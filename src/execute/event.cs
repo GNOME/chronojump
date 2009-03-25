@@ -145,7 +145,6 @@ public class EventExecute
 		simulatedCurrentTimeIntervalsAreContact = false;
 	}
 
-	//protected virtual Chronopic.Plataforma chronopicInitialValue(Chronopic cp)
 	protected Chronopic.Plataforma chronopicInitialValue(Chronopic cp)
 	{
 		Chronopic.Plataforma myPlatformState  = Chronopic.Plataforma.UNKNOW; //on (in platform), off (jumping), or unknow
@@ -220,7 +219,7 @@ public class EventExecute
 	//onTimer allow to update progressbar_time every 50 milliseconds
 	//also can change platform state in simulated mode
 	//protected void onTimer( Object source, ElapsedEventArgs e )
-	protected void onTimer( )
+	protected virtual void onTimer( )
 	{
 		timerCount = timerCount + .05; //0,05 segons == 50 milliseconds, time between each call of onTimer
 		

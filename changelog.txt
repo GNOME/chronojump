@@ -48,13 +48,49 @@ required
 in execution graph put avgs as horizontal lines
 and plot all tests of same type of same person
 
+25 mar 2009
+        0.8.2.9
+ doing multiChronopic
+ done sqlite conversion: new db: 0.68
+ created src/execute/multiChronopic.cs
+ created src/multiChronopic.cs
+ created src/sqlite/multiChronopic.cs
+ created src/treeViewMultiChronopic.cs
+
+count time(s)  cp change diff same cp diff all cp
+1          10   1     IN           10          10
+2          15   2     IN           15           5
+3          20   1    OUT           10           5
+3          20   3     IN           20           0
+4          25   2    OUT           10           5
+5          30   3    OUT           10           5
+6          60   1     IN           40          30
+7          65   2     IN           40           5
+8          70   3     IN           40           5
+
+do like this:
+                     state  time change   time IN-IN time OUT-OUT
+count time(s)  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3
+0           0  OUT OUT OUT 
+1          10   IN           10
+2          15       IN           15
+3          20  OUT      IN   10      20                20
+4          25  	   OUT           10                        25
+5          30          OUT           10                        30 
+6          60   IN           40           50
+7          65       IN           40           50
+8          70           IN           40           50
+
+
+	Fixed contants chronopic3 name (mistake on last svn ci)
 
 19 mar 2009
         0.8.2.8
         db 0.67
 	done takeoff, added in db, created images
 
-        RunAnalysis done (only remains to export, report ok)
+        RunAnalysis done (only remains to export, report ok) update: but needs to be
+	redone as a new treeview
         db 0.66
 
 	Added a pulsebar (activity) on upload session

@@ -41,6 +41,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_runs_interval;
 	[Widget] Gtk.TreeView treeview_reaction_times;
 	[Widget] Gtk.TreeView treeview_pulses;
+	[Widget] Gtk.TreeView treeview_multi_chronopic;
 	[Widget] Gtk.Box hbox_combo_jumps;
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_runs;
@@ -181,6 +182,8 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
 	[Widget] Gtk.MenuItem menuitem_run_interval_mtgug;
 	[Widget] Gtk.MenuItem menuitem_run_analysis;
+				
+	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
 
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.MenuItem menuitem_edit_current_person;
@@ -251,6 +254,9 @@ public class ChronoJumpWindow
 	//pulses
 	private TreeStore treeview_pulses_store;
 	private TreeViewPulses myTreeViewPulses;
+	//multiChronopic
+	private TreeStore treeview_multi_chronopic_store;
+	private TreeViewMultiChronopic myTreeViewMultiChronopic;
 
 	//preferences variables
 	private static string chronopicPort;
@@ -435,13 +441,14 @@ public class ChronoJumpWindow
 		loadPreferences ();
 		preferencesLoaded = true;
 
-		createTreeView_persons(treeview_persons);
-		createTreeView_jumps(treeview_jumps);
-		createTreeView_jumps_rj(treeview_jumps_rj);
-		createTreeView_runs(treeview_runs);
-		createTreeView_runs_interval(treeview_runs_interval);
-		createTreeView_reaction_times(treeview_reaction_times);
-		createTreeView_pulses(treeview_pulses);
+		createTreeView_persons (treeview_persons);
+		createTreeView_jumps (treeview_jumps);
+		createTreeView_jumps_rj (treeview_jumps_rj);
+		createTreeView_runs (treeview_runs);
+		createTreeView_runs_interval (treeview_runs_interval);
+		createTreeView_reaction_times (treeview_reaction_times);
+		createTreeView_pulses (treeview_pulses);
+		createTreeView_multi_chronopic (treeview_multi_chronopic);
 
 		createComboJumps();
 		createComboJumpsRj();
@@ -801,6 +808,13 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
 					treeviewPulsesContextMenu(myPulse);
 				}
+			} else if(myTv == treeview_multi_chronopic) {
+				/*
+				if (myTreeViewPulses.EventSelectedID > 0) {
+					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
+					treeviewPulsesContextMenu(myPulse);
+				}
+				*/
 			} else
 				Log.WriteLine(myTv.ToString());
 		}
@@ -1506,6 +1520,34 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		myMenu.ShowAll();
 	}
 
+	/* ---------------------------------------------------------
+	 * ----------------  TREEVIEW MULTI CHRONOPIC --------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void createTreeView_multi_chronopic (Gtk.TreeView tv) {
+		//myTreeViewMultiChronopic is a TreeViewMultiChronopic instance
+		myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, prefsDigitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+//		tv.CursorChanged += on_treeview_multi_chronopic_cursor_changed; 
+	}
+
+	private void on_button_multi_chronopic_start_clicked (object o, EventArgs args) {
+				
+		//TODO: check this is ok: entry_multi_chronopic_cp2);
+		currentEventExecute = new MultiChronopicExecute(cp, appbar2, app1, 
+				"/dev/tty" + entry_multi_chronopic_cp2.Text);
+
+		currentEventExecute.Manage();
+
+		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
+	}
+
+	private void on_multi_chronopic_finished (object o, EventArgs args) {
+		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
+	}
+		
 
 
 	/* ---------------------------------------------------------
@@ -2290,6 +2332,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			createTreeView_runs_interval (treeview_runs_interval);
 			createTreeView_pulses(treeview_pulses);
 			createTreeView_reaction_times(treeview_reaction_times);
+			createTreeView_multi_chronopic(treeview_multi_chronopic);
 			
 			on_combo_jumps_changed(combo_jumps, args);
 			on_combo_jumps_rj_changed(combo_jumps_rj, args);

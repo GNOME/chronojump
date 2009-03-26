@@ -131,6 +131,23 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_pulse_free;
 	[Widget] Gtk.Button button_pulse_custom;
 	//[Widget] Gtk.Button button_pulse_more;
+
+	//multiChronopic	
+	[Widget] Gtk.Frame frame_chronopic2;
+	[Widget] Gtk.Frame frame_chronopic3;
+	[Widget] Gtk.Frame frame_chronopic4;
+	[Widget] Gtk.ComboBox combo_port_linux2;
+	[Widget] Gtk.ComboBox combo_port_windows2;
+	[Widget] Gtk.ComboBox combo_port_linux3;
+	[Widget] Gtk.ComboBox combo_port_windows3;
+	[Widget] Gtk.ComboBox combo_port_linux4;
+	[Widget] Gtk.ComboBox combo_port_windows4;
+	[Widget] Gtk.Image image_cp2_yes;
+	[Widget] Gtk.Image image_cp2_no;
+	[Widget] Gtk.Image image_cp3_yes;
+	[Widget] Gtk.Image image_cp3_no;
+	[Widget] Gtk.Image image_cp4_yes;
+	[Widget] Gtk.Image image_cp4_no;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
@@ -456,6 +473,7 @@ public class ChronoJumpWindow
 		createComboRunsInterval();
 		//reaction_times has no combo
 		createComboPulses();
+		createComboMultiChronopic();
 		createdStatsWin = false;
 
 		
@@ -1614,6 +1632,34 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		hbox_combo_pulses.PackStart(combo_pulses, true, true, 0);
 		hbox_combo_pulses.ShowAll();
 		combo_pulses.Sensitive = false;
+	}
+
+	private void createComboMultiChronopic() {
+		if(Util.IsWindows()) {
+			combo_port_linux2.Hide();
+			combo_port_linux3.Hide();
+			combo_port_linux4.Hide();
+		
+			string [] comboWindowsOptions = new string[257];
+			for (int count = 0, i=1; i <= 257; i ++)
+				comboWindowsOptions[i-1] = "COM" + i;
+
+			UtilGtk.ComboUpdate(combo_port_windows2, comboWindowsOptions, comboWindowsOptions[0]);
+			UtilGtk.ComboUpdate(combo_port_windows3, comboWindowsOptions, comboWindowsOptions[0]);
+			UtilGtk.ComboUpdate(combo_port_windows4, comboWindowsOptions, comboWindowsOptions[0]);
+		} else {
+			combo_port_windows2.Hide();
+			combo_port_windows3.Hide();
+			combo_port_windows4.Hide();
+
+			UtilGtk.ComboUpdate(combo_port_linux2, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
+			combo_port_linux2.Active = 0; //first option
+			UtilGtk.ComboUpdate(combo_port_linux3, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
+			combo_port_linux3.Active = 0; //first option
+			UtilGtk.ComboUpdate(combo_port_linux4, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
+			combo_port_linux4.Active = 0; //first option
+		}
+
 	}
 
 	private void on_combo_jumps_changed(object o, EventArgs args) {
@@ -4348,6 +4394,11 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	
 	private void sensitiveGuiNoSession () 
 	{
+	image_cp2_yes.Hide();
+	image_cp3_yes.Hide();
+	image_cp4_yes.Hide();
+
+
 		//menuitems
 		menuitem_preferences.Sensitive = true;
 		menuitem_export_csv.Sensitive = false;

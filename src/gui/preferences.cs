@@ -66,18 +66,6 @@ public class PreferencesWindow {
 	//dialogMessage
 	private string languageIni;
 
-	string [] comboLinuxOptions = {
-		"/dev/ttyUSB?", 
-		"/dev/ttyUSB0", 
-		"/dev/ttyUSB1", 
-		"/dev/ttyUSB2", 
-		"/dev/ttyUSB3", 
-		"/dev/ttyS0", 
-		"/dev/ttyS1", 
-		"/dev/ttyS2", 
-		"/dev/ttyS3", 
-	};
-		
 	string [] comboWindowsOptions;
 	
 
@@ -96,7 +84,7 @@ public class PreferencesWindow {
 			comboWindowsOptions[i-1] = "COM" + i;
 
 		UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
-		UtilGtk.ComboUpdate(combo_port_linux, comboLinuxOptions, comboLinuxOptions[0]);
+		UtilGtk.ComboUpdate(combo_port_linux, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
 		
 
 		if(Util.IsWindows()) {
@@ -107,7 +95,7 @@ public class PreferencesWindow {
 		} else {
 			if(entryChronopic.Length > 0)
 
-				combo_port_linux.Active = UtilGtk.ComboMakeActive(comboLinuxOptions, entryChronopic);
+				combo_port_linux.Active = UtilGtk.ComboMakeActive(Constants.ComboPortLinuxOptions, entryChronopic);
 			else 
 				combo_port_linux.Active = 0; //first option
 		}

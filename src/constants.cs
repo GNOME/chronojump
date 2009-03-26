@@ -355,6 +355,19 @@ public class Constants
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";
 	
+	public static string [] ComboPortLinuxOptions = {
+		"/dev/ttyUSB?", 
+		"/dev/ttyUSB0", 
+		"/dev/ttyUSB1", 
+		"/dev/ttyUSB2", 
+		"/dev/ttyUSB3", 
+		"/dev/ttyS0", 
+		"/dev/ttyS1", 
+		"/dev/ttyS2", 
+		"/dev/ttyS3", 
+	};
+		
+	
 
 	//for dialog windows
 	public enum MessageTypes {

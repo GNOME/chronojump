@@ -72,6 +72,11 @@ count time(s)  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3
 7          65       IN           40           50
 8          70           IN           40           50
 
+26 mar 2009 (2)
+	multiChronopic:
+	-connection of 4 chronopics now is done with the same gui as one
+	chronopic (on gui/chronojump.cs)
+	-improvements on gui
 
 26 mar 2009
 	improvements on gui of multiChronopic

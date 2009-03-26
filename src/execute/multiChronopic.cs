@@ -34,27 +34,27 @@ public class MultiChronopicExecute : EventExecute
 
 	//2nd Chronopic stuff
 	protected Thread thread2;
-	SerialPort sp2;
+	//SerialPort sp2;
 	private Chronopic cp2;
 	private Chronopic.Plataforma platformState2;
 	protected States loggedState2;
-	private string port2;
+	//private string port2;
 	
 	//3rd Chronopic stuff
 	protected Thread thread3;
-	SerialPort sp3;
+	//SerialPort sp3;
 	private Chronopic cp3;
 	private Chronopic.Plataforma platformState3;
 	protected States loggedState3;
-	private string port3;
+	//private string port3;
 	
 	//4th Chronopic stuff
 	protected Thread thread4;
-	SerialPort sp4;
+	//SerialPort sp4;
 	private Chronopic cp4;
 	private Chronopic.Plataforma platformState4;
 	protected States loggedState4;
-	private string port4;
+	//private string port4;
 	
 
 	static bool firstValue = true;
@@ -64,13 +64,14 @@ public class MultiChronopicExecute : EventExecute
 	public MultiChronopicExecute() {
 	}
 
-	//jump execution
-	public MultiChronopicExecute(Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, string port2)
+	//execution
+	//public MultiChronopicExecute(Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, string port2)
+	public MultiChronopicExecute(Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app)
 	{
 		this.cp = cp;
 		this.appbar = appbar;
 		this.app = app;
-		this.port2 = port2;
+		//this.port2 = port2;
 		
 		fakeButtonFinished = new Gtk.Button();
 		
@@ -138,7 +139,7 @@ public class MultiChronopicExecute : EventExecute
 		*/
 	}
 			
-
+/*
 	//private bool connectChronopic2(string myPort) 
 	private bool connectOtherChronopics(Chronopic myCp, SerialPort mySp, Chronopic.Plataforma myPS, string myPort) 
 	{
@@ -165,12 +166,15 @@ public class MultiChronopicExecute : EventExecute
 		}
 		return success;
 	}
+*/
 
 	public override void Manage()
 	{
+		/*
 		connectOtherChronopics(cp2, sp2, platformState2, port2);
 		//connectOtherChronopics(cp3, sp3, platformState3, port3);
 		//connectOtherChronopics(cp4, sp4, platformState4, port4);
+		*/
 
 		platformState = chronopicInitialValue(cp);
 		platformState2 = chronopicInitialValue(cp2);

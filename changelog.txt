@@ -48,15 +48,6 @@ required
 in execution graph put avgs as horizontal lines
 and plot all tests of same type of same person
 
-25 mar 2009
-        0.8.2.9
- doing multiChronopic
- done sqlite conversion: new db: 0.68
- created src/execute/multiChronopic.cs
- created src/multiChronopic.cs
- created src/sqlite/multiChronopic.cs
- created src/treeViewMultiChronopic.cs
-
 count time(s)  cp change diff same cp diff all cp
 1          10   1     IN           10          10
 2          15   2     IN           15           5
@@ -81,6 +72,18 @@ count time(s)  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3
 7          65       IN           40           50
 8          70           IN           40           50
 
+
+26 mar 2009
+	improvements on gui of multiChronopic
+
+25 mar 2009
+        0.8.2.9
+	doing multiChronopic
+	done sqlite conversion: new db: 0.68
+	created src/execute/multiChronopic.cs
+	created src/multiChronopic.cs
+	created src/sqlite/multiChronopic.cs
+	created src/treeViewMultiChronopic.cs
 
 	Fixed contants chronopic3 name (mistake on last svn ci)
 

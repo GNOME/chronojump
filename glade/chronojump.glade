@@ -13200,7 +13200,7 @@ suitable for agility tests)</property>
 					  <property name="spacing">5</property>
 
 					  <child>
-					    <widget class="GtkVBox" id="vbox175">
+					    <widget class="GtkVBox" id="vbox_multi_chronopic_selectors">
 					      <property name="visible">True</property>
 					      <property name="homogeneous">False</property>
 					      <property name="spacing">2</property>
@@ -13237,7 +13237,7 @@ suitable for agility tests)</property>
 						  <property name="spacing">0</property>
 
 						  <child>
-						    <widget class="GtkRadioButton" id="radiobutton_chronopics_2">
+						    <widget class="GtkRadioButton" id="radio_chronopics2">
 						      <property name="visible">True</property>
 						      <property name="can_focus">True</property>
 						      <property name="label" translatable="yes">2</property>
@@ -13247,6 +13247,7 @@ suitable for agility tests)</property>
 						      <property name="active">False</property>
 						      <property name="inconsistent">False</property>
 						      <property name="draw_indicator">True</property>
+						      <signal name="toggled" handler="on_radio_multi_chronopics_toggled" last_modification_time="Thu, 26 Mar 2009 15:56:00 GMT"/>
 						    </widget>
 						    <packing>
 						      <property name="padding">0</property>
@@ -13256,7 +13257,7 @@ suitable for agility tests)</property>
 						  </child>
 
 						  <child>
-						    <widget class="GtkRadioButton" id="radiobutton4">
+						    <widget class="GtkRadioButton" id="radio_chronopics3">
 						      <property name="visible">True</property>
 						      <property name="can_focus">True</property>
 						      <property name="label" translatable="yes">3</property>
@@ -13266,7 +13267,8 @@ suitable for agility tests)</property>
 						      <property name="active">False</property>
 						      <property name="inconsistent">False</property>
 						      <property name="draw_indicator">True</property>
-						      <property name="group">radiobutton_chronopics_2</property>
+						      <property name="group">radio_chronopics2</property>
+						      <signal name="toggled" handler="on_radio_multi_chronopics_toggled" last_modification_time="Thu, 26 Mar 2009 15:56:14 GMT"/>
 						    </widget>
 						    <packing>
 						      <property name="padding">0</property>
@@ -13276,7 +13278,7 @@ suitable for agility tests)</property>
 						  </child>
 
 						  <child>
-						    <widget class="GtkRadioButton" id="radiobutton5">
+						    <widget class="GtkRadioButton" id="radio_chronopics4">
 						      <property name="visible">True</property>
 						      <property name="can_focus">True</property>
 						      <property name="label" translatable="yes">4</property>
@@ -13286,7 +13288,8 @@ suitable for agility tests)</property>
 						      <property name="active">False</property>
 						      <property name="inconsistent">False</property>
 						      <property name="draw_indicator">True</property>
-						      <property name="group">radiobutton_chronopics_2</property>
+						      <property name="group">radio_chronopics2</property>
+						      <signal name="toggled" handler="on_radio_multi_chronopics_toggled" last_modification_time="Thu, 26 Mar 2009 15:56:30 GMT"/>
 						    </widget>
 						    <packing>
 						      <property name="padding">0</property>
@@ -13393,26 +13396,39 @@ suitable for agility tests)</property>
 							      <property name="spacing">0</property>
 
 							      <child>
-								<widget class="GtkComboBox" id="combo_port_linux2">
+								<widget class="GtkVBox" id="vbox179">
 								  <property name="visible">True</property>
-								  <property name="items">/dev/ttyUSB?
-</property>
-								  <property name="add_tearoffs">False</property>
-								  <property name="focus_on_click">True</property>
-								</widget>
-								<packing>
-								  <property name="padding">0</property>
-								  <property name="expand">True</property>
-								  <property name="fill">True</property>
-								</packing>
-							      </child>
+								  <property name="homogeneous">False</property>
+								  <property name="spacing">0</property>
 
-							      <child>
-								<widget class="GtkComboBox" id="combo_port_windows2">
-								  <property name="visible">True</property>
-								  <property name="items">COM?</property>
-								  <property name="add_tearoffs">False</property>
-								  <property name="focus_on_click">True</property>
+								  <child>
+								    <widget class="GtkComboBox" id="combo_port_linux2">
+								      <property name="visible">True</property>
+								      <property name="items">/dev/ttyUSB?
+</property>
+								      <property name="add_tearoffs">False</property>
+								      <property name="focus_on_click">True</property>
+								    </widget>
+								    <packing>
+								      <property name="padding">0</property>
+								      <property name="expand">True</property>
+								      <property name="fill">True</property>
+								    </packing>
+								  </child>
+
+								  <child>
+								    <widget class="GtkComboBox" id="combo_port_windows2">
+								      <property name="visible">True</property>
+								      <property name="items">COM?</property>
+								      <property name="add_tearoffs">False</property>
+								      <property name="focus_on_click">True</property>
+								    </widget>
+								    <packing>
+								      <property name="padding">0</property>
+								      <property name="expand">True</property>
+								      <property name="fill">True</property>
+								    </packing>
+								  </child>
 								</widget>
 								<packing>
 								  <property name="padding">0</property>
@@ -13434,6 +13450,7 @@ suitable for agility tests)</property>
 							      <property name="can_focus">True</property>
 							      <property name="relief">GTK_RELIEF_NORMAL</property>
 							      <property name="focus_on_click">True</property>
+							      <signal name="clicked" handler="on_button_connect_cp_clicked" last_modification_time="Thu, 26 Mar 2009 15:06:25 GMT"/>
 
 							      <child>
 								<widget class="GtkImage" id="image4221">
@@ -13579,31 +13596,44 @@ suitable for agility tests)</property>
 							  <property name="spacing">0</property>
 
 							  <child>
-							    <widget class="GtkComboBox" id="combo_port_linux3">
+							    <widget class="GtkVBox" id="vbox180">
 							      <property name="visible">True</property>
-							      <property name="items">/dev/ttyUSB?
-</property>
-							      <property name="add_tearoffs">False</property>
-							      <property name="focus_on_click">True</property>
-							    </widget>
-							    <packing>
-							      <property name="padding">0</property>
-							      <property name="expand">False</property>
-							      <property name="fill">False</property>
-							    </packing>
-							  </child>
+							      <property name="homogeneous">False</property>
+							      <property name="spacing">0</property>
 
-							  <child>
-							    <widget class="GtkComboBox" id="combo_port_windows3">
-							      <property name="visible">True</property>
-							      <property name="items">COM?</property>
-							      <property name="add_tearoffs">False</property>
-							      <property name="focus_on_click">True</property>
+							      <child>
+								<widget class="GtkComboBox" id="combo_port_linux3">
+								  <property name="visible">True</property>
+								  <property name="items">/dev/ttyUSB?
+</property>
+								  <property name="add_tearoffs">False</property>
+								  <property name="focus_on_click">True</property>
+								</widget>
+								<packing>
+								  <property name="padding">0</property>
+								  <property name="expand">True</property>
+								  <property name="fill">True</property>
+								</packing>
+							      </child>
+
+							      <child>
+								<widget class="GtkComboBox" id="combo_port_windows3">
+								  <property name="visible">True</property>
+								  <property name="items">COM?</property>
+								  <property name="add_tearoffs">False</property>
+								  <property name="focus_on_click">True</property>
+								</widget>
+								<packing>
+								  <property name="padding">0</property>
+								  <property name="expand">True</property>
+								  <property name="fill">True</property>
+								</packing>
+							      </child>
 							    </widget>
 							    <packing>
 							      <property name="padding">0</property>
-							      <property name="expand">False</property>
-							      <property name="fill">False</property>
+							      <property name="expand">True</property>
+							      <property name="fill">True</property>
 							    </packing>
 							  </child>
 
@@ -13613,6 +13643,7 @@ suitable for agility tests)</property>
 							      <property name="can_focus">True</property>
 							      <property name="relief">GTK_RELIEF_NORMAL</property>
 							      <property name="focus_on_click">True</property>
+							      <signal name="clicked" handler="on_button_connect_cp_clicked" last_modification_time="Thu, 26 Mar 2009 15:06:42 GMT"/>
 
 							      <child>
 								<widget class="GtkImage" id="image4222">
@@ -13758,31 +13789,44 @@ suitable for agility tests)</property>
 							  <property name="spacing">0</property>
 
 							  <child>
-							    <widget class="GtkComboBox" id="combo_port_linux4">
+							    <widget class="GtkVBox" id="vbox181">
 							      <property name="visible">True</property>
-							      <property name="items">/dev/ttyUSB?
-</property>
-							      <property name="add_tearoffs">False</property>
-							      <property name="focus_on_click">True</property>
-							    </widget>
-							    <packing>
-							      <property name="padding">0</property>
-							      <property name="expand">False</property>
-							      <property name="fill">False</property>
-							    </packing>
-							  </child>
+							      <property name="homogeneous">False</property>
+							      <property name="spacing">0</property>
 
-							  <child>
-							    <widget class="GtkComboBox" id="combo_port_windows4">
-							      <property name="visible">True</property>
-							      <property name="items">COM?</property>
-							      <property name="add_tearoffs">False</property>
-							      <property name="focus_on_click">True</property>
+							      <child>
+								<widget class="GtkComboBox" id="combo_port_linux4">
+								  <property name="visible">True</property>
+								  <property name="items">/dev/ttyUSB?
+</property>
+								  <property name="add_tearoffs">False</property>
+								  <property name="focus_on_click">True</property>
+								</widget>
+								<packing>
+								  <property name="padding">0</property>
+								  <property name="expand">True</property>
+								  <property name="fill">True</property>
+								</packing>
+							      </child>
+
+							      <child>
+								<widget class="GtkComboBox" id="combo_port_windows4">
+								  <property name="visible">True</property>
+								  <property name="items">COM?</property>
+								  <property name="add_tearoffs">False</property>
+								  <property name="focus_on_click">True</property>
+								</widget>
+								<packing>
+								  <property name="padding">0</property>
+								  <property name="expand">True</property>
+								  <property name="fill">True</property>
+								</packing>
+							      </child>
 							    </widget>
 							    <packing>
 							      <property name="padding">0</property>
-							      <property name="expand">False</property>
-							      <property name="fill">False</property>
+							      <property name="expand">True</property>
+							      <property name="fill">True</property>
 							    </packing>
 							  </child>
 
@@ -13792,6 +13836,7 @@ suitable for agility tests)</property>
 							      <property name="can_focus">True</property>
 							      <property name="relief">GTK_RELIEF_NORMAL</property>
 							      <property name="focus_on_click">True</property>
+							      <signal name="clicked" handler="on_button_connect_cp_clicked" last_modification_time="Thu, 26 Mar 2009 15:06:52 GMT"/>
 
 							      <child>
 								<widget class="GtkImage" id="image4223">
@@ -13905,7 +13950,7 @@ suitable for agility tests)</property>
 					<packing>
 					  <property name="padding">0</property>
 					  <property name="expand">False</property>
-					  <property name="fill">True</property>
+					  <property name="fill">False</property>
 					  <property name="pack_type">GTK_PACK_END</property>
 					</packing>
 				      </child>

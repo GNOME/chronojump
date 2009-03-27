@@ -36,8 +36,7 @@ intersession stats only have to show one max or avg, not n max or all jumps
 
 stats all and limit is not updating the treeview stats. 
 
-
-two chronopics in chronojump
+us Util.DetectPortsLinux in gui/help ports
 
 when person weight is updated, description of eg. margaria (with power)
 doesn't change. Should change or use another thing. Recreate all time in
@@ -71,6 +70,14 @@ count time(s)  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3
 6          60   IN           40           50
 7          65       IN           40           50
 8          70           IN           40           50
+
+
+27 mar 2009
+	four chronopics can be connected from gui/chronojump.cs
+	and managed from multiChronopic (only tested with three)
+	it's a new way to connect chronopic, returning the cp
+
+	created src/multiChronopicType
 
 26 mar 2009 (2)
 	multiChronopic:

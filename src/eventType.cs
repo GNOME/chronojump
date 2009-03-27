@@ -23,7 +23,7 @@ using System;
 public partial class EventType 
 {
 	public enum Types {
-		JUMP, RUN, PULSE, REACTIONTIME
+		JUMP, RUN, PULSE, REACTIONTIME, MULTICHRONOPIC
 	}
 
 	protected Types type; //jump, run, reactionTime, pulse

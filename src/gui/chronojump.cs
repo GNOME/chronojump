@@ -609,47 +609,43 @@ public class ChronoJumpWindow
 	}
 
 	//chronopic init should not touch  gtk, for the threads
-	//private bool chronopicInit (string myPort, out string returnString)
-	private bool chronopicInit (Chronopic myCp, SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString) 
+	private Chronopic chronopicInit (Chronopic myCp, SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
 	{
 		Log.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
-		if(!Util.IsWindows())
+		if(Util.IsWindows())
 			Log.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash.") );
 
-		bool success = true;
+		success = true;
 		
 		try {
-Log.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
+			Log.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
 			Log.WriteLine(string.Format("chronopic port: {0}", myPort));
 			mySp = new SerialPort(myPort);
 			mySp.Open();
-Log.WriteLine("+++++++++++++++++ 2 ++++++++++++++++");		
+			Log.WriteLine("+++++++++++++++++ 2 ++++++++++++++++");		
 			//-- Create chronopic object, for accessing chronopic
 			myCp = new Chronopic(mySp);
 
-Log.WriteLine("+++++++++++++++++ 3 ++++++++++++++++");		
+			Log.WriteLine("+++++++++++++++++ 3 ++++++++++++++++");		
 			//on windows, this check make a crash 
 			//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
 			//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
 
-			//not used, now there's no .NET this was .NET related
-			//on mono timeouts work on windows and linux
-			//			if ( ! Util.IsWindows()) {
-				//-- Obtener el estado inicial de la plataforma
-				bool ok=false;
-Log.WriteLine("+++++++++++++++++ 4 ++++++++++++++++");		
-				do {
-Log.WriteLine("+++++++++++++++++ 5 ++++++++++++++++");		
-					ok=myCp.Read_platform(out myPS);
-Log.WriteLine("+++++++++++++++++ 6 ++++++++++++++++");		
-				} while(!ok);
-Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");		
-				if (!ok) {
-					//-- Si hay error terminar
-					Log.WriteLine(string.Format("Error: {0}", myCp.Error));
-					success = false;
-				}
-			//}
+			//-- Obtener el estado inicial de la plataforma
+
+			bool ok=false;
+			Log.WriteLine("+++++++++++++++++ 4 ++++++++++++++++");		
+			do {
+				Log.WriteLine("+++++++++++++++++ 5 ++++++++++++++++");		
+				ok=myCp.Read_platform(out myPS);
+				Log.WriteLine("+++++++++++++++++ 6 ++++++++++++++++");		
+			} while(!ok);
+			Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");		
+			if (!ok) {
+				//-- Si hay error terminar
+				Log.WriteLine(string.Format("Error: {0}", myCp.Error));
+				success = false;
+			}
 		} catch {
 			success = false;
 		}
@@ -678,7 +674,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				cpRunning = false;
 			}
 		}
-		return success;
+		return myCp;
 	}
 	
 	private void loadPreferences () 
@@ -1597,28 +1593,6 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 	}
 
 
-	private void on_button_multi_chronopic_start_clicked (object o, EventArgs args) {
-				
-		//TODO: check this is ok: entry_multi_chronopic_cp2);
-		//
-		//
-		//if there are n chronopics, call next function n times
-		//or 
-		//call one time with different parameters (will have 4 different constructors)
-		//
-		//
-		//
-		currentEventExecute = new MultiChronopicExecute(cp, appbar2, app1);
-
-		currentEventExecute.Manage();
-
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
-	}
-
-	private void on_multi_chronopic_finished (object o, EventArgs args) {
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
-	}
-		
 
 
 	/* ---------------------------------------------------------
@@ -2282,26 +2256,8 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 			return;
 		}
 
-
 		Log.WriteLine("RadioChronopic - ACTIVE");
 	
-		//done also in linux because mono-1.2.3 throws an exception when there's a timeout
-		//http://bugzilla.gnome.org/show_bug.cgi?id=420520
-
-		/*
-		ChronopicConnection chronopicWin = ChronopicConnection.Show();
-		chronopicWin.LabelFeedBackReset();
-
-		chronopicWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
-		
-		fakeChronopicButton = new Gtk.Button();
-		fakeChronopicButton.Clicked += new EventHandler(on_chronopic_detection_ended);
-
-		thread = new Thread(new ThreadStart(waitChronopicStart));
-		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-		thread.Start(); 
-		*/
-
 		currentCp = 1;
 		prepareChronopicConnection();
 	}
@@ -2336,7 +2292,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		bool success = false;
 
 		if(currentCp == 1) {
-			success	= chronopicInit(cp, sp, platformState, chronopicPort, out message);
+			cp = chronopicInit(cp, sp, platformState, chronopicPort, out message, out success);
 			if(success) {
 				vbox_multi_chronopic_selectors.Sensitive = true;
 				frame_chronopic2.Sensitive = true;
@@ -2350,7 +2306,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				myPort = UtilGtk.ComboGetActive(combo_port_windows2);
 			else
 				myPort = UtilGtk.ComboGetActive(combo_port_linux2);
-			success	= chronopicInit(cp2, sp2, platformState2, myPort, out message);
+			cp2 = chronopicInit(cp2, sp2, platformState2, myPort, out message, out success);
 			if(success) {
 				image_cp2_no.Hide();
 				image_cp2_yes.Show();
@@ -2365,7 +2321,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				myPort = UtilGtk.ComboGetActive(combo_port_windows3);
 			else
 				myPort = UtilGtk.ComboGetActive(combo_port_linux3);
-			success	= chronopicInit(cp3, sp3, platformState3, myPort, out message);
+			cp3 = chronopicInit(cp3, sp3, platformState3, myPort, out message, out success);
 			if(success) {
 				image_cp3_no.Hide();
 				image_cp3_yes.Show();
@@ -2380,7 +2336,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 				myPort = UtilGtk.ComboGetActive(combo_port_windows4);
 			else
 				myPort = UtilGtk.ComboGetActive(combo_port_linux4);
-			success	= chronopicInit(cp4, sp4, platformState4, myPort, out message);
+			cp4 = chronopicInit(cp4, sp4, platformState4, myPort, out message, out success);
 			if(success) {
 				image_cp4_no.Hide();
 				image_cp4_yes.Show();
@@ -3702,7 +3658,7 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 
 
 	/* ---------------------------------------------------------
-	 * ----------------  PULSES EXECUTION ----------- ----------
+	 * ----------------  PULSES EXECUTION ----------------------
 	 *  --------------------------------------------------------
 	 */
 
@@ -3859,6 +3815,76 @@ Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");
 		//unhide buttons that allow jumping, running
 		sensitiveGuiEventDone();
 	}
+
+	/* ---------------------------------------------------------
+	 * ----------------  MULTI CHRONOPIC EXECUTION -------------
+	 *  --------------------------------------------------------
+	 */
+
+
+	private void on_button_multi_chronopic_start_clicked (object o, EventArgs args) {
+		Log.WriteLine("multi chronopic accepted");
+
+		//used by cancel and finish
+		currentEventType = new MultiChronopicType();
+			
+		//hide pulse buttons
+		sensitiveGuiEventDoing();
+		
+		//change to page 6 of notebook if were in other
+		notebook_change(6);
+		
+		//don't let update until test finishes
+		if(createdStatsWin)
+			statsWin.HideUpdateStatsButton();
+
+		//show the event doing window
+		eventExecuteWin = EventExecuteWindow.Show(
+			Catalog.GetString("Execute Multi Chronopic"), //windowTitle
+			Catalog.GetString("Changes"),  	  //name of the different moments
+			currentPerson.UniqueID, currentPerson.Name, 
+			currentSession.UniqueID, 
+			Constants.MultiChronopicTable, //tableName
+			//currentPulseType.Name, 
+			"", 
+			prefsDigitsNumber, -1, simulated); //-1: unlimited pulses (or changes)
+
+		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		
+		//when user clicks on update the eventExecute window 
+		//(for showing with his new confgured values: max, min and guides
+		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
+		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+
+
+		/*
+		currentEventExecute = new MultiChronopicExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
+				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
+				*/
+
+		if(image_cp2_yes.Visible && image_cp3_no.Visible)
+			currentEventExecute = new MultiChronopicExecute(cp, cp2, appbar2, app1);
+		else if(image_cp3_yes.Visible && image_cp4_no.Visible)
+			currentEventExecute = new MultiChronopicExecute(cp, cp2, cp3, appbar2, app1);
+		else if(image_cp4_yes.Visible)
+			currentEventExecute = new MultiChronopicExecute(cp, cp2, cp3, cp4, appbar2, app1);
+
+		//if(simulated)	
+		//	currentEventExecute.SimulateInitValues(rand);
+
+
+		currentEventExecute.Manage();
+
+		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
+	}
+
+	private void on_multi_chronopic_finished (object o, EventArgs args) {
+		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
+	}
+		
+
 
 
 	/*

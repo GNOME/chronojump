@@ -28,53 +28,80 @@ using Mono.Unix;
 
 public class MultiChronopicExecute : EventExecute
 {
-	//better as private and don't inherit, don't know why
-	//protected Chronopic cp;
 	private Chronopic cp;
 
 	//2nd Chronopic stuff
 	protected Thread thread2;
-	//SerialPort sp2;
 	private Chronopic cp2;
 	private Chronopic.Plataforma platformState2;
 	protected States loggedState2;
-	//private string port2;
 	
 	//3rd Chronopic stuff
 	protected Thread thread3;
-	//SerialPort sp3;
 	private Chronopic cp3;
 	private Chronopic.Plataforma platformState3;
 	protected States loggedState3;
-	//private string port3;
 	
 	//4th Chronopic stuff
 	protected Thread thread4;
-	//SerialPort sp4;
 	private Chronopic cp4;
 	private Chronopic.Plataforma platformState4;
 	protected States loggedState4;
-	//private string port4;
 	
 
 	static bool firstValue = true;
-
+	int chronopics; 
 	
 
 	public MultiChronopicExecute() {
 	}
 
 	//execution
-	//public MultiChronopicExecute(Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, string port2)
-	public MultiChronopicExecute(Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app)
-	{
+	public MultiChronopicExecute(Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app) {
 		this.cp = cp;
 		this.appbar = appbar;
 		this.app = app;
-		//this.port2 = port2;
-		
+	
+		chronopics = 1; 
+		initValues();	
+	}
+	
+	public MultiChronopicExecute(Chronopic cp, Chronopic cp2, Gtk.Statusbar appbar, Gtk.Window app) {
+		this.cp = cp;
+		this.cp2 = cp2;
+		this.appbar = appbar;
+		this.app = app;
+	
+		chronopics = 2; 
+		initValues();	
+	}
+	
+	public MultiChronopicExecute(Chronopic cp, Chronopic cp2, Chronopic cp3, Gtk.Statusbar appbar, Gtk.Window app) {
+		this.cp = cp;
+		this.cp2 = cp2;
+		this.cp3 = cp3;
+		this.appbar = appbar;
+		this.app = app;
+	
+		chronopics = 3; 
+		initValues();	
+	}
+
+	public MultiChronopicExecute(Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, Gtk.Statusbar appbar, Gtk.Window app) {
+		this.cp = cp;
+		this.cp2 = cp2;
+		this.cp3 = cp3;
+		this.cp4 = cp4;
+		this.appbar = appbar;
+		this.app = app;
+	
+		chronopics = 4; 
+		initValues();	
+	}
+
+
+	private void initValues() {
 		fakeButtonFinished = new Gtk.Button();
-		
 		simulated = false;
 	}
 	
@@ -88,204 +115,120 @@ public class MultiChronopicExecute : EventExecute
 	protected override void onTimer( )
 	{
 		timerCount = timerCount + .05; //0,05 segons == 50 milliseconds, time between each call of onTimer
-		
-		/* this will be good for not continue counting the time on eventWindow when event has finished
-		 * this will help to sync chronopic data with the timerCount data
-		 * later also, copy the value of the chronopic to the timerCount label
-		 */
-
-		/*
-		//updateTimeProgressBar();
-		if(needEndEvent) {
-			eventExecuteWin.EventEnded();
-			//needEndEvent = false;
-		} else 
-			updateTimeProgressBar();
-		
-		
-		if(simulated) {
-			eventSimulatedShouldChangePlatform();
-		}
-
-		if(needUpdateEventProgressBar) {
-			//update event progressbar
-			eventExecuteWin.ProgressBarEventOrTimePreExecution(
-					updateProgressBar.IsEvent,
-					updateProgressBar.PercentageMode,
-					updateProgressBar.ValueToShow
-					);  
-
-			needUpdateEventProgressBar = false;
-		}
-		
-	
-		if(needUpdateGraph) {
-			updateGraph();
-			needUpdateGraph = false;
-		}
-		
-		if(needSensitiveButtonFinish) {
-			eventExecuteWin.ButtonFinishMakeSensitive();
-			needSensitiveButtonFinish = false;
-		}
-		
-		//check if it should finish by time
-		if(shouldFinishByTime()) {
-			finish = true;
-			updateProgressBarForFinish();
-		} 
-		//else 
-		//	updateTimeProgressBar();
-		*/
 	}
 			
-/*
-	//private bool connectChronopic2(string myPort) 
-	private bool connectOtherChronopics(Chronopic myCp, SerialPort mySp, Chronopic.Plataforma myPS, string myPort) 
-	{
-		bool success = false;
-		try {
-			Log.WriteLine(string.Format("chronopic port: {0}", myPort));
-			mySp = new SerialPort(myPort);
-			mySp.Open();
-			//-- Create chronopic object, for accessing chronopic
-			myCp = new Chronopic(mySp);
-
-			//-- Obtener el estado inicial de la plataforma
-			bool ok=false;
-			do
-				ok=myCp.Read_platform(out myPS);
-			while(!ok);
-			if (!ok) {
-				//-- Si hay error terminar
-				Log.WriteLine(string.Format("Error: {0}", myCp.Error));
-				success = false;
-			}
-		} catch {
-			success = false;
-		}
-		return success;
-	}
-*/
 
 	public override void Manage()
 	{
-		/*
-		connectOtherChronopics(cp2, sp2, platformState2, port2);
-		//connectOtherChronopics(cp3, sp3, platformState3, port3);
-		//connectOtherChronopics(cp4, sp4, platformState4, port4);
-		*/
+		if(chronopics > 0) {
+			platformState = chronopicInitialValue(cp);
+		
+			string cpStr = "";
+			if (platformState==Chronopic.Plataforma.ON) {
+				cpStr = "cp1" + " " + "IN";
+				loggedState = States.ON;
+			} else {
+				cpStr = "cp1" + " " + "OUT";
+				loggedState = States.OFF;
+			}
+			appbar.Push( 1, cpStr);
+		
+			if(chronopics > 1) {
+				platformState2 = chronopicInitialValue(cp2);
+		
+				string cp2Str = "";
+				if (platformState2==Chronopic.Plataforma.ON) {
+					cp2Str = "cp2" + " " + "IN";
+					loggedState2 = States.ON;
+				} else {
+					cp2Str = "cp2" + " " + "OUT";
+					loggedState2 = States.OFF;
+				}
+				appbar.Push( 1, cpStr + " / " + cp2Str);
 
-		platformState = chronopicInitialValue(cp);
-		platformState2 = chronopicInitialValue(cp2);
-		//platformState3 = chronopicInitialValue(cp3);
-		//platformState4 = chronopicInitialValue(cp4);
-		
-		string cpStr = "";
-		string cp2Str = "";
-		//3
-		//4
-		
-		if (platformState==Chronopic.Plataforma.ON) {
-			cpStr = "cp1" + " " + "IN";
-			loggedState = States.ON;
-		} else {
-			cpStr = "cp1" + " " + "OUT";
-			loggedState = States.OFF;
+				if(chronopics > 2) {
+					platformState3 = chronopicInitialValue(cp3);
+
+					string cp3Str = "";
+					if (platformState3==Chronopic.Plataforma.ON) {
+						cp3Str = "cp3" + " " + "IN";
+						loggedState3 = States.ON;
+					} else {
+						cp3Str = "cp3" + " " + "OUT";
+						loggedState3 = States.OFF;
+					}
+					appbar.Push( 1, cpStr + " / " + cp2Str + "/" + cp3Str);
+
+					if(chronopics > 3) {
+						platformState4 = chronopicInitialValue(cp4);
+
+						string cp4Str = "";
+						if (platformState4==Chronopic.Plataforma.ON) {
+							cp4Str = "cp4" + " " + "IN";
+							loggedState4 = States.ON;
+						} else {
+							cp4Str = "cp4" + " " + "OUT";
+							loggedState4 = States.OFF;
+						}
+						appbar.Push( 1, cpStr + " / " + cp2Str + "/" + cp3Str + "/" + cp4Str);
+					}
+				}
+			}
 		}
-			
-		if (platformState2==Chronopic.Plataforma.ON) {
-			cp2Str = "cp2" + " " + "IN";
-			loggedState2 = States.ON;
-		} else {
-			cp2Str = "cp2" + " " + "OUT";
-			loggedState2 = States.OFF;
-		}
-		//3
-		//4
-			
-		appbar.Push( 1, cpStr + " / " + cp2Str);
 
 		//start thread
-		//Log.Write("Start thread");
-		thread = new Thread(new ThreadStart(waitEvent));
-		thread2 = new Thread(new ThreadStart(waitEvent2));
-		//3
-		//4
+		if(chronopics > 0) {
+			thread = new Thread(new ThreadStart(waitEventPre));
+			if(chronopics > 1) {
+				thread2 = new Thread(new ThreadStart(waitEventPre2));
+				if(chronopics > 2) {
+					thread3 = new Thread(new ThreadStart(waitEventPre3));
+					if(chronopics > 3) {
+						thread4 = new Thread(new ThreadStart(waitEventPre4));
+					}
+				}
+			}
+		}
 
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 
-		thread.Start(); 
-		thread2.Start(); 
-		//3
-		//4
-	}
-
-	
-	protected override void waitEvent ()
-	{
-		double timestamp = 0;
-		bool success = false;
-		bool ok;
-
-		do {
-			ok = cp.Read_event(out timestamp, out platformState);
-			
-			//if chronopic signal is Ok and state has changed
-			if (ok && (
-					(platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) ||
-					(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) ) 
-						&& !cancel && !finish) {
-				
-				//while no finished time or jumps, continue recording events
-				if ( ! success) {
-					//don't record the time until the first event
-					if (firstValue) {
-						firstValue = false;
-
-						//but start timer
-						initializeTimer();
-					} else {
-						if(platformState == Chronopic.Plataforma.ON && loggedState == States.OFF)
-							Log.WriteLine("cp1 landed");
-						else if(platformState == Chronopic.Plataforma.OFF && loggedState == States.ON)
-							Log.WriteLine("cp1 jumped");
-								
-						needSensitiveButtonFinish = true;
+		if(chronopics > 0) {
+			thread.Start(); 
+			if(chronopics > 1) {
+				thread2.Start(); 
+				if(chronopics > 2) {
+					thread3.Start(); 
+					if(chronopics > 4) {
+						thread4.Start(); 
 					}
 				}
-
-				if(platformState == Chronopic.Plataforma.OFF)
-					loggedState = States.OFF;
-				else
-					loggedState = States.ON;
-
 			}
-		} while ( ! success && ! cancel && ! finish );
-	
-		if (finish) {
-			totallyFinished = true;
 		}
-		if(cancel) {
-			//event will be raised, and managed in chronojump.cs
-			fakeButtonFinished.Click();
-			totallyCancelled = true;
-		}
+
 	}
-		
-	private void waitEvent2 ()
+
+	protected void waitEventPre () { waitEvent(cp, platformState, loggedState, "cp1"); }
+	
+	protected void waitEventPre2 () { waitEvent(cp2, platformState2, loggedState2, "cp2"); }
+	
+	protected void waitEventPre3 () { waitEvent(cp3, platformState3, loggedState3, "cp3"); }
+	
+	protected void waitEventPre4 () { waitEvent(cp4, platformState4, loggedState4, "cp4"); }
+	
+	
+	protected void waitEvent (Chronopic myCP, Chronopic.Plataforma myPS, States myLS, string cpStr)
 	{
 		double timestamp = 0;
 		bool success = false;
 		bool ok;
 
 		do {
-			ok = cp2.Read_event(out timestamp, out platformState2);
+			ok = myCP.Read_event(out timestamp, out myPS);
 			
 			//if chronopic signal is Ok and state has changed
 			if (ok && (
-					(platformState2 == Chronopic.Plataforma.ON && loggedState2 == States.OFF) ||
-					(platformState2 == Chronopic.Plataforma.OFF && loggedState2 == States.ON) ) 
+					(myPS == Chronopic.Plataforma.ON && myLS == States.OFF) ||
+					(myPS == Chronopic.Plataforma.OFF && myLS == States.ON) ) 
 						&& !cancel && !finish) {
 				
 				//while no finished time or jumps, continue recording events
@@ -293,23 +236,21 @@ public class MultiChronopicExecute : EventExecute
 					//don't record the time until the first event
 					if (firstValue) {
 						firstValue = false;
-
-						//but start timer
 						initializeTimer();
-					} else {
-						if(platformState2 == Chronopic.Plataforma.ON && loggedState2 == States.OFF)
-							Log.WriteLine("cp2 landed");
-						else if(platformState2 == Chronopic.Plataforma.OFF && loggedState2 == States.ON)
-							Log.WriteLine("cp2 jumped");
-								
+					} else 
 						needSensitiveButtonFinish = true;
-					}
+						
+					if(myPS == Chronopic.Plataforma.ON && myLS == States.OFF)
+						Log.WriteLine(cpStr + " landed");
+					else if(myPS == Chronopic.Plataforma.OFF && myLS == States.ON)
+						Log.WriteLine(cpStr + " jumped");
+
 				}
 
-				if(platformState2 == Chronopic.Plataforma.OFF)
-					loggedState2 = States.OFF;
+				if(myPS == Chronopic.Plataforma.OFF)
+					myLS = States.OFF;
 				else
-					loggedState2 = States.ON;
+					myLS = States.ON;
 
 			}
 		} while ( ! success && ! cancel && ! finish );

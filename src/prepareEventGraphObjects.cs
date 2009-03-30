@@ -122,3 +122,33 @@ public class PrepareEventGraphReactionTime {
 	~PrepareEventGraphReactionTime() {}
 }
 
+public class PrepareEventGraphMultiChronopic {
+	public double timestamp;
+	public string cp1InStr;
+	public string cp1OutStr;
+	public string cp2InStr;
+	public string cp2OutStr;
+	public string cp3InStr;
+	public string cp3OutStr;
+	public string cp4InStr;
+	public string cp4OutStr;
+
+	public PrepareEventGraphMultiChronopic() {
+	}
+
+	public PrepareEventGraphMultiChronopic(double timestamp, string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
+			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr) {
+		this.timestamp = timestamp;
+		this.cp1InStr = cp1InStr;
+		this.cp1OutStr = cp1OutStr;
+		this.cp2InStr = cp2InStr;
+		this.cp2OutStr = cp2OutStr;
+		this.cp3InStr = cp3InStr;
+		this.cp3OutStr = cp3OutStr;
+		this.cp4InStr = cp4InStr;
+		this.cp4OutStr = cp4OutStr;
+	}
+
+	~PrepareEventGraphMultiChronopic() {}
+}
+

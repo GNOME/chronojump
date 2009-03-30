@@ -82,8 +82,6 @@ public class JumpExecute : EventExecute
 
 		//initialize eventDone as a Jump		
 		eventDone = new Jump();
-
-		//updateProgressBar = new UpdateProgressBar();
 	}
 	
 	public override void SimulateInitValues(Random randSent)
@@ -392,7 +390,6 @@ Log.Write("wb ");
 		needUpdateGraphType = eventType.JUMP;
 		needUpdateGraph = true;
 		
-		//eventExecuteWin.EventEnded();
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 	
@@ -496,8 +493,6 @@ public class JumpRjExecute : JumpExecute
 
 		//initialize eventDone as a JumpRj	
 		eventDone = new JumpRj();
-
-		//updateProgressBar = new UpdateProgressBar();
 	}
 
 	public override void Manage()

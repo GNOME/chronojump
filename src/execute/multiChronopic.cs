@@ -29,36 +29,50 @@ using Mono.Unix;
 public class MultiChronopicExecute : EventExecute
 {
 	private Chronopic cp;
+	string cp1InStr;
+	string cp1OutStr;
 
 	//2nd Chronopic stuff
 	protected Thread thread2;
 	private Chronopic cp2;
 	private Chronopic.Plataforma platformState2;
 	protected States loggedState2;
+	string cp2InStr;
+	string cp2OutStr;
 	
 	//3rd Chronopic stuff
 	protected Thread thread3;
 	private Chronopic cp3;
 	private Chronopic.Plataforma platformState3;
 	protected States loggedState3;
+	string cp3InStr;
+	string cp3OutStr;
 	
 	//4th Chronopic stuff
 	protected Thread thread4;
 	private Chronopic cp4;
 	private Chronopic.Plataforma platformState4;
 	protected States loggedState4;
+	string cp4InStr;
+	string cp4OutStr;
 	
 
 	static bool firstValue = true;
 	int chronopics; 
 	
-
 	public MultiChronopicExecute() {
 	}
 
 	//execution
-	public MultiChronopicExecute(Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app) {
+	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, 
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app) {
+		this.eventExecuteWin = eventExecuteWin;
+		this.personID = personID;
+		this.personName = personName;
+		this.sessionID = sessionID;
+		
 		this.cp = cp;
+		
 		this.appbar = appbar;
 		this.app = app;
 	
@@ -66,9 +80,16 @@ public class MultiChronopicExecute : EventExecute
 		initValues();	
 	}
 	
-	public MultiChronopicExecute(Chronopic cp, Chronopic cp2, Gtk.Statusbar appbar, Gtk.Window app) {
+	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, 
+			Chronopic cp, Chronopic cp2, Gtk.Statusbar appbar, Gtk.Window app) {
+		this.eventExecuteWin = eventExecuteWin;
+		this.personID = personID;
+		this.personName = personName;
+		this.sessionID = sessionID;
+		
 		this.cp = cp;
 		this.cp2 = cp2;
+		
 		this.appbar = appbar;
 		this.app = app;
 	
@@ -76,10 +97,17 @@ public class MultiChronopicExecute : EventExecute
 		initValues();	
 	}
 	
-	public MultiChronopicExecute(Chronopic cp, Chronopic cp2, Chronopic cp3, Gtk.Statusbar appbar, Gtk.Window app) {
+	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, 
+			Chronopic cp, Chronopic cp2, Chronopic cp3, Gtk.Statusbar appbar, Gtk.Window app) {
+		this.eventExecuteWin = eventExecuteWin;
+		this.personID = personID;
+		this.personName = personName;
+		this.sessionID = sessionID;
+		
 		this.cp = cp;
 		this.cp2 = cp2;
 		this.cp3 = cp3;
+		
 		this.appbar = appbar;
 		this.app = app;
 	
@@ -87,11 +115,18 @@ public class MultiChronopicExecute : EventExecute
 		initValues();	
 	}
 
-	public MultiChronopicExecute(Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, Gtk.Statusbar appbar, Gtk.Window app) {
+	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, 
+			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, Gtk.Statusbar appbar, Gtk.Window app) {
+		this.eventExecuteWin = eventExecuteWin;
+		this.personID = personID;
+		this.personName = personName;
+		this.sessionID = sessionID;
+		
 		this.cp = cp;
 		this.cp2 = cp2;
 		this.cp3 = cp3;
 		this.cp4 = cp4;
+		
 		this.appbar = appbar;
 		this.app = app;
 	
@@ -109,6 +144,7 @@ public class MultiChronopicExecute : EventExecute
 	{
 	}
 
+	/*
 	//onTimer allow to update progressbar_time every 50 milliseconds
 	//also can change platform state in simulated mode
 	//protected void onTimer( Object source, ElapsedEventArgs e )
@@ -116,6 +152,7 @@ public class MultiChronopicExecute : EventExecute
 	{
 		timerCount = timerCount + .05; //0,05 segons == 50 milliseconds, time between each call of onTimer
 	}
+	*/
 			
 
 	public override void Manage()
@@ -123,54 +160,38 @@ public class MultiChronopicExecute : EventExecute
 		if(chronopics > 0) {
 			platformState = chronopicInitialValue(cp);
 		
-			string cpStr = "";
 			if (platformState==Chronopic.Plataforma.ON) {
-				cpStr = "cp1" + " " + "IN";
 				loggedState = States.ON;
 			} else {
-				cpStr = "cp1" + " " + "OUT";
 				loggedState = States.OFF;
 			}
-			appbar.Push( 1, cpStr);
 		
 			if(chronopics > 1) {
 				platformState2 = chronopicInitialValue(cp2);
 		
-				string cp2Str = "";
 				if (platformState2==Chronopic.Plataforma.ON) {
-					cp2Str = "cp2" + " " + "IN";
 					loggedState2 = States.ON;
 				} else {
-					cp2Str = "cp2" + " " + "OUT";
 					loggedState2 = States.OFF;
 				}
-				appbar.Push( 1, cpStr + " / " + cp2Str);
 
 				if(chronopics > 2) {
 					platformState3 = chronopicInitialValue(cp3);
 
-					string cp3Str = "";
 					if (platformState3==Chronopic.Plataforma.ON) {
-						cp3Str = "cp3" + " " + "IN";
 						loggedState3 = States.ON;
 					} else {
-						cp3Str = "cp3" + " " + "OUT";
 						loggedState3 = States.OFF;
 					}
-					appbar.Push( 1, cpStr + " / " + cp2Str + "/" + cp3Str);
 
 					if(chronopics > 3) {
 						platformState4 = chronopicInitialValue(cp4);
 
-						string cp4Str = "";
 						if (platformState4==Chronopic.Plataforma.ON) {
-							cp4Str = "cp4" + " " + "IN";
 							loggedState4 = States.ON;
 						} else {
-							cp4Str = "cp4" + " " + "OUT";
 							loggedState4 = States.OFF;
 						}
-						appbar.Push( 1, cpStr + " / " + cp2Str + "/" + cp3Str + "/" + cp4Str);
 					}
 				}
 			}
@@ -207,20 +228,24 @@ public class MultiChronopicExecute : EventExecute
 
 	}
 
-	protected void waitEventPre () { waitEvent(cp, platformState, loggedState, "cp1"); }
+	protected void waitEventPre () { waitEvent(cp, platformState, loggedState, out cp1InStr, out cp1OutStr, 1); }
 	
-	protected void waitEventPre2 () { waitEvent(cp2, platformState2, loggedState2, "cp2"); }
+	protected void waitEventPre2 () { waitEvent(cp2, platformState2, loggedState2, out cp2InStr, out cp2OutStr, 2); }
 	
-	protected void waitEventPre3 () { waitEvent(cp3, platformState3, loggedState3, "cp3"); }
+	protected void waitEventPre3 () { waitEvent(cp3, platformState3, loggedState3, out cp3InStr, out cp3OutStr, 3); }
 	
-	protected void waitEventPre4 () { waitEvent(cp4, platformState4, loggedState4, "cp4"); }
+	protected void waitEventPre4 () { waitEvent(cp4, platformState4, loggedState4, out cp4InStr, out cp4OutStr, 4); }
 	
 	
-	protected void waitEvent (Chronopic myCP, Chronopic.Plataforma myPS, States myLS, string cpStr)
+	protected void waitEvent (Chronopic myCP, Chronopic.Plataforma myPS, States myLS, out string inStr, out string outStr, int cpNum)
 	{
 		double timestamp = 0;
 		bool success = false;
 		bool ok;
+		string inEqual = "";
+		string outEqual = "";
+		
+		inStr = ""; outStr = "";
 
 		do {
 			ok = myCP.Read_event(out timestamp, out myPS);
@@ -233,17 +258,38 @@ public class MultiChronopicExecute : EventExecute
 				
 				//while no finished time or jumps, continue recording events
 				if ( ! success) {
-					//don't record the time until the first event
+					//don't record the time until the first event of the first Chronopic
 					if (firstValue) {
 						firstValue = false;
 						initializeTimer();
-					} else 
+					} else {
 						needSensitiveButtonFinish = true;
-						
-					if(myPS == Chronopic.Plataforma.ON && myLS == States.OFF)
-						Log.WriteLine(cpStr + " landed");
-					else if(myPS == Chronopic.Plataforma.OFF && myLS == States.ON)
-						Log.WriteLine(cpStr + " jumped");
+
+						if(myPS == Chronopic.Plataforma.ON && myLS == States.OFF) {
+							double lastOut = timestamp/1000.0;
+							Log.WriteLine(cpNum.ToString() + " landed: " + lastOut.ToString());
+							outStr = outStr + outEqual + lastOut.ToString();
+							outEqual = "="; 
+						}
+						else if(myPS == Chronopic.Plataforma.OFF && myLS == States.ON) {
+							double lastIn = timestamp/1000.0;
+							Log.WriteLine(cpNum.ToString() + " jumped: " + lastIn.ToString());
+							inStr = inStr + inEqual + lastIn.ToString();
+							inEqual = "="; 
+						}
+
+						prepareEventGraphMultiChronopic = new PrepareEventGraphMultiChronopic(timestamp/1000.0,
+								cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr);
+						needUpdateGraphType = eventType.MULTICHRONOPIC;
+						needUpdateGraph = true;
+					}
+
+					updateProgressBar = new UpdateProgressBar (
+							true, //isEvent
+							false, //means activity mode
+							-1 //don't show text
+							);
+					needUpdateEventProgressBar = true;
 
 				}
 
@@ -256,6 +302,7 @@ public class MultiChronopicExecute : EventExecute
 		} while ( ! success && ! cancel && ! finish );
 	
 		if (finish) {
+			write();
 			totallyFinished = true;
 		}
 		if(cancel) {
@@ -282,6 +329,20 @@ public class MultiChronopicExecute : EventExecute
 
 	protected override void write()
 	{
+		Log.WriteLine("----------WRITING----------");
+		Console.WriteLine("cp1 In:" + cp1InStr);
+		Console.WriteLine("cp1 Out:" + cp1OutStr + "\n");
+		Console.WriteLine("cp2 In:" + cp2InStr);
+		Console.WriteLine("cp2 Out:" + cp2OutStr + "\n");
+		Console.WriteLine("cp3 In:" + cp3InStr);
+		Console.WriteLine("cp3 Out:" + cp3OutStr + "\n");
+		Console.WriteLine("cp4 In:" + cp4InStr);
+		Console.WriteLine("cp4 Out:" + cp4OutStr + "\n");
+		
+		//event will be raised, and managed in chronojump.cs
+		fakeButtonFinished.Click();
+		
+		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 	
 

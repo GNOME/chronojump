@@ -860,6 +860,60 @@ public class EventExecuteWindow
 		drawingarea.QueueDraw();
 	}
 	
+	// multi chronopic 
+	public void PrepareMultiChronopicGraph(double timestamp, string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
+			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr) { 
+		//check graph properties window is not null (propably user has closed it with the DeleteEvent
+		//then create it, but not show it
+		if(eventGraphConfigureWin == null)
+			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
+
+		//search MAX 
+		double maxValue = 0;
+		int topMargin = 10;
+		//if max value of graph is automatic
+		if(eventGraphConfigureWin.Max == -1) 
+			maxValue = timestamp;
+			/*
+			maxValue = Util.GetMax(
+					cp1InString + "=" + cp1OutStr + "=" + cp2InString + "=" + cp2OutStr + "=" +
+					cp3InString + "=" + cp3OutStr + "=" + cp4InString + "=" + cp4OutStr);
+					*/
+		else {
+			maxValue = eventGraphConfigureWin.Max; //TODO
+			topMargin = 0;
+		}
+			
+		//search MIN 
+		double minValue = 1000;
+		int bottomMargin = 10;
+		//if min value of graph is automatic
+		if(eventGraphConfigureWin.Min == -1) 
+			minValue = 0;
+		/*
+			minValue = Util.GetMin(
+					cp1InString + "=" + cp1OutStr + "=" + cp2InString + "=" + cp2OutStr + "=" +
+					cp3InString + "=" + cp3OutStr + "=" + cp4InString + "=" + cp4OutStr);
+					*/
+		else {
+			minValue = eventGraphConfigureWin.Min; //TODO
+			bottomMargin = 0;
+		}
+			
+		/*
+		int cols = Util.GetNumberOfJumps(
+				cp1InString + "=" + cp2InString + "=" + cp3InString + "=" + cp4InString, true); 
+				*/
+
+		//paint graph
+		paintMultiChronopic (drawingarea, timestamp, 
+				cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr, 
+				maxValue, minValue, topMargin, bottomMargin);
+		
+		// -- refresh
+		drawingarea.QueueDraw();
+	}
+	
 
 	private void printLabelsJumpSimple (double tvNow, double tvPerson, double tvSession, double tcNow, double tcPerson, double tcSession) {
 		if(tcNow > 0) {
@@ -1313,6 +1367,105 @@ public class EventExecuteWindow
 		
 		label_pulse_now.Text = Util.TrimDecimals(lastTime.ToString(), pDN);
 		label_pulse_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
+		
+		graphProgress = phasesGraph.DONE; 
+	}
+
+
+	//TODO: fix this method
+	private void paintMultiChronopic (Gtk.DrawingArea drawingarea, double timestamp, 
+			string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
+			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr, 
+			double maxValue, double minValue, int topMargin, int bottomMargin)
+	{
+		int ancho=drawingarea.Allocation.Width;
+		int alto=drawingarea.Allocation.Height;
+		
+		
+		erasePaint(drawingarea);
+		
+		//writeMarginsText(maxValue, minValue, alto);
+		
+		//check now here that we will have not division by zero problems
+		if(maxValue - minValue > 0) {
+
+			//blue time average discountinuos line	
+//			drawGuideOrAVG(pen_azul_discont, avgTime, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+
+			//paint reference guide black and green if needed
+		//	drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		//	drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+
+			//blue time evolution	
+			string [] cp1_i = cp1InStr.Split(new char[] {'='});
+			string [] cp1_o = cp1OutStr.Split(new char[] {'='});
+			int count = 0;
+			double timeOld = 0;
+			double xOld = 0;
+			double myTimeDouble = 0;
+			
+			Console.WriteLine("cp1InStr:*{0}*, cp1OutStr:*{1}*", cp1InStr, cp1OutStr);
+
+			double timeTotal = Util.GetTotalTime(cp1InStr + "=" + cp1OutStr);
+
+			Console.WriteLine("total time: {0}", timeTotal);
+
+
+			//TODO: done this now because we come here with only 1 string filled and this does problems
+			if(timeTotal == 0)
+				return;
+
+			foreach (string myTime in cp1_i) {
+				if(cp1InStr.Length > 0) {
+					myTimeDouble = Convert.ToDouble(myTime);
+					if(myTimeDouble < 0)
+						myTimeDouble = 0;
+					double x = ancho * ( (timeOld + myTimeDouble) / timeTotal);
+Console.WriteLine("  IN: timestamp {0}, ancho {1}, x {2}, timeold{3}", timestamp, ancho, x, timeOld);
+
+						pixmap.DrawLine(pen_azul, //blue for time
+								Convert.ToInt32(xOld), 30,
+								Convert.ToInt32(x), 30);
+
+				/*
+				//paint Y lines
+				if(eventGraphConfigureWin.VerticalGrid) 
+					pixmap.DrawLine(pen_beige_discont, Convert.ToInt32((ancho - rightMargin) *(count+.5)/pulses), topMargin, Convert.ToInt32((ancho - rightMargin) *(count+.5)/pulses), alto-topMargin);
+					*/
+				
+				
+					timeOld = myTimeDouble;
+					xOld = x;
+				}
+
+				if(cp1OutStr.Length > 0 && cp1_o.Length > count) {
+					myTimeDouble = Convert.ToDouble(cp1_o[count]);
+					if(myTimeDouble < 0)
+						myTimeDouble = 0;
+					double x = ancho * ( (timeOld + myTimeDouble) / timeTotal);
+Console.WriteLine("  OUT: timestamp {0}, ancho {1}, x {2}, timeold{3}", timestamp, ancho, x, timeOld);
+
+						pixmap.DrawLine(pen_rojo, //blue for time
+								Convert.ToInt32(xOld), 20,
+								Convert.ToInt32(x), 20);
+
+
+					timeOld = myTimeDouble;
+					xOld = x;
+				}
+
+
+				count ++;
+			}
+		
+//			drawCircleAndWriteValue(pen_azul, myTimeDouble, --count, pulses, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
+
+		}
+	
+	/*	
+		label_pulse_now.Text = Util.TrimDecimals(lastTime.ToString(), pDN);
+		label_pulse_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
+		*/
 		
 		graphProgress = phasesGraph.DONE; 
 	}

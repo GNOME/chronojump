@@ -79,7 +79,7 @@ public class UtilGtk
 		return returnValue;
 	}
 
-	private static void comboDel(ComboBox myCombo) {
+	private static void comboDelAll(ComboBox myCombo) {
 		//myCombo = ComboBox.NewText(); don't work
 		TreeIter myIter;
 		while(myCombo.Model.GetIterFirst(out myIter)) {
@@ -87,10 +87,24 @@ public class UtilGtk
 		}
 	}
 
+	public static void ComboDelThisValue(ComboBox myCombo, string toRemove) {
+		int i=0;
+		TreeIter iter;
+		myCombo.Model.GetIterFirst(out iter);
+		do {
+			string str = (string) myCombo.Model.GetValue (iter, 0);
+			if(str == toRemove) {
+				myCombo.RemoveText(i);
+				return;
+			}
+			i++;
+		} while (myCombo.Model.IterNext (ref iter));
+	}
+
 	//if there's no default value, simply pass a "" and there will be returned a 0, that's the first value of combo
 	public static int ComboUpdate(ComboBox myCombo, string [] myData, string strDefault) {
 		//1stdelete combo values
-		comboDel(myCombo);
+		comboDelAll(myCombo);
 
 		//2nd put new values
 		int i=0;
@@ -107,7 +121,7 @@ public class UtilGtk
 	//when only one value has to be displayed
 	public static void ComboUpdate(ComboBox myCombo, string myData) {
 		//1stdelete combo values
-		comboDel(myCombo);
+		comboDelAll(myCombo);
 
 		//2nd put new values
 		myCombo.AppendText (myData);

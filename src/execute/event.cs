@@ -52,7 +52,7 @@ public class EventExecute
 	//also for the graph creation	
 	protected bool needUpdateGraph;
 	protected enum eventType {
-		JUMP, JUMPREACTIVE, RUN, RUNINTERVAL, PULSE, REACTIONTIME
+		JUMP, JUMPREACTIVE, RUN, RUNINTERVAL, PULSE, REACTIONTIME, MULTICHRONOPIC
 	}
 	protected eventType needUpdateGraphType;
 
@@ -63,6 +63,7 @@ public class EventExecute
 	protected PrepareEventGraphRunInterval prepareEventGraphRunInterval;
 	protected PrepareEventGraphPulse prepareEventGraphPulse;
 	protected PrepareEventGraphReactionTime prepareEventGraphReactionTime;
+	protected PrepareEventGraphMultiChronopic prepareEventGraphMultiChronopic;
 	
 	protected bool needEndEvent;
 	
@@ -198,7 +199,7 @@ public class EventExecute
 			return false;
 		}
 		Thread.Sleep (50);
-		Log.Write(thread.ThreadState.ToString());
+		//Log.Write(thread.ThreadState.ToString());
 		return true;
 	}
 
@@ -371,6 +372,20 @@ public class EventExecute
 				Log.Write("update graph: REACTIONTIME");
 				eventExecuteWin.PrepareReactionTimeGraph(
 						prepareEventGraphReactionTime.time); 
+				break;
+			case eventType.MULTICHRONOPIC:
+				Log.Write("update graph: MULTICHRONOPIC");
+				eventExecuteWin.PrepareMultiChronopicGraph(
+						prepareEventGraphMultiChronopic.timestamp, 
+						prepareEventGraphMultiChronopic.cp1InStr, 
+						prepareEventGraphMultiChronopic.cp1OutStr,
+						prepareEventGraphMultiChronopic.cp2InStr, 
+						prepareEventGraphMultiChronopic.cp2OutStr,
+						prepareEventGraphMultiChronopic.cp3InStr, 
+						prepareEventGraphMultiChronopic.cp3OutStr,
+						prepareEventGraphMultiChronopic.cp4InStr, 
+						prepareEventGraphMultiChronopic.cp4OutStr
+						);
 				break;
 		}
 	}

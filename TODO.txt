@@ -1,45 +1,98 @@
-
 TODO: 
 
-try preferences/language combo (and default) on windows
+Add Cabedo's tests
 
--event edit (run) shows km/h not looking at prefs	DONE
--put a image_file, and a image_desc for every test type. DONE 
--create some images					DONE
--DialogImageTest will get data from event passed	DONE
--write some filter to update DB.			DONE
--add image and desc on new event type creation (desc is the current Description)
--allow to change image and desc of any event type
--put a try{} catch on loading of images (probably user made a mistake)
--clean warnings!!
--fix combo stuff on gtk2, see if it works on windows and maemo WINDOWS WORKS
--fix nplot texts ON WINDOWS WORKS (NOT ON LINUX)
+add a link to the server page. Develop web stats and survey on web site. Maybe
+done by R script and calling to database
+http://cran.r-project.org/web/packages/RSQLite/index.html
+http://cran.r-project.org/web/packages/RSQLite/INSTALL
+http://cran.r-project.org/web/packages/DBI/index.html
+
+all this will be release 0.9
+
+do the ping gets real IP
+
+put thread in other server situations:
+-upload evaluator
+-upload session
+
+do the graph of last jump plot values of jumps before
+(maybe show last jumps of this kind on different people, and the avg of this
+user and all users (this two in different color))
+
+http://en.csharp-online.net/ASP.NET_Security_Hacks¿Avoiding_SQL_Injection
+http://ferruh.mavituna.com/sql-injection-cheatsheet-oku/
+every string that gets on server or complex object, sanitize it: see on sql or
+c# books. Or look for ; and after alter, insert, delete, drop, update, ...
+(low and hight case)
+i think there will be no problems because all is parametrized
+
+Fix bug on thread sqlite at start (see 2 pngs at Desktop)
+
+Put pictures and description of runAnalysis. Do svn add, Makefile, ...
 
 
-** OUTDATED file **
+intersession stats only have to show one max or avg, not n max or all jumps
+stats all and limit is not updating the treeview stats. 
+
+us Util.DetectPortsLinux in gui/help ports
+
+when person weight is updated, description of eg. margaria (with power)
+doesn't change. Should change or use another thing. Recreate all time in
+session.... also same when edit jump.
+Maybe is better to don't have it (the power) recorded at any place but generate when it's
+required
+
+create a server mini program that tries to do a ping and if it fails, 
+then write something in a file, and another program restarts server
+fo it as to chrons. Record some stat data in another file
+just to know how xsp2 is working
+
+in execution graph put avgs as horizontal lines
+and plot all tests of same type of same person
+
+count time(s)  cp change diff same cp diff all cp
+1          10   1     IN           10          10
+2          15   2     IN           15           5
+3          20   1    OUT           10           5
+3          20   3     IN           20           0
+4          25   2    OUT           10           5
+5          30   3    OUT           10           5
+6          60   1     IN           40          30
+7          65   2     IN           40           5
+8          70   3     IN           40           5
+
+do like this:
+                     state  time change   time IN-IN time OUT-OUT
+count time(s)  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3
+0           0  OUT OUT OUT 
+1          10   IN           10
+2          15       IN           15
+3          20  OUT      IN   10      20                20
+4          25  	   OUT           10                        25
+5          30          OUT           10                        30 
+6          60   IN           40           50
+7          65       IN           40           50
+8          70           IN           40           50
+
+doing gui/eventExecute multiChronopic
+-do 4 horiz lines that go from left to right
+-this 4 lines are updated at every change
+-all has to fit in the width of the graph (if impossible, double de width)
+-lines are like quadrated waves, are up (if person is out) and down if person
+is at platform)
+-each line has a color
+eg:
+ cp1:  ----
+           ------
+
+ cp2:        -----
+       ------
+
+ cp3:      -----  
+       ----     -
 
 
-
-TODO CURRENTLY NOT ADDED IN TASK MANAGER:
-----------------------------------------
-
-NEW FUTURE FEATURE (TEMPO): Avaluate the capacity of a person in following a tempo (o pulsation). 
-- Person can follow the tempo that they want and try to evaluate the accuracy. 
-- Or a rhythm (random or predefined) is presented by the program (with the buzzer) and the person has to follow it with the help of the buzzer or without it.
-- The Rhythm can be played with gtick (metronome)
-
-
-Hability of changing sensibility from chronojump
-
-
-BUGS:
-
-make that serial connection can be stablished regardless before a modem has been used in the same port
-
-graphs:
-	put a button for refreshing the graph
-
-show better info in the RJ jump edit
 
 edit jump need the hability of change the DJ fall and the SJ+ weight
 

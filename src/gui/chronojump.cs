@@ -133,10 +133,7 @@ public class ChronoJumpWindow
 	//[Widget] Gtk.Button button_pulse_more;
 
 	//multiChronopic	
-	[Widget] Gtk.Box vbox_multi_chronopic_selectors;
-	[Widget] Gtk.RadioButton radio_chronopics2;
-	[Widget] Gtk.RadioButton radio_chronopics3;
-	[Widget] Gtk.RadioButton radio_chronopics4;
+	[Widget] Gtk.Button button_multi_chronopic_start;
 	[Widget] Gtk.Frame frame_chronopic2;
 	[Widget] Gtk.Frame frame_chronopic3;
 	[Widget] Gtk.Frame frame_chronopic4;
@@ -149,6 +146,8 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_connect_cp2;
 	[Widget] Gtk.Button button_connect_cp3;
 	[Widget] Gtk.Button button_connect_cp4;
+	[Widget] Gtk.Image image_cp1_yes;
+	[Widget] Gtk.Image image_cp1_no;
 	[Widget] Gtk.Image image_cp2_yes;
 	[Widget] Gtk.Image image_cp2_no;
 	[Widget] Gtk.Image image_cp3_yes;
@@ -609,7 +608,7 @@ public class ChronoJumpWindow
 	}
 
 	//chronopic init should not touch  gtk, for the threads
-	private Chronopic chronopicInit (Chronopic myCp, SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
+	private Chronopic chronopicInit (Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
 	{
 		Log.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
 		if(Util.IsWindows())
@@ -617,10 +616,10 @@ public class ChronoJumpWindow
 
 		success = true;
 		
+		Log.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
+		Log.WriteLine(string.Format("chronopic port: {0}", myPort));
+		mySp = new SerialPort(myPort);
 		try {
-			Log.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
-			Log.WriteLine(string.Format("chronopic port: {0}", myPort));
-			mySp = new SerialPort(myPort);
 			mySp.Open();
 			Log.WriteLine("+++++++++++++++++ 2 ++++++++++++++++");		
 			//-- Create chronopic object, for accessing chronopic
@@ -1663,15 +1662,17 @@ public class ChronoJumpWindow
 
 	private void createComboMultiChronopic() 
 	{
-		vbox_multi_chronopic_selectors.Sensitive = false;
-
-		radio_chronopics3.Sensitive = false;
-		radio_chronopics4.Sensitive = false;
+		button_multi_chronopic_start.Sensitive = false;
 
 		frame_chronopic2.Sensitive = false;
 		frame_chronopic3.Sensitive = false;
 		frame_chronopic4.Sensitive = false;
+			
+		button_connect_cp2.Sensitive = false;
+		button_connect_cp3.Sensitive = false;
+		button_connect_cp4.Sensitive = false;
 		
+		image_cp1_yes.Hide();
 		image_cp2_yes.Hide();
 		image_cp3_yes.Hide();
 		image_cp4_yes.Hide();
@@ -1688,6 +1689,10 @@ public class ChronoJumpWindow
 			UtilGtk.ComboUpdate(combo_port_windows2, comboWindowsOptions, comboWindowsOptions[0]);
 			UtilGtk.ComboUpdate(combo_port_windows3, comboWindowsOptions, comboWindowsOptions[0]);
 			UtilGtk.ComboUpdate(combo_port_windows4, comboWindowsOptions, comboWindowsOptions[0]);
+			
+			combo_port_windows2.Changed += new EventHandler (on_combo_multi_chronopic_changed);
+			combo_port_windows3.Changed += new EventHandler (on_combo_multi_chronopic_changed);
+			combo_port_windows4.Changed += new EventHandler (on_combo_multi_chronopic_changed);
 		} else {
 			combo_port_windows2.Hide();
 			combo_port_windows3.Hide();
@@ -1699,6 +1704,10 @@ public class ChronoJumpWindow
 			combo_port_linux3.Active = 0; //first option
 			UtilGtk.ComboUpdate(combo_port_linux4, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
 			combo_port_linux4.Active = 0; //first option
+		
+			combo_port_linux2.Changed += new EventHandler (on_combo_multi_chronopic_changed);
+			combo_port_linux3.Changed += new EventHandler (on_combo_multi_chronopic_changed);
+			combo_port_linux4.Changed += new EventHandler (on_combo_multi_chronopic_changed);
 		}
 	}
 
@@ -1764,25 +1773,32 @@ public class ChronoJumpWindow
 		fillTreeView_pulses(myText);
 	}
 
-	void on_radio_multi_chronopics_toggled (object o, EventArgs args) {
-		//if there's no first chronopic working, don't allow others to be connected
-		if(!cpRunning) {
-			frame_chronopic3.Sensitive = false;
-			frame_chronopic4.Sensitive = false;
+	private void on_combo_multi_chronopic_changed(object o, EventArgs args) {
+		ComboBox combo = o as ComboBox;
+		if (o == null)
 			return;
-		} else {
-			if(radio_chronopics2.Active) {
-				frame_chronopic3.Sensitive = false;
-				frame_chronopic4.Sensitive = false;
-			} else if(radio_chronopics3.Active) {
-				frame_chronopic3.Sensitive = true;
-				frame_chronopic4.Sensitive = false;
-			} else if(radio_chronopics4.Active) {
-				frame_chronopic3.Sensitive = true;
-				frame_chronopic4.Sensitive = true;
-			}
-		}
+		
+		bool portOk = true;
+		if(UtilGtk.ComboGetActive(combo) == Constants.ChronopicDefaultPortWindows ||
+				UtilGtk.ComboGetActive(combo) == Constants.ChronopicDefaultPortLinux) 
+			portOk = false;
+
+		if (o == combo_port_linux2) 
+			button_connect_cp2.Sensitive = portOk;
+		if (o == combo_port_linux3) 
+			button_connect_cp3.Sensitive = portOk;
+		if (o == combo_port_linux4) 
+			button_connect_cp4.Sensitive = portOk;
+
+		if (o == combo_port_windows2) 
+			button_connect_cp2.Sensitive = portOk;
+		if (o == combo_port_windows3) 
+			button_connect_cp3.Sensitive = portOk;
+		if (o == combo_port_windows4) 
+			button_connect_cp4.Sensitive = portOk;
+
 	}
+	
 
 	/* ---------------------------------------------------------
 	 * ----------------  DELETE EVENT, QUIT  -----------------------
@@ -2225,16 +2241,20 @@ public class ChronoJumpWindow
 		if(menuitem_simulated.Active) {
 			Log.WriteLine("RadioSimulated - ACTIVE");
 			simulated = true;
+Log.WriteLine("sqli start");
 			SqlitePreferences.Update("simulated", simulated.ToString(), false);
+Log.WriteLine("sqli end");
 
 			//close connection with chronopic if initialized
 			if(cpRunning) {
 				sp.Close();
 			}
+Log.WriteLine("cpclosed");
 			cpRunning = false;
 		}
 		else
 			Log.WriteLine("RadioSimulated - INACTIVE");
+Log.WriteLine("all done");
 	}
 	
 	void on_radiobutton_chronopic (object o, EventArgs args)
@@ -2292,12 +2312,22 @@ public class ChronoJumpWindow
 		bool success = false;
 
 		if(currentCp == 1) {
-			cp = chronopicInit(cp, sp, platformState, chronopicPort, out message, out success);
+			cp = chronopicInit(cp, out sp, platformState, chronopicPort, out message, out success);
 			if(success) {
-				vbox_multi_chronopic_selectors.Sensitive = true;
+				image_cp1_no.Hide();
+				image_cp1_yes.Show();
+				button_multi_chronopic_start.Sensitive = true;
 				frame_chronopic2.Sensitive = true;
+				//disallow selection of that port for other chronopics
+				UtilGtk.ComboDelThisValue(combo_port_linux2, chronopicPort);
+				UtilGtk.ComboDelThisValue(combo_port_linux3, chronopicPort);
+				UtilGtk.ComboDelThisValue(combo_port_linux4, chronopicPort);
+
 			} else {
-				vbox_multi_chronopic_selectors.Sensitive = false;
+				image_cp1_no.Show();
+				image_cp1_yes.Hide();
+				button_multi_chronopic_start.Sensitive = false;
+				//allow to connect next chronopic
 				frame_chronopic2.Sensitive = false;
 			}
 		}
@@ -2306,14 +2336,18 @@ public class ChronoJumpWindow
 				myPort = UtilGtk.ComboGetActive(combo_port_windows2);
 			else
 				myPort = UtilGtk.ComboGetActive(combo_port_linux2);
-			cp2 = chronopicInit(cp2, sp2, platformState2, myPort, out message, out success);
+			cp2 = chronopicInit(cp2, out sp2, platformState2, myPort, out message, out success);
 			if(success) {
 				image_cp2_no.Hide();
 				image_cp2_yes.Show();
 				combo_port_linux2.Sensitive = false;
 				combo_port_windows2.Sensitive = false;
 				button_connect_cp2.Sensitive = false;
-				radio_chronopics3.Sensitive = true;
+				//allow to connect next chronopic
+				frame_chronopic3.Sensitive = true;
+				//disallow selection of that port for other chronopics
+				UtilGtk.ComboDelThisValue(combo_port_linux3, myPort);
+				UtilGtk.ComboDelThisValue(combo_port_linux4, myPort);
 			} 
 		}
 		else if(currentCp == 3) {
@@ -2321,14 +2355,17 @@ public class ChronoJumpWindow
 				myPort = UtilGtk.ComboGetActive(combo_port_windows3);
 			else
 				myPort = UtilGtk.ComboGetActive(combo_port_linux3);
-			cp3 = chronopicInit(cp3, sp3, platformState3, myPort, out message, out success);
+			cp3 = chronopicInit(cp3, out sp3, platformState3, myPort, out message, out success);
 			if(success) {
 				image_cp3_no.Hide();
 				image_cp3_yes.Show();
 				combo_port_linux3.Sensitive = false;
 				combo_port_windows3.Sensitive = false;
 				button_connect_cp3.Sensitive = false;
-				radio_chronopics4.Sensitive = true;
+				//allow to connect next chronopic
+				frame_chronopic4.Sensitive = true;
+				//disallow selection of that port for other chronopics
+				UtilGtk.ComboDelThisValue(combo_port_linux4, myPort);
 			} 
 		}
 		else if(currentCp == 4) {
@@ -2336,7 +2373,7 @@ public class ChronoJumpWindow
 				myPort = UtilGtk.ComboGetActive(combo_port_windows4);
 			else
 				myPort = UtilGtk.ComboGetActive(combo_port_linux4);
-			cp4 = chronopicInit(cp4, sp4, platformState4, myPort, out message, out success);
+			cp4 = chronopicInit(cp4, out sp4, platformState4, myPort, out message, out success);
 			if(success) {
 				image_cp4_no.Hide();
 				image_cp4_yes.Show();
@@ -3864,12 +3901,22 @@ public class ChronoJumpWindow
 				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 				*/
 
-		if(image_cp2_yes.Visible && image_cp3_no.Visible)
-			currentEventExecute = new MultiChronopicExecute(cp, cp2, appbar2, app1);
+		if(image_cp2_no.Visible)
+			currentEventExecute = new MultiChronopicExecute(
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, 
+					cp, appbar2, app1);
+		else if(image_cp2_yes.Visible && image_cp3_no.Visible)
+			currentEventExecute = new MultiChronopicExecute(
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, 
+					cp, cp2, appbar2, app1);
 		else if(image_cp3_yes.Visible && image_cp4_no.Visible)
-			currentEventExecute = new MultiChronopicExecute(cp, cp2, cp3, appbar2, app1);
+			currentEventExecute = new MultiChronopicExecute(
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, 
+					cp, cp2, cp3, appbar2, app1);
 		else if(image_cp4_yes.Visible)
-			currentEventExecute = new MultiChronopicExecute(cp, cp2, cp3, cp4, appbar2, app1);
+			currentEventExecute = new MultiChronopicExecute(
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, 
+					cp, cp2, cp3, cp4, appbar2, app1);
 
 		//if(simulated)	
 		//	currentEventExecute.SimulateInitValues(rand);

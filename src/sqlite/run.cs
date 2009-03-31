@@ -81,11 +81,15 @@ class SqliteRun : Sqlite
 	}
 	
 	//if all persons, put -1 in personID
-	public static string[] SelectAllRuns(int sessionID, int personID) 
+	//if all types, put "" in filterType
+	public static string[] SelectRuns(int sessionID, int personID, string filterType) 
 	{
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND person.uniqueID == " + personID;
+		string filterTypeString = "";
+		if(filterType != "")
+			filterTypeString = " AND run.type == '" + filterType + "' " ;
 
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, run.* " +
@@ -93,6 +97,7 @@ class SqliteRun : Sqlite
 			" WHERE person.uniqueID == run.personID" + 
 			" AND run.sessionID == " + sessionID + 
 			filterPersonString +
+			filterTypeString +
 			" ORDER BY upper(person.name), run.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());

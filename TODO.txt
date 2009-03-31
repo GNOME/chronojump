@@ -27,21 +27,15 @@ c# books. Or look for ; and after alter, insert, delete, drop, update, ...
 (low and hight case)
 i think there will be no problems because all is parametrized
 
-Fix bug on thread sqlite at start (see 2 pngs at Desktop)
-
 Put pictures and description of runAnalysis. Do svn add, Makefile, ...
+
+Add longDescription on margaria
 
 
 intersession stats only have to show one max or avg, not n max or all jumps
 stats all and limit is not updating the treeview stats. 
 
 us Util.DetectPortsLinux in gui/help ports
-
-when person weight is updated, description of eg. margaria (with power)
-doesn't change. Should change or use another thing. Recreate all time in
-session.... also same when edit jump.
-Maybe is better to don't have it (the power) recorded at any place but generate when it's
-required
 
 create a server mini program that tries to do a ping and if it fails, 
 then write something in a file, and another program restarts server
@@ -50,6 +44,9 @@ just to know how xsp2 is working
 
 in execution graph put avgs as horizontal lines
 and plot all tests of same type of same person
+jump done, need run and reactionTime (maybe also pulse)
+
+eventExecure reactionTimeGraph doesn't plot now because uses paintJumpSimple that has changed
 
 count time(s)  cp change diff same cp diff all cp
 1          10   1     IN           10          10
@@ -93,8 +90,8 @@ eg:
        ----     -
 
 
+merge databases
 
-edit jump need the hability of change the DJ fall and the SJ+ weight
 
 - Capacitat de salt Total: (SJ+100%) + (sj-sj+100%) + (cmj-sj) + (abk-cmj) + (dj-abk)
 (altura DJ ?). Aixo funciona, pero no agafa la linia si falta algun salt:

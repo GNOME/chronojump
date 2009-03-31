@@ -164,7 +164,6 @@ public class Server
 			int state = (int) Constants.ServerSessionStates.UPLOADINGSESSION;
 			//create ServerSession based on Session currentSession
 			ServerSession serverSession = new ServerSession(currentSession, evalSID, progName + " " + progVersion, 
-					//Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), Constants.ServerSessionStates.UPLOADINGSESSION); 
 					Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), state); 
 
 			//if uploading session for first time
@@ -230,7 +229,7 @@ public class Server
 				int countE = 0;					
 				int countS = 0;					
 
-				string [] jumps = SqliteJump.SelectJumps(currentSession.UniqueID, person.UniqueID, "");
+				string [] jumps = SqliteJump.SelectJumps(currentSession.UniqueID, person.UniqueID, "", "");
 				foreach(string myJump in jumps) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
@@ -339,7 +338,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runs = SqliteRun.SelectAllRuns(currentSession.UniqueID, person.UniqueID);
+				string [] runs = SqliteRun.SelectRuns(currentSession.UniqueID, person.UniqueID, "");
 				foreach(string myRun in runs) {
 					string [] js = myRun.Split(new char[] {':'});
 					//select run
@@ -381,7 +380,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runsI = SqliteRunInterval.SelectAllRuns(currentSession.UniqueID, person.UniqueID);
+				string [] runsI = SqliteRunInterval.SelectRuns(currentSession.UniqueID, person.UniqueID);
 				foreach(string myRun in runsI) {
 					string [] js = myRun.Split(new char[] {':'});
 					//select run

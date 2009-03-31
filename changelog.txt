@@ -1,5 +1,14 @@
 CHANGELOG.txt
 
+31 mar 2009
+	in execution graph put avgs as horizontal lines
+	and plot all tests of same type of same person
+	done for jump
+
+	Fixed? bug on thread sqlite at start (see 2 pngs at Desktop)
+	Margaria description unsensitive at edit
+	margaria power (at description) changes when person weight change
+
 30 mar 2009
 	multiChronopic:
 	-event window is connected and start showing graph data (incorrect now)

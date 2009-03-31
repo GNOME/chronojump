@@ -1167,7 +1167,7 @@ public class ChronoJumpWindow
 	private void fillTreeView_jumps (string filter) {
 		string [] myJumps;
 	
-		myJumps = SqliteJump.SelectJumps(currentSession.UniqueID, -1, "");
+		myJumps = SqliteJump.SelectJumps(currentSession.UniqueID, -1, "", "");
 		myTreeViewJumps.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
@@ -1306,7 +1306,7 @@ public class ChronoJumpWindow
 	}
 
 	private void fillTreeView_runs (string filter) {
-		string [] myRuns = SqliteRun.SelectAllRuns(currentSession.UniqueID, -1);
+		string [] myRuns = SqliteRun.SelectRuns(currentSession.UniqueID, -1, "");
 		myTreeViewRuns.Fill(myRuns, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
@@ -1370,7 +1370,7 @@ public class ChronoJumpWindow
 	}
 
 	private void fillTreeView_runs_interval (string filter) {
-		string [] myRuns = SqliteRunInterval.SelectAllRuns(currentSession.UniqueID, -1);
+		string [] myRuns = SqliteRunInterval.SelectRuns(currentSession.UniqueID, -1);
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
@@ -2077,7 +2077,7 @@ public class ChronoJumpWindow
 	}
 		
 	private void on_person_add_single_activate (object o, EventArgs args) {
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, -1); 
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, -1, prefsDigitsNumber); 
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
 		
@@ -2135,7 +2135,7 @@ public class ChronoJumpWindow
 	
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
 		Log.WriteLine("modify person");
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID);
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID, prefsDigitsNumber);
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	

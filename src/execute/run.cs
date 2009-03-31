@@ -297,8 +297,8 @@ Log.WriteLine("MANAGE(3)!!!!");
 			// W: person weight
 			// D: distance between 3d and 9th stair
 			double weight = SqlitePersonSession.SelectPersonWeight(personID, sessionID);
-			double distanceMM = distance / 1000;
-			description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMM / time).ToString(), pDN) + " (Watts)";
+			double distanceMeters = distance / 1000;
+			description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / time).ToString(), pDN) + " (Watts)";
 		}
 
 		uniqueID = SqliteRun.Insert(false, Constants.RunTable, "NULL", personID, sessionID, 

@@ -112,7 +112,12 @@ class SqliteSession : Sqlite
 	
 	public static Session Select(string myUniqueID)
 	{
-		dbcon.Open();
+		try {
+			dbcon.Open();
+		} catch {
+			//done because there's an eventual problem maybe thread related on very few starts of chronojump
+			Log.WriteLine("Catched dbcon problem at Session.Select");
+		}
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		
@@ -445,7 +450,7 @@ class SqliteSession : Sqlite
 
 	//called from gui/event.cs for doing the graph
 	//we need to know the avg of events of a type (SJ, CMJ, free (pulse).. of a person, or of all persons on the session
-	public static double SelectAllEventsOfAType(int sessionID, int personID, string table, string type, string valueToSelect) 
+	public static double SelectAVGEventsOfAType(int sessionID, int personID, string table, string type, string valueToSelect) 
 	{
 		//if personIDString == -1, the applies for all persons
 		

@@ -655,6 +655,7 @@ public class PersonAddModifyWindow
 	private int personID;
 	private string sex = "M";
 	private int weightIni;
+	int pDN;
 	
 	private int serverUniqueID;
 	
@@ -725,11 +726,14 @@ public class PersonAddModifyWindow
 		sex = "F";
 	}
 	
-	static public PersonAddModifyWindow Show (Gtk.Window parent, Session mySession, int personID)
+	static public PersonAddModifyWindow Show (Gtk.Window parent, Session mySession, int personID, int pDN)
 	{
 		if (PersonAddModifyWindowBox == null) {
 			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, personID);
 		}
+
+		PersonAddModifyWindowBox.pDN = pDN;
+		
 		PersonAddModifyWindowBox.person_win.Show ();
 		
 		PersonAddModifyWindowBox.fillDialog ();
@@ -1142,7 +1146,7 @@ public class PersonAddModifyWindow
 			//if weight has changed
 			if(!adding && (int) spinbutton_weight.Value != weightIni) {
 				//see if this person has done jumps with weight
-				string [] myJumpsNormal = SqliteJump.SelectJumps(currentSession.UniqueID, personID, "withWeight");
+				string [] myJumpsNormal = SqliteJump.SelectJumps(currentSession.UniqueID, personID, "withWeight", "");
 				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(currentSession.UniqueID, personID, "withWeight");
 
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
@@ -1177,10 +1181,23 @@ public class PersonAddModifyWindow
 		//separate by '/' for not confusing with the ':' separation between the other values
 		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
 			dateTime.Year.ToString();
+		
+		double weight = (int) spinbutton_weight.Value;
+
+		//convert margarias (it's power is calculated using weight and it's written on description)
+		string [] myMargarias = SqliteRun.SelectRuns(currentSession.UniqueID, personID, "Margaria");
+		foreach(string myStr in myMargarias) {
+			string [] margaria = myStr.Split(new char[] {':'});
+			Run mRun = SqliteRun.SelectRunData(Convert.ToInt32(margaria[1]));
+			double distanceMeters = mRun.Distance / 1000;
+			mRun.Description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / mRun.Time).ToString(), pDN) + " (Watts)";
+			SqliteRun.Update(mRun.UniqueID, mRun.Type, mRun.Distance.ToString(), mRun.Time.ToString(), mRun.PersonID, mRun.Description);
+		}
+
 
 		if(adding) {
 			currentPerson = new Person (entry1.Text, sex, dateFull, 
-					(int) spinbutton_height.Value, (int) spinbutton_weight.Value, 
+					(int) spinbutton_height.Value, (int) weight, 
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
@@ -1191,7 +1208,7 @@ public class PersonAddModifyWindow
 					currentSession.UniqueID);
 		} else {
 			currentPerson = new Person (personID, entry1.Text, sex, dateFull, 
-					(int) spinbutton_height.Value, (int) spinbutton_weight.Value, 
+					(int) spinbutton_height.Value, (int) weight, 
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),

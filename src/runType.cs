@@ -268,7 +268,7 @@ public class RunType : EventType
 			isPredefined	= true;
 			imageFileName = "margaria.png";
 			description	= Catalog.GetString("Margaria-Kalamen");
-			longDescription	= "";
+			longDescription	= ""; //TODO
 		} //interval
 		else if(name == "byLaps") {
 			hasIntervals 	= true; 

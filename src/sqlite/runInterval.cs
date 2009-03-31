@@ -81,7 +81,7 @@ class SqliteRunInterval : SqliteRun
 		return myLast;
 	}
 
-	public new static string[] SelectAllRuns(int sessionID, int personID) 
+	public new static string[] SelectRuns(int sessionID, int personID) 
 	{
 		string filterPersonString = "";
 		if(personID != -1)

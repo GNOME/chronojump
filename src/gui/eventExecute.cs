@@ -522,14 +522,16 @@ public class EventExecuteWindow
 
 		
 		//obtain data
-		double tvPersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TV");
-		double tvSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TV");
+		string []jumps = SqliteJump.SelectJumps(sessionID, personID, "", eventType);
+
+		double tvPersonAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, personID, tableName, eventType, "TV");
+		double tvSessionAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, -1, tableName, eventType, "TV");
 
 		double tcPersonAVG = 0; 
 		double tcSessionAVG = 0; 
 		if(tc > 0) {
-			tcPersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "TC");
-			tcSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "TC");
+			tcPersonAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, personID, tableName, eventType, "TC");
+			tcSessionAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, -1, tableName, eventType, "TC");
 		}
 		
 		double maxValue = 0;
@@ -542,6 +544,13 @@ public class EventExecuteWindow
 			maxValue = Util.GetMax(
 					tv.ToString() + "=" + tvPersonAVG.ToString() + "=" + tvSessionAVG.ToString() + "=" +
 					tc.ToString() + "=" + tcPersonAVG.ToString() + "=" + tcSessionAVG.ToString());
+			foreach(string myStr in jumps) {
+				string [] jump = myStr.Split(new char[] {':'});
+				if(Convert.ToDouble(jump[5]) > maxValue)
+					maxValue = Convert.ToDouble(jump[5]); //tf
+				if(Convert.ToDouble(jump[6]) > maxValue)
+					maxValue = Convert.ToDouble(jump[6]); //tc
+			}
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;
@@ -553,13 +562,20 @@ public class EventExecuteWindow
 			if(tc > 0)
 				myString = myString + "=" + tc.ToString() + "=" + tcPersonAVG.ToString() + "=" + tcSessionAVG.ToString();
 			minValue = Util.GetMin(myString);
+			foreach(string myStr in jumps) {
+				string [] jump = myStr.Split(new char[] {':'});
+				if(Convert.ToDouble(jump[5]) < minValue)
+					minValue = Convert.ToDouble(jump[5]); //tf
+				if(Convert.ToDouble(jump[6]) < minValue)
+					minValue = Convert.ToDouble(jump[6]); //tc
+			}
 		} else {
 			minValue = eventGraphConfigureWin.Min;
 			bottomMargin = 0;
 		}
 		
 		//paint graph
-		paintJumpSimple (drawingarea, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG, maxValue, minValue, topMargin, bottomMargin);
+		paintJumpSimple (drawingarea, jumps, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG, maxValue, minValue, topMargin, bottomMargin);
 
 		//printLabels
 		printLabelsJumpSimple (tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
@@ -661,18 +677,18 @@ public class EventExecuteWindow
 			paintTime = true;
 		
 		//obtain data
-		double timePersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "time");
-		double timeSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "time");
+		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, personID, tableName, eventType, "time");
+		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, -1, tableName, eventType, "time");
 
-		//double distancePersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "distance");
-		//double distanceSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "distance");
+		//double distancePersonAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, personID, tableName, eventType, "distance");
+		//double distanceSessionAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, -1, tableName, eventType, "distance");
 		//better to know speed like:
 		//SELECT AVG(distance/time) from run; than 
 		//SELECT AVG(distance) / SELECT AVG(time) 
 		//first is ok, because is the speed AVG
 		//2nd is not good because it tries to do an AVG of all distances and times
-		double speedPersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "distance/time");
-		double speedSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "distance/time");
+		double speedPersonAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, personID, tableName, eventType, "distance/time");
+		double speedSessionAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, -1, tableName, eventType, "distance/time");
 
 		double maxValue = 0;
 		double minValue = 0;
@@ -825,8 +841,8 @@ public class EventExecuteWindow
 
 		
 		//obtain data
-		double timePersonAVG = SqliteSession.SelectAllEventsOfAType(sessionID, personID, tableName, eventType, "time");
-		double timeSessionAVG = SqliteSession.SelectAllEventsOfAType(sessionID, -1, tableName, eventType, "time");
+		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, personID, tableName, eventType, "time");
+		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, -1, tableName, eventType, "time");
 
 		double maxValue = 0;
 		double minValue = 0;
@@ -852,7 +868,8 @@ public class EventExecuteWindow
 		}
 		
 		//paint graph (use simple jump method)
-		paintJumpSimple (drawingarea, time, timePersonAVG, timeSessionAVG, 0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
+		//TODO: fix this, paintJumpSimple changed
+		//paintJumpSimple (drawingarea, time, timePersonAVG, timeSessionAVG, 0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
 
 		printLabelsReactionTime (time, timePersonAVG, timeSessionAVG);
 		
@@ -947,7 +964,7 @@ public class EventExecuteWindow
 	}
 	
 
-	private void paintJumpSimple (Gtk.DrawingArea drawingarea, 
+	private void paintJumpSimple (Gtk.DrawingArea drawingarea, string [] jumps, 
 			double tvNow, double tvPerson, double tvSession, 
 			double tcNow, double tcPerson, double tcSession,
 			double maxValue, double minValue, int topMargin, int bottomMargin)
@@ -965,19 +982,48 @@ public class EventExecuteWindow
 		if(maxValue - minValue > 0) {
 			//red for TC
 			if(tcNow > 0) {
-				pixmap.DrawLine(pen_rojo, ancho*1/6, alto, ancho*1/6, calculatePaintHeight(tcNow, alto, maxValue, minValue, topMargin, bottomMargin));
-				pixmap.DrawLine(pen_rojo, ancho*3/6, alto, ancho*3/6, calculatePaintHeight(tcPerson, alto, maxValue, minValue, topMargin, bottomMargin));
-				pixmap.DrawLine(pen_rojo, ancho*5/6, alto, ancho*5/6, calculatePaintHeight(tcSession, alto, maxValue, minValue, topMargin, bottomMargin));
+				int count = 0;
+				foreach(string myStr in jumps) {
+					string [] jump = myStr.Split(new char[] {':'});
+					pixmap.DrawLine(pen_rojo, 
+							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length), alto, 
+							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length), 
+							calculatePaintHeight(Convert.ToDouble(jump[6]), alto, maxValue, minValue, topMargin, bottomMargin));
+					count ++;
+				}
+				
+				//red tc average line	
+				drawGuideOrAVG(pen_rojo, 	tcPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+				drawGuideOrAVG(pen_rojo_discont, tcSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			}
 		
 			//blue for TF
 			//check it's not a take off
 			if(tvNow > 0) {
-				pixmap.DrawLine(pen_azul, ancho*1/6 +10, alto, ancho*1/6 +10, calculatePaintHeight(tvNow, alto, maxValue, minValue, topMargin, bottomMargin));
-				pixmap.DrawLine(pen_azul, ancho*3/6 +10, alto, ancho*3/6 +10, calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin));
-				pixmap.DrawLine(pen_azul, ancho*5/6 +10, alto, ancho*5/6 +10, calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin));
+				int tctfSep; //separation between tc and tf
+				if(tcNow == 0)
+					tctfSep = 0;
+				else {
+					int distanceBetweenCols = Convert.ToInt32((ancho-rightMargin)*(1+.5)/jumps.Length) -
+						Convert.ToInt32((ancho-rightMargin)*(0+.5)/jumps.Length);
+					tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
+				}
+				int count = 0;
+				foreach(string myStr in jumps) {
+					string [] jump = myStr.Split(new char[] {':'});
+					pixmap.DrawLine(pen_azul, 
+							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length) + tctfSep, alto, 
+							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length) + tctfSep, 
+							calculatePaintHeight(Convert.ToDouble(jump[5]), alto, maxValue, minValue, topMargin, bottomMargin));
+					count ++;
+				}
+				
+				//blue tf average discountinuos line	
+				drawGuideOrAVG(pen_azul, 	tvPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+				drawGuideOrAVG(pen_azul_discont, tvSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			}
 			
+			/*
 			//circles
 			if(eventGraphConfigureWin.PaintCircle) {
 				if(tcNow > 0) {
@@ -991,15 +1037,14 @@ public class EventExecuteWindow
 					pixmap.DrawArc(pen_azul, true, ancho*3/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
 					pixmap.DrawArc(pen_azul, true, ancho*5/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
 				}
-			}	
+			}
+		*/	
 			
 	
 			//paint reference guide black and green if needed
 			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		}
-		
-	
 		
 		graphProgress = phasesGraph.DONE; 
 	}
@@ -1600,15 +1645,15 @@ Console.WriteLine("  OUT: timestamp {0}, ancho {1}, x {2}, timeold{3}", timestam
 
 	//projecte cubevirtual de juan gonzalez
 	
-	Gdk.GC pen_rojo; //tc, also time
-	Gdk.GC pen_azul; //tf, also speed and pulse
-	Gdk.GC pen_rojo_discont; //avg tc in reactive
-	Gdk.GC pen_azul_discont; //avg tf in reactive
+	Gdk.GC pen_rojo; //tc, also time; jump avg personTc
+	Gdk.GC pen_azul; //tf, also speed and pulse; jump avg personTv
+	Gdk.GC pen_rojo_discont; //avg tc in reactive; jump avg sessionTc 
+	Gdk.GC pen_azul_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_negro_discont; //guide
 	Gdk.GC pen_green_discont; //guide
 	Gdk.GC pen_gris; //textual data
 	Gdk.GC pen_beige_discont; //Y cols
-	Gdk.GC pen_brown_bold; //best tv/tc in rj
+	Gdk.GC pen_brown_bold; //best tv/tc in rj;
 	Gdk.GC pen_violet_bold; //worst tv/tc in rj
 	//Gdk.GC pen_blanco;
 	

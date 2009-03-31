@@ -89,7 +89,8 @@ class SqliteJump : Sqlite
 	}
 	
 	//if all persons, put -1 in personID
-	public static string[] SelectJumps(int sessionID, int personID, string filterWeight) 
+	//if all types put, "" in filterType
+	public static string[] SelectJumps(int sessionID, int personID, string filterWeight, string filterType) 
 	{
 		string filterPersonString = "";
 		if(personID != -1)
@@ -99,6 +100,10 @@ class SqliteJump : Sqlite
 		if(filterWeight == "withWeight")
 			filterWeightString = " AND jump.weight != 0 ";
 
+		string filterTypeString = "";
+		if(filterType != "")
+			filterTypeString = " AND jump.type == '" + filterType + "' ";
+
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, jump.*, personSessionWeight.weight " +
 			" FROM person, jump, personSessionWeight " +
@@ -106,6 +111,7 @@ class SqliteJump : Sqlite
 			" AND jump.sessionID == " + sessionID + 
 			filterPersonString +
 			filterWeightString +
+			filterTypeString +
 			" AND personSessionWeight.personID == person.uniqueID " +
 			" AND personSessionWeight.sessionID == jump.sessionID " +
 			" ORDER BY upper(person.name), jump.uniqueID";

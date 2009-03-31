@@ -60,6 +60,9 @@ public class EditRunWindow : EditEventWindow
 		EditRunWindowBox.pDN = pDN;
 		
 		EditRunWindowBox.initializeValues();
+		
+		if(myEvent.Type == "Margaria")
+			EditRunWindowBox.entry_description.Sensitive = false;
 
 		EditRunWindowBox.fillDialog (myEvent);
 

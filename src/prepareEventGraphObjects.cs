@@ -132,13 +132,23 @@ public class PrepareEventGraphMultiChronopic {
 	public string cp3OutStr;
 	public string cp4InStr;
 	public string cp4OutStr;
+	public bool cp1StartedIn;
+	public bool cp2StartedIn;
+	public bool cp3StartedIn;
+	public bool cp4StartedIn;
 
 	public PrepareEventGraphMultiChronopic() {
 	}
 
-	public PrepareEventGraphMultiChronopic(double timestamp, string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
+	public PrepareEventGraphMultiChronopic(double timestamp, 
+			bool cp1StartedIn, bool cp2StartedIn, bool cp3StartedIn, bool cp4StartedIn,
+			string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
 			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr) {
 		this.timestamp = timestamp;
+		this.cp1StartedIn = cp1StartedIn; 
+		this.cp2StartedIn = cp2StartedIn; 
+		this.cp3StartedIn = cp3StartedIn; 
+		this.cp4StartedIn = cp4StartedIn;
 		this.cp1InStr = cp1InStr;
 		this.cp1OutStr = cp1OutStr;
 		this.cp2InStr = cp2InStr;

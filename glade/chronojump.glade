@@ -8450,7 +8450,7 @@ suitable for agility tests)</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
   <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_taskbar_hint">True</property>
   <property name="skip_pager_hint">False</property>
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
@@ -15688,7 +15688,7 @@ Test&lt;/b&gt;</property>
 	  <property name="shadow_type">GTK_SHADOW_IN</property>
 
 	  <child>
-	    <widget class="GtkAlignment" id="alignment58">
+	    <widget class="GtkAlignment" id="alignment1">
 	      <property name="visible">True</property>
 	      <property name="xalign">0.5</property>
 	      <property name="yalign">0.5</property>
@@ -15706,9 +15706,134 @@ Test&lt;/b&gt;</property>
 		  <property name="spacing">0</property>
 
 		  <child>
+		    <widget class="GtkHBox" id="hbox_drawingarea">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">0</property>
+
+		      <child>
+			<widget class="GtkDrawingArea" id="drawingarea">
+			  <property name="width_request">300</property>
+			  <property name="height_request">200</property>
+			  <property name="visible">True</property>
+			  <signal name="expose_event" handler="on_drawingarea_expose_event" last_modification_time="Sun, 24 Sep 2006 22:41:38 GMT"/>
+			  <signal name="configure_event" handler="on_drawingarea_configure_event" last_modification_time="Tue, 31 Mar 2009 11:12:26 GMT"/>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">True</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkVBox" id="vbox183">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">0</property>
+
+			  <child>
+			    <widget class="GtkButton" id="button_zoom">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Update</property>
+			      <property name="can_focus">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			      <signal name="clicked" handler="on_button_zoom_clicked" last_modification_time="Tue, 31 Mar 2009 10:48:33 GMT"/>
+
+			      <child>
+				<widget class="GtkImage" id="image4224">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-zoom-in</property>
+				  <property name="icon_size">4</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkButton" id="button_properties">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Properties</property>
+			      <property name="can_focus">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			      <signal name="clicked" handler="on_button_properties_clicked" last_modification_time="Sun, 08 Oct 2006 22:21:28 GMT"/>
+
+			      <child>
+				<widget class="GtkImage" id="image1664">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-properties</property>
+				  <property name="icon_size">4</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkButton" id="button_update">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Update</property>
+			      <property name="can_focus">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			      <signal name="clicked" handler="on_button_update_clicked" last_modification_time="Sun, 08 Oct 2006 22:21:41 GMT"/>
+
+			      <child>
+				<widget class="GtkImage" id="image1665">
+				  <property name="visible">True</property>
+				  <property name="stock">gtk-refresh</property>
+				  <property name="icon_size">4</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+
+		  <child>
 		    <widget class="GtkTable" id="table_total">
 		      <property name="visible">True</property>
-		      <property name="n_rows">10</property>
+		      <property name="n_rows">9</property>
 		      <property name="n_columns">2</property>
 		      <property name="homogeneous">False</property>
 		      <property name="row_spacing">0</property>
@@ -15950,81 +16075,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">3</property>
-			  <property name="bottom_attach">4</property>
-			  <property name="x_options">fill</property>
-			  <property name="y_options">fill</property>
-			</packing>
-		      </child>
-
-		      <child>
-			<widget class="GtkVBox" id="vbox88">
-			  <property name="border_width">2</property>
-			  <property name="visible">True</property>
-			  <property name="homogeneous">False</property>
-			  <property name="spacing">4</property>
-
-			  <child>
-			    <widget class="GtkButton" id="button_properties">
-			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Properties</property>
-			      <property name="can_focus">True</property>
-			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
-			      <signal name="clicked" handler="on_button_properties_clicked" last_modification_time="Sun, 08 Oct 2006 22:21:28 GMT"/>
-
-			      <child>
-				<widget class="GtkImage" id="image1664">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-properties</property>
-				  <property name="icon_size">4</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">False</property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkButton" id="button_update">
-			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Update</property>
-			      <property name="can_focus">True</property>
-			      <property name="relief">GTK_RELIEF_NORMAL</property>
-			      <property name="focus_on_click">True</property>
-			      <signal name="clicked" handler="on_button_update_clicked" last_modification_time="Sun, 08 Oct 2006 22:21:41 GMT"/>
-
-			      <child>
-				<widget class="GtkImage" id="image1665">
-				  <property name="visible">True</property>
-				  <property name="stock">gtk-refresh</property>
-				  <property name="icon_size">4</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="padding">0</property>
-			      <property name="expand">False</property>
-			      <property name="fill">False</property>
-			    </packing>
-			  </child>
-			</widget>
-			<packing>
-			  <property name="left_attach">0</property>
-			  <property name="right_attach">1</property>
-			  <property name="top_attach">0</property>
-			  <property name="bottom_attach">1</property>
+			  <property name="top_attach">2</property>
+			  <property name="bottom_attach">3</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options">fill</property>
 			</packing>
@@ -16210,8 +16262,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">5</property>
-			  <property name="bottom_attach">6</property>
+			  <property name="top_attach">4</property>
+			  <property name="bottom_attach">5</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options">fill</property>
 			</packing>
@@ -16357,8 +16409,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">0</property>
 			  <property name="right_attach">1</property>
-			  <property name="top_attach">2</property>
-			  <property name="bottom_attach">3</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options">fill</property>
 			</packing>
@@ -16804,8 +16856,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">0</property>
 			  <property name="right_attach">1</property>
-			  <property name="top_attach">3</property>
-			  <property name="bottom_attach">4</property>
+			  <property name="top_attach">2</property>
+			  <property name="bottom_attach">3</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options">fill</property>
 			</packing>
@@ -16951,8 +17003,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">0</property>
 			  <property name="right_attach">1</property>
-			  <property name="top_attach">5</property>
-			  <property name="bottom_attach">6</property>
+			  <property name="top_attach">4</property>
+			  <property name="bottom_attach">5</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options">fill</property>
 			</packing>
@@ -17227,8 +17279,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">0</property>
 			  <property name="right_attach">1</property>
-			  <property name="top_attach">6</property>
-			  <property name="bottom_attach">7</property>
+			  <property name="top_attach">5</property>
+			  <property name="bottom_attach">6</property>
 			  <property name="x_options">fill</property>
 			</packing>
 		      </child>
@@ -17413,8 +17465,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">6</property>
-			  <property name="bottom_attach">7</property>
+			  <property name="top_attach">5</property>
+			  <property name="bottom_attach">6</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options">fill</property>
 			</packing>
@@ -17552,8 +17604,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">0</property>
 			  <property name="right_attach">1</property>
-			  <property name="top_attach">7</property>
-			  <property name="bottom_attach">8</property>
+			  <property name="top_attach">6</property>
+			  <property name="bottom_attach">7</property>
 			  <property name="x_options">fill</property>
 			</packing>
 		      </child>
@@ -17682,8 +17734,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">7</property>
-			  <property name="bottom_attach">8</property>
+			  <property name="top_attach">6</property>
+			  <property name="bottom_attach">7</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options">fill</property>
 			</packing>
@@ -17765,8 +17817,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">0</property>
 			  <property name="right_attach">1</property>
-			  <property name="top_attach">9</property>
-			  <property name="bottom_attach">10</property>
+			  <property name="top_attach">8</property>
+			  <property name="bottom_attach">9</property>
 			  <property name="x_options">fill</property>
 			</packing>
 		      </child>
@@ -17867,8 +17919,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">9</property>
-			  <property name="bottom_attach">10</property>
+			  <property name="top_attach">8</property>
+			  <property name="bottom_attach">9</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options">fill</property>
 			</packing>
@@ -18054,8 +18106,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">2</property>
-			  <property name="bottom_attach">3</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
 			</packing>
 		      </child>
 
@@ -18143,8 +18195,8 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">4</property>
-			  <property name="bottom_attach">5</property>
+			  <property name="top_attach">3</property>
+			  <property name="bottom_attach">4</property>
 			</packing>
 		      </child>
 
@@ -18232,25 +18284,9 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">8</property>
-			  <property name="bottom_attach">9</property>
+			  <property name="top_attach">7</property>
+			  <property name="bottom_attach">8</property>
 			  <property name="x_options">fill</property>
-			</packing>
-		      </child>
-
-		      <child>
-			<widget class="GtkDrawingArea" id="drawingarea">
-			  <property name="width_request">100</property>
-			  <property name="height_request">200</property>
-			  <property name="visible">True</property>
-			  <signal name="configure_event" handler="on_drawingarea_configure_event" last_modification_time="Sun, 24 Sep 2006 22:41:23 GMT"/>
-			  <signal name="expose_event" handler="on_drawingarea_expose_event" last_modification_time="Sun, 24 Sep 2006 22:41:38 GMT"/>
-			</widget>
-			<packing>
-			  <property name="left_attach">1</property>
-			  <property name="right_attach">2</property>
-			  <property name="top_attach">0</property>
-			  <property name="bottom_attach">1</property>
 			</packing>
 		      </child>
 
@@ -18338,16 +18374,15 @@ Test&lt;/b&gt;</property>
 			<packing>
 			  <property name="left_attach">1</property>
 			  <property name="right_attach">2</property>
-			  <property name="top_attach">1</property>
-			  <property name="bottom_attach">2</property>
-			  <property name="y_padding">8</property>
+			  <property name="top_attach">0</property>
+			  <property name="bottom_attach">1</property>
 			</packing>
 		      </child>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
-		      <property name="expand">True</property>
-		      <property name="fill">True</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
 		    </packing>
 		  </child>
 		</widget>
@@ -18570,8 +18605,8 @@ Test&lt;/b&gt;</property>
 		</widget>
 		<packing>
 		  <property name="padding">3</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
 		</packing>
 	      </child>
 	    </widget>

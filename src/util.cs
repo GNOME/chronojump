@@ -85,6 +85,9 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	public static string TrimDecimals (double time, int prefsDigitsNumber) {
+		return Math.Round(time, prefsDigitsNumber).ToString();
+	}
 
 	public static string TrimDecimals (string time, int prefsDigitsNumber) {
 		if(time == "-1" || time == "-") {
@@ -374,6 +377,14 @@ public class Util
 		} else {
 			return tcString;
 		}
+	}
+				
+	
+	public static string [] DeleteFirstStrings(string [] str, int maxStrings) {
+		string [] str2 = new String [maxStrings];
+		for(int i=str.Length - maxStrings, j=0; i < str.Length; i++, j++) 
+			str2[j] = str [i];
+		return str2;
 	}
 	
 	//called from jumpRj.Write() and from interval

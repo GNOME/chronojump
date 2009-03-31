@@ -134,6 +134,8 @@ public class EventExecuteWindow
 	[Widget] Gtk.Image image_run_interval_time_bad;
 	
 	[Widget] Gtk.DrawingArea drawingarea;
+	[Widget] Box hbox_drawingarea;
+	[Widget] Gtk.Alignment alignment1;
 	static Gdk.Pixmap pixmap = null;
 
 
@@ -464,28 +466,32 @@ public class EventExecuteWindow
 
 		Gdk.Rectangle allocation = drawingarea.Allocation;
 		
-		if(pixmap == null) {
+		if(pixmap == null || sizeChanged) {
 			pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
 			erasePaint(drawingarea);
 			
 			graphProgress = phasesGraph.DOING; 
+			sizeChanged = false;
 		}
 	}
-	
+	bool sizeChanged;
 	public void on_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
 		
-		if(pixmap == null) {
+		if(pixmap == null || sizeChanged) {
 			Gdk.Rectangle allocation = drawingarea.Allocation;
 			pixmap = new Gdk.Pixmap (drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			erasePaint(drawingarea);
 
 			graphProgress = phasesGraph.DOING; 
+			sizeChanged = false;
 		}
+
+		Console.WriteLine("---------EXPOSE!!!!!--------");
 
 			
 		Gdk.Rectangle area = args.Event.Area;
@@ -498,6 +504,7 @@ public class EventExecuteWindow
 				area.X, area.Y,
 				area.X, area.Y,
 				area.Width, area.Height);
+//drawingarea.Show();
 		}
 		
 	}
@@ -878,7 +885,9 @@ public class EventExecuteWindow
 	}
 	
 	// multi chronopic 
-	public void PrepareMultiChronopicGraph(double timestamp, string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
+	public void PrepareMultiChronopicGraph(double timestamp, 
+			bool cp1StartedIn, bool cp2StartedIn, bool cp3StartedIn, bool cp4StartedIn,
+			string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
 			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr) { 
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -890,7 +899,7 @@ public class EventExecuteWindow
 		int topMargin = 10;
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) 
-			maxValue = timestamp;
+			maxValue = timestamp; //TODO: delete this, is not used here
 			/*
 			maxValue = Util.GetMax(
 					cp1InString + "=" + cp1OutStr + "=" + cp2InString + "=" + cp2OutStr + "=" +
@@ -924,6 +933,7 @@ public class EventExecuteWindow
 
 		//paint graph
 		paintMultiChronopic (drawingarea, timestamp, 
+				cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn,
 				cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr, 
 				maxValue, minValue, topMargin, bottomMargin);
 		
@@ -1416,103 +1426,114 @@ public class EventExecuteWindow
 		graphProgress = phasesGraph.DONE; 
 	}
 
+	double multiChronopicGetX(int ancho, double time, double timeOld, double timeTotal) {
+		if(time < 0)
+			time = 0;
+		//Console.WriteLine("   timestamp {0}, ancho {1}, x {2}, timeold{3}, xOld{4}", timestamp, ancho, Util.TrimDecimals(x,1), timeOld, Util.TrimDecimals(xOld,1));
+		return ( ancho * ( (timeOld + time) / timeTotal) ) -rightMargin;
+	}
 
 	//TODO: fix this method
 	private void paintMultiChronopic (Gtk.DrawingArea drawingarea, double timestamp, 
+			bool cp1StartedIn, bool cp2StartedIn, bool cp3StartedIn, bool cp4StartedIn,
 			string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
 			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr, 
 			double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
+
+		double timeTotal1 = Util.GetTotalTime(cp1InStr + "=" + cp1OutStr);
+		double timeTotal2 = Util.GetTotalTime(cp2InStr + "=" + cp2OutStr);
+		double timeTotal3 = Util.GetTotalTime(cp3InStr + "=" + cp3OutStr);
+		double timeTotal4 = Util.GetTotalTime(cp4InStr + "=" + cp4OutStr);
+		double timeTotal = timeTotal1;
+		if(timeTotal2 > timeTotal)
+			timeTotal = timeTotal2;
+		if(timeTotal3 > timeTotal)
+			timeTotal = timeTotal3;
+		if(timeTotal4 > timeTotal)
+			timeTotal = timeTotal4;
+		Console.WriteLine("total time: {0}", timeTotal);
+
+
+		//TODO: done this now because we come here with only 1 string filled and this does problems
+		if(timeTotal == 0) {
+			alignment1.SetSizeRequest(700, 300);
+			sizeChanged = true;
+			return;
+		}
+
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
-		
-		
+
 		erasePaint(drawingarea);
-		
+
 		//writeMarginsText(maxValue, minValue, alto);
-		
+
 		//check now here that we will have not division by zero problems
-		if(maxValue - minValue > 0) {
+		if(maxValue - minValue <= 0) 
+			return;
 
-			//blue time average discountinuos line	
-//			drawGuideOrAVG(pen_azul_discont, avgTime, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		paintMultiChronopic2 (ancho, cp1StartedIn, cp1InStr, cp1OutStr, timeTotal, 30,20);
+		paintMultiChronopic2 (ancho, cp2StartedIn, cp2InStr, cp2OutStr, timeTotal, 100,90);
+		paintMultiChronopic2 (ancho, cp3StartedIn, cp3InStr, cp3OutStr, timeTotal, 170,180);
 
-			//paint reference guide black and green if needed
-		//	drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		//	drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-
-			//blue time evolution	
-			string [] cp1_i = cp1InStr.Split(new char[] {'='});
-			string [] cp1_o = cp1OutStr.Split(new char[] {'='});
-			int count = 0;
-			double timeOld = 0;
-			double xOld = 0;
-			double myTimeDouble = 0;
-			
-			Console.WriteLine("cp1InStr:*{0}*, cp1OutStr:*{1}*", cp1InStr, cp1OutStr);
-
-			double timeTotal = Util.GetTotalTime(cp1InStr + "=" + cp1OutStr);
-
-			Console.WriteLine("total time: {0}", timeTotal);
-
-
-			//TODO: done this now because we come here with only 1 string filled and this does problems
-			if(timeTotal == 0)
-				return;
-
-			foreach (string myTime in cp1_i) {
-				if(cp1InStr.Length > 0) {
-					myTimeDouble = Convert.ToDouble(myTime);
-					if(myTimeDouble < 0)
-						myTimeDouble = 0;
-					double x = ancho * ( (timeOld + myTimeDouble) / timeTotal);
-Console.WriteLine("  IN: timestamp {0}, ancho {1}, x {2}, timeold{3}", timestamp, ancho, x, timeOld);
-
-						pixmap.DrawLine(pen_azul, //blue for time
-								Convert.ToInt32(xOld), 30,
-								Convert.ToInt32(x), 30);
-
-				/*
-				//paint Y lines
-				if(eventGraphConfigureWin.VerticalGrid) 
-					pixmap.DrawLine(pen_beige_discont, Convert.ToInt32((ancho - rightMargin) *(count+.5)/pulses), topMargin, Convert.ToInt32((ancho - rightMargin) *(count+.5)/pulses), alto-topMargin);
-					*/
-				
-				
-					timeOld = myTimeDouble;
-					xOld = x;
-				}
-
-				if(cp1OutStr.Length > 0 && cp1_o.Length > count) {
-					myTimeDouble = Convert.ToDouble(cp1_o[count]);
-					if(myTimeDouble < 0)
-						myTimeDouble = 0;
-					double x = ancho * ( (timeOld + myTimeDouble) / timeTotal);
-Console.WriteLine("  OUT: timestamp {0}, ancho {1}, x {2}, timeold{3}", timestamp, ancho, x, timeOld);
-
-						pixmap.DrawLine(pen_rojo, //blue for time
-								Convert.ToInt32(xOld), 20,
-								Convert.ToInt32(x), 20);
-
-
-					timeOld = myTimeDouble;
-					xOld = x;
-				}
-
-
-				count ++;
-			}
-		
-//			drawCircleAndWriteValue(pen_azul, myTimeDouble, --count, pulses, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
-
-		}
-	
-	/*	
-		label_pulse_now.Text = Util.TrimDecimals(lastTime.ToString(), pDN);
-		label_pulse_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
-		*/
-		
 		graphProgress = phasesGraph.DONE; 
+	}
+
+	private void paintMultiChronopic2 (int ancho, bool cpStartedIn, string cpInStr, string cpOutStr, double timeTotal, int h1, int h2) 
+	{
+		if(Util.GetTotalTime(cpInStr + "=" + cpOutStr) == 0) 
+			return;
+
+		int ticks;
+		int heightStart;
+		int heightEnd;
+		Gdk.GC penStart;
+		Gdk.GC penEnd;
+		string [] cpStart;
+		string [] cpEnd;
+		
+		if(cpStartedIn) {
+			cpStart = cpInStr.Split(new char[] {'='});
+			cpEnd =   cpOutStr.Split(new char[] {'='});
+			penStart = pen_rojo;
+			penEnd = pen_azul;
+			heightStart = h1;
+			heightEnd = h2;
+		}
+		else {
+			cpStart = cpOutStr.Split(new char[] {'='});
+			cpEnd =   cpInStr.Split(new char[] {'='});
+			penStart = pen_azul;
+			penEnd = pen_rojo;
+			heightStart = h2;
+			heightEnd = h1;
+		}
+		ticks = cpStart.Length;
+		double timeOld = 0;
+		double xOld = 0;
+
+		Console.WriteLine("\n(A) cpInStr:*{0}*, cpOutStr:*{1}*", cpInStr, cpOutStr);
+
+		/*
+		   int maxTcTfs = 10; if(cp1_i.Length > maxTcTfs) cp1_i = Util.DeleteFirstStrings(cp1_i, maxTcTfs); if(cp1_o.Length > maxTcTfs) cp1_o = Util.DeleteFirstStrings(cp1_o, maxTcTfs); cp1InStr = Util.StringArrayToString(cp1_i, "="); cp1OutStr = Util.StringArrayToString(cp1_o, "="); Console.WriteLine("(B) cp1InStr:*{0}*, cp1OutStr:*{1}*", cp1InStr, cp1OutStr);
+		   */
+
+		for(int i=0; i < ticks; i++) { 
+			if(cpStart.Length > i) {
+				double x = multiChronopicGetX(ancho, Convert.ToDouble(cpStart[i]), timeOld, timeTotal);
+				pixmap.DrawLine(penStart, Convert.ToInt32(xOld), heightStart, Convert.ToInt32(x), heightStart);
+				timeOld += Convert.ToDouble(cpStart[i]);
+				xOld = x;
+			}
+
+			if(cpEnd.Length > i) {
+				double x = multiChronopicGetX(ancho, Convert.ToDouble(cpEnd[i]), timeOld, timeTotal);
+				pixmap.DrawLine(penEnd, Convert.ToInt32(xOld), heightEnd, Convert.ToInt32(x), heightEnd);
+				timeOld += Convert.ToDouble(cpEnd[i]);
+				xOld = x;
+			}
+		}
 	}
 
 
@@ -1574,6 +1595,25 @@ Console.WriteLine("  OUT: timestamp {0}, ancho {1}, x {2}, timeold{3}", timestam
 	}
 	
 	
+	void on_button_zoom_clicked (object o, EventArgs args) {
+//drawingarea.Size(700,200);
+//event_execute.SetDefaultSize(700,200);
+//hbox_drawingarea.SetDefaultSize(700,200);
+//drawingarea.SetSizeRequest(700,200);
+sizeChanged = true;
+//drawingarea.ConfigureEvent;
+//drawingarea.ExposeEvent;
+/*
+Gtk.Object o = new Gtk.Object();
+ConfigureEventArgs args = new ConfigureEventArgs();
+on_drawingarea_configure_event(o, args);
+on_drawingarea_expose_event(o, args);
+*/
+//on_drawingarea_configure_event((Gtk.Object) drawingarea, new ConfigureEventArgs());
+//on_drawingarea_expose_event((Gtk.Object) drawingarea, new ExposeEventArgs());
+
+	}
+
 	
 	void on_button_properties_clicked (object o, EventArgs args) {
 		//now show the eventGraphConfigureWin

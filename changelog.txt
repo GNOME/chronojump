@@ -1,5 +1,10 @@
 CHANGELOG.txt
 
+31 mar 2009 (2)
+	multiChronopic shows graph real time for 4 chronopics, 
+	but still some little bugs to fix
+	multichronopic graph is bigger than others
+
 31 mar 2009
 	in execution graph put avgs as horizontal lines
 	and plot all tests of same type of same person

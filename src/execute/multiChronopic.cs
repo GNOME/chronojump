@@ -31,6 +31,7 @@ public class MultiChronopicExecute : EventExecute
 	private Chronopic cp;
 	string cp1InStr;
 	string cp1OutStr;
+	bool cp1StartedIn;
 
 	//2nd Chronopic stuff
 	protected Thread thread2;
@@ -39,6 +40,7 @@ public class MultiChronopicExecute : EventExecute
 	protected States loggedState2;
 	string cp2InStr;
 	string cp2OutStr;
+	bool cp2StartedIn;
 	
 	//3rd Chronopic stuff
 	protected Thread thread3;
@@ -47,6 +49,7 @@ public class MultiChronopicExecute : EventExecute
 	protected States loggedState3;
 	string cp3InStr;
 	string cp3OutStr;
+	bool cp3StartedIn;
 	
 	//4th Chronopic stuff
 	protected Thread thread4;
@@ -55,6 +58,7 @@ public class MultiChronopicExecute : EventExecute
 	protected States loggedState4;
 	string cp4InStr;
 	string cp4OutStr;
+	bool cp4StartedIn;
 	
 
 	static bool firstValue = true;
@@ -162,17 +166,21 @@ public class MultiChronopicExecute : EventExecute
 		
 			if (platformState==Chronopic.Plataforma.ON) {
 				loggedState = States.ON;
+				cp1StartedIn = true;
 			} else {
 				loggedState = States.OFF;
+				cp1StartedIn = false;
 			}
 		
 			if(chronopics > 1) {
 				platformState2 = chronopicInitialValue(cp2);
-		
+
 				if (platformState2==Chronopic.Plataforma.ON) {
 					loggedState2 = States.ON;
+					cp2StartedIn = true;
 				} else {
 					loggedState2 = States.OFF;
+					cp2StartedIn = false;
 				}
 
 				if(chronopics > 2) {
@@ -180,8 +188,10 @@ public class MultiChronopicExecute : EventExecute
 
 					if (platformState3==Chronopic.Plataforma.ON) {
 						loggedState3 = States.ON;
+						cp3StartedIn = true;
 					} else {
 						loggedState3 = States.OFF;
+						cp3StartedIn = false;
 					}
 
 					if(chronopics > 3) {
@@ -189,8 +199,10 @@ public class MultiChronopicExecute : EventExecute
 
 						if (platformState4==Chronopic.Plataforma.ON) {
 							loggedState4 = States.ON;
+							cp4StartedIn = true;
 						} else {
 							loggedState4 = States.OFF;
+							cp4StartedIn = false;
 						}
 					}
 				}
@@ -278,7 +290,8 @@ public class MultiChronopicExecute : EventExecute
 							inEqual = "="; 
 						}
 
-						prepareEventGraphMultiChronopic = new PrepareEventGraphMultiChronopic(timestamp/1000.0,
+						prepareEventGraphMultiChronopic = new PrepareEventGraphMultiChronopic(timestamp/1000.0, 
+								cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn,
 								cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr);
 						needUpdateGraphType = eventType.MULTICHRONOPIC;
 						needUpdateGraph = true;

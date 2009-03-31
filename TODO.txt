@@ -1,5 +1,10 @@
 TODO: 
 
+mirar fallo al tancar finestra executar fent click a X
+abans o després de cancelar
+i mirar la minifinestra que surt (de d'acord) que es pugui tancar també amb la X
+look also chrash on exiting thread is still open when 2 chronopics are used
+
 Add Cabedo's tests
 
 add a link to the server page. Develop web stats and survey on web site. Maybe

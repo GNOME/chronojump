@@ -377,6 +377,10 @@ public class EventExecute
 				Log.Write("update graph: MULTICHRONOPIC");
 				eventExecuteWin.PrepareMultiChronopicGraph(
 						prepareEventGraphMultiChronopic.timestamp, 
+						prepareEventGraphMultiChronopic.cp1StartedIn, 
+						prepareEventGraphMultiChronopic.cp2StartedIn, 
+						prepareEventGraphMultiChronopic.cp3StartedIn, 
+						prepareEventGraphMultiChronopic.cp4StartedIn, 
 						prepareEventGraphMultiChronopic.cp1InStr, 
 						prepareEventGraphMultiChronopic.cp1OutStr,
 						prepareEventGraphMultiChronopic.cp2InStr, 

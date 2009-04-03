@@ -61,7 +61,7 @@ public class MultiChronopicExecute : EventExecute
 	bool cp4StartedIn;
 	
 
-	static bool firstValue = true;
+	static bool firstValue;
 	int chronopics; 
 	
 	public MultiChronopicExecute() {
@@ -208,6 +208,8 @@ public class MultiChronopicExecute : EventExecute
 				}
 			}
 		}
+
+		firstValue = true;
 
 		//start thread
 		if(chronopics > 0) {

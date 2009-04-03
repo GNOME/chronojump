@@ -1444,7 +1444,7 @@ public class ChronoJumpWindow
 
 	//private void fillTreeView_reaction_times (string filter) {
 	private void fillTreeView_reaction_times () {
-		string [] myRTs = SqliteReactionTime.SelectAllReactionTimes(currentSession.UniqueID, -1);
+		string [] myRTs = SqliteReactionTime.SelectReactionTimes(currentSession.UniqueID, -1);
 		myTreeViewReactionTimes.Fill(myRTs, "");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
@@ -1507,7 +1507,7 @@ public class ChronoJumpWindow
 	}
 
 	private void fillTreeView_pulses (string filter) {
-		string [] myPulses = SqlitePulse.SelectAllPulses(currentSession.UniqueID, -1);
+		string [] myPulses = SqlitePulse.SelectPulses(currentSession.UniqueID, -1);
 		myTreeViewPulses.Fill(myPulses, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewPulses, treeview_pulses);
 	}

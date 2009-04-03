@@ -82,7 +82,7 @@ class SqlitePulse : Sqlite
 	
 
 	//if all persons, put -1 in personID
-	public static string[] SelectAllPulses(int sessionID, int personID) 
+	public static string[] SelectPulses(int sessionID, int personID) 
 	{
 		string filterPersonString = "";
 		if(personID != -1)

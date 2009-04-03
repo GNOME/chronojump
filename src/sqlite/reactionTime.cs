@@ -79,7 +79,7 @@ class SqliteReactionTime : Sqlite
 	}
 
 	//if all persons, put -1 in personID
-	public static string[] SelectAllReactionTimes(int sessionID, int personID) 
+	public static string[] SelectReactionTimes(int sessionID, int personID) 
 	{
 		string filterPersonString = "";
 		if(personID != -1)

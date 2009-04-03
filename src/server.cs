@@ -421,7 +421,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] rts = SqliteReactionTime.SelectAllReactionTimes(currentSession.UniqueID, person.UniqueID);
+				string [] rts = SqliteReactionTime.SelectReactionTimes(currentSession.UniqueID, person.UniqueID);
 				foreach(string myRt in rts) {
 					string [] js = myRt.Split(new char[] {':'});
 					//select rt
@@ -450,7 +450,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] pulses = SqlitePulse.SelectAllPulses(currentSession.UniqueID, person.UniqueID);
+				string [] pulses = SqlitePulse.SelectPulses(currentSession.UniqueID, person.UniqueID);
 				foreach(string myPulse in pulses) {
 					string [] js = myPulse.Split(new char[] {':'});
 					//select pulse

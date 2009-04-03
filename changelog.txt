@@ -1,5 +1,9 @@
 CHANGELOG.txt
 
+3 apr 2009
+	eventExecute graphs bars done for simple events: jump simple, run, reaction time
+	main window shows in task bar again
+
 31 mar 2009 (2)
 	multiChronopic shows graph real time for 4 chronopics, 
 	but still some little bugs to fix

@@ -1,5 +1,8 @@
 TODO: 
 
+fix graph problems on multichronopic (also when there's only a chronopic)
+
+
 mirar fallo al tancar finestra executar fent click a X
 abans o després de cancelar
 i mirar la minifinestra que surt (de d'acord) que es pugui tancar també amb la X
@@ -20,10 +23,6 @@ do the ping gets real IP
 put thread in other server situations:
 -upload evaluator
 -upload session
-
-do the graph of last jump plot values of jumps before
-(maybe show last jumps of this kind on different people, and the avg of this
-user and all users (this two in different color))
 
 http://en.csharp-online.net/ASP.NET_Security_Hacks¿Avoiding_SQL_Injection
 http://ferruh.mavituna.com/sql-injection-cheatsheet-oku/
@@ -47,11 +46,6 @@ then write something in a file, and another program restarts server
 fo it as to chrons. Record some stat data in another file
 just to know how xsp2 is working
 
-in execution graph put avgs as horizontal lines
-and plot all tests of same type of same person
-jump done, need run and reactionTime (maybe also pulse)
-
-eventExecure reactionTimeGraph doesn't plot now because uses paintJumpSimple that has changed
 
 count time(s)  cp change diff same cp diff all cp
 1          10   1     IN           10          10
@@ -76,23 +70,6 @@ count time(s)  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3
 6          60   IN           40           50
 7          65       IN           40           50
 8          70           IN           40           50
-
-doing gui/eventExecute multiChronopic
--do 4 horiz lines that go from left to right
--this 4 lines are updated at every change
--all has to fit in the width of the graph (if impossible, double de width)
--lines are like quadrated waves, are up (if person is out) and down if person
-is at platform)
--each line has a color
-eg:
- cp1:  ----
-           ------
-
- cp2:        -----
-       ------
-
- cp3:      -----  
-       ----     -
 
 
 merge databases

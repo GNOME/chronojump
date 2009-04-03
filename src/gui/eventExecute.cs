@@ -458,6 +458,7 @@ public class EventExecuteWindow
 		label_time_value.Text = "";
 	}
 
+	bool sizeChanged;
 	public void on_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
 		Gdk.EventConfigure ev = args.Event;
@@ -475,7 +476,7 @@ public class EventExecuteWindow
 			sizeChanged = false;
 		}
 	}
-	bool sizeChanged;
+	
 	public void on_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
@@ -491,9 +492,6 @@ public class EventExecuteWindow
 			sizeChanged = false;
 		}
 
-		Console.WriteLine("---------EXPOSE!!!!!--------");
-
-			
 		Gdk.Rectangle area = args.Event.Area;
 
 		//sometimes this is called when pait is finished
@@ -504,7 +502,6 @@ public class EventExecuteWindow
 				area.X, area.Y,
 				area.X, area.Y,
 				area.Width, area.Height);
-//drawingarea.Show();
 		}
 		
 	}
@@ -684,6 +681,8 @@ public class EventExecuteWindow
 			paintTime = true;
 		
 		//obtain data
+		string [] runs = SqliteRun.SelectRuns(sessionID, personID, eventType);
+
 		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, personID, tableName, eventType, "time");
 		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, -1, tableName, eventType, "time");
 
@@ -703,23 +702,49 @@ public class EventExecuteWindow
 		int bottomMargin = 10; 
 
 		//if max value of graph is automatic
-		if(eventGraphConfigureWin.Max == -1) 
-			if(paintTime)
+		if(eventGraphConfigureWin.Max == -1) {
+			if(paintTime) {
 				maxValue = Util.GetMax(time.ToString() + "=" + timePersonAVG.ToString() + "=" + timeSessionAVG.ToString());
-			else						//paint speed
+				foreach(string myStr in runs) {
+					string [] run = myStr.Split(new char[] {':'});
+					if(Convert.ToDouble(run[6]) > maxValue)
+						maxValue = Convert.ToDouble(run[6]); 
+				}
+			}
+			else {						//paint speed
 				maxValue = Util.GetMax(speed.ToString() + "=" + speedPersonAVG.ToString() + "=" + speedSessionAVG.ToString());
-		else {
+				foreach(string myStr in runs) {
+					string [] run = myStr.Split(new char[] {':'});
+					double mySpeed = Convert.ToDouble(Util.GetSpeed(run[5], run[6], true));
+					if(mySpeed > maxValue)
+						maxValue = mySpeed;
+				}
+			}
+		} else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;
 		}
 			
 		//if min value of graph is automatic
-		if(eventGraphConfigureWin.Min == -1) 
-			if(paintTime)
+		if(eventGraphConfigureWin.Min == -1) {
+			if(paintTime) {
 				minValue = Util.GetMin(time.ToString() + "=" + timePersonAVG.ToString() + "=" + timeSessionAVG.ToString());
-			else
+				foreach(string myStr in runs) {
+					string [] run = myStr.Split(new char[] {':'});
+					if(Convert.ToDouble(run[6]) < minValue)
+						minValue = Convert.ToDouble(run[6]); 
+				}
+			}
+			else {
 				minValue = Util.GetMin(speed.ToString() + "=" + speedPersonAVG.ToString() + "=" + speedSessionAVG.ToString());
-		else {
+				foreach(string myStr in runs) {
+					string [] run = myStr.Split(new char[] {':'});
+					double mySpeed = Convert.ToDouble(Util.GetSpeed(run[5], run[6], true));
+					if(mySpeed < minValue)
+						minValue = mySpeed;
+				}
+			}
+		} else {
 			minValue = eventGraphConfigureWin.Min;
 			bottomMargin = 0;
 		}
@@ -727,9 +752,9 @@ public class EventExecuteWindow
 		
 		//paint graph
 		if(paintTime)
-			paintRunSimple (drawingarea, pen_rojo, time, timePersonAVG, timeSessionAVG, maxValue, minValue, topMargin, bottomMargin);
+			paintRunSimple (drawingarea, pen_rojo, runs, time, timePersonAVG, timeSessionAVG, maxValue, minValue, topMargin, bottomMargin);
 		else						//paint speed
-			paintRunSimple (drawingarea, pen_azul, speed, speedPersonAVG, speedSessionAVG, maxValue, minValue, topMargin, bottomMargin);
+			paintRunSimple (drawingarea, pen_azul, runs, speed, speedPersonAVG, speedSessionAVG, maxValue, minValue, topMargin, bottomMargin);
 		
 		//printLabels
 		printLabelsRunSimple (time, timePersonAVG, timeSessionAVG, speed, speedPersonAVG, speedSessionAVG);
@@ -848,6 +873,8 @@ public class EventExecuteWindow
 
 		
 		//obtain data
+		string [] rts = SqliteReactionTime.SelectReactionTimes(sessionID, personID);
+
 		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, personID, tableName, eventType, "time");
 		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(sessionID, -1, tableName, eventType, "time");
 
@@ -877,6 +904,7 @@ public class EventExecuteWindow
 		//paint graph (use simple jump method)
 		//TODO: fix this, paintJumpSimple changed
 		//paintJumpSimple (drawingarea, time, timePersonAVG, timeSessionAVG, 0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
+		paintJumpSimple (drawingarea, rts, time, timePersonAVG, timeSessionAVG, 0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
 
 		printLabelsReactionTime (time, timePersonAVG, timeSessionAVG);
 		
@@ -900,11 +928,6 @@ public class EventExecuteWindow
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) 
 			maxValue = timestamp; //TODO: delete this, is not used here
-			/*
-			maxValue = Util.GetMax(
-					cp1InString + "=" + cp1OutStr + "=" + cp2InString + "=" + cp2OutStr + "=" +
-					cp3InString + "=" + cp3OutStr + "=" + cp4InString + "=" + cp4OutStr);
-					*/
 		else {
 			maxValue = eventGraphConfigureWin.Max; //TODO
 			topMargin = 0;
@@ -916,11 +939,6 @@ public class EventExecuteWindow
 		//if min value of graph is automatic
 		if(eventGraphConfigureWin.Min == -1) 
 			minValue = 0;
-		/*
-			minValue = Util.GetMin(
-					cp1InString + "=" + cp1OutStr + "=" + cp2InString + "=" + cp2OutStr + "=" +
-					cp3InString + "=" + cp3OutStr + "=" + cp4InString + "=" + cp4OutStr);
-					*/
 		else {
 			minValue = eventGraphConfigureWin.Min; //TODO
 			bottomMargin = 0;
@@ -983,22 +1001,32 @@ public class EventExecuteWindow
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
-		
 		erasePaint(drawingarea);
-		
 		writeMarginsText(maxValue, minValue, alto);
 		
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) {
+			//calculate separation between series and bar width
+			int tctfSep = 0; //separation between tc and tf
+			int distanceBetweenCols = Convert.ToInt32((ancho-rightMargin)*(1+.5)/jumps.Length) -
+					Convert.ToInt32((ancho-rightMargin)*(0+.5)/jumps.Length);
+			if(tcNow > 0)
+				tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
+			int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
+			int barDesplLeft = Convert.ToInt32(.5*barWidth);
+
 			//red for TC
 			if(tcNow > 0) {
 				int count = 0;
 				foreach(string myStr in jumps) {
 					string [] jump = myStr.Split(new char[] {':'});
-					pixmap.DrawLine(pen_rojo, 
-							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length), alto, 
-							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length), 
-							calculatePaintHeight(Convert.ToDouble(jump[6]), alto, maxValue, minValue, topMargin, bottomMargin));
+					Rectangle rect = new Rectangle(
+							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length)-barDesplLeft, 
+							calculatePaintHeight(Convert.ToDouble(jump[6]), alto, maxValue, minValue, 
+								topMargin, bottomMargin),
+							barWidth, alto
+							);
+					pixmap.DrawRectangle(pen_rojo, true, rect);
 					count ++;
 				}
 				
@@ -1010,47 +1038,31 @@ public class EventExecuteWindow
 			//blue for TF
 			//check it's not a take off
 			if(tvNow > 0) {
-				int tctfSep; //separation between tc and tf
-				if(tcNow == 0)
-					tctfSep = 0;
-				else {
-					int distanceBetweenCols = Convert.ToInt32((ancho-rightMargin)*(1+.5)/jumps.Length) -
-						Convert.ToInt32((ancho-rightMargin)*(0+.5)/jumps.Length);
-					tctfSep = Convert.ToInt32(.3*distanceBetweenCols);
-				}
 				int count = 0;
 				foreach(string myStr in jumps) {
 					string [] jump = myStr.Split(new char[] {':'});
-					pixmap.DrawLine(pen_azul, 
-							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length) + tctfSep, alto, 
-							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length) + tctfSep, 
-							calculatePaintHeight(Convert.ToDouble(jump[5]), alto, maxValue, minValue, topMargin, bottomMargin));
+					//jump[5] is ok fo jump.tv and for reactionTime.time
+					Rectangle rect = new Rectangle(
+							Convert.ToInt32((ancho-rightMargin)*(count+.5)/jumps.Length)-barDesplLeft +tctfSep, 
+							calculatePaintHeight(Convert.ToDouble(jump[5]), alto, maxValue, minValue, 
+								topMargin, bottomMargin),
+							barWidth, alto
+							);
+					pixmap.DrawRectangle(pen_azul, true, rect);
 					count ++;
 				}
 				
 				//blue tf average discountinuos line	
 				drawGuideOrAVG(pen_azul, 	tvPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 				drawGuideOrAVG(pen_azul_discont, tvSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		
+				//write "last" to show last jump
+				layout.SetMarkup(Catalog.GetString("Last"));
+				pixmap.DrawLayout (pen_gris, 
+						Convert.ToInt32((ancho-rightMargin)*(count-.5)/jumps.Length)-barDesplLeft + tctfSep, 
+						0, layout);
 			}
 			
-			/*
-			//circles
-			if(eventGraphConfigureWin.PaintCircle) {
-				if(tcNow > 0) {
-					pixmap.DrawArc(pen_rojo, true, ancho*1/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(tcNow, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-					pixmap.DrawArc(pen_rojo, true, ancho*3/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(tcPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-					pixmap.DrawArc(pen_rojo, true, ancho*5/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(tcSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				}
-				//check it's not a take off
-				if(tvNow > 0) {
-					pixmap.DrawArc(pen_azul, true, ancho*1/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvNow, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-					pixmap.DrawArc(pen_azul, true, ancho*3/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvPerson, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-					pixmap.DrawArc(pen_azul, true, ancho*5/6 +10 - radio/2 + arcSystemCorrection, calculatePaintHeight(tvSession, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				}
-			}
-		*/	
-			
-	
 			//paint reference guide black and green if needed
 			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1059,39 +1071,58 @@ public class EventExecuteWindow
 		graphProgress = phasesGraph.DONE; 
 	}
 
-	private void paintRunSimple (Gtk.DrawingArea drawingarea, Gdk.GC myPen, double now, double person, double session,
+	private void paintRunSimple (Gtk.DrawingArea drawingarea, Gdk.GC myPen, string [] runs, 
+			double now, double person, double session,
 			double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
-		
 		erasePaint(drawingarea);
-		
 		writeMarginsText(maxValue, minValue, alto);
 		
 		//check now here that we will have not division by zero problems
 		if(maxValue - minValue > 0) {
-			pixmap.DrawLine(myPen, ancho*1/6 , alto, ancho*1/6 , calculatePaintHeight(now, alto, maxValue, minValue, topMargin, bottomMargin));
-			pixmap.DrawLine(myPen, ancho*3/6 , alto, ancho*3/6 , calculatePaintHeight(person, alto, maxValue, minValue, topMargin, bottomMargin));
-			pixmap.DrawLine(myPen, ancho*5/6 , alto, ancho*5/6 , calculatePaintHeight(session, alto, maxValue, minValue, topMargin, bottomMargin));
+			//calculate bar width
+			int distanceBetweenCols = Convert.ToInt32((ancho-rightMargin)*(1+.5)/runs.Length) -
+					Convert.ToInt32((ancho-rightMargin)*(0+.5)/runs.Length);
+			int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
+			int barDesplLeft = Convert.ToInt32(.5*barWidth);
 
-
-			if(eventGraphConfigureWin.PaintCircle) {
-				pixmap.DrawArc(myPen, true, ancho*1/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(now, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				pixmap.DrawArc(myPen, true, ancho*3/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(person, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-				pixmap.DrawArc(myPen, true, ancho*5/6 - radio/2 + arcSystemCorrection, calculatePaintHeight(session, alto, maxValue, minValue, topMargin, bottomMargin) -radio/2, radio , radio, 0, 360*64);
-			}	
+			//blue for TF
+			if(now > 0) {
+				int count = 0;
+				foreach(string myStr in runs) {
+					string [] run = myStr.Split(new char[] {':'});
+					Rectangle rect = new Rectangle(
+							Convert.ToInt32((ancho-rightMargin)*(count+.5)/runs.Length)-barDesplLeft, 
+							calculatePaintHeight(Convert.ToDouble(run[6]), alto, maxValue, minValue, 
+								topMargin, bottomMargin),
+							barWidth, alto
+							);
+					//TODO: do speed related
+					pixmap.DrawRectangle(pen_azul, true, rect);
+					count ++;
+				}
+				
+				//blue tf average discountinuos line	
+				drawGuideOrAVG(pen_azul, 	person, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+				drawGuideOrAVG(pen_azul_discont, session, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		
+				//write "last" to show last jump
+				layout.SetMarkup(Catalog.GetString("Last"));
+				pixmap.DrawLayout (pen_gris, 
+						Convert.ToInt32((ancho-rightMargin)*(count-.5)/runs.Length)-barDesplLeft, 
+						0, layout);
+			}
 			
-	
 			//paint reference guide black and green if needed
 			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		}
 		
-	
-		
 		graphProgress = phasesGraph.DONE; 
+
 	}
 
 	
@@ -1429,7 +1460,10 @@ public class EventExecuteWindow
 	double multiChronopicGetX(int ancho, double time, double timeOld, double timeTotal) {
 		if(time < 0)
 			time = 0;
-		//Console.WriteLine("   timestamp {0}, ancho {1}, x {2}, timeold{3}, xOld{4}", timestamp, ancho, Util.TrimDecimals(x,1), timeOld, Util.TrimDecimals(xOld,1));
+
+		//Console.WriteLine("   timestamp {0}, ancho {1}, x {2}, timeold{3}, xOld{4}", 
+		//timestamp, ancho, Util.TrimDecimals(x,1), timeOld, Util.TrimDecimals(xOld,1));
+
 		return ( ancho * ( (timeOld + time) / timeTotal) ) -rightMargin;
 	}
 
@@ -1594,26 +1628,6 @@ public class EventExecuteWindow
 		eventHasEnded = true;
 	}
 	
-	
-	void on_button_zoom_clicked (object o, EventArgs args) {
-//drawingarea.Size(700,200);
-//event_execute.SetDefaultSize(700,200);
-//hbox_drawingarea.SetDefaultSize(700,200);
-//drawingarea.SetSizeRequest(700,200);
-sizeChanged = true;
-//drawingarea.ConfigureEvent;
-//drawingarea.ExposeEvent;
-/*
-Gtk.Object o = new Gtk.Object();
-ConfigureEventArgs args = new ConfigureEventArgs();
-on_drawingarea_configure_event(o, args);
-on_drawingarea_expose_event(o, args);
-*/
-//on_drawingarea_configure_event((Gtk.Object) drawingarea, new ConfigureEventArgs());
-//on_drawingarea_expose_event((Gtk.Object) drawingarea, new ExposeEventArgs());
-
-	}
-
 	
 	void on_button_properties_clicked (object o, EventArgs args) {
 		//now show the eventGraphConfigureWin

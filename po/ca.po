@@ -2712,7 +2712,7 @@ msgstr "Si heu fet servir el mòdem pel port serie abans (a la mateixa sessió d
 #: ../src/gui/chronojump.cs:628
 #, csharp-format
 msgid "<b>Connected</b> to Chronopic on port: {0}"
-msgstr "<BConnectat</b> al Chronopic pel port: {0}"
+msgstr "<b>Connectat</b> al Chronopic pel port: {0}"
 
 #: ../src/gui/chronojump.cs:632
 msgid "Problems communicating to chronopic, changed platform to 'Simulated'"

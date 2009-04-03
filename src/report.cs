@@ -125,10 +125,10 @@ public class Report : ExportSession
 			myRunsInterval = SqliteRunInterval.SelectRuns(sessionID, -1);
 		}
 		if(ShowReactionTimes) {
-			myReactionTimes= SqliteReactionTime.SelectAllReactionTimes(sessionID, -1);
+			myReactionTimes= SqliteReactionTime.SelectReactionTimes(sessionID, -1);
 		}
 		if(ShowPulses) {
-			myPulses= SqlitePulse.SelectAllPulses(sessionID, -1);
+			myPulses= SqlitePulse.SelectPulses(sessionID, -1);
 		}
 	}
 	

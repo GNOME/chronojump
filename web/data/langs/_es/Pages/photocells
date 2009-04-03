@@ -3,12 +3,20 @@ Fotocélulas
 :::endTitle:::
 
 <ol>
+<li>Nuevo! Conexión de fotocélula Velleman PEM10D al Chronopic
 <li>Creación de una barrera de infrarrojos
 <li>Fotocélulas disponibles en el mercado
 <li>Aportar información
 </ol>
 
-<h5>1.- Creación de una barrera de infrarrojos (Juan Fernando Pardo)</h5>
+<h5>1.- Nuevo! Conexión de fotocélula Velleman PEM10D al Chronopic
+
+<img src=":::imageLink:::/velleman_connecting5_small.jpg">
+
+<br>
+Lea <a href="photocells_velleman_es.html">Conexión de fotocélula Velleman PEM10D al Chronopic</a>
+
+<h5>2.- Creación de una barrera de infrarrojos (Juan Fernando Pardo)</h5>
 
 Esquema de barreras infrarrojas: <a href=":::webLink:::/barreras-sch-color.pdf">Barreras Infrarojas Chronojump</a>.
 <br><br>
@@ -95,7 +103,7 @@ Después extraer el led y la resistencia y tratár de conectarla al Chronopic.
 Agradecimientos a Juan Fernando Pardo por su aportación en este apartado.
 
 
-<h5>2.- Fotocélulas disponibles en el mercado (Josep Ma Padullés)</h5>
+<h5>3.- Fotocélulas disponibles en el mercado (Josep Ma Padullés)</h5>
 
 
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -108,7 +116,8 @@ Agradecimientos a Juan Fernando Pardo por su aportación en este apartado.
 
 Agradecimientos a JMa Padullés por su aportación en este apartado.
 
-<h5>3.- Aportar información</h5>
+<!--
+<h5>4.- Aportar información</h5>
 
 Este apartado requiere de su colaboración, si quiere añadir o modificar cualquier información, escriba <a href="contact_es.html">a la lista de desarrolladores: chronojump-devel</a>, o escriba un correo a la dirección que se ve en esta imagen: <img align="top" src=":::imageLink:::/xaviblas-correo.png">
-
+-->

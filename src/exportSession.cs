@@ -167,8 +167,8 @@ public class ExportSession
 		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "");
 		myRuns= SqliteRun.SelectRuns(mySession.UniqueID, -1, "");
 		myRunsInterval = SqliteRunInterval.SelectRuns(mySession.UniqueID, -1);
-		myReactionTimes = SqliteReactionTime.SelectAllReactionTimes(mySession.UniqueID, -1);
-		myPulses = SqlitePulse.SelectAllPulses(mySession.UniqueID, -1);
+		myReactionTimes = SqliteReactionTime.SelectReactionTimes(mySession.UniqueID, -1);
+		myPulses = SqlitePulse.SelectPulses(mySession.UniqueID, -1);
 	}
 
 	protected virtual void printTitles(string title) {

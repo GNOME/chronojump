@@ -1,5 +1,12 @@
 CHANGELOG.txt
 
+15 apr 2009 (2)
+	-On Linux possible ports are displayed on chronopic connection
+	-DetectPorts in chronojump_mini (linux) now better formatting
+	
+	-Finish button is bigger (50px minimum)
+	-Changed infrared icon (put velleman)
+
 15 apr 2009
 	Important: created new firmware (unvalidated yet) with 10ms of minimal detected
 	time. We created first the 50ms because chronopic is focussed on jumps

@@ -882,6 +882,15 @@ public class Util
 		}
 		return uniqueString;
 	}
+	
+	//to create an string [] of one member
+	public static string [] StringToStringArray (string str) {
+		string [] ret = new string[1];
+		ret[0] = str;
+		return ret;
+	}
+
+
 
 	public static bool IntToBool (int myInt) {
 		if(myInt == 1)
@@ -962,9 +971,11 @@ public class Util
 	
 	public static string DetectPortsLinux(bool formatting) {
 		string startStr = "";
+		string midStr = "\n";
 		string endStr = "";
 		if(formatting) {
 			startStr = "<i>";
+			midStr = "\t";
 			endStr = "</i>";
 		}
 		string detected = "";
@@ -972,14 +983,14 @@ public class Util
 		if(usbSerial.Length > 0) {
 			detected += "\n" + Constants.FoundUSBSerialPortsString + " " + usbSerial.Length + "\n" + startStr;
 			foreach(string myPort in usbSerial)
-				detected += "\t" + myPort;
+				detected += midStr + myPort;
 			detected += endStr;
 		} else {
 			detected += Constants.NotFoundUSBSerialPortsString + "\n";
 			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
 			detected += Constants.FoundSerialPortsString + " " + serial.Length + "\n" + startStr;
 			foreach(string myPort in serial)
-				detected += "\t" + myPort;
+				detected += midStr + myPort;
 			detected += endStr;
 		}
 		return detected;

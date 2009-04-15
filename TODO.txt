@@ -1,5 +1,7 @@
 TODO: 
 
+clarify on new/edit user what needs to be completed to show accept button (show icons of attention)
+
 new multichronopic tests:
 - padu runAnalysis (2cp)
 - discrimitative reaction time with two lights and two fotocells (or platforms)
@@ -7,8 +9,6 @@ new multichronopic tests:
 better with only two chronopics, if evaluator push cp1, light1 gets on and person has tocross fotocell1 (or platform). Then with two we have all.
 we can also have three or four to have more discriminative
 
-finish button bigger
-change infrared icon (put velleman)
 see flickering on dj eventExecute graphs
 
 fix graph problems on multichronopic (also when there's only a chronopic)
@@ -49,8 +49,6 @@ Add longDescription on margaria
 
 intersession stats only have to show one max or avg, not n max or all jumps
 stats all and limit is not updating the treeview stats. 
-
-us Util.DetectPortsLinux in gui/help ports
 
 create a server mini program that tries to do a ping and if it fails, 
 then write something in a file, and another program restarts server

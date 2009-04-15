@@ -960,21 +960,27 @@ public class Util
 	}
 */
 	
-	public static string DetectPortsLinux() {
+	public static string DetectPortsLinux(bool formatting) {
+		string startStr = "";
+		string endStr = "";
+		if(formatting) {
+			startStr = "<i>";
+			endStr = "</i>";
+		}
 		string detected = "";
 		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
 		if(usbSerial.Length > 0) {
-			detected += "\n" + Constants.FoundUSBSerialPortsString + " " + usbSerial.Length + "\n<i>";
+			detected += "\n" + Constants.FoundUSBSerialPortsString + " " + usbSerial.Length + "\n" + startStr;
 			foreach(string myPort in usbSerial)
 				detected += "\t" + myPort;
-			detected += "</i>";
+			detected += endStr;
 		} else {
 			detected += Constants.NotFoundUSBSerialPortsString + "\n";
 			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
-			detected += Constants.FoundSerialPortsString + " " + serial.Length + "\n<i>";
+			detected += Constants.FoundSerialPortsString + " " + serial.Length + "\n" + startStr;
 			foreach(string myPort in serial)
 				detected += "\t" + myPort;
-			detected += "</i>";
+			detected += endStr;
 		}
 		return detected;
 	}

@@ -16,7 +16,7 @@ h-2;<a href=":::imageLink:::/Chronopic_v3.0.jpg"><img src=":::imageLink:::/Chron
 h-3;<a href=":::imageLink:::/Chronopic_v3.0_PCB.jpg"><img src=":::imageLink:::/Chronopic_v3.0_PCB_small.jpg" width="250" height="238"></a>
 h-4;<a href=":::webLink:::/chronopic_2_0_usb_front.jpg"><img src="chronopic_2_0_usb_front_mini.jpg"></a>
 h-5;<a href=":::imageLink:::/chronopic_foto.jpg"><img src=":::imageLink:::/chronopic_foto_small.png" width="250" height="188"></a>
-h-10;<a href=":::imageLink:::/modular_platform_with_chronopic.jpg"><img src=":::imageLink:::/modular_platform_with_chronopic_mini.jpg" width="250" height="188"></a>
+h-10;<a href=":::imageLink:::/modular_platform_with_chronopic.jpg"><img src=":::imageLink:::/modular_platform_with_chronopic_mini.jpg" width="250" height="150"></a>
 h-6;<a href=":::imageLink:::/plataforma_contactos_final.jpg"><img src=":::imageLink:::/plataforma_contactos_final_small.png" width="250" height="188"></a>
 c-1;<a href=":::imageLink:::/adria1.jpg"><img src=":::imageLink:::/adria1_small.jpg" width="125" height="94"></a>
 c-2;<a href=":::imageLink:::/adria2.jpg"><img src=":::imageLink:::/adria2_small.jpg" width="125" height="94"></a>

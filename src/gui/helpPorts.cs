@@ -64,7 +64,7 @@ public class HelpPorts
 			messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled"));
 		} else {
 			messageInfo = Constants.PortNamesLinux;
-			messageDetected = Util.DetectPortsLinux();
+			messageDetected = Util.DetectPortsLinux(true); //formatting
 			button_check_port.Hide();
 			button_force_port.Hide();
 		}

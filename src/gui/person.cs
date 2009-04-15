@@ -618,6 +618,13 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Box hbox_combo_countries;
 	[Widget] Gtk.ComboBox combo_continents;
 	[Widget] Gtk.ComboBox combo_countries;
+	
+	[Widget] Gtk.Image image_name;
+	[Widget] Gtk.Image image_date;
+	[Widget] Gtk.Image image_weight;
+	[Widget] Gtk.Image image_sport;
+	[Widget] Gtk.Image image_speciallity;
+	[Widget] Gtk.Image image_level;
 
 	[Widget] Gtk.Button button_accept;
 	
@@ -698,22 +705,60 @@ public class PersonAddModifyWindow
 	
 	void on_entries_required_changed (object o, EventArgs args)
 	{
-		if(entry1.Text.ToString().Length > 0 && (int) spinbutton_weight.Value > 0 &&
-				dateTime != DateTime.MinValue &&
-				UtilGtk.ComboGetActive(combo_sports) != Catalog.GetString(Constants.SportUndefined) &&
-				(! label_speciallity.Visible || UtilGtk.ComboGetActive(combo_speciallities) != Catalog.GetString(Constants.SpeciallityUndefined)) &&
-				Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) != Constants.LevelUndefinedID 
-				//countries is not required to create a person here, but will be required for server
-				//&& 
-				//UtilGtk.ComboGetActive(combo_continents) != Catalog.GetString(Constants.ContinentUndefined) &&
-				//UtilGtk.ComboGetActive(combo_countries) != Catalog.GetString(Constants.CountryUndefined)
-				) 
-		{
-			button_accept.Sensitive = true;
-		}
+		bool allOk = true;
+		
+		if(entry1.Text.ToString().Length > 0)
+			image_name.Hide();
 		else {
-			button_accept.Sensitive = false;
+			image_name.Show();
+			allOk = false;
 		}
+
+		if((int) spinbutton_weight.Value > 0)
+			image_weight.Hide();
+		else {
+			image_weight.Show();
+			allOk = false;
+		}
+				
+		if(dateTime != DateTime.MinValue)
+			image_date.Hide();
+		else {
+			image_date.Show();
+			allOk = false;
+		}
+
+		if(UtilGtk.ComboGetActive(combo_sports) != Catalog.GetString(Constants.SportUndefined))
+			image_sport.Hide();
+		else {
+			image_sport.Show();
+			allOk = false;
+		}
+
+		if (! label_speciallity.Visible || 
+				UtilGtk.ComboGetActive(combo_speciallities) != Catalog.GetString(Constants.SpeciallityUndefined))
+			image_speciallity.Hide();
+		else {
+			image_speciallity.Show();
+			allOk = false;
+		}
+				
+		if(Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) != Constants.LevelUndefinedID)
+			image_level.Hide();
+		else {
+			image_level.Show();
+			allOk = false;
+		}
+				
+		//countries is not required to create a person here, but will be required for server
+		//&& 
+		//UtilGtk.ComboGetActive(combo_continents) != Catalog.GetString(Constants.ContinentUndefined) &&
+		//UtilGtk.ComboGetActive(combo_countries) != Catalog.GetString(Constants.CountryUndefined)
+			
+		if(allOk)
+			button_accept.Sensitive = true;
+		else
+			button_accept.Sensitive = false;
 	}
 		
 	void on_radiobutton_man_toggled (object o, EventArgs args)

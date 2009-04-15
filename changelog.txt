@@ -1,5 +1,10 @@
 CHANGELOG.txt
 
+	
+15 apr 2009 (3)
+	Clarified on new/edit user what needs to be completed to show accept
+	button (shown red ball icon)
+
 15 apr 2009 (2)
 	-On Linux possible ports are displayed on chronopic connection
 	-DetectPorts in chronojump_mini (linux) now better formatting

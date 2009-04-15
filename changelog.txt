@@ -1,5 +1,14 @@
 CHANGELOG.txt
 
+15 apr 2009
+	Important: created new firmware (unvalidated yet) with 10ms of minimal detected
+	time. We created first the 50ms because chronopic is focussed on jumps
+	and minimal tc in a drop is close to 200ms. Now that chronopic is used
+	for other things like reaction times, rhythms, ... 10ms is ok.
+	Note this firware is not tested yet.
+
+	DetectPorts in chronojump_mini (linux) now better formatting
+
 3 apr 2009
 	eventExecute graphs bars done for simple events: jump simple, run, reaction time
 	main window shows in task bar again

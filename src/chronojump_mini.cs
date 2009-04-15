@@ -105,7 +105,7 @@ class Test {
 
 		if(portName == "") {
 			if( ! Util.IsWindows()) {
-				Console.WriteLine(Util.DetectPortsLinux());
+				Console.WriteLine(Util.DetectPortsLinux(false)); //formatting
 			}
 			Console.WriteLine(Catalog.GetString("Print the port name where chronopic is connected:"));
 			portName=Console.ReadLine();

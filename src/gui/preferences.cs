@@ -83,23 +83,28 @@ public class PreferencesWindow {
 		for (int i=1; i <= 257; i ++)
 			comboWindowsOptions[i-1] = "COM" + i;
 
-		UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
-		UtilGtk.ComboUpdate(combo_port_linux, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
-		
-
 		if(Util.IsWindows()) {
+			UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
+			
 			if(entryChronopic.Length > 0)
 				combo_port_windows.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, entryChronopic);
 			else
 				combo_port_windows.Active = 0; //first option
 		} else {
+			string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
+			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
+			string [] all = Util.AddArrayString(usbSerial, serial);
+			string [] def = Util.StringToStringArray(Constants.ChronopicDefaultPortLinux);
+			string [] allWithDef = Util.AddArrayString(def, all);
+	
+			UtilGtk.ComboUpdate(combo_port_linux, allWithDef, Constants.ChronopicDefaultPortLinux);
+			
 			if(entryChronopic.Length > 0)
-
-				combo_port_linux.Active = UtilGtk.ComboMakeActive(Constants.ComboPortLinuxOptions, entryChronopic);
+				combo_port_linux.Active = UtilGtk.ComboMakeActive(allWithDef, entryChronopic);
 			else 
 				combo_port_linux.Active = 0; //first option
 		}
-		
+
 		//database and log files stuff
 		label_database.Text = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		label_database_temp.Text = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
@@ -108,7 +113,8 @@ public class PreferencesWindow {
 	
 	static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, 
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
-			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, string language, bool allowFinishRjAfterTime)
+			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
+			string language, bool allowFinishRjAfterTime)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow (entryChronopic);

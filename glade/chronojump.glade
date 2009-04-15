@@ -14910,7 +14910,7 @@ suitable for agility tests)</property>
 			  <child>
 			    <widget class="GtkLabel" id="label511">
 			      <property name="visible">True</property>
-			      <property name="label">&lt;i&gt;http://www.gnome.org/projects/chronojump/problems.html&lt;/i&gt;</property>
+			      <property name="label">&lt;i&gt;http://projects.gnome.org/chronojump/problems.html&lt;/i&gt;</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">True</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -18593,6 +18593,7 @@ Test&lt;/b&gt;</property>
 
 	  <child>
 	    <widget class="GtkButton" id="button_finish">
+	      <property name="width_request">50</property>
 	      <property name="visible">True</property>
 	      <property name="tooltip" translatable="yes">Finish jump (save jump until this moment)</property>
 	      <property name="can_default">True</property>

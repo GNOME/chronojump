@@ -79,7 +79,7 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/chronopic3.jpg,chronopic3.jpg			-resource:images/mini/chronopic3.jpg,mini/chronopic3.jpg \
 		-resource:images/modular_platform_with_chronopic.jpg,modular_platform_with_chronopic.jpg			-resource:images/mini/modular_platform_with_chronopic.jpg,mini/modular_platform_with_chronopic.jpg \
 		-resource:images/plataforma_contactos.jpg,plataforma_contactos.jpg			-resource:images/mini/plataforma_contactos.jpg,mini/plataforma_contactos.jpg \
-		-resource:images/infrared.png,infrared.png			-resource:images/mini/infrared.png,mini/infrared.png \
+		-resource:images/infrared.jpg,infrared.jpg			-resource:images/mini/infrared.jpg,mini/infrared.jpg \
 		-resource:images/stock_bell.png,stock_bell.png \
 		-resource:images/stock_bell_green.png,stock_bell_green.png \
 		-resource:images/stock_bell_red.png,stock_bell_red.png \

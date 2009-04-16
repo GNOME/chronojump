@@ -95,6 +95,7 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/gtk-zoom-in.png,gtk-zoom-in.png \
 		-resource:images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
 		-resource:images/chronojump_320.png,chronojump_320.png \
+		-resource:images/calendar.png,calendar.png \
 		
 #-resource:images/gtk-zoom-out.png,gtk-zoom-out.png \
 

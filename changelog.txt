@@ -1,5 +1,7 @@
 CHANGELOG.txt
 
+16 apr 2009
+	calendar has a new calendar icon
 	
 15 apr 2009 (3)
 	Clarified on new/edit user what needs to be completed to show accept

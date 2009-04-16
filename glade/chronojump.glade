@@ -59,7 +59,7 @@
 	  <property name="n_rows">11</property>
 	  <property name="n_columns">3</property>
 	  <property name="homogeneous">False</property>
-	  <property name="row_spacing">4</property>
+	  <property name="row_spacing">6</property>
 	  <property name="column_spacing">8</property>
 
 	  <child>
@@ -426,14 +426,24 @@ comments</property>
 	      </child>
 
 	      <child>
-		<widget class="GtkButton" id="button_change_date">
+		<widget class="GtkButton" id="button_calendar">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Change date</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">change</property>
-		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
-		  <signal name="clicked" handler="on_button_change_date_clicked" last_modification_time="Mon, 18 Sep 2006 12:15:33 GMT"/>
+		  <signal name="clicked" handler="on_button_calendar_clicked" last_modification_time="Thu, 16 Apr 2009 10:47:50 GMT"/>
+		  <accelerator key="z" modifiers="0" signal="clicked"/>
+
+		  <child>
+		    <widget class="GtkImage" id="image_calendar">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		    </widget>
+		  </child>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>

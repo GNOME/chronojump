@@ -20,6 +20,7 @@
 
 using System;
 using Gtk;
+using Gdk;
 using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
@@ -601,7 +602,9 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.TextView textview2;
 	
 	[Widget] Gtk.Label label_date;
-	[Widget] Gtk.Button button_change_date;
+	//[Widget] Gtk.Button button_change_date;
+	[Widget] Gtk.Button button_calendar;
+	[Widget] Gtk.Image image_calendar;
 
 	[Widget] Gtk.SpinButton spinbutton_height;
 	[Widget] Gtk.SpinButton spinbutton_weight;
@@ -693,6 +696,10 @@ public class PersonAddModifyWindow
 		createComboLevels();
 		createComboContinents();
 		createComboCountries();
+		
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "calendar.png");
+		image_calendar.Pixbuf = pixbuf;
 			
 		fakeButtonAccept = new Gtk.Button();
 
@@ -976,7 +983,7 @@ public class PersonAddModifyWindow
 	}
 	
 	
-	void on_button_change_date_clicked (object o, EventArgs args)
+	void on_button_calendar_clicked (object o, EventArgs args)
 	{
 		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"));
 		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);

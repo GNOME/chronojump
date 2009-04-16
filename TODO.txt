@@ -1,6 +1,5 @@
 TODO: 
 
-
 new multichronopic tests:
 - padu runAnalysis (2cp)
 - discrimitative reaction time with two lights and two fotocells (or platforms)

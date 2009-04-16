@@ -515,7 +515,6 @@ public class ChronoJumpWindow
 		//	appbar2.Push ( 1, recuperatedString );
 
 		rand = new Random(40);
-		//volumeOn = true;
 	
 		putNonStandardIcons();	
 	
@@ -764,6 +763,7 @@ public class ChronoJumpWindow
 			volumeOn = false;
 		changeVolumeButton(volumeOn);
 		
+		//volumeOn = true;
 	
 		//change language works on windows. On Linux let's change the locale
 		//if(Util.IsWindows())

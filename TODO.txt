@@ -1,22 +1,31 @@
 TODO: 
 
+fix two bugs:
+1.- the chronojump.cs findVersion (just do more tests check that the error is fixed easily)
+2.- the sqlite problem with the thread at start... need to explore more
+
+
+multiChronopic:
+-on creation of array, clean the possible ':'
+-print data with decimals pDN 
+-treeview finish inin, outout
+-treeview: show only needed cp cols (the arrayDone on multiChronopic construction should be different if cp num found changed,
+let's do a sqlite first to search if there are cp1, cp2, cp3, cp4, and create an int like cp1*0 + cp1*1 + cp1*2 + cp1*3
+if int is the same, then arrayDone will be true)
+-treeview: after the load, do the "Add"
+-tempTable
+
+
 new multichronopic tests:
+- optionally do that first time (waiting time) is now shown to anyone
 - padu runAnalysis (2cp)
 - discrimitative reaction time with two lights and two fotocells (or platforms)
 (4cp) when evaluator push left or right button, cp 1 or cp2 lights, person has to cross fotocell a or b (connected to cp 3, 4)
 better with only two chronopics, if evaluator push cp1, light1 gets on and person has tocross fotocell1 (or platform). Then with two we have all.
 we can also have three or four to have more discriminative
 
-fix graph problems on multichronopic (also when there's only a chronopic)
 
-
-mirar fallo al tancar finestra executar fent click a X
-abans o després de cancelar
-i mirar la minifinestra que surt (de d'acord) que es pugui tancar també amb la X
-look also chrash on exiting thread is still open when 2 chronopics are used
-i think test button has to be pressed on both chronopics when test is ended
-
-Add Cabedo's tests
+Add Cabedo's tests (not prioritary)
 
 add a link to the server page. Develop web stats and survey on web site. Maybe
 done by R script and calling to database

@@ -1,5 +1,7 @@
 TODO: 
 
+prova
+
 fix two bugs:
 1.- the chronojump.cs findVersion (just do more tests check that the error is fixed easily)
 2.- the sqlite problem with the thread at start... need to explore more

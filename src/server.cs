@@ -29,6 +29,8 @@ using Glade;
 using System.Net;
 using System.Collections;
 
+//test comment
+
 public class Server
 {
 	public static bool CanI(string action, double clientVersion) {
@@ -50,30 +52,22 @@ public class Server
 
 	public static string Ping(bool doInsertion, string progName, string progVersion) {
 		try {
-			Console.WriteLine("--a--");
 			ChronojumpServer myServer = new ChronojumpServer();
-			Console.WriteLine("--b--");
 			Log.WriteLine(myServer.ConnectDatabase());
 		
-			Console.WriteLine("--c--");
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 
-			Console.WriteLine("--d--");
 			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, Util.GetOS(), 
 					//Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
 					getIP(), Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
 			//if !doIsertion nothing will be uploaded,
 			//is ok for uploadPerson to know if server is online
-			Console.WriteLine("--e--");
 			string versionAvailable = myServer.UploadPing(myPing, doInsertion);
 			
-			Console.WriteLine("--f--");
 			Log.WriteLine(myServer.DisConnectDatabase());
 
-			Console.WriteLine("--g--");
 			return versionAvailable;
 		} catch {
-			Console.WriteLine("--h--");
 			return Constants.ServerOffline;
 		}
 	}

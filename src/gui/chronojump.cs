@@ -154,6 +154,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_cp3_no;
 	[Widget] Gtk.Image image_cp4_yes;
 	[Widget] Gtk.Image image_cp4_no;
+	[Widget] Gtk.CheckButton check_multi_sync;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
@@ -1149,6 +1150,42 @@ public class ChronoJumpWindow
 		}
 	}
 
+	private void resetAllTreeViews( bool alsoPersons) {
+		if(alsoPersons) {
+			//load the persons treeview
+			treeview_persons_storeReset();
+			fillTreeView_persons();
+		}
+
+		//load the jumps treeview
+		treeview_jumps_storeReset();
+		fillTreeView_jumps(Constants.AllJumpsName);
+
+		//load the jumps_rj treeview_rj
+		treeview_jumps_rj_storeReset();
+		fillTreeView_jumps_rj(Constants.AllJumpsName);
+
+		//load the runs treeview
+		treeview_runs_storeReset();
+		fillTreeView_runs(Constants.AllRunsName);
+
+		//load the runs_interval treeview
+		treeview_runs_interval_storeReset();
+		fillTreeView_runs_interval(Constants.AllRunsName);
+
+		//load the pulses treeview
+		treeview_pulses_storeReset();
+		fillTreeView_pulses(Constants.AllPulsesName);
+
+		//load the reaction_times treeview
+		treeview_reaction_times_storeReset();
+		fillTreeView_reaction_times();
+
+		//load the multiChronopic treeview
+		treeview_multi_chronopic_storeReset();
+		fillTreeView_multi_chronopic();
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW JUMPS ------------------------
@@ -1578,6 +1615,18 @@ public class ChronoJumpWindow
 //		tv.CursorChanged += on_treeview_multi_chronopic_cursor_changed; 
 	}
 	
+	private void fillTreeView_multi_chronopic () {
+		string [] mcs = SqliteMultiChronopic.SelectTests(currentSession.UniqueID, -1);
+		myTreeViewMultiChronopic.Fill(mcs, "");
+		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewMultiChronopic, treeview_multi_chronopic);
+	}
+	
+	private void treeview_multi_chronopic_storeReset() {
+		myTreeViewMultiChronopic.RemoveColumns();
+		myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, prefsDigitsNumber, 
+				myTreeViewMultiChronopic.ExpandState );
+	}
+
 	private void on_button_connect_cp_clicked (object o, EventArgs args) {
 		if(o == (object) button_connect_cp2) {
 			currentCp = 2;
@@ -1847,7 +1896,6 @@ public class ChronoJumpWindow
 	 * ----------------  SESSION NEW, LOAD, EXPORT, DELETE -----
 	 *  --------------------------------------------------------
 	 */
-	
 
 	private void on_new_activate (object o, EventArgs args) {
 		Log.WriteLine("new session");
@@ -1867,34 +1915,8 @@ public class ChronoJumpWindow
 			if(createdStatsWin) {
 				statsWin.InitializeSession(currentSession);
 			}
-			
-			//load the persons treeview
-			treeview_persons_storeReset();
-			fillTreeView_persons();
-			
-			//load the jumps treeview
-			treeview_jumps_storeReset();
-			fillTreeView_jumps(Constants.AllJumpsName);
-			
-			//load the jumps_rj treeview_rj
-			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(Constants.AllJumpsName);
-			
-			//load the runs treeview
-			treeview_runs_storeReset();
-			fillTreeView_runs(Constants.AllRunsName);
-			
-			//load the runs_interval treeview
-			treeview_runs_interval_storeReset();
-			fillTreeView_runs_interval(Constants.AllRunsName);
-			
-			//load the pulses treeview
-			treeview_pulses_storeReset();
-			fillTreeView_pulses(Constants.AllPulsesName);
-
-			//load the reaction_times treeview
-			treeview_reaction_times_storeReset();
-			fillTreeView_reaction_times();
+		
+			resetAllTreeViews(true); //boolean means: "also persons"
 
 			//show hidden widgets
 			sensitiveGuiNoSession();
@@ -1954,36 +1976,10 @@ public class ChronoJumpWindow
 			statsWin.InitializeSession(currentSession);
 		}
 		
-		//load the persons treeview (and try to select first)
-		treeview_persons_storeReset();
-		fillTreeView_persons();
+		resetAllTreeViews(true); //boolean means: "also persons"
+
 		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
 		
-		//load the treeview_jumps
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(Constants.AllJumpsName);
-		
-		//load the treeview_jumps_rj
-		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(Constants.AllJumpsName);
-		
-		//load the runs treeview
-		treeview_runs_storeReset();
-		fillTreeView_runs(Constants.AllRunsName);
-		
-		//load the runs_interval treeview
-		treeview_runs_interval_storeReset();
-		fillTreeView_runs_interval(Constants.AllRunsName);
-		
-		//load the pulses treeview
-		treeview_pulses_storeReset();
-		fillTreeView_pulses(Constants.AllPulsesName);
-		
-		//load the reaction_times treeview
-		treeview_reaction_times_storeReset();
-		fillTreeView_reaction_times();
-		
-
 		//show hidden widgets
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
@@ -2187,15 +2183,8 @@ public class ChronoJumpWindow
 		SqlitePersonSession.DeletePersonFromSessionAndTests(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
-		treeview_persons_storeReset();
-		fillTreeView_persons();
+		resetAllTreeViews(true); //boolean means: "also persons"
 		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
-		
-		treeview_jumps_storeReset();
-		fillTreeView_jumps(Constants.AllJumpsName);
-		
-		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(Constants.AllJumpsName);
 			
 		if(createdStatsWin) {
 			statsWin.FillTreeView_stats(false, true);
@@ -2544,6 +2533,10 @@ Log.WriteLine("all done");
 			//currently no combo_reaction_times
 			treeview_reaction_times_storeReset();
 			fillTreeView_reaction_times();
+
+			//currently no combo_multi_chronopic
+			treeview_multi_chronopic_storeReset();
+			fillTreeView_multi_chronopic();
 		}
 		catch 
 		{
@@ -2552,7 +2545,7 @@ Log.WriteLine("all done");
 	
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("clicked one");
+		Console.WriteLine("cancel clicked one");
 
 		//this will cancel jumps or runs
 		currentEventExecute.Cancel = true;
@@ -2573,6 +2566,21 @@ Log.WriteLine("all done");
 		//if(createdStatsWin)
 		//	statsWin.ShowUpdateStatsButton();
 	}
+	
+	private void on_cancel_multi_clicked (object o, EventArgs args) 
+	{
+		Console.WriteLine("cancel multi clicked one");
+
+		//this will cancel jumps or runs
+		currentEventExecute.Cancel = true;
+
+		//unhide event buttons for next event
+		sensitiveGuiEventDone();
+
+		if(!simulated)
+			checkCancelMultiTotally(o, args);
+	}
+
 
 	//if user doesn't touch the platform after pressing "cancel", sometimes it gets waiting a Read_event
 	//now the event cancels ok, and next will be ok, also	
@@ -2586,6 +2594,50 @@ Log.WriteLine("all done");
 			errorWin.Button_accept.Clicked += new EventHandler(checkCancelTotally);
 		}
 	}
+	
+	private void checkCancelMultiTotally (object o, EventArgs args) 
+	{
+		bool needCancel1 = false;
+		bool needCancel2 = false;
+		bool needCancel3 = false;
+		bool needCancel4 = false;
+			
+		needCancel1 = !currentEventExecute.TotallyCancelledMulti1;
+		if(currentEventExecute.Chronopics > 1) {
+			needCancel2 = !currentEventExecute.TotallyCancelledMulti2;
+			if(currentEventExecute.Chronopics > 2) {
+				needCancel3 = !currentEventExecute.TotallyCancelledMulti3;
+				if(currentEventExecute.Chronopics > 3)
+					needCancel4 = !currentEventExecute.TotallyCancelledMulti4;
+			}
+		}
+
+		if(needCancel1 || needCancel2 || needCancel3 || needCancel4) {
+//			Log.Write("NOT-totallyCancelled ");
+			string cancelStr = "";
+			string sep = "";
+			if(needCancel1) {
+				cancelStr += sep + "1";
+				sep = ", ";
+			}
+			if(needCancel2) {
+				cancelStr += sep + "2";
+				sep = ", ";
+			}
+			if(needCancel3) {
+				cancelStr += sep + "3";
+				sep = ", ";
+			}
+			if(needCancel4) {
+				cancelStr += sep + "4";
+				sep = ", ";
+			}
+
+			errorWin = ErrorWindow.Show(string.Format(Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full cancelling.\nThen press button\n"), cancelStr));
+			errorWin.Button_accept.Clicked += new EventHandler(checkCancelMultiTotally);
+		}
+	}
+		
 		
 	private void on_finish_clicked (object o, EventArgs args) 
 	{
@@ -2602,8 +2654,25 @@ Log.WriteLine("all done");
 			statsWin.ShowUpdateStatsButton();
 	}
 		
+	private void on_finish_multi_clicked (object o, EventArgs args) 
+	{
+		currentEventExecute.Finish = true;
+		
+		//unhide event buttons for next event
+		sensitiveGuiEventDone();
+
+		if(!simulated)
+			checkFinishMultiTotally(o, args);
+		
+		//let update stats
+		if(createdStatsWin)
+			statsWin.ShowUpdateStatsButton();
+	}
+		
 	//if user doesn't touch the platform after pressing "finish", sometimes it gets waiting a Read_event
 	//now the event finishes ok, and next will be ok, also	
+	//
+	//not for multiChronopic:
 	private void checkFinishTotally (object o, EventArgs args) 
 	{
 		if(currentEventExecute.TotallyFinished) 
@@ -2612,6 +2681,52 @@ Log.WriteLine("all done");
 			Log.Write("NOT-totallyFinished ");
 			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full finishing.\nThen press this button:\n"));
 			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
+		}
+	}
+		
+	private void checkFinishMultiTotally (object o, EventArgs args) 
+	{
+		bool needFinish1 = false;
+		bool needFinish2 = false;
+		bool needFinish3 = false;
+		bool needFinish4 = false;
+			
+		needFinish1 = !currentEventExecute.TotallyFinishedMulti1;
+		if(currentEventExecute.Chronopics > 1) {
+			needFinish2 = !currentEventExecute.TotallyFinishedMulti2;
+			if(currentEventExecute.Chronopics > 2) {
+				needFinish3 = !currentEventExecute.TotallyFinishedMulti3;
+				if(currentEventExecute.Chronopics > 3)
+					needFinish4 = !currentEventExecute.TotallyFinishedMulti4;
+			}
+		}
+
+		if(needFinish1 || needFinish2 || needFinish3 || needFinish4) {
+//			Log.Write("NOT-totallyFinishled ");
+			string cancelStr = "";
+			string sep = "";
+			if(needFinish1) {
+				cancelStr += sep + "1";
+				sep = ", ";
+			}
+			if(needFinish2) {
+				cancelStr += sep + "2";
+				sep = ", ";
+			}
+			if(needFinish3) {
+				cancelStr += sep + "3";
+				sep = ", ";
+			}
+			if(needFinish4) {
+				cancelStr += sep + "4";
+				sep = ", ";
+			}
+
+			errorWin = ErrorWindow.Show(string.Format(Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full finishing.\nThen press button\n"), cancelStr));
+			errorWin.Button_accept.Clicked += new EventHandler(checkFinishMultiTotally);
+		} else {
+			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
+			currentEventExecute.MultiChronopicWrite(false);
 		}
 	}
 		
@@ -3884,10 +3999,11 @@ Log.WriteLine("all done");
 			Constants.MultiChronopicTable, //tableName
 			//currentPulseType.Name, 
 			"", 
-			prefsDigitsNumber, -1, simulated); //-1: unlimited pulses (or changes)
+			prefsDigitsNumber, -1, simulated
+			); //-1: unlimited pulses (or changes)
 
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
+		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);
 		
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
@@ -3903,20 +4019,20 @@ Log.WriteLine("all done");
 
 		if(image_cp2_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, 
-					cp, appbar2, app1);
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, "", 
+					cp, check_multi_sync.Active, appbar2, app1);
 		else if(image_cp2_yes.Visible && image_cp3_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, 
-					cp, cp2, appbar2, app1);
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, "",  
+					cp, cp2, check_multi_sync.Active, appbar2, app1);
 		else if(image_cp3_yes.Visible && image_cp4_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, 
-					cp, cp2, cp3, appbar2, app1);
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, "",
+					cp, cp2, cp3, check_multi_sync.Active, appbar2, app1);
 		else if(image_cp4_yes.Visible)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, 
-					cp, cp2, cp3, cp4, appbar2, app1);
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, "",
+					cp, cp2, cp3, cp4, check_multi_sync.Active, appbar2, app1);
 
 		//if(simulated)	
 		//	currentEventExecute.SimulateInitValues(rand);

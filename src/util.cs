@@ -276,7 +276,7 @@ public class Util
 		myStringBuilder.Replace("\n", " ");
 		return myStringBuilder.ToString();
 	}
-	
+
 	public static string ChangeEqualForColon(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
@@ -904,6 +904,13 @@ public class Util
 			return true;
 		else
 			return false;
+	}
+
+	public static string BoolToInOut (bool areWeIn) {
+		if(areWeIn)
+			return Constants.In;
+		else
+			return Constants.Out;
 	}
 
 	public static int BoolToInt (bool myBool) {

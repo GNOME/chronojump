@@ -1,5 +1,29 @@
 CHANGELOG.txt
 
+23 apr 2009
+	multiChronopic
+	-treeview loads ok the object
+
+22 apr 2009
+	multiChronopic:
+	-synchronozation works
+	-improvement on treeview (still don't work)
+
+21 apr 2009
+	multiChronopic:
+	-done sqlite insertion
+	-table now has starteIn cols
+	-treeview now plots header
+
+	delete a person now reloads all treeviews
+
+20 apr 2009
+	0.8.3.0
+	cancel and finish works ok with multiChronopic, no more crash on ending
+	improvements on multiChronopic graph
+
+	compiled now with gmcs2
+
 16 apr 2009
 	calendar has a new calendar icon
 	

@@ -62,36 +62,120 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		prepareHeaders(columnsString);
 	}
 
-
-	/*	
 	protected override System.Object getObjectFromString(string [] myStringOfData) {
-		ReactionTime myReactionTime = new ReactionTime();
-		myReactionTime.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
-		myReactionTime.Time = Convert.ToDouble(myStringOfData[5].ToString());
-		myReactionTime.Description = myStringOfData[6].ToString();
-		myReactionTime.Simulated = Convert.ToInt32(myStringOfData[7].ToString());
-
-		return myReactionTime;
+		MultiChronopic mc = new MultiChronopic();
+		mc.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
+		mc.Type = myStringOfData[4].ToString(); 
+		mc.Cp1StartedIn = Convert.ToInt32(myStringOfData[5].ToString()); 
+		mc.Cp2StartedIn = Convert.ToInt32(myStringOfData[6].ToString()); 
+		mc.Cp3StartedIn = Convert.ToInt32(myStringOfData[7].ToString()); 
+		mc.Cp4StartedIn = Convert.ToInt32(myStringOfData[8].ToString()); 
+		mc.Cp1InStr = myStringOfData[9].ToString(); 
+		mc.Cp1OutStr = myStringOfData[10].ToString(); 
+		mc.Cp2InStr = myStringOfData[11].ToString(); 
+		mc.Cp2OutStr = myStringOfData[12].ToString(); 
+		mc.Cp3InStr = myStringOfData[13].ToString(); 
+		mc.Cp3OutStr = myStringOfData[14].ToString(); 
+		mc.Cp4InStr = myStringOfData[15].ToString(); 
+		mc.Cp4OutStr = myStringOfData[16].ToString(); 
+		mc.Description = myStringOfData[17].ToString(); 
+		mc.Simulated = Convert.ToInt32(myStringOfData[18].ToString()); 
+		
+		return mc;
 	}
-
+	
 	protected override string [] getLineToStore(System.Object myObject)
 	{
-		ReactionTime newReactionTime = (ReactionTime)myObject;
-
-		string title = "";
-		if(newReactionTime.Simulated == Constants.Simulated)
+		MultiChronopic mc = (MultiChronopic)myObject;
+		
+		string title = mc.Type;
+		if(mc.Simulated == Constants.Simulated)
 			title += " (s) ";
 
+		//string myTypeComplet = title + "(" + newRunI.DistanceInterval + "x" + Util.GetLimitedRounded(newRunI.Limited, pDN) + ")";
+		
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		//myData[count++] = newReactionTime.Type;
+		//myData[count++] = myTypeComplet;
 		myData[count++] = title;
-		myData[count++] = Util.TrimDecimals(newReactionTime.Time.ToString(), pDN);
-		
-		myData[count++] = newReactionTime.Description;
-		myData[count++] = newReactionTime.UniqueID.ToString();
+		myData[count++] = ""; //time
+		myData[count++] = ""; //state
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = "";//change
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = "";//in-in
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = "";//out-out
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = "";
+		myData[count++] = mc.Description;
+		myData[count++] = mc.UniqueID.ToString();
 		return myData;
 	}
-	*/
+
+	protected override int getNumOfSubEvents(System.Object myObject)
+	{
+		MultiChronopic mc = (MultiChronopic)myObject;
+
+		int cp1 = Util.GetNumberOfJumps(mc.Cp1InStr,false) + Util.GetNumberOfJumps(mc.Cp1OutStr,false);
+		int cp2 = Util.GetNumberOfJumps(mc.Cp2InStr,false) + Util.GetNumberOfJumps(mc.Cp2OutStr,false);
+		int cp3 = Util.GetNumberOfJumps(mc.Cp3InStr,false) + Util.GetNumberOfJumps(mc.Cp3OutStr,false);
+		int cp4 = Util.GetNumberOfJumps(mc.Cp4InStr,false) + Util.GetNumberOfJumps(mc.Cp4OutStr,false);
+
+		return 1 + cp1 + cp2 + cp3 +cp4; //first "1+" is for the row with the initial data
+	} 
+	
+	//no statistic here (currently)
+	protected override void addStatisticInfo(TreeIter iterDeep, System.Object myObject) {
+	}
+			
+	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
+	{
+		MultiChronopic mc = (MultiChronopic)myObject;
+
+		//check the time
+//		string [] myStringFull = newRunI.IntervalTimesString.Split(new char[] {'='});
+//		string timeInterval = myStringFull[lineCount];
+		
+		//write line for treeview
+		string [] myData = new String [getColsNum()];
+
+		string [] cp1InFull = mc.Cp1InStr.Split(new char[] {'='});
+		string [] cp1OutFull = mc.Cp1OutStr.Split(new char[] {'='});
+		string [] cp2InFull = mc.Cp2InStr.Split(new char[] {'='});
+		string [] cp2OutFull = mc.Cp2OutStr.Split(new char[] {'='});
+		string [] cp3InFull = mc.Cp3InStr.Split(new char[] {'='});
+		string [] cp3OutFull = mc.Cp3OutStr.Split(new char[] {'='});
+		string [] cp4InFull = mc.Cp4InStr.Split(new char[] {'='});
+		string [] cp4OutFull = mc.Cp4OutStr.Split(new char[] {'='});
+
+
+		if(lineCount == 0) {
+			int count=0;
+			myData[count++] = "0";
+			myData[count++] = "0";
+			myData[count++] = Util.BoolToInOut(Util.IntToBool(mc.Cp1StartedIn));
+			myData[count++] = Util.BoolToInOut(Util.IntToBool(mc.Cp2StartedIn));
+			myData[count++] = Util.BoolToInOut(Util.IntToBool(mc.Cp3StartedIn));
+			myData[count++] = Util.BoolToInOut(Util.IntToBool(mc.Cp4StartedIn));
+			for(int i=0; i<12;i++)
+				myData[count++] = "";
+				
+			myData[count++] = ""; //description column
+			myData[count++] = "-1"; //mark to non select here, select first line 
+			return myData;
+		} else {
+			ArrayList array = mc.AsArrayList();
+			return array[lineCount-1].ToString().Split(new char[] {':'});
+		}
+
+	}
 	
 }

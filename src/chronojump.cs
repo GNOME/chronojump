@@ -302,17 +302,28 @@ public class ChronoJump
 	}
 
 	private void findVersion() {
+Console.WriteLine("--1--");
 		pingStart = true;
 		pulseGTKPingShouldEnd = false;
 		splashShowButton = true;
 		
+Console.WriteLine("--2--");
+		if(splashWin.FakeButtonCreated)
+			Console.WriteLine("\n\nCREATED\n\n");
+		else
+			Console.WriteLine("\n\nNOT CREATED, si es bloqueja, posar aquí un while (mentre no estigui creat)\n\n");
+
 		splashWin.FakeButtonCancel.Clicked += new EventHandler(on_find_version_cancelled);
 		
+Console.WriteLine("--3--");
 		versionAvailable = Server.Ping(true, progName, readVersion()); //doInsertion
 		
+Console.WriteLine("--4--");
 		splashShowButton = false;
 		Console.Write(" version:  " + versionAvailable);
+Console.WriteLine("--5--");
 		pingEnd = true;
+Console.WriteLine("--6--");
 	}
 		
 	private void on_find_version_cancelled(object o, EventArgs args) {

@@ -12,7 +12,7 @@ CC = gcc
 CFLAGS = -Wall
 
 #-- C# Compilator
-MCS = gmcs
+MCS = gmcs2
 
 BUILD_DIR = build/data
 

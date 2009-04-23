@@ -35,6 +35,7 @@ public class SplashWindow
 
 	
 	public Gtk.Button fakeButtonCancel;
+	public bool FakeButtonCreated = false;
 	
 	static SplashWindow SplashWindowBox;
 
@@ -48,6 +49,8 @@ public class SplashWindow
 		UtilGtk.IconWindow(splash_window);
 
 		fakeButtonCancel = new Gtk.Button();
+		FakeButtonCreated = true;
+
 		CancelButtonShow(false);
 		hideAllProgressbars();
 

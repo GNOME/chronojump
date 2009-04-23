@@ -13406,7 +13406,6 @@ suitable for agility tests)</property>
 							      <property name="padding">0</property>
 							      <property name="expand">False</property>
 							      <property name="fill">False</property>
-							      <property name="pack_type">GTK_PACK_END</property>
 							    </packing>
 							  </child>
 							</widget>
@@ -13469,7 +13468,7 @@ suitable for agility tests)</property>
 						  <property name="yscale">1</property>
 						  <property name="top_padding">0</property>
 						  <property name="bottom_padding">0</property>
-						  <property name="left_padding">12</property>
+						  <property name="left_padding">0</property>
 						  <property name="right_padding">0</property>
 
 						  <child>
@@ -13675,7 +13674,7 @@ suitable for agility tests)</property>
 						  <property name="yscale">1</property>
 						  <property name="top_padding">0</property>
 						  <property name="bottom_padding">0</property>
-						  <property name="left_padding">12</property>
+						  <property name="left_padding">0</property>
 						  <property name="right_padding">0</property>
 
 						  <child>
@@ -13868,7 +13867,7 @@ suitable for agility tests)</property>
 						  <property name="yscale">1</property>
 						  <property name="top_padding">0</property>
 						  <property name="bottom_padding">0</property>
-						  <property name="left_padding">12</property>
+						  <property name="left_padding">0</property>
 						  <property name="right_padding">0</property>
 
 						  <child>
@@ -14054,14 +14053,46 @@ suitable for agility tests)</property>
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button_multi_chronopic_start">
+					<widget class="GtkVBox" id="vbox184">
 					  <property name="visible">True</property>
-					  <property name="can_focus">True</property>
-					  <property name="label" translatable="yes">Start</property>
-					  <property name="use_underline">True</property>
-					  <property name="relief">GTK_RELIEF_NORMAL</property>
-					  <property name="focus_on_click">True</property>
-					  <signal name="clicked" handler="on_button_multi_chronopic_start_clicked" last_modification_time="Tue, 24 Mar 2009 23:07:49 GMT"/>
+					  <property name="homogeneous">False</property>
+					  <property name="spacing">0</property>
+
+					  <child>
+					    <widget class="GtkCheckButton" id="check_multi_sync">
+					      <property name="visible">True</property>
+					      <property name="can_focus">True</property>
+					      <property name="label" translatable="yes">Sychronize Chronopics</property>
+					      <property name="use_underline">True</property>
+					      <property name="relief">GTK_RELIEF_NORMAL</property>
+					      <property name="focus_on_click">True</property>
+					      <property name="active">True</property>
+					      <property name="inconsistent">False</property>
+					      <property name="draw_indicator">True</property>
+					    </widget>
+					    <packing>
+					      <property name="padding">0</property>
+					      <property name="expand">False</property>
+					      <property name="fill">False</property>
+					    </packing>
+					  </child>
+
+					  <child>
+					    <widget class="GtkButton" id="button_multi_chronopic_start">
+					      <property name="visible">True</property>
+					      <property name="can_focus">True</property>
+					      <property name="label" translatable="yes">Start</property>
+					      <property name="use_underline">True</property>
+					      <property name="relief">GTK_RELIEF_NORMAL</property>
+					      <property name="focus_on_click">True</property>
+					      <signal name="clicked" handler="on_button_multi_chronopic_start_clicked" last_modification_time="Tue, 24 Mar 2009 23:07:49 GMT"/>
+					    </widget>
+					    <packing>
+					      <property name="padding">0</property>
+					      <property name="expand">True</property>
+					      <property name="fill">True</property>
+					    </packing>
+					  </child>
 					</widget>
 					<packing>
 					  <property name="padding">0</property>

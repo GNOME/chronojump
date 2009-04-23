@@ -1474,7 +1474,6 @@ public class EventExecuteWindow
 			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr, 
 			double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
-
 		double timeTotal1 = Util.GetTotalTime(cp1InStr + "=" + cp1OutStr);
 		double timeTotal2 = Util.GetTotalTime(cp2InStr + "=" + cp2OutStr);
 		double timeTotal3 = Util.GetTotalTime(cp3InStr + "=" + cp3OutStr);

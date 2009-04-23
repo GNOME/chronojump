@@ -44,6 +44,10 @@ class SqliteMultiChronopic : Sqlite
 			"personID INT, " +
 			"sessionID INT, " +
 			"type TEXT, " + //now all as "default", but in the future...
+			"cp1StartedIn INT, " +
+			"cp2StartedIn INT, " +
+			"cp3StartedIn INT, " +
+			"cp4StartedIn INT, " +
 			"cp1InStr TEXT, " +
 			"cp1OutStr TEXT, " +
 			"cp2InStr TEXT, " +
@@ -63,6 +67,7 @@ class SqliteMultiChronopic : Sqlite
 	 */
 
 	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, 
+			int cp1StartedIn, int cp2StartedIn, int cp3StartedIn, int cp4StartedIn,
 			string cp1InStr, string cp1OutStr,
 			string cp2InStr, string cp2OutStr,
 			string cp3InStr, string cp3OutStr,
@@ -76,11 +81,14 @@ class SqliteMultiChronopic : Sqlite
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
-			" (uniqueID, personID, sessionID, type, " + 
+			" (uniqueID, personID, sessionID, type, " +
+		       	" cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn, " +	
 			" cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr, " +
 			" description, simulated)" +
 			" VALUES (" + uniqueID + ", " +
-			personID + ", " + sessionID + ", '" + type + "', '" +
+			personID + ", " + sessionID + ", '" + type + "', " +
+			cp1StartedIn + ", " + cp2StartedIn + ", " +
+			cp3StartedIn + ", " + cp4StartedIn + ", '" +
 			cp1InStr + "', '" + cp1OutStr + "', '" +
 			cp2InStr + "', '" + cp2OutStr + "', '" +
 			cp3InStr + "', '" + cp3OutStr + "', '" +
@@ -96,21 +104,20 @@ class SqliteMultiChronopic : Sqlite
 		return myLast;
 	}
 
-	/*
 	//if all persons, put -1 in personID
-	public static string[] SelectAllReactionTimes(int sessionID, int personID) 
+	public static string[] SelectTests(int sessionID, int personID) 
 	{
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND person.uniqueID == " + personID;
 
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, reactionTime.* " +
-			" FROM person, reactionTime " +
-			" WHERE person.uniqueID == reactionTime.personID" + 
-			" AND reactionTime.sessionID == " + sessionID + 
+		dbcmd.CommandText = "SELECT person.name, multiChronopic.* " +
+			" FROM person, multiChronopic " +
+			" WHERE person.uniqueID == multiChronopic.personID" + 
+			" AND multiChronopic.sessionID == " + sessionID + 
 			filterPersonString +
-			" ORDER BY upper(person.name), reactionTime.uniqueID";
+			" ORDER BY upper(person.name), multiChronopic.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -127,13 +134,24 @@ class SqliteMultiChronopic : Sqlite
 		while(reader.Read()) {
 
 			myArray.Add (reader[0].ToString() + ":" +	//person.name
-					reader[1].ToString() + ":" +	//jump.uniqueID
-					reader[2].ToString() + ":" + 	//jump.personID
-					reader[3].ToString() + ":" + 	//jump.sessionID
-					reader[4].ToString() + ":" + 	//jump.type
-					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//jump.time
-					reader[6].ToString() + ":" + 	//description
-					reader[7].ToString()		//simulated
+					reader[1].ToString() + ":" +	//mc.uniqueID
+					reader[2].ToString() + ":" + 	//mc.personID
+					reader[3].ToString() + ":" + 	//mc.sessionID
+					reader[4].ToString() + ":" + 	//mc.type
+					reader[5].ToString() + ":" + 	//mc.cp1StartedIn
+					reader[6].ToString() + ":" + 	//mc.cp2StartedIn
+					reader[7].ToString() + ":" + 	//mc.cp3StartedIn
+					reader[8].ToString() + ":" + 	//mc.cp4StartedIn
+					reader[9].ToString() + ":" + 	//mc.cp1InStr
+					reader[10].ToString() + ":" + 	//mc.cp1OutStr
+					reader[11].ToString() + ":" + 	//mc.cp2InStr
+					reader[12].ToString() + ":" + 	//mc.cp2OutStr
+					reader[13].ToString() + ":" + 	//mc.cp3InStr
+					reader[14].ToString() + ":" + 	//mc.cp3OutStr
+					reader[15].ToString() + ":" + 	//mc.cp4InStr
+					reader[16].ToString() + ":" + 	//mc.cp4OutStr
+					reader[17].ToString() + ":" + 	//description
+					reader[18].ToString()		//simulated
 					);
 			count ++;
 		}
@@ -150,6 +168,7 @@ class SqliteMultiChronopic : Sqlite
 		return myEvents;
 	}
 
+	/*
 	public static ReactionTime SelectReactionTimeData(int uniqueID)
 	{
 		dbcon.Open();

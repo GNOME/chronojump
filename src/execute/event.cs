@@ -117,6 +117,17 @@ public class EventExecute
 	protected bool finish;
 	protected bool totallyFinished;
 	
+	// multi Chronopic stuff
+	protected int chronopics; 
+	protected bool totallyFinishedMulti1;
+	protected bool totallyFinishedMulti2;
+	protected bool totallyFinishedMulti3;
+	protected bool totallyFinishedMulti4;
+	protected bool totallyCancelledMulti1;
+	protected bool totallyCancelledMulti2;
+	protected bool totallyCancelledMulti3;
+	protected bool totallyCancelledMulti4;
+	
 
 
 	protected EventExecuteWindow eventExecuteWin;
@@ -430,6 +441,10 @@ public class EventExecute
 		fakeButtonFinished.Click();
 	}
 	
+	public virtual void MultiChronopicWrite(bool tempTable) {
+		Console.WriteLine("at event.cs");
+	}
+			
 	public Gtk.Button FakeButtonFinished
 	{
 		get {
@@ -467,6 +482,20 @@ public class EventExecute
 		get { return eventDone; }
 	}
 	
+	// multi Chronopic stuff
+	public int Chronopics { get { return chronopics; } }
+
+	public bool TotallyFinishedMulti1 { get { return totallyFinishedMulti1; } }
+	public bool TotallyFinishedMulti2 { get { return totallyFinishedMulti2; } }
+	public bool TotallyFinishedMulti3 { get { return totallyFinishedMulti3; } }
+	public bool TotallyFinishedMulti4 { get { return totallyFinishedMulti4; } }
+	
+	public bool TotallyCancelledMulti1 { get { return totallyCancelledMulti1; } }
+	public bool TotallyCancelledMulti2 { get { return totallyCancelledMulti2; } }
+	public bool TotallyCancelledMulti3 { get { return totallyCancelledMulti3; } }
+	public bool TotallyCancelledMulti4 { get { return totallyCancelledMulti4; } }
+
+
 	~EventExecute() {}
 	   
 }

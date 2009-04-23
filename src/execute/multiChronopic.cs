@@ -59,23 +59,26 @@ public class MultiChronopicExecute : EventExecute
 	string cp4InStr;
 	string cp4OutStr;
 	bool cp4StartedIn;
-	
+
+	bool syncFirst;	
+	private enum syncStates { NOTHING, CONTACTED, DONE } //done == released
 
 	static bool firstValue;
-	int chronopics; 
 	
 	public MultiChronopicExecute() {
 	}
 
 	//execution
-	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, 
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app) {
+	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
+			Chronopic cp, bool syncFirst, Gtk.Statusbar appbar, Gtk.Window app) {
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
+		this.type = type;
 		
 		this.cp = cp;
+		this.syncFirst = syncFirst;
 		
 		this.appbar = appbar;
 		this.app = app;
@@ -84,15 +87,17 @@ public class MultiChronopicExecute : EventExecute
 		initValues();	
 	}
 	
-	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, 
-			Chronopic cp, Chronopic cp2, Gtk.Statusbar appbar, Gtk.Window app) {
+	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
+			Chronopic cp, Chronopic cp2, bool syncFirst, Gtk.Statusbar appbar, Gtk.Window app) {
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
+		this.type = type;
 		
 		this.cp = cp;
 		this.cp2 = cp2;
+		this.syncFirst = syncFirst;
 		
 		this.appbar = appbar;
 		this.app = app;
@@ -101,16 +106,18 @@ public class MultiChronopicExecute : EventExecute
 		initValues();	
 	}
 	
-	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, 
-			Chronopic cp, Chronopic cp2, Chronopic cp3, Gtk.Statusbar appbar, Gtk.Window app) {
+	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
+			Chronopic cp, Chronopic cp2, Chronopic cp3, bool syncFirst, Gtk.Statusbar appbar, Gtk.Window app) {
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
+		this.type = type;
 		
 		this.cp = cp;
 		this.cp2 = cp2;
 		this.cp3 = cp3;
+		this.syncFirst = syncFirst;
 		
 		this.appbar = appbar;
 		this.app = app;
@@ -119,17 +126,19 @@ public class MultiChronopicExecute : EventExecute
 		initValues();	
 	}
 
-	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, 
-			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, Gtk.Statusbar appbar, Gtk.Window app) {
+	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type,
+			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, bool syncFirst, Gtk.Statusbar appbar, Gtk.Window app) {
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
+		this.type = type;
 		
 		this.cp = cp;
 		this.cp2 = cp2;
 		this.cp3 = cp3;
 		this.cp4 = cp4;
+		this.syncFirst = syncFirst;
 		
 		this.appbar = appbar;
 		this.app = app;
@@ -172,6 +181,15 @@ public class MultiChronopicExecute : EventExecute
 				cp1StartedIn = false;
 			}
 		
+			//prepare jump for being cancelled if desired
+			cancel = false;
+			totallyCancelledMulti1 = false;
+
+			//prepare jump for being finished earlier if desired
+			finish = false;
+			totallyFinishedMulti1 = false;
+
+		
 			if(chronopics > 1) {
 				platformState2 = chronopicInitialValue(cp2);
 
@@ -182,6 +200,10 @@ public class MultiChronopicExecute : EventExecute
 					loggedState2 = States.OFF;
 					cp2StartedIn = false;
 				}
+			
+				totallyCancelledMulti2 = false;
+				totallyFinishedMulti2 = false;
+
 
 				if(chronopics > 2) {
 					platformState3 = chronopicInitialValue(cp3);
@@ -194,6 +216,9 @@ public class MultiChronopicExecute : EventExecute
 						cp3StartedIn = false;
 					}
 
+					totallyCancelledMulti3 = false;
+					totallyFinishedMulti3 = false;
+
 					if(chronopics > 3) {
 						platformState4 = chronopicInitialValue(cp4);
 
@@ -204,12 +229,16 @@ public class MultiChronopicExecute : EventExecute
 							loggedState4 = States.OFF;
 							cp4StartedIn = false;
 						}
+					
+						totallyCancelledMulti4 = false;
+						totallyFinishedMulti4 = false;
 					}
 				}
 			}
 		}
 
 		firstValue = true;
+			
 
 		//start thread
 		if(chronopics > 0) {
@@ -250,7 +279,6 @@ public class MultiChronopicExecute : EventExecute
 	
 	protected void waitEventPre4 () { waitEvent(cp4, platformState4, loggedState4, out cp4InStr, out cp4OutStr, 4); }
 	
-	
 	protected void waitEvent (Chronopic myCP, Chronopic.Plataforma myPS, States myLS, out string inStr, out string outStr, int cpNum)
 	{
 		double timestamp = 0;
@@ -260,6 +288,10 @@ public class MultiChronopicExecute : EventExecute
 		string outEqual = "";
 		
 		inStr = ""; outStr = "";
+
+		syncStates syncing = syncStates.DONE;
+		if(syncFirst)
+			syncing = syncStates.NOTHING;
 
 		do {
 			ok = myCP.Read_event(out timestamp, out myPS);
@@ -273,10 +305,17 @@ public class MultiChronopicExecute : EventExecute
 				//while no finished time or jumps, continue recording events
 				if ( ! success) {
 					//don't record the time until the first event of the first Chronopic
+					//this is only executed on the first chronopic that receives a change
 					if (firstValue) {
 						firstValue = false;
-						initializeTimer();
-					} else {
+						initializeTimer(); //this is for first Chronopic and only for simulated
+					}
+							
+					if(syncing == syncStates.NOTHING && myPS == Chronopic.Plataforma.ON && myLS == States.OFF) 
+						syncing = syncStates.CONTACTED;
+					else if (syncing == syncStates.CONTACTED && myPS == Chronopic.Plataforma.OFF && myLS == States.ON) 
+						syncing = syncStates.DONE;
+					else {
 						needSensitiveButtonFinish = true;
 
 						if(myPS == Chronopic.Plataforma.ON && myLS == States.OFF) {
@@ -297,15 +336,15 @@ public class MultiChronopicExecute : EventExecute
 								cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr);
 						needUpdateGraphType = eventType.MULTICHRONOPIC;
 						needUpdateGraph = true;
+
+
+						updateProgressBar = new UpdateProgressBar (
+								true, //isEvent
+								false, //means activity mode
+								-1 //don't show text
+								);
+						needUpdateEventProgressBar = true;
 					}
-
-					updateProgressBar = new UpdateProgressBar (
-							true, //isEvent
-							false, //means activity mode
-							-1 //don't show text
-							);
-					needUpdateEventProgressBar = true;
-
 				}
 
 				if(myPS == Chronopic.Plataforma.OFF)
@@ -317,16 +356,44 @@ public class MultiChronopicExecute : EventExecute
 		} while ( ! success && ! cancel && ! finish );
 	
 		if (finish) {
-			write();
-			totallyFinished = true;
+			//call write on gui/chronojump.cs, because if done in execute/MultiChronopic, 
+			//will be called n times if n chronopics are working
+			//write(false); //tempTable
+			
+			//event will be raised, and managed in chronojump.cs
+			fakeButtonFinished.Click();
+			finishThisCp(cpNum);
 		}
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
-			totallyCancelled = true;
+			cancelThisCp(cpNum);
 		}
 	}
 	
+	private void finishThisCp (int cp) {
+		if (cp==1)
+			totallyFinishedMulti1 = true;
+		else if (cp==2)
+			totallyFinishedMulti2 = true;
+		else if (cp==3)
+			totallyFinishedMulti3 = true;
+		else // if (cp==4)
+			totallyFinishedMulti4 = true;
+		needEndEvent = true;
+	}
+
+	private void cancelThisCp (int cp) {
+		if (cp==1)
+			totallyCancelledMulti1 = true;
+		else if (cp==2)
+			totallyCancelledMulti2 = true;
+		else if (cp==3)
+			totallyCancelledMulti3 = true;
+		else // if (cp==4)
+			totallyCancelledMulti4 = true;
+	}
+
 	protected override bool shouldFinishByTime() {
 		return false; //this kind of events (simple or Dj jumps) cannot be finished by time
 	}
@@ -342,7 +409,7 @@ public class MultiChronopicExecute : EventExecute
 				*/
 	}
 
-	protected override void write()
+	public override void MultiChronopicWrite(bool tempTable)
 	{
 		Log.WriteLine("----------WRITING----------");
 		Console.WriteLine("cp1 In:" + cp1InStr);
@@ -353,11 +420,49 @@ public class MultiChronopicExecute : EventExecute
 		Console.WriteLine("cp3 Out:" + cp3OutStr + "\n");
 		Console.WriteLine("cp4 In:" + cp4InStr);
 		Console.WriteLine("cp4 Out:" + cp4OutStr + "\n");
-		
-		//event will be raised, and managed in chronojump.cs
-		fakeButtonFinished.Click();
-		
-		needEndEvent = true; //used for hiding some buttons on eventWindow
+	
+
+		if(tempTable) //TODO
+			uniqueID = SqliteMultiChronopic.Insert(false, Constants.TempMultiChronopicTable, "NULL", 
+					personID, sessionID, type,  
+					Util.BoolToInt(cp1StartedIn), Util.BoolToInt(cp2StartedIn), 
+					Util.BoolToInt(cp3StartedIn), Util.BoolToInt(cp4StartedIn),
+					cp1InStr, cp1OutStr, cp2InStr, cp2OutStr,
+					cp3InStr, cp3OutStr, cp4InStr, cp4OutStr,
+					description, Util.BoolToNegativeInt(simulated)
+					);
+		else {
+			uniqueID = SqliteMultiChronopic.Insert(false, Constants.MultiChronopicTable, "NULL", 
+					personID, sessionID, type,  
+					Util.BoolToInt(cp1StartedIn), Util.BoolToInt(cp2StartedIn), 
+					Util.BoolToInt(cp3StartedIn), Util.BoolToInt(cp4StartedIn),
+					cp1InStr, cp1OutStr, cp2InStr, cp2OutStr,
+					cp3InStr, cp3OutStr, cp4InStr, cp4OutStr,
+					description, Util.BoolToNegativeInt(simulated)
+					);
+
+			//define the created object
+			eventDone = new MultiChronopic(uniqueID, personID, sessionID, type, 
+					Util.BoolToInt(cp1StartedIn), Util.BoolToInt(cp2StartedIn), 
+					Util.BoolToInt(cp3StartedIn), Util.BoolToInt(cp4StartedIn),
+					cp1InStr, cp1OutStr, cp2InStr, cp2OutStr,
+					cp3InStr, cp3OutStr, cp4InStr, cp4OutStr,
+					description, Util.BoolToNegativeInt(simulated)); 
+
+
+			/* //TODO
+			//event will be raised, and managed in chronojump.cs
+			string myStringPush =   
+				//Catalog.GetString("Last jump: ") + 
+				personName + " " + 
+				type + " (" + limitString + ") " +
+				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
+				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
+			appbar.Push( 1,myStringPush );
+			*/
+		}
+
+
 	}
 	
 

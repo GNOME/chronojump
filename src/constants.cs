@@ -66,6 +66,7 @@ public class Constants
 	public const string PulseTable = "pulse";
 	public const string ReactionTimeTable = "reactionTime";
 	public const string MultiChronopicTable = "multiChronopic";
+	public const string TempMultiChronopicTable = "tempMultiChronopic"; //TODO
 
 	//tests types
 	public const string JumpTypeTable = "jumpType";
@@ -74,7 +75,6 @@ public class Constants
 	public const string RunIntervalTypeTable = "runIntervalType";
 	public const string PulseTypeTable = "pulseType";
 	public const string ReactionTimeTypeTable = "reactionTimeType";
-
 
 	public const string UndefinedDefault = "Undefined";
 
@@ -376,6 +376,9 @@ public class Constants
 
 	public static string No = Catalog.GetString("No");
 	public static string Yes = Catalog.GetString("Yes");
+
+	public static string In = Catalog.GetString("In");
+	public static string Out = Catalog.GetString("Out");
 	
 	public const string PrefVersionAvailable = "versionAvailable";
 

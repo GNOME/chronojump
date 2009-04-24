@@ -1,5 +1,12 @@
 CHANGELOG.txt
 
+24 apr 2009
+	0.8.3.1
+	multiChronopic
+	-treeview finished inin, outout
+	-cpin-in & out-out done
+	-avg,sd calc works
+
 23 apr 2009
 	multiChronopic
 	-treeview loads ok the object

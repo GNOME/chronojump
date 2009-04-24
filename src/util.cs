@@ -124,6 +124,8 @@ public class Util
 	
 	public static double GetAverage (string values)
 	{
+		if(values.Length == 0)
+			return 0;
 		string [] myStringFull = values.Split(new char[] {'='});
 		double myAverage = 0;
 		double myCount = 0;

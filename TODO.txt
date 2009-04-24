@@ -7,8 +7,6 @@ fix two bugs:
 
 multiChronopic:
 -on creation of array, clean the possible ':'
--print data with decimals pDN 
--treeview finish inin, outout
 -treeview: show only needed cp cols (the arrayDone on multiChronopic construction should be different if cp num found changed,
 let's do a sqlite first to search if there are cp1, cp2, cp3, cp4, and create an int like cp1*0 + cp1*1 + cp1*2 + cp1*3
 if int is the same, then arrayDone will be true)

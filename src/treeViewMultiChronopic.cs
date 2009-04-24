@@ -132,18 +132,63 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		return 1 + cp1 + cp2 + cp3 +cp4; //first "1+" is for the row with the initial data
 	} 
 	
-	//no statistic here (currently)
+	//no total here
 	protected override void addStatisticInfo(TreeIter iterDeep, System.Object myObject) {
+		//store.AppendValues(iterDeep, printTotal(myObject, getColsNum()));
+		store.AppendValues(iterDeep, printAVG(myObject, getColsNum()));
+		store.AppendValues(iterDeep, printSD(myObject, getColsNum()));
 	}
+	
+	protected override string [] printAVG(System.Object myObject, int cols) {
+		MultiChronopic mc = (MultiChronopic)myObject;
+		string [] averages = mc.Statistics(true, pDN); //first boolean is averageOrSD
+		
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("AVG");
+		for(int i=0; i<9;i++)
+			myData[count++] = "";
+
+		for(int i=0; i<8;i++)
+			myData[count++] = cleanZeroOrMinus(Util.TrimDecimals( averages[i], pDN ));
+		
+		myData[count++] = ""; //desc
+		myData[count++] = "-1"; //mark to non select here, select first line 
+		
+		return myData;
+	}
+
+	protected override string [] printSD(System.Object myObject, int cols) {
+		MultiChronopic mc = (MultiChronopic)myObject;
+		string [] sds = mc.Statistics(false, pDN); //first boolean is averageOrSD
+		
+		string [] myData = new String [getColsNum()];
+		int count = 0;
+		myData[count++] = Catalog.GetString("SD");
+		for(int i=0; i<9;i++)
+			myData[count++] = "";
+
+		for(int i=0; i<8;i++)
+			myData[count++] = cleanZeroOrMinus(Util.TrimDecimals( sds[i], pDN ));
+		
+		myData[count++] = ""; //desc
+		myData[count++] = "-1"; //mark to non select here, select first line 
+		
+		return myData;
+	}
+
+
+	private string cleanZeroOrMinus(string myValue) {
+		if(myValue == "0" || myValue == "-")
+			return "";
+		else
+			return myValue;
+	}	
 			
 	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
 	{
 		MultiChronopic mc = (MultiChronopic)myObject;
 
-		//check the time
-//		string [] myStringFull = newRunI.IntervalTimesString.Split(new char[] {'='});
-//		string timeInterval = myStringFull[lineCount];
-		
 		//write line for treeview
 		string [] myData = new String [getColsNum()];
 
@@ -172,7 +217,7 @@ public class TreeViewMultiChronopic : TreeViewEvent
 			myData[count++] = "-1"; //mark to non select here, select first line 
 			return myData;
 		} else {
-			ArrayList array = mc.AsArrayList();
+			ArrayList array = mc.AsArrayList(pDN);
 			return array[lineCount-1].ToString().Split(new char[] {':'});
 		}
 

@@ -74,19 +74,6 @@ public class MultiChronopic : Event
 		arrayDone = false;
 	}
 
-	/*
-	//used to select a event at SqliteReactionTime.SelectReactionTimeData and at Sqlite.convertTables
-	public MultiChronopic(string [] eventString) {
-		this.uniqueID = Convert.ToInt32(eventString[0]);
-		this.personID = Convert.ToInt32(eventString[1]);
-		this.sessionID = Convert.ToInt32(eventString[2]);
-		//this.type = eventString[3].ToString();
-		this.time = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[4]));
-		this.description = eventString[5].ToString();
-		this.simulated = Convert.ToInt32(eventString[6]);
-	}
-	*/
-
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteMultiChronopic.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
@@ -100,13 +87,11 @@ public class MultiChronopic : Event
 				description, simulated);
 	}
 
-	public ArrayList AsArrayList() 
+	public ArrayList AsArrayList(int pDN) 
 	{
 		if(arrayDone)
 			return array;
 		
-		//write line for treeview
-		//string [] myData = new String [getColsNum()];
 		ArrayList returnArray = new ArrayList(1);
 		string [] returnLine = new String[20];
 
@@ -142,6 +127,18 @@ public class MultiChronopic : Event
 		double cp2Sum = 0;
 		double cp3Sum = 0;
 		double cp4Sum = 0;
+						
+		double rt1InRecorded = 0;
+		double rt1OutRecorded = 0;
+		double rt2InRecorded = 0;
+		double rt2OutRecorded = 0;
+		double rt3InRecorded = 0;
+		double rt3OutRecorded = 0;
+		double rt4InRecorded = 0;
+		double rt4OutRecorded = 0;
+		
+		double iibefore = -1;
+		double oobefore = -1;
 
 		int lineCount = 0;
 		while(! ended) {
@@ -210,74 +207,107 @@ public class MultiChronopic : Event
 					}
 				}
 
-				Console.WriteLine("NEXTCP: " + nextCp);
-
 				int pos=0;
 				double thisTime = 0;
 				string thisState = Constants.Out;
-				if(nextCp == 1) {
-					pos = 0;
-					if(cp1NextIn)
-						cp1InCount ++;
-					else
-						cp1OutCount ++;
-					cp1NextIn = ! cp1NextIn;
-					thisTime = cp1NextTime - cp1Sum;;
+				iibefore = -1;
+				oobefore = -1;
+				pos = nextCp -1;
+
+				if(nextCp == 1) 
+				{
+					thisTime = cp1NextTime - cp1Sum;
 					cp1Sum += thisTime;
 					runningTime = cp1Sum;
+					if(cp1NextIn) {
+						cp1InCount ++;
+						if( ! (rt1OutRecorded == 0 && Util.IntToBool(this.cp1StartedIn)) )
+							oobefore = runningTime - rt1OutRecorded; //runningTime minus runningtime recorded at last out
+						rt1OutRecorded = runningTime;
+					} else {
+						cp1OutCount ++;
+						if( ! (rt1InRecorded == 0 && ! Util.IntToBool(this.cp1StartedIn)) )
+							iibefore = runningTime - rt1InRecorded; //runningTime minus runningtime recorded at last in
+						rt1InRecorded = runningTime;
+					}
+					cp1NextIn = ! cp1NextIn;
 					thisState = Util.BoolToInOut(cp1NextIn);
-				} else if(nextCp == 2) {
-					pos = 1;
-					if(cp2NextIn)
-						cp2InCount ++;
-					else
-						cp2OutCount ++;
-					cp2NextIn = ! cp2NextIn;
+				} 
+				else if(nextCp == 2) 
+				{
 					thisTime = cp2NextTime - cp2Sum;
 					cp2Sum += thisTime;
 					runningTime = cp2Sum;
+					if(cp2NextIn) {
+						cp2InCount ++;
+						if( ! (rt2OutRecorded == 0 && Util.IntToBool(this.cp2StartedIn)) )
+							oobefore = runningTime - rt2OutRecorded; //runningTime minus runningtime recorded at last out
+						rt2OutRecorded = runningTime;
+					} else {
+						cp2OutCount ++;
+						if( ! (rt2InRecorded == 0 && ! Util.IntToBool(this.cp2StartedIn)) )
+							iibefore = runningTime - rt2InRecorded; //runningTime minus runningtime recorded at last in
+						rt2InRecorded = runningTime;
+					}
+					cp2NextIn = ! cp2NextIn;
 					thisState = Util.BoolToInOut(cp2NextIn);
-				} else if(nextCp == 3) {
-					pos = 2;
-					if(cp3NextIn)
-						cp3InCount ++;
-					else
-						cp3OutCount ++;
-					cp3NextIn = ! cp3NextIn;
+				} 
+				else if(nextCp == 3) 
+				{
 					thisTime = cp3NextTime - cp3Sum;
 					cp3Sum += thisTime;
 					runningTime = cp3Sum;
+					if(cp3NextIn) {
+						cp3InCount ++;
+						if( ! (rt3OutRecorded == 0 && Util.IntToBool(this.cp3StartedIn)) )
+							oobefore = runningTime - rt3OutRecorded; //runningTime minus runningtime recorded at last out
+						rt3OutRecorded = runningTime;
+					} else {
+						cp3OutCount ++;
+						if( ! (rt3InRecorded == 0 && ! Util.IntToBool(this.cp3StartedIn)) )
+							iibefore = runningTime - rt3InRecorded; //runningTime minus runningtime recorded at last in
+						rt3InRecorded = runningTime;
+					}
+					cp3NextIn = ! cp3NextIn;
 					thisState = Util.BoolToInOut(cp3NextIn);
-				} else if(nextCp == 4) {
-					pos = 3;
-					if(cp4NextIn)
-						cp4InCount ++;
-					else
-						cp4OutCount ++;
-					cp4NextIn = ! cp4NextIn;
+				} 
+				else if(nextCp == 4) 
+				{
 					thisTime = cp4NextTime - cp4Sum;
 					cp4Sum += thisTime;
 					runningTime = cp4Sum;
+					if(cp4NextIn) {
+						cp4InCount ++;
+						if( ! (rt4OutRecorded == 0 && Util.IntToBool(this.cp4StartedIn)) )
+							oobefore = runningTime - rt4OutRecorded; //runningTime minus runningtime recorded at last out
+						rt4OutRecorded = runningTime;
+					} else {
+						cp4OutCount ++;
+						if( ! (rt4InRecorded == 0 && ! Util.IntToBool(this.cp4StartedIn)) )
+							iibefore = runningTime - rt4InRecorded; //runningTime minus runningtime recorded at last in
+						rt4InRecorded = runningTime;
+					}
+					cp4NextIn = ! cp4NextIn;
 					thisState = Util.BoolToInOut(cp4NextIn);
 				}
 
 
 				int count=0;
-				returnLine[count++] = (lineCount++).ToString();
-				returnLine[count++] = runningTime.ToString();
+				returnLine[count++] = (++lineCount).ToString();
+				returnLine[count++] = Util.TrimDecimals(runningTime.ToString(), pDN);
 
-				for(int i=0; i<8; i++) {
+				for(int i=0; i<16; i++) {
 					if(i==pos)
 						returnLine[count++] = thisState;
 					else if(i == (pos +4))
-						returnLine[count++] = thisTime.ToString();
+						returnLine[count++] = Util.TrimDecimals(thisTime.ToString(), pDN);
+					else if(i == (pos +8) && iibefore != -1)
+						returnLine[count++] = Util.TrimDecimals(iibefore.ToString(), pDN);
+					else if(i == (pos +12) && oobefore != -1)
+						returnLine[count++] = Util.TrimDecimals(oobefore.ToString(), pDN);
 					else
 						returnLine[count++] = "";
 				}
-
-
-				for(int i=0; i<8;i++)
-					returnLine[count++] = "";
 
 				returnLine[count++] = ""; //description column
 				returnLine[count++] = "-1"; //mark to non select here, select first line 
@@ -289,6 +319,87 @@ public class MultiChronopic : Event
 		return array;
 	}
 	
+	public string [] Statistics(bool averageOrSD, int pDN) { //if averageOrSD is false, then SD
+		ArrayList array = this.AsArrayList(pDN);
+		string cp1iiStr = "";
+		string cp2iiStr = "";
+		string cp3iiStr = "";
+		string cp4iiStr = "";
+		string cp1ooStr = "";
+		string cp2ooStr = "";
+		string cp3ooStr = "";
+		string cp4ooStr = "";
+		string sep1ii = "";
+		string sep1oo = "";
+		string sep2ii = "";
+		string sep2oo = "";
+		string sep3ii = "";
+		string sep3oo = "";
+		string sep4ii = "";
+		string sep4oo = "";
+		int col = 10; //in-in cp1
+
+		foreach(string str in array) {
+			string [] strFull = str.Split(new char[] {':'});
+			if(strFull[col] != "") {
+				cp1iiStr += sep1ii + strFull[col];
+				sep1ii = "=";
+			}
+			if(strFull[col+1] != "") {
+				cp2iiStr += sep2ii + strFull[col+1];
+				sep2ii = "=";
+			}
+			if(strFull[col+2] != "") {
+				cp3iiStr += sep3ii + strFull[col+2];
+				sep3ii = "=";
+			}
+			if(strFull[col+3] != "") {
+				cp4iiStr += sep4ii + strFull[col+3];
+				sep4ii = "=";
+			}
+			if(strFull[col+4] != "") {
+				cp1ooStr += sep1oo + strFull[col+4];
+				sep1oo = "=";
+			}
+			if(strFull[col+5] != "") {
+				cp2ooStr += sep2oo + strFull[col+5];
+				sep2oo = "=";
+			}
+			if(strFull[col+6] != "") {
+				cp3ooStr += sep3oo + strFull[col+6];
+				sep3oo = "=";
+			}
+			if(strFull[col+7] != "") {
+				cp4ooStr += sep4oo + strFull[col+7];
+				sep4oo = "=";
+			}
+		}
+
+		string [] myData = new String [8];
+		int count = 0;
+		myData[count++] = getIndex(averageOrSD, cp1iiStr);
+		myData[count++] = getIndex(averageOrSD, cp2iiStr);
+		myData[count++] = getIndex(averageOrSD, cp3iiStr);
+		myData[count++] = getIndex(averageOrSD, cp4iiStr);
+		myData[count++] = getIndex(averageOrSD, cp1ooStr);
+		myData[count++] = getIndex(averageOrSD, cp2ooStr);
+		myData[count++] = getIndex(averageOrSD, cp3ooStr);
+		myData[count] = getIndex(averageOrSD, cp4ooStr);
+
+		return myData;
+	}
+
+	private string getIndex(bool averageOrSD, string str) {
+		if(averageOrSD)
+			return Util.GetAverage(str).ToString();
+		else 
+			return Util.CalculateSD(
+					Util.ChangeEqualForColon(str),
+					Util.GetTotalTime(str),
+					Util.GetNumberOfJumps(str, false)).ToString();
+	}
+
+
 	public int Cp1StartedIn {
 		get { return cp1StartedIn; }
 		set { cp1StartedIn = value; }

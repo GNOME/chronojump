@@ -47,6 +47,7 @@ public class EditPulseWindow : EditEventWindow
 		UtilGtk.IconWindow(edit_event);
 	
 		eventBigTypeString = Catalog.GetString("pulse");
+		headerShowDecimal = false;
 	}
 
 	static new public EditPulseWindow Show (Gtk.Window parent, Event myEvent, int pDN)
@@ -67,6 +68,7 @@ public class EditPulseWindow : EditEventWindow
 	}
 	
 	protected override void initializeValues () {
+		showType = true;
 		showTv = false;
 		showTc= false;
 		showFall = false;

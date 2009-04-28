@@ -73,6 +73,29 @@ public class MultiChronopic : Event
 	
 		arrayDone = false;
 	}
+	
+	//used to select a event at SqliteMultiChronopic.SelectMultiChronopicData and at Sqlite.convertTables
+	public MultiChronopic(string [] eventString) {
+		this.uniqueID = Convert.ToInt32(eventString[0]);
+		this.personID = Convert.ToInt32(eventString[1]);
+		this.sessionID = Convert.ToInt32(eventString[2]);
+		this.type = eventString[3].ToString();
+		this.cp1StartedIn = Convert.ToInt32(eventString[4]);
+		this.cp2StartedIn = Convert.ToInt32(eventString[5]);
+		this.cp3StartedIn = Convert.ToInt32(eventString[6]);
+		this.cp4StartedIn = Convert.ToInt32(eventString[7]);
+		this.cp1InStr = eventString[8];
+		this.cp1OutStr = eventString[9];
+		this.cp2InStr = eventString[10];
+		this.cp2OutStr = eventString[11];
+		this.cp3InStr = eventString[12];
+		this.cp3OutStr = eventString[13];
+		this.cp4InStr = eventString[14];
+		this.cp4OutStr = eventString[15];
+		this.description = eventString[16];
+		this.simulated = Convert.ToInt32(eventString[17]);
+	}
+
 
 	public override int InsertAtDB (bool dbconOpened, string tableName) {
 		return SqliteMultiChronopic.Insert(dbconOpened, tableName, 
@@ -89,26 +112,34 @@ public class MultiChronopic : Event
 
 	public ArrayList AsArrayList(int pDN) 
 	{
+//Console.WriteLine("A");
 		if(arrayDone)
 			return array;
 		
+//Console.WriteLine("B");
 		ArrayList returnArray = new ArrayList(1);
 		string [] returnLine = new String[20];
 
+//Console.WriteLine("B1");
 		string [] cp1InFull = this.Cp1InStr.Split(new char[] {'='});
+//Console.WriteLine("B2");
 		string [] cp1OutFull = this.Cp1OutStr.Split(new char[] {'='});
 		string [] cp2InFull = this.Cp2InStr.Split(new char[] {'='});
 		string [] cp2OutFull = this.Cp2OutStr.Split(new char[] {'='});
+//Console.WriteLine("B3");
 		string [] cp3InFull = this.Cp3InStr.Split(new char[] {'='});
+//Console.WriteLine("B4");
 		string [] cp3OutFull = this.Cp3OutStr.Split(new char[] {'='});
 		string [] cp4InFull = this.Cp4InStr.Split(new char[] {'='});
 		string [] cp4OutFull = this.Cp4OutStr.Split(new char[] {'='});
 
+//Console.WriteLine("B5");
 		bool ended = false;
 		bool cp1NextIn = Util.IntToBool(this.Cp1StartedIn);
 		bool cp2NextIn = Util.IntToBool(this.Cp2StartedIn);
 		bool cp3NextIn = Util.IntToBool(this.Cp3StartedIn);
 		bool cp4NextIn = Util.IntToBool(this.Cp4StartedIn);
+//Console.WriteLine("B6");
 		double cp1NextTime;
 		double cp2NextTime;
 		double cp3NextTime;
@@ -127,6 +158,7 @@ public class MultiChronopic : Event
 		double cp2Sum = 0;
 		double cp3Sum = 0;
 		double cp4Sum = 0;
+//Console.WriteLine("B7");
 						
 		double rt1InRecorded = 0;
 		double rt1OutRecorded = 0;
@@ -141,6 +173,8 @@ public class MultiChronopic : Event
 		double oobefore = -1;
 
 		int lineCount = 0;
+//Console.WriteLine("C");
+		
 		while(! ended) {
 			int nextCp = -1;
 
@@ -178,6 +212,7 @@ public class MultiChronopic : Event
 				cp4NextTime = 99999;
 
 
+//Console.WriteLine("D");
 			if(cp1NextTime == 99999 && cp2NextTime == 99999 && cp3NextTime == 99999 && cp4NextTime == 99999)
 				ended = true;
 			else {
@@ -206,6 +241,7 @@ public class MultiChronopic : Event
 							nextCp = 4;
 					}
 				}
+//Console.WriteLine("E");
 
 				int pos=0;
 				double thisTime = 0;
@@ -309,13 +345,17 @@ public class MultiChronopic : Event
 						returnLine[count++] = "";
 				}
 
-				returnLine[count++] = ""; //description column
+				returnLine[count++] = ""; //description column (unused because this array if for eg. treeview subLines)
 				returnLine[count++] = "-1"; //mark to non select here, select first line 
 				returnArray.Add(Util.StringArrayToString(returnLine, ":"));
+//Console.WriteLine("F");
 			}
+//Console.WriteLine("G");
 		}
+//Console.WriteLine("H");
 		array = returnArray;
 		arrayDone = true;
+//Console.WriteLine("I");
 		return array;
 	}
 	
@@ -397,6 +437,15 @@ public class MultiChronopic : Event
 					Util.ChangeEqualForColon(str),
 					Util.GetTotalTime(str),
 					Util.GetNumberOfJumps(str, false)).ToString();
+	}
+
+	public int MaxCPs() {
+		if(cp3InStr == "" && cp3OutStr == "")
+			return 2;
+		else if(cp4InStr == "" && cp4OutStr == "")
+			return 3;
+		else
+			return 4;
 	}
 
 

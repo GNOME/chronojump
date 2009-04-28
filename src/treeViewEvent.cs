@@ -202,9 +202,6 @@ public class TreeViewEvent
 			TreeIter iter2;
 			store.GetIterFromString(out iter2, pathStringZero);
 			treeview.Selection.SelectIter(iter2);
-
-			//Log.WriteLine("iter" + store.GetPath(iter).ToString());
-			//Log.WriteLine("iter2" + store.GetPath(iter2).ToString());
 		}
 	}
 
@@ -220,11 +217,20 @@ public class TreeViewEvent
 		}
 	}
 
-	public virtual ExpandStates ZoomChange(ExpandStates myExpand) {
-		if(myExpand == ExpandStates.MINIMIZED)
-			return ExpandStates.MAXIMIZED;
-		else
-			return ExpandStates.MINIMIZED;
+	public ExpandStates ZoomChange(ExpandStates myExpand) {
+		if(treeviewHasTwoLevels) {
+			if(myExpand == ExpandStates.MINIMIZED)
+				return ExpandStates.OPTIMAL;
+			else if(myExpand == ExpandStates.OPTIMAL)
+				return ExpandStates.MAXIMIZED;
+			else
+				return ExpandStates.MINIMIZED;
+		} else {
+			if(myExpand == ExpandStates.MINIMIZED)
+				return ExpandStates.MAXIMIZED;
+			else
+				return ExpandStates.MINIMIZED;
+		}
 	}
 
 	public void Add (string personName, System.Object newEvent)

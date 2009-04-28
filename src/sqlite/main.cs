@@ -1053,30 +1053,6 @@ class Sqlite
 		return exists;
 	}
 
-	/*	
-	public static bool Exists(string tableName, int findID)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "SELECT * FROM " + tableName + 
-			" WHERE uniqueID == '" + findID + "'" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-	
-		bool exists = new bool();
-		exists = false;
-		
-		if (reader.Read()) {
-			exists = true;
-		}
-		Log.WriteLine(string.Format("id exists = {0}", exists.ToString()));
-
-		dbcon.Close();
-		return exists;
-	}
-	*/
-	
 	/* 
 	 * temp data stuff
 	 */

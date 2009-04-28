@@ -113,6 +113,8 @@ public class TreeViewRuns : TreeViewEvent
 
 public class TreeViewRunsInterval : TreeViewRuns
 {
+	RunType runType;
+
 	public TreeViewRunsInterval (Gtk.TreeView treeview, int newPrefsDigitsNumber, bool metersSecondsPreferred, ExpandStates expandState)
 	{
 		this.treeview = treeview;
@@ -154,6 +156,8 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myRunI.Description = myStringOfData[10].ToString();
 		myRunI.Simulated = Convert.ToInt32(myStringOfData[12].ToString());
 		//speed is not needed to define
+			
+		runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRunI.Type);
 		
 		return myRunI;
 	}
@@ -202,7 +206,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		int count = 0;
 		
 		if(newRunI.DistanceInterval == -1) {
-			RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(newRunI.Type);
+			//RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(newRunI.Type);
 			myData[count++] = (lineCount + 1).ToString() +  
 				" (" + Util.GetRunIVariableDistancesStringRow(runType.DistancesString, lineCount).ToString() + "m)";
 			
@@ -299,13 +303,4 @@ public class TreeViewRunsInterval : TreeViewRuns
 		return myData;
 	}
 	
-	public override ExpandStates ZoomChange(ExpandStates myExpand) {
-		if(myExpand == ExpandStates.MINIMIZED)
-			return ExpandStates.OPTIMAL;
-		else if(myExpand == ExpandStates.OPTIMAL)
-			return ExpandStates.MAXIMIZED;
-		else
-			return ExpandStates.MINIMIZED;
-	}
-
 }

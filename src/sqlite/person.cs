@@ -250,6 +250,7 @@ finishForeach:
 		ArrayList arrayRunsInterval = new ArrayList(2);
 		ArrayList arrayRTs = new ArrayList(2);
 		ArrayList arrayPulses = new ArrayList(2);
+		ArrayList arrayMCs = new ArrayList(2);
 	
 		dbcon.Open();
 		
@@ -334,6 +335,17 @@ finishForeach:
 		}
 		reader.Close();
 	
+		//pulses
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM multiChronopic WHERE personID = " + personID +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayMCs.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+	
 	
 		dbcon.Close();
 		
@@ -345,6 +357,7 @@ finishForeach:
 		string tempRunsInterval;
 		string tempRTs;
 		string tempPulses;
+		string tempMCs;
 		bool found; 	//using found because a person can be loaded in a session 
 				//but whithout having done any event yet
 
@@ -357,6 +370,7 @@ finishForeach:
 			tempRunsInterval = "";
 			tempRTs = "";
 			tempPulses = "";
+			tempMCs = "";
 			found = false;
 			
 			foreach (string myJumps in arrayJumps) {
@@ -413,6 +427,15 @@ finishForeach:
 				}
 			}
 			
+			foreach (string myMCs in arrayMCs) {
+				string [] myStr = myMCs.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempMCs = myStr[1];
+					found = true;
+					break;
+				}
+			}
+			
 
 
 			//if has events, write it's data
@@ -421,7 +444,7 @@ finishForeach:
 						myStrSession[3] + ":" + tempJumps + ":" + 	//sessionDate, jumps
 						tempJumpsRj + ":" + tempRuns + ":" + 		//jumpsRj, Runs
 						tempRunsInterval + ":" + tempRTs + ":" + 	//runsInterval, Reaction times
-						tempPulses);					//pulses
+						tempPulses + ":" + tempMCs);			//pulses, MultiChronopic
 			}
 		}
 

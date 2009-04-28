@@ -1608,7 +1608,7 @@ public class PersonShowAllEventsWindow {
 		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
 		createTreeView(treeview_person_show_all_events);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string) );
+				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string) );
 		treeview_person_show_all_events.Model = store;
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
@@ -1653,7 +1653,7 @@ public class PersonShowAllEventsWindow {
 		string myText = UtilGtk.ComboGetActive(combo_persons);
 		if(myText != "") {
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-					typeof (string), typeof(string), typeof(string), typeof(string), typeof(string) );
+					typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string) );
 			treeview_person_show_all_events.Model = store;
 			
 			string [] myStringFull = myText.Split(new char[] {':'});
@@ -1675,7 +1675,6 @@ public class PersonShowAllEventsWindow {
 	protected void createTreeView (Gtk.TreeView tv) {
 		tv.HeadersVisible=true;
 		int count = 0;
-
 		tv.AppendColumn ( Catalog.GetString ("Session name"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Place"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Date\n"), new CellRendererText(), "text", count++);
@@ -1685,17 +1684,18 @@ public class PersonShowAllEventsWindow {
 		tv.AppendColumn ( Catalog.GetString ("Runs\ninterval"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Reaction\ntime"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
 	}
 	
 	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {
 		ArrayList myEvents;
-		//myEvents = SqlitePerson.SelectAllPersonEvents(currentPerson.UniqueID); 
 		myEvents = SqlitePerson.SelectAllPersonEvents(personID); 
 
 		foreach (string myEvent in myEvents) {
 			string [] myStr = myEvent.Split(new char[] {':'});
 
-			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], myStr[6], myStr[7], myStr[8]);
+			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], 
+					myStr[6], myStr[7], myStr[8], myStr[9]);
 		}
 	}
 	

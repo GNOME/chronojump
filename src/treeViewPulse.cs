@@ -222,15 +222,5 @@ public class TreeViewPulses : TreeViewEvent
 
 		return errorCount / (double) times.Length;
 	}
-
-	public override ExpandStates ZoomChange(ExpandStates myExpand) {
-		if(myExpand == ExpandStates.MINIMIZED)
-			return ExpandStates.OPTIMAL;
-		else if(myExpand == ExpandStates.OPTIMAL)
-			return ExpandStates.MAXIMIZED;
-		else
-			return ExpandStates.MINIMIZED;
-	}
-
 	
 }

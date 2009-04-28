@@ -42,6 +42,7 @@ public class EventExecuteWindow
 	[Widget] Gtk.Label label_simulated;
 	[Widget] Gtk.Image image_simulated_l;
 	[Widget] Gtk.Image image_simulated_r;
+	[Widget] Gtk.Label label_sync_message;
 	
 	[Widget] Gtk.ProgressBar progressbar_event;
 	[Widget] Gtk.ProgressBar progressbar_time;
@@ -444,6 +445,10 @@ public class EventExecuteWindow
 	//event.cs (Pulse.GTK) calls this method:
 	public void ButtonFinishMakeSensitive() {
 		button_finish.Sensitive = true;
+	}
+
+	public void ShowSyncMessage(string str) {
+		label_sync_message.Text = str;
 	}
 		
 	private void clearProgressBars() 
@@ -913,7 +918,8 @@ public class EventExecuteWindow
 	}
 	
 	// multi chronopic 
-	public void PrepareMultiChronopicGraph(double timestamp, 
+	public void PrepareMultiChronopicGraph(
+			//double timestamp, 
 			bool cp1StartedIn, bool cp2StartedIn, bool cp3StartedIn, bool cp4StartedIn,
 			string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
 			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr) { 
@@ -926,12 +932,16 @@ public class EventExecuteWindow
 		double maxValue = 0;
 		int topMargin = 10;
 		//if max value of graph is automatic
+		/*
 		if(eventGraphConfigureWin.Max == -1) 
-			maxValue = timestamp; //TODO: delete this, is not used here
+			//maxValue = timestamp; //TODO: delete this, is not used here
 		else {
-			maxValue = eventGraphConfigureWin.Max; //TODO
+			//maxValue = eventGraphConfigureWin.Max; //TODO
 			topMargin = 0;
 		}
+		*/
+		if(eventGraphConfigureWin.Max != -1) 
+			topMargin = 0;
 			
 		//search MIN 
 		double minValue = 1000;
@@ -950,7 +960,8 @@ public class EventExecuteWindow
 				*/
 
 		//paint graph
-		paintMultiChronopic (drawingarea, timestamp, 
+		paintMultiChronopic (drawingarea, 
+				//timestamp, 
 				cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn,
 				cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr, 
 				maxValue, minValue, topMargin, bottomMargin);
@@ -1467,8 +1478,14 @@ public class EventExecuteWindow
 		return ( ancho * ( (timeOld + time) / timeTotal) ) -rightMargin;
 	}
 
+	int yCp1Out = 20;
+	int yCp2Out = 90;
+	int yCp3Out = 160;
+	int yCp4Out = 230;
+
 	//TODO: fix this method
-	private void paintMultiChronopic (Gtk.DrawingArea drawingarea, double timestamp, 
+	private void paintMultiChronopic (Gtk.DrawingArea drawingarea, 
+			//double timestamp, 
 			bool cp1StartedIn, bool cp2StartedIn, bool cp3StartedIn, bool cp4StartedIn,
 			string cp1InStr, string cp1OutStr, string cp2InStr, string cp2OutStr, 
 			string cp3InStr, string cp3OutStr, string cp4InStr, string cp4OutStr, 
@@ -1501,14 +1518,16 @@ public class EventExecuteWindow
 		erasePaint(drawingarea);
 
 		//writeMarginsText(maxValue, minValue, alto);
+		writeCpNames();
 
 		//check now here that we will have not division by zero problems
-		if(maxValue - minValue <= 0) 
-			return;
+		//if(maxValue - minValue <= 0) 
+		//	return;
 
-		paintMultiChronopic2 (ancho, cp1StartedIn, cp1InStr, cp1OutStr, timeTotal, 30,20);
-		paintMultiChronopic2 (ancho, cp2StartedIn, cp2InStr, cp2OutStr, timeTotal, 100,90);
-		paintMultiChronopic2 (ancho, cp3StartedIn, cp3InStr, cp3OutStr, timeTotal, 170,180);
+		paintMultiChronopic2 (ancho, cp1StartedIn, cp1InStr, cp1OutStr, timeTotal, yCp1Out +10, yCp1Out);
+		paintMultiChronopic2 (ancho, cp2StartedIn, cp2InStr, cp2OutStr, timeTotal, yCp2Out +10, yCp2Out);
+		paintMultiChronopic2 (ancho, cp3StartedIn, cp3InStr, cp3OutStr, timeTotal, yCp3Out +10, yCp3Out);
+		paintMultiChronopic2 (ancho, cp4StartedIn, cp4InStr, cp4OutStr, timeTotal, yCp4Out +10, yCp4Out);
 
 		graphProgress = phasesGraph.DONE; 
 	}
@@ -1523,6 +1542,8 @@ public class EventExecuteWindow
 		int heightEnd;
 		Gdk.GC penStart;
 		Gdk.GC penEnd;
+		Gdk.GC penStartDiscont;
+		Gdk.GC penEndDiscont;
 		string [] cpStart;
 		string [] cpEnd;
 		
@@ -1531,6 +1552,8 @@ public class EventExecuteWindow
 			cpEnd =   cpOutStr.Split(new char[] {'='});
 			penStart = pen_rojo;
 			penEnd = pen_azul;
+			penStartDiscont = pen_rojo_discont;
+			penEndDiscont = pen_azul_discont;
 			heightStart = h1;
 			heightEnd = h2;
 		}
@@ -1539,18 +1562,17 @@ public class EventExecuteWindow
 			cpEnd =   cpInStr.Split(new char[] {'='});
 			penStart = pen_azul;
 			penEnd = pen_rojo;
+			penStartDiscont = pen_azul_discont;
+			penEndDiscont = pen_rojo_discont;
 			heightStart = h2;
 			heightEnd = h1;
 		}
 		ticks = cpStart.Length;
 		double timeOld = 0;
 		double xOld = 0;
+		bool lastCpIsStart = true;
 
 		Console.WriteLine("\n(A) cpInStr:*{0}*, cpOutStr:*{1}*", cpInStr, cpOutStr);
-
-		/*
-		   int maxTcTfs = 10; if(cp1_i.Length > maxTcTfs) cp1_i = Util.DeleteFirstStrings(cp1_i, maxTcTfs); if(cp1_o.Length > maxTcTfs) cp1_o = Util.DeleteFirstStrings(cp1_o, maxTcTfs); cp1InStr = Util.StringArrayToString(cp1_i, "="); cp1OutStr = Util.StringArrayToString(cp1_o, "="); Console.WriteLine("(B) cp1InStr:*{0}*, cp1OutStr:*{1}*", cp1InStr, cp1OutStr);
-		   */
 
 		for(int i=0; i < ticks; i++) { 
 			if(cpStart.Length > i) {
@@ -1558,6 +1580,7 @@ public class EventExecuteWindow
 				pixmap.DrawLine(penStart, Convert.ToInt32(xOld), heightStart, Convert.ToInt32(x), heightStart);
 				timeOld += Convert.ToDouble(cpStart[i]);
 				xOld = x;
+				lastCpIsStart = true;
 			}
 
 			if(cpEnd.Length > i) {
@@ -1565,7 +1588,20 @@ public class EventExecuteWindow
 				pixmap.DrawLine(penEnd, Convert.ToInt32(xOld), heightEnd, Convert.ToInt32(x), heightEnd);
 				timeOld += Convert.ToDouble(cpEnd[i]);
 				xOld = x;
+				lastCpIsStart = false;
 			}
+		}
+		
+		/*
+		   the chronopic that received last event, it's painted and arrives at right end of graph
+		   following code allows to paint line also on other chronopics
+		   in order to show all updated four cps after any cp change
+		   */
+		if(timeOld < timeTotal) { //this cp didn't received last event
+			if(lastCpIsStart)
+				pixmap.DrawLine(penStartDiscont, Convert.ToInt32(xOld), heightStart, Convert.ToInt32(ancho-rightMargin), heightStart);
+			else
+				pixmap.DrawLine(penEndDiscont, Convert.ToInt32(xOld), heightEnd, Convert.ToInt32(ancho-rightMargin), heightEnd);
 		}
 	}
 
@@ -1614,6 +1650,16 @@ public class EventExecuteWindow
 									//and text goes down from the baseline, and will not be seen
 	}
 		
+	private void writeCpNames() {
+		layout.SetMarkup("cp1");
+		pixmap.DrawLayout (pen_gris, 0, yCp1Out -20, layout);
+		layout.SetMarkup("cp2");
+		pixmap.DrawLayout (pen_gris, 0, yCp2Out -20, layout);
+		layout.SetMarkup("cp3");
+		pixmap.DrawLayout (pen_gris, 0, yCp3Out -20, layout);
+		layout.SetMarkup("cp4");
+		pixmap.DrawLayout (pen_gris, 0, yCp4Out -20, layout);
+	}
 			
 	private void hideButtons() {
 		button_cancel.Sensitive = false;

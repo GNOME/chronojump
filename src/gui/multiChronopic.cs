@@ -27,45 +27,44 @@ using System.Collections; //ArrayList
 using System.Threading;
 using Mono.Unix;
 
+
+
 //--------------------------------------------------------
-//---------------- EDIT REACTION TIME WIDGET -------------
+//---------------- EDIT MULTI CHRONOPIC WIDGET -----------
 //--------------------------------------------------------
 
-public class EditReactionTimeWindow : EditEventWindow
+public class EditMultiChronopicWindow : EditEventWindow
 {
-	static EditReactionTimeWindow EditReactionTimeWindowBox;
+	static EditMultiChronopicWindow EditMultiChronopicWindowBox;
 
-	EditReactionTimeWindow (Gtk.Window parent) {
+	EditMultiChronopicWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "edit_event", null);
 		gladeXML.Autoconnect(this);
-		this.parent = parent;
+		this.parent 	= parent;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(edit_event);
 	
-		eventBigTypeString = Catalog.GetString("reaction time");
+		eventBigTypeString = Catalog.GetString("multi chronopic");
+		headerShowDecimal = false;
 	}
 
-	static new public EditReactionTimeWindow Show (Gtk.Window parent, Event myEvent, int pDN)
+	static new public EditMultiChronopicWindow Show (Gtk.Window parent, Event myEvent, int pDN)
 	{
-		if (EditReactionTimeWindowBox == null) {
-			EditReactionTimeWindowBox = new EditReactionTimeWindow (parent);
+		if (EditMultiChronopicWindowBox == null) {
+			EditMultiChronopicWindowBox = new EditMultiChronopicWindow (parent);
 		}
 
-		EditReactionTimeWindowBox.pDN = pDN;
+		EditMultiChronopicWindowBox.pDN = pDN;
 		
-		EditReactionTimeWindowBox.initializeValues();
+		EditMultiChronopicWindowBox.initializeValues();
 
-		EditReactionTimeWindowBox.fillDialog (myEvent);
+		EditMultiChronopicWindowBox.fillDialog (myEvent);
 
-		//reaction time has no types
-		EditReactionTimeWindowBox.label_type_title.Hide();
-		EditReactionTimeWindowBox.hbox_combo_eventType.Hide();
+		EditMultiChronopicWindowBox.edit_event.Show ();
 
-		EditReactionTimeWindowBox.edit_event.Show ();
-
-		return EditReactionTimeWindowBox;
+		return EditMultiChronopicWindowBox;
 	}
 	
 	protected override void initializeValues () {
@@ -75,47 +74,35 @@ public class EditReactionTimeWindow : EditEventWindow
 		showTc= false;
 		showFall = false;
 		showDistance = false;
-		showTime = true;
+		showTime = false;
 		showSpeed = false;
 		showWeight = false;
 		showLimited = false;
 	}
 
-	protected override string [] findTypes(Event myEvent) {
-		//reaction time has no types
-		string [] myTypes = new String[0];
-		return myTypes;
-	}
-	
-	protected override void fillTime(Event myEvent) {
-		ReactionTime myRT = (ReactionTime) myEvent;
-		entryTime = myRT.Time.ToString();
-		
-		//show all the decimals for not triming there in edit window using
-		//(and having different values in formulae like GetHeightInCm ...)
-		//entry_time_value.Text = Util.TrimDecimals(entryTime, pDN);
-		entry_time_value.Text = entryTime;
-	}
-	
 	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteReactionTime.Update(eventID, "", entryTime, personID, description); //2nd is type
+		SqliteMultiChronopic.Update(eventID, personID, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		EditReactionTimeWindowBox.edit_event.Hide();
-		EditReactionTimeWindowBox = null;
+		EditMultiChronopicWindowBox.edit_event.Hide();
+		EditMultiChronopicWindowBox = null;
 	}
 	
 	protected override void on_delete_event (object o, DeleteEventArgs args)
 	{
-		EditReactionTimeWindowBox.edit_event.Hide();
-		EditReactionTimeWindowBox = null;
+		EditMultiChronopicWindowBox.edit_event.Hide();
+		EditMultiChronopicWindowBox = null;
 	}
 	
 	protected override void hideWindow() {
-		EditReactionTimeWindowBox.edit_event.Hide();
-		EditReactionTimeWindowBox = null;
+		EditMultiChronopicWindowBox.edit_event.Hide();
+		EditMultiChronopicWindowBox = null;
 	}
 
 }
+
+
+
+

@@ -55,6 +55,9 @@ public class EventExecute
 		JUMP, JUMPREACTIVE, RUN, RUNINTERVAL, PULSE, REACTIONTIME, MULTICHRONOPIC
 	}
 	protected eventType needUpdateGraphType;
+	
+	protected string syncMessage;
+	protected bool needShowSyncMessage;
 
 	//instances with the info to create
 	protected PrepareEventGraphJumpSimple prepareEventGraphJumpSimple; 
@@ -274,6 +277,12 @@ public class EventExecute
 			needSensitiveButtonFinish = false;
 		}
 		
+		if(needShowSyncMessage) {
+			eventExecuteWin.ShowSyncMessage(syncMessage);
+			needShowSyncMessage = false;
+		}
+		
+		
 		//check if it should finish by time
 		if(shouldFinishByTime()) {
 			finish = true;
@@ -387,7 +396,7 @@ public class EventExecute
 			case eventType.MULTICHRONOPIC:
 				Log.Write("update graph: MULTICHRONOPIC");
 				eventExecuteWin.PrepareMultiChronopicGraph(
-						prepareEventGraphMultiChronopic.timestamp, 
+						//prepareEventGraphMultiChronopic.timestamp, 
 						prepareEventGraphMultiChronopic.cp1StartedIn, 
 						prepareEventGraphMultiChronopic.cp2StartedIn, 
 						prepareEventGraphMultiChronopic.cp3StartedIn, 

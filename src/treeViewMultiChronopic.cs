@@ -28,16 +28,27 @@ using Mono.Unix;
 public class TreeViewMultiChronopic : TreeViewEvent
 {
 	protected string personName = Catalog.GetString("Person");
+	private int maxCPs;
 
 	public TreeViewMultiChronopic ()
 	{
 	}
-	
+
+/*	
+	//session is not created or loaded yet, graph multiChronopic treeview with columns for two chronopics
 	public TreeViewMultiChronopic (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState)
+	{
+		TreeViewMultiChronopic (treeview, newPrefsDigitsNumber, expandState, 2);
+	}
+	*/
+
+	//session is created or loaded, we know maxCPs will be written
+	public TreeViewMultiChronopic (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState, int maxCPs)
 	{
 		this.treeview = treeview;
 		pDN = newPrefsDigitsNumber;
 		this.expandState = expandState;
+		this.maxCPs = maxCPs;
 
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
@@ -47,14 +58,31 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		dataLineTypePosition = -1; //position of type in the data to be printed
 		allEventsName = "";
 		
+		if(maxCPs == 2) 
+			columnsString = new string[]{ personName, 
+				Catalog.GetString("Time"), 
+				Catalog.GetString("State") + "\nCP1", "\nCP2",
+				Catalog.GetString("Change") + "\nCP1", "\nCP2",
+				Catalog.GetString("IN") + "-" + Catalog.GetString("IN") + "\nCP1", "\nCP2",
+				Catalog.GetString("OUT") + "-" + Catalog.GetString("OUT") + "\nCP1", "\nCP2",
+				descriptionName};
+		else if (maxCPs == 3) 
+			columnsString = new string[]{ personName, 
+				Catalog.GetString("Time"), 
+				Catalog.GetString("State") + "\nCP1", "\nCP2", "\nCP3",
+				Catalog.GetString("Change") + "\nCP1", "\nCP2", "\nCP3",
+				Catalog.GetString("IN") + "-" + Catalog.GetString("IN") + "\nCP1", "\nCP2", "\nCP3",
+				Catalog.GetString("OUT") + "-" + Catalog.GetString("OUT") + "\nCP1", "\nCP2", "\nCP3",
+				descriptionName};
+		else  // ==4
+			columnsString = new string[]{ personName, 
+				Catalog.GetString("Time"), 
+				Catalog.GetString("State") + "\nCP1", "\nCP2", "\nCP3", "\nCP4",
+				Catalog.GetString("Change") + "\nCP1", "\nCP2", "\nCP3", "\nCP4",
+				Catalog.GetString("IN") + "-" + Catalog.GetString("IN") + "\nCP1", "\nCP2", "\nCP3", "\nCP4",
+				Catalog.GetString("OUT") + "-" + Catalog.GetString("OUT") + "\nCP1", "\nCP2", "\nCP3", "\nCP4",
+				descriptionName};
 
-		columnsString = new string[]{personName, 
-			Catalog.GetString("Time"), 
-			Catalog.GetString("State") + "\nCP1", "\nCP2", "\nCP3", "\nCP4",
-			Catalog.GetString("Change") + "\nCP1", "\nCP2", "\nCP3", "\nCP4",
-			Catalog.GetString("IN") + "-" + Catalog.GetString("IN") + "\nCP1", "\nCP2", "\nCP3", "\nCP4",
-			Catalog.GetString("OUT") + "-" + Catalog.GetString("OUT") + "\nCP1", "\nCP2", "\nCP3", "\nCP4",
-			descriptionName};
 
 		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
@@ -87,37 +115,50 @@ public class TreeViewMultiChronopic : TreeViewEvent
 	protected override string [] getLineToStore(System.Object myObject)
 	{
 		MultiChronopic mc = (MultiChronopic)myObject;
+		ArrayList array = mc.AsArrayList(pDN);
 		
-		string title = mc.Type;
+		string title;
+		//title = mc.Type; //currently ""
+
+		title = "CPs: " + getCpsString(mc);
+		title += "; n: " + array.Count.ToString();
 		if(mc.Simulated == Constants.Simulated)
 			title += " (s) ";
 
 		//string myTypeComplet = title + "(" + newRunI.DistanceInterval + "x" + Util.GetLimitedRounded(newRunI.Limited, pDN) + ")";
 		
-		string [] myData = new String [getColsNum()];
+		string [] myData = new String [19+1];
 		int count = 0;
-		//myData[count++] = myTypeComplet;
 		myData[count++] = title;
-		myData[count++] = ""; //time
-		myData[count++] = ""; //state
-		myData[count++] = "";
-		myData[count++] = "";
-		myData[count++] = "";
-		myData[count++] = "";//change
-		myData[count++] = "";
-		myData[count++] = "";
-		myData[count++] = "";
-		myData[count++] = "";//in-in
-		myData[count++] = "";
-		myData[count++] = "";
-		myData[count++] = "";
-		myData[count++] = "";//out-out
-		myData[count++] = "";
-		myData[count++] = "";
-		myData[count++] = "";
+		
+		for(int i=0; i<17;i++) 
+			myData[count++] = "";
+		
 		myData[count++] = mc.Description;
 		myData[count++] = mc.UniqueID.ToString();
-		return myData;
+		return deleteCols(myData, maxCPs);
+	}
+	
+	private string getCpsString(MultiChronopic mc) {	
+		string cpsStr = "";
+		string sep = "";
+		if(mc.Cp1InStr.Length + mc.Cp1OutStr.Length > 0) {
+			cpsStr += sep + "1";
+			sep = ", ";
+		}
+		if(mc.Cp2InStr.Length + mc.Cp2OutStr.Length > 0) {
+			cpsStr += sep + "2";
+			sep = ", ";
+		}
+		if(maxCPs >= 3 && mc.Cp3InStr.Length + mc.Cp3OutStr.Length > 0) {
+			cpsStr += sep + "3";
+			sep = ", ";
+		}
+		if(maxCPs == 4 && mc.Cp4InStr.Length + mc.Cp4OutStr.Length > 0) {
+			cpsStr += sep + "4";
+			sep = ", ";
+		}
+		return cpsStr;
 	}
 
 	protected override int getNumOfSubEvents(System.Object myObject)
@@ -126,55 +167,62 @@ public class TreeViewMultiChronopic : TreeViewEvent
 
 		int cp1 = Util.GetNumberOfJumps(mc.Cp1InStr,false) + Util.GetNumberOfJumps(mc.Cp1OutStr,false);
 		int cp2 = Util.GetNumberOfJumps(mc.Cp2InStr,false) + Util.GetNumberOfJumps(mc.Cp2OutStr,false);
-		int cp3 = Util.GetNumberOfJumps(mc.Cp3InStr,false) + Util.GetNumberOfJumps(mc.Cp3OutStr,false);
-		int cp4 = Util.GetNumberOfJumps(mc.Cp4InStr,false) + Util.GetNumberOfJumps(mc.Cp4OutStr,false);
+
+		int cp3 = 0;
+		if(maxCPs >= 3)
+			cp3 = Util.GetNumberOfJumps(mc.Cp3InStr,false) + Util.GetNumberOfJumps(mc.Cp3OutStr,false);
+		int cp4 = 0;
+		if(maxCPs == 4)
+			cp4 = Util.GetNumberOfJumps(mc.Cp4InStr,false) + Util.GetNumberOfJumps(mc.Cp4OutStr,false);
 
 		return 1 + cp1 + cp2 + cp3 +cp4; //first "1+" is for the row with the initial data
 	} 
 	
 	//no total here
 	protected override void addStatisticInfo(TreeIter iterDeep, System.Object myObject) {
-		//store.AppendValues(iterDeep, printTotal(myObject, getColsNum()));
-		store.AppendValues(iterDeep, printAVG(myObject, getColsNum()));
-		store.AppendValues(iterDeep, printSD(myObject, getColsNum()));
+		//store.AppendValues(iterDeep, printTotal(myObject, 19+1));
+		store.AppendValues(iterDeep, printAVG(myObject, 19+1));
+		store.AppendValues(iterDeep, printSD(myObject, 19+1));
 	}
 	
 	protected override string [] printAVG(System.Object myObject, int cols) {
 		MultiChronopic mc = (MultiChronopic)myObject;
 		string [] averages = mc.Statistics(true, pDN); //first boolean is averageOrSD
 		
-		string [] myData = new String [getColsNum()];
+		string [] myData = new String [19+1];
 		int count = 0;
 		myData[count++] = Catalog.GetString("AVG");
-		for(int i=0; i<9;i++)
+		
+		for(int i=0; i<9;i++) 
 			myData[count++] = "";
 
-		for(int i=0; i<8;i++)
+		for(int i=0; i<8;i++) 
 			myData[count++] = cleanZeroOrMinus(Util.TrimDecimals( averages[i], pDN ));
-		
+
 		myData[count++] = ""; //desc
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
-		return myData;
+		return deleteCols(myData, maxCPs);
 	}
 
 	protected override string [] printSD(System.Object myObject, int cols) {
 		MultiChronopic mc = (MultiChronopic)myObject;
 		string [] sds = mc.Statistics(false, pDN); //first boolean is averageOrSD
 		
-		string [] myData = new String [getColsNum()];
+		string [] myData = new String [19+1];
 		int count = 0;
 		myData[count++] = Catalog.GetString("SD");
-		for(int i=0; i<9;i++)
-			myData[count++] = "";
-
-		for(int i=0; i<8;i++)
-			myData[count++] = cleanZeroOrMinus(Util.TrimDecimals( sds[i], pDN ));
 		
+		for(int i=0; i<9;i++) 
+			myData[count++] = "";
+		
+		for(int i=0; i<8;i++) 
+			myData[count++] = cleanZeroOrMinus(Util.TrimDecimals( sds[i], pDN ));
+
 		myData[count++] = ""; //desc
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
-		return myData;
+		return deleteCols(myData, maxCPs);
 	}
 
 
@@ -190,7 +238,7 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		MultiChronopic mc = (MultiChronopic)myObject;
 
 		//write line for treeview
-		string [] myData = new String [getColsNum()];
+		string [] myData = new String [19+1];
 
 		string [] cp1InFull = mc.Cp1InStr.Split(new char[] {'='});
 		string [] cp1OutFull = mc.Cp1OutStr.Split(new char[] {'='});
@@ -210,16 +258,39 @@ public class TreeViewMultiChronopic : TreeViewEvent
 			myData[count++] = Util.BoolToInOut(Util.IntToBool(mc.Cp2StartedIn));
 			myData[count++] = Util.BoolToInOut(Util.IntToBool(mc.Cp3StartedIn));
 			myData[count++] = Util.BoolToInOut(Util.IntToBool(mc.Cp4StartedIn));
-			for(int i=0; i<12;i++)
+
+			for(int i=0; i<12;i++) 
 				myData[count++] = "";
-				
+
 			myData[count++] = ""; //description column
 			myData[count++] = "-1"; //mark to non select here, select first line 
-			return myData;
+			return deleteCols(myData, maxCPs);
 		} else {
 			ArrayList array = mc.AsArrayList(pDN);
-			return array[lineCount-1].ToString().Split(new char[] {':'});
+			return deleteCols( array[lineCount-1].ToString().Split(new char[] {':'} ), maxCPs );
 		}
+
+	}
+
+	private string [] deleteCols(string [] s1, int maxCPs) {
+		if(maxCPs == 2) {
+			string [] s2 = new String[11+1];
+			for(int i=0, count=0; i < s1.Length; i++) {
+				if(i != 4 && i != 5 && i != 8 && i != 9 && i != 12 && i != 13 && i != 16 && i != 17)
+					s2[count++] = s1[i];
+			}
+			return s2;
+		}
+		else if(maxCPs == 3) {
+			string [] s2 = new String[15+1];
+			for(int i=0, count=0; i < s1.Length; i++) {
+				if(i != 5 && i != 9 && i != 13 && i != 17)
+					s2[count++] = s1[i];
+			}
+			return s2;
+		}
+		else //maxCPs == 4
+			return s1;
 
 	}
 	

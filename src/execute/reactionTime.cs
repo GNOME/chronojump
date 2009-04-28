@@ -63,7 +63,7 @@ public class ReactionTimeExecute : EventExecute
 		needUpdateGraph = false;
 		
 
-		//initialize eventDone as a ReactionTime		
+		//initialize eventDone as a ReactionTime	
 		eventDone = new ReactionTime();
 
 		//updateProgressBar = new UpdateProgressBar();

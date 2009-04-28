@@ -667,7 +667,7 @@ public class SessionLoadWindow {
 		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), 
 				typeof (string), typeof (string), typeof (string), typeof (string), typeof(string), 
 				typeof (string), typeof (string), typeof (string),
-				typeof (string), typeof (string), typeof (string) );
+				typeof (string), typeof (string), typeof (string), typeof(string) );
 		treeview_session_load.Model = store;
 		fillTreeView(treeview_session_load,store);
 
@@ -704,6 +704,7 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Runs interval"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	
@@ -739,6 +740,7 @@ public class SessionLoadWindow {
 					myStringFull[12], 	//number of runsInterval x session
 					myStringFull[13], 	//number of reaction times x session
 					myStringFull[14], 	//number of pulses x session
+					myStringFull[15], 	//number of multiChronopics x session
 					myStringFull[7]		//description of session
 					);
 		}	
@@ -775,8 +777,7 @@ public class SessionLoadWindow {
 
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		if(selected != "-1")
-		{
+		if(selected != "-1") {
 			currentSession = SqliteSession.Select (selected);
 			SessionLoadWindowBox.session_load.Hide();
 			SessionLoadWindowBox = null;
@@ -797,19 +798,13 @@ public class SessionLoadWindow {
 
 	public Button Button_accept 
 	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+		set { button_accept = value; }
+		get { return button_accept; }
 	}
 	
 	public Session CurrentSession 
 	{
-		get {
-			return currentSession;
-		}
+		get { return currentSession; }
 	}
 
 }

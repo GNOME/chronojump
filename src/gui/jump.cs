@@ -80,6 +80,7 @@ public class EditJumpWindow : EditEventWindow
 	}
 	
 	protected override void initializeValues () {
+		showType = true;
 		showTv = true;
 		showTc= true;
 		showFall = true;
@@ -302,6 +303,7 @@ public class EditJumpRjWindow : EditJumpWindow
 	}
 	
 	protected override void initializeValues () {
+		showType = true;
 		showTv = false;
 		showTc = false;
 		showFall = true;
@@ -813,7 +815,8 @@ public class JumpExtraWindow
 		if (JumpExtraWindowBox == null) {
 			JumpExtraWindowBox = new JumpExtraWindow (parent);
 		}
-		
+	
+	/*	
 		if(myJumpType.Name == Constants.RunAnalysisName) {
 			hideRepetitiveData();	
 			hideWeightData();	
@@ -830,6 +833,7 @@ public class JumpExtraWindow
 
 			return JumpExtraWindowBox;
 		}
+		*/
 		
 		if(myJumpType.IsRepetitive) {
 			string jumpsName = Catalog.GetString("jumps");

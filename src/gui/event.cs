@@ -83,6 +83,7 @@ public class EditEventWindow
 	protected string entryWeight = "0"; //used to record the % for old person if we change it
 	protected string entryAngle = "0";
 
+	protected bool showType;
 	protected bool showTv;
 	protected bool showTc;
 	protected bool showFall;
@@ -94,6 +95,7 @@ public class EditEventWindow
 	protected bool showAngle;
 
 	protected string eventBigTypeString = "a test";
+	protected bool headerShowDecimal = true;
 
 	protected int oldPersonID; //used to record the % for old person if we change it
 
@@ -127,6 +129,7 @@ public class EditEventWindow
 }
 	
 	protected virtual void initializeValues () {
+		showType = true;
 		showTv = true;
 		showTc = true;
 		showFall = true;
@@ -219,6 +222,11 @@ public class EditEventWindow
 		entry_description.Text = Util.RemoveNewLine(temp);
 
 		createComboEventType(myEvent);
+		
+		if(! showType) {
+			label_type_title.Hide();
+			combo_eventType.Hide();
+		}
 
 		string [] persons = SqlitePersonSession.SelectCurrentSession(myEvent.SessionID, true, false); //onlyIDAndName, not reversed
 		combo_persons = ComboBox.NewText();
@@ -236,7 +244,9 @@ public class EditEventWindow
 
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
-		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a {0}.\n(decimal separator: '{1}')"), eventBigTypeString, localeInfo.NumberDecimalSeparator);
+		label_header.Text = string.Format(Catalog.GetString("Use this window to edit a {0}."), eventBigTypeString);
+		if(headerShowDecimal)
+			label_header.Text += string.Format(Catalog.GetString("\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	}
 
 		

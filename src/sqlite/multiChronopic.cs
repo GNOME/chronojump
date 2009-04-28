@@ -168,12 +168,11 @@ class SqliteMultiChronopic : Sqlite
 		return myEvents;
 	}
 
-	/*
-	public static ReactionTime SelectReactionTimeData(int uniqueID)
+	public static MultiChronopic SelectMultiChronopicData(int uniqueID)
 	{
 		dbcon.Open();
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "SELECT * FROM " + Constants.MultiChronopicTable + " WHERE uniqueID == " + uniqueID;
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 
@@ -183,18 +182,45 @@ class SqliteMultiChronopic : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 		
-		ReactionTime myRT = new ReactionTime(DataReaderToStringArray(reader, 7));
+		MultiChronopic mc = new MultiChronopic(DataReaderToStringArray(reader, 18));
 	
 		dbcon.Close();
-		return myRT;
+		return mc;
 	}
-		
-	public static void Update(int eventID, string type, string time, int personID, string description)
+
+	public static int MaxCPs(int sessionID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE " + Constants.ReactionTimeTable + " SET personID = " + personID + 
-			", type = '" + type +
-			"', time = " + Util.ConvertToPoint(time) +
+		int maxCPs = 2;
+
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.MultiChronopicTable + 
+			" WHERE (cp3InStr != \"\" OR cp3OutStr != \"\") AND sessionID == " + sessionID;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		if (reader.Read()) {
+			maxCPs = 3;
+		}
+		reader.Close();
+
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.MultiChronopicTable + 
+			" WHERE (cp4InStr != \"\" OR cp4OutStr != \"\") AND sessionID == " + sessionID;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		if (reader.Read()) {
+			maxCPs = 4;
+		}
+		
+		dbcon.Close();
+		return maxCPs;
+	}
+
+	public static void Update(int eventID, int personID, string description)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "UPDATE " + Constants.MultiChronopicTable + " SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + eventID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -205,10 +231,9 @@ class SqliteMultiChronopic : Sqlite
 	public static void Delete(string uniqueID)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
+		dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE uniqueID == " + uniqueID;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		dbcon.Close();
 	}
-	*/
 }

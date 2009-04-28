@@ -348,6 +348,21 @@ class SqliteSession : Sqlite
 		}
 		reader_pulses.Close();
 	
+		//select multichronopic of each session
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.MultiChronopicTable + 
+			" GROUP BY sessionID ORDER BY sessionID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader_mcs;
+		reader_mcs = dbcmd.ExecuteReader();
+		ArrayList myArray_mcs = new ArrayList(2);
+		
+		while(reader_mcs.Read()) {
+			myArray_mcs.Add (reader_mcs[0].ToString() + ":" + reader_mcs[1].ToString() + ":" );
+		}
+		reader_mcs.Close();
+	
 		
 		//close database connection
 		dbcon.Close();
@@ -433,6 +448,17 @@ class SqliteSession : Sqlite
 			found = false;
 			foreach (string line_pulses in myArray_pulses) {
 				string [] myStringFull = line_pulses.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID) {
+					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
+					found = true;
+				}
+			}
+			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
+
+			//add multiChronopic for each session
+			found = false;
+			foreach (string line_mcs in myArray_mcs) {
+				string [] myStringFull = line_mcs.Split(new char[] {':'});
 				if(myStringFull[0] == mixingSessionID) {
 					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
 					found = true;

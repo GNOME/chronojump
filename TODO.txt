@@ -1,22 +1,17 @@
 TODO: 
 
-fix two bugs:
+fix two bugs (really difficult to reproduce):
 1.- the chronojump.cs findVersion (just do more tests check that the error is fixed easily)
 2.- the sqlite problem with the thread at start... need to explore more
 
-
 multiChronopic:
--on creation of array, clean the possible ':'
--treeview: show only needed cp cols (the arrayDone on multiChronopic construction should be different if cp num found changed,
-let's do a sqlite first to search if there are cp1, cp2, cp3, cp4, and create an int like cp1*0 + cp1*1 + cp1*2 + cp1*3
-if int is the same, then arrayDone will be true)
--treeview: after the load, do the "Add"
+-repair
 -tempTable
-
+-export
 
 new multichronopic tests:
-- optionally do that first time (waiting time) is now shown to anyone
-- padu runAnalysis (2cp)
+-do button enter
+- padu runAnalysis (2cp): out of jumpRj and going to multichronopic (also in menu)
 - discrimitative reaction time with two lights and two fotocells (or platforms)
 (4cp) when evaluator push left or right button, cp 1 or cp2 lights, person has to cross fotocell a or b (connected to cp 3, 4)
 better with only two chronopics, if evaluator push cp1, light1 gets on and person has tocross fotocell1 (or platform). Then with two we have all.
@@ -24,6 +19,8 @@ we can also have three or four to have more discriminative
 
 
 Add Cabedo's tests (not prioritary)
+
+server: study possible locks, see sqlite book
 
 add a link to the server page. Develop web stats and survey on web site. Maybe
 done by R script and calling to database
@@ -58,31 +55,6 @@ create a server mini program that tries to do a ping and if it fails,
 then write something in a file, and another program restarts server
 fo it as to chrons. Record some stat data in another file
 just to know how xsp2 is working
-
-
-count time(s)  cp change diff same cp diff all cp
-1          10   1     IN           10          10
-2          15   2     IN           15           5
-3          20   1    OUT           10           5
-3          20   3     IN           20           0
-4          25   2    OUT           10           5
-5          30   3    OUT           10           5
-6          60   1     IN           40          30
-7          65   2     IN           40           5
-8          70   3     IN           40           5
-
-do like this:
-                     state  time change   time IN-IN time OUT-OUT
-count time(s)  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3
-0           0  OUT OUT OUT 
-1          10   IN           10
-2          15       IN           15
-3          20  OUT      IN   10      20                20
-4          25  	   OUT           10                        25
-5          30          OUT           10                        30 
-6          60   IN           40           50
-7          65       IN           40           50
-8          70           IN           40           50
 
 
 merge databases

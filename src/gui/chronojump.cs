@@ -91,6 +91,9 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_delete_selected_pulse;
 	[Widget] Gtk.Button button_repair_selected_pulse;
 	
+	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
+	[Widget] Gtk.Button button_delete_selected_multi_chronopic;
+	
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
 	[Widget] Gtk.Button button_open;
@@ -125,27 +128,20 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_interval_by_laps;
 	[Widget] Gtk.Button button_run_interval_by_time;
 	[Widget] Gtk.Button button_run_interval_unlimited;
-	[Widget] Gtk.Button button_run_analysis;
 	[Widget] Gtk.Button button_run_interval_mtgug;
 	[Widget] Gtk.Button button_reaction_time_execute;
 	[Widget] Gtk.Button button_pulse_free;
 	[Widget] Gtk.Button button_pulse_custom;
 	//[Widget] Gtk.Button button_pulse_more;
 
-	//multiChronopic	
+	//multiChronopic
+	[Widget] Gtk.Table table_multi_chronopic_buttons;
 	[Widget] Gtk.Button button_multi_chronopic_start;
-	[Widget] Gtk.Frame frame_chronopic2;
-	[Widget] Gtk.Frame frame_chronopic3;
-	[Widget] Gtk.Frame frame_chronopic4;
-	[Widget] Gtk.ComboBox combo_port_linux2;
-	[Widget] Gtk.ComboBox combo_port_windows2;
-	[Widget] Gtk.ComboBox combo_port_linux3;
-	[Widget] Gtk.ComboBox combo_port_windows3;
-	[Widget] Gtk.ComboBox combo_port_linux4;
-	[Widget] Gtk.ComboBox combo_port_windows4;
-	[Widget] Gtk.Button button_connect_cp2;
-	[Widget] Gtk.Button button_connect_cp3;
-	[Widget] Gtk.Button button_connect_cp4;
+	[Widget] Gtk.Button button_run_analysis;
+	[Widget] Gtk.ComboBox combo_port_linux;
+	[Widget] Gtk.ComboBox combo_port_windows;
+	[Widget] Gtk.Button button_connect_cp;
+
 	[Widget] Gtk.Image image_cp1_yes;
 	[Widget] Gtk.Image image_cp1_no;
 	[Widget] Gtk.Image image_cp2_yes;
@@ -239,6 +235,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_run_interval_delete;
 	[Widget] Gtk.Image image_reaction_time_delete;
 	[Widget] Gtk.Image image_pulse_delete;
+	[Widget] Gtk.Image image_multi_chronopic_delete;
 
 	[Widget] Gtk.Image image_jumps_zoom;
 	[Widget] Gtk.Image image_jumps_rj_zoom;
@@ -299,12 +296,14 @@ public class ChronoJumpWindow
 
 	private static Person currentPerson;
 	private static Session currentSession;
+	private static bool definedSession;
 	private static Jump currentJump;
 	private static JumpRj currentJumpRj;
 	private static Run currentRun;
 	private static RunInterval currentRunInterval;
 	private static ReactionTime currentReactionTime;
 	private static Pulse currentPulse;
+	private static MultiChronopic currentMultiChronopic;
 	
 	private static EventExecute currentEventExecute;
 
@@ -330,9 +329,7 @@ public class ChronoJumpWindow
 	JumpsRjMoreWindow jumpsRjMoreWin;
 	JumpExtraWindow jumpExtraWin; //for normal and repetitive jumps 
 	EditJumpWindow editJumpWin;
-	//EditEventWindow editJumpWin;
 	EditJumpRjWindow editJumpRjWin;
-	//EditEventWindow editJumpRjWin;
 	RepairJumpRjWindow repairJumpRjWin;
 	JumpTypeAddWindow jumpTypeAddWin;
 	
@@ -349,6 +346,8 @@ public class ChronoJumpWindow
 	EditPulseWindow editPulseWin;
 	PulseExtraWindow pulseExtraWin;
 	RepairPulseWindow repairPulseWin;
+	
+	EditMultiChronopicWindow editMultiChronopicWin;
 	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ErrorWindow errorWin;
@@ -509,6 +508,7 @@ public class ChronoJumpWindow
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
+		definedSession = false;
 		
 		//if(recuperatedString == "")
 			appbar2.Push ( 1, Catalog.GetString ("Ready.") );
@@ -557,6 +557,7 @@ public class ChronoJumpWindow
 		image_run_interval_delete.Pixbuf = pixbuf;
 		image_reaction_time_delete.Pixbuf = pixbuf;
 		image_pulse_delete.Pixbuf = pixbuf;
+		image_multi_chronopic_delete.Pixbuf = pixbuf;
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change
@@ -855,12 +856,10 @@ public class ChronoJumpWindow
 					treeviewPulsesContextMenu(myPulse);
 				}
 			} else if(myTv == treeview_multi_chronopic) {
-				/*
-				if (myTreeViewPulses.EventSelectedID > 0) {
-					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
-					treeviewPulsesContextMenu(myPulse);
+				if (myTreeViewMultiChronopic.EventSelectedID > 0) {
+					MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID );
+					treeviewMultiChronopicContextMenu(mc);
 				}
-				*/
 			} else
 				Log.WriteLine(myTv.ToString());
 		}
@@ -1609,10 +1608,15 @@ public class ChronoJumpWindow
 
 	private void createTreeView_multi_chronopic (Gtk.TreeView tv) {
 		//myTreeViewMultiChronopic is a TreeViewMultiChronopic instance
-		myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, prefsDigitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+		if(definedSession)
+			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, prefsDigitsNumber, 
+					TreeViewEvent.ExpandStates.MINIMIZED, SqliteMultiChronopic.MaxCPs(currentSession.UniqueID) );
+		else
+			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, prefsDigitsNumber, 
+					TreeViewEvent.ExpandStates.MINIMIZED, 2);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
-//		tv.CursorChanged += on_treeview_multi_chronopic_cursor_changed; 
+		tv.CursorChanged += on_treeview_multi_chronopic_cursor_changed; 
 	}
 	
 	private void fillTreeView_multi_chronopic () {
@@ -1621,23 +1625,77 @@ public class ChronoJumpWindow
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewMultiChronopic, treeview_multi_chronopic);
 	}
 	
+	private void on_button_multi_chronopic_zoom_clicked (object o, EventArgs args) {
+		myTreeViewMultiChronopic.ExpandState = myTreeViewMultiChronopic.ZoomChange(myTreeViewMultiChronopic.ExpandState);
+		if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.MINIMIZED)
+			treeview_multi_chronopic.CollapseAll();
+		else if(myTreeViewMultiChronopic.ExpandState == TreeViewEvent.ExpandStates.OPTIMAL) {
+			treeview_multi_chronopic.CollapseAll();
+			myTreeViewMultiChronopic.ExpandOptimal();
+		} else
+			treeview_multi_chronopic.ExpandAll();
+	}
+	
 	private void treeview_multi_chronopic_storeReset() {
 		myTreeViewMultiChronopic.RemoveColumns();
-		myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, prefsDigitsNumber, 
-				myTreeViewMultiChronopic.ExpandState );
+		if(definedSession)
+			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, prefsDigitsNumber, 
+					myTreeViewMultiChronopic.ExpandState, SqliteMultiChronopic.MaxCPs(currentSession.UniqueID) );
+		else
+			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, prefsDigitsNumber, 
+					myTreeViewMultiChronopic.ExpandState, 2);
 	}
 
 	private void on_button_connect_cp_clicked (object o, EventArgs args) {
-		if(o == (object) button_connect_cp2) {
+		if(image_cp2_no.Visible)
 			currentCp = 2;
-		} else if(o == (object) button_connect_cp3) {
+		else if(image_cp3_no.Visible)
 			currentCp = 3;
-		} else if(o == (object) button_connect_cp4) {
+		else if(image_cp4_no.Visible)
 			currentCp = 4;
-		} else
-			return; //error
-		
 		prepareChronopicConnection();
+	}
+
+	private void on_treeview_multi_chronopic_cursor_changed (object o, EventArgs args) {
+		Log.WriteLine("Cursor changed");
+		// don't select if it's a person, 
+		// is for not confusing with the person treeviews that controls who does events
+		if (myTreeViewMultiChronopic.EventSelectedID == 0) {
+			myTreeViewMultiChronopic.Unselect();
+			showHideActionEventButtons(false, "MultiChronopic"); //hide
+		} else if (myTreeViewMultiChronopic.EventSelectedID == -1) {
+			myTreeViewMultiChronopic.SelectHeaderLine();
+			showHideActionEventButtons(true, "MultiChronopic");
+		} else {
+			showHideActionEventButtons(true, "MultiChronopic"); //show
+		}
+	}
+
+	private void treeviewMultiChronopicContextMenu(MultiChronopic mc) {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + mc.Type + " (" + mc.PersonName + ")");
+		myItem.Activated += on_edit_selected_multi_chronopic_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+		/*
+		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + mc.Type + " (" + mc.PersonName + ")");
+		myItem.Activated += on_repair_selected_multi_chronopic_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		*/
+		
+		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
+		//myMenu.Attach( mySep, 0, 1, 2, 3 );
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
+
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + mc.Type + " (" + mc.PersonName + ")");
+		myItem.Activated += on_delete_selected_multi_chronopic_clicked;
+		//myMenu.Attach( myItem, 0, 1, 3, 4 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
 	}
 
 
@@ -1711,52 +1769,28 @@ public class ChronoJumpWindow
 
 	private void createComboMultiChronopic() 
 	{
-		button_multi_chronopic_start.Sensitive = false;
-
-		frame_chronopic2.Sensitive = false;
-		frame_chronopic3.Sensitive = false;
-		frame_chronopic4.Sensitive = false;
-			
-		button_connect_cp2.Sensitive = false;
-		button_connect_cp3.Sensitive = false;
-		button_connect_cp4.Sensitive = false;
-		
+		table_multi_chronopic_buttons.Sensitive = false;
+		button_connect_cp.Sensitive = false;
 		image_cp1_yes.Hide();
 		image_cp2_yes.Hide();
 		image_cp3_yes.Hide();
 		image_cp4_yes.Hide();
 
 		if(Util.IsWindows()) {
-			combo_port_linux2.Hide();
-			combo_port_linux3.Hide();
-			combo_port_linux4.Hide();
-		
+			combo_port_windows.Sensitive = false;
+			combo_port_linux.Hide();
 			string [] comboWindowsOptions = new string[257];
 			for (int count = 0, i=1; i <= 257; i ++)
 				comboWindowsOptions[i-1] = "COM" + i;
 
-			UtilGtk.ComboUpdate(combo_port_windows2, comboWindowsOptions, comboWindowsOptions[0]);
-			UtilGtk.ComboUpdate(combo_port_windows3, comboWindowsOptions, comboWindowsOptions[0]);
-			UtilGtk.ComboUpdate(combo_port_windows4, comboWindowsOptions, comboWindowsOptions[0]);
-			
-			combo_port_windows2.Changed += new EventHandler (on_combo_multi_chronopic_changed);
-			combo_port_windows3.Changed += new EventHandler (on_combo_multi_chronopic_changed);
-			combo_port_windows4.Changed += new EventHandler (on_combo_multi_chronopic_changed);
+			UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
+			combo_port_windows.Changed += new EventHandler (on_combo_multi_chronopic_changed);
 		} else {
-			combo_port_windows2.Hide();
-			combo_port_windows3.Hide();
-			combo_port_windows4.Hide();
-
-			UtilGtk.ComboUpdate(combo_port_linux2, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
-			combo_port_linux2.Active = 0; //first option
-			UtilGtk.ComboUpdate(combo_port_linux3, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
-			combo_port_linux3.Active = 0; //first option
-			UtilGtk.ComboUpdate(combo_port_linux4, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
-			combo_port_linux4.Active = 0; //first option
-		
-			combo_port_linux2.Changed += new EventHandler (on_combo_multi_chronopic_changed);
-			combo_port_linux3.Changed += new EventHandler (on_combo_multi_chronopic_changed);
-			combo_port_linux4.Changed += new EventHandler (on_combo_multi_chronopic_changed);
+			combo_port_linux.Sensitive = false;
+			combo_port_windows.Hide();
+			UtilGtk.ComboUpdate(combo_port_linux, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
+			combo_port_linux.Active = 0; //first option
+			combo_port_linux.Changed += new EventHandler (on_combo_multi_chronopic_changed);
 		}
 	}
 
@@ -1832,20 +1866,8 @@ public class ChronoJumpWindow
 				UtilGtk.ComboGetActive(combo) == Constants.ChronopicDefaultPortLinux) 
 			portOk = false;
 
-		if (o == combo_port_linux2) 
-			button_connect_cp2.Sensitive = portOk;
-		if (o == combo_port_linux3) 
-			button_connect_cp3.Sensitive = portOk;
-		if (o == combo_port_linux4) 
-			button_connect_cp4.Sensitive = portOk;
-
-		if (o == combo_port_windows2) 
-			button_connect_cp2.Sensitive = portOk;
-		if (o == combo_port_windows3) 
-			button_connect_cp3.Sensitive = portOk;
-		if (o == combo_port_windows4) 
-			button_connect_cp4.Sensitive = portOk;
-
+		if (o == combo_port_linux || o == combo_port_windows) 
+			button_connect_cp.Sensitive = portOk;
 	}
 	
 
@@ -1921,6 +1943,7 @@ public class ChronoJumpWindow
 			//show hidden widgets
 			sensitiveGuiNoSession();
 			sensitiveGuiYesSession();
+			definedSession = true;
 
 			//for sure, jumpsExists is false, because we create a new session
 
@@ -1983,6 +2006,7 @@ public class ChronoJumpWindow
 		//show hidden widgets
 		sensitiveGuiNoSession();
 		sensitiveGuiYesSession();
+		definedSession = true;
 		
 		button_edit_current_person.Sensitive = false;
 		menuitem_edit_current_person.Sensitive = false;
@@ -2013,6 +2037,7 @@ public class ChronoJumpWindow
 		SqliteSession.DeleteWithJumps(currentSession.UniqueID.ToString());
 		
 		sensitiveGuiNoSession();
+		definedSession = false;
 		app1.Title = progName + "";
 	}
 
@@ -2230,20 +2255,52 @@ public class ChronoJumpWindow
 		if(menuitem_simulated.Active) {
 			Log.WriteLine("RadioSimulated - ACTIVE");
 			simulated = true;
-Log.WriteLine("sqli start");
 			SqlitePreferences.Update("simulated", simulated.ToString(), false);
-Log.WriteLine("sqli end");
 
 			//close connection with chronopic if initialized
 			if(cpRunning) {
 				sp.Close();
+					
+				image_cp1_no.Show();
+				image_cp1_yes.Hide();
+				//close connection with other chronopics on multiChronopic
+				if(image_cp2_yes.Visible) {
+					sp2.Close();
+					image_cp2_no.Show();
+					image_cp2_yes.Hide();
+				}
+				if(image_cp3_yes.Visible) {
+					sp3.Close();
+					image_cp3_no.Show();
+					image_cp3_yes.Hide();
+				}
+				if(image_cp4_yes.Visible) {
+					sp4.Close();
+					image_cp4_no.Show();
+					image_cp4_yes.Hide();
+				}
+				table_multi_chronopic_buttons.Sensitive = false;
+				combo_port_windows.Sensitive = false;
+				combo_port_linux.Sensitive = false;
+		
+				//regenerate combos (maybe some ports have been deleted on using before going to simulated)
+				if(Util.IsWindows()) {
+					string [] comboWindowsOptions = new string[257];
+					for (int count = 0, i=1; i <= 257; i ++)
+						comboWindowsOptions[i-1] = "COM" + i;
+					UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
+				} else {
+					UtilGtk.ComboUpdate(combo_port_linux, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
+					combo_port_linux.Active = 0; //first option
+				}
 			}
-Log.WriteLine("cpclosed");
+			Log.WriteLine("cpclosed");
 			cpRunning = false;
 		}
 		else
 			Log.WriteLine("RadioSimulated - INACTIVE");
-Log.WriteLine("all done");
+		
+		Log.WriteLine("all done");
 	}
 	
 	void on_radiobutton_chronopic (object o, EventArgs args)
@@ -2291,7 +2348,6 @@ Log.WriteLine("all done");
 		if(currentCp == 1) {
 			simulated = false;
 			SqlitePreferences.Update("simulated", simulated.ToString(), false);
-		
 			if(cpRunning)
 				return;
 		}
@@ -2299,84 +2355,76 @@ Log.WriteLine("all done");
 		string message = "";
 		string myPort = "";
 		bool success = false;
+			
+		if(currentCp == 1) 
+			myPort = chronopicPort;
+		else {
+			if(Util.IsWindows()) 
+				myPort = UtilGtk.ComboGetActive(combo_port_windows);
+			else
+				myPort = UtilGtk.ComboGetActive(combo_port_linux);
+		}
 
 		if(currentCp == 1) {
-			cp = chronopicInit(cp, out sp, platformState, chronopicPort, out message, out success);
+			cp = chronopicInit(cp, out sp, platformState, myPort, out message, out success);
 			if(success) {
 				image_cp1_no.Hide();
 				image_cp1_yes.Show();
-				button_multi_chronopic_start.Sensitive = true;
-				frame_chronopic2.Sensitive = true;
-				//disallow selection of that port for other chronopics
-				UtilGtk.ComboDelThisValue(combo_port_linux2, chronopicPort);
-				UtilGtk.ComboDelThisValue(combo_port_linux3, chronopicPort);
-				UtilGtk.ComboDelThisValue(combo_port_linux4, chronopicPort);
-
 			} else {
 				image_cp1_no.Show();
 				image_cp1_yes.Hide();
-				button_multi_chronopic_start.Sensitive = false;
-				//allow to connect next chronopic
-				frame_chronopic2.Sensitive = false;
 			}
 		}
 		else if(currentCp == 2) {
-			if(Util.IsWindows()) 
-				myPort = UtilGtk.ComboGetActive(combo_port_windows2);
-			else
-				myPort = UtilGtk.ComboGetActive(combo_port_linux2);
 			cp2 = chronopicInit(cp2, out sp2, platformState2, myPort, out message, out success);
 			if(success) {
 				image_cp2_no.Hide();
 				image_cp2_yes.Show();
-				combo_port_linux2.Sensitive = false;
-				combo_port_windows2.Sensitive = false;
-				button_connect_cp2.Sensitive = false;
-				//allow to connect next chronopic
-				frame_chronopic3.Sensitive = true;
-				//disallow selection of that port for other chronopics
-				UtilGtk.ComboDelThisValue(combo_port_linux3, myPort);
-				UtilGtk.ComboDelThisValue(combo_port_linux4, myPort);
 			} 
 		}
 		else if(currentCp == 3) {
-			if(Util.IsWindows()) 
-				myPort = UtilGtk.ComboGetActive(combo_port_windows3);
-			else
-				myPort = UtilGtk.ComboGetActive(combo_port_linux3);
 			cp3 = chronopicInit(cp3, out sp3, platformState3, myPort, out message, out success);
 			if(success) {
 				image_cp3_no.Hide();
 				image_cp3_yes.Show();
-				combo_port_linux3.Sensitive = false;
-				combo_port_windows3.Sensitive = false;
-				button_connect_cp3.Sensitive = false;
-				//allow to connect next chronopic
-				frame_chronopic4.Sensitive = true;
-				//disallow selection of that port for other chronopics
-				UtilGtk.ComboDelThisValue(combo_port_linux4, myPort);
 			} 
 		}
 		else if(currentCp == 4) {
-			if(Util.IsWindows()) 
-				myPort = UtilGtk.ComboGetActive(combo_port_windows4);
-			else
-				myPort = UtilGtk.ComboGetActive(combo_port_linux4);
 			cp4 = chronopicInit(cp4, out sp4, platformState4, myPort, out message, out success);
 			if(success) {
 				image_cp4_no.Hide();
 				image_cp4_yes.Show();
-				combo_port_linux4.Sensitive = false;
-				combo_port_windows4.Sensitive = false;
-				button_connect_cp4.Sensitive = false;
+				button_connect_cp.Sensitive = false;
 			} 
 		}
+		
 
 		Log.WriteLine(string.Format("wait_chronopic_start {0}", message));
 			
 		if(success) {
 			updateChronopicWinValuesState= true; //connected
 			updateChronopicWinValuesMessage= message;
+				
+			if(currentCp >= 2) 
+				table_multi_chronopic_buttons.Sensitive = true;
+	
+			//disallow selection of that port for other chronopics
+			//and change sensitiveness of combo port 
+			if(Util.IsWindows()) {
+				UtilGtk.ComboDelThisValue(combo_port_windows, myPort);
+				combo_port_windows.Active = 0; //first option
+				if(currentCp < 4)
+					combo_port_windows.Sensitive = true;
+				else
+					combo_port_windows.Sensitive = false;
+			} else {
+				UtilGtk.ComboDelThisValue(combo_port_linux, myPort);
+				combo_port_linux.Active = 0; //first option
+				if(currentCp < 4)
+					combo_port_linux.Sensitive = true;
+				else
+					combo_port_linux.Sensitive = false;
+			}
 		} else {
 			updateChronopicWinValuesState= false; //disconnected
 			updateChronopicWinValuesMessage= message;
@@ -2727,6 +2775,23 @@ Log.WriteLine("all done");
 		} else {
 			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
 			currentEventExecute.MultiChronopicWrite(false);
+			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
+Console.WriteLine("W");
+		
+
+			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
+			if(currentMultiChronopic.MaxCPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
+				treeview_multi_chronopic_storeReset();
+				fillTreeView_multi_chronopic();
+			} else
+				myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
+Console.WriteLine("X");
+			
+			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
+			showHideActionEventButtons(true, "MultiChronopic"); //show
+		
+			//unhide buttons for delete last test
+			sensitiveGuiYesEvent();
 		}
 	}
 		
@@ -2815,6 +2880,11 @@ Log.WriteLine("all done");
 			currentEventType = new PulseType("Free");
 		} else 	if(o == (object) button_pulse_custom) {
 			currentEventType = new PulseType("Custom");
+		//multiChronopic
+		} else 	if(o == (object) button_multi_chronopic_start) {
+			return;
+		} else 	if(o == (object) button_run_analysis) {
+			return;
 		}
 
 		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
@@ -3157,16 +3227,6 @@ Log.WriteLine("all done");
 
 			//in this jump type, don't ask for limit of jumps or seconds
 			on_rj_accepted(o, args);
-		} else if(o == (object) button_run_analysis || o == (object) menuitem_run_analysis) 
-		{
-			//ATTENTION: run analysis is considered a reactive jump
-			//because all tc and tf's have to be recorded
-			currentJumpType = new JumpType(Constants.RunAnalysisName);
-
-			//on_rj_accepted(o, args);
-			//need to ask for horizontal distance between photocells
-			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
-			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
 		}
 	}
 	private void on_rj_accepted (object o, EventArgs args) 
@@ -3484,7 +3544,6 @@ Log.WriteLine("all done");
 			showHideActionEventButtons(true, "Run"); //show
 		
 			if(createdStatsWin) {
-				//statsWin.FillTreeView_stats(false, false);
 				statsWin.ShowUpdateStatsButton();
 			}
 		
@@ -3973,8 +4032,7 @@ Log.WriteLine("all done");
 	 *  --------------------------------------------------------
 	 */
 
-
-	private void on_button_multi_chronopic_start_clicked (object o, EventArgs args) {
+	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
 		Log.WriteLine("multi chronopic accepted");
 
 		//used by cancel and finish
@@ -4045,6 +4103,26 @@ Log.WriteLine("all done");
 
 	private void on_multi_chronopic_finished (object o, EventArgs args) {
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
+
+/*		
+		if ( ! currentEventExecute.Cancel ) {
+Console.WriteLine("V");
+			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
+Console.WriteLine("W");
+			
+			myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
+Console.WriteLine("X");
+			
+			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
+			showHideActionEventButtons(true, "MultiChronopic"); //show
+		
+			//unhide buttons for delete last test
+			sensitiveGuiYesEvent();
+		}
+		
+		//unhide buttons that allow doing another test
+		sensitiveGuiEventDone();
+		*/
 	}
 		
 
@@ -4091,6 +4169,22 @@ Log.WriteLine("all done");
 					break;
 				case EventType.Types.REACTIONTIME:
 					eventExecuteWin.PrepareReactionTimeGraph(currentReactionTime.Time);
+					break;
+				case EventType.Types.MULTICHRONOPIC:
+					eventExecuteWin.PrepareMultiChronopicGraph(
+						//currentMultiChronopic.timestamp, 
+						Util.IntToBool(currentMultiChronopic.Cp1StartedIn), 
+						Util.IntToBool(currentMultiChronopic.Cp2StartedIn), 
+						Util.IntToBool(currentMultiChronopic.Cp3StartedIn), 
+						Util.IntToBool(currentMultiChronopic.Cp4StartedIn), 
+						currentMultiChronopic.Cp1InStr, 
+						currentMultiChronopic.Cp1OutStr,
+						currentMultiChronopic.Cp2InStr, 
+						currentMultiChronopic.Cp2OutStr,
+						currentMultiChronopic.Cp3InStr, 
+						currentMultiChronopic.Cp3OutStr,
+						currentMultiChronopic.Cp4InStr, 
+						currentMultiChronopic.Cp4OutStr);
 					break;
 			}
 		}
@@ -4320,7 +4414,36 @@ Log.WriteLine("all done");
 		//}
 	}
 	
+	private void on_edit_selected_multi_chronopic_clicked (object o, EventArgs args) {
+		notebook_change(6);
+		Log.WriteLine("Edit selected multi chronopic");
+		//1.- check that there's a line selected
+		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
+		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
+			//3.- obtain the data of the selected test
+			MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID );
+			eventOldPerson = mc.PersonID;
+		
+			//4.- edit this jump
+			editMultiChronopicWin = EditMultiChronopicWindow.Show(app1, mc, prefsDigitsNumber);
+			editMultiChronopicWin.Button_accept.Clicked += new EventHandler(on_edit_selected_multi_chronopic_accepted);
+		}
+	}
 
+	private void on_edit_selected_multi_chronopic_accepted (object o, EventArgs args) {
+		Log.WriteLine("edit selected multi chronopic accepted");
+	
+		MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID );
+		
+		//if person changed, fill treeview again, if not, only update it's line
+		if(eventOldPerson == mc.PersonID) 
+			myTreeViewMultiChronopic.Update(mc);
+		else {
+			treeview_multi_chronopic_storeReset();
+			fillTreeView_multi_chronopic();
+		}
+	}
+	
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS DELETE -------------------------
 	 *  --------------------------------------------------------
@@ -4527,6 +4650,35 @@ Log.WriteLine("all done");
 		*/
 	}
 
+	private void on_delete_selected_multi_chronopic_clicked (object o, EventArgs args) {
+		notebook_change(6);
+		Log.WriteLine("delete selected multi chronopic");
+		//1.- check that there's a line selected
+		//2.- check that this line is a test and not a person (check also if it's not a individual mc, then pass the parent mc)
+		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
+			//3.- display confirmwindow of deletion 
+			if (askDeletion) {
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete selected test?"), 
+						"", "jump", myTreeViewMultiChronopic.EventSelectedID);
+				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_multi_chronopic_accepted);
+			} else {
+				on_delete_selected_multi_chronopic_accepted(o, args);
+			}
+		}
+	}
+	
+	private void on_delete_selected_multi_chronopic_accepted (object o, EventArgs args) {
+		Log.WriteLine("accept delete selected multi chronopic");
+		
+		SqliteMultiChronopic.Delete( (myTreeViewMultiChronopic.EventSelectedID).ToString() );
+		
+		appbar2.Push( 1, Catalog.GetString ( "Deleted multi chronopic" ));
+	
+		myTreeViewMultiChronopic.DelEvent(myTreeViewMultiChronopic.EventSelectedID);
+		showHideActionEventButtons(false, "MultiChronopic");
+	}
+	
+
 
 
 	/* ---------------------------------------------------------
@@ -4662,6 +4814,10 @@ Log.WriteLine("all done");
 		*/
 	}
 
+	private void on_repair_selected_multi_chronopic_clicked (object o, EventArgs args) {
+		notebook_change(6);
+		Log.WriteLine("Repair selected multichronopic");
+	}
 	
 
 	/* ---------------------------------------------------------
@@ -4963,6 +5119,11 @@ Log.WriteLine("all done");
 			button_edit_selected_pulse.Sensitive = show;
 			button_delete_selected_pulse.Sensitive = show;
 			button_repair_selected_pulse.Sensitive = show;
+			success = true;
+		} 
+		if (type == "ALL" || type == "MultiChronopic") {
+			button_edit_selected_multi_chronopic.Sensitive = show;
+			button_delete_selected_multi_chronopic.Sensitive = show;
 			success = true;
 		} 
 		if (!success) {

@@ -65,6 +65,9 @@ public class MultiChronopicExecute : EventExecute
 
 	static bool firstValue;
 	
+	private MultiChronopic multiChronopicDone;
+	
+	
 	public MultiChronopicExecute() {
 	}
 
@@ -151,6 +154,18 @@ public class MultiChronopicExecute : EventExecute
 	private void initValues() {
 		fakeButtonFinished = new Gtk.Button();
 		simulated = false;
+
+		cp1InStr = "";
+		cp1OutStr = "";
+		cp2InStr = "";
+		cp2OutStr = "";
+		cp3InStr = "";
+		cp3OutStr = "";
+		cp4InStr = "";
+		cp4OutStr = "";
+		
+		//initialize eventDone as a mc
+		eventDone = new MultiChronopic();
 	}
 	
 	public override void SimulateInitValues(Random randSent)
@@ -290,8 +305,11 @@ public class MultiChronopicExecute : EventExecute
 		inStr = ""; outStr = "";
 
 		syncStates syncing = syncStates.DONE;
-		if(syncFirst)
+		if(syncFirst) {
 			syncing = syncStates.NOTHING;
+			syncMessage = Catalog.GetString("Press Test button in all Chronopics simultaneously.");
+			needShowSyncMessage = true;
+		}
 
 		do {
 			ok = myCP.Read_event(out timestamp, out myPS);
@@ -311,10 +329,16 @@ public class MultiChronopicExecute : EventExecute
 						initializeTimer(); //this is for first Chronopic and only for simulated
 					}
 							
-					if(syncing == syncStates.NOTHING && myPS == Chronopic.Plataforma.ON && myLS == States.OFF) 
+					if(syncing == syncStates.NOTHING && myPS == Chronopic.Plataforma.ON && myLS == States.OFF) {
 						syncing = syncStates.CONTACTED;
-					else if (syncing == syncStates.CONTACTED && myPS == Chronopic.Plataforma.OFF && myLS == States.ON) 
+						syncMessage = Catalog.GetString("Release Test button in all Chronopics simultaneously.");
+						needShowSyncMessage = true;
+					}
+					else if (syncing == syncStates.CONTACTED && myPS == Chronopic.Plataforma.OFF && myLS == States.ON) {
 						syncing = syncStates.DONE;
+						syncMessage = Catalog.GetString("Synchronization done.");
+						needShowSyncMessage = true;
+					}
 					else {
 						needSensitiveButtonFinish = true;
 
@@ -331,7 +355,8 @@ public class MultiChronopicExecute : EventExecute
 							inEqual = "="; 
 						}
 
-						prepareEventGraphMultiChronopic = new PrepareEventGraphMultiChronopic(timestamp/1000.0, 
+						prepareEventGraphMultiChronopic = new PrepareEventGraphMultiChronopic(
+								//timestamp/1000.0, 
 								cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn,
 								cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr);
 						needUpdateGraphType = eventType.MULTICHRONOPIC;

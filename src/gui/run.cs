@@ -72,6 +72,7 @@ public class EditRunWindow : EditEventWindow
 	}
 	
 	protected override void initializeValues () {
+		showType = true;
 		showTv = false;
 		showTc= false;
 		showFall = false;
@@ -244,6 +245,7 @@ public class EditRunIntervalWindow : EditRunWindow
 	}
 	
 	protected override void initializeValues () {
+		showType = true;
 		showTv = false;
 		showTc= false;
 		showFall = false;

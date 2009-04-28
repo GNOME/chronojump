@@ -1,5 +1,34 @@
 CHANGELOG.txt
 
+28 apr 2009
+	0.8.3.2
+	multiChronopic:
+	-controls changed
+	-RunAnalysis now in multiChronopic treeview
+	-if changed to simulated, disconnected all serial ports
+	-info included in sessionLoad
+	-info included in showAllPersonEvents
+	
+	-eventExecuteWin
+	 +4 cps are graphed (untested)
+	 +shown "cp1", "cp2", ...
+	 +eventExecuteWin, when a cp has event, painted discont lines for rest of cps
+	 +sync message done
+	 +done update
+	
+	-treeview
+	 +done treeview add
+	 +shown only needed cols (depending on num cps on db at that session, also manages ok Add with != cps)
+	 +unselectable users on treeview mc
+	 +show treeview mc first line
+	 +done edit, delete, showHideActionButtons, 
+	 +sqlite update, sqlite delete
+	 +zoom done
+
+	 optimization on treeview run interval loading of data with variableDistancesString (less SQL calls)
+
+	created gui/multiChronopic.cs
+
 24 apr 2009
 	0.8.3.1
 	multiChronopic
@@ -109,6 +138,33 @@ CHANGELOG.txt
 	created src/multiChronopic.cs
 	created src/sqlite/multiChronopic.cs
 	created src/treeViewMultiChronopic.cs
+
+	multiChronopic explanation
+
+	count time(s)  cp change diff same cp diff all cp
+	1          10   1     IN           10          10
+	2          15   2     IN           15           5
+	3          20   1    OUT           10           5
+	3          20   3     IN           20           0
+	4          25   2    OUT           10           5
+	5          30   3    OUT           10           5
+	6          60   1     IN           40          30
+	7          65   2     IN           40           5
+	8          70   3     IN           40           5
+	
+	do like this:
+	                     state  time change   time IN-IN time OUT-OUT
+	count time(s)  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3  cp1 cp2 cp3
+	0           0  OUT OUT OUT 
+	1          10   IN           10
+	2          15       IN           15
+	3          20  OUT      IN   10      20                20
+	4          25  	   OUT           10                        25
+	5          30          OUT           10                        30 
+	6          60   IN           40           50
+	7          65       IN           40           50
+	8          70           IN           40           50
+
 
 	Fixed contants chronopic3 name (mistake on last svn ci)
 

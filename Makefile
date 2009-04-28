@@ -33,7 +33,7 @@ CHRONOJUMP_SERVER = chronojump_server
 #--------Dependences of CHRONOJUMP
 
 
-CHRONOJUMP_DEP_GUI = src/gui/chronojump.cs src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs src/gui/convertWeight.cs src/gui/genericWindow.cs src/gui/splash.cs src/gui/server.cs src/gui/dialogServerStats.cs src/gui/evaluator.cs
+CHRONOJUMP_DEP_GUI = src/gui/chronojump.cs src/gui/confirm.cs src/gui/error.cs src/gui/eventExecute.cs src/gui/eventGraphConfigure.cs src/gui/event.cs src/gui/jump.cs src/gui/jumpType.cs src/gui/run.cs src/gui/runType.cs src/gui/reactionTime.cs src/gui/pulse.cs src/gui/multiChronopic.cs src/gui/person.cs src/gui/preferences.cs src/gui/session.cs src/gui/stats.cs src/gui/report.cs src/gui/about.cs src/gui/helpPorts.cs src/gui/dialogMessage.cs src/gui/dialogCalendar.cs src/gui/dialogImageTest.cs src/gui/language.cs src/gui/repetitiveConditions.cs src/gui/chronopicConnection.cs src/gui/convertWeight.cs src/gui/genericWindow.cs src/gui/splash.cs src/gui/server.cs src/gui/dialogServerStats.cs src/gui/evaluator.cs
 
 CHRONOJUMP_DEP_STATS = src/statType.cs src/stats/main.cs src/stats/global.cs src/stats/sjCmjAbk.cs src/stats/sjCmjAbkPlus.cs src/stats/djIndex.cs src/stats/djQ.cs src/stats/rjIndex.cs src/stats/rjPotencyBosco.cs src/stats/rjEvolution.cs src/stats/ieIub.cs src/stats/fv.cs src/stats/potency.cs src/stats/rjAVGSD.cs
 
@@ -116,7 +116,7 @@ CHRONOJUMP_MINI_DEP = src/chronojump_mini.cs src/chronopic.cs src/util.cs src/lo
 
 #--------Dependences of CHRONOJUMP_SERVER
 
-CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*.cs src/util.cs src/person.cs src/event.cs src/jump.cs src/run.cs src/pulse.cs src/reactionTime.cs src/session.cs src/eventType.cs src/jumpType.cs src/runType.cs src/pulseType.cs src/sport.cs src/constants.cs src/log.cs src/serverPing.cs src/serverEvaluator.cs chronojump_server/BCrypt.cs 
+CHRONOJUMP_SERVER_DEP = chronojump_server/chronojumpServerCSharp.cs src/sqlite/*.cs src/util.cs src/person.cs src/event.cs src/jump.cs src/run.cs src/pulse.cs src/reactionTime.cs src/multiChronopic.cs src/session.cs src/eventType.cs src/jumpType.cs src/runType.cs src/pulseType.cs src/sport.cs src/constants.cs src/log.cs src/serverPing.cs src/serverEvaluator.cs chronojump_server/BCrypt.cs 
 
 
 #--------Makefiles

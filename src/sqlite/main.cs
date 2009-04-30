@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.68";
+	static string lastChronojumpDatabaseVersion = "0.69";
 
 	public Sqlite() {
 	}
@@ -873,6 +873,22 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.68";
 			}
+			if(currentVersion == "0.68") {
+				dbcon.Open();
+				
+				RunType type = new RunType();
+				type.Name = "Gesell-DBT";
+				type.Distance = 2.5;
+				type.Description = "Gesell Dynamic Balance Test";
+				SqliteRunType.Insert(type, Constants.RunTypeTable, true);
+
+				SqliteEvent.GraphLinkInsert (Constants.RunTable, "Gesell-DBT", "gesell_dbt.png", true);
+				SqlitePreferences.Update ("databaseVersion", "0.69", true); 
+				
+				Log.WriteLine("Converted DB to 0.69 (added Gesell-DBT test)"); 
+				dbcon.Close();
+				currentVersion = "0.69";
+			}
 
 
 		}
@@ -997,6 +1013,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.68 - 0.69 added Gesell-DBT test
 		//0.67 - 0.68 added multiChronopic tests table
 		//0.66 - 0.67 added TakeOff jumps 
 		//0.65 - 0.66 added run analysis (JumpRj test (masked as run interval))

@@ -47,6 +47,7 @@ public class RunTypeAddWindow
 	[Widget] Gtk.SpinButton spin_fixed_tracks_or_time;
 
 	[Widget] Gtk.Label label_distance;
+	[Widget] Gtk.Label label_decimal;
 	[Widget] Gtk.RadioButton radiobutton_dist_variable;
 	[Widget] Gtk.RadioButton radiobutton_dist_fixed;
 	[Widget] Gtk.RadioButton radiobutton_dist_different;
@@ -108,6 +109,8 @@ public class RunTypeAddWindow
 		button_accept.Sensitive = false;
 		spin_fixed_tracks_or_time.Sensitive = false;
 		label_distance.Text = Catalog.GetString("Distance");
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		label_decimal.Text = string.Format(Catalog.GetString("\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 		
 		radiobutton_dist_different.Sensitive = false;
 		hbox_distance_fixed.Hide();	

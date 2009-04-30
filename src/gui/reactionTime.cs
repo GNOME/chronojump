@@ -79,6 +79,7 @@ public class EditReactionTimeWindow : EditEventWindow
 		showSpeed = false;
 		showWeight = false;
 		showLimited = false;
+		showMistakes = false;
 	}
 
 	protected override string [] findTypes(Event myEvent) {

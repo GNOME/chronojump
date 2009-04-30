@@ -34,14 +34,6 @@ public class TreeViewMultiChronopic : TreeViewEvent
 	{
 	}
 
-/*	
-	//session is not created or loaded yet, graph multiChronopic treeview with columns for two chronopics
-	public TreeViewMultiChronopic (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState)
-	{
-		TreeViewMultiChronopic (treeview, newPrefsDigitsNumber, expandState, 2);
-	}
-	*/
-
 	//session is created or loaded, we know maxCPs will be written
 	public TreeViewMultiChronopic (Gtk.TreeView treeview, int newPrefsDigitsNumber, ExpandStates expandState, int maxCPs)
 	{

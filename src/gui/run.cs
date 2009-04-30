@@ -34,6 +34,7 @@ using Mono.Unix;
 public class EditRunWindow : EditEventWindow
 {
 	static EditRunWindow EditRunWindowBox;
+	private int mistakes;
 
 	//for inheritance
 	protected EditRunWindow () {
@@ -61,10 +62,17 @@ public class EditRunWindow : EditEventWindow
 		
 		EditRunWindowBox.initializeValues();
 		
+		EditRunWindowBox.fillDialog (myEvent);
+		
 		if(myEvent.Type == "Margaria")
 			EditRunWindowBox.entry_description.Sensitive = false;
-
-		EditRunWindowBox.fillDialog (myEvent);
+		if(myEvent.Type == "Gesell-DBT") {
+			EditRunWindowBox.showMistakes = true;
+			EditRunWindowBox.combo_eventType.Sensitive=false;
+			EditRunWindowBox.entry_description.Sensitive = false;
+			EditRunWindowBox.mistakes = Convert.ToInt32(myEvent.Description);
+			EditRunWindowBox.spin_mistakes.Value = Convert.ToInt32(myEvent.Description);
+		}
 
 		EditRunWindowBox.edit_event.Show ();
 
@@ -81,6 +89,7 @@ public class EditRunWindow : EditEventWindow
 		showSpeed = true;
 		showWeight = false;
 		showLimited = false;
+		showMistakes = false;
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -137,6 +146,21 @@ public class EditRunWindow : EditEventWindow
 		label_speed_value.Text = Util.TrimDecimals(
 				Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);
 	}
+	
+	protected override void on_spin_mistakes_changed (object o, EventArgs args) {
+		if(Util.IsNumber(spin_mistakes.Value.ToString(), true) && entry_time_value.Text.ToString().Length > 0) {
+			Console.WriteLine("A");
+			Console.WriteLine(entry_time_value.Text.ToString());
+			double timeWithoutMistakes = Convert.ToDouble(entry_time_value.Text.ToString()) - 2 * mistakes;
+			entry_time_value.Text = (timeWithoutMistakes + 2 * spin_mistakes.Value).ToString();
+			entryTime = entry_time_value.Text.ToString();
+			
+			mistakes = Convert.ToInt32(spin_mistakes.Value);
+			
+			entry_description.Text = mistakes.ToString();
+		}
+	}
+		
 
 	protected override void updateEvent(int eventID, int personID, string description) {
 		SqliteRun.Update(eventID, UtilGtk.ComboGetActive(combo_eventType), entryDistance, entryTime, personID, description);
@@ -254,6 +278,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		showSpeed = true;
 		showWeight = false;
 		showLimited = true;
+		showMistakes = false;
 	}
 
 	//this disallows loops on radio actions	

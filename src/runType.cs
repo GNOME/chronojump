@@ -127,6 +127,49 @@ public class RunType : EventType
 			isPredefined	= true;
 			description	= Catalog.GetString("Run 2000 meters");
 			imageFileName = "run_simple.png";
+		} //balance
+		else if(name == "Gesell-DBT") {
+			hasIntervals 	= false; 
+			distance 	= 2.5;
+			tracksLimited 	= false;
+			fixedValue 	= 0;
+			isPredefined	= true;
+			imageFileName = "gesell_dbt.png";
+			description	= "Gesell Dynamic Balance Test";
+			longDescription	= 
+				"<b>" + Catalog.GetString("Short description") + "</b>: \n" +
+			       Catalog.GetString("Subjects had to walk over the bar as fast as possible.") + "\n" +
+			       Catalog.GetString("From one platform to another without falling down.") + "\n" +
+			       Catalog.GetString("If they touched the ground they had to continue.") + "\n" +
+			       Catalog.GetString("The hands were on their waist.") + "\n" +
+			       Catalog.GetString("Without shoes.") + "\n" +
+			       Catalog.GetString("Every ground contact is penalized with 2 seconds.") + "\n" +
+			       Catalog.GetString("The best of 2 attempts were recorded.") + "\n\n" +
+				
+			       "<b>" + Catalog.GetString("Gesell's Bar") + "</b>: " +
+			       Catalog.GetString("Length: 2.5 m.") + "\n" +
+			       Catalog.GetString("Wide: 4 cm.") + "\n\n" +
+
+				"<b>" + Catalog.GetString("Protocol") + "</b>: " + 
+				Catalog.GetString("CONDITIONS: ") + "\n" +
+				"- " + Catalog.GetString("Without shoes.") + "\n" +
+				"- " + Catalog.GetString("Hands on their waist.") + "\n" +
+				"- " + Catalog.GetString("In front of a wall in order to avoid distractions.") + "\n\n" +
+				Catalog.GetString("INSTRUCTIONS AND DEMONSTRATION: ") + "\n" +
+				"- " + Catalog.GetString("You have to walk on this bar as fast as possible \'like this\', if you touch the ground just continue.") + "\n" +
+				Catalog.GetString("\'Like this\' means normal, with a foot in front of the other, not side by side.") + "\n\n" +
+				
+				Catalog.GetString("SCORE: ") + "\n" +
+				"- " + Catalog.GetString("Time will start since first platform is touched, and will stop when second platform is reached.") + "\n" +
+				"- " + Catalog.GetString("Every ground contact is penalized with 2 seconds.") + "\n" +
+			        "- " + Catalog.GetString("The best of 2 attempts will be recorded.") + "\n\n" +
+
+				"<b>" + Catalog.GetString("Reference:") + "</b>\n" +
+				"Cabedo, J. (2005) L'evolució de l'equilibri durant el cicle vital. En Liceu Psicològic. Accessible a http://www.liceupsicologic.org/tesis/Tesi. Pep Cabedo.pdf (Consulted Apr 30 2009).";
+			/*
+				"<b>" + Catalog.GetString("Abstract:") + "</b>\n" +
+	    			"http://www.revista-apunts.com/apunts.php?id_pagina=7&id_post=837&lang=en";
+				*/
 		} //agility
 		else if(name == "Agility-20Yard") {
 			hasIntervals 	= false; 

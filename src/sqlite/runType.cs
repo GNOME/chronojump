@@ -66,6 +66,7 @@ class SqliteRunType : Sqlite
 			"1000m:1000:run 1000 meters",
 			"2000m:2000:run 2000 meters",
 			"Margaria:0:Margaria-Kalamen test",
+			"Gesell-DBT:2.5:Gesell Dynamic Balance Test",
 
 			//also simple agility tests
 			"Agility-20Yard:18.28:20Yard Agility test",
@@ -109,7 +110,7 @@ class SqliteRunType : Sqlite
 				myStr[0] + "', " + myStr[1] + ", '" +	//name, distance
 				myStr[2] + "')" ;	//description
 				*/
-				t.Name + "', " + t.Distance + ", '" + t.Description +	"')" ;	
+				t.Name + "', " + Util.ConvertToPoint(t.Distance) + ", '" + t.Description +	"')" ;	
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myLast = dbcon.LastInsertRowId;
@@ -245,6 +246,7 @@ class SqliteRunType : Sqlite
 		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-Shuttle-Run", "agility_shuttle.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Agility-ZigZag", "agility_zigzag.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Margaria", "margaria.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunTable, "Gesell-DBT", "gesell_dbt.png", true);
 	}
 
 
@@ -442,6 +444,7 @@ class SqliteRunIntervalType : SqliteRunType
 		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m10times", "run_interval.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "7m30seconds", "run_interval.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m endurance", "run_interval.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "MTGUG", "mtgug.png", true);
 	}
 
 

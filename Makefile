@@ -70,6 +70,7 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/run_simple.png,run_simple.png 			-resource:images/mini/run_simple.png,mini/run_simple.png \
 		-resource:images/run_interval.png,run_interval.png 		-resource:images/mini/run_interval.png,mini/run_interval.png \
 		-resource:images/margaria.png,margaria.png			-resource:images/mini/margaria.png,mini/margaria.png \
+		-resource:images/gesell_dbt.png,gesell_dbt.png			-resource:images/mini/gesell_dbt.png,mini/gesell_dbt.png \
 		-resource:images/pulse_free.png,pulse_free.png 			-resource:images/mini/pulse_free.png,mini/pulse_free.png \
 		-resource:images/pulse_custom.png,pulse_custom.png		-resource:images/mini/pulse_custom.png,mini/pulse_custom.png \
 		-resource:images/mtgug.png,mtgug.png				-resource:images/mini/mtgug.png,mini/mtgug.png \

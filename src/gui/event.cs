@@ -66,6 +66,9 @@ public class EditEventWindow
 	[Widget] protected Gtk.Box hbox_combo_person;
 	[Widget] protected Gtk.ComboBox combo_persons;
 	
+	[Widget] protected Gtk.Label label_mistakes;
+	[Widget] protected Gtk.SpinButton spin_mistakes;
+	
 	[Widget] protected Gtk.Entry entry_description;
 	//[Widget] protected Gtk.TextView textview_description;
 
@@ -93,6 +96,7 @@ public class EditEventWindow
 	protected bool showWeight;
 	protected bool showLimited;
 	protected bool showAngle;
+	protected bool showMistakes;
 
 	protected string eventBigTypeString = "a test";
 	protected bool headerShowDecimal = true;
@@ -139,6 +143,7 @@ public class EditEventWindow
 		showWeight = true;
 		showLimited = true;
 		showAngle = true;
+		showMistakes = false;
 
 		label_simulated.Hide();
 	}
@@ -216,6 +221,12 @@ public class EditEventWindow
 			label_angle_title.Hide();
 			entry_angle_value.Hide();
 		}
+		
+		if(! showMistakes) {
+			label_mistakes.Hide();
+			spin_mistakes.Hide();
+		}
+
 
 		//also remove new line for old descriptions that used a textview
 		string temp = Util.RemoveTildeAndColonAndDot(myEvent.Description);
@@ -415,6 +426,10 @@ public class EditEventWindow
 		} else 
 			button_accept.Sensitive = false;
 	}
+	
+	protected virtual void on_spin_mistakes_changed (object o, EventArgs args) {
+	}
+		
 		
 	private void on_entry_description_changed (object o, EventArgs args) {
 		entry_description.Text = Util.RemoveTildeAndColonAndDot(entry_description.Text.ToString());

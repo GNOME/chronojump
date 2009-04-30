@@ -119,6 +119,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_100m;
 	[Widget] Gtk.Button button_run_200m;
 	[Widget] Gtk.Button button_run_400m;
+	[Widget] Gtk.Button button_run_gesell;
 	[Widget] Gtk.Button button_run_20yard;
 	[Widget] Gtk.Button button_run_505;
 	[Widget] Gtk.Button button_run_illinois;
@@ -191,6 +192,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_100m;
 	[Widget] Gtk.MenuItem menuitem_200m;
 	[Widget] Gtk.MenuItem menuitem_400m;
+	[Widget] Gtk.MenuItem menuitem_run_gesell;
 	[Widget] Gtk.MenuItem menuitem_run_20yard;
 	[Widget] Gtk.MenuItem menuitem_run_505;
 	[Widget] Gtk.MenuItem menuitem_run_illinois;
@@ -2852,6 +2854,8 @@ Console.WriteLine("X");
 			currentEventType = new RunType("200m");
 		} else 	if(o == (object) button_run_400m) {
 			currentEventType = new RunType("400m");
+		} else 	if(o == (object) button_run_gesell) {
+			currentEventType = new RunType("Gesell-DBT");
 		} else 	if(o == (object) button_run_20yard) {
 			currentEventType = new RunType("Agility-20Yard");
 		} else 	if(o == (object) button_run_505) {
@@ -3451,6 +3455,8 @@ Console.WriteLine("X");
 			currentRunType = new RunType("200m");
 		} else if (o == (object) button_run_400m || o == (object) menuitem_400m) {
 			currentRunType = new RunType("400m");
+		} else if (o == (object) button_run_gesell || o == (object) menuitem_run_gesell) {
+			currentRunType = new RunType("Gesell-DBT");
 		} else if (o == (object) button_run_20yard || o == (object) menuitem_run_20yard) {
 			currentRunType = new RunType("Agility-20Yard");
 		} else if (o == (object) button_run_505 || o == (object) menuitem_run_505) {

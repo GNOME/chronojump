@@ -78,6 +78,7 @@ public class EditMultiChronopicWindow : EditEventWindow
 		showSpeed = false;
 		showWeight = false;
 		showLimited = false;
+		showMistakes = false;
 	}
 
 	protected override void updateEvent(int eventID, int personID, string description) {

@@ -299,7 +299,8 @@ Log.WriteLine("MANAGE(3)!!!!");
 			double weight = SqlitePersonSession.SelectPersonWeight(personID, sessionID);
 			double distanceMeters = distance / 1000;
 			description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / time).ToString(), pDN) + " (Watts)";
-		}
+		} else if(type == "Gesell-DBT") 
+			description = "0";
 
 		uniqueID = SqliteRun.Insert(false, Constants.RunTable, "NULL", personID, sessionID, 
 				type, distance, time, description, 

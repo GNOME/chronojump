@@ -90,6 +90,7 @@ public class EditJumpWindow : EditEventWindow
 		showWeight = true;
 		showLimited = false;
 		showAngle = true;
+		showMistakes = false;
 		
 		if(weightPercentPreferred)
 			label_weight_title.Text = label_weight_title.Text.ToString() + " %";
@@ -312,6 +313,7 @@ public class EditJumpRjWindow : EditJumpWindow
 		showSpeed = false;
 		showWeight = true;
 		showLimited = true;
+		showMistakes = false;
 		
 		if(weightPercentPreferred)
 			label_weight_title.Text = label_weight_title.Text.ToString() + " %";

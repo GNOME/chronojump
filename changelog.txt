@@ -1,5 +1,9 @@
 CHANGELOG.txt
 
+30 apr 2009
+	new test Gesell-DBT test new db: 0.69
+	new runType allows to put decimals at distance (fixes bug)
+
 28 apr 2009
 	0.8.3.2
 	multiChronopic:

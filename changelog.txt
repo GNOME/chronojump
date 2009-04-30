@@ -1,5 +1,13 @@
 CHANGELOG.txt
 
+30 apr 2009 (2)
+	added graphs for multiChronopic and runAnalysis
+	multiChronopic sync is done or not depending on multiChronopic type
+	multiChronopic type is recorded
+	improvements on threading on multiChronopic, now finishing will not record event 4 times
+
+	improvements on (really few sometimes) crash when splash win is created too late (findversion error)
+
 30 apr 2009
 	new test Gesell-DBT test new db: 0.69
 	new runType allows to put decimals at distance (fixes bug)

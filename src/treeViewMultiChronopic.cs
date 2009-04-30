@@ -112,7 +112,7 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		string title;
 		//title = mc.Type; //currently ""
 
-		title = "CPs: " + getCpsString(mc);
+		title = mc.Type + " CPs: " + getCpsString(mc);
 		title += "; n: " + array.Count.ToString();
 		if(mc.Simulated == Constants.Simulated)
 			title += " (s) ";

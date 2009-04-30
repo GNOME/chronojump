@@ -253,6 +253,7 @@ public class MultiChronopicExecute : EventExecute
 		}
 
 		firstValue = true;
+		writingStarted = false;
 			
 
 		//start thread
@@ -434,9 +435,21 @@ public class MultiChronopicExecute : EventExecute
 				*/
 	}
 
+	/*
+	maybe we come here four times, one for any chronopic,
+	best is to put one bool in order to only let on get inside
+	*/
+	bool writingStarted;
+
 	public override void MultiChronopicWrite(bool tempTable)
 	{
-		Log.WriteLine("----------WRITING----------");
+		Log.WriteLine("----------WRITING A----------");
+		if(writingStarted)
+			return;
+		else
+			writingStarted = true; //only one execution can "get in"
+		Log.WriteLine("----------WRITING B----------");
+
 		Console.WriteLine("cp1 In:" + cp1InStr);
 		Console.WriteLine("cp1 Out:" + cp1OutStr + "\n");
 		Console.WriteLine("cp2 In:" + cp2InStr);

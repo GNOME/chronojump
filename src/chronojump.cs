@@ -86,6 +86,8 @@ public class ChronoJump
 		new ChronoJump(args);
 	}
 
+	bool createdSplashWin = false;
+
 	public ChronoJump (string [] args) 
 	{
 		
@@ -93,6 +95,7 @@ public class ChronoJump
 			
 		//start threading to show splash window
 		SplashWindow splashWin = SplashWindow.Show();
+		createdSplashWin = true;
 		
 		fakeSplashButton = new Gtk.Button();
 		fakeSplashButton.Clicked += new EventHandler(on_splash_ended);
@@ -308,6 +311,12 @@ Console.WriteLine("--1--");
 		splashShowButton = true;
 		
 Console.WriteLine("--2--");
+		//maybe other thread doesn't create at time the splash win
+		//then just wait
+		while(! createdSplashWin)
+			;
+Console.WriteLine("--2.1--");
+
 		if(splashWin.FakeButtonCreated)
 			Console.WriteLine("\n\nCREATED\n\n");
 		else

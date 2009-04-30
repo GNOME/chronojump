@@ -149,8 +149,6 @@ public class EditRunWindow : EditEventWindow
 	
 	protected override void on_spin_mistakes_changed (object o, EventArgs args) {
 		if(Util.IsNumber(spin_mistakes.Value.ToString(), true) && entry_time_value.Text.ToString().Length > 0) {
-			Console.WriteLine("A");
-			Console.WriteLine(entry_time_value.Text.ToString());
 			double timeWithoutMistakes = Convert.ToDouble(entry_time_value.Text.ToString()) - 2 * mistakes;
 			entry_time_value.Text = (timeWithoutMistakes + 2 * spin_mistakes.Value).ToString();
 			entryTime = entry_time_value.Text.ToString();

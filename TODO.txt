@@ -1,10 +1,12 @@
 TODO: 
 
 fix two bugs (really difficult to reproduce):
-1.- the chronojump.cs findVersion (just do more tests check that the error is fixed easily)
+1.- the chronojump.cs findVersion (just do more tests check that the error is fixed easily) 
+work done (30 apr (2)), just do more tests
 2.- the sqlite problem with the thread at start... need to explore more
 
 multiChronopic:
+(when press two for full finishing, say that then it will be recorded)
 -repair
 -tempTable
 -export
@@ -18,11 +20,8 @@ better with only two chronopics, if evaluator push cp1, light1 gets on and perso
 we can also have three or four to have more discriminative
 
 
-Add Cabedo's tests (not prioritary)
-
 server: study possible locks, see sqlite book
 
-add a link to the server page. Develop web stats and survey on web site. Maybe
 done by R script and calling to database
 http://cran.r-project.org/web/packages/RSQLite/index.html
 http://cran.r-project.org/web/packages/RSQLite/INSTALL

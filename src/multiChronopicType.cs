@@ -23,9 +23,38 @@ using System.Data;
 
 public class MultiChronopicType : EventType 
 {
+	/*
+	   if false, a type doesn't need sync
+	   if true, it can be synced or not depending on checkbox active by user
+	   */
+	bool syncNeeded;
+
 	public MultiChronopicType() {
 		type = Types.MULTICHRONOPIC;
 	}
 	
+	//predefined values
+	public MultiChronopicType(string name) {
+		type = Types.MULTICHRONOPIC;
+		this.name = name;
+		
+		//if this changes, sqlite/pulseType.cs initialize table should change
+		if(name == "multiChronopic") {
+			syncNeeded = true;
+			imageFileName = "multiChronopic.png";
+			description = "";
+			longDescription = ""; 
+
+		} else if(name == "runAnalysis") {
+			syncNeeded = false;
+			imageFileName = "run_analysis.png";
+			description = "";
+			longDescription = ""; 
+		}
+	}
+
+	public bool SyncNeeded {
+		get { return syncNeeded; }
+	}
 }
 

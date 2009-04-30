@@ -315,6 +315,7 @@ public class ChronoJumpWindow
 	private static JumpType currentJumpType;
 	private static RunType currentRunType;
 	private static PulseType currentPulseType;
+	private static MultiChronopicType currentMultiChronopicType;
 	private static Report report;
 
 	//windows needed
@@ -2711,8 +2712,9 @@ public class ChronoJumpWindow
 		//unhide event buttons for next event
 		sensitiveGuiEventDone();
 
-		if(!simulated)
+		if(!simulated) {
 			checkFinishMultiTotally(o, args);
+		}
 		
 		//let update stats
 		if(createdStatsWin)
@@ -2733,7 +2735,7 @@ public class ChronoJumpWindow
 			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
 		}
 	}
-		
+	
 	private void checkFinishMultiTotally (object o, EventArgs args) 
 	{
 		bool needFinish1 = false;
@@ -2875,7 +2877,6 @@ Console.WriteLine("X");
 			currentEventType = new RunType("byTime");
 		} else 	if(o == (object) button_run_interval_unlimited) {
 			currentEventType = new RunType("unlimited");
-//TODO: RunAnalysis
 		} else 	if(o == (object) button_run_interval_mtgug) {
 			currentEventType = new RunType("MTGUG");
 		//reactionTime
@@ -2886,9 +2887,9 @@ Console.WriteLine("X");
 			currentEventType = new PulseType("Custom");
 		//multiChronopic
 		} else 	if(o == (object) button_multi_chronopic_start) {
-			return;
+			currentEventType = new MultiChronopicType("multiChronopic");
 		} else 	if(o == (object) button_run_analysis) {
-			return;
+			currentEventType = new MultiChronopicType("runAnalysis");
 		}
 
 		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
@@ -2938,6 +2939,8 @@ Console.WriteLine("X");
 				myType = new JumpType(eventName);
 			else if (eventTypeString == EventType.Types.RUN.ToString()) 
 				myType = new RunType(eventName);
+			else if (eventTypeString == EventType.Types.MULTICHRONOPIC.ToString()) 
+				myType = new MultiChronopicType(eventName);
 			else Log.WriteLine("Error on eventTypeHasLongDescription");
 
 			if(myType.HasLongDescription)
@@ -4040,6 +4043,11 @@ Console.WriteLine("X");
 
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
 		Log.WriteLine("multi chronopic accepted");
+		
+		if(o == (object) button_multi_chronopic_start) 
+			currentMultiChronopicType = new MultiChronopicType("multiChronopic");
+		else if(o == (object) button_run_analysis)
+			currentMultiChronopicType = new MultiChronopicType("runAnalysis");
 
 		//used by cancel and finish
 		currentEventType = new MultiChronopicType();
@@ -4061,8 +4069,7 @@ Console.WriteLine("X");
 			currentPerson.UniqueID, currentPerson.Name, 
 			currentSession.UniqueID, 
 			Constants.MultiChronopicTable, //tableName
-			//currentPulseType.Name, 
-			"", 
+			currentMultiChronopicType.Name, //"" 
 			prefsDigitsNumber, -1, simulated
 			); //-1: unlimited pulses (or changes)
 
@@ -4081,22 +4088,30 @@ Console.WriteLine("X");
 				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
 				*/
 
+		bool syncNeeded = false;
+		if(currentMultiChronopicType.SyncNeeded && check_multi_sync.Active)
+			syncNeeded = true;
+
 		if(image_cp2_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, "", 
-					cp, check_multi_sync.Active, appbar2, app1);
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					currentSession.UniqueID, currentMultiChronopicType.Name, 
+					cp, syncNeeded, appbar2, app1);
 		else if(image_cp2_yes.Visible && image_cp3_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, "",  
-					cp, cp2, check_multi_sync.Active, appbar2, app1);
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					currentSession.UniqueID, currentMultiChronopicType.Name,  
+					cp, cp2, syncNeeded, appbar2, app1);
 		else if(image_cp3_yes.Visible && image_cp4_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, "",
-					cp, cp2, cp3, check_multi_sync.Active, appbar2, app1);
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					currentSession.UniqueID, currentMultiChronopicType.Name,
+					cp, cp2, cp3, syncNeeded, appbar2, app1);
 		else if(image_cp4_yes.Visible)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, currentSession.UniqueID, "",
-					cp, cp2, cp3, cp4, check_multi_sync.Active, appbar2, app1);
+					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					currentSession.UniqueID, currentMultiChronopicType.Name,
+					cp, cp2, cp3, cp4, syncNeeded, appbar2, app1);
 
 		//if(simulated)	
 		//	currentEventExecute.SimulateInitValues(rand);

@@ -60,7 +60,7 @@ class SqlitePersonSession : Sqlite
 		       	" WHERE personID == " + personID + 
 			" AND sessionID == " + sessionID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		//Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;

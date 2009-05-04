@@ -66,6 +66,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     private System.Threading.SendOrPostCallback UploadPulseOperationCompleted;
     
+    private System.Threading.SendOrPostCallback UploadMultiChronopicOperationCompleted;
+    
     private System.Threading.SendOrPostCallback ListDirectoryOperationCompleted;
     
     public ChronojumpServer() {
@@ -115,6 +117,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     private event UploadRTCompletedEventHandler UploadRTCompleted;
     
     private event UploadPulseCompletedEventHandler UploadPulseCompleted;
+    
+    private event UploadMultiChronopicCompletedEventHandler UploadMultiChronopicCompleted;
     
     private event ListDirectoryCompletedEventHandler ListDirectoryCompleted;
     
@@ -1001,6 +1005,45 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     /// <remarks>
+///Upload a multiChronopic
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadMultiChronopic", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public int UploadMultiChronopic(MultiChronopic myTest) {
+        object[] results = this.Invoke("UploadMultiChronopic", new object[] {
+                    myTest});
+        return ((int)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginUploadMultiChronopic(MultiChronopic myTest, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("UploadMultiChronopic", new object[] {
+                    myTest}, callback, asyncState);
+    }
+    
+    public int EndUploadMultiChronopic(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((int)(results[0]));
+    }
+    
+    public void UploadMultiChronopicAsync(MultiChronopic myTest) {
+        this.UploadMultiChronopicAsync(myTest, null);
+    }
+    
+    public void UploadMultiChronopicAsync(MultiChronopic myTest, object userState) {
+        if ((this.UploadMultiChronopicOperationCompleted == null)) {
+            this.UploadMultiChronopicOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUploadMultiChronopicCompleted);
+        }
+        this.InvokeAsync("UploadMultiChronopic", new object[] {
+                    myTest}, this.UploadMultiChronopicOperationCompleted, userState);
+    }
+    
+    private void OnUploadMultiChronopicCompleted(object arg) {
+        if ((this.UploadMultiChronopicCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.UploadMultiChronopicCompleted(this, new UploadMultiChronopicCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
 ///List directory files (only as a sample)
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/ListDirectory", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
@@ -1039,6 +1082,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         }
     }
 }
+
 /*
 /// <remarks/>
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
@@ -1347,6 +1391,7 @@ public partial class Jump : Event {
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(RunInterval))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(ReactionTime))]
 [System.Xml.Serialization.XmlIncludeAttribute(typeof(Pulse))]
+[System.Xml.Serialization.XmlIncludeAttribute(typeof(MultiChronopic))]
 public partial class Event {
     
     /// <remarks/>
@@ -1457,6 +1502,51 @@ public partial class Pulse : Event {
     
     /// <remarks/>
     public string TimesString;
+}
+
+/// <remarks/>
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
+[System.SerializableAttribute()]
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
+public partial class MultiChronopic : Event {
+    
+    /// <remarks/>
+    public int Cp1StartedIn;
+    
+    /// <remarks/>
+    public int Cp2StartedIn;
+    
+    /// <remarks/>
+    public int Cp3StartedIn;
+    
+    /// <remarks/>
+    public int Cp4StartedIn;
+    
+    /// <remarks/>
+    public string Cp1InStr;
+    
+    /// <remarks/>
+    public string Cp1OutStr;
+    
+    /// <remarks/>
+    public string Cp2InStr;
+    
+    /// <remarks/>
+    public string Cp2OutStr;
+    
+    /// <remarks/>
+    public string Cp3InStr;
+    
+    /// <remarks/>
+    public string Cp3OutStr;
+    
+    /// <remarks/>
+    public string Cp4InStr;
+    
+    /// <remarks/>
+    public string Cp4OutStr;
 }
 */
 public class ConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -1876,6 +1966,25 @@ public class UploadPulseCompletedEventArgs : System.ComponentModel.AsyncComplete
 }
 
 public delegate void UploadPulseCompletedEventHandler(object sender, UploadPulseCompletedEventArgs args);
+
+public class UploadMultiChronopicCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal UploadMultiChronopicCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public int Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((int)(this.results[0]));
+        }
+    }
+}
+
+public delegate void UploadMultiChronopicCompletedEventHandler(object sender, UploadMultiChronopicCompletedEventArgs args);
 
 public class ListDirectoryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     

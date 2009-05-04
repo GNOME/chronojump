@@ -39,13 +39,13 @@ public class MultiChronopicType : EventType
 		this.name = name;
 		
 		//if this changes, sqlite/pulseType.cs initialize table should change
-		if(name == "multiChronopic") {
+		if(name == Constants.MultiChronopicName) {
 			syncNeeded = true;
 			imageFileName = "multiChronopic.png";
 			description = "";
 			longDescription = ""; 
 
-		} else if(name == "runAnalysis") {
+		} else if(name == Constants.RunAnalysisName) {
 			syncNeeded = false;
 			imageFileName = "run_analysis.png";
 			description = "";

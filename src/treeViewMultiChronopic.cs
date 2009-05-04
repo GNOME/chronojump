@@ -110,9 +110,8 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		ArrayList array = mc.AsArrayList(pDN);
 		
 		string title;
-		//title = mc.Type; //currently ""
 
-		title = mc.Type + " CPs: " + getCpsString(mc);
+		title = mc.Type + " CPs: " + mc.GetCPsString();
 		title += "; n: " + array.Count.ToString();
 		if(mc.Simulated == Constants.Simulated)
 			title += " (s) ";
@@ -128,31 +127,9 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		
 		myData[count++] = mc.Description;
 		myData[count++] = mc.UniqueID.ToString();
-		return deleteCols(myData, maxCPs);
+		return mc.DeleteCols(myData, maxCPs, false);
 	}
 	
-	private string getCpsString(MultiChronopic mc) {	
-		string cpsStr = "";
-		string sep = "";
-		if(mc.Cp1InStr.Length + mc.Cp1OutStr.Length > 0) {
-			cpsStr += sep + "1";
-			sep = ", ";
-		}
-		if(mc.Cp2InStr.Length + mc.Cp2OutStr.Length > 0) {
-			cpsStr += sep + "2";
-			sep = ", ";
-		}
-		if(maxCPs >= 3 && mc.Cp3InStr.Length + mc.Cp3OutStr.Length > 0) {
-			cpsStr += sep + "3";
-			sep = ", ";
-		}
-		if(maxCPs == 4 && mc.Cp4InStr.Length + mc.Cp4OutStr.Length > 0) {
-			cpsStr += sep + "4";
-			sep = ", ";
-		}
-		return cpsStr;
-	}
-
 	protected override int getNumOfSubEvents(System.Object myObject)
 	{
 		MultiChronopic mc = (MultiChronopic)myObject;
@@ -189,12 +166,12 @@ public class TreeViewMultiChronopic : TreeViewEvent
 			myData[count++] = "";
 
 		for(int i=0; i<8;i++) 
-			myData[count++] = cleanZeroOrMinus(Util.TrimDecimals( averages[i], pDN ));
+			myData[count++] = Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[i], pDN ));
 
 		myData[count++] = ""; //desc
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
-		return deleteCols(myData, maxCPs);
+		return mc.DeleteCols(myData, maxCPs, false);
 	}
 
 	protected override string [] printSD(System.Object myObject, int cols) {
@@ -209,21 +186,13 @@ public class TreeViewMultiChronopic : TreeViewEvent
 			myData[count++] = "";
 		
 		for(int i=0; i<8;i++) 
-			myData[count++] = cleanZeroOrMinus(Util.TrimDecimals( sds[i], pDN ));
+			myData[count++] = Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[i], pDN ));
 
 		myData[count++] = ""; //desc
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
-		return deleteCols(myData, maxCPs);
+		return mc.DeleteCols(myData, maxCPs, false);
 	}
-
-
-	private string cleanZeroOrMinus(string myValue) {
-		if(myValue == "0" || myValue == "-")
-			return "";
-		else
-			return myValue;
-	}	
 			
 	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
 	{
@@ -256,14 +225,15 @@ public class TreeViewMultiChronopic : TreeViewEvent
 
 			myData[count++] = ""; //description column
 			myData[count++] = "-1"; //mark to non select here, select first line 
-			return deleteCols(myData, maxCPs);
+			return mc.DeleteCols(myData, maxCPs, false);
 		} else {
 			ArrayList array = mc.AsArrayList(pDN);
-			return deleteCols( array[lineCount-1].ToString().Split(new char[] {':'} ), maxCPs );
+			return mc.DeleteCols( array[lineCount-1].ToString().Split(new char[] {':'} ), maxCPs, false );
 		}
 
 	}
 
+	/*
 	private string [] deleteCols(string [] s1, int maxCPs) {
 		if(maxCPs == 2) {
 			string [] s2 = new String[11+1];
@@ -283,7 +253,7 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		}
 		else //maxCPs == 4
 			return s1;
-
 	}
+	*/
 	
 }

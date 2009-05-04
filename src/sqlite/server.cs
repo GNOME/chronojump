@@ -201,6 +201,7 @@ class SqliteServer : Sqlite
 		stats.Add("RunsInterval:" + Sqlite.Count(Constants.RunIntervalTable, true).ToString());
 		stats.Add("ReactionTimes:" + Sqlite.Count(Constants.ReactionTimeTable, true).ToString());
 		stats.Add("Pulses:" + Sqlite.Count(Constants.PulseTable, true).ToString());
+		stats.Add("MultiChronopic:" + Sqlite.Count(Constants.MultiChronopicTable, true).ToString());
 		
 		dbcon.Close();
 
@@ -230,6 +231,7 @@ class SqliteServer : Sqlite
 		stats.Add("RunsInterval:" + Sqlite.CountCondition(Constants.RunIntervalTable, true, "simulated", ">", "0").ToString());
 		stats.Add("ReactionTimes:" + Sqlite.CountCondition(Constants.ReactionTimeTable, true, "simulated", ">", "0").ToString());
 		stats.Add("Pulses:" + Sqlite.CountCondition(Constants.PulseTable, true, "simulated", ">", "0").ToString());
+		stats.Add("MultiChronopic:" + Sqlite.CountCondition(Constants.MultiChronopicTable, true, "simulated", ">", "0").ToString());
 		
 		dbcon.Close();
 

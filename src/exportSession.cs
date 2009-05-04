@@ -35,6 +35,7 @@ public class ExportSession
 	protected string [] myRunsInterval;
 	protected string [] myReactionTimes;
 	protected string [] myPulses;
+	protected string [] myMCs;
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
@@ -169,6 +170,7 @@ public class ExportSession
 		myRunsInterval = SqliteRunInterval.SelectRuns(mySession.UniqueID, -1);
 		myReactionTimes = SqliteReactionTime.SelectReactionTimes(mySession.UniqueID, -1);
 		myPulses = SqlitePulse.SelectPulses(mySession.UniqueID, -1);
+		myMCs = SqliteMultiChronopic.SelectTests(mySession.UniqueID, -1);
 	}
 
 	protected virtual void printTitles(string title) {
@@ -197,6 +199,8 @@ public class ExportSession
 		printReactionTimes(Catalog.GetString("Reaction times"));
 		
 		printPulses(Catalog.GetString("Pulses"));
+		
+		printMCs(Catalog.GetString("MultiChronopic"));
 
 		printFooter();
 	}
@@ -661,6 +665,121 @@ public class ExportSession
 						Util.TrimDecimals(myTime, dec)
 					  );
 			}
+			writeData(myData);
+			writeData("VERTICAL-SPACE");
+		}
+	}
+	
+	protected void printMCs(string title)
+	{
+		int dec=prefsDigitsNumber; //decimals
+		
+		ArrayList myData = new ArrayList(1);
+		bool isFirstHeader = true;
+		
+		if(myMCs.Length > 0) 
+			printTitles(title); 
+		
+		foreach (string testString in myMCs) {
+			myData = new ArrayList(1);
+
+			myData.Add( "\n" + 
+					Catalog.GetString("Person ID") + ":" +
+					Catalog.GetString("Person name") + ":" +
+					Catalog.GetString("MC ID") + ":" + 
+					Catalog.GetString("Type") + ":" + 
+					Catalog.GetString("Description") + ":" +
+					Catalog.GetString("Simulated") );
+
+			string [] myStr = testString.Split(new char[] {':'});
+			MultiChronopic mc = new MultiChronopic();
+			mc.UniqueID = Convert.ToInt32(myStr[1].ToString()); 
+			mc.PersonID = Convert.ToInt32(myStr[2].ToString()); 
+			mc.Type = myStr[4].ToString(); 
+			mc.Cp1StartedIn = Convert.ToInt32(myStr[5].ToString()); 
+			mc.Cp2StartedIn = Convert.ToInt32(myStr[6].ToString()); 
+			mc.Cp3StartedIn = Convert.ToInt32(myStr[7].ToString()); 
+			mc.Cp4StartedIn = Convert.ToInt32(myStr[8].ToString()); 
+			mc.Cp1InStr = myStr[9].ToString(); 
+			mc.Cp1OutStr = myStr[10].ToString(); 
+			mc.Cp2InStr = myStr[11].ToString(); 
+			mc.Cp2OutStr = myStr[12].ToString(); 
+			mc.Cp3InStr = myStr[13].ToString(); 
+			mc.Cp3OutStr = myStr[14].ToString(); 
+			mc.Cp4InStr = myStr[15].ToString(); 
+			mc.Cp4OutStr = myStr[16].ToString(); 
+			mc.Description = myStr[17].ToString(); 
+			mc.Simulated = Convert.ToInt32(myStr[18].ToString()); 
+
+			myData.Add (
+					mc.PersonID + ":" +    			
+					myStr[0] + ":" +  mc.UniqueID + ":" +  	//person.name, mc.uniqueID
+					mc.Type + " " + mc.GetCPsString()  + ":" +  		 	
+					Util.RemoveNewLine(mc.Description) + ":" + Util.NoYes(mc.Simulated.ToString())
+				   );
+			
+			writeData(myData);
+
+			myData = new ArrayList(1);
+		
+			string cols4 = ": : : :";
+			myData.Add( mc.DeleteCols(
+						" " + ":" + 
+						Catalog.GetString ("Time") + ":" +
+						Catalog.GetString ("State") + cols4 +
+						Catalog.GetString ("Change") + cols4 +
+						Catalog.GetString ("IN-IN") + cols4 + 
+						Catalog.GetString ("OUT-OUT") + cols4
+						, mc.CPs(), false)
+				  );
+
+			string titleStr = "CP1:CP2:CP3:CP4:";
+			myData.Add( mc.DeleteCols(
+						" " + ":" + 
+						" " + ":" +
+						titleStr + 
+						titleStr + 
+						titleStr + 
+						titleStr
+						, mc.CPs(), false)
+				  );
+
+			string [] averages = mc.Statistics(true, dec); //first boolean is averageOrSD
+			int count = 0;
+			myData.Add( mc.DeleteCols(
+						Catalog.GetString("AVG") + ": : " + cols4 + " " + cols4 + 
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( averages[count++], dec ))
+						, mc.CPs(), false)
+				  );
+
+			string [] sds = mc.Statistics(false, dec); //first boolean is averageOrSD
+			count = 0;
+			myData.Add( mc.DeleteCols(
+						Catalog.GetString("SD") + ": : " + cols4 + " " + cols4 + 
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec )) + ":" +
+						Util.RemoveZeroOrMinus(Util.TrimDecimals( sds[count++], dec ))
+						, mc.CPs(), false)
+				  
+					);
+
+			ArrayList array = mc.AsArrayList(dec);
+			foreach(string row in array) 
+				myData.Add(mc.DeleteCols(row, mc.CPs(), true));
+			
+			
 			writeData(myData);
 			writeData("VERTICAL-SPACE");
 		}

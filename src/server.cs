@@ -476,6 +476,35 @@ public class Server
 				sessionUploadPersonData.pulsesE = countE;
 				sessionUploadPersonData.pulsesS = countS;
 
+				//upload multiChronopic
+				countU = 0;					
+				countE = 0;					
+				countS = 0;					
+
+				string [] mcs = SqliteMultiChronopic.SelectTests(currentSession.UniqueID, person.UniqueID);
+				foreach(string mc in mcs) {
+					string [] js = mc.Split(new char[] {':'});
+					//select mc
+					MultiChronopic test = SqliteMultiChronopic.SelectMultiChronopicData(Convert.ToInt32(js[1])); //uniqueID
+					//fix it to server person, session keys
+					test.PersonID = person.ServerUniqueID;
+					test.SessionID = currentSession.ServerUniqueID;
+					//upload...
+					uCode = serverUploadTest(myServer, Constants.TestTypes.MULTICHRONOPIC, Constants.MultiChronopicTable, test);
+
+					if(uCode == Constants.UploadCodes.OK)
+						countU ++;
+					else if(uCode == Constants.UploadCodes.EXISTS)
+						countE ++;
+					else //SIMULATED
+						countS ++;
+				}
+
+				//other thread updates the gui:
+				sessionUploadPersonData.mcsU = countU;
+				sessionUploadPersonData.mcsE = countE;
+				sessionUploadPersonData.mcsS = countS;
+
 				needUpdateServerSession = true;
 				while(needUpdateServerSession) {
 					//wait until data is printed on the other thread
@@ -553,6 +582,10 @@ public class Server
 				case Constants.TestTypes.PULSE :
 					Pulse pulse = (Pulse)myTest;
 					idAtServer = myServer.UploadPulse(pulse);
+					break;
+				case Constants.TestTypes.MULTICHRONOPIC :
+					MultiChronopic mc = (MultiChronopic)myTest;
+					idAtServer = myServer.UploadMultiChronopic(mc);
 					break;
 			}
 

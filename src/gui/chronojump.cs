@@ -106,6 +106,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_sj_l;
 	[Widget] Gtk.Button button_cmj;
 	[Widget] Gtk.Button button_abk;
+	[Widget] Gtk.Button button_jumps_max;
 	[Widget] Gtk.Button button_dj;
 	[Widget] Gtk.Button button_rocket;
 	[Widget] Gtk.Button button_take_off;
@@ -133,6 +134,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_reaction_time_execute;
 	[Widget] Gtk.Button button_pulse_free;
 	[Widget] Gtk.Button button_pulse_custom;
+	[Widget] Gtk.Button button_reaction_time;
 	//[Widget] Gtk.Button button_pulse_more;
 
 	//multiChronopic
@@ -152,6 +154,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_cp4_yes;
 	[Widget] Gtk.Image image_cp4_no;
 	[Widget] Gtk.CheckButton check_multi_sync;
+	[Widget] Gtk.CheckButton check_multi_delete_first;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
@@ -362,8 +365,6 @@ public class ChronoJumpWindow
 		
 	EvaluatorWindow evalWin;
 	
-	//SessionUploadWindow sessionUploadWin;
-
 	static EventExecuteWindow eventExecuteWin;
 
 	//platform state variables
@@ -1665,12 +1666,12 @@ public class ChronoJumpWindow
 		// is for not confusing with the person treeviews that controls who does events
 		if (myTreeViewMultiChronopic.EventSelectedID == 0) {
 			myTreeViewMultiChronopic.Unselect();
-			showHideActionEventButtons(false, "MultiChronopic"); //hide
+			showHideActionEventButtons(false, Constants.MultiChronopicName); //hide
 		} else if (myTreeViewMultiChronopic.EventSelectedID == -1) {
 			myTreeViewMultiChronopic.SelectHeaderLine();
-			showHideActionEventButtons(true, "MultiChronopic");
+			showHideActionEventButtons(true, Constants.MultiChronopicName);
 		} else {
-			showHideActionEventButtons(true, "MultiChronopic"); //show
+			showHideActionEventButtons(true, Constants.MultiChronopicName); //show
 		}
 	}
 
@@ -1883,7 +1884,7 @@ public class ChronoJumpWindow
 		Log.WriteLine("Bye!");
     
 		if(simulated == false) {
-			sp.Close();
+			serialPortsClose();
 		}
 		
 		File.Delete(runningFileName);
@@ -1902,7 +1903,7 @@ public class ChronoJumpWindow
 		Log.WriteLine("Bye!");
     
 		if(simulated == false) {
-			sp.Close();
+			serialPortsClose();
 		}
 		
 		File.Delete(runningFileName);
@@ -2252,6 +2253,29 @@ public class ChronoJumpWindow
 	private void on_paste1_activate (object o, EventArgs args) {
 	}
 
+	private void serialPortsClose() {
+		sp.Close();
+
+		image_cp1_no.Show();
+		image_cp1_yes.Hide();
+		//close connection with other chronopics on multiChronopic
+		if(image_cp2_yes.Visible) {
+			sp2.Close();
+			image_cp2_no.Show();
+			image_cp2_yes.Hide();
+		}
+		if(image_cp3_yes.Visible) {
+			sp3.Close();
+			image_cp3_no.Show();
+			image_cp3_yes.Hide();
+		}
+		if(image_cp4_yes.Visible) {
+			sp4.Close();
+			image_cp4_no.Show();
+			image_cp4_yes.Hide();
+		}
+	}
+
 	void on_radiobutton_simulated (object o, EventArgs args)
 	{
 		Log.WriteLine(string.Format("RAD - simul. cpRunning: {0}", cpRunning));
@@ -2262,26 +2286,8 @@ public class ChronoJumpWindow
 
 			//close connection with chronopic if initialized
 			if(cpRunning) {
-				sp.Close();
-					
-				image_cp1_no.Show();
-				image_cp1_yes.Hide();
-				//close connection with other chronopics on multiChronopic
-				if(image_cp2_yes.Visible) {
-					sp2.Close();
-					image_cp2_no.Show();
-					image_cp2_yes.Hide();
-				}
-				if(image_cp3_yes.Visible) {
-					sp3.Close();
-					image_cp3_no.Show();
-					image_cp3_yes.Hide();
-				}
-				if(image_cp4_yes.Visible) {
-					sp4.Close();
-					image_cp4_no.Show();
-					image_cp4_yes.Hide();
-				}
+				serialPortsClose();
+
 				table_multi_chronopic_buttons.Sensitive = false;
 				combo_port_windows.Sensitive = false;
 				combo_port_linux.Sensitive = false;
@@ -2705,8 +2711,15 @@ public class ChronoJumpWindow
 			statsWin.ShowUpdateStatsButton();
 	}
 		
+	//mark to only get inside on_multi_chronopic_finished one time
+	bool multiFinishingByClickFinish;
 	private void on_finish_multi_clicked (object o, EventArgs args) 
 	{
+		if(multiFinishingByClickFinish)
+			return;
+		else
+			multiFinishingByClickFinish =  true;
+
 		currentEventExecute.Finish = true;
 		
 		//unhide event buttons for next event
@@ -2722,9 +2735,10 @@ public class ChronoJumpWindow
 	}
 		
 	//if user doesn't touch the platform after pressing "finish", sometimes it gets waiting a Read_event
-	//now the event finishes ok, and next will be ok, also	
+	//now the event finishes ok, and next will be ok
 	//
 	//not for multiChronopic:
+	
 	private void checkFinishTotally (object o, EventArgs args) 
 	{
 		if(currentEventExecute.TotallyFinished) 
@@ -2774,9 +2788,13 @@ public class ChronoJumpWindow
 				sep = ", ";
 			}
 
-			errorWin = ErrorWindow.Show(string.Format(Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full finishing.\nThen press button\n"), cancelStr));
+			errorWin = ErrorWindow.Show(string.Format(
+						Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full finishing.") + 
+						"\n" + Catalog.GetString("Then press this button:\n"), cancelStr));
 			errorWin.Button_accept.Clicked += new EventHandler(checkFinishMultiTotally);
 		} else {
+			Log.WriteLine("totallyFinished");
+			/*
 			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
 			currentEventExecute.MultiChronopicWrite(false);
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
@@ -2784,7 +2802,7 @@ Console.WriteLine("W");
 		
 
 			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
-			if(currentMultiChronopic.MaxCPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
+			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
 				treeview_multi_chronopic_storeReset();
 				fillTreeView_multi_chronopic();
 			} else
@@ -2792,10 +2810,11 @@ Console.WriteLine("W");
 Console.WriteLine("X");
 			
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
-			showHideActionEventButtons(true, "MultiChronopic"); //show
+			showHideActionEventButtons(true, Constants.MultiChronopicName); //show
 		
 			//unhide buttons for delete last test
 			sensitiveGuiYesEvent();
+			*/
 		}
 	}
 		
@@ -2828,6 +2847,8 @@ Console.WriteLine("X");
 //no abk_l button currently
 //		} else 	if(o == (object) button_abk_l) {
 //			currentEventType = new JumpType("ABKl");
+		} else 	if(o == (object) button_jumps_max) {
+			currentEventType = new JumpType("Max");
 		} else 	if(o == (object) button_dj) {
 			currentEventType = new JumpType("DJ");
 		} else 	if(o == (object) button_rocket) {
@@ -2880,6 +2901,8 @@ Console.WriteLine("X");
 		} else 	if(o == (object) button_run_interval_mtgug) {
 			currentEventType = new RunType("MTGUG");
 		//reactionTime
+		} else 	if(o == (object) button_reaction_time) {
+			currentEventType = new ReactionTimeType("reactionTime");
 		//pulse
 		} else 	if(o == (object) button_pulse_free) {
 			currentEventType = new PulseType("Free");
@@ -2887,9 +2910,9 @@ Console.WriteLine("X");
 			currentEventType = new PulseType("Custom");
 		//multiChronopic
 		} else 	if(o == (object) button_multi_chronopic_start) {
-			currentEventType = new MultiChronopicType("multiChronopic");
+			currentEventType = new MultiChronopicType(Constants.MultiChronopicName);
 		} else 	if(o == (object) button_run_analysis) {
-			currentEventType = new MultiChronopicType("runAnalysis");
+			currentEventType = new MultiChronopicType(Constants.RunAnalysisName);
 		}
 
 		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
@@ -2939,6 +2962,10 @@ Console.WriteLine("X");
 				myType = new JumpType(eventName);
 			else if (eventTypeString == EventType.Types.RUN.ToString()) 
 				myType = new RunType(eventName);
+			else if (eventTypeString == EventType.Types.REACTIONTIME.ToString()) 
+				myType = new ReactionTimeType(eventName);
+			else if (eventTypeString == EventType.Types.PULSE.ToString()) 
+				myType = new PulseType(eventName);
 			else if (eventTypeString == EventType.Types.MULTICHRONOPIC.ToString()) 
 				myType = new MultiChronopicType(eventName);
 			else Log.WriteLine("Error on eventTypeHasLongDescription");
@@ -4045,9 +4072,9 @@ Console.WriteLine("X");
 		Log.WriteLine("multi chronopic accepted");
 		
 		if(o == (object) button_multi_chronopic_start) 
-			currentMultiChronopicType = new MultiChronopicType("multiChronopic");
+			currentMultiChronopicType = new MultiChronopicType(Constants.MultiChronopicName);
 		else if(o == (object) button_run_analysis)
-			currentMultiChronopicType = new MultiChronopicType("runAnalysis");
+			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
 
 		//used by cancel and finish
 		currentEventType = new MultiChronopicType();
@@ -4074,6 +4101,7 @@ Console.WriteLine("X");
 			); //-1: unlimited pulses (or changes)
 
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
+		multiFinishingByClickFinish = false;
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);
 		
 		//when user clicks on update the eventExecute window 
@@ -4081,12 +4109,6 @@ Console.WriteLine("X");
 		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
-
-		/*
-		currentEventExecute = new MultiChronopicExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
-				*/
 
 		bool syncNeeded = false;
 		if(currentMultiChronopicType.SyncNeeded && check_multi_sync.Active)
@@ -4096,46 +4118,70 @@ Console.WriteLine("X");
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name, 
-					cp, syncNeeded, appbar2, app1);
+					cp, syncNeeded, check_multi_delete_first.Active, appbar2, app1);
 		else if(image_cp2_yes.Visible && image_cp3_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,  
-					cp, cp2, syncNeeded, appbar2, app1);
+					cp, cp2, syncNeeded, check_multi_delete_first.Active, appbar2, app1);
 		else if(image_cp3_yes.Visible && image_cp4_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
-					cp, cp2, cp3, syncNeeded, appbar2, app1);
+					cp, cp2, cp3, syncNeeded, check_multi_delete_first.Active, appbar2, app1);
 		else if(image_cp4_yes.Visible)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
-					cp, cp2, cp3, cp4, syncNeeded, appbar2, app1);
+					cp, cp2, cp3, cp4, syncNeeded, check_multi_delete_first.Active, appbar2, app1);
 
 		//if(simulated)	
 		//	currentEventExecute.SimulateInitValues(rand);
 
 
+		//mark to only get inside on_multi_chronopic_finished one time
+		multiFinishing = false;
 		currentEventExecute.Manage();
 
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
 	}
 
+	bool multiFinishing;
 	private void on_multi_chronopic_finished (object o, EventArgs args) {
+		if(multiFinishing)
+			return;
+		else
+			multiFinishing = true;
+
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
 
-/*		
 		if ( ! currentEventExecute.Cancel ) {
+Console.WriteLine("T");
+			/*
+			   on runAnalysis test, when cp1 ends, run ends,
+			   but cp2 is still waiting event
+			   with this will ask cp2 to press button
+			   solves problem with threads at ending
+			   */
+
+			on_finish_multi_clicked(o, args);
+Console.WriteLine("U");
+			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
+			currentEventExecute.MultiChronopicWrite(false);
 Console.WriteLine("V");
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
 Console.WriteLine("W");
 			
-			myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
+			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
+			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
+				treeview_multi_chronopic_storeReset();
+				fillTreeView_multi_chronopic();
+			} else
+				myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
 Console.WriteLine("X");
 			
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
-			showHideActionEventButtons(true, "MultiChronopic"); //show
+			showHideActionEventButtons(true, Constants.MultiChronopicName); //show
 		
 			//unhide buttons for delete last test
 			sensitiveGuiYesEvent();
@@ -4143,7 +4189,6 @@ Console.WriteLine("X");
 		
 		//unhide buttons that allow doing another test
 		sensitiveGuiEventDone();
-		*/
 	}
 		
 
@@ -4696,7 +4741,7 @@ Console.WriteLine("X");
 		appbar2.Push( 1, Catalog.GetString ( "Deleted multi chronopic" ));
 	
 		myTreeViewMultiChronopic.DelEvent(myTreeViewMultiChronopic.EventSelectedID);
-		showHideActionEventButtons(false, "MultiChronopic");
+		showHideActionEventButtons(false, Constants.MultiChronopicName);
 	}
 	
 
@@ -5142,7 +5187,7 @@ Console.WriteLine("X");
 			button_repair_selected_pulse.Sensitive = show;
 			success = true;
 		} 
-		if (type == "ALL" || type == "MultiChronopic") {
+		if (type == "ALL" || type == Constants.MultiChronopicName) {
 			button_edit_selected_multi_chronopic.Sensitive = show;
 			button_delete_selected_multi_chronopic.Sensitive = show;
 			success = true;

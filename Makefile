@@ -62,6 +62,7 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/jump_cmj_l.png,jump_cmj_l.png 			-resource:images/mini/jump_cmj_l.png,mini/jump_cmj_l.png \
 		-resource:images/jump_abk.png,jump_abk.png 			-resource:images/mini/jump_abk.png,mini/jump_abk.png \
 		-resource:images/jump_abk_l.png,jump_abk_l.png 			-resource:images/mini/jump_abk_l.png,mini/jump_abk_l.png \
+		-resource:images/jump_max.png,jump_max.png 			-resource:images/mini/jump_max.png,mini/jump_max.png \
 		-resource:images/jump_dj.png,jump_dj.png 			-resource:images/mini/jump_dj.png,mini/jump_dj.png \
 		-resource:images/jump_rocket.png,jump_rocket.png 		-resource:images/mini/jump_rocket.png,mini/jump_rocket.png \
 		-resource:images/jump_rj.png,jump_rj.png 			-resource:images/mini/jump_rj.png,mini/jump_rj.png \
@@ -75,6 +76,7 @@ RESOURCES_IMAGES = -resource:images/mini/no_image.png,mini/no_image.png \
 		-resource:images/run_analysis.png,run_analysis.png		-resource:images/mini/run_analysis.png,mini/run_analysis.png \
 		-resource:images/pulse_free.png,pulse_free.png 			-resource:images/mini/pulse_free.png,mini/pulse_free.png \
 		-resource:images/pulse_custom.png,pulse_custom.png		-resource:images/mini/pulse_custom.png,mini/pulse_custom.png \
+		-resource:images/reaction_time.png,reaction_time.png		-resource:images/mini/reaction_time.png,mini/reaction_time.png \
 		-resource:images/mtgug.png,mtgug.png				-resource:images/mini/mtgug.png,mini/mtgug.png \
 		-resource:images/take_off.png,take_off.png			-resource:images/mini/take_off.png,mini/take_off.png \
 		-resource:images/chronopic1.jpg,chronopic1.jpg			-resource:images/mini/chronopic1.jpg,mini/chronopic1.jpg \

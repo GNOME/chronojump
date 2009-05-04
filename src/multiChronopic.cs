@@ -101,7 +101,7 @@ public class MultiChronopic : Event
 		return SqliteMultiChronopic.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(), 
 				personID, sessionID, 
-				"", //type
+				type, 
 				cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn,
 				cp1InStr, cp1OutStr,
 				cp2InStr, cp2OutStr,
@@ -405,6 +405,7 @@ public class MultiChronopic : Event
 		myData[count++] = getIndex(averageOrSD, cp2iiStr);
 		myData[count++] = getIndex(averageOrSD, cp3iiStr);
 		myData[count++] = getIndex(averageOrSD, cp4iiStr);
+		
 		myData[count++] = getIndex(averageOrSD, cp1ooStr);
 		myData[count++] = getIndex(averageOrSD, cp2ooStr);
 		myData[count++] = getIndex(averageOrSD, cp3ooStr);
@@ -423,7 +424,7 @@ public class MultiChronopic : Event
 					Util.GetNumberOfJumps(str, false)).ToString();
 	}
 
-	public int MaxCPs() {
+	public int CPs() {
 		if(cp3InStr == "" && cp3OutStr == "")
 			return 2;
 		else if(cp4InStr == "" && cp4OutStr == "")
@@ -431,6 +432,69 @@ public class MultiChronopic : Event
 		else
 			return 4;
 	}
+
+	public string GetCPsString () {
+		string cpsStr = "";
+		string sep = "";
+		if(this.cp1InStr.Length + this.cp1OutStr.Length > 0) {
+			cpsStr += sep + "1";
+			sep = ", ";
+		}
+		if(this.cp2InStr.Length + this.cp2OutStr.Length > 0) {
+			cpsStr += sep + "2";
+			sep = ", ";
+		}
+		if(CPs() >= 3 && this.cp3InStr.Length + this.cp3OutStr.Length > 0) {
+			cpsStr += sep + "3";
+			sep = ", ";
+		}
+		if(CPs() == 4 && this.cp4InStr.Length + this.cp4OutStr.Length > 0) {
+			cpsStr += sep + "4";
+			sep = ", ";
+		}
+		return cpsStr;
+	}
+
+	/*
+	   we pass maxCPs because treeviewMultiChronopic will use maxCPs in session (from sqliteMultiChronopic)
+	   but exportSession will use mc.CPs (cps of this multiChronopic)
+	   */
+	public string [] DeleteCols(string [] s1, int maxCPs, bool deleteSubRowId) {
+		/*
+		   deleteSubRowId is reffered to the "-1" at end of each row in treeview
+		   this is not used in exportSession, then this bools allows to delete it
+		   */
+
+		if(deleteSubRowId)
+			s1[19] = "";
+
+		if(maxCPs == 2) {
+			string [] s2 = new String[11+1];
+			for(int i=0, count=0; i < s1.Length; i++) {
+				if(i != 4 && i != 5 && i != 8 && i != 9 && i != 12 && i != 13 && i != 16 && i != 17)
+					s2[count++] = s1[i];
+			}
+			return s2;
+		}
+		else if(maxCPs == 3) {
+			string [] s2 = new String[15+1];
+			for(int i=0, count=0; i < s1.Length; i++) {
+				if(i != 5 && i != 9 && i != 13 && i != 17)
+					s2[count++] = s1[i];
+			}
+			return s2;
+		}
+		else //maxCPs == 4
+			return s1;
+	}
+	
+	//export session passes a string instead of a stringArray
+	public string DeleteCols(string s1, int maxCPs, bool deleteSubRowId) {
+		string [] strArr = s1.Split(new char[] {':'});
+		strArr = DeleteCols(strArr, maxCPs, deleteSubRowId);
+		return Util.StringArrayToString(strArr, ":");
+	}
+	
 
 
 	public int Cp1StartedIn {

@@ -1576,19 +1576,29 @@ public class EventExecuteWindow
 
 		for(int i=0; i < ticks; i++) { 
 			if(cpStart.Length > i) {
-				double x = multiChronopicGetX(ancho, Convert.ToDouble(cpStart[i]), timeOld, timeTotal);
-				pixmap.DrawLine(penStart, Convert.ToInt32(xOld), heightStart, Convert.ToInt32(x), heightStart);
-				timeOld += Convert.ToDouble(cpStart[i]);
-				xOld = x;
-				lastCpIsStart = true;
+				try {
+					double x = multiChronopicGetX(ancho, Convert.ToDouble(cpStart[i]), timeOld, timeTotal);
+					pixmap.DrawLine(penStart, Convert.ToInt32(xOld), heightStart, Convert.ToInt32(x), heightStart);
+					timeOld += Convert.ToDouble(cpStart[i]);
+					xOld = x;
+					lastCpIsStart = true;
+				} catch {
+					//solve problems if a string is empty or with old value
+					//sometimes happens at runAnalysis when there's only cp1
+				}
 			}
 
 			if(cpEnd.Length > i) {
-				double x = multiChronopicGetX(ancho, Convert.ToDouble(cpEnd[i]), timeOld, timeTotal);
-				pixmap.DrawLine(penEnd, Convert.ToInt32(xOld), heightEnd, Convert.ToInt32(x), heightEnd);
-				timeOld += Convert.ToDouble(cpEnd[i]);
-				xOld = x;
-				lastCpIsStart = false;
+				try {
+					double x = multiChronopicGetX(ancho, Convert.ToDouble(cpEnd[i]), timeOld, timeTotal);
+					pixmap.DrawLine(penEnd, Convert.ToInt32(xOld), heightEnd, Convert.ToInt32(x), heightEnd);
+					timeOld += Convert.ToDouble(cpEnd[i]);
+					xOld = x;
+					lastCpIsStart = false;
+				} catch {
+					//solve problems if a string is empty or with old value
+					//sometimes happens at runAnalysis when there's only cp1
+				}
 			}
 		}
 		

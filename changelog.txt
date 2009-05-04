@@ -1,5 +1,22 @@
 CHANGELOG.txt
 
+	0.8.9.0
+	start logo changed to 0.9
+	runanalysis execute test done
+	multiChronopic deleteFirst done
+	multiChronopic export done
+	client/server code for upload multichronopic
+	dialog_server_stats with multiChronopic
+	
+	added maximum jump and its graphs (git added)
+	runAnalysis is no longer a jumpRjType on sql
+	added reactionTime graph (git added)
+	gesell_dbt in 3d
+	improvemenents on session_upload window
+
+	updated sqlite disagrams
+	when createBlankDBServer is called, client new version is printed automatically
+
 30 apr 2009 (2)
 	added graphs for multiChronopic and runAnalysis
 	multiChronopic sync is done or not depending on multiChronopic type
@@ -7,6 +24,7 @@ CHANGELOG.txt
 	improvements on threading on multiChronopic, now finishing will not record event 4 times
 
 	improvements on (really few sometimes) crash when splash win is created too late (findversion error)
+	button enter done for multiChronopic and runAnalysis
 
 30 apr 2009
 	new test Gesell-DBT test new db: 0.69

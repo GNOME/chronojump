@@ -466,6 +466,16 @@ public class ChronojumpServer {
 		return id; //uniqueID of person at server
 	}
 
+	[WebMethod(Description="Upload a multiChronopic")]
+	public int UploadMultiChronopic (MultiChronopic myTest)
+	{
+		int temp = myTest.UniqueID;
+		myTest.UniqueID = -1;
+		int id = myTest.InsertAtDB(false, Constants.MultiChronopicTable);
+		myTest.UniqueID = temp;
+		return id; //uniqueID of person at server
+	}
+
 	
 	[WebMethod(Description="List directory files (only as a sample)")]
 	public string [] ListDirectory(string path) {

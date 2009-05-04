@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.69";
+	static string lastChronojumpDatabaseVersion = "0.70";
 
 	public Sqlite() {
 	}
@@ -844,11 +844,13 @@ class Sqlite
 			}
 			if(currentVersion == "0.65") {
 				dbcon.Open();
-				SqliteJumpType.JumpRjTypeInsert ("RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked.", true);
+				//now runAnalysis is a multiChronopic event
+				//SqliteJumpType.JumpRjTypeInsert ("RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked.", true);
 
 				SqlitePreferences.Update ("databaseVersion", "0.66", true); 
 				
-				Log.WriteLine("Converted DB to 0.66 (added RunAnalysis Reactive jump)"); 
+				//Log.WriteLine("Converted DB to 0.66 (added RunAnalysis Reactive jump)"); 
+				Log.WriteLine("Converted DB to 0.66 (done nothing)"); 
 				dbcon.Close();
 				currentVersion = "0.66";
 			}
@@ -889,7 +891,16 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.69";
 			}
-
+			if(currentVersion == "0.69") {
+				dbcon.Open();
+				SqliteJumpType.JumpTypeInsert ("Max:1:0:Maximum jump", true); 
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true);
+				SqlitePreferences.Update ("databaseVersion", "0.70", true); 
+				
+				Log.WriteLine("Converted DB to 0.70 (added Maximum jump  test)"); 
+				dbcon.Close();
+				currentVersion = "0.70";
+			}
 
 		}
 
@@ -1013,10 +1024,11 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.69 - 0.70 added Maximum jump  test
 		//0.68 - 0.69 added Gesell-DBT test
 		//0.67 - 0.68 added multiChronopic tests table
 		//0.66 - 0.67 added TakeOff jumps 
-		//0.65 - 0.66 added run analysis (JumpRj test (masked as run interval))
+		//0.65 - 0.66 added done nothing 
 		//0.64 - 0.65 added Sevaluator on client
 		//0.63 - 0.64 added margaria test
 		//0.62 - 0.63 added 'versionAvailable' to preferences

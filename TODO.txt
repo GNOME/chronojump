@@ -6,13 +6,11 @@ work done (30 apr (2)), just do more tests
 2.- the sqlite problem with the thread at start... need to explore more
 
 multiChronopic:
-(when press two for full finishing, say that then it will be recorded)
 -repair
 -tempTable
--export
+-upload server
 
 new multichronopic tests:
--do button enter
 - padu runAnalysis (2cp): out of jumpRj and going to multichronopic (also in menu)
 - discrimitative reaction time with two lights and two fotocells (or platforms)
 (4cp) when evaluator push left or right button, cp 1 or cp2 lights, person has to cross fotocell a or b (connected to cp 3, 4)
@@ -27,13 +25,13 @@ http://cran.r-project.org/web/packages/RSQLite/index.html
 http://cran.r-project.org/web/packages/RSQLite/INSTALL
 http://cran.r-project.org/web/packages/DBI/index.html
 
-all this will be release 0.9
-
 do the ping gets real IP
+
+implement all server evaluator SAFE stuff 
 
 put thread in other server situations:
 -upload evaluator
--upload session
+-upload session (doing) pending to generate wsdl proxy in order to download
 
 http://en.csharp-online.net/ASP.NET_Security_Hacks¿Avoiding_SQL_Injection
 http://ferruh.mavituna.com/sql-injection-cheatsheet-oku/
@@ -42,9 +40,12 @@ c# books. Or look for ; and after alter, insert, delete, drop, update, ...
 (low and hight case)
 i think there will be no problems because all is parametrized
 
-Put pictures and description of runAnalysis. Do svn add, Makefile, ...
+Put description of runAnalysis
+Put description of reactionTime
 
 Add longDescription on margaria
+
+Update manual
 
 
 intersession stats only have to show one max or avg, not n max or all jumps

@@ -57,6 +57,7 @@ class SqliteJumpType : Sqlite
 			"CMJl:1:1:CMJ jump with weight", 
 			"ABK:1:0:ABK jump", 
 			"ABKl:1:1:ABK jump with weight", 
+			"Max:1:0:;Maximum jump", 
 			"DJ:0:0:DJ jump",
 			"Rocket:1:0:Rocket jump",
 			"TakeOff:0:0:Take off",
@@ -83,6 +84,7 @@ class SqliteJumpType : Sqlite
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABK", "jump_abk.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Rocket", "jump_rocket.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJ", "jump_dj.png", true);
 	}
@@ -122,7 +124,7 @@ class SqliteJumpType : Sqlite
 			"RJ(unlimited):1:0:1:-1:Jump unlimited until finish is clicked",
 			"RJ(hexagon):1:0:1:18:Reactive Jump on a hexagon until three full revolutions are done",
 			"triple jump:0:0:1:3:Triple jump",
-			"RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked."
+			//"RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked."
 		};
 		foreach(string myJumpType in iniJumpTypes) {
 			JumpRjTypeInsert(myJumpType, true);

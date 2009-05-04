@@ -47,6 +47,8 @@ public class DialogServerStats
 	[Widget] Gtk.Label label_rt_you;
 	[Widget] Gtk.Label label_pulses_server;
 	[Widget] Gtk.Label label_pulses_you;
+	[Widget] Gtk.Label label_multichronopic_server;
+	[Widget] Gtk.Label label_multichronopic_you;
 
 	[Widget] Gtk.Label label_date;
 
@@ -89,6 +91,9 @@ public class DialogServerStats
 				case "Pulses":
 					label_pulses_server.Text 	= s[1];
 				break;
+				case "MultiChronopic":
+					label_multichronopic_server.Text= s[1];
+				break;
 				default:
 					//do nothing
 				break;
@@ -121,6 +126,9 @@ public class DialogServerStats
 				break;
 				case "Pulses":
 					label_pulses_you.Text 	= s[1];
+				break;
+				case "MultiChronopic":
+					label_multichronopic_you.Text= s[1];
 				break;
 				default:
 					//do nothing

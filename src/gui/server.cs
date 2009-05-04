@@ -48,6 +48,9 @@ public class SessionUploadPersonData {
 	public int pulsesU;
 	public int pulsesE;
 	public int pulsesS;
+	public int mcsU;
+	public int mcsE;
+	public int mcsS;
 	public string testTypes;
 	public string sports;
 
@@ -61,6 +64,7 @@ public class SessionUploadPersonData {
 			int runsIU, int runsIE, int runsIS, 
 			int rtsU, int rtsE, int rtsS, 
 			int pulsesU, int pulsesE, int pulsesS,
+			int mcsU, int mcsE, int mcsS,
 			string testTypes, string sports) {
 	}
 }
@@ -76,6 +80,7 @@ public class SessionUploadWindow {
 	private TreeStore store_ri;
 	private TreeStore store_rts;
 	private TreeStore store_pulses;
+	private TreeStore store_mcs;
 
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
@@ -84,6 +89,7 @@ public class SessionUploadWindow {
 	[Widget] Gtk.TreeView treeview_runs_i;
 	[Widget] Gtk.TreeView treeview_rts;
 	[Widget] Gtk.TreeView treeview_pulses;
+	[Widget] Gtk.TreeView treeview_mcs;
 	
 	[Widget] Gtk.Label label_uploaded_test_types;
 	[Widget] Gtk.Label label_uploaded_sports;
@@ -114,7 +120,8 @@ public class SessionUploadWindow {
 				treeview_runs,
 				treeview_runs_i,
 				treeview_rts,
-				treeview_pulses
+				treeview_pulses,
+				treeview_mcs
 				);
 
 		store_persons 	= new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string) );
@@ -124,6 +131,7 @@ public class SessionUploadWindow {
 		store_ri	= new TreeStore(typeof (string), typeof (string), typeof (string) );
 		store_rts	= new TreeStore(typeof (string), typeof (string), typeof (string) );
 		store_pulses	 = new TreeStore(typeof (string), typeof (string), typeof (string) );
+		store_mcs	 = new TreeStore(typeof (string), typeof (string), typeof (string) );
 
 		treeview_persons.Model = 	store_persons;
 		treeview_jumps.Model = 		store_j;
@@ -132,6 +140,7 @@ public class SessionUploadWindow {
 		treeview_runs_i.Model = 	store_ri;
 		treeview_rts.Model = 		store_rts;
 		treeview_pulses.Model = 	store_pulses;
+		treeview_mcs.Model = 		store_mcs;
 
 		label_thanks.Hide();
 		button_close.Sensitive = false;
@@ -149,7 +158,8 @@ public class SessionUploadWindow {
 	}
 	
 	private void createTreeViews (Gtk.TreeView treeview_persons, Gtk.TreeView treeview_jumps, Gtk.TreeView treeview_jumps_rj, 
-			Gtk.TreeView treeview_runs, Gtk.TreeView treeview_runs_i, Gtk.TreeView treeview_rts, Gtk.TreeView treeview_pulses) 
+			Gtk.TreeView treeview_runs, Gtk.TreeView treeview_runs_i, Gtk.TreeView treeview_rts, 
+			Gtk.TreeView treeview_pulses, Gtk.TreeView treeview_mcs) 
 	{
 		String [] personCols = {"ID", Catalog.GetString("Name"), "U", "E"};
 		String [] testCols = {"U", "E", "S"};
@@ -160,6 +170,7 @@ public class SessionUploadWindow {
 		createTreeView(treeview_runs_i, testCols, 1);
 		createTreeView(treeview_rts, testCols, 1);
 		createTreeView(treeview_pulses, testCols, 1);
+		createTreeView(treeview_mcs, testCols, 1);
 	}
 
 	private void createTreeView (Gtk.TreeView tv, String [] cols, int existsPos) {
@@ -184,6 +195,7 @@ public class SessionUploadWindow {
 		fillTest (Constants.TestTypes.RUN_I,	p.runsIU, p.runsIE, p.runsIS);
 		fillTest (Constants.TestTypes.RT,	p.rtsU, p.rtsE, p.rtsS);
 		fillTest (Constants.TestTypes.PULSE,	p.pulsesU, p.pulsesE, p.pulsesS);
+		fillTest (Constants.TestTypes.MULTICHRONOPIC,	p.mcsU, p.mcsE, p.mcsS);
 
 		if(p.testTypes.Length > 0) {
 			label_uploaded_test_types.Text = "<b>" + Catalog.GetString("Uploaded test type") + "</b>: " + p.testTypes;
@@ -236,6 +248,9 @@ public class SessionUploadWindow {
 				break;
 			case Constants.TestTypes.PULSE:
 				store_pulses.AppendValues (u, e, s);
+				break;
+			case Constants.TestTypes.MULTICHRONOPIC:
+				store_mcs.AppendValues (u, e, s);
 				break;
 		}
 	}

@@ -279,6 +279,14 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	public static string RemoveZeroOrMinus(string myString) 
+	{
+		if(myString == "0" || myString == "-")
+			return "";
+		else
+			return myString;
+	}
+
 	public static string ChangeEqualForColon(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);

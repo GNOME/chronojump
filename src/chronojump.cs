@@ -388,7 +388,6 @@ Console.WriteLine("--6--");
 	
 	private static void createBlankDBServer() {
 		Log.WriteLine("Creating blank database for server");
-		Log.WriteLine("Creating blank database for server2");
 		if(Sqlite.CheckFileServer())
 			Console.WriteLine("File already exists. Cannot create.");
 		else {
@@ -396,6 +395,10 @@ Console.WriteLine("--6--");
 			Sqlite.CreateFile();
 			Sqlite.CreateTables(true); //server
 			Console.WriteLine("Done! Exiting");
+			string myVersion = readVersion();
+			Console.WriteLine("CAUTION: client info about versionAvailable (on server): " + myVersion);
+			SqlitePreferences.Update ("availableVersion", myVersion, true); 
+			Console.WriteLine("Maybe you don't want to show this version on pings, change it to last stable published version");
 		}
 	}
 
@@ -557,7 +560,7 @@ Console.WriteLine("--6--");
 		return returnString;
 	}
 
-	private string readVersion() {
+	private static string readVersion() {
 		string version = "";
 		try  {
 			StreamReader reader = File.OpenText(Constants.FileNameVersion);

@@ -42,7 +42,7 @@ public class Constants
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
 
 	//tests types
-	public enum TestTypes { JUMP, JUMP_RJ, RUN, RUN_I, RT, PULSE }
+	public enum TestTypes { JUMP, JUMP_RJ, RUN, RUN_I, RT, PULSE, MULTICHRONOPIC }
 
 	//sqlite tables
 	//instead of typing the tableName directly (that can crash if it's bad written and it's not detected by compiler)
@@ -114,6 +114,7 @@ public class Constants
 	};
 	
 	
+	public static string MultiChronopicName = "MultiChronopic";
 	public static string RunAnalysisName = "RunAnalysis"; //Josep Ma Padullés test
 	public static string TakeOffName = "TakeOff"; //translate (take off?)
 	public static string TakeOffWeightName = "TakeOffWeight"; //translate (take off?)

@@ -91,6 +91,7 @@ public class EditEventWindow
 	protected bool showTc;
 	protected bool showFall;
 	protected bool showDistance;
+	protected bool distanceCanBeDecimal;
 	protected bool showTime;
 	protected bool showSpeed;
 	protected bool showWeight;
@@ -138,6 +139,7 @@ public class EditEventWindow
 		showTc = true;
 		showFall = true;
 		showDistance = true;
+		distanceCanBeDecimal = true;
 		showTime = true;
 		showSpeed = true;
 		showWeight = true;
@@ -392,7 +394,7 @@ public class EditEventWindow
 	}
 	
 	private void on_entry_distance_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_distance_value.Text.ToString(), true)){
+		if(Util.IsNumber(entry_distance_value.Text.ToString(), distanceCanBeDecimal)){
 			entryDistance = entry_distance_value.Text.ToString();
 			label_speed_value.Text = Util.TrimDecimals(
 					Util.GetSpeed (entryDistance, entryTime, metersSecondsPreferred) , pDN);

@@ -85,6 +85,7 @@ public class EditRunWindow : EditEventWindow
 		showTc= false;
 		showFall = false;
 		showDistance = true;
+		distanceCanBeDecimal = true;
 		showTime = true;
 		showSpeed = true;
 		showWeight = false;
@@ -272,6 +273,7 @@ public class EditRunIntervalWindow : EditRunWindow
 		showTc= false;
 		showFall = false;
 		showDistance = true;
+		distanceCanBeDecimal = true;
 		showTime = true;
 		showSpeed = true;
 		showWeight = false;

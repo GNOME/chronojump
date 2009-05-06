@@ -36,6 +36,7 @@ public class MultiChronopic : Event
 	private string cp3OutStr;
 	private string cp4InStr;
 	private string cp4OutStr;
+	private string vars; //distance at runAnalysis (unused currently on multiChronopic default)
 
 	private ArrayList array;
 	private bool arrayDone;
@@ -50,7 +51,7 @@ public class MultiChronopic : Event
 			string cp2InStr, string cp2OutStr,
 			string cp3InStr, string cp3OutStr,
 			string cp4InStr, string cp4OutStr,
-			string description, int simulated)
+			string vars, string description, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -68,6 +69,7 @@ public class MultiChronopic : Event
 		this.cp3OutStr = cp3OutStr;
 		this.cp4InStr = cp4InStr;
 		this.cp4OutStr = cp4OutStr;
+		this.vars = vars;
 		this.description = description;
 		this.simulated = simulated;
 	
@@ -92,8 +94,9 @@ public class MultiChronopic : Event
 		this.cp3OutStr = eventString[13];
 		this.cp4InStr = eventString[14];
 		this.cp4OutStr = eventString[15];
-		this.description = eventString[16];
-		this.simulated = Convert.ToInt32(eventString[17]);
+		this.vars = eventString[16];
+		this.description = eventString[17];
+		this.simulated = Convert.ToInt32(eventString[18]);
 	}
 
 
@@ -107,14 +110,80 @@ public class MultiChronopic : Event
 				cp2InStr, cp2OutStr,
 				cp3InStr, cp3OutStr,
 				cp4InStr, cp4OutStr,
-				description, simulated);
+				vars, description, simulated);
 	}
 
 	public ArrayList AsArrayList(int pDN) 
 	{
 		if(arrayDone)
 			return array;
+
+		if(type == Constants.RunAnalysisName)
+			return asArrayListRunA(pDN);
+		else
+			return asArrayListDefault(pDN);
+	}
 		
+	public double GetTimeRunA() {
+		string [] cp1InFull = this.Cp1InStr.Split(new char[] {'='});
+		string [] cp1OutFull = this.Cp1OutStr.Split(new char[] {'='});
+
+		return Convert.ToDouble(cp1InFull[0]) + Convert.ToDouble(cp1OutFull[1]);
+	}
+	
+	public double GetAVGSpeedRunA() {
+		double runADistanceMeters = Convert.ToDouble(vars) / 100;
+		return runADistanceMeters / GetTimeRunA();
+	}
+	
+	public ArrayList asArrayListRunA(int pDN) 
+	{
+		ArrayList returnArray = new ArrayList(1);
+		
+		string [] returnLine = new String[20];
+	
+		string [] cp2InFull = this.Cp2InStr.Split(new char[] {'='});
+		string [] cp2OutFull = this.Cp2OutStr.Split(new char[] {'='});
+
+		double avgSpeed = GetAVGSpeedRunA();
+		bool success = false;
+						
+		for(int lineCount=0; lineCount < cp2InFull.Length; lineCount++) {
+			int count=0;
+			double tc = Convert.ToDouble(cp2InFull[lineCount]);
+			double tf = Convert.ToDouble(cp2OutFull[lineCount]);
+			double totalTime = tc + tf;
+			double freq = 1 / totalTime; 
+			double width = avgSpeed / freq; 
+			double height = 1.22 * System.Math.Pow (tf, 2);
+			double angle = System.Math.Atan(System.Math.Sqrt(2 * 9.81 * height) / avgSpeed ) * 180 / System.Math.PI;
+			returnLine[count++] = (lineCount+1).ToString();
+			returnLine[count++] = Util.TrimDecimals(tc, pDN);
+			returnLine[count++] = Util.TrimDecimals(tf, pDN);
+			returnLine[count++] = Util.TrimDecimals(totalTime, pDN);
+			returnLine[count++] = Util.TrimDecimals(freq, pDN);
+			returnLine[count++] = Util.TrimDecimals(width, pDN);
+			returnLine[count++] = Util.TrimDecimals(height, pDN);
+			returnLine[count++] = Util.TrimDecimals(angle, pDN);
+
+			for(int i=0; i < 10; i++)
+				returnLine[count++] = "";
+
+			returnLine[count++] = ""; //description column (unused because this array if for eg. treeview subLines)
+			returnLine[count++] = "-1"; //mark to non select here, select first line 
+			returnArray.Add(Util.StringArrayToString(returnLine, ":"));
+
+			Console.WriteLine(Util.StringArrayToString(returnLine, ":"));
+		}
+		array = returnArray;
+		arrayDone = true;
+			Console.WriteLine("BB4");
+		return array;
+	}
+		
+		
+	public ArrayList asArrayListDefault(int pDN) 
+	{
 		ArrayList returnArray = new ArrayList(1);
 		string [] returnLine = new String[20];
 
@@ -460,6 +529,51 @@ public class MultiChronopic : Event
 	   but exportSession will use mc.CPs (cps of this multiChronopic)
 	   */
 	public string [] DeleteCols(string [] s1, int maxCPs, bool deleteSubRowId) {
+		if(type == Constants.RunAnalysisName)
+			return deleteColsRunA(s1, maxCPs, deleteSubRowId);
+		else
+			return deleteColsDefault(s1, maxCPs, deleteSubRowId);
+	}
+
+	//export session passes a string instead of a stringArray
+	public string DeleteCols(string s1, int maxCPs, bool deleteSubRowId) {
+		string [] strArr = s1.Split(new char[] {':'});
+		strArr = DeleteCols(strArr, maxCPs, deleteSubRowId);
+		return Util.StringArrayToString(strArr, ":");
+	}
+	
+
+	private string [] deleteColsRunA(string [] s1, int maxCPs, bool deleteSubRowId) {
+		/*
+		   deleteSubRowId is reffered to the "-1" at end of each row in treeview
+		   this is not used in exportSession, then this bools allows to delete it
+		   */
+
+		if(deleteSubRowId)
+			s1[19] = "";
+
+		if(maxCPs == 2) {
+			string [] s2 = new String[11+1];
+			for(int i=0, count=0; i < s1.Length; i++) {
+				if(i < 10 || i > 17)
+					s2[count++] = s1[i];
+			}
+			return s2;
+		}
+		else if(maxCPs == 3) {  
+			string [] s2 = new String[15+1];
+			for(int i=0, count=0; i < s1.Length; i++) {
+				if(i < 14 || i > 17)
+					s2[count++] = s1[i];
+			}
+			return s2;
+		}
+		else //maxCPs == 4
+			return s1;
+	}
+	
+
+	private string [] deleteColsDefault(string [] s1, int maxCPs, bool deleteSubRowId) {
 		/*
 		   deleteSubRowId is reffered to the "-1" at end of each row in treeview
 		   this is not used in exportSession, then this bools allows to delete it
@@ -486,13 +600,6 @@ public class MultiChronopic : Event
 		}
 		else //maxCPs == 4
 			return s1;
-	}
-	
-	//export session passes a string instead of a stringArray
-	public string DeleteCols(string s1, int maxCPs, bool deleteSubRowId) {
-		string [] strArr = s1.Split(new char[] {':'});
-		strArr = DeleteCols(strArr, maxCPs, deleteSubRowId);
-		return Util.StringArrayToString(strArr, ":");
 	}
 	
 
@@ -548,6 +655,11 @@ public class MultiChronopic : Event
 	public string Cp4OutStr {
 		get { return cp4OutStr; }
 		set { cp4OutStr = value; }
+	}
+	
+	public string Vars {
+		get { return vars; }
+		set { vars = value; }
 	}
 	
 	

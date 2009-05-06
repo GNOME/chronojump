@@ -59,6 +59,8 @@ public class MultiChronopicExecute : EventExecute
 	string cp4InStr;
 	string cp4OutStr;
 	bool cp4StartedIn;
+	
+	string vars; //distance
 
 	bool syncFirst;	
 	bool deleteFirst;	
@@ -74,7 +76,7 @@ public class MultiChronopicExecute : EventExecute
 
 	//execution
 	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
-			Chronopic cp, bool syncFirst, bool deleteFirst, Gtk.Statusbar appbar, Gtk.Window app) {
+			Chronopic cp, bool syncFirst, bool deleteFirst, string vars, Gtk.Statusbar appbar, Gtk.Window app) {
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
@@ -84,6 +86,7 @@ public class MultiChronopicExecute : EventExecute
 		this.cp = cp;
 		this.syncFirst = syncFirst;
 		this.deleteFirst = deleteFirst;
+		this.vars = vars;
 		
 		this.appbar = appbar;
 		this.app = app;
@@ -93,7 +96,7 @@ public class MultiChronopicExecute : EventExecute
 	}
 	
 	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
-			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, Gtk.Statusbar appbar, Gtk.Window app) {
+			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars, Gtk.Statusbar appbar, Gtk.Window app) {
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
@@ -104,6 +107,7 @@ public class MultiChronopicExecute : EventExecute
 		this.cp2 = cp2;
 		this.syncFirst = syncFirst;
 		this.deleteFirst = deleteFirst;
+		this.vars = vars;
 		
 		this.appbar = appbar;
 		this.app = app;
@@ -113,7 +117,8 @@ public class MultiChronopicExecute : EventExecute
 	}
 	
 	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
-			Chronopic cp, Chronopic cp2, Chronopic cp3, bool syncFirst, bool deleteFirst, Gtk.Statusbar appbar, Gtk.Window app) {
+			Chronopic cp, Chronopic cp2, Chronopic cp3, bool syncFirst, bool deleteFirst, string vars, 
+			Gtk.Statusbar appbar, Gtk.Window app) {
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
@@ -125,6 +130,7 @@ public class MultiChronopicExecute : EventExecute
 		this.cp3 = cp3;
 		this.syncFirst = syncFirst;
 		this.deleteFirst = deleteFirst;
+		this.vars = vars;
 		
 		this.appbar = appbar;
 		this.app = app;
@@ -134,7 +140,8 @@ public class MultiChronopicExecute : EventExecute
 	}
 
 	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type,
-			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, bool syncFirst, bool deleteFirst, Gtk.Statusbar appbar, Gtk.Window app) {
+			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, bool syncFirst, bool deleteFirst, string vars, 
+			Gtk.Statusbar appbar, Gtk.Window app) {
 		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
@@ -147,6 +154,7 @@ public class MultiChronopicExecute : EventExecute
 		this.cp4 = cp4;
 		this.syncFirst = syncFirst;
 		this.deleteFirst = deleteFirst;
+		this.vars = vars;
 		
 		this.appbar = appbar;
 		this.app = app;
@@ -174,7 +182,6 @@ public class MultiChronopicExecute : EventExecute
 			deleteFirst = false;
 		}
 
-		
 		//initialize eventDone as a mc
 		eventDone = new MultiChronopic();
 	}
@@ -263,38 +270,63 @@ public class MultiChronopicExecute : EventExecute
 			}
 		}
 
-		firstValue = true;
-		//writingStarted = false;
-		
-		//start thread
-		if(chronopics > 0) {
-			thread = new Thread(new ThreadStart(waitEventPre));
-			if(chronopics > 1) {
-				thread2 = new Thread(new ThreadStart(waitEventPre2));
-				if(chronopics > 2) {
-					thread3 = new Thread(new ThreadStart(waitEventPre3));
-					if(chronopics > 3) {
-						thread4 = new Thread(new ThreadStart(waitEventPre4));
+		string platformsProblems = "";
+		if(type == Constants.RunAnalysisName) {
+			string sep = "";
+			if(platformState==Chronopic.Plataforma.ON) {
+				platformsProblems = Catalog.GetString("Photocells");
+				sep = ", ";
+			}
+			if(platformState2==Chronopic.Plataforma.ON)
+				platformsProblems += sep + Catalog.GetString("Platform");
+		}
+
+
+		if(platformsProblems.Length > 0) {
+			ConfirmWindow confirmWin;		
+			confirmWin = ConfirmWindow.Show( 
+					string.Format(Catalog.GetString("There's contact in {0}. Please leave."), platformsProblems), "");
+
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+
+			//we call again this function
+			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
+
+			//if confirmWin.Button_cancel is pressed retuen
+			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
+		} else {
+			firstValue = true;
+			//writingStarted = false;
+
+			//start thread
+			if(chronopics > 0) {
+				thread = new Thread(new ThreadStart(waitEventPre));
+				if(chronopics > 1) {
+					thread2 = new Thread(new ThreadStart(waitEventPre2));
+					if(chronopics > 2) {
+						thread3 = new Thread(new ThreadStart(waitEventPre3));
+						if(chronopics > 3) {
+							thread4 = new Thread(new ThreadStart(waitEventPre4));
+						}
+					}
+				}
+			}
+
+			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+
+			if(chronopics > 0) {
+				thread.Start(); 
+				if(chronopics > 1) {
+					thread2.Start(); 
+					if(chronopics > 2) {
+						thread3.Start(); 
+						if(chronopics > 4) {
+							thread4.Start(); 
+						}
 					}
 				}
 			}
 		}
-
-		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-
-		if(chronopics > 0) {
-			thread.Start(); 
-			if(chronopics > 1) {
-				thread2.Start(); 
-				if(chronopics > 2) {
-					thread3.Start(); 
-					if(chronopics > 4) {
-						thread4.Start(); 
-					}
-				}
-			}
-		}
-
 	}
 
 	protected void waitEventPre () { waitEvent(cp, platformState, loggedState, out cp1InStr, out cp1OutStr, 1); }
@@ -315,6 +347,7 @@ public class MultiChronopicExecute : EventExecute
 		
 		inStr = ""; outStr = "";
 		int runAnalysisTcCount = 0;
+		int runAnalysisTfCount = 0;
 
 		bool isFirstOut = true;
 		bool isFirstIn = true;
@@ -359,8 +392,11 @@ public class MultiChronopicExecute : EventExecute
 							needSensitiveButtonFinish = true;
 
 						if(myPS == Chronopic.Plataforma.ON && myLS == States.OFF) {
+							//this is for runAnalysis, delete first tf on 2nd cp (jump cp)
+							if(cpNum == 2 && type == Constants.RunAnalysisName && runAnalysisTfCount == 0)
+								runAnalysisTfCount ++;
 							//this is for multiChronopic, not for runAnalysis
-							if(deleteFirst && isFirstOut)
+							else if(deleteFirst && isFirstOut)
 								isFirstOut = false;
 							else {
 								double lastOut = timestamp/1000.0;
@@ -374,7 +410,7 @@ public class MultiChronopicExecute : EventExecute
 							   */
 							if(cpNum == 1 && type == Constants.RunAnalysisName) {
 								runAnalysisTcCount ++;
-								if(runAnalysisTcCount == 2) {
+								if(runAnalysisTcCount >= 2) {
 									success = true;
 									//better call also finish
 									//then all cps know about ending
@@ -466,14 +502,18 @@ public class MultiChronopicExecute : EventExecute
 	}
 	
 	protected override void updateTimeProgressBar() {
-		/*
 		//has no finished, but move progressbar time
 		eventExecuteWin.ProgressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activity mode
 				-1	//don't want to show info on label
 				); 
-				*/
+	}
+	
+	public override bool MultiChronopicRunAUsedCP2() {
+		if (cp2InStr.Length == 0 || cp2OutStr.Length == 0)
+			return false;
+		return true;
 	}
 
 	/*
@@ -499,6 +539,15 @@ public class MultiChronopicExecute : EventExecute
 		Console.WriteLine("cp3 Out:" + cp3OutStr + "\n");
 		Console.WriteLine("cp4 In:" + cp4InStr);
 		Console.WriteLine("cp4 Out:" + cp4OutStr + "\n");
+		
+
+		/*
+		   if on run analysis arrive to 2nd platform while we are flying, then
+		   there are more TCs than TFs
+		   if last event was tc, it has no sense, it should be deleted
+		*/
+		if(type == Constants.RunAnalysisName) 
+			cp2InStr = Util.DeleteLastTcIfNeeded(cp2InStr, cp2OutStr);
 	
 
 		if(tempTable) //TODO
@@ -508,6 +557,7 @@ public class MultiChronopicExecute : EventExecute
 					Util.BoolToInt(cp3StartedIn), Util.BoolToInt(cp4StartedIn),
 					cp1InStr, cp1OutStr, cp2InStr, cp2OutStr,
 					cp3InStr, cp3OutStr, cp4InStr, cp4OutStr,
+					vars, //distance
 					description, Util.BoolToNegativeInt(simulated)
 					);
 		else {
@@ -517,6 +567,7 @@ public class MultiChronopicExecute : EventExecute
 					Util.BoolToInt(cp3StartedIn), Util.BoolToInt(cp4StartedIn),
 					cp1InStr, cp1OutStr, cp2InStr, cp2OutStr,
 					cp3InStr, cp3OutStr, cp4InStr, cp4OutStr,
+					vars, //distance
 					description, Util.BoolToNegativeInt(simulated)
 					);
 
@@ -526,6 +577,7 @@ public class MultiChronopicExecute : EventExecute
 					Util.BoolToInt(cp3StartedIn), Util.BoolToInt(cp4StartedIn),
 					cp1InStr, cp1OutStr, cp2InStr, cp2OutStr,
 					cp3InStr, cp3OutStr, cp4InStr, cp4OutStr,
+					vars, //distance
 					description, Util.BoolToNegativeInt(simulated)); 
 
 

@@ -137,6 +137,9 @@ public class RunType : EventType
 			imageFileName = "gesell_dbt.png";
 			description	= "Gesell Dynamic Balance Test";
 			longDescription	= 
+				"<b>" + Catalog.GetString("Note on measurement") + "</b>: \n" +
+				Catalog.GetString("Measured time will be the time between two platforms\n(not including time person is in contact with any platform") + "\n\n" +
+				Catalog.GetString("Measured time will be the time between two platforms") + "\n\n" +
 				"<b>" + Catalog.GetString("Short description") + "</b>: \n" +
 			       Catalog.GetString("Subjects had to walk over the bar as fast as possible.") + "\n" +
 			       Catalog.GetString("From one platform to another without falling down.") + "\n" +

@@ -37,19 +37,17 @@ public class MultiChronopicType : EventType
 	public MultiChronopicType(string name) {
 		type = Types.MULTICHRONOPIC;
 		this.name = name;
+		this.description = "";
+		this.longDescription = ""; 
 		
 		//if this changes, sqlite/pulseType.cs initialize table should change
 		if(name == Constants.MultiChronopicName) {
 			syncNeeded = true;
 			imageFileName = "multiChronopic.png";
-			description = "";
-			longDescription = ""; 
 
 		} else if(name == Constants.RunAnalysisName) {
 			syncNeeded = false;
 			imageFileName = "run_analysis.png";
-			description = "";
-			longDescription = ""; 
 		}
 	}
 

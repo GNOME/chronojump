@@ -141,6 +141,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Table table_multi_chronopic_buttons;
 	[Widget] Gtk.Button button_multi_chronopic_start;
 	[Widget] Gtk.Button button_run_analysis;
+	[Widget] Gtk.Entry entry_run_analysis_distance;
 	[Widget] Gtk.ComboBox combo_port_linux;
 	[Widget] Gtk.ComboBox combo_port_windows;
 	[Widget] Gtk.Button button_connect_cp;
@@ -1892,10 +1893,13 @@ public class ChronoJumpWindow
 		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
 			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
 				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
+		
+		Log.WriteLine("Bye2!");
 
 		System.Console.Out.Close();
 		Log.End();
 		Log.Delete();
+		Log.WriteLine("Bye3!");
 		Application.Quit();
 	}
 
@@ -1912,9 +1916,11 @@ public class ChronoJumpWindow
 			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
 				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
 		
+		Log.WriteLine("Bye2!");
 		System.Console.Out.Close();
 		Log.End();
 		Log.Delete();
+		Log.WriteLine("Bye3!");
 		Application.Quit();
 	}
 	
@@ -2254,26 +2260,31 @@ public class ChronoJumpWindow
 	}
 
 	private void serialPortsClose() {
+		Console.WriteLine("Closing sp");
 		sp.Close();
 
 		image_cp1_no.Show();
 		image_cp1_yes.Hide();
 		//close connection with other chronopics on multiChronopic
 		if(image_cp2_yes.Visible) {
+			Console.WriteLine("Closing sp2");
 			sp2.Close();
 			image_cp2_no.Show();
 			image_cp2_yes.Hide();
 		}
 		if(image_cp3_yes.Visible) {
+			Console.WriteLine("Closing sp3");
 			sp3.Close();
 			image_cp3_no.Show();
 			image_cp3_yes.Hide();
 		}
 		if(image_cp4_yes.Visible) {
+			Console.WriteLine("Closing sp4");
 			sp4.Close();
 			image_cp4_no.Show();
 			image_cp4_yes.Hide();
 		}
+		Console.WriteLine("Closed all");
 	}
 
 	void on_radiobutton_simulated (object o, EventArgs args)
@@ -2414,8 +2425,13 @@ public class ChronoJumpWindow
 			updateChronopicWinValuesState= true; //connected
 			updateChronopicWinValuesMessage= message;
 				
-			if(currentCp >= 2) 
+			if(currentCp >= 2) {
 				table_multi_chronopic_buttons.Sensitive = true;
+				if(Util.IsNumber(entry_run_analysis_distance.Text, false))
+					button_run_analysis.Sensitive = true;
+				else
+					button_run_analysis.Sensitive = false;
+			}
 	
 			//disallow selection of that port for other chronopics
 			//and change sensitiveness of combo port 
@@ -2712,26 +2728,33 @@ public class ChronoJumpWindow
 	}
 		
 	//mark to only get inside on_multi_chronopic_finished one time
-	bool multiFinishingByClickFinish;
+	static bool multiFinishingByClickFinish;
 	private void on_finish_multi_clicked (object o, EventArgs args) 
 	{
+		/*
 		if(multiFinishingByClickFinish)
 			return;
 		else
 			multiFinishingByClickFinish =  true;
+			*/
 
 		currentEventExecute.Finish = true;
 		
 		//unhide event buttons for next event
+		Console.WriteLine("RR0");
 		sensitiveGuiEventDone();
 
-		if(!simulated) {
+		//runA is not called for this, because it ends different
+		//and there's a message on gui/eventExecute.cs for runA	
+		Console.WriteLine("RR1");
+		if(currentMultiChronopicType.Name != Constants.RunAnalysisName && !simulated) {
 			checkFinishMultiTotally(o, args);
 		}
+		Console.WriteLine("RR2");
 		
 		//let update stats
-		if(createdStatsWin)
-			statsWin.ShowUpdateStatsButton();
+		//if(createdStatsWin)
+		//	statsWin.ShowUpdateStatsButton();
 	}
 		
 	//if user doesn't touch the platform after pressing "finish", sometimes it gets waiting a Read_event
@@ -2749,7 +2772,9 @@ public class ChronoJumpWindow
 			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
 		}
 	}
-	
+
+	//runA is not called for this, because it ends different
+	//and there's a message on gui/eventExecute.cs for runA	
 	private void checkFinishMultiTotally (object o, EventArgs args) 
 	{
 		bool needFinish1 = false;
@@ -2757,15 +2782,21 @@ public class ChronoJumpWindow
 		bool needFinish3 = false;
 		bool needFinish4 = false;
 			
+		Console.WriteLine("cfmt 0");
 		needFinish1 = !currentEventExecute.TotallyFinishedMulti1;
 		if(currentEventExecute.Chronopics > 1) {
+			Console.WriteLine("cfmt 1");
 			needFinish2 = !currentEventExecute.TotallyFinishedMulti2;
 			if(currentEventExecute.Chronopics > 2) {
+				Console.WriteLine("cfmt 2");
 				needFinish3 = !currentEventExecute.TotallyFinishedMulti3;
-				if(currentEventExecute.Chronopics > 3)
+				if(currentEventExecute.Chronopics > 3) {
+					Console.WriteLine("cfmt 3");
 					needFinish4 = !currentEventExecute.TotallyFinishedMulti4;
+				}
 			}
 		}
+		Console.WriteLine("cfmt 4");
 
 		if(needFinish1 || needFinish2 || needFinish3 || needFinish4) {
 //			Log.Write("NOT-totallyFinishled ");
@@ -2787,11 +2818,16 @@ public class ChronoJumpWindow
 				cancelStr += sep + "4";
 				sep = ", ";
 			}
-
-			errorWin = ErrorWindow.Show(string.Format(
-						Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full finishing.") + 
-						"\n" + Catalog.GetString("Then press this button:\n"), cancelStr));
-			errorWin.Button_accept.Clicked += new EventHandler(checkFinishMultiTotally);
+		
+			Console.WriteLine("cfmt 5");
+			//try here because maybe solves problems in runAnalysis when seem to update the eventExecuteWindow at the same time as tries to show this errorWindow
+				errorWin = ErrorWindow.Show(string.Format(
+							Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full finishing.") + 
+							"\n" + Catalog.GetString("Then press this button:\n"), cancelStr));
+				Console.WriteLine("cfmt 6");
+				errorWin.Button_accept.Clicked += new EventHandler(checkFinishMultiTotally);
+				Console.WriteLine("cfmt 7");
+			//}
 		} else {
 			Log.WriteLine("totallyFinished");
 			/*
@@ -2817,7 +2853,6 @@ Console.WriteLine("X");
 			*/
 		}
 	}
-		
 	
 	private void on_show_report_activate (object o, EventArgs args) {
 		Log.WriteLine("open report window");
@@ -4068,6 +4103,13 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 
+	private void on_entry_run_analysis_distance_changed (object o, EventArgs args) {
+		if(Util.IsNumber(entry_run_analysis_distance.Text, false) && entry_run_analysis_distance.Text != "0")
+			button_run_analysis.Sensitive = true;
+		else
+			button_run_analysis.Sensitive = false;
+	}
+
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
 		Log.WriteLine("multi chronopic accepted");
 		
@@ -4096,7 +4138,7 @@ Console.WriteLine("X");
 			currentPerson.UniqueID, currentPerson.Name, 
 			currentSession.UniqueID, 
 			Constants.MultiChronopicTable, //tableName
-			currentMultiChronopicType.Name, //"" 
+			currentMultiChronopicType.Name, 
 			prefsDigitsNumber, -1, simulated
 			); //-1: unlimited pulses (or changes)
 
@@ -4118,22 +4160,30 @@ Console.WriteLine("X");
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name, 
-					cp, syncNeeded, check_multi_delete_first.Active, appbar2, app1);
+					cp, syncNeeded, check_multi_delete_first.Active, 
+					entry_run_analysis_distance.Text.ToString(),
+					appbar2, app1);
 		else if(image_cp2_yes.Visible && image_cp3_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,  
-					cp, cp2, syncNeeded, check_multi_delete_first.Active, appbar2, app1);
+					cp, cp2, syncNeeded, check_multi_delete_first.Active, 
+					entry_run_analysis_distance.Text.ToString(),
+					appbar2, app1);
 		else if(image_cp3_yes.Visible && image_cp4_no.Visible)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
-					cp, cp2, cp3, syncNeeded, check_multi_delete_first.Active, appbar2, app1);
+					cp, cp2, cp3, syncNeeded, check_multi_delete_first.Active, 
+					entry_run_analysis_distance.Text.ToString(),
+					appbar2, app1);
 		else if(image_cp4_yes.Visible)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
-					cp, cp2, cp3, cp4, syncNeeded, check_multi_delete_first.Active, appbar2, app1);
+					cp, cp2, cp3, cp4, syncNeeded, check_multi_delete_first.Active, 
+					entry_run_analysis_distance.Text.ToString(),
+					appbar2, app1);
 
 		//if(simulated)	
 		//	currentEventExecute.SimulateInitValues(rand);
@@ -4155,7 +4205,11 @@ Console.WriteLine("X");
 
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
 
-		if ( ! currentEventExecute.Cancel ) {
+		if(currentMultiChronopicType.Name == Constants.RunAnalysisName && ! currentEventExecute.MultiChronopicRunAUsedCP2()) 
+			//new DialogMessage(Constants.MessageTypes.WARNING, 
+			//		Catalog.GetString("This Run Analysis is not valid because there are no strides."));
+			eventExecuteWin.RunANoStrides();
+		else if ( ! currentEventExecute.Cancel ) {
 Console.WriteLine("T");
 			/*
 			   on runAnalysis test, when cp1 ends, run ends,
@@ -4164,13 +4218,19 @@ Console.WriteLine("T");
 			   solves problem with threads at ending
 			   */
 
-			on_finish_multi_clicked(o, args);
+			//on_finish_multi_clicked(o, args);
+			//this produces also a crash:
+			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");
 Console.WriteLine("U");
 			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
 			currentEventExecute.MultiChronopicWrite(false);
 Console.WriteLine("V");
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
 Console.WriteLine("W");
+			//this produces also a crash:
+			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");
+
+Console.WriteLine("W2");
 			
 			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
 			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
@@ -4188,10 +4248,11 @@ Console.WriteLine("X");
 		}
 		
 		//unhide buttons that allow doing another test
+		Console.WriteLine("RR3");
 		sensitiveGuiEventDone();
+		Console.WriteLine("RR4");
 	}
 		
-
 
 
 	/*
@@ -5126,7 +5187,9 @@ Console.WriteLine("X");
 					break;
 				case EventType.Types.PULSE:
 					Log.WriteLine("sensitiveGuiEventDone pulse");
-					//button_pulse_last.Sensitive = true;
+					break;
+				case EventType.Types.MULTICHRONOPIC:
+					Log.WriteLine("sensitiveGuiEventDone multichronopic");
 					break;
 				default:
 					Log.WriteLine("sensitiveGuiEventDone default");

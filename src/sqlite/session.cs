@@ -117,6 +117,9 @@ class SqliteSession : Sqlite
 		} catch {
 			//done because there's an eventual problem maybe thread related on very few starts of chronojump
 			Log.WriteLine("Catched dbcon problem at Session.Select");
+			dbcon.Close();
+			dbcon.Open();
+			Log.WriteLine("reopened again");
 		}
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
 		Log.WriteLine(dbcmd.CommandText.ToString());

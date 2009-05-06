@@ -1,17 +1,52 @@
 TODO: 
 
+
+++++++++++++++++++++++++++++++++++++++++ solved +++++
+runAnalysis bug it's always:
+- when calling error window (gui/chronojump.cs 2805 (between cfmt5 and cfmt6) (try catch seems not to work) now print writelines from error window, let's see
+-maybe is because first cp kills the PulseGTK and then 2nd cp has no access to this PulseGTK (because thread is killed) (and maybe it cannot end it's work or repaint screen or whatever) then need another pulse for 2nd cp, or just the 2nd cp is the one who has the real finish:
+first cp has a trigger on finishing
+second cp when knows that trigger
+
+what should happen:
+1 when first cp ends (arrive 2ns photocell)
+2 it does the finish
+3 message printed to user (press cp2)
+4 cp2 is pressed 
+5 totallyFinished 2 is displayed
+6 all is over
+
+------------
+ATTENTION:
+gui/chronojump.cs line has been commented:
+currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
+and nothing is written (as run analysis and as mc) and nothing is in treeview
+but never fails!!!!!!!!!
+maybe is simple problem that on_multi_chronopic_finished calls on_finish_multi_clicked and later continues with it's code
+maybe is a bad call, try to uncomment the Fake again, but comment this call:
+on_finish_multi_clicked(o, args);
+-aixi funciona perfectament (provat amb 13runA) i guarda dades i fa treeview, l'unic que cal recrodar-se de fer el click al cp2 després del cp1
+
+ATTENTION2:
+*** seems that no errorwindow or dialogmessage can be used until pulseGtk code is ended ***
+maybe SOLUTION is to show a message on eventWindow from pulseGTK, and not from gui/chronojump with the 4 TotallyFinished calls
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 fix two bugs (really difficult to reproduce):
 1.- the chronojump.cs findVersion (just do more tests check that the error is fixed easily) 
-work done (30 apr (2)), just do more tests
+work done (30 apr (2)), just do more tests. added a try catch, hope it's done now
 2.- the sqlite problem with the thread at start... need to explore more
 
 multiChronopic:
+-syncFirst and deleteFirst are not working now
+-export!!
 -repair
 -tempTable
 -upload server
 
+
 new multichronopic tests:
-- padu runAnalysis (2cp): out of jumpRj and going to multichronopic (also in menu)
 - discrimitative reaction time with two lights and two fotocells (or platforms)
 (4cp) when evaluator push left or right button, cp 1 or cp2 lights, person has to cross fotocell a or b (connected to cp 3, 4)
 better with only two chronopics, if evaluator push cp1, light1 gets on and person has tocross fotocell1 (or platform). Then with two we have all.
@@ -42,7 +77,6 @@ i think there will be no problems because all is parametrized
 
 Put description of runAnalysis
 Put description of reactionTime
-
 Add longDescription on margaria
 
 Update manual

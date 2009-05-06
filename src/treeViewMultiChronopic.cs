@@ -98,8 +98,9 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		mc.Cp3OutStr = myStringOfData[14].ToString(); 
 		mc.Cp4InStr = myStringOfData[15].ToString(); 
 		mc.Cp4OutStr = myStringOfData[16].ToString(); 
-		mc.Description = myStringOfData[17].ToString(); 
-		mc.Simulated = Convert.ToInt32(myStringOfData[18].ToString()); 
+		mc.Vars = myStringOfData[17].ToString(); 
+		mc.Description = myStringOfData[18].ToString(); 
+		mc.Simulated = Convert.ToInt32(myStringOfData[19].ToString()); 
 		
 		return mc;
 	}
@@ -111,13 +112,14 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		
 		string title;
 
-		title = mc.Type + " CPs: " + mc.GetCPsString();
-		title += "; n: " + array.Count.ToString();
+		string typeExtra = mc.GetCPsString();
+		if(mc.Type == Constants.RunAnalysisName) 
+			typeExtra = mc.Vars + "cm " + Util.TrimDecimals(mc.GetTimeRunA(), pDN) + "s " + Util.TrimDecimals(mc.GetAVGSpeedRunA(), pDN) + "m/s";
+		title = mc.Type + " " + typeExtra;
+		title += " " + array.Count.ToString() +"n";
 		if(mc.Simulated == Constants.Simulated)
 			title += " (s) ";
 
-		//string myTypeComplet = title + "(" + newRunI.DistanceInterval + "x" + Util.GetLimitedRounded(newRunI.Limited, pDN) + ")";
-		
 		string [] myData = new String [19+1];
 		int count = 0;
 		myData[count++] = title;
@@ -133,6 +135,14 @@ public class TreeViewMultiChronopic : TreeViewEvent
 	protected override int getNumOfSubEvents(System.Object myObject)
 	{
 		MultiChronopic mc = (MultiChronopic)myObject;
+		if(mc.Type == Constants.RunAnalysisName) {
+			int cp2In = Util.GetNumberOfJumps(mc.Cp2InStr,false);
+			int cp2Out = Util.GetNumberOfJumps(mc.Cp2OutStr,false);
+			if(cp2In < cp2Out)
+				return 1 + cp2In;	//first "1+" is for the row with column names
+			else
+				return 1 + cp2Out;	//first "1+" is for the row with column names
+		}
 
 		int cp1 = Util.GetNumberOfJumps(mc.Cp1InStr,false) + Util.GetNumberOfJumps(mc.Cp1OutStr,false);
 		int cp2 = Util.GetNumberOfJumps(mc.Cp2InStr,false) + Util.GetNumberOfJumps(mc.Cp2OutStr,false);
@@ -150,8 +160,14 @@ public class TreeViewMultiChronopic : TreeViewEvent
 	//no total here
 	protected override void addStatisticInfo(TreeIter iterDeep, System.Object myObject) {
 		//store.AppendValues(iterDeep, printTotal(myObject, 19+1));
-		store.AppendValues(iterDeep, printAVG(myObject, 19+1));
-		store.AppendValues(iterDeep, printSD(myObject, 19+1));
+		
+		MultiChronopic mc = (MultiChronopic)myObject;
+		if(mc.Type == Constants.RunAnalysisName) {
+		} else {
+			store.AppendValues(iterDeep, printAVG(myObject, 19+1));
+			store.AppendValues(iterDeep, printSD(myObject, 19+1));
+		}
+
 	}
 	
 	protected override string [] printAVG(System.Object myObject, int cols) {
@@ -197,7 +213,7 @@ public class TreeViewMultiChronopic : TreeViewEvent
 	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
 	{
 		MultiChronopic mc = (MultiChronopic)myObject;
-
+Console.WriteLine("AA");
 		//write line for treeview
 		string [] myData = new String [19+1];
 
@@ -210,8 +226,32 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		string [] cp4InFull = mc.Cp4InStr.Split(new char[] {'='});
 		string [] cp4OutFull = mc.Cp4OutStr.Split(new char[] {'='});
 
+		if(mc.Type == Constants.RunAnalysisName) {
+			if(lineCount == 0) {
+				int count = 0;
+				myData[count++] = Catalog.GetString("Stride");
+				myData[count++] = "TC";
+				myData[count++] = "TF"; 
+				myData[count++] = "TT"; 
+				myData[count++] = Catalog.GetString("Freq."); 
+				myData[count++] = Catalog.GetString("Width"); 
+				myData[count++] = Catalog.GetString("Height"); 
+				myData[count++] = Catalog.GetString("Angle"); 
+				for(int i=0; i<10;i++) 
+					myData[count++] = "";
 
+				myData[count++] = ""; //description column
+				myData[count++] = "-1"; //mark to non select here, select first line 
+				return mc.DeleteCols(myData, maxCPs, false);
+			} else {
+				ArrayList array = mc.AsArrayList(pDN);
+				return mc.DeleteCols( array[lineCount-1].ToString().Split(new char[] {':'} ), maxCPs, false );
+			}
+		}
+
+		//not runAnalsysis
 		if(lineCount == 0) {
+			Console.WriteLine("AA2b");
 			int count=0;
 			myData[count++] = "0";
 			myData[count++] = "0";
@@ -227,33 +267,12 @@ public class TreeViewMultiChronopic : TreeViewEvent
 			myData[count++] = "-1"; //mark to non select here, select first line 
 			return mc.DeleteCols(myData, maxCPs, false);
 		} else {
+			Console.WriteLine("AA3");
 			ArrayList array = mc.AsArrayList(pDN);
+			Console.WriteLine("AA4");
 			return mc.DeleteCols( array[lineCount-1].ToString().Split(new char[] {':'} ), maxCPs, false );
 		}
 
 	}
-
-	/*
-	private string [] deleteCols(string [] s1, int maxCPs) {
-		if(maxCPs == 2) {
-			string [] s2 = new String[11+1];
-			for(int i=0, count=0; i < s1.Length; i++) {
-				if(i != 4 && i != 5 && i != 8 && i != 9 && i != 12 && i != 13 && i != 16 && i != 17)
-					s2[count++] = s1[i];
-			}
-			return s2;
-		}
-		else if(maxCPs == 3) {
-			string [] s2 = new String[15+1];
-			for(int i=0, count=0; i < s1.Length; i++) {
-				if(i != 5 && i != 9 && i != 13 && i != 17)
-					s2[count++] = s1[i];
-			}
-			return s2;
-		}
-		else //maxCPs == 4
-			return s1;
-	}
-	*/
 	
 }

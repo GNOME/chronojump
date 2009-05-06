@@ -56,6 +56,7 @@ class SqliteMultiChronopic : Sqlite
 			"cp3OutStr TEXT, " +
 			"cp4InStr TEXT, " +
 			"cp4OutStr TEXT, " +
+			"vars TEXT, " + //some vars separated by "=" used by different test types
 			"description TEXT, " +
 			"simulated INT )";		
 		dbcmd.ExecuteNonQuery();
@@ -72,6 +73,7 @@ class SqliteMultiChronopic : Sqlite
 			string cp2InStr, string cp2OutStr,
 			string cp3InStr, string cp3OutStr,
 			string cp4InStr, string cp4OutStr,
+			string vars, 
 			string description, int simulated)
 	{
 		if(! dbconOpened)
@@ -84,7 +86,7 @@ class SqliteMultiChronopic : Sqlite
 			" (uniqueID, personID, sessionID, type, " +
 		       	" cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn, " +	
 			" cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr, " +
-			" description, simulated)" +
+			" vars, description, simulated)" +
 			" VALUES (" + uniqueID + ", " +
 			personID + ", " + sessionID + ", '" + type + "', " +
 			cp1StartedIn + ", " + cp2StartedIn + ", " +
@@ -93,6 +95,7 @@ class SqliteMultiChronopic : Sqlite
 			cp2InStr + "', '" + cp2OutStr + "', '" +
 			cp3InStr + "', '" + cp3OutStr + "', '" +
 			cp4InStr + "', '" + cp4OutStr + "', '" +
+			vars + "', '" +
 			description + "', " + simulated + ")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -150,8 +153,9 @@ class SqliteMultiChronopic : Sqlite
 					reader[14].ToString() + ":" + 	//mc.cp3OutStr
 					reader[15].ToString() + ":" + 	//mc.cp4InStr
 					reader[16].ToString() + ":" + 	//mc.cp4OutStr
-					reader[17].ToString() + ":" + 	//description
-					reader[18].ToString()		//simulated
+					reader[17].ToString() + ":" + 	//vars
+					reader[18].ToString() + ":" + 	//description
+					reader[19].ToString()		//simulated
 					);
 			count ++;
 		}
@@ -182,7 +186,7 @@ class SqliteMultiChronopic : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 		
-		MultiChronopic mc = new MultiChronopic(DataReaderToStringArray(reader, 18));
+		MultiChronopic mc = new MultiChronopic(DataReaderToStringArray(reader, 19));
 	
 		dbcon.Close();
 		return mc;
@@ -217,11 +221,12 @@ class SqliteMultiChronopic : Sqlite
 		return maxCPs;
 	}
 
-	public static void Update(int eventID, int personID, string description)
+	public static void Update(int eventID, int personID, string vars, string description)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.MultiChronopicTable + " SET personID = " + personID + 
-			", description = '" + description +
+			", vars = '" + vars + 		//vars is distance on runAnalysis
+			"', description = '" + description +
 			"' WHERE uniqueID == " + eventID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

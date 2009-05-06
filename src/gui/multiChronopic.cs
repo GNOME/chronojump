@@ -59,6 +59,13 @@ public class EditMultiChronopicWindow : EditEventWindow
 		EditMultiChronopicWindowBox.pDN = pDN;
 		
 		EditMultiChronopicWindowBox.initializeValues();
+		
+		if(myEvent.Type == Constants.RunAnalysisName)
+			EditMultiChronopicWindowBox.showDistance = true;
+		else {
+			EditMultiChronopicWindowBox.showDistance = false;
+			EditMultiChronopicWindowBox.entryDistance = ""; //instead of the "0" in gui/event.cs
+		}
 
 		EditMultiChronopicWindowBox.fillDialog (myEvent);
 
@@ -73,7 +80,10 @@ public class EditMultiChronopicWindow : EditEventWindow
 		showTv = false;
 		showTc= false;
 		showFall = false;
-		showDistance = false;
+
+		//showDistance (defined above depending on myEvent)
+		distanceCanBeDecimal = false;
+
 		showTime = false;
 		showSpeed = false;
 		showWeight = false;
@@ -81,8 +91,16 @@ public class EditMultiChronopicWindow : EditEventWindow
 		showMistakes = false;
 	}
 
+	protected override void fillDistance(Event myEvent) {
+		MultiChronopic mc = (MultiChronopic) myEvent;
+		entryDistance = mc.Vars.ToString(); //distance
+		entry_distance_value.Text = Util.TrimDecimals(entryDistance, pDN);
+		entry_distance_value.Sensitive = true;
+	}
+	
 	protected override void updateEvent(int eventID, int personID, string description) {
-		SqliteMultiChronopic.Update(eventID, personID, description);
+
+		SqliteMultiChronopic.Update(eventID, personID, entryDistance, description);
 	}
 
 	protected override void on_button_cancel_clicked (object o, EventArgs args)

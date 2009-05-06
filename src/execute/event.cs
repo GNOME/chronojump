@@ -212,6 +212,7 @@ public class EventExecute
 			Log.Write("dying");
 			return false;
 		}
+	
 		Thread.Sleep (50);
 		//Log.Write(thread.ThreadState.ToString());
 		return true;
@@ -247,6 +248,8 @@ public class EventExecute
 		if(needEndEvent) {
 			eventExecuteWin.EventEnded();
 			//needEndEvent = false;
+			if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && finish) 
+				eventExecuteWin.RunATouchPlatform();
 		} else 
 			updateTimeProgressBar();
 		
@@ -266,11 +269,22 @@ public class EventExecute
 			needUpdateEventProgressBar = false;
 		}
 		
-	
+	Console.WriteLine("pulse update graph");	
 		if(needUpdateGraph) {
-			updateGraph();
+	Console.WriteLine("pulse update graph 2");	
+			//solve problems when runAnalysis ended and tries to paint window
+			if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && finish) 
+				Console.WriteLine("is MC, RA, finished!");	
+			else if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && ! finish) {
+				Console.WriteLine("is MC, RA, NOT finished!");	
+				updateGraph();
+			} else
+				updateGraph();
+	
+			Console.WriteLine("pulse update graph 3");	
 			needUpdateGraph = false;
 		}
+	Console.WriteLine("pulse update graph 4");	
 		
 		if(needSensitiveButtonFinish) {
 			eventExecuteWin.ButtonFinishMakeSensitive();
@@ -288,6 +302,7 @@ public class EventExecute
 			finish = true;
 			updateProgressBarForFinish();
 		} 
+	Console.WriteLine("pulse done");	
 		//else 
 		//	updateTimeProgressBar();
 	}
@@ -450,6 +465,9 @@ public class EventExecute
 		fakeButtonFinished.Click();
 	}
 	
+	public virtual bool MultiChronopicRunAUsedCP2() {
+		return false;
+	}
 	public virtual void MultiChronopicWrite(bool tempTable) {
 		Console.WriteLine("at event.cs");
 	}

@@ -134,6 +134,9 @@ public class EventExecuteWindow
 	[Widget] Gtk.Image image_run_interval_time_good;
 	[Widget] Gtk.Image image_run_interval_time_bad;
 	
+	[Widget] Gtk.Label label_message1;
+	[Widget] Gtk.Label label_message2;
+	
 	[Widget] Gtk.DrawingArea drawingarea;
 	[Widget] Box hbox_drawingarea;
 	[Widget] Gtk.Alignment alignment1;
@@ -247,6 +250,9 @@ public class EventExecuteWindow
 			image_simulated_l.Hide();
 			image_simulated_r.Hide();
 		}
+
+		label_message1.Text = "";
+		label_message2.Text = "";
 			
 
 		//finish not sensitive for all events. 
@@ -1495,13 +1501,20 @@ public class EventExecuteWindow
 		double timeTotal2 = Util.GetTotalTime(cp2InStr + "=" + cp2OutStr);
 		double timeTotal3 = Util.GetTotalTime(cp3InStr + "=" + cp3OutStr);
 		double timeTotal4 = Util.GetTotalTime(cp4InStr + "=" + cp4OutStr);
-		double timeTotal = timeTotal1;
-		if(timeTotal2 > timeTotal)
+		double timeTotal = 0;
+
+
+		if(eventType == Constants.RunAnalysisName)
 			timeTotal = timeTotal2;
-		if(timeTotal3 > timeTotal)
-			timeTotal = timeTotal3;
-		if(timeTotal4 > timeTotal)
-			timeTotal = timeTotal4;
+		else {
+			timeTotal = timeTotal1;
+			if(timeTotal2 > timeTotal)
+				timeTotal = timeTotal2;
+			if(timeTotal3 > timeTotal)
+				timeTotal = timeTotal3;
+			if(timeTotal4 > timeTotal)
+				timeTotal = timeTotal4;
+		}
 		Console.WriteLine("total time: {0}", timeTotal);
 
 
@@ -1519,20 +1532,34 @@ public class EventExecuteWindow
 
 		//writeMarginsText(maxValue, minValue, alto);
 		writeCpNames();
+		if(eventType == Constants.RunAnalysisName)
+			runAWritePlatformNames();
+
 
 		//check now here that we will have not division by zero problems
 		//if(maxValue - minValue <= 0) 
 		//	return;
 
-		paintMultiChronopic2 (ancho, cp1StartedIn, cp1InStr, cp1OutStr, timeTotal, yCp1Out +10, yCp1Out);
-		paintMultiChronopic2 (ancho, cp2StartedIn, cp2InStr, cp2OutStr, timeTotal, yCp2Out +10, yCp2Out);
-		paintMultiChronopic2 (ancho, cp3StartedIn, cp3InStr, cp3OutStr, timeTotal, yCp3Out +10, yCp3Out);
-		paintMultiChronopic2 (ancho, cp4StartedIn, cp4InStr, cp4OutStr, timeTotal, yCp4Out +10, yCp4Out);
+		Console.Write(" paint0 ");
+		
+		if(eventType == Constants.RunAnalysisName)
+			paintMultiChronopicRunAPhotocell (ancho, cp1StartedIn, cp1InStr, cp1OutStr, yCp1Out +10, yCp1Out);
+		else
+			paintMultiChronopicDefault (ancho, cp1StartedIn, cp1InStr, cp1OutStr, timeTotal, yCp1Out +10, yCp1Out);
+
+		Console.Write(" paint1 ");
+		paintMultiChronopicDefault (ancho, cp2StartedIn, cp2InStr, cp2OutStr, timeTotal, yCp2Out +10, yCp2Out);
+		Console.Write(" paint2 ");
+		paintMultiChronopicDefault (ancho, cp3StartedIn, cp3InStr, cp3OutStr, timeTotal, yCp3Out +10, yCp3Out);
+		Console.Write(" paint3 ");
+		paintMultiChronopicDefault (ancho, cp4StartedIn, cp4InStr, cp4OutStr, timeTotal, yCp4Out +10, yCp4Out);
+		Console.Write(" paint4 ");
 
 		graphProgress = phasesGraph.DONE; 
+		Console.Write(" paint done ");
 	}
 
-	private void paintMultiChronopic2 (int ancho, bool cpStartedIn, string cpInStr, string cpOutStr, double timeTotal, int h1, int h2) 
+	private void paintMultiChronopicDefault (int ancho, bool cpStartedIn, string cpInStr, string cpOutStr, double timeTotal, int h1, int h2) 
 	{
 		if(Util.GetTotalTime(cpInStr + "=" + cpOutStr) == 0) 
 			return;
@@ -1607,12 +1634,37 @@ public class EventExecuteWindow
 		   following code allows to paint line also on other chronopics
 		   in order to show all updated four cps after any cp change
 		   */
+		Console.WriteLine("(C)");
 		if(timeOld < timeTotal) { //this cp didn't received last event
 			if(lastCpIsStart)
 				pixmap.DrawLine(penStartDiscont, Convert.ToInt32(xOld), heightStart, Convert.ToInt32(ancho-rightMargin), heightStart);
 			else
 				pixmap.DrawLine(penEndDiscont, Convert.ToInt32(xOld), heightEnd, Convert.ToInt32(ancho-rightMargin), heightEnd);
 		}
+		Console.WriteLine("(D)");
+	}
+
+	private void paintMultiChronopicRunAPhotocell (int ancho, bool cpStartedIn, string cpInStr, string cpOutStr, int h1, int h2) 
+	{
+		/*
+		if(Util.GetTotalTime(cpInStr + "=" + cpOutStr) == 0) 
+			return;
+		
+		string [] cpIn = cpInStr.Split(new char[] {'='});
+		string [] cpOut = cpOutStr.Split(new char[] {'='});
+		if(cpOut.Length == 1) {
+			layout.SetMarkup("at first");
+			pixmap.DrawLayout (pen_gris, 50, yCp1Out, layout);
+		}
+		if(cpIn.Length == 1) {
+			layout.SetMarkup("middle");
+			pixmap.DrawLayout (pen_gris, 70, yCp1Out, layout);
+		}
+		if(cpOut.Length == 2) {
+			layout.SetMarkup("arrived");
+			pixmap.DrawLayout (pen_gris, 200, yCp1Out, layout);
+		}
+		*/
 	}
 
 
@@ -1660,6 +1712,12 @@ public class EventExecuteWindow
 									//and text goes down from the baseline, and will not be seen
 	}
 		
+	private void hideButtons() {
+		button_cancel.Sensitive = false;
+		button_close.Sensitive = true;
+		button_finish.Sensitive = false;
+	}
+
 	private void writeCpNames() {
 		layout.SetMarkup("cp1");
 		pixmap.DrawLayout (pen_gris, 0, yCp1Out -20, layout);
@@ -1670,14 +1728,25 @@ public class EventExecuteWindow
 		layout.SetMarkup("cp4");
 		pixmap.DrawLayout (pen_gris, 0, yCp4Out -20, layout);
 	}
-			
-	private void hideButtons() {
-		button_cancel.Sensitive = false;
-		button_close.Sensitive = true;
-		button_finish.Sensitive = false;
+	
+	private void runAWritePlatformNames() {
+		layout.SetMarkup(Catalog.GetString("Photocells"));
+		pixmap.DrawLayout (pen_gris, 20, yCp1Out -20, layout);
+		layout.SetMarkup(Catalog.GetString("Platforms"));
+		pixmap.DrawLayout (pen_gris, 20, yCp2Out -20, layout);
 	}
 
-
+	public void RunATouchPlatform() {
+		//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now. (from gui/eventExecute.cs");
+		this.label_message1.Text = "<b>" + "Please, touch platform now." + "</b>";
+		label_message1.UseMarkup = true;
+	}
+	public void RunANoStrides() {
+		//new DialogMessage(Constants.MessageTypes.WARNING, "This Run Analysis is not valid because there are no strides.");
+		this.label_message2.Text = "<b>" + "This Run Analysis is not valid because there are no strides." + "</b>";
+		label_message2.UseMarkup = true;
+	}
+	
 	public void EventEnded() {
 		hideButtons();
 		eventHasEnded = true;

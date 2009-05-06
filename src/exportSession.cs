@@ -708,13 +708,18 @@ public class ExportSession
 			mc.Cp3OutStr = myStr[14].ToString(); 
 			mc.Cp4InStr = myStr[15].ToString(); 
 			mc.Cp4OutStr = myStr[16].ToString(); 
-			mc.Description = myStr[17].ToString(); 
-			mc.Simulated = Convert.ToInt32(myStr[18].ToString()); 
+			mc.Vars = myStr[17].ToString(); 
+			mc.Description = myStr[18].ToString(); 
+			mc.Simulated = Convert.ToInt32(myStr[19].ToString()); 
+
+			string typeExtra = mc.GetCPsString();
+			if(mc.Type == Constants.RunAnalysisName)
+				typeExtra = mc.Vars + " cm.";
 
 			myData.Add (
 					mc.PersonID + ":" +    			
 					myStr[0] + ":" +  mc.UniqueID + ":" +  	//person.name, mc.uniqueID
-					mc.Type + " " + mc.GetCPsString()  + ":" +  		 	
+					mc.Type + " " + typeExtra  + ":" +  		 	
 					Util.RemoveNewLine(mc.Description) + ":" + Util.NoYes(mc.Simulated.ToString())
 				   );
 			

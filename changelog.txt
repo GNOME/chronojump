@@ -1,5 +1,21 @@
 CHANGELOG.txt
 
+0.8.9.1
+	doing new version for windows
+	...using installjammer 1.2.13b3
+	...using mono2.4 with gtk-sharp 2.12.8
+
+	treeview presents now runAnalysis (pending to do work on export)
+
+	multiChronopic now includes distance (vars at sql)
+	fixed runAnalysis where there's no 2nd cp
+	if it's a runAnalysis do that it has to be out from both chronopics
+	runA: if distance is 0, don't get sensitive button RunAnalysis
+	runA edit event allow to change distance
+	runA only shows platform info (cp2) in eventExecute win
+	runA eventExecute win shows time progressBar
+
+4 may 2009
 	0.8.9.0
 	start logo changed to 0.9
 	runanalysis execute test done

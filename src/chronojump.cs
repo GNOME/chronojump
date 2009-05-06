@@ -317,14 +317,19 @@ Console.WriteLine("--2--");
 			;
 Console.WriteLine("--2.1--");
 
-		if(splashWin.FakeButtonCreated)
-			Console.WriteLine("\n\nCREATED\n\n");
-		else
-			Console.WriteLine("\n\nNOT CREATED, si es bloqueja, posar aquí un while (mentre no estigui creat)\n\n");
+		try {
+			if(splashWin.FakeButtonCreated)
+				Console.WriteLine("\n\nCREATED\n\n");
+			else
+				Console.WriteLine("\n\nNOT CREATED, si es bloqueja, posar aquí un while (mentre no estigui creat)\n\n");
 
-		splashWin.FakeButtonCancel.Clicked += new EventHandler(on_find_version_cancelled);
-		
-Console.WriteLine("--3--");
+			splashWin.FakeButtonCancel.Clicked += new EventHandler(on_find_version_cancelled);
+
+			Console.WriteLine("--3--");
+		} catch {
+			Console.WriteLine("Problem with splash win");
+		}
+
 		versionAvailable = Server.Ping(true, progName, readVersion()); //doInsertion
 		
 Console.WriteLine("--4--");

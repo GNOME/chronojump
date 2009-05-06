@@ -80,6 +80,7 @@ class SqlitePreferences : Sqlite
 		dbcmd.CommandText = "UPDATE " + Constants.PreferencesTable +
 			" SET value = '" + myValue + 
 			"' WHERE name == '" + myName + "'" ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)

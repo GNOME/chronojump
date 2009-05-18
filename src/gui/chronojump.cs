@@ -106,7 +106,6 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_sj_l;
 	[Widget] Gtk.Button button_cmj;
 	[Widget] Gtk.Button button_abk;
-	[Widget] Gtk.Button button_jumps_max;
 	[Widget] Gtk.Button button_dj;
 	[Widget] Gtk.Button button_rocket;
 	[Widget] Gtk.Button button_take_off;
@@ -1076,30 +1075,48 @@ public class ChronoJumpWindow
 		string weightString = "";
 		string countryString = "";
 		string sportString = "";
+		
+		int maxPeopleFail = 7;
 
 		if(impossibleWeight.Count > 0) {
 			weightString += "\n\n" + Catalog.GetString("<b>Weight</b> of the following persons is not ok:") + "\n";
 			string separator = "";
-			foreach(Person person in impossibleWeight)
+			int count=0;
+			foreach(Person person in impossibleWeight) {
 				weightString += separator + person.Name + " (" + person.Weight + "Kg.)";
 				separator = ", ";
+				if(++count >= maxPeopleFail) {
+					weightString += "...";
+					break;
+				}
+			}
 		}
 
 		if(undefinedCountry.Count > 0) {
 			countryString += "\n\n" + Catalog.GetString("<b>Country</b> of the following persons is undefined:") + "\n";
 			string separator = "";
+			int count=0;
 			foreach(Person person in undefinedCountry) {
 				countryString += separator + person.Name;
 				separator = ", ";
+				if(++count >= maxPeopleFail) {
+					countryString += "...";
+					break;
+				}
 			}
 		}
 
 		if(undefinedSport.Count > 0) {
 			sportString += "\n\n" + Catalog.GetString("<b>Sport</b> of the following persons is undefined:") + "\n";
 			string separator = "";
+			int count=0;
 			foreach(Person person in undefinedSport) {
 				sportString += separator + person.Name;
 				separator = ", ";
+				if(++count >= maxPeopleFail) {
+					sportString += "...";
+					break;
+				}
 			}
 		}
 
@@ -2882,8 +2899,6 @@ Console.WriteLine("X");
 //no abk_l button currently
 //		} else 	if(o == (object) button_abk_l) {
 //			currentEventType = new JumpType("ABKl");
-		} else 	if(o == (object) button_jumps_max) {
-			currentEventType = new JumpType("Max");
 		} else 	if(o == (object) button_dj) {
 			currentEventType = new JumpType("DJ");
 		} else 	if(o == (object) button_rocket) {
@@ -4823,8 +4838,13 @@ Console.WriteLine("X");
 	
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
 		Log.WriteLine("ACCEPTED Add new jump type");
-		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
-		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+		if(jumpTypeAddWin.InsertedSimple) {
+			UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump."));
+		} else {
+			UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump."));
+		}
 		combo_jumps.Active = 0;
 		combo_jumps_rj.Active = 0;
 	}
@@ -4838,8 +4858,13 @@ Console.WriteLine("X");
 	
 	private void on_run_type_add_accepted (object o, EventArgs args) {
 		Log.WriteLine("ACCEPTED Add new run type");
-		UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
-		UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+		if(runTypeAddWin.InsertedSimple) {
+			UtilGtk.ComboUpdate(combo_runs, SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple run."));
+		} else {
+			UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic run."));
+		}
 		combo_runs.Active = 0;
 		combo_runs_interval.Active = 0;
 	}

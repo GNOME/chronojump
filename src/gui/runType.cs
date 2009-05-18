@@ -56,7 +56,7 @@ public class RunTypeAddWindow
 	[Widget] Gtk.SpinButton spin_distance_fixed;
 
 	[Widget] Gtk.VBox vbox_distance_variable;
-	[Widget] Gtk.SpinButton spin_distance_different_tracks_number;
+	[Widget] Gtk.ComboBox combo_distance_different_tracks;
 	[Widget] Gtk.HBox hbox_distance_variable;
 
 
@@ -77,6 +77,8 @@ public class RunTypeAddWindow
 	static RunTypeAddWindow RunTypeAddWindowBox;
 	Gtk.Window parent;
 	ErrorWindow errorWin;
+
+	public bool InsertedSimple;
 
 	RunTypeAddWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
@@ -127,6 +129,7 @@ public class RunTypeAddWindow
 		dd8 = new Gtk.Entry(); 	dd8.Changed += new EventHandler(on_entries_required_changed);
 		dd9 = new Gtk.Entry(); 	dd9.Changed += new EventHandler(on_entries_required_changed);
 	
+		combo_distance_different_tracks.Active = 0;
 		reset_hbox_distance_variable (2);
 	}
 		
@@ -172,8 +175,10 @@ public class RunTypeAddWindow
 				type.DistancesString = getEntriesString();
 			}
 			
-			if(radiobutton_simple.Active) 
+			if(radiobutton_simple.Active) {
 				SqliteRunType.Insert(type, Constants.RunTypeTable, false); //false, because dbcon is not opened
+				InsertedSimple = true;
+			}
 			else {
 				if(radiobutton_unlimited.Active) {
 					//unlimited (but in runs do like if it's limited by seconds: TracksLimited = false
@@ -194,6 +199,7 @@ public class RunTypeAddWindow
 				}
 			
 				SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, false); //false, because dbcon is not opened
+				InsertedSimple = false;
 			}
 			
 			//Log.WriteLine(string.Format("Inserted: {0}", type));
@@ -271,12 +277,12 @@ public class RunTypeAddWindow
 	{
 		hbox_distance_fixed.Hide();	
 		vbox_distance_variable.Show();	
-		spin_distance_different_tracks_number.Sensitive = true;
+		combo_distance_different_tracks.Sensitive = true;
 	}
 	
-	void on_spin_distance_different_tracks_number_changed (object o, EventArgs args)
+	void on_combo_distance_different_tracks_changed (object o, EventArgs args)
 	{
-		reset_hbox_distance_variable((int)spin_distance_different_tracks_number.Value);
+		reset_hbox_distance_variable(Convert.ToInt32(UtilGtk.ComboGetActive(combo_distance_different_tracks)));
 	}
 	
 	void reset_hbox_distance_variable (int colsNum) 
@@ -341,7 +347,7 @@ public class RunTypeAddWindow
 			dd5.Text + "-" + dd6.Text + "-" + dd7.Text + "-" + dd8.Text + "-" + dd9.Text; 
 		string [] s = ddString.Split(new char[] {'-'});
 
-		for(int i=0; i < (int)spin_distance_different_tracks_number.Value; i ++) {
+		for(int i=0; i < Convert.ToInt32(UtilGtk.ComboGetActive(combo_distance_different_tracks)); i ++) {
 			str += separator + s[i];
 			separator = "-";
 		}

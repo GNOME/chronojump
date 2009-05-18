@@ -402,7 +402,7 @@ Console.WriteLine("--6--");
 			Console.WriteLine("Done! Exiting");
 			string myVersion = readVersion();
 			Console.WriteLine("CAUTION: client info about versionAvailable (on server): " + myVersion);
-			SqlitePreferences.Update ("availableVersion", myVersion, true); 
+			SqlitePreferences.Update ("availableVersion", myVersion, false); 
 			Console.WriteLine("Maybe you don't want to show this version on pings, change it to last stable published version");
 		}
 	}
@@ -516,8 +516,8 @@ Console.WriteLine("--6--");
 		messageChrashedBefore = "\n" +
 			string.Format(Catalog.GetString("Chronojump {0} crashed before. If this problem persist, please, report it at forums:"), progVersion) + 
 			"\nhttp://chronojump.org\n\n" + Catalog.GetString("Remember to describe on Chronojump software forum how crash happened.") +
-		       "\n" + Catalog.GetString("Optionally, you can include this file:") + "\n\n" +
-			Log.GetLast() +
+		       //"\n" + Catalog.GetString("Optionally, you can include this file:") + "\n\n" +
+			//Log.GetLast() +
 			//windowsTextLog +
 			"\n\n" +	
 			Catalog.GetString("Your help is needed.") + "\n";

@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.70";
+	static string lastChronojumpDatabaseVersion = "0.69";
 
 	public Sqlite() {
 	}
@@ -891,16 +891,6 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.69";
 			}
-			if(currentVersion == "0.69") {
-				dbcon.Open();
-				SqliteJumpType.JumpTypeInsert ("Max:1:0:Maximum jump", true); 
-				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true);
-				SqlitePreferences.Update ("databaseVersion", "0.70", true); 
-				
-				Log.WriteLine("Converted DB to 0.70 (added Maximum jump  test)"); 
-				dbcon.Close();
-				currentVersion = "0.70";
-			}
 
 		}
 
@@ -1024,7 +1014,6 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
-		//0.69 - 0.70 added Maximum jump  test
 		//0.68 - 0.69 added Gesell-DBT test
 		//0.67 - 0.68 added multiChronopic tests table
 		//0.66 - 0.67 added TakeOff jumps 

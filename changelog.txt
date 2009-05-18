@@ -1,6 +1,21 @@
 CHANGELOG.txt
 
-0.8.9.1
+18 may 2009
+	0.8.9.2
+	runType add distancesString now with a combo
+	changed spins to combos:
+	-fixed bug at reading runType distancesString when has decimals, now is a combo
+	-preferences decimals
+	-deleted maximum jump (we already have "free")
+
+	deleting use of logs
+	on upload session if there's lot of people and there's a problem in comprobation, message is now shorter "..."
+	when a jumpType or runType is add, show a message that's added as eg: run simple or run Interval
+
+	created create_release_linux_src.sh to have a tar.gz with sources in order to be packaged (git added)
+
+6 may 2009
+	0.8.9.1
 	doing new version for windows
 	...using installjammer 1.2.13b3
 	...using mono2.4 with gtk-sharp 2.12.8

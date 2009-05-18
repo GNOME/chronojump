@@ -1,5 +1,18 @@
 TODO: 
 
+check all the radios, now should work different. change some of them to combos, like th distancesString
+but person win height and weigt work
+
+mantenir running
+eliminar logs (doing)
+
+
+mirar crash a l'obrir-se eventexecute window a WINDOWS
+	mirar que no es quedi mort si no es fa clic a la plataforma després del runAnalysis, si es queda mort llavors que no es pugui executar cap test, que es quedi tot insensitive fins que s'apreti la platforma
+
+website velleman put retardo de desactivacion instead of tiempo de respuesta ajustable
+
+
 
 ++++++++++++++++++++++++++++++++++++++++ solved +++++
 runAnalysis bug it's always:

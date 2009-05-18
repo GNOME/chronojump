@@ -39,7 +39,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.Label label_database_temp;
 	[Widget] Gtk.Label label_logs;
 
-	[Widget] Gtk.SpinButton spinbutton_decimals;
+	[Widget] Gtk.ComboBox combo_decimals;
 	[Widget] Gtk.CheckButton checkbutton_height;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
@@ -134,9 +134,9 @@ public class PreferencesWindow {
 		//else 
 			PreferencesWindowBox.hideLanguageStuff();
 		
-		PreferencesWindowBox.spinbutton_decimals.Value = digitsNumber;
+		string [] decs = {"1", "2", "3"};
+		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(decs, digitsNumber.ToString());
 
-		
 		if(allowFinishRjAfterTime)
 			PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active = true; 
 		else
@@ -352,7 +352,7 @@ public class PreferencesWindow {
 			SqlitePreferences.Update("chronopicPort", UtilGtk.ComboGetActive(combo_port_linux), false);
 		//SqlitePreferences.Update("chronopicPort", label_port.Text.ToString(), false);
 		
-		SqlitePreferences.Update("digitsNumber", spinbutton_decimals.Value.ToString(), false);
+		SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), false);
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);
 		SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);

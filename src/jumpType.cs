@@ -39,7 +39,7 @@ public class JumpType : EventType
 	
 	public override bool FindIfIsPredefined() {
 		string [] predefinedTests = {
-			"Free", "SJ", "CMJ", "ABK", "Max", "Rocket",
+			"Free", "SJ", "CMJ", "ABK", "Rocket",
 			"SJl", "CMJl", "ABKl", "DJ",
 			"RJ(j)", "RJ(t)", "RJ(unlimited)",
 			"RJ(hexagon)", "triple jump"
@@ -64,7 +64,7 @@ public class JumpType : EventType
 		imageFileName = "";
 		
 		//if this changes, sqlite/jumpType.cs initialize tables should change
-		if(name == "Free" || name == "SJ" || name == "CMJ" || name == "ABK" || name == "Max" || name == "Rocket") {
+		if(name == "Free" || name == "SJ" || name == "CMJ" || name == "ABK" || name == "Rocket") {
 			startIn 	= true;
 			hasWeight 	= false;
 			isRepetitive 	= false;
@@ -93,10 +93,6 @@ public class JumpType : EventType
 			else if (name == "ABK") {
 				description	= Catalog.GetString("Abalakov Jump");
 				imageFileName = "jump_abk.png";
-			} else if (name == "Max") {
-				description	= Catalog.GetString("Maximum Jump");
-				longDescription	= "Maximum Jump (like Abalakov but with free technique)";
-				imageFileName = "jump_max.png";
 			} else if (name == "Rocket") {
 				description	= Catalog.GetString("Rocket Jump");
 				imageFileName = "jump_rocket.png";

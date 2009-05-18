@@ -375,7 +375,7 @@ class SqliteRunIntervalType : SqliteRunType
 						reader[4].ToString() + ":" + 	//fixedValue
 						reader[5].ToString() + ":" + 	//unlimited
 						reader[6].ToString() + ":" +	//description
-						reader[7].ToString() 		//distancesString
+						Util.ChangeDecimalSeparator(reader[7].ToString())	//distancesString
 					    );
 			}
 			count ++;
@@ -426,7 +426,7 @@ class SqliteRunIntervalType : SqliteRunType
 			myRunType.FixedValue = Convert.ToInt32( reader[4].ToString() );
 			myRunType.Unlimited = Util.IntToBool(Convert.ToInt32(reader[5].ToString()));
 			myRunType.Description = reader[6].ToString();
-			myRunType.DistancesString = reader[7].ToString();
+			myRunType.DistancesString = Util.ChangeDecimalSeparator(reader[7].ToString());
 		}
 
 		myRunType.IsPredefined = myRunType.FindIfIsPredefined();

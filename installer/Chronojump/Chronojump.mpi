@@ -3015,7 +3015,7 @@ HPUX-hppa,RootInstallDir
 /usr/local/<%ShortAppName%>
 
 Linux-x86,Active
-No
+Yes
 
 Linux-x86,BuildSeparateArchives
 No
@@ -3348,7 +3348,7 @@ TarArchive,VirtualTextMap
 {<%InstallDir%> <%ShortAppName%>}
 
 Windows,Active
-Yes
+No
 
 Windows,BuildSeparateArchives
 No

@@ -56,6 +56,8 @@ public class JumpTypeAddWindow
 	Gtk.Window parent;
 	ErrorWindow errorWin;
 
+	public bool InsertedSimple;
+
 	JumpTypeAddWindow (Gtk.Window parent) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_type_add", null);
@@ -137,6 +139,7 @@ public class JumpTypeAddWindow
 					Util.RemoveTildeAndColon(textview_description.Buffer.Text);
 			
 				SqliteJumpType.JumpTypeInsert(myJump, false); //false, because dbcon is not opened
+				InsertedSimple = true;
 			} else {
 				
 				if(radiobutton_unlimited.Active) {
@@ -161,6 +164,7 @@ public class JumpTypeAddWindow
 					Util.RemoveTildeAndColon(textview_description.Buffer.Text);
 				
 				SqliteJumpType.JumpRjTypeInsert(myJump, false); //false, because dbcon is not opened
+				InsertedSimple = false;
 			}
 			
 			Log.WriteLine(string.Format("Inserted: {0}", myJump));

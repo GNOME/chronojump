@@ -33,8 +33,6 @@ set ::conf(osx)      [string equal $::tcl_platform(os) "Darwin"]
 set ::conf(unix)     [string equal $::tcl_platform(platform) "unix"]
 set ::conf(windows)  [string equal $::tcl_platform(platform) "windows"]
 
-set ::conf(threaded) [info exists ::tcl_platform(threaded)]
-
 set ::info(Testing)   0
 set ::info(Debugging) 0
 
@@ -68,9 +66,9 @@ proc ::InstallJammer::SourceCachedFile { file {namespace "::"} } {
 
 namespace eval ::InstallAPI {}
 namespace eval ::InstallJammer {}
-set conf(version)     1.2.9
+set conf(version)     1.2.13b3
 set info(Platform)    Linux-x86
-set info(InstallerID) B7C45BB7-B49C-502B-5978-A8CDFA3B1A0F
+set info(InstallerID) C8E4A020-F8D7-B688-130D-9AA061E5A80B
 array set ::InstallJammer::languagecodes {en English es Spanish}
 array set info {
 AllowLanguageSelection
@@ -86,7 +84,7 @@ ApplicationURL
 http://www.gnome.org/projects/chronojump
 
 BuildVersion
-0
+1
 
 CancelledInstallAction
 {Rollback and Stop}
@@ -115,6 +113,12 @@ DefaultFilePermission
 DefaultLanguage
 Spanish
 
+DefaultToSystemLanguage
+Yes
+
+EnableResponseFiles
+Yes
+
 ExtractSolidArchivesOnStartup
 No
 
@@ -140,22 +144,22 @@ InstallType
 Typical
 
 InstallVersion
-0.8.0.0
+0.8.9.1
 
 LaunchApplication
 Yes
 
 MajorVersion
-1
+0
 
 MinorVersion
-0
+8
 
 MonoLinuxMinimumVersion
 1.2.4
 
 MonoWindowsMinimumVersion
-2.0.1
+2.4.0
 
 PackageDescription
 {}
@@ -182,7 +186,7 @@ PackageVersion
 <%MajorVersion%>.<%MinorVersion%>
 
 PatchVersion
-0
+9
 
 ProgramExecutable
 <%InstallDir%>/chronojump-<%Version%>/linux/chronojump.sh
@@ -218,7 +222,7 @@ UpgradeApplicationID
 {}
 
 Version
-0.8
+0.8.9.1
 
 WizardHeight
 365
@@ -401,6 +405,9 @@ Application
 0772E47E-FC55-13C6-57FA-B9E06677B816,TargetFileName
 {<%InstallDir%>\chronojump-<%Version%>\windows\chronojump_mini.bat}
 
+0772E47E-FC55-13C6-57FA-B9E06677B816,VendorID
+<%ApplicationID%>
+
 0772E47E-FC55-13C6-57FA-B9E06677B816,WindowState
 normal
 
@@ -412,6 +419,9 @@ Yes
 
 0974AC80-C9EA-B238-282F-80C50AF1981F,Alias
 {is mono installed?}
+
+0974AC80-C9EA-B238-282F-80C50AF1981F,ClearProgressiveWidget
+Yes
 
 0974AC80-C9EA-B238-282F-80C50AF1981F,Component
 {}
@@ -980,6 +990,9 @@ No
 294C1998-2566-C983-7BE0-ECB818A339C6,Include
 0
 
+294C1998-2566-C983-7BE0-ECB818A339C6,ShowConsoleProgress
+Yes
+
 294C1998-2566-C983-7BE0-ECB818A339C6,UpdateFilePercentage
 No
 
@@ -1376,6 +1389,9 @@ Application
 446BFF70-66AA-8729-5EB1-E5DFB83FCCA9,TargetFileName
 <%Uninstaller%>
 
+446BFF70-66AA-8729-5EB1-E5DFB83FCCA9,VendorID
+<%ApplicationID%>
+
 446BFF70-66AA-8729-5EB1-E5DFB83FCCA9,WindowState
 normal
 
@@ -1409,6 +1425,9 @@ Yes
 45FA42A3-FF18-AAEE-71C4-EA26E9E01DAF,RequiredComponent
 No
 
+45FA42A3-FF18-AAEE-71C4-EA26E9E01DAF,Selectable
+Yes
+
 45FA42A3-FF18-AAEE-71C4-EA26E9E01DAF,ShowComponent
 Yes
 
@@ -1416,6 +1435,9 @@ Yes
 {}
 
 468697B3-57DC-BA29-2D10-4D0BCB1271DA,Active
+Yes
+
+468697B3-57DC-BA29-2D10-4D0BCB1271DA,ClearProgressiveWidget
 Yes
 
 468697B3-57DC-BA29-2D10-4D0BCB1271DA,Component
@@ -2123,6 +2145,9 @@ No
 66EDCFB0-45FF-6224-A486-A5660D7BFDC1,Conditions
 {1 condition}
 
+66EDCFB0-45FF-6224-A486-A5660D7BFDC1,Encoding
+{}
+
 66EDCFB0-45FF-6224-A486-A5660D7BFDC1,ExecuteAction
 6
 
@@ -2609,6 +2634,9 @@ Yes
 82C326B5-E226-6800-A589-31AA016CC09E,ExecuteAction
 1
 
+82C326B5-E226-6800-A589-31AA016CC09E,ExitCode
+{}
+
 82C326B5-E226-6800-A589-31AA016CC09E,ExitType
 Cancel
 
@@ -2705,6 +2733,9 @@ Yes
 89953BC0-2297-D1FA-0767-B80520DA0F72,FileUpdateMethod
 0
 
+89953BC0-2297-D1FA-0767-B80520DA0F72,FollowFileLinks
+No
+
 89953BC0-2297-D1FA-0767-B80520DA0F72,ID
 {}
 
@@ -2712,6 +2743,9 @@ Yes
 Mono-windows
 
 89953BC0-2297-D1FA-0767-B80520DA0F72,Permissions
+{}
+
+89953BC0-2297-D1FA-0767-B80520DA0F72,SaveFiles
 {}
 
 89953BC0-2297-D1FA-0767-B80520DA0F72,Size
@@ -2770,6 +2804,9 @@ Yes
 
 96C99CFD-D1AB-A304-994B-F325CB5126D2,Alias
 {install mono from windows executable}
+
+96C99CFD-D1AB-A304-994B-F325CB5126D2,ClearProgressiveWidget
+Yes
 
 96C99CFD-D1AB-A304-994B-F325CB5126D2,Component
 {}
@@ -2905,6 +2942,9 @@ Application
 
 97C38F94-90CA-6717-CC51-78D0D43EE48A,TargetFileName
 {"<%MonoPathRegValue%>\bin\monow.exe"}
+
+97C38F94-90CA-6717-CC51-78D0D43EE48A,VendorID
+<%ApplicationID%>
 
 97C38F94-90CA-6717-CC51-78D0D43EE48A,WindowState
 normal
@@ -3044,6 +3084,9 @@ return 0}
 AIX-ppc,Active
 No
 
+AIX-ppc,BuildSeparateArchives
+No
+
 AIX-ppc,DefaultDirectoryPermission
 0755
 
@@ -3112,10 +3155,13 @@ B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,Destination
 <%InstallDir%>
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,FileSize
-13677113
+15093362
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,FileUpdateMethod
 0
+
+B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,FollowFileLinks
+No
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,ID
 {}
@@ -3124,6 +3170,9 @@ B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,Name
 {Program Files}
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,Permissions
+{}
+
+B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,SaveFiles
 {}
 
 B183954F-56CA-1FEB-17B0-63A0F9D2CA1C,Size
@@ -3278,6 +3327,9 @@ Application
 
 BBFC8BB2-978A-6A82-64A5-956543B03628,TargetFileName
 {"<%MonoPathRegValue%>\bin\monow.exe"}
+
+BBFC8BB2-978A-6A82-64A5-956543B03628,VendorID
+<%ApplicationID%>
 
 BBFC8BB2-978A-6A82-64A5-956543B03628,WindowState
 normal
@@ -3474,6 +3526,9 @@ Chronojump
 CB2F63A8-BB7B-D37D-3B41-BEF87CD243A3,RequiredComponent
 Yes
 
+CB2F63A8-BB7B-D37D-3B41-BEF87CD243A3,Selectable
+Yes
+
 CB2F63A8-BB7B-D37D-3B41-BEF87CD243A3,ShowComponent
 Yes
 
@@ -3537,6 +3592,9 @@ D0B71563-7ED3-023B-1894-8AC3CA3C1269,FileSize
 D0B71563-7ED3-023B-1894-8AC3CA3C1269,FileUpdateMethod
 0
 
+D0B71563-7ED3-023B-1894-8AC3CA3C1269,FollowFileLinks
+No
+
 D0B71563-7ED3-023B-1894-8AC3CA3C1269,ID
 {}
 
@@ -3544,6 +3602,9 @@ D0B71563-7ED3-023B-1894-8AC3CA3C1269,Name
 Readme-.update-chronojump-version
 
 D0B71563-7ED3-023B-1894-8AC3CA3C1269,Permissions
+{}
+
+D0B71563-7ED3-023B-1894-8AC3CA3C1269,SaveFiles
 {}
 
 D0B71563-7ED3-023B-1894-8AC3CA3C1269,Size
@@ -3687,6 +3748,9 @@ E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Component
 E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Conditions
 {2 conditions}
 
+E55EF3C7-ED39-DCC2-538F-81A46E080F8A,Destination,subst
+1
+
 E55EF3C7-ED39-DCC2-538F-81A46E080F8A,DestinationLabel,subst
 0
 
@@ -3746,6 +3810,9 @@ Yes
 
 E7CE8C55-ACC2-0B5E-63B9-950173B82A75,Alias
 {install FTDI driver}
+
+E7CE8C55-ACC2-0B5E-63B9-950173B82A75,ClearProgressiveWidget
+Yes
 
 E7CE8C55-ACC2-0B5E-63B9-950173B82A75,Component
 {}
@@ -3854,6 +3921,9 @@ Application
 
 E8578E79-6308-4A15-76CB-4FEAE5649C5C,TargetFileName
 <%InstallDir%>/chronojump-<%Version%>/linux/chronojump.sh
+
+E8578E79-6308-4A15-76CB-4FEAE5649C5C,VendorID
+<%ApplicationID%>
 
 E99F83E5-0807-6800-4DA6-CF3A4A12E5BF,Active
 Yes
@@ -4068,6 +4138,9 @@ Linux-x86
 F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23,Active
 Yes
 
+F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23,ClearProgressiveWidget
+Yes
+
 F8EBB3C0-597D-D1C6-82CC-1C9B04F06C23,Component
 {}
 
@@ -4170,6 +4243,9 @@ Windows
 FreeBSD-4-x86,Active
 No
 
+FreeBSD-4-x86,BuildSeparateArchives
+No
+
 FreeBSD-4-x86,DefaultDirectoryPermission
 0755
 
@@ -4218,7 +4294,172 @@ No
 FreeBSD-4-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+FreeBSD-5-x86,Active
+No
+
+FreeBSD-5-x86,BuildSeparateArchives
+No
+
+FreeBSD-5-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-5-x86,DefaultFilePermission
+0755
+
+FreeBSD-5-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-5-x86,FallBackToConsole
+Yes
+
+FreeBSD-5-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-5-x86,InstallMode
+Standard
+
+FreeBSD-5-x86,InstallType
+Typical
+
+FreeBSD-5-x86,ProgramExecutable
+{}
+
+FreeBSD-5-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-5-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-5-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-5-x86,ProgramName
+{}
+
+FreeBSD-5-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-5-x86,PromptForRoot
+Yes
+
+FreeBSD-5-x86,RequireRoot
+No
+
+FreeBSD-5-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-6-x86,Active
+No
+
+FreeBSD-6-x86,BuildSeparateArchives
+No
+
+FreeBSD-6-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-6-x86,DefaultFilePermission
+0755
+
+FreeBSD-6-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-6-x86,FallBackToConsole
+Yes
+
+FreeBSD-6-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-6-x86,InstallMode
+Standard
+
+FreeBSD-6-x86,InstallType
+Typical
+
+FreeBSD-6-x86,ProgramExecutable
+{}
+
+FreeBSD-6-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-6-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-6-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-6-x86,ProgramName
+{}
+
+FreeBSD-6-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-6-x86,PromptForRoot
+Yes
+
+FreeBSD-6-x86,RequireRoot
+No
+
+FreeBSD-6-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-7-x86,Active
+No
+
+FreeBSD-7-x86,BuildSeparateArchives
+No
+
+FreeBSD-7-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-7-x86,DefaultFilePermission
+0755
+
+FreeBSD-7-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-7-x86,FallBackToConsole
+Yes
+
+FreeBSD-7-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-7-x86,InstallMode
+Standard
+
+FreeBSD-7-x86,InstallType
+Typical
+
+FreeBSD-7-x86,ProgramExecutable
+{}
+
+FreeBSD-7-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-7-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-7-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-7-x86,ProgramName
+{}
+
+FreeBSD-7-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-7-x86,PromptForRoot
+Yes
+
+FreeBSD-7-x86,RequireRoot
+No
+
+FreeBSD-7-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 FreeBSD-x86,Active
+No
+
+FreeBSD-x86,BuildSeparateArchives
 No
 
 FreeBSD-x86,DefaultDirectoryPermission
@@ -4272,6 +4513,9 @@ FreeBSD-x86,RootInstallDir
 HPUX-hppa,Active
 No
 
+HPUX-hppa,BuildSeparateArchives
+No
+
 HPUX-hppa,DefaultDirectoryPermission
 0755
 
@@ -4323,6 +4567,9 @@ HPUX-hppa,RootInstallDir
 Linux-x86,Active
 Yes
 
+Linux-x86,BuildSeparateArchives
+No
+
 Linux-x86,DefaultDirectoryPermission
 0755
 
@@ -4371,7 +4618,64 @@ No
 Linux-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+Linux-x86_64,Active
+No
+
+Linux-x86_64,BuildSeparateArchives
+No
+
+Linux-x86_64,DefaultDirectoryPermission
+0755
+
+Linux-x86_64,DefaultFilePermission
+0755
+
+Linux-x86_64,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Linux-x86_64,FallBackToConsole
+Yes
+
+Linux-x86_64,InstallDir
+<%Home%>/<%ShortAppName%>
+
+Linux-x86_64,InstallMode
+Standard
+
+Linux-x86_64,InstallType
+Typical
+
+Linux-x86_64,ProgramExecutable
+{}
+
+Linux-x86_64,ProgramFolderAllUsers
+No
+
+Linux-x86_64,ProgramFolderName
+<%AppName%>
+
+Linux-x86_64,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+Linux-x86_64,ProgramName
+{}
+
+Linux-x86_64,ProgramReadme
+<%InstallDir%>/README.txt
+
+Linux-x86_64,PromptForRoot
+Yes
+
+Linux-x86_64,RequireRoot
+No
+
+Linux-x86_64,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 MacOS-X,Active
+No
+
+MacOS-X,BuildSeparateArchives
 No
 
 MacOS-X,DefaultDirectoryPermission
@@ -4425,6 +4729,9 @@ MacOS-X,RootInstallDir
 Solaris-sparc,Active
 No
 
+Solaris-sparc,BuildSeparateArchives
+No
+
 Solaris-sparc,DefaultDirectoryPermission
 0755
 
@@ -4473,7 +4780,64 @@ No
 Solaris-sparc,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+Solaris-x86,Active
+No
+
+Solaris-x86,BuildSeparateArchives
+No
+
+Solaris-x86,DefaultDirectoryPermission
+0755
+
+Solaris-x86,DefaultFilePermission
+0755
+
+Solaris-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Solaris-x86,FallBackToConsole
+Yes
+
+Solaris-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+Solaris-x86,InstallMode
+Standard
+
+Solaris-x86,InstallType
+Typical
+
+Solaris-x86,ProgramExecutable
+{}
+
+Solaris-x86,ProgramFolderAllUsers
+No
+
+Solaris-x86,ProgramFolderName
+<%AppName%>
+
+Solaris-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+Solaris-x86,ProgramName
+{}
+
+Solaris-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+Solaris-x86,PromptForRoot
+Yes
+
+Solaris-x86,RequireRoot
+No
+
+Solaris-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 TarArchive,Active
+No
+
+TarArchive,BuildSeparateArchives
 No
 
 TarArchive,CompressionLevel
@@ -4536,8 +4900,14 @@ TarArchive,VirtualTextMap
 Windows,Active
 No
 
+Windows,BuildSeparateArchives
+No
+
 Windows,Executable
 <%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Windows,FileDescription
+{<%AppName%> <%Version%> Setup}
 
 Windows,IncludeTWAPI
 No
@@ -4569,10 +4939,19 @@ Windows,ProgramName
 Windows,ProgramReadme
 <%InstallDir%>/README.txt
 
+Windows,RequireAdministrator
+Yes
+
+Windows,UseUncompressedBinaries
+No
+
 Windows,WindowsIcon
 /home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon_install_win.ico
 
 ZipArchive,Active
+No
+
+ZipArchive,BuildSeparateArchives
 No
 
 ZipArchive,CompressionLevel
@@ -4859,8 +5238,12 @@ proc CreateWindow.SelectDestination {wizard id} {
     grid rowconfigure    $base.frame 0 -weight 1
     grid columnconfigure $base.frame 0 -weight 1
 
-    Label $base.frame.destination -anchor nw -textvariable ::info($varName)  -elide 1 -elideside center -ellipsis {[...]}
+    Label $base.frame.destination -anchor nw -elide 1 -elideside center  -ellipsis {[...]}
     grid  $base.frame.destination -row 0 -column 0 -sticky ew -padx 5 -pady 3
+    $id widget set Destination -widget $base.frame.destination
+    if {$varName ne ""} {
+        $id setText all Destination "<%Dir <%$varName%>%>"
+    }
 
     Button $base.frame.browse -command  [list ::InstallAPI::PromptForDirectory -virtualtext $varName]
     grid $base.frame.browse -row 0 -column 1 -sticky nw -padx 5 -pady [list 0 5]
@@ -5052,493 +5435,556 @@ proc CreateWindow.CustomBlankPane1 {wizard id} {
 
 
 array set ::InstallJammer::files {files.tcl {proc ::InstallJammer::InitFiles {} {
-File ::E2B4BE7B-36B4-5745-13C3-6C2DF4E13625 -name chronojump-0.8 -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8 -size 4096 -mtime 1228236666 -permissions 040755 -filemethod 0
-File ::96EBA030-AB29-A2C9-76C4-29E62FA40110 -name data -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::8A5A8849-E9F6-336D-2144-DCD9298B29CE -name chronojump.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 2005504 -mtime 1228236651 -permissions 00755 -filemethod 0
-File ::3AC820C7-EDA3-F310-B6F5-25198C905C6E -name chronojump.prg.mdb -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 370156 -mtime 1228236650 -permissions 00644 -filemethod 0
-File ::2F713549-8478-2FFA-7826-49A5FB8E0AD8 -name chronojump_blank.db -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 37888 -mtime 1228236651 -permissions 00644 -filemethod 0
-File ::B198C15D-9320-20CB-C87E-512B17750646 -name chronojump_icon.ico -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 3774 -mtime 1228236653 -permissions 00644 -filemethod 0
-File ::45BAEEA1-D3A1-B8C0-7F7E-DDE6E8E2EFCA -name chronojump_logo.png -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 9899 -mtime 1228236653 -permissions 00644 -filemethod 0
-File ::A603ED7E-8DCD-287A-21CE-62E36072DD34 -name chronojump_mini.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 35328 -mtime 1228236651 -permissions 00755 -filemethod 0
-File ::0B68CB88-A622-7D54-AE95-28DA846A9506 -name chronojump_mini_validate.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 27136 -mtime 1228236658 -permissions 00755 -filemethod 0
-File ::047809AE-2BC7-D841-4BEB-CBBD2D0A4F37 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 147968 -mtime 1228236658 -permissions 00755 -filemethod 0
-File ::A9415555-BB42-B157-063F-0765F33A02AA -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 307 -mtime 1228236651 -permissions 00644 -filemethod 0
-File ::96E94E57-33BB-A4E6-1875-B7BE27605131 -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 8704 -mtime 1228236651 -permissions 00755 -filemethod 0
-File ::097AB860-C5C3-40DE-16EC-5576F1764BA8 -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 307 -mtime 1228236653 -permissions 00644 -filemethod 0
-File ::87D12F90-7915-C585-55AC-94C8C1E03239 -name output.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 407 -mtime 1228236651 -permissions 00644 -filemethod 0
-File ::3A591FB2-8B44-70CC-306D-9893985587F3 -name readreg.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 3731 -mtime 1228236651 -permissions 00700 -filemethod 0
-File ::72C435C4-FCB6-1FD2-8CA2-080A557DE818 -name report_web_style.css -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 739 -mtime 1228236651 -permissions 00644 -filemethod 0
-File ::853744F6-F9EF-930A-65D8-C3E175777015 -name sqlite3.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 362029 -mtime 1228236653 -permissions 00700 -filemethod 0
-File ::76C568C3-34B4-76DF-B983-A5644728CE3D -name test.csv -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -mtime 1228236658 -permissions 00644 -filemethod 0
-File ::93C620E6-739D-A09E-757D-CE736B97538F -name version.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data -size 4 -mtime 1228236650 -permissions 00644 -filemethod 0
-File ::006D604B-0308-7DC3-B2B6-4995B46549BD -name linux_dlls -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/linux_dlls -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::97EABAD2-3437-3FE9-CEF0-19F4F5FDCC7E -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/linux_dlls -size 147968 -mtime 1228236653 -permissions 00755 -filemethod 0
-File ::FDAA6C3E-C9DC-D544-BA2A-D9858024E75C -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/linux_dlls -size 307 -mtime 1228236653 -permissions 00644 -filemethod 0
-File ::3BA58037-077B-0B20-7799-0CAC80FF8117 -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/linux_dlls -size 8704 -mtime 1228236653 -permissions 00755 -filemethod 0
-File ::7E9915D5-66EB-CC70-CE76-666082E78E24 -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/linux_dlls -size 307 -mtime 1228236653 -permissions 00644 -filemethod 0
-File ::20D88E9B-96D5-D0F1-6024-57E8FC3BAFB0 -name locale -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::4AFE8B3B-CAE7-5309-805E-0F0BD1FAE6F4 -name ar -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::E3345BBA-40CD-AF82-17AB-8F6057257C59 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::B94CDD24-5D33-C36C-F988-1756C694C2C9 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn -size 241 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::0AF60093-9696-C3E2-A566-0C99CD3EBF6F -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn -size 2 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::99F8723F-212C-DBAC-D7D6-012B511C1B83 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn/prop-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::E25AE246-CA2D-9A3C-24A1-831C1745614E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn/props -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::83ED3D42-D6E5-9994-4B80-60F826A62865 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn/text-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::BFC250A6-7DB3-AAD7-DFC6-6C31BB277F79 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn/tmp -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::F1EFD196-856F-876B-667A-0112C9F2EC0C -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn/tmp/prop-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::5CC591E2-099E-B7A4-645A-1E013C2C1153 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn/tmp/props -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::5666611D-5B34-4AC8-1D70-4A785B7C10FC -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/.svn/tmp/text-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::2BE6B490-FD56-305F-7436-67B1AC75E8F9 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::F7B5108E-2315-8C9D-00DF-344FD24C46E5 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES -size 2067 -mtime 1228236656 -permissions 00644 -filemethod 0
-File ::03F7E551-0EB6-2088-3161-EF803DAE4849 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::6AD16365-9DA6-653F-4D44-A6B4B54293CF -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn -size 372 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::E7230C8B-C01D-9CE6-3897-D5D2EE90F30D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn -size 2 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::F82FFA24-D3A7-6619-7FFA-6CEBE2EAB588 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::6CE379FA-0664-4B96-7B16-B907C7E4D5E6 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::D0575808-2C98-FE92-6DB5-8102077AC291 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::01120475-7CB8-EF96-7E23-0EA61B297488 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::14C3EC9F-09EF-4702-8DF2-08621634FBFC -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/text-base -size 2067 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::347FDC1A-6BDD-ACC8-36D6-43A8FC737066 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::16AEC6FB-0C32-3564-6278-D4A8A0B3D305 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::8CE68BD0-06AD-0E7C-1A99-6B7D55861C99 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::9AFEA5FB-5D91-A415-7416-3E22BC59EAEF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ar/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::ACD3B924-6568-92BE-2A24-8328D4824CD5 -name ca -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::5C074748-636C-7326-ADB3-7D67101419C8 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::1BC79A00-C484-F918-4217-93E9776AB4C6 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn -size 241 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::62BAB57F-90C9-EA3F-C7F2-31CD61EC7AA6 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn -size 2 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::2A29A301-7907-ECC7-E57E-C3F5D0284724 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn/prop-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::07E6021B-5811-E9E6-D906-ABEF6591AFF7 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn/props -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::CEA1AB4D-1578-637A-F9D8-24DC2DC0EC84 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn/text-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::96CF5AAE-EB73-BEA8-1401-6CB0527EFDDC -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn/tmp -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::4F667B2F-19B6-09AD-157B-54432332E5F2 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn/tmp/prop-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::0AA2EAFB-911E-B9CF-6055-308FF2F614A8 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn/tmp/props -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::01FEDA3B-8C4E-06CA-D97D-DF7D5AD6C6D1 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/.svn/tmp/text-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::713AA0D9-D278-8588-13CF-B53A19F7232C -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::7A2F7EB1-DC84-48F0-FF57-0C656665A8AE -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES -size 66678 -mtime 1228236656 -permissions 00644 -filemethod 0
-File ::5F9D5436-1C3D-A739-6B6D-BFED4F1924DA -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::AC70E1A3-4A72-8171-8CA1-7A8DFF12D1C5 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn -size 401 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::D72658F0-66C5-0BE3-F858-90B7697E96ED -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn -size 2 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::49EFC387-3DC3-321B-EA56-D1833EFAEE87 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::9344E429-8A80-14BC-0C77-060B860D3AD4 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::17CBD656-38EE-BDE8-B88C-736365889451 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::2B469CC8-3030-5FE5-55C8-3BDEFA61217C -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::438BA001-C6F5-6387-BC4F-B36D17899841 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/text-base -size 66678 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::AAE39BA3-6F60-A129-A0BF-0CFF9CE13AB5 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::1A1A41C9-98D3-FEF0-B1B1-AB6CBCE84789 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::5724131D-E174-72DE-62D8-31E5661FD4DD -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::D7562CCD-6B0D-7D96-65E1-6944AD9FA39D -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/ca/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::C8750286-2691-0F8C-32E9-980A1D823E44 -name dz -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::C959C7C1-CE0A-972C-32CA-51D020054038 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::8FA9A251-FB1E-9907-19A7-B3D135556F19 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn -size 241 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::2F39BDF4-0269-4B33-A159-EF710889905A -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn -size 2 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::6B0E68C3-C487-0705-4055-A69A91D7BDCA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::EF60BCE4-617C-FCA4-A8FA-1F4AA382D714 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn/props -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::8FE68AD5-C11F-E06D-B30B-F2BBCB5F5F0D -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn/text-base -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::8B12FD21-7640-FA03-30F7-C8C8F029A65E -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn/tmp -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::E5C84C0A-08ED-9E30-1DF5-AFA3B9B2C5B3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn/tmp/prop-base -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::4AD17D91-FCC3-2C4B-D5A5-BBF6ABBC00C8 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn/tmp/props -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::F6C1EA0E-FEF5-586A-30D1-FE60902E9192 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/.svn/tmp/text-base -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::9E916346-AD0A-F380-DE40-C8CFF2E3A224 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::81E4F4D3-EF22-D5B9-8B9A-1B7CA1FF2147 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES -size 71911 -mtime 1228236654 -permissions 00644 -filemethod 0
-File ::A48A6FE2-8875-12D2-847F-BC303F6A8010 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::E9E63A3A-3C5E-3E81-1601-AF89FE88A7EF -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn -size 372 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::38182F1F-7411-21DA-AC5D-7420C3B0C70C -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn -size 2 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::CA7F31A0-BDAD-36B5-32EA-4631774C06D5 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::B1C5285F-7FA9-5523-7A93-4375429AB5F5 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::266D2B96-9687-7262-4D62-DB801D817763 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::B6F2A6C9-2398-28F2-17E9-8749D29F421B -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::A909E306-0A1E-54E7-10E7-ABA82119E9D8 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/text-base -size 71911 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::E48F4D5C-A73F-ED86-8F67-5FEFE30D4001 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::336C1605-65F4-ED06-E64B-E4B4EBC50799 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::6844FE40-CB32-6B73-D1FA-EE08FB792CEF -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::B325F7C4-FC6E-CBB5-E7B7-7C3C3BCD332F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/dz/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::8284A6C1-5A1E-E669-225D-CC117538656B -name en_GB -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::90FF0A05-1D6F-DBC7-DD71-6AF4B469AB02 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::0C0A1F5C-9328-912C-C284-0F2225B00E4E -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn -size 292 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::483181A3-01A9-0F20-49BD-5D5F07FFE228 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn -size 2 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::37D5F3A0-9CDB-DDC2-62C6-83EFEC519A29 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::716D74C6-0C23-E4F9-FE7F-B16F87580ABF -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::E88142C4-0EF2-40A3-C25E-70C0AC4FE7BC -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::5985FA7F-07C5-169B-268A-597FA928CCD9 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn/tmp -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::CE0B8DD9-B334-6A8D-8D6B-0938C6A7DA77 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn/tmp/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::B09CAA68-FEE0-4A28-3A57-72FEE7130DB3 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn/tmp/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::DD69FF15-C469-84E4-EB23-928F04A3CFAF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/.svn/tmp/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::E18E6650-3CFE-0C21-09C3-26CCA8AF456D -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::9B25B969-7BEB-FC6D-E8E8-8A8D94CC0F2D -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES -size 36798 -mtime 1228236654 -permissions 00644 -filemethod 0
-File ::245C26F1-6435-A9C5-6535-4FAC5A1CACE1 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::1D4708C4-232A-D6CB-0EB0-A9D7DD4CBF0E -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn -size 423 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::D9088BC7-A7F5-145C-DF72-0EBA778D6B50 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn -size 2 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::C0067C6E-1026-8922-DF8A-B83F84424A2E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::9F25DB8B-873E-39BB-5C8B-39C006212EDA -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::AE5F7A8D-F5D8-2E43-9FDD-2CEE1DD930D9 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::ACCDC167-0B4F-A0C6-6F3E-130238DBCB64 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::2A4E77E5-FC41-C5B6-1101-5991477797A5 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/text-base -size 36798 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::F86A3708-02F3-052B-1AC4-C52B80DCC86E -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::F67232C7-5A13-C744-ECF4-BEC0E3F50B72 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::F5011787-5CC8-627C-B655-F5C9E1902E47 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::E6129247-00C9-95F7-1B47-D9EF9EF1BFB7 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/en_GB/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::DFB34021-80DF-6BF1-02F0-2273E3E0E2B8 -name es -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::2232E12C-2028-D212-4CAC-7441AA77680F -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::6668F0DF-A191-39EE-366B-6DD72F486F5A -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn -size 289 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::3A473A36-A8E2-73E3-A3A4-F42B6D1D0551 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn -size 2 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::F5D47EB4-53F8-172B-2699-A3E5A29E9BB6 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn/prop-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::E4085D30-4B6A-F66B-77A3-140C6BDE1617 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn/props -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::66D7465F-22A1-3708-828B-BF1A3B32F78A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn/text-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::924E6BFB-B8C1-6643-508D-5ADF29220F55 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn/tmp -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::CF8F994F-0F36-7B9D-F2C1-26B24FE4D64B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn/tmp/prop-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::E4B4A47D-DF56-B106-9A22-BE4503DD2DB5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn/tmp/props -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::D7E3F68E-85A5-CC2B-355A-E0DD8D8EC2DF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/.svn/tmp/text-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::3C5E0CCA-F434-E466-6012-2150917031EC -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::2DCE4B2A-155A-B81E-0021-B34D75F713D4 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES -size 78854 -mtime 1228236655 -permissions 00644 -filemethod 0
-File ::4792353B-4F80-0BAC-14FE-0447AF144FD5 -name es.po -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES -size 56514 -mtime 1228236655 -permissions 00644 -filemethod 0
-File ::5502CDA8-C31C-C211-D7D2-4053D9729A34 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::E52A6734-E187-F02F-B5C3-E6DCBCA5F9DA -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn -size 568 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::C56DDE22-8892-EFF4-BAFF-418EC5CF80A5 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn -size 2 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::BEBDD72F-76EB-62B6-7304-8CAE82EB372E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::8F0AE611-A8FE-6C57-54D0-D9501B7245C8 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::99874F03-63B6-CAEC-60D7-2480BD0553DE -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::ED8A5065-B879-BD07-73AA-92C4FCA27D6D -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::0EFACB65-97B1-C801-DAB3-D26372F9B378 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/text-base -size 78854 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::B0A2D8A1-211B-2651-2F31-9DD961AB311E -name es.po.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/text-base -size 56514 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::DD28429D-5C5D-56EA-FB63-C39FF9D06E54 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::FEBD140A-109C-05AF-F0B0-76CA02A1D77B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::70E61E73-5C79-D982-97DE-8739C56A7CFC -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::CD6514AF-DCEF-A9D3-7BE9-F31159E4427A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/es/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::5834D19E-1437-2AE7-1A8F-5149D6372C45 -name fi -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::78450FCD-E4DB-8E4E-CE76-7B38EB8F4B3B -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::33F7D835-C159-C6CF-E36E-4ED042E67AF1 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn -size 289 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::D11529A8-C8EA-439B-2E19-53A3106B6691 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn -size 2 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::C0E609CB-2102-FF47-8CB5-8364377119F1 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::FBEB92DF-00F1-8E14-7E52-91C7E3831EEA -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::6463FB6C-6E14-E4F2-05B0-7188E9DC312C -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::8101441B-04EE-7345-D497-90F39F8B682F -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn/tmp -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::75713A06-AB19-77A2-11C2-540A61A7BF39 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn/tmp/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::912C7D33-4941-A983-230B-1D7E1FE9B630 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn/tmp/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::16E976BE-14A7-715A-C979-8DF34CB98223 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/.svn/tmp/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::A2AF8D9C-851F-C0D2-736B-124C35928230 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::069E8DC8-89B6-FFB6-FFBB-4633A6398CBD -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES -size 33608 -mtime 1228236655 -permissions 00644 -filemethod 0
-File ::3E3AE5A6-BD65-1066-210D-BAD64B8DB3A7 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::D7A3C08B-F8EE-82EB-0510-CEF49E0F0C18 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn -size 420 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::21B4965D-1285-4B98-9623-8A3DF824E298 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn -size 2 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::2AD70E12-916D-B23E-2E8A-820159FDE87B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236655 -permissions 040755 -filemethod 0
-File ::16D35A5A-CD4C-DCCE-E856-586824FD7917 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236655 -permissions 00444 -filemethod 0
-File ::67012980-75FC-C65E-1AC9-AC57FA9D1863 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::0EB7B890-C40E-BDB4-E5C0-EE21B93A0DA1 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::D576937B-2361-E0D4-5738-6AB4F4A7912C -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/text-base -size 33608 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::C4CA77BB-D312-2BC7-87DC-7A248982EEE0 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::5C7DEBDB-2425-2B85-EFC8-3D332CD31DA9 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::3553BB7C-AECD-F974-0AB2-D07C67B22682 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::357BF598-34A0-A266-A38A-1E184F4F6394 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fi/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::2AFB12FC-9AB2-35D2-BC5A-877550BE2438 -name fr -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::793C3F53-D8B0-E3FC-FD60-331C4AD3A268 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::501C1C83-939B-C626-ACB4-D6E4C87C523D -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn -size 289 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::61640D04-7CE8-54DE-9062-35DA04B4CE56 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn -size 2 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::35C97C2C-DA3F-A3D4-C956-B767DE84FE19 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::7EADAE26-ED30-2C56-5B0C-62FC5F077998 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::E5FBADAE-BCA7-8F59-BA01-0221F203CBB3 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::A1AFE450-4B77-F35B-2F44-5AC172AE76EA -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn/tmp -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::44BFDC3D-F318-7F11-942B-FB6D0289A93F -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn/tmp/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::D95DFE8C-1DF6-33A8-157A-D0D8EE58F020 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn/tmp/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::95D8575D-9FC6-8587-EAA9-784DDDB79739 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/.svn/tmp/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::1F2892D4-F444-79AE-72BB-904D454FC0CB -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::F44A49BB-8F70-B937-C2F5-51F6C33D78A9 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES -size 56213 -mtime 1228236658 -permissions 00644 -filemethod 0
-File ::9B88E004-8916-97BF-5538-D960F41DCE73 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::DE3D70FC-BEE1-4E51-9875-52C4171A817C -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn -size 423 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::B0C27AB1-A8F5-8479-2B28-5393EA46A50E -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn -size 2 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::52261278-CFBC-CA8B-ECF1-5F9BB06CE282 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::8EF51D80-F589-2399-E715-E33630767EAC -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::A7E79C62-BECD-D09B-2D4B-D5D5B7B55443 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::DB51D3A9-946D-C208-99BE-88A7113AF7AD -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::42FD7B83-A691-3DE8-0500-03C08F4ABE1B -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/text-base -size 56213 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::F32C5824-D594-9445-8ABE-092FD260D685 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::CEB3F464-C169-BE2C-6089-3A8FDD633F82 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::256F22A3-743D-4B58-AD05-E0BA94F1404E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::8A48D259-E783-866E-0287-653F4EC9CF97 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/fr/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::228112C6-1EF4-D612-D06F-B9788F24471A -name nb -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/nb -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::ED1B6A4A-D98A-ABAA-3317-BC0E2F9317B8 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/nb/LC_MESSAGES -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::DAD702C9-3385-3FC2-8089-29F10C52DB42 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/nb/LC_MESSAGES -size 2986 -mtime 1228236658 -permissions 00644 -filemethod 0
-File ::5C434703-47AD-D508-80CA-FC9E5E35CFC2 -name oc -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::CAA2F695-6C25-5BC9-2949-3696540C0545 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::11F058D9-A631-5BD6-0218-27CE24BB1871 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn -size 241 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::863FDAE1-1941-FAA8-1761-6962378BCA2B -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn -size 2 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::27584F8F-20BB-7A98-BEAD-FDD4F388F79C -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::721A5186-8D91-AFB4-E79E-E85CF3375F55 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::4C8ACD89-810C-9445-4E20-9F746EFC0922 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::6D63F3DA-D18B-9ADC-B7DD-9313BA84856B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn/tmp -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::7CDE6640-BE9E-2F07-51FE-493D9D7BA48C -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn/tmp/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::2C50FA0D-23FD-0038-DBC2-CF0B539B1AF5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn/tmp/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::E93745A2-4BC0-888C-7BE7-153413D23931 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/.svn/tmp/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::B2DB54A3-6A67-9D7B-4F32-93E83B2F2858 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::1CC2C920-8B1E-AD67-07CE-62957C7CC50A -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES -size 6828 -mtime 1228236654 -permissions 00644 -filemethod 0
-File ::83649D28-351B-4F13-0405-A5D09C97A187 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::0F934CD6-466E-CA1D-DBE8-2966B7827EC7 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn -size 375 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::38D918CA-9296-A866-708E-7CCFDE6858A5 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn -size 2 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::57F5D0DE-21F6-B48A-1557-6828817E0E9E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::F5788E1B-9BB5-03E3-8E67-C1C412F4631F -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::CCF7FCE1-F0F7-D53E-31E8-5CA60F4FAC2D -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::57F063CC-8A6B-B112-9820-9372A20F04E4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::206CEB27-13F8-3EDC-A6E1-C43DFD4E955F -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/text-base -size 6828 -mtime 1228236654 -permissions 00444 -filemethod 0
-File ::75523743-7105-5AB7-F0A2-0E02FE8A430A -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::CC2689A0-475A-5B58-3B2F-2DDA695A8467 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::8C12BA24-6007-5908-A8BB-E414CE0DDC6C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::C90B0006-5912-FBFA-5C04-4B637BFDF57D -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/oc/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236654 -permissions 040755 -filemethod 0
-File ::0DA76AB4-CD52-F477-A7F9-939FA81EEA27 -name pt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::FB915E9F-80E1-F18B-A596-CD651C7CF142 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::3D663358-C580-0678-71FA-1C53B67E487F -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn -size 241 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::67B4F002-71A7-EFB4-9802-876F901957DE -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn -size 2 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::BBD8D76D-70C6-5A4D-2E77-D2D5DBB229F5 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::AC23CB04-2553-D219-F411-E0760F168479 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::C5E8125C-CE92-FB52-D4CB-D4C213AC9092 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::3F1B2EE9-BB55-5898-792E-C439E1709878 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn/tmp -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::76382C84-6D3D-7360-A35C-670297B306BF -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn/tmp/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::3239CB92-8B17-F8C9-2B8D-A7CD97E634A3 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn/tmp/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::3AA9DFE9-B523-12A2-E168-41515DE62249 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/.svn/tmp/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::2BF6AD1F-CC22-EBD9-4D01-A26705C6FE9B -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::A754B130-5214-D12B-945A-232EE1C22270 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES -size 37538 -mtime 1228236657 -permissions 00644 -filemethod 0
-File ::10D56A7F-188A-5B58-2AA3-3B1A0D4AE91C -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::07635D68-9329-28FD-E7ED-64E65910E5EA -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn -size 372 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::183ED723-4F9E-CC8D-2708-0C5C0DDA97C4 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn -size 2 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::DB6ABFE3-C584-A3AB-E0FA-E81A6E22B5C8 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::2ADD46C8-227B-CD09-6A60-004D259AC229 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::CB91D965-954E-3E34-705C-8F68CF0BB694 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::A90E85A4-4744-DCD3-35BE-73F3748FECFD -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::A216EBFA-5EE0-BFDB-17C0-6C266690DCDA -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/text-base -size 37538 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::CEC6DF5F-E80B-2EA0-4F1E-0F975F753A5C -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::800CCCEE-6E1D-D8E5-E737-DAF801029145 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::C8B8D1CB-55B1-EC10-E6ED-96EA6045BBF1 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::FD87C7F7-4D0A-9654-8BE8-0B97369E65D4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::1C744DD1-BFF7-A862-79AF-5B83986C8183 -name pt_BR -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::0A43F8AC-3E23-CC84-0ED4-6EDEDF3B9EFF -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::27170A6F-A4D1-C112-1F19-49DC0BA1BE05 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn -size 292 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::BC4E3F80-3987-04E2-2F77-F31549CEF102 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn -size 2 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::89923DAC-3419-0406-5961-77EF06DD4A5B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::2BE7B42D-74C3-2F69-EAF6-FD751D048E57 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::391BC351-918B-BBBB-1FA3-4D5BCD770130 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::90B39EAE-FC86-6396-4584-E8CD1AF39547 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn/tmp -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::E20991A2-5727-BCD9-95D4-5CC0FF0390FA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn/tmp/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::61C7F642-9C80-76D6-78CF-CCC6BC684665 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn/tmp/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::90B9E028-C459-7EB4-CEA5-A703ACFD2B2D -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/.svn/tmp/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::82498DBA-F2EC-08C8-F5CF-AF9DCC5F13E8 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::7E14CD3E-F044-36FC-F434-EC41E4F34A90 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES -size 4855 -mtime 1228236658 -permissions 00644 -filemethod 0
-File ::227FA5E2-AF8E-65AE-117F-FE42AAF75DF8 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::6F2AF0B9-9FF4-D77E-7D9C-8A8F24739DA0 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn -size 423 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::90E21653-CE3C-DD35-484A-4FE8AF5A4781 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn -size 2 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::BFB33113-BA27-DB7E-7678-8F89FEEA8933 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::A467BDED-5645-E03F-82A7-99856B95F60D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::6DB8879B-B1F7-37B4-537E-804366E0B1A2 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::433C8C60-C4E6-9C0B-AC8D-5027B676C470 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::989FA061-8498-9219-CD43-A7535A2AFB8C -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/text-base -size 4855 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::26D502D1-DE50-7CFA-EAE0-15C0A1777C17 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::3A8573D0-CFC6-2E38-E100-8A5253E4EEAB -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::322BF934-16DD-A73B-0176-2B263D56C881 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::FB79533D-6F05-D891-16BF-55554387BBDE -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::ABEFD03E-692B-8B2D-6252-9E40FFB5EA73 -name sv -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::FD73E595-6A5B-3BAF-10F0-A7A962A02475 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::DB42A558-5CA9-CF22-7827-272310B4F1E9 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn -size 289 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::C2834560-1CED-02A4-196B-4D9350808B06 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn -size 2 -mtime 1228236656 -permissions 00444 -filemethod 0
-File ::2A1B38E2-79C3-5063-CAF6-EB1FB51A317D -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn/prop-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::429F1D0F-D070-CF13-6CE0-595021088314 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn/props -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::5B071B45-AD6C-673C-F595-D4A818A41361 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn/text-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::EEF7ACFE-9B42-A03E-F6B9-6B01216850C5 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn/tmp -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::47B487C6-6141-9BF9-A61D-2AB2A4C7769E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn/tmp/prop-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::8A231CD7-4434-2EEF-580A-E229A56C09CA -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn/tmp/props -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::57FBD13D-C00B-23F7-9D3D-68C3F7849EF9 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/.svn/tmp/text-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::BC24BC09-F3BD-5E9E-4349-7EB6B8CEE395 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::242587DE-9CFC-487C-E98A-B5A1E566AFB5 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES -size 15332 -mtime 1228236657 -permissions 00644 -filemethod 0
-File ::843CA10C-963F-1C2E-C5B1-4310224B3404 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::A931F9BF-9C43-CC56-C211-7270F80F8F95 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn -size 420 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::756B8AFC-13FB-4028-6033-0FF2EBC6F93B -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn -size 2 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::D1481F00-9A6A-1851-5DB4-5EC331444962 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::63A91D68-2049-1E8B-2679-41CC9B4E5049 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::28C2C72C-8199-A7DE-B237-BBF7837CF7C2 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::74A36C5C-C479-3AB1-079C-F40C84CD3E2D -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::C2E76A84-ED10-01D9-4EC9-EE71984F7042 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/text-base -size 15332 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::B90C7272-E3AD-ED86-8679-ABA00BFBBE52 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::4E71B03B-68E7-B915-69D6-6FF6B30F8CA0 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::17365DA1-2704-C8D4-F6C8-B0FCDCA59A28 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::C1F4F0B1-A411-1AD1-F92F-33AE1B48AD0A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/sv/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236656 -permissions 040755 -filemethod 0
-File ::D906DB10-598D-C193-8B44-88AA59365523 -name vi -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::29D7AA22-1722-E64A-0E48-DAC02F181949 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::4E344ADF-DA23-1446-8C4F-5CAA8FA1DF88 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn -size 289 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::20891D4A-938B-5B39-90EE-C61D5EFDAEE2 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn -size 2 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::CAB5A566-F1DD-C290-81F2-D99C9AF9D0CD -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::07AAFD68-0AA6-A801-F60B-53B5DB46F3A6 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::31C05985-918A-3E41-3FD6-0F679F7D9A86 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::17C91F8B-6066-40A1-2FD6-5AA17EB6173E -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn/tmp -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::3E885EAF-2049-4880-8DB6-73B51DDB10F2 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn/tmp/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::CFB8729A-1779-7145-155B-1F164EA5B581 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn/tmp/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::422D49B3-6C7D-1769-ADE7-5819AD6E84FA -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/.svn/tmp/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::B00EF311-32A6-B015-6DE5-DB1B04867D8F -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::D41E7F9A-878B-E0BE-2759-52987F69DBB3 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES -size 38193 -mtime 1228236657 -permissions 00644 -filemethod 0
-File ::74D8823A-0CFD-6D83-D946-A7C1402E4D4C -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::CBAFDEA3-3590-9CE7-2752-191128391125 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn -size 420 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::D695E237-0599-95E5-9167-E013F2951B71 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn -size 2 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::572EE088-F776-8F9C-CC43-BD8FD53E8B26 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::CEFF6F5B-B2B8-B823-9A9B-24EF5CB774FF -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::117D5622-A79D-AD8F-53F4-12B7831F2EDA -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::25DCDEDE-A9AC-CE73-A1AE-A06F974D763F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::3F32D134-7F62-AAFC-EF31-7C9B26229171 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/text-base -size 38193 -mtime 1228236657 -permissions 00444 -filemethod 0
-File ::21B4AE51-C153-FDF5-6794-B03052B2DF55 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::270381ED-5BFD-A488-AA72-DD7190C14C37 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::A9CE2F18-C30F-2577-FF7C-5A4384372A52 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::0A94C712-7ED6-8052-EADE-104040DBE0CE -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/vi/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236657 -permissions 040755 -filemethod 0
-File ::396F4126-E59A-6E19-3970-5F75E2409AC0 -name zh_CN -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::794F59C5-D9C4-EA2D-4086-5FCC8757C151 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::253D617D-5752-FB04-7EDD-5E9F3F699C88 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn -size 292 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::31D39289-906C-891B-88FB-FAA5A8775B8C -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn -size 2 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::F5631CE7-CA77-3304-8E0F-F72D402F4844 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::91956A02-8981-1056-6D97-283768BBD9EB -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::AC604E48-758D-D06D-E830-40D07F9FD1EC -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::B39019E4-3E2A-89B4-8892-139FC2A2E898 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn/tmp -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::899EA77A-8D90-51E9-F8E5-606DCF66289E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn/tmp/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::08AC62F1-F828-3B51-70BB-FC0C3F5B7D20 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn/tmp/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::EC396278-70AE-6F4A-7D15-56E2BC57A375 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/.svn/tmp/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::3B0FF611-1309-B0AF-D78E-3A2C8A429BCE -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::2FB469B6-A339-B2E2-12E4-CB67F2010BC7 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES -size 1612 -mtime 1228236658 -permissions 00644 -filemethod 0
-File ::ACCFFF03-4BAA-C9A8-0AD0-841681207318 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::7E434298-BE9E-B4E3-6BB7-11725E8D01C7 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn -size 423 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::7F296D0E-D57D-6B4D-4308-865DC376FADE -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn -size 2 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::F3280DE8-8782-4253-DD55-466338CFAF19 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::55B6319D-6F68-04E5-1816-B9CAE049622B -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::B93811C7-CCF9-50AD-49BE-FBC63CE7E0F2 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::7BD2A06C-5C90-DB24-A28D-B093E2D43AD9 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::C31A92F4-B067-D38B-DC4F-68627F6A8CBC -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/text-base -size 1612 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::0139D83D-1C42-7D9F-BA8F-BA3677F03DF0 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::705EADF3-B76E-8B04-92A5-AC8302D50886 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::A5A77C19-BF38-56D4-A43D-9EF35AD57803 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::45336CF8-D9A7-B952-1DA7-430618C293C6 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::4FD54F1F-97A0-1E11-D3EE-8C7E11D22EE8 -name utils -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils -size 4096 -mtime 1228236652 -permissions 040755 -filemethod 0
-File ::1CAD8F20-70D9-F14C-F52F-F7BBA11F0105 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux -size 4096 -mtime 1228236652 -permissions 040755 -filemethod 0
-File ::B14098FA-BD66-2A04-1DCF-EBFA9A07FEBF -name convert_database.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux -size 308 -mtime 1228236652 -permissions 00755 -filemethod 0
-File ::70B8BEC3-21EA-EFA1-2A20-D45F7D37A14A -name db_path.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux -size 21 -mtime 1228236652 -permissions 00644 -filemethod 0
-File ::01B0C264-DBBC-20D2-37BA-3762CC3EEAF9 -name sqlite-2.8.17.bin -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux -size 312364 -mtime 1228236652 -permissions 00755 -filemethod 0
-File ::1E1CAF44-F1A9-9E90-E717-440CF8F417D5 -name sqlite3-3.5.0.bin -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux -size 278820 -mtime 1228236652 -permissions 00755 -filemethod 0
-File ::05039891-01BC-CAB2-783E-918FBEC1C5E8 -name tmp.db -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux -size 98304 -mtime 1228236652 -permissions 00644 -filemethod 0
-File ::227B0BDD-DD76-9D9F-1E06-2EA3EDED00C0 -name tmp.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux -size 91349 -mtime 1228236652 -permissions 00644 -filemethod 0
-File ::BFEA95DF-78DA-DDDF-8289-C5265459D73D -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::E84FA308-29B3-33EC-8115-DAD67D58F3E2 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn -size 650 -mtime 1228236651 -permissions 00444 -filemethod 0
-File ::64A1E323-D536-EA88-2CEB-92C177EB4B70 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn -size 2 -mtime 1228236651 -permissions 00444 -filemethod 0
-File ::75C4D33C-F3B8-25FB-78C0-EB3FD90C6EAF -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/prop-base -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::42D34857-B638-2F85-3792-15F30369BDAB -name convert_database.sh.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/prop-base -size 30 -mtime 1228236651 -permissions 00444 -filemethod 0
-File ::283B72FB-C02C-E481-2CA9-6A9DC5B41E74 -name sqlite-2.8.17.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/prop-base -size 53 -mtime 1228236652 -permissions 00444 -filemethod 0
-File ::7D79B721-FD66-F773-8332-E45BE7D02B26 -name sqlite3-3.5.0.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/prop-base -size 53 -mtime 1228236651 -permissions 00444 -filemethod 0
-File ::BBB593B3-3451-04A1-63EC-81F3F15FE0AB -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/props -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::833AFC96-4567-7CE8-8D4E-5B801BF37067 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/text-base -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::DC9FFEAA-22D0-B885-010B-D15FBA8D93CA -name convert_database.sh.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/text-base -size 308 -mtime 1228236651 -permissions 00444 -filemethod 0
-File ::F136E195-C5C5-B903-2C4B-3AC162C6FF17 -name sqlite-2.8.17.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/text-base -size 312364 -mtime 1228236651 -permissions 00444 -filemethod 0
-File ::C8D2E03B-268A-B8A1-38E4-E9D08D30F318 -name sqlite3-3.5.0.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/text-base -size 278820 -mtime 1228236651 -permissions 00444 -filemethod 0
-File ::49638F8B-AB10-736A-8062-D01389870941 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/tmp -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::E5CB0FDD-1EFC-BE08-D5D5-5B9C430889D5 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/tmp/prop-base -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::B0CEDE2B-98D8-B479-E9F3-246D0E1FF8A6 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/tmp/props -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::02FFF2D9-8151-5038-DDB3-FCE7A9F48DDB -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/linux/.svn/tmp/text-base -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::5B162480-DFD9-5AA7-D6D1-A14BFE23254F -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::25E89CE7-FE92-313B-7704-08BF3E45FC72 -name convert_database.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows -size 299 -mtime 1228236652 -permissions 00700 -filemethod 0
-File ::89A01095-D502-6A94-D603-5A77A23A5BE3 -name sqlite.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows -size 277098 -mtime 1228236653 -permissions 00755 -filemethod 0
-File ::0647AE4E-C098-D974-8408-1DA13A67E818 -name sqlite3.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows -size 391500 -mtime 1228236653 -permissions 00755 -filemethod 0
-File ::CAD31B79-53C0-DF52-5BCB-98631084D6C6 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::A497B4DD-1670-CB3A-8B99-6F2510F29820 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn -size 640 -mtime 1228236653 -permissions 00444 -filemethod 0
-File ::8CF82FBE-EDDA-453C-AC71-B4D51B893690 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn -size 2 -mtime 1228236653 -permissions 00444 -filemethod 0
-File ::52BA1F0F-72CE-00F7-F840-3980A15C57BE -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/prop-base -size 4096 -mtime 1228236653 -permissions 040755 -filemethod 0
-File ::F64FAD13-660A-84DF-22C1-0D55C380C495 -name convert_database.bat.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/prop-base -size 30 -mtime 1228236653 -permissions 00444 -filemethod 0
-File ::1F3CCA37-4677-B868-CE4E-B2C467A7DB05 -name sqlite.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/prop-base -size 79 -mtime 1228236653 -permissions 00444 -filemethod 0
-File ::A9CAEC0E-E372-11D3-3F17-A5FB3AC08DC1 -name sqlite3.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/prop-base -size 79 -mtime 1228236653 -permissions 00444 -filemethod 0
-File ::C4B33D5E-14A0-3C89-7B2F-8DAA72D077CC -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/props -size 4096 -mtime 1228236652 -permissions 040755 -filemethod 0
-File ::9B853309-7DEB-C276-853C-06B129537C85 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/text-base -size 4096 -mtime 1228236652 -permissions 040755 -filemethod 0
-File ::854CA666-3779-E77F-1ECE-B27CFA1912C1 -name convert_database.bat.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/text-base -size 299 -mtime 1228236652 -permissions 00444 -filemethod 0
-File ::341A3202-CBBC-9C9A-4F72-AA829A470FDC -name sqlite.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/text-base -size 277098 -mtime 1228236653 -permissions 00444 -filemethod 0
-File ::B87E23D5-6AEF-6E1A-54AD-6CE9264F012E -name sqlite3.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/text-base -size 391500 -mtime 1228236652 -permissions 00444 -filemethod 0
-File ::41CD7AB2-D2D2-2BF5-9CF7-853E760E832B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/tmp -size 4096 -mtime 1228236652 -permissions 040755 -filemethod 0
-File ::85E4FC1C-D124-EA7A-F15B-AFB34490E481 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/tmp/prop-base -size 4096 -mtime 1228236652 -permissions 040755 -filemethod 0
-File ::DD775005-7E2B-A8A5-DD1E-3570870CA614 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/tmp/props -size 4096 -mtime 1228236652 -permissions 040755 -filemethod 0
-File ::C9F6542B-F957-D8D7-FF25-3F5E7C596CEF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/utils/windows/.svn/tmp/text-base -size 4096 -mtime 1228236652 -permissions 040755 -filemethod 0
-File ::7B879EFF-0B84-4125-9852-011691566176 -name windows_dlls -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/data/windows_dlls -size 4096 -mtime 1228236651 -permissions 040755 -filemethod 0
-File ::69453B96-3D61-C731-9EA9-263934080FE2 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/windows_dlls -size 128512 -mtime 1228236651 -permissions 00755 -filemethod 0
-File ::81CAE30F-5CCF-0785-8218-46E535818C37 -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/windows_dlls -size 317 -mtime 1228236651 -permissions 00755 -filemethod 0
-File ::246B7AC5-807F-5C5D-66B3-B340E4C9A5BD -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/windows_dlls -size 8704 -mtime 1228236651 -permissions 00755 -filemethod 0
-File ::AF9EE508-977E-87E0-4CDC-8BD84F15215C -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/data/windows_dlls -size 313 -mtime 1228236651 -permissions 00755 -filemethod 0
-File ::09154EA7-E5D9-F6B9-5984-96A748F73BDC -name docs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/docs -size 4096 -mtime 1228236664 -permissions 040755 -filemethod 0
-File ::9E3757CF-8FF3-C99A-4037-E4205CCBD2D1 -name AUTHORS -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/docs -size 123 -mtime 1228236664 -permissions 00644 -filemethod 0
-File ::817E39B7-EAD2-458E-E292-17AFD23E8332 -name changelog.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/docs -size 88513 -mtime 1228236664 -permissions 00644 -filemethod 0
-File ::10A41039-1CEA-A5DA-AFBD-CD40D822EFDA -name chronojump_glossary_for_translators.html -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/docs -size 16010 -mtime 1228236663 -permissions 00644 -filemethod 0
-File ::93B48273-2905-79B9-B887-B4901CE13964 -name chronojump_manual_es.pdf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/docs -size 900366 -mtime 1228236663 -permissions 00644 -filemethod 0
-File ::9813761F-C2C0-7CC1-6B57-6D041BCFC390 -name COPYING -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/docs -size 17992 -mtime 1228236664 -permissions 00644 -filemethod 0
-File ::C1F1751B-6A5B-AF05-435E-9F2EEF6C84B0 -name INSTALL -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/docs -size 112 -mtime 1228236664 -permissions 00644 -filemethod 0
-File ::88B7CB9A-BFC6-C23C-2E58-C3393C0265F1 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::FA100023-EBA1-4A2C-1856-FA12899CE8D7 -name chronojump.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux -size 1989 -mtime 1228236658 -permissions 00755 -filemethod 0
-File ::72A31A82-D79B-3300-8925-0C5AC4228ED7 -name chronojump_mini.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux -size 1636 -mtime 1228236658 -permissions 00755 -filemethod 0
-File ::81587D19-D3D5-1C4B-04EC-55A51689C3D5 -name findMonoVersion.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -alias findMonoVersionLinux -directory <%InstallDir%>/chronojump-0.8/linux -size 58 -mtime 1228236658 -permissions 00755 -filemethod 0
-File ::9C59A483-44CD-834B-FEA1-D89F6D5429B0 -name chronopic-tests -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 4096 -mtime 1228236659 -permissions 040755 -filemethod 0
-File ::3DE8E119-B233-E633-5276-D18947C0A574 -name Changelog -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 2227 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::BB36B10D-C30B-6297-4665-42C0FE4B3EF2 -name chronopic-serial-conf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 11246 -mtime 1228236659 -permissions 00755 -filemethod 0
-File ::1FB90644-91DE-6D29-CF50-035A531F25E0 -name chronopic-serial-conf.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 4592 -mtime 1228236658 -permissions 00644 -filemethod 0
-File ::3A1D1F89-BB71-C3AC-B656-841F5454B93C -name chronopic-serial-conf.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 2520 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::610BC417-4E84-ADF1-E17A-D65D662A5188 -name chronopic.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 10239 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::9CE00B11-D92D-1838-5729-930B0775879E -name chronopic.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 5160 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::4EF1B7B6-3D65-1119-C7C4-ED80F77E1938 -name chronopic.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 4608 -mtime 1228236658 -permissions 00755 -filemethod 0
-File ::5D16E3D4-9AC4-371C-FA6B-E9D8BFDF87ED -name chronopic.h -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 4508 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::D3782A31-2131-AD3E-2B9B-C3C351393A51 -name chronopic.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 3336 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::1A8D3311-F7D8-6CB8-8729-00CB8D179377 -name libchronopic.so -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 8654 -mtime 1228236659 -permissions 00755 -filemethod 0
-File ::D0E0277E-14A2-12BE-946A-3CD10D5E1BAC -name Makefile -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 2790 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::D0AAA51A-EAD0-3877-D299-B37EDD2060E5 -name README.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 689 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::0C30851C-21BA-0EF6-D3DB-773978546F09 -name termansi.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 3003 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::0D5753E6-5384-BC48-BE67-B7A07BCBF1C3 -name termansi.h -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 375 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::B2CAA48D-687A-3D97-5FD1-FEAEADCA1872 -name termansi.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 2164 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::E9810931-4F7B-CC6A-34B1-227ABE2EA19F -name test-precision -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 12296 -mtime 1228236659 -permissions 00755 -filemethod 0
-File ::22044CF7-3559-7FEE-03E2-51EE495AAAE2 -name test-precision.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 5030 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::72C15BE5-3D4C-E311-8891-F17AF0FE95B8 -name test-precision.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 3548 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::D688BF5D-E978-659C-5797-C8534527489F -name test-saltos -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 11959 -mtime 1228236659 -permissions 00755 -filemethod 0
-File ::CEA8298A-A9AF-5DC2-EABC-CED55869AC1D -name test-saltos.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 5600 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::3F74F05F-9739-2B0D-63B8-DCCA8FA64A01 -name test-saltos.mono.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 3547 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::1F09D6D6-543E-6B97-589C-3A69FA800CC7 -name test-saltos.mono.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 4096 -mtime 1228236659 -permissions 00755 -filemethod 0
-File ::D49C062F-A4EC-B837-6A50-EF594E29878D -name test-saltos.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 3448 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::70E2FE12-1704-B0C0-A692-11D3044638E2 -name test-tramas -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 13587 -mtime 1228236659 -permissions 00755 -filemethod 0
-File ::32395690-4776-BC64-6A3A-9E87932DA12C -name test-tramas.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 5507 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::7D1AEF7C-CF21-0A61-D916-69CDEE5A37A3 -name test-tramas.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 4076 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::DBB73EDC-F752-ABA1-E205-8CA9ACA30207 -name test.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 3155 -mtime 1228236659 -permissions 00644 -filemethod 0
-File ::D740B90A-83D9-0989-220B-C6FECAA38A4D -name test.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 5120 -mtime 1228236658 -permissions 00755 -filemethod 0
-File ::0F46689F-6112-DC7B-AFB0-B9E454CFD2E7 -name test.prj -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests -size 2770 -mtime 1228236658 -permissions 00644 -filemethod 0
-File ::C9F9BE4A-B481-55A7-32EC-985EE5BA0969 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::809C4B65-D5DD-1577-0061-FBCF1CEED026 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn -size 2132 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::A2DCBC01-E059-C7B8-BD8B-D3DDE2695E2A -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn -size 2 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::B50D31CC-671D-0C1C-396F-F0B85A267F23 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::573EE5B5-78D7-F29A-3587-9AEE7CC68D6A -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::E57B4842-0636-6FF5-85F2-53E518DB7899 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::9BFF012D-7AB7-DD35-25BF-CE70B528F4BA -name Changelog.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 2227 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::89CE1615-695A-023D-DA52-D190AE325FBE -name chronopic-serial-conf.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 4592 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::137C3E0A-07FB-B532-0A06-0D9A1D4F11B2 -name chronopic.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 10239 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::8C2767E1-A2D1-CAF0-F2CB-8FFB3DCF28D1 -name chronopic.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 5160 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::1E0E8C9A-0938-7318-30B1-14A3755601B1 -name chronopic.h.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 4508 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::1EDE56B5-F0E7-DB36-8C10-DD52D5FA3F68 -name Makefile.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 2790 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::1A119B84-E8D5-E219-91AE-33709A558200 -name README.txt.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 689 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::AFC593C6-95DC-2368-7344-3C9651428F14 -name termansi.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 3003 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::A0E61D8E-3912-591C-FB77-2B8CCC898D46 -name termansi.h.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 375 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::B696A48B-445F-662E-49B5-775EE2F72775 -name test-precision.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 5030 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::92EF04D0-CA01-5A07-6B1D-0610F801DA2C -name test-saltos.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 5600 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::A187A18A-30A2-585D-F718-DC5D3EDC1C36 -name test-saltos.mono.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 3547 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::06EB1354-8025-7E59-8D07-DAF9E7F82F0D -name test-tramas.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 5507 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::885A0DF6-17CC-968B-96E5-41BD0E0ECB80 -name test.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 3155 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::107E217B-ECCF-197E-D8AA-8D0451D14268 -name test.prj.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/text-base -size 2770 -mtime 1228236658 -permissions 00444 -filemethod 0
-File ::47E01D4B-EF68-4EEB-6D2B-517AC815BF35 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/tmp -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::2033A108-EB33-685F-4A0F-7487639A2BF9 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/tmp/prop-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::4B129655-F9BB-D08C-2DF6-D86CAF487E75 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/tmp/props -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::A927DD3A-581B-94A2-4198-79185DE5A9CF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/linux/chronopic-tests/.svn/tmp/text-base -size 4096 -mtime 1228236658 -permissions 040755 -filemethod 0
-File ::84E46BB8-7987-CA5F-7360-FB07B0CECFAB -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows -size 4096 -mtime 1228236662 -permissions 040755 -filemethod 0
-File ::70940BC1-9AE1-458B-F2E6-6D21FD507B59 -name chronojump.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/windows -size 427 -mtime 1228236659 -permissions 00700 -filemethod 0
-File ::AAB99DB5-11BB-01D6-2FAC-2A11ECCB45B2 -name chronojump_mini.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/windows -size 432 -mtime 1228236662 -permissions 00700 -filemethod 0
-File ::0E723A3F-2BCD-770E-E71B-C8B296D787DE -name driver -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver -size 4096 -mtime 1228236660 -permissions 040755 -filemethod 0
-File ::8E2324A5-2D63-9D5D-D5F3-1F9924656C58 -name {CDM 2.02.04.exe} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/windows/driver -size 2119568 -mtime 1228236660 -permissions 00644 -filemethod 0
-File ::0C1B0784-82EE-7554-C249-F5364AE9E387 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn -size 4096 -mtime 1228236662 -permissions 040755 -filemethod 0
-File ::00C76EB9-EC69-8AA7-AF12-32CC34833B41 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn -size 362 -mtime 1228236662 -permissions 00444 -filemethod 0
-File ::3814C9F1-E24E-5D94-EA42-B6CFAF9B0169 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn -size 2 -mtime 1228236662 -permissions 00444 -filemethod 0
-File ::CC1AC126-CF09-D457-095D-7AFE363CE94A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/prop-base -size 4096 -mtime 1228236662 -permissions 040755 -filemethod 0
-File ::A2398B55-32F6-A253-C58C-95FE8F70592C -name {CDM 2.02.04.exe.svn-base} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/prop-base -size 53 -mtime 1228236662 -permissions 00444 -filemethod 0
-File ::F405283E-10A3-7CD0-E2B6-285F673F95C9 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/props -size 4096 -mtime 1228236660 -permissions 040755 -filemethod 0
-File ::588297A8-0AB7-6AAD-4B0A-49D34EB448AF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/text-base -size 4096 -mtime 1228236661 -permissions 040755 -filemethod 0
-File ::4CC5DC55-523B-E6D8-E9E3-EDFCD0234E8B -name {CDM 2.02.04.exe.svn-base} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/text-base -size 2119568 -mtime 1228236661 -permissions 00444 -filemethod 0
-File ::77B3CCBB-A094-1A25-D8C1-8EB37C609E3B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/tmp -size 4096 -mtime 1228236661 -permissions 040755 -filemethod 0
-File ::DBA18C48-F5DB-AC52-6E13-4E37FB04A88A -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/tmp/prop-base -size 4096 -mtime 1228236661 -permissions 040755 -filemethod 0
-File ::F0D0B065-3058-175F-6898-EE65BA5154E4 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/tmp/props -size 4096 -mtime 1228236661 -permissions 040755 -filemethod 0
-File ::6099DF22-D4E1-1534-67A8-2BBD9E4265C2 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8/windows/driver/.svn/tmp/text-base -size 4096 -mtime 1228236661 -permissions 040755 -filemethod 0
+File ::F8A9FA0C-0EF7-9FDC-4114-345FC041A5E1 -name chronojump-0.8.9.1 -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1 -size 4096 -mtime 1241608844 -permissions 040755 -filemethod 0
+File ::8C3C6B7D-2EA2-5AA0-5D31-E737B400BA5C -name data -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::568061FF-12E0-4D91-D8AB-1F0676E1A9B0 -name chronojump.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 3019264 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::43B95B86-5AF2-9509-47B0-DD84BE8C3625 -name chronojump.prg.mdb -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 200304 -mtime 1241608829 -permissions 00644 -filemethod 0
+File ::0A2F65BB-B4DF-1AE2-0688-E3FD0FC3DD5F -name chronojump_blank.db -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 40960 -mtime 1241608830 -permissions 00644 -filemethod 0
+File ::1014F28A-E8EA-A0FE-8FAB-03AD629B526B -name chronojump_icon.ico -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 3774 -mtime 1241608831 -permissions 00644 -filemethod 0
+File ::CCA87163-92D7-00E6-32B8-C8CD8564FC56 -name chronojump_logo.png -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 9899 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::F5099365-4CFE-6E93-48A4-0718B15A4DA3 -name chronojump_mini.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 40448 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::0843B82A-F6AE-9BD7-CA86-CE7FA0687E2E -name chronojump_mini_validate.prg -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 27136 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::26AD09AB-6674-7333-4271-07229010C049 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 147968 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::1BDD99FF-B33A-48A3-3472-9379A9AC2CFF -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 307 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::16049765-C67E-C1B8-D4C6-E77E9580049F -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 8704 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::9CE6007C-8ED3-1D63-E219-96E3245180EF -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 307 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::EE5C54C9-3DD7-AF19-A11E-10C81B8B389B -name output.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::29F83FEC-67EE-C648-6547-83367E1B7D96 -name readreg.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 3731 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::EE7265F2-D39C-94BF-EAF5-B4749CBE2B1B -name report_web_style.css -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 739 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::536BF5A8-0846-EB06-15E7-3EAB3FC5E6C0 -name sqlite3.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 362029 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::E907E03B-33E8-6D69-0C33-839C76CE6222 -name test.csv -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::006F04A3-E424-5078-4701-03A1A90D136C -name version.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data -size 8 -mtime 1241608829 -permissions 00644 -filemethod 0
+File ::BE8C00E2-9ACF-0CF7-EAA4-7D752FE5D5A1 -name linux_dlls -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::CFB14A23-D47E-AD51-A5C4-AE13462C6FF2 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls -size 147968 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::835CC4F5-A4E2-AD19-11D0-884903FD8ADC -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls -size 307 -mtime 1241608831 -permissions 00644 -filemethod 0
+File ::167BDC48-4713-D93C-71FC-0CFBABAE76EF -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls -size 8704 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::55282C13-3E0B-6840-754E-7A0938D5EB10 -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls -size 307 -mtime 1241608831 -permissions 00644 -filemethod 0
+File ::4271617B-4B77-4319-4E47-92C2F2053C91 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::0127CD8D-D6CB-E944-099B-E520369789F6 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn -size 758 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::4D10D05A-9B1A-0787-7AC4-638853D532E3 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn -size 2 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::193E26A8-D4A3-1CED-B537-055742DC8448 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/prop-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::A1C1BA32-21D4-92DF-E20B-9359EE891EF1 -name NPlot.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/prop-base -size 82 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::6A61D289-0ACE-217E-1880-060A7883D1AF -name NPlot.Gtk.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/prop-base -size 82 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::EBE8AFA0-EBF0-593E-D345-F7C28BC5103A -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/props -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::0D8344F6-0795-6082-F865-9344478EEA41 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::EF35C777-5B30-D379-7E70-A93D2F751C93 -name NPlot.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/text-base -size 307 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::A05206C6-3FA3-4A9B-7720-896E74C9584E -name NPlot.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/text-base -size 147968 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::EE36C1DC-CDBE-D2A2-A91C-92DED1D5E5AB -name NPlot.Gtk.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/text-base -size 307 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::E03EE2C0-12A6-EB97-EF33-78BA70CBCC78 -name NPlot.Gtk.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/text-base -size 8704 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::555D7C4A-D93F-7557-9852-8EA226047AEB -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/tmp -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::9E8D2C0C-A890-C699-EE1A-68786232CC0C -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/tmp/prop-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::700DA85A-4210-2C69-6025-9B54405CAD00 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/tmp/props -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::9AE890AB-0DD9-7109-B949-28F7A98F32E6 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/linux_dlls/.svn/tmp/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::6406925D-7BAE-EA67-C3B8-4153AEBF64B8 -name locale -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::A55E0102-A6ED-27DA-C466-19F49A1475CD -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::9662BCB4-00BE-BB77-CFCF-109F628216C4 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn -size 1387 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::3583483F-3C86-5110-A3E0-73C8AA7C516D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn -size 2 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::D4D792D0-5D73-A09D-8CA6-DB18392F2110 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn/prop-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::9BB64F35-2903-3D41-874E-0D5D4CFC294E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn/props -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::B26EC1C2-F374-7418-D1E6-B02F66FA6A6F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::393C8DFB-4803-38D4-DAD7-0395D44D7441 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn/tmp -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::CD29146C-1697-6399-58B8-5DBD599DBFB5 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn/tmp/prop-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::59760A8B-428B-BEC0-DC0B-27B6138A1DF2 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn/tmp/props -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::EEFD4819-2A44-593E-6A96-08AFF3B1BA3E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/.svn/tmp/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::44227216-30B1-4D93-9564-ABA8F4617AA6 -name ar -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::BC904F89-372B-CEFF-46A1-81F505E16101 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::3020C429-6F46-41DD-003E-10F488D32083 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn -size 241 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::44C273E9-66E7-0394-19B7-19BE18A38AE0 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn -size 2 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::B47AAEAA-1DF0-D9C9-9894-8E05833AD322 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::BFA661BE-A1CF-FA9B-15ED-9ADCBC7F416E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::8CCB3E14-73CC-AD2A-58F3-3DD9A82B8F1B -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::09A6910C-5BBB-9F93-95D9-7E78B513E25E -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn/tmp -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::CFA7CA88-97E0-9E1E-7F62-E1E821328F6F -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn/tmp/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::BFD97FA1-F2FB-608D-EEB9-9B87EC520FE8 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn/tmp/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::C50BB472-2E6B-E81D-1550-45515A63E5DE -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/.svn/tmp/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::9E71C981-1EFF-36C3-F7E6-CE25B750D3DF -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::D043D716-6F9F-F726-BF2C-C2A26AF8AB32 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES -size 2067 -mtime 1241608833 -permissions 00644 -filemethod 0
+File ::9FE3D0AC-20A7-88DB-1AFE-2F0D66CBC888 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::25DF81C8-F579-ACB0-E140-61FD8F0DEA3F -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn -size 372 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::512BD34B-CAA2-6792-A7EE-DC940D904514 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn -size 2 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::859AB969-DF82-BD8F-9B1A-C6FBAC3E983D -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::51C32D60-0574-8942-975C-2ED297B0A562 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::33B4FCFF-8D25-E066-6713-1641DC8B3B25 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::4144A574-2CBB-ABD8-D44A-4190266AF268 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::AED28DAD-6566-05FB-89AA-9D025D8605A2 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/text-base -size 2067 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::D70D1D8C-2B4A-606E-3B71-AD4656D345B2 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::A38A04B2-E5AE-8208-EC13-F77CA280AE62 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::418F65A1-C0FF-BE44-AA28-B60D95B3BA4E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::A8AE5089-10F5-C312-725D-043D3B56F8F6 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ar/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::D587222B-872E-667D-10CF-A91CEA42D562 -name ca -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::79B0AF21-0236-A35B-81B4-672AB74921AB -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::DB6CF5F1-EF63-9D72-7F0C-4DC6B2122592 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn -size 241 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::80195F7B-4727-04E8-E9E6-BCD3F08FFC34 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn -size 2 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::766F11C8-1005-9541-62FE-87ED7ABA8199 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::C84DE02B-F7D1-B659-C5A8-18FCCD8B3633 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::19F48F4E-28EE-4D99-9222-4254DFBFAF0A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::B1588CBB-46FE-64A8-0825-8931378D04AF -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn/tmp -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::E849B8CF-A58A-6528-1533-4204788E3943 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn/tmp/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::04C1BCFD-ED53-802D-F214-C86FFCD1A958 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn/tmp/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::D9BC93EC-6927-3F61-D52C-596636868DE5 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/.svn/tmp/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::3DE7DBAF-6E86-E249-9A4A-ED72077AE020 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::2A7EBDD7-B901-06DE-775C-14A7973A898A -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES -size 66682 -mtime 1241608833 -permissions 00644 -filemethod 0
+File ::12EF79D8-2255-04B4-83C7-6A31D6B0DE20 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::5DA2B88D-F2D3-B775-639C-95A9A6E37D59 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn -size 401 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::0FFB6F4A-9720-1AFC-DFD7-5FAA2ACFB72A -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn -size 2 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::DCFFDAF7-96A9-5C35-1F15-558D69104062 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::401260BC-C3B4-FD7F-EE83-DCBF3975A429 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::34449AC5-3A79-6264-FD90-3CBF53C78D11 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::61EF36E9-E24E-3CC4-BC22-4C8249294293 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::2A2C2A66-3254-B2E4-F605-C44D474F4E2F -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/text-base -size 66682 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::7F27B265-88CD-E1BB-4837-369D058D4D72 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::909FE964-8CF7-62A9-B9E1-A66244320485 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::217BF25C-5F75-07FA-E50B-2568E1464F1C -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::4F4D4E09-E16F-A410-2936-DD9BDCF8FE91 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/ca/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::8D00C5F9-78EC-0273-F5EA-3879BA7FD6AA -name dz -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::6F5680B0-A40E-EAD2-35AD-6C851E786659 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::03BB74F0-AAD5-3EDB-1948-659A6A8FE920 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn -size 241 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::4DFFF620-0AD0-3965-CF5F-6960B43DEFE5 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn -size 2 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::54FCBDAC-E094-ACBA-6E49-32994DE715CF -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::260FD6EF-4229-9265-6A90-878DFCD64ED5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn/props -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::D42D275B-984C-31E2-EBE9-A8BE55E333A3 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::B0710D9C-7273-81E8-4D2A-2EBACE45382A -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn/tmp -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::B7D2401F-7D94-0DD3-4A93-A9BC213CF71D -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn/tmp/prop-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::8AE30A1D-616A-8B95-A49C-C56D1F850DD4 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn/tmp/props -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::0175F7BA-BC2D-11D1-9901-A79F521377E4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/.svn/tmp/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::2C7AC075-2793-45DB-C50C-3DC1B9147CCE -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::3D255440-3447-B4B4-BE8F-BDB6E1A1C3AC -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES -size 71911 -mtime 1241608832 -permissions 00644 -filemethod 0
+File ::E1C63267-DDD0-EB9F-BFD6-D2A2F64270EA -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::52A2A609-D80E-9F7F-7468-DA52E28EDD15 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn -size 372 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::F2F28CFA-5755-8A2C-1B0A-5FFB6CF9D73D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn -size 2 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::7C455DC2-C2C8-5E50-B3B1-76D38C6E62A2 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::C61ABAC2-C7D6-BDCC-EB81-40789FF85519 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::DC3AEE6C-ABE0-45B5-A6BF-E3734CBE8A36 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::7FDCE7EB-5F2A-6F66-B13C-1709974F1C17 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::EE54B48D-32F8-2493-E0A9-21E06573F40A -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/text-base -size 71911 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::90881149-B48A-C175-A1B1-6D7E8688D79B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::493B4BBC-325A-CC07-5F1C-D409DE632CBA -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::71824FC5-1D75-DD21-BC40-0E75D45E6043 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::C0B75B04-CF74-E8F5-DFEB-4142CDA8F58F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/dz/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::29DFDABD-25FA-25C9-0AFB-491423DD8263 -name en_GB -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::118B067B-A244-C330-48E3-F3D8E6D07455 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::496DA2A5-4344-0376-2E37-1ECC40133570 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn -size 292 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::D1D89F58-6F06-2493-ECF2-CDBEC76298F5 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn -size 2 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::16FD90DB-5D29-E3D7-9CC4-B0308F5C2EA3 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::9B8CB735-04A3-17EB-1A59-CFFCF176B08B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::F6760D1D-DEFE-2CC9-2A11-10CE9A677B56 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::516B081E-9ED6-5E0A-F2C9-92A92D5FB882 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn/tmp -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::1C5F913C-4C3D-B9E0-A560-EFA300AFDDD4 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn/tmp/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::A13147DC-C774-5675-6900-4B3951BA13D5 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn/tmp/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::EE367516-1399-DC37-454C-CEA390DAD9D2 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/.svn/tmp/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::ECBAF5DC-C668-32CC-3EFB-A25CF0D0A4B5 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::829A2719-44ED-9A4C-6B6F-BD3E18B0004F -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES -size 90043 -mtime 1241608832 -permissions 00644 -filemethod 0
+File ::8D2D20D3-30AA-22AA-C64B-33247AEA94B8 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::09806A1F-FAD9-4C32-BD02-2B3DB340C776 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn -size 452 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::63279F3F-FD2E-539B-375B-2768979EDD22 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn -size 2 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::3B7633F2-70CC-2008-2ABE-87E4E79A2456 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::10E6D0A3-E7D4-AB10-2831-941752B3EB6C -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::D4DD303B-F336-88C0-EC35-26B3802C4E1E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::7F7639A2-AED6-B2B1-3215-E41CB44E10B2 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::B3EE5C4F-BDED-2FC1-479E-B66CCF2E289B -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/text-base -size 90043 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::22CB4EE3-0A18-E2DD-B548-2B96AD30B509 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::45E718D4-9E02-EBB8-FE79-11A7986DF4F4 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::6B43C375-8FB1-027B-7E57-B5731EDD397F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::3FB0366E-E128-CB16-9E3C-41215C85A88F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/en_GB/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::A025F0ED-70BE-FAC5-D280-BA40C9C0233B -name es -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::B20B62A7-576C-68ED-F4F3-48AFCD0FB8D5 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::DD98F4B8-535C-FC85-0F0F-B18D33361623 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn -size 289 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::790FA991-7880-10BB-C430-C7EAA92CC353 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn -size 2 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::F4EC32F2-720B-0C6C-0D9A-5D392B0294B1 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::A359FE4A-9AC3-9EBF-6DCF-BE6F83898D00 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::84C09515-733B-382F-1DD7-2F1E199EE3BA -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::0F25AC7E-E765-0DEE-6EA2-5729B9F89708 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn/tmp -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::72BF9B80-CCA4-9919-7842-A5A9344FD343 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn/tmp/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::F563CD4E-F008-C3D4-F99F-7EAF55C581CC -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn/tmp/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::DA3A8608-7EEC-CBCB-BB77-1F57FE6263FE -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/.svn/tmp/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::7A90339D-88EA-5AD5-FB4E-87B37504C32D -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::FC7485FD-A239-0DAE-A221-20FA960A710F -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES -size 78862 -mtime 1241608833 -permissions 00644 -filemethod 0
+File ::CECCE5EA-1648-D576-7125-C6C1988C3B4E -name es.po -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES -size 56514 -mtime 1241608833 -permissions 00644 -filemethod 0
+File ::C33BB714-42A9-58A3-060E-60B7961E910E -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::328E8BF4-0C69-4158-C402-75C026C02C0F -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn -size 568 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::5EB8F384-6568-17C3-035D-45AAB6654247 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn -size 2 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::1FC03187-63FE-0545-3426-C403A576CAE0 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::4F520575-5595-8FDB-08DE-2643CBC49C28 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::41F347E9-118C-78DB-2700-5098C30FB86A -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::8A3FF5EF-F671-5908-B091-16F3F573D9A7 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::F081F20D-4398-2EEC-3679-B20BA23F3185 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/text-base -size 78862 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::2723D318-1D2A-075C-CDA2-61719F5FC27F -name es.po.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/text-base -size 56514 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::7223280B-F281-826F-9057-6D58E92B73A7 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::E5A9748A-832E-E4F4-886A-A973EA0D14A1 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::60CD5A96-361B-5E20-F669-843C41145794 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::64E9EE52-6D28-68D6-9A69-E5A64D3086C2 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/es/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::AF4E1630-8C29-E00D-6743-270A61B4F2ED -name fi -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::5ED72CB4-1140-C78B-DD2C-9BE10127E7EA -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::F46B8A2A-050B-B637-695A-232FBD2139E6 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn -size 289 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::848992DE-695D-5E5C-014A-2023B46AF6CE -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn -size 2 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::7EBE7F4A-3BF8-75AE-A7D3-B534EAB81BF9 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::493BEB4A-FE64-0CF2-3190-9B131FAD6930 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::B54DC5A2-5155-1B2B-3545-4497B615DA33 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::7338262C-A78B-2C74-0047-0B6E1730B15B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn/tmp -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::A9B13271-8453-8FB6-FC67-9CCC29D11336 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn/tmp/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::113F829A-BE53-3BE2-8017-AC9C6EC69CFF -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn/tmp/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::073A34A9-B113-5767-9F8F-B469755D1EAE -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/.svn/tmp/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::FE00CC71-67A6-6594-C749-DE323DB2DA95 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::B5C1DEEA-7FC6-5288-8B0C-01C7886339FD -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES -size 33608 -mtime 1241608833 -permissions 00644 -filemethod 0
+File ::BCE3C56B-9B61-08FE-50FD-FE9494A90D66 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::1CB64514-4492-09FE-5791-C9129D906A21 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn -size 420 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::919A8D90-4301-9EF0-9D99-DEE7206F5667 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn -size 2 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::3598712C-FF79-9C99-ED8F-FB843393A1B9 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::018716CF-B1B2-3B9E-75ED-0990BFD58992 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608833 -permissions 00755 -filemethod 0
+File ::5578D4FF-9E33-3D52-C241-BD619C71E5C6 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::DAE3E7B6-5C11-CF7A-397F-3975BAC5685E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::C2522D6F-EDBE-69D2-91CE-E9C5F35A0C42 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/text-base -size 33608 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::F5C37DA3-5362-1815-FC9E-CA4BF668A083 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::FCE0C0D5-0775-42EC-9035-8744A3992AE5 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::799C4EE6-515A-CF81-C32F-5BFBEEDC8758 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::4101C3C6-94A3-4D14-F362-A9A0A6DE8A60 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fi/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::08C5D7C3-4CDA-221E-9E50-D49F660388FC -name fr -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::4D9BCB20-F8D4-3904-7115-16FBBEDA2311 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::DF11052E-DC60-FE94-1DBA-23184C490B14 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn -size 289 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::BD5275F5-708F-CEC7-A8BF-629CE5D60587 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::F26E5BAE-A9AD-DC72-18E1-C37DD1D3BEA8 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::E8FD3332-4516-9EDB-8EF4-8C882A5B2226 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::3FF3F332-06D0-3DEB-3024-8CEEFE84BBE5 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::9BD825D4-C54A-0390-C1B2-ADBDC8452E15 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn/tmp -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::9C330042-65EA-0670-5F93-274039352F39 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn/tmp/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::FF421603-EFBE-BE20-D2FA-C227CB4EA0A8 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn/tmp/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::A62C7287-55DB-F992-AA1C-A58865F93ADB -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/.svn/tmp/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::439EE696-C7E6-7ECF-BAB4-906FB492379A -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::6938A3B6-A385-6729-50DC-E5194D66157F -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES -size 56213 -mtime 1241608836 -permissions 00644 -filemethod 0
+File ::E84A52CF-9EE2-0268-ABBD-A996016403ED -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::C0A78B5E-F286-F923-6CBD-413F34992172 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn -size 423 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::2094F8D3-935B-9824-53C4-2076DD21876B -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::F6F133B2-7EC3-8C3C-17E8-4B57BA42DF88 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::97E0E62A-2495-56F5-AE9F-A063021ACDD0 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::B176EB17-01BD-F308-80F1-FA8CBED2555B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::D2F63A19-2188-9620-28C1-D7323B5CE68E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::60C48AB3-6828-CE18-713B-CF679A64411D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/text-base -size 56213 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::6996E30C-B918-C02E-D818-3A47B53ACEDB -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::19527150-CDFA-E1CC-40E9-9DFBDC9FAA16 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::FDDE4FCD-0F9B-B5CC-412F-4196FCC8AFC2 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::E9F9E72E-78F8-2D7F-1527-7C7110AA698C -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/fr/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::F375C8D7-1275-2C17-3CB9-E03F0088F509 -name nb -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/nb -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::D9D2DD78-2F61-8F69-E73C-922A695ACEBB -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/nb/LC_MESSAGES -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::A31D4C92-2AA8-2D2D-9607-893B7EDE8C39 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/nb/LC_MESSAGES -size 2986 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::64976501-CDAE-DE82-DEA7-4D6671A77EBC -name oc -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::23F0601A-8CAF-C4D1-81A4-757A4D691D61 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::E2489078-387A-F958-A9B7-7DCC82DBD6C5 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn -size 241 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::93C96039-B4BD-D785-D347-B43B90C56875 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn -size 2 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::A4EDF803-7374-A6BB-FC8F-A79361638702 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::42E65E82-A375-0B06-835A-746772D8319B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::7080C05A-4A8D-15D5-CF1D-42C738FDE1CF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::74B7495D-AE2E-73CE-839D-1CFBB1ECCC56 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn/tmp -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::B6F7420A-AA2F-67C5-3C40-2A565731B463 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn/tmp/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::89BEC6FF-4F47-32AE-5581-D03024F8349F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn/tmp/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::CDADE23C-CA87-2420-F71D-67425198574B -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/.svn/tmp/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::875CF84E-9E8A-D78F-E0B3-EF96BF4A00B4 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::9D737967-C6A3-E30A-9167-8002B9955FE6 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES -size 6828 -mtime 1241608832 -permissions 00644 -filemethod 0
+File ::9E0DC980-4762-1E59-E020-101DC03D763F -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::818B10A7-DB06-69FC-A4B3-9EF71FB4CA1A -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn -size 375 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::604ECE3A-EE1D-D402-C7BC-E55A04B6E12A -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn -size 2 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::BAE6479F-BFD7-04D3-C0FA-570127D8DECE -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::4CAE137C-1AE5-32EB-EC6C-7F1E05469F08 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::638FA11D-50DC-FE02-90E6-1F0AD8108AD4 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::2DC610AA-44E2-A4F6-E3BA-E163F21E9F64 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::442A41B8-12A7-40A2-A18C-94EBE9F1E950 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/text-base -size 6828 -mtime 1241608832 -permissions 00755 -filemethod 0
+File ::CC9B7165-FCC6-598E-3242-9DF2906867B9 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::8B26F6EF-1F6C-848B-6E2F-2C6771F19F17 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::D6494ECB-79AB-EFEF-7CA4-D7A617FD5DD8 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::4142ABC7-A9EC-7DBA-9689-B8A4FEB18A63 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/oc/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608832 -permissions 040755 -filemethod 0
+File ::5F2DF555-A837-F9D0-29FE-9F6CEF3749AB -name pt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::7D22A278-B0BF-353A-1946-8E90407FBD4A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::F379D0CF-865A-82DB-095B-7A50AED1312C -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn -size 241 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::4D5D82DB-8690-B6F8-9D59-75CE5929F6B7 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::3D6C4851-7AD0-DDD4-7AF9-305059BE9382 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::9E4108BD-4C19-7189-199C-55EC5053B0E2 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::57E34B0B-707F-A903-4ED7-ACFD517A5032 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::9228FF64-6342-7039-7E58-9EBC9CC969EB -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn/tmp -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::76139DFA-D9DD-00AF-073A-113395C25D39 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn/tmp/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::3E7EC54D-0AA0-BED4-18DF-B38426A3E710 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn/tmp/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::AD1CF618-B29D-B793-D744-A4650F13AAF9 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/.svn/tmp/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::57B3F377-94B2-F1D1-CD48-8295EBBD06FE -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::35B90579-D5A3-D7A9-EC69-6B1F331B2EB4 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES -size 37538 -mtime 1241608836 -permissions 00644 -filemethod 0
+File ::EC3E1817-C2CA-3274-85B1-A2EC6DB0331C -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::FF0A2B35-9A7F-79CA-96D0-9492EFE71626 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn -size 372 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::3AEBC833-3772-C332-DDD1-ADC15A62B3D4 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::6A3633F4-CC42-E2E4-B274-F739B8B9F540 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::8E5A7731-6F6E-801E-7FB1-5D04F1000D9A -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::8D57CA3C-86EF-5C69-5CFB-4180019D4E2F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::6787D7B1-097C-A87C-D83B-0D8B45E8F090 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::B7C25971-6A29-F45A-3B23-0E918E369154 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/text-base -size 37538 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::AF7DAE79-ECF0-C9A3-A669-36171DFEAC94 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::AF652981-D387-4399-768B-22054A6630DF -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::25A149AC-98BE-BE74-C219-3271754EB260 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::A1C544C7-F83F-D835-3FC3-4E233534DCA6 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::12403753-C36E-3325-7CF2-CD558D01FD0E -name pt_BR -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::45EC9C5C-402A-D522-6B9E-A0321DF2BBBE -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::F7A1EB94-210A-313E-F538-D882EA098C55 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn -size 292 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::F9CA04BC-877A-4CB5-4C4B-C134E4047938 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::85EAE315-FB6B-D4A7-C9D6-6949950D3A6E -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::3C249387-56B6-C391-1619-04CB91598376 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::E41A1D65-B12E-3B41-A390-09BF808B0201 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::0442D159-21AA-4F41-3F10-540D0D6D41BF -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn/tmp -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::55FEB767-7B33-0EB0-EDE2-5337DEC2C664 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn/tmp/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::63C7CF1B-EB82-FA05-00B3-496CD5BFCE66 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn/tmp/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::3AC83ED3-D103-9241-ED85-4B93270B84C4 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/.svn/tmp/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::A3A91EA9-BB06-30B5-731D-B77B23459014 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::9F9FC403-1B7D-24A3-6951-9D1F690570F5 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES -size 4855 -mtime 1241608836 -permissions 00644 -filemethod 0
+File ::2BE0D3B9-A089-7580-2812-0C82C2DB97F3 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::88A54CE2-ADF5-C8FD-9480-1F89BB2AC176 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn -size 423 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::0EB9CCDA-6E10-A042-75A4-114B54F03200 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::BF8CA960-26C2-21F2-5EE9-5A368F77E1A6 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::948A2B8E-BBF7-E2AA-65C0-C28EAF739806 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::1A605C09-3036-F6E0-CD17-EA1694791160 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::8C1B4ABD-FB74-34DE-0BDC-0ABE1F58AD17 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::20FA4EF4-24CC-B434-AAA9-BD8732631FEC -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/text-base -size 4855 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::B25BF231-4F82-8EFA-4EB8-FA85349764DC -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::BE7A35B6-70CD-62A9-9E59-483BBA752A49 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::1E34F1F7-ED67-8376-5DAE-B8367709E4E0 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::4E32B5F1-1114-010C-41AC-B29AB9F796B3 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/pt_BR/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::3C237BC3-761D-3246-7C15-B2E5F75F589F -name sv -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::D6E40DAD-8739-C103-7876-558DBD5BF995 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::7210C876-B750-21B2-FC2A-02C1143ED583 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn -size 289 -mtime 1241608834 -permissions 00755 -filemethod 0
+File ::23B05D4F-834B-A237-BCEB-1B76B90714B1 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn -size 2 -mtime 1241608834 -permissions 00755 -filemethod 0
+File ::6193B2DE-A6D8-19F2-7DCC-8A12017EB440 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn/prop-base -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::74271EA8-9734-E8B9-3BB9-AB834DA707FC -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::A1956DE7-CE61-DD7B-E853-95D45E128660 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::3952F88C-C632-76E5-54A8-4816F9A8D008 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn/tmp -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::86A3C77B-0C41-4097-1BBE-2D63A7BC1A3D -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn/tmp/prop-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::3E8E9A80-0789-5552-9C79-960E948E1A98 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn/tmp/props -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::A5BAF42F-6EFC-DFB7-A09D-F49320E97F20 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/.svn/tmp/text-base -size 4096 -mtime 1241608833 -permissions 040755 -filemethod 0
+File ::0E4C94C8-CACD-4AC1-D831-9567430FEA34 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::5EA2669C-A63D-C6D8-CAA7-890E11475D49 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES -size 15332 -mtime 1241608834 -permissions 00644 -filemethod 0
+File ::4DB02FDF-17B3-32D7-5C82-FEDF3249C8B0 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::4184702C-1FA5-CD8F-3414-078EB200EB71 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn -size 420 -mtime 1241608834 -permissions 00755 -filemethod 0
+File ::EB3AECF9-533C-F7AE-B3EC-6BF0242A9377 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn -size 2 -mtime 1241608834 -permissions 00755 -filemethod 0
+File ::C5F25076-20D6-00E4-4D1F-DEBC22918829 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::C5423437-5D2C-6C61-329B-86640AD40D0D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608834 -permissions 00755 -filemethod 0
+File ::EE85AEFB-573E-A83F-789D-837A51E04601 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::B42A9537-28D0-9A9F-497D-8694A4FFECA3 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::5EAD92DF-2FAA-C891-DF57-CDC9E38ED86D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/text-base -size 15332 -mtime 1241608834 -permissions 00755 -filemethod 0
+File ::49C16E4D-ADF5-4FF0-D794-EE224E49A38C -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::1A56FB08-B2ED-3776-80ED-090A83FD51F2 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::35C08F92-19F0-323C-E18A-3DDA64D3AF83 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::BE283BC2-A25B-610A-517C-395A0EC899D0 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/sv/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::E3788206-88D8-DFE2-7ACF-ABDF43C298C8 -name vi -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi -size 4096 -mtime 1241608835 -permissions 040755 -filemethod 0
+File ::B012C647-3D76-2D7F-BB68-1402053E63B0 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn -size 4096 -mtime 1241608835 -permissions 040755 -filemethod 0
+File ::0AA96B47-7D62-5F21-B918-A1906FC9C35D -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn -size 289 -mtime 1241608835 -permissions 00755 -filemethod 0
+File ::DBD707F5-6E0E-2035-F60F-9C648DAC43D1 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn -size 2 -mtime 1241608835 -permissions 00755 -filemethod 0
+File ::49C1CA14-535D-47EB-CC5A-597C91DBF230 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn/prop-base -size 4096 -mtime 1241608835 -permissions 040755 -filemethod 0
+File ::3FEFB92A-3D53-67E8-5A67-26FF43427BCD -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn/props -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::646556B2-37E8-DE22-C148-9A057D9A76C9 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn/text-base -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::977144B2-C4BC-E9A9-5815-4D698EAD20B2 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn/tmp -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::3C73EF99-40C3-FFAF-F43C-DC948B6ADC42 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn/tmp/prop-base -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::98374599-020F-3151-416C-C5502082E183 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn/tmp/props -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::8FA598F6-6A77-6823-8302-A9F6253AEDFE -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/.svn/tmp/text-base -size 4096 -mtime 1241608834 -permissions 040755 -filemethod 0
+File ::A4E4ED1D-92A2-6C5C-3C57-6A2B5CB36583 -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::71A225B3-18D4-BBEA-914F-0DAA26CB5606 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES -size 38193 -mtime 1241608836 -permissions 00644 -filemethod 0
+File ::2658AE36-6350-F143-840B-D22BDF87EE4F -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::4BAD3D6A-AA52-10BD-A9C6-DB71A795B21C -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn -size 420 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::A63863C3-25BC-48C0-261F-2B00A2ED0379 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::539DC51A-36E0-5C07-1AC0-730A697CD197 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::11FBB00C-4432-549D-BC38-A46B967D6BD2 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::2A2EBD56-A64D-CAB1-12AC-8800DC2D82E2 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608835 -permissions 040755 -filemethod 0
+File ::E21753AE-DF5B-CE0E-48B4-EC3CE0154B0C -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::1C08407B-9746-21A0-7708-EC5F7BC1D584 -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/text-base -size 38193 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::72C68225-197F-CDA8-8B89-425DC3392F5B -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608835 -permissions 040755 -filemethod 0
+File ::FBE249B1-E22E-DB56-88C6-B55F76E24D49 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608835 -permissions 040755 -filemethod 0
+File ::01B9C156-D164-CE85-18A8-772563BBCD45 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608835 -permissions 040755 -filemethod 0
+File ::0915057D-DBCA-6F53-ECA7-DE13382DF493 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/vi/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608835 -permissions 040755 -filemethod 0
+File ::CF1912C8-DD74-E3E5-B545-26D31332405C -name zh_CN -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::8CD275F9-8508-314A-9063-724E4E5E1D7F -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::D5004B9C-BD02-821C-739E-C9D89BB80EFD -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn -size 292 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::53B021D6-2B12-B5F6-5182-7F3BBA592F96 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::03C653B3-190C-3963-6D87-0E7417475017 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::76BC789E-9704-194A-3B8C-CFF03652CE4B -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::87388972-5F1B-99E9-99BA-6B503DED00CC -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::190330EF-28D5-4915-8A8B-0A3A45391519 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn/tmp -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::855E560D-77A3-4056-B185-B4761B5B6A78 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn/tmp/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::83EACBB9-6F12-8723-A79D-12528013CD60 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn/tmp/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::97FD45C2-7D64-BBDF-B866-0A85BAAE117B -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/.svn/tmp/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::2A94755A-12F8-3ACC-4A97-6C10F36B201A -name LC_MESSAGES -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::D1092C9F-A47D-3714-BC88-57EF0708D791 -name chronojump.mo -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES -size 1612 -mtime 1241608836 -permissions 00644 -filemethod 0
+File ::D977B465-5EB6-3214-A633-3FFF18C39191 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::893D8575-7937-42CE-D43C-BE533C17C89F -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn -size 423 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::6F2FDF88-88B8-6F16-FB78-5F9A66C27EDF -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn -size 2 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::C045BA77-5270-6006-8299-46B48656CB39 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::D70A452D-2AB1-C729-6138-841A346A101B -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/prop-base -size 53 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::5FCDF9CC-8AF1-30F9-5D49-DE45A07C022E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::5A4AEDDB-4EFF-424C-7DAD-BA6323AC1A98 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::55F318EB-9596-A5A8-8AE9-AB104BCF9A3D -name chronojump.mo.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/text-base -size 1612 -mtime 1241608836 -permissions 00755 -filemethod 0
+File ::1DC60593-34C4-B06B-61FC-5AA3D23526C2 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/tmp -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::053FFFEE-A858-F366-2331-C48FB67AB051 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/prop-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::7E1E38A4-9F56-134C-FE2B-C3B6A8A57F26 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/props -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::0FD30A34-7BC6-DC68-CAA0-EB49D1EDC3DF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/locale/zh_CN/LC_MESSAGES/.svn/tmp/text-base -size 4096 -mtime 1241608836 -permissions 040755 -filemethod 0
+File ::41654D2A-B7F2-631F-3FA8-E6B26C97A229 -name utils -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::CFF35023-4E7E-6DEA-1A0C-CADFFA50AEF0 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::B684923B-23D6-5C07-D73D-6E5ED7F2E9E4 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn -size 245 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::65FAD3DC-63B1-EF15-A933-D9676C5E5D57 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn -size 2 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::230449F3-AA3E-916C-7DBD-100A4BB589BE -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn/prop-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::B38A0A98-28BB-4D9A-A486-F8EB430BBDE3 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn/props -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::799D030B-5F54-1C5D-0F81-C5DF977215F0 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn/text-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::E1317B24-63BE-6961-190F-7E0A61F9EC59 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn/tmp -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::3A20D2B1-D886-24DE-FC24-08DB5013987C -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn/tmp/prop-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::09D9520E-31CC-8122-3154-EB37FBB0A724 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn/tmp/props -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::EB8FABFF-42BA-C14E-CCBB-07CA6F33FF09 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/.svn/tmp/text-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::11DC4179-BE74-4079-B0DC-62ACC80187ED -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::2EF1F89F-B282-AC15-AC60-FEB2AB7EC8A6 -name convert_database.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux -size 308 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::8DF503E7-430B-21E1-F73C-F7F8A16E37EE -name db_path.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux -size 21 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::9ACD681E-A667-9D2B-FDFC-C0BFF7127E0B -name sqlite-2.8.17.bin -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux -size 312364 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::27A591D8-6B1E-4FBB-17D2-C483AF7616F9 -name sqlite3-3.5.0.bin -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux -size 278820 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::EF9D13D5-9687-76AB-3C10-6FADD7BB00BA -name tmp.db -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux -size 98304 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::29990981-FC5F-2F7E-E9DD-C0DAEAA9A815 -name tmp.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux -size 91349 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::CD74DEC1-1C7F-8809-7CC1-C5110C5F600E -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::5DA16B83-7218-ADF8-C95A-34805FE3DA5D -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn -size 650 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::8B549008-F713-F196-B6FC-E3E474A6231E -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn -size 2 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::5369ED4F-B627-5A6F-0C2C-2C557EA5694B -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/prop-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::8810D57D-2DC8-2E50-C582-26A9EA1579C8 -name convert_database.sh.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/prop-base -size 30 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::AACF2231-7059-F37A-1725-69837595C7F2 -name sqlite-2.8.17.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/prop-base -size 53 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::7DBAF753-8E88-36B3-C8A0-7FF5A1E57C9B -name sqlite3-3.5.0.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/prop-base -size 53 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::EC428D5A-C878-96B1-1DF8-A305CB4F64DB -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/props -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::8F27F164-D652-2740-4C7A-EB1D07FCF32F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::5BB1F436-18B6-A2E5-9264-C3D76EF10177 -name convert_database.sh.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/text-base -size 308 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::5C2DAD51-74E2-A2E7-9FAD-E98F24B76038 -name sqlite-2.8.17.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/text-base -size 312364 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::A618CA10-237E-9886-3430-36AB4D487F2F -name sqlite3-3.5.0.bin.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/text-base -size 278820 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::4AD46BB3-F66D-E55C-00FC-BAEE4DE34CD1 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/tmp -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::82717DF1-0526-5982-AC1A-83FC4902009D -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/tmp/prop-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::60073735-1550-75C4-9240-DF6450BB6EB3 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/tmp/props -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::43607C55-E76F-81AC-B395-9330C375AD99 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/linux/.svn/tmp/text-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::88622FB6-68BC-70CF-677C-FE3B83679B3F -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::3EC6A74D-A012-8000-A3CB-4A929CCAD1FE -name convert_database.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows -size 299 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::190E39DA-8B39-C2CA-E6E6-AA4BA77916DA -name sqlite.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows -size 277098 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::1749E08C-73E1-7225-3680-D080A34F51DA -name sqlite3.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows -size 391500 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::1F4A0A05-2CA7-99AF-98F1-CB0829E9378C -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::F226C7B9-D2E6-499A-4D20-75A68E55FBC3 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn -size 640 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::0F366DD2-2C2A-9E4F-1355-0D341AD38B0B -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn -size 2 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::6AB16923-CFDF-A579-4BC2-04B4F7131051 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/prop-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::C7CDEA9D-A6CB-41AD-1125-436DC534DEC8 -name convert_database.bat.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/prop-base -size 30 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::B353AD4C-FFB7-364C-1DE8-1602815D2A4B -name sqlite.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/prop-base -size 79 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::EA1113B4-A717-CA7C-4C39-B58D6BB867BB -name sqlite3.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/prop-base -size 79 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::AB9C62B1-6F6A-B381-C8B9-964BA93BF774 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/props -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::B092F4B6-A878-1E10-31B8-79CA8888B75A -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::CF772AD3-F66D-E164-A2CB-890FE8B2537F -name convert_database.bat.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/text-base -size 299 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::D4B3A860-E0A7-3D0D-997C-A01ECE5E3E08 -name sqlite.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/text-base -size 277098 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::71A0A051-6F26-5EB1-F7C9-3FB59347B8E3 -name sqlite3.exe.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/text-base -size 391500 -mtime 1241608831 -permissions 00755 -filemethod 0
+File ::694ADA53-BF13-63A2-7F91-6D6B29C100FC -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/tmp -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::F89D0D0B-CEC2-053F-BDEA-E97A9D1EFF4F -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/tmp/prop-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::5DBC3B4C-F840-E37E-F112-13D2CF4F5FC0 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/tmp/props -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::8A4FB58C-B142-D670-50C4-F4FBF7B4975F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/utils/windows/.svn/tmp/text-base -size 4096 -mtime 1241608831 -permissions 040755 -filemethod 0
+File ::DCDB8D9A-1BCB-E20C-21A1-699A77CDF991 -name windows_dlls -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::4569A613-0513-4A1F-D0D6-67F7C6056CB5 -name NPlot.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls -size 128512 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::D4598401-143F-195E-9EA1-21A97A1E5A64 -name NPlot.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls -size 317 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::D44B83EA-7C03-FEE1-2F87-35DE9EE8553A -name NPlot.Gtk.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls -size 8704 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::B6706C8A-0BE7-DBE8-8584-2E5126491123 -name NPlot.Gtk.dll.config -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls -size 313 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::B944A55B-E47D-1653-CEAD-0324596D466A -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::EEB8C875-0283-7A92-53C8-9D645E4B0994 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn -size 780 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::9058D02E-21F8-7F07-BB7A-3FDA122D701D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn -size 2 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::BF20BA99-7329-2C49-F2FE-7986D9C31FF8 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/prop-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::79CC0AD3-5532-280A-7A63-6564ECBB5646 -name NPlot.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/prop-base -size 30 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::825847D0-0B47-1B26-57F9-E5E185BC3A4C -name NPlot.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/prop-base -size 82 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::517E4C52-465B-0C5D-73A6-FA5C48CAC68E -name NPlot.Gtk.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/prop-base -size 30 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::2B36E2CF-48DA-E17F-0AB9-F39D1BA37853 -name NPlot.Gtk.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/prop-base -size 82 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::4CEC6048-E2D2-53E1-4B50-301E130F5205 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/props -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::83BE9D7A-5906-D09C-7F1C-CCB27A3E5471 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/text-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::02E94A67-C8AC-392F-8934-A8CD2254B599 -name NPlot.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/text-base -size 317 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::475CEAD0-54FE-EA5B-4861-11244FB411B0 -name NPlot.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/text-base -size 128512 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::F028A41B-A30F-D1D8-D9A8-6B856E159E03 -name NPlot.Gtk.dll.config.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/text-base -size 313 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::1A9F80E7-F8D8-2A60-FA78-F4C5081D51E5 -name NPlot.Gtk.dll.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/text-base -size 8704 -mtime 1241608830 -permissions 00755 -filemethod 0
+File ::14189655-7351-F3EB-DE97-1C6D18D9D8B2 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/tmp -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::F0FACF64-A76E-5A0A-0C50-E3D6CC525338 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/tmp/prop-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::D0901BE6-9BD6-33E5-199B-0A60B2E08D33 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/tmp/props -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::22C7B469-9470-48F2-56E8-84FD1C113FEF -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/data/windows_dlls/.svn/tmp/text-base -size 4096 -mtime 1241608830 -permissions 040755 -filemethod 0
+File ::EE53F33C-A842-D497-A97C-EF059BCC254B -name docs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/docs -size 4096 -mtime 1241608841 -permissions 040755 -filemethod 0
+File ::F4325D9A-297E-2808-7924-8207C74A0A86 -name AUTHORS -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/docs -size 123 -mtime 1241608841 -permissions 00644 -filemethod 0
+File ::C9C24E8D-923A-2CE3-735E-0FD67D69DFF2 -name changelog.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/docs -size 103605 -mtime 1241608841 -permissions 00644 -filemethod 0
+File ::FACF40A5-A30C-3D59-50D9-70AE351A8216 -name chronojump_glossary_for_translators.html -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/docs -size 16010 -mtime 1241608841 -permissions 00644 -filemethod 0
+File ::A89468F9-3D5C-581E-5D7A-7C0220053FA6 -name chronojump_manual_es.pdf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/docs -size 900366 -mtime 1241608841 -permissions 00644 -filemethod 0
+File ::0718D979-13C3-7EF9-3109-07EEE1716629 -name COPYING -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/docs -size 17992 -mtime 1241608841 -permissions 00644 -filemethod 0
+File ::F2583CE0-58A4-94F5-1A51-7735A092D6C6 -name INSTALL -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/docs -size 112 -mtime 1241608841 -permissions 00644 -filemethod 0
+File ::0F56B808-9780-FCC5-56C1-25B91D6C9A41 -name linux -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::C18135EF-B8A6-494F-C9E9-30E9CE6BA7F9 -name 10ms.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 104 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::05FBB568-8C79-BAEA-6D7C-70478F9C44F8 -name 50ms.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 90 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::D6752BA8-66E0-333A-48F0-190F26E4A26E -name bo.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 1538 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::8AEFD64F-180A-3573-B3B3-E8A811A2EA47 -name chronojump.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 1989 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::DA43B6F2-0D3B-C6B4-7FB4-BA814EC74FDC -name chronojump_mini.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 1636 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::2E214366-1E60-E05E-AA2C-AA90112682B9 -name dolent2.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 1141 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::358230C3-8D3C-7A04-B284-2AE53A99B860 -name dolent3.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 1139 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::3D3A5CED-A4EF-860E-EBC5-B81C78816CDD -name dolent4.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 1079 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::62D4309F-D4E4-FF8B-3227-8D2B599BD206 -name dolent_sqlite1.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 1047 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::1E7E9627-3E44-B973-33B7-18419AEDA10D -name dolent_sqlite2.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 1506 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::43CD98E7-9EAC-9701-EACF-D513A2643831 -name findMonoVersion.sh -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -alias findMonoVersionLinux -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 58 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::3264B0CE-6018-8CD5-DCD9-B004C8AF53C3 -name prova_run_a.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux -size 5503 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::91F4EE49-2998-4C02-0F3C-6C737B85FA50 -name chronopic-tests -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::579824D7-898F-6A27-1EFB-FE30F88F0665 -name Changelog -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 2227 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::8E90138B-DF9E-F850-91E6-5C146EDC69BD -name chronopic-serial-conf -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 11246 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::7A4DA426-0D77-49BE-7B2D-18746B82B4E3 -name chronopic-serial-conf.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 4592 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::58F5A126-DBF1-BD2E-1794-1E4503BE0225 -name chronopic-serial-conf.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 2520 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::9F6CD707-ADB6-7E48-7DDA-D0C8D606F862 -name chronopic.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 10239 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::1E4BDBCD-8C93-A2BB-183B-144A2D5F0F6E -name chronopic.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 5160 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::5759A29C-43DC-7C76-2884-65C36E979BF2 -name chronopic.dll -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 4608 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::6780A7B0-A315-CF6E-6C63-01FA1A8FDF62 -name chronopic.h -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 4508 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::01ABD4E6-BA53-B979-0F45-A0DC1BE19DD9 -name chronopic.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 3336 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::B789D6AC-70C3-C4FE-5B34-E262E6105C70 -name libchronopic.so -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 8654 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::FDA46FA1-2771-9DAD-0A25-D32D85A8DCAD -name Makefile -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 2790 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::4640B806-71B8-AF2C-A41A-3E64815B66CC -name README.txt -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 689 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::511AD791-51B9-9CF4-D213-1882367C8307 -name termansi.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 3003 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::1ECFAB3B-4A68-6158-3CBD-EABE53CF76FB -name termansi.h -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 375 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::64C5EE2C-D8C5-AB54-5C22-2E24ACD28733 -name termansi.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 2164 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::BCEE0CCA-90CC-B6A1-2D3F-7876553EB77F -name test-precision -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 12296 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::E9B37CDA-C1EB-6709-C847-CB3E794E4AE7 -name test-precision.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 5030 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::61D13837-B96B-10B3-2B6C-D89458EF44F1 -name test-precision.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 3548 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::E3FBD7BA-6105-72D1-6534-2A9DEC921B3E -name test-saltos -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 11959 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::39F832C8-BB41-A777-FF75-F66075D55CE0 -name test-saltos.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 5600 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::604153F6-BE24-A385-1F4F-40FB9652C2FB -name test-saltos.mono.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 3547 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::127B925A-026D-7D27-81C5-FB3D2BF29074 -name test-saltos.mono.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 4096 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::ADF84995-A4C8-4C54-E2C5-CA122E935D1B -name test-saltos.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 3448 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::D61F09D7-DE4C-6B08-316F-446B9238D7BC -name test-tramas -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 13587 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::2006369D-13E7-E116-C1FC-424337077796 -name test-tramas.c -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 5507 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::F411CEB8-F2B2-969E-7B33-8B4EFA0DD7B2 -name test-tramas.o -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 4076 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::9D45945F-7372-8EFB-8E84-99AFB03DE44E -name test.cs -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 3155 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::742B6E94-CC71-5475-62ED-B3C168E38416 -name test.exe -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 5120 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::9C70DBF3-A96D-EFF2-9187-01ECDC4562C4 -name test.prj -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests -size 2770 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::997F06AB-9BE1-E7E7-EA9D-98B63C8B71D7 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::E6F7B855-63FC-6B7E-82D0-ABC30D410E39 -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn -size 2132 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::9F8989C5-FFAF-A22B-ECE3-9AE04BB73E0D -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn -size 2 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::F7D8DEB7-A8D7-540D-B697-EB1703D68E52 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/prop-base -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::E64DB525-F53B-AE3D-5574-B53A05D642EB -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/props -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::CEF747EE-FFE2-69FB-915F-444F1CCA60E2 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::0853E189-4283-365A-8532-A2D815CDDB04 -name Changelog.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 2227 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::AB1A5C2B-92EF-C95F-92FD-816FBE78ABC4 -name chronopic-serial-conf.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 4592 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::315F7832-680F-4478-EB93-50B2A08D304A -name chronopic.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 10239 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::0479A7B0-D476-0F02-B2A0-1F04BDAB965E -name chronopic.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 5160 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::3D0581F1-1C98-DA64-DA47-BD4C3DD7F56F -name chronopic.h.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 4508 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::3B2AAABA-8562-2D07-2869-AF80299E83D0 -name Makefile.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 2790 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::94866ACE-1D99-9A7A-76D6-1729C30AB1CE -name README.txt.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 689 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::767292A5-7C2A-AC3F-3759-E1562C471DEA -name termansi.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 3003 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::85C1B4CD-023C-2386-D278-3D209AC664D8 -name termansi.h.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 375 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::14EFC67C-190C-F1BB-2935-C2F4A563CF7B -name test-precision.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 5030 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::A7D18AE9-337F-B714-E0CA-1CAD780FAF30 -name test-saltos.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 5600 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::63D756F9-9ACC-FEE5-D50E-DE7C801A2613 -name test-saltos.mono.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 3547 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::5E8F4BD5-4909-C7B3-0E20-AAD0ACFFA1B6 -name test-tramas.c.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 5507 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::76EDA19F-7312-F14B-F638-003CFE920508 -name test.cs.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 3155 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::1ED92964-5040-5ED5-C1B5-175C2A8D0440 -name test.prj.svn-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/text-base -size 2770 -mtime 1241608837 -permissions 00755 -filemethod 0
+File ::2746CBD5-5F4C-DE8B-AA82-F20B8F55B076 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/tmp -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::2FE72E5B-A18E-EFD7-523D-627E5C0D43DB -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/tmp/prop-base -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::C5513AF6-22C1-9572-2455-BD358F36757E -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/tmp/props -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::46105DF5-B19A-2AE8-D372-0392F9B2FC65 -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/linux/chronopic-tests/.svn/tmp/text-base -size 4096 -mtime 1241608837 -permissions 040755 -filemethod 0
+File ::F7A567EC-63CE-58A0-256F-AC0F614EE205 -name windows -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows -size 4096 -mtime 1241608841 -permissions 040755 -filemethod 0
+File ::D5CE3812-49BA-88B0-CE98-CB8F4CAA173C -name chronojump.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/windows -size 427 -mtime 1241608837 -permissions 00644 -filemethod 0
+File ::FE077201-DBB5-19A4-1B2B-EECBF1C8AAC9 -name chronojump_mini.bat -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/windows -size 432 -mtime 1241608841 -permissions 00755 -filemethod 0
+File ::3A95D500-D215-3A50-8572-CF1738370C08 -name driver -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver -size 4096 -mtime 1241608839 -permissions 040755 -filemethod 0
+File ::BEA591F7-5893-B17D-7818-287B0FE9B089 -name {CDM 2.02.04.exe} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver -size 2119568 -mtime 1241608839 -permissions 00644 -filemethod 0
+File ::30F287F0-5AB0-4E64-90EF-F6B343FA0B48 -name .svn -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn -size 4096 -mtime 1241608841 -permissions 040755 -filemethod 0
+File ::09AE75B6-A18A-55B2-C8DF-A08066DC6F7E -name entries -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn -size 362 -mtime 1241608841 -permissions 00755 -filemethod 0
+File ::9E3D63C1-E136-AD48-146C-F16AEC003F76 -name format -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn -size 2 -mtime 1241608841 -permissions 00755 -filemethod 0
+File ::589D8764-53D4-28CA-D3D1-21884CF71CF8 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/prop-base -size 4096 -mtime 1241608841 -permissions 040755 -filemethod 0
+File ::8A6D6710-7BFD-FE0E-2F2B-8FD3C62973D3 -name {CDM 2.02.04.exe.svn-base} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/prop-base -size 53 -mtime 1241608841 -permissions 00755 -filemethod 0
+File ::D9E59F6B-3F67-BC75-5009-A1AE3237CBA0 -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/props -size 4096 -mtime 1241608839 -permissions 040755 -filemethod 0
+File ::6012FB3B-F719-F4CC-079E-483606DDCB5F -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/text-base -size 4096 -mtime 1241608839 -permissions 040755 -filemethod 0
+File ::FF1CE974-F1B8-0886-4D38-865B46AEF83A -name {CDM 2.02.04.exe.svn-base} -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/text-base -size 2119568 -mtime 1241608840 -permissions 00755 -filemethod 0
+File ::1A193991-EE75-B79B-040C-F18106005220 -name tmp -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/tmp -size 4096 -mtime 1241608839 -permissions 040755 -filemethod 0
+File ::FFCE316E-5629-FBC9-165A-3C8B288F1466 -name prop-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/tmp/prop-base -size 4096 -mtime 1241608839 -permissions 040755 -filemethod 0
+File ::B2F60A86-70DB-BF3A-AEF9-658A5EB4F57F -name props -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/tmp/props -size 4096 -mtime 1241608839 -permissions 040755 -filemethod 0
+File ::373DECF0-7088-98A1-EC30-967D7F8C8B2E -name text-base -parent B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -type dir -directory <%InstallDir%>/chronojump-0.8.9.1/windows/driver/.svn/tmp/text-base -size 4096 -mtime 1241608839 -permissions 040755 -filemethod 0
 
 }
 } console.tcl {
@@ -10496,6 +10942,7 @@ set toggle [Widget::getoption $opath -toggleselect]
 $path bindText  <Button-1> [list OptionTree::_select $path $toggle]
 $path bindText  <Double-1> [list OptionTree::_select $path 1]
 $path bindImage <Button-1> [list OptionTree::_select $path 1]
+$path bindImage <Double-1> [list OptionTree::_select $path 1]
 
 proc ::$path { cmd args }  "return \[OptionTree::_path_command [list $path] \$cmd \$args\]"
 
@@ -13087,9 +13534,9 @@ if {![info exists tags($tag,state)]} { set tags($tag,state) 1 }
 
 _redraw_idle $path
 
-_select_default $path
-
 incr data(nbuttons)
+
+_select_default $path
 
 return $but
 }
@@ -13487,7 +13934,7 @@ set re flat
 set bd 0
 }
 toplevel $path -relief $re -borderwidth $bd -class $class  -background $::BWidget::colors(SystemButtonFace)
-wm protocol $path WM_DELETE_WINDOW [list Dialog::enddialog $path -1 1]
+wm protocol $path WM_DELETE_WINDOW [list Dialog::cancel $path]
 
 Widget::initFromODB Dialog $path $maps(Dialog)
 
@@ -13705,8 +14152,6 @@ set res [Dialog::wait $path]
 withdraw $path
 return $res
 }
-
-return
 }
 
 
@@ -14506,19 +14951,20 @@ set folders [Widget::getoption $dialog -folders]
 if {![llength $folders]} {
 set desktop   [file normalize [file join ~ Desktop]]
 set documents [file normalize [file join ~ Documents]]
-if {[info exists ::env(HOME)]} {
-set desktopText Desktop
 
-if {$::tcl_platform(platform) eq "windows"} {
-set documentsText "My Documents"
-} else {
+set desktopText   "Desktop"
 set documentsText "Documents"
+if {[info exists ::env(HOME)]} {
+if {$::tcl_platform(platform) eq "windows"} {
+foreach text {"Documents" "My Documents"} {
+set dir [file join ~ $text]
+if {[file exists $dir]} {
+set documents     $dir
+set documentsText $text
+break
 }
-
-set desktop   [file join $::env(HOME) $desktopText]
-set documents [file join $::env(HOME) $documentsText]
-
-if {$::tcl_platform(platform) ne "windows"} {
+}
+} else {
 lappend folders [list [file normalize ~] "Home"]
 }
 }
@@ -15617,7 +16063,6 @@ set image [BWidget::Icon dialog$icon]
 }
 
 eval [list Dialog::create $path] $maps(:cmd)  [list -image $image -modal local -side bottom -anchor c]
-wm protocol  $path WM_DELETE_WINDOW {bell}
 wm resizable $path 0 0
 
 bind $path <Key-Left>  [list MessageDlg::_key_traversal $path left]
@@ -17180,11 +17625,11 @@ BWidget::use ttk 1 -force 1
 FileGroup ::FileGroups
 Component ::Components
 SetupType ::SetupTypes
-FileGroup ::B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -setup Install -alias {Chronojump files} -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows TarArchive ZipArchive} -name {Program Files} -parent FileGroups
-FileGroup ::D0B71563-7ED3-023B-1894-8AC3CA3C1269 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows TarArchive ZipArchive} -name Readme-.update-chronojump-version -parent FileGroups
-Component ::CB2F63A8-BB7B-D37D-3B41-BEF87CD243A3 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows} -name Chronojump -parent Components
-SetupType ::C603314B-D0E6-64D1-4F05-0E8226B3B689 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows} -name Typical -parent SetupTypes
-SetupType ::E99F83E5-0807-6800-4DA6-CF3A4A12E5BF -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows} -name Custom -parent SetupTypes
+FileGroup ::B183954F-56CA-1FEB-17B0-63A0F9D2CA1C -setup Install -alias {Chronojump files} -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name {Program Files} -parent FileGroups
+FileGroup ::D0B71563-7ED3-023B-1894-8AC3CA3C1269 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows TarArchive ZipArchive FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Readme-.update-chronojump-version -parent FileGroups
+Component ::CB2F63A8-BB7B-D37D-3B41-BEF87CD243A3 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Chronojump -parent Components
+SetupType ::C603314B-D0E6-64D1-4F05-0E8226B3B689 -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Typical -parent SetupTypes
+SetupType ::E99F83E5-0807-6800-4DA6-CF3A4A12E5BF -setup Install -active Yes -platforms {AIX-ppc FreeBSD-4-x86 FreeBSD-x86 HPUX-hppa Linux-x86 MacOS-X Solaris-sparc Windows FreeBSD-5-x86 FreeBSD-6-x86 FreeBSD-7-x86 Linux-x86_64 Solaris-x86} -name Custom -parent SetupTypes
 
 }
 } common.tcl {
@@ -17238,6 +17683,15 @@ proc iincr { varName {n 1} } {
 upvar 1 $varName var
 if {![info exists var]} { set var 0 }
 set var [expr {$var + $n}]
+}
+
+proc patheq {path1 path2} {
+global conf
+
+set path1 [::InstallJammer::Normalize $path1]
+set path2 [::InstallJammer::Normalize $path2]
+if {$conf(windows)} { return [string equal -nocase $path1 $path2] }
+return [string equal $path1 $path2]
 }
 
 proc recursive_glob {dir pattern} {
@@ -17373,6 +17827,19 @@ flush $::debugfp
 }
 }
 
+proc threaded {} {
+global conf
+
+if {![info exists conf(threaded)]} {
+set conf(threaded) [info exists ::tcl_platform(threaded)]
+if {$conf(threaded)} {
+package require Thread
+if {[catch {thread::send [thread::id] #}]} { set conf(threaded) 0 }
+}
+}
+return $conf(threaded)
+}
+
 proc ::echo { string {subst 0} } {
 if {$subst} { set string [::InstallJammer::SubstText $string] }
 puts  stdout $string
@@ -17470,7 +17937,7 @@ return [eval $command $args]
 }
 
 proc ::ij_chooseDirectory {args} {
-::tk_safeDialog ::tk_chooseDirectory $args  {-initialdir -mustexist -parent title}
+::tk_safeDialog ::tk_chooseDirectory $args  {-initialdir -mustexist -parent -title}
 }
 
 proc ::ij_getOpenFile {args} {
@@ -17660,6 +18127,8 @@ commonInit   1
 twapi        0
 logInit      0
 
+ExitCode     ""
+
 ObjectStack   {}
 ParentWindow  {}
 UpdateWidgets {}
@@ -17668,29 +18137,25 @@ ButtonWidgets {BackButton NextButton CancelButton}
 UserRCFiles {~/.bashrc ~/.cshrc ~/.tcshrc ~/.zshrc ~/.kshrc ~/.profile}
 SystemRCFiles {/etc/bashrc /etc/csh.cshrc /etc/zshrc /etc/profile}
 
+ShowConsoleProgress 1
+
 UpdateWindowsRegistry 0
 
-SubstDirVars {
-CommonStartMenu
-Desktop
-FileBeingInstalled
-GnomeCommonStartMenu
-GnomeDesktop
-GnomeStartMenu
-Home
-InstallDir
-Installer
-InstallLogDirectory
-InstallSource
-KDECommonStartMenu
-KDEDesktop
-KDEStartMenu
-ProgramReadme
-ProgramLicense
-ProgramExecutable
-ProgramFolder
-Uninstaller
-UninstallDirectory
+ModifySelectedComponents 1
+
+ComponentTrees  {}
+SetupTypeTrees  {}
+
+SaveResponseVars {
+"CreateDesktopShortcut boolean"
+"CreateQuickLaunchShortcut boolean"
+"InstallDir string"
+"InstallMode string"
+"InstallType string"
+"LaunchApplication boolean"
+"ProgramFolderName string"
+"SelectedComponents list"
+"ViewReadme boolean"
 }
 
 VirtualTextMap            {}
@@ -17706,7 +18171,6 @@ set conf(vfs) $::installkit::root
 }
 set conf(exe)      [info nameofexecutable]
 set conf(script)   [info script]
-set conf(threaded) [info exists ::tcl_platform(threaded)]
 
 if {$conf(windows)} {
 set info(Ext)       ".exe"
@@ -17760,10 +18224,6 @@ append ::env(PATH) ":/usr/local/bin:/usr/local/sbin"
 
 ::InstallJammer::InitializeMessageCatalogs
 
-set info(SystemLanguage) [::msgcat::mclocale]
-::msgcat::mclocale {}
-::msgcat::mclocale en
-
 set conf(NativeChooseFile)       [expr {!$conf(unix)}]
 set conf(NativeMessageBox)       [expr {!$conf(unix)}]
 set conf(NativeChooseDirectory)  [expr {!$conf(unix)}]
@@ -17778,6 +18238,10 @@ ConsoleHeight     24
 NativeMessageBox  0
 }
 set conf(NativeChooseDirectory) $conf(osx)
+
+SafeArraySet conf {
+Wow64Disabled       0
+}
 
 array set info {
 Wizard             .wizard
@@ -17805,7 +18269,8 @@ SafeArraySet info {
 AllowLanguageSelection 1
 PromptForRoot          1
 
-Language               "en"
+Language                "en"
+DefaultToSystemLanguage "Yes"
 
 InstallMode            "Standard"
 UninstallMode          "Standard"
@@ -17826,10 +18291,20 @@ set info(Home) [::InstallJammer::HomeDir]
 
 if {[info exists info(DefaultLanguage)] && $info(RunningInstaller)} {
 set info(Language) [GetLanguageCode $info(DefaultLanguage)]
-::msgcat::mclocale $info(Language)
 }
 
-::msgcat::mclocale $info(SystemLanguage)
+msgcat::Init
+set info(SystemLanguage) [::msgcat::mclocale]
+set codes [::InstallJammer::GetLanguageCodes]
+foreach lang [::msgcat::mcpreferences] {
+if {[lsearch -exact $codes $lang] > -1} {
+set info(SystemLanguage) $lang
+if {$info(DefaultToSystemLanguage)} { set info(Language) $lang }
+break
+}
+}
+
+::InstallAPI::LanguageAPI -do setlanguage -language $info(Language)
 
 if {$conf(windows)} {
 set info(Username)      $::tcl_platform(user)
@@ -17868,6 +18343,29 @@ set info(RealUsername) $::tcl_platform(user)
 ::InstallAPI::SetVirtualText -virtualtext Language  -command ::InstallJammer::ModifyInstallTitle
 ::InstallAPI::SetVirtualText -virtualtext InstallTitleText  -command ::InstallJammer::ModifyInstallTitle
 ::InstallAPI::SetVirtualText -virtualtext InstallTitleText  -language all -command ::InstallJammer::ModifyInstallTitle
+
+::InstallAPI::VirtualTextAPI -do settype -type directory -virtualtext {
+CommonStartMenu
+Desktop
+FileBeingInstalled
+GnomeCommonStartMenu
+GnomeDesktop
+GnomeStartMenu
+Home
+InstallDir
+Installer
+InstallLogDirectory
+InstallSource
+KDECommonStartMenu
+KDEDesktop
+KDEStartMenu
+ProgramReadme
+ProgramLicense
+ProgramExecutable
+ProgramFolder
+Uninstaller
+UninstallDirectory
+}
 }
 
 SafeArraySet info {
@@ -17896,6 +18394,24 @@ file attributes $file -permissions 0755
 }
 }
 }
+}
+
+proc ::InstallJammer::InitializeGui {} {
+global conf
+
+if {[info exists ::InstallJammer]} { return }
+if {[info exists conf(InitGui)]} { return }
+set conf(InitGui) 1
+SourceCachedFile gui.tcl
+InitGui
+
+if {$conf(osx)} {
+bind Text <Command-Tab> [bind Text <Tab>]
+} else {
+bind Text <Control-Tab> [bind Text <Tab>]
+}
+bind Text <Tab> "# nothing"
+bind Text <Shift-Tab> ""
 }
 
 proc ::InstallJammer::InitializeMessageCatalogs {} {
@@ -18021,6 +18537,18 @@ TempRoot String 0 0 {}
 set CommandLineOptions(version) {
 {} Switch 0 0 {}
 "display installer version information"
+}
+
+if {$info(EnableResponseFiles)} {
+set CommandLineOptions(response-file) {
+ResponseFile String 0 0 {}
+"a file to read installer responses from"
+}
+
+set CommandLineOptions(save-response-file) {
+SaveResponseFile String 0 0 {}
+"a file to write installer responses to when the installer exits"
+}
 }
 
 
@@ -18180,7 +18708,7 @@ eval [list PlaceWindow $target] $args
 }
 
 proc ::InstallJammer::ID { args } {
-set alias [join $args]
+set alias [string trim [join $args]]
 if {[info exists ::InstallJammer::aliases($alias)]} {
 return $::InstallJammer::aliases($alias)
 }
@@ -18226,6 +18754,7 @@ return $id
 }
 
 proc ::InstallJammer::ExecuteActions { id args } {
+global conf
 global info
 
 array set _args {
@@ -18238,9 +18767,7 @@ array set _args $args
 
 set id [::InstallJammer::ID $id]
 
-if {![::InstallJammer::ObjExists $id]} {
-return 0
-}
+if {![::InstallJammer::ObjExists $id]} { return 1 }
 
 if {[$id is action]} {
 set idlist [list $id]
@@ -18248,9 +18775,7 @@ set idlist [list $id]
 set idlist [$id children]
 }
 
-if {![llength $idlist]} {
-return 0
-}
+if {![llength $idlist]} { return 1 }
 
 set msg "Executing actions $id"
 if {![catch { $id title } title]} { append msg " - $title" }
@@ -18258,6 +18783,7 @@ if {$_args(-when) ne ""} { append msg " - $_args(-when)" }
 debug $msg
 
 set res 1
+set conf(moveToPane) ""
 foreach id $idlist {
 if {![$id active]} { continue }
 
@@ -18288,12 +18814,22 @@ continue
 
 set when "Before Next Action is Executed"
 while {1} {
-set res [$obj execute]
+$obj execute
 
 if {!$_args(-conditions) || [$obj checkConditions $when]} { break }
 }
 
 ::InstallJammer::CurrentObject pop
+if {$conf(moveToPane) ne ""} {
+set res  0
+set pane $conf(moveToPane)
+if {$pane eq "next"} {
+::InstallJammer::Wizard next 1
+} else {
+::InstallJammer::Wizard raise $pane
+}
+break
+}
 }
 
 if {[info exists tempObjects]} {
@@ -18316,12 +18852,12 @@ set when "Before Previous Pane is Displayed"
 
 if {![$id checkConditions $when]} { return 0 }
 
-::InstallJammer::ExecuteActions $id -when $when
+set res [::InstallJammer::ExecuteActions $id -when $when]
 
 set info(UserMovedBack) 1
 set info(UserMovedNext) 0
 
-return 1
+return $res
 }
 
 proc ::InstallJammer::NextCommand { wizard id } {
@@ -18331,12 +18867,12 @@ set when "Before Next Pane is Displayed"
 
 if {![$id checkConditions $when]} { return 0 }
 
-::InstallJammer::ExecuteActions $id -when $when
+set res [::InstallJammer::ExecuteActions $id -when $when]
 
 set info(UserMovedBack) 0
 set info(UserMovedNext) 1
 
-return 1
+return $res
 }
 
 proc ::InstallJammer::CancelCommand { wizard id } {
@@ -18344,9 +18880,7 @@ set when "Before Pane is Cancelled"
 
 if {![$id checkConditions $when]} { return 0 }
 
-::InstallJammer::ExecuteActions $id -when $when
-
-return 1
+return [::InstallJammer::ExecuteActions $id -when $when]
 }
 
 proc ::InstallJammer::CancelEventHandler { wizard } {
@@ -18362,9 +18896,7 @@ set when "Before Pane is Finished"
 
 if {![$id checkConditions $when]} { return 0 }
 
-::InstallJammer::ExecuteActions $id -when $when
-
-return 1
+return [::InstallJammer::ExecuteActions $id -when $when]
 }
 
 proc ::InstallJammer::FinishEventHandler { wizard } {
@@ -18520,6 +19052,7 @@ eval [list $info(Wizard) next] $args
 "raise" {
 set args [lreplace $args 0 0 $id]
 if {[llength $args] == 1} { lappend args 1 }
+$info(Wizard) order [concat [$info(Wizard) order] $id]
 eval [list $info(Wizard) raise] $args
 }
 
@@ -18703,9 +19236,12 @@ if {$property eq "Active"} { $id active $value }
 if {![info exists ::InstallJammer]} {
 variable ::InstallJammer::PropertyMap
 if {[info exists PropertyMap($property)]} {
+set n $value
+if {![string is integer -strict $n]} {
 set n [lsearch -exact $PropertyMap($property) $value]
 if {$n < 0} {
 return -code error [BWidget::badOptionString value  $value $PropertyMap($property)]
+}
 }
 set value $n
 }
@@ -18749,28 +19285,28 @@ set subst $_args(-subst)
 set slen  [llength $subst]
 }
 
-if {![llength $_args(_ARGS_)]} {
+set props $_args(_ARGS_)
+if {![llength $props]} {
 foreach varName [array names Properties $id,*] {
-set var [string map [list $id, ""] $varName]
-set val $Properties($varName)
-if {$slen && ($subst eq "1" || [lsearch -exact $subst $var] > -1)} {
+lappend props [string map [list $id, ""] $varName]
+}
+}
+
+set vars {}
+foreach prop $props {
+if {![info exists Properties($id,$prop)]} { continue }
+
+set val $Properties($id,$prop)
+if {$slen && ($subst eq "1" || [lsearch -exact $subst $prop] > -1)} {
 set val [::InstallJammer::SubstText $val]
 }
-set var $_args(-prefix)$var
-lappend vars $var
-set array($var) $val
+if {[info exists ::InstallJammer::PropertyMap($prop)]
+&& [string is integer -strict $val]} {
+set val [lindex $::InstallJammer::PropertyMap($prop) $val]
 }
-} else {
-foreach var $_args(_ARGS_) {
-if {![info exists Properties($id,$var)]} { continue }
-set val $Properties($id,$var)
-if {$slen && ($subst eq "1" || [lsearch -exact $subst $var] > -1)} {
-set val [::InstallJammer::SubstText $val]
-}
-set var $_args(-prefix)$var
-lappend vars $var
-set array($var) $val
-}
+set prop $_args(-prefix)$prop
+lappend vars $prop
+set array($prop) $val
 }
 
 return $vars
@@ -19076,9 +19612,10 @@ $w configure -value $value
 }
 
 "usertext" {
-set text [::InstallJammer::GetText $step $widget]
+if {![$w cget -maxundo]} {
 $w clear
-$w insert end $text
+$w insert end [::InstallJammer::GetText $step $widget]
+}
 }
 }
 }
@@ -19117,19 +19654,22 @@ if {![llength $_args(-widgets)]} { set _args(-widgets) [$step widgets] }
 
 if {$_args(-buttons)} { ::InstallJammer::UpdateWizardButtons $wizard $step }
 
-if {$_args(-update)} { set _args(-updateidletasks) 0; update }
-
-if {$_args(-updateidletasks)} { update idletasks }
+set update     $_args(-update)
+set updateIdle $_args(-updateidletasks)
+if {[info exists conf(update)]} {
+set update     $conf(update)
+set updateIdle $conf(update)
+}
+if {$update} { update; set updateIdle 0 }
+if {$updateIdle} { update idletasks }
 }
 
 proc ::InstallJammer::DirIsWritable {dir} {
 global conf
 
-if {$conf(windows98)} {
-if {[catch { file attributes $dir } error]} { return 0 }
-return 1
-}
-return [file writable $dir]
+set res [catch {file attributes $dir}]
+if {$conf(windows98)} { return [expr {!$res}] }
+return [expr {[file writable $dir] || $res == 0}]
 }
 
 proc ::InstallJammer::Normalize { file {style ""} } {
@@ -19382,9 +19922,12 @@ global info
 
 if {[info exists info($var)]} {
 set string $info($var)
-if {[lsearch -exact $conf(SubstDirVars) $var] > -1} {
-set platform $::tcl_platform(platform)
-set string [::InstallJammer::Normalize $string $platform]
+if {[info exists ::InstallJammer::VTTypes($var)]} {
+if {$::InstallJammer::VTTypes($var) eq "boolean"} {
+set string [string is true $string]
+} elseif {$::InstallJammer::VTTypes($var) eq "directory"} {
+set string [::InstallJammer::Normalize $string platform]
+}
 }
 return $string
 }
@@ -19552,6 +20095,21 @@ if {$str ne $s} { set s [::InstallJammer::SubstText $s [incr num]] }
 
 return $s
 }
+interp alias {} sub {} ::InstallJammer::SubstText
+
+proc settext {var val} {
+set ::info($var) $val
+}
+
+proc vercmp {ver1 ver2} {
+foreach v1 [split $ver1 ._-] v2 [split $ver2 ._-] {
+if {$v1 eq ""} { set v1 0 }
+if {$v2 eq ""} { set v2 0 }
+if {$v1 < $v2} { return -1 }
+if {$v1 > $v2} { return 1 }
+}
+return 0
+}
 
 proc ::InstallJammer::HasVirtualText { string } {
 return [string match "*<%*%>*" $string]
@@ -19589,19 +20147,33 @@ set info(TempRoot) [::InstallJammer::Normalize $dir forward]
 break
 }
 }
+
+if {![info exists info(TempRoot)]} {
+if {[info exists ::env(TMP)]} { set tmp $::env(TMP) }
+if {[info exists ::env(TEMP)]} { set tmp $::env(TEMP) }
+if {![info exists tmp] || [catch {file mkdir $tmp}]} {
+return -code error  "could not find a suitable temporary directory"
+}
+set info(TempRoot) $tmp
+}
 }
 
-if {![info exists info(Temp)] || ![file exists $info(Temp)]} {
-set subdir ijtmp_[::InstallJammer::uuid]
-set info(Temp) [::InstallJammer::Normalize  [file join $info(TempRoot) $subdir]]
-file mkdir $info(Temp)
+if {![info exists info(Temp)]} {
+set info(Temp) [::InstallJammer::Normalize  [file join $info(TempRoot) ijtmp_[::InstallJammer::uuid]]]
 }
+
+if {![file exists $info(Temp)]} { file mkdir $info(Temp) }
 
 if {$file ne ""} {
 return [::InstallJammer::Normalize [file join $info(Temp) $file]]
 }
 
 return $info(Temp)
+}
+
+proc ::InstallJammer::TmpFile {} {
+global conf
+return [::InstallJammer::TmpDir [pid]-[incr0 conf(tmpFileCount)]]
 }
 
 proc ::InstallJammer::TmpMount {} {
@@ -19624,8 +20196,11 @@ global info
 set dir [::InstallJammer::SubstText $info(InstallDir)]
 
 if {[info exists info(InstallDirSuffix)]} {
-set suffix [::InstallJammer::SubstText $info(InstallDirSuffix)]
-if {[file tail $dir] ne $suffix} { set dir [file join $dir $suffix] }
+set suf [::InstallJammer::SubstText $info(InstallDirSuffix)]
+
+set dir [::InstallJammer::Normalize $dir forward]
+set suf [::InstallJammer::Normalize $suf forward]
+if {![string match "*$suf" $dir]} { set dir [file join $dir $suf] }
 }
 
 set info(InstallDir) [::InstallJammer::Normalize $dir platform]
@@ -19649,7 +20224,7 @@ proc ::InstallJammer::GetInstallInfoDir { {create 0} } {
 global conf
 global info
 
-if {![info exists info(InstallInfoDir)]} {
+if {![info exists info(InstallJammerRegistryDir)]} {
 if {$conf(windows)} {
 set root [::InstallJammer::WindowsDir PROGRAM_FILES]
 if {![::InstallJammer::DirIsWritable $root]} {
@@ -19666,14 +20241,15 @@ set dir "[::InstallJammer::HomeDir]/.installjammerinfo"
 }
 
 set info(InstallJammerRegistryDir) [::InstallJammer::Normalize $dir]
+}
 
+if {![info exists info(InstallInfoDir)]} {
 set id $info(ApplicationID)
 if {[info exists info(UpgradeInstall)] && $info(UpgradeInstall)} {
 set id $info(UpgradeApplicationID)
 }
 
-set dir [file join $dir $id]
-
+set dir [file join $info(InstallJammerRegistryDir) $id]
 set info(InstallInfoDir) [::InstallJammer::Normalize $dir]
 }
 
@@ -19757,7 +20333,10 @@ return $return
 
 proc ::InstallJammer::PauseInstall {} {
 global conf
-if {[info exists conf(pause)]} { close [open $conf(pause) w] }
+if {[info exists conf(pause)]} {
+::InstallJammer::TmpDir
+close [open $conf(pause) w]
+}
 }
 
 proc ::InstallJammer::ContinueInstall {} {
@@ -19769,6 +20348,7 @@ proc ::InstallJammer::StopInstall {} {
 global conf
 global info
 if {[info exists conf(stop)]} {
+::InstallJammer::TmpDir
 close [open $conf(stop) w]
 set info(InstallStopped) 1
 }
@@ -19897,6 +20477,8 @@ proc ::InstallJammer::MessageBox { args } {
 global conf
 global widg
 
+if {$conf(windows)} { ::InstallJammer::InitializeGui }
+
 set win  .__message_box
 
 array set _args {
@@ -19998,8 +20580,15 @@ flush $chan
 }
 
 proc ::InstallJammer::HandleThreadError { tid errorMsg } {
+global info
+
 set message "Error in thread $tid: $errorMsg"
+if {$info(Installing)} {
+::InstallJammer::UnpackOutput $message
+::InstallJammer::UnpackOutput :DONE
+} else {
 ::InstallJammer::MessageBox -message $message
+}
 }
 
 proc ::InstallJammer::ChooseDirectory { args } {
@@ -20024,6 +20613,7 @@ set _args(-initialdir) $dir
 }
 
 if {$_args(-usenative)} {
+set _args(-title) $_args(-message)
 set res [eval ij_chooseDirectory [array get _args]]
 } else {
 unset -nocomplain _args(-usenative)
@@ -20523,7 +21113,7 @@ set fp [open $file]
 close $fp
 }
 
-proc ::InstallJammer::ShowUsageAndExit { {message ""} } {
+proc ::InstallJammer::ShowUsageAndExit { {message ""} {title ""} } {
 global conf
 global info
 
@@ -20547,14 +21137,13 @@ if {$option eq "PREFIX"} { continue }
 lassign $CommandLineOptions($option) name var type x hide values desc
 
 if {$type eq "Boolean"} {
-set desc "$name Yes|No"
+set desc "$name <Yes or No>"
 } elseif {$type eq "Prefix"} {
 set desc "$name<OPTION> <VALUE>"
 } elseif {$type eq "Switch"} {
 set desc $name
 } else {
-set var  [string toupper [string trimleft $option -/]]
-set desc "$name $var"
+set desc "$name <VALUE>"
 }
 
 set options($option) $desc
@@ -20592,10 +21181,8 @@ append usage "\n[::InstallJammer::WrapLine $line 0 22]"
 append usage \n
 
 if {$conf(windows) || !$info(HaveTerminal)} {
-SourceCachedFile gui.tcl
-InitGui
-
-::InstallJammer::MessageBox -icon error -font "Courier 8"  -title "In-valid Arguments" -message $usage
+if {$title eq ""} { set title "Invalid Arguments" }
+::InstallJammer::MessageBox -icon error -font "Courier 8"  -title $title -message $usage
 } else {
 puts $usage
 }
@@ -20615,6 +21202,15 @@ variable ::InstallJammer::VirtualTextSetByCommandLine
 
 ::InstallJammer::InitializeCommandLineOptions
 
+set i 0
+foreach arg $argv {
+if {[string tolower [string trimleft $arg -/]] eq "response-file"} {
+::InstallAPI::ResponseFileAPI -do read -file [lindex $argv [incr i]]
+break
+}
+incr i
+}
+
 set len [llength $argv]
 for {set i 0} {$i < $len} {incr i} {
 set arg [lindex $argv $i]
@@ -20625,21 +21221,23 @@ continue
 }
 
 if {$opt eq "help" || $opt eq "?"} {
-::InstallJammer::ShowUsageAndExit
+::InstallJammer::ShowUsageAndExit "" "Help"
 }
 
 if {$opt eq "v" || $opt eq "version"} {
-set    message "InstallJammer Installer version $conf(version)\n\n"
-append message [::InstallJammer::SubstText "<%VersionHelpText%>"]
+set message "InstallJammer Installer version $conf(version)\n\n"
+if {$info(RunningInstaller)} {
+append message "<%VersionHelpText%>"
+} else {
+append message "<%AppName%> <%Version%>"
+}
 
 if {$conf(windows)} {
-SourceCachedFile gui.tcl
-InitGui
-::InstallJammer::MessageBox -default ok  -title "InstallJammer Installer" -message $message
+::InstallJammer::MessageBox -default ok  -title "InstallJammer Installer"  -message [::InstallJammer::SubstText $message]
 } else {
 set version "<%Version%> (<%InstallVersion%>)\n"
 puts [::InstallJammer::SubstText $version]
-puts $message
+puts $msg
 }
 
 ::exit 0
@@ -20731,23 +21329,12 @@ set PassedCommandLineOptions($opt) $val
 set VirtualTextSetByCommandLine($var) $val
 }
 
-if {[lsearch -exact $conf(modes) $info($conf(mode))] < 0} {
-debug "Bad $conf(mode) \"$info($conf(mode))\": using Standard mode"
-set info($conf(mode)) [lindex $conf(modes) 0]
-}
-
-set mode $info($conf(mode))
-set info(GuiMode)     [expr {$mode eq "Default" || $mode eq "Standard"}]
-set info(SilentMode)  [string equal $mode "Silent"]
-set info(DefaultMode) [string equal $mode "Default"]
-set info(ConsoleMode) [string equal $mode "Console"]
+::InstallJammer::SetupModeVariables
 
 ::InstallJammer::ExecuteActions "Setup Actions"
 
 if {$info(ShowConsole)} {
-SourceCachedFile gui.tcl
-InitGui
-
+::InstallJammer::InitializeGui
 if {!$conf(windows)} { SourceCachedFile console.tcl }
 console show
 }
@@ -20761,6 +21348,23 @@ set conf(ConsoleHeight) $height
 }
 }
 
+proc ::InstallJammer::SetupModeVariables {} {
+global conf
+global info
+
+if {[lsearch -exact $conf(modes) $info($conf(mode))] < 0} {
+set mode [lindex $conf(modes) 0]
+debug "Bad $conf(mode) \"$info($conf(mode))\": using $mode mode"
+set info($conf(mode)) $mode
+}
+
+set mode $info($conf(mode))
+set info(GuiMode)     [expr {$mode eq "Default" || $mode eq "Standard"}]
+set info(SilentMode)  [string equal $mode "Silent"]
+set info(DefaultMode) [string equal $mode "Default"]
+set info(ConsoleMode) [string equal $mode "Console"]
+}
+
 proc ::InstallJammer::CommonExit {} {
 global conf
 
@@ -20769,11 +21373,9 @@ if {$conf(windows) && $conf(UpdateWindowsRegistry)} {
 registry broadcast Environment -timeout 1
 }
 
-if {[info exists conf(RestartGnomePanel)]} {
-set pid [::InstallAPI::FindProcesses -name gnome-panel]
-if {$pid ne ""} {
-catch { exec kill -HUP $pid }
-}
+foreach chan [file channels] {
+if {[string match "std*" $chan]} { continue }
+catch {close $chan}
 }
 
 ::InstallJammer::WriteDoneFile
@@ -20881,6 +21483,62 @@ return 1
 
 proc ::InstallJammer::InGuiMode {} {
 return [info exists ::tk_patchLevel]
+}
+
+proc ::InstallJammer::ConsoleProgressBar { percent } {
+global conf
+
+if {![info exists conf(ConsoleProgressWidth)] || $percent == 0} {
+SafeSet conf(ConsoleProgressNewline) 1
+SafeSet conf(ConsoleProgressFormat) {[%s%s] %d%%}
+set s [string map {%s "" %d "" %% %} $conf(ConsoleProgressFormat)]
+set conf(ConsoleProgressWidth) [string length $s]
+SafeSet conf(ConsoleProgressCompletedHash) =
+SafeSet conf(ConsoleProgressIncompleteHash) -
+}
+
+set len   0
+set cols  $conf(ConsoleWidth)
+puts -nonewline [string repeat   $cols]
+puts -nonewline [string repeat " " $cols]
+puts -nonewline [string repeat   $cols]
+
+set width [expr {$cols - 2 - $conf(ConsoleProgressWidth)}]
+if {[string match "*%d*" $conf(ConsoleProgressFormat)]} { incr width -3 }
+set pct   [expr {(100 * $percent) / 100}]
+set cnt   [expr {($width * $percent) / 100}]
+set done  [expr {$width - $cnt}]
+set args  [list $conf(ConsoleProgressFormat)]
+if {$conf(ConsoleProgressCompletedHash) ne ""} {
+lappend args [string repeat $conf(ConsoleProgressCompletedHash) $cnt]
+}
+if {$conf(ConsoleProgressIncompleteHash) ne ""} {
+lappend args [string repeat $conf(ConsoleProgressIncompleteHash) $done]
+}
+if {[string match "*%d*" $conf(ConsoleProgressFormat)]} {
+lappend args $pct
+}
+puts -nonewline [eval format $args]
+if {$percent == 100 && $conf(ConsoleProgressNewline)} { puts "" }
+flush stdout
+}
+
+proc ::InstallJammer::MountSetupArchives {} {
+global conf
+global info
+
+if {[info exists info(ArchiveFileList)]} {
+foreach file $info(ArchiveFileList) {
+installkit::Mount [file join $info(InstallSource) $file] $conf(vfs)
+}
+}
+}
+
+proc ::InstallJammer::GetCommonInstallkit {} {
+global info
+::InstallJammer::TmpDir
+set kit [file join $info(TempRoot) installkit$info(Ext)]
+return [::installkit::base $kit]
 }
 
 package require Itcl
@@ -21122,6 +21780,10 @@ set type installtype
 eval configure $args
 }
 
+method class {} {
+return ::InstallType
+}
+
 method widget { args } {}
 method setup  { args } { eval cfgvar setup $args }
 method component {} {}
@@ -21136,6 +21798,10 @@ constructor {args} {
 eval configure $args
 } {
 eval configure $args
+}
+
+method class {} {
+return ::File
 }
 
 method srcfile {} {
@@ -21390,6 +22056,7 @@ method mtime              { args } { eval cfgvar mtime             $args }
 method version            { args } { eval cfgvar version           $args }
 method location           { args } { eval cfgvar location          $args }
 method directory          { args } { eval cfgvar directory         $args }
+method savefiles          { args } { eval cfgvar savefiles         $args }
 method linktarget         { args } { eval cfgvar linktarget        $args }
 method attributes         { args } { eval cfgvar attributes        $args }
 method permissions        { args } { eval cfgvar permissions       $args }
@@ -21403,6 +22070,7 @@ public variable mtime              0
 public variable version            ""
 public variable location           ""
 public variable directory          ""
+public variable savefiles          ""
 public variable linktarget         ""
 public variable filemethod         ""
 public variable attributes         ""
@@ -21476,6 +22144,10 @@ foreach condition $conditions {
 catch { $condition destroy }
 }
 }
+}
+
+method class {} {
+return ::InstallComponent
 }
 
 method set { args } {
@@ -21718,6 +22390,10 @@ eval configure $args
 ::set setup Install
 }
 
+method class {} {
+return ::FileGroup
+}
+
 method install {} {
 global conf
 
@@ -21769,6 +22445,10 @@ eval configure $args
 ::set setup Install
 }
 
+method class {} {
+return ::Component
+}
+
 method object {} {
 return ::ComponentObject
 }
@@ -21784,6 +22464,10 @@ eval configure $args
 } {
 eval configure $args
 ::set setup Install
+}
+
+method class {} {
+return ::SetupType
 }
 
 method object {} {
@@ -21809,6 +22493,10 @@ destructor {
 if {[::InstallJammer::ObjExists $parent]} {
 $parent conditions remove $id
 }
+}
+
+method class {} {
+return ::Condition
 }
 
 method serialize {} {
@@ -21914,86 +22602,300 @@ proc ::installkit::Unmount { mountPoint } {
 crapvfs::unmount $mountPoint
 }
 
-proc ::InstallAPI::FindProcesses {args} {
+proc ::InstallAPI::CommandLineAPI {args} {
+::InstallAPI::ParseArgs _args $args {
+-do         { choice  1 "" {check exists}}
+-option     { string  1 }
+}
+
+variable ::InstallJammer::CommandLineOptions
+variable ::InstallJammer::PassedCommandLineOptions
+
+set opt [string tolower [string trimleft $_args(-option) -/]]
+if {$_args(-do) eq "exists"} {
+return [info exists CommandLineOptions($opt)]
+}
+
+if {$_args(-do) eq "check"} {
+return [info exists PassedCommandLineOptions($opt)]
+}
+}
+
+proc ::InstallAPI::ComponentAPI {args} {
+::InstallAPI::ParseArgs _args $args {
+-components { string  1 }
+-active     { boolean 0 }
+-updateinfo { boolean 0 1 }
+}
+
 global conf
 
+set components $_args(-components)
+if {$components eq "all"} { set components [Components children recursive] }
+
+foreach component $components {
+set component [string trim $component]
+set id [::InstallAPI::FindObjects -alias $component]
+if {$id eq ""} {
+set id [::InstallAPI::FindObjects -type component -name $component]
+}
+if {$id eq ""} {
+return -code error "invalid component \"$component\""
+}
+
+set id [$id id]
+lappend componentIds $id
+if {[info exists _args(-active)]} {
+$id active $_args(-active)
+}
+}
+
+variable ::InstallJammer::Components
+
+foreach tree $conf(ComponentTrees) {
+if {![winfo exists $tree]} { continue }
+
+foreach component $componentIds {
+set group [$component get ComponentGroup]
+
+set var $tree,$component
+if {$group ne ""} { set var $tree,$group }
+
+if {![info exists Components($var)] || $Components($var) eq ""} {
+set checked [$component get Checked]
+if {[$component get RequiredComponent]} { set checked 1 }
+
+if {$group eq ""} {
+set Components($var) [string is true $checked]
+} elseif {$checked} {
+set Components($var) $component
+}
+} else {
+if {$group eq ""} {
+set Components($var) [string is true [$component active]]
+} elseif {[$component active]} {
+set Components($var) $component
+}
+}
+}
+}
+
+if {$_args(-updateinfo)} { ::InstallJammer::UpdateInstallInfo }
+}
+
+proc ::InstallAPI::ErrorMessage {args} {
 ::InstallAPI::ParseArgs _args $args {
--pid   { string  0 }
--glob  { boolean 0 0}
--name  { string  0 }
--user  { string  0 }
--group { string  0 }
+-title   { string 0 "Install Error" }
+-message { string 1 }
 }
 
-if {$conf(windows)} {
-if {[info exists _args(-pid)]} {
-set pid $_args(-pid)
-return [expr {[twapi::process_exists $pid] ? $pid : ""}]
+::InstallJammer::Message -icon "error"  -title $_args(-title) -message $_args(-message)
 }
 
-set opts {}
+proc ::InstallAPI::Exit {args} {
+global conf
+global info
 
-if {$_args(-glob)} {
-lappend opts -glob
+::InstallAPI::ParseArgs _args $args {
+-exitcode { string 0 }
+-exittype { choice 0 "finish" {cancel finish} }
 }
 
-if {[info exists _args(-name)]} {
-lappend opts -name $_args(-name)
+if {[info exists _args(-exitcode)]} {
+set conf(ExitCode) $_args(-exitcode)
 }
 
-if {[info exists _args(-user)]} {
-lappend opts -user $_args(-user)
+if {$_args(-exittype) eq "cancel"} {
+set info(WizardCancelled) 1
 }
 
-return [eval twapi::get_process_ids $opts]
+foreach command {::Exit ::InstallJammer::exit ::exit} {
+if {[::InstallJammer::CommandExists $command]} {
+$command
+}
+}
+}
+
+proc ::InstallAPI::FindObjects {args} {
+::InstallAPI::ParseArgs _args $args {
+-active    { boolean 0 }
+-alias     { string  0 }
+-component { string  0 }
+-glob      { boolean 0 }
+-name      { string  0 }
+-parent    { string  0 }
+-type      { string  0 }
+}
+
+if {[info exists _args(-alias)]} {
+set id [::InstallJammer::ID $_args(-alias)]
+if {[::InstallJammer::ObjExists $id]} { return $id }
+return
+}
+
+set check 0
+foreach x {type name active parent component} {
+set chk${x} 0
+if {[info exists _args(-$x)]} {
+incr check
+set chk${x} 1
+set $x $_args(-$x)
+}
+}
+
+if {!$chktype} {
+set type "all"
+set objects [::itcl::find objects]
 } else {
-if {![info exists conf(OldPS)]} {
-set conf(OldPS) [catch { exec ps -C ps }]
+set type [string tolower $type]
+incr check -1
+set chktype 0
+switch -- $type {
+"file" { set class ::File }
+"filegroup" { set class ::FileGroup }
+"component" { set class ::Component }
+"setuptype" { set class ::SetupType }
+"condition" { set class ::Condition }
+"action" - "actiongroup" - "pane" {
+incr check
+set chktype 1
+set class ::InstallComponent
 }
 
-set ps     [list ps]
-set all    0
-set format "pid"
-
-if {[info exists _args(-pid)]} {
-lappend ps -p $_args(-pid)
+default {
+return -code error [BWidget::badOptionString type $_args(-type) {action actiongroup pane file filegroup component
+setuptype condition}]
 }
-
-if {[info exists _args(-name)]} {
-if {$conf(OldPS)} {
-set all 1
-lappend format comm
+}
+set objects [::itcl::find objects -class $class]
+if {$type eq "file"} {
+set objects [::itcl::find objects -class $class]
+if {$chkcomponent} {
+incr check -1
+set chkcomponent 0
+}
 } else {
-lappend ps -C $_args(-name)
+set objects {}
+foreach obj [::itcl::find objects -class $class] {
+if {[$obj parent] eq ""} { continue }
+lappend objects $obj
+}
+}
+}
+
+if {$chkparent} {
+set check   0
+set parent  [::InstallJammer::ID $parent]
+set objects {}
+if {[::InstallJammer::ObjExists $parent]} {
+set objects [$parent children]
 }
 }
 
-if {[info exists _args(-user)]} {
-set all 0
-lappend ps -U $_args(-user)
+if {!$check} { return $objects }
+
+set glob 0
+if {$chkname && [info exists _args(-glob)]} { set glob 1 }
+
+set found {}
+foreach obj $objects {
+if {$chktype && [$obj type] ne $type} { continue }
+if {$chkparent && [$obj parent] ne $parent} { continue }
+if {$chkcomponent && [$obj component] ne $component} { continue }
+if {$chkactive} {
+set state [$obj active]
+if {($state && !$active) || (!$state && $active)} { continue }
+}
+if {$chkname} {
+set objname [$obj name]
+if {$type eq "file"} { set objname [file tail $objname] }
+if {($glob && ![string match $name $objname])
+|| (!$glob && $objname ne $name)} { continue }
+}
+lappend found $obj
+}
+return $found
 }
 
-if {[info exists _args(-group)]} {
-set all 0
-lappend ps -G $_args(-group)
+proc ::InstallAPI::GetWidgetPath {args} {
+global conf
+global info
+
+::InstallAPI::ParseArgs _args $args {
+-frame  { boolean 0 0 }
+-widget { string  1 }
+-window { string  0 }
 }
 
-if {$all} { lappend ps -ae }
+set window noop
+set widget $_args(-widget)
 
-lappend ps -o $format
+if {[info exists info(CurrentPane)]} { set window $info(CurrentPane) }
 
-if {![catch { eval exec $ps } result]} {
-set pids [list]
-foreach list [lrange [split [string trim $result] \n] 1 end] {
-if {[llength $list] > 1} {
-set command [file tail [lindex $list 1]]
-if {$_args(-name) ne $command} { continue }
-}
-lappend pids [lindex $list 0]
-}
-return $pids
+lassign [split $_args(-widget) .] pane wid
+if {$wid ne ""} {
+set pane [::InstallJammer::ID $pane]
+if {[::InstallJammer::ObjExists $pane]} {
+set widget $wid
+set window $pane
 }
 }
+
+if {[info exists _args(-window)]} {
+set obj [::InstallJammer::ID $_args(-window)]
+if {[::InstallJammer::ObjExists $obj] && [$obj ispane]} {
+set window $obj
+}
+}
+
+set name [join [::InstallJammer::ID $widget] ""]
+
+if {[lsearch -exact $conf(ButtonWidgets) $name] > -1} {
+set name [string tolower [string map {Button ""} $name]]
+set widg [$info(Wizard) widget get $name]
+} else {
+if {[::InstallJammer::IsID $name]
+&& [::InstallJammer::ObjExists $name]} {
+set widg [$name window]
+} else {
+set widg [$window widget get $name]
+}
+
+if {![winfo exists $widg]} { return }
+if {$_args(-frame)} { return $widg }
+set class [winfo class $widg]
+if {$class eq "Frame" || $class eq "TFrame"} {
+foreach w [winfo children $widg] {
+set class [winfo class $w]
+if {$class eq "Label" || $class eq "TLabel"} { continue }
+set widg $w
+break
+}
+}
+}
+
+return $widg
+}
+
+proc ::InstallAPI::LanguageAPI {args} {
+::InstallAPI::ParseArgs _args $args {
+-do       { choice 1 "" "setlanguage" }
+-language { string 0 "" }
+}
+
+global info
+
+if {$_args(-do) eq "setlanguage"} {
+set code [::InstallJammer::GetLanguageCode $_args(-language)]
+if {$code eq ""} { return 0 }
+debug "Setting language to $code"
+set info(Language) $code
+::msgcat::mclocale ""
+::msgcat::mclocale en $info(Language)
+::InstallJammer::UpdateWidgets -buttons 1
+}
+
+return 1
 }
 
 proc ::InstallAPI::PromptForDirectory {args} {
@@ -22069,7 +22971,82 @@ return $dir
 }
 }
 
+proc ::InstallAPI::ResponseFileAPI {args} {
+::InstallAPI::ParseArgs _args $args {
+-do          { choice  1 "" {add read remove write}}
+-file        { string  0 "" }
+-virtualtext { string  0 "" }
+}
+
+global conf
+global info
+
+if {$_args(-do) eq "add"} {
+foreach var $_args(-virtualtext) {
+if {[lsearch -exact $conf(SaveResponseVars) [lindex $var 0]] < 0} {
+lappend conf(SaveResponseVars) $var
+}
+}
+}
+
+if {$_args(-do) eq "remove"} {
+foreach var $conf(SaveResponseVars) {
+if {[lsearch -exact $_args(-virtualtext) [lindex $var 0]] < 0} {
+lappend vars $var
+}
+}
+set conf(SaveResponseVars) $vars
+}
+
+if {$_args(-do) eq "read" && [file exists $_args(-file)]} {
+::InstallJammer::ReadPropertyFile $_args(-file) tmp
+
+foreach list $conf(SaveResponseVars) {
+lassign $list var type
+if {![info exists tmp($var)]} { continue }
+
+set val $tmp($var)
+if {$type eq "boolean"} {
+if {![string is boolean -strict $val]} { continue }
+} elseif {$type eq "list"} {
+set elems ""
+foreach elem [split $val ,] {
+lappend elems [string trim $elem]
+}
+set val $elems
+}
+
+set info($var) $val
+}
+
+::InstallJammer::SetupModeVariables
+}
+
+if {$_args(-do) eq "write" && $_args(-file) ne ""} {
+set fp [open $_args(-file) w]
+foreach list $conf(SaveResponseVars) {
+lassign $list var type
+
+set val [sub "<%$var%>"]
+if {$val eq "<%$var%>"} { continue }
+
+if {$type eq "boolean"} {
+if {[string is true -strict $val]} { set val "Yes" }
+if {[string is false -strict $val]} { set val "No" }
+} elseif {$type eq "list"} {
+set val [join $val ,]
+}
+
+puts $fp "$var: $val"
+}
+close $fp
+}
+
+return $conf(SaveResponseVars)
+}
+
 proc ::InstallAPI::SetActiveSetupType {args} {
+global conf
 global info
 
 ::InstallAPI::ParseArgs _args $args {
@@ -22085,9 +23062,7 @@ return -code error "$obj is not a valid Setup Type object"
 }
 } else {
 set name $_args(-setuptype)
-
-set setups [SetupTypes children]
-set obj [::InstallJammer::FindObjByName $name [SetupTypes children]]
+set obj  [::InstallAPI::FindObjects -type setuptype -name $name]
 if {$obj eq ""} {
 return -code error "Could not find Setup Type '$name'"
 }
@@ -22095,14 +23070,17 @@ return -code error "Could not find Setup Type '$name'"
 
 set info(InstallType)   $name
 set info(InstallTypeID) $obj
+unset -nocomplain conf(PopulatedSetupType)
 
-array unset ::InstallJammer::Components $info(InstallTypeID),*
+foreach var [array names ::InstallJammer::Components] {
+set ::InstallJammer::Components($var) ""
+}
 set components [$info(InstallTypeID) get Components]
-foreach component [Components children recursive] {
-if {[lsearch -exact $components $component] < 0} {
-$component active 0
+foreach c [Components children recursive] {
+if {[lsearch -exact $components $c] < 0} {
+::InstallAPI::ComponentAPI -components $c -active 0 -updateinfo 0
 } else {
-$component active 1
+::InstallAPI::ComponentAPI -components $c -active 1 -updateinfo 0
 }
 }
 
@@ -22215,6 +23193,24 @@ unset vars($var)
 }
 }
 
+proc ::InstallAPI::VirtualTextAPI {args} {
+::InstallAPI::ParseArgs _args $args {
+-do          { choice 1 "" "settype"}
+-type        { choice 0 "" "boolean directory"}
+-virtualtext { string 1 }
+}
+
+if {$_args(-do) eq "settype"} {
+if {![info exists _args(-type)]} {
+return -code error "must specify -type"
+}
+
+foreach var $_args(-virtualtext) {
+set ::InstallJammer::VTTypes($var) $_args(-type)
+}
+}
+}
+
 proc ::InstallAPI::ParseArgs {_arrayName _arglist optionspec} {
 debug "API Call: [info level -1]"
 
@@ -22287,6 +23283,7 @@ if {![info exists options($option)]} {
 return -code error "invalid option $option"
 }
 
+if {$option eq "-do"} { set value [join [string tolower $value] ""] }
 set array($option) $value
 
 set type [lindex $options($option) 0]
@@ -22335,8 +23332,6 @@ set ::verbose 0
 set ::conf(osx)      [string equal $::tcl_platform(os) "Darwin"]
 set ::conf(unix)     [string equal $::tcl_platform(platform) "unix"]
 set ::conf(windows)  [string equal $::tcl_platform(platform) "windows"]
-
-set ::conf(threaded) [info exists ::tcl_platform(threaded)]
 
 set ::info(Testing)   0
 set ::info(Debugging) 0
@@ -22434,6 +23429,9 @@ Yes
 5C7C0690-2F4B-9108-1252-7B7CB96F9BBF,ExecuteAction
 1
 
+5C7C0690-2F4B-9108-1252-7B7CB96F9BBF,ExitCode
+{}
+
 5C7C0690-2F4B-9108-1252-7B7CB96F9BBF,ExitType
 Cancel
 
@@ -22469,6 +23467,9 @@ Yes
 
 69A2A177-FC12-F18C-FB99-67C3AC5C9E7D,ExecuteAction
 1
+
+69A2A177-FC12-F18C-FB99-67C3AC5C9E7D,ExitCode
+{}
 
 69A2A177-FC12-F18C-FB99-67C3AC5C9E7D,ExitType
 Finish
@@ -22686,6 +23687,9 @@ AB7687C5-C2D4-ACBD-F7C6-EB90D67A2B14,ID
 AIX-ppc,Active
 No
 
+AIX-ppc,BuildSeparateArchives
+No
+
 AIX-ppc,DefaultDirectoryPermission
 0755
 
@@ -22884,6 +23888,9 @@ D1A0DBEA-FC47-2DF1-0016-E72F9E1A9106,Conditions
 D1A0DBEA-FC47-2DF1-0016-E72F9E1A9106,ExecuteAction
 1
 
+D1A0DBEA-FC47-2DF1-0016-E72F9E1A9106,ExitCode
+{}
+
 D1A0DBEA-FC47-2DF1-0016-E72F9E1A9106,ExitType
 Cancel
 
@@ -22956,6 +23963,9 @@ E51C1501-7EA8-0F27-F3BE-C7B1954C361F,Conditions
 E51C1501-7EA8-0F27-F3BE-C7B1954C361F,ExecuteAction
 1
 
+E51C1501-7EA8-0F27-F3BE-C7B1954C361F,ExitCode
+{}
+
 E51C1501-7EA8-0F27-F3BE-C7B1954C361F,ExitType
 Finish
 
@@ -22988,6 +23998,9 @@ No
 
 ECEC8AD9-CD06-E158-AD89-F1055F90DD01,Include
 0
+
+ECEC8AD9-CD06-E158-AD89-F1055F90DD01,ShowConsoleProgress
+Yes
 
 F3B2BC0E-685C-2E69-AC75-2C946771EC85,Active
 Yes
@@ -23094,6 +24107,9 @@ FBFD5A62-8F76-18B2-EB9D-EEE36AFF6809,String
 FreeBSD-4-x86,Active
 No
 
+FreeBSD-4-x86,BuildSeparateArchives
+No
+
 FreeBSD-4-x86,DefaultDirectoryPermission
 0755
 
@@ -23142,7 +24158,172 @@ No
 FreeBSD-4-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+FreeBSD-5-x86,Active
+No
+
+FreeBSD-5-x86,BuildSeparateArchives
+No
+
+FreeBSD-5-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-5-x86,DefaultFilePermission
+0755
+
+FreeBSD-5-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-5-x86,FallBackToConsole
+Yes
+
+FreeBSD-5-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-5-x86,InstallMode
+Standard
+
+FreeBSD-5-x86,InstallType
+Typical
+
+FreeBSD-5-x86,ProgramExecutable
+{}
+
+FreeBSD-5-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-5-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-5-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-5-x86,ProgramName
+{}
+
+FreeBSD-5-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-5-x86,PromptForRoot
+Yes
+
+FreeBSD-5-x86,RequireRoot
+No
+
+FreeBSD-5-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-6-x86,Active
+No
+
+FreeBSD-6-x86,BuildSeparateArchives
+No
+
+FreeBSD-6-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-6-x86,DefaultFilePermission
+0755
+
+FreeBSD-6-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-6-x86,FallBackToConsole
+Yes
+
+FreeBSD-6-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-6-x86,InstallMode
+Standard
+
+FreeBSD-6-x86,InstallType
+Typical
+
+FreeBSD-6-x86,ProgramExecutable
+{}
+
+FreeBSD-6-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-6-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-6-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-6-x86,ProgramName
+{}
+
+FreeBSD-6-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-6-x86,PromptForRoot
+Yes
+
+FreeBSD-6-x86,RequireRoot
+No
+
+FreeBSD-6-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
+FreeBSD-7-x86,Active
+No
+
+FreeBSD-7-x86,BuildSeparateArchives
+No
+
+FreeBSD-7-x86,DefaultDirectoryPermission
+0755
+
+FreeBSD-7-x86,DefaultFilePermission
+0755
+
+FreeBSD-7-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+FreeBSD-7-x86,FallBackToConsole
+Yes
+
+FreeBSD-7-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+FreeBSD-7-x86,InstallMode
+Standard
+
+FreeBSD-7-x86,InstallType
+Typical
+
+FreeBSD-7-x86,ProgramExecutable
+{}
+
+FreeBSD-7-x86,ProgramFolderAllUsers
+No
+
+FreeBSD-7-x86,ProgramFolderName
+<%AppName%>
+
+FreeBSD-7-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+FreeBSD-7-x86,ProgramName
+{}
+
+FreeBSD-7-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+FreeBSD-7-x86,PromptForRoot
+Yes
+
+FreeBSD-7-x86,RequireRoot
+No
+
+FreeBSD-7-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 FreeBSD-x86,Active
+No
+
+FreeBSD-x86,BuildSeparateArchives
 No
 
 FreeBSD-x86,DefaultDirectoryPermission
@@ -23196,6 +24377,9 @@ FreeBSD-x86,RootInstallDir
 HPUX-hppa,Active
 No
 
+HPUX-hppa,BuildSeparateArchives
+No
+
 HPUX-hppa,DefaultDirectoryPermission
 0755
 
@@ -23247,6 +24431,9 @@ HPUX-hppa,RootInstallDir
 Linux-x86,Active
 Yes
 
+Linux-x86,BuildSeparateArchives
+No
+
 Linux-x86,DefaultDirectoryPermission
 0755
 
@@ -23295,7 +24482,64 @@ No
 Linux-x86,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+Linux-x86_64,Active
+No
+
+Linux-x86_64,BuildSeparateArchives
+No
+
+Linux-x86_64,DefaultDirectoryPermission
+0755
+
+Linux-x86_64,DefaultFilePermission
+0755
+
+Linux-x86_64,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Linux-x86_64,FallBackToConsole
+Yes
+
+Linux-x86_64,InstallDir
+<%Home%>/<%ShortAppName%>
+
+Linux-x86_64,InstallMode
+Standard
+
+Linux-x86_64,InstallType
+Typical
+
+Linux-x86_64,ProgramExecutable
+{}
+
+Linux-x86_64,ProgramFolderAllUsers
+No
+
+Linux-x86_64,ProgramFolderName
+<%AppName%>
+
+Linux-x86_64,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+Linux-x86_64,ProgramName
+{}
+
+Linux-x86_64,ProgramReadme
+<%InstallDir%>/README.txt
+
+Linux-x86_64,PromptForRoot
+Yes
+
+Linux-x86_64,RequireRoot
+No
+
+Linux-x86_64,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 MacOS-X,Active
+No
+
+MacOS-X,BuildSeparateArchives
 No
 
 MacOS-X,DefaultDirectoryPermission
@@ -23349,6 +24593,9 @@ MacOS-X,RootInstallDir
 Solaris-sparc,Active
 No
 
+Solaris-sparc,BuildSeparateArchives
+No
+
 Solaris-sparc,DefaultDirectoryPermission
 0755
 
@@ -23397,7 +24644,64 @@ No
 Solaris-sparc,RootInstallDir
 /usr/local/<%ShortAppName%>
 
+Solaris-x86,Active
+No
+
+Solaris-x86,BuildSeparateArchives
+No
+
+Solaris-x86,DefaultDirectoryPermission
+0755
+
+Solaris-x86,DefaultFilePermission
+0755
+
+Solaris-x86,Executable
+<%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Solaris-x86,FallBackToConsole
+Yes
+
+Solaris-x86,InstallDir
+<%Home%>/<%ShortAppName%>
+
+Solaris-x86,InstallMode
+Standard
+
+Solaris-x86,InstallType
+Typical
+
+Solaris-x86,ProgramExecutable
+{}
+
+Solaris-x86,ProgramFolderAllUsers
+No
+
+Solaris-x86,ProgramFolderName
+<%AppName%>
+
+Solaris-x86,ProgramLicense
+<%InstallDir%>/LICENSE.txt
+
+Solaris-x86,ProgramName
+{}
+
+Solaris-x86,ProgramReadme
+<%InstallDir%>/README.txt
+
+Solaris-x86,PromptForRoot
+Yes
+
+Solaris-x86,RequireRoot
+No
+
+Solaris-x86,RootInstallDir
+/usr/local/<%ShortAppName%>
+
 TarArchive,Active
+No
+
+TarArchive,BuildSeparateArchives
 No
 
 TarArchive,CompressionLevel
@@ -23460,8 +24764,14 @@ TarArchive,VirtualTextMap
 Windows,Active
 No
 
+Windows,BuildSeparateArchives
+No
+
 Windows,Executable
 <%AppName%>-<%Version%>-<%Platform%>-Install<%Ext%>
+
+Windows,FileDescription
+{<%AppName%> <%Version%> Setup}
 
 Windows,IncludeTWAPI
 No
@@ -23493,10 +24803,19 @@ Windows,ProgramName
 Windows,ProgramReadme
 <%InstallDir%>/README.txt
 
+Windows,RequireAdministrator
+Yes
+
+Windows,UseUncompressedBinaries
+No
+
 Windows,WindowsIcon
 /home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon_install_win.ico
 
 ZipArchive,Active
+No
+
+ZipArchive,BuildSeparateArchives
 No
 
 ZipArchive,CompressionLevel
@@ -23706,17 +25025,12 @@ if {!$eval || [$action checkConditions $when]} { break }
 }
 
 proc ::InstallJammer::actions::Exit {obj} {
-global info
+$obj properties props -subst 1
 
-if {[$obj get ExitType] eq "Cancel"} {
-set info(WizardCancelled) 1
-}
+lappend opts -exittype [string tolower $props(ExitType)]
+if {$props(ExitCode) ne ""} { lappend opts -exitcode $props(ExitCode) }
 
-foreach command [list ::Exit ::InstallJammer::exit ::exit] {
-if {[::InstallJammer::CommandExists $command]} {
-$command
-}
-}
+eval ::InstallAPI::Exit $opts
 }
 
 proc ::InstallJammer::actions::ModifyWidget {obj} {
@@ -23785,7 +25099,18 @@ eval [list $child configure] $labelArgs
 eval [list $child configure] $allArgs
 }
 } else {
+if {$class eq "Text"} {
+eval [list $w configure] $allArgs
+if {[llength $labelArgs]} {
+set state [$w cget -state]
+$w configure -state normal
+$w delete 1.0
+$w insert end $props(Text)
+$w configure -state $state
+}
+} else {
 eval [list $w configure] $allArgs $labelArgs
+}
 }
 
 if {$props(State) eq "hidden" && ![info exists hidden($w)]} {
@@ -23799,20 +25124,23 @@ unset hidden($w)
 }
 }
 
+if {$props(Text) ne ""} {
 ::InstallJammer::UpdateWidgets -buttons 1 -updateidletasks 1
+}
 }
 
 proc ::InstallJammer::actions::MoveForward {obj} {
+global conf
 global info
 
 set next [$info(Wizard) step next]
 
-if {![string length $next]} {
+if {$next eq ""} {
 debug "No more panes left to move forward... exiting"
-::InstallJammer::actions::Exit $obj
+::InstallAPI::Exit
 } else {
 debug "Moving forward to $next"
-after 0 [list $info(Wizard) next 1]
+set conf(moveToPane) "next"
 }
 }
 
@@ -23832,7 +25160,7 @@ return [string is $props(Operator) -strict $string]
 }
 }
 
-proc ::InstallJammer::actions::UninstallSelectedFiles {obj {force 0}} {
+proc ::InstallJammer::actions::UninstallSelectedFiles {obj {forceUninstall 0}} {
 global conf
 global info
 
@@ -23842,13 +25170,17 @@ set id     [$obj id]
 set parent [$obj parent]
 
 set info(Errors)                ""
+set info(ErrorDirs)             ""
+set info(ErrorFiles)            ""
 set info(FileBeingUninstalled)  ""
 set info(GroupBeingUninstalled) ""
 set info(Status)                ""
 
+set conf(ShowConsoleProgress) [$obj get ShowConsoleProgress]
+
 ::InstallAPI::SetUpdateWidgets -widgets  [::InstallJammer::FindUpdateWidgets {Status FileBeingUninstalled  GroupBeingUninstalled UninstallPercentComplete}]
 
-if {!$force} {
+if {!$forceUninstall} {
 set info(Status) "Preparing to uninstall..."
 
 ::InstallJammer::GetUninstallInfo
@@ -23864,31 +25196,24 @@ lappend array([lindex $line 0]) [lrange $line 1 end]
 upvar #0 ::leftovers array
 }
 
-set fileLen 0
-if {[info exists array(:FILE)]} {
+foreach x {:DIR :FILE :REGISTRY} {
+if {![info exists array($x)]} { set array($x) {} }
+}
+
+set dirLen  [llength $array(:DIR)]
 set fileLen [llength $array(:FILE)]
-}
-
-set dirLen 0
-if {[info exists array(:DIR)]} {
-set dirLen [llength $array(:DIR)]
-}
-
-set regLen 0
-if {[info exists array(:REGISTRY)]} {
-set regLen [llength $array(:REGISTRY)]
-}
-
+set regLen  [llength $array(:REGISTRY)]
 set conf(total) [expr $fileLen + $dirLen + $regLen]
-
-set info(GroupBeingUninstalled) "files"
-set info(Status) "<%FileBeingUninstalledText%>"
 
 set checkRemove 0
 if {[info exists conf(RemoveFromUninstall)]} {
 set checkRemove 1
 set pattern [join $conf(RemoveFromUninstall) |]
 }
+
+if {$fileLen} {
+set info(GroupBeingUninstalled) "files"
+set info(Status) "<%FileBeingUninstalledText%>"
 
 for {set i [expr $fileLen -1]} {$i >= 0} {incr i -1} {
 set list [lindex $array(:FILE) $i]
@@ -23913,6 +25238,8 @@ if {[catch {::InstallJammer::UninstallFile $file} error]} {
 debug "Failed to delete $file."
 lappend ::leftovers(:FILE) $list
 append info(Errors) "$error\n"
+lappend info(ErrorFiles) $file
+}
 }
 }
 
@@ -23921,13 +25248,14 @@ set conf(UninstallRemoved) 1
 ::InstallJammer::UninstallFile $conf(uninstall)
 }
 
+if {$dirLen} {
 set info(GroupBeingUninstalled) "directories"
 ::InstallJammer::UpdateWidgets -update 1
 
 set p $::tcl_platform(platform)
 set installdir [::InstallJammer::Normalize $info(InstallDir)]
 foreach list [lsort -index 0 -decreasing $array(:DIR)] {
-lassign $list dir forcedir
+lassign $list dir force
 
 if {$checkRemove && [regexp $pattern $dir]} {
 if {$::verbose} {
@@ -23936,14 +25264,9 @@ debug "$dir removed from uninstall by action."
 continue
 }
 
-set forceDelete $force
-if {$forcedir ne ""} {
-set forceDelete 1
-}
-
-if {$forceDelete} {
-set forcedir -force
-}
+set forceDelete $forceUninstall
+if {$force ne ""} { set forceDelete 1 }
+if {$forceDelete} { set force -force }
 
 set info(FileBeingUninstalled) [file tail $dir]
 ::InstallJammer::UpdateUninstallProgress
@@ -23953,6 +25276,7 @@ if {[lindex [file split $dir] end] ne $info(Company)} {
 lappend ::leftovers(:DIR) $list
 append info(Errors) "[::InstallJammer::Normalize $dir $p] "
 append info(Errors) "is not empty\n"
+lappend info(ErrorDirs) $dir
 }
 
 debug "Skipping non-empty directory $dir."
@@ -23968,9 +25292,11 @@ debug "Deleting directory $dir."
 }
 }
 
-if {[catch {::InstallJammer::UninstallDirectory $dir $forcedir} err]} {
+if {[catch {::InstallJammer::UninstallDirectory $dir $force} err]} {
 debug "Failed to delete directory $dir."
 append info(Errors) "$err\n"
+lappend info(ErrorDirs) $dir
+}
 }
 }
 
@@ -24070,6 +25396,7 @@ registry set $key $var $path expand_sz
 }
 
 if {$conf(windows)} {
+if {$regLen} {
 set info(GroupBeingUninstalled) "registry entries"
 ::InstallJammer::UpdateWidgets -update 1
 
@@ -24084,17 +25411,16 @@ lappend ::leftovers(:REGISTRY) $list
 append info(Errors) "Could not remove $list: $error\n"
 }
 }
+}
 } elseif {[info exists array(:XDGRESOURCE)]} {
 set info(GroupBeingUninstalled) "shortcuts"
 ::InstallJammer::UpdateWidgets -update 1
 
-if {[::InstallJammer::GetDesktopEnvironment] eq "Gnome"} {
-set conf(RestartGnomePanel) 1
-}
-
 foreach list [lreverse $array(:XDGRESOURCE)] {
 set which [lindex $list 0]
 set files [lindex $list 1]
+set mode  [lindex $list 2]
+if {$mode eq ""} { set mode "user" }
 if {$which eq "desktop"} {
 catch { eval exec xdg-desktop-icon uninstall --novendor $files }
 } elseif {$which eq "menu"} {
@@ -24108,13 +25434,16 @@ lappend deskfiles $file
 }
 }
 
-lappend menuUninstall($dirfiles) $deskfiles
+lappend menuUninstall($mode,$dirfiles) $deskfiles
 }
 }
 
 foreach {dirfiles deskfiles} [array get menuUninstall] {
-set files [concat $dirfiles $deskfiles]
-catch { eval exec xdg-desktop-menu uninstall --novendor $files } res
+set list     [split $dirfiles ,]
+set mode     [lindex $list 0]
+set dirfiles [join [lrange $list 1 end] ,]
+set files    [concat $dirfiles $deskfiles]
+catch { eval exec xdg-desktop-menu uninstall  --novendor --mode $mode $files } res
 }
 }
 
@@ -24308,15 +25637,23 @@ global info
 
 incr0 conf(num)
 set pct [expr ($conf(num) * 100) / $conf(total)]
+if {$pct != $conf(lastPercent)} {
 set info(UninstallPercentComplete) $pct
 
+if {$info(GuiMode)} {
 ::InstallJammer::UpdateSelectedWidgets
 update
+} elseif {$info(ConsoleMode) && $conf(ShowConsoleProgress)} {
+::InstallJammer::ConsoleProgressBar $pct
+}
+set conf(lastPercent) $pct
+}
 }
 
 proc ::InstallJammer::GetUninstallInfo {} {
 global conf
 global info
+global uninstall
 
 set dir   $::installkit::root
 set files [glob -nocomplain -dir $dir *.info]
@@ -24328,11 +25665,8 @@ set dir   [::InstallJammer::GetInstallInfoDir]
 set files [glob -nocomplain -dir $dir *.info]
 }
 
+set installdir  $info(InstallDir)
 set uninstaller $info(Uninstaller)
-
-if {$conf(windows)} {
-set uninstaller [string tolower [Normalize $uninstaller]]
-}
 
 set conf(uninstall)        $uninstaller
 set conf(UninstallRemoved) 0
@@ -24349,12 +25683,8 @@ lappend sort [list $tmp(Date) $id]
 continue
 }
 
-set tmpuninstaller $tmp(Uninstaller)
-if {$conf(windows)} {
-set tmpuninstaller [string tolower [Normalize $tmpuninstaller]]
-}
-
-if {$uninstaller eq $tmpuninstaller} {
+if {[patheq $installdir $tmp(Dir)]
+|| [patheq $uninstaller $tmp(Uninstaller)]} {
 lappend sort [list $tmp(Date) $id]
 }
 }
@@ -24371,10 +25701,13 @@ append data [read_file $file]
 }
 }
 
+set uninstall(:DIR)      {}
+set uninstall(:FILE)     {}
+set uninstall(:REGISTRY) {}
 foreach line [split [string trim $data] \n] {
 if {[info exists done($line)]} { continue }
 set done($line) 1
-lappend ::uninstall([lindex $line 0]) [lrange $line 1 end]
+lappend uninstall([lindex $line 0]) [lrange $line 1 end]
 }
 }
 
@@ -24457,6 +25790,9 @@ debug "Will not delete non-empty directory $info(InstallInfoDir)."
 }
 }
 
+proc ::InstallJammer::InstallLog {args} {
+}
+
 proc ::InstallJammer::exit { {prompt 0} } {
 global conf
 global info
@@ -24469,25 +25805,59 @@ if {$info(WizardStarted) && !$info(WizardCancelled)} {
 
 ::InstallJammer::CommonExit
 
-if {$conf(windows) && !$conf(windows98)} {
-
-set tmp [file dirname [::InstallJammer::TmpDir]]
-set bat [file join $tmp [pid]cleanup.bat]
-set vbs [file join $tmp [pid]sleep.vbs]
-
-set fp [open $vbs w]
-puts $fp "WScript.Sleep(3000)"
+set tmpdir [::InstallJammer::TmpDir]
+if {$conf(windows)} {
+if {[auto_execok wscript] eq ""} {
+set tmp [::InstallJammer::TmpDir cleanup.tcl]
+set fp [open $tmp w]
+puts $fp "set dir [::InstallJammer::TmpDir]"
+puts $fp {
+catch {wm withdraw .}
+set i 0
+while {[file exists $dir] && [incr i] < 600} {
+file delete -force -- $dir
+after 100
+}
+}
 close $fp
 
-set fp [open $bat w]
-puts $fp "start /w wscript [file tail $vbs]"
-puts $fp "rmdir /S /Q \"[::InstallJammer::TmpDir]\""
-puts $fp "del [file tail $bat] [file tail $vbs]"
+set installkit [::InstallJammer::GetCommonInstallkit]
+exec $::env(COMSPEC) /c start $installkit $tmp &
+} else {
+set bat ij[pid]cleanup.bat
+set vbs ij[pid]cleanup.vbs
+
+set fp [open [file join $info(TempRoot) $vbs] w]
+puts $fp [string map [list @BAT@ $bat @VBS@ $vbs @TMP@ $tmpdir] {
+On Error Resume Next
+WScript.Sleep(10000)
+Set fsObj = WScript.CreateObject("Scripting.FileSystemObject")
+fsObj.DeleteFile("@BAT@")
+fsObj.DeleteFile("@VBS@")
+fsObj.DeleteFolder("@TMP@")
+WScript.Quit(0)
+}]
 close $fp
-cd $tmp
+
+set fp [open [file join $info(TempRoot) $bat] w]
+puts $fp "@echo off"
+puts $fp "start /WAIT wscript //B //E:vbscript $vbs > nul"
+close $fp
+
+cd $info(TempRoot)
 exec $bat &
 }
+} else {
+set tmp [file join $info(TempRoot) cleanup.sh]
+set fp [open $tmp w]
+puts $fp "sleep 3"
+puts $fp "rm -rf $tmpdir $tmp"
+close $fp
 
+exec [auto_execok sh] $tmp &
+}
+
+if {[string is integer -strict $conf(ExitCode)]} { ::exit $conf(ExitCode) }
 ::exit 0
 }
 
@@ -24503,10 +25873,7 @@ exit 1
 }
 
 if {$info(SilentMode)} {
-if {$conf(windows)} {
 after 1000
-}
-
 ::InstallJammer::ExecuteActions "Startup Actions"
 ::InstallJammer::ExecuteActions Silent
 } elseif {$info(ConsoleMode)} {
@@ -24538,7 +25905,6 @@ set info(RunningUninstaller) 1
 
 ::InstallJammer::CommonInit
 
-if {$conf(windows)} {
 set uninstall $conf(exe)
 set test [file join [file dirname $uninstall] .uninstall]
 if {![file exists $test]} {
@@ -24551,13 +25917,13 @@ eval exec [list $new] $argv &
 
 set info(Temp) [file dirname $uninstall]
 cd $info(Temp)
-}
 
 ::InstallJammer::ReadMessageCatalog messages
 
 set conf(mode)  "UninstallMode"
 set conf(stop)  [::InstallJammer::TmpDir .stop]
 set conf(pause) [::InstallJammer::TmpDir .pause]
+set conf(lastPercent) 0
 
 set conf(modes) "Standard Silent"
 if {!$conf(windows)} { lappend conf(modes) "Console" }
@@ -24585,6 +25951,8 @@ if {$info(GuiMode)} {
 SourceCachedFile gui.tcl
 InitGui
 }
+
+::InstallJammer::CommonPostInit
 
 ::InstallJammer::ConfigureBidiFonts
 }
@@ -24666,6 +26034,7 @@ global info
 
 set id     [$obj id]
 set parent [$obj parent]
+if {![$parent ispane]} { set parent $info(CurrentPane) }
 set window [$parent window]
 set widget $window.[$obj name]
 
@@ -24915,6 +26284,8 @@ eval [list $type $widget] $opts
 }
 
 place $widget -in $window -x $props(X) -y $props(Y)  -width $props(Width) -height $props(Height)
+
+bind $widget <Destroy>  "+unset -nocomplain ::InstallJammer::UserWidgets($id)"
 
 if {$validate ne "" && $command ne ""} {
 foreach event [split $validate \;] {
@@ -25174,14 +26545,14 @@ debug "Executing with progressive output"
 
 set proc   ::ReadOutput${id}
 set watch  $props(WatchProgressiveOutput)
-set widget [join $props(ProgressiveOutputWidget) ""]
-set widget [[$obj parent] widget get $widget]
+set widget $props(ProgressiveOutputWidget)
+set widget [::InstallAPI::GetWidgetPath -widget $widget]
 
 if {!$info(GuiMode) || ![winfo exists $widget]
 || [winfo class $widget] ne "Text"} {
 set widget ""
 } else {
-$widget delete 1.0 end
+if {$props(ClearProgressiveWidget)} { $widget delete 1.0 end }
 
 $widget configure -maxundo 1
 }
@@ -25191,6 +26562,7 @@ debug "Watching progressive output for special syntax."
 }
 
 proc ::CloseProgressive { fp statusVar resultVar } {
+unset -nocomplain ::conf(update)
 fconfigure $fp -blocking 1
 if {[catch { close $fp } error]} {
 if {[lindex $::errorCode 0] eq "CHILDSTATUS"} {
@@ -25206,6 +26578,7 @@ set $statusVar 0
 }
 
 proc $proc { fp statusVar resultVar widget watch } {
+set ::conf(update) 0
 if {[llength $watch]} {
 gets $fp data
 
@@ -25232,7 +26605,7 @@ set val [lindex $matches 2]
 
 if {$len && $var ne ""} {
 set ::info($var) [::InstallJammer::SubstText $val]
-::InstallJammer::UpdateWidgets -update 1
+::InstallJammer::UpdateWidgets
 return
 }
 
@@ -25407,17 +26780,12 @@ return [string is true -strict [set $varName]]
 }
 
 proc ::InstallJammer::actions::Exit {obj} {
-global info
+$obj properties props -subst 1
 
-if {[$obj get ExitType] eq "Cancel"} {
-set info(WizardCancelled) 1
-}
+lappend opts -exittype [string tolower $props(ExitType)]
+if {$props(ExitCode) ne ""} { lappend opts -exitcode $props(ExitCode) }
 
-foreach command [list ::Exit ::InstallJammer::exit ::exit] {
-if {[::InstallJammer::CommandExists $command]} {
-$command
-}
-}
+eval ::InstallAPI::Exit $opts
 }
 
 proc ::InstallJammer::conditions::FileExistsCondition {obj} {
@@ -25446,22 +26814,23 @@ debug "Checking to see if we $props(Permission) $props(Filename)"
 debug "Checking to see if $props(Filename) $props(Permission)"
 }
 
+set res  0
 set file [::InstallJammer::SubstText $props(Filename)]
-
-switch -- $props(Permission) {
-"is readable" {
-return [file readable $file]
+switch -glob -- $props(Permission) {
+"is*readable" {
+set res [file readable $file]
 }
 
-"is writable" {
-return [::InstallJammer::DirIsWritable $file]
+"is*writable" {
+set res [::InstallJammer::DirIsWritable $file]
 }
 
-"can create" {
+"can*create" {
 set info(Dir) [file nativename $file]
 while {[llength [file split $info(Dir)]]} {
 if {[file exists $info(Dir)]} {
-return [::InstallJammer::DirIsWritable $info(Dir)]
+set res [::InstallJammer::DirIsWritable $info(Dir)]
+break
 }
 
 set dir [file dirname $info(Dir)]
@@ -25470,10 +26839,11 @@ if {$dir eq $info(Dir)} { break }
 
 set info(Dir) $dir
 }
+}
+}
 
-return 0
-}
-}
+if {[string match "*not*" $props(Permission)]} { set res [expr {!$res}] }
+return $res
 }
 
 proc ::InstallJammer::actions::InstallDesktopShortcut {obj} {
@@ -25503,13 +26873,10 @@ set allusers [::InstallJammer::SubstText [$obj get InstallForAllUsers]]
 if {$conf(windows)} {
 set folder [$obj get ProgramFolderName]
 
-$obj set ShortcutDirectory "<%ProgramFolder%>"
-
-if {$allusers ne ""} {
 $obj set ShortcutDirectory "<%PROGRAMS%>/$folder"
-if {[string is true $allusers]} {
+
+if {[string is true -strict $allusers]} {
 $obj set ShortcutDirectory "<%COMMON_PROGRAMS%>/$folder"
-}
 }
 
 ::InstallJammer::actions::InstallWindowsShortcut $obj
@@ -25617,12 +26984,14 @@ set unpackInf    [::InstallJammer::BuildUnpackInfo $groups files]
 set unpackScript [::InstallJammer::BuildUnpack]
 
 set info(Installing)     1
+set info(InstallErrors)  ""
 set info(InstallStarted) 1
 
 set conf(LastPercent)          0
 set conf(UpdateFileText)       [$obj get UpdateFileText]
 set conf(UpdateFilePercent)    [$obj get UpdateFilePercentage]
 set conf(directoryPermissions) {}
+set conf(ShowConsoleProgress)  [$obj get ShowConsoleProgress]
 
 if {$conf(UpdateFileText)} {
 set info(Status) "<%FileBeingInstalledText%>"
@@ -25630,7 +26999,7 @@ set info(Status) "<%FileBeingInstalledText%>"
 set info(Status) "<%GroupBeingInstalledText%>"
 }
 
-if {$conf(threaded)} {
+if {[threaded]} {
 set tid [installkit::newThread thread::wait]
 thread::errorproc ::InstallJammer::HandleThreadError
 
@@ -25650,6 +27019,13 @@ vwait ::info(Installing)
 
 set info(Installing)      0
 set info(InstallFinished) 1
+
+if {$info(InstallErrors) ne ""} {
+set info(InstallStopped) 1
+if {![$obj get IgnoreErrors]} {
+::InstallAPI::ErrorMessage -subst 1 -message "<%InstallErrorText%>"
+}
+}
 
 if {$info(InstallStopped)} { return }
 
@@ -25693,7 +27069,7 @@ if {![file exists $props(ShortcutDirectory)]} {
 ::InstallJammer::LogFile $file
 } else {
 if {$props(FileName) eq ""} {
-return -code error "Error in Install UNIX Shortcut: File Name property must not be empty"
+return -code error "File Name property must not be empty"
 }
 
 set file [::InstallJammer::TmpDir $props(FileName)]
@@ -25735,41 +27111,44 @@ close $fp
 
 if {$props(ShortcutLocation) eq "Desktop"} {
 catch { exec xdg-desktop-icon install --novendor $file }
-::InstallJammer::InstallLog [list :XDGRESOURCE desktop $file]
+set tail [file tail $file]
+::InstallJammer::InstallLog [list :XDGRESOURCE desktop $tail]
 } elseif {$props(ShortcutLocation) eq "Program Folder"} {
-
 set files [list]
 foreach folder [file split $props(ProgramFolderName)] {
-set uuid    $info(ApplicationID)-[join $folder ""]
+set uuid    $props(VendorID)-[join $folder ""]
 set dirfile [::InstallJammer::TmpDir $uuid.directory]
 
+if {![file exists $dirfile]} {
 set fp [open $dirfile w]
 puts $fp {[Desktop Entry]}
 puts $fp "Version=1.0"
 puts $fp "Type=Directory"
 puts $fp "Name=$folder"
 close $fp
+}
 
 lappend files $dirfile
 }
 
-if {![llength $files]} {
-return -code error "Error in Install UNIX Shortcut: No program folder found to add icon to"
+if {![llength $files]
+&& ![regexp {Categories\s*=} $props(AdditionalArguments)]} {
+return -code error "You must specify Program Folder Name or include Categories in the Additional Arguments"
 }
 
 lappend files $file
 
-catch { eval exec xdg-desktop-menu install --novendor $files }
+set mode user
+if {$info(UserIsRoot)} { set mode system }
+catch {
+eval exec xdg-desktop-menu install --mode $mode --novendor $files
+}
 
 foreach file $files {
 lappend logfiles [file tail $file]
 }
 
-::InstallJammer::InstallLog [list :XDGRESOURCE menu $logfiles]
-
-if {[::InstallJammer::GetDesktopEnvironment] eq "Gnome"} {
-set conf(RestartGnomePanel) 1
-}
+::InstallJammer::InstallLog [list :XDGRESOURCE menu $logfiles $mode]
 }
 }
 
@@ -25811,6 +27190,8 @@ set uninstall [::InstallJammer::TmpDir uninstall.tcl]
 set fp [open $uninstall w]
 puts $fp "namespace eval ::InstallAPI {}"
 puts $fp "namespace eval ::InstallJammer {}"
+
+puts $fp "set conf(version) [list $conf(version)]"
 
 puts $fp "set info(Uninstaller) [list $info(Uninstaller)]"
 
@@ -25862,7 +27243,10 @@ if {!$conf(windows)} { return }
 
 $obj properties props -subst 1
 
-set a(path) [file nativename $props(TargetFileName)]
+set a(path) $props(TargetFileName)
+if {![regexp {[a-zA-Z0-9]+://} $a(path)]} {
+set a(path) [file nativename $a(path)]
+}
 
 if {$props(WorkingDirectory) ne ""} {
 set a(work) $props(WorkingDirectory)
@@ -25972,7 +27356,18 @@ eval [list $child configure] $labelArgs
 eval [list $child configure] $allArgs
 }
 } else {
+if {$class eq "Text"} {
+eval [list $w configure] $allArgs
+if {[llength $labelArgs]} {
+set state [$w cget -state]
+$w configure -state normal
+$w delete 1.0
+$w insert end $props(Text)
+$w configure -state $state
+}
+} else {
 eval [list $w configure] $allArgs $labelArgs
+}
 }
 
 if {$props(State) eq "hidden" && ![info exists hidden($w)]} {
@@ -25986,39 +27381,40 @@ unset hidden($w)
 }
 }
 
+if {$props(Text) ne ""} {
 ::InstallJammer::UpdateWidgets -buttons 1 -updateidletasks 1
+}
 }
 
 proc ::InstallJammer::actions::MoveForward {obj} {
+global conf
 global info
 
 set next [$info(Wizard) step next]
 
-if {![string length $next]} {
+if {$next eq ""} {
 debug "No more panes left to move forward... exiting"
-::InstallJammer::actions::Exit $obj
+::InstallAPI::Exit
 } else {
 debug "Moving forward to $next"
-after 0 [list $info(Wizard) next 1]
+set conf(moveToPane) "next"
 }
 }
 
 proc ::InstallJammer::actions::MoveToPane {obj} {
+global conf
 global info
 
 $obj properties props -subst 1
 
 set id [::InstallJammer::ID $props(Pane)]
-
-after 0 [list ::InstallJammer::Wizard raise $id]
-
-$info(Wizard) order [concat [$info(Wizard) order] $id]
+set conf(moveToPane) $id
 }
 
 proc ::InstallJammer::conditions::PlatformCondition {obj} {
 global info
 
-$obj properties props
+$obj properties props -subst 1
 
 debug "Checking to see if <%Platform%> $props(Operator) $props(Platform)"
 
@@ -26029,6 +27425,14 @@ return [expr {$info(Platform) eq $props(Platform)}]
 
 "is not" {
 return [expr {$info(Platform) ne $props(Platform)}]
+}
+
+"matches" {
+return [string match $props(Platform) $info(Platform)]
+}
+
+"does not match" {
+return [expr {![string match $props(Platform) $info(Platform)]}]
 }
 }
 }
@@ -26170,6 +27574,9 @@ set data [::InstallJammer::GetText [$obj id] TextToWrite]
 
 set fp [open $file $mode]
 fconfigure $fp -translation $translation
+if {$props(Encoding) ne ""} {
+fconfigure $fp -encoding $props(Encoding)
+}
 
 if {$props(AppendNewline)} {
 puts $fp $data
@@ -26185,7 +27592,7 @@ if {$props(AddToUninstall)} { ::InstallJammer::LogFile $file }
 } unpack.tcl {
 if {[info exists ::InstallJammer]} { return }
 
-if {[info exists ::tcl_platform(threaded)]} {
+if {[threaded]} {
 proc output { line } {
 thread::send $::parentThread [list ::InstallJammer::UnpackOutput $line]
 }
@@ -26326,7 +27733,7 @@ proc ::InstallJammer::exit {} {
 global info
 global conf
 
-if {!$conf(threaded)} {
+if {![threaded]} {
 ::InstallJammer::WriteDoneFile $info(Temp)
 
 catch { close $conf(runlogFp) }
@@ -26350,7 +27757,7 @@ catch { wm withdraw . }
 
 set conf(pwd) [file dirname [info nameofexe]]
 
-if {!$conf(threaded)} {
+if {![threaded]} {
 set info(Temp) $conf(pwd)
 uplevel #0 [list source [file join $conf(pwd) unpack.ini]]
 }
@@ -26364,7 +27771,7 @@ set conf(lastPercent) 0
 ::InstallJammer::InitFiles
 ::InstallJammer::UpdateFiles
 
-if {!$conf(threaded)} {
+if {![threaded]} {
 set conf(vfs) /installkitunpackvfs
 ::installkit::Mount $info(installer) $conf(vfs)
 set conf(runlogFp) [open [TmpDir run.log] w]
@@ -26374,9 +27781,15 @@ foreach file [glob -nocomplain -dir [TmpDir] solid.*] {
 installkit::Mount $file $conf(vfs)
 }
 }
+
+::InstallJammer::MountSetupArchives
 }
 
 set conf(rollback) [string match "*Rollback*" $info(CancelledInstallAction)]
+
+if {$conf(Wow64Disabled)} {
+installkit::Windows::disableWow64FsRedirection
+}
 
 ::InstallJammer::InstallFiles
 
@@ -26459,23 +27872,20 @@ InstallComponent 55354C58-6CD5-37C4-7CFA-5D52AD5A4C3A -setup Install -type actio
 if {[info exists ::InstallJammer]} { return }
 
 proc ::InstallJammer::UpdateInstallInfo {} {
+global conf
 global info
-
-set info(SpaceRequired)      0
-set info(SelectedComponents) [list]
-set info(SelectedFileGroups) [list]
 
 set setups    [SetupTypes children]
 set setuptype [::InstallJammer::FindObjByName $info(InstallType) $setups]
 
-set total 0
+set total      0
+set filegroups ""
+set components ""
 foreach component [$setuptype get Components] {
 if {![$component active]} { continue }
 
 set name [$component name]
-if {[lsearch -exact $info(SelectedComponents) $name] < 0} {
-lappend info(SelectedComponents) $name
-}
+if {[lsearch -exact $components $name] < 0} { lappend components $name }
 
 set doSize 1
 set size [$component get Size]
@@ -26497,13 +27907,19 @@ set total [expr {wide($total) + $fsize}]
 }
 
 set name [$filegroup name]
-if {[lsearch -exact $info(SelectedFileGroups) $name] < 0} {
-lappend info(SelectedFileGroups) $name
+if {[lsearch -exact $filegroups $name] < 0} {
+lappend filegroups $name
 }
 }
 }
 
-set info(SpaceRequired) $total
+set conf(ModifySelectedComponents) 0
+
+set info(SpaceRequired)      $total
+set info(SelectedFileGroups) $filegroups
+set info(SelectedComponents) $components
+
+set conf(ModifySelectedComponents) 1
 
 ::InstallJammer::UpdateWidgets
 }
@@ -26527,6 +27943,7 @@ set desc [::InstallJammer::GetText $node Description]
 proc ::InstallJammer::ToggleComponent { tree id node } {
 global info
 
+if {![$node get Selectable]} { return }
 if {[$node get RequiredComponent]} { return }
 
 set type $info(InstallTypeID)
@@ -26535,8 +27952,9 @@ if {[$node active]} {
 $node active 0
 
 foreach component [$node children recursive] {
-if {![$component get RequiredComponent]} { $component active 0 }
+if {[$component get RequiredComponent]} { continue }
 
+$component active 0
 if {[$tree exists $component]} {
 $tree itemconfigure $component -on 0
 
@@ -26598,11 +28016,9 @@ set desc [::InstallJammer::GetText $node Description]
 }
 
 if {$change} {
-set setups [SetupTypes children]
-set obj    [::InstallJammer::FindObjByName $info(InstallType) $setups]
-
-if {$obj eq ""} { set obj [lindex $setups 0] }
-
+set name $info(InstallType)
+set obj  [::InstallAPI::FindObjects -type setuptype -name $name]
+if {$obj eq ""} { set obj [lindex [SetupTypes children] 0] }
 ::InstallAPI::SetActiveSetupType -setuptype $obj
 }
 }
@@ -26654,6 +28070,20 @@ set info(ProgramFolder) "<%PROGRAMS%>/<%ProgramFolderName%>"
 } else {
 set info(ProgramFolder) "<%COMMON_PROGRAMS%>/<%ProgramFolderName%>"
 }
+}
+
+proc ::InstallJammer::ModifySelectedComponents {} {
+global conf
+global info
+
+if {!$conf(ModifySelectedComponents)} { return }
+set conf(ModifySelectedComponents) 0
+
+set selected $info(SelectedComponents)
+::InstallAPI::ComponentAPI -components all -active 0
+::InstallAPI::ComponentAPI -components $selected -active 1
+
+set conf(ModifySelectedComponents) 1
 }
 
 proc ::InstallJammer::ScrollLicenseTextBox { force args } {
@@ -26729,6 +28159,10 @@ if {!$info(InstallRegistryInfo)} {
 ::InstallJammer::StoreLogsInUninstall
 }
 }
+
+if {$info(EnableResponseFiles) && [::InstallAPI::CommandLineAPI  -do check -option save-response-file]} {
+::InstallAPI::ResponseFileAPI -do write  -file $info(SaveResponseFile)
+}
 } else {
 ::InstallJammer::ExecuteActions "Cancel Actions"
 }
@@ -26737,7 +28171,8 @@ if {!$info(InstallRegistryInfo)} {
 
 ::InstallJammer::CommonExit
 
-::exit 0
+if {[string is integer -strict $conf(ExitCode)]} { ::exit $conf(ExitCode) }
+::exit $info(WizardCancelled)
 }
 
 proc ::InstallJammer::UnpackOutput { line } {
@@ -26748,17 +28183,18 @@ if {$::verbose >= 2} {
 debug "Unpack Output: $line"
 }
 
-switch -- [lindex $line 0] {
+if {[catch {lindex $line 0} command]} { set command :ERROR }
+
+switch -- $command {
 ":DONE" {
+::InstallJammer::UnpackOutput [list :PERCENT 100]
+
 set info(FileBeingInstalled)  ""
 set info(GroupBeingInstalled) ""
 
 set info(Status) "File installation complete..."
 
-if {[info exists ::tcl_platform(threaded)]} {
-} else {
-catch { close $conf(UnpackFp) }
-}
+if {![threaded]} { catch { close $conf(UnpackFp) } }
 set info(Installing) 0
 }
 
@@ -26771,6 +28207,7 @@ set info(GroupBeingInstalled) [lindex $line 1]
 ::InstallJammer::UpdateWidgets -buttons 0 -updateidletasks 1
 
 if {!$info(GuiMode) && !$info(SilentMode)} {
+puts ""
 echo <%Status%> 1
 }
 }
@@ -26796,10 +28233,15 @@ debug "Installing $file..."
 }
 
 ":PERCENT" {
-set info(InstallPercentComplete) [lindex $line 1]
+set percent [lindex $line 1]
+set info(InstallPercentComplete) $percent
 if {$info(InstallPercentComplete) != $conf(LastPercent)} {
+if {$info(GuiMode)} {
 ::InstallJammer::UpdateWidgets -buttons 0 -updateidletasks 1
-set conf(LastPercent) $info(InstallPercentComplete)
+} elseif {$info(ConsoleMode) && $conf(ShowConsoleProgress)} {
+::InstallJammer::ConsoleProgressBar $percent
+}
+set conf(LastPercent) $percent
 }
 }
 
@@ -26816,23 +28258,15 @@ if {$conf(UpdateFilePercent)} {
 
 default {
 debug "Unpack Error: $line"
-append conf(unpackErrors) $line\n
+append info(InstallErrors) $line\n
 }
 }
 }
 
 proc ::InstallJammer::ReadUnpack { id } {
 global conf
-global info
 
-if {[eof $conf(UnpackFp)]} {
-catch { close $conf(UnpackFp) }
-set info(Installing) 0
-return
-}
-
-gets $conf(UnpackFp) line
-
+if {[gets $conf(UnpackFp) line] < 0} { set line :DONE }
 ::InstallJammer::UnpackOutput $line
 }
 
@@ -26849,9 +28283,12 @@ set unpack [TmpDir unpack.ini]
 
 set fp [open $unpack w]
 
+set confArray [array get conf eol,*]
+eval lappend confArray [array get conf Wow64Disabled]
+
 puts $fp "namespace eval ::InstallJammer {}"
 puts $fp "set info(installer) [list [info nameofexecutable]]"
-puts $fp "array set conf [list [array get conf eol,*]]"
+puts $fp "array set conf [list $confArray]"
 puts $fp "array set info [list [array get info]]"
 puts $fp "set groups [list $groupList]"
 puts $fp "array set files [list [array get groups]]"
@@ -27125,6 +28562,7 @@ if {$conf(windows)} {
 set dir [string tolower [::InstallJammer::Normalize $dir]]
 }
 
+lappend installids  $id
 lappend installdirs $dir
 }
 
@@ -27133,6 +28571,7 @@ set name [string range $var [string length $id,] end]
 set info(PreviousInstall$name) $PreviousInstallInfo($var)
 }
 
+set info(PreviousInstallIDs)       $installids
 set info(PreviousInstallCount)     [llength [lsort -unique $installdirs]]
 set info(PreviousInstallDirExists) [file exists $info(PreviousInstallDir)]
 }
@@ -27329,7 +28768,7 @@ wm protocol  $top WM_DELETE_WINDOW {::InstallJammer::exit 1}
 
 set f [$top getframe]
 
-ttk::label $f.l -text "Please select the installation language"
+ttk::label $f.l -text [::InstallJammer::SubstText <%SelectLanguageText%>]
 pack $f.l -pady 10
 
 ttk::combobox $f.cb -state readonly  -textvariable ::conf(Language) -values $list
@@ -27388,6 +28827,8 @@ global conf
 global info
 
 catch { wm withdraw . }
+
+::InstallJammer::LoadTwapi
 
 SourceCachedFile gui.tcl
 SourceCachedFile setup.tcl
@@ -27451,11 +28892,22 @@ InitGui
 
 ::InstallJammer::CommonPostInit
 
+::InstallJammer::MountSetupArchives
+
 if {$info(ExtractSolidArchivesOnStartup)} {
 ::InstallJammer::UnpackSolidArchives 1
 }
 
-if {$::tcl_platform(platform) eq "unix"} {
+if {$conf(windows)} {
+if {$info(RequireAdministrator)} {
+set admin [::twapi::map_account_to_name S-1-5-32-544]
+set members [::twapi::get_local_group_members $admin]
+if {[lsearch -glob $members "*\\$info(Username)"] < 0} {
+::InstallJammer::Message -title "Install Error" -message  [sub "<%RequireAdministratorText%>"]
+::exit 1
+}
+}
+} elseif {$conf(unix)} {
 if {$info(RequireRoot) && !$info(UserIsRoot)} {
 if {!$info(PromptForRoot)} {
 ::InstallJammer::Message -title "Root Required" -message  [::InstallJammer::SubstText "<%RequireRootText%>"]
@@ -27488,6 +28940,11 @@ set info(UserInfoCompany) [registry get $key RegisteredOrganization]
 }
 }
 
+if {$conf(windows)} {
+set dir [::InstallJammer::WindowsDir PROGRAM_FILES]
+set info(InstallDrive) [string range $dir 0 1]
+}
+
 foreach var [list InstallDir ProgramFolderName] {
 set info($var) [::InstallJammer::SubstText <%$var%>]
 set info(Original$var) $info($var)
@@ -27495,25 +28952,16 @@ set info(Original$var) $info($var)
 
 ::InstallAPI::SetVirtualText -virtualtext ProgramFolderAllUsers  -command ::InstallJammer::ModifyProgramFolder
 
+::InstallAPI::SetVirtualText -virtualtext SelectedComponents  -command ::InstallJammer::ModifySelectedComponents
+
 if {$info(UpgradeInstall)} {
 ::InstallJammer::ReadPreviousInstall
+if {[info exists info(PreviousInstallUninstaller)]} {
+set info(Uninstaller) $info(PreviousInstallUninstaller)
+}
 }
 
 ::InstallJammer::SelectSetupType
-
-::InstallJammer::LoadTwapi
-
-if {$conf(threaded)} {
-set ::tid [installkit::newThread thread::wait]
-thread::send $::tid [list set conf(windows) $conf(windows)]
-thread::send $::tid [list set conf(threaded) $conf(threaded)]
-thread::send $::tid [list set info(Ext) $info(Ext)]
-thread::send $::tid [list set info(Temp) $info(Temp)]
-thread::send $::tid [list set info(TempRoot) $info(TempRoot)]
-thread::send $::tid [list set info(Platform) $info(Platform)]
-thread::send $::tid [list eval $::InstallJammer::files(common.tcl)]
-thread::send -async $::tid ::installkit::base
-}
 }
 
 ::InstallJammer::InitInstall

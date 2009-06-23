@@ -1,5 +1,19 @@
 CHANGELOG.txt
 
+18 jun 2009
+	0.8.9.4
+	added Dj power on treeeview jumps and export
+	updated po. Updated spanish translation
+	
+	solved problem of dialogMessage not showing contents ok on windows. solution: commented the hide of dialog. 
+	Finally done as resizable because found also a problem on Linux
+
+17 jun 2009
+	0.8.9.3 
+	commented all logs functions except Write and WriteLine
+	better message on runAnalaysis touch at end
+	logs hidden at preferences window
+
 18 may 2009
 	0.8.9.2
 	runType add distancesString now with a combo

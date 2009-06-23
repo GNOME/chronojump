@@ -41,6 +41,7 @@ public class PreferencesWindow {
 
 	[Widget] Gtk.ComboBox combo_decimals;
 	[Widget] Gtk.CheckButton checkbutton_height;
+	[Widget] Gtk.CheckButton checkbutton_power;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
 	
@@ -108,10 +109,10 @@ public class PreferencesWindow {
 		//database and log files stuff
 		label_database.Text = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		label_database_temp.Text = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
-		label_logs.Text = Log.GetDir();
+		//label_logs.Text = Log.GetDir();
 	}
 	
-	static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, 
+	static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
 			string language, bool allowFinishRjAfterTime)
@@ -145,20 +146,22 @@ public class PreferencesWindow {
 		
 		if(showHeight) 
 			PreferencesWindowBox.checkbutton_height.Active = true; 
-		
 		else 
 			PreferencesWindowBox.checkbutton_height.Active = false; 
+		
+		if(showPower) 
+			PreferencesWindowBox.checkbutton_power.Active = true; 
+		else 
+			PreferencesWindowBox.checkbutton_power.Active = false; 
 		
 
 		if(showInitialSpeed)  
 			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
-		
 		else 
 			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
 		
 		if(showAngle)  
 			PreferencesWindowBox.checkbutton_angle.Active = true; 
-		
 		else 
 			PreferencesWindowBox.checkbutton_angle.Active = false; 
 		
@@ -180,34 +183,29 @@ public class PreferencesWindow {
 
 		if(askDeletion)  
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = true; 
-		
 		else 
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = false; 
 		
 
 		if(weightStatsPercent)  
 			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = true; 
-		
 		else 
 			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = false; 
 		
 
 		if(heightPreferred)  
 			PreferencesWindowBox.checkbutton_height_preferred.Active = true; 
-		
 		else 
 			PreferencesWindowBox.checkbutton_height_preferred.Active = false; 
 		
 
 		if(metersSecondsPreferred)  
 			PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active = true; 
-		
 		else 
 			PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active = false; 
 		
 
 		PreferencesWindowBox.preferences.Show ();
-
 		return PreferencesWindowBox;
 	}
 	
@@ -354,6 +352,7 @@ public class PreferencesWindow {
 		
 		SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), false);
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
+		SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), false);
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);
 		SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);
 		SqlitePreferences.Update("allowFinishRjAfterTime", PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active.ToString(), false);

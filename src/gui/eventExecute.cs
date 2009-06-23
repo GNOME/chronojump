@@ -1738,7 +1738,7 @@ public class EventExecuteWindow
 
 	public void RunATouchPlatform() {
 		//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now. (from gui/eventExecute.cs");
-		this.label_message1.Text = "<b>" + "Please, touch platform now." + "</b>";
+		this.label_message1.Text = "<b>" + "Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.\nAt this version, this message doesn't quit." + "</b>";
 		label_message1.UseMarkup = true;
 	}
 	public void RunANoStrides() {

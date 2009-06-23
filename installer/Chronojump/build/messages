@@ -795,7 +795,7 @@ On Windows Vista it can stand for one or two minutes, please wait until ends.
 When you see "Installation process completed", close that window pressing enter, and click "Next" button.}
 
 ChronopicDriverInstallTextDone
-{Installed Chronopic driver. Please press "Next" }
+{Installed Chronopic driver. Please press "Next"}
 
 CleanupInstallText
 {Cleaning up install...}

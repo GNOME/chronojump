@@ -510,6 +510,19 @@ public class Util
 
 		return initialSpeed.ToString();
 	}
+	
+	public static double GetDjPower (double tc, double tf) 
+	{
+		//relative potency in Watts/Kg
+		//Bosco. Pendent to find if published
+
+		//P = 24.6 * (TotalTime + FlightTime) / ContactTime
+
+		double tt = tc + tf; //totalTime
+
+		return 24.06 * ( tt * tf ) / (Double)tc;
+	}
+
 
 	public static double GetQIndex (double tv, double tc) 
 	{

@@ -288,6 +288,7 @@ public class ChronoJumpWindow
 	private static string chronopicPort;
 	private static int prefsDigitsNumber;
 	private static bool showHeight;
+	private static bool showPower;
 	private static bool showInitialSpeed;
 	private static bool showAngle;
 	private static bool showQIndex;
@@ -702,6 +703,10 @@ public class ChronoJumpWindow
 		 else 
 			showHeight = false;
 		
+		if ( SqlitePreferences.Select("showPower") == "True" ) 
+			showPower = true;
+		 else 
+			showPower = false;
 			
 		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) 
 			showInitialSpeed = true;
@@ -1215,8 +1220,7 @@ public class ChronoJumpWindow
 
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
-		//myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, metersSecondsPreferred );
-		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showInitialSpeed, showAngle, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
+		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_jumps_cursor_changed; 
@@ -1242,7 +1246,7 @@ public class ChronoJumpWindow
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
 		
-		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showInitialSpeed, showAngle, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumps.ExpandState );
+		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumps.ExpandState );
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
@@ -1914,8 +1918,8 @@ public class ChronoJumpWindow
 		Log.WriteLine("Bye2!");
 
 		System.Console.Out.Close();
-		Log.End();
-		Log.Delete();
+		//Log.End();
+		//Log.Delete();
 		Log.WriteLine("Bye3!");
 		Application.Quit();
 	}
@@ -1935,8 +1939,8 @@ public class ChronoJumpWindow
 		
 		Log.WriteLine("Bye2!");
 		System.Console.Out.Close();
-		Log.End();
-		Log.Delete();
+		//Log.End();
+		//Log.Delete();
 		Log.WriteLine("Bye3!");
 		Application.Quit();
 	}
@@ -2500,7 +2504,7 @@ public class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
-				chronopicPort, prefsDigitsNumber, showHeight, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
+				chronopicPort, prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
@@ -2540,6 +2544,11 @@ public class ChronoJumpWindow
 			showHeight = true;
 		 else 
 			showHeight = false;
+		
+		if ( SqlitePreferences.Select("showPower") == "True" ) 
+			showPower = true;
+		 else 
+			showPower = false;
 		
 
 		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) 

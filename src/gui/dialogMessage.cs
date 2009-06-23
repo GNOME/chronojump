@@ -41,7 +41,11 @@ public class DialogMessage
 		UtilGtk.IconWindow(dialog_message);
 	
 		//with this, user doesn't see a moving/changing creation window
-		dialog_message.Hide();	
+		//if uncommented, then does weird bug in windows not showing dialog as its correct size until window is moves
+		//dialog_message.Hide();	
+
+		label_message.Text = message; 
+		label_message.UseMarkup = true; 
 
 		switch (type) {
 			case Constants.MessageTypes.WARNING:
@@ -61,9 +65,7 @@ public class DialogMessage
 			break;
 		}
 
-		label_message.Text = message; 
-		label_message.UseMarkup = true; 
-
+		label_message.Show();	
 		dialog_message.Show();	
 	}
 				

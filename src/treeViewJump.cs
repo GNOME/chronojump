@@ -28,6 +28,7 @@ using Mono.Unix;
 public class TreeViewJumps : TreeViewEvent
 {
 	protected bool showHeight;
+	protected bool showPower;
 	protected bool showInitialSpeed;
 	protected bool showAngle;
 	protected bool showQIndex;
@@ -37,6 +38,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected string weightName = Catalog.GetString("Weight");
 	protected string fallName = Catalog.GetString("Fall") + "\n(cm)";
 	protected string heightName = Catalog.GetString("Height") + "\n(cm)";
+	protected string powerName = Catalog.GetString("Power") + "\n(W/Kg)";
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
 	protected string angleName = Catalog.GetString("Angle");
 
@@ -51,13 +53,15 @@ public class TreeViewJumps : TreeViewEvent
 	{
 	}
 	
-	public TreeViewJumps (Gtk.TreeView treeview, bool showHeight, bool showInitialSpeed, bool showAngle, 
+	public TreeViewJumps (Gtk.TreeView treeview, 
+			bool showHeight, bool showPower, bool showInitialSpeed, bool showAngle, 
 			bool showQIndex, bool showDjIndex, int newPrefsDigitsNumber, 
 			bool weightPercentPreferred, bool metersSecondsPreferred, 
 			ExpandStates expandState)
 	{
 		this.treeview = treeview;
 		this.showHeight = showHeight;
+		this.showPower = showPower;
 		this.showInitialSpeed = showInitialSpeed;
 		this.showAngle = showAngle;
 		this.showQIndex = showQIndex;
@@ -96,6 +100,8 @@ public class TreeViewJumps : TreeViewEvent
 		int i = columnsString.Length;
 		if (showHeight)  
 			i ++;
+		if (showPower)  
+			i ++;
 		if (showInitialSpeed) 
 			i ++;
 		if (showAngle) 
@@ -108,8 +114,10 @@ public class TreeViewJumps : TreeViewEvent
 	protected string [] obtainColumnsString(string [] columnsStringPre) 
 	{
 		//check long of new array
-		int i = 6;
+		int i = 6; //columnsStringPre + uniqueID (at last)
 		if (showHeight)  
+			i ++;
+		if (showPower)  
 			i ++;
 		if (showInitialSpeed) 
 			i ++;
@@ -120,7 +128,7 @@ public class TreeViewJumps : TreeViewEvent
 
 		//create new array
 		string [] columnsString = new String[i];
-		Array.Copy(columnsStringPre, columnsString, 5);
+		Array.Copy(columnsStringPre, columnsString, 5); //copy columnsStringPre
 
 	
 		if(metersSecondsPreferred)
@@ -130,9 +138,11 @@ public class TreeViewJumps : TreeViewEvent
 
 
 		//fill names
-		i = 5;
+		i = 5; //start at pos five end of columnsStringPre
 		if (showHeight)  
 			columnsString[i++] = heightName;
+		if (showPower)  
+			columnsString[i++] = powerName;
 		if (showInitialSpeed) 
 			columnsString[i++] = initialSpeedName;
 		if (showAngle) 
@@ -190,6 +200,13 @@ public class TreeViewJumps : TreeViewEvent
 		myData[count++] = newJump.Fall.ToString();
 		if (showHeight)  
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
+		if (showPower)  {
+			//if is Dj (has tc, but is not a takeoff (only has tc))
+			if(newJump.Tc > 0 && newJump.Tv > 0)
+				myData[count++] = Util.TrimDecimals(Util.GetDjPower(newJump.Tc, newJump.Tv).ToString(), pDN);
+			else
+				myData[count++] = "-";
+		}
 		if (showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(newJump.Tv.ToString(), metersSecondsPreferred), pDN);
 		if (showAngle) 

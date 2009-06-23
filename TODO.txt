@@ -4,7 +4,6 @@ check all the radios, now should work different. change some of them to combos, 
 but person win height and weigt work
 
 mantenir running
-eliminar logs (doing)
 
 
 mirar crash a l'obrir-se eventexecute window a WINDOWS

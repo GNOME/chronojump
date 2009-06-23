@@ -46,6 +46,7 @@ class SqlitePreferences : Sqlite
 		
 		Insert ("digitsNumber", "3");
 		Insert ("showHeight", "True");
+		Insert ("showPower", "True");
 		Insert ("showInitialSpeed", "True");
 		Insert ("showAngle", "False"); //for treeviewjumps
 		Insert ("showQIndex", "False"); //for treeviewJumps

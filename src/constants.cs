@@ -83,7 +83,7 @@ public class Constants
 	public const string ServerEvaluatorTable = "SEvaluator"; 
 	public const string IPUnknown = "Unknown"; 
 	public static int ServerUndefinedID = -1;
-	public static string ServerOffline = Catalog.GetString("Sorry, server is currently offline.");
+	public static string ServerOffline = Catalog.GetString("Sorry, server is currently offline. Try later.");
 	public enum ServerSessionStates {
 		NOTHING, UPLOADINGSESSION, UPLOADINGDATA, DONE
 	}

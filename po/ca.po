@@ -3009,7 +3009,7 @@ msgstr "Auto-detecció actualment desactivada"
 
 #: ../src/gui/helpPorts.cs:79
 msgid "More information on <b>Chronojump Manual</b> at section:"
-msgstr "Més informació al <B>Manual de Chronojump</b>"
+msgstr "Més informació al <b>Manual de Chronojump</b>"
 
 #: ../src/gui/helpPorts.cs:91
 msgid "Click with the right button on <i>MyPC</i> icon at desktop or Start Menu."

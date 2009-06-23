@@ -33,6 +33,7 @@ public class Log
 	private static string timeLog = "";
 	private static bool useConsole = true; //for the new method on chronojump.cs for redirecting output and error to same file also on windows (0.7.5)
 				
+	/*
 	private static bool initializeTime(string [] args) {
 		if(! Directory.Exists(GetDir())) {
 			try { 
@@ -50,7 +51,9 @@ public class Log
 
 		return timeLogPassedOk;
 	}
+	*/
 
+	/*
 	public static string GetDir() {
 		//we are on:
 		//Chronojump/chronojump-x.y/data/
@@ -68,8 +71,9 @@ public class Log
 	public static string GetFile() {
 		return Path.GetFullPath(GetDir() + Path.DirectorySeparatorChar + "" + timeLog + ".txt");
 	}
+	*/
 	
-	public static bool Start(string [] args) {
+//	public static bool Start(string [] args) {
 		/* this is ok for define a time that will be the name of the log file
 		 * if program ends ok, it will delete that file. 
 		 * The problem is that i don't know how to redirect a crash there.
@@ -89,7 +93,8 @@ public class Log
 		*
 		* study how to do it in the bat file for windows
 		*/
-		
+
+	/*	
 		bool timeLogPassedOk = initializeTime(args);
 		
 		if(useConsole)
@@ -100,6 +105,7 @@ public class Log
 		
 		return timeLogPassedOk;
 	}
+	*/
 
 	public static void Write(string text) {
 		if(useConsole)
@@ -123,21 +129,24 @@ public class Log
 		*/
 	}
 	
+	/*
 	public static void End() {
-		/*
 		try {
 			((IDisposable)writer).Dispose();
 		} catch {}
-		*/
 	}
+	 */
 	
 	//if exit normally, then delete file
+	/*
 	public static void Delete() {
 		try {
 			File.Delete(GetFile());
 		} catch {}
 	}
+	*/
 
+	/*
 	//GetLast should NOT return the newer log: the just created and empty file, 
 	//it should return the just before the last, that's the log of when chronojump crashed last time
 	public static string GetLast() {
@@ -184,4 +193,5 @@ public class Log
 		else
 			return Path.GetFullPath(lastLogFile);
 	}
+	*/
 }

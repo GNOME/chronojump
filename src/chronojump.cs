@@ -374,8 +374,8 @@ Console.WriteLine("--6--");
 			//done because if database dir is moved in a chronojump conversion (eg from before installer to installjammer) maybe it will not find this runningFileName
 		}
 		System.Console.Out.Close();
-		Log.End();
-		Log.Delete();
+		//Log.End();
+		//Log.Delete();
 		Application.Quit();
 	}
 

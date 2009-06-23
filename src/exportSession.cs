@@ -276,6 +276,7 @@ public class ExportSession
 					Catalog.GetString("Fall") + ":" + 
 					weightName + ":" + 
 					Catalog.GetString("Height") + ":" +
+					Catalog.GetString("Power") + ":" +
 					Catalog.GetString("Initial Speed") + ":" +
 					Catalog.GetString("Description") + ":" +
 					Catalog.GetString("Angle") + ":" +
@@ -295,6 +296,12 @@ public class ExportSession
 								Convert.ToInt32(myStr[2]),
 								Convert.ToInt32(myStr[3])
 							)).ToString();
+		
+				double tc = Convert.ToDouble(myStr[6]);
+				double tf = Convert.ToDouble(myStr[5]);
+				string djPower = "-";
+				if(tc > 0 && tf > 0)
+					djPower = Util.TrimDecimals(Util.GetDjPower(tc, tf).ToString(), dec);
 
 				myData.Add (	
 						myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
@@ -303,6 +310,7 @@ public class ExportSession
 						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
 						Util.TrimDecimals(myWeight, dec) + ":" +
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
+						djPower + ":" +  
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
 						Util.RemoveNewLine(myStr[9]) + ":" +	//jump.description
 						Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle

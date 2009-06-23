@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.69";
+	static string lastChronojumpDatabaseVersion = "0.70";
 
 	public Sqlite() {
 	}
@@ -428,7 +428,7 @@ class Sqlite
 		//Log.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
 		//Log.WriteLine("currentVersion: {0}", Convert.ToDouble(currentVersion));
 
-		bool returnSoftwareIsNew = true; //-1 if there's software is too old for database (moved db to other computer)
+		bool returnSoftwareIsNew = true; //-1 if software is too old for database (moved db to other computer)
 		if(Convert.ToDouble(lastChronojumpDatabaseVersion) == Convert.ToDouble(currentVersion))
 			Log.WriteLine("Database is already latest version");
 		else if(Convert.ToDouble(lastChronojumpDatabaseVersion) < Convert.ToDouble(currentVersion)) {
@@ -891,6 +891,15 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.69";
 			}
+			if(currentVersion == "0.69") {
+				dbcon.Open();
+				SqlitePreferences.Insert ("showPower", "True"); 
+				SqlitePreferences.Update ("databaseVersion", "0.70", true); 
+				Log.WriteLine("Converted DB to 0.70 (added showPower)");
+				dbcon.Close();
+				currentVersion = "0.70";
+			}
+
 
 		}
 
@@ -1014,6 +1023,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.68 - 0.69 added showPower to preferences
 		//0.68 - 0.69 added Gesell-DBT test
 		//0.67 - 0.68 added multiChronopic tests table
 		//0.66 - 0.67 added TakeOff jumps 

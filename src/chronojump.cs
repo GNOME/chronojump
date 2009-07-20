@@ -140,6 +140,8 @@ public class ChronoJump
 		//move database to new location if chronojump version is before 0.7
 		moveDatabaseToNewLocationIfNeeded();
 
+		Log.WriteLine("move? ended");
+
 		splashMessageChange(1);  //checking database
 
 		/*
@@ -148,7 +150,10 @@ public class ChronoJump
 		Console.ReadLine();		
 		*/
 		
+		Sqlite.CreateDir();
 		bool defaultDBLocation = Sqlite.Connect();
+
+		Log.WriteLine("sqlite connected");
 
 		/*	
 		splashMessage = "post-connect" + defaultDBLocation.ToString();
@@ -173,6 +178,7 @@ public class ChronoJump
 
 
 
+			Sqlite.CreateDir();
 			Sqlite.CreateFile();
 			//Sqlite.CreateFile(defaultDBLocation);
 
@@ -190,6 +196,7 @@ public class ChronoJump
 			Sqlite.CreateTables(false); //not server
 			creatingDB = false;
 		} else {
+Log.WriteLine("doing backup");
 			//backup the database
 			Util.BackupDirCreateIfNeeded();
 
@@ -454,7 +461,7 @@ Console.WriteLine("--6--");
 			
 
 		Thread.Sleep (50);
-		Log.Write(thread.ThreadState.ToString());
+		Log.Write(" PulseGTK:" + thread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -470,6 +477,7 @@ Console.WriteLine("--6--");
 	{
 		if(pulseGTKPingShouldEnd) {
 			splashWin.CancelButtonShow(false);
+			Log.WriteLine("ping going to END");
 			return false;
 		}
 
@@ -479,6 +487,7 @@ Console.WriteLine("--6--");
 			splashWin.CancelButtonShow(false);
 
 		Thread.Sleep (50);
+		Log.Write(" PulseGTKPing:" + thread.ThreadState.ToString());
 		return true;
 	}
 	

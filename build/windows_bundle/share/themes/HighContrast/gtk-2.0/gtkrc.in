@@ -1,0 +1,67 @@
+# High-Contrast, "Normal Size" Theme v0.1
+#
+# Written by Bill Haneman, based on Standard theme by T. Liebeck, 
+# which was in turn based on lots of different gtkrc files but
+# primarily the one for the metal theme.
+#
+# High-contrast pixmap icons by jimmac with input from tigert.
+#
+# email: bill.haneman@sun.com
+
+pixmap_path "@prefix@/share/themes/HighContrastLargePrint/pixmaps"
+
+style "default"
+{
+  engine "hcengine" {
+  # edge_thickness = 2
+  }
+
+# For Java Desktop System
+  PanelMenu::stripe-gradient-top = "#000000"
+  PanelMenu::stripe-gradient-bottom = "#000000"
+
+  GtkWidget::focus-line-pattern = "\2\1"
+  GtkWidget::focus-line-width = 1
+  GtkHSV::focus-line-pattern = "\0"
+  GtkWidget::interior_focus = 1
+  GtkWidget::focus-padding = 0
+  GtkEntry::cursor_color    = "#cc0000"
+  GtkTextView::cursor_color    = "#cc0000"
+  EelEditableLabel::cursor_color    = "#cc0000"
+  GtkTextView::cursor_aspect_ratio = 0.1
+  GtkEntry::cursor_aspect_ratio = 0.1
+  EelEditableLabel::cursor_aspect_ratio = 0.1
+  NautilusIconContainer::frame_text = 1
+  GtkTreeView::expander-size = 16
+  GtkRange::stepper-size = 20
+
+  fg[NORMAL]      = "#000000"
+  text[NORMAL]      = "#000000"
+  bg[NORMAL]      = "#ffffff"
+  base[NORMAL]    = "#ffffff"
+
+  fg[INSENSITIVE]      = "#999999"
+  text[INSENSITIVE]    = "#999999"
+  bg[INSENSITIVE]      = "#ccccff"
+  base[INSENSITIVE]      = "#ccccff"
+
+  fg[PRELIGHT]    = "#ccccff"
+  text[PRELIGHT]    = "#ccccff"
+  bg[PRELIGHT]    = "#000000"
+  base[PRELIGHT]    = "#000000"
+
+  fg[ACTIVE]      = "#000000"
+  text[ACTIVE]      = "#000000"
+  bg[ACTIVE]      =  "#b8b891"
+  base[ACTIVE]      =  "#b8b891"
+
+  fg[SELECTED]    = "#ffffff"
+  text[SELECTED]    = "#ffffff"
+  bg[SELECTED]    = "#000000"
+  base[SELECTED]    = "#333300"
+
+@gtk_stock_icons_rc@
+@panel_stock_icons_rc@
+@media_stock_icons_rc@
+@capplet_stock_icons_rc@
+@metacity_stock_icons_rc@

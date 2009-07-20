@@ -1,0 +1,1 @@
+/home/xavier/informatica/progs_meus/chronojump/chronojump/build/data/chronojump.prg

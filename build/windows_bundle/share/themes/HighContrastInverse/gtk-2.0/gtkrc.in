@@ -1,0 +1,71 @@
+# High-Contrast, Inverse Video Theme v0.1
+# This is the whole basic theme, just this one gtkrc file.
+# It uses components of the standard theme engine
+# Written by Bill Haneman, based on Standard theme by T. Liebeck, 
+# which was in turn based on lots of different gtkrc files but
+# primarily the one for the metal theme.
+# email: bill.haneman@sun.com
+
+#Note: we just use the LargePrint icons for now, they will be scaled
+#to the correct size
+
+pixmap_path "@prefix@/share/themes/HighContrastLargePrintInverse/pixmaps"
+
+style "default"   
+{ 
+  engine "hcengine" {
+  # edge_thickness = 2
+  }
+
+# For Java Desktop System
+  PanelMenu::stripe-gradient-top = "#000033"
+  PanelMenu::stripe-gradient-bottom = "#000033"
+  
+  GtkWidget::link-color = "#FFFFFF"
+  GtkWidget::visited-link-color = "#FFCCFF"
+  GtkWidget::focus-line-pattern = "\2\1"
+  GtkWidget::focus-line-width = 1
+  GtkHSV::focus-line-pattern = "\0"
+  GtkWidget::interior_focus = 1
+  GtkWidget::focus-padding = 0
+  GtkEntry::cursor_color    = "#00cccc"
+#  GtkWidget::cursor_aspect_ratio = 0.1
+  GtkTextView::cursor_color    = "#00cccc"
+  EelEditableLabel::cursor_color    = "#00cccc"
+  GtkTextView::cursor_aspect_ratio = 0.1 
+  GtkEntry::cursor_aspect_ratio = 0.1
+  EelEditableLabel::cursor_aspect_ratio = 0.1
+  NautilusIconContainer::frame_text = 1
+  GtkTreeView::expander-size = 16
+  GtkRange::stepper-size = 20
+  
+  fg[NORMAL]      = "#ffffff"
+  text[NORMAL]      = "#ffffff"
+  bg[NORMAL]      = "#000033" 
+  base[NORMAL]    = "#000033"
+
+  fg[INSENSITIVE]      = "#999999"
+  bg[INSENSITIVE]      = "#333333"
+  text[INSENSITIVE]      = "#999999"
+  base[INSENSITIVE]      = "#333333"
+
+  fg[PRELIGHT]    = "#003333"
+  text[PRELIGHT]    = "#003333"
+  bg[PRELIGHT]    = "#ffffff"
+  base[PRELIGHT]    = "#ffffff"
+
+  fg[ACTIVE]      = "#ffffff"
+  text[ACTIVE]      = "#ffffff"
+  bg[ACTIVE]      = "#666699"
+  base[ACTIVE]      = "#666699"
+
+  fg[SELECTED]    = "#000033"
+  text[SELECTED]    = "#000033"
+  bg[SELECTED]    = "#ffffff"
+  base[SELECTED]    = "#ffcccc"
+
+@gtk_stock_icons_rc@
+@panel_stock_icons_rc@
+@media_stock_icons_rc@
+@capplet_stock_icons_rc@
+@metacity_stock_icons_rc@

@@ -659,6 +659,12 @@ public class Util
 		return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
 	}
 	
+	public static string GetApplicationDataDir() {
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump");
+	}
+	
 	public static string GetDatabaseDir() {
 		//fixing:
 		//http://lists.ximian.com/pipermail/mono-list/2008-November/040480.html

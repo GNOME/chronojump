@@ -96,6 +96,8 @@ class Sqlite
 		Console.ReadLine();		
 		*/
 
+Log.WriteLine("home is: " + home);
+
 		bool defaultDBLocation = true;
 
 		dbcon = new SqliteConnection();
@@ -205,14 +207,32 @@ class Sqlite
 		creatingBlankDatabase = true; 
 	}
 	
+	public static void CreateDir()
+	{
+		Log.WriteLine(connectionString);
+
+		string applicationDataDir = Util.GetApplicationDataDir();
+
+		if(!Directory.Exists(applicationDataDir)) {
+			Log.WriteLine("creating dir 1...");
+			Directory.CreateDirectory (applicationDataDir);
+		}
+		
+		if(!Directory.Exists(home)) {
+			Log.WriteLine("creating dir 2...");
+			Directory.CreateDirectory (home);
+		}
+		Log.WriteLine("Dirs created.");
+	}
+
 	public static void CreateFile()
 	{
 		Log.WriteLine("creating file...");
 		Log.WriteLine(connectionString);
 		
-		if(!Directory.Exists(home)) {
-			Directory.CreateDirectory (home);
-		}
+	//	if(!Directory.Exists(home)) {
+	//		Directory.CreateDirectory (home);
+	//	}
 
 //		try {	
 			dbcon.Open();

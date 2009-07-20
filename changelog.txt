@@ -1,5 +1,14 @@
 CHANGELOG.txt
 
+	windows driver changed to CDM 2.04.16.exe (numerous bug fixes, and runs on tested systems that previous driver didn't)
+
+13 jul 2009
+	0.8.9.5
+	using mkbundle on windows
+
+25 jun 2009
+	fixed create appData dir
+
 18 jun 2009
 	0.8.9.4
 	added Dj power on treeeview jumps and export

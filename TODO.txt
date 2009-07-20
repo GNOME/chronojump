@@ -1,9 +1,6 @@
 TODO: 
 
-check all the radios, now should work different. change some of them to combos, like th distancesString
-but person win height and weigt work
-
-mantenir running
+if problems connecting, ping continues and if program is closed soon, have to wait a minute to ping ends. try to kill that ping if there are problems
 
 
 mirar crash a l'obrir-se eventexecute window a WINDOWS

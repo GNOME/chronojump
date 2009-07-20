@@ -1,0 +1,18 @@
+PRE
+1: install mingw (automated mingw installer, do minimal install)
+http://sourceforge.net/projects/mingw/files/
+2: install msys
+http://sourceforge.net/projects/mingw/files/
+3: install mono in a dir without spaces
+
+go to build 
+edit mkbundle.sh change MONO_INSTALL_PATHY to where it's installed mono 
+(HAS TO BE A PATH WITHOUT SPACES, like c:\mono)
+
+(there were problems with dos2unix: broken pipe. But now we don't use and there aren't problems
+
+on mingw/msys, go to build, execute:
+$sh makeBundle.sh
+this takes the last compiled prg and generates exe on bin directory
+
+then with innosetup we can create the installer that is ok because installs the driver and puts the gtk_prefs on the "start" folder

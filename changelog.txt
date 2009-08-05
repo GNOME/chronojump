@@ -1,6 +1,9 @@
 CHANGELOG.txt
 
+5 ago 2009
 	windows driver changed to CDM 2.04.16.exe (numerous bug fixes, and runs on tested systems that previous driver didn't)
+	crash fixed: when personAddMultiple in a session with speciallities defined, it crashed before.
+	Added Andoni Morales in authors.
 
 13 jul 2009
 	0.8.9.5

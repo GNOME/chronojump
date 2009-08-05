@@ -1426,7 +1426,7 @@ public class PersonAddMultipleWindow {
 		if(currentSession.PersonsSportID != Constants.SportUndefinedID)
 			sportStuffString += Catalog.GetString("Sport") + ":<i>" + Catalog.GetString(SqliteSport.Select(currentSession.PersonsSportID).Name) + "</i>.";
 		if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID)
-			sportStuffString += " " + Catalog.GetString("Speciallity") + ":<i>" + Util.FetchName(SqliteSpeciallity.Select(currentSession.PersonsSpeciallityID)) + "</i>.";
+			sportStuffString += " " + Catalog.GetString("Speciallity") + ":<i>" + SqliteSpeciallity.Select(currentSession.PersonsSpeciallityID) + "</i>.";
 		if(currentSession.PersonsPractice != Constants.LevelUndefinedID)
 			sportStuffString += " " + Catalog.GetString("Level") + ":<i>" + Util.FindLevelName(currentSession.PersonsPractice) + "</i>.";
 

@@ -342,7 +342,7 @@ Console.WriteLine("--2.1--");
 Console.WriteLine("--4--");
 		splashShowButton = false;
 		Console.Write(" version:  " + versionAvailable);
-Console.WriteLine("--5--");
+Console.WriteLine("\n--5--");
 		pingEnd = true;
 Console.WriteLine("--6--");
 	}
@@ -466,7 +466,7 @@ Console.WriteLine("--6--");
 	}
 	
 	private void on_splash_ended(object o, EventArgs args) {
-		Log.WriteLine("splash screen going to END");
+		Log.WriteLine("\nsplash screen going to END");
 		fakeSplashButton.Clicked -= new EventHandler(on_splash_ended);
 		splashWin.Destroy();
 		Log.WriteLine("splash screen ENDED!");
@@ -477,7 +477,7 @@ Console.WriteLine("--6--");
 	{
 		if(pulseGTKPingShouldEnd) {
 			splashWin.CancelButtonShow(false);
-			Log.WriteLine("ping going to END");
+			Log.WriteLine("\nping going to END");
 			return false;
 		}
 
@@ -488,6 +488,8 @@ Console.WriteLine("--6--");
 
 		Thread.Sleep (50);
 		Log.Write(" PulseGTKPing:" + thread.ThreadState.ToString());
+		if(thread.ThreadState == System.Threading.ThreadState.Stopped)
+			pulseGTKPingShouldEnd = true;
 		return true;
 	}
 	

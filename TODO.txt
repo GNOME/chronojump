@@ -1,10 +1,6 @@
 TODO: 
 
-if problems connecting, ping continues and if program is closed soon, have to wait a minute to ping ends. try to kill that ping if there are problems
-
-
-mirar crash a l'obrir-se eventexecute window a WINDOWS
-	mirar que no es quedi mort si no es fa clic a la plataforma després del runAnalysis, si es queda mort llavors que no es pugui executar cap test, que es quedi tot insensitive fins que s'apreti la platforma
+on server upload, allow to not upload a selected person if desired
 
 website velleman put retardo de desactivacion instead of tiempo de respuesta ajustable
 

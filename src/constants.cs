@@ -30,8 +30,9 @@ public class Constants
 		"Juan Gonzalez (http://www.iearobotics.com)\n" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software."), 
 		"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n" + Catalog.GetString("Chronopic2 creation, Chronojump tester."), 
 		"Ricardo Gómez (http://www.iearobotics.com)\n" + Catalog.GetString("Chronopic3 industrial prototype."),
-		"Sharad Shankar (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle"), 
-		"Onkar Nath Mishra (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle") 
+		"Sharad Shankar (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."), 
+		"Onkar Nath Mishra (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."),
+		"Andoni Morales (http://ylatuya.es)\n" + Catalog.GetString("Installation support: Autotools, packaging, bundle.") 
 	};
 	
 	//formulas

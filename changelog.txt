@@ -1,9 +1,12 @@
 CHANGELOG.txt
 
+11 ago 2009
+	change UI add/edit person: calendar bttn close to dateborn
+
 5 ago 2009 (2)
 	ServerPing thread on start ends correctly now (if server is unavailable)
-	unable now to search on persons at main treeview
 	Accelerator to edit person: 'E'
+	unable now to search on persons at main treeview
 
 5 ago 2009
 	windows driver changed to CDM 2.04.16.exe (numerous bug fixes, and runs on tested systems that previous driver didn't)

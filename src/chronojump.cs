@@ -25,6 +25,7 @@ using Glade;
 using Mono.Unix;
 using System.IO; //"File" things
 using System.Threading;
+using System.Reflection; // Read Version
 using System.Diagnostics; //Process
 
 using System.Collections; //ArrayList
@@ -585,18 +586,8 @@ Console.WriteLine("--6--");
 	}
 
 	private static string readVersion() {
-		string version = "";
-		try  {
-			StreamReader reader = File.OpenText(Constants.FileNameVersion);
-			version = reader.ReadToEnd();
-			reader.Close();
-
-			//delete the '\n' that ReaderToEnd() has put
-			version = version.TrimEnd(new char[1] {'\n'});
-		} catch {
-			version = "not available";
-		}
-		return version;
+		Version version = Assembly.GetExecutingAssembly().GetName().Version;
+		return String.Format("{0}.{1}.{2}.{3}",version.Major,version.Minor,version.Build,version.Revision);
 	}	
 		
 	private bool checkIfChronojumpExitAbnormally() {

@@ -1,6 +1,7 @@
 TODO: 
 
 on server upload, allow to not upload a selected person if desired
+check if on fr_FR and others there are more problems with . and ,
 
 website velleman put retardo de desactivacion instead of tiempo de respuesta ajustable
 

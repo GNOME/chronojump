@@ -1,0 +1,11 @@
+
+[Desktop Entry]
+Version=@VERSION@
+Encoding=UTF-8
+Name=ChronoJump
+Type=Application
+Exec=chronojump
+Terminal=false
+GenericName[es_ES]=
+Categories=Education;Sports;
+Icon=@prefix@/share/icons/hicolor/48x48/apps/chronojump.png

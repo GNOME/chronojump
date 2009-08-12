@@ -7,13 +7,19 @@
   <name xml:lang="en">Chronojump</name>
   <shortdesc xml:lang="en">Measurement, management and statistics of sport short-time tests</shortdesc>
   <homepage rdf:resource="http://chronojump.org" />
-  <mailing-list rdf:resource="xaviblas@gmail.com" />
-  <category rdf:resource="http://api.gnome.org/doap-extensions#other" />
 
   <maintainer>
     <foaf:Person>
       <foaf:name>Xavier de Blas</foaf:name>
-      <gnome:userid>xaviblas@gmail.com</gnome:userid>
+      <foaf:mbox rdf:resource="mailto:xaviblas@gmail.com" />
+      <gnome:userid>xaviblas</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Andoni Morales</foaf:name>
+      <foaf:mbox rdf:resource="mailto:ylatuya@gmail.com" />
+      <gnome:userid>amorales</gnome:userid>
     </foaf:Person>
   </maintainer>
 </Project>

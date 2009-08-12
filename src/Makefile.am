@@ -145,6 +145,7 @@ FILES = \
 	execute/reactionTime.cs\
 	execute/multiChronopic.cs\
 	../chronojump_server/ChronojumpServer.cs\
+	AssemblyInfo.cs\
 	chronojump.cs\
  	person.cs\
  	event.cs\

@@ -1,0 +1,20 @@
+<Project xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:gnome="http://api.gnome.org/doap-extensions#"
+         xmlns="http://usefulinc.com/ns/doap#">
+
+  <name xml:lang="en">Chronojump</name>
+  <shortdesc xml:lang="en">Measurement, management and statistics of sport short-time tests</shortdesc>
+  <homepage rdf:resource="http://chronojump.org" />
+  <mailing-list rdf:resource="xaviblas@gmail.com" />
+  <category rdf:resource="http://api.gnome.org/doap-extensions#other" />
+
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Xavier de Blas</foaf:name>
+      <gnome:userid>xaviblas@gmail.com</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+</Project>
+

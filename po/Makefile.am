@@ -1,45 +1,48 @@
-EXTRA_DIST =
 
-##########libchronopic.so##########
-
-AM_CPPFLAGS = \
-	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 
-
-AM_CFLAGS =\
-	 -Wall\
-	 -g
-
-lib_LTLIBRARIES = \
-	libchronopic.la
-
-libchronopic_la_SOURCES = \
-	chronopic.h\
-	chronopic.c
+EXTRA_DIST =  
 
 
-##########Test Accuracy##########
+CLEANFILES = $(GMO_FILES)
 
-bin_PROGRAMS=test-accuracy
-test_accuracy_SOURCES=test-precision.c
-test_accuracy_LDADD=libchronopic.la
+include $(top_srcdir)/Makefile.include
 
-##########Test Jumps##########
+PACKAGE = @PACKAGE@
+BUILD_DIR = GMO
+INSTALL_DIR = $(prefix)/share/locale
 
-bin_PROGRAMS+=test-jumps
-test_jumps_SOURCES=test-saltos.c
-test_jumps_LDADD=libchronopic.la
+FILES = \
+	ar.po\
+	ca.po\
+	dz.po\
+	en_GB.po\
+	es.po\
+	fi.po\
+	fr.po\
+	nb.po\
+	oc.po\
+	pt.po\
+	pt_BR.po\
+	sv.po\
+	vi.po\
+	zh_CN.po
 
-##########Test Stream##########
 
-bin_PROGRAMS+=test-stream
-test_stream_SOURCES=test-tramas.c termansi.h termansi.c
-test_stream_LDADD=libchronopic.la
+GMO_FILES = $(patsubst %.po,$(BUILD_DIR)/%.gmo,$(FILES))
+MO_FILES = $(foreach po,$(FILES), $(INSTALL_DIR)/$(basename $(po))/LC_MESSAGES/$(PACKAGE).mo)
 
+all: $(GMO_FILES)
 
+install: $(MO_FILES)
 
+uninstall:
+	for lang in $(basename $(FILES)); do \
+		rm -f $(INSTALL_DIR)/$$lang/LC_MESSAGES/$(PACKAGE).mo; \
+	done
 
-
-
-
-
+$(GMO_FILES): $(BUILD_DIR)/%.gmo: %.po
+	mkdir -p $(BUILD_DIR)
+	msgfmt '$<' -o '$@'
+	
+$(MO_FILES): $(INSTALL_DIR)/%/LC_MESSAGES/$(PACKAGE).mo : $(BUILD_DIR)/%.gmo
+	mkdir -p $(dir $@)
+	@INSTALL_DATA@ '$<' '$@'

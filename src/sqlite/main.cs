@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.70";
+	static string lastChronojumpDatabaseVersion = Util.ChangeDecimalSeparator("0.70");
 
 	public Sqlite() {
 	}
@@ -442,8 +442,8 @@ Log.WriteLine("home is: " + home);
 
 		addChronopicPortNameIfNotExists();
 
-		//string currentVersion = SqlitePreferences.Select("databaseVersion");
-		currentVersion = SqlitePreferences.Select("databaseVersion");
+		//currentVersion = SqlitePreferences.Select("databaseVersion");
+		currentVersion = Util.ChangeDecimalSeparator(Util.ConvertToPoint(SqlitePreferences.Select("databaseVersion")));
 
 		//Log.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
 		//Log.WriteLine("currentVersion: {0}", Convert.ToDouble(currentVersion));

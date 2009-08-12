@@ -115,7 +115,7 @@ int chronopic_get_trama_cambio(int fd, double *t, int *estado)
   //printf("%c-%c-%c-%c-%c",trama[0], trama[1], trama[2], trama[3], trama[4]);
   //printf("%d-%d-%d-%d-%d",trama[0], trama[1], trama[2], trama[3], trama[4]);
   printf("%c-%d-%d-%d-%d",trama[0], trama[1], trama[2], trama[3], trama[4]);
-  printf("%f", (trama[2]*65536 + trama[3]*256 + trama[4])*8)/1000);
+  printf("%d", ((trama[2]*65536 + trama[3]*256 + trama[4])*8)/1000);
   
   //-- Analizar si es una trama de cambio
   if (trama[0]!='X') {
@@ -138,7 +138,7 @@ int chronopic_get_trama_cambio(int fd, double *t, int *estado)
   //-- entre 1000 para obtenerlo en milisegundos.
   *t = (double)((trama[2]*65536 + trama[3]*256 + trama[4])*8)/1000;
 
-  printf ("%f", t);
+  printf ("%f", *t);
  
   return 1;
 }

@@ -1,6 +1,9 @@
 CHANGELOG.txt
 
 12 ago 2009
+	windows bundle chronojump.mo moved to share/locale
+
+12 ago 2009
 	Added autotools support (Andoni Morales)
 	Support to generate cross-platform Makefiles using autotools The first time you checkout the repository you need to generate the 'configure' script and the 'Makefile.in' templates by running: 
 	$ sh autogen.sh

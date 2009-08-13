@@ -582,7 +582,7 @@ Console.WriteLine("--6--");
 
 	private static string readVersion() {
 		Version version = Assembly.GetExecutingAssembly().GetName().Version;
-		return String.Format("{0}.{1}.{2}.{3}",version.Major,version.Minor,version.Build,version.Revision);
+		return version.ToString();
 	}	
 		
 	private bool checkIfChronojumpExitAbnormally() {

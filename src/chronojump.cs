@@ -84,13 +84,8 @@ public class ChronoJump
 			Environment.Exit(1);
 		}
 		
-		runningFolder = System.AppDomain.CurrentDomain.BaseDirectory;
-
-		if (Environment.OSVersion.Platform == PlatformID.Win32NT)		
-			Catalog.Init("chronojump",System.IO.Path.Combine(runningFolder,"../share/locale"));
-		else
-			Catalog.Init("chronojump",System.IO.Path.Combine(runningFolder,"../../share/locale"));
-			
+		Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
+					
 			
 		new ChronoJump(args);
 	}

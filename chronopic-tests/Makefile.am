@@ -10,7 +10,7 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = \
+pkglib_LTLIBRARIES = \
 	libchronopic.la
 
 libchronopic_la_SOURCES = \

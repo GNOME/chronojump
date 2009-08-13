@@ -64,6 +64,7 @@ chronopic-tests/Makefile
 src/Makefile
 po/Makefile
 chronojump_server/Makefile
+manual/Makefile
 src/chronojump
 src/chronojump_mini
 src/chronojump.desktop

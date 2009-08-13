@@ -680,10 +680,18 @@ public class Util
 
 	public static string GetManualDir() {
 		//we are on:
-		//Chronojump/chronojump-x.y/data/
+		//lib/chronojump/ (Unix) or bin/ (win32)
 		//we have to go to
-		//Chronojump/chronojump-x.y/docs/
-		return ".." + Path.DirectorySeparatorChar + "docs";
+		//share/doc/chronojump
+		return System.IO.Path.Combine(Util.GetPrefixDir(),"share/doc/chronojump");
+	}
+
+	public static string GetPrefixDir(){
+		string runningFolder = System.AppDomain.CurrentDomain.BaseDirectory;
+		if (Environment.OSVersion.Platform == PlatformID.Win32NT)	
+			return System.IO.Path.Combine(runningFolder,"../");
+		else 
+			return System.IO.Path.Combine(runningFolder,"../../");
 	}
 
 

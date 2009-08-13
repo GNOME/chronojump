@@ -6,8 +6,8 @@ EXTRA_DIST = 	build/data/linux_dlls/NPlot.dll\
 ACLOCAL_AMFLAGS = -I m4
 
 if ENABLE_DEBUG
- SUBDIRS =  chronojump_server chronopic-tests po  src
+ SUBDIRS =  chronojump_server chronopic-tests  src po manual
 endif
 if ENABLE_RELEASE
- SUBDIRS = chronojump_server chronopic-tests  po src
+ SUBDIRS = chronojump_server chronopic-tests  src po manual
 endif

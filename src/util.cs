@@ -883,16 +883,23 @@ public class Util
 	}
 			
 	public static ArrayList AddToArrayListIfNotExist(ArrayList myArrayList, string str) {
-	 	bool found = false;
-		foreach (string str2 in myArrayList)
-			if(str2 == str)
-				found = true;
-
+	 	bool found = FoundInArrayList(myArrayList, str);
 		if(!found)
 			myArrayList.Add(str);
 
 		return myArrayList;
 	}
+
+	public static bool FoundInArrayList(ArrayList myArrayList, string str) {
+	 	bool found = false;
+		foreach (string str2 in myArrayList)
+			if(str2 == str)
+				found = true;
+
+		return found;
+	}
+
+
 
 	/*
 	//delete a row of and arraylist of string[] if the string[0] is the value coming from startsWith

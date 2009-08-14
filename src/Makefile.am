@@ -128,6 +128,7 @@ FILES = \
  	sqlite/runInterval.cs\
  	sqlite/runType.cs\
  	sqlite/personSession.cs\
+ 	sqlite/personSessionNotUpload.cs\
  	sqlite/stat.cs\
  	sqlite/pulse.cs\
  	sqlite/pulseType.cs\

@@ -1874,7 +1874,7 @@ comments</property>
       <property name="spacing">6</property>
 
       <child>
-	<widget class="GtkLabel" id="label33">
+	<widget class="GtkLabel" id="label_top">
 	  <property name="visible">True</property>
 	  <property name="label" translatable="yes">Select persons you want to load.
 (Persons in current session are not listed)</property>
@@ -1963,7 +1963,7 @@ comments</property>
 	  <child>
 	    <widget class="GtkLabel" id="label503">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Select</property>
+	      <property name="label" translatable="yes">Check</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>

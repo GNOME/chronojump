@@ -52,6 +52,7 @@ public class Constants
 	public const string SessionTable = "session";
 	public const string PersonSessionTable = "personSession";
 	public const string PersonSessionWeightTable = "personSessionWeight";
+	public const string PersonNotUploadTable = "personSessionNotUpload"; 
 	public const string SportTable = "sport";
 	public const string SpeciallityTable = "speciallity";
 	public const string PreferencesTable = "preferences";

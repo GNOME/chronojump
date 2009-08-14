@@ -238,6 +238,4 @@ class SqliteServer : Sqlite
 		string [] statsString = Util.ArrayListToString(stats);
 		return statsString;
 	}
-	
-
 }

@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = Util.ChangeDecimalSeparator("0.70");
+	static string lastChronojumpDatabaseVersion = "0.71";
 
 	public Sqlite() {
 	}
@@ -415,7 +415,7 @@ Log.WriteLine("home is: " + home);
 
 	//for splashWin text
 	public static string PrintConversionText() {
-		double toReach = Convert.ToDouble(lastChronojumpDatabaseVersion);
+		double toReach = Convert.ToDouble(Util.ChangeDecimalSeparator(lastChronojumpDatabaseVersion));
 		return currentVersion + "/" + toReach.ToString() + " " +
 			conversionRate.ToString() + "/" + conversionRateTotal.ToString() + " " +
 			conversionSubRate.ToString() + "/" + conversionSubRateTotal.ToString() + " ";
@@ -426,7 +426,10 @@ Log.WriteLine("home is: " + home);
 		return Util.DivideSafeFraction(creationRate, creationTotal);
 	}
 	public static double PrintConversionVersion() {
-		return Util.DivideSafeFraction(Convert.ToDouble(currentVersion), Convert.ToDouble(lastChronojumpDatabaseVersion));
+		return Util.DivideSafeFraction(
+				Convert.ToDouble(Util.ChangeDecimalSeparator(currentVersion)), 
+				Convert.ToDouble(Util.ChangeDecimalSeparator(lastChronojumpDatabaseVersion))
+				);
 	}
 	public static double PrintConversionRate() {
 		return Util.DivideSafeFraction(conversionRate, conversionRateTotal);
@@ -442,20 +445,24 @@ Log.WriteLine("home is: " + home);
 
 		addChronopicPortNameIfNotExists();
 
-		//currentVersion = SqlitePreferences.Select("databaseVersion");
-		currentVersion = Util.ChangeDecimalSeparator(Util.ConvertToPoint(SqlitePreferences.Select("databaseVersion")));
+		currentVersion = SqlitePreferences.Select("databaseVersion");
 
 		//Log.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
 		//Log.WriteLine("currentVersion: {0}", Convert.ToDouble(currentVersion));
 
 		bool returnSoftwareIsNew = true; //-1 if software is too old for database (moved db to other computer)
-		if(Convert.ToDouble(lastChronojumpDatabaseVersion) == Convert.ToDouble(currentVersion))
+		if(
+				Convert.ToDouble(Util.ChangeDecimalSeparator(lastChronojumpDatabaseVersion)) == 
+				Convert.ToDouble(Util.ChangeDecimalSeparator(currentVersion)))
 			Log.WriteLine("Database is already latest version");
-		else if(Convert.ToDouble(lastChronojumpDatabaseVersion) < Convert.ToDouble(currentVersion)) {
+		else if(
+				Convert.ToDouble(Util.ChangeDecimalSeparator(lastChronojumpDatabaseVersion)) < 
+				Convert.ToDouble(Util.ChangeDecimalSeparator(currentVersion))) {
 			Log.WriteLine("User database newer than program, need to update software");
 			returnSoftwareIsNew = false;
 		} else {
 			Log.WriteLine("Old database, need to convert");
+			Log.WriteLine("db version: " + currentVersion);
 			bool needToConvertPersonToSport = false;
 
 			SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
@@ -919,6 +926,17 @@ Log.WriteLine("home is: " + home);
 				dbcon.Close();
 				currentVersion = "0.70";
 			}
+			if(currentVersion == "0.70") {
+				dbcon.Open();
+				
+				SqlitePersonSessionNotUpload.CreateTable();
+
+				SqlitePreferences.Update ("databaseVersion", "0.71", true); 
+				
+				Log.WriteLine("Converted DB to 0.71 (created personNotUploadTable on client)"); 
+				dbcon.Close();
+				currentVersion = "0.71";
+			}
 
 
 		}
@@ -963,6 +981,7 @@ Log.WriteLine("home is: " + home);
 		} else {
 			SqliteSession sqliteSessionObject = new SqliteSession();
 			sqliteSessionObject.createTable(Constants.SessionTable);
+			SqlitePersonSessionNotUpload.CreateTable();
 			creationRate ++;
 		}
 		
@@ -1043,7 +1062,8 @@ Log.WriteLine("home is: " + home);
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
-		//0.68 - 0.69 added showPower to preferences
+		//0.70 - 0.71 created personNotUploadTable on client
+		//0.69 - 0.70 added showPower to preferences
 		//0.68 - 0.69 added Gesell-DBT test
 		//0.67 - 0.68 added multiChronopic tests table
 		//0.66 - 0.67 added TakeOff jumps 

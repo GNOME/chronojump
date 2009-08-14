@@ -116,6 +116,7 @@ public class ChronoJump
 	bool pingStart;
 	bool pingEnd;
 	bool pulseGTKPingShouldEnd;
+	bool allSQLCallsDoneOnSqliteThingsThread;
 
 	protected void sqliteThings () {
 		bool crashedBefore = checkIfChronojumpExitAbnormally();
@@ -271,6 +272,8 @@ Log.WriteLine("doing backup");
 		//wait until pinging process start
 		while(! pingStart) {
 		}
+		
+		allSQLCallsDoneOnSqliteThingsThread = false;
 
 		//wait until pinging ends (or it's cancelled)
 		while(! pingEnd) {
@@ -291,6 +294,7 @@ Log.WriteLine("doing backup");
 			}
 		}
 
+
 		//if chronojump chrashed before
 		if(crashedBefore) {
 			if( versionAvailableKnown.Length > 0 && versionAvailableKnown != progVersion ) 
@@ -306,7 +310,10 @@ Log.WriteLine("doing backup");
 
 		//start as "simulated"
 		SqlitePreferences.Update("simulated", "True", false); //false (dbcon not opened)
-
+		
+		allSQLCallsDoneOnSqliteThingsThread = true;
+		Log.WriteLine("all SQL calls done on sqliteThings thread");
+		
 		Util.IsWindows();	//only as additional info here
 		
 		//Application.Init();
@@ -330,9 +337,9 @@ Console.WriteLine("--2.1--");
 
 		try {
 			if(splashWin.FakeButtonCreated)
-				Console.WriteLine("\n\nCREATED\n\n");
+				Console.WriteLine("\nCreated splashWin.FakeButton\n");
 			else
-				Console.WriteLine("\n\nNOT CREATED, si es bloqueja, posar aquí un while (mentre no estigui creat)\n\n");
+				Console.WriteLine("\nNOT Created splashWin.FakeButton, si es bloqueja, posar aquí un while (mentre no estigui creat)\n");
 
 			splashWin.FakeButtonCancel.Clicked += new EventHandler(on_find_version_cancelled);
 
@@ -390,7 +397,15 @@ Console.WriteLine("--6--");
 		Application.Quit();
 	}
 
-	private void startChronojump() {	
+	private void startChronojump() {
+
+		//wait until all sql calls are done in other thread
+		//then there will be no more a try to open an already opened dbcon
+		Log.WriteLine("Checking if all SQL calls done on sqliteThings thread");
+		while(! allSQLCallsDoneOnSqliteThingsThread) {
+		}
+		Log.WriteLine("all SQL done! starting Chronojump");
+
 		chronoJumpWin = new ChronoJumpWindow(progVersion, progName, runningFileName);
 	}
 
@@ -465,7 +480,7 @@ Console.WriteLine("--6--");
 			
 
 		Thread.Sleep (50);
-		Log.Write(" PulseGTK:" + thread.ThreadState.ToString());
+		Log.Write(" (PulseGTK:" + thread.ThreadState.ToString() + ") ");
 		return true;
 	}
 	
@@ -491,7 +506,7 @@ Console.WriteLine("--6--");
 			splashWin.CancelButtonShow(false);
 
 		Thread.Sleep (50);
-		Log.Write(" PulseGTKPing:" + thread.ThreadState.ToString());
+		Log.Write(" (PulseGTKPing:" + thread.ThreadState.ToString() + ") ");
 		if(thread.ThreadState == System.Threading.ThreadState.Stopped)
 			pulseGTKPingShouldEnd = true;
 		return true;

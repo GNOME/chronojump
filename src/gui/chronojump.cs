@@ -365,6 +365,7 @@ public class ChronoJumpWindow
 	GenericWindow genericWin;
 		
 	EvaluatorWindow evalWin;
+	PersonNotUploadWindow personNotUploadWin; 
 	
 	static EventExecuteWindow eventExecuteWin;
 
@@ -1045,14 +1046,25 @@ public class ChronoJumpWindow
 		}
 		else
 			if(uploadSessionAfter)
-				server_upload_session ();
+				//server_upload_session ();
+				select_persons_to_discard ();
 
 	}
 
 	private void on_evaluator_upload_accepted (object o, EventArgs args) {
 		Server.ServerUploadEvaluator();
 		if(uploadSessionAfter)
-			server_upload_session ();
+			//server_upload_session ();
+			select_persons_to_discard ();
+	}
+
+	private void select_persons_to_discard () {
+		personNotUploadWin = PersonNotUploadWindow.Show(app1, currentSession.UniqueID);
+		personNotUploadWin.FakeButtonDone.Clicked += new EventHandler(on_select_persons_to_discard_done);
+	}
+	
+	private void on_select_persons_to_discard_done (object o, EventArgs args) {
+		server_upload_session();
 	}
 
 	/* 
@@ -1065,16 +1077,19 @@ public class ChronoJumpWindow
 		ArrayList undefinedCountry = new ArrayList(1); //country is required for server
 		ArrayList undefinedSport = new ArrayList(1);
 		
+		ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
 		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
 		foreach (Person person in persons) 
 		{
-			if(person.Weight <= 10 || person.Weight >= 300)
-				impossibleWeight.Add(person);
-			if(person.CountryID == Constants.CountryUndefinedID)
-				undefinedCountry.Add(person);
-			if(person.SportID == Constants.SportUndefinedID)
-				undefinedSport.Add(person);
-			//speciallity and level not required, because person gui obligates to select them when sport is selected
+			if(! Util.FoundInArrayList(notToUpload, person.UniqueID.ToString())) {
+				if(person.Weight <= 10 || person.Weight >= 300)
+					impossibleWeight.Add(person);
+				if(person.CountryID == Constants.CountryUndefinedID)
+					undefinedCountry.Add(person);
+				if(person.SportID == Constants.SportUndefinedID)
+					undefinedSport.Add(person);
+				//speciallity and level not required, because person gui obligates to select them when sport is selected
+			}
 		}
 
 		string weightString = "";
@@ -1127,14 +1142,16 @@ public class ChronoJumpWindow
 
 		if(weightString.Length > 0 || countryString.Length > 0 || sportString.Length > 0) {
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Please, fix this before uploading:") +
-						weightString + countryString + sportString);
+						weightString + countryString + sportString + "\n\n" + 
+						Catalog.GetString("Or when upload session again, mark these persons as not to be uploaded.")
+						);
 			return true; //data is missing
 		}
 		else
 			return false; //data is ok
 
 	}
-
+			
 	private void server_upload_session () 
 	{
 		int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));

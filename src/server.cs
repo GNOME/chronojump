@@ -195,8 +195,14 @@ public class Server
 			progressBarPersonsNum = myPersons.Length;
 
 			Constants.UploadCodes uCode;
+			ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
 			foreach(string personStr in myPersons) {
 				Person person = SqlitePersonSession.PersonSelect(Util.FetchID(personStr), serverSession.UniqueID); 
+
+				//do not continue with this person if has been banned to upload
+				if(Util.FoundInArrayList(notToUpload, person.UniqueID.ToString()))
+					continue;
+
 				//check person if exists
 				if(person.ServerUniqueID != Constants.ServerUndefinedID) 
 					uCode = Constants.UploadCodes.EXISTS;

@@ -1,5 +1,7 @@
 CHANGELOG.txt
 
+this file is discontinued, use git log instead (also there's a pretty function)
+
 12 ago 2009
 	windows bundle chronojump.mo moved to share/locale
 

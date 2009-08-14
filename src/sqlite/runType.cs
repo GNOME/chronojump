@@ -83,7 +83,7 @@ class SqliteRunType : Sqlite
 			string [] s = myString.Split(new char[] {':'});
 			RunType type = new RunType();
 			type.Name = s[0];
-			type.Distance = Convert.ToDouble(s[1]);
+			type.Distance = Convert.ToDouble(Util.ChangeDecimalSeparator(s[1]));
 			type.Description = s[2];
 			Insert(type, Constants.RunTypeTable, true);
 		}
@@ -304,7 +304,7 @@ class SqliteRunIntervalType : SqliteRunType
 			string [] s = myString.Split(new char[] {':'});
 			RunType type = new RunType();
 			type.Name = s[0];
-			type.Distance = Convert.ToDouble(s[1]);
+			type.Distance = Convert.ToDouble(Util.ChangeDecimalSeparator(s[1]));
 			type.TracksLimited = Util.IntToBool(Convert.ToInt32(s[2]));
 			type.FixedValue = Convert.ToInt32(s[3]);
 			type.Unlimited = Util.IntToBool(Convert.ToInt32(s[4]));

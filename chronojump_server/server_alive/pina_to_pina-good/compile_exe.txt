@@ -1,0 +1,1 @@
+gmcs2 chronojump_server_alive.cs ChronojumpServerAlive.cs -r:System.Web.Services -out:chronojump_server_alive.exe

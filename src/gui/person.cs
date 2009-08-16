@@ -624,6 +624,8 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		hbox_search_filter_hide.Hide();
 		//this class doesn't use button recuperate
 		button_recuperate.Hide();
+		//this class doesn't use status bar
+		statusbar1.Hide();
 		
 		fakeButtonDone = new Gtk.Button();
 		
@@ -858,6 +860,7 @@ public class PersonAddModifyWindow
 		
 		createComboSports();
 		createComboSpeciallities(-1);
+		image_speciallity.Hide();
 		label_speciallity.Hide();
 		combo_speciallities.Hide();
 		createComboLevels();

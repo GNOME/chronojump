@@ -1,0 +1,1 @@
+gmcs2 -t:library -out:chronojumpServerAlive.dll -r:System.Data -r:System.Web.Services -r:Mono.Posix chronojumpServerAliveCSharp.cs

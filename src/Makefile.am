@@ -1,5 +1,5 @@
 
-EXTRA_DIST =  chronojump_mini.cs
+EXTRA_DIST =  chronojump_mini.cs ../images/report_web_style.css
 
 
 if ENABLE_DEBUG

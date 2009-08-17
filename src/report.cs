@@ -196,12 +196,12 @@ public class Report : ExportSession
 	void copyCssAndLogo() {
 		//copy files, and continue if already exists
 		try {
-			File.Copy(Constants.FileNameCSS, 
+			File.Copy(Util.GetCssDir()+ Path.DirectorySeparatorChar + Constants.FileNameCSS, 
 					Util.GetReportDirectoryName(fileName) + Path.DirectorySeparatorChar + Constants.FileNameCSS );
 		} catch {}
 		try {
 
-			File.Copy(Constants.FileNameLogo, 
+			File.Copy(Util.GetImagesDir() + Path.DirectorySeparatorChar + Constants.FileNameLogo, 
 					Util.GetReportDirectoryName(fileName) + Path.DirectorySeparatorChar + Constants.FileNameLogo );
 		} catch {}
 	}

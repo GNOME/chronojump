@@ -694,8 +694,17 @@ public class Util
 			return System.IO.Path.Combine(runningFolder,"../../");
 	}
 
+	public static string GetDataDir(){
+		return System.IO.Path.Combine(GetPrefixDir(),"share");
+	}
 
+	public static string GetImagesDir(){
+		return System.IO.Path.Combine(GetDataDir(),"chronojump/images");
+	}
 
+	public static string GetCssDir(){
+		return GetDataDir();
+	}
 	
 	public static void BackupDirCreateIfNeeded () {
 		string backupDir = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";

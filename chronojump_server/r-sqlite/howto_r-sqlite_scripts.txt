@@ -1,0 +1,42 @@
+R CMD BATCH r-sqlite_script_1.txt
+generate PDF:
+Rplots.pdf
+------
+png(filename = "Rplot1.png", width = 480, height = 480, units = "px", pointsize = 12, bg = "white", res = NA)
+pie(countriesCount$rep, labels=countriesCount$name, cex=1)
+dev.off()
+
+dev.off() creates the file
+
+problem, needs X11, not usable for server
+
+---- SOLUTION
+installed GDD
+install.packages("GDD")
+
+in order to compile, on server, needed to update R to 2.7.1-lenny, install ttf-freefont (nice fonts), libgd2-noxpm-dev, libpng12-dev
+
+with the ttf-freefont, done links of ttf fonts to
+/usr/local/lib/R/site-library/GDD/fonts
+
+and done in ls /usr/local/lib/R/site-library/GDD/fonts/basefont.mapping
+#--- add your section here if you have some nice TTFs ---
+base.norm:FreeSans.ttf
+base.ital:FreeSansOblique.ttf
+base.bold:FreeSansBold.ttf
+base.bita:FreeSansBoldOblique.ttf
+
+execute R
+> library(GDD)
+> .GDD.font()
+[1] "/usr/local/lib/R/site-library/GDD/fonts/FreeSans.ttf"           
+[2] "/usr/local/lib/R/site-library/GDD/fonts/FreeSansBold.ttf"       
+[3] "/usr/local/lib/R/site-library/GDD/fonts/FreeSansOblique.ttf"    
+[4] "/usr/local/lib/R/site-library/GDD/fonts/FreeSansBoldOblique.ttf"
+[5] NA       
+
+USAGE:
+R CMD BATCH r-sqlite_script_1.txt
+copy file to image dir
+
+see now how to do the small image without calling the script two times (because width and height change can make that the title doesn't fit)

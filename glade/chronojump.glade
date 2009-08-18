@@ -2486,7 +2486,7 @@ comments</property>
 		    <widget class="GtkVBox" id="vbox144">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">6</property>
+		      <property name="spacing">8</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label529">
@@ -2585,6 +2585,24 @@ comments</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkButton" id="button_db_folder_open">
+			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Make a copy of the database</property>
+			  <property name="can_focus">True</property>
+			  <property name="label" translatable="yes">Open database folder</property>
+			  <property name="use_underline">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="focus_on_click">True</property>
+			  <signal name="clicked" handler="on_button_db_folder_open_clicked" last_modification_time="Tue, 18 Aug 2009 01:35:03 GMT"/>
+			</widget>
+			<packing>
+			  <property name="padding">10</property>
 			  <property name="expand">False</property>
 			  <property name="fill">False</property>
 			</packing>
@@ -6608,7 +6626,7 @@ options</property>
 		    <widget class="GtkRadioButton" id="radiobutton_limited_tracks">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">tracks</property>
+		      <property name="label" translatable="yes">tracks (m)</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -6628,7 +6646,7 @@ options</property>
 		    <widget class="GtkRadioButton" id="radiobutton_limited_time">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">time</property>
+		      <property name="label" translatable="yes">time (s)</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="focus_on_click">True</property>
@@ -28737,7 +28755,7 @@ by you</property>
 		  <child>
 		    <widget class="GtkLabel" id="label662">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">To buy or build Chronopic see &lt;i&gt;hardware&lt;/i&gt; page on website:</property>
+		      <property name="label" translatable="yes">To buy or build Chronopic see website:</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -29166,7 +29184,7 @@ by you</property>
 		      <child>
 			<widget class="GtkLabel" id="label664">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">To buy or build these devices see &lt;i&gt;hardware&lt;/i&gt; page on website:</property>
+			  <property name="label" translatable="yes">To buy or build these devices see website:</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>

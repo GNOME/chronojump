@@ -1019,6 +1019,7 @@ public class ChronoJumpWindow
 
 	//called when after that has to continue with upload session
 	private void server_evaluator_data_and_after_upload_session() {
+		appbar2.Push ( 1, "" );
 		uploadSessionAfter = true;
 		server_evaluator_data (); 
 	}
@@ -5019,11 +5020,14 @@ Console.WriteLine("X");
 	
 	//help
 	private void on_menuitem_manual_activate (object o, EventArgs args) {
+		/*
 		new DialogMessage(Constants.MessageTypes.HELP, 
 				Catalog.GetString("There's a copy of Chronojump Manual at:") + "\n" + 
 				"<i>" + Path.GetFullPath(Util.GetManualDir()) + "</i>\n\n" + 
 				Catalog.GetString("Newer versions will be on this site:") +"\n" + 
-				"<i>http://gnome.org/projects/chronojump/documents.html</i>");
+				"<i>http://www.chronojump.org/multimedia.html</i>");
+				*/
+		System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir())); 
 	}
 
 	private void on_menuitem_formulas_activate (object o, EventArgs args) {
@@ -5316,7 +5320,7 @@ Console.WriteLine("X");
 	 */
 
 	private void on_debug_crash_activate (object o, EventArgs args) {
-		bool voluntaryCrashAllowed = true;
+		bool voluntaryCrashAllowed = false;
 		if(voluntaryCrashAllowed) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"), "Are you sure you want to crash application?");
 			confirmWin.Button_accept.Clicked += new EventHandler(crashing);

@@ -262,6 +262,19 @@ public class PreferencesWindow {
 		PreferencesWindowBox = null;
 	}
 	
+	void on_button_db_folder_open_clicked (object o, EventArgs args)
+	{
+		System.IO.FileInfo file1 = new System.IO.FileInfo(label_database.Text); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file2 = new System.IO.FileInfo(label_database_temp.Text); //potser cal una arrobar abans (a windows)
+
+		if(file1.Exists)
+			System.Diagnostics.Process.Start(Util.GetDatabaseDir()); 
+		else if(file2.Exists)
+			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir()); 
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error. Cannot find database."));
+	}
+	
 	string fileDB;
 	string fileCopy;
 	Gtk.FileChooserDialog fc;

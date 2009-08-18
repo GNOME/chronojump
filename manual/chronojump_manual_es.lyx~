@@ -1,5 +1,5 @@
-#LyX 1.5.3 created this file. For more info see http://www.lyx.org/
-\lyxformat 276
+#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
 \begin_document
 \begin_header
 \textclass article
@@ -7,6 +7,7 @@
 \usepackage{a4wide}
 \usepackage{url}
 \end_preamble
+\use_default_options false
 \language spanish
 \inputencoding auto
 \font_roman times
@@ -17,10 +18,12 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \float_placement p
 \paperfontsize default
 \spacing single
+\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
@@ -37,7 +40,7 @@
 \papersides 1
 \paperpagestyle default
 \tracking_changes false
-\output_changes false
+\output_changes true
 \author "" 
 \author "" 
 \end_header
@@ -49,23 +52,31 @@ Manual de Chronojump en español
 \end_layout
 
 \begin_layout Author
-http://gnome.org/projects/chronojump
-\newline
+http://www.chronojump.org
+\begin_inset Newline newline
+\end_inset
 
-\newline
+
+\begin_inset Newline newline
+\end_inset
+
 Xavier de Blas Foix
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
 
-\newpage
 
-\begin_inset LatexCommand tableofcontents
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
 
 \end_inset
 
 
-\newpage
+\begin_inset Newpage newpage
+\end_inset
+
 
 \end_layout
 
@@ -137,8 +148,9 @@ Otros tests
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
 
-\newpage
 
 \end_layout
 
@@ -151,10 +163,53 @@ Obtención del software y el hardware
 \end_layout
 
 \begin_layout Standard
-Para poder usar la metodología Chronojump es necesario construir la plataforma
- de contactos, obtener o construir el cronómetro Chronopic e instalar el
- software Chronojump.
- A continuación se explica cada uno de estos apartados
+Para poder usar la tecnología Chronojump es necesario:
+\end_layout
+
+\begin_layout Description
+Dispositivo
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+detección una o más plataforma de contactos o fotocélulas.
+\end_layout
+
+\begin_layout Description
+Dispositivo
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+cronometrado cronómetro Chronopic que se encarga de cronometrar los cambios
+ de estado del dispositivo de detección.
+\end_layout
+
+\begin_layout Description
+Software
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+gestión software Chronojump.
+\end_layout
+
+\begin_layout Description
+Ordenador con sistema operativo Windows o Linux, conectando al cronómetro
+ Chronopic y ejecutando el software Chronojump.
+\end_layout
+
+\begin_layout Standard
+A continuación se explica cada uno de estos apartados
 \end_layout
 
 \begin_layout Subsection
@@ -162,10 +217,16 @@ Instalación del software Chronojump
 \end_layout
 
 \begin_layout Standard
-Consultar esta página: 
-\begin_inset LatexCommand url
-name "Instalación de Chronojump"
-target "http://www.gnome.org/projects/chronojump/installation_es.html"
+El software Chronojump es libre y gratuito, funciona en los sistemas operativos
+ Windows y Linux.
+ Lo puede descargar en la página web del software Chronojump 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/software_es.html
+\end_layout
 
 \end_inset
 
@@ -173,10 +234,14 @@ target "http://www.gnome.org/projects/chronojump/installation_es.html"
 \end_layout
 
 \begin_layout Standard
-Para más información consulte las preguntas usualmente formuladas 
-\begin_inset LatexCommand url
-name "FAQ"
-target "http://www.gnome.org/projects/chronojump/faq_es.html"
+Para más información consulte las preguntas usualmente formuladas FAQ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/faq_software_es.html
+\end_layout
 
 \end_inset
 
@@ -184,14 +249,19 @@ target "http://www.gnome.org/projects/chronojump/faq_es.html"
 \end_layout
 
 \begin_layout Subsection
-Construcción de plataforma de contactos
+Construcción del dispositivo de detección
 \end_layout
 
 \begin_layout Standard
-Consultar este artículo: 
-\begin_inset LatexCommand url
-name "\"Instrucciones para la construcción de una plataforma de contactos para la medición de la capacidad de salto/s\""
-target "http://www.gnome.org/projects/chronojump/construction_contact_platform_es.html"
+Para construir una plataforma de contactos o una célula fotoeéctrica, consultar
+ esta página en el apartado de hardware: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://chronojump.org/multimedia_es.html
+\end_layout
 
 \end_inset
 
@@ -199,7 +269,8 @@ target "http://www.gnome.org/projects/chronojump/construction_contact_platform_e
 \end_layout
 
 \begin_layout Subsection
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sub:Construcción-y-obtención-chronopic"
 
 \end_inset
@@ -208,11 +279,14 @@ Construcción y obtención del cronómetro Chronopic
 \end_layout
 
 \begin_layout Standard
-La infomación más actualizada sobre la construcción o compra de Chronopic,
- se encuentra en esta página: 
-\begin_inset LatexCommand url
-name "Hardware de Chronojump"
-target "http://www.gnome.org/projects/chronojump/hardware_es.html"
+Consultar esta página en el apartado de hardware: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://chronojump.org/multimedia_es.html
+\end_layout
 
 \end_inset
 
@@ -227,7 +301,8 @@ target "http://www.gnome.org/projects/chronojump/hardware_es.html"
 \end_layout
 
 \begin_layout Section
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "par:Chronopic:-concepto-y-configuracion"
 
 \end_inset
@@ -237,9 +312,10 @@ name "par:Chronopic:-concepto-y-configuracion"
 
 \begin_layout Standard
 Chronopic es el circuito integrado usado para que Chronojump pueda detectar
- los tests realizados en la plataforma de contactos.
+ los tests realizados en el dispositivo de detección.
  La obtención de Chronopic se describe en el apartado 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Construcción-y-obtención-chronopic"
 
 \end_inset
@@ -248,11 +324,41 @@ reference "sub:Construcción-y-obtención-chronopic"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
 Para más información sobre Chronopic y sobre la tarjeta previa: Skypic,
  consulte el siguiente artículo: 
-\begin_inset LatexCommand url
-name "\"Proyecto Chronojump: Sistema de Medida de la Capacidad de Salto usando Software y Hardware Libres\""
-target "http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_medida_congreso_gpul.pdf"
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_medida_con
+greso_gpul.pdf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Para más información sobre Chronopic consulte esta página en el apartado
+ de hardware: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://chronojump.org/multimedia_es.html
+\end_layout
 
 \end_inset
 
@@ -266,67 +372,67 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="5">
 <features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Versión
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Fecha de lanzamiento
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Conexión a ordenador
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Disponible en*
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Precio*
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Chronopic3
 \end_layout
 
@@ -335,7 +441,7 @@ Chronopic3
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 25 marzo 2008
 \end_layout
 
@@ -344,7 +450,7 @@ Chronopic3
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 USB
 \end_layout
 
@@ -353,8 +459,8 @@ USB
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-España
+\begin_layout Plain Layout
+Se envía a todo el mundo
 \end_layout
 
 \end_inset
@@ -362,18 +468,18 @@ España
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-33-37 €
+\begin_layout Plain Layout
+33-37 € Tirada inicial
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Chronopic2-USB
 \end_layout
 
@@ -382,7 +488,7 @@ Chronopic2-USB
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 septiembre 2007
 \end_layout
 
@@ -391,7 +497,7 @@ septiembre 2007
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 USB
 \end_layout
 
@@ -400,7 +506,7 @@ USB
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Argentina
 \end_layout
 
@@ -409,18 +515,18 @@ Argentina
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 150$ argentinos
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Chronopic2-Serie
 \end_layout
 
@@ -429,7 +535,7 @@ Chronopic2-Serie
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 septiembre 2007
 \end_layout
 
@@ -438,7 +544,7 @@ septiembre 2007
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Serie
 \end_layout
 
@@ -447,7 +553,7 @@ Serie
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Argentina
 \end_layout
 
@@ -456,54 +562,54 @@ Argentina
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 150$ argentinos
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Chronopic1
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 2005
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Serie
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 España
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 70 €
 \end_layout
 
@@ -517,25 +623,30 @@ España
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \size small
 * Actualmente sólo se comercializa la Chronopic3.
- Para conseguirla, consulte la páina web: 
-\begin_inset LatexCommand url
-name "Hardware de Chronojump"
-target "http://www.gnome.org/projects/chronojump/hardware_es.html"
+ Para conseguirla, consulte la tienda web de Chronojump 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://chronojump.org/hardware_store_es.html
+\end_layout
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "tab:Versiones-de-Chronopic"
 
 \end_inset
@@ -559,7 +670,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -572,10 +683,10 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Chronopic3
 \end_layout
 
@@ -595,7 +706,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -608,10 +719,10 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Chronopic2-USB
 \end_layout
 
@@ -631,7 +742,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -644,10 +755,10 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Chronopic2-Serie
 \end_layout
 
@@ -668,7 +779,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -680,8 +791,9 @@ status open
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:chronopic1"
 
 \end_inset
@@ -689,7 +801,7 @@ name "fig:chronopic1"
 
 \begin_inset Caption
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Chronopic1
 \end_layout
 
@@ -707,7 +819,7 @@ Chronopic1
 \begin_inset Note Comment
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 En septiembre de 2007, existe el Chronopic 1.0 y se está desarrollando Chronopic
  2.0, este último en dos versiones: Serial y USB.
  Además de la posibilidad de uso del puerto USB, el Chronopic 2.0 es más
@@ -727,7 +839,8 @@ Montaje de Chronopic3
 Chronopic3 se distribuye con el circuito por un lado y los elementos que
  conforman la caja: metacrilatos, tornillos y arandelas por otro.
  La figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Montaje-del-Chronopic3."
 
 \end_inset
@@ -741,7 +854,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -754,11 +867,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Montaje-del-Chronopic3."
 
 \end_inset
@@ -788,10 +902,11 @@ Las Chronopics USB, como Chronopic3, disponen de una entrada USB que gracias
 \end_layout
 
 \begin_layout Standard
-Por otr lado, las Chronopics serie necesitan alimentación externa, por tanto
- deberán conectarse a un alimentador.
+Por otro lado, las Chronopics serie necesitan alimentación externa, por
+ tanto deberán conectarse a un alimentador.
  Para más información, consultar el apartado 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Alimentación-de-Chronopic"
 
 \end_inset
@@ -803,7 +918,8 @@ reference "sub:Alimentación-de-Chronopic"
  a parte del cable mencionado, será necesario un cable USB-serie o una pcmcia
  o adaptador con la misma funcionalidad.
  Puede consultar la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:chronopic1"
 
 \end_inset
@@ -831,30 +947,11 @@ Es posible conectar 'n' plataformas de contactos a cualquier Chronopic usando
 \end_layout
 
 \begin_layout Standard
-Se está adaptando el software para que se puedan conectar 
-\emph on
-n
-\emph default
- Chronopics distintas, conectadas cada una a su vez a una o más plataformas
- de contactos.
+La versión 0.9 del Software Chronojump permite conectar hasta 4 chronopics
+ con una señal independiente, conectadas cada una a su vez a uno o más dispositi
+vos de detección.
  De esta manera se pueden cronometrar independientemente a varios sujetos,
  cronometrar ritmos complejos u otras aplicaciones.
- Actualmente ya es funcional gracias al programa Chronojump_mini.
- Más información en este correo: 
-\begin_inset ERT
-status open
-
-\begin_layout Standard
-
-
-\backslash
-url{http://mail .gnome .org/ archives/ chronojump- list/ 2008-July/ msg00015
- .html}
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -869,25 +966,14 @@ Chronopic detecta los cambios de la plataforma de contactos y los envía
 \end_layout
 
 \begin_layout Standard
-Es importante que no pulse o modifique ninguno de los 
-\begin_inset Quotes eld
-\end_inset
-
-botones
-\begin_inset Quotes erd
-\end_inset
-
- o jumpers excepto el pulsador de prueba.
-\end_layout
-
-\begin_layout Standard
 Chronopic dispone de una luz que cuando está encendida indica que el sujeto
  está en la plataforma y cuando está apagada indica que está fuera de la
  misma.
 \end_layout
 
 \begin_layout Subsection
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sub:Alimentación-de-Chronopic"
 
 \end_inset
@@ -898,20 +984,21 @@ Alimentación de Chronopic
 \begin_layout Standard
 Chronopic3 y Chronopic2.0-USB se alimentan por el propio cable USB, el resto
  de chronopics se alimentan usando un alimentador de 4,5 a 6 voltios, pudiendo
- adquirirse un alimentador convencional (que se enchufa a la corriente eléctrica
+ adquirirse un alimentador convencional (que se conecta a la corriente eléctrica
 ) o crearse un alimentador casero con 3 pilas de 1,5 voltios.
  Esta opción facilita los tests de campo en las chronopics serie.
 \end_layout
 
 \begin_layout Standard
-Continuando con lsa Chronopics serie, la conexión de la batería debería
- encender automáticamente la luz del Chronopic, aunque chronopic no esté
- conectado a ningún ordenador.
+Continuando con las antiguas Chronopics serie, la conexión de la batería
+ debería encender automáticamente la luz del Chronopic, aunque Chronopic
+ no esté conectado a ningún ordenador.
  Esta es una buena prueba para saber si la alimentación es la correcta.
 \end_layout
 
 \begin_layout Subsection
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sub:Chronopic-puertos-serie-usb"
 
 \end_inset
@@ -923,7 +1010,8 @@ Puertos serie y USB
 Chronopic se conecta a la plataforma de contactos y al ordenador.
  La conexión al ordenador se realiza mediante un puerto tal y como se indica
  en el cuadro 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "tab:Versiones-de-Chronopic"
 
 \end_inset
@@ -945,7 +1033,8 @@ Hoy en día, la mayoría de los ordenadores portátiles no disponen de puerto
 \begin_layout Standard
 El sistema operativo asigna nombres a los puertos, tal y como se indica
  en el cuadro 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "tab:Nombres-de-puerto"
 
 \end_inset
@@ -960,58 +1049,58 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
 <features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="5cm">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="4cm">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="5cm">
+<column alignment="center" valignment="top" width="4cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sistema operativo
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Tipo de puerto
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Nombre
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Comentarios
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 MS Windows
 \end_layout
 
@@ -1020,7 +1109,7 @@ MS Windows
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Serie
 \end_layout
 
@@ -1029,7 +1118,7 @@ Serie
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \series bold
 COM1
@@ -1042,18 +1131,18 @@ COM1
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 MS Windows
 \end_layout
 
@@ -1062,7 +1151,7 @@ MS Windows
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 USB
 \end_layout
 
@@ -1071,7 +1160,7 @@ USB
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 COM1, COM2, COM3, ...
  (visto hasta COM27)
 \end_layout
@@ -1081,18 +1170,18 @@ COM1, COM2, COM3, ...
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Requiere un driver
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 GNU/Linux
 \end_layout
 
@@ -1101,7 +1190,7 @@ GNU/Linux
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Serie
 \end_layout
 
@@ -1110,7 +1199,7 @@ Serie
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \series bold
 /dev/ttyS0
@@ -1123,36 +1212,36 @@ Serie
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 GNU/Linux
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 USB
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \series bold
 /dev/ttyUSB0
@@ -1162,10 +1251,10 @@ USB
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -1179,11 +1268,12 @@ USB
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "tab:Nombres-de-puerto"
 
 \end_inset
@@ -1216,7 +1306,7 @@ Un driver es un pequeño programa que le indica al ordenador cómo debe funciona
 \end_layout
 
 \begin_layout Standard
-La placa Chronopic3 requiere del siguiente driver para funcionar en Windows.
+La placa Chronopic3 requiere un driver para funcionar en Windows.
  Este driver se instala automáticamente al instalar cualquier versión de
  Chronojump a partir de la 0,7.
 \end_layout
@@ -1230,8 +1320,13 @@ La placa Chronopic2-USB puede requerir un driver si Windows no es capaz
  de los cables digan que no es necesario pues según ellos es detectado de
  forma automática).
  Por ello se recomienda bajarse un driver USB-serie como este: 
-\begin_inset LatexCommand url
-target "http://www.serialgear.com/wd_pl2303h-hx-x_v20019v2021.zip"
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.serialgear.com/wd_pl2303h-hx-x_v20019v2021.zip
+\end_layout
 
 \end_inset
 
@@ -1298,11 +1393,11 @@ Por un error de Mono que hemos documentado
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
  
 \backslash
@@ -1322,11 +1417,11 @@ url{http://mail.
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset ERT
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1347,13 +1442,13 @@ url{http://mail.
 \begin_inset Foot
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Si no desea actualizar su distribución, puede seguir este ejemplo para Ubuntu
  Hardy seguir este enlace: 
 \begin_inset ERT
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1371,10 +1466,13 @@ url{http://msdark.
 \end_inset
 
 .
+ A partir del año 2009 los kernels de la mayoría de las distribuciones ya
+ no suponen ningún problema.
 \end_layout
 
 \begin_layout Subsection
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sub:Detección-del-puerto"
 
 \end_inset
@@ -1384,7 +1482,8 @@ Detección del puerto
 
 \begin_layout Standard
 Tal y como se explica en el apartado 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Chronopic-puertos-serie-usb"
 
 \end_inset
@@ -1423,6 +1522,16 @@ Mi PC
  con el botón 
 \series bold
 derecho
+\series default
+ (En Windows Vista dicho icono se llama 
+\begin_inset Quotes eld
+\end_inset
+
+Sistema
+\begin_inset Quotes erd
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Enumerate
@@ -1466,8 +1575,14 @@ Clic en el '+' que hay a la izquierda de
 \begin_inset Quotes eld
 \end_inset
 
-Puertos COM\InsetSpace ~
-&\InsetSpace ~
+Puertos COM
+\begin_inset space ~
+\end_inset
+
+&
+\begin_inset space ~
+\end_inset
+
 LPT
 \begin_inset Quotes erd
 \end_inset
@@ -1506,7 +1621,8 @@ COM3
 Raramente el nombre del puerto cambiará, así que esta operación debe realizarse
  sólo una vez, ya que cuando haya introducido el nombre del puerto en las
  preferencias de Chronojump (tal y como se explica en el apartado 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sec:Preferencias"
 
 \end_inset
@@ -1517,8 +1633,13 @@ reference "sec:Preferencias"
 \begin_layout Standard
 Se ha detectado que el antivirus spy-doctor interfiere en la asignación
  de puertos 
-\begin_inset LatexCommand url
-target "http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.html"
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.html
+\end_layout
 
 \end_inset
 
@@ -1526,19 +1647,9 @@ target "http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.htm
  Se recomienda desactivar éste.
 \end_layout
 
-\begin_layout Standard
-Dispone de más información en la página web: 
-\begin_inset LatexCommand url
-name "Solución de problemas (inglés)"
-target "http://www.gnome.org/projects/chronojump/problems.html"
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sub:Modificación-del-puerto"
 
 \end_inset
@@ -1555,7 +1666,8 @@ Si el puerto asignado es superior a COM4, puede dar problemas de detección
 
 \begin_layout Standard
 Para asignar manualmente un puerto, repita los pasos descritos en 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Detección-del-puerto"
 
 \end_inset
@@ -1604,23 +1716,13 @@ En este momento ya debería tener el puerto COM asignado para siempre a dicho
  dispositivo.
  Opcionalmente, si quiere puede comprobar que el cambio se ha realizado
  directamente puede volver a realizar los pasos descritos en 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Detección-del-puerto"
 
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-Dispone de más información en la página web: 
-\begin_inset LatexCommand url
-name "Solución de problemas (inglés)"
-target "http://www.gnome.org/projects/chronojump/problems.html"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -1631,14 +1733,18 @@ Solución de problemas con Chronopic
 En caso de no detectar los cambios de estado de plataforma desde Chronojump,
  se propone la siguiente batería de pruebas.
  Si después de realizar estas pruebas no consigue que su Chronopic funcione,
- escriba a la 
-\begin_inset LatexCommand url
-name "Lista de correo Chronojump-list"
-target "http://www.gnome.org/projects/chronojump/contact_es.html"
+ escriba al Foro de Chronojump 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://foro.chronojump.org
+\end_layout
 
 \end_inset
 
- (subscríbase a ella primero).
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1686,7 +1792,8 @@ Problema de puertos en Windows: Si la plataforma de contactos no da problemas,
  A continuación compruebe si el puerto es detectado: conecte los cables
  al ordenador y con el Chronopic encendido detecte el puerto tal y como
  se indica en el apartado 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Detección-del-puerto"
 
 \end_inset
@@ -1697,7 +1804,8 @@ reference "sub:Detección-del-puerto"
  Si el puerto asignado es superior al COM4, se recomienda que modifique
  el puerto a uno de los 4 primeros, preferentemente COM1 o COM2 tal y como
  se indica en el apartado 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Modificación-del-puerto"
 
 \end_inset
@@ -1738,8 +1846,9 @@ aceptar
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
 
-\newpage
 
 \end_layout
 
@@ -1753,7 +1862,8 @@ Ventana principal de Chronojump
 
 \begin_layout Standard
 En la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Ventana-principal-de"
 
 \end_inset
@@ -1767,24 +1877,45 @@ Menú donde podrá acceder de forma organizada a la mayoría de las funcionalida
 \end_layout
 
 \begin_layout Description
-Edición\InsetSpace ~
-de\InsetSpace ~
+Edición
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
 sujeto proporciona un rápido acceso a las operaciones de sujeto.
 \end_layout
 
 \begin_layout Description
-Selección\InsetSpace ~
-de\InsetSpace ~
-sujeto permite seleccionar el sujeto y editarlo con el menú que
- aparecerá al hacer click con el botón derecho.
+Selección
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+sujeto permite seleccionar el sujeto y editarlo con el menú que aparecerá
+ al hacer click con el botón derecho.
 \end_layout
 
 \begin_layout Description
-Gráfico\InsetSpace ~
-de\InsetSpace ~
-test\InsetSpace ~
-seleccionado En el caso de que exista un dibujo del test selecciona
-do o apuntado por el ratón, lo muestra.
+Gráfico
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+test
+\begin_inset space ~
+\end_inset
+
+seleccionado En el caso de que exista un dibujo del test seleccionado o
+ apuntado por el ratón, lo muestra.
  Además, si el programa dispone de información ampliada sobre dicho test,
  muestra un icono indicativo.
  Pulsando dicho botónse mostrará una ventana de ayuda sobre dicho test contenien
@@ -1798,24 +1929,48 @@ Pestañas que permite cambiar el módulo de trabajo entre los posibles, actualme
 \end_layout
 
 \begin_layout Description
-Ejecución\InsetSpace ~
-de\InsetSpace ~
-tests con la funcionalidad de ejecutar cada uno de los tests
- de la pestaña o módulo de trabajo activa.
+Ejecución
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+tests con la funcionalidad de ejecutar cada uno de los tests de la pestaña
+ o módulo de trabajo activa.
 \end_layout
 
 \begin_layout Description
-Visualización\InsetSpace ~
-y\InsetSpace ~
-edición\InsetSpace ~
-de\InsetSpace ~
-tests que muestra distintos selectores para la visualizac
-ión y edición de los saltos y carreras.
+Visualización
+\begin_inset space ~
+\end_inset
+
+y
+\begin_inset space ~
+\end_inset
+
+edición
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+tests que muestra distintos selectores para la visualización y edición de
+ los saltos y carreras.
 \end_layout
 
 \begin_layout Description
-Notificación\InsetSpace ~
-al\InsetSpace ~
+Notificación
+\begin_inset space ~
+\end_inset
+
+al
+\begin_inset space ~
+\end_inset
+
 usuario muestra información sobre la última acción realizada.
 \end_layout
 
@@ -1830,7 +1985,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename chronojump_main_window_spanish.png
@@ -1842,11 +1997,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Ventana-principal-de"
 
 \end_inset
@@ -1884,7 +2040,7 @@ sujetos
 \end_layout
 
 \begin_layout Enumerate
-tests (saltos, carreras, tiempos de reacción, ritmos, ...)
+tests (saltos, carreras, tiempos de reacción, pulsos (ritmos), multiChronopic)
 \end_layout
 
 \begin_layout Standard
@@ -1911,13 +2067,15 @@ Las sesiones representan situaciones en que el entrenador o evaluador reune
 
 \begin_layout Standard
 Las figuras 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Nueva-sesión.-Alumnos"
 
 \end_inset
 
  y 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Nueva-sesión.-Deportistas"
 
 \end_inset
@@ -1931,7 +2089,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -1944,11 +2102,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Nueva-sesión.-Alumnos"
 
 \end_inset
@@ -1973,7 +2132,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -1986,11 +2145,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Nueva-sesión.-Deportistas"
 
 \end_inset
@@ -2089,7 +2249,8 @@ cargar
 
 \begin_layout Standard
 La figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Creación-de-un-sujeto"
 
 \end_inset
@@ -2103,7 +2264,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -2116,11 +2277,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Creación-de-un-sujeto"
 
 \end_inset
@@ -2199,7 +2361,8 @@ Sujeto / Crear sujetos [multiple]
  Una vez creados, si aún desea crear más sujetos, podrá volver a hacer clic
  en el mismo elemento de menú.
  La figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Creación-de-diversos"
 
 \end_inset
@@ -2213,11 +2376,11 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
-	filename Captura-Añadir-Editar múltiples personas.png
+	filename Captura-add-edit-multiple-persons.png
 	lyxscale 50
 	scale 50
 
@@ -2226,11 +2389,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Creación-de-diversos"
 
 \end_inset
@@ -2278,13 +2442,15 @@ Cargar sujetos de otra sesión
 
 \begin_layout Standard
 Las figuras 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Cargar-atletas"
 
 \end_inset
 
  y 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Cargar-atletas-otra_sesion"
 
 \end_inset
@@ -2298,11 +2464,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
-
-\end_layout
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -2315,11 +2477,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Cargar-atletas"
 
 \end_inset
@@ -2343,7 +2506,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -2356,11 +2519,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Cargar-atletas-otra_sesion"
 
 \end_inset
@@ -2734,7 +2898,8 @@ Campanas
 \end_inset
 
 , podrá configurar estas acciones tal y como se observa en la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Campanas---feedback"
 
 \end_inset
@@ -2748,7 +2913,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -2761,11 +2926,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Campanas---feedback"
 
 \end_inset
@@ -2827,7 +2993,8 @@ En cada salto se muestran una serie de valores, puede cambiar las opciones
 Preferencias
 \emph default
  (más información en la sección 
-\begin_inset LatexCommand vref
+\begin_inset CommandInset ref
+LatexCommand vref
 reference "sec:Preferencias"
 
 \end_inset
@@ -2911,7 +3078,8 @@ Borrar salto seleccionado
 Preferencias
 \emph default
  (más información en el apartado 
-\begin_inset LatexCommand vref
+\begin_inset CommandInset ref
+LatexCommand vref
 reference "sec:Preferencias"
 
 \end_inset
@@ -2985,7 +3153,8 @@ Por último se presentan las opciones de iniciar el salto encima de la plataform
  o fuera de ella, contemplar un peso extra adicional.
  Se concluye con la posibilidad de añadir una descripción textual al mismo.
  En la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Creación-de-nuevo-tipo-salto"
 
 \end_inset
@@ -2999,7 +3168,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename Captura-Crear un tipo de salto nuevo.png
@@ -3011,11 +3180,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Creación-de-nuevo-tipo-salto"
 
 \end_inset
@@ -3042,7 +3212,8 @@ Se incluye a continuación una relación de ejemplos y consejos sobre la creaci�
  de tipos de saltos.
  Los nombres usados se han inventado para la elaboración de este manual.
  El cuadro 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "tab:Ejemplos-de-tipos-saltos-creados"
 
 \end_inset
@@ -3141,78 +3312,78 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="6">
 <features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Nombre
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Tipo
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Limitado por
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Fijo
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Inicia dentro
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Peso adicional
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 SJ-N
 \end_layout
 
@@ -3221,7 +3392,7 @@ SJ-N
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Simple
 \end_layout
 
@@ -3230,7 +3401,7 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
@@ -3239,7 +3410,7 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
@@ -3248,27 +3419,27 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sí
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 DJ-Comba2
 \end_layout
 
@@ -3277,7 +3448,7 @@ DJ-Comba2
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Simple
 \end_layout
 
@@ -3286,7 +3457,7 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
@@ -3295,7 +3466,7 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
@@ -3304,27 +3475,27 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Triple
 \end_layout
 
@@ -3333,7 +3504,7 @@ Triple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Repetitivo
 \end_layout
 
@@ -3342,7 +3513,7 @@ Repetitivo
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Saltos
 \end_layout
 
@@ -3351,7 +3522,7 @@ Saltos
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sí (3)
 \end_layout
 
@@ -3360,27 +3531,27 @@ Sí (3)
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 50%fatiga
 \end_layout
 
@@ -3389,7 +3560,7 @@ No
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Repetitivo
 \end_layout
 
@@ -3398,7 +3569,7 @@ Repetitivo
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Tiempo
 \end_layout
 
@@ -3407,7 +3578,7 @@ Tiempo
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
@@ -3416,72 +3587,72 @@ No
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sí
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Combailimitado
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Repetitivo
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Ilimitado
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sí
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sí
 \end_layout
 
@@ -3495,11 +3666,12 @@ Sí
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "tab:Ejemplos-de-tipos-saltos-creados"
 
 \end_inset
@@ -3531,7 +3703,8 @@ a no estará nunca en dos plataformas a la vez.
  las carreras como paso de una plataforma a otra, siendo válido también
  que el deportista podría volver a la misma.
  En la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Esquema-dos-plat"
 
 \end_inset
@@ -3546,7 +3719,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename chronojump_esquema_two_platforms.png
@@ -3556,11 +3729,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Esquema-dos-plat"
 
 \end_inset
@@ -3599,17 +3773,26 @@ carreras simples
 \end_layout
 
 \begin_layout Description
-Carrera\InsetSpace ~
-desde\InsetSpace ~
-parado Las que se inician pisando una plataforma y terminan
- pisando la misma plataforma u otra.
+Carrera
+\begin_inset space ~
+\end_inset
+
+desde
+\begin_inset space ~
+\end_inset
+
+parado Las que se inician pisando una plataforma y terminan pisando la misma
+ plataforma u otra.
  
 \end_layout
 
 \begin_layout Description
-Carrear\InsetSpace ~
-lanzada Las que se inician fuera de la plataforma, seguidamente en
- algún momento se pisa la plataforma (iniciándose el cronómetro) para después
+Carrear
+\begin_inset space ~
+\end_inset
+
+lanzada Las que se inician fuera de la plataforma, seguidamente en algún
+ momento se pisa la plataforma (iniciándose el cronómetro) para después
  de una fase de carrera que será registrada, volver a pisar la plataforma.
  El objetivo de esta modalidad suele ser registrar al deportista que ya
  lleva una velocidad determinada.
@@ -3677,7 +3860,8 @@ Personalizado
 Carreras de agilidad, hasta el momento introducidos los tests: 20 Yardas,
  505, Illinois, Shuttle Run, Zig-Zag test.
  La figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Test-de-agilidad-505"
 
 \end_inset
@@ -3691,7 +3875,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename chronojump-505.png
@@ -3703,11 +3887,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Test-de-agilidad-505"
 
 \end_inset
@@ -3960,7 +4145,8 @@ En cada carrera se muestran una serie de valores, puede cambiar las opciones
 Preferencias
 \emph default
  (más información en el apartado 
-\begin_inset LatexCommand vref
+\begin_inset CommandInset ref
+LatexCommand vref
 reference "sec:Preferencias"
 
 \end_inset
@@ -4044,7 +4230,8 @@ Borrar carrera seleccionada
 Preferencias
 \emph default
  (más información en el apartado 
-\begin_inset LatexCommand vref
+\begin_inset CommandInset ref
+LatexCommand vref
 reference "sec:Preferencias"
 
 \end_inset
@@ -4114,12 +4301,13 @@ Las opciones de límite por tiempo o por pistas podrán ser ajustadas con
 \end_layout
 
 \begin_layout Standard
-Por último se ofrece la posibilidad de fijar la distancia de los tramos
- para el nuevo tipo de carrera.
+Se ofrece la posibilidad de fijar la distancia de los tramos para el nuevo
+ tipo de carrera.
  La ventana de creación de nuevo tipo de carrera concluye con la posibilidad
  de añadir una descripción textual.
  En la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Creación-de-nuevo-tipo-carrera"
 
 \end_inset
@@ -4133,7 +4321,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename run_type_add.png
@@ -4144,16 +4332,62 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Creación-de-nuevo-tipo-carrera"
 
 \end_inset
 
 Creación de nuevo tipo de carrera.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Desde la versión de Chronojump 0.9, se permite crear carreras con tramos
+ de distancia variable.
+ Esto es óptimo para obtener las velocidades en los tramos de pruebas de
+ agilidad.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename run_type_add-variable.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Creación-de-nuevo-tipo-carrera-variable"
+
+\end_inset
+
+Creación de tipo de carrera con tramos variables.
 \end_layout
 
 \end_inset
@@ -4175,7 +4409,8 @@ Se incluye a continuación una relación de ejemplos y consejos sobre la creaci�
  de tipos de carreras.
  Los nombres usados se han inventado para la elaboración de este manual.
  El cuadro 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "tab:Ejemplos-de-tipos-carreras-creados"
 
 \end_inset
@@ -4280,6 +4515,22 @@ SprintCortoVariable
  La longitud de cada tramo es de 100 metros.
 \end_layout
 
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+2 min de 20-10-7
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Carrera de agilidad de 3 tramos que se repiten durante 2' -el primero tiene
+ 20m, el 2o tiene 10m y el 3o 7m.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float table
 placement H
@@ -4287,68 +4538,68 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="5">
+<lyxtabular version="3" rows="8" columns="5">
 <features>
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" width="0">
-<column alignment="center" valignment="top" leftline="true" rightline="true" width="0">
-<row topline="true" bottomline="true">
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Nombre
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Tipo
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Limitado por
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Fijo
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Longitud de tramo
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sprint10
 \end_layout
 
@@ -4357,7 +4608,7 @@ Sprint10
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Simple
 \end_layout
 
@@ -4366,7 +4617,7 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
@@ -4375,27 +4626,27 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Fijo(10)
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 SprintCortoVariable
 \end_layout
 
@@ -4404,7 +4655,7 @@ SprintCortoVariable
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Simple
 \end_layout
 
@@ -4413,7 +4664,7 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
@@ -4422,27 +4673,27 @@ Simple
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Variable
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 20*5
 \end_layout
 
@@ -4451,7 +4702,7 @@ Variable
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Con tramos
 \end_layout
 
@@ -4460,7 +4711,7 @@ Con tramos
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Pistas
 \end_layout
 
@@ -4469,27 +4720,27 @@ Pistas
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Sí (5)
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Fijo(20)
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 20*n
 \end_layout
 
@@ -4498,7 +4749,7 @@ Fijo(20)
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Con tramos
 \end_layout
 
@@ -4507,7 +4758,7 @@ Con tramos
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Pistas
 \end_layout
 
@@ -4516,27 +4767,27 @@ Pistas
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Fijo(20)
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 40*50%fatiga
 \end_layout
 
@@ -4545,7 +4796,7 @@ Fijo(20)
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Con tramos
 \end_layout
 
@@ -4554,7 +4805,7 @@ Con tramos
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Tiempo
 \end_layout
 
@@ -4563,27 +4814,27 @@ Tiempo
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Fijo(40)
 \end_layout
 
 \end_inset
 </cell>
 </row>
-<row topline="true" bottomline="true">
+<row>
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 100*?
 \end_layout
 
@@ -4592,7 +4843,7 @@ Fijo(40)
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Con tramos
 \end_layout
 
@@ -4601,7 +4852,7 @@ Con tramos
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Ilimitado
 \end_layout
 
@@ -4610,17 +4861,64 @@ Ilimitado
 <cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 -
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Fijo(100)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 min 20-10-7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Con tramos
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tiempo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sí(120')
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable(20,10,7)
 \end_layout
 
 \end_inset
@@ -4633,11 +4931,12 @@ Fijo(100)
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "tab:Ejemplos-de-tipos-carreras-creados"
 
 \end_inset
@@ -4787,7 +5086,8 @@ n de borrado de tests esté activada en el menú de
 Preferencias
 \emph default
  (más información en la sección 
-\begin_inset LatexCommand vref
+\begin_inset CommandInset ref
+LatexCommand vref
 reference "sec:Preferencias"
 
 \end_inset
@@ -4796,7 +5096,15 @@ reference "sec:Preferencias"
 \end_layout
 
 \begin_layout Subsection
-Ritmos
+Pulsos (Ritmos)
+\end_layout
+
+\begin_layout Standard
+[Pendiente de documentar]
+\end_layout
+
+\begin_layout Subsection
+MultiChronopic
 \end_layout
 
 \begin_layout Standard
@@ -4814,7 +5122,8 @@ Chronojump dispone de múltiples índices para estudiar los tests que son
  de los estadísticos y su graficación ha sido diseñada específicamente para
  la medición de saltos y carreras.
  En la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Ventana-de-estadísiticas"
 
 \end_inset
@@ -4828,7 +5137,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename chronojump_stats_window.png
@@ -4840,11 +5149,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Ventana-de-estadísiticas"
 
 \end_inset
@@ -4876,36 +5186,66 @@ Cada estadístico puede ser clasificado por su tipo, entre los que se presentan:
 \end_layout
 
 \begin_layout Description
-Sumario\InsetSpace ~
-de\InsetSpace ~
-sesión que muestra las medias o los valores máximos de un conjunto
- de estadísticos.
+Sumario
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+sesión que muestra las medias o los valores máximos de un conjunto de estadístic
+os.
 \end_layout
 
 \begin_layout Description
-Sumario\InsetSpace ~
-de\InsetSpace ~
-saltador que muestra las medias o los valores máximos de un conjunto
- de estadísticos de un sujeto concreto.
+Sumario
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+saltador que muestra las medias o los valores máximos de un conjunto de
+ estadísticos de un sujeto concreto.
 \end_layout
 
 \begin_layout Description
-Saltos\InsetSpace ~
-simples que ofrece diversas formas de analizar saltos simples sin
- tiempo de contacto
+Saltos
+\begin_inset space ~
+\end_inset
+
+simples que ofrece diversas formas de analizar saltos simples sin tiempo
+ de contacto
 \end_layout
 
 \begin_layout Description
-Saltos\InsetSpace ~
-simples_con\InsetSpace ~
-tiempo\InsetSpace ~
-de\InsetSpace ~
-contacto que ofrece diversas formas de analizar
- saltos simples con tiempo de contacto
+Saltos
+\begin_inset space ~
+\end_inset
+
+simples_con
+\begin_inset space ~
+\end_inset
+
+tiempo
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+contacto que ofrece diversas formas de analizar saltos simples con tiempo
+ de contacto
 \end_layout
 
 \begin_layout Description
-Saltos\InsetSpace ~
+Saltos
+\begin_inset space ~
+\end_inset
+
 reactivos que presenta diversas formas de analizar saltos repetitivos
 \end_layout
 
@@ -4914,7 +5254,8 @@ Hasta el momento las estadísticas y gráficas sólo se aplican a los tests
  de salto y salto reactivo.
  Si desea gráficos de otros tests, le recomendamos que exporte los datos
  a hoja de cálculo tal y como se explica en el apartado 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Exportación-a-hoja"
 
 \end_inset
@@ -5036,7 +5377,8 @@ Picos de potencia
 
 \begin_layout Standard
 En la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Estadísticas-de-saltos-simples"
 
 \end_inset
@@ -5053,7 +5395,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename chronojump_estadisticas_saltos_simples.png
@@ -5065,11 +5407,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Estadísticas-de-saltos-simples"
 
 \end_inset
@@ -5294,7 +5637,10 @@ Todos muestra todos los resultados del estadístico seleccionado.
 \end_layout
 
 \begin_layout Description
-Límite\InsetSpace ~
+Límite
+\begin_inset space ~
+\end_inset
+
 
 \emph on
 n
@@ -5307,15 +5653,26 @@ n
 \end_layout
 
 \begin_layout Description
-Media\InsetSpace ~
-del\InsetSpace ~
-saltador muestra el promedio de cada saltador en el estadístico
- seleccionado.
+Media
+\begin_inset space ~
+\end_inset
+
+del
+\begin_inset space ~
+\end_inset
+
+saltador muestra el promedio de cada saltador en el estadístico seleccionado.
 \end_layout
 
 \begin_layout Description
-Máximo/s\InsetSpace ~
-del\InsetSpace ~
+Máximo/s
+\begin_inset space ~
+\end_inset
+
+del
+\begin_inset space ~
+\end_inset
+
 saltador muestra los 
 \emph on
 n
@@ -5409,13 +5766,15 @@ En la primera columna de cada fila encontrará una pequeña caja de selección
  que le permite agilizar la selección de filas en base a distintos criterios.
  Encontrará más información sobre gráficos y los informes en los apartados
  
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sub:Creación-de-graficos"
 
 \end_inset
 
  y 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sec:Generación-de-Informes"
 
 \end_inset
@@ -5425,7 +5784,8 @@ reference "sec:Generación-de-Informes"
 
 \begin_layout Subsection
 Creación de gráficos
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sub:Creación-de-graficos"
 
 \end_inset
@@ -5442,7 +5802,8 @@ Graficar
 \emph default
  que aparece en la ventana de estadísticos.
  En la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "fig:Gráfico-de-índice-DJ"
 
 \end_inset
@@ -5456,7 +5817,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename chronojump_graph_djindex_english.png
@@ -5468,11 +5829,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Gráfico-de-índice-DJ"
 
 \end_inset
@@ -5513,7 +5875,8 @@ Exportación a hoja de cálculo
 
 \begin_layout Subsection
 Generación de informes
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sec:Generación-de-Informes"
 
 \end_inset
@@ -5534,7 +5897,8 @@ Haciendo clic en
 Ver / Ventana de Informes
 \emph default
 , aparece la figura que se muestra en la figura 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "sec:Generación-de-Informes"
 
 \end_inset
@@ -5578,7 +5942,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename chronojump_report_spanish.png
@@ -5590,11 +5954,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Ejemplo-de-informe"
 
 \end_inset
@@ -5614,7 +5979,8 @@ Ejemplo de informe
 
 \begin_layout Subsection
 Exportación a hoja de cálculo
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sub:Exportación-a-hoja"
 
 \end_inset
@@ -5651,7 +6017,8 @@ localización
 
 \begin_layout Section
 Preferencias
-\begin_inset LatexCommand label
+\begin_inset CommandInset label
+LatexCommand label
 name "sec:Preferencias"
 
 \end_inset
@@ -5670,7 +6037,8 @@ Archivos / Preferencias
  como un flotador).
  La conexión con el cronómetro Chronopic se trata específicamente en el
  apartado 
-\begin_inset LatexCommand ref
+\begin_inset CommandInset ref
+LatexCommand ref
 reference "par:Chronopic:-concepto-y-configuracion"
 
 \end_inset
@@ -5690,7 +6058,7 @@ wide false
 sideways false
 status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename Captura-Preferencias.png
@@ -5701,11 +6069,12 @@ status open
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-\begin_inset LatexCommand label
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
 name "fig:Preferencias"
 
 \end_inset

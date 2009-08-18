@@ -1056,11 +1056,18 @@ public class Util
 		return detected;
 	}
 
-	public static string NoYes(string numberStr) {
-		if(numberStr == "0")
-			return Constants.No;
-		else
+	/*
+	  tests:
+	  -1 simulated
+	  0 real not uplaoded
+	  >0 uploaded, num is the uniqueID on server
+	 */
+
+	public static string SimulatedTestNoYes(int num) {
+		if(num < 0)
 			return Constants.Yes;
+		else
+			return Constants.No;
 	}
 
 

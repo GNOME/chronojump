@@ -90,11 +90,12 @@ public class Util
 	}
 
 	public static string TrimDecimals (string time, int prefsDigitsNumber) {
-		if(time == "-1" || time == "-") {
+		if(time == "-1") 
+			return "-1";
+		else if(time == "-") 
 			return "-";
-		} else {
+		else 
 			return Math.Round(Convert.ToDouble(time), prefsDigitsNumber).ToString();
-		}
 	}
 	
 	public static double GetMax (string values)
@@ -695,11 +696,11 @@ public class Util
 	}
 
 	public static string GetDataDir(){
-		return System.IO.Path.Combine(GetPrefixDir(),"share");
+		return System.IO.Path.Combine(GetPrefixDir(),"share/chronojump");
 	}
 
 	public static string GetImagesDir(){
-		return System.IO.Path.Combine(GetDataDir(),"chronojump/images");
+		return System.IO.Path.Combine(GetDataDir(),"images");
 	}
 
 	public static string GetCssDir(){
@@ -1121,5 +1122,13 @@ public class Util
 		return searchedValue;
 	}
 
+	public static string SQLBuildString (string tableName, string test, string variable,
+			string sex, 
+			//string age, //interval...
+			int countryID, string sport, string speciallity, string level)
+	{
+		//string str = "SELECT " + tableName + "AVG(
+		return "A";
+	}
 
 }

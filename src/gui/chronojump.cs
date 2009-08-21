@@ -138,7 +138,9 @@ public class ChronoJumpWindow
 
 	//multiChronopic
 	[Widget] Gtk.Table table_multi_chronopic_buttons;
+	[Widget] Gtk.MenuItem menuitem_multi_chronopic_start;
 	[Widget] Gtk.Button button_multi_chronopic_start;
+	[Widget] Gtk.MenuItem menuitem_run_analysis;
 	[Widget] Gtk.Button button_run_analysis;
 	[Widget] Gtk.Entry entry_run_analysis_distance;
 	[Widget] Gtk.ComboBox combo_port_linux;
@@ -206,7 +208,6 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
 	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
 	[Widget] Gtk.MenuItem menuitem_run_interval_mtgug;
-	[Widget] Gtk.MenuItem menuitem_run_analysis;
 				
 	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
 
@@ -365,6 +366,7 @@ public class ChronoJumpWindow
 	GenericWindow genericWin;
 		
 	EvaluatorWindow evalWin;
+	QueryServerWindow queryServerWin;
 	PersonNotUploadWindow personNotUploadWin; 
 	
 	static EventExecuteWindow eventExecuteWin;
@@ -1010,9 +1012,37 @@ public class ChronoJumpWindow
 		}
 	}
 	
+	private void on_menuitem_server_query_activate (object o, EventArgs args) {
+		queryServerWin = QueryServerWindow.Show();
+		/*
+		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
+		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
+			if(Server.CanI(Constants.ServerActionQuery, Util.VersionToDouble(progVersion))) {
+				ChronojumpServer myServer = new ChronojumpServer();
+				Log.WriteLine(myServer.ConnectDatabase());
+			
+				//string [] statsServer = myServer.Query();
+			
+				Log.WriteLine(myServer.DisConnectDatabase());
+
+				//new DialogMessage();
+			} else {
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Your version of Chronojump is too old for this.") + "\n\n" + 
+						Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n");
+			}
+		} else {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+		}
+		*/
+	}
+	
 	private void on_menuitem_server_ping (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, 
-				Server.Ping(true, progName, progVersion)); //do insertion (will show versionAvailable)
+		string str = Server.Ping(false, progName, progVersion); //don't do insertion (will show versionAvailable)
+		//show online or offline (not the next version of client available)
+		if(str != Constants.ServerOffline)
+			str = Catalog.GetString(Constants.ServerOnline);
+		new DialogMessage(Constants.MessageTypes.INFO, str);
 	}
 	
 	bool uploadSessionAfter;
@@ -1066,6 +1096,10 @@ public class ChronoJumpWindow
 	
 	private void on_select_persons_to_discard_done (object o, EventArgs args) {
 		server_upload_session();
+	}
+
+	private void on_menuitem_goto_server_website_activate (object o, EventArgs args) {
+		System.Diagnostics.Process.Start(Path.Combine(Constants.ChronojumpWebsite, "server.html"));
 	}
 
 	/* 
@@ -1814,6 +1848,7 @@ public class ChronoJumpWindow
 	private void createComboMultiChronopic() 
 	{
 		table_multi_chronopic_buttons.Sensitive = false;
+		menuitem_run_analysis.Sensitive = false;
 		button_connect_cp.Sensitive = false;
 		image_cp1_yes.Hide();
 		image_cp2_yes.Hide();
@@ -2466,10 +2501,13 @@ public class ChronoJumpWindow
 				
 			if(currentCp >= 2) {
 				table_multi_chronopic_buttons.Sensitive = true;
-				if(Util.IsNumber(entry_run_analysis_distance.Text, false))
+				if(Util.IsNumber(entry_run_analysis_distance.Text, false)) {
+					menuitem_run_analysis.Sensitive = true;
 					button_run_analysis.Sensitive = true;
-				else
+				} else {
+					menuitem_run_analysis.Sensitive = false;
 					button_run_analysis.Sensitive = false;
+				}
 			}
 	
 			//disallow selection of that port for other chronopics
@@ -4146,18 +4184,21 @@ Console.WriteLine("X");
 	 */
 
 	private void on_entry_run_analysis_distance_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_run_analysis_distance.Text, false) && entry_run_analysis_distance.Text != "0")
+		if(Util.IsNumber(entry_run_analysis_distance.Text, false) && entry_run_analysis_distance.Text != "0") {
+			menuitem_run_analysis.Sensitive = true;
 			button_run_analysis.Sensitive = true;
-		else
+		} else {
+			menuitem_run_analysis.Sensitive = false;
 			button_run_analysis.Sensitive = false;
+		}
 	}
 
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
 		Log.WriteLine("multi chronopic accepted");
 		
-		if(o == (object) button_multi_chronopic_start) 
+		if(o == (object) button_multi_chronopic_start || o == (object) menuitem_multi_chronopic_start) 
 			currentMultiChronopicType = new MultiChronopicType(Constants.MultiChronopicName);
-		else if(o == (object) button_run_analysis)
+		else if(o == (object) button_run_analysis || o == (object) menuitem_run_analysis)
 			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
 
 		//used by cancel and finish

@@ -35,6 +35,8 @@ public class Constants
 		"Andoni Morales (http://ylatuya.es)\n" + Catalog.GetString("Installation support: Autotools, packaging, bundle.") 
 	};
 	
+	public static string ChronojumpWebsite = "http://www.chronojump.org";
+	
 	//formulas
 	public static string DjIndexFormula = "Dj Index (tv-tc)/tc *100)";
 	public static string QIndexFormula = "Q index (tv/tc)";
@@ -44,6 +46,12 @@ public class Constants
 
 	//tests types
 	public enum TestTypes { JUMP, JUMP_RJ, RUN, RUN_I, RT, PULSE, MULTICHRONOPIC }
+	public static string JumpSimpleName = "Jump simple";
+	public static string JumpReactiveName = "Jump reactive";
+	public static string RunSimpleName = "Run simple";
+	public static string RunIntervallicName = "Run interval";
+	public static string ReactionTimeName = "Reaction Time";
+	public static string PulseName = "Pulse";
 
 	//sqlite tables
 	//instead of typing the tableName directly (that can crash if it's bad written and it's not detected by compiler)
@@ -79,12 +87,16 @@ public class Constants
 	public const string ReactionTimeTypeTable = "reactionTimeType";
 
 	public const string UndefinedDefault = "Undefined";
+	public const string Any = "Any";
+	public const string Males = "Males";
+	public const string Females = "Females";
 
 	//server	
 	public const string ServerPingTable = "SPing"; 
 	public const string ServerEvaluatorTable = "SEvaluator"; 
 	public const string IPUnknown = "Unknown"; 
 	public static int ServerUndefinedID = -1;
+	public static string ServerOnline = Catalog.GetString("Server is connected.");
 	public static string ServerOffline = Catalog.GetString("Sorry, server is currently offline. Try later.");
 	public enum ServerSessionStates {
 		NOTHING, UPLOADINGSESSION, UPLOADINGDATA, DONE
@@ -94,6 +106,7 @@ public class Constants
 	}
 	public const string ServerActionUploadSession = "uploadSession"; 
 	public const string ServerActionStats = "stats"; 
+	public const string ServerActionQuery = "query"; 
 	
 	public const string ChronometerCp1 = "Chronopic1";
 	public const string ChronometerCp2 = "Chronopic2";
@@ -301,7 +314,9 @@ public class Constants
 
 	public static int SportUndefinedID = 1;
 	public static string SportUndefined = "--Undefined";
+	public static string SportAny = "--Any";
 	private static string dumbVariableForTranslatingSportUndefined = Catalog.GetString("--Undefined");
+	private static string dumbVariableForTranslatingSportAny = Catalog.GetString("--Any");
 	public static int SportNoneID = 2;
 	public static string SportNone = "-None";
 	private static string dumbVariableForTranslatingSportNone = Catalog.GetString("-None");

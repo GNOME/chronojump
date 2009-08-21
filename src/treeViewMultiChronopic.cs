@@ -213,7 +213,6 @@ public class TreeViewMultiChronopic : TreeViewEvent
 	protected override string [] getSubLineToStore(System.Object myObject, int lineCount)
 	{
 		MultiChronopic mc = (MultiChronopic)myObject;
-Console.WriteLine("AA");
 		//write line for treeview
 		string [] myData = new String [19+1];
 
@@ -251,7 +250,6 @@ Console.WriteLine("AA");
 
 		//not runAnalsysis
 		if(lineCount == 0) {
-			Console.WriteLine("AA2b");
 			int count=0;
 			myData[count++] = "0";
 			myData[count++] = "0";
@@ -267,9 +265,7 @@ Console.WriteLine("AA");
 			myData[count++] = "-1"; //mark to non select here, select first line 
 			return mc.DeleteCols(myData, maxCPs, false);
 		} else {
-			Console.WriteLine("AA3");
 			ArrayList array = mc.AsArrayList(pDN);
-			Console.WriteLine("AA4");
 			return mc.DeleteCols( array[lineCount-1].ToString().Split(new char[] {':'} ), maxCPs, false );
 		}
 

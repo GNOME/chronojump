@@ -535,7 +535,7 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
 					myStr[9] + ":" +  Util.GetLimitedRounded(myStr[11], dec) + ":" + 	//tracks, limited
-					Util.RemoveNewLine(myStr[10]) + ":" + Util.SimulatedTestNoYes(Convert.ToInt32(myStr[11]))	//description, simulated
+					Util.RemoveNewLine(myStr[10]) + ":" + Util.SimulatedTestNoYes(Convert.ToInt32(myStr[12]))	//description, simulated
 				   );
 			
 			if(showSubruns) {

@@ -172,12 +172,9 @@ public class MultiChronopic : Event
 			returnLine[count++] = ""; //description column (unused because this array if for eg. treeview subLines)
 			returnLine[count++] = "-1"; //mark to non select here, select first line 
 			returnArray.Add(Util.StringArrayToString(returnLine, ":"));
-
-			Console.WriteLine(Util.StringArrayToString(returnLine, ":"));
 		}
 		array = returnArray;
 		arrayDone = true;
-			Console.WriteLine("BB4");
 		return array;
 	}
 		

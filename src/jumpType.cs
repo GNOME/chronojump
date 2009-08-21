@@ -165,6 +165,7 @@ public class JumpType : EventType
 			imageFileName = "jump_rj_in.png";
 		} else if(name == Constants.RunAnalysisName) { //like a Rj(unlimited). but starting out
 			//Josep Ma Padullés test
+			//TODO: check if this code is used, because that test is a multiChronopic now
 			startIn 	= false;
 			hasWeight 	= false;
 			isRepetitive 	= true;

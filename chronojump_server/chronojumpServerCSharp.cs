@@ -45,6 +45,8 @@ public class ChronojumpServer {
 			return true;
 		else if(action == Constants.ServerActionStats && clientVersion >= 0.8)
 			return true;
+		else if(action == Constants.ServerActionQuery && clientVersion >= 0.895) //0.8.9.5
+			return true;
 
 		return false;
 	}

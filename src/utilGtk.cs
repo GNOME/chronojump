@@ -143,4 +143,10 @@ public class UtilGtk
 		return (val1-val2);
 	}
 
+	public static void ComboPackShowAndSensitive (Gtk.Box box, Gtk.ComboBox combo) {
+		box.PackStart(combo, true, true, 0);
+		box.ShowAll();
+		combo.Sensitive = true;
+	}
+
 }

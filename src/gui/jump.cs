@@ -593,8 +593,9 @@ public class RepairJumpRjWindow
 					myTv = Util.TrimDecimals(tvArray[count], pDN);
 				else
 					myTv = "";
-				
+
 				store.AppendValues ( (count+1).ToString(), Util.TrimDecimals(myTc, pDN), myTv );
+
 				count ++;
 			}
 		}

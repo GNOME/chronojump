@@ -1,5 +1,19 @@
 TODO: 
 
+continue server menu / Query
+
+updating manual. Pending:
+-graphs 6.3, 6.1  to same theme than others
+-server
+-check all again
+
+do something to disallow to execute chronojump two times
+
+check all software (for the Util.TrimDecimals change)
+create accept license on uploading
+add accept license on uploading, and a way to retreive it from server
+
+
 website velleman put retardo de desactivacion instead of tiempo de respuesta ajustable
 
 

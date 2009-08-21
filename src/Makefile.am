@@ -93,6 +93,7 @@ FILES = \
 	gui/server.cs\
 	gui/dialogServerStats.cs\
  	gui/evaluator.cs\
+ 	gui/queryServer.cs\
 	statType.cs\
 	stats/main.cs\
 	stats/global.cs\

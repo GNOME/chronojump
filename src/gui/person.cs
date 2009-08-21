@@ -818,7 +818,7 @@ public class PersonAddModifyWindow
 	int speciallityID;
 	string [] speciallities;
 	string [] speciallitiesTranslated;
-	String level;
+	//String level;
 	string [] levels;
 	string [] continents;
 	string [] continentsTranslated;

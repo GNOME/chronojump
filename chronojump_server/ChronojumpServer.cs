@@ -28,6 +28,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     private System.Threading.SendOrPostCallback CanIOperationCompleted;
     
+    private System.Threading.SendOrPostCallback QueryOperationCompleted;
+    
     private System.Threading.SendOrPostCallback StatsOperationCompleted;
     
     private System.Threading.SendOrPostCallback UploadSessionOperationCompleted;
@@ -79,6 +81,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     private event DisConnectDatabaseCompletedEventHandler DisConnectDatabaseCompleted;
     
     private event CanICompletedEventHandler CanICompleted;
+    
+    private event QueryCompletedEventHandler QueryCompleted;
     
     private event StatsCompletedEventHandler StatsCompleted;
     
@@ -233,6 +237,66 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         if ((this.CanICompleted != null)) {
             System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
             this.CanICompleted(this, new CanICompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
+///Query
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/Query", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public string Query(string tableName, string test, string variable, int sex, int countryID, int sportID, int speciallityID, int levelID) {
+        object[] results = this.Invoke("Query", new object[] {
+                    tableName,
+                    test,
+                    variable,
+                    sex,
+                    countryID,
+                    sportID,
+                    speciallityID,
+                    levelID});
+        return ((string)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginQuery(string tableName, string test, string variable, int sex, int countryID, int sportID, int speciallityID, int levelID, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("Query", new object[] {
+                    tableName,
+                    test,
+                    variable,
+                    sex,
+                    countryID,
+                    sportID,
+                    speciallityID,
+                    levelID}, callback, asyncState);
+    }
+    
+    public string EndQuery(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((string)(results[0]));
+    }
+    
+    public void QueryAsync(string tableName, string test, string variable, int sex, int countryID, int sportID, int speciallityID, int levelID) {
+        this.QueryAsync(tableName, test, variable, sex, countryID, sportID, speciallityID, levelID, null);
+    }
+    
+    public void QueryAsync(string tableName, string test, string variable, int sex, int countryID, int sportID, int speciallityID, int levelID, object userState) {
+        if ((this.QueryOperationCompleted == null)) {
+            this.QueryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnQueryCompleted);
+        }
+        this.InvokeAsync("Query", new object[] {
+                    tableName,
+                    test,
+                    variable,
+                    sex,
+                    countryID,
+                    sportID,
+                    speciallityID,
+                    levelID}, this.QueryOperationCompleted, userState);
+    }
+    
+    private void OnQueryCompleted(object arg) {
+        if ((this.QueryCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.QueryCompleted(this, new QueryCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
         }
     }
     
@@ -1083,472 +1147,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
 }
 
-/*
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class ServerSession : Session {
-    
-    /// <remarks/>
-    public int EvaluatorID;
-    
-    /// <remarks/>
-    public string EvaluatorCJVersion;
-    
-    /// <remarks/>
-    public string EvaluatorOS;
-    
-    /// <remarks/>
-    public string UploadedDate;
-    
-    /// <remarks/>
-    public int UploadingState;
-}
 
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(ServerSession))]
-public partial class Session {
-    
-    /// <remarks/>
-    public string Name;
-    
-    /// <remarks/>
-    public string Place;
-    
-    /// <remarks/>
-    public string Date;
-    
-    /// <remarks/>
-    public string Comments;
-    
-    /// <remarks/>
-    public int ServerUniqueID;
-    
-    /// <remarks/>
-    public int UniqueID;
-    
-    /// <remarks/>
-    public int PersonsSportID;
-    
-    /// <remarks/>
-    public int PersonsSpeciallityID;
-    
-    /// <remarks/>
-    public int PersonsPractice;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class Sport {
-    
-    /// <remarks/>
-    public int UniqueID;
-    
-    /// <remarks/>
-    public string Name;
-    
-    /// <remarks/>
-    public bool UserDefined;
-    
-    /// <remarks/>
-    public string GraphLink;
-    
-    /// <remarks/>
-    public bool HasSpeciallities;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class JumpType : EventType {
-    
-    /// <remarks/>
-    public bool StartIn;
-    
-    /// <remarks/>
-    public bool HasWeight;
-    
-    /// <remarks/>
-    public bool IsRepetitive;
-    
-    /// <remarks/>
-    public bool JumpsLimited;
-    
-    /// <remarks/>
-    public double FixedValue;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(JumpType))]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(RunType))]
-public partial class EventType {
-    
-    /// <remarks/>
-    public string Name;
-    
-    /// <remarks/>
-    public string Description;
-    
-    /// <remarks/>
-    public bool IsPredefined;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class RunType : EventType {
-    
-    /// <remarks/>
-    public double Distance;
-    
-    /// <remarks/>
-    public bool HasIntervals;
-    
-    /// <remarks/>
-    public bool TracksLimited;
-    
-    /// <remarks/>
-    public int FixedValue;
-    
-    /// <remarks/>
-    public bool Unlimited;
-    
-    /// <remarks/>
-    public string DistancesString;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class Person {
-    
-    /// <remarks/>
-    public string Name;
-    
-    /// <remarks/>
-    public string Sex;
-    
-    /// <remarks/>
-    public string DateBorn;
-    
-    /// <remarks/>
-    public int Height;
-    
-    /// <remarks/>
-    public int Weight;
-    
-    /// <remarks/>
-    public int SportID;
-    
-    /// <remarks/>
-    public int SpeciallityID;
-    
-    /// <remarks/>
-    public int Practice;
-    
-    /// <remarks/>
-    public string Description;
-    
-    /// <remarks/>
-    public int Race;
-    
-    /// <remarks/>
-    public int CountryID;
-    
-    /// <remarks/>
-    public int ServerUniqueID;
-    
-    /// <remarks/>
-    public int UniqueID;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class ServerPing {
-    
-    /// <remarks/>
-    public int UniqueID;
-    
-    /// <remarks/>
-    public int EvaluatorID;
-    
-    /// <remarks/>
-    public string CJVersion;
-    
-    /// <remarks/>
-    public string OSVersion;
-    
-    /// <remarks/>
-    public string IP;
-    
-    /// <remarks/>
-    public string Date;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class ServerEvaluator {
-    
-    /// <remarks/>
-    public int UniqueID;
-    
-    /// <remarks/>
-    public string Code;
-    
-    /// <remarks/>
-    public string Name;
-    
-    /// <remarks/>
-    public string Email;
-    
-    /// <remarks/>
-    public string DateBorn;
-    
-    /// <remarks/>
-    public int CountryID;
-    
-    /// <remarks/>
-    public string Chronometer;
-    
-    /// <remarks/>
-    public string Device;
-    
-    /// <remarks/>
-    public string Comments;
-    
-    /// <remarks/>
-    public bool Confiable;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(JumpRj))]
-public partial class Jump : Event {
-    
-    /// <remarks/>
-    public double Tv;
-    
-    /// <remarks/>
-    public double Tc;
-    
-    /// <remarks/>
-    public int Fall;
-    
-    /// <remarks/>
-    public double Weight;
-    
-    /// <remarks/>
-    public double Angle;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(Jump))]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(JumpRj))]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(Run))]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(RunInterval))]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(ReactionTime))]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(Pulse))]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(MultiChronopic))]
-public partial class Event {
-    
-    /// <remarks/>
-    public string Type;
-    
-    /// <remarks/>
-    public string Description;
-    
-    /// <remarks/>
-    public int UniqueID;
-    
-    /// <remarks/>
-    public int SessionID;
-    
-    /// <remarks/>
-    public int PersonID;
-    
-    /// <remarks/>
-    public int Simulated;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class JumpRj : Jump {
-    
-    /// <remarks/>
-    public string Limited;
-    
-    /// <remarks/>
-    public string TvString;
-    
-    /// <remarks/>
-    public string TcString;
-    
-    /// <remarks/>
-    public int Jumps;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-[System.Xml.Serialization.XmlIncludeAttribute(typeof(RunInterval))]
-public partial class Run : Event {
-    
-    /// <remarks/>
-    public double Distance;
-    
-    /// <remarks/>
-    public double Time;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class RunInterval : Run {
-    
-    /// <remarks/>
-    public string IntervalTimesString;
-    
-    /// <remarks/>
-    public double DistanceInterval;
-    
-    /// <remarks/>
-    public double DistanceTotal;
-    
-    /// <remarks/>
-    public double TimeTotal;
-    
-    /// <remarks/>
-    public double Tracks;
-    
-    /// <remarks/>
-    public string Limited;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class ReactionTime : Event {
-    
-    /// <remarks/>
-    public double Time;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class Pulse : Event {
-    
-    /// <remarks/>
-    public double FixedPulse;
-    
-    /// <remarks/>
-    public string TimesString;
-}
-
-/// <remarks/>
-[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.42")]
-[System.SerializableAttribute()]
-[System.Diagnostics.DebuggerStepThroughAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(Namespace="http://server.chronojump.org/")]
-public partial class MultiChronopic : Event {
-    
-    /// <remarks/>
-    public int Cp1StartedIn;
-    
-    /// <remarks/>
-    public int Cp2StartedIn;
-    
-    /// <remarks/>
-    public int Cp3StartedIn;
-    
-    /// <remarks/>
-    public int Cp4StartedIn;
-    
-    /// <remarks/>
-    public string Cp1InStr;
-    
-    /// <remarks/>
-    public string Cp1OutStr;
-    
-    /// <remarks/>
-    public string Cp2InStr;
-    
-    /// <remarks/>
-    public string Cp2OutStr;
-    
-    /// <remarks/>
-    public string Cp3InStr;
-    
-    /// <remarks/>
-    public string Cp3OutStr;
-    
-    /// <remarks/>
-    public string Cp4InStr;
-    
-    /// <remarks/>
-    public string Cp4OutStr;
-}
-*/
 public class ConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
@@ -1605,6 +1204,25 @@ public class CanICompletedEventArgs : System.ComponentModel.AsyncCompletedEventA
 }
 
 public delegate void CanICompletedEventHandler(object sender, CanICompletedEventArgs args);
+
+public class QueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal QueryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public string Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[0]));
+        }
+    }
+}
+
+public delegate void QueryCompletedEventHandler(object sender, QueryCompletedEventArgs args);
 
 public class StatsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
@@ -2004,4 +1622,3 @@ public class ListDirectoryCompletedEventArgs : System.ComponentModel.AsyncComple
 }
 
 public delegate void ListDirectoryCompletedEventHandler(object sender, ListDirectoryCompletedEventArgs args);
-

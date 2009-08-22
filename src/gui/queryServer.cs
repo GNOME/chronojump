@@ -83,12 +83,13 @@ public class QueryServerWindow
 		Catalog.GetString(Constants.UndefinedDefault), //needs to be defined
 	};
 	
+	//this variables have to be without Catalog, because in server can have different locale
 	private static string [] variablesJumpSimple = {
-		Catalog.GetString("TV"), 
+		"TV", 
 	};
 	private static string [] variablesJumpSimpleWithTC = {
-		Catalog.GetString("TV"), 
-		Catalog.GetString("TC"), 
+		"TV", 
+		"TC", 
 		Constants.DjIndexFormula,
 		Constants.QIndexFormula
 	};
@@ -96,13 +97,14 @@ public class QueryServerWindow
 		Catalog.GetString("Average Index"), 
 		Constants.RJPotencyBoscoFormula,
 		//Catalog.GetString("Evolution"), is same as RjIndex but showing every tc, tf
-		Constants.RJAVGSDRjIndexName,
-		Constants.RJAVGSDQIndexName
+		//Constants.RJAVGSDRjIndexName,
+		//Constants.RJAVGSDQIndexName
 	};
 	private static string [] variablesRunSimple = {
 		Catalog.GetString("Time"), 
 	};
 	
+
 	string [] sexes = {
 		Catalog.GetString(Constants.Any), 
 		Catalog.GetString(Constants.Males), 
@@ -189,7 +191,7 @@ public class QueryServerWindow
 		variables = Util.StringToStringArray(Constants.UndefinedDefault);
 		UtilGtk.ComboUpdate(combo_variables, variables, "");
 		combo_variables.Active = UtilGtk.ComboMakeActive(variables, Catalog.GetString(Constants.UndefinedDefault));
-		combo_variables.Changed += new EventHandler (on_combo_variables_changed);
+		combo_variables.Changed += new EventHandler (on_combo_other_changed);
 		UtilGtk.ComboPackShowAndSensitive(hbox_combo_variables, combo_variables);
 	}
 
@@ -226,7 +228,7 @@ public class QueryServerWindow
 		combo_countries.Active = UtilGtk.ComboMakeActive(myCountries, 
 				Catalog.GetString(Constants.CountryUndefined));
 
-		combo_countries.Changed += new EventHandler (on_combo_countries_changed);
+		combo_countries.Changed += new EventHandler (on_combo_other_changed);
 		UtilGtk.ComboPackShowAndSensitive(hbox_combo_countries, combo_countries);
 	}
 	
@@ -234,6 +236,7 @@ public class QueryServerWindow
 		combo_sexes = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_sexes, sexes, "");
 		combo_sexes.Active = UtilGtk.ComboMakeActive(sexes, Catalog.GetString(Constants.Any));
+		combo_sexes.Changed += new EventHandler (on_combo_other_changed);
 		UtilGtk.ComboPackShowAndSensitive(hbox_combo_sexes, combo_sexes);
 	}
 
@@ -293,6 +296,7 @@ public class QueryServerWindow
 		hbox_combo_speciallities.PackStart(combo_speciallities, true, true, 0);
 		hbox_combo_speciallities.ShowAll();
 		combo_speciallities.Sensitive = true;
+		combo_speciallities.Changed += new EventHandler (on_combo_other_changed);
 		UtilGtk.ComboPackShowAndSensitive(hbox_combo_speciallities, combo_speciallities);
 	}
 	
@@ -311,6 +315,7 @@ public class QueryServerWindow
 		hbox_combo_levels.PackStart(combo_levels, true, true, 0);
 		hbox_combo_levels.ShowAll();
 		combo_levels.Sensitive = false; //level is shown when sport is not "undefined" and not "none"
+		combo_levels.Changed += new EventHandler (on_combo_other_changed);
 		UtilGtk.ComboPackShowAndSensitive(hbox_combo_levels, combo_levels);
 	}
 
@@ -366,11 +371,8 @@ public class QueryServerWindow
 
 		on_entries_required_changed(new object(), new EventArgs());
 	}
-	
-	private void on_combo_variables_changed(object o, EventArgs args) {
-		on_entries_required_changed(new object(), new EventArgs());
-	}
 
+	
 	private void on_combo_continents_changed(object o, EventArgs args) {
 		if(UtilGtk.ComboGetActive(combo_continents) == Catalog.GetString(Constants.Any)) {
 			countries [0] = Constants.CountryUndefinedID + ":" + Constants.CountryUndefined + ":" + Catalog.GetString(Constants.CountryUndefined);
@@ -400,10 +402,6 @@ public class QueryServerWindow
 
 		combo_countries.Sensitive = true;
 
-		on_entries_required_changed(new object(), new EventArgs());
-	}
-
-	private void on_combo_countries_changed(object o, EventArgs args) {
 		on_entries_required_changed(new object(), new EventArgs());
 	}
 
@@ -481,39 +479,8 @@ public class QueryServerWindow
 		Log.WriteLine(sport.ToString());
 	}
 	
-
-	void sqlBuildSelect (bool requiredDataOk) 
-	{
-		if( ! requiredDataOk) {
-			TextBuffer tb = new TextBuffer (new TextTagTable());
-			tb.Text = "";
-			textview_query.Buffer = tb;
-			return;
-		}
-		
-		//TODO: convert to tableName
-		string testType = UtilGtk.ComboGetActive(combo_test_types);
-		string tableName = "";
-		int countryID = 1;
-	
-		//convert country to ID
-		//...
-		//UtilGtk.ComboGetActive(combo_countries),
-
-		string sqlString = Util.SQLBuildString(
-				tableName, 
-				UtilGtk.ComboGetActive(combo_tests),
-				UtilGtk.ComboGetActive(combo_variables),
-				UtilGtk.ComboGetActive(combo_sexes),
-				//UtilGtk.ComboGetActive(combo_age),
-				countryID,
-				UtilGtk.ComboGetActive(combo_sports),
-				UtilGtk.ComboGetActive(combo_speciallities),
-				UtilGtk.ComboGetActive(combo_levels)
-				);
-
-
-
+	private void on_combo_other_changed(object o, EventArgs args) {
+		on_entries_required_changed(new object(), new EventArgs());
 	}
 
 
@@ -548,12 +515,98 @@ public class QueryServerWindow
 		
 	
 		if(allOk) {
-			sqlBuildSelect(true);
+			textViewUpdate(sqlBuildSelect(false));
 			button_search.Sensitive = true;
 		}
 		else {
-			sqlBuildSelect(false);
+			textViewUpdate("");
 			button_search.Sensitive = false;
+		}
+	}
+
+	void textViewUpdate (string str) 
+	{
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = str;
+		textview_query.Buffer = tb;
+		return;
+	}
+
+	string sqlBuildSelect (bool performQuery) 
+	{
+		string testType = UtilGtk.ComboGetActive(combo_test_types);
+		string tableName = "";
+		if (testType == Catalog.GetString(Constants.JumpSimpleName))
+			tableName = Constants.JumpTable;
+		else if (testType == Catalog.GetString(Constants.JumpReactiveName))
+			tableName = Constants.JumpRjTable;
+		else if (testType == Catalog.GetString(Constants.RunSimpleName))
+			tableName = Constants.RunTable;
+		else {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Problem on sqlBuildSelect");
+			return "";
+		}
+		
+		string strVariable = UtilGtk.ComboGetActive(combo_variables);
+		if(strVariable == Constants.DjIndexFormula)
+			strVariable = Constants.DjIndexFormulaOnly;
+		else if(strVariable == Constants.QIndexFormula)
+			strVariable = Constants.QIndexFormulaOnly;
+		else if(strVariable == Catalog.GetString("Average Index"))
+			strVariable = Constants.RjIndexFormulaOnly;
+		else if(strVariable == Constants.RJPotencyBoscoFormula)
+			strVariable = Constants.RJPotencyBoscoFormulaOnly;
+		
+		/*
+		   as in server maybe Catalog locale is different than in client
+		   we cannot pass a localized "Any" hoping that will match server.
+		   then if it's any, pass "" (if string) or corresponding undefined ID (if int)
+		   */
+
+		int sexID = Constants.AnyID;
+		if(UtilGtk.ComboGetActive(combo_sexes) == Catalog.GetString(Constants.Males))
+			sexID = Constants.MaleID;
+		else if(UtilGtk.ComboGetActive(combo_sexes) == Catalog.GetString(Constants.Females))
+			sexID = Constants.FemaleID;
+
+		try {
+			string sqlString = Util.SQLBuildString(
+					tableName, 
+					UtilGtk.ComboGetActive(combo_tests),
+					strVariable,
+					sexID,
+					//UtilGtk.ComboGetActive(combo_age),
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports)),
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_levels))
+					);
+
+			if(performQuery) {
+				ChronojumpServer myServer = new ChronojumpServer();
+				myServer.ConnectDatabase();
+				string result = myServer.Query(
+					tableName, 
+					UtilGtk.ComboGetActive(combo_tests),
+					strVariable,
+					sexID,
+					//UtilGtk.ComboGetActive(combo_age),
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports)),
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_levels))
+					);
+				myServer.DisConnectDatabase();
+
+				string [] resultFull = result.Split(new char[] {':'});
+				label_results_num.Text = resultFull[0];
+				label_results_avg.Text = resultFull[1];
+			}
+
+			return sqlString;
+		} catch {
+			//fix problem on changing continent that updates country and two signals come
+			return "";
 		}
 	}
 
@@ -570,6 +623,7 @@ public class QueryServerWindow
 
 	protected void on_button_search_clicked (object o, EventArgs args)
 	{
+		sqlBuildSelect(true);
 	}
 	
 	protected void on_button_close_clicked (object o, EventArgs args)

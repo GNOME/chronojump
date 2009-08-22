@@ -1,6 +1,6 @@
 TODO: 
 
-continue server menu / Query
+server menu / Query: do age, put a progressBar when search
 
 updating manual. Pending:
 -graphs 6.3, 6.1  to same theme than others

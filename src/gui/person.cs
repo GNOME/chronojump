@@ -175,9 +175,9 @@ public class PersonRecuperateWindow {
 
 	protected string getCorrectSex (string sex) 
 	{
-		if (sex == "M") return  Catalog.GetString("Man");
+		if (sex == Constants.M) return  Catalog.GetString("Man");
 		//this "F" is in spanish, change in the future to "W"
-		else if (sex == "F") return  Catalog.GetString ("Woman");
+		else if (sex == Constants.F) return  Catalog.GetString ("Woman");
 		else { 
 			return ""; //PersonsRecuperateFromOtherSessionWindow should pass a "" for ALL PERSONS
 		}
@@ -832,7 +832,7 @@ public class PersonAddModifyWindow
 	private Person currentPerson;
 	private Session currentSession;
 	private int personID;
-	private string sex = "M";
+	private string sex = Constants.M;
 	private int weightIni;
 	int pDN;
 	
@@ -940,12 +940,12 @@ public class PersonAddModifyWindow
 		
 	void on_radiobutton_man_toggled (object o, EventArgs args)
 	{
-		sex = "M";
+		sex = Constants.M;
 	}
 	
 	void on_radiobutton_woman_toggled (object o, EventArgs args)
 	{
-		sex = "F";
+		sex = Constants.F;
 	}
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, Session mySession, int personID, int pDN)
@@ -1092,7 +1092,7 @@ public class PersonAddModifyWindow
 			Person myPerson = SqlitePersonSession.PersonSelect(personID, currentSession.UniqueID); 
 		
 			entry1.Text = myPerson.Name;
-			if (myPerson.Sex == "M") {
+			if (myPerson.Sex == Constants.M) {
 				radiobutton_man.Active = true;
 			} else {
 				radiobutton_woman.Active = true;
@@ -1571,11 +1571,11 @@ public class PersonAddMultipleWindow {
 			entries.Add(myEntry);
 
 			
-			Gtk.RadioButton myRadioM = new Gtk.RadioButton(Catalog.GetString("M"));
+			Gtk.RadioButton myRadioM = new Gtk.RadioButton(Catalog.GetString(Constants.M));
 			myRadioM.Show();
 			radiosM.Add(myRadioM);
 			
-			Gtk.RadioButton myRadioF = new Gtk.RadioButton(myRadioM, Catalog.GetString("F"));
+			Gtk.RadioButton myRadioF = new Gtk.RadioButton(myRadioM, Catalog.GetString(Constants.F));
 			myRadioF.Show();
 			radiosF.Add(myRadioF);
 			
@@ -1697,8 +1697,8 @@ public class PersonAddMultipleWindow {
 
 	void insertPerson (string name, bool male, int weight) 
 	{
-		string sex = "F";
-		if(male) { sex = "M"; }
+		string sex = Constants.F;
+		if(male) { sex = Constants.M; }
 
 		//DateTime dateTime = DateTime.Today;
 		//now dateTime is undefined until user changes it

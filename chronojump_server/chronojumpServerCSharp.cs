@@ -51,6 +51,21 @@ public class ChronojumpServer {
 		return false;
 	}
 
+	[WebMethod(Description="Query")]
+	public string Query(string tableName, string test, string variable,
+			int sex, 
+			//string age, //interval...
+			int countryID, int sportID, int speciallityID, int levelID)
+	{
+		string str = Util.SQLBuildString(tableName, test, variable,
+				sex, 
+				//age,
+				countryID, sportID, speciallityID, levelID
+				);
+
+		return SqliteServer.Query(str);
+	}
+
 
 	[WebMethod(Description="Stats")]
 	public string [] Stats()

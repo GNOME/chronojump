@@ -30144,7 +30144,7 @@ by you</property>
 			  <child>
 			    <widget class="GtkLabel" id="label758">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Number of results:</property>
+			      <property name="label" translatable="yes">Results:</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>

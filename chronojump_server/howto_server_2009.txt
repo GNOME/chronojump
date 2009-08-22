@@ -1,7 +1,7 @@
 
 1.- compile bin/*.dll file
 
-compiling with 'make server' creates the bin/chronojumpServer.dll
+see chronojump_server/compile_dll.txt
 
 upload to server
 
@@ -29,7 +29,7 @@ if(chronojumpServerCSharp.cs methods or callings don't changed) {
 
 3.- navigate to the page
 
-firefox http://localhost:8080/chronojumpServer.asmx
+firefox http://server.chronojump.org:8080/chronojumpServer.asmx
 
 4.- generate wsdl proxy file
 
@@ -46,11 +46,3 @@ e) save as ChronojumpServer.cs
 6.- compile client
 
 make
-
------
-instead of 80.32.81.197:8080
-do
-server.chronojump.org/   (work!)
-but if doesn't work, do:
-server.chronojump.org:8080/ (work too!, in both cases needed the end '/')
-------

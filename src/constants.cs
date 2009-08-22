@@ -40,6 +40,9 @@ public class Constants
 	//formulas
 	public static string DjIndexFormula = "Dj Index (tv-tc)/tc *100)";
 	public static string QIndexFormula = "Q index (tv/tc)";
+	public static string DjIndexFormulaOnly = "(tv-tc)*100/(tc*1.0)"; //*1.0 for having double division
+	public static string QIndexFormulaOnly = "tv/(tc*1.0)"; //*1.0 for having double division
+	
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
@@ -88,8 +91,14 @@ public class Constants
 
 	public const string UndefinedDefault = "Undefined";
 	public const string Any = "Any";
+
+	public const string M = "M";
+	public const string F = "F";
 	public const string Males = "Males";
 	public const string Females = "Females";
+	public const int AnyID = -1;
+	public const int MaleID = 1;
+	public const int FemaleID = 0;
 
 	//server	
 	public const string ServerPingTable = "SPing"; 
@@ -191,15 +200,17 @@ public class Constants
 		"(68.2*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (40.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1731.1";
 	
-	public static string RJPotencyBoscoFormula = Catalog.GetString("Peak Power") + " (Bosco)" + "\n 9.81^2*TF*TT / (4*jumps*(TT-TF))";
+	public static string RJPotencyBoscoFormula = "Peak Power" + " (Bosco)" + "\n 9.81^2*TF*TT / (4*jumps*(TT-TF))";
+	public static string RJPotencyBoscoFormulaOnly = "9.81*9.81 * tvavg*jumps * time / ( 4.0 * jumps * (time - tvavg*jumps) )"; //*4.0 for having double division
 	public static string RJPotencyBoscoName = Catalog.GetString("Peak Power") + " (Bosco)";
 
 	public static string RjIndexName = "Rj Index";
+	public static string RjIndexFormulaOnly = "(tvavg-tcavg)*100/(tcavg * 1.0)";
 	public static string QIndexName = "Q Index";
 	public static string RjIndexOnlyFormula = "(tf-tc)/tc *100)";
 	public static string QIndexOnlyFormula = "(tf/tc)";
-	public static string RJAVGSDRjIndexName = Catalog.GetString("Reactive AVG SD") + " (" + RjIndexName + ")";
-	public static string RJAVGSDQIndexName = Catalog.GetString("Reactive AVG SD") + " (" + QIndexName + ")";
+	public static string RJAVGSDRjIndexName = "Reactive AVG SD" + " (" + RjIndexName + ")";
+	public static string RJAVGSDQIndexName = "Reactive AVG SD" + " (" + QIndexName + ")";
 
 
 	//global stat types

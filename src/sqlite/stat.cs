@@ -253,9 +253,9 @@ class SqliteStat : Sqlite
 	{
 		string formula = "";
 		if(indexType == "djIndex") {
-			formula = "((tv-tc)*100/(tc*1.0))"; //*1.0 for having double division
+			formula = Constants.DjIndexFormulaOnly;
 		} else if (indexType == "indexQ") {
-			formula = "(tv/(tc*1.0))"; //*1.0 for having double division
+			formula = Constants.QIndexFormulaOnly;
 		}
 		string ini = "";
 		string end = "";
@@ -366,7 +366,7 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "((tvavg-tcavg)*100/(tcavg * 1.0))" + end + " AS rj_index, tvavg, tcavg, fall"; //*1.0 for having double division
+		moreSelect = ini + Constants.RjIndexFormulaOnly + end + " AS rj_index, tvavg, tcavg, fall"; //*1.0 for having double division
 
 		//manage allJumps
 		string fromString = " FROM jumpRj, person ";
@@ -459,7 +459,8 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "9.81*9.81 * tvavg*jumps * time / ( 4.0 * jumps * (time - tvavg*jumps) )" + end + " AS potency, " + //*4.0 for having double division
+		//moreSelect = ini + "9.81*9.81 * tvavg*jumps * time / ( 4.0 * jumps * (time - tvavg*jumps) )" + end + " AS potency, " + //*4.0 for having double division
+		moreSelect = ini + Constants.RJPotencyBoscoFormulaOnly + end + " AS potency, " + //*4.0 for having double division
 			 " tvavg, tcavg, jumps, time, fall";
 
 		//manage allJumps

@@ -33,7 +33,7 @@ public partial class Person {
 	private int sportID;	//1 undefined, 2 none, 3...n other sports (check table sportType)
 	private int speciallityID;
 	private int practice;	//-1 undefined, sedentary, 1 regular practice, 2 competition, 3 (alto rendimiento)
-	private string sex; // "M" (male) , "F" (female)
+	private string sex; // "M" (male) , "F" (female) (Constants.M, Constants.F)
 	private string description;
 	private int race;
 	private int countryID;

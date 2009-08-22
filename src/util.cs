@@ -1123,12 +1123,47 @@ public class Util
 	}
 
 	public static string SQLBuildString (string tableName, string test, string variable,
-			string sex, 
+			int sex, 
 			//string age, //interval...
-			int countryID, string sport, string speciallity, string level)
+			int countryID, int sportID, int speciallityID, int levelID)
 	{
-		//string str = "SELECT " + tableName + "AVG(
-		return "A";
+		string strSelect = "SELECT COUNT(" + variable + "), AVG(" + variable + ")";
+		string strFrom   = " FROM " + tableName;
+		string strWhere  = " WHERE " + tableName + ".type = '" + test + "'";
+
+		string strSex = "";
+		if(sex == Constants.MaleID) 
+			strSex = " AND person.sex == '" + Constants.M + "'";
+		else if (sex == Constants.FemaleID) 
+			strSex = " AND person.sex == '" + Constants.F + "'";
+
+		//string strAge = "";
+
+		string strCountry = "";
+		if(countryID != Constants.CountryUndefinedID) 
+			strCountry = " AND person.countryID == " + countryID;
+
+		string strSport = "";
+		if(sportID != Constants.SportUndefinedID) 
+			strSport = " AND person.sportID == " + sportID;
+
+		string strSpeciallity = "";
+		if(speciallityID != Constants.SpeciallityUndefinedID) 
+			strSpeciallity = " AND person.speciallityID == " + speciallityID;
+		
+		string strLevel = "";
+		if(levelID != Constants.LevelUndefinedID) 
+			strLevel = " AND person.practice == " + levelID;
+
+		string strLast = "";
+		if(strSex.Length > 0 || //strAge.Length > 0 || 
+				strCountry.Length > 0 || strSport.Length > 0 || strSpeciallity.Length > 0 || strLevel.Length > 0) {
+			strFrom += ", person";
+			strLast = " AND " + tableName + ".personID == person.UniqueID";
+		}	
+		return strSelect + strFrom + strWhere + strSex //+ strAge
+			+ strCountry + strSport + strSpeciallity + strLevel + strLast;
+
 	}
 
 }

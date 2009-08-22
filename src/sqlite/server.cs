@@ -179,6 +179,24 @@ class SqliteServer : Sqlite
 		return myEval;
 	}
 	
+	public static string Query(string str) {
+		dbcon.Open();
+
+		dbcmd.CommandText = str; 
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		string myReturn = "0:";
+		while(reader.Read()) {
+			myReturn = reader[0].ToString() + ":" + reader[1].ToString();
+		}
+		
+		reader.Close();
+		dbcon.Close();
+		return myReturn;
+	}
 
 	public static string [] Stats() {
 		ArrayList stats = new ArrayList();

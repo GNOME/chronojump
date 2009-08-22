@@ -1013,19 +1013,10 @@ public class ChronoJumpWindow
 	}
 	
 	private void on_menuitem_server_query_activate (object o, EventArgs args) {
-		queryServerWin = QueryServerWindow.Show();
-		/*
 		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
 		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
 			if(Server.CanI(Constants.ServerActionQuery, Util.VersionToDouble(progVersion))) {
-				ChronojumpServer myServer = new ChronojumpServer();
-				Log.WriteLine(myServer.ConnectDatabase());
-			
-				//string [] statsServer = myServer.Query();
-			
-				Log.WriteLine(myServer.DisConnectDatabase());
-
-				//new DialogMessage();
+				queryServerWin = QueryServerWindow.Show();
 			} else {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Your version of Chronojump is too old for this.") + "\n\n" + 
@@ -1034,7 +1025,6 @@ public class ChronoJumpWindow
 		} else {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}
-		*/
 	}
 	
 	private void on_menuitem_server_ping (object o, EventArgs args) {

@@ -39,7 +39,9 @@ class Test {
 		string portName = "";
 		string fileName = "";
 		TextWriter writer;
-		string defaultFileName = "output.txt"; //always output to a file, but if not specified, output here and rewrite it every chronojump_mini execution
+		
+		//always output to a file, but if not specified, output here and rewrite it every chronojump_mini execution
+		string defaultFileName = Path.Combine(getOutputDir(), "output"); 
 	       
 
 		System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-ES");
@@ -59,19 +61,13 @@ class Test {
 					portName = args[i].Substring(5);
 				else if (args[i].StartsWith("FILE=")) {
 					fileName = args[i].Substring(5);
-					//put file in windows or linux folder (instead of data folder)
-					fileName=".." + Path.DirectorySeparatorChar + getOutputDir() + Path.DirectorySeparatorChar + fileName;
+					fileName= getOutputDir() + Path.DirectorySeparatorChar + fileName;
 				}
 				else
 					printSyntaxAndQuit();
 			}
 		}
 		
-		//output file stuff
-		fileName = manageFileName(fileName, defaultFileName);
-		writer = File.CreateText(fileName);
-				
-
 		//detection of ports
 		string messageInfo;
 		//string messageDetected ="";
@@ -89,19 +85,13 @@ class Test {
 			*/
 		} else {
 			messageInfo = Constants.PortNamesLinux;
-
-			//messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled on GNU/Linux"));
 		}
 			
 		messageInfo += string.Format("\n" + Catalog.GetString("More information on Chronojump manual"));
 
-		//messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled"));
-
 		Console.WriteLine("---------------------------");
 		Console.WriteLine(messageInfo);
 		Console.WriteLine("---------------------------");
-		//Console.WriteLine(messageDetected);
-		Console.WriteLine("---------------------------\n");
 
 		if(portName == "") {
 			if( ! Util.IsWindows()) {
@@ -110,6 +100,14 @@ class Test {
 			Console.WriteLine(Catalog.GetString("Print the port name where chronopic is connected:"));
 			portName=Console.ReadLine();
 		}
+
+		//output file stuff
+		fileName = manageFileName(fileName);
+		if(fileName == "") 
+			fileName = defaultFileName + "-" + portName.Replace("/","") + ".csv";
+		
+		writer = File.CreateText(fileName);
+		
 
 		Console.WriteLine(Catalog.GetString("Opening port...") + " " +
 			       Catalog.GetString("Please touch the platform or click Chronopic TEST button"));
@@ -126,6 +124,8 @@ class Test {
 			Console.WriteLine(e);
 			Environment.Exit(1);
 		}
+		
+
 
 		//-- Crear objeto chronopic, para acceder al chronopic
 		Chronopic cp = new Chronopic(sp);
@@ -169,8 +169,8 @@ class Test {
 						
 		Console.WriteLine("  TC(ms) TF(ms)");
 		writer.WriteLine("count;TC(ms);TF(ms)");
-		while(true) {
 
+		while(true) {
 			//-- Esperar a que llegue una trama
 			do {
 				ok = cp.Read_event(out timestamp, out estado_plataforma);
@@ -244,7 +244,7 @@ class Test {
 		Environment.Exit(1);
 	}
 
-	static string manageFileName(string fileName, string defaultFileName) {
+	static string manageFileName(string fileName) {
 		bool fileOk = false;
 		do {
 			if(fileName == "") 
@@ -267,17 +267,11 @@ class Test {
 			}
 		} while(! fileOk);
 
-		if(fileName == "") 
-			fileName = defaultFileName;
-
 		return fileName;
 	}
 
 	static string getOutputDir() {
-		string dir = "linux";
-		if(Util.IsWindows())
-			dir = "windows";
-		return dir;
+		return Util.GetApplicationDataDir();
 	}
 
 	static string getFileName() {
@@ -287,12 +281,10 @@ class Test {
 
 		if(option == "Y" || option == "y") {
 			Console.WriteLine(Catalog.GetString("If you want to open it with an Spreadsheet like Gnumeric, OpenOffice or MS Office, we recomend to use .csv extension.\neg: 'test.csv'"));
-			Console.WriteLine(string.Format(Catalog.GetString("File will be available at directory: {0}"), Path.GetFullPath(".." + Path.DirectorySeparatorChar + getOutputDir())));
+			Console.WriteLine(string.Format(Catalog.GetString("File will be available at directory: {0}"), getOutputDir()));
 			Console.WriteLine(Catalog.GetString("Please, write filename:"));
 			fileName=Console.ReadLine();
-
-			//put file in windows or linux folder (instead of data folder)
-			fileName=".." + Path.DirectorySeparatorChar + getOutputDir() + Path.DirectorySeparatorChar + fileName;
+			fileName= getOutputDir() + Path.DirectorySeparatorChar + fileName;
 		}
 		//if 'n' then "" will be returned
 

@@ -34,7 +34,8 @@ public class QueryServerWindow
 	[Widget] Gtk.Box hbox_combo_tests;
 	[Widget] Gtk.Box hbox_combo_variables;
 	[Widget] Gtk.Box hbox_combo_sexes;
-	//[Widget] Gtk.Box hbox_combo_ages;
+	[Widget] Gtk.Box hbox_combo_ages1;
+	[Widget] Gtk.Box hbox_combo_ages2;
 	[Widget] Gtk.Box hbox_combo_continents;
 	[Widget] Gtk.Box hbox_combo_countries;
 	[Widget] Gtk.Box hbox_combo_sports;
@@ -45,7 +46,8 @@ public class QueryServerWindow
 	[Widget] Gtk.ComboBox combo_tests;
 	[Widget] Gtk.ComboBox combo_variables;
 	[Widget] Gtk.ComboBox combo_sexes;
-	//[Widget] Gtk.ComboBox combo_ages;
+	[Widget] Gtk.ComboBox combo_ages1;
+	[Widget] Gtk.ComboBox combo_ages2;
 	[Widget] Gtk.ComboBox combo_continents;
 	[Widget] Gtk.ComboBox combo_countries;
 	[Widget] Gtk.ComboBox combo_sports;
@@ -54,7 +56,9 @@ public class QueryServerWindow
 
 	[Widget] Gtk.TextView textview_query;
 	
-	[Widget] Gtk.Label label_age;
+	[Widget] Gtk.Label label_age_and;
+	[Widget] Gtk.SpinButton spin_ages1;
+	[Widget] Gtk.SpinButton spin_ages2;
 	[Widget] Gtk.Label label_speciallity;
 	[Widget] Gtk.Label label_results_num;
 	[Widget] Gtk.Label label_results_avg;
@@ -111,6 +115,32 @@ public class QueryServerWindow
 		Catalog.GetString(Constants.Females), 
 	};
 
+
+	static string equalThan = "=  " + Catalog.GetString("Equal than");
+	static string lowerThan = "<  " + Catalog.GetString("Lower than");
+	static string higherThan = ">  " + Catalog.GetString("Higher than");
+	static string lowerOrEqualThan = "<= " + Catalog.GetString("Lower or equal than");
+	static string higherOrEqualThan = ">= " + Catalog.GetString("Higher or equal than");
+	string [] ages1 = {
+		Catalog.GetString(Constants.Any), 
+		equalThan,
+		lowerThan,
+		higherThan,
+		lowerOrEqualThan,
+		higherOrEqualThan,
+	};
+	string [] ages2Lower = {
+		Catalog.GetString(Constants.Any), 
+		lowerThan,
+		lowerOrEqualThan,
+	};
+	string [] ages2Higher = {
+		Catalog.GetString(Constants.Any), 
+		higherThan,
+		higherOrEqualThan,
+	};
+
+
 	Sport sport;
 	string [] sports;
 	string [] sportsTranslated;
@@ -161,11 +191,10 @@ public class QueryServerWindow
 		createComboContinents();
 		createComboCountries();
 		createComboSexes();
-		//createComboAges();
-		
+		createComboAges1();
+		createComboAges2();
 		createComboSports();
 		createComboSpeciallities(-1);
-		
 		createComboLevels();
 	}
 	
@@ -240,7 +269,25 @@ public class QueryServerWindow
 		UtilGtk.ComboPackShowAndSensitive(hbox_combo_sexes, combo_sexes);
 	}
 
-	private void createComboAges() {
+	private void createComboAges1() {
+		combo_ages1 = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_ages1, ages1, "");
+		combo_ages1.Active = UtilGtk.ComboMakeActive(ages1, Catalog.GetString(Constants.Any));
+		combo_ages1.Changed += new EventHandler (on_combo_ages1_changed);
+		UtilGtk.ComboPackShowAndSensitive(hbox_combo_ages1, combo_ages1);
+		spin_ages1.Sensitive = false;
+		label_age_and.Sensitive = false;
+	}
+
+	private void createComboAges2() {
+		combo_ages2 = ComboBox.NewText ();
+		string [] ages2 = Util.StringToStringArray(Constants.Any);
+		UtilGtk.ComboUpdate(combo_ages2, ages2, "");
+		combo_ages2.Active = UtilGtk.ComboMakeActive(ages2, Catalog.GetString(Constants.Any));
+		combo_ages2.Changed += new EventHandler (on_combo_ages2_changed);
+		UtilGtk.ComboPackShowAndSensitive(hbox_combo_ages2, combo_ages2);
+		combo_ages2.Sensitive = false;
+		spin_ages2.Sensitive = false;
 	}
 
 	private void createComboSports() {
@@ -402,6 +449,52 @@ public class QueryServerWindow
 
 		combo_countries.Sensitive = true;
 
+		on_entries_required_changed(new object(), new EventArgs());
+	}
+	
+	private void on_combo_ages1_changed(object o, EventArgs args) 
+	{
+		string age1 = UtilGtk.ComboGetActive(combo_ages1);
+		string [] ages2;
+
+		if (age1 == Catalog.GetString(Constants.Any) ||	age1 == equalThan) {
+			if (age1 == Catalog.GetString(Constants.Any))  //zero values
+				spin_ages1.Sensitive = false;
+			else
+				spin_ages1.Sensitive = true;
+			
+			//no value 2
+			label_age_and.Sensitive = false;
+			combo_ages2.Sensitive = false;
+			spin_ages2.Sensitive = false;
+
+			ages2 = Util.StringToStringArray(Constants.Any);
+		} else {
+			spin_ages1.Sensitive = true;
+			label_age_and.Sensitive = true;
+			combo_ages2.Sensitive = true;
+			spin_ages2.Sensitive = true;
+			if (age1 == lowerThan || age1 == lowerOrEqualThan)
+				ages2 = ages2Higher;
+			else
+				ages2 = ages2Lower;
+		}
+	
+		UtilGtk.ComboUpdate(combo_ages2, ages2, "");
+		combo_ages2.Active = UtilGtk.ComboMakeActive(ages2, Catalog.GetString(Constants.Any));
+	
+		on_entries_required_changed(new object(), new EventArgs());
+	}
+
+	private void on_combo_ages2_changed(object o, EventArgs args) 
+	{
+		string age2 = UtilGtk.ComboGetActive(combo_ages2);
+
+		if (age2 == Catalog.GetString(Constants.Any)) 
+			spin_ages2.Sensitive = false;
+		else 
+			spin_ages2.Sensitive = true;
+	
 		on_entries_required_changed(new object(), new EventArgs());
 	}
 
@@ -616,7 +709,6 @@ public class QueryServerWindow
 		combo_variables.Sensitive = false;
 		label_speciallity.Hide();
 		combo_speciallities.Hide();
-		label_age.Hide(); //currently no age support
 		
 		on_entries_required_changed(new object(), new EventArgs());
 	}

@@ -111,7 +111,7 @@ public class SessionAddEditWindow {
 		} else {
 			session_add_edit.Title = Catalog.GetString("Session Edit");
 
-			dateTime = Util.DateAsDateTime(currentSession.Date);
+			dateTime = currentSession.Date;
 
 			entry_name.Text = currentSession.Name;
 			entry_place.Text = currentSession.Place;
@@ -511,7 +511,7 @@ public class SessionAddEditWindow {
 	
 	void on_button_change_date_clicked (object o, EventArgs args)
 	{
-		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"));
+		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"), dateTime);
 		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
 	}
 
@@ -563,9 +563,6 @@ public class SessionAddEditWindow {
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		string myDate = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
-			dateTime.Year.ToString();
-		
 		//check if name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name (editing)
 		bool sessionNameExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTildeAndColon(entry_name.Text));
@@ -577,8 +574,6 @@ public class SessionAddEditWindow {
 			if(radiobutton_diff_sports.Active)
 				sportID = Constants.SportUndefinedID;
 			else {
-//				Sport mySport = new Sport(UtilGtk.ComboGetActive(combo_sports));
-//				sportID = mySport.UniqueID;
 				sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
 			}
 
@@ -586,7 +581,6 @@ public class SessionAddEditWindow {
 			if(!label_speciallity.Visible || radiobutton_diff_speciallities.Active)
 				speciallityID = Constants.SpeciallityUndefinedID; 
 			else
-				//speciallityID = Util.FetchID(UtilGtk.ComboGetActive(combo_speciallities));
 				speciallityID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities));
 
 			int levelID;
@@ -596,14 +590,16 @@ public class SessionAddEditWindow {
 				levelID = Util.FetchID(UtilGtk.ComboGetActive(combo_levels));
 
 			if(addSession) 
-				currentSession = new Session (Util.RemoveTildeAndColon(entry_name.Text), Util.RemoveTildeAndColon(entry_place.Text), myDate, 
+				currentSession = new Session (Util.RemoveTildeAndColon(entry_name.Text), 
+						Util.RemoveTildeAndColon(entry_place.Text), 
+						dateTime,
 						sportID, speciallityID, levelID,
 						Util.RemoveTildeAndColon(textview.Buffer.Text),
 						Constants.ServerUndefinedID);
 			else {
 				currentSession.Name = Util.RemoveTildeAndColon(entry_name.Text.ToString());
 				currentSession.Place = Util.RemoveTildeAndColon(entry_place.Text.ToString()); 
-				currentSession.Date = myDate;
+				currentSession.Date = dateTime;
 				currentSession.PersonsSportID = sportID;
 				currentSession.PersonsSpeciallityID = speciallityID;
 				currentSession.PersonsPractice = levelID;
@@ -729,7 +725,7 @@ public class SessionLoadWindow {
 
 			store.AppendValues (myStringFull[0], myStringFull[1], 
 					myStringFull[2], 
-					Util.DateAsDateTime(myStringFull[3]).ToShortDateString(),
+					myStringFull[3],	//session date
 					myStringFull[8],	//number of jumpers x session
 					mySport,		//personsSport
 					mySpeciallity,		//personsSpeciallity

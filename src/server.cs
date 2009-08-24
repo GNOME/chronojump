@@ -58,8 +58,7 @@ public class Server
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 
 			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, Util.GetOS(), 
-					//Constants.IPUnknown, Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
-					getIP(), Util.DateParse(DateTime.Now.ToString())); //evaluator, ip, date
+					getIP(), DateTime.Now); //evaluator, ip, date
 			//if !doIsertion nothing will be uploaded,
 			//is ok for uploadPerson to know if server is online
 			string versionAvailable = myServer.UploadPing(myPing, doInsertion);
@@ -166,7 +165,7 @@ public class Server
 			int state = (int) Constants.ServerSessionStates.UPLOADINGSESSION;
 			//create ServerSession based on Session currentSession
 			ServerSession serverSession = new ServerSession(currentSession, evalSID, progName + " " + progVersion, 
-					Util.GetOS(), Util.DateParse(DateTime.Now.ToString()), state); 
+					Util.GetOS(), DateTime.Now, state); 
 
 			//if uploading session for first time
 			if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
@@ -191,11 +190,12 @@ public class Server
 			//upload persons (updating also person.serverUniqueID locally)
 			string [] myPersons = SqlitePersonSession.SelectCurrentSession(serverSession.UniqueID, true, false); //onlyIDAndName, not reversed
 			
-			//store in variable for updating progressBar from other thread
-			progressBarPersonsNum = myPersons.Length;
-
 			Constants.UploadCodes uCode;
 			ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
+			
+			//store in variable for updating progressBar from other thread
+			progressBarPersonsNum = myPersons.Length - notToUpload.Count;
+
 			foreach(string personStr in myPersons) {
 				Person person = SqlitePersonSession.PersonSelect(Util.FetchID(personStr), serverSession.UniqueID); 
 

@@ -356,7 +356,7 @@ public class Stat
 				//we need to know the name of the column: session
 				stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				myHeaderString = stringFullResults[1] + "\n" + 
-					Util.DateAsDateTime(stringFullResults[2]).ToShortDateString() + "\n" + 
+					stringFullResults[2] + "\n" + 
 					Catalog.GetString(columnsString[1]); //name, date, col name
 				treeview.AppendColumn (myHeaderString, new CellRendererText(), "text", i+2); 
 			}
@@ -384,7 +384,7 @@ public class Stat
 				stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				
 				myHeaderString += "<TH>" + stringFullResults[1] + "\n" + 
-					Util.DateAsDateTime(stringFullResults[2]).ToShortDateString() + "\n" + 
+					stringFullResults[2] + "\n" + 
 					Catalog.GetString(columnsString[1]) + "</TH>"; //name, date, col name
 			}
 			//if multisession, add AVG and SD cols

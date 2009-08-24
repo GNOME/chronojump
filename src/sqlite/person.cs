@@ -42,7 +42,7 @@ class SqlitePerson : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"sex TEXT, " +
-			"dateborn TEXT, " +
+			"dateborn TEXT, " + //YYYY-MM-DD since db 0.72
 			"height INT, " +
 			"weight INT, " + //now used personSession and person can change weight in every session. person.weight is not used
 			"sportID INT, " + 
@@ -57,8 +57,7 @@ class SqlitePerson : Sqlite
 
 	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
-	//public static int Insert(bool dbconOpened, string tableName, string name, string sex, string dateBorn, int height, int weight, int sportID, bool sportUserDefined, int practice, string description)
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string sex, string dateBorn, int height, int weight, int sportID, int speciallityID, int practice, string description, int race, int countryID, int serverUniqueID)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string sex, DateTime dateBorn, int height, int weight, int sportID, int speciallityID, int practice, string description, int race, int countryID, int serverUniqueID)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -67,9 +66,8 @@ class SqlitePerson : Sqlite
 			uniqueID = "NULL";
 
 		string myString = "INSERT INTO " + tableName + 
-			//" (uniqueID, name, sex, dateBorn, height, weight,  sportID, speciallityID, practice, description) VALUES (NULL, '" +
 			" (uniqueID, name, sex, dateBorn, height, weight,  sportID, speciallityID, practice, description, race, countryID, serverUniqueID) VALUES (" + uniqueID + ", '" +
-			name + "', '" + sex + "', '" + dateBorn + "', " + 
+			name + "', '" + sex + "', '" + UtilDate.ToSql(dateBorn) + "', " + 
 			height + ", " + "-1" + ", " + //"-1" is weight because it's defined in personSesionWeight for allow change between sessions
 			sportID + ", " + speciallityID + ", " + practice + ", '" + description + "', " + 
 			race + ", " + countryID + ", " + serverUniqueID + ")" ;
@@ -215,7 +213,7 @@ finishForeach:
 			
 			if (!found) {
 				myArray2.Add (reader2[0].ToString() + ":" + reader2[1].ToString() + ":" +
-						reader2[2].ToString() + ":" + reader2[3].ToString() + ":" +
+						reader2[2].ToString() + ":" + UtilDate.FromSql(reader2[3].ToString()).ToShortDateString() + ":" +
 						reader2[4].ToString() + ":" + 
 						reader2[13].ToString() + ":" + //weight (from personSessionWeight)
 						reader2[14].ToString() + ":" + //sportName
@@ -264,7 +262,9 @@ finishForeach:
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
 			arraySessions.Add ( reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-					reader[2].ToString() + ":" + reader[3].ToString() );
+					reader[2].ToString() + ":" + 
+					UtilDate.FromSql(reader[3].ToString()).ToShortDateString()
+					);
 		}
 		reader.Close();
 
@@ -457,7 +457,7 @@ finishForeach:
 		dbcmd.CommandText = "UPDATE " + Constants.PersonTable + 
 			" SET name = '" + myPerson.Name + 
 			"', sex = '" + myPerson.Sex +
-			"', dateborn = '" + myPerson.DateBorn +
+			"', dateborn = '" + UtilDate.ToSql(myPerson.DateBorn) +
 			"', height = " + myPerson.Height +
 			", weight = " + myPerson.Weight +
 			", sportID = " + myPerson.SportID +

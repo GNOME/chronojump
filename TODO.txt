@@ -1,5 +1,7 @@
 TODO: 
 
+autogen should compile chronojump_mini, but if a make clean is done then it compiles it
+
 server menu / Query: do age, put a progressBar when search
 
 updating manual. Pending:

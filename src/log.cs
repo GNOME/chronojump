@@ -45,7 +45,7 @@ public class Log
 		if(args.Length == 1) 
 			timeLog = args[0];
 		else {
-			timeLog = Util.DateParse(DateTime.Now.ToString());
+			timeLog = DateTime.Now.ToString();
 			timeLogPassedOk = false;
 		}
 

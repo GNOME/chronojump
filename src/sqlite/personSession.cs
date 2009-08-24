@@ -149,11 +149,8 @@ class SqlitePersonSession : Sqlite
 		bool exists = new bool();
 		exists = false;
 		
-		while(reader.Read()) {
+		while(reader.Read()) 
 			exists = true;
-			//Log.WriteLine("valor {0}", reader[0].ToString());
-		}
-		//Log.WriteLine("exists = {0}", exists.ToString());
 
 		dbcon.Close();
 		return exists;
@@ -191,7 +188,7 @@ class SqlitePersonSession : Sqlite
 		}
 
 		Person myPerson = new Person(uniqueID, values[0], 
-			values[1], values[2], Convert.ToInt32(values[3]), Convert.ToInt32(values[4]), 
+			values[1], UtilDate.FromSql(values[2]), Convert.ToInt32(values[3]), Convert.ToInt32(values[4]), 
 			Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), Convert.ToInt32(values[7]),
 			values[8], //desc
 			Convert.ToInt32(values[9]), Convert.ToInt32(values[10]), Convert.ToInt32(values[11])
@@ -223,7 +220,7 @@ class SqlitePersonSession : Sqlite
 					Convert.ToInt32(reader[0].ToString()),	//uniqueID
 					reader[1].ToString(),			//name
 					reader[2].ToString(),			//sex
-					reader[3].ToString(),			//dateBorn
+					UtilDate.FromSql(reader[3].ToString()),	//dateBorn
 					Convert.ToInt32(reader[4].ToString()),	//height
 					Convert.ToInt32(reader[13].ToString()),	//weight (personSessionWeight)
 					Convert.ToInt32(reader[6].ToString()),	//sportID
@@ -274,8 +271,9 @@ class SqlitePersonSession : Sqlite
 				string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[8])));
 
 				myArray.Add (
-						reader[0].ToString() + ":" + reader[1].ToString() + ":" + //id, name
-						reader[2].ToString() + ":" + reader[3].ToString() + ":" + //sex, dateborn
+						reader[0].ToString() + ":" + reader[1].ToString() + ":" + 	//id, name
+						reader[2].ToString() + ":" + 					//sex
+						UtilDate.FromSql(reader[3].ToString()).ToShortDateString() + ":" +	//dateborn
 						reader[4].ToString() + ":" + reader[13].ToString() + ":" + //height, weight (from personSessionWeight)
 						sportName + ":" + speciallityName + ":" + levelName + ":" +
 						reader[9].ToString()  //desc

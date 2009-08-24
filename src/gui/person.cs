@@ -117,7 +117,7 @@ public class PersonRecuperateWindow {
 		store.SetSortFunc (firstColumn + 0, UtilGtk.IdColumnCompare);
 		store.SetSortFunc (firstColumn + 3, heightColumnCompare);
 		store.SetSortFunc (firstColumn + 4, weightColumnCompare);
-		store.SetSortFunc (firstColumn + 5, birthColumnCompare);
+		//store.SetSortFunc (firstColumn + 5, birthColumnCompare);
 	}
 	
 	public int heightColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
@@ -138,14 +138,16 @@ public class PersonRecuperateWindow {
 		return (val1-val2);
 	}
 
+	/*
 	public int birthColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
 		DateTime val1; 
 		DateTime val2; 
-		val1 = Util.DateAsDateTime(model.GetValue(iter1, firstColumn + 5).ToString());
-		val2 = Util.DateAsDateTime(model.GetValue(iter2, firstColumn + 5).ToString());
+		val1 = UtilDate.DateAsDateTime(model.GetValue(iter1, firstColumn + 5).ToString());
+		val2 = UtilDate.DateAsDateTime(model.GetValue(iter2, firstColumn + 5).ToString());
 		
 		return DateTime.Compare(val1, val2);
 	}
+	*/
 
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, string searchFilterName) {
 		string [] myPersons;
@@ -1080,7 +1082,6 @@ public class PersonAddModifyWindow
 		int mySpeciallityID;
 		int myLevelID;
 		if(adding) {
-			//dateTime = DateTime.Today;
 			//now dateTime is undefined until user changes it
 			dateTime = DateTime.MinValue;
 			label_date.Text = Catalog.GetString("Undefined");
@@ -1098,11 +1099,12 @@ public class PersonAddModifyWindow
 				radiobutton_woman.Active = true;
 			}
 
-			dateTime = Util.DateAsDateTime(myPerson.DateBorn);
+			dateTime = myPerson.DateBorn;
 			if(dateTime == DateTime.MinValue)
 				label_date.Text = Catalog.GetString("Undefined");
 			else
 				label_date.Text = dateTime.ToLongDateString();
+
 
 			spinbutton_height.Value = myPerson.Height;
 			spinbutton_weight.Value = myPerson.Weight;
@@ -1155,7 +1157,10 @@ public class PersonAddModifyWindow
 	
 	void on_button_calendar_clicked (object o, EventArgs args)
 	{
-		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"));
+		DateTime dt = dateTime;
+		if(dt == DateTime.MinValue)
+			dt = DateTime.Now;
+		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"), dt);
 		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
 	}
 
@@ -1401,8 +1406,8 @@ public class PersonAddModifyWindow
 
 	private void recordChanges() {
 		//separate by '/' for not confusing with the ':' separation between the other values
-		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
-			dateTime.Year.ToString();
+		//string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
+		//	dateTime.Year.ToString();
 		
 		double weight = (int) spinbutton_weight.Value;
 
@@ -1418,7 +1423,8 @@ public class PersonAddModifyWindow
 
 
 		if(adding) {
-			currentPerson = new Person (entry1.Text, sex, dateFull, 
+			//currentPerson = new Person (entry1.Text, sex, dateFull, 
+			currentPerson = new Person (entry1.Text, sex, dateTime, 
 					(int) spinbutton_height.Value, (int) weight, 
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
@@ -1429,7 +1435,8 @@ public class PersonAddModifyWindow
 					Constants.ServerUndefinedID,
 					currentSession.UniqueID);
 		} else {
-			currentPerson = new Person (personID, entry1.Text, sex, dateFull, 
+			//currentPerson = new Person (personID, entry1.Text, sex, dateFull, 
+			currentPerson = new Person (personID, entry1.Text, sex, dateTime, 
 					(int) spinbutton_height.Value, (int) weight, 
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
@@ -1700,12 +1707,10 @@ public class PersonAddMultipleWindow {
 		string sex = Constants.F;
 		if(male) { sex = Constants.M; }
 
-		//DateTime dateTime = DateTime.Today;
 		//now dateTime is undefined until user changes it
 		DateTime dateTime = DateTime.MinValue;
-		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString();
 
-		currentPerson = new Person ( name, sex, dateFull, 
+		currentPerson = new Person ( name, sex, dateTime, 
 				0, weight, 		//height, weight	
 				currentSession.PersonsSportID,
 				currentSession.PersonsSpeciallityID,

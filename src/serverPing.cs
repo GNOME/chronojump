@@ -31,14 +31,14 @@ public partial class ServerPing
 	private string cjVersion;
 	private string osVersion;
 	private string ip;
-	private string date;
+	private DateTime date;
 
 	//only initializing
 	//needed by the webservice
 	public ServerPing() {
 	}
 
-	public ServerPing(int evaluatorID, string cjVersion, string osVersion, string ip, string date) {
+	public ServerPing(int evaluatorID, string cjVersion, string osVersion, string ip, DateTime date) {
 		this.evaluatorID = evaluatorID;
 		this.cjVersion = cjVersion;
 		this.osVersion = osVersion;
@@ -54,7 +54,7 @@ public partial class ServerPing
 	public override string ToString() {
 		return Catalog.GetString("Uploaded") + "\nID: " + uniqueID + "\nEvaluatorID: " + evaluatorID + 
 			"\nChronojump Version: " + cjVersion + "\nOS Version: " + osVersion +
-			"\nIP: " + ip + "\nDate: " + date;
+			"\nIP: " + ip + "\nDate: " + date.ToString();
 	}
 	
 	public int UniqueID {
@@ -86,7 +86,7 @@ public partial class ServerPing
 		set { ip = value; }
 	}
 
-	public string Date {
+	public DateTime Date {
 		get { return date; }
 		set { date = value; }
 	}

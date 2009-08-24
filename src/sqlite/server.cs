@@ -42,7 +42,7 @@ class SqliteServer : Sqlite
 			"cjVersion TEXT, " +
 			"osVersion TEXT, " +
 			"IP TEXT, " +
-			"date TEXT ) ";
+			"date TEXT ) "; //YYYY-MM-DD since db 0.72
 		dbcmd.ExecuteNonQuery();
 	 }
 
@@ -54,7 +54,7 @@ class SqliteServer : Sqlite
 			"code TEXT, " +
 			"name TEXT, " +
 			"email TEXT, " +
-			"dateborn TEXT, " +
+			"dateborn TEXT, " + //YYYY-MM-DD since db 0.72
 			"countryID INT, " + //foreign key
 			"chronometer TEXT, " +
 			"device TEXT, " +
@@ -64,7 +64,7 @@ class SqliteServer : Sqlite
 	 }
 
 	//public static int InsertPing(ServerPing ping)
-	public static int InsertPing(bool dbconOpened, int evaluatorID, string cjVersion, string osVersion, string ip, string date)
+	public static int InsertPing(bool dbconOpened, int evaluatorID, string cjVersion, string osVersion, string ip, DateTime date)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -75,7 +75,7 @@ class SqliteServer : Sqlite
 			" (uniqueID, evaluatorID, cjVersion, osVersion, IP, date) VALUES (" + 
 			uniqueID + ", " + evaluatorID + ", '" + 
 			cjVersion + "', '" + osVersion + "', '" +
-			ip + "', '" + date + "')" ;
+			ip + "', '" + UtilDate.ToSql(date) + "')" ;
 		
 		dbcmd.CommandText = myString;
 		
@@ -90,7 +90,7 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 
-	public static int InsertEvaluator(bool dbconOpened, string code, string name, string email, string dateBorn, 
+	public static int InsertEvaluator(bool dbconOpened, string code, string name, string email, DateTime dateBorn, 
 			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
@@ -102,7 +102,7 @@ class SqliteServer : Sqlite
 			" (uniqueID, code, name, email, dateBorn, countryID, chronometer, device, comments, confiable) VALUES (" + 
 			uniqueID + ", '" + 
 			code + "', '" + name + "', '" + 
-			email + "', '" + dateBorn + "', " +
+			email + "', '" + UtilDate.ToSql(dateBorn) + "', " +
 			countryID + ", '" + chronometer + "', '" + 
 			device + "', '" + comments + "', " +
 			//Util.BoolToInt(confiable) + 
@@ -122,7 +122,7 @@ class SqliteServer : Sqlite
 		return myReturn;
 	}
 	
-	public static void UpdateEvaluator(bool dbconOpened, int uniqueID, string code, string name, string email, string dateBorn, 
+	public static void UpdateEvaluator(bool dbconOpened, int uniqueID, string code, string name, string email, DateTime dateBorn, 
 			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
@@ -131,7 +131,7 @@ class SqliteServer : Sqlite
 			" SET code = '" + code +
 			"' , name = '" + name +
 			"' , email = '" + email +
-			"' , dateBorn = '" + dateBorn +
+			"' , dateBorn = '" + UtilDate.ToSql(dateBorn) +
 			"' , countryID = " + countryID +
 			", chronometer = '" + chronometer +
 			"', device = '" + device +
@@ -167,7 +167,7 @@ class SqliteServer : Sqlite
 			myEval.Code = reader[1].ToString(); 
 			myEval.Name = reader[2].ToString(); 
 			myEval.Email = reader[3].ToString(); 
-			myEval.DateBorn = reader[4].ToString();
+			myEval.DateBorn = UtilDate.FromSql(reader[4].ToString());
 			myEval.CountryID = Convert.ToInt32(reader[5].ToString());
 			myEval.Chronometer = reader[6].ToString();
 			myEval.Device = reader[7].ToString();

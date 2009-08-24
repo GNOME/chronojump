@@ -43,7 +43,7 @@ class SqliteSession : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"place TEXT, " +
-			"date TEXT, " +		
+			"date TEXT, " +	 //YYYY-MM-DD since db 0.72	
 			"personsSportID INT, " + 
 			"personsSpeciallityID INT, " + 
 			"personsPractice INT, " + //also called "level"
@@ -53,7 +53,7 @@ class SqliteSession : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -63,7 +63,7 @@ class SqliteSession : Sqlite
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID)" +
 			" VALUES (" + uniqueID + ", '"
-			+ name + "', '" + place + "', '" + date + "', " + 
+			+ name + "', '" + place + "', '" + UtilDate.ToSql(date) + "', " + 
 			personsSportID + ", " + personsSpeciallityID + ", " + 
 			personsPractice + ", '" + comments + "', " +
 			serverUniqueID + ")" ;
@@ -77,13 +77,13 @@ class SqliteSession : Sqlite
 		return myReturn;
 	}
 
-	public static void Update(int uniqueID, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments) 
+	public static void Update(int uniqueID, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments) 
 	{
 		//TODO: serverUniqueID (but cannot be changed in gui/edit, then not need now)
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " " +
 			" SET name = '" + name +
-			"' , date = '" + date +
+			"' , date = '" + UtilDate.ToSql(date) +
 			"' , place = '" + place +
 			"' , personsSportID = " + personsSportID +
 			", personsSpeciallityID = " + personsSpeciallityID +
@@ -142,7 +142,7 @@ class SqliteSession : Sqlite
 		}
 
 		Session mySession = new Session(values[0], 
-			values[1], values[2], values[3], 
+			values[1], values[2], UtilDate.FromSql(values[3]), 
 			Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), 
 			values[7], Convert.ToInt32(values[8]) );
 		
@@ -177,10 +177,10 @@ class SqliteSession : Sqlite
 		while(reader.Read()) {
 			if(commentsDisable) {
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-						reader[2].ToString() + ":" + reader[3].ToString() );
+						reader[2].ToString() + ":" + UtilDate.FromSql(reader[3].ToString()).ToShortDateString() );
 			} else {
 				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-						reader[2].ToString() + ":" + reader[3].ToString() + ":" +
+						reader[2].ToString() + ":" + UtilDate.FromSql(reader[3].ToString()).ToShortDateString() + ":" +
 						reader[4].ToString() );
 			}
 			count ++;
@@ -228,7 +228,7 @@ class SqliteSession : Sqlite
 			string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[6])));
 
 			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() + ":" +
-					reader[2].ToString() + ":" + reader[3].ToString() + ":" +
+					reader[2].ToString() + ":" + UtilDate.FromSql(reader[3].ToString()).ToShortDateString() + ":" +
 					sportName + ":" + speciallityName + ":" +
 					levelName + ":" + reader[7].ToString() ); //desc
 			count ++;
@@ -565,7 +565,8 @@ class SqliteSession : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
-			Session mySession = new Session(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), 
+			Session mySession = new Session(reader[0].ToString(), reader[1].ToString(), 
+					reader[2].ToString(), UtilDate.FromSql(reader[3].ToString()), 
 					1, //sport undefined
 					-1, //speciallity undefined
 					-1, //practice level undefined
@@ -578,7 +579,7 @@ class SqliteSession : Sqlite
 
 		foreach (Session mySession in myArray)
 			InsertOld(true, Constants.ConvertTempTable,
-				mySession.Name, mySession.Place, mySession.Date, 
+				mySession.Name, mySession.Place, UtilDate.ToSql(mySession.Date), 
 				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
 
 		//3rd drop table sessions
@@ -591,7 +592,7 @@ class SqliteSession : Sqlite
 		//5th insert data in sessions (with sport related stuff)
 		foreach (Session mySession in myArray) 
 			InsertOld(true, Constants.SessionTable,
-				mySession.Name, mySession.Place, mySession.Date, 
+				mySession.Name, mySession.Place, UtilDate.ToSql(mySession.Date), 
 				mySession.PersonsSportID, mySession.PersonsSpeciallityID, mySession.PersonsPractice, mySession.Comments);
 
 
@@ -631,7 +632,7 @@ class SqliteServerSession : SqliteSession
 			", evaluatorID INT " +
 			", evaluatorCJVersion TEXT " + 
 			", evaluatorOS TEXT " +
-			", uploadedDate TEXT " +
+			", uploadedDate TEXT " + //YYYY-MM-DD since db 0.72	
 			", uploadingState INT ";
 
 		dbcmd.CommandText = 
@@ -639,7 +640,7 @@ class SqliteServerSession : SqliteSession
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"name TEXT, " +
 			"place TEXT, " +
-			"date TEXT, " +		
+			"date TEXT, " +	//YYYY-MM-DD since db 0.72		
 			"personsSportID INT, " + 
 			"personsSpeciallityID INT, " + 
 			"personsPractice INT, " + //also called "level"
@@ -650,7 +651,7 @@ class SqliteServerSession : SqliteSession
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int Insert(bool dbconOpened, string tableName, string name, string place, string date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, string uploadedDate, int uploadingState)
+	public static int Insert(bool dbconOpened, string tableName, string name, string place, DateTime date, int personsSportID, int personsSpeciallityID, int personsPractice, string comments, int serverUniqueID, int evaluatorID, string evaluatorCJVersion, string evaluatorOS, DateTime uploadedDate, int uploadingState)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -661,12 +662,12 @@ class SqliteServerSession : SqliteSession
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + " (uniqueID, name, place, date, personsSportID, personsSpeciallityID, personsPractice, comments, serverUniqueID, evaluatorID, evaluatorCJVersion, evaluatorOS, uploadedDate, uploadingState)" +
 			" VALUES (" + uniqueID + ", '"
-			+ name + "', '" + place + "', '" + date + "', " + 
+			+ name + "', '" + place + "', '" + UtilDate.ToSql(date) + "', " + 
 			personsSportID + ", " + personsSpeciallityID + ", " + 
 			personsPractice + ", '" + comments + "', " +
 			serverUniqueID + ", " + evaluatorID + ", '" +
 			evaluatorCJVersion + "', '" + evaluatorOS + "', '" +
-			uploadedDate + "', " + uploadingState +
+			UtilDate.ToSql(uploadedDate) + "', " + uploadingState +
 			")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

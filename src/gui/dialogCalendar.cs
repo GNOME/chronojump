@@ -32,7 +32,7 @@ public class DialogCalendar
 	//for raise a signal and manage it on guis/session.cs (and other places)
 	protected Gtk.Button fakeButtonDateChanged;
 
-	public DialogCalendar (string calendarTitle)
+	public DialogCalendar (string calendarTitle, DateTime dateInitial)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_calendar", null);
@@ -43,18 +43,26 @@ public class DialogCalendar
 		
 		dialog_calendar.Title = calendarTitle; 
 
+		calendar1.Date = dateInitial;
+
 		fakeButtonDateChanged = new Button();
 	}
 				
 	void on_calendar1_day_selected (object obj, EventArgs args)
 	{
-		Calendar activatedCalendar = (Calendar) obj;
+		try {
+			Calendar activatedCalendar = (Calendar) obj;
+			myDateTime = activatedCalendar.Date;
 
-		//Log.WriteLine ( activatedCalendar.GetDate().ToLongDateString());
-		myDateTime = activatedCalendar.Date;
-
-		//raise a signal
-		fakeButtonDateChanged.Click();
+			//raise a signal
+			fakeButtonDateChanged.Click();
+		}
+		catch {
+			/* 
+			   when dialog starts, calendar1.Date = dateInitial changes date
+			   and raises this and it's too early
+			   */
+		}
 	}
 
 

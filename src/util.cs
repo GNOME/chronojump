@@ -97,6 +97,16 @@ public class Util
 		else 
 			return Math.Round(Convert.ToDouble(time), prefsDigitsNumber).ToString();
 	}
+
+	//if passed (number=1, digits=4)
+	//takes 1 and returns "0001" 
+	public static string DigitsCreate (int number, int digits)
+	{
+		string str = number.ToString();
+		while(str.Length < digits)
+			str = "0" + str;
+		return str;
+	}
 	
 	public static double GetMax (string values)
 	{
@@ -619,34 +629,6 @@ public class Util
 		return osString;
 	}
 	
-	public static DateTime DateAsDateTime (string dateString) {
-		string [] dateFull = dateString.Split(new char[] {'/'});
-		DateTime dateTime;
-
-		//fixes bug with really old chronojump versions where default date was 0/0/1900
-		if(dateFull[0] == "0")
-			dateFull[0] = "1";
-		if(dateFull[1] == "0")
-			dateFull[1] = "1";
-
-		try {
-			//Datetime (year, month, day) constructor
-			dateTime = new DateTime(
-					Convert.ToInt32(dateFull[2]), 
-					Convert.ToInt32(dateFull[1]), 
-					Convert.ToInt32(dateFull[0]));
-		}
-		catch {
-			//Datetime (year, month, day) constructor
-			//in old chronojump versions, date was recorded in a different way, solve like this
-			dateTime = new DateTime(
-					Convert.ToInt32(dateFull[2]), 
-					Convert.ToInt32(dateFull[0]), 
-					Convert.ToInt32(dateFull[1]));
-		}
-		return dateTime;
-	}
-
 	public static string GetReallyOldDatabaseDir() {
 		return Environment.GetEnvironmentVariable("HOME")+ Path.DirectorySeparatorChar + ".chronojump";
 	}
@@ -715,22 +697,11 @@ public class Util
 		}
 	}
 
-	public static string DateParse(string myDate) {
-		StringBuilder myStringBuilder = new StringBuilder(myDate);
-		//for not having problems with the directories:
-		myStringBuilder.Replace(" ", "_"); //replace the ' ' (date-hour separator) for '_' 
-		myStringBuilder.Replace("/", "-"); //replace the '/' (date separator) for '-' 
-		myStringBuilder.Replace(":", "-"); //replace the ':' (hour separator) for '-'
-		myStringBuilder.Replace(".", ""); //delete the '.' in a.m.: 13-01-2009_02-05-43_a.m.
-
-		return myStringBuilder.ToString();
-	}
-
 	public static void BackupDatabase () {
 		string homeDir = GetDatabaseDir();
 		string backupDir = homeDir + "/backup";
 		
-		string dateParsed = DateParse(DateTime.Now.ToString());
+		string dateParsed = UtilDate.ToFile(DateTime.Now);
 
 		if(File.Exists(System.IO.Path.Combine(homeDir, "chronojump.db")))
 			File.Copy(System.IO.Path.Combine(homeDir, "chronojump.db"), 

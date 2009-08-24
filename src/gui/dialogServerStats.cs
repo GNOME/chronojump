@@ -136,7 +136,7 @@ public class DialogServerStats
 			}
 		}
 		
-		label_date.Text = Util.DateParse(DateTime.Now.ToString());
+		label_date.Text = DateTime.Now.ToString();
 	}
 
 

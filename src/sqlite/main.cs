@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.71";
+	static string lastChronojumpDatabaseVersion = "0.72";
 
 	public Sqlite() {
 	}
@@ -937,6 +937,17 @@ Log.WriteLine("home is: " + home);
 				dbcon.Close();
 				currentVersion = "0.71";
 			}
+			if(currentVersion == "0.71") {
+				dbcon.Open();
+				
+				datesToYYYYMMDD();
+
+				SqlitePreferences.Update ("databaseVersion", "0.72", true); 
+				
+				Log.WriteLine("Converted DB to 0.72 (dates to YYYY-MM-DD)"); 
+				dbcon.Close();
+				currentVersion = "0.72";
+			}
 
 
 		}
@@ -1062,6 +1073,7 @@ Log.WriteLine("home is: " + home);
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.71 - 0.72 dates to YYYY-MM-DD
 		//0.70 - 0.71 created personNotUploadTable on client
 		//0.69 - 0.70 added showPower to preferences
 		//0.68 - 0.69 added Gesell-DBT test
@@ -1166,6 +1178,99 @@ Log.WriteLine("home is: " + home);
 		dbcmd.CommandText = "DROP TABLE " + tableName;
 		dbcmd.ExecuteNonQuery();
 	}
+
+	//to convert to sqlite 0.72
+	protected internal static void datesToYYYYMMDD()
+	{
+		conversionRateTotal = 4;
+		conversionRate = 1;
+		conversionSubRateTotal = -1;
+
+		/* person table */
+
+		dbcmd.CommandText = "SELECT uniqueID, dateBorn FROM person";
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		ArrayList myArray = new ArrayList(1);
+		while(reader.Read()) 
+			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString());
+
+		reader.Close();
+
+		/*
+		   convert dates from D/M/Y
+		   to YYYY-MM-DD
+		   */
+		conversionSubRateTotal = myArray.Count;
+		conversionSubRate = 1;
+		foreach(string str in myArray) {
+			string [] id_date = str.Split(new char[] {':'});
+			DateTime dt = UtilDate.FromSql(id_date[1]);
+			dbcmd.CommandText = "UPDATE person set dateBorn = '" + UtilDate.ToSql(dt) +
+				"' WHERE uniqueID = " + id_date[0];
+			Log.WriteLine(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+			conversionSubRate ++;
+		}
+
+		conversionRate ++;
+
+		/* session table */
+
+		dbcmd.CommandText = "SELECT uniqueID, date FROM session";
+		reader = dbcmd.ExecuteReader();
+		myArray = new ArrayList(1);
+		while(reader.Read()) 
+			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString());
+
+		reader.Close();
+
+		/*
+		   convert dates from D/M/Y
+		   to YYYY-MM-DD
+		   */
+		conversionSubRateTotal = myArray.Count;
+		conversionSubRate = 1;
+		foreach(string str in myArray) {
+			string [] id_date = str.Split(new char[] {':'});
+			DateTime dt = UtilDate.FromSql(id_date[1]);
+			dbcmd.CommandText = "UPDATE session set date = '" + UtilDate.ToSql(dt) +
+				"' WHERE uniqueID = " + id_date[0];
+			Log.WriteLine(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+			conversionSubRate ++;
+		}
+
+		conversionRate ++;
+		
+		/* SEvaluator table */
+
+		dbcmd.CommandText = "SELECT uniqueID, dateBorn FROM SEvaluator";
+		reader = dbcmd.ExecuteReader();
+		myArray = new ArrayList(1);
+		while(reader.Read()) 
+			myArray.Add (reader[0].ToString() + ":" + reader[1].ToString());
+
+		reader.Close();
+
+		/*
+		   convert dates from D/M/Y
+		   to YYYY-MM-DD
+		   */
+		conversionSubRateTotal = myArray.Count;
+		conversionSubRate = 1;
+		foreach(string str in myArray) {
+			string [] id_date = str.Split(new char[] {':'});
+			DateTime dt = UtilDate.FromSql(id_date[1]);
+			dbcmd.CommandText = "UPDATE SEvaluator set dateBorn = '" + UtilDate.ToSql(dt) +
+				"' WHERE uniqueID = " + id_date[0];
+			Log.WriteLine(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+			conversionSubRate ++;
+		}
+		conversionRate ++;
+	}
+
 
 	protected internal static void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd, bool putDescriptionInMiddle) 
 	{

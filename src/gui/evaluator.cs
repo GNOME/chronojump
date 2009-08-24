@@ -116,7 +116,6 @@ public class EvaluatorWindow
 			creating = true;
 		
 		//copy to see if there are changes
-		//evalBefore = eval;
 		evalBefore = new ServerEvaluator(eval);
 		
 		createComboContinents();
@@ -340,7 +339,7 @@ public class EvaluatorWindow
 
 	void on_button_change_date_clicked (object o, EventArgs args)
 	{
-		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"));
+		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"), dateTime);
 		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
 	}
 
@@ -360,7 +359,7 @@ public class EvaluatorWindow
 		if(creating)
 			label_date.Text = Catalog.GetString(Constants.UndefinedDefault);
 		else {
-			dateTime = Util.DateAsDateTime(eval.DateBorn);
+			dateTime = eval.DateBorn;
 			if(dateTime == DateTime.MinValue)
 				label_date.Text = Catalog.GetString(Constants.UndefinedDefault);
 			else
@@ -445,11 +444,7 @@ public class EvaluatorWindow
 	{
 		eval.Name = entry_name.Text.ToString();
 		eval.Email = entry_email.Text.ToString();
-		
-		string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
-			dateTime.Year.ToString();
-		eval.DateBorn = dateFull;
-
+		eval.DateBorn = dateTime;
 		eval.CountryID = Convert.ToInt32(
 				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries));
 

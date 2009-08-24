@@ -30,7 +30,7 @@ public partial class ServerEvaluator
 	private string code;
 	private string name;
 	private string email;
-	private string dateBorn;
+	private DateTime dateBorn;
 	private int countryID;
 	private string chronometer;
 	private string device;
@@ -42,7 +42,7 @@ public partial class ServerEvaluator
 	public ServerEvaluator() {
 	}
 
-	public ServerEvaluator(string code, string name, string email, string dateBorn, int countryID, string chronometer, string device, string comments, bool confiable) {
+	public ServerEvaluator(string code, string name, string email, DateTime dateBorn, int countryID, string chronometer, string device, string comments, bool confiable) {
 		this.code = code;
 		this.name = name;
 		this.email = email;
@@ -97,7 +97,7 @@ public partial class ServerEvaluator
 
 	public override string ToString() {
 		return "ID: " + uniqueID + "; Name: " + name + 
-			"; Email: " + email + "; DateBorn: " + dateBorn +
+			"; Email: " + email + "; DateBorn: " + dateBorn.ToShortDateString() +
 			"; CountryID: " + countryID + "; Confiable: " + confiable;
 	}
 	
@@ -125,7 +125,7 @@ public partial class ServerEvaluator
 		set { email = value; }
 	}
 
-	public string DateBorn {
+	public DateTime DateBorn {
 		get { return dateBorn; }
 		set { dateBorn = value; }
 	}

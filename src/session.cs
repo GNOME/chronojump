@@ -29,7 +29,7 @@ public partial class Session {
 	
 	protected string name;
 	protected string place;
-	protected string date;
+	protected DateTime date;
 	protected string comments;
 	protected int serverUniqueID; //not on server
 	
@@ -46,7 +46,7 @@ public partial class Session {
 
 	//suitable when we load a session from the database for being the current session. 
 	//With person sport stuff
-	public Session(string newUniqueID, string newName, string newPlace, string newDate, 
+	public Session(string newUniqueID, string newName, string newPlace, DateTime newDate, 
 			int personsSportID, int personsSpeciallityID, int personsPractice,
 			string newComments, int serverUniqueID) 
 	{
@@ -62,7 +62,7 @@ public partial class Session {
 	}
 
 	//typical constructor with personsSport stuff
-	public Session(string newName, string newPlace, string newDate, 
+	public Session(string newName, string newPlace, DateTime newDate, 
 			int personsSportID, int personsSpeciallityID, int personsPractice,
 			string newComments, int serverUniqueID) 
 	{
@@ -99,7 +99,7 @@ public partial class Session {
 		this.uniqueID = Convert.ToInt32(myString[0]);
 		this.name = myString[1];
 		this.place = myString[2];
-		this.date = myString[3];
+		this.date = UtilDate.FromSql(myString[3]);
 		this.personsSportID = Convert.ToInt32(myString[4]);
 		this.personsSpeciallityID = Convert.ToInt32(myString[5]);
 		this.personsPractice = Convert.ToInt32(myString[6]);
@@ -121,7 +121,7 @@ public partial class Session {
 	
 	public override string ToString()
 	{
-		return "[uniqueID: " + uniqueID + "]" + name + ", " + place + ", " + date + ", " + comments;
+		return "[uniqueID: " + uniqueID + "]" + name + ", " + place + ", " + date.ToShortDateString() + ", " + comments;
 	}
 	
 	public override bool Equals(object evalString)
@@ -145,7 +145,7 @@ public partial class Session {
 		set { place = value; } 
 	}
 
-	public string Date {
+	public DateTime Date {
 		get { return date; }
 		set { date = value; }
 	}
@@ -184,11 +184,11 @@ public partial class Session {
 	}
 	
 	public string DateLong {
-		get { return Util.DateAsDateTime(date).ToLongDateString(); }
+		get { return date.ToLongDateString(); }
 	}
 	
 	public string DateShort {
-		get { return Util.DateAsDateTime(date).ToShortDateString(); }
+		get { return date.ToShortDateString(); }
 	}
 	
 	
@@ -202,16 +202,14 @@ public partial class ServerSession : Session
 	int evaluatorID;
 	string evaluatorCJVersion;
 	string evaluatorOS;
-	string uploadedDate;
-	//Constants.ServerSessionStates uploadingState;
+	DateTime uploadedDate;
 	int uploadingState;
 
 	public ServerSession() {
 	}
 	
 	public ServerSession(Session mySession, int evaluatorID, string evaluatorCJVersion, 
-			//string evaluatorOS, string uploadedDate, Constants.ServerSessionStates uploadingState)
-			string evaluatorOS, string uploadedDate, int uploadingState)
+			string evaluatorOS, DateTime uploadedDate, int uploadingState)
 	{
 		uniqueID = mySession.UniqueID;
 		name = mySession.Name;
@@ -249,9 +247,9 @@ public partial class ServerSession : Session
 	
 	public override string ToString()
 	{
-		return "[" + uniqueID + "]" + name + ", " + place + ", " + date + ", " + 
+		return "[" + uniqueID + "]" + name + ", " + place + ", " + date.ToShortDateString() + ", " + 
 			comments + ",(" + serverUniqueID + "), /" + evaluatorID + "/, " + 
-			evaluatorCJVersion + ", " + evaluatorOS + ", " + uploadedDate + ", " + uploadingState;
+			evaluatorCJVersion + ", " + evaluatorOS + ", " + uploadedDate.ToString() + ", " + uploadingState;
 	}
 	
 	public int EvaluatorID {
@@ -269,7 +267,7 @@ public partial class ServerSession : Session
 		set { evaluatorOS = value; }
 	}
 
-	public string UploadedDate {
+	public DateTime UploadedDate {
 		get { return uploadedDate; }
 		set { uploadedDate = value; }
 	}

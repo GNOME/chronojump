@@ -27,7 +27,7 @@ public partial class Person {
 
 	private int uniqueID;
 	private string name;
-	private string dateBorn;
+	private DateTime dateBorn;
 	private int height;
 	private int weight;
 	private int sportID;	//1 undefined, 2 none, 3...n other sports (check table sportType)
@@ -45,7 +45,7 @@ public partial class Person {
 	}
 
 	//suitable when we load a person from the database for being the current Person
-	public Person(int uniqueID, string name, string sex, string dateBorn, 
+	public Person(int uniqueID, string name, string sex, DateTime dateBorn, 
 			int height, int weight, int sportID, int speciallityID, int practice, string description,
 		       int race, int countryID, int serverUniqueID	
 			) 
@@ -70,7 +70,7 @@ public partial class Person {
 	}
 	
 	//typical constructor
-	public Person(string name, string sex, string dateBorn, 
+	public Person(string name, string sex, DateTime dateBorn, 
 			int height, int weight, int sportID, int speciallityID, int practice, string description,
 		       int race, int countryID, int serverUniqueID,	
 			int sessionID) 
@@ -93,12 +93,6 @@ public partial class Person {
 		this.sessionID = sessionID;
 
 		//insert in the person table
-		/*
-		uniqueID = SqlitePerson.Insert (false, //dbconOpened
-				Constants.PersonTable, null, name, sex, dateBorn, height, weight, 
-				sportID, speciallityID, practice, description, race, countryID, serverUniqueID);
-		*/
-
 		//when insert as person we don't know uniqueID
 		uniqueID = -1;
 		int insertedID = this.InsertAtDB(false, Constants.PersonTable);
@@ -118,7 +112,7 @@ public partial class Person {
 		this.uniqueID = Convert.ToInt32(myString[0]);
 		this.name = myString[1];
 		this.sex = myString[2];
-		this.dateBorn = myString[3];
+		this.dateBorn = UtilDate.FromSql(myString[3]);
 		this.height = Convert.ToInt32(myString[4]);
 		this.weight = Convert.ToInt32(myString[5]);
 		this.sportID = Convert.ToInt32(myString[6]);
@@ -143,7 +137,7 @@ public partial class Person {
 
 	public override string ToString()
 	{
-		return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn + ", " + description;
+		return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn.ToShortDateString() + ", " + description;
 	}
 	
 	public override bool Equals(object evalString)
@@ -167,7 +161,7 @@ public partial class Person {
 		set { sex = value; }
 	}
 	
-	public string DateBorn {
+	public DateTime DateBorn {
 		get { return dateBorn; }
 		set { dateBorn = value; }
 	}
@@ -224,11 +218,11 @@ public partial class Person {
 	}
 	
 	public string DateLong {
-		get { return Util.DateAsDateTime(dateBorn).ToLongDateString(); }
+		get { return dateBorn.ToLongDateString(); }
 	}
 	
 	public string DateShort {
-		get { return Util.DateAsDateTime(dateBorn).ToShortDateString(); }
+		get { return dateBorn.ToShortDateString(); }
 	}
 	
 	

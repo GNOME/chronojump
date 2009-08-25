@@ -28210,7 +28210,7 @@ by you</property>
 		  <child>
 		    <widget class="GtkLabel" id="label648">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Confiable</property>
+		      <property name="label" translatable="yes">Accredited</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -30042,10 +30042,11 @@ by you</property>
 			  <property name="climb_rate">1</property>
 			  <property name="digits">0</property>
 			  <property name="numeric">True</property>
-			  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			  <property name="update_policy">GTK_UPDATE_IF_VALID</property>
 			  <property name="snap_to_ticks">True</property>
 			  <property name="wrap">False</property>
 			  <property name="adjustment">1 1 100 1 10 10</property>
+			  <signal name="changed" handler="on_spin_ages1_changed" last_modification_time="Mon, 24 Aug 2009 17:18:04 GMT"/>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>
@@ -30063,10 +30064,11 @@ by you</property>
 			  <property name="climb_rate">1</property>
 			  <property name="digits">0</property>
 			  <property name="numeric">True</property>
-			  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+			  <property name="update_policy">GTK_UPDATE_IF_VALID</property>
 			  <property name="snap_to_ticks">True</property>
 			  <property name="wrap">False</property>
 			  <property name="adjustment">1 1 100 1 10 10</property>
+			  <signal name="changed" handler="on_spin_ages2_changed" last_modification_time="Mon, 24 Aug 2009 17:24:19 GMT"/>
 			</widget>
 			<packing>
 			  <property name="left_attach">2</property>

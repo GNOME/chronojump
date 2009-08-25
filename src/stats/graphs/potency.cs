@@ -83,7 +83,7 @@ public class GraphPotency : StatPotency
 			serieExtraWeight.IsLeftAxis = false;
 			serieHeight.IsLeftAxis = false;
 
-			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			seriePersonWeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Green"), 2.0F));

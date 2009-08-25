@@ -96,18 +96,18 @@ public class ChronoJump
 	{
 		
 		Application.Init();
-			
+
 		//start threading to show splash window
 		SplashWindow splashWin = SplashWindow.Show();
 		createdSplashWin = true;
-		
+
 		fakeSplashButton = new Gtk.Button();
 		fakeSplashButton.Clicked += new EventHandler(on_splash_ended);
 
 		thread = new Thread(new ThreadStart(sqliteThings));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
-		
+
 		Application.Run();
 	}
 
@@ -118,25 +118,21 @@ public class ChronoJump
 	bool pulseGTKPingShouldEnd;
 	bool allSQLCallsDoneOnSqliteThingsThread;
 
+	//used when Chronojump is being running two or more times (quadriple-click on start)
+	bool quitNow = false;	
+
 	protected void sqliteThings () {
 		bool crashedBefore = checkIfChronojumpExitAbnormally();
-		
-		/* SERVER COMMUNICATION TESTS */
-		//try {
+		if(crashedBefore) {
+			if(chronojumpIsExecutingNTimes()) {
+				quitNow = true;
+				Application.Quit();
+				return;
+			}
+			else
+				chronojumpCrashedBefore();
+		}
 
-//			ChronojumpServer myServer = new ChronojumpServer();
-			
-	
-//			Application.Quit();
-			/*
-		}
-		catch {
-			Log.WriteLine("Unable to call server");
-			Application.Quit();
-		}
-		*/
-		/* END OF SERVER COMMUNICATION TESTS */
-		
 		//print version of chronojump
 		progVersion = readVersion();
 
@@ -197,7 +193,8 @@ public class ChronoJump
 
 
 
-			File.Create(runningFileName);
+			//File.Create(runningFileName);
+			createRunningFileName(runningFileName);
 			Sqlite.CreateTables(false); //not server
 			creatingDB = false;
 		} else {
@@ -250,10 +247,12 @@ Log.WriteLine("doing backup");
 
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
+		
+			//File.Create(runningFileName);
+			createRunningFileName(runningFileName);
 		}
 		
 		
-		File.Create(runningFileName);
 
 
 		splashMessageChange(5);  //check for new version
@@ -447,6 +446,9 @@ Console.WriteLine("--6--");
 	
 	protected bool PulseGTK ()
 	{
+		if(quitNow) 
+			return false;
+
 		if( ( needEndSplashWin && pingEnd ) 
 				|| ! thread.IsAlive) {
 			fakeSplashButton.Click();
@@ -600,14 +602,37 @@ Console.WriteLine("--6--");
 		return version.ToString();
 	}	
 		
+			
+	private void createRunningFileName(string runningFileName) {
+		TextWriter writer = File.CreateText(runningFileName);
+		writer.WriteLine(Process.GetCurrentProcess().Id);
+		writer.Flush();
+		((IDisposable)writer).Dispose();
+	}
+
 	private bool checkIfChronojumpExitAbnormally() {
 		runningFileName = Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump_running";
-		if(File.Exists(runningFileName)) {
-			chronojumpCrashedBefore();
+		if(File.Exists(runningFileName))
 			return true;
-		}
+		else
+			return false;
+	}
+
+	private bool chronojumpIsExecutingNTimes() {
+		StreamReader reader = File.OpenText(runningFileName);
+		string pid = reader.ReadToEnd();
+		reader.Close();
+
+		//delete the '\n' that ReaderToEnd() has put
+		pid = pid.TrimEnd(new char[1] {'\n'});
+		
+		Process [] pids = Process.GetProcessesByName("Chronojump");
+		foreach (Process myPid in pids)
+			if (myPid.Id == Convert.ToInt32(pid))
+				return true;
 		return false;
 	}
+
 
 	//move database to new location if chronojump version is before 0.7
 	private void moveDatabaseToNewLocationIfNeeded() 

@@ -1,2 +1,3 @@
-glade/chronojump_bo_te_stock_bell.glade
-glade/chronojump_sense_alguns_stock_icons.glade
+src/chronojump.desktop.in
+src/chronojump_mini_validate.cs
+glade/chronojump_copia.glade

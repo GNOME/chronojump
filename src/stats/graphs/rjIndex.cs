@@ -82,7 +82,7 @@ public class GraphRjIndex : StatRjIndex
 			serieTv.IsLeftAxis = true;
 			serieFall.IsLeftAxis = false;
 
-			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			//serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
 			serieTc.SerieMarker = new Marker (Marker.MarkerType.Cross1, 

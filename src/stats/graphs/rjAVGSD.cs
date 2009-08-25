@@ -79,7 +79,7 @@ public class GraphRjAVGSD : StatRjAVGSD
 		serieSD.IsLeftAxis = true;
 		serieJumps.IsLeftAxis = false;
 
-		serieAVG.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+		serieAVG.SerieMarker = new Marker (Marker.MarkerType.Square, 
 				6, new Pen (Color.FromName("Red"), 2.0F));
 		serieSD.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 				6, new Pen (Color.FromName("Black"), 2.0F));

@@ -41,11 +41,11 @@ public class ChronojumpServer {
 	[WebMethod(Description="Check actions that client can do depending on it's version)")]
 	public bool CanI(string action, double clientVersion)
 	{
-		if(action == Constants.ServerActionUploadSession && clientVersion >= 0.8)
+		if(action == Constants.ServerActionUploadSession && clientVersion >= 0.896)
 			return true;
 		else if(action == Constants.ServerActionStats && clientVersion >= 0.8)
 			return true;
-		else if(action == Constants.ServerActionQuery && clientVersion >= 0.895) //0.8.9.5
+		else if(action == Constants.ServerActionQuery && clientVersion >= 0.896) //0.8.9.6
 			return true;
 
 		return false;
@@ -53,13 +53,11 @@ public class ChronojumpServer {
 
 	[WebMethod(Description="Query")]
 	public string Query(string tableName, string test, string variable,
-			int sex, 
-			//string age, //interval...
+			int sex, string ageInterval,
 			int countryID, int sportID, int speciallityID, int levelID)
 	{
 		string str = Util.SQLBuildString(tableName, test, variable,
-				sex, 
-				//age,
+				sex, ageInterval, 
 				countryID, sportID, speciallityID, levelID
 				);
 

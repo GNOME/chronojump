@@ -408,6 +408,13 @@ public class Constants
 
 	public static string In = Catalog.GetString("In");
 	public static string Out = Catalog.GetString("Out");
+
+	//it's important they are two chars long
+	//public static string EqualThanCode = "= ";
+	public static string LowerThanCode = "< ";
+	//public static string HigherThanCode = "> ";
+	//public static string LowerOrEqualThanCode = "<=";
+	public static string HigherOrEqualThanCode = ">=";
 	
 	public const string PrefVersionAvailable = "versionAvailable";
 

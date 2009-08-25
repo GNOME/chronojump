@@ -116,27 +116,27 @@ public class QueryServerWindow
 	};
 
 
-	static string equalThan = "=  " + Catalog.GetString("Equal than");
-	static string lowerThan = "<  " + Catalog.GetString("Lower than");
-	static string higherThan = ">  " + Catalog.GetString("Higher than");
-	static string lowerOrEqualThan = "<= " + Catalog.GetString("Lower or equal than");
-	static string higherOrEqualThan = ">= " + Catalog.GetString("Higher or equal than");
+	//static string equalThan = Constants.EqualThanCode + " " + Catalog.GetString("Equal than");
+	static string lowerThan = Constants.LowerThanCode + " " + Catalog.GetString("Lower than");
+	//static string higherThan = Constants.HigherThanCode + " " + Catalog.GetString("Higher than");
+	//static string lowerOrEqualThan = Constants.LowerOrEqualThanCode + " " + Catalog.GetString("Lower or equal than");
+	static string higherOrEqualThan = Constants.HigherOrEqualThanCode + " " + Catalog.GetString("Higher or equal than");
 	string [] ages1 = {
 		Catalog.GetString(Constants.Any), 
-		equalThan,
+		//equalThan,
 		lowerThan,
-		higherThan,
-		lowerOrEqualThan,
+		//higherThan,
+		//lowerOrEqualThan,
 		higherOrEqualThan,
 	};
 	string [] ages2Lower = {
 		Catalog.GetString(Constants.Any), 
 		lowerThan,
-		lowerOrEqualThan,
+		//lowerOrEqualThan,
 	};
 	string [] ages2Higher = {
 		Catalog.GetString(Constants.Any), 
-		higherThan,
+		//higherThan,
 		higherOrEqualThan,
 	};
 
@@ -457,7 +457,8 @@ public class QueryServerWindow
 		string age1 = UtilGtk.ComboGetActive(combo_ages1);
 		string [] ages2;
 
-		if (age1 == Catalog.GetString(Constants.Any) ||	age1 == equalThan) {
+		//if (age1 == Catalog.GetString(Constants.Any) ||	age1 == equalThan) {
+		if (age1 == Catalog.GetString(Constants.Any)) {
 			if (age1 == Catalog.GetString(Constants.Any))  //zero values
 				spin_ages1.Sensitive = false;
 			else
@@ -474,7 +475,8 @@ public class QueryServerWindow
 			label_age_and.Sensitive = true;
 			combo_ages2.Sensitive = true;
 			spin_ages2.Sensitive = true;
-			if (age1 == lowerThan || age1 == lowerOrEqualThan)
+			//if (age1 == lowerThan || age1 == lowerOrEqualThan)
+			if (age1 == lowerThan)
 				ages2 = ages2Higher;
 			else
 				ages2 = ages2Lower;
@@ -497,6 +499,17 @@ public class QueryServerWindow
 	
 		on_entries_required_changed(new object(), new EventArgs());
 	}
+	
+	private void on_spin_ages1_changed(object o, EventArgs args) {
+		if(spin_ages1.Value > 0)
+			on_entries_required_changed(new object(), new EventArgs());
+	}
+	private void on_spin_ages2_changed(object o, EventArgs args) {
+		if(spin_ages2.Value > 0)
+			on_entries_required_changed(new object(), new EventArgs());
+	}
+
+
 
 	private void on_combo_sports_changed(object o, EventArgs args) {
 		ComboBox combo = o as ComboBox;
@@ -662,13 +675,34 @@ public class QueryServerWindow
 		else if(UtilGtk.ComboGetActive(combo_sexes) == Catalog.GetString(Constants.Females))
 			sexID = Constants.FemaleID;
 
+		/*
+		   ageInterval can be:
+		   "" -> any ages
+		   ">=|30" -> higher or equal than 30
+		   ">=|30|< |40" -> higher or equal than 30 and lower than 40
+		   */
+		
+		string ageInterval = ""; 
+		string age1 = UtilGtk.ComboGetActive(combo_ages1);
+		if(age1 != "" && age1 != Catalog.GetString(Constants.Any)) {
+			ageInterval = age1.Substring(0,2); //get the code
+			ageInterval += ":" + spin_ages1.Value.ToString();
+
+			string age2 = UtilGtk.ComboGetActive(combo_ages2);
+			if(age2 != "" && age2 != Catalog.GetString(Constants.Any)) {
+				ageInterval += ":" + age2.Substring(0,2); //get the code
+				ageInterval += ":" + spin_ages2.Value.ToString();
+			}
+		}
+			
+
 		try {
 			string sqlString = Util.SQLBuildString(
 					tableName, 
 					UtilGtk.ComboGetActive(combo_tests),
 					strVariable,
 					sexID,
-					//UtilGtk.ComboGetActive(combo_age),
+					ageInterval,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports)),
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
@@ -683,7 +717,7 @@ public class QueryServerWindow
 					UtilGtk.ComboGetActive(combo_tests),
 					strVariable,
 					sexID,
-					//UtilGtk.ComboGetActive(combo_age),
+					ageInterval,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports)),
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),

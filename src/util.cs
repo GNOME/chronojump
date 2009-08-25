@@ -1094,8 +1094,7 @@ public class Util
 	}
 
 	public static string SQLBuildString (string tableName, string test, string variable,
-			int sex, 
-			//string age, //interval...
+			int sex, string ageInterval,
 			int countryID, int sportID, int speciallityID, int levelID)
 	{
 		string strSelect = "SELECT COUNT(" + variable + "), AVG(" + variable + ")";
@@ -1108,7 +1107,17 @@ public class Util
 		else if (sex == Constants.FemaleID) 
 			strSex = " AND person.sex == '" + Constants.F + "'";
 
-		//string strAge = "";
+		string strAge = "";
+		if(ageInterval != "") {
+			strFrom += ", session";
+			string [] strFull = ageInterval.Split(new char[] {':'});
+			strAge = " AND (julianday(session.date) - julianday(person.dateBorn))/365.25 " + 
+				strFull[0] + " " + strFull[1];
+			if(strFull.Length == 4)
+				strAge += " AND (julianday(session.date) - julianday(person.dateBorn))/365.25 " + 
+					strFull[2] + " " + strFull[3];
+			strAge += " AND " + tableName + ".sessionID = session.uniqueID";
+		}
 
 		string strCountry = "";
 		if(countryID != Constants.CountryUndefinedID) 
@@ -1127,12 +1136,12 @@ public class Util
 			strLevel = " AND person.practice == " + levelID;
 
 		string strLast = "";
-		if(strSex.Length > 0 || //strAge.Length > 0 || 
+		if(strSex.Length > 0 || strAge.Length > 0 || 
 				strCountry.Length > 0 || strSport.Length > 0 || strSpeciallity.Length > 0 || strLevel.Length > 0) {
 			strFrom += ", person";
 			strLast = " AND " + tableName + ".personID == person.UniqueID";
 		}	
-		return strSelect + strFrom + strWhere + strSex //+ strAge
+		return strSelect + strFrom + strWhere + strSex + strAge
 			+ strCountry + strSport + strSpeciallity + strLevel + strLast;
 
 	}

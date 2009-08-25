@@ -244,12 +244,13 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
 ///Query
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/Query", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public string Query(string tableName, string test, string variable, int sex, int countryID, int sportID, int speciallityID, int levelID) {
+    public string Query(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID) {
         object[] results = this.Invoke("Query", new object[] {
                     tableName,
                     test,
                     variable,
                     sex,
+                    ageInterval,
                     countryID,
                     sportID,
                     speciallityID,
@@ -257,12 +258,13 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return ((string)(results[0]));
     }
     
-    public System.IAsyncResult BeginQuery(string tableName, string test, string variable, int sex, int countryID, int sportID, int speciallityID, int levelID, System.AsyncCallback callback, object asyncState) {
+    public System.IAsyncResult BeginQuery(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("Query", new object[] {
                     tableName,
                     test,
                     variable,
                     sex,
+                    ageInterval,
                     countryID,
                     sportID,
                     speciallityID,
@@ -274,11 +276,11 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return ((string)(results[0]));
     }
     
-    public void QueryAsync(string tableName, string test, string variable, int sex, int countryID, int sportID, int speciallityID, int levelID) {
-        this.QueryAsync(tableName, test, variable, sex, countryID, sportID, speciallityID, levelID, null);
+    public void QueryAsync(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID) {
+        this.QueryAsync(tableName, test, variable, sex, ageInterval, countryID, sportID, speciallityID, levelID, null);
     }
     
-    public void QueryAsync(string tableName, string test, string variable, int sex, int countryID, int sportID, int speciallityID, int levelID, object userState) {
+    public void QueryAsync(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID, object userState) {
         if ((this.QueryOperationCompleted == null)) {
             this.QueryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnQueryCompleted);
         }
@@ -287,6 +289,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
                     test,
                     variable,
                     sex,
+                    ageInterval,
                     countryID,
                     sportID,
                     speciallityID,

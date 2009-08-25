@@ -83,7 +83,7 @@ public class GraphDjQ : StatDjQ
 			serieTv.IsLeftAxis = true;
 			serieFall.IsLeftAxis = false;
 
-			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Gray"), 2.0F));

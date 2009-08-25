@@ -91,7 +91,7 @@ public class GraphIeIub : StatIeIub
 			serieJump1.IsLeftAxis = true;
 			serieJump2.IsLeftAxis = true;
 
-			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			//serieJump1.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieJump1.SerieMarker = new Marker (Marker.MarkerType.Cross1, 

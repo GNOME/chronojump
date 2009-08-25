@@ -90,15 +90,6 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
-\noindent
-\align center
-\begin_inset Newpage newpage
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset FloatList table
 
 \end_inset
@@ -5990,11 +5981,20 @@ Fuerza-velocidad
 \begin_layout Standard
 Estadísitico de salto simple en que se muestra la relación de fuerza-velocidad
  según la fórmula 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $FV=\frac{SJ+(100\%%)
 }{SJ}*100$
 \end_inset
 
- los saltos SJ con el 100% de carga extra respecto al peso corporal, y SJ
+ 
+\end_layout
+
+\begin_layout Standard
+los saltos SJ con el 100% de carga extra respecto al peso corporal, y SJ
  sin carga adicional.
 \end_layout
 
@@ -6005,9 +6005,18 @@ Estadísitico de salto simple en que se muestra la relación de fuerza-velocidad
 \begin_layout Standard
 Estadísitico de salto simple en que se muestra el índice de elasticidad
  a partir de la fórmula 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $IE=\frac{(CMJ-SJ)}{SJ}*100$
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 entre los saltos SJ y CMJ.
 \end_layout
 
@@ -6017,10 +6026,19 @@ entre los saltos SJ y CMJ.
 
 \begin_layout Standard
 Estadísitico de salto simple en que se muestra el índice de utilización
- de brazos a partir de la fórmula 
+ de brazos a partir de la fórmula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $IUB=\frac{(ABK-CMJ)}{CMJ}*100$
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 entre los saltos CMJ y ABK.
 \end_layout
 
@@ -6117,7 +6135,12 @@ aplicación
 
 \begin_layout Standard
 Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
- simple a partir de la fórmula 
+ simple a partir de la fórmula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $ÍndiceDj=\frac{TV-TC}{TC}*100$
 \end_inset
 
@@ -6130,7 +6153,12 @@ Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
 
 \begin_layout Standard
 Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
- simple a partir de la fórmula 
+ simple a partir de la fórmula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $ÍndiceQ=\frac{TV}{TC}$
 \end_inset
 
@@ -6184,7 +6212,12 @@ aplicación
 
 \begin_layout Standard
 Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
- reactivo según la fórmula 
+ reactivo según la fórmula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $ÍndiceDePromedios=\frac{TVpromedio-TCpromedio}{TCpromedio}*100$
 \end_inset
 
@@ -6197,7 +6230,12 @@ Potencia (Bosco)
 
 \begin_layout Standard
 Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
- reactivo según la fórmula 
+ reactivo según la fórmula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $ÍndiceDePotencia=\frac{9.81^{2}*TVpromedio*saltos*tiempoTotal}{4*saltos*(tiempoTotal-TVpromedio*saltos)}$
 \end_inset
 
@@ -6237,11 +6275,20 @@ Promedio y Desviación estándard usando RjIndex
 \end_layout
 
 \begin_layout Standard
-Estudio del índice 
+Estudio del índice
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $RjIndex=\frac{TV-TC}{TC}*100$
 \end_inset
 
- para cada uno de los saltos de un test reactivo.
+ 
+\end_layout
+
+\begin_layout Standard
+para cada uno de los saltos de un test reactivo.
  Se muestra el promedio y la desviación estándard conseguidos.
 \end_layout
 
@@ -6250,11 +6297,20 @@ Promedio y Desviación estándard usando QIndex
 \end_layout
 
 \begin_layout Standard
-Estudio del índice 
+Estudio del índice
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
 \begin_inset Formula $IndiceQ=\frac{TV}{TC}*100$
 \end_inset
 
- para cada uno de los saltos de un test reactivo.
+ 
+\end_layout
+
+\begin_layout Standard
+para cada uno de los saltos de un test reactivo.
  Se muestra el promedio y la desviación estándard conseguidos.
 \end_layout
 
@@ -6464,14 +6520,21 @@ Chronojump puede crear gráficos de todo cuanto se muestra en la ventana
 Graficar
 \emph default
  que aparece en la ventana de estadísticos.
- En la figura 
+ En la figuras 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Gráfico-de-índice-DJ"
+reference "fig:Gráfico-stats1"
 
 \end_inset
 
- se muestra uno de los gráficos generados.
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-stats2"
+
+\end_inset
+
+ se muestra un par de ejemplos de gráficos generados.
 \end_layout
 
 \begin_layout Standard
@@ -6483,7 +6546,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename chronojump_graph_djindex_english.png
+	filename grafico_stats1.png
 	lyxscale 50
 	scale 50
 
@@ -6498,11 +6561,52 @@ status open
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Gráfico-de-índice-DJ"
+name "fig:Gráfico-stats1"
 
 \end_inset
 
-Ejemplo de gráfico de Índice DJ (los nombres de los saltadores se han ocultado).
+Ejemplo de gráfico comparando diversas variables
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename grafico_stats2.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-stats2"
+
+\end_inset
+
+Ejemplo de gráfico del índice de elasticidad.
 \end_layout
 
 \end_inset
@@ -6608,7 +6712,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename chronojump_report_spanish.png
+	filename grafico-informe.png
 	lyxscale 50
 	scale 50
 
@@ -6674,6 +6778,341 @@ punto y coma
  separar las distintas columnas de datos.
  Recuerde indicarlo en el momento en que importe el archivo CSV en su hoja
  de cálculo.
+\end_layout
+
+\begin_layout Chapter
+Servidor para compartir datos
+\end_layout
+
+\begin_layout Standard
+Chronojump dispone de un servidor en Internet para compartir datos entre
+ los usuarios.
+ El servidor permitirá obtener datos muy valiosos a partir del cruce de
+ muchas variables, pero para ello es necesario que exista predisposición
+ por parte de los usuarios de Chronojump para compartir los datos.
+ Creemos que el servidor de Chronojump es óptimo en cuanto a facilidad de
+ uso-conexión, tiempo en línea, capacidad, funcionalidad, seguridad y privacidad.
+\end_layout
+
+\begin_layout Section
+Compartición y uso de los datos
+\end_layout
+
+\begin_layout Standard
+Los datos que se compartirán son los tests, deportistas y sesiones de cada
+ evaluador que lo desee.
+ El evaluador cuando lo desee podrá 
+\emph on
+subir una sesión al servidor
+\emph default
+, descatando los deportistas que desee y los tests de los mismos.
+ Antes de que los datos puedan tranferirse al servidor se harán comprobaciones
+ para determinar si se han completado los datos necesarios de cada uno de
+ los deportistas, así como los datos del evaluador.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Calidad-de-los-datos"
+
+\end_inset
+
+Calidad de los datos.
+ Evaluadores acreditados y datos confiables
+\end_layout
+
+\begin_layout Standard
+Con la finalidad de obtener muchos datos, pero que no por ello se sacrifique
+ la calidad, se ha creído conveniente que existan dos tipos de datos en
+ cuanto a su calidad:
+\end_layout
+
+\begin_layout Description
+Datos
+\begin_inset space ~
+\end_inset
+
+generales Los puede subir o colgar cualquiera que disponga de la tecnología
+ Chronojump.
+ Se cree que se podrá disponer en breve de muchos datos que pertenezcan
+ a esta categoría.
+\end_layout
+
+\begin_layout Description
+Datos
+\begin_inset space ~
+\end_inset
+
+confiables Además del requisito anterior, se requiere una acreditación del
+ evaluador (entrenador, investigador) que los ha tomado, y una justificación
+ de los datos de la sesión.
+ Se contemplan tres perfiles de evaluadores:
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+Perfil
+\begin_inset space ~
+\end_inset
+
+evaluador-entrenador persona vinculada al ámbito del entrenamiento.
+\end_layout
+
+\begin_layout Description
+Perfil
+\begin_inset space ~
+\end_inset
+
+evaluador-investigador persona vinculada al ámbito académico.
+\end_layout
+
+\begin_layout Description
+Perfil
+\begin_inset space ~
+\end_inset
+
+mixto persona vinculada a los dos ámbitos.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Aún no se ha iniciado el proceso de acreditación de los evaluadores, así
+ que todos los evaluadores de momento estarán sin acreditar y sus datos
+ compartidos corresponderán a 
+\emph on
+datos generales
+\emph default
+.
+ En un futuro, los evaluadores que lo deseen podrán solicitar acreditarse
+ para poder subir o mover sus datos al grupo de confiables.
+\end_layout
+
+\begin_layout Standard
+La acreditación será a cargo del Grupo de Investigación de Salut, Activitat
+ Física i Esport de La Facultat Blanquerna perteneciente a la Universitat
+ Ramon Llull.
+\end_layout
+
+\begin_layout Section
+Funciones del programa
+\end_layout
+
+\begin_layout Standard
+Las funciones del programa para conectarse con el servidor se encuentran
+ en el menú principal, 
+\emph on
+Archivo / Servidor
+\emph default
+.
+ A continuación se detalla cada una de las opciones:
+\end_layout
+
+\begin_layout Subsection
+Comprobar conexión
+\end_layout
+
+\begin_layout Standard
+Seleccione esta opción si desea conocer si es posible establecer conexión
+ con el servidor.
+\end_layout
+
+\begin_layout Subsection
+Datos del evaluador
+\end_layout
+
+\begin_layout Standard
+Esta funcionalidad le permite rellenar una ficha de evaluador para que vaya
+ vinculada a los tests, sujetos y sesiones que usted comparta.
+ Sus datos personales estarán ocultos.
+ Las utilidades de facilitar los datos de evaluador son:
+\end_layout
+
+\begin_layout Itemize
+Imprescindible para poder subir datos.
+\end_layout
+
+\begin_layout Itemize
+Nos permite saber las nacionalidades, edades, equipamiento, ...
+ de los evaluadores.
+\end_layout
+
+\begin_layout Itemize
+Nos permitiría actuar en caso de que existieran problemas con algunos datos,
+ pues conoceremos el correo electrónico del evaluador.
+\end_layout
+
+\begin_layout Standard
+Tal y como se comenta en la sección 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Calidad-de-los-datos"
+
+\end_inset
+
+, de momento los evaluadores no podrán acreditarse, así que no se piden
+ muchos datos a rellenar.
+ Puede ver la ventana de datos de evaluador en la figuras 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_evaluador1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_evaluador2"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_evaluador3"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename evaluator1.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_evaluador1"
+
+\end_inset
+
+Datos del evaluador, pestaña 1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename evaluator2.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_evaluador2"
+
+\end_inset
+
+Datos del evaluador, pestaña 2.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename evaluator3.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_evaluador3"
+
+\end_inset
+
+Datos del evaluador, pestaña 3.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Subir (o actualizar) sesión en el servidor
+\end_layout
+
+\begin_layout Standard
+Esta es la función más importante en el momento de subir datos.
+\end_layout
+
+\begin_layout Section
+Estadísticas del servidor desde el programa y desde la web
+\end_layout
+
+\begin_layout Section
+Privacidad
 \end_layout
 
 \begin_layout Chapter
@@ -6807,7 +7246,7 @@ name "fig:Preferencias1"
 
 \end_inset
 
-Preferencias - pestaña 1.
+Ventana de preferencias - pestaña 1.
 \end_layout
 
 \end_inset
@@ -6847,7 +7286,7 @@ name "fig:Preferencias2"
 
 \end_inset
 
-Preferencias - pestaña 2.
+Ventana de preferencias - pestaña 2.
 \end_layout
 
 \end_inset
@@ -6887,7 +7326,7 @@ name "fig:Preferencias3"
 
 \end_inset
 
-Preferencias - pestaña 3.
+Ventana de preferencias - pestaña 3.
 \end_layout
 
 \end_inset
@@ -6927,7 +7366,7 @@ name "fig:Preferencias4"
 
 \end_inset
 
-Preferencias - pestaña 4.
+Ventana de preferencias - pestaña 4.
 \end_layout
 
 \end_inset

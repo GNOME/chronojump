@@ -79,7 +79,7 @@ public class GraphGlobal : StatGlobal
 			serieIndex.IsLeftAxis = false;
 			serieTv.IsLeftAxis = true;
 
-			serieIndex.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
@@ -204,7 +204,7 @@ public class GraphGlobal : StatGlobal
 							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith(Constants.RJPotencyBoscoName) || 
 							valueNoSex == "IE" || valueNoSex == "IUB" || valueNoSex == "FV" ) {
 						mySerie.IsLeftAxis = false;
-						mySerie.SerieMarker = new Marker (Marker.MarkerType.FilledCircle, 
+						mySerie.SerieMarker = new Marker (Marker.MarkerType.Square, 
 								6, new Pen (myColor, 2.0F));
 					} else {
 						mySerie.IsLeftAxis = true;

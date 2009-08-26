@@ -8,7 +8,7 @@ AC_CONFIG_MACRO_DIR([m4])
 
 AM_PROG_LIBTOOL
 
-dnl pkg-config
+dnl Check for pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 if test "x$PKG_CONFIG" = "xno"; then
         AC_MSG_ERROR([You need to install pkg-config])
@@ -16,6 +16,7 @@ fi
 
 AC_PROG_INSTALL
 
+dnl Check for C# compiler
 AC_PATH_PROG(MCS, gmcs, no)
 if test "x$MCS" = "xno"; then
        	AC_PATH_PROG(MCS2, gmcs2,no)
@@ -29,12 +30,14 @@ else
 	AC_SUBST(GMCS,[gmcs])
 fi
 
+dnl Check for gettext utils
 AC_PATH_PROG(MSGFMT, msgfmt, no)
 if test "x$MSGFMT" = "xno"; then
 	AC_MSG_ERROR([gettext not found])
 else 
 	AC_SUBST(MSGFMT,[msgfmt])
 fi
+
 
 AC_ARG_ENABLE(debug,
 	AC_HELP_STRING([--enable-debug],
@@ -62,6 +65,17 @@ dnl package checks, common for all configs
 PKG_CHECK_MODULES([GLIB_SHARP_20], [glib-sharp-2.0])
 PKG_CHECK_MODULES([GTK_SHARP_20], [gtk-sharp-2.0])
 PKG_CHECK_MODULES([GLADE_SHARP_20], [glade-sharp-2.0])
+
+dnl Check for Mono assemblies that we need
+needed_dlls="Mono.Data.Sqlite Mono.Posix"
+for i in $needed_dlls; do
+  AC_MSG_CHECKING([for $i.dll])
+  if test ! \( -e `$PKG_CONFIG --variable=prefix mono`/lib/mono/2.0/$i.dll -o -e `$PKG_CONFIG --variable=prefix mono`/lib64/mono/2.0//$i.dll \); then
+    AC_MSG_ERROR([missing required mono 2.0 DLL: $i.dll])
+  else
+    AC_MSG_RESULT([found])
+  fi
+done
 
 
 AC_CONFIG_FILES([

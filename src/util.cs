@@ -677,16 +677,16 @@ public class Util
 			return System.IO.Path.Combine(runningFolder,"../../");
 	}
 
-	public static string GetDataDir(){
+	private static string getDataDir(){
 		return System.IO.Path.Combine(GetPrefixDir(),"share/chronojump");
 	}
 
 	public static string GetImagesDir(){
-		return System.IO.Path.Combine(GetDataDir(),"images");
+		return System.IO.Path.Combine(getDataDir(),"images");
 	}
 
 	public static string GetCssDir(){
-		return GetDataDir();
+		return getDataDir();
 	}
 	
 	public static void BackupDirCreateIfNeeded () {

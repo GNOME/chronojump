@@ -1084,7 +1084,7 @@ public class ChronoJumpWindow
 	}
 
 	private void on_menuitem_goto_server_website_activate (object o, EventArgs args) {
-		System.Diagnostics.Process.Start(Path.Combine(Constants.ChronojumpWebsite, "server.html"));
+		System.Diagnostics.Process.Start(Constants.ChronojumpWebsite+"/server.html");
 	}
 
 	/* 

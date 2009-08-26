@@ -628,6 +628,9 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		button_recuperate.Hide();
 		//this class doesn't use status bar
 		statusbar1.Hide();
+
+		person_recuperate.Title = Catalog.GetString("Include / Discard athletes");
+		//person_recuperate.Title = Catalog.GetString("Incluir / Descartar atletas");
 		
 		fakeButtonDone = new Gtk.Button();
 		
@@ -636,6 +639,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		firstColumn = 1;
 			
 		label_top.Text = Catalog.GetString("All persons checked at first column will be uploaded into database with his/her tests on this session.\nIf you want that a person is not uploaded, just uncheck it.");
+		//label_top.Text = Catalog.GetString("Las personas marcadas en la primera columna serán subidas al servidor junto con sus tests en esta sesión.\nSi no desea subir los datos de una persona, desmarque su casilla en la primera columna.");
 	
 		hbox_from_session_hide.Hide(); //used in person recuperate multiple (hided in current class)
 		createComboSelectCheckboxes();

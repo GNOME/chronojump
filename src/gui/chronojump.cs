@@ -988,47 +988,39 @@ public class ChronoJumpWindow
 		server_evaluator_data_and_after_upload_session();
 	}
 
-	private void on_menuitem_server_stats (object o, EventArgs args) {
+	private bool connectedAndCanI (string serverAction) {
 		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
 		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
-			if(Server.CanI(Constants.ServerActionStats, Util.VersionToDouble(progVersion))) {
-				ChronojumpServer myServer = new ChronojumpServer();
-				Log.WriteLine(myServer.ConnectDatabase());
-			
-				string [] statsServer = myServer.Stats();
-			
-				Log.WriteLine(myServer.DisConnectDatabase());
-
-				string [] statsMine = SqliteServer.StatsMine();
-
-				new DialogServerStats(statsServer, statsMine);
-			} else {
+			if(Server.CanI(serverAction, Util.VersionToDouble(progVersion)))
+				return true;
+			else
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Your version of Chronojump is too old for this.") + "\n\n" + 
 						Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n");
-			}
-		} else {
+		} else 
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+
+		return false;
+	}
+
+	private void on_menuitem_server_stats (object o, EventArgs args) {
+		if(connectedAndCanI(Constants.ServerActionStats)) {
+			ChronojumpServer myServer = new ChronojumpServer();
+			Log.WriteLine(myServer.ConnectDatabase());
+
+			string [] statsServer = myServer.Stats();
+
+			Log.WriteLine(myServer.DisConnectDatabase());
+
+			string [] statsMine = SqliteServer.StatsMine();
+
+			new DialogServerStats(statsServer, statsMine);
 		}
 	}
 	
 	private void on_menuitem_server_query_activate (object o, EventArgs args) {
-		/*
-		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
-		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
-			if(Server.CanI(Constants.ServerActionQuery, Util.VersionToDouble(progVersion))) {
-			*/
-				queryServerWin = QueryServerWindow.Show();
-				/*
-			} else {
-				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Catalog.GetString("Your version of Chronojump is too old for this.") + "\n\n" + 
-						Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n");
-			}
-		} else {
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
-		}
-		*/
+		if(connectedAndCanI(Constants.ServerActionQuery)) 
+			queryServerWin = QueryServerWindow.Show();
 	}
 	
 	private void on_menuitem_server_ping (object o, EventArgs args) {
@@ -1067,11 +1059,11 @@ public class ChronoJumpWindow
 				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to upload evaluator data now?"), "");
 				confirmWin.Button_accept.Clicked += new EventHandler(on_evaluator_upload_accepted);
 			} else 
-				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Currently cannot upload.") + "\n\n" + Constants.ServerOffline);
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Currently cannot upload.") + "\n\n" + Constants.ServerOffline);
 		}
 		else
 			if(uploadSessionAfter)
-				//server_upload_session ();
 				select_persons_to_discard ();
 
 	}
@@ -1079,7 +1071,6 @@ public class ChronoJumpWindow
 	private void on_evaluator_upload_accepted (object o, EventArgs args) {
 		Server.ServerUploadEvaluator();
 		if(uploadSessionAfter)
-			//server_upload_session ();
 			select_persons_to_discard ();
 	}
 
@@ -1207,18 +1198,9 @@ public class ChronoJumpWindow
 
 	private void on_server_upload_session_accepted (object o, EventArgs args) 
 	{
-		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
-		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
-			if(Server.CanI(Constants.ServerActionUploadSession, Util.VersionToDouble(progVersion))) {
-				Server.InitializeSessionVariables(app1, currentSession, progName, progVersion);
-				Server.ThreadStart();
-			} else {
-				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Catalog.GetString("Your version of Chronojump is too old for this.") + "\n\n" + 
-						Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n");
-			}
-		} else {
-			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
+		if(connectedAndCanI(Constants.ServerActionUploadSession)) {
+			Server.InitializeSessionVariables(app1, currentSession, progName, progVersion);
+			Server.ThreadStart();
 		}
 	}
 

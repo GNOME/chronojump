@@ -42,7 +42,7 @@ uninstall:
 
 $(GMO_FILES): $(BUILD_DIR)/%.gmo: %.po
 	mkdir -p $(BUILD_DIR)
-	msgfmt '$<' -o '$@'
+	$(MSGFMT) '$<' -o '$@'
 	
 $(MO_FILES): $(INSTALL_DIR)/%/LC_MESSAGES/$(PACKAGE).mo : $(BUILD_DIR)/%.gmo
 	mkdir -p $(dir $@)

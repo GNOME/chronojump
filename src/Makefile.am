@@ -193,6 +193,7 @@ CHRONOJUMP_MINI_FILES=\
 	chronojump_mini.cs\
 	chronopic.cs\
 	util.cs\
+	utilDate.cs\
 	log.cs\
 	constants.cs
 

@@ -1,11 +1,12 @@
 
 [Desktop Entry]
-Version=@VERSION@
-Encoding=UTF-8
 Name=ChronoJump
 Type=Application
 Exec=chronojump
 Terminal=false
-GenericName[es_ES]=
-Categories=Education;Sports;
+GenericName[es]=Sistema de control de saltos
+GenericName=Jump test control system
+Comment=A measurement, management and statistics sport testing tool
+Comment[es]=Herramienta de medidas, gestión y estadísticas de salto deportivo
+Categories= Education;Science;Sports;
 Icon=@prefix@/share/icons/hicolor/48x48/apps/chronojump.png

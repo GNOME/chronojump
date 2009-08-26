@@ -1,4 +1,5 @@
 
+DESTDIR =
 EXTRA_DIST =  
 
 
@@ -8,7 +9,7 @@ include $(top_srcdir)/Makefile.include
 
 PACKAGE = @PACKAGE@
 BUILD_DIR = GMO
-INSTALL_DIR = $(prefix)/share/locale
+INSTALL_DIR = $(DESTDIR)$(prefix)/share/locale
 
 FILES = \
 	ar.po\

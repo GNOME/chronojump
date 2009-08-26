@@ -1,0 +1,3 @@
+
+SUBDIRS =  nplot nplot-gtk
+

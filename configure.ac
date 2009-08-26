@@ -81,6 +81,9 @@ done
 AC_CONFIG_FILES([
 Makefile
 chronopic-tests/Makefile
+nplot/Makefile
+nplot/nplot/Makefile
+nplot/nplot-gtk/Makefile
 src/Makefile
 po/Makefile
 chronojump_server/Makefile

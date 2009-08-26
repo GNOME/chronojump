@@ -35,13 +35,7 @@ COMMONAPPLICATIONDATA_ROOT = \
  
 
 PROGRAMFILES = \
-	$(CHRONOJUMP_MINI_EXE)\
-	$(NPLOT_DLL)\
-	$(NPLOT_DLL_CONFIG)\
-	$(NPLOT_GTK_DLL)\
-	$(NPLOT_GTK_DLL_CONFIG)
-
-
+	$(CHRONOJUMP_MINI_EXE)
 
 LINUX_DESKTOPAPPLICATIONS = \
 	$(CHRONOJUMP_DESKTOP) 
@@ -315,8 +309,8 @@ REFERENCES =  \
 
 
 DLL_REFERENCES =  \
-	../build/data/linux_dlls/NPlot.dll\
-	../build/data/linux_dlls/NPlot.Gtk.dll
+	../nplot/nplot/bin/NPlot.dll\
+	../nplot/nplot-gtk/bin/NPlot.Gtk.dll
 
 
 #CLEANFILES = $(COMMONAPPLICATIONDATA_ROOT) $(COMMONAPPLICATIONDATAROOT_IMAGES) $(COMMONAPPLICATIONDATAROOT_LOGO) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(BINARIES) 
@@ -333,25 +327,11 @@ CHRONOJUMP_DESKTOP = $(BUILD_DIR)/chronojump.desktop
 CHRONOJUMP_EXE_MDB = $(BUILD_DIR)/ChronoJump.exe.mdb
 CHRONOJUMP=$(BUILD_DIR)/chronojump
 CHRONOJUMP_MINI=$(BUILD_DIR)/chronojump_mini
-NPLOT_DLL_SOURCE=../build/data/linux_dlls/NPlot.dll
-NPLOT_GTK_DLL_SOURCE=../build/data/linux_dlls/NPlot.Gtk.dll
-NPLOT_DLL_CONFIG_SOURCE=../build/data/linux_dlls/NPlot.dll.config
-NPLOT_GTK_DLL_CONFIG_SOURCE=../build/data/linux_dlls/NPlot.Gtk.dll.config
-NPLOT_DLL=$(BUILD_DIR)/NPlot.dll
-NPLOT_GTK_DLL=$(BUILD_DIR)/NPlot.Gtk.dll
-NPLOT_DLL_CONFIG=$(BUILD_DIR)/NPlot.dll.config
-NPLOT_GTK_DLL_CONFIG=$(BUILD_DIR)/NPlot.Gtk.dll.config
 
 $(eval $(call emit-deploy-wrapper,CHRONOJUMP,chronojump,x))
 $(eval $(call emit-deploy-wrapper,CHRONOJUMP_MINI,chronojump_mini,x))
 $(eval $(call emit-deploy-target,CHRONOJUMP_DESKTOP))
 $(eval $(call emit-deploy-target,CHRONOJUMP_LOGO))
-$(eval $(call emit-deploy-target,NPLOT_DLL))
-$(eval $(call emit-deploy-target,NPLOT_GTK_DLL))
-$(eval $(call emit-deploy-target,NPLOT_DLL_CONFIG))
-$(eval $(call emit-deploy-target,NPLOT_GTK_DLL_CONFIG))
-
-
 
 
 $(eval $(call emit_resgen_targets))

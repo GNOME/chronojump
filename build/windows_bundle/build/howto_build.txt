@@ -6,13 +6,26 @@ http://sourceforge.net/projects/mingw/files/
 3: install mono in a dir without spaces
 
 go to build 
-edit mkbundle.sh change MONO_INSTALL_PATHY to where it's installed mono 
+edit mkbundle.sh change MONO_INSTALL_PATH to where it's installed mono 
 (HAS TO BE A PATH WITHOUT SPACES, like c:\mono)
 
 (there were problems with dos2unix: broken pipe. But now we don't use and there aren't problems
 
-on mingw/msys, go to build, execute:
+After creating the release with
+./create_release_windows.sh 0.8.9.6
+copy the dir to windows at c:\
+
+on mingw/msys, go to build:
+cd /c/chronojum-0.8.9.6/build/
+
+, execute:
 $sh makeBundle.sh
 this takes the last compiled prg and generates exe on bin directory
 
-then with innosetup we can create the installer that is ok because installs the driver and puts the gtk_prefs on the "start" folder
+then with innosetup we can create the installer that is ok because installs the driver and puts the gtk_prefs on the "start" folder:
+open chronojump_innosetup.iss on build folder
+change version AT TWO PLACES:
+-AppVerName
+-OutputBaseFilename
+
+compile

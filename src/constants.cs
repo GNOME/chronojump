@@ -106,7 +106,8 @@ public class Constants
 	public const string IPUnknown = "Unknown"; 
 	public static int ServerUndefinedID = -1;
 	public static string ServerOnline = Catalog.GetString("Server is connected.");
-	public static string ServerOffline = Catalog.GetString("Sorry, server is currently offline. Try later.");
+	public static string ServerOffline = Catalog.GetString("Sorry, server is currently offline. Try later.") + "\n" + 
+		Catalog.GetString("Or maybe you are not connected to the Internet or your firewall is restricting connections");
 	public enum ServerSessionStates {
 		NOTHING, UPLOADINGSESSION, UPLOADINGDATA, DONE
 	}

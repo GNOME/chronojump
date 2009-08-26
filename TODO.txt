@@ -1,11 +1,5 @@
 TODO: 
 
-server menu / Query: put a progressBar when search
-
-updating manual. Pending:
--server
--check all again
-
 check all software (for the Util.TrimDecimals change)
 create accept license on uploading
 add accept license on uploading, and a way to retreive it from server

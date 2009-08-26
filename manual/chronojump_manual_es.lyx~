@@ -7,14 +7,16 @@
 \usepackage{a4wide}
 \usepackage{url}
 \pagenumbering{roman}
+
+\usepackage[T1]{fontenc}
 \end_preamble
 \use_default_options false
 \language spanish
 \inputencoding auto
-\font_roman times
-\font_sans default
+\font_roman ae
+\font_sans cmss
 \font_typewriter default
-\font_default_family default
+\font_default_family sfdefault
 \font_sc false
 \font_osf false
 \font_sf_scale 100
@@ -49,7 +51,17 @@
 \begin_body
 
 \begin_layout Title
+
+\size huge
 Manual de Chronojump en español
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\size large
+(Actualizado a versión de Chronojump 0.9)
 \end_layout
 
 \begin_layout Author
@@ -62,6 +74,78 @@ http://www.chronojump.org
 \end_inset
 
 Xavier de Blas Foix
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 19cm*
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Licencia de este documento: Creative Commons Reconocimiento-Compartir bajo
+ la misma licencia 3.0 Unported 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://creativecommons.org/licenses/by-sa/3.0/deed.es
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+La última versión de este documento se encuentra en la última versión de
+ Chronojump y aquí: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://git.gnome.org/cgit/chronojump/plain/manual/chronojump_manual_es.pdf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lyxline
+
 \end_layout
 
 \begin_layout Standard
@@ -90,7 +174,7 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
-\begin_inset FloatList table
+\begin_inset FloatList figure
 
 \end_inset
 
@@ -98,7 +182,7 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
-\begin_inset FloatList figure
+\begin_inset FloatList table
 
 \end_inset
 
@@ -249,10 +333,6 @@ Ordenador con sistema operativo Windows o Linux, conectando al cronómetro
  Chronopic y ejecutando el software Chronojump.
 \end_layout
 
-\begin_layout Standard
-A continuación se explica cada uno de estos apartados
-\end_layout
-
 \begin_layout Section
 Instalación del software Chronojump
 \end_layout
@@ -294,14 +374,14 @@ Construcción del dispositivo de detección
 \end_layout
 
 \begin_layout Standard
-Para construir una plataforma de contactos o una célula fotoeéctrica, consultar
+Para construir una plataforma de contactos o una célula fotoeléctrica, consultar
  esta página en el apartado de hardware: 
 \begin_inset Flex URL
 status open
 
 \begin_layout Plain Layout
 
-http://chronojump.org/multimedia_es.html
+http://www.chronojump.org/documents_es.html
 \end_layout
 
 \end_inset
@@ -326,7 +406,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://chronojump.org/multimedia_es.html
+http://www.chronojump.org/documents_es.html
 \end_layout
 
 \end_inset
@@ -398,7 +478,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://chronojump.org/multimedia_es.html
+http://www.chronojump.org/documents_es.html
 \end_layout
 
 \end_inset
@@ -418,15 +498,17 @@ status open
 <lyxtabular version="3" rows="5" columns="5">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="4cm">
+<column alignment="center" valignment="top" width="3cm">
+<column alignment="center" valignment="top" width="3cm">
+<column alignment="center" valignment="top" width="3.5cm">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 Versión
 \end_layout
 
@@ -436,7 +518,9 @@ Versión
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fecha de lanzamiento
+
+\size small
+Lanzamiento
 \end_layout
 
 \end_inset
@@ -445,7 +529,9 @@ Fecha de lanzamiento
 \begin_inset Text
 
 \begin_layout Plain Layout
-Conexión a ordenador
+
+\size small
+Conexión
 \end_layout
 
 \end_inset
@@ -454,6 +540,8 @@ Conexión a ordenador
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 Disponible en*
 \end_layout
 
@@ -463,6 +551,8 @@ Disponible en*
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 Precio*
 \end_layout
 
@@ -474,43 +564,63 @@ Precio*
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\size small
 Chronopic3
+\series default
+ (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic3"
+
+\end_inset
+
+)
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="4cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
-25 marzo 2008
+
+\size small
+marzo 2008
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 USB
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 Se envía a todo el mundo
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none" width="3.5cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
-33-37 € Tirada inicial
+
+\size small
+33-37€ Tirada inicial
 \end_layout
 
 \end_inset
@@ -521,7 +631,16 @@ Se envía a todo el mundo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Chronopic2-USB
+
+\size small
+Chronopic2-USB (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic2-USB"
+
+\end_inset
+
+)
 \end_layout
 
 \end_inset
@@ -530,6 +649,8 @@ Chronopic2-USB
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 septiembre 2007
 \end_layout
 
@@ -539,6 +660,8 @@ septiembre 2007
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 USB
 \end_layout
 
@@ -548,6 +671,8 @@ USB
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 Argentina
 \end_layout
 
@@ -557,6 +682,8 @@ Argentina
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 150$ argentinos
 \end_layout
 
@@ -568,7 +695,16 @@ Argentina
 \begin_inset Text
 
 \begin_layout Plain Layout
-Chronopic2-Serie
+
+\size small
+Chronopic2-Serie (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic2-Serie"
+
+\end_inset
+
+)
 \end_layout
 
 \end_inset
@@ -577,6 +713,8 @@ Chronopic2-Serie
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 septiembre 2007
 \end_layout
 
@@ -586,6 +724,8 @@ septiembre 2007
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 Serie
 \end_layout
 
@@ -595,6 +735,8 @@ Serie
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 Argentina
 \end_layout
 
@@ -604,6 +746,8 @@ Argentina
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 150$ argentinos
 \end_layout
 
@@ -615,7 +759,16 @@ Argentina
 \begin_inset Text
 
 \begin_layout Plain Layout
-Chronopic1
+
+\size small
+Chronopic1 (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic1"
+
+\end_inset
+
+)
 \end_layout
 
 \end_inset
@@ -624,6 +777,8 @@ Chronopic1
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 2005
 \end_layout
 
@@ -633,6 +788,8 @@ Chronopic1
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 Serie
 \end_layout
 
@@ -642,6 +799,8 @@ Serie
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 España
 \end_layout
 
@@ -651,6 +810,8 @@ España
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\size small
 70 €
 \end_layout
 
@@ -674,7 +835,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://chronojump.org/hardware_store_es.html
+http://www.chronojump.org/hardware_store_es.html
 \end_layout
 
 \end_inset
@@ -728,6 +889,12 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic3"
+
+\end_inset
+
 Chronopic3
 \end_layout
 
@@ -764,6 +931,12 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic2-USB"
+
+\end_inset
+
 Chronopic2-USB
 \end_layout
 
@@ -800,6 +973,12 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic2-Serie"
+
+\end_inset
+
 Chronopic2-Serie
 \end_layout
 
@@ -843,6 +1022,12 @@ name "fig:chronopic1"
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic1"
+
+\end_inset
+
 Chronopic1
 \end_layout
 
@@ -979,7 +1164,7 @@ Todas las Chonopics se conectarán a la plataforma de contactos usando la
 
 \begin_layout Standard
 Es posible conectar 'n' plataformas de contactos a cualquier Chronopic usando
- la clema.
+ la clema (y/o el RCA en Chronopic3).
  Este modelo sirve para cronometrar en situaciones en que un deportista
  no debería poder estar en más de una plataforma a la vez.
  Se deben conectar los dos cables de todas las plataformas a la clema, siempre
@@ -1362,7 +1547,7 @@ La placa Chronopic2-USB puede requerir un driver si Windows no es capaz
  forma automática).
  Por ello se recomienda bajarse un driver USB-serie como este: 
 \begin_inset Flex URL
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -1396,11 +1581,15 @@ Nuevo hardware encontrado
  es necesario, en el resto de los casos será necesario ejecutar el driver.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
 Uso del driver
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 El driver normalmente será un archivo comprimido (tipo .zip) que deberá ser
  descomprimido y contendrá un archivo ejecutable tipo .exe en el que hay
  que realizar doble-click.
@@ -1418,6 +1607,11 @@ Nuevo hardware encontrado
  Una vez hecho el doble click y verificado que ha funcionado correctamente,
  el archivo .zip o .exe del driver puede ser eliminado o guardado en una carpeta
  para futuras reinstalaciones del sistema operativo.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -1675,7 +1869,7 @@ reference "sec:Preferencias"
 Se ha detectado que el antivirus spy-doctor interfiere en la asignación
  de puertos 
 \begin_inset Flex URL
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -2029,6 +2223,7 @@ status open
 	filename chronojump_main_window_spanish.png
 	lyxscale 50
 	scale 50
+	rotateAngle 90
 
 \end_inset
 
@@ -2648,6 +2843,83 @@ Hasta el momento Chronojump maneja cinco tipos de tests: saltos, carreras,
  contactos cuando el sujeto pisa o despega de la misma.
 \end_layout
 
+\begin_layout Standard
+La base de datos almacena los tests y los vincula a otras tablas de datos.
+\end_layout
+
+\begin_layout Subsection
+Diagrama de la base de datos
+\end_layout
+
+\begin_layout Standard
+En la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:sqlite-diagram"
+
+\end_inset
+
+ se puede ver el diagrama de la base de datos.
+ Para la comprensión de dicho diagrama es necesario el conocimiento de bases
+ de datos relacionales.
+ Se incluye aquí el diagrama para los usuarios avanzados que tengan curiosidad.
+ La última versión del diagrama se puede encontrar aquí: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://git.gnome.org/cgit/chronojump/tree/sqlite_diagrams/chronojump_sqlite.png
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronojump_sqlite.png
+	lyxscale 50
+	scale 36
+	rotateAngle 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:sqlite-diagram"
+
+\end_inset
+
+Diagrama de la base de datos de Chronojump.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Tests
 \end_layout
@@ -2800,9 +3072,8 @@ Plataforma
  encima de la plataforma, mientras que para otros será imprescindible que
  se ubique fuera de ella.
  Será avisado si la situación del deportista no es la correcta.
- La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrará la progresión del salto, que podrá ser detenido haciendo clic
- en el botón 
+ En la ventana emergente se mostrará la progresión del salto, que podrá
+ ser detenido haciendo clic en el botón 
 \emph on
 Terminar
 \emph default
@@ -2891,9 +3162,8 @@ Plataforma
  encima de la plataforma, mientras que para otros será imprescindible que
  se ubique fuera de ella.
  Será avisado si la situación del deportista no es la correcta.
- La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrará la progresión del salto, que podrá ser detenido haciendo clic
- en el botón 
+ En la ventana emergente se mostrará la progresión del salto, que podrá
+ ser detenido haciendo clic en el botón 
 \emph on
 Terminar
 \emph default
@@ -3987,10 +4257,9 @@ Plataforma
  desde fuera de ella (el deportista se sitúa antes) en el segundo caso,
  el tiempo transcurrido entre que el deportista inicia la carrera y pisa
  la primera plataforma de contactos será despreciado.
- La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrará la progresión de la carrera (entrada en la primera plataforma,
- abandono, llegada a la segunda pltaforma), que podrá ser detenida haciendo
- clic en el botón 
+ En la ventana emergente se mostrará la progresión de la carrera (entrada
+ en la primera plataforma, abandono, llegada a la segunda pltaforma), que
+ podrá ser detenida haciendo clic en el botón 
 \emph on
 Terminar
 \emph default
@@ -4087,9 +4356,8 @@ Plataforma
  desde fuera de ella (el deportista se sitúa antes) en el segundo caso,
  el tiempo transcurrido entre que el deportista inicia la carrera y pisa
  la primera plataforma de contactos será despreciado.
- La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrará la progresión de la carrera, que podrá ser detenida haciendo clic
- en el botón 
+ En la ventana emergente se mostrará la progresión de la carrera, que podrá
+ ser detenida haciendo clic en el botón 
 \emph on
 Terminar
 \emph default
@@ -4433,7 +4701,7 @@ Creación de tipo de carrera con tramos variables.
 
 \end_layout
 
-\begin_layout Paragraph
+\begin_layout Subsubsection
 Ejemplos de creación de tipos de carreras
 \end_layout
 
@@ -5042,9 +5310,8 @@ Simulado
 Plataforma
 \emph default
 , el programa simulará un tiempo de reacción.
- La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrará la progresión del salto, que podrá ser detenido haciendo clic
- en el botón 
+ En la ventana emergente se mostrará la progresión del salto, que podrá
+ ser detenido haciendo clic en el botón 
 \emph on
 Terminar
 \emph default
@@ -5133,10 +5400,10 @@ Pulsos (Ritmos simples)
 \end_layout
 
 \begin_layout Standard
-El programa dispone de un botón que permite realizar un seguimiento de la
+El programa dispone de un botón que permite realizar una evaluación de la
  capacidad de un sujeto en seguir un pulso (ritmo simple).
- Note que si usted desea detectar un ritmo complejo puede usar la pestaña
- 
+ Note que si usted desea detectar un ritmo complejo puede usar el test MultiChro
+nopic descrito 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sub:MultiChronopic"
@@ -5154,8 +5421,8 @@ Existen dos tipos de pulsos que usted puede usar:
 
 \begin_layout Description
 Libre El sujeto evaluado tratará de ser constante en la pulsación que esté
- manteniendo.
- El evaluador hará decidirá en qué momento finaliza el registro de datos.
+ manteniendo (elegida libremente).
+ El evaluador decidirá en qué momento finaliza el registro de datos.
 \end_layout
 
 \begin_layout Description
@@ -5172,17 +5439,17 @@ En cuanto a la definición del tempo, se facilitan dos métodos:
 \begin_deeper
 \begin_layout Description
 segundos permite indicar cuantos segundos deben transcurrir entre un pulso
- y el siguiente
+ y el siguiente.
 \end_layout
 
 \begin_layout Description
-ppm permite indicar cuantas pulsaciones se deberán realizar por minuto
+ppm permite indicar cuantas pulsaciones se deberán realizar por minuto.
 \end_layout
 
 \begin_layout Standard
 Note que los dos métodos están relacionados de manera que si selecciona
- un valor en segundos, éste modificará el valor de ppm, de manera que, por
- ejemplo 0,5 segundos corresponderán a 120 ppm.
+ un valor en segundos, éste modificará el valor de ppm.
+ Por ejemplo 0,5 segundos corresponderán a 120 ppm.
  El usuario decide qué método le resulta más conveniente.
  
 \end_layout
@@ -5217,9 +5484,8 @@ Simulado
 Plataforma
 \emph default
 , el programa simulará un pulso.
- La Barra de desplazamiento de la parte inferior izquierda de la pantalla
- mostrará la progresión del test, que podrá ser detenido haciendo clic en
- el botón 
+ En la ventana emergente se mostrará la progresión del test, que podrá ser
+ detenido haciendo clic en el botón 
 \emph on
 Terminar
 \emph default
@@ -5237,7 +5503,7 @@ Visualización de pulsos
 \begin_layout Standard
 Desde la pestaña de 
 \emph on
-pulse
+pulso
 \emph default
  podrá ver los tests del mismo tipo que se han realizado en una sesión.
  
@@ -5312,31 +5578,31 @@ MultiChronopic
 MultiChronopic permite realizar cualquier tipo de test en que se usen dos,
  tres o cuatro Chronopics para mediciones independientes.
  Recuerde que para el resto de tests se pueden conectar múltiples dispositivos
- a un sólo Chronopic al mismo tiempo, pero se entiende que se estará en
- contacto con sólo o uno de ellos.
+ a un sólo Chronopic, pero se entiende que en todo momento se estará en
+ contacto en sólo uno de ellos.
  A diferencia de los tests anteriores, MultiChronopic permite el uso de
  varios Chronopics, cada uno de ellos conectados a uno o más dispostivos
- de detección, de manera que se pueda estar en contacto con más de uno a
- la vez.
+ de detección, de manera que se pueda estar en contacto en más de un Chronopic
+ a la vez.
  Su uso depende del usuario del programa, pero a continuación se indican
  algunos ejemplos:
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 Test de marcha estático sobre dos plataformas: se pretende evaluar el tempo
  de pisada del pie izquierdo y el derecho, pero como el practicante está
  a menudo pisando ambas plataformas, se requiere que cada una de ellas esté
  conectada a un Chronopic y sean independientes.
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 Estudio de los tiempos de contacto en la batida de un salto de voleibol:
  Un pie pisa una plataforma, el otro pisa la otra, y ambos despegan.
  Para conocer los distintos tiempos es necesario 2 plataformas y 2 chronopics
  independientes.
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 Plate Tapping con acción coordinativa extra: Contruimos un dispositivo de
  detección de tipo Plate Tapping en que el evaluado debe tocar un lado y
  otro cuanto más rápido posible con una sóla mano.
@@ -5347,7 +5613,7 @@ Plate Tapping con acción coordinativa extra: Contruimos un dispositivo de
  en el suelo y conectarla a un segundo Chronopic.
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 Cronometrado de dos, tres o cuatro sujetos en carreras de ida y vuelta en
  una pista: Se coloca una plataforma en el inicio de cada carril y una en
  el final, ambas conectadas a un Chronopic pues un sujeto no puede estar
@@ -5367,10 +5633,10 @@ Sincronización
 Algunos de estos tests requerirán de una sincronización pues se pretende
  que los distintos Chronopics inicien en el mismo momento.
  En otros, en cambio, la sincronización no será necesaria.
- En los tres primeros ejemplos citados, la sincronización es obligatoria
- para que no haya error en la comparación del tiempo que transcurre entre
- una pisada y la otra (ejemplo 1 y 2), o entre un contacto con el tapping
- y la pisada en el suelo (ejemplo 3).
+ En los tres primeros ejemplos citados anteriormente, la sincronización
+ es obligatoria para que no haya error en la comparación del tiempo que
+ transcurre entre una pisada y la otra (ejemplo 1 y 2), o entre un contacto
+ con el tapping y la pisada en el suelo (ejemplo 3).
  Dicha sincronización es seleccionable a partir de una casilla de verificación
  y se llevará a cabo realizando contacto con varios dispositivos a la vez,
  o tocando el botón 
@@ -5447,8 +5713,7 @@ reference "par:Chronopic:-concepto-y-configuracion"
 ).
  Cuando hayamos seleccionado el puerto, haremos click en el botón de la
  derecha para realizar la conexión.
- Para cada activación exitosa uno de los círculos rojos se convertirá en
- verde.
+ En cada activación exitosa uno de los círculos rojos se convertirá en verde.
 \end_layout
 
 \begin_layout Subsection
@@ -5660,7 +5925,8 @@ Las dos fotocélulas irán conectadas a un único Chronopic y permitirán conoce
  se conocerá la velocidad media.
  La pista de plataformas irá conectada a otro Chronopic que captará los
  tiempos de contacto y de vuelo.
- En este caso no se requiere sincronización entre ambos Chronopics.
+ En este caso no se requiere sincronización entre ambos Chronopics ni borrada
+ del primer tiempo.
 \end_layout
 
 \begin_layout Standard
@@ -6130,6 +6396,12 @@ aplicación
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Índice-Dj"
+
+\end_inset
+
 Índice Dj
 \end_layout
 
@@ -6144,10 +6416,16 @@ Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
 \begin_inset Formula $ÍndiceDj=\frac{TV-TC}{TC}*100$
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Índice-Q"
+
+\end_inset
+
 Índice Q
 \end_layout
 
@@ -6162,8 +6440,7 @@ Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
 \begin_inset Formula $ÍndiceQ=\frac{TV}{TC}$
 \end_inset
 
-.
- 
+
 \end_layout
 
 \begin_layout Subsection
@@ -6207,6 +6484,12 @@ aplicación
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Índice-medio"
+
+\end_inset
+
 Índice medio
 \end_layout
 
@@ -6221,10 +6504,16 @@ Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
 \begin_inset Formula $ÍndiceDePromedios=\frac{TVpromedio-TCpromedio}{TCpromedio}*100$
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Potencia-(Bosco)"
+
+\end_inset
+
 Potencia (Bosco)
 \end_layout
 
@@ -6239,7 +6528,7 @@ Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
 \begin_inset Formula $ÍndiceDePotencia=\frac{9.81^{2}*TVpromedio*saltos*tiempoTotal}{4*saltos*(tiempoTotal-TVpromedio*saltos)}$
 \end_inset
 
- .
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -6459,6 +6748,10 @@ La ventana de estadísticas de Chronojump está diseñada para que cada cambio
  en la base de datos (nuevo salto, cambio de nombre de saltador, borrado
  de salto, cambio de saltador que ha realizado un salto...) sea actualizado
  directamente.
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
  Si su sistema informático responde con lentitud a los diferentes cambios,
  se recomienda que desactive el botón 
 \emph on
@@ -6469,6 +6762,11 @@ siempre
 Actualizar estadísticas
 \emph default
  siempre que desee que los datos de estadíticos sea regenerados.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -6565,7 +6863,7 @@ name "fig:Gráfico-stats1"
 
 \end_inset
 
-Ejemplo de gráfico comparando diversas variables
+Ejemplo de gráfico comparando diversas variables.
 \end_layout
 
 \end_inset
@@ -6701,6 +6999,14 @@ Crear informe
 Para la impresión de dicho informe -así como de cualquier página web- se
  recomienda encarecidamente el navegador libre Mozilla Firefox, pues la
  impresión en Internet Explorer es poco respetuosa con el original.
+ En la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Ejemplo-de-informe-2"
+
+\end_inset
+
+ puede ver una fotocomposición de un informe generado.
 \end_layout
 
 \begin_layout Standard
@@ -6731,7 +7037,48 @@ name "fig:Ejemplo-de-informe"
 
 \end_inset
 
-Ejemplo de informe.
+Ejemplo de ventana de preparación de informe.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename report1.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Ejemplo-de-informe-2"
+
+\end_inset
+
+Ejemplo de informe en página web (Fotocomposición).
 \end_layout
 
 \end_inset
@@ -6790,8 +7137,22 @@ Chronojump dispone de un servidor en Internet para compartir datos entre
  El servidor permitirá obtener datos muy valiosos a partir del cruce de
  muchas variables, pero para ello es necesario que exista predisposición
  por parte de los usuarios de Chronojump para compartir los datos.
- Creemos que el servidor de Chronojump es óptimo en cuanto a facilidad de
+ Creemos que las características técnicas del servidor y su usabilidad son
+ óptimas.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Creemos que el servidor de Chronojump es óptimo en cuanto a facilidad de
  uso-conexión, tiempo en línea, capacidad, funcionalidad, seguridad y privacidad.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -6805,7 +7166,7 @@ Los datos que se compartirán son los tests, deportistas y sesiones de cada
 \emph on
 subir una sesión al servidor
 \emph default
-, descatando los deportistas que desee y los tests de los mismos.
+, descartando los deportistas que desee y los tests de los mismos.
  Antes de que los datos puedan tranferirse al servidor se harán comprobaciones
  para determinar si se han completado los datos necesarios de cada uno de
  los deportistas, así como los datos del evaluador.
@@ -6833,8 +7194,7 @@ Datos
 \begin_inset space ~
 \end_inset
 
-generales Los puede subir o colgar cualquiera que disponga de la tecnología
- Chronojump.
+generales Los puede subir cualquiera que disponga de la tecnología Chronojump.
  Se cree que se podrá disponer en breve de muchos datos que pertenezcan
  a esta categoría.
 \end_layout
@@ -6845,8 +7205,7 @@ Datos
 \end_inset
 
 confiables Además del requisito anterior, se requiere una acreditación del
- evaluador (entrenador, investigador) que los ha tomado, y una justificación
- de los datos de la sesión.
+ evaluador que los ha tomado, y una justificación de los datos de la sesión.
  Se contemplan tres perfiles de evaluadores:
 \end_layout
 
@@ -6885,12 +7244,13 @@ datos generales
 \emph default
 .
  En un futuro, los evaluadores que lo deseen podrán solicitar acreditarse
- para poder subir o mover sus datos al grupo de confiables.
+ para poder subir sus datos al grupo de confiables aunque dichos datos hayan
+ sido subidos anteriormente al otro grupo.
 \end_layout
 
 \begin_layout Standard
-La acreditación será a cargo del Grupo de Investigación de Salut, Activitat
- Física i Esport de La Facultat Blanquerna perteneciente a la Universitat
+La acreditación será a cargo del Grupo de Investigación: Salut, Activitat
+ Física i Esport de la Facultat Blanquerna perteneciente a la Universitat
  Ramon Llull.
 \end_layout
 
@@ -6905,7 +7265,7 @@ Las funciones del programa para conectarse con el servidor se encuentran
 Archivo / Servidor
 \emph default
 .
- A continuación se detalla cada una de las opciones:
+ A continuación se detalla cada una de ellas.
 \end_layout
 
 \begin_layout Subsection
@@ -6913,33 +7273,42 @@ Comprobar conexión
 \end_layout
 
 \begin_layout Standard
-Seleccione esta opción si desea conocer si es posible establecer conexión
- con el servidor.
+Permite saber si es posible establecer conexión con el servidor.
+ Si no es posible puede que el servidor esté inoperativo, que su computador
+ no esté conectado a Internet, o que su conexión a Internet limite algunos
+ tipos de conexión.
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Datos-del-evaluador"
+
+\end_inset
+
 Datos del evaluador
 \end_layout
 
 \begin_layout Standard
-Esta funcionalidad le permite rellenar una ficha de evaluador para que vaya
- vinculada a los tests, sujetos y sesiones que usted comparta.
+Esta funcionalidad le permite rellenar una ficha de evaluador que irá vinculada
+ a los tests, sujetos y sesiones que usted comparta.
  Sus datos personales estarán ocultos.
  Las utilidades de facilitar los datos de evaluador son:
 \end_layout
 
 \begin_layout Itemize
-Imprescindible para poder subir datos.
+Es imprescindible para poder subir datos.
 \end_layout
 
 \begin_layout Itemize
-Nos permite saber las nacionalidades, edades, equipamiento, ...
+Permite saber las nacionalidades, edades, equipamiento, ...
  de los evaluadores.
 \end_layout
 
 \begin_layout Itemize
-Nos permitiría actuar en caso de que existieran problemas con algunos datos,
- pues conoceremos el correo electrónico del evaluador.
+Permitiría actuar en caso de que existieran problemas con algunos datos,
+ pues los administradores del servidor conocerán el correo electrónico del
+ evaluador.
 \end_layout
 
 \begin_layout Standard
@@ -7104,15 +7473,602 @@ Subir (o actualizar) sesión en el servidor
 \end_layout
 
 \begin_layout Standard
-Esta es la función más importante en el momento de subir datos.
+Esta es la función más importante para que se puedan compartir datos.
+ Cuando el evaluador haga click en 
+\emph on
+Archivo / Servidor / Subir (o actualizar) sesión en el servidor 
+\emph default
+deberá seguir los siguientes pasos:
+\end_layout
+
+\begin_layout Enumerate
+En primer lugar se pedirá al evaluador que verifique sus datos tal y como
+ se describía en el apartado 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Datos-del-evaluador"
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Enumerate
+a continuación se pedirá al evaluador si quiere descartar alguno de los
+ sujetos de la sesión (ver figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_include-discard"
+
+\end_inset
+
+),
+\end_layout
+
+\begin_layout Enumerate
+después se pedirá confirmación del evaluador, y
+\end_layout
+
+\begin_layout Enumerate
+finalmente se mostrará una ventana de progreso de los datos que son incorporados
+ al servidor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Captura-Incluir-Descartar_atletas.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_include-discard"
+
+\end_inset
+
+Incluir/Descartar sujetos al subir sesión al servidor.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+En cualquier momento el evaluador puede volver a subir la sesión al servidor
+ (actualizar).
+ Los datos que ya fueron subidos no serán incluídos otra vez, pero sí los
+ que se hayan creado des de la última vez que se subió la misma.
+\end_layout
+
+\begin_layout Standard
+Los tests que hayan sido simulados (no obtenidos a partir de Chronopic)
+ no subirán al servidor.
+\end_layout
+
+\begin_layout Subsection
+Realizar una consulta al servidor
+\end_layout
+
+\begin_layout Standard
+Se ha programado una ventana que permite obtener promedios de saltos simples,
+ saltos reactivos y carreras simples.
+ Para acceder a ella haga clic en 
+\emph on
+Archivo / Servidor / Realizar consulta
+\emph default
+.
+ La consulta se realiza activando selectores relativos al test y selectores
+ relativos a los sujetos.
+\end_layout
+
+\begin_layout Subsubsection
+Selectores relativos al tests
+\end_layout
+
+\begin_layout Standard
+A continuación se indican los tres selectores existentes y sus posibles
+ valores:
+\end_layout
+
+\begin_layout Description
+Tipo
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+test Salto simple, salto reactivo y carrera simple.
+\end_layout
+
+\begin_layout Description
+Test Tests presentes en la base de datos del usuario que correspondan al
+ tipo de test indicado anteriormente.
+\end_layout
+
+\begin_layout Description
+Variable La variable de la que se obtendrá el promedio será distinta dependiendo
+ del test seleccionado.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Para un test de salto simple sin tiempo de contacto la única variable es
+ el 
+\emph on
+tiempo de vuelo
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+Para un salto simple con tiempo de contacto, las variables serán: 
+\emph on
+tiempo de vuelo
+\emph default
+, 
+\emph on
+tiempo de contacto
+\emph default
+, 
+\emph on
+Índice DJ
+\emph default
+ (ver 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Índice-Dj"
+
+\end_inset
+
+), 
+\emph on
+Índice Q
+\emph default
+ (ver 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Índice-Q"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+Para un salto reactivo las variables posibles son: 
+\emph on
+Índice medio
+\emph default
+ (ver 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Índice-medio"
+
+\end_inset
+
+) y
+\emph on
+ Po
+\emph default
+tencia
+\emph on
+ de Bosco
+\emph default
+ (ver 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Potencia-(Bosco)"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+Para una carrera simple la única variable es el 
+\emph on
+tiempo
+\emph default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection
+Selectores relativos a los sujetos
+\end_layout
+
+\begin_layout Standard
+Los selectores disponibles son:
+\end_layout
+
+\begin_layout Description
+Sexo
+\end_layout
+
+\begin_layout Description
+Edad definible por intérvalos.
+ Esta edad se refiere a la que tiene el sujeto en el momento en que realizó
+ el test (fecha de la sesión a la que pertenezca dicho test).
+ Para el cálculo de edad se utiliza la fecha de nacimiento del sujeto.
+\end_layout
+
+\begin_layout Description
+País
+\end_layout
+
+\begin_layout Description
+Deporte que en ocasiones se subdivide en 
+\emph on
+Especialidad.
+\end_layout
+
+\begin_layout Description
+Nivel
+\end_layout
+
+\begin_layout Standard
+Algunos de los selectores serán obligatorios, mientras que en la mayoría
+ se podrá seleccionar 
+\emph on
+Any
+\emph default
+ o 
+\emph on
+Cualquiera
+\emph default
+ para indicar que aquella variable no debe afectar al resultado.
+\end_layout
+
+\begin_layout Subsubsection
+Resultados de la consulta
+\end_layout
+
+\begin_layout Standard
+Cuando se haga clic en el botón de busqueda, pasados unos segundos el servidor
+ indicará cuantos resultados ha encontrado y cuál es el promedio.
+\end_layout
+
+\begin_layout Standard
+Se recomienda realizar búsquedas muy generales pues el servidor se ha creado
+ muy recientemente.
+ Como ejemplo de búsqueda puede probar saltos libres (Free) con la mayoría
+ de indicadores en 
+\emph on
+Any
+\emph default
+ o 
+\emph on
+Cualquiera.
+\end_layout
+
+\begin_layout Standard
+En la gráfica 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_query"
+
+\end_inset
+
+ puede ver un ejemplo de consulta.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Captura-Query-server.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_query"
+
+\end_inset
+
+Realizar una consulta al servidor.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Estadísticas generales del servidor
+\end_layout
+
+\begin_layout Standard
+Se ha programado una ventana que permite obtener una 
+\emph on
+radiografía
+\emph default
+ de los datos existentes en el servidor.
+ En ella se muestran el número de evaluadores, así como de sujetos y tests
+ de los distintos tipos.
+ Además se indica qué datos han sido subidos por el usuario que maneja el
+ programa.
+\end_layout
+
+\begin_layout Standard
+Se accede a dicha ventana haciendo click en 
+\emph on
+Archivo / Servidor / Estadísticas
+\emph default
+.
 \end_layout
 
 \begin_layout Section
-Estadísticas del servidor desde el programa y desde la web
+Estadísticas en la web
+\end_layout
+
+\begin_layout Standard
+En la página web 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/server_es.html
+\end_layout
+
+\end_inset
+
+ se muestran resultados del cruce de variables con los datos del servidor.
+ Dichas gráficas se actualizan cada vez que aparecen nuevos datos (normalmente
+ de forma automática por la noche).
+ Se pretende crear un conjunto de gráficos que sean una información valuosa
+ para cualquier interesado aunque éste no disponga de la tecnología Chronojump.
+\end_layout
+
+\begin_layout Standard
+En las figuras 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_graph1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_graph2"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_graph3"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_graph4"
+
+\end_inset
+
+ puede ver ejemplos de los gráficos que se pueden obtener en la web del
+ servidor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename server_heights_by_jumps_athletes.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_graph1"
+
+\end_inset
+
+Estadísticas del servidor en la web.
+ Diagrama de caja de tiempos de vuelo en función del tipo de salto en atletas.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename server_heights_by_level_and_sex.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_graph2"
+
+\end_inset
+
+Estadísticas del servidor en la web.
+ Diagrama de caja de tiempos de vuelo en salto libre en función sexo y nivel.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename server_heights_by_sex.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_graph3"
+
+\end_inset
+
+Estadísticas del servidor en la web.
+ Stripchar de tiempos de vuelo en salto libre en función del sexo.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename server_sports_and_countries.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_graph4"
+
+\end_inset
+
+Estadísticas del servidor en la web.
+ Stripchart de deportes y tarta de países de los deportistas.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
-Privacidad
+Privacidad y confidencialidad de los datos
+\end_layout
+
+\begin_layout Standard
+Los nombres y fechas de nacimiento de los deportistas así como de los evaluadore
+s nunca serán mostrados.
+ Incluso al subir los datos, los nombres de los saltadores no son enviados
+ (pues tampoco son necesarios), su fecha de nacimiento será necesaria para
+ el cálculo de su edad el día de la sesión, pero jamás será mostrada.
 \end_layout
 
 \begin_layout Chapter
@@ -7129,7 +8085,7 @@ name "sec:Preferencias"
 \begin_layout Standard
 La ventana de preferencias 
 \emph on
-Archivos / Preferencias
+Archivo / Preferencias
 \emph default
 , se divide en 4 pestañas:
 \end_layout

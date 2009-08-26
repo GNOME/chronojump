@@ -119,7 +119,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://git.gnome.org/cgit/chronojump/plain/manual/chronojump_manual_es.pdf
+http://www.chronojump.org/documents_es.html
 \end_layout
 
 \end_inset
@@ -132,6 +132,7 @@ http://git.gnome.org/cgit/chronojump/plain/manual/chronojump_manual_es.pdf
 status open
 
 \begin_layout Plain Layout
+
 
 \backslash
 thispagestyle{empty}

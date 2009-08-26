@@ -498,10 +498,10 @@ status open
 <lyxtabular version="3" rows="5" columns="5">
 <features>
 <column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="4cm">
-<column alignment="center" valignment="top" width="3cm">
-<column alignment="center" valignment="top" width="3cm">
-<column alignment="center" valignment="top" width="3.5cm">
+<column alignment="center" valignment="top" width="2cm">
+<column alignment="center" valignment="top" width="2cm">
+<column alignment="center" valignment="top" width="2.5cm">
+<column alignment="center" valignment="top" width="2.5cm">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -581,7 +581,7 @@ reference "fig:Chronopic3"
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="4cm">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="4cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -592,7 +592,7 @@ marzo 2008
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="2cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -603,7 +603,7 @@ USB
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -614,7 +614,7 @@ Se envía a todo el mundo
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none" width="3.5cm">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none" width="3.5cm">
 \begin_inset Text
 
 \begin_layout Plain Layout

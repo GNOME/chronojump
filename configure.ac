@@ -20,7 +20,7 @@ AC_PATH_PROG(MCS, gmcs, no)
 if test "x$MCS" = "xno"; then
        	AC_PATH_PROG(MCS2, gmcs2,no)
 	if test "x$MCS2" = "xno"; then
-		AC_MSG_ERROR([gmcs Not found])
+		AC_MSG_ERROR([gmcs not found])
 	else 
 		AC_SUBST(GMCS,[gmcs2])	
 	fi
@@ -29,6 +29,12 @@ else
 	AC_SUBST(GMCS,[gmcs])
 fi
 
+AC_PATH_PROG(MSGFMT, msgfmt, no)
+if test "x$MSGFMT" = "xno"; then
+	AC_MSG_ERROR([gettext not found])
+else 
+	AC_SUBST(MSGFMT,[msgfmt])
+fi
 
 AC_ARG_ENABLE(debug,
 	AC_HELP_STRING([--enable-debug],

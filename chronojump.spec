@@ -1,6 +1,6 @@
 Name:           chronojump
 Version:        0.8.9.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A measurement, management and statistics sport testing tool
 
 Group:          Applications/Engineering
@@ -9,8 +9,7 @@ URL:            http://chronojump.org
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/chronojump/0.8/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  mono-core pkgconfig mono-data-sqlite gtk-sharp2 gtk-sharp2-devel desktop-file-utils gettext
-Requires:       mono-core mono-data-sqlite gtk-sharp2
+BuildRequires:  mono-core pkgconfig mono-data-sqlite gtk-sharp2 gtk-sharp2-devel desktop-file-utils
 
 %description
 ChronoJump is an open hardware, free software, multiplatform complete system
@@ -42,15 +41,20 @@ rm %{buildroot}/%{_datadir}/doc/chronojump/chronojump_manual_es.pdf
 
 # removing non used files:
 rm %{buildroot}/%{_libdir}/chronojump/libchronopic.a
+rm %{buildroot}/%{_libdir}/chronojump/libchronopic.la
 
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications/   %{buildroot}%{_datadir}/applications/chronojump.desktop
 
+%find_lang %{name}
 
 %clean
 rm -rf %{buildroot}
 
+%post -p /sbin/ldconfig
 
-%files
+%postun -p /sbin/ldconfig
+
+%files -f %{name}.lang
 %defattr(-,root,root,-)
 %{_bindir}/chronojump
 %{_bindir}/chronojump_mini
@@ -64,25 +68,16 @@ rm -rf %{buildroot}
 %{_datadir}/icons/hicolor/48x48/apps/chronojump.png
 %{_datadir}/applications/chronojump.desktop
 
-%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/chronojump.mo
-%lang(ca) %{_datadir}/locale/ca/LC_MESSAGES/chronojump.mo
-%lang(dz) %{_datadir}/locale/dz/LC_MESSAGES/chronojump.mo
-%lang(en_GB) %{_datadir}/locale/en_GB/LC_MESSAGES/chronojump.mo
-%lang(es) %{_datadir}/locale/es/LC_MESSAGES/chronojump.mo
-%lang(fi) %{_datadir}/locale/fi/LC_MESSAGES/chronojump.mo
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/chronojump.mo
-%lang(nb) %{_datadir}/locale/nb/LC_MESSAGES/chronojump.mo
-%lang(oc) %{_datadir}/locale/oc/LC_MESSAGES/chronojump.mo
-%lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/chronojump.mo
-%lang(pt_BR) %{_datadir}/locale/pt_BR/LC_MESSAGES/chronojump.mo
-%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/chronojump.mo
-%lang(vi) %{_datadir}/locale/vi/LC_MESSAGES/chronojump.mo
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/chronojump.mo
-
 %doc README COPYING AUTHORS manual/chronojump_manual_es.pdf
 
 
 %changelog
+
+* Wed Aug 26 2009 <ismael@olea.org> 0.8.9.5-2
+- minor spec typos
+- Use %%find_lang.
+- added ldconfig invocation
+- removed libchronopic.la
 
 * Tue Aug 25 2009 <ismael@olea.org> 0.8.9.5-1
 - first release

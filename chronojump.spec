@@ -1,6 +1,6 @@
 Name:           chronojump
-Version:        0.8.9.5
-Release:        2%{?dist}
+Version:        0.8.9.6
+Release:        3%{?dist}
 Summary:        A measurement, management and statistics sport testing tool
 
 Group:          Applications/Engineering
@@ -21,7 +21,16 @@ order to obtain precise and trustworthy measurements.
 
 Chronojump is used by trainers, teachers and students.
 
+%package        doc
+Summary:        ChronoJump manuals
+Group:          Applications/Engineering
+Requires:       %{name} = %{version}-%{release}
 
+%description doc
+ChronoJump is an open hardware, free software, multiplatform complete system
+for measurement, management and statistics of sport short-time tests.
+
+These are the manuals for ChronoJump
 
 %prep
 %setup -q
@@ -68,10 +77,16 @@ rm -rf %{buildroot}
 %{_datadir}/icons/hicolor/48x48/apps/chronojump.png
 %{_datadir}/applications/chronojump.desktop
 
-%doc README COPYING AUTHORS manual/chronojump_manual_es.pdf
+%doc README COPYING AUTHORS 
 
+%files doc
+%defattr(-,root,root,-)
+%doc manual/chronojump_manual_es.pdf
 
 %changelog
+
+* Thu Aug 27 2009 <ismael@olea.org> 0.8.9.6-1
+- added doc subpackage
 
 * Wed Aug 26 2009 <ismael@olea.org> 0.8.9.5-2
 - minor spec typos

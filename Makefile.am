@@ -1,7 +1,4 @@
-EXTRA_DIST = 	build/data/linux_dlls/NPlot.dll\
-  		build/data/linux_dlls/NPlot.Gtk.dll\
-		build/data/linux_dlls/NPlot.dll.config\
-		build/data/linux_dlls/NPlot.Gtk.dll.config
+EXTRA_DIST = 
 
 ACLOCAL_AMFLAGS = -I m4
 

@@ -1,5 +1,7 @@
 TODO: 
 
+bug: when crash it shows to update to a version that is not last
+
 check all software (for the Util.TrimDecimals change)
 create accept license on uploading
 add accept license on uploading, and a way to retreive it from server

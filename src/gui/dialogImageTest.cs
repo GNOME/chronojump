@@ -69,7 +69,7 @@ public class DialogImageTest
 
 		scrolledwindow28.Hide();
 
-                Pixbuf pixbuf = new Pixbuf (null, imagePath);
+                Pixbuf pixbuf = new Pixbuf (imagePath);
                 image_test.Pixbuf = pixbuf;
 	}
 				

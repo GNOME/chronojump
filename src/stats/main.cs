@@ -28,6 +28,7 @@ using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO; 	//TextWriter
+using System.Diagnostics; 	//Processing
 using Mono.Unix;
 
 /* ------------ CLASS HERENCY MAP ---------
@@ -877,6 +878,8 @@ public class Stat
 		return myGrid;
 	}
 
+	/*
+	   //nplot will be converted to R
 	public void CreateGraph () 
 	{
 		//only graph if there's data
@@ -920,6 +923,7 @@ public class Stat
 		w.ShowAll ();
 	}
 
+	   //nplot will be converted to R
 	public bool CreateGraph (string fileName) 
 	{
 		//only graph if there's data
@@ -964,6 +968,57 @@ public class Stat
 
 		return true;
 	}
+	*/
+
+	//currently only creates one customized graph	
+	public bool CreateGraphR (string fileName, bool show) 
+	{
+		//only graph if there's data
+		//TODO: check also later if none row is selected
+		if(CurrentGraphData.XAxisNames.Count == 0) {
+			return false;
+		}
+		if (!show) { //report
+			/*
+			string directoryName = Util.GetReportDirectoryName(ileName);
+			string [] pngs = Directory.GetFiles(directoryName, "*.png");
+
+			//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
+			//there will be always a png with chronojump_logo
+			fileName = directoryName + "/" + pngs.Length.ToString() + ".png";
+			*/
+		}
+
+		fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName);
+
+		string rGraphString = 
+			"png(filename = '" + fileName + "', width = 670, height = 400, units = 'px',\n" +
+		        " pointsize = 12, bg = 'white', res = NA)\n"+
+			"library(RSQLite)\n" +
+			"drv = dbDriver('SQLite')\n" +
+			"file = '/home/xavier/.local/share/Chronojump/database/chronojump.db'\n" +
+			"con = dbConnect(drv, file)\n" +
+			//"jumps <- dbGetQuery(con, \"select jump.*, person.sex as personsex from jump, person where type='Free' AND simulated >= 0 and jump.personID=person.UniqueID AND sessionID=14\")\n" +
+			"jumps <- dbGetQuery(con, \"select jump.*, person.sex as personsex from jump, person where jump.personID=person.UniqueID\")\n" +
+			"stripchart(jumps$tv ~ jumps$personsex, method='jitter', pch=3, jitter=.2, group.names=c('Females','Males'), xlab='Flight time')\n" +
+			"title(main='Free jump heights in sport science students and sex', sub='15 Aug 2009', cex.sub=0.75, font.sub=3, col.sub='red')\n" +
+			"dev.off()";
+
+		string rScript = System.IO.Path.Combine(Path.GetTempPath(), Constants.FileNameRScript);
+		TextWriter writer = File.CreateText(rScript);
+		writer.Write(rGraphString);
+		writer.Flush();
+		((IDisposable)writer).Dispose();
+		
+		Process r = Process.Start("R CMD BATCH " + rScript);
+		r.WaitForExit();
+		
+		if(show)
+			new DialogImageTest("prueba de graph con R", fileName);
+
+		return true;
+	}
+			
 			
 	private int getSizeX() {
 		int x;

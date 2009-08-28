@@ -393,14 +393,15 @@ public class StatType {
 
 		if(toReport) {
 			if(graph) {
-				bool notEmpty = myStat.CreateGraph(fileName);
-				if(notEmpty) { linkImage(fileName); }
+				//bool notEmpty = myStat.CreateGraphR(fileName, false); //dont' show
+				//if(notEmpty) { linkImage(fileName); }
 			} else {
 				writer.WriteLine(myStat.ReportString());
 			}
 		} else {
 			if(graph) {
-				myStat.CreateGraph();
+				//myStat.CreateGraph();
+				myStat.CreateGraphR(Constants.FileNameRGraph, true); //show
 			}
 		}
 	

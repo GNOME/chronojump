@@ -233,6 +233,9 @@ public class Constants
 	public static string FileNameIcon = "chronojump_icon.png";
 	public static string FileNameIconGraph = "chronojump_icon_graph.png";
 	public static string FileNameVersion = "version.txt";
+	
+	public static string FileNameRGraph = "r-graph.png";
+	public static string FileNameRScript = "r-graph.txt";
 
 	public static string FileNameZoomFitIcon = "gtk-zoom-fit.png";
 	//public static string FileNameZoomOutIcon = "gtk-zoom-out.png";

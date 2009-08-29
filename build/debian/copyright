@@ -1,35 +1,57 @@
-This package was debianized by Andoni Morales Alastruey <ylatuya@gmail.com> on
-Tue, 15 Aug 2009 03:04:08 +0200.
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=59
+Name: Chronojump
+Maintainer: Andoni Morales Alastruey <ylatuya@gmail.com>
+Upstream-Maintainer: Xavier de Blas <xaviblas@gmail.com>
+Source: http://ftp.gnome.org/pub/GNOME/sources/chronojump/
 
-It was downloaded from <http://chronojump.org>
+Files: *
+Copyright: 2004-2009, Xavier de Blas <xaviblas@gmail.com>
+License: GPL-2+
 
-Upstream Author(s): 
+Files: chronopic-test/*
+Copyright: 2005 Juan Gonzalez Gomez
+License: GPL-2+
 
-    Xavier de Blas <xaviblas@gmail.com>
-    
+Files: chronopic-test/termansi.*
+Copyright: 1997 Grupo J&J
+License: other
 
-Copyright: 
+Files: chronojump_server/BCrypt.cs
+Copyright: 2006 Damien Miller <djm@mindrot.org>
+Copyright: 2007 Derek Slager
+License: other
+ Permission to use, copy, modify, and distribute this software for any
+ purpose with or without fee is hereby granted, provided that the above
+ copyright notice and this permission notice appear in all copies.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-    Copyright (C) 2004-2009 Xavier de Blas <xaviblas@gmail.com>
-    
+Files: debian/*
+Copyright:2009 Andoni Morales Alastruey <ylatuya@gmail.com>
+License: GPL-2+
 
-License:
+License: GPL-2+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+X-Comment: On Debian systems the full text of the GNU Lesser General Public
+ License can be found in the `/usr/share/common-licenses/GPL-2' file.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-   GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-   The Debian packaging is (C) 2009, Andoni Morales Alastruey <ylatuya@gmail.com> and
-   is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
-
-# Please also look if there are files or directories which have a
-# different copyright/license attached and list them here.

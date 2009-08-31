@@ -988,25 +988,100 @@ public class Stat
 			fileName = directoryName + "/" + pngs.Length.ToString() + ".png";
 			*/
 		}
+		
+		ArrayList data = new ArrayList(1);
+		string rD = ""; //rDataString
+		string bD = "data <- cbind("; //bindDataString
+		string colNamesD = "colnames(data) <- c("; //colNamesDataString
+		string sepSerie = "";
+		int count = 0;
+		foreach(GraphSerie serie in GraphSeries) {
+			rD += "serie" + count.ToString() + " <- c(";
+			string sep = "";
+			foreach(string val in serie.SerieData) {
+				if(val == "-")
+					rD += sep + "0";
+				else
+					if(serie.IsLeftAxis)
+						rD += sep + Util.ConvertToPoint(Convert.ToDouble(val)*100); //normally tc, tf from 0 to 1
+					else
+						rD += sep + Util.ConvertToPoint(val);
+				sep = ", ";
+			}
+			rD += ")\n";
+
+			bD += sepSerie + "serie" + count.ToString();
+			if(serie.IsLeftAxis)
+				colNamesD += sepSerie + "'" + serie.Title + " [*100]'";
+			else
+				colNamesD += sepSerie + "'" + serie.Title + "'";
+			sepSerie = ", ";
+			count ++;
+		}
+			
+		bD += ")\n";
+		colNamesD += ")\n";
+
+		
+		string rowNamesD = "rownames(data) <- c("; //rowNamesDataString
+		string sep2 = "";
+		for(int i=0; i < CurrentGraphData.XAxisNames.Count; i++) {
+			rowNamesD += sep2 + "'" + CurrentGraphData.XAxisNames[i] + "'";
+			sep2 = ", ";
+		}
+		rowNamesD += ")\n";
+		
+			
+			
+		string allData = rD + bD + colNamesD + rowNamesD + "data\n";
+		allData += "dataT <- t(data)\n";
+
 
 		fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName);
 
-		string rGraphString = 
+		string rG = //rGraphString
 			"png(filename = '" + fileName + "', width = 670, height = 400, units = 'px',\n" +
 		        " pointsize = 12, bg = 'white', res = NA)\n"+
-			"library(RSQLite)\n" +
-			"drv = dbDriver('SQLite')\n" +
-			"file = '/home/xavier/.local/share/Chronojump/database/chronojump.db'\n" +
-			"con = dbConnect(drv, file)\n" +
-			//"jumps <- dbGetQuery(con, \"select jump.*, person.sex as personsex from jump, person where type='Free' AND simulated >= 0 and jump.personID=person.UniqueID AND sessionID=14\")\n" +
-			"jumps <- dbGetQuery(con, \"select jump.*, person.sex as personsex from jump, person where jump.personID=person.UniqueID\")\n" +
-			"stripchart(jumps$tv ~ jumps$personsex, method='jitter', pch=3, jitter=.2, group.names=c('Females','Males'), xlab='Flight time')\n" +
-			"title(main='Free jump heights in sport science students and sex', sub='15 Aug 2009', cex.sub=0.75, font.sub=3, col.sub='red')\n" +
+			"barplot(dataT, beside=T, legend=rownames(dataT), col=rainbow(length(rownames(dataT))), las=2)\n" +
+			"title(main='" + CurrentGraphData.GraphTitle + "', sub='testing', cex.sub=0.75, font.sub=3, col.sub='red')\n" +
 			"dev.off()";
+
+		/*
+		   if there's lot of data of only one variable:
+		   dotchart(data, cex=.5)
+		   */
+
+		/*
+	> heights
+	[1] 0.30 0.50 0.55 0.60
+	> jumpTypes
+	[1] "sj"     "Rocket" "ABK"    "Free"  
+	> plot(heights, axes = FALSE)
+	> axis(1, 1:4, jumpTypes)
+	> axis(2)
+	> box()
+	> title(main='my tit', sub='subtit', cex.sub=0.75, font.sub=3, col.sub='red')
+	*/
+
+		/*
+		   > joan <- c(.2, .5, .6)
+		   > dayron <- c(.25, .65, .65)
+		   > pepa <- c(.1, .2, .21)
+		   > jumps <- cbind(joan, dayron, pepa)
+		   > rownames(jumps) <- c("SJ", "CMJ", "ABK")
+		   > barplot(jumps, beside=T, legend=rownames(jumps))
+		   > barplot(jumps, beside=T, legend=rownames(jumps), col=heat.colors(3))
+		   > barplot(jumps, beside=T, legend=rownames(jumps), col=gray.colors(3))
+  		   > barplot(jumps, beside=T, legend=rownames(jumps), col=rainbow(3))
+		   > barplot(jumps, beside=T, legend=rownames(jumps), col=topo.colors(3))
+		   */
+
+
+
 
 		string rScript = System.IO.Path.Combine(Path.GetTempPath(), Constants.FileNameRScript);
 		TextWriter writer = File.CreateText(rScript);
-		writer.Write(rGraphString);
+		writer.Write(allData + rG);
 		writer.Flush();
 		((IDisposable)writer).Dispose();
 		

@@ -23,8 +23,8 @@ using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
 
-using NPlot.Gtk;
-using NPlot;
+//using NPlot.Gtk;
+//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -83,6 +83,7 @@ public class GraphDjQ : StatDjQ
 			serieTv.IsLeftAxis = true;
 			serieFall.IsLeftAxis = false;
 
+			/*
 			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
@@ -95,6 +96,7 @@ public class GraphDjQ : StatDjQ
 					6, new Pen (Color.FromName("Blue"), 2.0F));
 			serieFall.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
 					6, new Pen (Color.FromName("Chocolate"), 2.0F));
+					*/
 		
 			//for the line between markers
 			serieIndex.SerieColor = Color.FromName("Red");
@@ -196,8 +198,8 @@ public class GraphDjQ : StatDjQ
 				countSeriesGraphColors ++;
 			}
 			
-			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (myColor, 2.0F));
+//			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
+//					6, new Pen (myColor, 2.0F));
 			
 			mySerie.SerieColor = myColor;
 			

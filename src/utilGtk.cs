@@ -133,6 +133,19 @@ public class UtilGtk
 		myCol.SortIndicator = true;
 		tv.AppendColumn ( myCol );
 	}
+	
+	public static string [] GetCols(Gtk.TreeView tv, int first) {
+		Gtk.TreeViewColumn [] cols = tv.Columns;
+		string [] colNames = new String [cols.Length];
+		int i=0;
+		foreach (Gtk.TreeViewColumn col in cols) {
+			if(i >= first)
+				colNames[i] = col.Title;
+			i++;
+		}
+		return colNames;
+	}
+
 
 	public static int IdColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
 		int val1 = 0;

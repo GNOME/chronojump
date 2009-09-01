@@ -22,33 +22,30 @@ using System;
 using System.Data;
 using System.Collections; //ArrayList
 
-//using NPlot.Gtk;
-//using NPlot;
-using System.Drawing;
-using System.Drawing.Imaging;
-
-public class GraphSerie
+//only to easy pass data
+//this is new stuff created when moved to R
+public class GraphROptions
 {
-	public string Title;
-	public bool IsLeftAxis;
-	//public Marker SerieMarker;
-	public Color SerieColor;
-	public ArrayList SerieData;
-	public double Avg; //height of avg line
-
-	public GraphSerie() {
-		SerieData = new ArrayList();
-		Avg = 0;
+	public string Type;
+	public string VarX;
+	public string VarY;
+	public string Palette;
+	public bool Transposed;
+	public int Width;
+	public int Height;
+	public string Legend;
+	
+	public GraphROptions(string Type, string VarX, string VarY, string Palette, bool Transposed, 
+			int Width, int Height, string Legend) {
+		this.Type = Type;
+		this.VarX = VarX;
+		this.VarY = VarY;
+		this.Palette = Palette;
+		this.Transposed = Transposed;
+		this.Width = Width;
+		this.Height = Height;
+		this.Legend = Legend;
 	}
-
-	//public GraphSerie(string Title, bool IsLeftAxis, Marker SerieMarker, Color SerieColor, ArrayList SerieData) 
-	public GraphSerie(string Title, bool IsLeftAxis, Color SerieColor, ArrayList SerieData) 
-	{
-		this.Title = 		Title;
-		this.IsLeftAxis = 	IsLeftAxis;
-		this.SerieColor =	SerieColor;
-		//this.SerieMarker =	SerieMarker;
-		this.SerieData =	SerieData;
-		Avg = 0;
+	public GraphROptions() {
 	}
 }	

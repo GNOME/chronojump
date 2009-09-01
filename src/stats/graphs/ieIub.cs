@@ -23,8 +23,8 @@ using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
 
-using NPlot.Gtk;
-using NPlot;
+//using NPlot.Gtk;
+//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -91,6 +91,7 @@ public class GraphIeIub : StatIeIub
 			serieJump1.IsLeftAxis = true;
 			serieJump2.IsLeftAxis = true;
 
+			/*
 			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			//serieJump1.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
@@ -99,6 +100,7 @@ public class GraphIeIub : StatIeIub
 			//serieJump2.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieJump2.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Blue"), 2.0F));
+					*/
 		
 			//for the line between markers
 			serieIndex.SerieColor = Color.FromName("Red");
@@ -181,8 +183,8 @@ public class GraphIeIub : StatIeIub
 				countSeriesGraphColors ++;
 			}
 		
-			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (myColor, 2.0F));
+//			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
+//					6, new Pen (myColor, 2.0F));
 			
 			mySerie.SerieColor = myColor;
 			

@@ -23,8 +23,8 @@ using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
 
-using NPlot.Gtk;
-using NPlot;
+//using NPlot.Gtk;
+//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -113,13 +113,15 @@ public class GraphRjEvolution : StatRjEvolution
 			myColor = Color.FromName(Constants.Colors[countSeriesGraphColors]);
 			countSeriesGraphColors ++;
 		}
-		
+	
+		/*	
 		//serieTc.SerieMarker = new Marker (Marker.MarkerType.TriangleDown, 
 		serieTc.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 				6, new Pen (myColor, 2.0F));
 		//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 		serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
 				6, new Pen (myColor, 2.0F));
+				*/
 		
 		//for the line between markers
 		serieTc.SerieColor = myColor;

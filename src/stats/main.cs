@@ -23,8 +23,8 @@ using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
 
-using NPlot.Gtk;
-using NPlot;
+//using NPlot.Gtk;
+//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO; 	//TextWriter
@@ -73,6 +73,8 @@ public class Stat
 	protected ArrayList markedRows;
 	private ArrayList personsWithData; //useful for selecting only people with data on comboCheckboxes
 
+	protected GraphROptions gRO;
+
 	protected bool toReport = false;
 	protected string reportString;
 
@@ -114,6 +116,7 @@ public class Stat
 		
 		this.markedRows = myStatTypeStruct.MarkedRows;
 		
+		this.gRO = myStatTypeStruct.GRO;
 		this.toReport = myStatTypeStruct.ToReport;
 		
 		this.treeview = treeview;
@@ -489,7 +492,7 @@ public class Stat
 
 		//removes persons in personsWithData
 		personsWithData = new ArrayList();
-
+	
 		//process all SQL results line x line
 		for (i=0; i < arrayFromSql.Count ; i ++) {
 			rowFromSql = arrayFromSql[i].ToString().Split(new char[] {':'});
@@ -866,7 +869,8 @@ public class Stat
 	//protected ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
 	//has to be static
 	protected static ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
-	
+
+	/*	
 	private Grid addGrid() 
 	{
 		Grid myGrid = new Grid();
@@ -877,6 +881,7 @@ public class Stat
 		myGrid.MajorGridPen = majorGridPen;
 		return myGrid;
 	}
+	*/
 
 	/*
 	   //nplot will be converted to R
@@ -970,6 +975,248 @@ public class Stat
 	}
 	*/
 
+/* R TESTS */
+		/*
+		   if there's lot of data of only one variable:
+		   dotchart(data, cex=.5)
+		   */
+
+		/*
+		   xy graphs like this:
+		   rang <- c(1:length(rownames(data)))
+		   plot(dataDF$TC, dataDF$TV, pch=rang, col=rang)
+		   legend(75,150 ,legend=rownames(data), pch=rang, col=rang, cex=.5)
+		   */
+
+		/*
+		   two series of person X 4 jumpTypes
+
+		   NEED TO ADJUST INITAL-END X on xaxis
+
+		   serie0=c(.3, .5, .55, .6)
+		   serie1=c(.32, .52, .55, .62)
+		   maxVal=max(serie0,serie1)
+		   people=c("joan", "pep")
+		   jumpTypes=c("sj","Rocket","ABK","Free")
+
+		   xNames = jumpTypes
+		   legendNames = people
+
+		   colors=rainbow(length(legendNames))
+		   plot(serie0,xlim=c(0,length(xNames)+1), ylim=c(0,maxVal), pch=1, axes=FALSE, col=colors[1])
+		   points(serie1, pch=2, col=colors[2])
+		   axis(1, 1:4, xNames)
+		   axis(2)
+		   legend("topright", legend=legendNames, pch=c(1,2), cex=.5, col=colors)
+		   
+		   ---------------------
+		   (transposed) two series of jumpTypes X 2 persons
+		   best see how to transpose automatically
+
+		   serie0=c(.3, .32)
+		   serie1=c(.5, .52)
+		   serie2=c(.55, .55)
+		   serie3=c(.6, .62)
+		   maxVal=max(serie0,serie1,serie2,serie3)
+		   people=c("joan", "pep")
+		   jumpTypes=c("sj","Rocket","ABK","Free")
+
+		   xNames = people
+		   legendNames = jumpTypes
+
+		   colors=topo.colors(length(legendNames))
+		   plot(serie0,xlim=c(0,length(xNames)+1), ylim=c(0,maxVal), pch=1, axes=FALSE, col=colors[1])
+		   points(serie1, pch=2, col=colors[2])
+		   points(serie2, pch=3, col=colors[3])
+		   points(serie3, pch=4, col=colors[4])
+		   axis(1, 1:2, xNames)
+		   axis(2)
+		   legend("topright", legend=legendNames, pch=c(1:4), cex=.5, col=colors)
+
+		   ----------------------------------
+		   nicer, with table
+
+		   serie0=c(.3, .5, .55, .6)
+		   serie1=c(.32, .52, .55, .62)
+		   table <- rbind(serie0, serie1)
+		   maxVal=max(table)
+		   rownames(table)=c("joan", "pep")
+		   colnames(table)=c("sj","Rocket","ABK","Free")
+
+		#if transpose uncomment this:
+		#table <-t(table)
+
+		   colors=topo.colors(length(rownames(table)))
+		   plot(table[1,1:length(colnames(table))],xlim=c(0,length(colnames(table))+1), ylim=c(0,maxVal), pch=1, axes=FALSE, col=colors[1])
+		   for(i in 2:length(rownames(table))) 
+		   	points(table[i,1:length(colnames(table))], pch=i, col=colors[i])
+		  
+		   axis(1, 1:length(colnames(table)), colnames(table))
+		   axis(2)
+		   legend("bottomright", legend=rownames(table), pch=c(1:length(rownames(table))), cex=.5, col=colors)
+
+		   */
+
+
+
+
+		/* 
+		interessant:
+		plot(table(rpois(100,5)), type = "h", col = "red", lwd=10, main="rpois(100,lambda=5)")
+		*/
+
+
+
+
+		/*
+	> heights
+	[1] 0.30 0.50 0.55 0.60
+	> jumpTypes
+	[1] "sj"     "Rocket" "ABK"    "Free"  
+	> plot(heights, axes = FALSE)
+	> axis(1, 1:4, jumpTypes)
+	> axis(2)
+	> box()
+	> title(main='my tit', sub='subtit', cex.sub=0.75, font.sub=3, col.sub='red')
+	*/
+
+		/*
+		   joan <- c(.2, .5, .6)
+		   dayron <- c(.25, .65, .65)
+		   pepa <- c(.1, .2, .21)
+		   jumps <- cbind(joan, dayron, pepa)
+		   rownames(jumps) <- c("SJ", "CMJ", "ABK")
+		   barplot(jumps, beside=T, legend=rownames(jumps))
+		   barplot(jumps, beside=T, legend=rownames(jumps), col=heat.colors(3))
+		   barplot(jumps, beside=T, legend=rownames(jumps), col=gray.colors(3))
+  		   barplot(jumps, beside=T, legend=rownames(jumps), col=rainbow(3))
+		   barplot(jumps, beside=T, legend=rownames(jumps), col=topo.colors(3))
+		   */
+
+	private bool hasTwoAxis()
+	{
+		bool left = false;
+		bool right = false;
+		foreach(GraphSerie serie in GraphSeries) {
+			if(serie.IsLeftAxis)
+				left=true;
+			else
+				right=true;
+		}
+		return (left && right);
+	}
+
+	private string convertDataToR(GraphROptions gro, Sides side) 
+	{
+		string rD = ""; //rDataString
+		string bD = "data <- cbind("; //bindDataString
+		string colNamesD = "colnames(data) <- c("; //colNamesDataString
+		string sepSerie = "";
+		int count = 0; //this counts accepted series
+		foreach(GraphSerie serie in GraphSeries) {
+			if(
+					side == Sides.LEFT && ! serie.IsLeftAxis ||
+					side == Sides.RIGHT && serie.IsLeftAxis) {
+				continue;
+			}
+			//on XY only take two vars
+			Log.WriteLine("groVarX: " + gro.VarX + " groVarY: " + gro.VarY + " tit: " + serie.Title);
+			if(gro.Type == Constants.GraphTypeXY &&
+					(gro.VarX != serie.Title && gro.VarY != serie.Title) ) {
+				Log.WriteLine("break");
+				continue;
+			}
+			else
+				Log.WriteLine("NO break");
+
+
+			rD += "serie" + count.ToString() + " <- c(";
+			string sep = "";
+			int count2=0;
+			foreach(string val in serie.SerieData) {
+				if(! acceptCheckedData(count2++))
+					continue;
+				if(val == "-")
+					rD += sep + "0";
+				else
+					rD += sep + Util.ConvertToPoint(val);
+				sep = ", ";
+			}
+			rD += ")\n";
+			bD += sepSerie + "serie" + count.ToString();
+			colNamesD += sepSerie + "'" + serie.Title  + "'";
+			sepSerie = ", ";
+			count ++;
+		}
+
+		bD += ")\n";
+		colNamesD += ")\n";
+
+		string rowNamesD = "rownames(data) <- c("; //rowNamesDataString
+		string sep2 = "";
+		for(int i=0; i < CurrentGraphData.XAxisNames.Count; i++) {
+			if(! acceptCheckedData(i))
+				continue;
+			rowNamesD += sep2 + "'" + CurrentGraphData.XAxisNames[i] + "'";
+			sep2 = ", ";
+		}
+		rowNamesD += ")\n";
+		
+		string allData = rD + bD + colNamesD + rowNamesD + "data\n";
+		if(gro.Transposed)
+			allData += "data <- t(data)\n";
+	
+		return allData;	
+	}
+
+	private string getRBarplotString(GraphROptions gro, string fileName, Sides side) {
+		string allData = convertDataToR(gro, side);
+		string rG = //rGraphString
+			"barplot(data, beside=T, col=" + gro.Palette + "(length(rownames(data))), las=2)\n" +
+			" legend('" + gro.Legend +"', legend=rownames(data), cex=.7)\n" +
+			"title(main='" + CurrentGraphData.GraphTitle + "', sub='testing', cex.sub=0.75, font.sub=3, col.sub='red')\n";
+
+		return allData + rG;
+	}
+
+
+	private string getRLinesString(GraphROptions gro, string fileName, Sides side) {
+		string allData = convertDataToR(gro, side);
+		string axesStr = " axis(2)\n";
+		if(side == Sides.RIGHT)
+			axesStr = " axis(4)\n";
+		string rG = //rGraphString
+		   	" colors=" + gro.Palette +"(length(rownames(data)))\n" +
+		   	" plot(data[1,1:length(colnames(data))], type='b', xlim=c(0,length(colnames(data))+1), ylim=c(min(data),max(data)), pch=1, axes=FALSE, col=colors[1])\n" +
+			" if(length(rownames(data))>=2) {\n" +
+			" 	for(i in 2:length(rownames(data)))\n" +
+		   	" 		points(data[i,1:length(colnames(data))], type='b', pch=i, col=colors[i])\n" +
+			" }\n" +
+			" axis(1, 1:length(colnames(data)), colnames(data), las=2)\n" +
+			axesStr + 
+			" legend('" + gro.Legend +"', legend=rownames(data), pch=c(1:length(rownames(data))), cex=.7, col=colors)\n" +
+			" title(main='" + CurrentGraphData.GraphTitle + "', sub='testing', cex.sub=0.75, font.sub=3, col.sub='red')\n";
+
+		return allData + rG;
+	}
+	
+	private string getRXYString(GraphROptions gro, string fileName) {
+		string allData = convertDataToR(gro, Sides.ALL);
+		string rG = //rGraphString
+			"rang <- c(1:length(rownames(data)))\n" +
+			"plot(serie0, serie1, pch=rang, col=rang)\n" +
+			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col=rang, cex=.7)\n" +
+			"title(main='" + CurrentGraphData.GraphTitle + "', sub='testing', cex.sub=0.75, font.sub=3, col.sub='red')\n";
+
+		return allData + rG;
+	}
+
+	private string getRDotchartString(GraphROptions gro, string fileName) {
+		return "";
+	}
+
+	public enum Sides { ALL, LEFT, RIGHT };
+
 	//currently only creates one customized graph	
 	public bool CreateGraphR (string fileName, bool show) 
 	{
@@ -988,113 +1235,78 @@ public class Stat
 			fileName = directoryName + "/" + pngs.Length.ToString() + ".png";
 			*/
 		}
-		
-		ArrayList data = new ArrayList(1);
-		string rD = ""; //rDataString
-		string bD = "data <- cbind("; //bindDataString
-		string colNamesD = "colnames(data) <- c("; //colNamesDataString
-		string sepSerie = "";
-		int count = 0;
-		foreach(GraphSerie serie in GraphSeries) {
-			rD += "serie" + count.ToString() + " <- c(";
-			string sep = "";
-			foreach(string val in serie.SerieData) {
-				if(val == "-")
-					rD += sep + "0";
-				else
-					if(serie.IsLeftAxis)
-						rD += sep + Util.ConvertToPoint(Convert.ToDouble(val)*100); //normally tc, tf from 0 to 1
-					else
-						rD += sep + Util.ConvertToPoint(val);
-				sep = ", ";
+
+		fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName); 
+	
+		string rString = "png(filename = '" + fileName + "'\n" + 
+			" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
+			" , pointsize = 12, bg = 'white', res = NA)\n";
+
+		if(gRO.Type == Constants.GraphTypeBarplot) {
+			if(hasTwoAxis()) {
+				rString += "par(mfrow=c(1,2))\n";
+				rString += getRBarplotString(
+						gRO, fileName, Sides.LEFT);
+				rString += getRBarplotString(
+						gRO, fileName, Sides.RIGHT);
 			}
-			rD += ")\n";
-
-			bD += sepSerie + "serie" + count.ToString();
-			if(serie.IsLeftAxis)
-				colNamesD += sepSerie + "'" + serie.Title + " [*100]'";
 			else
-				colNamesD += sepSerie + "'" + serie.Title + "'";
-			sepSerie = ", ";
-			count ++;
+				rString += getRBarplotString(
+						gRO, fileName, Sides.ALL);
 		}
-			
-		bD += ")\n";
-		colNamesD += ")\n";
-
-		
-		string rowNamesD = "rownames(data) <- c("; //rowNamesDataString
-		string sep2 = "";
-		for(int i=0; i < CurrentGraphData.XAxisNames.Count; i++) {
-			rowNamesD += sep2 + "'" + CurrentGraphData.XAxisNames[i] + "'";
-			sep2 = ", ";
+		else if(gRO.Type == Constants.GraphTypeLines) {
+			if(hasTwoAxis()) {
+				rString += "par(mfrow=c(1,2))\n";
+				rString += getRLinesString(
+						gRO, fileName, Sides.LEFT);
+				rString += getRLinesString(
+						gRO, fileName, Sides.RIGHT);
+			}
+			else
+				rString += getRLinesString(
+						gRO, fileName, Sides.ALL);
 		}
-		rowNamesD += ")\n";
-		
-			
-			
-		string allData = rD + bD + colNamesD + rowNamesD + "data\n";
-		allData += "dataT <- t(data)\n";
+		else if(gRO.Type == Constants.GraphTypeXY)
+			rString += getRXYString(gRO, fileName);
+		else //if(CurrentGraphData.GraphType == Constants.GraphTypeDotchart))
+			rString += getRDotchartString(gRO, fileName);
+		//TODO: 
+		//- do XY with two variables (on sjCmjABKPlus select if graph tv or height)
+		//- if is not transposed, then always? legend appears two times and is the same. Plot legend on "MY BIG MAIN TITLE" graph
 
+
+		//have an unique title for both graphs
+		if(hasTwoAxis() && gRO.Type != Constants.GraphTypeXY)
+			rString += "par(mfrow=c(1,1), new=TRUE)\n" +
+				"plot(-1, axes=FALSE)\n" +
+				"title(main='MY BIG MAIN TITLE')\n" +
+				"par(mfrow=c(1,1), new=FALSE)\n";
+		
+		rString += " dev.off()\n";
 
 		fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName);
 
-		string rG = //rGraphString
-			"png(filename = '" + fileName + "', width = 670, height = 400, units = 'px',\n" +
-		        " pointsize = 12, bg = 'white', res = NA)\n"+
-			"barplot(dataT, beside=T, legend=rownames(dataT), col=rainbow(length(rownames(dataT))), las=2)\n" +
-			"title(main='" + CurrentGraphData.GraphTitle + "', sub='testing', cex.sub=0.75, font.sub=3, col.sub='red')\n" +
-			"dev.off()";
-
-		/*
-		   if there's lot of data of only one variable:
-		   dotchart(data, cex=.5)
-		   */
-
-		/*
-	> heights
-	[1] 0.30 0.50 0.55 0.60
-	> jumpTypes
-	[1] "sj"     "Rocket" "ABK"    "Free"  
-	> plot(heights, axes = FALSE)
-	> axis(1, 1:4, jumpTypes)
-	> axis(2)
-	> box()
-	> title(main='my tit', sub='subtit', cex.sub=0.75, font.sub=3, col.sub='red')
-	*/
-
-		/*
-		   > joan <- c(.2, .5, .6)
-		   > dayron <- c(.25, .65, .65)
-		   > pepa <- c(.1, .2, .21)
-		   > jumps <- cbind(joan, dayron, pepa)
-		   > rownames(jumps) <- c("SJ", "CMJ", "ABK")
-		   > barplot(jumps, beside=T, legend=rownames(jumps))
-		   > barplot(jumps, beside=T, legend=rownames(jumps), col=heat.colors(3))
-		   > barplot(jumps, beside=T, legend=rownames(jumps), col=gray.colors(3))
-  		   > barplot(jumps, beside=T, legend=rownames(jumps), col=rainbow(3))
-		   > barplot(jumps, beside=T, legend=rownames(jumps), col=topo.colors(3))
-		   */
-
-
-
-
 		string rScript = System.IO.Path.Combine(Path.GetTempPath(), Constants.FileNameRScript);
 		TextWriter writer = File.CreateText(rScript);
-		writer.Write(allData + rG);
+		writer.Write(rString);
 		writer.Flush();
 		((IDisposable)writer).Dispose();
 		
 		Process r = Process.Start("R CMD BATCH " + rScript);
 		r.WaitForExit();
-		
-		if(show)
-			new DialogImageTest("prueba de graph con R", fileName);
+
+		if(show) {
+			if(! File.Exists(fileName) || File.GetLastWriteTime(fileName) < File.GetLastWriteTime(rScript))
+				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry. Error doing graph");
+			else
+				new DialogImageTest("prueba de graph con R", fileName);
+		}
 
 		return true;
 	}
 			
-			
+		
+	/*	
 	private int getSizeX() {
 		int x;
 		int xMultiplier = 50;
@@ -1134,6 +1346,7 @@ public class Stat
 		
 		return y;
 	}
+	*/
 
 
 	/*
@@ -1184,7 +1397,8 @@ public class Stat
 		}
 		return false;
 	}
-	
+
+	/*	
 	//used only by RjEvolution in plotGraphGraphSeries, 
 	//because rjevolution has a serie for TC and a serie for TF for each jumper
 	int divideAndRoundDown (int myData) {
@@ -1197,7 +1411,9 @@ public class Stat
 			return Convert.ToInt32(myData/2);
 		}
 	}
-	
+	*/
+
+	/*	
 	protected virtual int plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
 	{
 		rjEvolutionMaxJumps = -1;
@@ -1292,7 +1508,7 @@ public class Stat
 				plot.Add( pp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
 			}
 				
-			/* plot AVG */
+			// plot AVG 
 			if(mySerie.Avg != 0) {
 				HorizontalLine hl1 = new HorizontalLine(mySerie.Avg, mySerie.SerieColor);
 				//Log.WriteLine("serie.AVG: {0}", mySerie.Avg);
@@ -1312,7 +1528,9 @@ public class Stat
 		}
 		return acceptedSerie; //for knowing if a serie was accepted, and then createAxisGraphSeries
 	}
-		
+	*/
+
+	/*
 	protected void createAxisGraphSeries (IPlotSurface2D plot, GraphData graphData)
 	{
 		LabelAxis la = new LabelAxis( plot.XAxis1 );
@@ -1379,7 +1597,7 @@ public class Stat
 		plot.Legend = new Legend();
 		plot.Legend.XOffset = +30;
 	}
-	
+	*/	
 
 	public ArrayList Sessions {
 		get { return sessions; }

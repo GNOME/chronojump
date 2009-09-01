@@ -72,6 +72,25 @@ public class StatsWindow {
 	[Widget] Gtk.Image image_stats_win_graph;
 	[Widget] Gtk.Image image_stats_win_report;
 	[Widget] Gtk.Statusbar statusbar_stats;
+	
+	[Widget] Gtk.Box hbox_combo_graph_type;
+	[Widget] Gtk.Label label_graph_var_x;
+	[Widget] Gtk.Label label_graph_var_y;
+	[Widget] Gtk.Box hbox_combo_graph_var_x;
+	[Widget] Gtk.Box hbox_combo_graph_var_y;
+	[Widget] Gtk.Box hbox_combo_graph_palette;
+	[Widget] Gtk.ComboBox combo_graph_type;
+	[Widget] Gtk.ComboBox combo_graph_var_x;
+	[Widget] Gtk.ComboBox combo_graph_var_y;
+	[Widget] Gtk.ComboBox combo_graph_palette;
+	[Widget] Gtk.Label label_graph_options;
+	[Widget] Gtk.CheckButton checkbutton_transposed;
+	[Widget] Gtk.Box hbox_combo_graph_width;
+	[Widget] Gtk.Box hbox_combo_graph_height;
+	[Widget] Gtk.ComboBox combo_graph_width;
+	[Widget] Gtk.ComboBox combo_graph_height;
+	[Widget] Gtk.Box hbox_combo_graph_legend;
+	[Widget] Gtk.ComboBox combo_graph_legend;
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
@@ -94,7 +113,7 @@ public class StatsWindow {
 	private bool blockFillingTreeview;
 
 	private static string [] comboStatsTypeOptions = {
-		Constants.TypeSessionSummary,
+//		Constants.TypeSessionSummary, //deactivated until R is fully implemented
 		Constants.TypeJumperSummary,
 		Constants.TypeJumpsSimple,
 		Constants.TypeJumpsSimpleWithTC,
@@ -143,6 +162,22 @@ public class StatsWindow {
 		Catalog.GetString("Female")
 	};
 	
+	private static string [] comboGraphSizeOptions = {
+		"300", "400", "500", "600", "700", "800", "1000", "1100", "1200"
+	};
+	
+	private static string [] comboGraphLegendOptions = {
+		"bottomright",
+		"bottom",
+		"bottomleft",
+		"left",
+		"topleft",
+		"top",
+		"topright",
+		"right",
+		"center"
+	};
+	
 	//useful for removing users from the combo
 	private static string [] comboCheckboxesOptionsWithoutPersons = comboCheckboxesOptions;
 
@@ -189,6 +224,15 @@ public class StatsWindow {
 		createComboStatsSubType();
 		createComboStatsApplyTo();
 	
+		createComboGraphType();
+		
+		createComboGraphVars();
+		showGraphXYStuff(false);
+
+		createComboGraphPalette();
+		createComboGraphSize();
+		createComboGraphLegend();
+	
 		// here doesn't do Ok the job, done later in Initialize
 		//blockFillingTreeview = false;
 
@@ -216,7 +260,8 @@ public class StatsWindow {
 		}
 		
 		//button update stats is unsensitive until a test finished
-		StatsWindowBox.button_stats.Sensitive = false;
+		//StatsWindowBox.button_stats.Sensitive = false;
+		StatsWindowBox.button_stats.Visible = false;
 
 		StatsWindowBox.stats_window.Show ();
 		
@@ -254,7 +299,7 @@ public class StatsWindow {
 			treeview_stats.RemoveColumn (column);
 		}
 	}
-
+	
 	private void createComboStatsType() {
 		combo_stats_stat_type = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions, "");
@@ -299,6 +344,88 @@ public class StatsWindow {
 		combo_select_checkboxes.Sensitive = true;
 	}
 	
+	private void createComboGraphType() {
+		combo_graph_type = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_type, Constants.GraphTypes, "");
+		combo_graph_type.Active=0;
+		
+		combo_graph_type.Changed += new EventHandler (on_combo_graph_type_changed);
+		
+		hbox_combo_graph_type.PackStart(combo_graph_type, true, true, 0);
+		hbox_combo_graph_type.ShowAll();
+		combo_graph_type.Sensitive = true;
+	}
+
+	private void createComboGraphVars() {
+		combo_graph_var_x = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_var_x, UtilGtk.GetCols(treeview_stats, 2), ""); //2 for not getting the checkbox and the text column
+		combo_graph_var_x.Active=0;
+		hbox_combo_graph_var_x.PackStart(combo_graph_var_x, true, true, 0);
+		hbox_combo_graph_var_x.ShowAll();
+		combo_graph_var_x.Sensitive = true;
+		
+		combo_graph_var_y = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_var_y, UtilGtk.GetCols(treeview_stats, 2), "");
+		combo_graph_var_y.Active=0;
+		hbox_combo_graph_var_y.PackStart(combo_graph_var_y, true, true, 0);
+		hbox_combo_graph_var_y.ShowAll();
+		combo_graph_var_y.Sensitive = true;
+	}
+	
+	private void createComboGraphPalette() {
+		combo_graph_palette = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_palette, Constants.GraphPalettes, "");
+		combo_graph_palette.Active=0;
+		
+		hbox_combo_graph_palette.PackStart(combo_graph_palette, true, true, 0);
+		hbox_combo_graph_palette.ShowAll();
+		combo_graph_palette.Sensitive = true;
+	}
+
+	private void createComboGraphSize() {
+		combo_graph_width = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_width, comboGraphSizeOptions, "");
+		combo_graph_width.Active=2; //500
+		
+		hbox_combo_graph_width.PackStart(combo_graph_width, true, true, 0);
+		hbox_combo_graph_width.ShowAll();
+		combo_graph_width.Sensitive = true;
+		
+		combo_graph_height = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_height, comboGraphSizeOptions, "");
+		combo_graph_height.Active=2; //500
+		
+		hbox_combo_graph_height.PackStart(combo_graph_height, true, true, 0);
+		hbox_combo_graph_height.ShowAll();
+		combo_graph_height.Sensitive = true;
+	}
+	
+	private void createComboGraphLegend() {
+		combo_graph_legend = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_legend, comboGraphLegendOptions, "");
+		combo_graph_legend.Active=0;
+		
+		hbox_combo_graph_legend.PackStart(combo_graph_legend, true, true, 0);
+		hbox_combo_graph_legend.ShowAll();
+		combo_graph_legend.Sensitive = true;
+	}
+	
+	private void showGraphXYStuff(bool show) {
+		label_graph_var_x.Visible = show;
+		label_graph_var_y.Visible = show;
+		hbox_combo_graph_var_x.Visible = show;
+		hbox_combo_graph_var_y.Visible = show;
+		label_graph_options.Visible = ! show;
+		checkbutton_transposed.Visible = ! show;
+	}
+
+	private void on_combo_graph_type_changed(object o, EventArgs args) {
+		if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
+			showGraphXYStuff(true);
+		else
+			showGraphXYStuff(false);
+	}
+
 	private void on_combo_select_checkboxes_changed(object o, EventArgs args) {
 		string myText = UtilGtk.ComboGetActive(combo_select_checkboxes);
 			
@@ -520,6 +647,17 @@ public class StatsWindow {
 		//if there's no data, they will be hided, later
 		button_graph.Sensitive = true;
 		button_add_to_report.Sensitive = true;
+
+		GraphROptions graphROptions = new GraphROptions(
+				UtilGtk.ComboGetActive(combo_graph_type),
+				UtilGtk.ComboGetActive(combo_graph_var_x),
+				UtilGtk.ComboGetActive(combo_graph_var_y),
+				UtilGtk.ComboGetActive(combo_graph_palette),
+				checkbutton_transposed.Active,
+				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_width)),
+				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_height)),
+				UtilGtk.ComboGetActive(combo_graph_legend)
+				);
 		
 		myStatType = new StatType(
 				statisticType,
@@ -535,6 +673,7 @@ public class StatsWindow {
 				weightStatsPercent, 
 				markedRows,
 				rj_evolution_mark_consecutives,
+				graphROptions,
 				graph,
 				toReport  //always false in this class
 				);
@@ -560,7 +699,6 @@ public class StatsWindow {
 				lastStore = myStatType.LastStore;
 		
 
-	
 		myStatType.FakeButtonRowCheckedUnchecked.Clicked += 
 			new EventHandler(on_fake_button_row_checked_clicked);
 		myStatType.FakeButtonRowsSelected.Clicked += 
@@ -593,12 +731,19 @@ public class StatsWindow {
 				comboCheckboxesOptions = comboCheckboxesOptionsWithoutPersons;
 
 			UtilGtk.ComboUpdate(combo_select_checkboxes, comboCheckboxesOptions, "");
+			UtilGtk.ComboUpdate(combo_graph_var_x, UtilGtk.GetCols(treeview_stats, 2), "");
+			UtilGtk.ComboUpdate(combo_graph_var_y, UtilGtk.GetCols(treeview_stats, 2), "");
 		}
 
 		//every time a stat is created, all rows should be checked (except AVG & SD)
 		//but not if we clicked graph
-		if(! graph)
+		if(! graph) {
 			combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("All"));
+			try { 
+				combo_graph_var_x.Active=0;
+				combo_graph_var_y.Active=0;
+			} catch {} //maybe there's no data
+		}
 		
 
 		if(allFine) {
@@ -657,7 +802,8 @@ public class StatsWindow {
 		fillTreeView_stats(false);
 
 		//after update stats it will be unsensitive until a new test is finished
-		button_stats.Sensitive = false;
+		//button_stats.Sensitive = false;
+		button_stats.Visible = false;
 	}
 
 	private void on_button_graph_clicked (object o, EventArgs args) {
@@ -684,10 +830,12 @@ public class StatsWindow {
 	//and user has to do it always by hand
 	//workaround to bug ???????
 	public void HideUpdateStatsButton() {
-		button_stats.Sensitive = false;
+		//button_stats.Sensitive = false;
+		button_stats.Visible = false;
 	}
 	public void ShowUpdateStatsButton() {
-		button_stats.Sensitive = true;
+		//button_stats.Sensitive = true;
+		button_stats.Visible = true;
 	}
 
 

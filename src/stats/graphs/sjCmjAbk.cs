@@ -23,8 +23,8 @@ using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
 
-using NPlot.Gtk;
-using NPlot;
+//using NPlot.Gtk;
+//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -72,11 +72,13 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			serieTv.IsLeftAxis = true;
 			serieHeight.IsLeftAxis = false;
 
+			/*
 			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Blue"), 2.0F));
 			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
+					*/
 		
 			//for the line between markers
 			serieTv.SerieColor = Color.FromName("Blue");
@@ -96,6 +98,10 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			}
 			CurrentGraphData.LabelRight = "";
 		}
+
+		//CurrentGraphData.GraphType = myStatTypeStruct.GraphType;
+		//CurrentGraphData.GraphPalette = myStatTypeStruct.GraphPalette;
+		//CurrentGraphData.GraphTransposed = myStatTypeStruct.GraphTransposed;
 	}
 
 	protected override void printData (string [] statValues) 
@@ -154,9 +160,8 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 				countSeriesGraphColors ++;
 			}
 		
-			//mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
-			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (myColor, 2.0F));
+//			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
+//					6, new Pen (myColor, 2.0F));
 
 			mySerie.SerieColor = myColor;
 

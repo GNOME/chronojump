@@ -32,7 +32,7 @@ public class StatSjCmjAbkPlus : Stat
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	
-	private bool weightPercentPreferred;
+	protected bool weightPercentPreferred;
 
 	public StatSjCmjAbkPlus () 
 	{

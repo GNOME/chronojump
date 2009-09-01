@@ -39,6 +39,11 @@ public class StatTypeStruct
 	
 	public ArrayList MarkedRows;
 	
+	//public string GraphType;
+	//public string GraphPalette;
+	//public bool GraphTransposed;
+	public GraphROptions GRO;
+	
 	public bool ToReport;
 	
 	public StatTypeStruct (string statisticApplyTo, 
@@ -46,6 +51,8 @@ public class StatTypeStruct
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
 			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows, 
+			//string graphType, string graphPalette, bool graphTransposed,
+			GraphROptions gRO,
 			bool toReport)
 	{
 		this.StatisticApplyTo = statisticApplyTo;
@@ -57,6 +64,10 @@ public class StatTypeStruct
 		this.HeightPreferred = heightPreferred;
 		this.WeightStatsPercent = weightStatsPercent;
 		this.MarkedRows = markedRows;
+		//this.GraphType = graphType;
+		//this.GraphPalette = graphPalette;
+		//this.GraphTransposed = graphTransposed;
+		this.GRO = gRO;
 		this.ToReport = toReport;
 	}
 }
@@ -78,6 +89,11 @@ public class StatType {
 	
 	ArrayList markedRows;
 	ArrayList personsWithData;
+
+	//string graphType;
+	//string graphPalette;
+	//bool graphTransposed;
+	GraphROptions gRO;
 	
 	bool graph;
 	bool toReport;
@@ -112,7 +128,10 @@ public class StatType {
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
 			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows,  
-			int rj_evolution_mark_consecutives, bool graph, bool toReport)
+			int rj_evolution_mark_consecutives, 
+			//string graphType, string graphPalette, bool graphTransposed,
+			GraphROptions gRO,
+			bool graph, bool toReport)
 	{
 		//some of this will disappear when we use myStatTypeStruct in all classes:
 		this.statisticType = statisticType;
@@ -130,6 +149,12 @@ public class StatType {
 		this.markedRows = markedRows;
 		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
+		
+		//this.graphType = graphType;
+		//this.graphPalette = graphPalette;
+		//this.graphTransposed = graphTransposed;
+		this.gRO = gRO;
+		
 		this.graph = graph;
 		this.toReport = toReport;
 
@@ -139,6 +164,8 @@ public class StatType {
 				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
 				//statsJumpsType, limit, heightPreferred,  
 				markedRows, 
+				//graphType, graphPalette, graphTransposed,
+				gRO,
 				toReport);
 
 		myStat = new Stat(); //create an instance of myStat
@@ -173,6 +200,8 @@ public class StatType {
 			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows, 
 			int rj_evolution_mark_consecutives, 
+			//string graphType, string graphPalette, bool graphTransposed,
+			GraphROptions gRO,
 			bool graph, bool toReport, TextWriter writer, string fileName)
 	{
 		this.statisticType = statisticType;
@@ -189,6 +218,12 @@ public class StatType {
 		this.markedRows = markedRows;
 		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
+		
+		//this.graphType = graphType;
+		//this.graphPalette = graphPalette;
+		//this.graphTransposed = graphTransposed;
+		this.gRO = gRO;
+		
 		this.graph = graph;
 		this.toReport = toReport;
 		this.writer = writer;
@@ -200,6 +235,8 @@ public class StatType {
 				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
 				//statsJumpsType, limit, heightPreferred, 
 				markedRows, 
+				//graphType, graphPalette, graphTransposed,
+				gRO,
 				toReport);
 
 		myStat = new Stat(); //create and instance of myStat

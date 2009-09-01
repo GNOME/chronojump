@@ -103,6 +103,7 @@ FILES = \
  	stats/potency.cs\
  	stats/rjAVGSD.cs\
 	stats/graphs/graphData.cs\
+ 	stats/graphs/graphROptions.cs\
  	stats/graphs/graphSerie.cs\
  	stats/graphs/global.cs\
  	stats/graphs/sjCmjAbk.cs\
@@ -308,9 +309,9 @@ REFERENCES =  \
 
 
 
-DLL_REFERENCES =  \
-	../nplot/nplot/bin/NPlot.dll\
-	../nplot/nplot-gtk/bin/NPlot.Gtk.dll
+#DLL_REFERENCES =  \
+#	../nplot/nplot/bin/NPlot.dll\
+#	../nplot/nplot-gtk/bin/NPlot.Gtk.dll
 
 
 #CLEANFILES = $(COMMONAPPLICATIONDATA_ROOT) $(COMMONAPPLICATIONDATAROOT_IMAGES) $(COMMONAPPLICATIONDATAROOT_LOGO) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(BINARIES) 

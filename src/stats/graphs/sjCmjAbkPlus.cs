@@ -23,8 +23,8 @@ using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
 
-using NPlot.Gtk;
-using NPlot;
+//using NPlot.Gtk;
+//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -68,14 +68,21 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			serieHeight = new GraphSerie();
 			serieWeight = new GraphSerie();
 				
+			string weightName = Catalog.GetString("Weight");
+		
+			if(weightPercentPreferred)
+				weightName += " %";
+			else
+				weightName += " Kg";
 			serieTv.Title = Catalog.GetString("TF");
 			serieHeight.Title = Catalog.GetString("Height");
-			serieWeight.Title = Catalog.GetString("Weight");
+			serieWeight.Title = weightName;
 			
 			serieTv.IsLeftAxis = true;
 			serieHeight.IsLeftAxis = false;
 			serieWeight.IsLeftAxis = false;
 
+			/*
 			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Blue"), 2.0F));
@@ -83,6 +90,7 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 					6, new Pen (Color.FromName("Green"), 2.0F));
 			serieWeight.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
 					6, new Pen (Color.FromName("Chocolate"), 2.0F));
+					*/
 		
 			//for the line between markers
 			serieTv.SerieColor = Color.FromName("Blue");
@@ -105,6 +113,10 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			}
 			CurrentGraphData.LabelRight = "";
 		}
+		
+		//CurrentGraphData.GraphType = myStatTypeStruct.GraphType;
+		//CurrentGraphData.GraphPalette = myStatTypeStruct.GraphPalette;
+		//CurrentGraphData.GraphTransposed = myStatTypeStruct.GraphTransposed;
 	}
 
 	protected override void printData (string [] statValues) 
@@ -169,9 +181,8 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 				countSeriesGraphColors ++;
 			}
 		
-			//mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
-			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (myColor, 2.0F));
+//			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
+//					6, new Pen (myColor, 2.0F));
 
 			mySerie.SerieColor = myColor;
 

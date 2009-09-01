@@ -23,8 +23,8 @@ using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
 
-using NPlot.Gtk;
-using NPlot;
+//using NPlot.Gtk;
+//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -79,11 +79,13 @@ public class GraphGlobal : StatGlobal
 			serieIndex.IsLeftAxis = false;
 			serieTv.IsLeftAxis = true;
 
+			/*
 			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
 					6, new Pen (Color.FromName("Red"), 2.0F));
 			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
 			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 					6, new Pen (Color.FromName("Blue"), 2.0F));
+					*/
 		
 			//for the line between markers
 			serieIndex.SerieColor = Color.FromName("Red");
@@ -204,13 +206,12 @@ public class GraphGlobal : StatGlobal
 							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith(Constants.RJPotencyBoscoName) || 
 							valueNoSex == "IE" || valueNoSex == "IUB" || valueNoSex == "FV" ) {
 						mySerie.IsLeftAxis = false;
-						mySerie.SerieMarker = new Marker (Marker.MarkerType.Square, 
-								6, new Pen (myColor, 2.0F));
+//						mySerie.SerieMarker = new Marker (Marker.MarkerType.Square, 
+//								6, new Pen (myColor, 2.0F));
 					} else {
 						mySerie.IsLeftAxis = true;
-						//mySerie.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
-						mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-								6, new Pen (myColor, 2.0F));
+//						mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
+//								6, new Pen (myColor, 2.0F));
 					}
 					myValueBefore = valueNoSex; //for changing later indexQ for indexQ*10
 					mySerie.Title = myValue;

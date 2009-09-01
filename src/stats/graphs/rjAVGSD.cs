@@ -23,8 +23,8 @@ using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
 
-using NPlot.Gtk;
-using NPlot;
+//using NPlot.Gtk;
+//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -79,12 +79,14 @@ public class GraphRjAVGSD : StatRjAVGSD
 		serieSD.IsLeftAxis = true;
 		serieJumps.IsLeftAxis = false;
 
+		/*
 		serieAVG.SerieMarker = new Marker (Marker.MarkerType.Square, 
 				6, new Pen (Color.FromName("Red"), 2.0F));
 		serieSD.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
 				6, new Pen (Color.FromName("Black"), 2.0F));
 		serieJumps.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
 				8, new Pen (Color.FromName("Blue"), 2.0F));
+				*/
 
 		//for the line between markers
 		serieAVG.SerieColor = Color.FromName("Red");
@@ -134,6 +136,7 @@ public class GraphRjAVGSD : StatRjAVGSD
 		}
 	}
 
+	/*
 	//overrided because SD have to be plot different (just in the top and down of AVG)	
 	protected override int plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
 	{
@@ -227,6 +230,7 @@ public class GraphRjAVGSD : StatRjAVGSD
 
 		return acceptedSerie; //for knowing if a serie was accepted, and then createAxisGraphSeries
 	}
+*/
 
 	private double[] convertLineDataToSDData(double[] lineData, ArrayList serieSDData, bool up) {
 		double[] lineDataReturn = new double[ lineData.Length ];

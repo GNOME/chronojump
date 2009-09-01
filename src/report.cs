@@ -361,6 +361,17 @@ public class Report : ExportSession
 			//bool allFine;
 			//report of stat
 
+			GraphROptions graphROptions = new GraphROptions(
+					//TODO: change this
+					Constants.GraphTypeLines,	//graphType
+					"",				//var X
+					"",				//var y
+					"rainbow",			//graphPalette
+					false,				//graphTransposed
+					500,				//width
+					500,				//height
+					"topright"			//legend
+					);
 
 			myStatType = new StatType(
 					strFull[0], 		//statisticType
@@ -375,6 +386,10 @@ public class Report : ExportSession
 					weightStatsPercent,
 					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
+					//"",			//graphType
+					//"",			//graphPalette
+					//false,			//graphTransposed
+					graphROptions,
 					false, 			//graph
 					toReport,
 					writer,
@@ -402,6 +417,11 @@ public class Report : ExportSession
 					weightStatsPercent,
 					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
+					//TODO: change this
+					//Constants.GraphTypeLines,			//graphType
+					//"rainbow",			//graphPalette
+					//false,			//graphTransposed
+					graphROptions,
 					true, 			//graph
 					toReport,
 					writer,

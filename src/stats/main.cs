@@ -104,6 +104,7 @@ public class Stat
 
 	protected void completeConstruction (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview)
 	{
+		//TODO: check, this is weird...
 		this.sessions = myStatTypeStruct.SendSelectedSessions;
 		pDN = myStatTypeStruct.PrefsDigitsNumber;
 		this.showSex = myStatTypeStruct.Sex_active;
@@ -1112,6 +1113,7 @@ public class Stat
 		string bD = "data <- cbind("; //bindDataString
 		string colNamesD = "colnames(data) <- c("; //colNamesDataString
 		string sepSerie = "";
+		string xyFirstFound = "";
 		int count = 0; //this counts accepted series
 		foreach(GraphSerie serie in GraphSeries) {
 			if(
@@ -1120,14 +1122,17 @@ public class Stat
 				continue;
 			}
 			//on XY only take two vars
-			Log.WriteLine("groVarX: " + gro.VarX + " groVarY: " + gro.VarY + " tit: " + serie.Title);
-			if(gro.Type == Constants.GraphTypeXY &&
-					(gro.VarX != serie.Title && gro.VarY != serie.Title) ) {
-				Log.WriteLine("break");
-				continue;
+			if(gro.Type == Constants.GraphTypeXY) {
+				Log.WriteLine("groVarX: " + gro.VarX + " groVarY: " + gro.VarY + " tit: " + serie.Title);
+				if(gro.VarX != serie.Title && gro.VarY != serie.Title)
+					continue;
+				else if (xyFirstFound == "") {
+					if(gro.VarX == serie.Title)
+						xyFirstFound = "x";
+					else
+						xyFirstFound = "y";
+				}
 			}
-			else
-				Log.WriteLine("NO break");
 
 
 			rD += "serie" + count.ToString() + " <- c(";
@@ -1144,7 +1149,7 @@ public class Stat
 			}
 			rD += ")\n";
 			bD += sepSerie + "serie" + count.ToString();
-			colNamesD += sepSerie + "'" + serie.Title  + "'";
+			colNamesD += sepSerie + "'" + Util.RemoveTilde(serie.Title)  + "'";
 			sepSerie = ", ";
 			count ++;
 		}
@@ -1157,24 +1162,69 @@ public class Stat
 		for(int i=0; i < CurrentGraphData.XAxisNames.Count; i++) {
 			if(! acceptCheckedData(i))
 				continue;
-			rowNamesD += sep2 + "'" + CurrentGraphData.XAxisNames[i] + "'";
+			rowNamesD += sep2 + "'" + Util.RemoveTilde(CurrentGraphData.XAxisNames[i].ToString()) + "'";
 			sep2 = ", ";
 		}
 		rowNamesD += ")\n";
-		
+			
+		if(gro.Type == Constants.GraphTypeXY) {
+			if(gro.VarX == gro.VarY) {
+				//if it's an XY with only one serie, (both selected vars are the same
+				rD += rD.Replace("serie0", "serie1"); //duplicate rD changing serie name
+				bD = "data <- cbind(serie0, serie1)\n";
+			
+				//have two colNamesD equal to first
+				string [] cn = colNamesD.Split(new char[] {'\''});
+				colNamesD = "colnames(data) <- c('" + cn[1] + "', '" + cn[1] + "')\n";
+			} else if (xyFirstFound == "y") {
+				//if we first found the y value change serie0 to serie1
+				rD = rD.Replace("serie1", "serie2"); 
+				rD = rD.Replace("serie0", "serie1");
+				rD = rD.Replace("serie2", "serie0");
+			}
+		}
+
 		string allData = rD + bD + colNamesD + rowNamesD + "data\n";
-		if(gro.Transposed)
+
+		if(gro.Transposed && gro.Type != Constants.GraphTypeXY)
 			allData += "data <- t(data)\n";
 	
 		return allData;	
 	}
 
+	string getTitle(string graphType) {
+		return "title(main='" + CurrentGraphData.GraphTitle + " (" + graphType +")', sub='" + 
+			CurrentGraphData.GraphSubTitle + "', cex.sub=0.75, font.sub=3, col.sub='grey30')\n";
+	}
+
 	private string getRBarplotString(GraphROptions gro, string fileName, Sides side) {
 		string allData = convertDataToR(gro, side);
+		
+		string ylabStr = "";
+		if(side == Sides.RIGHT) {
+			if(CurrentGraphData.LabelRight != "")
+				ylabStr = ", ylab='" + CurrentGraphData.LabelRight + "'";
+		}
+		else { //ALL or LEFT
+			if(CurrentGraphData.LabelLeft != "")
+				ylabStr = ", ylab='" + CurrentGraphData.LabelLeft + "'";
+		}
+
 		string rG = //rGraphString
-			"barplot(data, beside=T, col=" + gro.Palette + "(length(rownames(data))), las=2)\n" +
-			" legend('" + gro.Legend +"', legend=rownames(data), cex=.7)\n" +
-			"title(main='" + CurrentGraphData.GraphTitle + "', sub='testing', cex.sub=0.75, font.sub=3, col.sub='red')\n";
+		   	" colors=" + gro.Palette +"(length(rownames(data)))\n" +
+			"barplot(data, beside=T, col=colors, las=2, xlab=''" + ylabStr + ")\n" +
+			" legend('" + gro.Legend +"', legend=rownames(data), cex=.7, col=colors, pch=3)\n";
+		
+		//have an unique title for both graphs
+		string titStr = getTitle("Barplot");
+		if(hasTwoAxis()) {
+		       if(side==Sides.RIGHT)
+				rG += "par(mfrow=c(1,1), new=TRUE)\n" +
+					"plot(-1, axes=FALSE, type='n', xlab='', ylab='')\n" +
+					titStr + 
+					"par(mfrow=c(1,1), new=FALSE)\n";
+		} else
+			rG += titStr;
 
 		return allData + rG;
 	}
@@ -1182,31 +1232,53 @@ public class Stat
 
 	private string getRLinesString(GraphROptions gro, string fileName, Sides side) {
 		string allData = convertDataToR(gro, side);
-		string axesStr = " axis(2)\n";
-		if(side == Sides.RIGHT)
+		
+		string axesStr = "";
+		string ylabStr = "";
+		if(side == Sides.RIGHT) {
 			axesStr = " axis(4)\n";
+			if(CurrentGraphData.LabelRight != "")
+				ylabStr = ", ylab='" + CurrentGraphData.LabelRight + "'";
+		}
+		else { //ALL or LEFT
+			axesStr = " axis(2)\n";
+			if(CurrentGraphData.LabelLeft != "")
+				ylabStr = ", ylab='" + CurrentGraphData.LabelLeft + "'";
+		}
+
 		string rG = //rGraphString
 		   	" colors=" + gro.Palette +"(length(rownames(data)))\n" +
-		   	" plot(data[1,1:length(colnames(data))], type='b', xlim=c(0,length(colnames(data))+1), ylim=c(min(data),max(data)), pch=1, axes=FALSE, col=colors[1])\n" +
+		   	" plot(data[1,1:length(colnames(data))], type='b', xlim=c(0,length(colnames(data))+1), ylim=c(min(data),max(data)), pch=1, axes=FALSE, col=colors[1], xlab=''" + ylabStr + ")\n" +
 			" if(length(rownames(data))>=2) {\n" +
 			" 	for(i in 2:length(rownames(data)))\n" +
 		   	" 		points(data[i,1:length(colnames(data))], type='b', pch=i, col=colors[i])\n" +
 			" }\n" +
 			" axis(1, 1:length(colnames(data)), colnames(data), las=2)\n" +
 			axesStr + 
-			" legend('" + gro.Legend +"', legend=rownames(data), pch=c(1:length(rownames(data))), cex=.7, col=colors)\n" +
-			" title(main='" + CurrentGraphData.GraphTitle + "', sub='testing', cex.sub=0.75, font.sub=3, col.sub='red')\n";
-
+			" legend('" + gro.Legend +"', legend=rownames(data), pch=c(1:length(rownames(data))), cex=.7, col=colors)\n";
+		
+		//have an unique title for both graphs
+		string titStr = getTitle("Lines");
+		if(hasTwoAxis()) {
+		       if(side==Sides.RIGHT)
+				rG += "par(mfrow=c(1,1), new=TRUE)\n" +
+					"plot(-1, axes=FALSE, type='n', xlab='', ylab='')\n" +
+					titStr + 
+					"par(mfrow=c(1,1), new=FALSE)\n";
+		} else
+			rG += titStr;
+		
 		return allData + rG;
 	}
 	
 	private string getRXYString(GraphROptions gro, string fileName) {
 		string allData = convertDataToR(gro, Sides.ALL);
+		string titStr = getTitle("XY");
 		string rG = //rGraphString
 			"rang <- c(1:length(rownames(data)))\n" +
-			"plot(serie0, serie1, pch=rang, col=rang)\n" +
+			"plot(serie0, serie1, pch=rang, col=rang, xlab='" + gro.VarX + "', ylab='" + gro.VarY + "')\n" +
 			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col=rang, cex=.7)\n" +
-			"title(main='" + CurrentGraphData.GraphTitle + "', sub='testing', cex.sub=0.75, font.sub=3, col.sub='red')\n";
+			titStr;
 
 		return allData + rG;
 	}
@@ -1226,17 +1298,14 @@ public class Stat
 			return false;
 		}
 		if (!show) { //report
-			/*
-			string directoryName = Util.GetReportDirectoryName(ileName);
+			string directoryName = Util.GetReportDirectoryName(fileName);
 			string [] pngs = Directory.GetFiles(directoryName, "*.png");
 
 			//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
 			//there will be always a png with chronojump_logo
 			fileName = directoryName + "/" + pngs.Length.ToString() + ".png";
-			*/
-		}
-
-		fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName); 
+		} else
+			fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName); 
 	
 		string rString = "png(filename = '" + fileName + "'\n" + 
 			" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
@@ -1270,17 +1339,6 @@ public class Stat
 			rString += getRXYString(gRO, fileName);
 		else //if(CurrentGraphData.GraphType == Constants.GraphTypeDotchart))
 			rString += getRDotchartString(gRO, fileName);
-		//TODO: 
-		//- do XY with two variables (on sjCmjABKPlus select if graph tv or height)
-		//- if is not transposed, then always? legend appears two times and is the same. Plot legend on "MY BIG MAIN TITLE" graph
-
-
-		//have an unique title for both graphs
-		if(hasTwoAxis() && gRO.Type != Constants.GraphTypeXY)
-			rString += "par(mfrow=c(1,1), new=TRUE)\n" +
-				"plot(-1, axes=FALSE)\n" +
-				"title(main='MY BIG MAIN TITLE')\n" +
-				"par(mfrow=c(1,1), new=FALSE)\n";
 		
 		rString += " dev.off()\n";
 
@@ -1299,7 +1357,7 @@ public class Stat
 			if(! File.Exists(fileName) || File.GetLastWriteTime(fileName) < File.GetLastWriteTime(rScript))
 				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry. Error doing graph");
 			else
-				new DialogImageTest("prueba de graph con R", fileName);
+				new DialogImageTest(Catalog.GetString("Chronojump Graph"), fileName);
 		}
 
 		return true;

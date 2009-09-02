@@ -114,7 +114,7 @@ public class StatsWindow {
 
 	private static string [] comboStatsTypeOptions = {
 //		Constants.TypeSessionSummary, //deactivated until R is fully implemented
-		Constants.TypeJumperSummary,
+//		Constants.TypeJumperSummary,
 		Constants.TypeJumpsSimple,
 		Constants.TypeJumpsSimpleWithTC,
 		Constants.TypeJumpsReactive,
@@ -128,7 +128,7 @@ public class StatsWindow {
 	private static string [] comboStatsSubTypeReactiveOptions = {
 		Catalog.GetString("Average Index"), 
 		Constants.RJPotencyBoscoFormula,
-		Catalog.GetString("Evolution"),
+//		Catalog.GetString("Evolution"),
 		Constants.RJAVGSDRjIndexName,
 		Constants.RJAVGSDQIndexName
 	};
@@ -590,9 +590,8 @@ public class StatsWindow {
 
 	private bool fillTreeView_stats (bool graph) 
 	{
-		if(blockFillingTreeview) {
+		if(blockFillingTreeview)
 			return false;
-		}
 		
 		Log.WriteLine("----------FILLING treeview stats---------------");
 	
@@ -870,6 +869,9 @@ public class StatsWindow {
 
 	
 	private void update_stats_widgets_sensitiveness() {
+		if(blockFillingTreeview)
+			return;
+
 		//blank statusbar
 		statusbar_stats.Push( 1, "");
 

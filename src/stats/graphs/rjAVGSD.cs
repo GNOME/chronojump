@@ -63,7 +63,7 @@ public class GraphRjAVGSD : StatRjAVGSD
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			CurrentGraphData.GraphTitle = indexType;
 		}
 
 
@@ -71,8 +71,8 @@ public class GraphRjAVGSD : StatRjAVGSD
 		serieSD = new GraphSerie();
 		serieJumps = new GraphSerie();
 
-		serieAVG.Title = Catalog.GetString("Index") + " " + Catalog.GetString("Average");
-		serieSD.Title = Catalog.GetString("Index") + " " + Catalog.GetString("SD");
+		serieAVG.Title = Catalog.GetString("Average");
+		serieSD.Title = Catalog.GetString("SD");
 		serieJumps.Title = Catalog.GetString("Jumps");
 
 		serieAVG.IsLeftAxis = true;

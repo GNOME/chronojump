@@ -60,7 +60,7 @@ public class GraphDjQ : StatDjQ
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			CurrentGraphData.GraphTitle = Constants.QIndexFormula;
 		}
 		
 		if(sessions.Count == 1) {
@@ -71,13 +71,13 @@ public class GraphDjQ : StatDjQ
 			serieTv = new GraphSerie();
 			serieFall = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Index *100");
+			serieIndex.Title = Catalog.GetString("Q Index");
 			serieHeight.Title = Catalog.GetString("Height");
 			serieTc.Title = Catalog.GetString("TC");
 			serieTv.Title = Catalog.GetString("TF");
 			serieFall.Title = Catalog.GetString("Fall");
 			
-			serieIndex.IsLeftAxis = false;
+			serieIndex.IsLeftAxis = true;
 			serieHeight.IsLeftAxis = false;
 			serieTc.IsLeftAxis = true;
 			serieTv.IsLeftAxis = true;

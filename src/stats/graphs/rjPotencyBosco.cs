@@ -63,7 +63,8 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			CurrentGraphData.GraphTitle = Constants.RJPotencyBoscoName;
+			CurrentGraphData.GraphSubTitle = Constants.RJPotencyBoscoFormula;
 		}
 		
 		
@@ -79,8 +80,10 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			serieIndex.Title = Catalog.GetString("Index");
 			serieTc.Title = Catalog.GetString("TC") + " (" + Catalog.GetString("AVG") + ")";
 			serieTv.Title = Catalog.GetString("TF") + " (" + Catalog.GetString("AVG") + ")";
-			serieJumps.Title = Catalog.GetString("Jumps") + " *10";
-			serieTime.Title = Catalog.GetString("Time") + " *10";
+			//serieJumps.Title = Catalog.GetString("Jumps") + " *10";
+			//serieTime.Title = Catalog.GetString("Time") + " *10";
+			serieJumps.Title = Catalog.GetString("Jumps");
+			serieTime.Title = Catalog.GetString("Time");
 			serieFall.Title = Catalog.GetString("Fall");
 			
 			serieIndex.IsLeftAxis = false;
@@ -168,15 +171,19 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 				} else if(i == 4) {
 					//correct jumps and time for being displayed
 					if(foundAVG)
-						serieJumps.Avg = Convert.ToDouble(myValue) *10;
+						//serieJumps.Avg = Convert.ToDouble(myValue) *10;
+						serieJumps.Avg = Convert.ToDouble(myValue);
 					else
-						serieJumps.SerieData.Add( (Convert.ToDouble(myValue) *10).ToString() );
+						//serieJumps.SerieData.Add( (Convert.ToDouble(myValue) *10).ToString() );
+						serieJumps.SerieData.Add(myValue);
 				} else if(i == 5) {
 					//correct jumps and time for being displayed
 					if(foundAVG)
-						serieTime.Avg = Convert.ToDouble(myValue) * 10;
+						//serieTime.Avg = Convert.ToDouble(myValue) * 10;
+						serieTime.Avg = Convert.ToDouble(myValue);
 					else
-						serieTime.SerieData.Add( (Convert.ToDouble(myValue) *10).ToString() );
+						//serieTime.SerieData.Add( (Convert.ToDouble(myValue) *10).ToString() );
+						serieTime.SerieData.Add(myValue);
 				} else if(i == 6) {
 					if(foundAVG)
 						serieFall.Avg = Convert.ToDouble(myValue);

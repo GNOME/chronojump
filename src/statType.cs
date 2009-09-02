@@ -64,9 +64,6 @@ public class StatTypeStruct
 		this.HeightPreferred = heightPreferred;
 		this.WeightStatsPercent = weightStatsPercent;
 		this.MarkedRows = markedRows;
-		//this.GraphType = graphType;
-		//this.GraphPalette = graphPalette;
-		//this.GraphTransposed = graphTransposed;
 		this.GRO = gRO;
 		this.ToReport = toReport;
 	}

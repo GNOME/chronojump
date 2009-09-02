@@ -68,8 +68,8 @@ public class GraphGlobal : StatGlobal
 			//four series, the four columns
 			serieIndex = new GraphSerie();
 			serieTv = new GraphSerie();
-				
-			serieIndex.Title = Catalog.GetString("Index");
+	
+			serieIndex.Title = Catalog.GetString("Value");
 			if(heightPreferred) {
 				serieTv.Title = Catalog.GetString("Height");
 			} else {
@@ -162,14 +162,14 @@ public class GraphGlobal : StatGlobal
 							myValueBefore.StartsWith("RjIndex") || myValueBefore.StartsWith(Constants.RJPotencyBoscoName) || 
 							myValueBefore == "IE" || myValueBefore == "IUB") {
 						serieIndex.SerieData.Add(myValue);
-						serieTv.SerieData.Add("-");
+						//serieTv.SerieData.Add("-");
 					} else if(myValueBefore.StartsWith("IndexQ") || myValueBefore == "FV") {
 						serieIndex.SerieData.Add( (
 									Convert.ToDouble(myValue) *10).ToString() );
-						serieTv.SerieData.Add("-");
+						//serieTv.SerieData.Add("-");
 					} else {
 						serieTv.SerieData.Add(myValue);
-						serieIndex.SerieData.Add("-");
+						//serieIndex.SerieData.Add("-");
 					}
 				}
 				i++;

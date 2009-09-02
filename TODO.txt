@@ -1,8 +1,9 @@
 TODO: 
 
-bug: when crash it shows to update to a version that is not last
-
-on graphs xy do that same variable cannot be checked. Also ensure XY, YX works
+do multisession graphs
+fix global, jumper, rjEvolution
+continue with titles and subtitles for all graphs
+do report graphs
 
 check all software (for the Util.TrimDecimals change)
 create accept license on uploading

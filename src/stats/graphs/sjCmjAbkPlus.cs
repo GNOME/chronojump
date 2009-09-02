@@ -59,7 +59,7 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			CurrentGraphData.GraphTitle = "Simple jumps";
 		}
 		
 		if(sessions.Count == 1) {

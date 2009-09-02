@@ -63,6 +63,7 @@ public class DialogImageTest
 		gladeXML.Autoconnect(this);
 		
 		dialog_image_test.Title = title;
+		label_name_description.Visible = false;
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_image_test);

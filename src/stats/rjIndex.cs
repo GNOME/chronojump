@@ -30,8 +30,8 @@ public class StatRjIndex : Stat
 	protected string [] columnsString = { 
 		Catalog.GetString("Jumper"), 
 		Catalog.GetString("Index"), 
-		Catalog.GetString("TF(AVG)"), 
-		Catalog.GetString("TC(AVG)"), 
+		Catalog.GetString("TF") + " (" + Catalog.GetString("AVG") + ")",
+		Catalog.GetString("TC") + " (" + Catalog.GetString("AVG") + ")",
 		Catalog.GetString("Fall") };
 
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes

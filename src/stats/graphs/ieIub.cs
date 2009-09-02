@@ -73,7 +73,10 @@ public class GraphIeIub : StatIeIub
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			if(indexType == "IE")
+				CurrentGraphData.GraphTitle = Constants.IeIndexFormula;
+			else
+				CurrentGraphData.GraphTitle = Constants.IubIndexFormula;
 		}
 		
 		

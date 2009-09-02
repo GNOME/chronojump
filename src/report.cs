@@ -386,9 +386,6 @@ public class Report : ExportSession
 					weightStatsPercent,
 					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
-					//"",			//graphType
-					//"",			//graphPalette
-					//false,			//graphTransposed
 					graphROptions,
 					false, 			//graph
 					toReport,
@@ -417,10 +414,6 @@ public class Report : ExportSession
 					weightStatsPercent,
 					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
-					//TODO: change this
-					//Constants.GraphTypeLines,			//graphType
-					//"rainbow",			//graphPalette
-					//false,			//graphTransposed
 					graphROptions,
 					true, 			//graph
 					toReport,

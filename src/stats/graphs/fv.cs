@@ -66,7 +66,7 @@ public class GraphFv : StatFv
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			CurrentGraphData.GraphTitle = Constants.FvIndexFormula;
 		}
 		
 		if(sessions.Count == 1) {
@@ -75,7 +75,7 @@ public class GraphFv : StatFv
 			serieJump1 = new GraphSerie();
 			serieJump2 = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Index");
+			serieIndex.Title = indexType;
 			serieJump1.Title = jump1 + " (" + Catalog.GetString("height") + ")";
 			serieJump2.Title = jump2 + " (" + Catalog.GetString("height") + ")";
 			

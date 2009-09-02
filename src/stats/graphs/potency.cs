@@ -63,7 +63,7 @@ public class GraphPotency : StatPotency
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			CurrentGraphData.GraphTitle = Catalog.GetString("Peak Power");
 		}
 		
 		if(sessions.Count == 1) {

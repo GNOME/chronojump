@@ -60,7 +60,7 @@ public class GraphDjIndex : StatDjIndex
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			CurrentGraphData.GraphTitle = Constants.DjIndexFormula;
 		}
 		
 		if(sessions.Count == 1) {
@@ -71,7 +71,7 @@ public class GraphDjIndex : StatDjIndex
 			serieTv = new GraphSerie();
 			serieFall = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Index");
+			serieIndex.Title = Catalog.GetString("Dj Index");
 			serieHeight.Title = Catalog.GetString("Height");
 			serieTc.Title = Catalog.GetString("TC");
 			serieTv.Title = Catalog.GetString("TF");

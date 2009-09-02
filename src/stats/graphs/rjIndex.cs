@@ -61,7 +61,7 @@ public class GraphRjIndex : StatRjIndex
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = "";
+			CurrentGraphData.GraphTitle = Catalog.GetString("Average Index");
 		}
 		
 		
@@ -73,8 +73,8 @@ public class GraphRjIndex : StatRjIndex
 			serieFall = new GraphSerie();
 				
 			serieIndex.Title = Catalog.GetString("Index");
-			serieTc.Title = Catalog.GetString("TC");
-			serieTv.Title = Catalog.GetString("TF");
+			serieTc.Title = Catalog.GetString("TC") + " (" + Catalog.GetString("AVG") + ")";
+			serieTv.Title = Catalog.GetString("TF") + " (" + Catalog.GetString("AVG") + ")";
 			serieFall.Title = Catalog.GetString("Fall");
 			
 			serieIndex.IsLeftAxis = false;

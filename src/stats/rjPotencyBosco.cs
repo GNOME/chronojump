@@ -30,8 +30,8 @@ public class StatRjPotencyBosco : Stat
 	protected string [] columnsString = { 
 		Catalog.GetString("Jumper"), 
 		Catalog.GetString("Index"), 
-		Catalog.GetString("TF(AVG)"), 
-		Catalog.GetString("TC(AVG)"), 
+		Catalog.GetString("TF") + " (" + Catalog.GetString("AVG") + ")",
+		Catalog.GetString("TC") + " (" + Catalog.GetString("AVG") + ")",
 		Catalog.GetString("Jumps"), 
 		Catalog.GetString("Time"), 
 		Catalog.GetString("Fall") };

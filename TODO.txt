@@ -1,9 +1,10 @@
 TODO: 
 
 do multisession graphs
-fix global, jumper, rjEvolution
+do multisession
+do stripchart
 continue with titles and subtitles for all graphs
-do report graphs
+fix global, jumper, rjEvolution
 
 check all software (for the Util.TrimDecimals change)
 create accept license on uploading

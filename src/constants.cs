@@ -236,12 +236,12 @@ public class Constants
 	
 	public static string FileNameRGraph = "r-graph.png";
 	public static string FileNameRScript = "r-graph.txt";
+	public static string GraphTypeBoxplot = "Boxplot";
 	public static string GraphTypeBarplot = "Barplot";
 	public static string GraphTypeLines = "Lines";
 	public static string GraphTypeXY = "XY";
 	public static string GraphTypeDotchart = "Dotchart";
-	//public static string [] GraphTypes = { GraphTypeBarplot, GraphTypeLines, GraphTypeXY, GraphTypeDotchart };
-	public static string [] GraphTypes = { GraphTypeBarplot, GraphTypeLines, GraphTypeXY };
+	public static string [] GraphTypes = { GraphTypeBoxplot, GraphTypeBarplot, GraphTypeLines, GraphTypeXY, GraphTypeDotchart };
 	public static string [] GraphPalettes = { "rainbow", "heat.colors", "gray.colors", "topo.colors" };
 
 

@@ -48,4 +48,21 @@ public class GraphROptions
 	}
 	public GraphROptions() {
 	}
+	
+	//from report
+	public GraphROptions(string str) {
+		string [] strFull = str.Split(new char[] {':'});
+		this.Type = strFull[0];
+		this.VarX = strFull[1];
+		this.VarY = strFull[2];
+		this.Palette = strFull[3];
+		this.Transposed = Util.StringToBool(strFull[4]);
+		this.Width = Convert.ToInt32(strFull[5]);
+		this.Height = Convert.ToInt32(strFull[6]);
+		this.Legend = strFull[7];
+	}
+
+	public override string ToString() {
+		return Type + ":" + VarX + ":" + VarY + ":" + Palette + ":" + Transposed + ":" + Width + ":" + Height + ":" + Legend;
+	}
 }	

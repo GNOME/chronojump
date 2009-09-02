@@ -216,9 +216,6 @@ public class StatType {
 		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
 		
-		//this.graphType = graphType;
-		//this.graphPalette = graphPalette;
-		//this.graphTransposed = graphTransposed;
 		this.gRO = gRO;
 		
 		this.graph = graph;
@@ -427,8 +424,8 @@ public class StatType {
 
 		if(toReport) {
 			if(graph) {
-				//bool notEmpty = myStat.CreateGraphR(fileName, false); //dont' show
-				//if(notEmpty) { linkImage(fileName); }
+				bool notEmpty = myStat.CreateGraphR(fileName, false); //dont' show
+				if(notEmpty) { linkImage(fileName); }
 			} else {
 				writer.WriteLine(myStat.ReportString());
 			}

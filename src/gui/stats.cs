@@ -244,6 +244,9 @@ public class StatsWindow {
 			
 		spinbutton_mark_consecutives.Sensitive = false;
 		hbox_mark_consecutives.Hide();
+		
+		//first graph type is boxplot, and it doesn't show transpose
+		showTransposed(false);
 	}
 	
 
@@ -410,20 +413,29 @@ public class StatsWindow {
 		combo_graph_legend.Sensitive = true;
 	}
 	
+	private void showTransposed(bool show) {
+		label_graph_options.Visible = show;
+		checkbutton_transposed.Visible = show;
+	}
+
 	private void showGraphXYStuff(bool show) {
 		label_graph_var_x.Visible = show;
 		label_graph_var_y.Visible = show;
 		hbox_combo_graph_var_x.Visible = show;
 		hbox_combo_graph_var_y.Visible = show;
-		label_graph_options.Visible = ! show;
-		checkbutton_transposed.Visible = ! show;
+		showTransposed(!show);
 	}
 
 	private void on_combo_graph_type_changed(object o, EventArgs args) {
-		if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
+		if(
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeBoxplot)
+			showTransposed(false);
+		else if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
 			showGraphXYStuff(true);
 		else
 			showGraphXYStuff(false);
+		
 	}
 
 	private void on_combo_select_checkboxes_changed(object o, EventArgs args) {
@@ -588,6 +600,25 @@ public class StatsWindow {
 		//ShowUpdateStatsButton();
 	}
 
+	//creates a GraphROptions object	
+	public GraphROptions fillGraphROptions() {
+		//Dotchart plots col 2
+		string varx = UtilGtk.ComboGetActive(combo_graph_var_x);
+		if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart)
+			varx = UtilGtk.GetCol(treeview_stats, 2);
+
+		return new GraphROptions(
+				UtilGtk.ComboGetActive(combo_graph_type),
+				varx,
+				UtilGtk.ComboGetActive(combo_graph_var_y),
+				UtilGtk.ComboGetActive(combo_graph_palette),
+				checkbutton_transposed.Active,
+				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_width)),
+				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_height)),
+				UtilGtk.ComboGetActive(combo_graph_legend)
+				);
+	}
+
 	private bool fillTreeView_stats (bool graph) 
 	{
 		if(blockFillingTreeview)
@@ -647,16 +678,7 @@ public class StatsWindow {
 		button_graph.Sensitive = true;
 		button_add_to_report.Sensitive = true;
 
-		GraphROptions graphROptions = new GraphROptions(
-				UtilGtk.ComboGetActive(combo_graph_type),
-				UtilGtk.ComboGetActive(combo_graph_var_x),
-				UtilGtk.ComboGetActive(combo_graph_var_y),
-				UtilGtk.ComboGetActive(combo_graph_palette),
-				checkbutton_transposed.Active,
-				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_width)),
-				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_height)),
-				UtilGtk.ComboGetActive(combo_graph_legend)
-				);
+		GraphROptions graphROptions = fillGraphROptions();
 		
 		myStatType = new StatType(
 				statisticType,
@@ -1118,7 +1140,7 @@ public class StatsWindow {
 			reportWin.Add(statisticType, statisticSubType, statisticApplyTo, 
 					//sessionsAsAString, statsShowJumps, showSex.ToString());
 					sendSelectedSessions, statsShowJumps, showSex.ToString(), 
-					myStatType.MarkedRows);
+					myStatType.MarkedRows, fillGraphROptions());
 					
 			
 			statusbar_stats.Push( 1, Catalog.GetString("Successfully added") + " " + statisticType + "-" + statisticSubType + "-" + statisticApplyTo);

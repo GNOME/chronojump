@@ -145,6 +145,17 @@ public class UtilGtk
 		}
 		return colNames;
 	}
+	
+	public static string GetCol(Gtk.TreeView tv, int colWanted) {
+		Gtk.TreeViewColumn [] cols = tv.Columns;
+		int i=0;
+		foreach (Gtk.TreeViewColumn col in cols) 
+			if(i++ == colWanted)
+				return col.Title;
+		
+		return "";
+	}
+
 
 
 	public static int IdColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {

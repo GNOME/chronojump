@@ -74,7 +74,7 @@ public class ReportWindow {
 		//treeview
 		createTreeView(treeview1);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof (string), typeof (string), typeof (string)
+				typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)
 				);
 		treeview1.Model = store;
 		
@@ -94,7 +94,7 @@ public class ReportWindow {
 			//checkboxes
 			ReportWindowBox.loadCheckBoxes();
 
-			ReportWindowBox.fillTreeView();
+			ReportWindowBox.FillTreeView();
 
 			ReportWindowBox.report_window.Show ();
 		}
@@ -105,7 +105,7 @@ public class ReportWindow {
 				//checkboxes
 				ReportWindowBox.loadCheckBoxes();
 
-				ReportWindowBox.fillTreeView();
+				ReportWindowBox.FillTreeView();
 
 				ReportWindowBox.report_window.Show ();
 			}
@@ -129,6 +129,7 @@ public class ReportWindow {
 		tv.AppendColumn ( Catalog.GetString("Show jumps"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Show sex"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Checked rows"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Graph Options"), new CellRendererText(), "text", count++);
 	}
 
 	void loadCheckBoxes () 
@@ -145,13 +146,12 @@ public class ReportWindow {
 		if(report.ShowPulses) { 		cb_pulses.Active = true; } 
 	}
 	
-	void fillTreeView () 
+	public void FillTreeView () 
 	{
 		//delete rows
 		store.Clear();
 		
 		for (int i=0; i < report.StatisticsData.Count ; i++) {
-			//string [] myStringFull = report.StatisticsData[i].ToString().Split(new char[] {'\n'});
 			string [] myStringFull = report.StatisticsData[i].ToString().Split(new char[] {'\t'});
 
 			store.AppendValues (
@@ -161,7 +161,8 @@ public class ReportWindow {
 					myStringFull[3],	//sessionString
 					myStringFull[4],	//showJumps
 					myStringFull[5],	//showSex
-					myStringFull[6]		//markedRows
+					myStringFull[6],	//markedRows
+					myStringFull[7]		//graphROptions
 					);
 		}
 
@@ -180,9 +181,8 @@ public class ReportWindow {
 	}
 	
 	//comes from stats window
-	//public void Add(string type, string subtype, string applyTo, string sessionString, string showJumps, string showSex)
 	public void Add(string type, string subtype, string applyTo, ArrayList sendSelectedSessions, 
-			string showJumps, string showSex, ArrayList markedRows)
+			string showJumps, string showSex, ArrayList markedRows, GraphROptions gro)
 	{
 		string sessionsAsAString = arrayToString(sendSelectedSessions);
 		string markedRowsAsAString = arrayToString(markedRows);
@@ -194,7 +194,8 @@ public class ReportWindow {
 				sessionsAsAString, 
 				showJumps, 
 				showSex,
-				markedRowsAsAString 
+				markedRowsAsAString,
+				gro.ToString()
 				);
 		
 		//show report window if it's not shown
@@ -339,7 +340,8 @@ public class ReportWindow {
 					(string) treeview1.Model.GetValue (myIter, 3) + "\t" +	//sessionString
 					(string) treeview1.Model.GetValue (myIter, 4) + "\t" +	//showJumps
 					(string) treeview1.Model.GetValue (myIter, 5) + "\t" +  //showSex
-					(string) treeview1.Model.GetValue (myIter, 6) 		//markedRowsString
+					(string) treeview1.Model.GetValue (myIter, 6) + "\t" +	//markedRowsString
+					(string) treeview1.Model.GetValue (myIter, 7) 		//GraphROptions
 					);
 			}
 		}

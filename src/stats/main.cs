@@ -871,202 +871,13 @@ public class Stat
 	//has to be static
 	protected static ArrayList onlyUsefulForNotBeingGarbageCollected = new ArrayList(); 
 
-	/*	
-	private Grid addGrid() 
-	{
-		Grid myGrid = new Grid();
-		myGrid.VerticalGridType = Grid.GridType.Coarse;
-		Pen majorGridPen = new Pen( Color.LightGray );
-		float[] pattern = {1.0f,2.0f};
-		majorGridPen.DashPattern = pattern;
-		myGrid.MajorGridPen = majorGridPen;
-		return myGrid;
-	}
-	*/
-
-	/*
-	   //nplot will be converted to R
-	public void CreateGraph () 
-	{
-		//only graph if there's data
-		//TODO: check also later if none row is selected
-		if(CurrentGraphData.XAxisNames.Count == 0) {
-			return;
-		}
-		
-		NPlot.Gtk.PlotSurface2D plot = new NPlot.Gtk.PlotSurface2D ();
-
-		//create plot (same as below)
-		plot.Clear();
-		
-		plot.Add(addGrid());
-
-		plot.Title = CurrentGraphData.GraphTitle;
-		int acceptedSeries = plotGraphGraphSeries (plot, 
-				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
-				GraphSeries);
-		if(acceptedSeries == 0) { return; }
-		
-		createAxisGraphSeries (plot, CurrentGraphData);
-
-		writeLegend(plot);
-
-		//put in window
-		//fixes a gtk# garbage collecting bug
-		onlyUsefulForNotBeingGarbageCollected.Add(plot);
-
-		plot.Show ();
-		
-		Gtk.Window w = new Window (CurrentGraphData.WindowTitle);
-		//put an icon to window
-		UtilGtk.IconWindowGraph(w);
-	
-		int x = getSizeX();
-		int y = getSizeY(x, acceptedSeries);
-		w.SetDefaultSize (x,y);
-
-		w.Add (plot);
-		w.ShowAll ();
-	}
-
-	   //nplot will be converted to R
-	public bool CreateGraph (string fileName) 
-	{
-		//only graph if there's data
-		//TODO: check also later if none row is selected
-		if(CurrentGraphData.XAxisNames.Count == 0) {
-			return false;
-		}
-		
-		NPlot.PlotSurface2D plot = new NPlot.PlotSurface2D ();
-
-		//create plot (same as above)
-		plot.Clear();
-		
-		plot.Add(addGrid());
-
-		plot.Title = CurrentGraphData.GraphTitle;
-
-		int acceptedSeries = plotGraphGraphSeries (plot, 
-				CurrentGraphData.XAxisNames.Count + 2, //xtics (+2 for left, right space)
-				GraphSeries);
-		if(acceptedSeries == 0) { return false; }
-		
-		createAxisGraphSeries (plot, CurrentGraphData);
-
-		writeLegend(plot);
-
-		int x = getSizeX();
-		int y = getSizeY(x, acceptedSeries);
-		Bitmap b = new Bitmap (x, y);
-		Graphics g = Graphics.FromImage (b);
-		g.FillRectangle  (Brushes.White, 0, 0, x, y);
-		Rectangle bounds = new Rectangle (0, 0, x, y);
-
-		//save to file
-		plot.Draw (g, bounds);
-		string directoryName = Util.GetReportDirectoryName(fileName);
-		string [] pngs = Directory.GetFiles(directoryName, "*.png");
-
-		//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
-		//there will be always a png with chronojump_logo
-		b.Save (directoryName + "/" + pngs.Length.ToString() + ".png", ImageFormat.Png);
-
-		return true;
-	}
-	*/
 
 /* R TESTS */
-		/*
-		   if there's lot of data of only one variable:
-		   dotchart(data, cex=.5)
-		   */
-
-		/*
-		   xy graphs like this:
-		   rang <- c(1:length(rownames(data)))
-		   plot(dataDF$TC, dataDF$TV, pch=rang, col=rang)
-		   legend(75,150 ,legend=rownames(data), pch=rang, col=rang, cex=.5)
-		   */
-
-		/*
-		   two series of person X 4 jumpTypes
-
-		   NEED TO ADJUST INITAL-END X on xaxis
-
-		   serie0=c(.3, .5, .55, .6)
-		   serie1=c(.32, .52, .55, .62)
-		   maxVal=max(serie0,serie1)
-		   people=c("joan", "pep")
-		   jumpTypes=c("sj","Rocket","ABK","Free")
-
-		   xNames = jumpTypes
-		   legendNames = people
-
-		   colors=rainbow(length(legendNames))
-		   plot(serie0,xlim=c(0,length(xNames)+1), ylim=c(0,maxVal), pch=1, axes=FALSE, col=colors[1])
-		   points(serie1, pch=2, col=colors[2])
-		   axis(1, 1:4, xNames)
-		   axis(2)
-		   legend("topright", legend=legendNames, pch=c(1,2), cex=.5, col=colors)
-		   
-		   ---------------------
-		   (transposed) two series of jumpTypes X 2 persons
-		   best see how to transpose automatically
-
-		   serie0=c(.3, .32)
-		   serie1=c(.5, .52)
-		   serie2=c(.55, .55)
-		   serie3=c(.6, .62)
-		   maxVal=max(serie0,serie1,serie2,serie3)
-		   people=c("joan", "pep")
-		   jumpTypes=c("sj","Rocket","ABK","Free")
-
-		   xNames = people
-		   legendNames = jumpTypes
-
-		   colors=topo.colors(length(legendNames))
-		   plot(serie0,xlim=c(0,length(xNames)+1), ylim=c(0,maxVal), pch=1, axes=FALSE, col=colors[1])
-		   points(serie1, pch=2, col=colors[2])
-		   points(serie2, pch=3, col=colors[3])
-		   points(serie3, pch=4, col=colors[4])
-		   axis(1, 1:2, xNames)
-		   axis(2)
-		   legend("topright", legend=legendNames, pch=c(1:4), cex=.5, col=colors)
-
-		   ----------------------------------
-		   nicer, with table
-
-		   serie0=c(.3, .5, .55, .6)
-		   serie1=c(.32, .52, .55, .62)
-		   table <- rbind(serie0, serie1)
-		   maxVal=max(table)
-		   rownames(table)=c("joan", "pep")
-		   colnames(table)=c("sj","Rocket","ABK","Free")
-
-		#if transpose uncomment this:
-		#table <-t(table)
-
-		   colors=topo.colors(length(rownames(table)))
-		   plot(table[1,1:length(colnames(table))],xlim=c(0,length(colnames(table))+1), ylim=c(0,maxVal), pch=1, axes=FALSE, col=colors[1])
-		   for(i in 2:length(rownames(table))) 
-		   	points(table[i,1:length(colnames(table))], pch=i, col=colors[i])
-		  
-		   axis(1, 1:length(colnames(table)), colnames(table))
-		   axis(2)
-		   legend("bottomright", legend=rownames(table), pch=c(1:length(rownames(table))), cex=.5, col=colors)
-
-		   */
-
-
-
 
 		/* 
 		interessant:
 		plot(table(rpois(100,5)), type = "h", col = "red", lwd=10, main="rpois(100,lambda=5)")
 		*/
-
-
 
 
 		/*
@@ -1133,6 +944,10 @@ public class Stat
 						xyFirstFound = "y";
 				}
 			}
+			
+			//Dotchart plots col 2
+			if(gro.Type == Constants.GraphTypeDotchart && gro.VarX != serie.Title)
+				continue;
 
 
 			rD += "serie" + count.ToString() + " <- c(";
@@ -1186,7 +1001,11 @@ public class Stat
 
 		string allData = rD + bD + colNamesD + rowNamesD + "data\n";
 
-		if(gro.Transposed && gro.Type != Constants.GraphTypeXY)
+		if(gro.Transposed && 
+				gro.Type != Constants.GraphTypeXY && 
+				gro.Type != Constants.GraphTypeDotchart &&
+				gro.Type != Constants.GraphTypeBoxplot
+				)
 			allData += "data <- t(data)\n";
 	
 		return allData;	
@@ -1196,6 +1015,38 @@ public class Stat
 		return "title(main='" + CurrentGraphData.GraphTitle + " (" + graphType +")', sub='" + 
 			CurrentGraphData.GraphSubTitle + "', cex.sub=0.75, font.sub=3, col.sub='grey30')\n";
 	}
+	
+	private string getRBoxplotString(GraphROptions gro, string fileName, Sides side) {
+		string allData = convertDataToR(gro, side);
+		
+		string ylabStr = "";
+		if(side == Sides.RIGHT) {
+			if(CurrentGraphData.LabelRight != "")
+				ylabStr = ", ylab='" + CurrentGraphData.LabelRight + "'";
+		}
+		else { //ALL or LEFT
+			if(CurrentGraphData.LabelLeft != "")
+				ylabStr = ", ylab='" + CurrentGraphData.LabelLeft + "'";
+		}
+
+		string rG = //rGraphString
+			"boxplot(as.data.frame(data), las=2, xlab=''" + ylabStr + ")\n" +
+			"axis(1, 1:length(colnames(data)), colnames(data), las=2)\n"; //axis separated from boxplot because if data hsa one col, names are not displayed
+		
+		//have an unique title for both graphs
+		string titStr = getTitle("Boxplot");
+		if(hasTwoAxis()) {
+		       if(side==Sides.RIGHT)
+				rG += "par(mfrow=c(1,1), new=TRUE)\n" +
+					"plot(-1, axes=FALSE, type='n', xlab='', ylab='')\n" +
+					titStr + 
+					"par(mfrow=c(1,1), new=FALSE)\n";
+		} else
+			rG += titStr;
+
+		return allData + rG;
+	}
+
 
 	private string getRBarplotString(GraphROptions gro, string fileName, Sides side) {
 		string allData = convertDataToR(gro, side);
@@ -1277,6 +1128,7 @@ public class Stat
 		string rG = //rGraphString
 			"rang <- c(1:length(rownames(data)))\n" +
 			"plot(serie0, serie1, pch=rang, col=rang, xlab='" + gro.VarX + "', ylab='" + gro.VarY + "')\n" +
+			"abline(lm(serie0 ~ serie1),col='grey30')\n" +
 			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col=rang, cex=.7)\n" +
 			titStr;
 
@@ -1284,7 +1136,17 @@ public class Stat
 	}
 
 	private string getRDotchartString(GraphROptions gro, string fileName) {
-		return "";
+		string allData = convertDataToR(gro, Sides.ALL);
+		string titStr = getTitle("Dotchart");
+		string rG = //rGraphString
+			"dotchart(serie0, labels=rownames(data), cex=1)\n" +
+			"abline(v=mean(serie0), lty=1, col='grey20')\n" +
+			"abline(v=median(serie0), lty=2, col='grey50')\n" +
+			"mtext('avg', at=mean(serie0), side=1, cex=.7, col='grey20')\n" +
+			"mtext('median', at=median(serie0), side=1, cex=.7, col='grey50')\n" +
+			titStr;
+
+		return allData + rG;
 	}
 
 	public enum Sides { ALL, LEFT, RIGHT };
@@ -1303,7 +1165,7 @@ public class Stat
 
 			//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
 			//there will be always a png with chronojump_logo
-			fileName = directoryName + "/" + pngs.Length.ToString() + ".png";
+			fileName = System.IO.Path.Combine(directoryName, pngs.Length.ToString() + ".png");
 		} else
 			fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName); 
 	
@@ -1311,7 +1173,19 @@ public class Stat
 			" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
 			" , pointsize = 12, bg = 'white', res = NA)\n";
 
-		if(gRO.Type == Constants.GraphTypeBarplot) {
+		if(gRO.Type == Constants.GraphTypeBoxplot) {
+			if(hasTwoAxis()) {
+				rString += "par(mfrow=c(1,2))\n";
+				rString += getRBoxplotString(
+						gRO, fileName, Sides.LEFT);
+				rString += getRBoxplotString(
+						gRO, fileName, Sides.RIGHT);
+			}
+			else
+				rString += getRBoxplotString(
+						gRO, fileName, Sides.ALL);
+		}
+		else if(gRO.Type == Constants.GraphTypeBarplot) {
 			if(hasTwoAxis()) {
 				rString += "par(mfrow=c(1,2))\n";
 				rString += getRBarplotString(
@@ -1342,7 +1216,7 @@ public class Stat
 		
 		rString += " dev.off()\n";
 
-		fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName);
+		//fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName);
 
 		string rScript = System.IO.Path.Combine(Path.GetTempPath(), Constants.FileNameRScript);
 		TextWriter writer = File.CreateText(rScript);
@@ -1407,45 +1281,6 @@ public class Stat
 	*/
 
 
-	/*
-	 * SAVED COMMENTED FOR HAVING A SAMPLE OF HISTOGRAMS
-	 *
-	protected int plotGraphSimplesessionJumps(IPlotSurface2D plot, ArrayList myValues)
-	{
-		HistogramPlot hp = new HistogramPlot();
-		hp.BaseWidth = 0.4f;
-
-		int xtics = myValues.Count;
-		double[] myData = new double[xtics];
-
-		hp.Label = "TF (seconds)";
-
-		int count=0;
-		for(int i=0; i < myValues.Count ; i++) {
-			string [] jump = myValues[i].ToString().Split(new char[] {':'});
-			
-			int j=0;
-			foreach (string myValue in jump) 
-			{
-				if(j>0) {
-					myData[count] = Convert.ToDouble(myValue);
-					//Log.WriteLine("count {0}, myData {1}", count, myData[count]);
-					count ++;
-				}
-				j++;
-			}
-		}
-		hp.DataSource = myData;
-		hp.BrushOrientation = HistogramPlot.BrushOrientations.HorizontalFadeIn;
-		hp.Filled = true;
-			
-		hp.Pen = Pens.Red;
-		plot.Add(hp);
-		
-		//return the number of plotted bars 
-		return count;
-	}
-*/
 
 	protected bool acceptCheckedData(int myData) {
 		foreach(string marked in markedRows) {

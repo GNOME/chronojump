@@ -66,11 +66,12 @@ public class Report : ExportSession
 	
 		spreadsheetString = "";
 
-		StatisticsData = new ArrayList(2);
+		StatisticsData = new ArrayList(1);
 		
 		mySession = SqliteSession.Select(sessionID.ToString());
 	}
-	
+
+/*	
 	public Report(int sessionID, bool showCurrentSessionData, bool showCurrentSessionJumpers, 
 			bool showSimpleJumps, bool showReactiveJumps, bool showSimpleRuns, bool showIntervalRuns,
 			bool showReactionTimes, bool showPulses, ArrayList statisticsData) 
@@ -90,9 +91,15 @@ public class Report : ExportSession
 
 		mySession = SqliteSession.Select(sessionID.ToString());
 	}
+	*/
 
 	public void PrepareFile () {
 		checkFile("report");
+	}
+
+	//when a session changes, remove all stats because in report they refer to previoud session
+	public void StatisticsRemove() {
+		StatisticsData = new ArrayList(1);
 	}
 
 	protected override void getData() 
@@ -361,17 +368,7 @@ public class Report : ExportSession
 			//bool allFine;
 			//report of stat
 
-			GraphROptions graphROptions = new GraphROptions(
-					//TODO: change this
-					Constants.GraphTypeLines,	//graphType
-					"",				//var X
-					"",				//var y
-					"rainbow",			//graphPalette
-					false,				//graphTransposed
-					500,				//width
-					500,				//height
-					"topright"			//legend
-					);
+			GraphROptions graphROptions = new GraphROptions(strFull[7]);
 
 			myStatType = new StatType(
 					strFull[0], 		//statisticType

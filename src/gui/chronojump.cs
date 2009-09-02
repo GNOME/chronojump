@@ -2015,6 +2015,10 @@ public class ChronoJumpWindow
 		
 			//update report
 			report.SessionID = currentSession.UniqueID;
+			report.StatisticsRemove();
+			try {
+				reportWin.FillTreeView();
+			} catch {} //reportWin is still not created, not need to Fill again
 
 			//feedback (more in 1st session created)
 			string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
@@ -2082,6 +2086,10 @@ public class ChronoJumpWindow
 
 		//update report
 		report.SessionID = currentSession.UniqueID;
+		report.StatisticsRemove();
+		try {
+			reportWin.FillTreeView();
+		} catch {} //reportWin is still not created, not need to Fill again
 	}
 	
 	

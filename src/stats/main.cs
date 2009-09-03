@@ -1004,7 +1004,8 @@ public class Stat
 		if(gro.Transposed && 
 				gro.Type != Constants.GraphTypeXY && 
 				gro.Type != Constants.GraphTypeDotchart &&
-				gro.Type != Constants.GraphTypeBoxplot
+				gro.Type != Constants.GraphTypeBoxplot &&
+				gro.Type != Constants.GraphTypeStripchart
 				)
 			allData += "data <- t(data)\n";
 	
@@ -1122,14 +1123,46 @@ public class Stat
 		return allData + rG;
 	}
 	
+	private string getRStripchartString(GraphROptions gro, string fileName, Sides side) {
+		string allData = convertDataToR(gro, side);
+		
+		string xlabStr = "";
+		if(side == Sides.RIGHT) {
+			if(CurrentGraphData.LabelRight != "")
+				xlabStr = ", xlab='" + CurrentGraphData.LabelRight + "'";
+		}
+		else { //ALL or LEFT
+			if(CurrentGraphData.LabelLeft != "")
+				xlabStr = ", xlab='" + CurrentGraphData.LabelLeft + "'";
+		}
+
+		string rG = //rGraphString
+			"stripchart(as.data.frame(data), las=2" + xlabStr + ", ylab='', method='jitter', pch=3, jitter=.2)\n" +
+			"axis(2, 1:length(colnames(data)), colnames(data), las=2)\n"; //axis separated from boxplot because if data hsa one col, names are not displayed
+		
+		//have an unique title for both graphs
+		string titStr = getTitle("Stripchart");
+		if(hasTwoAxis()) {
+		       if(side==Sides.RIGHT)
+				rG += "par(mfrow=c(1,1), new=TRUE)\n" +
+					"plot(-1, axes=FALSE, type='n', xlab='', ylab='')\n" +
+					titStr + 
+					"par(mfrow=c(1,1), new=FALSE)\n";
+		} else
+			rG += titStr;
+
+		return allData + rG;
+	}
+
 	private string getRXYString(GraphROptions gro, string fileName) {
 		string allData = convertDataToR(gro, Sides.ALL);
 		string titStr = getTitle("XY");
 		string rG = //rGraphString
+		   	"colors=" + gro.Palette +"(length(rownames(data)))\n" +
 			"rang <- c(1:length(rownames(data)))\n" +
-			"plot(serie0, serie1, pch=rang, col=rang, xlab='" + gro.VarX + "', ylab='" + gro.VarY + "')\n" +
-			"abline(lm(serie0 ~ serie1),col='grey30')\n" +
-			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col=rang, cex=.7)\n" +
+			"plot(serie0, serie1, pch=rang, col=colors, xlab='" + gro.VarX + "', ylab='" + gro.VarY + "')\n" +
+			"abline(lm(serie1 ~ serie0),col='grey30')\n" +
+			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col=colors, cex=.7)\n" +
 			titStr;
 
 		return allData + rG;
@@ -1141,9 +1174,9 @@ public class Stat
 		string rG = //rGraphString
 			"dotchart(serie0, labels=rownames(data), cex=1)\n" +
 			"abline(v=mean(serie0), lty=1, col='grey20')\n" +
-			"abline(v=median(serie0), lty=2, col='grey50')\n" +
-			"mtext('avg', at=mean(serie0), side=1, cex=.7, col='grey20')\n" +
-			"mtext('median', at=median(serie0), side=1, cex=.7, col='grey50')\n" +
+			"abline(v=median(serie0), lty=2, col='grey40')\n" +
+			"mtext('avg', at=mean(serie0), side=3, cex=.7, col='grey20')\n" +
+			"mtext('median', at=median(serie0), side=1, cex=.7, col='grey40')\n" +
 			titStr;
 
 		return allData + rG;
@@ -1207,6 +1240,18 @@ public class Stat
 			}
 			else
 				rString += getRLinesString(
+						gRO, fileName, Sides.ALL);
+		}
+		else if(gRO.Type == Constants.GraphTypeStripchart) {
+			if(hasTwoAxis()) {
+				rString += "par(mfrow=c(2,1))\n";
+				rString += getRStripchartString(
+						gRO, fileName, Sides.LEFT);
+				rString += getRStripchartString(
+						gRO, fileName, Sides.RIGHT);
+			}
+			else
+				rString += getRStripchartString(
 						gRO, fileName, Sides.ALL);
 		}
 		else if(gRO.Type == Constants.GraphTypeXY)

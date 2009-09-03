@@ -22,9 +22,6 @@ using System;
 using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
-
-//using NPlot.Gtk;
-//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -33,8 +30,6 @@ using Mono.Unix;
 public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 {
 	protected string operation;
-	private Random myRand = new Random();
-	private int countSeriesGraphColors = 0;
 
 	//for simplesession
 	GraphSerie serieHeight;
@@ -82,21 +77,6 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			serieHeight.IsLeftAxis = false;
 			serieWeight.IsLeftAxis = false;
 
-			/*
-			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
-			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("Blue"), 2.0F));
-			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("Green"), 2.0F));
-			serieWeight.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
-					6, new Pen (Color.FromName("Chocolate"), 2.0F));
-					*/
-		
-			//for the line between markers
-			serieTv.SerieColor = Color.FromName("Blue");
-			serieHeight.SerieColor = Color.FromName("Green");
-			serieWeight.SerieColor = Color.FromName("Chocolate");
-		
 			CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
 			CurrentGraphData.LabelRight = 
 				Catalog.GetString("Height") + "(cm), " +
@@ -113,10 +93,6 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			}
 			CurrentGraphData.LabelRight = "";
 		}
-		
-		//CurrentGraphData.GraphType = myStatTypeStruct.GraphType;
-		//CurrentGraphData.GraphPalette = myStatTypeStruct.GraphPalette;
-		//CurrentGraphData.GraphTransposed = myStatTypeStruct.GraphTransposed;
 	}
 
 	protected override void printData (string [] statValues) 
@@ -169,28 +145,10 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			GraphSerie mySerie = new GraphSerie();
 			mySerie.IsLeftAxis = true;
 
-			//color code
-			Color myColor = new Color();
-			if(countSeriesGraphColors > Constants.Colors.Length) {
-				int myR = myRand.Next(255 - 40); //not 255 for not being so light colors
-				int myG = myRand.Next(255 - 40);
-				int myB = myRand.Next(255 - 40);
-				myColor = Color.FromArgb(myR, myG, myB);
-			} else {
-				myColor = Color.FromName(Constants.Colors[countSeriesGraphColors]);
-				countSeriesGraphColors ++;
-			}
-		
-//			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-//					6, new Pen (myColor, 2.0F));
-
-			mySerie.SerieColor = myColor;
-
 			int i=0;
 			foreach (string myValue in statValues) {
 				if( myValue == Catalog.GetString("SD") ) 
 					return;
-
 				
 				if(i == 0) 
 					mySerie.Title = myValue;

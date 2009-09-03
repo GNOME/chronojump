@@ -27,9 +27,6 @@ public class GraphData
 	public string WindowTitle;
 	public string GraphTitle;
 	public string GraphSubTitle;
-	//public string GraphType;
-	//public string GraphPalette;
-	//public bool GraphTransposed;
 	public ArrayList XAxisNames;
 	public string LabelLeft;
 	public string LabelRight;

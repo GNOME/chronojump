@@ -711,6 +711,28 @@ public class Util
 		}
 	}
 
+	public static void RunRScript(string rScript){
+		ProcessStartInfo pinfo;
+                Process r;
+		string rBin="R";
+		//If output file is not given, R will try to write in the running folder
+		//in which we may haven't got permissions
+		string outputFile = System.IO.Path.Combine(Path.GetTempPath(), Constants.FileNameRScript+".Rout");
+ 
+		if (IsWindows())
+			rBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
+
+		pinfo = new ProcessStartInfo();
+		pinfo.FileName=rBin;
+		pinfo.Arguments ="CMD BATCH " + rScript +" " + outputFile;
+		pinfo.CreateNoWindow = true;
+		pinfo.UseShellExecute = false;
+		
+		r = new Process();
+		r.StartInfo = pinfo;
+		r.Start();
+		r.WaitForExit();				
+	}
 /*
  * currently not used, we copy the assemblies now
  *

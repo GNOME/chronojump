@@ -408,6 +408,16 @@ public class Util
 		return str2;
 	}
 	
+	public static string [] DeleteString(string [] initial, string delete) {
+		string [] final = new String [initial.Length -1];
+		int count = 0;
+		foreach(string str in initial)
+			if(str != delete)
+				final[count++] = str;
+		return final;
+	}
+	
+	
 	//called from jumpRj.Write() and from interval
 	//when we mark that jump should finish by time, chronopic thread is probably capturing data
 	//check if it captured more than date limit, and if it has done, delete last(s) jump(s)

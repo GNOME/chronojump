@@ -919,86 +919,86 @@ public class StatsWindow {
 
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
-		if(statisticType == "" || statisticSubType == "") {
-			//for an unknown reason, when we select an option in the combo stats, 
-			//the on_combo_stats_stat_type_changed it's called two times? 
-			//in the first the value of Entry.Text is "";
+			
+		//for an unknown reason, when we select an option in the combo stats, 
+		//the on_combo_stats_stat_type_changed it's called two times? 
+		//in the first the value of Entry.Text is "";
+		if(statisticType == "" || statisticSubType == "") 
 			return;
+			
+		//some stats should not be showed as limited jumps
+		if(statisticType == Constants.TypeJumpsReactive && 
+				( statisticSubType == Catalog.GetString("Evolution") ||
+				  statisticSubType == Constants.RJAVGSDRjIndexName ||
+				  statisticSubType == Constants.RJAVGSDQIndexName)
+		  ) {
+			//don't allow Evolution be multisession
+			radiobutton_current_session.Active = true;
+			radiobutton_selected_sessions.Sensitive = false;
+			//has no sense to study the AVG of rj tv tc evolution string
+			//nota fair to make avg of each subjump, 
+			//specially when some RJs have more jumps than others
+			if(radiobutton_stats_jumps_person_average.Active) {
+				radiobutton_stats_jumps_person_bests.Active = true;
+			}
+			radiobutton_stats_jumps_person_average.Sensitive = false;
+		}
+		//in Potency formulas show only "all jumps" radiobutton
+		else if(statisticType == Constants.TypeJumpsSimple && ( 
+					statisticSubType == Constants.PotencyLewisFormula ||
+					statisticSubType == Constants.PotencyHarmanFormula ||
+					statisticSubType == Constants.PotencySayersSJFormula ||
+					statisticSubType == Constants.PotencySayersCMJFormula ||
+					statisticSubType == Constants.PotencyShettyFormula ||
+					statisticSubType == Constants.PotencyCanavanFormula ||
+					//statisticSubType == Constants.PotencyBahamondeFormula ||
+					statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormula ||
+					statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormula ||
+					statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormula ||
+					statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormula ||
+					statisticSubType == Constants.PotencyLaraFemaleSedentaryFormula
+					) ) {
+			//change the radiobutton value
+			if(radiobutton_stats_jumps_limit.Active || radiobutton_stats_jumps_person_average.Active ||
+					radiobutton_stats_jumps_person_bests.Active) {
+				radiobutton_stats_jumps_all.Active = true;
+			}
+			radiobutton_stats_jumps_all.Sensitive = true;
+			//make no sensitive
+			radiobutton_stats_jumps_limit.Sensitive = false;
+			radiobutton_stats_jumps_person_bests.Sensitive = false;
+			radiobutton_stats_jumps_person_average.Sensitive = false;
+		}
+		else if(statisticType == Constants.TypeSessionSummary || 
+				statisticType == Constants.TypeJumperSummary || 
+				( statisticType == Constants.TypeJumpsSimple && 
+				  statisticSubType != Catalog.GetString("No indexes") ) ||
+				(selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
+		{
+			//change the radiobutton value
+			if(radiobutton_stats_jumps_all.Active || radiobutton_stats_jumps_limit.Active) {
+				radiobutton_stats_jumps_person_bests.Active = true;
+				spin_stats_jumps_person_bests.Sensitive = false; //in this jumps only show the '1' best value
+			}
+			radiobutton_stats_jumps_person_bests.Sensitive = true;
+			radiobutton_stats_jumps_person_average.Sensitive = true;
+			//make no sensitive
+			radiobutton_stats_jumps_all.Sensitive = false;
+			radiobutton_stats_jumps_limit.Sensitive = false;
+			spin_stats_jumps_person_bests.Sensitive = false;
+
+			//Not RJ Evolution (put selected_sessions_radiobutton visible, and person_average)
+			radiobutton_selected_sessions.Sensitive = true;
+			radiobutton_stats_jumps_person_average.Sensitive = true;
 		} else {
-			//some stats should not be showed as limited jumps
-			if(statisticType == Constants.TypeJumpsReactive && 
-				       ( statisticSubType == Catalog.GetString("Evolution") ||
-					 statisticSubType == Constants.RJAVGSDRjIndexName ||
-					 statisticSubType == Constants.RJAVGSDQIndexName)
-					 ) {
-				//don't allow Evolution be multisession
-				radiobutton_current_session.Active = true;
-				radiobutton_selected_sessions.Sensitive = false;
-				//has no sense to study the AVG of rj tv tc evolution string
-				//nota fair to make avg of each subjump, 
-				//specially when some RJs have more jumps than others
-				if(radiobutton_stats_jumps_person_average.Active) {
-					radiobutton_stats_jumps_person_bests.Active = true;
-				}
-				radiobutton_stats_jumps_person_average.Sensitive = false;
+			radiobutton_stats_jumps_all.Sensitive = true;
+			radiobutton_stats_jumps_limit.Sensitive = true;
+			if(radiobutton_stats_jumps_person_bests.Active) {
+				spin_stats_jumps_person_bests.Sensitive = true;
 			}
-			//in Potency formulas show only "all jumps" radiobutton
-			else if(statisticType == Constants.TypeJumpsSimple && ( 
-						statisticSubType == Constants.PotencyLewisFormula ||
-						statisticSubType == Constants.PotencyHarmanFormula ||
-						statisticSubType == Constants.PotencySayersSJFormula ||
-						statisticSubType == Constants.PotencySayersCMJFormula ||
-						statisticSubType == Constants.PotencyShettyFormula ||
-						statisticSubType == Constants.PotencyCanavanFormula ||
-						//statisticSubType == Constants.PotencyBahamondeFormula ||
-						statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormula ||
-						statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormula ||
-						statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormula ||
-						statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormula ||
-						statisticSubType == Constants.PotencyLaraFemaleSedentaryFormula
-						) ) {
-				//change the radiobutton value
-				if(radiobutton_stats_jumps_limit.Active || radiobutton_stats_jumps_person_average.Active ||
-						radiobutton_stats_jumps_person_bests.Active) {
-					radiobutton_stats_jumps_all.Active = true;
-				}
-				radiobutton_stats_jumps_all.Sensitive = true;
-				//make no sensitive
-				radiobutton_stats_jumps_limit.Sensitive = false;
-				radiobutton_stats_jumps_person_bests.Sensitive = false;
-				radiobutton_stats_jumps_person_average.Sensitive = false;
-			}
-			else if(statisticType == Constants.TypeSessionSummary || 
-					statisticType == Constants.TypeJumperSummary || 
-					( statisticType == Constants.TypeJumpsSimple && 
-					 statisticSubType != Catalog.GetString("No indexes") ) ||
-					(selectedSessions.Count > 1 && ! radiobutton_current_session.Active) )
-			{
-				//change the radiobutton value
-				if(radiobutton_stats_jumps_all.Active || radiobutton_stats_jumps_limit.Active) {
-					radiobutton_stats_jumps_person_bests.Active = true;
-					spin_stats_jumps_person_bests.Sensitive = false; //in this jumps only show the '1' best value
-				}
-				radiobutton_stats_jumps_person_bests.Sensitive = true;
-				radiobutton_stats_jumps_person_average.Sensitive = true;
-				//make no sensitive
-				radiobutton_stats_jumps_all.Sensitive = false;
-				radiobutton_stats_jumps_limit.Sensitive = false;
-				spin_stats_jumps_person_bests.Sensitive = false;
-				
-				//Not RJ Evolution (put selected_sessions_radiobutton visible, and person_average)
-				radiobutton_selected_sessions.Sensitive = true;
-				radiobutton_stats_jumps_person_average.Sensitive = true;
-			} else {
-				radiobutton_stats_jumps_all.Sensitive = true;
-				radiobutton_stats_jumps_limit.Sensitive = true;
-				if(radiobutton_stats_jumps_person_bests.Active) {
-					spin_stats_jumps_person_bests.Sensitive = true;
-				}
-				//Not RJ Evolution (put selected_sessions_radiobutton visible, and person_average)
-				radiobutton_selected_sessions.Sensitive = true;
-				radiobutton_stats_jumps_person_average.Sensitive = true;
-			}
+			//Not RJ Evolution (put selected_sessions_radiobutton visible, and person_average)
+			radiobutton_selected_sessions.Sensitive = true;
+			radiobutton_stats_jumps_person_average.Sensitive = true;
 		}
 	}
 
@@ -1046,11 +1046,21 @@ public class StatsWindow {
 		{
 			Log.WriteLine("current");
 			button_stats_select_sessions.Sensitive = false;
+
+			//single session can have all graph types
+			combo_graph_type.Active = UtilGtk.ComboUpdate(
+					combo_graph_type, Constants.GraphTypes, UtilGtk.ComboGetActive(combo_graph_type));
 		} 
 		else if (o == (object) radiobutton_selected_sessions ) 
 		{
 			Log.WriteLine("selected");
 			button_stats_select_sessions.Sensitive = true;
+			
+			//multi session cannot have XY and dotchart
+			string [] types = Util.DeleteString(Constants.GraphTypes, Constants.GraphTypeXY);
+			types = Util.DeleteString(types, Constants.GraphTypeDotchart);
+			combo_graph_type.Active = UtilGtk.ComboUpdate(
+					combo_graph_type, types, UtilGtk.ComboGetActive(combo_graph_type));
 		}
 		update_stats_widgets_sensitiveness();
 		fillTreeView_stats(false);

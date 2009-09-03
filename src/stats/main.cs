@@ -879,32 +879,6 @@ public class Stat
 		plot(table(rpois(100,5)), type = "h", col = "red", lwd=10, main="rpois(100,lambda=5)")
 		*/
 
-
-		/*
-	> heights
-	[1] 0.30 0.50 0.55 0.60
-	> jumpTypes
-	[1] "sj"     "Rocket" "ABK"    "Free"  
-	> plot(heights, axes = FALSE)
-	> axis(1, 1:4, jumpTypes)
-	> axis(2)
-	> box()
-	> title(main='my tit', sub='subtit', cex.sub=0.75, font.sub=3, col.sub='red')
-	*/
-
-		/*
-		   joan <- c(.2, .5, .6)
-		   dayron <- c(.25, .65, .65)
-		   pepa <- c(.1, .2, .21)
-		   jumps <- cbind(joan, dayron, pepa)
-		   rownames(jumps) <- c("SJ", "CMJ", "ABK")
-		   barplot(jumps, beside=T, legend=rownames(jumps))
-		   barplot(jumps, beside=T, legend=rownames(jumps), col=heat.colors(3))
-		   barplot(jumps, beside=T, legend=rownames(jumps), col=gray.colors(3))
-  		   barplot(jumps, beside=T, legend=rownames(jumps), col=rainbow(3))
-		   barplot(jumps, beside=T, legend=rownames(jumps), col=topo.colors(3))
-		   */
-
 	private bool hasTwoAxis()
 	{
 		bool left = false;
@@ -932,6 +906,11 @@ public class Stat
 					side == Sides.RIGHT && serie.IsLeftAxis) {
 				continue;
 			}
+
+			//don't plot AVG row on multisession
+Log.WriteLine("\nserie title: " + serie.Title);
+			if(sessions.Count > 1 && serie.Title == Catalog.GetString("AVG"))
+				continue;
 			//on XY only take two vars
 			if(gro.Type == Constants.GraphTypeXY) {
 				Log.WriteLine("groVarX: " + gro.VarX + " groVarY: " + gro.VarY + " tit: " + serie.Title);
@@ -954,8 +933,22 @@ public class Stat
 			string sep = "";
 			int count2=0;
 			foreach(string val in serie.SerieData) {
-				if(! acceptCheckedData(count2++))
+				bool use = true;
+				if(! acceptCheckedData(count2)) 
+					use = false;
+
+				//don't plot AVG col on multisession
+				if(sessions.Count > 1 && count2 == serie.SerieData.Count) 
+					use = false;
+				
+				//don't plot SD col on multisession
+				if(sessions.Count > 1 && count2 +1 == serie.SerieData.Count) 
+					use = false;
+
+				count2++;
+				if(! use)
 					continue;
+
 				if(val == "-")
 					rD += sep + "0";
 				else

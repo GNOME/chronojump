@@ -36,6 +36,11 @@ Files: debian/*
 Copyright:2009 Andoni Morales Alastruey <ylatuya@gmail.com>
 License: GPL-2+
 
+Files: src/angle/*
+Copyright: 2008 Sharad Shankar & Onkar Nath Mishra http://www.logicbrick.com/
+Copyright: 2008-2009, Xavier de Blas <xaviblas@gmail.com>
+License: GPL-2+
+
 License: GPL-2+
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

@@ -241,8 +241,11 @@ public class Constants
 	public static string GraphTypeLines = "Lines";
 	public static string GraphTypeXY = "XY";
 	public static string GraphTypeDotchart = "Dotchart";
-	public static string [] GraphTypes = { GraphTypeBoxplot, GraphTypeBarplot, GraphTypeLines, GraphTypeXY, GraphTypeDotchart };
-	public static string [] GraphPalettes = { "rainbow", "heat.colors", "gray.colors", "topo.colors" };
+	public static string GraphTypeStripchart = "Stripchart";
+	public static string [] GraphTypes = { GraphTypeBoxplot, GraphTypeBarplot, GraphTypeLines, 
+		GraphTypeXY, GraphTypeDotchart, GraphTypeStripchart };
+	public static string GraphPaletteGray = "gray.colors";
+	public static string [] GraphPalettes = { GraphPaletteGray, "rainbow", "topo.colors", "heat.colors" };
 
 
 	public static string FileNameZoomFitIcon = "gtk-zoom-fit.png";

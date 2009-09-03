@@ -21,9 +21,6 @@
 using System;
 using System.Data;
 using System.Collections; //ArrayList
-
-//using NPlot.Gtk;
-//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -31,8 +28,6 @@ public class GraphSerie
 {
 	public string Title;
 	public bool IsLeftAxis;
-	//public Marker SerieMarker;
-	public Color SerieColor;
 	public ArrayList SerieData;
 	public double Avg; //height of avg line
 
@@ -41,13 +36,10 @@ public class GraphSerie
 		Avg = 0;
 	}
 
-	//public GraphSerie(string Title, bool IsLeftAxis, Marker SerieMarker, Color SerieColor, ArrayList SerieData) 
-	public GraphSerie(string Title, bool IsLeftAxis, Color SerieColor, ArrayList SerieData) 
+	public GraphSerie(string Title, bool IsLeftAxis, ArrayList SerieData) 
 	{
 		this.Title = 		Title;
 		this.IsLeftAxis = 	IsLeftAxis;
-		this.SerieColor =	SerieColor;
-		//this.SerieMarker =	SerieMarker;
 		this.SerieData =	SerieData;
 		Avg = 0;
 	}

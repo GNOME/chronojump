@@ -22,9 +22,6 @@ using System;
 using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
-
-//using NPlot.Gtk;
-//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -32,8 +29,6 @@ using Mono.Unix;
 public class GraphRjAVGSD : StatRjAVGSD
 {
 	protected string operation;
-	private Random myRand = new Random();
-	private int countSeriesGraphColors = 0;
 
 	//for simplesession
 	GraphSerie serieAVG;
@@ -78,20 +73,6 @@ public class GraphRjAVGSD : StatRjAVGSD
 		serieAVG.IsLeftAxis = true;
 		serieSD.IsLeftAxis = true;
 		serieJumps.IsLeftAxis = false;
-
-		/*
-		serieAVG.SerieMarker = new Marker (Marker.MarkerType.Square, 
-				6, new Pen (Color.FromName("Red"), 2.0F));
-		serieSD.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-				6, new Pen (Color.FromName("Black"), 2.0F));
-		serieJumps.SerieMarker = new Marker (Marker.MarkerType.Cross2, 
-				8, new Pen (Color.FromName("Blue"), 2.0F));
-				*/
-
-		//for the line between markers
-		serieAVG.SerieColor = Color.FromName("Red");
-		serieSD.SerieColor = Color.FromName("Black");
-		//serieJumps.SerieColor = Color.FromName("Blue");
 
 		CurrentGraphData.LabelLeft = 
 			Catalog.GetString("Average") + ", " +

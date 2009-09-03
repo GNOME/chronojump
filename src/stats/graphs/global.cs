@@ -22,9 +22,6 @@ using System;
 using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
-
-//using NPlot.Gtk;
-//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -32,9 +29,6 @@ using Mono.Unix;
 
 public class GraphGlobal : StatGlobal
 {
-	private Random myRand = new Random();
-	private int countSeriesGraphColors = 0;
-
 	//for simplesession
 	GraphSerie serieIndex;
 	GraphSerie serieTv;
@@ -79,18 +73,6 @@ public class GraphGlobal : StatGlobal
 			serieIndex.IsLeftAxis = false;
 			serieTv.IsLeftAxis = true;
 
-			/*
-			serieIndex.SerieMarker = new Marker (Marker.MarkerType.Square, 
-					6, new Pen (Color.FromName("Red"), 2.0F));
-			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
-			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("Blue"), 2.0F));
-					*/
-		
-			//for the line between markers
-			serieIndex.SerieColor = Color.FromName("Red");
-			serieTv.SerieColor = Color.FromName("Blue");
-		
 			if(heightPreferred) {
 				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
 			} else {
@@ -177,20 +159,6 @@ public class GraphGlobal : StatGlobal
 		} else {
 			GraphSerie mySerie = new GraphSerie();
 
-			//color code
-			Color myColor = new Color();
-			if(countSeriesGraphColors > Constants.Colors.Length) {
-				int myR = myRand.Next(255 - 40); //not 255 for not being so light colors
-				int myG = myRand.Next(255 - 40);
-				int myB = myRand.Next(255 - 40);
-				myColor = Color.FromArgb(myR, myG, myB);
-			} else {
-				myColor = Color.FromName(Constants.Colors[countSeriesGraphColors]);
-				countSeriesGraphColors ++;
-			}
-
-			mySerie.SerieColor = myColor;
-
 			int i=0;
 			string myValueBefore = "";
 			foreach (string myValue in statValues) {
@@ -206,12 +174,8 @@ public class GraphGlobal : StatGlobal
 							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith(Constants.RJPotencyBoscoName) || 
 							valueNoSex == "IE" || valueNoSex == "IUB" || valueNoSex == "FV" ) {
 						mySerie.IsLeftAxis = false;
-//						mySerie.SerieMarker = new Marker (Marker.MarkerType.Square, 
-//								6, new Pen (myColor, 2.0F));
 					} else {
 						mySerie.IsLeftAxis = true;
-//						mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-//								6, new Pen (myColor, 2.0F));
 					}
 					myValueBefore = valueNoSex; //for changing later indexQ for indexQ*10
 					mySerie.Title = myValue;

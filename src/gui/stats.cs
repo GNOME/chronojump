@@ -89,6 +89,7 @@ public class StatsWindow {
 	[Widget] Gtk.Box hbox_combo_graph_height;
 	[Widget] Gtk.ComboBox combo_graph_width;
 	[Widget] Gtk.ComboBox combo_graph_height;
+	[Widget] Gtk.Label label_graph_legend;
 	[Widget] Gtk.Box hbox_combo_graph_legend;
 	[Widget] Gtk.ComboBox combo_graph_legend;
 
@@ -245,8 +246,8 @@ public class StatsWindow {
 		spinbutton_mark_consecutives.Sensitive = false;
 		hbox_mark_consecutives.Hide();
 		
-		//first graph type is boxplot, and it doesn't show transpose
-		showTransposed(false);
+		//first graph type is boxplot, and it doesn't show transpose also colors are grey...
+		on_combo_graph_type_changed(new object(), new EventArgs());
 	}
 	
 
@@ -423,19 +424,38 @@ public class StatsWindow {
 		label_graph_var_y.Visible = show;
 		hbox_combo_graph_var_x.Visible = show;
 		hbox_combo_graph_var_y.Visible = show;
-		showTransposed(!show);
 	}
 
 	private void on_combo_graph_type_changed(object o, EventArgs args) {
+		if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
+			showGraphXYStuff(true);
+		else 
+			showGraphXYStuff(false);
+
 		if(
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart ||
-				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeBoxplot)
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeBoxplot ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeStripchart ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
 			showTransposed(false);
-		else if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
-			showGraphXYStuff(true);
 		else
-			showGraphXYStuff(false);
-		
+			showTransposed(true);
+
+		//boxplot and stripchart are black&white and have no legend
+		if(
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeBoxplot ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeStripchart ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart) {
+			combo_graph_palette.Active = UtilGtk.ComboMakeActive(Constants.GraphPalettes, Constants.GraphPaletteGray);
+			combo_graph_palette.Sensitive = false;
+			label_graph_legend.Visible = false;
+			combo_graph_legend.Visible = false;
+		}
+		else {
+			combo_graph_palette.Sensitive = true;
+			label_graph_legend.Visible = true;
+			combo_graph_legend.Visible = true;
+		}
 	}
 
 	private void on_combo_select_checkboxes_changed(object o, EventArgs args) {

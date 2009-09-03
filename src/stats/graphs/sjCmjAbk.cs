@@ -22,9 +22,6 @@ using System;
 using System.Data;
 using Gtk;
 using System.Collections; //ArrayList
-
-//using NPlot.Gtk;
-//using NPlot;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Mono.Unix;
@@ -33,8 +30,6 @@ using Mono.Unix;
 public class GraphSjCmjAbk : StatSjCmjAbk
 {
 	protected string operation;
-	private Random myRand = new Random();
-	private int countSeriesGraphColors = 0;
 
 	//for simplesession
 	GraphSerie serieHeight;
@@ -72,18 +67,6 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			serieTv.IsLeftAxis = true;
 			serieHeight.IsLeftAxis = false;
 
-			/*
-			//serieTv.SerieMarker = new Marker (Marker.MarkerType.TriangleUp, 
-			serieTv.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("Blue"), 2.0F));
-			serieHeight.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-					6, new Pen (Color.FromName("Red"), 2.0F));
-					*/
-		
-			//for the line between markers
-			serieTv.SerieColor = Color.FromName("Blue");
-			serieHeight.SerieColor = Color.FromName("Red");
-		
 			CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
 			CurrentGraphData.LabelRight = Catalog.GetString("Height") + "(cm)";
 		} else {
@@ -147,23 +130,6 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 		} else {
 			GraphSerie mySerie = new GraphSerie();
 			mySerie.IsLeftAxis = true;
-
-			//color code
-			Color myColor = new Color();
-			if(countSeriesGraphColors > Constants.Colors.Length) {
-				int myR = myRand.Next(255 - 40); //not 255 for not being so light colors
-				int myG = myRand.Next(255 - 40);
-				int myB = myRand.Next(255 - 40);
-				myColor = Color.FromArgb(myR, myG, myB);
-			} else {
-				myColor = Color.FromName(Constants.Colors[countSeriesGraphColors]);
-				countSeriesGraphColors ++;
-			}
-		
-//			mySerie.SerieMarker = new Marker (Marker.MarkerType.Cross1, 
-//					6, new Pen (myColor, 2.0F));
-
-			mySerie.SerieColor = myColor;
 
 			int i=0;
 			foreach (string myValue in statValues) {

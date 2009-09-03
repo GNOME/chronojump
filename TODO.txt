@@ -1,8 +1,6 @@
 TODO: 
 
-do multisession graphs
-do multisession
-do stripchart
+do multisession graphs (need to not pass avg or sd columns to graph)
 continue with titles and subtitles for all graphs
 fix global, jumper, rjEvolution
 

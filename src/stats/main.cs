@@ -1198,10 +1198,10 @@ public class Stat
 
 			//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
 			//there will be always a png with chronojump_logo
-			fileName = System.IO.Path.Combine(directoryName, pngs.Length.ToString() + ".png");
+			fileName = directoryName+"/"+pngs.Length.ToString() + ".png";
 		} else
-			fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName); 
-	
+			fileName = Path.GetTempPath()+"/"+fileName; 
+		
 		string rString = "png(filename = '" + fileName + "'\n" + 
 			" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
 			" , pointsize = 12, bg = 'white', res = NA)\n";
@@ -1269,8 +1269,7 @@ public class Stat
 		writer.Flush();
 		((IDisposable)writer).Dispose();
 		
-		Process r = Process.Start("R CMD BATCH " + rScript);
-		r.WaitForExit();
+		Util.RunRScript(rScript);
 
 		if(show) {
 			if(! File.Exists(fileName) || File.GetLastWriteTime(fileName) < File.GetLastWriteTime(rScript))

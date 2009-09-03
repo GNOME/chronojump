@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Xavier de Blas: 
+ * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -155,7 +155,6 @@ public class Stat
 		}
 		if(!found) {
 			markedRows.Add(rowToAdd);
-			//Log.WriteLine("Added to markedRows row:{0}", rowToAdd);
 		}
 	}
 	
@@ -165,7 +164,6 @@ public class Stat
 		foreach(string myRow in markedRows) {
 			if(myRow == rowToDelete) {
 				markedRows.RemoveAt(i);
-				//Log..WriteLine("deleted from markedRows row:{0}", rowToDelete);
 				break;
 			}
 			i++;
@@ -177,8 +175,6 @@ public class Stat
 		Log.WriteLine("Fake button will be pressed");
 		fakeButtonRowCheckedUnchecked.Click();
 		
-		Log.WriteLine("Toggled");
-
 		int column = 0;
 
 		TreeIter iter;
@@ -212,13 +208,6 @@ public class Stat
 			//if we cannot access the treeview, also don't allow to graph or report
 			fakeButtonNoRowsSelected.Click();
 		}
-	
-		/*	
-		foreach(string myString in markedRows) {
-			Log.Write(":" + myString);
-		}
-		Log.WriteLine();
-		*/
 	}
 			
 	private bool isNotAVGOrSD (Gtk.TreeIter iter) {
@@ -441,9 +430,7 @@ public class Stat
 
 	private bool isThisRowMarked(int rowNum) {
 		for(int k=0; k < markedRows.Count; k++) {
-			//Log.WriteLine("{0}-{1}", Convert.ToInt32(markedRows[k]), rowNum);
 			if(Convert.ToInt32(markedRows[k]) == rowNum) {
-			//	Log.WriteLine("YES");
 				return true;
 			}
 		}
@@ -908,9 +895,9 @@ public class Stat
 			}
 
 			//don't plot AVG row on multisession
-Log.WriteLine("\nserie title: " + serie.Title);
 			if(sessions.Count > 1 && serie.Title == Catalog.GetString("AVG"))
 				continue;
+
 			//on XY only take two vars
 			if(gro.Type == Constants.GraphTypeXY) {
 				Log.WriteLine("groVarX: " + gro.VarX + " groVarY: " + gro.VarY + " tit: " + serie.Title);

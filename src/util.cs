@@ -724,7 +724,7 @@ public class Util
 
 		pinfo = new ProcessStartInfo();
 		pinfo.FileName=rBin;
-		pinfo.Arguments ="CMD BATCH " + rScript +" " + outputFile;
+		pinfo.Arguments ="CMD BATCH --no-save " + rScript +" " + outputFile;
 		pinfo.CreateNoWindow = true;
 		pinfo.UseShellExecute = false;
 		

@@ -194,10 +194,8 @@ public class StatType {
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows, 
 			int rj_evolution_mark_consecutives, 
-			//string graphType, string graphPalette, bool graphTransposed,
 			GraphROptions gRO,
 			bool graph, bool toReport, TextWriter writer, string fileName)
 	{

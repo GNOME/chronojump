@@ -1168,7 +1168,6 @@ public class StatsWindow {
 			reportWin = ReportWindow.Show(parent, report);
 			//add current stat
 			reportWin.Add(statisticType, statisticSubType, statisticApplyTo, 
-					//sessionsAsAString, statsShowJumps, showSex.ToString());
 					sendSelectedSessions, statsShowJumps, showSex.ToString(), 
 					myStatType.MarkedRows, fillGraphROptions());
 					

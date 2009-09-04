@@ -46,18 +46,19 @@ public class ReportWindow {
 	[Widget] Gtk.CheckButton cb_runs_interval_with_subruns;
 	[Widget] Gtk.CheckButton cb_reaction_times;
 	[Widget] Gtk.CheckButton cb_pulses;
+	[Widget] Gtk.Image image_report_win_graph;
 	[Widget] Gtk.Image image_report_win_report;
 	
 	static ReportWindow ReportWindowBox;
 
 	Gtk.Window parent;
 	
-	//protected int sessionID;
+	//private int sessionID;
 
 	Report report;
 
 	
-	protected ReportWindow () {
+	private ReportWindow () {
 	}
 
 	ReportWindow (Gtk.Window parent, Report report ) {
@@ -115,11 +116,14 @@ public class ReportWindow {
 	}
 
 	private void putNonStandardIcons() {
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
+		image_report_win_graph.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
 		image_report_win_report.Pixbuf = pixbuf;
 	}
 	
-	protected void createTreeView (Gtk.TreeView tv) {
+	private void createTreeView (Gtk.TreeView tv) {
 		tv.HeadersVisible=true;
 		int count = 0;
 		tv.AppendColumn ( Catalog.GetString("Type"), new CellRendererText(), "text", count++);
@@ -202,7 +206,7 @@ public class ReportWindow {
 		report_window.Show ();
 	}
 	
-	protected virtual void on_cb_jumps_reactive_clicked (object o, EventArgs args) {
+	private void on_cb_jumps_reactive_clicked (object o, EventArgs args) {
 		if(cb_jumps_reactive.Active) {
 			cb_jumps_reactive_with_subjumps.Show();
 		} else {
@@ -210,7 +214,7 @@ public class ReportWindow {
 		}
 	}
 
-	protected virtual void on_cb_runs_interval_clicked (object o, EventArgs args) {
+	private void on_cb_runs_interval_clicked (object o, EventArgs args) {
 		if(cb_runs_interval.Active) {
 			cb_runs_interval_with_subruns.Show();
 		} else {
@@ -218,7 +222,7 @@ public class ReportWindow {
 		}
 	}
 
-	protected virtual void onSelectionEntry (object o, EventArgs args)
+	private void onSelectionEntry (object o, EventArgs args)
 	{
 		//TreeView tv = (TreeView) o;
 		TreeModel model;
@@ -231,7 +235,7 @@ public class ReportWindow {
 		}
 	}
 	
-	protected virtual void on_button_up_clicked (object o, EventArgs args) {
+	private void on_button_up_clicked (object o, EventArgs args) {
 		if(selected)
 		{
 			TreeModel model;
@@ -251,7 +255,7 @@ public class ReportWindow {
 		}
 	}
 	
-	protected virtual void on_button_down_clicked (object o, EventArgs args) {
+	private void on_button_down_clicked (object o, EventArgs args) {
 		if(selected)
 		{
 			TreeModel model;
@@ -271,7 +275,61 @@ public class ReportWindow {
 		}
 	}
 	
-	protected virtual void on_button_delete_clicked (object o, EventArgs args) {
+	private void on_button_graph_clicked (object o, EventArgs args) {
+		if(selected)
+		{
+			TreeModel model;
+			TreeIter iter1; 
+
+			if (treeview1.Selection.GetSelected (out model, out iter1)) {
+				string str=getRow(iter1);
+				string [] statRow = str.ToString().Split(new char[] {'\t'});
+			
+				string subType;
+				int rj_evolution_mark_consecutives = report.GetRjEvolutionMarkConsecutives(statRow[1], out subType);
+			
+				ArrayList sendSelectedSessions = report.GetSelectedSessions(statRow[3]);
+
+				Gtk.TreeView treeviewFake = new Gtk.TreeView(); //not needed for graph
+						
+				bool showSex = Util.StringToBool(statRow[5]);
+			
+				int limit = -1;
+				int statsJumpsType = report.GetStatsJumpTypeAndLimit(statRow[4], out limit);
+
+				ArrayList arrayListMarkedRows = Util.StringToArrayList(statRow[6], ':');
+
+				GraphROptions graphROptions = new GraphROptions(statRow[7]);
+
+				StatType myStatType = new StatType(
+						statRow[0], 		//statisticType
+						subType,
+						statRow[2], 		//statisticApplyTo,
+						treeviewFake, 
+						sendSelectedSessions, 
+						3, 			//prefsDigitsNumber, don't care, it's a graph
+						showSex,
+						statsJumpsType, 
+						limit, 	
+						report.heightPreferred, 
+						report.weightStatsPercent, 
+						arrayListMarkedRows,
+						rj_evolution_mark_consecutives,
+						graphROptions,
+						true,	//graph
+						false  //always false in this class
+						);
+				myStatType.ChooseStat();
+			}
+		
+		}
+	}
+	
+	private void on_button_add_comment_clicked (object o, EventArgs args) {
+		new DialogMessage(Constants.MessageTypes.INFO, "not implemented yet");
+	}
+
+	private void on_button_delete_clicked (object o, EventArgs args) {
 		if(selected)
 		{
 			TreeModel model;
@@ -332,25 +390,27 @@ public class ReportWindow {
 				iterOk = store.IterNext (ref myIter); 
 			}
 			
-			if (iterOk) {
-				arrayToRecord.Add ( 
-					(string) treeview1.Model.GetValue (myIter, 0) + "\t" +	//type
-					(string) treeview1.Model.GetValue (myIter, 1) + "\t" +	//subtype
-					(string) treeview1.Model.GetValue (myIter, 2) + "\t" +	//apply to
-					(string) treeview1.Model.GetValue (myIter, 3) + "\t" +	//sessionString
-					(string) treeview1.Model.GetValue (myIter, 4) + "\t" +	//showJumps
-					(string) treeview1.Model.GetValue (myIter, 5) + "\t" +  //showSex
-					(string) treeview1.Model.GetValue (myIter, 6) + "\t" +	//markedRowsString
-					(string) treeview1.Model.GetValue (myIter, 7) 		//GraphROptions
-					);
-			}
+			if (iterOk) 
+				arrayToRecord.Add (getRow(myIter));
 		}
 
 		report.StatisticsData = arrayToRecord;
 
 	}
+
+	private string getRow(TreeIter myIter) {
+		return	(string) treeview1.Model.GetValue (myIter, 0) + "\t" +	//type
+			(string) treeview1.Model.GetValue (myIter, 1) + "\t" +	//subtype
+			(string) treeview1.Model.GetValue (myIter, 2) + "\t" +	//apply to
+			(string) treeview1.Model.GetValue (myIter, 3) + "\t" +	//sessionString
+			(string) treeview1.Model.GetValue (myIter, 4) + "\t" +	//showJumps
+			(string) treeview1.Model.GetValue (myIter, 5) + "\t" +  //showSex
+			(string) treeview1.Model.GetValue (myIter, 6) + "\t" +	//markedRowsString
+			(string) treeview1.Model.GetValue (myIter, 7) 		//GraphROptions
+			;
+	}
 	
-	protected virtual void on_button_close_clicked (object o, EventArgs args)
+	private void on_button_close_clicked (object o, EventArgs args)
 	{
 		recordData();
 		
@@ -358,7 +418,7 @@ public class ReportWindow {
 		//ReportWindowBox = null;
 	}
 	
-	protected virtual void on_delete_event (object o, DeleteEventArgs args)
+	private void on_delete_event (object o, DeleteEventArgs args)
 	{
 		recordData();
 		
@@ -366,7 +426,7 @@ public class ReportWindow {
 		ReportWindowBox = null;
 	}
 	
-	protected virtual void on_button_make_report_clicked (object o, EventArgs args)
+	private void on_button_make_report_clicked (object o, EventArgs args)
 	{
 		recordData();
 	

@@ -946,6 +946,15 @@ public class Util
 		ret[0] = str;
 		return ret;
 	}
+	
+	public static ArrayList StringToArrayList (string str, char sep) {
+		ArrayList array = new ArrayList(1);
+		string [] strFull = str.Split(new char[] {sep});
+		for (int i=0; i < strFull.Length ; i++) {
+			array.Add(strFull[i]);
+		}
+		return array;
+	}
 
 
 

@@ -43,8 +43,8 @@ public class ExportSession
 	protected string fileName;
 	
 	protected int prefsDigitsNumber;
-	protected bool heightPreferred;
-	protected bool weightStatsPercent;
+	public bool heightPreferred;
+	public bool weightStatsPercent;
 					
 	protected string spreadsheetString;
 

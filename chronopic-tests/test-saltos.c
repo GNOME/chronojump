@@ -1,11 +1,22 @@
-/***************************************************************************/
-/* test-saltos.c (c) Juan Gonzalez.  Febrero 2005                          */
-/*-------------------------------------------------------------------------*/
+/*
+ * Copyright (C) 2005  Juan Gonzalez Gomez
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
 /* Pruebas de medidion de saltos. Se mide el tiempo de vuelo de los saltos */
 /* realizados, mostrandose los resultados por la pantalla                  */
-/*-------------------------------------------------------------------------*/
-/* Licencia GPL                                                            */
-/***************************************************************************/
 /*-------------------------------------------------------------------------
  $Id: test-saltos.c,v 1.1 2005/02/07 11:14:54 obijuan Exp $
  $Revision: 1.1 $

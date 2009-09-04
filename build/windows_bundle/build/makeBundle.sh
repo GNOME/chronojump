@@ -1,5 +1,5 @@
-export MONO_INSTALL_PATH=/c/Mono-2.4.2.2/
-export PATH=$PATH:/c/Mono-2.4.2.2/bin
+export MONO_INSTALL_PATH=/c/Mono-2.4/
+export PATH=$PATH:/c/Mono-2.4/bin
 export MONO_PATH=.
 export PKG_CONFIG_PATH=$MONO_INSTALL_PATH/lib/pkgconfig/
 windres logo.rc logo.o

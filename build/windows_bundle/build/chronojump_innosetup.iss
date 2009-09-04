@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{69EC15A7-5D66-4D24-A15B-1C23C0F621E0}
 AppName=ChronoJump
-AppVerName=ChronoJump  0.8.9.4
+AppVerName=ChronoJump  0.8.9.7
 AppPublisher=ChronoJump
 AppPublisherURL=http://www.chronojump.org/
 AppSupportURL=http://www.chronojump.org/
@@ -16,7 +16,7 @@ DefaultDirName={pf}\ChronoJump
 DefaultGroupName=ChronoJump
 LicenseFile=.\gpl-2.0.txt
 OutputDir=.
-OutputBaseFilename=ChronoJump-0.8.9.4-win32
+OutputBaseFilename=ChronoJump-0.8.9.7-win32
 SetupIconFile=.\chronojump_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -59,6 +59,6 @@ Name: "{group}\ChronoJump Manual spanish"; Filename: "{app}\docs\chronojump_manu
 Name: "{group}\{cm:UninstallProgram,ChronoJump}"; Filename: "{uninstallexe}"
 
 [Run]
-Filename: "{app}\drivers\CDM_2.04.16.exe";
+Filename: "{app}\drivers\CDM 2.04.16.exe";
 Filename: "{app}\bin\ChronoJump.exe"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent
 

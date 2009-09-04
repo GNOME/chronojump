@@ -1180,7 +1180,10 @@ public class Stat
 			//there will be always a png with chronojump_logo
 			fileName = directoryName+"/"+pngs.Length.ToString() + ".png";
 		} else
-			fileName = Path.GetTempPath()+"/"+fileName; 
+			fileName = Path.GetTempPath()+"/"+fileName;
+		//On win32 R understands backlash as an escape character and 
+		//a file path uses Unix-like path separator '/'		
+		fileName = fileName.Replace("\\","/");
 		
 		string rString = "png(filename = '" + fileName + "'\n" + 
 			" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +

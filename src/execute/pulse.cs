@@ -120,7 +120,7 @@ public class PulseExecute : EventExecute
 			string myMessage = Catalog.GetString("You are IN, please leave the platform, prepare for start, and press the 'accept' button!!");
 
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(myMessage, "");
+			confirmWin = ConfirmWindow.Show(myMessage, "", "");
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function

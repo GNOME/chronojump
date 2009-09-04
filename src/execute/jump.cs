@@ -140,7 +140,7 @@ public class JumpExecute : EventExecute
 		else {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
-					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "");
+					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", "");
 
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
@@ -188,7 +188,7 @@ public class JumpExecute : EventExecute
 		else {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
-					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "");
+					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "", "");
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function
@@ -527,7 +527,7 @@ public class JumpRjExecute : JumpExecute
 				myMessage = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press the 'accept' button");
 			}
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show(myMessage, "");
+			confirmWin = ConfirmWindow.Show(myMessage, "","");
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function

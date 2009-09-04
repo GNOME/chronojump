@@ -314,7 +314,7 @@ public class PreferencesWindow {
 					Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
 								fileCopy, File.GetAttributes(fileCopy), File.GetCreationTime(fileCopy)));
 					Log.WriteLine("Overwrite...");
-					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), fileCopy);
+					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), "", fileCopy);
 					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 				} else {
 					File.Copy(fileDB, fileCopy);

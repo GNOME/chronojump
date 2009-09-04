@@ -118,7 +118,7 @@ public class ReactionTimeExecute : EventExecute
 		else {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
-					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "");
+					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", "");
 			//System.Media.SystemSounds.Beep.Play();
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 

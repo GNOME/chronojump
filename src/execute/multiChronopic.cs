@@ -285,7 +285,7 @@ public class MultiChronopicExecute : EventExecute
 		if(platformsProblems.Length > 0) {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
-					string.Format(Catalog.GetString("There's contact in {0}. Please leave."), platformsProblems), "");
+					string.Format(Catalog.GetString("There's contact in {0}. Please leave."), platformsProblems), "", "");
 
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 

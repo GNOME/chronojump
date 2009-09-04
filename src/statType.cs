@@ -38,10 +38,6 @@ public class StatTypeStruct
 	public bool WeightStatsPercent; 
 	
 	public ArrayList MarkedRows;
-	
-	//public string GraphType;
-	//public string GraphPalette;
-	//public bool GraphTransposed;
 	public GraphROptions GRO;
 	
 	public bool ToReport;
@@ -49,9 +45,7 @@ public class StatTypeStruct
 	public StatTypeStruct (string statisticApplyTo, 
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows, 
-			//string graphType, string graphPalette, bool graphTransposed,
 			GraphROptions gRO,
 			bool toReport)
 	{
@@ -87,9 +81,6 @@ public class StatType {
 	ArrayList markedRows;
 	ArrayList personsWithData;
 
-	//string graphType;
-	//string graphPalette;
-	//bool graphTransposed;
 	GraphROptions gRO;
 	
 	bool graph;
@@ -123,10 +114,8 @@ public class StatType {
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo, Gtk.TreeView treeview_stats,
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
-			//int statsJumpsType, int limit, bool heightPreferred, 
 			ArrayList markedRows,  
 			int rj_evolution_mark_consecutives, 
-			//string graphType, string graphPalette, bool graphTransposed,
 			GraphROptions gRO,
 			bool graph, bool toReport)
 	{
@@ -147,9 +136,6 @@ public class StatType {
 		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
 		
-		//this.graphType = graphType;
-		//this.graphPalette = graphPalette;
-		//this.graphTransposed = graphTransposed;
 		this.gRO = gRO;
 		
 		this.graph = graph;
@@ -159,9 +145,7 @@ public class StatType {
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
 				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
-				//statsJumpsType, limit, heightPreferred,  
 				markedRows, 
-				//graphType, graphPalette, graphTransposed,
 				gRO,
 				toReport);
 
@@ -225,9 +209,7 @@ public class StatType {
 				statisticApplyTo,
 				sendSelectedSessions, prefsDigitsNumber, sex_active, 
 				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
-				//statsJumpsType, limit, heightPreferred, 
 				markedRows, 
-				//graphType, graphPalette, graphTransposed,
 				gRO,
 				toReport);
 

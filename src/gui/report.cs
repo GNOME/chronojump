@@ -49,6 +49,8 @@ public class ReportWindow {
 	[Widget] Gtk.Image image_report_win_graph;
 	[Widget] Gtk.Image image_report_win_report;
 	
+	GenericWindow genericWin;
+	
 	static ReportWindow ReportWindowBox;
 
 	Gtk.Window parent;
@@ -75,7 +77,8 @@ public class ReportWindow {
 		//treeview
 		createTreeView(treeview1);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof (string), typeof (string), typeof (string), typeof (string)
+				typeof (string), typeof (string), typeof (string), typeof (string), 
+				typeof (string), typeof (string)
 				);
 		treeview1.Model = store;
 		
@@ -134,6 +137,7 @@ public class ReportWindow {
 		tv.AppendColumn ( Catalog.GetString("Show sex"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Checked rows"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString("Graph Options"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString("Comment"), new CellRendererText(), "text", count++);
 	}
 
 	void loadCheckBoxes () 
@@ -166,7 +170,8 @@ public class ReportWindow {
 					myStringFull[4],	//showJumps
 					myStringFull[5],	//showSex
 					myStringFull[6],	//markedRows
-					myStringFull[7]		//graphROptions
+					myStringFull[7],	//graphROptions
+					myStringFull[8]		//comment
 					);
 		}
 
@@ -199,7 +204,8 @@ public class ReportWindow {
 				showJumps, 
 				showSex,
 				markedRowsAsAString,
-				gro.ToString()
+				gro.ToString(),
+				""		//comment
 				);
 		
 		//show report window if it's not shown
@@ -326,7 +332,41 @@ public class ReportWindow {
 	}
 	
 	private void on_button_add_comment_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, "not implemented yet");
+		//new DialogMessage(Constants.MessageTypes.INFO, "not implemented yet");
+
+		//see if there's any comment
+		string comment = "";
+		if(selected)
+		{
+			TreeModel model;
+			TreeIter iter1; 
+
+			if (treeview1.Selection.GetSelected (out model, out iter1)) {
+				string str=getRow(iter1);
+				string [] statRow = str.ToString().Split(new char[] {'\t'});
+				comment = statRow[8];
+			}
+			
+			genericWin = GenericWindow.Show(Catalog.GetString("Comment this statistic"), Constants.GenericWindowShow.TEXTVIEW);
+			genericWin.SetTextview(comment);
+			genericWin.Button_accept.Clicked += new EventHandler(on_comment_add_accepted);
+		}
+	}
+	
+	private void on_comment_add_accepted (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(on_comment_add_accepted);
+		string comment = genericWin.TextviewSelected;
+		
+		if(selected)
+		{
+			TreeModel model;
+			TreeIter iter1; 
+
+			if (treeview1.Selection.GetSelected (out model, out iter1)) {
+				string str=getRow(iter1);
+				store.SetValue (iter1, 8, comment);
+			}
+		}
 	}
 
 	private void on_button_delete_clicked (object o, EventArgs args) {
@@ -406,7 +446,8 @@ public class ReportWindow {
 			(string) treeview1.Model.GetValue (myIter, 4) + "\t" +	//showJumps
 			(string) treeview1.Model.GetValue (myIter, 5) + "\t" +  //showSex
 			(string) treeview1.Model.GetValue (myIter, 6) + "\t" +	//markedRowsString
-			(string) treeview1.Model.GetValue (myIter, 7) 		//GraphROptions
+			(string) treeview1.Model.GetValue (myIter, 7) + "\t" + 	//GraphROptions
+			(string) treeview1.Model.GetValue (myIter, 8) 		//Comment
 			;
 	}
 	

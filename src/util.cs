@@ -283,6 +283,13 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 	
+	public static string RemoveTab(string myString) 
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace("\t", " ");
+		return myStringBuilder.ToString();
+	}
+
 	public static string RemoveNewLine(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);

@@ -524,7 +524,7 @@ public class SessionAddEditWindow {
 	void on_button_sport_add_clicked (object o, EventArgs args)
 	{
 		Log.WriteLine("sport add clicked");
-		genericWin = GenericWindow.Show(Catalog.GetString("Add new sport to database"), true, false);
+		genericWin = GenericWindow.Show(Catalog.GetString("Add new sport to database"), Constants.GenericWindowShow.ENTRY);
 		genericWin.Button_accept.Clicked += new EventHandler(on_sport_add_accepted);
 	}
 

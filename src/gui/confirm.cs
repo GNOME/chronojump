@@ -31,14 +31,14 @@ public class ConfirmWindowJumpRun
 {
 	[Widget] Gtk.Window confirm_window;
 	[Widget] Gtk.Label label1;
-	[Widget] Gtk.Label label2;
+	[Widget] Gtk.Label label_question;
 	[Widget] Gtk.Button button_accept;
 
 	string table;
 	int uniqueID;
 	static ConfirmWindowJumpRun ConfirmWindowJumpRunBox;
 	
-	public ConfirmWindowJumpRun (string text1, string text2, string table, int uniqueID)
+	public ConfirmWindowJumpRun (string text1, string question, string table, int uniqueID)
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML;
@@ -49,15 +49,15 @@ public class ConfirmWindowJumpRun
 		UtilGtk.IconWindow(confirm_window);
 		
 		label1.Text = text1;
-		label2.Text = text2;
+		label_question.Text = question;
 		this.table = table;
 		this.uniqueID = uniqueID;
 	}
 
-	static public ConfirmWindowJumpRun Show (string text1, string text2, string table, int uniqueID)
+	static public ConfirmWindowJumpRun Show (string text1, string question, string table, int uniqueID)
 	{
 		if (ConfirmWindowJumpRunBox == null) {
-			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, text2, table, uniqueID);
+			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, question, table, uniqueID);
 		}
 		ConfirmWindowJumpRunBox.confirm_window.Show ();
 		
@@ -97,13 +97,14 @@ public class ConfirmWindow
 {
 	[Widget] Gtk.Window confirm_window;
 	[Widget] Gtk.Label label1;
-	[Widget] Gtk.Label label2;
+	[Widget] Gtk.Label label_link;
+	[Widget] Gtk.Label label_question;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
 
 	static ConfirmWindow ConfirmWindowBox;
 	
-	public ConfirmWindow (string text1, string text2)
+	public ConfirmWindow (string text1, string link, string question)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "confirm_window", null);
@@ -113,13 +114,26 @@ public class ConfirmWindow
 		UtilGtk.IconWindow(confirm_window);
 		
 		label1.Text = text1;
-		label2.Text = text2;
+		label1.UseMarkup = true;
+
+		if(link != "") {
+			label_link.Text = link;
+			label_link.UseMarkup = true;
+		} else
+			label_link.Visible = false;
+
+		if(question != "") {
+			label_question.Text = question;
+			label_question.UseMarkup = true;
+		} else
+			label_question.Visible = false;
+
 	}
 
-	static public ConfirmWindow Show (string text1, string text2)
+	static public ConfirmWindow Show (string text1, string link, string question)
 	{
 		if (ConfirmWindowBox == null) {
-			ConfirmWindowBox = new ConfirmWindow(text1, text2);
+			ConfirmWindowBox = new ConfirmWindow(text1, link, question);
 		}
 		ConfirmWindowBox.confirm_window.Show ();
 		

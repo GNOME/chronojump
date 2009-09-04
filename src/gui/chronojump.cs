@@ -529,7 +529,7 @@ public class ChronoJumpWindow
 	
 		if(chronopicPort != Constants.ChronopicDefaultPortWindows &&
 			chronopicPort != Constants.ChronopicDefaultPortLinux) {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to connect to Chronopic now?"), "");
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to connect to Chronopic now?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(chronopicAtStart);
 		}
 	}
@@ -1056,7 +1056,7 @@ public class ChronoJumpWindow
 		if(evalWin.Changed) {
 			string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
 			if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
-				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to upload evaluator data now?"), "");
+				ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to upload evaluator data now?"), "", "");
 				confirmWin.Button_accept.Clicked += new EventHandler(on_evaluator_upload_accepted);
 			} else 
 				new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -1181,14 +1181,19 @@ public class ChronoJumpWindow
 				if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
 					message1 =  
 							Catalog.GetString("Session will be uploaded to server.") + "\n" +  
-							Catalog.GetString("All names of persons in session will be hidden.") + "\n" + 
+							Catalog.GetString("All names and date of birth of persons in session will be hidden.") + "\n\n" + 
 							Catalog.GetString("You can upload again this session if you add more data or persons.");
 				else
 					message1 =  
 							Catalog.GetString("Session has been uploaded to server before.") + "\n" +  
 							Catalog.GetString("Uploading new data.");
 
+				message1 += "\n\n" + Catalog.GetString("All the uploaded data will be licensed as:") + 
+						"\n<b>" + Catalog.GetString("Creative Commons Attribution 3.0") + "</b>";
+
+
 				ConfirmWindow confirmWin = ConfirmWindow.Show(message1, 
+							"<u>http://creativecommons.org/licenses/by/3.0/</u>", //label_link
 							Catalog.GetString("Are you sure you want to upload this session to server?"));
 				confirmWin.Button_accept.Clicked += new EventHandler(on_server_upload_session_accepted);
 			}
@@ -2095,7 +2100,7 @@ public class ChronoJumpWindow
 	
 	private void on_delete_session_activate (object o, EventArgs args) {
 		Log.WriteLine("delete session");
-		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), Catalog.GetString("and all the session tests?"));
+		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), "", Catalog.GetString("and all the session tests?"));
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
 	}
 	
@@ -2264,7 +2269,7 @@ public class ChronoJumpWindow
 	private void on_delete_current_person_from_session_activate (object o, EventArgs args) {
 		Log.WriteLine("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
-				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact)"), 
+				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact)"), "", 
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
@@ -5347,7 +5352,7 @@ Console.WriteLine("X");
 	private void on_debug_crash_activate (object o, EventArgs args) {
 		bool voluntaryCrashAllowed = false;
 		if(voluntaryCrashAllowed) {
-			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"), "Are you sure you want to crash application?");
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"), "", "Are you sure you want to crash application?");
 			confirmWin.Button_accept.Clicked += new EventHandler(crashing);
 		} else {
 			new DialogMessage(Constants.MessageTypes.INFO, "Currently disabled.");

@@ -4,8 +4,6 @@ continue with titles and subtitles for all graphs
 fix global, jumper, rjEvolution
 
 check all software (for the Util.TrimDecimals change)
-create accept license on uploading
-add accept license on uploading, and a way to retreive it from server
 
 website velleman put retardo de desactivacion instead of tiempo de respuesta ajustable
 

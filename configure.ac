@@ -17,17 +17,22 @@ fi
 AC_PROG_INSTALL
 
 dnl Check for C# compiler
-AC_PATH_PROG(MCS, gmcs, no)
-if test "x$MCS" = "xno"; then
-       	AC_PATH_PROG(MCS2, gmcs2,no)
-	if test "x$MCS2" = "xno"; then
-		AC_MSG_ERROR([gmcs not found])
-	else 
-		AC_SUBST(GMCS,[gmcs2])	
-	fi
+AC_PATH_PROG(CSC, csc, no)
+if test "x$CSC" = "xno"; then
+	AC_PATH_PROG(MCS, gmcs, no)
+	if test "x$MCS" = "xno"; then
+       		AC_PATH_PROG(MCS2, gmcs2,no)
+		if test "x$MCS2" = "xno"; then
+			AC_MSG_ERROR([You need to install a C-sharp compiler])
+		else 
+			AC_SUBST(GMCS,[gmcs2])	
+		fi
 	
+	else 
+		AC_SUBST(GMCS,[gmcs])
+	fi
 else 
-	AC_SUBST(GMCS,[gmcs])
+	AC_SUBST(GMCS,[csc])
 fi
 
 dnl Check for gettext utils

@@ -31,8 +31,10 @@ public class GenericWindow
 	[Widget] Gtk.Window generic_window;
 	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_generic_name;
-	[Widget] Gtk.Entry entry_value;
-	[Widget] Gtk.SpinButton spinbutton_value;
+	[Widget] Gtk.Entry entry;
+	[Widget] Gtk.SpinButton spinbutton;
+	[Widget] Gtk.ScrolledWindow scrolled_window;
+	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Button button_accept;
 
 	static GenericWindow GenericWindowBox;
@@ -47,12 +49,12 @@ public class GenericWindow
 		UtilGtk.IconWindow(generic_window);
 	}
 
-	static public GenericWindow Show (string textHeader, bool showEntry, bool showSpin)
+	static public GenericWindow Show (string textHeader, Constants.GenericWindowShow stuff)
 	{
 		if (GenericWindowBox == null) {
 			GenericWindowBox = new GenericWindow();
 		}
-		GenericWindowBox.showHideWidgets(showEntry, showSpin);
+		GenericWindowBox.showHideWidgets(stuff);
 		GenericWindowBox.label_header.Text = textHeader;
 
 		GenericWindowBox.generic_window.Show ();
@@ -60,20 +62,27 @@ public class GenericWindow
 		return GenericWindowBox;
 	}
 	
-	void showHideWidgets(bool showEntry, bool showSpin) {
-		if(showEntry)
-			entry_value.Show();
-		else
-			entry_value.Hide();
-		
-		if(showSpin)
-			spinbutton_value.Show();
-		else
-			spinbutton_value.Hide();
+	void showHideWidgets(Constants.GenericWindowShow stuff) {
+		entry.Hide();
+		spinbutton.Hide();
+		scrolled_window.Hide();
+
+		if(stuff == Constants.GenericWindowShow.ENTRY)
+			entry.Show();
+		else if(stuff == Constants.GenericWindowShow.SPIN)
+			spinbutton.Show();
+		else //if(stuff == Constants.GenericWindowShow.TEXTVIEW)
+			scrolled_window.Show();
 	}
 	
 	public void SetSpinRange(double min, double max) {
-		spinbutton_value.SetRange(min, max);
+		spinbutton.SetRange(min, max);
+	}
+	
+	public void SetTextview(string str) {
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = str;
+		textview.Buffer = tb;
 	}
 
 
@@ -101,11 +110,15 @@ public class GenericWindow
 	}
 
 	public string EntrySelected {
-		get { return entry_value.Text.ToString(); }
+		get { return entry.Text.ToString(); }
 	}
 
 	public int SpinSelected {
-		get { return (int) spinbutton_value.Value; }
+		get { return (int) spinbutton.Value; }
+	}
+	
+	public string TextviewSelected {
+		get { return Util.RemoveTab(textview.Buffer.Text); }
 	}
 	
 

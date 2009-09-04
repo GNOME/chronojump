@@ -26418,7 +26418,7 @@ comments</property>
 	  <property name="spacing">4</property>
 
 	  <child>
-	    <widget class="GtkEntry" id="entry_value">
+	    <widget class="GtkEntry" id="entry">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="editable">True</property>
@@ -26437,7 +26437,7 @@ comments</property>
 	  </child>
 
 	  <child>
-	    <widget class="GtkSpinButton" id="spinbutton_value">
+	    <widget class="GtkSpinButton" id="spinbutton">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="climb_rate">0</property>
@@ -26447,6 +26447,42 @@ comments</property>
 	      <property name="snap_to_ticks">True</property>
 	      <property name="wrap">False</property>
 	      <property name="adjustment">10 0 300 1 10 10</property>
+	    </widget>
+	    <packing>
+	      <property name="padding">0</property>
+	      <property name="expand">False</property>
+	      <property name="fill">False</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkScrolledWindow" id="scrolled_window">
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="hscrollbar_policy">GTK_POLICY_ALWAYS</property>
+	      <property name="vscrollbar_policy">GTK_POLICY_ALWAYS</property>
+	      <property name="shadow_type">GTK_SHADOW_IN</property>
+	      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
+	      <child>
+		<widget class="GtkTextView" id="textview">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="editable">True</property>
+		  <property name="overwrite">False</property>
+		  <property name="accepts_tab">True</property>
+		  <property name="justification">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap_mode">GTK_WRAP_NONE</property>
+		  <property name="cursor_visible">True</property>
+		  <property name="pixels_above_lines">0</property>
+		  <property name="pixels_below_lines">0</property>
+		  <property name="pixels_inside_wrap">0</property>
+		  <property name="left_margin">0</property>
+		  <property name="right_margin">0</property>
+		  <property name="indent">0</property>
+		  <property name="text" translatable="yes"></property>
+		</widget>
+	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>

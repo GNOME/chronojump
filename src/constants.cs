@@ -431,6 +431,10 @@ public class Constants
 	//public static string HigherThanCode = "> ";
 	//public static string LowerOrEqualThanCode = "<=";
 	public static string HigherOrEqualThanCode = ">=";
+
+	public enum GenericWindowShow {
+		ENTRY, SPIN, TEXTVIEW
+	}
 	
 	public const string PrefVersionAvailable = "versionAvailable";
 

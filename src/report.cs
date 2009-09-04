@@ -435,6 +435,7 @@ public class Report : ExportSession
 			//because myStatType of a graph doesn't know the numContinuous value 
 			//needed for enunciate in rj evolution statistic
 			writer.WriteLine(myEnunciate);
+			writer.WriteLine("<tr><td>" + strFull[8] + "</td></tr>"); //comment
 			writer.WriteLine("</table>");
 		}
 	}

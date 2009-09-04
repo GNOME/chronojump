@@ -301,64 +301,75 @@ public class Report : ExportSession
 			writer.WriteLine( "<br>" );
 		}
 	}
-	
+
+	public ArrayList GetSelectedSessions(string sessionsString) {
+		ArrayList sendSelectedSessions = new ArrayList(1);
+		string [] sessionsStrFull = sessionsString.Split(new char[] {':'});
+		for (int j=0; j < sessionsStrFull.Length ; j++) {
+			Session tempSession = SqliteSession.Select(sessionsStrFull[j]);
+			sendSelectedSessions.Add(tempSession.UniqueID + ":" + tempSession.Name + ":" + tempSession.DateShort);
+		}
+		return sendSelectedSessions;
+	}
+			
+	public int GetStatsJumpTypeAndLimit(string str, out int limit) {
+		int jumpsType = 0;
+		limit = -1;
+		string [] strJumpsType = str.ToString().Split(new char[] {'.'});
+		if(strJumpsType[0] == Catalog.GetString("All")) 
+			jumpsType = 0;
+		else if(strJumpsType[0] == Catalog.GetString("Limit")) {
+			jumpsType = 1;
+			limit = Convert.ToInt32 ( strJumpsType[1] ); 
+		} else if(strJumpsType[0] == Catalog.GetString("Jumper's best")) {
+			jumpsType = 2;
+			limit = Convert.ToInt32 ( strJumpsType[1] ); 
+		} else if(strJumpsType[0] == Catalog.GetString("Jumper's average")) 
+			jumpsType = 3;
+		
+		return jumpsType;
+	}
+			
+	public int GetRjEvolutionMarkConsecutives(string strIni, out string strEnd) {
+		strEnd = strIni;
+		int rj_evolution_mark_consecutives = -1;
+		if(strEnd.StartsWith(Catalog.GetString("Evolution."))) {
+			string [] strEvo = strEnd.Split(new char[] {'.'});
+			strEnd = strEvo[0];
+			rj_evolution_mark_consecutives = Convert.ToInt32(strEvo[1]);
+		}
+		return rj_evolution_mark_consecutives;
+	}
+
 	protected void printStats()
 	{
 		if(StatisticsData.Count > 0)
-			writer.WriteLine("<h2>Statitistics</h2>");
+			writer.WriteLine("<h2>Statistics</h2>");
 		
 		//obtain every report stats one by one
 		for(int i=0; i < StatisticsData.Count ; i++) {
-			//string [] strFull = StatisticsData[i].ToString().Split(new char[] {'\n'});
 			string [] strFull = StatisticsData[i].ToString().Split(new char[] {'\t'});
 			
 			string myHeaderStat = "";
 
 			//separate in sessions
-			ArrayList sendSelectedSessions = new ArrayList(1);
-			string [] sessionsStrFull = strFull[3].Split(new char[] {':'});
-			for (int j=0; j < sessionsStrFull.Length ; j++) {
-				Session tempSession = SqliteSession.Select(sessionsStrFull[j]);
-				sendSelectedSessions.Add(tempSession.UniqueID + ":" + tempSession.Name + ":" + tempSession.DateShort);
-			}
+			ArrayList sendSelectedSessions = GetSelectedSessions(strFull[3]);
 
 			//separate in markedRows
-			ArrayList arrayListMarkedRows = new ArrayList(1);
-			string [] markedStrFull = strFull[6].Split(new char[] {':'});
-			for (int j=0; j < markedStrFull.Length ; j++) {
-				arrayListMarkedRows.Add(markedStrFull[j]);
-			}
+			ArrayList arrayListMarkedRows = Util.StringToArrayList(strFull[6], ':');
 
 			string applyTo = strFull[2];
 			myHeaderStat += "<h3> " + strFull[0] + " : " + strFull[1] + " : " + applyTo + "</h3> ";
 
-			bool showSex = false;
-			if(strFull[5] == "True") {
-				showSex = true;
-			}
+			bool showSex = Util.StringToBool(strFull[5]);
 
-			int statsJumpsType = 0;
-			int limit = -1;
-			string [] strJumpsType = strFull[4].ToString().Split(new char[] {'.'});
-			if(strJumpsType[0] == Catalog.GetString("All")) {
-				statsJumpsType = 0;
-			} else if(strJumpsType[0] == Catalog.GetString("Limit")) {
-				statsJumpsType = 1;
-				limit = Convert.ToInt32 ( strJumpsType[1] ); 
-			} else if(strJumpsType[0] == Catalog.GetString("Jumper's best")) {
-				statsJumpsType = 2;
-				limit = Convert.ToInt32 ( strJumpsType[1] ); 
-			} else if(strJumpsType[0] == Catalog.GetString("Jumper's average")) {
-				statsJumpsType = 3;
-			}
+			int limit;
+			int statsJumpsType = GetStatsJumpTypeAndLimit(strFull[4], out limit);
 
 			//obtain marked jumps of rj evolution if needed
-			int rj_evolution_mark_consecutives = -1;
-			if(strFull[1].StartsWith(Catalog.GetString("Evolution."))) {
-				string [] strEvo = strFull[1].Split(new char[] {'.'});
-				strFull[1] = strEvo[0];
-				rj_evolution_mark_consecutives = Convert.ToInt32(strEvo[1]);
-			}
+			string subType;
+			int rj_evolution_mark_consecutives = GetRjEvolutionMarkConsecutives(strFull[1], out subType);
+
 			
 			
 			myHeaderStat += "\n<p><TABLE cellpadding=2 cellspacing=2><tr><td>\n";
@@ -372,7 +383,7 @@ public class Report : ExportSession
 
 			myStatType = new StatType(
 					strFull[0], 		//statisticType
-					strFull[1], 		//statisticSubType
+					subType, 		//statisticSubType
 					strFull[2], 		//statisticApplyTo
 					sendSelectedSessions, 
 					prefsDigitsNumber,
@@ -400,7 +411,7 @@ public class Report : ExportSession
 			//report of graph
 			myStatType = new StatType(
 					strFull[0], 		//statisticType
-					strFull[1], 		//statisticSubType
+					subType, 		//statisticSubType
 					strFull[2], 		//statisticApplyTo
 					sendSelectedSessions, 
 					prefsDigitsNumber,
@@ -418,7 +429,6 @@ public class Report : ExportSession
 					fileName		//fileName for exporting there
 					);
 
-			//allFine = myStatType.ChooseStat();
 			myStatType.ChooseStat();
 
 			//enunciate is prented here and not before 

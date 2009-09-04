@@ -1,6 +1,22 @@
+/*
+ * Copyright (C) 2004  Juan Gonzalez Gomez
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
 /***************************************************************************/
 /* chronopic-serial-conf.c                                                 */
-/* (c) Juan Gonzalez. 2004                                                 */
 /*-------------------------------------------------------------------------*/
 /* Configurar el puerto serie para trabajar con chronopic                  */
 /* Este programa tiene las siguientes funciones:                           */
@@ -15,9 +31,6 @@
 /*                                                                         */
 /*  2) Tener disponibles las funciones en C, para poderlas utilizar        */
 /*     desde otros programas en C, o crear una libreria especifica         */
-/*-------------------------------------------------------------------------*/
-/* Licencia GPL                                                            */
-/***************************************************************************/
 /*-------------------------------------------------------------------------
  $Id: chronopic-serial-conf.c,v 1.1 2005/02/07 11:14:54 obijuan Exp $
  $Revision: 1.1 $

@@ -82,7 +82,8 @@ public class GraphIeIub : StatIeIub
 			serieJump1 = new GraphSerie();
 			serieJump2 = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Index");
+			//serieIndex.Title = Catalog.GetString("Index");
+			serieIndex.Title = indexType;
 			serieJump1.Title = jump1;
 			serieJump2.Title = jump2;
 			

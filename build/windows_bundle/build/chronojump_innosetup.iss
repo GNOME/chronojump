@@ -51,10 +51,10 @@ Source: "../*"; DestDir: "{app}"; Flags: ignoreversion  recursesubdirs createall
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\ChronoJump"; Filename: "{app}\bin\ChronoJump.exe"
-Name: "{group}\ChronoJump mini"; Filename: "{app}\bin\ChronoJump_mini.exe"
-Name: "{commondesktop}\ChronoJump"; Filename: "{app}\bin\ChronoJump.exe"; Tasks: desktopicon
-Name: "{group}\Change theme - Cambiar tema"; Filename: "{app}\bin\gtk2_prefs.exe"
+Name: "{group}\ChronoJump"; Filename: "{app}\bin\ChronoJump.exe; WorkingDir: "{app}\bin"
+Name: "{group}\ChronoJump mini"; Filename: "{app}\bin\ChronoJump_mini.exe; WorkingDir: "{app}\bin"
+Name: "{commondesktop}\ChronoJump"; Filename: "{app}\bin\ChronoJump.exe; WorkingDir: "{app}\bin"; Tasks: desktopicon
+Name: "{group}\Change theme - Cambiar tema"; Filename: "{app}\bin\gtk2_prefs.exe; WorkingDir: "{app}\bin"
 Name: "{group}\ChronoJump Manual spanish"; Filename: "{app}\docs\chronojump_manual_es.pdf"
 Name: "{group}\{cm:UninstallProgram,ChronoJump}"; Filename: "{uninstallexe}"
 

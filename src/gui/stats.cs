@@ -92,6 +92,13 @@ public class StatsWindow {
 	[Widget] Gtk.Label label_graph_legend;
 	[Widget] Gtk.Box hbox_combo_graph_legend;
 	[Widget] Gtk.ComboBox combo_graph_legend;
+	
+	[Widget] Gtk.CheckButton checkbutton_margins;
+	[Widget] Gtk.Box hbox_graph_margins;
+	[Widget] Gtk.SpinButton spin_graph_margin_b; //bottom
+	[Widget] Gtk.SpinButton spin_graph_margin_l; //left
+	[Widget] Gtk.SpinButton spin_graph_margin_t; //top
+	[Widget] Gtk.SpinButton spin_graph_margin_r; //right
 
 	int prefsDigitsNumber;
 	bool heightPreferred;
@@ -245,6 +252,7 @@ public class StatsWindow {
 			
 		spinbutton_mark_consecutives.Sensitive = false;
 		hbox_mark_consecutives.Hide();
+		hbox_graph_margins.Hide();
 		
 		//first graph type is boxplot, and it doesn't show transpose also colors are grey...
 		on_combo_graph_type_changed(new object(), new EventArgs());
@@ -415,7 +423,7 @@ public class StatsWindow {
 	}
 	
 	private void showTransposed(bool show) {
-		label_graph_options.Visible = show;
+		//label_graph_options.Visible = show;
 		checkbutton_transposed.Visible = show;
 	}
 
@@ -456,6 +464,20 @@ public class StatsWindow {
 			label_graph_legend.Visible = true;
 			combo_graph_legend.Visible = true;
 		}
+	}
+	
+	private void on_checkbutton_margins_clicked(object o, EventArgs args) {
+		if(checkbutton_margins.Active)
+			hbox_graph_margins.Visible = true;
+		else
+			hbox_graph_margins.Visible = false;
+	}
+	
+	private void on_button_graph_margin_default_clicked(object o, EventArgs args) {
+		spin_graph_margin_b.Value = 5;
+		spin_graph_margin_l.Value = 4;
+		spin_graph_margin_t.Value = 4;
+		spin_graph_margin_r.Value = 2;
 	}
 
 	private void on_combo_select_checkboxes_changed(object o, EventArgs args) {
@@ -635,7 +657,11 @@ public class StatsWindow {
 				checkbutton_transposed.Active,
 				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_width)),
 				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_height)),
-				UtilGtk.ComboGetActive(combo_graph_legend)
+				UtilGtk.ComboGetActive(combo_graph_legend),
+				Convert.ToInt32(spin_graph_margin_b.Value), 
+				Convert.ToInt32(spin_graph_margin_l.Value), 
+				Convert.ToInt32(spin_graph_margin_t.Value), 
+				Convert.ToInt32(spin_graph_margin_r.Value) 
 				);
 	}
 

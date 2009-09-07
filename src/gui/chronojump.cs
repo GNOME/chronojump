@@ -2306,7 +2306,6 @@ public class ChronoJumpWindow
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
 		statsWin = StatsWindow.Show(app1, currentSession, 
 				prefsDigitsNumber, weightPercentPreferred, heightPreferred, 
-				//prefsDigitsNumber, heightPreferred, 
 				report, reportWin);
 		createdStatsWin = true;
 		statsWin.InitializeSession(currentSession);

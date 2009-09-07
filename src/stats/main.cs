@@ -1192,6 +1192,7 @@ public class Stat
 		string rString = "png(filename = '" + fileName + "'\n" + 
 			" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
 			" , pointsize = 12, bg = 'white', res = NA)\n";
+		rString += "par(mar=c(" + gRO.MarginBottom + "," + gRO.MarginLeft + "," + gRO.MarginTop + "," + gRO.MarginRight + "))\n";
 
 		if(gRO.Type == Constants.GraphTypeBoxplot) {
 			if(hasTwoAxis()) {

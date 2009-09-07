@@ -347,8 +347,8 @@ public class Report : ExportSession
 			writer.WriteLine("<h2>Statistics</h2>");
 		
 		//obtain every report stats one by one
-		for(int i=0; i < StatisticsData.Count ; i++) {
-			string [] strFull = StatisticsData[i].ToString().Split(new char[] {'\t'});
+		for(int statCount=0; statCount < StatisticsData.Count ; statCount++) {
+			string [] strFull = StatisticsData[statCount].ToString().Split(new char[] {'\t'});
 			
 			string myHeaderStat = "";
 
@@ -398,7 +398,8 @@ public class Report : ExportSession
 					false, 			//graph
 					toReport,
 					writer,
-					""
+					"",
+					statCount
 					);
 
 			//allFine = myStatType.ChooseStat();
@@ -426,7 +427,8 @@ public class Report : ExportSession
 					true, 			//graph
 					toReport,
 					writer,
-					fileName		//fileName for exporting there
+					fileName,		//fileName for exporting there
+					statCount
 					);
 
 			myStatType.ChooseStat();

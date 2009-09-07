@@ -1,5 +1,7 @@
 TODO: 
 
+do graph margins changeable
+
 continue with titles and subtitles for all graphs
 fix global, jumper, rjEvolution
 

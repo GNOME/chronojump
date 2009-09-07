@@ -1165,7 +1165,7 @@ public class Stat
 	public enum Sides { ALL, LEFT, RIGHT };
 
 	//currently only creates one customized graph	
-	public bool CreateGraphR (string fileName, bool show) 
+	public bool CreateGraphR (string fileName, bool show, int graphNum) 
 	{
 		//only graph if there's data
 		//TODO: check also later if none row is selected
@@ -1174,11 +1174,15 @@ public class Stat
 		}
 		if (!show) { //report
 			string directoryName = Util.GetReportDirectoryName(fileName);
+
+			/*
 			string [] pngs = Directory.GetFiles(directoryName, "*.png");
 
 			//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
 			//there will be always a png with chronojump_logo
 			fileName = directoryName+"/"+pngs.Length.ToString() + ".png";
+			*/
+			fileName = directoryName+"/"+(graphNum+1).ToString() + ".png";
 		} else
 			fileName = Path.GetTempPath()+"/"+fileName;
 		//On win32 R understands backlash as an escape character and 

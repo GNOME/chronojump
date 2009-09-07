@@ -87,6 +87,7 @@ public class StatType {
 	bool toReport;
 	TextWriter writer;
 	string fileName;
+	int statCount; //optimal to create name of each graph on report: 1: 1.png; 2: 2.png
 
 	//this contains the last store of a non-graph stat, 
 	//useful for allow to change treeview_stats after a graph stat is done
@@ -181,7 +182,9 @@ public class StatType {
 			ArrayList markedRows, 
 			int rj_evolution_mark_consecutives, 
 			GraphROptions gRO,
-			bool graph, bool toReport, TextWriter writer, string fileName)
+			bool graph, bool toReport, TextWriter writer, string fileName,
+			int statCount 
+			)
 	{
 		this.statisticType = statisticType;
 		this.statisticSubType = statisticSubType;
@@ -204,6 +207,7 @@ public class StatType {
 		this.toReport = toReport;
 		this.writer = writer;
 		this.fileName = fileName;
+		this.statCount = statCount;
 		
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
@@ -404,7 +408,7 @@ public class StatType {
 
 		if(toReport) {
 			if(graph) {
-				bool notEmpty = myStat.CreateGraphR(fileName, false); //dont' show
+				bool notEmpty = myStat.CreateGraphR(fileName, false, statCount); //dont' show
 				if(notEmpty) { linkImage(fileName); }
 			} else {
 				writer.WriteLine(myStat.ReportString());
@@ -412,7 +416,7 @@ public class StatType {
 		} else {
 			if(graph) {
 				//myStat.CreateGraph();
-				myStat.CreateGraphR(Constants.FileNameRGraph, true); //show
+				myStat.CreateGraphR(Constants.FileNameRGraph, true, -1); //show
 			}
 		}
 	
@@ -435,10 +439,13 @@ public class StatType {
 	void linkImage(string fileName) {
 		string directoryName = Util.GetReportDirectoryName(fileName);
 		
+		/*
 		string [] pngs = Directory.GetFiles(directoryName, "*.png");
 		//if found 3 images, sure will be 1.png, 2.png and 3.png, next will be 4.png
 		//there will be always a png with chronojump_logo
 		writer.WriteLine("<img src=\"" + Util.GetLastPartOfPath(directoryName) + "/" + (pngs.Length -1).ToString() + ".png\">");
+		*/
+		writer.WriteLine("<img src=\"" + Util.GetLastPartOfPath(directoryName) + "/" + (statCount+1).ToString() + ".png\">");
 	}
 
 	public void MarkSelected(string selected) {

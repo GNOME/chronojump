@@ -34,9 +34,14 @@ public class GraphROptions
 	public int Width;
 	public int Height;
 	public string Legend;
+	public int MarginBottom;
+	public int MarginLeft;
+	public int MarginTop;
+	public int MarginRight;
 	
 	public GraphROptions(string Type, string VarX, string VarY, string Palette, bool Transposed, 
-			int Width, int Height, string Legend) {
+			int Width, int Height, string Legend,
+			int MarginBottom, int MarginLeft, int MarginTop, int MarginRight) {
 		this.Type = Type;
 		this.VarX = VarX;
 		this.VarY = VarY;
@@ -45,6 +50,10 @@ public class GraphROptions
 		this.Width = Width;
 		this.Height = Height;
 		this.Legend = Legend;
+		this.MarginBottom = MarginBottom;
+		this.MarginLeft = MarginLeft;
+		this.MarginTop = MarginTop;
+		this.MarginRight = MarginRight;
 	}
 	public GraphROptions() {
 	}
@@ -60,9 +69,14 @@ public class GraphROptions
 		this.Width = Convert.ToInt32(strFull[5]);
 		this.Height = Convert.ToInt32(strFull[6]);
 		this.Legend = strFull[7];
+		this.MarginBottom = Convert.ToInt32(strFull[8]);
+		this.MarginLeft = Convert.ToInt32(strFull[9]);
+		this.MarginTop = Convert.ToInt32(strFull[10]);
+		this.MarginRight = Convert.ToInt32(strFull[11]);
 	}
 
 	public override string ToString() {
-		return Type + ":" + VarX + ":" + VarY + ":" + Palette + ":" + Transposed + ":" + Width + ":" + Height + ":" + Legend;
+		return Type + ":" + VarX + ":" + VarY + ":" + Palette + ":" + Transposed + ":" + Width + ":" + Height + ":" + Legend + 
+			":" + MarginBottom + ":" + MarginLeft + ":" + MarginTop + ":" + MarginRight;
 	}
 }	

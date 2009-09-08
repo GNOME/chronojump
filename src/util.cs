@@ -730,11 +730,14 @@ public class Util
 
 	public static void RunRScript(string rScript){
 		ProcessStartInfo pinfo;
-                Process r;
+        Process r;
 		string rBin="R";
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
-		string outputFile = System.IO.Path.Combine(Path.GetTempPath(), Constants.FileNameRScript+".Rout");
+		string outputFile = rScript+".Rout";
+		
+		if (File.Exists(outputFile))
+			File.Delete(outputFile);
  
 		if (IsWindows())
 			rBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
@@ -748,7 +751,8 @@ public class Util
 		r = new Process();
 		r.StartInfo = pinfo;
 		r.Start();
-		r.WaitForExit();				
+		r.WaitForExit();
+		while (!File.Exists(outputFile));				
 	}
 /*
  * currently not used, we copy the assemblies now

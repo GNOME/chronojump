@@ -1251,7 +1251,7 @@ public class Stat
 
 		//fileName = System.IO.Path.Combine(Path.GetTempPath(), fileName);
 
-		string rScript = System.IO.Path.Combine(Path.GetTempPath(), Constants.FileNameRScript);
+		string rScript = System.IO.Path.Combine(Path.GetTempPath(), graphNum+Constants.FileNameRScript);
 		TextWriter writer = File.CreateText(rScript);
 		writer.Write(rString);
 		writer.Flush();

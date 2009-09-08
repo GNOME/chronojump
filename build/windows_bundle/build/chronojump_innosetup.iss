@@ -6,17 +6,17 @@
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{69EC15A7-5D66-4D24-A15B-1C23C0F621E0}
-AppName=ChronoJump
-AppVerName=ChronoJump  0.8.9.7
-AppPublisher=ChronoJump
+AppName=Chronojump
+AppVerName=Chronojump  0.8.9.8
+AppPublisher=Chronojump
 AppPublisherURL=http://www.chronojump.org/
 AppSupportURL=http://www.chronojump.org/
 AppUpdatesURL=http://www.chronojump.org/
-DefaultDirName={pf}\ChronoJump
-DefaultGroupName=ChronoJump
+DefaultDirName={pf}\Chronojump
+DefaultGroupName=Chronojump
 LicenseFile=.\gpl-2.0.txt
 OutputDir=.
-OutputBaseFilename=ChronoJump-0.8.9.7-win32
+OutputBaseFilename=Chronojump-0.8.9.8-win32
 SetupIconFile=.\chronojump_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -51,14 +51,14 @@ Source: "../*"; DestDir: "{app}"; Flags: ignoreversion  recursesubdirs createall
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\ChronoJump"; Filename: "{app}\bin\ChronoJump.exe; WorkingDir: "{app}\bin"
-Name: "{group}\ChronoJump mini"; Filename: "{app}\bin\ChronoJump_mini.exe; WorkingDir: "{app}\bin"
-Name: "{commondesktop}\ChronoJump"; Filename: "{app}\bin\ChronoJump.exe; WorkingDir: "{app}\bin"; Tasks: desktopicon
-Name: "{group}\Change theme - Cambiar tema"; Filename: "{app}\bin\gtk2_prefs.exe; WorkingDir: "{app}\bin"
-Name: "{group}\ChronoJump Manual spanish"; Filename: "{app}\docs\chronojump_manual_es.pdf"
-Name: "{group}\{cm:UninstallProgram,ChronoJump}"; Filename: "{uninstallexe}"
+Name: "{group}\Chronojump"; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"
+Name: "{group}\Chronojump mini"; Filename: "{app}\bin\Chronojump_mini.exe"; WorkingDir: "{app}\bin"
+Name: "{commondesktop}\Chronojump"; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"; Tasks: desktopicon
+Name: "{group}\Change theme - Cambiar tema"; Filename: "{app}\bin\gtk2_prefs.exe"; WorkingDir: "{app}\bin"
+Name: "{group}\Chronojump Manual spanish"; Filename: "{app}\share\doc\chronojump\chronojump_manual_es.pdf"
+Name: "{group}\{cm:UninstallProgram,Chronojump}"; Filename: "{uninstallexe}"
 
 [Run]
 Filename: "{app}\drivers\CDM 2.04.16.exe";
-Filename: "{app}\bin\ChronoJump.exe"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\bin\Chronojump.exe"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent
 

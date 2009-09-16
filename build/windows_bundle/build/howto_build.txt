@@ -11,12 +11,11 @@ edit mkbundle.sh change MONO_INSTALL_PATH to where it's installed mono
 
 (there were problems with dos2unix: broken pipe. But now we don't use and there aren't problems
 
-After creating the release with
-./create_release_windows.sh 0.8.9.6
-copy the dir to windows at c:\
+After creating the release with make
+copy the windows_bundle as eg: chronojump-0.8.9.8 and put it on windows machine at C:\
 
 on mingw/msys, go to build:
-cd /c/chronojum-0.8.9.6/build/
+cd /c/chronojump-0.8.9.8/build/
 
 , execute:
 $sh makeBundle.sh

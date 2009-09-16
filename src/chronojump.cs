@@ -193,7 +193,6 @@ public class ChronoJump
 
 
 
-			//File.Create(runningFileName);
 			createRunningFileName(runningFileName);
 			Sqlite.CreateTables(false); //not server
 			creatingDB = false;
@@ -248,7 +247,6 @@ Log.WriteLine("doing backup");
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
 		
-			//File.Create(runningFileName);
 			createRunningFileName(runningFileName);
 		}
 		
@@ -619,18 +617,29 @@ Console.WriteLine("--6--");
 	}
 
 	private bool chronojumpIsExecutingNTimes() {
-		StreamReader reader = File.OpenText(runningFileName);
-		string pid = reader.ReadToEnd();
-		reader.Close();
+		try {
+			StreamReader reader = File.OpenText(runningFileName);
+			string pid = reader.ReadToEnd();
+			reader.Close();
 
-		//delete the '\n' that ReaderToEnd() has put
-		pid = pid.TrimEnd(new char[1] {'\n'});
-		
-		Process [] pids = Process.GetProcessesByName("Chronojump");
-		foreach (Process myPid in pids)
-			if (myPid.Id == Convert.ToInt32(pid))
-				return true;
-		return false;
+			//delete the '\n' that ReaderToEnd() has put
+			pid = pid.TrimEnd(new char[1] {'\n'});
+
+			Process [] pids = Process.GetProcessesByName("Chronojump");
+			foreach (Process myPid in pids)
+				if (myPid.Id == Convert.ToInt32(pid))
+					return true;
+			return false;
+		} catch {
+			/*
+			   if we a chronojump older that 0.8.9.8 has crashed, and now we install 0.8.9.8
+			   it will try to read the pid
+			   but there will be no pid because old chronojumps have nothing written on that file
+			   A -not perfect- solution is if there are problems here, return false: (is not executing n times)
+			   */
+
+			return false;
+		}
 	}
 
 

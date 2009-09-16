@@ -52,11 +52,11 @@ Source: "./chronojump_icon.ico"; DestDir: "{app}\share\chronojump\images\"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\Chronojump"; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"
+Name: "{group}\Chronojump "; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"
 Name: "{group}\Chronojump mini"; Filename: "{app}\bin\Chronojump_mini.bat"; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
 Name: "{commondesktop}\Chronojump"; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"; Tasks: desktopicon
-Name: "{group}\Change theme - Cambiar tema"; Filename: "{app}\bin\gtk2_prefs.exe"; WorkingDir: "{app}\bin"
 Name: "{group}\Chronojump Manual spanish"; Filename: "{app}\share\doc\chronojump\chronojump_manual_es.pdf"
+Name: "{group}\Chronojump Theme change - Cambiar tema"; Filename: "{app}\bin\gtk2_prefs.exe"; WorkingDir: "{app}\bin"
 Name: "{group}\{cm:UninstallProgram,Chronojump}"; Filename: "{uninstallexe}"
 
 [Run]

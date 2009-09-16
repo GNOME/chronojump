@@ -1942,8 +1942,13 @@ public class ChronoJumpWindow
 		if(simulated == false) {
 			serialPortsClose();
 		}
-		
-		File.Delete(runningFileName);
+	
+		try {	
+			File.Delete(runningFileName);
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					string.Format(Catalog.GetString("Could not delete file:\n{0}"), runningFileName));
+		}
 
 		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
 			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
@@ -1964,8 +1969,13 @@ public class ChronoJumpWindow
 		if(simulated == false) {
 			serialPortsClose();
 		}
-		
-		File.Delete(runningFileName);
+	
+		try {	
+			File.Delete(runningFileName);
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					string.Format(Catalog.GetString("Could not delete file:\n{0}"), runningFileName));
+		}
 		
 		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
 			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",

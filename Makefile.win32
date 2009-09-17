@@ -1,11 +1,12 @@
 
 
 #Set-up environment variable 
-MONO_PATH=/c/Mono-2.4/bin
+MONO_INSTALL_PATH=/c/Mono-2.4
+MONO_BIN_PATH=$(MONO_INSTALL_PATH)/bin
 BASH = /bin/bash.exe
-BUNDLE = makeBundle.sh
+BUNDLE = makeBundle.sh $(MONO_INSTALL_PATH)
 RM = rm -f
-CSC = $(MONO_PATH)/gmcs
+CSC = $(MONO_BIN_PATH)/gmcs
 OUT_DIR=build/windows_bundle/bin
 BUILD_DIR=build/windows_bundle/build
 

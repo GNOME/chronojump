@@ -1,4 +1,5 @@
-export MONO_INSTALL_PATH=/c/Mono-2.4/
+#The first argument of the script must be the Mono installation path
+export MONO_INSTALL_PATH=$1
 export PATH=$PATH:/c/Mono-2.4/bin
 export MONO_PATH=.
 export PKG_CONFIG_PATH=$MONO_INSTALL_PATH/lib/pkgconfig/

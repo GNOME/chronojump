@@ -64,9 +64,9 @@ public class Server
 			string versionAvailable = myServer.UploadPing(myPing, doInsertion);
 			
 			Log.WriteLine(myServer.DisConnectDatabase());
-
 			return versionAvailable;
-		} catch {
+		} catch (Exception e){
+			Log.WriteLine("Server Connection "+e.Message);
 			return Constants.ServerOffline;
 		}
 	}

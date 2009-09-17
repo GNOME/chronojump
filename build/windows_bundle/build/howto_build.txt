@@ -5,21 +5,20 @@ http://sourceforge.net/projects/mingw/files/
 http://sourceforge.net/projects/mingw/files/
 3: install mono in a dir without spaces
 
-go to build 
-edit mkbundle.sh change MONO_INSTALL_PATH to where it's installed mono 
-(HAS TO BE A PATH WITHOUT SPACES, like c:\mono)
+In 'Makefile.win32'change MONO_INSTALL_PATH to the Mono installation folder (eg: MONO_INSTALL_PATH=/c/Mono-2.4)
+MONO HAS TO BE INSTALLED IN A PATH WIHTOUT SPACES
 
-(there were problems with dos2unix: broken pipe. But now we don't use and there aren't problems
+on mingw/msys, go to bundle folder and run:
 
-After creating the release with make
-copy the windows_bundle as eg: chronojump-0.8.9.8 and put it on windows machine at C:\
+$cd /c/chronojump/windows_bundle
+$make -f Makefile.win32
 
-on mingw/msys, go to build:
-cd /c/chronojump-0.8.9.8/build/
+It compiles Chronojump and Chronojump_mini, creates the bundle and install it in the bin folder.
+If we have made changes to the sources we need to delete the genereated files in order to rebuild 
+Chronojump and Chronojump_mini:
 
-, execute:
-$sh makeBundle.sh
-this takes the last compiled prg and generates exe on bin directory
+$make -f Makefile.win32 clean
+$make -f Makefile.win32
 
 then with innosetup we can create the installer that is ok because installs the driver and puts the gtk_prefs on the "start" folder:
 open chronojump_innosetup.iss on build folder

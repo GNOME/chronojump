@@ -339,7 +339,10 @@ public class EvaluatorWindow
 
 	void on_button_change_date_clicked (object o, EventArgs args)
 	{
-		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select session date"), dateTime);
+		DateTime dt = dateTime;
+		if(dt == DateTime.MinValue)
+			dt = DateTime.Now;
+		myDialogCalendar = new DialogCalendar(Catalog.GetString("Select of Birth"), dt);
 		myDialogCalendar.FakeButtonDateChanged.Clicked += new EventHandler(on_calendar_changed);
 	}
 

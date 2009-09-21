@@ -28,29 +28,6 @@ using System.IO; 		//for detect OS
 //this class tries to be a space for methods that are used in different classes
 public class Util
 {
-
-	//TODO: this still doesn't work for knowing that:
-	//0.8.1.10 is bigger than 0.8.1.9
-	public static double VersionToDouble (string version)
-	{
-		//find first dec
-		int firstDec = version.IndexOf('.');
-		if(firstDec == -1) //no '.' found
-			return Convert.ToDouble(version);
-
-		bool shouldExit = false;
-		do {
-			int lastDec = version.LastIndexOf('.');
-			if(lastDec == firstDec) //there's only a dec
-				shouldExit = true;
-			else
-				version = version.Remove(lastDec,1);
-		} while ( ! shouldExit);
-
-		return Convert.ToDouble(ChangeDecimalSeparator(version));
-	}
-
-
 	//all numbers are saved in database with '.' as decimal separator (method for numbers)
 	public static string ConvertToPoint (double myDouble)
 	{

@@ -33,10 +33,10 @@ using System.Collections;
 
 public class Server
 {
-	public static bool CanI(string action, double clientVersion) {
+	public static bool CanI(string action, string clientVersion) {
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
-			return myServer.CanI(action, clientVersion);
+			return myServer.CanINew(action, clientVersion);
 		} catch {
 			return false;
 		}

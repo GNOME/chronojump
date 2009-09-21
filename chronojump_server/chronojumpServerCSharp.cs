@@ -60,13 +60,37 @@ public class ChronojumpServer {
 	}
 	
 	[WebMethod(Description="Check actions that client can do depending on it's version)")]
+	public bool CanINew(string action, string clientVersion)
+	{
+		Version cv = new Version(clientVersion);
+		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,9,6))
+			return true;
+		else if(action == Constants.ServerActionStats && cv >= new Version(0,8))
+			return true;
+		else if(action == Constants.ServerActionQuery && cv >= new Version(0,8,9,6))
+			return true;
+
+		return false;
+	}
+
+	[WebMethod(Description="Check actions that client can do depending on it's version)")]
 	public bool CanI(string action, double clientVersion)
 	{
-		if(action == Constants.ServerActionUploadSession && clientVersion >= 0.896)
+		//comes something like 0.898
+		//ONLY used on 0.8.9.7, 0.8.9.8
+		Version cv;
+		if(clientVersion == 0.897)
+			cv = new Version(0,8,9,7);
+		else if(clientVersion == 0.898)
+			cv = new Version(0,8,9,8);
+		else 
+			return false; //"for if the flyes"
+
+		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,9,6))
 			return true;
-		else if(action == Constants.ServerActionStats && clientVersion >= 0.8)
+		else if(action == Constants.ServerActionStats && cv >= new Version(0,8))
 			return true;
-		else if(action == Constants.ServerActionQuery && clientVersion >= 0.896) //0.8.9.6
+		else if(action == Constants.ServerActionQuery && cv >= new Version(0,8,9,6))
 			return true;
 
 		return false;

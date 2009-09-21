@@ -28,6 +28,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     private System.Threading.SendOrPostCallback CanIOperationCompleted;
     
+    private System.Threading.SendOrPostCallback CanINewOperationCompleted;
+    
     private System.Threading.SendOrPostCallback QueryOperationCompleted;
     
     private System.Threading.SendOrPostCallback StatsOperationCompleted;
@@ -81,6 +83,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     private event DisConnectDatabaseCompletedEventHandler DisConnectDatabaseCompleted;
     
     private event CanICompletedEventHandler CanICompleted;
+    
+    private event CanINewCompletedEventHandler CanINewCompleted;
     
     private event QueryCompletedEventHandler QueryCompleted;
     
@@ -195,6 +199,48 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         if ((this.DisConnectDatabaseCompleted != null)) {
             System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
             this.DisConnectDatabaseCompleted(this, new DisConnectDatabaseCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
+///Check actions that client can do depending on it's version)
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/CanINew", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public bool CanINew(string action, string clientVersion) {
+        object[] results = this.Invoke("CanINew", new object[] {
+                    action,
+                    clientVersion});
+        return ((bool)(results[0]));
+    }
+    
+    public System.IAsyncResult BeginCanINew(string action, string clientVersion, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("CanINew", new object[] {
+                    action,
+                    clientVersion}, callback, asyncState);
+    }
+    
+    public bool EndCanINew(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((bool)(results[0]));
+    }
+    
+    public void CanINewAsync(string action, string clientVersion) {
+        this.CanINewAsync(action, clientVersion, null);
+    }
+    
+    public void CanINewAsync(string action, string clientVersion, object userState) {
+        if ((this.CanINewOperationCompleted == null)) {
+            this.CanINewOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCanINewCompleted);
+        }
+        this.InvokeAsync("CanINew", new object[] {
+                    action,
+                    clientVersion}, this.CanINewOperationCompleted, userState);
+    }
+    
+    private void OnCanINewCompleted(object arg) {
+        if ((this.CanINewCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.CanINewCompleted(this, new CanINewCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
         }
     }
     
@@ -1189,6 +1235,41 @@ public class DisConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncC
 
 public delegate void DisConnectDatabaseCompletedEventHandler(object sender, DisConnectDatabaseCompletedEventArgs args);
 
+public class CanINewCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal CanINewCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public bool Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((bool)(this.results[0]));
+        }
+    }
+}
+
+public delegate void CanINewCompletedEventHandler(object sender, CanINewCompletedEventArgs args);
+
+public class QueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal QueryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public string Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[0]));
+        }
+    }
+}
 public class CanICompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
@@ -1207,23 +1288,6 @@ public class CanICompletedEventArgs : System.ComponentModel.AsyncCompletedEventA
 }
 
 public delegate void CanICompletedEventHandler(object sender, CanICompletedEventArgs args);
-
-public class QueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-    
-    private object[] results;
-    
-    internal QueryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-            base(exception, cancelled, userState) {
-        this.results = results;
-    }
-    
-    public string Result {
-        get {
-            this.RaiseExceptionIfNecessary();
-            return ((string)(this.results[0]));
-        }
-    }
-}
 
 public delegate void QueryCompletedEventHandler(object sender, QueryCompletedEventArgs args);
 

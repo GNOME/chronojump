@@ -34,6 +34,9 @@ public class Constants
 		"Onkar Nath Mishra (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."),
 		"Andoni Morales (http://ylatuya.es)\n" + Catalog.GetString("Installation support: Autotools, packaging, bundle.") 
 	};
+	public static string [] Documenters = {
+		"Xavier de Blas (xaviblas@gmail.com)\n" 
+	};
 	
 	public static string ChronojumpWebsite = "http://www.chronojump.org";
 	

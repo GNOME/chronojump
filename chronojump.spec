@@ -1,5 +1,5 @@
 Name:           chronojump
-Version:        0.8.9.6
+Version:        0.8.10
 Release:        1%{?dist}
 Summary:        A measurement, management and statistics sport testing tool
 
@@ -9,7 +9,8 @@ URL:            http://chronojump.org
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/chronojump/0.8/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  mono-core pkgconfig mono-data-sqlite gtk-sharp2 gtk-sharp2-devel desktop-file-utils mono-winforms
+BuildRequires:  mono-core pkgconfig mono-data-sqlite gtk-sharp2 gtk-sharp2-devel desktop-file-utils gettext mono-devel
+Requires:       R-core
 
 %description
 ChronoJump is an open hardware, free software, multiplatform complete system
@@ -67,9 +68,9 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_bindir}/chronojump
 %{_bindir}/chronojump_mini
-%{_bindir}/test-accuracy
-%{_bindir}/test-jumps
-%{_bindir}/test-stream
+%{_bindir}/chronojump-test-accuracy
+%{_bindir}/chronojump-test-jumps
+%{_bindir}/chronojump-test-stream
 %dir %{_libdir}/chronojump
 %{_libdir}/chronojump/*
 %dir %{_datadir}/chronojump
@@ -85,10 +86,8 @@ rm -rf %{buildroot}
 
 %changelog
 
-
-* Thu Aug 27 2009 <ismael@olea.org> 0.8.9.6-1
-- added dep to mono-winforms
-- update to 0.8.9.6
+* Mon Sep 21 2009 <ismael@olea.org> 0.8.10-1
+- update to 0.8.10
 
 * Thu Aug 27 2009 <ismael@olea.org> 0.8.9.5-3
 - added doc subpackage

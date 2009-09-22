@@ -1,6 +1,6 @@
 Name:           chronojump
 Version:        0.8.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A measurement, management and statistics sport testing tool
 
 Group:          Applications/Engineering
@@ -9,8 +9,8 @@ URL:            http://chronojump.org
 Source0:        http://ftp.gnome.org/pub/GNOME/sources/chronojump/0.8/%{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  mono-core pkgconfig mono-data-sqlite gtk-sharp2 gtk-sharp2-devel desktop-file-utils gettext mono-devel
-Requires:       R-core
+BuildRequires:  pkgconfig mono-data-sqlite gtk-sharp2 gtk-sharp2-devel desktop-file-utils gettext mono-devel
+Requires:       R-core hicolor-icon-theme
 
 %description
 ChronoJump is an open hardware, free software, multiplatform complete system
@@ -24,8 +24,9 @@ Chronojump is used by trainers, teachers and students.
 
 %package        doc
 Summary:        ChronoJump manuals
-Group:          Applications/Engineering
+Group:          Documentation
 Requires:       %{name} = %{version}-%{release}
+BuildArch:      noarch
 
 %description doc
 ChronoJump is an open hardware, free software, multiplatform complete system
@@ -41,6 +42,11 @@ These are the manuals for ChronoJump
 %configure
 make %{?_smp_mflags}
 
+cat > src/chronojump <<EOF
+#!/bin/sh
+
+exec mono "%{_libdir}/chronojump/Chronojump.exe" "\$@"
+EOF
 
 %install
 rm -rf %{buildroot}
@@ -60,9 +66,20 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications/   %{buildroot}%
 %clean
 rm -rf %{buildroot}
 
-%post -p /sbin/ldconfig
+%post
+touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+update-desktop-database &> /dev/null || :
 
-%postun -p /sbin/ldconfig
+%postun
+if [ $1 -eq 0 ] ; then
+    touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+fi
+update-desktop-database &> /dev/null || :
+
+%posttrans
+gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -85,6 +102,10 @@ rm -rf %{buildroot}
 %doc manual/chronojump_manual_es.pdf
 
 %changelog
+
+* Tue Sep 22 2009 <ismael@olea.org> 0.8.10-2
+- fixing suggestions from https://bugzilla.redhat.com/show_bug.cgi?id=524707#c3
+- added forgotten update-desktop-database calls
 
 * Mon Sep 21 2009 <ismael@olea.org> 0.8.10-1
 - update to 0.8.10

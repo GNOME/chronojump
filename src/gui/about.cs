@@ -29,6 +29,7 @@ public class About
 	[Widget] Gtk.Image image_logo;
 	[Widget] Gtk.Label dialog_about_label_version;
 	[Widget] Gtk.Label dialog_about_label_developers;
+	[Widget] Gtk.Label dialog_about_label_documenters;
 	[Widget] Gtk.Label dialog_about_label_translators;
 
 	public About (string version, string translators)
@@ -59,7 +60,7 @@ public class About
 		dialog_about_label_version.Text = version; 
 		dialog_about_label_translators.Text = translators; 
 		
-		//put authos separated by commas
+		//put authors separated by commas
 		string authorsString = "";
 		string paragraph = "";
 		foreach (string singleAuthor in Constants.Authors) {
@@ -68,6 +69,16 @@ public class About
 			paragraph = "\n\n";
 		}
 		dialog_about_label_developers.Text = authorsString;
+		
+		//put documenters separated by commas
+		string docsString = "";
+		paragraph = "";
+		foreach (string doc in Constants.Documenters) {
+			docsString += paragraph;
+			docsString += doc;
+			paragraph = "\n\n";
+		}
+		dialog_about_label_documenters.Text = docsString;
 	}
 				
 

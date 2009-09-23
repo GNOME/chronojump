@@ -1,4 +1,4 @@
-EXTRA_DIST = m4 
+EXTRA_DIST = m4 expansions.m4
 
 ACLOCAL_AMFLAGS = -I m4
 

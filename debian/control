@@ -1,19 +1,17 @@
 Source: chronojump
-Section: graphics
+Section: science
 Priority: extra
 Maintainer: Andoni Morales Alastruey <ylatuya@gmail.com>
 Build-Depends: debhelper (>= 5), autotools-dev, cdbs, 
  pkg-config, mono-2.0-devel, libgtk2.0-cil, libglade2.0-cil,
- libmono2.0-cil, libmono-data2.0-cil, libmono-sqlite2.0-cil,
- libmono-posix2.0-cil, libmono-winforms2.0-cil
+ libmono-sqlite2.0-cil, libmono-winforms2.0-cil
 Standards-Version: 3.8.3
 
 Package: chronojump
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends},mono-runtime, 
- libgtk2.0-cil, libmono2.0-cil, libmono-data2.0-cil,
- libmono-sqlite2.0-cil, libmono-posix2.0-cil, libmono-winforms2.0-cil,
- r-base-core
+Depends: ${shlibs:Depends}, ${misc:Depends},libmono2.0-cil,
+ libgtk2.0-cil, libmono-sqlite2.0-cil,
+ libmono-winforms2.0-cil, r-base-core
 Description: ChronoJump
  ChronoJump is an open hardware, free software, multiplatform complete system for measurement, management and statistics of sport short-time tests.
  Chronojump uses contact platform and/or photocells, and also a chronometer printed circuit designed ad-hoc in order to obtain precise and trustworthy measurements.

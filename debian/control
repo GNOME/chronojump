@@ -12,7 +12,12 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},libmono2.0-cil,
  libgtk2.0-cil, libmono-sqlite2.0-cil,
  libmono-winforms2.0-cil, r-base-core
-Description: ChronoJump
- ChronoJump is an open hardware, free software, multiplatform complete system for measurement, management and statistics of sport short-time tests.
- Chronojump uses contact platform and/or photocells, and also a chronometer printed circuit designed ad-hoc in order to obtain precise and trustworthy measurements.
+Description: Measurement, management and statistics of sport short-time tests 
+ Chronojump is an open hardware, free software and multiplatform complete system
+ for measurement, management and statistics of sport short-time tests. 
+ .
+ Chronojump uses contact platform and/or photocells, and also a chronometer
+ printed circuit designed ad-hoc in order to obtain precise and trustworthy
+ measurements.
+ .
  Chronojump is used by trainers, teachers and students.

@@ -63,7 +63,7 @@ public class ChronojumpServer {
 	public bool CanINew(string action, string clientVersion)
 	{
 		Version cv = new Version(clientVersion);
-		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,9,6))
+		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,11))
 			return true;
 		else if(action == Constants.ServerActionStats && cv >= new Version(0,8))
 			return true;

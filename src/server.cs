@@ -212,7 +212,15 @@ public class Server
 					//if sport is user defined, upload it
 					//and when upload the person, do it with new sportID
 					Sport sport = SqliteSport.Select(person.SportID);
+					//but record old sport ID because locally will be a change in serverUniqueID
+					//(with slite update)
+					//but local sport has not to be changed
+					int sportUserDefinedLocal = -1;
+
 					if(sport.UserDefined) {
+						sportUserDefinedLocal = sport.UniqueID;
+
+						//this will be uploaded
 						int newSport = myServer.UploadSport(sport);
 						if(newSport != -1) {
 							person.SportID = newSport;
@@ -221,7 +229,7 @@ public class Server
 						}
 					}
 
-					person = serverUploadPerson(myServer, person, serverSession.UniqueID);
+					person = serverUploadPerson(myServer, person, serverSession.UniqueID, sportUserDefinedLocal);
 				}
 
 				//a person can be in the database for one session, 
@@ -531,12 +539,17 @@ public class Server
 	
 	
 	//upload a person
-	private static Person serverUploadPerson(ChronojumpServer myServer, Person person, int serverSessionID) 
+	private static Person serverUploadPerson(ChronojumpServer myServer, Person person, int serverSessionID, int sportUserDefinedLocal) 
 	{
 		int idAtServer = myServer.UploadPerson(person, serverSessionID);
 
 		//update person (serverUniqueID) on client database
 		person.ServerUniqueID = idAtServer;
+
+		//when update locally, don't put the user defined sport id at server
+		if(sportUserDefinedLocal != -1)
+			person.SportID = sportUserDefinedLocal;
+
 		SqlitePerson.Update(person);
 
 		return person;

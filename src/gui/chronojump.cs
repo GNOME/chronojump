@@ -991,7 +991,6 @@ public class ChronoJumpWindow
 	private bool connectedAndCanI (string serverAction) {
 		string versionAvailable = Server.Ping(false, "", ""); //false: don't do insertion
 		if(versionAvailable != Constants.ServerOffline) { //false: don't do insertion
-			//if(Server.CanI(serverAction, Util.VersionToDouble(progVersion)))
 			if(Server.CanI(serverAction, progVersion))
 				return true;
 			else

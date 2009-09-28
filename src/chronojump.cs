@@ -278,8 +278,10 @@ Log.WriteLine("doing backup");
 
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
 		if( versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
-			//versionAvailable is higher than client version
-			if(versionAvailable != versionAvailableKnown) {
+			//check if available version is higher than known available version
+			Version versionAvailableAsV = new Version(versionAvailable);
+			Version versionAvailableKnownAsV = new Version(versionAvailableKnown);
+			if(versionAvailableAsV > versionAvailableKnownAsV) {
 				//is the first time we know about this new version
 				//just write on db and show message to user
 				SqlitePreferences.Update(Constants.PrefVersionAvailable, versionAvailable, false);

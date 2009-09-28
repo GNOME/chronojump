@@ -8,9 +8,9 @@ http://sourceforge.net/projects/mingw/files/
 In 'Makefile.win32'change MONO_INSTALL_PATH to the Mono installation folder (eg: MONO_INSTALL_PATH=/c/Mono-2.4)
 MONO HAS TO BE INSTALLED IN A PATH WIHTOUT SPACES
 
-on mingw/msys, go to bundle folder and run:
+on mingw/msys, go to chronojump folder and run:
 
-$cd /c/chronojump/windows_bundle
+$cd /c/chronojump/
 $make -f Makefile.win32
 
 It compiles Chronojump and Chronojump_mini, creates the bundle and install it in the bin folder.

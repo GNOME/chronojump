@@ -1003,11 +1003,11 @@ public class Stat
 		string ylabStr = "";
 		if(side == Sides.RIGHT) {
 			if(CurrentGraphData.LabelRight != "")
-				ylabStr = ", ylab='" + CurrentGraphData.LabelRight + "'";
+				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelRight) + "'";
 		}
 		else { //ALL or LEFT
 			if(CurrentGraphData.LabelLeft != "")
-				ylabStr = ", ylab='" + CurrentGraphData.LabelLeft + "'";
+				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelLeft) + "'";
 		}
 
 		string rG = //rGraphString
@@ -1035,11 +1035,11 @@ public class Stat
 		string ylabStr = "";
 		if(side == Sides.RIGHT) {
 			if(CurrentGraphData.LabelRight != "")
-				ylabStr = ", ylab='" + CurrentGraphData.LabelRight + "'";
+				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelRight) + "'";
 		}
 		else { //ALL or LEFT
 			if(CurrentGraphData.LabelLeft != "")
-				ylabStr = ", ylab='" + CurrentGraphData.LabelLeft + "'";
+				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelLeft) + "'";
 		}
 
 		string rG = //rGraphString
@@ -1070,12 +1070,12 @@ public class Stat
 		if(side == Sides.RIGHT) {
 			axesStr = " axis(4)\n";
 			if(CurrentGraphData.LabelRight != "")
-				ylabStr = ", ylab='" + CurrentGraphData.LabelRight + "'";
+				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelRight) + "'";
 		}
 		else { //ALL or LEFT
 			axesStr = " axis(2)\n";
 			if(CurrentGraphData.LabelLeft != "")
-				ylabStr = ", ylab='" + CurrentGraphData.LabelLeft + "'";
+				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelLeft) + "'";
 		}
 
 		string rG = //rGraphString
@@ -1109,11 +1109,11 @@ public class Stat
 		string xlabStr = "";
 		if(side == Sides.RIGHT) {
 			if(CurrentGraphData.LabelRight != "")
-				xlabStr = ", xlab='" + CurrentGraphData.LabelRight + "'";
+				xlabStr = ", xlab='" + Util.RemoveTilde(CurrentGraphData.LabelRight) + "'";
 		}
 		else { //ALL or LEFT
 			if(CurrentGraphData.LabelLeft != "")
-				xlabStr = ", xlab='" + CurrentGraphData.LabelLeft + "'";
+				xlabStr = ", xlab='" + Util.RemoveTilde(CurrentGraphData.LabelLeft) + "'";
 		}
 
 		string rG = //rGraphString
@@ -1140,7 +1140,7 @@ public class Stat
 		string rG = //rGraphString
 		   	"colors=" + gro.Palette +"(length(rownames(data)))\n" +
 			"rang <- c(1:length(rownames(data)))\n" +
-			"plot(serie0, serie1, pch=rang, col=colors, xlab='" + gro.VarX + "', ylab='" + gro.VarY + "')\n" +
+			"plot(serie0, serie1, pch=rang, col=colors, xlab='" + Util.RemoveTilde(gro.VarX) + "', ylab='" + Util.RemoveTilde(gro.VarY) + "')\n" +
 			"abline(lm(serie1 ~ serie0),col='grey30')\n" +
 			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col=colors, cex=.7)\n" +
 			titStr;

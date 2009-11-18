@@ -18,6 +18,8 @@ in order to compile, on server, needed to update R to 2.7.1-lenny, install ttf-f
 
 with the ttf-freefont, done links of ttf fonts to
 /usr/local/lib/R/site-library/GDD/fonts
+a corall està a:
+/home/xavier/R/i486-pc-linux-gnu-library/2.9/GDD/fonts
 
 and done in ls /usr/local/lib/R/site-library/GDD/fonts/basefont.mapping
 #--- add your section here if you have some nice TTFs ---

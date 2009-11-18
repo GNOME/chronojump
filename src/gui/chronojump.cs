@@ -527,8 +527,9 @@ public class ChronoJumpWindow
 	
 		putNonStandardIcons();	
 	
-		if(chronopicPort != Constants.ChronopicDefaultPortWindows &&
-			chronopicPort != Constants.ChronopicDefaultPortLinux) {
+		if(chronopicPort != Constants.ChronopicDefaultPortWindows && 
+				(chronopicPort != Constants.ChronopicDefaultPortLinux && File.Exists(chronopicPort))
+		  ) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to connect to Chronopic now?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(chronopicAtStart);
 		}

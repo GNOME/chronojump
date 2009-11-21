@@ -1328,7 +1328,7 @@ public class ChronoJumpWindow
 
 	private void fillTreeView_jumps_rj (string filter) {
 		string [] myJumps;
-		myJumps = SqliteJumpRj.SelectJumps(currentSession.UniqueID, -1, "");
+		myJumps = SqliteJumpRj.SelectJumps(currentSession.UniqueID, -1, "", "");
 		myTreeViewJumpsRj.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumpsRj, treeview_jumps_rj);
@@ -1466,7 +1466,7 @@ public class ChronoJumpWindow
 	}
 
 	private void fillTreeView_runs_interval (string filter) {
-		string [] myRuns = SqliteRunInterval.SelectRuns(currentSession.UniqueID, -1);
+		string [] myRuns = SqliteRunInterval.SelectRuns(currentSession.UniqueID, -1, "");
 		myTreeViewRunsInterval.Fill(myRuns, filter);
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRunsInterval, treeview_runs_interval);
 	}
@@ -3097,7 +3097,7 @@ Console.WriteLine("X");
 
 	private void on_button_more_clicked (object o, EventArgs args) 
 	{
-		jumpsMoreWin = JumpsMoreWindow.Show(app1);
+		jumpsMoreWin = JumpsMoreWindow.Show(app1, true);
 		jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
 		jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_draw_image_test);
 	}
@@ -3302,7 +3302,7 @@ Console.WriteLine("X");
 	
 	private void on_button_more_rj_clicked (object o, EventArgs args) 
 	{
-		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1);
+		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, true);
 		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
 		jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_draw_image_test);
 	}
@@ -3518,7 +3518,7 @@ Console.WriteLine("X");
 	
 	private void on_button_run_more_clicked (object o, EventArgs args) 
 	{
-		runsMoreWin = RunsMoreWindow.Show(app1);
+		runsMoreWin = RunsMoreWindow.Show(app1, true);
 		runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
 		runsMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_draw_image_test);
 	}
@@ -3715,7 +3715,7 @@ Console.WriteLine("X");
 
 	private void on_button_run_interval_more_clicked (object o, EventArgs args) 
 	{
-		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1);
+		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, true);
 		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
 		runsIntervalMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_interval_draw_image_test);
 	}
@@ -4944,6 +4944,27 @@ Console.WriteLine("X");
 	
 	private void on_pulse_type_add_accepted (object o, EventArgs args) {
 		Log.WriteLine("ACCEPTED Add new pulse type");
+	}
+
+	/* ---------------------------------------------------------
+	 * ----------------  EVENTS TYPE DELETE --------------------
+	 *  --------------------------------------------------------
+	 */
+
+	private void on_jump_type_delete_simple_activate (object o, EventArgs args) {
+		jumpsMoreWin = JumpsMoreWindow.Show(app1, false); //delete jump type
+	}
+	
+	private void on_jump_type_delete_reactive_activate (object o, EventArgs args) {
+		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, false); //delete jump type
+	}
+	
+	private void on_run_type_delete_simple_activate (object o, EventArgs args) {
+		runsMoreWin = RunsMoreWindow.Show(app1, false); //delete run type
+	}
+	
+	private void on_run_type_delete_intervallic_activate (object o, EventArgs args) {
+		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, false); //delete run type
 	}
 
 	/* ---------------------------------------------------------

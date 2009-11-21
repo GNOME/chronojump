@@ -80,13 +80,19 @@ class SqliteRun : Sqlite
 		return myLast;
 	}
 	
+	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types, put "" in filterType
 	public static string[] SelectRuns(int sessionID, int personID, string filterType) 
 	{
+		string filterSessionString = "";
+		if(sessionID != -1)
+			filterSessionString = " AND run.sessionID == " + sessionID;
+
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND person.uniqueID == " + personID;
+
 		string filterTypeString = "";
 		if(filterType != "")
 			filterTypeString = " AND run.type == '" + filterType + "' " ;
@@ -95,7 +101,7 @@ class SqliteRun : Sqlite
 		dbcmd.CommandText = "SELECT person.name, run.* " +
 			" FROM person, run " +
 			" WHERE person.uniqueID == run.personID" + 
-			" AND run.sessionID == " + sessionID + 
+			filterSessionString +
 			filterPersonString +
 			filterTypeString +
 			" ORDER BY upper(person.name), run.uniqueID";

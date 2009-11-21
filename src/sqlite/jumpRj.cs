@@ -87,8 +87,12 @@ class SqliteJumpRj : SqliteJump
 		return myLast;
 	}
 
-	public new static string[] SelectJumps(int sessionID, int personID, string filterWeight) 
+	public new static string[] SelectJumps(int sessionID, int personID, string filterWeight, string filterType) 
 	{
+		string filterSessionString = "";
+		if(sessionID != -1)
+			filterSessionString = " AND jumpRj.sessionID == " + sessionID;
+
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND person.uniqueID == " + personID;
@@ -97,13 +101,18 @@ class SqliteJumpRj : SqliteJump
 		if(filterWeight == "withWeight")
 			filterWeightString = " AND jumpRj.weight != 0 ";
 
+		string filterTypeString = "";
+		if(filterType != "")
+			filterTypeString = " AND jumpRj.type == '" + filterType + "' ";
+
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, jumpRj.*, personSessionWeight.weight " +
 			" FROM person, jumpRj, personSessionWeight " +
 			" WHERE person.uniqueID == jumpRj.personID" + 
-			" AND jumpRj.sessionID == " + sessionID + 
+			filterSessionString +
 			filterPersonString +
 			filterWeightString +
+			filterTypeString +
 			" AND personSessionWeight.personID == person.uniqueID " +
 			" AND personSessionWeight.sessionID == jumpRj.sessionID " +
 			" ORDER BY upper(person.name), jumpRj.uniqueID";

@@ -48,6 +48,7 @@ public class ReportWindow {
 	[Widget] Gtk.CheckButton cb_pulses;
 	[Widget] Gtk.Image image_report_win_graph;
 	[Widget] Gtk.Image image_report_win_report;
+	[Widget] Gtk.Image image_report_delete;
 	
 	GenericWindow genericWin;
 	
@@ -124,6 +125,8 @@ public class ReportWindow {
 		image_report_win_graph.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
 		image_report_win_report.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_report_delete.Pixbuf = pixbuf;
 	}
 	
 	private void createTreeView (Gtk.TreeView tv) {

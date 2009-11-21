@@ -433,5 +433,15 @@ class SqliteJumpType : Sqlite
 		dbcmd.ExecuteNonQuery();
 		//dbcon.Close();
 	}
+	
+	public static void Delete(string name)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "Delete FROM " + Constants.JumpTypeTable +
+			" WHERE name == '" + name + "'";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
 
 }	

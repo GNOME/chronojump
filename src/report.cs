@@ -123,13 +123,13 @@ public class Report : ExportSession
 			myJumps= SqliteJump.SelectJumps(sessionID, -1, "", "");
 		}
 		if(ShowReactiveJumps) {
-			myJumpsRj = SqliteJumpRj.SelectJumps(sessionID, -1, "");
+			myJumpsRj = SqliteJumpRj.SelectJumps(sessionID, -1, "", "");
 		}
 		if(ShowSimpleRuns) {
 			myRuns= SqliteRun.SelectRuns(sessionID, -1, "");
 		}
 		if (ShowIntervalRuns) {
-			myRunsInterval = SqliteRunInterval.SelectRuns(sessionID, -1);
+			myRunsInterval = SqliteRunInterval.SelectRuns(sessionID, -1, "");
 		}
 		if(ShowReactionTimes) {
 			myReactionTimes= SqliteReactionTime.SelectReactionTimes(sessionID, -1);

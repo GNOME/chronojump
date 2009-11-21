@@ -312,7 +312,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] jumpsRj = SqliteJumpRj.SelectJumps(currentSession.UniqueID, person.UniqueID, "");
+				string [] jumpsRj = SqliteJumpRj.SelectJumps(currentSession.UniqueID, person.UniqueID, "", "");
 				foreach(string myJump in jumpsRj) {
 					string [] js = myJump.Split(new char[] {':'});
 					//select jump
@@ -396,7 +396,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runsI = SqliteRunInterval.SelectRuns(currentSession.UniqueID, person.UniqueID);
+				string [] runsI = SqliteRunInterval.SelectRuns(currentSession.UniqueID, person.UniqueID, "");
 				foreach(string myRun in runsI) {
 					string [] js = myRun.Split(new char[] {':'});
 					//select run

@@ -463,18 +463,14 @@ public class EditEventWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		Log.WriteLine("a");
 		int eventID = Convert.ToInt32 ( label_event_id_value.Text );
-		Log.WriteLine("a2");
 		string myPerson = UtilGtk.ComboGetActive(combo_persons);
 		string [] myPersonFull = myPerson.Split(new char[] {':'});
 		
 		string myDesc = entry_description.Text;
 		
 
-		Log.WriteLine("b");
 		updateEvent(eventID, Convert.ToInt32(myPersonFull[0]), myDesc);
-		Log.WriteLine("c");
 
 		hideWindow();
 	}
@@ -500,17 +496,22 @@ public class EventMoreWindow
 	protected TreeStore store;
 	[Widget] protected Gtk.TreeView treeview_more;
 	[Widget] protected Gtk.Button button_accept;
+	[Widget] protected Gtk.Button button_delete_type;
+	[Widget] protected Gtk.Button button_cancel;
+	[Widget] protected Gtk.Button button_close;
 	protected Gtk.Window parent;
 
 	protected string selectedEventType;
 	protected string selectedEventName;
 	protected string selectedDescription;
 	public Gtk.Button button_selected;
+	
+	protected bool testOrDelete; //are we going to do a test or to delete a test type (test is true)
 
 	public EventMoreWindow () {
 	}
 
-	public EventMoreWindow (Gtk.Window parent) {
+	public EventMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
@@ -532,7 +533,15 @@ public class EventMoreWindow
 		treeview_more.Model = store;
 		fillTreeView(treeview_more,store);
 
+		//when executing test: show accept and cancel
+		button_accept.Visible = testOrDelete;
+		button_cancel.Visible = testOrDelete;
+		//when deleting test type: show delete type and close
+		button_delete_type.Visible = ! testOrDelete;
+		button_close.Visible = ! testOrDelete;
+
 		button_accept.Sensitive = false;
+		button_delete_type.Sensitive = false;
 		 
 		treeview_more.Selection.Changed += onSelectionEntry;
 	}
@@ -566,6 +575,57 @@ public class EventMoreWindow
 	
 	protected virtual void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
+	}
+	
+	void on_button_delete_type_clicked (object o, EventArgs args)
+	{
+		/*
+		//search for events of that type on db
+		if(selectedEventType == EventType.Types.JUMP.ToString())
+			tests = SqliteJump.SelectJumps(-1, -1, "", selectedEventName); 
+		else //RUN
+			tests = SqliteRun.SelectRuns(-1, -1, selectedEventName); 
+		*/
+		string [] tests = findTestTypesInSessions();
+
+		//this will be much better doing a select distinct(session) instead of using SelectJumps or Runs
+		ArrayList sessionValues = new ArrayList();
+		foreach(string t in tests) {
+			string [] tFull = t.Split(new char[] {':'});
+			Util.AddToArrayListIfNotExist(sessionValues, tFull[3]);
+		}
+
+		//if exist tell user to edit or delete them
+		if(tests.Length > 0) 
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Catalog.GetString("There are tests of that type on database on sessions:") + "\n" +
+					Util.ArrayListToSingleString(sessionValues, ", ") + "\n\n" +
+					Catalog.GetString("please first edit or delete them."));
+		else {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete this test type?"), "", selectedEventName);
+			confirmWin.Button_accept.Clicked += new EventHandler(on_button_delete_type_accepted);
+		}
+	}
+	
+	protected void on_button_delete_type_accepted (object o, EventArgs args)
+	{
+		if(selectedEventType == EventType.Types.JUMP.ToString())
+			SqliteJumpType.Delete(selectedEventName);
+		else //RUN
+			SqliteRunType.Delete(selectedEventName);
+
+		TreeModel model;
+		TreeIter iter;
+		if (treeview_more.Selection.GetSelected (out model, out iter)) 
+			store.Remove(ref iter);
+
+		button_delete_type.Sensitive = false;
+	}
+
+	///this should be abstract
+	protected virtual string [] findTestTypesInSessions() {
+		string [] nothing = new String[0];
+		return nothing;
 	}
 	
 	//fired when something is selected for drawing on imageTest

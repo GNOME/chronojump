@@ -969,11 +969,15 @@ public class RunsMoreWindow : EventMoreWindow
 	
 	private double selectedDistance;
 	
-	RunsMoreWindow (Gtk.Window parent) {
+	RunsMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		this.testOrDelete = testOrDelete;
+		
+		if(!testOrDelete)
+			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jumps_runs_more);
@@ -985,10 +989,10 @@ public class RunsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public RunsMoreWindow Show (Gtk.Window parent)
+	static public RunsMoreWindow Show (Gtk.Window parent, bool testOrDelete)
 	{
 		if (RunsMoreWindowBox == null) {
-			RunsMoreWindowBox = new RunsMoreWindow (parent);
+			RunsMoreWindowBox = new RunsMoreWindow (parent, testOrDelete);
 		}
 		RunsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1017,12 +1021,15 @@ public class RunsMoreWindow : EventMoreWindow
 			RunType tempType = new RunType (myStringFull[1]);
 			string description  = getDescriptionLocalised(tempType, myStringFull[3]);
 
-			store.AppendValues (
-					//myStringFull[0], //don't display the uniqueID
-					myStringFull[1],	//name 
-					myStringFull[2], 	//distance
-					description
-					);
+			//if we are going to execute: show all types
+			//if we are going to delete: show user defined types
+			if(testOrDelete || ! tempType.IsPredefined)
+				store.AppendValues (
+						//myStringFull[0], //don't display the uniqueID
+						myStringFull[1],	//name 
+						myStringFull[2], 	//distance
+						description
+						);
 		}	
 	}
 
@@ -1043,14 +1050,21 @@ public class RunsMoreWindow : EventMoreWindow
 			}
 			selectedDescription = (string) model.GetValue (iter, 2);
 			
-			button_accept.Sensitive = true;
-			//update graph image test on main window
-			button_selected.Click();
+			if(testOrDelete) {
+				button_accept.Sensitive = true;
+				//update graph image test on main window
+				button_selected.Click();
+			} else
+				button_delete_type.Sensitive = true;
 		}
 	}
 	
 	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
+		//return if we are to delete a test
+		if(!testOrDelete)
+			return;
+
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
@@ -1070,6 +1084,9 @@ public class RunsMoreWindow : EventMoreWindow
 		}
 	}
 	
+	protected override string [] findTestTypesInSessions() {
+		return SqliteRun.SelectRuns(-1, -1, selectedEventName); 
+	}
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		RunsMoreWindowBox.jumps_runs_more.Hide();
@@ -1114,12 +1131,16 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	private bool selectedUnlimited;
 	private string selectedDistancesString;
 	
-	RunsIntervalMoreWindow (Gtk.Window parent) {
+	RunsIntervalMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		this.testOrDelete = testOrDelete;
+		
+		if(!testOrDelete)
+			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jumps_runs_more);
@@ -1132,10 +1153,10 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public RunsIntervalMoreWindow Show (Gtk.Window parent)
+	static public RunsIntervalMoreWindow Show (Gtk.Window parent, bool testOrDelete)
 	{
 		if (RunsIntervalMoreWindowBox == null) {
-			RunsIntervalMoreWindowBox = new RunsIntervalMoreWindow (parent);
+			RunsIntervalMoreWindowBox = new RunsIntervalMoreWindow (parent, testOrDelete);
 		}
 		RunsIntervalMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1189,14 +1210,17 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 			RunType tempType = new RunType (myStringFull[1]);
 			string description  = getDescriptionLocalised(tempType, myStringFull[6]);
 
-			store.AppendValues (
-					//myStringFull[0], //don't display de uniqueID
-					myStringFull[1],	//name 
-					distance,		
-					myLimiter,		//tracks or seconds or "unlimited"
-					myLimiterValue,		//? or exact value (or '-' in unlimited)
-					description
-					);
+			//if we are going to execute: show all types
+			//if we are going to delete: show user defined types
+			if(testOrDelete || ! tempType.IsPredefined)
+				store.AppendValues (
+						//myStringFull[0], //don't display de uniqueID
+						myStringFull[1],	//name 
+						distance,		
+						myLimiter,		//tracks or seconds or "unlimited"
+						myLimiterValue,		//? or exact value (or '-' in unlimited)
+						description
+						);
 		}	
 	}
 
@@ -1248,14 +1272,21 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		
 			selectedDescription = (string) model.GetValue (iter, 4);
 
-			button_accept.Sensitive = true;
-			//update graph image test on main window
-			button_selected.Click();
+			if(testOrDelete) {
+				button_accept.Sensitive = true;
+				//update graph image test on main window
+				button_selected.Click();
+			} else
+				button_delete_type.Sensitive = true;
 		}
 	}
 	
 	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
+		//return if we are to delete a test
+		if(!testOrDelete)
+			return;
+
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
@@ -1296,6 +1327,9 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		}
 	}
 	
+	protected override string [] findTestTypesInSessions() {
+		return SqliteRunInterval.SelectRuns(-1, -1, selectedEventName); 
+	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{

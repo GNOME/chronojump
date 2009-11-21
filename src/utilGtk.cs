@@ -156,8 +156,6 @@ public class UtilGtk
 		return "";
 	}
 
-
-
 	public static int IdColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
 		int val1 = 0;
 		int val2 = 0;

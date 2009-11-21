@@ -88,10 +88,15 @@ class SqliteJump : Sqlite
 		return myLast;
 	}
 	
+	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types put, "" in filterType
 	public static string[] SelectJumps(int sessionID, int personID, string filterWeight, string filterType) 
 	{
+		string filterSessionString = "";
+		if(sessionID != -1)
+			filterSessionString = " AND jump.sessionID == " + sessionID;
+
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND person.uniqueID == " + personID;
@@ -108,7 +113,7 @@ class SqliteJump : Sqlite
 		dbcmd.CommandText = "SELECT person.name, jump.*, personSessionWeight.weight " +
 			" FROM person, jump, personSessionWeight " +
 			" WHERE person.uniqueID == jump.personID " + 
-			" AND jump.sessionID == " + sessionID + 
+			filterSessionString +
 			filterPersonString +
 			filterWeightString +
 			filterTypeString +

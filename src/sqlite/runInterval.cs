@@ -81,18 +81,27 @@ class SqliteRunInterval : SqliteRun
 		return myLast;
 	}
 
-	public new static string[] SelectRuns(int sessionID, int personID) 
+	public new static string[] SelectRuns(int sessionID, int personID, string filterType) 
 	{
+		string filterSessionString = "";
+		if(sessionID != -1)
+			filterSessionString = " AND runInterval.sessionID == " + sessionID;
+
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND person.uniqueID == " + personID;
+
+		string filterTypeString = "";
+		if(filterType != "")
+			filterTypeString = " AND runInterval.type == '" + filterType + "' " ;
 
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT person.name, runInterval.* " +
 			" FROM person, runInterval " +
 			" WHERE person.uniqueID == runInterval.personID" + 
-			" AND runInterval.sessionID == " + sessionID + 
+			filterSessionString +
 			filterPersonString +
+			filterTypeString +
 			" ORDER BY upper(person.name), runInterval.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());

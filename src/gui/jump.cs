@@ -986,11 +986,15 @@ public class JumpsMoreWindow : EventMoreWindow
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
 
-	public JumpsMoreWindow (Gtk.Window parent) {
+	public JumpsMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		this.testOrDelete = testOrDelete;
+		
+		if(!testOrDelete)
+			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jumps_runs_more);
@@ -1003,10 +1007,10 @@ public class JumpsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsMoreWindow Show (Gtk.Window parent)
+	static public JumpsMoreWindow Show (Gtk.Window parent, bool testOrDelete)
 	{
 		if (JumpsMoreWindowBox == null) {
-			JumpsMoreWindowBox = new JumpsMoreWindow (parent);
+			JumpsMoreWindowBox = new JumpsMoreWindow (parent, testOrDelete);
 		}
 		JumpsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1043,14 +1047,16 @@ public class JumpsMoreWindow : EventMoreWindow
 			JumpType tempType = new JumpType (myStringFull[1]);
 			string description  = getDescriptionLocalised(tempType, myStringFull[4]);
 
-
-			store.AppendValues (
-					//myStringFull[0], //don't display de uniqueID
-					myStringFull[1],	//name 
-					myStringFull[2], 	//startIn
-					myStringFull[3], 	//weight
-					description
-					);
+			//if we are going to execute: show all types
+			//if we are going to delete: show user defined types
+			if(testOrDelete || ! tempType.IsPredefined)
+				store.AppendValues (
+						//myStringFull[0], //don't display de uniqueID
+						myStringFull[1],	//name 
+						myStringFull[2], 	//startIn
+						myStringFull[3], 	//weight
+						description
+						);
 		}	
 	}
 
@@ -1072,15 +1078,21 @@ public class JumpsMoreWindow : EventMoreWindow
 			}
 			selectedDescription = (string) model.GetValue (iter, 3);
 
-			button_accept.Sensitive = true;
-			
-			//update graph image test on main window
-			button_selected.Click();
+			if(testOrDelete) {
+				button_accept.Sensitive = true;
+				//update graph image test on main window
+				button_selected.Click();
+			} else
+				button_delete_type.Sensitive = true;
 		}
 	}
 	
 	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
+		//return if we are to delete a test
+		if(!testOrDelete)
+			return;
+
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
@@ -1099,6 +1111,10 @@ public class JumpsMoreWindow : EventMoreWindow
 			//activate on_button_accept_clicked()
 			button_accept.Activate();
 		}
+	}
+	
+	protected override string [] findTestTypesInSessions() {
+		return SqliteJump.SelectJumps(-1, -1, "", selectedEventName); 
 	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -1155,12 +1171,16 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
 	
-	public JumpsRjMoreWindow (Gtk.Window parent) {
+	public JumpsRjMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
+		this.testOrDelete = testOrDelete;
+		
+		if(!testOrDelete)
+			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
 		
 		//put an icon to window
 		UtilGtk.IconWindow(jumps_runs_more);
@@ -1177,10 +1197,10 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsRjMoreWindow Show (Gtk.Window parent)
+	static public JumpsRjMoreWindow Show (Gtk.Window parent, bool testOrDelete)
 	{
 		if (JumpsRjMoreWindowBox == null) {
-			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent);
+			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent, testOrDelete);
 		}
 		JumpsRjMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1237,15 +1257,18 @@ public class JumpsRjMoreWindow : EventMoreWindow
 			JumpType tempType = new JumpType (myStringFull[1]);
 			string description  = getDescriptionLocalised(tempType, myStringFull[6]);
 
-			store.AppendValues (
-					//myStringFull[0], //don't display de uniqueID
-					myStringFull[1],	//name 
-					myLimiter,		//jumps or seconds		
-					myLimiterValue,		//? or exact value
-					myStringFull[2], 	//startIn
-					myStringFull[3], 	//weight
-					description
-					);
+			//if we are going to execute: show all types
+			//if we are going to delete: show user defined types
+			if(testOrDelete || ! tempType.IsPredefined)
+				store.AppendValues (
+						//myStringFull[0], //don't display de uniqueID
+						myStringFull[1],	//name 
+						myLimiter,		//jumps or seconds		
+						myLimiterValue,		//? or exact value
+						myStringFull[2], 	//startIn
+						myStringFull[3], 	//weight
+						description
+						);
 		}	
 	}
 
@@ -1289,14 +1312,21 @@ public class JumpsRjMoreWindow : EventMoreWindow
 			}
 			selectedDescription = (string) model.GetValue (iter, 5);
 
-			button_accept.Sensitive = true;
-			//update graph image test on main window
-			button_selected.Click();
+			if(testOrDelete) {
+				button_accept.Sensitive = true;
+				//update graph image test on main window
+				button_selected.Click();
+			} else
+				button_delete_type.Sensitive = true;
 		}
 	}
 	
 	protected override void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
 	{
+		//return if we are to delete a test
+		if(!testOrDelete)
+			return;
+
 		TreeView tv = (TreeView) o;
 		TreeModel model;
 		TreeIter iter;
@@ -1334,6 +1364,9 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		}
 	}
 	
+	protected override string [] findTestTypesInSessions() {
+		return SqliteJumpRj.SelectJumps(-1, -1, "", selectedEventName); 
+	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{

@@ -875,10 +875,13 @@ public class Util
 		}
 	}
 			
-	public static string ArrayListToSingleString (ArrayList myArrayList) {
+	public static string ArrayListToSingleString (ArrayList myArrayList, string sep) {
 		string myString = "";
-		foreach (string str in myArrayList) 
-			myString += str + "\n";
+		string sepUsed = "";
+		foreach (string str in myArrayList) { 
+			myString += sepUsed + str;
+			sepUsed =  sep;
+		}
 
 		return myString;
 	}

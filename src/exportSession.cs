@@ -165,9 +165,9 @@ public class ExportSession
 	{
 		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
 		myJumps= SqliteJump.SelectJumps(mySession.UniqueID, -1, "", "");
-		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "");
+		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "", "");
 		myRuns= SqliteRun.SelectRuns(mySession.UniqueID, -1, "");
-		myRunsInterval = SqliteRunInterval.SelectRuns(mySession.UniqueID, -1);
+		myRunsInterval = SqliteRunInterval.SelectRuns(mySession.UniqueID, -1, "");
 		myReactionTimes = SqliteReactionTime.SelectReactionTimes(mySession.UniqueID, -1);
 		myPulses = SqlitePulse.SelectPulses(mySession.UniqueID, -1);
 		myMCs = SqliteMultiChronopic.SelectTests(mySession.UniqueID, -1);

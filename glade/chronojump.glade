@@ -3367,6 +3367,7 @@ options</property>
     <child>
       <widget class="GtkVBox" id="vbox_stats">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <widget class="GtkNotebook" id="notebook1">
@@ -3999,6 +4000,7 @@ options</property>
                     <child>
                       <widget class="GtkVBox" id="vbox196">
                         <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
                         <property name="spacing">7</property>
                         <child>
                           <widget class="GtkHBox" id="hbox375">
@@ -4592,8 +4594,6 @@ options</property>
                     <signal name="clicked" handler="on_button_close_clicked"/>
                   </widget>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
                     <property name="pack_type">end</property>
                     <property name="position">0</property>
                   </packing>
@@ -7661,8 +7661,8 @@ suitable for agility tests)</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip" translatable="yes">Edit selected person (E)</property>
                                         <signal name="clicked" handler="on_edit_current_person_clicked"/>
-                                        <accelerator key="E" signal="clicked"/>
                                         <accelerator key="e" signal="clicked" modifiers="GDK_SHIFT_MASK"/>
+                                        <accelerator key="E" signal="clicked"/>
                                         <child>
                                           <widget class="GtkImage" id="image1977">
                                             <property name="visible">True</property>

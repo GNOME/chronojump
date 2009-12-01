@@ -300,6 +300,14 @@ public class TreeViewEvent
 	{
 		TreeIter iter = new TreeIter();
 		treeview.Model.GetIterFirst ( out iter ) ;
+
+		/*
+		  new GTK# makes IterNext point to an invalid iter if there's no next
+		  then we cannot find parent of iter
+		  with the iterValid, we have the last valid children iter
+		  and we use it to find parent
+		  */
+		TreeIter iterValid = new TreeIter();
 		
 		do {
 			if( treeview.Model.IterHasChild(iter) ) {
@@ -320,8 +328,12 @@ public class TreeViewEvent
 
 						return;
 					}
+					iterValid = iter;
 				} while (treeview.Model.IterNext (ref iter));
-				treeview.Model.IterParent (out iter, iter);
+					
+				iter= iterValid;
+				//bool ok=treeview.Model.IterParent (out iter, iter);
+				bool ok=treeview.Model.IterParent (out iter, iter);
 			}
 		} while (treeview.Model.IterNext (ref iter));
 	}

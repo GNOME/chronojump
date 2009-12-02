@@ -95,6 +95,7 @@ src/Makefile
 po/Makefile
 chronojump_server/Makefile
 manual/Makefile
+src/AssemblyInfo.cs
 src/chronojump
 src/chronojump_mini
 src/chronojump.desktop

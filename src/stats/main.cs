@@ -1271,14 +1271,30 @@ public class Stat
 			changedPalette = true;
 		}
 
+		//prediction is discussed here:
+		//https://stat.ethz.ch/pipermail/r-help-es/2009-December/000539.html
+
 		string rG = //rGraphString
 		   	"colors=" + gro.Palette +"(length(rownames(data)))\n" +
 			"rang <- c(1:length(rownames(data)))\n" +
-			"plot(serie0, serie1, pch=rang, col="+ colors +", xlab='" + Util.RemoveTilde(gro.VarX) + "', ylab='" + Util.RemoveTilde(gro.VarY) + "')\n" +
-			"abline(lm(serie1 ~ serie0),col='grey30')\n" +
+			//"plot(serie0, serie1, pch=rang, col="+ colors +", xlab='" + Util.RemoveTilde(gro.VarX) + "', ylab='" + Util.RemoveTilde(gro.VarY) + "')\n" +
+			"plot(serie0,serie1,xlim=c(min(serie0),max(serie0)),ylim=c(min(serie1),max(serie1)), " + 
+			"pch=rang, col="+ colors +", xlab='" + Util.RemoveTilde(gro.VarX) + 
+			"', ylab='" + Util.RemoveTilde(gro.VarY) + "')\n" +
 			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col="+ colors +", cex=.7)\n" +
-			titStr;
-		
+			titStr + "\n" +
+	
+			"mylm<-lm(serie1~serie0)\n" +
+			"abline(mylm,col='red')\n" +
+			"newx<-seq(min(serie0),max(serie0),length.out=length(serie0))\n" +
+			"prd<-predict(mylm,newdata=data.frame(serie0=newx),interval = c('confidence'), level = 0.90,type='response')\n" +
+			"lines(newx,prd[,3],col='red',lty=2)\n" +
+			"lines(newx,prd[,2],col='red',lty=2)\n" +
+			"text(newx[1],prd[1,3],'90%', cex=0.6)\n" +
+			"text(newx[1],prd[1,2],'90%', cex=0.6)\n" +
+			"text(newx[length(newx)],prd[length(newx),3],'90%', cex=0.6)\n" +
+			"text(newx[length(newx)],prd[length(newx),2],'90%', cex=0.6)\n";
+
 		if(changedPalette)
 			gro.Palette=Constants.GraphPaletteBlack;
 
@@ -1429,123 +1445,6 @@ public class Stat
 			return Convert.ToInt32(myData/2);
 		}
 	}
-
-	/*	
-	protected virtual int plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
-	{
-		rjEvolutionMaxJumps = -1;
-		
-		int acceptedSerie = 0;
-		int countSerie = 0;
-		
-		foreach(GraphSerie mySerie in allSeries) 
-		{
-			//in isRjEvolution then check it this serie will be shown (each jumper has a TC and a TF serie)
-			if( isRjEvolution && ! acceptCheckedData( divideAndRoundDown(countSerie)) ) {
-				countSerie ++;
-				continue;
-			
-			}
-			//in multisession if a stats row is unchecked, jump to next iteration
-			else if( sessions.Count > 1 && ! acceptCheckedData(countSerie) ) {
-				countSerie ++;
-				continue;
-			}
-			
-			
-			//xtics value is all rows +2 (left & right space)
-			//lineData should contain xtics but without the rows thar are not in markedRows
-			//Log.WriteLine("{0}:{1}:{2}", xtics, markedRows.Count, xtics-( (xtics-2)-(markedRows.Count) ) );
-			double[] lineData;
-			if(sessions.Count == 1 && !isRjEvolution) {
-				//in single session lineData should contain all rows from stats except unchecked
-				lineData = new double[ xtics-( (xtics-2)-(markedRows.Count) ) ];
-			} else {
-				//in multisession lineData does not contain rows from stats, it contains sessions name
-				lineData = new double[ xtics ];
-			}
-			
-			Marker m = mySerie.SerieMarker;
-		
-			PointPlot pp;
-			LinePlot lp;
-
-			pp = new PointPlot( m );
-			pp.Label = mySerie.Title; 
-			lp = new LinePlot();
-			lp.Label = mySerie.Title; 
-			lp.Color = mySerie.SerieColor;
-
-			//left margin
-			lineData[0] = double.NaN;
-	
-			int added=1;
-			int counter=0;
-			foreach (string myValue in mySerie.SerieData) 
-			{
-				//TODO: check this:
-				//don't graph AVG and SD right cols in multisession
-				if ( counter >= xtics -2 ) {
-					break;
-				}	
-				
-				//in single session lineData should contain all rows from stats except unchecked
-				if(sessions.Count == 1 && !isRjEvolution && ! acceptCheckedData(counter) ) {
-					counter ++;
-					continue;
-				}
-				
-				if(myValue == "-") {
-					lineData[added++] = double.NaN;
-				} else {
-					lineData[added++] = Convert.ToDouble(myValue);
-				}
-				counter++;
-
-				//Log.WriteLine("linedata :" + mySerie +":" + myValue);
-
-				if(isRjEvolution && myValue != "-" && added -1 > rjEvolutionMaxJumps) {
-					rjEvolutionMaxJumps = added -1;
-				}
-			}
-			
-			//right margin
-			lineData[added] = double.NaN;
-			
-			lp.DataSource = lineData;
-			pp.OrdinateData = lineData;
-			pp.AbscissaData = new StartStep( 0, 1 ); //ini 0, step 1 (ini 0 because in lineData we start with blank value)
-			lp.ShowInLegend = false;
-				
-			if(mySerie.IsLeftAxis) {
-				plot.Add( lp );
-				plot.Add( pp );
-			} else {
-				plot.Add( lp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
-				plot.Add( pp, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
-			}
-				
-			// plot AVG 
-			if(mySerie.Avg != 0) {
-				HorizontalLine hl1 = new HorizontalLine(mySerie.Avg, mySerie.SerieColor);
-				//Log.WriteLine("serie.AVG: {0}", mySerie.Avg);
-				hl1.ShowInLegend = false;
-				hl1.Pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-				//hl1.Pen.Width = 2F;
-				if(mySerie.IsLeftAxis) {
-					plot.Add( hl1 );
-				} else {
-					plot.Add( hl1, NPlot.PlotSurface2D.XAxisPosition.Bottom, NPlot.PlotSurface2D.YAxisPosition.Right );
-				}
-
-			}
-
-			acceptedSerie ++;
-			countSerie ++;
-		}
-		return acceptedSerie; //for knowing if a serie was accepted, and then createAxisGraphSeries
-	}
-	*/
 
 
 	public ArrayList Sessions {

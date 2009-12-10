@@ -248,8 +248,9 @@ public class Constants
 	public static string [] GraphTypes = { GraphTypeBoxplot, GraphTypeBarplot, GraphTypeLines, 
 		GraphTypeXY, GraphTypeDotchart, GraphTypeStripchart };
 	public static string GraphPaletteGray = "gray.colors";
-	public static string [] GraphPalettes = { GraphPaletteGray, "rainbow", 
-		"topo.colors", "heat.colors", "terrain.colors", "cm.colors" };
+	public static string GraphPaletteBlack = Catalog.GetString("black only");
+	public static string [] GraphPalettes = { GraphPaletteBlack, GraphPaletteGray, "rainbow", 
+		"topo.colors", "heat.colors", "terrain.colors", "cm.colors"};
 
 
 	public static string FileNameZoomFitIcon = "gtk-zoom-fit.png";

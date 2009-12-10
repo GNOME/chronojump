@@ -850,7 +850,7 @@ public class Stat
 	protected ArrayList GraphSeries = new ArrayList();
 
 	protected bool isRjEvolution = false; //needed because in RjEvolution graph, series are treaten in a different way
-	int rjEvolutionMaxJumps; //we should care of majjumps of the checked rjEvolution rows
+	int rjEvolutionMaxJumps; //we should care of maxjumps of the checked rjEvolution rows
 
 	
 	//temporary hack for a gtk# garbage collecting error
@@ -879,6 +879,7 @@ public class Stat
 		return (left && right);
 	}
 
+
 	private string convertDataToR(GraphROptions gro, Sides side) 
 	{
 		string rD = ""; //rDataString
@@ -887,6 +888,7 @@ public class Stat
 		string sepSerie = "";
 		string xyFirstFound = "";
 		int count = 0; //this counts accepted series
+		int countCols=0;
 		foreach(GraphSerie serie in GraphSeries) {
 			if(
 					side == Sides.LEFT && ! serie.IsLeftAxis ||
@@ -918,25 +920,25 @@ public class Stat
 
 			rD += "serie" + count.ToString() + " <- c(";
 			string sep = "";
-			int count2=0;
+			countCols=0;
 			foreach(string val in serie.SerieData) {
 				bool use = true;
-				if(! acceptCheckedData(count2)) 
+				if(! acceptCheckedData(countCols)) 
 					use = false;
 
 				//don't plot AVG col on multisession
-				if(sessions.Count > 1 && count2 == serie.SerieData.Count) 
+				if(sessions.Count > 1 && countCols == serie.SerieData.Count) 
 					use = false;
 				
 				//don't plot SD col on multisession
-				if(sessions.Count > 1 && count2 +1 == serie.SerieData.Count) 
+				if(sessions.Count > 1 && countCols +1 == serie.SerieData.Count) 
 					use = false;
 
-				count2++;
+				countCols++;
 				if(! use)
 					continue;
-
-				if(val == "-")
+				
+				if(val == "-") 
 					rD += sep + "0";
 				else
 					rD += sep + Util.ConvertToPoint(val);
@@ -944,15 +946,14 @@ public class Stat
 			}
 			rD += ")\n";
 			bD += sepSerie + "serie" + count.ToString();
+		
 			colNamesD += sepSerie + "'" + Util.RemoveTilde(serie.Title)  + "'";
 			sepSerie = ", ";
 			count ++;
 		}
 
-		bD += ")\n";
-		colNamesD += ")\n";
-
 		string rowNamesD = "rownames(data) <- c("; //rowNamesDataString
+		//create rows
 		string sep2 = "";
 		for(int i=0; i < CurrentGraphData.XAxisNames.Count; i++) {
 			if(! acceptCheckedData(i))
@@ -960,8 +961,11 @@ public class Stat
 			rowNamesD += sep2 + "'" + Util.RemoveTilde(CurrentGraphData.XAxisNames[i].ToString()) + "'";
 			sep2 = ", ";
 		}
+		
+		bD += ")\n";
+		colNamesD += ")\n";
 		rowNamesD += ")\n";
-			
+
 		if(gro.Type == Constants.GraphTypeXY) {
 			if(gro.VarX == gro.VarY) {
 				//if it's an XY with only one serie, (both selected vars are the same
@@ -992,9 +996,93 @@ public class Stat
 		return allData;	
 	}
 
-	string getTitle(string graphType) {
-		return "title(main='" + CurrentGraphData.GraphTitle + " (" + graphType +")', sub='" + 
-			CurrentGraphData.GraphSubTitle + "', cex.sub=0.75, font.sub=3, col.sub='grey30')\n";
+	private string convertDataToROnRjEvolution(GraphROptions gro, Sides side) 
+	{
+		string rD = ""; //rDataString
+		string bD = "data <- cbind("; //bindDataString
+		string colNamesD = "colnames(data) <- c("; //colNamesDataString
+		string sepSerie = "";
+		string xyFirstFound = "";
+		int count = 0; //this counts accepted series
+		int countSeries = 0; //for RJ
+		int countAcceptedCols=0;
+		rjEvolutionMaxJumps = -1;
+		foreach(GraphSerie serie in GraphSeries) {
+			if(
+					side == Sides.LEFT && ! serie.IsLeftAxis ||
+					side == Sides.RIGHT && serie.IsLeftAxis) {
+				continue;
+			}
+
+			//in isRjEvolution then check it this serie will be shown (each jumper has a TC and a TF serie)
+			if( ! acceptCheckedData( divideAndRoundDown(countSeries)) ) {
+				countSeries ++;
+				continue;
+			}
+
+			rD += "serie" + count.ToString() + " <- c(";
+			string sep = "";
+			countAcceptedCols=0;
+			foreach(string val in serie.SerieData) {
+				countAcceptedCols++;
+				if(val == "-1")
+					rD += sep + "NA"; //don't plot starting -1 on evolutions
+				else if(val == "-") 
+					rD += sep + "NA"; //don't plot 0's on ended evolutions
+				else
+					rD += sep + Util.ConvertToPoint(val);
+				sep = ", ";
+				
+				if(val != "-" && countAcceptedCols > rjEvolutionMaxJumps)
+					rjEvolutionMaxJumps = countAcceptedCols;
+			}
+			rD += ")\n";
+			bD += sepSerie + "serie" + count.ToString();
+		
+			sepSerie = ", ";
+			count ++;
+			countSeries ++;
+		}
+
+		string rowNamesD = "rownames(data) <- c("; //rowNamesDataString
+
+		//create cols
+		int i=0;
+		string sep2 = "";
+		foreach(GraphSerie serie in GraphSeries) {
+			if(acceptCheckedData(divideAndRoundDown(i++))) {
+				colNamesD += sep2 + "'" + serie.Title + "'";
+				sep2 = ", ";
+			}
+		}
+		//create rows
+		sep2 = "";
+		for(int j=1; j < countAcceptedCols+1; j++) {
+			rowNamesD += sep2 + j;
+			sep2 = ", ";
+		}
+		
+		bD += ")\n";
+		colNamesD += ")\n";
+		rowNamesD += ")\n";
+
+			
+		string allData = rD + bD + colNamesD + rowNamesD + "data\n";
+
+		if(gro.Transposed)
+			allData += "data <- t(data)\n";
+	
+		return allData;	
+	}
+
+	string getTitle(string graphType, string subTitle) {
+		//subtitle can be XY correlation or can come from graphdata (see rjPotencyBosco)
+		string sub = subTitle;
+		if(sub == "")
+			sub="sub='" + CurrentGraphData.GraphSubTitle + "'";
+
+		return "title(main='" + CurrentGraphData.GraphTitle + " (" + graphType +")', " + 
+			sub + ", cex.sub=0.75, font.sub=3, col.sub='grey30')\n";
 	}
 	
 	private string getRBoxplotString(GraphROptions gro, string fileName, Sides side) {
@@ -1015,7 +1103,7 @@ public class Stat
 			"axis(1, 1:length(colnames(data)), colnames(data), las=2)\n"; //axis separated from boxplot because if data hsa one col, names are not displayed
 		
 		//have an unique title for both graphs
-		string titStr = getTitle("Boxplot");
+		string titStr = getTitle("Boxplot","");
 		if(hasTwoAxis()) {
 		       if(side==Sides.RIGHT)
 				rG += "par(mfrow=c(1,1), new=TRUE)\n" +
@@ -1041,6 +1129,10 @@ public class Stat
 			if(CurrentGraphData.LabelLeft != "")
 				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelLeft) + "'";
 		}
+	
+		//black only has no sense on barplot	
+		if(gro.Palette == Constants.GraphPaletteBlack)
+			gro.Palette="gray.colors";
 
 		string rG = //rGraphString
 		   	" colors=" + gro.Palette +"(length(rownames(data)))\n" +
@@ -1048,7 +1140,7 @@ public class Stat
 			" legend('" + gro.Legend +"', legend=rownames(data), cex=.7, col=colors, pch=3)\n";
 		
 		//have an unique title for both graphs
-		string titStr = getTitle("Barplot");
+		string titStr = getTitle("Barplot","");
 		if(hasTwoAxis()) {
 		       if(side==Sides.RIGHT)
 				rG += "par(mfrow=c(1,1), new=TRUE)\n" +
@@ -1063,7 +1155,11 @@ public class Stat
 
 
 	private string getRLinesString(GraphROptions gro, string fileName, Sides side) {
-		string allData = convertDataToR(gro, side);
+		string allData = "";
+		if(isRjEvolution)
+			allData = convertDataToROnRjEvolution(gro, side);
+		else
+			allData = convertDataToR(gro, side);
 		
 		string axesStr = "";
 		string ylabStr = "";
@@ -1078,19 +1174,48 @@ public class Stat
 				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelLeft) + "'";
 		}
 
+		string naString = "";
+		if(isRjEvolution)
+			naString = ", na.rm = TRUE";
+
+		string xlimString = "c(0,length(colnames(data))+1)";
+		if(isRjEvolution)
+			xlimString = "c(1," + rjEvolutionMaxJumps + ")";
+	
+		//TC and TF same color on rjEvo	
+		string colorsConversionString = "";
+
+		string colors1="colors[1]";
+		string colorsi="colors[i]";
+		string colors="colors";
+		bool changedPalette = false;
+		if(gro.Palette == Constants.GraphPaletteBlack) {
+			colors1="'black'";
+			colorsi="'black'";
+			colors="'black'";
+			gro.Palette="gray.colors";
+			changedPalette = true;
+		} else if(isRjEvolution)
+			colorsConversionString = "for(i in 2:length(colors)) if(i%%2 == 0) colors[i]=colors[i-1]\n";
+
 		string rG = //rGraphString
 		   	" colors=" + gro.Palette +"(length(rownames(data)))\n" +
-		   	" plot(data[1,1:length(colnames(data))], type='b', xlim=c(0,length(colnames(data))+1), ylim=c(min(data),max(data)), pch=1, axes=FALSE, col=colors[1], xlab=''" + ylabStr + ")\n" +
+			colorsConversionString +
+		   	" plot(data[1,1:length(colnames(data))], type='b', xlim=" + xlimString + "," +
+			" ylim=c(min(data" + naString +"),max(data" + naString + ")), pch=1, axes=FALSE, col="+ colors1 +", xlab=''" + ylabStr + ")\n" +
 			" if(length(rownames(data))>=2) {\n" +
 			" 	for(i in 2:length(rownames(data)))\n" +
-		   	" 		points(data[i,1:length(colnames(data))], type='b', pch=i, col=colors[i])\n" +
+		   	" 		points(data[i,1:length(colnames(data))], type='b', pch=i, col="+ colorsi +")\n" +
 			" }\n" +
 			" axis(1, 1:length(colnames(data)), colnames(data), las=2)\n" +
 			axesStr + 
-			" legend('" + gro.Legend +"', legend=rownames(data), pch=c(1:length(rownames(data))), cex=.7, col=colors)\n";
+			" legend('" + gro.Legend +"', legend=rownames(data), pch=c(1:length(rownames(data))), cex=.7, col="+ colors +")\n";
+			
+		if(changedPalette)
+			gro.Palette=Constants.GraphPaletteBlack;
 		
 		//have an unique title for both graphs
-		string titStr = getTitle("Lines");
+		string titStr = getTitle("Lines", "");
 		if(hasTwoAxis()) {
 		       if(side==Sides.RIGHT)
 				rG += "par(mfrow=c(1,1), new=TRUE)\n" +
@@ -1121,7 +1246,7 @@ public class Stat
 			"axis(2, 1:length(colnames(data)), colnames(data), las=2)\n"; //axis separated from boxplot because if data hsa one col, names are not displayed
 		
 		//have an unique title for both graphs
-		string titStr = getTitle("Stripchart");
+		string titStr = getTitle("Stripchart","");
 		if(hasTwoAxis()) {
 		       if(side==Sides.RIGHT)
 				rG += "par(mfrow=c(1,1), new=TRUE)\n" +
@@ -1136,21 +1261,33 @@ public class Stat
 
 	private string getRXYString(GraphROptions gro, string fileName) {
 		string allData = convertDataToR(gro, Sides.ALL);
-		string titStr = getTitle("XY");
+		string titStr = getTitle("XY", "sub=paste('correlation:',cor(serie0,serie1))");
+		
+		string colors="colors";
+		bool changedPalette = false;
+		if(gro.Palette == Constants.GraphPaletteBlack) {
+			colors="'black'";
+			gro.Palette="gray.colors";
+			changedPalette = true;
+		}
+
 		string rG = //rGraphString
 		   	"colors=" + gro.Palette +"(length(rownames(data)))\n" +
 			"rang <- c(1:length(rownames(data)))\n" +
-			"plot(serie0, serie1, pch=rang, col=colors, xlab='" + Util.RemoveTilde(gro.VarX) + "', ylab='" + Util.RemoveTilde(gro.VarY) + "')\n" +
+			"plot(serie0, serie1, pch=rang, col="+ colors +", xlab='" + Util.RemoveTilde(gro.VarX) + "', ylab='" + Util.RemoveTilde(gro.VarY) + "')\n" +
 			"abline(lm(serie1 ~ serie0),col='grey30')\n" +
-			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col=colors, cex=.7)\n" +
+			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col="+ colors +", cex=.7)\n" +
 			titStr;
+		
+		if(changedPalette)
+			gro.Palette=Constants.GraphPaletteBlack;
 
 		return allData + rG;
 	}
 
 	private string getRDotchartString(GraphROptions gro, string fileName) {
 		string allData = convertDataToR(gro, Sides.ALL);
-		string titStr = getTitle("Dotchart");
+		string titStr = getTitle("Dotchart","");
 		string rG = //rGraphString
 			"dotchart(serie0, labels=rownames(data), cex=1)\n" +
 			"abline(v=mean(serie0), lty=1, col='grey20')\n" +
@@ -1270,49 +1407,6 @@ public class Stat
 	}
 			
 		
-	/*	
-	private int getSizeX() {
-		int x;
-		int xMultiplier = 50;
-		int minimum = 300;
-		int maximum = 800;
-		
-		if(isRjEvolution)
-			x = rjEvolutionMaxJumps * xMultiplier;
-		else
-			x = markedRows.Count * xMultiplier;
-
-		if(x < minimum)
-			x = minimum;
-		else if(x > maximum)
-			x = maximum;
-		
-		return x;
-	}
-
-	//calculated using series number.
-	//Also if x is big, then lots of data has to be plotted
-	//is better to have a taller graph, for this reason
-	//x value is used
-	private int getSizeY(int x, int series) {
-		//return (int) x * 3/4;
-		int y;
-		int yMultiplier = 150;
-		int minimum = 300;
-		int maximum = 600;
-		y = series * yMultiplier;
-		if(y < minimum)
-			y = minimum;
-		if(y < x*3/4)
-			y = x*3/4;
-		if(y > maximum)
-			y = maximum;
-		
-		return y;
-	}
-	*/
-
-
 
 	protected bool acceptCheckedData(int myData) {
 		foreach(string marked in markedRows) {
@@ -1323,7 +1417,6 @@ public class Stat
 		return false;
 	}
 
-	/*	
 	//used only by RjEvolution in plotGraphGraphSeries, 
 	//because rjevolution has a serie for TC and a serie for TF for each jumper
 	int divideAndRoundDown (int myData) {
@@ -1336,7 +1429,6 @@ public class Stat
 			return Convert.ToInt32(myData/2);
 		}
 	}
-	*/
 
 	/*	
 	protected virtual int plotGraphGraphSeries (IPlotSurface2D plot, int xtics, ArrayList allSeries)
@@ -1455,74 +1547,6 @@ public class Stat
 	}
 	*/
 
-	/*
-	protected void createAxisGraphSeries (IPlotSurface2D plot, GraphData graphData)
-	{
-		LabelAxis la = new LabelAxis( plot.XAxis1 );
-		int added=1;
-		int counter=0;
-		foreach (string name in graphData.XAxisNames) {
-			if(sessions.Count == 1 && !isRjEvolution && !acceptCheckedData(counter)) {
-				//in single session lineData should contain all rows from stats except unchecked
-				counter ++;
-				continue;
-			}
-			la.AddLabel( name, added++ );
-			counter ++;
-		}
-		la.WorldMin = 0.7f;
-		
-		if(isRjEvolution) {
-			la.WorldMax = rjEvolutionMaxJumps + .3f;
-		} else {
-			if(sessions.Count == 1) {
-				//in single session lineData should contain all rows from stats except unchecked
-				la.WorldMax = graphData.XAxisNames.Count-(graphData.XAxisNames.Count-(markedRows.Count)) + .3f;
-			} else {
-				la.WorldMax = graphData.XAxisNames.Count + .3f;
-			}
-		}
-		plot.XAxis1 = la;
-		//plot.XAxis1.LargeTickSize = 0.0f;
-		plot.XAxis1.TicksLabelAngle = 35.0f;
-		if(graphData.LabelBottom != "")
-			la.Label = graphData.LabelBottom;
-	
-		LinearAxis ly1 = new LinearAxis();
-		if(graphData.LabelLeft != "") {
-			try {
-				ly1 = createLinearAxis(graphData.LabelLeft, plot.YAxis1, graphData.IsLeftAxisInteger);
-			} catch {
-				//on stats global inter-session maybe cannot create axis because maybe there's no data in seconds like sj, cmj, abk
-			}
-		}
-		
-		LinearAxis ly2 = new LinearAxis();
-		if(graphData.LabelRight != "") {
-			try {
-				ly2 = createLinearAxis(graphData.LabelRight, plot.YAxis2, graphData.IsRightAxisInteger);
-			} catch {
-				//on stats global inter-session maybe cannot create axis because maybe there's no data in % like dj indexes, ...
-			}
-		}
-	}
-
-	private LinearAxis createLinearAxis(string label, Axis myAxis, bool isInt) {
-		LinearAxis ly = (LinearAxis) myAxis;
-		ly.Label = label;
-		if(isInt) {
-			ly.LargeTickStep = 1;
-			ly.NumberOfSmallTicks = 0;
-		}
-		return ly;
-	}
-	
-	protected void writeLegend(IPlotSurface2D plot)
-	{	
-		plot.Legend = new Legend();
-		plot.Legend.XOffset = +30;
-	}
-	*/	
 
 	public ArrayList Sessions {
 		get { return sessions; }

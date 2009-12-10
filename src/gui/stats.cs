@@ -136,7 +136,7 @@ public class StatsWindow {
 	private static string [] comboStatsSubTypeReactiveOptions = {
 		Catalog.GetString("Average Index"), 
 		Constants.RJPotencyBoscoFormula,
-//		Catalog.GetString("Evolution"),
+		Catalog.GetString("Evolution"),
 		Constants.RJAVGSDRjIndexName,
 		Constants.RJAVGSDQIndexName
 	};
@@ -454,7 +454,7 @@ public class StatsWindow {
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeBoxplot ||
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeStripchart ||
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart) {
-			combo_graph_palette.Active = UtilGtk.ComboMakeActive(Constants.GraphPalettes, Constants.GraphPaletteGray);
+			combo_graph_palette.Active = UtilGtk.ComboMakeActive(Constants.GraphPalettes, Constants.GraphPaletteBlack);
 			combo_graph_palette.Sensitive = false;
 			label_graph_legend.Visible = false;
 			combo_graph_legend.Visible = false;
@@ -623,10 +623,21 @@ public class StatsWindow {
 			combo_stats_stat_apply_to.Active = 0;
 		} 
 		
+		/*
+		   if is RjEvolution, show mark consecutives, graph only with lines and transposed
+		   */
 		if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") )  {
 			hbox_mark_consecutives.Show();
+			checkbutton_transposed.Active = true;
+			checkbutton_transposed.Sensitive = false;
+			UtilGtk.ComboUpdate(combo_graph_type, Util.StringToStringArray(Constants.GraphTypeLines), "");
+			combo_graph_type.Active=0;
 		} else {
 			hbox_mark_consecutives.Hide();
+			checkbutton_transposed.Active = false;
+			checkbutton_transposed.Sensitive = true;
+			UtilGtk.ComboUpdate(combo_graph_type, Constants.GraphTypes, "");
+			combo_graph_type.Active=0;
 		}
 	}
 	

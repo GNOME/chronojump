@@ -66,7 +66,7 @@ public class GraphRjAVGSD : StatRjAVGSD
 		serieSD = new GraphSerie();
 		serieJumps = new GraphSerie();
 
-		serieAVG.Title = Catalog.GetString("Average");
+		serieAVG.Title = Catalog.GetString("AVG");
 		serieSD.Title = Catalog.GetString("SD");
 		serieJumps.Title = Catalog.GetString("Jumps");
 
@@ -75,7 +75,7 @@ public class GraphRjAVGSD : StatRjAVGSD
 		serieJumps.IsLeftAxis = false;
 
 		CurrentGraphData.LabelLeft = 
-			Catalog.GetString("Average") + ", " +
+			Catalog.GetString("AVG") + ", " +
 			Catalog.GetString("SD");
 		CurrentGraphData.LabelRight = Catalog.GetString("Jumps");
 

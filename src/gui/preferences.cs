@@ -106,6 +106,9 @@ public class PreferencesWindow {
 				combo_port_linux.Active = 0; //first option
 		}
 
+		label_database.Visible = false;
+		label_database_temp.Visible = false;
+
 		//database and log files stuff
 		label_database.Text = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		label_database_temp.Text = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";

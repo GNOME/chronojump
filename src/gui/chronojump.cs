@@ -175,7 +175,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menu_jumps;
 	[Widget] Gtk.MenuItem menu_runs;
 	[Widget] Gtk.MenuItem menu_other;
-	[Widget] Gtk.MenuItem menu_view;
+	[Widget] Gtk.MenuItem menu_windows;
 		
 	[Widget] Gtk.MenuItem menuitem_jump_free;
 	[Widget] Gtk.MenuItem sj;
@@ -1830,6 +1830,7 @@ public class ChronoJumpWindow
 	private void createComboMultiChronopic() 
 	{
 		table_multi_chronopic_buttons.Sensitive = false;
+		menuitem_multi_chronopic_start.Sensitive = false;
 		menuitem_run_analysis.Sensitive = false;
 		button_connect_cp.Sensitive = false;
 		image_cp1_yes.Hide();
@@ -2501,9 +2502,11 @@ public class ChronoJumpWindow
 			if(currentCp >= 2) {
 				table_multi_chronopic_buttons.Sensitive = true;
 				if(Util.IsNumber(entry_run_analysis_distance.Text, false)) {
+					menuitem_multi_chronopic_start.Sensitive = true;
 					menuitem_run_analysis.Sensitive = true;
 					button_run_analysis.Sensitive = true;
 				} else {
+					menuitem_multi_chronopic_start.Sensitive = false;
 					menuitem_run_analysis.Sensitive = false;
 					button_run_analysis.Sensitive = false;
 				}
@@ -5160,7 +5163,7 @@ Console.WriteLine("X");
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
 		menu_other.Sensitive = false;
-		menu_view.Sensitive = false;
+		menu_windows.Sensitive = false;
 
 		vbox_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
@@ -5218,7 +5221,7 @@ Console.WriteLine("X");
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
 		menu_other.Sensitive = false;
-		menu_view.Sensitive = false;
+		menu_windows.Sensitive = false;
 		
 		//menuitem_jump_type_add.Sensitive = false;
 //		button_last_delete.Sensitive = false;
@@ -5236,7 +5239,7 @@ Console.WriteLine("X");
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;
 		menu_other.Sensitive = true;
-		menu_view.Sensitive = true;
+		menu_windows.Sensitive = true;
 	
 		//unsensitive edit, delete, repair events because no event is initially selected
 		showHideActionEventButtons(false, "ALL");

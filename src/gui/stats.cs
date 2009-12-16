@@ -443,6 +443,7 @@ public class StatsWindow {
 		if(
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart ||
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeBoxplot ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeHistogram ||
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeStripchart ||
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
 			showTransposed(false);
@@ -453,6 +454,7 @@ public class StatsWindow {
 		if(
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeBoxplot ||
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeStripchart ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeHistogram ||
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart) {
 			combo_graph_palette.Active = UtilGtk.ComboMakeActive(Constants.GraphPalettes, Constants.GraphPaletteBlack);
 			combo_graph_palette.Sensitive = false;

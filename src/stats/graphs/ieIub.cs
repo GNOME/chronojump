@@ -82,14 +82,13 @@ public class GraphIeIub : StatIeIub
 			serieJump1 = new GraphSerie();
 			serieJump2 = new GraphSerie();
 				
-			//serieIndex.Title = Catalog.GetString("Index");
 			serieIndex.Title = indexType;
 			serieJump1.Title = jump1;
 			serieJump2.Title = jump2;
-			
-			serieIndex.IsLeftAxis = false;
-			serieJump1.IsLeftAxis = true;
-			serieJump2.IsLeftAxis = true;
+		
+			serieIndex.IsLeftAxis = true;
+			serieJump1.IsLeftAxis = false;
+			serieJump2.IsLeftAxis = false;
 
 			CurrentGraphData.LabelLeft = 
 				jump1 + " " + Catalog.GetString("TF") + "(s), " + 

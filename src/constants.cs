@@ -241,11 +241,12 @@ public class Constants
 	public static string FileNameRScript = "r-graph.txt";
 	public static string GraphTypeBoxplot = "Boxplot";
 	public static string GraphTypeBarplot = "Barplot";
+	public static string GraphTypeHistogram = "Histogram";
 	public static string GraphTypeLines = "Lines";
-	public static string GraphTypeXY = "XY";
+	public static string GraphTypeXY = "Dispersion";
 	public static string GraphTypeDotchart = "Dotchart";
 	public static string GraphTypeStripchart = "Stripchart";
-	public static string [] GraphTypes = { GraphTypeBoxplot, GraphTypeBarplot, GraphTypeLines, 
+	public static string [] GraphTypes = { GraphTypeBoxplot, GraphTypeHistogram, GraphTypeBarplot, GraphTypeLines, 
 		GraphTypeXY, GraphTypeDotchart, GraphTypeStripchart };
 	public static string GraphPaletteGray = "gray.colors";
 	public static string GraphPaletteBlack = Catalog.GetString("black only");

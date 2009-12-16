@@ -913,8 +913,9 @@ public class Stat
 				}
 			}
 			
-			//Dotchart plots col 2
-			if(gro.Type == Constants.GraphTypeDotchart && gro.VarX != serie.Title)
+			//Histogram and Dotchart plot col 1
+			if( (gro.Type == Constants.GraphTypeHistogram || gro.Type == Constants.GraphTypeDotchart)
+					&& gro.VarX != serie.Title)
 				continue;
 
 
@@ -989,6 +990,7 @@ public class Stat
 				gro.Type != Constants.GraphTypeXY && 
 				gro.Type != Constants.GraphTypeDotchart &&
 				gro.Type != Constants.GraphTypeBoxplot &&
+				gro.Type != Constants.GraphTypeHistogram &&
 				gro.Type != Constants.GraphTypeStripchart
 				)
 			allData += "data <- t(data)\n";
@@ -1261,7 +1263,7 @@ public class Stat
 
 	private string getRXYString(GraphROptions gro, string fileName) {
 		string allData = convertDataToR(gro, Sides.ALL);
-		string titStr = getTitle("XY", "sub=paste('correlation:',cor(serie0,serie1))");
+		string titStr = getTitle(Catalog.GetString("Dispersion"), "sub=paste('correlation:',cor(serie0,serie1),'   R^2:',cor(serie0,serie1)^2)");
 		
 		string colors="colors";
 		bool changedPalette = false;
@@ -1301,11 +1303,26 @@ public class Stat
 		return allData + rG;
 	}
 
+	private string getRHistogramString(GraphROptions gro, string fileName) {
+		string allData = convertDataToR(gro, Sides.ALL);
+		string titStr = getTitle("Histogram","");
+		string rG = //rGraphString
+			
+			"hist(serie0, main='', xlab=colnames(data)[1], cex=1)\n" +
+			"abline(v=mean(serie0), lty=1, col='grey20')\n" +
+			"abline(v=median(serie0), lty=2, col='grey40')\n" +
+			"mtext('avg', at=mean(serie0), side=3, cex=.7, col='grey20')\n" +
+			"mtext('median', at=median(serie0), side=1, cex=.7, col='grey40')\n" +
+			titStr;
+
+		return allData + rG;
+	}
+
 	private string getRDotchartString(GraphROptions gro, string fileName) {
 		string allData = convertDataToR(gro, Sides.ALL);
 		string titStr = getTitle("Dotchart","");
 		string rG = //rGraphString
-			"dotchart(serie0, labels=rownames(data), cex=1)\n" +
+			"dotchart(serie0, labels=rownames(data), xlab=colnames(data)[1], cex=1)\n" +
 			"abline(v=mean(serie0), lty=1, col='grey20')\n" +
 			"abline(v=median(serie0), lty=2, col='grey40')\n" +
 			"mtext('avg', at=mean(serie0), side=3, cex=.7, col='grey20')\n" +
@@ -1397,6 +1414,8 @@ public class Stat
 		}
 		else if(gRO.Type == Constants.GraphTypeXY)
 			rString += getRXYString(gRO, fileName);
+		else if(gRO.Type == Constants.GraphTypeHistogram)
+			rString += getRHistogramString(gRO, fileName);
 		else //if(CurrentGraphData.GraphType == Constants.GraphTypeDotchart))
 			rString += getRDotchartString(gRO, fileName);
 		

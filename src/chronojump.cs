@@ -235,7 +235,7 @@ Log.WriteLine("doing backup");
 				//Console.Clear();
 				string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), progVersion) + "\n" +  
 						Catalog.GetString("Please update Chronojump") + ":\n"; 
-				errorMessage += "http://www.gnome.org/projects/chronojump/installation"; 
+				errorMessage += "http://chronojump.org"; 
 				//errorMessage += "\n\n" + Catalog.GetString("Press any key");
 				Log.WriteLine(errorMessage);
 				messageToShowOnBoot += errorMessage;

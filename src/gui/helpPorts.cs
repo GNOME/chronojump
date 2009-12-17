@@ -78,7 +78,7 @@ public class HelpPorts
 			Catalog.GetString("More information on <b>Chronojump Manual</b> at section:") + " <b>4.6</b>\n" +
 			"<i>" + Path.GetFullPath(Util.GetManualDir()) + "</i>\n" + 
 			Catalog.GetString("Newer versions will be on this site:") +"\n" + 
-			"<i>http://projects.gnome.org/chronojump/documents.html</i>";
+			"<i>http://chronojump.org/documents.html</i>";
 		label_manual.UseMarkup = true;
 		
 	}

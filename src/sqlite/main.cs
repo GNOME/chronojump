@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.72";
+	static string lastChronojumpDatabaseVersion = "0.73";
 
 	public Sqlite() {
 	}
@@ -96,7 +96,7 @@ class Sqlite
 		Console.ReadLine();		
 		*/
 
-Log.WriteLine("home is: " + home);
+		Log.WriteLine("home is: " + home);
 
 		bool defaultDBLocation = true;
 
@@ -948,6 +948,17 @@ Log.WriteLine("home is: " + home);
 				dbcon.Close();
 				currentVersion = "0.72";
 			}
+			if(currentVersion == "0.72") {
+				dbcon.Open();
+				
+				deleteOrphanedPersons();
+
+				SqlitePreferences.Update ("databaseVersion", "0.73", true); 
+				
+				Log.WriteLine("Converted DB to 0.73 (deleted orphaned persons (in person table but not in personSessionWeight table)"); 
+				dbcon.Close();
+				currentVersion = "0.73";
+			}
 
 
 		}
@@ -1073,6 +1084,7 @@ Log.WriteLine("home is: " + home);
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.72 - 0.73 Converted DB to 0.73 (deleted orphaned persons (in person table but not in personSessionWeight table))
 		//0.71 - 0.72 dates to YYYY-MM-DD
 		//0.70 - 0.71 created personNotUploadTable on client
 		//0.69 - 0.70 added showPower to preferences
@@ -1271,6 +1283,27 @@ Log.WriteLine("home is: " + home);
 		conversionRate ++;
 	}
 
+	//to convert to sqlite 0.73
+	protected internal static void deleteOrphanedPersons()
+	{
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		ArrayList myArray = new ArrayList(1);
+
+		while(reader.Read())
+			myArray.Add (Convert.ToInt32(reader[0]));
+		reader.Close();
+
+		foreach(int personID in myArray) {
+			//if person is not in other sessions, delete it from DB
+			if(! SqlitePersonSession.PersonExistsInPSW(personID))
+				SqlitePerson.Delete(personID);
+		}
+	}
 
 	protected internal static void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd, bool putDescriptionInMiddle) 
 	{

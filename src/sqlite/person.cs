@@ -473,10 +473,19 @@ finishForeach:
 		dbcon.Close();
 	}
 
-	
-	public static void Delete()
+
+	/* 
+	   from SqlitePersonSessionWeight.DeletePersonFromSessionAndTests()
+	   if person is not in other sessions, delete it from DB
+	 */
+	public static void Delete(int uniqueID)
 	{
+		dbcmd.CommandText = "Delete FROM " + Constants.PersonTable +
+			" WHERE uniqueID == " + uniqueID.ToString();
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
 	}
+
 
 	/* 
 	 * don't do more like this, use Sqlite.convertTables()

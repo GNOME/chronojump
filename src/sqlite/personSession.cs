@@ -70,6 +70,7 @@ class SqlitePersonSession : Sqlite
 		if(reader.Read()) {
 			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
 		}
+		reader.Close();
 		dbcon.Close();
 		return myReturn;
 	}
@@ -94,6 +95,7 @@ class SqlitePersonSession : Sqlite
 		if(reader.Read()) {
 			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
 		}
+		reader.Close();
 		dbcon.Close();
 		return myReturn;
 	}
@@ -131,6 +133,7 @@ class SqlitePersonSession : Sqlite
 		}
 		//Log.WriteLine("exists = {0}", exists.ToString());
 
+		reader.Close();
 		dbcon.Close();
 		return exists;
 	}
@@ -152,6 +155,7 @@ class SqlitePersonSession : Sqlite
 		while(reader.Read()) 
 			exists = true;
 
+		reader.Close();
 		dbcon.Close();
 		return exists;
 	}
@@ -194,6 +198,7 @@ class SqlitePersonSession : Sqlite
 			Convert.ToInt32(values[9]), Convert.ToInt32(values[10]), Convert.ToInt32(values[11])
 			); 
 		
+		reader.Close();
 		dbcon.Close();
 		return myPerson;
 	}
@@ -312,7 +317,11 @@ class SqlitePersonSession : Sqlite
 		dbcmd.CommandText = "Delete FROM personSessionWeight WHERE sessionID == " + sessionID +
 			" AND personID == " + personID;
 		dbcmd.ExecuteNonQuery();
-		
+
+		//if person is not in other sessions, delete it from DB
+		if(! PersonExistsInPSW(Convert.ToInt32(personID)))
+			SqlitePerson.Delete(Convert.ToInt32(personID));
+				
 		//delete normal jumps
 		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + sessionID +
 			" AND personID == " + personID;
@@ -350,6 +359,27 @@ class SqlitePersonSession : Sqlite
 		
 		
 		dbcon.Close();
+	}
+
+	public static bool PersonExistsInPSW(int personID)
+	{
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionWeightTable + 
+			" WHERE personID == " + personID;
+		//Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		bool exists = new bool();
+		exists = false;
+		
+		if (reader.Read()) {
+			exists = true;
+		}
+		//Log.WriteLine(string.Format("personID exists = {0}", exists.ToString()));
+
+		reader.Close();
+		return exists;
 	}
 
 	/* 

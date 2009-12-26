@@ -357,6 +357,12 @@ class SqlitePersonSession : Sqlite
 			
 		dbcmd.ExecuteNonQuery();
 		
+		//delete multiChronopic
+		dbcmd.CommandText = "Delete FROM multiChronopic WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+			
+		dbcmd.ExecuteNonQuery();
+		
 		
 		dbcon.Close();
 	}

@@ -26,7 +26,6 @@ using Glade;
 using System.IO.Ports;
 using Mono.Unix;
 using System.IO; //"File" things
-using System.Threading;
 using System.Collections; //ArrayList
 
 
@@ -143,10 +142,13 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_analysis;
 	[Widget] Gtk.Button button_run_analysis;
 	[Widget] Gtk.Entry entry_run_analysis_distance;
+	/*
 	[Widget] Gtk.ComboBox combo_port_linux;
 	[Widget] Gtk.ComboBox combo_port_windows;
 	[Widget] Gtk.Button button_connect_cp;
+	*/
 
+	/*
 	[Widget] Gtk.Image image_cp1_yes;
 	[Widget] Gtk.Image image_cp1_no;
 	[Widget] Gtk.Image image_cp2_yes;
@@ -155,6 +157,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_cp3_no;
 	[Widget] Gtk.Image image_cp4_yes;
 	[Widget] Gtk.Image image_cp4_no;
+	*/
 	[Widget] Gtk.CheckButton check_multi_sync;
 	[Widget] Gtk.CheckButton check_multi_delete_first;
 	
@@ -175,7 +178,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menu_jumps;
 	[Widget] Gtk.MenuItem menu_runs;
 	[Widget] Gtk.MenuItem menu_other;
-	[Widget] Gtk.MenuItem menu_windows;
+	[Widget] Gtk.MenuItem menu_tools;
 		
 	[Widget] Gtk.MenuItem menuitem_jump_free;
 	[Widget] Gtk.MenuItem sj;
@@ -217,8 +220,8 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_show_all_person_events;
 	[Widget] Gtk.MenuItem show_all_person_events;
 	
-	[Widget] Gtk.RadioMenuItem menuitem_simulated;
-	[Widget] Gtk.RadioMenuItem menuitem_chronopic;
+//	[Widget] Gtk.RadioMenuItem menuitem_simulated;
+//	[Widget] Gtk.RadioMenuItem menuitem_chronopic;
 	
 	[Widget] Gtk.Notebook notebook;
 	
@@ -253,12 +256,14 @@ public class ChronoJumpWindow
 	Random rand;
 	bool volumeOn;
 
+	/*
 	//chronopic connection thread
 	Thread thread;
 	bool needUpdateChronopicWin;
 	bool updateChronopicWinValuesState;
 	string updateChronopicWinValuesMessage;
 	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
+	*/
 	
 	//persons
 	private TreeStore treeview_persons_store;
@@ -286,7 +291,7 @@ public class ChronoJumpWindow
 	private TreeViewMultiChronopic myTreeViewMultiChronopic;
 
 	//preferences variables
-	private static string chronopicPort;
+	//private static string chronopicPort;
 	private static int prefsDigitsNumber;
 	private static bool showHeight;
 	private static bool showPower;
@@ -294,7 +299,7 @@ public class ChronoJumpWindow
 	private static bool showAngle;
 	private static bool showQIndex;
 	private static bool showDjIndex;
-	private static bool simulated;
+//	private static bool simulated;
 	private static bool askDeletion;
 	private static bool weightPercentPreferred;
 	private static bool heightPreferred;
@@ -362,21 +367,20 @@ public class ChronoJumpWindow
 	StatsWindow statsWin;
 	ReportWindow reportWin;
 	RepetitiveConditionsWindow repetitiveConditionsWin;
-	ChronopicConnection chronopicWin;
 	GenericWindow genericWin;
 		
 	EvaluatorWindow evalWin;
 	QueryServerWindow queryServerWin;
 	PersonNotUploadWindow personNotUploadWin; 
 	
+	ChronopicWindow chronopicWin;
+	
 	static EventExecuteWindow eventExecuteWin;
 
-	//platform state variables
-	enum States {
-		ON,
-		OFF
-	}
 	bool cpRunning;
+	
+	
+	/*
 	int currentCp; //1 to 4
 
 	//cp1	
@@ -400,6 +404,7 @@ public class ChronoJumpWindow
 	Chronopic.Plataforma platformState4;
 
 	States loggedState;		//log of last state
+	*/
 
 
 	private bool firstRjValue;
@@ -431,32 +436,6 @@ public class ChronoJumpWindow
 		new DialogImageTest(currentEventType);
 	}
 	
-/*
-	private void on_so_asterisk_clicked(object o, EventArgs args) {
-		Log.WriteLine("Asterisk");
-		System.Media.SystemSounds.Asterisk.Play();
-	}
-	
-	private void on_so_beep_clicked(object o, EventArgs args) {
-		Log.WriteLine("Beep");
-		System.Media.SystemSounds.Beep.Play();
-	}
-	
-	private void on_so_exclamation_clicked(object o, EventArgs args) {
-		Log.WriteLine("Exclamation");
-		System.Media.SystemSounds.Exclamation.Play();
-	}
-	
-	private void on_so_hand_clicked(object o, EventArgs args) {
-		Log.WriteLine("Hand");
-		System.Media.SystemSounds.Hand.Play();
-	}
-	
-	private void on_so_question_clicked(object o, EventArgs args) {
-		Log.WriteLine("Question");
-		System.Media.SystemSounds.Question.Play();
-	}
-*/
 	
 	public ChronoJumpWindow(string progVersion, string progName, string runningFileName)
 	{
@@ -477,8 +456,6 @@ public class ChronoJumpWindow
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
 		app1.Maximize();
-
-		cpRunning = false;
 
 		report = new Report(-1); //when a session is loaded or created, it will change the report.SessionID value
 		//TODO: check what happens if a session it's deleted
@@ -507,11 +484,13 @@ public class ChronoJumpWindow
 		createComboRunsInterval();
 		//reaction_times has no combo
 		createComboPulses();
-		createComboMultiChronopic();
+		//createComboMultiChronopic();
 		createdStatsWin = false;
 
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
+
+		chronopicWin = ChronopicWindow.Create();
 
 
 		//We have no session, mark some widgets as ".Sensitive = false"
@@ -526,6 +505,7 @@ public class ChronoJumpWindow
 		rand = new Random(40);
 	
 		putNonStandardIcons();	
+		/*
 	
 		if(chronopicPort != Constants.ChronopicDefaultPortWindows && 
 				(chronopicPort != Constants.ChronopicDefaultPortLinux && File.Exists(chronopicPort))
@@ -533,14 +513,15 @@ public class ChronoJumpWindow
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to connect to Chronopic now?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(chronopicAtStart);
 		}
+		*/
 	}
-
+/*
 	private void chronopicAtStart(object o, EventArgs args) {
 		//make active menuitem chronopic, and this
 		//will raise other things
-		menuitem_chronopic.Active = true;
+		//menuitem_chronopic.Active = true;
 	}
-
+*/
 
 	//from SportsTracker code
 	[Glade.WidgetAttribute]
@@ -586,112 +567,12 @@ public class ChronoJumpWindow
 		menuitem_report_window.Image = new Gtk.Image(pixbuf);
 	}
 
-	protected bool PulseGTK ()
-	{
-		if(needUpdateChronopicWin || ! thread.IsAlive) {
-			fakeChronopicButton.Click();
-			Log.Write("dying");
-			return false;
-		}
-		//need to do this, if not it crashes because chronopicWin gets died by thread ending
-		ChronopicConnection chronopicWin = ChronopicConnection.Show();
-		chronopicWin.Pulse();
-		
-		Thread.Sleep (50);
-		Log.Write(thread.ThreadState.ToString());
-		return true;
-	}
-			
-	private void updateChronopicWin(bool state, string message) {
-		Log.WriteLine("-----------------");
-
-		//need to do this, if not it crashes because chronopicWin gets died by thread ending
-		chronopicWin = ChronopicConnection.Show();
-
-		Log.WriteLine("+++++++++++++++++");
-		if(state)
-			chronopicWin.Connected(message);
-		else
-			chronopicWin.Disconnected(message);
-		
-		needUpdateChronopicWin = false;
-	}
-
-	//chronopic init should not touch  gtk, for the threads
-	private Chronopic chronopicInit (Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
-	{
-		Log.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
-		if(Util.IsWindows())
-			Log.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash.") );
-
-		success = true;
-		
-		Log.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
-		Log.WriteLine(string.Format("chronopic port: {0}", myPort));
-		mySp = new SerialPort(myPort);
-		try {
-			mySp.Open();
-			Log.WriteLine("+++++++++++++++++ 2 ++++++++++++++++");		
-			//-- Create chronopic object, for accessing chronopic
-			myCp = new Chronopic(mySp);
-
-			Log.WriteLine("+++++++++++++++++ 3 ++++++++++++++++");		
-			//on windows, this check make a crash 
-			//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
-			//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
-
-			//-- Obtener el estado inicial de la plataforma
-
-			bool ok=false;
-			Log.WriteLine("+++++++++++++++++ 4 ++++++++++++++++");		
-			do {
-				Log.WriteLine("+++++++++++++++++ 5 ++++++++++++++++");		
-				ok=myCp.Read_platform(out myPS);
-				Log.WriteLine("+++++++++++++++++ 6 ++++++++++++++++");		
-			} while(!ok);
-			Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");		
-			if (!ok) {
-				//-- Si hay error terminar
-				Log.WriteLine(string.Format("Error: {0}", myCp.Error));
-				success = false;
-			}
-		} catch {
-			success = false;
-		}
-			
-		returnString = "";
-		if(success) {
-			if(currentCp == 1)
-				cpRunning = true;
-			returnString = string.Format(Catalog.GetString("<b>Connected</b> to Chronopic on port: {0}"), myPort);
-			//appbar2.Push( 1, returnString);
-		}
-		if(! success) {
-			returnString = Catalog.GetString("Problems communicating to chronopic.");
-			if(currentCp == 1) 
-				returnString += " " + Catalog.GetString("Changed platform to 'Simulated'");
-			if(Util.IsWindows()) {
-				returnString += Catalog.GetString("\n\nOn Windows we recommend to remove and connect USB or serial cable from the computer after every unsuccessful port test.");
-				returnString += Catalog.GetString("\n... And after cancelling Chronopic detection.");
-				returnString += Catalog.GetString("\n\n... Later, when you close Chronojump it will probably get frozen. If this happens, let's press CTRL+C on the black screen.");
-			}
-
-			//this will raise on_radiobutton_simulated_ativate and 
-			//will put cpRunning to false, and simulated to true and cp.Close()
-			if(currentCp == 1) {
-				menuitem_simulated.Active = true;
-				cpRunning = false;
-			}
-		}
-		return myCp;
-	}
-	
 	private void loadPreferences () 
 	{
 		Log.WriteLine (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
 				SqlitePreferences.Select("databaseVersion") ));
 		
-		chronopicPort = SqlitePreferences.Select("chronopicPort");
+		//chronopicPort = SqlitePreferences.Select("chronopicPort");
 		
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") );
 
@@ -738,15 +619,15 @@ public class ChronoJumpWindow
 			
 		
 		if ( SqlitePreferences.Select("simulated") == "True" ) {
-			simulated = true;
-			menuitem_simulated.Active = true;
+//			simulated = true;
+			//menuitem_simulated.Active = true;
 
-			cpRunning = false;
+//			cpRunning = false;
 		} else {
-			simulated = false;
-			menuitem_chronopic.Active = true;
+//			simulated = false;
+			//menuitem_chronopic.Active = true;
 			
-			cpRunning = true;
+//			cpRunning = true;
 		}
 		
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) 
@@ -1707,6 +1588,7 @@ public class ChronoJumpWindow
 	}
 
 	private void on_button_connect_cp_clicked (object o, EventArgs args) {
+	/*
 		if(image_cp2_no.Visible)
 			currentCp = 2;
 		else if(image_cp3_no.Visible)
@@ -1714,6 +1596,7 @@ public class ChronoJumpWindow
 		else if(image_cp4_no.Visible)
 			currentCp = 4;
 		prepareChronopicConnection();
+		*/
 	}
 
 	private void on_treeview_multi_chronopic_cursor_changed (object o, EventArgs args) {
@@ -1827,6 +1710,7 @@ public class ChronoJumpWindow
 		combo_pulses.Sensitive = false;
 	}
 
+	/*
 	private void createComboMultiChronopic() 
 	{
 		table_multi_chronopic_buttons.Sensitive = false;
@@ -1855,6 +1739,7 @@ public class ChronoJumpWindow
 			combo_port_linux.Changed += new EventHandler (on_combo_multi_chronopic_changed);
 		}
 	}
+	*/
 
 	private void on_combo_jumps_changed(object o, EventArgs args) {
 		//combo_jumps.Changed -= new EventHandler (on_combo_jumps_changed);
@@ -1918,6 +1803,7 @@ public class ChronoJumpWindow
 		fillTreeView_pulses(myText);
 	}
 
+	/*
 	private void on_combo_multi_chronopic_changed(object o, EventArgs args) {
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -1931,6 +1817,7 @@ public class ChronoJumpWindow
 		if (o == combo_port_linux || o == combo_port_windows) 
 			button_connect_cp.Sensitive = portOk;
 	}
+	*/
 	
 
 	/* ---------------------------------------------------------
@@ -1941,8 +1828,8 @@ public class ChronoJumpWindow
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		Log.WriteLine("Bye!");
     
-		if(simulated == false) {
-			serialPortsClose();
+		if(chronopicWin.Connected == true) {
+			chronopicWin.SerialPortsClose();
 		}
 	
 		try {	
@@ -1968,8 +1855,8 @@ public class ChronoJumpWindow
 	private void on_quit1_activate (object o, EventArgs args) {
 		Log.WriteLine("Bye!");
     
-		if(simulated == false) {
-			serialPortsClose();
+		if(chronopicWin.Connected == true) {
+			chronopicWin.SerialPortsClose();
 		}
 	
 		try {	
@@ -2119,7 +2006,7 @@ public class ChronoJumpWindow
 	private void on_delete_session_accepted (object o, EventArgs args) 
 	{
 		appbar2.Push( 1, Catalog.GetString("Deleted session and all its tests") );
-		SqliteSession.DeleteWithJumps(currentSession.UniqueID.ToString());
+		SqliteSession.DeleteAllStuff(currentSession.UniqueID.ToString());
 		
 		sensitiveGuiNoSession();
 		definedSession = false;
@@ -2333,36 +2220,10 @@ public class ChronoJumpWindow
 	private void on_paste1_activate (object o, EventArgs args) {
 	}
 
-	private void serialPortsClose() {
-		Console.WriteLine("Closing sp");
-		sp.Close();
-
-		image_cp1_no.Show();
-		image_cp1_yes.Hide();
-		//close connection with other chronopics on multiChronopic
-		if(image_cp2_yes.Visible) {
-			Console.WriteLine("Closing sp2");
-			sp2.Close();
-			image_cp2_no.Show();
-			image_cp2_yes.Hide();
-		}
-		if(image_cp3_yes.Visible) {
-			Console.WriteLine("Closing sp3");
-			sp3.Close();
-			image_cp3_no.Show();
-			image_cp3_yes.Hide();
-		}
-		if(image_cp4_yes.Visible) {
-			Console.WriteLine("Closing sp4");
-			sp4.Close();
-			image_cp4_no.Show();
-			image_cp4_yes.Hide();
-		}
-		Console.WriteLine("Closed all");
-	}
 
 	void on_radiobutton_simulated (object o, EventArgs args)
 	{
+	/*
 		Log.WriteLine(string.Format("RAD - simul. cpRunning: {0}", cpRunning));
 		if(menuitem_simulated.Active) {
 			Log.WriteLine("RadioSimulated - ACTIVE");
@@ -2395,10 +2256,12 @@ public class ChronoJumpWindow
 			Log.WriteLine("RadioSimulated - INACTIVE");
 		
 		Log.WriteLine("all done");
+		*/
 	}
 	
 	void on_radiobutton_chronopic (object o, EventArgs args)
 	{
+		/*
 		Log.WriteLine(string.Format("RAD - chrono. cpRunning: {0}", cpRunning));
 		if(! preferencesLoaded)
 			return;
@@ -2420,149 +2283,14 @@ public class ChronoJumpWindow
 	
 		currentCp = 1;
 		prepareChronopicConnection();
+		*/
 	}
-
-
-	void prepareChronopicConnection() {
-		ChronopicConnection chronopicWin = ChronopicConnection.Show();
-		chronopicWin.LabelFeedBackReset();
-
-		chronopicWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
-		
-		fakeChronopicButton = new Gtk.Button();
-		fakeChronopicButton.Clicked += new EventHandler(on_chronopic_detection_ended);
-
-		thread = new Thread(new ThreadStart(waitChronopicStart));
-		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-		thread.Start(); 
-	}
-	
-	protected void waitChronopicStart () 
-	{
-		if(currentCp == 1) {
-			simulated = false;
-			SqlitePreferences.Update("simulated", simulated.ToString(), false);
-			if(cpRunning)
-				return;
-		}
-
-		string message = "";
-		string myPort = "";
-		bool success = false;
-			
-		if(currentCp == 1) 
-			myPort = chronopicPort;
-		else {
-			if(Util.IsWindows()) 
-				myPort = UtilGtk.ComboGetActive(combo_port_windows);
-			else
-				myPort = UtilGtk.ComboGetActive(combo_port_linux);
-		}
-
-		if(currentCp == 1) {
-			cp = chronopicInit(cp, out sp, platformState, myPort, out message, out success);
-			if(success) {
-				image_cp1_no.Hide();
-				image_cp1_yes.Show();
-			} else {
-				image_cp1_no.Show();
-				image_cp1_yes.Hide();
-			}
-		}
-		else if(currentCp == 2) {
-			cp2 = chronopicInit(cp2, out sp2, platformState2, myPort, out message, out success);
-			if(success) {
-				image_cp2_no.Hide();
-				image_cp2_yes.Show();
-			} 
-		}
-		else if(currentCp == 3) {
-			cp3 = chronopicInit(cp3, out sp3, platformState3, myPort, out message, out success);
-			if(success) {
-				image_cp3_no.Hide();
-				image_cp3_yes.Show();
-			} 
-		}
-		else if(currentCp == 4) {
-			cp4 = chronopicInit(cp4, out sp4, platformState4, myPort, out message, out success);
-			if(success) {
-				image_cp4_no.Hide();
-				image_cp4_yes.Show();
-				button_connect_cp.Sensitive = false;
-			} 
-		}
-		
-
-		Log.WriteLine(string.Format("wait_chronopic_start {0}", message));
-			
-		if(success) {
-			updateChronopicWinValuesState= true; //connected
-			updateChronopicWinValuesMessage= message;
-				
-			if(currentCp >= 2) {
-				table_multi_chronopic_buttons.Sensitive = true;
-				if(Util.IsNumber(entry_run_analysis_distance.Text, false)) {
-					menuitem_multi_chronopic_start.Sensitive = true;
-					menuitem_run_analysis.Sensitive = true;
-					button_run_analysis.Sensitive = true;
-				} else {
-					menuitem_multi_chronopic_start.Sensitive = false;
-					menuitem_run_analysis.Sensitive = false;
-					button_run_analysis.Sensitive = false;
-				}
-			}
-	
-			//disallow selection of that port for other chronopics
-			//and change sensitiveness of combo port 
-			if(Util.IsWindows()) {
-				UtilGtk.ComboDelThisValue(combo_port_windows, myPort);
-				combo_port_windows.Active = 0; //first option
-				if(currentCp < 4)
-					combo_port_windows.Sensitive = true;
-				else
-					combo_port_windows.Sensitive = false;
-			} else {
-				UtilGtk.ComboDelThisValue(combo_port_linux, myPort);
-				combo_port_linux.Active = 0; //first option
-				if(currentCp < 4)
-					combo_port_linux.Sensitive = true;
-				else
-					combo_port_linux.Sensitive = false;
-			}
-		} else {
-			updateChronopicWinValuesState= false; //disconnected
-			updateChronopicWinValuesMessage= message;
-		}
-		needUpdateChronopicWin = true;
-	}
-
-	private void on_chronopic_detection_ended(object o, EventArgs args) {
-		updateChronopicWin(updateChronopicWinValuesState, updateChronopicWinValuesMessage);
-	}
-
-
-	private void on_chronopic_cancelled (object o, EventArgs args) {
-		Log.WriteLine("cancelled-----");
-		
-		//kill the chronopicInit function that is waiting event 
-		thread.Abort();
-		
-		menuitem_chronopic.Active = false;
-		menuitem_simulated.Active = true;
-				
-		updateChronopicWinValuesState= false; //disconnected
-		updateChronopicWinValuesMessage= Catalog.GetString("Cancelled by user");
-		needUpdateChronopicWin = true;
-			
-	}
-	
-	//private void on_chronopic_closed (object o, EventArgs args) {
-	//}
 
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
-				chronopicPort, prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
+				//chronopicPort, prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
+				prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
@@ -2573,7 +2301,7 @@ public class ChronoJumpWindow
 	private void on_preferences_accepted (object o, EventArgs args) {
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
 
-		string myPort = SqlitePreferences.Select("chronopicPort");
+		//string myPort = SqlitePreferences.Select("chronopicPort");
 
 		//chronopicPort cannot change while chronopic is running.
 		//user change the port, and the clicks on radiobutton on platform menu
@@ -2583,7 +2311,7 @@ public class ChronoJumpWindow
 		//	bool success = chronopicInit (myPort, out message);
 		//}
 
-		chronopicPort = myPort;
+		//chronopicPort = myPort;
 	
 		
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) 
@@ -2710,7 +2438,7 @@ public class ChronoJumpWindow
 		//unhide event buttons for next event
 		sensitiveGuiEventDone();
 
-		if(!simulated)
+		if(chronopicWin.Connected)
 			checkCancelTotally(o, args);
 
 		//let update stats
@@ -2734,7 +2462,7 @@ public class ChronoJumpWindow
 		//unhide event buttons for next event
 		sensitiveGuiEventDone();
 
-		if(!simulated)
+		if(chronopicWin.Connected)
 			checkCancelMultiTotally(o, args);
 	}
 
@@ -2803,7 +2531,7 @@ public class ChronoJumpWindow
 		//unhide event buttons for next event
 		sensitiveGuiEventDone();
 
-		if(!simulated)
+		if(chronopicWin.Connected)
 			checkFinishTotally(o, args);
 		
 		//let update stats
@@ -2831,7 +2559,7 @@ public class ChronoJumpWindow
 		//runA is not called for this, because it ends different
 		//and there's a message on gui/eventExecute.cs for runA	
 		Console.WriteLine("RR1");
-		if(currentMultiChronopicType.Name != Constants.RunAnalysisName && !simulated) {
+		if(currentMultiChronopicType.Name != Constants.RunAnalysisName && chronopicWin.Connected) {
 			checkFinishMultiTotally(o, args);
 		}
 		Console.WriteLine("RR2");
@@ -3239,7 +2967,7 @@ Console.WriteLine("X");
 			currentSession.UniqueID, 
 			"jump", //tableName
 			currentJumpType.Name, 
-			prefsDigitsNumber, myLimit, simulated);
+			prefsDigitsNumber, myLimit, chronopicWin.Connected);
 
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -3251,9 +2979,9 @@ Console.WriteLine("X");
 
 		currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn);
 
-		if (simulated) 
+		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 		
 		if( currentJumpType.StartIn ) 
@@ -3433,7 +3161,7 @@ Console.WriteLine("X");
 			currentSession.UniqueID, 
 			"jumpRj", //tableName
 			currentJumpType.Name, 
-			prefsDigitsNumber, myLimit, simulated);
+			prefsDigitsNumber, myLimit, chronopicWin.Connected);
 		
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -3446,12 +3174,12 @@ Console.WriteLine("X");
 		currentEventExecute = new JumpRjExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
 				myLimit, currentJumpType.JumpsLimited, 
-				cp, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin);
 		
 		
 		//suitable for limited by jump and time
 		//simulated always simulate limited by jumps
-		if(simulated) 
+		if(!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
@@ -3659,7 +3387,7 @@ Console.WriteLine("X");
 			currentSession.UniqueID, 
 			"run", //tableName
 			currentRunType.Name, 
-			prefsDigitsNumber, myLimit, simulated);
+			prefsDigitsNumber, myLimit, chronopicWin.Connected);
 		
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 
@@ -3674,9 +3402,9 @@ Console.WriteLine("X");
 
 		currentEventExecute = new RunExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				cp, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn);
 		
-		if (simulated) 
+		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 			
 		currentEventExecute.Manage();
@@ -3852,7 +3580,7 @@ Console.WriteLine("X");
 			currentSession.UniqueID, 
 			Constants.RunIntervalTable, //tableName
 			currentRunType.Name, 
-			prefsDigitsNumber, myLimit, simulated);
+			prefsDigitsNumber, myLimit, chronopicWin.Connected);
 
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -3864,11 +3592,11 @@ Console.WriteLine("X");
 	
 		currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
 				distanceInterval, myLimit, currentRunType.TracksLimited, 
-				cp, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin);
 		
 		
 		//suitable for limited by tracks and time
-		if(simulated)
+		if(!chronopicWin.Connected)
 			currentEventExecute.SimulateInitValues(rand);
 			
 		currentEventExecute.Manage();
@@ -3968,7 +3696,7 @@ Console.WriteLine("X");
 			"reactionTime", //tableName
 			//currentJumpType.Name, 
 			"", 
-			prefsDigitsNumber, myLimit, simulated);
+			prefsDigitsNumber, myLimit, chronopicWin.Connected);
 
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -3981,9 +3709,9 @@ Console.WriteLine("X");
 		currentEventExecute = new ReactionTimeExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
 				//currentJumpType.Name, 
-				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn);
 
-		if (simulated) 
+		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
@@ -4115,7 +3843,7 @@ Console.WriteLine("X");
 			currentSession.UniqueID, 
 			"pulse", //tableName
 			currentPulseType.Name, 
-			prefsDigitsNumber, totalPulses, simulated);
+			prefsDigitsNumber, totalPulses, chronopicWin.Connected);
 
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
@@ -4127,9 +3855,9 @@ Console.WriteLine("X");
 
 		currentEventExecute = new PulseExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				cp, appbar2, app1, prefsDigitsNumber, volumeOn);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn);
 		
-		if(simulated)	
+		if(!chronopicWin.Connected)	
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
@@ -4196,6 +3924,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
+		/*
 		Log.WriteLine("multi chronopic accepted");
 		
 		if(o == (object) button_multi_chronopic_start || o == (object) menuitem_multi_chronopic_start) 
@@ -4224,7 +3953,7 @@ Console.WriteLine("X");
 			currentSession.UniqueID, 
 			Constants.MultiChronopicTable, //tableName
 			currentMultiChronopicType.Name, 
-			prefsDigitsNumber, -1, simulated
+			prefsDigitsNumber, -1, chronopicWin.Connected
 			); //-1: unlimited pulses (or changes)
 
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
@@ -4270,7 +3999,7 @@ Console.WriteLine("X");
 					entry_run_analysis_distance.Text.ToString(),
 					appbar2, app1);
 
-		//if(simulated)	
+		//if(!chronopicWin.Connected)	
 		//	currentEventExecute.SimulateInitValues(rand);
 
 
@@ -4279,6 +4008,7 @@ Console.WriteLine("X");
 		currentEventExecute.Manage();
 
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
+		*/
 	}
 
 	bool multiFinishing;
@@ -5163,7 +4893,7 @@ Console.WriteLine("X");
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
 		menu_other.Sensitive = false;
-		menu_windows.Sensitive = false;
+		menu_tools.Sensitive = false;
 
 		vbox_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
@@ -5221,7 +4951,7 @@ Console.WriteLine("X");
 		menu_jumps.Sensitive = false;
 		menu_runs.Sensitive = false;
 		menu_other.Sensitive = false;
-		menu_windows.Sensitive = false;
+		menu_tools.Sensitive = false;
 		
 		//menuitem_jump_type_add.Sensitive = false;
 //		button_last_delete.Sensitive = false;
@@ -5239,7 +4969,7 @@ Console.WriteLine("X");
 		menu_jumps.Sensitive = true;
 		menu_runs.Sensitive = true;
 		menu_other.Sensitive = true;
-		menu_windows.Sensitive = true;
+		menu_tools.Sensitive = true;
 	
 		//unsensitive edit, delete, repair events because no event is initially selected
 		showHideActionEventButtons(false, "ALL");
@@ -5397,5 +5127,15 @@ Console.WriteLine("X");
 		string [] myString = new String [3];
 		Console.WriteLine(myString[5]);
 	}
+
+	private void on_menuitem_chronopic_activate (object o, EventArgs args) {
+		Log.WriteLine("CP a");
+		chronopicWin = ChronopicWindow.View();
+		Log.WriteLine("CP b");
+	}
+	private void on_menuitem_server_activate (object o, EventArgs args) {
+		Log.WriteLine("SERVER");
+	}
+
 
 }

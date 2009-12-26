@@ -200,7 +200,7 @@ public class EventExecuteWindow
 
 	static public EventExecuteWindow Show (
 			string windowTitle, string phasesName, int personID, string personName, int sessionID, 
-			string tableName, string eventType, int pDN, double limit, bool simulated)
+			string tableName, string eventType, int pDN, double limit, bool connected)
 	{
 		if (EventExecuteWindowBox == null) {
 			EventExecuteWindowBox = new EventExecuteWindow (); 
@@ -216,7 +216,7 @@ public class EventExecuteWindow
 	
 		EventExecuteWindowBox.initializeVariables (
 				windowTitle, phasesName, personID, personName, sessionID, 
-				tableName, eventType, pDN, limit, simulated);
+				tableName, eventType, pDN, limit, connected);
 
 		EventExecuteWindowBox.event_execute.Show ();
 
@@ -225,7 +225,7 @@ public class EventExecuteWindow
 
 	void initializeVariables (
 			string windowTitle, string phasesName, int personID, string personName, int sessionID,
-			string tableName, string eventType, int pDN, double limit, bool simulated) 
+			string tableName, string eventType, int pDN, double limit, bool connected) 
 	{
 		event_execute.Title = windowTitle;
 		this.label_phases_name.Text = phasesName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
@@ -240,15 +240,15 @@ public class EventExecuteWindow
 		this.pDN = pDN;
 		this.limit = limit;
 
-		if(simulated) {
-			label_simulated.Show();
-			image_simulated_l.Show();
-			image_simulated_r.Show();
-		}
-		else {
+		if(connected) {
 			label_simulated.Hide();
 			image_simulated_l.Hide();
 			image_simulated_r.Hide();
+		}
+		else {
+			label_simulated.Show();
+			image_simulated_l.Show();
+			image_simulated_r.Show();
 		}
 
 		label_message1.Text = "";

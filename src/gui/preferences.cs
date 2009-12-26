@@ -32,9 +32,6 @@ public class PreferencesWindow {
 	
 	[Widget] Gtk.Window preferences;
 
-//	[Widget] Gtk.ComboBox combo_port_linux;
-//	[Widget] Gtk.ComboBox combo_port_windows;
-
 	[Widget] Gtk.Label label_database;
 	[Widget] Gtk.Label label_database_temp;
 	[Widget] Gtk.Label label_logs;
@@ -67,10 +64,7 @@ public class PreferencesWindow {
 	//dialogMessage
 	private string languageIni;
 
-//	string [] comboWindowsOptions;
-	
 
-	//PreferencesWindow (string entryChronopic) {
 	PreferencesWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", null);
@@ -78,36 +72,6 @@ public class PreferencesWindow {
 		
 		//put an icon to window
 		UtilGtk.IconWindow(preferences);
-
-		/*
-		//combo port stuff
-		comboWindowsOptions = new string[257];
-		int count = 0;
-		for (int i=1; i <= 257; i ++)
-			comboWindowsOptions[i-1] = "COM" + i;
-
-		if(Util.IsWindows()) {
-			UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
-			
-			if(entryChronopic.Length > 0)
-				combo_port_windows.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, entryChronopic);
-			else
-				combo_port_windows.Active = 0; //first option
-		} else {
-			string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
-			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
-			string [] all = Util.AddArrayString(usbSerial, serial);
-			string [] def = Util.StringToStringArray(Constants.ChronopicDefaultPortLinux);
-			string [] allWithDef = Util.AddArrayString(def, all);
-	
-			UtilGtk.ComboUpdate(combo_port_linux, allWithDef, Constants.ChronopicDefaultPortLinux);
-			
-			if(entryChronopic.Length > 0)
-				combo_port_linux.Active = UtilGtk.ComboMakeActive(allWithDef, entryChronopic);
-			else 
-				combo_port_linux.Active = 0; //first option
-		}
-		*/
 
 		label_database.Visible = false;
 		label_database_temp.Visible = false;
@@ -118,26 +82,14 @@ public class PreferencesWindow {
 		//label_logs.Text = Log.GetDir();
 	}
 	
-	//static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, bool showPower,  
 	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
 			string language, bool allowFinishRjAfterTime)
 	{
 		if (PreferencesWindowBox == null) {
-			//PreferencesWindowBox = new PreferencesWindow (entryChronopic);
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
-
-		/*
-		if(Util.IsWindows()) {
-			PreferencesWindowBox.combo_port_linux.Hide();
-			PreferencesWindowBox.combo_port_windows.Show();
-		} else {
-			PreferencesWindowBox.combo_port_windows.Hide();
-			PreferencesWindowBox.combo_port_linux.Show();
-		}
-		*/
 
 		PreferencesWindowBox.languageIni = language;
 		//if(Util.IsWindows())
@@ -365,14 +317,6 @@ public class PreferencesWindow {
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		/* the falses are for the dbcon that is not opened */
-
-		/*
-		if(Util.IsWindows()) 
-			SqlitePreferences.Update("chronopicPort", UtilGtk.ComboGetActive(combo_port_windows), false);
-		else
-			SqlitePreferences.Update("chronopicPort", UtilGtk.ComboGetActive(combo_port_linux), false);
-			*/
-		
 		SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), false);
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
 		SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), false);
@@ -415,12 +359,6 @@ public class PreferencesWindow {
 		PreferencesWindowBox.preferences.Hide();
 		PreferencesWindowBox = null;
 	}
-
-	/*
-	private void on_button_help_clicked (object o, EventArgs args) {
-		new HelpPorts();
-	}
-	*/
 
 	public Button Button_accept 
 	{

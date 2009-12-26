@@ -36,8 +36,6 @@ public class ChronopicWindow
 	ChronopicConnection chronopicConnectionWin;
 
 
-	//[Widget] Gtk.Button button_connect_cp;
-
 	[Widget] Gtk.Image image_cp1_yes;
 	[Widget] Gtk.Image image_cp1_no;
 	[Widget] Gtk.Image image_cp2_yes;
@@ -49,9 +47,6 @@ public class ChronopicWindow
 				
 	//[Widget] Gtk.Entry entry_multi_chronopic_cp2;
 	
-//	[Widget] Gtk.RadioMenuItem menuitem_simulated;
-//	[Widget] Gtk.RadioMenuItem menuitem_chronopic;
-
 	[Widget] Gtk.ComboBox combo_linux1;
 	[Widget] Gtk.ComboBox combo_windows1;
 	string [] comboWindowsOptions;

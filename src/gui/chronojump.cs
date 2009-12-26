@@ -142,22 +142,8 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_analysis;
 	[Widget] Gtk.Button button_run_analysis;
 	[Widget] Gtk.Entry entry_run_analysis_distance;
-	/*
-	[Widget] Gtk.ComboBox combo_port_linux;
-	[Widget] Gtk.ComboBox combo_port_windows;
-	[Widget] Gtk.Button button_connect_cp;
-	*/
-
-	/*
-	[Widget] Gtk.Image image_cp1_yes;
-	[Widget] Gtk.Image image_cp1_no;
-	[Widget] Gtk.Image image_cp2_yes;
-	[Widget] Gtk.Image image_cp2_no;
-	[Widget] Gtk.Image image_cp3_yes;
-	[Widget] Gtk.Image image_cp3_no;
-	[Widget] Gtk.Image image_cp4_yes;
-	[Widget] Gtk.Image image_cp4_no;
-	*/
+	
+	
 	[Widget] Gtk.CheckButton check_multi_sync;
 	[Widget] Gtk.CheckButton check_multi_delete_first;
 	
@@ -220,9 +206,6 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_show_all_person_events;
 	[Widget] Gtk.MenuItem show_all_person_events;
 	
-//	[Widget] Gtk.RadioMenuItem menuitem_simulated;
-//	[Widget] Gtk.RadioMenuItem menuitem_chronopic;
-	
 	[Widget] Gtk.Notebook notebook;
 	
 	[Widget] Gtk.Box vbox_image_test;
@@ -256,15 +239,6 @@ public class ChronoJumpWindow
 	Random rand;
 	bool volumeOn;
 
-	/*
-	//chronopic connection thread
-	Thread thread;
-	bool needUpdateChronopicWin;
-	bool updateChronopicWinValuesState;
-	string updateChronopicWinValuesMessage;
-	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
-	*/
-	
 	//persons
 	private TreeStore treeview_persons_store;
 	private TreeViewPersons myTreeViewPersons;
@@ -291,7 +265,6 @@ public class ChronoJumpWindow
 	private TreeViewMultiChronopic myTreeViewMultiChronopic;
 
 	//preferences variables
-	//private static string chronopicPort;
 	private static int prefsDigitsNumber;
 	private static bool showHeight;
 	private static bool showPower;
@@ -299,7 +272,6 @@ public class ChronoJumpWindow
 	private static bool showAngle;
 	private static bool showQIndex;
 	private static bool showDjIndex;
-//	private static bool simulated;
 	private static bool askDeletion;
 	private static bool weightPercentPreferred;
 	private static bool heightPreferred;
@@ -376,36 +348,6 @@ public class ChronoJumpWindow
 	ChronopicWindow chronopicWin;
 	
 	static EventExecuteWindow eventExecuteWin;
-
-	bool cpRunning;
-	
-	
-	/*
-	int currentCp; //1 to 4
-
-	//cp1	
-	Chronopic cp;
-	SerialPort sp;
-	Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
-	
-	//cp2	
-	Chronopic cp2;
-	SerialPort sp2;
-	Chronopic.Plataforma platformState2;
-
-	//cp3	
-	Chronopic cp3;
-	SerialPort sp3;
-	Chronopic.Plataforma platformState3;
-
-	//cp4	
-	Chronopic cp4;
-	SerialPort sp4;
-	Chronopic.Plataforma platformState4;
-
-	States loggedState;		//log of last state
-	*/
-
 
 	private bool firstRjValue;
 	private double rjTcCount;
@@ -2289,7 +2231,6 @@ public class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) {
 		PreferencesWindow myWin = PreferencesWindow.Show(
-				//chronopicPort, prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
@@ -5129,9 +5070,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_menuitem_chronopic_activate (object o, EventArgs args) {
-		Log.WriteLine("CP a");
 		chronopicWin = ChronopicWindow.View();
-		Log.WriteLine("CP b");
 	}
 	private void on_menuitem_server_activate (object o, EventArgs args) {
 		Log.WriteLine("SERVER");

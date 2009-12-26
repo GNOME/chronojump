@@ -7518,8 +7518,8 @@ suitable for agility tests)</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip" translatable="yes">Edit selected person (E)</property>
                                         <signal name="clicked" handler="on_edit_current_person_clicked"/>
-                                        <accelerator key="E" signal="clicked"/>
                                         <accelerator key="e" signal="clicked" modifiers="GDK_SHIFT_MASK"/>
+                                        <accelerator key="E" signal="clicked"/>
                                         <child>
                                           <widget class="GtkImage" id="image1977">
                                             <property name="visible">True</property>
@@ -18399,6 +18399,7 @@ by you</property>
     <child>
       <widget class="GtkVBox" id="vbox159">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">8</property>
         <child>
           <widget class="GtkNotebook" id="notebook3">
@@ -18408,6 +18409,7 @@ by you</property>
               <widget class="GtkVBox" id="vbox162">
                 <property name="visible">True</property>
                 <property name="border_width">6</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">10</property>
                 <child>
                   <widget class="GtkVBox" id="vbox163">
@@ -18709,6 +18711,7 @@ by you</property>
             <child>
               <widget class="GtkVBox" id="vbox164">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">8</property>
                 <child>
                   <widget class="GtkLabel" id="label658">
@@ -18857,14 +18860,15 @@ by you</property>
                     </child>
                     <child>
                       <widget class="GtkButton" id="button_zoom_cp1">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">False</property>
                         <property name="receives_default">False</property>
                         <property name="tooltip" translatable="yes">Expand image and show description</property>
                         <signal name="clicked" handler="on_button_cp1_zoom_clicked"/>
                         <child>
                           <widget class="GtkImage" id="image_zoom_cp1">
                             <property name="visible">True</property>
+                            <property name="sensitive">False</property>
                           </widget>
                         </child>
                       </widget>
@@ -18879,14 +18883,15 @@ by you</property>
                     </child>
                     <child>
                       <widget class="GtkButton" id="button_zoom_cp2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">False</property>
                         <property name="receives_default">False</property>
                         <property name="tooltip" translatable="yes">Expand image and show description</property>
                         <signal name="clicked" handler="on_button_cp2_zoom_clicked"/>
                         <child>
                           <widget class="GtkImage" id="image_zoom_cp2">
                             <property name="visible">True</property>
+                            <property name="sensitive">False</property>
                           </widget>
                         </child>
                       </widget>
@@ -18901,14 +18906,15 @@ by you</property>
                     </child>
                     <child>
                       <widget class="GtkButton" id="button_zoom_cp3">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">False</property>
                         <property name="receives_default">False</property>
                         <property name="tooltip" translatable="yes">Expand image and show description</property>
                         <signal name="clicked" handler="on_button_cp3_zoom_clicked"/>
                         <child>
                           <widget class="GtkImage" id="image_zoom_cp3">
                             <property name="visible">True</property>
+                            <property name="sensitive">False</property>
                           </widget>
                         </child>
                       </widget>
@@ -18954,6 +18960,7 @@ by you</property>
                 <child>
                   <widget class="GtkVBox" id="vbox167">
                     <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkLabel" id="label662">
                         <property name="visible">True</property>
@@ -19001,6 +19008,7 @@ by you</property>
             <child>
               <widget class="GtkVBox" id="vbox161">
                 <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <widget class="GtkVBox" id="vbox166">
                     <property name="visible">True</property>
@@ -19064,14 +19072,15 @@ by you</property>
                         </child>
                         <child>
                           <widget class="GtkButton" id="button_zoom_contact_steel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can_focus">False</property>
                             <property name="receives_default">False</property>
                             <property name="tooltip" translatable="yes">Expand image and show description</property>
                             <signal name="clicked" handler="on_button_contact_steel_zoom_clicked"/>
                             <child>
                               <widget class="GtkImage" id="image_zoom_contact_steel">
                                 <property name="visible">True</property>
+                                <property name="sensitive">False</property>
                               </widget>
                             </child>
                           </widget>
@@ -19086,14 +19095,15 @@ by you</property>
                         </child>
                         <child>
                           <widget class="GtkButton" id="button_zoom_contact_modular">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can_focus">False</property>
                             <property name="receives_default">False</property>
                             <property name="tooltip" translatable="yes">Expand image and show description</property>
                             <signal name="clicked" handler="on_button_contact_modular_zoom_clicked"/>
                             <child>
                               <widget class="GtkImage" id="image_zoom_contact_modular">
                                 <property name="visible">True</property>
+                                <property name="sensitive">False</property>
                               </widget>
                             </child>
                           </widget>
@@ -19108,14 +19118,15 @@ by you</property>
                         </child>
                         <child>
                           <widget class="GtkButton" id="button_zoom_infrared">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can_focus">False</property>
                             <property name="receives_default">False</property>
                             <property name="tooltip" translatable="yes">Expand image and show description</property>
                             <signal name="clicked" handler="on_button_infrared_zoom_clicked"/>
                             <child>
                               <widget class="GtkImage" id="image_zoom_infrared">
                                 <property name="visible">True</property>
+                                <property name="sensitive">False</property>
                               </widget>
                             </child>
                           </widget>
@@ -20112,7 +20123,7 @@ by you</property>
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">10</property>
+        <property name="spacing">12</property>
         <child>
           <widget class="GtkTable" id="table1">
             <property name="visible">True</property>
@@ -20152,10 +20163,23 @@ by you</property>
               <widget class="GtkHBox" id="hbox3">
                 <property name="visible">True</property>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkComboBox" id="combo_linux2">
+                    <property name="visible">True</property>
+                    <property name="items">/dev/ttyUSB?
+</property>
+                  </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkComboBox" id="combo_windows2">
+                    <property name="visible">True</property>
+                    <property name="items">COM?</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </widget>
               <packing>
@@ -20169,10 +20193,23 @@ by you</property>
               <widget class="GtkHBox" id="hbox4">
                 <property name="visible">True</property>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkComboBox" id="combo_linux3">
+                    <property name="visible">True</property>
+                    <property name="items">/dev/ttyUSB?
+</property>
+                  </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkComboBox" id="combo_windows3">
+                    <property name="visible">True</property>
+                    <property name="items">COM?</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </widget>
               <packing>
@@ -20186,10 +20223,23 @@ by you</property>
               <widget class="GtkHBox" id="hbox5">
                 <property name="visible">True</property>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkComboBox" id="combo_linux4">
+                    <property name="visible">True</property>
+                    <property name="items">/dev/ttyUSB?
+</property>
+                  </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkComboBox" id="combo_windows4">
+                    <property name="visible">True</property>
+                    <property name="items">COM?</property>
+                  </widget>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </widget>
               <packing>
@@ -20205,7 +20255,7 @@ by you</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_button_connect_cp1_clicked"/>
+                <signal name="clicked" handler="on_button_connect_cp_clicked"/>
               </widget>
               <packing>
                 <property name="left_attach">2</property>
@@ -20229,6 +20279,7 @@ by you</property>
                   <widget class="GtkImage" id="image_cp1_yes">
                     <property name="visible">True</property>
                     <property name="stock">gtk-yes</property>
+                    <property name="icon-size">6</property>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -20241,7 +20292,7 @@ by you</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox185">
+              <widget class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <child>
@@ -20257,6 +20308,7 @@ by you</property>
                   <widget class="GtkImage" id="image_cp2_yes">
                     <property name="visible">True</property>
                     <property name="stock">gtk-yes</property>
+                    <property name="icon-size">6</property>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -20271,7 +20323,7 @@ by you</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox185">
+              <widget class="GtkVBox" id="vbox3">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <child>
@@ -20287,6 +20339,7 @@ by you</property>
                   <widget class="GtkImage" id="image_cp3_yes">
                     <property name="visible">True</property>
                     <property name="stock">gtk-yes</property>
+                    <property name="icon-size">6</property>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -20301,7 +20354,7 @@ by you</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox185">
+              <widget class="GtkVBox" id="vbox4">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <child>
@@ -20317,6 +20370,7 @@ by you</property>
                   <widget class="GtkImage" id="image_cp4_yes">
                     <property name="visible">True</property>
                     <property name="stock">gtk-yes</property>
+                    <property name="icon-size">6</property>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -20326,6 +20380,42 @@ by you</property>
               <packing>
                 <property name="left_attach">3</property>
                 <property name="right_attach">4</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label4">
+                <property name="visible">True</property>
+                <property name="label">Chronopic 1</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="label">Chronopic 2</property>
+              </widget>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="label">Chronopic 3</property>
+              </widget>
+              <packing>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label3">
+                <property name="visible">True</property>
+                <property name="label">Chronopic 4</property>
+              </widget>
+              <packing>
                 <property name="top_attach">4</property>
                 <property name="bottom_attach">5</property>
               </packing>
@@ -20343,46 +20433,46 @@ by you</property>
               <placeholder/>
             </child>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label4">
+              <widget class="GtkButton" id="button_connect_cp2">
+                <property name="label" translatable="yes">Connect</property>
                 <property name="visible">True</property>
-                <property name="label">Chronopic 1</property>
-              </widget>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label4">
-                <property name="visible">True</property>
-                <property name="label">Chronopic 2</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_button_connect_cp_clicked"/>
               </widget>
               <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
                 <property name="top_attach">2</property>
                 <property name="bottom_attach">3</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label4">
+              <widget class="GtkButton" id="button_connect_cp3">
+                <property name="label" translatable="yes">Connect</property>
                 <property name="visible">True</property>
-                <property name="label">Chronopic 3</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_button_connect_cp_clicked"/>
               </widget>
               <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label4">
+              <widget class="GtkButton" id="button_connect_cp4">
+                <property name="label" translatable="yes">Connect</property>
                 <property name="visible">True</property>
-                <property name="label">Chronopic 4</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_button_connect_cp_clicked"/>
               </widget>
               <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
                 <property name="top_attach">4</property>
                 <property name="bottom_attach">5</property>
               </packing>
@@ -20406,6 +20496,8 @@ by you</property>
                 <signal name="clicked" handler="on_button_help_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>

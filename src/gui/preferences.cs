@@ -32,8 +32,8 @@ public class PreferencesWindow {
 	
 	[Widget] Gtk.Window preferences;
 
-	[Widget] Gtk.ComboBox combo_port_linux;
-	[Widget] Gtk.ComboBox combo_port_windows;
+//	[Widget] Gtk.ComboBox combo_port_linux;
+//	[Widget] Gtk.ComboBox combo_port_windows;
 
 	[Widget] Gtk.Label label_database;
 	[Widget] Gtk.Label label_database_temp;
@@ -67,10 +67,11 @@ public class PreferencesWindow {
 	//dialogMessage
 	private string languageIni;
 
-	string [] comboWindowsOptions;
+//	string [] comboWindowsOptions;
 	
 
-	PreferencesWindow (string entryChronopic) {
+	//PreferencesWindow (string entryChronopic) {
+	PreferencesWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", null);
 		gladeXML.Autoconnect(this);
@@ -78,6 +79,7 @@ public class PreferencesWindow {
 		//put an icon to window
 		UtilGtk.IconWindow(preferences);
 
+		/*
 		//combo port stuff
 		comboWindowsOptions = new string[257];
 		int count = 0;
@@ -105,6 +107,7 @@ public class PreferencesWindow {
 			else 
 				combo_port_linux.Active = 0; //first option
 		}
+		*/
 
 		label_database.Visible = false;
 		label_database_temp.Visible = false;
@@ -115,15 +118,18 @@ public class PreferencesWindow {
 		//label_logs.Text = Log.GetDir();
 	}
 	
-	static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, bool showPower,  
+	//static public PreferencesWindow Show (string entryChronopic, int digitsNumber, bool showHeight, bool showPower,  
+	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
 			string language, bool allowFinishRjAfterTime)
 	{
 		if (PreferencesWindowBox == null) {
-			PreferencesWindowBox = new PreferencesWindow (entryChronopic);
+			//PreferencesWindowBox = new PreferencesWindow (entryChronopic);
+			PreferencesWindowBox = new PreferencesWindow ();
 		}
 
+		/*
 		if(Util.IsWindows()) {
 			PreferencesWindowBox.combo_port_linux.Hide();
 			PreferencesWindowBox.combo_port_windows.Show();
@@ -131,6 +137,7 @@ public class PreferencesWindow {
 			PreferencesWindowBox.combo_port_windows.Hide();
 			PreferencesWindowBox.combo_port_linux.Show();
 		}
+		*/
 
 		PreferencesWindowBox.languageIni = language;
 		//if(Util.IsWindows())
@@ -359,12 +366,12 @@ public class PreferencesWindow {
 	{
 		/* the falses are for the dbcon that is not opened */
 
-		
+		/*
 		if(Util.IsWindows()) 
 			SqlitePreferences.Update("chronopicPort", UtilGtk.ComboGetActive(combo_port_windows), false);
 		else
 			SqlitePreferences.Update("chronopicPort", UtilGtk.ComboGetActive(combo_port_linux), false);
-		//SqlitePreferences.Update("chronopicPort", label_port.Text.ToString(), false);
+			*/
 		
 		SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), false);
 		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
@@ -409,19 +416,16 @@ public class PreferencesWindow {
 		PreferencesWindowBox = null;
 	}
 
-
+	/*
 	private void on_button_help_clicked (object o, EventArgs args) {
 		new HelpPorts();
 	}
+	*/
 
 	public Button Button_accept 
 	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+		set { button_accept = value; }
+		get { return button_accept;  }
 	}
 
 }

@@ -56,6 +56,7 @@ all: $(ASSEMBLY) $(COMMONAPPLICATIONDATA_ROOT) $(COMMONAPPLICATIONDATAROOT_IMAGE
 
 FILES = \
 	gui/chronojump.cs\
+	gui/chronopic.cs\
 	gui/confirm.cs\
 	gui/error.cs\
 	gui/eventExecute.cs\

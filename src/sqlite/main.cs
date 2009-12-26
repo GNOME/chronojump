@@ -1283,7 +1283,8 @@ class Sqlite
 		conversionRate ++;
 	}
 
-	//to convert to sqlite 0.73
+	//used to delete persons (if needed) when a session is deleted. See SqliteSession.DeleteAllStuff
+	//also used to convert to sqlite 0.73
 	protected internal static void deleteOrphanedPersons()
 	{
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable;

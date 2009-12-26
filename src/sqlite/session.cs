@@ -518,7 +518,7 @@ class SqliteSession : Sqlite
 	}
 
 	
-	public static void DeleteWithJumps(string uniqueID)
+	public static void DeleteAllStuff(string uniqueID)
 	{
 		dbcon.Open();
 
@@ -529,6 +529,8 @@ class SqliteSession : Sqlite
 		//delete relations (existance) within persons and sessions in this session
 		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionWeightTable + " WHERE sessionID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
+
+		Sqlite.deleteOrphanedPersons();
 		
 		//delete normal jumps
 		dbcmd.CommandText = "Delete FROM " + Constants.JumpTable + " WHERE sessionID == " + uniqueID;
@@ -538,7 +540,26 @@ class SqliteSession : Sqlite
 		dbcmd.CommandText = "Delete FROM " + Constants.JumpRjTable + " WHERE sessionID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		
-		//runs PENDING
+		//delete normal runs
+		dbcmd.CommandText = "Delete FROM " + Constants.RunTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
+		//delete intervallic runs
+		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
+		//delete reaction times
+		dbcmd.CommandText = "Delete FROM " + Constants.ReactionTimeTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
+		//delete pulses
+		dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
+		//delete multiChronopic
+		dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID == " + uniqueID;
+		dbcmd.ExecuteNonQuery();
+		
 		
 		dbcon.Close();
 	}

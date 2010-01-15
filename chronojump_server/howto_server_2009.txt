@@ -1,3 +1,13 @@
+--- update 15 gen 2010 ---
+
+he actualitzat el chronojumpServerCsharp.cs
+no he canviat res que afecti a les crides, he canviat dins una funcio (si hagues canviat alguna cosa de les crides, caldria compilar el client amb el proxy baixat de la web (passos 3-5)
+he fet make i make install des del el dir de chronojump
+ha actualitzat el dll
+el pujo, paro el server i l'arranco
+----------------
+
+
 
 1.- compile bin/*.dll file
 
@@ -22,8 +32,8 @@ exit
 
 
 then we can exit without problems with the enter, and without process getting hanged, and without using the non-stop
-if(chronojumpServerCSharp.cs methods or callings don't changed) {
-	go to (6.- compile client)
+if(chronojumpServerCSharp.cs callings don't changed) {
+	go to (6.- compile client, or maybe don't need to compile client)
 }
 
 

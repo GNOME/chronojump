@@ -10,6 +10,7 @@ src/execute/reactionTime.cs
 src/execute/run.cs
 src/exportSession.cs
 src/gui/chronojump.cs
+src/gui/chronopic.cs
 src/gui/convertWeight.cs
 src/gui/event.cs
 src/gui/evaluator.cs

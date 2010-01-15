@@ -114,7 +114,7 @@ public class ChronojumpServer {
 	public string [] Stats()
 	{
 		string [] stats = SqliteServer.Stats();
-
+		
 		return stats;	
 	}
 
@@ -124,6 +124,8 @@ public class ChronojumpServer {
 		Console.WriteLine(mySession.ToString());
 	
 		int id = mySession.InsertAtDB(false, Constants.SessionTable);
+
+		File.Create("need-to-update-r-graphs");
 	
 		return id; //uniqueID of person at server
 	}
@@ -133,6 +135,8 @@ public class ChronojumpServer {
 	{
 		SqliteServerSession.UpdateUploadingState(sessionID, state);
 		
+		File.Create("need-to-update-r-graphs");
+			
 		return 1;
 	}
 	

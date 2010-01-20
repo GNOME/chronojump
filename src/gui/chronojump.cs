@@ -1005,7 +1005,7 @@ public class ChronoJumpWindow
 				if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 
 					message1 =  
 							Catalog.GetString("Session will be uploaded to server.") + "\n" +  
-							Catalog.GetString("All names and date of birth of persons in session will be hidden.") + "\n\n" + 
+							Catalog.GetString("Names, date of birth and descriptions of persons will be hidden.") + "\n\n" + 
 							Catalog.GetString("You can upload again this session if you add more data or persons.");
 				else
 					message1 =  

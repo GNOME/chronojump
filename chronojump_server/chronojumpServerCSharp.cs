@@ -275,8 +275,9 @@ public class ChronojumpServer {
 		//change value for being inserted with new numeration in server
 		myPerson.UniqueID = -1;
 		
-		//hidden person.Name
+		//hidden person.Name and comments
 		myPerson.Name = "";
+		myPerson.Description = "";
 		
 		//do insertion
 		int id = myPerson.InsertAtDB(false, Constants.PersonTable);

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-20 14:01+0100\n"
+"POT-Creation-Date: 2010-01-20 16:11+0100\n"
 "PO-Revision-Date: 2009-06-23 15:52+0100\n"
 "Last-Translator: Xavier de Blas <xaviblas@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -1280,7 +1280,7 @@ msgstr "Abrir carpeta de base de datos"
 msgid "Options"
 msgstr "Opciones"
 
-#: ../glade/chronojump.glade.h:293 ../src/constants.cs:141
+#: ../glade/chronojump.glade.h:293 ../src/constants.cs:142
 msgid "Other"
 msgstr "Otros"
 
@@ -1807,13 +1807,11 @@ msgstr "Tiempo"
 
 #: ../glade/chronojump.glade.h:408
 msgid "To buy or build Chronopic see website:"
-msgstr ""
-"Para comprar o construir un Chronopic ver la página web:"
+msgstr "Para comprar o construir un Chronopic ver la página web:"
 
 #: ../glade/chronojump.glade.h:409
 msgid "To buy or build these devices see website:"
-msgstr ""
-"Para comprar o construir estos dispositivos ver la página web:"
+msgstr "Para comprar o construir estos dispositivos ver la página web:"
 
 #: ../glade/chronojump.glade.h:410
 msgid "Top"
@@ -1854,8 +1852,8 @@ msgstr "Tipo"
 msgid "Type of test"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:419 ../src/constants.cs:358
-#: ../src/constants.cs:383 ../src/gui/person.cs:1091 ../src/gui/person.cs:1108
+#: ../glade/chronojump.glade.h:419 ../src/constants.cs:359
+#: ../src/constants.cs:384 ../src/gui/person.cs:1091 ../src/gui/person.cs:1108
 msgid "Undefined"
 msgstr "Indefinido"
 
@@ -2420,16 +2418,20 @@ msgstr "OpenCV, detección del ángulo de la rodilla"
 msgid "Installation support: Autotools, packaging, bundle."
 msgstr ""
 
-#: ../src/constants.cs:111
+#: ../src/constants.cs:97
+msgid "Any"
+msgstr "Cualquiera"
+
+#: ../src/constants.cs:112
 msgid "Server is connected."
 msgstr ""
 
-#: ../src/constants.cs:112
+#: ../src/constants.cs:113
 msgid "Sorry, server is currently offline. Try later."
 msgstr ""
 "Lo sentimos, el servidor está fuera de línea. Por favor, Pruebe más tarde."
 
-#: ../src/constants.cs:113
+#: ../src/constants.cs:114
 msgid ""
 "Or maybe you are not connected to the Internet or your firewall is "
 "restricting connections"
@@ -2450,234 +2452,234 @@ msgstr ""
 #. ")) -(15.3*" + Catalog.GetString("height") + "(cm)) -1413.1";
 #.
 #. what is this height?
-#: ../src/constants.cs:157 ../src/constants.cs:160 ../src/constants.cs:164
-#: ../src/constants.cs:168 ../src/constants.cs:172 ../src/constants.cs:176
-#: ../src/constants.cs:187 ../src/constants.cs:191 ../src/constants.cs:195
-#: ../src/constants.cs:199 ../src/constants.cs:203
-msgid "Peak power"
-msgstr "Pico de potencia"
-
-#: ../src/constants.cs:158 ../src/constants.cs:162 ../src/constants.cs:166
-#: ../src/constants.cs:170 ../src/constants.cs:174 ../src/constants.cs:178
-#: ../src/constants.cs:189 ../src/constants.cs:193 ../src/constants.cs:197
-#: ../src/constants.cs:201 ../src/constants.cs:205
-msgid "body weight"
-msgstr "peso corporal"
-
-#: ../src/constants.cs:158 ../src/constants.cs:162 ../src/constants.cs:166
-#: ../src/constants.cs:170 ../src/constants.cs:174 ../src/constants.cs:178
-#: ../src/constants.cs:189 ../src/constants.cs:193 ../src/constants.cs:197
-#: ../src/constants.cs:201 ../src/constants.cs:205
-msgid "extra weight"
-msgstr "peso extra"
-
 #: ../src/constants.cs:158 ../src/constants.cs:161 ../src/constants.cs:165
 #: ../src/constants.cs:169 ../src/constants.cs:173 ../src/constants.cs:177
 #: ../src/constants.cs:188 ../src/constants.cs:192 ../src/constants.cs:196
-#: ../src/constants.cs:200 ../src/constants.cs:204 ../src/stats/fv.cs:51
+#: ../src/constants.cs:200 ../src/constants.cs:204
+msgid "Peak power"
+msgstr "Pico de potencia"
+
+#: ../src/constants.cs:159 ../src/constants.cs:163 ../src/constants.cs:167
+#: ../src/constants.cs:171 ../src/constants.cs:175 ../src/constants.cs:179
+#: ../src/constants.cs:190 ../src/constants.cs:194 ../src/constants.cs:198
+#: ../src/constants.cs:202 ../src/constants.cs:206
+msgid "body weight"
+msgstr "peso corporal"
+
+#: ../src/constants.cs:159 ../src/constants.cs:163 ../src/constants.cs:167
+#: ../src/constants.cs:171 ../src/constants.cs:175 ../src/constants.cs:179
+#: ../src/constants.cs:190 ../src/constants.cs:194 ../src/constants.cs:198
+#: ../src/constants.cs:202 ../src/constants.cs:206
+msgid "extra weight"
+msgstr "peso extra"
+
+#: ../src/constants.cs:159 ../src/constants.cs:162 ../src/constants.cs:166
+#: ../src/constants.cs:170 ../src/constants.cs:174 ../src/constants.cs:178
+#: ../src/constants.cs:189 ../src/constants.cs:193 ../src/constants.cs:197
+#: ../src/constants.cs:201 ../src/constants.cs:205 ../src/stats/fv.cs:51
 #: ../src/stats/fv.cs:52 ../src/stats/graphs/fv.cs:74
 #: ../src/stats/graphs/fv.cs:75
 msgid "height"
 msgstr "altura"
 
-#: ../src/constants.cs:187
+#: ../src/constants.cs:188
 msgid "Male applicants to a Faculty of Sport Sciencies"
 msgstr "Candidatos masculinos a la facultad de ciencias del deporte"
 
-#: ../src/constants.cs:191
+#: ../src/constants.cs:192
 msgid "Female elite volleybol"
 msgstr "Voleibol femenino de elite"
 
-#: ../src/constants.cs:195
+#: ../src/constants.cs:196
 msgid "Female medium volleybol"
 msgstr "Voleibol medio femenino"
 
-#: ../src/constants.cs:199
+#: ../src/constants.cs:200
 msgid "Female sports sciencies students"
 msgstr "Estudiantes femeninas de ciencias deportivas"
 
-#: ../src/constants.cs:203
+#: ../src/constants.cs:204
 msgid "Female university students"
 msgstr "Estudiantes universitarias femeninas"
 
 #. *4.0 for having double division
 #. CurrentGraphData.GraphTitle = this.ToString();
-#: ../src/constants.cs:209 ../src/stats/potency.cs:60
+#: ../src/constants.cs:210 ../src/stats/potency.cs:60
 #: ../src/stats/graphs/potency.cs:61 ../src/stats/graphs/potency.cs:71
 #: ../src/stats/graphs/potency.cs:81 ../src/stats/graphs/potency.cs:91
 msgid "Peak Power"
 msgstr "Pico de potencia"
 
 #. global stat types
-#: ../src/constants.cs:221
+#: ../src/constants.cs:222
 msgid "Session summary"
 msgstr "Sumario de Sesión"
 
-#: ../src/constants.cs:222
+#: ../src/constants.cs:223
 msgid "Jumper summary"
 msgstr "Sumario de Saltador"
 
-#: ../src/constants.cs:223
+#: ../src/constants.cs:224
 msgid "Jumps: Simple"
 msgstr "Saltos: Simple"
 
-#: ../src/constants.cs:224
+#: ../src/constants.cs:225
 msgid "Jumps: Simple with TC"
 msgstr "Saltos: Simple con TC"
 
-#: ../src/constants.cs:225
+#: ../src/constants.cs:226
 msgid "Jumps: Reactive"
 msgstr "Salto: Reactivo"
 
 #. strings
-#: ../src/constants.cs:228
+#: ../src/constants.cs:229
 msgid "See all jumps"
 msgstr "Mostrar todos los saltos"
 
-#: ../src/constants.cs:229
+#: ../src/constants.cs:230
 msgid "See all runs"
 msgstr "Mostrar todas las carreras"
 
-#: ../src/constants.cs:230
+#: ../src/constants.cs:231
 msgid "See all pulses"
 msgstr "Mostrar todos los pulsos"
 
-#: ../src/constants.cs:252
+#: ../src/constants.cs:253
 msgid "black only"
 msgstr ""
 
-#: ../src/constants.cs:306
+#: ../src/constants.cs:307
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "Típicos puertos serie y USB en Windows:"
 
-#: ../src/constants.cs:308
+#: ../src/constants.cs:309
 msgid "Also, these are possible:"
 msgstr "Además, estos son posibles:"
 
-#: ../src/constants.cs:312
+#: ../src/constants.cs:313
 msgid "Typical serial serial ports on GNU/Linux:"
 msgstr "Puertos serie típicos en GNU/Linux:"
 
-#: ../src/constants.cs:314
+#: ../src/constants.cs:315
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "Puertos serie USB típicos en GNU/Linux:"
 
-#: ../src/constants.cs:316
+#: ../src/constants.cs:317
 msgid "If you use Chronopic3, you will have an USB-serial port."
 msgstr "Si usted usa Chronopic3, tendrá un puerto USB-serie."
 
-#: ../src/constants.cs:319
+#: ../src/constants.cs:320
 msgid "Serial ports found:"
 msgstr "Puertos serie encontrados:"
 
-#: ../src/constants.cs:320
+#: ../src/constants.cs:321
 msgid "USB-serial ports found:"
 msgstr "Puertos USB-serie encontrados:"
 
-#: ../src/constants.cs:321
+#: ../src/constants.cs:322
 msgid "Not found any USB-serial ports."
 msgstr "No se ha encontrado ningún puerto USB-serie."
 
-#: ../src/constants.cs:321
+#: ../src/constants.cs:322
 msgid "Is Chronopic connected?"
 msgstr "¿Está Chronopic conectado?"
 
-#: ../src/constants.cs:350
+#: ../src/constants.cs:351
 msgid "--Undefined"
 msgstr "--Indefinido"
 
-#: ../src/constants.cs:351
+#: ../src/constants.cs:352
 msgid "--Any"
-msgstr ""
+msgstr "--Cualquiera"
 
-#: ../src/constants.cs:354
+#: ../src/constants.cs:355
 msgid "-None"
 msgstr "-Ninguno"
 
-#: ../src/constants.cs:367
+#: ../src/constants.cs:368
 msgid "Africa"
 msgstr "África"
 
-#: ../src/constants.cs:368
+#: ../src/constants.cs:369
 msgid "Antarctica"
 msgstr "Antártida"
 
-#: ../src/constants.cs:369
+#: ../src/constants.cs:370
 msgid "Asia"
 msgstr "Asia"
 
-#: ../src/constants.cs:370
+#: ../src/constants.cs:371
 msgid "Europe"
 msgstr "Europa"
 
-#: ../src/constants.cs:371
+#: ../src/constants.cs:372
 msgid "North America"
 msgstr "Norteamérica"
 
-#: ../src/constants.cs:372
+#: ../src/constants.cs:373
 msgid "Oceania"
 msgstr "Oceanía"
 
-#: ../src/constants.cs:373
+#: ../src/constants.cs:374
 msgid "South America"
 msgstr "Sudamérica"
 
-#: ../src/constants.cs:386
+#: ../src/constants.cs:387
 msgid "Sedentary/Ocasional practice"
 msgstr "Sedentario/Practicante ocasional"
 
-#: ../src/constants.cs:390
+#: ../src/constants.cs:391
 msgid "Regular practice"
 msgstr "Práctica regular"
 
-#: ../src/constants.cs:391
+#: ../src/constants.cs:392
 msgid "Competition"
 msgstr "Competición"
 
-#: ../src/constants.cs:392
+#: ../src/constants.cs:393
 msgid "Elite"
 msgstr "Élite"
 
-#: ../src/constants.cs:396
+#: ../src/constants.cs:397
 msgid "Initializing"
 msgstr "Inicializando"
 
 #. 0
-#: ../src/constants.cs:397
+#: ../src/constants.cs:398
 msgid "Checking database"
 msgstr "Comprobando base de datos"
 
 #. 1
-#: ../src/constants.cs:398
+#: ../src/constants.cs:399
 msgid "Creating database"
 msgstr "Creando base de datos"
 
 #. 2
-#: ../src/constants.cs:399
+#: ../src/constants.cs:400
 msgid "Making database backup"
 msgstr "Realizando copia de base de datos"
 
 #. 3
-#: ../src/constants.cs:400
+#: ../src/constants.cs:401
 msgid "Updating database"
 msgstr "Actualizando base de datos."
 
 #. 4
-#: ../src/constants.cs:401
+#: ../src/constants.cs:402
 msgid "Check for new version"
 msgstr "Comprobando nueva versión"
 
 #. 5
-#: ../src/constants.cs:402
+#: ../src/constants.cs:403
 msgid "Preparing main Window"
 msgstr "Preparando ventana principal"
 
-#: ../src/constants.cs:427 ../src/gui/jump.cs:1039 ../src/gui/jump.cs:1044
+#: ../src/constants.cs:428 ../src/gui/jump.cs:1039 ../src/gui/jump.cs:1044
 #: ../src/gui/jump.cs:1231 ../src/gui/jump.cs:1236
 msgid "No"
 msgstr "No"
 
-#: ../src/constants.cs:428 ../src/gui/jump.cs:1037 ../src/gui/jump.cs:1042
+#: ../src/constants.cs:429 ../src/gui/jump.cs:1037 ../src/gui/jump.cs:1042
 #: ../src/gui/jump.cs:1073 ../src/gui/jump.cs:1076 ../src/gui/jump.cs:1103
 #: ../src/gui/jump.cs:1106 ../src/gui/jump.cs:1229 ../src/gui/jump.cs:1234
 #: ../src/gui/jump.cs:1307 ../src/gui/jump.cs:1310 ../src/gui/jump.cs:1354
@@ -2685,11 +2687,11 @@ msgstr "No"
 msgid "Yes"
 msgstr "Sí"
 
-#: ../src/constants.cs:430
+#: ../src/constants.cs:431
 msgid "In"
 msgstr "Dentro"
 
-#: ../src/constants.cs:431
+#: ../src/constants.cs:432
 msgid "Out"
 msgstr "Fuera"
 
@@ -3139,7 +3141,9 @@ msgstr "La sesión será subida al servidor."
 
 #: ../src/gui/chronojump.cs:1008
 msgid "Names, date of birth and descriptions of persons will be hidden."
-msgstr "Los nombres, fechas de nacimiento y descripciones de los sujetos serán ocultados."
+msgstr ""
+"Los nombres, fechas de nacimiento y descripciones de los sujetos serán "
+"ocultados."
 
 #: ../src/gui/chronojump.cs:1009
 msgid "You can upload again this session if you add more data or persons."

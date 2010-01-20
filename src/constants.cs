@@ -94,6 +94,7 @@ public class Constants
 
 	public const string UndefinedDefault = "Undefined";
 	public const string Any = "Any";
+	private static string dumbVariableForTranslatingAny = Catalog.GetString("Any");
 
 	public const string M = "M";
 	public const string F = "F";

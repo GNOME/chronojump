@@ -124,8 +124,12 @@ public class ChronojumpServer {
 		Console.WriteLine(mySession.ToString());
 	
 		int id = mySession.InsertAtDB(false, Constants.SessionTable);
-
-		File.Create("need-to-update-r-graphs");
+	
+		try {
+			File.Create("need-to-update-r-graphs");
+		} catch {
+			//file exists and cannot be overwritten
+		}
 	
 		return id; //uniqueID of person at server
 	}
@@ -135,8 +139,6 @@ public class ChronojumpServer {
 	{
 		SqliteServerSession.UpdateUploadingState(sessionID, state);
 		
-		File.Create("need-to-update-r-graphs");
-			
 		return 1;
 	}
 	

@@ -6420,40 +6420,58 @@ suitable for agility tests)</property>
                 <child>
                   <widget class="GtkMenu" id="session_menu">
                     <child>
-                      <widget class="GtkImageMenuItem" id="new1">
-                        <property name="label">_New session</property>
+                      <widget class="GtkImageMenuItem" id="session_new">
+                        <property name="label">gtk-new</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_new_activate"/>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="open1">
-                        <property name="label">_Load session</property>
+                        <property name="label">_Load</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_open_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image10">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-open</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_edit_session">
-                        <property name="label">_Edit session</property>
+                        <property name="label">_Edit</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_edit_session_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image11">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-edit</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_delete_session">
-                        <property name="label">_Delete session</property>
+                        <property name="label">_Delete</property>
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">delete current session</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_delete_session_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image12">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-delete</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -6467,8 +6485,14 @@ suitable for agility tests)</property>
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_export_session_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image9">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-convert</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -6586,9 +6610,8 @@ suitable for agility tests)</property>
                   <widget class="GtkMenu" id="menu_persons_menu">
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_person_add_single">
-                        <property name="label">_New person</property>
+                        <property name="label">gtk-new</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_person_add_single_activate"/>
                       </widget>
@@ -6597,9 +6620,14 @@ suitable for agility tests)</property>
                       <widget class="GtkImageMenuItem" id="menuitem_person_add_multiple">
                         <property name="label">New persons (multiple)</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_person_add_multiple_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image13">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-new</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -6609,9 +6637,8 @@ suitable for agility tests)</property>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_recuperate_person">
-                        <property name="label">_Load person</property>
+                        <property name="label">gtk-open</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_recuperate_person_activate"/>
                       </widget>
@@ -6620,9 +6647,14 @@ suitable for agility tests)</property>
                       <widget class="GtkImageMenuItem" id="menuitem_recuperate_persons_from_session">
                         <property name="label">Load persons from other session</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_recuperate_persons_from_session_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image14">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-open</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -6635,8 +6667,14 @@ suitable for agility tests)</property>
                         <property name="label">_Edit current person</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_edit_current_person_clicked"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image15">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-edit</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -6644,8 +6682,14 @@ suitable for agility tests)</property>
                         <property name="label">_Show all tests of current person</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_show_all_person_events_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image16">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-find</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -6658,8 +6702,14 @@ suitable for agility tests)</property>
                         <property name="label">_Delete current person from this session</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_delete_current_person_from_session_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image17">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-delete</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -7366,9 +7416,8 @@ suitable for agility tests)</property>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_preferences">
-                        <property name="label">_Preferences</property>
+                        <property name="label">gtk-preferences</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_preferences_activate"/>
                       </widget>
@@ -7518,8 +7567,8 @@ suitable for agility tests)</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip" translatable="yes">Edit selected person (E)</property>
                                         <signal name="clicked" handler="on_edit_current_person_clicked"/>
-                                        <accelerator key="E" signal="clicked"/>
                                         <accelerator key="e" signal="clicked" modifiers="GDK_SHIFT_MASK"/>
+                                        <accelerator key="E" signal="clicked"/>
                                         <child>
                                           <widget class="GtkImage" id="image1977">
                                             <property name="visible">True</property>

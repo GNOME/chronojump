@@ -23,12 +23,12 @@ if all are needed:
 chronojump/po $ cat missing >> POTFILES.in
 if some not, add them to POTFILES.skip
 
-3.- check creating a .pot (creates untitled.pot)
+3.- check creating a .pot (creates chronojump.pot)
 chronojump/po $ intltool-update -p
 
-4.- merge untitled.pot with old catalan translation
+4.- merge chronojump.pot with old catalan translation
 mv ca.po ca_old.po
-msgmerge -o ca.po ca_old.po untitled.pot
+msgmerge -o ca.po ca_old.po chronojump.pot
 
 5.- edit the ca.po with a multiporpose editor like vim, or a po editor like poedit
 poedit it's better because it fast finds what needs to be translated

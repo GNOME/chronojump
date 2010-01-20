@@ -104,6 +104,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_sj;
 	[Widget] Gtk.Button button_sj_l;
 	[Widget] Gtk.Button button_cmj;
+	[Widget] Gtk.Button button_cmj_l;
 	[Widget] Gtk.Button button_abk;
 	[Widget] Gtk.Button button_dj;
 	[Widget] Gtk.Button button_rocket;
@@ -170,6 +171,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem sj;
 	[Widget] Gtk.MenuItem sj_l;
 	[Widget] Gtk.MenuItem cmj;
+	[Widget] Gtk.MenuItem cmj_l;
 	[Widget] Gtk.MenuItem abk;
 	[Widget] Gtk.MenuItem dj;
 	[Widget] Gtk.MenuItem menuitem_jump_rocket;
@@ -2627,9 +2629,8 @@ Console.WriteLine("X");
 			currentEventType = new JumpType("SJl");
 		} else 	if(o == (object) button_cmj) {
 			currentEventType = new JumpType("CMJ");
-//no cmj_l button currently
-//		} else 	if(o == (object) button_cmj_l) {
-//			currentEventType = new JumpType("CMJl");
+		} else 	if(o == (object) button_cmj_l) {
+			currentEventType = new JumpType("CMJl");
 		} else 	if(o == (object) button_abk) {
 			currentEventType = new JumpType("ABK");
 //no abk_l button currently
@@ -2827,9 +2828,9 @@ Console.WriteLine("X");
 			currentJumpType = new JumpType("SJl");
 		} else if(o == (object) button_dj || o == (object) dj) {
 			currentJumpType = new JumpType("DJ");
-// currently no cmj_l, abk_l buttons or menu
-//		} else if(o == (object) button_cmj_l || o == (object) cmj_l) {
-//			currentJumpType = new JumpType("CMJl");
+		} else if(o == (object) button_cmj_l || o == (object) cmj_l) {
+			currentJumpType = new JumpType("CMJl");
+// currently no abk_l button or menu
 //		} else if(o == (object) button_abk_l || o == (object) abk_l) {
 //			currentJumpType = new JumpType("ABKl");
 		} else {

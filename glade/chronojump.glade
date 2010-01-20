@@ -6423,6 +6423,7 @@ suitable for agility tests)</property>
                       <widget class="GtkImageMenuItem" id="session_new">
                         <property name="label">gtk-new</property>
                         <property name="visible">True</property>
+                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_new_activate"/>
@@ -6612,6 +6613,7 @@ suitable for agility tests)</property>
                       <widget class="GtkImageMenuItem" id="menuitem_person_add_single">
                         <property name="label">gtk-new</property>
                         <property name="visible">True</property>
+                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_person_add_single_activate"/>
                       </widget>
@@ -6639,6 +6641,7 @@ suitable for agility tests)</property>
                       <widget class="GtkImageMenuItem" id="menuitem_recuperate_person">
                         <property name="label">gtk-open</property>
                         <property name="visible">True</property>
+                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_recuperate_person_activate"/>
                       </widget>
@@ -6763,6 +6766,15 @@ suitable for agility tests)</property>
                                 <property name="label" translatable="yes">CMJ</property>
                                 <property name="use_underline">True</property>
                                 <signal name="activate" handler="on_normal_jump_activate"/>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkMenuItem" id="cmj_l">
+                                <property name="visible">True</property>
+                                <property name="tooltip" translatable="yes">CounterMovement Jump with extra weight</property>
+                                <property name="label" translatable="yes">CMJl</property>
+                                <property name="use_underline">True</property>
+                                <signal name="activate" handler="on_jump_extra_activate"/>
                               </widget>
                             </child>
                             <child>
@@ -7418,6 +7430,7 @@ suitable for agility tests)</property>
                       <widget class="GtkImageMenuItem" id="menuitem_preferences">
                         <property name="label">gtk-preferences</property>
                         <property name="visible">True</property>
+                        <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_preferences_activate"/>
                       </widget>
@@ -7567,8 +7580,8 @@ suitable for agility tests)</property>
                                         <property name="receives_default">False</property>
                                         <property name="tooltip" translatable="yes">Edit selected person (E)</property>
                                         <signal name="clicked" handler="on_edit_current_person_clicked"/>
-                                        <accelerator key="e" signal="clicked" modifiers="GDK_SHIFT_MASK"/>
                                         <accelerator key="E" signal="clicked"/>
+                                        <accelerator key="e" signal="clicked" modifiers="GDK_SHIFT_MASK"/>
                                         <child>
                                           <widget class="GtkImage" id="image1977">
                                             <property name="visible">True</property>
@@ -7825,6 +7838,20 @@ suitable for agility tests)</property>
                                               </packing>
                                             </child>
                                             <child>
+                                              <widget class="GtkButton" id="button_cmj_l">
+                                                <property name="label" translatable="yes">CMJl</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <signal name="clicked" handler="on_jump_extra_activate"/>
+                                                <signal name="enter" handler="on_button_enter"/>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="position">4</property>
+                                              </packing>
+                                            </child>
+                                            <child>
                                               <widget class="GtkButton" id="button_abk">
                                                 <property name="label">ABK</property>
                                                 <property name="visible">True</property>
@@ -7838,7 +7865,7 @@ suitable for agility tests)</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">4</property>
+                                                <property name="position">5</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -7855,7 +7882,7 @@ suitable for agility tests)</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">5</property>
+                                                <property name="position">6</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -7872,7 +7899,7 @@ suitable for agility tests)</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">6</property>
+                                                <property name="position">7</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -7889,7 +7916,7 @@ suitable for agility tests)</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">7</property>
+                                                <property name="position">8</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -7915,7 +7942,7 @@ suitable for agility tests)</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">8</property>
+                                                <property name="position">9</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -7935,7 +7962,7 @@ suitable for agility tests)</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">9</property>
+                                                <property name="position">10</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -7955,7 +7982,7 @@ suitable for agility tests)</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">10</property>
+                                                <property name="position">11</property>
                                               </packing>
                                             </child>
                                           </widget>

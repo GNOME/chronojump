@@ -224,6 +224,8 @@ CHRONOJUMP_RESOURCES =  \
 	-resource:../images/stock_bell_red.png,stock_bell_red.png \
 	-resource:../images/audio-volume-high.png,audio-volume-high.png \
 	-resource:../images/audio-volume-muted.png,audio-volume-muted.png \
+	-resource:../images/chronopic_24.png,chronopic_24.png \
+	-resource:../images/chronopic_128.png,chronopic_128.png \
 	-resource:../images/gpm-statistics.png,gpm-statistics.png \
 	-resource:../images/stock_task-assigned.png,stock_task-assigned.png \
 	-resource:../images/preferences-system.png,preferences-system.png \

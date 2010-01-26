@@ -470,7 +470,7 @@ public class ChronoJumpWindow
 	//from SportsTracker code
 	[Glade.WidgetAttribute]
 		private ImageMenuItem
-			menuitem_view_stats = null, menuitem_report_window = null;
+			menuitem_view_stats = null, menuitem_report_window = null, menuitem_chronopic = null;
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
@@ -505,6 +505,8 @@ public class ChronoJumpWindow
 		image_pulses_zoom.Pixbuf = pixbuf;
 
 		//menuitems (done differently)
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronopic_24.png");
+		menuitem_chronopic.Image = new Gtk.Image(pixbuf);
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		menuitem_view_stats.Image = new Gtk.Image(pixbuf);
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
@@ -910,7 +912,7 @@ public class ChronoJumpWindow
 	}
 
 	private void on_menuitem_goto_server_website_activate (object o, EventArgs args) {
-		System.Diagnostics.Process.Start(Constants.ChronojumpWebsite+"/server.html");
+		System.Diagnostics.Process.Start(Constants.ChronojumpWebsite + Path.DirectorySeparatorChar + "server.html");
 	}
 
 	/* 
@@ -2100,6 +2102,8 @@ public class ChronoJumpWindow
 			if(createdStatsWin) {
 				statsWin.FillTreeView_stats(false, true);
 			}
+
+			personAddModifyWin.Destroy();
 		}
 	}
 

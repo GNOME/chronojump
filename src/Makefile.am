@@ -278,6 +278,8 @@ RESOURCES = \
 	../images/stock_bell_red.png,stock_bell_red.png \
 	../images/audio-volume-high.png,audio-volume-high.png \
 	../images/audio-volume-muted.png,audio-volume-muted.png \
+	../images/chronopic_24.png,chronopic_24.png \
+	../images/chronopic_128.png,chronopic_128.png \
 	../images/gpm-statistics.png,gpm-statistics.png \
 	../images/stock_task-assigned.png,stock_task-assigned.png \
 	../images/preferences-system.png,preferences-system.png \

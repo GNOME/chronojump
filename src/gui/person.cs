@@ -1148,6 +1148,7 @@ public class PersonAddModifyWindow
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		PersonAddModifyWindowBox.person_win.Hide();
+		PersonAddModifyWindowBox.person_win.Destroy();
 		PersonAddModifyWindowBox = null;
 	}
 	
@@ -1155,6 +1156,7 @@ public class PersonAddModifyWindow
 	void on_person_win_delete_event (object o, DeleteEventArgs args)
 	{
 		PersonAddModifyWindowBox.person_win.Hide();
+		PersonAddModifyWindowBox.person_win.Destroy();
 		PersonAddModifyWindowBox = null;
 	}
 	
@@ -1461,6 +1463,10 @@ public class PersonAddModifyWindow
 
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;
+	}
+
+	public void Destroy() {
+		PersonAddModifyWindowBox.person_win.Destroy();
 	}
 
 	public Button FakeButtonAccept 

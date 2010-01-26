@@ -61,6 +61,8 @@ public class ChronopicWindow
 	[Widget] Gtk.Button button_connect_cp2;
 	[Widget] Gtk.Button button_connect_cp3;
 	[Widget] Gtk.Button button_connect_cp4;
+	
+	[Widget] Gtk.Image chronopic_image;
 
 	//chronopic connection thread
 	Thread thread;
@@ -72,7 +74,10 @@ public class ChronopicWindow
 	bool isWindows;	
 
 	//preferences variables
-	private static string chronopicPort;
+	private static string chronopicPort1;
+	private static string chronopicPort2;
+	private static string chronopicPort3;
+	private static string chronopicPort4;
 	
 	//platform state variables
 	enum States {
@@ -103,6 +108,7 @@ public class ChronopicWindow
 	Chronopic.Plataforma platformState4;
 
 	States loggedState;		//log of last state
+	
 
 	public ChronopicWindow()
 	{
@@ -119,11 +125,17 @@ public class ChronopicWindow
 			isWindows = false;
 
 		setDefaultValues();		
+		
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronopic_128.png");
+		chronopic_image.Pixbuf = pixbuf;
 
-		chronopicPort = SqlitePreferences.Select("chronopicPort");
+		chronopicPort1 = SqlitePreferences.Select("chronopicPort");
+		chronopicPort2 = "";
+		chronopicPort3 = "";
+		chronopicPort4 = "";
 
-		if(chronopicPort != Constants.ChronopicDefaultPortWindows && 
-				(chronopicPort != Constants.ChronopicDefaultPortLinux && File.Exists(chronopicPort))
+		if(chronopicPort1 != Constants.ChronopicDefaultPortWindows && 
+				(chronopicPort1 != Constants.ChronopicDefaultPortLinux && File.Exists(chronopicPort1))
 		  ) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Do you want to connect to Chronopic now?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(chronopicAtStart);
@@ -185,44 +197,45 @@ public class ChronopicWindow
 		image_cp2_yes.Hide();
 		image_cp3_yes.Hide();
 		image_cp4_yes.Hide();
-		
-		currentCp = 1; //TODO: change
 	}
 	
 	private void createCombos() {
 		if(isWindows) {
-			ChronopicWindowBox.createComboWindows(combo_windows1);
-			ChronopicWindowBox.createComboWindows(combo_windows2);
-			ChronopicWindowBox.createComboWindows(combo_windows3);
-			ChronopicWindowBox.createComboWindows(combo_windows4);
+			ChronopicWindowBox.createComboWindows(chronopicPort1, combo_windows1);
+			ChronopicWindowBox.createComboWindows(chronopicPort2, combo_windows2);
+			ChronopicWindowBox.createComboWindows(chronopicPort3, combo_windows3);
+			ChronopicWindowBox.createComboWindows(chronopicPort4, combo_windows4);
 		} else {
-			ChronopicWindowBox.createComboLinux(combo_linux1);
-			ChronopicWindowBox.createComboLinux(combo_linux2);
-			ChronopicWindowBox.createComboLinux(combo_linux3);
-			ChronopicWindowBox.createComboLinux(combo_linux4);
+			ChronopicWindowBox.createComboLinux(chronopicPort1, combo_linux1);
+			ChronopicWindowBox.createComboLinux(chronopicPort2, combo_linux2);
+			ChronopicWindowBox.createComboLinux(chronopicPort3, combo_linux3);
+			ChronopicWindowBox.createComboLinux(chronopicPort4, combo_linux4);
 		}
 	}
 
-	private void createComboWindows(Gtk.ComboBox myCombo) {
+	private void createComboWindows(string myPort, Gtk.ComboBox myCombo) {
 		//combo port stuff
 		comboWindowsOptions = new string[257];
 		int count = 0;
 		for (int i=1; i <= 257; i ++)
 			comboWindowsOptions[i-1] = "COM" + i;
 		
-		chronopicPort = SqlitePreferences.Select("chronopicPort");
-
 		UtilGtk.ComboUpdate(myCombo, comboWindowsOptions, comboWindowsOptions[0]);
 
-		if(chronopicPort.Length > 0 && myCombo == combo_windows1)
-			myCombo.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, chronopicPort);
-		else
+		if(myPort.Length > 0) {
+			if (myCombo == combo_windows1)
+				myCombo.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, myPort);
+			else { //don't show connected port as an option for other ports
+				UtilGtk.ComboDelThisValue(myCombo, myPort);
+				myCombo.Active = 0; //first option
+			}
+		} else 
 			myCombo.Active = 0; //first option
 			
 		myCombo.Changed += new EventHandler (on_combo_changed);
 	}
 
-	private void createComboLinux(Gtk.ComboBox myCombo) {
+	private void createComboLinux(string myPort, Gtk.ComboBox myCombo) {
 		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
 		string [] serial = Directory.GetFiles("/dev/", "ttyS*");
 		string [] all = Util.AddArrayString(usbSerial, serial);
@@ -231,9 +244,14 @@ public class ChronopicWindow
 
 		UtilGtk.ComboUpdate(myCombo, allWithDef, Constants.ChronopicDefaultPortLinux);
 
-		if(chronopicPort.Length > 0 && myCombo == combo_linux1)
-			myCombo.Active = UtilGtk.ComboMakeActive(allWithDef, chronopicPort);
-		else 
+		if(myPort.Length > 0) {
+			if(myCombo == combo_linux1)
+				myCombo.Active = UtilGtk.ComboMakeActive(allWithDef, myPort);
+			else { //don't show connected port as an option for other ports
+				UtilGtk.ComboDelThisValue(myCombo, myPort);
+				myCombo.Active = 0; //first option
+			}
+		} else 
 			myCombo.Active = 0; //first option
 		
 		myCombo.Changed += new EventHandler (on_combo_changed);
@@ -377,35 +395,36 @@ public class ChronopicWindow
 		Button btn = o as Button;
 		if (o == null)
 			return;
-		/*
-		if(image_cp2_no.Visible)
-			currentCp = 2;
-		else if(image_cp3_no.Visible)
-			currentCp = 3;
-		else if(image_cp4_no.Visible)
-			currentCp = 4;
-			*/
 
 		if(isWindows){
 			if (o == button_connect_cp1) 
-				chronopicPort = UtilGtk.ComboGetActive(combo_windows1);
+				chronopicPort1 = UtilGtk.ComboGetActive(combo_windows1);
 			else if (o == button_connect_cp2) 
-				chronopicPort = UtilGtk.ComboGetActive(combo_windows2);
+				chronopicPort2 = UtilGtk.ComboGetActive(combo_windows2);
 			else if (o == button_connect_cp3) 
-				chronopicPort = UtilGtk.ComboGetActive(combo_windows3);
+				chronopicPort3 = UtilGtk.ComboGetActive(combo_windows3);
 			else if (o == button_connect_cp4) 
-				chronopicPort = UtilGtk.ComboGetActive(combo_windows4);
+				chronopicPort4 = UtilGtk.ComboGetActive(combo_windows4);
 		}
 		else {
 			if (o == button_connect_cp1) 
-				chronopicPort = UtilGtk.ComboGetActive(combo_linux1);
+				chronopicPort1 = UtilGtk.ComboGetActive(combo_linux1);
 			else if (o == button_connect_cp2) 
-				chronopicPort = UtilGtk.ComboGetActive(combo_linux2);
+				chronopicPort2 = UtilGtk.ComboGetActive(combo_linux2);
 			else if (o == button_connect_cp3) 
-				chronopicPort = UtilGtk.ComboGetActive(combo_linux3);
+				chronopicPort3 = UtilGtk.ComboGetActive(combo_linux3);
 			else if (o == button_connect_cp4) 
-				chronopicPort = UtilGtk.ComboGetActive(combo_linux4);
+				chronopicPort4 = UtilGtk.ComboGetActive(combo_linux4);
 		}
+		
+		if (o == button_connect_cp1) 
+			currentCp = 1;
+		else if (o == button_connect_cp2) 
+			currentCp = 2;
+		else if (o == button_connect_cp3) 
+			currentCp = 3;
+		else // if (o == button_connect_cp4) 
+			currentCp = 4;
 
 		prepareChronopicConnection();
 	}
@@ -584,7 +603,7 @@ public class ChronopicWindow
 		bool success = false;
 			
 		//if(currentCp == 1) 
-			myPort = chronopicPort;
+		//	myPort = chronopicPort;
 		/*
 		else {
 			if(isWindows) 
@@ -595,6 +614,7 @@ public class ChronopicWindow
 		*/
 
 		if(currentCp == 1) {
+			myPort = chronopicPort1;
 			cp = chronopicInit(cp, out sp, platformState, myPort, out message, out success);
 			if(success) {
 				button_connect_cp1.Sensitive = false;
@@ -623,6 +643,7 @@ public class ChronopicWindow
 			}
 		}
 		else if(currentCp == 2) {
+			myPort = chronopicPort2;
 			cp2 = chronopicInit(cp2, out sp2, platformState2, myPort, out message, out success);
 			if(success) {
 				button_connect_cp2.Sensitive = false;
@@ -647,6 +668,7 @@ public class ChronopicWindow
 			}
 		}
 		else if(currentCp == 3) {
+			myPort = chronopicPort3;
 			cp3 = chronopicInit(cp3, out sp3, platformState3, myPort, out message, out success);
 			if(success) {
 				button_connect_cp3.Sensitive = false;
@@ -667,6 +689,7 @@ public class ChronopicWindow
 			}
 		}
 		else if(currentCp == 4) {
+			myPort = chronopicPort4;
 			cp4 = chronopicInit(cp4, out sp4, platformState4, myPort, out message, out success);
 			if(success) {
 				button_connect_cp4.Sensitive = false;

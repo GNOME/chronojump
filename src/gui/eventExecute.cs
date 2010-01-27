@@ -1906,6 +1906,7 @@ public class EventExecuteWindow
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		EventExecuteWindowBox.event_execute.Hide();
+		EventExecuteWindowBox.event_execute.Destroy();
 		EventExecuteWindowBox = null;
 	}
 	
@@ -1917,6 +1918,7 @@ public class EventExecuteWindow
 			button_cancel.Click();
 		
 		EventExecuteWindowBox.event_execute.Hide();
+		EventExecuteWindowBox.event_execute.Destroy();
 		EventExecuteWindowBox = null;
 	}
 	

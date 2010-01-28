@@ -611,6 +611,9 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 	ArrayList initiallyUnchecked;
 	
 	[Widget] Gtk.Label label_top;
+	[Widget] Gtk.Button button_go_forward;
+	[Widget] Gtk.Button button_close;
+
 	public Gtk.Button fakeButtonDone;
 	
 	PersonNotUploadWindow (Gtk.Window parent, int sessionID) {
@@ -628,6 +631,9 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		button_recuperate.Hide();
 		//this class doesn't use status bar
 		statusbar1.Hide();
+		//it's clearer to use go_forward instead of close
+		button_go_forward.Show();
+		button_close.Hide();
 
 		person_recuperate.Title = Catalog.GetString("Include / Discard athletes");
 		//person_recuperate.Title = Catalog.GetString("Incluir / Descartar atletas");

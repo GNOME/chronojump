@@ -2135,15 +2135,15 @@ msgstr "A_juda"
 
 #: ../glade/chronojump.glade.h:441
 msgid "_Jump"
-msgstr "_Salt"
+msgstr "Sa_lt"
 
 #: ../glade/chronojump.glade.h:442
 msgid "_Other tests"
-msgstr "A_ltres tests"
+msgstr "Altres _tests"
 
 #: ../glade/chronojump.glade.h:443
 msgid "_Person"
-msgstr "A_tleta"
+msgstr "_Atleta"
 
 #: ../glade/chronojump.glade.h:444
 msgid "_Run"

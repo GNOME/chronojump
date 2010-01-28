@@ -297,9 +297,9 @@ Log.WriteLine("doing backup");
 				SqlitePreferences.Update(Constants.PrefVersionAvailable, versionAvailable, false);
 				versionAvailableKnown = versionAvailable;
 				messageToShowOnBoot += string.Format(Catalog.GetString(
-							"\nNew Chronojump version available: {0}\nYour Chronojump version is: {1}"), 
+							"\nNew Chronojump version available on website.\nYour Chronojump version is: {1}"), 
 						versionAvailable, progVersion) + "\n\n" + 
-					Catalog.GetString("Please, update to new version: ") + versionAvailable + "\n";
+					Catalog.GetString("Please, update to new version.") + "\n";
 			}
 		}
 

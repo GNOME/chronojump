@@ -1220,6 +1220,7 @@ comments</property>
     <child>
       <widget class="GtkVBox" id="vbox7">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <widget class="GtkLabel" id="label_top">
@@ -1367,6 +1368,21 @@ comments</property>
               </packing>
             </child>
             <child>
+              <widget class="GtkButton" id="button_go_forward">
+                <property name="label">gtk-go-forward</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_button_close_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_recuperate">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -1413,7 +1429,7 @@ comments</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </widget>
@@ -17655,10 +17671,9 @@ by you</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="tooltip" translatable="yes">Edit selected person (E)</property>
+                                        <property name="tooltip" translatable="yes">Edit selected person (p)</property>
                                         <signal name="clicked" handler="on_edit_current_person_clicked"/>
-                                        <accelerator key="E" signal="clicked"/>
-                                        <accelerator key="e" signal="clicked" modifiers="GDK_SHIFT_MASK"/>
+                                        <accelerator key="p" signal="clicked"/>
                                         <child>
                                           <widget class="GtkImage" id="image1977">
                                             <property name="visible">True</property>

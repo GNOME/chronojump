@@ -1,4 +1,4 @@
-#LyX 1.6.2 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -2888,9 +2888,9 @@ status open
 \noindent
 \align center
 \begin_inset Graphics
-	filename chronojump_sqlite.png
+	filename chronojump_sqlite.eps
 	lyxscale 50
-	scale 36
+	scale 90
 	rotateAngle 90
 
 \end_inset

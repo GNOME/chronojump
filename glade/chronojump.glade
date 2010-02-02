@@ -11819,7 +11819,7 @@ comments</property>
               <widget class="GtkLabel" id="label570">
                 <property name="visible">True</property>
                 <property name="xpad">3</property>
-                <property name="label" translatable="yes">2</property>
+                <property name="label">2</property>
               </widget>
               <packing>
                 <property name="position">1</property>
@@ -12029,7 +12029,7 @@ comments</property>
               <widget class="GtkLabel" id="label571">
                 <property name="visible">True</property>
                 <property name="xpad">3</property>
-                <property name="label" translatable="yes">3</property>
+                <property name="label">3</property>
               </widget>
               <packing>
                 <property name="position">2</property>
@@ -12239,7 +12239,7 @@ comments</property>
               <widget class="GtkLabel" id="label572">
                 <property name="visible">True</property>
                 <property name="xpad">3</property>
-                <property name="label" translatable="yes">4</property>
+                <property name="label">4</property>
               </widget>
               <packing>
                 <property name="position">3</property>
@@ -12449,7 +12449,7 @@ comments</property>
               <widget class="GtkLabel" id="label573">
                 <property name="visible">True</property>
                 <property name="xpad">3</property>
-                <property name="label" translatable="yes">5</property>
+                <property name="label">5</property>
               </widget>
               <packing>
                 <property name="position">4</property>
@@ -12659,7 +12659,7 @@ comments</property>
               <widget class="GtkLabel" id="label574">
                 <property name="visible">True</property>
                 <property name="xpad">3</property>
-                <property name="label" translatable="yes">6</property>
+                <property name="label">6</property>
               </widget>
               <packing>
                 <property name="position">5</property>

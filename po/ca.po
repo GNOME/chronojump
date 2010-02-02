@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-27 00:28+0100\n"
-"PO-Revision-Date: 2010-01-27 01:56+0100\n"
+"PO-Revision-Date: 2010-02-02 18:05+0100\n"
 "Last-Translator: Xavier de Blas <xaviblas@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -616,24 +616,20 @@ msgid "Chronojump language select"
 msgstr "Selector d'idiomes de Chronojump"
 
 #: ../glade/chronojump.glade.h:136
-#, fuzzy
 msgid "Chronometer"
-msgstr "Chronojump"
+msgstr "Cronòmetre"
 
 #: ../glade/chronojump.glade.h:137
-#, fuzzy
 msgid "Chronopic 1"
-msgstr "Chronopic"
+msgstr "Chronopic 1"
 
 #: ../glade/chronojump.glade.h:138
-#, fuzzy
 msgid "Chronopic 2"
-msgstr "Chronopic"
+msgstr "Chronopic 2"
 
 #: ../glade/chronojump.glade.h:139
-#, fuzzy
 msgid "Chronopic 3"
-msgstr "Chronopic"
+msgstr "Chronopic 3"
 
 #: ../glade/chronojump.glade.h:140
 msgid "Chronopic port help"
@@ -2411,7 +2407,7 @@ msgstr "Ho sentim, aquesta versió de Chronojump ({0}) és massa antiga per la v
 
 #: ../src/chronojump.cs:237
 msgid "Please update Chronojump"
-msgstr "Sisplau actualitzeu Chronojump"
+msgstr "Si us plau actualitzeu Chronojump"
 
 #: ../src/chronojump.cs:245
 msgid "tables already created"
@@ -2431,14 +2427,12 @@ msgstr ""
 #: ../src/chronojump.cs:302
 #: ../src/chronojump.cs:311
 #: ../src/gui/chronojump.cs:827
-#, fuzzy
 msgid "Please, update to new version: "
-msgstr "Sisplau actualitzeu Chronojump"
+msgstr "Si us plau actualitzeu Chronojump"
 
 #: ../src/chronojump.cs:310
-#, fuzzy
 msgid "Chronojump crashed before."
-msgstr "ChronoJump - gràfic"
+msgstr "ChronoJump ha fallat anteriorment"
 
 #: ../src/chronojump.cs:381
 #: ../src/chronojump.cs:716
@@ -2449,7 +2443,7 @@ msgstr "Chronojump sortirà ara."
 #: ../src/chronojump.cs:559
 #, csharp-format
 msgid "Chronojump {0} crashed before. If this problem persist, please, report it at forums:"
-msgstr "Chronojump {0} ha fallat anteriorment. Si el problema persisteix, sisplau, escrigui-ho als fòrums:"
+msgstr "Chronojump {0} ha fallat anteriorment. Si el problema persisteix, si us plau, escrigui-ho als fòrums:"
 
 #: ../src/chronojump.cs:560
 msgid "Remember to describe on Chronojump software forum how crash happened."
@@ -2598,9 +2592,8 @@ msgstr "Creador del prototip industrial de Chronopic3."
 
 #: ../src/constants.cs:33
 #: ../src/constants.cs:34
-#, fuzzy
 msgid "OpenCV Detection of knee angle."
-msgstr "Detecció d'angle amb OenCV"
+msgstr "Detecció d'angle amb OpenCV"
 
 #: ../src/constants.cs:35
 msgid "Installation support: Autotools, packaging, bundle."
@@ -2869,9 +2862,8 @@ msgstr "Comprovant base de dades"
 
 #. 1
 #: ../src/constants.cs:399
-#, fuzzy
 msgid "Creating database"
-msgstr "temps de reacció"
+msgstr "Creant base de dades"
 
 #. 2
 #: ../src/constants.cs:400
@@ -2880,9 +2872,8 @@ msgstr "Realitzant còpia de base de dades"
 
 #. 3
 #: ../src/constants.cs:401
-#, fuzzy
 msgid "Updating database"
-msgstr "Actualitza les estadístiques"
+msgstr "Actualittzant base de dades"
 
 #. 4
 #: ../src/constants.cs:402
@@ -2972,14 +2963,13 @@ msgid "Photocells"
 msgstr "Fotocèlules"
 
 #: ../src/execute/multiChronopic.cs:281
-#, fuzzy
 msgid "Platform"
-msgstr "_Plataforma"
+msgstr "Plataforma"
 
 #: ../src/execute/multiChronopic.cs:288
 #, csharp-format
 msgid "There's contact in {0}. Please leave."
-msgstr "Hi ha contacte a {0}. Sisplau surti de la plataforma."
+msgstr "Hi ha contacte a {0}. Si us plau surti de la plataforma."
 
 #: ../src/execute/multiChronopic.cs:358
 msgid "Press Test button in all Chronopics simultaneously."
@@ -3186,9 +3176,8 @@ msgstr "Caiguda"
 
 #: ../src/exportSession.cs:279
 #: ../src/treeViewJump.cs:41
-#, fuzzy
 msgid "Power"
-msgstr "Pic de potència"
+msgstr "Potència"
 
 #: ../src/exportSession.cs:280
 #: ../src/treeViewJump.cs:42
@@ -3337,17 +3326,15 @@ msgstr "MC ID"
 #: ../src/treeViewMultiChronopic.cs:56
 #: ../src/treeViewMultiChronopic.cs:64
 #: ../src/treeViewMultiChronopic.cs:72
-#, fuzzy
 msgid "State"
-msgstr "Data"
+msgstr "Estat"
 
 #: ../src/exportSession.cs:743
 #: ../src/treeViewMultiChronopic.cs:57
 #: ../src/treeViewMultiChronopic.cs:65
 #: ../src/treeViewMultiChronopic.cs:73
-#, fuzzy
 msgid "Change"
-msgstr "canvi"
+msgstr "Canvi"
 
 #: ../src/exportSession.cs:744
 msgid "IN-IN"
@@ -3358,13 +3345,10 @@ msgid "OUT-OUT"
 msgstr "FORA-FORA"
 
 #: ../src/exportSession.cs:835
-#, fuzzy
 msgid ""
 "When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\n"
 "remember the separator character is semicolon: <b>;</b>"
 msgstr ""
-"Guardat a {0}\n"
-"\n"
 "Quan importeu des del vostre full de càlcul (OpenOffice, R, MS Excel, ...)\n"
 "recordeu que el caràcter separador és el punt i coma: <b>;</b>"
 
@@ -3397,46 +3381,41 @@ msgstr "Esborreu a {0} d'aquesta sessió"
 
 #: ../src/gui/chronojump.cs:810
 msgid "Please, first fill evaluator data."
-msgstr "Sisplau, primer completi les dades de l'avaluador"
+msgstr "Si us plau, primer completi les dades de l'avaluador"
 
 #: ../src/gui/chronojump.cs:812
 msgid "Please, first check evaluator data is ok."
-msgstr "Sisplau, comprobi que les dades d'avaluador són correctes."
+msgstr "Si us plau, comprobi que les dades d'avaluador són correctes."
 
 #: ../src/gui/chronojump.cs:826
-#, fuzzy
 msgid "Your version of Chronojump is too old for this."
-msgstr "Ho sentim, aquesta versió de Chronojump ({0}) és massa antiga per la vostra base de dades."
+msgstr "Ho sentim, la seva versió de Chronojump és massa antiga per la vostra base de dades."
 
 #. false: don't do insertion
 #. false: don't do insertion
 #: ../src/gui/chronojump.cs:887
-#, fuzzy
 msgid "Do you want to upload evaluator data now?"
-msgstr "Desitgeu esborrar la darrera cursa?"
+msgstr "Desitgeu pujar les dades d'avaluador?"
 
 #: ../src/gui/chronojump.cs:891
 msgid "Currently cannot upload."
 msgstr "En aquest moment no es poden pujar les dades."
 
 #: ../src/gui/chronojump.cs:950
-#, fuzzy
 msgid "<b>Weight</b> of the following persons is not ok:"
-msgstr "Afegiu les següents persones a aquesta sessió"
+msgstr "El <b>pes</b> de les següents persones no és correcte:"
 
 #: ../src/gui/chronojump.cs:964
-#, fuzzy
 msgid "<b>Country</b> of the following persons is undefined:"
-msgstr "Afegiu les següents persones a aquesta sessió"
+msgstr "El <b>país</b> de les següents persones no s'ha definit:"
 
 #: ../src/gui/chronojump.cs:978
-#, fuzzy
 msgid "<b>Sport</b> of the following persons is undefined:"
-msgstr "Afegiu les següents persones a aquesta sessió"
+msgstr "<b>L'esport</b> de les següents persones no s'ha definit:"
 
 #: ../src/gui/chronojump.cs:992
 msgid "Please, fix this before uploading:"
-msgstr "Sisplau, arregli el següent abans de pujar les dades:"
+msgstr "Si us plau, arregli el següent abans de pujar les dades:"
 
 #: ../src/gui/chronojump.cs:994
 msgid "Or when upload session again, mark these persons as not to be uploaded."
@@ -3472,9 +3451,8 @@ msgstr "Creative Commons Attribució 3.0"
 
 #. label_link
 #: ../src/gui/chronojump.cs:1025
-#, fuzzy
 msgid "Are you sure you want to upload this session to server?"
-msgstr "Esteu segur que voleu esborrar la sessió actual?"
+msgstr "Esteu segur que voleu pujar al servidor la sessió actual?"
 
 #: ../src/gui/chronojump.cs:1129
 #: ../src/gui/chronojump.cs:1199
@@ -3572,12 +3550,12 @@ msgstr ""
 "Després premeu el botó\n"
 
 #: ../src/gui/chronojump.cs:2468
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full cancelling.\n"
 "Then press button\n"
 msgstr ""
-"Si us plau, toqueu la plataforma de contacte per cancel·lar-ho tot.\n"
+"Si us plau, toqueu la plataforma de contacte als Chronopics [{0}] per a cancel·lar-ho del tot.\n"
 "Després premeu el botó\n"
 
 #: ../src/gui/chronojump.cs:2530
@@ -3589,11 +3567,9 @@ msgstr ""
 "Després premeu el botó:\n"
 
 #: ../src/gui/chronojump.cs:2584
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
-msgstr ""
-"Si us plau, toqueu la plataforma de contacte per finalitzar.\n"
-"Després premeu el botó:\n"
+msgstr "Si us plau, toqueu la plataforma de contacte als Chronopics [{0}] per a finalitzar."
 
 #: ../src/gui/chronojump.cs:2585
 msgid "Then press this button:\n"
@@ -3675,38 +3651,32 @@ msgid "Deleted pulse"
 msgstr "Esborreu el pols seleccionat"
 
 #: ../src/gui/chronojump.cs:4549
-#, fuzzy
 msgid "Do you want to delete selected test?"
-msgstr "Desitgeu esborrar la cursa seleccionada?"
+msgstr "Desitgeu esborrar el test seleccionat?"
 
 #: ../src/gui/chronojump.cs:4563
-#, fuzzy
 msgid "Deleted multi chronopic"
-msgstr "Esborreu la carrera seleccionada"
+msgstr "Esborrat multi chronopic"
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:4589
-#, fuzzy
 msgid "Added simple jump."
-msgstr "Més salts simples"
+msgstr "Afegit salt simple."
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:4592
-#, fuzzy
 msgid "Added reactive jump."
-msgstr "salt reactiu"
+msgstr "Afegit salt reactiu."
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:4609
-#, fuzzy
 msgid "Added simple run."
-msgstr "Més curses simples"
+msgstr "Afegida cursa reactiva."
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:4612
-#, fuzzy
 msgid "Added intervallic run."
-msgstr "cursa amb intervals"
+msgstr "Afegida cursa amb intervals."
 
 #: ../src/gui/chronojump.cs:4778
 msgid "translator-credits"
@@ -3736,12 +3706,10 @@ msgid "<b>Connected</b> to Chronopic on port: {0}"
 msgstr "<b>Connectat</b> al Chronopic pel port: {0}"
 
 #: ../src/gui/chronopic.cs:374
-#, fuzzy
 msgid "Problems communicating to chronopic."
-msgstr "S'han produït problemes en la comunicació amb el chronopic, plataforma canviada a 'Simulada'"
+msgstr "Problemes connectant amb el Chronopic."
 
 #: ../src/gui/chronopic.cs:376
-#, fuzzy
 msgid "Changed platform to 'Simulated'"
 msgstr "Canviat a mode simulat"
 
@@ -3810,20 +3778,18 @@ msgid "Edit {0}"
 msgstr "Editeu {0}"
 
 #: ../src/gui/event.cs:260
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Use this window to edit a {0}."
-msgstr ""
-"Feu servir aquesta finestra per editar un/a {0}\n"
-"(separador de decimals: '{1}')"
+msgstr "Feu servir aquesta finestra per editar un/a {0}."
 
 #: ../src/gui/event.cs:262
 #: ../src/gui/runType.cs:115
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "\n"
 "(decimal separator: '{0}')"
 msgstr ""
-"Feu servir aquesta finestra per editar un salt\n"
+"\n"
 "(separador de decimals: '{0}')"
 
 #: ../src/gui/event.cs:601
@@ -3832,12 +3798,11 @@ msgstr "S'han trobat tests d'aquest tipus a les sessions:"
 
 #: ../src/gui/event.cs:603
 msgid "please first edit or delete them."
-msgstr "Sisplau, primer editi'ls o esborri'ls"
+msgstr "Si us plau, primer editi'ls o esborri'ls"
 
 #: ../src/gui/event.cs:605
-#, fuzzy
 msgid "Are you sure you want to delete this test type?"
-msgstr "Esteu segur que voleu esborrar la sessió actual?"
+msgstr "Segur que voleu esborrar aquest tipus de test?"
 
 #: ../src/gui/evaluator.cs:345
 #, fuzzy
@@ -3847,14 +3812,12 @@ msgstr "Seleccioneu la data de naixement"
 #. write "last" to show last jump
 #: ../src/gui/eventExecute.cs:1077
 #: ../src/gui/eventExecute.cs:1130
-#, fuzzy
 msgid "Last"
-msgstr "últim"
+msgstr "Darrer"
 
 #: ../src/gui/eventExecute.cs:1735
-#, fuzzy
 msgid "Platforms"
-msgstr "_Plataforma"
+msgstr "Plataformes"
 
 #.
 #. * autodetection disabled on Linux and windows because mono doesn't allow it
@@ -4012,9 +3975,8 @@ msgstr "Núm."
 #: ../src/gui/jump.cs:1183
 #: ../src/gui/run.cs:980
 #: ../src/gui/run.cs:1143
-#, fuzzy
 msgid "Delete test type defined by user"
-msgstr "Esborreu el pols seleccionat"
+msgstr "Esborreu el tipus de test definit per l'usuari"
 
 #: ../src/gui/jump.cs:1216
 #: ../src/gui/run.cs:1173
@@ -4035,9 +3997,8 @@ msgid "Jump type: '{0}' exists. Please, use another name"
 msgstr "El tipus de salt: '{0}' ja existeix. Si us plau feu servir un altre nom"
 
 #: ../src/gui/multiChronopic.cs:49
-#, fuzzy
 msgid "multi chronopic"
-msgstr "Chronopic"
+msgstr "multi Chronopic"
 
 #: ../src/gui/person.cs:180
 msgid "Man"
@@ -4174,15 +4135,15 @@ msgstr "Copiar"
 
 #: ../src/gui/preferences.cs:283
 #: ../src/gui/preferences.cs:308
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Copied to {0}"
-msgstr "Guardat a {0}"
+msgstr "Copiat a {0}"
 
 #: ../src/gui/preferences.cs:288
 #: ../src/gui/preferences.cs:311
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Cannot copy to file {0} "
-msgstr "No es pot exportar a l'arxiu {0} "
+msgstr "No es pot copiar a {0} "
 
 #: ../src/gui/pulse.cs:49
 msgid "pulse"
@@ -4238,19 +4199,16 @@ msgid "Checked rows"
 msgstr "Files marcades"
 
 #: ../src/gui/report.cs:142
-#, fuzzy
 msgid "Graph Options"
-msgstr "Variants"
+msgstr "Opcions de gràfica"
 
 #: ../src/gui/report.cs:143
-#, fuzzy
 msgid "Comment"
-msgstr "Comentaris"
+msgstr "Comentari"
 
 #: ../src/gui/report.cs:353
-#, fuzzy
 msgid "Comment this statistic"
-msgstr "Feu el gràfic d'aquesta estadística"
+msgstr "Comentar aquesta gràfica"
 
 #: ../src/gui/run.cs:52
 msgid "run"
@@ -4306,9 +4264,8 @@ msgstr ""
 "les escales tercera i novena."
 
 #: ../src/gui/run.cs:897
-#, fuzzy
 msgid "Millimeters."
-msgstr "metres"
+msgstr "Milímetres"
 
 #: ../src/gui/run.cs:1018
 #: ../src/gui/run.cs:1046
@@ -4469,9 +4426,8 @@ msgid "Run between two photocells recording contact and flight times in contact 
 msgstr "Córrer entre dues fotocèl·lules registrant temps de contacte i de vol."
 
 #: ../src/jumpType.cs:176
-#, fuzzy
 msgid "Until finish button is clicked."
-msgstr "Salt reactiu fins prémer el botó <<Finalitzar»"
+msgstr "Fins que es premi el botó de finalitzar."
 
 #: ../src/jumpType.cs:185
 msgid "Reactive Jump on a hexagon until three full revolutions are done"
@@ -4536,7 +4492,6 @@ msgid "Measured time will be the time between two platforms"
 msgstr ""
 
 #: ../src/runType.cs:142
-#, fuzzy
 msgid "Short description"
 msgstr "Mostrar descripció"
 
@@ -4558,9 +4513,8 @@ msgstr ""
 
 #: ../src/runType.cs:147
 #: ../src/runType.cs:157
-#, fuzzy
 msgid "Without shoes."
-msgstr "sense subsalts"
+msgstr "sense sabates."
 
 #: ../src/runType.cs:148
 #: ../src/runType.cs:166
@@ -4625,9 +4579,8 @@ msgstr ""
 
 #: ../src/runType.cs:169
 #: ../src/runType.cs:384
-#, fuzzy
 msgid "Reference:"
-msgstr "Preferències"
+msgstr "Referència:"
 
 #: ../src/runType.cs:185
 msgid "This test is part of a battery for the USA Women's Soccer Team. The NFL use a very similar test for the NFL Combine Testing, the 20 yard shuttle."
@@ -4852,28 +4805,26 @@ msgid "Once the test finishes proceed to edit and you will be able to complete t
 msgstr ""
 
 #: ../src/runType.cs:386
-#, fuzzy
 msgid "Abstract:"
-msgstr "Hípica"
+msgstr "Abstract:"
 
 #: ../src/server.cs:123
 msgid "Error uploading session to server"
-msgstr ""
+msgstr "Problema pujant la sessió al servidor"
 
 #: ../src/server.cs:644
 #, csharp-format
 msgid "Successfully Uploaded evaluator with ID: {0}"
-msgstr ""
+msgstr "L'avaluador s'ha pujat satisfactòriament. El seu ID és: {0}"
 
 #: ../src/server.cs:647
 #, csharp-format
 msgid "Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."
-msgstr ""
+msgstr "L'avaluador {0} no s'ha pujat correctament. Potser els codis no concorden."
 
 #: ../src/serverPing.cs:55
-#, fuzzy
 msgid "Uploaded"
-msgstr "Carregat"
+msgstr "Pujat"
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.CountryUndefinedID
@@ -6405,14 +6356,13 @@ msgid "Avg values of each jumper"
 msgstr "Mitjanes de cada saltador"
 
 #: ../src/stats/main.cs:1266
-#, fuzzy
 msgid "Dispersion"
-msgstr "atleta"
+msgstr "Dispersió"
 
 #: ../src/stats/main.cs:1438
 #, fuzzy
 msgid "Chronojump Graph"
-msgstr "ChronoJump - gràfic"
+msgstr "Chronojump - gràfic"
 
 #: ../src/stats/rjAVGSD.cs:201
 #, csharp-format
@@ -6446,24 +6396,24 @@ msgstr "{0} a {1} a {2}"
 
 #: ../src/treeViewJump.cs:332
 msgid "First photocell"
-msgstr ""
+msgstr "Primera fotocèl·lula"
 
 #: ../src/treeViewJump.cs:405
 #: ../src/treeViewJump.cs:454
 msgid "photocells not included"
-msgstr ""
+msgstr "Fotocèlules no incloses"
 
 #: ../src/treeViewMultiChronopic.cs:58
 #: ../src/treeViewMultiChronopic.cs:66
 #: ../src/treeViewMultiChronopic.cs:74
 msgid "IN"
-msgstr ""
+msgstr "DINS"
 
 #: ../src/treeViewMultiChronopic.cs:59
 #: ../src/treeViewMultiChronopic.cs:67
 #: ../src/treeViewMultiChronopic.cs:75
 msgid "OUT"
-msgstr ""
+msgstr "FORA"
 
 #: ../src/treeViewMultiChronopic.cs:231
 #, fuzzy
@@ -6471,9 +6421,8 @@ msgid "Stride"
 msgstr "Comenceu dins"
 
 #: ../src/treeViewMultiChronopic.cs:235
-#, fuzzy
 msgid "Freq."
-msgstr "Lliure"
+msgstr "Freq."
 
 #: ../src/treeViewPerson.cs:42
 msgid "person"

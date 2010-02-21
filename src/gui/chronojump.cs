@@ -434,7 +434,12 @@ public class ChronoJumpWindow
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
 
-		chronopicWin = ChronopicWindow.Create();
+		ArrayList cpd = new ArrayList();
+		for(int i=1; i<=4;i++) {
+			ChronopicPortData a = new ChronopicPortData(i,"",false);
+			cpd.Add(a);
+		}
+		chronopicWin = ChronopicWindow.Create(cpd);
 
 
 		//We have no session, mark some widgets as ".Sensitive = false"

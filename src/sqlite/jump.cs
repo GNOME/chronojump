@@ -201,10 +201,10 @@ class SqliteJump : Sqlite
 		dbcon.Close();
 	}
 
-	public static void UpdateWeight(string tableName, int uniqueID, int weight)
+	public static void UpdateWeight(string tableName, int uniqueID, double weight)
 	{
 		dbcon.Open();
-		dbcmd.CommandText = "UPDATE " + tableName + " SET weight = " + weight + 
+		dbcmd.CommandText = "UPDATE " + tableName + " SET weight = " + Util.ConvertToPoint(weight) + 
 			" WHERE uniqueID == " + uniqueID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

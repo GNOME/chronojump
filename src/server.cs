@@ -555,7 +555,7 @@ public class Server
 		return person;
 	}
 
-	private static void serverUploadPersonSessionIfNeeded(ChronojumpServer myServer, int personServerID, int sessionServerID, int weight)
+	private static void serverUploadPersonSessionIfNeeded(ChronojumpServer myServer, int personServerID, int sessionServerID, double weight)
 	{
 		myServer.UploadPersonSessionIfNeeded(personServerID, sessionServerID, weight);
 	}

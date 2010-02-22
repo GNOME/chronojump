@@ -150,6 +150,7 @@ FILES = \
 	AssemblyInfo.cs\
 	chronojump.cs\
  	person.cs\
+ 	personSession.cs\
  	event.cs\
  	eventType.cs\
  	jump.cs\

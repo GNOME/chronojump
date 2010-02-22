@@ -28,8 +28,8 @@ public partial class Person {
 	private int uniqueID;
 	private string name;
 	private DateTime dateBorn;
-	private int height;
-	private int weight;
+	private double height;
+	private double weight;
 	private int sportID;	//1 undefined, 2 none, 3...n other sports (check table sportType)
 	private int speciallityID;
 	private int practice;	//-1 undefined, sedentary, 1 regular practice, 2 competition, 3 (alto rendimiento)
@@ -46,7 +46,7 @@ public partial class Person {
 
 	//suitable when we load a person from the database for being the current Person
 	public Person(int uniqueID, string name, string sex, DateTime dateBorn, 
-			int height, int weight, int sportID, int speciallityID, int practice, string description,
+			double height, double weight, int sportID, int speciallityID, int practice, string description,
 		       int race, int countryID, int serverUniqueID	
 			) 
 	{
@@ -71,7 +71,7 @@ public partial class Person {
 	
 	//typical constructor
 	public Person(string name, string sex, DateTime dateBorn, 
-			int height, int weight, int sportID, int speciallityID, int practice, string description,
+			double height, double weight, int sportID, int speciallityID, int practice, string description,
 		       int race, int countryID, int serverUniqueID,	
 			int sessionID) 
 	{
@@ -103,7 +103,7 @@ public partial class Person {
 		Log.WriteLine(this.ToString());
 
 		//insert in the personSession table (fast way of knowing who was in each session)
-		SqlitePersonSession.Insert (uniqueID, sessionID, weight);
+		SqlitePersonSession.Insert (false, Constants.PersonSessionWeightTable, "-1", uniqueID, sessionID, weight);
 	}
 	
 	//used to select a person at Sqlite.convertTables
@@ -113,8 +113,8 @@ public partial class Person {
 		this.name = myString[1];
 		this.sex = myString[2];
 		this.dateBorn = UtilDate.FromSql(myString[3]);
-		this.height = Convert.ToInt32(myString[4]);
-		this.weight = Convert.ToInt32(myString[5]);
+		this.height = Convert.ToDouble(Util.ChangeDecimalSeparator(myString[4]));
+		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(myString[5]));
 		this.sportID = Convert.ToInt32(myString[6]);
 		this.speciallityID = Convert.ToInt32(myString[7]);
 		this.practice = Convert.ToInt32(myString[8]);
@@ -167,12 +167,12 @@ public partial class Person {
 	}
 	
 	
-	public int Height {
+	public double Height {
 		get { return height; }
 		set { height = value; }
 	}
 	
-	public int Weight {
+	public double Weight {
 		get { return weight; }
 		set { weight = value; }
 	}

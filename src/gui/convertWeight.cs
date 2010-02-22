@@ -36,8 +36,8 @@ public class ConvertWeightWindow
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
 	TreeStore store;
-	int oldPersonWeight;
-	int newPersonWeight;
+	double oldPersonWeight;
+	double newPersonWeight;
 	int sessionID;
 	int personID;
 	string [] jumpsNormal;
@@ -47,7 +47,7 @@ public class ConvertWeightWindow
 	string simpleString;
 	string reactiveString;
 	
-	ConvertWeightWindow (int sessionID, int personID, int oldPersonWeight, int newPersonWeight, string [] jumpsNormal, string [] jumpsReactive) {
+	ConvertWeightWindow (int sessionID, int personID, double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "convert_weight", null);
 		gladeXML.Autoconnect(this);
@@ -89,7 +89,7 @@ public class ConvertWeightWindow
 	}
 
 	static public new ConvertWeightWindow Show (int sessionID, int personID, 
-			int oldPersonWeight, int newPersonWeight, string [] jumpsNormal, string [] jumpsReactive)
+			double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive)
 	{
 		if (ConvertWeightWindowBox == null) {
 			ConvertWeightWindowBox = 
@@ -194,15 +194,15 @@ public class ConvertWeightWindow
 		}
 	}
 
-	private string createStringCalculatingKgs (int personWeightKg, int jumpWeightPercent) {
+	private string createStringCalculatingKgs (double personWeightKg, double jumpWeightPercent) {
 		return jumpWeightPercent + "% " + 
-			Convert.ToInt32(Util.WeightFromPercentToKg(jumpWeightPercent, personWeightKg)).ToString()
+			Convert.ToDouble(Util.WeightFromPercentToKg(jumpWeightPercent, personWeightKg)).ToString()
 			+ "Kg";
 	}
 
-	private string createStringCalculatingPercent (int oldPersonWeightKg, int newPersonWeightKg, int jumpWeightPercent) {
+	private string createStringCalculatingPercent (double oldPersonWeightKg, double newPersonWeightKg, double jumpWeightPercent) {
 		double jumpInKg = Util.WeightFromPercentToKg(jumpWeightPercent, oldPersonWeightKg);
-		double jumpPercentToNewPersonWeight = Convert.ToInt32(Util.WeightFromKgToPercent(jumpInKg, newPersonWeightKg));
+		double jumpPercentToNewPersonWeight = Convert.ToDouble(Util.WeightFromKgToPercent(jumpInKg, newPersonWeightKg));
 		return jumpPercentToNewPersonWeight + "% " + jumpInKg + "Kg";
 	}
 
@@ -219,11 +219,11 @@ public class ConvertWeightWindow
 					myStringFull[4], //type
 					myStringFull[5], //tf
 					myStringFull[6], //tf
-					createStringCalculatingKgs(oldPersonWeight, Convert.ToInt32(myStringFull[8])), //old weight
+					createStringCalculatingKgs(oldPersonWeight, Convert.ToDouble(Util.ChangeDecimalSeparator(myStringFull[8]))), //old weight
 					true,
-					createStringCalculatingKgs(newPersonWeight, Convert.ToInt32(myStringFull[8])), //new weight 1
+					createStringCalculatingKgs(newPersonWeight, Convert.ToDouble(Util.ChangeDecimalSeparator(myStringFull[8]))), //new weight 1
 					false,
-					createStringCalculatingPercent(oldPersonWeight, newPersonWeight, Convert.ToInt32(myStringFull[8])) //new weight 2
+					createStringCalculatingPercent(oldPersonWeight, newPersonWeight, Convert.ToDouble(Util.ChangeDecimalSeparator(myStringFull[8]))) //new weight 2
 					);
 		}
 
@@ -235,11 +235,11 @@ public class ConvertWeightWindow
 					myStringFull[4], //type
 					myStringFull[10], //tf (AVG)
 					myStringFull[11], //tf (AVG)
-					createStringCalculatingKgs(oldPersonWeight, Convert.ToInt32(myStringFull[8])), //old weight
+					createStringCalculatingKgs(oldPersonWeight, Convert.ToDouble(Util.ChangeDecimalSeparator(myStringFull[8]))), //old weight
 					true,
-					createStringCalculatingKgs(newPersonWeight, Convert.ToInt32(myStringFull[8])), //new weight 1
+					createStringCalculatingKgs(newPersonWeight, Convert.ToDouble(Util.ChangeDecimalSeparator(myStringFull[8]))), //new weight 1
 					false,
-					createStringCalculatingPercent(oldPersonWeight, newPersonWeight, Convert.ToInt32(myStringFull[8])) //new weight 2
+					createStringCalculatingPercent(oldPersonWeight, newPersonWeight, Convert.ToDouble(Util.ChangeDecimalSeparator(myStringFull[8]))) //new weight 2
 					);
 		}
 
@@ -281,7 +281,7 @@ public class ConvertWeightWindow
 
 					//find percent (it's before the '%' sign)
 					string [] myStringFull = weightString.Split(new char[] {'%'});
-					int percent = Convert.ToInt32(myStringFull[0]);
+					double percent = Convert.ToDouble(myStringFull[0]);
 
 					//update DB
 					//see if it's reactive

@@ -4,6 +4,7 @@ gmcs -t:library -out:bin/chronojumpServer.dll -r:System.Data -r:Mono.Data.Sqlite
 
 
 COMPILE CLIENT WITH WSDL (now auto done by makefile calling compile_wsdl.sh on this dir)
+better: see howto_server_2009.txt
 
 (server has to be running for doing this compilation
 xavier@corall:/var/www/mono$ xsp2 --root /var/www/mono/

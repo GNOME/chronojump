@@ -120,22 +120,24 @@ public class PersonRecuperateWindow {
 		//store.SetSortFunc (firstColumn + 5, birthColumnCompare);
 	}
 	
+	//cannot be double
 	public int heightColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
-		int val1 = 0;
-		int val2 = 0;
-		val1 = Convert.ToInt32(model.GetValue(iter1, firstColumn + 3));
-		val2 = Convert.ToInt32(model.GetValue(iter2, firstColumn + 3));
+		double val1 = 0;
+		double val2 = 0;
+		val1 = Convert.ToDouble(model.GetValue(iter1, firstColumn + 3));
+		val2 = Convert.ToDouble(model.GetValue(iter2, firstColumn + 3));
 		
-		return (val1-val2);
+		return (int) (10*val1-10*val2);
 	}
 
+	//cannot be double
 	public int weightColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
-		int val1 = 0;
-		int val2 = 0;
-		val1 = Convert.ToInt32(model.GetValue(iter1, firstColumn + 4));
-		val2 = Convert.ToInt32(model.GetValue(iter2, firstColumn + 4));
+		double val1 = 0;
+		double val2 = 0;
+		val1 = Convert.ToDouble(model.GetValue(iter1, firstColumn + 4));
+		val2 = Convert.ToDouble(model.GetValue(iter2, firstColumn + 4));
 		
-		return (val1-val2);
+		return (int) (10*val1-10*val2);
 	}
 
 	/*
@@ -249,7 +251,8 @@ public class PersonRecuperateWindow {
 	{
 		if(selected != "-1")
 		{
-			SqlitePersonSession.Insert(Convert.ToInt32(selected), sessionID, Convert.ToInt32(selectedWeight));
+			SqlitePersonSession.Insert(false, Constants.PersonSessionWeightTable, "-1", 
+					Convert.ToInt32(selected), sessionID, Convert.ToDouble(selectedWeight));
 			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selected), sessionID);
 
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
@@ -561,7 +564,8 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 					string weightString = (string) store.GetValue (iter, 5);
 
 					//insert in DB
-					SqlitePersonSession.Insert(personID, sessionID, Convert.ToInt32(weightString));
+					SqlitePersonSession.Insert(false, Constants.PersonSessionWeightTable, "-1", 
+						personID, sessionID, Convert.ToDouble(weightString));
 
 					//assign person to currentPerson (last will be really the currentPerson
 					currentPerson = SqlitePersonSession.PersonSelect(personID, sessionID);
@@ -845,7 +849,7 @@ public class PersonAddModifyWindow
 	private Session currentSession;
 	private int personID;
 	private string sex = Constants.M;
-	private int weightIni;
+	private double weightIni;
 	int pDN;
 	
 	private int serverUniqueID;
@@ -903,7 +907,7 @@ public class PersonAddModifyWindow
 			allOk = false;
 		}
 
-		if((int) spinbutton_weight.Value > 0)
+		if((double) spinbutton_weight.Value > 0)
 			image_weight.Hide();
 		else {
 			image_weight.Show();
@@ -1115,9 +1119,15 @@ public class PersonAddModifyWindow
 			else
 				label_date.Text = dateTime.ToLongDateString();
 
-
+			Log.WriteLine("jjjjjjjjjjjjjjjjjjjjjj");
+Log.WriteLine(myPerson.Height.ToString());
+Log.WriteLine(myPerson.Weight.ToString());
 			spinbutton_height.Value = myPerson.Height;
 			spinbutton_weight.Value = myPerson.Weight;
+Log.WriteLine(spinbutton_height.Value.ToString());
+Log.WriteLine(spinbutton_weight.Value.ToString());
+			Log.WriteLine("kkkkkkkkkkkkkkkkkkkkkkkk");
+
 			weightIni = myPerson.Weight; //store for tracking if changes
 		
 			mySportID = myPerson.SportID;
@@ -1383,7 +1393,7 @@ public class PersonAddModifyWindow
 			errorMessage += Catalog.GetString("Please select a level");
 		else {
 			//if weight has changed
-			if(!adding && (int) spinbutton_weight.Value != weightIni) {
+			if(!adding && (double) spinbutton_weight.Value != weightIni) {
 				//see if this person has done jumps with weight
 				string [] myJumpsNormal = SqliteJump.SelectJumps(currentSession.UniqueID, personID, "withWeight", "");
 				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(currentSession.UniqueID, personID, "withWeight", "");
@@ -1392,7 +1402,7 @@ public class PersonAddModifyWindow
 					//create the convertWeight Window
 					convertWeightWin = ConvertWeightWindow.Show(
 							currentSession.UniqueID, personID, 
-							weightIni, (int) spinbutton_weight.Value, 
+							weightIni, (double) spinbutton_weight.Value, 
 							myJumpsNormal, myJumpsReactive);
 					convertWeightWin.Button_accept.Clicked += new EventHandler(on_convertWeightWin_accepted);
 					convertWeightWin.Button_cancel.Clicked += new EventHandler(on_convertWeightWin_cancelled);
@@ -1421,7 +1431,7 @@ public class PersonAddModifyWindow
 		//string dateFull = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" +
 		//	dateTime.Year.ToString();
 		
-		double weight = (int) spinbutton_weight.Value;
+		double weight = (double) spinbutton_weight.Value;
 
 		//convert margarias (it's power is calculated using weight and it's written on description)
 		string [] myMargarias = SqliteRun.SelectRuns(currentSession.UniqueID, personID, "Margaria");
@@ -1437,7 +1447,7 @@ public class PersonAddModifyWindow
 		if(adding) {
 			//currentPerson = new Person (entry1.Text, sex, dateFull, 
 			currentPerson = new Person (entry1.Text, sex, dateTime, 
-					(int) spinbutton_height.Value, (int) weight, 
+					(double) spinbutton_height.Value, (double) weight, 
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
@@ -1449,7 +1459,7 @@ public class PersonAddModifyWindow
 		} else {
 			//currentPerson = new Person (personID, entry1.Text, sex, dateFull, 
 			currentPerson = new Person (personID, entry1.Text, sex, dateTime, 
-					(int) spinbutton_height.Value, (int) weight, 
+					(double) spinbutton_height.Value, (double) weight, 
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
@@ -1461,8 +1471,8 @@ public class PersonAddModifyWindow
 			SqlitePerson.Update (currentPerson); 
 		
 			//change weight if needed
-			if((int) spinbutton_weight.Value != weightIni)
-				SqlitePersonSession.UpdateWeight (currentPerson.UniqueID, currentSession.UniqueID, (int) spinbutton_weight.Value); 
+			if((double) spinbutton_weight.Value != weightIni)
+				SqlitePersonSession.UpdateWeight (currentPerson.UniqueID, currentSession.UniqueID, (double) spinbutton_weight.Value); 
 		}
 
 		fakeButtonAccept.Click();
@@ -1657,13 +1667,13 @@ public class PersonAddMultipleWindow {
 		}
 	}
 		
-	void checkEntries(int count, string name, int weight) {
+	void checkEntries(int count, string name, double weight) {
 		if(name.Length > 0) {
 			bool personExists = Sqlite.Exists (Constants.PersonTable, Util.RemoveTilde(name));
 			if(personExists) {
 				errorExistsString += "[" + (count+1) + "] " + name + "\n";
 			}
-			if(weight == 0) {
+			if(Convert.ToInt32(weight) == 0) {
 				errorWeightString += "[" + (count+1) + "] " + name + "\n";
 			}
 		}
@@ -1718,7 +1728,7 @@ public class PersonAddMultipleWindow {
 		 				(int) ((Gtk.SpinButton)spins[i]).Value);
 	}
 
-	void insertPerson (string name, bool male, int weight) 
+	void insertPerson (string name, bool male, double weight) 
 	{
 		string sex = Constants.F;
 		if(male) { sex = Constants.M; }

@@ -43,8 +43,8 @@ class SqlitePerson : Sqlite
 			"name TEXT, " +
 			"sex TEXT, " +
 			"dateborn TEXT, " + //YYYY-MM-DD since db 0.72
-			"height INT, " +
-			"weight INT, " + //now used personSession and person can change weight in every session. person.weight is not used
+			"height FLOAT, " +
+			"weight FLOAT, " + //now used personSession and person can change weight in every session. person.weight is not used
 			"sportID INT, " + 
 			"speciallityID INT, " + 
 			"practice INT, " + //also called "level"
@@ -57,7 +57,7 @@ class SqlitePerson : Sqlite
 
 	//can be "Constants.PersonTable" or "Constants.ConvertTempTable"
 	//temp is used to modify table between different database versions if needed
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string sex, DateTime dateBorn, int height, int weight, int sportID, int speciallityID, int practice, string description, int race, int countryID, int serverUniqueID)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, string name, string sex, DateTime dateBorn, double height, double weight, int sportID, int speciallityID, int practice, string description, int race, int countryID, int serverUniqueID)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -214,7 +214,7 @@ finishForeach:
 			if (!found) {
 				myArray2.Add (reader2[0].ToString() + ":" + reader2[1].ToString() + ":" +
 						reader2[2].ToString() + ":" + UtilDate.FromSql(reader2[3].ToString()).ToShortDateString() + ":" +
-						reader2[4].ToString() + ":" + 
+						reader2[4].ToString() + ":" +  //height
 						reader2[13].ToString() + ":" + //weight (from personSessionWeight)
 						reader2[14].ToString() + ":" + //sportName
 						reader2[15].ToString() + ":" + //speciallityName
@@ -458,8 +458,8 @@ finishForeach:
 			" SET name = '" + myPerson.Name + 
 			"', sex = '" + myPerson.Sex +
 			"', dateborn = '" + UtilDate.ToSql(myPerson.DateBorn) +
-			"', height = " + myPerson.Height +
-			", weight = " + myPerson.Weight +
+			"', height = " + Util.ConvertToPoint(myPerson.Height) +
+			", weight = " + Util.ConvertToPoint(myPerson.Weight) +
 			", sportID = " + myPerson.SportID +
 			", speciallityID = " + myPerson.SpeciallityID +
 			", practice = " + myPerson.Practice +

@@ -25,6 +25,7 @@ FILES = \
 	../src/util.cs\
 	../src/utilDate.cs\
 	../src/person.cs\
+	../src/personSession.cs\
 	../src/event.cs\
 	../src/jump.cs\
 	../src/run.cs\

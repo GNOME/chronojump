@@ -72,17 +72,16 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.74";
+	static string lastChronojumpDatabaseVersion = "0.75";
 
 	public Sqlite() {
 	}
 
-	/*
-	public void CreateTable(string tableName) {
-		createTable(tableName);
-	}
-	*/
 	protected virtual void createTable(string tableName) {
+	}
+	
+	//used by personSessionWeight
+	protected virtual void createTable() {
 	}
 	
 	~Sqlite() {}
@@ -470,6 +469,7 @@ class Sqlite
 			SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime();
 			SqlitePulse sqlitePulseObject = new SqlitePulse();
 			SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic();
+			SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
 
 			if(currentVersion == "0.41") {
 				dbcon.Open();
@@ -619,7 +619,7 @@ class Sqlite
 			
 			if(currentVersion == "0.52") {
 				dbcon.Open();
-				SqlitePersonSession.createTable (); 
+				sqlitePersonSessionObject.createTable (); 
 				dbcon.Close();
 				
 				//this needs the dbCon closed
@@ -970,6 +970,25 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.74";
 			}
+			if(currentVersion == "0.74") {
+				conversionRateTotal = 3;
+				conversionRate = 1;
+				
+				dbcon.Open();
+
+				convertTables(new SqlitePerson(), Constants.PersonTable, 13, new ArrayList(), false);
+				conversionRate++;
+				
+				convertTables(new SqlitePersonSession(), Constants.PersonSessionWeightTable, 4, new ArrayList(), false);
+
+				SqlitePreferences.Update ("databaseVersion", "0.75", true); 
+				conversionRate++;
+				
+				Log.WriteLine("Converted DB to 0.75 (person, and personSessionWeight have height and weight as double)"); 
+				dbcon.Close();
+				currentVersion = "0.75";
+			}
+				
 
 
 		}
@@ -1092,7 +1111,8 @@ class Sqlite
 		SqliteSpeciallity.InsertUndefined(true);
 
 		creationRate ++;
-		SqlitePersonSession.createTable();
+		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
+		sqlitePersonSessionObject.createTable();
 		
 		creationRate ++;
 		SqlitePreferences.createTable();
@@ -1103,6 +1123,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.74 - 0.75 Converted DB to 0.75 (person, and personSessionWeight have height and weight as double)
 		//0.73 - 0.74 Converted DB to 0.74 (All DJ converted to DJna)
 		//0.72 - 0.73 Converted DB to 0.73 (deleted orphaned persons (in person table but not in personSessionWeight table))
 		//0.71 - 0.72 dates to YYYY-MM-DD
@@ -1393,7 +1414,7 @@ class Sqlite
 		//2st create convert temp table
 		sqliteObject.createTable(Constants.ConvertTempTable);
 
-		//2nd copy all data from desired table to temp table adding the simulated column
+		//2nd copy all data from desired table to temp table (in event tables, adding the simulated column)
 		ArrayList myArray = new ArrayList(2);
 		dbcmd.CommandText = "SELECT * " + 
 			"FROM " + tableName + " ORDER BY uniqueID"; 
@@ -1430,6 +1451,9 @@ class Sqlite
 			} else if(tableName == Constants.RunIntervalTypeTable) {	
 				RunType myType = new RunType(myReaderStr, true); //interval
 				myArray.Add(myType);
+			} else if(tableName == Constants.PersonSessionWeightTable) {	
+				PersonSession myPS = new PersonSession(myReaderStr);
+				myArray.Add(myPS);
 			} else {
 				Event myEvent =  new Event();	
 				switch (tableName) {
@@ -1458,6 +1482,7 @@ class Sqlite
 		reader.Close();
 
 Console.WriteLine("1" + tableName);
+
 		conversionSubRateTotal = myArray.Count * 2;
 
 		if(tableName == Constants.PersonTable) {	
@@ -1475,12 +1500,18 @@ Console.WriteLine("1" + tableName);
 				type.InsertAtDB(true, Constants.ConvertTempTable, true); //last true is for interval
 				conversionSubRate ++;
 			}
+		} else if(tableName == Constants.PersonSessionWeightTable) {	
+			foreach (PersonSession ps in myArray) {
+				ps.InsertAtDB(true, Constants.ConvertTempTable);
+				conversionSubRate ++;
+			}
 		} else {
 			foreach (Event myEvent in myArray) {
 				myEvent.InsertAtDB(true, Constants.ConvertTempTable);
 				conversionSubRate ++;
 			}
 		}
+		
 Console.WriteLine("2" + tableName);
 		//3rd drop desired table
 		Sqlite.dropTable(tableName);
@@ -1488,6 +1519,8 @@ Console.WriteLine("2" + tableName);
 Console.WriteLine("3" + tableName);
 		//4d create desired table (now with new columns)
 		sqliteObject.createTable(tableName);
+
+
 Console.WriteLine("4" + tableName);
 
 		//5th insert data in desired table
@@ -1504,6 +1537,11 @@ Console.WriteLine("4" + tableName);
 		} else if(tableName == Constants.RunIntervalTypeTable) {	
 			foreach (RunType type in myArray) {
 				type.InsertAtDB(true, tableName, true); //last true is for interval
+				conversionSubRate ++;
+			}
+		} else if(tableName == Constants.PersonSessionWeightTable) {	
+			foreach (PersonSession ps in myArray) {
+				ps.InsertAtDB(true, tableName);
 				conversionSubRate ++;
 			}
 		} else {

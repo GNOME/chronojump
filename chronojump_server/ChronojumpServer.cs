@@ -26,9 +26,9 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     private System.Threading.SendOrPostCallback DisConnectDatabaseOperationCompleted;
     
-    private System.Threading.SendOrPostCallback CanIOperationCompleted;
-    
     private System.Threading.SendOrPostCallback CanINewOperationCompleted;
+    
+    private System.Threading.SendOrPostCallback CanIOperationCompleted;
     
     private System.Threading.SendOrPostCallback QueryOperationCompleted;
     
@@ -82,9 +82,9 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     private event DisConnectDatabaseCompletedEventHandler DisConnectDatabaseCompleted;
     
-    private event CanICompletedEventHandler CanICompleted;
-    
     private event CanINewCompletedEventHandler CanINewCompleted;
+    
+    private event CanICompletedEventHandler CanICompleted;
     
     private event QueryCompletedEventHandler QueryCompleted;
     
@@ -719,7 +719,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
 ///Upload person session if needed
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadPersonSessionIfNeeded", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public int UploadPersonSessionIfNeeded(int personServerID, int sessionServerID, int weight) {
+    public int UploadPersonSessionIfNeeded(int personServerID, int sessionServerID, double weight) {
         object[] results = this.Invoke("UploadPersonSessionIfNeeded", new object[] {
                     personServerID,
                     sessionServerID,
@@ -727,7 +727,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return ((int)(results[0]));
     }
     
-    public System.IAsyncResult BeginUploadPersonSessionIfNeeded(int personServerID, int sessionServerID, int weight, System.AsyncCallback callback, object asyncState) {
+    public System.IAsyncResult BeginUploadPersonSessionIfNeeded(int personServerID, int sessionServerID, double weight, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("UploadPersonSessionIfNeeded", new object[] {
                     personServerID,
                     sessionServerID,
@@ -739,11 +739,11 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return ((int)(results[0]));
     }
     
-    public void UploadPersonSessionIfNeededAsync(int personServerID, int sessionServerID, int weight) {
+    public void UploadPersonSessionIfNeededAsync(int personServerID, int sessionServerID, double weight) {
         this.UploadPersonSessionIfNeededAsync(personServerID, sessionServerID, weight, null);
     }
     
-    public void UploadPersonSessionIfNeededAsync(int personServerID, int sessionServerID, int weight, object userState) {
+    public void UploadPersonSessionIfNeededAsync(int personServerID, int sessionServerID, double weight, object userState) {
         if ((this.UploadPersonSessionIfNeededOperationCompleted == null)) {
             this.UploadPersonSessionIfNeededOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUploadPersonSessionIfNeededCompleted);
         }
@@ -1196,7 +1196,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
 }
 
-
+/// <remarks/>
 public class ConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
@@ -1254,22 +1254,6 @@ public class CanINewCompletedEventArgs : System.ComponentModel.AsyncCompletedEve
 
 public delegate void CanINewCompletedEventHandler(object sender, CanINewCompletedEventArgs args);
 
-public class QueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-    
-    private object[] results;
-    
-    internal QueryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-            base(exception, cancelled, userState) {
-        this.results = results;
-    }
-    
-    public string Result {
-        get {
-            this.RaiseExceptionIfNecessary();
-            return ((string)(this.results[0]));
-        }
-    }
-}
 public class CanICompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
@@ -1288,6 +1272,23 @@ public class CanICompletedEventArgs : System.ComponentModel.AsyncCompletedEventA
 }
 
 public delegate void CanICompletedEventHandler(object sender, CanICompletedEventArgs args);
+
+public class QueryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal QueryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public string Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string)(this.results[0]));
+        }
+    }
+}
 
 public delegate void QueryCompletedEventHandler(object sender, QueryCompletedEventArgs args);
 

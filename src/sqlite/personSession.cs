@@ -28,26 +28,37 @@ using Mono.Unix;
 
 class SqlitePersonSession : Sqlite
 {
-	protected internal static void createTable()
+	public SqlitePersonSession() {
+	}
+	
+	~SqlitePersonSession() {}
+
+	protected override void createTable(string tableName)
 	 {
 		dbcmd.CommandText = 
-			"CREATE TABLE " + Constants.PersonSessionWeightTable + " ( " +
+			"CREATE TABLE " + tableName + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
-			"weight INT)";		
+			"weight FLOAT)";		
 		dbcmd.ExecuteNonQuery();
 	 }
 
-	public static int Insert(int personID, int sessionID, int weight)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, double weight)
 	{
-		dbcon.Open();
-		dbcmd.CommandText = "INSERT INTO " + Constants.PersonSessionWeightTable + 
-			"(personID, sessionID, weight) VALUES ("
-			+ personID + ", " + sessionID + ", " + weight + ")" ;
+		if(!dbconOpened)
+			dbcon.Open();
+		
+		if(uniqueID == "-1")
+			uniqueID = "NULL";
+
+		dbcmd.CommandText = "INSERT INTO " + tableName + 
+			"(uniqueID, personID, sessionID, weight) VALUES ("
+			+ uniqueID + ", " + personID + ", " + sessionID + ", " + Util.ConvertToPoint(weight) + ")" ;
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 		return myReturn;
 	}
 	
@@ -100,11 +111,11 @@ class SqlitePersonSession : Sqlite
 		return myReturn;
 	}
 	
-	public static void UpdateWeight(int personID, int sessionID, int weight)
+	public static void UpdateWeight(int personID, int sessionID, double weight)
 	{
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionWeightTable + 
-			" SET weight = " + weight + 
+			" SET weight = " + Util.ConvertToPoint(weight) + 
 			" WHERE personID = " + personID +
 			" AND sessionID = " + sessionID
 			;
@@ -191,8 +202,15 @@ class SqlitePersonSession : Sqlite
 			values[11] = reader[11].ToString();
 		}
 
+		Log.WriteLine("11111111111111111");
+		Log.WriteLine(values[3]);
+		Log.WriteLine(values[4]);
+		Log.WriteLine("22222222222222222");
+
 		Person myPerson = new Person(uniqueID, values[0], 
-			values[1], UtilDate.FromSql(values[2]), Convert.ToInt32(values[3]), Convert.ToInt32(values[4]), 
+			values[1], UtilDate.FromSql(values[2]), 
+			Convert.ToDouble(Util.ChangeDecimalSeparator(values[3])), //height
+			Convert.ToDouble(Util.ChangeDecimalSeparator(values[4])), //weight
 			Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), Convert.ToInt32(values[7]),
 			values[8], //desc
 			Convert.ToInt32(values[9]), Convert.ToInt32(values[10]), Convert.ToInt32(values[11])
@@ -226,8 +244,8 @@ class SqlitePersonSession : Sqlite
 					reader[1].ToString(),			//name
 					reader[2].ToString(),			//sex
 					UtilDate.FromSql(reader[3].ToString()),	//dateBorn
-					Convert.ToInt32(reader[4].ToString()),	//height
-					Convert.ToInt32(reader[13].ToString()),	//weight (personSessionWeight)
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())),	//height
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[13].ToString())),	//weight (personSessionWeight)
 					Convert.ToInt32(reader[6].ToString()),	//sportID
 					Convert.ToInt32(reader[7].ToString()),	//speciallityID
 					Convert.ToInt32(reader[8].ToString()),	//practice
@@ -410,13 +428,16 @@ class SqlitePersonSession : Sqlite
 		}
 		reader.Close();
 
-		dropOldTable();
+		dropOldTable(Constants.PersonSessionTable);
 
 		dbcon.Close();
 			
 		foreach (string line in myArray) {
 			string [] stringFull = line.Split(new char[] {':'});
 			Insert(
+					false,
+					Constants.PersonSessionWeightTable,
+					"-1",
 					Convert.ToInt32(stringFull[0]), //personID
 					Convert.ToInt32(stringFull[1]), //sessionID
 					Convert.ToInt32(stringFull[2]) //weight
@@ -428,10 +449,10 @@ class SqlitePersonSession : Sqlite
 	 * conversion from database 0.52 to 0.53 (add weight into personSession)
 	 * now weight of a person can change every session
 	*/
-	private static void dropOldTable() {
-		dbcmd.CommandText = "DROP TABLE " + Constants.PersonSessionTable;
+	private static void dropOldTable(string tableName) {
+		dbcmd.CommandText = "DROP TABLE " + tableName;
 		dbcmd.ExecuteNonQuery();
 	}
-
+	
 }
 

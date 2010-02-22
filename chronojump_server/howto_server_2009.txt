@@ -44,8 +44,8 @@ firefox http://server.chronojump.org:8080/chronojumpServer.asmx
 4.- generate wsdl proxy file
 
 from console it doesnt' work, then do:
-a) go to client proxy
-b) generate in C
+a) go to 'client proxy'
+b) generate in C#
 c) download
 d) open in gedit
 e) save as ChronojumpServer.cs

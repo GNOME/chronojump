@@ -86,7 +86,7 @@ public class ChronojumpServer {
 		else 
 			return false; //"for if the flyes"
 
-		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,9,6))
+		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,16))
 			return true;
 		else if(action == Constants.ServerActionStats && cv >= new Version(0,8))
 			return true;
@@ -291,11 +291,11 @@ public class ChronojumpServer {
 	}
 	
 	[WebMethod(Description="Upload person session if needed")]
-	public int UploadPersonSessionIfNeeded(int personServerID, int sessionServerID, int weight)
+	public int UploadPersonSessionIfNeeded(int personServerID, int sessionServerID, double weight)
 	{
 		if(!SqlitePersonSession.PersonSelectExistsInSession(personServerID, sessionServerID)) {
 			Console.WriteLine("personSession needed");
-			SqlitePersonSession.Insert (personServerID, sessionServerID, weight);
+			SqlitePersonSession.Insert (false, Constants.PersonSessionWeightTable, "-1", personServerID, sessionServerID, weight);
 			Console.WriteLine("done");
 			return 1; //unused
 		} else 

@@ -2872,6 +2872,14 @@ Console.WriteLine("X");
 		} else {
 		}
 	
+		//jumpType is a DJ?... with or without arms?
+		if(currentJumpType.Name == "DJ") {
+			if(jumpExtraWin.Arms)
+				currentJumpType = new JumpType("DJa");
+			else
+				currentJumpType = new JumpType("DJna");
+		}
+
 		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
 			
 		double jumpWeight = 0;
@@ -2884,11 +2892,13 @@ Console.WriteLine("X");
 			}
 		}
 		int myFall = 0;
+		bool arms = false;
 		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
 			myFall = 0;
 		else if( ! currentJumpType.StartIn) {
 			myFall = jumpExtraWin.Fall;
 		}
+		
 			
 		//used by cancel and finish
 		//currentEventType = new JumpType();

@@ -86,16 +86,8 @@ public class ChronopicWindow
 
 	bool isWindows;	
 
-	/*
-	//preferences variables
-	private static string chronopicPort1 = "";
-	private static string chronopicPort2 = "";
-	private static string chronopicPort3 = "";
-	private static string chronopicPort4 = "";
-	*/
 	//ArrayList of ChronopicPortData
 	static ArrayList cpd;
-	//ArrayList cpd;
 	
 	//platform state variables
 	enum States {
@@ -149,11 +141,6 @@ public class ChronopicWindow
 		chronopic_image.Pixbuf = pixbuf;
 
 		/*
-		chronopicPort1 = SqlitePreferences.Select("chronopicPort");
-		chronopicPort2 = "";
-		chronopicPort3 = "";
-		chronopicPort4 = "";
-
 		if(chronopicPort1 != Constants.ChronopicDefaultPortWindows && 
 				(chronopicPort1 != Constants.ChronopicDefaultPortLinux && File.Exists(chronopicPort1))
 		  ) {
@@ -268,52 +255,6 @@ public class ChronopicWindow
 				combo_windows4.Changed += new EventHandler (on_combo_changed);
 			}
 		}
-		/*	
-		UtilGtk.ComboUpdate(myCombo, comboWindowsOptions, comboWindowsOptions[0]);
-
-		//TODO: fix this
-		if(myPort.Length > 0) {
-			if (myCombo == combo_windows1)
-				myCombo.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, myPort);
-			else { //don't show connected port as an option for other ports
-				UtilGtk.ComboDelThisValue(myCombo, myPort);
-				myCombo.Active = 0; //first option
-			}
-		} else 
-			myCombo.Active = 0; //first option
-			
-		myCombo.Changed += new EventHandler (on_combo_changed);
-			*/
-
-		
-
-		/*
-		foreach(ChronopicPortData a in cpd) {
-			if(a.Port.Length > 0) {
-				if(a.Num == 1) {
-					combo_windows1.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, a.Port);
-					UtilGtk.ComboDelThisValue(combo_windows2, a.Port);
-					UtilGtk.ComboDelThisValue(combo_windows3, a.Port);
-					UtilGtk.ComboDelThisValue(combo_windows4, a.Port);
-					combo_windows1.Changed += new EventHandler (on_combo_changed);
-				} else if(a.Num == 2) {
-					combo_windows2.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, a.Port);
-					UtilGtk.ComboDelThisValue(combo_windows3, a.Port);
-					UtilGtk.ComboDelThisValue(combo_windows4, a.Port);
-					combo_windows2.Changed += new EventHandler (on_combo_changed);
-				} else if(a.Num == 3) {
-					combo_windows3.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, a.Port);
-					UtilGtk.ComboDelThisValue(combo_windows4, a.Port);
-					combo_windows3.Changed += new EventHandler (on_combo_changed);
-				} else { //4
-					combo_windows4.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, a.Port);
-					combo_windows4.Changed += new EventHandler (on_combo_changed);
-				}
-			} 
-//			else 
-//				myCombo.Active = 0; //first option
-		}
-		*/
 	}
 
 	private void createComboLinux() {
@@ -850,23 +791,16 @@ public class ChronopicWindow
 		//kill the chronopicInit function that is waiting event 
 		thread.Abort();
 		
-		//menuitem_chronopic.Active = false;
-		//menuitem_simulated.Active = true;
-				
 		updateChronopicWinValuesState= false; //disconnected
 		updateChronopicWinValuesMessage= Catalog.GetString("Cancelled by user");
 		needUpdateChronopicWin = true;
 			
 	}
 	
-	//private void on_chronopic_closed (object o, EventArgs args) {
-	//}
-
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		Log.WriteLine("CLOSE");
 		ChronopicWindowBox.chronopic_window.Hide();
-//		ChronopicWindowBox = null;
 	}
 
 	void on_delete_event (object o, DeleteEventArgs args)
@@ -874,7 +808,6 @@ public class ChronopicWindow
 		//nice: this makes windows no destroyed, then it works like button_close
 		args.RetVal = true;
 		ChronopicWindowBox.chronopic_window.Hide();
-//		ChronopicWindowBox = null;
 	}
 
 

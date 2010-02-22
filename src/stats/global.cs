@@ -83,6 +83,7 @@ public class StatGlobal : Stat
 
 	public override void PrepareData() 
 	{
+		/*
 		string sessionString = obtainSessionSqlString(sessions, "jump");
 				
 		//it's better (nicer, cleaner, easier) to leave all the AVGSD as 'false'
@@ -120,6 +121,7 @@ public class StatGlobal : Stat
 					"(9.81*9.81 * tvavg*jumps * time / (4*jumps*(time - tvavg*jumps)) )", "jumpRj",
 					sessionString, operation, showSex, personID),
 				false, sessions.Count );
+				*/
 	
 	}
 

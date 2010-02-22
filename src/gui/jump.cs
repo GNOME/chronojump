@@ -790,6 +790,9 @@ public class JumpExtraWindow
 	[Widget] Gtk.Label label_fall;
 	[Widget] Gtk.Label label_cm;
 	
+	[Widget] Gtk.Label label_dj_arms;
+	[Widget] Gtk.CheckButton check_dj_arms;
+	
 	//for RunAnalysis
 	//but will be used and recorded with "fall"
 	static int distance;
@@ -798,6 +801,7 @@ public class JumpExtraWindow
 	static double limited = 10;
 	static bool jumpsLimited;
 	static int weight = 20;
+	static bool arms = false;
 	static int fall = 20;
 	
 	static JumpExtraWindow JumpExtraWindowBox;
@@ -859,10 +863,14 @@ public class JumpExtraWindow
 		if(! myJumpType.HasWeight) {
 			hideWeightData();	
 		}
-		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName) {
-			hideFallData();	
-		}
+		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName)
+			       hideFallData();	
 		
+		//show technique (arms) only in DJ
+		if(myJumpType.StartIn || myJumpType.IsRepetitive)
+			hideTechniqueArmsData();
+		
+		JumpExtraWindowBox.check_dj_arms.Active = arms;
 		JumpExtraWindowBox.spinbutton_weight.Value = weight;
 		JumpExtraWindowBox.spinbutton_fall.Value = fall;
 		if (option == "Kg") {
@@ -877,22 +885,27 @@ public class JumpExtraWindow
 	}
 	
 	static void hideRepetitiveData () {
-		JumpExtraWindowBox.label_limit.Sensitive = false;
-		JumpExtraWindowBox.spinbutton_limit.Sensitive = false;
-		JumpExtraWindowBox.label_limit_units.Sensitive = false;
+		JumpExtraWindowBox.label_limit.Hide();
+		JumpExtraWindowBox.spinbutton_limit.Hide();
+		JumpExtraWindowBox.label_limit_units.Hide();
 	}
 	
 	static void hideWeightData () {
-		JumpExtraWindowBox.label_weight.Sensitive = false;
-		JumpExtraWindowBox.spinbutton_weight.Sensitive = false;
-		JumpExtraWindowBox.radiobutton_kg.Sensitive = false;
-		JumpExtraWindowBox.radiobutton_weight.Sensitive = false;
+		JumpExtraWindowBox.label_weight.Hide();
+		JumpExtraWindowBox.spinbutton_weight.Hide();
+		JumpExtraWindowBox.radiobutton_kg.Hide();
+		JumpExtraWindowBox.radiobutton_weight.Hide();
+	}
+	
+	static void hideTechniqueArmsData () {
+		JumpExtraWindowBox.label_dj_arms.Hide();
+		JumpExtraWindowBox.check_dj_arms.Hide();
 	}
 	
 	static void hideFallData () {
-		JumpExtraWindowBox.label_fall.Sensitive = false;
-		JumpExtraWindowBox.spinbutton_fall.Sensitive = false;
-		JumpExtraWindowBox.label_cm.Sensitive = false;
+		JumpExtraWindowBox.label_fall.Hide();
+		JumpExtraWindowBox.spinbutton_fall.Hide();
+		JumpExtraWindowBox.label_cm.Hide();
 	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -913,6 +926,7 @@ public class JumpExtraWindow
 		weight = (int) spinbutton_weight.Value;
 		fall = (int) spinbutton_fall.Value;
 		distance = (int) spinbutton_fall.Value;
+		arms = check_dj_arms.Active;
 		
 		JumpExtraWindowBox.jump_extra.Hide();
 		JumpExtraWindowBox = null;
@@ -936,41 +950,38 @@ public class JumpExtraWindow
 		get { return button_accept;	}
 	}
 
-	public string Option 
-	{
-		get { return option;	}
+	public string Option {
+		get { return option; }
 	}
 
-	public bool JumpsLimited 
-	{
-		get { return jumpsLimited;	}
+	public bool JumpsLimited {
+		get { return jumpsLimited; }
 	}
 	
-	public double Limited 
-	{
-		get { return limited;	}
+	public double Limited {
+		get { return limited; }
 	}
-	
 	
 	public string LimitString
 	{
 		get { 
-			if(jumpsLimited) {
+			if(jumpsLimited) 
 				return limited.ToString() + "J";
-			} else {
+			else 
 				return Limited.ToString() + "T";
-			}
 		}
 	}
 	
-	public int Weight 
-	{
-		get { return weight;	}
+	public int Weight {
+		get { return weight; }
 	}
 	
-	public int Fall 
-	{
-		get { return fall;	}
+	public bool Arms {
+		get { return arms; }
+	}
+
+	public int Fall {
+		get { return fall; }
 	}
 }
 

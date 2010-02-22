@@ -610,7 +610,7 @@ public class EventMoreWindow
 	protected void on_button_delete_type_accepted (object o, EventArgs args)
 	{
 		if(selectedEventType == EventType.Types.JUMP.ToString())
-			SqliteJumpType.Delete(selectedEventName);
+			SqliteJumpType.Delete(selectedEventName, false);
 		else //RUN
 			SqliteRunType.Delete(selectedEventName);
 

@@ -2001,6 +2001,7 @@ comments</property>
     <child>
       <widget class="GtkVBox" id="vbox11">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">8</property>
         <child>
           <widget class="GtkLabel" id="label90">
@@ -2016,10 +2017,10 @@ comments</property>
         <child>
           <widget class="GtkTable" id="table11">
             <property name="visible">True</property>
-            <property name="n_rows">3</property>
+            <property name="n_rows">4</property>
             <property name="n_columns">4</property>
-            <property name="column_spacing">3</property>
-            <property name="row_spacing">4</property>
+            <property name="column_spacing">6</property>
+            <property name="row_spacing">6</property>
             <child>
               <widget class="GtkLabel" id="label_weight">
                 <property name="visible">True</property>
@@ -2040,8 +2041,8 @@ comments</property>
                 <property name="label" translatable="yes">Falling height</property>
               </widget>
               <packing>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"></property>
               </packing>
@@ -2095,8 +2096,8 @@ weight</property>
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"></property>
               </packing>
@@ -2105,7 +2106,7 @@ weight</property>
               <widget class="GtkSpinButton" id="spinbutton_weight">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="adjustment">10 0 200 1 10 10</property>
+                <property name="adjustment">10 0 200 1 10 0</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
               </widget>
@@ -2114,7 +2115,7 @@ weight</property>
                 <property name="right_attach">2</property>
                 <property name="top_attach">1</property>
                 <property name="bottom_attach">2</property>
-                <property name="x_options">GTK_EXPAND</property>
+                <property name="x_options">GTK_FILL</property>
                 <property name="y_options"></property>
               </packing>
             </child>
@@ -2122,16 +2123,16 @@ weight</property>
               <widget class="GtkSpinButton" id="spinbutton_fall">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="adjustment">20 0 200 1 10 10</property>
+                <property name="adjustment">20 0 200 1 10 0</property>
                 <property name="climb_rate">1</property>
                 <property name="numeric">True</property>
               </widget>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
-                <property name="x_options">GTK_EXPAND</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+                <property name="x_options">GTK_FILL</property>
                 <property name="y_options"></property>
               </packing>
             </child>
@@ -2161,7 +2162,7 @@ weight</property>
               <widget class="GtkSpinButton" id="spinbutton_limit">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="adjustment">10 1 100 1 10 10</property>
+                <property name="adjustment">10 1 100 1 10 0</property>
                 <property name="snap_to_ticks">True</property>
                 <property name="numeric">True</property>
                 <property name="wrap">True</property>
@@ -2170,10 +2171,45 @@ weight</property>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
-                <property name="x_options"></property>
+                <property name="x_options">GTK_FILL</property>
                 <property name="y_options"></property>
-                <property name="x_padding">4</property>
               </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label_dj_arms">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Technique</property>
+              </widget>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="check_dj_arms">
+                <property name="label" translatable="yes">Using arms</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -2340,6 +2376,8 @@ weight</property>
     <child>
       <widget class="GtkVBox" id="vbox22">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">10</property>
         <child>
           <widget class="GtkLabel" id="label1">
             <property name="visible">True</property>
@@ -4518,6 +4556,7 @@ options</property>
     <child>
       <widget class="GtkVBox" id="vbox42">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkLabel" id="label106">
             <property name="visible">True</property>
@@ -4567,7 +4606,7 @@ options</property>
               <widget class="GtkSpinButton" id="spinbutton_limit">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="adjustment">100 0 100000 1 10 10</property>
+                <property name="adjustment">100 0 100000 1 10 0</property>
                 <property name="snap_to_ticks">True</property>
                 <property name="numeric">True</property>
                 <property name="update_policy">if-valid</property>
@@ -4610,7 +4649,7 @@ options</property>
               <widget class="GtkSpinButton" id="spinbutton_distance">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="adjustment">100 0 10000 1 10 10</property>
+                <property name="adjustment">100 0 10000 1 10 0</property>
                 <property name="snap_to_ticks">True</property>
                 <property name="numeric">True</property>
                 <property name="update_policy">if-valid</property>

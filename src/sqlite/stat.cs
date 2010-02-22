@@ -1038,6 +1038,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
+	/*
 	public static ArrayList GlobalNormal (string sessionString, string operation, bool sexSeparated, 
 			int personID, bool heightPreferred)
 	{
@@ -1208,9 +1209,9 @@ class SqliteStat : Sqlite
 			}
 			//weightString = " AND (j1.weight == \"100%\" OR j1.weight == person.weight||'" + "Kg' ) ";
 			weightString = 
-				/* now jump weight is not stores as % or kg and with the '%' or 'kg' after. Is always a %
-				" AND (j1.weight == \"100%\" OR j1.weight == personSessionWeight.weight||'" + "Kg' ) " +
-				*/
+				// now jump weight is not stores as % or kg and with the '%' or 'kg' after. Is always a %
+				//" AND (j1.weight == \"100%\" OR j1.weight == personSessionWeight.weight||'" + "Kg' ) " +
+				
 				" AND j1.weight == \"100\" ";
 			sexColumn = 4;
 		} else {	//IE, IUB
@@ -1290,5 +1291,6 @@ class SqliteStat : Sqlite
 		
 		return myArray;
 	}
+	*/
 
 }

@@ -228,9 +228,14 @@ Log.WriteLine("doing backup");
 			splashMessageChange(4);  //updating DB
 			updatingDB = true;
 
+			if(Sqlite.ChangeDjToDJna())
+				messageToShowOnBoot += Catalog.GetString("All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms).") + "\n\n"+ 
+					Catalog.GetString("If your Drop Jumps were executed using the arms, please rename them manually as 'DJa'.");
+
 			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
 			updatingDB = false;
-
+			
+				
 			if(! softwareIsNew) {
 				//Console.Clear();
 				string errorMessage = string.Format(Catalog.GetString ("Sorry, this Chronojump version ({0}) is too old for your database."), progVersion) + "\n" +  

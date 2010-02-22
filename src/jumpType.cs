@@ -40,7 +40,7 @@ public class JumpType : EventType
 	public override bool FindIfIsPredefined() {
 		string [] predefinedTests = {
 			"Free", "SJ", "CMJ", "ABK", "Rocket",
-			"SJl", "CMJl", "ABKl", "DJ",
+			"SJl", "CMJl", "ABKl", "DJa", "DJna",
 			"RJ(j)", "RJ(t)", "RJ(unlimited)",
 			"RJ(hexagon)", "triple jump"
 		};
@@ -129,13 +129,29 @@ public class JumpType : EventType
 			fixedValue 	= 0; //for repetitive
 			description	= Catalog.GetString("Take off with weight");
 			imageFileName = "";
-		} else if(name == "DJ") {
+		} else if(name == "DJ") { //not used for end user, but used in software to initially define jump
 			startIn 	= false;
 			hasWeight 	= false;
 			isRepetitive 	= false;
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			description	= Catalog.GetString("DJ Jump");
+			imageFileName = "jump_dj.png";
+		} else if(name == "DJa") { //DJ using arms
+			startIn 	= false;
+			hasWeight 	= false;
+			isRepetitive 	= false;
+			jumpsLimited 	= false;
+			fixedValue 	= 0;
+			description	= Catalog.GetString("DJ Jump using arms");
+			imageFileName = "jump_dj.png";
+		} else if(name == "DJna") { //DJ Not using arms
+			startIn 	= false;
+			hasWeight 	= false;
+			isRepetitive 	= false;
+			jumpsLimited 	= false;
+			fixedValue 	= 0;
+			description	= Catalog.GetString("DJ Jump without using arms");
 			imageFileName = "jump_dj.png";
 		} else if(name == "RJ(j)") {
 			startIn 	= false;

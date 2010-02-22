@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.73";
+	static string lastChronojumpDatabaseVersion = "0.74";
 
 	public Sqlite() {
 	}
@@ -959,6 +959,17 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.73";
 			}
+			if(currentVersion == "0.73") {
+				//dbcon open laters on mid convertDJinDJna()
+				
+				convertDJInDJna();
+
+				SqlitePreferences.Update ("databaseVersion", "0.74", true); 
+				
+				Log.WriteLine("Converted DB to 0.74 (All DJ converted to DJna)"); 
+				dbcon.Close();
+				currentVersion = "0.74";
+			}
 
 
 		}
@@ -967,6 +978,14 @@ class Sqlite
 		//remember to change also the databaseVersion below
 		
 		return returnSoftwareIsNew;
+	}
+
+	public static bool ChangeDjToDJna() {
+		string v = SqlitePreferences.Select("databaseVersion");
+		Log.WriteLine(Convert.ToDouble(Util.ChangeDecimalSeparator(v)).ToString());
+		if(Convert.ToDouble(Util.ChangeDecimalSeparator(v)) < Convert.ToDouble(Util.ChangeDecimalSeparator("0.74")))
+			return true;
+		return false;
 	}
 
 	private static void addChronopicPortNameIfNotExists() {
@@ -1084,6 +1103,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.73 - 0.74 Converted DB to 0.74 (All DJ converted to DJna)
 		//0.72 - 0.73 Converted DB to 0.73 (deleted orphaned persons (in person table but not in personSessionWeight table))
 		//0.71 - 0.72 dates to YYYY-MM-DD
 		//0.70 - 0.71 created personNotUploadTable on client
@@ -1305,6 +1325,64 @@ class Sqlite
 				SqlitePerson.Delete(personID);
 		}
 	}
+				
+	//used to convert to sqlite 0.74
+	protected internal static void convertDJInDJna()
+	{
+		//Dja exists in DB? (user defined)
+		if(Exists(Constants.JumpTypeTable, "DJa")) {
+			string [] names = { "DJa-user", "DJa-user2", "DJa-user3", "DJa-user4" }; //sorry, we cannot check all the names in the world, ok, yes, i know, we can, but it's ok like this
+			bool success = false;
+			foreach(string name in names) {
+				if(!Exists(Constants.JumpTypeTable, name)) {
+					success = true;
+					dbcmd.CommandText = "UPDATE jump SET type = '" + name + "' WHERE type == 'DJa'";
+					Log.WriteLine(dbcmd.CommandText.ToString());
+					dbcmd.ExecuteNonQuery();
+				}
+				if(success) 
+					break;
+			}
+		}
+		
+		//Djna exists in DB? (user defined)
+		if(Exists(Constants.JumpTypeTable, "DJna")) {
+			string [] names = { "DJna-user", "DJna-user2", "DJna-user3", "DJna-user4" }; //sorry, we cannot check all the names in the world, ok, yes, i know, we can, but it's ok like this
+			bool success = false;
+			foreach(string name in names) {
+				if(!Exists(Constants.JumpTypeTable, name)) {
+					success = true;
+					dbcmd.CommandText = "UPDATE jump SET type = '" + name + "' WHERE type == 'DJna'";
+					Log.WriteLine(dbcmd.CommandText.ToString());
+					dbcmd.ExecuteNonQuery();
+				}
+				if(success) 
+					break;
+			}
+		}
+
+		//no opened before because Exists is for closed dbcon
+		dbcon.Open();
+
+		//create new jump types
+		SqliteJumpType.JumpTypeInsert ("DJa:0:0:DJ jump using arms", true); 
+		SqliteJumpType.JumpTypeInsert ("DJna:0:0:DJ jump without using arms", true); 
+		
+		//add auto-converted on description
+		dbcmd.CommandText = "UPDATE jump SET description = description || ' Auto-converted from DJ' WHERE type == 'DJ'";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		//conversion
+		dbcmd.CommandText = "UPDATE jump SET type = 'DJna' WHERE type == 'DJ'";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		//delete DJ
+		SqliteJumpType.Delete("DJ", true);
+	}
+
+
 
 	protected internal static void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd, bool putDescriptionInMiddle) 
 	{

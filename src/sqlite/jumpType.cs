@@ -58,7 +58,9 @@ class SqliteJumpType : Sqlite
 			"ABK:1:0:ABK jump", 
 			"ABKl:1:1:ABK jump with weight", 
 			"Max:1:0:;Maximum jump", 
-			"DJ:0:0:DJ jump",
+			//"DJ:0:0:DJ jump",
+			"DJa:0:0:DJ jump using arms",
+			"DJna:0:0:DJ jump without using arms",
 			"Rocket:1:0:Rocket jump",
 			"TakeOff:0:0:Take off",
 			"TakeOffWeight:0:1:Take off with weight"
@@ -86,7 +88,9 @@ class SqliteJumpType : Sqlite
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Rocket", "jump_rocket.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJ", "jump_dj.png", true);
+		//SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJ", "jump_dj.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJa", "jump_dj.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJna", "jump_dj.png", true);
 	}
 
 	//creates table containing the types of repetitive Jumps
@@ -434,14 +438,16 @@ class SqliteJumpType : Sqlite
 		//dbcon.Close();
 	}
 	
-	public static void Delete(string name)
+	public static void Delete(string name, bool dbconOpened)
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.JumpTypeTable +
 			" WHERE name == '" + name + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 	}
 
 }	

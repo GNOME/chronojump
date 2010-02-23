@@ -28,7 +28,7 @@ public class Jump : Event
 {
 	protected double tv;
 	protected double tc;
-	protected int fall;
+	protected double fall;
 	protected double weight; //always write in % (not kg or %) then sqlite can do avgs
 
 	//for not checking always in database
@@ -39,7 +39,7 @@ public class Jump : Event
 	}
 	
 	//after inserting database (SQL)
-	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, double angle, int simulated)
+	public Jump(int uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -63,7 +63,7 @@ public class Jump : Event
 		this.type = eventString[3].ToString();
 		this.tv = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[4]));
 		this.tc = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[5]));
-		this.fall = Convert.ToInt32(eventString[6]);
+		this.fall = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[6]));
 		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
 		this.description = eventString[8].ToString();
 		this.angle = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[9]));
@@ -102,7 +102,7 @@ public class Jump : Event
 		set { tc = value; }
 	}
 	
-	public int Fall {
+	public double Fall {
 		get { return fall; }
 		set { fall = value; }
 	}
@@ -142,7 +142,7 @@ public class JumpRj : Jump
 	
 	//after inserting database (SQL)
 	public JumpRj(int uniqueID, int personID, int sessionID, string type, 
-			string tvString, string tcString, int fall, double weight, 
+			string tvString, string tcString, double fall, double weight, 
 			string description, int jumps, double time, string limited, string angleString, int simulated)
 	{
 		this.uniqueID = uniqueID;
@@ -173,7 +173,7 @@ public class JumpRj : Jump
 		this.type = eventString[3].ToString();
 		this.tvString = Util.ChangeDecimalSeparator(eventString[11].ToString());
 		this.tcString = Util.ChangeDecimalSeparator(eventString[12].ToString());
-		this.fall = Convert.ToInt32(eventString[6]);
+		this.fall = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[6]));
 		this.weight = Convert.ToDouble(Util.ChangeDecimalSeparator(eventString[7]));
 		this.description = eventString[8].ToString();
 		this.jumps = Convert.ToInt32(eventString[13]);

@@ -853,7 +853,7 @@ public class ChronoJumpWindow
 	
 	private void on_menuitem_server_query_activate (object o, EventArgs args) {
 		if(connectedAndCanI(Constants.ServerActionQuery)) 
-			queryServerWin = QueryServerWindow.Show();
+			queryServerWin = QueryServerWindow.Show(prefsDigitsNumber);
 	}
 	
 	private void on_menuitem_server_ping (object o, EventArgs args) {
@@ -2891,7 +2891,7 @@ Console.WriteLine("X");
 				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPerson.Weight);
 			}
 		}
-		int myFall = 0;
+		double myFall = 0;
 		bool arms = false;
 		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
 			myFall = 0;
@@ -3096,7 +3096,7 @@ Console.WriteLine("X");
 				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPerson.Weight);
 			}
 		}
-		int myFall = 0;
+		double myFall = 0;
 		if( ! currentJumpType.StartIn || currentJumpType.Name	== Constants.RunAnalysisName)
 			myFall = jumpExtraWin.Fall;
 			

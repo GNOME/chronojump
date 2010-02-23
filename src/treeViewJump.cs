@@ -163,7 +163,7 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Type = myStringOfData[4].ToString();
 		myJump.Tv = Convert.ToDouble(myStringOfData[5].ToString());
 		myJump.Tc = Convert.ToDouble(myStringOfData[6].ToString());
-		myJump.Fall = Convert.ToInt32(myStringOfData[7].ToString());
+		myJump.Fall = Convert.ToDouble(myStringOfData[7].ToString());
 		myJump.Angle = Convert.ToDouble(myStringOfData[10].ToString());
 		myJump.Description = myStringOfData[9].ToString();
 		myJump.Simulated = Convert.ToInt32(myStringOfData[11].ToString());
@@ -197,7 +197,7 @@ public class TreeViewJumps : TreeViewEvent
 		
 		myData[count++] = Util.TrimDecimals(newJump.Weight.ToString(), pDN);
 
-		myData[count++] = newJump.Fall.ToString();
+		myData[count++] = Util.TrimDecimals(newJump.Fall.ToString(), pDN);
 		if (showHeight)  
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
 		if (showPower)  {
@@ -261,7 +261,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		JumpRj myJumpRj = new JumpRj();
 		myJumpRj.UniqueID = Convert.ToInt32(myStringOfData[1].ToString()); 
 		myJumpRj.Type = myStringOfData[4].ToString();
-		myJumpRj.Fall = Convert.ToInt32(myStringOfData[7].ToString());
+		myJumpRj.Fall = Convert.ToDouble(myStringOfData[7].ToString());
 		myJumpRj.TvString = myStringOfData[12].ToString();
 		myJumpRj.TcString = myStringOfData[13].ToString();
 		myJumpRj.Limited = myStringOfData[16].ToString();
@@ -299,7 +299,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		
 		myData[count++] = Util.TrimDecimals(newJumpRj.Weight.ToString(), pDN);
 
-		myData[count++] = newJumpRj.Fall.ToString();
+		myData[count++] = Util.TrimDecimals(newJumpRj.Fall.ToString(), pDN);
 		if (showHeight)  
 			myData[count++] = "";
 		if (showInitialSpeed) 

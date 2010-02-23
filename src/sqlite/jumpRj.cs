@@ -43,7 +43,7 @@ class SqliteJumpRj : SqliteJump
 			"type TEXT, " + 
 			"tvMax FLOAT, " +
 			"tcMax FLOAT, " +
-			"fall INT, " +  
+			"fall FLOAT, " +  
 			"weight TEXT, " + //string because can contain "33%" or "50Kg"
 			"description TEXT, " +		//this and the above values are equal than normal jump
 			"tvAvg FLOAT, " +		//this and next values are Rj specific
@@ -58,8 +58,7 @@ class SqliteJumpRj : SqliteJump
 		dbcmd.ExecuteNonQuery();
 	}
 
-	//fall has values like "10J" or "10T" (10 jumps, or 10 seconds, respectively)
-	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, int fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated )
+	public static int Insert (bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tvMax, double tcMax, double fall, double weight, string description, double tvAvg, double tcAvg, string tvString, string tcString, int jumps, double time, string limited, string angleString, int simulated )
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -73,7 +72,7 @@ class SqliteJumpRj : SqliteJump
 				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", '" + type + "', " +
 				Util.ConvertToPoint(tvMax) + ", " + Util.ConvertToPoint(tcMax) + ", '" + 
-				fall + "', '" + Util.ConvertToPoint(weight) + "', '" + description + "', " +
+				Util.ConvertToPoint(fall) + "', '" + Util.ConvertToPoint(weight) + "', '" + description + "', " +
 				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", '" + 
 				Util.ConvertToPoint(tvString) + "', '" + Util.ConvertToPoint(tcString) + "', " +
 				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "', '" + angleString + "', " + simulated +")" ;
@@ -136,7 +135,7 @@ class SqliteJumpRj : SqliteJump
 					reader[4].ToString() + ":" + 	//jumpRj.type
 					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//tvMax
 					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + 	//tcMax
-					reader[7].ToString() + ":" + 	//fall
+					Util.ChangeDecimalSeparator(reader[7].ToString()) + ":" + 	//fall
 					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + 	//weight
 					reader[9].ToString() + ":" + 	//description
 					Util.ChangeDecimalSeparator(reader[10].ToString()) + ":" + 	//tvAvg,

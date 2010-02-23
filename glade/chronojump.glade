@@ -2110,6 +2110,7 @@ weight</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">10 0 200 1 10 0</property>
                 <property name="climb_rate">1</property>
+                <property name="digits">1</property>
                 <property name="numeric">True</property>
               </widget>
               <packing>
@@ -2127,6 +2128,7 @@ weight</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">20 0 200 1 10 0</property>
                 <property name="climb_rate">1</property>
+                <property name="digits">1</property>
                 <property name="numeric">True</property>
               </widget>
               <packing>
@@ -2165,6 +2167,7 @@ weight</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="adjustment">10 1 100 1 10 0</property>
+                <property name="digits">1</property>
                 <property name="snap_to_ticks">True</property>
                 <property name="numeric">True</property>
                 <property name="wrap">True</property>
@@ -13322,6 +13325,7 @@ comments</property>
     <child>
       <widget class="GtkVBox" id="vbox120">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkImage" id="image_logo">
             <property name="visible">True</property>
@@ -17776,6 +17780,71 @@ by you</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <widget class="GtkVBox" id="vbox_image_test">
+                                    <property name="visible">True</property>
+                                    <property name="orientation">vertical</property>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox230">
+                                        <property name="visible">True</property>
+                                        <child>
+                                          <widget class="GtkLabel" id="label_image_test">
+                                            <property name="visible">True</property>
+                                            <property name="use_markup">True</property>
+                                            <property name="ellipsize">end</property>
+                                            <property name="width_chars">15</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkAlignment" id="alignment106">
+                                            <property name="visible">True</property>
+                                            <property name="xalign">1</property>
+                                            <child>
+                                              <widget class="GtkButton" id="button_image_test_zoom">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <signal name="clicked" handler="on_button_image_test_zoom_clicked"/>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_test_zoom">
+                                                    <property name="visible">True</property>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="pack_type">end</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkImage" id="image_test">
+                                        <property name="visible">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -17793,78 +17862,6 @@ by you</property>
                       </widget>
                       <packing>
                         <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkAlignment" id="alignment_image_test">
-                        <property name="visible">True</property>
-                        <property name="top_padding">6</property>
-                        <property name="bottom_padding">4</property>
-                        <child>
-                          <widget class="GtkVBox" id="vbox_image_test">
-                            <property name="visible">True</property>
-                            <child>
-                              <widget class="GtkHBox" id="hbox230">
-                                <property name="visible">True</property>
-                                <child>
-                                  <widget class="GtkLabel" id="label_image_test">
-                                    <property name="visible">True</property>
-                                    <property name="use_markup">True</property>
-                                    <property name="ellipsize">end</property>
-                                    <property name="width_chars">15</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkAlignment" id="alignment106">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">1</property>
-                                    <child>
-                                      <widget class="GtkButton" id="button_image_test_zoom">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="tooltip" translatable="yes">Expand image and show description</property>
-                                        <signal name="clicked" handler="on_button_image_test_zoom_clicked"/>
-                                        <child>
-                                          <widget class="GtkImage" id="image_test_zoom">
-                                            <property name="visible">True</property>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkImage" id="image_test">
-                                <property name="visible">True</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="position">1</property>
                       </packing>
                     </child>
                   </widget>

@@ -795,14 +795,14 @@ public class JumpExtraWindow
 	
 	//for RunAnalysis
 	//but will be used and recorded with "fall"
-	static int distance;
+	static double distance;
 
 	static string option = "Kg";
 	static double limited = 10;
 	static bool jumpsLimited;
-	static int weight = 20;
+	static double weight = 20;
 	static bool arms = false;
-	static int fall = 20;
+	static double fall = 20;
 	
 	static JumpExtraWindow JumpExtraWindowBox;
 	Gtk.Window parent;
@@ -923,9 +923,9 @@ public class JumpExtraWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		limited = (double) spinbutton_limit.Value;
-		weight = (int) spinbutton_weight.Value;
-		fall = (int) spinbutton_fall.Value;
-		distance = (int) spinbutton_fall.Value;
+		weight = (double) spinbutton_weight.Value;
+		fall = (double) spinbutton_fall.Value;
+		distance = (double) spinbutton_fall.Value;
 		arms = check_dj_arms.Active;
 		
 		JumpExtraWindowBox.jump_extra.Hide();
@@ -972,7 +972,7 @@ public class JumpExtraWindow
 		}
 	}
 	
-	public int Weight {
+	public double Weight {
 		get { return weight; }
 	}
 	
@@ -980,7 +980,7 @@ public class JumpExtraWindow
 		get { return arms; }
 	}
 
-	public int Fall {
+	public double Fall {
 		get { return fall; }
 	}
 }

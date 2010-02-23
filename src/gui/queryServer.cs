@@ -152,13 +152,17 @@ public class QueryServerWindow
 	string [] countries;
 	string [] countriesTranslated;
 	
+	int pDN; //prefsDigitsNumber;
+	
 	static QueryServerWindow QueryServerWindowBox;
 	
-	public QueryServerWindow ()
+	public QueryServerWindow (int newPrefsDigitsNumber)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "query_server_window", null);
 		gladeXML.Autoconnect(this);
+		
+		this.pDN = newPrefsDigitsNumber;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(query_server_window);
@@ -166,10 +170,10 @@ public class QueryServerWindow
 		createAllCombos();
 	}
 
-	static public QueryServerWindow Show ()
+	static public QueryServerWindow Show (int newPrefsDigitsNumber)
 	{
 		if (QueryServerWindowBox == null) {
-			QueryServerWindowBox = new QueryServerWindow();
+			QueryServerWindowBox = new QueryServerWindow(newPrefsDigitsNumber);
 		}
 		QueryServerWindowBox.query_server_window.Show ();
 		
@@ -727,7 +731,7 @@ public class QueryServerWindow
 
 				string [] resultFull = result.Split(new char[] {':'});
 				label_results_num.Text = resultFull[0];
-				label_results_avg.Text = resultFull[1];
+				label_results_avg.Text = Util.TrimDecimals(resultFull[1], pDN);
 			}
 
 			return sqlString;

@@ -30,7 +30,7 @@ public class JumpExecute : EventExecute
 {
 	protected double tv;
 	protected double tc;
-	protected int fall;
+	protected double fall;
 	protected double weight; //always write in % (not kg or %) then sqlite can do avgs
 
 	//for not checking always in database
@@ -48,7 +48,7 @@ public class JumpExecute : EventExecute
 	}
 
 	//jump execution
-	public JumpExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, int fall, double weight,  
+	public JumpExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fall, double weight,  
 			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
 	{
 		this.eventExecuteWin = eventExecuteWin;
@@ -449,7 +449,7 @@ public class JumpRjExecute : JumpExecute
 
 	//jump execution
 	public JumpRjExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, 
-			int sessionID, string type, int fall, double weight, 
+			int sessionID, string type, double fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)

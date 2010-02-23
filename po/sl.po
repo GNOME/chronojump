@@ -1,17 +1,14 @@
-# Slovenian translation of chronojump
 # Copyright (C) 2009 chronojump's COPYRIGHT HOLDER
 # This file is distributed under the same license as the chronojump package.
-#
 # Matej Urbančič <mateju@svn.gnome.org>, 2009.
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronojump&component=general\n"
 "POT-Creation-Date: 2009-10-29 16:39+0000\n"
-"PO-Revision-Date: 2010-02-16 16:43+0100\n"
-"Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
+"PO-Revision-Date: 2010-02-23 12:56+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -442,7 +439,7 @@ msgstr "O programu"
 
 #: ../glade/chronojump.glade.h:95
 msgid "Accredited"
-msgstr ""
+msgstr "Uradno priznan"
 
 #: ../glade/chronojump.glade.h:96
 msgid "Add comment"
@@ -566,7 +563,7 @@ msgstr "Po času"
 
 #: ../glade/chronojump.glade.h:123
 msgid "CMJ"
-msgstr ""
+msgstr "CMJ"
 
 #: ../glade/chronojump.glade.h:124
 msgid "Cancel connection with server"
@@ -751,9 +748,10 @@ msgstr "Po meri"
 msgid "Custom pulse"
 msgstr "Pulz po meri"
 
+# vrsta skoka
 #: ../glade/chronojump.glade.h:167
 msgid "DJ"
-msgstr ""
+msgstr "DJ"
 
 #: ../glade/chronojump.glade.h:168
 msgid "Data"
@@ -1841,13 +1839,11 @@ msgstr "Pokaži/skrij robove"
 #: ../glade/chronojump.glade.h:398
 #: ../src/runType.cs:260
 msgid "Shuttle Run Agility test"
-msgstr ""
+msgstr "Shuttle-run test spretnosti"
 
-# Pogooglaj "shuttle run" - ne vem če obstaja izraz za to.
 #: ../glade/chronojump.glade.h:399
-#, fuzzy
 msgid "Shuttle run"
-msgstr "Zaženi izvedljivo datoteko ..."
+msgstr "Shuttle-run"
 
 #: ../glade/chronojump.glade.h:400
 #: ../src/gui/convertWeight.cs:65
@@ -4691,9 +4687,8 @@ msgid "Reference:"
 msgstr "Referenca:"
 
 #: ../src/runType.cs:185
-#, fuzzy
 msgid "This test is part of a battery for the USA Women's Soccer Team. The NFL use a very similar test for the NFL Combine Testing, the 20 yard shuttle."
-msgstr "Ta test uporablja ženska nogometna ekipa ZDA. NFL uporablja zelo podoben test za NFL združeno testiratje, 20 jardni "
+msgstr "Ta test uporablja ženska nogometna ekipa ZDA. NFL uporablja zelo podoben test za NFL združeno testiratje, 20 jardni Shuttle run test."
 
 #: ../src/runType.cs:187
 #: ../src/runType.cs:264
@@ -4822,9 +4817,8 @@ msgid "The starting and finishing sides can be swapped, so that turning directio
 msgstr "Strani začetka in konca je mogoče zamenjati, tako da je smer zavoja spremenjena."
 
 #: ../src/runType.cs:262
-#, fuzzy
 msgid "This test describes the procedures as used in the President's Challenge Fitness Awards. The variations listed give other ways to also perform this test."
-msgstr "Ta test opiše postopke uporabljene v ???. Naštete spremembe dajo druge načine za izvedbo tega testa."
+msgstr "Ta test opiše postopke uporabljene v  'President's Challenge Fitness Awards'. Naštete spremembe dajo druge načine za izvedbo tega testa."
 
 #: ../src/runType.cs:265
 msgid "This is a test of speed and agility, important in many sports."
@@ -4844,9 +4838,8 @@ msgid "Modifications"
 msgstr "Spremembe"
 
 #: ../src/runType.cs:275
-#, fuzzy
 msgid "The test procedure can be varied by changing the number of shuttles performed, the distance between turns (some use 10 meters rather than 30 feet) and by removing the need for the person pick up and return objects from the turning points."
-msgstr "Postopek testa je mogoče spremeniti s spremembo števila izvedenih XXX, razdaljo med obrati (nekateri namesto 30 čevljev rajši uporabijo 10 metrov) in z odstranitvijo potrebe po pobiranju in vračanju predmetov z obračevalnih točk."
+msgstr "Postopek testa je mogoče spremeniti s spremembo števila izvedenih Shuttle Run testov, razdaljo med obrati (nekateri namesto 30 čevljev uporabijo 10 metrov) in z odstranitvijo potrebe po pobiranju in vračanju predmetov z obračevalnih točk."
 
 #: ../src/runType.cs:279
 msgid "This test can be conducted on large groups relatively quickly with minimal equipment required."
@@ -4857,9 +4850,8 @@ msgid "The blocks should be placed at the line, not thrown across them. Also mak
 msgstr "Bloke je treba položiti na črto, ne vreči čez. Prepričajte se, da sodelujoči tečejo skozi ciljno črto za najboljši rezultat."
 
 #: ../src/runType.cs:297
-#, fuzzy
 msgid "Similar to the Shuttle Run test, this test requires the athlete to run a course in the shortest possible time. A standard zig zag course is with four cones placed on the corners of a rectangle 10 by 16 feet, with one more cone placed in the centre. If the cones are labelled 1 to 4 around the rectangle going along the longer side first, and the centre cone is C, the test begins at 1, then to C, 2, 3, C, 4, then back to 1."
-msgstr "Podobno kot XXXXX test, ta test od atleta zahteva tek razdalje v najkrajšem času. Običajna cik cak proga vsebuje štiri stožce postavljene na kotih pravokotnika, ki meri 10 krat 16 čevljev z dodatnim stožcem na sredini. V primeru da so stožci označeni od 1 do 4 okoli pravokotnika, pri čemer gredo najprej po daljši stranici in je središčni stožec C, se test začne pri 1, nato na C, 2, 3, C, 4 in nazaj na 1."
+msgstr "Podobno kot Shuttle Run test, ta test od atleta zahteva pretek razdalje v najkrajšem času. Običajna cik cak proga vsebuje štiri stožce postavljene na kotih pravokotnika, ki meri 10 krat 16 čevljev z dodatnim stožcem na sredini. V primeru da so stožci označeni od 1 do 4 okoli pravokotnika, pri čemer gredo najprej po daljši stranici in je središčni stožec C, se test začne pri 1, nato na C, 2, 3, C, 4 in nazaj na 1."
 
 #: ../src/runType.cs:300
 msgid "This test procedure can be modified by changing the distance between cones, and the number of circuits performed."
@@ -6000,9 +5992,10 @@ msgstr "Gorsko kolesarjenje"
 msgid "Dressage"
 msgstr "Dresura"
 
+# to je ime tekmovanja
 #: ../src/sqlite/speciallity.cs:168
 msgid "Eventing"
-msgstr ""
+msgstr "Eventing"
 
 #: ../src/sqlite/speciallity.cs:169
 msgid "jumping"
@@ -6082,7 +6075,7 @@ msgstr "uporabnik"
 #. will be 2 (it's also written in Constants.SportNoneID
 #: ../src/sqlite/sport.cs:174
 msgid "Aquatics"
-msgstr ""
+msgstr "Vodni športi"
 
 #: ../src/sqlite/sport.cs:175
 msgid "Archery"

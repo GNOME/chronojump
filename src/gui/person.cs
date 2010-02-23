@@ -1119,14 +1119,12 @@ public class PersonAddModifyWindow
 			else
 				label_date.Text = dateTime.ToLongDateString();
 
-			Log.WriteLine("jjjjjjjjjjjjjjjjjjjjjj");
 Log.WriteLine(myPerson.Height.ToString());
 Log.WriteLine(myPerson.Weight.ToString());
 			spinbutton_height.Value = myPerson.Height;
 			spinbutton_weight.Value = myPerson.Weight;
 Log.WriteLine(spinbutton_height.Value.ToString());
 Log.WriteLine(spinbutton_weight.Value.ToString());
-			Log.WriteLine("kkkkkkkkkkkkkkkkkkkkkkkk");
 
 			weightIni = myPerson.Weight; //store for tracking if changes
 		

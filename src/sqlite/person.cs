@@ -68,7 +68,7 @@ class SqlitePerson : Sqlite
 		string myString = "INSERT INTO " + tableName + 
 			" (uniqueID, name, sex, dateBorn, height, weight,  sportID, speciallityID, practice, description, race, countryID, serverUniqueID) VALUES (" + uniqueID + ", '" +
 			name + "', '" + sex + "', '" + UtilDate.ToSql(dateBorn) + "', " + 
-			height + ", " + "-1" + ", " + //"-1" is weight because it's defined in personSesionWeight for allow change between sessions
+			Util.ConvertToPoint(height) + ", " + "-1" + ", " + //"-1" is weight because it's defined in personSesionWeight for allow change between sessions
 			sportID + ", " + speciallityID + ", " + practice + ", '" + description + "', " + 
 			race + ", " + countryID + ", " + serverUniqueID + ")" ;
 		

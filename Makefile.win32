@@ -238,7 +238,9 @@ CHRONOJUMP_RESOURCES =  \
 	-resource:../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
 	-resource:../images/chronojump_320.png,chronojump_320.png \
 	-resource:../images/calendar.png,calendar.png \
-	-resource:../images/chronojump_logo.png,chronojump_logo.png
+	-resource:../images/chronojump_logo.png,chronojump_logo.png \
+	-resource:../images/chronojump-boscosystem.png,chronojump-boscosystem.png \
+	-resource:../images/chronojump-boscosystem_320.png,chronojump-boscosystem_320.png
 
 CHRONOJUMP_REFERENCES = \
 	-pkg:glade-sharp-2.0 \

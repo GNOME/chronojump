@@ -176,6 +176,7 @@ class SqliteStat : Sqlite
 			}
 			//manage allJumps (show jumpType beside name (and sex)) 
 			//but only if it's not an AVG of different jumps
+			//TODO:Catalog?
 			if(jumpType == Constants.AllJumpsName && operationString != "AVG") {
 				showJumpTypeString = " (" + reader[6].ToString() + ")";
 			}
@@ -201,7 +202,7 @@ class SqliteStat : Sqlite
 						+ ":" + Util.ChangeDecimalSeparator(reader[3].ToString())
 						+ ":" + convertWeight(
 							Util.ChangeDecimalSeparator(reader[4].ToString()), 
-							Convert.ToInt32(reader[5].ToString()), weightPercentPreferred
+							Convert.ToDouble(reader[5].ToString()), weightPercentPreferred
 							)
 					    );
 			}
@@ -211,7 +212,7 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
-	private static string convertWeight (string jumpW, int personW, bool percentDesired) {
+	private static string convertWeight (string jumpW, double personW, bool percentDesired) {
 		//if it was a non weight jump, return 0
 		if(jumpW.Length == 0) {
 			return "0";

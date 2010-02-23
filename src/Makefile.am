@@ -292,7 +292,9 @@ RESOURCES = \
 	../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
 	../images/chronojump_320.png,chronojump_320.png \
 	../images/calendar.png,calendar.png \
-	../images/chronojump_logo.png,chronojump_logo.png 
+	../images/chronojump_logo.png,chronojump_logo.png \
+	../images/chronojump-boscosystem.png,chronojump-boscosystem.png \
+	../images/chronojump-boscosystem_320.png,chronojump-boscosystem_320.png 
 
 
 EXTRAS = \

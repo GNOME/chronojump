@@ -47,7 +47,7 @@ class SqliteJump : Sqlite
 			"type TEXT, " +
 			"tv FLOAT, " +
 			"tc FLOAT, " +
-			"fall INT, " +  
+			"fall FLOAT, " +  
 			"weight TEXT, " + //string because can contain "33%" or "50Kg"
 			"description TEXT, " +
 			"angle FLOAT, " + //-1.0 if undef
@@ -64,7 +64,7 @@ class SqliteJump : Sqlite
 	 */
 	
 	//public static int Insert(int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string limited, string description, int simulated)
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, int fall, double weight, string description, double angle, int simulated)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -76,7 +76,7 @@ class SqliteJump : Sqlite
 				" (uniqueID, personID, sessionID, type, tv, tc, fall, weight, description, angle, simulated)" +
 				" VALUES (" + uniqueID + ", "
 				+ personID + ", " + sessionID + ", '" + type + "', "
-				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + fall + ", '" 
+				+ Util.ConvertToPoint(tv) + ", " + Util.ConvertToPoint(tc) + ", " + Util.ConvertToPoint(fall) + ", '" 
 				+ Util.ConvertToPoint(weight) + "', '" + description + "', "
 				+ Util.ConvertToPoint(angle) + ", " + simulated +")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -142,7 +142,7 @@ class SqliteJump : Sqlite
 					reader[4].ToString() + ":" + 	//jump.type
 					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + 	//jump.tv
 					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + 	//jump.tc
-					reader[7].ToString() + ":" + 	//fall
+					Util.ChangeDecimalSeparator(reader[7].ToString()) + ":" + 	//fall
 					Util.ChangeDecimalSeparator(reader[8].ToString()) + ":" + 	//weight
 					reader[9].ToString() + ":" +	//description
 					Util.ChangeDecimalSeparator(reader[10].ToString()) + ":" +	//angle

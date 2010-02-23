@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.75";
+	static string lastChronojumpDatabaseVersion = "0.76";
 
 	public Sqlite() {
 	}
@@ -463,6 +463,7 @@ class Sqlite
 			Log.WriteLine("Old database, need to convert");
 			Log.WriteLine("db version: " + currentVersion);
 			bool needToConvertPersonToSport = false;
+			bool jumpFallAsDouble = false;
 
 			SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
 			SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
@@ -762,6 +763,9 @@ class Sqlite
 				SqlitePreferences.Insert ("showAngle", "False"); 
 				alterTableColumn(new SqliteJump(), Constants.JumpTable, 11);
 
+				//jump fall is also converted to double (don't need to do at conversion to 0.76)
+				jumpFallAsDouble = true;
+
 				SqlitePreferences.Update ("databaseVersion", "0.59", true); 
 				Log.WriteLine("Converted DB to 0.59 (added 'showAngle' to preferences, changed angle on jump to double)"); 
 				conversionRate = 2;
@@ -988,9 +992,25 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.75";
 			}
+			if(currentVersion == "0.75") {
+				conversionRateTotal = 3;
+				conversionRate = 1;
+				dbcon.Open();
+
+				if(!jumpFallAsDouble)
+					alterTableColumn(new SqliteJump(), Constants.JumpTable, 11);
 				
-
-
+				conversionRate++;
+				
+				alterTableColumn(new SqliteJumpRj(), Constants.JumpRjTable, 18);
+				
+				SqlitePreferences.Update ("databaseVersion", "0.76", true); 
+				conversionRate++;
+				
+				Log.WriteLine("Converted DB to 0.76 (jump & jumpRj falls as double)"); 
+				dbcon.Close();
+				currentVersion = "0.76";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1123,6 +1143,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.75 - 0.76 Converted DB to 0.76 (jump & jumpRj falls as double)
 		//0.74 - 0.75 Converted DB to 0.75 (person, and personSessionWeight have height and weight as double)
 		//0.73 - 0.74 Converted DB to 0.74 (All DJ converted to DJna)
 		//0.72 - 0.73 Converted DB to 0.73 (deleted orphaned persons (in person table but not in personSessionWeight table))

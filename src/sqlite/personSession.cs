@@ -202,11 +202,6 @@ class SqlitePersonSession : Sqlite
 			values[11] = reader[11].ToString();
 		}
 
-		Log.WriteLine("11111111111111111");
-		Log.WriteLine(values[3]);
-		Log.WriteLine(values[4]);
-		Log.WriteLine("22222222222222222");
-
 		Person myPerson = new Person(uniqueID, values[0], 
 			values[1], UtilDate.FromSql(values[2]), 
 			Convert.ToDouble(Util.ChangeDecimalSeparator(values[3])), //height

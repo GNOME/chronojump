@@ -230,7 +230,7 @@ Log.WriteLine("doing backup");
 
 			if(Sqlite.ChangeDjToDJna())
 				messageToShowOnBoot += Catalog.GetString("All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms).") + "\n\n"+ 
-					Catalog.GetString("If your Drop Jumps were executed using the arms, please rename them manually as 'DJa'.");
+					Catalog.GetString("If your Drop Jumps were executed using the arms, please rename them manually as 'DJa'.") + "\n";
 
 			bool softwareIsNew = Sqlite.ConvertToLastChronojumpDBVersion();
 			updatingDB = false;
@@ -282,7 +282,8 @@ Log.WriteLine("doing backup");
 		}
 
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
-		if( versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
+		//if( versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
+		if( versionAvailable != Constants.ServerOffline && new Version(versionAvailable) > new Version(progVersion) ) {
 			//check if available version is higher than known available version
 			Version versionAvailableAsV = new Version(versionAvailable);
 
@@ -311,7 +312,8 @@ Log.WriteLine("doing backup");
 
 		//if chronojump chrashed before
 		if(crashedBefore) {
-			if( versionAvailableKnown.Length > 0 && versionAvailableKnown != progVersion ) 
+			//if( versionAvailableKnown.Length > 0 && versionAvailableKnown != progVersion ) 
+			if( versionAvailableKnown.Length > 0 && new Version(versionAvailableKnown) > new Version(progVersion) ) 
 				messageToShowOnBoot += "\n" + Catalog.GetString("Chronojump crashed before.") + "\n" +
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
 			else

@@ -23,7 +23,7 @@ using System.Data;
 using System.Text; //StringBuilder
 using Mono.Unix;
 
-public partial class PersonSession {
+public partial class PersonSessionOld {
 
 	private int uniqueID;
 	private int personID;
@@ -31,10 +31,10 @@ public partial class PersonSession {
 	private double weight;
 
 	
-	public PersonSession() {
+	public PersonSessionOld() {
 	}
 
-	public PersonSession(int uniqueID, int personID, int sessionID, double weight)
+	public PersonSessionOld(int uniqueID, int personID, int sessionID, double weight)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
@@ -43,7 +43,7 @@ public partial class PersonSession {
 	}
 	
 	//typical constructor
-	public PersonSession(int personID, int sessionID, double weight)
+	public PersonSessionOld(int personID, int sessionID, double weight)
 	{
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -53,7 +53,7 @@ public partial class PersonSession {
 		//insert in the personSession table
 		//when insert as personSession we don't know uniqueID
 		uniqueID = -1;
-		int insertedID = this.InsertAtDB(false, Constants.PersonSessionWeightTable);
+		int insertedID = this.InsertAtDB(false, Constants.PersonSessionOldWeightTable);
 
 		//we need uniqueID for personSession
 		uniqueID = insertedID;
@@ -62,7 +62,7 @@ public partial class PersonSession {
 	}
 	
 	//used to select a personSession at Sqlite.convertTables
-	public PersonSession(string [] myString)
+	public PersonSessionOld(string [] myString)
 	{
 		this.uniqueID = Convert.ToInt32(myString[0]);
 		this.personID = Convert.ToInt32(myString[1]);
@@ -84,7 +84,7 @@ public partial class PersonSession {
 		//return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn.ToShortDateString() + ", " + description;
 	}
 	
-	~PersonSession() {}
+	~PersonSessionOld() {}
 	   
 }
 

@@ -470,7 +470,7 @@ class Sqlite
 			SqliteReactionTime sqliteReactionTimeObject = new SqliteReactionTime();
 			SqlitePulse sqlitePulseObject = new SqlitePulse();
 			SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic();
-			SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
+			SqlitePersonSessionOld sqlitePersonSessionOldObject = new SqlitePersonSessionOld();
 
 			if(currentVersion == "0.41") {
 				dbcon.Open();
@@ -620,11 +620,11 @@ class Sqlite
 			
 			if(currentVersion == "0.52") {
 				dbcon.Open();
-				sqlitePersonSessionObject.createTable (); 
+				sqlitePersonSessionOldObject.createTable (); 
 				dbcon.Close();
 				
 				//this needs the dbCon closed
-				SqlitePersonSession.moveOldTableToNewTable (); 
+				SqlitePersonSessionOld.moveOldTableToNewTable (); 
 				
 				dbcon.Open();
 				SqlitePreferences.Update ("databaseVersion", "0.53", true); 
@@ -642,7 +642,7 @@ class Sqlite
 				SqliteSpeciallity.createTable();
 				SqliteSpeciallity.initialize();
 
-				//SqlitePerson.convertTableToSportRelated (); 
+				//SqlitePersonOld.convertTableToSportRelated (); 
 				needToConvertPersonToSport = true;
 				
 				SqlitePreferences.Update ("databaseVersion", "0.54", true); 
@@ -726,7 +726,7 @@ class Sqlite
 				arrayPersonRaceCountryServerID.Add(Constants.RaceUndefinedID.ToString());
 				arrayPersonRaceCountryServerID.Add(Constants.CountryUndefinedID.ToString());
 				arrayPersonRaceCountryServerID.Add(Constants.ServerUndefinedID.ToString());
-				convertTables(new SqlitePerson(), Constants.PersonTable, columnsBefore, arrayPersonRaceCountryServerID, putDescriptionInMiddle);
+				convertTables(new SqlitePersonOld(), Constants.PersonOldTable, columnsBefore, arrayPersonRaceCountryServerID, putDescriptionInMiddle);
 
 				SqlitePreferences.Update ("databaseVersion", "0.57", true); 
 				dbcon.Close();
@@ -980,10 +980,10 @@ class Sqlite
 				
 				dbcon.Open();
 
-				convertTables(new SqlitePerson(), Constants.PersonTable, 13, new ArrayList(), false);
+				convertTables(new SqlitePersonOld(), Constants.PersonOldTable, 13, new ArrayList(), false);
 				conversionRate++;
 				
-				convertTables(new SqlitePersonSession(), Constants.PersonSessionWeightTable, 4, new ArrayList(), false);
+				convertTables(new SqlitePersonSessionOld(), Constants.PersonSessionOldWeightTable, 4, new ArrayList(), false);
 
 				SqlitePreferences.Update ("databaseVersion", "0.75", true); 
 				conversionRate++;
@@ -1349,7 +1349,7 @@ class Sqlite
 	//also used to convert to sqlite 0.73
 	protected internal static void deleteOrphanedPersons()
 	{
-		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable;
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonOldTable;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -1363,8 +1363,8 @@ class Sqlite
 
 		foreach(int personID in myArray) {
 			//if person is not in other sessions, delete it from DB
-			if(! SqlitePersonSession.PersonExistsInPSW(personID))
-				SqlitePerson.Delete(personID);
+			if(! SqlitePersonSessionOld.PersonExistsInPSW(personID))
+				SqlitePersonOld.Delete(personID);
 		}
 	}
 				
@@ -1463,8 +1463,8 @@ class Sqlite
 				myReaderStr[9] = desc;
 			}
 
-			if(tableName == Constants.PersonTable) {	
-				Person myPerson =  new Person(myReaderStr);
+			if(tableName == Constants.PersonOldTable) {	
+				PersonOld myPerson =  new PersonOld(myReaderStr);
 				myArray.Add(myPerson);
 			} else if(tableName == Constants.SessionTable) {	
 				Session mySession = new Session(myReaderStr);
@@ -1472,8 +1472,8 @@ class Sqlite
 			} else if(tableName == Constants.RunIntervalTypeTable) {	
 				RunType myType = new RunType(myReaderStr, true); //interval
 				myArray.Add(myType);
-			} else if(tableName == Constants.PersonSessionWeightTable) {	
-				PersonSession myPS = new PersonSession(myReaderStr);
+			} else if(tableName == Constants.PersonSessionOldWeightTable) {	
+				PersonSessionOld myPS = new PersonSessionOld(myReaderStr);
 				myArray.Add(myPS);
 			} else {
 				Event myEvent =  new Event();	
@@ -1506,9 +1506,9 @@ Console.WriteLine("1" + tableName);
 
 		conversionSubRateTotal = myArray.Count * 2;
 
-		if(tableName == Constants.PersonTable) {	
-			foreach (Person myPerson in myArray) {
-				myPerson.InsertAtDB(true, Constants.ConvertTempTable);
+		if(tableName == Constants.PersonOldTable) {	
+			foreach (PersonOld myPerson in myArray) {
+				myPersonOld.InsertAtDB(true, Constants.ConvertTempTable);
 				conversionSubRate ++;
 			}
 		} else if(tableName == Constants.SessionTable) {	
@@ -1521,8 +1521,8 @@ Console.WriteLine("1" + tableName);
 				type.InsertAtDB(true, Constants.ConvertTempTable, true); //last true is for interval
 				conversionSubRate ++;
 			}
-		} else if(tableName == Constants.PersonSessionWeightTable) {	
-			foreach (PersonSession ps in myArray) {
+		} else if(tableName == Constants.PersonSessionOldWeightTable) {	
+			foreach (PersonSessionOld ps in myArray) {
 				ps.InsertAtDB(true, Constants.ConvertTempTable);
 				conversionSubRate ++;
 			}
@@ -1545,8 +1545,8 @@ Console.WriteLine("3" + tableName);
 Console.WriteLine("4" + tableName);
 
 		//5th insert data in desired table
-		if(tableName == Constants.PersonTable) {	
-			foreach (Person myPerson in myArray) {
+		if(tableName == Constants.PersonOldTable) {	
+			foreach (PersonOld myPerson in myArray) {
 				myPerson.InsertAtDB(true, tableName);
 				conversionSubRate ++;
 			}
@@ -1560,8 +1560,8 @@ Console.WriteLine("4" + tableName);
 				type.InsertAtDB(true, tableName, true); //last true is for interval
 				conversionSubRate ++;
 			}
-		} else if(tableName == Constants.PersonSessionWeightTable) {	
-			foreach (PersonSession ps in myArray) {
+		} else if(tableName == Constants.PersonSessionOldWeightTable) {	
+			foreach (PersonSessionOld ps in myArray) {
 				ps.InsertAtDB(true, tableName);
 				conversionSubRate ++;
 			}

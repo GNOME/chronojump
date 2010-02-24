@@ -23,7 +23,7 @@ using System.Data;
 using System.Text; //StringBuilder
 using Mono.Unix;
 
-public partial class Person {
+public partial class PersonOld {
 
 	private int uniqueID;
 	private string name;
@@ -41,11 +41,11 @@ public partial class Person {
 
 	private int sessionID;
 	
-	public Person() {
+	public PersonOld() {
 	}
 
 	//suitable when we load a person from the database for being the current Person
-	public Person(int uniqueID, string name, string sex, DateTime dateBorn, 
+	public PersonOld(int uniqueID, string name, string sex, DateTime dateBorn, 
 			double height, double weight, int sportID, int speciallityID, int practice, string description,
 		       int race, int countryID, int serverUniqueID	
 			) 
@@ -70,7 +70,7 @@ public partial class Person {
 	}
 	
 	//typical constructor
-	public Person(string name, string sex, DateTime dateBorn, 
+	public PersonOld(string name, string sex, DateTime dateBorn, 
 			double height, double weight, int sportID, int speciallityID, int practice, string description,
 		       int race, int countryID, int serverUniqueID,	
 			int sessionID) 
@@ -95,7 +95,7 @@ public partial class Person {
 		//insert in the person table
 		//when insert as person we don't know uniqueID
 		uniqueID = -1;
-		int insertedID = this.InsertAtDB(false, Constants.PersonTable);
+		int insertedID = this.InsertAtDB(false, Constants.PersonOldTable);
 
 		//we need uniqueID for personSession
 		uniqueID = insertedID;
@@ -103,11 +103,11 @@ public partial class Person {
 		Log.WriteLine(this.ToString());
 
 		//insert in the personSession table (fast way of knowing who was in each session)
-		SqlitePersonSession.Insert (false, Constants.PersonSessionWeightTable, "-1", uniqueID, sessionID, weight);
+		SqlitePersonSession.Insert (false, Constants.PersonSessionOldWeightTable, "-1", uniqueID, sessionID, weight);
 	}
 	
 	//used to select a person at Sqlite.convertTables
-	public Person(string [] myString)
+	public PersonOld(string [] myString)
 	{
 		this.uniqueID = Convert.ToInt32(myString[0]);
 		this.name = myString[1];
@@ -226,7 +226,7 @@ public partial class Person {
 	}
 	
 	
-	~Person() {}
+	~PersonOld() {}
 	   
 }
 

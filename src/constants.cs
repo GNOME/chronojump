@@ -62,10 +62,14 @@ public class Constants
 	//sqlite tables
 	//instead of typing the tableName directly (that can crash if it's bad written and it's not detected by compiler)
 	//use the following consts, and if it's misspelled, compiler will know
-	public const string PersonTable = "person";
+	public const string PersonTable = "person77";
+	public const string PersonSessionTable = "personSession77";
+	
+	public const string PersonOldTable = "person";
+	public const string PersonSessionOldTable = "personSession"; //old table, used before db 0.53
+	public const string PersonSessionOldWeightTable = "personSessionWeight"; //old table, used from db 0.53 to 0.76
+
 	public const string SessionTable = "session";
-	public const string PersonSessionTable = "personSession";
-	public const string PersonSessionWeightTable = "personSessionWeight";
 	public const string PersonNotUploadTable = "personSessionNotUpload"; 
 	public const string SportTable = "sport";
 	public const string SpeciallityTable = "speciallity";

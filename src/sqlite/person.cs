@@ -451,6 +451,32 @@ finishForeach:
 		return arrayAll;
 	}
 	
+	public static bool ExistsAndItsNotMe(int uniqueID, string personName)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable +
+			" WHERE LOWER(person.name) == LOWER('" + personName + "')" +
+			" AND uniqueID != " + uniqueID ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		bool exists = new bool();
+		exists = false;
+		
+		if (reader.Read()) {
+			exists = true;
+			//Log.WriteLine("valor {0}", reader[0].ToString());
+		}
+		//Log.WriteLine("exists = {0}", exists.ToString());
+
+		reader.Close();
+		dbcon.Close();
+		return exists;
+	}
+	
+	
 	public static void Update(Person myPerson)
 	{
 		dbcon.Open();

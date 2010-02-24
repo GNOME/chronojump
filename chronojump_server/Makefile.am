@@ -24,8 +24,6 @@ FILES = \
 	../src/sqlite/*.cs\
 	../src/util.cs\
 	../src/utilDate.cs\
-	../src/person.cs\
-	../src/personSession.cs\
 	../src/event.cs\
 	../src/jump.cs\
 	../src/run.cs\
@@ -41,7 +39,10 @@ FILES = \
 	../src/sport.cs\
  	../src/log.cs\
 	../src/serverPing.cs\
-	../src/serverEvaluator.cs
+	../src/serverEvaluator.cs\
+	../src/oldCodeNeedToDBConvert/person.cs\
+	../src/oldCodeNeedToDBConvert/personSession.cs\
+	../src/oldCodeNeedToDBConvert/sqlite/*.cs\
 	
 
 

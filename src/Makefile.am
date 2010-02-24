@@ -120,7 +120,6 @@ FILES = \
 	stats/graphs/rjAVGSD.cs\
 	sqlite/main.cs\
  	sqlite/preferences.cs\
- 	sqlite/person.cs\
  	sqlite/session.cs\
  	sqlite/jump.cs\
  	sqlite/jumpRj.cs\
@@ -128,7 +127,6 @@ FILES = \
  	sqlite/run.cs\
  	sqlite/runInterval.cs\
  	sqlite/runType.cs\
- 	sqlite/personSession.cs\
  	sqlite/personSessionNotUpload.cs\
  	sqlite/stat.cs\
  	sqlite/pulse.cs\
@@ -149,8 +147,6 @@ FILES = \
 	../chronojump_server/ChronojumpServer.cs\
 	AssemblyInfo.cs\
 	chronojump.cs\
- 	person.cs\
- 	personSession.cs\
  	event.cs\
  	eventType.cs\
  	jump.cs\
@@ -184,7 +180,11 @@ FILES = \
  	serverPing.cs\
  	serverEvaluator.cs\
  	server.cs\
-	chronopic.cs
+	chronopic.cs\
+ 	oldCodeNeedToDBConvert/person.cs\
+ 	oldCodeNeedToDBConvert/personSession.cs\
+ 	oldCodeNeedToDBConvert/sqlite/person.cs\
+ 	oldCodeNeedToDBConvert/sqlite/personSession.cs
 
 CHRONOJUMP_MINI_FILES=\
 	chronojump_mini.cs\

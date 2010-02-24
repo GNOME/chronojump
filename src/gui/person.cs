@@ -1119,12 +1119,8 @@ public class PersonAddModifyWindow
 			else
 				label_date.Text = dateTime.ToLongDateString();
 
-Log.WriteLine(myPerson.Height.ToString());
-Log.WriteLine(myPerson.Weight.ToString());
 			spinbutton_height.Value = myPerson.Height;
 			spinbutton_weight.Value = myPerson.Weight;
-Log.WriteLine(spinbutton_height.Value.ToString());
-Log.WriteLine(spinbutton_weight.Value.ToString());
 
 			weightIni = myPerson.Weight; //store for tracking if changes
 		
@@ -1371,7 +1367,7 @@ Log.WriteLine(spinbutton_weight.Value.ToString());
 		if(adding)
 			personExists = Sqlite.Exists (Constants.PersonTable, Util.RemoveTilde(entry1.Text));
 		else
-			personExists = SqlitePersonSession.PersonExistsAndItsNotMe (personID, Util.RemoveTilde(entry1.Text));
+			personExists = SqlitePerson.ExistsAndItsNotMe (personID, Util.RemoveTilde(entry1.Text));
 
 		string errorMessage = "";
 

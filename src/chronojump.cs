@@ -282,7 +282,6 @@ Log.WriteLine("doing backup");
 		}
 
 		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
-		//if( versionAvailable != Constants.ServerOffline && versionAvailable != progVersion ) {
 		if( versionAvailable != Constants.ServerOffline && new Version(versionAvailable) > new Version(progVersion) ) {
 			//check if available version is higher than known available version
 			Version versionAvailableAsV = new Version(versionAvailable);
@@ -312,7 +311,6 @@ Log.WriteLine("doing backup");
 
 		//if chronojump chrashed before
 		if(crashedBefore) {
-			//if( versionAvailableKnown.Length > 0 && versionAvailableKnown != progVersion ) 
 			if( versionAvailableKnown.Length > 0 && new Version(versionAvailableKnown) > new Version(progVersion) ) 
 				messageToShowOnBoot += "\n" + Catalog.GetString("Chronojump crashed before.") + "\n" +
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";

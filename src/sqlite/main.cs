@@ -665,7 +665,7 @@ class Sqlite
 			if(currentVersion == "0.55") {
 				dbcon.Open();
 
-				SqliteSession.convertTableAddingSportStuff();
+				SqliteSessionOld.convertTableAddingSportStuff();
 
 				SqlitePreferences.Update ("databaseVersion", "0.56", true); 
 				dbcon.Close();
@@ -955,7 +955,7 @@ class Sqlite
 			if(currentVersion == "0.72") {
 				dbcon.Open();
 				
-				deleteOrphanedPersons();
+				deleteOrphanedPersonsOld();
 
 				SqlitePreferences.Update ("databaseVersion", "0.73", true); 
 				
@@ -1346,8 +1346,31 @@ class Sqlite
 	}
 
 	//used to delete persons (if needed) when a session is deleted. See SqliteSession.DeleteAllStuff
-	//also used to convert to sqlite 0.73
 	protected internal static void deleteOrphanedPersons()
+	{
+		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		ArrayList myArray = new ArrayList(1);
+
+		while(reader.Read())
+			myArray.Add (Convert.ToInt32(reader[0]));
+		reader.Close();
+
+		foreach(int personID in myArray) {
+			//if person is not in other sessions, delete it from DB
+			if(! SqlitePersonSession.PersonExistsInPSW(personID))
+				SqlitePerson.Delete(personID);
+		}
+	}
+				
+	//used to delete persons (if needed) when a session is deleted. See SqliteSession.DeleteAllStuff
+	//also used to convert to sqlite 0.73
+	//this is old method (before .77), now use above method
+	protected internal static void deleteOrphanedPersonsOld()
 	{
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonOldTable;
 		Log.WriteLine(dbcmd.CommandText.ToString());

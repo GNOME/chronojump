@@ -179,7 +179,6 @@ public class Server
 			}
 
 			state = (int) Constants.ServerSessionStates.UPLOADINGDATA;
-			//myServer.UpdateSession(currentSession.ServerUniqueID, (ServerSessionStates) Constants.ServerSessionStates.UPLOADINGDATA); 
 			myServer.UpdateSession(currentSession.ServerUniqueID, state); 
 
 			sessionUploadPersonData.testTypes = "";
@@ -188,7 +187,6 @@ public class Server
 			string sportsSeparator = "";
 
 			//upload persons (updating also person.serverUniqueID locally)
-			//string [] myPersons = SqlitePersonSession.SelectCurrentSession(serverSession.UniqueID, true, false); //onlyIDAndName, not reversed
 			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(serverSession.UniqueID); 
 			
 			Constants.UploadCodes uCode;
@@ -197,8 +195,6 @@ public class Server
 			//store in variable for updating progressBar from other thread
 			progressBarPersonsNum = myPersons.Length - notToUpload.Count;
 
-			//foreach(string personStr in myPersons) {
-			//	Person person = SqlitePersonSession.PersonSelect(Util.FetchID(personStr), serverSession.UniqueID); 
 			foreach(Person person in persons) {
 
 				//do not continue with this person if has been banned to upload
@@ -213,7 +209,6 @@ public class Server
 				else {
 					uCode = Constants.UploadCodes.OK;
 
-					//person = serverUploadPerson(myServer, person, serverSession.UniqueID, sportUserDefinedLocal);
 					person = serverUploadPerson(myServer, person, serverSession.UniqueID);
 				}
 					
@@ -545,7 +540,6 @@ public class Server
 	
 	
 	//upload a person
-	//private static Person serverUploadPerson(ChronojumpServer myServer, Person person, int serverSessionID, int sportUserDefinedLocal) 
 	private static Person serverUploadPerson(ChronojumpServer myServer, Person person, int serverSessionID) 
 	{
 		int idAtServer = myServer.UploadPerson(person, serverSessionID);
@@ -558,7 +552,6 @@ public class Server
 		return person;
 	}
 
-	//private static void serverUploadPersonSessionIfNeeded(ChronojumpServer myServer, int personServerID, int sessionServerID, double weight)
 	private static void serverUploadPersonSessionIfNeeded(ChronojumpServer myServer, 
 			int personServerID, int sessionServerID, PersonSession ps, int sportUserDefinedLocal)
 	{
@@ -567,7 +560,7 @@ public class Server
 			ps.SportID = sportUserDefinedLocal;
 
 		ps.PersonID = personServerID;
-		ps.ServerID = sessionServerID;
+		ps.SessionID = sessionServerID;
 		myServer.UploadPersonSessionIfNeeded(ps);
 	}
 
@@ -584,10 +577,6 @@ public class Server
 			uCode = Constants.UploadCodes.EXISTS;
 		} else {
 			int idAtServer = -1;
-			//idAtServer = myServer.UploadTest((Event) myTest, (TestTypes) type, tableName);
-			//int testType = (int) type;
-			//idAtServer = myServer.UploadTest((Event) myTest, testType, tableName);
-
 			switch (type) {
 				case Constants.TestTypes.JUMP :
 					Jump jump = (Jump)myTest;

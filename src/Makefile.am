@@ -184,7 +184,8 @@ FILES = \
  	oldCodeNeedToDBConvert/person.cs\
  	oldCodeNeedToDBConvert/personSession.cs\
  	oldCodeNeedToDBConvert/sqlite/person.cs\
- 	oldCodeNeedToDBConvert/sqlite/personSession.cs
+ 	oldCodeNeedToDBConvert/sqlite/personSession.cs\
+ 	oldCodeNeedToDBConvert/sqlite/session.cs
 
 CHRONOJUMP_MINI_FILES=\
 	chronojump_mini.cs\

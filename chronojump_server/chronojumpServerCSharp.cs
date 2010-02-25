@@ -291,11 +291,11 @@ public class ChronojumpServer {
 	}
 	
 	[WebMethod(Description="Upload person session if needed")]
-	public int UploadPersonSessionIfNeeded(int personServerID, int sessionServerID, double weight)
+	public int UploadPersonSessionIfNeeded(PersonSession ps)
 	{
-		if(!SqlitePersonSession.PersonSelectExistsInSession(personServerID, sessionServerID)) {
+		if(!SqlitePersonSession.PersonSelectExistsInSession(ps.PersonID, ps.SessionID)) {
 			Console.WriteLine("personSession needed");
-			SqlitePersonSession.Insert (false, Constants.PersonSessionWeightTable, "-1", personServerID, sessionServerID, weight);
+			ps.InsertAtDB(false, Constants.PersonSession);
 			Console.WriteLine("done");
 			return 1; //unused
 		} else 

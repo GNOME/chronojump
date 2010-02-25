@@ -784,7 +784,8 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Entry entry1;
 	[Widget] Gtk.RadioButton radiobutton_man;
 	[Widget] Gtk.RadioButton radiobutton_woman;
-	[Widget] Gtk.TextView textview2;
+	[Widget] Gtk.TextView textview_description;
+	[Widget] Gtk.TextView textview_ps_comments;
 	
 	[Widget] Gtk.Label label_date;
 	//[Widget] Gtk.Button button_change_date;
@@ -1131,7 +1132,7 @@ public class PersonAddModifyWindow
 
 			TextBuffer tb = new TextBuffer (new TextTagTable());
 			tb.Text = myPerson.Description;
-			textview2.Buffer = tb;
+			textview_description.Buffer = tb;
 
 			//country stuff
 			if(myPerson.CountryID != Constants.CountryUndefinedID) {
@@ -1445,7 +1446,7 @@ public class PersonAddModifyWindow
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview2.Buffer.Text,
+					textview_description.Buffer.Text,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					Constants.ServerUndefinedID,
@@ -1457,7 +1458,7 @@ public class PersonAddModifyWindow
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview2.Buffer.Text,
+					textview_description.Buffer.Text,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					serverUniqueID);

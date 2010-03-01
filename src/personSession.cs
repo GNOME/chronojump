@@ -45,6 +45,8 @@ public partial class PersonSession {
 			double height, double weight, int sportID, 
 			int speciallityID, int practice, string comments)
 	{
+		comments = Util.RemoveTildeAndColon(comments);
+
 		this.uniqueID = uniqueID;
 		this.personID = personID;
 		this.sessionID = sessionID;
@@ -63,6 +65,8 @@ public partial class PersonSession {
 			double height, double weight, int sportID, 
 			int speciallityID, int practice, string comments)
 	{
+		comments = Util.RemoveTildeAndColon(comments);
+
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.height = height;
@@ -72,7 +76,6 @@ public partial class PersonSession {
 		this.practice = practice;
 		this.comments = comments;
 		
-
 		//insert in the personSession table
 		//when insert as personSession we don't know uniqueID
 		uniqueID = -1;

@@ -38,6 +38,12 @@ public partial class Person {
 	
 	public Person() {
 	}
+	
+	//used when we create a new person, then uniqueID is -1
+	public Person(int uniqueID) {
+		this.uniqueID = uniqueID;
+	}
+
 
 	//suitable when we load a person from the database for being the current Person
 	//we know uniqueID

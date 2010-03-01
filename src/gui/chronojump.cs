@@ -1983,7 +1983,7 @@ public class ChronoJumpWindow
 	
 	private void on_recuperate_person_activate (object o, EventArgs args) {
 		Log.WriteLine("recuperate person");
-		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession.UniqueID);
+		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, prefsDigitsNumber);
 		personRecuperateWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 
@@ -2021,8 +2021,9 @@ public class ChronoJumpWindow
 	}
 		
 	private void on_person_add_single_activate (object o, EventArgs args) {
-		//personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, -1, prefsDigitsNumber); 
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, new Person(-1), prefsDigitsNumber); 
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, 
+				currentSession, new Person(-1), 
+				prefsDigitsNumber, false); //don't comes from recuperate window
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
 		
@@ -2081,7 +2082,8 @@ public class ChronoJumpWindow
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
 		Log.WriteLine("modify person");
 		//personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID, prefsDigitsNumber);
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, prefsDigitsNumber);
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
+				prefsDigitsNumber, false); //don't comes from recuperate window
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	

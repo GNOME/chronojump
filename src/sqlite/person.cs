@@ -119,7 +119,7 @@ class SqlitePerson : Sqlite
 		return myArray;
 	}
 		
-	public static string[] SelectAllPersonsRecuperable(string sortedBy, int except, int inSession, string searchFilterName) 
+	public static ArrayList SelectAllPersonsRecuperable(string sortedBy, int except, int inSession, string searchFilterName) 
 	{
 		//sortedBy = name or uniqueID (= creation date)
 	
@@ -204,7 +204,7 @@ finishForeach:
 						Convert.ToInt32(reader2[0].ToString()), //uniqueID
 						reader2[1].ToString(), 			//name
 						reader2[2].ToString(), 			//sex
-						UtilDate.FromSql(reader2[3].ToString()).ToShortDateString(), //dateBorn
+						UtilDate.FromSql(reader2[3].ToString()),//dateBorn
 						Convert.ToInt32(reader2[4].ToString()), //race
 						Convert.ToInt32(reader2[5].ToString()), //countryID
 						reader2[6].ToString(), 			//description

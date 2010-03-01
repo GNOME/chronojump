@@ -2021,7 +2021,8 @@ public class ChronoJumpWindow
 	}
 		
 	private void on_person_add_single_activate (object o, EventArgs args) {
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, -1, prefsDigitsNumber); 
+		//personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, -1, prefsDigitsNumber); 
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, new Person(-1), prefsDigitsNumber); 
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
 		
@@ -2079,7 +2080,8 @@ public class ChronoJumpWindow
 	
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
 		Log.WriteLine("modify person");
-		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID, prefsDigitsNumber);
+		//personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID, prefsDigitsNumber);
+		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, prefsDigitsNumber);
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	

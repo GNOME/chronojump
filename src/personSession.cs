@@ -55,10 +55,10 @@ public partial class PersonSession {
 		this.practice = practice;
 		this.comments = comments;
 	}
-	
-	//typical constructor
+
 	//creation
-	//we don't know uniqueID
+	//we know personID but not personSession.UniqueID
+	//this adds to database
 	public PersonSession(int personID, int sessionID,
 			double height, double weight, int sportID, 
 			int speciallityID, int practice, string comments)
@@ -77,8 +77,6 @@ public partial class PersonSession {
 		//when insert as personSession we don't know uniqueID
 		uniqueID = -1;
 		int insertedID = this.InsertAtDB(false, Constants.PersonSessionTable);
-
-		//we need uniqueID for personSession
 		uniqueID = insertedID;
 
 		Log.WriteLine(this.ToString());

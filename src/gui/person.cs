@@ -848,6 +848,7 @@ public class PersonAddModifyWindow
 
 	private Person currentPerson;
 	private Session currentSession;
+	private PersonSession currentPersonSession;
 	private int personID;
 	private string sex = Constants.M;
 	private double weightIni;
@@ -858,7 +859,7 @@ public class PersonAddModifyWindow
 	//
 	//if we are adding a person, personID it's -1
 	//if we are modifying a person, personID is obviously it's ID
-	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, int personID) {
+	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
 		gladeXML.Autoconnect(this);
@@ -868,9 +869,9 @@ public class PersonAddModifyWindow
 	
 		this.parent = parent;
 		this.currentSession = currentSession;
-		this.personID = personID;
+		this.currentPerson = currentPerson;
 
-		if(personID == -1)
+		if(currentPerson.UniqueID == -1)
 			adding = true;
 		else
 			adding = false;
@@ -965,10 +966,10 @@ public class PersonAddModifyWindow
 		sex = Constants.F;
 	}
 	
-	static public PersonAddModifyWindow Show (Gtk.Window parent, Session mySession, int personID, int pDN)
+	static public PersonAddModifyWindow Show (Gtk.Window parent, Session mySession, Person currentPerson, int pDN)
 	{
 		if (PersonAddModifyWindowBox == null) {
-			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, personID);
+			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
@@ -1105,45 +1106,52 @@ public class PersonAddModifyWindow
 			mySpeciallityID = currentSession.PersonsSpeciallityID;
 			myLevelID = currentSession.PersonsPractice;
 		} else {
-			Person myPerson = SqlitePersonSession.PersonSelect(personID, currentSession.UniqueID); 
-		
-			entry1.Text = myPerson.Name;
-			if (myPerson.Sex == Constants.M) {
+			//PERSON STUFF
+			entry1.Text = currentPerson.Name;
+			if (currentPerson.Sex == Constants.M) {
 				radiobutton_man.Active = true;
 			} else {
 				radiobutton_woman.Active = true;
 			}
 
-			dateTime = myPerson.DateBorn;
+			dateTime = currentPerson.DateBorn;
 			if(dateTime == DateTime.MinValue)
 				label_date.Text = Catalog.GetString("Undefined");
 			else
 				label_date.Text = dateTime.ToLongDateString();
-
-			spinbutton_height.Value = myPerson.Height;
-			spinbutton_weight.Value = myPerson.Weight;
-
-			weightIni = myPerson.Weight; //store for tracking if changes
-		
-			mySportID = myPerson.SportID;
-			mySpeciallityID = myPerson.SpeciallityID;
-			myLevelID = myPerson.Practice;
-
-
-			TextBuffer tb = new TextBuffer (new TextTagTable());
-			tb.Text = myPerson.Description;
-			textview_description.Buffer = tb;
-
 			//country stuff
-			if(myPerson.CountryID != Constants.CountryUndefinedID) {
-				string [] countryString = SqliteCountry.Select(myPerson.CountryID);
+			if(currentPerson.CountryID != Constants.CountryUndefinedID) {
+				string [] countryString = SqliteCountry.Select(currentPerson.CountryID);
 				combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
 						Catalog.GetString(countryString[3]));
 				combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
 						Catalog.GetString(countryString[1]));
 			}
 
-			serverUniqueID = myPerson.ServerUniqueID;
+			tb.Text = currentPerson.Description;
+			textview_description.Buffer = tb;
+			
+			serverUniqueID = currentPerson.ServerUniqueID;
+			
+
+			//PERSONSESSION STUFF
+			//select a personSession of last session
+			//to obtain it's attributes
+			PersonSession myPS = SqlitePersonSession.Select(currentPerson.UniqueID, -1);
+
+			spinbutton_height.Value = myPS.Height;
+			spinbutton_weight.Value = myPS.Weight;
+
+			weightIni = myPS.Weight; //store for tracking if changes
+		
+			mySportID = myPS.SportID;
+			mySpeciallityID = myPS.SpeciallityID;
+			myLevelID = myPS.Practice;
+
+			TextBuffer tb = new TextBuffer (new TextTagTable());
+			tb.Text = myPS.Comments;
+			textview_comments.Buffer = tb;
+
 		}
 			
 		sport = SqliteSport.Select(mySportID);
@@ -1440,34 +1448,46 @@ public class PersonAddModifyWindow
 
 
 		if(adding) {
-			//currentPerson = new Person (entry1.Text, sex, dateFull, 
+			//here we add rows in the database
 			currentPerson = new Person (entry1.Text, sex, dateTime, 
-					(double) spinbutton_height.Value, (double) weight, 
-					sport.UniqueID, 
-					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
-					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview_description.Buffer.Text,
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
+					textview_description.Buffer.Text,
 					Constants.ServerUndefinedID,
 					currentSession.UniqueID);
-		} else {
-			//currentPerson = new Person (personID, entry1.Text, sex, dateFull, 
-			currentPerson = new Person (personID, entry1.Text, sex, dateTime, 
+					
+			currentPersonSession = new PersonSession (
+					currentPerson.UniqueID, currentSession.UniqueID, 
 					(double) spinbutton_height.Value, (double) weight, 
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview_description.Buffer.Text,
+					textview_comments.Buffer.Text);
+		} else {
+			//here we update rows in the database
+			currentPerson = new Person (personID, entry1.Text, sex, dateTime, 
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
+					textview_description.Buffer.Text,
 					serverUniqueID);
-			
 			SqlitePerson.Update (currentPerson); 
-		
-			//change weight if needed
-			if((double) spinbutton_weight.Value != weightIni)
-				SqlitePersonSession.UpdateWeight (currentPerson.UniqueID, currentSession.UniqueID, (double) spinbutton_weight.Value); 
+
+			//person session stuff
+			//1.- search uniqueID
+			PersonSession ps = SqlitePersonSession.Select(personID, currentSession.UniqueID);
+			
+			//2.- create new instance with data from gui
+			currentPersonSession = new PersonSession (
+					ps.UniqueID,
+					currentPerson.UniqueID, currentSession.UniqueID, 
+					(double) spinbutton_height.Value, (double) weight, 
+					sport.UniqueID, 
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
+					textview_comments.Buffer.Text);
+			
+			//3.- update in database
+			SqlitePersonSession.Update (currentPersonSession); 
 		}
 
 		fakeButtonAccept.Click();
@@ -1486,11 +1506,12 @@ public class PersonAddModifyWindow
 		get { return fakeButtonAccept; }
 	}
 
-	public Person CurrentPerson 
-	{
-		get {
-			return currentPerson;
-		}
+	public Person CurrentPerson {
+		get { return currentPerson; }
+	}
+	
+	public PersonSession CurrentPersonSession {
+		get { return currentPersonSession; }
 	}
 	
 }

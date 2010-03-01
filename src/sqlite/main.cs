@@ -1362,7 +1362,7 @@ class Sqlite
 
 		foreach(int personID in myArray) {
 			//if person is not in other sessions, delete it from DB
-			if(! SqlitePersonSession.PersonExistsInPSW(personID))
+			if(! SqlitePersonSession.PersonExistsInPS(personID))
 				SqlitePerson.Delete(personID);
 		}
 	}
@@ -1386,7 +1386,7 @@ class Sqlite
 
 		foreach(int personID in myArray) {
 			//if person is not in other sessions, delete it from DB
-			if(! SqlitePersonSessionOld.PersonExistsInPSW(personID))
+			if(! SqlitePersonSessionOld.PersonExistsInPS(personID))
 				SqlitePersonOld.Delete(personID);
 		}
 	}

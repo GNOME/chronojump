@@ -126,6 +126,24 @@ class SqlitePersonSession : Sqlite
 		return myReturn;
 	}
 	
+	public static void Update(PersonSession ps)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
+			" SET personID = " + ps.PersonID + 
+			" SET sessionID = " + ps.SessionID + 
+			" SET height = " + Util.ConvertToPoint(ps.Height) + 
+			" SET weight = " + Util.ConvertToPoint(ps.Weight) + 
+			" SET sportID = " + ps.SportID + 
+			" SET speciallityID = " + ps.SpeciallityID + 
+			" SET practice = " + ps.Practice + 
+			" SET comments = '" + ps.Comments + 
+			"' WHERE uniqueID == " + ps.UniqueID;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+
 	//double
 	public static void UpdateAttribute(int personID, int sessionID, string attribute, double attrValue)
 	{
@@ -161,15 +179,24 @@ class SqlitePersonSession : Sqlite
 		dbcon.Close();
 		return exists;
 	}
-	
+
+	//if sessionID == -1
+	//then we search data in last sessionID
+	//this is used to know personSession attributes
+	//in a newly created person	
 	public static PersonSession Select(int personID, int sessionID)
 	{
 		string tps = Constants.PersonSessionTable;
+			
+		string sessionIDString = "";
+		if(sessionID == -1)
+			sessionIDString = " AND sessionID == " + sessionID +
+				" ORDER BY sessionID DESC limit 1";
 
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * FROM " + tps +
 			" WHERE uniqueID == " + uniqueID + 
-			" AND sessionID == " + sessionID;
+			sessionIDString;
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		
@@ -319,7 +346,7 @@ class SqlitePersonSession : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		//if person is not in other sessions, delete it from DB
-		if(! PersonExistsInPSW(Convert.ToInt32(personID)))
+		if(! PersonExistsInPS(Convert.ToInt32(personID)))
 			SqlitePerson.Delete(Convert.ToInt32(personID));
 				
 		//delete normal jumps
@@ -367,7 +394,7 @@ class SqlitePersonSession : Sqlite
 		dbcon.Close();
 	}
 
-	public static bool PersonExistsInPSW(int personID)
+	public static bool PersonExistsInPS(int personID)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable + 
 			" WHERE personID == " + personID;

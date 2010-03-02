@@ -656,9 +656,8 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		createComboSelectCheckboxes();
 		createCheckboxes(treeview_person_recuperate);
 		
-		store = new TreeStore( typeof (bool), typeof (string), typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof(string), typeof(string),
-				typeof (string), typeof(string), typeof(string) );
+		store = new TreeStore( typeof (bool), 
+				typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
 		createTreeView(treeview_person_recuperate, 1);
 		treeview_person_recuperate.Model = store;
 		
@@ -689,8 +688,6 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 	
 	private void fillTreeView (Gtk.TreeView tv, TreeStore store, int sessionID, ArrayList initiallyUnchecked ) 
 	{
-		string [] myPersons;
-		
 		/*
 		   this is a bit weird because we use Sqlite.SelectAllPersonsRecuperable as inherithed methods 
 		   that slq method needs a session where we want to search and a session not to search (current session)
@@ -698,23 +695,17 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		   we continue using method SelectAllPersonsRecuperable because we want same output columns
 		   */
 
-		myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, sessionID, ""); //"" is searchFilterName (not implemented on recuperate multiple)
+		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, sessionID, ""); //"" is searchFilterName (not implemented on recuperate multiple)
 
-		 
-		foreach (string person in myPersons) {
-			string [] myStringFull = person.Split(new char[] {':'});
-
+		foreach (Person person in myPersons) {
 			store.AppendValues (
-					! Util.FoundInArrayList(initiallyUnchecked, myStringFull[0]), 
-					myStringFull[0], myStringFull[1], 
-					getCorrectSex(myStringFull[2]), myStringFull[4], myStringFull[5],
-					myStringFull[3], 
-					myStringFull[6], //sport
-					myStringFull[7], //speciallity
-					myStringFull[8], //level (practice)
-					myStringFull[9] //desc
-					);
-		}
+					! Util.FoundInArrayList(initiallyUnchecked, person.UniqueID), 
+					person.UniqueID, 
+					person.Name, 
+					getCorrectSex(person.Sex), 
+					person.DateBorn.ToShortDateString(), 
+					person.Description);
+		}	
 		
 		//show sorted by column Name	
 		store.SetSortColumnId(2, Gtk.SortType.Ascending);

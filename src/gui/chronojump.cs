@@ -2003,7 +2003,7 @@ public class ChronoJumpWindow
 		
 	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
 		Log.WriteLine("recuperate persons from other session");
-		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession.UniqueID);
+		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession.);
 		personsRecuperateFromOtherSessionWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
 	

@@ -81,7 +81,6 @@ CHRONOJUMP_FILES = \
 	stats/graphs/rjAVGSD.cs\
 	sqlite/main.cs\
  	sqlite/preferences.cs\
- 	sqlite/person.cs\
  	sqlite/session.cs\
  	sqlite/jump.cs\
  	sqlite/jumpRj.cs\
@@ -89,6 +88,7 @@ CHRONOJUMP_FILES = \
  	sqlite/run.cs\
  	sqlite/runInterval.cs\
  	sqlite/runType.cs\
+ 	sqlite/person.cs\
  	sqlite/personSession.cs\
  	sqlite/personSessionNotUpload.cs\
  	sqlite/stat.cs\
@@ -145,7 +145,12 @@ CHRONOJUMP_FILES = \
  	serverPing.cs\
  	serverEvaluator.cs\
  	server.cs\
-	chronopic.cs
+	chronopic.cs\
+ 	oldCodeNeedToDBConvert/person.cs\
+ 	oldCodeNeedToDBConvert/personSession.cs\
+ 	oldCodeNeedToDBConvert/sqlite/person.cs\
+ 	oldCodeNeedToDBConvert/sqlite/personSession.cs\
+ 	oldCodeNeedToDBConvert/sqlite/session.cs
 
 CHRONOJUMP_RESOURCES =  \
 	-resource:../glade/chronojump.glade\

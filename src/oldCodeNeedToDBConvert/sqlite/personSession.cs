@@ -106,6 +106,27 @@ class SqlitePersonSessionOld : Sqlite
 		}
 	}
 	
+	public static bool PersonExistsInPS(int personID)
+	{
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionOldTable + 
+			" WHERE personID == " + personID;
+		//Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		bool exists = new bool();
+		exists = false;
+		
+		if (reader.Read()) {
+			exists = true;
+		}
+
+		reader.Close();
+		return exists;
+	}
+
+	
 	/* 
 	 * conversion from database 0.52 to 0.53 (add weight into personSession)
 	 * now weight of a person can change every session

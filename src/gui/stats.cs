@@ -526,8 +526,13 @@ public class StatsWindow {
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions, "");
 			combo_stats_stat_subtype.Sensitive = false;
 			
-			UtilGtk.ComboUpdate(combo_stats_stat_apply_to,  
-				SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false), ""); //onlyIDAndName, not reversed
+			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+			string [] personsStrings = new String[persons.Count];
+			int i=0;
+			foreach (Person person in persons) 
+				personsStrings[i++] = person.IDAndName(":");
+
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, personsStrings, "");
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 

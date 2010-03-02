@@ -27,6 +27,8 @@ FILES = \
 	../src/event.cs\
 	../src/jump.cs\
 	../src/run.cs\
+	../src/person.cs\
+	../src/personSession.cs\
 	../src/pulse.cs\
 	../src/reactionTime.cs\
 	../src/session.cs\

@@ -71,7 +71,7 @@ public partial class PersonSessionOld {
 	}
 
 	public int InsertAtDB (bool dbconOpened, string tableName) {
-		int myID = SqlitePersonSession.Insert(dbconOpened, tableName, 
+		int myID = SqlitePersonSessionOld.Insert(dbconOpened, tableName, 
 				uniqueID.ToString(),
 				personID, sessionID, weight);
 		return myID;

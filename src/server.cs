@@ -193,9 +193,10 @@ public class Server
 			ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
 			
 			//store in variable for updating progressBar from other thread
-			progressBarPersonsNum = myPersons.Length - notToUpload.Count;
+			progressBarPersonsNum = persons.Count - notToUpload.Count;
 
-			foreach(Person person in persons) {
+			foreach(Person p in persons) {
+				Person person = p;
 
 				//do not continue with this person if has been banned to upload
 				if(Util.FoundInArrayList(notToUpload, person.UniqueID.ToString()))

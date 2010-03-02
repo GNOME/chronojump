@@ -282,6 +282,7 @@ public class ChronoJumpWindow
 
 	private static Person currentPerson;
 	private static Session currentSession;
+	private static PersonSession currentPersonSession;
 	private static bool definedSession;
 	private static Jump currentJump;
 	private static JumpRj currentJumpRj;
@@ -721,9 +722,9 @@ public class ChronoJumpWindow
 	}
 
 	private void fillTreeView_persons () {
-		string [] myPersons = SqlitePersonSession.SelectCurrentSession(currentSession.UniqueID, true, false); //onlyIDAndName, not reversed
+		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID); 
 
-		if(myPersons.Length > 0) {
+		if(myPersons.Count > 0) {
 			//fill treeview
 			myTreeViewPersons.Fill(myPersons);
 		}
@@ -745,8 +746,8 @@ public class ChronoJumpWindow
 		TreeIter iter;
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
-			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selectedID), currentSession.UniqueID);
-			Log.WriteLine(string.Format("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name));
+			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
+			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			return true;
 		} else {
 			return false;
@@ -767,8 +768,8 @@ public class ChronoJumpWindow
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 		
-			currentPerson = SqlitePersonSession.PersonSelect(Convert.ToInt32(selectedID), currentSession.UniqueID);
-			Log.WriteLine(string.Format("CurrentPerson: id:{0}, name:{1}", currentPerson.UniqueID, currentPerson.Name));
+			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
+			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 		}
 	}
 
@@ -934,12 +935,14 @@ public class ChronoJumpWindow
 		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
 		foreach (Person person in persons) 
 		{
-			if(! Util.FoundInArrayList(notToUpload, person.UniqueID.ToString())) {
-				if(person.Weight <= 10 || person.Weight >= 300)
+			if(! Util.FoundInArrayList(notToUpload, person.UniqueID.ToString())) 
+			{
+				PersonSession ps = SqlitePersonSession.Select(person.UniqueID, currentSession.UniqueID);
+				if(ps.Weight <= 10 || ps.Weight >= 300)
 					impossibleWeight.Add(person);
 				if(person.CountryID == Constants.CountryUndefinedID)
 					undefinedCountry.Add(person);
-				if(person.SportID == Constants.SportUndefinedID)
+				if(ps.SportID == Constants.SportUndefinedID)
 					undefinedSport.Add(person);
 				//speciallity and level not required, because person gui obligates to select them when sport is selected
 			}
@@ -956,7 +959,7 @@ public class ChronoJumpWindow
 			string separator = "";
 			int count=0;
 			foreach(Person person in impossibleWeight) {
-				weightString += separator + person.Name + " (" + person.Weight + "Kg.)";
+				weightString += separator + person.Name;
 				separator = ", ";
 				if(++count >= maxPeopleFail) {
 					weightString += "...";
@@ -1989,6 +1992,7 @@ public class ChronoJumpWindow
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
 		currentPerson = personRecuperateWin.CurrentPerson;
+		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 		
 		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
@@ -2003,12 +2007,13 @@ public class ChronoJumpWindow
 		
 	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
 		Log.WriteLine("recuperate persons from other session");
-		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession.);
+		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession);
 		personsRecuperateFromOtherSessionWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
 	
 	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args) {
 		currentPerson = personsRecuperateFromOtherSessionWin.CurrentPerson;
+		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 		treeview_persons_storeReset();
 		fillTreeView_persons();
 		int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
@@ -2034,6 +2039,7 @@ public class ChronoJumpWindow
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
+			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 			
 			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
@@ -2064,6 +2070,7 @@ public class ChronoJumpWindow
 		if (personAddMultipleWin.CurrentPerson != null)
 		{
 			currentPerson = personAddMultipleWin.CurrentPerson;
+			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 			treeview_persons_storeReset();
 			fillTreeView_persons();
 			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
@@ -2091,6 +2098,7 @@ public class ChronoJumpWindow
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
+			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 			treeview_persons_storeReset();
 			fillTreeView_persons();
 			
@@ -2888,12 +2896,10 @@ Console.WriteLine("X");
 			
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
-			if(jumpExtraWin.Option == "%") {
+			if(jumpExtraWin.Option == "%") 
 				jumpWeight = jumpExtraWin.Weight;
-			} else {
-				//(double) jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
-				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPerson.Weight);
-			}
+			else 
+				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPersonSession.Weight);
 		}
 		double myFall = 0;
 		bool arms = false;
@@ -2970,7 +2976,7 @@ Console.WriteLine("X");
 			else {
 				Jump myJump = new Jump();
 				myJump = currentJump;
-				myJump.Weight = Util.WeightFromPercentToKg(currentJump.Weight, currentPerson.Weight);
+				myJump.Weight = Util.WeightFromPercentToKg(currentJump.Weight, currentPersonSession.Weight);
 				myTreeViewJumps.Add(currentPerson.Name, myJump);
 			}
 			
@@ -3096,8 +3102,7 @@ Console.WriteLine("X");
 			if(jumpExtraWin.Option == "%") {
 				jumpWeight = jumpExtraWin.Weight;
 			} else {
-				//jumpWeight = (double) jumpExtraWin.Weight *100 / (double) currentPerson.Weight;
-				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPerson.Weight);
+				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPersonSession.Weight);
 			}
 		}
 		double myFall = 0;
@@ -3176,7 +3181,7 @@ Console.WriteLine("X");
 			else {
 				JumpRj myJump = new JumpRj();
 				myJump = currentJumpRj;
-				myJump.Weight = Util.WeightFromPercentToKg(currentJumpRj.Weight, currentPerson.Weight);
+				myJump.Weight = Util.WeightFromPercentToKg(currentJumpRj.Weight, currentPersonSession.Weight);
 				myTreeViewJumpsRj.Add(currentPerson.Name, myJump);
 			}
 			
@@ -4150,7 +4155,8 @@ Console.WriteLine("X");
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID) {
 			if(! weightPercentPreferred) {
-				double personWeight = SqlitePersonSession.SelectPersonWeight(myJump.PersonID, currentSession.UniqueID);
+				double personWeight = SqlitePersonSession.SelectAttribute(
+						myJump.PersonID, currentSession.UniqueID, Constants.Weight);
 				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
 			}
 			myTreeViewJumps.Update(myJump);
@@ -4172,7 +4178,8 @@ Console.WriteLine("X");
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID) {
 			if(! weightPercentPreferred) {
-				double personWeight = SqlitePersonSession.SelectPersonWeight(myJump.PersonID, currentSession.UniqueID);
+				double personWeight = SqlitePersonSession.SelectAttribute(
+						myJump.PersonID, currentSession.UniqueID, Constants.Weight);
 				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
 			}
 			myTreeViewJumpsRj.Update(myJump);

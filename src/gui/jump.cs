@@ -62,9 +62,10 @@ public class EditJumpWindow : EditEventWindow
 		}	
 
 		EditJumpWindowBox.weightPercentPreferred = weightPercentPreferred;
-		EditJumpWindowBox.personWeight = SqlitePersonSession.SelectPersonWeight(
+		EditJumpWindowBox.personWeight = SqlitePersonSession.SelectAttribute(
 				Convert.ToInt32(myEvent.PersonID),
-				Convert.ToInt32(myEvent.SessionID)); 
+				Convert.ToInt32(myEvent.SessionID),
+				Constants.Weight); 
 
 		EditJumpWindowBox.pDN = pDN;
 		
@@ -248,7 +249,7 @@ public class EditJumpWindow : EditEventWindow
 			else
 				jumpWeightInKg = Convert.ToDouble(entryWeight);
 			
-			double newPersonWeight = SqlitePersonSession.SelectPersonWeight(personID, mySessionID); 
+			double newPersonWeight = SqlitePersonSession.SelectAttribute(personID, mySessionID, Constants.Weight); 
 			//jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
 			jumpPercentWeightForNewPerson = Util.WeightFromKgToPercent(jumpWeightInKg, newPersonWeight); 
 			Log.WriteLine(string.Format("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
@@ -288,7 +289,8 @@ public class EditJumpRjWindow : EditJumpWindow
 		}
 
 		EditJumpRjWindowBox.weightPercentPreferred = weightPercentPreferred;
-		EditJumpRjWindowBox.personWeight = SqlitePersonSession.SelectPersonWeight(myEvent.PersonID, myEvent.SessionID); 
+		EditJumpRjWindowBox.personWeight = SqlitePersonSession.SelectAttribute(
+				myEvent.PersonID, myEvent.SessionID, Constants.Weight); 
 
 		EditJumpRjWindowBox.pDN = pDN;
 		

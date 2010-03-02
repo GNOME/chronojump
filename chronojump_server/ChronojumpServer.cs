@@ -719,19 +719,15 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
 ///Upload person session if needed
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadPersonSessionIfNeeded", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public int UploadPersonSessionIfNeeded(int personServerID, int sessionServerID, double weight) {
+    public int UploadPersonSessionIfNeeded(PersonSession ps) {
         object[] results = this.Invoke("UploadPersonSessionIfNeeded", new object[] {
-                    personServerID,
-                    sessionServerID,
-                    weight});
+                    ps});
         return ((int)(results[0]));
     }
     
-    public System.IAsyncResult BeginUploadPersonSessionIfNeeded(int personServerID, int sessionServerID, double weight, System.AsyncCallback callback, object asyncState) {
+    public System.IAsyncResult BeginUploadPersonSessionIfNeeded(PersonSession ps, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("UploadPersonSessionIfNeeded", new object[] {
-                    personServerID,
-                    sessionServerID,
-                    weight}, callback, asyncState);
+                    ps}, callback, asyncState);
     }
     
     public int EndUploadPersonSessionIfNeeded(System.IAsyncResult asyncResult) {
@@ -739,18 +735,16 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return ((int)(results[0]));
     }
     
-    public void UploadPersonSessionIfNeededAsync(int personServerID, int sessionServerID, double weight) {
-        this.UploadPersonSessionIfNeededAsync(personServerID, sessionServerID, weight, null);
+    public void UploadPersonSessionIfNeededAsync(PersonSession ps) {
+        this.UploadPersonSessionIfNeededAsync(ps, null);
     }
     
-    public void UploadPersonSessionIfNeededAsync(int personServerID, int sessionServerID, double weight, object userState) {
+    public void UploadPersonSessionIfNeededAsync(PersonSession ps, object userState) {
         if ((this.UploadPersonSessionIfNeededOperationCompleted == null)) {
             this.UploadPersonSessionIfNeededOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUploadPersonSessionIfNeededCompleted);
         }
         this.InvokeAsync("UploadPersonSessionIfNeeded", new object[] {
-                    personServerID,
-                    sessionServerID,
-                    weight}, this.UploadPersonSessionIfNeededOperationCompleted, userState);
+                    ps}, this.UploadPersonSessionIfNeededOperationCompleted, userState);
     }
     
     private void OnUploadPersonSessionIfNeededCompleted(object arg) {

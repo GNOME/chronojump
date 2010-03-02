@@ -1531,7 +1531,7 @@ Console.WriteLine("1" + tableName);
 
 		if(tableName == Constants.PersonOldTable) {	
 			foreach (PersonOld myPerson in myArray) {
-				myPersonOld.InsertAtDB(true, Constants.ConvertTempTable);
+				myPerson.InsertAtDB(true, Constants.ConvertTempTable);
 				conversionSubRate ++;
 			}
 		} else if(tableName == Constants.SessionTable) {	

@@ -37,7 +37,6 @@ public class PersonRecuperateWindow {
 	
 	protected TreeStore store;
 	protected string selected;
-	//private string selectedWeight;
 	[Widget] protected Gtk.TreeView treeview_person_recuperate;
 	[Widget] protected Gtk.Button button_recuperate;
 	[Widget] protected Gtk.Statusbar statusbar1;
@@ -48,7 +47,7 @@ public class PersonRecuperateWindow {
 	[Widget] protected Gtk.Box hbox_search_filter_hide; //used in person recuperateWindow (hided in inherited class)
 	
 	static PersonRecuperateWindow PersonRecuperateWindowBox;
-	PersonAddModifyWindow personAddModifyWin; 
+	protected PersonAddModifyWindow personAddModifyWin; 
 
 	protected Gtk.Window parent;
 	
@@ -57,7 +56,7 @@ public class PersonRecuperateWindow {
 
 	protected int columnId = 0;
 	protected int firstColumn = 0;
-	int pDN;
+	protected int pDN;
 
 	protected PersonRecuperateWindow () {
 	}
@@ -205,10 +204,8 @@ public class PersonRecuperateWindow {
 		if (((TreeSelection)o).GetSelected(out model, out iter))
 		{
 			selected = (string)model.GetValue (iter, 0);
-			//selectedWeight = (string)model.GetValue (iter, 4);
 			button_recuperate.Sensitive = true;
 		}
-		Log.WriteLine (selected + ":" + selectedWeight);
 	}
 
 	
@@ -232,7 +229,6 @@ public class PersonRecuperateWindow {
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
 			selected = (string) model.GetValue (iter, 0);
-			//selectedWeight = (string) model.GetValue (iter, 4);
 			
 			//activate on_button_recuperate_clicked()
 			button_recuperate.Activate();
@@ -251,7 +247,7 @@ public class PersonRecuperateWindow {
 		}
 	}
 	
-	private virtual void on_edit_current_person_accepted (object o, EventArgs args) {
+	protected virtual void on_edit_current_person_accepted (object o, EventArgs args) {
 		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_current_person_accepted);
 		if (personAddModifyWin.CurrentPerson != null)
 		{
@@ -597,7 +593,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		}
 	}
 	
-	protected override void on_edit_current_person_cancelled (object o, EventArgs args) {
+	private void on_edit_current_person_cancelled (object o, EventArgs args) {
 		personAddModifyWin.FakeButtonCancel.Clicked -= new EventHandler(on_edit_current_person_cancelled);
 		if (personAddModifyWin.CurrentPerson != null)
 		{
@@ -619,6 +615,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 	[Widget] Gtk.Button button_go_forward;
 	[Widget] Gtk.Button button_close;
 
+	private int sessionID;
 	public Gtk.Button fakeButtonDone;
 	
 	PersonNotUploadWindow (Gtk.Window parent, int sessionID) {
@@ -699,7 +696,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 
 		foreach (Person person in myPersons) {
 			store.AppendValues (
-					! Util.FoundInArrayList(initiallyUnchecked, person.UniqueID), 
+					! Util.FoundInArrayList(initiallyUnchecked, person.UniqueID.ToString()), 
 					person.UniqueID, 
 					person.Name, 
 					getCorrectSex(person.Sex), 
@@ -1127,6 +1124,7 @@ public class PersonAddModifyWindow
 						Catalog.GetString(countryString[1]));
 			}
 
+			TextBuffer tb = new TextBuffer (new TextTagTable());
 			tb.Text = currentPerson.Description;
 			textview_description.Buffer = tb;
 			
@@ -1147,9 +1145,8 @@ public class PersonAddModifyWindow
 			mySpeciallityID = myPS.SpeciallityID;
 			myLevelID = myPS.Practice;
 
-			TextBuffer tb = new TextBuffer (new TextTagTable());
 			tb.Text = myPS.Comments;
-			textview_comments.Buffer = tb;
+			textview_ps_comments.Buffer = tb;
 
 		}
 			
@@ -1463,7 +1460,7 @@ public class PersonAddModifyWindow
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview_comments.Buffer.Text);
+					textview_ps_comments.Buffer.Text);
 		} else {
 			//here we update rows in the database
 			currentPerson = new Person (personID, entry1.Text, sex, dateTime, 
@@ -1485,14 +1482,14 @@ public class PersonAddModifyWindow
 						sport.UniqueID, 
 						Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 						Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-						textview_comments.Buffer.Text);
+						textview_ps_comments.Buffer.Text);
 			else {
 				//don't come from recuperate
 				//we only need to update personSession
 				//1.- search uniqueID
 				PersonSession ps = SqlitePersonSession.Select(personID, currentSession.UniqueID);
 
-				//2.- create new instance with data from gui
+				//2.- create new instance
 				currentPersonSession = new PersonSession (
 						ps.UniqueID,
 						currentPerson.UniqueID, currentSession.UniqueID, 
@@ -1500,7 +1497,7 @@ public class PersonAddModifyWindow
 						sport.UniqueID, 
 						Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 						Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-						textview_comments.Buffer.Text);
+						textview_ps_comments.Buffer.Text);
 
 				//3.- update in database
 				SqlitePersonSession.Update (currentPersonSession); 
@@ -1790,7 +1787,7 @@ public class PersonAddMultipleWindow {
 				currentSession.PersonsSportID,
 				currentSession.PersonsSpeciallityID,
 				currentSession.PersonsPractice,
-				""); 			//description
+				""); 			//comments
 
 		personsCreatedCount ++;
 	}
@@ -1881,10 +1878,9 @@ public class PersonShowAllEventsWindow {
 		//put only id and name in combo
 		string [] myPersonsIDName = new string[myPersons.Count];
 		int count = 0;
-		foreach (Person person in myPersons)
-			string [] myStr = person.Split(new char[] {':'});
-			myPersonsIDName[count++] = person.UniqueID + ":" + person.Name;
-		}
+		foreach (Person person in myPersons) 
+			myPersonsIDName[count++] = person.IDAndName(":");
+		
 		UtilGtk.ComboUpdate(combo_persons, myPersonsIDName, "");
 		combo_persons.Active = UtilGtk.ComboMakeActive(myPersonsIDName, personID + ":" + personName);
 

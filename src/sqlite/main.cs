@@ -1132,7 +1132,7 @@ class Sqlite
 
 		creationRate ++;
 		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
-		sqlitePersonSessionObject.createTable();
+		sqlitePersonSessionObject.createTable(Constants.PersonSessionTable);
 		
 		creationRate ++;
 		SqlitePreferences.createTable();

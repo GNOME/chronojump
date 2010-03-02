@@ -1777,16 +1777,20 @@ public class PersonAddMultipleWindow {
 		DateTime dateTime = DateTime.MinValue;
 
 		currentPerson = new Person ( name, sex, dateTime, 
+				Constants.RaceUndefinedID,
+				Constants.CountryUndefinedID,
+				"", 			//description
+				Constants.ServerUndefinedID,
+				currentSession.UniqueID);
+				
+
+		PersonSession ps = new PersonSession (
+				currentPerson.UniqueID, currentSession.UniqueID, 
 				0, weight, 		//height, weight	
 				currentSession.PersonsSportID,
 				currentSession.PersonsSpeciallityID,
 				currentSession.PersonsPractice,
-				"", 			//description
-				Constants.RaceUndefinedID,
-				Constants.CountryUndefinedID,
-				Constants.ServerUndefinedID,
-				currentSession.UniqueID		
-				);
+				""); 			//description
 
 		personsCreatedCount ++;
 	}

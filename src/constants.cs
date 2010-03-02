@@ -108,6 +108,11 @@ public class Constants
 	public const int MaleID = 1;
 	public const int FemaleID = 0;
 
+	//person & personSession stuff
+	public const string Name = "name";
+	public const string Height = "height";
+	public const string Weight = "weight";
+
 	//server	
 	public const string ServerPingTable = "SPing"; 
 	public const string ServerEvaluatorTable = "SEvaluator"; 

@@ -117,7 +117,7 @@ public class Report : ExportSession
 		}
 
 		if(ShowCurrentSessionJumpers) {
-			myPersons = SqlitePersonSession.SelectCurrentSession(sessionID, false, false); //not onlyIDAndName, not reversed
+			myPersons = SqlitePersonSession.SelectCurrentSessionPersons(sessionID);
 		}
 		if(ShowSimpleJumps) {
 			myJumps= SqliteJump.SelectJumps(sessionID, -1, "", "");
@@ -156,7 +156,7 @@ public class Report : ExportSession
 
 		if(ShowCurrentSessionJumpers) {
 			printTitles(Catalog.GetString("Persons"));
-			printJumpers();
+			printPersons();
 		}
 
 		if(ShowSimpleJumps) 
@@ -248,38 +248,6 @@ public class Report : ExportSession
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}
-
-	protected override void printJumpers()
-	{
-		ArrayList myData = new ArrayList(1);
-	
-		myData.Add ("\n" + 
-				Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
-				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
-				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
-				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
-				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Description")
-			   );
-		
-		string myLine = "";
-		int count = 0;
-	
-		foreach (string jumperString in myPersons) {
-			string [] myStr = jumperString.Split(new char[] {':'});
-
-			myData.Add(myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
-					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
-					myStr[4] + ":" + myStr[5] + ":" + //height, weight
-					myStr[6] + ":" + myStr[7] + ":" + //sportName, speciallityName
-					myStr[8] + ":" + myStr[9] //practiceLevel, desc
-				  );
-
-		}
-		
-		writeData(myData);
-		writeData("VERTICAL-SPACE");
-	}
-
 
 	protected override void writeData (ArrayList exportData) {
 		writer.WriteLine( "<table cellpadding=2 cellspacing=2>" );

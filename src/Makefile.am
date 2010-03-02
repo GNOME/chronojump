@@ -127,6 +127,8 @@ FILES = \
  	sqlite/run.cs\
  	sqlite/runInterval.cs\
  	sqlite/runType.cs\
+ 	sqlite/person.cs\
+ 	sqlite/personSession.cs\
  	sqlite/personSessionNotUpload.cs\
  	sqlite/stat.cs\
  	sqlite/pulse.cs\
@@ -151,6 +153,8 @@ FILES = \
  	eventType.cs\
  	jump.cs\
  	jumpType.cs\
+	person.cs\
+	personSession.cs\
 	run.cs\
  	runType.cs\
  	pulse.cs\

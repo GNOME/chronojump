@@ -52,7 +52,7 @@ class SqlitePersonSession : Sqlite
 	 }
 
 	public static int Insert(bool dbconOpened, string uniqueID, int personID, int sessionID, 
-			double height, double weight, int sportID, int speciallityID, int practice
+			double height, double weight, int sportID, int speciallityID, int practice,
 			string comments) 
 	{
 		if(!dbconOpened)
@@ -67,8 +67,8 @@ class SqlitePersonSession : Sqlite
 		        " VALUES ("
 			+ uniqueID + ", " + personID + ", " + sessionID + ", " + 
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
-			+ sportID + ", " + speciallityID + ", " + practice + ", '" + 
-			+ comments + "', '', '')"; 
+			sportID + ", " + speciallityID + ", " + practice + ", '" + 
+			comments + "', '', '')"; 
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
 		if(!dbconOpened)
@@ -76,9 +76,9 @@ class SqlitePersonSession : Sqlite
 		return myReturn;
 	}
 	
-	//we know session
+	//we KNOW session
 	//select doubles
-	public static double SelectAtribute(int personID, int sessionID, string attribute)
+	public static double SelectAttribute(int personID, int sessionID, string attribute)
 	{
 		dbcon.Open();
 
@@ -101,7 +101,7 @@ class SqlitePersonSession : Sqlite
 		return myReturn;
 	}
 
-	//when a session is not know, then select atrribute of last session
+	//when a session is NOT KNOWN, then select atrribute of last session
 	//select doubles
 	public static double SelectAttribute(int personID, string attribute)
 	{
@@ -184,6 +184,8 @@ class SqlitePersonSession : Sqlite
 	//then we search data in last sessionID
 	//this is used to know personSession attributes
 	//in a newly created person	
+
+	//This is like SqlitePerson.Selectbut this returns a PersonSession
 	public static PersonSession Select(int personID, int sessionID)
 	{
 		string tps = Constants.PersonSessionTable;
@@ -195,7 +197,7 @@ class SqlitePersonSession : Sqlite
 
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * FROM " + tps +
-			" WHERE uniqueID == " + uniqueID + 
+			" WHERE personID == " + personID + 
 			sessionIDString;
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -205,8 +207,9 @@ class SqlitePersonSession : Sqlite
 	
 		string [] values = new string[12];
 
+		PersonSession ps = new PersonSession();
 		while(reader.Read()) {
-			PersonSession ps = new PersonSession(
+			ps = new PersonSession(
 					Convert.ToInt32(reader[0].ToString()), 	//uniqueID
 					personID,				//personID
 					sessionID, 				//sessionID
@@ -363,7 +366,7 @@ class SqlitePersonSession : Sqlite
 		//delete normal runs
 		dbcmd.CommandText = "Delete FROM run WHERE sessionID == " + sessionID +
 			" AND personID == " + personID;
-			
+		
 		dbcmd.ExecuteNonQuery();
 		
 		//delete intervallic runs

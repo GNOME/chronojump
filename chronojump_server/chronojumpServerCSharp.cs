@@ -295,7 +295,7 @@ public class ChronojumpServer {
 	{
 		if(!SqlitePersonSession.PersonSelectExistsInSession(ps.PersonID, ps.SessionID)) {
 			Console.WriteLine("personSession needed");
-			ps.InsertAtDB(false, Constants.PersonSession);
+			ps.InsertAtDB(false, Constants.PersonSessionTable);
 			Console.WriteLine("done");
 			return 1; //unused
 		} else 

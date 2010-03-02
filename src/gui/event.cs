@@ -241,10 +241,15 @@ public class EditEventWindow
 			combo_eventType.Hide();
 		}
 
-		string [] persons = SqlitePersonSession.SelectCurrentSession(myEvent.SessionID, true, false); //onlyIDAndName, not reversed
+		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(myEvent.SessionID);
+		string [] personsStrings = new String[persons.Count];
+		int i=0;
+		foreach (Person person in persons) 
+			personsStrings[i++] = person.IDAndName(":");
+
 		combo_persons = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_persons, persons, "");
-		combo_persons.Active = UtilGtk.ComboMakeActive(persons, myEvent.PersonID + ":" + myEvent.PersonName);
+		UtilGtk.ComboUpdate(combo_persons, personsStrings, "");
+		combo_persons.Active = UtilGtk.ComboMakeActive(personsStrings, myEvent.PersonID + ":" + myEvent.PersonName);
 		
 		oldPersonID = myEvent.PersonID;
 			

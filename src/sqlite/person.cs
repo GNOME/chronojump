@@ -77,6 +77,36 @@ class SqlitePerson : Sqlite
 		return myReturn;
 	}
 
+	//This is like SqlitePersonSession.Selectbut this returns a Person
+	public static Person Select(int uniqueID)
+	{
+		dbcon.Open();
+
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		Person p = new Person(-1);
+		if(reader.Read()) {
+			p = new Person(
+					Convert.ToInt32(reader[0].ToString()), //uniqueID
+					reader[1].ToString(), 			//name
+					reader[2].ToString(), 			//sex
+					UtilDate.FromSql(reader[3].ToString()),//dateBorn
+					Convert.ToInt32(reader[4].ToString()), //race
+					Convert.ToInt32(reader[5].ToString()), //countryID
+					reader[6].ToString(), 			//description
+					Convert.ToInt32(reader[9].ToString()) //serverUniqueID
+					);
+		}
+		dbcon.Close();
+		return p;
+	}
+		
 	//public static string SelectJumperName(int uniqueID)
 	//select strings
 	public static string SelectAttribute(int uniqueID, string attribute)
@@ -209,7 +239,7 @@ finishForeach:
 						Convert.ToInt32(reader2[5].ToString()), //countryID
 						reader2[6].ToString(), 			//description
 						Convert.ToInt32(reader2[9].ToString()) //serverUniqueID
-						)
+						);
 				arrayReturn.Add(p);
 			}
 		}

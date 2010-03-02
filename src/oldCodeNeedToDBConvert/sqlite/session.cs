@@ -45,7 +45,7 @@ class SqliteSessionOld : Sqlite
 
 		//1st create a temp table
 		//createTable(Constants.ConvertTempTable);
-		SqliteSession sqliteSessionObject = new SqliteSession();
+		SqliteSessionOld sqliteSessionObject = new SqliteSessionOld();
 		sqliteSessionObject.createTable(Constants.ConvertTempTable);
 			
 		//2nd copy all data from session table to temp table

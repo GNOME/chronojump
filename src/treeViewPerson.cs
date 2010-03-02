@@ -83,15 +83,10 @@ public class TreeViewPersons
 		}
 	}
 
-	public void Fill(string [] myPersons)
+	public void Fill(ArrayList myPersons)
 	{
-		foreach (string person in myPersons) {
-			string [] myStringFull = person.Split(new char[] {':'});
-			string [] myData = new String [2];
-			//first ID, then Name
-			myData[0] = myStringFull[0].ToString();
-			myData[1] = myStringFull[1].ToString();
-			store.AppendValues (myData);
+		foreach (Person person in myPersons) {
+			store.AppendValues (person.IDAndName());
 		}
 		//show sorted by column name	
 		store.SetSortColumnId(1, Gtk.SortType.Ascending);

@@ -28,7 +28,7 @@ using Mono.Unix;
 
 public class ExportSession
 {
-	protected string [] myPersons;
+	protected ArrayList myPersons;
 	protected string [] myJumps;
 	protected string [] myJumpsRj;
 	protected string [] myRuns;
@@ -163,7 +163,8 @@ public class ExportSession
 	
 	protected virtual void getData() 
 	{
-		myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
+		//myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
+		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID);
 		myJumps= SqliteJump.SelectJumps(mySession.UniqueID, -1, "", "");
 		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "", "");
 		myRuns= SqliteRun.SelectRuns(mySession.UniqueID, -1, "");
@@ -184,7 +185,7 @@ public class ExportSession
 		printSessionInfo();
 		
 		printTitles(Catalog.GetString("Persons"));
-		printJumpers();
+		printPersons();
 		
 		printJumps(Catalog.GetString("Simple jumps"));
 		
@@ -227,25 +228,41 @@ public class ExportSession
 		writeData("VERTICAL-SPACE");
 	}
 
-	protected virtual void printJumpers()
+	protected void printPersons()
 	{
+		//PERSON STUFF
 		ArrayList myData = new ArrayList(1);
 		myData.Add ( "\n" + Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
 				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
-				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
-				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
-				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Description")
+				Catalog.GetString ("Description")
 			   );
 		
-		foreach (string jumperString in myPersons) {
-			string [] myStr = jumperString.Split(new char[] {':'});
-			
+		foreach (Person p in myPersons) {
 			myData.Add(
-					myStr[0] + ":" + myStr[1] + ":" + 	//person.id, person.name 
-					myStr[2] + ":" + myStr[3] + ":" + //sex, dateborn
-					myStr[4] + ":" + myStr[5] + ":" + //height, weight
-					myStr[6] + ":" + myStr[7] + ":" + //sportName, speciallityName
-					myStr[8] + ":" + Util.RemoveNewLine(myStr[9]) //practiceLevel, desc
+					p.UniqueID.ToString() + ":" + p.Name + ":" +
+					p.Sex + ":" + p.DateBorn.ToShortDateString() + ":" +
+					p.CountryID + ":" + Util.RemoveNewLine(p.Description)
+				  );
+		}
+		writeData(myData);
+		writeData("VERTICAL-SPACE");
+		
+		//PERSONSESSION STUFF
+		myData = new ArrayList(1);
+		myData.Add ( "\n" + Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
+				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
+				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Comments")
+			   );
+		
+		foreach (Person p in myPersons) {
+			PersonSession ps = SqlitePersonSession.Select(p.UniqueID, mySession.UniqueID);
+			string sportName = (SqliteSport.Select(ps.SportID)).Name;
+			string speciallityName = SqliteSpeciallity.Select(ps.SpeciallityID);
+			myData.Add(
+					ps.Height + ":" + ps.Weight + ":" + 
+					sportName + ":" + speciallityName + ":" +
+					Util.FindLevelName(ps.Practice) + ":" +
+					Util.RemoveNewLine(ps.Comments)
 				  );
 		}
 		writeData(myData);
@@ -292,9 +309,10 @@ public class ExportSession
 				else
 					myWeight = Util.WeightFromPercentToKg(
 							Convert.ToDouble(myStr[8]), 
-							SqlitePersonSession.SelectPersonWeight(
+							SqlitePersonSession.SelectAttribute(
 								Convert.ToInt32(myStr[2]),
-								Convert.ToInt32(myStr[3])
+								Convert.ToInt32(myStr[3]),
+								Constants.Weight
 							)).ToString();
 		
 				double tc = Convert.ToDouble(myStr[6]);
@@ -380,9 +398,10 @@ public class ExportSession
 			else
 				myWeight = Util.WeightFromPercentToKg(
 						Convert.ToDouble(myStr[8]), 
-						SqlitePersonSession.SelectPersonWeight(
+						SqlitePersonSession.SelectAttribute(
 							Convert.ToInt32(myStr[2]),
-							Convert.ToInt32(myStr[3])
+							Convert.ToInt32(myStr[3]),
+							Constants.Weight
 							)
 						).ToString();
 			myData.Add ( 

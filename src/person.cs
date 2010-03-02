@@ -97,10 +97,21 @@ public partial class Person {
 	}
 	
 	public int InsertAtDB (bool dbconOpened, string tableName) {
-		int myID = SqlitePerson.Insert(dbconOpened, tableName, 
+		int myID = SqlitePerson.Insert(dbconOpened,  
 				uniqueID.ToString(), name, sex, dateBorn, race, countryID,
 				description, serverUniqueID);
 		return myID;
+	}
+	
+	public string IDAndName (string sep) {
+		return uniqueID.ToString() + sep + name;
+	}
+	
+	public string [] IDAndName () {
+		string [] str = new String [2];
+		str[0] = uniqueID.ToString();
+		str[1] = name;
+		return str;
 	}
 	
 
@@ -159,7 +170,7 @@ public partial class Person {
 		get { return uniqueID; }
 		set { uniqueID = value; }
 	}
-	
+
 	public string DateLong {
 		get { return dateBorn.ToLongDateString(); }
 	}

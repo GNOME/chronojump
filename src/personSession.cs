@@ -86,9 +86,9 @@ public partial class PersonSession {
 	}
 	
 	public int InsertAtDB (bool dbconOpened, string tableName) {
-		int myID = SqlitePersonSession.Insert(dbconOpened, tableName, 
+		int myID = SqlitePersonSession.Insert(dbconOpened,  
 				uniqueID.ToString(),
-				personID, sessionID, height, weight
+				personID, sessionID, height, weight,
 				sportID, speciallityID,
 				practice, comments);
 		return myID;
@@ -100,7 +100,48 @@ public partial class PersonSession {
 		return "";
 		//return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn.ToShortDateString() + ", " + description;
 	}
+
+
+	public int UniqueID {
+		get { return uniqueID; }
+	}
 	
+	public int PersonID {
+		get { return personID; }
+		set { personID = value; }
+	}
+
+	public int SessionID {
+		get { return sessionID; }
+		set { sessionID = value; }
+	}
+
+	public double Height {
+		get { return height; }
+	}
+	
+	public double Weight {
+		get { return weight; }
+	}
+	
+	public int SportID {
+		get { return sportID; }
+		set { sportID = value; }
+	}
+	
+	public int SpeciallityID {
+		get { return speciallityID; }
+	}
+	
+	public int Practice {
+		get { return practice; }
+	}
+
+	public string Comments {
+		get { return comments; }
+	}
+
+
 	~PersonSession() {}
 	   
 }

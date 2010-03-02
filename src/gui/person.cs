@@ -1875,17 +1875,18 @@ public class PersonShowAllEventsWindow {
 		if(checkbutton_only_current_session.Active) {
 			inSession = sessionID;	//select only persons who are on currentSession
 		}
-		string [] myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, inSession, ""); //"" is searchFilterName (not implemented on PersonShowAllEventsWindow)
+		
+		ArrayList myPersons = SqlitePerson.SelectAllPersonsRecuperable("name", -1, inSession, ""); //"" is searchFilterName (not implemented on PersonShowAllEventsWindow)
 
 		//put only id and name in combo
-		string [] myPersons2 = new string[myPersons.Length];
+		string [] myPersonsIDName = new string[myPersons.Count];
 		int count = 0;
-		foreach (string person in myPersons) {
+		foreach (Person person in myPersons)
 			string [] myStr = person.Split(new char[] {':'});
-			myPersons2[count++] = myStr[0] + ":" + myStr[1];
+			myPersonsIDName[count++] = person.UniqueID + ":" + person.Name;
 		}
-		UtilGtk.ComboUpdate(combo_persons, myPersons2, "");
-		combo_persons.Active = UtilGtk.ComboMakeActive(myPersons2, personID + ":" + personName);
+		UtilGtk.ComboUpdate(combo_persons, myPersonsIDName, "");
+		combo_persons.Active = UtilGtk.ComboMakeActive(myPersonsIDName, personID + ":" + personName);
 
 		combo_persons.Changed += new EventHandler (on_combo_persons_changed);
 

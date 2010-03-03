@@ -84,17 +84,19 @@ class SqlitePulse : Sqlite
 	//if all persons, put -1 in personID
 	public static string[] SelectPulses(int sessionID, int personID) 
 	{
+		string tp = Constants.PersonTable;
+
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND person.uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, pulse.* " +
-			" FROM person, pulse " +
-			" WHERE person.uniqueID == pulse.personID" + 
+		dbcmd.CommandText = "SELECT " + tp + ".name, pulse.* " +
+			" FROM " + tp + ", pulse " +
+			" WHERE " + tp + ".uniqueID == pulse.personID" + 
 			" AND pulse.sessionID == " + sessionID + 
 			filterPersonString +
-			" ORDER BY upper(person.name), pulse.uniqueID";
+			" ORDER BY upper(" + tp + ".name), pulse.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -148,19 +150,6 @@ class SqlitePulse : Sqlite
 		reader.Read();
 
 		Pulse myPulse = new Pulse(DataReaderToStringArray(reader, 9));
-		/*
-		Pulse myPulse = new Pulse(
-				Convert.ToInt32(reader[0]),	//uniqueID
-				Convert.ToInt32(reader[1]),	//personID
-				Convert.ToInt32(reader[2]),	//sessionID
-				reader[3].ToString(),		//type
-				Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //fixedPulsel
-				Convert.ToInt32(reader[5]),	//totalPulsesNum
-				reader[6].ToString(),		//timesString
-				reader[7].ToString(),		//description
-				reader[8].ToString()		//simulated
-				);
-				*/
 
 		dbcon.Close();
 		return myPulse;

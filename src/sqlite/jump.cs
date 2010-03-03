@@ -93,13 +93,16 @@ class SqliteJump : Sqlite
 	//if all types put, "" in filterType
 	public static string[] SelectJumps(int sessionID, int personID, string filterWeight, string filterType) 
 	{
+		string tp = Constants.PersonTable;
+		string tps = Constants.PersonSessionTable;
+
 		string filterSessionString = "";
 		if(sessionID != -1)
 			filterSessionString = " AND jump.sessionID == " + sessionID;
 
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND person.uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
 		string filterWeightString = "";
 		if(filterWeight == "withWeight")
@@ -110,16 +113,16 @@ class SqliteJump : Sqlite
 			filterTypeString = " AND jump.type == '" + filterType + "' ";
 
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, jump.*, personSessionWeight.weight " +
-			" FROM person, jump, personSessionWeight " +
-			" WHERE person.uniqueID == jump.personID " + 
+		dbcmd.CommandText = "SELECT " + tp + ".name, jump.*, " + tps + ".weight " +
+			" FROM " + tp + ", jump, " + tps + 
+			" WHERE " + tp + ".uniqueID == jump.personID " + 
 			filterSessionString +
 			filterPersonString +
 			filterWeightString +
 			filterTypeString +
-			" AND personSessionWeight.personID == person.uniqueID " +
-			" AND personSessionWeight.sessionID == jump.sessionID " +
-			" ORDER BY upper(person.name), jump.uniqueID";
+			" AND " + tps + ".personID == " + tp + ".uniqueID " +
+			" AND " + tps + ".sessionID == jump.sessionID " +
+			" ORDER BY upper(" + tp + ".name), jump.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

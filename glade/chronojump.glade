@@ -95,7 +95,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <child>
-                              <widget class="GtkTextView" id="textview_desc">
+                              <widget class="GtkTextView" id="textview_description">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                               </widget>
@@ -1844,52 +1844,165 @@
                     </child>
                   </widget>
                   <packing>
+                    <property name="expand">False</property>
                     <property name="position">5</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="checkbutton_height_preferred">
-                    <property name="label" translatable="yes">Prefer height over TF</property>
+                  <widget class="GtkTable" id="table1">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="n_rows">3</property>
+                    <property name="n_columns">3</property>
+                    <property name="column_spacing">6</property>
+                    <property name="row_spacing">6</property>
+                    <child>
+                      <widget class="GtkLabel" id="label1">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">On statistics
+show elevation as:</property>
+                      </widget>
+                      <packing>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label2">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Speed units:</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label3">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Weight units:</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkRadioButton" id="radio_elevation_height">
+                        <property name="label" translatable="yes">Height (cm)</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkRadioButton" id="radio_elevation_tf">
+                        <property name="label">TF (s)</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">radio_elevation_height</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkRadioButton" id="radio_speed_ms">
+                        <property name="label">m/s</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkRadioButton" id="radio_speed_km">
+                        <property name="label">Km/h</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">radio_speed_ms</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkRadioButton" id="radio_weight_percent">
+                        <property name="label">%</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkRadioButton" id="radio_weight_kg">
+                        <property name="label">Kg</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">radio_weight_percent</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
+                      </packing>
+                    </child>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="padding">2</property>
                     <property name="position">6</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="checkbutton_meters_seconds_preferred">
-                    <property name="label" translatable="yes">Prefer m/s over Km/h</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="checkbutton_percent_kg_preferred">
-                    <property name="label" translatable="yes">Prefer weight in % over Kg</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">8</property>
                   </packing>
                 </child>
               </widget>
@@ -16842,7 +16955,7 @@ by you</property>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="show_all_person_events">
+                      <widget class="GtkImageMenuItem" id="menuitem_show_all_person_events">
                         <property name="label">_Show all tests of current person</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
@@ -16888,7 +17001,7 @@ by you</property>
                 <child>
                   <widget class="GtkMenu" id="menu_jumps_menu">
                     <child>
-                      <widget class="GtkMenuItem" id="execute_simple_jumps1">
+                      <widget class="GtkMenuItem" id="menu_execute_simple_jumps1">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Execute simple jump</property>
                         <property name="use_underline">True</property>
@@ -17024,7 +17137,7 @@ by you</property>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkMenuItem" id="execute_repetitive_jumps1">
+                      <widget class="GtkMenuItem" id="menu_execute_repetitive_jumps1">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Execute reactive jump</property>
                         <property name="use_underline">True</property>
@@ -17093,12 +17206,12 @@ by you</property>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_repair_selected_reactive_jump">
+                      <widget class="GtkImageMenuItem" id="menuitem_repair_selected_jump_rj">
                         <property name="label">Repair selected RJ jump</property>
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="on_repair_selected_reactive_jump_clicked"/>
+                        <signal name="activate" handler="on_repair_selected_jump_rj_clicked"/>
                       </widget>
                     </child>
                     <child>
@@ -17174,7 +17287,7 @@ by you</property>
                 <child>
                   <widget class="GtkMenu" id="menu_runs_menu">
                     <child>
-                      <widget class="GtkMenuItem" id="execute_simple_runs1">
+                      <widget class="GtkMenuItem" id="menu_execute_simple_runs1">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Execute simple run</property>
                         <property name="use_underline">True</property>
@@ -17323,7 +17436,7 @@ by you</property>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkMenuItem" id="execute_intervalic_runs1">
+                      <widget class="GtkMenuItem" id="menu_execute_intervallic_runs1">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Execute intervallic runs</property>
                         <property name="use_underline">True</property>
@@ -18733,12 +18846,12 @@ by you</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkButton" id="button_repair_selected_reactive_jump">
+                                              <widget class="GtkButton" id="button_repair_selected_jump_rj">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
                                                 <property name="tooltip" translatable="yes">Repair selected (r)</property>
-                                                <signal name="clicked" handler="on_repair_selected_reactive_jump_clicked"/>
+                                                <signal name="clicked" handler="on_repair_selected_jump_rj_clicked"/>
                                                 <accelerator key="r" signal="clicked"/>
                                                 <child>
                                                   <widget class="GtkImage" id="image_jump_reactive_repair">

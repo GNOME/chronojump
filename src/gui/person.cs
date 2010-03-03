@@ -840,7 +840,6 @@ public class PersonAddModifyWindow
 	private Person currentPerson;
 	private Session currentSession;
 	private PersonSession currentPersonSession;
-	private int personID;
 	private string sex = Constants.M;
 	private double weightIni;
 	int pDN;
@@ -850,8 +849,8 @@ public class PersonAddModifyWindow
 	private bool comesFromRecuperateWin;
 	
 	//
-	//if we are adding a person, personID it's -1
-	//if we are modifying a person, personID is obviously it's ID
+	//if we are adding a person, currentPerson.UniqueID it's -1
+	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
 	PersonAddModifyWindow (Gtk.Window parent, Session currentSession, Person currentPerson) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "person_win", null);
@@ -1374,7 +1373,7 @@ public class PersonAddModifyWindow
 		if(adding)
 			personExists = Sqlite.Exists (Constants.PersonTable, Util.RemoveTilde(entry1.Text));
 		else
-			personExists = SqlitePerson.ExistsAndItsNotMe (personID, Util.RemoveTilde(entry1.Text));
+			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, Util.RemoveTilde(entry1.Text));
 
 		string errorMessage = "";
 
@@ -1396,13 +1395,13 @@ public class PersonAddModifyWindow
 			//if weight has changed
 			if(!adding && (double) spinbutton_weight.Value != weightIni) {
 				//see if this person has done jumps with weight
-				string [] myJumpsNormal = SqliteJump.SelectJumps(currentSession.UniqueID, personID, "withWeight", "");
-				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(currentSession.UniqueID, personID, "withWeight", "");
+				string [] myJumpsNormal = SqliteJump.SelectJumps(currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
+				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
 
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
 					//create the convertWeight Window
 					convertWeightWin = ConvertWeightWindow.Show(
-							currentSession.UniqueID, personID, 
+							currentSession.UniqueID, currentPerson.UniqueID, 
 							weightIni, (double) spinbutton_weight.Value, 
 							myJumpsNormal, myJumpsReactive);
 					convertWeightWin.Button_accept.Clicked += new EventHandler(on_convertWeightWin_accepted);
@@ -1435,7 +1434,7 @@ public class PersonAddModifyWindow
 		double weight = (double) spinbutton_weight.Value;
 
 		//convert margarias (it's power is calculated using weight and it's written on description)
-		string [] myMargarias = SqliteRun.SelectRuns(currentSession.UniqueID, personID, "Margaria");
+		string [] myMargarias = SqliteRun.SelectRuns(currentSession.UniqueID, currentPerson.UniqueID, "Margaria");
 		foreach(string myStr in myMargarias) {
 			string [] margaria = myStr.Split(new char[] {':'});
 			Run mRun = SqliteRun.SelectRunData(Convert.ToInt32(margaria[1]));
@@ -1463,7 +1462,7 @@ public class PersonAddModifyWindow
 					textview_ps_comments.Buffer.Text);
 		} else {
 			//here we update rows in the database
-			currentPerson = new Person (personID, entry1.Text, sex, dateTime, 
+			currentPerson = new Person (currentPerson.UniqueID, entry1.Text, sex, dateTime, 
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
@@ -1487,7 +1486,7 @@ public class PersonAddModifyWindow
 				//don't come from recuperate
 				//we only need to update personSession
 				//1.- search uniqueID
-				PersonSession ps = SqlitePersonSession.Select(personID, currentSession.UniqueID);
+				PersonSession ps = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
 				//2.- create new instance
 				currentPersonSession = new PersonSession (

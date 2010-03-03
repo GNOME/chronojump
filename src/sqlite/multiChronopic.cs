@@ -110,17 +110,19 @@ class SqliteMultiChronopic : Sqlite
 	//if all persons, put -1 in personID
 	public static string[] SelectTests(int sessionID, int personID) 
 	{
+		string tp = Constants.PersonTable;
+
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND person.uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, multiChronopic.* " +
-			" FROM person, multiChronopic " +
-			" WHERE person.uniqueID == multiChronopic.personID" + 
+		dbcmd.CommandText = "SELECT " + tp + ".name, multiChronopic.* " +
+			" FROM " + tp + ", multiChronopic " +
+			" WHERE " + tp + ".uniqueID == multiChronopic.personID" + 
 			" AND multiChronopic.sessionID == " + sessionID + 
 			filterPersonString +
-			" ORDER BY upper(person.name), multiChronopic.uniqueID";
+			" ORDER BY upper(" + tp + ".name), multiChronopic.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

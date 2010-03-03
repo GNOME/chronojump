@@ -373,7 +373,10 @@ Log.Write("wb ");
 		if(weight > 0) {
 			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
 		}
-		appbar.Push( 1,myStringPush );
+		if(simulated)
+			appbar.Push(1, Constants.SimulatedMessage);
+		else
+			appbar.Push( 1,myStringPush );
 
 		uniqueID = SqliteJump.Insert(false, Constants.JumpTable, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
@@ -958,7 +961,10 @@ public class JumpRjExecute : JumpExecute
 				type + " (" + limitString + ") " +
 				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
 				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
-			appbar.Push( 1,myStringPush );
+			if(simulated)
+				appbar.Push(1, Constants.SimulatedMessage);
+			else
+				appbar.Push(1, myStringPush );
 		
 
 			//event will be raised, and managed in chronojump.cs

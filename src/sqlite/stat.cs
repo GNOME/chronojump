@@ -32,6 +32,8 @@ class SqliteStat : Sqlite
 	//AllJumpsName (simple) is not managed here, is done in SjCmjAbkPlus
 	public static ArrayList SjCmjAbk (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
+		string tp = Constants.PersonTable;
+
 		string ini = "";
 		string end = "";
 		if(operationString == "MAX") {
@@ -46,7 +48,7 @@ class SqliteStat : Sqlite
 		string moreSelect = "";
 		moreSelect = ini + "jump.tv" + end;
 		
-		string fromString = " FROM jump, person ";
+		string fromString = " FROM jump, " + tp + " ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
 
 		//if we use AVG or MAX, then we have to group by the results
@@ -57,15 +59,15 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, sessionID, ";
+			orderByString = orderByString + tp + ".name, sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
 			jumpTypeString +
-			" AND jump.personID == person.uniqueID " +
+			" AND jump.personID == " + tp + ".uniqueID " +
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
 
@@ -113,6 +115,9 @@ class SqliteStat : Sqlite
 	//and AllJumpsName (simple)
 	public static ArrayList SjCmjAbkPlus (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred, bool weightPercentPreferred)
 	{
+		string tp = Constants.PersonTable;
+		string tps = Constants.PersonSessionTable;
+
 		string ini = "";
 		string end = "";
 		if(operationString == "MAX") {
@@ -125,14 +130,14 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", personSessionWeight.weight";
+		moreSelect = ini + "jump.tv" + end + ", " + ini + "jump.weight" + end + ", " + tps + ".weight";
 
 		//manage allJumps
-		string fromString = " FROM jump, person, personSessionWeight ";
+		string fromString = " FROM jump, " + tp + ", " + tps + " ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jump.type ";
-			fromString = " FROM jump, person, personSessionWeight, jumpType ";
+			fromString = " FROM jump, " + tp + ", " + tps + ", jumpType ";
 			jumpTypeString = " AND jumpType.startIn == 1 AND jump.Type == jumpType.name "; 
 		}
 
@@ -145,18 +150,18 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, jump.sessionID, ";
+			orderByString = orderByString + "" + tp + ".name, jump.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, jump.sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, jump.sessionID, " + moreSelect +
 			fromString +
 			sessionString +
 			jumpTypeString +
 			" AND jump.personID == person.uniqueID " +
-			// personSessionWeight stuff
-			" AND person.uniqueID == personSessionWeight.personID " +
-			" AND jump.sessionID == personSessionWeight.sessionID " + //should work for simple and multi session
+			// personSession stuff
+			" AND " + tp + ".uniqueID == " + tps + ".personID " +
+			" AND jump.sessionID == " + tps + ".sessionID " + //should work for simple and multi session
 
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
@@ -252,6 +257,8 @@ class SqliteStat : Sqlite
 	//dj index, Q index, ... (indexType)
 	public static ArrayList DjIndexes (string indexType, string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
+		string tp = Constants.PersonTable;
+
 		string formula = "";
 		if(indexType == "djIndex") {
 			formula = Constants.DjIndexFormulaOnly;
@@ -273,11 +280,11 @@ class SqliteStat : Sqlite
 		moreSelect = ini + formula + end + " AS myIndex, jump.tv, jump.tc, jump.fall";
 		
 		//manage allJumps
-		string fromString = " FROM jump, person ";
+		string fromString = " FROM jump, " + tp + " ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jump.type ";
-			fromString = " FROM jump, person, jumpType ";
+			fromString = " FROM jump, " + tp + ", jumpType ";
 			jumpTypeString = " AND jumpType.startIn == 0 AND jump.Type == jumpType.name "; 
 		}
 
@@ -290,15 +297,15 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, sessionID, ";
+			orderByString = orderByString + tp + ".name, sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
 			jumpTypeString +
-			" AND jump.personID == person.uniqueID " +
+			" AND jump.personID == " + tp + ".uniqueID " +
 			groupByString +
 			orderByString + " myIndex DESC, " + ini + "jump.tv" + end + " DESC ";
 
@@ -355,6 +362,8 @@ class SqliteStat : Sqlite
 
 	public static ArrayList RjIndex (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
+		string tp = Constants.PersonTable;
+
 		string ini = "";
 		string end = "";
 		if(operationString == "MAX") {
@@ -370,11 +379,11 @@ class SqliteStat : Sqlite
 		moreSelect = ini + Constants.RjIndexFormulaOnly + end + " AS rj_index, tvavg, tcavg, fall"; //*1.0 for having double division
 
 		//manage allJumps
-		string fromString = " FROM jumpRj, person ";
+		string fromString = " FROM jumpRj, " + tp + " ";
 		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
-			fromString = " FROM jumpRj, person, jumpRjType ";
+			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
 		}
 
@@ -386,16 +395,16 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, jumpRj.sessionID, ";
+			orderByString = orderByString + tp + ".name, jumpRj.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			//" FROM jumpRj, person " +
 			fromString +
 			sessionString +
 			jumpTypeString +
-			" AND jumpRj.personID == person.uniqueID " +
+			" AND jumpRj.personID == " + tp + ".uniqueID " +
 			groupByString +
 			orderByString + " rj_index DESC, tvavg DESC ";
 
@@ -448,6 +457,8 @@ class SqliteStat : Sqlite
 
 	public static ArrayList RjPotencyBosco (string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
+		string tp = Constants.PersonTable;
+
 		string ini = "";
 		string end = "";
 		if(operationString == "MAX") {
@@ -465,11 +476,11 @@ class SqliteStat : Sqlite
 			 " tvavg, tcavg, jumps, time, fall";
 
 		//manage allJumps
-		string fromString = " FROM jumpRj, person ";
+		string fromString = " FROM jumpRj, " + tp + " ";
 		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
-			fromString = " FROM jumpRj, person, jumpRjType ";
+			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
 		}
 
@@ -481,15 +492,15 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, jumpRj.sessionID, ";
+			orderByString = orderByString + tp + ".name, jumpRj.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
 			jumpTypeString +
-			" AND jumpRj.personID == person.uniqueID " +
+			" AND jumpRj.personID == " + tp + ".uniqueID " +
 			groupByString +
 			orderByString + " potency DESC, tvavg DESC ";
 
@@ -603,6 +614,8 @@ class SqliteStat : Sqlite
 	//but both of them are simple session
 	public static ArrayList RjEvolution (string sessionString, bool multisession, string operationString, string jumpType, bool showSex, int maxJumps)
 	{
+		string tp = Constants.PersonTable;
+
 		string ini = "";
 		string end = "";
 		if(operationString == "MAX") {
@@ -618,11 +631,11 @@ class SqliteStat : Sqlite
 		moreSelect = ini + "((tvavg-tcavg)*100/(tcavg*1.0))" + end + " AS rj_index, tcString, tvString, fall"; //*1.0 for having double division
 
 		//manage allJumps
-		string fromString = " FROM jumpRj, person ";
+		string fromString = " FROM jumpRj, " + tp + " ";
 		string jumpTypeString = " AND jumpRj.type == '" + jumpType + "' ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jumpRj.type ";
-			fromString = " FROM jumpRj, person, jumpRjType ";
+			fromString = " FROM jumpRj, " + tp + ", jumpRjType ";
 			jumpTypeString = " AND jumpRj.Type == jumpRjType.name "; 
 		}
 
@@ -634,15 +647,15 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + "person.name, jumpRj.sessionID, ";
+			orderByString = orderByString + tp + ".name, jumpRj.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
 			fromString +
 			sessionString +
 			jumpTypeString +
-			" AND jumpRj.personID == person.uniqueID " +
+			" AND jumpRj.personID == " + tp + ".uniqueID " +
 			groupByString +
 			orderByString + " rj_index DESC, tvavg DESC ";
 
@@ -705,6 +718,8 @@ class SqliteStat : Sqlite
 
 	public static ArrayList IeIub (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
+		string tp = Constants.PersonTable;
+
 		//What's this? TODO: check old versions of this file
 		/*
 		string ini2 = "";
@@ -736,17 +751,17 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + " person.name, j1.sessionID, ";
+			orderByString = orderByString + tp + ".name, j1.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, j1.sessionID, " + moreSelect +
-			" FROM jump AS j1, jump AS j2, person " +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
+			" FROM jump AS j1, jump AS j2, " + tp + " " +
 			sessionString +
 			" AND j1.type == '" + jump1 + "' " +
 			" AND j2.type == '" + jump2 + "' " +
-			" AND j1.personID == person.uniqueID " +
-			" AND j2.personID == person.uniqueID " +
+			" AND j1.personID == " + tp + ".uniqueID " +
+			" AND j2.personID == " + tp + ".uniqueID " +
 			groupByString +
 			orderByString + " myIndex DESC ";
 
@@ -788,6 +803,8 @@ class SqliteStat : Sqlite
 
 	public static ArrayList Fv (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
+		string tp = Constants.PersonTable;
+
 		string heightJump1 = " 100*4.9* (j1.tv/2.0) * (j1.tv/2.0) ";	//jump1 tv converted to height
 		string heightJump2 = " 100*4.9* (j2.tv/2.0) * (j2.tv/2.0) ";	//jump2 tv converted to height
 		
@@ -810,12 +827,12 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + " person.name, j1.sessionID, ";
+			orderByString = orderByString + tp + ".name, j1.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, j1.sessionID, " + moreSelect +
-			" FROM jump AS j1, jump AS j2, person " +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
+			" FROM jump AS j1, jump AS j2, " + tp + " " +
 			sessionString +
 			" AND j1.type == '" + jump1 + "' " +
 			" AND j2.type == '" + jump2 + "' " +
@@ -827,8 +844,8 @@ class SqliteStat : Sqlite
 			" AND (j1.weight == \"100%\" OR j1.weight == person.weight||'" + "Kg' ) " +
 			*/
 			" AND j1.weight == \"100\" " +
-			" AND j1.personID == person.uniqueID " +
-			" AND j2.personID == person.uniqueID " +
+			" AND j1.personID == " + tp + ".uniqueID " +
+			" AND j2.personID == " + tp + ".uniqueID " +
 			groupByString +
 			orderByString + " myIndex DESC ";
 
@@ -869,6 +886,9 @@ class SqliteStat : Sqlite
 
 	public static ArrayList Potency (string indexType, string sessionString, bool multisession, string operationString, string jumpType, bool showSex, bool heightPreferred)
 	{
+		string tp = Constants.PersonTable;
+		string tps = Constants.PersonSessionTable;
+
 		string ini = "";
 		string end = "";
 		if(operationString == "MAX") {
@@ -876,13 +896,13 @@ class SqliteStat : Sqlite
 			end = ")";
 		}
 		
-		string orderByString = "ORDER BY person.name, ";
+		string orderByString = "ORDER BY " + tp + ".name, ";
 		string moreSelect = "";
 
 		string jumpHeightInM = "4.9 * jump.tv/2.0 * jump.tv/2.0";
 
-		string personWeight = "personSessionWeight.weight"; 
-		string extraWeight = "jump.weight*personSessionWeight.weight/100.0"; 
+		string personWeight = tps + ".weight"; 
+		string extraWeight = "jump.weight*" + tps + ".weight/100.0"; 
 		string totalWeight = personWeight + " + " + extraWeight;
 
 		if(indexType == Constants.PotencyLewisFormula) {
@@ -949,7 +969,7 @@ class SqliteStat : Sqlite
 		//divisor has to be .0 if not, double is bad calculated. Bug 478168
 		//TODO: check if ini,end is needed here
 
-		string fromString = " FROM jump, person, personSessionWeight ";
+		string fromString = " FROM jump, " + tp + ", " + tps + " ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
 
 
@@ -966,14 +986,14 @@ class SqliteStat : Sqlite
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, person.sex, jump.sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, jump.sessionID, " + moreSelect +
 			fromString +
 			sessionString +
 			jumpTypeString +
-			" AND jump.personID == person.uniqueID " +
-			// personSessionWeight stuff
-			" AND person.uniqueID == personSessionWeight.personID " +
-			" AND jump.sessionID == personSessionWeight.sessionID " + //should work for simple and multi session
+			" AND jump.personID == " + tp + ".uniqueID " +
+			// personSession stuff
+			" AND " + tp + ".uniqueID == " + tps + ".personID " +
+			" AND jump.sessionID == " + tps + ".sessionID " + //should work for simple and multi session
 
 			groupByString +
 			//orderByString + ini + "indexPart1 * indexPart2WithoutSqrt" + end + " DESC ";

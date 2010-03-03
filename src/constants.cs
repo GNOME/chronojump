@@ -384,6 +384,8 @@ public class Constants
 	};
 	
 	public static int Simulated = -1; 
+	public static string SimulatedMessage = Catalog.GetString("Tests are SIMULATED until Chronopic is connected at menu 'Tools / Chronopic'.");
+
 	
 	//levels of sport practice
 	//int will go into person database

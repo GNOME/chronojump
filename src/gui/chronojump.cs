@@ -57,42 +57,132 @@ public class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_runs_interval;
 	[Widget] Gtk.ComboBox combo_pulses;
 
-	[Widget] Gtk.MenuItem menuitem_server_upload_session;
+	//menus
+	[Widget] Gtk.MenuItem menu_persons;
+	[Widget] Gtk.MenuItem menu_jumps;
+	[Widget] Gtk.MenuItem menu_runs;
+	[Widget] Gtk.MenuItem menu_other;
+	[Widget] Gtk.MenuItem menu_tools;
 
+	//menu session
+	[Widget] Gtk.MenuItem menuitem_edit_session;
+	[Widget] Gtk.MenuItem menuitem_delete_session;
+	[Widget] Gtk.MenuItem menuitem_export_csv;
+	[Widget] Gtk.MenuItem menuitem_export_xml;
+		
+	//menu person
+	[Widget] Gtk.MenuItem menuitem_person_add_single;
+	[Widget] Gtk.MenuItem menuitem_person_add_multiple;
+	[Widget] Gtk.MenuItem menuitem_recuperate_person;
+	[Widget] Gtk.MenuItem menuitem_recuperate_persons_from_session;
+	[Widget] Gtk.MenuItem menuitem_edit_current_person;
+	[Widget] Gtk.MenuItem menuitem_show_all_person_events;
+	[Widget] Gtk.MenuItem menuitem_delete_current_person_from_session;
+	[Widget] Gtk.Button button_edit_current_person;
+	[Widget] Gtk.Button button_show_all_person_events;
+	
+	//tests
+	//jumps
+	[Widget] Gtk.MenuItem menu_execute_simple_jumps1;
 	[Widget] Gtk.MenuItem menuitem_edit_selected_jump;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_jump;
+	[Widget] Gtk.MenuItem menu_execute_repetitive_jumps1;
+	[Widget] Gtk.MenuItem menuitem_edit_selected_jump_rj;
+	[Widget] Gtk.MenuItem menuitem_repair_selected_jump_rj;
+	[Widget] Gtk.MenuItem menuitem_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_edit_selected_jump;
 	[Widget] Gtk.Button button_delete_selected_jump;
-	[Widget] Gtk.MenuItem menuitem_edit_selected_jump_rj;
-	[Widget] Gtk.MenuItem menuitem_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_edit_selected_jump_rj;
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
-	[Widget] Gtk.Button button_repair_selected_reactive_jump;
-	[Widget] Gtk.MenuItem menuitem_repair_selected_reactive_jump;
+	[Widget] Gtk.Button button_repair_selected_jump_rj;
+	[Widget] Gtk.MenuItem menuitem_jump_type_add;
+	[Widget] Gtk.MenuItem menuitem_jump_type_delete_simple;
+	[Widget] Gtk.MenuItem menuitem_jump_type_delete_reactive;
 	
+	[Widget] Gtk.MenuItem menuitem_jump_free;
+	[Widget] Gtk.MenuItem sj;
+	[Widget] Gtk.MenuItem sj_l;
+	[Widget] Gtk.MenuItem cmj;
+	[Widget] Gtk.MenuItem cmj_l;
+	[Widget] Gtk.MenuItem abk;
+	[Widget] Gtk.MenuItem dj;
+	[Widget] Gtk.MenuItem menuitem_jump_rocket;
+	[Widget] Gtk.MenuItem menuitem_take_off;
+	[Widget] Gtk.MenuItem more_simple_jumps;
+	[Widget] Gtk.MenuItem more_rj;
+	[Widget] Gtk.MenuItem rj_j;
+	[Widget] Gtk.MenuItem rj_t;
+	[Widget] Gtk.MenuItem rj_unlimited;
+	[Widget] Gtk.MenuItem rj_hexagon;
+
+	//runs
+	[Widget] Gtk.MenuItem menu_execute_simple_runs1;
 	[Widget] Gtk.MenuItem menuitem_edit_selected_run;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_run;
+	[Widget] Gtk.MenuItem menu_execute_intervallic_runs1;
+	[Widget] Gtk.MenuItem menuitem_edit_selected_run_interval;
+	[Widget] Gtk.MenuItem menuitem_repair_selected_run_interval;
+	[Widget] Gtk.MenuItem menuitem_delete_selected_run_interval;
+	[Widget] Gtk.MenuItem menuitem_run_type_add;
+	[Widget] Gtk.MenuItem menuitem_run_type_delete_simple;
+	[Widget] Gtk.MenuItem menuitem_run_type_delete_intervallic;
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_delete_selected_run;
-	[Widget] Gtk.MenuItem menuitem_edit_selected_run_interval;
-	[Widget] Gtk.MenuItem menuitem_delete_selected_run_interval;
 	[Widget] Gtk.Button button_edit_selected_run_interval;
 	[Widget] Gtk.Button button_delete_selected_run_interval;
 	[Widget] Gtk.Button button_repair_selected_run_interval;
-	[Widget] Gtk.MenuItem menuitem_repair_selected_run_interval;
 
+	[Widget] Gtk.MenuItem menuitem_run_custom;
+	[Widget] Gtk.MenuItem menuitem_20m;
+	[Widget] Gtk.MenuItem menuitem_100m;
+	[Widget] Gtk.MenuItem menuitem_200m;
+	[Widget] Gtk.MenuItem menuitem_400m;
+	[Widget] Gtk.MenuItem menuitem_run_gesell;
+	[Widget] Gtk.MenuItem menuitem_run_20yard;
+	[Widget] Gtk.MenuItem menuitem_run_505;
+	[Widget] Gtk.MenuItem menuitem_run_illinois;
+	[Widget] Gtk.MenuItem menuitem_run_margaria;
+	[Widget] Gtk.MenuItem menuitem_run_shuttle;
+	[Widget] Gtk.MenuItem menuitem_run_zigzag;
+	[Widget] Gtk.MenuItem menuitem_run_interval_by_laps;
+	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
+	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
+	[Widget] Gtk.MenuItem menuitem_run_interval_mtgug;
+
+	//other
+	//reaction time
+	[Widget] Gtk.MenuItem menuitem_reaction_time;
 	[Widget] Gtk.Button button_edit_selected_reaction_time;
 	[Widget] Gtk.Button button_delete_selected_reaction_time;
-
-	//[Widget] Gtk.MenuItem menuitem_edit_selected_pulse;
-	//[Widget] Gtk.MenuItem menuitem_delete_selected_pulse;
+	//pulse
+	[Widget] Gtk.MenuItem menuitem_pulse_free;
+	[Widget] Gtk.MenuItem menuitem_pulse_custom;
 	[Widget] Gtk.Button button_edit_selected_pulse;
 	[Widget] Gtk.Button button_delete_selected_pulse;
 	[Widget] Gtk.Button button_repair_selected_pulse;
-	
+	//multiChronopic	
+	[Widget] Gtk.MenuItem menuitem_multi_chronopic_start;
+	[Widget] Gtk.MenuItem menuitem_run_analysis;
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
 	[Widget] Gtk.Button button_delete_selected_multi_chronopic;
-	
+	[Widget] Gtk.Table table_multi_chronopic_buttons;
+	[Widget] Gtk.Button button_multi_chronopic_start;
+	[Widget] Gtk.Button button_run_analysis;
+	[Widget] Gtk.Entry entry_run_analysis_distance;
+	[Widget] Gtk.CheckButton check_multi_sync;
+	[Widget] Gtk.CheckButton check_multi_delete_first;
+	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
+
+	//tools
+	//from SportsTracker code
+	[Glade.WidgetAttribute]
+		private ImageMenuItem
+			menuitem_view_stats = null, menuitem_report_window = null, menuitem_chronopic = null;
+	[Widget] Gtk.MenuItem menuitem_server_evaluator_data;
+	[Widget] Gtk.MenuItem menuitem_server_upload_session;
+	[Widget] Gtk.MenuItem menuitem_preferences;
+
+
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
 	[Widget] Gtk.Button button_open;
@@ -136,78 +226,12 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_reaction_time;
 	//[Widget] Gtk.Button button_pulse_more;
 
-	//multiChronopic
-	[Widget] Gtk.Table table_multi_chronopic_buttons;
-	[Widget] Gtk.MenuItem menuitem_multi_chronopic_start;
-	[Widget] Gtk.Button button_multi_chronopic_start;
-	[Widget] Gtk.MenuItem menuitem_run_analysis;
-	[Widget] Gtk.Button button_run_analysis;
-	[Widget] Gtk.Entry entry_run_analysis_distance;
-	
-	
-	[Widget] Gtk.CheckButton check_multi_sync;
-	[Widget] Gtk.CheckButton check_multi_delete_first;
 	
 	[Widget] Gtk.Button button_last;
 	[Widget] Gtk.Button button_rj_last;
 	[Widget] Gtk.Button button_run_last;
 	[Widget] Gtk.Button button_run_interval_last;
-	[Widget] Gtk.MenuItem menuitem_preferences;
-	[Widget] Gtk.MenuItem menuitem_export_csv;
-	[Widget] Gtk.MenuItem menuitem_export_xml;
-	[Widget] Gtk.MenuItem menuitem_recuperate_person;
-	[Widget] Gtk.MenuItem menuitem_person_add_single;
-	[Widget] Gtk.MenuItem menuitem_person_add_multiple;
-	[Widget] Gtk.MenuItem menuitem_edit_session;
-	[Widget] Gtk.MenuItem menuitem_delete_session;
-	[Widget] Gtk.MenuItem menuitem_recuperate_persons_from_session;
-	[Widget] Gtk.MenuItem menu_persons;
-	[Widget] Gtk.MenuItem menu_jumps;
-	[Widget] Gtk.MenuItem menu_runs;
-	[Widget] Gtk.MenuItem menu_other;
-	[Widget] Gtk.MenuItem menu_tools;
-		
-	[Widget] Gtk.MenuItem menuitem_jump_free;
-	[Widget] Gtk.MenuItem sj;
-	[Widget] Gtk.MenuItem sj_l;
-	[Widget] Gtk.MenuItem cmj;
-	[Widget] Gtk.MenuItem cmj_l;
-	[Widget] Gtk.MenuItem abk;
-	[Widget] Gtk.MenuItem dj;
-	[Widget] Gtk.MenuItem menuitem_jump_rocket;
-	[Widget] Gtk.MenuItem menuitem_take_off;
-	[Widget] Gtk.MenuItem more_simple_jumps;
-	[Widget] Gtk.MenuItem more_rj;
-	[Widget] Gtk.MenuItem menuitem_jump_type_add;
-	[Widget] Gtk.MenuItem rj_j;
-	[Widget] Gtk.MenuItem rj_t;
-	[Widget] Gtk.MenuItem rj_unlimited;
-	[Widget] Gtk.MenuItem rj_hexagon;
-	[Widget] Gtk.MenuItem menuitem_run_custom;
-	[Widget] Gtk.MenuItem menuitem_20m;
-	[Widget] Gtk.MenuItem menuitem_100m;
-	[Widget] Gtk.MenuItem menuitem_200m;
-	[Widget] Gtk.MenuItem menuitem_400m;
-	[Widget] Gtk.MenuItem menuitem_run_gesell;
-	[Widget] Gtk.MenuItem menuitem_run_20yard;
-	[Widget] Gtk.MenuItem menuitem_run_505;
-	[Widget] Gtk.MenuItem menuitem_run_illinois;
-	[Widget] Gtk.MenuItem menuitem_run_margaria;
-	[Widget] Gtk.MenuItem menuitem_run_shuttle;
-	[Widget] Gtk.MenuItem menuitem_run_zigzag;
-	[Widget] Gtk.MenuItem menuitem_run_interval_by_laps;
-	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
-	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
-	[Widget] Gtk.MenuItem menuitem_run_interval_mtgug;
-				
-	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
 
-	[Widget] Gtk.Button button_edit_current_person;
-	[Widget] Gtk.MenuItem menuitem_edit_current_person;
-	[Widget] Gtk.MenuItem menuitem_delete_current_person_from_session;
-	[Widget] Gtk.Button button_show_all_person_events;
-	[Widget] Gtk.MenuItem show_all_person_events;
-	
 	[Widget] Gtk.Notebook notebook;
 	
 	[Widget] Gtk.Box vbox_image_test;
@@ -352,6 +376,7 @@ public class ChronoJumpWindow
 	
 	static EventExecuteWindow eventExecuteWin;
 
+	private bool firstTestInSession = true; //since we started chronojump
 	private bool firstRjValue;
 	private double rjTcCount;
 	private double rjTvCount;
@@ -473,10 +498,6 @@ public class ChronoJumpWindow
 	}
 */
 
-	//from SportsTracker code
-	[Glade.WidgetAttribute]
-		private ImageMenuItem
-			menuitem_view_stats = null, menuitem_report_window = null, menuitem_chronopic = null;
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
@@ -1209,7 +1230,7 @@ public class ChronoJumpWindow
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_repair_selected_reactive_jump_clicked;
+		myItem.Activated += on_repair_selected_jump_rj_clicked;
 		myMenu.Attach( myItem, 0, 1, 1, 2 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
@@ -1869,7 +1890,7 @@ public class ChronoJumpWindow
 			menuitem_edit_current_person.Sensitive = false;
 			menuitem_delete_current_person_from_session.Sensitive = false;
 			button_show_all_person_events.Sensitive = false;
-			show_all_person_events.Sensitive = false;
+			menuitem_show_all_person_events.Sensitive = false;
 		
 			//update report
 			report.SessionID = currentSession.UniqueID;
@@ -1934,7 +1955,7 @@ public class ChronoJumpWindow
 		menuitem_edit_current_person.Sensitive = false;
 		menuitem_delete_current_person_from_session.Sensitive = false;
 		button_show_all_person_events.Sensitive = false;
-		show_all_person_events.Sensitive = false;
+		menuitem_show_all_person_events.Sensitive = false;
 
 		//if there are persons
 		if(foundPersons) {
@@ -4677,7 +4698,7 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_repair_selected_reactive_jump_clicked (object o, EventArgs args) {
+	private void on_repair_selected_jump_rj_clicked (object o, EventArgs args) {
 		notebook_change(1);
 		Log.WriteLine("Repair selected subjump");
 		//1.- check that there's a line selected
@@ -4688,11 +4709,11 @@ Console.WriteLine("X");
 		
 			//4.- edit this jump
 			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
-			repairJumpRjWin.Button_accept.Clicked += new EventHandler(on_repair_selected_reactive_jump_accepted);
+			repairJumpRjWin.Button_accept.Clicked += new EventHandler(on_repair_selected_jump_rj_accepted);
 		}
 	}
 	
-	private void on_repair_selected_reactive_jump_accepted (object o, EventArgs args) {
+	private void on_repair_selected_jump_rj_accepted (object o, EventArgs args) {
 		Log.WriteLine("Repair selected reactive jump accepted");
 		
 		treeview_jumps_rj_storeReset();
@@ -4846,35 +4867,96 @@ Console.WriteLine("X");
 	 * ----------------  SENSITIVE GUI METHODS-------------------
 	 *  --------------------------------------------------------
 	 */
+
+	private void menuSessionSensitive(bool option)
+	{
+		menuitem_edit_session.Sensitive = option;
+		menuitem_delete_session.Sensitive = option;
+		menuitem_export_csv.Sensitive = option;
+		//menuitem_export_xml.Sensitive = option; not implemented yet
+	}
 	
+	private void menuPersonSensitive(bool option)
+	{
+		menuitem_person_add_single.Sensitive = option;
+		menuitem_person_add_multiple.Sensitive = option;
+		menuitem_recuperate_person.Sensitive = option;
+		menuitem_recuperate_persons_from_session.Sensitive = option;
+	}
+	
+	private void menuPersonSelectedSensitive(bool option)
+	{
+		menuitem_edit_current_person.Sensitive = option;
+		menuitem_show_all_person_events.Sensitive = option;
+		menuitem_delete_current_person_from_session.Sensitive = option;
+		button_edit_current_person.Sensitive = option;
+		button_show_all_person_events.Sensitive = option;
+	}
+
+	private void menuJumpsSensitive(bool option)
+	{
+		menu_execute_simple_jumps1.Sensitive = option;
+		menuitem_edit_selected_jump.Sensitive = option;
+		menuitem_delete_selected_jump.Sensitive = option;
+		menu_execute_repetitive_jumps1.Sensitive = option;
+		menuitem_edit_selected_jump_rj.Sensitive = option;
+		menuitem_repair_selected_jump_rj.Sensitive = option;
+		menuitem_delete_selected_jump_rj.Sensitive = option;
+		menuitem_jump_type_add.Sensitive = option;
+		menuitem_jump_type_delete_simple.Sensitive = option;
+		menuitem_jump_type_delete_reactive.Sensitive = option;
+	}
+	
+	private void menuRunsSensitive(bool option)
+	{
+		menu_execute_simple_runs1.Sensitive = option;
+		menuitem_edit_selected_run.Sensitive = option;
+		menuitem_delete_selected_run.Sensitive = option;
+		menu_execute_intervallic_runs1.Sensitive = option;
+		menuitem_edit_selected_run_interval.Sensitive = option;
+		menuitem_repair_selected_run_interval.Sensitive = option;
+		menuitem_delete_selected_run_interval.Sensitive = option;
+		menuitem_run_type_add.Sensitive = option;
+		menuitem_run_type_delete_simple.Sensitive = option;
+		menuitem_run_type_delete_intervallic.Sensitive = option;
+	}
+	
+	private void menuOtherSensitive(bool option)
+	{
+		menuitem_reaction_time.Sensitive = option;
+		menuitem_pulse_free.Sensitive = option;
+		menuitem_pulse_custom.Sensitive = option;
+		menuitem_multi_chronopic_start.Sensitive = option;
+		menuitem_run_analysis.Sensitive = option;
+	}
+	
+	private void menuToolsSensitive(bool option)
+	{
+		menuitem_view_stats.Sensitive = option;
+		menuitem_report_window.Sensitive = option;
+		menuitem_server_evaluator_data.Sensitive = option;
+		menuitem_server_upload_session.Sensitive = option;
+	}
+
 	private void sensitiveGuiNoSession () 
 	{
-		//menuitems
 		menuitem_preferences.Sensitive = true;
-		menuitem_export_csv.Sensitive = false;
-		menuitem_export_xml.Sensitive = false;
-		menuitem_recuperate_person.Sensitive = false;
-		menuitem_recuperate_persons_from_session.Sensitive = false;
-		menuitem_person_add_single.Sensitive = false;
-		menuitem_person_add_multiple.Sensitive = false;
 		treeview_persons.Sensitive = false;
-		menuitem_edit_session.Sensitive = false;
-		menuitem_delete_session.Sensitive = false;
 		
-		menu_persons.Sensitive = false;
-		menu_jumps.Sensitive = false;
-		menu_runs.Sensitive = false;
-		menu_other.Sensitive = false;
-		menu_tools.Sensitive = false;
+		//menuitems
+		menuSessionSensitive(false);
+		menuPersonSensitive(false);
+		menuPersonSelectedSensitive(false);
+		menuJumpsSensitive(false);
+		menuRunsSensitive(false);
+		menuOtherSensitive(false);
+		menuToolsSensitive(false);
 
 		vbox_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
 		button_recup_per.Sensitive = false;
 		button_create_per.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
-		menuitem_delete_current_person_from_session.Sensitive = false;
-		button_show_all_person_events.Sensitive = false;
-		show_all_person_events.Sensitive = false;
 		
 		//notebook
 		notebook.Sensitive = false;
@@ -4883,11 +4965,6 @@ Console.WriteLine("X");
 		button_rj_last.Sensitive=false;
 		button_run_last.Sensitive=false;
 		button_run_interval_last.Sensitive=false;
-		//button_pulse_last.Sensitive=false;
-		
-//		button_last_delete.Sensitive = false;
-		
-		menuitem_server_upload_session.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesSession () {
@@ -4896,17 +4973,9 @@ Console.WriteLine("X");
 		button_recup_per.Sensitive = true;
 		button_create_per.Sensitive = true;
 		
-		menuitem_export_csv.Sensitive = true;
-		menuitem_export_xml.Sensitive = false; //it's not coded yet
-		menuitem_recuperate_person.Sensitive = true;
-		menuitem_recuperate_persons_from_session.Sensitive = true;
-		menuitem_person_add_single.Sensitive = true;
-		menuitem_person_add_multiple.Sensitive = true;
-		menuitem_edit_session.Sensitive = true;
-		menuitem_delete_session.Sensitive = true;
-		menu_persons.Sensitive = true;
-		
-		menuitem_server_upload_session.Sensitive = true;
+		menuSessionSensitive(true);
+		menuPersonSensitive(true);
+		menuToolsSensitive(true);
 	}
 
 	//only called by delete person functions (if we run out of persons)
@@ -4914,34 +4983,22 @@ Console.WriteLine("X");
 		notebook.Sensitive = false;
 		treeview_persons.Sensitive = false;
 		
-		button_edit_current_person.Sensitive = false;
-		menuitem_edit_current_person.Sensitive = false;
-		menuitem_delete_current_person_from_session.Sensitive = false;
-		button_show_all_person_events.Sensitive = false;
-		show_all_person_events.Sensitive = false;
-		
-		menu_jumps.Sensitive = false;
-		menu_runs.Sensitive = false;
-		menu_other.Sensitive = false;
-		menu_tools.Sensitive = false;
-		
-		//menuitem_jump_type_add.Sensitive = false;
-//		button_last_delete.Sensitive = false;
+		menuPersonSelectedSensitive(false);
+		menuJumpsSensitive(false);
+		menuRunsSensitive(false);
+		menuOtherSensitive(false);
+		menuToolsSensitive(false);
 	}
 	
 	private void sensitiveGuiYesPerson () {
 		notebook.Sensitive = true;
 		treeview_persons.Sensitive = true;
-		button_edit_current_person.Sensitive = true;
-		menuitem_edit_current_person.Sensitive = true;
-		menuitem_delete_current_person_from_session.Sensitive = true;
-		button_show_all_person_events.Sensitive = true;
-		show_all_person_events.Sensitive = true;
 		
-		menu_jumps.Sensitive = true;
-		menu_runs.Sensitive = true;
-		menu_other.Sensitive = true;
-		menu_tools.Sensitive = true;
+		menuPersonSelectedSensitive(true);
+		menuJumpsSensitive(true);
+		menuRunsSensitive(true);
+		menuOtherSensitive(true);
+		menuToolsSensitive(true);
 	
 		//unsensitive edit, delete, repair events because no event is initially selected
 		showHideActionEventButtons(false, "ALL");
@@ -4954,7 +5011,6 @@ Console.WriteLine("X");
 	}
 	
 	private void sensitiveGuiYesEvent () {
-//		button_last_delete.Sensitive = true;
 	}
 	
 	private void sensitiveGuiEventDoing () {
@@ -4966,12 +5022,9 @@ Console.WriteLine("X");
 		hbox_pulses.Sensitive = false;
 		
 		//menu
-		menu_jumps.Sensitive = false;
-		menu_runs.Sensitive = false;
-		menu_other.Sensitive = false;
-		
-		//cancel, delete last, finish
-//		button_last_delete.Sensitive = false;
+		menuJumpsSensitive(false);
+		menuRunsSensitive(false);
+		menuOtherSensitive(false);
 	}
    
 	private void sensitiveGuiEventDone () {
@@ -5019,9 +5072,9 @@ Console.WriteLine("X");
 		}
 		
 		//menu
-		menu_jumps.Sensitive = true;
-		menu_runs.Sensitive = true;
-		menu_other.Sensitive = true;
+		menuJumpsSensitive(true);
+		menuRunsSensitive(true);
+		menuOtherSensitive(true);
 	}
 
 	private void showHideActionEventButtons(bool show, string type) {
@@ -5038,8 +5091,8 @@ Console.WriteLine("X");
 			menuitem_delete_selected_jump_rj.Sensitive = show;
 			button_edit_selected_jump_rj.Sensitive = show;
 			button_delete_selected_jump_rj.Sensitive = show;
-			button_repair_selected_reactive_jump.Sensitive = show;
-			menuitem_repair_selected_reactive_jump.Sensitive = show;
+			button_repair_selected_jump_rj.Sensitive = show;
+			menuitem_repair_selected_jump_rj.Sensitive = show;
 			success = true;
 		} 
 		if (type == "ALL" || type == "Run") {

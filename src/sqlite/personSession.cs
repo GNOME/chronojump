@@ -131,13 +131,13 @@ class SqlitePersonSession : Sqlite
 		dbcon.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
 			" SET personID = " + ps.PersonID + 
-			" SET sessionID = " + ps.SessionID + 
-			" SET height = " + Util.ConvertToPoint(ps.Height) + 
-			" SET weight = " + Util.ConvertToPoint(ps.Weight) + 
-			" SET sportID = " + ps.SportID + 
-			" SET speciallityID = " + ps.SpeciallityID + 
-			" SET practice = " + ps.Practice + 
-			" SET comments = '" + ps.Comments + 
+			", sessionID = " + ps.SessionID + 
+			", height = " + Util.ConvertToPoint(ps.Height) + 
+			", weight = " + Util.ConvertToPoint(ps.Weight) + 
+			", sportID = " + ps.SportID + 
+			", speciallityID = " + ps.SpeciallityID + 
+			", practice = " + ps.Practice + 
+			", comments = '" + ps.Comments + 
 			"' WHERE uniqueID == " + ps.UniqueID;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -190,10 +190,9 @@ class SqlitePersonSession : Sqlite
 	{
 		string tps = Constants.PersonSessionTable;
 			
-		string sessionIDString = "";
+		string sessionIDString = " AND sessionID == " + sessionID;
 		if(sessionID == -1)
-			sessionIDString = " AND sessionID == " + sessionID +
-				" ORDER BY sessionID DESC limit 1";
+			sessionIDString = " ORDER BY sessionID DESC limit 1";
 
 		dbcon.Open();
 		dbcmd.CommandText = "SELECT * FROM " + tps +

@@ -176,7 +176,6 @@ public class TreeViewJumps : TreeViewEvent
 					Convert.ToDouble(myStringOfData[8]), 
 					Convert.ToDouble(myStringOfData[12]));
 
-
 		return myJump;
 	}
 

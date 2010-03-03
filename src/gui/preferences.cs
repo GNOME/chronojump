@@ -49,9 +49,15 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radiobutton_show_dj_index;
 	
 	[Widget] Gtk.CheckButton checkbutton_ask_deletion;
-	[Widget] Gtk.CheckButton checkbutton_height_preferred;
-	[Widget] Gtk.CheckButton checkbutton_meters_seconds_preferred;
-	[Widget] Gtk.CheckButton checkbutton_percent_kg_preferred;
+
+	[Widget] Gtk.RadioButton radio_elevation_height;
+	[Widget] Gtk.RadioButton radio_elevation_tf;
+	[Widget] Gtk.RadioButton radio_speed_ms;
+	[Widget] Gtk.RadioButton radio_speed_km;
+	[Widget] Gtk.RadioButton radio_weight_percent;
+	[Widget] Gtk.RadioButton radio_weight_kg;
+
+
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
 //	[Widget] Gtk.ComboBox combo_language;
@@ -150,21 +156,21 @@ public class PreferencesWindow {
 		
 
 		if(weightStatsPercent)  
-			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = true; 
+			PreferencesWindowBox.radio_weight_percent.Active = true; 
 		else 
-			PreferencesWindowBox.checkbutton_percent_kg_preferred.Active = false; 
+			PreferencesWindowBox.radio_weight_kg.Active = true; 
 		
 
 		if(heightPreferred)  
-			PreferencesWindowBox.checkbutton_height_preferred.Active = true; 
+			PreferencesWindowBox.radio_elevation_height.Active = true; 
 		else 
-			PreferencesWindowBox.checkbutton_height_preferred.Active = false; 
+			PreferencesWindowBox.radio_elevation_tf.Active = true; 
 		
 
 		if(metersSecondsPreferred)  
-			PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active = true; 
+			PreferencesWindowBox.radio_speed_ms.Active = true; 
 		else 
-			PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active = false; 
+			PreferencesWindowBox.radio_speed_km.Active = true; 
 		
 
 		PreferencesWindowBox.preferences.Show ();
@@ -334,9 +340,9 @@ public class PreferencesWindow {
 		
 		
 		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), false);
-		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.checkbutton_percent_kg_preferred.Active.ToString(), false);
-		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.checkbutton_height_preferred.Active.ToString(), false);
-		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.checkbutton_meters_seconds_preferred.Active.ToString(), false);
+		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), false);
+		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.radio_elevation_height.Active.ToString(), false);
+		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), false);
 		
 		/*
 		if(Util.IsWindows()) {

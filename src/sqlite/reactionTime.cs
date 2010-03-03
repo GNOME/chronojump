@@ -81,17 +81,19 @@ class SqliteReactionTime : Sqlite
 	//if all persons, put -1 in personID
 	public static string[] SelectReactionTimes(int sessionID, int personID) 
 	{
+		string tp = Constants.PersonTable;
+
 		string filterPersonString = "";
 		if(personID != -1)
-			filterPersonString = " AND person.uniqueID == " + personID;
+			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT person.name, reactionTime.* " +
-			" FROM person, reactionTime " +
-			" WHERE person.uniqueID == reactionTime.personID" + 
+		dbcmd.CommandText = "SELECT " + tp + ".name, reactionTime.* " +
+			" FROM " + tp + ", reactionTime " +
+			" WHERE " + tp + ".uniqueID == reactionTime.personID" + 
 			" AND reactionTime.sessionID == " + sessionID + 
 			filterPersonString +
-			" ORDER BY upper(person.name), reactionTime.uniqueID";
+			" ORDER BY upper(" + tp + ".name), reactionTime.uniqueID";
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -104,9 +106,7 @@ class SqliteReactionTime : Sqlite
 		int count = new int();
 		count = 0;
 
-		
 		while(reader.Read()) {
-
 			myArray.Add (reader[0].ToString() + ":" +	//person.name
 					reader[1].ToString() + ":" +	//jump.uniqueID
 					reader[2].ToString() + ":" + 	//jump.personID
@@ -146,17 +146,6 @@ class SqliteReactionTime : Sqlite
 		reader.Read();
 		
 		ReactionTime myRT = new ReactionTime(DataReaderToStringArray(reader, 7));
-		/*
-		ReactionTime myRT = new ReactionTime(
-				Convert.ToInt32(reader[0]),	//uniqueID
-				Convert.ToInt32(reader[1]),	//personID
-				Convert.ToInt32(reader[2]),	//sessionID
-				//reader[3].ToString(),		//type
-				Convert.ToDouble( Util.ChangeDecimalSeparator(reader[4].ToString()) ),
-				reader[5].ToString(),  //description
-				Convert.ToInt32(reader[6]) //simulated
-				);
-				*/
 	
 		dbcon.Close();
 		return myRT;

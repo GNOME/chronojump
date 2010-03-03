@@ -26,6 +26,7 @@ using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
+using System.Threading;
 
 
 //load person (jumper)
@@ -57,6 +58,8 @@ public class PersonRecuperateWindow {
 	protected int columnId = 0;
 	protected int firstColumn = 0;
 	protected int pDN;
+	
+	public Gtk.Button fakeButtonDone;
 
 	protected PersonRecuperateWindow () {
 	}
@@ -71,6 +74,8 @@ public class PersonRecuperateWindow {
 		UtilGtk.IconWindow(person_recuperate);
 
 		this.currentSession = currentSession;
+		
+		fakeButtonDone = new Gtk.Button();
 	
 		//no posible to recuperate until one person is selected
 		button_recuperate.Sensitive = false;
@@ -158,7 +163,7 @@ public class PersonRecuperateWindow {
 		
 		foreach (Person person in myPersons) {
 			store.AppendValues (
-					person.UniqueID, 
+					person.UniqueID.ToString(), 
 					person.Name, 
 					getCorrectSex(person.Sex), 
 					person.DateBorn.ToShortDateString(), 
@@ -247,6 +252,11 @@ public class PersonRecuperateWindow {
 		}
 	}
 	
+	private void on_edit_current_person_cancelled (object o, EventArgs args) {
+		personAddModifyWin.FakeButtonCancel.Clicked -= new EventHandler(on_edit_current_person_cancelled);
+		fakeButtonDone.Click();
+	}
+	
 	protected virtual void on_edit_current_person_accepted (object o, EventArgs args) {
 		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_current_person_accepted);
 		if (personAddModifyWin.CurrentPerson != null)
@@ -263,15 +273,25 @@ public class PersonRecuperateWindow {
 			//no posible to recuperate until one person is selected
 			button_recuperate.Sensitive = false;
 
-			personAddModifyWin.Destroy();
+//			personAddModifyWin.Destroy();
+		
+			fakeButtonDone.Click();
 		}
 	}
 
-	
+	/*	
 	public Button Button_recuperate {
 		set { button_recuperate = value; }
 		get { return button_recuperate; }
 	}
+	*/
+	
+	public Button FakeButtonDone 
+	{
+		set { fakeButtonDone = value; }
+		get { return fakeButtonDone; }
+	}
+
 	
 	public Person CurrentPerson {
 		get { return currentPerson; }
@@ -289,6 +309,8 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	[Widget] Gtk.ComboBox combo_sessions;
 	[Widget] protected Gtk.Box hbox_combo_select_checkboxes;
 	[Widget] protected Gtk.ComboBox combo_select_checkboxes;
+	
+	private Gtk.Button fakeButtonPreDone;
 	
 	
 	protected static string [] comboCheckboxesOptions = {
@@ -314,6 +336,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		hbox_search_filter_hide.Hide();
 		
 		this.currentSession = currentSession;
+		
+		fakeButtonDone = new Gtk.Button();
+		fakeButtonPreDone = new Gtk.Button();
 	
 		firstColumn = 1;
 	
@@ -471,7 +496,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		foreach (Person person in myPersons) {
 			store.AppendValues (
 					true,
-					person.UniqueID, 
+					person.UniqueID.ToString(), 
 					person.Name, 
 					getCorrectSex(person.Sex), 
 					person.DateBorn.ToShortDateString(), 
@@ -521,65 +546,73 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		//don't do nothing
 	}
 
-	bool doNextPerson = true;	
+	int currentRow;
+	int inserted;
 	protected override void on_button_recuperate_clicked (object o, EventArgs args)
 	{
+		inserted = 0;
+		currentRow = 0;
+
+		fakeButtonPreDone.Clicked += new EventHandler(updateStoreAndEnd);
+		processRow();
+	}
+
+	//takes a row every time
+	//if it founds data to sent to AddModifyWin and will be called again
+	//else don't will be called again, for this reason calls: fakeButtonPreDone
+	private void processRow()
+	{
 		Gtk.TreeIter iter;
-		
-		int inserted = 0;
 		bool val;
 		int count = 0;
-		int personID;
+		bool found = false;
 		if (store.GetIterFirst(out iter)) {
-			//don't catch 0 value
-			//val = (bool) store.GetValue (iter, 0);
-			//Log.WriteLine("Row {0}, value {1}", count++, val);
-			count ++;
 			do {
 				val = (bool) store.GetValue (iter, 0);
-
-				//if checkbox of person is true
-				if(val) {
-					while(! doNextPerson) {}
-
+				//if checkbox of person is true and is the row that we are processing
+				if(val && count++ == currentRow) {
 					Person person = SqlitePerson.Select(
 							Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
-
-					doNextPerson = false;
 					personAddModifyWin = PersonAddModifyWindow.Show(
 							parent, currentSession, person, pDN, true); //comes from recuperate window
+					PersonAddModifyWindow.MakeVisible();
 					personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 					personAddModifyWin.FakeButtonCancel.Clicked += new EventHandler(on_edit_current_person_cancelled);
-					
-					inserted ++; //but maybe not inserted
+					inserted ++;
+					found = true;
 				}
 			} while ( store.IterNext(ref iter) );
-
-			if(inserted > 0) {
-				//update the treeview (only one time)
-				string myText = UtilGtk.ComboGetActive(combo_sessions);
-				if(myText != "") {
-					store = new TreeStore( typeof (bool), 
-							typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
-					treeview_person_recuperate.Model = store;
-
-					string [] myStringFull = myText.Split(new char[] {':'});
-
-					//fill the treeview passing the uniqueID of selected session as the reference for loading persons
-					fillTreeView( treeview_person_recuperate, store, 
-						currentSession.UniqueID, //except current session
-						Convert.ToInt32(myStringFull[0]) //select from this session (on combo_sessions)
-						);
-					
-					if(inserted == 1)
-						statusbar1.Push( 1, Catalog.GetString("Loaded") + " " + currentPerson.Name );
-					else //more inserted
-						statusbar1.Push( 1, string.Format(Catalog.GetString("Successfully added {0} persons"), inserted));
-					personAddModifyWin.Destroy();
-				}
-			}
 		}
-		
+		if(!found)
+			fakeButtonPreDone.Click();
+	}
+
+	private void updateStoreAndEnd(object o, EventArgs args)
+	{
+		fakeButtonPreDone.Clicked -= new EventHandler(updateStoreAndEnd);
+		//update the treeview (only one time)
+		string myText = UtilGtk.ComboGetActive(combo_sessions);
+		if(myText != "") {
+			store = new TreeStore( typeof (bool), 
+					typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
+			treeview_person_recuperate.Model = store;
+
+			string [] myStringFull = myText.Split(new char[] {':'});
+
+			//fill the treeview passing the uniqueID of selected session as the reference for loading persons
+			fillTreeView( treeview_person_recuperate, store, 
+					currentSession.UniqueID, //except current session
+					Convert.ToInt32(myStringFull[0]) //select from this session (on combo_sessions)
+				    );
+
+			if(inserted == 1)
+				statusbar1.Push( 1, Catalog.GetString("Loaded") + " " + currentPerson.Name );
+			else //more inserted
+				statusbar1.Push( 1, string.Format(Catalog.GetString("Successfully added {0} persons"), inserted));
+
+			fakeButtonDone.Click();
+		}
+	
 		//check if there are rows checked for having sensitive or not in recuperate button
 		buttonRecuperateChangeSensitiveness();
 	}
@@ -589,7 +622,12 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		if (personAddModifyWin.CurrentPerson != null)
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
-			doNextPerson = true;
+			currentRow ++;
+				
+			Log.WriteLine("To sleep in order AddMoidfyWin gets closed, in order to open again");
+			System.Threading.Thread.Sleep (100);
+			Log.WriteLine("done");
+			processRow();
 		}
 	}
 	
@@ -597,9 +635,16 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		personAddModifyWin.FakeButtonCancel.Clicked -= new EventHandler(on_edit_current_person_cancelled);
 		if (personAddModifyWin.CurrentPerson != null)
 		{
-			doNextPerson = true;
+			currentRow ++;
+			
+			Log.WriteLine("To sleep in order AddMoidfyWin gets closed, in order to open again");
+			System.Threading.Thread.Sleep (100);
+			Log.WriteLine("done");
+			processRow();
 		}
 	}
+
+	//TODO: do something with destroy, here and on recuperateFromOtherSession
 
 }
 
@@ -805,6 +850,7 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Image image_level;
 
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_cancel;
 	
 	//used for connect ok gui/chronojump.cs, PersonRecuperate, PersonRecuperateFromOtherSession,this class, gui/convertWeight.cs
 	public Gtk.Button fakeButtonAccept;
@@ -962,12 +1008,18 @@ public class PersonAddModifyWindow
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, bool comesFromRecuperateWin)
 	{
+		if (comesFromRecuperateWin) 
+			PersonAddModifyWindowBox = null;
+
 		if (PersonAddModifyWindowBox == null) {
 			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
 		PersonAddModifyWindowBox.comesFromRecuperateWin = comesFromRecuperateWin;
+
+		if(comesFromRecuperateWin)
+			PersonAddModifyWindowBox.button_cancel.Hide();
 		
 		PersonAddModifyWindowBox.person_win.Show ();
 		
@@ -975,6 +1027,11 @@ public class PersonAddModifyWindow
 		
 		return PersonAddModifyWindowBox;
 	}
+	
+	static public void MakeVisible () {
+		PersonAddModifyWindowBox.person_win.Show();
+	}
+
 
 	private void createComboSports() {
 		combo_sports = ComboBox.NewText ();
@@ -1123,9 +1180,9 @@ public class PersonAddModifyWindow
 						Catalog.GetString(countryString[1]));
 			}
 
-			TextBuffer tb = new TextBuffer (new TextTagTable());
-			tb.Text = currentPerson.Description;
-			textview_description.Buffer = tb;
+			TextBuffer tb1 = new TextBuffer (new TextTagTable());
+			tb1.Text = currentPerson.Description;
+			textview_description.Buffer = tb1;
 			
 			serverUniqueID = currentPerson.ServerUniqueID;
 			
@@ -1144,8 +1201,9 @@ public class PersonAddModifyWindow
 			mySpeciallityID = myPS.SpeciallityID;
 			myLevelID = myPS.Practice;
 
-			tb.Text = myPS.Comments;
-			textview_ps_comments.Buffer = tb;
+			TextBuffer tb2 = new TextBuffer (new TextTagTable());
+			tb2.Text = myPS.Comments;
+			textview_ps_comments.Buffer = tb2;
 
 		}
 			
@@ -1158,24 +1216,6 @@ public class PersonAddModifyWindow
 		
 	}
 		
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		fakeButtonCancel.Click();
-		PersonAddModifyWindowBox.person_win.Hide();
-		PersonAddModifyWindowBox.person_win.Destroy();
-		PersonAddModifyWindowBox = null;
-	}
-	
-	//void on_person_modify_delete_event (object o, EventArgs args)
-	void on_person_win_delete_event (object o, DeleteEventArgs args)
-	{
-		fakeButtonCancel.Click();
-		PersonAddModifyWindowBox.person_win.Hide();
-		PersonAddModifyWindowBox.person_win.Destroy();
-		PersonAddModifyWindowBox = null;
-	}
-	
 	
 	void on_button_calendar_clicked (object o, EventArgs args)
 	{
@@ -1503,14 +1543,39 @@ public class PersonAddModifyWindow
 			}
 		}
 
-		fakeButtonAccept.Click();
 
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;
+		
+		fakeButtonAccept.Click();
 	}
+	
+	void on_button_cancel_clicked (object o, EventArgs args)
+	{
+		PersonAddModifyWindowBox.person_win.Hide();
+		PersonAddModifyWindowBox = null;
+		
+		fakeButtonCancel.Click();
+	}
+	
+	//void on_person_modify_delete_event (object o, EventArgs args)
+	void on_person_win_delete_event (object o, DeleteEventArgs args)
+	{
+		//nice: this makes windows no destroyed, now nothing happens
+		if(comesFromRecuperateWin)
+			args.RetVal = true;
+		else {
+			PersonAddModifyWindowBox.person_win.Hide();
+			PersonAddModifyWindowBox = null;
+		
+			fakeButtonCancel.Click();
+		}
+	}
+	
+	
 
 	public void Destroy() {
-		PersonAddModifyWindowBox.person_win.Destroy();
+		//PersonAddModifyWindowBox.person_win.Destroy();
 	}
 
 	public Button FakeButtonAccept 

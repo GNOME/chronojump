@@ -2008,12 +2008,16 @@ public class ChronoJumpWindow
 	private void on_recuperate_person_activate (object o, EventArgs args) {
 		Log.WriteLine("recuperate person");
 		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, prefsDigitsNumber);
-		personRecuperateWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_person_accepted);
+		//personRecuperateWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_person_accepted);
+		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
+		Log.WriteLine("aaaaaaaaa");
 		currentPerson = personRecuperateWin.CurrentPerson;
+		Log.WriteLine("bbbb");
 		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		Log.WriteLine("cccccc");
 		
 		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
@@ -2029,7 +2033,8 @@ public class ChronoJumpWindow
 	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
 		Log.WriteLine("recuperate persons from other session");
 		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession);
-		personsRecuperateFromOtherSessionWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
+		//personsRecuperateFromOtherSessionWin.Button_recuperate.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
+		personsRecuperateFromOtherSessionWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
 	
 	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args) {
@@ -2141,7 +2146,7 @@ public class ChronoJumpWindow
 				statsWin.FillTreeView_stats(false, true);
 			}
 
-			personAddModifyWin.Destroy();
+//			personAddModifyWin.Destroy();
 		}
 	}
 

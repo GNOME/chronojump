@@ -288,7 +288,10 @@ Log.WriteLine("MANAGE(3)!!!!");
 		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
 			type + " " + Catalog.GetString("time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) + 
 			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
-		appbar.Push( 1,myStringPush );
+		if(simulated)
+			appbar.Push(1, Constants.SimulatedMessage);
+		else
+			appbar.Push( 1,myStringPush );
 
 
 		string description = "";
@@ -795,7 +798,10 @@ public class RunIntervalExecute : RunExecute
 						Util.GetSpeed(distanceTotal.ToString(),
 							timeTotal.ToString(), metersSecondsPreferred )
 						, pDN ) ;
-			appbar.Push( 1,myStringPush );
+			if(simulated)
+				appbar.Push(1, Constants.SimulatedMessage);
+			else
+				appbar.Push( 1,myStringPush );
 
 
 			//event will be raised, and managed in chronojump.cs

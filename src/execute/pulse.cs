@@ -330,7 +330,10 @@ public class PulseExecute : EventExecute
 		eventDone = new Pulse(uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timesString, "", Util.BoolToNegativeInt(simulated)); 
 		
 		string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
-		appbar.Push( 1, myStringPush );
+		if(simulated)
+			appbar.Push(1, Constants.SimulatedMessage);
+		else
+			appbar.Push( 1, myStringPush );
 				
 	
 		//event will be raised, and managed in chronojump.cs

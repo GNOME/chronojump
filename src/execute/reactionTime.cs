@@ -234,7 +234,10 @@ Log.Write("wb ");
 			personName + " " + 
 			type + " " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) ;
 		
-		appbar.Push( 1,myStringPush );
+		if(simulated)
+			appbar.Push(1, Constants.SimulatedMessage);
+		else
+			appbar.Push( 1,myStringPush );
 
 		uniqueID = SqliteReactionTime.Insert(
 				false, Constants.ReactionTimeTable, 

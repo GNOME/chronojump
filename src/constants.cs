@@ -25,6 +25,8 @@ public class Constants
 {
 	//the strings created by Catalog cannot be const
 	
+	public static string ReadmeTranslators = Catalog.GetString("Translator, there's a glossary that will help you in Chronojump translation:\n http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html");
+
 	public static string [] Authors = {
 		"Xavier de Blas (xaviblas@gmail.com)\n" + Catalog.GetString("Project leader and main developer."), 
 		"Juan Gonzalez (http://www.iearobotics.com)\n" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software."), 

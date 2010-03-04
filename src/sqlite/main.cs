@@ -1012,16 +1012,12 @@ class Sqlite
 				currentVersion = "0.76";
 			}
 			if(currentVersion == "0.76") {
-				conversionRateTotal = 3;
-				conversionRate = 1;
 				dbcon.Open();
-
+				
 				convertPersonAndPersonSessionTo77();
-				
 				SqlitePreferences.Update ("databaseVersion", "0.77", true); 
-				conversionRate++;
-				
 				Log.WriteLine("Converted DB to 0.77 (person77, personSession77)"); 
+				
 				dbcon.Close();
 				currentVersion = "0.77";
 			}
@@ -1221,6 +1217,63 @@ class Sqlite
 		dbcon.Close();
 		return exists;
 	}
+
+	public static string SQLBuildQueryString (string tableName, string test, string variable,
+			int sex, string ageInterval,
+			int countryID, int sportID, int speciallityID, int levelID)
+	{
+		string tp = Constants.PersonTable;
+		string tps = Constants.PersonSessionTable;
+
+		string strSelect = "SELECT COUNT(" + variable + "), AVG(" + variable + ")";
+		string strFrom   = " FROM " + tableName;
+		string strWhere  = " WHERE " + tableName + ".type = '" + test + "'";
+
+		string strSex = "";
+		if(sex == Constants.MaleID) 
+			strSex = " AND " + tp + ".sex == '" + Constants.M + "'";
+		else if (sex == Constants.FemaleID) 
+			strSex = " AND " + tp + ".sex == '" + Constants.F + "'";
+
+		string strAge = "";
+		if(ageInterval != "") {
+			strFrom += ", session";
+			string [] strFull = ageInterval.Split(new char[] {':'});
+			strAge = " AND (julianday(session.date) - julianday(" + tp + ".dateBorn))/365.25 " + 
+				strFull[0] + " " + strFull[1];
+			if(strFull.Length == 4)
+				strAge += " AND (julianday(session.date) - julianday(" + tp + ".dateBorn))/365.25 " + 
+					strFull[2] + " " + strFull[3];
+			strAge += " AND " + tableName + ".sessionID = session.uniqueID";
+		}
+
+		string strCountry = "";
+		if(countryID != Constants.CountryUndefinedID) 
+			strCountry = " AND " + tp + ".countryID == " + countryID;
+
+		string strSport = "";
+		if(sportID != Constants.SportUndefinedID) 
+			strSport = " AND " + tps + ".sportID == " + sportID;
+
+		string strSpeciallity = "";
+		if(speciallityID != Constants.SpeciallityUndefinedID) 
+			strSpeciallity = " AND " + tps + ".speciallityID == " + speciallityID;
+		
+		string strLevel = "";
+		if(levelID != Constants.LevelUndefinedID) 
+			strLevel = " AND " + tps + ".practice == " + levelID;
+
+		string strLast = "";
+		if(strSex.Length > 0 || strAge.Length > 0 || 
+				strCountry.Length > 0 || strSport.Length > 0 || strSpeciallity.Length > 0 || strLevel.Length > 0) {
+			strFrom += ", " + tp + ", " + tps;
+			strLast = " AND " + tableName + ".personID == " + tp + ".uniqueID" +
+				" AND " + tp + ".uniqueID == " + tps + ".personID";
+		}	
+		return strSelect + strFrom + strWhere + strSex + strAge
+			+ strCountry + strSport + strSpeciallity + strLevel + strLast;
+	}
+
 
 	/* 
 	 * temp data stuff

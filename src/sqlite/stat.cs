@@ -158,7 +158,7 @@ class SqliteStat : Sqlite
 			fromString +
 			sessionString +
 			jumpTypeString +
-			" AND jump.personID == person.uniqueID " +
+			" AND jump.personID == " + tp + ".uniqueID " +
 			// personSession stuff
 			" AND " + tp + ".uniqueID == " + tps + ".personID " +
 			" AND jump.sessionID == " + tps + ".sessionID " + //should work for simple and multi session

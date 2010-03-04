@@ -279,13 +279,6 @@ public class PersonRecuperateWindow {
 		}
 	}
 
-	/*	
-	public Button Button_recuperate {
-		set { button_recuperate = value; }
-		get { return button_recuperate; }
-	}
-	*/
-	
 	public Button FakeButtonDone 
 	{
 		set { fakeButtonDone = value; }
@@ -643,8 +636,6 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			processRow();
 		}
 	}
-
-	//TODO: do something with destroy, here and on recuperateFromOtherSession
 
 }
 

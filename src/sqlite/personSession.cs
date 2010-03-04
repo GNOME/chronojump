@@ -69,6 +69,7 @@ class SqlitePersonSession : Sqlite
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
 			sportID + ", " + speciallityID + ", " + practice + ", '" + 
 			comments + "', '', '')"; 
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myReturn = dbcon.LastInsertRowId;
 		if(!dbconOpened)

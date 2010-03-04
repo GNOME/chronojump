@@ -83,6 +83,39 @@ class SqlitePersonOld : Sqlite
 		return myReturn;
 	}
 		
+	//used on Sqlite main convertPersonAndPersonSessionTo77()
+	public ArrayList SelectAllPersons()
+	{
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonOldTable + " ORDER BY uniqueID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		ArrayList myArray = new ArrayList(1);
+
+		while(reader.Read()) {
+			PersonOld p = new PersonOld(
+					Convert.ToInt32(reader[0].ToString()), //uniqueID
+					reader[1].ToString(), 			//name
+					reader[2].ToString(), 			//sex
+					UtilDate.FromSql(reader[3].ToString()),//dateBorn
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())), //height
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString())), //weight
+
+					Convert.ToInt32(reader[6].ToString()), //sportID
+					Convert.ToInt32(reader[7].ToString()), //speciallityID
+					Convert.ToInt32(reader[8].ToString()), //practice
+					reader[9].ToString(), 			//description
+					Convert.ToInt32(reader[10].ToString()), //race
+					Convert.ToInt32(reader[11].ToString()), //countryID
+					Convert.ToInt32(reader[12].ToString()) //serverUniqueID
+					);
+			myArray.Add(p);
+		}
+		reader.Close();
+		return myArray;
+	}
+		
 	/* 
 	   from SqlitePersonSessionWeight.DeletePersonFromSessionAndTests()
 	   if person is not in other sessions, delete it from DB

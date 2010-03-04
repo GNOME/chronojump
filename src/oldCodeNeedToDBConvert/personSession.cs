@@ -84,6 +84,22 @@ public partial class PersonSessionOld {
 		//return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn.ToShortDateString() + ", " + description;
 	}
 	
+	public int UniqueID {
+		get { return uniqueID; }
+	}
+
+	public int PersonID {
+		get { return personID; }
+	}
+
+	public int SessionID {
+		get { return sessionID; }
+	}
+
+	public double Weight {
+		get { return weight; }
+	}
+
 	~PersonSessionOld() {}
 	   
 }

@@ -61,7 +61,29 @@ class SqlitePersonSessionOld : Sqlite
 			dbcon.Close();
 		return myReturn;
 	}
-	
+
+	//used on Sqlite main convertPersonAndPersonSessionTo77()
+	public ArrayList SelectAllPersonSessionsOfAPerson(int personID)
+	{
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionOldWeightTable + " WHERE personID == " + personID + " ORDER BY uniqueID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		ArrayList myArray = new ArrayList(1);
+		while(reader.Read()) {
+			PersonSessionOld ps = new PersonSessionOld(
+					Convert.ToInt32(reader[0].ToString()), //uniqueID
+					Convert.ToInt32(reader[1].ToString()), //personID
+					Convert.ToInt32(reader[2].ToString()), //sessionID
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString())) //weight
+					);
+			myArray.Add(ps);
+		}
+		reader.Close();
+		return myArray;
+	}
+		
 
 	/* 
 	 * conversion from database 0.52 to 0.53 (add weight into personSession)

@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.76";
+	static string lastChronojumpDatabaseVersion = "0.77";
 
 	public Sqlite() {
 	}
@@ -1011,6 +1011,20 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.76";
 			}
+			if(currentVersion == "0.76") {
+				conversionRateTotal = 3;
+				conversionRate = 1;
+				dbcon.Open();
+
+				convertPersonAndPersonSessionTo77();
+				
+				SqlitePreferences.Update ("databaseVersion", "0.77", true); 
+				conversionRate++;
+				
+				Log.WriteLine("Converted DB to 0.77 (person77, personSession77)"); 
+				dbcon.Close();
+				currentVersion = "0.77";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1143,6 +1157,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.76 - 0.77 Converted DB to 0.77 (person77, personSession77)
 		//0.75 - 0.76 Converted DB to 0.76 (jump & jumpRj falls as double)
 		//0.74 - 0.75 Converted DB to 0.75 (person, and personSessionWeight have height and weight as double)
 		//0.73 - 0.74 Converted DB to 0.74 (All DJ converted to DJna)
@@ -1252,6 +1267,65 @@ class Sqlite
 		dbcmd.CommandText = "DROP TABLE " + tableName;
 		dbcmd.ExecuteNonQuery();
 	}
+				
+	protected static void convertPersonAndPersonSessionTo77() {
+		//create person77
+		SqlitePerson sqlitePersonObject = new SqlitePerson();
+		sqlitePersonObject.createTable(Constants.PersonTable);
+		
+		//create personSession77
+		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
+		sqlitePersonSessionObject.createTable(Constants.PersonSessionTable);
+
+		//select all personOld data
+		SqlitePersonOld sqlitePersonOldObject = new SqlitePersonOld();
+		ArrayList personsOld = sqlitePersonOldObject.SelectAllPersons();
+
+		conversionRateTotal = personsOld.Count;
+		conversionRate = 1;
+		foreach (PersonOld pOld in personsOld) {
+			Person p = new Person(
+				       pOld.UniqueID,
+				       pOld.Name,
+				       pOld.Sex,
+				       pOld.DateBorn,
+				       pOld.Race,
+				       pOld.CountryID,
+				       pOld.Description,
+				       pOld.ServerUniqueID
+				       );
+			p.InsertAtDB(true, Constants.PersonTable);
+		
+			//select all personSessionOld data of this person
+			SqlitePersonSessionOld sqlitePersonSessionOldObject = new SqlitePersonSessionOld();
+			ArrayList personSessionsOld = sqlitePersonSessionOldObject.SelectAllPersonSessionsOfAPerson(p.UniqueID);
+			conversionSubRateTotal = personSessionsOld.Count;
+			conversionSubRate = 1;
+			foreach (PersonSessionOld psOld in personSessionsOld) {
+				PersonSession ps = new PersonSession(
+						psOld.UniqueID,
+						psOld.PersonID,
+						psOld.SessionID,
+						pOld.Height,
+						psOld.Weight,
+						pOld.SportID,
+						pOld.SpeciallityID,
+						pOld.Practice,
+						"" 		//comments
+						);
+				ps.InsertAtDB(true, Constants.PersonSessionTable);
+				conversionSubRate ++;
+			}
+			conversionRate ++;
+		}
+		
+		//drop old tables
+		Sqlite.dropTable(Constants.PersonOldTable);
+		Sqlite.dropTable(Constants.PersonSessionOldWeightTable);
+
+	}
+
+
 
 	//to convert to sqlite 0.72
 	protected internal static void datesToYYYYMMDD()

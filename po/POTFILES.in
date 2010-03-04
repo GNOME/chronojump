@@ -1,8 +1,8 @@
 [encoding: UTF-8]
+src/constants.cs
 glade/chronojump.glade
 src/chronojump.cs
 src/chronojump_mini.cs
-src/constants.cs
 src/execute/jump.cs
 src/execute/multiChronopic.cs
 src/execute/pulse.cs

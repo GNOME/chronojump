@@ -701,7 +701,7 @@ public class QueryServerWindow
 			
 
 		try {
-			string sqlString = Util.SQLBuildString(
+			string sqlString = Sqlite.SQLBuildQueryString(
 					tableName, 
 					UtilGtk.ComboGetActive(combo_tests),
 					strVariable,
@@ -731,7 +731,10 @@ public class QueryServerWindow
 
 				string [] resultFull = result.Split(new char[] {':'});
 				label_results_num.Text = resultFull[0];
-				label_results_avg.Text = Util.TrimDecimals(resultFull[1], pDN);
+				if(resultFull[0] == "0")
+					label_results_avg.Text = "-";
+				else
+					label_results_avg.Text = Util.TrimDecimals(resultFull[1], pDN);
 			}
 
 			return sqlString;

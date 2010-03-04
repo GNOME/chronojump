@@ -63,11 +63,11 @@ public class ChronojumpServer {
 	public bool CanINew(string action, string clientVersion)
 	{
 		Version cv = new Version(clientVersion);
-		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,11))
+		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,18))
 			return true;
-		else if(action == Constants.ServerActionStats && cv >= new Version(0,8))
+		else if(action == Constants.ServerActionStats && cv >= new Version(0,8,18))
 			return true;
-		else if(action == Constants.ServerActionQuery && cv >= new Version(0,8,9,6))
+		else if(action == Constants.ServerActionQuery && cv >= new Version(0,8,18))
 			return true;
 
 		return false;
@@ -101,7 +101,7 @@ public class ChronojumpServer {
 			int sex, string ageInterval,
 			int countryID, int sportID, int speciallityID, int levelID)
 	{
-		string str = Util.SQLBuildString(tableName, test, variable,
+		string str = Sqlite.SQLBuildQueryString(tableName, test, variable,
 				sex, ageInterval, 
 				countryID, sportID, speciallityID, levelID
 				);

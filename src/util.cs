@@ -527,6 +527,18 @@ public class Util
 
 		return 24.06 * ( tt * tf ) / (Double)tc;
 	}
+				
+	//only Lewis now
+	public static double GetPower (double tf, double bodyWeight, double extraWeightKg) 
+	{
+		//Log.WriteLine("tf: " + tf + ", bodyWeight: " + bodyWeight + ", extra: " + extraWeightKg);
+		double pw = System.Math.Sqrt ( 4.9 ) * 9.8 * (bodyWeight + extraWeightKg) *
+			System.Math.Sqrt(
+				       Convert.ToDouble(GetHeightInCentimeters(tf.ToString()))/100);
+		//Log.WriteLine("pw: " + pw);
+		return pw;
+
+	}
 
 
 	public static double GetQIndex (double tv, double tc) 

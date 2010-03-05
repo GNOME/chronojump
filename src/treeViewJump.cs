@@ -38,7 +38,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected string weightName = Catalog.GetString("Weight");
 	protected string fallName = Catalog.GetString("Fall") + "\n(cm)";
 	protected string heightName = Catalog.GetString("Height") + "\n(cm)";
-	protected string powerName = Catalog.GetString("Power") + "\n(W/Kg)";
+	protected string powerName = Catalog.GetString("Power") + "\n(" + Catalog.GetString("see Preferences") +")";
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
 	protected string angleName = Catalog.GetString("Angle");
 
@@ -46,9 +46,12 @@ public class TreeViewJumps : TreeViewEvent
 	protected string qIndexName = "Q Index" + "\n(%)";
 	protected string djIndexName = "Dj Index" + "\n(%)";
 	
-	protected double personWeight;
 	protected bool metersSecondsPreferred;
 		
+	//to calculate potency
+	protected double personWeight;
+	protected double weightInKg;
+
 	public TreeViewJumps ()
 	{
 	}
@@ -168,13 +171,18 @@ public class TreeViewJumps : TreeViewEvent
 		myJump.Description = myStringOfData[9].ToString();
 		myJump.Simulated = Convert.ToInt32(myStringOfData[11].ToString());
 
+		//to calculate potency
+		personWeight = Convert.ToDouble(myStringOfData[12]);
+		weightInKg = Util.WeightFromPercentToKg(
+				Convert.ToDouble(myStringOfData[8]), 
+				personWeight);
+
 		//we create the jump with a weight of percent or kk
 		if(weightPercentPreferred)
 			myJump.Weight = Convert.ToDouble(myStringOfData[8].ToString());
 		else
-			myJump.Weight = Util.WeightFromPercentToKg(
-					Convert.ToDouble(myStringOfData[8]), 
-					Convert.ToDouble(myStringOfData[12]));
+			myJump.Weight = weightInKg;
+
 
 		return myJump;
 	}
@@ -199,12 +207,28 @@ public class TreeViewJumps : TreeViewEvent
 		myData[count++] = Util.TrimDecimals(newJump.Fall.ToString(), pDN);
 		if (showHeight)  
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
+
+		
+		
+
+
 		if (showPower)  {
-			//if is Dj (has tc, but is not a takeoff (only has tc))
-			if(newJump.Tc > 0 && newJump.Tv > 0)
-				myData[count++] = Util.TrimDecimals(Util.GetDjPower(newJump.Tc, newJump.Tv).ToString(), pDN);
-			else
-				myData[count++] = "-";
+
+			//takeoff has no tv. power should not be calculated
+			//calculate jumps with tf
+			if(newJump.Tv > 0) {	
+				if(newJump.Tc > 0) 	//if it's Dj (has tf, and tc)
+					myData[count++] = Util.TrimDecimals(Util.GetDjPower(newJump.Tc, newJump.Tv).ToString(), pDN);
+				else {			//it's a normal jump without tc
+					//we calculate weightInKg again because can be changed in edit jump, and then treeview is no re-done
+					//but we do not calculate again person weight, because if it changes treeview is created again
+					weightInKg = Util.WeightFromPercentToKg(
+							Convert.ToDouble(newJump.Weight.ToString()),
+							personWeight);
+					myData[count++] = Util.TrimDecimals(
+							Util.GetPower(newJump.Tv, personWeight, weightInKg).ToString(), pDN);
+				}
+			}
 		}
 		if (showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(newJump.Tv.ToString(), metersSecondsPreferred), pDN);

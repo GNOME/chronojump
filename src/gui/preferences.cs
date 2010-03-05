@@ -56,6 +56,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_speed_km;
 	[Widget] Gtk.RadioButton radio_weight_percent;
 	[Widget] Gtk.RadioButton radio_weight_kg;
+	[Widget] Gtk.TextView textview_power;
 
 
 //	[Widget] Gtk.Box hbox_language_row;
@@ -117,10 +118,13 @@ public class PreferencesWindow {
 		else 
 			PreferencesWindowBox.checkbutton_height.Active = false; 
 		
-		if(showPower) 
+		if(showPower) {
 			PreferencesWindowBox.checkbutton_power.Active = true; 
-		else 
+			PreferencesWindowBox.textview_power.Show();
+		} else {
 			PreferencesWindowBox.checkbutton_power.Active = false; 
+			PreferencesWindowBox.textview_power.Hide();
+		}
 		
 
 		if(showInitialSpeed)  
@@ -217,6 +221,12 @@ public class PreferencesWindow {
 			hbox_indexes.Hide();
 	}
 		
+	private void on_checkbutton_power_clicked (object o, EventArgs args) {
+		if(checkbutton_power.Active)
+			textview_power.Show();
+		else
+			textview_power.Hide();
+	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{

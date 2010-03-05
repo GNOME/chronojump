@@ -165,7 +165,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_analysis;
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
 	[Widget] Gtk.Button button_delete_selected_multi_chronopic;
-	[Widget] Gtk.Table table_multi_chronopic_buttons;
+	[Widget] Gtk.Box hbox_multi_chronopic_buttons;
 	[Widget] Gtk.Button button_multi_chronopic_start;
 	[Widget] Gtk.Button button_run_analysis;
 	[Widget] Gtk.Entry entry_run_analysis_distance;
@@ -454,7 +454,7 @@ public class ChronoJumpWindow
 		createComboRunsInterval();
 		//reaction_times has no combo
 		createComboPulses();
-		//createComboMultiChronopic();
+		createComboMultiChronopic();
 		createdStatsWin = false;
 
 		
@@ -1562,18 +1562,6 @@ public class ChronoJumpWindow
 					myTreeViewMultiChronopic.ExpandState, 2);
 	}
 
-	private void on_button_connect_cp_clicked (object o, EventArgs args) {
-	/*
-		if(image_cp2_no.Visible)
-			currentCp = 2;
-		else if(image_cp3_no.Visible)
-			currentCp = 3;
-		else if(image_cp4_no.Visible)
-			currentCp = 4;
-		prepareChronopicConnection();
-		*/
-	}
-
 	private void on_treeview_multi_chronopic_cursor_changed (object o, EventArgs args) {
 		Log.WriteLine("Cursor changed");
 		// don't select if it's a person, 
@@ -1685,36 +1673,14 @@ public class ChronoJumpWindow
 		combo_pulses.Sensitive = false;
 	}
 
-	/*
 	private void createComboMultiChronopic() 
 	{
-		table_multi_chronopic_buttons.Sensitive = false;
 		menuitem_multi_chronopic_start.Sensitive = false;
 		menuitem_run_analysis.Sensitive = false;
-		button_connect_cp.Sensitive = false;
-		image_cp1_yes.Hide();
-		image_cp2_yes.Hide();
-		image_cp3_yes.Hide();
-		image_cp4_yes.Hide();
-
-		if(Util.IsWindows()) {
-			combo_port_windows.Sensitive = false;
-			combo_port_linux.Hide();
-			string [] comboWindowsOptions = new string[257];
-			for (int count = 0, i=1; i <= 257; i ++)
-				comboWindowsOptions[i-1] = "COM" + i;
-
-			UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
-			combo_port_windows.Changed += new EventHandler (on_combo_multi_chronopic_changed);
-		} else {
-			combo_port_linux.Sensitive = false;
-			combo_port_windows.Hide();
-			UtilGtk.ComboUpdate(combo_port_linux, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
-			combo_port_linux.Active = 0; //first option
-			combo_port_linux.Changed += new EventHandler (on_combo_multi_chronopic_changed);
-		}
+		button_multi_chronopic_start.Sensitive = false;
+		button_run_analysis.Sensitive = false;
+		entry_run_analysis_distance.Sensitive = false;
 	}
-	*/
 
 	private void on_combo_jumps_changed(object o, EventArgs args) {
 		//combo_jumps.Changed -= new EventHandler (on_combo_jumps_changed);
@@ -1778,22 +1744,6 @@ public class ChronoJumpWindow
 		fillTreeView_pulses(myText);
 	}
 
-	/*
-	private void on_combo_multi_chronopic_changed(object o, EventArgs args) {
-		ComboBox combo = o as ComboBox;
-		if (o == null)
-			return;
-		
-		bool portOk = true;
-		if(UtilGtk.ComboGetActive(combo) == Constants.ChronopicDefaultPortWindows ||
-				UtilGtk.ComboGetActive(combo) == Constants.ChronopicDefaultPortLinux) 
-			portOk = false;
-
-		if (o == combo_port_linux || o == combo_port_windows) 
-			button_connect_cp.Sensitive = portOk;
-	}
-	*/
-	
 
 	/* ---------------------------------------------------------
 	 * ----------------  DELETE EVENT, QUIT  -----------------------
@@ -2204,72 +2154,6 @@ public class ChronoJumpWindow
 	}
 	
 	private void on_paste1_activate (object o, EventArgs args) {
-	}
-
-
-	void on_radiobutton_simulated (object o, EventArgs args)
-	{
-	/*
-		Log.WriteLine(string.Format("RAD - simul. cpRunning: {0}", cpRunning));
-		if(menuitem_simulated.Active) {
-			Log.WriteLine("RadioSimulated - ACTIVE");
-			simulated = true;
-			SqlitePreferences.Update("simulated", simulated.ToString(), false);
-
-			//close connection with chronopic if initialized
-			if(cpRunning) {
-				serialPortsClose();
-
-				table_multi_chronopic_buttons.Sensitive = false;
-				combo_port_windows.Sensitive = false;
-				combo_port_linux.Sensitive = false;
-		
-				//regenerate combos (maybe some ports have been deleted on using before going to simulated)
-				if(Util.IsWindows()) {
-					string [] comboWindowsOptions = new string[257];
-					for (int count = 0, i=1; i <= 257; i ++)
-						comboWindowsOptions[i-1] = "COM" + i;
-					UtilGtk.ComboUpdate(combo_port_windows, comboWindowsOptions, comboWindowsOptions[0]);
-				} else {
-					UtilGtk.ComboUpdate(combo_port_linux, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
-					combo_port_linux.Active = 0; //first option
-				}
-			}
-			Log.WriteLine("cpclosed");
-			cpRunning = false;
-		}
-		else
-			Log.WriteLine("RadioSimulated - INACTIVE");
-		
-		Log.WriteLine("all done");
-		*/
-	}
-	
-	void on_radiobutton_chronopic (object o, EventArgs args)
-	{
-		/*
-		Log.WriteLine(string.Format("RAD - chrono. cpRunning: {0}", cpRunning));
-		if(! preferencesLoaded)
-			return;
-
-		if(! menuitem_chronopic.Active) {
-			appbar2.Push( 1, Catalog.GetString("Changed to simulated mode"));
-			Log.WriteLine("RadioChronopic - INACTIVE");
-			return;
-		}
-
-		if(chronopicPort == Constants.ChronopicDefaultPortWindows ||
-				chronopicPort == Constants.ChronopicDefaultPortLinux) {
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("You need to configurate the Chronopic port at preferences."));
-			menuitem_simulated.Active = true;
-			return;
-		}
-
-		Log.WriteLine("RadioChronopic - ACTIVE");
-	
-		currentCp = 1;
-		prepareChronopicConnection();
-		*/
 	}
 
 
@@ -3904,8 +3788,31 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 
+	private void on_menuitem_chronopic_activate (object o, EventArgs args) {
+		chronopicWin = ChronopicWindow.View();
+		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_done);
+	}
+	
+	private void on_chronopic_window_done (object o, EventArgs args) {
+		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_done);
+		if(chronopicWin.NumConnected()>=2) {
+			menuitem_multi_chronopic_start.Sensitive = true;
+			menuitem_run_analysis.Sensitive = true;
+			button_multi_chronopic_start.Sensitive = true;
+			entry_run_analysis_distance.Sensitive = true;
+			on_entry_run_analysis_distance_changed (o, args);
+		} else {
+			menuitem_multi_chronopic_start.Sensitive = false;
+			menuitem_run_analysis.Sensitive = false;
+			button_multi_chronopic_start.Sensitive = false;
+			entry_run_analysis_distance.Sensitive = false;
+			button_run_analysis.Sensitive = false;
+		}
+	}
+
 	private void on_entry_run_analysis_distance_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_run_analysis_distance.Text, false) && entry_run_analysis_distance.Text != "0") {
+		if(Util.IsNumber(entry_run_analysis_distance.Text, false) && entry_run_analysis_distance.Text != "0" &&
+				chronopicWin.NumConnected()>=2) {
 			menuitem_run_analysis.Sensitive = true;
 			button_run_analysis.Sensitive = true;
 		} else {
@@ -3915,7 +3822,6 @@ Console.WriteLine("X");
 	}
 
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
-		/*
 		Log.WriteLine("multi chronopic accepted");
 		
 		if(o == (object) button_multi_chronopic_start || o == (object) menuitem_multi_chronopic_start) 
@@ -3961,37 +3867,46 @@ Console.WriteLine("X");
 		if(currentMultiChronopicType.SyncNeeded && check_multi_sync.Active)
 			syncNeeded = true;
 
-		if(image_cp2_no.Visible)
+		int numConnected = chronopicWin.NumConnected();
+
+		if(numConnected == 1)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name, 
-					cp, syncNeeded, check_multi_delete_first.Active, 
+					chronopicWin.CP, 
+					syncNeeded, check_multi_delete_first.Active, 
 					entry_run_analysis_distance.Text.ToString(),
 					appbar2, app1);
-		else if(image_cp2_yes.Visible && image_cp3_no.Visible)
+		else if(numConnected == 2)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,  
-					cp, cp2, syncNeeded, check_multi_delete_first.Active, 
+					chronopicWin.CP, chronopicWin.CP2, 
+					syncNeeded, check_multi_delete_first.Active, 
 					entry_run_analysis_distance.Text.ToString(),
 					appbar2, app1);
-		else if(image_cp3_yes.Visible && image_cp4_no.Visible)
+		else if(numConnected == 3)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
-					cp, cp2, cp3, syncNeeded, check_multi_delete_first.Active, 
+					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, 
+					syncNeeded, check_multi_delete_first.Active, 
 					entry_run_analysis_distance.Text.ToString(),
 					appbar2, app1);
-		else if(image_cp4_yes.Visible)
+		else if(numConnected == 4)
 			currentEventExecute = new MultiChronopicExecute(
 					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
-					cp, cp2, cp3, cp4, syncNeeded, check_multi_delete_first.Active, 
+					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, chronopicWin.CP4,
+					syncNeeded, check_multi_delete_first.Active, 
 					entry_run_analysis_distance.Text.ToString(),
 					appbar2, app1);
 
 		//if(!chronopicWin.Connected)	
 		//	currentEventExecute.SimulateInitValues(rand);
+
+		//TODO: MANAGE THE SENSITIVE OF WIDGETS!!!
+		//and what happens if no chronopic connected
 
 
 		//mark to only get inside on_multi_chronopic_finished one time
@@ -3999,7 +3914,6 @@ Console.WriteLine("X");
 		currentEventExecute.Manage();
 
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
-		*/
 	}
 
 	bool multiFinishing;
@@ -4951,7 +4865,7 @@ Console.WriteLine("X");
 		menuRunsSensitive(false);
 		menuOtherSensitive(false);
 		menuToolsSensitive(false);
-
+		
 		vbox_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
 		button_recup_per.Sensitive = false;
@@ -5025,6 +4939,8 @@ Console.WriteLine("X");
 		menuJumpsSensitive(false);
 		menuRunsSensitive(false);
 		menuOtherSensitive(false);
+			
+		hbox_multi_chronopic_buttons.Sensitive = false;
 	}
    
 	private void sensitiveGuiEventDone () {
@@ -5064,6 +4980,7 @@ Console.WriteLine("X");
 					break;
 				case EventType.Types.MULTICHRONOPIC:
 					Log.WriteLine("sensitiveGuiEventDone multichronopic");
+					hbox_multi_chronopic_buttons.Sensitive = true;
 					break;
 				default:
 					Log.WriteLine("sensitiveGuiEventDone default");
@@ -5153,9 +5070,6 @@ Console.WriteLine("X");
 		Console.WriteLine(myString[5]);
 	}
 
-	private void on_menuitem_chronopic_activate (object o, EventArgs args) {
-		chronopicWin = ChronopicWindow.View();
-	}
 	private void on_menuitem_server_activate (object o, EventArgs args) {
 		Log.WriteLine("SERVER");
 	}

@@ -82,7 +82,9 @@ public class ChronopicWindow
 	bool needUpdateChronopicWin;
 	bool updateChronopicWinValuesState;
 	string updateChronopicWinValuesMessage;
-	[Widget] Gtk.Button fakeChronopicButton; //raised when chronopic detection ended
+
+	[Widget] Gtk.Button fakeConnectionButton; //raised when chronopic detection ended
+	[Widget] Gtk.Button fakeWindowDone; //raised when chronopic detection ended
 
 	bool isWindows;	
 
@@ -160,6 +162,8 @@ public class ChronopicWindow
 		
 		//don't show until View is called
 		//ChronopicWindowBox.chronopic_window.Show ();
+
+		ChronopicWindowBox.fakeWindowDone = new Gtk.Button();
 		
 		return ChronopicWindowBox;
 	}
@@ -333,7 +337,7 @@ public class ChronopicWindow
 	protected bool PulseGTK ()
 	{
 		if(needUpdateChronopicWin || ! thread.IsAlive) {
-			fakeChronopicButton.Click();
+			fakeConnectionButton.Click();
 			Log.Write("dying");
 			return false;
 		}
@@ -621,8 +625,8 @@ public class ChronopicWindow
 
 		chronopicConnectionWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
 		
-		fakeChronopicButton = new Gtk.Button();
-		fakeChronopicButton.Clicked += new EventHandler(on_chronopic_detection_ended);
+		fakeConnectionButton = new Gtk.Button();
+		fakeConnectionButton.Clicked += new EventHandler(on_chronopic_detection_ended);
 
 		thread = new Thread(new ThreadStart(waitChronopicStart));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
@@ -800,16 +804,32 @@ public class ChronopicWindow
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		Log.WriteLine("CLOSE");
+		fakeWindowDone.Click();
 		ChronopicWindowBox.chronopic_window.Hide();
 	}
 
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		//nice: this makes windows no destroyed, then it works like button_close
+		fakeWindowDone.Click();
 		args.RetVal = true;
 		ChronopicWindowBox.chronopic_window.Hide();
 	}
 
+	public bool IsConnected(int numCP) {
+		//int count = 1;
+		//foreach(ChronopicPortData a in cpd) 
+		//	Log.WriteLine(a.Num + ", " + a.Port + ", " + a.Connected);
+		return ((ChronopicPortData) cpd[numCP]).Connected;
+	}
+
+	public int NumConnected() {
+		int count = 0;
+		foreach(ChronopicPortData a in cpd) 
+			if(a.Connected)
+				count ++;
+		return count;
+	}
 
 
 	public Chronopic CP {
@@ -827,9 +847,14 @@ public class ChronopicWindow
 	public Chronopic CP4 {
 		get { return cp4; }
 	}
-	
+
+	//connected to a Chronopic	
 	public bool Connected {
 		get { return connected; }
+	}
+	
+	public Button FakeWindowDone {
+		get { return fakeWindowDone; }
 	}
 
 }

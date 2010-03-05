@@ -900,6 +900,7 @@ public class PersonAddModifyWindow
 		this.currentSession = currentSession;
 		this.currentPerson = currentPerson;
 
+		//when comesFromRecuperateWin is true, is considered editing because uniqueID is known
 		if(currentPerson.UniqueID == -1)
 			adding = true;
 		else
@@ -1179,9 +1180,13 @@ public class PersonAddModifyWindow
 			
 
 			//PERSONSESSION STUFF
-			//select a personSession of last session
-			//to obtain it's attributes
-			PersonSession myPS = SqlitePersonSession.Select(currentPerson.UniqueID, -1);
+			PersonSession myPS = new PersonSession();
+			if(comesFromRecuperateWin)
+				//select a personSession of last session to obtain it's attributes
+				myPS = SqlitePersonSession.Select(currentPerson.UniqueID, -1);
+			else
+				//we edit a person that is already on this session, then take personSession data from this session
+				myPS = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
 			spinbutton_height.Value = myPS.Height;
 			spinbutton_weight.Value = myPS.Weight;

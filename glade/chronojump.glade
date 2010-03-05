@@ -1747,17 +1747,39 @@
                 </child>
                 <child>
                   <widget class="GtkCheckButton" id="checkbutton_power">
-                    <property name="label" translatable="yes">Show power on Drop Jump</property>
+                    <property name="label" translatable="yes">Show power</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_underline">True</property>
                     <property name="draw_indicator">True</property>
+                    <signal name="clicked" handler="on_checkbutton_power_clicked"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkTextView" id="textview_power">
+                    <property name="width_request">300</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="pixels_below_lines">2</property>
+                    <property name="editable">False</property>
+                    <property name="wrap_mode">word</property>
+                    <property name="cursor_visible">False</property>
+                    <property name="text" translatable="yes">On main window, power is calculated depending on jump type:
+-Jumps with TC &amp; TF: Bosco Relative Power (W/Kg)
+ 	P = 24.6 * (Total time + Flight time) / Contact time
+-Jumps without TC: Lewis Peak Power 1974 (W)
+	P = SQRT(4.9) * 9.8 * (body weight+extra weight) *
+	SQRT(jump height in meters)
+If you want to use other formulas, go to Tools / Statistics.</property>
+                  </widget>
+                  <packing>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -1772,7 +1794,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -1787,7 +1809,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
@@ -1803,7 +1825,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
                 <child>
@@ -1845,7 +1867,7 @@
                   </widget>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
                 <child>
@@ -2002,7 +2024,7 @@ show elevation as:</property>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="padding">2</property>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                   </packing>
                 </child>
               </widget>

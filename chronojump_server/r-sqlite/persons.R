@@ -8,7 +8,7 @@ con = dbConnect(drv, file)
 def.par <- par(no.readonly = TRUE) # save default, for resetting...
 
 
-persons <- dbGetQuery(con, "select sport.name as sport, speciallity.name as speciallity, country.name as country, person.sex as sex, person.practice as level from person, country, sport, speciallity where person.countryID = country.uniqueID and person.sportID == sport.uniqueID and person.speciallityID=speciallity.uniqueID")
+persons <- dbGetQuery(con, "SELECT sport.name AS sport, speciallity.name AS speciallity, country.name AS country, person77.sex AS sex, personSession77.practice AS level FROM person77, personSession77, country, sport, speciallity WHERE person77.uniqueID=personSession77.personID AND person77.countryID = country.uniqueID AND personSession77.sportID == sport.uniqueID AND personSession77.speciallityID=speciallity.uniqueID GROUP BY personID")
 
 persons$sportF<-factor(persons$sport)
 #persons$speciallityF<-factor(persons$speciallity)
@@ -27,7 +27,7 @@ dotchart(table(persons$sportF)[order (table(persons$sportF))], labels=levels(per
 
 dotchart(table(persons$countryF)[order (table(persons$countryF))], labels=levels(persons$countryF)[order (table(persons$countryF))], main="Country")
 
-pie(table(persons$sexF), labels=levels(persons$sexF), main="Sex",
+pie(table(persons$sexF), labels=levels(persons$sexF), main="Sex", 
   col=rainbow(length(levels(persons$sexF))))
 
 levels(persons$levelF)=c("Sedentary", "Regular practice", "Competition", "Elite") #undefined is impossible on server
@@ -42,6 +42,5 @@ title(main="Persons data in server",
   sub=paste(Sys.Date(),"(YYYY-MM-DD)"), cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
   dev.off()
-
 
 

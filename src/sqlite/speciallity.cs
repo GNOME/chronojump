@@ -75,6 +75,9 @@ class SqliteSpeciallity : Sqlite
 
 	public static string Select(int uniqueID)
 	{
+		if(uniqueID == -1)
+			return "";
+
 		dbcon.Open();
 		
 		dbcmd.CommandText = "SELECT name FROM " + Constants.SpeciallityTable + " WHERE uniqueID == " + uniqueID;

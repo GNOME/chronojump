@@ -227,7 +227,7 @@ public class Report : ExportSession
 		writer.WriteLine("<img src=\"" +
 				Util.GetLastPartOfPath(Util.GetReportDirectoryName(fileName)) 
 				+ "/" + Constants.FileNameLogo + "\">\n ");
-		writer.WriteLine("</td><td width=\"80%\"><h1>Chronojump report</h1></td></tr>\n");
+		writer.WriteLine("</td><td width=\"80%\" valign=\"bottom\"><h1>Chronojump report</h1></td></tr>\n");
 		writer.WriteLine("</table>\n");
 			
 	}
@@ -243,7 +243,7 @@ public class Report : ExportSession
 				Catalog.GetString ("Comments")
 			  );
 		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
-					mySession.Place + ":" + mySession.Date + ":" + mySession.Comments );
+					mySession.Place + ":" + mySession.DateShort + ":" + mySession.Comments );
 
 		writeData(myData);
 		writeData("VERTICAL-SPACE");

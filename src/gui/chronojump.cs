@@ -3905,9 +3905,6 @@ Console.WriteLine("X");
 		//if(!chronopicWin.Connected)	
 		//	currentEventExecute.SimulateInitValues(rand);
 
-		//TODO: MANAGE THE SENSITIVE OF WIDGETS!!!
-		//and what happens if no chronopic connected
-
 
 		//mark to only get inside on_multi_chronopic_finished one time
 		multiFinishing = false;

@@ -48,7 +48,7 @@ public partial class Session {
 	//With person sport stuff
 	public Session(string newUniqueID, string newName, string newPlace, DateTime newDate, 
 			int personsSportID, int personsSpeciallityID, int personsPractice,
-			string newComments, int serverUniqueID) 
+			string comments, int serverUniqueID) 
 	{
 		uniqueID = Convert.ToInt32(newUniqueID);
 		name = newName;
@@ -57,14 +57,14 @@ public partial class Session {
 		this.personsSportID = personsSportID;
 		this.personsSpeciallityID = personsSpeciallityID;
 		this.personsPractice = personsPractice;
-		comments = newComments;
+		this.comments = comments;
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 	}
 
 	//typical constructor with personsSport stuff
 	public Session(string newName, string newPlace, DateTime newDate, 
 			int personsSportID, int personsSpeciallityID, int personsPractice,
-			string newComments, int serverUniqueID) 
+			string comments, int serverUniqueID) 
 	{
 		name = newName;
 		place = newPlace;
@@ -72,11 +72,10 @@ public partial class Session {
 		this.personsSportID = personsSportID;
 		this.personsSpeciallityID = personsSpeciallityID;
 		this.personsPractice = personsPractice;
-		comments = newComments;
 
 		name = Util.RemoveTildeAndColon(name);
 		place = Util.RemoveTildeAndColon(place);
-		comments = Util.RemoveTildeAndColon(comments);
+		this.comments = Util.RemoveTildeAndColon(comments);
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 
 		/*

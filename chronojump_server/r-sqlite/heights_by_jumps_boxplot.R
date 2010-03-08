@@ -1,12 +1,12 @@
 library(GDD)
-GDD(file="/var/www/web/server/images/heights_by_jumps_boxplot.png",
+GDD(file="/var/www/web/server/images/heights_by_jumps_boxplot.png", 
   width = 670, height= 670, ps = 12, type="png")
 library(RSQLite)
 drv <- dbDriver("SQLite")
 file = "/root/.local/share/Chronojump/database/chronojump_server.db"
 con <- dbConnect(drv, file)
 
-jumps <- dbGetQuery(con, "select person.sex, jump.* from person, jump where person.uniqueID == jump.personID")
+jumps <- dbGetQuery(con, "SELECT person77.sex, jump.* FROM person77, jump WHERE person77.uniqueID == jump.personID")
 jumpsM <- subset(jumps, jumps$sex=="M")
 jumpsF <- subset(jumps, jumps$sex=="F")
 
@@ -18,7 +18,7 @@ text(1:ntypes, .4, paste("n=",format(bp$n),sep=""), xpd = TRUE, col = "grey20", 
 title(main="Heights by jumps in males")
 
 ntypes <- length(levels(as.factor (jumpsF$type)))
-bp=boxplot(jumpsF$tv ~ jumpsF$type, las=2, col=cm.colors(ntypes))
+bp=boxplot(jumpsF$tv ~ jumpsF$type, las=2, col=topo.colors(ntypes))
 text(1:ntypes, .4, paste("n=",format(bp$n),sep=""), xpd = TRUE, col = "grey20", cex=0.8)
 title(main="Heights by jumps in females",
   sub=paste(Sys.Date(),"(YYYY-MM-DD)"), cex.sub = 0.75, font.sub = 3, col.sub = "red")
@@ -26,5 +26,4 @@ title(main="Heights by jumps in females",
 par(mfrow=c(1,1))
 
 dev.off()
-
 

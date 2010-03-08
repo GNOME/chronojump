@@ -17,7 +17,7 @@ h1 {
 }
 
 h2 {
-	color: #556a80;
+	color: #6C77AB;
 	clear: both;
 	font-size:14pt;
 }
@@ -33,10 +33,10 @@ table {
 }
 
 th {
-	background-color:ddeeff;
-	color:333333;
+	background-color:ffffff;
+	color:6C77AB;
 	font-weight:bold;
-	font-size:10pt;
+	font-size:8pt;
 } 
 
 td {

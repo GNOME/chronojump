@@ -163,8 +163,7 @@ public class ExportSession
 	
 	protected virtual void getData() 
 	{
-		//myPersons = SqlitePersonSession.SelectCurrentSession(mySession.UniqueID, false, false); //not onlyIDAndName, not reversed
-		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID);
+		myPersons = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID);
 		myJumps= SqliteJump.SelectJumps(mySession.UniqueID, -1, "", "");
 		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "", "");
 		myRuns= SqliteRun.SelectRuns(mySession.UniqueID, -1, "");
@@ -234,22 +233,8 @@ public class ExportSession
 		ArrayList myData = new ArrayList(1);
 		myData.Add ( "\n" + Catalog.GetString ("ID") + ":" + Catalog.GetString ("Name") + ":" +
 				Catalog.GetString ("Sex") + ":" + Catalog.GetString ("Date of Birth") + ":" +
-				Catalog.GetString ("Description")
-			   );
-		
-		foreach (Person p in myPersons) {
-			myData.Add(
-					p.UniqueID.ToString() + ":" + p.Name + ":" +
-					p.Sex + ":" + p.DateBorn.ToShortDateString() + ":" +
-					p.CountryID + ":" + Util.RemoveNewLine(p.Description)
-				  );
-		}
-		writeData(myData);
-		writeData("VERTICAL-SPACE");
-		
-		//PERSONSESSION STUFF
-		myData = new ArrayList(1);
-		myData.Add ( "\n" + Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
+				Catalog.GetString ("Description") + ":" + 
+				Catalog.GetString ("Height") + ":" + Catalog.GetString("Weight") + ":" +
 				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
 				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Comments")
 			   );
@@ -258,13 +243,18 @@ public class ExportSession
 			PersonSession ps = SqlitePersonSession.Select(p.UniqueID, mySession.UniqueID);
 			string sportName = (SqliteSport.Select(ps.SportID)).Name;
 			string speciallityName = SqliteSpeciallity.Select(ps.SpeciallityID);
+			
 			myData.Add(
+					p.UniqueID.ToString() + ":" + p.Name + ":" +
+					p.Sex + ":" + p.DateBorn.ToShortDateString() + ":" +
+					Util.RemoveNewLine(p.Description) + ":" +
 					ps.Height + ":" + ps.Weight + ":" + 
 					sportName + ":" + speciallityName + ":" +
 					Util.FindLevelName(ps.Practice) + ":" +
 					Util.RemoveNewLine(ps.Comments)
 				  );
 		}
+		
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}
@@ -302,24 +292,32 @@ public class ExportSession
 
 			foreach (string jumpString in myJumps) {
 				string [] myStr = jumpString.Split(new char[] {':'});
-						
+					
+				double personWeight = SqlitePersonSession.SelectAttribute(
+						Convert.ToInt32(myStr[2]),
+						Convert.ToInt32(myStr[3]),
+						Constants.Weight);
+				double weightInKg = Util.WeightFromPercentToKg(
+							Convert.ToDouble(myStr[8]), 
+							personWeight);
+
 				string myWeight = "";
 				if(weightStatsPercent)
 					myWeight = myStr[8];
 				else
-					myWeight = Util.WeightFromPercentToKg(
-							Convert.ToDouble(myStr[8]), 
-							SqlitePersonSession.SelectAttribute(
-								Convert.ToInt32(myStr[2]),
-								Convert.ToInt32(myStr[3]),
-								Constants.Weight
-							)).ToString();
+					myWeight = weightInKg.ToString();
 		
 				double tc = Convert.ToDouble(myStr[6]);
 				double tf = Convert.ToDouble(myStr[5]);
-				string djPower = "-";
-				if(tc > 0 && tf > 0)
-					djPower = Util.TrimDecimals(Util.GetDjPower(tc, tf).ToString(), dec);
+
+
+				string power = "-";
+				if(tf > 0) {	
+					if(tc > 0) 		//dj
+						power = Util.TrimDecimals(Util.GetDjPower(tc, tf).ToString(), dec);
+					else 			//it's a normal jump without tc
+						power = Util.TrimDecimals(Util.GetPower(tf, personWeight, weightInKg).ToString(), dec);
+				}
 
 				myData.Add (	
 						myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
@@ -328,7 +326,7 @@ public class ExportSession
 						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
 						Util.TrimDecimals(myWeight, dec) + ":" +
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
-						djPower + ":" +  
+						power + ":" +  
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
 						Util.RemoveNewLine(myStr[9]) + ":" +	//jump.description
 						Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle

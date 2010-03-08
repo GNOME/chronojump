@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&component=general\n"
-"POT-Creation-Date: 2010-03-06 21:35+0000\n"
-"PO-Revision-Date: 2010-03-07 12:53+0100\n"
+"POT-Creation-Date: 2010-03-08 04:11+0000\n"
+"PO-Revision-Date: 2010-03-07 20:47+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -618,9 +618,9 @@ msgstr "ABK"
 #. don't plot AVG and SD rows
 #. if multisession, add AVG and SD cols
 #. don't plot AVG row on multisession
-#: ../glade/chronojump.glade.h:69 ../src/exportSession.cs:444
-#: ../src/exportSession.cs:574 ../src/exportSession.cs:680
-#: ../src/exportSession.cs:782 ../src/stats/graphs/potency.cs:110
+#: ../glade/chronojump.glade.h:69 ../src/exportSession.cs:442
+#: ../src/exportSession.cs:572 ../src/exportSession.cs:678
+#: ../src/exportSession.cs:780 ../src/stats/graphs/potency.cs:110
 #: ../src/stats/graphs/djIndex.cs:111 ../src/stats/graphs/djQ.cs:111
 #: ../src/stats/graphs/fv.cs:109 ../src/stats/graphs/fv.cs:149
 #: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
@@ -811,7 +811,7 @@ msgstr "Dovolit ukončení RS po určitém čase"
 msgid "And"
 msgstr "a"
 
-#: ../glade/chronojump.glade.h:106 ../src/exportSession.cs:299
+#: ../glade/chronojump.glade.h:106 ../src/exportSession.cs:289
 #: ../src/treeViewJump.cs:43 ../src/treeViewMultiChronopic.cs:238
 msgid "Angle"
 msgstr "Úhel"
@@ -952,8 +952,8 @@ msgstr "Okno Chronopic"
 msgid "Codes:"
 msgstr "Kódy:"
 
-#: ../glade/chronojump.glade.h:141 ../src/exportSession.cs:224
-#: ../src/exportSession.cs:254 ../src/gui/session.cs:704
+#: ../glade/chronojump.glade.h:141 ../src/exportSession.cs:223
+#: ../src/exportSession.cs:239 ../src/gui/session.cs:704
 #: ../src/gui/session.cs:862 ../src/report.cs:243 ../src/runType.cs:195
 #: ../src/runType.cs:212 ../src/runType.cs:281 ../src/runType.cs:302
 msgid "Comments"
@@ -1055,7 +1055,7 @@ msgstr "Data"
 msgid "Database"
 msgstr "Databáze"
 
-#: ../glade/chronojump.glade.h:166 ../src/exportSession.cs:223
+#: ../glade/chronojump.glade.h:166 ../src/exportSession.cs:222
 #: ../src/gui/session.cs:692 ../src/gui/session.cs:861 ../src/report.cs:242
 msgid "Date"
 msgstr "Datum"
@@ -1093,11 +1093,11 @@ msgstr "Smazat typ"
 #. position of type in the data to be printed
 #. Constants.AllJumpsName or Constants.AllRunsName orConstants.AllPulsesName
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:174 ../src/exportSession.cs:237
-#: ../src/exportSession.cs:298 ../src/exportSession.cs:386
-#: ../src/exportSession.cs:491 ../src/exportSession.cs:543
-#: ../src/exportSession.cs:616 ../src/exportSession.cs:658
-#: ../src/exportSession.cs:718 ../src/gui/jump.cs:1040 ../src/gui/jump.cs:1232
+#: ../glade/chronojump.glade.h:174 ../src/exportSession.cs:236
+#: ../src/exportSession.cs:288 ../src/exportSession.cs:384
+#: ../src/exportSession.cs:489 ../src/exportSession.cs:541
+#: ../src/exportSession.cs:614 ../src/exportSession.cs:656
+#: ../src/exportSession.cs:716 ../src/gui/jump.cs:1040 ../src/gui/jump.cs:1232
 #: ../src/gui/person.cs:116 ../src/gui/run.cs:1008 ../src/gui/run.cs:1174
 #: ../src/runType.cs:190 ../src/runType.cs:226 ../src/runType.cs:267
 #: ../src/runType.cs:296 ../src/treeViewEvent.cs:39
@@ -1136,7 +1136,7 @@ msgstr ""
 "Různá (každá dráha má jinou délku\n"
 "vhodnou pro testy hbitosti)"
 
-#: ../glade/chronojump.glade.h:183 ../src/exportSession.cs:488
+#: ../glade/chronojump.glade.h:183 ../src/exportSession.cs:486
 #: ../src/gui/run.cs:1007 ../src/gui/run.cs:1171 ../src/gui/runType.cs:113
 #: ../src/treeViewRun.cs:56
 msgid "Distance"
@@ -1295,8 +1295,8 @@ msgstr "Graf"
 msgid "Graph this statistic"
 msgstr "Graf této statistiky"
 
-#: ../glade/chronojump.glade.h:222 ../src/exportSession.cs:252
-#: ../src/exportSession.cs:295 ../src/stats/potency.cs:63
+#: ../glade/chronojump.glade.h:222 ../src/exportSession.cs:237
+#: ../src/exportSession.cs:285 ../src/stats/potency.cs:63
 #: ../src/stats/djIndex.cs:33 ../src/stats/djQ.cs:33
 #: ../src/stats/graphs/potency.cs:74 ../src/stats/graphs/potency.cs:85
 #: ../src/stats/graphs/djIndex.cs:70 ../src/stats/graphs/djIndex.cs:86
@@ -1403,10 +1403,10 @@ msgstr "Skokanovy nejlepší"
 #. windowTitle
 #. serieJumps.Title = Catalog.GetString("Jumps") + " *10";
 #. serieTime.Title = Catalog.GetString("Time") + " *10";
-#: ../glade/chronojump.glade.h:243 ../src/exportSession.cs:383
+#: ../glade/chronojump.glade.h:243 ../src/exportSession.cs:381
 #: ../src/gui/chronojump.cs:3034 ../src/gui/jump.cs:1260
 #: ../src/gui/jump.cs:1310 ../src/gui/jump.cs:1357
-#: ../src/sqlite/speciallity.cs:152 ../src/stats/graphs/rjAVGSD.cs:71
+#: ../src/sqlite/speciallity.cs:155 ../src/stats/graphs/rjAVGSD.cs:71
 #: ../src/stats/graphs/rjAVGSD.cs:80 ../src/stats/graphs/rjEvolution.cs:77
 #: ../src/stats/graphs/rjPotencyBosco.cs:80
 #: ../src/stats/graphs/rjPotencyBosco.cs:96 ../src/stats/rjAVGSD.cs:36
@@ -1430,7 +1430,7 @@ msgstr "Levý"
 msgid "Legend"
 msgstr "Popis"
 
-#: ../glade/chronojump.glade.h:248 ../src/exportSession.cs:254
+#: ../glade/chronojump.glade.h:248 ../src/exportSession.cs:239
 #: ../src/gui/person.cs:1731 ../src/gui/session.cs:696
 msgid "Level"
 msgstr "Úroveň"
@@ -1557,13 +1557,13 @@ msgstr "Start Multi Chronopic"
 msgid "Multi Chronopic test"
 msgstr "Test Multi Chronopic"
 
-#: ../glade/chronojump.glade.h:279 ../src/exportSession.cs:204
+#: ../glade/chronojump.glade.h:279 ../src/exportSession.cs:203
 #: ../src/gui/person.cs:1989 ../src/gui/session.cs:703
 msgid "MultiChronopic"
 msgstr "MultiChronopic"
 
-#: ../glade/chronojump.glade.h:280 ../src/exportSession.cs:221
-#: ../src/exportSession.cs:235 ../src/gui/jump.cs:1037 ../src/gui/jump.cs:1227
+#: ../glade/chronojump.glade.h:280 ../src/exportSession.cs:220
+#: ../src/exportSession.cs:234 ../src/gui/jump.cs:1037 ../src/gui/jump.cs:1227
 #: ../src/gui/person.cs:113 ../src/gui/run.cs:1006 ../src/gui/run.cs:1170
 #: ../src/gui/session.cs:690 ../src/gui/session.cs:859
 #: ../src/gui/server.cs:164 ../src/report.cs:241
@@ -1612,6 +1612,12 @@ msgid ""
 "\tSQRT(jump height in meters)\n"
 "If you want to use other formulas, go to Tools / Statistics."
 msgstr ""
+"V hlavním okně se výkon vypočítává v závislosti na typu skoku:\n"
+"-Skok s ČK a ČL: Boscoův relativní výkon (W/Kg)\n"
+" \tP = 24,6 * (celkový čas + čas letu) / čas kontaktu\n"
+"-Skok bez ČK: Lewisův špičkový výkon 1974 (W)\n"
+"\tP = √4,9 * 9,8 * (hmotnost skokana + přídavná zátěž) *\n"
+"\t√(výška skoku v metrech)"
 
 #: ../glade/chronojump.glade.h:296
 msgid ""
@@ -1663,12 +1669,12 @@ msgstr "Průměr osoby"
 msgid "Person's data"
 msgstr "Údaje osob"
 
-#: ../glade/chronojump.glade.h:309 ../src/exportSession.cs:187
+#: ../glade/chronojump.glade.h:309 ../src/exportSession.cs:186
 #: ../src/gui/session.cs:693 ../src/report.cs:158
 msgid "Persons"
 msgstr "Osoby"
 
-#: ../glade/chronojump.glade.h:310 ../src/exportSession.cs:222
+#: ../glade/chronojump.glade.h:310 ../src/exportSession.cs:221
 #: ../src/gui/person.cs:1981 ../src/gui/session.cs:691
 #: ../src/gui/session.cs:860 ../src/report.cs:242
 msgid "Place"
@@ -1721,7 +1727,7 @@ msgid "Pulse"
 msgstr "Pulz"
 
 #. windowTitle
-#: ../glade/chronojump.glade.h:322 ../src/exportSession.cs:202
+#: ../glade/chronojump.glade.h:322 ../src/exportSession.cs:201
 #: ../src/gui/chronojump.cs:3716 ../src/gui/person.cs:1988
 #: ../src/gui/session.cs:702 ../src/report.cs:196
 msgid "Pulses"
@@ -1763,7 +1769,7 @@ msgstr ""
 msgid "Reaction time"
 msgstr "Doba reakce"
 
-#: ../glade/chronojump.glade.h:332 ../src/exportSession.cs:200
+#: ../glade/chronojump.glade.h:332 ../src/exportSession.cs:199
 #: ../src/report.cs:193
 msgid "Reaction times"
 msgstr "Doby reakce"
@@ -1785,7 +1791,7 @@ msgstr "Reakční skok omezený časem"
 msgid "Reactive Jump unlimited (until finish button is clicked)"
 msgstr "Reakční skok bez omezení (dokud se nezmáčkne tlačítko „Dokončit“)"
 
-#: ../glade/chronojump.glade.h:337 ../src/exportSession.cs:192
+#: ../glade/chronojump.glade.h:337 ../src/exportSession.cs:191
 #: ../src/report.cs:168 ../src/report.cs:171
 msgid "Reactive jumps"
 msgstr "Reakční skoky"
@@ -1912,7 +1918,7 @@ msgstr "Vybraná"
 msgid "Server stats"
 msgstr "Statistiky serveru"
 
-#: ../glade/chronojump.glade.h:368 ../src/exportSession.cs:184
+#: ../glade/chronojump.glade.h:368 ../src/exportSession.cs:183
 #: ../src/report.cs:153
 msgid "Session"
 msgstr "Série cvičení"
@@ -1925,7 +1931,7 @@ msgstr "Průměr série"
 msgid "Sessions"
 msgstr "Série cvičení"
 
-#: ../glade/chronojump.glade.h:371 ../src/exportSession.cs:236
+#: ../glade/chronojump.glade.h:371 ../src/exportSession.cs:235
 #: ../src/gui/person.cs:114 ../src/gui/person.cs:1671
 msgid "Sex"
 msgstr "Pohlaví"
@@ -1971,10 +1977,8 @@ msgid "Show initial speed"
 msgstr "Zobrazovat počáteční rychlost"
 
 #: ../glade/chronojump.glade.h:382
-#, fuzzy
-#| msgid "Show speed"
 msgid "Show power"
-msgstr "Zobrazit rychlost"
+msgstr "Zobrazit výkon"
 
 #: ../glade/chronojump.glade.h:383 ../src/gui/report.cs:140
 msgid "Show sex"
@@ -2013,12 +2017,12 @@ msgstr "Jednoduchý"
 msgid "Simple jump with no special technique"
 msgstr "Jednoduchý skok bez nějakých speciálních technik"
 
-#: ../glade/chronojump.glade.h:392 ../src/exportSession.cs:253
+#: ../glade/chronojump.glade.h:392 ../src/exportSession.cs:238
 #: ../src/gui/person.cs:1729 ../src/gui/session.cs:695
 msgid "Speciallity"
 msgstr "Specializace"
 
-#: ../glade/chronojump.glade.h:393 ../src/exportSession.cs:490
+#: ../glade/chronojump.glade.h:393 ../src/exportSession.cs:488
 #: ../src/treeViewRun.cs:50 ../src/treeViewRun.cs:126
 msgid "Speed"
 msgstr "Rychlost"
@@ -2027,7 +2031,7 @@ msgstr "Rychlost"
 msgid "Speed units:"
 msgstr "Jednotky rychlosti:"
 
-#: ../glade/chronojump.glade.h:395 ../src/exportSession.cs:253
+#: ../glade/chronojump.glade.h:395 ../src/exportSession.cs:238
 #: ../src/gui/person.cs:1727 ../src/gui/session.cs:694
 msgid "Sport"
 msgstr "Sport"
@@ -2067,7 +2071,7 @@ msgstr "T"
 
 #. Log.WriteLine("TC: {0}", tc.ToString());
 #: ../glade/chronojump.glade.h:404 ../src/execute/jump.cs:364
-#: ../src/exportSession.cs:291 ../src/exportSession.cs:437
+#: ../src/exportSession.cs:281 ../src/exportSession.cs:435
 #: ../src/gui/convertWeight.cs:127 ../src/gui/jump.cs:497
 #: ../src/stats/djIndex.cs:35 ../src/stats/djQ.cs:35
 #: ../src/stats/graphs/djIndex.cs:71 ../src/stats/graphs/djIndex.cs:82
@@ -2083,7 +2087,7 @@ msgstr "ČK"
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
 #: ../glade/chronojump.glade.h:405 ../src/execute/jump.cs:372
-#: ../src/exportSession.cs:292 ../src/exportSession.cs:438
+#: ../src/exportSession.cs:282 ../src/exportSession.cs:436
 #: ../src/gui/convertWeight.cs:119 ../src/gui/jump.cs:506
 #: ../src/gui/run.cs:623 ../src/stats/djIndex.cs:34 ../src/stats/djQ.cs:34
 #: ../src/stats/graphs/djIndex.cs:72 ../src/stats/graphs/djIndex.cs:83
@@ -2137,9 +2141,9 @@ msgstr ""
 "zařízení Chronopic"
 
 #: ../glade/chronojump.glade.h:413 ../src/execute/reactionTime.cs:235
-#: ../src/execute/run.cs:791 ../src/exportSession.cs:384
-#: ../src/exportSession.cs:489 ../src/exportSession.cs:615
-#: ../src/exportSession.cs:675 ../src/exportSession.cs:760
+#: ../src/execute/run.cs:791 ../src/exportSession.cs:382
+#: ../src/exportSession.cs:487 ../src/exportSession.cs:613
+#: ../src/exportSession.cs:673 ../src/exportSession.cs:758
 #: ../src/gui/pulse.cs:354 ../src/gui/queryServer.cs:108
 #: ../src/stats/graphs/rjEvolution.cs:75
 #: ../src/stats/graphs/rjPotencyBosco.cs:81
@@ -2187,9 +2191,9 @@ msgstr "Překladatelé"
 msgid "Transpose"
 msgstr "Transponovat"
 
-#: ../glade/chronojump.glade.h:423 ../src/exportSession.cs:290
-#: ../src/exportSession.cs:487 ../src/exportSession.cs:536
-#: ../src/exportSession.cs:656 ../src/exportSession.cs:717
+#: ../glade/chronojump.glade.h:423 ../src/exportSession.cs:280
+#: ../src/exportSession.cs:485 ../src/exportSession.cs:534
+#: ../src/exportSession.cs:654 ../src/exportSession.cs:715
 #: ../src/gui/convertWeight.cs:117 ../src/gui/report.cs:135
 msgid "Type"
 msgstr "Typ"
@@ -2865,7 +2869,7 @@ msgid "Run will not be recorded, 1st track is out of time"
 msgstr "Běh nebude zaznamenán, první dráha je mimo časový limit"
 
 #. windowTitle
-#: ../src/execute/run.cs:793 ../src/exportSession.cs:541
+#: ../src/execute/run.cs:793 ../src/exportSession.cs:539
 #: ../src/gui/chronojump.cs:3453 ../src/gui/run.cs:1200 ../src/gui/run.cs:1263
 #: ../src/gui/run.cs:1313
 msgid "Tracks"
@@ -2909,67 +2913,67 @@ msgstr "Nelze exportovat soubor {0} "
 msgid "Cancelled"
 msgstr "Zrušeno"
 
-#: ../src/exportSession.cs:190 ../src/report.cs:163
+#: ../src/exportSession.cs:189 ../src/report.cs:163
 msgid "Simple jumps"
 msgstr "Jednoduché skoky"
 
-#: ../src/exportSession.cs:193 ../src/report.cs:169
+#: ../src/exportSession.cs:192 ../src/report.cs:169
 msgid "with subjumps"
 msgstr "s meziskoky"
 
-#: ../src/exportSession.cs:195 ../src/report.cs:178
+#: ../src/exportSession.cs:194 ../src/report.cs:178
 msgid "Simple runs"
 msgstr "Jednoduché běhy"
 
-#: ../src/exportSession.cs:197 ../src/report.cs:183 ../src/report.cs:186
+#: ../src/exportSession.cs:196 ../src/report.cs:183 ../src/report.cs:186
 msgid "interval runs"
 msgstr "intervalové běhy"
 
-#: ../src/exportSession.cs:198 ../src/report.cs:184
+#: ../src/exportSession.cs:197 ../src/report.cs:184
 msgid "with tracks"
 msgstr "s dráhami"
 
-#: ../src/exportSession.cs:220 ../src/report.cs:241
+#: ../src/exportSession.cs:219 ../src/report.cs:241
 msgid "SessionID"
 msgstr "ID série cvičení"
 
-#: ../src/exportSession.cs:235 ../src/gui/convertWeight.cs:111
+#: ../src/exportSession.cs:234 ../src/gui/convertWeight.cs:111
 #: ../src/gui/person.cs:112
 msgid "ID"
 msgstr "ID"
 
-#: ../src/exportSession.cs:236 ../src/gui/person.cs:115
+#: ../src/exportSession.cs:235 ../src/gui/person.cs:115
 msgid "Date of Birth"
 msgstr "Datum narození"
 
 #. decimals
-#: ../src/exportSession.cs:252 ../src/exportSession.cs:276
-#: ../src/exportSession.cs:360 ../src/gui/person.cs:1672
+#: ../src/exportSession.cs:237 ../src/exportSession.cs:266
+#: ../src/exportSession.cs:358 ../src/gui/person.cs:1672
 #: ../src/stats/graphs/potency.cs:84 ../src/stats/graphs/sjCmjAbkPlus.cs:66
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:83 ../src/stats/sjCmjAbkPlus.cs:57
 #: ../src/treeViewJump.cs:38
 msgid "Weight"
 msgstr "Váha"
 
-#: ../src/exportSession.cs:287 ../src/exportSession.cs:369
-#: ../src/exportSession.cs:484 ../src/exportSession.cs:533
-#: ../src/exportSession.cs:612 ../src/exportSession.cs:653
-#: ../src/exportSession.cs:714
+#: ../src/exportSession.cs:277 ../src/exportSession.cs:367
+#: ../src/exportSession.cs:482 ../src/exportSession.cs:531
+#: ../src/exportSession.cs:610 ../src/exportSession.cs:651
+#: ../src/exportSession.cs:712
 msgid "Person ID"
 msgstr "ID osoby"
 
-#: ../src/exportSession.cs:288 ../src/exportSession.cs:370
-#: ../src/exportSession.cs:485 ../src/exportSession.cs:534
-#: ../src/exportSession.cs:613 ../src/exportSession.cs:654
-#: ../src/exportSession.cs:715
+#: ../src/exportSession.cs:278 ../src/exportSession.cs:368
+#: ../src/exportSession.cs:483 ../src/exportSession.cs:532
+#: ../src/exportSession.cs:611 ../src/exportSession.cs:652
+#: ../src/exportSession.cs:713
 msgid "Person name"
 msgstr "Jméno osoby"
 
-#: ../src/exportSession.cs:289 ../src/exportSession.cs:371
+#: ../src/exportSession.cs:279 ../src/exportSession.cs:369
 msgid "jump ID"
 msgstr "ID skoku"
 
-#: ../src/exportSession.cs:293 ../src/exportSession.cs:381
+#: ../src/exportSession.cs:283 ../src/exportSession.cs:379
 #: ../src/stats/djIndex.cs:36 ../src/stats/djQ.cs:36
 #: ../src/stats/graphs/djIndex.cs:73 ../src/stats/graphs/djIndex.cs:87
 #: ../src/stats/graphs/djQ.cs:73 ../src/stats/graphs/djQ.cs:87
@@ -2981,71 +2985,71 @@ msgstr "ID skoku"
 msgid "Fall"
 msgstr "Pád"
 
-#: ../src/exportSession.cs:296 ../src/treeViewJump.cs:41
+#: ../src/exportSession.cs:286 ../src/treeViewJump.cs:41
 msgid "Power"
 msgstr "Výkon"
 
-#: ../src/exportSession.cs:297 ../src/treeViewJump.cs:42
+#: ../src/exportSession.cs:287 ../src/treeViewJump.cs:42
 msgid "Initial Speed"
 msgstr "Počáteční rychlost"
 
 #. Catalog.GetString("Angles") + ":" +
-#: ../src/exportSession.cs:300 ../src/exportSession.cs:388
-#: ../src/exportSession.cs:492 ../src/exportSession.cs:544
-#: ../src/exportSession.cs:617 ../src/exportSession.cs:659
-#: ../src/exportSession.cs:719
+#: ../src/exportSession.cs:290 ../src/exportSession.cs:386
+#: ../src/exportSession.cs:490 ../src/exportSession.cs:542
+#: ../src/exportSession.cs:615 ../src/exportSession.cs:657
+#: ../src/exportSession.cs:717
 msgid "Simulated"
 msgstr "Simulovaný"
 
-#: ../src/exportSession.cs:372
+#: ../src/exportSession.cs:370
 msgid "jump Type"
 msgstr "Typ skoku"
 
-#: ../src/exportSession.cs:373
+#: ../src/exportSession.cs:371
 msgid "TC Max"
 msgstr "ČK max."
 
-#: ../src/exportSession.cs:374
+#: ../src/exportSession.cs:372
 msgid "TF Max"
 msgstr "ČL max."
 
-#: ../src/exportSession.cs:375
+#: ../src/exportSession.cs:373
 msgid "Max Height"
 msgstr "Max. výška"
 
-#: ../src/exportSession.cs:376
+#: ../src/exportSession.cs:374
 msgid "Max Initial Speed"
 msgstr "Max. počáteční rychlost"
 
-#: ../src/exportSession.cs:377
+#: ../src/exportSession.cs:375
 msgid "TC AVG"
 msgstr "ČK prům."
 
-#: ../src/exportSession.cs:378
+#: ../src/exportSession.cs:376
 msgid "TF AVG"
 msgstr "ČL prům."
 
-#: ../src/exportSession.cs:379
+#: ../src/exportSession.cs:377
 msgid "AVG Height"
 msgstr "Prům. výška"
 
-#: ../src/exportSession.cs:380
+#: ../src/exportSession.cs:378
 msgid "AVG Initial Speed"
 msgstr "Prům. počáteční rychlost"
 
-#: ../src/exportSession.cs:385 ../src/exportSession.cs:542
+#: ../src/exportSession.cs:383 ../src/exportSession.cs:540
 msgid "Limited"
 msgstr "Omezeno"
 
 #. print Total, AVG, SD
-#: ../src/exportSession.cs:441 ../src/exportSession.cs:571
-#: ../src/exportSession.cs:678 ../src/treeViewJump.cs:392
+#: ../src/exportSession.cs:439 ../src/exportSession.cs:569
+#: ../src/exportSession.cs:676 ../src/treeViewJump.cs:392
 #: ../src/treeViewPulse.cs:130 ../src/treeViewRun.cs:253
 msgid "Total"
 msgstr "Celkem"
 
-#: ../src/exportSession.cs:447 ../src/exportSession.cs:578
-#: ../src/exportSession.cs:682 ../src/exportSession.cs:797
+#: ../src/exportSession.cs:445 ../src/exportSession.cs:576
+#: ../src/exportSession.cs:680 ../src/exportSession.cs:795
 #: ../src/stats/graphs/potency.cs:156 ../src/stats/graphs/djIndex.cs:163
 #: ../src/stats/graphs/djQ.cs:164 ../src/stats/graphs/fv.cs:149
 #: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
@@ -3063,65 +3067,65 @@ msgstr "Celkem"
 msgid "SD"
 msgstr "SD"
 
-#: ../src/exportSession.cs:486 ../src/exportSession.cs:535
+#: ../src/exportSession.cs:484 ../src/exportSession.cs:533
 msgid "run ID"
 msgstr "ID běhu"
 
-#: ../src/exportSession.cs:537
+#: ../src/exportSession.cs:535
 msgid "Distance total"
 msgstr "Vzdálenost celkem"
 
-#: ../src/exportSession.cs:538
+#: ../src/exportSession.cs:536
 msgid "Time total"
 msgstr "Čas celkem"
 
-#: ../src/exportSession.cs:539
+#: ../src/exportSession.cs:537
 msgid "Average speed"
 msgstr "Průměrná rychlost"
 
-#: ../src/exportSession.cs:540
+#: ../src/exportSession.cs:538
 msgid "Distance interval"
 msgstr "Intervalová vzdálenost"
 
-#: ../src/exportSession.cs:567
+#: ../src/exportSession.cs:565
 msgid "Interval speed"
 msgstr "Intervalová rychlost"
 
-#: ../src/exportSession.cs:568
+#: ../src/exportSession.cs:566
 msgid "interval times"
 msgstr "Intervalový čas"
 
-#: ../src/exportSession.cs:614
+#: ../src/exportSession.cs:612
 msgid "Reaction time ID"
 msgstr "ID doby reakce"
 
-#: ../src/exportSession.cs:655
+#: ../src/exportSession.cs:653
 msgid "Pulse ID"
 msgstr "ID pulzu"
 
-#: ../src/exportSession.cs:716
+#: ../src/exportSession.cs:714
 msgid "MC ID"
 msgstr "ID MC"
 
-#: ../src/exportSession.cs:761 ../src/treeViewMultiChronopic.cs:56
+#: ../src/exportSession.cs:759 ../src/treeViewMultiChronopic.cs:56
 #: ../src/treeViewMultiChronopic.cs:64 ../src/treeViewMultiChronopic.cs:72
 msgid "State"
 msgstr "Stav"
 
-#: ../src/exportSession.cs:762 ../src/treeViewMultiChronopic.cs:57
+#: ../src/exportSession.cs:760 ../src/treeViewMultiChronopic.cs:57
 #: ../src/treeViewMultiChronopic.cs:65 ../src/treeViewMultiChronopic.cs:73
 msgid "Change"
 msgstr "Změna"
 
-#: ../src/exportSession.cs:763
+#: ../src/exportSession.cs:761
 msgid "IN-IN"
 msgstr "UVNITŘ-UVNITŘ"
 
-#: ../src/exportSession.cs:764
+#: ../src/exportSession.cs:762
 msgid "OUT-OUT"
 msgstr "MIMO-MIMO"
 
-#: ../src/exportSession.cs:854
+#: ../src/exportSession.cs:852
 msgid ""
 "When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\n"
 "remember the separator character is semicolon: <b>;</b>"
@@ -3130,7 +3134,7 @@ msgstr ""
 "(OpenOffice Calc, R, MS Excel, …), musíte jako oddělovač použít středník: "
 "<b>;</b>"
 
-#: ../src/exportSession.cs:888
+#: ../src/exportSession.cs:886
 msgid "Exported to file: "
 msgstr "Exportováno do souboru: "
 
@@ -3384,95 +3388,91 @@ msgid "Execute Pulse"
 msgstr "Vykonat pulz"
 
 #: ../src/gui/chronojump.cs:3847
-#, fuzzy
-#| msgid "Multi Chronopic"
 msgid "Execute Multi Chronopic"
-msgstr "Multi Chronopic"
+msgstr "Spustit Multi Chronopic"
 
 #. windowTitle
 #: ../src/gui/chronojump.cs:3848
-#, fuzzy
-#| msgid "Change"
 msgid "Changes"
-msgstr "Změna"
+msgstr "Změny"
 
-#: ../src/gui/chronojump.cs:4039
+#: ../src/gui/chronojump.cs:4036
 msgid "Cannot update. Probably this test was deleted."
 msgstr "Nelze aktualizovat. Tento test byl pravděpodobně smazán."
 
-#: ../src/gui/chronojump.cs:4327
+#: ../src/gui/chronojump.cs:4324
 msgid "Do you want to delete selected jump?"
 msgstr "Chcete smazat vybraný skok?"
 
-#: ../src/gui/chronojump.cs:4328
+#: ../src/gui/chronojump.cs:4325
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Upozornění: Smazáním reakčních meziskoků se smaže celý skok"
 
-#: ../src/gui/chronojump.cs:4342
+#: ../src/gui/chronojump.cs:4339
 msgid "Deleted jump"
 msgstr "Smazán skok"
 
-#: ../src/gui/chronojump.cs:4356
+#: ../src/gui/chronojump.cs:4353
 msgid "Deleted reactive jump"
 msgstr "Smazán reakční skok"
 
-#: ../src/gui/chronojump.cs:4392
+#: ../src/gui/chronojump.cs:4389
 msgid "Do you want to delete selected run?"
 msgstr "Chcete smazat vybraný běh?"
 
-#: ../src/gui/chronojump.cs:4393
+#: ../src/gui/chronojump.cs:4390
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "Upozornění: Smazáním intervalových meziběhů se smaže celý běh"
 
-#: ../src/gui/chronojump.cs:4407
+#: ../src/gui/chronojump.cs:4404
 msgid "Deleted selected run"
 msgstr "Smazán vybraný běh"
 
-#: ../src/gui/chronojump.cs:4422
+#: ../src/gui/chronojump.cs:4419
 msgid "Deleted intervallic run"
 msgstr "Smazán intervalový běh"
 
-#: ../src/gui/chronojump.cs:4456
+#: ../src/gui/chronojump.cs:4453
 msgid "Deleted reaction time"
 msgstr "Smazána doba reakce"
 
-#: ../src/gui/chronojump.cs:4491
+#: ../src/gui/chronojump.cs:4488
 msgid "Deleted pulse"
 msgstr "Smazán pulz"
 
-#: ../src/gui/chronojump.cs:4510
+#: ../src/gui/chronojump.cs:4507
 msgid "Do you want to delete selected test?"
 msgstr "Chcete smazat vybraný test?"
 
-#: ../src/gui/chronojump.cs:4524
+#: ../src/gui/chronojump.cs:4521
 msgid "Deleted multi chronopic"
 msgstr "Smazán Multi Chronopic"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4550
+#: ../src/gui/chronojump.cs:4547
 msgid "Added simple jump."
 msgstr "Přidán jednoduchý skok"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4553
+#: ../src/gui/chronojump.cs:4550
 msgid "Added reactive jump."
 msgstr "Přidán reakční skok"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4570
+#: ../src/gui/chronojump.cs:4567
 msgid "Added simple run."
 msgstr "Přidán jednoduchý běh"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4573
+#: ../src/gui/chronojump.cs:4570
 msgid "Added intervallic run."
 msgstr "Přidán intervalový běh"
 
-#: ../src/gui/chronojump.cs:4739
+#: ../src/gui/chronojump.cs:4736
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: ../src/gui/chronojump.cs:5061
+#: ../src/gui/chronojump.cs:5058
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Provedeno pro testovací účely. ChronoJump bude nestandardně ukončen."
 
@@ -5803,147 +5803,147 @@ msgid "Venezuela"
 msgstr "Venezuela"
 
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
-#: ../src/sqlite/speciallity.cs:144
+#: ../src/sqlite/speciallity.cs:147
 msgid "Diving"
 msgstr "Potápění"
 
-#: ../src/sqlite/speciallity.cs:145
+#: ../src/sqlite/speciallity.cs:148
 msgid "Swimming"
 msgstr "Plavání"
 
-#: ../src/sqlite/speciallity.cs:146
+#: ../src/sqlite/speciallity.cs:149
 msgid "Synchronized Swimming"
 msgstr "Synchronizované plavání"
 
-#: ../src/sqlite/speciallity.cs:147
+#: ../src/sqlite/speciallity.cs:150
 msgid "Waterpolo"
 msgstr "Vodní pólo"
 
-#: ../src/sqlite/speciallity.cs:149
+#: ../src/sqlite/speciallity.cs:152
 msgid "Runs, Sprints"
 msgstr "Běh - sprint"
 
-#: ../src/sqlite/speciallity.cs:150
+#: ../src/sqlite/speciallity.cs:153
 msgid "Runs, Middle-distance"
 msgstr "Běh na střední trati"
 
-#: ../src/sqlite/speciallity.cs:151
+#: ../src/sqlite/speciallity.cs:154
 msgid "Runs, Long-distance"
 msgstr "Běh na dlouhé trati"
 
-#: ../src/sqlite/speciallity.cs:153
+#: ../src/sqlite/speciallity.cs:156
 msgid "Throws"
 msgstr "Vrh"
 
-#: ../src/sqlite/speciallity.cs:154
+#: ../src/sqlite/speciallity.cs:157
 msgid "Combined"
 msgstr "Víceboj"
 
-#: ../src/sqlite/speciallity.cs:156 ../src/sqlite/sport.cs:181
+#: ../src/sqlite/speciallity.cs:159 ../src/sqlite/sport.cs:181
 msgid "Bobsleigh"
 msgstr "Bobování"
 
-#: ../src/sqlite/speciallity.cs:157
+#: ../src/sqlite/speciallity.cs:160
 msgid "Skeleton"
 msgstr "Skeleton"
 
-#: ../src/sqlite/speciallity.cs:159
+#: ../src/sqlite/speciallity.cs:162
 msgid "Flatwater"
 msgstr "Rychlostní"
 
-#: ../src/sqlite/speciallity.cs:160
+#: ../src/sqlite/speciallity.cs:163
 msgid "Slalom"
 msgstr "Slalom"
 
-#: ../src/sqlite/speciallity.cs:162
+#: ../src/sqlite/speciallity.cs:165
 msgid "Cycling BMX"
 msgstr "Cyklistika BMX"
 
-#: ../src/sqlite/speciallity.cs:163
+#: ../src/sqlite/speciallity.cs:166
 msgid "Cycling Road"
 msgstr "Cyklistika dráhová"
 
-#: ../src/sqlite/speciallity.cs:164
+#: ../src/sqlite/speciallity.cs:167
 msgid "Cycling Track"
 msgstr "Cyklistika silniční"
 
-#: ../src/sqlite/speciallity.cs:165
+#: ../src/sqlite/speciallity.cs:168
 msgid "Mountain Bike"
 msgstr "Cyklistika horská"
 
-#: ../src/sqlite/speciallity.cs:167
+#: ../src/sqlite/speciallity.cs:170
 msgid "Dressage"
 msgstr "Drezura"
 
-#: ../src/sqlite/speciallity.cs:168
+#: ../src/sqlite/speciallity.cs:171
 msgid "Eventing"
 msgstr "Soutěž všestranné způsobilosti"
 
-#: ../src/sqlite/speciallity.cs:169
+#: ../src/sqlite/speciallity.cs:172
 msgid "jumping"
 msgstr "Skákání"
 
-#: ../src/sqlite/speciallity.cs:171
+#: ../src/sqlite/speciallity.cs:174
 msgid "Artistic"
 msgstr "Sportovní"
 
-#: ../src/sqlite/speciallity.cs:172
+#: ../src/sqlite/speciallity.cs:175
 msgid "Rhythmic"
 msgstr "Moderní"
 
-#: ../src/sqlite/speciallity.cs:173
+#: ../src/sqlite/speciallity.cs:176
 msgid "Trampoline"
 msgstr "Skoky na trampolíně"
 
-#: ../src/sqlite/speciallity.cs:175
+#: ../src/sqlite/speciallity.cs:178
 msgid "Figure skating"
 msgstr "Krasobruslení"
 
-#: ../src/sqlite/speciallity.cs:176
+#: ../src/sqlite/speciallity.cs:179
 msgid "Short Track Speed Skating"
 msgstr "Rychlobruslení na krátké dráze"
 
-#: ../src/sqlite/speciallity.cs:177
+#: ../src/sqlite/speciallity.cs:180
 msgid "Speed skating"
 msgstr "Rychlobruslení"
 
-#: ../src/sqlite/speciallity.cs:179
+#: ../src/sqlite/speciallity.cs:182
 msgid "Alpine Skiing"
 msgstr "Alpské lyžování"
 
-#: ../src/sqlite/speciallity.cs:180
+#: ../src/sqlite/speciallity.cs:183
 msgid "Cross Country Skiing"
 msgstr "Běh na lyžích"
 
-#: ../src/sqlite/speciallity.cs:181
+#: ../src/sqlite/speciallity.cs:184
 msgid "Freestyle Skiing"
 msgstr "Akrobatické lyžování"
 
-#: ../src/sqlite/speciallity.cs:182
+#: ../src/sqlite/speciallity.cs:185
 msgid "Nordic Combined"
 msgstr "Severská kombinace"
 
-#: ../src/sqlite/speciallity.cs:183
+#: ../src/sqlite/speciallity.cs:186
 msgid "Ski Jumping"
 msgstr "Skoky na lyžích"
 
-#: ../src/sqlite/speciallity.cs:184
+#: ../src/sqlite/speciallity.cs:187
 msgid "Snowboard"
 msgstr "Snowboarding"
 
-#: ../src/sqlite/speciallity.cs:186
+#: ../src/sqlite/speciallity.cs:189
 msgid "Beach volleyball"
 msgstr "Plážový volejbal"
 
-#: ../src/sqlite/speciallity.cs:187 ../src/sqlite/sport.cs:206
+#: ../src/sqlite/speciallity.cs:190 ../src/sqlite/sport.cs:206
 msgid "Volleyball"
 msgstr "Volejbal"
 
-#: ../src/sqlite/speciallity.cs:189
+#: ../src/sqlite/speciallity.cs:192
 msgid "Freestyle"
 msgstr "Zápas ve volném stylu"
 
-#: ../src/sqlite/speciallity.cs:190
+#: ../src/sqlite/speciallity.cs:193
 msgid "Greco-Roman"
 msgstr "Řecko-římský zápas"
 
@@ -6283,10 +6283,8 @@ msgid "{0} in {1} on {2}"
 msgstr "{0} pro {1} v {2}"
 
 #: ../src/treeViewJump.cs:41
-#, fuzzy
-#| msgid "Preferences"
 msgid "see Preferences"
-msgstr "Předvolby"
+msgstr "viz předvolby"
 
 #: ../src/treeViewJump.cs:355
 msgid "First photocell"

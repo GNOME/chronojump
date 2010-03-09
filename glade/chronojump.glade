@@ -3399,7 +3399,7 @@ options</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">1 0 100 1 10 10</property>
+                        <property name="adjustment">1 0 100 1 10 0</property>
                         <property name="climb_rate">1</property>
                       </widget>
                       <packing>
@@ -3648,7 +3648,7 @@ options</property>
                       <widget class="GtkSpinButton" id="spinbutton_mark_consecutives">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">5 1 100 1 10 10</property>
+                        <property name="adjustment">5 1 100 1 10 0</property>
                         <property name="climb_rate">1</property>
                         <property name="snap_to_ticks">True</property>
                         <property name="numeric">True</property>
@@ -3852,7 +3852,7 @@ options</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
-                    <property name="adjustment">10 1 99 1 10 100</property>
+                    <property name="adjustment">10 1 99 1 10 0</property>
                     <property name="climb_rate">1</property>
                     <property name="snap_to_ticks">True</property>
                     <property name="numeric">True</property>
@@ -3876,7 +3876,7 @@ options</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">1 1 99 1 10 10</property>
+                        <property name="adjustment">1 1 99 1 10 0</property>
                         <property name="climb_rate">1</property>
                         <property name="snap_to_ticks">True</property>
                         <property name="numeric">True</property>
@@ -4465,7 +4465,7 @@ options</property>
                                       <widget class="GtkSpinButton" id="spin_graph_margin_b">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">5 1 20 1 1 1</property>
+                                        <property name="adjustment">5 1 20 1 1 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="snap_to_ticks">True</property>
                                         <property name="numeric">True</property>
@@ -4499,7 +4499,7 @@ options</property>
                                       <widget class="GtkSpinButton" id="spin_graph_margin_l">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">4 1 20 1 1 1</property>
+                                        <property name="adjustment">4 1 20 1 1 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="snap_to_ticks">True</property>
                                         <property name="numeric">True</property>
@@ -4533,7 +4533,7 @@ options</property>
                                       <widget class="GtkSpinButton" id="spin_graph_margin_t">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">4 1 20 1 1 1</property>
+                                        <property name="adjustment">4 1 20 1 1 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="snap_to_ticks">True</property>
                                         <property name="numeric">True</property>
@@ -4567,7 +4567,7 @@ options</property>
                                       <widget class="GtkSpinButton" id="spin_graph_margin_r">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">2 1 20 1 1 1</property>
+                                        <property name="adjustment">2 1 20 1 1 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="snap_to_ticks">True</property>
                                         <property name="numeric">True</property>
@@ -4974,6 +4974,7 @@ options</property>
     <child>
       <widget class="GtkVBox" id="vbox45">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">8</property>
         <child>
           <widget class="GtkLabel" id="label132">
@@ -5211,7 +5212,7 @@ options</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
-                        <property name="adjustment">1 0 100 1 10 10</property>
+                        <property name="adjustment">1 0 100 1 10 0</property>
                         <property name="climb_rate">1</property>
                         <property name="snap_to_ticks">True</property>
                         <property name="numeric">True</property>
@@ -5284,6 +5285,7 @@ options</property>
                 <child>
                   <widget class="GtkVBox" id="vbox149">
                     <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkRadioButton" id="radiobutton_dist_variable">
                         <property name="label" translatable="yes">Variable (user will select distance at each test)</property>
@@ -5327,7 +5329,7 @@ options</property>
                           <widget class="GtkSpinButton" id="spin_distance_fixed">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="adjustment">100 0 99999 1 10 10</property>
+                            <property name="adjustment">100 0 99999 1 10 0</property>
                             <property name="climb_rate">1</property>
                             <property name="digits">2</property>
                             <property name="numeric">True</property>
@@ -5596,6 +5598,7 @@ suitable for agility tests)</property>
     <child>
       <widget class="GtkVBox" id="vbox49">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <widget class="GtkCheckButton" id="checkbutton_only_current_session">
@@ -5653,7 +5656,9 @@ suitable for agility tests)</property>
             <child>
               <widget class="GtkTreeView" id="treeview_person_show_all_events">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
+                <property name="headers_clickable">False</property>
               </widget>
             </child>
           </widget>
@@ -9725,6 +9730,7 @@ Test&lt;/b&gt;</property>
     <child>
       <widget class="GtkVBox" id="vbox95">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
           <widget class="GtkLabel" id="label333">
@@ -9749,6 +9755,7 @@ Test&lt;/b&gt;</property>
                 <child>
                   <widget class="GtkVBox" id="vbox96">
                     <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkCheckButton" id="checkbutton_jump_tf_tc_best">
                         <property name="visible">True</property>
@@ -9976,6 +9983,7 @@ Test&lt;/b&gt;</property>
                 <property name="left_padding">12</property>
                 <child>
                   <widget class="GtkScrolledWindow" id="scrolledwin_conditions">
+                    <property name="height_request">120</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="hscrollbar_policy">never</property>
@@ -9989,6 +9997,7 @@ Test&lt;/b&gt;</property>
                             <child>
                               <widget class="GtkVBox" id="vbox99">
                                 <property name="visible">True</property>
+                                <property name="orientation">vertical</property>
                                 <child>
                                   <widget class="GtkTable" id="table_jump_conditions">
                                     <property name="visible">True</property>
@@ -10561,7 +10570,7 @@ Test&lt;/b&gt;</property>
                                       <widget class="GtkSpinButton" id="spinbutton_tf_greater">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">0.59999998658880005 0 1 0.0099999997764800008 0.0099999997764800008 0.0099999997764800008</property>
+                                        <property name="adjustment">0.59999998658880005 0 1 0.0099999997764800008 0.01 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">2</property>
                                         <property name="snap_to_ticks">True</property>
@@ -10580,7 +10589,7 @@ Test&lt;/b&gt;</property>
                                       <widget class="GtkSpinButton" id="spinbutton_tf_lower">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">0.29999999329440002 0 1 0.0099999997764800008 0.0099999997764800008 0.0099999997764800008</property>
+                                        <property name="adjustment">0.29999999329440002 0 1 0.0099999997764800008 0.0099999997764800008 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">2</property>
                                         <property name="snap_to_ticks">True</property>
@@ -10599,7 +10608,7 @@ Test&lt;/b&gt;</property>
                                       <widget class="GtkSpinButton" id="spinbutton_tc_greater">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">0.29999999329440002 0 1 0.0099999997764800008 0.0099999997764800008 0.0099999997764800008</property>
+                                        <property name="adjustment">0.29999999329440002 0 1 0.0099999997764800008 0.0099999997764800008 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">2</property>
                                         <property name="snap_to_ticks">True</property>
@@ -10618,7 +10627,7 @@ Test&lt;/b&gt;</property>
                                       <widget class="GtkSpinButton" id="spinbutton_tc_lower">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">0.19999999552960002 0 1 0.0099999997764800008 0.0099999997764800008 0.0099999997764800008</property>
+                                        <property name="adjustment">0.19999999552960002 0 1 0.0099999997764800008 0.0099999997764800008 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">2</property>
                                         <property name="snap_to_ticks">True</property>
@@ -10637,7 +10646,7 @@ Test&lt;/b&gt;</property>
                                       <widget class="GtkSpinButton" id="spinbutton_tf_tc_greater">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">2.7499999385299998 0 6 0.0099999997764800008 0.0099999997764800008 0.0099999997764800008</property>
+                                        <property name="adjustment">2.7499999385299998 0 6 0.0099999997764800008 0.0099999997764800008 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">2</property>
                                         <property name="snap_to_ticks">True</property>
@@ -10656,7 +10665,7 @@ Test&lt;/b&gt;</property>
                                       <widget class="GtkSpinButton" id="spinbutton_tf_tc_lower">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">0.99999997764800008 0 6 0.0099999997764800008 0.0099999997764800008 0.0099999997764800008</property>
+                                        <property name="adjustment">0.99999997764800008 0 6 0.0099999997764800008 0.0099999997764800008 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">2</property>
                                         <property name="snap_to_ticks">True</property>
@@ -10884,7 +10893,7 @@ Test&lt;/b&gt;</property>
                                       <widget class="GtkSpinButton" id="spinbutton_time_lower">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">11 0 1000 0.5 1 10</property>
+                                        <property name="adjustment">11 0 1000 0.5 1 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">1</property>
                                         <property name="snap_to_ticks">True</property>
@@ -10903,7 +10912,7 @@ Test&lt;/b&gt;</property>
                                       <widget class="GtkSpinButton" id="spinbutton_time_greater">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="adjustment">39 0 1000 0.5 1 10</property>
+                                        <property name="adjustment">39 0 1000 0.5 1 0</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">1</property>
                                         <property name="snap_to_ticks">True</property>
@@ -13330,6 +13339,7 @@ comments</property>
     <child>
       <widget class="GtkVBox" id="vbox_main">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">10</property>
         <child>
           <widget class="GtkLabel" id="label502">
@@ -13439,6 +13449,7 @@ comments</property>
   <widget class="GtkWindow" id="generic_window">
     <property name="visible">True</property>
     <property name="border_width">10</property>
+    <property name="title" translatable="yes">Chronojump</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
@@ -13970,37 +13981,27 @@ times</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkHBox" id="hbox289">
+          <widget class="GtkVBox" id="vbox150">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <child>
-              <widget class="GtkVBox" id="vbox150">
+              <widget class="GtkLabel" id="label_uploaded_sports">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <widget class="GtkLabel" id="label_uploaded_sports">
-                    <property name="visible">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkLabel" id="label_uploaded_test_types">
-                    <property name="visible">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label_uploaded_test_types">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -14011,12 +14012,14 @@ times</property>
               </widget>
               <packing>
                 <property name="fill">False</property>
-                <property name="position">1</property>
+                <property name="padding">8</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">2</property>
           </packing>
         </child>

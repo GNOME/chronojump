@@ -97,13 +97,13 @@ public partial class PersonSession {
 
 	public override string ToString()
 	{
-		return "";
-		//return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn.ToShortDateString() + ", " + description;
+		return "[uniqueID: " + uniqueID + "]," + personID + ", " + ", " + sessionID + ", " + height + ", " + weight + ", " + sportID + ", " + speciallityID + ", " + practice + ", " + comments;
 	}
 
 
 	public int UniqueID {
 		get { return uniqueID; }
+		set { uniqueID = value; }
 	}
 	
 	public int PersonID {

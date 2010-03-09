@@ -560,6 +560,7 @@ public class Server
 		if(sportUserDefinedLocal != -1)
 			ps.SportID = sportUserDefinedLocal;
 
+		ps.UniqueID = -1;
 		ps.PersonID = personServerID;
 		ps.SessionID = sessionServerID;
 		myServer.UploadPersonSessionIfNeeded(ps);

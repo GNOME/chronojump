@@ -885,7 +885,7 @@ msgstr "Media"
 
 #: ../glade/chronojump.glade.h:111
 msgid "Backup database"
-msgstr "Respladar la base de datos"
+msgstr "Respaldar la base de datos"
 
 #: ../glade/chronojump.glade.h:112
 msgid "Bell bad"
@@ -2495,7 +2495,7 @@ msgstr "Ay_uda"
 
 #: ../glade/chronojump.glade.h:449
 msgid "_Jump"
-msgstr "_Salto"
+msgstr "Sa_lto"
 
 #: ../glade/chronojump.glade.h:450
 msgid "_Other tests"

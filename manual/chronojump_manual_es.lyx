@@ -35,7 +35,7 @@
 \use_bibtopic false
 \paperorientation portrait
 \secnumdepth 4
-\tocdepth 4
+\tocdepth 3
 \paragraph_separation skip
 \defskip medskip
 \quotes_language english
@@ -61,7 +61,7 @@ Manual de Chronojump
 
 
 \size large
-(Actualizado a versión de Chronojump 0.8.9.6)
+(Actualizado a versión de Chronojump 0.8.18)
 \end_layout
 
 \begin_layout Author
@@ -166,6 +166,8 @@ frontmatter
 \end_layout
 
 \begin_layout Standard
+
+\size small
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
 
@@ -175,6 +177,8 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
+
+\size small
 \begin_inset FloatList figure
 
 \end_inset
@@ -183,6 +187,8 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
+
+\size small
 \begin_inset FloatList table
 
 \end_inset
@@ -621,7 +627,7 @@ Se envía a todo el mundo
 \begin_layout Plain Layout
 
 \size small
-33-37€ Tirada inicial
+37€
 \end_layout
 
 \end_inset
@@ -880,6 +886,20 @@ status open
 	filename chronopic3-metacrilato_small.jpg
 	width 250pt
 	height 188pt
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic3.png
+	width 250pt
+	height 188pt
 
 \end_inset
 
@@ -896,7 +916,9 @@ name "fig:Chronopic3"
 
 \end_inset
 
-Chronopic3
+Chronopic3.
+ La imagen superior corresponde a la tirada inicial, mientras que la inferior
+ corresponde al segundo proceso de fabricación.
 \end_layout
 
 \end_inset
@@ -1059,7 +1081,7 @@ En septiembre de 2007, existe el Chronopic 1.0 y se está desarrollando Chronopi
 \end_layout
 
 \begin_layout Section
-Montaje de Chronopic3
+Montaje de Chronopic3 (tirada inicial)
 \end_layout
 
 \begin_layout Standard
@@ -1073,6 +1095,8 @@ reference "fig:Montaje-del-Chronopic3."
 \end_inset
 
  muestra el montaje del mismo.
+ Nota: estas instrucciones son necesarias sólo para la tirada inicial, puesto
+ que las Chronopics siguientes ya vienen montadas de fábrica.
 \end_layout
 
 \begin_layout Standard
@@ -1104,7 +1128,7 @@ name "fig:Montaje-del-Chronopic3."
 
 \end_inset
 
-Montaje del Chronopic3.
+Montaje del Chronopic3 (tirada inicial).
 \end_layout
 
 \end_inset
@@ -1620,14 +1644,19 @@ Chronopic3 en GNU/Linux
 \end_layout
 
 \begin_layout Standard
-Chronopic3 se detecta automáticamente en GNU/Linux en los kernels de la
- serie 2.6.24 (y suponemos que para valores superiores no habrá problemas).
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Chronopic3 se detecta automáticamente en GNU/Linux con los kernels que han
+ aparecido a de la serie 2.6.24 (y suponemos que para valores superiores no
+ habrá problemas).
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Por un error de Mono que hemos documentado
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -1701,9 +1730,17 @@ url{http://msdark.
 
 \end_inset
 
-.
- A partir del año 2009 los kernels de la mayoría de las distribuciones ya
- no suponen ningún problema.
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Los kernels de Linux aparecidos a partir del año 2009, detectan la placa
+ Chronopic sin ningún problema.
 \end_layout
 
 \begin_layout Section
@@ -1725,15 +1762,22 @@ reference "sub:Chronopic-puertos-serie-usb"
 \end_inset
 
 , a la conexión se le asignará un nombre.
- En el caso de GNU/Linux esto no suele ser problema, pues los nombres son
- claros y la opción /dev/ttyS0 (serie) o /dev/ttyUSB0 (USB-serie) suele
- ser la correcta.
+ En el caso de 
+\series bold
+Linux
+\series default
+ esto no suele ser problema, pues los nombres son claros y la opción /dev/ttyS0
+ (serie) o /dev/ttyUSB0 (USB-serie) suele ser la correcta.
  De la misma forma, Windows por puerto serie suele asignar el puerto COM1.
 \end_layout
 
 \begin_layout Standard
-En el caso de MS Windows en que se conecte Chronopic3 al puerto USB, el
- driver asigna unos nombres con mayor variabilidad: COM1...
+En el caso de 
+\series bold
+MS Windows
+\series default
+ en que se conecte Chronopic3 al puerto USB, el driver asigna unos nombres
+ con mayor variabilidad: COM1...
  COM27 o superior.
  En versiones anteriores de Chronojump para Windows, el puerto se auto detectaba
 , pero a partir de la versión 0.6, y por un cambio de los programas usados,
@@ -1850,20 +1894,21 @@ COM3
 \begin_inset Quotes erd
 \end_inset
 
- es el que deberemos introducir en las preferencias de Chronojump.
+ es el que deberemos introducir en la configuración del Chronopic.
 \end_layout
 
 \begin_layout Standard
 Raramente el nombre del puerto cambiará, así que esta operación debe realizarse
- sólo una vez, ya que cuando haya introducido el nombre del puerto en las
- preferencias de Chronojump (tal y como se explica en el apartado 
+ sólo una vez, ya que cuando haya introducido el nombre del puerto en la
+ ventana de configuración de chronopic (tal y como se explica en el apartado
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Preferencias"
+reference "sec:Conexión-de-Chronopic/s"
 
 \end_inset
 
-), este nombre quedará guardado en la base de datos.
+).
 \end_layout
 
 \begin_layout Standard
@@ -2050,23 +2095,8 @@ reference "sub:Modificación-del-puerto"
 \end_layout
 
 \begin_layout Enumerate
-Ejecute el programa Chronojump_mini e introduzca el nombre del puerto cuando
- se le pida.
- Acto seguido el puerto debería ser reconocido y las pulsaciones en el chronopic
- será cronometradas por chronojump_mini.
-\end_layout
-
-\begin_layout Enumerate
-Ejecute el programa Chronojump, escriba el puerto en las preferencias, y
- active 
-\begin_inset Quotes eld
-\end_inset
-
-Chronopic
-\begin_inset Quotes erd
-\end_inset
-
- en el menú del mismo nombre.
+Ejecute el programa Chronojump, escriba el puerto en la ventana de configuración
+ de Chronopic.
  A continuación le aparecerá un diálogo que le pedirá que haga click en
  
 \begin_inset Quotes eld
@@ -2079,6 +2109,22 @@ aceptar
  y a continuación haga click en el pulsador de Chronopic, en breve Chronopic
  debería ser detectado correctamente y está listo para ser usado con la
  plataforma conectada si lo desea.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Ejecute el programa Chronojump_mini e introduzca el nombre del puerto cuando
+ se le pida.
+ Acto seguido el puerto debería ser reconocido y las pulsaciones en el chronopic
+ será cronometradas por chronojump_mini.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Part
@@ -2223,7 +2269,7 @@ status open
 \begin_inset Graphics
 	filename chronojump_main_window_spanish.png
 	lyxscale 50
-	scale 50
+	scale 60
 	rotateAngle 90
 
 \end_inset
@@ -2242,6 +2288,91 @@ name "fig:Ventana-principal-de"
 \end_inset
 
 Ventana principal de Chronojump.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conexión de Chronopic/s
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Conexión-de-Chronopic/s"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Puede conectar uno o más Chronopics usando la ventana en el menú: 
+\emph on
+Herramientas / Chronopic
+\emph default
+.
+ En la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic-connection"
+
+\end_inset
+
+ se muestran dos Chronopics conectados.
+ Se destaca que se muestra una ventana de ayuda sobre puertos haciendo clic
+ en el botón de 
+\emph on
+Ayuda
+\emph default
+.
+ La conexión con el cronómetro Chronopic se trata específicamente en el
+ apartado 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Chronopic:-concepto-y-configuracion"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chronopic-connection.png
+	lyxscale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic-connection"
+
+\end_inset
+
+Conexión a Chronopic.
+ La figura corresponde al programa Chronojump -en versión para el sistema
+ operativo Linux-, en el que se han conectado dos Chronopics.
 \end_layout
 
 \end_inset
@@ -2282,6 +2413,8 @@ Todas las modificaciones de sesiones, sujetos y tests, serán actualizadas
  en todo momento en la base de datos.
  Así no es necesario guardar la información periódicamente y se dificulta
  la pérdida de datos ante un error informático.
+ En el caso eventual de que el programa se bloquee, no se perdería ningún
+ dato excepto -en ocasiones- el test que se esté realizando.
 \end_layout
 
 \begin_layout Subsection
@@ -2329,7 +2462,6 @@ status open
 \begin_inset Graphics
 	filename nueva_sesion_colegio.png
 	lyxscale 50
-	scale 50
 
 \end_inset
 
@@ -2372,7 +2504,6 @@ status open
 \begin_inset Graphics
 	filename nueva_sesion_artistica_competicion.png
 	lyxscale 50
-	scale 50
 
 \end_inset
 
@@ -2469,8 +2600,7 @@ Sujetos
 \end_layout
 
 \begin_layout Standard
-Cada uno de los individuos que pueden realizan tests (saltos, carreras,
- tiempos de reacción o ritmos) es conocido como sujeto.
+Cada uno de los individuos que pueden realizan tests es conocido como sujeto.
  Hay que notar que no se debe crear un mismo sujeto más de una vez, ya que
  para que pueda estudiarse su evolución en el tiempo (diferentes sesiones)
  se recomienda enérgicamente crear el sujeto sólo una vez, las otras veces
@@ -2504,7 +2634,6 @@ status open
 \begin_inset Graphics
 	filename Captura-Nuevo saltador.png
 	lyxscale 50
-	scale 50
 
 \end_inset
 
@@ -2616,7 +2745,6 @@ status open
 \begin_inset Graphics
 	filename Captura-add-edit-multiple-persons.png
 	lyxscale 50
-	scale 50
 
 \end_inset
 
@@ -2704,7 +2832,6 @@ status open
 \begin_inset Graphics
 	filename Captura-Cargar atletas.png
 	lyxscale 50
-	scale 50
 
 \end_inset
 
@@ -2746,7 +2873,6 @@ status open
 \begin_inset Graphics
 	filename Captura-Cargar_atletas_otra_sesion.png
 	lyxscale 50
-	scale 50
 
 \end_inset
 
@@ -2890,7 +3016,6 @@ status open
 \begin_inset Graphics
 	filename chronojump_sqlite.eps
 	lyxscale 50
-	scale 90
 	rotateAngle 90
 
 \end_inset
@@ -3237,7 +3362,6 @@ status open
 \begin_inset Graphics
 	filename campanas.png
 	lyxscale 50
-	scale 50
 
 \end_inset
 
@@ -3486,7 +3610,6 @@ status open
 \begin_inset Graphics
 	filename Captura-Crear un tipo de salto nuevo.png
 	lyxscale 50
-	scale 50
 
 \end_inset
 
@@ -4193,7 +4316,7 @@ status open
 \begin_inset Graphics
 	filename chronojump-505.png
 	lyxscale 50
-	scale 50
+	scale 60
 
 \end_inset
 
@@ -4627,7 +4750,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename run_type_add.png
-	scale 50
 
 \end_inset
 
@@ -4672,7 +4794,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename run_type_add-variable.png
-	scale 50
 
 \end_inset
 
@@ -5732,7 +5853,8 @@ status open
 \begin_inset Graphics
 	filename multiChronopic_mc.png
 	lyxscale 50
-	scale 48
+	scale 80
+	rotateAngle 90
 
 \end_inset
 
@@ -5988,7 +6110,8 @@ status open
 \begin_inset Graphics
 	filename multiChronopic_ra.png
 	lyxscale 50
-	scale 50
+	scale 90
+	rotateAngle 90
 
 \end_inset
 
@@ -6053,7 +6176,7 @@ status open
 \begin_inset Graphics
 	filename chronojump_stats_window.png
 	lyxscale 50
-	scale 50
+	scale 75
 
 \end_inset
 
@@ -6338,7 +6461,7 @@ status open
 \begin_inset Graphics
 	filename chronojump_estadisticas_saltos_simples.png
 	lyxscale 50
-	scale 50
+	scale 90
 
 \end_inset
 
@@ -6833,7 +6956,21 @@ reference "fig:Gráfico-stats2"
 
 \end_inset
 
- se muestra un par de ejemplos de gráficos generados.
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-stats3"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-stats4"
+
+\end_inset
+
+ se muestran ejemplos de gráficos generados.
 \end_layout
 
 \begin_layout Standard
@@ -6847,7 +6984,7 @@ status open
 \begin_inset Graphics
 	filename grafico_stats1.png
 	lyxscale 50
-	scale 50
+	scale 60
 
 \end_inset
 
@@ -6864,7 +7001,7 @@ name "fig:Gráfico-stats1"
 
 \end_inset
 
-Ejemplo de gráfico comparando diversas variables.
+Ejemplo de gráfico: Histograma de altura de salto.
 \end_layout
 
 \end_inset
@@ -6888,7 +7025,7 @@ status open
 \begin_inset Graphics
 	filename grafico_stats2.png
 	lyxscale 50
-	scale 50
+	scale 60
 
 \end_inset
 
@@ -6905,7 +7042,89 @@ name "fig:Gráfico-stats2"
 
 \end_inset
 
-Ejemplo de gráfico del índice de elasticidad.
+Diagrama de caja de los mismos valores.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename grafico_stats3.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-stats3"
+
+\end_inset
+
+Gráfico dotchart de los mismos valores.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename grafico_stats4.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-stats4"
+
+\end_inset
+
+Gráfico dotchart de un subconjunto de los valores anteriores.
 \end_layout
 
 \end_inset
@@ -7021,7 +7240,7 @@ status open
 \begin_inset Graphics
 	filename grafico-informe.png
 	lyxscale 50
-	scale 50
+	scale 60
 
 \end_inset
 
@@ -7062,7 +7281,7 @@ status open
 \begin_inset Graphics
 	filename report1.png
 	lyxscale 50
-	scale 50
+	scale 60
 
 \end_inset
 
@@ -7526,7 +7745,7 @@ status open
 \begin_inset Graphics
 	filename Captura-Incluir-Descartar_atletas.png
 	lyxscale 50
-	scale 50
+	scale 70
 
 \end_inset
 
@@ -7788,7 +8007,7 @@ status open
 \begin_inset Graphics
 	filename Captura-Query-server.png
 	lyxscale 50
-	scale 50
+	scale 70
 
 \end_inset
 
@@ -7861,8 +8080,9 @@ http://www.chronojump.org/server_es.html
  se muestran resultados del cruce de variables con los datos del servidor.
  Dichas gráficas se actualizan cada vez que aparecen nuevos datos (normalmente
  de forma automática por la noche).
- Se pretende crear un conjunto de gráficos que sean una información valuosa
- para cualquier interesado aunque éste no disponga de la tecnología Chronojump.
+ Se pretende crear y actualizar constantemente un conjunto de gráficos que
+ sean una información valuosa para cualquier interesado aunque éste no disponga
+ de la tecnología Chronojump.
 \end_layout
 
 \begin_layout Standard
@@ -7880,22 +8100,14 @@ reference "fig:server_graph2"
 
 \end_inset
 
-, 
+, y 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:server_graph3"
 
 \end_inset
 
- y 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:server_graph4"
-
-\end_inset
-
- puede ver ejemplos de los gráficos que se pueden obtener en la web del
- servidor.
+ puede ver ejemplos de los gráficos que se obtienen en la web del servidor.
 \end_layout
 
 \begin_layout Standard
@@ -7907,9 +8119,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename server_heights_by_jumps_athletes.png
+	filename server_persons.png
 	lyxscale 50
-	scale 50
+	scale 70
 
 \end_inset
 
@@ -7927,7 +8139,7 @@ name "fig:server_graph1"
 \end_inset
 
 Estadísticas del servidor en la web.
- Diagrama de caja de tiempos de vuelo en función del tipo de salto en atletas.
+ Gráfico decriptivo sobre la población.
 \end_layout
 
 \end_inset
@@ -7949,9 +8161,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename server_heights_by_level_and_sex.png
+	filename server_heights_by_jumps_boxplot.png
 	lyxscale 50
-	scale 50
+	scale 60
 
 \end_inset
 
@@ -7969,7 +8181,7 @@ name "fig:server_graph2"
 \end_inset
 
 Estadísticas del servidor en la web.
- Diagrama de caja de tiempos de vuelo en salto libre en función sexo y nivel.
+ Diagrama de caja de tiempos de vuelo en funciónde tipo de salto y género.
 \end_layout
 
 \end_inset
@@ -7988,9 +8200,9 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename server_heights_by_sex.png
+	filename server_tv_by_level_sex_jumptype.png
 	lyxscale 50
-	scale 50
+	scale 60
 
 \end_inset
 
@@ -8008,46 +8220,8 @@ name "fig:server_graph3"
 \end_inset
 
 Estadísticas del servidor en la web.
- Stripchar de tiempos de vuelo en salto libre en función del sexo.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename server_sports_and_countries.png
-	lyxscale 50
-	scale 50
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:server_graph4"
-
-\end_inset
-
-Estadísticas del servidor en la web.
- Stripchart de deportes y tarta de países de los deportistas.
+ Gráfico que relaciona tiempo de vuelo con nivel de práctica, tipo de salto
+ y género.
 \end_layout
 
 \end_inset
@@ -8088,40 +8262,7 @@ La ventana de preferencias
 \emph on
 Archivo / Preferencias
 \emph default
-, se divide en 4 pestañas:
-\end_layout
-
-\begin_layout Description
-Puerto
-\begin_inset space ~
-\end_inset
-
-de
-\begin_inset space ~
-\end_inset
-
-Chronopic (figura 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Preferencias1"
-
-\end_inset
-
-) Permite cambiar el puerto en el que está conectado Chronopic, y se muestra
- una ventana de ayuda sobre puertos haciendo clic en el botón 
-\emph on
-Ayuda con el puerto
-\emph default
-.
- La conexión con el cronómetro Chronopic se trata específicamente en el
- apartado 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "par:Chronopic:-concepto-y-configuracion"
-
-\end_inset
-
-.
+, se divide en tres pestañas:
 \end_layout
 
 \begin_layout Description
@@ -8136,7 +8277,7 @@ de
 datos (figura 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Preferencias2"
+reference "fig:Preferencias1"
 
 \end_inset
 
@@ -8152,7 +8293,7 @@ reference "fig:Preferencias2"
 Mostrar (figura 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Preferencias3"
+reference "fig:Preferencias2"
 
 \end_inset
 
@@ -8164,7 +8305,7 @@ reference "fig:Preferencias3"
 Otros (figura 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Preferencias4"
+reference "fig:Preferencias3"
 
 \end_inset
 
@@ -8186,7 +8327,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename Preferencias-1.png
-	scale 50
 
 \end_inset
 
@@ -8226,7 +8366,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename Preferencias-2.png
-	scale 50
 
 \end_inset
 
@@ -8266,7 +8405,6 @@ status open
 \align center
 \begin_inset Graphics
 	filename Preferencias-3.png
-	scale 50
 
 \end_inset
 
@@ -8284,46 +8422,6 @@ name "fig:Preferencias3"
 \end_inset
 
 Ventana de preferencias - pestaña 3.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename Preferencias-4.png
-	scale 50
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Preferencias4"
-
-\end_inset
-
-Ventana de preferencias - pestaña 4.
 \end_layout
 
 \end_inset

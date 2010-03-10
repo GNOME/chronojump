@@ -176,7 +176,7 @@ public class ChronopicWindow
 		
 		ChronopicWindowBox.createCombos();
 		ChronopicWindowBox.chronopic_window.Show();
-		
+	
 		return ChronopicWindowBox;
 	}
 
@@ -275,7 +275,7 @@ public class ChronopicWindow
 				
 		foreach(ChronopicPortData a in cpd) {
 			if(a.Num == 1) {
-				combo_linux1.Active = UtilGtk.ComboMakeActive(allWithDef, a.Port);
+				combo_linux1.Active = UtilGtk.ComboMakeActive(combo_linux1, a.Port);
 				combo_linux1.Changed += new EventHandler (on_combo_changed);
 				if(a.Connected) {
 					UtilGtk.ComboDelThisValue(combo_linux2, a.Port);
@@ -283,19 +283,19 @@ public class ChronopicWindow
 					UtilGtk.ComboDelThisValue(combo_linux4, a.Port);
 				}
 			} else if(a.Num == 2) {
-				combo_linux2.Active = UtilGtk.ComboMakeActive(allWithDef, a.Port);
+				combo_linux2.Active = UtilGtk.ComboMakeActive(combo_linux2, a.Port);
 				combo_linux2.Changed += new EventHandler (on_combo_changed);
 				if(a.Connected) {
 					UtilGtk.ComboDelThisValue(combo_linux3, a.Port);
 					UtilGtk.ComboDelThisValue(combo_linux4, a.Port);
 				}
 			} else if(a.Num == 3) {
-				combo_linux3.Active = UtilGtk.ComboMakeActive(allWithDef, a.Port);
+				combo_linux3.Active = UtilGtk.ComboMakeActive(combo_linux3, a.Port);
 				combo_linux3.Changed += new EventHandler (on_combo_changed);
 				if(a.Connected)
 					UtilGtk.ComboDelThisValue(combo_linux4, a.Port);
 			} else { //4
-				combo_linux4.Active = UtilGtk.ComboMakeActive(allWithDef, a.Port);
+				combo_linux4.Active = UtilGtk.ComboMakeActive(combo_linux4, a.Port);
 				combo_linux4.Changed += new EventHandler (on_combo_changed);
 			}
 		}
@@ -351,12 +351,12 @@ public class ChronopicWindow
 	}
 			
 	private void updateChronopicWin(bool state, string message) {
-		Log.WriteLine("-----------------");
+		Log.WriteLine("updateChronopicWin-1");
 
 		//need to do this, if not it crashes because chronopicConnectionWin gets died by thread ending
 		chronopicConnectionWin = ChronopicConnection.Show();
 
-		Log.WriteLine("+++++++++++++++++");
+		Log.WriteLine("updateChronopicWin-2");
 		if(state)
 			chronopicConnectionWin.Connected(message);
 		else
@@ -374,16 +374,16 @@ public class ChronopicWindow
 
 		success = true;
 		
-		Log.WriteLine("+++++++++++++++++ 1 ++++++++++++++++");		
+		Log.WriteLine("chronopicInit-1");		
 		Log.WriteLine(string.Format("chronopic port: {0}", myPort));
 		mySp = new SerialPort(myPort);
 		try {
 			mySp.Open();
-			Log.WriteLine("+++++++++++++++++ 2 ++++++++++++++++");		
+			Log.WriteLine("chronopicInit-2");		
 			//-- Create chronopic object, for accessing chronopic
 			myCp = new Chronopic(mySp);
 
-			Log.WriteLine("+++++++++++++++++ 3 ++++++++++++++++");		
+			Log.WriteLine("chronopicInit-3");		
 			//on windows, this check make a crash 
 			//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
 			//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
@@ -391,13 +391,13 @@ public class ChronopicWindow
 			//-- Obtener el estado inicial de la plataforma
 
 			bool ok=false;
-			Log.WriteLine("+++++++++++++++++ 4 ++++++++++++++++");		
+			Log.WriteLine("chronopicInit-4");		
 			do {
-				Log.WriteLine("+++++++++++++++++ 5 ++++++++++++++++");		
+				Log.WriteLine("chronopicInit-5");		
 				ok=myCp.Read_platform(out myPS);
-				Log.WriteLine("+++++++++++++++++ 6 ++++++++++++++++");		
+				Log.WriteLine("chronopicInit-6");		
 			} while(!ok);
-			Log.WriteLine("+++++++++++++++++ 7 ++++++++++++++++");		
+			Log.WriteLine("chronopicInit-7");		
 			if (!ok) {
 				//-- Si hay error terminar
 				Log.WriteLine(string.Format("Error: {0}", myCp.Error));
@@ -427,7 +427,6 @@ public class ChronopicWindow
 			//this will raise on_radiobutton_simulated_ativate and 
 			//will put cpRunning to false, and simulated to true and cp.Close()
 			if(currentCp == 1) {
-//				menuitem_simulated.Active = true;
 				connected = false;
 			}
 		}
@@ -479,145 +478,11 @@ public class ChronopicWindow
 	}
 
 
-	/*
-	private void createComboMultiChronopic() 
-	{
-		table_multi_chronopic_buttons.Sensitive = false;
-		menuitem_multi_chronopic_start.Sensitive = false;
-		menuitem_run_analysis.Sensitive = false;
-		button_connect_cp.Sensitive = false;
-		image_cp1_yes.Hide();
-		image_cp2_yes.Hide();
-		image_cp3_yes.Hide();
-		image_cp4_yes.Hide();
-
-		if(isWindows) {
-			combo_windows1.Sensitive = false;
-			combo_linux1.Hide();
-			string [] comboWindowsOptions = new string[257];
-			for (int count = 0, i=1; i <= 257; i ++)
-				comboWindowsOptions[i-1] = "COM" + i;
-
-			UtilGtk.ComboUpdate(combo_windows1, comboWindowsOptions, comboWindowsOptions[0]);
-			combo_windows1.Changed += new EventHandler (on_combo_multi_chronopic_changed);
-		} else {
-			combo_linux1.Sensitive = false;
-			combo_windows1.Hide();
-			UtilGtk.ComboUpdate(combo_linux1, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
-			combo_linux1.Active = 0; //first option
-			combo_linux1.Changed += new EventHandler (on_combo_multi_chronopic_changed);
-		}
-	}
-
-
-	private void on_combo_multi_chronopic_changed(object o, EventArgs args) {
-		ComboBox combo = o as ComboBox;
-		if (o == null)
-			return;
-		
-		bool portOk = true;
-		if(UtilGtk.ComboGetActive(combo) == Constants.ChronopicDefaultPortWindows ||
-				UtilGtk.ComboGetActive(combo) == Constants.ChronopicDefaultPortLinux) 
-			portOk = false;
-
-		if (o == combo_linux1 || o == combo_windows1) 
-			button_connect_cp.Sensitive = portOk;
-	}
-	*/
-
-
 	public void SerialPortsClose() {
 		Console.WriteLine("Closing sp");
 		sp.Close();
-		/*
-
-//		image_cp1_no.Show();
-//		image_cp1_yes.Hide();
-		//close connection with other chronopics on multiChronopic
-		if(image_cp2_yes.Visible) {
-			Console.WriteLine("Closing sp2");
-			sp2.Close();
-//			image_cp2_no.Show();
-//			image_cp2_yes.Hide();
-		}
-		if(image_cp3_yes.Visible) {
-			Console.WriteLine("Closing sp3");
-			sp3.Close();
-//			image_cp3_no.Show();
-//			image_cp3_yes.Hide();
-		}
-		if(image_cp4_yes.Visible) {
-			Console.WriteLine("Closing sp4");
-			sp4.Close();
-//			image_cp4_no.Show();
-//			image_cp4_yes.Hide();
-		}
-		Console.WriteLine("Closed all");
-		*/
 	}
 
-	/*
-	void on_radiobutton_simulated (object o, EventArgs args)
-	{
-		Log.WriteLine(string.Format("RAD - simul. cpRunning: {0}", cpRunning));
-		if(menuitem_simulated.Active) {
-			Log.WriteLine("RadioSimulated - ACTIVE");
-			simulated = true;
-			SqlitePreferences.Update("simulated", simulated.ToString(), false);
-
-			//close connection with chronopic if initialized
-			if(cpRunning) {
-				serialPortsClose();
-
-				table_multi_chronopic_buttons.Sensitive = false;
-				combo_windows1.Sensitive = false;
-				combo_linux1.Sensitive = false;
-		
-				//regenerate combos (maybe some ports have been deleted on using before going to simulated)
-				if(isWindows) {
-					string [] comboWindowsOptions = new string[257];
-					for (int count = 0, i=1; i <= 257; i ++)
-						comboWindowsOptions[i-1] = "COM" + i;
-					UtilGtk.ComboUpdate(combo_windows1, comboWindowsOptions, comboWindowsOptions[0]);
-				} else {
-					UtilGtk.ComboUpdate(combo_linux1, Constants.ComboPortLinuxOptions, Constants.ComboPortLinuxOptions[0]);
-					combo_linux1.Active = 0; //first option
-				}
-			}
-			Log.WriteLine("cpclosed");
-			cpRunning = false;
-		}
-		else
-			Log.WriteLine("RadioSimulated - INACTIVE");
-		
-		Log.WriteLine("all done");
-	}
-	
-	void on_radiobutton_chronopic (object o, EventArgs args)
-	{
-		Log.WriteLine(string.Format("RAD - chrono. cpRunning: {0}", cpRunning));
-		if(! preferencesLoaded)
-			return;
-
-		if(! menuitem_chronopic.Active) {
-			appbar2.Push( 1, Catalog.GetString("Changed to simulated mode"));
-			Log.WriteLine("RadioChronopic - INACTIVE");
-			return;
-		}
-
-		if(chronopicPort == Constants.ChronopicDefaultPortWindows ||
-				chronopicPort == Constants.ChronopicDefaultPortLinux) {
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("You need to configurate the Chronopic port at preferences."));
-			menuitem_simulated.Active = true;
-			return;
-		}
-
-		Log.WriteLine("RadioChronopic - ACTIVE");
-	
-		currentCp = 1;
-		prepareChronopicConnection();
-	}
-	*/
 
 	void prepareChronopicConnection() {
 		ChronopicConnection chronopicConnectionWin = ChronopicConnection.Show();
@@ -646,17 +511,6 @@ public class ChronopicWindow
 		string myPort = "";
 		bool success = false;
 			
-		//if(currentCp == 1) 
-		//	myPort = chronopicPort;
-		/*
-		else {
-			if(isWindows) 
-				myPort = UtilGtk.ComboGetActive(combo_windows1);
-			else
-				myPort = UtilGtk.ComboGetActive(combo_linux1);
-		}
-		*/
-
 		if(currentCp == 1) {
 			myPort = ((ChronopicPortData) cpd[0]).Port;
 			cp = chronopicInit(cp, out sp, platformState, myPort, out message, out success);
@@ -757,22 +611,6 @@ public class ChronopicWindow
 		if(success) {
 			updateChronopicWinValuesState= true; //connected
 			updateChronopicWinValuesMessage= message;
-			
-		/*	
-			if(currentCp >= 2) {
-//				table_multi_chronopic_buttons.Sensitive = true;
-				if(Util.IsNumber(entry_run_analysis_distance.Text, false)) {
-//					menuitem_multi_chronopic_start.Sensitive = true;
-//					menuitem_run_analysis.Sensitive = true;
-//					button_run_analysis.Sensitive = true;
-				} else {
-//					menuitem_multi_chronopic_start.Sensitive = false;
-//					menuitem_run_analysis.Sensitive = false;
-//					button_run_analysis.Sensitive = false;
-				}
-			}
-			*/
-	
 		} else {
 			updateChronopicWinValuesState= false; //disconnected
 			updateChronopicWinValuesMessage= message;

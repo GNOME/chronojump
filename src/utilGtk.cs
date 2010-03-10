@@ -66,7 +66,25 @@ public class UtilGtk
 		return myText;
 	}
 
+	//this is better than the below method, because this search in current combo values
+	//if we use a predefined set of values (like below method), we can have problems 
+	//if some of the values in predefined list have been deleted on combo
+	public static int ComboMakeActive(ComboBox myCombo, string searched) {
+		int returnValue = 0;
+		int count = 0;
+		TreeIter iter;
+		myCombo.Model.GetIterFirst(out iter);
+		do {
+			if( ((string) myCombo.Model.GetValue (iter, 0)) == searched)
+				returnValue = count;
+			count ++;
+		} while (myCombo.Model.IterNext (ref iter));
+
+		return returnValue;
+	}
+
 	//this is not truly gtk related		
+	//better use above method
 	public static int ComboMakeActive(string [] allValues, string searched) {
 		int returnValue = 0;
 		int count = 0;
@@ -77,6 +95,14 @@ public class UtilGtk
 			count ++;
 		}
 		return returnValue;
+	}
+
+	public static void ComboShowAll(ComboBox myCombo) {
+		TreeIter iter;
+		myCombo.Model.GetIterFirst(out iter);
+		do {
+			Log.WriteLine((string) myCombo.Model.GetValue (iter, 0));
+		} while (myCombo.Model.IterNext (ref iter));
 	}
 
 	private static void comboDelAll(ComboBox myCombo) {

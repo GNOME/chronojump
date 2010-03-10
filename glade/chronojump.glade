@@ -16545,7 +16545,7 @@ by you</property>
                   <widget class="GtkImage" id="image_cp1_yes">
                     <property name="visible">True</property>
                     <property name="stock">gtk-yes</property>
-                    <property name="icon-size">6</property>
+                    <property name="icon-size">5</property>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -16574,7 +16574,7 @@ by you</property>
                   <widget class="GtkImage" id="image_cp2_yes">
                     <property name="visible">True</property>
                     <property name="stock">gtk-yes</property>
-                    <property name="icon-size">6</property>
+                    <property name="icon-size">5</property>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -16605,7 +16605,7 @@ by you</property>
                   <widget class="GtkImage" id="image_cp3_yes">
                     <property name="visible">True</property>
                     <property name="stock">gtk-yes</property>
-                    <property name="icon-size">6</property>
+                    <property name="icon-size">5</property>
                   </widget>
                   <packing>
                     <property name="position">1</property>
@@ -16636,7 +16636,7 @@ by you</property>
                   <widget class="GtkImage" id="image_cp4_yes">
                     <property name="visible">True</property>
                     <property name="stock">gtk-yes</property>
-                    <property name="icon-size">6</property>
+                    <property name="icon-size">5</property>
                   </widget>
                   <packing>
                     <property name="position">1</property>

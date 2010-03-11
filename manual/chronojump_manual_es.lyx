@@ -61,7 +61,7 @@ Manual de Chronojump
 
 
 \size large
-(Actualizado a versión de Chronojump 0.8.18)
+(Actualizado a versión de Chronojump 0.9)
 \end_layout
 
 \begin_layout Author
@@ -166,8 +166,6 @@ frontmatter
 \end_layout
 
 \begin_layout Standard
-
-\size small
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
 
@@ -177,8 +175,6 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
-
-\size small
 \begin_inset FloatList figure
 
 \end_inset
@@ -187,8 +183,6 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Standard
-
-\size small
 \begin_inset FloatList table
 
 \end_inset
@@ -362,7 +356,8 @@ http://www.chronojump.org/software_es.html
 \end_layout
 
 \begin_layout Standard
-Para más información consulte las preguntas usualmente formuladas FAQ 
+Para más información consulte las preguntas usualmente formuladas FAQ de
+ Software 
 \begin_inset Flex URL
 status open
 
@@ -377,12 +372,28 @@ http://www.chronojump.org/faq_software_es.html
 \end_layout
 
 \begin_layout Section
-Construcción del dispositivo de detección
+Adquisición y construcción del dispositivo de detección
 \end_layout
 
 \begin_layout Standard
-Para construir una plataforma de contactos o una célula fotoeléctrica, consultar
- esta página en el apartado de hardware: 
+Si desea comprar dispositivos de medición, consulte la Tienda de Hardware
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/hardware_store_es.html
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Para construir su propia plataforma de contactos o célula fotoeléctrica,
+ consultar esta página en el apartado de hardware: 
 \begin_inset Flex URL
 status open
 
@@ -403,11 +414,29 @@ name "sub:Construcción-y-obtención-chronopic"
 
 \end_inset
 
-Construcción y obtención del cronómetro Chronopic
+Adquisición y construcción del cronómetro Chronopic
 \end_layout
 
 \begin_layout Standard
-Consultar esta página en el apartado de hardware: 
+Si desea comprar el cronómetro Chronopic, consulte la Tienda de Hardware
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/hardware_store_es.html
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Por otro lado, si usted dispone de conocimientos en fabricación de microcontrola
+dores y desea construir su propio Chronopic, consulte esta página en el
+ apartado de hardware: 
 \begin_inset Flex URL
 status open
 
@@ -422,7 +451,16 @@ http://www.chronojump.org/documents_es.html
 \end_layout
 
 \begin_layout Standard
-\begin_inset VSpace medskip
+Para más información consulte las preguntas usualmente formuladas FAQ de
+ Hardware 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/faq_hardware_es.html
+\end_layout
+
 \end_inset
 
 
@@ -860,7 +898,7 @@ name "tab:Versiones-de-Chronopic"
 
 \end_inset
 
-Versiones de Chronopic
+Versiones de Chronopic.
 \end_layout
 
 \end_inset
@@ -917,13 +955,21 @@ name "fig:Chronopic3"
 \end_inset
 
 Chronopic3.
- La imagen superior corresponde a la tirada inicial, mientras que la inferior
- corresponde al segundo proceso de fabricación.
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+La imagen superior corresponde a la tirada inicial de 200 unidades, en que
+ los metacrilatos estaban disponibles en color amarillo, naranja, azul o
+ transparente.
+ La imagen inferior corresponde al segundo proceso de fabricación, en que
+ se producieron 500 unidades iguales.
 \end_layout
 
 \end_inset
@@ -960,7 +1006,7 @@ name "fig:Chronopic2-USB"
 
 \end_inset
 
-Chronopic2-USB
+Chronopic2-USB.
 \end_layout
 
 \end_inset
@@ -1002,7 +1048,7 @@ name "fig:Chronopic2-Serie"
 
 \end_inset
 
-Chronopic2-Serie
+Chronopic2-Serie.
 \end_layout
 
 \end_inset
@@ -1051,7 +1097,7 @@ name "fig:Chronopic1"
 
 \end_inset
 
-Chronopic1
+Chronopic1.
 \end_layout
 
 \end_inset
@@ -1234,7 +1280,7 @@ Alimentación de Chronopic
 
 \begin_layout Standard
 Chronopic3 y Chronopic2.0-USB se alimentan por el propio cable USB, el resto
- de chronopics se alimentan usando un alimentador de 4,5 a 6 voltios, pudiendo
+ de chronopics se alimentan usando un alimentador de 4.5 a 6 voltios, pudiendo
  adquirirse un alimentador convencional (que se conecta a la corriente eléctrica
 ) o crearse un alimentador casero con 3 pilas de 1,5 voltios.
  Esta opción facilita los tests de campo en las chronopics serie.
@@ -1254,7 +1300,7 @@ name "sub:Chronopic-puertos-serie-usb"
 
 \end_inset
 
-Puertos serie y USB
+Puertos USB y serie
 \end_layout
 
 \begin_layout Standard
@@ -1530,12 +1576,17 @@ name "tab:Nombres-de-puerto"
 \end_inset
 
 Nombres de puerto en cada sistema operativo.
- Los nombres más usuales se muestran en negrita.
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Los nombres más usuales se muestran en negrita.
 \end_layout
 
 \end_inset
@@ -1761,14 +1812,18 @@ reference "sub:Chronopic-puertos-serie-usb"
 
 \end_inset
 
-, a la conexión se le asignará un nombre.
- En el caso de 
+, se asignará un nombre de puerto a la conexión.
+\end_layout
+
+\begin_layout Standard
+En el caso de 
 \series bold
 Linux
 \series default
- esto no suele ser problema, pues los nombres son claros y la opción /dev/ttyS0
- (serie) o /dev/ttyUSB0 (USB-serie) suele ser la correcta.
- De la misma forma, Windows por puerto serie suele asignar el puerto COM1.
+ el nombre de puerto no suele ser problema, pues los nombres son claros
+ y la opción /dev/ttyUSB0 (USB-serie) o /dev/ttyS0 (serie) suele ser la
+ correcta.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1782,6 +1837,7 @@ MS Windows
  En versiones anteriores de Chronojump para Windows, el puerto se auto detectaba
 , pero a partir de la versión 0.6, y por un cambio de los programas usados,
  esto no es posible.
+ Por otro lado, si el puerto es serie, se suele asignar el puerto COM1.
 \end_layout
 
 \begin_layout Standard
@@ -1939,10 +1995,10 @@ Modificación del puerto asignado en Windows
 \end_layout
 
 \begin_layout Standard
-Si el puerto asignado es superior a COM4, puede dar problemas de detección
+Si el puerto asignado es COM5 o superior, puede dar problemas de detección
  en algunos ordenadores.
  Si no consiguiese conectarse con Chronopic, se recomienda que asigne un
- puerto inferior a COM4, preferentemente COM1 o COM2.
+ puerto inferior a COM5, preferentemente COM1 o COM2.
 \end_layout
 
 \begin_layout Standard
@@ -2049,8 +2105,9 @@ En Chronopics USB (Como Chronopic3), la luz del mismo debe encenderse al
 \begin_layout Enumerate
 En Chronopics serie se recomienda conectar la alimentación al Chronopic
  y verificar que la luz se enciende (no es necesario ordenador).
- Si no se enciende falla el Chronopic o el alimentador, pruebe si es posible
- con otro alimentador o Chronopic para determinar cuál es el que falla.
+ Si no se enciende significa que falla el Chronopic o el alimentador, pruebe
+ si es posible con otro alimentador o Chronopic para determinar cuál es
+ el que falla.
  El alimentador debe estar entre 4.5 y 6 voltios.
  Algunos alimentadores tienen dos polaridades, pregunte al vendedor y conecte
  con la polaridad correcta.
@@ -2197,14 +2254,14 @@ seleccionado En el caso de que exista un dibujo del test seleccionado o
  apuntado por el ratón, lo muestra.
  Además, si el programa dispone de información ampliada sobre dicho test,
  muestra un icono indicativo.
- Pulsando dicho botónse mostrará una ventana de ayuda sobre dicho test contenien
-do el gráfico ampliado y la información del test.
+ Pulsando dicho botón se mostrará una ventana de ayuda sobre dicho test
+ conteniendo el gráfico ampliado y la información del test.
 \end_layout
 
 \begin_layout Description
-Pestañas que permite cambiar el módulo de trabajo entre los posibles, actualmene
-: Salto, Salto simple, Carrera, Carrera con tramos, tiempo de reacción y
- pulso.
+Pestañas que permiten cambiar el módulo de trabajo entre los posibles, actualmen
+e: Salto, Salto simple, Carrera, Carrera con tramos, tiempo de reacción,
+ pulso y multi Chronopic.
 \end_layout
 
 \begin_layout Description
@@ -2237,8 +2294,8 @@ de
 \begin_inset space ~
 \end_inset
 
-tests que muestra distintos selectores para la visualización y edición de
- los saltos y carreras.
+tests muestra distintos selectores para la visualización y edición de los
+ saltos y carreras.
 \end_layout
 
 \begin_layout Description
@@ -2254,7 +2311,11 @@ usuario muestra información sobre la última acción realizada.
 \end_layout
 
 \begin_layout Description
-(Des)activar_sonido permite activar-desactivar los sonidos.
+(Des)activar
+\begin_inset space ~
+\end_inset
+
+sonido permite activar-desactivar los sonidos.
 \end_layout
 
 \begin_layout Standard
@@ -2343,6 +2404,16 @@ reference "par:Chronopic:-concepto-y-configuracion"
 \end_layout
 
 \begin_layout Standard
+Si el primer Chronopic se encuentra activado, el primer círculo será de
+ color verde.
+ Usted puede conectar más de un chronopic para poder realizar tests Multi
+ Chronopic.
+ Cuando haya seleccionado el puerto, deberá hacer clic en el botón de la
+ derecha para realizar la conexión.
+ En cada activación exitosa uno de los círculos rojos se convertirá en verde.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement p
 wide false
@@ -2354,6 +2425,7 @@ status open
 \begin_inset Graphics
 	filename chronopic-connection.png
 	lyxscale 50
+	scale 60
 
 \end_inset
 
@@ -2371,13 +2443,18 @@ name "fig:Chronopic-connection"
 \end_inset
 
 Conexión a Chronopic.
- La figura corresponde al programa Chronojump -en versión para el sistema
- operativo Linux-, en el que se han conectado dos Chronopics.
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+La figura corresponde al programa Chronojump -en versión para el sistema
+ operativo Linux-, en el que se han conectado dos Chronopics.
 \end_layout
 
 \end_inset
@@ -2405,7 +2482,7 @@ sujetos
 \end_layout
 
 \begin_layout Enumerate
-tests (saltos, carreras, tiempos de reacción, pulsos (ritmos), multiChronopic)
+tests (saltos, carreras, tiempos de reacción, pulsos (ritmos), multi Chronopic)
 \end_layout
 
 \begin_layout Standard
@@ -2462,6 +2539,7 @@ status open
 \begin_inset Graphics
 	filename nueva_sesion_colegio.png
 	lyxscale 50
+	scale 60
 
 \end_inset
 
@@ -2479,7 +2557,7 @@ name "fig:Nueva-sesión.-Alumnos"
 \end_inset
 
 Nueva sesión.
- Alumnos del colegio.
+ Alumnos de colegio.
 \end_layout
 
 \end_inset
@@ -2504,6 +2582,7 @@ status open
 \begin_inset Graphics
 	filename nueva_sesion_artistica_competicion.png
 	lyxscale 50
+	scale 60
 
 \end_inset
 
@@ -2541,7 +2620,7 @@ Creación
 \begin_layout Standard
 Haga clic en el menú 
 \emph on
-Archivo / Crear sesión
+Sesión / Crear sesión
 \emph default
  y se abrirá una ventana en la que deberá introducir obligatoriamente el
  nombre de la sesión, la fecha y el deporte practicado.
@@ -2557,7 +2636,7 @@ Carga (load)
 Si desea cargar una sesión ya creada para su estudio o para añadir sujetos
  y/o tests haga clic en el menú 
 \emph on
-Archivo / Cargar sesión
+Sesión / Cargar sesión
 \emph default
 .
  Se le presentará un listado de las sesiones creadas e información de los
@@ -2571,7 +2650,7 @@ Edición
 \begin_layout Standard
 Haga clic en el menú 
 \emph on
-Archivo / Editar sesión
+Sesión / Editar sesión
 \emph default
  para modificar los parámetros que había insertado anteriormente.
  Normalmente se usa la edición de sesiones para añadir comentarios sobre
@@ -2589,7 +2668,7 @@ sesión y todos los tests
 \series default
  que se realizaron en la misma, haga clic en el menú 
 \emph on
-Archivo / Borrar sesión
+Sesión / Borrar sesión
 \emph default
 .
  Le aparecerá una ventana de confirmación.
@@ -2634,6 +2713,7 @@ status open
 \begin_inset Graphics
 	filename Captura-Nuevo saltador.png
 	lyxscale 50
+	scale 60
 
 \end_inset
 
@@ -2745,6 +2825,7 @@ status open
 \begin_inset Graphics
 	filename Captura-add-edit-multiple-persons.png
 	lyxscale 50
+	scale 50
 
 \end_inset
 
@@ -2832,6 +2913,7 @@ status open
 \begin_inset Graphics
 	filename Captura-Cargar atletas.png
 	lyxscale 50
+	scale 50
 
 \end_inset
 
@@ -2848,7 +2930,7 @@ name "fig:Cargar-atletas"
 
 \end_inset
 
-Cargar atletas
+Cargar sujetos.
 \end_layout
 
 \end_inset
@@ -2873,6 +2955,7 @@ status open
 \begin_inset Graphics
 	filename Captura-Cargar_atletas_otra_sesion.png
 	lyxscale 50
+	scale 50
 
 \end_inset
 
@@ -2889,7 +2972,7 @@ name "fig:Cargar-atletas-otra_sesion"
 
 \end_inset
 
-Cargar atletas de otra sesión
+Cargar sujetos de otra sesión.
 \end_layout
 
 \end_inset
@@ -2924,8 +3007,12 @@ Haga clic en
 \emph on
 Editar sujeto
 \emph default
- para modificar los datos que fueron introducidos en el momento de creación
- del mismo.
+ o pulse la tecla 
+\emph on
+p
+\emph default
+ (persona) para modificar los datos que fueron introducidos en el momento
+ de creación del mismo.
  Puede aprovechar también para añadir comentarios.
 \end_layout
 
@@ -3090,10 +3177,11 @@ Un
 \series bold
 salto repetitivo
 \series default
- será cualquier salto en que se obtenga más de un tiempo de vuelo, por ejemplo,
- realizar dos saltos seguidos iniciados desde dentro de la plataforma en
- una sucesión TV, TC, TV; o partiendo desde fuera de la plataforma iniciándose
- con una caída o antesalto para continuar con TC, TV, TC, TV.
+ (también llamado reactivo) será cualquier salto en que se obtenga más de
+ un tiempo de vuelo, por ejemplo, realizar dos saltos seguidos iniciados
+ desde dentro de la plataforma en una sucesión TV, TC, TV; o partiendo desde
+ fuera de la plataforma iniciándose con una caída o antesalto para continuar
+ con TC, TV, TC, TV.
 \end_layout
 
 \begin_layout Standard
@@ -3165,7 +3253,15 @@ Rocket,
 \begin_layout Standard
 para ejecutar un salto simple.
  En ocasiones se le pedirá que facilite información adicional como el peso
- extra del sujeto (SJl) o la altura de caída (DJ).
+ extra del sujeto (
+\emph on
+SJl
+\emph default
+) o la altura de caída (
+\emph on
+DJ
+\emph default
+).
  Haga clic en 
 \emph on
 More
@@ -3184,15 +3280,38 @@ salto
 \end_layout
 
 \begin_layout Standard
-En caso de que esté seleccionado el valor 
+En el caso del salto 
 \emph on
-Simulado
+DJ
 \emph default
- en el menú de 
+, el protocolo original del Test de Bosco indicaba que los brazos no participaba
+n en el salto.
+ En cambio, muchos entrenadores piden a sus atletas que los usen pues el
+ salto es más parecido al presente en las técnicas deportivos.
+ Así se ha determinado que el 
 \emph on
-Plataforma
+DJ
 \emph default
-, el programa simulará un salto.
+ original se denomina 
+\emph on
+DJna
+\emph default
+ (no arms: sin brazos), mientras que la adaptación con brazos se denomina
+ 
+\emph on
+DJa
+\emph default
+.
+ Cuando ejecute un salto 
+\emph on
+DJ
+\emph default
+, el programa le pedirá si usará los brazos o no, y automáticamente denominará
+ al salto como corresponda.
+\end_layout
+
+\begin_layout Standard
+En caso que no este conectado el Chronopic, el programa simulará un salto.
  En caso contrario el salto deberá ser ejecutado.
  Tenga en cuenta que para algunos de los saltos el deportista deberá situarse
  encima de la plataforma, mientras que para otros será imprescindible que
@@ -3274,15 +3393,7 @@ Aceptar
 \end_layout
 
 \begin_layout Standard
-En caso de que esté seleccionado el valor 
-\emph on
-Simulado
-\emph default
- en el menú de 
-\emph on
-Plataforma
-\emph default
-, el programa simulará un salto.
+En caso que no este conectado el Chronopic, el programa simulará un salto.
  En caso contrario el salto deberá ser ejecutado.
  Tenga en cuenta que para algunos de los saltos el deportista deberá situarse
  encima de la plataforma, mientras que para otros será imprescindible que
@@ -3362,6 +3473,7 @@ status open
 \begin_inset Graphics
 	filename campanas.png
 	lyxscale 50
+	scale 60
 
 \end_inset
 
@@ -3449,7 +3561,11 @@ Puede usar los botones de
 \emph on
 lupa
 \emph default
- (o CTRL z)
+ (o la tecla 
+\emph on
+z
+\emph default
+)
 \emph on
  
 \emph default
@@ -3465,9 +3581,13 @@ Puede añadir comentarios a un salto o cambiar el saltador que lo realizó
  (si olvidó modificar el sujeto actual previamente) seleccionando el salto
  deseado y haciendo clic en el botón de 
 \emph on
-Editar salto seleccionado
+Editar salto seleccionado,
 \emph default
- o en su equivalente en el menú.
+ su equivalente en el menú, o la tecla 
+\emph on
+e
+\emph default
+.
  
 \end_layout
 
@@ -3482,8 +3602,12 @@ Reparación de saltos reactivos
 \end_layout
 
 \begin_layout Standard
-Usando el botón de reparación de saltos reactivos, puede insertar un subsalto,
- modificar un valor de tiempo de contacto o de vuelo, o borrar un subsalto.
+Usando el botón de reparación de saltos reactivos o pulse la tecla 
+\emph on
+r
+\emph default
+, puede insertar un subsalto, modificar un valor de tiempo de contacto o
+ de vuelo, o borrar un subsalto.
  Note que si un tipo de salto reactivo ha sido definido para que en ningún
  caso pueda tener más de 
 \emph on
@@ -3508,7 +3632,11 @@ Para borrar un salto selecciónelo y haga clic en el botón
 \emph on
 Borrar salto seleccionado
 \emph default
- o su equivalente en el menú.
+, su equivalente en el menú o pulse la tecla 
+\emph on
+d
+\emph default
+ (delete).
  El borrado de saltos pedirá confirmación en caso de que la opción de confirmaci
 ón de borrado de tests esté activada en el menú de 
 \emph on
@@ -3610,6 +3738,7 @@ status open
 \begin_inset Graphics
 	filename Captura-Crear un tipo de salto nuevo.png
 	lyxscale 50
+	scale 60
 
 \end_inset
 
@@ -4159,6 +4288,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename chronojump_esquema_two_platforms.png
+	scale 60
 
 \end_inset
 
@@ -4316,7 +4446,7 @@ status open
 \begin_inset Graphics
 	filename chronojump-505.png
 	lyxscale 50
-	scale 60
+	scale 55
 
 \end_inset
 
@@ -4367,15 +4497,7 @@ Carrera
 \end_layout
 
 \begin_layout Standard
-En caso de que esté seleccionado el valor 
-\emph on
-Simulado
-\emph default
- en el menú de 
-\emph on
-Plataforma
-\emph default
-, el programa simulará una carrera.
+En caso que no este conectado el Chronopic, el programa simulará una carrera.
  En caso contrario la carrera deberá ser ejecutada.
  El programa permite iniciar la carrera desde dentro de la plataforma o
  desde fuera de ella (el deportista se sitúa antes) en el segundo caso,
@@ -4466,15 +4588,7 @@ Carrera
 \end_layout
 
 \begin_layout Standard
-En caso de que esté seleccionado el valor 
-\emph on
-Simulado
-\emph default
- en el menú de 
-\emph on
-Plataforma
-\emph default
-, el programa simulará la carrera.
+En caso que no este conectado el Chronopic, el programa simulará la carrera.
  En caso contrario la carrera deberá ser ejecutada.
  El programa permite iniciar la carrera desde dentro de la plataforma o
  desde fuera de ella (el deportista se sitúa antes) en el segundo caso,
@@ -4593,7 +4707,11 @@ Puede usar los botones de
 \emph on
 lupa
 \emph default
- (o CTRL z) para facilitar la visualización de los carreras.
+ (o la tecla 
+\emph on
+z
+\emph default
+) para facilitar la visualización de los carreras.
 \end_layout
 
 \begin_layout Subsection
@@ -4607,7 +4725,11 @@ Puede añadir comentarios a una carrera o cambiar el corredor que la realizó
 \emph on
 Editar carrera seleccionada
 \emph default
- o en su equivalente en el menú.
+, su equivalente en el menú o la tecla 
+\emph on
+e
+\emph default
+.
  
 \end_layout
 
@@ -4622,8 +4744,12 @@ Reparación de carreras con tramos
 \end_layout
 
 \begin_layout Standard
-Usando el botón de reparación de carreras con tramos, puede insertar un
- tramo, modificar un valor de tiempo de tramo, o borrar un tramo.
+Usando el botón de reparación de carreras con tramos o la tecla 
+\emph on
+r
+\emph default
+, puede insertar un tramo, modificar un valor de tiempo de tramo, o borrar
+ un tramo.
  Note que si un tipo de carrera con tramos ha sido definido para que en
  ningún caso pueda tener más de 
 \emph on
@@ -4648,7 +4774,11 @@ Para borrar una carrera selecciónela y haga clic en el botón
 \emph on
 Borrar carrera seleccionada
 \emph default
- o su equivalente en el menú.
+, su equivalente en el menú o la tecla 
+\emph on
+d 
+\emph default
+(delete).
  El borrado de carreras pedirá confirmación en caso de que la opción de
  confirmación de borrado de tests esté activada en el menú de 
 \emph on
@@ -4730,10 +4860,17 @@ Se ofrece la posibilidad de fijar la distancia de los tramos para el nuevo
  tipo de carrera.
  La ventana de creación de nuevo tipo de carrera concluye con la posibilidad
  de añadir una descripción textual.
- En la figura 
+ En las figura 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Creación-de-nuevo-tipo-carrera"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-nuevo-tipo-carrera-variable"
 
 \end_inset
 
@@ -4750,6 +4887,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename run_type_add.png
+	scale 55
 
 \end_inset
 
@@ -4794,6 +4932,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename run_type_add-variable.png
+	scale 55
 
 \end_inset
 
@@ -5423,15 +5562,8 @@ Ejecutar tiempo de reacción
 \end_layout
 
 \begin_layout Standard
-En caso de que esté seleccionado el valor 
-\emph on
-Simulado
-\emph default
- en el menú de 
-\emph on
-Plataforma
-\emph default
-, el programa simulará un tiempo de reacción.
+En caso que no este conectado el Chronopic, el programa simulará un tiempo
+ de reacción.
  En la ventana emergente se mostrará la progresión del salto, que podrá
  ser detenido haciendo clic en el botón 
 \emph on
@@ -5469,7 +5601,11 @@ Puede usar los botones de
 \emph on
 lupa
 \emph default
- (o CTRL z)
+ (o la tecla 
+\emph on
+z
+\emph default
+)
 \emph on
  
 \emph default
@@ -5487,7 +5623,11 @@ Puede añadir comentarios a un test o cambiar el ejecutante (si olvidó modifica
 \emph on
 Editar tiempo de reacción seleccionado
 \emph default
- o en su equivalente en el menú.
+, su equivalente en el menú o la tecla 
+\emph on
+e
+\emph default
+.
  
 \end_layout
 
@@ -5501,7 +5641,11 @@ Para borrar un tiempo de reacción, selecciónelo y haga clic en el botón
 \emph on
 Borrar tiempo de reacción seleccionado
 \emph default
- o su equivalente en el menú.
+, su equivalente en el menú o la tecla 
+\emph on
+d 
+\emph default
+(delete).
  El borrado del test pedirá confirmación en caso de que la opción de confirmació
 n de borrado de tests esté activada en el menú de 
 \emph on
@@ -5597,15 +5741,7 @@ Personalizado.
 \end_layout
 
 \begin_layout Standard
-En caso de que esté seleccionado el valor 
-\emph on
-Simulado
-\emph default
- en el menú de 
-\emph on
-Plataforma
-\emph default
-, el programa simulará un pulso.
+En caso que no este conectado el Chronopic, el programa simulará un pulso.
  En la ventana emergente se mostrará la progresión del test, que podrá ser
  detenido haciendo clic en el botón 
 \emph on
@@ -5643,7 +5779,11 @@ Puede usar los botones de
 \emph on
 lupa
 \emph default
- (o CTRL z) para facilitar la visualización de los tests.
+ (o la tecla 
+\emph on
+z
+\emph default
+) para facilitar la visualización de los tests.
 \end_layout
 
 \begin_layout Subsection
@@ -5657,7 +5797,11 @@ Puede añadir comentarios a un test o cambiar el ejecutante (si olvidó modifica
 \emph on
 Editar pulso seleccionado
 \emph default
- o en su equivalente en el menú.
+, su equivalente en el menú o la tecla 
+\emph on
+e
+\emph default
+.
  
 \end_layout
 
@@ -5670,7 +5814,11 @@ Para borrar un pulso, selecciónelo y haga clic en el botón
 \emph on
 Borrar pulso seleccionado
 \emph default
- o su equivalente en el menú.
+, su equivalente en el menú o la tecla 
+\emph on
+d 
+\emph default
+(delete).
  El borrado del test pedirá confirmación en caso de que la opción de confirmació
 n de borrado de tests esté activada en el menú de 
 \emph on
@@ -5693,17 +5841,17 @@ name "sub:MultiChronopic"
 
 \end_inset
 
-MultiChronopic
+Multi Chronopic
 \end_layout
 
 \begin_layout Standard
-MultiChronopic permite realizar cualquier tipo de test en que se usen dos,
+Multi Chronopic permite realizar cualquier tipo de test en que se usen dos,
  tres o cuatro Chronopics para mediciones independientes.
  Recuerde que para el resto de tests se pueden conectar múltiples dispositivos
  a un sólo Chronopic, pero se entiende que en todo momento se estará en
- contacto en sólo uno de ellos.
- A diferencia de los tests anteriores, MultiChronopic permite el uso de
- varios Chronopics, cada uno de ellos conectados a uno o más dispostivos
+ contacto en uno o ninguno de ellos.
+ A diferencia de los tests anteriores, Multi Chronopic permite el uso de
+ varios Chronopics, cada uno de ellos conectados a uno o más dispositivos
  de detección, de manera que se pueda estar en contacto en más de un Chronopic
  a la vez.
  Su uso depende del usuario del programa, pero a continuación se indican
@@ -5738,8 +5886,9 @@ Plate Tapping con acción coordinativa extra: Contruimos un dispositivo de
 \begin_layout Enumerate
 Cronometrado de dos, tres o cuatro sujetos en carreras de ida y vuelta en
  una pista: Se coloca una plataforma en el inicio de cada carril y una en
- el final, ambas conectadas a un Chronopic pues un sujeto no puede estar
- en ambas a la vez.
+ el final.
+ Un Chronopic estará conectado a las plataformas inicial y final de un sujeto,
+ pues una persona no puede estar en ambas a la vez.
  De este modo, si hay 4 sujetos tendremos 4 carriles, 4 Chronopics y 8 plataform
 as.
  Podremos medir los tiempos y por tanto velocidades de los 4 de forma independie
@@ -5811,35 +5960,13 @@ Configuración de los puertos
 \end_layout
 
 \begin_layout Standard
-Si el primer Chronopic se encuentra activado, se iluminará el círculo verde
- a la derecha del número 1 (ver figura 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Gráfico-de-multiChronopic_mc"
-
-\end_inset
-
-).
- No se podrá realizar un test MultiChronopic hasta que otro Chronopic sea
- activado.
- Para activar un segundo, tercer y cuarto Chronopic, haremos click en la
- caja de selección a la derecha de los círculos, seleccionando el puerto
- en el que está conectado (Se recuerda que la información sobre los puertos
- para la conexión con Chronopic se trata en el apartado 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "par:Chronopic:-concepto-y-configuracion"
-
-\end_inset
-
-).
- Cuando hayamos seleccionado el puerto, haremos click en el botón de la
- derecha para realizar la conexión.
- En cada activación exitosa uno de los círculos rojos se convertirá en verde.
+Como es obvio, es imprescindible configurar dos Chronopics en la ventana
+ de Chronopic: Herramientas / Chronopic, para poder ejecutar los tests propuesto
+s.
 \end_layout
 
 \begin_layout Subsection
-Visualización de resultados de MultiChronopic
+Visualización de resultados de Multi Chronopic
 \end_layout
 
 \begin_layout Standard
@@ -5871,7 +5998,7 @@ name "fig:Gráfico-de-multiChronopic_mc"
 
 \end_inset
 
-Captura de pantalla de MultiChronopic.
+Captura de pantalla de Multi Chronopic.
 \end_layout
 
 \end_inset
@@ -5933,11 +6060,11 @@ reference "fig:Gráfico-de-multiChronopic_mc"
 
 \end_inset
 
-, se muestra un test MultiChronopic de duración: 0,928 segundos en que hay
- 10 cambios de estado.
+, se muestra un test Multi Chronopic de duración: 0,928 segundos en que
+ hay 10 cambios de estado.
  Se denomina 
 \emph on
-MultiChronopic 1, 2, 10n
+Mult iChronopic 1, 2, 10n
 \emph default
  porque se ha realizado con 2 Chronopics (Chronopics 1 y 2), y tiene 10
  cambios.
@@ -5985,7 +6112,11 @@ Del mismo modo que el resto de tests, los tests se encuentran asociados
 \emph on
 lupa
 \emph default
- (o CTRL z)
+ (o la tecla 
+\emph on
+z
+\emph default
+)
 \emph on
  
 \emph default
@@ -5993,7 +6124,7 @@ para facilitar la visualización de los tests.
 \end_layout
 
 \begin_layout Subsection
-Edición y visualización de test MultiChronopic
+Edición y borrado de test Multi Chronopic
 \end_layout
 
 \begin_layout Standard
@@ -6001,19 +6132,27 @@ Puede añadir comentarios a un test o cambiar el ejecutante (si olvidó modifica
  el sujeto actual previamente) seleccionando el test deseado y haciendo
  clic en el botón de 
 \emph on
-Editar MultiChronopic
+Editar Multi Chronopic
 \emph default
- o en su equivalente en el menú.
+, su equivalente en el menú o la tecla 
+\emph on
+e
+\emph default
+.
  
 \end_layout
 
 \begin_layout Standard
-Para borrar un test MultiChronopic, selecciónelo y haga clic en el botón
+Para borrar un test Multi Chronopic, selecciónelo y haga clic en el botón
  
 \emph on
-Borrar MultiChronopic seleccionado
+Borrar Multi Chronopic seleccionado,
 \emph default
- o su equivalente en el menú.
+ su equivalente en el menú o la tecla 
+\emph on
+d 
+\emph default
+(delete).
  El borrado del test pedirá confirmación en caso de que la opción de confirmació
 n de borrado de tests esté activada en el menú de 
 \emph on
@@ -6042,12 +6181,18 @@ Además de los ejemplos propuestos, se ha incluido un test para analizar
 \end_layout
 
 \begin_layout Standard
-Las dos fotocélulas irán conectadas a un único Chronopic y permitirán conocer
- el tiempo entre las mismas.
+Las dos fotocélulas irán conectadas al 
+\series bold
+primer
+\series default
+ Chronopic y permitirán conocer el tiempo entre las mismas.
  El evaluador indicará al programa la distancia entre ellas y de este modo
  se conocerá la velocidad media.
- La pista de plataformas irá conectada a otro Chronopic que captará los
- tiempos de contacto y de vuelo.
+ La pista de plataformas irá conectada al 
+\series bold
+segundo
+\series default
+ Chronopic que captará los tiempos de contacto y de vuelo.
  En este caso no se requiere sincronización entre ambos Chronopics ni borrada
  del primer tiempo.
 \end_layout
@@ -6096,7 +6241,8 @@ reference "fig:Gráfico-de-multiChronopic_ra"
 
 .
  Note que el botón de ejecución de Análisis de Carrera se activa cuando
- se haya introducido la distancia entre las fotocélulas.
+ -además de haber conectado dos Chronopics- se haya introducido la distancia
+ entre las fotocélulas.
 \end_layout
 
 \begin_layout Standard
@@ -6110,7 +6256,7 @@ status open
 \begin_inset Graphics
 	filename multiChronopic_ra.png
 	lyxscale 50
-	scale 90
+	scale 80
 	rotateAngle 90
 
 \end_inset
@@ -6128,7 +6274,7 @@ name "fig:Gráfico-de-multiChronopic_ra"
 
 \end_inset
 
-Captura de pantalla de MultiChronopic con resultados para 
+Captura de pantalla de Multi Chronopic con resultados para 
 \emph on
 Análisis de carrera
 \emph default
@@ -6162,7 +6308,8 @@ reference "fig:Ventana-de-estadísiticas"
 
 \end_inset
 
- se aprecia la ventana de estadísticas.
+ se aprecia la ventana de estadísticas que aparece al hacer click en Herramienta
+s / Estadísticas.
 \end_layout
 
 \begin_layout Standard
@@ -6207,8 +6354,18 @@ Ventana de estadísticas de Chronojump.
 \end_layout
 
 \begin_layout Standard
-La versión 0.4 de Chronojump sólo contempla estadísticos referentes a saltos.
- En futuras versiones se incluirán también estadísticos de carreras.
+La versión actual Chronojump sólo contempla estadísticos referentes a saltos.
+ En futuras versiones se incluirán también estadísticos de otros tests.
+ Si desea realizar estadísticos y gráficos de otros tests, le recomendamos
+ que exporte los datos a hoja de cálculo tal y como se explica en el apartado
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Exportación-a-hoja"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -6217,32 +6374,6 @@ Tipos, subtipos y aplicación de estadísticas
 
 \begin_layout Standard
 Cada estadístico puede ser clasificado por su tipo, entre los que se presentan:
-\end_layout
-
-\begin_layout Description
-Sumario
-\begin_inset space ~
-\end_inset
-
-de
-\begin_inset space ~
-\end_inset
-
-sesión que muestra las medias o los valores máximos de un conjunto de estadístic
-os.
-\end_layout
-
-\begin_layout Description
-Sumario
-\begin_inset space ~
-\end_inset
-
-de
-\begin_inset space ~
-\end_inset
-
-saltador que muestra las medias o los valores máximos de un conjunto de
- estadísticos de un sujeto concreto.
 \end_layout
 
 \begin_layout Description
@@ -6259,7 +6390,11 @@ Saltos
 \begin_inset space ~
 \end_inset
 
-simples_con
+simples
+\begin_inset space ~
+\end_inset
+
+con
 \begin_inset space ~
 \end_inset
 
@@ -6281,45 +6416,6 @@ Saltos
 \end_inset
 
 reactivos que presenta diversas formas de analizar saltos repetitivos
-\end_layout
-
-\begin_layout Standard
-Hasta el momento las estadísticas y gráficas sólo se aplican a los tests
- de salto y salto reactivo.
- Si desea gráficos de otros tests, le recomendamos que exporte los datos
- a hoja de cálculo tal y como se explica en el apartado 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Exportación-a-hoja"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Subsection
-Sumario de sesión
-\end_layout
-
-\begin_layout Standard
-Ofrece un listado de las medias o valores máximos de varios estadísticos.
- Este tipo de estadísticos no puede ser clasificado en subtipos ni tampoco
- puede configurarse la aplicación a diferentes sujetos o saltos.
-\end_layout
-
-\begin_layout Subsection
-Sumario de saltador
-\end_layout
-
-\begin_layout Standard
-Ofrece un listado de las medias o valores máximos de varios estadísticos
- en un sujeto concreto.
- Este tipo de estadísticos no puede ser clasificado en subtipos.
- El campo 
-\emph on
-aplicación
-\emph default
-, se refiere al sujeto al que es aplicado el estadístico.
 \end_layout
 
 \begin_layout Subsection
@@ -6461,7 +6557,7 @@ status open
 \begin_inset Graphics
 	filename chronojump_estadisticas_saltos_simples.png
 	lyxscale 50
-	scale 90
+	scale 70
 
 \end_inset
 
@@ -6600,7 +6696,7 @@ Promedio y Desviación estándard usando QIndex
 \end_layout
 
 \begin_layout Standard
-El los tres casos el campo 
+El todos los casos el campo 
 \emph on
 aplicación
 \emph default
@@ -6670,7 +6766,7 @@ Estudio de la relación tiempo de vuelo / tiempo de contacto a lo largo de
 
 \begin_layout Standard
 En ocasiones algunos deportistas realizan un salto con una muy buena relación
- tv/tc a costa de ir acompañado de un salto previo o posterior de pocas
+ TV/TC a costa de ir acompañado de un salto previo o posterior de pocas
  prestaciones.
  Por este motivo se ha dispuesto la la opción de 
 \emph on
@@ -6733,8 +6829,8 @@ Estadísticas multisesión
 
 \begin_layout Standard
 Todos los estadíticos presentados a excepción de la Evolución en saltos
- reactivos pueden ser usados para la comparación de deferentes saltos o
- saltadores en varias sesiones.
+ reactivos pueden ser usados para la comparación de diferentes saltos o
+ sujetos en varias sesiones.
  De esta manera se presentará una columna por cada sesión seleccionada y
  se facilita la comparación entre los diferentes valores mostrados.
 \end_layout
@@ -6838,29 +6934,29 @@ Todo estadístico dispone de un enunciado que se crea automáticamente en
 \end_layout
 
 \begin_layout Subsection
-Distinción de sexo
+Distinción de género
 \end_layout
 
 \begin_layout Standard
-Se presenta la opción de distinguir entre sexos para la presentación de
+Se presenta la opción de distinguir entre géneros para la presentación de
  resultados.
  La selección de esta opción puede tener un doble comportamiento:
 \end_layout
 
 \begin_layout Itemize
 Cuando las filas de resultado de los estadísticos correspondan con índices
- o tipos de salto, la selección de sexos provocará que se cree automáticamente
- una fila para cada uno de los sexos.
+ o tipos de salto, la selección de género provocará que se cree automáticamente
+ una fila para cada uno de los mismos.
 \end_layout
 
 \begin_layout Itemize
 Cuando las filas de resultado de los estadísticos correspondan con saltadores,
- la selección de sexos provocará que se añada una letra después de cada
- saltador indicando su sexo.
+ la selección de géneros provocará que se añada una letra después de cada
+ saltador indicando su género.
 \end_layout
 
 \begin_layout Standard
-Este botón podrá ayudarle a realizar comparaciones intra e intersexos.
+Este botón podrá ayudarle a realizar comparaciones intra e intergéneros.
 \end_layout
 
 \begin_layout Subsection
@@ -6869,28 +6965,9 @@ Actualización automática
 
 \begin_layout Standard
 La ventana de estadísticas de Chronojump está diseñada para que cada cambio
- en la base de datos (nuevo salto, cambio de nombre de saltador, borrado
- de salto, cambio de saltador que ha realizado un salto...) sea actualizado
- directamente.
-\begin_inset Note Comment
-status collapsed
-
-\begin_layout Plain Layout
- Si su sistema informático responde con lentitud a los diferentes cambios,
- se recomienda que desactive el botón 
-\emph on
-siempre
-\emph default
-, y que haga clic en 
-\emph on
-Actualizar estadísticas
-\emph default
- siempre que desee que los datos de estadíticos sea regenerados.
-\end_layout
-
-\end_inset
-
-
+ en la base de datos (nuevo salto, cambio de nombre de sujeto, borrado de
+ salto, cambio de saltador que ha realizado un salto...) sea actualizado directamen
+te.
 \end_layout
 
 \begin_layout Section
@@ -7179,7 +7256,7 @@ La generación de informes en el programa Chronojump se concreta como la
 \begin_layout Standard
 Haciendo clic en 
 \emph on
-Ver / Ventana de Informes
+Herramientas / Informes
 \emph default
 , aparece la figura que se muestra en la figura 
 \begin_inset CommandInset ref
@@ -7199,7 +7276,7 @@ Añadir a Informe
  que aparece en la ventana de estadísticas, se permite preparar cada uno
  de los estadísticos visualizados para que estos aparezcan en el informe
  generado, y que lo hagan con la personalización que había sido elegida
- por el usuario en la ventana de estadítiscos.
+ por el usuario en la ventana de estadísticos.
  El usuario puede además ordenar cada uno de los estadísticos para el informe
  final.
 \end_layout
@@ -7281,7 +7358,7 @@ status open
 \begin_inset Graphics
 	filename report1.png
 	lyxscale 50
-	scale 60
+	scale 70
 
 \end_inset
 
@@ -7325,7 +7402,7 @@ name "sub:Exportación-a-hoja"
 \begin_layout Standard
 Haga clic en 
 \emph on
-Archivo / Exportar sesión a formato CSV
+Sesión / Exportar sesión a formato CSV
 \emph default
  para que se cree un archivo en formato CSV (Valores Separados por Comas)
  que podrá ser importado fácilmente en cualquier programa de hoja de cálculo.
@@ -7354,9 +7431,9 @@ Servidor para compartir datos
 \begin_layout Standard
 Chronojump dispone de un servidor en Internet para compartir datos entre
  los usuarios.
- El servidor permitirá obtener datos muy valiosos a partir del cruce de
- muchas variables, pero para ello es necesario que exista predisposición
- por parte de los usuarios de Chronojump para compartir los datos.
+ El servidor permitirá obtener datos valiosos a partir del cruce de muchas
+ variables, pero para ello es necesario que exista predisposición por parte
+ de los usuarios de Chronojump para compartir los datos.
  Creemos que las características técnicas del servidor y su usabilidad son
  óptimas.
 \end_layout
@@ -7380,8 +7457,8 @@ Compartición y uso de los datos
 \end_layout
 
 \begin_layout Standard
-Los datos que se compartirán son los tests, deportistas y sesiones de cada
- evaluador que lo desee.
+Los datos que se compartirán son los tests, sujetos y sesiones de cada evaluador
+ que lo desee.
  El evaluador cuando lo desee podrá 
 \emph on
 subir una sesión al servidor
@@ -7406,7 +7483,7 @@ Calidad de los datos.
 \begin_layout Standard
 Con la finalidad de obtener muchos datos, pero que no por ello se sacrifique
  la calidad, se ha creído conveniente que existan dos tipos de datos en
- cuanto a su calidad:
+ cuanto a su confiabilidad:
 \end_layout
 
 \begin_layout Description
@@ -7482,7 +7559,7 @@ Funciones del programa
 Las funciones del programa para conectarse con el servidor se encuentran
  en el menú principal, 
 \emph on
-Archivo / Servidor
+Herramientas / Servidor
 \emph default
 .
  A continuación se detalla cada una de ellas.
@@ -7494,9 +7571,9 @@ Comprobar conexión
 
 \begin_layout Standard
 Permite saber si es posible establecer conexión con el servidor.
- Si no es posible puede que el servidor esté inoperativo, que su computador
- no esté conectado a Internet, o que su conexión a Internet limite algunos
- tipos de conexión.
+ Si no es posible puede que el servidor esté inoperativo temporalmente,
+ que su computador no esté conectado a Internet, o que su conexión a Internet
+ limite algunos tipos de conexión.
 \end_layout
 
 \begin_layout Subsection
@@ -7513,7 +7590,7 @@ Datos del evaluador
 Esta funcionalidad le permite rellenar una ficha de evaluador que irá vinculada
  a los tests, sujetos y sesiones que usted comparta.
  Sus datos personales estarán ocultos.
- Las utilidades de facilitar los datos de evaluador son:
+ Es necesario facilitar los datos de evaluador por los siguientes motivos:
 \end_layout
 
 \begin_layout Itemize
@@ -7696,7 +7773,7 @@ Subir (o actualizar) sesión en el servidor
 Esta es la función más importante para que se puedan compartir datos.
  Cuando el evaluador haga click en 
 \emph on
-Archivo / Servidor / Subir (o actualizar) sesión en el servidor 
+Herramientas / Servidor / Subir (o actualizar) sesión en el servidor 
 \emph default
 deberá seguir los siguientes pasos:
 \end_layout
@@ -7796,10 +7873,10 @@ Se ha programado una ventana que permite obtener promedios de saltos simples,
  saltos reactivos y carreras simples.
  Para acceder a ella haga clic en 
 \emph on
-Archivo / Servidor / Realizar consulta
+Herramientas / Servidor / Realizar consulta
 \emph default
 .
- La consulta se realiza activando selectores relativos al test y selectores
+ La consulta se realiza activando selectores relativos al test y los selectores
  relativos a los sujetos.
 \end_layout
 
@@ -7947,7 +8024,8 @@ Especialidad.
 \end_layout
 
 \begin_layout Description
-Nivel
+Nivel que se subdivide en: [0] sedentario o practicante ocasional; [1] practica
+ regular; [2] competición; [3] élite.
 \end_layout
 
 \begin_layout Standard
@@ -7973,14 +8051,10 @@ Cuando se haga clic en el botón de busqueda, pasados unos segundos el servidor
 \end_layout
 
 \begin_layout Standard
-Se recomienda realizar búsquedas muy generales pues el servidor se ha creado
- muy recientemente.
+Se recomienda realizar búsquedas generales pues el servidor se ha creado
+ recientemente.
  Como ejemplo de búsqueda puede probar saltos libres (Free) con la mayoría
  de indicadores en 
-\emph on
-Any
-\emph default
- o 
 \emph on
 Cualquiera.
 \end_layout
@@ -8056,7 +8130,7 @@ radiografía
 \begin_layout Standard
 Se accede a dicha ventana haciendo click en 
 \emph on
-Archivo / Servidor / Estadísticas
+Herramientas / Servidor / Estadísticas
 \emph default
 .
 \end_layout
@@ -8081,7 +8155,7 @@ http://www.chronojump.org/server_es.html
  Dichas gráficas se actualizan cada vez que aparecen nuevos datos (normalmente
  de forma automática por la noche).
  Se pretende crear y actualizar constantemente un conjunto de gráficos que
- sean una información valuosa para cualquier interesado aunque éste no disponga
+ aporten información relevante a cualquier interesado aunque éste no disponga
  de la tecnología Chronojump.
 \end_layout
 
@@ -8139,7 +8213,7 @@ name "fig:server_graph1"
 \end_inset
 
 Estadísticas del servidor en la web.
- Gráfico decriptivo sobre la población.
+ Gráfico descriptivo sobre la población.
 \end_layout
 
 \end_inset
@@ -8181,7 +8255,7 @@ name "fig:server_graph2"
 \end_inset
 
 Estadísticas del servidor en la web.
- Diagrama de caja de tiempos de vuelo en funciónde tipo de salto y género.
+ Diagrama de caja de tiempos de vuelo en función de tipo de salto y género.
 \end_layout
 
 \end_inset
@@ -8244,6 +8318,12 @@ s nunca serán mostrados.
  Incluso al subir los datos, los nombres de los saltadores no son enviados
  (pues tampoco son necesarios), su fecha de nacimiento será necesaria para
  el cálculo de su edad el día de la sesión, pero jamás será mostrada.
+ 
+\end_layout
+
+\begin_layout Standard
+Además, tampoco subirán al servidor los comentarios que el evaluador haya
+ escrito sobre la sesión, sujetos o tests.
 \end_layout
 
 \begin_layout Chapter
@@ -8260,7 +8340,7 @@ name "sec:Preferencias"
 \begin_layout Standard
 La ventana de preferencias 
 \emph on
-Archivo / Preferencias
+Herramientas / Preferencias
 \emph default
 , se divide en tres pestañas:
 \end_layout
@@ -8327,6 +8407,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Preferencias-1.png
+	scale 60
 
 \end_inset
 
@@ -8366,6 +8447,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Preferencias-2.png
+	scale 60
 
 \end_inset
 
@@ -8405,6 +8487,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename Preferencias-3.png
+	scale 60
 
 \end_inset
 

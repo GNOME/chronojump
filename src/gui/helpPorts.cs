@@ -94,7 +94,7 @@ public class HelpPorts
 				"3 " + Catalog.GetString("Go to <i>hardware</i>.") +  "\n" +
 				"4 " + Catalog.GetString("Select <i>administrate dispositives</i>. It's first button.") +  "\n" +
 				"5 " + Catalog.GetString("Click on the '+' at left of COM and LPT ports.") +  "\n" +
-				"6 " + Catalog.GetString("The port name will be what it's written like COM? on the USB-serial line.") +  "\n" + "  " + Catalog.GetString("Eg: if it's written COM7, then you should write COM7 at Chronojump preferences.") + "\n\n" +
+				"6 " + Catalog.GetString("The port name will be what it's written like COM? on the USB-serial line.") +  "\n" + "  " + Catalog.GetString("Eg: if it's written COM7, then you should write COM7 at Chronopic window.") + "\n\n" +
 				Catalog.GetString("If it doesn't work, try to force to COM1 or COM2, as it's explained on parent window.")
 				);
 	}

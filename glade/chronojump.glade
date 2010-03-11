@@ -17863,14 +17863,11 @@ by you</property>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkSeparatorMenuItem" id="separador17">
-                        <property name="visible">True</property>
-                      </widget>
+                      <widget class="GtkSeparatorMenuItem" id="separador17"/>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_crash">
                         <property name="label">Crash application (debug purpose)</property>
-                        <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <signal name="activate" handler="on_debug_crash_activate"/>

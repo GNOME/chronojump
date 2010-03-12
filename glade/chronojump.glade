@@ -16866,12 +16866,17 @@ by you</property>
                   <widget class="GtkMenu" id="session_menu">
                     <child>
                       <widget class="GtkImageMenuItem" id="session_new">
-                        <property name="label">gtk-new</property>
+                        <property name="label" translatable="yes">New session</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_new_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image44">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-new</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -16976,11 +16981,16 @@ by you</property>
                   <widget class="GtkMenu" id="menu_persons_menu">
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_person_add_single">
-                        <property name="label">gtk-new</property>
+                        <property name="label" translatable="yes">New person</property>
                         <property name="visible">True</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_stock">False</property>
                         <signal name="activate" handler="on_person_add_single_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image43">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-new</property>
+                          </widget>
+                        </child>
                       </widget>
                     </child>
                     <child>

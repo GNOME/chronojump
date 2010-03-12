@@ -41,6 +41,7 @@ public class QueryServerWindow
 	[Widget] Gtk.Box hbox_combo_sports;
 	[Widget] Gtk.Box hbox_combo_speciallities;
 	[Widget] Gtk.Box hbox_combo_levels;
+	[Widget] Gtk.Box hbox_combo_evaluators;
 
 	[Widget] Gtk.ComboBox combo_test_types;
 	[Widget] Gtk.ComboBox combo_tests;
@@ -53,6 +54,7 @@ public class QueryServerWindow
 	[Widget] Gtk.ComboBox combo_sports;
 	[Widget] Gtk.ComboBox combo_speciallities;
 	[Widget] Gtk.ComboBox combo_levels;
+	[Widget] Gtk.ComboBox combo_evaluators;
 
 	[Widget] Gtk.TextView textview_query;
 	
@@ -123,21 +125,16 @@ public class QueryServerWindow
 	static string higherOrEqualThan = Constants.HigherOrEqualThanCode + " " + Catalog.GetString("Higher or equal than");
 	string [] ages1 = {
 		Catalog.GetString(Constants.Any), 
-		//equalThan,
 		lowerThan,
-		//higherThan,
-		//lowerOrEqualThan,
-		higherOrEqualThan,
+		higherOrEqualThan
 	};
 	string [] ages2Lower = {
 		Catalog.GetString(Constants.Any), 
-		lowerThan,
-		//lowerOrEqualThan,
+		lowerThan
 	};
 	string [] ages2Higher = {
 		Catalog.GetString(Constants.Any), 
-		//higherThan,
-		higherOrEqualThan,
+		higherOrEqualThan
 	};
 
 
@@ -151,18 +148,20 @@ public class QueryServerWindow
 	string [] continentsTranslated;
 	string [] countries;
 	string [] countriesTranslated;
+	string [] evaluators;
 	
 	int pDN; //prefsDigitsNumber;
 	
 	static QueryServerWindow QueryServerWindowBox;
 	
-	public QueryServerWindow (int newPrefsDigitsNumber)
+	public QueryServerWindow (int newPrefsDigitsNumber, string [] evaluators)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "query_server_window", null);
 		gladeXML.Autoconnect(this);
 		
 		this.pDN = newPrefsDigitsNumber;
+		this.evaluators = evaluators;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(query_server_window);
@@ -170,10 +169,10 @@ public class QueryServerWindow
 		createAllCombos();
 	}
 
-	static public QueryServerWindow Show (int newPrefsDigitsNumber)
+	static public QueryServerWindow Show (int newPrefsDigitsNumber, string [] evaluators)
 	{
 		if (QueryServerWindowBox == null) {
-			QueryServerWindowBox = new QueryServerWindow(newPrefsDigitsNumber);
+			QueryServerWindowBox = new QueryServerWindow(newPrefsDigitsNumber, evaluators);
 		}
 		QueryServerWindowBox.query_server_window.Show ();
 		
@@ -200,6 +199,7 @@ public class QueryServerWindow
 		createComboSports();
 		createComboSpeciallities(-1);
 		createComboLevels();
+		createComboEvaluators();
 	}
 	
 	private void createComboTestTypes() {
@@ -368,6 +368,18 @@ public class QueryServerWindow
 		combo_levels.Sensitive = false; //level is shown when sport is not "undefined" and not "none"
 		combo_levels.Changed += new EventHandler (on_combo_other_changed);
 		UtilGtk.ComboPackShowAndSensitive(hbox_combo_levels, combo_levels);
+	}
+
+	private void createComboEvaluators() {
+		combo_evaluators = ComboBox.NewText ();
+
+		//first value (any) should be translated
+		evaluators[0]=Constants.AnyID.ToString() + ":" + Catalog.GetString(Constants.Any);
+
+		UtilGtk.ComboUpdate(combo_evaluators, evaluators, "");
+		combo_evaluators.Active = UtilGtk.ComboMakeActive(combo_evaluators, Catalog.GetString(Constants.Any));
+		combo_evaluators.Changed += new EventHandler (on_combo_other_changed);
+		UtilGtk.ComboPackShowAndSensitive(hbox_combo_evaluators, combo_evaluators);
 	}
 
 
@@ -698,8 +710,7 @@ public class QueryServerWindow
 				ageInterval += ":" + spin_ages2.Value.ToString();
 			}
 		}
-			
-
+		
 		try {
 			string sqlString = Sqlite.SQLBuildQueryString(
 					tableName, 
@@ -710,7 +721,8 @@ public class QueryServerWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports)),
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
-					Util.FetchID(UtilGtk.ComboGetActive(combo_levels))
+					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_evaluators))
 					);
 
 			if(performQuery) {
@@ -725,7 +737,8 @@ public class QueryServerWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports)),
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
-					Util.FetchID(UtilGtk.ComboGetActive(combo_levels))
+					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_evaluators))
 					);
 				myServer.DisConnectDatabase();
 

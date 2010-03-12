@@ -179,6 +179,31 @@ class SqliteServer : Sqlite
 		return myEval;
 	}
 	
+	public static string [] SelectEvaluators(bool addAnyString)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT " + 
+			Constants.ServerEvaluatorTable + ".uniqueID, " + 
+			Constants.ServerEvaluatorTable + ".name " +
+		       	" FROM " + Constants.ServerEvaluatorTable + ", " + Constants.SessionTable + 
+			" WHERE " + Constants.ServerEvaluatorTable + ".uniqueID = " + Constants.SessionTable +".evaluatorID" +
+		        " GROUP BY " + Constants.ServerEvaluatorTable + ".uniqueID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+	
+		ArrayList evals = new ArrayList();
+		if(addAnyString)
+			evals.Add(Constants.AnyID.ToString() + ":" + Constants.Any);
+		while(reader.Read())
+			evals.Add(reader[0].ToString() + ":" + reader[1].ToString());
+
+		reader.Close();
+		dbcon.Close();
+		return Util.ArrayListToString(evals);
+	}
+	
 	public static string Query(string str) {
 		dbcon.Open();
 

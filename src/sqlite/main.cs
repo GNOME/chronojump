@@ -1220,7 +1220,7 @@ class Sqlite
 
 	public static string SQLBuildQueryString (string tableName, string test, string variable,
 			int sex, string ageInterval,
-			int countryID, int sportID, int speciallityID, int levelID)
+			int countryID, int sportID, int speciallityID, int levelID, int evaluatorID)
 	{
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
@@ -1236,15 +1236,22 @@ class Sqlite
 			strSex = " AND " + tp + ".sex == '" + Constants.F + "'";
 
 		string strAge = "";
-		if(ageInterval != "") {
+		string strEval = "";
+		string strSession = "";
+		if(ageInterval != "" || evaluatorID != Constants.AnyID) {
 			strFrom += ", session";
-			string [] strFull = ageInterval.Split(new char[] {':'});
-			strAge = " AND (julianday(session.date) - julianday(" + tp + ".dateBorn))/365.25 " + 
-				strFull[0] + " " + strFull[1];
-			if(strFull.Length == 4)
-				strAge += " AND (julianday(session.date) - julianday(" + tp + ".dateBorn))/365.25 " + 
-					strFull[2] + " " + strFull[3];
-			strAge += " AND " + tableName + ".sessionID = session.uniqueID";
+			if(ageInterval != "") {
+				string [] strFull = ageInterval.Split(new char[] {':'});
+				strAge = " AND (julianday(session.date) - julianday(" + tp + ".dateBorn))/365.25 " + 
+					strFull[0] + " " + strFull[1];
+				if(strFull.Length == 4)
+					strAge += " AND (julianday(session.date) - julianday(" + tp + ".dateBorn))/365.25 " + 
+						strFull[2] + " " + strFull[3];
+			}
+			if(evaluatorID != Constants.AnyID) 
+				strEval = " AND session.evaluatorID == " + evaluatorID;
+			
+			strSession = " AND " + tableName + ".sessionID = session.uniqueID";
 		}
 
 		string strCountry = "";
@@ -1271,7 +1278,7 @@ class Sqlite
 				" AND " + tp + ".uniqueID == " + tps + ".personID";
 		}	
 		return strSelect + strFrom + strWhere + strSex + strAge
-			+ strCountry + strSport + strSpeciallity + strLevel + strLast;
+			+ strCountry + strSport + strSpeciallity + strLevel + strEval + strSession + strLast;
 	}
 
 

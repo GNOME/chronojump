@@ -58,6 +58,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     
     private System.Threading.SendOrPostCallback EditEvaluatorOperationCompleted;
     
+    private System.Threading.SendOrPostCallback SelectEvaluatorsOperationCompleted;
+    
     private System.Threading.SendOrPostCallback UploadJumpOperationCompleted;
     
     private System.Threading.SendOrPostCallback UploadJumpRjOperationCompleted;
@@ -113,6 +115,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     private event UploadEvaluatorCompletedEventHandler UploadEvaluatorCompleted;
     
     private event EditEvaluatorCompletedEventHandler EditEvaluatorCompleted;
+    
+    private event SelectEvaluatorsCompletedEventHandler SelectEvaluatorsCompleted;
     
     private event UploadJumpCompletedEventHandler UploadJumpCompleted;
     
@@ -290,7 +294,7 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
 ///Query
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/Query", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
-    public string Query(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID) {
+    public string Query(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID, int evaluatorID) {
         object[] results = this.Invoke("Query", new object[] {
                     tableName,
                     test,
@@ -300,11 +304,12 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
                     countryID,
                     sportID,
                     speciallityID,
-                    levelID});
+                    levelID,
+                    evaluatorID});
         return ((string)(results[0]));
     }
     
-    public System.IAsyncResult BeginQuery(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID, System.AsyncCallback callback, object asyncState) {
+    public System.IAsyncResult BeginQuery(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID, int evaluatorID, System.AsyncCallback callback, object asyncState) {
         return this.BeginInvoke("Query", new object[] {
                     tableName,
                     test,
@@ -314,7 +319,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
                     countryID,
                     sportID,
                     speciallityID,
-                    levelID}, callback, asyncState);
+                    levelID,
+                    evaluatorID}, callback, asyncState);
     }
     
     public string EndQuery(System.IAsyncResult asyncResult) {
@@ -322,11 +328,11 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
         return ((string)(results[0]));
     }
     
-    public void QueryAsync(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID) {
-        this.QueryAsync(tableName, test, variable, sex, ageInterval, countryID, sportID, speciallityID, levelID, null);
+    public void QueryAsync(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID, int evaluatorID) {
+        this.QueryAsync(tableName, test, variable, sex, ageInterval, countryID, sportID, speciallityID, levelID, evaluatorID, null);
     }
     
-    public void QueryAsync(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID, object userState) {
+    public void QueryAsync(string tableName, string test, string variable, int sex, string ageInterval, int countryID, int sportID, int speciallityID, int levelID, int evaluatorID, object userState) {
         if ((this.QueryOperationCompleted == null)) {
             this.QueryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnQueryCompleted);
         }
@@ -339,7 +345,8 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
                     countryID,
                     sportID,
                     speciallityID,
-                    levelID}, this.QueryOperationCompleted, userState);
+                    levelID,
+                    evaluatorID}, this.QueryOperationCompleted, userState);
     }
     
     private void OnQueryCompleted(object arg) {
@@ -878,6 +885,45 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
     
     /// <remarks>
+///Select evaluators
+///</remarks>
+    [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/SelectEvaluators", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
+    public string[] SelectEvaluators(bool addAnyString) {
+        object[] results = this.Invoke("SelectEvaluators", new object[] {
+                    addAnyString});
+        return ((string[])(results[0]));
+    }
+    
+    public System.IAsyncResult BeginSelectEvaluators(bool addAnyString, System.AsyncCallback callback, object asyncState) {
+        return this.BeginInvoke("SelectEvaluators", new object[] {
+                    addAnyString}, callback, asyncState);
+    }
+    
+    public string[] EndSelectEvaluators(System.IAsyncResult asyncResult) {
+        object[] results = this.EndInvoke(asyncResult);
+        return ((string[])(results[0]));
+    }
+    
+    public void SelectEvaluatorsAsync(bool addAnyString) {
+        this.SelectEvaluatorsAsync(addAnyString, null);
+    }
+    
+    public void SelectEvaluatorsAsync(bool addAnyString, object userState) {
+        if ((this.SelectEvaluatorsOperationCompleted == null)) {
+            this.SelectEvaluatorsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSelectEvaluatorsCompleted);
+        }
+        this.InvokeAsync("SelectEvaluators", new object[] {
+                    addAnyString}, this.SelectEvaluatorsOperationCompleted, userState);
+    }
+    
+    private void OnSelectEvaluatorsCompleted(object arg) {
+        if ((this.SelectEvaluatorsCompleted != null)) {
+            System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+            this.SelectEvaluatorsCompleted(this, new SelectEvaluatorsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+        }
+    }
+    
+    /// <remarks>
 ///Upload a jump
 ///</remarks>
     [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://server.chronojump.org/UploadJump", RequestNamespace="http://server.chronojump.org/", ResponseNamespace="http://server.chronojump.org/", ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped, Use=System.Web.Services.Description.SoapBindingUse.Literal)]
@@ -1190,7 +1236,6 @@ public class ChronojumpServer : System.Web.Services.Protocols.SoapHttpClientProt
     }
 }
 
-/// <remarks/>
 public class ConnectDatabaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     
     private object[] results;
@@ -1532,6 +1577,25 @@ public class EditEvaluatorCompletedEventArgs : System.ComponentModel.AsyncComple
 }
 
 public delegate void EditEvaluatorCompletedEventHandler(object sender, EditEvaluatorCompletedEventArgs args);
+
+public class SelectEvaluatorsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    
+    private object[] results;
+    
+    internal SelectEvaluatorsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+            base(exception, cancelled, userState) {
+        this.results = results;
+    }
+    
+    public string[] Result {
+        get {
+            this.RaiseExceptionIfNecessary();
+            return ((string[])(this.results[0]));
+        }
+    }
+}
+
+public delegate void SelectEvaluatorsCompletedEventHandler(object sender, SelectEvaluatorsCompletedEventArgs args);
 
 public class UploadJumpCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
     

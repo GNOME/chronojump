@@ -2362,6 +2362,541 @@ Ventana principal de Chronojump.
 \end_layout
 
 \begin_layout Section
+Menú de Chronojump
+\end_layout
+
+\begin_layout Standard
+En las siguientes imágenes puede ver el menú desplegado del programa.
+ 
+\end_layout
+
+\begin_layout Description
+Menú
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+sesión ver figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_session"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Menú
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+sujeto ver figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_sujeto"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Menú
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+salto ver figuras 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_salto1"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_salto2"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Menú
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+carrera ver figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_carrera1"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_carrera2"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Menú
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+otros
+\begin_inset space ~
+\end_inset
+
+tests ver figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_other"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Menú
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+herramientas ver figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_herramientas"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Menú
+\begin_inset space ~
+\end_inset
+
+de
+\begin_inset space ~
+\end_inset
+
+ayuda ver figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_help"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_session.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_session"
+
+\end_inset
+
+Menú de sesión.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_person.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_sujeto"
+
+\end_inset
+
+Menú de sujeto.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_jump1.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_salto1"
+
+\end_inset
+
+Menú de salto con saltos simples desplegados.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_jump2.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_salto2"
+
+\end_inset
+
+Menú de salto con saltos reactivos desplegados.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_run1.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_carrera1"
+
+\end_inset
+
+Menú de carrera con carreras simples desplegadas.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_run2.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_carrera2"
+
+\end_inset
+
+Menú de carrera con carreras con tramos desplegadas.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_other.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_other"
+
+\end_inset
+
+Menú de otros tests.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_tools.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_herramientas"
+
+\end_inset
+
+Menú de herramientas.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_help.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_help"
+
+\end_inset
+
+Menú de ayuda.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Conexión de Chronopic/s
 \begin_inset CommandInset label
 LatexCommand label
@@ -7880,6 +8415,20 @@ Herramientas / Servidor / Realizar consulta
  relativos a los sujetos.
 \end_layout
 
+\begin_layout Standard
+A continuación se muestran los selectores de la consulta.
+ Algunos de los ellos serán obligatorios, mientras que en la mayoría se
+ podrá seleccionar 
+\emph on
+Any
+\emph default
+ o 
+\emph on
+Cualquiera
+\emph default
+ para indicar que aquella variable no debe afectar al resultado.
+\end_layout
+
 \begin_layout Subsubsection
 Selectores relativos al tests
 \end_layout
@@ -8028,17 +8577,14 @@ Nivel que se subdivide en: [0] sedentario o practicante ocasional; [1] practica
  regular; [2] competición; [3] élite.
 \end_layout
 
+\begin_layout Subsubsection
+Selector relativo al evaluador
+\end_layout
+
 \begin_layout Standard
-Algunos de los selectores serán obligatorios, mientras que en la mayoría
- se podrá seleccionar 
-\emph on
-Any
-\emph default
- o 
-\emph on
-Cualquiera
-\emph default
- para indicar que aquella variable no debe afectar al resultado.
+Se podrá elegir si se desea los datos de algún evaluador en concreto.
+ Esta opción puede ser interesante incluso para uno mismo de manera que
+ pueda recoger información de forma rápida de todos los saltos que ha evaluado.
 \end_layout
 
 \begin_layout Subsubsection

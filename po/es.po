@@ -1354,7 +1354,7 @@ msgstr "Expandir imagen y mostrar descripción"
 
 #: ../glade/chronojump.glade.h:217
 msgid "Export session to _CSV (Spreadsheet)"
-msgstr "Exportar sesión a formato _CSV (hoja de cálculo)"
+msgstr "Exportar sesión a formato CSV (hoja de cálculo)"
 
 #: ../glade/chronojump.glade.h:218
 msgid "Export session to _XML"
@@ -1907,7 +1907,7 @@ msgstr "Ayuda con el puerto"
 
 #: ../glade/chronojump.glade.h:337
 msgid "Preferences"
-msgstr "Preferencias"
+msgstr "_Preferencias"
 
 #: ../glade/chronojump.glade.h:338
 msgid "Properties"
@@ -6607,7 +6607,7 @@ msgstr "Corredor"
 #~ msgid "_Load session"
 #~ msgstr "_Cargar sesión"
 #~ msgid "_Manual"
-#~ msgstr "_Manual"
+#~ msgstr "Manual"
 #~ msgid "_New person"
 #~ msgstr "atleta _nuevo"
 #~ msgid "_Preferences"

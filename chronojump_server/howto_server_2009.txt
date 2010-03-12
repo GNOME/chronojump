@@ -1,47 +1,14 @@
---- update 15 gen 2010 ---
-
-he actualitzat el chronojumpServerCsharp.cs
-no he canviat res que afecti a les crides, he canviat dins una funcio (si hagues canviat alguna cosa de les crides, caldria compilar el client amb el proxy baixat de la web (passos 3-5)
-he fet make i make install des del el dir de chronojump
-ha actualitzat el dll
-el pujo, paro el server i l'arranco
-----------------
-
-
-
 1.- compile bin/*.dll file
 
 see chronojump_server/compile_dll.txt
 
 upload to server
 
-2.- start server
-
-xsp2 --root /var/www/mono/ --verbose
-
-seems to be better to execute without the non-stop:
-http://lists.ximian.com/pipermail/mono-list/2007-June/035501.html
-
-new: 10 mar 2009:
-use screen to call server:
-
-screen
-xsp2 --verbose --root /var/www/mono/
-ctrl + a + d
-exit
-
-
-then we can exit without problems with the enter, and without process getting hanged, and without using the non-stop
-if(chronojumpServerCSharp.cs callings don't changed) {
-	go to (6.- compile client, or maybe don't need to compile client)
-}
-
-
-3.- navigate to the page
+2.- navigate to the page
 
 firefox http://server.chronojump.org:8080/chronojumpServer.asmx
 
-4.- generate wsdl proxy file
+3.- generate wsdl proxy file
 
 from console it doesnt' work, then do:
 a) go to 'client proxy'
@@ -50,9 +17,9 @@ c) download
 d) open in gedit
 e) save as ChronojumpServer.cs
 
-5.- need to comment all the partial classes in ChronojumpServer.cs
+4.- need to comment all the partial classes in ChronojumpServer.cs
 (search 'partial')
 
-6.- compile client
+5.- compile client
 
 make

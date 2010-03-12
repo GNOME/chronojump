@@ -177,7 +177,8 @@ public class ChronoJumpWindow
 	//from SportsTracker code
 	[Glade.WidgetAttribute]
 		private ImageMenuItem
-			menuitem_view_stats = null, menuitem_report_window = null, menuitem_chronopic = null;
+			menuitem_view_stats = null, menuitem_server_stats = null,
+					    menuitem_report_window = null, menuitem_chronopic = null;
 	[Widget] Gtk.MenuItem menuitem_server_evaluator_data;
 	[Widget] Gtk.MenuItem menuitem_server_upload_session;
 	[Widget] Gtk.MenuItem menuitem_preferences;
@@ -536,6 +537,7 @@ public class ChronoJumpWindow
 		menuitem_chronopic.Image = new Gtk.Image(pixbuf);
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		menuitem_view_stats.Image = new Gtk.Image(pixbuf);
+		menuitem_server_stats.Image = new Gtk.Image(pixbuf);
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
 		menuitem_report_window.Image = new Gtk.Image(pixbuf);
 	}
@@ -874,8 +876,13 @@ public class ChronoJumpWindow
 	}
 	
 	private void on_menuitem_server_query_activate (object o, EventArgs args) {
-		if(connectedAndCanI(Constants.ServerActionQuery)) 
-			queryServerWin = QueryServerWindow.Show(prefsDigitsNumber);
+		if(connectedAndCanI(Constants.ServerActionQuery)) {
+			ChronojumpServer myServer = new ChronojumpServer();
+			queryServerWin = QueryServerWindow.Show(
+					prefsDigitsNumber,
+					myServer.SelectEvaluators(true)
+					);
+		}
 	}
 	
 	private void on_menuitem_server_ping (object o, EventArgs args) {

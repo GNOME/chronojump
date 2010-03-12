@@ -26,6 +26,7 @@ using System.IO;
 using System.Web.Services;
 //using System.Web;
 using System.Web;
+using System.Collections; //ArrayList
 
 using System.Net; //getIP stuff
 
@@ -99,11 +100,11 @@ public class ChronojumpServer {
 	[WebMethod(Description="Query")]
 	public string Query(string tableName, string test, string variable,
 			int sex, string ageInterval,
-			int countryID, int sportID, int speciallityID, int levelID)
+			int countryID, int sportID, int speciallityID, int levelID, int evaluatorID)
 	{
 		string str = Sqlite.SQLBuildQueryString(tableName, test, variable,
 				sex, ageInterval, 
-				countryID, sportID, speciallityID, levelID
+				countryID, sportID, speciallityID, levelID, evaluatorID
 				);
 
 		return SqliteServer.Query(str);
@@ -415,6 +416,14 @@ public class ChronojumpServer {
 		}
 			
 		return false;
+	}
+
+	[WebMethod(Description="Select evaluators")]
+	public string [] SelectEvaluators(bool addAnyString)
+	{
+		Console.WriteLine("select evaluators");
+
+		return SqliteServer.SelectEvaluators(addAnyString);
 	}
 
 

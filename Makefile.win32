@@ -9,8 +9,33 @@ RM = rm -f
 CSC = $(MONO_BIN_PATH)/gmcs
 OUT_DIR=build/windows_bundle/bin
 BUILD_DIR=build/windows_bundle/build
+DIST_DIR = ${BUILD_DIR}/..
+LOCALE_DIR =  ${DIST_DIR}/share/locale
 
+# i18n
+PO_FILES = \
+    ar.po \
+	ca.po \
+	cs.po \
+	es.po \
+	de.po \
+	dz.po \
+	en_GB.po \
+	fi.po \
+	fr.po \
+	nb.po \
+	oc.po \
+	pt.po \
+	pt_BR.po \
+	sl.po \
+	sv.po \
+	vi.po \
+	zh_CN.po
 	
+
+MO_FILES = $(foreach po,$(PO_FILES), $(LOCALE_DIR)/$(basename $(po))/LC_MESSAGES/chronojump.mo)
+GMO_FILES = $(patsubst %.po, $(BUILD_DIR)/%.gmo,$(PO_FILES))
+
 #Chronojump.exe
 
 CHRONOJUMP=$(BUILD_DIR)/Chronojump.exe
@@ -18,6 +43,7 @@ CSC_CHRONOJUMP_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+
 CHRONOJUMP_COMPILE_TARGET = winexe 
 CHRONOJUMP_FILES = \
 	gui/chronojump.cs\
+	gui/chronopic.cs\
 	gui/confirm.cs\
 	gui/error.cs\
 	gui/eventExecute.cs\
@@ -279,15 +305,23 @@ CHRONOJUMP_MINI_REFERENCES = \
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before $(CHRONOJUMP) $(CHRONOJUMP_MINI) bundle all-after
+all: all-before ${GMO_FILES} $(CHRONOJUMP) $(CHRONOJUMP_MINI) all-after
 
-install: 
+install: ${MO_FILES} bundle
 
 clean: clean-custom
-	${RM} $(CHRONOJUMP) $(CHRONOJUMP_MINI) $(BUILD_DIR)/temp* $(BUILD_DIR)/logo.o
+	${RM} $(CHRONOJUMP) $(CHRONOJUMP_MINI) $(GMO_FILES) $(BUILD_DIR)/temp* $(BUILD_DIR)/logo.o
 
 bundle: $(CHRONOJUMP) $(CHRONOJUMP_MINI)
 	cd $(BUILD_DIR) && ${BASH} $(BUNDLE) 
+
+$(GMO_FILES): $(BUILD_DIR)/%.gmo: po/%.po
+	mkdir -p $(BUILD_DIR)
+	msgfmt '$<' -o '$@'
+	
+$(MO_FILES): $(LOCALE_DIR)/%/LC_MESSAGES/chronojump.mo : $(BUILD_DIR)/%.gmo
+	mkdir -p $(dir $@)
+	cp '$<' '$@'
 
 $(CHRONOJUMP):
 	cd src && $(CSC) $(CSC_CHRONOJUMP_FLAGS) -out:../$(CHRONOJUMP) -target:$(CHRONOJUMP_COMPILE_TARGET) $(CHRONOJUMP_FILES) $(CHRONOJUMP_REFERENCES) $(CHRONOJUMP_RESOURCES)

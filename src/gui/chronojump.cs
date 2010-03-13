@@ -946,7 +946,12 @@ public class ChronoJumpWindow
 	}
 
 	private void on_menuitem_goto_server_website_activate (object o, EventArgs args) {
-		System.Diagnostics.Process.Start(Constants.ChronojumpWebsite + Path.DirectorySeparatorChar + "server.html");
+		if(Util.IsWindows())
+			new DialogMessage(Constants.MessageTypes.INFO, 
+					"http://www.chronojump.org/server.html" + "\n" + 
+					"http://www.chronojump.org/server_es.html");
+		else
+			System.Diagnostics.Process.Start(Constants.ChronojumpWebsite + Path.DirectorySeparatorChar + "server.html");
 	}
 
 	/* 

@@ -130,7 +130,7 @@ class SqlitePersonSessionOld : Sqlite
 	
 	public static bool PersonExistsInPS(int personID)
 	{
-		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionOldTable + 
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionOldWeightTable + 
 			" WHERE personID == " + personID;
 		//Log.WriteLine(dbcmd.CommandText.ToString());
 		

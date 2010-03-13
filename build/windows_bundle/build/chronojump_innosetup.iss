@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{69EC15A7-5D66-4D24-A15B-1C23C0F621E0}
 AppName=Chronojump
-AppVerName=Chronojump  0.8.9.8
+AppVerName=Chronojump  0.9
 AppPublisher=Chronojump
 AppPublisherURL=http://www.chronojump.org/
 AppSupportURL=http://www.chronojump.org/
@@ -16,7 +16,7 @@ DefaultDirName={pf}\Chronojump
 DefaultGroupName=Chronojump
 LicenseFile=.\gpl-2.0.txt
 OutputDir=.
-OutputBaseFilename=Chronojump-0.8.9.8-win32
+OutputBaseFilename=Chronojump-0.9
 SetupIconFile=.\chronojump_icon.ico
 Compression=lzma
 SolidCompression=yes

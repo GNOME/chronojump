@@ -1,0 +1,121 @@
+:::startTitle:::
+FAQ de Chronojump - lista de perguntas freqüentes
+:::endTitle:::
+
+<ol>
+<li><a href="#platform">Plataforma de contatos</a>
+<li><a href="#chronopic">Chronômetro Chronopic</a>
+<li><a href="#chronojump">Software Chronojump</a>
+</ol>
+
+<h5 id="platform">Plataforma de contatos</h5>
+
+<ol>
+<li>Como posso construir a plataforma de contatos?
+<p>
+Lea la <a href="hardware_pt.html">páxina de hardware</a>.
+ 
+<p><li>Onde posso comprar a plataforma de contatos? Posso vender a que eu fabriquei?
+<p>
+Não comercializamos plataformas de contatos, em compensação incentivamos aos que desejem usar este método a que fabriquem sua própria plataforma. Se algum particular ou empresa decide fabricar-las segundo o método que explicamos ou qualquer outro que seja compatível e queira vender-las, pode avisar-nos e faremos divulgação de seu serviço, mesmo que não nos façamos responsáveis da qualidade das mesmas.
+ 
+<p><li>Porque o aço tem que ser temperado?
+<p>
+O aço da plataforma de contatos vai a ser submetido a inúmeras forças, e se é temperado resiste melhor e tem mais capacidade de retorno a sua posição inicial.
+ 
+<p><li>Porque não usamos células fotoelétricas?
+<p>
+Leia la páxina de <a href="photocells_es.html">células fotoeléctricas</a> (spanish).
+ 
+<p><li>Descobrimos uma maneira melhor de fazer a plataforma de contatos ¿Onde posso anunciá-la?
+<p>
+Escreva um e-mail à lista <a href="contact_es.html">chronojump-list</a> e veremos como podemos anunciar sua proposta.
+ 
+</ol>
+<p align="right"><a href="#top">Subir</a></p>
+
+<h5 id="chronopic">Cronómetro Chronopic</h5>
+
+<ol>
+
+<p><li>Onde posso comprar o Chronopic?
+<p>
+Leia la <a href="hardware_pt.html">páxina de Hardware</a>.
+
+<p><li>Como posso construir o fabricar industrialmente o chronopic?<p>
+<p>
+Sim, a página web: <a href="hardware_pt.html">páxina de Hardware</a> você encontrará a construir-lo manualmente ou industrial em cada país.
+
+<p><li>¿Posso vender o Chronopic?</p>
+<p>
+Sim, ao preço que quiser. Você precisa seguir o hardware licença: <a href="http://creativecommons.org/licenses/by-sa/2.5/es/deed.pt">Creative Commons. Atribuição-Compartilhamento pela mesma Licença 2.5 Espanha</a>.
+
+<p><li>¿Posso colocar um anúncio em seu site como um Chronojump e/ou Chronopic distribuidor?</p>
+<p>
+Sim, por favor escreva um e-mail para o endereço indicado nesta imagem:
+
+<img align="absmiddle" src=":::imageLink:::/xaviblas-correo.png">
+
+<li>Puedo conectar más de un Chronopic a un ordenador? [TRADUCIR]
+<p>
+Sí.
+<ul>
+<li>Un Chronopic es suficiente para captar estímulos de uno o más dispositivos de medida (como plataformas de contacto) siempre que no se produzca contacto en diversos dispositivos al mismo tiempo. Si desea medir el tiempo de contacto y el tiempo de vuelo en la marcha, no podrá diferenciar entre un pie y el otro con sólo un Chronopic aunque tenga una plataforma de contacto para cada pie.
+<li>
+Con dos o más Chronopics podrá captar canales diferentes. En el ejemplo del análisis de la marcha, podrá ubicar un dispositivo de medida para cada pie, conectando cada dispositivo a un Chronopic y conectando ambos Chronopics a un ordenador. Ejecutando dos veces el programa Chronojump_mini podrá detectar la fase de contacto y la de vuelo de cada pie, así como exportar los datos a una hoja de cálculo para analizarlas. Más información en: <a href="http://mail.gnome.org/archives/chronojump-list/2008-July/msg00015.html">important: connecting n chronopics to a computer / importante: conectando n chronopics a un ordenador</a>.
+</ul>
+
+<li>Porque é necessário um cronômetro se qualquer computador pode realizar essa função?<p>
+<p>
+Os sistemas operacionais  modernos são multitarefa, o que significa que o computador determina pequenas quantidades de tempo para a realização de cada uma das tarefas de maneira que parece que executa todas ao mesmo tempo. Se o computador se encarrega de captar os estímulos que provem da plataforma de contatos, em ocasiões será tarde em avisar destes eventos porque estará ocupado em outros <i>assuntos</i>, o que se traduz em problemas de confiabilidade devido a que os saltos da mesma duração podreriam obter medições distintas por circunstâncias aleatórias.<br>
+O cronômetro externo que construimos está especializado na captação de eventos na plataforma de contatos pelo que não aparecerão erros de confiabilidade nos seus registros.<br>
+Chronopic permitirá ademáis que se possa usar Chronojump ou sua versão reduzida Chronojump-mini em quase qualquer dispositivo electrônico, e garante uma boa compatibilidade visando o futuro.<br>
+Para mais informação leia este artigo: <a href=":::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf">"Projeto Chronojump: Sistema de Medida da Capacidade de Salto usando Software e Hardware Livres"</a>.
+ 
+</ol>
+<p align="right"><a href="#top">Subir</a></p>
+
+<h5 id="chronojump">Software Chronojump</h5>
+
+<ol>
+<li>Posso acessar o código fonte e modificar o programa?, e vender-lo?
+<p>
+Chronojump é software livre distribuido baixo os térmos da <a href="http://www.gnu.org/licenses/licenses.html#GPL">licença GPL</a>, o que lhe permite estudiar-lo, modificar-lo, redistribuir-lo, vender-lo sempre respeitando a mencionada licença. Para mais informações acesse a página web de <a href="http://es.wikipedia.org/wiki/GPL">GPL na Wikipedia</a>.
+ 
+<p><li>Quanto custa?
+<p>
+Na web sempre haverá uma versão de Chronojump gratuita, mais você comercializar se deseja uma versão, nela se recomenda que ofereça serviços extras para que seus clientes se decidam a comprar-la. Dentre os serviços poderias oferecer cursos a técnicos, assessoria, integração de plataforma + cronômetro + software num só equipamento, ... também pode facilitar o programa se o deseja em qualquer curso, aula ou conferência que você realize.
+ 
+<p><li>E quais sistemas operacionais e equipamentos informáticos funciona?
+<p>
+Chronojump está escrito para a plataforma de programação <a href="http://www.mono-project.com">MONO</a>, que foi concebida para facilitar que os programas informáticos funcionem em muitos sistemas operacionais e equipamentos informáticos. Até o momento funciona em sistemas GNU/Linux é Windows.
+ 
+<p><li>Como posso descarregar (download) o programa?
+<p>
+Acesse a página web de <a href="installation_es.html">instalação de Chronojump</a>.
+ 
+<p><li>Posso provar Chronojump sem ter o cronômetro nem a plataforma de contatos?
+<p>
+Sim, se criou um módulo simulado no qual se executam saltos e corridas de duração aleatória, tempo de reação e ritmos para que se possam provar as características do programa.
+ 
+<p><li>¿Cuándo saldrá la versión 1.0 y qué prestaciones tendrá?
+<p>
+Até a data (versão :::currentVersion:::) Chronojump já têm mais prestações que o resto de soluções comerciais e não-comerciais das que temos conhecimento. 
+<br>
+Se desejas realizar pedidos de características não duvide em escrever um e-mail a lista de e-mails <a href="contact_es.html">chronojump-list</a>. Leer más <a href="features_pt.html">información de las características</a> [TRADUCIR].
+ 
+<p><li>Como posso saber as últimas novidades do projeto?
+<p>
+Consulte los <a href="http://chronojump.org">foros</a>. [TRADUCIR]<br>
+Ademais podes consultar o arquivo <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt?view=markup"><i>changelog</i> oo registro de mudanças</a>.
+ 
+<p><li>Porque se denomina Chronojump se também serve para medir corridas, tempo de reação e ritmos?
+<p>
+A idéia inicial era criar um software para a medição de eventos temporais do salto, mais se viu que com um pouco de esforço o mesmo software poderia servir para cronometrar todos os tipos de corridas, tempo de reação e ritmos. Mesmo que se trabalhe nestas linhas, os esforços principais se destinam a medição de saltos, por este motivo Chronojump conserva seu nome inicial.
+ 
+<p><li>Gostaria de colaborar: Como posso fazer?
+<p>
+Consulte los <a href="http://chronojump.org">foros</a>. [TRADUCIR]
+ 
+</ol>
+<p align="right"><a href="#top">Subir</a></p>

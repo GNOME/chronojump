@@ -1,0 +1,120 @@
+:::startTitle:::
+FAQ de Chronojump - llistat de preguntes freqüents
+:::endTitle:::
+
+<ol>
+<li><a href="#platform">La plataforma de contactes</a>
+<li><a href="#chronopic">El cronòmetre Chronopic</a>
+<li><a href="#chronojump">El Programari de Chronojump</a>
+</ol>
+
+<h5 id="platform">La plataforma de contactes</h5>
+
+<ol>
+<li>Com puc construir una plataforma de contactes?
+<p>
+Accediu a la pàgina web de <a href="hardware_ca.html">maquinari</a>.
+
+<p><li>On puc comprar la plataforma de contactes? Puc vendre la que jo he fet?
+<p>
+No comercialitzem plataformes de contactes, però en canvi, animem a totes aquelles persones que vulguin fer-ho, a fer servir el sistema descrit, per a fabricar-se la seva pròpia plataforma. De la mateixa manera, si algun particular o empresa decideix fabricar-les seguint aquest mètode o qualsevol altre que sigui compatible i vol vendre-les, pot avisar-nos i li farem difusió d'aquest servei, malgrat que no ens farem responsables de la qualitat de les plataformes.
+
+<p><li>Per què l'acer ha de ser tebi? 
+<p>
+L'acer de la plataforma de contactes serà sotmès a nombroses forces, si l'acer és tebi resisteix millor i té més capacitat de retorn a la posició inicial. 
+
+<p><li>Per què no feu servir cèl·lules fotoelèctriques?
+<p>
+Consulti <a href="photocells_es.html">fotocèl·lules</a> (castellà).
+
+<p><li>He descobert una forma millor de construir la plataforma de contactes. On puc anunciar-la?
+<p>
+Escriu un correu a la llista <a href="contact_ca.html">chronojump-list</a> i buscarem la millor manera d'anunciar-te la proposta.
+
+</ol>
+<p align="right"><a href="#top">Pugeu</a></p>
+
+<h5 id="chronopic">El cronòmetre Chronopic</h5>
+
+<ol>
+<p><li>On puc comprar el Chronopic?
+<p>
+Consulteu la <a href="hardware_ca.html">pàgina de Maquinari</a>.
+
+<p><li>Puc construir o fabricar de forma industrial el Chronopic?</p>
+<p>
+Sí, amb la informació que hi ha la <a href="hardware_ca.html">pàgina de Maquinari</a> pots fabricar-lo de forma manual o industrial a qualsevol país. 
+
+<p><li>Puc vendre el Chronopic?</p>
+<p>
+Sí, al preu que consideris oportú. En tot moment cal que consideris la llicència del maquinari: <a href="http://creativecommons.org/licenses/by-sa/2.5/es/deed.ca">Creative Commons. Reconeixement-Compartir amb la mateixa llicència 2.5</a>.
+
+<p><li>Puc anunciar-me a la vostra web com a distribuidor de Chronojump i/o Chronopic?</p>
+<p>
+Sí, escrigui a l'adreça que es veu en aquesta imatge:
+
+<img align="absmiddle" src=":::imageLink:::/xaviblas-correo.png">
+
+<li>Puc connectar més d'un Chronopic a un ordinador?
+<p>
+Sí.
+<ul>
+<li>Un sol Chronopic és suficient per a captar estímuls d'un o més dispositius de mesura (com plataformes de contacte) sempre que no es produeixi contacte en diversos dispositius al mateix temps. Si vol mesurar el temps de contacte i temps de vol en la marxa, no podrà diferenciar entre un peu i l'altre amb un sol Chronopic encara que tingui una plataforma de contacte per a cada peu.
+<li>
+Amb dos o més Chronopics podrà captar canals diferents. En l'exemple de l'anàlisi de la marxa, podrà posar un dispositiu de mesura per a cada peu, connectar cada dispositiu a un Chronopic i connectar ambdós Chronopics a un ordinador. Executant dos cops el programa Chronojump_mini podrà detectar la fase de contacte i la fase de vol de cada peu, així com exportar les dades a un full de càlcul per a analitzar-les. Més informació a: <a href="http://mail.gnome.org/archives/chronojump-list/2008-July/msg00015.html">important: connecting n chronopics to a computer / importante: conectando n chronopics a un ordenador</a> (anglès i castellà).
+</ul>
+
+
+<li>Per què és necessari un cronòmetre si qualsevol ordinador pot fer aquesta funció ? 
+<p>
+Els sistemes operatius moderns són multifuncions, això significa que l'ordinador assigna petites quantitats de temps per la realizació de cada una de las tasques, de manera que, sembli executar-les totes al mateix temps. L'ordinador s'encarrega de captar els estímuls procedents de la plataforma de contactes, per les seves característiques, de vegades, l'ordinador trigarà en adonar-se d'aquests events perquè estarà ocupat amb altres <i>assumptes</i>, això es tradueix en problemes de fiabilitat causats pel fet que dos salts de la mateixa durada podrien registrar-se amb medicions diferents per circumstàncies aleatories.<br>
+El cronòmetre extern que hem construït està especialitzat en la captació d'esdeveniments a la plataforma de contactes, per això no hi haurà errors de fiabilitat en els registres que farà.<br>
+El Chronopic permetrà, a més, la possibilitat de fer servir el Chronojump o la seva versió reduïda el Chronojump-mini en quasi qualsevol dispositiu electrònic, i n'assegura una bona compatibilitat en el futur.<br>
+Per més informació llegiu aquest article: <a href=":::articleLink:::/chronojump_sistema_de_medida_congreso_gpul.pdf">"Projecte Chronojump: Sistema de Mesura de la Capacitat del Salt fent servir programari i equipament lliures"</a>.
+
+</ol>
+<p align="right"><a href="#top">Pugeu</a></p>
+
+<h5 id="chronojump">El programari de Chronojump</h5>
+
+<ol>
+<li>Puc accedir al codi font i no modificar el programa?, i el puc vendre?
+<p>
+El Chronojump és programari lliure distribuït sota les característiques de la <a href="http://www.gnu.org/licenses/licenses.html#GPL">llicència GPL</a>. Aquesta permet estudiar el programa, modificar-lo, redistribuir-lo, o vendre'l, respectant sempre  l'esmentada llicència. Per obtenir més informació accediu a la pàgina web de <a href="http://es.wikipedia.org/wiki/GPL">GPL a  la Wikipedia</a>.
+
+<p><li>Quin preu té?
+<p>
+A la web sempre hi haurà una versió de Chronojump gratuïta, però podreu comercializar-ne, si ho desitgeu, alguna altra versió. Es recomanable oferir serveis addicionals per què els seus clients es decideixin a comprar-la. Alguns exemples dels serveis que podrieu oferir-los són: cursos per a entrenadors, assesoria, integració de plataforma + cronòmetre + software en un sol equipament etc. També podeu facillitar el programa, si ho desitgeu, en qualsevol curs, classe o conferència que impartiu. 
+
+<p><li>Sobre quins sistemes operatius i equipaments informàtics funciona?
+<p>
+El Chronojump està escrit per a la plataforma de programació <a href="http://www.mono-project.com">MONO</a>, pensada per facilitar el funcionament dels programes informàtics sobre molts sistemes operatius i equipaments informàtics. Fins ara funciona en sistemes GNU/Linux i Windows.<br>
+
+<p><li>Com puc descarregar-me (download) el programa?
+<p>
+Accediu a la pàgina web de <a href="installation_ca.html">instal·lació de Chronojump</a>.
+
+<p><li>Puc provar el Chronojump sense tenir el cronòmetre ni la plataforma de contactes?
+<p>
+Sí, s'ha creat una forma simulada, on s'executen salts, curses de durada aleatòria, temps de reacció i ritmes per provar les característiques del programa.
+
+<p><li>Quan sortirà la versió 1.0 i quines prestacions tindrà? 
+<p>
+A data d'avui (versió :::currentVersion:::), el Chronojump ja té més prestacions que la resta de solucions comercials i no-comercials de què tenim coneixement. Però encara queden molts aspectes per incorporar i millorar. 
+<br>
+Si desitgeu fer peticions de característiques no dubteu a escriure un correu a la llista de correu <a href="contact_ca.html">chronojump-list</a>. Accediu a <a href="features_ca.html">més informació de les característiques</a>.
+
+<p><li> Com puc conèixer les darreres novetats del projecte? 
+<p>
+Consulti els <a href="http://chronojump.org">foros</a>. A més a més, podeu consultar l'arxiu <a href="http://cvs.gnome.org/viewcvs/chronojump/changelog.txt?view=markup"><i>changelog</i> o registre de canvis</a>.
+
+<p><li>Per què s'anomena Chronojump si també serveix per a mesurar curses, temps de reacció i ritmes?
+<p>
+La idea inicial va ser crear un programari per mesurar els esdeveniments temporals de salt,  però s'ha comprovat que amb poc esforç, el mateix programari pot servir per a cronometrar tot tipus de curses, temps de reacció i ritmes. Encara que s'està treballant en aquesta línia, els esforços principals es destinen a la mesura de salts. Per aquest motiu el Chronojump conserva el seu nom inicial.
+
+<p><li>M'agradaria col·laborar-hi. Com ho puc fer? 
+<p>
+Consulti els <a href="http://chronojump.org">foros</a>.
+
+</ol>
+<p align="right"><a href="#top">Pugeu</a></p>

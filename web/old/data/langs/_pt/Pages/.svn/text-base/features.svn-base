@@ -1,0 +1,34 @@
+:::startTitle:::
+Características do programa de armazenamento e comparação
+:::endTitle:::
+
+ChronoJump permite registrar qualquer salto com as repetições que se deseje, iniciando dentro ou fora da plataforma, registrando independentemente tempos de contato e tempos de vôo, assim como carga extra, altura da queda, limitação por saltos ou tempo, e descrições da técnica.
+<p>
+ChronoJump utiliza uma pequena base de dados <a href="http://www.sqlite.org">Sqlite</a> que lhe capacita para vincular saltos aos sujeitos e sessões (momentos) e realizar qualquer tipo de comparações entre estas partes.
+<p>
+É possível e simples criar novos tipos de saltos com as variáveis descritas anteriormente.
+<p>
+É multiplataforma; ao ser programado em C# usando Mono, deveria funcionar corretamente em GNU/Linux, MacOSX, Windows, ... funciona em GNU/Linux, Windows.
+<p>
+Incorpora as seguintes estatísticas (sempre que não se especifique o contrario, permite mostrar medias, valores máximos, ou todos os valores de uma única sessão ou entre um número indeterminado de sessões (longitudinal), e com distinção de gênero)
+<ul>
+<li>Resumo de uma ou várias sessões
+<li>Estudo de um único sujeito
+<li>Tempo de vôo de saltos simples
+<li>Tempo de contato, tempo de vôo e índice entre ambos em saltos con quedas e em saltos repetitivos (em breve se implementará também a velocidade de saída).
+<li>Potência em saltos repetitivos
+<li>Evolução de saltos repetitivos (em uma única numa sessão)
+<li>Índice de elasticidade e de utilização de braços
+<li>...(a modularidade de ChronoJump facilita a inclusão de novos estatísticas)
+</ul>
+
+Chronojump permite también el estudio de <b>carreras</b>, <b>tiempo de reacción</b> y <b>ritmos</b>. [pendiente de traducir]
+
+<p>
+
+Graficação de todos as estatísticas descritos mediante a biblioteca gráfica NPlot.
+<p>
+Exportação de dados dos saltos à planilhas eletrônicas (formato CSV).
+<p>
+Criação de relatorios personalizados de todos os dados obtidos e das estatísticas (formato HTML)
+

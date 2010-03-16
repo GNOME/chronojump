@@ -1,0 +1,39 @@
+:::startTitle:::
+Características do software de xestión
+:::endTitle:::
+
+ChronoJump permite rexistrar calquera salto coas repeticións desexadas, iniciándose desde dentro ou fóra da plataforma, rexistrando independentemente tempos de contacto e tempos de voo, así como a carga extra, a altura da caída, a limitación por saltos ou tempo e descricións da técnica.
+<p>
+ChronoJump usa unha pequena base de datos <a href="http://www.sqlite.org/">Sqlite</a> que o capacita para ligar saltos a suxeitos e sesións, e para realizar todo tipo de comparacións entre estas entidades.
+
+<p>
+É posible e sinxelo crear novos tipos de saltos coas variables descritas con anterioridade.
+
+<p>
+É multiplataforma. Ao estar programado en C# usando Mono, debería funcionar correctamente en GNU/Linux, MacOSX, Windows, ... Polo de agora, só se probou en GNU/Linux é Windows.
+
+<p>
+Incorpora as seguintes estatísticas (sempre que non se especifique o contrario, permite mostrar medias, valores máximos, ou todos os valores dunha única sesión ou entre un número indeterminado de sesións -lonxitudinal-, e distinción de xénero)
+<ul>
+<li> Resumo dunha ou varias sesións
+<li> Estudo dun único suxeito
+
+<li> Tempo de voo de saltos simples
+<li> Tempo de contacto, tempo de voo e índice entre ambos en saltos con caída e en saltos repetitivos (en breve engadirase tamén a velocidade de saída).
+<li> Potencia en saltos repetitivos
+<li> Evolución de saltos repetitivos (unicamente nunha sesión)
+<li> Índice de elasticidade e de uso dos brazos
+<li> ...(a modularidade de ChronoJump facilita a inclusión de novas estatísticas)
+</ul>
+
+Chronojump permite también el estudio de <b>carreras</b>, <b>tiempo de reacción</b> y <b>ritmos</b>. [pendiente de traducir]
+
+<p>
+
+Representación gráfica de todas as estatísticas descritas mediante a libraría gráfica <a href="http://netcontrols.org/nplot/">NPlot</a>.
+
+<p>
+Exportación de saltos a follas de cálculo (formato CSV).
+<p>
+Creación de informes personalizados de todos os datos obtidos e das estatísticas (formato HTML). 
+

@@ -1,0 +1,40 @@
+:::startTitle:::
+Introdução
+:::endTitle:::
+
+	<h5><b>ChronoJump</b> é um sistema completo multiplataforma para medir, comparação e estatística das fases temporais do salto.</h5>
+	<center>
+	<table border="0" cellspacing="4" cellpadding="4">
+
+	<tr bgcolor="#e6e6fa"><th align="center">
+	Saltos (test de Bosco e outros saltos)
+	</th><th align="center">
+	Carreiras (velocidade, intervalos)
+	</th></tr>
+
+	<tr><td align="center">
+	<img src=":::webLink:::/chronojump_esquema_jump_250.png" width="250" height="122" hspace="6" vspace="8">
+	<br>
+	</td><td align="center">
+	<img src=":::webLink:::/chronojump_esquema_run_250.png" width="250" height="95" hspace="6" vspace="8">
+	<br>
+	</td></tr>
+
+	<tr bgcolor="#e6e6fa"><th align="center">
+	Tempo de reacción
+	</th><th align="center">
+	Ritmo (pulsación)
+	</th></tr>
+
+	<tr><td align="center">
+	<img src=":::webLink:::/chronojump_esquema_reaction_time_250.png" width="250" height="195" hspace="6" vspace="8">
+	</td><td align="center">
+	<img src=":::webLink:::/chronojump_esquema_pulse_250.png" width="250" height="65" hspace="6" vspace="8">
+	</td></tr>
+
+	</table>
+	</center>
+	<p>
+	Chronojump usa uma plataforma de contato com dos (na plataforma e fora dela) e de um circuito impresso (placa) cronometrador desenhado ah-doc para obter medidas precisas e fiáveis.
+	<p>
+	O tempo de vôo de um salto é indicador da elevação do Centro de Gravidade do mesmo (sempre e quando a posição de saída e de chegada seja a mesma). Chronojump pode ser usado também para a cronometrajem de corridas inclusive com intervalos, tempo de reação e ritmos.

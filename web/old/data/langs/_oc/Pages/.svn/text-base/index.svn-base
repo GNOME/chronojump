@@ -1,0 +1,41 @@
+:::startTitle:::
+Introduction
+:::endTitle:::
+
+
+<h5><b>ChronoJump</b> est un système complet pour la mesure, la gestion et les statistiques des événements de saut et d'autres actions</h5>
+	<center>
+	<table border="0" cellspacing="4" cellpadding="4">
+
+	<tr bgcolor="#e6e6fa"><th align="center">
+	Saut (Bosco test e outres)
+	</th><th align="center">
+	Courses (vitesse, intervalles)
+	</th></tr>
+
+	<tr><td align="center">
+	<img src=":::webLink:::/chronojump_esquema_jump_250.png" width="250" height="122" hspace="6" vspace="8">
+	<br>
+	</td><td align="center">
+	<img src=":::webLink:::/chronojump_esquema_run_250.png" width="250" height="95" hspace="6" vspace="8">
+	<br>
+	</td></tr>
+
+	<tr bgcolor="#e6e6fa"><th align="center">
+	temps de réaction
+	</th><th align="center">
+	Rythme (pulsation)
+	</th></tr>
+
+	<tr><td align="center">
+	<img src=":::webLink:::/chronojump_esquema_reaction_time_250.png" width="250" height="195" hspace="6" vspace="8">
+	</td><td align="center">
+	<img src=":::webLink:::/chronojump_esquema_pulse_250.png" width="250" height="65" hspace="6" vspace="8">
+	</td></tr>
+
+	</table>
+	</center>
+<p>
+Chronojump utilise une plateforme de contacts pour deux signaux (une plateforme interne, une plateforme externe), et également un chronomètre conçu par circuit imprimé <i>ad-hoc</i> afin d'obtenir des mesures précises et réelles.
+<p>
+Le temps de vol d'un saut indique l'altitude du centre de gravité du sauteur (d'autant que la position de départ et d'arrivée sont identiques). ChronoJump bidon également être employé pour des courses de synchronisation même avec des intervalles, temps de réaction e rhytme.

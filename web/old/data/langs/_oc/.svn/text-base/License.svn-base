@@ -1,0 +1,20 @@
+</div></div>
+</td><td>
+<div id="sidebar">
+				<h3>Licence</h3>
+				<p>
+				ChronoJump est un <a href="http://fr.wikipedia.org/wiki/Logiciel_libre">logiciel&nbsp;libre</a> distribué sous le permis de <a href="http://fr.wikipedia.org/wiki/Licence_publique_g%C3%A9n%C3%A9rale_GNU">GPL</a>. Le <em>code source</em> <a href="http://svn.gnome.org/viewcvs/chronojump/trunk/">de&nbsp;programme et de&nbsp;chronomètre</a> est disponible, il est également possible de modifier et redistribuer.
+				<br><br>
+				Des directives de construction accompagnent le chronomètre et la plateforme de contacts.
+				<br><br>
+				Il n'est pas possible de vérifier la validité et la fiabilité d'un instrument de mesure numérique si le <em>code source</em> n'est pas disponible. Par conséquent Chronojump est approprié aux investigations.
+			      </p>
+				<h3>Auteurs</h3>
+				:::authors:::
+				<h3>Collaborations</h3>
+				:::colaborations:::
+				<h3>Contributeurs</h3>
+				:::contributors:::
+</div>
+</td></tr></table>
+

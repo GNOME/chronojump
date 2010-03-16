@@ -1,0 +1,95 @@
+9
+
+dir
+433
+svn+ssh://xaviblas@svn.gnome.org/svn/chronojump/trunk/web/data/langs
+svn+ssh://xaviblas@svn.gnome.org/svn/chronojump
+
+
+
+2008-10-21T11:12:38.135613Z
+422
+xaviblas
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+239dc609-e825-0410-ba49-a9d8d88fbd1c
+
+_oc
+dir
+
+_en
+dir
+
+_gl
+dir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+svn+ssh://xaviblas@svn.gnome.org/svn/chronojump/trunk/web/_gl
+195
+
+_ca
+dir
+
+_pt
+dir
+
+_es
+dir
+
+_fr
+dir
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+svn+ssh://xaviblas@svn.gnome.org/svn/chronojump/trunk/web/_fr
+195
+
+_de
+dir
+
+_it
+dir
+

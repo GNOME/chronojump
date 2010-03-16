@@ -1,0 +1,48 @@
+:::startTitle:::
+Construcción de pulsador
+:::endTitle:::
+
+Autores: <b>Xavier de Blas Foix, Josep Ma Padullés</b>. Proyecto Chronojump. Abril 2009.
+<br><br>
+<b>Descripción</b>
+Se pretende construir un pulsador que se conectará al Chronopic.
+<br>
+
+<b>Materiales</b>:
+<ul>
+<li>1 Pulsador (no interruptor), normalmente abierto (NA)
+<li>1 Caja pequeña
+<li>1 Conector RCA macho
+<li>Lija redondeada
+<li>Soldador
+</ul>
+
+<p></p><h3>Instrucciones</h3>
+
+<ol>
+<li>Materiales
+<br>
+<img src=":::imageLink:::/pulsador1.jpg">
+
+<li>Lijando la caja
+<br>
+<img src=":::imageLink:::/pulsador2.jpg">
+
+<li>Conectando los cables al pulsador
+<br>
+<img src=":::imageLink:::/pulsador3.jpg">
+
+<li>Conectando cables al RCA macho
+<br>
+<a href=":::imageLink:::/velleman_connecting2_rca.jpg"><img src=":::imageLink:::/velleman_connecting2_rca_small.jpg"></a>
+
+<li>Pulsador finalizado
+<br>
+<img src=":::imageLink:::/pulsador4.jpg">
+</ol>
+
+<hr width ="50%">
+Discuta esta información en el foro: <a href="http://foro.chronojump.org/showthread.php?tid=16">Instrucciones para la construcción de un pulsador (foro de Chronojump)</a>.
+
+<p>
+Xavier de Blas, Josep Ma Padullés. Agradecimientos a Luis Tortosa.

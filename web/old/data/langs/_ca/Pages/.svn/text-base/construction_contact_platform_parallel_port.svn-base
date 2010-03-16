@@ -1,0 +1,38 @@
+:::startTitle:::
+Construcció / Plataforma de contactes per port paral·lel
+:::endTitle:::
+
+<b>Aquest mètode no és compatible amb el ChronoJump</b>. El mètode es refereix als antics programes Salta i Gsalta, reemplaçats actualment pel ChronoJump.  El ChronoJump <b>no</b> utilitza el port paral·lel. Però aquesta informació es manté per raons històriques. 
+
+<h5>Connexió pel port paral·lel </h5>
+
+Continuant el mètode descrit en la <a href="construction_contact_platform_ca.html">fabricació de la plataforma de contactes</a>... 
+
+<p>
+unirem un cap del cable que procedeix d'un costat dels conjunts vareta a un cable del connector DB25 i el farem arribar a l'entrada "patilla" número  19. L'altra punta del cable la fixarem a un  acable del DB25 que anirà a un pont situat entre les entrades "patilles"  número 6,7 i 11. Entre els dos cables hi pot anar un pont lluminós o led, l'entrada negativa (patilla negativa) del qual anirà connectada a l'entrada número 19, i l'entrada positiva al pont. 
+<p>
+<center><img src=":::imageLink:::/plataforma_contactos_puerto_paralelo.jpg"></center>
+
+<h5>Comentaris</h5>
+
+En Javier Peña López ens comenta que, si l'ordinador no detecta la manta, caldrà accedir a la seva BIOS (prement la tecla F1 a l'inici, o F2, o SUPR, segons els models) i seguir els passos següents: 
+
+<ol>
+<li>Habiliteu la disquetera de 3 i 1/2 com a disc prioritari d'arrencada (això si teniu disquetera, en cas contrari, la unitat que més us interessi, com per exemple, un Cdrom que tingui els arxius del disc gravats). La seqüència en anglès en el meu ordinador queda així: FDD-HDD-CD ROM-LAN, és una opció de BIOS que s'anomena BOOT PRIORITY. 
+<li>En segon lloc cal cercar l'apartat de la BIOS referent al port paral·lel i mirar que estigui habilitat  de manera BIDIRECCIONAL O PARALLEL PORT MODE: STD. BI-DIRECTIONAL (en detriment de l'opció ECP) que en el cas del meu ordinador estava activada per defecte. 
+<li>Dins de l'opció ports o en una opció a part anomenada I/O PORTS hem de veure-hi la DIRECCION BASE com a 378 i INTERRUPCION ha de ser IRQ 7Â/º , o bé, habilitar el port amb l'opció LPT1 (378H/IRQ 7) 
+</ol>
+
+Amb tots aquests passos i acceptant els canvis, l'ordinador es reiniciarà, i  si introduïm el disc d'arrencada quan s'activa MS-DOS, arrenca Salta2 i la plataforma funciona correctament.
+<p>
+
+Malgrat que desconec el motiu (però l'esbrinaré), lamentablement el pas 3 només funciona de forma transitòria i quan iniciem Windows XP torna a estar deshabilitada l'opció. Per a fer funcionar Salta2 cal tornar a realitzar el pas 3, la BIOS conserva els dos anteriors. 
+<p>
+Aquests canvis els he deduït amb l'ajuda d'un tutorial de BIOS, comparant un ordinador on funcionava el programa i el meu. Mètode empíric pur, si d'aquí  una estona no puc imprimir Tot sigui per la ciència!!! Una salutació i espero que us hagi estat d'utilitat. 
+
+<hr width ="50%">
+En Joraike comentava en <a href="http://www.deporteyciencia.com/article.pl?sid=04/07/06/096224">aquesta història de deporteyciencia.com</a> el següent: 
+<ul>
+<li>El cable paral·lel és millor que sigui robust, no compreu un cable prim, i quan peleu el cable, feu-ho ben ajustat, amb un 1 cm serà suficient, fins i tot, una mica menys, així evitareu que el cable pugui sortir quan l'agafeu amb la rebladura. 
+<li>Un cop fetes les soldadures recobriu-les amb cola, d'aquesta forma evitareu que es desenganxin i toquin l'altre cable.
+</ul>

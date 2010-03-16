@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="es   ">
+
+			  <head>
+			  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>ChronoJump - programari lliure per a cronometrar el salt, la cursa, el temps de reacci&oacute; i el ritme</title>
+		<style type="text/css">
+			@import url(style.css);
+		</style>
+		</head>
+
+		<body id="page-main" class="with-sidebar">
+		<h4 id="top">
+Contacti
+</h4>
+
+Esteu convidat a participar en el desenvolupament del ChronoJump aportant idees, fent peticions de 
+funcionalitats, aix&iacute; com traduint, corregint errades, programant, etc.
+<p>
+<table width="100%" border="0" cellspacing="2" cellpadding="4">
+	<tr bgcolor="#e6e6fa"><th>Llistes de correu</th><th>descripci&oacute;</th><th>idioma</th><th>enlla&ccedil;os</th></tr>
+	<tr>
+		<th>chronojump-list</th>
+		<td>discussi&oacute; sobre ChronoJump. Recomanada!</td>
+		<td>angl&egrave;s,&nbsp;espanyol</td>
+		<td>
+			<a href="http://mail.gnome.org/mailman/listinfo/chronojump-list?language=es">subscriure's</a>
+			<br>
+			<a href="http://mail.gnome.org/archives/chronojump-list/">veure&nbsp;arxius</a>
+		</td>
+	</tr>
+	<tr>
+		<th>chronojump-devel-list</th>
+		<td>lista <b>t&egrave;cnica</b> per col&middot;laborar en el desenvolupament de ChronoJump</td>
+		<td>angl&egrave;s,&nbsp;espanyol</td>
+		<td>
+			<a href="http://mail.gnome.org/mailman/listinfo/chronojump-devel-list?language=es">subscriure's</a>
+			<br>
+			<a href="http://mail.gnome.org/archives/chronojump-devel-list/">veure&nbsp;arxius</a>
+		</td>
+	</tr>
+</table>
+
+<h5>Instruccions</h5>
+Per a poder contactar amb els responsables del projecte o amb d'altres usuaris cal que es subscrigui a una de les dues llistes de correu. Segueixi els seg&uuml;ents passos:
+<ol>
+<li>Faci clic a l'enlla&ccedil; <tt>subscriure's</tt> de la llista que li interessi.
+<li>Escrigui el seu correu electr&ograve;nic (comprovi que &eacute;s correcte), i si ho desitja el seu nom.
+<li>Escrigui una contrasenya que no sigui important, quelcom com "1234" on s'indica <tt>password</tt>.
+<li>Faci clic a <tt>Subscribir</tt>.
+<li>Li arribar&agrave; un correu al seu correu electr&ograve;nic.
+<li>Respongui el correu sense modificar res. Nom&eacute;s faci clic a <tt>respondre</tt>.
+<li>Li arribar&agrave; un correu de confirmaci&oacute;.
+</ol>
+
+A partir d'aquest moment ja pot escriure a la llista a la que estigui subscrit enviant un correu a:
+<ul>
+<li>chronojump-list@gnome.org (per a la llista chronojump-list)
+<li>chronojump-devel-list@gnome.org (per a la llista chronojump-devel-list)
+</ul>
+
+El seu correu arribar&agrave; a tots els membres de la llista en q&uuml;esti&oacute;.
+<br><br>
+Quan estigui subscrit, &eacute;s de cortesia que envii un correu de presentaci&oacute;.
+</body></html>

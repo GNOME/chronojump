@@ -1,0 +1,99 @@
+:::startTitle:::
+Construcción de plataforma de contactos modular de circuito impreso
+:::endTitle:::
+
+Autores: <b>Josep Ma Padullés, Xavier de Blas Foix</b>. Proyecto Chronojump. Feb 2009.
+<br><br>
+<b>Descripción</b>
+La presente plataforma está creada por circuitos impresos de una cara de tamaño DIN-A4. Estos son de gran rigidez y toda su superfície es óptima para el contacto
+Se puede acoplar tantos pares de placas como se desee y en cualquier forma bidimensional. La disposición de las placas se puede modificar y ampliar en cualquier momento de forma sencilla.
+<br>
+<b>Comparación</b> con <a href="construction_contact_platform_es.html">plataforma de contactos de varillas</a>.
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<tr bgcolor="#e6e6fa"><th width="60%">Ventajas</th><th width="30%">Desventaja</th></tr>
+<tr><td valign="top">
+	<ol>
+		<li>Es muy buen conductor.
+		<li>Es resistente a la flexión (fibra de vidrio).
+		<li>Toda la zona del circuito impreso produce contacto. No hay falsos contactos o problemas derivados de que la punta de los pies pueda estar en la zona entre varillas en el despegue o en la caída.
+		<li>Es modular de manera que se puede disponer como se desee en todo momento y ampliar sin problemas.
+		<li>Es plegable.
+		<li>La fabricación es rápida para plataformas de pequeño tamaño.
+		<li>Se puede convertir rápidamente en un circuito de cronometrado separando un par de placas del otro.
+	</ol>
+</td><td valign="top">
+	<ol>
+		<li>Es más cara para plataformas de un metro o más. Económicamente no resulta rentable para plataformas en que se necesite una amplia superfície de contacto 1mx1m o más.
+	</ol>
+</td></tr>
+</table>
+
+
+<b>Materiales</b>:
+<ul>
+<li>4 placas de circuito impreso de una cara tamaño DIN-A4 (300x200)
+<li>1 placa de circuito impreso de doble cara tamaño 60x80
+<li>Cinta de doble cara
+<li>Soldador
+<li>Conector RCA hembra
+<li>Cables
+</ul>
+
+La compra se realizón en la tienda Diotronic de Barcelona. La referencia de las placas fue:
+<ul>
+<li>Fibra 1 cara virgen. REF 250516. Placa VIR FV 1C 200x300 (10,9€ cada una +IVA)
+<li>Placa VIR FV 2C 60x80 (1€ +IVA)
+<li>Cinta Pattex doble cara rollo (5,12€ +IVA)
+</ul>
+
+<p></p><h3>Instrucciones (haga clic para ampliar las imágenes)</h3>
+
+<ol>
+<li>Vista externa del circuito impreso:
+<br>
+<a href=":::imageLink:::/modular_platform_circuit_board_external.jpg"><img src=":::imageLink:::/modular_platform_circuit_board_external_mini.jpg"></a>
+
+<li>Vista interna del circuito impreso:
+<br>
+<a href=":::imageLink:::/modular_platform_circuit_board_internal.jpg"><img src=":::imageLink:::/modular_platform_circuit_board_internal_mini.jpg"></a>
+
+<li>En pimer lugar colocamos la cinta de doble cara en la cara interna del circuito impreso:
+<br>
+<a href=":::imageLink:::/modular_platform_tape_removal.jpg"><img src=":::imageLink:::/modular_platform_tape_removal_mini.jpg"></a>
+
+<li>Dejamos espacio en el centro de cada uno de los laterales para que se puedan acoplar las placas como se desee. La placa que se ve en el centro es la que hemos usado de referencia en la creación de los espacios.
+<br>
+<a href=":::imageLink:::/modular_platform_circuit_board_internal_tape.jpg"><img src=":::imageLink:::/modular_platform_circuit_board_internal_tape_mini.jpg"></a>
+
+<li>Aquí se ve el par de placas correspondiente a un pie. La pequeña placa que se ve a la izquierda no está insertada, simplemente se ha colocado para ver cómo quedará el puente entre los pares de placas. <br>
+A la derecha hemos soldado un cable a cada una de las caras internas de las placas. Dichas soldaduras están separadas de manera que no hagan contacto y unidas a una conexión RCA hembra.
+<br>
+<a href=":::imageLink:::/modular_platform_one_foot_done.jpg"><img src=":::imageLink:::/modular_platform_one_foot_done_mini.jpg"></a>
+
+<li>A continuación procedemos a la creación del puente entre dos pares de placas. Para ello hemos cortado la placa de doble cara en cuatro trozos, aunque en la presente plataforma sólo usaremos dos. Soldamos un cable en cada uno de los lados de estas placas de doble cara, de manera que tendremos cuatro soldaduras. El puente será el conjunto formado por los dos trozos de placas de doble cara y sus dos cables soldados. Dicho puente es móvil, de manera que podremos colocarlo y extraerlo haciendo simplemente una ligera presión.<br>
+Aquí se ve el puente insertado en un par de placas:
+<table boder="0">
+<tr>
+<td><a href=":::imageLink:::/modular_platform_bridge.jpg"><img src=":::imageLink:::/modular_platform_bridge_mini.jpg"></a></td>
+<td><a href=":::imageLink:::/modular_platform_bridge2.jpg"><img src=":::imageLink:::/modular_platform_bridge2_mini.jpg"></a></td>
+</tr>
+</table>
+
+<li>En esta fotografía vemos el conjunto terminado conectado a Boscosystem:
+<br>
+<a href=":::imageLink:::/modular_platform_with_boscosystem.jpg"><img src=":::imageLink:::/modular_platform_with_boscosystem_mini.jpg"></a>
+
+<li>En esta fotografía vemos el conjunto terminado conectado a Chronopic3:
+<br>
+<a href=":::imageLink:::/modular_platform_with_chronopic.jpg"><img src=":::imageLink:::/modular_platform_with_chronopic_mini.jpg"></a>
+
+<li>Sólo queda comprar una funda de plástico plegable y opcionalmente añadirle un velcro con cinta de doble cara.
+</ol>
+
+<hr width ="50%">
+Discuta esta información en el foro: <a href="http://foro.chronojump.org/showthread.php?tid=11">Nueva plataforma modular. Instrucciones para la construcción (foro de Chronojump)</a>.
+
+<p>
+Josep Ma Padullés, Xavier de Blas
+<br>
+<a href=":::imageLink:::/modular_platform_padu_xavi.jpg"><img src=":::imageLink:::/modular_platform_padu_xavi_mini.jpg"></a>

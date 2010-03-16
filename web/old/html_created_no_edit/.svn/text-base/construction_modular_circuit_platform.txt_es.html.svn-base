@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="es   ">
+
+			  <head>
+			  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>ChronoJump - software libre para cronometrado del salto, carrera, tiempo de reacci&oacute;n y ritmo</title>
+		<style type="text/css">
+			@import url(style.css);
+		</style>
+		</head>
+
+		<body id="page-main" class="with-sidebar">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr><td align="left">
+		<div align="left"><a href="http://chronojump.org" border="0"><img src="images/chronojump33.png" alt="logo" width="591" height="177" border="0"></a><br>
+		</div>
+		</td><td valign="bottom" align="right">
+		<div id="sidebar">
+<ul>
+<li>Catal&agrave; (pending)</li>
+<li>English (pending)</li>
+<li id="currentLanguage">Espa&ntilde;ol</li>
+<li>Fran&ccedil;ais (pending)</li>
+<li>Galego (pending)</li>
+<li>Italiano (pending)</li>
+<li>Portugu&ecirc;s (pending)</li>
+</ul><br>
+</div></td></tr></table>
+<ul id=nav-top>
+<ul>
+<li><a href="http://chronojump.org">P&aacute;g. Principal</a></li>
+<li><a href="index_es.html">Introducci&oacute;n </a></li>
+<li><a href="faq_es.html">FAQ</a></li>
+<li><a href="screenshots_es.html">Fotos</a></li>
+<li><a href="documents_es.html">Documentos</a></li>
+<li><a href="installation_es.html">Instalaci&oacute;n</a></li>
+<li><a href="hardware_es.html">Hardware</a></li>
+<li><a href="courses_es.html">Cursos</a></li>
+</ul>    
+</ul>
+<table border = "0" width = "100%" cellpadding="0" cellspacing="0">
+
+			<tr valign="top"><td align="left">
+
+			<div id="content">
+			<div id="content-body"><table border="0" width="100%"><tr><td align="left"><h4 id="top">
+Construcci&oacute;n de plataforma de contactos modular de circuito impreso
+</h4></td><td align="right"><a href="print/construction_modular_circuit_platform.txt_es.html"><font size="2"><tt>Versi&oacute;n imprimible
+</tt></font></a></td></tr></table>
+
+Autores: <b>Josep Ma Padull&eacute;s, Xavier de Blas Foix</b>. Proyecto Chronojump. Feb 2009.
+<br><br>
+<b>Descripci&oacute;n</b>
+La presente plataforma est&aacute; creada por circuitos impresos de una cara de tama&ntilde;o DIN-A4. Estos son de gran rigidez y toda su superf&iacute;cie es &oacute;ptima para el contacto
+Se puede acoplar tantos pares de placas como se desee y en cualquier forma bidimensional. La disposici&oacute;n de las placas se puede modificar y ampliar en cualquier momento de forma sencilla.
+<br>
+<b>Comparaci&oacute;n</b> con <a href="construction_contact_platform_es.html">plataforma de contactos de varillas</a>.
+<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<tr bgcolor="#e6e6fa"><th width="60%">Ventajas</th><th width="30%">Desventaja</th></tr>
+<tr><td valign="top">
+	<ol>
+		<li>Es muy buen conductor.
+		<li>Es muy resistente.
+		<li>Toda la zona del circuito impreso produce contacto. No hay falsos contactos o problemas derivados de que la punta de los pies pueda estar en la zona entre varillas en el despegue o en la ca&iacute;da.
+		<li>Es modular de manera que se puede disponer como se desee en todo momento y ampliar sin problemas.
+		<li>Es plegable.
+		<li>La fabricaci&oacute;n es r&aacute;pida para plataformas de peque&ntilde;o tama&ntilde;o.
+		<li>Se puede convertir r&aacute;pidamente en un circuito de cronometrado separando un par de placas del otro.
+	</ol>
+</td><td valign="top">
+	<ol>
+		<li>Es m&aacute;s cara para plataformas de un metro o m&aacute;s. Econ&oacute;micamente no resulta rentable para plataformas en que se necesite una amplia superf&iacute;cie de contacto 1mx1m o m&aacute;s.
+	</ol>
+</td></tr>
+</table>
+
+
+<b>Materiales</b>:
+<ul>
+<li>4 placas de circuito impreso de una cara tama&ntilde;o DIN-A4 (300x200)
+<li>1 placa de circuito impreso de doble cara tama&ntilde;o 60x80
+<li>Cinta de doble cara
+<li>Soldador
+<li>Conector RCA hembra
+<li>Cables
+</ul>
+
+La compra se realiz&oacute;n en la tienda Diotronic de Barcelona. La referencia de las placas fue:
+<ul>
+<li>Fibra 1 cara virgen. REF 250516. Placa VIR FV 1C 200x300 (10,9€ cada una +IVA)
+<li>Placa VIR FV 2C 60x80 (1€ +IVA)
+<li>Cinta Pattex doble cara rollo (5,12€ +IVA)
+</ul>
+
+<p></p><h3>Instrucciones (haga clic para ampliar las im&aacute;genes)</h3>
+
+<ol>
+<li>Vista externa del circuito impreso:
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_circuit_board_external.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_circuit_board_external_mini.jpg"></a>
+
+<li>Vista interna del circuito impreso:
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_circuit_board_internal.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_circuit_board_internal_mini.jpg"></a>
+
+<li>En pimer lugar colocamos la cinta de doble cara en la cara interna del circuito impreso:
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_tape_removal.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_tape_removal_mini.jpg"></a>
+
+<li>Dejamos espacio en el centro de cada uno de los laterales para que se puedan acoplar las placas como se desee. La placa que se ve en el centro es la que hemos usado de referencia en la creaci&oacute;n de los espacios.
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_circuit_board_internal_tape.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_circuit_board_internal_tape_mini.jpg"></a>
+
+<li>Aqu&iacute; se ve el par de placas correspondiente a un pie. La peque&ntilde;a placa que se ve a la izquierda no est&aacute; insertada, simplemente se ha colocado para ver c&oacute;mo quedar&aacute; el puente entre los pares de placas. <br>
+A la derecha hemos soldado un cable a cada una de las caras internas de las placas. Dichas soldaduras est&aacute;n separadas de manera que no hagan contacto y unidas a una conexi&oacute;n RCA hembra.
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_one_foot_done.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_one_foot_done_mini.jpg"></a>
+
+<li>A continuaci&oacute;n procedemos a la creaci&oacute;n del puente entre dos pares de placas. Para ello hemos cortado la placa de doble cara en cuatro trozos, aunque en la presente plataforma s&oacute;lo usaremos dos. Soldamos un cable en cada uno de los lados de estas placas de doble cara, de manera que tendremos cuatro soldaduras. El puente ser&aacute; el conjunto formado por los dos trozos de placas de doble cara y sus dos cables soldados. Dicho puente es m&oacute;vil, de manera que podremos colocarlo y extraerlo haciendo simplemente una ligera presi&oacute;n.<br>
+Aqu&iacute; se ve el puente insertado en un par de placas:
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_bridge.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_bridge_mini.jpg"></a>
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_bridge2.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_bridge2_mini.jpg"></a>
+
+<li>En esta fotograf&iacute;a vemos el conjunto terminado conectado a Boscosystem:
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_with_boscosystem.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_with_boscosystem_mini.jpg"></a>
+
+<li>En esta fotograf&iacute;a vemos el conjunto terminado conectado a Chronopic3:
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_with_chronopic.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_with_chronopic_mini.jpg"></a>
+
+<li>S&oacute;lo queda comprar una funda de pl&aacute;stico plegable y opcionalmente a&ntilde;adirle un velcro con cinta de doble cara.
+</ol>
+
+<p>
+Josep Ma Padull&eacute;s, Xavier de Blas
+<br>
+<a href="http://projects.gnome.org/chronojump/images/modular_platform_padu_xavi.jpg"><img src="http://projects.gnome.org/chronojump/images/modular_platform_padu_xavi_mini.jpg"></a>
+</div></div>
+</td><td>
+<div id="sidebar">
+				<h3>Premio</h3>
+				<p><img src="images/tropheesdulibre.jpg"><br>
+				Chronojump gana <a href="http://tropheesdulibre.com">premio de software libre 2007</a> en la categor&iacute;a de educaci&oacute;n.
+				</p>
+				<h3>Licencia</h3>
+				<p>
+					ChronoJump es <a href="http://es.wikipedia.org/wiki/Software_Libre">software&nbsp;libre</a> distribuido bajo la Licencia <a href="http://es.wikipedia.org/wiki/GPL">GPL</a>. El <a href="http://svn.gnome.org/viewcvs/chronojump/trunk/">c&oacute;digo&nbsp;fuente del&nbsp;programa y del&nbsp;cron&oacute;metro</a> puede ser consultado, as&iacute; como modificado y redistribuido.<br><br>
+					Se facilitan instrucciones de construcci&oacute;n de la plataforma de contactos y el cron&oacute;metro.<br><br>
+					No es posible verificar la validez y fiabilidad de un instrumento inform&aacute;tico de medida si no se facilita el <em>c&oacute;digo&nbsp;fuente</em>. Por esta raz&oacute;n ChronoJump es &oacute;ptimo para la investigaci&oacute;n.
+			      </p>
+				<h3>Autores</h3>
+				<ul>
+<li><a href="http://www.xdeblas.com">Xavier de Blas</a></li>
+<li><a href="http://www.iearobotics.com/personal/juan/">Ju&aacute;n Gonz&aacute;lez</a></li>
+<li><a href="mailto:juanfer@juanfer.com.ar">Juan Fernando Pardo</a></li>
+<li><a href="http://www.iearobotics.com/personal/ricardo/index.html">Ricardo G&oacute;mez</a></li>
+<li><a href="http://www.logicbrick.com/">Sharad Shankar</a></li>
+<li><a href="http://www.logicbrick.com/">Onkar Nath Mishra</a></li>
+</ul>
+
+				<h3>Colaboradores&nbsp;[a-z]</h3>
+				<ul>
+<li><a href="http://www.bortoleto.com/malu.htm">Maria Luisa Belloto</a>
+<li>Bernat Busc&agrave;
+<li><a href="http://pintant.cat/2006/12/28/no-marxis-lluny-alberto-2/">Alberto Garc&iacute;a-Fogeda</a>
+<li><a href="http://tirania.org/blog/">Miguel de Icaza</a>
+<li><a href="mailto:marchesedavid@yahoo.com.ar">David Marchese</a>
+<li>Josep Ma Padull&eacute;s
+<li><a href="http://pintant.cat/author/carles/">Carles Pina</a>
+<li><a href="mailto:carles.romagosa@uvic.cat">Carles Romagosa</a>
+</ul>
+
+				<h3>Contribuyen</h3>
+				<br><a href="http://www.deporteyciencia.com"><img src="images/deporteyciencia_blues.gif" width="88" height="110" border="0" alt="deporteyciencia.com sitio colaborativo en ciencias del deporte"></a>
+<br><br><A href="http://gnome.org"><IMG src="images/gnome_logo_88_blues.png" width="88" height="137" border="0" alt="GNOME"></A>
+
+</div>
+</td></tr></table>
+
+<div id="footer">
+
+		<hr width="98%" noshade size="1">
+		<table align="center" width="98%" border="0" cellpadding="0" cellspacing="0">
+
+		<tr><td align="left">Traducci&oacute;n al espa&ntilde;ol por <a href="mailto:xavi@xdeblas.com">Xavier de Blas</a>
+</td><td>Web dise&ntilde;ada por <a href="http://www.41010.com" title="41010" target="_blank">Zazu Vega</a>
+</td></tr>
+
+		</div>
+
+		</body>
+
+		</html>

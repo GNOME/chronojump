@@ -1,0 +1,6 @@
+# m h  dom mon dow   command
+5,15,25,35,45,55 * * * * /root/chronojump_server_alive.exe
+6,16,26,36,46,56 * * * * /root/reload_xsp2
+7 3 * * * /root/update-r-graphs
+0 3 * * * /usr/local/bin/backup_mysql.sh
+

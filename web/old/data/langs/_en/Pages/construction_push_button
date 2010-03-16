@@ -1,0 +1,48 @@
+:::startTitle:::
+Construction of a push button
+:::endTitle:::
+
+Authorss: <b>Xavier de Blas Foix, Josep Ma Padullés</b>. Chronojump project. April 2009.
+<br><br>
+<b>Description</b>
+We build a push button to be connected to the Chronopic.
+<br>
+
+<b>Materials</b>:
+<ul>
+<li>1 Push button (not interruptor), normally opened
+<li>1 Little box
+<li>1 RCA male connector
+<li>sandpaper
+<li>Soldering iron
+</ul>
+
+<p></p><h3>Instrucciones</h3>
+
+<ol>
+<li>Materials
+<br>
+<img src=":::imageLink:::/pulsador1.jpg">
+
+<li>Sanding the box
+<br>
+<img src=":::imageLink:::/pulsador2.jpg">
+
+<li>Connecting cables to the push button
+<br>
+<img src=":::imageLink:::/pulsador3.jpg">
+
+<li>Connecting cable to RCA male
+<br>
+<a href=":::imageLink:::/velleman_connecting2_rca.jpg"><img src=":::imageLink:::/velleman_connecting2_rca_small.jpg"></a>
+
+<li>Push button done
+<br>
+<img src=":::imageLink:::/pulsador4.jpg">
+</ol>
+
+<hr width ="50%">
+You can discuss about this information on the forum: <a href="http://forum.chronojump.org/showthread.php?tid=16">Instructions for the construction of a push button (Chronojump forum)</a>.
+
+<p>
+Xavier de Blas, Josep Ma Padullés. Thanks to Luis Tortosa.

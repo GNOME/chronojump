@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="es   ">
+
+			  <head>
+			  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>ChronoJump - free software for jump, run, reaction time and pulse timetracking</title>
+		<style type="text/css">
+			@import url(style.css);
+		</style>
+		</head>
+
+		<body id="page-main" class="with-sidebar">
+		<h4 id="top">
+News
+</h4>
+<ul>
+  <li>Chronojump&nbsp;nowadays <a href="http://mail.gnome.org/archives/chronojump-list/2007-November/msg00004.html">english</a>, <a href="http://mail.gnome.org/archives/chronojump-list/2007-November/msg00003.html">spanish</a> (Nov, 8, 2007)
+  <li>Chronojump <a href="http://mail.gnome.org/archives/chronojump-list/2007-November/msg00000.html">finalist on international software contest</a> (Nov, 6, 2007)
+  <li>Last&nbsp;Chronojump&nbsp;Version:&nbsp; <a href="installation.html"><b>0.6</b>&nbsp;(September-30-2007)</a> 
+  <li><a href="construction.html">chronopic 2.0 USB and serial</a> (Sept 2007)
+</ul>
+
+<h4>Introduction</h4>
+	
+<h5><b>ChronoJump</b> is a complete multiplatform system for measurement, management and statistics of jump time events (contact time, flight time), and other actions. </h5>
+	<center>
+	<table border="0" cellspacing="4" cellpadding="4">
+
+	<tr bgcolor="#e6e6fa"><th align="center">
+	Jumps (Bosco test and more)
+	</th><th align="center">
+	Races (speed, intervals)
+	</th></tr>
+
+	<tr><td align="center">
+	<img src="http://www.gnome.org/projects/chronojump/chronojump_esquema_jump_250.png" width="250" height="122" hspace="6" vspace="8">
+	<br>
+	</td><td align="center">
+	<img src="http://www.gnome.org/projects/chronojump/chronojump_esquema_run_250.png" width="250" height="95" hspace="6" vspace="8">
+	<br>
+	</td></tr>
+
+	<tr bgcolor="#e6e6fa"><th align="center">
+	Reaction time
+	</th><th align="center">
+	Rhythms (pulsation)
+	</th></tr>
+
+	<tr><td align="center">
+	<img src="http://www.gnome.org/projects/chronojump/chronojump_esquema_reaction_time_250.png" width="250" height="195" hspace="6" vspace="8">
+	</td><td align="center">
+	<img src="http://www.gnome.org/projects/chronojump/chronojump_esquema_pulse_250.png" width="250" height="65" hspace="6" vspace="8">
+	</td></tr>
+
+	</table>
+	</center>
+	<p>
+
+Chronojump uses a contact platform suitable for two events (in-platform, out-platform), and also a chronometer printed circuit designed <i>ad-hoc</i> in order to obtain precise and trustworthy measurements.
+<p>
+The flight time of a jump is an indicator of the elevation of the Center of gravity of the jumper (as long as the starting and arrival position are the same). ChronoJump can also be used for timing races even with intervals, reaction time and rhythms.
+</body></html>

@@ -175,7 +175,10 @@ int main(int argc,char **argv)
 	printf("--%d--\n", framesNumber);
 	*/
 
-	printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle seen;angle side;angle real\n");
+	//3D
+	//printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle seen;angle side;angle real\n");
+	//not 3D but record thresholds
+	printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle current; threshold, th.hip; th.knee; th.toe\n");
 
 	
 	/* initialization variables */
@@ -304,6 +307,12 @@ int main(int argc,char **argv)
 	int thresholdROIH = -1;
 	int thresholdROIK = -1;
 	int thresholdROIT = -1;
+	
+	//to store threshold at min angle
+	int thresholdAtMinAngle;
+	int thresholdROIHAtMinAngle = -1;
+	int thresholdROIKAtMinAngle = -1;
+	int thresholdROITAtMinAngle = -1;
 
 	int key;
 
@@ -355,6 +364,7 @@ int main(int argc,char **argv)
 //	kalman->state_post.data.fl[0] = &k0;
 /* /kalman */
 
+	bool storeResultImage = false;
 
 	while(!shouldEnd) 
 	{
@@ -421,7 +431,7 @@ int main(int argc,char **argv)
 			cvFlip( frame, frame_copy, 0 );
 
 
-imageGuiResult(gui, "a", font);
+//imageGuiResult(gui, "a", font);
 //cvWaitKey(50); //to print above message
 
 		if(!gray)
@@ -452,7 +462,7 @@ imageGuiResult(gui, "a", font);
 		cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 		CvRect maxrect;
 
-imageGuiResult(gui, "b", font);
+//imageGuiResult(gui, "b", font);
 //cvWaitKey(50); //to print above message
 
 		/*
@@ -476,12 +486,13 @@ imageGuiResult(gui, "b", font);
 			cvCvtColor(frame_copy,output,CV_BGR2GRAY);
 			cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 
-imageGuiResult(gui, "b1", font);
+//imageGuiResult(gui, "b1", font);
 //cvWaitKey(50); //to print above message
 
 
-			if(thresholdROIH != -1 || thresholdROIK != -1 || thresholdROIT != -1)  {
-imageGuiResult(gui, "b2", font);
+			if(thresholdROIH != -1 || thresholdROIK != -1 || thresholdROIT != -1)  
+			{
+//imageGuiResult(gui, "b2", font);
 //cvWaitKey(50); //to print above message
 				int pointSize = 30;
 				CvRect rect;
@@ -519,7 +530,7 @@ imageGuiResult(gui, "b2", font);
 					cvResetImageROI(gray);
 					cvResetImageROI(output);
 				}
-imageGuiResult(gui, "b3", font);
+//imageGuiResult(gui, "b3", font);
 //cvWaitKey(50); //to print above message
 
 
@@ -531,16 +542,16 @@ imageGuiResult(gui, "b3", font);
 				imagePrint(output, cvPoint(frame->width -200, frame->height-20), label, font, BLACK);
 
 				cvShowImage("threshold", output);
-imageGuiResult(gui, "b4", font);
+//imageGuiResult(gui, "b4", font);
 //cvWaitKey(50); //to print above message
 			}
 
 			if(framesCount >1) {
 
-imageGuiResult(gui, "b41", font);
+//imageGuiResult(gui, "b41", font);
 //cvWaitKey(50); //to print above message
 			CvSeq* seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
-imageGuiResult(gui, "b42", font);
+//imageGuiResult(gui, "b42", font);
 //cvWaitKey(50); //to print above message
 
 			hipMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
@@ -559,12 +570,6 @@ imageGuiResult(gui, "b42", font);
 //			crossPoint(frame_copy, cvPoint(prediction_pt.x +20, prediction_pt.y), WHITE, BIG); //0,0
 // /kalman 
 
-
-
-
-
-
-
 			crossPoint(frame_copy, hipMarked, GREY, MID);
 			crossPoint(frame_copy, kneeMarked, GREY, MID);
 			crossPoint(frame_copy, toeMarked, GREY, MID);
@@ -573,7 +578,7 @@ imageGuiResult(gui, "b42", font);
 			cvNamedWindow( "toClick", 1 );
 			cvShowImage("toClick", frame_copy);
 
-imageGuiResult(gui, "b5", font);
+//imageGuiResult(gui, "b5", font);
 //cvWaitKey(50); //to print above message
 
 
@@ -600,11 +605,11 @@ imageGuiResult(gui, "b5", font);
 				forcePause = true;
 				reloadFrame = true;
 			}
-imageGuiResult(gui, "b6", font);
+//imageGuiResult(gui, "b6", font);
 //cvWaitKey(50); //to print above message
 
 		} 
-imageGuiResult(gui, "b7", font);
+//imageGuiResult(gui, "b7", font);
 //cvWaitKey(50); //to print above message
 		
 	//	cvWaitKey(0); ok
@@ -613,11 +618,11 @@ imageGuiResult(gui, "b7", font);
 		else { //not skinOnlyMarkers
 			do {
 				cvThreshold(gray,segmentedValidationHoles, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-		*/
 
 				//create the largest contour image (stored on temp)
 				cvThreshold(gray,segmented,threshold,thresholdMax,CV_THRESH_BINARY_INV);
 				maxrect = findLargestContour(segmented, output, showContour);
+		*/
 
 			/*
 				//search in output all the black places (pants) and 
@@ -643,7 +648,7 @@ imageGuiResult(gui, "b7", font);
 		kneeOld = kneeMarked;
 		toeOld = toeMarked;
 
-imageGuiResult(gui, "c", font);
+//imageGuiResult(gui, "c", font);
 //cvWaitKey(50); //to print above message
 
 		/*
@@ -658,11 +663,23 @@ imageGuiResult(gui, "c", font);
 				thetaMarked = -1;
 			else {
 				thetaMarked = findAngle2D(hipMarked, toeMarked, kneeMarked);
+
+
+
+
+
 				//store minThetaMarked if not marked to reload (bad detection, or first frame)
 				if(!reloadFrame && thetaMarked < minThetaMarked) {
 					minThetaMarked = thetaMarked;
 					cvCopy(frame_copy,result);
+					storeResultImage = true;
 					lowestAngleFrame = framesCount;
+
+					//store thresholds	
+					thresholdAtMinAngle = threshold;
+					thresholdROIHAtMinAngle = thresholdROIH;
+					thresholdROIKAtMinAngle = thresholdROIK;
+					thresholdROITAtMinAngle = thresholdROIT;
 				}
 
 
@@ -730,7 +747,33 @@ imageGuiResult(gui, "c", font);
 						thetaMarked, minThetaMarked,
 						thetaABD, thetaRealFlex, minThetaRealFlex
 					     );
-				*/
+				 */
+			
+				/*	
+				printf("%d;%d;%d;%d;%d;%d;%d;%.2f;%d;%d;%d;%d\n", 
+						framesCount, 
+						hipMarked.x, frame->height - hipMarked.y,
+						kneeMarked.x, frame-> height - kneeMarked.y,
+						toeMarked.x, frame->height - toeMarked.y,
+						thetaMarked,
+						threshold, thresholdROIH, thresholdROIK, thresholdROIT
+				      );
+				      */
+				
+				printOnScreen(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
+						framesCount, 
+						hipMarked.x, frame->height - hipMarked.y,
+						kneeMarked.x, frame-> height - kneeMarked.y,
+						toeMarked.x, frame->height - toeMarked.y,
+						thetaMarked, minThetaMarked,
+						threshold, thresholdROIH, thresholdROIK, thresholdROIT
+					     );
+				
+				if(storeResultImage) {
+					cvCopy(frame_copy,result);
+					storeResultImage = false;
+				}
+
 
 				/*
 				   if( (programMode == validation || programMode == blackWithoutMarkers)
@@ -1291,6 +1334,17 @@ imageGuiResult(gui, "c", font);
 					shouldEnd = true;
 				}
 				
+				else if(mouseClicked == FORWARD) { 
+					forward = true;
+					imageGuiResult(gui, "Forwarding...", font);
+					done = true;
+				}
+
+				else if(mouseClicked == FASTFORWARD) { 
+					fastForward = true;
+					imageGuiResult(gui, "FastForwarding...", font);
+					done = true;
+				}
 
 				else if(mouseClicked == ZOOM || key == 'z') {
 					if(zoomed) {
@@ -1589,6 +1643,8 @@ imageGuiResult(gui, "c", font);
 		cvNamedWindow("Minimum Frame",1);
 		cvShowImage("Minimum Frame", result);
 		cvWaitKey(0);
+					
+		printf("MIN: %d;%.2f\n", lowestAngleFrame, minThetaMarked);
 	}
 
 	cvClearMemStorage( stickStorage );

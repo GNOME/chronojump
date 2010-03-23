@@ -91,6 +91,11 @@
  * command to run the file
  * ./kneeAngle "path to video file"
  *
+ * if get lots of errors on playing like: 
+ * "[swscaler @ 0x8d24260]No accelerated colorspace conversion found from yuv420p to bgr24."
+ * execute:
+ * ./kneeAngle "path to video file" 2> /dev/null
+ * 
  */
 
 /*
@@ -1334,6 +1339,16 @@ int main(int argc,char **argv)
 					shouldEnd = true;
 				}
 				
+				else if(mouseClicked == BACKWARD) { 
+					backward = true;
+					//try to go to previous (backwardspeed) frame
+					cvSetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES, 
+						framesCount - backwardSpeed -1 );
+
+					imageGuiResult(gui, "Backwarding...", font);
+					done = true;
+				}
+
 				else if(mouseClicked == FORWARD) { 
 					forward = true;
 					imageGuiResult(gui, "Forwarding...", font);

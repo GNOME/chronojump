@@ -1347,6 +1347,7 @@ void updateHolesWin(IplImage *segmentedValidationHoles) {
 	showScaledImage(segmentedValidationHoles, "holes");
 }
 
+/* unused, 3D stuff
 void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLeft, 
 		int framesCount, int threshold, double upLegMarkedDistPercent, double downLegMarkedDistPercent,
 		double thetaMarked, double minThetaMarked, 
@@ -1383,6 +1384,46 @@ void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLef
 	sprintf(label, "-ABD+RE: %.2f", thetaABD);
 	cvPutText(img, label, cvPoint(x, height-20),&font,color);
 
+}
+*/
+		
+void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLeft, 
+		int framesCount, 
+		int hip_x, int hip_y, int knee_x, int knee_y, int toe_x, int toe_y,
+		double thetaMarked, double minThetaMarked, 
+		int threshold, int th_hip, int th_knee, int th_toe)
+{
+	char *label = new char[150];
+	int width = img->width;
+	int height = img->height;
+
+	int x;
+	if(labelsAtLeft)
+		x=10;
+	else
+		x=width-200;
+				
+	sprintf(label, "frame: %d", framesCount);
+	cvPutText(img, label, cvPoint(x,height-190),&font,color);
+
+	sprintf(label, "H(%d,%d)", hip_x, hip_y);
+	cvPutText(img, label, cvPoint(x,height-160),&font,color);
+	sprintf(label, "K(%d,%d)", knee_x, knee_y);
+	cvPutText(img, label, cvPoint(x,height-140),&font,color);
+	sprintf(label, "T(%d,%d)", toe_x, toe_y);
+	cvPutText(img, label, cvPoint(x,height-120),&font,color);
+	
+	sprintf(label, "angle curr. (min):");
+	cvPutText(img, label, cvPoint(x,height-90),&font,color);
+	
+	sprintf(label, "%.2f (%.2f)", thetaMarked, minThetaMarked);
+	cvPutText(img, label, cvPoint(x,height-70),&font,color);
+	
+	sprintf(label, "threshold, H, K, T:");
+	cvPutText(img, label, cvPoint(x,height-40),&font,color);
+	
+	sprintf(label, "%d, %d, %d, %d", threshold, th_hip, th_knee, th_toe);
+	cvPutText(img, label, cvPoint(x,height-20),&font,color);
 }
 		
 /*

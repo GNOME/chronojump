@@ -452,4 +452,22 @@ void showScaledImage(IplImage * img, const char *title) {
 }
 
 
+IplImage* changeROIThreshold(IplImage* gray, IplImage* output, CvPoint p, int threshold, int thresholdMax)
+{
+	CvRect rect;
+	int pointSize = 30;
+					
+	rect.x=p.x - pointSize/2; rect.y=p.y - pointSize/2;
+	rect.width=pointSize; rect.height=pointSize;
+
+	cvSetImageROI(gray, rect);
+	cvSetImageROI(output, rect);
+	cvThreshold(gray, output, threshold, thresholdMax, CV_THRESH_BINARY_INV);
+	cvResetImageROI(gray);
+	cvResetImageROI(output);
+
+	return output;
+}
+
+
 

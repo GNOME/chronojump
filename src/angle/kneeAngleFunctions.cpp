@@ -1522,4 +1522,3 @@ CvRect findKneeCenterAtExtension(IplImage* img, int y)
 
 	return kneeRect;
 }
-

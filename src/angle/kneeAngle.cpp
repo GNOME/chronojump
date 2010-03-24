@@ -334,7 +334,7 @@ int main(int argc,char **argv)
 		
 	bool reloadFrame = false;
 	int forcePause = false;
-	
+			
 
 /* kalman */
 	//CvKalman* kalman = cvCreateKalman(2,1,0);
@@ -1362,15 +1362,19 @@ int main(int argc,char **argv)
 					mouseMultiplier = false;
 		
 					if(programMode == skinOnlyMarkers) {
+						sprintf(label, "Paused. Threshold: %d, HKT: %d,%d,%d", 
+								threshold, thresholdROIH, thresholdROIK, thresholdROIT);
+						imageGuiResult(gui, label, font);
+
 						cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-						sprintf(label,"Pause");
-						cvPutText(output, label,cvPoint(10, 25),&font,cvScalar(128,128,128));
-						sprintf(label, "frame: %d", framesCount);
-						cvPutText(output, label, cvPoint(10,frame->height-60),&font,CV_RGB(0,0,0));
-						sprintf(label, "threshold: %d", threshold);
-						cvPutText(output, label, cvPoint(10,frame->height-40),&font,CV_RGB(0,0,0));
-						sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
-						cvPutText(output, label, cvPoint(10,frame->height-20),&font,CV_RGB(0,0,0));
+						
+						if(thresholdROIH != -1)
+							output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax);
+						if(thresholdROIK != -1)
+							output = changeROIThreshold(gray, output, kneeMarked, thresholdROIK, thresholdMax);
+						if(thresholdROIT != -1)
+							output= changeROIThreshold(gray, output, toeMarked, thresholdROIT, thresholdMax);
+
 						cvShowImage("threshold", output);
 					}
 					else {		
@@ -1447,8 +1451,6 @@ int main(int argc,char **argv)
 					
 				if(thresholdROIHChanged || thresholdROIKChanged || thresholdROITChanged)  
 				{
-					cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-					
 					if(thresholdROIHChanged) {
 						output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax);
 						thresholdROIHChanged = false;
@@ -1463,14 +1465,10 @@ int main(int argc,char **argv)
 					}
 
 					if(programMode == skinOnlyMarkers) {
-						sprintf(label,"Pause");
-						cvPutText(output, label,cvPoint(10, 25),&font,cvScalar(128,128,128));
-						sprintf(label, "frame: %d", framesCount);
-						cvPutText(output, label, cvPoint(10,frame->height-60),&font,CV_RGB(0,0,0));
-						sprintf(label, "threshold: %d", threshold);
-						cvPutText(output, label, cvPoint(10,frame->height-40),&font,CV_RGB(0,0,0));
-						sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
-						cvPutText(output, label, cvPoint(10,frame->height-20),&font,CV_RGB(0,0,0));
+						sprintf(label, "Paused. Threshold: %d, HKT: %d,%d,%d", 
+								threshold, thresholdROIH, thresholdROIK, thresholdROIT);
+						imageGuiResult(gui, label, font);
+
 						cvShowImage("threshold", output);
 					}
 

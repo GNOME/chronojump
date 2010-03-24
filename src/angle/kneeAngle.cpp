@@ -503,10 +503,10 @@ int main(int argc,char **argv)
 					output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax);
 				}
 				if(thresholdROIK != -1) {
-					output = changeROIThreshold(gray, output, hipMarked, thresholdROIK, thresholdMax);
+					output = changeROIThreshold(gray, output, kneeMarked, thresholdROIK, thresholdMax);
 				} 
 				if(thresholdROIT != -1) {
-					output = changeROIThreshold(gray, output, hipMarked, thresholdROIT, thresholdMax);
+					output = changeROIThreshold(gray, output, toeMarked, thresholdROIT, thresholdMax);
 				}
 
 				cvShowImage("threshold", output);
@@ -1402,7 +1402,6 @@ int main(int argc,char **argv)
 							if(thresholdROIH < 0)
 								thresholdROIH = 0;
 						}
-						//thresholdROIChanged = TOGGLEHIP;
 						thresholdROIHChanged = true;
 					}
 				}
@@ -1422,7 +1421,6 @@ int main(int argc,char **argv)
 							if(thresholdROIK < 0)
 								thresholdROIK = 0;
 						}
-						//thresholdROIChanged = TOGGLEKNEE;
 						thresholdROIKChanged = true;
 					}
 				}
@@ -1442,7 +1440,6 @@ int main(int argc,char **argv)
 							if(thresholdROIT < 0)
 								thresholdROIT = 0;
 						}
-						//thresholdROIChanged = TOGGLETOE;
 						thresholdROITChanged = true;
 					}
 				}

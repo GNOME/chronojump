@@ -499,41 +499,14 @@ int main(int argc,char **argv)
 			{
 //imageGuiResult(gui, "b2", font);
 //cvWaitKey(50); //to print above message
-				int pointSize = 30;
-				CvRect rect;
-				rect.width=pointSize; rect.height=pointSize;
-				int myThresh;
-				CvPoint myPoint;
 				if(thresholdROIH != -1) {
-					myPoint = hipMarked;
-					myThresh = thresholdROIH;
-					rect.x=hipMarked.x - pointSize/2; rect.y=hipMarked.y - pointSize/2;
-
-					cvSetImageROI(gray, rect);
-					cvSetImageROI(output, rect);
-					cvThreshold(gray, output, myThresh, thresholdMax,CV_THRESH_BINARY_INV);
-					cvResetImageROI(gray);
-					cvResetImageROI(output);
-				} else if(thresholdROIK != -1) {
-					myPoint = kneeMarked;
-					myThresh = thresholdROIK;
-					rect.x=kneeMarked.x - pointSize/2; rect.y=kneeMarked.y - pointSize/2;
-
-					cvSetImageROI(gray, rect);
-					cvSetImageROI(output, rect);
-					cvThreshold(gray, output, myThresh, thresholdMax,CV_THRESH_BINARY_INV);
-					cvResetImageROI(gray);
-					cvResetImageROI(output);
-				} else { 
-					myPoint = toeMarked;
-					myThresh = thresholdROIT;
-					rect.x=toeMarked.x - pointSize/2; rect.y=toeMarked.y - pointSize/2;
-
-					cvSetImageROI(gray, rect);
-					cvSetImageROI(output, rect);
-					cvThreshold(gray, output, myThresh, thresholdMax,CV_THRESH_BINARY_INV);
-					cvResetImageROI(gray);
-					cvResetImageROI(output);
+					output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax);
+				}
+				if(thresholdROIK != -1) {
+					output = changeROIThreshold(gray, output, hipMarked, thresholdROIK, thresholdMax);
+				} 
+				if(thresholdROIT != -1) {
+					output = changeROIThreshold(gray, output, hipMarked, thresholdROIT, thresholdMax);
 				}
 
 				cvShowImage("threshold", output);
@@ -1305,7 +1278,10 @@ int main(int argc,char **argv)
 			forcePause = false;
 
 			imageGuiResult(gui, "Paused.", font);
-			int thresholdROIChanged = TOGGLENOTHING;
+			//int thresholdROIChanged = TOGGLENOTHING;
+			bool thresholdROIHChanged = false;
+			bool thresholdROIKChanged = false;
+			bool thresholdROITChanged = false;
 					
 			int mult;
 
@@ -1426,7 +1402,8 @@ int main(int argc,char **argv)
 							if(thresholdROIH < 0)
 								thresholdROIH = 0;
 						}
-						thresholdROIChanged = TOGGLEHIP;
+						//thresholdROIChanged = TOGGLEHIP;
+						thresholdROIHChanged = true;
 					}
 				}
 
@@ -1445,7 +1422,8 @@ int main(int argc,char **argv)
 							if(thresholdROIK < 0)
 								thresholdROIK = 0;
 						}
-						thresholdROIChanged = TOGGLEKNEE;
+						//thresholdROIChanged = TOGGLEKNEE;
+						thresholdROIKChanged = true;
 					}
 				}
 
@@ -1464,35 +1442,28 @@ int main(int argc,char **argv)
 							if(thresholdROIT < 0)
 								thresholdROIT = 0;
 						}
-						thresholdROIChanged = TOGGLETOE;
+						//thresholdROIChanged = TOGGLETOE;
+						thresholdROITChanged = true;
 					}
 				}
 
 					
-				if(thresholdROIChanged != TOGGLENOTHING)  {
-					CvRect rect;
-					int myThresh;
-					int pointSize = 30;
-					CvPoint myPoint;
-					if(thresholdROIChanged == TOGGLEHIP) {
-						myPoint = hipMarked;
-						myThresh = thresholdROIH;
-					} else if(thresholdROIChanged == TOGGLEKNEE) {
-						myPoint = kneeMarked;
-						myThresh = thresholdROIK;
-					} else { //if(thresholdROIChanged == TOGGLETOE) 
-						myPoint = toeMarked;
-						myThresh = thresholdROIT;
-					}
-
-					rect.x=myPoint.x - pointSize/2; rect.y=myPoint.y - pointSize/2;
-					rect.width=pointSize; rect.height=pointSize;
+				if(thresholdROIHChanged || thresholdROIKChanged || thresholdROITChanged)  
+				{
+					cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 					
-					cvSetImageROI(gray, rect);
-					cvSetImageROI(output, rect);
-					cvThreshold(gray, output, myThresh, thresholdMax,CV_THRESH_BINARY_INV);
-					cvResetImageROI(gray);
-					cvResetImageROI(output);
+					if(thresholdROIHChanged) {
+						output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax);
+						thresholdROIHChanged = false;
+					}
+					if(thresholdROIKChanged) {
+						output = changeROIThreshold(gray, output, kneeMarked, thresholdROIK, thresholdMax);
+						thresholdROIKChanged = false;
+					}
+					if(thresholdROITChanged) {
+						output= changeROIThreshold(gray, output, toeMarked, thresholdROIT, thresholdMax);
+						thresholdROITChanged = false;
+					}
 
 					if(programMode == skinOnlyMarkers) {
 						sprintf(label,"Pause");
@@ -1506,7 +1477,6 @@ int main(int argc,char **argv)
 						cvShowImage("threshold", output);
 					}
 
-					thresholdROIChanged = TOGGLENOTHING;
 					mouseClicked = UNDEFINED;  
 				}
 				

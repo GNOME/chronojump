@@ -535,20 +535,8 @@ int main(int argc,char **argv)
 					cvResetImageROI(gray);
 					cvResetImageROI(output);
 				}
-//imageGuiResult(gui, "b3", font);
-//cvWaitKey(50); //to print above message
-
-
-				//					sprintf(label, "frame: %d", framesCount);
-				//					imagePrint(output, cvPoint(10, frame->height-40), label, font, BLACK);
-
-				cvRectangle(output, cvPoint(frame->width -200, frame->height-30), cvPoint(frame->width, frame->height), WHITE,CV_FILLED,8,0);
-				sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
-				imagePrint(output, cvPoint(frame->width -200, frame->height-20), label, font, BLACK);
 
 				cvShowImage("threshold", output);
-//imageGuiResult(gui, "b4", font);
-//cvWaitKey(50); //to print above message
 			}
 
 			if(framesCount >1) {
@@ -1348,6 +1336,13 @@ int main(int argc,char **argv)
 					imageGuiResult(gui, "Backwarding...", font);
 					done = true;
 				}
+				
+				if (key == '+') { 
+					forward = true;
+					forwardCount = forwardSpeed -1; //this makes advance only one frame
+					imageGuiResult(gui, "Forward one", font);
+					done = true;
+				}
 
 				else if(mouseClicked == FORWARD) { 
 					forward = true;
@@ -1395,8 +1390,10 @@ int main(int argc,char **argv)
 						sprintf(label,"Pause");
 						cvPutText(output, label,cvPoint(10, 25),&font,cvScalar(128,128,128));
 						sprintf(label, "frame: %d", framesCount);
-						cvPutText(output, label, cvPoint(10,frame->height-40),&font,CV_RGB(0,0,0));
+						cvPutText(output, label, cvPoint(10,frame->height-60),&font,CV_RGB(0,0,0));
 						sprintf(label, "threshold: %d", threshold);
+						cvPutText(output, label, cvPoint(10,frame->height-40),&font,CV_RGB(0,0,0));
+						sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
 						cvPutText(output, label, cvPoint(10,frame->height-20),&font,CV_RGB(0,0,0));
 						cvShowImage("threshold", output);
 					}
@@ -1500,11 +1497,23 @@ int main(int argc,char **argv)
 //					sprintf(label, "frame: %d", framesCount);
 //					imagePrint(output, cvPoint(10, frame->height-40), label, font, BLACK);
 
-					cvRectangle(output, cvPoint(frame->width -200, frame->height-30), cvPoint(frame->width, frame->height), WHITE,CV_FILLED,8,0);
-					sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
-					imagePrint(output, cvPoint(frame->width -200, frame->height-20), label, font, BLACK);
+					cvRectangle(output, cvPoint(200, frame->height-30), cvPoint(frame->width, frame->height), WHITE,CV_FILLED,8,0);
+					//sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
+					//imagePrint(output, cvPoint(200, frame->height-20), label, font, BLACK);
+					//cvShowImage("threshold", output);
 
-					cvShowImage("threshold", output);
+					if(programMode == skinOnlyMarkers) {
+						cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
+						sprintf(label,"Pause");
+						cvPutText(output, label,cvPoint(10, 25),&font,cvScalar(128,128,128));
+						sprintf(label, "frame: %d", framesCount);
+						cvPutText(output, label, cvPoint(10,frame->height-60),&font,CV_RGB(0,0,0));
+						sprintf(label, "threshold: %d", threshold);
+						cvPutText(output, label, cvPoint(10,frame->height-40),&font,CV_RGB(0,0,0));
+						sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
+						cvPutText(output, label, cvPoint(10,frame->height-20),&font,CV_RGB(0,0,0));
+						cvShowImage("threshold", output);
+					}
 
 					thresholdROIChanged = TOGGLENOTHING;
 					mouseClicked = UNDEFINED;  

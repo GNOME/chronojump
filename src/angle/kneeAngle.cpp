@@ -1494,16 +1494,7 @@ int main(int argc,char **argv)
 					cvResetImageROI(gray);
 					cvResetImageROI(output);
 
-//					sprintf(label, "frame: %d", framesCount);
-//					imagePrint(output, cvPoint(10, frame->height-40), label, font, BLACK);
-
-					cvRectangle(output, cvPoint(200, frame->height-30), cvPoint(frame->width, frame->height), WHITE,CV_FILLED,8,0);
-					//sprintf(label, "T_ROI H,K,T: %d,%d,%d", thresholdROIH, thresholdROIK, thresholdROIT);
-					//imagePrint(output, cvPoint(200, frame->height-20), label, font, BLACK);
-					//cvShowImage("threshold", output);
-
 					if(programMode == skinOnlyMarkers) {
-						cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 						sprintf(label,"Pause");
 						cvPutText(output, label,cvPoint(10, 25),&font,cvScalar(128,128,128));
 						sprintf(label, "frame: %d", framesCount);

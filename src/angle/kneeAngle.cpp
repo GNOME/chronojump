@@ -1512,21 +1512,22 @@ int main(int argc,char **argv)
 				
 				//remark bad found or unfound markers	
 				if(
-						mouseClicked == HIPMARK ||
-						mouseClicked == KNEEMARK ||
-						mouseClicked == TOEMARK) {
+						mouseClicked == HIPMARK || key == 'h' ||
+						mouseClicked == KNEEMARK || key == 'k' ||
+						mouseClicked == TOEMARK || key == 't'
+						) {
 						
 					int myMark = TOGGLENOTHING ;
 					const char * Id = "";
 					CvPoint markedBefore;
 					
-					if(mouseClicked == HIPMARK) {
+					if(mouseClicked == HIPMARK || key == 'h' ) {
 						myMark = TOGGLEHIP;
 						markedBefore = hipMarked;
 						markedMouse = hipMarked;
 						Id = "H";
 						imageGuiResult(gui, "Mark Hip on toClick window.", font);
-					} else if(mouseClicked == KNEEMARK) {
+					} else if(mouseClicked == KNEEMARK || key == 'k' ) {
 						myMark = TOGGLEKNEE;
 						markedBefore = kneeMarked;
 						markedMouse = kneeMarked;
@@ -1579,8 +1580,11 @@ int main(int argc,char **argv)
 							mouseClicked = UNDEFINED;  
 						}
 					
-						else if(mouseClicked == HIPMARK || mouseClicked == KNEEMARK || 
-								mouseClicked == TOEMARK) {
+						else if(
+								mouseClicked == HIPMARK || key == 'h' ||
+								mouseClicked == KNEEMARK || key == 'k' ||
+								mouseClicked == TOEMARK || key == 't'
+						       ) {
 							cancelled = true;
 						}
 					} while(!doneMarking && !cancelled);

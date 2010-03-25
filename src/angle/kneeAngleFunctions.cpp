@@ -1242,23 +1242,33 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 	clicked.x=x; clicked.y=y;
 
 	CvRect rplaypause; rplaypause.x=220; rplaypause.width=60;  rplaypause.y=38; rplaypause.height=42;
-	CvRect rforward; rforward.x=290; rforward.width=60;  rforward.y=38; rforward.height=42;
-	CvRect rfastforward; rfastforward.x=360; rfastforward.width=60;  rfastforward.y=38; rfastforward.height=42;
+	CvRect rforwardOne; rforwardOne.x=290; rforwardOne.width=36;  rforwardOne.y=38; rforwardOne.height=42;
+	CvRect rforward; rforward.x=330; rforward.width=47;  rforward.y=38; rforward.height=42;
+	CvRect rfastforward; rfastforward.x=380; rfastforward.width=41;  rfastforward.y=38; rfastforward.height=42;
 	CvRect rbackward; rbackward.x=430; rbackward.width=60;  rbackward.y=38; rbackward.height=42;
 	
-	CvRect rhip; rhip.x=165; rhip.width=25;  rhip.y=130; rhip.height=24;
-	CvRect rknee; rknee.x=235; rknee.width=25;  rknee.y=130; rknee.height=24;
-	CvRect rtoe; rtoe.x=308; rtoe.width=25;  rtoe.y=130; rtoe.height=24;
-	CvRect rzoom; rzoom.x=447; rzoom.width=25;  rzoom.y=130; rzoom.height=24;
+	CvRect rhip; rhip.x=165; rhip.width=25;  rhip.y=114; rhip.height=24;
+	CvRect rknee; rknee.x=235; rknee.width=25;  rknee.y=114; rknee.height=24;
+	CvRect rtoe; rtoe.x=308; rtoe.width=25;  rtoe.y=114; rtoe.height=24;
+	CvRect rzoom; rzoom.x=447; rzoom.width=25;  rzoom.y=114; rzoom.height=24;
 	
-	CvRect rthipmore; rthipmore.x=149; rthipmore.width=24;  rthipmore.y=169; rthipmore.height=24;
-	CvRect rthipless; rthipless.x=181; rthipless.width=27;  rthipless.y=169; rthipless.height=24;
-	CvRect rtkneemore; rtkneemore.x=219; rtkneemore.width=24;  rtkneemore.y=169; rtkneemore.height=24;
-	CvRect rtkneeless; rtkneeless.x=251; rtkneeless.width=27;  rtkneeless.y=169; rtkneeless.height=24;
-	CvRect rttoemore; rttoemore.x=293; rttoemore.width=24;  rttoemore.y=169; rttoemore.height=24;
-	CvRect rttoeless; rttoeless.x=324; rttoeless.width=27;  rttoeless.y=169; rttoeless.height=24;
-	CvRect rtglobalmore; rtglobalmore.x=433; rtglobalmore.width=24;  rtglobalmore.y=169; rtglobalmore.height=24;
-	CvRect rtgloballess; rtgloballess.x=464; rtgloballess.width=27;  rtgloballess.y=169; rtgloballess.height=24;
+	//thresholds
+	CvRect rthipmore; rthipmore.x=149; rthipmore.width=24;  rthipmore.y=150; rthipmore.height=24;
+	CvRect rthipless; rthipless.x=181; rthipless.width=27;  rthipless.y=150; rthipless.height=24;
+	CvRect rtkneemore; rtkneemore.x=219; rtkneemore.width=24;  rtkneemore.y=150; rtkneemore.height=24;
+	CvRect rtkneeless; rtkneeless.x=251; rtkneeless.width=27;  rtkneeless.y=150; rtkneeless.height=24;
+	CvRect rttoemore; rttoemore.x=293; rttoemore.width=24;  rttoemore.y=150; rttoemore.height=24;
+	CvRect rttoeless; rttoeless.x=324; rttoeless.width=27;  rttoeless.y=150; rttoeless.height=24;
+	CvRect rtglobalmore; rtglobalmore.x=433; rtglobalmore.width=24;  rtglobalmore.y=150; rtglobalmore.height=24;
+	CvRect rtgloballess; rtgloballess.x=464; rtgloballess.width=27;  rtgloballess.y=150; rtgloballess.height=24;
+	
+	//thresholds sizes
+	CvRect rshipmore; rshipmore.x=149; rshipmore.width=24;  rshipmore.y=186; rshipmore.height=24;
+	CvRect rshipless; rshipless.x=181; rshipless.width=27;  rshipless.y=186; rshipless.height=24;
+	CvRect rskneemore; rskneemore.x=219; rskneemore.width=24;  rskneemore.y=186; rskneemore.height=24;
+	CvRect rskneeless; rskneeless.x=251; rskneeless.width=27;  rskneeless.y=186; rskneeless.height=24;
+	CvRect rstoemore; rstoemore.x=293; rstoemore.width=24;  rstoemore.y=186; rstoemore.height=24;
+	CvRect rstoeless; rstoeless.x=324; rstoeless.width=27;  rstoeless.y=186; rstoeless.height=24;
 	
 	CvRect rquit; rquit.x=450; rquit.width=40;  rquit.y=230; rquit.height=45;
 				
@@ -1273,6 +1283,8 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 			{
 				if(pointInsideRect(clicked, rplaypause))
 					mouseClicked = PLAYPAUSE;
+				else if(pointInsideRect(clicked, rforwardOne))
+					mouseClicked = FORWARDONE;
 				else if(pointInsideRect(clicked, rforward))
 					mouseClicked = FORWARD;
 				else if(pointInsideRect(clicked, rfastforward))
@@ -1306,6 +1318,19 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 					mouseClicked = TGLOBALMORE;
 				else if(pointInsideRect(clicked, rtgloballess))
 					mouseClicked = TGLOBALLESS;
+
+				else if(pointInsideRect(clicked, rshipmore))
+					mouseClicked = SHIPMORE;
+				else if(pointInsideRect(clicked, rshipless))
+					mouseClicked = SHIPLESS;
+				else if(pointInsideRect(clicked, rskneemore))
+					mouseClicked = SKNEEMORE;
+				else if(pointInsideRect(clicked, rskneeless))
+					mouseClicked = SKNEELESS;
+				else if(pointInsideRect(clicked, rstoemore))
+					mouseClicked = STOEMORE;
+				else if(pointInsideRect(clicked, rstoeless))
+					mouseClicked = STOELESS;
 
 				else if(pointInsideRect(clicked, rquit))
 					mouseClicked = QUIT;
@@ -1385,7 +1410,9 @@ void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLef
 		int framesCount, 
 		int hip_x, int hip_y, int knee_x, int knee_y, int toe_x, int toe_y,
 		double thetaMarked, double minThetaMarked, 
-		int threshold, int th_hip, int th_knee, int th_toe)
+		int threshold, 
+		int th_hip, int th_knee, int th_toe,
+		int th_size_hip, int th_size_knee, int th_size_toe)
 {
 	char *label = new char[150];
 	int width = img->width;
@@ -1398,25 +1425,28 @@ void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLef
 		x=width-200;
 				
 	sprintf(label, "frame: %d", framesCount);
-	cvPutText(img, label, cvPoint(x,height-190),&font,color);
+	cvPutText(img, label, cvPoint(x,height-210),&font,color);
 
 	sprintf(label, "H(%d,%d)", hip_x, hip_y);
-	cvPutText(img, label, cvPoint(x,height-160),&font,color);
+	cvPutText(img, label, cvPoint(x,height-180),&font,color);
 	sprintf(label, "K(%d,%d)", knee_x, knee_y);
-	cvPutText(img, label, cvPoint(x,height-140),&font,color);
+	cvPutText(img, label, cvPoint(x,height-160),&font,color);
 	sprintf(label, "T(%d,%d)", toe_x, toe_y);
-	cvPutText(img, label, cvPoint(x,height-120),&font,color);
+	cvPutText(img, label, cvPoint(x,height-140),&font,color);
 	
 	sprintf(label, "angle curr. (min):");
-	cvPutText(img, label, cvPoint(x,height-90),&font,color);
+	cvPutText(img, label, cvPoint(x,height-110),&font,color);
 	
 	sprintf(label, "%.2f (%.2f)", thetaMarked, minThetaMarked);
-	cvPutText(img, label, cvPoint(x,height-70),&font,color);
+	cvPutText(img, label, cvPoint(x,height-90),&font,color);
 	
-	sprintf(label, "threshold, H, K, T:");
+	sprintf(label, "threshold: %d", threshold);
+	cvPutText(img, label, cvPoint(x,height-60),&font,color);
+	
+	sprintf(label, "HKT: %d, %d, %d", th_hip, th_knee, th_toe);
 	cvPutText(img, label, cvPoint(x,height-40),&font,color);
 	
-	sprintf(label, "%d, %d, %d, %d", threshold, th_hip, th_knee, th_toe);
+	sprintf(label, "Sizes: %d, %d, %d", th_size_hip, th_size_knee, th_size_toe);
 	cvPutText(img, label, cvPoint(x,height-20),&font,color);
 }
 		

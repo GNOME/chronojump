@@ -326,6 +326,17 @@ int main(int argc,char **argv)
 	int thresholdROIHAtMinAngle = -1;
 	int thresholdROIKAtMinAngle = -1;
 	int thresholdROITAtMinAngle = -1;
+			
+	//this helps at ROI to determine the area where threhold will be changed
+	//useful if we have a white marker surrounded by white pant
+	//then we can have main threshold low
+	//then we can have main threshold ROI on that point high
+	//then we can have main threshold ROI size low (butif marker moves a lot, then we will need to increase a bit)
+	int thresholdROISizeH = 16; 
+	int thresholdROISizeK = 16; 
+	int thresholdROISizeT = 16;
+	int thresholdROISizeInc = 2; //increment on each pulsation
+	int thresholdROISizeMin = 10;
 
 	int key;
 
@@ -515,13 +526,13 @@ int main(int argc,char **argv)
 //imageGuiResult(gui, "b2", font);
 //cvWaitKey(50); //to print above message
 				if(thresholdROIH != -1) {
-					output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax);
+					output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax, thresholdROISizeH);
 				}
 				if(thresholdROIK != -1) {
-					output = changeROIThreshold(gray, output, kneeMarked, thresholdROIK, thresholdMax);
+					output = changeROIThreshold(gray, output, kneeMarked, thresholdROIK, thresholdMax, thresholdROISizeK);
 				} 
 				if(thresholdROIT != -1) {
-					output = changeROIThreshold(gray, output, toeMarked, thresholdROIT, thresholdMax);
+					output = changeROIThreshold(gray, output, toeMarked, thresholdROIT, thresholdMax, thresholdROISizeT);
 				}
 
 				cvShowImage("threshold", output);
@@ -766,7 +777,8 @@ int main(int argc,char **argv)
 						kneeMarked.x, frame-> height - kneeMarked.y,
 						toeMarked.x, frame->height - toeMarked.y,
 						thetaMarked, minThetaMarked,
-						threshold, thresholdROIH, thresholdROIK, thresholdROIT
+						threshold, thresholdROIH, thresholdROIK, thresholdROIT,
+						thresholdROISizeH, thresholdROISizeK, thresholdROISizeT
 					     );
 				
 				if(storeResultImage) {
@@ -1295,11 +1307,16 @@ int main(int argc,char **argv)
 		} else if(mouseClicked == TGLOBALMORE || mouseClicked == TGLOBALLESS ||
 			mouseClicked == THIPMORE || mouseClicked == THIPLESS ||
 			mouseClicked == TKNEEMORE || mouseClicked == TKNEELESS ||
-			mouseClicked == TTOEMORE || mouseClicked == TTOELESS)
+			mouseClicked == TTOEMORE || mouseClicked == TTOELESS ||
+			mouseClicked == TGLOBALMORE || mouseClicked == TGLOBALLESS ||
+			mouseClicked == SHIPMORE || mouseClicked == SHIPLESS ||
+			mouseClicked == SKNEEMORE || mouseClicked == SKNEELESS ||
+			mouseClicked == STOEMORE || mouseClicked == STOELESS)
 		{
 			//if a threshold button is pushed, force a pause
 			forcePause = true;
 		}
+		
 		
 		//pause is also forced on skin if a marker is not ok
 		if (mouseClicked == PLAYPAUSE || key == 'p' || forcePause) 
@@ -1313,9 +1330,7 @@ int main(int argc,char **argv)
 
 			imageGuiResult(gui, "Paused.", font);
 			//int thresholdROIChanged = TOGGLENOTHING;
-			bool thresholdROIHChanged = false;
-			bool thresholdROIKChanged = false;
-			bool thresholdROITChanged = false;
+			bool thresholdROIChanged = false;
 					
 			int mult;
 
@@ -1346,8 +1361,8 @@ int main(int argc,char **argv)
 					imageGuiResult(gui, "Backwarding...", font);
 					done = true;
 				}
-				
-				if (key == '+') { 
+			
+				else if(mouseClicked == FORWARDONE) { 
 					forward = true;
 					forwardCount = forwardSpeed -1; //this makes advance only one frame
 					imageGuiResult(gui, "Forward one", font);
@@ -1384,48 +1399,9 @@ int main(int argc,char **argv)
 					mouseClicked = UNDEFINED;  
 				}
 
-				else if (mouseClicked == TGLOBALMORE || mouseClicked == TGLOBALLESS) {
-					if (mouseClicked == TGLOBALMORE)  
-						threshold += thresholdInc * mult;
-					else { // if (mouseClicked == TGLOBALLESS)  
-						threshold -= thresholdInc * mult;
-						if(threshold < 0)
-							threshold = 0;
-					}
-					mouseClicked = UNDEFINED;  
-					mouseMultiplier = false;
-		
-					if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
-						sprintf(label, "Paused. Threshold: %d, HKT: %d,%d,%d", 
-								threshold, thresholdROIH, thresholdROIK, thresholdROIT);
-						imageGuiResult(gui, label, font);
-
-						cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-						
-						if(thresholdROIH != -1)
-							output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax);
-						if(thresholdROIK != -1)
-							output = changeROIThreshold(gray, output, kneeMarked, thresholdROIK, thresholdMax);
-						if(thresholdROIT != -1)
-							output= changeROIThreshold(gray, output, toeMarked, thresholdROIT, thresholdMax);
-
-						cvShowImage("threshold", output);
-					}
-					else {		
-						cvThreshold(gray,segmentedValidationHoles, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-						//create the largest contour image (stored on temp)
-						cvThreshold(gray,segmented,threshold,thresholdMax,CV_THRESH_BINARY_INV);
-						maxrect = findLargestContour(segmented, output, showContour);
-
-						if(validation)
-							updateHolesWin(segmentedValidationHoles);
-						
-						sprintf(label, "threshold: %d", threshold);
-						imageGuiResult(gui, label, font);
-					}
-				}
-					
 				else if(mouseClicked == THIPMORE || mouseClicked == THIPLESS) {
+sprintf(label, "hip more/less");
+imageGuiResult(gui, label, font);
 					if(pointIsNull(hipMarked)) {
 						//force mark first
 						mouseClicked = HIPMARK;
@@ -1440,7 +1416,8 @@ int main(int argc,char **argv)
 							if(thresholdROIH < 0)
 								thresholdROIH = 0;
 						}
-						thresholdROIHChanged = true;
+						thresholdROIChanged = true;
+						mouseClicked = UNDEFINED;  
 					}
 				}
 
@@ -1459,7 +1436,8 @@ int main(int argc,char **argv)
 							if(thresholdROIK < 0)
 								thresholdROIK = 0;
 						}
-						thresholdROIKChanged = true;
+						thresholdROIChanged = true;
+						mouseClicked = UNDEFINED;  
 					}
 				}
 
@@ -1478,37 +1456,112 @@ int main(int argc,char **argv)
 							if(thresholdROIT < 0)
 								thresholdROIT = 0;
 						}
-						thresholdROITChanged = true;
+						thresholdROIChanged = true;
+						mouseClicked = UNDEFINED;  
 					}
 				}
 
-					
-				if(thresholdROIHChanged || thresholdROIKChanged || thresholdROITChanged)  
-				{
-					if(thresholdROIHChanged) {
-						output = changeROIThreshold(gray, output, hipMarked, thresholdROIH, thresholdMax);
-						thresholdROIHChanged = false;
+				else if(mouseClicked == SHIPMORE || mouseClicked == SHIPLESS) {
+sprintf(label, "size hip more/less");
+imageGuiResult(gui, label, font);
+					if(pointIsNull(hipMarked)) {
+						//force mark first
+						mouseClicked = HIPMARK;
+					} else {
+						if(mouseClicked == SHIPMORE) 
+							thresholdROISizeH += thresholdROISizeInc;
+						else {
+							thresholdROISizeH -= thresholdROISizeInc;
+							if(thresholdROISizeH < thresholdROISizeMin)
+								thresholdROISizeH = thresholdROISizeMin;
+						}
+						thresholdROIChanged = true;
+						mouseClicked = UNDEFINED;  
 					}
-					if(thresholdROIKChanged) {
-						output = changeROIThreshold(gray, output, kneeMarked, thresholdROIK, thresholdMax);
-						thresholdROIKChanged = false;
+				}
+				
+				else if(mouseClicked == SKNEEMORE || mouseClicked == SKNEELESS) {
+					if(pointIsNull(kneeMarked)) {
+						//force mark first
+						mouseClicked = KNEEMARK;
+					} else {
+						if(mouseClicked == SKNEEMORE) 
+							thresholdROISizeK += thresholdROISizeInc;
+						else {
+							thresholdROISizeK -= thresholdROISizeInc;
+							if(thresholdROISizeK < thresholdROISizeMin)
+								thresholdROISizeK = thresholdROISizeMin;
+						}
+						thresholdROIChanged = true;
+						mouseClicked = UNDEFINED;  
 					}
-					if(thresholdROITChanged) {
-						output= changeROIThreshold(gray, output, toeMarked, thresholdROIT, thresholdMax);
-						thresholdROITChanged = false;
+				}
+				
+				else if(mouseClicked == STOEMORE || mouseClicked == STOELESS) {
+					if(pointIsNull(toeMarked)) {
+						//force mark first
+						mouseClicked = TOEMARK;
+					} else {
+						if(mouseClicked == STOEMORE) 
+							thresholdROISizeT += thresholdROISizeInc;
+						else {
+							thresholdROISizeT -= thresholdROISizeInc;
+							if(thresholdROISizeT < thresholdROISizeMin)
+								thresholdROISizeT = thresholdROISizeMin;
+						}
+						thresholdROIChanged = true;
+						mouseClicked = UNDEFINED;  
 					}
-
+				}
+				
+				else if (mouseClicked == TGLOBALMORE || mouseClicked == TGLOBALLESS || thresholdROIChanged) {  
+					if (mouseClicked == TGLOBALMORE)  
+						threshold += thresholdInc * mult;
+					else if (mouseClicked == TGLOBALLESS) {
+						threshold -= thresholdInc * mult;
+						if(threshold < 0)
+							threshold = 0;
+					}
+					mouseClicked = UNDEFINED;  
+					mouseMultiplier = false;
+		
 					if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
-						sprintf(label, "Paused. Threshold: %d, HKT: %d,%d,%d", 
-								threshold, thresholdROIH, thresholdROIK, thresholdROIT);
+						sprintf(label, "Threshold: %d (%d,%d,%d) (%d,%d,%d)", 
+								threshold, 
+								thresholdROIH, thresholdROIK, thresholdROIT, 
+								thresholdROISizeH, thresholdROISizeK, thresholdROISizeT);
 						imageGuiResult(gui, label, font);
+
+						cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
+						
+						if(thresholdROIH != -1)
+							output = changeROIThreshold(gray, output, hipMarked, 
+									thresholdROIH, thresholdMax, thresholdROISizeH);
+						if(thresholdROIK != -1)
+							output = changeROIThreshold(gray, output, kneeMarked, 
+									thresholdROIK, thresholdMax, thresholdROISizeK);
+						if(thresholdROIT != -1)
+							output= changeROIThreshold(gray, output, toeMarked, 
+									thresholdROIT, thresholdMax, thresholdROISizeT);
 
 						cvShowImage("threshold", output);
 					}
+					else {		
+						cvThreshold(gray,segmentedValidationHoles, threshold, thresholdMax,CV_THRESH_BINARY_INV);
+						//create the largest contour image (stored on temp)
+						cvThreshold(gray,segmented,threshold,thresholdMax,CV_THRESH_BINARY_INV);
+						maxrect = findLargestContour(segmented, output, showContour);
 
-					mouseClicked = UNDEFINED;  
+						if(validation)
+							updateHolesWin(segmentedValidationHoles);
+						
+						sprintf(label, "threshold: %d", threshold);
+						imageGuiResult(gui, label, font);
+					}
+						
+					thresholdROIChanged = false;
 				}
-				
+					
 				//remark bad found or unfound markers	
 				if(
 						mouseClicked == HIPMARK || key == 'h' ||

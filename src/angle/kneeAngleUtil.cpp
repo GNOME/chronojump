@@ -415,25 +415,25 @@ void imageGuiResult(IplImage *gui, const char *label, CvFont font) {
 
 void toggleGuiMark(IplImage *gui, int togglePoint) {
 	if(togglePoint == TOGGLEHIP) 
-		crossPoint(gui, cvPoint(165+(25/2), 130+(24/2)), MAGENTA, BIG);
+		crossPoint(gui, cvPoint(165+(25/2), 114+(24/2)), MAGENTA, BIG);
 	else if(togglePoint == TOGGLEKNEE) 
-		crossPoint(gui, cvPoint(235+(25/2), 130+(24/2)), MAGENTA, BIG);
+		crossPoint(gui, cvPoint(235+(25/2), 114+(24/2)), MAGENTA, BIG);
 	else if(togglePoint == TOGGLETOE) 
-		crossPoint(gui, cvPoint(308+(25/2), 130+(24/2)), MAGENTA, BIG);
+		crossPoint(gui, cvPoint(308+(25/2), 114+(24/2)), MAGENTA, BIG);
 	else //if(togglePoint == ZOOM) 
-		crossPoint(gui, cvPoint(447+(25/2), 130+(24/2)), MAGENTA, BIG);
+		crossPoint(gui, cvPoint(447+(25/2), 114+(24/2)), MAGENTA, BIG);
 	cvShowImage("gui", gui);
 }
 
 void eraseGuiMark(IplImage *gui, int togglePoint) {
 	if(togglePoint == TOGGLEHIP) 
-		cvRectangle(gui, cvPoint(165+1, 130+1), cvPoint(165+1 + 25-1, 130+1 + 24-1), WHITE,CV_FILLED,8,0);
+		cvRectangle(gui, cvPoint(165+1, 114+1), cvPoint(165+1 + 25-1, 114+1 + 24-1), WHITE,CV_FILLED,8,0);
 	else if(togglePoint == TOGGLEKNEE) 
-		cvRectangle(gui, cvPoint(235+1, 130+1), cvPoint(235+1 + 25-1, 130+1 + 24-1), WHITE,CV_FILLED,8,0);
+		cvRectangle(gui, cvPoint(235+1, 114+1), cvPoint(235+1 + 25-1, 114+1 + 24-1), WHITE,CV_FILLED,8,0);
 	else if(togglePoint == TOGGLETOE) 
-		cvRectangle(gui, cvPoint(308+1, 130+1), cvPoint(308+1 + 25-1, 130+1 + 24-1), WHITE,CV_FILLED,8,0);
+		cvRectangle(gui, cvPoint(308+1, 114+1), cvPoint(308+1 + 25-1, 114+1 + 24-1), WHITE,CV_FILLED,8,0);
 	else //if(togglePoint == ZOOM) 
-		cvRectangle(gui, cvPoint(447+1, 130+1), cvPoint(447+1 + 25-1, 130+1 + 24-1), WHITE,CV_FILLED,8,0);
+		cvRectangle(gui, cvPoint(447+1, 114+1), cvPoint(447+1 + 25-1, 114+1 + 24-1), WHITE,CV_FILLED,8,0);
 	cvShowImage("gui", gui);
 }
 
@@ -452,10 +452,9 @@ void showScaledImage(IplImage * img, const char *title) {
 }
 
 
-IplImage* changeROIThreshold(IplImage* gray, IplImage* output, CvPoint p, int threshold, int thresholdMax)
+IplImage* changeROIThreshold(IplImage* gray, IplImage* output, CvPoint p, int threshold, int thresholdMax, int pointSize)
 {
 	CvRect rect;
-	int pointSize = 30;
 					
 	rect.x=p.x - pointSize/2; rect.y=p.y - pointSize/2;
 	rect.width=pointSize; rect.height=pointSize;

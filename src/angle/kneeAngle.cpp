@@ -550,7 +550,7 @@ int main(int argc,char **argv)
 					//see if there's a hole in that pixel on segmentedValidationHoles
 					seqHolesEnd = findHoles(
 							outputTemp, segmentedValidationHoles, foundHoles, frame_copy,  
-							maxrect, hipOld, kneeOld, toeOld);
+							maxrect, hipOld, kneeOld, toeOld, font);
 				}
 
 

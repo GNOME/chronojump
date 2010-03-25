@@ -6712,62 +6712,68 @@ suitable for agility tests)</property>
     <property name="visible">True</property>
     <property name="border_width">10</property>
     <property name="title" translatable="yes">About</property>
+    <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
     <signal name="delete_event" handler="on_delete_event"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkVBox" id="vbox70">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <property name="spacing">10</property>
             <child>
-              <widget class="GtkTable" id="table28">
+              <widget class="GtkHBox" id="hbox2">
                 <property name="visible">True</property>
-                <property name="n_columns">3</property>
-                <property name="column_spacing">14</property>
-                <property name="row_spacing">8</property>
+                <property name="spacing">8</property>
                 <child>
-                  <widget class="GtkLabel" id="label201">
+                  <widget class="GtkHBox" id="hbox3">
                     <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Chronojump&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="spacing">8</property>
+                    <child>
+                      <widget class="GtkLabel" id="label201">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Chronojump&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="dialog_about_label_version">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                      </widget>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </widget>
                   <packing>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <widget class="GtkImage" id="image_logo">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
+                    <property name="yalign">1</property>
+                    <property name="stock">gtk-network</property>
                   </widget>
                   <packing>
-                    <property name="left_attach">2</property>
-                    <property name="right_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                    <property name="y_padding">8</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkLabel" id="dialog_about_label_version">
-                    <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
+                    <property name="expand">False</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>

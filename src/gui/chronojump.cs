@@ -4899,6 +4899,8 @@ Console.WriteLine("X");
 		menuSessionSensitive(true);
 		menuPersonSensitive(true);
 		menuToolsSensitive(true);
+		
+		changeTestImage("", "", "LOGO");
 	}
 
 	//only called by delete person functions (if we run out of persons)

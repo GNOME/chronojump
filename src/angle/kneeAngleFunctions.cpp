@@ -345,7 +345,7 @@ CvPoint findToePoint(IplImage *img,CvRect roirect,int startx,int starty, int toe
  * imgH (image Holes)
  */
 CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage *imgMain, 
-	CvRect roirect, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld)
+	CvRect roirect, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, CvFont font)
 {
 	CvPoint pt;
 	pt.x =0;pt.y=0;
@@ -500,6 +500,8 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
 	CvPoint kneePoint;
 	CvPoint toePoint;
 	hipPoint.x=0; kneePoint.x=0; toePoint.x=0;
+	char *labelShort = new char[2];
+	CvScalar color = CV_RGB(128, 128, 128 ); //paint rectangles in not-valid (or not big) holes.
 	for( int i = 0; i < seqHolesSize->total; i++ ) 
 	{
 		int validSize = *CV_GET_SEQ_ELEM( int, seqIsValidSize, i ); 
@@ -525,25 +527,35 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
 		if(validSure) {
 			CvPoint center = *CV_GET_SEQ_ELEM( CvPoint, seqHolesCenter, i ); 
 			if(hipPoint.x == 0) {
+				color = RED; 
 				cvRectangle(imgMain, 
 						cvPoint(sp1.x-1,sp1.y-1),
 						cvPoint(sp2.x+1, sp2.y+1),
-						CV_RGB(0,255,0),1,1);
+						color,1,1);
 				hipPoint.x = center.x; hipPoint.y = center.y;
-			} else if(kneePoint.x == 0) {
+				sprintf(labelShort,"H");
+			} 
+			else if(kneePoint.x == 0) {
+				color = GREEN; 
 				cvRectangle(imgMain, 
 						cvPoint(sp1.x-1,sp1.y-1),
 						cvPoint(sp2.x+1, sp2.y+1),
-						CV_RGB(0,255,0),1,1);
+						color,1,1);
 				kneePoint.x = center.x; kneePoint.y = center.y;
-			} else {
+				sprintf(labelShort,"K");
+			} 
+			else {
+				color = BLUE; 
 				cvRectangle(imgMain, 
 						cvPoint(sp1.x-1,sp1.y-1),
 						cvPoint(sp2.x+1, sp2.y+1),
-						CV_RGB(0,255,0),1,1);
+						color,1,1);
 				toePoint.x = center.x; toePoint.y = center.y;
+				sprintf(labelShort,"T");
 			}
-		} else {
+			imagePrint(imgMain, cvPoint(center.x + 20, center.y), labelShort, font, color);
+		} 
+		else {
 			 //paint rectangles in not-valid (or not big) holes.
 			cvRectangle(imgMain, 
 					cvPoint(sp1.x-1,sp1.y-1),

@@ -587,7 +587,7 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
  * this function is realy similiar to findHoles
  * try to do only a function
  */
-CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvRect roirect, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, CvFont font)
+CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, CvFont font)
 {
 	CvPoint pt;
 	pt.x =0;pt.y=0;
@@ -597,13 +597,7 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvRect roirect, Cv
 	uchar *srcdata = srcmat->data.ptr;
 	
 	int width = imgThresh->width;
-	//int minx = imgThresh->width;
-	//int endy = imgThresh->height;
-	
-	int startx = roirect.x;
-	int endx = startx + roirect.width;
-	int starty = roirect.y;
-	int endy = starty + roirect.height;
+	int endy = imgThresh->height;
 	
 	//stick storage
 	CvMemStorage* storage = cvCreateMemStorage(0);
@@ -613,12 +607,10 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvRect roirect, Cv
 
 	
 	//put all hole points on seqAllHoles
-	//for(int y=0;y<endy;y++)
-	for(int y=starty; y < endy; y++)
+	for(int y=0;y<endy;y++)
 	{
 		uchar *srcdataptr = srcdata + y*imgThresh->width;
 		for(int x=0;x<width;x++)
-//		for(int x=startx; x < endx; x++)
 		{
 			if(srcdataptr[x] == 0)
 			{

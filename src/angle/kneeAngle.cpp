@@ -188,6 +188,7 @@ int main(int argc,char **argv)
 	
 	/* initialization variables */
 	IplImage *frame=0,*frame_copy=0,*gray=0,*segmented=0,*edge=0,*temp=0,*output=0;
+	IplImage *outputTemp=0;
 	IplImage *segmentedValidationHoles=0;
 	IplImage *foundHoles=0;
 	IplImage *result=0;
@@ -206,8 +207,10 @@ int main(int argc,char **argv)
 	int programMode = menu(gui, font);
 	//printf("programMode: %d\n", programMode);
 	
-	if(programMode == skinOnlyMarkers || programMode == validation)
+	if(programMode == skinOnlyMarkers)
 		gui = cvLoadImage("kneeAngle_skin.png");
+	else if(programMode == blackOnlyMarkers) // || programMode == validation) ?
+		gui = cvLoadImage("kneeAngle_black.png");
 	else
 		gui = cvLoadImage("kneeAngle_black_without.png");
 
@@ -239,7 +242,7 @@ int main(int argc,char **argv)
 		cvNamedWindow("holes",1);
 		cvNamedWindow("threshold",1);
 		cvNamedWindow("result",1);
-	} else if (programMode == skinOnlyMarkers)
+	} else if (programMode == skinOnlyMarkers || programMode == blackOnlyMarkers)
 		cvNamedWindow("threshold",1);
 	else if (programMode == blackWithoutMarkers)
 		cvNamedWindow("result",1);
@@ -303,6 +306,11 @@ int main(int argc,char **argv)
 	*/
 
 	int threshold;
+	
+	//this is currently only used on blackOnlyMarkers to have a threshold to find the contour
+	//(different than threshold for three points)
+	int thresholdLargestContour; 
+
 	int thresholdMax = 255;
 	int thresholdInc = 1;
 				
@@ -448,6 +456,7 @@ int main(int argc,char **argv)
 			edge =	cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
 			temp = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
 			output = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
+			outputTemp = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
 			result = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,3);
 			resultStick = cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,3);
 			extension =	cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,3);
@@ -457,6 +466,11 @@ int main(int argc,char **argv)
 			/* TODO: check this, as validation will need both thresolds */	
 			if(programMode == skinOnlyMarkers)
 				threshold = 150;
+			else if(programMode == blackOnlyMarkers) {
+				threshold = 150;
+				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
+				thresholdLargestContour = calculateThresholdStart(gray);
+			}
 			else {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 				threshold = calculateThresholdStart(gray);
@@ -476,7 +490,7 @@ int main(int argc,char **argv)
 		 */
 
 
-		if(programMode == skinOnlyMarkers || programMode == validation) 
+		if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers || programMode == validation) 
 		{
 
 /* kalman */
@@ -489,6 +503,7 @@ int main(int argc,char **argv)
 
 
 			cvCvtColor(frame_copy,output,CV_BGR2GRAY);
+			cvCvtColor(frame_copy,outputTemp,CV_BGR2GRAY);
 			cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 
 //imageGuiResult(gui, "b1", font);
@@ -513,16 +528,31 @@ int main(int argc,char **argv)
 			}
 
 			if(framesCount >1) {
+					
+				//this segmented is to find the three holes
+				cvThreshold(gray,segmented,threshold,thresholdMax,CV_THRESH_BINARY_INV);
 
-//imageGuiResult(gui, "b41", font);
-//cvWaitKey(50); //to print above message
-			CvSeq* seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
-//imageGuiResult(gui, "b42", font);
-//cvWaitKey(50); //to print above message
 
-			hipMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
-			kneeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 1 ); 
-			toeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
+				//TODO validation?
+				if(programMode == skinOnlyMarkers) {
+					maxrect.x = 0; maxrect.y = 0;
+					maxrect.width = gray->width; maxrect.height = gray->height; 
+				}
+				else { //if(programMode == blackOnlyMarkers) 
+
+					//this segmented is to find the contour (threshold is lot little)
+					//TODO: clarify names
+					cvThreshold(gray,segmentedValidationHoles,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
+
+					//maxrect = findLargestContour(segmented, output, showContour);
+					maxrect = findLargestContour(segmentedValidationHoles, outputTemp, showContour);
+				}
+					
+				CvSeq* seqHolesEnd = findHolesSkin(output, frame_copy, maxrect, hipMarked, kneeMarked, toeMarked, font);
+
+				hipMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
+				kneeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 1 ); 
+				toeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
 			}
 			
 			
@@ -623,7 +653,7 @@ int main(int argc,char **argv)
 		 */
 
 
-		if(programMode == skinOnlyMarkers || programMode == validation) 
+		if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers || programMode == validation) 
 		{
 			if(pointIsNull(hipMarked) || pointIsNull(kneeMarked) || pointIsNull(toeMarked))
 				thetaMarked = -1;
@@ -1361,7 +1391,7 @@ int main(int argc,char **argv)
 					mouseClicked = UNDEFINED;  
 					mouseMultiplier = false;
 		
-					if(programMode == skinOnlyMarkers) {
+					if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
 						sprintf(label, "Paused. Threshold: %d, HKT: %d,%d,%d", 
 								threshold, thresholdROIH, thresholdROIK, thresholdROIT);
 						imageGuiResult(gui, label, font);
@@ -1464,7 +1494,7 @@ int main(int argc,char **argv)
 						thresholdROITChanged = false;
 					}
 
-					if(programMode == skinOnlyMarkers) {
+					if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
 						sprintf(label, "Paused. Threshold: %d, HKT: %d,%d,%d", 
 								threshold, thresholdROIH, thresholdROIK, thresholdROIT);
 						imageGuiResult(gui, label, font);

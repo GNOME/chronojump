@@ -528,16 +528,15 @@ int main(int argc,char **argv)
 			}
 
 			if(framesCount >1) {
-					
+
 				//this segmented is to find the three holes
 				cvThreshold(gray,segmented,threshold,thresholdMax,CV_THRESH_BINARY_INV);
 
+				CvSeq* seqHolesEnd;
 
 				//TODO validation?
-				if(programMode == skinOnlyMarkers) {
-					maxrect.x = 0; maxrect.y = 0;
-					maxrect.width = gray->width; maxrect.height = gray->height; 
-				}
+				if(programMode == skinOnlyMarkers) 
+					seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
 				else { //if(programMode == blackOnlyMarkers) 
 
 					//this segmented is to find the contour (threshold is lot little)
@@ -546,9 +545,14 @@ int main(int argc,char **argv)
 
 					//maxrect = findLargestContour(segmented, output, showContour);
 					maxrect = findLargestContour(segmentedValidationHoles, outputTemp, showContour);
+
+					//search in output all the black places (pants) and 
+					//see if there's a hole in that pixel on segmentedValidationHoles
+					seqHolesEnd = findHoles(
+							outputTemp, segmentedValidationHoles, foundHoles, frame_copy,  
+							maxrect, hipOld, kneeOld, toeOld);
 				}
-					
-				CvSeq* seqHolesEnd = findHolesSkin(output, frame_copy, maxrect, hipMarked, kneeMarked, toeMarked, font);
+
 
 				hipMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
 				kneeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 1 ); 

@@ -1315,27 +1315,6 @@ void on_mouse_mark_point( int event, int x, int y, int flags, void* param )
 	switch( event ) {
 		case CV_EVENT_LBUTTONDOWN:
 			{
-				/*
-				if(forceMouseMark == TOGGLEHIP) 
-				{
-					//hipMouse = clicked;
-					markedMouse = clicked;
-					forceMouseHip = false;
-				} 
-				else if(forceMouseMark == TOGGLEKNEE) 
-				{
-					//kneeMouse = clicked;
-					markedMouse = clicked;
-					forceMouseKnee = false;
-				} 
-				else if(forceMouseMark == TOGGLETOE) 
-				{
-					//toeMouse = clicked;
-					markedMouse = clicked;
-					forceMouseToe = false;
-				} 
-				*/
-				
 				if(forceMouseMark == TOGGLEHIP || forceMouseMark == TOGGLEKNEE || 
 						forceMouseMark == TOGGLETOE) {
 					markedMouse = clicked;

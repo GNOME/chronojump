@@ -1687,11 +1687,20 @@ int menu(IplImage * gui, CvFont font)
 
 	int row = 1;
 	int step = 16;
+	int key = NULL;
 
 	cvSetMouseCallback( "gui", on_mouse_gui_menu, 0 );
 
 	do {
-		cvWaitKey(100);
+		key = (char) cvWaitKey(100);
+		switch ( key ) {
+			case 27: mouseClicked = quit; 			break; //27: ESC
+			case 'q': mouseClicked = quit; 			break;
+			case '1': mouseClicked = validation; 		break;
+			case '2': mouseClicked = blackWithoutMarkers; 	break;
+			case '3': mouseClicked = skinOnlyMarkers; 	break;
+			case '4': mouseClicked = blackOnlyMarkers; 	break;
+		}
 	} while (mouseClicked == undefined);
 
 	if(mouseClicked == quit)

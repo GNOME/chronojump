@@ -587,7 +587,7 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
  * this function is realy similiar to findHoles
  * try to do only a function
  */
-CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, CvFont font)
+CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvRect roirect, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, CvFont font)
 {
 	CvPoint pt;
 	pt.x =0;pt.y=0;
@@ -597,8 +597,13 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	uchar *srcdata = srcmat->data.ptr;
 	
 	int width = imgThresh->width;
-	int minx = imgThresh->width;
-	int endy = imgThresh->height;
+	//int minx = imgThresh->width;
+	//int endy = imgThresh->height;
+	
+	int startx = roirect.x;
+	int endx = startx + roirect.width;
+	int starty = roirect.y;
+	int endy = starty + roirect.height;
 	
 	//stick storage
 	CvMemStorage* storage = cvCreateMemStorage(0);
@@ -608,10 +613,12 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 
 	
 	//put all hole points on seqAllHoles
-	for(int y=0;y<endy;y++)
+	//for(int y=0;y<endy;y++)
+	for(int y=starty; y < endy; y++)
 	{
 		uchar *srcdataptr = srcdata + y*imgThresh->width;
 		for(int x=0;x<width;x++)
+//		for(int x=startx; x < endx; x++)
 		{
 			if(srcdataptr[x] == 0)
 			{
@@ -1201,9 +1208,11 @@ void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 	CvPoint clicked; 
 	clicked.x=x; clicked.y=y;
 
-	CvRect rval; rval.x=60;  rval.width=60;  rval.y=60; rval.height=210;
-	CvRect rbam; rbam.x=188; rbam.width=100; rbam.y=60; rbam.height=210;
-	CvRect rsom; rsom.x=340; rsom.width=90;  rsom.y=60; rsom.height=210;
+	CvRect rval; rval.x=45;  rval.width=50;  rval.y=60; rval.height=210;
+	CvRect rbam; rbam.x=157; rbam.width=50; rbam.y=60; rbam.height=210;
+	CvRect rsom; rsom.x=270; rsom.width=50;  rsom.y=60; rsom.height=210;
+	CvRect rbom; rbom.x=384; rbom.width=50;  rbom.y=60; rbom.height=210;
+
 	CvRect rquit; rquit.x=450; rquit.width=40;  rquit.y=10; rquit.height=45;
 	switch( event ) {
 		case CV_EVENT_LBUTTONDOWN:
@@ -1214,6 +1223,8 @@ void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 					mouseClicked = blackWithoutMarkers;
 				else if(pointInsideRect(clicked, rsom))
 					mouseClicked = skinOnlyMarkers;
+				else if(pointInsideRect(clicked, rbom))
+					mouseClicked = blackOnlyMarkers;
 				else if(pointInsideRect(clicked, rquit))
 					mouseClicked = quit;
 			}

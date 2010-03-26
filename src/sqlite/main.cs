@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.77";
+	static string lastChronojumpDatabaseVersion = "0.78";
 
 	public Sqlite() {
 	}
@@ -1021,6 +1021,21 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.77";
 			}
+			if(currentVersion == "0.77") {
+				dbcon.Open();
+				
+				SqliteJumpType.UpdateOther ("weight", Constants.TakeOffWeightName, "1"); 
+
+				Random rnd = new Random();
+				string machineID = rnd.Next().ToString();
+				SqlitePreferences.Insert ("machineID", machineID); 
+				
+				SqlitePreferences.Update ("databaseVersion", "0.78", true); 
+				Log.WriteLine("Converted DB to 0.78 (Added machineID to preferences, takeOffWeight has no weight in db conversions since 0.66)"); 
+				
+				dbcon.Close();
+				currentVersion = "0.78";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1153,6 +1168,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.77 - 0.78 Converted DB to 0.78 (Added machineID to preferences, takeOffWeight has no weight in db conversions since 0.66)
 		//0.76 - 0.77 Converted DB to 0.77 (person77, personSession77)
 		//0.75 - 0.76 Converted DB to 0.76 (jump & jumpRj falls as double)
 		//0.74 - 0.75 Converted DB to 0.75 (person, and personSessionWeight have height and weight as double)

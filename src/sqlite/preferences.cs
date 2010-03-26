@@ -61,6 +61,10 @@ class SqlitePreferences : Sqlite
 		Insert ("volumeOn", "True"); 
 		Insert ("evaluatorServerID", "-1");
 		Insert ("versionAvailable", "");
+		
+		Random rnd = new Random();
+		string machineID = rnd.Next().ToString();
+		Insert ("machineID", machineID);
 	}
 
 	public static void Insert(string myName, string myValue)

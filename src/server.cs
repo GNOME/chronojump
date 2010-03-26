@@ -42,6 +42,7 @@ public class Server
 		}
 	}
 
+	/*
 	private static string getIP() {
 		string strHostName = "";
 		strHostName = System.Net.Dns.GetHostName();
@@ -49,6 +50,7 @@ public class Server
 		IPAddress[] addr = ipEntry.AddressList;
 		return addr[addr.Length-1].ToString();
 	}
+	*/
 
 	public static string Ping(bool doInsertion, string progName, string progVersion) {
 		try {
@@ -56,9 +58,12 @@ public class Server
 			Log.WriteLine(myServer.ConnectDatabase());
 		
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
+			string machineID = SqlitePreferences.Select("machineID");
 
 			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, Util.GetOS(), 
-					getIP(), DateTime.Now); //evaluator, ip, date
+					//getIP(), DateTime.Now); //evaluator IP, date
+					machineID, DateTime.Now); //evaluator machineID, date
+
 			//if !doIsertion nothing will be uploaded,
 			//is ok for uploadPerson to know if server is online
 			string versionAvailable = myServer.UploadPing(myPing, doInsertion);

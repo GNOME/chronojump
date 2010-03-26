@@ -633,8 +633,6 @@ public class ChronoJumpWindow
 		 else 
 			volumeOn = false;
 		changeVolumeButton(volumeOn);
-		
-		//volumeOn = true;
 	
 		//change language works on windows. On Linux let's change the locale
 		//if(Util.IsWindows())

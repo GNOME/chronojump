@@ -171,19 +171,25 @@ int main(int argc,char **argv)
 		exit(0);
 	}
 	
-	if(argc == 3) {
-		startAt = atoi(argv[2]);
-	}
-
-	/*
 	int framesNumber = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
-	printf("--%d--\n", framesNumber);
-	*/
+
+	if(argc == 3) {
+		if(atof(argv[2])==.25) 			
+			startAt = framesNumber*.25;	//start at 25%
+		else if(atof(argv[2])==.5)		
+			startAt = framesNumber*.5;	//start at 50%
+		else if(atof(argv[2])==.75)		
+			startAt = framesNumber*.75;	//start at 75%
+		else 					
+			startAt = atoi(argv[2]);	//start at selected frame
+	}
+	
+	printf("Number of frames: %d\t Start at:%d\n\n", framesNumber, startAt);
 
 	//3D
 	//printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle seen;angle side;angle real\n");
 	//not 3D but record thresholds
-	printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle current; threshold, th.hip; th.knee; th.toe\n");
+	//printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle current; threshold, th.hip; th.knee; th.toe\n");
 
 	
 	/* initialization variables */

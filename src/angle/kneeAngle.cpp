@@ -1400,8 +1400,6 @@ int main(int argc,char **argv)
 				}
 
 				else if(mouseClicked == THIPMORE || mouseClicked == THIPLESS) {
-sprintf(label, "hip more/less");
-imageGuiResult(gui, label, font);
 					if(pointIsNull(hipMarked)) {
 						//force mark first
 						mouseClicked = HIPMARK;
@@ -1462,8 +1460,6 @@ imageGuiResult(gui, label, font);
 				}
 
 				else if(mouseClicked == SHIPMORE || mouseClicked == SHIPLESS) {
-sprintf(label, "size hip more/less");
-imageGuiResult(gui, label, font);
 					if(pointIsNull(hipMarked)) {
 						//force mark first
 						mouseClicked = HIPMARK;

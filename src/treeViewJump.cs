@@ -213,7 +213,6 @@ public class TreeViewJumps : TreeViewEvent
 
 
 		if (showPower)  {
-
 			//takeoff has no tv. power should not be calculated
 			//calculate jumps with tf
 			if(newJump.Tv > 0) {	
@@ -228,7 +227,8 @@ public class TreeViewJumps : TreeViewEvent
 					myData[count++] = Util.TrimDecimals(
 							Util.GetPower(newJump.Tv, personWeight, weightInKg).ToString(), pDN);
 				}
-			}
+			} else
+				myData[count++] = "0";
 		}
 		if (showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(newJump.Tv.ToString(), metersSecondsPreferred), pDN);

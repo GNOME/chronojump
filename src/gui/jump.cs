@@ -869,7 +869,9 @@ public class JumpExtraWindow
 			       hideFallData();	
 		
 		//show technique (arms) only in DJ
-		if(myJumpType.StartIn || myJumpType.IsRepetitive)
+		if(myJumpType.StartIn || myJumpType.IsRepetitive || 
+				myJumpType.Name == Constants.TakeOffName || 
+				myJumpType.Name == Constants.TakeOffWeightName)
 			hideTechniqueArmsData();
 		
 		JumpExtraWindowBox.check_dj_arms.Active = arms;

@@ -427,12 +427,23 @@ class SqliteJumpType : Sqlite
 		dbcon.Close();
 		return hasFall;
 	}
-	
+
+	//updates name	
 	public static void Update(string nameOld, string nameNew)
 	{
 		//dbcon.Open();
 		dbcmd.CommandText = "UPDATE jumpType SET name = '" + nameNew + 
 			"' WHERE name == '" + nameOld + "'";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		//dbcon.Close();
+	}
+
+	public static void UpdateOther(string column, string typeName, string newValue)
+	{
+		//dbcon.Open();
+		dbcmd.CommandText = "UPDATE jumpType SET " + column + " = '" + newValue + 
+			"' WHERE name == '" + typeName + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		//dbcon.Close();

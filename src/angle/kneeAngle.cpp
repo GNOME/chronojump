@@ -353,7 +353,7 @@ int main(int argc,char **argv)
 	int thresholdROISizeK = 16; 
 	int thresholdROISizeT = 16;
 	int thresholdROISizeInc = 2; //increment on each pulsation
-	int thresholdROISizeMin = 10;
+	int thresholdROISizeMin = 8;
 
 	int key;
 
@@ -492,16 +492,18 @@ int main(int argc,char **argv)
 			extensionSegHoles =	cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
 
 			/* TODO: check this, as validation will need both thresolds */	
-			if(programMode == skinOnlyMarkers)
-				threshold = 150;
-			else if(programMode == blackOnlyMarkers) {
-				threshold = 150;
+			if(programMode == skinOnlyMarkers) {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
-				thresholdLargestContour = calculateThresholdStart(gray);
+				threshold = calculateThresholdStart(gray, false);
+			}
+			else if(programMode == blackOnlyMarkers) {
+				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
+				threshold = calculateThresholdStart(gray, false);
+				thresholdLargestContour = calculateThresholdStart(gray, true);
 			}
 			else {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
-				threshold = calculateThresholdStart(gray);
+				threshold = calculateThresholdStart(gray, true);
 			}
 		}
 

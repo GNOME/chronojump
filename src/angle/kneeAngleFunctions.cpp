@@ -1157,11 +1157,14 @@ int calculateBrightness(IplImage* img)
 		return (int) 100 * countBlack/(countWhite + countBlack);
 }
 
-int calculateThresholdStart(IplImage * gray)
+//true means find the black pants.
+//false means find the points
+int calculateThresholdStart(IplImage * gray, bool pantsOrPoints)
 {
 	int brightness = calculateBrightness(gray);
 	printf("brightness: %d\n", brightness);
 
+	//PANTS INFO:
 	//created image like the contour but with holes and more (stores on segmentedValidationHoles)
 	//recommended 25,255
 	//high threshold (40-60) detects more black things (useful to not confuse a hole when is close to the border)
@@ -1170,26 +1173,35 @@ int calculateThresholdStart(IplImage * gray)
 	//int threshold = 35;
 	//put threshold min depending on brightnesss
 	//eg: nora: brightness 85 -> threshold 30
-	//eg: 44_lluis_puerta_salt6_m.MOV: brightness 73 -> threshold 10
+	//eg: 44_-_salt6_m.MOV: brightness 73 -> threshold 10
 
 	//adjust better, because:
-	//12_carles_tejedor_salt3_m.MOV
+	//12_-_salt3_m.MOV
 	//is bright:0, but if put thresh to 1 then detects bad. and to 10 is ok
 	//
-	//on the other side, 2_roger_miralles_salt3_m.MOV
+	//on the other side, 2_-_salt3_m.MOV
 	//is really dark and it needs a thresh of 1 to work
 	//
 	//also it could be nice to have a thresh that detects three objects
 	//another option, could be to have the thresh 10 as really minimum and darker images are unsupported!
+
+	//POINTS INFO:
+	//normal threshold for points is 150, but can be modified depending on brightness
+
 	int thresholdStart;
 	int briMax = 85;
 	int briMin = 65;
 	//int briZero = 50;
 	int thresMax = 30;
 	int thresMin = 10;
+	if(!pantsOrPoints) { //threshold for points
+		thresMax = 190;
+		thresMin = 70;
+	}
 
 	if(brightness >= briMax) 
 		thresholdStart = thresMax;
+	//pants
 	//else if(brightness <= briZero)
 	//	thresholdStart = 10;
 	else if(brightness <= briMin)

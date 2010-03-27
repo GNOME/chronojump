@@ -198,7 +198,7 @@ int main(int argc,char **argv)
 	
 	/* initialization variables */
 	IplImage *frame=0,*frame_copy=0,*gray=0,*segmented=0,*edge=0,*temp=0,*output=0;
-	IplImage *outputTemp=0;
+	IplImage *outputTemp=0, *frame_copyTemp=0;
 	IplImage *segmentedValidationHoles=0;
 	IplImage *foundHoles=0;
 	IplImage *result=0;
@@ -576,6 +576,10 @@ int main(int argc,char **argv)
 
 					//search in output all the black places (pants) and 
 					//see if there's a hole in that pixel on segmentedValidationHoles
+					//but firsts do a copy because maybe it doesn't work
+					if( !frame_copyTemp ) 
+						frame_copyTemp = cvCreateImage( cvSize(frame->width,frame->height),IPL_DEPTH_8U, frame->nChannels );
+					cvCopy(frame_copy,frame_copyTemp);
 					seqHolesEnd = findHoles(
 							outputTemp, segmentedValidationHoles, foundHoles, frame_copy,  
 							maxrect, hipOld, kneeOld, toeOld, font);
@@ -587,8 +591,10 @@ int main(int argc,char **argv)
 					CvPoint myToe = pointToZero();
 					myHip = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
 					myToe = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
-					if(pointIsNull(myHip) || pointIsNull(myToe))
+					if(pointIsNull(myHip) || pointIsNull(myToe)) {
+						cvCopy(frame_copyTemp,frame_copy);
 						seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
+					}
 				}
 
 

@@ -160,7 +160,10 @@ int main(int argc,char **argv)
 {
 	if(argc < 2)
 	{
-		cout<<"Provide file location as a first argument...\noptional: provide start photogramme at 2nd argument."<<endl;
+		char *startMessage = new char[300];
+		sprintf(startMessage, "\nkneeAngle HELP.\n\nProvide file location as a first argument...\nOptional: as 2nd argument provide a fraction of video to start at that frame, or a concrete frame.\nOptional: as 3rd argument provide mode you want to execute (avoiding main menu).\n\t%d: validation; %d: blackWithoutMarkers; %d: skinOnlyMarkers; %d: blackOnlyMarkers.\n\nEg: Start at frame 5375:\n\tkneeAngle myfile.mov 5375\nEg:start at 80 percent of video and directly as blackOnlyMarkers:\n\tkneeAngle myFile.mov .8 %d\n", 
+				validation, blackWithoutMarkers, skinOnlyMarkers, blackOnlyMarkers, blackOnlyMarkers);
+		cout<< startMessage <<endl;
 		exit(1);
 	}
 
@@ -173,18 +176,19 @@ int main(int argc,char **argv)
 	
 	int framesNumber = cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
 
-	if(argc == 3) {
-		if(atof(argv[2])==.25) 			
-			startAt = framesNumber*.25;	//start at 25%
-		else if(atof(argv[2])==.5)		
-			startAt = framesNumber*.5;	//start at 50%
-		else if(atof(argv[2])==.75)		
-			startAt = framesNumber*.75;	//start at 75%
+	if(argc >= 3) {
+		if(atof(argv[2]) < 1) 			
+			startAt = framesNumber * atof(argv[2]);
 		else 					
 			startAt = atoi(argv[2]);	//start at selected frame
 	}
 	
 	printf("Number of frames: %d\t Start at:%d\n\n", framesNumber, startAt);
+	
+	int programMode = undefined;
+	if(argc == 4) 
+		programMode = atoi(argv[3]);
+
 
 	//3D
 	//printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle seen;angle side;angle real\n");
@@ -208,10 +212,13 @@ int main(int argc,char **argv)
 	cvInitFont(&font, CV_FONT_HERSHEY_COMPLEX, fontSize, fontSize, 0.0, 1, fontLineType);
 	
 	cvNamedWindow("gui",1);
-	gui = cvLoadImage("kneeAngle_intro.png");
-	cvShowImage("gui", gui);
-	int programMode = menu(gui, font);
-	//printf("programMode: %d\n", programMode);
+	//if programMode is not defined or is invalid, ask user
+	if(programMode < validation || programMode > blackOnlyMarkers) {
+		gui = cvLoadImage("kneeAngle_intro.png");
+		cvShowImage("gui", gui);
+		programMode = menu(gui, font);
+		//printf("programMode: %d\n", programMode);
+	}
 	
 	if(programMode == skinOnlyMarkers)
 		gui = cvLoadImage("kneeAngle_skin.png");
@@ -568,6 +575,16 @@ int main(int argc,char **argv)
 					seqHolesEnd = findHoles(
 							outputTemp, segmentedValidationHoles, foundHoles, frame_copy,  
 							maxrect, hipOld, kneeOld, toeOld, font);
+				
+					//if hip or toe is touching a border of the image
+					//then will not be included in largest contour
+					//then use findHolesSkin to find points
+					CvPoint myHip = pointToZero();
+					CvPoint myToe = pointToZero();
+					myHip = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
+					myToe = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
+					if(pointIsNull(myHip) || pointIsNull(myToe))
+						seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
 				}
 
 
@@ -1257,23 +1274,6 @@ int main(int argc,char **argv)
 		if(mouseClicked == quit || key == 27 || key == 'q') // 'ESC'
 			shouldEnd = true;
 
-		/*
-		else if (mouseClicked == TGLOBALMORE)  
-			threshold += thresholdInc;
-		else if (mouseClicked == TGLOBALLESS) {
-			threshold -= thresholdInc;
-			if(threshold < 0)
-				threshold = 0;
-				*/
-			/*
-		else if (key == 'l') 
-			labelsAtLeft = ! labelsAtLeft;
-		else if (key == 'r') { //reset legs length
-			upLegMarkedDistMax = 0;
-			downLegMarkedDistMax = 0;
-		}
-		*/
-		
 		if (mouseClicked == FORWARD) { 
 			forward = true;
 			imageGuiResult(gui, "Forwarding...", font);

@@ -72,22 +72,23 @@ enum { SMALL = 1, MID = 2, BIG = 3 };
  * skinOnlyMarkers uses markers to find three points and angle (easiest)
  * skinOnlyMarkers uses markers to find three points and angle but in pants (it uses findLargestContour and finds inside it)
  */
-enum { quit = -2, undefined = -1, validation = 0, blackWithoutMarkers = 1, skinOnlyMarkers = 2, blackOnlyMarkers = 3}; 
+//NOTE: if this changes, change also in kneeangle.cpp menu
+enum { quit = -1, undefined = 0, validation = 1, blackWithoutMarkers = 2, skinOnlyMarkers = 3, blackOnlyMarkers = 4}; 
 
 //used on gui
 enum { 
-	QUIT = -2,
-	UNDEFINED = -1, 
-	YES = 0, NO = 1, NEVER = 2, 
-	PLAYPAUSE = 3, FORWARDONE = 4, FORWARD = 5, FASTFORWARD = 6, BACKWARD = 7,
-	HIPMARK = 8, KNEEMARK = 9, TOEMARK = 10, ZOOM = 11,
-	THIPMORE = 12, THIPLESS = 13, 
-	TKNEEMORE = 14, TKNEELESS = 15, 
-	TTOEMORE = 16, TTOELESS = 17, 
-	TGLOBALMORE = 18, TGLOBALLESS = 19,
-	SHIPMORE = 20, SHIPLESS = 21, 
-	SKNEEMORE = 22, SKNEELESS = 23, 
-	STOEMORE = 24, STOELESS = 25
+	QUIT = -1,
+	UNDEFINED = 0, 
+	YES = 1, NO = 2, NEVER = 3, 
+	PLAYPAUSE = 4, FORWARDONE = 5, FORWARD = 6, FASTFORWARD = 7, BACKWARD = 8,
+	HIPMARK = 9, KNEEMARK = 10, TOEMARK = 11, ZOOM = 12,
+	THIPMORE = 13, THIPLESS = 14, 
+	TKNEEMORE = 15, TKNEELESS = 16, 
+	TTOEMORE = 17, TTOELESS = 18, 
+	TGLOBALMORE = 19, TGLOBALLESS = 20,
+	SHIPMORE = 21, SHIPLESS = 22, 
+	SKNEEMORE = 23, SKNEELESS = 24, 
+	STOEMORE = 25, STOELESS = 26
 }; 
 
 enum { TOGGLENOTHING = -1, TOGGLEHIP = 0, TOGGLEKNEE = 1, TOGGLETOE = 2};

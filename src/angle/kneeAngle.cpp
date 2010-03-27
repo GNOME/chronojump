@@ -310,6 +310,10 @@ int main(int argc,char **argv)
 	CvPoint hipOld = pointToZero();
 	CvPoint kneeOld = pointToZero();
 	CvPoint toeOld = pointToZero();
+	//used for pressing 'l': last.  when a point is lost
+	CvPoint hipOldWorked = pointToZero();
+	CvPoint kneeOldWorked = pointToZero();
+	CvPoint toeOldWorked = pointToZero();
 
 	/*
 	int upLegMarkedDist = 0;
@@ -678,6 +682,15 @@ int main(int argc,char **argv)
 		}
 		*/
 			
+					
+		//store old points that worked
+		if(!pointIsNull(hipOld))
+			hipOldWorked = hipOld;
+		if(!pointIsNull(kneeOld))
+			kneeOldWorked = kneeOld;
+		if(!pointIsNull(toeOld))
+			toeOldWorked = toeOld;
+
 		hipOld = hipMarked;
 		kneeOld = kneeMarked;
 		toeOld = toeMarked;
@@ -1580,19 +1593,19 @@ int main(int argc,char **argv)
 						markedBefore = hipMarked;
 						markedMouse = hipMarked;
 						Id = "H";
-						imageGuiResult(gui, "Mark Hip on toClick window.", font);
+						imageGuiResult(gui, "Mark Hip on toClick window. Or 'l': last", font);
 					} else if(mouseClicked == KNEEMARK || key == 'k' ) {
 						myMark = TOGGLEKNEE;
 						markedBefore = kneeMarked;
 						markedMouse = kneeMarked;
 						Id = "K";
-						imageGuiResult(gui, "Mark Knee on toClick window.", font);
+						imageGuiResult(gui, "Mark Knee on toClick window. Or 'l': last", font);
 					} else {
 						myMark = TOGGLETOE;
 						markedBefore = toeMarked;
 						markedMouse = toeMarked;
 						Id = "T";
-						imageGuiResult(gui, "Mark Toe on toClick window.", font);
+						imageGuiResult(gui, "Mark Toe on toClick window. Or 'l': last", font);
 					}
 						
 					toggleGuiMark(gui, myMark);
@@ -1632,6 +1645,17 @@ int main(int argc,char **argv)
 								cvSetMouseCallback( "zoomed", on_mouse_mark_point, 0 );
 							}
 							mouseClicked = UNDEFINED;  
+						}
+						//if user want to put mark on last point it was (and then play with threshold)
+						else if(key == 'l') {
+							if(myMark == TOGGLEHIP) 
+								markedMouse = hipOldWorked;
+							if(myMark == TOGGLEKNEE) 
+								markedMouse = kneeOldWorked;
+							if(myMark == TOGGLETOE) 
+								markedMouse = toeOldWorked;
+							imageGuiResult(gui, "Last marked. Now adjust threshold", font);
+							cvWaitKey(500); //to print above message
 						}
 					
 						else if(

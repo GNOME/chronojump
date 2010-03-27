@@ -1159,6 +1159,7 @@ int calculateBrightness(IplImage* img)
 
 //true means find the black pants.
 //false means find the points
+//TODO: in the future put values of min or max regarding on statistics of analyzed jumps
 int calculateThresholdStart(IplImage * gray, bool pantsOrPoints)
 {
 	int brightness = calculateBrightness(gray);
@@ -1196,7 +1197,7 @@ int calculateThresholdStart(IplImage * gray, bool pantsOrPoints)
 	int thresMin = 10;
 	if(!pantsOrPoints) { //threshold for points
 		thresMax = 190;
-		thresMin = 70;
+		thresMin = 85;
 	}
 
 	if(brightness >= briMax) 

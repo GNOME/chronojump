@@ -229,8 +229,7 @@ int main(int argc,char **argv)
 
 			
 	imageGuiResult(gui, "Starting... please wait.", font);
-	cvShowImage("gui", gui);
-
+//	cvShowImage("gui", gui);
 	cvWaitKey(100); //to allow gui image be shown
 	
 	int kneeMinWidth = 0;
@@ -288,6 +287,9 @@ int main(int argc,char **argv)
 	double avgKneeBackDistance = 0;
 	int framesDetected = 0;
 	int framesCount = 0;
+	//show a counting message every n frames:
+	int framesCountShowMessage = 0;
+	int framesCountShowMessageAt = 50;
 
 	//to advance fast and really fast
 	bool forward = false;
@@ -425,6 +427,15 @@ int main(int argc,char **argv)
 		if(!frame)
 			break;
 		if(startAt > framesCount) {
+			//show a counting message every framesCountShowMessageAt, and continue
+			framesCountShowMessage ++;
+			if(framesCountShowMessage >= framesCountShowMessageAt) {
+				eraseGuiResult(gui, true);
+				sprintf(label, "frame: %d...", framesCount);
+				imageGuiResult(gui, label, font);
+				cvWaitKey(50); //to allow gui image be shown
+				framesCountShowMessage = 0;
+			}
 			continue;
 		}
 		if(forward || fastForward) {
@@ -877,7 +888,7 @@ int main(int argc,char **argv)
 				*/
 				
 				cvShowImage("toClick", frame_copy);
-				cvShowImage("threshold",output);
+				//cvShowImage("threshold",output);
 				
 				//exit if we are going up and soon jumping.
 				//toe will be lost
@@ -896,6 +907,7 @@ int main(int argc,char **argv)
 						askForMaxFlexion = false;
 				}
 			}
+			cvShowImage("threshold",output);
 		}
 				   
 

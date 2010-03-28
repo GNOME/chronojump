@@ -22,7 +22,7 @@
 
 
 //config variables
-bool showContour = true;
+bool showContour = false;
 bool debug = false;
 int playDelay = 10; //milliseconds between photogrammes wen playing. Used as a waitkey.
 //not put values lower than 5 or the enter when executing will be the first pause
@@ -48,6 +48,7 @@ bool showStickOnlyStartMinEnd = true;
 bool mixStickWithMinAngleWindow = true;
 
 int startAt = 1;
+int programMode;
 
 
 CvScalar WHITE = CV_RGB(255,255,255);
@@ -75,6 +76,15 @@ enum { SMALL = 1, MID = 2, BIG = 3 };
 //NOTE: if this changes, change also in kneeangle.cpp menu
 enum { quit = -1, undefined = 0, validation = 1, blackWithoutMarkers = 2, skinOnlyMarkers = 3, blackOnlyMarkers = 4}; 
 
+//black only markers will try to use contour
+//and controls will be only threshold + -
+//but if there's any problem with contour or the toe or hip go outside contour,
+//then usingContour will be false and it will be used same method than skinOnlyMarkers
+//interface will change also
+//difference with skinOnlyMarkers is that user can return to: usingContour and play with threshold
+//if is not successuful (three points are not found in contour) the usingContour will be false again
+bool usingContour;
+
 //used on gui
 enum { 
 	QUIT = -1,
@@ -88,7 +98,9 @@ enum {
 	TGLOBALMORE = 19, TGLOBALLESS = 20,
 	SHIPMORE = 21, SHIPLESS = 22, 
 	SKNEEMORE = 23, SKNEELESS = 24, 
-	STOEMORE = 25, STOELESS = 26
+	STOEMORE = 25, STOELESS = 26,
+	TCONTOURMORE = 27, TCONTOURLESS = 28,
+	BACKTOCONTOUR = 29
 }; 
 
 enum { TOGGLENOTHING = -1, TOGGLEHIP = 0, TOGGLEKNEE = 1, TOGGLETOE = 2};

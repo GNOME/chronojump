@@ -391,7 +391,7 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
 			}
 		}
 	}
-
+						
 	//assign each point to a group (a hole)
 	for( int i = 0; i < seqPoints->total; i++ ) {
 		CvPoint pt = *CV_GET_SEQ_ELEM( CvPoint, seqPoints, i ); 
@@ -1282,7 +1282,11 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 	CvRect rskneeless; rskneeless.x=251; rskneeless.width=27;  rskneeless.y=186; rskneeless.height=24;
 	CvRect rstoemore; rstoemore.x=293; rstoemore.width=24;  rstoemore.y=186; rstoemore.height=24;
 	CvRect rstoeless; rstoeless.x=324; rstoeless.width=27;  rstoeless.y=186; rstoeless.height=24;
-	
+
+	//blackOnlyMarkers !usingContour	
+	CvRect rbackToContour; rbackToContour.x=372; rbackToContour.width=118;  rbackToContour.y=186; rbackToContour.height=24;
+
+
 	CvRect rquit; rquit.x=450; rquit.width=40;  rquit.y=230; rquit.height=45;
 				
 	if(flags & CV_EVENT_FLAG_SHIFTKEY)
@@ -1291,9 +1295,12 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 		mouseMultiplier = false;
 
 
+	bool success; //this helps to navigate between modes. Is not a return value
 	switch( event ) {
 		case CV_EVENT_LBUTTONDOWN:
 			{
+				//common controls
+				success = true;
 				if(pointInsideRect(clicked, rplaypause))
 					mouseClicked = PLAYPAUSE;
 				else if(pointInsideRect(clicked, rforwardOne))
@@ -1304,8 +1311,6 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 					mouseClicked = FASTFORWARD;
 				else if(pointInsideRect(clicked, rbackward))
 					mouseClicked = BACKWARD;
-
-
 				else if(pointInsideRect(clicked, rhip))
 					mouseClicked = HIPMARK;
 				else if(pointInsideRect(clicked, rknee))
@@ -1314,39 +1319,67 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 					mouseClicked = TOEMARK;
 				else if(pointInsideRect(clicked, rzoom))
 					mouseClicked = ZOOM;
-
-				else if(pointInsideRect(clicked, rthipmore))
-					mouseClicked = THIPMORE;
-				else if(pointInsideRect(clicked, rthipless))
-					mouseClicked = THIPLESS;
-				else if(pointInsideRect(clicked, rtkneemore))
-					mouseClicked = TKNEEMORE;
-				else if(pointInsideRect(clicked, rtkneeless))
-					mouseClicked = TKNEELESS;
-				else if(pointInsideRect(clicked, rttoemore))
-					mouseClicked = TTOEMORE;
-				else if(pointInsideRect(clicked, rttoeless))
-					mouseClicked = TTOELESS;
-				else if(pointInsideRect(clicked, rtglobalmore))
-					mouseClicked = TGLOBALMORE;
-				else if(pointInsideRect(clicked, rtgloballess))
-					mouseClicked = TGLOBALLESS;
-
-				else if(pointInsideRect(clicked, rshipmore))
-					mouseClicked = SHIPMORE;
-				else if(pointInsideRect(clicked, rshipless))
-					mouseClicked = SHIPLESS;
-				else if(pointInsideRect(clicked, rskneemore))
-					mouseClicked = SKNEEMORE;
-				else if(pointInsideRect(clicked, rskneeless))
-					mouseClicked = SKNEELESS;
-				else if(pointInsideRect(clicked, rstoemore))
-					mouseClicked = STOEMORE;
-				else if(pointInsideRect(clicked, rstoeless))
-					mouseClicked = STOELESS;
-
 				else if(pointInsideRect(clicked, rquit))
 					mouseClicked = QUIT;
+				else 
+					success = false;
+
+				//blackOnlyMarkers with contour
+				if(!success && programMode == blackOnlyMarkers && usingContour) {
+					success = true;
+					if(pointInsideRect(clicked, rtglobalmore))
+						mouseClicked = TCONTOURMORE;
+					else if(pointInsideRect(clicked, rtgloballess))
+						mouseClicked = TCONTOURLESS;
+					else
+						success = false;
+				}
+
+				//skinOnlyMarkers || (blackOnlyMarkers without contour)
+				if(!success && (programMode == skinOnlyMarkers || (programMode == blackOnlyMarkers && !usingContour))) {
+					success = true;
+					if(pointInsideRect(clicked, rthipmore))
+						mouseClicked = THIPMORE;
+					else if(pointInsideRect(clicked, rthipless))
+						mouseClicked = THIPLESS;
+					else if(pointInsideRect(clicked, rtkneemore))
+						mouseClicked = TKNEEMORE;
+					else if(pointInsideRect(clicked, rtkneeless))
+						mouseClicked = TKNEELESS;
+					else if(pointInsideRect(clicked, rttoemore))
+						mouseClicked = TTOEMORE;
+					else if(pointInsideRect(clicked, rttoeless))
+						mouseClicked = TTOELESS;
+					else if(pointInsideRect(clicked, rtglobalmore))
+						mouseClicked = TGLOBALMORE;
+					else if(pointInsideRect(clicked, rtgloballess))
+						mouseClicked = TGLOBALLESS;
+
+					else if(pointInsideRect(clicked, rshipmore))
+						mouseClicked = SHIPMORE;
+					else if(pointInsideRect(clicked, rshipless))
+						mouseClicked = SHIPLESS;
+					else if(pointInsideRect(clicked, rskneemore))
+						mouseClicked = SKNEEMORE;
+					else if(pointInsideRect(clicked, rskneeless))
+						mouseClicked = SKNEELESS;
+					else if(pointInsideRect(clicked, rstoemore))
+						mouseClicked = STOEMORE;
+					else if(pointInsideRect(clicked, rstoeless))
+						mouseClicked = STOELESS;
+					else
+						success = false;
+				}
+				
+				//only for blackOnlyMarkers without contour
+				if(!success && (programMode == blackOnlyMarkers && !usingContour)) {
+					success = true;
+					if(pointInsideRect(clicked, rbackToContour)) {
+						mouseClicked = BACKTOCONTOUR;
+					}
+					else
+						success = false;
+				}
 			}
 			break;
 	}
@@ -1376,7 +1409,7 @@ void on_mouse_mark_point( int event, int x, int y, int flags, void* param )
 }
 
 void updateHolesWin(IplImage *segmentedValidationHoles) {
-	showScaledImage(segmentedValidationHoles, "holes");
+	showScaledImage(segmentedValidationHoles, "Holes_on_contour");
 }
 
 /* unused, 3D stuff
@@ -1425,7 +1458,8 @@ void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLef
 		double thetaMarked, double minThetaMarked, 
 		int threshold, 
 		int th_hip, int th_knee, int th_toe,
-		int th_size_hip, int th_size_knee, int th_size_toe)
+		int th_size_hip, int th_size_knee, int th_size_toe, 
+		int thresholdLargestContour, bool contour)
 {
 	char *label = new char[150];
 	int width = img->width;
@@ -1453,14 +1487,20 @@ void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLef
 	sprintf(label, "%.2f (%.2f)", thetaMarked, minThetaMarked);
 	cvPutText(img, label, cvPoint(x,height-90),&font,color);
 	
-	sprintf(label, "threshold: %d", threshold);
-	cvPutText(img, label, cvPoint(x,height-60),&font,color);
+	if (contour) {
+		sprintf(label, "threshold: %d", thresholdLargestContour);
+		cvPutText(img, label, cvPoint(x,height-60),&font,color);
+	}
+	else {
+		sprintf(label, "threshold: %d", threshold);
+		cvPutText(img, label, cvPoint(x,height-60),&font,color);
+
+		sprintf(label, "HKT: %d, %d, %d", th_hip, th_knee, th_toe);
+		cvPutText(img, label, cvPoint(x,height-40),&font,color);
 	
-	sprintf(label, "HKT: %d, %d, %d", th_hip, th_knee, th_toe);
-	cvPutText(img, label, cvPoint(x,height-40),&font,color);
-	
-	sprintf(label, "Sizes: %d, %d, %d", th_size_hip, th_size_knee, th_size_toe);
-	cvPutText(img, label, cvPoint(x,height-20),&font,color);
+		sprintf(label, "Sizes: %d, %d, %d", th_size_hip, th_size_knee, th_size_toe);
+		cvPutText(img, label, cvPoint(x,height-20),&font,color);
+	}
 }
 		
 /*

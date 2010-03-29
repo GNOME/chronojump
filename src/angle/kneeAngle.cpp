@@ -1763,7 +1763,7 @@ imageGuiResult(gui, "returned", font);
 	 * END OF MAIN LOOP
 	 */
 		
-	imageGuiResult(gui, "Press any key to exit.", font);
+	imageGuiResult(gui, "Press 'q' to exit.", font);
 
 	if( (programMode == validation || programMode == blackWithoutMarkers) && foundAngleOneTime) 
 	{
@@ -1781,17 +1781,20 @@ imageGuiResult(gui, "returned", font);
 				minThetaMarked-minThetaExpected, relError(minThetaExpected, minThetaMarked));
 		printf("%s\n" ,label);
 		*/
-			
-		cvWaitKey(0);
+		
 	}
 	else {
 		//printf("*** Result ***\nMin angle: %.2f, lowest angle frame: %d\n", minThetaMarked, lowestAngleFrame);
 		cvNamedWindow("Minimum Frame",1);
 		cvShowImage("Minimum Frame", result);
-		cvWaitKey(0);
-					
 		printf("MIN: %d;%.2f\n", lowestAngleFrame, minThetaMarked);
 	}
+	
+
+	do {
+		key =  (char) cvWaitKey(0);
+	} while (key != 'q' && key != 'Q');
+					
 
 	cvClearMemStorage( stickStorage );
 

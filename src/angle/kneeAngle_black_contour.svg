@@ -4725,6 +4725,20 @@
          offset="1.0000000"
          style="stop-color:#ffffff;stop-opacity:0.34020618;" />
     </linearGradient>
+    <inkscape:perspective
+       id="perspective3697"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3728"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -4738,7 +4752,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.3066933"
      inkscape:cx="250.99475"
-     inkscape:cy="146.63438"
+     inkscape:cy="147.78232"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -4815,7 +4829,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -5493,8 +5507,9 @@
        id="text2560-9"><tspan
          sodipodi:role="line"
          x="154.60439"
-         y="164.84676"
-         id="tspan2562-8">Find the three points using contour</tspan></text>
+         y="208.45424"
+         id="tspan3716"
+         style="font-size:10px;font-family:Chandas;-inkscape-font-specification:FreeMono">Find the three points using contour.</tspan></text>
     <g
        id="g41169"
        transform="translate(-1.9946289e-4,-7.3218317)">
@@ -5711,5 +5726,26 @@
            sodipodi:nodetypes="ccccc" />
       </g>
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:10px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Chandas"
+       x="153.44901"
+       y="184.78506"
+       id="text2560-9-5"><tspan
+         sodipodi:role="line"
+         x="153.44901"
+         y="184.78506"
+         id="tspan3718-2"
+         style="font-size:12px;font-family:FreeMono;-inkscape-font-specification:FreeMono">m: See Minimum angle stored</tspan><tspan
+         sodipodi:role="line"
+         x="153.44901"
+         y="199.78506"
+         id="tspan3716-6"
+         style="font-size:12px;font-family:FreeMono;-inkscape-font-specification:FreeMono">d: delete it</tspan><tspan
+         sodipodi:role="line"
+         x="153.44901"
+         y="214.78506"
+         style="font-size:12px;font-family:FreeMono;-inkscape-font-specification:FreeMono"
+         id="tspan3769">1: help (unimplemented)</tspan></text>
   </g>
 </svg>

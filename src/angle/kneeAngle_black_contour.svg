@@ -4752,7 +4752,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.3066933"
      inkscape:cx="250.99475"
-     inkscape:cy="147.78232"
+     inkscape:cy="146.63438"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -4829,7 +4829,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -5736,7 +5736,7 @@
          x="153.44901"
          y="184.78506"
          id="tspan3718-2"
-         style="font-size:12px;font-family:FreeMono;-inkscape-font-specification:FreeMono">m: See Minimum angle stored</tspan><tspan
+         style="font-size:12px;font-family:FreeMono;-inkscape-font-specification:FreeMono">v: View updated minimum angle</tspan><tspan
          sodipodi:role="line"
          x="153.44901"
          y="199.78506"

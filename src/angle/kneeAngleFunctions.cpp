@@ -526,7 +526,43 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
 
 		if(validSure) {
 			CvPoint center = *CV_GET_SEQ_ELEM( CvPoint, seqHolesCenter, i ); 
-			if(hipPoint.x == 0) {
+
+			//the point will be hip knee or toe depending on the distance betwee old hipe, knee & toe
+			//but give preference to the top (<=) because will be the first to be found (top to bottom)
+			int pointIs = TOGGLENOTHING;
+			if(!pointIsNull(hipOld) && !pointIsNull(kneeOld) && !pointIsNull(toeOld)) {
+				int hipDist = getDistance(center, hipOld);
+				int kneeDist = getDistance(center, kneeOld);
+				int toeDist = getDistance(center, toeOld);
+				if(hipPoint.x == 0) {
+					if(hipDist <= kneeDist) {
+						if(hipDist <= toeDist)
+							pointIs = TOGGLEHIP;
+						else
+							pointIs = TOGGLETOE;
+					} else {
+						if(kneeDist <= toeDist)
+							pointIs = TOGGLEKNEE;
+						else
+							pointIs = TOGGLETOE;
+					}
+				} else if(kneePoint.x == 0) {
+					if(kneeDist <= toeDist)
+						pointIs = TOGGLEKNEE;
+					else
+						pointIs = TOGGLETOE;
+				} else if(toePoint.x == 0) 
+					pointIs = TOGGLETOE;
+			} else {
+				if(hipPoint.x == 0)
+					pointIs = TOGGLEHIP;
+				else if(kneePoint.x == 0) 
+					pointIs = TOGGLEKNEE;
+				else // if(toePoint.x == 0) 
+					pointIs = TOGGLETOE;
+			}
+
+			if(pointIs == TOGGLEHIP) {
 				color = RED; 
 				cvRectangle(imgMain, 
 						cvPoint(sp1.x-1,sp1.y-1),
@@ -535,7 +571,7 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
 				hipPoint.x = center.x; hipPoint.y = center.y;
 				sprintf(labelShort,"H");
 			} 
-			else if(kneePoint.x == 0) {
+			else if(pointIs == TOGGLEKNEE) {
 				color = GREEN; 
 				cvRectangle(imgMain, 
 						cvPoint(sp1.x-1,sp1.y-1),
@@ -617,6 +653,7 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	CvSeq* seqPoints = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), storage );
 	CvSeq* seqGroups = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage );
 
+	//printf("entering bucle");
 	
 	//put all hole points on seqAllHoles
 	for(int y=0;y<endy;y++)
@@ -634,6 +671,21 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 		}
 	}
 
+	//printf("points: %d", seqPoints->total);
+	//cvWaitKey(500); //to allow points num to be shown
+	CvSeq* seqHolesEnd = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), storage );
+	
+	if(seqPoints->total > 50000) {
+		CvPoint ptNull;
+		ptNull.x = 0;
+		ptNull.y = 0;
+		cvSeqPush( seqHolesEnd, &ptNull );
+		cvSeqPush( seqHolesEnd, &ptNull );
+		cvSeqPush( seqHolesEnd, &ptNull );
+		return seqHolesEnd;
+	}
+
+
 	//assign each point to a group (a hole)
 	for( int i = 0; i < seqPoints->total; i++ ) {
 		CvPoint pt = *CV_GET_SEQ_ELEM( CvPoint, seqPoints, i ); 
@@ -649,7 +701,6 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	CvSeq* seqHolesCenter = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), storage );
 	CvSeq* seqHolesSize = cvCreateSeq( 0, sizeof(CvSeq), sizeof(0), storage );
 	
-
 
 	for( int i = 0; i <= getMaxValue(seqGroups); i++ ) {
 		int maxX = -1;
@@ -844,7 +895,7 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 	CvPoint notFoundPoint;
 	notFoundPoint.x = 0; notFoundPoint.y = 0;
 
-	CvSeq* seqHolesEnd = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), storage );
+//	CvSeq* seqHolesEnd = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), storage );
 
 	if(hipPoint.x > 0) 
 		cvSeqPush( seqHolesEnd, &hipPoint );
@@ -1197,7 +1248,7 @@ int calculateThresholdStart(IplImage * gray, bool pantsOrPoints)
 	int thresMin = 10;
 	if(!pantsOrPoints) { //threshold for points
 		thresMax = 190;
-		thresMin = 85;
+		thresMin = 100;
 	}
 
 	if(brightness >= briMax) 

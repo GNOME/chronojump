@@ -436,6 +436,7 @@ int main(int argc,char **argv)
 				eraseGuiResult(gui, true);
 				sprintf(label, "frame: %d... (%d%%)", framesCount, 100*framesCount/startAt);
 				imageGuiResult(gui, label, font);
+				printf("%s\n", label);
 				cvWaitKey(25); //to allow gui image be shown
 				framesCountShowMessage = 0;
 			}
@@ -604,7 +605,17 @@ int main(int argc,char **argv)
 					usingContour = false;
 					gui = cvLoadImage("kneeAngle_black.png");
 					cvCopy(frame_copyTemp,frame_copy);
+
+//testing stuff
+cvShowImage("threshold",output);
+//cvShowImage("toClick", frame_copy);
+imageGuiResult(gui, "going", font);
+//printf("threshold :%d\n", threshold);
+//printf("thresholdLC :%d\n", thresholdLargestContour);
+//cvWaitKey(500); //to allow messages be shown
 					seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
+imageGuiResult(gui, "returned", font);
+//cvWaitKey(500); //to allow gui image be shown
 				}
 			}
 			cvShowImage("threshold", output);
@@ -1316,9 +1327,9 @@ int main(int argc,char **argv)
 			//if a threshold button is pushed, force a pause
 			forcePause = true;
 		}
-		else if(key == 'm') {
+		else if(key == 'v') {
 			forcePause = true;
-			mouseClicked = MINIMUMFRAMESHOW;
+			mouseClicked = MINIMUMFRAMEVIEW;
 		}
 		else if(key == 'd') {
 			forcePause = true;
@@ -1388,7 +1399,7 @@ int main(int argc,char **argv)
 					done = true;
 				}
 				
-				else if(mouseClicked == MINIMUMFRAMESHOW || key == 'm') {
+				else if(mouseClicked == MINIMUMFRAMEVIEW || key == 'v') {
 					cvShowImage("Minimum Frame", result);
 					imageGuiResult(gui, "Shown minimum frame. Paused.", font);
 				}
@@ -1542,7 +1553,7 @@ int main(int argc,char **argv)
 					cvThreshold(gray,segmented,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
 
 					maxrect = findLargestContour(segmented, outputTemp, showContour);
-					frame_copyTemp = cvCreateImage( cvSize(frame->width,frame->height),IPL_DEPTH_8U, frame->nChannels );
+					//frame_copyTemp = cvCreateImage( cvSize(frame->width,frame->height),IPL_DEPTH_8U, frame->nChannels );
 					findHoles(
 							outputTemp, segmented, foundHoles, frame_copyTemp,  
 							maxrect, hipOld, kneeOld, toeOld, font);

@@ -200,7 +200,6 @@ int main(int argc,char **argv)
 	IplImage *frame=0,*frame_copy=0,*gray=0,*segmented=0,*edge=0,*temp=0,*output=0;
 	IplImage *outputTemp=0, *frame_copyTemp=0;
 	IplImage *segmentedValidationHoles=0;
-	IplImage *segmentedValidationHoles2=0;
 	IplImage *foundHoles=0;
 	IplImage *result=0;
 	IplImage *resultStick=0;
@@ -218,7 +217,6 @@ int main(int argc,char **argv)
 		gui = cvLoadImage("kneeAngle_intro.png");
 		cvShowImage("gui", gui);
 		programMode = menu(gui, font);
-		//printf("programMode: %d\n", programMode);
 	}
 	
 	if(programMode == skinOnlyMarkers) {
@@ -227,7 +225,6 @@ int main(int argc,char **argv)
 	}
 	else if(programMode == blackOnlyMarkers) {	// || programMode == validation) ?
 		usingContour = true;
-		//gui = cvLoadImage("kneeAngle_black.png");
 		gui = cvLoadImage("kneeAngle_black_contour.png");
 	} 
 	else
@@ -261,7 +258,6 @@ int main(int argc,char **argv)
 		cvNamedWindow("result",1);
 	} else if (programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
 		cvNamedWindow("threshold",1);
-		//cvNamedWindow("Holes_on_contour",1);
 	}
 	else if (programMode == blackWithoutMarkers)
 		cvNamedWindow("result",1);
@@ -438,7 +434,7 @@ int main(int argc,char **argv)
 			framesCountShowMessage ++;
 			if(framesCountShowMessage >= framesCountShowMessageAt) {
 				eraseGuiResult(gui, true);
-				sprintf(label, "frame: %d...", framesCount);
+				sprintf(label, "frame: %d... (%d%%)", framesCount, 100*framesCount/startAt);
 				imageGuiResult(gui, label, font);
 				cvWaitKey(25); //to allow gui image be shown
 				framesCountShowMessage = 0;
@@ -795,7 +791,8 @@ int main(int argc,char **argv)
 						threshold, thresholdROIH, thresholdROIK, thresholdROIT,
 						thresholdROISizeH, thresholdROISizeK, thresholdROISizeT,
 						thresholdLargestContour, usingContour);
-				
+			
+				//this stores image with above printOnScreen data	
 				if(storeResultImage) {
 					cvCopy(frame_copy,result);
 					storeResultImage = false;
@@ -1319,7 +1316,14 @@ int main(int argc,char **argv)
 			//if a threshold button is pushed, force a pause
 			forcePause = true;
 		}
-		
+		else if(key == 'm') {
+			forcePause = true;
+			mouseClicked = MINIMUMFRAMESHOW;
+		}
+		else if(key == 'd') {
+			forcePause = true;
+			mouseClicked = MINIMUMFRAMEDELETE;
+		}
 		
 		//pause is also forced on skin if a marker is not ok
 		if (mouseClicked == PLAYPAUSE || key == 'p' || forcePause) 
@@ -1383,6 +1387,17 @@ int main(int argc,char **argv)
 					imageGuiResult(gui, "FastForwarding...", font);
 					done = true;
 				}
+				
+				else if(mouseClicked == MINIMUMFRAMESHOW || key == 'm') {
+					cvShowImage("Minimum Frame", result);
+					imageGuiResult(gui, "Shown minimum frame. Paused.", font);
+				}
+				else if(mouseClicked == MINIMUMFRAMEDELETE || key == 'd') { 
+					minThetaMarked = 360;
+					cvShowImage("Minimum Frame", result);
+					imageGuiResult(gui, "Deleted stored angle. Paused.", font);
+				}
+		
 				
 				else if(mouseClicked == ZOOM || key == 'z') {
 					if(zoomed) {

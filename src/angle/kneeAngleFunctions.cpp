@@ -1258,8 +1258,32 @@ int calculateThresholdStart(IplImage * gray, bool pantsOrPoints)
 	//	thresholdStart = 10;
 	else if(brightness <= briMin)
 		thresholdStart = thresMin;
-	else
-		thresholdStart = brightness - briMin + thresMin;
+	else {
+		//thresholdStart = brightness - briMin + thresMin;
+
+		/*
+		   if briMin = 65, briMax = 85
+		   threshMin = 100, thresMax = 190
+		   a brightness of 82 means 85% of brightness. This will have a 85% of threshold: 176
+		*/
+
+		//85 - 65 = 20
+		int briRang = briMax - briMin;
+		//82 - 65 = 17
+		int briToMin = brightness - briMin;
+		//100 * 17 / 20 = 85
+		double briPercent = 100 * briToMin / briRang;
+
+		//190 - 100 = 90
+		int thresRang = thresMax - thresMin;
+		//100 * x / 90 = 85
+		//x = 85 * 90 /100
+		//x = 76.5
+		int thresPercentValue = briPercent * thresRang / 100;
+
+		//76,5 + 100 = (int) 176,5 = 176
+		thresholdStart = thresPercentValue + thresMin;
+	}
 
 	return thresholdStart;
 }

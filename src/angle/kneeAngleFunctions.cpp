@@ -1245,7 +1245,7 @@ int calculateThresholdStart(IplImage * gray, bool pantsOrPoints)
 	int briMin = 65;
 	//int briZero = 50;
 	int thresMax = 30;
-	int thresMin = 10;
+	int thresMin = 1;
 	if(!pantsOrPoints) { //threshold for points
 		thresMax = 190;
 		thresMin = 100;
@@ -1399,8 +1399,8 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 				else 
 					success = false;
 
-				//blackOnlyMarkers with contour
-				if(!success && programMode == blackOnlyMarkers && usingContour) {
+				//blackOnlyMarkers with contour or validation
+				if(!success && ( programMode == validation || (programMode == blackOnlyMarkers && usingContour) )) {
 					success = true;
 					if(pointInsideRect(clicked, rtglobalmore))
 						mouseClicked = TCONTOURMORE;

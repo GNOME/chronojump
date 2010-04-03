@@ -489,6 +489,7 @@ public class EditEventWindow
 		get { return button_accept;	}
 	}
 
+	~EditEventWindow() {}
 }
 
 

@@ -468,5 +468,24 @@ IplImage* changeROIThreshold(IplImage* gray, IplImage* output, CvPoint p, int th
 	return output;
 }
 
+//char * changeExtension(char fileName[], char newExt[])
+void changeExtension(char fileName[], char newExt[])
+{
+	int lastPoint = strlen(fileName) -1;
+	do {
+		//printf("%c", fileName[lastPoint]);
+	} while (fileName[lastPoint --] != '.');
+
+	char fileName2 [strlen(fileName)];
+	int i;
+	for(i=0; i <= lastPoint; i ++)
+		fileName2[i]=fileName[i];
+	fileName2[i] = '\0';
+
+	strcat(fileName2, newExt);
+	strcpy(fileName, fileName2);
+
+//	return fileName;
+}
 
 

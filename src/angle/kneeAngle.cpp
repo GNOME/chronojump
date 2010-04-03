@@ -316,6 +316,7 @@ int main(int argc,char **argv)
 	CvPoint notFoundPoint;
 	notFoundPoint.x = 0; notFoundPoint.y = 0;
 	int lowestAngleFrame = 0;
+	int lowestAngleFrameReally = 0; //related to framesCountReally
 
 
 	char *label = new char[150];
@@ -334,6 +335,7 @@ int main(int argc,char **argv)
 	double avgKneeBackDistance = 0;
 	int framesDetected = 0;
 	int framesCount = 0;
+	int framesCountReally = 0; //do not trust on capture info. This is a counter on iterations
 	//show a counting message every n frames:
 	int framesCountShowMessage = 0;
 	int framesCountShowMessageAt = 100;
@@ -479,7 +481,7 @@ int main(int argc,char **argv)
 		//when we go back, we doesn't always land where we want, this is safe:
 		double capturedFrame = cvGetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES);
 		framesCount = capturedFrame +1;
-
+	
 		if(!frame)
 			break;
 		if(startAt > framesCount) {
@@ -523,6 +525,8 @@ int main(int argc,char **argv)
 				backward = false;
 				eraseGuiResult(gui, true);
 		}
+
+		framesCountReally ++;
 
 
 		/* 
@@ -758,6 +762,7 @@ imageGuiResult(gui, "returned", font);
 					cvCopy(frame_copy,result);
 					storeResultImage = true;
 					lowestAngleFrame = framesCount;
+					lowestAngleFrameReally = framesCountReally;
 
 					//store thresholds	
 					thresholdAtMinAngle = threshold;
@@ -1886,7 +1891,9 @@ imageGuiResult(gui, "returned", font);
 		float angle;
 		while(!fileEnd) {
 			fscanf(fdatapre,"%f;%f\n",&height, &angle);
-			fprintf(fdatapost, "%f;%f\n", 100 * height / validationRectHMax, angle);
+			//skip undetected (-1.000) angles
+			if(angle > 0)
+				fprintf(fdatapost, "%f;%f\n", 100 * height / validationRectHMax, angle);
 			endChar = getc(fdatapre);
 			if(endChar == EOF) 
 				fileEnd = true;
@@ -1894,9 +1901,14 @@ imageGuiResult(gui, "returned", font);
 				ungetc(endChar, fdatapre);
 
 			//do not continue if we copied frame with minimum angle (only store 'going-down' phase)
+			//cannot use the == because sometimes last decimals change
 //			if(angle == minThetaMarked)
 //				fileEnd = true;
+			if(++i == lowestAngleFrameReally)
+				fileEnd = true;
 		}
+
+		printf("i:%d, lowestAngleFrameReally:%d\n", i, lowestAngleFrameReally);
 
 		fclose(fdatapre);
 		fclose(fdatapost);

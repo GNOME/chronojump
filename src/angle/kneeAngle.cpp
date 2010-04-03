@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2008   Sharad Shankar & Onkar Nath Mishra http://www.logicbrick.com/
- * Copyright (C) 2008   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2008-2010  Xavier de Blas <xaviblas@gmail.com> 
  *
  * version: 1.6 (Nov, 12, 2008)
  */
@@ -112,7 +112,6 @@
  *  -implement convexity defects (opencv book p.259) at findKneePointBack
  *  solve the problem with the cvCopy(frame_copy,result);
  *  	on blackAndMarkers, minimumFrame is the marked or the expected?
- * -on skin, when a point is lost, re-assign the other points depending on distance with previous frame marked points
  *  -study kalman on openCV book (not interesting)... si, aplicar kalman enlloc de pointInside(previous)
  *
  *  need to do subpixel calculations for: thetaABD and thetaRealFlex, because the pixel unit is too big for this calculations
@@ -168,7 +167,10 @@ int main(int argc,char **argv)
 	}
 
 	CvCapture* capture = NULL;
-	capture = cvCaptureFromAVI(argv[1]);
+
+	char * fileName = argv[1];
+//	printf("%s", fileName);
+	capture = cvCaptureFromAVI(fileName);
 	if(!capture)
 	{
 		exit(0);
@@ -223,7 +225,7 @@ int main(int argc,char **argv)
 		usingContour = false;
 		gui = cvLoadImage("kneeAngle_skin.png");
 	}
-	else if(programMode == blackOnlyMarkers) {	// || programMode == validation) ?
+	else if(programMode == blackOnlyMarkers || programMode == validation) {
 		usingContour = true;
 		gui = cvLoadImage("kneeAngle_black_contour.png");
 	} 
@@ -251,11 +253,54 @@ int main(int argc,char **argv)
 	char buffer[15];
 					
 	bool askForMaxFlexion = false; //of false, no ask, and no auto end before jump
+	
+	//validation files
+	FILE *fheader; //contains max and mins values
+	FILE *fdatapre; //each line: 'current box height; current angle'
+	FILE *fdatapost; //each line: 'current box height percent; current angle' (percent comes from fheader)
+
+	char header[] = "_header.txt";
+	char txt[] = ".txt";
+	char csv[] = ".csv";
+	char fheaderName [strlen(fileName) + strlen(header)];
+	char fdatapreName [strlen(fileName) + strlen(txt)];
+	char fdatapostName [strlen(fileName) + strlen(csv)];
 
 	if(programMode == validation) {
-		cvNamedWindow("Holes_on_contour",1);
+//		cvNamedWindow("Holes_on_contour",1);
+//		cvNamedWindow("result",1);
 		cvNamedWindow("threshold",1);
-		cvNamedWindow("result",1);
+
+		//create fileNames
+		strcpy(fheaderName, fileName);
+		changeExtension(fheaderName, header);
+
+		strcpy(fdatapreName, fileName);
+		changeExtension(fdatapreName, txt);
+		
+		strcpy(fdatapostName, fileName);
+		changeExtension(fdatapostName, csv);
+
+		printf("mov file:%s\n",fileName);
+		printf("header file:%s\n",fheaderName);
+		printf("txt file:%s\n",fdatapreName);
+		printf("csv file:%s\n",fdatapostName);
+
+		if((fheader=fopen(fheaderName,"w"))==NULL){
+			printf("Error, no se puede escribir en el fichero %s\n",fheaderName);
+			fclose(fheader);
+			exit(0);
+		}
+		if((fdatapre=fopen(fdatapreName,"w"))==NULL){
+			printf("Error, no se puede escribir en el fichero %s\n",fdatapreName);
+			fclose(fdatapre);
+			exit(0);
+		}
+		if((fdatapost=fopen(fdatapostName,"w"))==NULL){
+			printf("Error, no se puede escribir en el fichero %s\n",fdatapostName);
+			fclose(fdatapost);
+			exit(0);
+		}
 	} else if (programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
 		cvNamedWindow("threshold",1);
 	}
@@ -263,7 +308,6 @@ int main(int argc,char **argv)
 		cvNamedWindow("result",1);
 	
 	
-
 
 	int kneePointWidth = -1;
 	int toePointWidth = -1;
@@ -370,6 +414,15 @@ int main(int argc,char **argv)
 	CvPoint hipMarkedAtExtension = pointToZero();
 	CvPoint hipPointBackAtExtension = pointToZero();
 
+	//this contains data useful to validation: max and min Height and Width of all rectangles
+	int validationRectHMax = 0;
+	int validationRectHMin = 100000;
+	int validationRectWMax = 0;
+	int validationRectWMin = 100000;
+	//angle at min Height of validation rectangle
+	double validationRectHMinThetaMarked = 180;
+
+
 	mouseClicked = undefined;	
 	cvSetMouseCallback( "gui", on_mouse_gui, 0 );
 		
@@ -436,7 +489,7 @@ int main(int argc,char **argv)
 				eraseGuiResult(gui, true);
 				sprintf(label, "frame: %d... (%d%%)", framesCount, 100*framesCount/startAt);
 				imageGuiResult(gui, label, font);
-				printf("%s\n", label);
+				//printf("%s\n", label);
 				cvWaitKey(25); //to allow gui image be shown
 				framesCountShowMessage = 0;
 			}
@@ -503,12 +556,11 @@ int main(int argc,char **argv)
 			extensionSeg =	cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
 			extensionSegHoles =	cvCreateImage(cvGetSize(frame),IPL_DEPTH_8U,1);
 
-			/* TODO: check this, as validation will need both thresolds */	
 			if(programMode == skinOnlyMarkers) {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 				threshold = calculateThresholdStart(gray, false);
 			}
-			else if(programMode == blackOnlyMarkers) {
+			else if(programMode == blackOnlyMarkers || programMode == validation) {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 				threshold = calculateThresholdStart(gray, false);
 				thresholdLargestContour = calculateThresholdStart(gray, true);
@@ -565,11 +617,10 @@ int main(int argc,char **argv)
 
 			CvSeq* seqHolesEnd;
 
-			//TODO validation?
 			if(programMode == skinOnlyMarkers) {
 				seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
 			}
-			else { //if(programMode == blackOnlyMarkers) 
+			else { //if(programMode == blackOnlyMarkers || programMode == validation) 
 				//this segmented is to find the contour (threshold is lot little)
 				cvThreshold(gray,segmentedValidationHoles,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
 				cvThreshold(gray,segmented,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
@@ -591,10 +642,15 @@ int main(int argc,char **argv)
 				//then will not be included in largest contour
 				//then use findHolesSkin to find points
 				CvPoint myHip = pointToZero();
+				CvPoint myKnee = pointToZero();
 				CvPoint myToe = pointToZero();
 				myHip = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
+				myKnee = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 1); 
 				myToe = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
-				if( ! pointIsNull(myHip) && ! pointIsNull(myToe)) {
+
+				//validation uses always black contour
+				//but black only markers can change to skin related if has problems with the contour
+				if( programMode == validation || (! pointIsNull(myHip) && ! pointIsNull(myKnee) && ! pointIsNull(myToe))) {
 					cvCopy(segmentedValidationHoles, output);
 					if(! usingContour) {
 						usingContour = true;
@@ -644,9 +700,6 @@ imageGuiResult(gui, "returned", font);
 			cvNamedWindow( "toClick", 1 );
 			cvShowImage("toClick", frame_copy);
 
-//imageGuiResult(gui, "b5", font);
-//cvWaitKey(50); //to print above message
-
 
 // kalman 
 			cvKalmanCorrect(kalman, measurement);
@@ -655,8 +708,6 @@ imageGuiResult(gui, "returned", font);
 			cvRand(&rng, process_noise);			
 			cvMatMulAdd(kalman->transition_matrix, measurement, process_noise, measurement);
 // /kalman 
-
-
 
 
 
@@ -716,13 +767,29 @@ imageGuiResult(gui, "returned", font);
 				}
 
 
-				/*
-				   if(programMode == validation || programMode == blackWithoutMarkers)
-				   cvRectangle(frame_copy,
-				   cvPoint(maxrect.x,maxrect.y),
-				   cvPoint(maxrect.x + maxrect.width, maxrect.y + maxrect.height),
-				   CV_RGB(255,0,0),1,1);
-				   */
+				if(programMode == validation) {
+					cvRectangle(frame_copy,
+							cvPoint(maxrect.x,maxrect.y),
+							cvPoint(maxrect.x + maxrect.width, maxrect.y + maxrect.height),
+							CV_RGB(255,0,0),1,1);
+
+					//assign validationRect data if maxs or mins reached
+					if(maxrect.height > validationRectHMax)
+						validationRectHMax = maxrect.height;
+					if(maxrect.height < validationRectHMin) {
+						validationRectHMin = maxrect.height;
+						//store angle at validationRectHMin
+						//and see how differs from minimum angle
+						validationRectHMinThetaMarked = thetaMarked;
+					}
+
+					if(maxrect.width > validationRectWMax)
+						validationRectWMax = maxrect.width;
+					if(maxrect.width < validationRectWMin)
+						validationRectWMin = maxrect.width;
+	
+				}
+
 
 
 
@@ -879,8 +946,8 @@ imageGuiResult(gui, "returned", font);
 		}
 				   
 
-		if(programMode == validation || programMode == blackWithoutMarkers)
-      			cvShowImage("result",frame_copy);
+//		if(programMode == validation || programMode == blackWithoutMarkers)
+//      			cvShowImage("result",frame_copy);
 
 
 		CvPoint hipExpected;
@@ -888,11 +955,12 @@ imageGuiResult(gui, "returned", font);
 		CvPoint toeExpected;
 
 		/*
-		 * 5
-		 * IF BLACKANDMARKERS MODE,
-		 * FIND POINTS
+		 * 5 a
+		 * IF BLACKANDMARKERS MODE, FIND POINTS
+		 * UNUSED NOW BECAUSE WE ARE USING ONLY RECTANGLE
 		 */
 
+		/*
 		if(programMode == validation || programMode == blackWithoutMarkers) 
 		{
 			CvPoint hipPointBack;
@@ -949,10 +1017,10 @@ imageGuiResult(gui, "returned", font);
 					} 
 					else if(extensionDoIt && extensionCopyDone) 
 					{
-						/* 
-						 * first time, confirm we found knee ok (and angle)
-						 * maybe is too early
-						 */
+						// 
+						// first time, confirm we found knee ok (and angle)
+						// maybe is too early
+						//
 						crossPoint(frame_copy, kneePointFront, GREY, MID);
 						crossPoint(frame_copy, kneePointBack, GREY, MID);
 
@@ -995,10 +1063,10 @@ imageGuiResult(gui, "returned", font);
 				
 
 							if(validation) {	
-								/*
-								 * now print differences between:
-								 * CvPoint(kneeCenterExtX, kneePointFront.y) and kneeMarkedAtEXtension
-								 */
+								//
+								// now print differences between:
+								// CvPoint(kneeCenterExtX, kneePointFront.y) and kneeMarkedAtEXtension
+								//
 								printf("marked at ext: x: %d, y: %d\n", kneeMarkedAtExtension.x, kneeMarkedAtExtension.y); //debug
 
 								//see the % of rectangle where kneeMarked is (at extension)
@@ -1116,21 +1184,21 @@ imageGuiResult(gui, "returned", font);
 					
 				}
 
-				/*
-				if(pointIsNull(hipMarked) || pointIsNull(kneeMarked) || pointIsNull(toeMarked))
-					thetaMarked = -1;
-				else
-					thetaMarked = findAngle2D(hipMarked, toeMarked, kneeMarked);
-					*/
+				//
+				//if(pointIsNull(hipMarked) || pointIsNull(kneeMarked) || pointIsNull(toeMarked))
+				//	thetaMarked = -1;
+				//else
+				//	thetaMarked = findAngle2D(hipMarked, toeMarked, kneeMarked);
+				//	
 
 				// ------------ toe stuff ----------
 
-				/*
-				 * don't find width of toe for each photogramme
-				 * do it only at first, because if at any photogramme, as flexion advances, 
-				 * knee pointfront is an isolate point at the right of the lowest part of the pants
-				 * because the back part of kneepoint has gone up
-				 */
+				//
+				// don't find width of toe for each photogramme
+				// do it only at first, because if at any photogramme, as flexion advances, 
+				// knee pointfront is an isolate point at the right of the lowest part of the pants
+				// because the back part of kneepoint has gone up
+				//
 
 				//if(toePointWidth == -1) 
 					toePointWidth = findWidth(output, toeExpected, false);
@@ -1195,11 +1263,11 @@ imageGuiResult(gui, "returned", font);
 				cvSeqPush( kneeSeq, &notFoundPoint );
 				cvSeqPush( toeSeq, &notFoundPoint );
 
-				/*
-				 * if we never have found the angle, 
-				 * and this maxrect is wider than previous maxrect (flexion started)
-				 * then capture previous image to process knee at extension search
-				 */
+				//
+				// if we never have found the angle, 
+				// and this maxrect is wider than previous maxrect (flexion started)
+				// then capture previous image to process knee at extension search
+				//
 				if(extensionDoIt && ! foundAngleOneTime && ! extensionCopyDone) {
 					cvShowImage("result",frame_copy);
 					imageGuiResult(gui, "Extension copy. Accept? 'n'o, 'y'es", font);
@@ -1251,6 +1319,18 @@ imageGuiResult(gui, "returned", font);
 			}
 				
 			cvShowImage("result",frame_copy);
+		}
+		*/
+		
+		/*
+		 * 5 b
+		 * IF BLACKANDMARKERS MODE, FIND RECTANGLE
+		 */
+
+		if(programMode == validation || programMode == blackWithoutMarkers) 
+		{
+			//print height of rectangle and thetaMarked
+			fprintf(fdatapre, "%d;%f\n", maxrect.height, thetaMarked);
 		}
 
 
@@ -1589,7 +1669,7 @@ imageGuiResult(gui, "returned", font);
 					mouseClicked = UNDEFINED;  
 					mouseMultiplier = false;
 		
-					if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
+					if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers || programMode == validation) {
 						sprintf(label, "Threshold: %d (%d,%d,%d) (%d,%d,%d)", 
 								threshold, 
 								thresholdROIH, thresholdROIK, thresholdROIT, 
@@ -1751,8 +1831,8 @@ imageGuiResult(gui, "returned", font);
 				
 		}
 
-		if(programMode == validation) 
-			updateHolesWin(segmentedValidationHoles);
+//		if(programMode == validation) 
+//			updateHolesWin(segmentedValidationHoles);
 		
 		
 		mouseClicked = UNDEFINED;  
@@ -1765,11 +1845,13 @@ imageGuiResult(gui, "returned", font);
 		
 	imageGuiResult(gui, "Press 'q' to exit.", font);
 
-	if( (programMode == validation || programMode == blackWithoutMarkers) && foundAngleOneTime) 
+	//if( (programMode == validation || programMode == blackWithoutMarkers) && foundAngleOneTime) 
+	if(programMode == validation || programMode == blackWithoutMarkers) 
 	{
-		avgThetaDiff = (double) avgThetaDiff / framesDetected;
-		avgThetaDiffPercent = (double) avgThetaDiffPercent / framesDetected;
-		avgKneeDistance = (double) avgKneeDistance / framesDetected;
+		//relative to geometric points:
+		//avgThetaDiff = (double) avgThetaDiff / framesDetected;
+		//avgThetaDiffPercent = (double) avgThetaDiffPercent / framesDetected;
+		//avgKneeDistance = (double) avgKneeDistance / framesDetected;
 			
 		cvNamedWindow("Minimum Frame",1);
 		cvShowImage("Minimum Frame", result);
@@ -1781,7 +1863,44 @@ imageGuiResult(gui, "returned", font);
 				minThetaMarked-minThetaExpected, relError(minThetaExpected, minThetaMarked));
 		printf("%s\n" ,label);
 		*/
+	
+
+		fclose(fdatapre);
 		
+		fprintf(fheader, "BoxHMax;BoxHMin;BoxWMax;BoxWMin;BoxHMaxWMin;AngleBoxHMin;AngleMin\n%d;%d;%d;%d;%f;%f;%f",
+			validationRectHMax, validationRectHMin, validationRectWMax, validationRectWMin,
+			(double) validationRectHMax / validationRectWMin, validationRectHMinThetaMarked, minThetaMarked);
+		fclose(fheader);
+
+		//copy fdatapre in fdatapost but converting box height in %
+		if((fdatapre=fopen(fdatapreName,"r")) == NULL){
+			printf("Error, no se puede leer: %s\n",fdatapreName);
+			fclose(fdatapre);
+			exit(0);
+		}
+
+		bool fileEnd = false;
+		int endChar;
+		int i=0;
+		float height;
+		float angle;
+		while(!fileEnd) {
+			fscanf(fdatapre,"%f;%f\n",&height, &angle);
+			fprintf(fdatapost, "%f;%f\n", 100 * height / validationRectHMax, angle);
+			endChar = getc(fdatapre);
+			if(endChar == EOF) 
+				fileEnd = true;
+			else
+				ungetc(endChar, fdatapre);
+
+			//do not continue if we copied frame with minimum angle (only store 'going-down' phase)
+//			if(angle == minThetaMarked)
+//				fileEnd = true;
+		}
+
+		fclose(fdatapre);
+		fclose(fdatapost);
+
 	}
 	else {
 		//printf("*** Result ***\nMin angle: %.2f, lowest angle frame: %d\n", minThetaMarked, lowestAngleFrame);
@@ -1795,6 +1914,7 @@ imageGuiResult(gui, "returned", font);
 		key =  (char) cvWaitKey(0);
 	} while (key != 'q' && key != 'Q');
 					
+			
 
 	cvClearMemStorage( stickStorage );
 

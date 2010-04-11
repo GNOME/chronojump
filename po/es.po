@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: chronojump.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&component=general\n"
-"POT-Creation-Date: 2010-03-12 10:51+0000\n"
-"PO-Revision-Date: 2010-04-06 19:36+0200\n"
+"POT-Creation-Date: 2010-04-06 17:38+0000\n"
+"PO-Revision-Date: 2010-04-11 16:34+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -332,16 +332,16 @@ msgstr "Comprobando nueva versión"
 msgid "Preparing main Window"
 msgstr "Preparando ventana principal"
 
-#: ../src/constants.cs:441 ../src/gui/jump.cs:1052 ../src/gui/jump.cs:1057
-#: ../src/gui/jump.cs:1244 ../src/gui/jump.cs:1249
+#: ../src/constants.cs:441 ../src/gui/jump.cs:1054 ../src/gui/jump.cs:1059
+#: ../src/gui/jump.cs:1246 ../src/gui/jump.cs:1251
 msgid "No"
 msgstr "No"
 
-#: ../src/constants.cs:442 ../src/gui/jump.cs:1050 ../src/gui/jump.cs:1055
-#: ../src/gui/jump.cs:1086 ../src/gui/jump.cs:1089 ../src/gui/jump.cs:1116
-#: ../src/gui/jump.cs:1119 ../src/gui/jump.cs:1242 ../src/gui/jump.cs:1247
-#: ../src/gui/jump.cs:1320 ../src/gui/jump.cs:1323 ../src/gui/jump.cs:1367
-#: ../src/gui/jump.cs:1370
+#: ../src/constants.cs:442 ../src/gui/jump.cs:1052 ../src/gui/jump.cs:1057
+#: ../src/gui/jump.cs:1088 ../src/gui/jump.cs:1091 ../src/gui/jump.cs:1118
+#: ../src/gui/jump.cs:1121 ../src/gui/jump.cs:1244 ../src/gui/jump.cs:1249
+#: ../src/gui/jump.cs:1322 ../src/gui/jump.cs:1325 ../src/gui/jump.cs:1369
+#: ../src/gui/jump.cs:1372
 msgid "Yes"
 msgstr "Sí"
 
@@ -1126,7 +1126,7 @@ msgstr "Borrar tipo"
 #: ../src/exportSession.cs:288 ../src/exportSession.cs:384
 #: ../src/exportSession.cs:489 ../src/exportSession.cs:541
 #: ../src/exportSession.cs:614 ../src/exportSession.cs:656
-#: ../src/exportSession.cs:716 ../src/gui/jump.cs:1040 ../src/gui/jump.cs:1232
+#: ../src/exportSession.cs:716 ../src/gui/jump.cs:1042 ../src/gui/jump.cs:1234
 #: ../src/gui/person.cs:116 ../src/gui/run.cs:1008 ../src/gui/run.cs:1174
 #: ../src/runType.cs:190 ../src/runType.cs:226 ../src/runType.cs:267
 #: ../src/runType.cs:296 ../src/treeViewEvent.cs:39
@@ -1199,7 +1199,7 @@ msgstr "Correo-e"
 msgid "E-mail will never be shown in public."
 msgstr "El correo-e nunca se mostrará en público."
 
-#: ../glade/chronojump.glade.h:200 ../src/gui/chronojump.cs:803
+#: ../glade/chronojump.glade.h:200 ../src/gui/chronojump.cs:801
 msgid "Edit"
 msgstr "Editar"
 
@@ -1287,8 +1287,8 @@ msgstr "Datos extra para este pulso"
 msgid "Extra data for this run"
 msgstr "Datos extra para esta carrera"
 
-#: ../glade/chronojump.glade.h:222 ../src/gui/jump.cs:1039
-#: ../src/gui/jump.cs:1231
+#: ../glade/chronojump.glade.h:222 ../src/gui/jump.cs:1041
+#: ../src/gui/jump.cs:1233
 msgid "Extra weight"
 msgstr "Peso extra"
 
@@ -1457,8 +1457,8 @@ msgstr "Máximo/s del saltador"
 #. serieJumps.Title = Catalog.GetString("Jumps") + " *10";
 #. serieTime.Title = Catalog.GetString("Time") + " *10";
 #: ../glade/chronojump.glade.h:258 ../src/exportSession.cs:381
-#: ../src/gui/chronojump.cs:3041 ../src/gui/jump.cs:1260
-#: ../src/gui/jump.cs:1310 ../src/gui/jump.cs:1357
+#: ../src/gui/chronojump.cs:3044 ../src/gui/jump.cs:1262
+#: ../src/gui/jump.cs:1312 ../src/gui/jump.cs:1359
 #: ../src/sqlite/speciallity.cs:155 ../src/stats/graphs/rjAVGSD.cs:71
 #: ../src/stats/graphs/rjAVGSD.cs:80 ../src/stats/graphs/rjEvolution.cs:77
 #: ../src/stats/graphs/rjPotencyBosco.cs:80
@@ -1493,7 +1493,7 @@ msgstr "Nivel"
 msgid "Limit"
 msgstr "Límite"
 
-#: ../glade/chronojump.glade.h:265 ../src/gui/jump.cs:1228
+#: ../glade/chronojump.glade.h:265 ../src/gui/jump.cs:1230
 #: ../src/gui/run.cs:1172
 msgid "Limited by"
 msgstr "Limitado por"
@@ -1620,7 +1620,7 @@ msgid "MultiChronopic"
 msgstr "MultiChronopic"
 
 #: ../glade/chronojump.glade.h:296 ../src/exportSession.cs:220
-#: ../src/exportSession.cs:234 ../src/gui/jump.cs:1037 ../src/gui/jump.cs:1227
+#: ../src/exportSession.cs:234 ../src/gui/jump.cs:1039 ../src/gui/jump.cs:1229
 #: ../src/gui/person.cs:113 ../src/gui/run.cs:1006 ../src/gui/run.cs:1170
 #: ../src/gui/session.cs:690 ../src/gui/session.cs:859
 #: ../src/gui/server.cs:164 ../src/report.cs:241
@@ -1633,11 +1633,11 @@ msgstr "Los nombres serán ocultados"
 
 #: ../glade/chronojump.glade.h:298
 msgid "Needs help or cannot perform the counting task."
-msgstr ""
+msgstr "Necesita ayuda o no puede realizar la tarea de conteo."
 
 #: ../glade/chronojump.glade.h:299
 msgid "Needs or asks for help."
-msgstr ""
+msgstr "Necesita o pide ayuda."
 
 #: ../glade/chronojump.glade.h:300 ../src/gui/person.cs:926
 msgid "New jumper"
@@ -1796,7 +1796,7 @@ msgstr "Pulso"
 
 #. windowTitle
 #: ../glade/chronojump.glade.h:340 ../src/exportSession.cs:201
-#: ../src/gui/chronojump.cs:3723 ../src/gui/person.cs:1988
+#: ../src/gui/chronojump.cs:3726 ../src/gui/person.cs:1988
 #: ../src/gui/session.cs:702 ../src/report.cs:196
 msgid "Pulses"
 msgstr "Pulsos"
@@ -2129,8 +2129,8 @@ msgstr "Salto Squat"
 msgid "Squat Jump with extra weight"
 msgstr "Salto Squat con peso extra"
 
-#: ../glade/chronojump.glade.h:420 ../src/gui/jump.cs:1038
-#: ../src/gui/jump.cs:1230
+#: ../glade/chronojump.glade.h:420 ../src/gui/jump.cs:1040
+#: ../src/gui/jump.cs:1232
 msgid "Start inside"
 msgstr "Comienza dentro"
 
@@ -2293,8 +2293,8 @@ msgstr "Indefinido."
 
 #. check if it's unlimited
 #. unlimited mark
-#: ../glade/chronojump.glade.h:449 ../src/gui/jump.cs:1257
-#: ../src/gui/jump.cs:1303 ../src/gui/jump.cs:1350 ../src/gui/run.cs:1197
+#: ../glade/chronojump.glade.h:449 ../src/gui/jump.cs:1259
+#: ../src/gui/jump.cs:1305 ../src/gui/jump.cs:1352 ../src/gui/run.cs:1197
 #: ../src/gui/run.cs:1259 ../src/gui/run.cs:1309
 msgid "Unlimited"
 msgstr "Ilimitado"
@@ -2733,7 +2733,7 @@ msgstr "Por favor, actualícese a la nueva versión."
 msgid "Chronojump crashed before."
 msgstr "ChronoJump ha fallado anteriormente"
 
-#: ../src/chronojump.cs:316 ../src/gui/chronojump.cs:856
+#: ../src/chronojump.cs:316 ../src/gui/chronojump.cs:854
 msgid "Please, update to new version: "
 msgstr "Por favor, actualice a la nueva versión:"
 
@@ -2988,7 +2988,7 @@ msgstr "La carrera no se grabará, la primera pista está fuera de tiempo"
 
 #. windowTitle
 #: ../src/execute/run.cs:793 ../src/exportSession.cs:539
-#: ../src/gui/chronojump.cs:3460 ../src/gui/run.cs:1200 ../src/gui/run.cs:1263
+#: ../src/gui/chronojump.cs:3463 ../src/gui/run.cs:1200 ../src/gui/run.cs:1263
 #: ../src/gui/run.cs:1313
 msgid "Tracks"
 msgstr "Tramos"
@@ -3265,120 +3265,120 @@ msgstr "Preparado."
 msgid "Chronojump database version file: {0}"
 msgstr "Versión de la base de datos de Chronojump: {0}"
 
-#: ../src/gui/chronojump.cs:650
+#: ../src/gui/chronojump.cs:648
 msgid "Preferences loaded"
 msgstr "Preferencias cargadas"
 
-#: ../src/gui/chronojump.cs:807
+#: ../src/gui/chronojump.cs:805
 msgid "Show all tests of"
 msgstr "Mostrar todas las pruebas"
 
-#: ../src/gui/chronojump.cs:814
+#: ../src/gui/chronojump.cs:812
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "Borrar {0} de esta sesión"
 
-#: ../src/gui/chronojump.cs:839
+#: ../src/gui/chronojump.cs:837
 msgid "Please, first fill evaluator data."
 msgstr "Por favor, introduzca los datos del evaluador."
 
-#: ../src/gui/chronojump.cs:841
+#: ../src/gui/chronojump.cs:839
 msgid "Please, first check evaluator data is ok."
 msgstr "Por favor, compruebe que los datos del evaluador son correctos."
 
-#: ../src/gui/chronojump.cs:855
+#: ../src/gui/chronojump.cs:853
 msgid "Your version of Chronojump is too old for this."
 msgstr "Su versión de Chronojump es demasiado antigua."
 
 #. false: don't do insertion
 #. false: don't do insertion
-#: ../src/gui/chronojump.cs:921
+#: ../src/gui/chronojump.cs:919
 msgid "Do you want to upload evaluator data now?"
 msgstr "¿Desea subir los datos de evaluador ahora?"
 
-#: ../src/gui/chronojump.cs:925
+#: ../src/gui/chronojump.cs:923
 msgid "Currently cannot upload."
 msgstr "No es posible subir los datos en este momento."
 
-#: ../src/gui/chronojump.cs:986
+#: ../src/gui/chronojump.cs:989
 msgid "<b>Weight</b> of the following persons is not ok:"
 msgstr "El <b>peso</b> de las siguientes personas no es correcto:"
 
-#: ../src/gui/chronojump.cs:1000
+#: ../src/gui/chronojump.cs:1003
 msgid "<b>Country</b> of the following persons is undefined:"
 msgstr "El <b>país</b> de las siguientes personas no se ha definido:"
 
-#: ../src/gui/chronojump.cs:1014
+#: ../src/gui/chronojump.cs:1017
 msgid "<b>Sport</b> of the following persons is undefined:"
 msgstr "El <b>deporte</b> de las siguientes personas no se ha definido:"
 
-#: ../src/gui/chronojump.cs:1028
+#: ../src/gui/chronojump.cs:1031
 msgid "Please, fix this before uploading:"
 msgstr "Por favor, arregle esto antes de subir los datos:"
 
-#: ../src/gui/chronojump.cs:1030
+#: ../src/gui/chronojump.cs:1033
 msgid "Or when upload session again, mark these persons as not to be uploaded."
 msgstr ""
 "O la próxima vez que suba una sesión, marque dichas personas para que no "
 "suban al servidor."
 
-#: ../src/gui/chronojump.cs:1047
+#: ../src/gui/chronojump.cs:1050
 msgid "Session will be uploaded to server."
 msgstr "La sesión será subida al servidor."
 
-#: ../src/gui/chronojump.cs:1048
+#: ../src/gui/chronojump.cs:1051
 msgid "Names, date of birth and descriptions of persons will be hidden."
 msgstr ""
 "Los nombres, fechas de nacimiento y descripciones de los sujetos serán "
 "ocultados."
 
-#: ../src/gui/chronojump.cs:1049
+#: ../src/gui/chronojump.cs:1052
 msgid "You can upload again this session if you add more data or persons."
 msgstr ""
 "Si desea añadir más personas o tests en la misma sesión, podrá subir o "
 "actualizar dicha sesión nuevamente."
 
-#: ../src/gui/chronojump.cs:1052
+#: ../src/gui/chronojump.cs:1055
 msgid "Session has been uploaded to server before."
 msgstr "La sesión se había subido al servidor anteriormente."
 
-#: ../src/gui/chronojump.cs:1053
+#: ../src/gui/chronojump.cs:1056
 msgid "Uploading new data."
 msgstr "Subiendo nuevos datos."
 
-#: ../src/gui/chronojump.cs:1055
+#: ../src/gui/chronojump.cs:1058
 msgid "All the uploaded data will be licensed as:"
 msgstr "Todos los datos subidos serán licenciados como:"
 
-#: ../src/gui/chronojump.cs:1056
+#: ../src/gui/chronojump.cs:1059
 msgid "Creative Commons Attribution 3.0"
 msgstr "Creative Commons Attribución 3.0"
 
 #. label_link
-#: ../src/gui/chronojump.cs:1061
+#: ../src/gui/chronojump.cs:1064
 msgid "Are you sure you want to upload this session to server?"
 msgstr "¿Está seguro de que desea subir esta sesión al servidor?"
 
-#: ../src/gui/chronojump.cs:1165 ../src/gui/chronojump.cs:1235
-#: ../src/gui/chronojump.cs:1303 ../src/gui/chronojump.cs:1372
-#: ../src/gui/chronojump.cs:1440 ../src/gui/chronojump.cs:1508
-#: ../src/gui/chronojump.cs:1591
+#: ../src/gui/chronojump.cs:1168 ../src/gui/chronojump.cs:1238
+#: ../src/gui/chronojump.cs:1306 ../src/gui/chronojump.cs:1375
+#: ../src/gui/chronojump.cs:1443 ../src/gui/chronojump.cs:1511
+#: ../src/gui/chronojump.cs:1594
 msgid "Edit selected"
 msgstr "Editar seleccionado"
 
-#: ../src/gui/chronojump.cs:1172 ../src/gui/chronojump.cs:1246
-#: ../src/gui/chronojump.cs:1310 ../src/gui/chronojump.cs:1383
-#: ../src/gui/chronojump.cs:1447 ../src/gui/chronojump.cs:1519
-#: ../src/gui/chronojump.cs:1605
+#: ../src/gui/chronojump.cs:1175 ../src/gui/chronojump.cs:1249
+#: ../src/gui/chronojump.cs:1313 ../src/gui/chronojump.cs:1386
+#: ../src/gui/chronojump.cs:1450 ../src/gui/chronojump.cs:1522
+#: ../src/gui/chronojump.cs:1608
 msgid "Delete selected"
 msgstr "Borrar seleccionado"
 
-#: ../src/gui/chronojump.cs:1239 ../src/gui/chronojump.cs:1376
-#: ../src/gui/chronojump.cs:1512
+#: ../src/gui/chronojump.cs:1242 ../src/gui/chronojump.cs:1379
+#: ../src/gui/chronojump.cs:1515
 msgid "Repair selected"
 msgstr "Reparar seleccionado"
 
-#: ../src/gui/chronojump.cs:1771 ../src/gui/chronojump.cs:1798
+#: ../src/gui/chronojump.cs:1774 ../src/gui/chronojump.cs:1801
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -3389,37 +3389,37 @@ msgstr ""
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/chronojump.cs:1860
+#: ../src/gui/chronojump.cs:1863
 msgid "Session created, now add or load persons."
 msgstr "Sesión creada, ahora es necesario crear o cargar sujetos."
 
-#: ../src/gui/chronojump.cs:1934
+#: ../src/gui/chronojump.cs:1937
 msgid "Are you sure you want to delete the current session"
 msgstr "¿Seguro que desea borrar la sesión actual"
 
-#: ../src/gui/chronojump.cs:1934
+#: ../src/gui/chronojump.cs:1937
 msgid "and all the session tests?"
 msgstr "y todas las pruebas de la sesión?"
 
-#: ../src/gui/chronojump.cs:1940
+#: ../src/gui/chronojump.cs:1943
 msgid "Deleted session and all its tests"
 msgstr "Se ha borrado la sesión y todas sus pruebas"
 
-#: ../src/gui/chronojump.cs:2029 ../src/gui/stats.cs:1219
+#: ../src/gui/chronojump.cs:2032 ../src/gui/stats.cs:1219
 msgid "Successfully added"
 msgstr "Añadido satisfactoriamente"
 
-#: ../src/gui/chronojump.cs:2036
+#: ../src/gui/chronojump.cs:2039
 msgid "Select number of persons to add"
 msgstr "Seleccionar el numero de personas que añadir"
 
 #. more inserted
-#: ../src/gui/chronojump.cs:2061 ../src/gui/person.cs:604
+#: ../src/gui/chronojump.cs:2064 ../src/gui/person.cs:604
 #, csharp-format
 msgid "Successfully added {0} persons"
 msgstr "Añadidos satisfactoriamente {0} atletas"
 
-#: ../src/gui/chronojump.cs:2114
+#: ../src/gui/chronojump.cs:2117
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests "
 "(jumps, runs, pulses, ...) from this session?\n"
@@ -3429,15 +3429,15 @@ msgstr ""
 "borrar todas sus pruebas de esta sesión\n"
 "(Sus datos personales y pruebas de otras sesiones no serán alterados)"
 
-#: ../src/gui/chronojump.cs:2115
+#: ../src/gui/chronojump.cs:2118
 msgid "Current Person: "
 msgstr "atleta actual: "
 
-#: ../src/gui/chronojump.cs:2122
+#: ../src/gui/chronojump.cs:2125
 msgid "Deleted person and all his/her tests on this session"
 msgstr "Borrar atleta actual y todas sus pruebas de esta sesión"
 
-#: ../src/gui/chronojump.cs:2354
+#: ../src/gui/chronojump.cs:2357
 msgid ""
 "Please, touch the contact platform for full cancelling.\n"
 "Then press button\n"
@@ -3445,7 +3445,7 @@ msgstr ""
 "Por favor, toque la plataforma para cancelar completamente.\n"
 " Después pulse el botón\n"
 
-#: ../src/gui/chronojump.cs:2397
+#: ../src/gui/chronojump.cs:2400
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full "
@@ -3456,7 +3456,7 @@ msgstr ""
 "para cancelar completamente.\n"
 " Después pulse el botón\n"
 
-#: ../src/gui/chronojump.cs:2459
+#: ../src/gui/chronojump.cs:2462
 msgid ""
 "Please, touch the contact platform for full finishing.\n"
 "Then press this button:\n"
@@ -3464,7 +3464,7 @@ msgstr ""
 "Por favor, toque la plataforma para terminar completamente.\n"
 "Después pulse el botón:\n"
 
-#: ../src/gui/chronojump.cs:2513
+#: ../src/gui/chronojump.cs:2516
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
@@ -3472,122 +3472,122 @@ msgstr ""
 "Por favor, toque la plataforma correspondiente a el/los Chronopic/s [{0}] "
 "para finalizar completamente."
 
-#: ../src/gui/chronojump.cs:2514
+#: ../src/gui/chronojump.cs:2517
 msgid "Then press this button:\n"
 msgstr "Pulsar este botón:\n"
 
-#: ../src/gui/chronojump.cs:2847
+#: ../src/gui/chronojump.cs:2850
 msgid "Execute Jump"
 msgstr "Ejecutar salto"
 
 #. windowTitle
-#: ../src/gui/chronojump.cs:2848 ../src/gui/chronojump.cs:3267
-#: ../src/gui/chronojump.cs:3575
+#: ../src/gui/chronojump.cs:2851 ../src/gui/chronojump.cs:3270
+#: ../src/gui/chronojump.cs:3578
 msgid "Phases"
 msgstr "Fases"
 
-#: ../src/gui/chronojump.cs:3040
+#: ../src/gui/chronojump.cs:3043
 msgid "Execute Reactive Jump"
 msgstr "Ejecutar salto reactivo"
 
-#: ../src/gui/chronojump.cs:3266
+#: ../src/gui/chronojump.cs:3269
 msgid "Execute Run"
 msgstr "Ejecutar prueba"
 
-#: ../src/gui/chronojump.cs:3459
+#: ../src/gui/chronojump.cs:3462
 msgid "Execute Intervallic Run"
 msgstr "Ejecutar carreras con tramos"
 
-#: ../src/gui/chronojump.cs:3574
+#: ../src/gui/chronojump.cs:3577
 msgid "Execute Reaction Time"
 msgstr "Ejecutar tiempo de reacción"
 
-#: ../src/gui/chronojump.cs:3722
+#: ../src/gui/chronojump.cs:3725
 msgid "Execute Pulse"
 msgstr "Ejecutar pulso"
 
-#: ../src/gui/chronojump.cs:3854
+#: ../src/gui/chronojump.cs:3857
 msgid "Execute Multi Chronopic"
 msgstr "Ejecutar MultiChronopic"
 
 #. windowTitle
-#: ../src/gui/chronojump.cs:3855
+#: ../src/gui/chronojump.cs:3858
 msgid "Changes"
 msgstr "Cambios"
 
-#: ../src/gui/chronojump.cs:4043
+#: ../src/gui/chronojump.cs:4046
 msgid "Cannot update. Probably this test was deleted."
 msgstr "No se puede actualizar. Probablemente esta prueba se borró."
 
-#: ../src/gui/chronojump.cs:4331
+#: ../src/gui/chronojump.cs:4334
 msgid "Do you want to delete selected jump?"
 msgstr "¿Desea borrar el salto seleccionado?"
 
-#: ../src/gui/chronojump.cs:4332
+#: ../src/gui/chronojump.cs:4335
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Atención: Borrar un subsalto reactivo borrará todo el salto completo"
 
-#: ../src/gui/chronojump.cs:4346
+#: ../src/gui/chronojump.cs:4349
 msgid "Deleted jump"
 msgstr "Borrar salto"
 
-#: ../src/gui/chronojump.cs:4360
+#: ../src/gui/chronojump.cs:4363
 msgid "Deleted reactive jump"
 msgstr "Borrado salto reactivo"
 
-#: ../src/gui/chronojump.cs:4396
+#: ../src/gui/chronojump.cs:4399
 msgid "Do you want to delete selected run?"
 msgstr "Desea borrar el salto seleccionado?"
 
-#: ../src/gui/chronojump.cs:4397
+#: ../src/gui/chronojump.cs:4400
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "Atención: Borrar un tramo de la carrera borrará toda la carrera"
 
-#: ../src/gui/chronojump.cs:4411
+#: ../src/gui/chronojump.cs:4414
 msgid "Deleted selected run"
 msgstr "Borrar carrera con tramos"
 
-#: ../src/gui/chronojump.cs:4426
+#: ../src/gui/chronojump.cs:4429
 msgid "Deleted intervallic run"
 msgstr "Borrada carrera con tramos "
 
-#: ../src/gui/chronojump.cs:4460
+#: ../src/gui/chronojump.cs:4463
 msgid "Deleted reaction time"
 msgstr "Borrado tiempo de reacción"
 
-#: ../src/gui/chronojump.cs:4495
+#: ../src/gui/chronojump.cs:4498
 msgid "Deleted pulse"
 msgstr "Borrar pulso"
 
-#: ../src/gui/chronojump.cs:4514
+#: ../src/gui/chronojump.cs:4517
 msgid "Do you want to delete selected test?"
 msgstr "¿Desea borrar el test seleccionado?"
 
-#: ../src/gui/chronojump.cs:4528
+#: ../src/gui/chronojump.cs:4531
 msgid "Deleted multi chronopic"
 msgstr "Borrado test MultiChronopic"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4554
+#: ../src/gui/chronojump.cs:4557
 msgid "Added simple jump."
 msgstr "Añadido salto simple."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4557
+#: ../src/gui/chronojump.cs:4560
 msgid "Added reactive jump."
 msgstr "Añadido salto reactivo."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4574
+#: ../src/gui/chronojump.cs:4577
 msgid "Added simple run."
 msgstr "Añadida carrera simple."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4577
+#: ../src/gui/chronojump.cs:4580
 msgid "Added intervallic run."
 msgstr "Añadida carrera con tramos."
 
-#: ../src/gui/chronojump.cs:4743
+#: ../src/gui/chronojump.cs:4746
 msgid "translator-credits"
 msgstr ""
 "Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2007-2009\n"
@@ -3596,7 +3596,7 @@ msgstr ""
 "QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006\n"
 "QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
 
-#: ../src/gui/chronojump.cs:5065
+#: ../src/gui/chronojump.cs:5070
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Programado para realizar tests de desarrollo. Chronojump fallará y se "
@@ -3707,15 +3707,15 @@ msgstr ""
 "\n"
 "(separador de decimales: '{0}')"
 
-#: ../src/gui/event.cs:606
+#: ../src/gui/event.cs:607
 msgid "There are tests of that type on database on sessions:"
 msgstr "Hay tests de dicho tipo en las sesiones:"
 
-#: ../src/gui/event.cs:608
+#: ../src/gui/event.cs:609
 msgid "please first edit or delete them."
 msgstr "por favor, editelos o bórrelos."
 
-#: ../src/gui/event.cs:610
+#: ../src/gui/event.cs:611
 msgid "Are you sure you want to delete this test type?"
 msgstr "¿Seguro que desea borrar este tipo de test?"
 
@@ -3914,16 +3914,16 @@ msgstr ""
 msgid "Count"
 msgstr "Conteo"
 
-#: ../src/gui/jump.cs:1010 ../src/gui/jump.cs:1196 ../src/gui/run.cs:980
+#: ../src/gui/jump.cs:1012 ../src/gui/jump.cs:1198 ../src/gui/run.cs:980
 #: ../src/gui/run.cs:1143
 msgid "Delete test type defined by user"
 msgstr "Borrar tipo de test definido por el usuario"
 
-#: ../src/gui/jump.cs:1229 ../src/gui/run.cs:1173
+#: ../src/gui/jump.cs:1231 ../src/gui/run.cs:1173
 msgid "Limited value"
 msgstr "Valor limitante"
 
-#: ../src/gui/jump.cs:1262 ../src/gui/run.cs:1202
+#: ../src/gui/jump.cs:1264 ../src/gui/run.cs:1202
 msgid "Seconds"
 msgstr "Segundos"
 
@@ -4436,6 +4436,7 @@ msgstr "Pequeña descripción"
 #: ../src/runType.cs:143
 msgid "Subjects had to walk over the bar as fast as possible."
 msgstr ""
+"Las personas tienen que caminar sobre la barra tan rápido como sea posible."
 
 #: ../src/runType.cs:144
 msgid "From one platform to another without falling down."
@@ -4455,7 +4456,7 @@ msgstr "Sin zapatos."
 
 #: ../src/runType.cs:148 ../src/runType.cs:166
 msgid "Every ground contact is penalized with 2 seconds."
-msgstr ""
+msgstr "Cada contacto con el suelo se penaliza con 2 segundos."
 
 #: ../src/runType.cs:149
 msgid "The best of 2 attempts were recorded."
@@ -4487,7 +4488,7 @@ msgstr "Las manos en su cadera."
 
 #: ../src/runType.cs:159
 msgid "In front of a wall in order to avoid distractions."
-msgstr ""
+msgstr "Frente a una pared para evitar distracciones."
 
 #: ../src/runType.cs:160
 msgid "INSTRUCTIONS AND DEMONSTRATION: "
@@ -4927,16 +4928,16 @@ msgstr ""
 msgid "Abstract:"
 msgstr "Abstract:"
 
-#: ../src/server.cs:123
+#: ../src/server.cs:128
 msgid "Error uploading session to server"
 msgstr "Error subiendo la sesión al servidor"
 
-#: ../src/server.cs:646
+#: ../src/server.cs:651
 #, csharp-format
 msgid "Successfully Uploaded evaluator with ID: {0}"
 msgstr "Se ha subido correctamente el evaluador con ID: {0}"
 
-#: ../src/server.cs:649
+#: ../src/server.cs:654
 #, csharp-format
 msgid ""
 "Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."

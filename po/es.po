@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: chronojump.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&component=general\n"
-"POT-Creation-Date: 2010-04-06 17:38+0000\n"
-"PO-Revision-Date: 2010-04-11 16:34+0200\n"
+"POT-Creation-Date: 2010-04-11 14:35+0000\n"
+"PO-Revision-Date: 2010-04-12 18:45+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -691,34 +691,38 @@ msgstr ""
 #: ../glade/chronojump.glade.h:79
 msgid "Able to kick ball with difficulty finding balance."
 msgstr ""
+"Capaz de dar una patada a una pelota con dificultad para encontrar el "
+"equilibrio."
 
 #: ../glade/chronojump.glade.h:80
 msgid "Able to kick ball without losing balance."
-msgstr ""
+msgstr "Capaz de dar una patada a una pelota sin perder el equilibrio."
 
 #: ../glade/chronojump.glade.h:81
 msgid "Able to sit down sharply without using hands."
-msgstr ""
+msgstr "Capaz de sentarse bruscamente sin usar las manos."
 
 #: ../glade/chronojump.glade.h:82
 msgid "Able to sit down smoothly without using hands."
-msgstr ""
+msgstr "Capaz de sentarse suavemente sin usar las manos."
 
 #: ../glade/chronojump.glade.h:83
 msgid "Able to sit down using hands."
-msgstr ""
+msgstr "Capaz de sentarse usando las manos."
 
 #: ../glade/chronojump.glade.h:84
 msgid "Able to stand up using hands after multiple attempts."
-msgstr ""
+msgstr "Capaz de levantarse usando las manos después de varios intentos."
 
 #: ../glade/chronojump.glade.h:85
 msgid "Able to stand up using hands in a steady and controlled action."
 msgstr ""
+"Capaz de levantarse usando las manos en una acción preparada y controlada."
 
 #: ../glade/chronojump.glade.h:86
 msgid "Able to stand up without using hands in a steady and controlled action."
 msgstr ""
+"Capaz de levantarse sin usar las manos en una acción preparada y controlada."
 
 #: ../glade/chronojump.glade.h:87
 msgid ""
@@ -1776,7 +1780,7 @@ msgstr "Toque la plataforma o pulse el botón <i>TEST</i> de Chronopic"
 #: ../glade/chronojump.glade.h:335
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
-msgstr ""
+msgstr "Coordinación pobre entre andar y contar con más de un error."
 
 #: ../glade/chronojump.glade.h:336
 msgid "Port Help"
@@ -4923,6 +4927,8 @@ msgid ""
 "Once the test finishes proceed to edit and you will be able to complete the "
 "assesment questionnaire."
 msgstr ""
+"Una vez que la prueba finaliza proceda a editar y podrá completar el "
+"cuestionario de evaluación."
 
 #: ../src/runType.cs:386
 msgid "Abstract:"

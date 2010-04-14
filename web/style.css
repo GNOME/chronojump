@@ -448,3 +448,7 @@ http://www.cssplay.co.uk/menu/double-click-gallery-vertical.html
 #gallery #fullsize li#lang {list-style: none;}
 
 #gallery #note {position:relative; top:0; height:150px; overflow:hidden; padding-top:315px; text-align:left;}
+
+#gallery #noteStore {position:relative; top:0; height:150px; overflow:hidden; padding-top:315px; padding-left:125px; text-align:left;}
+#gallery #noteStore table{padding: 0px 0px 0px 0px;float: left;}
+#gallery #noteStore td {padding: 0px 0px 0px 0px; width:315px;}

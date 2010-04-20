@@ -378,9 +378,6 @@ Log.Write("wb ");
 		else
 			appbar.Push( 1,myStringPush );
 
-		if(personName == "Steven Shiau")
-			tv = 3600;
-
 		uniqueID = SqliteJump.Insert(false, Constants.JumpTable, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
 				weight, "", angle, Util.BoolToNegativeInt(simulated)); //weight, description, simulated

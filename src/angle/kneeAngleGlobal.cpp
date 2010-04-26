@@ -115,7 +115,8 @@ bool zoomed = false;
 double zoomScale = 2; 
 
 //predictions stuff
-RInside R = RInside();              // create an embedded R instance 
+bool usePrediction = false;	//unneded at 300 fps
+RInside R = RInside();		// create an embedded R instance 
 	
 std::vector<int> hipXVector;
 std::vector<int> hipYVector;

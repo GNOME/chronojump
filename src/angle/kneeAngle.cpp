@@ -138,19 +138,23 @@
 
 #include "opencv/cv.h"
 #include "opencv/highgui.h"
-#include <opencv/cxcore.h>
+//#include <opencv/cxcore.h>
 #include "stdio.h"
 #include "math.h"
-#include<iostream>
-#include<fstream>
-#include<vector>
+//#include<iostream>
+//#include<fstream>
+//#include<vector>
 #include <string>
+
+#include <RInside.h>
 
 #include "kneeAngleGlobal.cpp"
 #include "kneeAngleUtil.cpp"
 #include "kneeAngleFunctions.cpp"
+#include "kneeAngleSystemCalls.cpp"
 
-using namespace std;
+
+//using namespace std;
 
 int menu(IplImage *, CvFont);
 
@@ -162,7 +166,7 @@ int main(int argc,char **argv)
 		char *startMessage = new char[300];
 		sprintf(startMessage, "\nkneeAngle HELP.\n\nProvide file location as a first argument...\nOptional: as 2nd argument provide a fraction of video to start at that frame, or a concrete frame.\nOptional: as 3rd argument provide mode you want to execute (avoiding main menu).\n\t%d: validation; %d: blackWithoutMarkers; %d: skinOnlyMarkers; %d: blackOnlyMarkers.\n\nEg: Start at frame 5375:\n\tkneeAngle myfile.mov 5375\nEg:start at 80 percent of video and directly as blackOnlyMarkers:\n\tkneeAngle myFile.mov .8 %d\n", 
 				validation, blackWithoutMarkers, skinOnlyMarkers, blackOnlyMarkers, blackOnlyMarkers);
-		cout<< startMessage <<endl;
+		std::cout<< startMessage <<std::endl;
 		exit(1);
 	}
 
@@ -246,7 +250,8 @@ int main(int argc,char **argv)
 
 	double knee2Hip,knee2Toe,hip2Toe;
 	double thetaExpected, thetaMarked;
-	string text,angle;
+	//string text,angle;
+	std::string text;
 	double minThetaExpected = 360;
 	double minThetaMarked = 360;
 	double minThetaRealFlex = 360;
@@ -259,12 +264,16 @@ int main(int argc,char **argv)
 	FILE *fdatapre; //each line: 'current box height; current angle'
 	FILE *fdatapost; //each line: 'current box height percent; current angle' (percent comes from fheader)
 
+	//file for smoothing and predictions
+//	FILE *fpointsdump; //contains X,Y of three points each frame
+
 	char header[] = "_header.txt";
 	char txt[] = ".txt";
 	char csv[] = ".csv";
 	char fheaderName [strlen(fileName) + strlen(header)];
 	char fdatapreName [strlen(fileName) + strlen(txt)];
 	char fdatapostName [strlen(fileName) + strlen(csv)];
+//	char fpointsdumpName[] = "pointsDump.csv";
 
 	if(programMode == validation) {
 //		cvNamedWindow("Holes_on_contour",1);
@@ -306,9 +315,19 @@ int main(int argc,char **argv)
 	}
 	else if (programMode == blackWithoutMarkers)
 		cvNamedWindow("result",1);
-	
-	
 
+	/*
+	//put headers on pointsDump file	
+	if((fpointsdump=fopen(fpointsdumpName,"w"))==NULL){
+		printf("Error, no se puede escribir en el fichero %s\n",fpointsdumpName);
+		fclose(fpointsdump);
+		exit(0);
+	} else {
+		fprintf(fpointsdump, "hipX;hipY;kneeX;kneeY;toeX;toeY\n");
+		fclose(fpointsdump);
+	}
+	*/
+		
 	int kneePointWidth = -1;
 	int toePointWidth = -1;
 		
@@ -365,7 +384,13 @@ int main(int argc,char **argv)
 	CvPoint hipOldWorked = pointToZero();
 	CvPoint kneeOldWorked = pointToZero();
 	CvPoint toeOldWorked = pointToZero();
+	
+	CvSeq* seqPredicted;
+	CvPoint hipPredicted = pointToZero();
+	CvPoint kneePredicted = pointToZero();
+	CvPoint toePredicted = pointToZero();
 
+	
 	/*
 	int upLegMarkedDist = 0;
 	int upLegMarkedDistMax = 0;
@@ -469,6 +494,7 @@ int main(int argc,char **argv)
 
 	while(!shouldEnd) 
 	{
+
 		/*
 		 * 1
 		 * GET FRAME AND FLOW CONTROL
@@ -584,15 +610,28 @@ int main(int argc,char **argv)
 		 * FIND THREE MARKER POINTS
 		 */
 
+		
+
+		//predict where will be the points now
+		seqPredicted = predictPointsRInside();
+		hipPredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 0); 
+		kneePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 1); 
+		toePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 2); 
+		
+//		printf("%d;%d;%d;%d;%d;%d\n", hipPredicted.x, hipPredicted.y, 
+//			kneePredicted.x, kneePredicted.y, toePredicted.x, toePredicted.y);
+
 
 		if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers || programMode == validation) 
 		{
 
 /* kalman */
+			/*
 			const CvMat* prediction = cvKalmanPredict(kalman, 0);
 			CvPoint prediction_pt = cvPoint(
 					cvRound(prediction->data.fl[0]), 
 					cvRound(prediction->data.fl[1]));
+					*/
 /* /kalman */
 	
 
@@ -622,7 +661,7 @@ int main(int argc,char **argv)
 			CvSeq* seqHolesEnd;
 
 			if(programMode == skinOnlyMarkers) {
-				seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
+				seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, hipPredicted, kneePredicted, toePredicted, font);
 			}
 			else { //if(programMode == blackOnlyMarkers || programMode == validation) 
 				//this segmented is to find the contour (threshold is lot little)
@@ -640,7 +679,7 @@ int main(int argc,char **argv)
 				cvCopy(frame_copy,frame_copyTemp);
 				seqHolesEnd = findHoles(
 						outputTemp, segmented, foundHoles, frame_copy,  
-						maxrect, hipOld, kneeOld, toeOld, font);
+						maxrect, hipOld, kneeOld, toeOld, hipPredicted, kneePredicted, toePredicted, font);
 
 				//if hip or toe is touching a border of the image
 				//then will not be included in largest contour
@@ -673,7 +712,7 @@ imageGuiResult(gui, "going", font);
 //printf("threshold :%d\n", threshold);
 //printf("thresholdLC :%d\n", thresholdLargestContour);
 //cvWaitKey(500); //to allow messages be shown
-					seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, font);
+					seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, hipPredicted, kneePredicted, toePredicted, font);
 imageGuiResult(gui, "returned", font);
 //cvWaitKey(500); //to allow gui image be shown
 				}
@@ -684,7 +723,29 @@ imageGuiResult(gui, "returned", font);
 			hipMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 0); 
 			kneeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 1 ); 
 			toeMarked = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
-			
+		
+
+			//if all the points are ok, the dump in pointsDump file to smooth and predict
+			if( ! pointIsNull(hipMarked) && ! pointIsNull(kneeMarked) && ! pointIsNull(toeMarked) ) {
+				/*
+				if((fpointsdump=fopen(fpointsdumpName,"a"))==NULL){
+					printf("Error, no se puede añadir en el fichero %s\n",fpointsdumpName);
+				} else {
+					fprintf(fpointsdump, "%d;%d;%d;%d;%d;%d\n", hipMarked.x, hipMarked.y, 
+							kneeMarked.x, kneeMarked.y, toeMarked.x, toeMarked.y);
+				}
+				fclose(fpointsdump);
+				*/
+				
+				hipXVector.push_back(hipMarked.x);
+				hipYVector.push_back(hipMarked.y);
+				kneeXVector.push_back(kneeMarked.x);
+				kneeYVector.push_back(kneeMarked.y);
+				toeXVector.push_back(toeMarked.x);
+				toeYVector.push_back(toeMarked.y);
+			}
+
+
 			
 
 // kalman 
@@ -1638,10 +1699,17 @@ imageGuiResult(gui, "returned", font);
 					cvThreshold(gray,segmented,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
 
 					maxrect = findLargestContour(segmented, outputTemp, showContour);
-					//frame_copyTemp = cvCreateImage( cvSize(frame->width,frame->height),IPL_DEPTH_8U, frame->nChannels );
+					
+					//predict where will be the points now
+					seqPredicted = predictPointsRInside();
+					hipPredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 0); 
+					kneePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 1); 
+					toePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 2); 
+
+					
 					findHoles(
 							outputTemp, segmented, foundHoles, frame_copyTemp,  
-							maxrect, hipOld, kneeOld, toeOld, font);
+							maxrect, hipOld, kneeOld, toeOld, hipPredicted, kneePredicted, toePredicted, font);
 
 					cvCopy(segmentedValidationHoles, output);
 					cvShowImage("threshold", output);

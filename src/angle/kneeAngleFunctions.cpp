@@ -24,12 +24,12 @@
 
 #include "opencv/cv.h"
 #include "opencv/highgui.h"
-#include <opencv/cxcore.h>
+//#include <opencv/cxcore.h>
 #include "stdio.h"
 #include "math.h"
-#include<iostream>
-#include<fstream>
-#include<vector>
+//#include<iostream>
+//#include<fstream>
+//#include<vector>
 #include <string>
 
 
@@ -345,7 +345,10 @@ CvPoint findToePoint(IplImage *img,CvRect roirect,int startx,int starty, int toe
  * imgH (image Holes)
  */
 CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage *imgMain, 
-	CvRect roirect, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, CvFont font)
+	CvRect roirect, 
+	CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, 
+	CvPoint hipPredicted, CvPoint kneePredicted, CvPoint toePredicted, 
+	CvFont font)
 {
 	CvPoint pt;
 	pt.x =0;pt.y=0;
@@ -518,16 +521,17 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
 				if(size == sizeBig1 || size == sizeBig2 || size == sizeBig3)
 					validSure = true;
 			} 
-			//if found a point before, and this point is inside before point (ok at 300 fps)
+			//if found a point before, and this point is where it's predicted, or inside the before point (ok at 300 fps)
 			//a point is also ok, if we come from a user forward (then, there's not need to be inside old point)
-			else if (pointInside(hipOld, sp1, sp2) || pointInside(kneeOld, sp1,sp2) || pointInside(toeOld, sp1,sp2))
+			else if (pointInside(hipPredicted, sp1, sp2) || pointInside(kneePredicted, sp1,sp2) || pointInside(toePredicted, sp1,sp2)
+					|| (pointInside(hipOld, sp1, sp2) || pointInside(kneeOld, sp1,sp2) || pointInside(toeOld, sp1,sp2)))
 				validSure = true;
 		}
 
 		if(validSure) {
 			CvPoint center = *CV_GET_SEQ_ELEM( CvPoint, seqHolesCenter, i ); 
 
-			//the point will be hip knee or toe depending on the distance betwee old hipe, knee & toe
+			//the point will be hip knee or toe depending on the distance betwee old hip, knee & toe
 			//but give preference to the top (<=) because will be the first to be found (top to bottom)
 			int pointIs = TOGGLENOTHING;
 			if(!pointIsNull(hipOld) && !pointIsNull(kneeOld) && !pointIsNull(toeOld)) {
@@ -635,7 +639,10 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
  * this function is realy similiar to findHoles
  * try to do only a function
  */
-CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, CvFont font)
+CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, 
+		CvPoint hipOld, CvPoint kneeOld, CvPoint toeOld, 
+		CvPoint hipPredicted, CvPoint kneePredicted, CvPoint toePredicted, 
+		CvFont font)
 {
 	CvPoint pt;
 	pt.x =0;pt.y=0;
@@ -827,23 +834,23 @@ CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, CvPoint hipOld, Cv
 					}
 				}
 			}
-			//if found a point before, and this point is inside before point (ok at 300 fps)
+			//if found a point before, and this point is where it's predicted, or inside the before point (ok at 300 fps)
 			//a point is also ok, if we come from a user forward (then, there's not need to be inside old point)
 			else {
 				validSure = true;
-				if(pointInside(hipOld, sp1, sp2)) {
+				if(pointInside(hipPredicted, sp1, sp2) || pointInside(hipOld, sp1, sp2)) {
 					hipPoint.x = center.x; 
 					hipPoint.y = center.y;
 					color = RED;
 					sprintf(labelShort,"H");
 				} 
-				else if(pointInside(kneeOld, sp1,sp2)) {
+				else if(pointInside(kneePredicted, sp1, sp2) || pointInside(kneeOld, sp1, sp2)) {
 					kneePoint.x = center.x; 
 					kneePoint.y = center.y;
 					color = GREEN;
 					sprintf(labelShort,"K");
 				} 
-				else if(pointInside(toeOld, sp1,sp2)) {
+				else if(pointInside(toePredicted, sp1, sp2) || pointInside(toeOld, sp1, sp2)) {
 					toePoint.x = center.x; 
 					toePoint.y = center.y;
 					color = BLUE;

@@ -23,14 +23,14 @@
 
 #include "opencv/cv.h"
 #include "opencv/highgui.h"
-#include <opencv/cxcore.h>
+//#include <opencv/cxcore.h>
 #include "stdio.h"
 #include "math.h"
-#include<iostream>
-#include<fstream>
-#include<vector>
+//#include<iostream>
+//#include<fstream>
+//#include<vector>
 #include <string>
-using namespace std;
+//using namespace std;
 
 
 CvPoint findMiddle(CvPoint pt1, CvPoint pt2)

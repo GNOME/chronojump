@@ -151,7 +151,7 @@
 #include "kneeAngleGlobal.cpp"
 #include "kneeAngleUtil.cpp"
 #include "kneeAngleFunctions.cpp"
-#include "kneeAngleSystemCalls.cpp"
+#include "kneeAngleRInside.cpp"
 
 
 //using namespace std;
@@ -613,13 +613,26 @@ int main(int argc,char **argv)
 		
 
 		//predict where will be the points now
-		seqPredicted = predictPointsRInside();
-		hipPredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 0); 
-		kneePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 1); 
-		toePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 2); 
-		
-//		printf("%d;%d;%d;%d;%d;%d\n", hipPredicted.x, hipPredicted.y, 
-//			kneePredicted.x, kneePredicted.y, toePredicted.x, toePredicted.y);
+		if(usePrediction) {
+			seqPredicted = predictPoints();
+			hipPredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 0); 
+			kneePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 1); 
+			toePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 2); 
+		} else {
+			hipPredicted = hipOld;
+			kneePredicted = kneeOld;
+			toePredicted = toeOld;
+		}
+	
+		//uncomment to show how prediction works
+		/*
+		if(usePrediction) {
+			printf("1 OLD:  %d;%d;%d;%d;%d;%d\n", hipOld.x, hipOld.y, 
+					kneeOld.x, kneeOld.y, toeOld.x, toeOld.y);
+			printf("2 PRED: %d;%d;%d;%d;%d;%d\n", hipPredicted.x, hipPredicted.y, 
+					kneePredicted.x, kneePredicted.y, toePredicted.x, toePredicted.y);
+		}
+		*/
 
 
 		if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers || programMode == validation) 
@@ -737,16 +750,16 @@ imageGuiResult(gui, "returned", font);
 				fclose(fpointsdump);
 				*/
 				
-				hipXVector.push_back(hipMarked.x);
-				hipYVector.push_back(hipMarked.y);
-				kneeXVector.push_back(kneeMarked.x);
-				kneeYVector.push_back(kneeMarked.y);
-				toeXVector.push_back(toeMarked.x);
-				toeYVector.push_back(toeMarked.y);
+				if(usePrediction) {
+					hipXVector.push_back(hipMarked.x);
+					hipYVector.push_back(hipMarked.y);
+					kneeXVector.push_back(kneeMarked.x);
+					kneeYVector.push_back(kneeMarked.y);
+					toeXVector.push_back(toeMarked.x);
+					toeYVector.push_back(toeMarked.y);
+				}
 			}
 
-
-			
 
 // kalman 
 			measurement_pt = kneeMarked;
@@ -1701,10 +1714,16 @@ imageGuiResult(gui, "returned", font);
 					maxrect = findLargestContour(segmented, outputTemp, showContour);
 					
 					//predict where will be the points now
-					seqPredicted = predictPointsRInside();
-					hipPredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 0); 
-					kneePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 1); 
-					toePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 2); 
+					if(usePrediction) {
+						seqPredicted = predictPoints();
+						hipPredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 0); 
+						kneePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 1); 
+						toePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 2); 
+					} else {
+						hipPredicted = hipOld;
+						kneePredicted = kneeOld;
+						toePredicted = toeOld;
+					}
 
 					
 					findHoles(

@@ -114,4 +114,13 @@ bool mouseMultiplier = false; //using shift key
 bool zoomed = false;
 double zoomScale = 2; 
 
+//predictions stuff
+RInside R = RInside();              // create an embedded R instance 
+	
+std::vector<int> hipXVector;
+std::vector<int> hipYVector;
+std::vector<int> kneeXVector;
+std::vector<int> kneeYVector;
+std::vector<int> toeXVector;
+std::vector<int> toeYVector;
 

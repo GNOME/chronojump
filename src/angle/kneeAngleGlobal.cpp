@@ -125,3 +125,11 @@ std::vector<int> kneeYVector;
 std::vector<int> toeXVector;
 std::vector<int> toeYVector;
 
+//smoothed
+std::vector<int> hipXVectorS;
+std::vector<int> hipYVectorS;
+std::vector<int> kneeXVectorS;
+std::vector<int> kneeYVectorS;
+std::vector<int> toeXVectorS;
+std::vector<int> toeYVectorS;
+

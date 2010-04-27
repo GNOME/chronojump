@@ -265,7 +265,7 @@ int main(int argc,char **argv)
 	FILE *fdatapost; //each line: 'current box height percent; current angle' (percent comes from fheader)
 
 	//file for smoothing and predictions
-//	FILE *fpointsdump; //contains X,Y of three points each frame
+	FILE *fpointsdump; //contains X,Y of three points each frame
 
 	char header[] = "_header.txt";
 	char txt[] = ".txt";
@@ -273,7 +273,7 @@ int main(int argc,char **argv)
 	char fheaderName [strlen(fileName) + strlen(header)];
 	char fdatapreName [strlen(fileName) + strlen(txt)];
 	char fdatapostName [strlen(fileName) + strlen(csv)];
-//	char fpointsdumpName[] = "pointsDump.csv";
+	char fpointsdumpName[] = "pointsDump.csv";
 
 	if(programMode == validation) {
 //		cvNamedWindow("Holes_on_contour",1);
@@ -316,17 +316,15 @@ int main(int argc,char **argv)
 	else if (programMode == blackWithoutMarkers)
 		cvNamedWindow("result",1);
 
-	/*
 	//put headers on pointsDump file	
 	if((fpointsdump=fopen(fpointsdumpName,"w"))==NULL){
 		printf("Error, no se puede escribir en el fichero %s\n",fpointsdumpName);
 		fclose(fpointsdump);
 		exit(0);
 	} else {
-		fprintf(fpointsdump, "hipX;hipY;kneeX;kneeY;toeX;toeY\n");
+		fprintf(fpointsdump, "hipX;hipY;kneeX;kneeY;toeX;toeY;hipXS;hipYS;kneeXS;kneeYS;toeXS;toeYS\n");
 		fclose(fpointsdump);
 	}
-	*/
 		
 	int kneePointWidth = -1;
 	int toePointWidth = -1;
@@ -750,14 +748,14 @@ imageGuiResult(gui, "returned", font);
 				fclose(fpointsdump);
 				*/
 				
-				if(usePrediction) {
+//				if(usePrediction) {
 					hipXVector.push_back(hipMarked.x);
 					hipYVector.push_back(hipMarked.y);
 					kneeXVector.push_back(kneeMarked.x);
 					kneeYVector.push_back(kneeMarked.y);
 					toeXVector.push_back(toeMarked.x);
 					toeYVector.push_back(toeMarked.y);
-				}
+//				}
 			}
 
 
@@ -2012,7 +2010,33 @@ imageGuiResult(gui, "returned", font);
 	do {
 		key =  (char) cvWaitKey(0);
 	} while (key != 'q' && key != 'Q');
-					
+				
+
+
+	//TODO: end at max angle. integrate with fdatapre, fdatapost
+
+	if(programMode == validation || programMode == blackWithoutMarkers) 
+	{
+		//'a' because initially we written the header row
+		if((fpointsdump=fopen(fpointsdumpName,"a"))==NULL){
+			printf("Error, no se puede añadir en el fichero %s\n",fpointsdumpName);
+		} else {
+			//find smoothed vectors:			
+			smoothPoints();
+
+			//print all data:
+			for (int i=0; i < hipXVector.size(); i ++) {
+				fprintf(fpointsdump, "%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d\n", 
+						hipXVector[i], hipYVector[i],
+						kneeXVector[i], kneeYVector[i],
+						toeXVector[i], toeYVector[i],
+						hipXVectorS[i], hipYVectorS[i],
+						kneeXVectorS[i], kneeYVectorS[i],
+						toeXVectorS[i], toeYVectorS[i]);
+	      		}
+		}
+		fclose(fpointsdump);
+	}
 			
 
 	cvClearMemStorage( stickStorage );

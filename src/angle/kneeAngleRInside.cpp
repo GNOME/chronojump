@@ -25,10 +25,12 @@
 #include <string>
 
 
+/* ------------ PREDICT NEXT POINT (filtering outliers) --------------*/
+
 SEXP ansP;
 std::string txtP = "";
 
-void createPredictFunction()
+void createPredictNextFunction()
 {
 	//don't put comments '#'
 	txtP = "span = 30;	\
@@ -71,7 +73,7 @@ int predictDo(std::vector<int> vect) {
 
 CvSeq* predictPoints() {
 	if(txtP=="") 
-		createPredictFunction();
+		createPredictNextFunction();
 	
 	CvMemStorage* storage = cvCreateMemStorage(0);
 	CvSeq* seqPoints = cvCreateSeq( CV_SEQ_KIND_GENERIC|CV_32SC2, sizeof(CvSeq), sizeof(CvPoint), storage );
@@ -92,5 +94,56 @@ CvSeq* predictPoints() {
 	cvSeqPush( seqPoints, &toe );
 	
 	return seqPoints;
+}
+
+/* ------------ SMOOTH ALL POINTS (filtering outliers) --------------*/
+
+
+SEXP ansS;
+std::string txtS = "";
+
+void createSmoothFunction()
+{
+	//don't put comments '#'
+	txtS = "span = 30 / length(x);	\
+		threshold = 3;		\
+		discard = 10;	\
+				\
+		if( length(x) < discard || sd(x) == 0) {			\
+			n <- x[ length( x ) ];					\
+		} else {							\
+   			time <- 1:length(x); 					\
+										\
+			resid <- x - predict( loess(x ~ time, span = span), time );	\
+			x.outlier <- abs(resid) > threshold * sd(resid);	\
+										\
+			time.1   <- time[!x.outlier];				\
+			x.1      <- x   [!x.outlier];				\
+										\
+			n <- predict( loess(x.1 ~ time.1, span = span), time ); \
+		}		\
+		";
+
+	R.assign( txtS, "txtS"); 
+}
+
+std::vector<int> smoothDo(std::vector<int> vect) {
+//	if( ! vect.empty() ) {
+		R.assign(vect, "x");
+		R.parseEval(txtS, ansS);
+		return(Rcpp::as< std::vector< int > >(ansS));
+//	} else return 0;
+}
+
+void smoothPoints() {
+	if(txtS=="") 
+		createSmoothFunction();
+	
+	hipXVectorS = smoothDo(hipXVector);
+	hipYVectorS = smoothDo(hipYVector);
+	kneeXVectorS = smoothDo(kneeXVector);
+	kneeYVectorS = smoothDo(kneeYVector);
+	toeXVectorS = smoothDo(toeXVector);
+	toeYVectorS = smoothDo(toeYVector);
 }
 

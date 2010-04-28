@@ -198,7 +198,7 @@ bool upperSimilarThanLower(CvPoint hipPoint, CvPoint kneePoint, CvPoint footPoin
 		little = upper;
 	}
 
-//	if(debug)
+//	if(Debug)
 //		printf("upper(%.1f), lower(%.1f), big/little (%.2f)\n",upper, lower, big/(double)little);
 
 	//if one is not n times or more bigger than the other
@@ -504,3 +504,8 @@ int findLastPositionInVector(std::vector<int> vect, int searched) {
 	return lastFound;
 }
 
+char* stringToUpper(char* str) {
+	for (int i=0; i < strlen(str); i++)
+		str[i] = toupper(str[i]);
+	return str;
+}

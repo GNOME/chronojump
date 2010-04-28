@@ -1082,7 +1082,7 @@ CvPoint fixHipPoint2(IplImage* img, int hipY, CvPoint knee, CvPoint ptHK)
 	HCenter.x = ( (kneePrima.x / (double)kneePrima.y) * HCenter.y ) - d;
 
 	/*
-	if(debug) {
+	if(Debug) {
 		printf("hipy(%d) ",hipY);
 		printf("knee(%d,%d) ",knee.x, knee.y);
 		printf("ptHK(%d,%d) ",ptHK.x, ptHK.y);
@@ -1296,8 +1296,8 @@ int calculateThresholdStart(IplImage * gray, bool pantsOrPoints)
 }
 
 IplImage * zoomImage(IplImage *img) {
-	IplImage* imgZoom = cvCreateImage( cvSize( cvRound (img->width*zoomScale), 
-				cvRound (img->height*zoomScale)), 8, 3 );
+	IplImage* imgZoom = cvCreateImage( cvSize( cvRound (img->width*ZoomScale), 
+				cvRound (img->height*ZoomScale)), 8, 3 );
 	cvResize( img, imgZoom, CV_INTER_LINEAR );
 	return imgZoom;
 }
@@ -1317,15 +1317,15 @@ void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 		case CV_EVENT_LBUTTONDOWN:
 			{
 				if(pointInsideRect(clicked, rval))
-					mouseClicked = validation;
+					MouseClicked = validation;
 				else if(pointInsideRect(clicked, rbam))
-					mouseClicked = blackWithoutMarkers;
+					MouseClicked = blackWithoutMarkers;
 				else if(pointInsideRect(clicked, rsom))
-					mouseClicked = skinOnlyMarkers;
+					MouseClicked = skinOnlyMarkers;
 				else if(pointInsideRect(clicked, rbom))
-					mouseClicked = blackOnlyMarkers;
+					MouseClicked = blackOnlyMarkers;
 				else if(pointInsideRect(clicked, rquit))
-					mouseClicked = quit;
+					MouseClicked = quit;
 			}
 			break;
 	}
@@ -1365,16 +1365,16 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 	CvRect rstoemore; rstoemore.x=293; rstoemore.width=24;  rstoemore.y=186; rstoemore.height=24;
 	CvRect rstoeless; rstoeless.x=324; rstoeless.width=27;  rstoeless.y=186; rstoeless.height=24;
 
-	//blackOnlyMarkers !usingContour	
+	//blackOnlyMarkers !UsingContour	
 	CvRect rbackToContour; rbackToContour.x=372; rbackToContour.width=118;  rbackToContour.y=186; rbackToContour.height=24;
 
 
 	CvRect rquit; rquit.x=450; rquit.width=40;  rquit.y=230; rquit.height=45;
 				
 	if(flags & CV_EVENT_FLAG_SHIFTKEY)
-		mouseMultiplier = true;
+		MouseMultiplier = true;
 	else 
-		mouseMultiplier = false;
+		MouseMultiplier = false;
 
 
 	bool success; //this helps to navigate between modes. Is not a return value
@@ -1384,80 +1384,80 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 				//common controls
 				success = true;
 				if(pointInsideRect(clicked, rplaypause))
-					mouseClicked = PLAYPAUSE;
+					MouseClicked = PLAYPAUSE;
 				else if(pointInsideRect(clicked, rforwardOne))
-					mouseClicked = FORWARDONE;
+					MouseClicked = FORWARDONE;
 				else if(pointInsideRect(clicked, rforward))
-					mouseClicked = FORWARD;
+					MouseClicked = FORWARD;
 				else if(pointInsideRect(clicked, rfastforward))
-					mouseClicked = FASTFORWARD;
+					MouseClicked = FASTFORWARD;
 				else if(pointInsideRect(clicked, rbackward))
-					mouseClicked = BACKWARD;
+					MouseClicked = BACKWARD;
 				else if(pointInsideRect(clicked, rhip))
-					mouseClicked = HIPMARK;
+					MouseClicked = HIPMARK;
 				else if(pointInsideRect(clicked, rknee))
-					mouseClicked = KNEEMARK;
+					MouseClicked = KNEEMARK;
 				else if(pointInsideRect(clicked, rtoe))
-					mouseClicked = TOEMARK;
+					MouseClicked = TOEMARK;
 				else if(pointInsideRect(clicked, rzoom))
-					mouseClicked = ZOOM;
+					MouseClicked = ZOOM;
 				else if(pointInsideRect(clicked, rquit))
-					mouseClicked = QUIT;
+					MouseClicked = QUIT;
 				else 
 					success = false;
 
 				//blackOnlyMarkers with contour or validation
-				if(!success && ( programMode == validation || (programMode == blackOnlyMarkers && usingContour) )) {
+				if(!success && ( ProgramMode == validation || (ProgramMode == blackOnlyMarkers && UsingContour) )) {
 					success = true;
 					if(pointInsideRect(clicked, rtglobalmore))
-						mouseClicked = TCONTOURMORE;
+						MouseClicked = TCONTOURMORE;
 					else if(pointInsideRect(clicked, rtgloballess))
-						mouseClicked = TCONTOURLESS;
+						MouseClicked = TCONTOURLESS;
 					else
 						success = false;
 				}
 
 				//skinOnlyMarkers || (blackOnlyMarkers without contour)
-				if(!success && (programMode == skinOnlyMarkers || (programMode == blackOnlyMarkers && !usingContour))) {
+				if(!success && (ProgramMode == skinOnlyMarkers || (ProgramMode == blackOnlyMarkers && !UsingContour))) {
 					success = true;
 					if(pointInsideRect(clicked, rthipmore))
-						mouseClicked = THIPMORE;
+						MouseClicked = THIPMORE;
 					else if(pointInsideRect(clicked, rthipless))
-						mouseClicked = THIPLESS;
+						MouseClicked = THIPLESS;
 					else if(pointInsideRect(clicked, rtkneemore))
-						mouseClicked = TKNEEMORE;
+						MouseClicked = TKNEEMORE;
 					else if(pointInsideRect(clicked, rtkneeless))
-						mouseClicked = TKNEELESS;
+						MouseClicked = TKNEELESS;
 					else if(pointInsideRect(clicked, rttoemore))
-						mouseClicked = TTOEMORE;
+						MouseClicked = TTOEMORE;
 					else if(pointInsideRect(clicked, rttoeless))
-						mouseClicked = TTOELESS;
+						MouseClicked = TTOELESS;
 					else if(pointInsideRect(clicked, rtglobalmore))
-						mouseClicked = TGLOBALMORE;
+						MouseClicked = TGLOBALMORE;
 					else if(pointInsideRect(clicked, rtgloballess))
-						mouseClicked = TGLOBALLESS;
+						MouseClicked = TGLOBALLESS;
 
 					else if(pointInsideRect(clicked, rshipmore))
-						mouseClicked = SHIPMORE;
+						MouseClicked = SHIPMORE;
 					else if(pointInsideRect(clicked, rshipless))
-						mouseClicked = SHIPLESS;
+						MouseClicked = SHIPLESS;
 					else if(pointInsideRect(clicked, rskneemore))
-						mouseClicked = SKNEEMORE;
+						MouseClicked = SKNEEMORE;
 					else if(pointInsideRect(clicked, rskneeless))
-						mouseClicked = SKNEELESS;
+						MouseClicked = SKNEELESS;
 					else if(pointInsideRect(clicked, rstoemore))
-						mouseClicked = STOEMORE;
+						MouseClicked = STOEMORE;
 					else if(pointInsideRect(clicked, rstoeless))
-						mouseClicked = STOELESS;
+						MouseClicked = STOELESS;
 					else
 						success = false;
 				}
 				
 				//only for blackOnlyMarkers without contour
-				if(!success && (programMode == blackOnlyMarkers && !usingContour)) {
+				if(!success && (ProgramMode == blackOnlyMarkers && !UsingContour)) {
 					success = true;
 					if(pointInsideRect(clicked, rbackToContour)) {
-						mouseClicked = BACKTOCONTOUR;
+						MouseClicked = BACKTOCONTOUR;
 					}
 					else
 						success = false;
@@ -1469,9 +1469,9 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 
 void on_mouse_mark_point( int event, int x, int y, int flags, void* param )
 {
-	if(zoomed) {
-		x = x / zoomScale;
-		y = y / zoomScale;
+	if(Zoomed) {
+		x = x / ZoomScale;
+		y = y / ZoomScale;
 	}
 	
 	CvPoint clicked; 
@@ -1480,10 +1480,10 @@ void on_mouse_mark_point( int event, int x, int y, int flags, void* param )
 	switch( event ) {
 		case CV_EVENT_LBUTTONDOWN:
 			{
-				if(forceMouseMark == TOGGLEHIP || forceMouseMark == TOGGLEKNEE || 
-						forceMouseMark == TOGGLETOE) {
-					markedMouse = clicked;
-					forceMouseMark = TOGGLENOTHING;
+				if(ForceMouseMark == TOGGLEHIP || ForceMouseMark == TOGGLEKNEE || 
+						ForceMouseMark == TOGGLETOE) {
+					MarkedMouse = clicked;
+					ForceMouseMark = TOGGLENOTHING;
 				}
 			}
 			break;

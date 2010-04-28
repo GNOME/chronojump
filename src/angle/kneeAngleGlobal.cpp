@@ -21,34 +21,20 @@
  */
 
 
-//config variables
-bool showContour = false;
-bool debug = false;
-int playDelay = 10; //milliseconds between photogrammes wen playing. Used as a waitkey.
+//-------------------- global config variables. Change values at kneeAngleOptions.txt ------------
+bool ShowContour;
+bool Debug;
+bool UsePrediction;	//unneded at 300 fps
+int PlayDelay; //milliseconds between photogrammes wen playing. Used as a waitkey.
 //not put values lower than 5 or the enter when executing will be the first pause
 //eg: 5 (fast) 1000 (one second each photogramme)
-//int playDelayFoundAngle = 150; //as above, but used when angle is found.
-int playDelayFoundAngle = 50; //as above, but used when angle is found.
+int PlayDelayFoundAngle; //as above, but used when angle is found.
 //Useful to see better the detected angle when something is detected
 //recommended values: 50 - 200
 
+double ZoomScale; 
 
-
-/* recommended:
-	   showAtLinesPoints = true
-	   ...DiffPoints = true
-	   ...SamePoints = true
-	   ...OnlyStartMinEnd = true;
-	   */
-
-bool showStickThePoints = true;
-bool showStickTheLinesBetweenSamePoints = true;
-bool showStickTheLinesBetweenDifferentPoints = true;
-bool showStickOnlyStartMinEnd = true;
-bool mixStickWithMinAngleWindow = true;
-
-int startAt = 1;
-int programMode;
+//--------------------- global constants (enums) ----------------------------------------------
 
 
 CvScalar WHITE = CV_RGB(255,255,255);
@@ -64,7 +50,7 @@ CvScalar LIGHT = CV_RGB( 247,247,247);
 
 enum { SMALL = 1, MID = 2, BIG = 3 }; 
 
-//used on menu gui and programMode
+//used on menu gui and ProgramMode
 //currently validation and blackWithoutMarkers are synonymous (until statistical anylisys is not done)
 /*
  * validation uses markers and black pants to try to find relationship between both
@@ -75,15 +61,6 @@ enum { SMALL = 1, MID = 2, BIG = 3 };
  */
 //NOTE: if this changes, change also in kneeangle.cpp menu
 enum { quit = -1, undefined = 0, validation = 1, blackWithoutMarkers = 2, skinOnlyMarkers = 3, blackOnlyMarkers = 4}; 
-
-//black only markers will try to use contour
-//and controls will be only threshold + -
-//but if there's any problem with contour or the toe or hip go outside contour,
-//then usingContour will be false and it will be used same method than skinOnlyMarkers
-//interface will change also
-//difference with skinOnlyMarkers is that user can return to: usingContour and play with threshold
-//if is not successuful (three points are not found in contour) the usingContour will be false again
-bool usingContour;
 
 //used on gui
 enum { 
@@ -106,14 +83,28 @@ enum {
 
 enum { TOGGLENOTHING = -1, TOGGLEHIP = 0, TOGGLEKNEE = 1, TOGGLETOE = 2};
 
-CvPoint markedMouse;
-int forceMouseMark;
-int mouseClicked = undefined;
-bool mouseMultiplier = false; //using shift key
+//--------------------- global variables that change in program execution --------------------- 
 
-bool zoomed = false;
-double zoomScale = 2; 
+int ProgramMode;
 
-//predictions stuff
-bool usePrediction = false;	//unneded at 300 fps
+int StartAt = 1;
+
+//black only markers will try to use contour
+//and controls will be only threshold + -
+//but if there's any problem with contour or the toe or hip go outside contour,
+//then UsingContour will be false and it will be used same method than skinOnlyMarkers
+//interface will change also
+//difference with skinOnlyMarkers is that user can return to: UsingContour and play with threshold
+//if is not successuful (three points are not found in contour) the UsingContour will be false again
+bool UsingContour;
+
+CvPoint MarkedMouse;
+int ForceMouseMark;
+int MouseClicked = undefined;
+bool MouseMultiplier = false; //using shift key
+
+bool Zoomed = false;
+
+//predictions and other R statistics using
 RInside R = RInside();		// create an embedded R instance 
+

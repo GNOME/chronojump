@@ -240,6 +240,58 @@ int main(int argc,char **argv)
 	imageGuiResult(gui, "Starting... please wait.", font);
 	cvWaitKey(100); //to allow gui image be shown
 	
+
+	// ----------------------------- create fileNames -----------------------------
+
+	/*
+	   each line: hipX, hipY, kneeX, kneeY, toeX, toeY, angle, rectH, rectHP (rectHP means Percent)
+	fDataRaw: non filtered non smoothed data
+	fDatasmooth: filtered, smoothed data
+	*/
+	FILE *fDataRaw; 
+	FILE *fDataSmooth;
+
+	char extensionRaw[] = "_raw.csv";
+	char extensionSmooth[] = "_smooth.csv";
+
+	char fDataRawName [strlen(fileName) + strlen(extensionRaw)];
+	char fDataSmoothName [strlen(fileName) + strlen(extensionSmooth)];
+	
+	strcpy(fDataRawName, fileName);
+	changeExtension(fDataRawName, extensionRaw);
+
+	strcpy(fDataSmoothName, fileName);
+	changeExtension(fDataSmoothName, extensionSmooth);
+
+	printf("mov file:%s\n",fileName);
+	printf("txt file:%s\n",fDataRawName);
+	printf("csv file:%s\n",fDataSmoothName);
+
+	if((fDataRaw=fopen(fDataRawName,"w"))==NULL){
+		printf("Error, no se puede escribir en el fichero %s\n",fDataRawName);
+		fclose(fDataRaw);
+		exit(0);
+	}
+	if((fDataSmooth=fopen(fDataSmoothName,"w"))==NULL){
+		printf("Error, no se puede escribir en el fichero %s\n",fDataSmoothName);
+		fclose(fDataSmooth);
+		exit(0);
+	}
+	
+	// ----------------------------- create windows -----------------------------
+	
+	if(programMode == validation) {
+//		cvNamedWindow("Holes_on_contour",1);
+//		cvNamedWindow("result",1);
+		cvNamedWindow("threshold",1);
+	} else if (programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
+		cvNamedWindow("threshold",1);
+	}
+	else if (programMode == blackWithoutMarkers)
+		cvNamedWindow("result",1);
+
+	// ----------------------------- define vars -------------------------------------------
+	
 	int kneeMinWidth = 0;
 
 	int kneeWidthAtExtension = 0;
@@ -257,75 +309,8 @@ int main(int argc,char **argv)
 	double minThetaRealFlex = 360;
 	char buffer[15];
 					
-	bool askForMaxFlexion = false; //of false, no ask, and no auto end before jump
-	
-	//validation files
-	FILE *fheader; //contains max and mins values
-	FILE *fdatapre; //each line: 'current box height; current angle'
-	FILE *fdatapost; //each line: 'current box height percent; current angle' (percent comes from fheader)
+	bool askForMaxFlexion = false; //false: no ask (means no auto end before jump)
 
-	//file for smoothing and predictions
-	FILE *fpointsdump; //contains X,Y of three points each frame
-
-	char header[] = "_header.txt";
-	char txt[] = ".txt";
-	char csv[] = ".csv";
-	char fheaderName [strlen(fileName) + strlen(header)];
-	char fdatapreName [strlen(fileName) + strlen(txt)];
-	char fdatapostName [strlen(fileName) + strlen(csv)];
-	char fpointsdumpName[] = "pointsDump.csv";
-
-	if(programMode == validation) {
-//		cvNamedWindow("Holes_on_contour",1);
-//		cvNamedWindow("result",1);
-		cvNamedWindow("threshold",1);
-
-		//create fileNames
-		strcpy(fheaderName, fileName);
-		changeExtension(fheaderName, header);
-
-		strcpy(fdatapreName, fileName);
-		changeExtension(fdatapreName, txt);
-		
-		strcpy(fdatapostName, fileName);
-		changeExtension(fdatapostName, csv);
-
-		printf("mov file:%s\n",fileName);
-		printf("header file:%s\n",fheaderName);
-		printf("txt file:%s\n",fdatapreName);
-		printf("csv file:%s\n",fdatapostName);
-
-		if((fheader=fopen(fheaderName,"w"))==NULL){
-			printf("Error, no se puede escribir en el fichero %s\n",fheaderName);
-			fclose(fheader);
-			exit(0);
-		}
-		if((fdatapre=fopen(fdatapreName,"w"))==NULL){
-			printf("Error, no se puede escribir en el fichero %s\n",fdatapreName);
-			fclose(fdatapre);
-			exit(0);
-		}
-		if((fdatapost=fopen(fdatapostName,"w"))==NULL){
-			printf("Error, no se puede escribir en el fichero %s\n",fdatapostName);
-			fclose(fdatapost);
-			exit(0);
-		}
-	} else if (programMode == skinOnlyMarkers || programMode == blackOnlyMarkers) {
-		cvNamedWindow("threshold",1);
-	}
-	else if (programMode == blackWithoutMarkers)
-		cvNamedWindow("result",1);
-
-	//put headers on pointsDump file	
-	if((fpointsdump=fopen(fpointsdumpName,"w"))==NULL){
-		printf("Error, no se puede escribir en el fichero %s\n",fpointsdumpName);
-		fclose(fpointsdump);
-		exit(0);
-	} else {
-		fprintf(fpointsdump, "hipX;hipY;kneeX;kneeY;toeX;toeY;hipXS;hipYS;kneeXS;kneeYS;toeXS;toeYS\n");
-		fclose(fpointsdump);
-	}
-		
 	int kneePointWidth = -1;
 	int toePointWidth = -1;
 		
@@ -369,7 +354,6 @@ int main(int argc,char **argv)
 	bool jumping = false;
 
 
-
 	bool labelsAtLeft = true;
 		
 	CvPoint hipMarked = pointToZero();
@@ -388,6 +372,15 @@ int main(int argc,char **argv)
 	CvPoint kneePredicted = pointToZero();
 	CvPoint toePredicted = pointToZero();
 
+	//here data of all frames is stored
+	std::vector<int> hipXVector;
+	std::vector<int> hipYVector;
+	std::vector<int> kneeXVector;
+	std::vector<int> kneeYVector;
+	std::vector<int> toeXVector;
+	std::vector<int> toeYVector;
+	std::vector<double> angleVector;
+	std::vector<int> rectVector;
 	
 	/*
 	int upLegMarkedDist = 0;
@@ -430,6 +423,9 @@ int main(int argc,char **argv)
 	int thresholdROISizeMin = 8;
 
 	int key;
+			
+	//used to convert Y of OpenCV (top) to Y of R (bottom)
+	int verticalHeight;
 
 
 	//programMode == validation || programMode == blackWithoutMarkers
@@ -440,12 +436,14 @@ int main(int argc,char **argv)
 	CvPoint hipPointBackAtExtension = pointToZero();
 
 	//this contains data useful to validation: max and min Height and Width of all rectangles
+	/*
 	int validationRectHMax = 0;
 	int validationRectHMin = 100000;
 	int validationRectWMax = 0;
 	int validationRectWMin = 100000;
 	//angle at min Height of validation rectangle
 	double validationRectHMinThetaMarked = 180;
+	*/
 
 
 	mouseClicked = undefined;	
@@ -454,8 +452,10 @@ int main(int argc,char **argv)
 	bool reloadFrame = false;
 	int forcePause = false;
 			
+	bool storeResultImage = false;
 
-/* kalman */
+	// ---------------------- Kalman filter (unused) --------------------------
+	/*
 	//CvKalman* kalman = cvCreateKalman(2,1,0);
 	CvKalman* kalman = cvCreateKalman(2,2,0);
 	CvMat* state = cvCreateMat(2,1,CV_32FC1);
@@ -467,16 +467,11 @@ int main(int argc,char **argv)
 	const float F[] = { 1, 1, 0, 1};
 	memcpy(kalman->transition_matrix->data.fl, F, sizeof(F));
 
-			CvRandState rng;
-			cvRandInit(&rng,0,1,-1,CV_RAND_UNI);
-			cvRandSetRange(&rng,0,0.1,0);
-			rng.disttype = CV_RAND_NORMAL;
-			cvRand(&rng, process_noise);			
-
-
-
-
-
+	CvRandState rng;
+	cvRandInit(&rng,0,1,-1,CV_RAND_UNI);
+	cvRandSetRange(&rng,0,0.1,0);
+	rng.disttype = CV_RAND_NORMAL;
+	cvRand(&rng, process_noise);			
 
 	cvSetIdentity(kalman->measurement_matrix, 	cvRealScalar(1));
 	cvSetIdentity(kalman->process_noise_cov, 	cvRealScalar(1e-5));
@@ -484,15 +479,14 @@ int main(int argc,char **argv)
 	cvSetIdentity(kalman->error_cov_post, 		cvRealScalar(1));
 
 	CvPoint k0; k0.x=0; k0.y=0;
-//	kalman->state_post = k0;
-//	kalman->state_post.data.fl[0] = &k0;
-/* /kalman */
+	//kalman->state_post = k0;
+	//kalman->state_post.data.fl[0] = &k0;
+	*/
+	/* /kalman */
 
-	bool storeResultImage = false;
 
 	while(!shouldEnd) 
 	{
-
 		/*
 		 * 1
 		 * GET FRAME AND FLOW CONTROL
@@ -597,6 +591,8 @@ int main(int argc,char **argv)
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 				threshold = calculateThresholdStart(gray, true);
 			}
+
+			verticalHeight = cvGetSize(frame).height;
 		}
 
 		cvSmooth(frame_copy,frame_copy,2,5,5);
@@ -608,11 +604,13 @@ int main(int argc,char **argv)
 		 * FIND THREE MARKER POINTS
 		 */
 
-		
 
 		//predict where will be the points now
 		if(usePrediction) {
-			seqPredicted = predictPoints();
+			seqPredicted = predictPoints(
+					hipXVector, hipYVector,
+					kneeXVector, kneeYVector,
+					toeXVector, toeYVector); 
 			hipPredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 0); 
 			kneePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 1); 
 			toePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 2); 
@@ -636,14 +634,14 @@ int main(int argc,char **argv)
 		if(programMode == skinOnlyMarkers || programMode == blackOnlyMarkers || programMode == validation) 
 		{
 
-/* kalman */
+			/* kalman */
 			/*
 			const CvMat* prediction = cvKalmanPredict(kalman, 0);
 			CvPoint prediction_pt = cvPoint(
 					cvRound(prediction->data.fl[0]), 
 					cvRound(prediction->data.fl[1]));
 					*/
-/* /kalman */
+			/* /kalman */
 	
 
 
@@ -672,7 +670,8 @@ int main(int argc,char **argv)
 			CvSeq* seqHolesEnd;
 
 			if(programMode == skinOnlyMarkers) {
-				seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, hipPredicted, kneePredicted, toePredicted, font);
+				seqHolesEnd = findHolesSkin(output, frame_copy, 
+						hipMarked, kneeMarked, toeMarked, hipPredicted, kneePredicted, toePredicted, font);
 			}
 			else { //if(programMode == blackOnlyMarkers || programMode == validation) 
 				//this segmented is to find the contour (threshold is lot little)
@@ -716,16 +715,22 @@ int main(int argc,char **argv)
 					gui = cvLoadImage("kneeAngle_black.png");
 					cvCopy(frame_copyTemp,frame_copy);
 
-//testing stuff
-cvShowImage("threshold",output);
-//cvShowImage("toClick", frame_copy);
-imageGuiResult(gui, "going", font);
-//printf("threshold :%d\n", threshold);
-//printf("thresholdLC :%d\n", thresholdLargestContour);
-//cvWaitKey(500); //to allow messages be shown
-					seqHolesEnd = findHolesSkin(output, frame_copy, hipMarked, kneeMarked, toeMarked, hipPredicted, kneePredicted, toePredicted, font);
-imageGuiResult(gui, "returned", font);
-//cvWaitKey(500); //to allow gui image be shown
+					//--------------------------------- testing stuff ---------------------
+					cvShowImage("threshold",output); //is this testing?
+					//cvShowImage("toClick", frame_copy);
+					
+					imageGuiResult(gui, "going", font); //is this testing?
+
+					//printf("threshold :%d\n", threshold);
+					//printf("thresholdLC :%d\n", thresholdLargestContour);
+					//cvWaitKey(500); //to allow messages be shown
+					//--------------------------------- end of testing --------------------
+
+					seqHolesEnd = findHolesSkin(output, frame_copy, 
+							hipMarked, kneeMarked, toeMarked, hipPredicted, kneePredicted, toePredicted, font);
+
+					imageGuiResult(gui, "returned", font);
+					//cvWaitKey(500); //to allow gui image be shown
 				}
 			}
 			cvShowImage("threshold", output);
@@ -738,53 +743,42 @@ imageGuiResult(gui, "returned", font);
 
 			//if all the points are ok, the dump in pointsDump file to smooth and predict
 			if( ! pointIsNull(hipMarked) && ! pointIsNull(kneeMarked) && ! pointIsNull(toeMarked) ) {
-				/*
-				if((fpointsdump=fopen(fpointsdumpName,"a"))==NULL){
-					printf("Error, no se puede añadir en el fichero %s\n",fpointsdumpName);
-				} else {
-					fprintf(fpointsdump, "%d;%d;%d;%d;%d;%d\n", hipMarked.x, hipMarked.y, 
-							kneeMarked.x, kneeMarked.y, toeMarked.x, toeMarked.y);
-				}
-				fclose(fpointsdump);
-				*/
-				
-//				if(usePrediction) {
-					hipXVector.push_back(hipMarked.x);
-					hipYVector.push_back(hipMarked.y);
-					kneeXVector.push_back(kneeMarked.x);
-					kneeYVector.push_back(kneeMarked.y);
-					toeXVector.push_back(toeMarked.x);
-					toeYVector.push_back(toeMarked.y);
-//				}
+				hipXVector.push_back(hipMarked.x);
+				hipYVector.push_back(hipMarked.y);
+				kneeXVector.push_back(kneeMarked.x);
+				kneeYVector.push_back(kneeMarked.y);
+				toeXVector.push_back(toeMarked.x);
+				toeYVector.push_back(toeMarked.y);
 			}
 
 
-// kalman 
+			//-----------------  kalman filter unused --------------------------
+			/*
 			measurement_pt = kneeMarked;
 
 			//cvMatMulAdd(kalman->measurement_matrix, x_k,z_k,z_k);
 
-//			crossPoint(frame_copy, cvPoint(measurement_pt.x -20, measurement_pt.y), YELLOW, BIG); //works
-//			crossPoint(frame_copy, cvPoint(prediction_pt.x +20, prediction_pt.y), WHITE, BIG); //0,0
-// /kalman 
+			//crossPoint(frame_copy, cvPoint(measurement_pt.x -20, measurement_pt.y), YELLOW, BIG); //works
+			//crossPoint(frame_copy, cvPoint(prediction_pt.x +20, prediction_pt.y), WHITE, BIG); //0,0
+			// /kalman 
 
-			crossPoint(frame_copy, hipMarked, GREY, MID);
-			crossPoint(frame_copy, kneeMarked, GREY, MID);
-			crossPoint(frame_copy, toeMarked, GREY, MID);
-			
-				
 			cvNamedWindow( "toClick", 1 );
 			cvShowImage("toClick", frame_copy);
 
-
-// kalman 
 			cvKalmanCorrect(kalman, measurement);
 
 			cvRandSetRange(&rng,0,sqrt(kalman->process_noise_cov->data.fl[0]),0);
 			cvRand(&rng, process_noise);			
 			cvMatMulAdd(kalman->transition_matrix, measurement, process_noise, measurement);
-// /kalman 
+			*/
+			
 
+			crossPoint(frame_copy, hipMarked, GREY, MID);
+			crossPoint(frame_copy, kneeMarked, GREY, MID);
+			crossPoint(frame_copy, toeMarked, GREY, MID);
+
+			cvNamedWindow( "toClick", 1 );
+			cvShowImage("toClick", frame_copy);
 
 
 			//if frame before nothing was detected (maybe first frame or after a forward or jump
@@ -850,6 +844,7 @@ imageGuiResult(gui, "returned", font);
 							cvPoint(maxrect.x + maxrect.width, maxrect.y + maxrect.height),
 							CV_RGB(255,0,0),1,1);
 
+					/*
 					//assign validationRect data if maxs or mins reached
 					if(maxrect.height > validationRectHMax)
 						validationRectHMax = maxrect.height;
@@ -864,12 +859,14 @@ imageGuiResult(gui, "returned", font);
 						validationRectWMax = maxrect.width;
 					if(maxrect.width < validationRectWMin)
 						validationRectWMin = maxrect.width;
+						*/
 	
 				}
 
 
 
 
+				//---------------------------- 3D angle calculations ------------------------
 				/*
 				 * NOT doing 3D calculations now
 				
@@ -936,6 +933,7 @@ imageGuiResult(gui, "returned", font);
 						threshold, thresholdROIH, thresholdROIK, thresholdROIT
 				      );
 				      */
+				//---------------------------- end of 3D angle calculations ---------------------
 				
 				printOnScreen(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
 						framesCount, 
@@ -1005,9 +1003,7 @@ imageGuiResult(gui, "returned", font);
 				//exit if we are going up and soon jumping.
 				//toe will be lost
 				//detected if minThetaMarked is littler than thetaMarked, when thetaMarked is big
-				if(thetaMarked > 140 && 
-						minThetaMarked +10 < thetaMarked &&
-						askForMaxFlexion)
+				if(askForMaxFlexion && thetaMarked > 140 && minThetaMarked +10 < thetaMarked)
 				{
 					imageGuiResult(gui, "Min flex before. End?. 'y'es, 'n'o, 'N'ever", font);
 					int option = optionAccept(true);	
@@ -1404,14 +1400,15 @@ imageGuiResult(gui, "returned", font);
 		 * IF BLACKANDMARKERS MODE, FIND RECTANGLE
 		 */
 
-		if(programMode == validation || programMode == blackWithoutMarkers) 
-		{
-			//print height of rectangle and thetaMarked
-			fprintf(fdatapre, "%d;%f\n", maxrect.height, thetaMarked);
-		}
+		angleVector.push_back(thetaMarked);
+	
+		if(programMode == skinOnlyMarkers) 
+			rectVector.push_back(-1);
+		else
+			rectVector.push_back(maxrect.height);
 
 
-//		cvWaitKey(0);
+		//cvWaitKey(0);
 
 		/* 
 		 * 6
@@ -1424,7 +1421,7 @@ imageGuiResult(gui, "returned", font);
 
 		key = (char) cvWaitKey(myDelay);
 
-//		printf("mc: %d ", mouseClicked);  
+		//printf("mc: %d ", mouseClicked);  
 
 		if(mouseClicked == quit || key == 27 || key == 'q') // 'ESC'
 			shouldEnd = true;
@@ -1713,7 +1710,10 @@ imageGuiResult(gui, "returned", font);
 					
 					//predict where will be the points now
 					if(usePrediction) {
-						seqPredicted = predictPoints();
+						seqPredicted = predictPoints(
+								hipXVector, hipYVector,
+								kneeXVector, kneeYVector,
+								toeXVector, toeYVector); 
 						hipPredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 0); 
 						kneePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 1); 
 						toePredicted = *CV_GET_SEQ_ELEM( CvPoint, seqPredicted, 2); 
@@ -1953,51 +1953,6 @@ imageGuiResult(gui, "returned", font);
 				minThetaMarked-minThetaExpected, relError(minThetaExpected, minThetaMarked));
 		printf("%s\n" ,label);
 		*/
-	
-
-		fclose(fdatapre);
-		
-		fprintf(fheader, "BoxHMax;BoxHMin;BoxWMax;BoxWMin;BoxHMaxWMin;AngleBoxHMin;AngleMin\n%d;%d;%d;%d;%f;%f;%f",
-			validationRectHMax, validationRectHMin, validationRectWMax, validationRectWMin,
-			(double) validationRectHMax / validationRectWMin, validationRectHMinThetaMarked, minThetaMarked);
-		fclose(fheader);
-
-		//copy fdatapre in fdatapost but converting box height in %
-		if((fdatapre=fopen(fdatapreName,"r")) == NULL){
-			printf("Error, no se puede leer: %s\n",fdatapreName);
-			fclose(fdatapre);
-			exit(0);
-		}
-
-		bool fileEnd = false;
-		int endChar;
-		int i=0;
-		float height;
-		float angle;
-		while(!fileEnd) {
-			fscanf(fdatapre,"%f;%f\n",&height, &angle);
-			//skip undetected (-1.000) angles
-			if(angle > 0)
-				fprintf(fdatapost, "%f;%f\n", 100 * height / validationRectHMax, angle);
-			endChar = getc(fdatapre);
-			if(endChar == EOF) 
-				fileEnd = true;
-			else
-				ungetc(endChar, fdatapre);
-
-			//do not continue if we copied frame with minimum angle (only store 'going-down' phase)
-			//cannot use the == because sometimes last decimals change
-//			if(angle == minThetaMarked)
-//				fileEnd = true;
-			if(++i == lowestAngleFrameReally)
-				fileEnd = true;
-		}
-
-		printf("i:%d, lowestAngleFrameReally:%d\n", i, lowestAngleFrameReally);
-
-		fclose(fdatapre);
-		fclose(fdatapost);
-
 	}
 	else {
 		//printf("*** Result ***\nMin angle: %.2f, lowest angle frame: %d\n", minThetaMarked, lowestAngleFrame);
@@ -2010,35 +1965,91 @@ imageGuiResult(gui, "returned", font);
 	do {
 		key =  (char) cvWaitKey(0);
 	} while (key != 'q' && key != 'Q');
-				
 
+	
+	//start of flexion is the
+	//last position of smoothed (and filtered) max vector size
+	//except for skinOnyMarkers, that has no rectVector
+	int flexionStartsAtFrame = 0;
+	if(programMode != skinOnlyMarkers)
+		flexionStartsAtFrame = findLastPositionInVector(
+				smoothVectorInt(rectVector),
+				findMaxInVector(smoothVectorInt(rectVector))
+				);
 
-	//TODO: end at max angle. integrate with fdatapre, fdatapost
+	//---------------- write raw data file -------------------------------------
+	if((fDataRaw=fopen(fDataRawName,"w"))==NULL){
+		printf("Error, no se puede escribir en el fichero %s\n",fDataRawName);
+	} else {
+		//skinOnlyMarkers has no rect
+		int rectHeightMax = -1;
+		if(programMode != skinOnlyMarkers) 
+			rectHeightMax = findMaxInVector(rectVector);
 
-	if(programMode == validation || programMode == blackWithoutMarkers) 
-	{
-		//'a' because initially we written the header row
-		if((fpointsdump=fopen(fpointsdumpName,"a"))==NULL){
-			printf("Error, no se puede añadir en el fichero %s\n",fpointsdumpName);
-		} else {
-			//find smoothed vectors:			
-			smoothPoints();
+		fprintf(fDataRaw, "hipX;hipY;kneeX;kneeY;toeX;toeY;angle;rectH;rectHP\n");
+		for (int i=flexionStartsAtFrame; i < lowestAngleFrameReally; i ++) {
+			double rectHeightPercent = -1;
+			if(programMode != skinOnlyMarkers)
+				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
 
-			//print all data:
-			for (int i=0; i < hipXVector.size(); i ++) {
-				fprintf(fpointsdump, "%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d\n", 
-						hipXVector[i], hipYVector[i],
-						kneeXVector[i], kneeYVector[i],
-						toeXVector[i], toeYVector[i],
-						hipXVectorS[i], hipYVectorS[i],
-						kneeXVectorS[i], kneeYVectorS[i],
-						toeXVectorS[i], toeYVectorS[i]);
-	      		}
+			fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%f;%d;%f\n", 
+					hipXVector[i], verticalHeight - hipYVector[i],
+					kneeXVector[i], verticalHeight - kneeYVector[i],
+					toeXVector[i], verticalHeight -toeYVector[i],
+					angleVector[i], rectVector[i], 
+					rectHeightPercent);
 		}
-		fclose(fpointsdump);
 	}
-			
+	fclose(fDataRaw);
 
+	//---------------- write smooth data file -------------------------------------
+	if((fDataSmooth=fopen(fDataSmoothName,"w"))==NULL){
+		printf("Error, no se puede escribir en el fichero %s\n",fDataSmoothName);
+	} else {
+		//smooth data
+		hipXVector = smoothVectorInt(hipXVector);
+		hipYVector = smoothVectorInt(hipYVector);
+		kneeXVector = smoothVectorInt(kneeXVector);
+		kneeYVector = smoothVectorInt(kneeYVector);
+		toeXVector = smoothVectorInt(toeXVector);
+		toeYVector = smoothVectorInt(toeYVector);
+		rectVector = smoothVectorInt(rectVector);
+		
+		angleVector = smoothVectorDouble(angleVector);
+
+		//skinOnlyMarkers has no rect
+		int rectHeightMax = -1;
+		if(programMode != skinOnlyMarkers)
+			rectHeightMax = findMaxInVector(rectVector);
+
+		fprintf(fDataSmooth, "hipX;hipY;kneeX;kneeY;toeX;toeY;angleTest;angle;rectH;rectHP\n");
+		for (int i=flexionStartsAtFrame; i < lowestAngleFrameReally; i ++) {
+			//Note: smoothed angle don't comes from smoothing the angle points, 
+			//comes from calculating the angle in the smoothed X,Y of three joints
+			CvPoint h;
+			h.x = hipXVector[i]; h.y = hipYVector[i];
+			CvPoint k;
+			k.x = kneeXVector[i]; k.y = kneeYVector[i];
+			CvPoint t;
+			t.x = toeXVector[i]; t.y = toeYVector[i];
+			double angleSmoothed = findAngle2D(h,t,k);
+			
+			double rectHeightPercent = -1;
+			if(programMode != skinOnlyMarkers)
+				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
+
+			fprintf(fDataSmooth, "%d;%d;%d;%d;%d;%d;%f;%f;%d;%f\n", 
+					hipXVector[i], verticalHeight - hipYVector[i],
+					kneeXVector[i], verticalHeight - kneeYVector[i],
+					toeXVector[i], verticalHeight -toeYVector[i],
+					angleVector[i], //trying angle smoothed
+					angleSmoothed, rectVector[i], 
+					rectHeightPercent);
+		}
+	}
+	fclose(fDataSmooth);
+
+	//------------------ clear memory ----------------------
 	cvClearMemStorage( stickStorage );
 
 	cvDestroyAllWindows();
@@ -2054,6 +2065,7 @@ imageGuiResult(gui, "returned", font);
 	if(!mixStickWithMinAngleWindow)
 		cvReleaseImage(&resultStick);
 }
+
 
 int menu(IplImage * gui, CvFont font) 
 {

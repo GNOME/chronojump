@@ -117,19 +117,3 @@ double zoomScale = 2;
 //predictions stuff
 bool usePrediction = false;	//unneded at 300 fps
 RInside R = RInside();		// create an embedded R instance 
-	
-std::vector<int> hipXVector;
-std::vector<int> hipYVector;
-std::vector<int> kneeXVector;
-std::vector<int> kneeYVector;
-std::vector<int> toeXVector;
-std::vector<int> toeYVector;
-
-//smoothed
-std::vector<int> hipXVectorS;
-std::vector<int> hipYVectorS;
-std::vector<int> kneeXVectorS;
-std::vector<int> kneeYVectorS;
-std::vector<int> toeXVectorS;
-std::vector<int> toeYVectorS;
-

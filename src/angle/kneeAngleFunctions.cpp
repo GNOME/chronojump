@@ -65,7 +65,7 @@ CvPoint findHipPoint(IplImage* img,CvRect roirect)
 	CvPoint pt;
 	pt.x =0;pt.y=0;
 	int starty = roirect.y;
-	int endy = starty + roirect.height*2/3; /* meu: why 2/3 */
+	int endy = starty + roirect.height*2/3; /* meu: why 2/3?... because have to be in the 2/3 up image*/
 	CvMat *srcmat,src_stub;
 	srcmat = cvGetMat(img,&src_stub);
 	uchar *srcdata = srcmat->data.ptr;
@@ -113,28 +113,33 @@ CvPoint findHipPoint(IplImage* img,CvRect roirect)
 }
 
 /*
- * takes as input arguement the bounding rectangle of the largest contour,the image containing the bounding rectangle and the y coordinate of the hip point
+ * takes as input argument the bounding rectangle of the largest contour,the image containing the bounding rectangle and the y coordinate of the hip point
  * Calculates the knee point
  * Knee point is a white pixel below the hip point and having maximum x coordinate in the bounding box
  * Returns the coordinate of the knee point
  */
-CvPoint findKneePointFront(IplImage *img,CvRect roirect,int starty, bool foundAngleOneTime)
+//CvPoint findKneePointFront(IplImage *img, CvRect roirect, bool foundAngleOneTime)
+CvPoint findKneePointFront(IplImage *img, CvRect roirect, int rectHMax)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
 	
+	int starty = roirect.y;
 	//int endy = roirect.y+roirect.height*9/10; //this is ok if shoes or platform is shown in standup image
 	int endy = roirect.y+roirect.height;
 	
+	//if person is totally in extension, don't try to find kneePointFront and back,
+	//because there's lot of error because quadriceps is in front
+	if(roirect.height >= .97 * rectHMax) {
+		return pt;
+	}
 	/*
-	 * if we never found and angle before, knee must be more or less at the middle. 
-	 * Is important to find it at start of flexion, to try to get the kneeCenter at (close to extension)
-	 * and use it's X for hipPoint and backLength.
-	 * For this reason, now we only search in the middle of the image
+	 * if person is in extension, knee must be more or less at the middle. 
+	 * we are in extension because roirect.height >= 85% rectHMax
 	 */
-	if(! foundAngleOneTime) {
-		starty = roirect.y + roirect.height*1/3;
-		endy = roirect.y + roirect.height*2/3;
+	if(roirect.height >= .85 * rectHMax) {
+		starty = roirect.y + roirect.height*2/5;
+		endy = roirect.y + roirect.height*4/5;
 	}
 
 	CvMat *srcmat,src_stub;
@@ -183,11 +188,12 @@ CvPoint findKneePointFront(IplImage *img,CvRect roirect,int starty, bool foundAn
 }
 
 //hueco popliteo
-CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePointFrontX, bool foundAngleOneTime)
+CvPoint findKneePointBack(IplImage *img, CvRect roirect, int kneePointFrontX, int rectHMax)
 {
 	CvPoint pt;
 	pt.x = 0; pt.y = 0;
 
+	int starty = roirect.y;
 	/*
 	 * this 8/10 makes no error when jump starts, 
 	 * if not, on jump, the bottom of the pants can be taken as kneeBack
@@ -196,8 +202,13 @@ CvPoint findKneePointBack(IplImage *img,CvRect roirect,int starty, int kneePoint
 	/*
 	 * same as finddKneePointFront
 	 */
-	if(! foundAngleOneTime)
-		endy = roirect.y + roirect.height*2/3;
+	if(roirect.height >= .97 * rectHMax) {
+		return pt;
+	}
+	if(roirect.height >= .85 * rectHMax) {
+		starty = roirect.y + roirect.height*2/5;
+		endy = roirect.y + roirect.height*4/5;
+	}
 
 	CvMat *srcmat,src_stub;
 	srcmat = cvGetMat(img,&src_stub);
@@ -1375,6 +1386,11 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 		MouseMultiplier = true;
 	else 
 		MouseMultiplier = false;
+
+	if(flags & CV_EVENT_FLAG_CTRLKEY)
+		MouseControl = true;
+	else 
+		MouseControl = false;
 
 
 	bool success; //this helps to navigate between modes. Is not a return value

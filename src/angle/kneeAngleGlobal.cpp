@@ -102,6 +102,7 @@ CvPoint MarkedMouse;
 int ForceMouseMark;
 int MouseClicked = undefined;
 bool MouseMultiplier = false; //using shift key
+bool MouseControl = false; //using CTRL key
 
 bool Zoomed = false;
 

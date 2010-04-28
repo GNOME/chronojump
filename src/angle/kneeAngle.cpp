@@ -390,6 +390,11 @@ int main(int argc,char **argv)
 	std::vector<int> toeYVector;
 	std::vector<double> angleVector;
 	std::vector<int> rectVector;
+			
+	std::vector<int> kneePointFrontXVector;
+	std::vector<int> kneePointFrontYVector;
+	std::vector<int> kneePointBackXVector;
+	std::vector<int> kneePointBackYVector;
 	
 	/*
 	int upLegMarkedDist = 0;
@@ -445,8 +450,8 @@ int main(int argc,char **argv)
 	CvPoint hipPointBackAtExtension = pointToZero();
 
 	//this contains data useful to validation: max and min Height and Width of all rectangles
-	/*
 	int validationRectHMax = 0;
+	/*
 	int validationRectHMin = 100000;
 	int validationRectWMax = 0;
 	int validationRectWMin = 100000;
@@ -847,16 +852,16 @@ int main(int argc,char **argv)
 				}
 
 
-				if(ProgramMode == validation) {
+				if(ProgramMode != skinOnlyMarkers) {
 					cvRectangle(frame_copy,
 							cvPoint(maxrect.x,maxrect.y),
 							cvPoint(maxrect.x + maxrect.width, maxrect.y + maxrect.height),
 							CV_RGB(255,0,0),1,1);
 
-					/*
 					//assign validationRect data if maxs or mins reached
 					if(maxrect.height > validationRectHMax)
 						validationRectHMax = maxrect.height;
+					/*
 					if(maxrect.height < validationRectHMin) {
 						validationRectHMin = maxrect.height;
 						//store angle at validationRectHMin
@@ -1006,7 +1011,6 @@ int main(int argc,char **argv)
 				}
 				*/
 				
-				cvShowImage("toClick", frame_copy);
 				//cvShowImage("threshold",output);
 				
 				//exit if we are going up and soon jumping.
@@ -1014,6 +1018,7 @@ int main(int argc,char **argv)
 				//detected if minThetaMarked is littler than thetaMarked, when thetaMarked is big
 				if(askForMaxFlexion && thetaMarked > 140 && minThetaMarked +10 < thetaMarked)
 				{
+					cvShowImage("toClick", frame_copy);
 					imageGuiResult(gui, "Min flex before. End?. 'y'es, 'n'o, 'N'ever", font);
 					int option = optionAccept(true);	
 					eraseGuiResult(gui, true);
@@ -1040,6 +1045,7 @@ int main(int argc,char **argv)
 		 * 5 a
 		 * IF BLACKANDMARKERS MODE, FIND POINTS
 		 * UNUSED NOW BECAUSE WE ARE USING ONLY RECTANGLE
+		 * AND KNEEPOINTS
 		 */
 
 		/*
@@ -1060,11 +1066,9 @@ int main(int argc,char **argv)
 			hipExpected.y = hipPointBack.y;
 
 			//knee	
-			kneePointFront = findKneePointFront(output,maxrect,hipPointBack.y, foundAngleOneTime);
+			kneePointFront = findKneePointFront(output, maxrect, foundAngleOneTime);
 			//hueco popliteo
-			kneePointBack = findKneePointBack(output,maxrect, 
-					hipPointBack.y, kneePointFront.x,
-					foundAngleOneTime); 
+			kneePointBack = findKneePointBack(output, maxrect, kneePointFront.x, foundAngleOneTime); 
 
 			//toe
 			int toeMinWidth;
@@ -1406,15 +1410,33 @@ int main(int argc,char **argv)
 		
 		/*
 		 * 5 b
-		 * IF BLACKANDMARKERS MODE, FIND RECTANGLE
+		 * IF BLACKANDMARKERS MODE, FIND RECTANGLE, AND KNEE POINTS
 		 */
 
 		angleVector.push_back(thetaMarked);
 	
-		if(ProgramMode == skinOnlyMarkers) 
+		if(ProgramMode == skinOnlyMarkers) {
 			rectVector.push_back(-1);
-		else
+			kneePointFrontXVector.push_back(-1);
+			kneePointFrontYVector.push_back(-1);
+			kneePointBackXVector.push_back(-1); 
+			kneePointBackYVector.push_back(-1); 
+		} else {
 			rectVector.push_back(maxrect.height);
+			
+			//knee visible points on black pants
+			CvPoint kneePointFront = findKneePointFront(output, maxrect, validationRectHMax);
+			CvPoint kneePointBack = findKneePointBack(output, maxrect, kneePointFront.x, validationRectHMax); 
+			crossPoint(frame_copy, kneePointFront, GREY, MID);
+			crossPoint(frame_copy, kneePointBack, GREY, MID);
+			kneePointFrontXVector.push_back(kneePointFront.x);
+			kneePointFrontYVector.push_back(kneePointFront.y);
+			kneePointBackXVector.push_back(kneePointBack.x); 
+			kneePointBackYVector.push_back(kneePointBack.y); 
+		}
+			
+		//cvCopy(frame_copy,result);
+		cvShowImage("toClick", frame_copy);
 
 
 		//cvWaitKey(0);
@@ -1995,16 +2017,18 @@ int main(int argc,char **argv)
 		if(ProgramMode != skinOnlyMarkers) 
 			rectHeightMax = findMaxInVector(rectVector);
 
-		fprintf(fDataRaw, "hipX;hipY;kneeX;kneeY;toeX;toeY;angle;rectH;rectHP\n");
+		fprintf(fDataRaw, "hipX;hipY;kneeX;kneeY;toeX;toeY;kpfX;kpfY;kpbX;kpbY;angle;rectH;rectHP\n");
 		for (int i=flexionStartsAtFrame; i < lowestAngleFrameReally; i ++) {
 			double rectHeightPercent = -1;
 			if(ProgramMode != skinOnlyMarkers)
 				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
 
-			fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%f;%d;%f\n", 
+			fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%f;%d;%f\n", 
 					hipXVector[i], verticalHeight - hipYVector[i],
 					kneeXVector[i], verticalHeight - kneeYVector[i],
-					toeXVector[i], verticalHeight -toeYVector[i],
+					toeXVector[i], verticalHeight - toeYVector[i],
+					kneePointFrontXVector[i], verticalHeight - kneePointFrontYVector[i], 
+					kneePointBackXVector[i], verticalHeight - kneePointBackYVector[i],
 					angleVector[i], rectVector[i], 
 					rectHeightPercent);
 		}
@@ -2031,7 +2055,7 @@ int main(int argc,char **argv)
 		if(ProgramMode != skinOnlyMarkers)
 			rectHeightMax = findMaxInVector(rectVector);
 
-		fprintf(fDataSmooth, "hipX;hipY;kneeX;kneeY;toeX;toeY;angleTest;angle;rectH;rectHP\n");
+		fprintf(fDataSmooth, "hipX;hipY;kneeX;kneeY;toeX;toeY;kpfX;kpfY;kpbX;kpbY;angleTest;angle;rectH;rectHP\n");
 		for (int i=flexionStartsAtFrame; i < lowestAngleFrameReally; i ++) {
 			//Note: smoothed angle don't comes from smoothing the angle points, 
 			//comes from calculating the angle in the smoothed X,Y of three joints
@@ -2047,10 +2071,12 @@ int main(int argc,char **argv)
 			if(ProgramMode != skinOnlyMarkers)
 				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
 
-			fprintf(fDataSmooth, "%d;%d;%d;%d;%d;%d;%f;%f;%d;%f\n", 
+			fprintf(fDataSmooth, "%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%f;%f;%d;%f\n", 
 					hipXVector[i], verticalHeight - hipYVector[i],
 					kneeXVector[i], verticalHeight - kneeYVector[i],
-					toeXVector[i], verticalHeight -toeYVector[i],
+					toeXVector[i], verticalHeight - toeYVector[i],
+					kneePointFrontXVector[i], verticalHeight - kneePointFrontYVector[i], 
+					kneePointBackXVector[i], verticalHeight - kneePointBackYVector[i],
 					angleVector[i], //trying angle smoothed
 					angleSmoothed, rectVector[i], 
 					rectHeightPercent);

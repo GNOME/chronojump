@@ -71,7 +71,11 @@ int predictDo(std::vector<int> vect) {
 	} else return 0;
 }
 
-CvSeq* predictPoints() {
+CvSeq* predictPoints(
+		std::vector<int> hipXVector, std::vector<int> hipYVector,
+		std::vector<int> kneeXVector, std::vector<int> kneeYVector,
+		std::vector<int> toeXVector, std::vector<int> toeYVector) 
+{
 	if(txtP=="") 
 		createPredictNextFunction();
 	
@@ -127,23 +131,27 @@ void createSmoothFunction()
 	R.assign( txtS, "txtS"); 
 }
 
-std::vector<int> smoothDo(std::vector<int> vect) {
-//	if( ! vect.empty() ) {
+std::vector<int> smoothVectorInt(std::vector<int> vect) {
+	if(txtS=="") 
+		createSmoothFunction();
+
+	//if( ! vect.empty() ) {
 		R.assign(vect, "x");
 		R.parseEval(txtS, ansS);
 		return(Rcpp::as< std::vector< int > >(ansS));
-//	} else return 0;
+	//} else return 0;
 }
 
-void smoothPoints() {
+std::vector<double> smoothVectorDouble(std::vector<double> vect) {
 	if(txtS=="") 
 		createSmoothFunction();
-	
-	hipXVectorS = smoothDo(hipXVector);
-	hipYVectorS = smoothDo(hipYVector);
-	kneeXVectorS = smoothDo(kneeXVector);
-	kneeYVectorS = smoothDo(kneeYVector);
-	toeXVectorS = smoothDo(toeXVector);
-	toeYVectorS = smoothDo(toeYVector);
+
+	//if( ! vect.empty() ) {
+		R.assign(vect, "x");
+		R.parseEval(txtS, ansS);
+		return(Rcpp::as< std::vector< double > >(ansS));
+	//} else return 0;
 }
+
+
 

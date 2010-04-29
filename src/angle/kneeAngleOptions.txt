@@ -2,5 +2,5 @@ ShowContour;FALSE
 Debug;FALSE
 UsePrediction;FALSE
 PlayDelay;10
-PlayDelayFoundAngle;50
+PlayDelayFoundAngle;10
 ZoomScale;2

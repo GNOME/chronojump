@@ -165,7 +165,7 @@ int main(int argc,char **argv)
 	if(argc < 2)
 	{
 		char *startMessage = new char[300];
-		sprintf(startMessage, "\nkneeAngle HELP.\n\nProvide file location as a first argument...\nOptional: as 2nd argument provide a fraction of video to start at that frame, or a concrete frame.\nOptional: as 3rd argument provide mode you want to execute (avoiding main menu).\n\t%d: validation; %d: blackWithoutMarkers; %d: skinOnlyMarkers; %d: blackOnlyMarkers.\n\nEg: Start at frame 5375:\n\tkneeAngle myfile.mov 5375\nEg:start at 80 percent of video and directly as blackOnlyMarkers:\n\tkneeAngle myFile.mov .8 %d\n", 
+		sprintf(startMessage, "\nkneeAngle HELP.\n\nProvide file location as a first argument...\nOptional: as 2nd argument provide a fraction of video to start at that frame, or a concrete frame.\nOptional: as 3rd argument provide mode you want to execute (avoiding main menu).\n\t%d: validation; %d: blackWithoutMarkers; %d: skinOnlyMarkers; %d: blackOnlyMarkers.\n\nEg: Start at frame 5375:\n\tkneeAngle myfile.mov 5375\nEg:start at 80 percent of video and directly as blackOnlyMarkers:\n\tkneeAngle myFile.mov .8 %d\n\nNote another param can be used to default trhesholdLargestContour on blackOnly and on validation", 
 				validation, blackWithoutMarkers, skinOnlyMarkers, blackOnlyMarkers, blackOnlyMarkers);
 		std::cout<< startMessage <<std::endl;
 		exit(1);
@@ -193,8 +193,18 @@ int main(int argc,char **argv)
 	printf("Number of frames: %d\t Start at:%d\n\n", framesNumber, StartAt);
 	
 	ProgramMode = undefined;
-	if(argc == 4) 
+	if(argc >= 4) 
 		ProgramMode = atoi(argv[3]);
+	
+	int threshold;
+	//this is currently only used on blackOnlyMarkers and validation to have a threshold to find the contour
+	//(different than threshold for three points)
+	int thresholdLargestContour = -1; 
+	int thresholdMax = 255;
+	int thresholdInc = 1;
+				
+	if(argc == 5) 
+		thresholdLargestContour = atoi(argv[4]);
 
 	readOptions();
 	printf("--- Options: ---\n");
@@ -403,15 +413,6 @@ int main(int argc,char **argv)
 	int downLegMarkedDistMax = 0;
 	*/
 
-	int threshold;
-	
-	//this is currently only used on blackOnlyMarkers to have a threshold to find the contour
-	//(different than threshold for three points)
-	int thresholdLargestContour; 
-
-	int thresholdMax = 255;
-	int thresholdInc = 1;
-				
 	IplImage* imgZoom;
 	
 	//threshold for the three specific points
@@ -599,7 +600,8 @@ int main(int argc,char **argv)
 			else if(ProgramMode == blackOnlyMarkers || ProgramMode == validation) {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 				threshold = calculateThresholdStart(gray, false);
-				thresholdLargestContour = calculateThresholdStart(gray, true);
+				if(thresholdLargestContour == -1)
+					thresholdLargestContour = calculateThresholdStart(gray, true);
 			}
 			else {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
@@ -694,13 +696,36 @@ int main(int argc,char **argv)
 
 				//maxrect = findLargestContour(segmented, output, ShowContour);
 				maxrect = findLargestContour(segmented, outputTemp, ShowContour);
-
+							
 				//search in output all the black places (pants) and 
 				//see if there's a hole in that pixel on segmentedValidationHoles
 				//but firsts do a copy because maybe it doesn't work
 				if( !frame_copyTemp ) 
 					frame_copyTemp = cvCreateImage( cvSize(frame->width,frame->height),IPL_DEPTH_8U, frame->nChannels );
+				
 				cvCopy(frame_copy,frame_copyTemp);
+
+
+				if(thresholdROIH != -1) {
+					segmented = changeROIThreshold(gray, segmented, hipMarked, 
+							thresholdROIH, thresholdMax, thresholdROISizeH);
+					segmentedValidationHoles = changeROIThreshold(gray, segmentedValidationHoles, hipMarked, 
+							thresholdROIH, thresholdMax, thresholdROISizeH);
+				}
+				if(thresholdROIK != -1) {
+					segmented = changeROIThreshold(gray, segmented, kneeMarked, 
+							thresholdROIK, thresholdMax, thresholdROISizeK);
+					segmentedValidationHoles = changeROIThreshold(gray, segmentedValidationHoles, kneeMarked, 
+							thresholdROIK, thresholdMax, thresholdROISizeK);
+				}
+				if(thresholdROIT != -1) {
+					segmented = changeROIThreshold(gray, segmented, toeMarked, 
+							thresholdROIT, thresholdMax, thresholdROISizeT);
+					segmentedValidationHoles = changeROIThreshold(gray, segmentedValidationHoles, toeMarked, 
+							thresholdROIT, thresholdMax, thresholdROISizeT);
+				}
+
+	
 				seqHolesEnd = findHoles(
 						outputTemp, segmented, foundHoles, frame_copy,  
 						maxrect, hipOld, kneeOld, toeOld, hipPredicted, kneePredicted, toePredicted, font);
@@ -1790,7 +1815,8 @@ int main(int argc,char **argv)
 					MouseClicked = UNDEFINED;  
 					MouseMultiplier = false;
 		
-					if(ProgramMode == skinOnlyMarkers || ProgramMode == blackOnlyMarkers || ProgramMode == validation) {
+					//if(ProgramMode == skinOnlyMarkers || ProgramMode == blackOnlyMarkers || ProgramMode == validation) {
+					if(ProgramMode == skinOnlyMarkers || ProgramMode == blackOnlyMarkers) {
 						sprintf(label, "Threshold: %d (%d,%d,%d) (%d,%d,%d)", 
 								threshold, 
 								thresholdROIH, thresholdROIK, thresholdROIT, 
@@ -1798,8 +1824,8 @@ int main(int argc,char **argv)
 						imageGuiResult(gui, label, font);
 
 						cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
-						
-						if(thresholdROIH != -1)
+
+						if(thresholdROIH != -1) 
 							output = changeROIThreshold(gray, output, hipMarked, 
 									thresholdROIH, thresholdMax, thresholdROISizeH);
 						if(thresholdROIK != -1)
@@ -1815,12 +1841,39 @@ int main(int argc,char **argv)
 						cvThreshold(gray,segmentedValidationHoles, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 						//create the largest contour image (stored on temp)
 						cvThreshold(gray,segmented,threshold,thresholdMax,CV_THRESH_BINARY_INV);
+
+						if(thresholdROIH != -1 || thresholdROIK != -1 || thresholdROIT != -1) {
+							if(thresholdROIH != -1) {
+								segmented = changeROIThreshold(gray, segmented, hipMarked, 
+										thresholdROIH, thresholdMax, thresholdROISizeH);
+								segmentedValidationHoles = 
+									changeROIThreshold(gray, segmentedValidationHoles, hipMarked, 
+											thresholdROIH, thresholdMax, thresholdROISizeH);
+							}
+							if(thresholdROIK != -1) {
+								segmented = changeROIThreshold(gray, segmented, kneeMarked, 
+										thresholdROIK, thresholdMax, thresholdROISizeK);
+								segmentedValidationHoles = 
+									changeROIThreshold(gray, segmentedValidationHoles, kneeMarked, 
+											thresholdROIK, thresholdMax, thresholdROISizeK);
+							}
+							if(thresholdROIT != -1) {
+								segmented = changeROIThreshold(gray, segmented, toeMarked, 
+										thresholdROIT, thresholdMax, thresholdROISizeT);
+								segmentedValidationHoles = 
+									changeROIThreshold(gray, segmentedValidationHoles, toeMarked, 
+											thresholdROIT, thresholdMax, thresholdROISizeT);
+							}
+							cvCopy(segmentedValidationHoles, output);
+							cvShowImage("threshold", output);
+						}
+
 						maxrect = findLargestContour(segmented, output, ShowContour);
 
-						if(validation)
-							updateHolesWin(segmentedValidationHoles);
+						//if(validation)
+						//	updateHolesWin(segmentedValidationHoles);
 						
-						sprintf(label, "threshold: %d", threshold);
+						sprintf(label, "threshold: %d", threshold, thresholdROIH);
 						imageGuiResult(gui, label, font);
 					}
 						

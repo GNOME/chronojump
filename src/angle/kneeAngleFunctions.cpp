@@ -1434,7 +1434,9 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 				}
 
 				//skinOnlyMarkers || (blackOnlyMarkers without contour)
-				if(!success && (ProgramMode == skinOnlyMarkers || (ProgramMode == blackOnlyMarkers && !UsingContour))) {
+				if(!success && (ProgramMode == skinOnlyMarkers || 
+							ProgramMode == validation ||
+							(ProgramMode == blackOnlyMarkers && !UsingContour))) {
 					success = true;
 					if(pointInsideRect(clicked, rthipmore))
 						MouseClicked = THIPMORE;
@@ -1448,7 +1450,14 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 						MouseClicked = TTOEMORE;
 					else if(pointInsideRect(clicked, rttoeless))
 						MouseClicked = TTOELESS;
-					else if(pointInsideRect(clicked, rtglobalmore))
+					else
+						success = false;
+				}
+				
+				if(!success && (ProgramMode == skinOnlyMarkers || 
+							(ProgramMode == blackOnlyMarkers && !UsingContour))) {
+					success = true;
+					if(pointInsideRect(clicked, rtglobalmore))
 						MouseClicked = TGLOBALMORE;
 					else if(pointInsideRect(clicked, rtgloballess))
 						MouseClicked = TGLOBALLESS;

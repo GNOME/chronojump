@@ -1438,26 +1438,29 @@ int main(int argc,char **argv)
 		 * IF BLACKANDMARKERS MODE, FIND RECTANGLE, AND KNEE POINTS
 		 */
 
-		angleVector.push_back(thetaMarked);
-	
-		if(ProgramMode == skinOnlyMarkers) {
-			rectVector.push_back(-1);
-			kneePointFrontXVector.push_back(-1);
-			kneePointFrontYVector.push_back(-1);
-			kneePointBackXVector.push_back(-1); 
-			kneePointBackYVector.push_back(-1); 
-		} else {
-			rectVector.push_back(maxrect.height);
-			
-			//knee visible points on black pants
-			CvPoint kneePointFront = findKneePointFront(output, maxrect, validationRectHMax);
-			CvPoint kneePointBack = findKneePointBack(output, maxrect, kneePointFront.x, validationRectHMax); 
-			crossPoint(frame_copy, kneePointFront, GREY, MID);
-			crossPoint(frame_copy, kneePointBack, GREY, MID);
-			kneePointFrontXVector.push_back(kneePointFront.x);
-			kneePointFrontYVector.push_back(kneePointFront.y);
-			kneePointBackXVector.push_back(kneePointBack.x); 
-			kneePointBackYVector.push_back(kneePointBack.y); 
+
+		if( ! pointIsNull(hipMarked) && ! pointIsNull(kneeMarked) && ! pointIsNull(toeMarked) ) {
+			angleVector.push_back(thetaMarked);
+
+			if(ProgramMode == skinOnlyMarkers) {
+				rectVector.push_back(-1);
+				kneePointFrontXVector.push_back(-1);
+				kneePointFrontYVector.push_back(-1);
+				kneePointBackXVector.push_back(-1); 
+				kneePointBackYVector.push_back(-1); 
+			} else {
+				rectVector.push_back(maxrect.height);
+
+				//knee visible points on black pants
+				CvPoint kneePointFront = findKneePointFront(output, maxrect, validationRectHMax);
+				CvPoint kneePointBack = findKneePointBack(output, maxrect, kneePointFront.x, validationRectHMax); 
+				crossPoint(frame_copy, kneePointFront, GREY, MID);
+				crossPoint(frame_copy, kneePointBack, GREY, MID);
+				kneePointFrontXVector.push_back(kneePointFront.x);
+				kneePointFrontYVector.push_back(kneePointFront.y);
+				kneePointBackXVector.push_back(kneePointBack.x); 
+				kneePointBackYVector.push_back(kneePointBack.y); 
+			}
 		}
 			
 		//cvCopy(frame_copy,result);

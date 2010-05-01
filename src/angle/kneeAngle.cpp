@@ -2056,12 +2056,18 @@ int main(int argc,char **argv)
 	
 	//start of flexion is the
 	//last position of smoothed (and filtered) max vector size
-	//except for skinOnyMarkers, that has no rectVector
+	//on blackWithoutMarkers do it using rect height,
+	//but on the rest, use hip marker because has less problems
 	int flexionStartsAtFrame = 0;
-	if(ProgramMode != skinOnlyMarkers)
+	if(ProgramMode == blackWithoutMarkers)
 		flexionStartsAtFrame = findLastPositionInVector(
 				smoothVectorInt(rectVector),
 				findMaxInVector(smoothVectorInt(rectVector))
+				);
+	else
+		flexionStartsAtFrame = findLastPositionInVector(
+				smoothVectorInt(hipYVector),
+				findMinInVector(smoothVectorInt(hipYVector)) //min because here hipYVector has still 0 at the top
 				);
 
 	//---------------- write raw data file -------------------------------------

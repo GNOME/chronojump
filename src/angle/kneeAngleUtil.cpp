@@ -496,6 +496,15 @@ int findMaxInVector(std::vector<int> vect) {
 	return max;
 }
 
+int findMinInVector(std::vector<int> vect) {
+	int min = 100000;
+	for(int i=0; i < vect.size() ; i++)
+		if(vect[i] < min)
+			min = vect[i];
+	return min;
+}
+
+
 int findLastPositionInVector(std::vector<int> vect, int searched) {
 	int lastFound = 0;
 	for(int i=0; i < vect.size() ; i++)

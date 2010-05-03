@@ -406,9 +406,9 @@ int main(int argc,char **argv)
 	std::vector<int> rectVector;
 			
 	std::vector<int> kneePointFrontXVector;
-	std::vector<int> kneePointFrontYVector;
+	std::vector<double> kneePointFrontYVector;
 	std::vector<int> kneePointBackXVector;
-	std::vector<int> kneePointBackYVector;
+	std::vector<double> kneePointBackYVector;
 	
 	/*
 	int upLegMarkedDist = 0;
@@ -464,6 +464,7 @@ int main(int argc,char **argv)
 	double validationRectHMinThetaMarked = 180;
 	*/
 
+	CvRect maxrect;
 
 	MouseClicked = undefined;	
 	cvSetMouseCallback( "gui", on_mouse_gui, 0 );
@@ -617,7 +618,6 @@ int main(int argc,char **argv)
 
 		cvSmooth(frame_copy,frame_copy,2,5,5);
 		cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
-		CvRect maxrect;
 
 		/*
 		 * 3 
@@ -1460,10 +1460,22 @@ int main(int argc,char **argv)
 				CvPoint kneePointBack = findKneePointBack(outputTemp, maxrect, kneePointFront.x, validationRectHMax); 
 				crossPoint(frame_copy, kneePointFront, GREY, MID);
 				crossPoint(frame_copy, kneePointBack, GREY, MID);
+			
+				//if kneePointFront is not detected, it's 0.
+				//don't convert when it's undetected
+				//we need to know at which % of maxrect it's kneePointFront
+				//same for KneePointBack
 				kneePointFrontXVector.push_back(kneePointFront.x);
-				kneePointFrontYVector.push_back(kneePointFront.y);
+				double myKPFY = kneePointFront.y;
+				if(myKPFY != 0) 
+					myKPFY = 100 - (100 * (double) (kneePointFront.y - maxrect.y) / maxrect.height);
+				kneePointFrontYVector.push_back(myKPFY);
+
 				kneePointBackXVector.push_back(kneePointBack.x); 
-				kneePointBackYVector.push_back(kneePointBack.y); 
+				double myKPBY = kneePointBack.y;
+				if(myKPBY != 0) 
+					myKPBY = 100 - (100 * (double) (kneePointBack.y - maxrect.y) / maxrect.height);
+				kneePointBackYVector.push_back(myKPBY);
 			}
 		}
 			
@@ -2089,25 +2101,18 @@ int main(int argc,char **argv)
 			if(ProgramMode != skinOnlyMarkers)
 				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
 
-			//if kneePointFront is not detected, it's 0.
-			//verticalHeight is used to convert Y of OpenCV (top) to Y of R (bottom)
-			//don't convert to 384 when it's undetected
-			//same for KneePointBack
-			int myKPFY = kneePointFrontYVector[i];
-			if(myKPFY != 0)
-				myKPFY = verticalHeight - kneePointFrontYVector[i];
-			int myKPBY = kneePointBackYVector[i];
-			if(myKPBY != 0)
-				myKPBY = verticalHeight - kneePointBackYVector[i];
-
-			fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%f;%d;%f\n", 
-					hipXVector[i], verticalHeight - hipYVector[i],
-					kneeXVector[i], verticalHeight - kneeYVector[i],
-					toeXVector[i], verticalHeight - toeYVector[i],
-					kneePointFrontXVector[i], myKPFY, 
-					kneePointBackXVector[i], myKPBY,
-					angleVector[i], rectVector[i], 
-					rectHeightPercent);
+			//don't print when kneePointFront is not found, we need it
+			//if(kneePointFrontYVector[i] > 0)
+			//in this test we will print all the data, and then decide
+				fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%d;%f;%d;%f;%f;%d;%f\n", 
+						hipXVector[i], verticalHeight - hipYVector[i],
+						kneeXVector[i], verticalHeight - kneeYVector[i],
+						toeXVector[i], verticalHeight - toeYVector[i],
+						kneePointFrontXVector[i], kneePointFrontYVector[i], 
+						kneePointBackXVector[i], kneePointBackYVector[i],
+						angleVector[i], rectVector[i], 
+						rectHeightPercent
+				       );
 		}
 	}
 	fclose(fDataRaw);

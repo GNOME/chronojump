@@ -118,7 +118,6 @@ CvPoint findHipPoint(IplImage* img,CvRect roirect)
  * Knee point is a white pixel below the hip point and having maximum x coordinate in the bounding box
  * Returns the coordinate of the knee point
  */
-//CvPoint findKneePointFront(IplImage *img, CvRect roirect, bool foundAngleOneTime)
 CvPoint findKneePointFront(IplImage *img, CvRect roirect, int rectHMax)
 {
 	CvPoint pt;

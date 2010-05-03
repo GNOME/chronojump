@@ -439,6 +439,20 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3811"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3837"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -450,9 +464,9 @@
      objecttolerance="10"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.2166491"
-     inkscape:cx="251.26426"
-     inkscape:cy="180.22972"
+     inkscape:zoom="0.86030083"
+     inkscape:cx="232.58729"
+     inkscape:cy="178.58586"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -461,7 +475,7 @@
      inkscape:window-width="1016"
      inkscape:window-height="711"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="18"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -966,5 +980,54 @@
          x="408.37946"
          y="262.07037"
          id="tspan15220-4">WITH markers</tspan></text>
+    <g
+       id="g3825"
+       transform="translate(6,-16)">
+      <path
+         id="path2975"
+         d="M 28.450532,97.688578 122.58424,185.04657"
+         style="fill:none;stroke:#ff0303;stroke-width:2.06655812;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         id="path2975-6"
+         d="M 122.68438,96.86665 28.550676,184.22464"
+         style="fill:none;stroke:#ff0303;stroke-width:2.06655812;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+    <g
+       id="g4066">
+      <rect
+         y="174.24477"
+         x="32.877186"
+         height="46.028061"
+         width="96.165771"
+         id="rect3860"
+         style="fill:#e9afaf;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.29999995000000013;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         id="text3319-5"
+         y="182.40225"
+         x="32.921394"
+         style="font-size:10px;font-style:normal;font-weight:normal;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Chandas"
+         xml:space="preserve"><tspan
+           y="182.40225"
+           x="32.921394"
+           id="tspan3321-5"
+           sodipodi:role="line">Don't use,</tspan><tspan
+           id="tspan3854"
+           y="194.90225"
+           x="32.921394"
+           sodipodi:role="line">use this</tspan><tspan
+           id="tspan3856"
+           y="207.40225"
+           x="32.921394"
+           sodipodi:role="line">it manages better</tspan><tspan
+           id="tspan3858"
+           y="219.90225"
+           x="32.921394"
+           sodipodi:role="line">contour and holes</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#ff0000;stroke-width:2.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#EmptyTriangleOutL);stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 83.836827,190.68335 387.95081,158.62809"
+       id="path3864"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>

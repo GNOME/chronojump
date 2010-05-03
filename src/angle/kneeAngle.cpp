@@ -165,7 +165,7 @@ int main(int argc,char **argv)
 	if(argc < 2)
 	{
 		char *startMessage = new char[300];
-		sprintf(startMessage, "\nkneeAngle HELP.\n\nProvide file location as a first argument...\nOptional: as 2nd argument provide a fraction of video to start at that frame, or a concrete frame.\nOptional: as 3rd argument provide mode you want to execute (avoiding main menu).\n\t%d: validation; %d: blackWithoutMarkers; %d: skinOnlyMarkers; %d: blackOnlyMarkers.\n\nEg: Start at frame 5375:\n\tkneeAngle myfile.mov 5375\nEg:start at 80 percent of video and directly as blackOnlyMarkers:\n\tkneeAngle myFile.mov .8 %d\n\nNote another param can be used to default trhesholdLargestContour on blackOnly and on validation", 
+		sprintf(startMessage, "\nkneeAngle HELP.\n\nProvide file location as a first argument...\nOptional: as 2nd argument provide a fraction of video to start at that frame, or a concrete frame.\nOptional: as 3rd argument provide mode you want to execute (avoiding main menu).\n\t%d: validation (don't use this, use blackOnlyMarkers); %d: blackWithoutMarkers; %d: skinOnlyMarkers; %d: blackOnlyMarkers.\n\nEg: Start at frame 5375:\n\tkneeAngle myfile.mov 5375\nEg:start at 80 percent of video and directly as blackOnlyMarkers:\n\tkneeAngle myFile.mov .8 %d\n\nNote another param can be used to default trhesholdLargestContour on blackOnly and on validation", 
 				validation, blackWithoutMarkers, skinOnlyMarkers, blackOnlyMarkers, blackOnlyMarkers);
 		std::cout<< startMessage <<std::endl;
 		exit(1);
@@ -2085,12 +2085,23 @@ int main(int argc,char **argv)
 			if(ProgramMode != skinOnlyMarkers)
 				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
 
+			//if kneePointFront is not detected, it's 0.
+			//verticalHeight is used to convert Y of OpenCV (top) to Y of R (bottom)
+			//don't convert to 384 when it's undetected
+			//same for KneePointBack
+			int myKPFY = kneePointFrontYVector[i];
+			if(myKPFY != 0)
+				myKPFY = verticalHeight - kneePointFrontYVector[i];
+			int myKPBY = kneePointBackYVector[i];
+			if(myKPBY != 0)
+				myKPBY = verticalHeight - kneePointBackYVector[i];
+
 			fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%f;%d;%f\n", 
 					hipXVector[i], verticalHeight - hipYVector[i],
 					kneeXVector[i], verticalHeight - kneeYVector[i],
 					toeXVector[i], verticalHeight - toeYVector[i],
-					kneePointFrontXVector[i], verticalHeight - kneePointFrontYVector[i], 
-					kneePointBackXVector[i], verticalHeight - kneePointBackYVector[i],
+					kneePointFrontXVector[i], myKPFY, 
+					kneePointBackXVector[i], myKPBY,
 					angleVector[i], rectVector[i], 
 					rectHeightPercent);
 		}
@@ -2098,6 +2109,8 @@ int main(int argc,char **argv)
 	fclose(fDataRaw);
 
 	//---------------- write smooth data file -------------------------------------
+	/* currently unused */
+	/*
 	if((fDataSmooth=fopen(fDataSmoothName,"w"))==NULL){
 		printf("Error, no se puede escribir en el fichero %s\n",fDataSmoothName);
 	} else {
@@ -2133,18 +2146,30 @@ int main(int argc,char **argv)
 			if(ProgramMode != skinOnlyMarkers)
 				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
 
+			//if kneePointFront is not detected, it's 0.
+			//verticalHeight is used to convert Y of OpenCV (top) to Y of R (bottom)
+			//don't convert to 384 when it's undetected
+			//same for KneePointBack
+			int myKPFY = kneePointFrontYVector[i];
+			if(myKPFY != 0)
+				myKPFY = verticalHeight - kneePointFrontYVector[i];
+			int myKPBY = kneePointBackYVector[i];
+			if(myKPBY != 0)
+				myKPBY = verticalHeight - kneePointBackYVector[i];
+
 			fprintf(fDataSmooth, "%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%f;%f;%d;%f\n", 
 					hipXVector[i], verticalHeight - hipYVector[i],
 					kneeXVector[i], verticalHeight - kneeYVector[i],
 					toeXVector[i], verticalHeight - toeYVector[i],
-					kneePointFrontXVector[i], verticalHeight - kneePointFrontYVector[i], 
-					kneePointBackXVector[i], verticalHeight - kneePointBackYVector[i],
+					kneePointFrontXVector[i], myKPFY, 
+					kneePointBackXVector[i], myKPBY,
 					angleVector[i], //trying angle smoothed
 					angleSmoothed, rectVector[i], 
 					rectHeightPercent);
 		}
 	}
 	fclose(fDataSmooth);
+	*/
 
 	//------------------ clear memory ----------------------
 	cvClearMemStorage( stickStorage );

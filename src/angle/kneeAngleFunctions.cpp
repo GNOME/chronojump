@@ -124,8 +124,7 @@ CvPoint findKneePointFront(IplImage *img, CvRect roirect, int rectHMax)
 	pt.x = 0; pt.y = 0;
 	
 	int starty = roirect.y;
-	//int endy = roirect.y+roirect.height*9/10; //this is ok if shoes or platform is shown in standup image
-	int endy = roirect.y+roirect.height;
+	int endy = roirect.y+roirect.height*8/10;
 	
 	//if person is totally in extension, don't try to find kneePointFront and back,
 	//because there's lot of error because quadriceps is in front

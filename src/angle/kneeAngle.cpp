@@ -1456,8 +1456,8 @@ int main(int argc,char **argv)
 				rectVector.push_back(maxrect.height);
 
 				//knee visible points on black pants
-				CvPoint kneePointFront = findKneePointFront(output, maxrect, validationRectHMax);
-				CvPoint kneePointBack = findKneePointBack(output, maxrect, kneePointFront.x, validationRectHMax); 
+				CvPoint kneePointFront = findKneePointFront(outputTemp, maxrect, validationRectHMax);
+				CvPoint kneePointBack = findKneePointBack(outputTemp, maxrect, kneePointFront.x, validationRectHMax); 
 				crossPoint(frame_copy, kneePointFront, GREY, MID);
 				crossPoint(frame_copy, kneePointBack, GREY, MID);
 				kneePointFrontXVector.push_back(kneePointFront.x);

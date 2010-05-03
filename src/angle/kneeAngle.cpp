@@ -291,11 +291,15 @@ int main(int argc,char **argv)
 		fclose(fDataRaw);
 		exit(0);
 	}
+	fclose(fDataRaw);
+	/*
 	if((fDataSmooth=fopen(fDataSmoothName,"w"))==NULL){
 		printf("Error, no se puede escribir en el fichero %s\n",fDataSmoothName);
 		fclose(fDataSmooth);
 		exit(0);
 	}
+	fclose(fDataSmooth);
+	*/
 	
 	// ----------------------------- create windows -----------------------------
 	

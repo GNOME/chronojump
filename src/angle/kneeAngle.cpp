@@ -2190,6 +2190,8 @@ int main(int argc,char **argv)
 	fclose(fDataSmooth);
 	*/
 
+	cvWaitKey(1500); //allow to end writing
+
 	//------------------ clear memory ----------------------
 	cvClearMemStorage( stickStorage );
 

@@ -488,13 +488,22 @@ void changeExtension(char fileName[], char newExt[])
 //	return fileName;
 }
 
-int findMaxInVector(std::vector<int> vect) {
+int findMaxInVector(std::vector<int> vect, int posStart, int posEnd) {
 	int max = -1;
-	for(int i=0; i < vect.size() ; i++)
+	for(int i=posStart; i <= posEnd ; i++)
 		if(vect[i] > max)
 			max = vect[i];
 	return max;
 }
+
+double findMaxInVector(std::vector<double> vect, int posStart, int posEnd) {
+	double max = -1;
+	for(int i=posStart; i <= posEnd ; i++)
+		if(vect[i] > max)
+			max = vect[i];
+	return max;
+}
+
 
 int findMinInVector(std::vector<int> vect) {
 	int min = 100000;

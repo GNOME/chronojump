@@ -403,7 +403,8 @@ int main(int argc,char **argv)
 	std::vector<int> toeXVector;
 	std::vector<int> toeYVector;
 	std::vector<double> angleVector;
-	std::vector<int> rectVector;
+	std::vector<int> rectHVector; //Height
+	std::vector<double> rectHWVector; //Height/Width
 			
 	std::vector<int> kneePointFrontXVector;
 	std::vector<double> kneePointFrontYVector;
@@ -1447,13 +1448,15 @@ int main(int argc,char **argv)
 			angleVector.push_back(thetaMarked);
 
 			if(ProgramMode == skinOnlyMarkers) {
-				rectVector.push_back(-1);
+				rectHVector.push_back(-1);
+				rectHWVector.push_back(-1);
 				kneePointFrontXVector.push_back(-1);
 				kneePointFrontYVector.push_back(-1);
 				kneePointBackXVector.push_back(-1); 
 				kneePointBackYVector.push_back(-1); 
 			} else {
-				rectVector.push_back(maxrect.height);
+				rectHVector.push_back(maxrect.height);
+				rectHWVector.push_back((double) maxrect.height / maxrect.width);
 
 				//knee visible points on black pants
 				CvPoint kneePointFront = findKneePointFront(outputTemp, maxrect, validationRectHMax);
@@ -2077,8 +2080,8 @@ int main(int argc,char **argv)
 	int flexionStartsAtFrame = 0;
 	if(ProgramMode == blackWithoutMarkers)
 		flexionStartsAtFrame = findLastPositionInVector(
-				smoothVectorInt(rectVector),
-				findMaxInVector(smoothVectorInt(rectVector))
+				smoothVectorInt(rectHVector),
+				findMaxInVector(smoothVectorInt(rectHVector), 0, rectHVector.size() -1)
 				);
 	else
 		flexionStartsAtFrame = findLastPositionInVector(
@@ -2092,33 +2095,40 @@ int main(int argc,char **argv)
 	} else {
 		//skinOnlyMarkers has no rect
 		int rectHeightMax = -1;
-		if(ProgramMode != skinOnlyMarkers) 
-			rectHeightMax = findMaxInVector(rectVector);
+		double rectHeightWidthMax = -1;
+		if(ProgramMode != skinOnlyMarkers) {
+			rectHeightMax = findMaxInVector(rectHVector, flexionStartsAtFrame, lowestAngleFrameReally);
+			rectHeightWidthMax = findMaxInVector(rectHWVector, flexionStartsAtFrame, lowestAngleFrameReally);
+		}
 
-		fprintf(fDataRaw, "hipX;hipY;kneeX;kneeY;toeX;toeY;kpfX;kpfY;kpbX;kpbY;angle;rectH;rectHP\n");
+		fprintf(fDataRaw, "hipX;hipY;kneeX;kneeY;toeX;toeY;kpfX;kpfY;kpbX;kpbY;angle;rectH;rectHP;rectHW;rectHWP\n");
 		for (int i=flexionStartsAtFrame; i < lowestAngleFrameReally; i ++) {
 			double rectHeightPercent = -1;
-			if(ProgramMode != skinOnlyMarkers)
-				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
+			double rectHeightWidthPercent = -1;
+			if(ProgramMode != skinOnlyMarkers) {
+				rectHeightPercent = 100 * (double) rectHVector[i] / rectHeightMax;
+				rectHeightWidthPercent = 100 * (double) rectHWVector[i] / rectHeightWidthMax;
+			}
 
 			//don't print when kneePointFront is not found, we need it
 			//if(kneePointFrontYVector[i] > 0)
 			//in this test we will print all the data, and then decide
-				fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%d;%f;%d;%f;%f;%d;%f\n", 
+				fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%d;%f;%d;%f;%f;%d;%f;%f;%f\n", 
 						hipXVector[i], verticalHeight - hipYVector[i],
 						kneeXVector[i], verticalHeight - kneeYVector[i],
 						toeXVector[i], verticalHeight - toeYVector[i],
 						kneePointFrontXVector[i], kneePointFrontYVector[i], 
 						kneePointBackXVector[i], kneePointBackYVector[i],
-						angleVector[i], rectVector[i], 
-						rectHeightPercent
+						angleVector[i], 
+						rectHVector[i], rectHeightPercent,
+						rectHWVector[i], rectHeightWidthPercent
 				       );
 		}
 	}
 	fclose(fDataRaw);
 
 	//---------------- write smooth data file -------------------------------------
-	/* currently unused */
+	/* currently unused OUTDATED: add rectHW*/
 	/*
 	if((fDataSmooth=fopen(fDataSmoothName,"w"))==NULL){
 		printf("Error, no se puede escribir en el fichero %s\n",fDataSmoothName);
@@ -2130,14 +2140,14 @@ int main(int argc,char **argv)
 		kneeYVector = smoothVectorInt(kneeYVector);
 		toeXVector = smoothVectorInt(toeXVector);
 		toeYVector = smoothVectorInt(toeYVector);
-		rectVector = smoothVectorInt(rectVector);
+		rectHVector = smoothVectorInt(rectHVector);
 		
 		angleVector = smoothVectorDouble(angleVector);
 
 		//skinOnlyMarkers has no rect
 		int rectHeightMax = -1;
 		if(ProgramMode != skinOnlyMarkers)
-			rectHeightMax = findMaxInVector(rectVector);
+			rectHeightMax = findMaxInVector(rectHVector);
 
 		fprintf(fDataSmooth, "hipX;hipY;kneeX;kneeY;toeX;toeY;kpfX;kpfY;kpbX;kpbY;angleTest;angle;rectH;rectHP\n");
 		for (int i=flexionStartsAtFrame; i < lowestAngleFrameReally; i ++) {
@@ -2153,7 +2163,7 @@ int main(int argc,char **argv)
 			
 			double rectHeightPercent = -1;
 			if(ProgramMode != skinOnlyMarkers)
-				rectHeightPercent = 100 * (double) rectVector[i] / rectHeightMax;
+				rectHeightPercent = 100 * (double) rectHVector[i] / rectHeightMax;
 
 			//if kneePointFront is not detected, it's 0.
 			//verticalHeight is used to convert Y of OpenCV (top) to Y of R (bottom)
@@ -2173,7 +2183,7 @@ int main(int argc,char **argv)
 					kneePointFrontXVector[i], myKPFY, 
 					kneePointBackXVector[i], myKPBY,
 					angleVector[i], //trying angle smoothed
-					angleSmoothed, rectVector[i], 
+					angleSmoothed, rectHVector[i], 
 					rectHeightPercent);
 		}
 	}

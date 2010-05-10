@@ -53,6 +53,26 @@
  * Now the call to the function *findLargestContour* finds the bounding rectangle
  * of the largest connected contour in the thresholded image.This function returns
  * the bounding rectangle of the largest contours and draws the largest contour on a temporay image.
+ *
+ * Now the call to the function *findHipPoint* find the x coordinate of the pixel fulfilling
+ * following criteria in the image containing maximum bounding rectangle :
+ * 
+ * 1.white pixel with minimum x coordinate
+ * This gives the coordinate of the Hip of the person.
+ *
+ * Now the call to the function *findKneePoint* takes as argument the bounding rectangle
+ * of the largest  connected contours and the y coordinate of the hippoint calculated in the *findHipPoint*.
+ * The function returns the x coordinate of the white pixel having maximum x coordinate below the hip point. 
+ * The white pixel with largest x coordinate below the hip point gives the coordinate of the Knee point of the leg.
+ *
+ * Now the call to the function *findToePoint* searches for the white pixels below the knee point
+ * and having minimum x coordinate.This gives the coordinate of the toe point.
+ *
+ * Minimum Angle Calculation: 
+ * The x coordinate of the hip point is increased by 10 and the x coordinate of the knee point
+ * and toe point is decreased by 10 to get the exact hip,knee and toe points.
+ * The angle between hip to knee line and knee to toe line is calculated for all the input frames
+ * and the minimum value of these angles give the minimum angle.
  */
 
 /*
@@ -95,7 +115,25 @@
 
 /*
  * TODO:
+ * -imprimeixi en arxiu xy de cada punt (6 columnes)
  *  -implement convexity defects (opencv book p.259) at findKneePointBack
+ *  solve the problem with the cvCopy(frame_copy,result);
+ *  	on blackAndMarkers, minimumFrame is the marked or the expected?
+ *  -study kalman on openCV book (not interesting)... si, aplicar kalman enlloc de pointInside(previous)
+ *
+ *  need to do subpixel calculations for: thetaABD and thetaRealFlex, because the pixel unit is too big for this calculations
+ *  eg: upLegMarkedDist: 170; upLegMarkedDistMax: 171.... 
+ *  	produces kneeZetaSide of 18,46 and maybe with a htKneeMarked of only 3px (peson is almos full extended) 
+ *  	resulting ABD is 80.
+ *  	with subpixel, maybe the upLegMarkedDist is 170.4 and the Max is 170.6 this has kneeZetaSide of 8.25, and with htkneeMarked: 3px, ABD is: 70
+ *  	as seen, maybe the problem is in the 3px. maybe this is not ABD, is ROT EXT, and is normal at this extension
+ *  	
+ *  	---------
+ *  	maybe, getting closer to the camera (z axis) affects too much and space need to be calibrated before. 
+ *  	Maybe this means that we only can use this uncalibrated data for seen angle
+ *  	---------
+ *
+ *  	 
  *
  *  calibration:
  *  -calibration and undistortion (distorsions: radial, and tangential)
@@ -107,8 +145,12 @@
 
 #include "opencv/cv.h"
 #include "opencv/highgui.h"
+//#include <opencv/cxcore.h>
 #include "stdio.h"
 #include "math.h"
+//#include<iostream>
+//#include<fstream>
+//#include<vector>
 #include <string>
 
 #include <RInside.h>
@@ -139,6 +181,7 @@ int main(int argc,char **argv)
 	CvCapture* capture = NULL;
 
 	char * fileName = argv[1];
+//	printf("%s", fileName);
 	capture = cvCaptureFromAVI(fileName);
 	if(!capture)
 	{
@@ -179,6 +222,12 @@ int main(int argc,char **argv)
 	printf("PlayDelayFoundAngle:%d\n", PlayDelayFoundAngle);
 	printf("ZoomScale:%f\n", ZoomScale);
 
+	//3D
+	//printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle seen;angle side;angle real\n");
+	//not 3D but record thresholds
+	//printf("framesCount;hip.x;hip.y;knee.x;knee.y;toe.x;toe.y;angle current; threshold, th.hip; th.knee; th.toe\n");
+
+	
 	/* initialization variables */
 	IplImage *frame=0,*frame_copy=0,*gray=0,*segmented=0,*edge=0,*temp=0,*output=0;
 	IplImage *outputTemp=0, *frame_copyTemp=0;
@@ -278,6 +327,7 @@ int main(int argc,char **argv)
 
 	double knee2Hip,knee2Toe,hip2Toe;
 	double thetaExpected, thetaMarked;
+	//string text,angle;
 	std::string text;
 	double minThetaExpected = 360;
 	double minThetaMarked = 360;
@@ -363,6 +413,13 @@ int main(int argc,char **argv)
 	std::vector<int> kneePointBackXVector;
 	std::vector<double> kneePointBackYVector;
 	
+	/*
+	int upLegMarkedDist = 0;
+	int upLegMarkedDistMax = 0;
+	int downLegMarkedDist = 0;
+	int downLegMarkedDistMax = 0;
+	*/
+
 	IplImage* imgZoom;
 	
 	//threshold for the three specific points
@@ -393,6 +450,7 @@ int main(int argc,char **argv)
 	int verticalHeight;
 
 
+	//ProgramMode == validation
 	bool extensionDoIt = true;
 	bool extensionCopyDone = false;
 	CvPoint kneeMarkedAtExtension = pointToZero();
@@ -401,6 +459,13 @@ int main(int argc,char **argv)
 
 	//this contains data useful to validation: max and min Height and Width of all rectangles
 	int validationRectHMax = 0;
+	/*
+	int validationRectHMin = 100000;
+	int validationRectWMax = 0;
+	int validationRectWMin = 100000;
+	//angle at min Height of validation rectangle
+	double validationRectHMinThetaMarked = 180;
+	*/
 
 	CvRect maxrect;
 
@@ -411,6 +476,36 @@ int main(int argc,char **argv)
 	int forcePause = false;
 			
 	bool storeResultImage = false;
+
+	// ---------------------- Kalman filter (unused) --------------------------
+	/*
+	//CvKalman* kalman = cvCreateKalman(2,1,0);
+	CvKalman* kalman = cvCreateKalman(2,2,0);
+	CvMat* state = cvCreateMat(2,1,CV_32FC1);
+	CvMat* process_noise = cvCreateMat(2,1,CV_32FC1);
+	//CvMat* measurement = cvCreateMat(1,1,CV_32FC1);
+	CvMat* measurement = cvCreateMat(2,1,CV_32FC1);
+	CvPoint measurement_pt;
+	cvZero( measurement );
+	const float F[] = { 1, 1, 0, 1};
+	memcpy(kalman->transition_matrix->data.fl, F, sizeof(F));
+
+	CvRandState rng;
+	cvRandInit(&rng,0,1,-1,CV_RAND_UNI);
+	cvRandSetRange(&rng,0,0.1,0);
+	rng.disttype = CV_RAND_NORMAL;
+	cvRand(&rng, process_noise);			
+
+	cvSetIdentity(kalman->measurement_matrix, 	cvRealScalar(1));
+	cvSetIdentity(kalman->process_noise_cov, 	cvRealScalar(1e-5));
+	cvSetIdentity(kalman->measurement_noise_cov, 	cvRealScalar(1e-1));
+	cvSetIdentity(kalman->error_cov_post, 		cvRealScalar(1));
+
+	CvPoint k0; k0.x=0; k0.y=0;
+	//kalman->state_post = k0;
+	//kalman->state_post.data.fl[0] = &k0;
+	*/
+	/* /kalman */
 
 
 	while(!shouldEnd) 
@@ -437,6 +532,7 @@ int main(int argc,char **argv)
 				eraseGuiResult(gui, true);
 				sprintf(label, "frame: %d... (%d%%)", framesCount, 100*framesCount/StartAt);
 				imageGuiResult(gui, label, font);
+				//printf("%s\n", label);
 				cvWaitKey(25); //to allow gui image be shown
 				framesCountShowMessage = 0;
 			}
@@ -454,9 +550,18 @@ int main(int argc,char **argv)
 				forward = false;
 				fastForward = false;
 				eraseGuiResult(gui, true);
+
+				//mark that we are forwarding to the holesdetection
+				//then it will not need to match a point with previous point
+				//hipOld = pointToZero();
+				//kneeOld = pointToZero();
+				//toeOld = pointToZero();
 			}
 		}
 		if(jumping || backward) {
+				//hipOld = pointToZero();
+				//kneeOld = pointToZero();
+				//toeOld = pointToZero();
 				jumping = false;
 				backward = false;
 				eraseGuiResult(gui, true);
@@ -551,6 +656,18 @@ int main(int argc,char **argv)
 
 		if(ProgramMode == skinOnlyMarkers || ProgramMode == validation) 
 		{
+
+			/* kalman */
+			/*
+			const CvMat* prediction = cvKalmanPredict(kalman, 0);
+			CvPoint prediction_pt = cvPoint(
+					cvRound(prediction->data.fl[0]), 
+					cvRound(prediction->data.fl[1]));
+					*/
+			/* /kalman */
+	
+
+
 			cvCvtColor(frame_copy,output,CV_BGR2GRAY);
 			cvCvtColor(frame_copy,outputTemp,CV_BGR2GRAY);
 			cvThreshold(gray, output, threshold, thresholdMax,CV_THRESH_BINARY_INV);
@@ -644,7 +761,7 @@ int main(int argc,char **argv)
 					cvCopy(frame_copyTemp,frame_copy);
 
 					//--------------------------------- testing stuff ---------------------
-					cvShowImage("threshold",output);
+					cvShowImage("threshold",output); //is this testing?
 					//cvShowImage("toClick", frame_copy);
 					
 					imageGuiResult(gui, "going", font); //is this testing?
@@ -679,6 +796,27 @@ int main(int argc,char **argv)
 				toeYVector.push_back(toeMarked.y);
 			}
 
+
+			//-----------------  kalman filter unused --------------------------
+			/*
+			measurement_pt = kneeMarked;
+
+			//cvMatMulAdd(kalman->measurement_matrix, x_k,z_k,z_k);
+
+			//crossPoint(frame_copy, cvPoint(measurement_pt.x -20, measurement_pt.y), YELLOW, BIG); //works
+			//crossPoint(frame_copy, cvPoint(prediction_pt.x +20, prediction_pt.y), WHITE, BIG); //0,0
+			// /kalman 
+
+			cvNamedWindow( "toClick", 1 );
+			cvShowImage("toClick", frame_copy);
+
+			cvKalmanCorrect(kalman, measurement);
+
+			cvRandSetRange(&rng,0,sqrt(kalman->process_noise_cov->data.fl[0]),0);
+			cvRand(&rng, process_noise);			
+			cvMatMulAdd(kalman->transition_matrix, measurement, process_noise, measurement);
+			*/
+			
 
 			crossPoint(frame_copy, hipMarked, GREY, MID);
 			crossPoint(frame_copy, kneeMarked, GREY, MID);
@@ -754,9 +892,93 @@ int main(int argc,char **argv)
 					//assign validationRect data if maxs or mins reached
 					if(maxrect.height > validationRectHMax)
 						validationRectHMax = maxrect.height;
+					/*
+					if(maxrect.height < validationRectHMin) {
+						validationRectHMin = maxrect.height;
+						//store angle at validationRectHMin
+						//and see how differs from minimum angle
+						validationRectHMinThetaMarked = thetaMarked;
+					}
+
+					if(maxrect.width > validationRectWMax)
+						validationRectWMax = maxrect.width;
+					if(maxrect.width < validationRectWMin)
+						validationRectWMin = maxrect.width;
+						*/
 	
 				}
 
+
+
+
+				//---------------------------- 3D angle calculations ------------------------
+				/*
+				 * NOT doing 3D calculations now
+				
+				 
+				CvPoint HT;
+				HT.y = kneeMarked.y;
+				HT.x = hipMarked.x;
+
+				
+				 upLegMarkedDist = getDistance(hipMarked, kneeMarked);
+				if(upLegMarkedDist > upLegMarkedDistMax)
+					upLegMarkedDistMax = upLegMarkedDist;
+				downLegMarkedDist = getDistance(toeMarked, kneeMarked);
+				if(downLegMarkedDist > downLegMarkedDistMax)
+					downLegMarkedDistMax = downLegMarkedDist;
+				
+					double kneeZetaSide = sqrt( pow(upLegMarkedDistMax,2) - pow(upLegMarkedDist,2) );
+				double htKneeMarked = getDistance (HT, kneeMarked);
+
+				double thetaABD = (180.0/M_PI)*atan( (double) kneeZetaSide / htKneeMarked );
+
+				double thetaRealFlex = findAngle3D(hipMarked, toeMarked, kneeMarked, 0, 0, -kneeZetaSide);
+				if(thetaRealFlex < minThetaRealFlex) 
+					minThetaRealFlex = thetaRealFlex;
+
+
+				if(ProgramMode == skinOnlyMarkers) {
+					printOnScreen(output, font, CV_RGB(0,0,0), labelsAtLeft,
+							framesCount, threshold, 
+							(double) upLegMarkedDist *100 /upLegMarkedDistMax, 
+							(double) downLegMarkedDist *100 /downLegMarkedDistMax,
+							thetaMarked, minThetaMarked,
+							thetaABD, thetaRealFlex, minThetaRealFlex
+						     );
+					cvShowImage("toClick", frame_copy);
+					cvShowImage("threshold",output);
+
+					printf("%d;%d;%d;%d;%d;%d;%d;%.2f;%.2f;%.2f %d;%d %.2f;%.2f\n", 
+							framesCount, 
+							hipMarked.x, frame->height - hipMarked.y,
+							kneeMarked.x, frame-> height - kneeMarked.y,
+							toeMarked.x, frame->height - toeMarked.y,
+							thetaMarked, thetaABD, thetaRealFlex,
+							upLegMarkedDist, upLegMarkedDistMax, 
+							kneeZetaSide, htKneeMarked);
+				}
+
+				printOnScreen(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
+						framesCount, threshold, 
+						(double) upLegMarkedDist *100 /upLegMarkedDistMax, 
+						(double) downLegMarkedDist *100 /downLegMarkedDistMax,
+						thetaMarked, minThetaMarked,
+						thetaABD, thetaRealFlex, minThetaRealFlex
+					     );
+				 */
+			
+				/*	
+				printf("%d;%d;%d;%d;%d;%d;%d;%.2f;%d;%d;%d;%d\n", 
+						framesCount, 
+						hipMarked.x, frame->height - hipMarked.y,
+						kneeMarked.x, frame-> height - kneeMarked.y,
+						toeMarked.x, frame->height - toeMarked.y,
+						thetaMarked,
+						threshold, thresholdROIH, thresholdROIK, thresholdROIT
+				      );
+				      */
+				//---------------------------- end of 3D angle calculations ---------------------
 				
 				printOnScreen(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
 						framesCount, 
@@ -774,6 +996,53 @@ int main(int argc,char **argv)
 					storeResultImage = false;
 				}
 
+
+				/*
+				   if( (ProgramMode == validation || ProgramMode == blackWithoutMarkers)
+				   && foundAngle) {
+				   */
+				/*
+				//print data
+				double thetaSup = findAngle2D(hipExpected, cvPoint(0,kneeExpected.y), kneeExpected);
+				double thetaMarkedSup = findAngle2D(hipMarked, cvPoint(0, kneeMarked.y), kneeMarked);
+
+				double thetaInf = findAngle2D(cvPoint(0,kneeExpected.y), toeExpected, kneeExpected);
+				double thetaMarkedInf = findAngle2D(cvPoint(0,kneeMarked.y), toeMarked, kneeMarked);
+
+				printf("%7d %7.2f %7.2f [%7.2f %7.2f] %7.2f %7.2f %7.2f [%7.2f %7.2f] [%7.2f] [%7.2f]\n", framesCount, thetaExpected, thetaMarked, 
+				thetaMarked-thetaExpected, relError(thetaExpected, thetaMarked), 
+				getDistance(kneeExpected, kneeMarked), 
+				thetaSup-thetaMarkedSup, thetaInf-thetaMarkedInf
+				, getDistance(kneeMarked, hipMarked), getDistance(kneeExpected, hipExpected)
+				, getDistance(kneeExpected, hipPointBack)
+				, getDistance(kneePointBack, hipPointBack)
+				);
+
+				avgThetaDiff += abs(thetaMarked-thetaExpected);
+				avgThetaDiffPercent += abs(relError(thetaExpected, thetaMarked));
+				avgKneeDistance += getDistance(kneePoint, kneeMarked);
+				*/
+				/*
+				   framesDetected ++;
+				   }
+				   */
+
+
+				/*
+				   if(ProgramMode == validation || ProgramMode == blackWithoutMarkers)
+				   cvShowImage("result",frame_copy);
+				   */
+
+
+				//Finds the minimum angle between Hip to Knee line and Knee to Toe line
+				/*
+				if(thetaRealFlex == minThetaRealFlex) {
+					cvCopy(frame_copy,result);
+					lowestAngleFrame = framesCount;
+				}
+				*/
+				
+				//cvShowImage("threshold",output);
 				
 				//exit if we are going up and soon jumping.
 				//toe will be lost
@@ -803,9 +1072,375 @@ int main(int argc,char **argv)
 		CvPoint kneeExpected;
 		CvPoint toeExpected;
 
+		/*
+		 * 5 a
+		 * IF BLACKANDMARKERS MODE, FIND POINTS
+		 * UNUSED NOW BECAUSE WE ARE USING ONLY RECTANGLE
+		 * AND KNEEPOINTS
+		 */
+
+		/*
+		if(ProgramMode == validation || ProgramMode == blackWithoutMarkers) 
+		{
+			CvPoint hipPointBack;
+			CvPoint kneePointBack;
+			CvPoint kneePointFront;
+
+//			cvWaitKey(0);  aqui:
+
+			hipPointBack = findHipPoint(output,maxrect);
+
+//			cvWaitKey(0);  abans
+
+			//provisionally ubicate hipPoint at horizontal 1/2
+			hipExpected.x = hipPointBack.x + (findWidth(output, hipPointBack, true) /2);
+			hipExpected.y = hipPointBack.y;
+
+			//knee	
+			kneePointFront = findKneePointFront(output, maxrect, foundAngleOneTime);
+			//hueco popliteo
+			kneePointBack = findKneePointBack(output, maxrect, kneePointFront.x, foundAngleOneTime); 
+
+			//toe
+			int toeMinWidth;
+			if(kneeWidthAtExtension == 0)
+				toeMinWidth = findWidth(output, kneePointFront, false) / 2;
+			else
+				toeMinWidth = kneeWidthAtExtension / 2;
+			CvPoint toeExpected = findToePoint(output,maxrect,kneePointFront.x,kneePointFront.y, toeMinWidth);
+			
+			
+			crossPoint(frame_copy, hipPointBack, RED, MID);
+			crossPoint(frame_copy, hipExpected, BLUE, MID);
+			crossPoint(frame_copy, kneePointFront, GREY, MID);
+			crossPoint(frame_copy, kneePointBack, GREY, MID);
+			crossPoint(frame_copy, toeExpected, GREEN, MID);
+			cvShowImage("result",frame_copy);
+
+
+			foundAngle = false;
+			if(kneeMinWidth == 0)
+				kneeMinWidth = kneePointFront.x - hipPointBack.x;
+			else {
+				if((double)(kneePointFront.x- hipPointBack.x) > 1.15*kneeMinWidth && //or 1.05 or 1.15
+						upperSimilarThanLower(hipExpected, kneePointFront, toeExpected)
+				  )
+						//this is for validation
+						//&& !pointIsNull(hipMarked) && !pointIsNull(kneeMarked) && 
+						//!pointIsNull(toeMarked))
+				{
+					if(foundAngleOneTime) {
+						foundAngle = true;
+					} 
+					else if(extensionDoIt && extensionCopyDone) 
+					{
+						// 
+						// first time, confirm we found knee ok (and angle)
+						// maybe is too early
+						//
+						crossPoint(frame_copy, kneePointFront, GREY, MID);
+						crossPoint(frame_copy, kneePointBack, GREY, MID);
+
+						cvShowImage("result",frame_copy);
+						imageGuiResult(gui, "knee found. Accept? 'n'o, 'y'es", font);
+					
+						int option = optionAccept(false);	
+						eraseGuiResult(gui, true);
+
+						if(option==YES) {
+							printf("Accepted\n");
+							foundAngle = true;
+							foundAngleOneTime = true;
+
+							CvRect rectExt = findKneeCenterAtExtension(extensionSeg, kneePointFront.y);
+							
+							//kneeRect height center will be in the middle of kneepointfront and back
+							//the kneeRect.y should be (1/2 height below)
+							rectExt.height = rectExt.width;
+							rectExt.y = ( (kneePointFront.y + kneePointBack.y) /2 ) - (rectExt.height/2);
+
+					
+							//debug	
+							//cvNamedWindow("Extension seg old",1);
+							//cvShowImage("Extension seg old", extensionSeg);
+
+
+							double kneeCenterExtX = rectExt.x + (double)(rectExt.width /2 );
+							double kneeCenterExtY = rectExt.y + (double)(rectExt.height /2 );
+
+							double kneeCenterExtXPercent = 100 * (double)(kneeCenterExtX - rectExt.x) / rectExt.width; //aprox 50%
+							double kneeCenterExtYPercent = 100 * (double)(kneeCenterExtY - rectExt.y) / rectExt.height; //aprox 50%
+							
+							printf("kneeCenterExtX,Y: %.1f(%.1f%%) %.1f(%.1f%%)\n", 
+									kneeCenterExtX, 
+									kneeCenterExtXPercent, 
+									kneeCenterExtY, 
+									kneeCenterExtYPercent 
+									);				//debug
+				
+
+							if(validation) {	
+								//
+								// now print differences between:
+								// CvPoint(kneeCenterExtX, kneePointFront.y) and kneeMarkedAtEXtension
+								//
+								printf("marked at ext: x: %d, y: %d\n", kneeMarkedAtExtension.x, kneeMarkedAtExtension.y); //debug
+
+								//see the % of rectangle where kneeMarked is (at extension)
+								double kneeMarkedXPercent = 100 * (double)(kneeMarkedAtExtension.x - rectExt.x) / rectExt.width;
+								double kneeMarkedYPercent = 100 * (double)(kneeMarkedAtExtension.y - rectExt.y) / rectExt.height;
+							
+								cvLine(extension,
+										kneeMarkedAtExtension,
+										cvPoint(kneeCenterExtX, kneeCenterExtY),
+										WHITE,1,1);
+								
+								printf("knee diff: x: %.1f (%.1f%%), y: %.1f (%.1f%%)\n", 
+										kneeMarkedAtExtension.x - kneeCenterExtX,
+										kneeMarkedXPercent - kneeCenterExtXPercent,
+										kneeMarkedAtExtension.y - kneeCenterExtY,
+										kneeMarkedYPercent - kneeCenterExtYPercent);	
+
+
+								//hip
+								double hipMarkedX = hipMarkedAtExtension.x - kneeCenterExtX;
+								double hipMarkedXPercent = 100 * (double) hipMarkedX / rectExt.width;
+								printf("hip diff: x: %.1f (%.1f%%)\n", 
+										hipMarkedX,
+										hipMarkedXPercent
+								      );
+								cvLine(extension,
+										hipMarkedAtExtension,
+										cvPoint(kneeCenterExtX, hipMarkedAtExtension.y),
+										CV_RGB(128,128,128),1,1);
+							}
+							
+							cvRectangle(extension, 
+									cvPoint(rectExt.x, rectExt.y), 
+									cvPoint(rectExt.x + rectExt.width, rectExt.y + rectExt.height),
+									MAGENTA,1,8,0
+									);
+							crossPoint(extension,cvPoint(rectExt.x + rectExt.width, kneePointFront.y), WHITE, MID);
+							crossPoint(extension,cvPoint(rectExt.x, kneePointBack.y), WHITE, MID);
+
+							
+							//back
+							double backDistance = kneeCenterExtX - hipPointBackAtExtension.x;
+							double backDistancePercent = 100 * (double) backDistance / rectExt.width ;
+							printf("back width: %.1f (%.1f%%)\n", 
+									backDistance, 
+									backDistancePercent
+									);
+							cvLine(extension,
+									hipPointBackAtExtension,
+									cvPoint(kneeCenterExtX, hipPointBackAtExtension.y),
+									CV_RGB(128,128,128),1,1);
+							
+							showScaledImage(extension, "Extension frame");
+						} else {
+							foundAngle = false;
+							
+							if(option==FORWARD) {
+								forward = true;
+								printf("forwarding ...\n");
+							} else if(option==FASTFORWARD) {
+								fastForward = true;
+								printf("fastforwarding ...\n");
+							} else if(option==BACKWARD) {
+								backward = true;
+
+								//try to go to previous (backwardspeed) frame
+								cvSetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES, 
+										framesCount - backwardSpeed -1 );
+									
+								imageGuiResult(gui, "Backwarding...", font);
+								continue;
+							} else if(option==QUIT) {
+								shouldEnd = true;
+								printf("exiting ...\n");
+							}
+						}
+
+						//if extensionDoIt == false, nothing of above is done
+					}
+				}
+			}
+
+			//Finds angle between Hip to Knee line and Knee to Toe line
+			if(foundAngle)
+			{
+				// ------------ knee stuff ----------
+
+				//find width of knee, only one time and will be used for all the photogrammes
+				if(kneePointWidth == -1) 
+					kneePointWidth = findWidth(output, kneePointFront, false);
+
+				kneeExpected = kneePointInNearMiddleOfFrontAndBack(
+						kneePointBack, kneePointFront, kneePointWidth, frame_copy);
+				crossPoint(frame_copy, kneePointBack, GREY, MID);
+				crossPoint(frame_copy, kneePointFront, GREY, MID);
+				
+				cvLine(frame_copy,kneePointFront,kneePointBack, GREY,1,1);
+				crossPoint(frame_copy, kneeExpected, RED, BIG);
+
+
+				int kneeWidth = kneePointFront.x - kneePointBack.x;
+				int kneeHeight = kneeWidth; //kneeHeight can be 0, best to use kneeWidth for percent, is more stable
+				int kneeHeightBoxDown = ( (kneePointFront.y + kneePointBack.y) /2 ) - (kneeHeight /2);
+				
+				cvRectangle(frame_copy, 
+						cvPoint(kneePointBack.x, kneeHeightBoxDown), 
+						cvPoint(kneePointBack.x + kneeWidth, kneeHeightBoxDown + kneeHeight),
+						MAGENTA,1,8,0);
+
+				if(validation) {
+					int kneeMarkedPosX = kneeWidth - (kneeMarked.x - kneePointBack.x);
+					double kneeMarkedPercentX = (double) kneeMarkedPosX * 100 / kneeWidth;
+					int kneeMarkedPosY = kneeHeight - (kneeMarked.y - kneeHeightBoxDown);
+					double kneeMarkedPercentY = (double) kneeMarkedPosY * 100 / kneeHeight;
+					
+				}
+
+				//
+				//if(pointIsNull(hipMarked) || pointIsNull(kneeMarked) || pointIsNull(toeMarked))
+				//	thetaMarked = -1;
+				//else
+				//	thetaMarked = findAngle2D(hipMarked, toeMarked, kneeMarked);
+				//	
+
+				// ------------ toe stuff ----------
+
+				//
+				// don't find width of toe for each photogramme
+				// do it only at first, because if at any photogramme, as flexion advances, 
+				// knee pointfront is an isolate point at the right of the lowest part of the pants
+				// because the back part of kneepoint has gone up
+				//
+
+				//if(toePointWidth == -1) 
+					toePointWidth = findWidth(output, toeExpected, false);
+				crossPoint(frame_copy, toeExpected, GREY, MID);
+
+				thetaExpected = findAngle2D(hipExpected, toeExpected, kneeExpected);
+				
+				
+				//printf("%d;%.2f;%.2f;%.2f\n", framesCount, thetaMarked, kneeMarkedPercentX, kneeMarkedPercentY);
+				double angleBack =findAngle2D(hipPointBack, cvPoint(toeExpected.x - toePointWidth, toeExpected.y), kneePointBack); 
+				//printf("%d;%.2f;%.2f;%.2f\n", framesCount, angleBack, kneeMarkedPercentX, kneeMarkedPercentY);
+				cvLine(frame_copy,hipPointBack, kneePointBack,CV_RGB(255,0,0),1,1);
+				cvLine(frame_copy,kneePointBack, cvPoint(toeExpected.x - toePointWidth, toeExpected.y),CV_RGB(255,0,0),1,1);
+
+
+				//fix toeExpected.x at the 1/2 of the toe width
+				//depending on kneeAngle
+				toeExpected.x = fixToePointX(toeExpected.x, toePointWidth, thetaExpected);
+				crossPoint(frame_copy, toeExpected, RED, BIG);
+
+
+				// ------------ hip stuff ----------
+
+				//fix hipExpected ...
+				crossPoint(frame_copy, hipPointBack, GREY, MID);
+
+				//... find at 3/2 of hip (surely under the hand) ...
+				//thetaExpected = findAngle2D(hipExpected, toeExpected, kneeExpected);
+				hipExpected = fixHipPoint1(output, hipPointBack.y, kneeExpected, thetaExpected);
+				crossPoint(frame_copy, hipExpected, GREY, MID);
+
+				//... cross first hippoint with the knee-hippoint line to find real hippoint
+				hipExpected = fixHipPoint2(output, hipPointBack.y, kneeExpected, hipExpected);
+				crossPoint(frame_copy, hipExpected, RED, BIG);
+
+
+				// ------------ flexion angle ----------
+
+				//find flexion angle
+				thetaExpected = findAngle2D(hipExpected, toeExpected, kneeExpected);
+				//double thetaBack = findAngle2D(hipExpected, toeExpected, kneePointBack);
+
+				//draw 2 main lines
+				cvLine(frame_copy,kneeExpected,hipExpected,CV_RGB(255,0,0),1,1);
+				cvLine(frame_copy,kneeExpected,toeExpected,CV_RGB(255,0,0),1,1);
+
+				cvSeqPush( hipSeq, &hipExpected );
+				cvSeqPush( kneeSeq, &kneeExpected );
+				cvSeqPush( toeSeq, &toeExpected );
+
+
+				if(thetaExpected < minThetaExpected)
+				{
+					minThetaExpected = thetaExpected;
+					cvCopy(frame_copy,result);
+					lowestAngleFrame = framesCount;
+				}
+			}
+			else {
+				//angle not found
+				cvSeqPush( hipSeq, &notFoundPoint );
+				cvSeqPush( kneeSeq, &notFoundPoint );
+				cvSeqPush( toeSeq, &notFoundPoint );
+
+				//
+				// if we never have found the angle, 
+				// and this maxrect is wider than previous maxrect (flexion started)
+				// then capture previous image to process knee at extension search
+				//
+				if(extensionDoIt && ! foundAngleOneTime && ! extensionCopyDone) {
+					cvShowImage("result",frame_copy);
+					imageGuiResult(gui, "Extension copy. Accept? 'n'o, 'y'es", font);
+					int option = optionAccept(false);
+					eraseGuiResult(gui, true);
+
+					if(option==YES) {
+						cvCopy(frame_copy, extension);
+						
+						//cvCopy(segmented, extensionSeg);
+						cvCopy(output, extensionSeg);
+
+						//cvCopy(segmentedValidationHoles, extensionSegHoles);
+						//printf("\nhere: x: %d, y: %d\n", kneeMarked.x, kneeMarked.y);
+						if(validation) {
+							kneeMarkedAtExtension = kneeMarked;
+							hipMarkedAtExtension = hipMarked;
+						}
+							
+						hipPointBackAtExtension = hipPointBack;
+
+						kneeWidthAtExtension = findWidth(output, kneePointFront, false);
+
+						showScaledImage(extension, "Extension frame");
+						
+						extensionCopyDone = true;
+					} else {
+						if(option==FORWARD) {
+							forward = true;
+							printf("forwarding ...\n");
+						} else if(option==FASTFORWARD) {
+							fastForward = true;
+							printf("fastforwarding ...\n");
+						} else if(option==BACKWARD) {
+							backward = true;
+							
+							//try to go to previous (backwardspeed) frame
+							cvSetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES, 
+									framesCount - backwardSpeed -1 );
+							
+							imageGuiResult(gui, "Backwarding...", font);
+							continue;
+						} else if(option==QUIT) {
+							shouldEnd = true;
+							printf("exiting ...\n");
+						}
+					}
+				}
+			}
+				
+			cvShowImage("result",frame_copy);
+		}
+		*/
 		
 		/*
-		 * 5 
+		 * 5 b
 		 * IF BLACKANDMARKERS MODE, FIND RECTANGLE, AND KNEE POINTS
 		 */
 
@@ -1224,6 +1859,47 @@ int main(int argc,char **argv)
 
 						cvShowImage("threshold", output);
 					}
+					/*
+					else {		
+						cvThreshold(gray,segmentedValidationHoles, threshold, thresholdMax,CV_THRESH_BINARY_INV);
+						//create the largest contour image (stored on temp)
+						cvThreshold(gray,segmented,threshold,thresholdMax,CV_THRESH_BINARY_INV);
+
+						if(thresholdROIH != -1 || thresholdROIK != -1 || thresholdROIT != -1) {
+							if(thresholdROIH != -1) {
+								segmented = changeROIThreshold(gray, segmented, hipMarked, 
+										thresholdROIH, thresholdMax, thresholdROISizeH);
+								segmentedValidationHoles = 
+									changeROIThreshold(gray, segmentedValidationHoles, hipMarked, 
+											thresholdROIH, thresholdMax, thresholdROISizeH);
+							}
+							if(thresholdROIK != -1) {
+								segmented = changeROIThreshold(gray, segmented, kneeMarked, 
+										thresholdROIK, thresholdMax, thresholdROISizeK);
+								segmentedValidationHoles = 
+									changeROIThreshold(gray, segmentedValidationHoles, kneeMarked, 
+											thresholdROIK, thresholdMax, thresholdROISizeK);
+							}
+							if(thresholdROIT != -1) {
+								segmented = changeROIThreshold(gray, segmented, toeMarked, 
+										thresholdROIT, thresholdMax, thresholdROISizeT);
+								segmentedValidationHoles = 
+									changeROIThreshold(gray, segmentedValidationHoles, toeMarked, 
+											thresholdROIT, thresholdMax, thresholdROISizeT);
+							}
+							cvCopy(segmentedValidationHoles, output);
+							cvShowImage("threshold", output);
+						}
+
+						maxrect = findLargestContour(segmented, output, ShowContour);
+
+						//if(validation)
+						//	updateHolesWin(segmentedValidationHoles);
+						
+						sprintf(label, "threshold: %d", threshold, thresholdROIH);
+						imageGuiResult(gui, label, font);
+					}
+					*/
 						
 					thresholdROIChanged = false;
 				}
@@ -1370,10 +2046,24 @@ int main(int argc,char **argv)
 	//if( (ProgramMode == validation || ProgramMode == blackWithoutMarkers) && foundAngleOneTime) 
 	if(ProgramMode == validation || ProgramMode == blackWithoutMarkers) 
 	{
+		//relative to geometric points:
+		//avgThetaDiff = (double) avgThetaDiff / framesDetected;
+		//avgThetaDiffPercent = (double) avgThetaDiffPercent / framesDetected;
+		//avgKneeDistance = (double) avgKneeDistance / framesDetected;
+			
 		cvNamedWindow("Minimum Frame",1);
 		cvShowImage("Minimum Frame", result);
+
+		/*
+		printf("Minimum Frame\n");
+		sprintf(label, "minblack minholes    diff diff(%%)");
+		sprintf(label, "%8.2f %8.2f [%7.2f %7.2f]", minThetaExpected, minThetaMarked, 
+				minThetaMarked-minThetaExpected, relError(minThetaExpected, minThetaMarked));
+		printf("%s\n" ,label);
+		*/
 	}
 	else {
+		//printf("*** Result ***\nMin angle: %.2f, lowest angle frame: %d\n", minThetaMarked, lowestAngleFrame);
 		cvNamedWindow("Minimum Frame",1);
 		cvShowImage("Minimum Frame", result);
 		printf("MIN: %d;%.2f\n", lowestAngleFrame, minThetaMarked);

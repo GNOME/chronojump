@@ -4512,6 +4512,13 @@
        y1="158.41438"
        x2="53.499996"
        y2="142.05258" />
+    <inkscape:perspective
+       id="perspective5831"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -4523,16 +4530,16 @@
      objecttolerance="10"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1591386"
+     inkscape:zoom="1.5171962"
      inkscape:cx="250.99475"
-     inkscape:cy="146.78051"
+     inkscape:cy="145.48645"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1016"
-     inkscape:window-height="711"
+     inkscape:window-height="704"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0">
@@ -4737,57 +4744,54 @@
        y="220.44638"
        transform="matrix(1,0,0,0.875,0,27.255967)" />
     <g
-       id="g3683">
-      <g
-         transform="translate(-362.37542,-0.161616)"
-         id="g3313">
-        <path
-           style="fill:#efa698;fill-opacity:1;fill-rule:evenodd;stroke:#efa698;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           d="m 405.87671,70.124955 c -24.67163,21.111456 -6.28781,31.949665 0.81169,44.642855 6.17596,14.02229 13.76709,30.27142 12.17532,36.52598 -1.01347,28.21183 -4.30248,38.55249 -7.3052,56.81818 l 12.98703,-0.81169 9.74026,-59.25324 c 6.5617,-30.54721 -7.93126,-50.601539 -12.17533,-60.876629 l 4.87013,-17.045455 -21.1039,-10e-7 z"
-           id="path3301"
-           sodipodi:nodetypes="ccccccccc" />
-        <rect
-           style="fill:#ffffff;fill-opacity:1;stroke:none"
-           id="rect3303"
-           width="5.681818"
-           height="5.681818"
-           x="409.08762"
-           y="84.077797" />
-        <rect
-           style="fill:#ffffff;fill-opacity:1;stroke:none"
-           id="rect3305"
-           width="5.681818"
-           height="5.681818"
-           x="423.80212"
-           y="145.7735" />
-        <rect
-           style="fill:#ffffff;fill-opacity:1;stroke:none"
-           id="rect3307"
-           width="5.681818"
-           height="5.681818"
-           x="416.45593"
-           y="198.29874" />
-      </g>
-      <text
-         sodipodi:linespacing="125%"
-         id="text15214"
-         y="237.07036"
-         x="12.356018"
-         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Chandas;-inkscape-font-specification:Chandas"
-         xml:space="preserve"><tspan
-           y="237.07036"
-           x="12.356018"
-           id="tspan15216"
-           sodipodi:role="line">FIND points</tspan><tspan
-           id="tspan15218"
-           y="249.57036"
-           x="12.356018"
-           sodipodi:role="line">on SKIN</tspan><tspan
-           id="tspan15220"
-           y="262.07037"
-           x="12.356018"
-           sodipodi:role="line">WITH markers</tspan></text>
+       id="g4019"
+       transform="translate(-361.05136,-0.246977)">
+      <path
+         sodipodi:nodetypes="ccccccccc"
+         id="path3325-5-6"
+         d="m 387.05851,69.962993 c -24.67163,21.111456 -6.28781,31.949667 0.81169,44.642857 6.17596,14.02229 13.76709,30.27142 12.17532,36.52598 -1.01347,28.21182 -4.30248,38.55248 -7.3052,56.81817 l 12.98703,-0.81169 11.65732,-61.17029 c -1.42606,-29.90819 -9.2093,-43.57231 -14.09239,-58.959571 l 4.87013,-17.045455 -21.1039,-10e-7 z"
+         style="fill:#efa698;fill-opacity:1;fill-rule:evenodd;stroke:#efa698;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <rect
+         y="83.916183"
+         x="389.82205"
+         height="5.681818"
+         width="5.681818"
+         id="rect3303-5"
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
+      <rect
+         y="144.35619"
+         x="407.03201"
+         height="5.681818"
+         width="5.681818"
+         id="rect3305-3"
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
+      <rect
+         y="198.13712"
+         x="397.19037"
+         height="5.681818"
+         width="5.681818"
+         id="rect3307-9"
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:10px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Chandas;-inkscape-font-specification:Chandas"
+       x="12.356018"
+       y="237.07036"
+       id="text15214"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan15216"
+         x="12.356018"
+         y="237.07036">FIND points</tspan><tspan
+         sodipodi:role="line"
+         x="12.356018"
+         y="249.57036"
+         id="tspan15218">on SKIN</tspan><tspan
+         sodipodi:role="line"
+         x="12.356018"
+         y="262.07037"
+         id="tspan15220">WITH markers</tspan></text>
     <rect
        style="opacity:0.78879311;fill:#ffffff;fill-opacity:1;stroke:url(#linearGradient7392);stroke-width:1.37848151;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect6224"

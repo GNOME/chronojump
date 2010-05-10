@@ -57,10 +57,9 @@ enum { SMALL = 1, MID = 2, BIG = 3 };
  * blackWithoutMarkers uses only black pants and finds the place where the markers should be
  *    (when validation study for lots of people isdone)
  * skinOnlyMarkers uses markers to find three points and angle (easiest)
- * skinOnlyMarkers uses markers to find three points and angle but in pants (it uses findLargestContour and finds inside it)
  */
 //NOTE: if this changes, change also in kneeangle.cpp menu
-enum { quit = -1, undefined = 0, validation = 1, blackWithoutMarkers = 2, skinOnlyMarkers = 3, blackOnlyMarkers = 4}; 
+enum { quit = -1, undefined = 0, validation = 1, blackWithoutMarkers = 2, skinOnlyMarkers = 3}; 
 
 //used on gui
 enum { 

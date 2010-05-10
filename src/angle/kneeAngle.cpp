@@ -78,6 +78,13 @@
 /*
  * COMPILATION:
  *
+ * Ubuntu 9.10, now using RInside:
+ *
+ * g++ -I/usr/include/opencv -I/usr/share/R/include -I/usr/local/lib/R/site-library/Rcpp/lib -I/usr/local/lib/R/site-library/RInside/lib  -g -O2 -Wall  -s  kneeAngle.cpp -o kneeAngle -L/usr/lib/R/lib -lR -lblas -llapack -L/usr/local/lib/R/site-library/Rcpp/lib -lRcpp -Wl,-rpath,/usr/local/lib/R/site-library/Rcpp/lib -L/usr/local/lib/R/site-library/RInside/lib -lRInside -Wl,-rpath,/usr/local/lib/R/site-library/RInside/lib -L/usr/lib -lhighgui -Wl,-rpath,/usr/lib
+ *
+ *
+ * OLD:
+ *
  * g++ -lcv -lcxcore -lhighgui -L(path to opencv library) kneeAngle.cpp -o kneeAngle
  *
  * for example: 
@@ -165,8 +172,8 @@ int main(int argc,char **argv)
 	if(argc < 2)
 	{
 		char *startMessage = new char[300];
-		sprintf(startMessage, "\nkneeAngle HELP.\n\nProvide file location as a first argument...\nOptional: as 2nd argument provide a fraction of video to start at that frame, or a concrete frame.\nOptional: as 3rd argument provide mode you want to execute (avoiding main menu).\n\t%d: validation (don't use this, use blackOnlyMarkers); %d: blackWithoutMarkers; %d: skinOnlyMarkers; %d: blackOnlyMarkers.\n\nEg: Start at frame 5375:\n\tkneeAngle myfile.mov 5375\nEg:start at 80 percent of video and directly as blackOnlyMarkers:\n\tkneeAngle myFile.mov .8 %d\n\nNote another param can be used to default trhesholdLargestContour on blackOnly and on validation", 
-				validation, blackWithoutMarkers, skinOnlyMarkers, blackOnlyMarkers, blackOnlyMarkers);
+		sprintf(startMessage, "\nkneeAngle HELP.\n\nProvide file location as a first argument...\nOptional: as 2nd argument provide a fraction of video to start at that frame, or a concrete frame.\nOptional: as 3rd argument provide mode you want to execute (avoiding main menu).\n\t%d: validation; %d: blackWithoutMarkers; %d: skinOnlyMarkers.\n\nEg: Start at frame 5375:\n\tkneeAngle myfile.mov 5375\nEg:start at 80 percent of video and directly as blackWithoutMarkers:\n\tkneeAngle myFile.mov .8 %d\n\nNote another param can be used to default thresholdLargestContour on validation and blackWithoutMarkers", 
+				validation, blackWithoutMarkers, skinOnlyMarkers, blackWithoutMarkers);
 		std::cout<< startMessage <<std::endl;
 		exit(1);
 	}
@@ -197,7 +204,7 @@ int main(int argc,char **argv)
 		ProgramMode = atoi(argv[3]);
 	
 	int threshold;
-	//this is currently only used on blackOnlyMarkers and validation to have a threshold to find the contour
+	//this is currently only used on validation and blackWithoutMarkers to have a threshold to find the contour
 	//(different than threshold for three points)
 	int thresholdLargestContour = -1; 
 	int thresholdMax = 255;
@@ -238,7 +245,7 @@ int main(int argc,char **argv)
 	
 	cvNamedWindow("gui",1);
 	//if ProgramMode is not defined or is invalid, ask user
-	if(ProgramMode < validation || ProgramMode > blackOnlyMarkers) {
+	if(ProgramMode < validation || ProgramMode > skinOnlyMarkers) {
 		gui = cvLoadImage("kneeAngle_intro.png");
 		cvShowImage("gui", gui);
 		ProgramMode = menu(gui, font);
@@ -248,7 +255,7 @@ int main(int argc,char **argv)
 		UsingContour = false;
 		gui = cvLoadImage("kneeAngle_skin.png");
 	}
-	else if(ProgramMode == blackOnlyMarkers || ProgramMode == validation) {
+	else if(ProgramMode == validation) {
 		UsingContour = true;
 		gui = cvLoadImage("kneeAngle_black_contour.png");
 	} 
@@ -303,15 +310,10 @@ int main(int argc,char **argv)
 	
 	// ----------------------------- create windows -----------------------------
 	
-	if(ProgramMode == validation) {
-//		cvNamedWindow("Holes_on_contour",1);
-//		cvNamedWindow("result",1);
-		cvNamedWindow("threshold",1);
-	} else if (ProgramMode == skinOnlyMarkers || ProgramMode == blackOnlyMarkers) {
-		cvNamedWindow("threshold",1);
-	}
-	else if (ProgramMode == blackWithoutMarkers)
+	if (ProgramMode == blackWithoutMarkers)
 		cvNamedWindow("result",1);
+	else 
+		cvNamedWindow("threshold",1);
 
 	// ----------------------------- define vars -------------------------------------------
 	
@@ -448,7 +450,7 @@ int main(int argc,char **argv)
 	int verticalHeight;
 
 
-	//ProgramMode == validation || ProgramMode == blackWithoutMarkers
+	//ProgramMode == validation
 	bool extensionDoIt = true;
 	bool extensionCopyDone = false;
 	CvPoint kneeMarkedAtExtension = pointToZero();
@@ -603,7 +605,7 @@ int main(int argc,char **argv)
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 				threshold = calculateThresholdStart(gray, false);
 			}
-			else if(ProgramMode == blackOnlyMarkers || ProgramMode == validation) {
+			else if(ProgramMode == validation) {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 				threshold = calculateThresholdStart(gray, false);
 				if(thresholdLargestContour == -1)
@@ -652,7 +654,7 @@ int main(int argc,char **argv)
 		*/
 
 
-		if(ProgramMode == skinOnlyMarkers || ProgramMode == blackOnlyMarkers || ProgramMode == validation) 
+		if(ProgramMode == skinOnlyMarkers || ProgramMode == validation) 
 		{
 
 			/* kalman */
@@ -694,7 +696,7 @@ int main(int argc,char **argv)
 				seqHolesEnd = findHolesSkin(output, frame_copy, 
 						hipMarked, kneeMarked, toeMarked, hipPredicted, kneePredicted, toePredicted, font);
 			}
-			else { //if(ProgramMode == blackOnlyMarkers || ProgramMode == validation) 
+			else {
 				//this segmented is to find the contour (threshold is lot little)
 				cvThreshold(gray,segmentedValidationHoles,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
 				cvThreshold(gray,segmented,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
@@ -745,9 +747,8 @@ int main(int argc,char **argv)
 				myKnee = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 1); 
 				myToe = *CV_GET_SEQ_ELEM( CvPoint, seqHolesEnd, 2 ); 
 
-				//validation uses always black contour
-				//but black only markers can change to skin related if has problems with the contour
-				if( ProgramMode == validation || (! pointIsNull(myHip) && ! pointIsNull(myKnee) && ! pointIsNull(myToe))) {
+				//can change to skin related if has problems with the contour
+				if( ! pointIsNull(myHip) && ! pointIsNull(myKnee) && ! pointIsNull(myToe) ) {
 					cvCopy(segmentedValidationHoles, output);
 					if(! UsingContour) {
 						UsingContour = true;
@@ -859,7 +860,7 @@ int main(int argc,char **argv)
 		 */
 
 
-		if(ProgramMode == skinOnlyMarkers || ProgramMode == blackOnlyMarkers || ProgramMode == validation) 
+		if(ProgramMode == skinOnlyMarkers || ProgramMode == validation) 
 		{
 			if(pointIsNull(hipMarked) || pointIsNull(kneeMarked) || pointIsNull(toeMarked))
 				thetaMarked = -1;
@@ -1837,8 +1838,7 @@ int main(int argc,char **argv)
 					MouseClicked = UNDEFINED;  
 					MouseMultiplier = false;
 		
-					//if(ProgramMode == skinOnlyMarkers || ProgramMode == blackOnlyMarkers || ProgramMode == validation) {
-					if(ProgramMode == skinOnlyMarkers || ProgramMode == blackOnlyMarkers) {
+					if(ProgramMode == skinOnlyMarkers || ProgramMode == validation) {
 						sprintf(label, "Threshold: %d (%d,%d,%d) (%d,%d,%d)", 
 								threshold, 
 								thresholdROIH, thresholdROIK, thresholdROIT, 
@@ -1859,6 +1859,7 @@ int main(int argc,char **argv)
 
 						cvShowImage("threshold", output);
 					}
+					/*
 					else {		
 						cvThreshold(gray,segmentedValidationHoles, threshold, thresholdMax,CV_THRESH_BINARY_INV);
 						//create the largest contour image (stored on temp)
@@ -1898,6 +1899,7 @@ int main(int argc,char **argv)
 						sprintf(label, "threshold: %d", threshold, thresholdROIH);
 						imageGuiResult(gui, label, font);
 					}
+					*/
 						
 					thresholdROIChanged = false;
 				}
@@ -2228,7 +2230,6 @@ int menu(IplImage * gui, CvFont font)
 			case '1': MouseClicked = validation; 		break;
 			case '2': MouseClicked = blackWithoutMarkers; 	break;
 			case '3': MouseClicked = skinOnlyMarkers; 	break;
-			case '4': MouseClicked = blackOnlyMarkers; 	break;
 		}
 	} while (MouseClicked == undefined);
 

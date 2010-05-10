@@ -1316,10 +1316,9 @@ void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 	CvPoint clicked; 
 	clicked.x=x; clicked.y=y;
 
-	CvRect rval; rval.x=45;  rval.width=50;  rval.y=60; rval.height=210;
-	CvRect rbam; rbam.x=157; rbam.width=50; rbam.y=60; rbam.height=210;
-	CvRect rsom; rsom.x=270; rsom.width=50;  rsom.y=60; rsom.height=210;
-	CvRect rbom; rbom.x=384; rbom.width=50;  rbom.y=60; rbom.height=210;
+	CvRect rval; rval.x=45;  rval.width=70;  rval.y=60; rval.height=210;
+	CvRect rbwm; rbwm.x=200; rbwm.width=70; rbwm.y=60; rbwm.height=210;
+	CvRect rsom; rsom.x=360; rsom.width=70;  rsom.y=60; rsom.height=210;
 
 	CvRect rquit; rquit.x=450; rquit.width=40;  rquit.y=10; rquit.height=45;
 	switch( event ) {
@@ -1327,12 +1326,10 @@ void on_mouse_gui_menu( int event, int x, int y, int flags, void* param )
 			{
 				if(pointInsideRect(clicked, rval))
 					MouseClicked = validation;
-				else if(pointInsideRect(clicked, rbam))
+				else if(pointInsideRect(clicked, rbwm))
 					MouseClicked = blackWithoutMarkers;
 				else if(pointInsideRect(clicked, rsom))
 					MouseClicked = skinOnlyMarkers;
-				else if(pointInsideRect(clicked, rbom))
-					MouseClicked = blackOnlyMarkers;
 				else if(pointInsideRect(clicked, rquit))
 					MouseClicked = quit;
 			}
@@ -1421,7 +1418,7 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 					success = false;
 
 				//blackOnlyMarkers with contour or validation
-				if(!success && ( ProgramMode == validation || (ProgramMode == blackOnlyMarkers && UsingContour) )) {
+				if(!success && ( ProgramMode == validation && UsingContour) ) {
 					success = true;
 					if(pointInsideRect(clicked, rtglobalmore))
 						MouseClicked = TCONTOURMORE;
@@ -1433,8 +1430,7 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 
 				//skinOnlyMarkers || (blackOnlyMarkers without contour)
 				if(!success && (ProgramMode == skinOnlyMarkers || 
-							ProgramMode == validation ||
-							(ProgramMode == blackOnlyMarkers && !UsingContour))) {
+							(ProgramMode == validation && !UsingContour))) {
 					success = true;
 					if(pointInsideRect(clicked, rthipmore))
 						MouseClicked = THIPMORE;
@@ -1453,7 +1449,7 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 				}
 				
 				if(!success && (ProgramMode == skinOnlyMarkers || 
-							(ProgramMode == blackOnlyMarkers && !UsingContour))) {
+							(ProgramMode == validation && !UsingContour))) {
 					success = true;
 					if(pointInsideRect(clicked, rtglobalmore))
 						MouseClicked = TGLOBALMORE;
@@ -1477,7 +1473,7 @@ void on_mouse_gui( int event, int x, int y, int flags, void* param )
 				}
 				
 				//only for blackOnlyMarkers without contour
-				if(!success && (ProgramMode == blackOnlyMarkers && !UsingContour)) {
+				if(!success && (ProgramMode == validation && !UsingContour)) {
 					success = true;
 					if(pointInsideRect(clicked, rbackToContour)) {
 						MouseClicked = BACKTOCONTOUR;

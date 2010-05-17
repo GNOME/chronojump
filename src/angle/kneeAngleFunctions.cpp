@@ -16,7 +16,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  * Copyright (C) 2008   Sharad Shankar & Onkar Nath Mishra http://www.logicbrick.com/
- * Copyright (C) 2008   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2008-2010   Xavier de Blas <xaviblas@gmail.com> 
  *
  */
 
@@ -646,6 +646,7 @@ CvSeq* findHoles(IplImage *imgC, IplImage *imgH, IplImage *foundHoles, IplImage 
 
 /*
  * this function is realy similiar to findHoles
+ * but this it doesn't search inside the contour
  * try to do only a function
  */
 CvSeq* findHolesSkin(IplImage *imgThresh, IplImage *imgColor, 

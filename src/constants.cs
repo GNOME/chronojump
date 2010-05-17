@@ -28,16 +28,17 @@ public class Constants
 	public static string ReadmeTranslators = Catalog.GetString("Translator, there's a glossary that will help you in Chronojump translation:\n http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html");
 
 	public static string [] Authors = {
-		"Xavier de Blas (xaviblas@gmail.com)\n" + Catalog.GetString("Project leader and main developer."), 
-		"Juan Gonzalez (http://www.iearobotics.com)\n" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software."), 
+		"Xavier de Blas Foix (xaviblas@gmail.com)\n" + Catalog.GetString("Project leader and main developer."), 
+		"Juan Gonzalez Gómez (http://www.iearobotics.com)\n" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software."), 
 		"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n" + Catalog.GetString("Chronopic2 creation, Chronojump tester."), 
-		"Ricardo Gómez (http://www.iearobotics.com)\n" + Catalog.GetString("Chronopic3 industrial prototype."),
+		"Ricardo Gómez González (http://www.iearobotics.com)\n" + Catalog.GetString("Chronopic3 industrial prototype."),
 		"Sharad Shankar (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."), 
 		"Onkar Nath Mishra (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."),
-		"Andoni Morales (http://ylatuya.es)\n" + Catalog.GetString("Installation support: Autotools, packaging, bundle.") 
+		"Andoni Morales Alastruey (http://ylatuya.es)\n" + Catalog.GetString("Installation support: Autotools, packaging, bundle."), 
+		"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n" + Catalog.GetString("Statistics support on knee angle detection and server ready reckoners.") 
 	};
 	public static string [] Documenters = {
-		"Xavier de Blas (xaviblas@gmail.com)\n" 
+		"Xavier de Blas Foix (xaviblas@gmail.com)\n" 
 	};
 	
 	public static string ChronojumpWebsite = "http://www.chronojump.org";

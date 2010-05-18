@@ -554,34 +554,68 @@ int main(int argc,char **argv)
 		}
 		*/
 
+		//in blackWithoutMarkers, all the calculations of the bucle are done in this small if piece of code
 		if(ProgramMode == blackWithoutMarkers)  
 		{
 			cvThreshold(gray,segmented,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
 
 			maxrect = findLargestContour(segmented, output, ShowContour);
 
-			float rectHP = 0; 
-			if(maxrectHeightMax != -1)
-				rectHP = 100 * (double) maxrect.height / maxrectHeightMax;
-			sprintf(label, "frame: %d, rectHP %.3f%%", framesCount, rectHP);
-			eraseGuiResult(gui, true);
-			imageGuiResult(gui, label, font);
-
 			cvRectangle(frame_copy,
 				cvPoint(maxrect.x,maxrect.y),
 				cvPoint(maxrect.x + maxrect.width, maxrect.y + maxrect.height),
 				CV_RGB(255,0,0),1,1);
 			
-			//cvShowImage("threshold",output); //view in BW
-			cvShowImage("Jump",frame_copy); //view in color
-
 			if(maxrect.height > maxrectHeightMax) 
 				maxrectHeightMax = maxrect.height;
 
+			cvCvtColor(frame_copy,outputTemp,CV_BGR2GRAY);
+			CvPoint kneePointFront = findKneePointFront(output, maxrect, maxrectHeightMax);
+			crossPoint(frame_copy, kneePointFront, GREY, MID);
+			double myKPFY = kneePointFront.y;
+			if(myKPFY != 0) 
+				myKPFY = 100 - (100 * (double) (kneePointFront.y - maxrect.y) / maxrect.height);
+			
+			double rectHP = 0; 
+			if(maxrectHeightMax != -1)
+				rectHP = 100 * (double) maxrect.height / maxrectHeightMax;
+//			sprintf(label, "frame: %d, rectHP %.3f%%, kpfY %.3f", framesCount, rectHP, myKPFY);
+//			eraseGuiResult(gui, true);
+//			imageGuiResult(gui, label, font);
+			printOnScreenBWM(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
+				framesCount, rectHP, myKPFY);
+			
+			//cvShowImage("threshold",output); //view in BW
+			cvShowImage("Jump",frame_copy); //view in color
+			
 			if(maxrect.height < maxrectHeightMin) {
 				maxrectHeightMin = maxrect.height;
 				cvCopy(frame_copy,result);
 			}
+
+			/* to predict angle */
+			/*
+			> load("model.RDat")
+			> rectHP = 40.274 - stored.mean.dat.90.rectHP
+			> kpfY = 74.830 - stored.mean.dat.90.kpfY
+			> newdata=data.frame(cbind(rectHP,kpfY))
+			> newdata
+			  rectHP     kpfY
+			1 -27.81609 22.79087
+			> predict(lme.2, level=0, newdata=newdata)
+			[1] 57.00658
+			attr(,"label")
+			[1] "Predicted values"
+			*/
+
+
+
+
+
+
+
+
+				
 		} 
 		else //if(ProgramMode == skinOnlyMarkers || ProgramMode == validation) 
 		{

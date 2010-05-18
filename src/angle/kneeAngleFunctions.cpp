@@ -1604,6 +1604,28 @@ void printOnScreen(IplImage * img, CvFont font, CvScalar color, bool labelsAtLef
 		cvPutText(img, label, cvPoint(x,height-20),&font,color);
 	}
 }
+
+//for blackWithoutMarkers
+void printOnScreenBWM(IplImage * img, CvFont font, CvScalar color, bool labelsAtLeft, 
+		int framesCount, double rectHP, double kpfY) {
+	char *label = new char[150];
+	int width = img->width;
+	int height = img->height;
+	int x;
+	if(labelsAtLeft)
+		x=10;
+	else
+		x=width-200;
+				
+	sprintf(label, "frame: %d", framesCount);
+	cvPutText(img, label, cvPoint(x,height-60),&font,color);
+
+	sprintf(label, "rectHP %.3f%%", rectHP);
+	cvPutText(img, label, cvPoint(x,height-40),&font,color);
+	
+	sprintf(label, "kpfY %.3f%%", kpfY);
+	cvPutText(img, label, cvPoint(x,height-20),&font,color);
+}
 		
 /*
 CvSeq * GetRowsCenter(IplImage * img, CvRect maxrect, int starty, int endy)

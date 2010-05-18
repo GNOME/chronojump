@@ -210,8 +210,10 @@ int main(int argc,char **argv)
 		UsingContour = true;
 		gui = cvLoadImage("kneeAngle_black_contour.png");
 	} 
-	else
+	else {
+		UsingContour = true;
 		gui = cvLoadImage("kneeAngle_black_without.png");
+	}
 
 			
 	imageGuiResult(gui, "Starting... please wait.", font);
@@ -262,7 +264,7 @@ int main(int argc,char **argv)
 	// ----------------------------- create windows -----------------------------
 	
 	if (ProgramMode == blackWithoutMarkers)
-		cvNamedWindow("result",1);
+		cvNamedWindow("Jump",1);
 	else 
 		cvNamedWindow("threshold",1);
 
@@ -403,6 +405,8 @@ int main(int argc,char **argv)
 	int validationRectHMax = 0;
 
 	CvRect maxrect;
+	int maxrectHeightMin = 1000000; //used on blackWithoutMarkers to store minimum frame
+	int maxrectHeightMax = -1; //used on blackWithoutMarkers to store maximum frame
 
 	MouseClicked = undefined;	
 	cvSetMouseCallback( "gui", on_mouse_gui, 0 );
@@ -509,6 +513,8 @@ int main(int argc,char **argv)
 			else {
 				cvCvtColor(frame_copy,gray,CV_BGR2GRAY);
 				threshold = calculateThresholdStart(gray, true);
+				if(thresholdLargestContour == -1)
+					thresholdLargestContour = calculateThresholdStart(gray, true);
 			}
 
 			verticalHeight = cvGetSize(frame).height;
@@ -548,8 +554,36 @@ int main(int argc,char **argv)
 		}
 		*/
 
+		if(ProgramMode == blackWithoutMarkers)  
+		{
+			cvThreshold(gray,segmented,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
 
-		if(ProgramMode == skinOnlyMarkers || ProgramMode == validation) 
+			maxrect = findLargestContour(segmented, output, ShowContour);
+
+			float rectHP = 0; 
+			if(maxrectHeightMax != -1)
+				rectHP = 100 * (double) maxrect.height / maxrectHeightMax;
+			sprintf(label, "frame: %d, rectHP %.3f%%", framesCount, rectHP);
+			eraseGuiResult(gui, true);
+			imageGuiResult(gui, label, font);
+
+			cvRectangle(frame_copy,
+				cvPoint(maxrect.x,maxrect.y),
+				cvPoint(maxrect.x + maxrect.width, maxrect.y + maxrect.height),
+				CV_RGB(255,0,0),1,1);
+			
+			//cvShowImage("threshold",output); //view in BW
+			cvShowImage("Jump",frame_copy); //view in color
+
+			if(maxrect.height > maxrectHeightMax) 
+				maxrectHeightMax = maxrect.height;
+
+			if(maxrect.height < maxrectHeightMin) {
+				maxrectHeightMin = maxrect.height;
+				cvCopy(frame_copy,result);
+			}
+		} 
+		else //if(ProgramMode == skinOnlyMarkers || ProgramMode == validation) 
 		{
 			cvCvtColor(frame_copy,output,CV_BGR2GRAY);
 			cvCvtColor(frame_copy,outputTemp,CV_BGR2GRAY);
@@ -810,7 +844,8 @@ int main(int argc,char **argv)
 		 */
 
 
-		if( ! pointIsNull(hipMarked) && ! pointIsNull(kneeMarked) && ! pointIsNull(toeMarked) ) {
+		if( ProgramMode != blackWithoutMarkers && 
+				! pointIsNull(hipMarked) && ! pointIsNull(kneeMarked) && ! pointIsNull(toeMarked) ) {
 			angleVector.push_back(thetaMarked);
 
 			if(ProgramMode == skinOnlyMarkers) {

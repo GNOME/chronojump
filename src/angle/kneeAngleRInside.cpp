@@ -155,4 +155,24 @@ std::vector<double> smoothVectorDouble(std::vector<double> vect) {
 }
 
 
+double findAngleUsingModel(double rectHP, double kpfY)
+{
+	SEXP ans;
+	std::string txt = "";
+	//don't put comments '#'
+	txt = "	\
+		load('model.RDat'); \
+		rectHP = rectHP_ini - stored.mean.dat.90.rectHP; \
+		kpfY = kpfY_ini - stored.mean.dat.90.kpfY; \
+		newdata=data.frame(cbind(rectHP,kpfY)); \
+		angle <- as.numeric(predict(lme.2, level=0, newdata=newdata)); \
+		";
+
+	R.assign( txt, "txt"); 
+	R.assign( rectHP, "rectHP_ini");
+	R.assign( kpfY, "kpfY_ini");
+	R.parseEval(txt, ans);
+	return(Rcpp::as< double >(ans));
+}
+
 

@@ -223,43 +223,48 @@ int main(int argc,char **argv)
 	// ----------------------------- create fileNames -----------------------------
 
 	/*
-	   each line: hipX, hipY, kneeX, kneeY, toeX, toeY, angle, rectH, rectHP (rectHP means Percent)
+	each line: hipX, hipY, kneeX, kneeY, toeX, toeY, angle, rectH, rectHP (rectHP means Percent)
 	fDataRaw: non filtered non smoothed data
 	fDatasmooth: filtered, smoothed data
-	*/
+	 */
 	FILE *fDataRaw; 
-	FILE *fDataSmooth;
-
+	//FILE *fDataSmooth;
+		
 	char extensionRaw[] = "_raw.csv";
-	char extensionSmooth[] = "_smooth.csv";
+	//char extensionSmooth[] = "_smooth.csv";
 
 	char fDataRawName [strlen(fileName) + strlen(extensionRaw)];
-	char fDataSmoothName [strlen(fileName) + strlen(extensionSmooth)];
-	
-	strcpy(fDataRawName, fileName);
-	changeExtension(fDataRawName, extensionRaw);
+	//char fDataSmoothName [strlen(fileName) + strlen(extensionSmooth)];
 
-	strcpy(fDataSmoothName, fileName);
-	changeExtension(fDataSmoothName, extensionSmooth);
+	//blackWithoutMarkers doesn't write data to file
+	if(ProgramMode != blackWithoutMarkers) 
+	{
+		strcpy(fDataRawName, fileName);
+		changeExtension(fDataRawName, extensionRaw);
 
-	printf("\n--- files: ---\n");
-	printf("video file:\n%s\n",fileName);
-	printf("csv files:\n%s\n%s\n\n",fDataRawName, fDataSmoothName);
+		//strcpy(fDataSmoothName, fileName);
+		//changeExtension(fDataSmoothName, extensionSmooth);
 
-	if((fDataRaw=fopen(fDataRawName,"w"))==NULL){
-		printf("Error, no se puede escribir en el fichero %s\n",fDataRawName);
+		printf("\n--- files: ---\n");
+		printf("video file:\n%s\n",fileName);
+		//printf("csv files:\n%s\n%s\n\n",fDataRawName, fDataSmoothName);
+		printf("csv file:\n%s\n\n",fDataRawName);
+
+		if((fDataRaw=fopen(fDataRawName,"w"))==NULL){
+			printf("Error, no se puede escribir en el fichero %s\n",fDataRawName);
+			fclose(fDataRaw);
+			exit(0);
+		}
 		fclose(fDataRaw);
-		exit(0);
+		/*
+		   if((fDataSmooth=fopen(fDataSmoothName,"w"))==NULL){
+		   printf("Error, no se puede escribir en el fichero %s\n",fDataSmoothName);
+		   fclose(fDataSmooth);
+		   exit(0);
+		   }
+		   fclose(fDataSmooth);
+		 */
 	}
-	fclose(fDataRaw);
-	/*
-	if((fDataSmooth=fopen(fDataSmoothName,"w"))==NULL){
-		printf("Error, no se puede escribir en el fichero %s\n",fDataSmoothName);
-		fclose(fDataSmooth);
-		exit(0);
-	}
-	fclose(fDataSmooth);
-	*/
 	
 	// ----------------------------- create windows -----------------------------
 	
@@ -407,6 +412,8 @@ int main(int argc,char **argv)
 	CvRect maxrect;
 	int maxrectHeightMin = 1000000; //used on blackWithoutMarkers to store minimum frame
 	int maxrectHeightMax = -1; //used on blackWithoutMarkers to store maximum frame
+	double rectHPAtmaxrectHeightMin = -1;
+	double kpfYAtmaxrectHeightMin = -1;
 
 	MouseClicked = undefined;	
 	cvSetMouseCallback( "gui", on_mouse_gui, 0 );
@@ -467,6 +474,8 @@ int main(int argc,char **argv)
 		}
 
 		framesCountReally ++;
+	
+		eraseGuiResult(gui, true);
 
 
 		/* 
@@ -559,63 +568,50 @@ int main(int argc,char **argv)
 		{
 			cvThreshold(gray,segmented,thresholdLargestContour,thresholdMax,CV_THRESH_BINARY_INV);
 
+			//find and plot maxrect
 			maxrect = findLargestContour(segmented, output, ShowContour);
-
 			cvRectangle(frame_copy,
 				cvPoint(maxrect.x,maxrect.y),
 				cvPoint(maxrect.x + maxrect.width, maxrect.y + maxrect.height),
 				CV_RGB(255,0,0),1,1);
 			
-			if(maxrect.height > maxrectHeightMax) 
+			//if maxrect it's max, store it
+			bool maxrectIsMax = false;
+			if(maxrect.height > maxrectHeightMax) {
 				maxrectHeightMax = maxrect.height;
+				maxrectIsMax = true;
+			}
+			
+			//find rectHP (rect height percentual to max)
+			double rectHP = 0; 
+			if(maxrectHeightMax != -1)
+				rectHP = 100 * (double) maxrect.height / maxrectHeightMax;
 
+			//find kneePointFront
 			cvCvtColor(frame_copy,outputTemp,CV_BGR2GRAY);
 			CvPoint kneePointFront = findKneePointFront(output, maxrect, maxrectHeightMax);
 			crossPoint(frame_copy, kneePointFront, GREY, MID);
 			double myKPFY = kneePointFront.y;
 			if(myKPFY != 0) 
 				myKPFY = 100 - (100 * (double) (kneePointFront.y - maxrect.y) / maxrect.height);
-			
-			double rectHP = 0; 
-			if(maxrectHeightMax != -1)
-				rectHP = 100 * (double) maxrect.height / maxrectHeightMax;
-//			sprintf(label, "frame: %d, rectHP %.3f%%, kpfY %.3f", framesCount, rectHP, myKPFY);
-//			eraseGuiResult(gui, true);
-//			imageGuiResult(gui, label, font);
+
+
+			//print data on image and show it
 			printOnScreenBWM(frame_copy, font, CV_RGB(255,255,255), labelsAtLeft,
 				framesCount, rectHP, myKPFY);
-			
 			//cvShowImage("threshold",output); //view in BW
 			cvShowImage("Jump",frame_copy); //view in color
-			
-			if(maxrect.height < maxrectHeightMin) {
+		
+
+			//id maxrectis minimum and all is ok, copy to result,
+			//and store values to calculate the angle at end of flexion
+			if(maxrect.height < maxrectHeightMin && rectHP != 0 && myKPFY != 0) {
 				maxrectHeightMin = maxrect.height;
+				rectHPAtmaxrectHeightMin = rectHP;
+				kpfYAtmaxrectHeightMin = myKPFY;
+
 				cvCopy(frame_copy,result);
 			}
-
-			/* to predict angle */
-			/*
-			> load("model.RDat")
-			> rectHP = 40.274 - stored.mean.dat.90.rectHP
-			> kpfY = 74.830 - stored.mean.dat.90.kpfY
-			> newdata=data.frame(cbind(rectHP,kpfY))
-			> newdata
-			  rectHP     kpfY
-			1 -27.81609 22.79087
-			> predict(lme.2, level=0, newdata=newdata)
-			[1] 57.00658
-			attr(,"label")
-			[1] "Predicted values"
-			*/
-
-
-
-
-
-
-
-
-				
 		} 
 		else //if(ProgramMode == skinOnlyMarkers || ProgramMode == validation) 
 		{
@@ -1437,12 +1433,25 @@ int main(int argc,char **argv)
 	imageGuiResult(gui, "Press 'q' to exit.", font);
 
 	//if( (ProgramMode == validation || ProgramMode == blackWithoutMarkers) && foundAngleOneTime) 
-	if(ProgramMode == validation || ProgramMode == blackWithoutMarkers) 
+	if(ProgramMode == validation) 
 	{
 		cvNamedWindow("Minimum Frame",1);
 		cvShowImage("Minimum Frame", result);
 	}
-	else {
+	else if(ProgramMode == blackWithoutMarkers) 
+	{
+		double angle = findAngleUsingModel(rectHPAtmaxrectHeightMin, kpfYAtmaxrectHeightMin);
+
+		sprintf(label, "angle: %.3f", angle);
+		cvPutText(result, label, cvPoint(10,(result->height)-20),&font, CV_RGB(255,255,0));
+				
+		sprintf(label, "rectHP: %.3f; kpfY: %.3f, angle:%.3f", rectHPAtmaxrectHeightMin,kpfYAtmaxrectHeightMin,angle);
+		imageGuiResult(gui, label, font);
+
+		cvNamedWindow("Minimum Frame",1);
+		cvShowImage("Minimum Frame", result);
+	}
+	else { //skinOnlyMarkers
 		cvNamedWindow("Minimum Frame",1);
 		cvShowImage("Minimum Frame", result);
 		printf("MIN: %d;%.2f\n", lowestAngleFrame, minThetaMarked);
@@ -1471,29 +1480,31 @@ int main(int argc,char **argv)
 				);
 
 	//---------------- write raw data file -------------------------------------
-	if((fDataRaw=fopen(fDataRawName,"w"))==NULL){
-		printf("Error, no se puede escribir en el fichero %s\n",fDataRawName);
-	} else {
-		//skinOnlyMarkers has no rect
-		int rectHeightMax = -1;
-		double rectHeightWidthMax = -1;
-		if(ProgramMode != skinOnlyMarkers) {
-			rectHeightMax = findMaxInVector(rectHVector, flexionStartsAtFrame, lowestAngleFrameReally);
-			rectHeightWidthMax = findMaxInVector(rectHWVector, flexionStartsAtFrame, lowestAngleFrameReally);
-		}
-
-		fprintf(fDataRaw, "hipX;hipY;kneeX;kneeY;toeX;toeY;kpfX;kpfY;kpbX;kpbY;angle;rectH;rectHP;rectHW;rectHWP\n");
-		for (int i=flexionStartsAtFrame; i < lowestAngleFrameReally; i ++) {
-			double rectHeightPercent = -1;
-			double rectHeightWidthPercent = -1;
+	//blackWithoutMarkers doesn't write data to file
+	if(ProgramMode != blackWithoutMarkers) {
+		if((fDataRaw=fopen(fDataRawName,"w"))==NULL){
+			printf("Error, no se puede escribir en el fichero %s\n",fDataRawName);
+		} else {
+			//skinOnlyMarkers has no rect
+			int rectHeightMax = -1;
+			double rectHeightWidthMax = -1;
 			if(ProgramMode != skinOnlyMarkers) {
-				rectHeightPercent = 100 * (double) rectHVector[i] / rectHeightMax;
-				rectHeightWidthPercent = 100 * (double) rectHWVector[i] / rectHeightWidthMax;
+				rectHeightMax = findMaxInVector(rectHVector, flexionStartsAtFrame, lowestAngleFrameReally);
+				rectHeightWidthMax = findMaxInVector(rectHWVector, flexionStartsAtFrame, lowestAngleFrameReally);
 			}
 
-			//don't print when kneePointFront is not found, we need it
-			//if(kneePointFrontYVector[i] > 0)
-			//in this test we will print all the data, and then decide
+			fprintf(fDataRaw, "hipX;hipY;kneeX;kneeY;toeX;toeY;kpfX;kpfY;kpbX;kpbY;angle;rectH;rectHP;rectHW;rectHWP\n");
+			for (int i=flexionStartsAtFrame; i < lowestAngleFrameReally; i ++) {
+				double rectHeightPercent = -1;
+				double rectHeightWidthPercent = -1;
+				if(ProgramMode != skinOnlyMarkers) {
+					rectHeightPercent = 100 * (double) rectHVector[i] / rectHeightMax;
+					rectHeightWidthPercent = 100 * (double) rectHWVector[i] / rectHeightWidthMax;
+				}
+
+				//don't print when kneePointFront is not found, we need it
+				//if(kneePointFrontYVector[i] > 0)
+				//in this test we will print all the data, and then decide
 				fprintf(fDataRaw, "%d;%d;%d;%d;%d;%d;%d;%f;%d;%f;%f;%d;%f;%f;%f\n", 
 						hipXVector[i], verticalHeight - hipYVector[i],
 						kneeXVector[i], verticalHeight - kneeYVector[i],
@@ -1504,9 +1515,10 @@ int main(int argc,char **argv)
 						rectHVector[i], rectHeightPercent,
 						rectHWVector[i], rectHeightWidthPercent
 				       );
+			}
 		}
+		fclose(fDataRaw);
 	}
-	fclose(fDataRaw);
 
 	//---------------- write smooth data file -------------------------------------
 	/* currently unused OUTDATED: add rectHW*/

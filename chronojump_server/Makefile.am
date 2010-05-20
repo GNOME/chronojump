@@ -44,7 +44,7 @@ FILES = \
 	../src/serverEvaluator.cs\
 	../src/oldCodeNeedToDBConvert/person.cs\
 	../src/oldCodeNeedToDBConvert/personSession.cs\
-	../src/oldCodeNeedToDBConvert/sqlite/*.cs\
+	../src/oldCodeNeedToDBConvert/sqlite/*.cs
 	
 
 

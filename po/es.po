@@ -6,13 +6,14 @@
 # This file is distributed under the same license as the chronojump.HEAD.es package.
 # Xavier de Blas <xaviblas@gmail.com>, 2005, 2009, 2010.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&component=general\n"
-"POT-Creation-Date: 2010-04-11 14:35+0000\n"
-"PO-Revision-Date: 2010-04-12 18:45+0200\n"
+"POT-Creation-Date: 2010-04-12 16:46+0000\n"
+"PO-Revision-Date: 2010-05-25 18:44+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -464,7 +465,7 @@ msgstr "<b>Datos generales</b>"
 
 #: ../glade/chronojump.glade.h:29
 msgid "<b>Go around back of cone</b>"
-msgstr ""
+msgstr "<b>Ir detrás de un cono</b>"
 
 #: ../glade/chronojump.glade.h:30
 msgid "<b>Graph</b>"
@@ -584,7 +585,7 @@ msgstr "<b>Eje vertical</b>"
 
 #: ../glade/chronojump.glade.h:59
 msgid "<b>Walk whilst counting backwards from 15 to 0</b>"
-msgstr ""
+msgstr "<b>Caminar mientras se cuenta hacia atrás de 15 a 0</b>"
 
 #: ../glade/chronojump.glade.h:60
 msgid "<b>Weight</b> (Kg)"

@@ -243,7 +243,7 @@ public class Constants
 	public static string AllPulsesName = Catalog.GetString("See all pulses");
 
 	//fileNames
-	public static string FileNameLogo = "chronojump-boscosystem.png";
+	public static string FileNameLogo = "chronojump-boscosystem_white_bg.png";
 	public static string FileNameLogo320 = "chronojump-boscosystem_320.png";
 	public static string FileNameCSS = "report_web_style.css";
 	public static string FileNameIcon = "chronojump_icon.png";

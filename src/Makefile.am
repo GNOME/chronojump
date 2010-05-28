@@ -28,7 +28,7 @@ AL=al2
 SATELLITE_ASSEMBLY_NAME=$(notdir $(basename $(ASSEMBLY))).resources.dll
 
 COMMONAPPLICATIONDATAROOT_IMAGES = \
-	../images/chronojump_logo.png
+	../images/chronojump-boscosystem_white_bg.png
 
 COMMONAPPLICATIONDATA_ROOT = \
 	../images/report_web_style.css
@@ -299,7 +299,8 @@ RESOURCES = \
 	../images/calendar.png,calendar.png \
 	../images/chronojump_logo.png,chronojump_logo.png \
 	../images/chronojump-boscosystem.png,chronojump-boscosystem.png \
-	../images/chronojump-boscosystem_320.png,chronojump-boscosystem_320.png 
+	../images/chronojump-boscosystem_320.png,chronojump-boscosystem_320.png \
+	../images/chronojump-boscosystem_white_bg.png,chronojump-boscosystem_white_bg.png 
 
 
 EXTRAS = \

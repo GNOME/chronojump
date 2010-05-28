@@ -85,6 +85,9 @@ public class StatsWindow {
 	[Widget] Gtk.ComboBox combo_graph_palette;
 	[Widget] Gtk.Label label_graph_options;
 	[Widget] Gtk.CheckButton checkbutton_transposed;
+	[Widget] Gtk.Box hbox_line;
+	[Widget] Gtk.SpinButton spin_line;
+
 	[Widget] Gtk.Box hbox_combo_graph_width;
 	[Widget] Gtk.Box hbox_combo_graph_height;
 	[Widget] Gtk.ComboBox combo_graph_width;
@@ -423,8 +426,11 @@ public class StatsWindow {
 	}
 	
 	private void showTransposed(bool show) {
-		//label_graph_options.Visible = show;
 		checkbutton_transposed.Visible = show;
+	}
+	
+	private void showLineWidth(bool show) {
+		hbox_line.Visible = show;
 	}
 
 	private void showGraphXYStuff(bool show) {
@@ -439,6 +445,17 @@ public class StatsWindow {
 			showGraphXYStuff(true);
 		else 
 			showGraphXYStuff(false);
+		
+		/*
+		if(
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeHistogram ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
+*/
+			showLineWidth(true);
+/*		else
+			showLineWidth(false);
+*/
+
 
 		if(
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart ||
@@ -673,6 +690,7 @@ public class StatsWindow {
 				UtilGtk.ComboGetActive(combo_graph_var_y),
 				UtilGtk.ComboGetActive(combo_graph_palette),
 				checkbutton_transposed.Active,
+				Convert.ToInt32(spin_line.Value), 
 				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_width)),
 				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_height)),
 				UtilGtk.ComboGetActive(combo_graph_legend),

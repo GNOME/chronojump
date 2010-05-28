@@ -402,7 +402,7 @@ public class RunType : EventType
 		this.fixedValue = fixedValue;
 		this.unlimited = unlimited;
 		this.description = description;
-		this.distancesString = description;
+		this.distancesString = distancesString;
 		this.imageFileName = imageFileName;
 		
 		this.isPredefined	= true;

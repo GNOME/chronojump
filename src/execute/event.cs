@@ -269,9 +269,9 @@ public class EventExecute
 			needUpdateEventProgressBar = false;
 		}
 		
-	Console.WriteLine("pulse update graph");	
+//	Console.WriteLine("pulse update graph");	
 		if(needUpdateGraph) {
-	Console.WriteLine("pulse update graph 2");	
+//	Console.WriteLine("pulse update graph 2");	
 			//solve problems when runAnalysis ended and tries to paint window
 			if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && finish) 
 				Console.WriteLine("is MC, RA, finished!");	
@@ -281,10 +281,10 @@ public class EventExecute
 			} else
 				updateGraph();
 	
-			Console.WriteLine("pulse update graph 3");	
+//			Console.WriteLine("pulse update graph 3");	
 			needUpdateGraph = false;
 		}
-	Console.WriteLine("pulse update graph 4");	
+//	Console.WriteLine("pulse update graph 4");	
 		
 		if(needSensitiveButtonFinish) {
 			eventExecuteWin.ButtonFinishMakeSensitive();
@@ -302,7 +302,7 @@ public class EventExecute
 			finish = true;
 			updateProgressBarForFinish();
 		} 
-	Console.WriteLine("pulse done");	
+//	Console.WriteLine("pulse done");	
 		//else 
 		//	updateTimeProgressBar();
 	}
@@ -322,7 +322,7 @@ public class EventExecute
 		
 		//if the time is too much, finish
 		if(timerCount - simulatedTimeAccumulatedBefore > timeMax) {
-				Log.WriteLine("EXCEEDES MAX!");
+//				Log.WriteLine("EXCEEDES MAX!");
 				simulateChangePlatform();
 		}
 		
@@ -336,7 +336,7 @@ public class EventExecute
 			//double dice = 0;
 			double myRand = rand.NextDouble();
 			double dice = myRand * (simulatedRange *10 +1);
-			Log.WriteLine(string.Format("rand: {0}, dice: {1}", myRand, dice));
+//			Log.WriteLine(string.Format("rand: {0}, dice: {1}", myRand, dice));
 			if (dice < 1)
 			{
 				simulateChangePlatform();

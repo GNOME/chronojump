@@ -235,7 +235,9 @@ public class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook;
 	
+	[Widget] Gtk.EventBox eventbox_image_test;
 	[Widget] Gtk.Box vbox_image_test;
+	[Widget] Gtk.Box hbox_image_test;
 	[Widget] Gtk.Image image_test;
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;
@@ -423,6 +425,9 @@ public class ChronoJumpWindow
 
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
+	
+		//white bg
+		eventbox_image_test.ModifyBg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
 				
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);

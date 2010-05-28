@@ -59,6 +59,9 @@ public class About
 
 		dialog_about_label_version.Text = version; 
 		dialog_about_label_translators.Text = translators; 
+
+		//white bg
+		dialog_about.ModifyBg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
 		
 		//put authors separated by commas
 		string authorsString = "";

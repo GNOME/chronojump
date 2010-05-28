@@ -204,9 +204,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 		//write line for treeview
 		string [] myData = new String [getColsNum()];
 		int count = 0;
-		
+
 		if(newRunI.DistanceInterval == -1) {
-			//RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(newRunI.Type);
+			runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(newRunI.Type);
 			myData[count++] = (lineCount + 1).ToString() +  
 				" (" + Util.GetRunIVariableDistancesStringRow(runType.DistancesString, lineCount).ToString() + "m)";
 			

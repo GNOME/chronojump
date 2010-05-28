@@ -1137,4 +1137,12 @@ public class Util
 		return searchedValue;
 	}
 
+	public static double ConvertFeetInchesToCm(int feet, double inches) {
+		return feet * 30.48 + inches * 2.54;
+	}
+	
+	public static double ConvertPoundsToKg(double pounds) {
+		return pounds * 0.45359237;
+	}
+
 }

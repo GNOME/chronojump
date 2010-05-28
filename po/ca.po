@@ -475,7 +475,8 @@ msgstr "<b>Dades de la persona</b>"
 
 #: ../glade/chronojump.glade.h:23
 msgid "<b>Date of Birth</b>"
-msgstr "<b>Data de naixement</b>"
+msgstr "<b>Data de\n"
+"naixement</b>"
 
 #: ../glade/chronojump.glade.h:24
 msgid "<b>Detection</b>"

@@ -452,8 +452,9 @@ public class Constants
 	//public static string LowerOrEqualThanCode = "<=";
 	public static string HigherOrEqualThanCode = ">=";
 
+	//height mentric contains 2 spins
 	public enum GenericWindowShow {
-		ENTRY, SPIN, TEXTVIEW
+		ENTRY, SPININT, SPINDOUBLE, HEIGHTMETRIC, TEXTVIEW
 	}
 	
 	public const string PrefVersionAvailable = "versionAvailable";

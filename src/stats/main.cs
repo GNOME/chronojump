@@ -1101,7 +1101,7 @@ public class Stat
 		}
 
 		string rG = //rGraphString
-			"boxplot(as.data.frame(data), las=2, xlab=''" + ylabStr + ")\n" +
+			"boxplot(as.data.frame(data), lwd="+ gro.LineWidth +", las=2, xlab=''" + ylabStr + ")\n" +
 			"axis(1, 1:length(colnames(data)), colnames(data), las=2)\n"; //axis separated from boxplot because if data hsa one col, names are not displayed
 		
 		//have an unique title for both graphs
@@ -1138,7 +1138,7 @@ public class Stat
 
 		string rG = //rGraphString
 		   	" colors=" + gro.Palette +"(length(rownames(data)))\n" +
-			"barplot(data, beside=T, col=colors, las=2, xlab=''" + ylabStr + ")\n" +
+			"barplot(data, beside=T, col=colors, lwd="+ gro.LineWidth +", las=2, xlab=''" + ylabStr + ")\n" +
 			" legend('" + gro.Legend +"', legend=rownames(data), cex=.7, col=colors, pch=3)\n";
 		
 		//have an unique title for both graphs
@@ -1203,11 +1203,11 @@ public class Stat
 		string rG = //rGraphString
 		   	" colors=" + gro.Palette +"(length(rownames(data)))\n" +
 			colorsConversionString +
-		   	" plot(data[1,1:length(colnames(data))], type='b', xlim=" + xlimString + "," +
+		   	" plot(data[1,1:length(colnames(data))], type='b', lwd="+ gro.LineWidth +", xlim=" + xlimString + "," +
 			" ylim=c(min(data" + naString +"),max(data" + naString + ")), pch=1, axes=FALSE, col="+ colors1 +", xlab=''" + ylabStr + ")\n" +
 			" if(length(rownames(data))>=2) {\n" +
 			" 	for(i in 2:length(rownames(data)))\n" +
-		   	" 		points(data[i,1:length(colnames(data))], type='b', pch=i, col="+ colorsi +")\n" +
+		   	" 		points(data[i,1:length(colnames(data))], type='b', lwd="+ gro.LineWidth +", pch=i, col="+ colorsi +")\n" +
 			" }\n" +
 			" axis(1, 1:length(colnames(data)), colnames(data), las=2)\n" +
 			axesStr + 
@@ -1244,7 +1244,7 @@ public class Stat
 		}
 
 		string rG = //rGraphString
-			"stripchart(as.data.frame(data), las=2" + xlabStr + ", ylab='', method='jitter', pch=3, jitter=.2)\n" +
+			"stripchart(as.data.frame(data), lwd="+ gro.LineWidth +", las=2" + xlabStr + ", ylab='', method='jitter', pch=3, jitter=.2)\n" +
 			"axis(2, 1:length(colnames(data)), colnames(data), las=2)\n"; //axis separated from boxplot because if data hsa one col, names are not displayed
 		
 		//have an unique title for both graphs
@@ -1281,17 +1281,17 @@ public class Stat
 			"rang <- c(1:length(rownames(data)))\n" +
 			//"plot(serie0, serie1, pch=rang, col="+ colors +", xlab='" + Util.RemoveTilde(gro.VarX) + "', ylab='" + Util.RemoveTilde(gro.VarY) + "')\n" +
 			"plot(serie0,serie1,xlim=c(min(serie0),max(serie0)),ylim=c(min(serie1),max(serie1)), " + 
-			"pch=rang, col="+ colors +", xlab='" + Util.RemoveTilde(gro.VarX) + 
+			"pch=rang, lwd="+ gro.LineWidth +", col="+ colors +", xlab='" + Util.RemoveTilde(gro.VarX) + 
 			"', ylab='" + Util.RemoveTilde(gro.VarY) + "')\n" +
 			"legend('" + gro.Legend +"' ,legend=rownames(data), pch=rang, col="+ colors +", cex=.7)\n" +
 			titStr + "\n" +
 	
 			"mylm<-lm(serie1~serie0)\n" +
-			"abline(mylm,col='red')\n" +
+			"abline(mylm,col='red', lwd="+ gro.LineWidth +")\n" +
 			"newx<-seq(min(serie0),max(serie0),length.out=length(serie0))\n" +
 			"prd<-predict(mylm,newdata=data.frame(serie0=newx),interval = c('confidence'), level = 0.90,type='response')\n" +
-			"lines(newx,prd[,3],col='red',lty=2)\n" +
-			"lines(newx,prd[,2],col='red',lty=2)\n" +
+			"lines(newx,prd[,3],col='red', lwd="+ gro.LineWidth +",lty=2)\n" +
+			"lines(newx,prd[,2],col='red', lwd="+ gro.LineWidth +",lty=2)\n" +
 			"text(newx[1],prd[1,3],'90%', cex=0.6)\n" +
 			"text(newx[1],prd[1,2],'90%', cex=0.6)\n" +
 			"text(newx[length(newx)],prd[length(newx),3],'90%', cex=0.6)\n" +
@@ -1308,9 +1308,9 @@ public class Stat
 		string titStr = getTitle("Histogram","");
 		string rG = //rGraphString
 			
-			"hist(serie0, main='', xlab=colnames(data)[1], cex=1)\n" +
-			"abline(v=mean(serie0), lty=1, col='grey20')\n" +
-			"abline(v=median(serie0), lty=2, col='grey40')\n" +
+			"hist(serie0, main='', lwd="+ gro.LineWidth +", xlab=colnames(data)[1], cex=1)\n" +
+			"abline(v=mean(serie0), lwd="+ gro.LineWidth +", lty=1, col='grey20')\n" +
+			"abline(v=median(serie0), lwd="+ gro.LineWidth +", lty=2, col='grey40')\n" +
 			"mtext('avg', at=mean(serie0), side=3, cex=.7, col='grey20')\n" +
 			"mtext('median', at=median(serie0), side=1, cex=.7, col='grey40')\n" +
 			titStr;
@@ -1322,9 +1322,9 @@ public class Stat
 		string allData = convertDataToR(gro, Sides.ALL);
 		string titStr = getTitle("Dotchart","");
 		string rG = //rGraphString
-			"dotchart(serie0, labels=rownames(data), xlab=colnames(data)[1], cex=1)\n" +
-			"abline(v=mean(serie0), lty=1, col='grey20')\n" +
-			"abline(v=median(serie0), lty=2, col='grey40')\n" +
+			"dotchart(serie0, labels=rownames(data), xlab=colnames(data)[1], lwd="+ gro.LineWidth +", cex=1)\n" +
+			"abline(v=mean(serie0), lwd="+ gro.LineWidth +", lty=1, col='grey20')\n" +
+			"abline(v=median(serie0), lwd="+ gro.LineWidth +", lty=2, col='grey40')\n" +
 			"mtext('avg', at=mean(serie0), side=3, cex=.7, col='grey20')\n" +
 			"mtext('median', at=median(serie0), side=1, cex=.7, col='grey40')\n" +
 			titStr;

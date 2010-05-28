@@ -32,8 +32,12 @@ public class GenericWindow
 	[Widget] Gtk.Label label_header;
 	[Widget] Gtk.Label label_generic_name;
 	[Widget] Gtk.Entry entry;
-	[Widget] Gtk.SpinButton spinbutton;
+	[Widget] Gtk.SpinButton spin_int;
+	[Widget] Gtk.SpinButton spin_double;
 	[Widget] Gtk.ScrolledWindow scrolled_window;
+	[Widget] Gtk.Box hbox_height_metric;
+	[Widget] Gtk.SpinButton spin_feet;
+	[Widget] Gtk.SpinButton spin_inches;
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Button button_accept;
 
@@ -64,19 +68,25 @@ public class GenericWindow
 	
 	void showHideWidgets(Constants.GenericWindowShow stuff) {
 		entry.Hide();
-		spinbutton.Hide();
+		spin_int.Hide();
+		spin_double.Hide();
+		hbox_height_metric.Hide();
 		scrolled_window.Hide();
 
 		if(stuff == Constants.GenericWindowShow.ENTRY)
 			entry.Show();
-		else if(stuff == Constants.GenericWindowShow.SPIN)
-			spinbutton.Show();
+		else if(stuff == Constants.GenericWindowShow.SPININT)
+			spin_int.Show();
+		else if(stuff == Constants.GenericWindowShow.SPINDOUBLE)
+			spin_double.Show();
+		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC)
+			hbox_height_metric.Show();
 		else //if(stuff == Constants.GenericWindowShow.TEXTVIEW)
 			scrolled_window.Show();
 	}
 	
 	public void SetSpinRange(double min, double max) {
-		spinbutton.SetRange(min, max);
+		spin_int.SetRange(min, max);
 	}
 	
 	public void SetTextview(string str) {
@@ -113,8 +123,16 @@ public class GenericWindow
 		get { return entry.Text.ToString(); }
 	}
 
-	public int SpinSelected {
-		get { return (int) spinbutton.Value; }
+	public int SpinIntSelected {
+		get { return (int) spin_int.Value; }
+	}
+	
+	public double SpinDoubleSelected {
+		get { return (double) spin_double.Value; }
+	}
+	
+	public string TwoSpinSelected {
+		get { return ((int) spin_feet.Value).ToString() + ":" + ((int) spin_inches.Value).ToString(); }
 	}
 	
 	public string TextviewSelected {

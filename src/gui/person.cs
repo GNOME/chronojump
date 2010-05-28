@@ -819,6 +819,8 @@ public class PersonAddModifyWindow
 
 	[Widget] Gtk.SpinButton spinbutton_height;
 	[Widget] Gtk.SpinButton spinbutton_weight;
+	[Widget] Gtk.Button button_height_metric;
+	[Widget] Gtk.Button button_weight_metric;
 	
 	[Widget] Gtk.Box hbox_combo_sports;
 	[Widget] Gtk.ComboBox combo_sports;
@@ -1228,6 +1230,31 @@ public class PersonAddModifyWindow
 		label_date.Text = dateTime.ToLongDateString();
 		on_entries_required_changed(new object(), new EventArgs());
 	}
+	
+	void on_button_height_metric_clicked(object obj, EventArgs args) 
+	{
+		genericWin = GenericWindow.Show(Catalog.GetString("Select your height"), Constants.GenericWindowShow.HEIGHTMETRIC);
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_height_metric_accepted);
+	}
+	void on_button_height_metric_accepted (object obj, EventArgs args)
+	{
+		string [] myStr = genericWin.TwoSpinSelected.Split(new char[] {':'});
+		spinbutton_height.Value = Util.ConvertFeetInchesToCm(
+			Convert.ToInt32(myStr[0]), 
+			Convert.ToDouble(myStr[1])
+		);
+	}
+	
+	void on_button_weight_metric_clicked(object obj, EventArgs args) 
+	{
+		genericWin = GenericWindow.Show(Catalog.GetString("Select your weight in pounds"), Constants.GenericWindowShow.SPINDOUBLE);
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_weight_metric_accepted);
+	}
+	void on_button_weight_metric_accepted (object obj, EventArgs args)
+	{
+		spinbutton_weight.Value = Util.ConvertPoundsToKg(genericWin.SpinDoubleSelected);
+	}
+
 
 	private void on_combo_sports_changed(object o, EventArgs args) {
 		ComboBox combo = o as ComboBox;

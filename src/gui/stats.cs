@@ -446,16 +446,7 @@ public class StatsWindow {
 		else 
 			showGraphXYStuff(false);
 		
-		/*
-		if(
-				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeHistogram ||
-				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
-*/
-			showLineWidth(true);
-/*		else
-			showLineWidth(false);
-*/
-
+		showLineWidth(true);
 
 		if(
 				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart ||

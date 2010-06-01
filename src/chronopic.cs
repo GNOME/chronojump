@@ -154,6 +154,20 @@ public class Chronopic {
 		int n;
 		int count;
 		bool status;
+			
+Console.Write("o1");
+		if (sp.IsOpen) {
+			sp.Close();
+			try {
+				sp.Open();
+			} catch {
+				status=false;
+				plataforma = Plataforma.UNKNOW;
+				this.error=ErrorType.Timeout;
+				return status;
+			}
+		}
+Console.Write("o2");
 
 //Console.Write("h");
 		//-- Enviar la trama por el puerto serie

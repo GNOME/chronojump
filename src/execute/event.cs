@@ -120,6 +120,9 @@ public class EventExecute
 	protected bool finish;
 	protected bool totallyFinished;
 	
+	//if chronopic is disconnected by user, port changes, ...
+	protected bool chronopicDisconnected;
+	
 	// multi Chronopic stuff
 	protected int chronopics; 
 	protected bool totallyFinishedMulti1;
@@ -164,6 +167,9 @@ public class EventExecute
 	{
 		Chronopic.Plataforma myPlatformState  = Chronopic.Plataforma.UNKNOW; //on (in platform), off (jumping), or unknow
 		bool ok = false;
+		int timeWait = 50; //wait 50ms between calls to Read_platform
+		int timeLimit = 1000;
+		int count = 0; 
 
 		do {
 			try {
@@ -171,7 +177,9 @@ public class EventExecute
 			} catch {
 				Log.WriteLine("Manage called after finishing constructor, do later");
 			}
-		} while (! ok);
+			Thread.Sleep(timeWait); //wait 50ms
+			count += timeWait;
+		} while (! ok && count < timeLimit);
 
 		return myPlatformState;
 	}
@@ -503,6 +511,11 @@ public class EventExecute
 	{
 		get { return totallyFinished; }
 		set { totallyFinished = value; }
+	}
+
+	public bool ChronopicDisconnected
+	{
+		get { return chronopicDisconnected; }
 	}
 
 	public Event EventDone {

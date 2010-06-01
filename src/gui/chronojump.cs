@@ -466,13 +466,7 @@ public class ChronoJumpWindow
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
 
-		ArrayList cpd = new ArrayList();
-		for(int i=1; i<=4;i++) {
-			ChronopicPortData a = new ChronopicPortData(i,"",false);
-			cpd.Add(a);
-		}
-		chronopicWin = ChronopicWindow.Create(cpd);
-
+		createChronopicWindow(false);
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
@@ -503,6 +497,15 @@ public class ChronoJumpWindow
 		//menuitem_chronopic.Active = true;
 	}
 */
+
+	private void createChronopicWindow(bool recreate) {
+		ArrayList cpd = new ArrayList();
+		for(int i=1; i<=4;i++) {
+			ChronopicPortData a = new ChronopicPortData(i,"",false);
+			cpd.Add(a);
+		}
+		chronopicWin = ChronopicWindow.Create(cpd, recreate);
+	}
 
 
 	private void putNonStandardIcons() {
@@ -2910,6 +2913,9 @@ Console.WriteLine("X");
 		
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
+		} else if( currentEventExecute.ChronopicDisconnected ) {
+			Log.WriteLine("DISCONNECTED gui/cj");
+			createChronopicWindow(true);
 		}
 		
 		//unhide buttons that allow jumping

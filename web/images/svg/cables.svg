@@ -17,9 +17,9 @@
    sodipodi:docname="cables.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    sodipodi:modified="true"
-   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/images/cables.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/images/cables_big.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180">
   <metadata
      id="metadata21">
     <rdf:RDF>
@@ -37,15 +37,15 @@
      borderopacity="1.0"
      id="base"
      inkscape:current-layer="svg1507"
-     inkscape:cx="183.0294"
-     inkscape:cy="147.06514"
+     inkscape:cx="150"
+     inkscape:cy="56.646915"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:window-height="742"
      inkscape:window-width="1024"
      inkscape:window-x="0"
      inkscape:window-y="1"
-     inkscape:zoom="1.8325213"
+     inkscape:zoom="2.96"
      pagecolor="#ffffff"
      showguides="false"
      inkscape:guide-bbox="true"
@@ -1408,12 +1408,12 @@
        sodipodi:type="inkscape:persp3d" />
   </defs>
   <rect
-     style="fill:#6c76ab;fill-opacity:1;fill-rule:evenodd;stroke:#694949;stroke-width:0.99999648;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+     style="fill:#6c76ab;fill-opacity:1;fill-rule:evenodd;stroke:#694949;stroke-width:0.99467248;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
      id="rect8064-5-1"
-     width="299"
-     height="112.29383"
-     x="0.49999824"
-     y="112.20617" />
+     width="299.00546"
+     height="111.09933"
+     x="0.49733624"
+     y="113.40331" />
   <rect
      style="fill:#6c76ab;fill-opacity:1;fill-rule:evenodd;stroke:#694949;stroke-width:0.9990226;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
      id="rect8064-5-8"

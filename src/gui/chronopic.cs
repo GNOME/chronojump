@@ -128,7 +128,7 @@ public class ChronopicWindow
 		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "chronopic_window", null);
 		gxml.Autoconnect(this);
 
-		cpd=myCpd;
+		cpd = myCpd;
 			
 		UtilGtk.IconWindow(chronopic_window);
 
@@ -152,12 +152,11 @@ public class ChronopicWindow
 		*/
 	}
 	
-	static public ChronopicWindow Create (ArrayList myCpd)
+	//recreate is used when a Chronopic was disconnected
+	static public ChronopicWindow Create (ArrayList myCpd, bool recreate)
 	{
-		if (ChronopicWindowBox == null) {
+		if (ChronopicWindowBox == null || recreate) {
 			ChronopicWindowBox = new ChronopicWindow (myCpd);
-
-		//put an icon to window
 		}
 		
 		//don't show until View is called

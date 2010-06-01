@@ -125,6 +125,9 @@ public class JumpExecute : EventExecute
 			//prepare jump for being cancelled if desired
 			cancel = false;
 			totallyCancelled = false;
+	
+			//boolean to know if chronopic has been disconnected	
+			chronopicDisconnected = false;
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have leaved platform:
@@ -137,7 +140,7 @@ public class JumpExecute : EventExecute
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
-		else {
+		else if (platformState==Chronopic.Plataforma.OFF) {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
 					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", "");
@@ -147,8 +150,18 @@ public class JumpExecute : EventExecute
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
 			
-			//if confirmWin.Button_cancel is pressed retuen
+			//if confirmWin.Button_cancel is pressed return
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
+		}
+		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+			chronopicDisconnected = true;
+			ErrorWindow errorWin;		
+			errorWin = ErrorWindow.Show( 
+					Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
+
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+
+			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
 		}
 	}
 
@@ -173,6 +186,8 @@ public class JumpExecute : EventExecute
 			cancel = false;
 			totallyCancelled = false;
 
+			//boolean to know if chronopic has been disconnected	
+			chronopicDisconnected = false;
 
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
@@ -185,7 +200,7 @@ public class JumpExecute : EventExecute
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
-		else {
+		else if (platformState==Chronopic.Plataforma.OFF) {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
 					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "", "");
@@ -196,6 +211,16 @@ public class JumpExecute : EventExecute
 			
 			//if confirmWin.Button_cancel is pressed return
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
+		}
+		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+			chronopicDisconnected = true;
+			ErrorWindow errorWin;		
+			errorWin = ErrorWindow.Show( 
+					Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
+
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+
+			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
 		}
 	}
 	

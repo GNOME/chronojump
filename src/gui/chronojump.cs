@@ -504,7 +504,7 @@ public class ChronoJumpWindow
 			ChronopicPortData a = new ChronopicPortData(i,"",false);
 			cpd.Add(a);
 		}
-		chronopicWin = ChronopicWindow.Create(cpd, recreate);
+		chronopicWin = ChronopicWindow.Create(cpd, recreate, volumeOn);
 	}
 
 
@@ -3810,7 +3810,7 @@ Console.WriteLine("X");
 	 */
 
 	private void on_menuitem_chronopic_activate (object o, EventArgs args) {
-		chronopicWin = ChronopicWindow.View();
+		chronopicWin = ChronopicWindow.View(volumeOn);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_done);
 	}
 	

@@ -423,6 +423,8 @@ http://www.cssplay.co.uk/menu/double-click-gallery-vertical.html
 
 #gallery #fullsize div table {padding:0; margin:40px 125px; font-size:12px; line-height:18px; width:675px;
 } /*800+125=925*/
+#gallery #fullsize div table#vert_space {padding:0; margin:20px 125px; font-size:12px; line-height:18px; width:675px;
+} /*800+125=925*/
 
 
 #gallery #fullsize div table#chronojump {padding:0; margin:40px 125px; font-size:12px; line-height:18px; width:675px; height:250px;

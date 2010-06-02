@@ -87,6 +87,9 @@ public class ReactionTimeExecute : EventExecute
 	
 	public override void Manage()
 	{
+		//boolean to know if chronopic has been disconnected	
+		chronopicDisconnected = false;
+
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
 		else
@@ -115,7 +118,7 @@ public class ReactionTimeExecute : EventExecute
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
-		else {
+		else if (platformState==Chronopic.Plataforma.OFF) {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
 					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", "");
@@ -127,6 +130,9 @@ public class ReactionTimeExecute : EventExecute
 			
 			//if confirmWin.Button_cancel is pressed retuen
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
+		}
+		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+			chronopicHasBeenDisconnected();
 		}
 	}
 

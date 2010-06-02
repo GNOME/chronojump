@@ -98,6 +98,10 @@ public class RunExecute : EventExecute
 	public override void Manage()
 	{
 Log.WriteLine("MANAGE!!!!");
+			
+		//boolean to know if chronopic has been disconnected	
+		chronopicDisconnected = false;
+
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
 		else
@@ -114,7 +118,7 @@ Log.WriteLine("MANAGE(b)!!!!");
 			loggedState = States.ON;
 			startIn = true;
 			runPhase = runPhases.PLATFORM_INI;
-		} else {
+		} else if (platformState==Chronopic.Plataforma.OFF) {
 			appbar.Push( 1,Catalog.GetString("You are OUT, RUN when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
@@ -122,6 +126,21 @@ Log.WriteLine("MANAGE(b)!!!!");
 			startIn = false;
 			runPhase = runPhases.PRE_RUNNING;
 		}
+		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+			chronopicHasBeenDisconnected();
+			return;
+/*
+			chronopicDisconnected = true;
+			ErrorWindow errorWin;		
+			errorWin = ErrorWindow.Show( 
+					Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
+
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+
+			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
+*/
+		}
+
 	
 		if (simulated) {
 			if(startIn) {
@@ -148,6 +167,7 @@ Log.WriteLine("MANAGE(b)!!!!");
 		//prepare jump for being cancelled if desired
 		cancel = false;
 		totallyCancelled = false;
+
 
 Log.WriteLine("MANAGE(2)!!!!");
 		//start thread

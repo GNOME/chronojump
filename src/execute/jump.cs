@@ -110,6 +110,9 @@ public class JumpExecute : EventExecute
 	
 	public override void Manage()
 	{
+		//boolean to know if chronopic has been disconnected	
+		chronopicDisconnected = false;
+
 		if (simulated) 
 			platformState = Chronopic.Plataforma.ON;
 		else
@@ -126,9 +129,6 @@ public class JumpExecute : EventExecute
 			cancel = false;
 			totallyCancelled = false;
 	
-			//boolean to know if chronopic has been disconnected	
-			chronopicDisconnected = false;
-
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have leaved platform:
 			if (simulated)
@@ -154,6 +154,8 @@ public class JumpExecute : EventExecute
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+			chronopicHasBeenDisconnected();
+/*
 			chronopicDisconnected = true;
 			ErrorWindow errorWin;		
 			errorWin = ErrorWindow.Show( 
@@ -162,11 +164,15 @@ public class JumpExecute : EventExecute
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
+*/
 		}
 	}
 
 	public override void ManageFall()
 	{
+		//boolean to know if chronopic has been disconnected	
+		chronopicDisconnected = false;
+
 		if (simulated) 
 			platformState = Chronopic.Plataforma.OFF;
 		else
@@ -185,10 +191,6 @@ public class JumpExecute : EventExecute
 			//prepare jump for being cancelled if desired
 			cancel = false;
 			totallyCancelled = false;
-
-			//boolean to know if chronopic has been disconnected	
-			chronopicDisconnected = false;
-
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have arrived:
@@ -213,6 +215,8 @@ public class JumpExecute : EventExecute
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+			chronopicHasBeenDisconnected();
+/*
 			chronopicDisconnected = true;
 			ErrorWindow errorWin;		
 			errorWin = ErrorWindow.Show( 
@@ -221,6 +225,7 @@ public class JumpExecute : EventExecute
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
+*/
 		}
 	}
 	
@@ -525,6 +530,9 @@ public class JumpRjExecute : JumpExecute
 
 	public override void Manage()
 	{
+		//boolean to know if chronopic has been disconnected	
+		chronopicDisconnected = false;
+
 		if (simulated)
 			if(hasFall) 
 				platformState = Chronopic.Plataforma.OFF;
@@ -535,8 +543,22 @@ public class JumpRjExecute : JumpExecute
 
 		if(platformState == Chronopic.Plataforma.OFF)
 			loggedState = States.OFF;
-		else
+		else if(platformState == Chronopic.Plataforma.OFF)
 			loggedState = States.ON;
+		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+/*
+			chronopicDisconnected = true;
+			ErrorWindow errorWin;		
+			errorWin = ErrorWindow.Show( 
+					Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+
+			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
+*/
+			
+			chronopicHasBeenDisconnected();
+			return;
+		}
 
 		
 		bool success = false;
@@ -586,7 +608,7 @@ public class JumpRjExecute : JumpExecute
 			//prepare jump for being finished earlier if desired
 			finish = false;
 			totallyFinished = false;
-
+			
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that the opposite as before:
 			if (simulated) {

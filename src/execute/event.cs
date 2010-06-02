@@ -24,6 +24,7 @@ using System.Text; //StringBuilder
 
 using System.Threading;
 using System.IO.Ports;
+using Mono.Unix;
 
 
 public class EventExecute 
@@ -452,7 +453,6 @@ public class EventExecute
 	protected virtual void write() {
 	}
 
-
 	protected virtual void goodEvent() {
 		Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
 	} 
@@ -471,6 +471,16 @@ public class EventExecute
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
+	}
+
+	protected void chronopicHasBeenDisconnected() {
+		chronopicDisconnected = true;
+		ErrorWindow errorWin;		
+		errorWin = ErrorWindow.Show( 
+				Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
+
+		Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+		errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
 	}
 	
 	public virtual bool MultiChronopicRunAUsedCP2() {

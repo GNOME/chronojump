@@ -106,6 +106,8 @@ public class PulseExecute : EventExecute
 	{
 		bool success = false;
 		
+		//boolean to know if chronopic has been disconnected	
+		chronopicDisconnected = false;
 		
 		if (simulated) 
 			platformState = Chronopic.Plataforma.OFF;
@@ -125,13 +127,17 @@ public class PulseExecute : EventExecute
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
-		} else {
+		} else if (platformState==Chronopic.Plataforma.OFF) {
 			appbar.Push( 1, Catalog.GetString("You are OUT, start when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
 
 			success = true;
+		}
+		else { //UNKNOW (Chronopic disconnected, port changed, ...)
+			chronopicHasBeenDisconnected();
+			return;
 		}
 
 		if(success) {

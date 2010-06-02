@@ -2913,7 +2913,8 @@ Console.WriteLine("X");
 		
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
-		} else if( currentEventExecute.ChronopicDisconnected ) {
+		} 
+		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
@@ -3128,6 +3129,10 @@ Console.WriteLine("X");
 			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentJumpRj.TcString, currentJumpRj.TvString);
 			//possible deletion of last jump can make the jumps on event window be false
 			eventExecuteWin.LabelEventValue = currentJumpRj.Jumps;
+		} 
+		else if( currentEventExecute.ChronopicDisconnected ) {
+			Log.WriteLine("DISCONNECTED gui/cj");
+			createChronopicWindow(true);
 		}
 		
 		//delete the temp tables if exists
@@ -3329,6 +3334,10 @@ Console.WriteLine("X");
 
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
 			eventExecuteWin.LabelTimeValue = currentRun.Time;
+		}
+		else if( currentEventExecute.ChronopicDisconnected ) {
+			Log.WriteLine("DISCONNECTED gui/cj");
+			createChronopicWindow(true);
 		}
 		
 		//unhide buttons that allow jumping, running
@@ -3536,6 +3545,10 @@ Console.WriteLine("X");
 			//possible deletion of last run can make the runs on event window be false
 			eventExecuteWin.LabelEventValue = currentRunInterval.Tracks;
 		}
+		else if( currentEventExecute.ChronopicDisconnected ) {
+			Log.WriteLine("DISCONNECTED gui/cj");
+			createChronopicWindow(true);
+		}
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
@@ -3637,6 +3650,10 @@ Console.WriteLine("X");
 		
 			//unhide buttons for delete last reaction time
 			sensitiveGuiYesEvent();
+		}
+		else if( currentEventExecute.ChronopicDisconnected ) {
+			Log.WriteLine("DISCONNECTED gui/cj");
+			createChronopicWindow(true);
 		}
 		
 		//unhide buttons that allow jumping
@@ -3798,6 +3815,10 @@ Console.WriteLine("X");
 
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
 			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
+		}
+		else if( currentEventExecute.ChronopicDisconnected ) {
+			Log.WriteLine("DISCONNECTED gui/cj");
+			createChronopicWindow(true);
 		}
 		
 		//unhide buttons that allow jumping, running
@@ -3983,6 +4004,10 @@ Console.WriteLine("X");
 		
 			//unhide buttons for delete last test
 			sensitiveGuiYesEvent();
+		}
+		else if( currentEventExecute.ChronopicDisconnected ) {
+			Log.WriteLine("DISCONNECTED gui/cj");
+			createChronopicWindow(true);
 		}
 		
 		//unhide buttons that allow doing another test

@@ -3,6 +3,7 @@ src/constants.cs
 glade/chronojump.glade
 src/chronojump.cs
 src/chronojump_mini.cs
+src/execute/event.cs
 src/execute/jump.cs
 src/execute/multiChronopic.cs
 src/execute/pulse.cs

@@ -203,15 +203,21 @@ public class MultiChronopicExecute : EventExecute
 
 	public override void Manage()
 	{
+		//boolean to know if chronopic has been disconnected	
+		chronopicDisconnected = false;
+		
 		if(chronopics > 0) {
 			platformState = chronopicInitialValue(cp);
 		
 			if (platformState==Chronopic.Plataforma.ON) {
 				loggedState = States.ON;
 				cp1StartedIn = true;
-			} else {
+			} else if (platformState==Chronopic.Plataforma.OFF) {
 				loggedState = States.OFF;
 				cp1StartedIn = false;
+			} else { //UNKNOW (Chronopic disconnected, port changed, ...)
+				chronopicHasBeenDisconnected();
+				return;
 			}
 		
 			//prepare jump for being cancelled if desired
@@ -229,9 +235,12 @@ public class MultiChronopicExecute : EventExecute
 				if (platformState2==Chronopic.Plataforma.ON) {
 					loggedState2 = States.ON;
 					cp2StartedIn = true;
-				} else {
+				} else if (platformState==Chronopic.Plataforma.OFF) {
 					loggedState2 = States.OFF;
 					cp2StartedIn = false;
+				} else { //UNKNOW (Chronopic disconnected, port changed, ...)
+					chronopicHasBeenDisconnected();
+					return;
 				}
 			
 				totallyCancelledMulti2 = false;
@@ -244,9 +253,12 @@ public class MultiChronopicExecute : EventExecute
 					if (platformState3==Chronopic.Plataforma.ON) {
 						loggedState3 = States.ON;
 						cp3StartedIn = true;
-					} else {
+					} else if (platformState==Chronopic.Plataforma.OFF) {
 						loggedState3 = States.OFF;
 						cp3StartedIn = false;
+					} else { //UNKNOW (Chronopic disconnected, port changed, ...)
+						chronopicHasBeenDisconnected();
+						return;
 					}
 
 					totallyCancelledMulti3 = false;
@@ -258,9 +270,12 @@ public class MultiChronopicExecute : EventExecute
 						if (platformState4==Chronopic.Plataforma.ON) {
 							loggedState4 = States.ON;
 							cp4StartedIn = true;
-						} else {
+						} else if (platformState==Chronopic.Plataforma.OFF) {
 							loggedState4 = States.OFF;
 							cp4StartedIn = false;
+						} else { //UNKNOW (Chronopic disconnected, port changed, ...)
+							chronopicHasBeenDisconnected();
+							return;
 						}
 					
 						totallyCancelledMulti4 = false;

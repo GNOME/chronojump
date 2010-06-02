@@ -97,6 +97,7 @@ public class ChronopicWindow
 		OFF
 	}
 	bool connected;
+	bool volumeOn;
 	int currentCp; //1 to 4
 
 	//cp1	
@@ -153,7 +154,7 @@ public class ChronopicWindow
 	}
 	
 	//recreate is used when a Chronopic was disconnected
-	static public ChronopicWindow Create (ArrayList myCpd, bool recreate)
+	static public ChronopicWindow Create (ArrayList myCpd, bool recreate, bool volumeOn)
 	{
 		if (ChronopicWindowBox == null || recreate) {
 			ChronopicWindowBox = new ChronopicWindow (myCpd);
@@ -161,18 +162,21 @@ public class ChronopicWindow
 		
 		//don't show until View is called
 		//ChronopicWindowBox.chronopic_window.Show ();
+		
+		ChronopicWindowBox.volumeOn = volumeOn;
 
 		ChronopicWindowBox.fakeWindowDone = new Gtk.Button();
 		
 		return ChronopicWindowBox;
 	}
 
-	static public ChronopicWindow View ()
+	static public ChronopicWindow View (bool volumeOn)
 	{
 		if (ChronopicWindowBox == null) {
 			ChronopicWindowBox = new ChronopicWindow (cpd);
 		}
 		
+		ChronopicWindowBox.volumeOn = volumeOn;
 		ChronopicWindowBox.createCombos();
 		ChronopicWindowBox.chronopic_window.Show();
 	
@@ -608,9 +612,11 @@ public class ChronopicWindow
 		Log.WriteLine(string.Format("wait_chronopic_start {0}", message));
 			
 		if(success) {
+			Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
 			updateChronopicWinValuesState= true; //connected
 			updateChronopicWinValuesMessage= message;
 		} else {
+			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 			updateChronopicWinValuesState= false; //disconnected
 			updateChronopicWinValuesMessage= message;
 		}

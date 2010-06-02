@@ -129,16 +129,6 @@ Log.WriteLine("MANAGE(b)!!!!");
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
 			chronopicHasBeenDisconnected();
 			return;
-/*
-			chronopicDisconnected = true;
-			ErrorWindow errorWin;		
-			errorWin = ErrorWindow.Show( 
-					Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
-
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
-
-			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
-*/
 		}
 
 	

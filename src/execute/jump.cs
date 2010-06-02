@@ -155,16 +155,6 @@ public class JumpExecute : EventExecute
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
 			chronopicHasBeenDisconnected();
-/*
-			chronopicDisconnected = true;
-			ErrorWindow errorWin;		
-			errorWin = ErrorWindow.Show( 
-					Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
-
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
-
-			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
-*/
 		}
 	}
 
@@ -216,16 +206,6 @@ public class JumpExecute : EventExecute
 		}
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
 			chronopicHasBeenDisconnected();
-/*
-			chronopicDisconnected = true;
-			ErrorWindow errorWin;		
-			errorWin = ErrorWindow.Show( 
-					Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
-
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
-
-			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
-*/
 		}
 	}
 	
@@ -546,16 +526,6 @@ public class JumpRjExecute : JumpExecute
 		else if(platformState == Chronopic.Plataforma.OFF)
 			loggedState = States.ON;
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
-/*
-			chronopicDisconnected = true;
-			ErrorWindow errorWin;		
-			errorWin = ErrorWindow.Show( 
-					Catalog.GetString("Chronopic seems disconnected. Reconnect again on Chronopic Window."));
-			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
-
-			errorWin.Button_accept.Clicked += new EventHandler(cancel_event_before_start);
-*/
-			
 			chronopicHasBeenDisconnected();
 			return;
 		}

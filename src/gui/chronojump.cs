@@ -3837,6 +3837,7 @@ Console.WriteLine("X");
 	
 	private void on_chronopic_window_done (object o, EventArgs args) {
 		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_done);
+
 		if(chronopicWin.NumConnected()>=2) {
 			menuitem_multi_chronopic_start.Sensitive = true;
 			menuitem_run_analysis.Sensitive = true;
@@ -4995,6 +4996,7 @@ Console.WriteLine("X");
 		hbox_runs.Sensitive = true;
 		hbox_runs_interval.Sensitive = true;
 		hbox_pulses.Sensitive = true;
+		hbox_multi_chronopic_buttons.Sensitive = true;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(! currentEventExecute.Cancel) {
@@ -5025,7 +5027,6 @@ Console.WriteLine("X");
 					break;
 				case EventType.Types.MULTICHRONOPIC:
 					Log.WriteLine("sensitiveGuiEventDone multichronopic");
-					hbox_multi_chronopic_buttons.Sensitive = true;
 					break;
 				default:
 					Log.WriteLine("sensitiveGuiEventDone default");

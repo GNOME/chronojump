@@ -235,7 +235,7 @@ public class MultiChronopicExecute : EventExecute
 				if (platformState2==Chronopic.Plataforma.ON) {
 					loggedState2 = States.ON;
 					cp2StartedIn = true;
-				} else if (platformState==Chronopic.Plataforma.OFF) {
+				} else if (platformState2==Chronopic.Plataforma.OFF) {
 					loggedState2 = States.OFF;
 					cp2StartedIn = false;
 				} else { //UNKNOW (Chronopic disconnected, port changed, ...)
@@ -253,7 +253,7 @@ public class MultiChronopicExecute : EventExecute
 					if (platformState3==Chronopic.Plataforma.ON) {
 						loggedState3 = States.ON;
 						cp3StartedIn = true;
-					} else if (platformState==Chronopic.Plataforma.OFF) {
+					} else if (platformState3==Chronopic.Plataforma.OFF) {
 						loggedState3 = States.OFF;
 						cp3StartedIn = false;
 					} else { //UNKNOW (Chronopic disconnected, port changed, ...)
@@ -270,7 +270,7 @@ public class MultiChronopicExecute : EventExecute
 						if (platformState4==Chronopic.Plataforma.ON) {
 							loggedState4 = States.ON;
 							cp4StartedIn = true;
-						} else if (platformState==Chronopic.Plataforma.OFF) {
+						} else if (platformState4==Chronopic.Plataforma.OFF) {
 							loggedState4 = States.OFF;
 							cp4StartedIn = false;
 						} else { //UNKNOW (Chronopic disconnected, port changed, ...)

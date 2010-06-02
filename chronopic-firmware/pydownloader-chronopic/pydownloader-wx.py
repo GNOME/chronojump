@@ -1,0 +1,443 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
+# Description: Example of use of libIris
+# Copyright (C) 2007 by Rafael Treviño Menéndez
+# Author: Rafael Treviño Menéndez <skasi.7@gmail.com>
+#         Juan Gonzalez <juan@iearobotics.com>
+#	  Xavier de Blas <xaviblas@gmail.com> (2010 adapted to Chronopic)
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+
+import wx
+import sys
+import os
+sys.path = ['..'] + sys.path
+
+
+#---------------------------
+#-- Modulos de LibIris
+#---------------------------
+
+import libIris.Pic16_Bootloader
+import libIris.IntelHex
+import libIris.Pic16_Firmware
+
+#-- Timeout para la deteccion del bootloader (en segundos)
+#-- Si el programa previamente grabado utiliza el puerto serie
+#-- (por ejemplo el servidor de eco esta cargado) este tiempo ya
+#-- no es en segundos. 
+
+#-- con este timeout esta unos 25 segundos esperando cuando el servidor
+#-- de eco esta cargado (400 si no se usa el puerto serie)
+TIMEOUT = 800
+
+#----------------------------------------------
+#- Clase para realizar el Drag and Drop
+#----------------------------------------------
+class myDragDrog(wx.FileDropTarget):
+
+  #-- En el constructor se le pasa el frame principal
+  #-- Se usa para invocar el metodo download
+  def __init__(self,obj):
+    wx.FileDropTarget.__init__(self)
+    self.frame = obj
+
+  #-- Se invoca cada vez que se recibe la lista de ficheros arrastrados
+  #-- Solo se descarga el primer fichero de la lista recibida
+  def OnDropFiles(self,x,y, filenames):
+  
+    #-- Obtener el nombre del fichero (el primero de la lista)
+    file = filenames[0]
+   
+    #-- Meter el fichero en el entry "fichero .hex"
+    self.frame.text_ctrl_2.SetValue(file)
+    
+    #-- Activar la grabacion....
+    self.frame.update()
+    self.frame.download()
+    
+    return True
+
+#-------------------------------------------------------------------
+#--                  CLASE PRINCIPAL
+#-------------------------------------------------------------------
+class MyFrame(wx.Frame):
+    def __init__(self, app, *args, **kwds):
+    
+    
+        #----------------------------------------------------------------
+        #--- Esta parte del codigo se ha generado automaticamente con la
+        #-- herramienta wxglade. NO modificar.
+        #---------------------------------------------------------------
+        # begin wxGlade: MyFrame.__init__
+        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        wx.Frame.__init__(self, *args, **kwds)
+        self.panel_1 = wx.Panel(self, -1)
+        self.sizer_4_copy_staticbox = wx.StaticBox(self.panel_1, -1, "Port / Puerto")
+        self.sizer_2_staticbox = wx.StaticBox(self.panel_1, -1, "Process / Proceso")
+        self.sizer_4_staticbox = wx.StaticBox(self.panel_1, -1, "Firmware Chronopic")
+        self.frame_1_statusbar = self.CreateStatusBar(1, 0)
+        self.text_ctrl_2 = wx.TextCtrl(self.panel_1, -1, "")
+        self.button_2 = wx.Button(self.panel_1, -1, "Search / Buscar", style=wx.BU_EXACTFIT)
+        self.button_7 = wx.Button(self.panel_1, -1, "Record / Grabar", style=wx.BU_EXACTFIT)
+        self.combo_box_1 = wx.ComboBox(self.panel_1, -1, choices=[], style=wx.CB_DROPDOWN)
+        self.gauge_1 = wx.Gauge(self.panel_1, -1, 100)
+        self.button_6 = wx.Button(self.panel_1, -1, "Cancel / Cancelar")
+
+        self.__set_properties()
+        self.__do_layout()
+
+        self.Bind(wx.EVT_BUTTON, self.boton_abrir, self.button_2)
+        self.Bind(wx.EVT_BUTTON, self.boton_grabar, self.button_7)
+        self.Bind(wx.EVT_BUTTON, self.boton_cancelar, self.button_6)
+        # end wxGlade
+        #--------------------------------------------
+        # Fin del codigo generado automaticamente
+        #--------------------------------------------
+        
+        
+        #-- Guardar la aplicacion
+        self.app=app;
+        
+        #-- Para configurar para el drag-and-drop
+        test = myDragDrog(self)
+        self.SetDropTarget(test)
+        self.text_ctrl_2.SetDropTarget(myDragDrog(self))
+        self.combo_box_1.SetDropTarget(myDragDrog(self))
+        
+        #-- Establecer la habilitacion de los widgets
+        #-- Todos menos el boton de cancelar estan activos inicialmente
+        self.button_6.Disable()
+        
+    #----------------------------------------------------------------
+    #--- Esta parte del codigo se ha generado automaticamente con la
+    #-- herramienta wxglade. NO modificar.
+    #---------------------------------------------------------------
+
+    def __set_properties(self):
+        # begin wxGlade: MyFrame.__set_properties
+        self.SetTitle("PyDownloader")
+        self.frame_1_statusbar.SetStatusWidths([-1])
+        # statusbar fields
+        frame_1_statusbar_fields = ["Change / Cambiar Chronopic firmware"]
+        for i in range(len(frame_1_statusbar_fields)):
+            self.frame_1_statusbar.SetStatusText(frame_1_statusbar_fields[i], i)
+        self.text_ctrl_2.SetMinSize((250, 27))
+        self.combo_box_1.SetMinSize((250,30))
+        # end wxGlade
+
+    def __do_layout(self):
+        # begin wxGlade: MyFrame.__do_layout
+        sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_3 = wx.BoxSizer(wx.VERTICAL)
+        sizer_2 = wx.StaticBoxSizer(self.sizer_2_staticbox, wx.VERTICAL)
+        sizer_4_copy = wx.StaticBoxSizer(self.sizer_4_copy_staticbox, wx.HORIZONTAL)
+        sizer_4 = wx.StaticBoxSizer(self.sizer_4_staticbox, wx.HORIZONTAL)
+        sizer_4.Add(self.text_ctrl_2, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
+        sizer_4.Add(self.button_2, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        sizer_3.Add(sizer_4, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer_4_copy.Add(self.combo_box_1, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5)
+        sizer_4_copy.Add(self.button_7, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        sizer_3.Add(sizer_4_copy, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer_2.Add(self.gauge_1, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ADJUST_MINSIZE, 4)
+        sizer_2.Add((20, 10), 0, wx.ADJUST_MINSIZE, 0)
+        sizer_2.Add(self.button_6, 0, wx.EXPAND|wx.ADJUST_MINSIZE, 0)
+        sizer_3.Add(sizer_2, 1, wx.ALL|wx.EXPAND, 5)
+        self.panel_1.SetAutoLayout(True)
+        self.panel_1.SetSizer(sizer_3)
+        sizer_3.Fit(self.panel_1)
+        sizer_3.SetSizeHints(self.panel_1)
+        sizer_1.Add(self.panel_1, 1, wx.EXPAND, 0)
+        self.SetAutoLayout(True)
+        self.SetSizer(sizer_1)
+        sizer_1.Fit(self)
+        sizer_1.SetSizeHints(self)
+        self.Layout()
+        # end wxGlade
+        #--------------------------------------------
+        # Fin del codigo generado automaticamente
+        #--------------------------------------------
+        
+
+    #------------------------------------------------------------------
+    #-- Funcion de retrollamada del boton de exploracion de ficheros  
+    #------------------------------------------------------------------
+    def boton_abrir(self, event): # wxGlade: MyFrame.<event_handler>
+       
+        #-- Abrir un dialogo de busqueda de ficheros
+        filechooser = wx.FileDialog(self,wildcard = "*.hex;*.HEX")
+        
+        #-- Esperar a que el usuario seleccione el fichero
+        opcion = filechooser.ShowModal()
+        
+        #-- Segun la opcion...
+        if opcion == wx.ID_OK:
+        
+          #-- Se ha pulsado ok. Obtener el nombre del fichero
+          fichero = filechooser.GetPath()
+         
+          #-- Meter el fichero en el entry "fichero .hex"
+          self.text_ctrl_2.SetValue(fichero)
+          
+        else: #-- No se ha seleccionado ninguno
+          print "Cancel..."
+        
+        
+    #-----------------------------------------------------------------
+    #-- Funciones de retrollamada de los diferentes botones 
+    #-----------------------------------------------------------------
+    def boton_grabar(self, event): # wxGlade: MyFrame.<event_handler>
+        self.download()
+        
+        
+    def boton_cancelar(self, event): # wxGlade: MyFrame.<event_handler>
+        self.cancelar = True  
+       
+
+    def boton_eco(self, event): # wxGlade: MyFrame.<event_handler>
+        self.download_program(libIris.Pic16_Firmware.echo)
+       
+        
+    
+    #-------------------------------------
+    #-- Actualizar el interfaz
+    #-------------------------------------    
+    def update(self):
+      while (self.app.Pending()):
+          self.app.Dispatch();  
+    
+    #------------------------------------------------------------
+    #-- Activar todos los botones relacionados con la descarga
+    #-- El boton de cancel se desactiva
+    #------------------------------------------------------------    
+    def botones_modo_descarga(self):
+      #-- Cancelar: Deshabilitado
+      self.button_6.Disable()
+      #-- Resto: Habilitados
+      self.button_7.Enable()
+          
+    #-----------------------------------------------------------------------
+    #-- Desactivar todos los botones de descarga. El de cancelar se activa  
+    #-----------------------------------------------------------------------
+    def botones_modo_cancelar(self):
+      #-- Cancelar Activado, resto desactivados
+      self.button_6.Enable()
+      self.button_7.Disable()
+
+    #---------------------------------------------------------
+    #-- Metodo para descargar un fichero .hex en la skypic
+    #-- Se lee el nombre del fichero de la interfaz grafica
+    #---------------------------------------------------------
+    def download(self):
+      
+      #----------------------------------------
+      #-- Abrir y parsear el fichero .hex
+      #----------------------------------------
+      #-- Obtener el nombre
+      file = str(self.text_ctrl_2.GetLineText(0))
+      
+      #-- Si no hay ningun fichero especificado: Error
+      if file=="":
+        self.frame_1_statusbar.SetStatusText("Fichero .hex no especificado", 0)
+        return
+      
+      #-- Realizar el parseo
+      try:
+        hr = libIris.IntelHex.HexReader (file)
+      except libIris.IntelHex.ReaderError,msg:
+        #-- Convertir el mensaje a una cadena
+        msg = "%s" % msg
+        self.frame_1_statusbar.SetStatusText(msg, 0)
+        return      
+      
+      #----------------------------------
+      #-- Realizar la descarga!!
+      #----------------------------------
+      
+      #-- Obtener el programa en el formato correcto
+      program = hr.dataBlocks16()
+      
+      self.download_program(program)
+
+    #------------------------------------------------------------------------
+    #-- Funcion de retrollamada de libIris. Segun el estado de la descarga
+    #-- Se hace una cosa u otra
+    #------------------------------------------------------------------------
+    def state(self,op,inc,total):
+      #-----------------------------
+      #-- Comienzo de descarga
+      #-----------------------------
+      if op==libIris.Pic16_Bootloader.WRITING_START:
+  
+        #-- Barra de progreso a cero
+        self.gauge_1.SetValue(0)
+       
+        #-- Actualizar barra de status
+        self.frame_1_statusbar.SetStatusText("Recording / Grabando", 0)
+        self.update()
+        
+        return True
+        
+      
+      #------------------------------
+      #-- Incremento en la descarga  
+      #------------------------------    
+      elif op==libIris.Pic16_Bootloader.WRITING_INC:
+        self.gauge_1.SetValue(100*inc/total)
+        self.update()
+        
+        #-- Comprobar si se ha apretado boton de Cancelar
+        if self.cancelar:
+          return False
+          
+        return True  
+      
+      #-------------------------------
+      #-- Fin de la descarga
+      #-------------------------------
+      elif op==libIris.Pic16_Bootloader.WRITING_END: 
+        self.gauge_1.SetValue(100)
+        self.frame_1_statusbar.SetStatusText("Complete / Completado", 0)
+        self.update()
+        return True
+     
+      #---------------------------------------------------
+      #-- Comienzo de la identificacion del bootloader    
+      #---------------------------------------------------    
+      elif op==libIris.Pic16_Bootloader.IDENT_START:
+        #-- Hay que esperar a que detecte el Bootloader
+        self.frame_1_statusbar.SetStatusText("Press Reset on Chronopic / Pulse Reset en el Chronopic", 0)
+        self.update()
+        return True
+        
+        
+      #-----------------------------------------------------------------
+      #-- Respuesta no recibida del bootloader tras un mini-timeout    
+      #-----------------------------------------------------------------
+      elif op==libIris.Pic16_Bootloader.IDENT_NACK:
+      
+        #-- Mientras que el tiempo total acumulado sea menor que el 
+        #-- TIMEOUT indicado, continuar esperando
+        self.update()
+        
+        #-- Si apretado boton de cancelar abortar...
+        if self.cancelar:
+          return False
+        
+        if total<=TIMEOUT:
+         return True
+        else :
+          return False    
+
+
+    #----------------------------------------
+    #- Descargar un programa 
+    #----------------------------------------
+    def download_program(self,prog):
+    
+      #-- Poner la barra de progreso a 0
+      self.gauge_1.SetValue(0)
+      self.update()
+    
+      #-- Desactivar flag de cancelacion
+      self.cancelar=False
+      
+      #-- Si ya se habia abierto un puerto serie, cerrarlo
+      #-- Esto ha sido necesario ponerlo para que funcione
+      #-- bien en WINDOWS
+      if self.app.iris!=None:
+        self.app.iris.close()
+      
+      #------------------------------------
+      #-- Abrir puerto serie
+      #------------------------------------
+      #-- Primero obtener el nombre del dispositivo serie
+      serialName=self.combo_box_1.GetValue()
+      
+      try:
+        self.app.iris = libIris.Pic16_Bootloader.Iris(serialName,
+                                                      logCallback=None)
+      except libIris.Pic16_Bootloader.IrisError,msg:
+      
+        #-- Si hay error indicarlo en la barra de estado y abortar
+        msg = "%s" % msg
+        self.frame_1_statusbar.SetStatusText(msg, 0)
+        return
+      
+      #-- Actualizar la sensibilidad de los botones
+      self.botones_modo_cancelar()
+      self.update()
+      
+      try:
+        self.app.iris.download(prog,stateCallback=self.state)
+      except libIris.Pic16_Bootloader.IrisError,msg:
+        msg= "%s" % msg
+        self.frame_1_statusbar.SetStatusText(msg, 0)
+        
+        #-- Poner botones en su estado inicial:
+        self.botones_modo_descarga()
+        return
+        
+      #-- Poner botones en su estado inicial:
+      self.botones_modo_descarga()
+
+# end of class MyFrame
+
+
+#---------------------------------------------------------
+#-- Funcion para obtener  la lista de puerto serie
+#-- Esto depende de la plataforma en la que se ejecute
+#---------------------------------------------------------
+def getSerialPorts():
+
+  #-- Windows
+  if os.name == 'nt':
+    
+    #-- Se usan los nueve primeros puertos serie
+    return ["COM1","COM2","COM3","COM4","COM5","COM6","COM7","COM8","COM9"]
+    
+  #-- Linux  
+  elif os.name == 'posix':
+    return ["/dev/ttyUSB0","/dev/ttyUSB1"]
+
+  else:
+    return []
+
+
+class MyApp(wx.App):
+      
+    def OnInit(self):
+        self.iris=None
+        frame = MyFrame(self,None, -1, "")
+        frame.Show(True)
+        self.SetTopWindow(frame)
+        
+        #-- Anadir los nombres de los puertos serie al combobox
+        serialports = getSerialPorts()
+        for disp in serialports:
+          frame.combo_box_1.Append(disp) 
+            
+        return True
+
+
+def main():
+    app = MyApp(0)
+    app.MainLoop()
+
+
+if __name__ == "__main__":
+    main()

@@ -177,6 +177,7 @@ public class ChronopicWindow
 		}
 		
 		ChronopicWindowBox.volumeOn = volumeOn;
+		ChronopicWindowBox.checkChronopicDisconnected();
 		ChronopicWindowBox.createCombos();
 		ChronopicWindowBox.chronopic_window.Show();
 	
@@ -214,6 +215,52 @@ public class ChronopicWindow
 		image_cp2_yes.Hide();
 		image_cp3_yes.Hide();
 		image_cp4_yes.Hide();
+	}
+	
+	//check if user has disconnected chronopic or port has changed
+	private void checkChronopicDisconnected() {
+		foreach(ChronopicPortData a in cpd) {
+			Chronopic myCP;
+			Chronopic.Plataforma myPS;
+			if(a.Num == 1) {
+				myCP = cp;
+				myPS = platformState;
+			} else if(a.Num == 2) {
+				myCP = cp2;
+				myPS = platformState2;
+			} else if(a.Num == 3) {
+				myCP = cp3;
+				myPS = platformState3;
+			} else { //if(a.Num == 4) {
+				myCP = cp4;
+				myPS = platformState4;
+			}
+			
+			int errorCount = 0;
+			bool ok = false;	
+			if(a.Connected) {
+				//try {
+					ok = myCP.Read_platform(out myPS);
+				//} catch { 
+				//	Log.WriteLine("catch at 1"); 
+				//}
+				if(!ok) {
+					Log.WriteLine("false at 1");
+					errorCount ++;
+				}
+			}
+			if(errorCount > 0) {
+				ArrayList myCPD = new ArrayList();
+				for(int i=1; i<=4;i++) {
+					ChronopicPortData b = new ChronopicPortData(i,"",false);
+					myCPD.Add(b);
+				}
+				Create (myCPD, true, volumeOn);
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("One or more Chronopics have been disconnected.") + "\n" + 
+						Catalog.GetString("Please connect again, and configure on Chronopic window."));
+			}
+		}
 	}
 	
 	private void createCombos() {

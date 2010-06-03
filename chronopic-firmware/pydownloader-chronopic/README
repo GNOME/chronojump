@@ -1,0 +1,19 @@
+System setup
+------------
+
+  Packages requiered:
+    * Python 2.5
+    * pywin32 (http://www.iearobotics.com/downloads/pywin32-210.win32-py2.5.exe)
+    * py2exe (http://www.py2exe.org/)
+    * wxPython (http://sourceforge.net/projects/wxpython/files/wxPython/2.8.11.0/wxPython2.8-win32-unicode-2.8.11.0-py25.exe/download)
+    * pyserial (http://sourceforge.net/projects/pyserial/files/pyserial/2.5-rc2/pyserial-2.5-rc2.win32.exe/download) 
+
+Build binary
+------------
+
+  Run 'python setup.py'
+
+Deploy/Distribute
+-----------------
+
+  Copy all the files in the 'dist' folder to the 'bin' folder in the deployment dir.

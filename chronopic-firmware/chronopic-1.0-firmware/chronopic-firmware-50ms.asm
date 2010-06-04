@@ -1,132 +1,128 @@
 ;****************************************************************************
 ;*  chronopic.asm      Febrero 2005                                         *
 ;---------------------------------------------------------------------------*
-; Software para el microcontrolador PIC16F876A utilizado para el            *
-; cronometro del proyecto chronojump                                        *
+; Software for the microcontroller PIC16F876A used by the Chronopic        *
+; chronometer on Chronojump project                                         *
 ;                                                                           *
-; Para las pruebas se esta utilizando la tarjeta SKYPIC                     *
 ;---------------------------------------------------------------------------*
 ;  Juan Gonzalez <juan@iearobotics.com>                                     *
-;  LICENCIA GPL                                                             *
+;  2010 English translation: Xavier de Blas <xaviblas@gmail.com>            *
+;  LICENSE: GPL                                                             *
 ;****************************************************************************
 
-;-- Establecer el PIC a emplear
+;-- this PIC is going to be used:
   LIST p=16f873
   INCLUDE "p16f873.inc"
 
 ;*****************************************
-;*         CONSTANTES                    *
+;*         CONSTANTS                     *
 ;*****************************************
-;-- Estado logico de la entrada (no el estado fisico)
-;-- Es la informacion que se envia en la trama de cambio
-ENTRADA_OFF EQU 0  ;-- Pulsador no apreado
-ENTRADA_ON  EQU 1  ;-- Pulsador apretado
+;-- Logical status of the input (not physical status)
+;-- It's the information sent to the frame of changing
+INPUT_OFF EQU 0  ;-- Push button not pushed
+INPUT_ON  EQU 1  ;-- Push button pushed
 
-;-- Cabecera de la trama asincrona de "cambio"
-TCHANGE    EQU 'X'
+;-- Header of the asyncronous frame of "changing"
+FCHANGE    EQU 'X'
 
-;-- Cabecera de la trama de "ESTADO"
-TESTADO    EQU 'E'  ; Solicitud de Estado de la plataforma
-RESTADO    EQU 'E'  ; Respuesta de la trama de estado
+;-- Header of the "status" frame
+FSTATUS    EQU 'E'  ; Petition of status of the platform
+RSTATUS    EQU 'E'  ; Response of the status frame
 
-;-- Valor de inicializacion del TIMER0 para conseguir TICKS de 10ms de
-;-- duracion. Se utiliza para el antirrebotes
+;-- Initialization value of the TIMER0 to have TICKS with a duration of 10ms
+;-- It's used for the debouncing time
 TICK    EQU 0xD9 
 
-;-- Valor del tiempo antirrebotes (en unidades de 10 milisegundos)
-;-- Este valor se puede modificar, para establecerse el mas adecuado
-;-- Las senales con una duracion inferior a este valor se consideran
-;-- pulsos espureos
-;-- Este valor se puede modificar, segun los criterios de exclusion
-;-- de senales espureas
-TIEMPO_ANTIRREBOTES   EQU 0x05
+;-- Value of the debouncing time (in units of 10 milliseconds)
+;-- This value can be changed, in order to select the most suitable
+;-- Signals with a duration lower than this value are considered spurious
+DEBOUNCE_TIME   EQU 0x05
 
-;-- Estado del automata principal
-EST_ESPERANDO_EVENTO  EQU 0x00                
-EST_ANTIRREBOTES      EQU 0x01
-EST_TRAMAX            EQU 0x02
+;-- Status of main automaton
+STAT_WAITING_EVENT EQU 0x00                
+STAT_DEBOUNCE      EQU 0x01
+STAT_FRAMEX      EQU 0x02
 
 ;*******************************************
 ;*               VARIABLES                 *
 ;*******************************************
   CBLOCK  0x20
   
-    ;-- Guardar el contexto cuando llegan interrupciones
-    savew   ; Almacenamiento temporal del registro W
-    saves   ; Almacenamiento temporial del registro STATUS
+    ;-- Save the context when interruptions arrive
+    savew   ; Temporal storage of W register
+    saves   ; temporal storage of the STATUS register
 
-    ;-- Extension del temporizador 1 
+    ;-- Extension of timer 1 
     TMR1HH 
     
-    ;-- Contador del antirrebotes
-    CONTANTI
+    ;-- Counter of the debouncer
+    COUNTDEBOUNCE
 
-    ;-- Marca de tiempo de un evento
-    TIMESTAMP_HH ;-- Parte alta-alta
-    TIMESTAMP_H  ;-- Parte alta
-    TIMESTAMP_L  ;-- Parte baja
+    ;-- Timestamp of an event
+    TIMESTAMP_HH ;-- high-high part
+    TIMESTAMP_H  ;-- high part
+    TIMESTAMP_L  ;-- low part
     
-    ;-- Estado del pulsador
-    entrada         ;-- Entrada estable actual Valor: (0-1)
-    entrada_nueva   ;-- Nueva entrada (estable) Valor: (0-1)
+    ;-- Pushbutton status
+    input         ;-- Current stable input Value: (0-1)
+    input_new     ;-- New stable input Value: (0-1)
 
-    ;-- Estado del automata
-    estado
+    ;-- Automaton status
+    status
     
-    ;-- Reset: Indica si se habia hecho un reset de los eventos
-    ;-- Reset=1, significa que el siguiente evento que llegue se
-    ;-- considerara el primero, por lo que su marca de tiempo no 
-    ;-- tiene sentido, y se debe devolver un 0.
-    ;-- Reset=0, es el estado normal.
+    ;-- Reset: Shows if has been done a reset of events
+    ;-- Reset=1, means that next incoming event will be considered the first
+    ;-- that means that it's timestamp has no sense, and a 0 must be returned 
+    ;-- Reset=0, it's normal status.
     reset
     
-    ;-- Variable de 16 bits para hacer una pausa 
-    ;-- (usado por rutina pausa)
-    pausa_h
-    pausa_l
+    ;-- 16 bits variable to do a pause 
+    ;-- (used by the pause routine)
+    pause_h
+    pause_l
     
-    ;-- Almacenar un caracter de la trama recibida
-    car
+    ;-- Store a character of the received frame
+    char
   ENDC
 
 ;****************************
-;* Comienzo del programa 
+;* Starting of the program 
 ;****************************
   ORG 0
-  GOTO inicio 
+  GOTO start 
 
   ORG 4
 ;**************************************************
-;* Rutina de atencion a las interrupciones        *
+;* Interruptions routine                          *
 ;**************************************************
 int
 
   ;-----------------------------
-  ;-- Guardar el contexto
+  ;-- Store the context
   ;-----------------------------
-  MOVWF savew        ;-- Guardar valor del registro W
-  SWAPF STATUS,W     ;-- Guardar valor registro STATUS
+  MOVWF savew        ;-- Store value of W register
+  SWAPF STATUS,W     ;-- Store value of STATUS register
   MOVWF saves
 
-  ;-- Determinar la causa de la interrupcion
+  ;-- Find the interruption cause
   BTFSC INTCON,T0IF
-  GOTO isr_timer0      ;-- Es debida al timer0
+  GOTO isr_timer0      ;-- Caused by timer0
   
   BTFSC INTCON,RBIF
-  GOTO isr_portb       ;-- Es debida a un cambio en el puerto B
+  GOTO isr_portb       ;-- Caused by a change on B port
   
-  BTFSC PIR1,TMR1IF    ;-- Es debida al timer 1
+  BTFSC PIR1,TMR1IF    ;-- Caused by timer 1
   GOTO isr_timer1
    
-  ;-- WARNING! WARNIG! WARNING! Aqui no deberia llegar!!!!
+  ;-- WARNING! WARNIG! WARNING! Here we should never be!!!!
   GOTO int
   
   ;-------------------------
-  ;- Fin de interrupcion
+  ;- End of interruption
   ;-------------------------
-fin_int
+end_int
 
-  ;--   Recuperar contexto
+  ;--   Recuperate context
   SWAPF saves,W
   MOVWF STATUS
   SWAPF savew, F
@@ -135,73 +131,71 @@ fin_int
         RETFIE
 
 ;********************************************************
-;* Rutina de atencion a la interrupcion del timer1
-;* El timer 1 es el que lleva el cronometraje. Esta rutina
-;* se invoca cuando hay un overflow. Se extiende el Timer 1
-;* con un Byte mas: TMR1HH
+;* Routine of interruption of timer1
+;* timer 1 controls the cronometring
+;* This routine is invoked when there's an overflow
+;* Timer 1 gets extended with 1 more byte: TMR1HH
 ;********************************************************
 isr_timer1
-  BCF PIR1,TMR1IF   ; Quitar flag de overflow
+  BCF PIR1,TMR1IF   ; Remove overflow flag
   
-  ;-- Control del desbordamiento
-  ;-- Comprobar si contador de ha llegado a su 
-  ;-- maximo valor. Si es asi no se incrementa
+  ;-- Overflow control
+  ;-- Check if counter has arrived to it's maximum value 
+  ;-- If it's maximum, then not increment
   
   MOVLW 0xFF           ; TMR1HH = 0xFF?
   SUBWF TMR1HH,W
-  BTFSC STATUS,Z          ; No--> Continuar
-  GOTO  fin_int           ; Si--> No incrementar crono. FIN
+  BTFSC STATUS,Z          ; No--> Continue
+  GOTO  end_int           ; Yes--> Don't increment chrono. END
   
-  ;-- Incrementar 
+  ;-- Increment 
   INCF TMR1HH,F
   
-  goto fin_int
+  goto end_int
 
 ;******************************************************
-;* Rutina de atencion a la interrupcion del timer0
-;* El timer0 se utiliza para temporizar el tiempo 
-;* antirrebotes. Para considerar que un cambio de la
-;* senal de entrada es estable, debe transcurrir al menos
-;* un tiempo igual al ANTIRREBOTES.
-;* Este timer esta todo el rato funcionando. Es el automata
-;* principal es que sabe cuando hay informacion valida
+;* Routine of interruption of timer0
+;* timer0 is used to control debouncing time 
+;* A change on input signal is stable if time it's at minimum equal to debouncing time
+;* This timer is working all the time. 
+;* Main automaton know when there's valid information
 ;******************************************************
 isr_timer0
-  BCF INTCON,T0IF   ;  Quitar flag overflow
+  BCF INTCON,T0IF   ;  Remove overflow flag
 
-  ;-- Volver a lanzar temporizador dentro de un tick
+  ;-- Execute timer again inside a click
   MOVLW TICK
   MOVWF TMR0
 
-  ;-- Decrementar contador antirrebotes
-  DECF CONTANTI,F
+  ;-- Decrese debouncing counter
+  DECF COUNTDEBOUNCE,F
   
-  goto fin_int
+  goto end_int
 
 ;****************************************************
-; Rutina de atencion a la interrupcion del puerto B  
-; Se llama cada vez que haya un cambio en el bit RB4
-; Esta es la parte principal. Cada vez que hay un 
-; cambio en la senal de entrada, se registra su
-; marca de tiempo en la variable (TIMESTAMP, de 3 bytes)
-; y se entra en la fase de ANTIRREBOTES
+; Routine of port B interruption 
+; Called everytime that's a change on bit RB4
+; This is the main part.
+; Everytime that's a change on input signal,
+; it's timestamp is recorded on variable (TIMESTAMP, 3 bytes)
+; and we start debouncing time phase
 ;****************************************************
 isr_portb
 
   MOVF reset,F            ; Reset=1?
   BTFSC STATUS,Z
-  GOTO no_reset           ; No--> estado normal
+  GOTO no_reset           ; No--> normal status
 
-  ;-- Es el primer evento despues del reset
-  ;-- Poner contador a cero y pasar al estado reset=0
+  ;-- It's the first event after reset
+  ;-- Put counter on zero and go to status reset=0
   CLRF TMR1HH
   CLRF TMR1H
   CLRF TMR1L
   CLRF reset
 
 no_reset
-  ;-- Almacenar el valor del cronometro en TIMESTAMP
-  ;-- Esta es la marca de tiempo de este evento
+  ;-- Store the value of chronometer on TIMESTAMP
+  ;-- This is the timestamp of this event
   MOVFW TMR1HH
   MOVWF TIMESTAMP_HH
   MOVFW TMR1H
@@ -209,419 +203,417 @@ no_reset
   MOVFW TMR1L
   MOVWF TIMESTAMP_L
   
-  ;-- Inicializar temporizador 1
+  ;-- Initialize timer 1
   CLRF TMR1HH
   CLRF TMR1H
   CLRF TMR1L
   
-  ;-- Inicializar el contador ANTIRREBOTES
-  MOVLW TIEMPO_ANTIRREBOTES
-  MOVWF CONTANTI
+  ;-- Initialize debouncing counter
+  MOVLW DEBOUNCE_TIME
+  MOVWF COUNTDEBOUNCE
   
-  ;-- Pasar al estado antirrebotes
-  MOVLW EST_ANTIRREBOTES
-  MOVWF estado
+  ;-- start debouncing status
+  MOVLW STAT_DEBOUNCE
+  MOVWF status
   
-  ;-- lanzar temporizador antirrebotes dentro de un tick
+  ;-- start debouncing timer on a tick
   MOVLW TICK
   MOVWF TMR0
   
-  ;-- Quitar flag de interrupcion
+  ;-- Remove interruption flag
   MOVFW PORTB
   BCF INTCON,RBIF 
   
-  ;-- Deshabilitar la interrupicion del puerto B
+  ;-- Inhabilite B port interruption
   BCF INTCON,RBIE 
  
-  ;-- Salir de la interrupcion
-  goto fin_int
+  ;-- Exit interruption
+  goto end_int
 
 ;---------------------------------------
-;-- CONFIGURACION DEL PUERTO SERIE    
-;-- 9600 BAUDIOS, N81
+;-- CONFIGURATION OF SERIAL PORT    
+;-- 9600 BAUD, N81
 ;---------------------------------------
 sci_configuration
-  BSF STATUS,RP0    ; Acceso al banco 1
-  MOVLW 0x19        ; Velocidad: 9600 baudios
+  BSF STATUS,RP0    ; Access to bank 1
+  MOVLW 0x19        ; Speed: 9600 baud
   MOVWF SPBRG
 
   MOVLW 0x24
-  MOVWF TXSTA       ; Configurar transmisor
+  MOVWF TXSTA       ; Configure transmitter
 
-  BCF STATUS,RP0    ; Acceso al banco 0
-  MOVLW 0x90        ; Configurar receptor
+  BCF STATUS,RP0    ; Access to bank 0
+  MOVLW 0x90        ; Configure receiver
   MOVWF RCSTA
   RETURN
   
 ;**************************************************
-;* Recibir un caracter por el SCI
+;* Receive a character by the SCI
 ;-------------------------------------------------
-; SALIDAS:
-;    Registro W contiene el dato recibido
+; OUTPUTS:
+;    Register W contains received data
 ;**************************************************
-sci_readcar
+sci_readchar
   BTFSS PIR1,RCIF   ; RCIF=1?
-  GOTO sci_readcar  ; no--> Esperar
+  GOTO sci_readchar  ; no--> Wait
 
-  ;-- Leer el caracter
-  MOVFW RCREG       ; W = dato recibido
+  ;-- Read the character
+  MOVFW RCREG       ; W = recived data
 
   RETURN
 
 ;*****************************************************
-;* Transmitir un caracter por el SCI               
+;* Transmit a character by the SCI               
 ;*---------------------------------------------------
-;* ENTRADAS:
-;*    Registro W:  caracter a enviar         
+;* INPUTS:
+;*    Register W:  character to send         
 ;*****************************************************
-;-- Esperar a que Flag de listo para transmitir este a 1
-sci_sendcar
+;-- Wait to Flag allows to send it to 1 (this comment may be bad translated)
+sci_sendchar
 wait
   BTFSS PIR1,TXIF   ; TXIF=1?
   goto wait       ; No--> wait
 
-  ;; -- Ya se puede hacer la transmision
+  ;; -- Transmission can be done
   MOVWF TXREG
   RETURN
 
 ;*******************************************
-;* Rutina de pausa, por espera activa
+;* Routine of pause, by active waiting
 ;*******************************************
-pausa
-  MOVLW 0xFF        ; Inicializar parte alta contador
-  MOVWF pausa_h
+pause
+  MOVLW 0xFF        ; Initialize counter (high part)
+  MOVWF pause_h
 
-buclel
-  MOVLW 0xFF        ; Inicializar parte baja contador
-  MOVWF pausa_l
+loopl
+  MOVLW 0xFF        ; Initialize counter (low part)
+  MOVWF pause_l
   CLRWDT
-repite
-  DECFSZ pausa_l,F  ; Decrementa pausa_l, pausa_l=0?
-  goto repite     ;  NO--> Repite
+repeat
+  DECFSZ pause_l,F  ; Decrease pause_l, pause_l=0?
+  goto repeat     ;  NO--> Repeat
 
-  DECFSZ pausa_h,F  ; Decrementa pausa_h, pausa_h=0?
-  goto buclel     ; No--> Ve a buclel
+  DECFSZ pause_h,F  ; Decrease pause_h, pause_h=0?
+  goto loopl     ; No--> Goto loopl
 
-  ;-- Si se ha llegado aqui es porque el contador ha llegado a 0000
-  ;-- (pausa_h=0 y pausa_l=0)
+  ;-- If we arrived here means counter has arrived to 0000
+  ;-- (pause_h=0 and pause_l=0)
 
   RETURN
 
 ;***************************************************************************
-;* Leer la entrada RB4 (estado del pulsador)
-;* ENTRADAS: Ninguna
-;* SALIDA: Ninguna
-;* DEVUELVE: W contiene el estado de la entrada (ENTRADA_ON, ENTRADA_OFF)
+;* Read input on RB4 (push button status)
+;* INPUTS: None
+;* OUTPUTS: None
+;* RETURNS: W contains input status (INPUT_ON, INPUT_OFF)
 ;***************************************************************************
-leer_entrada
-  ;-- Comprobar estado del bit RB4  
+read_input
+  ;-- Check status of bit RB4  
   BTFSC PORTB,4         ; RB4==0 ? 
-  RETLW ENTRADA_OFF     ; No --> Pulsador no apretado
-  RETLW ENTRADA_ON      ; Si --> Pulsador apretado
+  RETLW INPUT_OFF     ; No --> Push button not pushed
+  RETLW INPUT_ON      ; Yes --> Push button pushed
   
 ;*************************************************************
-;* Actualizar el led con el estado estable de la entrada
-;* El estado estable se encuentra en la variable entrada
-;* ENTRADAS: Ninguna   
-;* SALIDAS: Ninguna
-;* Devuelve: Nada
+;* Update led with stable status of input
+;* Stable status is on variable: input
+;* INPUTS: None
+;* OUTPUTS: None
+;* RETURNS: Nothing
 ;*************************************************************
-actualizar_led
-  ;-- El led esta en el bit RB1. La variable entrada contiene
-  ;-- solo un bit de informacion (1,0) en el bit menos significativo
-  RLF entrada,W    ; W= entrada<<1
-  XORLW 0x02       ; Logica negativa (Comentar esta linea para log. positiva)
-  MOVWF PORTB      ; Actualizar puerto B
+update_led
+  ;-- Led is on bit RB1. Input variable contains
+  ;-- only an information bit (1,0) on less signficant bit
+  RLF input,W    ; W= input<<1
+  XORLW 0x02       ; negative logic (Comment this line if you want positive logic)
+  MOVWF PORTB      ; Update port B
   RETURN
 
 ;*****************************************************
-;* Activar la interrupcion de cambio del puerto B
-;* ENTRADA: Ninguna
-;* SALIDA:  Ninguna
-;* DEVUELVE: Nada
+;* Activate interruption of changing of port B
+;* INPUT: None
+;* OUTPUT:  None
+;* RETURN: Nothing
 ;*****************************************************
 portb_int_enable
-  ;-- Quitar flag de interrupcion, por si estuviese activado
+  ;-- Remove interruption flag, just in case it's activated
   MOVFW PORTB
   BCF INTCON,RBIF  
   
-  ;-- Activar la interrupcion de cambio
+  ;-- Activate interruption of change
   BSF INTCON,RBIE  
   RETURN
 
 ;****************************************************************
-;* Servicio de estado. Se devuelve el estado de la plataforma   *
+;* Status service. Returns the status of the platform           *
 ;****************************************************************
-serv_estado
+status_serv
 
-  ;--Desactivar la interrupcion de cambio mientras
-  ;--se envia la trama
+  ;--Deactivate interruption of change while frame is sent
   BCF INTCON,RBIE
   
-  ;-- Enviar codido de respuesta
-  MOVLW RESTADO 
-	CALL sci_sendcar
+  ;-- Send response code
+  MOVLW RSTATUS 
+  CALL sci_sendchar
   
-  ;-- Enviar el estado del pulsador
-  MOVFW entrada
-  CALL sci_sendcar
+  ;-- Send status of the push button
+  MOVFW input
+  CALL sci_sendchar
   
-  ;-- Activar la interrupcion de cambio
+  ;-- Activate interruption of change
   BSF INTCON,RBIE  
 
   RETURN
 
 ;*************************************************************************
-;*                        PROGRAMA PRINCIPAL
+;*                        MAIN PROGRAM
 ;*************************************************************************
-inicio
+start
 
 ;-----------------------------
-;- CONFIGURAR EL PUERTO B           
+;- CONFIGURE PORT B           
 ;-----------------------------
-;-- Pines E/S: RB0,RB4 entradas, resto salidas
-  BSF STATUS,RP0      ; Cambiar al banco 1
+;-- Pins I/O: RB0,RB4 inputs, all the other are outputs
+  BSF STATUS,RP0      ; Change to bank 1
   MOVLW 0x11
   MOVWF TRISB
   
-;-- Pull-ups del puerto B habilitados
-;-- Prescaler del timer0 a 256
+;-- Pull-ups of port B enabled
+;-- Prescaler of timer0 at 256
 ;--   RBPU = 0, INTEDG=0, T0CS=0, T0SE=0, PSA=0, [PS2,PS1,PS0]=111
   MOVLW 0x07
   MOVWF OPTION_REG
   
 ;----------------------------------------------
-;  CONFIGURACION DE LAS COMUNICACIONES SERIE
+;  CONFIGURATION OF SERIAL COMMUNICATIONS
 ;----------------------------------------------
   CALL sci_configuration
 
 ;----------------------------------------------
-;- CONFIGURACION DEL TEMPORIZADOR 0
+;- CONFIGURATION OF TIMER 0
 ;----------------------------------------------
-  ;-- Quitar flag de interrupcion, por si estuviese activado
-  BCF INTCON,T0IF   ;  Quitar flag overflow
+  ;-- Remove interruption flag, just in case it's activated
+  BCF INTCON,T0IF   ;  Remove overflow flag
   
-  ;-- Activar temporizador. Dentro de un tick interrupcion
-  BCF STATUS,RP0    ; Cambiar al banco 0
+  ;-- Activate timer. Inside an interruption tick
+  BCF STATUS,RP0    ; Change to bank 0
   MOVLW TICK
   MOVWF TMR0
 
 ;----------------------------------------------
-;- CONFIGURACION DEL TEMPORIZADOR 1
+;- CONFIGURATION OF TIMER 1
 ;----------------------------------------------
  
-  ;-- Activar temporizador
-  BCF STATUS,RP0    ; Acceso al banco 0
+  ;-- Activate timer
+  BCF STATUS,RP0    ; Access to bank 0
   MOVLW 0x31
   MOVWF T1CON
   
-  ;-- Ponerlo a cero
+  ;-- Zero value
   CLRF TMR1HH
   CLRF TMR1H
   CLRF TMR1L
   
-  ;-- Habilitar interrupcion
-  BSF STATUS,RP0      ; Cambiar al banco 1
+  ;-- Enable interruption
+  BSF STATUS,RP0      ; Change to bank 1
   BSF PIE1,TMR1IE
-  BCF STATUS,RP0    ; Acceso al banco 0
+  BCF STATUS,RP0    ; Access to bank 0
 
 ;----------------------------
-;- Interrupciones puerto B
+;- Interruptions port B
 ;----------------------------
-  ;-- Esperar a que se estabilice puerto B
-  CALL pausa
+  ;-- Wait to port B get's stable
+  CALL pause
   
-  ;-- Habilitar la interrupcion de cambio en puerto B
+  ;-- Enable interruption of change on port B
   CALL portb_int_enable
   
 ;------------------------------
-;- INICIALIZAR LAS VARIABLES
+;- INITIALIZE VARIABLES
 ;------------------------------
-  ;-- Inicializar contador extendido
+  ;-- Initialize extended counter
   CLRF TMR1HH
   
-  ;-- Inicializar el contador ANTIRREBOTES
-  MOVLW TIEMPO_ANTIRREBOTES
-  MOVWF CONTANTI
+  ;-- Initialize debounce counter
+  MOVLW DEBOUNCE_TIME
+  MOVWF COUNTDEBOUNCE
   
-  ;-- Inicializar automata
-  MOVLW EST_ESPERANDO_EVENTO
-  MOVWF estado
+  ;-- Initialize automaton
+  MOVLW STAT_WAITING_EVENT
+  MOVWF status
   
-  ;-- Inicialmente el sistema esta en Reset
+  ;-- At start, system is on Reset
   MOVLW 1
   MOVWF reset
 
-  ;-- Leer estado de la entrada y actualizar la variable entrada
-  CALL leer_entrada
-  MOVWF entrada
+  ;-- Read input status and update input variable
+  CALL read_input
+  MOVWF input
   
 ;----------------------
-;- ESTADO INICIAL LED 
+;- INITIAL LED STATUS
 ;----------------------
-  ;-- Actualizar led con el estado estable de la entrada
-  CALL actualizar_led
+  ;-- Update led with the stable status of input variable
+  CALL update_led
   
 ;--------------------------
-;- Interrupcion TIMER 0
+;- Interruption TIMER 0
 ;--------------------------
-  BSF INTCON,T0IE   ; Activar interrupcion overflow TMR0  
+  BSF INTCON,T0IE   ; Activate interruption overflow TMR0  
 
 ;------------------------------------------
-;- ACTIVAR LAS INTERRUPCIONES GLOBALES
-;- Que comience la fiesta!!! 
+;- ACTIVATE GLOBAL INTERRUPTIONS
+;- The party starts, now!!! 
 ;------------------------------------------
-  ;-- Activar las interrupciones de los perifericos
+  ;-- Activate peripheral interruptions
   BSF INTCON,PEIE
   
-  ;-- Activar interrupciones globales
+  ;-- Activate global interruptions
   BSF INTCON,GIE 
 
 ;****************************
-;*   BUCLE PRINCIPAL. 
+;*   MAIN LOOP 
 ;****************************
 main
-  CLRWDT      ;-- usado en la simulacion
+  CLRWDT      ;-- used on the simulation
   
-  ;-- Analizar puerto serie por si viene alguna trama
+  ;-- Analize serial port waiting to a frame
   BTFSS PIR1,RCIF   ; RCIF=1?
-  GOTO automata     ; no--> Ir al automata
+  GOTO automaton     ; no--> Go to automaton
   
-  ;-- Ha llegado un caracter: leerlo
-  call sci_readcar
-  MOVWF car
+  ;-- A character has arrived: read it
+  call sci_readchar
+  MOVWF char
   
-  MOVLW TESTADO  		;  Trama de estado?
-	SUBWF car,W
+  MOVLW FSTATUS  		;  status frame?
+	SUBWF char,W
 	BTFSC STATUS,Z
-	CALL serv_estado	;  Si--> Servicio de estado de la plataforma
+	CALL status_serv	;  Yes--> Service of platform status
   
-automata  
+automaton
   ;-----------------------------------------------------
-  ;- SEGUN EL ESTADO DEL AUTOMATA SALTAR A LA RUTINA
-  ;- QUE LO TRATA                                           
+  ;- DEPENDING AUTOMATON STATUS, GO TO DIFFERENT ROUTINES
   ;------------------------------------------------------
-  MOVLW EST_ESPERANDO_EVENTO        ;  estado = ESPERANDO_EVENTO?
-  SUBWF estado,W
+  MOVLW STAT_WAITING_EVENT        ;  status = STAT_WAITING_EVENT?
+  SUBWF status,W
   BTFSC STATUS,Z
-  GOTO est_esperando_evento
+  GOTO stat_waiting_event
   
-  MOVLW EST_ANTIRREBOTES            ; estado = ANTIRREBOTES?
-  SUBWF estado,W
+  MOVLW STAT_DEBOUNCE            ; status = DEBOUNCE?
+  SUBWF status,W
   BTFSC STATUS,Z
-  GOTO est_antirrebotes
+  GOTO stat_debounce
   
-  MOVLW EST_TRAMAX                  ; estado = TRAMAX?
-  SUBWF estado,W
+  MOVLW STAT_FRAMEX                  ; status = FRAMEX?
+  SUBWF status,W
   BTFSC STATUS,Z
-  GOTO est_tramax
+  GOTO stat_framex
   
-  ;-- WARNING WARNING WARNING!!! Aqui no deberia llegar
+  ;-- WARNING WARNING WARNING!!! We shouldn't be here
   GOTO main
  
 ;----------------------------
-;- ESTADO ESPERANDO EVENTO  
+;- STATUS WAITING EVENT  
 ;----------------------------
-est_esperando_evento
+stat_waiting_event
   GOTO main
 
 ;----------------------------
-;- ESTADO ANTIRREBOTES
+;- STATUS DEBOUNCING
 ;----------------------------
-est_antirrebotes
-  MOVF CONTANTI,F       ; cont_antirrebotes=0?
+stat_debounce
+  MOVF COUNTDEBOUNCE,F       ; count_debounce=0?
   BTFSS STATUS,Z
-  goto main             ; No--> Todavia no ha terminado
+  goto main             ; No--> It hasn't ended yet
   
-  ;-- Fin del antirrebotes
-  ;-- Quitar flag de interrupcion del puerto B: para limpiar. No nos
-  ;-- interesa lo que haya venido durante ese tiempo
+  ;-- End of debounce
+  ;-- Remove interruption flag of port B: to clean. We do not want or need
+  ;-- what came during that time
   MOVFW PORTB
   BCF INTCON,RBIF 
   
-  ;-- entrada_nueva = estado de la entrada
-  CALL leer_entrada   
-  MOVWF entrada_nueva
+  ;-- input_new = input status
+  CALL read_input   
+  MOVWF input_new
   
-  ;-- Comparar la nueva entrada con la estable
-  MOVFW entrada_nueva          ;  entrada_nueva==entrada?
-  SUBWF entrada,W
+  ;-- Compare new input with stable input
+  MOVFW input_new          ;  input_new==input?
+  SUBWF input,W
   BTFSC STATUS,Z
-  GOTO pulso_espureo           ; Si--> Es un pulso espureo
+  GOTO spurious           ; Yes--> It's an spurious pulse
   
-  ;-- entrada!=entrada_nueva: Ha ocurrido un cambio estable
+  ;-- input!=input_new: Happened an stable change
   
-  ;-- Almacenar la nueva entrada estable
-  MOVFW entrada_nueva
-  MOVWF entrada
+  ;-- Store new stable input
+  MOVFW input_new
+  MOVWF input
    
-  ;-- Pasar al estado TRAMAX para enviar la trama con el evento
-  MOVLW EST_TRAMAX
-  MOVWF estado
+  ;-- Change to status FRAMEX to send frame with the event
+  MOVLW STAT_FRAMEX
+  MOVWF status
   
   GOTO main
  
-pulso_espureo 
-  ;-- Ha venido un pulso espureo (cambio con duracion
-  ;-- menor que el tiempo de antirrebotes). Se ignora.
-  ;-- Se continua como si nada hubiese ocurrido
-  ;-- El valor de contador debe ser el actual + TIMESTAMP
+spurious 
+  ;-- It came an spurious pulse (change with a duration
+  ;-- lower than debounce time). It's ignored.
+  ;-- We continue like if nothing happened
+  ;-- The value of the counter should be: actual + TIMESTAMP
   ;-- TMR1 = TIMR1 + TIMESTAMP
   
   MOVFW TIMESTAMP_L
   ADDWF TMR1L,F
-  ;-- Sumar acarreo si lo hay
+  ;-- Add carry, if any
   BTFSC STATUS,C   ;-- Carry = 1?
-  INCF TMR1H,F     ;-- Si--> Sumarselo a la parte alta
-                   ;-- No--> Continuar
+  INCF TMR1H,F     ;-- Yes--> Add it to high part
+                   ;-- No--> Continue
  
   MOVFW TIMESTAMP_H
   ADDWF TMR1H,F
-  ;-- Sumar acarreo si lo hay
+  ;-- Add carry, if any
   BTFSC STATUS,C   ;-- Carry = 1?
-  INCF TMR1HH,F    ;-- Si--> Sumarselo a la parte de mayor peso                   ;-- No--> Continuar
+  INCF TMR1HH,F    ;-- Yes--> Add it to "higher weight" part            ;-- No--> Continue
   
   MOVFW TIMESTAMP_HH
   ADDWF TMR1HH,F
 
-  ;-- Pasar al estado esperando evento
-  MOVLW EST_ESPERANDO_EVENTO
-  MOVWF estado 
+  ;-- Change status to waiting event
+  MOVLW STAT_WAITING_EVENT
+  MOVWF status 
   
-  ;-- Activar interrupcion puerto B
+  ;-- Activate interruption port B
   CALL portb_int_enable
   
   GOTO main
 
 ;----------------------------
-;- ESTADO TRAMAX 
+;- STATUS FRAMEX 
 ;----------------------------
-est_tramax
-  ;-- Enviar trama de cambio en entrada
-  ;-- Primero el identificador de trama
-  MOVLW TCHANGE
-  CALL sci_sendcar
+stat_framex
+  ;-- Send frame of changing input
+  ;-- First the frame identifier
+  MOVLW FCHANGE
+  CALL sci_sendchar
   
-  ;-- Enviar el estado del pulsador
-  MOVFW entrada
-  CALL sci_sendcar
+  ;-- Send push button status
+  MOVFW input
+  CALL sci_sendchar
   
-  ;-- Enviar la marca de tiempo
+  ;-- Send timestamp
   MOVFW TIMESTAMP_HH 
-  CALL sci_sendcar
+  CALL sci_sendchar
   MOVFW TIMESTAMP_H
-  CALL sci_sendcar
+  CALL sci_sendchar
   MOVFW TIMESTAMP_L
-  CALL sci_sendcar
+  CALL sci_sendchar
   
-  ;-- Pasar al siguiente estado
-  MOVLW EST_ESPERANDO_EVENTO
-  MOVWF estado
+  ;-- Change to next status
+  MOVLW STAT_WAITING_EVENT
+  MOVWF status
   
-  ;-- Actualizar estado del led, segun el estado de la entrada estable
-  CALL actualizar_led
+  ;-- Update led status, depending on stable input status
+  CALL update_led
   
-  ;-- Activar interrupcion del puerto B
+  ;-- Activate port B interruption
   CALL portb_int_enable
   
   GOTO main

@@ -746,8 +746,10 @@ public class QueryServerWindow
 				label_results_num.Text = resultFull[0];
 				if(resultFull[0] == "0")
 					label_results_avg.Text = "-";
-				else
-					label_results_avg.Text = Util.TrimDecimals(resultFull[1], pDN);
+				else {
+					label_results_avg.Text = Util.TrimDecimals(
+						Util.ConvertToPointIfNeeded(resultFull[1]), pDN);
+}
 			}
 
 			return sqlString;

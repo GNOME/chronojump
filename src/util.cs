@@ -44,6 +44,20 @@ public class Util
 		myStringBuilder.Replace(",", ".");
 		return myStringBuilder.ToString();
 	}
+
+	//when we do a query to the server, it returns avg as "0,54" because it's latin localized
+	//if client is on english machine, need to convert this to "0.54"
+	public static string ConvertToPointIfNeeded (string myString)
+	{
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+		
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		if(localeInfo.NumberDecimalSeparator == ".") {
+			myStringBuilder.Replace(",", localeInfo.NumberDecimalSeparator);
+		}
+		return myStringBuilder.ToString();
+	}
 	
 	
 	//used for load from the database all numbers with correct decimal separator (locale defined)

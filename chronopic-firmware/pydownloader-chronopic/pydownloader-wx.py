@@ -97,6 +97,7 @@ class MyFrame(wx.Frame):
         self.combo_box_1 = wx.ComboBox(self.panel_1, -1, choices=[], style=wx.CB_DROPDOWN)
         self.gauge_1 = wx.Gauge(self.panel_1, -1, 100)
         self.button_6 = wx.Button(self.panel_1, -1, "Cancel / Cancelar")
+        self.button_8 = wx.Button(self.panel_1, -1, "Help / Ayuda")
 
         self.__set_properties()
         self.__do_layout()
@@ -104,6 +105,7 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.boton_abrir, self.button_2)
         self.Bind(wx.EVT_BUTTON, self.boton_grabar, self.button_7)
         self.Bind(wx.EVT_BUTTON, self.boton_cancelar, self.button_6)
+        self.Bind(wx.EVT_BUTTON, self.boton_ayuda, self.button_8)
         # end wxGlade
         #--------------------------------------------
         # Fin del codigo generado automaticamente
@@ -145,6 +147,7 @@ class MyFrame(wx.Frame):
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_3 = wx.BoxSizer(wx.VERTICAL)
         sizer_2 = wx.StaticBoxSizer(self.sizer_2_staticbox, wx.VERTICAL)
+        sizer_3.Add(self.button_8, 0, wx.ALIGN_RIGHT|wx.ALL, 5)
         sizer_4_copy = wx.StaticBoxSizer(self.sizer_4_copy_staticbox, wx.HORIZONTAL)
         sizer_4 = wx.StaticBoxSizer(self.sizer_4_staticbox, wx.HORIZONTAL)
         sizer_4.Add(self.text_ctrl_2, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
@@ -207,6 +210,9 @@ class MyFrame(wx.Frame):
     def boton_cancelar(self, event): # wxGlade: MyFrame.<event_handler>
         self.cancelar = True  
        
+    def boton_ayuda(self, event): # wxGlade: MyFrame.<event_handler>
+        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change Chronopic Firmware whenever you want. It's recommended 50ms for jumps and 10ms for runs.\nTesting: 'ledp.hex' can be recorded and then green led will blink.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nCon esta herramienta puede cambiar el Firmware de Chronopic tantas veces como quiera. Se recomienda 50ms para saltos, 10 ms para carreras.\nSi desea testear la herramienta, puede grabar el archivo 'ledp.hex' y verá como la luz verde parpadea.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org", "PyDownloader Help", wx.OK)
+	dlg.ShowModal()
 
     def boton_eco(self, event): # wxGlade: MyFrame.<event_handler>
         self.download_program(libIris.Pic16_Firmware.echo)

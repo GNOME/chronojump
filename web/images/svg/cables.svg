@@ -17,9 +17,9 @@
    sodipodi:docname="cables.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    sodipodi:modified="true"
-   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/images/cables_big.png"
-   inkscape:export-xdpi="180"
-   inkscape:export-ydpi="180">
+   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/images/cables.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <metadata
      id="metadata21">
     <rdf:RDF>
@@ -28,7 +28,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,7 +38,7 @@
      id="base"
      inkscape:current-layer="svg1507"
      inkscape:cx="183.0294"
-     inkscape:cy="147.06515"
+     inkscape:cy="145.15522"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:window-height="742"

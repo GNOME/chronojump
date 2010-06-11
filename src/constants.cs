@@ -35,7 +35,7 @@ public class Constants
 		"Sharad Shankar (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."), 
 		"Onkar Nath Mishra (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."),
 		"Andoni Morales Alastruey (http://ylatuya.es)\n" + Catalog.GetString("Installation support: Autotools, packaging, bundle."), 
-		"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n" + Catalog.GetString("Statistics support on knee angle detection and server ready reckoners.") 
+		"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n" + Catalog.GetString("Statistics support.") 
 	};
 	public static string [] Documenters = {
 		"Xavier de Blas Foix (xaviblas@gmail.com)\n" 

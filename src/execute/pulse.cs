@@ -127,6 +127,9 @@ public class PulseExecute : EventExecute
 
 			//we call again this function
 			confirmWin.Button_accept.Clicked += new EventHandler(callAgainManage);
+			
+			//if confirmWin.Button_cancel is pressed retuen
+			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		} else if (platformState==Chronopic.Plataforma.OFF) {
 			appbar.Push( 1, Catalog.GetString("You are OUT, start when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);

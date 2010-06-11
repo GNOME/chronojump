@@ -42,15 +42,12 @@ public class ErrorWindow
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "error_window", null);
 		gladeXML.Autoconnect(this);
-		Console.WriteLine("At error window3");
 		
 		//put an icon to window
 		UtilGtk.IconWindow(error_window);
-		Console.WriteLine("At error window4");
 		
 		label1.Text = text1;
 		label1.UseMarkup = true;
-		Console.WriteLine("At error window5");
 	}
 
 	static public ErrorWindow Show (string text1)

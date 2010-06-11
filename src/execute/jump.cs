@@ -192,7 +192,7 @@ public class JumpExecute : EventExecute
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
-		else if (platformState==Chronopic.Plataforma.OFF) {
+		else if (platformState==Chronopic.Plataforma.ON) {
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show( 
 					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "", "");
@@ -523,7 +523,7 @@ public class JumpRjExecute : JumpExecute
 
 		if(platformState == Chronopic.Plataforma.OFF)
 			loggedState = States.OFF;
-		else if(platformState == Chronopic.Plataforma.OFF)
+		else if(platformState == Chronopic.Plataforma.ON)
 			loggedState = States.ON;
 		else { //UNKNOW (Chronopic disconnected, port changed, ...)
 			chronopicHasBeenDisconnected();

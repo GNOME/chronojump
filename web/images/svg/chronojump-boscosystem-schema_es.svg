@@ -16,9 +16,9 @@
    version="1.1"
    inkscape:version="0.47 r22583"
    sodipodi:docname="chronojump-boscosystem-schema_es.svg"
-   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/images/chronojump-boscosystem-schema.png"
-   inkscape:export-xdpi="35.049999"
-   inkscape:export-ydpi="35.049999">
+   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/images/chronojump-boscosystem-schema_small_es.png"
+   inkscape:export-xdpi="11.68305"
+   inkscape:export-ydpi="11.68305">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -197,7 +197,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.76848523"
      inkscape:cx="577.7602"
-     inkscape:cy="293.11954"
+     inkscape:cy="288.56513"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
@@ -262,7 +262,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>

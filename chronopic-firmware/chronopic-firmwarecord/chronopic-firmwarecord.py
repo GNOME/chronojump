@@ -132,7 +132,7 @@ class MyFrame(wx.Frame):
 
     def __set_properties(self):
         # begin wxGlade: MyFrame.__set_properties
-        self.SetTitle("PyDownloader")
+        self.SetTitle("Chronopic Firmware Updater")
         self.frame_1_statusbar.SetStatusWidths([-1])
         # statusbar fields
         frame_1_statusbar_fields = ["Change / Cambiar Chronopic firmware"]

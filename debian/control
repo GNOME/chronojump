@@ -2,16 +2,18 @@ Source: chronojump
 Section: science
 Priority: extra
 Maintainer: Andoni Morales Alastruey <ylatuya@gmail.com>
-Build-Depends: debhelper (>= 5), autotools-dev, cdbs, 
- pkg-config, mono-2.0-devel, libgtk2.0-cil, libglade2.0-cil,
- libmono-sqlite2.0-cil, libmono-winforms2.0-cil
+Build-Depends: debhelper (>= 5), autotools-dev, cdbs,
+ pkg-config, mono-devel, libgtk2.0-cil-dev, libglade2.0-cil-dev,
+ libmono-sqlite2.0-cil, libmono-winforms2.0-cil, cli-common-dev,
+ python2.6, python-wxgtk2.8, python-serial
 Standards-Version: 3.8.3
 
 Package: chronojump
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},libmono2.0-cil,
  libgtk2.0-cil, libmono-sqlite2.0-cil,
- libmono-winforms2.0-cil, r-base-core
+ libmono-winforms2.0-cil, r-base-core,
+ python2.6, python-wxgtk2.8, python-serial
 Description: Measurement, management and statistics of sport short-time tests 
  Chronojump is an open hardware, free software and multiplatform complete system
  for measurement, management and statistics of sport short-time tests. 

@@ -8,6 +8,8 @@ AC_CONFIG_MACRO_DIR([m4])
 
 AM_PROG_LIBTOOL
 
+AM_PATH_PYTHON
+
 dnl Check for pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 if test "x$PKG_CONFIG" = "xno"; then
@@ -90,6 +92,10 @@ done
 
 AC_CONFIG_FILES([
 Makefile
+chronopic-firmware/Makefile
+chronopic-firmware/chronopic-firmwarecord/Makefile
+chronopic-firmware/chronopic-firmwarecord/libIris/Makefile
+chronopic-firmware/chronopic-firmwarecord/chronopic-firmwarecord
 chronopic-tests/Makefile
 src/Makefile
 po/Makefile

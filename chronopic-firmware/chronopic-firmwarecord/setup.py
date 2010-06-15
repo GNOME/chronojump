@@ -42,21 +42,23 @@ except:
     print "Could not import 'serial', pyserial is not installed in your system."
     exit(1)
 
+shutil.copy ("chronopic-firmwarecord.in", "chronopic-firmwarecord.py")
+
 setup(
-	name = 'ChonopicUpdater',
-        description = 'Chronopic firmware updater',
+	name = 'ChonopicFirmwareRecorder',
+        description = 'Chronopic firmware recoder',
         version = '0.0.1',
 
         windows = [
                      {
-                        'script': 'pydownloader-wx.py',
+                        'script': 'chronopic-firmwarecord.py',
                         #'icon_resources': [(1, "chronojump.ico")],
                      }
                  ],
 
         options = {
                      'py2exe': {
-                       'packages':'pydownloader-wx',
+                       'packages':'chronopic-firmwarecord',
                        'includes': 'wx, serial',
                      }
                   },

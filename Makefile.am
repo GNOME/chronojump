@@ -3,10 +3,10 @@ EXTRA_DIST = m4 expansions.m4
 ACLOCAL_AMFLAGS = -I m4
 
 if ENABLE_DEBUG
- SUBDIRS =  chronojump_server chronopic-tests   src po manual 
+ SUBDIRS = chronopic-firmware chronojump_server chronopic-tests   src po manual chronopic-firmware
 endif
 if ENABLE_RELEASE
- SUBDIRS = chronojump_server chronopic-tests   src po manual 
+ SUBDIRS = chronopic-firmware chronojump_server chronopic-tests   src po manual
 endif
 
 # Build ChangeLog from GIT history

@@ -3635,7 +3635,7 @@ msgstr "Totes les dades pujades seran llicenciades com a:"
 
 #: ../src/gui/chronojump.cs:1067
 msgid "Creative Commons Attribution 3.0"
-msgstr "Creative Commons Attribució 3.0"
+msgstr "Creative Commons Atribució 3.0"
 
 #. label_link
 #: ../src/gui/chronojump.cs:1072

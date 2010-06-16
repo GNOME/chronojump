@@ -189,8 +189,8 @@ class MyFrame(wx.Frame):
     def boton_abrir(self, event): # wxGlade: MyFrame.<event_handler>
        
         #-- Abrir un dialogo de busqueda de ficheros
-        filechooser = wx.FileDialog(self,wildcard = "*.hex;*.HEX")
-        
+        filechooser = wx.FileDialog(self, "Load Firmware Hex", sys.path[0], wildcard = "*.hex;*.HEX")
+
         #-- Esperar a que el usuario seleccione el fichero
         opcion = filechooser.ShowModal()
         
@@ -218,7 +218,7 @@ class MyFrame(wx.Frame):
         self.cancelar = True  
        
     def boton_ayuda(self, event): # wxGlade: MyFrame.<event_handler>
-        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change Chronopic Firmware whenever you want. It's recommended 50ms for jumps and 10ms for runs.\nTesting: 'ledp.hex' can be recorded and then green led will blink.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nCon esta herramienta puede cambiar el Firmware de Chronopic tantas veces como quiera. Se recomienda 50ms para saltos, 10 ms para carreras.\nSi desea testear la herramienta, puede grabar el archivo 'ledp.hex' y verá como la luz verde parpadea.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org", "PyDownloader Help", wx.OK)
+        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change Chronopic Firmware whenever you want. It's recommended 50ms for jumps and 10ms for runs.\nTesting: 'ledp.hex' can be recorded and then green led will blink.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nCon esta herramienta puede cambiar el Firmware de Chronopic tantas veces como quiera. Se recomienda 50ms para saltos, 10 ms para carreras.\nSi desea testear la herramienta, puede grabar el archivo 'ledp.hex' y verá como la luz verde parpadea.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
 	dlg.ShowModal()
 
     def boton_eco(self, event): # wxGlade: MyFrame.<event_handler>

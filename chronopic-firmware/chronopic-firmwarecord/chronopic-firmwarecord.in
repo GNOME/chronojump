@@ -27,9 +27,9 @@ import sys
 import os
 import platform
 
-if platform.version() == 'Windows':
-    LIBDIR = os.path.abspath('..', 'lib')
-    DATADIR = os.path.abspath('..', 'share')
+if platform.system() == 'Windows':
+    LIBDIR = os.path.abspath(os.path.join('..', 'lib'))
+    DATADIR = os.path.abspath(os.path.join('..', 'share'))
     sys.path = ['..'] + sys.path
 else:
     LIBDIR = '@expanded_libdir@'
@@ -193,7 +193,7 @@ class MyFrame(wx.Frame):
        
         #-- Abrir un dialogo de busqueda de ficheros
         filechooser = wx.FileDialog(self, "Load Firmware Hex",
-                                    '%s/chronojump/firmware' % DATADIR, wildcard = "*.hex;*.HEX")
+                                    os.path.join(DATADIR, 'chronojump', 'firmware'), wildcard = "*.hex;*.HEX")
 
         #-- Esperar a que el usuario seleccione el fichero
         opcion = filechooser.ShowModal()

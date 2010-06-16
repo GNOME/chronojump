@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{69EC15A7-5D66-4D24-A15B-1C23C0F621E0}
 AppName=Chronojump
-AppVerName=Chronojump  0.9
+AppVerName=Chronojump  0.9.2
 AppPublisher=Chronojump
 AppPublisherURL=http://www.chronojump.org/
 AppSupportURL=http://www.chronojump.org/
@@ -16,7 +16,7 @@ DefaultDirName={pf}\Chronojump
 DefaultGroupName=Chronojump
 LicenseFile=.\gpl-2.0.txt
 OutputDir=.
-OutputBaseFilename=Chronojump-0.9
+OutputBaseFilename=Chronojump-0.9.2
 SetupIconFile=.\chronojump_icon.ico
 Compression=lzma
 SolidCompression=yes
@@ -53,6 +53,8 @@ Source: "./chronojump_icon.ico"; DestDir: "{app}\share\chronojump\images\"
 
 [Icons]
 Name: "{group}\Chronojump "; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"
+Name: "{group}\Chronojump mini"; Filename: "{app}\bin\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
+Name: "{group}\Chronopic Firmware Recorder "; Filename: "{app}\bin\chronopic-firmwarecord.exe"; WorkingDir: "{app}\bin"
 Name: "{group}\Chronojump mini"; Filename: "{app}\bin\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
 Name: "{commondesktop}\Chronojump"; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"; Tasks: desktopicon
 Name: "{group}\Chronojump Manual spanish"; Filename: "{app}\share\doc\chronojump\chronojump_manual_es.pdf"

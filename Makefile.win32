@@ -271,6 +271,7 @@ CHRONOJUMP_RESOURCES =  \
 	-resource:../images/calendar.png,calendar.png \
 	-resource:../images/chronojump_logo.png,chronojump_logo.png \
 	-resource:../images/chronojump-boscosystem.png,chronojump-boscosystem.png \
+	-resource:../images/chronojump-boscosystem_white_bg.png,chronojump-boscosystem_white_bg.png \
 	-resource:../images/chronojump-boscosystem_320.png,chronojump-boscosystem_320.png
 
 CHRONOJUMP_REFERENCES = \

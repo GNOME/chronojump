@@ -28,9 +28,12 @@ import os
 import platform
 
 if platform.version() == 'Windows':
+    LIBDIR = os.path.abspath('..', 'lib')
+    DATADIR = os.path.abspath('..', 'share')
     sys.path = ['..'] + sys.path
 else:
     LIBDIR = '@expanded_libdir@'
+    DATADIR = '@expanded_datadir@'
     root = os.path.join(LIBDIR, 'chronojump', 'python')
     sys.path.insert(0, root)
 
@@ -189,7 +192,8 @@ class MyFrame(wx.Frame):
     def boton_abrir(self, event): # wxGlade: MyFrame.<event_handler>
        
         #-- Abrir un dialogo de busqueda de ficheros
-        filechooser = wx.FileDialog(self, "Load Firmware Hex", sys.path[0], wildcard = "*.hex;*.HEX")
+        filechooser = wx.FileDialog(self, "Load Firmware Hex",
+                                    '%s/chronojump/firmware' % DATADIR, wildcard = "*.hex;*.HEX")
 
         #-- Esperar a que el usuario seleccione el fichero
         opcion = filechooser.ShowModal()

@@ -528,7 +528,6 @@ public class QueryServerWindow
 
 
 	private void on_combo_sports_changed(object o, EventArgs args) {
-		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 

@@ -54,7 +54,6 @@ public class JumpTypeAddWindow
 
 	static JumpTypeAddWindow JumpTypeAddWindowBox;
 	Gtk.Window parent;
-	ErrorWindow errorWin;
 
 	public bool InsertedSimple;
 
@@ -119,7 +118,7 @@ public class JumpTypeAddWindow
 			string myString = string.Format(Catalog.GetString("Jump type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			
 			Log.WriteLine (myString);
-			errorWin = ErrorWindow.Show(myString);
+			ErrorWindow.Show(myString);
 		} else {
 			string myJump = "";
 			myJump = Util.RemoveTildeAndColonAndDot(entry_name.Text);

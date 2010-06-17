@@ -59,8 +59,6 @@ public class SessionAddEditWindow {
 	
 	[Widget] Gtk.Label label_persons_data;
 
-	ErrorWindow errorWin;
-
 	DialogCalendar myDialogCalendar;
 	DateTime dateTime;
 
@@ -353,7 +351,6 @@ public class SessionAddEditWindow {
 	}
 	
 	private void on_combo_sports_changed(object o, EventArgs args) {
-		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 
@@ -568,7 +565,7 @@ public class SessionAddEditWindow {
 		bool sessionNameExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTildeAndColon(entry_name.Text));
 		if(sessionNameExists && Util.RemoveTildeAndColon(entry_name.Text) != currentSession.Name ) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
-			errorWin = ErrorWindow.Show(myString);
+			ErrorWindow.Show(myString);
 		} else {
 			int sportID;
 			if(radiobutton_diff_sports.Active)

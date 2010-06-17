@@ -38,8 +38,6 @@ public class ConvertWeightWindow
 	TreeStore store;
 	double oldPersonWeight;
 	double newPersonWeight;
-	int sessionID;
-	int personID;
 	string [] jumpsNormal;
 	string [] jumpsReactive;
 	int columnBool1 = 6;
@@ -47,7 +45,7 @@ public class ConvertWeightWindow
 	string simpleString;
 	string reactiveString;
 	
-	ConvertWeightWindow (int sessionID, int personID, double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive) {
+	ConvertWeightWindow (double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "convert_weight", null);
 		gladeXML.Autoconnect(this);
@@ -57,8 +55,6 @@ public class ConvertWeightWindow
 
 		this.oldPersonWeight = oldPersonWeight;
 		this.newPersonWeight = newPersonWeight;
-		this.sessionID = sessionID;
-		this.personID = personID;
 		this.jumpsNormal = jumpsNormal;
 		this.jumpsReactive = jumpsReactive;
 					
@@ -88,13 +84,12 @@ public class ConvertWeightWindow
 		fillTreeView( treeview1, store );
 	}
 
-	static public new ConvertWeightWindow Show (int sessionID, int personID, 
+	static public new ConvertWeightWindow Show (
 			double oldPersonWeight, double newPersonWeight, string [] jumpsNormal, string [] jumpsReactive)
 	{
 		if (ConvertWeightWindowBox == null) {
 			ConvertWeightWindowBox = 
-				new ConvertWeightWindow (sessionID, personID, 
-						oldPersonWeight, newPersonWeight, jumpsNormal, jumpsReactive);
+				new ConvertWeightWindow (oldPersonWeight, newPersonWeight, jumpsNormal, jumpsReactive);
 		}
 	
 		ConvertWeightWindowBox.label_old_weight_value.Text = oldPersonWeight.ToString() + " Kg";
@@ -264,7 +259,6 @@ public class ConvertWeightWindow
 		
 		int jumpID;
 		bool option1;
-		int count = 0;
 		if (store.GetIterFirst(out iter)) {
 			//don't catch 0 value
 			while ( store.IterNext(ref iter) ){

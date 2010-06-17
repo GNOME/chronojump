@@ -32,7 +32,6 @@ using System.Collections; //ArrayList
 
 public class ChronoJump 
 {
-	ChronoJumpWindow chronoJumpWin;
 	SplashWindow splashWin;
 	
 	private static string progVersion = ""; //now in "version" file
@@ -98,7 +97,7 @@ public class ChronoJump
 		Application.Init();
 
 		//start threading to show splash window
-		SplashWindow splashWin = SplashWindow.Show();
+		SplashWindow.Show();
 		createdSplashWin = true;
 
 		fakeSplashButton = new Gtk.Button();
@@ -420,7 +419,7 @@ Console.WriteLine("--6--");
 		}
 		Log.WriteLine("all SQL done! starting Chronojump");
 
-		chronoJumpWin = new ChronoJumpWindow(progVersion, progName, runningFileName);
+		new ChronoJumpWindow(progVersion, progName, runningFileName);
 	}
 
 	private static void createBlankDB() {

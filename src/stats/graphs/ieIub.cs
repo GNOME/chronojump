@@ -30,7 +30,6 @@ using Mono.Unix;
 public class GraphIeIub : StatIeIub
 {
 	protected string operation;
-	private Random myRand = new Random();
 
 	//for simplesession
 	GraphSerie serieIndex;

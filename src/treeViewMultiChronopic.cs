@@ -216,15 +216,6 @@ public class TreeViewMultiChronopic : TreeViewEvent
 		//write line for treeview
 		string [] myData = new String [19+1];
 
-		string [] cp1InFull = mc.Cp1InStr.Split(new char[] {'='});
-		string [] cp1OutFull = mc.Cp1OutStr.Split(new char[] {'='});
-		string [] cp2InFull = mc.Cp2InStr.Split(new char[] {'='});
-		string [] cp2OutFull = mc.Cp2OutStr.Split(new char[] {'='});
-		string [] cp3InFull = mc.Cp3InStr.Split(new char[] {'='});
-		string [] cp3OutFull = mc.Cp3OutStr.Split(new char[] {'='});
-		string [] cp4InFull = mc.Cp4InStr.Split(new char[] {'='});
-		string [] cp4OutFull = mc.Cp4OutStr.Split(new char[] {'='});
-
 		if(mc.Type == Constants.RunAnalysisName) {
 			if(lineCount == 0) {
 				int count = 0;

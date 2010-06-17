@@ -34,8 +34,6 @@ public partial class Person {
 	private string description;
 	private int serverUniqueID; //not on server
 
-	private int sessionID;
-	
 	public Person() {
 	}
 	
@@ -68,7 +66,7 @@ public partial class Person {
 	//used when we create new person 
 	//we don't know uniqueID
 	public Person(string name, string sex, DateTime dateBorn, int race, int countryID, string description,
-			int serverUniqueID, int sessionID) 
+			int serverUniqueID) 
 	{
 		name = Util.RemoveTildeAndColon(name);
 		description = Util.RemoveTildeAndColon(description);
@@ -80,7 +78,6 @@ public partial class Person {
 		this.countryID = countryID;
 		this.description = description;
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
-		this.sessionID = sessionID;
 
 		//insert in the person table
 		//when insert as person we don't know uniqueID
@@ -91,9 +88,6 @@ public partial class Person {
 		uniqueID = insertedID;
 
 		Log.WriteLine(this.ToString());
-
-		//insert in the personSession table (fast way of knowing who was in each session)
-		//SqlitePersonSession.Insert (false, Constants.PersonSessionWeightTable, "-1", uniqueID, sessionID, weight);
 	}
 	
 	public int InsertAtDB (bool dbconOpened, string tableName) {

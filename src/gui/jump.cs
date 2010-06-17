@@ -797,7 +797,7 @@ public class JumpExtraWindow
 	
 	//for RunAnalysis
 	//but will be used and recorded with "fall"
-	static double distance;
+	//static double distance;
 
 	static string option = "Kg";
 	static double limited = 10;
@@ -929,7 +929,7 @@ public class JumpExtraWindow
 		limited = (double) spinbutton_limit.Value;
 		weight = (double) spinbutton_weight.Value;
 		fall = (double) spinbutton_fall.Value;
-		distance = (double) spinbutton_fall.Value;
+		//distance = (double) spinbutton_fall.Value;
 		arms = check_dj_arms.Active;
 		
 		JumpExtraWindowBox.jump_extra.Hide();

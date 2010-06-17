@@ -111,7 +111,6 @@ public class StatsWindow {
 	bool statsAutomatic = false;
 	bool statsColumnsToRemove = false;
 	private Session currentSession;
-	bool changingCombos = false;
 	//selected sessions
 	ArrayList selectedSessions;
 	

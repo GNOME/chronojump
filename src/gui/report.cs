@@ -366,7 +366,6 @@ public class ReportWindow {
 			TreeIter iter1; 
 
 			if (treeview1.Selection.GetSelected (out model, out iter1)) {
-				string str=getRow(iter1);
 				store.SetValue (iter1, 8, comment);
 			}
 		}

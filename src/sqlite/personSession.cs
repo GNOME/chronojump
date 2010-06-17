@@ -205,8 +205,6 @@ class SqlitePersonSession : Sqlite
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 	
-		string [] values = new string[12];
-
 		PersonSession ps = new PersonSession();
 		while(reader.Read()) {
 			ps = new PersonSession(

@@ -146,7 +146,6 @@ public class MultiChronopic : Event
 		string [] cp2OutFull = this.Cp2OutStr.Split(new char[] {'='});
 
 		double avgSpeed = GetAVGSpeedRunA();
-		bool success = false;
 						
 		for(int lineCount=0; lineCount < cp2InFull.Length; lineCount++) {
 			int count=0;

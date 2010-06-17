@@ -107,17 +107,14 @@ public class ChronopicWindow
 	
 	//cp2	
 	Chronopic cp2;
-	SerialPort sp2;
 	Chronopic.Plataforma platformState2;
 
 	//cp3	
 	Chronopic cp3;
-	SerialPort sp3;
 	Chronopic.Plataforma platformState3;
 
 	//cp4	
 	Chronopic cp4;
-	SerialPort sp4;
 	Chronopic.Plataforma platformState4;
 
 	States loggedState;		//log of last state
@@ -274,7 +271,6 @@ public class ChronopicWindow
 	private void createComboWindows() {
 		//combo port stuff
 		comboWindowsOptions = new string[257];
-		int count = 0;
 		for (int i=1; i <= 257; i ++)
 			comboWindowsOptions[i-1] = "COM" + i;
 	
@@ -485,7 +481,6 @@ public class ChronopicWindow
 	
 
 	private void on_button_connect_cp_clicked (object o, EventArgs args) {
-		Button btn = o as Button;
 		if (o == null)
 			return;
 
@@ -556,6 +551,10 @@ public class ChronopicWindow
 			if(connected)
 				return;
 		}
+	
+		SerialPort sp2;
+		SerialPort sp3;
+		SerialPort sp4;
 
 		string message = "";
 		string myPort = "";

@@ -30,7 +30,7 @@ public class Log
 	 */
 	
 	//private static TextWriter writer; //writer is not used now, all is thone in the Main (on chronojump.cs).we only need to print to console now (0.7.5)
-	private static string timeLog = "";
+	//private static string timeLog = "";
 	private static bool useConsole = true; //for the new method on chronojump.cs for redirecting output and error to same file also on windows (0.7.5)
 				
 	/*

@@ -855,7 +855,6 @@ public class PersonAddModifyWindow
 	static PersonAddModifyWindow PersonAddModifyWindowBox;
 	
 	Gtk.Window parent;
-	ErrorWindow errorWin;
 	
 	DialogCalendar myDialogCalendar;
 	DateTime dateTime;
@@ -1257,7 +1256,6 @@ public class PersonAddModifyWindow
 
 
 	private void on_combo_sports_changed(object o, EventArgs args) {
-		ComboBox combo = o as ComboBox;
 		if (o == null)
 			return;
 
@@ -1464,7 +1462,6 @@ public class PersonAddModifyWindow
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {
 					//create the convertWeight Window
 					convertWeightWin = ConvertWeightWindow.Show(
-							currentSession.UniqueID, currentPerson.UniqueID, 
 							weightIni, (double) spinbutton_weight.Value, 
 							myJumpsNormal, myJumpsReactive);
 					convertWeightWin.Button_accept.Clicked += new EventHandler(on_convertWeightWin_accepted);
@@ -1478,7 +1475,7 @@ public class PersonAddModifyWindow
 		}
 
 		if(errorMessage.Length > 0)
-			errorWin = ErrorWindow.Show(errorMessage);
+			ErrorWindow.Show(errorMessage);
 	}
 
 	void on_convertWeightWin_accepted (object o, EventArgs args) {
@@ -1513,8 +1510,7 @@ public class PersonAddModifyWindow
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
-					Constants.ServerUndefinedID,
-					currentSession.UniqueID);
+					Constants.ServerUndefinedID);
 					
 			currentPersonSession = new PersonSession (
 					currentPerson.UniqueID, currentSession.UniqueID, 
@@ -1642,7 +1638,6 @@ public class PersonAddMultipleWindow {
 	
 	static PersonAddMultipleWindow PersonAddMultipleWindowBox;
 	Gtk.Window parent;
-	ErrorWindow errorWin;
 
 	private Person currentPerson;
 	Session currentSession;
@@ -1782,7 +1777,7 @@ public class PersonAddMultipleWindow {
 		combinedErrorString = readErrorStrings();
 		
 		if (combinedErrorString.Length > 0) {
-			errorWin = ErrorWindow.Show(combinedErrorString);
+			ErrorWindow.Show(combinedErrorString);
 		} else {
 			prepareAllNonBlankRows();
 		
@@ -1864,11 +1859,10 @@ public class PersonAddMultipleWindow {
 				Constants.RaceUndefinedID,
 				Constants.CountryUndefinedID,
 				"", 			//description
-				Constants.ServerUndefinedID,
-				currentSession.UniqueID);
+				Constants.ServerUndefinedID);
 				
 
-		PersonSession ps = new PersonSession (
+		new PersonSession (
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				0, weight, 		//height, weight	
 				currentSession.PersonsSportID,

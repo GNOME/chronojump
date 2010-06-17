@@ -1004,7 +1004,6 @@ public class Stat
 		string bD = "data <- cbind("; //bindDataString
 		string colNamesD = "colnames(data) <- c("; //colNamesDataString
 		string sepSerie = "";
-		string xyFirstFound = "";
 		int count = 0; //this counts accepted series
 		int countSeries = 0; //for RJ
 		int countAcceptedCols=0;

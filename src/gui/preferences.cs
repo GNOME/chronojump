@@ -69,7 +69,7 @@ public class PreferencesWindow {
 
 	//language when window is called. If changes, then change data in sql and show 
 	//dialogMessage
-	private string languageIni;
+	//private string languageIni;
 
 
 	PreferencesWindow () {
@@ -98,7 +98,7 @@ public class PreferencesWindow {
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
 
-		PreferencesWindowBox.languageIni = language;
+		//PreferencesWindowBox.languageIni = language;
 		//if(Util.IsWindows())
 		//	PreferencesWindowBox.createComboLanguage(language);
 		//else 

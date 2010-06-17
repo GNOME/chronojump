@@ -638,7 +638,6 @@ public class ExportSession
 		int dec=prefsDigitsNumber; //decimals
 		
 		ArrayList myData = new ArrayList(1);
-		bool isFirstHeader = true;
 		
 		if(myPulses.Length > 0) 
 			printTitles(title); 
@@ -700,7 +699,6 @@ public class ExportSession
 		int dec=prefsDigitsNumber; //decimals
 		
 		ArrayList myData = new ArrayList(1);
-		bool isFirstHeader = true;
 		
 		if(myMCs.Length > 0) 
 			printTitles(title); 

@@ -339,7 +339,6 @@ public class ChronoJumpWindow
 	PersonsRecuperateFromOtherSessionWindow personsRecuperateFromOtherSessionWin; 
 	PersonAddModifyWindow personAddModifyWin; 
 	PersonAddMultipleWindow personAddMultipleWin; 
-	PersonShowAllEventsWindow personShowAllEventsWin;
 	JumpsMoreWindow jumpsMoreWin;
 	JumpsRjMoreWindow jumpsRjMoreWin;
 	JumpExtraWindow jumpExtraWin; //for normal and repetitive jumps 
@@ -372,14 +371,12 @@ public class ChronoJumpWindow
 	GenericWindow genericWin;
 		
 	EvaluatorWindow evalWin;
-	QueryServerWindow queryServerWin;
 	PersonNotUploadWindow personNotUploadWin; 
 	
 	ChronopicWindow chronopicWin;
 	
 	static EventExecuteWindow eventExecuteWin;
 
-	private bool firstTestInSession = true; //since we started chronojump
 	private bool firstRjValue;
 	private double rjTcCount;
 	private double rjTvCount;
@@ -388,8 +385,6 @@ public class ChronoJumpWindow
 	
 	private bool createdStatsWin;
 	
-	private bool preferencesLoaded;
-
 	private string progVersion;
 	private string progName;
 
@@ -441,9 +436,7 @@ public class ChronoJumpWindow
 
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
-		preferencesLoaded = false;
 		loadPreferences ();
-		preferencesLoaded = true;
 
 		createTreeView_persons (treeview_persons);
 		createTreeView_jumps (treeview_jumps);
@@ -884,7 +877,7 @@ public class ChronoJumpWindow
 	private void on_menuitem_server_query_activate (object o, EventArgs args) {
 		if(connectedAndCanI(Constants.ServerActionQuery)) {
 			ChronojumpServer myServer = new ChronojumpServer();
-			queryServerWin = QueryServerWindow.Show(
+			QueryServerWindow.Show(
 					prefsDigitsNumber,
 					myServer.SelectEvaluators(true)
 					);
@@ -2115,7 +2108,7 @@ public class ChronoJumpWindow
 
 	
 	private void on_show_all_person_events_activate (object o, EventArgs args) {
-		personShowAllEventsWin = PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson);
+		PersonShowAllEventsWindow.Show(app1, currentSession.UniqueID, currentPerson);
 	}
 	
 	
@@ -2427,7 +2420,7 @@ public class ChronoJumpWindow
 	}
 		
 	//mark to only get inside on_multi_chronopic_finished one time
-	static bool multiFinishingByClickFinish;
+	//static bool multiFinishingByClickFinish;
 	private void on_finish_multi_clicked (object o, EventArgs args) 
 	{
 		/*
@@ -2825,7 +2818,6 @@ Console.WriteLine("X");
 				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPersonSession.Weight);
 		}
 		double myFall = 0;
-		bool arms = false;
 		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
 			myFall = 0;
 		else if( ! currentJumpType.StartIn) {
@@ -3897,7 +3889,7 @@ Console.WriteLine("X");
 			); //-1: unlimited pulses (or changes)
 
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
-		multiFinishingByClickFinish = false;
+		//multiFinishingByClickFinish = false;
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);
 		
 		//when user clicks on update the eventExecute window 
@@ -4351,8 +4343,7 @@ Console.WriteLine("X");
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected jump?", 
-						"", "jump", myTreeViewJumps.EventSelectedID);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected jump?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
 				on_delete_selected_jump_accepted(o, args);
@@ -4369,8 +4360,7 @@ Console.WriteLine("X");
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete selected jump?"), 
-						 Catalog.GetString("Attention: Deleting a Reactive subjump will delete the whole jump"), 
-						 "jump", myTreeViewJumpsRj.EventSelectedID);
+						 Catalog.GetString("Attention: Deleting a Reactive subjump will delete the whole jump"));
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
 				on_delete_selected_jump_rj_accepted(o, args);
@@ -4415,8 +4405,7 @@ Console.WriteLine("X");
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected run?", 
-						"", "run", myTreeViewRuns.EventSelectedID);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected run?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
 			} else {
 				on_delete_selected_run_accepted(o, args);
@@ -4434,8 +4423,7 @@ Console.WriteLine("X");
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete selected run?"), 
-						 Catalog.GetString("Attention: Deleting a Intervallic subrun will delete the whole run"), 
-						 "run", myTreeViewJumpsRj.EventSelectedID);
+						 Catalog.GetString("Attention: Deleting a Intervallic subrun will delete the whole run"));
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
 			} else {
 				on_delete_selected_run_interval_accepted(o, args);
@@ -4483,8 +4471,7 @@ Console.WriteLine("X");
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected test?", 
-						"", "reactiontime", myTreeViewReactionTimes.EventSelectedID);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected test?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_reaction_time_accepted);
 			} else {
 				on_delete_selected_reaction_time_accepted(o, args);
@@ -4518,8 +4505,7 @@ Console.WriteLine("X");
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected test?", 
-						"", "pulses", myTreeViewPulses.EventSelectedID);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected test?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_pulse_accepted);
 			} else {
 				on_delete_selected_pulse_accepted(o, args);
@@ -4551,8 +4537,7 @@ Console.WriteLine("X");
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete selected test?"), 
-						"", "jump", myTreeViewMultiChronopic.EventSelectedID);
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete selected test?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_multi_chronopic_accepted);
 			} else {
 				on_delete_selected_multi_chronopic_accepted(o, args);

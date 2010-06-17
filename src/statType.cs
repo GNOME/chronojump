@@ -69,20 +69,11 @@ public class StatType {
 	string statisticSubType;
 	string statisticApplyTo;
 	Gtk.TreeView treeview_stats;
-	ArrayList sendSelectedSessions;
-	int prefsDigitsNumber;
-	bool sex_active;
-	int statsJumpsType;
-	int limit;
-	bool heightPreferred;
-	bool weightStatsPercent;
 	int rj_evolution_mark_consecutives;
 	
 	ArrayList markedRows;
 	ArrayList personsWithData;
 
-	GraphROptions gRO;
-	
 	bool graph;
 	bool toReport;
 	TextWriter writer;
@@ -95,7 +86,6 @@ public class StatType {
 	Gtk.TreeStore lastStore; 
 	
 	Stat myStat; 
-	//Report myReport; 
 
 	StatTypeStruct myStatTypeStruct;
 	
@@ -125,19 +115,10 @@ public class StatType {
 		this.statisticSubType = statisticSubType;
 		this.statisticApplyTo = statisticApplyTo;
 		this.treeview_stats = treeview_stats ;
-		this.sendSelectedSessions =  sendSelectedSessions;
-		this.prefsDigitsNumber =  prefsDigitsNumber;
-		this.sex_active = sex_active;
-		this.statsJumpsType = statsJumpsType;
-		this.limit = limit;
-		this.heightPreferred = heightPreferred;
-		this.weightStatsPercent = weightStatsPercent;
 
 		this.markedRows = markedRows;
 		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
-		
-		this.gRO = gRO;
 		
 		this.graph = graph;
 		this.toReport = toReport;
@@ -189,19 +170,10 @@ public class StatType {
 		this.statisticType = statisticType;
 		this.statisticSubType = statisticSubType;
 		this.statisticApplyTo = statisticApplyTo;
-		this.sendSelectedSessions =  sendSelectedSessions;
-		this.prefsDigitsNumber =  prefsDigitsNumber;
-		this.sex_active = sex_active;
-		this.statsJumpsType = statsJumpsType;
-		this.limit = limit;
-		this.heightPreferred = heightPreferred;
-		this.weightStatsPercent = weightStatsPercent;
 
 		this.markedRows = markedRows;
 		
 		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
-		
-		this.gRO = gRO;
 		
 		this.graph = graph;
 		this.toReport = toReport;

@@ -147,7 +147,6 @@ public class EventExecuteWindow
 	int sessionID;	
 	string tableName;	
 	string eventType;	
-	private string lastEventWas;
 	
 	int pDN;
 	double limit;
@@ -155,7 +154,6 @@ public class EventExecuteWindow
 	private enum phasesGraph {
 		UNSTARTED, DOING, DONE
 	}
-	private phasesGraph graphProgress;
 	
 	int radio = 8; 		//radious of the circles
 	int arcSystemCorrection = 0; //on Windows circles are paint just one pixel left, fix it
@@ -272,10 +270,6 @@ public class EventExecuteWindow
 		else if (tableName == "reactionTime")
 			showReactionTimeLabels(); 
 
-		//for the "update" button
-		lastEventWas = tableName;
-			
-		
 		button_cancel.Sensitive = true;
 		button_close.Sensitive = false;
 
@@ -293,8 +287,6 @@ public class EventExecuteWindow
 		eventbox_run_interval_speed.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
 		eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255)); //only one serie in pulse, leave blue
 		
-		graphProgress = phasesGraph.UNSTARTED; 
-
 		layout = new Pango.Layout (drawingarea.PangoContext);
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
 
@@ -483,7 +475,6 @@ public class EventExecuteWindow
 		
 			erasePaint(drawingarea);
 			
-			graphProgress = phasesGraph.DOING; 
 			sizeChanged = false;
 		}
 	}
@@ -499,7 +490,6 @@ public class EventExecuteWindow
 			pixmap = new Gdk.Pixmap (drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			erasePaint(drawingarea);
 
-			graphProgress = phasesGraph.DOING; 
 			sizeChanged = false;
 		}
 
@@ -507,7 +497,6 @@ public class EventExecuteWindow
 
 		//sometimes this is called when pait is finished
 		//don't let this erase win
-		//if(graphProgress != phasesGraph.DONE) {
 		if(pixmap != null) {
 			args.Event.Window.DrawDrawable(drawingarea.Style.WhiteGC, pixmap,
 				area.X, area.Y,
@@ -1085,7 +1074,6 @@ public class EventExecuteWindow
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		}
 		
-		graphProgress = phasesGraph.DONE; 
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, Gdk.GC myPen, string [] runs, 
@@ -1137,9 +1125,6 @@ public class EventExecuteWindow
 			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		}
-		
-		graphProgress = phasesGraph.DONE; 
-
 	}
 
 	
@@ -1300,8 +1285,6 @@ public class EventExecuteWindow
 			label_jump_reactive_tf_tc_avg.Text = Util.TrimDecimals((avgTV/avgTC).ToString(), pDN);
 		else
 			label_jump_reactive_tf_tc_avg.Text = "0";
-		
-		graphProgress = phasesGraph.DONE; 
 	}
 
 	private void paintRunInterval (Gtk.DrawingArea drawingarea, bool paintTime, double distance, double distanceTotal, string distancesString, double lastTime, 
@@ -1413,8 +1396,6 @@ public class EventExecuteWindow
 		label_run_interval_time_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
 		label_run_interval_speed_now.Text = Util.TrimDecimals((distance / lastTime).ToString(), pDN);
 		label_run_interval_speed_avg.Text = Util.TrimDecimals((distanceTotal / Util.GetTotalTime(timesString)).ToString(), pDN);
-		
-		graphProgress = phasesGraph.DONE; 
 	}
 
 	private void paintPulse (Gtk.DrawingArea drawingarea, double lastTime, string timesString, double avgTime, int pulses, 
@@ -1470,8 +1451,6 @@ public class EventExecuteWindow
 		
 		label_pulse_now.Text = Util.TrimDecimals(lastTime.ToString(), pDN);
 		label_pulse_avg.Text = Util.TrimDecimals(avgTime.ToString(), pDN);
-		
-		graphProgress = phasesGraph.DONE; 
 	}
 
 	double multiChronopicGetX(int ancho, double time, double timeOld, double timeTotal) {
@@ -1526,7 +1505,6 @@ public class EventExecuteWindow
 		}
 
 		int ancho=drawingarea.Allocation.Width;
-		int alto=drawingarea.Allocation.Height;
 
 		erasePaint(drawingarea);
 
@@ -1555,7 +1533,6 @@ public class EventExecuteWindow
 		paintMultiChronopicDefault (ancho, cp4StartedIn, cp4InStr, cp4OutStr, timeTotal, yCp4Out +10, yCp4Out);
 		Console.Write(" paint4 ");
 
-		graphProgress = phasesGraph.DONE; 
 		Console.Write(" paint done ");
 	}
 

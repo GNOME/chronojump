@@ -849,7 +849,6 @@ public class RunExtraWindow
 
 	static int distance;
 	static int limited = 10;
-	static bool tracksLimited;
 	
 	static RunExtraWindow RunExtraWindowBox;
 	Gtk.Window parent;
@@ -873,13 +872,11 @@ public class RunExtraWindow
 		if(myRunType.HasIntervals && ! myRunType.Unlimited) {
 			string tracksName = Catalog.GetString("tracks");
 			string secondsName = Catalog.GetString("seconds");
-			if(myRunType.TracksLimited) {
-				tracksLimited = true;
+			if(myRunType.TracksLimited) 
 				RunExtraWindowBox.label_limit_units.Text = tracksName;
-			} else {
-				tracksLimited = false;
+			else 
 				RunExtraWindowBox.label_limit_units.Text = secondsName;
-			}
+			
 			if(myRunType.FixedValue > 0) {
 				RunExtraWindowBox.spinbutton_limit.Sensitive = false;
 				RunExtraWindowBox.spinbutton_limit.Value = myRunType.FixedValue;

@@ -34,11 +34,9 @@ public class ConfirmWindowJumpRun
 	[Widget] Gtk.Label label_question;
 	[Widget] Gtk.Button button_accept;
 
-	string table;
-	int uniqueID;
 	static ConfirmWindowJumpRun ConfirmWindowJumpRunBox;
 	
-	public ConfirmWindowJumpRun (string text1, string question, string table, int uniqueID)
+	public ConfirmWindowJumpRun (string text1, string question)
 	{
 		//Setup (text, table, uniqueID);
 		Glade.XML gladeXML;
@@ -50,14 +48,12 @@ public class ConfirmWindowJumpRun
 		
 		label1.Text = text1;
 		label_question.Text = question;
-		this.table = table;
-		this.uniqueID = uniqueID;
 	}
 
-	static public ConfirmWindowJumpRun Show (string text1, string question, string table, int uniqueID)
+	static public ConfirmWindowJumpRun Show (string text1, string question)
 	{
 		if (ConfirmWindowJumpRunBox == null) {
-			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, question, table, uniqueID);
+			ConfirmWindowJumpRunBox = new ConfirmWindowJumpRun(text1, question);
 		}
 		ConfirmWindowJumpRunBox.confirm_window.Show ();
 		

@@ -76,7 +76,6 @@ public class RunTypeAddWindow
 
 	static RunTypeAddWindow RunTypeAddWindowBox;
 	Gtk.Window parent;
-	ErrorWindow errorWin;
 
 	public bool InsertedSimple;
 
@@ -159,7 +158,7 @@ public class RunTypeAddWindow
 			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), 
 					Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			Log.WriteLine (myString);
-			errorWin = ErrorWindow.Show(myString);
+			ErrorWindow.Show(myString);
 		} else {
 			RunType type = new RunType();
 			type.Name = Util.RemoveTildeAndColonAndDot(entry_name.Text);

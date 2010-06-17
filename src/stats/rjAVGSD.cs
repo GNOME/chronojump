@@ -79,7 +79,6 @@ public class StatRjAVGSD : Stat
 		*/
 
 		string operation = ""; // cannot be avg in this statistic
-		int myDataCols = 0;
 		int maxJumps = SqliteStat.ObtainMaxNumberOfJumps(sessionString);
 		
 		processDataSimpleSession ( 

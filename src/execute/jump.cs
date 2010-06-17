@@ -927,7 +927,7 @@ public class JumpRjExecute : JumpExecute
 		}
 
 		if(type == Constants.RunAnalysisName) {
-			double speed = (fall /10) / Util.GetTotalTime(tcString, tvString);
+			//double speed = (fall /10) / Util.GetTotalTime(tcString, tvString);
 	
 	/*		
 	 *		Josep Ma Padullés test

@@ -332,8 +332,7 @@ public class TreeViewEvent
 				} while (treeview.Model.IterNext (ref iter));
 					
 				iter= iterValid;
-				//bool ok=treeview.Model.IterParent (out iter, iter);
-				bool ok=treeview.Model.IterParent (out iter, iter);
+				treeview.Model.IterParent (out iter, iter);
 			}
 		} while (treeview.Model.IterNext (ref iter));
 	}

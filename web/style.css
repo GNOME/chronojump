@@ -426,10 +426,10 @@ http://www.cssplay.co.uk/menu/double-click-gallery-vertical.html
 } /*800+125=925*/
 
 
-#gallery #fullsize div table#chronojump {padding:0; margin:40px 125px; font-size:12px; line-height:18px; width:675px; height:250px;
+#gallery #fullsize div table#chronojump {padding:0; margin:30px 125px; font-size:12px; line-height:18px; width:675px; height:250px;
 	background:#ffffff url('images/documents_slides_chronojump_big.png') no-repeat bottom right;
 } 
-#gallery #fullsize div table#hardware {padding:0; margin:40px 125px; font-size:12px; line-height:18px; width:675px; height:250px;
+#gallery #fullsize div table#hardware {padding:0; margin:30px 125px; font-size:12px; line-height:18px; width:675px; height:250px;
 	background:#ffffff url('images/documents_slides_hardware_big.png') no-repeat bottom right;
 } 
 #gallery #fullsize div table#training {padding:0; margin:40px 125px; font-size:12px; line-height:18px; width:675px; height:250px;

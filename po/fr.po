@@ -12,11 +12,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 6467-fr\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronojump&component=general\n"
-"POT-Creation-Date: 2010-06-17 12:02+0000\n"
-"PO-Revision-Date: 2010-06-25 16:55+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
+"cgi?product=chronojump&component=general\n"
+"POT-Creation-Date: 2010-06-25 15:02+0000\n"
+"PO-Revision-Date: 2010-08-18 16:48+0200\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
-"Language-Team: Français <gnomefr@traduc.org>\n"
+"Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,6 +32,9 @@ msgid ""
 " http://svn.gnome.org/svn/chronojump/trunk/glossary/"
 "chronojump_glossary_for_translators.html"
 msgstr ""
+"Traducteur, un glossaire vous aidera à traduire Chronojump :\n"
+" http://svn.gnome."
+"org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
 
 #: ../src/constants.cs:31
 msgid "Project leader and main developer."
@@ -77,8 +81,8 @@ msgid ""
 "Or maybe you are not connected to the Internet or your firewall is "
 "restricting connections"
 msgstr ""
-"ou bien vous n'êtes pas connecté à internet, ou votre pare-feu "
-"limite les connexions"
+"ou bien vous n'êtes pas connecté à internet, ou votre pare-feu limite les "
+"connexions"
 
 #: ../src/constants.cs:154 ../glade/chronojump.glade.h:325
 msgid "Other"
@@ -278,8 +282,11 @@ msgid "South America"
 msgstr "Amérique du Sud"
 
 #: ../src/constants.cs:390
-msgid "Tests are SIMULATED until Chronopic is connected at menu 'Tools / Chronopic'."
-msgstr "Les tests sont SIMULÉS jusqu'à ce que Chronopic soit connecté par le menu « Outils/Chronopic »."
+msgid ""
+"Tests are SIMULATED until Chronopic is connected at menu 'Tools / Chronopic'."
+msgstr ""
+"Les tests sont SIMULÉS jusqu'à ce que Chronopic soit connecté par le menu "
+"« Outils/Chronopic »."
 
 #: ../src/constants.cs:401
 msgid "Sedentary/Ocasional practice"
@@ -694,7 +701,8 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:79
 msgid "Able to go around with obvious signs of insecurity."
-msgstr "Capable de faire le tour avec des signes visibles de manque d'assurance."
+msgstr ""
+"Capable de faire le tour avec des signes visibles de manque d'assurance."
 
 #: ../glade/chronojump.glade.h:80
 msgid "Able to kick ball but needs to take a step to get back on balance."
@@ -710,7 +718,8 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:82
 msgid "Able to kick ball without losing balance."
-msgstr "Capable de donner un coup de pied dans le ballon sans perdre l'équilibre."
+msgstr ""
+"Capable de donner un coup de pied dans le ballon sans perdre l'équilibre."
 
 #: ../glade/chronojump.glade.h:83
 msgid "Able to sit down sharply without using hands."
@@ -741,24 +750,24 @@ msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
 msgstr ""
-"Capable de marcher en posant un pied dans chaque cercle, touche plus d'un cercle, ou a "
-"besoin de plus d'un pas pour retrouver l'équilibre."
+"Capable de marcher en posant un pied dans chaque cercle, touche plus d'un "
+"cercle, ou a besoin de plus d'un pas pour retrouver l'équilibre."
 
 #: ../glade/chronojump.glade.h:90
 msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
 msgstr ""
-"Capable de marcher en posant un pied dans chaque cercle sans les "
-"toucher et sans perdre l'équilibre."
+"Capable de marcher en posant un pied dans chaque cercle sans les toucher et "
+"sans perdre l'équilibre."
 
 #: ../glade/chronojump.glade.h:91
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
 msgstr ""
-"Capable de marcher en posant un pied dans chaque cercle, touche un cercle ou a besoin "
-"de faire un pas en dehors des cercles pour retrouver l'équilibre."
+"Capable de marcher en posant un pied dans chaque cercle, touche un cercle ou "
+"a besoin de faire un pas en dehors des cercles pour retrouver l'équilibre."
 
 #: ../glade/chronojump.glade.h:92
 msgid "About"
@@ -1717,13 +1726,15 @@ msgid ""
 "\tSQRT(jump height in meters)\n"
 "If you want to use other formulas, go to Tools / Statistics."
 msgstr ""
-"Dans la fenêtre principale, le puissance est calculée en fonction du type de saut :\n"
+"Dans la fenêtre principale, le puissance est calculée en fonction du type de "
+"saut :\n"
 "- Sauts avec DC & TV : Bosco Relative Power (W/Kg)\n"
 " \tP = 24,6 * (temps total + temps de vol) / durée du contact\n"
 "- Sauts sans DC: Lewis Peak Power 1974 (W)\n"
 "\tP = RACINE_CARRÉE(4,9) * 9,8 * (masse corporelle+poids supplémentaire) *\n"
 "\tRACINE_CARRÉE(hauteur du saut en mètres)\n"
-"Si vous voulez employer d'autres formules, utilisez le menu Outils/Statistiques."
+"Si vous voulez employer d'autres formules, utilisez le menu Outils/"
+"Statistiques."
 
 #: ../glade/chronojump.glade.h:320
 msgid ""
@@ -1800,9 +1811,7 @@ msgstr "Renseignez ces champs."
 
 #: ../glade/chronojump.glade.h:338
 msgid "Please fill these values. <b>Bold</b> titles are required."
-msgstr ""
-"Renseignez ces champs. "
-"Les champs en <b>gras</b> sont obligatoires."
+msgstr "Renseignez ces champs. Les champs en <b>gras</b> sont obligatoires."
 
 #: ../glade/chronojump.glade.h:339
 msgid "Please select <b>Chronojump</b> language"
@@ -1813,8 +1822,10 @@ msgid "Please touch the platform or click Chronopic <i>TEST</i> button"
 msgstr "Touchez la plateforme ou appuyez sur le bouton <i>TEST</i> du Chronopic"
 
 #: ../glade/chronojump.glade.h:341
-msgid "Poor coordination between walking and counting with more than one mistake."
-msgstr "Mauvaise coordination entre la marche et le comptage avec plus d'une erreur."
+msgid ""
+"Poor coordination between walking and counting with more than one mistake."
+msgstr ""
+"Mauvaise coordination entre la marche et le comptage avec plus d'une erreur."
 
 #: ../glade/chronojump.glade.h:342
 msgid "Port Help"
@@ -2257,7 +2268,8 @@ msgstr ""
 "serveur à 3 h 7 min UTC."
 
 #: ../glade/chronojump.glade.h:440
-msgid "This dialog explains wich ports are suitable to be connected with Chronopic"
+msgid ""
+"This dialog explains wich ports are suitable to be connected with Chronopic"
 msgstr "Cette fenêtre décrit les ports permettant une connexion à Chronopic"
 
 #: ../glade/chronojump.glade.h:441 ../src/execute/reactionTime.cs:241
@@ -2367,7 +2379,8 @@ msgid "Use metric units"
 msgstr "Utiliser les unités métriques"
 
 #: ../glade/chronojump.glade.h:464
-msgid "Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
+msgid ""
+"Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
 msgstr ""
 "Utile pour l'exportation vers un tableur tel que MS Excel, OpenOffice ou "
 "Gnumeric"
@@ -2714,7 +2727,8 @@ msgid ""
 "Failed database conversion, ensure you have libsqlite3-0 installed. \n"
 "If problems persist ask in chronojump-list"
 msgstr ""
-"La conversion de la base de données a échouée, assurez-vous que libsqlite3-0 est installé.\n"
+"La conversion de la base de données a échouée, assurez-vous que libsqlite3-0 "
+"est installé.\n"
 "Si les problèmes persistent, demandez de l'aide sur chronojump-list."
 
 #: ../src/chronojump.cs:217
@@ -2799,7 +2813,8 @@ msgstr ""
 
 #: ../src/chronojump.cs:564
 msgid "Remember to describe on Chronojump software forum how crash happened."
-msgstr "Décrivez sur les forum de Chronojump comment l'arrêt brutal est survenue."
+msgstr ""
+"Décrivez sur les forum de Chronojump comment l'arrêt brutal est survenue."
 
 #: ../src/chronojump.cs:569
 msgid "Your help is needed."
@@ -2808,7 +2823,8 @@ msgstr "Votre aide est nécessaire."
 #: ../src/chronojump.cs:687
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
-msgstr "Impossible de déplacer le répertoire de la base de données de {0} vers {1}"
+msgstr ""
+"Impossible de déplacer le répertoire de la base de données de {0} vers {1}"
 
 #: ../src/chronojump.cs:689
 msgid "Trying to move/copy each file now"
@@ -3378,7 +3394,8 @@ msgstr "La session va être envoyée au serveur."
 
 #: ../src/gui/chronojump.cs:1052
 msgid "Names, date of birth and descriptions of persons will be hidden."
-msgstr "Les noms, dates de naissance et descriptions des personnes seront cachés."
+msgstr ""
+"Les noms, dates de naissance et descriptions des personnes seront cachés."
 
 #: ../src/gui/chronojump.cs:1053
 msgid "You can upload again this session if you add more data or persons."
@@ -3515,8 +3532,11 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:2517
 #, csharp-format
-msgid "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
-msgstr "Veuillez toucher la plateforme de contact de Chronopic/s [{0}] pour arrêter définitivement."
+msgid ""
+"Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
+msgstr ""
+"Veuillez toucher la plateforme de contact de Chronopic/s [{0}] pour arrêter "
+"définitivement."
 
 #: ../src/gui/chronojump.cs:2518
 msgid "Then press this button:\n"
@@ -3647,9 +3667,7 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:5092
 msgid "Done for testing purposes. Chronojump will exit badly"
-msgstr ""
-"Pour des raisons de test, Chronojump va quitter "
-"de manière incorrecte"
+msgstr "Pour des raisons de test, Chronojump va quitter de manière incorrecte"
 
 #: ../src/gui/chronopic.cs:257
 msgid "One or more Chronopics have been disconnected."
@@ -3668,8 +3686,9 @@ msgid ""
 "If you have previously used the modem via a serial port (in a GNU/Linux "
 "session, and you selected serial port), Chronojump will crash."
 msgstr ""
-"Si vous avez précédemment utilisé un modem via un port série (lors d'une session GNU/"
-"Linux et si le port série est sélectionné), Chronojump s'interrompra."
+"Si vous avez précédemment utilisé un modem via un port série (lors d'une "
+"session GNU/Linux et si le port série est sélectionné), Chronojump "
+"s'interrompra."
 
 #: ../src/gui/chronopic.cs:460
 #, csharp-format
@@ -3810,7 +3829,8 @@ msgid "Newer versions will be on this site:"
 msgstr "Des versions plus récentes sont sur ce site :"
 
 #: ../src/gui/helpPorts.cs:90
-msgid "Click with the right button on <i>MyPC</i> icon at desktop or Start Menu."
+msgid ""
+"Click with the right button on <i>MyPC</i> icon at desktop or Start Menu."
 msgstr ""
 "Cliquez avec le bouton droit sur l'icône <i>MonPC</i> sur le bureau ou le "
 "menu de démarrage."
@@ -3840,19 +3860,24 @@ msgstr "Allez dans <i>matériel</i>."
 
 #: ../src/gui/helpPorts.cs:95
 msgid "Select <i>administrate dispositives</i>. It's first button."
-msgstr "Sélectionnez <i>administrer des dispositifs</i>. Il s'agit du premier bouton."
+msgstr ""
+"Sélectionnez <i>administrer des dispositifs</i>. Il s'agit du premier bouton."
 
 #: ../src/gui/helpPorts.cs:96
 msgid "Click on the '+' at left of COM and LPT ports."
 msgstr "Cliquez sur le « + » à gauche des ports COM et LPT."
 
 #: ../src/gui/helpPorts.cs:97
-msgid "The port name will be what it's written like COM? on the USB-serial line."
+msgid ""
+"The port name will be what it's written like COM? on the USB-serial line."
 msgstr "Le nom du port sera ce qui est écrit comme COM? sur la ligne USB-série."
 
 #: ../src/gui/helpPorts.cs:97
-msgid "Eg: if it's written COM7, then you should write COM7 at Chronopic window."
-msgstr "Par exemple : s'il est écrit COM7, alors vous devez écrire COM7 dans la fenêtre Chronopic."
+msgid ""
+"Eg: if it's written COM7, then you should write COM7 at Chronopic window."
+msgstr ""
+"Par exemple : s'il est écrit COM7, alors vous devez écrire COM7 dans la "
+"fenêtre Chronopic."
 
 #: ../src/gui/helpPorts.cs:98
 msgid ""
@@ -4403,8 +4428,8 @@ msgid ""
 "Run between two photocells recording contact and flight times in contact "
 "platform/s."
 msgstr ""
-"Course entre deux cellules photo-électriques enregistrant les instant de contact et les "
-"temps de vol sur les plateformes de contacts."
+"Course entre deux cellules photo-électriques enregistrant les instant de "
+"contact et les temps de vol sur les plateformes de contacts."
 
 #: ../src/jumpType.cs:192
 msgid "Until finish button is clicked."
@@ -4412,7 +4437,8 @@ msgstr "Jusqu'au clic sur le bouton fin."
 
 #: ../src/jumpType.cs:201
 msgid "Reactive Jump on a hexagon until three full revolutions are done"
-msgstr "Saut réactif sur un hexagone jusqu'à ce que trois tours soient effectués"
+msgstr ""
+"Saut réactif sur un hexagone jusqu'à ce que trois tours soient effectués"
 
 #: ../src/jumpType.cs:209
 msgid "Triple jump"
@@ -4437,9 +4463,8 @@ msgid ""
 "User executes a pulse without a predefined tempo. <i>Difference</i> will "
 "show the difference between a pulse and it's preceeding pulse."
 msgstr ""
-"L'utilisateur effectue une pulsation sans rythme prédéfini. "
-"<i>Différence</i> affiche la différence entre une pulsation et celle qui la "
-"précède."
+"L'utilisateur effectue une pulsation sans rythme prédéfini. <i>Différence</"
+"i> affiche la différence entre une pulsation et celle qui la précède."
 
 #: ../src/pulseType.cs:53
 msgid "Pulse custom"
@@ -4451,9 +4476,10 @@ msgid ""
 "with a fixed number of pulsations. <i>Difference</i> will show the "
 "difference between a a pulse and the predefined pulse."
 msgstr ""
-"L'utilisateur effectue une pulsation en essayant de suivre un rythme prédéterminé et "
-"éventuellement avec un nombre de pulsations prédéfinies. <i>Différence</"
-"i> affiche la différence entre une pulsation et celle prédéfinie."
+"L'utilisateur effectue une pulsation en essayant de suivre un rythme "
+"prédéterminé et éventuellement avec un nombre de pulsations prédéfinies. "
+"<i>Différence</i> affiche la différence entre une pulsation et celle "
+"prédéfinie."
 
 #: ../src/report.cs:172
 msgid "without subjumps"
@@ -4489,9 +4515,7 @@ msgstr "Description courte"
 
 #: ../src/runType.cs:143
 msgid "Subjects had to walk over the bar as fast as possible."
-msgstr ""
-"Les sujets doivent marcher sur la barre aussi rapidement que "
-"possible."
+msgstr "Les sujets doivent marcher sur la barre aussi rapidement que possible."
 
 #: ../src/runType.cs:144
 msgid "From one platform to another without falling down."
@@ -4806,7 +4830,8 @@ msgstr ""
 
 #: ../src/runType.cs:265
 msgid "This is a test of speed and agility, important in many sports."
-msgstr "Ceci est un test de vitesse et d'agilité, important dans de nombreux sports."
+msgstr ""
+"Ceci est un test de vitesse et d'agilité, important dans de nombreux sports."
 
 #: ../src/runType.cs:268
 msgid ""
@@ -4944,14 +4969,14 @@ msgid ""
 "to touch any of them. Finally, sit down again, trying not to use your arms\"."
 msgstr ""
 "Les instructions données pour faire le test étaient les suivantes : « Assoyez-"
-"vous avec le dos appuyé contre le dossier de la chaise et les bras posés sur les "
-"jambes. Quand vous entendez le mot « Partez ! », levez-vous sans utiliser vos bras, "
-"donnez un coup de pied dans la balle devant vous aussi fort que possible en "
-"utilisant l'intérieur du pied dont vous êtes le plus sûr. Ensuite marchez à "
-"votre rythme normal en comptant à rebours à voix haute de 15 à 0. Revenez en faisant le tour du cône, "
-"sans le toucher et retournez vous asseoir en marchant dans les "
-"cercles, en essayant de ne pas les toucher. Enfin, assoyez-vous en "
-"essayant de ne pas utiliser vos bras »."
+"vous avec le dos appuyé contre le dossier de la chaise et les bras posés sur "
+"les jambes. Quand vous entendez le mot « Partez ! », levez-vous sans utiliser "
+"vos bras, donnez un coup de pied dans la balle devant vous aussi fort que "
+"possible en utilisant l'intérieur du pied dont vous êtes le plus sûr. "
+"Ensuite marchez à votre rythme normal en comptant à rebours à voix haute de "
+"15 à 0. Revenez en faisant le tour du cône, sans le toucher et retournez "
+"vous asseoir en marchant dans les cercles, en essayant de ne pas les "
+"toucher. Enfin, assoyez-vous en essayant de ne pas utiliser vos bras »."
 
 # AQ ? Assessment questionnaire
 #: ../src/runType.cs:380
@@ -4971,19 +4996,20 @@ msgid ""
 "the cone, (5) walking whilst stepping into the circles, and (6) sitting back "
 "down again."
 msgstr ""
-"Les chronomètres sont activés au mot « Partez ! » et le bouton pour enregistrer les "
-"temps intermédiaires est aussi déclenché aux instants suivants : après "
-"que le sujet s'est levé et a donné un coup de pied dans le ballon, "
-"après que le ballon a franchi la ligne des 8 m ; et quand le sujet retourne "
-"en position assise sur la chaise (hauteur du l'assise par rapport au sol : 42 "
-"cm). La durée totale nécessaire pour effectuer le test fourni une évaluation "
-"quantitative de la performance. Une évaluation qualitative a été réalisée en "
-"remplissant le questionnaire d'évaluation. Ce questionnaire évalue 6 éléments "
-"sur une échelle de Likert de 0 à 3 où 0 indique un besoin d'assistance pour réaliser "
-"la tâche et 3 une réalisation sans erreur et assistance. Le nombre de points maximum "
-"est 18. Les éléments évalués sont : (1) se lever d'une chaise, (2) taper dans la "
-"balle, (3) marcher en comptant à rebours de 15 à 0, (4) faire le tour du cône, "
-"(5) marcher en posant les pieds dans les cercles et (6) s'asseoir à nouveau."
+"Les chronomètres sont activés au mot « Partez ! » et le bouton pour "
+"enregistrer les temps intermédiaires est aussi déclenché aux instants "
+"suivants : après que le sujet s'est levé et a donné un coup de pied dans le "
+"ballon, après que le ballon a franchi la ligne des 8 m ; et quand le sujet "
+"retourne en position assise sur la chaise (hauteur du l'assise par rapport "
+"au sol : 42 cm). La durée totale nécessaire pour effectuer le test fourni "
+"une évaluation quantitative de la performance. Une évaluation qualitative a "
+"été réalisée en remplissant le questionnaire d'évaluation. Ce questionnaire "
+"évalue 6 éléments sur une échelle de Likert de 0 à 3 où 0 indique un besoin "
+"d'assistance pour réaliser la tâche et 3 une réalisation sans erreur et "
+"assistance. Le nombre de points maximum est 18. Les éléments évalués sont : "
+"(1) se lever d'une chaise, (2) taper dans la balle, (3) marcher en comptant "
+"à rebours de 15 à 0, (4) faire le tour du cône, (5) marcher en posant les "
+"pieds dans les cercles et (6) s'asseoir à nouveau."
 
 #: ../src/runType.cs:381
 msgid "Assessment questionnaire"
@@ -5012,7 +5038,8 @@ msgstr "Envoie de l'évaluateur avec l'ID : {0} réussi"
 
 #: ../src/server.cs:654
 #, csharp-format
-msgid "Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."
+msgid ""
+"Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."
 msgstr ""
 "L'évaluateur {0} n'a pas été envoyé correctement. Peut-être que les codes ne "
 "correspondent pas."
@@ -6528,5 +6555,4 @@ msgstr "Différence"
 #: ../src/treeViewRun.cs:49 ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Coureur"
-
 

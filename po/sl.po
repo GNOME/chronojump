@@ -1,4 +1,4 @@
-# Slovenian translation for chronojump.
+# Slovenian translations for chronojump.
 # Copyright (C) 2009 chronojump's COPYRIGHT HOLDER
 # This file is distributed under the same license as the chronojump package.
 #
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronojump&component=general\n"
 "POT-Creation-Date: 2010-07-30 11:48+0000\n"
-"PO-Revision-Date: 2010-08-13 14:51+0100\n"
+"PO-Revision-Date: 2010-08-19 21:17+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgid ""
 "Translator, there's a glossary that will help you in Chronojump translation:\n"
 " http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
 msgstr ""
-"Slovarček pojmov uporabljenih v programu Chronojump se nahaja na:\n"
+"Slovarček pojmov uporabljenih v programu ChronoJump se nahaja na:\n"
 " http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
 
 #: ../src/constants.cs:31
@@ -43,7 +43,7 @@ msgstr "Napravi skypik in kronopik; povezava med strojno in programsko opremo."
 
 #: ../src/constants.cs:33
 msgid "Chronopic2 creation, Chronojump tester."
-msgstr "Naprava kronopik2, Chronojump testnik."
+msgstr "Naprava kronopik2, ChronoJump testnik."
 
 #: ../src/constants.cs:34
 msgid "Chronopic3 industrial prototype."
@@ -390,14 +390,12 @@ msgid "Yes"
 msgstr "Da"
 
 #: ../src/constants.cs:445
-#, fuzzy
 msgid "In"
-msgstr "Znotraj"
+msgstr "NA PODLOGI"
 
 #: ../src/constants.cs:446
-#, fuzzy
 msgid "Out"
-msgstr "Zunaj"
+msgstr "OB PODLOGI"
 
 #: ../glade/chronojump.glade.h:1
 msgid " "
@@ -442,9 +440,8 @@ msgstr "200 m"
 
 #: ../glade/chronojump.glade.h:12
 #: ../src/runType.cs:183
-#, fuzzy
 msgid "20Yard Agility test"
-msgstr "Test gibljivosti 20 jardov"
+msgstr "20 jardni test agilnosti"
 
 #: ../glade/chronojump.glade.h:13
 msgid "20m"
@@ -464,9 +461,8 @@ msgstr "505"
 
 #: ../glade/chronojump.glade.h:17
 #: ../src/runType.cs:207
-#, fuzzy
 msgid "505 Agility test"
-msgstr "Test gibljivosti 505"
+msgstr "Test agilnosti 505"
 
 #: ../glade/chronojump.glade.h:18
 msgid "<- unselect"
@@ -478,7 +474,7 @@ msgstr "<b>Najboljši in najslabši rezultati</b>"
 
 #: ../glade/chronojump.glade.h:20
 msgid "<b>Chronojump</b>"
-msgstr "<b>Chronojump</b>"
+msgstr "<b>ChronoJump</b>"
 
 #: ../glade/chronojump.glade.h:21
 msgid "<b>Data of person in this session</b>"
@@ -594,15 +590,13 @@ msgstr "<b>Simulirano</b>"
 
 #: ../glade/chronojump.glade.h:49
 msgid "<b>Sit back down</b>"
-msgstr "<b>Usedite se nazaj</b>"
+msgstr "<b>Usedite se</b>"
 
 #: ../glade/chronojump.glade.h:50
-#, fuzzy
 msgid "<b>Sit to stand</b>"
-msgstr "<b>Sedite k stojalu</b>"
+msgstr "<b>Iz sedečega v stoječi</b>"
 
 #: ../glade/chronojump.glade.h:51
-#, fuzzy
 msgid "<b>Speciallity</b>"
 msgstr "<b>Posebnost</b>"
 
@@ -903,7 +897,7 @@ msgstr "Uporabi za"
 
 #: ../glade/chronojump.glade.h:111
 msgid "Ask for confirm test deletion"
-msgstr "Vprašaj za potrditev izbrisanja"
+msgstr "Vprašaj za potrditev brisanja"
 
 #: ../glade/chronojump.glade.h:112
 msgid "Ask user if really wants to delete a test"
@@ -984,27 +978,27 @@ msgstr "ChronoJump"
 
 #: ../glade/chronojump.glade.h:131
 msgid "ChronoJump - Confirm"
-msgstr "Chronojump - Potrditev"
+msgstr "ChronoJump - Potrditev"
 
 #: ../glade/chronojump.glade.h:132
 msgid "ChronoJump - Error"
-msgstr "Chronojump - Napaka"
+msgstr "ChronoJump - Napaka"
 
 #: ../glade/chronojump.glade.h:133
 msgid "Chronojump"
-msgstr "Chronojump"
+msgstr "ChronoJump"
 
 #: ../glade/chronojump.glade.h:134
 msgid "Chronojump Report window"
-msgstr "Okno poročila Chronojump"
+msgstr "Okno poročila ChronoJump"
 
 #: ../glade/chronojump.glade.h:135
 msgid "Chronojump Statistics window"
-msgstr "Okno statistike Chronojump"
+msgstr "Okno statistike ChronoJump"
 
 #: ../glade/chronojump.glade.h:136
 msgid "Chronojump language select"
-msgstr "Izbor jezika Chronojump"
+msgstr "Izbor jezika ChronoJump"
 
 #: ../glade/chronojump.glade.h:137
 msgid "Chronometer"
@@ -1456,7 +1450,6 @@ msgid "From session"
 msgstr "Iz seje"
 
 #: ../glade/chronojump.glade.h:236
-#, fuzzy
 msgid "Gesell Dynamic balance test"
 msgstr "Gesellov test dinamičnega ravnotežja"
 
@@ -1523,15 +1516,13 @@ msgid "If a reactive jump is limited by time, and time has running out, allow fi
 msgstr "V primeru, da je repetitivno-eksplozivni skok omejen s časom in je čas potekel, dovoli končni skok"
 
 #: ../glade/chronojump.glade.h:246
-#, fuzzy
 msgid "Illinois"
 msgstr "Illinois test"
 
 #: ../glade/chronojump.glade.h:247
 #: ../src/runType.cs:224
-#, fuzzy
 msgid "Illinois Agility test"
-msgstr "Test gibčnosti ameriške zvezne države Illinois"
+msgstr "Test agilnosti Illinois"
 
 #: ../glade/chronojump.glade.h:248
 msgid "In server"
@@ -1687,16 +1678,13 @@ msgstr "Naloži sejo"
 msgid "Loading Chronojump..."
 msgstr "Nalaganje programa ..."
 
-# kratica za nek test
 #: ../glade/chronojump.glade.h:279
-#, fuzzy
 msgid "MTGUG"
-msgstr "MTGUG"
+msgstr "MTGUG test"
 
 #: ../glade/chronojump.glade.h:280
-#, fuzzy
 msgid "MTGUG Questionnaire 1"
-msgstr "MTGUG Vprašalnik 1"
+msgstr "MTGUG vprašalnik 1"
 
 #: ../glade/chronojump.glade.h:281
 msgid ""
@@ -1723,7 +1711,6 @@ msgid "Margins"
 msgstr "Robovi"
 
 #: ../glade/chronojump.glade.h:287
-#, fuzzy
 msgid "Max"
 msgstr "Največ"
 
@@ -1843,7 +1830,6 @@ msgid "Number of tracks"
 msgstr "Število prog"
 
 #: ../glade/chronojump.glade.h:313
-#, fuzzy
 msgid ""
 "On main window, power is calculated depending on jump type:\n"
 "-Jumps with TC & TF: Bosco Relative Power (W/Kg)\n"
@@ -1852,7 +1838,14 @@ msgid ""
 "\tP = SQRT(4.9) * 9.8 * (body weight+extra weight) *\n"
 "\tSQRT(jump height in meters)\n"
 "If you want to use other formulas, go to Tools / Statistics."
-msgstr "---"
+msgstr ""
+"V glavnem oknu je moč (P) izračunana v odvisnosti od vrste skoka:\n"
+"- skoki z čS & čL: relativna moč po Boscu (W/Kg)\n"
+" \tP = 24.6 * (Skupni čas + čL)/čS\n"
+"-skoki brez čS: največja moč po Lewisu (W)\n"
+"\tP = SQRT(4.9) * 9.8 * (telesna teža+dodatna obtežitev) *\n"
+"\tSQRT(višina skoka v metrih)\n"
+"V kolikor želite uporabiti druge formule, jih določite me Orodji / Statistika."
 
 #: ../glade/chronojump.glade.h:320
 msgid ""
@@ -1876,7 +1869,6 @@ msgid "Options"
 msgstr "Možnosti"
 
 #: ../glade/chronojump.glade.h:326
-#, fuzzy
 msgid "Other. Specify:"
 msgstr "Drugo. Določite:"
 
@@ -1921,7 +1913,6 @@ msgstr "Osebe"
 #: ../src/gui/session.cs:688
 #: ../src/gui/session.cs:857
 #: ../src/report.cs:242
-#, fuzzy
 msgid "Place"
 msgstr "Mesto"
 
@@ -1943,7 +1934,7 @@ msgstr "Izpolnite vrednosti (krepko zapisana polja so obvezna)."
 
 #: ../glade/chronojump.glade.h:339
 msgid "Please select <b>Chronojump</b> language"
-msgstr "Izberite jezik programa <b>Chronojump</b>"
+msgstr "Izberite jezik programa <b>ChronoJump</b>"
 
 #: ../glade/chronojump.glade.h:340
 msgid "Please touch the platform or click Chronopic <i>TEST</i> button"
@@ -2287,14 +2278,12 @@ msgstr "Pokaži/Skrij robove"
 
 #: ../glade/chronojump.glade.h:416
 #: ../src/runType.cs:260
-#, fuzzy
 msgid "Shuttle Run Agility test"
-msgstr "Shuttle-run test spretnosti"
+msgstr "Shuttle Run test agilnosti"
 
 #: ../glade/chronojump.glade.h:417
-#, fuzzy
 msgid "Shuttle run"
-msgstr "Shuttle-run"
+msgstr "Shuttle Run test"
 
 #: ../glade/chronojump.glade.h:418
 #: ../src/gui/convertWeight.cs:61
@@ -2311,7 +2300,6 @@ msgstr "Enostaven skok brez posebne tehnike"
 #: ../src/exportSession.cs:238
 #: ../src/gui/person.cs:1751
 #: ../src/gui/session.cs:692
-#, fuzzy
 msgid "Speciallity"
 msgstr "Posebnost"
 
@@ -2346,9 +2334,8 @@ msgstr "Skok iz počepa z dodatno obtežitvijo"
 #: ../glade/chronojump.glade.h:426
 #: ../src/gui/jump.cs:1040
 #: ../src/gui/jump.cs:1232
-#, fuzzy
 msgid "Start inside"
-msgstr "Začni znotraj"
+msgstr "Začnte NA PODLOGI"
 
 #: ../glade/chronojump.glade.h:427
 msgid "Stats"
@@ -2521,9 +2508,8 @@ msgid "Translators"
 msgstr "Prevajalci"
 
 #: ../glade/chronojump.glade.h:450
-#, fuzzy
 msgid "Transpose"
-msgstr "Zamenjaj"
+msgstr "premesti"
 
 #: ../glade/chronojump.glade.h:451
 #: ../src/exportSession.cs:280
@@ -2577,13 +2563,12 @@ msgid "Upload session to server"
 msgstr "Pošlji sejo na strežnik"
 
 #: ../glade/chronojump.glade.h:461
-#, fuzzy
 msgid ""
 "Uploaded\n"
 "by you"
 msgstr ""
-"Poslano\n"
-"od vas"
+"Ste\n"
+"poslali"
 
 #: ../glade/chronojump.glade.h:463
 msgid "Use metric units"
@@ -2629,15 +2614,13 @@ msgid "Width of the line"
 msgstr "Širina črte"
 
 #: ../glade/chronojump.glade.h:474
-#, fuzzy
 msgid "ZigZag"
-msgstr "Cik-cak"
+msgstr "Cik-Cak"
 
 #: ../glade/chronojump.glade.h:475
 #: ../src/runType.cs:294
-#, fuzzy
 msgid "ZigZag Agility test"
-msgstr "Test cik-cak gibčnosti"
+msgstr "Test agilnosti Cik-Cak"
 
 #: ../glade/chronojump.glade.h:476
 msgid "_About"
@@ -2949,7 +2932,7 @@ msgid ""
 "If problems persist ask in chronojump-list"
 msgstr ""
 "Pretvarjanje podatkovne zbirke je spodletelo, saj zahteva nameščeno knjižnico libsqlite3-0. \n"
-"V primeru nadaljnih težav, bo treba poiskati pomoč na dopisnem seznamu chronojump."
+"V primeru nadaljnjih težav, bo treba poiskati pomoč na dopisnem seznamu ChronoJump."
 
 #: ../src/chronojump.cs:217
 #, csharp-format
@@ -2958,7 +2941,7 @@ msgstr "V primeru, da v podatkovni zbirki še ni podatkov (program prvič zagnan
 
 #: ../src/chronojump.cs:219
 msgid "And starting Chronojump again."
-msgstr "In ponovno začenjanje programa Chronojump."
+msgstr "In ponovno začenjanje programa ChronoJump."
 
 #: ../src/chronojump.cs:231
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
@@ -2972,11 +2955,11 @@ msgstr "V kolikor je bil seskok z odskokom izveden z zamahom, je treba podatke r
 #: ../src/chronojump.cs:240
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
-msgstr "Različica programa Chronojump ({0}) je starejša od različice podatkovne zbirke."
+msgstr "Različica programa ChronoJump ({0}) je starejša od različice podatkovne zbirke."
 
 #: ../src/chronojump.cs:241
 msgid "Please update Chronojump"
-msgstr "Posodobite program Chronojump"
+msgstr "Posodobite program ChronoJump"
 
 #: ../src/chronojump.cs:249
 msgid "tables already created"
@@ -2990,7 +2973,7 @@ msgid ""
 "Your Chronojump version is: {1}"
 msgstr ""
 "\n"
-"Na voljo je novo različica programa Chronojump.\n"
+"Na voljo je novo različica programa ChronoJump.\n"
 "Trenutna različica programa je: {1}"
 
 #: ../src/chronojump.cs:306
@@ -2999,7 +2982,7 @@ msgstr "Posodobite na novo različico."
 
 #: ../src/chronojump.cs:314
 msgid "Chronojump crashed before."
-msgstr "Chronojump se je v preteklosti že sesul. "
+msgstr "ChronoJump se je v preteklosti že sesul. "
 
 #: ../src/chronojump.cs:315
 #: ../src/gui/chronojump.cs:855
@@ -3010,22 +2993,20 @@ msgstr "Posodobite na novo različico:"
 #: ../src/chronojump.cs:720
 #: ../src/chronojump.cs:728
 msgid "Chronojump will exit now."
-msgstr "Chronojump bo sedaj končan."
+msgstr "ChronoJump bo sedaj končan."
 
 #: ../src/chronojump.cs:563
 #, csharp-format
 msgid "Chronojump {0} crashed before. If this problem persist, please, report it at forums:"
-msgstr "Chronojump {0} se je v preteklosti že sesul. V primeru, da se težava ponovi, pošljite poročilo na forum:"
+msgstr "ChronoJump {0} se je v preteklosti že sesul. V primeru, da se težava ponovi, pošljite poročilo na forum:"
 
 #: ../src/chronojump.cs:564
-#, fuzzy
 msgid "Remember to describe on Chronojump software forum how crash happened."
-msgstr "Zapomnite si in opišite kako je prišlo do sesutja programa na forumu programa Chronojump."
+msgstr "Pri pošiljanju poročila sesutja programa ChronoJump, je treba podrobno opisati, kako je do napake prišlo."
 
 #: ../src/chronojump.cs:569
-#, fuzzy
 msgid "Your help is needed."
-msgstr "Vaša pomoč je potrebovana."
+msgstr "Zahtevana je pomoč."
 
 #: ../src/chronojump.cs:687
 #, csharp-format
@@ -3069,7 +3050,7 @@ msgstr "Podatkovna zbirka je sedaj na: {0}"
 
 #: ../src/chronojump_mini.cs:108
 msgid "More information on Chronojump manual"
-msgstr "Več podrobnosti o priročniku Chronojump"
+msgstr "Več podrobnosti o priročniku ChronoJump"
 
 #: ../src/chronojump_mini.cs:118
 msgid "Print the port name where chronopic is connected:"
@@ -3103,9 +3084,8 @@ msgid "Go up platform for jumping"
 msgstr "Stopite na merilno podlogo za testiranje skakanja"
 
 #: ../src/chronojump_mini.cs:182
-#, fuzzy
 msgid "Jump when prepared"
-msgstr "Skočite, ko boste pripravljeni"
+msgstr "Skočite, ko ste pripravljeni"
 
 #: ../src/chronojump_mini.cs:183
 msgid "Press CTRL-c for ending session"
@@ -3157,32 +3137,27 @@ msgstr "Naprava kronopik ni povezana. Napravo je treba ponovno povezati preko po
 
 #: ../src/execute/jump.cs:123
 #: ../src/execute/jump.cs:541
-#, fuzzy
 msgid "You are IN, JUMP when prepared!!"
-msgstr "Ste ZNOTRAJ, SKOČITE ko ste pripravljeni!!"
+msgstr "Ste NA PODLOGI! SKOČITE, ko ste pripravljeni!"
 
 #: ../src/execute/jump.cs:146
 #: ../src/execute/reactionTime.cs:124
-#, fuzzy
 msgid "You are OUT, come inside and press the 'accept' button"
-msgstr "Ste ZUNAJ, pridite noter in pritisnite gumb 'sprejmi'"
+msgstr "Ste OB PODLOGI! Stopite nanjo in pritisnite gumb 'sprejmi'."
 
 #: ../src/execute/jump.cs:173
 #: ../src/execute/jump.cs:537
-#, fuzzy
 msgid "You are OUT, JUMP when prepared!!"
-msgstr "Ste ZUNAJ, SKOČITE ko boste pripravljeni!!"
+msgstr "Ste OB PODLOGI! SKOČITE, ko boste pripravljeni!"
 
 #: ../src/execute/jump.cs:198
 #: ../src/execute/jump.cs:545
-#, fuzzy
 msgid "You are IN, please leave the platform, and press the 'accept' button"
-msgstr "Ste ZNOTRAJ, zapustite merilno podlogo in pritisnite gumb 'sprejmi'"
+msgstr "Ste NA PODLOGI! Stopite z merilne podloge in pritisnite gumb 'sprejmi'."
 
 #: ../src/execute/jump.cs:547
-#, fuzzy
 msgid "You are OUT, please enter the platform, prepare for jump and press the 'accept' button"
-msgstr "Ste ZUNAJ, stopite na merilno podlogo, se pripravite na skok in pritisnite gumb 'sprejmi'"
+msgstr "Ste OB PODLOGI! Stopite na merilno podlogo, se pripravite na skok in pritisnite gumb 'sprejmi'."
 
 #. define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
 #. leave the initial selected time into description/comments:
@@ -3210,9 +3185,9 @@ msgid "Platform"
 msgstr "Merilna podloga"
 
 #: ../src/execute/multiChronopic.cs:303
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "There's contact in {0}. Please leave."
-msgstr "Obstaja stik na {0}. Odidite."
+msgstr "Podloga {0} je v stiku! Pred začetkom mora biti prosta."
 
 #: ../src/execute/multiChronopic.cs:373
 msgid "Press Test button in all Chronopics simultaneously."
@@ -3231,28 +3206,24 @@ msgid "You are IN, please leave the platform, prepare for start, and press the '
 msgstr "Ste ZNOTRAJ, zapustite merilno podlogo, pripravite se za začetek in pritisnite gumb 'sprejmi'!!"
 
 #: ../src/execute/pulse.cs:134
-#, fuzzy
 msgid "You are OUT, start when prepared!!"
-msgstr "Ste ZUNAJ, začnite ko ste pripravljeni!!"
+msgstr "Ste OB PODLOGI! Začnite, ko boste pripravljeni!"
 
 #: ../src/execute/pulse.cs:341
 msgid "Last pulse"
 msgstr "Zadnji podatek ritma"
 
 #: ../src/execute/reactionTime.cs:100
-#, fuzzy
 msgid "You are IN, RELEASE when prepared!!"
-msgstr "Ste ZNOTRAJ, SPUSTITE ko boste pripravljeni!!"
+msgstr "Ste NA PODLOGI! SPROSTITE, ko boste pripravljeni!"
 
 #: ../src/execute/run.cs:115
-#, fuzzy
 msgid "You are IN, RUN when prepared!!"
-msgstr "Ste ZNOTRAJ, STECITE ko boste pripravljeni!!"
+msgstr "Ste NA PODLOGI! STECITE, ko boste pripravljeni!"
 
 #: ../src/execute/run.cs:122
-#, fuzzy
 msgid "You are OUT, RUN when prepared!!"
-msgstr "Ste ZUNAJ, STECITE ko boste pripravljeni!!"
+msgstr "Ste OB PODLOGI! STECITE, ko boste pripravljeni!"
 
 #: ../src/execute/run.cs:298
 #: ../src/execute/run.cs:805
@@ -3414,7 +3385,6 @@ msgstr "ID skoka"
 #: ../src/stats/rjIndex.cs:35
 #: ../src/stats/rjPotencyBosco.cs:37
 #: ../src/treeViewJump.cs:39
-#, fuzzy
 msgid "Fall"
 msgstr "Padec"
 
@@ -3581,14 +3551,12 @@ msgid "Change"
 msgstr "Spremeni"
 
 #: ../src/exportSession.cs:759
-#, fuzzy
 msgid "IN-IN"
-msgstr "ZNOTRAJ-ZNOTRAJ"
+msgstr "NA-NA"
 
 #: ../src/exportSession.cs:760
-#, fuzzy
 msgid "OUT-OUT"
-msgstr "ZUNAJ-ZUNAJ"
+msgstr "OB-OB"
 
 #: ../src/exportSession.cs:850
 msgid ""
@@ -3610,7 +3578,7 @@ msgstr "Pripravljeno."
 #: ../src/gui/chronojump.cs:548
 #, csharp-format
 msgid "Chronojump database version file: {0}"
-msgstr "Datoteka različice podatkovne zbirke Chronojump: {0}"
+msgstr "Datoteka različice podatkovne zbirke ChronoJump: {0}"
 
 #: ../src/gui/chronojump.cs:649
 msgid "Preferences loaded"
@@ -3635,7 +3603,7 @@ msgstr "Najprej preverite, če so podatki merilnika v redu."
 
 #: ../src/gui/chronojump.cs:854
 msgid "Your version of Chronojump is too old for this."
-msgstr "Različica programa Chronojump je prestara za to dejanje."
+msgstr "Različica programa ChronoJump je prestara za to dejanje."
 
 #. false: don't do insertion
 #. false: don't do insertion
@@ -3829,7 +3797,6 @@ msgstr "Izvedi skok"
 #: ../src/gui/chronojump.cs:2851
 #: ../src/gui/chronojump.cs:3278
 #: ../src/gui/chronojump.cs:3594
-#, fuzzy
 msgid "Phases"
 msgstr "Koraki"
 
@@ -3903,7 +3870,6 @@ msgid "Deleted reaction time"
 msgstr "Odzivni čas je izbrisan."
 
 #: ../src/gui/chronojump.cs:4521
-#, fuzzy
 msgid "Deleted pulse"
 msgstr "Ritem je izbrisan"
 
@@ -3942,9 +3908,8 @@ msgstr ""
 "Andrej Žnidaršič <andrej.znidarsic@gmail.com>Matej Dremelj <matej.dremelj@gmail.com>"
 
 #: ../src/gui/chronojump.cs:5092
-#, fuzzy
 msgid "Done for testing purposes. Chronojump will exit badly"
-msgstr "Končano za preizkus. Chronojump bo končan z napako."
+msgstr "Končano za preizkus. Program ChronoJump bo končan z napako."
 
 #: ../src/gui/chronopic.cs:257
 msgid "One or more Chronopics have been disconnected."
@@ -3959,9 +3924,8 @@ msgid "starting connection with chronopic"
 msgstr "začenjanje povezave z napravo kronopik"
 
 #: ../src/gui/chronopic.cs:419
-#, fuzzy
 msgid "If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash."
-msgstr "V primeru da ste prej uporabljali modem preko zaporednih vrat (v seji GNU/Linux in ste izbrali zaporedna vrata) se bo Chronojump sesul."
+msgstr "V primeru, da ste prej preko zaporednih vrat uporabljali modem (v seji GNU/Linux in ste izbrali zaporedna vrata), se bo program ChronoJump sesul."
 
 #: ../src/gui/chronopic.cs:460
 #, csharp-format
@@ -3973,12 +3937,10 @@ msgid "Problems communicating to chronopic."
 msgstr "Težave med sporazumevanjem z napravo kronopik."
 
 #: ../src/gui/chronopic.cs:466
-#, fuzzy
 msgid "Changed platform to 'Simulated'"
-msgstr "Spremeni merilno podlogo na 'Simulirano'"
+msgstr "Spremenjena možnost merilne podloge na 'simulirano'"
 
 #: ../src/gui/chronopic.cs:468
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3986,7 +3948,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Na Windows priporočamo odstranitev in povezavo USB ali zaporednega kabla iz računalnika po vsakem neuspešnem preizkusu vrat."
+"Na sistemih Windows priporočamo odstranitev povezave USB ali zaporednega kabla iz računalnika po vsakem neuspešnem preizkusu vrat."
 
 #: ../src/gui/chronopic.cs:469
 msgid ""
@@ -3997,7 +3959,6 @@ msgstr ""
 "... in po preklicu zaznavanja naprave kronopik."
 
 #: ../src/gui/chronopic.cs:470
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -4005,7 +3966,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"... kasneje bo ob zaprtju Chronojump verjetno ponovno zamrznil. V primeru da se to zgodi pritisnite CTRL+C na črnem zaslonu."
+"... kasneje med zaprtjem bo ChronoJump verjetno ponovno zamrznil. V primeru, da se to zgodi pritisnite CTRL+C na črnem zaslonu."
 
 #. disconnected
 #: ../src/gui/chronopic.cs:688
@@ -4013,17 +3974,14 @@ msgid "Cancelled by user"
 msgstr "Preklicano s strani uporabnika"
 
 #: ../src/gui/convertWeight.cs:109
-#, fuzzy
 msgid "or"
 msgstr "ali"
 
 #: ../src/gui/convertWeight.cs:129
-#, fuzzy
 msgid "Old weight"
 msgstr "Stara teža"
 
 #: ../src/gui/convertWeight.cs:141
-#, fuzzy
 msgid ""
 "New weight\n"
 "option 1"
@@ -4032,7 +3990,6 @@ msgstr ""
 "možnost 1"
 
 #: ../src/gui/convertWeight.cs:153
-#, fuzzy
 msgid ""
 "New weight\n"
 "option 2"
@@ -4061,12 +4018,10 @@ msgstr ""
 "(ločilnik decimalnih mest: '{0}')"
 
 #: ../src/gui/event.cs:607
-#, fuzzy
 msgid "There are tests of that type on database on sessions:"
 msgstr "Testi te vrste so v podatkovni zbirki seje:"
 
 #: ../src/gui/event.cs:609
-#, fuzzy
 msgid "please first edit or delete them."
 msgstr "najprej jih je treba urediti ali izbrisati."
 
@@ -4075,16 +4030,14 @@ msgid "Are you sure you want to delete this test type?"
 msgstr "Ali ste prepričani, da želite izbrisati to vrsto testa?"
 
 #: ../src/gui/evaluator.cs:345
-#, fuzzy
 msgid "Select of Birth"
-msgstr "Izbor rojstva"
+msgstr "Izbor dneva rojstva"
 
 #. write "last" to show last jump
 #: ../src/gui/eventExecute.cs:1066
 #: ../src/gui/eventExecute.cs:1118
-#, fuzzy
 msgid "Last"
-msgstr "Zadnje"
+msgstr "Zadnji"
 
 #: ../src/gui/eventExecute.cs:1712
 msgid "Platforms"
@@ -4104,7 +4057,7 @@ msgstr "Samodejno zaznavanje je trenutno onemogočeno"
 
 #: ../src/gui/helpPorts.cs:78
 msgid "More information on <b>Chronojump Manual</b> at section:"
-msgstr "Več podrobnosti o <b>Priročniku Chronojump</b> je na odseku:"
+msgstr "Več podrobnosti o <b>Priročniku ChronoJump</b> je na odseku:"
 
 #: ../src/gui/helpPorts.cs:80
 msgid "Newer versions will be on this site:"
@@ -4175,9 +4128,8 @@ msgid "If COM1 and COM2 are <i>used</i>, then select unused ports below 10."
 msgstr "V kolikor sta COM1 in COM2 že <i>zasedena</i>, izberite neuporabljena vrata pod 10."
 
 #: ../src/gui/helpPorts.cs:111
-#, fuzzy
 msgid "If doesn't work, try to select the COM1 or COM2 (normally they are not really <i>used</i>)."
-msgstr "V primeru da ne deluje, izberite COM1 ali COM2 (običajno nista resnično <i>uporabljena</i>)."
+msgstr "V primeru, da naprava ne deluje, izberite vrata COM1 ali COM2 (običajno nista <i>uporabljena</i>)."
 
 #: ../src/gui/jump.cs:55
 msgid "jump"
@@ -4195,47 +4147,46 @@ msgstr "Popravi repetitivno-eksplozivni skok"
 #: ../src/gui/jump.cs:430
 #: ../src/gui/pulse.cs:285
 #: ../src/gui/run.cs:561
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "Use this window to repair this test.\n"
 "Double clic any cell to edit it (decimal separator: '{0}')"
 msgstr ""
-"Uporabite to okno za popravilo tega testa.\n"
-"Dvokliknite katerokoli celico za urejanje (ločilnik decimalnih mest: '{0}')"
+"Uporabite možnosti za popravilo testa.\n"
+"Dvakrat kliknite katerokoli celico za urejanje (ločilnik decimalnih mest: '{0}')"
 
 #: ../src/gui/jump.cs:468
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "JumpType: {0}."
-msgstr "VrstaSkoka: {0}."
+msgstr "Vrsta skoka: {0}."
 
 #: ../src/gui/jump.cs:473
-#, fuzzy
 msgid ""
 "\n"
 "This jump type starts inside, the first time should be a flight time."
 msgstr ""
 "\n"
-"Ta vrsta skoka se začne znotraj, prvi čas naj bi bil čas leta."
+"Ta vrsta skoka se začne NA PODLOGI, prvi čas pa naj bi bil čas leta (čL)."
 
 #. if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TF if found
 #: ../src/gui/jump.cs:480
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "\n"
 "This jump type is fixed to {0} jumps, you cannot add more."
 msgstr ""
 "\n"
-"Ta vrsta skoka je nespremenljiva na {0} skokov, ne morete dodati več skokov."
+"Ta vrsta skoka je omejena na {0} skokov in novih ni mogoče dodati."
 
 #. if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
 #: ../src/gui/jump.cs:483
-#, fuzzy, csharp-format
+#, csharp-format
 msgid ""
 "\n"
 "This jump type is fixed to {0} seconds, totaltime cannot be greater."
 msgstr ""
 "\n"
-"Ta vrsta skoka je nespremenljiva na {0} sekund, skupni čas ne more biti večji."
+"Ta vrsta skoka je omejena na čas {0} sekund in skupnega časa ni mogoče podaljšati."
 
 #: ../src/gui/jump.cs:494
 #: ../src/gui/pulse.cs:350
@@ -4301,13 +4252,12 @@ msgid "Include / Discard athletes"
 msgstr "Dodaj / odstrani merjence"
 
 #: ../src/gui/person.cs:685
-#, fuzzy
 msgid ""
 "All persons checked at first column will be uploaded into database with his/her tests on this session.\n"
 "If you want that a person is not uploaded, just uncheck it."
 msgstr ""
-"Vse osebe obkljukane na prvem stolpcu bodo poslane v zbirko podatkov z njihovimi testi na tej seji.\n"
-"V primeru, da osebe ne želite poslati jo odkljukajte."
+"Podatki vseh označenih oseb v prvem stolpcu bodo poslani v zbirko podatkov s testi te seje.\n"
+"Podatki neoznačenih oseb ne bodo poslani."
 
 #: ../src/gui/person.cs:930
 msgid "Edit jumper"
@@ -4347,7 +4297,6 @@ msgid "Please select an sport"
 msgstr "Izberite šport"
 
 #: ../src/gui/person.cs:1450
-#, fuzzy
 msgid "Please select an speciallity"
 msgstr "Izberite posebnost"
 
@@ -4573,9 +4522,8 @@ msgid "Session Edit"
 msgstr "Urejanje seje"
 
 #: ../src/gui/session.cs:448
-#, fuzzy
 msgid "Please, define it"
-msgstr "Določite ga"
+msgstr "Vrednost je treba določiti"
 
 #: ../src/gui/session.cs:452
 msgid "People in session practice different sports."
@@ -4590,12 +4538,10 @@ msgid "Nobody in this session practice sport."
 msgstr "Osebe te seje se ne ukvarjajo s športom."
 
 #: ../src/gui/session.cs:467
-#, fuzzy
 msgid "Different speciallities."
-msgstr "Drugačne posebnosti."
+msgstr "Različne posebnosti."
 
 #: ../src/gui/session.cs:469
-#, fuzzy
 msgid "This speciallity:"
 msgstr "Ta posebnost:"
 
@@ -4650,21 +4596,18 @@ msgstr "Poslan šport"
 #: ../src/gui/stats.cs:983
 #: ../src/gui/stats.cs:1191
 #: ../src/statType.cs:346
-#, fuzzy
 msgid "Evolution"
-msgstr "Razvoj"
+msgstr "Napredek"
 
 #: ../src/gui/stats.cs:147
 #: ../src/gui/stats.cs:588
 #: ../src/gui/stats.cs:1027
 #: ../src/statType.cs:234
-#, fuzzy
 msgid "No indexes"
 msgstr "Ni indeksov"
 
 #: ../src/gui/stats.cs:169
 #: ../src/stats/main.cs:239
-#, fuzzy
 msgid "Invert"
 msgstr "Preobrni"
 
@@ -4768,9 +4711,8 @@ msgstr "brez prog"
 
 # Kako se razvijajo tvoje sposobnosti ko dlje časa treniraš
 #: ../src/report.cs:304
-#, fuzzy
 msgid "Evolution."
-msgstr "Razvoj."
+msgstr "Napredek"
 
 #: ../src/runType.cs:120
 msgid "Run 1000 meters"
@@ -4823,7 +4765,6 @@ msgid "The best of 2 attempts were recorded."
 msgstr "Zabeležen bo najboljši rezultat dveh poskusov."
 
 #: ../src/runType.cs:151
-#, fuzzy
 msgid "Gesell's Bar"
 msgstr "Gesellova prečka"
 
@@ -4848,9 +4789,8 @@ msgid "Hands on their waist."
 msgstr "Roke na boke."
 
 #: ../src/runType.cs:159
-#, fuzzy
 msgid "In front of a wall in order to avoid distractions."
-msgstr "Pred zidom z namenom izogiba odvračanja."
+msgstr "Pred zidom v izogibanje odvračanja pozornosti."
 
 #: ../src/runType.cs:160
 msgid "INSTRUCTIONS AND DEMONSTRATION: "
@@ -4878,39 +4818,33 @@ msgstr "Zabeležen bo najboljši rezultat dveh poskusov."
 
 #: ../src/runType.cs:169
 #: ../src/runType.cs:384
-#, fuzzy
 msgid "Reference:"
 msgstr "Sklic:"
 
 #: ../src/runType.cs:185
-#, fuzzy
 msgid "This test is part of a battery for the USA Women's Soccer Team. The NFL use a very similar test for the NFL Combine Testing, the 20 yard shuttle."
-msgstr "Test uporablja ženska nogometna ekipa ZDA. Organizacija NFL uporablja podoben test za lastna testiranja; 20 jardni Shuttle run test."
+msgstr "Test uporablja ženska nogometna ekipa ZDA. Organizacija NFL uporablja zelo podoben test za lastna testiranja; 20 jardni Shuttle run test."
 
 #: ../src/runType.cs:187
 #: ../src/runType.cs:264
-#, fuzzy
 msgid "Purpose"
 msgstr "Namen"
 
 #: ../src/runType.cs:188
-#, fuzzy
 msgid "The 20 yard agility run is a simple measure of an athlete’s ability to accelerate, decelerate, change direction, and to accelerate again."
-msgstr "20 jardov dolg tek gibčnosti je enostavno merilo atletove sposobnosti pospeševanja, zaustavljanja, spremembe smeri in ponovnega pospeševanja. "
+msgstr "20 jardni test agilnosti je enostavno merilo sposobnosti pospeševanja, zaustavljanja, spreminjanja smeri gibanja in ponovnega pospeševanja. "
 
 #: ../src/runType.cs:190
 #: ../src/runType.cs:209
 #: ../src/runType.cs:229
 #: ../src/runType.cs:267
 #: ../src/runType.cs:296
-#, fuzzy
 msgid "Procedure"
 msgstr "Postopek"
 
 #: ../src/runType.cs:191
-#, fuzzy
 msgid "Set up three marker cones in a straight line, exactly five yards apart - cones B, A(center) and C. At each cone place a line across using marking tape. The timer is positioned at the level of the center A cone, facing the athlete. The athlete straddles the center cone A with feet an equal distance apart and parallel to the line of cones. When ready, the athlete runs to cone B (touching the line with either foot), turns and accelerates to cone C (touching the line), and finishes by accelerating through the line at cone A. The stopwatch is started on the first movement of the athlete and stops the watch when the athlete’s torso crosses the center line."
-msgstr "Postavite tri označevalne stožce v ravni črti, natančno pet jardov narazen - stožci B, A (sredina) in C. Na vsak stožec postavite črto z označevalnim trakom. Časovnik je postavljen na raven sredinskega A stožca, proti atletu. Atlet zajaha središčni stožec A s stopali enako razdaljo narazen in vzporedno s črto stožcev. Ko je pripravljen, atlet steče do stožca B (se dotakne črte z eno od nog), se obrne in pospeši do stožca C (se dotakne črte) in konča s pospeševanjem skozi črto pri stožcu A. Štoparica je zagnana ob prvem premiku atleta in se zaustavi ko atletove prsi prečkajo središčno črto."
+msgstr "Postavite tri označevalne stožce v ravni črti, natančno pet jardov (4,5 m) narazen - stožci B, A (sredina) in C. Na vsak stožec postavite črto z označevalnim trakom. Časovnik je postavljen na raven sredinskega A stožca, obrnjen proti merjencu. Ta zajaha središčni stožec A s stopali enako razdaljo narazen in vzporedno s črto stožcev. Ko je pripravljen, merjenec steče do stožca B (se dotakne črte z eno od nog), se obrne in pospeši do stožca C (se dotakne črte) in konča s pospeševanjem skozi črto pri stožcu A. Časomer je zagnan ob prvem premiku merjenca in se zaustavi, ko ta s prsi prečka središčno črto."
 
 #: ../src/runType.cs:193
 #: ../src/runType.cs:271
@@ -4934,23 +4868,20 @@ msgid "Cited with permission."
 msgstr "Navedeno z dovoljenjem."
 
 #: ../src/runType.cs:210
-#, fuzzy
 msgid "Markers are set up 5 and 15 meters from a line marked on the ground. The athlete runs from the 15 meter marker towards the line (run in distance to build up speed) and through the 5 m markers, turns on the line and runs back through the 5 m markers. The time is recorded from when the athletes first runs through the 5 meter marker, and stopped when they return through these markers (that is, the time taken to cover the 5 m up and back distance - 10 m total). The best of two trails is recorded. The turning ability on each leg should be tested. The subject should be encouraged to not overstep the line by too much, as this will increase their time."
-msgstr "Oznake so postavljene 5 in 15 metrov od črte označene na tleh. Atlet teče od 15 metrske oznake proti črti (s tem pridobi hitrost) skozi 5m oznake, se obrne na črti in teče nazaj skozi 5m oznake. Zabeležen je čas od prvega prečkanja 5 metrske oznake do ponovnega prečkanja 5 metrske oznake (torej čas potreben za 5 m tek naprej in nazaj - skupaj 10m). Zabeležena je najboljša od 2 izvedb. Priporočeno je testirati zmožnost obračanja obeh nog. Udeležence je dobro spodbuditi naj črte ne prestopijo, saj bo to povečalo njihov čas. "
+msgstr "Oznake so postavljene 5 in 15 metrov od črte označene na tleh. Merjenec steče od 15 metrske oznake proti črti (s tem pridobi hitrost) in skozi 5m oznake, se obrne na črti in teče nazaj skozi 5m oznake. Zabeležen je čas od prvega prečkanja 5 metrske oznake do ponovnega prečkanja 5 metrske oznake (torej čas potreben za 5 m tek naprej in nazaj - skupaj 10m). Zabeleži se najboljši čas dveh ponovitev. Priporočeno je testirati zmožnost obračanja obeh nog. Merjenca je treba opomniti, da črte ne prestopi preveč, saj se bo s tem povečal čas teka."
 
 #: ../src/runType.cs:213
-#, fuzzy
 msgid "This is a test of 180 degree turning ability. This ability may not be applicable to some sports."
-msgstr "To je test zmožnosti obračanja za 180 stopinj. Ta zmožnost morda za nekatere športe ni uporabna."
+msgstr "Test je namenjen merjenju sposobnosti obračanja za 180 stopinj. Rezultat tega testa zmožnosti za nekatere športe ni uporaben."
 
 #: ../src/runType.cs:227
-#, fuzzy
 msgid "The length of the course is 10 meters and the width (distance between the start and finish points) is 5 meters. Four cones are used to mark the start, finish and the two turning points. Another four cones are placed down the center an equal distance apart. Each cone in the center is spaced 3.3 meters apart."
-msgstr "Dolžina proge je 10 metrov in širina (razdalja med začetnimi in končnimi točkami) je 5 metrov. Štirje stožci so uporabljeni za oznako starta, cilja in dveh obračalnih točk. Dodatni štirje stožci so postavljeni na sredino z enakimi medsebojnimi razdaljami. Stožci na sredini so 3.3 metra narazen."
+msgstr "Dolžina proge je 10 metrov, širina (razdalja med začetnimi in končnimi točkami) pa je 5 metrov. Štirje stožci so uporabljeni za oznako začetka, cilja in dveh točk obračanja. Dodatni štirje stožci so postavljeni na sredino v enakem razmiku 3,3 metra narazen."
 
 #: ../src/runType.cs:230
 msgid "Subjects should lie on their front (head to the start line) and hands by their shoulders. On the 'Go' command the stopwatch is started, and the athlete gets up as quickly as possible and runs around the course in the direction indicated, without knocking the cones over, to the finish line, at which the timing is stopped."
-msgstr "Merjenci naj ležijo na trebuhu (z glavo obrnjeno v smeri startne črte) in rokami na ramenih. Na ukaz 'Pojdi' je zagnan časomer, atlet čim hitreje vstane in steče po progi in okoli stožcev brez dotika do ciljne črte, ko se merjenje časa zaustavi."
+msgstr "Merjenci naj ležijo na trebuhu (z glavo obrnjeno v smeri startne črte) in rokami na ramenih. Na ukaz 'pojdi' je zagnan časomer in merjenec čim hitreje vstane in steče po progi in okoli stožcev brez dotika do ciljne črte, ko se merjenje časa zaustavi."
 
 #: ../src/runType.cs:232
 msgid "Results"
@@ -5015,27 +4946,24 @@ msgid "Variations"
 msgstr "Odstopanja"
 
 #: ../src/runType.cs:248
-#, fuzzy
 msgid "The starting and finishing sides can be swapped, so that turning direction is changed."
-msgstr "Strani začetka in konca je mogoče zamenjati, tako da je smer zavoja spremenjena."
+msgstr "Mesto začetka in konca je mogoče poljubno zamenjati, s čimer se zamenja tudi smer zavoja."
 
 #: ../src/runType.cs:262
 msgid "This test describes the procedures as used in the President's Challenge Fitness Awards. The variations listed give other ways to also perform this test."
 msgstr "Test je povzet po postopku testa 'President's Challenge Fitness Awards'. Našteta odstopanja kažejo na vzporedne načine izvajanja tega testa."
 
 #: ../src/runType.cs:265
-#, fuzzy
 msgid "This is a test of speed and agility, important in many sports."
-msgstr "To je test hitrosti in gibčnosti, pomemben v veliko športih."
+msgstr "To je test hitrosti in agilnosti, pomembnih pri veliko športih."
 
 #: ../src/runType.cs:268
 msgid "This test requires the person to run back and forth between two parallel lines as fast as possible. Set up two lines of cones 30 feet apart or use line markings, and place two blocks of wood or a similar object behind one of the lines. Starting at the line opposite the blocks, on the signal 'Ready? Go!' the participant runs to the other line, picks up a block and returns to place it behind the starting line, then returns to pick up the second block, then runs with it back across the line."
 msgstr "Test zahteva, da oseba teče naprej in nazaj med dvema vzporednima črtama kolikor hitro je to mogoče. Postaviti je treba dve vrsti stožcev na razdalji 30 čevljev in postaviti dva lesena predmeta za eno od črt. Merjenec začne na strani, kjer ni lesenih predmetov in ob ukazu 'Pojdi!' steče na drugo stran, pobere leseni predmet in ga prinese za začetno črto, se znova vrne in pobere drugi leseni predmet ter z njim steče nazaj čez začetno črto."
 
 #: ../src/runType.cs:272
-#, fuzzy
 msgid "Two or more trails may be performed, and the quickest time is recorded. Results are recorded to the nearest tenth of a second."
-msgstr "Izvesti je mogoče dve ali več izvedb, zabeležen je najhitrejši čas. Rezultati so zaokroženi na najbližjo desetinko sekunde."
+msgstr "Priporočeno je izvesti več kot eno ponovitev testa in zabeležiti najhitrejši dosežen čas. Rezultate je priporočeno zaokrožiti na desetinko sekunde."
 
 #: ../src/runType.cs:274
 #: ../src/runType.cs:299
@@ -5043,73 +4971,60 @@ msgid "Modifications"
 msgstr "Spremembe"
 
 #: ../src/runType.cs:275
-#, fuzzy
 msgid "The test procedure can be varied by changing the number of shuttles performed, the distance between turns (some use 10 meters rather than 30 feet) and by removing the need for the person pick up and return objects from the turning points."
-msgstr "Postopek testa je mogoče spremeniti s spremembo števila izvedenih Shuttle Run testov, razdaljo med obrati (nekateri namesto 30 čevljev uporabijo 10 metrov) in z odstranitvijo potrebe po pobiranju in vračanju predmetov z obračevalnih točk."
+msgstr "Izvedbo testa je mogoče spremeniti s spremembo števila izvedenih Shuttle Run pretekov, razdaljo med obrati (nekateri namesto 30 čevljev uporabijo 10 metrov) in z odstranitvijo potrebe po pobiranju in vračanju predmetov s točk obračanja."
 
 #: ../src/runType.cs:279
 msgid "This test can be conducted on large groups relatively quickly with minimal equipment required."
 msgstr "Test je mogoče hitro izvesti z večjimi skupinami z zelo malo zahtevane opreme."
 
 #: ../src/runType.cs:282
-#, fuzzy
 msgid "The blocks should be placed at the line, not thrown across them. Also make sure the participants run through the finish line to maximize their score."
-msgstr "Bloke je treba položiti na črto, ne vreči čez. Prepričajte se, da sodelujoči tečejo skozi ciljno črto za najboljši rezultat."
+msgstr "Lesene predmete je treba položiti na črto in ne vreči čez njo. Prav tako je treba spodbujati merjence, da skozi ciljno črto tečejo za čim boljši rezultat."
 
 #: ../src/runType.cs:297
-#, fuzzy
 msgid "Similar to the Shuttle Run test, this test requires the athlete to run a course in the shortest possible time. A standard zig zag course is with four cones placed on the corners of a rectangle 10 by 16 feet, with one more cone placed in the centre. If the cones are labelled 1 to 4 around the rectangle going along the longer side first, and the centre cone is C, the test begins at 1, then to C, 2, 3, C, 4, then back to 1."
-msgstr "Podobno kot Shuttle Run test, ta test od atleta zahteva pretek razdalje v najkrajšem času. Običajna cik-cak proga vsebuje štiri stožce postavljene na kotih pravokotnika, ki meri 10 krat 16 čevljev z dodatnim stožcem na sredini. V primeru, da so stožci označeni od 1 do 4 okoli pravokotnika, pri čemer gredo najprej po daljši stranici in je središčni stožec C, se test začne pri 1, nato na C, 2, 3, C, 4 in nazaj na 1."
+msgstr "Podobno kot Shuttle Run test, ta test zahteva pretek razdalje v najkrajšem možnem času. Običajna cik-cak proga je postavljena s štirimi stožci, postavljenimi na kotih pravokotnega območja, ki meri 10 (9,1 m) krat 16 (14,6 m) čevljev z dodatnim stožcem na sredini. V primeru, da so stožci označeni od 1 do 4 okoli pravokotnika, pri čemer gredo najprej po daljši stranici in je središčni stožec C, se test začne pri 1, nato na C, 2, 3, C, 4 in nazaj na 1."
 
 #: ../src/runType.cs:300
-#, fuzzy
 msgid "This test procedure can be modified by changing the distance between cones, and the number of circuits performed."
-msgstr "Postopek testa je mogoče prilagoditi s spremembo razdalje med stožci in številom krogov teka."
+msgstr "Test je mogoče prilagoditi s spremembo razdalje med stožci in številom krogov teka."
 
 #: ../src/runType.cs:303
-#, fuzzy
 msgid "The total distance run should not be too great so that fatigue does not become a factor."
-msgstr "Skupna razdalja teka ne sme biti prevelika, da utrujenost ne postane dejavnik pri merjenju."
+msgstr "Skupna dolžina teka ne sme biti prevelika, da utrujenost ne postane dejavnik pri merjenju."
 
 #: ../src/runType.cs:315
-#, fuzzy
 msgid "Margaria-Kalamen"
 msgstr "Margaria-Kalamen test"
 
 #: ../src/runType.cs:324
-#, fuzzy
 msgid "Run n laps x distance"
 msgstr "Pretecite n krogov na razdalji x metrov"
 
 #: ../src/runType.cs:332
-#, fuzzy
 msgid "Make max laps in n seconds"
-msgstr "Naredite čim več krogov v n sekundah"
+msgstr "Pretecite čim več krogov v n sekundah"
 
 #: ../src/runType.cs:341
-#, fuzzy
 msgid "Continue running in n distance"
 msgstr "Nadaljujte s tekom na razdalji n metrov"
 
 #: ../src/runType.cs:349
-#, fuzzy
 msgid "Run 10 times a 20m distance"
-msgstr "10 krat pretecite razdaljo 20 metrov"
+msgstr "Pretecite 10 krat razdaljo 20 metrov"
 
 #: ../src/runType.cs:357
-#, fuzzy
 msgid "Make max laps in 30 seconds"
-msgstr "Naredite čim več krogov v 30 sekundah"
+msgstr "Pretecite čim več krogov v 30 sekundah"
 
 #: ../src/runType.cs:366
-#, fuzzy
 msgid "Continue running in 20m distance"
 msgstr "Nadaljujte s tekom na 20 metrov"
 
 #: ../src/runType.cs:375
-#, fuzzy
 msgid "Modified time Getup and Go test"
-msgstr "Spremenjen čas testa vstani in pojdi"
+msgstr "Spremenjen čas testa Vstani in steci"
 
 #. this intervallic run has different distance for each track
 #: ../src/runType.cs:378
@@ -5118,17 +5033,15 @@ msgstr "Navodila za izvedbo testa so: \"Sedite tako, da ste s hrbtom naslonjeni 
 
 #: ../src/runType.cs:380
 msgid "The stopwatches were activated on the word 'go' and the button that saved the time intervals was pressed also after the following stages: when the subject stood up and kicked the ball; when the ball passed the 8 m line; and when the subject returned to the seated position in the same chair (42 cm height from the seat to the ground). The total time needed to perform the test provided a quantitative evaluation of performance. A qualitative evaluation was performed by the completion of an AQ. This AQ assesses 6 items with a Likert scale from 0 to 3, where 0 is the equivalent to needing help in order to perform the task, and 3 is equivalent to performing the task unaided with no mistakes. The maximum points that can be attained are 18. The items assessed were: (1) standing up from the chair, (2) kicking the ball, (3) walking whilst counting backwards from 15 to 0, (4) walking around the cone, (5) walking whilst stepping into the circles, and (6) sitting back down again."
-msgstr "Štoparice so bile zagnane ob besedi 'pojdi', gumb, ki shrani časovne razmike pa je bil pritisnjen tudi po naslednjih korakih: ko udeleženec vstane in brcne žogo; ko žoga prečka črto na 8 metrih; in ko se osebek vrne v sedeč položaj na istem stolu (sedišče je 42 cm od tal). Skupni čas za izvedbo testa zagotovi kvantitativno oceno zmogljivosti. Kvalitativna ocena je bila izvedena z izpolnitvijo ocenjevalnega vprašalnika. Ta vprašalnik oceni 6 postavk z Likertovo lestvico od 0 do 3, kjer 0 ustreza potrebi po pomoči za izvedbo naloge in 3 ustreza izvedbi naloge brez pomoči in brez napak. Največje število možnih dobljenih točk je 18. Ocenjene postavke so: (1) vstajanje s stola, (2) brcanje žoge, (3) hoja med štetjem nazaj od 15 do 0, (4) hoja okoli stožcev, (5) hoja med stopanjem v obroče in (6) ponovno usedanje."
+msgstr "Časomeri so bili zagnani ob ukazu 'pojdi', gumb, ki shrani časovne razmike pa je bil pritisnjen tudi po naslednjih korakih: ko merjenec vstane in brcne žogo; ko žoga prečka črto na 8 metrih; in ko se merjenec vrne v sedeč položaj na istem stolu (sedišče je 42 cm od tal). Skupni čas za izvedbo testa zagotovi kvantitativno oceno zmogljivosti. Kvalitativna ocena je bila izvedena z izpolnitvijo ocenjevalnega vprašalnika. Ta vprašalnik oceni 6 postavk z Likertovo lestvico od 0 do 3, kjer 0 ustreza potrebi po pomoči za izvedbo naloge in 3 ustreza izvedbi naloge brez pomoči in brez napak. Največje število možnih dobljenih točk je 18. Ocenjene postavke so: (1) vstajanje s stola, (2) brcanje žoge, (3) hoja med štetjem nazaj od 15 do 0, (4) hoja okoli stožcev, (5) hoja med stopanjem v obroče in (6) ponovno usedanje."
 
 #: ../src/runType.cs:381
-#, fuzzy
 msgid "Assessment questionnaire"
 msgstr "Ocenjevalni vprašalnik"
 
 #: ../src/runType.cs:382
-#, fuzzy
 msgid "Once the test finishes proceed to edit and you will be able to complete the assesment questionnaire."
-msgstr "Ko se test konča, nadaljujte z urejanjem in mogoče bo dokončati ocenjevalni vprašalnik."
+msgstr "Po koncu testa nadaljujte z urejanjem in mogoče bo dokončati ocenjevalni vprašalnik."
 
 #: ../src/runType.cs:386
 msgid "Abstract:"
@@ -6485,7 +6398,7 @@ msgstr "{0} v {1} uporabljeno za {2} na {3}"
 #: ../src/stats/djIndex.cs:32
 #: ../src/stats/graphs/djIndex.cs:69
 msgid "Dj Index"
-msgstr "Index SzO"
+msgstr "Indeks SzO"
 
 # msgid_plural
 #. limit
@@ -6638,7 +6551,7 @@ msgstr "Razpršitev"
 
 #: ../src/stats/main.cs:1437
 msgid "Chronojump Graph"
-msgstr "Graf Chronojump"
+msgstr "Graf ChronoJump"
 
 #: ../src/stats/rjAVGSD.cs:200
 #, csharp-format
@@ -6687,16 +6600,14 @@ msgstr "fotocelice niso dodane"
 #: ../src/treeViewMultiChronopic.cs:58
 #: ../src/treeViewMultiChronopic.cs:66
 #: ../src/treeViewMultiChronopic.cs:74
-#, fuzzy
 msgid "IN"
-msgstr "ZNOTRAJ"
+msgstr "NA PODLOGI"
 
 #: ../src/treeViewMultiChronopic.cs:59
 #: ../src/treeViewMultiChronopic.cs:67
 #: ../src/treeViewMultiChronopic.cs:75
-#, fuzzy
 msgid "OUT"
-msgstr "ZUNAJ"
+msgstr "OB PODLOGI"
 
 #: ../src/treeViewMultiChronopic.cs:222
 msgid "Stride"

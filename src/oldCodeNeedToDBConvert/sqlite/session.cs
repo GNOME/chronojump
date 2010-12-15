@@ -101,7 +101,7 @@ class SqliteSessionOld : Sqlite
 			personsSportID + ", " + personsSpeciallityID + ", " + 
 			personsPractice + ", '" + comments + "')" ;
 		dbcmd.ExecuteNonQuery();
-		int myReturn = dbcon.LastInsertRowId;
+		int myReturn = -10000; //dbcon.LastInsertRowId;
 		
 		if(! dbconOpened)
 			dbcon.Close();

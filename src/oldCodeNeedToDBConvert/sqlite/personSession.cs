@@ -56,7 +56,7 @@ class SqlitePersonSessionOld : Sqlite
 			"(uniqueID, personID, sessionID, weight) VALUES ("
 			+ uniqueID + ", " + personID + ", " + sessionID + ", " + Util.ConvertToPoint(weight) + ")" ;
 		dbcmd.ExecuteNonQuery();
-		int myReturn = dbcon.LastInsertRowId;
+		int myReturn = -10000; //dbcon.LastInsertRowId;
 		if(!dbconOpened)
 			dbcon.Close();
 		return myReturn;

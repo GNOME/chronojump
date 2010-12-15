@@ -57,7 +57,7 @@ class SqliteEvent : Sqlite
 				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myLast = dbcon.LastInsertRowId;
+		int myLast = -10000; //dbcon.LastInsertRowId;
 		if(! dbconOpened) {
 			dbcon.Close();
 		}

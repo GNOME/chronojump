@@ -78,7 +78,7 @@ class SqliteJumpRj : SqliteJump
 				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "', '" + angleString + "', " + simulated +")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myLast = dbcon.LastInsertRowId;
+		int myLast = -10000; //dbcon.LastInsertRowId;
 
 		if(! dbconOpened)
 			dbcon.Close();

@@ -74,7 +74,7 @@ class SqliteCountry : Sqlite
 
 		dbcmd.CommandText = myString;
 		dbcmd.ExecuteNonQuery();
-		int myReturn = dbcon.LastInsertRowId;
+		int myReturn = -10000; //dbcon.LastInsertRowId;
 		
 		if(! dbconOpened)
 			dbcon.Close();

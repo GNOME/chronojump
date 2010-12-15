@@ -1,0 +1,3 @@
+<configuration>
+        <dllmap dll="libcesarplayer.dll" target="@expanded_libdir@/@PACKAGE@/libcesarplayer.so.0"/>
+</configuration>

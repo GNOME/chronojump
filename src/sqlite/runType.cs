@@ -113,7 +113,7 @@ class SqliteRunType : Sqlite
 				t.Name + "', " + Util.ConvertToPoint(t.Distance) + ", '" + t.Description +	"')" ;	
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myLast = dbcon.LastInsertRowId;
+		int myLast = -10000; //dbcon.LastInsertRowId;
 		if(! dbconOpened) {
 			dbcon.Close();
 		}
@@ -351,7 +351,7 @@ class SqliteRunIntervalType : SqliteRunType
 				Util.BoolToInt(t.Unlimited) + 	", '" + t.Description +	"', '" + t.DistancesString + 	"')" ;	
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myLast = dbcon.LastInsertRowId;
+		int myLast = -10000; //dbcon.LastInsertRowId;
 		if(! dbconOpened) {
 			dbcon.Close();
 		}

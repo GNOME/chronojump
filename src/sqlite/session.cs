@@ -69,7 +69,7 @@ class SqliteSession : Sqlite
 			serverUniqueID + ")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myReturn = dbcon.LastInsertRowId;
+		int myReturn = -10000; //dbcon.LastInsertRowId;
 		
 		if(! dbconOpened)
 			dbcon.Close();
@@ -616,7 +616,7 @@ class SqliteServerSession : SqliteSession
 			")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myReturn = dbcon.LastInsertRowId;
+		int myReturn = -10000; //dbcon.LastInsertRowId;
 		
 		if(! dbconOpened)
 			dbcon.Close();

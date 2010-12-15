@@ -78,6 +78,10 @@ PKG_CHECK_MODULES([GLIB_SHARP_20], [glib-sharp-2.0])
 PKG_CHECK_MODULES([GTK_SHARP_20], [gtk-sharp-2.0])
 PKG_CHECK_MODULES([GLADE_SHARP_20], [glade-sharp-2.0])
 
+PKG_CHECK_MODULES(CESARPLAYER, [gtk+-2.0 >= 2.8 gdk-2.0 gio-2.0 glib-2.0 gstreamer-0.10 gstreamer-audio-0.10 gstreamer-video-0.10 gstreamer-pbutils-0.10 gobject-2.0 gstreamer-interfaces-0.10])
+AC_SUBST(CESARPLAYER_CFLAGS)
+AC_SUBST(CESARPLAYER_LIBS)
+
 dnl Check for Mono assemblies that we need
 needed_dlls="Mono.Data.Sqlite Mono.Posix"
 for i in $needed_dlls; do
@@ -105,6 +109,8 @@ src/AssemblyInfo.cs
 src/chronojump
 src/chronojump_mini
 src/chronojump.desktop
+libcesarplayer/Makefile
+CesarPlayer/Makefile
 ])
 
 AC_OUTPUT

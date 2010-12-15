@@ -69,7 +69,7 @@ class SqlitePerson : Sqlite
 		dbcmd.CommandText = myString;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myReturn = dbcon.LastInsertRowId;
+		int myReturn = -10000; //dbcon.LastInsertRowId;
 
 		if(! dbconOpened)
 			dbcon.Close();

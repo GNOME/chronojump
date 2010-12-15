@@ -71,7 +71,7 @@ class SqlitePersonSession : Sqlite
 			comments + "', '', '')"; 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myReturn = dbcon.LastInsertRowId;
+		int myReturn = -10000; //dbcon.LastInsertRowId;
 		if(!dbconOpened)
 			dbcon.Close();
 		return myReturn;

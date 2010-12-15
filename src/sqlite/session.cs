@@ -146,6 +146,7 @@ class SqliteSession : Sqlite
 			Convert.ToInt32(values[4]), Convert.ToInt32(values[5]), Convert.ToInt32(values[6]), 
 			values[7], Convert.ToInt32(values[8]) );
 		
+		reader.Close();
 		dbcon.Close();
 		return mySession;
 	}

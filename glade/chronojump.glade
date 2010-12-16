@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
   <!-- interface-requires gtk+ 2.6 -->
   <!-- interface-naming-policy toplevel-contextual -->
@@ -79,7 +79,7 @@
                           <widget class="GtkEntry" id="entry1">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="invisible_char">●</property>
                             <signal name="changed" handler="on_entries_required_changed"/>
                           </widget>
                           <packing>
@@ -604,7 +604,7 @@
                                   <widget class="GtkSpinButton" id="spinbutton_height">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="invisible_char">●</property>
                                     <property name="adjustment">0 0 250 0.10000000000000001 10 10</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -660,7 +660,7 @@
                                   <widget class="GtkSpinButton" id="spinbutton_weight">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="invisible_char">●</property>
                                     <property name="adjustment">0 0 300 0.10000000000000001 10 10</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -1508,7 +1508,7 @@
               <widget class="GtkEntry" id="entry_search_filter">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
                 <signal name="changed" handler="on_entry_search_filter_changed"/>
               </widget>
               <packing>
@@ -4487,7 +4487,7 @@ options</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">Width of the line</property>
-                                            <property name="invisible_char">&#x25CF;</property>
+                                            <property name="invisible_char">●</property>
                                             <property name="adjustment">1 1 5 1 1 0</property>
                                             <property name="climb_rate">1</property>
                                             <property name="snap_to_ticks">True</property>
@@ -11232,7 +11232,6 @@ Test&lt;/b&gt;</property>
     <property name="title" translatable="yes">Test image and description</property>
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <signal name="delete_event" handler="on_delete_event"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="vbox100">
@@ -11693,7 +11692,7 @@ Test&lt;/b&gt;</property>
                 <property name="has_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
                 <signal name="changed" handler="on_entry_description_changed"/>
               </widget>
               <packing>
@@ -11735,7 +11734,7 @@ comments</property>
               <widget class="GtkEntry" id="entry_angle_value">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
                 <signal name="changed" handler="on_entry_angle_changed"/>
               </widget>
               <packing>
@@ -13568,7 +13567,7 @@ comments</property>
               <widget class="GtkEntry" id="entry">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -13595,7 +13594,7 @@ comments</property>
               <widget class="GtkSpinButton" id="spin_double">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+                <property name="invisible_char">●</property>
                 <property name="adjustment">0 0 300 0.01 10 10</property>
                 <property name="digits">2</property>
                 <property name="snap_to_ticks">True</property>
@@ -13620,7 +13619,7 @@ comments</property>
                       <widget class="GtkSpinButton" id="spin_feet">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="adjustment">0 0 8 1 1 1</property>
                         <property name="snap_to_ticks">True</property>
                         <property name="numeric">True</property>
@@ -13655,7 +13654,7 @@ comments</property>
                       <widget class="GtkSpinButton" id="spin_inches">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="adjustment">0 0 11 0.01 1 1</property>
                         <property name="digits">2</property>
                         <property name="snap_to_ticks">True</property>
@@ -15371,7 +15370,7 @@ by you</property>
                       <widget class="GtkEntry" id="entry_cp_other">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <signal name="changed" handler="on_entries_required_changed"/>
                       </widget>
                       <packing>
@@ -15581,7 +15580,7 @@ by you</property>
                           <widget class="GtkEntry" id="entry_device_other">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="invisible_char">●</property>
                             <signal name="changed" handler="on_entries_required_changed"/>
                           </widget>
                           <packing>
@@ -16627,7 +16626,7 @@ by you</property>
       <widget class="GtkVBox" id="vbox69">
         <property name="visible">True</property>
         <child>
-          <widget class="GtkMenuBar" id="menubar1">
+          <widget class="GtkMenuBar" id="C">
             <property name="visible">True</property>
             <child>
               <widget class="GtkMenuItem" id="session">
@@ -17623,6 +17622,20 @@ by you</property>
                         <signal name="activate" handler="on_menuitem_view_stats_activate"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image7">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkImageMenuItem" id="menuitem_camera_record">
+                        <property name="label" translatable="yes">camera record</property>
+                        <property name="visible">True</property>
+                        <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_menuitem_camera_record_activate"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image45">
                             <property name="visible">True</property>
                             <property name="stock">gtk-missing-image</property>
                           </widget>
@@ -20270,7 +20283,7 @@ by you</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="max_length">4</property>
-                                                        <property name="invisible_char">&#x25CF;</property>
+                                                        <property name="invisible_char">●</property>
                                                         <property name="width_chars">4</property>
                                                         <signal name="changed" handler="on_entry_run_analysis_distance_changed"/>
                                                       </widget>

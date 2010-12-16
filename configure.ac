@@ -110,7 +110,10 @@ src/chronojump
 src/chronojump_mini
 src/chronojump.desktop
 libcesarplayer/Makefile
+libcesarplayer/src/Makefile
 CesarPlayer/Makefile
+CesarPlayer/AssemblyInfo.cs
+CesarPlayer/CesarPlayer.dll.config
 ])
 
 AC_OUTPUT

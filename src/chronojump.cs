@@ -87,6 +87,7 @@ public class ChronoJump
 					
 			
 		new ChronoJump(args);
+		
 	}
 
 	bool createdSplashWin = false;
@@ -102,6 +103,8 @@ public class ChronoJump
 
 		fakeSplashButton = new Gtk.Button();
 		fakeSplashButton.Clicked += new EventHandler(on_splash_ended);
+
+		LongoMatch.Video.Capturer.GstCameraCapturer.InitBackend("");
 
 		thread = new Thread(new ThreadStart(sqliteThings));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
@@ -259,7 +262,7 @@ Log.WriteLine("doing backup");
 
 		splashMessageChange(5);  //check for new version
 
-		messageToShowOnBoot += recuperateBrokenEvents();
+		//messageToShowOnBoot += recuperateBrokenEvents();
 
 		//connect to server to Ping
 		versionAvailable = "";

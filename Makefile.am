@@ -8,7 +8,7 @@ if ENABLE_DEBUG
 endif
 if ENABLE_RELEASE
  SUBDIRS = chronopic-firmware chronojump_server chronopic-tests \
- 	src po manual libcesarplayer CesarPlayer
+ 	libcesarplayer CesarPlayer src po manual
 endif
 
 # Build ChangeLog from GIT history

@@ -11,6 +11,12 @@ COMPILE_TARGET = exe
 BUILD_DIR = bin/Debug
 CHRONOJUMP_EXE_MDB_SOURCE=bin/Debug/Chronojump.exe.mdb
 CHRONOJUMP_MINI_EXE=bin/Debug/Chronojump_Mini.exe
+PROJECT_REFERENCES =  \
+	../CesarPlayer/bin/Debug/CesarPlayer.dll
+CESARPLAYER_DLL_SOURCE=../CesarPlayer/bin/Debug/CesarPlayer.dll
+CESARPLAYER_DLL=$(BUILD_DIR)/CesarPlayer.dll
+CESARPLAYER_DLL_MDB_SOURCE=../CesarPlayer/bin/Debug/CesarPlayer.dll.mdb
+CESARPLAYER_DLL_MDB=$(BUILD_DIR)/CesarPlayer.dll.mdb
 endif
 
 if ENABLE_RELEASE
@@ -22,6 +28,10 @@ COMPILE_TARGET = exe
 BUILD_DIR = bin/Release
 CHRONOJUMP_EXE_MDB_SOURCE=
 CHRONOJUMP_MINI_EXE=bin/Release/Chronojump_Mini.exe
+PROJECT_REFERENCES =  \
+	../CesarPlayer/bin/Release/CesarPlayer.dll
+CESARPLAYER_DLL_SOURCE=../CesarPlayer/bin/Release/CesarPlayer.dll
+CESARPLAYER_DLL=$(BUILD_DIR)/CesarPlayer.dll
 endif
 
 AL=al2
@@ -35,6 +45,7 @@ COMMONAPPLICATIONDATA_ROOT = \
  
 
 PROGRAMFILES = \
+	$(CESARPLAYER_DLL) \
 	$(CHRONOJUMP_MINI_EXE)
 
 LINUX_DESKTOPAPPLICATIONS = \
@@ -341,6 +352,7 @@ CHRONOJUMP_EXE_MDB = $(BUILD_DIR)/ChronoJump.exe.mdb
 CHRONOJUMP=$(BUILD_DIR)/chronojump
 CHRONOJUMP_MINI=$(BUILD_DIR)/chronojump_mini
 
+$(eval $(call emit-deploy-target,CESARPLAYER_DLL))
 $(eval $(call emit-deploy-wrapper,CHRONOJUMP,chronojump,x))
 $(eval $(call emit-deploy-wrapper,CHRONOJUMP_MINI,chronojump_mini,x))
 $(eval $(call emit-deploy-target,CHRONOJUMP_DESKTOP))

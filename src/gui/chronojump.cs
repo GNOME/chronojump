@@ -27,6 +27,9 @@ using System.IO.Ports;
 using Mono.Unix;
 using System.IO; //"File" things
 using System.Collections; //ArrayList
+using LongoMatch.Gui;
+using LongoMatch.Video.Capturer;
+using LongoMatch.Video.Common;
 
 
 public class ChronoJumpWindow 
@@ -2141,6 +2144,30 @@ public class ChronoJumpWindow
 				statsWin.Hide();
 			}
 		}
+	}
+
+	/* ---------------------------------------------------------
+	 * ----------------  CAMERA CALLBACKS ----------------------
+	 *  --------------------------------------------------------
+	 */
+	private void on_menuitem_camera_record_activate(object o, EventArgs args) {
+		CapturerBin capturer = new CapturerBin();
+		CapturePropertiesStruct s = new CapturePropertiesStruct();
+
+		s.OutputFile = "/tmp/test_longomatch_is_very_cool.avi";
+		s.VideoBitrate =  1000;
+		s.CaptureSourceType = CaptureSourceType.Raw;
+		s.Width = 360;
+		s.Height = 288;
+
+		capturer.CaptureProperties = s;
+		capturer.Type = CapturerType.Live;
+		capturer.Visible=true;
+		
+		Gtk.Window d = new Gtk.Window("Capturer");
+		d.Add(capturer);
+		d.ShowAll();
+		capturer.Run();
 	}
 
 

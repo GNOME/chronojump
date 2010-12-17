@@ -400,6 +400,7 @@ class SqliteJumpType : Sqlite
 				Log.WriteLine("found type: NO hasWeight");
 			}
 		}
+		reader.Close();
 		dbcon.Close();
 		return hasWeight;
 	}
@@ -424,6 +425,7 @@ class SqliteJumpType : Sqlite
 				hasFall = false;
 			}
 		}
+		reader.Close();
 		dbcon.Close();
 		return hasFall;
 	}

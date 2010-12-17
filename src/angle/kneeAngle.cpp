@@ -62,7 +62,7 @@
  *
  * g++ -I/usr/include/opencv -I/usr/share/R/include -I/usr/local/lib/R/site-library/Rcpp/lib -I/usr/local/lib/R/site-library/RInside/lib  -g -O2 -Wall  -s  kneeAngle.cpp -o kneeAngle -L/usr/lib/R/lib -lR -lblas -llapack -L/usr/local/lib/R/site-library/Rcpp/lib -lRcpp -Wl,-rpath,/usr/local/lib/R/site-library/Rcpp/lib -L/usr/local/lib/R/site-library/RInside/lib -lRInside -Wl,-rpath,/usr/local/lib/R/site-library/RInside/lib -L/usr/lib -lhighgui -Wl,-rpath,/usr/lib
  
-* Linux Mint 9 
+* Linux Mint 9, 10 
 * g++ -I/usr/include/opencv -I/usr/share/R/include -I/home/xavier/R/i486-pc-linux-gnu-library/2.10/Rcpp/lib -I/home/xavier/R/i486-pc-linux-gnu-library/2.10/RInside/lib  -g -O2 -Wall  -s  kneeAngle.cpp -o kneeAngle -L/usr/lib/R/lib -lR -lblas -llapack -L/home/xavier/R/i486-pc-linux-gnu-library/2.10/Rcpp/lib -lRcpp -Wl,-rpath,/home/xavier/R/i486-pc-linux-gnu-library/2.10/Rcpp/lib -L/home/xavier/R/i486-pc-linux-gnu-library/2.10/RInside/lib -lRInside -Wl,-rpath,/home/xavier/R/i486-pc-linux-gnu-library/2.10/RInside/lib -L/usr/lib -lhighgui -Wl,-rpath,/usr/lib/R/lib
 *
 *
@@ -219,6 +219,12 @@ int main(int argc,char **argv)
 		UsingContour = true;
 		gui = cvLoadImage("kneeAngle_black_without.png");
 	}
+	
+	if(!gui){
+		printf("Could not load one of these image files:\nkneeAngle_skin.png\nkneeAngle_black_contour.png\nkneeAngle_black_without.png\n");
+		exit(0);
+	}
+
 
 			
 	imageGuiResult(gui, "Starting... please wait.", font);

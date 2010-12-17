@@ -1230,6 +1230,7 @@ class Sqlite
 		}
 		Log.WriteLine(string.Format("name exists = {0}", exists.ToString()));
 
+		reader.Close();
 		dbcon.Close();
 		return exists;
 	}
@@ -1322,6 +1323,7 @@ class Sqlite
 			} catch { exists = 0; }
 		}
 		Log.WriteLine(string.Format("exists = {0}", exists.ToString()));
+		reader.Close();
 		dbcon.Close();
 
 		return exists;

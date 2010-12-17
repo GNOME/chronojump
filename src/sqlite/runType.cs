@@ -113,7 +113,13 @@ class SqliteRunType : Sqlite
 				t.Name + "', " + Util.ConvertToPoint(t.Distance) + ", '" + t.Description +	"')" ;	
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myLast = -10000; //dbcon.LastInsertRowId;
+
+		//int myLast = dbcon.LastInsertRowId;
+		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
 		if(! dbconOpened) {
 			dbcon.Close();
 		}
@@ -226,6 +232,7 @@ class SqliteRunType : Sqlite
 		while(reader.Read()) {
 			distance = Convert.ToDouble(reader[0].ToString());
 		}
+		reader.Close();
 		dbcon.Close();
 		return distance;
 	}
@@ -351,7 +358,13 @@ class SqliteRunIntervalType : SqliteRunType
 				Util.BoolToInt(t.Unlimited) + 	", '" + t.Description +	"', '" + t.DistancesString + 	"')" ;	
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myLast = -10000; //dbcon.LastInsertRowId;
+		
+		//int myLast = dbcon.LastInsertRowId;
+		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
 		if(! dbconOpened) {
 			dbcon.Close();
 		}

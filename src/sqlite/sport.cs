@@ -70,12 +70,18 @@ class SqliteSport : Sqlite
 		
 		dbcmd.CommandText = myString;
 		dbcmd.ExecuteNonQuery();
-		int myReturn = -10000; //dbcon.LastInsertRowId;
+		
+
+		//int myLast = dbcon.LastInsertRowId;
+		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+		myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
 			dbcon.Close();
 
-		return myReturn;
+		return myLast;
 	}
 
 	public static Sport Select(int uniqueID)

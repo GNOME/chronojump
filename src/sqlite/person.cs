@@ -69,12 +69,17 @@ class SqlitePerson : Sqlite
 		dbcmd.CommandText = myString;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myReturn = -10000; //dbcon.LastInsertRowId;
+
+		//int myLast = -10000; //dbcon.LastInsertRowId;
+		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+		myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
 			dbcon.Close();
 
-		return myReturn;
+		return myLast;
 	}
 
 	//This is like SqlitePersonSession.Selectbut this returns a Person
@@ -103,6 +108,7 @@ class SqlitePerson : Sqlite
 					Convert.ToInt32(reader[9].ToString()) //serverUniqueID
 					);
 		}
+		reader.Close();
 		dbcon.Close();
 		return p;
 	}
@@ -125,6 +131,7 @@ class SqlitePerson : Sqlite
 		if(reader.Read()) {
 			myReturn = reader[0].ToString();
 		}
+		reader.Close();
 		dbcon.Close();
 		return myReturn;
 	}

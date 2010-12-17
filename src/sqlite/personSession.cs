@@ -71,10 +71,16 @@ class SqlitePersonSession : Sqlite
 			comments + "', '', '')"; 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myReturn = -10000; //dbcon.LastInsertRowId;
+
+		//int myLast = dbcon.LastInsertRowId;
+		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+
 		if(!dbconOpened)
 			dbcon.Close();
-		return myReturn;
+		return myLast;
 	}
 	
 	//we KNOW session

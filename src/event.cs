@@ -48,6 +48,7 @@ public partial class Event
 		return -1;
 	}	
 	
+	
 	public string Type
 	{
 		get { return type; }

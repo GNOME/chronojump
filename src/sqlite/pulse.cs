@@ -72,7 +72,12 @@ class SqlitePulse : Sqlite
 				+ timeString + "', '" + description + "', " + simulated + ")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myLast = -10000; //dbcon.LastInsertRowId;
+
+		//int myLast = dbcon.LastInsertRowId;
+		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
 			dbcon.Close();
@@ -151,6 +156,7 @@ class SqlitePulse : Sqlite
 
 		Pulse myPulse = new Pulse(DataReaderToStringArray(reader, 9));
 
+		reader.Close();
 		dbcon.Close();
 		return myPulse;
 	}

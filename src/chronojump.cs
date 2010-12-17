@@ -262,7 +262,7 @@ Log.WriteLine("doing backup");
 
 		splashMessageChange(5);  //check for new version
 
-		//messageToShowOnBoot += recuperateBrokenEvents();
+		messageToShowOnBoot += recuperateBrokenEvents();
 
 		//connect to server to Ping
 		versionAvailable = "";

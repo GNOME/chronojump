@@ -99,7 +99,12 @@ class SqliteMultiChronopic : Sqlite
 			description + "', " + simulated + ")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		int myLast = -10000; //dbcon.LastInsertRowId;
+		
+		//int myLast = dbcon.LastInsertRowId;
+		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
+		string myString = @"select last_insert_rowid()";
+		dbcmd.CommandText = myString;
+		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
 			dbcon.Close();
@@ -190,6 +195,7 @@ class SqliteMultiChronopic : Sqlite
 		
 		MultiChronopic mc = new MultiChronopic(DataReaderToStringArray(reader, 19));
 	
+		reader.Close();
 		dbcon.Close();
 		return mc;
 	}
@@ -219,6 +225,7 @@ class SqliteMultiChronopic : Sqlite
 			maxCPs = 4;
 		}
 		
+		reader.Close();
 		dbcon.Close();
 		return maxCPs;
 	}
